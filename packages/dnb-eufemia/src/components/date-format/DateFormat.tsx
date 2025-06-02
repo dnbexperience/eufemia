@@ -87,11 +87,11 @@ function getDate({
   value,
   children,
 }: Pick<DateFormatProps, 'value' | 'children'>) {
-  if (children) {
-    return convertStringToDate(convertJsxToString(children))
+  if (value) {
+    return convertStringToDate(value)
   }
 
-  return convertStringToDate(value)
+  return convertStringToDate(convertJsxToString(children))
 }
 
 export default DateFormat

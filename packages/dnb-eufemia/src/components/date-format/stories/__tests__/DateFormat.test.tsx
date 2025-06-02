@@ -67,6 +67,18 @@ describe('DateFormat', () => {
     expect(dateFormat).toHaveTextContent('Ugyldig dato')
   })
 
+  it('should have `value` prop take precedence over `children`', () => {
+    render(
+      <DateFormat value="2025-08-01" dateStyle="full">
+        2026-12-13
+      </DateFormat>
+    )
+
+    const dateFormat = document.querySelector('.dnb-date-format')
+
+    expect(dateFormat).toHaveTextContent('fredag 1. august 2025')
+  })
+
   describe('date value formats', () => {
     it('should support dates in `yyyy-MM-dd` format', () => {
       const { rerender } = render(<DateFormat>2025-05-23</DateFormat>)
