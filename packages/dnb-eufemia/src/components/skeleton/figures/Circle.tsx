@@ -4,25 +4,23 @@
  */
 
 import React from 'react'
-import PropTypes from 'prop-types'
 import Context from '../../../shared/Context'
 import classnames from 'classnames'
 
-export default class SkeletonProduct extends React.PureComponent {
+type Props = {
+  rows?: number
+  children?: React.ReactNode
+} & React.HTMLProps<HTMLDivElement>
+
+export default class SkeletonCircle extends React.PureComponent<Props> {
   static contextType = Context
-  static propTypes = {
-    rows: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    children: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-      PropTypes.node,
-    ]),
-  }
 
   static defaultProps = {
     rows: 3,
     children: null,
   }
+
+  rowsLength: Array<number>
 
   constructor(props) {
     super(props)
@@ -69,7 +67,7 @@ export default class SkeletonProduct extends React.PureComponent {
             width: '50%',
           }}
         >
-          &zwnj;
+          &#8288;{/* zero-width non-breaking space */}
         </div>
 
         {this.rowsLength.map((p, i) => (
@@ -81,11 +79,12 @@ export default class SkeletonProduct extends React.PureComponent {
               'dnb-skeleton--shape',
               'dnb-space__top--x-small'
             )}
+            aria-hidden
             style={{
               width: `${p}%`,
             }}
           >
-            &zwnj;
+            &#8288;{/* zero-width non-breaking space */}
           </div>
         ))}
 
