@@ -50,7 +50,7 @@
     border-radius: var(--accordion-border-radius);
 
     &:focus {
-      user-select: none;
+      user-select: text;
     }
 
     // ensure that onMouseOutHandler works properly
@@ -59,7 +59,7 @@
     }
 
     &--prevent-click {
-      user-select: none;
+      user-select: text;
       pointer-events: none;
     }
 
