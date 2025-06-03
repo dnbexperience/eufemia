@@ -321,6 +321,8 @@ $breakpoint-offset: 0;
   &::before {
     content: '\2060'; // zero-width non-breaking space
     @include alignmentHelperClass();
+
+    opacity: 0; // hide the element in case ISO-8859-1 encoding is used
   }
 }
 @mixin alignmentHelperClass() {
