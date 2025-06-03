@@ -16,6 +16,7 @@ import pinIcon from '../../icons/pin'
 import Context from '../../shared/Context'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 import { extendPropsWithContext } from '../../shared/component-helper'
+import AlignmentHelper from '../../shared/AlignmentHelper'
 
 export type TimeLineItemStates = 'completed' | 'current' | 'upcoming'
 
@@ -178,9 +179,7 @@ const TimelineItemIcon = ({
 
   return (
     <span className="dnb-timeline__item__label__icon">
-      <span key="icon-alignment" aria-hidden>
-        &zwnj;
-      </span>
+      <AlignmentHelper pseudoElementOnly />
       {!skeleton && currentIcon && (
         <IconPrimary
           icon={currentIcon}

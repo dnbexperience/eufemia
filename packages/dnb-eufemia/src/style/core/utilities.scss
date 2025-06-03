@@ -319,8 +319,10 @@ $breakpoint-offset: 0;
 @mixin alignmentHelper() {
   // Add a char to align the component
   &::before {
-    content: '\200C'; // zero-width non-joiner
+    content: '\2060'; // zero-width non-breaking space
     @include alignmentHelperClass();
+
+    opacity: 0; // hide the element in case ISO-8859-1 encoding is used
   }
 }
 @mixin alignmentHelperClass() {

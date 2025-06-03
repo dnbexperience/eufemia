@@ -99,7 +99,7 @@ describe('PushButton', () => {
     render(<Iterate.PushButton pushValue="push value" />)
 
     const button = document.querySelector('button')
-    expect(button.textContent).toBe('‌')
+    expect(button.textContent).toBe('')
   })
 
   it('should accept "text" prop', () => {
