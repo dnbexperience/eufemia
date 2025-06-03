@@ -32,6 +32,8 @@ import cardProducts from './utils/cardProducts'
 
 export { Designs, ProductType, CardType, BankAxeptType }
 
+// Deprecated – can be removed in v11
+// Replaced with import { formatCardNumber } from '@dnb/eufemia/extensions/payment-card'
 export { formatCardNumber }
 
 const translationDefaultPropsProps = {
