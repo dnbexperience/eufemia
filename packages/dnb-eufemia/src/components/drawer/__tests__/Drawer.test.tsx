@@ -177,7 +177,7 @@ describe('Drawer', () => {
 
     expect(document.querySelectorAll('.dnb-drawer button')).toHaveLength(1)
     expect(document.querySelector('.dnb-drawer button').textContent).toBe(
-      '‌Custom text'
+      'Custom text'
     )
   })
 

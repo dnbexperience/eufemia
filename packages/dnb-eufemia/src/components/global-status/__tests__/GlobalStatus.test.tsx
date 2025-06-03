@@ -421,7 +421,7 @@ describe('GlobalStatus component', () => {
 
     expect(
       document.querySelector('.dnb-global-status__shell')
-    ).toHaveTextContent('En feil har skjedd‌')
+    ).toHaveTextContent('En feil har skjedd')
 
     simulateAnimationEnd()
 
@@ -624,7 +624,7 @@ describe('GlobalStatus component', () => {
 
     expect(
       document.querySelector('.dnb-global-status__shell')
-    ).toHaveTextContent('En feil har skjedd‌')
+    ).toHaveTextContent('En feil har skjedd')
 
     simulateAnimationEnd()
 
