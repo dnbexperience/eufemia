@@ -33,6 +33,7 @@ import FormStatus from '../form-status/FormStatus'
 import Anchor, { pickIcon, opensNewTab } from '../anchor/Anchor'
 import { launch } from '../../icons'
 import Tooltip from '../tooltip/Tooltip'
+import AlignmentHelper from '../../shared/AlignmentHelper'
 
 export const buttonVariantPropType = {
   variant: PropTypes.oneOf([
@@ -416,13 +417,11 @@ function Content({
 
       {content && (
         <>
-          <span
+          <AlignmentHelper
             key="button-alignment"
             className="dnb-button__alignment"
-            aria-hidden
-          >
-            &zwnj;
-          </span>
+            pseudoElementOnly
+          />
           <span
             key="button-text"
             className="dnb-button__text dnb-skeleton--show-font"
@@ -437,13 +436,11 @@ function Content({
         // so the icon button gets vertical aligned
         // we need the dnb-button__text for alignment
         !content && icon && (
-          <span
+          <AlignmentHelper
             key="button-alignment"
             className="dnb-button__alignment"
-            aria-hidden
-          >
-            &zwnj;
-          </span>
+            pseudoElementOnly
+          />
         )
       }
 

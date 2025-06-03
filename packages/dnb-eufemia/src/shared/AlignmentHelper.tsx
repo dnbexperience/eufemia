@@ -6,26 +6,32 @@
  */
 
 import React from 'react'
-import PropTypes from 'prop-types'
 import classnames from 'classnames'
+
+type Props = {
+  className?: string
+  children?: React.ReactNode
+  pseudoElementOnly?: boolean
+} & React.HTMLAttributes<HTMLSpanElement>
 
 export default function AlignmentHelper({
   className = null,
   children = null,
+  pseudoElementOnly = false,
   ...props
-}) {
+}: Props) {
   return (
     <span
-      className={classnames('dnb-alignment-helper', className)}
+      className={classnames(
+        pseudoElementOnly
+          ? 'dnb-alignment-helper--pseudo-element-only'
+          : 'dnb-alignment-helper',
+        className
+      )}
       aria-hidden
       {...props}
     >
       {children}
     </span>
   )
-}
-
-AlignmentHelper.propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
 }
