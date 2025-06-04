@@ -36,6 +36,28 @@ describe('Selection', () => {
       })
       expect(screenshot).toMatchImageSnapshot()
     })
+
+    it('have to match dropdown-error-message', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="selection-dropdown-error-message"]',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+
+    it('have to match dropdown-info-message', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="selection-dropdown-info-message"]',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+
+    it('have to match dropdown-warning-message', async () => {
+      const screenshot = await makeScreenshot({
+        selector:
+          '[data-visual-test="selection-dropdown-warning-message"]',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
   })
 
   describe('radio', () => {

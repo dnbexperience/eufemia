@@ -924,3 +924,30 @@ export const ButtonNestingWithLogic = () => (
     </Form.Handler>
   </ComponentBox>
 )
+
+export const SelectionErrorMessage = () => (
+  <ComponentBox data-visual-test="selection-dropdown-error-message">
+    <Field.Selection label="Label" error="This is what is wrong...">
+      <Field.Option value="foo">Foo</Field.Option>
+      <Field.Option value="bar">Bar</Field.Option>
+    </Field.Selection>
+  </ComponentBox>
+)
+
+export const SelectionInfoMessage = () => (
+  <ComponentBox data-visual-test="selection-dropdown-info-message">
+    <Field.Selection label="Label" info="Useful information (?)">
+      <Field.Option value="foo">Foo</Field.Option>
+      <Field.Option value="bar">Bar</Field.Option>
+    </Field.Selection>
+  </ComponentBox>
+)
+
+export const SelectionWarningMessage = () => (
+  <ComponentBox data-visual-test="selection-dropdown-warning-message">
+    <Field.Selection label="Label" warning="I'm warning you...">
+      <Field.Option value="foo">Foo</Field.Option>
+      <Field.Option value="bar">Bar</Field.Option>
+    </Field.Selection>
+  </ComponentBox>
+)

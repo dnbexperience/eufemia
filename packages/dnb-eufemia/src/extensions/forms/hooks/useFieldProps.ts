@@ -407,7 +407,8 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   }>({ isSet: false, message: undefined })
   const executeMessage = useCallback(
     <ReturnValue extends MessageTypes<Value>>(
-      message: MessageProp<Value, ReturnValue>
+      message: MessageProp<Value, ReturnValue>,
+      forceReturnErrorMessageObject?: boolean
     ): ReturnValue => {
       if (typeof message === 'function') {
         const ALWAYS = 4
@@ -474,7 +475,9 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         }
       }
 
-      return ensureErrorMessageObject(message)
+      return forceReturnErrorMessageObject
+        ? ensureErrorMessageObject(message)
+        : message
     },
     [getFieldByPath, getValueByPath, ensureErrorMessageObject]
   )
@@ -482,7 +485,8 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const errorProp =
     initialErrorProp === 'initial' ? undefined : initialErrorProp
   const error = executeMessage<UseFieldProps['error'] | 'initial'>(
-    errorProp
+    errorProp,
+    true
   )
   const warning = executeMessage<UseFieldProps['warning']>(warningProp)
   const info = executeMessage<UseFieldProps['info']>(infoProp)
@@ -2683,7 +2687,6 @@ export function checkForError(
   >
 ) {
   return potentialErrors.some((error) => {
-    console.log('checkForError', error)
     return error instanceof Error || error instanceof FormError
   })
 }
