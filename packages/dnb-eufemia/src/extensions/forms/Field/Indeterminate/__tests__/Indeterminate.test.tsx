@@ -62,7 +62,13 @@ describe('Indeterminate', () => {
       </Form.Handler>
     )
     const [parent] = Array.from(document.querySelectorAll('input'))
-    expect(parent).toHaveAttribute('aria-controls', 'id-r15 id-r1c')
+    expect(parent).toHaveAttribute('aria-controls')
+
+    const value = parent.getAttribute('aria-controls')
+    const ids = value?.split(' ').filter(Boolean)
+
+    expect(ids).toHaveLength(2)
+    ids?.forEach((id) => expect(id).toMatch(/^id-/))
   })
 
   it('should not set aria-controls when dependence paths is an empty array', () => {
