@@ -2683,6 +2683,7 @@ export function checkForError(
   >
 ) {
   return potentialErrors.some((error) => {
+    console.log('checkForError', error)
     return error instanceof Error || error instanceof FormError
   })
 }
