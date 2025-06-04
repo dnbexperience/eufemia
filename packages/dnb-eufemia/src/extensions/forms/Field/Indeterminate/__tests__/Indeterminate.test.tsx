@@ -4,7 +4,57 @@ import userEvent from '@testing-library/user-event'
 import { Field, Form } from '../../..'
 
 describe('Indeterminate', () => {
-  describe('with propagateIndeterminateState="true"', () => {
+  it('should set aria-controls to be ids of dependence paths', async () => {
+    const onChange = jest.fn()
+    const onSubmit = jest.fn()
+
+    render(
+      <Form.Handler onChange={onChange} onSubmit={onSubmit}>
+        <Field.Indeterminate
+          dependencePaths={['/child1', '/child2', '/child3']}
+          path="/parent"
+        />
+        <Field.Toggle
+          path="/child1"
+          id="a"
+          valueOn="checked"
+          valueOff="unchecked"
+        />
+        <Field.Toggle
+          path="/child2"
+          id="b"
+          valueOn="checked"
+          valueOff="unchecked"
+        />
+        <Field.Toggle
+          path="/child3"
+          id="c"
+          valueOn="checked"
+          valueOff="unchecked"
+        />
+      </Form.Handler>
+    )
+
+    const [parent] = Array.from(document.querySelectorAll('input'))
+    expect(parent).toHaveAttribute('aria-controls', 'a b c')
+  })
+
+  it('should set not set aria-controls when dependence paths is an empty array', async () => {
+    const onChange = jest.fn()
+    const onSubmit = jest.fn()
+
+    render(
+      <Form.Handler onChange={onChange} onSubmit={onSubmit}>
+        <Field.Indeterminate dependencePaths={[]} path="/parent" />
+      </Form.Handler>
+    )
+
+    expect(document.querySelector('input')).not.toHaveAttribute(
+      'aria-controls'
+    )
+  })
+
+  describe('with propagateIndeterminateState="checked"', () => {
     it('should handle dependencePaths state', async () => {
       const onChange = jest.fn()
       const onSubmit = jest.fn()
@@ -280,7 +330,7 @@ describe('Indeterminate', () => {
     })
   })
 
-  describe('with propagateIndeterminateState="false"', () => {
+  describe('with propagateIndeterminateState="unchecked"', () => {
     it('should handle dependencePaths state', async () => {
       const onChange = jest.fn()
       const onSubmit = jest.fn()
