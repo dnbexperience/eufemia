@@ -15,11 +15,7 @@ export class AccordionStore {
   }
   onChange({ id }: { id: string }) {
     this._instances.forEach((inst) => {
-      // Deprecated – expandBehaviour is replaced with expandBehavior - can be removed in v11
-      const closeAccordion =
-        inst.context.expandBehaviour === 'single' &&
-        inst.context.expandBehavior === 'single'
-      if (closeAccordion && inst._id !== id) {
+      if (inst.context.expandBehavior === 'single' && inst._id !== id) {
         inst.close()
       }
     })
