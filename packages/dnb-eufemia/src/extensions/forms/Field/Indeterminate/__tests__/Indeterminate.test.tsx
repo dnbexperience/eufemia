@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event'
 import { Field, Form } from '../../..'
 
 describe('Indeterminate', () => {
-  it('should set aria-controls to be ids of dependence paths', async () => {
+  it('should set aria-controls to be ids of dependence paths', () => {
     const onChange = jest.fn()
     const onSubmit = jest.fn()
 
