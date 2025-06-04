@@ -49,17 +49,12 @@
     border: var(--accordion-border-width) solid transparent;
     border-radius: var(--accordion-border-radius);
 
-    &:focus {
-      user-select: text;
-    }
-
     // ensure that onMouseOutHandler works properly
     * {
       pointer-events: none;
     }
 
     &--prevent-click {
-      user-select: text;
       pointer-events: none;
     }
 
