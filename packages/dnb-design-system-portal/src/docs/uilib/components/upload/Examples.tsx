@@ -650,16 +650,15 @@ export const UploadContainer = () => (
               description:
                 'Description that is very very very very very very very very long to display that when delete button is removed, file description will take full width.',
               container: (
-                <FormStatus state="warn" variant="outlined" top>
-                  <Field.Selection
-                    value="png"
-                    label="Please verify the file type:"
-                    onChange={(value) => console.log('onChange', value)}
-                  >
-                    <Field.Option value="png" title="png" />
-                    <Field.Option value="jpg" title="jpg" />
-                  </Field.Selection>
-                </FormStatus>
+                <Field.Selection
+                  value="png"
+                  label="Please verify the file type:"
+                  onChange={(value) => console.log('onChange', value)}
+                  top
+                >
+                  <Field.Option value="png" title="png" />
+                  <Field.Option value="jpg" title="jpg" />
+                </Field.Selection>
               ),
             },
             {
@@ -670,16 +669,15 @@ export const UploadContainer = () => (
               file: createMockFile('321.jpg', 0, 'image/png'),
               id: '4',
               container: (
-                <FormStatus state="warn" variant="outlined" top>
-                  <Field.Selection
-                    value="jpg"
-                    label="Please verify the file type:"
-                    onChange={(value) => console.log('onChange', value)}
-                  >
-                    <Field.Option value="jpg" title="jpg" />
-                    <Field.Option value="png" title="png" />
-                  </Field.Selection>
-                </FormStatus>
+                <Field.Selection
+                  top
+                  value="jpg"
+                  label="Please verify the file type:"
+                  onChange={(value) => console.log('onChange', value)}
+                >
+                  <Field.Option value="jpg" title="jpg" />
+                  <Field.Option value="png" title="png" />
+                </Field.Selection>
               ),
             },
           ])
@@ -695,23 +693,22 @@ export const UploadContainer = () => (
                   return {
                     ...fileItem,
                     container: (
-                      <FormStatus state="warn" variant="outlined" top>
-                        <Field.Selection
-                          label="Please verify the file type:"
-                          onChange={(value) =>
-                            console.log('onChange', value)
-                          }
-                        >
-                          <Field.Option
-                            value={fileItem.file.type}
-                            title={fileItem.file.type}
-                          />
-                          <Field.Option
-                            value="undeterminable"
-                            title="undeterminable"
-                          />
-                        </Field.Selection>
-                      </FormStatus>
+                      <Field.Selection
+                        label="Please verify the file type:"
+                        onChange={(value) =>
+                          console.log('onChange', value)
+                        }
+                        top
+                      >
+                        <Field.Option
+                          value={fileItem.file.type}
+                          title={fileItem.file.type}
+                        />
+                        <Field.Option
+                          value="undeterminable"
+                          title="undeterminable"
+                        />
+                      </Field.Selection>
                     ),
                   }
                 }),
