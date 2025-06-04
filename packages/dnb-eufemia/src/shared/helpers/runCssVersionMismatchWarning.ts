@@ -1,11 +1,3 @@
-declare global {
-  interface Window {
-    Eufemia?: {
-      version: string
-    }
-  }
-}
-
 export function runCssVersionMismatchWarning() {
   try {
     if (

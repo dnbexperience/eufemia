@@ -5,6 +5,7 @@
 
 import fs from 'fs-extra'
 import { makeReleaseVersion } from '../makeReleaseVersion'
+import * as child_process from 'child_process'
 import * as getBranchName from 'current-git-branch'
 import * as getNextReleaseVersion from '../../../postbuild/getNextReleaseVersion'
 import { log } from '../../../lib'
@@ -12,14 +13,14 @@ import { log } from '../../../lib'
 jest.mock('../../../postbuild/getNextReleaseVersion', () => {
   return {
     ...jest.requireActual('../../../postbuild/getNextReleaseVersion'),
-    getNextReleaseVersion: jest.fn().mockResolvedValue(false),
+    getNextReleaseVersion: jest.fn(),
   }
 })
 
 jest.mock('fs-extra', () => {
   return {
     ...jest.requireActual('fs-extra'),
-    writeFile: jest.fn().mockResolvedValue(false),
+    writeFile: jest.fn(),
   }
 })
 
@@ -31,8 +32,18 @@ jest.mock('repo-utils', () => {
 })
 
 jest.mock('current-git-branch', () => {
-  return jest.fn().mockReturnValue('release')
+  return jest.fn()
 })
+
+jest.mock('child_process', () => ({
+  execSync: jest.fn(() => {
+    return {
+      toString: jest.fn(() => {
+        return 'something'
+      }),
+    }
+  }),
+}))
 
 beforeEach(() => {
   jest.spyOn(log, 'succeed').mockImplementation(jest.fn())
@@ -87,7 +98,7 @@ describe('makeReleaseVersion', () => {
     expect(fs.writeFile).toHaveBeenNthCalledWith(
       1,
       expect.stringContaining('src/shared/Eufemia.ts'),
-      expect.stringContaining(`return 'some-branch'`)
+      expect.stringContaining(`export const version = 'some-branch'`)
     )
 
     // CSS
@@ -114,7 +125,7 @@ describe('makeReleaseVersion', () => {
     expect(fs.writeFile).toHaveBeenNthCalledWith(
       1,
       expect.stringContaining('src/shared/Eufemia.ts'),
-      expect.stringContaining(`return '123456789'`)
+      expect.stringContaining(`export const version = '123456789'`)
     )
 
     // CSS
@@ -141,7 +152,7 @@ describe('makeReleaseVersion', () => {
     expect(fs.writeFile).toHaveBeenNthCalledWith(
       1,
       expect.stringContaining('src/shared/Eufemia.ts'),
-      expect.stringContaining(`return 'release'`)
+      expect.stringContaining(`export const version = 'release'`)
     )
     expect(fs.writeFile).toHaveBeenNthCalledWith(
       1,
@@ -154,6 +165,33 @@ describe('makeReleaseVersion', () => {
       2,
       expect.stringContaining('src/style/core/scopes.scss'),
       expect.stringContaining(`--eufemia-version: 'release';`)
+    )
+  })
+
+  it('write sha in Eufemia file', async () => {
+    jest
+      .spyOn(getBranchName, 'default')
+      .mockImplementationOnce(() => 'release')
+    jest
+      .spyOn(child_process, 'execSync')
+      .mockReturnValueOnce('test-sha' as any)
+
+    await makeReleaseVersion()
+
+    expect(fs.writeFile).toHaveBeenCalledTimes(2)
+
+    // JS
+    expect(fs.writeFile).toHaveBeenNthCalledWith(
+      1,
+      expect.stringContaining('src/shared/Eufemia.ts'),
+      expect.stringContaining(`export const sha = 'test-sha'`)
+    )
+
+    // CSS
+    expect(fs.writeFile).toHaveBeenNthCalledWith(
+      2,
+      expect.stringContaining('src/style/core/scopes.scss'),
+      expect.not.stringContaining(`test-sha`)
     )
   })
 })
