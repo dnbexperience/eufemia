@@ -3,12 +3,12 @@
  *
  */
 
-import React from 'react'
+import React, { useContext } from 'react'
 import ReactDOM from 'react-dom'
 import { makeUniqueId, warn } from '../../shared/component-helper'
 import TooltipContainer from './TooltipContainer'
 import { TooltipProps } from './types'
-import { useTheme } from '../../shared'
+import { Context as SharedContext, useTheme } from '../../shared'
 import { ThemeProps, getThemeClasses } from '../../shared/Theme'
 
 type TooltipType = {
@@ -45,6 +45,8 @@ function TooltipPortal(
     children,
   } = props
 
+  const sharedContext = useContext(SharedContext)
+
   const [isMounted, setIsMounted] = React.useState(false)
   const [isActive, setIsActive] = React.useState(active)
   const [id] = React.useState(() => makeUniqueId())
@@ -56,7 +58,7 @@ function TooltipPortal(
     if (!tooltipPortal[id]) {
       tooltipPortal[id] = {
         count: 0,
-        node: createRootElement(theme),
+        node: createRootElement(theme, null, sharedContext.styleScope),
       }
     }
   }
@@ -160,7 +162,11 @@ function TooltipPortal(
 
 export default TooltipPortal
 
-const createRootElement = (theme: ThemeProps, className = null) => {
+const createRootElement = (
+  theme: ThemeProps,
+  className = null,
+  styleScope = null
+) => {
   if (!className) {
     className = 'dnb-tooltip__portal'
   }
@@ -182,7 +188,10 @@ const createRootElement = (theme: ThemeProps, className = null) => {
       )
     }
 
-    document.body.appendChild(elem)
+    const root = styleScope
+      ? document.querySelector(`.${styleScope}`)
+      : document.body
+    root.appendChild(elem)
 
     return elem
   } catch (e) {

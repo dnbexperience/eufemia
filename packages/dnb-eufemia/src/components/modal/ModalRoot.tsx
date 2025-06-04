@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { warn, isTrue } from '../../shared/component-helper'
+import SharedContext from '../../shared/Context'
 import ModalContent from './ModalContent'
 import { ModalContentProps, ReactChildType } from './types'
 
@@ -31,11 +32,17 @@ interface ModalRootState {
   isMounted: boolean
 }
 
+interface ModalRootContext {
+  styleScope?: string
+}
+
 export default class ModalRoot extends React.PureComponent<
   ModalRootProps,
   ModalRootState
 > {
+  context!: ModalRootContext
   portalElem: HTMLDivElement | null
+  static contextType = SharedContext
   static defaultProps = {
     id: null,
     root_id: 'root',
@@ -47,7 +54,7 @@ export default class ModalRoot extends React.PureComponent<
     isMounted: false,
   }
 
-  static insertModalRoot(id) {
+  static insertModalRoot(id, styleScope) {
     if (typeof window === 'undefined') {
       return false
     }
@@ -58,10 +65,10 @@ export default class ModalRoot extends React.PureComponent<
       if (!window.__modalRoot) {
         window.__modalRoot = document.createElement('div')
         window.__modalRoot.setAttribute('id', id)
-        document.body.insertBefore(
-          window.__modalRoot,
-          document.body.firstChild
-        )
+        const root = styleScope
+          ? document.querySelector(`.${styleScope}`)
+          : document.body
+        root.insertBefore(window.__modalRoot, root.firstChild)
       }
     } catch (e) {
       warn('Modal: Could not insert dnb-modal-root', e)
@@ -73,7 +80,7 @@ export default class ModalRoot extends React.PureComponent<
   componentDidMount() {
     const { direct_dom_return = false, root_id = 'root' } = this.props
     if (!isTrue(direct_dom_return)) {
-      ModalRoot.insertModalRoot(root_id)
+      ModalRoot.insertModalRoot(root_id, this.context?.styleScope)
 
       try {
         if (!this.portalElem) {

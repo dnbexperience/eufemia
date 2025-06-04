@@ -1,5 +1,6 @@
 import React, {
   useCallback,
+  useContext,
   useEffect,
   useLayoutEffect,
   useState,
@@ -7,6 +8,7 @@ import React, {
 import ReactDOM from 'react-dom'
 import { DatePickerProps } from './DatePicker'
 import { debounce } from '../../shared/helpers'
+import SharedContext from '../../shared/Context'
 
 type DatePickerPortalProps = React.HTMLProps<HTMLDivElement> & {
   skipPortal?: DatePickerProps['skipPortal']
@@ -21,12 +23,13 @@ export default function DatePickerPortal({
   children,
 }: DatePickerPortalProps) {
   const [position, setPosition] = useState({})
+  const sharedContext = useContext(SharedContext)
 
   useLayoutEffect(() => {
     if (targetElementRef.current) {
       setPosition(getPosition(targetElementRef.current, alignment))
     }
-  }, [])
+  }, [alignment, targetElementRef])
 
   const setPositionDebounce = useCallback(() => {
     const debounced = debounce(() => {
@@ -59,7 +62,9 @@ export default function DatePickerPortal({
           <div className="dnb-date-picker__portal" style={position}>
             {children}
           </div>,
-          document.body
+          sharedContext?.styleScope
+            ? document.querySelector(`.${sharedContext?.styleScope}`)
+            : document.body
         )
       : children)
   )
