@@ -57,7 +57,7 @@ export default function Indeterminate(props: Props) {
       variant="checkbox"
       htmlAttributes={{
         indeterminate,
-        ['aria-controls']: ariaControlsValues,
+        ['aria-controls']: ariaControlsIds,
       }}
       valueOn={valueOn}
       valueOff={valueOff}
