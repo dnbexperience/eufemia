@@ -131,14 +131,10 @@ p > .dnb-icon {
   border: var(--accordion-border-width) solid transparent;
   border-radius: var(--accordion-border-radius);
 }
-.dnb-accordion__header:focus {
-  user-select: text;
-}
 .dnb-accordion__header * {
   pointer-events: none;
 }
 .dnb-accordion__header--prevent-click {
-  user-select: text;
   pointer-events: none;
 }
 .dnb-accordion__header__wrapper {
