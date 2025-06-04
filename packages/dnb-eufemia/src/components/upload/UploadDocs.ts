@@ -125,4 +125,9 @@ export const FileItemProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  container: {
+    doc: 'Can be used to add custom content, which is displayed/rendered below the file name, and the `description` property. This is useful for adding additional information or actions related to the file.',
+    type: 'React.ReactNode',
+    status: 'optional',
+  },
 }

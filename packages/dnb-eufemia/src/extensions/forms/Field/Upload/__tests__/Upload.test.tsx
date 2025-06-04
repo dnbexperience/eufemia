@@ -1890,6 +1890,7 @@ describe('Field.Upload', () => {
   it('should support file item properties set in data context', () => {
     const errorMessage = 'my error message'
     const description = 'my description'
+    const container = 'my container'
     render(
       <Form.Handler
         data={{
@@ -1899,6 +1900,7 @@ describe('Field.Upload', () => {
               errorMessage,
               description,
               removeDeleteButton: true,
+              container,
             },
           ],
         }}
@@ -1918,6 +1920,7 @@ describe('Field.Upload', () => {
 
     expect(screen.queryByText(description)).toBeInTheDocument()
     expect(screen.queryByText(errorMessage)).toBeInTheDocument()
+    expect(screen.queryByText(container)).toBeInTheDocument()
   })
 
   describe('transformIn and transformOut', () => {

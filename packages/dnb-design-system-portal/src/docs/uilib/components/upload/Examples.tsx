@@ -5,6 +5,7 @@
 
 import {
   Button,
+  FormStatus,
   Img,
   Section,
   ToggleButton,
@@ -13,6 +14,7 @@ import {
 import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import { createRequest } from '../../extensions/forms/Form/SubmitIndicator/Examples'
+import { Field } from '@dnb/eufemia/src/extensions/forms'
 
 export function createMockFile(name: string, size: number, type: string) {
   if (typeof window === 'undefined' || !window?.File) {
@@ -612,6 +614,106 @@ export const UploadRemoveDeleteButton = () => (
               setFiles(
                 files.map((fileItem) => {
                   return { ...fileItem, removeDeleteButton: true }
+                }),
+              )
+            }
+          />
+        )
+      }
+
+      return <Component />
+    }}
+  </ComponentBox>
+)
+
+export const UploadContainer = () => (
+  <ComponentBox
+    scope={{ createMockFile, createRequest }}
+    data-visual-test="upload-container"
+  >
+    {() => {
+      const Component = () => {
+        const { setFiles } = Upload.useUpload('upload-container')
+
+        React.useEffect(() => {
+          setFiles([
+            {
+              file: createMockFile('1501870.jpg', 0, 'image/png'),
+              id: '1',
+            },
+            {
+              file: createMockFile(
+                'file-name-that-is-very-very-very-very-very-very-very-verylong-to-display-that-when-remove-button-is-hidden-file-name-will-take-full-width.png',
+                0,
+                'image/png',
+              ),
+              description:
+                'Description that is very very very very very very very very long to display that when delete button is removed, file description will take full width.',
+              container: (
+                <FormStatus state="warn" variant="outlined" top>
+                  <Field.Selection
+                    value="png"
+                    label="Please verify the file type:"
+                    onChange={(value) => console.log('onChange', value)}
+                  >
+                    <Field.Option value="png" title="png" />
+                    <Field.Option value="jpg" title="jpg" />
+                  </Field.Selection>
+                </FormStatus>
+              ),
+            },
+            {
+              file: createMockFile('123.doc', 0, 'image/png'),
+              id: '3',
+            },
+            {
+              file: createMockFile('321.jpg', 0, 'image/png'),
+              id: '4',
+              container: (
+                <FormStatus state="warn" variant="outlined" top>
+                  <Field.Selection
+                    value="jpg"
+                    label="Please verify the file type:"
+                    onChange={(value) => console.log('onChange', value)}
+                  >
+                    <Field.Option value="jpg" title="jpg" />
+                    <Field.Option value="png" title="png" />
+                  </Field.Selection>
+                </FormStatus>
+              ),
+            },
+          ])
+        }, [setFiles])
+
+        return (
+          <Upload
+            acceptedFileTypes={['jpg', 'png', 'doc']}
+            id="upload-container"
+            onChange={({ files }) =>
+              setFiles(
+                files.map((fileItem) => {
+                  return {
+                    ...fileItem,
+                    container: (
+                      <FormStatus state="warn" variant="outlined" top>
+                        <Field.Selection
+                          label="Please verify the file type:"
+                          onChange={(value) =>
+                            console.log('onChange', value)
+                          }
+                        >
+                          <Field.Option
+                            value={fileItem.file.type}
+                            title={fileItem.file.type}
+                          />
+                          <Field.Option
+                            value="undeterminable"
+                            title="undeterminable"
+                          />
+                        </Field.Selection>
+                      </FormStatus>
+                    ),
+                  }
                 }),
               )
             }

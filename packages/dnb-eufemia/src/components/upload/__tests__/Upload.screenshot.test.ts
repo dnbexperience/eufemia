@@ -100,6 +100,13 @@ describe.each(['ui', 'sbanken'])('Upload for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('have to match when file item has container', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="upload-container"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match when disabled', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="upload-disabled"]',
