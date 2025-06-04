@@ -21,6 +21,11 @@ import { isTrue } from '@dnb/eufemia/src/shared/component-helper'
 import PortalLayout, { PortalLayoutProps } from './PortalLayout'
 import { useThemeHandler } from 'gatsby-plugin-eufemia-theme-handler'
 import { InternalLocale } from '@dnb/eufemia/src/shared/Context'
+import IsolatedStyleScope from '@dnb/eufemia/src/shared/IsolatedStyleScope'
+import {
+  enablePortalStyleScope,
+  enableBuildStyleScope,
+} from '@dnb/eufemia/src/style/postcss-plugin-style-scope/config'
 
 // Enable other existing locales here
 export const translationsWithoutEnUS = mergeTranslations(
@@ -68,9 +73,18 @@ export const rootElement =
           locale={getLang()}
           translations={translations} // extend the available locales
         >
-          <SkeletonEnabled>
-            <ThemeProvider>{element}</ThemeProvider>
-          </SkeletonEnabled>
+          <IsolatedStyleScope
+            disableCoreStyleWrapper // Make exception, because using "dnb-core-style" does not work well for screenshot tests (as of now).
+            scopeHash={
+              enableBuildStyleScope() || enablePortalStyleScope()
+                ? 'eufemia-portal-scope'
+                : undefined
+            }
+          >
+            <SkeletonEnabled>
+              <ThemeProvider>{element}</ThemeProvider>
+            </SkeletonEnabled>
+          </IsolatedStyleScope>
         </Provider>
       </CacheProvider>
     )

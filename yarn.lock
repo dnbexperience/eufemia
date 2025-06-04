@@ -4261,6 +4261,7 @@ __metadata:
     postcss: "npm:8.4.32"
     postcss-calc: "npm:9.0.1"
     postcss-preset-env: "npm:9.6.0"
+    postcss-selector-parser: "npm:7.1.0"
     prettier: "npm:3.0.3"
     prettier-package-json: "npm:2.8.0"
     prettier-v2: "npm:prettier@^2"
@@ -30231,6 +30232,16 @@ __metadata:
   peerDependencies:
     postcss: ^8.4
   checksum: 10/51e422d9bd6e4935f598b68ac12ec2c38c5208d43ca43193706a2caafa0fdb461961ccc9fed27f6d3c06f61857a706a6cefbc50e667f707369121182180867d0
+  languageName: node
+  linkType: hard
+
+"postcss-selector-parser@npm:7.1.0":
+  version: 7.1.0
+  resolution: "postcss-selector-parser@npm:7.1.0"
+  dependencies:
+    cssesc: "npm:^3.0.0"
+    util-deprecate: "npm:^1.0.2"
+  checksum: 10/2caf09e66e2be81d45538f8afdc5439298c89bea71e9943b364e69dce9443d9c5ab33f4dd8b237f1ed7d2f38530338dcc189c1219d888159e6afb5b0afe58b19
   languageName: node
   linkType: hard
 

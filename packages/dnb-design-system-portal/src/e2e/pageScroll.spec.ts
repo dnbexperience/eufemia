@@ -28,6 +28,10 @@ test.describe('Page Scroll', () => {
   })
 
   test('should scroll to linked hash element', async ({ page }) => {
+    await page.evaluate(() => {
+      window.scrollTo(0, 0)
+    })
+
     expect(
       await page.evaluate(() => window.scrollY),
     ).toBeGreaterThanOrEqual(0)

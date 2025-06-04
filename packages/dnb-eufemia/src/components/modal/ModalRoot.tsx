@@ -2,6 +2,10 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { warn, isTrue } from '../../shared/component-helper'
 import SharedContext from '../../shared/Context'
+import {
+  getStyleScopeRootElement,
+  StyleScopeContext,
+} from '../../shared/IsolatedStyleScope'
 import ModalContent from './ModalContent'
 import { ModalContentProps, ReactChildType } from './types'
 
@@ -32,15 +36,10 @@ interface ModalRootState {
   isMounted: boolean
 }
 
-interface ModalRootContext {
-  styleScope?: string
-}
-
 export default class ModalRoot extends React.PureComponent<
   ModalRootProps,
   ModalRootState
 > {
-  context!: ModalRootContext
   portalElem: HTMLDivElement | null
   static contextType = SharedContext
   static defaultProps = {
@@ -54,33 +53,37 @@ export default class ModalRoot extends React.PureComponent<
     isMounted: false,
   }
 
-  static insertModalRoot(id, styleScope) {
+  modalRoot: HTMLDivElement | null = null
+
+  styleScopeContext?: React.ContextType<typeof StyleScopeContext>
+
+  insertModalRoot(id) {
     if (typeof window === 'undefined') {
       return false
     }
 
     try {
+      const root = getStyleScopeRootElement(
+        this.styleScopeContext?.scopeHash
+      )
       id = `dnb-modal-${id || 'root'}`
-      window.__modalRoot = document.getElementById(id)
-      if (!window.__modalRoot) {
-        window.__modalRoot = document.createElement('div')
-        window.__modalRoot.setAttribute('id', id)
-        const root = styleScope
-          ? document.querySelector(`.${styleScope}`)
-          : document.body
-        root.insertBefore(window.__modalRoot, root.firstChild)
+      this.modalRoot = root.querySelector(`#${id}`)
+      if (!this.modalRoot) {
+        this.modalRoot = document.createElement('div')
+        this.modalRoot.setAttribute('id', id)
+        root.insertBefore(this.modalRoot, root.firstChild)
       }
     } catch (e) {
       warn('Modal: Could not insert dnb-modal-root', e)
     }
 
-    return window.__modalRoot
+    return this.modalRoot
   }
 
   componentDidMount() {
     const { direct_dom_return = false, root_id = 'root' } = this.props
     if (!isTrue(direct_dom_return)) {
-      ModalRoot.insertModalRoot(root_id, this.context?.styleScope)
+      this.insertModalRoot(root_id)
 
       try {
         if (!this.portalElem) {
@@ -90,9 +93,9 @@ export default class ModalRoot extends React.PureComponent<
         if (
           this.portalElem &&
           typeof window !== 'undefined' &&
-          window.__modalRoot
+          this.modalRoot
         ) {
-          window.__modalRoot.appendChild(this.portalElem)
+          this.modalRoot.appendChild(this.portalElem)
         }
       } catch (e) {
         warn(e)
@@ -106,10 +109,10 @@ export default class ModalRoot extends React.PureComponent<
       if (
         this.portalElem &&
         typeof window !== 'undefined' &&
-        window.__modalRoot &&
-        window.__modalRoot.removeChild
+        this.modalRoot &&
+        this.modalRoot.removeChild
       ) {
-        window.__modalRoot.removeChild(this.portalElem)
+        this.modalRoot.removeChild(this.portalElem)
         this.portalElem = null
       }
     } catch (e) {
@@ -118,24 +121,31 @@ export default class ModalRoot extends React.PureComponent<
   }
 
   render() {
-    const { children, direct_dom_return, ...props } = this.props
+    return (
+      <StyleScopeContext.Consumer>
+        {(styleScopeContext) => {
+          this.styleScopeContext = styleScopeContext
+          const { children, direct_dom_return, ...props } = this.props
 
-    if (isTrue(direct_dom_return)) {
-      return <ModalContent {...props}>{children}</ModalContent>
-    }
+          if (isTrue(direct_dom_return)) {
+            return <ModalContent {...props}>{children}</ModalContent>
+          }
 
-    if (
-      this.portalElem &&
-      typeof window !== 'undefined' &&
-      window.__modalRoot &&
-      this.state.isMounted
-    ) {
-      return ReactDOM.createPortal(
-        <ModalContent {...props}>{children}</ModalContent>,
-        this.portalElem
-      )
-    }
+          if (
+            this.portalElem &&
+            typeof window !== 'undefined' &&
+            this.modalRoot &&
+            this.state.isMounted
+          ) {
+            return ReactDOM.createPortal(
+              <ModalContent {...props}>{children}</ModalContent>,
+              this.portalElem
+            )
+          }
 
-    return null
+          return null
+        }}
+      </StyleScopeContext.Consumer>
+    )
   }
 }

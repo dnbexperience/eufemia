@@ -1,0 +1,147 @@
+---
+title: 'Isolation'
+draft: false
+---
+
+# Style Isolation
+
+Eufemia provides you with a way to isolate its styles, so you can use different Eufemia versions along side each other on the same page.
+
+## How it works
+
+All Eufemia styles are scoped to a wrapper element. In order to apply the styles, you need ensure the same class name is used on the wrapper element. This is done by using the `IsolatedStyleScope` provider.
+
+To isolate the styles, you need to:
+
+1. Import the isolated CSS files.
+2. Define the scope by using the `IsolatedStyleScope` provider.
+3. Optionally, but recommended, add the PostCSS plugin to your build tool.
+
+Notice:
+
+- Remove existing `.dnb-core-style` classes.
+- Font files are loaded from the CDN (Read more [about hosted fonts](/uilib/typography/#hosted-fonts-cdn)), so they are shared between Eufemia versions.
+
+## Import the isolated CSS files
+
+In the root of your project, import the isolated CSS files:
+
+```tsx
+import '@dnb/eufemia/style/isolated'
+```
+
+You can also import the isolated CSS files directly:
+
+```tsx
+import '@dnb/eufemia/style/dnb-ui-basis--isolated.min.css'
+import '@dnb/eufemia/style/themes/theme-ui/ui-theme-components--isolated.min.css'
+import '@dnb/eufemia/style/themes/theme-ui/ui-theme-basis--isolated.min.css'
+```
+
+### Define the scope
+
+```tsx
+import IsolatedStyleScope, {
+  StyleScopeContext,
+} from '@dnb/eufemia/shared/IsolatedStyleScope'
+
+function Component() {
+  const { scopeHash } = useContext(StyleScopeContext)
+  const root = getStyleScopeRootElement(scopeHash)
+
+  return React.createPortal(<div>Hello World</div>, root())
+}
+
+render(
+  <IsolatedStyleScope>
+    <Component />
+  </IsolatedStyleScope>,
+)
+```
+
+It only adds the scope ones, even if you have nested providers.
+
+### Add the PostCSS plugin
+
+1. Find and add a [PostCSS extension or loader](https://github.com/postcss/postcss#usage) for your build tool.
+2. Then Create a `postcss.config.js` file in your project root:
+
+```js
+module.exports = {
+  plugins: [
+    require('@dnb/eufemia/style/postcss-plugin-style-scope')(/* options */),
+  ],
+}
+```
+
+The plugin accepts an options object. The default options are:
+
+```js
+{
+  skipClassNames: [],
+  scopeHash: 'auto',
+  replaceClassNames: undefined,// { 'old-class': 'new-class' }
+  verbose: false,
+}
+```
+
+CSS Modules are supported including SASS (SCSS) files.
+
+### CSS Specificity
+
+**NB:** Do not use `!important` in your CSS, please.
+
+When ever you extend existing CSS selectors (styles), you need to think about the specificity of the selector. So in order to match their specificity, you can use a PostCSS plugin that adds the needed scope class to your CSS or SASS (SCSS).
+
+### Omit selectors from the scope
+
+You can prepend your selectors with `:not(#isolated)` which will omit the scope class from the selector. Also, the selector `:not(#isolated)` will be removed.
+
+```css
+:not(#isolated) .my-global-class {
+}
+```
+
+## React Portals
+
+You can use a React Hook to get the root element:
+
+```tsx
+import IsolatedStyleScope, {
+  useStyleScopeRootElement,
+} from '@dnb/eufemia/shared/IsolatedStyleScope'
+
+function Component() {
+  const { getElement } = useStyleScopeRootElement()
+
+  return React.createPortal(<div>Hello World</div>, getElement())
+}
+
+render(
+  <IsolatedStyleScope>
+    <Component />
+  </IsolatedStyleScope>,
+)
+```
+
+Or use a function to get the root element:
+
+```tsx
+import IsolatedStyleScope, {
+  StyleScopeContext,
+  getStyleScopeRootElement,
+} from '@dnb/eufemia/shared/IsolatedStyleScope'
+
+function Component() {
+  const { scopeHash } = useContext(StyleScopeContext)
+  const root = getStyleScopeRootElement(scopeHash)
+
+  return React.createPortal(<div>Hello World</div>, root())
+}
+
+render(
+  <IsolatedStyleScope>
+    <Component />
+  </IsolatedStyleScope>,
+)
+```
