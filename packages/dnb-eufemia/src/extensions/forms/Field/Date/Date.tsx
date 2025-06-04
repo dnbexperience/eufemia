@@ -131,7 +131,6 @@ function DateComponent(props: DateProps) {
           return new FormError('Date.errorRequiredRange')
         }
 
-        return undefined
       }
 
       return !value || !isValid(parseISO(value)) ? error : undefined
