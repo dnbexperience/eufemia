@@ -5,9 +5,16 @@
  * For referencing while developing new features, please use a Functional component.
  */
 
-import React, { useEffect, useRef, useState } from 'react'
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
 import ReactDOM from 'react-dom'
 import classnames from 'classnames'
+import SharedContext from '../../shared/Context'
 import {
   warn,
   getClosestScrollViewElement,
@@ -38,6 +45,7 @@ function DrawerListPortal({
 }: DrawerListPortalProps) {
   const [isMounted, setIsMounted] = useState(false)
   const [, setForceRerender] = useState<number>()
+  const { styleScope } = useContext(SharedContext) || {}
 
   const ref: React.LegacyRef<HTMLSpanElement> =
     innerRef || React.createRef()
@@ -48,31 +56,7 @@ function DrawerListPortal({
   const customElem = useRef<Element | Window>()
   const resizeObserver = useRef<ResizeObserver>()
 
-  const init = () => {
-    portalElem.current = getRootElement()
-    setIsMounted(true)
-  }
-
-  useEffect(() => {
-    if (document.readyState === 'complete') {
-      init()
-    } else if (typeof window !== 'undefined') {
-      window.addEventListener('load', init)
-    }
-  }, [])
-
-  useEffect(() => {
-    return () => {
-      if (typeof window !== 'undefined') {
-        window.removeEventListener('load', init)
-      }
-
-      removePositionObserver()
-      portalElem.current = null
-    }
-  }, [])
-
-  const getRootElement = () => {
+  const getRootElement = useCallback(() => {
     if (typeof document !== 'undefined') {
       try {
         let elem = document.getElementById(`${id}-portal`)
@@ -83,16 +67,40 @@ function DrawerListPortal({
         elem = document.createElement('div')
         elem.setAttribute('id', `${id}-portal`)
         elem.classList.add('dnb-drawer-list__portal')
-        createMainElement().appendChild(elem)
+        createMainElement(styleScope).appendChild(elem)
 
         return elem
       } catch (e) {
         warn(e)
       }
     }
-  }
+  }, [id])
 
-  const createMainElement = () => {
+  const init = useCallback(() => {
+    portalElem.current = getRootElement()
+    setIsMounted(true)
+  }, [getRootElement])
+
+  useEffect(() => {
+    if (document.readyState === 'complete') {
+      init()
+    } else if (typeof window !== 'undefined') {
+      window.addEventListener('load', init)
+    }
+  }, [init])
+
+  useEffect(() => {
+    return () => {
+      if (typeof window !== 'undefined') {
+        window.removeEventListener('load', init)
+      }
+
+      removePositionObserver()
+      portalElem.current = null
+    }
+  }, [init])
+
+  const createMainElement = (styleScope = null) => {
     if (typeof document !== 'undefined') {
       try {
         let elem = document.getElementById('dnb-drawer-list__portal')
@@ -104,7 +112,10 @@ function DrawerListPortal({
         elem.setAttribute('role', 'presentation')
         elem.setAttribute('id', 'dnb-drawer-list__portal')
         elem.classList.add('dnb-core-style')
-        document.body.appendChild(elem)
+        const root = styleScope
+          ? document.querySelector(`.${styleScope}`)
+          : document.body
+        root.appendChild(elem)
 
         return elem
       } catch (e) {
@@ -213,7 +224,10 @@ function DrawerListPortal({
 
     try {
       resizeObserver.current = new ResizeObserver(setPosition.current)
-      resizeObserver.current.observe(document.body)
+      const root = styleScope
+        ? document.querySelector(`.${styleScope}`)
+        : document.body
+      resizeObserver.current.observe(root)
     } catch (e) {
       window.addEventListener('resize', setPosition.current)
     }
