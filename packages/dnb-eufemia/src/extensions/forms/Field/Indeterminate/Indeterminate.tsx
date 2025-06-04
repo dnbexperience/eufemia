@@ -29,12 +29,8 @@ export default function Indeterminate(props: Props) {
     ...rest
   } = props
 
-  const {
-    indeterminate,
-    internalValue,
-    setAllStates,
-    ariaControlsValues,
-  } = useDependencePaths(dependencePaths, propagateIndeterminateState)
+  const { indeterminate, internalValue, setAllStates, ariaControlsIds } =
+    useDependencePaths(dependencePaths, propagateIndeterminateState)
 
   const changeHandler = useCallback(
     (value: unknown) => {

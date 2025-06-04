@@ -39,7 +39,7 @@ describe('Indeterminate', () => {
     expect(parent).toHaveAttribute('aria-controls', 'a b c')
   })
 
-  it('should set not set aria-controls when dependence paths is an empty array', async () => {
+  it('should set not set aria-controls when dependence paths is an empty array', () => {
     const onChange = jest.fn()
     const onSubmit = jest.fn()
 

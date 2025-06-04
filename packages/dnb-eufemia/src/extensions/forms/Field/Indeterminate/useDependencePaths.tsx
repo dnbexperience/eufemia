@@ -10,44 +10,43 @@ export default function useDependencePaths(
   const { data, fieldInternalsRef, handlePathChange } =
     useContext(DataContext) || {}
 
-  const { allOn, allOff, indeterminate, ariaControlsValues } =
-    useMemo(() => {
-      if (!dependencePaths || !data) {
-        return {}
-      }
+  const { allOn, allOff, indeterminate, ariaControlsIds } = useMemo(() => {
+    if (!dependencePaths || !data) {
+      return {}
+    }
 
-      const check = ({ key, whenUndefined = false }) => {
-        return dependencePaths?.every((path) => {
-          if (pointer.has(data, path)) {
-            const value = pointer.get(data, path)
-            if (
-              // When value is undefined, we should also consider it as off
-              (whenUndefined ? typeof value === 'undefined' : false) ||
-              value === fieldInternalsRef?.current?.[path]?.props?.[key]
-            ) {
-              return true
-            }
+    const check = ({ key, whenUndefined = false }) => {
+      return dependencePaths?.every((path) => {
+        if (pointer.has(data, path)) {
+          const value = pointer.get(data, path)
+          if (
+            // When value is undefined, we should also consider it as off
+            (whenUndefined ? typeof value === 'undefined' : false) ||
+            value === fieldInternalsRef?.current?.[path]?.props?.[key]
+          ) {
+            return true
           }
-        })
-      }
+        }
+      })
+    }
 
-      const ariaControlsValues =
-        dependencePaths
-          .map((path) => fieldInternalsRef.current?.[path]?.id)
-          .filter(Boolean)
-          .join(' ') || undefined
+    const ariaControlsIds =
+      dependencePaths
+        .map((path) => fieldInternalsRef.current?.[path]?.id)
+        .filter(Boolean)
+        .join(' ') || undefined
 
-      const allOn = check({ key: 'valueOn' })
-      const allOff = check({ key: 'valueOff', whenUndefined: true })
-      const indeterminate = !allOn && !allOff
+    const allOn = check({ key: 'valueOn' })
+    const allOff = check({ key: 'valueOff', whenUndefined: true })
+    const indeterminate = !allOn && !allOff
 
-      return {
-        allOn,
-        allOff,
-        indeterminate,
-        ariaControlsValues,
-      }
-    }, [data, dependencePaths, fieldInternalsRef])
+    return {
+      allOn,
+      allOff,
+      indeterminate,
+      ariaControlsIds,
+    }
+  }, [data, dependencePaths, fieldInternalsRef])
 
   const keepStateRef = useRef<boolean>()
   useMemo(() => {
@@ -78,6 +77,6 @@ export default function useDependencePaths(
     setAllStates,
     indeterminate,
     internalValue: keepStateRef.current,
-    ariaControlsValues,
+    ariaControlsIds,
   }
 }
