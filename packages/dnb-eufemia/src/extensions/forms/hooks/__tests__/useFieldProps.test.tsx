@@ -4266,8 +4266,8 @@ describe('useFieldProps', () => {
           disabled: undefined,
           error: undefined,
           fieldState: undefined,
-          info: new Error('Info message'),
-          warning: new Error('Warning message'),
+          info: 'Info message',
+          warning: 'Warning message',
         })
 
         expect(result.current.fieldState).toBeUndefined()
