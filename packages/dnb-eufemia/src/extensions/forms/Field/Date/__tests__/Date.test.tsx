@@ -89,6 +89,43 @@ describe('Field.Date', () => {
     expect(document.querySelector('.dnb-form-status')).toBeInTheDocument()
   })
 
+  it('should show required warning in range mode', async () => {
+    render(<Field.Date value="2023-12-07|2023-12-14" range required />)
+
+    const datePicker = document.querySelector('.dnb-date-picker')
+    const startDayInput = datePicker.querySelector(
+      '.dnb-date-picker__input--day'
+    )
+    const endDateYear = datePicker.querySelectorAll(
+      '.dnb-date-picker__input--year'
+    )[1]
+
+    expect(datePicker.classList).not.toContain(
+      'dnb-date-picker__status--error'
+    )
+    expect(
+      datePicker.querySelector('.dnb-form-status__text')
+    ).not.toBeInTheDocument()
+
+    expect(
+      document.querySelector('.dnb-form-status')
+    ).not.toBeInTheDocument()
+
+    await userEvent.type(endDateYear, '{Backspace>16}')
+    await userEvent.click(document.body)
+
+    expect(document.querySelector('.dnb-form-status')).toBeInTheDocument()
+    expect(
+      document.querySelector('.dnb-form-status__text')
+    ).toHaveTextContent(nb.Date.errorRequiredRange)
+
+    await userEvent.type(startDayInput, '0102202304052026')
+
+    expect(
+      document.querySelector('.dnb-form-status')
+    ).not.toBeInTheDocument()
+  })
+
   it('should support date range', () => {
     const { rerender } = render(
       <Field.Date range value="2024-09-01|2024-09-30" />
