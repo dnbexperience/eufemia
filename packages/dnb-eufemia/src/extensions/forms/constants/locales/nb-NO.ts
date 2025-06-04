@@ -124,6 +124,7 @@ export default {
     Date: {
       label: 'Dato',
       errorRequired: 'Du må angi en gyldig dato.',
+      errorRequiredRange: 'Du må angi en gyldig datoperiode.',
       errorMinDate: 'Valgt dato kan ikke være før {date}.',
       errorMaxDate: 'Valgt dato kan ikke være etter {date}.',
       errorStartDateMinDate: 'Startdato kan ikke være før {date}.',
