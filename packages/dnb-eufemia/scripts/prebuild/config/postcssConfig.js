@@ -4,13 +4,15 @@
  *
  */
 
-module.exports = (options) => {
+module.exports = (envOptions, postCssOptions) => {
+  const plugins = postCssOptions?.plugins || []
   return [
     // preset-env processes the most of our old legacy browsers
     require('postcss-preset-env')({
       stage: 2,
       browsers: ['extends @dnb/browserslist-config'].filter((i) => i),
-      ...options,
+      ...envOptions,
     }),
+    ...plugins,
   ].filter((i) => i) // remove the first
 }

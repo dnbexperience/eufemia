@@ -101,14 +101,15 @@ describe('babel build', () => {
 
     // List of allowed .cjs or .mjs files
     const allowedFiles = [
-      'BuildInfo.cjs',
-      'BuildInfoData.cjs',
-      'dnb-ui-lib.min.mjs',
-      'dnb-ui-basis.min.mjs',
-      'dnb-ui-components.min.mjs',
-      'dnb-ui-elements.min.mjs',
-      'dnb-ui-extensions.min.mjs',
-      'dnb-ui-icons.min.mjs',
+      '/BuildInfo.cjs',
+      '/BuildInfoData.cjs',
+      '/handleScopeHash.cjs',
+      '/dnb-ui-lib.min.mjs',
+      '/dnb-ui-basis.min.mjs',
+      '/dnb-ui-components.min.mjs',
+      '/dnb-ui-elements.min.mjs',
+      '/dnb-ui-extensions.min.mjs',
+      '/dnb-ui-icons.min.mjs',
     ]
 
     const invalidExtensions = files.filter(

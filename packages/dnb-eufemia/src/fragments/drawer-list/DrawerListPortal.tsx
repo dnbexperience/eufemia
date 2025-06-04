@@ -14,11 +14,14 @@ import React, {
 } from 'react'
 import ReactDOM from 'react-dom'
 import classnames from 'classnames'
-import SharedContext from '../../shared/Context'
 import {
   warn,
   getClosestScrollViewElement,
 } from '../../shared/component-helper'
+import {
+  getStyleScopeRootElement,
+  StyleScopeContext,
+} from '../../shared/IsolatedStyleScope'
 
 export type DrawerListPortalProps = {
   id: string
@@ -45,7 +48,7 @@ function DrawerListPortal({
 }: DrawerListPortalProps) {
   const [isMounted, setIsMounted] = useState(false)
   const [, setForceRerender] = useState<number>()
-  const { styleScope } = useContext(SharedContext) || {}
+  const { scopeHash } = useContext(StyleScopeContext) || {}
 
   const ref: React.LegacyRef<HTMLSpanElement> =
     innerRef || React.createRef()
@@ -55,6 +58,28 @@ function DrawerListPortal({
   const positionTimeout = useRef<NodeJS.Timeout>()
   const customElem = useRef<Element | Window>()
   const resizeObserver = useRef<ResizeObserver>()
+
+  const createMainElement = useCallback(() => {
+    if (typeof document !== 'undefined') {
+      try {
+        let elem = document.getElementById('dnb-drawer-list__portal')
+        if (elem) {
+          return elem
+        }
+
+        elem = document.createElement('div')
+        elem.setAttribute('role', 'presentation')
+        elem.setAttribute('id', 'dnb-drawer-list__portal')
+        elem.classList.add('dnb-core-style')
+        const root = getStyleScopeRootElement(scopeHash)
+        root.appendChild(elem)
+
+        return elem
+      } catch (e) {
+        warn(e)
+      }
+    }
+  }, [scopeHash])
 
   const getRootElement = useCallback(() => {
     if (typeof document !== 'undefined') {
@@ -67,14 +92,14 @@ function DrawerListPortal({
         elem = document.createElement('div')
         elem.setAttribute('id', `${id}-portal`)
         elem.classList.add('dnb-drawer-list__portal')
-        createMainElement(styleScope).appendChild(elem)
+        createMainElement().appendChild(elem)
 
         return elem
       } catch (e) {
         warn(e)
       }
     }
-  }, [id])
+  }, [createMainElement, id])
 
   const init = useCallback(() => {
     portalElem.current = getRootElement()
@@ -100,31 +125,7 @@ function DrawerListPortal({
     }
   }, [init])
 
-  const createMainElement = (styleScope = null) => {
-    if (typeof document !== 'undefined') {
-      try {
-        let elem = document.getElementById('dnb-drawer-list__portal')
-        if (elem) {
-          return elem
-        }
-
-        elem = document.createElement('div')
-        elem.setAttribute('role', 'presentation')
-        elem.setAttribute('id', 'dnb-drawer-list__portal')
-        elem.classList.add('dnb-core-style')
-        const root = styleScope
-          ? document.querySelector(`.${styleScope}`)
-          : document.body
-        root.appendChild(elem)
-
-        return elem
-      } catch (e) {
-        warn(e)
-      }
-    }
-  }
-
-  const makeStyle = () => {
+  const makeStyle = useCallback(() => {
     if (typeof window === 'undefined' || !isMounted) {
       return // stop here
     }
@@ -148,7 +149,12 @@ function DrawerListPortal({
         const minWidth =
           parseFloat(
             window
-              .getComputedStyle(document.documentElement)
+              .getComputedStyle(
+                getStyleScopeRootElement(
+                  scopeHash,
+                  document.documentElement
+                )
+              )
               .getPropertyValue('--drawer-list-width')
           ) || 0
         width = minWidth * 16
@@ -201,7 +207,14 @@ function DrawerListPortal({
     } catch (e) {
       warn(e)
     }
-  }
+  }, [
+    fixed_position,
+    include_owner_width,
+    independent_width,
+    isMounted,
+    rootRef,
+    scopeHash,
+  ])
 
   const addPositionObserver = () => {
     if (setPosition.current || typeof window === 'undefined') {
@@ -224,9 +237,7 @@ function DrawerListPortal({
 
     try {
       resizeObserver.current = new ResizeObserver(setPosition.current)
-      const root = styleScope
-        ? document.querySelector(`.${styleScope}`)
-        : document.body
+      const root = getStyleScopeRootElement(scopeHash)
       resizeObserver.current.observe(root)
     } catch (e) {
       window.addEventListener('resize', setPosition.current)

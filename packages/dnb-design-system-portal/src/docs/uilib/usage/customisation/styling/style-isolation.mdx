@@ -1,0 +1,189 @@
+---
+title: 'Style Isolation'
+---
+
+# Style Isolation
+
+**NB:** This is a work in progress. The API is subject to change.
+
+Eufemia provides you with a way to isolate its styles, so you can use different Eufemia versions along side each other on the same page.
+
+## How it works
+
+All isolated Eufemia styles comes scoped with a class name.
+
+```html
+<div class="eufemia-scope--1_2_3">
+  <!-- App 1 using Eufemia v1.2.3 -->
+  <button class="dnb-button">Eufemia 1.2.3</button>
+</div>
+
+<div class="eufemia-scope--2_1_0">
+  <!-- App 2 using Eufemia v2.1.0 -->
+  <button class="dnb-button">Eufemia 2.1.0</button>
+</div>
+```
+
+The class name is generated based on the version of Eufemia used.
+
+```css
+.eufemia-scope--1_2_3 .dnb-button {
+  /* Styles for Eufemia v1.2.3 */
+}
+```
+
+In order to apply the styles, you need to wrap your app with the `IsolatedStyleScope` component.
+
+```tsx
+import { IsolatedStyleScope } from '@dnb/eufemia/shared'
+
+function MyApp() {
+  return <IsolatedStyleScope>Your app content</IsolatedStyleScope>
+}
+```
+
+Optionally – add the PostCSS plugin to your build tool.
+
+## How to use it
+
+### 1. Import the isolated CSS files
+
+In the root of your project, import the isolated CSS files:
+
+```tsx
+import '@dnb/eufemia/style/isolated'
+```
+
+You can also import the isolated CSS files directly:
+
+```tsx
+import '@dnb/eufemia/style/dnb-ui-basis--isolated.min.css'
+import '@dnb/eufemia/style/themes/theme-ui/ui-theme-components--isolated.min.css'
+import '@dnb/eufemia/style/themes/theme-ui/ui-theme-basis--isolated.min.css'
+```
+
+### 2. Define the scope
+
+```tsx
+import { IsolatedStyleScope } from '@dnb/eufemia/shared'
+
+function MyApp() {
+  return <IsolatedStyleScope>Your app content</IsolatedStyleScope>
+}
+```
+
+**Notes:**
+
+- Remove existing `.dnb-core-style` classes.
+- Font files are loaded from the CDN (Read more [about hosted fonts](/uilib/typography/#hosted-fonts-cdn)), so they are shared between Eufemia versions.
+
+### 3. Add the PostCSS plugin
+
+1. Find and add a [PostCSS extension or loader](https://github.com/postcss/postcss#usage) for your build tool.
+2. Then Create a `postcss.config.js` file in your project root:
+
+```js
+module.exports = {
+  plugins: [
+    require('@dnb/eufemia/cjs/style/postcss-plugin/style-scope')(/* options */),
+  ],
+}
+```
+
+In some cases your bundler may not support CJS, so you can use the ESM version of the plugin:
+
+```js
+import styleScopePlugin from '@dnb/eufemia/style/postcss-plugin/style-scope.js'
+
+export default {
+  plugins: [styleScopePlugin(/* options */)],
+}
+```
+
+The plugin accepts an options object. The default options are:
+
+```js
+{
+  skipClassNames: [],
+  scopeHash: 'auto',
+  replaceClassNames: undefined,// { 'old-class': 'new-class' }
+  verbose: false,
+}
+```
+
+CSS Modules are supported including SASS (SCSS) files.
+
+## CSS Specificity
+
+When extending or overriding styles from Eufemia, it's essential to match the CSS specificity of the original selectors to ensure your styles are applied correctly.
+
+To help with this, you can use the PostCSS plugin (style-scope) that automatically adds the required scope class to your CSS or SCSS (SASS). This ensures your styles have the necessary specificity to take effect.
+
+```scss
+.myButtonStyle:global(.dnb-button) {
+  padding: 2rem;
+}
+```
+
+Without the PostCSS plugin, the example above will not work as expected.
+
+## The scope element
+
+If you want to use the scope element in your app, you can use a React Hook to get the root element:
+
+```tsx
+import IsolatedStyleScope, {
+  useStyleScopeRootElement,
+} from '@dnb/eufemia/shared/IsolatedStyleScope'
+
+function Component() {
+  const { getElement } = useStyleScopeRootElement()
+  return null
+}
+
+render(
+  <IsolatedStyleScope>
+    <Component />
+  </IsolatedStyleScope>,
+)
+```
+
+Or use a function to get the root element:
+
+```tsx
+import IsolatedStyleScope, {
+  IsolatedStyleScopeContext,
+  getStyleScopeRootElement,
+} from '@dnb/eufemia/shared/IsolatedStyleScope'
+
+function Component() {
+  const { scopeHash } = useContext(IsolatedStyleScopeContext)
+  const getElement = getStyleScopeRootElement(scopeHash)
+  return null
+}
+
+render(
+  <IsolatedStyleScope>
+    <Component />
+  </IsolatedStyleScope>,
+)
+```
+
+## Additional information
+
+### Isolated CSS files
+
+Every component has its own isolated CSS file. You can import them directly:
+
+```tsx
+import '@dnb/eufemia/style/components/button/button--isolated.min.css'
+```
+
+### Omit selectors from the scope
+
+You can prepend your selectors with `:not(#isolated)` which will omit the scope class from the selector. Also, the selector `:not(#isolated)` will be removed.
+
+```css
+:not(#isolated) .my-global-class {
+}
+```

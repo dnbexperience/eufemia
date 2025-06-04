@@ -9,6 +9,7 @@ yarn prettier:other:write
 yarn build:cjs
 yarn build:es
 yarn build:esm
+yarn build:lebab
 # yarn build:resources # Can be enabled in future if needed
 yarn build:copy
 rm -rf build/esm
