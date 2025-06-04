@@ -39,7 +39,33 @@ describe('Indeterminate', () => {
     expect(parent).toHaveAttribute('aria-controls', 'a b c')
   })
 
-  it('should set not set aria-controls when dependence paths is an empty array', () => {
+  it('should set aria-controls without specifying ids for child components', () => {
+    const onChange = jest.fn()
+    const onSubmit = jest.fn()
+
+    render(
+      <Form.Handler onChange={onChange} onSubmit={onSubmit}>
+        <Field.Indeterminate
+          dependencePaths={['/child1', '/child2']}
+          path="/parent"
+        />
+        <Field.Toggle
+          path="/child1"
+          valueOn="checked"
+          valueOff="unchecked"
+        />
+        <Field.Toggle
+          path="/child2"
+          valueOn="checked"
+          valueOff="unchecked"
+        />
+      </Form.Handler>
+    )
+    const [parent] = Array.from(document.querySelectorAll('input'))
+    expect(parent).toHaveAttribute('aria-controls', 'id-r15 id-r1c')
+  })
+
+  it('should not set aria-controls when dependence paths is an empty array', () => {
     const onChange = jest.fn()
     const onSubmit = jest.fn()
 
