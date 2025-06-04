@@ -32,6 +32,8 @@ import cardProducts from './utils/cardProducts'
 
 export { Designs, ProductType, CardType, BankAxeptType }
 
+export { formatCardNumber }
+
 const translationDefaultPropsProps = {
   text_blocked: null,
   text_expired: null,
