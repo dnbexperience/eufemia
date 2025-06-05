@@ -4,20 +4,26 @@
  */
 
 import React from 'react'
-import PropTypes from 'prop-types'
 
 // load icons
 import { withPrefix } from 'gatsby' // use it like this: withPrefix('/safari-pinned-tab.svg')
-// import appleTouchIcon from '@dnb/eufemia/assets/browser/dnb/apple-touch-icon.png'
-// import favicon32 from '@dnb/eufemia/assets/browser/dnb/favicon-32x32.png'
-// import favicon16 from '@dnb/eufemia/assets/browser/dnb/favicon-16x16.png'
-// import safariPinnedTab from '@dnb/eufemia/assets/browser/dnb/safari-pinned-tab.svg'
 
 // load properties
 import properties from '@dnb/eufemia/src/style/themes/theme-ui/properties'
+import type { ReactNode, HTMLAttributes } from 'react'
+
 const mainColor = properties['--color-sea-green']
 
-export default class HTML extends React.PureComponent {
+type HTMLProps = {
+  htmlAttributes?: HTMLAttributes<HTMLHtmlElement>
+  headComponents: ReactNode[]
+  bodyAttributes?: HTMLAttributes<HTMLBodyElement>
+  preBodyComponents: ReactNode[]
+  body: string
+  postBodyComponents: ReactNode[]
+}
+
+export default class HTML extends React.PureComponent<HTMLProps> {
   render() {
     const {
       htmlAttributes = null,
@@ -27,6 +33,7 @@ export default class HTML extends React.PureComponent {
       postBodyComponents,
       body,
     } = this.props
+
     return (
       <html lang="en" {...htmlAttributes}>
         <head>
@@ -60,7 +67,6 @@ export default class HTML extends React.PureComponent {
           />
           <link
             rel="mask-icon"
-            // href={safariPinnedTab}
             href={withPrefix('/dnb/safari-pinned-tab.svg')}
             color={mainColor}
           />
@@ -69,28 +75,19 @@ export default class HTML extends React.PureComponent {
           {headComponents}
         </head>
         <body {...bodyAttributes}>
-          {preBodyComponents}
           <noscript key="noscript" id="gatsby-noscript">
             Eufemia works best with JavaScript enabled.
           </noscript>
+          {preBodyComponents}
           <div
             key="body"
             id="___gatsby"
             dangerouslySetInnerHTML={{ __html: body }}
           />
-          <div id="dnb-modal-root" />
           {postBodyComponents}
+          <div id="dnb-modal-root" />
         </body>
       </html>
     )
   }
-}
-
-HTML.propTypes = {
-  htmlAttributes: PropTypes.object,
-  headComponents: PropTypes.array.isRequired,
-  bodyAttributes: PropTypes.object,
-  preBodyComponents: PropTypes.array.isRequired,
-  body: PropTypes.string.isRequired,
-  postBodyComponents: PropTypes.array.isRequired,
 }
