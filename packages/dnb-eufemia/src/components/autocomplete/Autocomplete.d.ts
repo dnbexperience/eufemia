@@ -191,7 +191,7 @@ export interface AutocompleteProps {
    */
   search_numbers?: boolean;
   /**
-   * Lets you define a custom input value.
+   * Lets you define a custom input value. Setting it to an empty string `""` will reset the input value.
    */
   input_value?: string;
   /**

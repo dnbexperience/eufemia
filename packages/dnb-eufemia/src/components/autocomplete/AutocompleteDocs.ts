@@ -7,7 +7,7 @@ export const AutocompleteProperties = {
     status: 'optional',
   },
   input_value: {
-    doc: 'Lets you define a custom input value.',
+    doc: 'Lets you define a custom input value. Setting it to an empty string `""` will reset the input value.',
     type: 'string',
     status: 'optional',
   },
