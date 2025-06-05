@@ -4266,8 +4266,8 @@ describe('useFieldProps', () => {
           disabled: undefined,
           error: undefined,
           fieldState: undefined,
-          info: new Error('Info message'),
-          warning: new Error('Warning message'),
+          info: 'Info message',
+          warning: 'Warning message',
         })
 
         expect(result.current.fieldState).toBeUndefined()
@@ -4304,8 +4304,8 @@ describe('useFieldProps', () => {
           disabled: undefined,
           error: undefined,
           fieldState: 'pending',
-          info: new Error('Info message changed'),
-          warning: new Error('Warning message changed'),
+          info: 'Info message changed',
+          warning: 'Warning message changed',
         })
 
         expect(result.current.fieldState).toBe('pending')
@@ -4353,8 +4353,8 @@ describe('useFieldProps', () => {
             disabled: undefined,
             error: new Error('Error message'),
             fieldState: 'error',
-            info: new Error('Info message changed'),
-            warning: new Error('Warning message changed'),
+            info: 'Info message changed',
+            warning: 'Warning message changed',
           })
         })
       })
