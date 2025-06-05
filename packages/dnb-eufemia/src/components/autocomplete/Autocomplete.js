@@ -402,10 +402,7 @@ class AutocompleteInstance extends React.PureComponent {
     if (state._listenForPropChanges) {
       state.disableHighlighting = isTrue(props.disable_highlighting)
 
-      if (
-        props.input_value !== 'initval' &&
-        (props.input_value?.length > 0 || props.input_value === '')
-      ) {
+      if (props.input_value !== 'initval') {
         state.inputValue = props.input_value
       }
 
