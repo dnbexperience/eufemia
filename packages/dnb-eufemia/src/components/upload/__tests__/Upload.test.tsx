@@ -1156,6 +1156,62 @@ describe('Upload', () => {
       ).not.toBeInTheDocument()
     })
 
+    it('shows the container when provided', async () => {
+      const myContainer = 'my container'
+      const files = [
+        {
+          file: createMockFile('fileName.png', 100, 'image/png'),
+          container: myContainer,
+        },
+      ]
+
+      const id = 'random-id-container'
+
+      render(<Upload {...defaultProps} id={id} />)
+
+      const MockComponent = () => {
+        const { setFiles } = useUpload(id)
+
+        useEffect(() => setFiles(files), [])
+
+        return <div />
+      }
+
+      render(<MockComponent />)
+
+      expect(screen.queryByText(myContainer)).toBeInTheDocument()
+    })
+
+    it('does not show the container when loading', async () => {
+      const myContainer = 'my container'
+      const files = [
+        {
+          file: createMockFile('fileName.png', 100, 'image/png'),
+          container: myContainer,
+          isLoading: true,
+        },
+      ]
+
+      const id = 'random-id-container'
+
+      render(<Upload {...defaultProps} id={id} />)
+
+      const MockComponent = () => {
+        const { setFiles } = useUpload(id)
+
+        useEffect(() => setFiles(files), [])
+
+        return <div />
+      }
+
+      render(<MockComponent />)
+
+      expect(screen.queryByText(myContainer)).not.toBeInTheDocument()
+      expect(
+        document.querySelectorAll('.dnb-progress-indicator').length
+      ).toBe(1)
+    })
+
     it('shows the file description when provided', async () => {
       const myDescription = 'my description'
       const files = [

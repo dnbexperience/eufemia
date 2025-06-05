@@ -104,6 +104,7 @@ const UploadFileListCell = ({
     isLoading,
     description,
     removeDeleteButton,
+    container,
   } = uploadFile
   const hasWarning = errorMessage != null
 
@@ -167,6 +168,7 @@ const UploadFileListCell = ({
           bottom={0}
         />
         {getDescription()}
+        {getContainer()}
       </div>
     )
   }
@@ -188,6 +190,13 @@ const UploadFileListCell = ({
         </Button>
       </div>
     )
+  }
+
+  function getContainer() {
+    if (!container) {
+      return null
+    }
+    return container
   }
 
   function getDescription() {
