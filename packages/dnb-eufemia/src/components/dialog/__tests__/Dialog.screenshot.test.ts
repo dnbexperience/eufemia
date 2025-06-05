@@ -42,7 +42,7 @@ describe.each(['ui', 'sbanken'])('Dialog for %s', (themeName) => {
 
   it('have to match the dialog help window', async () => {
     const screenshot = await makeScreenshot({
-      selector: 'div#dnb-modal-root', // only to make sure we have a valid selector
+      selector: '[data-visual-test="dialog-help-button"]', // only to make sure we have a valid selector
       simulate: 'click',
       simulateSelector:
         '[data-visual-test="dialog-help-button"] button:first-of-type',
@@ -55,7 +55,7 @@ describe.each(['ui', 'sbanken'])('Dialog for %s', (themeName) => {
 
   it('have to match a top aligned dialog', async () => {
     const screenshot = await makeScreenshot({
-      selector: 'div#dnb-modal-root', // only to make sure we have a valid selector
+      selector: '[data-visual-test="dialog-vertical-alignment"]', // only to make sure we have a valid selector
       simulate: 'click',
       simulateSelector:
         '[data-visual-test="dialog-vertical-alignment"] button:first-of-type',
@@ -68,7 +68,7 @@ describe.each(['ui', 'sbanken'])('Dialog for %s', (themeName) => {
 
   it('have to match the dialog fullscreen window', async () => {
     const screenshot = await makeScreenshot({
-      selector: 'div#dnb-modal-root', // only to make sure we have a valid selector
+      selector: '[data-visual-test="dialog-fullscreen"]', // only to make sure we have a valid selector
       simulate: 'click',
       simulateSelector:
         '[data-visual-test="dialog-fullscreen"] button:first-of-type',
@@ -81,7 +81,7 @@ describe.each(['ui', 'sbanken'])('Dialog for %s', (themeName) => {
 
   it('have to match the dialog window using custom trigger', async () => {
     const screenshot = await makeScreenshot({
-      selector: 'div#dnb-modal-root', // only to make sure we have a valid selector
+      selector: '[data-visual-test="dialog-custom-trigger"]', // only to make sure we have a valid selector
       simulate: 'click',
       simulateSelector:
         '[data-visual-test="dialog-custom-trigger"] button:first-of-type',
@@ -94,7 +94,7 @@ describe.each(['ui', 'sbanken'])('Dialog for %s', (themeName) => {
 
   it('have to match the custom dialog window', async () => {
     const screenshot = await makeScreenshot({
-      selector: 'div#dnb-modal-root', // only to make sure we have a valid selector
+      selector: '[data-visual-test="full-dialog"]', // only to make sure we have a valid selector
       simulate: 'click',
       simulateSelector:
         '[data-visual-test="full-dialog"] button:first-of-type',
@@ -107,7 +107,7 @@ describe.each(['ui', 'sbanken'])('Dialog for %s', (themeName) => {
 
   it('have to match the default dialog window', async () => {
     const screenshot = await makeScreenshot({
-      selector: 'div#dnb-modal-root', // only to make sure we have a valid selector
+      selector: '[data-visual-test="dialog-default"]', // only to make sure we have a valid selector
       simulate: 'click',
       simulateSelector:
         '[data-visual-test="dialog-default"] button:first-of-type',
@@ -120,7 +120,7 @@ describe.each(['ui', 'sbanken'])('Dialog for %s', (themeName) => {
 
   it('have to match the default confirmation', async () => {
     const screenshot = await makeScreenshot({
-      selector: 'div#dnb-modal-root', // only to make sure we have a valid selector
+      selector: '[data-visual-test="dialog-confirm-default"]', // only to make sure we have a valid selector
       simulate: 'click',
       simulateSelector:
         '[data-visual-test="dialog-confirm-default"] button:first-of-type',
@@ -133,7 +133,7 @@ describe.each(['ui', 'sbanken'])('Dialog for %s', (themeName) => {
 
   it('have to match the delete confirmation', async () => {
     const screenshot = await makeScreenshot({
-      selector: 'div#dnb-modal-root', // only to make sure we have a valid selector
+      selector: '[data-visual-test="dialog-confirm-delete"]', // only to make sure we have a valid selector
       simulate: 'click',
       simulateSelector:
         '[data-visual-test="dialog-confirm-delete"] button:first-of-type',
@@ -146,7 +146,7 @@ describe.each(['ui', 'sbanken'])('Dialog for %s', (themeName) => {
 
   it('have to match the logged out confirmation', async () => {
     const screenshot = await makeScreenshot({
-      selector: 'div#dnb-modal-root', // only to make sure we have a valid selector
+      selector: '[data-visual-test="dialog-confirm-loggedout"]', // only to make sure we have a valid selector
       simulate: 'click',
       simulateSelector:
         '[data-visual-test="dialog-confirm-loggedout"] button:first-of-type',
@@ -159,7 +159,7 @@ describe.each(['ui', 'sbanken'])('Dialog for %s', (themeName) => {
 
   it('have to match the cookie concent confirmation', async () => {
     const screenshot = await makeScreenshot({
-      selector: 'div#dnb-modal-root', // only to make sure we have a valid selector
+      selector: '[data-visual-test="dialog-confirm-cookie"]', // only to make sure we have a valid selector
       simulate: 'click',
       simulateSelector:
         '[data-visual-test="dialog-confirm-cookie"] button:first-of-type',
@@ -172,7 +172,7 @@ describe.each(['ui', 'sbanken'])('Dialog for %s', (themeName) => {
 
   it('have to match the dialog progressindicator window', async () => {
     const screenshot = await makeScreenshot({
-      selector: 'div#dnb-modal-root', // only to make sure we have a valid selector
+      selector: '[data-visual-test="dialog-progress-indicator"]', // only to make sure we have a valid selector
       simulate: 'click',
       simulateSelector:
         '[data-visual-test="dialog-progress-indicator"] button:first-of-type',
@@ -196,7 +196,7 @@ describe.each(['ui', 'sbanken'])('Dialog for %s', (themeName) => {
 
     it('have to match scrolled to top', async () => {
       const screenshot = await makeScreenshot({
-        selector: 'div#dnb-modal-root', // only to make sure we have a valid selector
+        selector: '[data-visual-test="dialog-scroll-content"]', // only to make sure we have a valid selector
         simulate: 'click',
         simulateSelector:
           '[data-visual-test="dialog-scroll-content"] button:first-of-type',
@@ -210,7 +210,7 @@ describe.each(['ui', 'sbanken'])('Dialog for %s', (themeName) => {
 
     it('have to match scrolled to bottom', async () => {
       const screenshot = await makeScreenshot({
-        selector: 'div#dnb-modal-root', // only to make sure we have a valid selector
+        selector: '[data-visual-test="dialog-scroll-content"]', // only to make sure we have a valid selector
         simulate: 'click',
         simulateSelector:
           '[data-visual-test="dialog-scroll-content"] button:first-of-type',

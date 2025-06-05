@@ -49,7 +49,7 @@ describe('Drawer', () => {
 
     it('have to match simple drawer window', async () => {
       const screenshot = await makeScreenshot({
-        selector: 'div#dnb-modal-root', // only to make sure we have a valid selector
+        selector: '[data-visual-test="simple-drawer"]',
         simulate: 'click',
         simulateSelector:
           '[data-visual-test="simple-drawer"] button:first-of-type',
@@ -61,7 +61,7 @@ describe('Drawer', () => {
 
     it('have to match fullscreen drawer', async () => {
       const screenshot = await makeScreenshot({
-        selector: 'div#dnb-modal-root', // only to make sure we have a valid selector
+        selector: '[data-visual-test="fullscreen-drawer"]',
         simulate: 'click',
         simulateSelector:
           '[data-visual-test="fullscreen-drawer"] button:first-of-type',
@@ -73,7 +73,7 @@ describe('Drawer', () => {
 
     it('have to match left placement drawer', async () => {
       const screenshot = await makeScreenshot({
-        selector: 'div#dnb-modal-root', // only to make sure we have a valid selector
+        selector: '[data-visual-test="left-placement-drawer"]',
         simulate: 'click',
         simulateSelector:
           '[data-visual-test="left-placement-drawer"] button:first-of-type',
@@ -85,7 +85,7 @@ describe('Drawer', () => {
 
     it('have to match full drawer window', async () => {
       const screenshot = await makeScreenshot({
-        selector: 'div#dnb-modal-root', // only to make sure we have a valid selector
+        selector: '[data-visual-test="full-drawer"]',
         simulate: 'click',
         simulateSelector:
           '[data-visual-test="full-drawer"] button:first-of-type',
@@ -97,7 +97,7 @@ describe('Drawer', () => {
 
     it('have to match callback drawer window', async () => {
       const screenshot = await makeScreenshot({
-        selector: 'div#dnb-modal-root', // only to make sure we have a valid selector
+        selector: '[data-visual-test="callback-drawer"]',
         simulate: 'click',
         simulateSelector:
           '[data-visual-test="callback-drawer"] button:first-of-type',
@@ -109,7 +109,7 @@ describe('Drawer', () => {
 
     it('have to match no-animation drawer window', async () => {
       const screenshot = await makeScreenshot({
-        selector: 'div#dnb-modal-root', // only to make sure we have a valid selector
+        selector: '[data-visual-test="drawer-no-animation"]',
         simulate: 'click',
         simulateSelector:
           '[data-visual-test="drawer-no-animation"] button:first-of-type',
@@ -142,7 +142,7 @@ describe('Drawer', () => {
 
     it('have to match top placement drawer', async () => {
       const screenshot = await makeScreenshot({
-        selector: 'div#dnb-modal-root', // only to make sure we have a valid selector
+        selector: '[data-visual-test="top-placement-drawer"]',
         simulate: 'click',
         simulateSelector:
           '[data-visual-test="top-placement-drawer"] button:first-of-type',
@@ -155,7 +155,7 @@ describe('Drawer', () => {
 
     it('have to match bottom placement drawer', async () => {
       const screenshot = await makeScreenshot({
-        selector: 'div#dnb-modal-root', // only to make sure we have a valid selector
+        selector: '[data-visual-test="bottom-placement-drawer"]',
         simulate: 'click',
         simulateSelector:
           '[data-visual-test="bottom-placement-drawer"] button:first-of-type',

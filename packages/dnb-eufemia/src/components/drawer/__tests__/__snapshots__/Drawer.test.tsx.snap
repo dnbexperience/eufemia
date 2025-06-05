@@ -891,10 +891,6 @@ html[data-visual-test] .dnb-modal__overlay, .dnb-modal__overlay--no-animation {
   justify-content: space-between;
 }
 
-[data-visual-test].hide-page-content #___gatsby {
-  opacity: 0;
-}
-
 /*
 * Drawer component
 *
@@ -1237,9 +1233,5 @@ html:not([data-visual-test]) .dnb-drawer--hide.dnb-drawer--bottom {
     animation-delay: 0ms !important;
     animation-duration: 0ms !important;
   }
-}
-
-[data-visual-test].hide-page-content #___gatsby {
-  opacity: 0;
 }"
 `;

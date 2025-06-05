@@ -221,7 +221,7 @@ describe('deprecated', () => {
 
     it('have to match static mode after click simulation', async () => {
       const screenshot = await makeScreenshot({
-        selector: 'div#dnb-modal-root',
+        selector: '[data-visual-test="step-indicator-static"]',
         simulateSelector:
           '[data-visual-test="step-indicator-static"] .dnb-step-indicator__trigger__button',
         simulate: 'click',
