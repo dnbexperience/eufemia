@@ -43,7 +43,7 @@ export async function makeReleaseVersion() {
 
   // JS – for handling Eufemia.version
   {
-    const file = require.resolve('@dnb/eufemia/src/shared/Eufemia.ts')
+    const file = require.resolve('@dnb/eufemia/src/shared/BuildInfo.cjs')
     const fileContent = await fs.readFile(file, 'utf-8')
 
     // Update the extracted version of package.json with the build version

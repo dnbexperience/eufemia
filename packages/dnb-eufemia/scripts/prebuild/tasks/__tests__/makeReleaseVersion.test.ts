@@ -97,8 +97,8 @@ describe('makeReleaseVersion', () => {
     // JS
     expect(fs.writeFile).toHaveBeenNthCalledWith(
       1,
-      expect.stringContaining('src/shared/Eufemia.ts'),
-      expect.stringContaining(`export const version = 'some-branch'`)
+      expect.stringContaining('src/shared/BuildInfo.cjs'),
+      expect.stringContaining(`exports.version = 'some-branch'`)
     )
 
     // CSS
@@ -124,8 +124,8 @@ describe('makeReleaseVersion', () => {
     // JS
     expect(fs.writeFile).toHaveBeenNthCalledWith(
       1,
-      expect.stringContaining('src/shared/Eufemia.ts'),
-      expect.stringContaining(`export const version = '123456789'`)
+      expect.stringContaining('src/shared/BuildInfo.cjs'),
+      expect.stringContaining(`exports.version = '123456789'`)
     )
 
     // CSS
@@ -151,13 +151,13 @@ describe('makeReleaseVersion', () => {
     // JS
     expect(fs.writeFile).toHaveBeenNthCalledWith(
       1,
-      expect.stringContaining('src/shared/Eufemia.ts'),
-      expect.stringContaining(`export const version = 'release'`)
+      expect.stringContaining('src/shared/BuildInfo.cjs'),
+      expect.stringContaining(`exports.version = 'release'`)
     )
     expect(fs.writeFile).toHaveBeenNthCalledWith(
       1,
-      expect.stringContaining('src/shared/Eufemia.ts'),
-      expect.stringContaining(`export const version = 'release'`)
+      expect.stringContaining('src/shared/BuildInfo.cjs'),
+      expect.stringContaining(`exports.version = 'release'`)
     )
 
     // CSS
@@ -183,8 +183,8 @@ describe('makeReleaseVersion', () => {
     // JS
     expect(fs.writeFile).toHaveBeenNthCalledWith(
       1,
-      expect.stringContaining('src/shared/Eufemia.ts'),
-      expect.stringContaining(`export const sha = 'test-sha'`)
+      expect.stringContaining('src/shared/BuildInfo.cjs'),
+      expect.stringContaining(`exports.sha = 'test-sha'`)
     )
 
     // CSS
