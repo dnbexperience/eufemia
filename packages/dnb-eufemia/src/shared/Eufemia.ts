@@ -1,9 +1,7 @@
-/**
- * This file will be transformed by makeReleaseVersion.ts
- */
+import * as BuildInfo from './BuildInfo.cjs'
 
-export const version = '__VERSION__'
-export const sha = '__SHA__'
+export const version = BuildInfo.version
+export const sha = BuildInfo.sha
 
 declare global {
   interface Window {
