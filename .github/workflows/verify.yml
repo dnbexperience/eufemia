@@ -115,7 +115,7 @@ jobs:
         run: yarn install --immutable
 
       - name: Verify isCI
-        run: yarn workspace repo-utils test-is-ci
+        run: yarn workspace repo-utils test:ci
 
       - name: Prebuild Library
         run: yarn workspace @dnb/eufemia prebuild:ci
