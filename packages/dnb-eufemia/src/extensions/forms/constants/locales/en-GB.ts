@@ -126,7 +126,8 @@ export default {
     },
     Date: {
       label: 'Date',
-      errorRequired: 'You must provide a valid date.',
+      errorRequired: 'You must enter a date.',
+      errorRequiredRange: 'You must enter a date range.',
       errorMinDate: 'Chosen date cannot be before {date}.',
       errorMaxDate: 'Chosen date cannot be after {date}.',
       errorStartDateMinDate: 'Start date cannot be before {date}.',
