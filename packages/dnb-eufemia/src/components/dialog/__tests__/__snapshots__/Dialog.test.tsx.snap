@@ -890,10 +890,6 @@ html[data-visual-test] .dnb-modal__overlay, .dnb-modal__overlay--no-animation {
   justify-content: space-between;
 }
 
-[data-visual-test].hide-page-content #___gatsby {
-  opacity: 0;
-}
-
 /*
  * Dialog component
  *
@@ -1200,9 +1196,5 @@ html:not([data-visual-test]) .dnb-dialog--hide {
       max-height: 82vh;
     }
   }
-}
-
-[data-visual-test].hide-page-content #___gatsby {
-  opacity: 0;
 }"
 `;

@@ -85,7 +85,6 @@ export default class HTML extends React.PureComponent<HTMLProps> {
             dangerouslySetInnerHTML={{ __html: body }}
           />
           {postBodyComponents}
-          <div id="dnb-modal-root" />
         </body>
       </html>
     )
