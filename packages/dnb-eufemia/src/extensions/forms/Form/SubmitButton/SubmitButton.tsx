@@ -9,7 +9,7 @@ import { send } from '../../../../icons'
 
 export type Props = {
   /**
-   * Show the submit indicator. Consider using it together with the `disabled` property.
+   * Show the submit indicator. Consider using it together with Button's `disabled` property.
    */
   showIndicator?: boolean
 } & ComponentProps &

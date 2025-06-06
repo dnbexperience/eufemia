@@ -7,7 +7,7 @@ export const SubmitButtonProperties: PropertiesTableProps = {
     status: 'optional',
   },
   showIndicator: {
-    doc: 'Show the submit indicator. Consider using it together with the `disabled` property.',
+    doc: "Show the submit indicator. Consider using it together with [Button's](/uilib/components/button/properties) `disabled` property.",
     type: 'boolean',
     status: 'optional',
   },
