@@ -97,8 +97,8 @@ describe('makeReleaseVersion', () => {
     // JS
     expect(fs.writeFile).toHaveBeenNthCalledWith(
       1,
-      expect.stringContaining('src/shared/BuildInfo.cjs'),
-      expect.stringContaining(`exports.version = 'some-branch'`)
+      expect.stringContaining('src/shared/BuildInfo.js'),
+      expect.stringContaining(`some-branch`)
     )
 
     // CSS
@@ -109,7 +109,7 @@ describe('makeReleaseVersion', () => {
     )
   })
 
-  it('write version in Eufemia file', async () => {
+  it('write version in file', async () => {
     jest
       .spyOn(getBranchName, 'default')
       .mockImplementationOnce(() => 'release')
@@ -124,8 +124,8 @@ describe('makeReleaseVersion', () => {
     // JS
     expect(fs.writeFile).toHaveBeenNthCalledWith(
       1,
-      expect.stringContaining('src/shared/BuildInfo.cjs'),
-      expect.stringContaining(`exports.version = '123456789'`)
+      expect.stringContaining('src/shared/BuildInfo.js'),
+      expect.stringContaining(`123456789`)
     )
 
     // CSS
@@ -136,7 +136,7 @@ describe('makeReleaseVersion', () => {
     )
   })
 
-  it('write branch in Eufemia file', async () => {
+  it('write branch in file', async () => {
     jest
       .spyOn(getBranchName, 'default')
       .mockImplementationOnce(() => 'release')
@@ -151,13 +151,8 @@ describe('makeReleaseVersion', () => {
     // JS
     expect(fs.writeFile).toHaveBeenNthCalledWith(
       1,
-      expect.stringContaining('src/shared/BuildInfo.cjs'),
-      expect.stringContaining(`exports.version = 'release'`)
-    )
-    expect(fs.writeFile).toHaveBeenNthCalledWith(
-      1,
-      expect.stringContaining('src/shared/BuildInfo.cjs'),
-      expect.stringContaining(`exports.version = 'release'`)
+      expect.stringContaining('src/shared/BuildInfo.js'),
+      expect.stringContaining(`release`)
     )
 
     // CSS
@@ -168,7 +163,7 @@ describe('makeReleaseVersion', () => {
     )
   })
 
-  it('write sha in Eufemia file', async () => {
+  it('write sha in file', async () => {
     jest
       .spyOn(getBranchName, 'default')
       .mockImplementationOnce(() => 'release')
@@ -183,8 +178,8 @@ describe('makeReleaseVersion', () => {
     // JS
     expect(fs.writeFile).toHaveBeenNthCalledWith(
       1,
-      expect.stringContaining('src/shared/BuildInfo.cjs'),
-      expect.stringContaining(`exports.sha = 'test-sha'`)
+      expect.stringContaining('src/shared/BuildInfo.js'),
+      expect.stringContaining(`test-sha`)
     )
 
     // CSS

@@ -17,6 +17,7 @@
 @dnb/eufemia*.tgz
 
 # misc
+BuildInfo.js
 package-lock.json
 completions.json
 *snapshot.json
