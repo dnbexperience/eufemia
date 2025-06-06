@@ -27,7 +27,7 @@ import {
   toCapitalized,
 } from '../../shared/component-helper'
 import { IS_ANDROID, IS_IOS } from '../../shared/helpers'
-import { convertStringToDate, formatDate } from './DatePickerCalc'
+import { convertStringToDate } from './DatePickerCalc'
 import DatePickerContext from './DatePickerContext'
 
 import type {
@@ -41,6 +41,7 @@ import { DatePickerEventAttributes, DatePickerProps } from './DatePicker'
 import { Context, useTranslation } from '../../shared'
 import usePartialDates from './hooks/usePartialDates'
 import useInputDates, { DatePickerInputDates } from './hooks/useInputDates'
+import { formatDate } from '../date-format/DateFormatUtils'
 
 export type DatePickerInputProps = Omit<
   React.HTMLProps<HTMLInputElement>,
