@@ -55,7 +55,7 @@ describe('Dialog.Action', () => {
 
     const element = document.querySelector('.dnb-dialog__actions')
 
-    expect(element.textContent).toBe('‌Button')
+    expect(element.textContent).toBe('Button')
   })
 
   it('should be section element', () => {

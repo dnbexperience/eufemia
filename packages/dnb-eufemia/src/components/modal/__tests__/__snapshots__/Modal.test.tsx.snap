@@ -881,9 +881,5 @@ html[data-visual-test] .dnb-modal__overlay, .dnb-modal__overlay--no-animation {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-}
-
-[data-visual-test].hide-page-content #___gatsby {
-  opacity: 0;
 }"
 `;

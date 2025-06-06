@@ -129,7 +129,7 @@ describe('Form.SubmitButton', () => {
 
     const button = document.querySelector('.dnb-forms-submit-button')
 
-    expect(button.textContent).toBe('‌' + nb.SubmitButton.text)
+    expect(button.textContent).toBe('' + nb.SubmitButton.text)
   })
 
   it('should have "sendText" when variant is "send"', () => {
@@ -137,7 +137,7 @@ describe('Form.SubmitButton', () => {
 
     const button = document.querySelector('.dnb-forms-submit-button')
 
-    expect(button.textContent).toBe('‌' + nb.SubmitButton.sendText)
+    expect(button.textContent).toBe('' + nb.SubmitButton.sendText)
   })
 
   it('should have "send" icon when variant is "send"', () => {

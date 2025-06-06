@@ -45,6 +45,9 @@
   @include alignmentHelperClass();
   @include alignmentHelper();
 }
+.dnb-alignment-helper--pseudo-element-only {
+  @include alignmentHelper();
+}
 
 .dnb-drop-shadow {
   @include defaultDropShadow();

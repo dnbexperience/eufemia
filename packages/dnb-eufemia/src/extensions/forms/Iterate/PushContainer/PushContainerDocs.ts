@@ -28,7 +28,7 @@ export const PushContainerProperties: PropertiesTableProps = {
     status: 'optional',
   },
   defaultData: {
-    doc: 'Prefilled data to be used by fields. The data will be put into this path: `/pushContainerItems/0`',
+    doc: 'Prefilled data to be used by fields. The data will be put into this path: `/pushContainerItems/0`.',
     type: ['object', 'array'],
     status: 'optional',
   },
@@ -78,7 +78,7 @@ export const PushContainerProperties: PropertiesTableProps = {
     status: 'optional',
   },
   dataReference: {
-    doc: 'Provide a reference by using `Form.Isolation.createDataReference.`',
+    doc: 'Provide a reference by using `Form.Isolation.createDataReference`.',
     type: 'IsolationDataReference',
     status: 'optional',
   },

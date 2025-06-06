@@ -29,7 +29,7 @@ export default function Indeterminate(props: Props) {
     ...rest
   } = props
 
-  const { indeterminate, internalValue, setAllStates } =
+  const { indeterminate, internalValue, setAllStates, ariaControlsIds } =
     useDependencePaths(dependencePaths, propagateIndeterminateState)
 
   const changeHandler = useCallback(
@@ -51,7 +51,10 @@ export default function Indeterminate(props: Props) {
     <Toggle
       {...rest}
       variant="checkbox"
-      htmlAttributes={{ indeterminate }}
+      htmlAttributes={{
+        indeterminate,
+        ['aria-controls']: ariaControlsIds,
+      }}
       valueOn={valueOn}
       valueOff={valueOff}
       value={value}

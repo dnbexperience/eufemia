@@ -124,7 +124,8 @@ export default {
     },
     Date: {
       label: 'Datum',
-      errorRequired: 'Du måste ange ett giltigt datum.',
+      errorRequired: 'Du måste fylla i en datum.',
+      errorRequiredRange: 'Du måste fylla i en datumintervall.',
       errorMinDate: 'Valt datum kan inte vara före {date}.',
       errorMaxDate: 'Valt datum kan inte vara efter {date}.',
       errorStartDateMinDate: 'Startdatum kan inte vara före {date}.',

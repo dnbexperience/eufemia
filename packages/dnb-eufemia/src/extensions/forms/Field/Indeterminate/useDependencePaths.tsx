@@ -10,7 +10,7 @@ export default function useDependencePaths(
   const { data, fieldInternalsRef, handlePathChange } =
     useContext(DataContext) || {}
 
-  const { allOn, allOff, indeterminate } = useMemo(() => {
+  const { allOn, allOff, indeterminate, ariaControlsIds } = useMemo(() => {
     if (!dependencePaths || !data) {
       return {}
     }
@@ -30,6 +30,12 @@ export default function useDependencePaths(
       })
     }
 
+    const ariaControlsIds =
+      dependencePaths
+        .map((path) => fieldInternalsRef.current?.[path]?.id)
+        .filter(Boolean)
+        .join(' ') || undefined
+
     const allOn = check({ key: 'valueOn' })
     const allOff = check({ key: 'valueOff', whenUndefined: true })
     const indeterminate = !allOn && !allOff
@@ -38,6 +44,7 @@ export default function useDependencePaths(
       allOn,
       allOff,
       indeterminate,
+      ariaControlsIds,
     }
   }, [data, dependencePaths, fieldInternalsRef])
 
@@ -70,5 +77,6 @@ export default function useDependencePaths(
     setAllStates,
     indeterminate,
     internalValue: keepStateRef.current,
+    ariaControlsIds,
   }
 }

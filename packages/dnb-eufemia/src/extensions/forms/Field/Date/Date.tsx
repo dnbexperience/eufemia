@@ -120,13 +120,21 @@ function DateComponent(props: DateProps) {
 
   const validateRequired = useCallback(
     (value: string, { required, error }) => {
-      if (required && (!value || !isValid(parseISO(value)))) {
-        return error
+      if (!required) {
+        return undefined
       }
 
-      return undefined
+      if (props.range) {
+        const [startDate, endDate] = parseRangeValue(value)
+
+        if (!startDate && !endDate) {
+          return new FormError('Date.errorRequiredRange')
+        }
+      }
+
+      return !value || !isValid(parseISO(value)) ? error : undefined
     },
-    []
+    [props.range]
   )
 
   const dateValidator = useCallback(

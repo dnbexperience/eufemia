@@ -318,9 +318,9 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
   )
 
   const callOnChangeAsInvalid = useCallback(
-    (state: {
+    (params: {
       endDate?: Date
-      starDate?: Date
+      startDate?: Date
       event: React.ChangeEvent<HTMLInputElement>
     }) => {
       // Should fire if user has filled out an invalid date,
@@ -333,8 +333,8 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
           endDate: derivedEndDate,
           event,
         } = {
-          ...state,
           ...datesFromContext,
+          ...params,
         }
 
         callOnChangeHandler({

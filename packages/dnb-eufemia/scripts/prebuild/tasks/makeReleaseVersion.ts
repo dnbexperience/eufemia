@@ -3,6 +3,7 @@
  *
  */
 
+import { execSync } from 'child_process'
 import fs from 'fs-extra'
 import { isCI } from 'repo-utils'
 import getBranchName from 'current-git-branch'
@@ -33,13 +34,20 @@ export async function makeReleaseVersion() {
     }
   }
 
+  const sha = execSync('git rev-parse --short HEAD')?.toString().trim()
+  const replace = (content: string) => {
+    return content
+      .replace(/__SHA__/g, sha)
+      .replace(/__VERSION__/g, version)
+  }
+
   // JS – for handling Eufemia.version
   {
-    const file = require.resolve('@dnb/eufemia/src/shared/Eufemia.ts')
+    const file = require.resolve('@dnb/eufemia/src/shared/BuildInfo.cjs')
     const fileContent = await fs.readFile(file, 'utf-8')
 
     // Update the extracted version of package.json with the build version
-    await fs.writeFile(file, fileContent.replace(/__VERSION__/g, version))
+    await fs.writeFile(file, replace(fileContent))
   }
 
   // CSS – for handling --eufemia-version
@@ -48,7 +56,7 @@ export async function makeReleaseVersion() {
     const fileContent = await fs.readFile(file, 'utf-8')
 
     // Update the extracted version of package.json with the build version
-    await fs.writeFile(file, fileContent.replace(/__VERSION__/g, version))
+    await fs.writeFile(file, replace(fileContent))
   }
 
   log.succeed(`Success on write version to CSS and JS sources: ${version}`)

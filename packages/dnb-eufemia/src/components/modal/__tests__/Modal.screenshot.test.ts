@@ -23,7 +23,7 @@ describe('Modal', () => {
         width: 700,
         height: 600,
       },
-      selector: 'div#dnb-modal-root', // only to make sure we have a valid selector
+      selector: '[data-visual-test="modal-standard"]', // only to make sure we have a valid selector
       simulate: 'click',
       simulateSelector:
         '[data-visual-test="modal-standard"] button:first-of-type',

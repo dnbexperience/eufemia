@@ -42,12 +42,12 @@ export const StepIndicatorProperties: PropertiesTableProps = {
     status: 'optional',
   },
   outset: {
-    doc: 'Same as `outset` in [Card](/uilib/components/card/properties). Defaults to `false`',
+    doc: 'Same as `outset` in [Card](/uilib/components/card/properties). Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
   status: {
-    doc: 'Text for status shown below the step indicator when it is not expanded. Defaults to `undefined`',
+    doc: 'Text for status shown below the step indicator when it is not expanded. Defaults to `undefined`.',
     type: 'string',
     status: 'optional',
   },
@@ -85,12 +85,12 @@ export const StepIndicatorProperties: PropertiesTableProps = {
 
 export const StepIndicatorEvents: PropertiesTableProps = {
   on_click: {
-    doc: 'Will be called when the user clicks on any clickable step in the list. Is called right before `on_change`. Receives parameter `{ event, item, current_step, currentStep }`',
+    doc: 'Will be called when the user clicks on any clickable step in the list. Is called right before `on_change`. Receives parameter `{ event, item, current_step, currentStep }`.',
     type: 'function',
     status: 'optional',
   },
   on_change: {
-    doc: 'Will be called when the user changes step by clicking in the steps list (changing the `current_step` prop does not trigger the event). Receives parameter `{ event, item, current_step, currentStep }`',
+    doc: 'Will be called when the user changes step by clicking in the steps list (changing the `current_step` prop does not trigger the event). Receives parameter `{ event, item, current_step, currentStep }`.',
     type: 'function',
     status: 'optional',
   },

@@ -25,7 +25,7 @@ describe('HelpButton', () => {
       render(<QuestionIcon />).container.innerHTML
     )
     expect(document.querySelector('.dnb-button').textContent.trim()).toBe(
-      '‌'
+      ''
     )
   })
 
@@ -46,7 +46,7 @@ describe('HelpButton', () => {
       render(<InformationIcon />).container.innerHTML
     )
     expect(document.querySelector('.dnb-button').textContent.trim()).toBe(
-      '‌'
+      ''
     )
   })
 
@@ -59,7 +59,7 @@ describe('HelpButton', () => {
       render(<InformationIcon />).container.innerHTML
     )
     expect(document.querySelector('.dnb-button').textContent.trim()).toBe(
-      '‌'
+      ''
     )
   })
 
@@ -94,7 +94,7 @@ describe('HelpButton', () => {
       )
       expect(
         document.querySelector('.dnb-button').textContent.trim()
-      ).toBe('‌button text')
+      ).toBe('button text')
     })
 
     it('should have aria-label if title is given, but no text', () => {
@@ -104,7 +104,7 @@ describe('HelpButton', () => {
       ).toBe('button title')
       expect(
         document.querySelector('.dnb-button').textContent.trim()
-      ).toBe('‌')
+      ).toBe('')
     })
 
     it('should use given aria-label if title is given, but no text', () => {
@@ -121,7 +121,7 @@ describe('HelpButton', () => {
       ).toBe('custom aria-label')
       expect(
         document.querySelector('.dnb-button').textContent.trim()
-      ).toBe('‌')
+      ).toBe('')
     })
 
     it('should validate with ARIA rules', async () => {

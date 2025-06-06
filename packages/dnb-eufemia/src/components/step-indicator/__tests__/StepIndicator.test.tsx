@@ -393,7 +393,7 @@ describe('StepIndicator in loose mode', () => {
     )
     expect(
       document.querySelector('.dnb-step-indicator__trigger').textContent
-    ).toContain('StegoversiktSteg 2 av 4:‌Step B')
+    ).toContain('StegoversiktSteg 2 av 4:Step B')
   })
 
   it('has correct states on steps', () => {

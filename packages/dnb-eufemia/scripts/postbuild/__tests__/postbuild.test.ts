@@ -3,7 +3,7 @@
  * Test for the post-build stage
  *
  * NB: check if important files do exists,
- * you may else run "yarn build:ci" in order to build all files.
+ * you may else run "yarn workspace @dnb/eufemia build:ci" in order to build all files.
  *
  */
 
