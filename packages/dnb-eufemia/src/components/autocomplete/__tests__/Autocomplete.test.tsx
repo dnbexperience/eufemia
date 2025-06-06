@@ -3404,6 +3404,18 @@ describe('Autocomplete component', () => {
     expect(input.value).toBe('second value')
   })
 
+  it('should clear/reset input value when prop changes to empty string', () => {
+    const { rerender } = render(<Autocomplete input_value="first value" />)
+
+    const input = document.querySelector('input')
+
+    expect(input.value).toBe('first value')
+
+    rerender(<Autocomplete input_value="" />)
+
+    expect(input.value).toBe('')
+  })
+
   it('should show the whole list when clicking the input after item selection', async () => {
     render(<Autocomplete data={mockData} />)
 
