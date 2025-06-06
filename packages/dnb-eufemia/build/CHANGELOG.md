@@ -3,6 +3,21 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.75.3](https://github.com/dnbexperience/eufemia/compare/v10.75.2...v10.75.3) (2025-06-06)
+
+
+### :bug: Bug Fixes
+
+* **Accordion:** allow for text selection in Firefox ([#5225](https://github.com/dnbexperience/eufemia/issues/5225)) ([033f51e](https://github.com/dnbexperience/eufemia/commit/033f51e415cc6caa7010aef1918598181fbc2042))
+* **Accordion:** fix Accordion toggle behavior when not used inside an `Accordion.Group` ([#5224](https://github.com/dnbexperience/eufemia/issues/5224)) ([25056b5](https://github.com/dnbexperience/eufemia/commit/25056b58253ef72d7c369ee5910e76f765c76e24))
+* **Autocomplete:** empty string `input_value` should clear the input value ([#5237](https://github.com/dnbexperience/eufemia/issues/5237)) ([144af33](https://github.com/dnbexperience/eufemia/commit/144af3365a7b3b06f20e0a2fb2293ac5e7bdcb84))
+* **Button, Input:** update alignment helper to use a more widely supported zero-width character ([#5223](https://github.com/dnbexperience/eufemia/issues/5223)) ([2b1dba0](https://github.com/dnbexperience/eufemia/commit/2b1dba0b23cf3f5da41dff8759e4d6b30606860f))
+* **Field.Date:** required validation with date ranges ([#5231](https://github.com/dnbexperience/eufemia/issues/5231)) ([a8e854a](https://github.com/dnbexperience/eufemia/commit/a8e854af33e1dc29b586a3bb144b98fa4cc324d6))
+* **Field.Indeterminate:** set `aria-controls` ([#5226](https://github.com/dnbexperience/eufemia/issues/5226)) ([e9c0ffb](https://github.com/dnbexperience/eufemia/commit/e9c0ffb27a18ff319e54caf2b1051745f6066c67))
+* **Field.Selection & Field.ArraySelection:** remove error border when info or warning message text ([#5232](https://github.com/dnbexperience/eufemia/issues/5232)) ([8e59d01](https://github.com/dnbexperience/eufemia/commit/8e59d018a44d02225f93feb61c508593d040c136))
+* **PaymentCard:** export `formatCardNumber` from PaymentCard ([#5227](https://github.com/dnbexperience/eufemia/issues/5227)) ([04b0491](https://github.com/dnbexperience/eufemia/commit/04b049128a97f382f01015fc86f886fe731f6188)), closes [/github.com/dnbexperience/eufemia/pull/5085/files#diff-cd973396bf87032377f68be76ef20ff81ea8a3c68086b9de38bb4f490f49b820L191](https://github.com/dnbexperience//github.com/dnbexperience/eufemia/pull/5085/files/issues/diff-cd973396bf87032377f68be76ef20ff81ea8a3c68086b9de38bb4f490f49b820L191)
+* **useMedia:** fix re-render and wrong initial value issue ([#5213](https://github.com/dnbexperience/eufemia/issues/5213)) ([61099b9](https://github.com/dnbexperience/eufemia/commit/61099b940e0201c8698ce5902bba5536901bf47e))
+
 ## [10.75.2](https://github.com/dnbexperience/eufemia/compare/v10.75.1...v10.75.2) (2025-05-28)
 
 
