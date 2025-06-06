@@ -121,6 +121,7 @@ export default {
       label: 'Gatuadress',
       errorRequired: 'Du måste fylla i en gatuadress.',
       errorPattern: 'Ogiltig gatuadress. Ange en gatuadress.',
+      suggestionPlaceholder: 'Ange en adress',
     },
     Date: {
       label: 'Datum',
