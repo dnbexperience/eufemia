@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkdnb_design_system_portal=self.webpackChunkdnb_design_system_portal||[]).push([[69853],{61371:function(n,s,e){e.r(s);var t=e(31085),r=e(71184),c=e(75600);function i(n){return(0,t.jsx)(c.Bn,{})}s.default=function(n){void 0===n&&(n={});const{wrapper:s}=Object.assign({},(0,r.R)(),n.components);return s?(0,t.jsx)(s,Object.assign({},n,{children:(0,t.jsx)(i,n)})):i()}}}]);
+//# sourceMappingURL=component---src-docs-uilib-components-progress-indicator-visual-tests-mdx-36c5ec3c1785d519dc7e.js.map

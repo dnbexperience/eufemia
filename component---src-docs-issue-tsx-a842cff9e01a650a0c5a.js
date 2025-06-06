@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkdnb_design_system_portal=self.webpackChunkdnb_design_system_portal||[]).push([[78445],{93085:function(e,n,t){function s(){return"undefined"!=typeof location&&(location.href="https://codesandbox.io/s/eufemia-starter-0gcwo"),"Redirecting ..."}t.r(n),t.d(n,{default:function(){return s}})}}]);
+//# sourceMappingURL=component---src-docs-issue-tsx-a842cff9e01a650a0c5a.js.map
