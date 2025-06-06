@@ -21,29 +21,29 @@ export async function makeReleaseVersion() {
   }
 
   let version = null
+  let sha = null
 
   if (releaseBranches.includes(branchName)) {
     version = await getNextReleaseVersion()
   }
 
-  if (!version) {
-    if (isCI) {
-      version = branchName
-    } else {
-      version = '__VERSION__'
-    }
+  if (!version && isCI) {
+    version = branchName
   }
 
-  const sha = execSync('git rev-parse --short HEAD')?.toString().trim()
+  if (isCI) {
+    sha = execSync('git rev-parse --short HEAD')?.toString().trim()
+  }
+
   const replace = (content: string) => {
     return content
-      .replace(/__SHA__/g, sha)
-      .replace(/__VERSION__/g, version)
+      .replace(/__SHA__/g, sha || '__SHA__')
+      .replace(/__VERSION__/g, version || '__VERSION__')
   }
 
   // JS – for handling Eufemia.version
   {
-    const file = require.resolve('@dnb/eufemia/src/shared/BuildInfo.cjs')
+    const file = require.resolve('@dnb/eufemia/src/shared/BuildInfo.js')
     const fileContent = await fs.readFile(file, 'utf-8')
 
     // Update the extracted version of package.json with the build version
