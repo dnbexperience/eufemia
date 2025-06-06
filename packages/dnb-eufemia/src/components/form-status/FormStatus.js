@@ -524,7 +524,7 @@ export const InfoIcon = (props) => {
   const { title = 'info' } = props || {}
   const isSbankenTheme = useTheme()?.name === 'sbanken'
   let fill = isSbankenTheme
-    ? properties.sbanken['--sb-color-violet-light']
+    ? properties.sbanken['--sb-color-green-dark-2']
     : properties.ui['--color-sea-green']
   if (props && props?.state === 'success') {
     fill = isSbankenTheme
