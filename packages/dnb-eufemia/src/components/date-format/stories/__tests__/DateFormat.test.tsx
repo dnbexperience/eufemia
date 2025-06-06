@@ -27,44 +27,44 @@ describe('DateFormat', () => {
   it('should return an invalid date message if the date is invalid', () => {
     const { rerender } = render(<DateFormat>2025-13-01</DateFormat>)
 
-    const dateFormat = document.querySelector('.dnb-date-format')
+    const dateFormat = () => document.querySelector('.dnb-date-format')
 
-    expect(dateFormat).toHaveTextContent('Ugyldig dato')
+    expect(dateFormat()).toHaveTextContent('Ugyldig dato: 2025-13-01')
 
     // Test children prop
-    rerender(<DateFormat>2025-08</DateFormat>)
-    expect(dateFormat).toHaveTextContent('Ugyldig dato')
+    rerender(<DateFormat>2025-17</DateFormat>)
+    expect(dateFormat()).toHaveTextContent('Ugyldig dato: 2025-17')
 
     rerender(<DateFormat>not a date</DateFormat>)
-    expect(dateFormat).toHaveTextContent('Ugyldig dato')
+    expect(dateFormat()).toHaveTextContent('Ugyldig dato: not a date')
 
     rerender(<DateFormat>{null}</DateFormat>)
-    expect(dateFormat).toHaveTextContent('Ugyldig dato')
+    expect(dateFormat()).toHaveTextContent('Ugyldig dato: null')
 
     rerender(<DateFormat>{undefined}</DateFormat>)
-    expect(dateFormat).toHaveTextContent('Ugyldig dato')
+    expect(dateFormat()).toHaveTextContent('Ugyldig dato: undefined')
 
     rerender(<DateFormat />)
-    expect(dateFormat).toHaveTextContent('Ugyldig dato')
+    expect(dateFormat()).toHaveTextContent('Ugyldig dato: undefined')
 
     // Test value prop
     rerender(<DateFormat value="2025-13-01" />)
-    expect(dateFormat).toHaveTextContent('Ugyldig dato')
+    expect(dateFormat()).toHaveTextContent('Ugyldig dato: 2025-13-01')
 
-    rerender(<DateFormat value="2025-08" />)
-    expect(dateFormat).toHaveTextContent('Ugyldig dato')
+    rerender(<DateFormat value="2025-17" />)
+    expect(dateFormat()).toHaveTextContent('Ugyldig dato: 2025-17')
 
     rerender(<DateFormat value="not a date" />)
-    expect(dateFormat).toHaveTextContent('Ugyldig dato')
+    expect(dateFormat()).toHaveTextContent('Ugyldig dato: not a date')
 
     rerender(<DateFormat value={undefined} />)
-    expect(dateFormat).toHaveTextContent('Ugyldig dato')
+    expect(dateFormat()).toHaveTextContent('Ugyldig dato: undefined')
 
     rerender(<DateFormat value={null} />)
-    expect(dateFormat).toHaveTextContent('Ugyldig dato')
+    expect(dateFormat()).toHaveTextContent('Ugyldig dato: null')
 
     rerender(<DateFormat value={new Date('2026-12-99')} />)
-    expect(dateFormat).toHaveTextContent('Ugyldig dato')
+    expect(dateFormat()).toHaveTextContent('Ugyldig dato: Invalid Date')
   })
 
   it('should have `value` prop take precedence over `children`', () => {

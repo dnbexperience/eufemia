@@ -18,7 +18,7 @@ export default {
       backToText: 'Back to...',
     },
     DateFormat: {
-      invalidDate: 'Invalid date',
+      invalidDate: 'Invalid date: {value}',
     },
     DatePicker: {
       day: 'Day',

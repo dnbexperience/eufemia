@@ -45,3 +45,29 @@ export function DateFormatExamples() {
     </Provider>
   )
 }
+
+export function DateFormatInvalidValues() {
+  return (
+    <Card stack>
+      <DateFormat dateStyle="full" value={null}>
+        {''}
+      </DateFormat>
+      <DateFormat dateStyle="long" value={''}>
+        {null}
+      </DateFormat>
+      <DateFormat dateStyle="medium">{''}</DateFormat>
+      <DateFormat dateStyle="short">2025-0</DateFormat>
+      <DateFormat dateStyle="short" value={undefined}>
+        {undefined}
+      </DateFormat>
+      <DateFormat dateStyle="short" />
+      <DateFormat dateStyle="short" value={new Date('2025-16')}>
+        {null}
+      </DateFormat>
+      <DateFormat dateStyle="short">{null}</DateFormat>
+      <DateFormat dateStyle="short" value={undefined}>
+        {null}
+      </DateFormat>
+    </Card>
+  )
+}

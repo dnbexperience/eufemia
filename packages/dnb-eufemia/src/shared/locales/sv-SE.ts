@@ -18,7 +18,7 @@ export default {
       backToText: 'Tillbaka till...',
     },
     DateFormat: {
-      invalidDate: 'Ogiltigt datum',
+      invalidDate: 'Ogiltigt datum: {value}',
     },
     DatePicker: {
       day: 'dag',

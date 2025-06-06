@@ -58,7 +58,14 @@ function DateFormat(props: DateFormatProps) {
   skeletonDOMAttributes(attributes, skeleton, context)
 
   if (!date) {
-    return <span className="dnb-date-format">{invalidDate}</span>
+    return (
+      <span className="dnb-date-format">
+        {invalidDate.replace(
+          '{value}',
+          getInvalidValue({ value, children })
+        )}
+      </span>
+    )
   }
 
   return (
@@ -92,6 +99,21 @@ function getDate({
   }
 
   return convertStringToDate(convertJsxToString(children))
+}
+
+function getInvalidValue({
+  value,
+  children,
+}: Pick<DateFormatProps, 'value' | 'children'>) {
+  if (value instanceof Date) {
+    return value.toString()
+  }
+
+  if (children !== undefined && value === undefined) {
+    return String(children)
+  }
+
+  return value
 }
 
 export default DateFormat
