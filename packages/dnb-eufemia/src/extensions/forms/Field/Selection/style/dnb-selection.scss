@@ -55,7 +55,6 @@
       .dnb-radio__input {
         appearance: none;
         transform: none;
-        z-index: 1;
 
         left: calc(var(--list-padding) * -1);
         width: 100vw;
@@ -63,7 +62,6 @@
       }
 
       .dnb-form-label {
-        z-index: 2;
         padding-left: var(--list-padding);
       }
 
