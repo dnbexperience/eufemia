@@ -16,6 +16,7 @@ export type Props = Pick<
   | 'info'
   | 'children'
   | 'help'
+  | 'className'
 >
 
 function CompositionField(props: Props) {
