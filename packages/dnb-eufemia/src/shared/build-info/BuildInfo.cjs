@@ -4,11 +4,11 @@
 
 const getInfo = () => {
   try {
-    delete require.cache[require.resolve('./BuildInfo.js')]
+    delete require.cache[require.resolve('./BuildInfoData.cjs')]
   } catch (error) {
     //
   }
-  return require('./BuildInfo.js')
+  return require('./BuildInfoData.cjs')
 }
 
 const getVersion = () => {

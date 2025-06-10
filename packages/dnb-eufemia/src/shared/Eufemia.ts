@@ -1,4 +1,4 @@
-import { getVersion, getSha } from './BuildInfo.cjs'
+import { getVersion, getSha } from './build-info/BuildInfo'
 
 export const version = getVersion()
 export const sha = getSha()

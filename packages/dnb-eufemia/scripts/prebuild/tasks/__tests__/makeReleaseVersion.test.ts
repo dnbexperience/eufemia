@@ -79,7 +79,7 @@ describe('makeReleaseVersion', () => {
 
     await makeReleaseVersion()
 
-    expect(fs.writeFile).toHaveBeenCalledTimes(2)
+    expect(fs.writeFile).toHaveBeenCalledTimes(3)
   })
 
   it('should run on any branch', async () => {
@@ -92,18 +92,25 @@ describe('makeReleaseVersion', () => {
 
     await makeReleaseVersion()
 
-    expect(fs.writeFile).toHaveBeenCalledTimes(2)
+    expect(fs.writeFile).toHaveBeenCalledTimes(3)
 
     // JS
     expect(fs.writeFile).toHaveBeenNthCalledWith(
       1,
-      expect.stringContaining('src/shared/BuildInfo.js'),
+      expect.stringContaining('src/shared/build-info/BuildInfoData.js'),
+      expect.stringContaining(`some-branch`)
+    )
+
+    // CJS
+    expect(fs.writeFile).toHaveBeenNthCalledWith(
+      2,
+      expect.stringContaining('src/shared/build-info/BuildInfoData.cjs'),
       expect.stringContaining(`some-branch`)
     )
 
     // CSS
     expect(fs.writeFile).toHaveBeenNthCalledWith(
-      2,
+      3,
       expect.stringContaining('src/style/core/scopes.scss'),
       expect.stringContaining(`--eufemia-version: 'some-branch';`)
     )
@@ -119,18 +126,35 @@ describe('makeReleaseVersion', () => {
 
     await makeReleaseVersion()
 
-    expect(fs.writeFile).toHaveBeenCalledTimes(2)
+    expect(fs.writeFile).toHaveBeenCalledTimes(3)
 
     // JS
     expect(fs.writeFile).toHaveBeenNthCalledWith(
       1,
-      expect.stringContaining('src/shared/BuildInfo.js'),
+      expect.stringContaining('src/shared/build-info/BuildInfoData.js'),
       expect.stringContaining(`123456789`)
+    )
+    expect(fs.writeFile).toHaveBeenNthCalledWith(
+      1,
+      expect.stringContaining('src/shared/build-info/BuildInfoData.js'),
+      expect.stringContaining(`export const version = '123456789'`)
+    )
+
+    // CJS
+    expect(fs.writeFile).toHaveBeenNthCalledWith(
+      2,
+      expect.stringContaining('src/shared/build-info/BuildInfoData.cjs'),
+      expect.stringContaining(`123456789`)
+    )
+    expect(fs.writeFile).toHaveBeenNthCalledWith(
+      2,
+      expect.stringContaining('src/shared/build-info/BuildInfoData.cjs'),
+      expect.stringContaining(`exports.version = '123456789'`)
     )
 
     // CSS
     expect(fs.writeFile).toHaveBeenNthCalledWith(
-      2,
+      3,
       expect.stringContaining('src/style/core/scopes.scss'),
       expect.stringContaining(`--eufemia-version: '123456789';`)
     )
@@ -146,18 +170,25 @@ describe('makeReleaseVersion', () => {
 
     await makeReleaseVersion()
 
-    expect(fs.writeFile).toHaveBeenCalledTimes(2)
+    expect(fs.writeFile).toHaveBeenCalledTimes(3)
 
     // JS
     expect(fs.writeFile).toHaveBeenNthCalledWith(
       1,
-      expect.stringContaining('src/shared/BuildInfo.js'),
+      expect.stringContaining('src/shared/build-info/BuildInfoData.js'),
+      expect.stringContaining(`release`)
+    )
+
+    // CJS
+    expect(fs.writeFile).toHaveBeenNthCalledWith(
+      2,
+      expect.stringContaining('src/shared/build-info/BuildInfoData.cjs'),
       expect.stringContaining(`release`)
     )
 
     // CSS
     expect(fs.writeFile).toHaveBeenNthCalledWith(
-      2,
+      3,
       expect.stringContaining('src/style/core/scopes.scss'),
       expect.stringContaining(`--eufemia-version: 'release';`)
     )
@@ -173,18 +204,35 @@ describe('makeReleaseVersion', () => {
 
     await makeReleaseVersion()
 
-    expect(fs.writeFile).toHaveBeenCalledTimes(2)
+    expect(fs.writeFile).toHaveBeenCalledTimes(3)
 
     // JS
     expect(fs.writeFile).toHaveBeenNthCalledWith(
       1,
-      expect.stringContaining('src/shared/BuildInfo.js'),
+      expect.stringContaining('src/shared/build-info/BuildInfoData.js'),
       expect.stringContaining(`test-sha`)
+    )
+    expect(fs.writeFile).toHaveBeenNthCalledWith(
+      1,
+      expect.stringContaining('src/shared/build-info/BuildInfoData.js'),
+      expect.stringContaining(`export const sha = 'test-sha'`)
+    )
+
+    // CJS
+    expect(fs.writeFile).toHaveBeenNthCalledWith(
+      2,
+      expect.stringContaining('src/shared/build-info/BuildInfoData.cjs'),
+      expect.stringContaining(`test-sha`)
+    )
+    expect(fs.writeFile).toHaveBeenNthCalledWith(
+      2,
+      expect.stringContaining('src/shared/build-info/BuildInfoData.cjs'),
+      expect.stringContaining(`exports.sha = 'test-sha'`)
     )
 
     // CSS
     expect(fs.writeFile).toHaveBeenNthCalledWith(
-      2,
+      3,
       expect.stringContaining('src/style/core/scopes.scss'),
       expect.not.stringContaining(`test-sha`)
     )
