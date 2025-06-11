@@ -1,4 +1,4 @@
-import * as BuildInfo from '../BuildInfo.cjs'
+import * as BuildInfo from '../BuildInfo'
 
 describe('BuildInfo', () => {
   describe('version and sha', () => {
