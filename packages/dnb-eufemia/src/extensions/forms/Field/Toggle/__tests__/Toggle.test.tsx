@@ -1,6 +1,6 @@
 import React from 'react'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
-import { fireEvent, render, screen } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import DataContext from '../../../DataContext/Context'
 import { Props } from '../Toggle'
 import { Field, FieldBlock, Form, Iterate } from '../../..'
@@ -39,6 +39,354 @@ describe('Field.Toggle', () => {
   })
 
   describe('variants', () => {
+    describe('switch', () => {
+      it('should support size', () => {
+        render(
+          <Field.Toggle
+            valueOn="on"
+            valueOff="off"
+            variant="switch"
+            label="Boolean label"
+            size="large"
+          />
+        )
+
+        const fieldToggleElement: HTMLInputElement =
+          document.querySelector('.dnb-forms-field-toggle')
+        expect(fieldToggleElement.classList).toContain(
+          'dnb-forms-field-block--label-height-large'
+        )
+
+        const switchElement: HTMLInputElement =
+          document.querySelector('.dnb-switch')
+        expect(switchElement.classList).toContain('dnb-switch--large')
+      })
+
+      it('renders label', () => {
+        render(
+          <Field.Toggle
+            valueOn="on"
+            valueOff="off"
+            variant="switch"
+            label="Boolean label"
+          />
+        )
+        expect(screen.getByLabelText('Boolean label')).toBeInTheDocument()
+      })
+
+      it('label should render only once', () => {
+        render(
+          <Field.Toggle
+            valueOn="on"
+            valueOff="off"
+            variant="switch"
+            label="Boolean label"
+          />
+        )
+        expect(screen.queryAllByLabelText('Boolean label')).toHaveLength(1)
+        expect(screen.queryByText('Ja')).not.toBeInTheDocument()
+        expect(screen.queryByText('Nei')).not.toBeInTheDocument()
+      })
+
+      it('renders help', () => {
+        render(
+          <Field.Toggle
+            valueOn="on"
+            valueOff="off"
+            variant="switch"
+            help={{ title: 'Help title', content: 'Help content' }}
+          />
+        )
+        expect(document.querySelectorAll('.dnb-help-button')).toHaveLength(
+          1
+        )
+        expect(document.querySelector('input')).toHaveAttribute(
+          'aria-describedby'
+        )
+        expect(
+          document.querySelector('input').getAttribute('aria-describedby')
+        ).toBe(document.querySelector('.dnb-help-button').id)
+        expect(
+          document
+            .querySelector('.dnb-help-button')
+            .getAttribute('aria-describedby')
+        ).toBe(document.querySelector('.dnb-tooltip__content').id)
+      })
+
+      it('renders error', () => {
+        render(
+          <Field.Toggle
+            valueOn="on"
+            valueOff="off"
+            variant="switch"
+            error={new Error('This is what went wrong')}
+          />
+        )
+        expect(
+          screen.getByText('This is what went wrong')
+        ).toBeInTheDocument()
+      })
+
+      it('shows error border', () => {
+        render(
+          <Field.Toggle
+            valueOn="on"
+            valueOff="off"
+            variant="switch"
+            error={new Error('This is what went wrong')}
+          />
+        )
+        const element = document.querySelector('.dnb-switch')
+        expect(element.className).toContain('dnb-switch__status--error')
+      })
+
+      it('should toggle when clicking', async () => {
+        const onChange = jest.fn()
+        render(
+          <Field.Toggle
+            valueOn="on"
+            valueOff="off"
+            variant="switch"
+            value={false}
+            onChange={onChange}
+          />
+        )
+        const input = screen.getByRole('switch')
+        await userEvent.click(input)
+        await userEvent.click(input)
+        await userEvent.click(input)
+        await waitFor(() => {
+          expect(onChange.mock.calls).toHaveLength(3)
+          expect(onChange.mock.calls[0][0]).toEqual(true)
+          expect(onChange.mock.calls[1][0]).toEqual(false)
+          expect(onChange.mock.calls[2][0]).toEqual(true)
+        })
+      })
+
+      it('should show error when no value is given', () => {
+        render(
+          <Field.Toggle
+            valueOn="on"
+            valueOff="off"
+            variant="switch"
+            required
+            validateInitially
+          />
+        )
+        expect(screen.getByRole('alert')).toBeInTheDocument()
+      })
+
+      it('should not show error when a true-value is given', () => {
+        render(
+          <Field.Toggle
+            valueOn="on"
+            valueOff="off"
+            variant="switch"
+            value={true}
+            validateInitially
+            required
+          />
+        )
+        expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+      })
+
+      it('should not show error when a false-value is given', () => {
+        render(
+          <Field.Toggle
+            valueOn="on"
+            valueOff="off"
+            variant="switch"
+            value={false}
+            validateInitially
+            required
+          />
+        )
+        expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+      })
+
+      it('should store "displayValue" in data context', async () => {
+        let dataContext = null
+
+        render(
+          <Form.Handler>
+            <Field.Toggle
+              valueOn="on"
+              valueOff="off"
+              path="/mySelection"
+              variant="switch"
+              defaultValue
+            />
+            <DataContext.Consumer>
+              {(context) => {
+                dataContext = context
+                return null
+              }}
+            </DataContext.Consumer>
+          </Form.Handler>
+        )
+
+        expect(dataContext.fieldDisplayValueRef.current).toEqual({
+          '/mySelection': {
+            type: 'field',
+            value: 'Ja',
+          },
+        })
+
+        await userEvent.tab()
+        await userEvent.keyboard('{Enter}')
+
+        expect(dataContext.fieldDisplayValueRef.current).toEqual({
+          '/mySelection': {
+            type: 'field',
+            value: 'Nei',
+          },
+        })
+      })
+
+      it('should store "displayValue" when inside iterate', async () => {
+        let dataContext = null
+
+        render(
+          <Form.Handler
+            defaultData={{
+              myArray: [{ mySelection: true }, { mySelection: true }],
+            }}
+          >
+            <Iterate.Array path="/myArray">
+              <Field.Toggle
+                valueOn="on"
+                valueOff="off"
+                itemPath="/mySelection"
+                variant="switch"
+                defaultValue
+              />
+            </Iterate.Array>
+
+            <DataContext.Consumer>
+              {(context) => {
+                dataContext = context
+                return null
+              }}
+            </DataContext.Consumer>
+          </Form.Handler>
+        )
+
+        expect(dataContext.fieldDisplayValueRef.current).toEqual({
+          '/myArray/0/mySelection': {
+            type: 'field',
+            value: 'Ja',
+          },
+          '/myArray/1/mySelection': {
+            type: 'field',
+            value: 'Ja',
+          },
+        })
+
+        await userEvent.tab()
+        await userEvent.keyboard('{Enter}')
+
+        expect(dataContext.fieldDisplayValueRef.current).toEqual({
+          '/myArray/0/mySelection': {
+            type: 'field',
+            value: 'Nei',
+          },
+          '/myArray/1/mySelection': {
+            type: 'field',
+            value: 'Ja',
+          },
+        })
+      })
+
+      it('should not change the state when calling preventDefault on the onClick event', async () => {
+        const onClick = jest.fn((value, { preventDefault }) => {
+          preventDefault()
+        })
+
+        render(
+          <Field.Toggle
+            valueOn="on"
+            valueOff="off"
+            label="Label {itemNo}"
+            variant="switch"
+            onClick={onClick}
+          />
+        )
+
+        const switchElem = document.querySelector('input')
+        expect(switchElem.checked).toBe(false)
+
+        await userEvent.click(switchElem)
+
+        expect(switchElem.checked).toBe(false)
+        expect(onClick).toHaveBeenCalledTimes(1)
+        expect(onClick).toHaveBeenLastCalledWith(
+          false,
+          expect.objectContaining({
+            checked: false,
+          })
+        )
+
+        await userEvent.click(switchElem)
+
+        expect(switchElem.checked).toBe(false)
+        expect(onClick).toHaveBeenCalledTimes(2)
+        expect(onClick).toHaveBeenLastCalledWith(
+          false,
+          expect.objectContaining({
+            checked: false,
+          })
+        )
+      })
+
+      describe('ARIA', () => {
+        it('should validate with ARIA rules', async () => {
+          const result = render(
+            <Field.Toggle
+              valueOn="on"
+              valueOff="off"
+              label="Label"
+              variant="switch"
+              validateInitially
+              required
+            />
+          )
+
+          expect(await axeComponent(result)).toHaveNoViolations()
+        })
+
+        it('should have aria-required', () => {
+          render(
+            <Field.Toggle
+              valueOn="on"
+              valueOff="off"
+              label="Label"
+              variant="switch"
+              required
+            />
+          )
+
+          const input = document.querySelector('input')
+          expect(input).toHaveAttribute('aria-required', 'true')
+        })
+
+        it('should have aria-invalid', () => {
+          render(
+            <Field.Toggle
+              valueOn="on"
+              valueOff="off"
+              label="Label"
+              variant="switch"
+              validateInitially
+              required
+            />
+          )
+
+          const input = document.querySelector('input')
+          expect(input).toHaveAttribute('aria-invalid', 'true')
+        })
+      })
+    })
+
     describe('button', () => {
       it('should support size', () => {
         render(
