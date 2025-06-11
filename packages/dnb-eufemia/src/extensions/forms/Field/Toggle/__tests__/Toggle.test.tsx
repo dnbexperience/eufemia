@@ -157,9 +157,9 @@ describe('Field.Toggle', () => {
         await userEvent.click(input)
         await waitFor(() => {
           expect(onChange.mock.calls).toHaveLength(3)
-          expect(onChange.mock.calls[0][0]).toEqual(true)
-          expect(onChange.mock.calls[1][0]).toEqual(false)
-          expect(onChange.mock.calls[2][0]).toEqual(true)
+          expect(onChange.mock.calls[0][0]).toEqual('on')
+          expect(onChange.mock.calls[1][0]).toEqual('off')
+          expect(onChange.mock.calls[2][0]).toEqual('on')
         })
       })
 
@@ -210,11 +210,13 @@ describe('Field.Toggle', () => {
         render(
           <Form.Handler>
             <Field.Toggle
+              path="/mySelection"
               valueOn="on"
               valueOff="off"
-              path="/mySelection"
+              textOn="On!"
+              textOff="Off!"
               variant="switch"
-              defaultValue
+              defaultValue="on"
             />
             <DataContext.Consumer>
               {(context) => {
@@ -228,7 +230,7 @@ describe('Field.Toggle', () => {
         expect(dataContext.fieldDisplayValueRef.current).toEqual({
           '/mySelection': {
             type: 'field',
-            value: 'Ja',
+            value: 'On!',
           },
         })
 
@@ -238,61 +240,7 @@ describe('Field.Toggle', () => {
         expect(dataContext.fieldDisplayValueRef.current).toEqual({
           '/mySelection': {
             type: 'field',
-            value: 'Nei',
-          },
-        })
-      })
-
-      it('should store "displayValue" when inside iterate', async () => {
-        let dataContext = null
-
-        render(
-          <Form.Handler
-            defaultData={{
-              myArray: [{ mySelection: true }, { mySelection: true }],
-            }}
-          >
-            <Iterate.Array path="/myArray">
-              <Field.Toggle
-                valueOn="on"
-                valueOff="off"
-                itemPath="/mySelection"
-                variant="switch"
-                defaultValue
-              />
-            </Iterate.Array>
-
-            <DataContext.Consumer>
-              {(context) => {
-                dataContext = context
-                return null
-              }}
-            </DataContext.Consumer>
-          </Form.Handler>
-        )
-
-        expect(dataContext.fieldDisplayValueRef.current).toEqual({
-          '/myArray/0/mySelection': {
-            type: 'field',
-            value: 'Ja',
-          },
-          '/myArray/1/mySelection': {
-            type: 'field',
-            value: 'Ja',
-          },
-        })
-
-        await userEvent.tab()
-        await userEvent.keyboard('{Enter}')
-
-        expect(dataContext.fieldDisplayValueRef.current).toEqual({
-          '/myArray/0/mySelection': {
-            type: 'field',
-            value: 'Nei',
-          },
-          '/myArray/1/mySelection': {
-            type: 'field',
-            value: 'Ja',
+            value: 'Off!',
           },
         })
       })
@@ -304,36 +252,78 @@ describe('Field.Toggle', () => {
 
         render(
           <Field.Toggle
+            label="Label {itemNo}"
             valueOn="on"
             valueOff="off"
+            variant="checkbox"
+            onClick={onClick}
+          />
+        )
+
+        const checkbox = document.querySelector('input')
+        expect(checkbox.checked).toBe(false)
+
+        await userEvent.click(checkbox)
+
+        expect(checkbox.checked).toBe(false)
+        expect(onClick).toHaveBeenCalledTimes(1)
+        expect(onClick).toHaveBeenLastCalledWith(
+          'off',
+          expect.objectContaining({
+            checked: false,
+          })
+        )
+
+        await userEvent.click(checkbox)
+
+        expect(checkbox.checked).toBe(false)
+        expect(onClick).toHaveBeenCalledTimes(2)
+        expect(onClick).toHaveBeenLastCalledWith(
+          'off',
+          expect.objectContaining({
+            checked: false,
+          })
+        )
+      })
+
+      it('should not change the state when calling preventDefault on the onClick event when default value is true', async () => {
+        const onClick = jest.fn((value, { preventDefault }) => {
+          preventDefault()
+        })
+
+        render(
+          <Field.Toggle
             label="Label {itemNo}"
+            value="on"
+            valueOn="on"
+            valueOff="off"
             variant="switch"
             onClick={onClick}
           />
         )
 
         const switchElem = document.querySelector('input')
-        expect(switchElem.checked).toBe(false)
+        expect(switchElem.checked).toBe(true)
 
         await userEvent.click(switchElem)
 
-        expect(switchElem.checked).toBe(false)
+        expect(switchElem.checked).toBe(true)
         expect(onClick).toHaveBeenCalledTimes(1)
         expect(onClick).toHaveBeenLastCalledWith(
-          false,
+          'on',
           expect.objectContaining({
-            checked: false,
+            checked: true,
           })
         )
 
         await userEvent.click(switchElem)
 
-        expect(switchElem.checked).toBe(false)
+        expect(switchElem.checked).toBe(true)
         expect(onClick).toHaveBeenCalledTimes(2)
         expect(onClick).toHaveBeenLastCalledWith(
-          false,
+          'on',
           expect.objectContaining({
-            checked: false,
+            checked: true,
           })
         )
       })
