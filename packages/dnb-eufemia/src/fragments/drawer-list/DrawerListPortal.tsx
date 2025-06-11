@@ -12,15 +12,15 @@ import React, {
   useRef,
   useState,
 } from 'react'
-import ReactDOM from 'react-dom'
 import classnames from 'classnames'
 import {
   warn,
   getClosestScrollViewElement,
 } from '../../shared/component-helper'
+import { PortalRoot } from '../../shared'
 import {
   getStyleScopeRootElement,
-  StyleScopeContext,
+  IsolatedStyleScopeContext,
 } from '../../shared/IsolatedStyleScope'
 
 export type DrawerListPortalProps = {
@@ -48,63 +48,20 @@ function DrawerListPortal({
 }: DrawerListPortalProps) {
   const [isMounted, setIsMounted] = useState(false)
   const [, setForceRerender] = useState<number>()
-  const { scopeHash } = useContext(StyleScopeContext) || {}
+  const { generatedScopeHash } =
+    useContext(IsolatedStyleScopeContext) || {}
 
   const ref: React.LegacyRef<HTMLSpanElement> =
     innerRef || React.createRef()
 
-  const portalElem = useRef<HTMLElement>()
   const setPosition = useRef<() => void>()
   const positionTimeout = useRef<NodeJS.Timeout>()
   const customElem = useRef<Element | Window>()
   const resizeObserver = useRef<ResizeObserver>()
 
-  const createMainElement = useCallback(() => {
-    if (typeof document !== 'undefined') {
-      try {
-        let elem = document.getElementById('dnb-drawer-list__portal')
-        if (elem) {
-          return elem
-        }
-
-        elem = document.createElement('div')
-        elem.setAttribute('role', 'presentation')
-        elem.setAttribute('id', 'dnb-drawer-list__portal')
-        elem.classList.add('dnb-core-style')
-        const root = getStyleScopeRootElement(scopeHash)
-        root.appendChild(elem)
-
-        return elem
-      } catch (e) {
-        warn(e)
-      }
-    }
-  }, [scopeHash])
-
-  const getRootElement = useCallback(() => {
-    if (typeof document !== 'undefined') {
-      try {
-        let elem = document.getElementById(`${id}-portal`)
-        if (elem) {
-          return elem
-        }
-
-        elem = document.createElement('div')
-        elem.setAttribute('id', `${id}-portal`)
-        elem.classList.add('dnb-drawer-list__portal')
-        createMainElement().appendChild(elem)
-
-        return elem
-      } catch (e) {
-        warn(e)
-      }
-    }
-  }, [createMainElement, id])
-
   const init = useCallback(() => {
-    portalElem.current = getRootElement()
     setIsMounted(true)
-  }, [getRootElement])
+  }, [])
 
   useEffect(() => {
     if (document.readyState === 'complete') {
@@ -121,7 +78,6 @@ function DrawerListPortal({
       }
 
       removePositionObserver()
-      portalElem.current = null
     }
   }, [init])
 
@@ -151,7 +107,7 @@ function DrawerListPortal({
             window
               .getComputedStyle(
                 getStyleScopeRootElement(
-                  scopeHash,
+                  generatedScopeHash,
                   document.documentElement
                 )
               )
@@ -213,7 +169,7 @@ function DrawerListPortal({
     independent_width,
     isMounted,
     rootRef,
-    scopeHash,
+    generatedScopeHash,
   ])
 
   const addPositionObserver = () => {
@@ -237,7 +193,7 @@ function DrawerListPortal({
 
     try {
       resizeObserver.current = new ResizeObserver(setPosition.current)
-      const root = getStyleScopeRootElement(scopeHash)
+      const root = getStyleScopeRootElement(generatedScopeHash)
       resizeObserver.current.observe(root)
     } catch (e) {
       window.addEventListener('resize', setPosition.current)
@@ -262,30 +218,29 @@ function DrawerListPortal({
     setPosition.current = null
   }
 
-  if (!portalElem.current) {
-    return null // stop here
-  }
-
   if (typeof window !== 'undefined' && isMounted) {
     if (opened) {
       addPositionObserver()
     }
 
-    const style = opened ? makeStyle() : {}
+    const style = (opened ? makeStyle() : {}) as React.CSSProperties
 
-    return ReactDOM.createPortal(
-      <span
-        className={classnames(
-          'dnb-drawer-list__portal__style',
-          fixed_position && 'dnb-drawer-list__portal__style--fixed',
-          className
-        )}
-        style={style}
-        ref={ref}
-      >
-        {children}
-      </span>,
-      portalElem.current
+    return (
+      <PortalRoot>
+        <span className="dnb-drawer-list__portal" id={id}>
+          <span
+            className={classnames(
+              'dnb-drawer-list__portal__style',
+              fixed_position && 'dnb-drawer-list__portal__style--fixed',
+              className
+            )}
+            style={style}
+            ref={ref}
+          >
+            {children}
+          </span>
+        </span>
+      </PortalRoot>
     )
   }
 

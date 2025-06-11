@@ -1,14 +1,12 @@
 import React, {
   useCallback,
-  useContext,
   useEffect,
   useLayoutEffect,
   useState,
 } from 'react'
-import ReactDOM from 'react-dom'
 import { DatePickerProps } from './DatePicker'
 import { debounce } from '../../shared/helpers'
-import { StyleScopeContext } from '../../shared/IsolatedStyleScope'
+import { PortalRoot } from '../../shared'
 
 type DatePickerPortalProps = React.HTMLProps<HTMLDivElement> & {
   skipPortal?: DatePickerProps['skipPortal']
@@ -23,7 +21,6 @@ export default function DatePickerPortal({
   children,
 }: DatePickerPortalProps) {
   const [position, setPosition] = useState({})
-  const { scopeHash } = useContext(StyleScopeContext) || {}
 
   useLayoutEffect(() => {
     if (targetElementRef.current) {
@@ -57,16 +54,15 @@ export default function DatePickerPortal({
 
   return (
     position &&
-    (!skipPortal
-      ? ReactDOM.createPortal(
-          <div className="dnb-date-picker__portal" style={position}>
-            {children}
-          </div>,
-          scopeHash
-            ? document.querySelector(`.${scopeHash}`)
-            : document.body
-        )
-      : children)
+    (!skipPortal ? (
+      <PortalRoot>
+        <div className="dnb-date-picker__portal" style={position}>
+          {children}
+        </div>
+      </PortalRoot>
+    ) : (
+      children
+    ))
   )
 }
 

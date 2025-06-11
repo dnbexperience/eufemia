@@ -5,6 +5,7 @@
 
 export { default as Context } from './Context'
 export { default as Provider } from './Provider'
+export { default as PortalRoot } from './PortalRoot'
 export { default as IsolatedStyleScope } from './IsolatedStyleScope'
 export { default as Theme } from './Theme'
 export { default as useTheme } from './useTheme'

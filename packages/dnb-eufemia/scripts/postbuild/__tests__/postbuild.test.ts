@@ -347,7 +347,7 @@ describe('rollup build', () => {
               'utf-8'
             )
             expect(content).toContain(`import*as `)
-            expect(content).toContain(` from"react-dom";`)
+            expect(content).toContain(`from"react-dom";`)
             expect(content).toContain(` from"../icons/dnb/primary_icons";`)
           }
         }
