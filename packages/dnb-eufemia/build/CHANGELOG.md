@@ -3,6 +3,15 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.75.4](https://github.com/dnbexperience/eufemia/compare/v10.75.3...v10.75.4) (2025-06-11)
+
+
+### :bug: Bug Fixes
+
+* **DrawerList:** add & export DrawerListSize-type ([#5248](https://github.com/dnbexperience/eufemia/issues/5248)) ([a7f547b](https://github.com/dnbexperience/eufemia/commit/a7f547bd47b12edb9df2dbc6a7101fb4850d26db))
+* **Field.Selection:** hover state in variant `radio-list` ([#5245](https://github.com/dnbexperience/eufemia/issues/5245)) ([0ebcf02](https://github.com/dnbexperience/eufemia/commit/0ebcf02b4687dd2b409069ce899f032b037b63e9))
+* issue with CJS files used in the build (BuildInfo.cjs) ([#5246](https://github.com/dnbexperience/eufemia/issues/5246)) ([a293947](https://github.com/dnbexperience/eufemia/commit/a293947334ebfd9be2ece57a0e8de913660d48be))
+
 ## [10.75.3](https://github.com/dnbexperience/eufemia/compare/v10.75.2...v10.75.3) (2025-06-06)
 
 
