@@ -17,7 +17,6 @@ import {
 import { H2 } from '../../..'
 import { Provider } from '../../../shared'
 import { Form } from '../../../extensions/forms'
-import RadioGroupContext from '../RadioGroupContext'
 
 export default {
   title: 'Eufemia/Components/Radio',
@@ -301,17 +300,6 @@ export const GlobalStatusExample = () => {
         globalStatus={{ id: 'my-id', message: 'my message' }}
         status="Message"
       />
-    </>
-  )
-}
-
-export const Groupi = () => {
-  return (
-    <>
-      <Radio.Group value="on">
-        <Radio label={'yes'} value="on" />
-        <Radio label={'no'} value="off" />
-      </Radio.Group>
     </>
   )
 }
