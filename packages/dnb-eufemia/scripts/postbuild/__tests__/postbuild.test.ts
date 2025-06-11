@@ -95,6 +95,32 @@ describe('type definitions', () => {
 describe('babel build', () => {
   const buildStages = ['/es', '/esm', '/cjs']
 
+  it('should not contain any .cjs or .mjs files', () => {
+    const buildDir = path.resolve(packpath.self(), 'build')
+    const files = fs.readdirSync(buildDir, { recursive: true })
+
+    // List of allowed .cjs or .mjs files
+    const allowedFiles = [
+      'BuildInfo.cjs',
+      'BuildInfoData.cjs',
+      'dnb-ui-lib.min.mjs',
+      'dnb-ui-basis.min.mjs',
+      'dnb-ui-components.min.mjs',
+      'dnb-ui-elements.min.mjs',
+      'dnb-ui-extensions.min.mjs',
+      'dnb-ui-icons.min.mjs',
+    ]
+
+    const invalidExtensions = files.filter(
+      (file) =>
+        typeof file === 'string' &&
+        (file.endsWith('.cjs') || file.endsWith('.mjs')) &&
+        !allowedFiles.some((allowed) => file.endsWith(allowed))
+    )
+
+    expect(invalidExtensions).toHaveLength(0)
+  })
+
   it('imports inside "src" should not contain "/src/"', async () => {
     try {
       const files = await getCommittedFiles(10)

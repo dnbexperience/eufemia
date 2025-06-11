@@ -15,10 +15,8 @@ test.describe('Page Navigation', () => {
         return // stop here
       }
 
-      await expect(page.locator('noscript').first()).toHaveCSS(
-        'display',
-        'block',
-      )
+      const noscript = page.locator('noscript')
+      await expect(noscript).toBeVisible()
     })
 
     test('should not be able to open portal tools', async ({ page }) => {
@@ -27,7 +25,7 @@ test.describe('Page Navigation', () => {
       }
 
       await page.goto('/uilib')
-      await page.click('#portal-tools')
+      await page.click('#portal-tools', { force: true })
       expect(await page.locator('#switch-grid').count()).toBe(0)
     })
 

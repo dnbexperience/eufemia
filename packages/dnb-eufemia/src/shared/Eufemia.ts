@@ -1,7 +1,7 @@
-import * as BuildInfo from './BuildInfo.cjs'
+import { getVersion, getSha } from './build-info/BuildInfo'
 
-export const version = BuildInfo.version
-export const sha = BuildInfo.sha
+export const version = getVersion()
+export const sha = getSha()
 
 declare global {
   interface Window {

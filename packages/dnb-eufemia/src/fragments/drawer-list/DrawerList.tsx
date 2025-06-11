@@ -73,6 +73,12 @@ export type DrawerListDataArrayItem =
 export type DrawerListDataArray = DrawerListDataArrayItem[]
 export type DrawerListDataRecord = Record<string, DrawerListContent>
 export type DrawerListDataAll = DrawerListDataRecord | DrawerListDataArray
+export type DrawerListSize =
+  | 'default'
+  | 'small'
+  | 'medium'
+  | 'large'
+  | number
 
 export type DrawerListOptionsRender = ({
   data,
@@ -114,7 +120,7 @@ export interface DrawerListProps {
    * Defines the direction of how the drawer-list shows the options list. Can be 'bottom' or 'top'. Defaults to 'auto'.
    */
   direction?: 'auto' | 'top' | 'bottom'
-  size?: 'default' | 'small' | 'medium' | 'large' | number
+  size?: DrawerListSize
   /**
    * Defines the minimum height (in `rem`) of the options list.
    */
