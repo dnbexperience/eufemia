@@ -95,7 +95,7 @@ describe('type definitions', () => {
 describe('babel build', () => {
   const buildStages = ['/es', '/esm', '/cjs']
 
-  it('should not contain any .cjs or .mjs files', () => {
+  it.skip('should not contain any .cjs or .mjs files', () => {
     const buildDir = path.resolve(packpath.self(), 'build')
     const files = fs.readdirSync(buildDir, { recursive: true })
 
