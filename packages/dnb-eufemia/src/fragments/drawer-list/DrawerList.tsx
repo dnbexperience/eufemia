@@ -73,7 +73,12 @@ export type DrawerListDataArrayItem =
 export type DrawerListDataArray = DrawerListDataArrayItem[]
 export type DrawerListDataRecord = Record<string, DrawerListContent>
 export type DrawerListDataAll = DrawerListDataRecord | DrawerListDataArray
-export type DrawerListSize = 'default' | 'small' | 'medium' | 'large' | number
+export type DrawerListSize =
+  | 'default'
+  | 'small'
+  | 'medium'
+  | 'large'
+  | number
 
 export type DrawerListOptionsRender = ({
   data,
