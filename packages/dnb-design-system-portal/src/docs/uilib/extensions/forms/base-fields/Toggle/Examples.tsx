@@ -277,3 +277,49 @@ export const VariantButtonsWithoutLabel = () => {
     </ComponentBox>
   )
 }
+
+export const VariantRadio = () => {
+  return (
+    <ComponentBox>
+      <Field.Toggle
+        valueOn="on"
+        valueOff="off"
+        variant="radio"
+        label="Radio variant"
+        value="on"
+        onChange={(value) => console.log('onChange', value)}
+      />
+    </ComponentBox>
+  )
+}
+
+export const VariantRadioWithHelp = () => {
+  return (
+    <ComponentBox data-visual-test="toggle-variant-radio-with-help">
+      <Field.Toggle
+        valueOn="on"
+        valueOff="off"
+        variant="radio"
+        label="Radio variant"
+        help={{ title: 'Help title', content: 'Help content' }}
+        value="on"
+        onChange={(value) => console.log('onChange', value)}
+      />
+    </ComponentBox>
+  )
+}
+
+export const VariantRadioWithoutLabel = () => {
+  return (
+    <ComponentBox data-visual-test="toggle-variant-radio-without-label">
+      Text above the toggle:
+      <Field.Toggle
+        valueOn="on"
+        valueOff="off"
+        variant="radio"
+        value="on"
+        onChange={(value) => console.log('onChange', value)}
+      />
+    </ComponentBox>
+  )
+}
