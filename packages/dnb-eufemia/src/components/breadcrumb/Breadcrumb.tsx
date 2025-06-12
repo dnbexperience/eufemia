@@ -32,6 +32,7 @@ import {
 } from '../../shared/component-helper'
 import { BreadcrumbMultiple } from './BreadcrumbMultiple'
 import { useMedia, useTheme } from '../../shared'
+import { UseMediaResult } from '../../shared/useMedia'
 
 export type BreadcrumbProps = {
   /**
@@ -131,6 +132,10 @@ export type BreadcrumbProps = {
    * Default: false
    */
   noAnimation?: boolean
+  /**
+   * Will be called when the Breadcrumbs collapses.
+   */
+  onCollapse?: () => void
 }
 
 export const defaultProps = {
@@ -175,6 +180,7 @@ const Breadcrumb = (localProps: BreadcrumbProps & SpacingProps) => {
     noAnimation,
     data,
     href,
+    onCollapse,
     ...props
   } = allProps
   const skeletonClasses = createSkeletonClass('font', skeleton, context)
@@ -182,9 +188,12 @@ const Breadcrumb = (localProps: BreadcrumbProps & SpacingProps) => {
 
   const [, forceUpdate] = useReducer(() => ({}), {})
 
-  const isCollapsedRef = useRef(overrideIsCollapsed)
+  const { isLarge, isMedium } = useMedia()
 
-  const { isLarge } = useMedia()
+  const isCollapsedRef = useRef(overrideIsCollapsed)
+  const previousMediaSizeRef = useRef(
+    getInitialMediaSize({ isMedium, isLarge })
+  )
 
   useEffect(() => {
     if (overrideIsCollapsed !== isCollapsedRef.current) {
@@ -195,16 +204,29 @@ const Breadcrumb = (localProps: BreadcrumbProps & SpacingProps) => {
 
   // Auto-collapse breadcrumbs if going from small screen to large screen.
   useEffect(() => {
+    //  Fire onCollapse when breadcrumbs collapse when going from large to medium screen.
+    if (isMedium && previousMediaSizeRef.current !== 'medium') {
+      previousMediaSizeRef.current = 'medium'
+
+      onCollapse?.()
+    }
+
     if (isLarge && overrideIsCollapsed !== false) {
       isCollapsedRef.current = true
+      previousMediaSizeRef.current = 'large'
+
       forceUpdate()
     }
-  }, [isLarge, overrideIsCollapsed])
+  }, [isLarge, isMedium, overrideIsCollapsed, onCollapse])
 
   const onClickHandler = useCallback(() => {
     isCollapsedRef.current = !isCollapsedRef.current
     forceUpdate()
-  }, [])
+
+    if (isCollapsedRef.current) {
+      onCollapse?.()
+    }
+  }, [onCollapse])
 
   const currentVariant = useMemo(() => {
     if (!variant) {
@@ -224,6 +246,7 @@ const Breadcrumb = (localProps: BreadcrumbProps & SpacingProps) => {
 
   const overrideSbankenSectionColor =
     useTheme()?.isSbanken && collapsedStyleType === 'info'
+
   return (
     <nav
       aria-label={convertJsxToString(navText)}
@@ -294,11 +317,27 @@ const Breadcrumb = (localProps: BreadcrumbProps & SpacingProps) => {
             items={items}
             isCollapsed={isCollapsedRef.current}
             noAnimation={noAnimation}
+            onCollapse={onCollapse}
           />
         </Section>
       )}
     </nav>
   )
+}
+
+function getInitialMediaSize({
+  isMedium,
+  isLarge,
+}: Pick<UseMediaResult, 'isMedium' | 'isLarge'>) {
+  if (isMedium) {
+    return 'medium'
+  }
+
+  if (isLarge) {
+    return 'large'
+  }
+
+  return ''
 }
 
 Breadcrumb.Item = BreadcrumbItem

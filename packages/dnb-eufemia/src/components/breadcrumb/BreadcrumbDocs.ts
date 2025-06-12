@@ -84,6 +84,11 @@ export const BreadcrumbEvents: PropertiesTableProps = {
     type: 'function',
     status: 'optional',
   },
+  onCollapse: {
+    doc: 'Will be called when the breadcrumbs collapses.',
+    type: 'function',
+    status: 'optional',
+  },
 }
 
 export const BreadcrumbItemProperties: PropertiesTableProps = {
