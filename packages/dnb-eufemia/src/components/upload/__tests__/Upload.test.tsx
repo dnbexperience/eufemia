@@ -520,7 +520,7 @@ describe('Upload', () => {
     const file1 = createMockFile('fileName-1.png', 100, 'image/png')
 
     expect(
-      document.querySelector('dnb-upload__file-input-button')
+      document.querySelector('.dnb-upload__file-input-button')
     ).toBeInTheDocument()
 
     await waitFor(() =>
@@ -530,7 +530,7 @@ describe('Upload', () => {
     )
 
     expect(
-      document.querySelector('dnb-upload__file-input-button')
+      document.querySelector('.dnb-upload__file-input-button')
     ).not.toBeInTheDocument()
 
     const [firstItem] = Array.from(element.querySelectorAll('li'))
@@ -539,7 +539,44 @@ describe('Upload', () => {
     fireEvent.click(deleteButton)
 
     expect(
-      document.querySelector('dnb-upload__file-input-button')
+      document.querySelector('.dnb-upload__file-input-button')
+    ).toBeInTheDocument()
+  })
+
+  it('will hide upload button when uploaded files is more than filesAmountLimit', async () => {
+    const id = 'filesAmountLimitIsMetWithMultipleFiles'
+
+    renderHook(useUpload, { initialProps: id })
+
+    render(<Upload {...defaultProps} id={id} filesAmountLimit={1} />)
+
+    const getRootElement = () => document.querySelector('.dnb-upload')
+
+    const element = getRootElement()
+    const file1 = createMockFile('fileName-1.png', 100, 'image/png')
+    const file2 = createMockFile('fileName-2.png', 100, 'image/png')
+
+    expect(
+      document.querySelector('.dnb-upload__file-input-button')
+    ).toBeInTheDocument()
+
+    await waitFor(() =>
+      fireEvent.drop(element, {
+        dataTransfer: { files: [file1, file2] },
+      })
+    )
+
+    expect(
+      document.querySelector('.dnb-upload__file-input-button')
+    ).not.toBeInTheDocument()
+
+    const [firstItem] = Array.from(element.querySelectorAll('li'))
+    const deleteButton = firstItem.querySelector('button')
+
+    fireEvent.click(deleteButton)
+
+    expect(
+      document.querySelector('.dnb-upload__file-input-button')
     ).toBeInTheDocument()
   })
 
