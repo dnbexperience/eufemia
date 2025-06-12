@@ -39,7 +39,7 @@ const UploadFileInput = ({
 
   const sharedId = id || makeUniqueId()
   const accept = getAcceptedFileTypes(acceptedFileTypes)
-  console.log(variant)
+
   return (
     <div className="dnb-upload__file-input-area">
       <Button
