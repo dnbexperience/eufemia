@@ -13,6 +13,7 @@ import { makeUniqueId } from '../../shared/component-helper'
 import { UploadContext } from './UploadContext'
 import UploadStatus from './UploadStatus'
 import { getAcceptedFileTypes } from './UploadVerify'
+import { UploadFile } from './types'
 
 const UploadFileInput = ({
   children,
@@ -21,7 +22,7 @@ const UploadFileInput = ({
   ...rest
 }: {
   children?: React.ReactNode
-  files?: any
+  files?: UploadFile[]
   disabled?: boolean
 }) => {
   const fileInput = useRef<HTMLInputElement>(null)
@@ -41,8 +42,7 @@ const UploadFileInput = ({
 
   const sharedId = id || makeUniqueId()
   const accept = getAcceptedFileTypes(acceptedFileTypes)
-  console.log(files?.length)
-  console.log(filesAmountLimit)
+
   return (
     <div className="dnb-upload__file-input-area">
       {filesAmountLimit !== files?.length && (
