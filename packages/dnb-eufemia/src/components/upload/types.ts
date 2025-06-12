@@ -20,6 +20,11 @@ export type UploadProps = {
   id?: SharedStateId
 
   /**
+   * defines the appearance. Use one of these: `normal` or `compact`. Defaults to `normal`.
+   */
+  variant?: 'normal' | 'compact'
+
+  /**
    * list of accepted file types.
    */
   acceptedFileTypes:

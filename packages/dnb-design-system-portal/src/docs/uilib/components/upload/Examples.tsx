@@ -66,6 +66,17 @@ export const UploadBasic = () => (
   </ComponentBox>
 )
 
+export const UploadBasicCompactVariant = () => (
+  <ComponentBox data-visual-test="upload-basic-compact-variant">
+    <Upload
+      variant="compact"
+      acceptedFileTypes={['jpg', 'png']}
+      disableDragAndDrop
+      onChange={({ files }) => console.log('onChange', files)}
+    />
+  </ComponentBox>
+)
+
 export const UploadDisabled = () => (
   <ComponentBox data-visual-test="upload-disabled">
     <Upload

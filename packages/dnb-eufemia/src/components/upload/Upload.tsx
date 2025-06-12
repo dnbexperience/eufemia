@@ -22,6 +22,7 @@ import { verifyFiles } from './UploadVerify'
 import type { UploadFile, UploadAllProps } from './types'
 import UploadFileList from './UploadFileList'
 import UploadInfo from './UploadInfo'
+import FormLabel from '../FormLabel'
 
 export type * from './types'
 export { defaultProps }
@@ -47,6 +48,7 @@ const Upload = (localProps: UploadAllProps) => {
 
   const {
     id: idProp,
+    variant,
     skeleton,
     className,
     acceptedFileTypes,
@@ -74,7 +76,6 @@ const Upload = (localProps: UploadAllProps) => {
     disableDragAndDrop,
     ...props
   } = extendedProps
-
   const spacingClasses = createSpacingClasses(props)
 
   const id = useId(idProp)
@@ -155,7 +156,10 @@ const Upload = (localProps: UploadAllProps) => {
         <UploadWrapper
           className={classnames('dnb-upload', spacingClasses, className)}
         >
-          <UploadInfo />
+          {variant !== 'compact' && <UploadInfo />}
+          {variant === 'compact' && title && (
+            <FormLabel text={title} forId={`${id}-input`} vertical />
+          )}
 
           <UploadFileInput disabled={props.disabled} {...props} />
 
