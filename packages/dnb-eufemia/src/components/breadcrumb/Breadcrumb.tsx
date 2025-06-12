@@ -317,7 +317,6 @@ const Breadcrumb = (localProps: BreadcrumbProps & SpacingProps) => {
             items={items}
             isCollapsed={isCollapsedRef.current}
             noAnimation={noAnimation}
-            onCollapse={onCollapse}
           />
         </Section>
       )}
