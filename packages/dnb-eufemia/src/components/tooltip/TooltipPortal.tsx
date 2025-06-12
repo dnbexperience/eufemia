@@ -3,7 +3,13 @@
  *
  */
 
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
 import classnames from 'classnames'
 import { makeUniqueId } from '../../shared/component-helper'
 import useMountEffect from '../../shared/helpers/useMountEffect'
@@ -11,6 +17,7 @@ import TooltipContainer from './TooltipContainer'
 import { TooltipProps } from './types'
 import { PortalRoot, useTheme } from '../../shared'
 import { getThemeClasses } from '../../shared/Theme'
+import ModalContext from '../modal/ModalContext'
 
 type TooltipType = {
   count?: number
@@ -45,6 +52,7 @@ function TooltipPortal(
     children,
   } = props
 
+  const modalContext = useContext(ModalContext)
   const [isMounted, setIsMounted] = useState(false)
   const [isActive, setIsActive] = useState(active)
   const [id] = useState(() => makeUniqueId())
@@ -128,7 +136,8 @@ function TooltipPortal(
         <div
           className={classnames(
             'dnb-tooltip__portal',
-            theme && getThemeClasses(theme)
+            theme && getThemeClasses(theme),
+            modalContext?.id && 'dnb-tooltip--inside-modal'
           )}
         >
           <TooltipContainer

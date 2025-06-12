@@ -320,16 +320,19 @@ describe('Drawer', () => {
     )
 
     expect(
-      document.querySelectorAll('button.dnb-modal__close-button')[0]
+      document.querySelector(
+        '#dnb-modal-modal-first button.dnb-modal__close-button'
+      )
     ).toHaveAttribute('aria-hidden')
     expect(
-      document.querySelectorAll('button.dnb-modal__close-button')[0]
+      document.querySelector(
+        '#dnb-modal-modal-second button.dnb-modal__close-button'
+      )
     ).toHaveAttribute('aria-hidden')
     expect(
-      document.querySelectorAll('button.dnb-modal__close-button')[1]
-    ).toHaveAttribute('aria-hidden')
-    expect(
-      document.querySelectorAll('button.dnb-modal__close-button')[2]
+      document.querySelector(
+        '#dnb-modal-modal-third button.dnb-modal__close-button'
+      )
     ).not.toHaveAttribute('aria-hidden')
 
     // Close the third one
@@ -350,10 +353,14 @@ describe('Drawer', () => {
       'aria-hidden'
     )
     expect(
-      document.querySelectorAll('button.dnb-modal__close-button')[0]
+      document.querySelector(
+        '#dnb-modal-modal-first button.dnb-modal__close-button'
+      )
     ).toHaveAttribute('aria-hidden')
     expect(
-      document.querySelectorAll('button.dnb-modal__close-button')[1]
+      document.querySelector(
+        '#dnb-modal-modal-second button.dnb-modal__close-button'
+      )
     ).not.toHaveAttribute('aria-hidden')
 
     // Close the second one
