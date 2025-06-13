@@ -1874,6 +1874,46 @@ describe('Upload', () => {
       ).toBeInTheDocument()
     })
   })
+
+  describe('Compact variant', () => {
+    it('renders the title', () => {
+      render(<Upload {...defaultProps} variant="compact" />)
+
+      expect(screen.queryByText(nb.title)).toBeInTheDocument()
+    })
+
+    it('renders the custom title', () => {
+      const customTitle = 'custom title'
+
+      render(
+        <Upload {...defaultProps} title={customTitle} variant="compact" />
+      )
+
+      expect(screen.queryByText(customTitle)).toBeInTheDocument()
+    })
+
+    it('does not render the text', () => {
+      render(<Upload {...defaultProps} variant="compact" />)
+
+      expect(screen.queryByText(nb.text)).not.toBeInTheDocument()
+    })
+
+    it('does not render the format description', () => {
+      render(<Upload {...defaultProps} variant="compact" />)
+
+      expect(
+        screen.queryByText(nb.fileTypeDescription)
+      ).not.toBeInTheDocument()
+    })
+
+    it('does not render the file size description', () => {
+      render(<Upload {...defaultProps} variant="compact" />)
+
+      expect(
+        screen.queryByText(nb.fileSizeDescription)
+      ).not.toBeInTheDocument()
+    })
+  })
 })
 
 describe('Upload aria', () => {

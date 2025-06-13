@@ -32,6 +32,7 @@ const UploadFileInput = ({
     buttonText,
     onInputUpload,
     filesAmountLimit,
+    variant,
   } = context
 
   const openFileDialog = () => fileInput.current?.click()
@@ -42,7 +43,7 @@ const UploadFileInput = ({
   return (
     <div className="dnb-upload__file-input-area">
       <Button
-        top="medium"
+        top={variant === 'normal' ? 'medium' : undefined}
         id={`${sharedId}-input`}
         className="dnb-upload__file-input-button"
         icon={FolderIcon}

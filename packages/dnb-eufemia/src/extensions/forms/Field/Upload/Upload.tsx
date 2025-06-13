@@ -42,6 +42,7 @@ export type Props = Omit<
   Pick<
     Partial<UploadProps>,
     | 'title'
+    | 'variant'
     | 'text'
     | 'acceptedFileTypes'
     | 'filesAmountLimit'
