@@ -1,6 +1,11 @@
 import React, { useCallback, useMemo, useRef } from 'react'
 import classnames from 'classnames'
-import { Checkbox, Switch, ToggleButton } from '../../../../components'
+import {
+  Checkbox,
+  Switch,
+  ToggleButton,
+  Radio,
+} from '../../../../components'
 import ButtonRow from '../../Form/ButtonRow'
 import FieldBlock, { Props as FieldBlockProps } from '../../FieldBlock'
 import { useFieldProps } from '../../hooks'
@@ -22,6 +27,7 @@ export type ToggleProps = {
   valueOff: unknown
   variant?:
     | 'checkbox'
+    | 'radio'
     | 'switch'
     | 'checkbox-button'
     | 'button'
@@ -233,6 +239,31 @@ function Toggle(props: Props) {
               </ToggleButtonGroupContext.Provider>
             </ToggleButton.Group>
           </ButtonRow>
+        </FieldBlock>
+      )
+    case 'radio':
+      return (
+        <FieldBlock {...fieldBlockProps} asFieldset>
+          <Radio.Group
+            value={isOn ? 'on' : isOff ? 'off' : null}
+            on_change={handleToggleChange}
+            status={hasError ? 'error' : undefined}
+            disabled={disabled}
+            size={size !== 'small' ? size : 'default'} // Radio does not support "small" size
+          >
+            <Radio
+              label={textOn ?? translations.yes}
+              value="on"
+              status={hasError ? 'error' : undefined}
+              {...htmlAttributes}
+            />
+            <Radio
+              label={textOff ?? translations.no}
+              value="off"
+              status={hasError ? 'error' : undefined}
+              {...htmlAttributes}
+            />
+          </Radio.Group>
         </FieldBlock>
       )
     case 'checkbox-button':

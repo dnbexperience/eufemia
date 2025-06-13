@@ -1147,7 +1147,7 @@ describe('Field.Boolean', () => {
       ).toBeInTheDocument()
     })
 
-    it('renders trueText', async () => {
+    it('renders trueText', () => {
       render(
         <Field.Boolean
           variant="buttons"
@@ -1329,6 +1329,280 @@ describe('Field.Boolean', () => {
 
         const [first, second] = Array.from(
           document.querySelectorAll('button')
+        )
+        expect(first).toHaveAttribute('aria-invalid', 'true')
+        expect(second).toHaveAttribute('aria-invalid', 'true')
+      })
+    })
+  })
+
+  describe('variant: radio', () => {
+    it('should support size', () => {
+      render(
+        <Field.Boolean
+          variant="radio"
+          label="Boolean label"
+          size="large"
+        />
+      )
+
+      const fieldToggleElement: HTMLInputElement = document.querySelector(
+        '.dnb-forms-field-toggle'
+      )
+      expect(fieldToggleElement.classList).toContain(
+        'dnb-forms-field-block--label-height-large'
+      )
+
+      const radioElementOne: Element =
+        document.querySelectorAll('.dnb-radio')[1]
+      expect(radioElementOne.classList).toContain('dnb-radio--large')
+
+      const radioElementTwo: Element =
+        document.querySelectorAll('.dnb-radio')[0]
+      expect(radioElementTwo.classList).toContain('dnb-radio--large')
+    })
+
+    it('renders label', () => {
+      render(<Field.Boolean variant="radio" label="Boolean label" />)
+      expect(screen.getByText('Boolean label')).toBeInTheDocument()
+    })
+
+    it('label should render only once', () => {
+      render(<Field.Boolean variant="radio" label="Boolean label" />)
+      expect(screen.getByText('Boolean label')).toBeInTheDocument()
+      expect(screen.getByText('Ja')).toBeInTheDocument()
+      expect(screen.getByText('Nei')).toBeInTheDocument()
+    })
+
+    it('renders help', () => {
+      render(
+        <Field.Boolean
+          variant="radio"
+          help={{ title: 'Help title', content: 'Help content' }}
+        />
+      )
+      expect(document.querySelectorAll('.dnb-help-button')).toHaveLength(1)
+      expect(document.querySelector('button')).toHaveAttribute(
+        'aria-describedby'
+      )
+      expect(
+        document
+          .querySelector('.dnb-help-button')
+          .getAttribute('aria-describedby')
+      ).toBe(document.querySelector('.dnb-tooltip__content').id)
+    })
+
+    it('has no selected value by default', () => {
+      render(<Field.Boolean variant="radio" />)
+      const radios = document.querySelectorAll('.dnb-radio__input')
+      expect(radios[0].getAttribute('aria-checked')).toBe('false')
+      expect(radios[1].getAttribute('aria-checked')).toBe('false')
+    })
+
+    it('has "false" selected', () => {
+      render(<Field.Boolean variant="radio" value={false} />)
+      const radios = document.querySelectorAll('.dnb-radio__input')
+      expect(radios[0].getAttribute('aria-checked')).toBe('false')
+      expect(radios[1].getAttribute('aria-checked')).toBe('true')
+    })
+
+    it('has "true" selected', () => {
+      render(<Field.Boolean variant="radio" value={true} />)
+      const radios = document.querySelectorAll('.dnb-radio__input')
+      expect(radios[0].getAttribute('aria-checked')).toBe('true')
+      expect(radios[1].getAttribute('aria-checked')).toBe('false')
+    })
+
+    it('renders error', () => {
+      render(
+        <Field.Boolean
+          variant="radio"
+          error={new Error('This is what went wrong')}
+        />
+      )
+      expect(
+        screen.getByText('This is what went wrong')
+      ).toBeInTheDocument()
+    })
+
+    it('renders trueText', () => {
+      render(
+        <Field.Boolean
+          variant="radio"
+          trueText="True text"
+          falseText="False text"
+        />
+      )
+      expect(screen.getByText('False text')).toBeInTheDocument()
+      expect(screen.getByText('True text')).toBeInTheDocument()
+    })
+
+    it('shows error border', () => {
+      render(
+        <Field.Boolean
+          variant="radio"
+          error={new Error('This is what went wrong')}
+        />
+      )
+      const element = document.querySelector('.dnb-radio-group')
+      expect(element.className).toContain('dnb-radio-group__status--error')
+    })
+
+    it('should change value when path value changes', () => {
+      const { rerender } = render(
+        <DataContext.Provider data={{ isTrue: true }}>
+          <Field.Boolean variant="radio" path="/isTrue" />
+        </DataContext.Provider>
+      )
+
+      const [yesElement, noElement]: Array<HTMLButtonElement> = Array.from(
+        document.querySelectorAll('.dnb-radio__input')
+      )
+
+      expect(yesElement).toHaveAttribute('aria-checked', 'true')
+      expect(noElement).toHaveAttribute('aria-checked', 'false')
+
+      rerender(
+        <DataContext.Provider data={{ isTrue: false }}>
+          <Field.Boolean variant="radio" path="/isTrue" />
+        </DataContext.Provider>
+      )
+
+      expect(yesElement).toHaveAttribute('aria-checked', 'false')
+      expect(noElement).toHaveAttribute('aria-checked', 'true')
+    })
+
+    it('should reset both radios via rerender when undefined was given', () => {
+      const { rerender } = render(
+        <DataContext.Provider data={{ isTrue: true }}>
+          <Field.Boolean variant="radio" path="/isTrue" />
+        </DataContext.Provider>
+      )
+
+      const [yesElement, noElement]: Array<HTMLButtonElement> = Array.from(
+        document.querySelectorAll('.dnb-radio__input')
+      )
+
+      expect(yesElement).toHaveAttribute('aria-checked', 'true')
+      expect(noElement).toHaveAttribute('aria-checked', 'false')
+
+      rerender(
+        <DataContext.Provider data={{ isTrue: undefined }}>
+          <Field.Boolean variant="radio" path="/isTrue" />
+        </DataContext.Provider>
+      )
+
+      expect(yesElement).toHaveAttribute('aria-checked', 'false')
+      expect(noElement).toHaveAttribute('aria-checked', 'false')
+    })
+
+    it('should reset both radio via useData update when undefined was given', () => {
+      const MockComponent = () => {
+        const { update } = Form.useData('unique')
+
+        return (
+          <Form.Handler id="unique" data={{}}>
+            <Field.Boolean variant="radio" path="/isTrue" />
+            <Form.SubmitButton
+              onClick={() => update('/isTrue', () => undefined)}
+            />
+          </Form.Handler>
+        )
+      }
+
+      render(<MockComponent />)
+
+      const resetButton = document.querySelector(
+        '.dnb-forms-submit-button'
+      )
+      const [yesElement, noElement]: Array<HTMLButtonElement> = Array.from(
+        document.querySelectorAll('.dnb-radio__input')
+      )
+
+      expect(yesElement).toHaveAttribute('aria-checked', 'false')
+      expect(noElement).toHaveAttribute('aria-checked', 'false')
+
+      fireEvent.click(yesElement)
+
+      expect(yesElement).toHaveAttribute('aria-checked', 'true')
+      expect(noElement).toHaveAttribute('aria-checked', 'false')
+
+      fireEvent.click(noElement)
+
+      expect(yesElement).toHaveAttribute('aria-checked', 'false')
+      expect(noElement).toHaveAttribute('aria-checked', 'true')
+
+      fireEvent.click(resetButton)
+
+      expect(yesElement).toHaveAttribute('aria-checked', 'false')
+      expect(noElement).toHaveAttribute('aria-checked', 'false')
+    })
+
+    it('should show error when no value is given', () => {
+      render(<Field.Boolean variant="radio" required validateInitially />)
+      expect(screen.getByRole('alert')).toBeInTheDocument()
+    })
+
+    it('should not show error when a true-value is given', () => {
+      render(
+        <Field.Boolean
+          variant="radio"
+          value={true}
+          validateInitially
+          required
+        />
+      )
+      expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+    })
+
+    it('should not show error when a false-value is given', () => {
+      render(
+        <Field.Boolean
+          variant="radio"
+          value={false}
+          validateInitially
+          required
+        />
+      )
+      expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+    })
+
+    describe('ARIA', () => {
+      it('should validate with ARIA rules', async () => {
+        const result = render(
+          <Field.Boolean
+            label="Label"
+            variant="radio"
+            validateInitially
+            required
+          />
+        )
+
+        expect(await axeComponent(result)).toHaveNoViolations()
+      })
+
+      it('should have aria-required', () => {
+        render(<Field.Boolean label="Label" variant="radio" required />)
+
+        const [first, second] = Array.from(
+          document.querySelectorAll('.dnb-radio__input')
+        )
+        expect(first).toHaveAttribute('aria-required', 'true')
+        expect(second).toHaveAttribute('aria-required', 'true')
+      })
+
+      it('should have aria-invalid', () => {
+        render(
+          <Field.Boolean
+            label="Label"
+            variant="radio"
+            required
+            validateInitially
+          />
+        )
+
+        const [first, second] = Array.from(
+          document.querySelectorAll('.dnb-radio__input')
         )
         expect(first).toHaveAttribute('aria-invalid', 'true')
         expect(second).toHaveAttribute('aria-invalid', 'true')

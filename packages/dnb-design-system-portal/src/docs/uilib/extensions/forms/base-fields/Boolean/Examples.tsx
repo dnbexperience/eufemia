@@ -304,10 +304,100 @@ export const ButtonsError = () => {
 
 export const VariantButtonsWithHelp = () => {
   return (
-    <ComponentBox data-visual-test="boolean-variant-buttons-with-help">
+    <ComponentBox>
       <Field.Boolean
         variant="buttons"
         label="Buttons variant"
+        help={{ title: 'Help title', content: 'Help content' }}
+      />
+    </ComponentBox>
+  )
+}
+
+export const RadioTrue = () => {
+  return (
+    <ComponentBox>
+      <Field.Boolean
+        variant="radio"
+        label="Label text"
+        value={true}
+        onChange={(value) => console.log('onChange', value)}
+      />
+    </ComponentBox>
+  )
+}
+
+export const RadioFalse = () => {
+  return (
+    <ComponentBox>
+      <Field.Boolean
+        variant="radio"
+        label="Label text"
+        value={false}
+        onChange={(value) => console.log('onChange', value)}
+      />
+    </ComponentBox>
+  )
+}
+
+export const RadioUndefined = () => {
+  return (
+    <ComponentBox>
+      <Field.Boolean
+        variant="radio"
+        label="Label text"
+        onChange={(value) => console.log('onChange', value)}
+      />
+    </ComponentBox>
+  )
+}
+
+export const RadioRequired = () => {
+  return (
+    <ComponentBox>
+      <Field.Boolean
+        variant="radio"
+        label="Set to be required initially"
+        onChange={(value) => console.log('onChange', value)}
+        validateInitially
+        required
+      />
+    </ComponentBox>
+  )
+}
+
+export const RadioDisabled = () => {
+  return (
+    <ComponentBox>
+      <Field.Boolean
+        variant="radio"
+        label="I am disabled"
+        onChange={(value) => console.log('onChange', value)}
+        disabled
+      />
+    </ComponentBox>
+  )
+}
+
+export const RadioError = () => {
+  return (
+    <ComponentBox>
+      <Field.Boolean
+        variant="radio"
+        label="Label text"
+        onChange={(value) => console.log('onChange', value)}
+        error={new Error('This is what is wrong...')}
+      />
+    </ComponentBox>
+  )
+}
+
+export const VariantRadioWithHelp = () => {
+  return (
+    <ComponentBox>
+      <Field.Boolean
+        variant="radio"
+        label="Radio variant"
         help={{ title: 'Help title', content: 'Help content' }}
       />
     </ComponentBox>
