@@ -16,6 +16,9 @@ export default {
       homeText: 'Hjem',
       backToText: 'Tilbake til...',
     },
+    DateFormat: {
+      invalidDate: 'Ugyldig dato: {value}',
+    },
     DatePicker: {
       day: 'dag',
       month: 'måned',

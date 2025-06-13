@@ -17,6 +17,9 @@ export default {
       homeText: 'Home',
       backToText: 'Back to...',
     },
+    DateFormat: {
+      invalidDate: 'Invalid date: {value}',
+    },
     DatePicker: {
       day: 'Day',
       month: 'Month',
