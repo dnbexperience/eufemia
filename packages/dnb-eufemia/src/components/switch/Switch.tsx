@@ -4,8 +4,8 @@ import React, {
   useContext,
   useEffect,
   useMemo,
+  useReducer,
   useRef,
-  useState,
 } from 'react'
 import classnames from 'classnames'
 import {
@@ -38,10 +38,15 @@ import { SpacingProps } from '../space/types'
 export type SwitchLabelPosition = 'left' | 'right'
 export type SwitchSize = 'default' | 'medium' | 'large'
 export type SwitchAttributes = string | Record<string, unknown>
-export type SwitchOnChange = (args: {
+export type SwitchOnChangeParams = {
   checked: boolean
   event: MouseEvent | TouchEvent | KeyboardEvent
-}) => void
+}
+export type SwitchOnClickParams = React.MouseEvent<HTMLInputElement> & {
+  checked: boolean
+  event: React.MouseEvent<HTMLInputElement>
+}
+export type SwitchOnChange = (args: SwitchOnChangeParams) => void
 
 export type SwitchProps = {
   /**
@@ -107,6 +112,10 @@ export type SwitchProps = {
   /**
    * Will be called on state changes made by the user, but with a delay. This way the user sees the animation before e.g. an error will be removed. Returns a boolean `{ checked, event }`.
    */
+  /**
+   * Will be called on click made by the user. Returns the ClickEvent.
+   */
+  onClick?: (args: SwitchOnClickParams) => void
   onChangeEnd?: SwitchOnChange
   onStateUpdate?: SwitchOnChange
   /**
@@ -117,7 +126,7 @@ export type SwitchProps = {
     | ((elem: HTMLInputElement) => void)
 } & Omit<
   React.HTMLProps<HTMLElement>,
-  'ref' | 'size' | 'onChange' | 'innerRef' | 'label'
+  'ref' | 'size' | 'onChange' | 'onClick' | 'innerRef' | 'label'
 > &
   SpacingProps &
   DeprecatedSwitchProps
@@ -172,17 +181,20 @@ export default function Switch(props: SwitchProps) {
     checked: checkedProp,
     onChange,
     onChangeEnd,
+    onClick,
     innerRef: innerRefProp,
     ...rest
   } = allProps
 
-  const [isChecked, setIsChecked] = useState(checkedProp ?? false)
-  const [prevChecked, setPrevChecked] = useState(checkedProp)
-
+  const [, forceUpdate] = useReducer(() => ({}), {})
   const id = useId(idProp)
   const isFn = typeof innerRefProp === 'function'
   const refHook = useRef<HTMLInputElement>()
   const innerRef = (!isFn && innerRefProp) || refHook
+
+  const preventChangeRef = useRef(false)
+  const isCheckedRef = useRef(checkedProp ?? false)
+  const prevCheckedRef = useRef(checkedProp)
 
   useEffect(() => {
     if (isFn) {
@@ -191,11 +203,12 @@ export default function Switch(props: SwitchProps) {
   }, [innerRefProp, isFn, refHook])
 
   useEffect(() => {
-    if (checkedProp !== prevChecked) {
-      setIsChecked(!!checkedProp)
-      setPrevChecked(!!checkedProp)
+    if (checkedProp !== prevCheckedRef.current) {
+      isCheckedRef.current = !!checkedProp
+      prevCheckedRef.current = !!checkedProp
+      forceUpdate()
     }
-  }, [checkedProp, prevChecked])
+  }, [checkedProp])
 
   const callOnChange = useCallback(
     ({ checked, event }) => {
@@ -206,12 +219,14 @@ export default function Switch(props: SwitchProps) {
 
   const onChangeHandler = useCallback(
     (event) => {
-      if (readOnly) {
-        return event.preventDefault()
+      if (preventChangeRef.current) {
+        return // stop here
       }
-      const updatedChecked = !isChecked
 
-      setIsChecked(updatedChecked)
+      const updatedChecked = !isCheckedRef.current
+
+      isCheckedRef.current = updatedChecked
+      forceUpdate()
       callOnChange({ checked: updatedChecked, event })
 
       if (onChangeEnd) {
@@ -229,8 +244,35 @@ export default function Switch(props: SwitchProps) {
         innerRef.current.focus()
       }
     },
-    [callOnChange, innerRef, isChecked, onChangeEnd, readOnly]
+    [callOnChange, innerRef, onChangeEnd]
   )
+
+  const onClickHandler: React.MouseEventHandler<HTMLInputElement> =
+    useCallback(
+      (event) => {
+        const preventDefault = () => {
+          event.preventDefault()
+
+          if (event.target['checked'] !== isCheckedRef.current) {
+            preventChangeRef.current = true
+            isCheckedRef.current = !isCheckedRef.current
+            forceUpdate()
+          }
+        }
+
+        if (readOnly) {
+          return preventDefault()
+        }
+
+        onClick?.({
+          checked: isCheckedRef.current,
+          preventDefault,
+          event,
+          ...event,
+        })
+      },
+      [onClick, readOnly]
+    )
 
   const onKeyDownHandler = useCallback(
     (event: KeyboardEvent) => {
@@ -260,7 +302,7 @@ export default function Switch(props: SwitchProps) {
 
   const inputParams = {
     disabled,
-    checked: isChecked,
+    checked: isCheckedRef.current,
     ...rest,
   }
 
@@ -332,12 +374,13 @@ export default function Switch(props: SwitchProps) {
                 type="checkbox"
                 role="switch"
                 title={title}
-                aria-checked={isChecked}
+                aria-checked={isCheckedRef.current}
                 className="dnb-switch__input"
-                value={isChecked ? value || '' : ''}
+                value={isCheckedRef.current ? value || '' : ''}
                 ref={innerRef}
                 {...inputParams}
                 onChange={onChangeHandler}
+                onClick={onClickHandler}
                 onKeyDown={onKeyDownHandler}
               />
               <span

@@ -187,6 +187,21 @@ export const NumberValueOff = () => {
 
 // Variants
 
+export const VariantSwitch = () => {
+  return (
+    <ComponentBox>
+      <Field.Toggle
+        valueOn="on"
+        valueOff="off"
+        variant="switch"
+        label="Switch variant"
+        value="on"
+        onChange={(value) => console.log('onChange', value)}
+      />
+    </ComponentBox>
+  )
+}
+
 export const VariantButton = () => {
   return (
     <ComponentBox>
