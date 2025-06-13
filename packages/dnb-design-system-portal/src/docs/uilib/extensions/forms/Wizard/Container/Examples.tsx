@@ -1,4 +1,5 @@
 import React from 'react'
+import styled from '@emotion/styled'
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import { debounceAsync } from '@dnb/eufemia/src/shared/helpers/debounce'
 import { createRequest } from '../../Form/SubmitIndicator/Examples'
@@ -8,7 +9,7 @@ import {
   Value,
   Wizard,
 } from '@dnb/eufemia/src/extensions/forms'
-import { P } from '@dnb/eufemia/src'
+import { P, Card } from '@dnb/eufemia/src'
 
 export const Default = () => {
   return (
@@ -325,6 +326,54 @@ export const OnSubmitRequest = () => {
           </Wizard.Step>
         </Wizard.Container>
       </Form.Handler>
+    </ComponentBox>
+  )
+}
+
+export const Outset = () => {
+  const CustomContainerWithPadding = styled.div`
+    padding: 1.5rem;
+    background: white;
+    outline: 3px solid black;
+    border-radius: 0.5rem;
+    position: relative;
+    z-index: 0;
+  `
+
+  return (
+    <ComponentBox
+      scope={{ CustomContainerWithPadding }}
+      data-visual-test="wizard-outset"
+    >
+      <CustomContainerWithPadding>
+        <Card.Provider disableCardBreakout>
+          <Form.Handler>
+            <Wizard.Container mode="loose">
+              <Wizard.Step title="Step 1">
+                <Form.Card>
+                  <Field.String label="Step 1" path="/step1" required />
+                  <Wizard.Buttons />
+                </Form.Card>
+              </Wizard.Step>
+
+              <Wizard.Step title="Step 2">
+                <Form.Card>
+                  <Field.String label="Step 2" path="/step2" required />
+                  <Wizard.Buttons />
+                </Form.Card>
+              </Wizard.Step>
+
+              <Wizard.Step title="Step 3">
+                <Form.Card>
+                  <Field.String label="Step 3" path="/step3" />
+                  <Wizard.Buttons />
+                  <Form.SubmitButton />
+                </Form.Card>
+              </Wizard.Step>
+            </Wizard.Container>
+          </Form.Handler>
+        </Card.Provider>
+      </CustomContainerWithPadding>
     </ComponentBox>
   )
 }

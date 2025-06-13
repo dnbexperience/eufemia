@@ -42,7 +42,7 @@ export const StepIndicatorProperties: PropertiesTableProps = {
     status: 'optional',
   },
   outset: {
-    doc: 'Same as `outset` in [Card](/uilib/components/card/properties). Defaults to `false`.',
+    doc: 'Whether or not to break out (using negative margins) on larger screens. Defaults to `false`. Same as `outset` in [Card](/uilib/components/card/properties).',
     type: 'boolean',
     status: 'optional',
   },
