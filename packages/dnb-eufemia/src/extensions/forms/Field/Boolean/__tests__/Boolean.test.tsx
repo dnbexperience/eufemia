@@ -1147,7 +1147,7 @@ describe('Field.Boolean', () => {
       ).toBeInTheDocument()
     })
 
-    it('renders trueText', async () => {
+    it('renders trueText', () => {
       render(
         <Field.Boolean
           variant="buttons"
@@ -1425,7 +1425,7 @@ describe('Field.Boolean', () => {
       ).toBeInTheDocument()
     })
 
-    it('renders trueText', async () => {
+    it('renders trueText', () => {
       render(
         <Field.Boolean
           variant="radio"
