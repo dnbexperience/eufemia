@@ -2,14 +2,20 @@
 showTabs: true
 ---
 
+import * as Examples from './Examples'
+import TranslationsTable from 'dnb-design-system-portal/src/shared/parts/TranslationsTable'
 import { supportedCountryCodes as postalCode_supportedCountryCodes } from '@dnb/eufemia/src/extensions/forms/Connectors/Bring/postalCode'
+import { supportedCountryCodes as address_supportedCountryCodes } from '@dnb/eufemia/src/extensions/forms/Connectors/Bring/address'
 
 ## Description
 
 The `Bring` connector allows you to use the [Bring API](https://developer.bring.com/api/) to:
 
-- Verify a postal code
-- Autofill a city name or street name
+- Verify a postal code: [PostalCode API](#postalcode-api)
+- Autofill a city name or street name: [PostalCode API](#postalcode-api)
+- Search for addresses with suggestions: [Address Suggestions API](#address-suggestions-api)
+
+---
 
 ## PostalCode API
 
@@ -55,7 +61,7 @@ Ensure you use one of the [following endpoints](https://developer.bring.com/api/
 }
 ```
 
-### To verify a postal code
+### How to verify a postal code
 
 Use the context to create a validator based on the `validator` connector.
 
@@ -78,7 +84,7 @@ function MyForm() {
 }
 ```
 
-### To autofill a city name based on a postal code
+### How to autofill a city name based on a postal code
 
 Use the context to create the `onChange` event handler based on the `autofill` connector.
 
@@ -104,3 +110,118 @@ function MyForm() {
   )
 }
 ```
+
+### Verify a postal code
+
+This demo contains only a mocked API call, so only a postal code of `1391` for Norway and `11432` for Sweden is valid.
+
+<Examples.PostalCode />
+
+---
+
+## Address Suggestions API
+
+Here is an example of how to use the Bring [Address API](https://developer.bring.com/api/address/#get-street-or-place-suggestions-get) to connect the [Address](/uilib/extensions/forms/feature-fields/Address/) field to a form.
+
+First, create a context with the config:
+
+```tsx
+import { Connectors, Field, Form } from '@dnb/eufemia/extensions/forms'
+
+const { withConfig } = Connectors.createContext({
+  fetchConfig: {
+    url: (value, { countryCode }) => {
+      return `[YOUR-API-URL]/.../${countryCode}/.../${value}`
+      // Real-world example using Bring's Address API's get address endpoint, directly without proxy:
+      // return `https://api.bring.com/address/api/{countryCode}/addresses/suggestions?q=${value}`
+    },
+  },
+})
+```
+
+Then create an element that will be used to render the autocomplete component to show the suggestions.
+
+```tsx
+const addressSuggestionsElement = withConfig(
+  Connectors.Bring.address.suggestionsElement,
+  {
+    countryCode: '/countryCode', // Can be "NO" or a path
+    cityPath: '/city',
+    postalCodePath: '/postalCode',
+  },
+)
+```
+
+And use the element in the Address field:
+
+```tsx
+function MyForm() {
+  return (
+    <Form.Handler>
+      <Field.Address.Street
+        path="/streetAddress"
+        element={addressSuggestionsElement}
+      />
+    </Form.Handler>
+  )
+}
+```
+
+### Populate data to PostalCodeAndCity
+
+You can auto fill the address fields based on the selected address.
+
+```tsx
+function MyForm() {
+  return (
+    <Form.Handler>
+      <Field.Address.Street
+        path="/streetAddress"
+        element={addressSuggestionsElement}
+      />
+
+      <Field.PostalCodeAndCity
+        postalCode={{ path: '/postalCode' }}
+        city={{ path: '/city' }}
+      />
+    </Form.Handler>
+  )
+}
+```
+
+### Supported countries
+
+The Bring API for Address supports the [following countries](https://developer.bring.com/api/address/#supported-countries), by its country codes:
+
+{address_supportedCountryCodes.join(', ')}
+
+### Endpoints and response format
+
+Ensure you use one of the [following endpoints](https://developer.bring.com/api/address/#endpoints) from Bring via your proxy API, returning a list of addresses in the following format:
+
+```json
+{
+  "addresses": [
+    {
+      "address_id": "1398742",
+      "street_name": "Gransvea",
+      "house_number": 37,
+      "postal_code": "1391",
+      "city": "Vollen",
+      "county": "Akershus",
+      "municipality": "Asker",
+      "type": "STREET"
+    }
+  ]
+}
+```
+
+### Translations
+
+<TranslationsTable localeKey={['StreetAddress.suggestionPlaceholder']} />
+
+### Address suggestion demos
+
+This demo contains only a mocked API call, so you can enter anything in the Street field.
+
+<Examples.Address />

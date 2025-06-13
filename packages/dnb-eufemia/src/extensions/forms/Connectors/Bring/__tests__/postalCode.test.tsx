@@ -633,6 +633,43 @@ describe('postalCode', () => {
       })
     })
 
+    it('should only fill city when empty', async () => {
+      render(
+        <Form.Handler>
+          <Field.PostalCodeAndCity
+            postalCode={{
+              path: '/postalCode',
+              onChange,
+            }}
+            city={{
+              path: '/city',
+            }}
+          />
+        </Form.Handler>
+      )
+
+      const postalCodeInput = document.querySelector(
+        '.dnb-forms-field-postal-code-and-city__postal-code .dnb-input__input'
+      )
+      const cityInput = document.querySelector(
+        '.dnb-forms-field-postal-code-and-city__city .dnb-input__input'
+      )
+
+      await userEvent.type(cityInput, 'something')
+      expect(cityInput).toHaveValue('something')
+
+      await userEvent.type(postalCodeInput, '1391')
+
+      expect(postalCodeInput).toHaveValue('1391')
+      expect(cityInput).toHaveValue('something')
+
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).not.toBeInTheDocument()
+      })
+    })
+
     it('should not fill city when country is other than "NO"', async () => {
       render(
         <Form.Handler>
