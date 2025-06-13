@@ -13,13 +13,16 @@ import { makeUniqueId } from '../../shared/component-helper'
 import { UploadContext } from './UploadContext'
 import UploadStatus from './UploadStatus'
 import { getAcceptedFileTypes } from './UploadVerify'
+import { UploadFile } from './types'
 
 const UploadFileInput = ({
   children,
   disabled,
+  files,
   ...rest
 }: {
   children?: React.ReactNode
+  files?: UploadFile[]
   disabled?: boolean
 }) => {
   const fileInput = useRef<HTMLInputElement>(null)
@@ -41,20 +44,21 @@ const UploadFileInput = ({
 
   return (
     <div className="dnb-upload__file-input-area">
-      <Button
-        top="medium"
-        id={`${sharedId}-input`}
-        className="dnb-upload__file-input-button"
-        icon={FolderIcon}
-        icon_position="left"
-        variant="secondary"
-        wrap
-        onClick={openFileDialog}
-        disabled={disabled}
-      >
-        {buttonText}
-      </Button>
-
+      {filesAmountLimit !== files?.length && (
+        <Button
+          top="medium"
+          id={`${sharedId}-input`}
+          className="dnb-upload__file-input-button"
+          icon={FolderIcon}
+          icon_position="left"
+          variant="secondary"
+          wrap
+          onClick={openFileDialog}
+          disabled={disabled}
+        >
+          {buttonText}
+        </Button>
+      )}
       <UploadStatus />
 
       <input

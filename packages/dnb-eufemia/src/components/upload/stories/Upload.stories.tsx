@@ -33,7 +33,7 @@ export const UploadSandbox = () => {
         <Upload
           title="Upload single file"
           id="upload-example-3"
-          filesAmountLimit={2}
+          filesAmountLimit={1}
           acceptedFileTypes={acceptedFileTypes}
         />
       </Box>
