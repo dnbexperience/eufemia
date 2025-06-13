@@ -13,7 +13,9 @@
     background-color: var(--sb-color-magenta-light-2);
   }
 
-  &--info &__shell,
+  &--info &__shell {
+    background-color: var(--sb-color-green-light-2);
+  }
   &--marketing &__shell {
     background-color: var(--sb-color-violet-light-4);
   }
@@ -28,7 +30,9 @@
   &__variant--outlined#{&}--warn &__shell {
     @include fakeBorder(var(--sb-color-yellow-dark));
   }
-  &__variant--outlined#{&}--info &__shell,
+  &__variant--outlined#{&}--info &__shell {
+    @include fakeBorder(var(--sb-color-green-dark-2));
+  }
   &__variant--outlined#{&}--marketing &__shell {
     @include fakeBorder(var(--sb-color-violet-light));
   }
