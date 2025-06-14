@@ -5,7 +5,7 @@ test.describe('Slider', () => {
     await page.goto('/uilib/components/slider/demos/?data-visual-test')
 
     // Check if app is mounted
-    await page.waitForSelector('#dnb-drawer-list__portal', {
+    await page.waitForSelector('#eufemia-portal-root', {
       state: 'attached',
     })
   })

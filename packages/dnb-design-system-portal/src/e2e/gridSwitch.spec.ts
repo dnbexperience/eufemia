@@ -14,7 +14,7 @@ test.describe('Grid', () => {
     await page.goto('/uilib?data-visual-test')
 
     // Check if app is mounted
-    await page.waitForSelector('#dnb-drawer-list__portal', {
+    await page.waitForSelector('#eufemia-portal-root', {
       state: 'attached',
     })
   })

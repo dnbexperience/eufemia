@@ -80,7 +80,7 @@ test.describe('Page Navigation', () => {
     test.beforeEach(async ({ page }) => {
       await page.goto('/')
       await page.waitForURL('**/')
-      await page.waitForSelector('#dnb-drawer-list__portal', {
+      await page.waitForSelector('#eufemia-portal-root', {
         state: 'attached',
       })
     })
@@ -93,7 +93,7 @@ test.describe('Page Navigation', () => {
 
       await page.click('main nav a')
       await page.waitForURL('**/design-system/')
-      await page.waitForSelector('#dnb-drawer-list__portal', {
+      await page.waitForSelector('#eufemia-portal-root', {
         state: 'attached',
       })
 
@@ -108,7 +108,7 @@ test.describe('Page Navigation', () => {
       await element?.click()
       await page.click('nav a[href="/uilib/components/button/"]')
       await page.waitForURL('**/uilib/components/button/')
-      await page.waitForSelector('#dnb-drawer-list__portal', {
+      await page.waitForSelector('#eufemia-portal-root', {
         state: 'attached',
       })
 
@@ -127,7 +127,7 @@ test.describe('Page Navigation', () => {
       await page.click('nav a[href="/uilib/components/button/"]')
       await page.click('main a[href="/uilib/components/button/demos/"]')
       await page.waitForURL('**/uilib/components/button/demos/')
-      await page.waitForSelector('#dnb-drawer-list__portal', {
+      await page.waitForSelector('#eufemia-portal-root', {
         state: 'attached',
       })
 
@@ -145,7 +145,7 @@ test.describe('Page Navigation', () => {
       await element?.click()
       await page.click('nav a[href="/uilib/components/"]')
       await page.waitForURL('**/uilib/components/')
-      await page.waitForSelector('#dnb-drawer-list__portal', {
+      await page.waitForSelector('#eufemia-portal-root', {
         state: 'attached',
       })
 
