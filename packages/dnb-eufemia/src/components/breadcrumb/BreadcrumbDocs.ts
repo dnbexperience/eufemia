@@ -85,7 +85,7 @@ export const BreadcrumbEvents: PropertiesTableProps = {
     status: 'optional',
   },
   onToggleCollapse: {
-    doc: 'Will be called when breadcrumb collapse is toggled.',
+    doc: 'Will be called when breadcrumb expands and collapses.',
     type: 'function',
     status: 'optional',
   },

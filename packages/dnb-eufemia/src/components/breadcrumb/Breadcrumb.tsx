@@ -32,7 +32,6 @@ import {
 } from '../../shared/component-helper'
 import { BreadcrumbMultiple } from './BreadcrumbMultiple'
 import { useMedia, useTheme } from '../../shared'
-import { UseMediaResult } from '../../shared/useMedia'
 
 export type BreadcrumbProps = {
   /**
@@ -133,7 +132,7 @@ export type BreadcrumbProps = {
    */
   noAnimation?: boolean
   /**
-   * Will be called when breadcrumb collapse is toggled.
+   * Will be called when breadcrumb expands and collapses.
    */
   onToggleCollapse?: (isCollapsed: boolean) => void
 }
