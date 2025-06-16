@@ -311,21 +311,6 @@ const Breadcrumb = (localProps: BreadcrumbProps & SpacingProps) => {
   )
 }
 
-function getInitialMediaSize({
-  isMedium,
-  isLarge,
-}: Pick<UseMediaResult, 'isMedium' | 'isLarge'>) {
-  if (isMedium) {
-    return 'medium'
-  }
-
-  if (isLarge) {
-    return 'large'
-  }
-
-  return ''
-}
-
 Breadcrumb.Item = BreadcrumbItem
 Breadcrumb._supportsSpacingProps = true
 
