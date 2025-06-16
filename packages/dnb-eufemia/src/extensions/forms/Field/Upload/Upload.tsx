@@ -41,6 +41,7 @@ export type Props = Omit<
   SpacingProps &
   Pick<
     Partial<UploadProps>,
+    | 'children'
     | 'title'
     | 'text'
     | 'acceptedFileTypes'
@@ -286,6 +287,7 @@ function UploadComponent(props: Props) {
             roundedCorner={false}
           />
         )}
+        {props.children}
       </Upload>
     </FieldBlock>
   )
