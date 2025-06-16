@@ -191,9 +191,7 @@ const Breadcrumb = (localProps: BreadcrumbProps & SpacingProps) => {
   const { isLarge, isMedium } = useMedia()
 
   const isCollapsedRef = useRef(overrideIsCollapsed)
-  const previousMediaSizeRef = useRef(
-    getInitialMediaSize({ isMedium, isLarge })
-  )
+  const wasLargeRef = useRef(undefined)
 
   useEffect(() => {
     if (overrideIsCollapsed !== isCollapsedRef.current) {
@@ -205,16 +203,14 @@ const Breadcrumb = (localProps: BreadcrumbProps & SpacingProps) => {
   // Auto-collapse breadcrumbs if going from small screen to large screen.
   useEffect(() => {
     //  Fire onCollapse when breadcrumbs collapse when going from large to medium screen.
-    if (isMedium && previousMediaSizeRef.current !== 'medium') {
-      previousMediaSizeRef.current = 'medium'
-
+    if (wasLargeRef.current) {
+      wasLargeRef.current = false
       onCollapse?.()
     }
 
     if (isLarge && overrideIsCollapsed !== false) {
       isCollapsedRef.current = true
-      previousMediaSizeRef.current = 'large'
-
+      wasLargeRef.current = true
       forceUpdate()
     }
   }, [isLarge, isMedium, overrideIsCollapsed, onCollapse])
