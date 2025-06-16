@@ -132,7 +132,7 @@ export type BreadcrumbProps = {
    */
   noAnimation?: boolean
   /**
-   * Will be called when breadcrumb expands and collapses.
+   * Will be called when breadcrumb expands or collapses.
    */
   onToggleCollapse?: (isCollapsed: boolean) => void
 }
