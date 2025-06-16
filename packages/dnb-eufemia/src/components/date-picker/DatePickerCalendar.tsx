@@ -520,14 +520,14 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
               /%s/,
               formatDate(month, {
                 locale,
-                formatOptions: { month: 'long' },
+                options: { month: 'long' },
               })
             )}
             tabIndex={-1}
           >
             {formatDate(month, {
               locale,
-              formatOptions: { month: 'long' },
+              options: { month: 'long' },
             })}
           </label>
         </div>
