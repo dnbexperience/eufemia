@@ -40,6 +40,21 @@ function YourComponent() {
 }
 ```
 
+## Variant compact
+
+The `compact` variant displays less information than the `normal` variant, and aims to only display the most necessary for the user to be able to upload a file. Which is the:
+
+- Upload button
+- List of uploaded files
+- `title` as label (can be removed by providing the value `false`)
+- `text` as sublabel (can be removed by providing the value `false`)
+
+It does not display info about:
+
+- `filesAmountLimit`
+- `fileMaxSize`
+- `acceptedFileTypes`
+
 ## JPG vs JPEG
 
 When `jpg` is defined (most commonly used), then the component will also accept `jpeg` files.

@@ -20,8 +20,9 @@ export type UploadDragEvent = React.DragEvent | DragEvent
 export default function UploadDropzone({
   children,
   className,
+  hideOutline = false,
   ...rest
-}: Partial<UploadAllProps>) {
+}: Partial<UploadAllProps> & { hideOutline?: boolean }) {
   const props = rest as Omit<UploadProps, 'title' | 'onChange' | 'id'>
   const context = useContext(UploadContext)
   const [hover, setHover] = useState(false)
@@ -123,22 +124,24 @@ export default function UploadDropzone({
     >
       {children}
 
-      <svg
-        className="dnb-upload__outline"
-        aria-hidden
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-      >
-        <rect
-          width="100%"
-          height="100%"
-          rx="0.5rem"
-          ry="0.5rem"
-          strokeWidth="3"
-          strokeDashoffset="4"
-          strokeDasharray="8 8"
-        />
-      </svg>
+      {!hideOutline && (
+        <svg
+          className="dnb-upload__outline"
+          aria-hidden
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+        >
+          <rect
+            width="100%"
+            height="100%"
+            rx="0.5rem"
+            ry="0.5rem"
+            strokeWidth="3"
+            strokeDashoffset="4"
+            strokeDasharray="8 8"
+          />
+        </svg>
+      )}
     </HeightAnimation>
   )
 }

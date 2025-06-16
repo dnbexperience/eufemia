@@ -186,3 +186,33 @@ export const UploadDisabled = () => {
     </Wrapper>
   )
 }
+
+export const UploadCompact = () => {
+  return (
+    <Wrapper>
+      <Upload
+        variant="compact"
+        id="asdadasd"
+        title="asdasdaaaaa"
+        text={false}
+        acceptedFileTypes={['pdf']}
+      />
+
+      <Upload
+        variant="compact"
+        id="b123123123"
+        title="b1231231"
+        text={false}
+        acceptedFileTypes={['pdf']}
+      />
+
+      <Upload
+        variant="compact"
+        id="x1221312312"
+        title="x12312"
+        text={false}
+        acceptedFileTypes={['pdf']}
+      />
+    </Wrapper>
+  )
+}

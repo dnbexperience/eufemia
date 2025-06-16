@@ -11,6 +11,11 @@ export const UploadProperties: PropertiesTableProps = {
     type: ['React.ReactNode'],
     status: 'optional',
   },
+  variant: {
+    doc: 'defines the appearance. Use one of these: `normal` or `compact`. Defaults to `normal`.',
+    type: ['normal', 'compact'],
+    status: 'optional',
+  },
   acceptedFileTypes: {
     doc: 'List of accepted file types. Either as string or [AcceptedFileType](/uilib/components/upload/properties/#acceptedfiletype). When providing a list of [AcceptedFileType](/uilib/components/upload/properties/#acceptedfiletype), the accepted file types will be presented in a table(see [example](/uilib/components/upload/demos/#upload-with-file-max-size-based-on-file-type)).',
     type: ['Array<string>', 'Array<AcceptedFileType>'],

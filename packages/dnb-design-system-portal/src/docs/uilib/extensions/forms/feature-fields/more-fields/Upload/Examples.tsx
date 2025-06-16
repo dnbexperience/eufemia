@@ -1,4 +1,4 @@
-import { Flex } from '@dnb/eufemia/src'
+import { Flex, Anchor } from '@dnb/eufemia/src'
 import ComponentBox from '../../../../../../../shared/tags/ComponentBox'
 import {
   Field,
@@ -24,6 +24,46 @@ export const BasicUsage = () => {
   )
 }
 
+export const CompactVariant = () => {
+  return (
+    <ComponentBox>
+      <Form.Handler>
+        <Field.Upload
+          variant="compact"
+          label="My custom label"
+          labelDescription="My description"
+          onChange={(files) => console.log('onChange', files)}
+        />
+      </Form.Handler>
+    </ComponentBox>
+  )
+}
+
+export const CompactVariantHelpButton = () => {
+  return (
+    <ComponentBox data-visual-test="upload-field-compact-help-button">
+      <Form.Handler>
+        <Field.Upload
+          help={{
+            open: true,
+            title: 'Hva betyr lånebeløp?',
+            content: (
+              <>
+                Dette er hvor mye du har tenkt å låne{' '}
+                <Anchor href="#test">totalt</Anchor>.
+              </>
+            ),
+          }}
+          variant="compact"
+          label="My custom label"
+          labelDescription="My description"
+          onChange={(files) => console.log('onChange', files)}
+        />
+      </Form.Handler>
+    </ComponentBox>
+  )
+}
+
 export const Required = () => {
   return (
     <ComponentBox>
@@ -39,9 +79,25 @@ export const Required = () => {
 
 export const WithHelp = () => {
   return (
-    <ComponentBox>
+    <ComponentBox data-visual-test="upload-field-help-button">
       <Field.Upload
         help={{
+          open: true,
+          title: 'Help title',
+          content: 'Help content',
+        }}
+      />
+    </ComponentBox>
+  )
+}
+
+export const WithHelpWithoutLabelDescription = () => {
+  return (
+    <ComponentBox data-visual-test="upload-field-help-button-without-label-description">
+      <Field.Upload
+        labelDescription={false}
+        help={{
+          open: true,
           title: 'Help title',
           content: 'Help content',
         }}

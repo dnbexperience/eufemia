@@ -858,8 +858,16 @@ button .dnb-form-status__text {
 .dnb-upload__accepted-file-types-table.dnb-table tbody td:first-child {
   padding-left: 0;
 }
-.dnb-upload__subtitle.dnb-p {
-  color: var(--upload-text--secondary);
+.dnb-upload--compact {
+  padding: 0;
+  border-radius: 0;
+}
+.dnb-upload--compact .dnb-upload__text {
+  color: var(--color-black-55);
+  font-size: var(--font-size-small);
+}
+.dnb-upload--compact .dnb-help-button__content .dnb-section {
+  margin-bottom: 1rem;
 }"
 `;
 
