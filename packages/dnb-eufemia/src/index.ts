@@ -49,6 +49,7 @@ import Card from './components/card/Card'
 import Checkbox from './components/checkbox/Checkbox'
 import CopyOnClick from './components/copy-on-click/CopyOnClick'
 import CountryFlag from './components/country-flag/CountryFlag'
+import DateFormat from './components/date-format/DateFormat'
 import DatePicker from './components/date-picker/DatePicker'
 import Dialog from './components/dialog/Dialog'
 import Drawer from './components/drawer/Drawer'
@@ -134,6 +135,7 @@ export {
   Checkbox,
   CopyOnClick,
   CountryFlag,
+  DateFormat,
   DatePicker,
   Dialog,
   Drawer,

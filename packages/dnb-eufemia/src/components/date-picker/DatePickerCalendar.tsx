@@ -32,7 +32,6 @@ import {
   getWeek,
   dayOffset,
   getCalendar,
-  formatDate,
 } from './DatePickerCalc'
 import Button, { ButtonProps } from '../button/Button'
 import DatePickerContext, {
@@ -45,6 +44,7 @@ import {
   CalendarNavButtonProps,
   DatePickerCalendarNav,
 } from './DatePickerCalendarNavigator'
+import { formatDate } from '../date-format/DateFormatUtils'
 
 export type CalendarDay = {
   date: Date
@@ -552,12 +552,12 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
                   className="dnb-date-picker__labels__day"
                   aria-label={formatDate(day, {
                     locale,
-                    formatOptions: { weekday: 'long' },
+                    options: { weekday: 'long' },
                   })}
                 >
                   {formatDate(day, {
                     locale,
-                    formatOptions: { weekday: 'short' },
+                    options: { weekday: 'short' },
                   }).substring(0, 2)}
                 </th>
               ))}
@@ -575,7 +575,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
                 {week.map((day: DayObject, i) => {
                   const title = formatDate(day.date, {
                     locale,
-                    formatOptions: {
+                    options: {
                       weekday: 'long',
                       day: 'numeric',
                       month: 'long',

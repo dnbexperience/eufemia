@@ -8,19 +8,19 @@ import enGB from '../../../constants/locales/en-GB'
 import {
   FormatDateOptions,
   formatDate,
-} from '../../../../../components/date-picker/DatePickerCalc'
+} from '../../../../../components/date-format/DateFormatUtils'
 
 const nb = nbNO['nb-NO']
 const en = enGB['en-GB']
 
-const formatOptions: Record<'no' | 'en', FormatDateOptions> = {
+const options: Record<'no' | 'en', FormatDateOptions> = {
   no: {
     locale: 'nb-NO',
-    variant: 'long',
+    options: { dateStyle: 'long' },
   },
   en: {
     locale: 'en-GB',
-    variant: 'long',
+    options: { dateStyle: 'long' },
   },
 }
 
@@ -273,7 +273,7 @@ describe('Field.Date', () => {
       ).toHaveTextContent(
         en.Date.errorMinDate.replace(
           /\{date\}/,
-          formatDate(minDate, formatOptions.en)
+          formatDate(minDate, options.en)
         )
       )
 
@@ -285,7 +285,7 @@ describe('Field.Date', () => {
       ).toHaveTextContent(
         en.Date.errorMaxDate.replace(
           /\{date\}/,
-          formatDate(maxDate, formatOptions.en)
+          formatDate(maxDate, options.en)
         )
       )
     })
@@ -328,13 +328,13 @@ describe('Field.Date', () => {
       expect(getMessages().at(0)).toHaveTextContent(
         en.Date.errorStartDateMinDate.replace(
           /\{date\}/,
-          formatDate(minDate, formatOptions.en)
+          formatDate(minDate, options.en)
         )
       )
       expect(getMessages().at(1)).toHaveTextContent(
         en.Date.errorEndDateMaxDate.replace(
           /\{date\}/,
-          formatDate(maxDate, formatOptions.en)
+          formatDate(maxDate, options.en)
         )
       )
 
@@ -344,13 +344,13 @@ describe('Field.Date', () => {
       expect(getMessages().at(0)).toHaveTextContent(
         en.Date.errorStartDateMaxDate.replace(
           /\{date\}/,
-          formatDate(maxDate, formatOptions.en)
+          formatDate(maxDate, options.en)
         )
       )
       expect(getMessages().at(1)).toHaveTextContent(
         en.Date.errorEndDateMaxDate.replace(
           /\{date\}/,
-          formatDate(maxDate, formatOptions.en)
+          formatDate(maxDate, options.en)
         )
       )
 
@@ -360,13 +360,13 @@ describe('Field.Date', () => {
       expect(getMessages().at(0)).toHaveTextContent(
         en.Date.errorStartDateMaxDate.replace(
           /\{date\}/,
-          formatDate(maxDate, formatOptions.en)
+          formatDate(maxDate, options.en)
         )
       )
       expect(getMessages().at(1)).toHaveTextContent(
         en.Date.errorEndDateMinDate.replace(
           /\{date\}/,
-          formatDate(minDate, formatOptions.en)
+          formatDate(minDate, options.en)
         )
       )
 
@@ -376,13 +376,13 @@ describe('Field.Date', () => {
       expect(getMessages().at(0)).toHaveTextContent(
         en.Date.errorStartDateMinDate.replace(
           /\{date\}/,
-          formatDate(minDate, formatOptions.en)
+          formatDate(minDate, options.en)
         )
       )
       expect(getMessages().at(1)).toHaveTextContent(
         en.Date.errorEndDateMinDate.replace(
           /\{date\}/,
-          formatDate(minDate, formatOptions.en)
+          formatDate(minDate, options.en)
         )
       )
     })
@@ -635,7 +635,7 @@ describe('Field.Date', () => {
     expect(dataContext.fieldDisplayValueRef.current).toEqual({
       '/myValue': {
         type: 'field',
-        value: '10/01/2023',
+        value: '10/1/23',
       },
     })
 
@@ -646,7 +646,7 @@ describe('Field.Date', () => {
     expect(dataContext.fieldDisplayValueRef.current).toEqual({
       '/myValue': {
         type: 'field',
-        value: '11/02/2024',
+        value: '11/2/24',
       },
     })
   })
@@ -1619,7 +1619,7 @@ describe('Field.Date', () => {
     ).toHaveTextContent(
       nb.Date.errorMaxDate.replace(
         /\{date\}/,
-        formatDate(maxDate, formatOptions.no)
+        formatDate(maxDate, options.no)
       )
     )
 
@@ -1635,7 +1635,7 @@ describe('Field.Date', () => {
     ).toHaveTextContent(
       nb.Date.errorMinDate.replace(
         /\{date\}/,
-        formatDate(minDate, formatOptions.no)
+        formatDate(minDate, options.no)
       )
     )
 
@@ -1934,7 +1934,7 @@ describe('Field.Date', () => {
         ).toHaveTextContent(
           nb.Date.errorMinDate.replace(
             /\{date\}/,
-            formatDate(minDate, formatOptions.no)
+            formatDate(minDate, options.no)
           )
         )
       })
@@ -1964,7 +1964,7 @@ describe('Field.Date', () => {
         ).toHaveTextContent(
           nb.Date.errorMaxDate.replace(
             /\{date\}/,
-            formatDate(maxDate, formatOptions.no)
+            formatDate(maxDate, options.no)
           )
         )
       })
@@ -2000,7 +2000,7 @@ describe('Field.Date', () => {
         ).toHaveTextContent(
           nb.Date.errorStartDateMinDate.replace(
             /\{date\}/,
-            formatDate(minDate, formatOptions.no)
+            formatDate(minDate, options.no)
           )
         )
       })
@@ -2036,7 +2036,7 @@ describe('Field.Date', () => {
         ).toHaveTextContent(
           nb.Date.errorStartDateMaxDate.replace(
             /\{date\}/,
-            formatDate(maxDate, formatOptions.no)
+            formatDate(maxDate, options.no)
           )
         )
       })
@@ -2072,7 +2072,7 @@ describe('Field.Date', () => {
         ).toHaveTextContent(
           nb.Date.errorEndDateMinDate.replace(
             /\{date\}/,
-            formatDate(minDate, formatOptions.no)
+            formatDate(minDate, options.no)
           )
         )
       })
@@ -2108,7 +2108,7 @@ describe('Field.Date', () => {
         ).toHaveTextContent(
           nb.Date.errorEndDateMaxDate.replace(
             /\{date\}/,
-            formatDate(maxDate, formatOptions.no)
+            formatDate(maxDate, options.no)
           )
         )
       })
@@ -2155,13 +2155,13 @@ describe('Field.Date', () => {
         expect(getMessages().at(0)).toHaveTextContent(
           nb.Date.errorStartDateMinDate.replace(
             /\{date\}/,
-            formatDate(minDate, formatOptions.no)
+            formatDate(minDate, options.no)
           )
         )
         expect(getMessages().at(1)).toHaveTextContent(
           nb.Date.errorEndDateMaxDate.replace(
             /\{date\}/,
-            formatDate(maxDate, formatOptions.no)
+            formatDate(maxDate, options.no)
           )
         )
 
@@ -2171,13 +2171,13 @@ describe('Field.Date', () => {
         expect(getMessages().at(0)).toHaveTextContent(
           nb.Date.errorStartDateMaxDate.replace(
             /\{date\}/,
-            formatDate(maxDate, formatOptions.no)
+            formatDate(maxDate, options.no)
           )
         )
         expect(getMessages().at(1)).toHaveTextContent(
           nb.Date.errorEndDateMaxDate.replace(
             /\{date\}/,
-            formatDate(maxDate, formatOptions.no)
+            formatDate(maxDate, options.no)
           )
         )
 
@@ -2187,13 +2187,13 @@ describe('Field.Date', () => {
         expect(getMessages().at(0)).toHaveTextContent(
           nb.Date.errorStartDateMaxDate.replace(
             /\{date\}/,
-            formatDate(maxDate, formatOptions.no)
+            formatDate(maxDate, options.no)
           )
         )
         expect(getMessages().at(1)).toHaveTextContent(
           nb.Date.errorEndDateMinDate.replace(
             /\{date\}/,
-            formatDate(minDate, formatOptions.no)
+            formatDate(minDate, options.no)
           )
         )
 
@@ -2203,13 +2203,13 @@ describe('Field.Date', () => {
         expect(getMessages().at(0)).toHaveTextContent(
           nb.Date.errorStartDateMinDate.replace(
             /\{date\}/,
-            formatDate(minDate, formatOptions.no)
+            formatDate(minDate, options.no)
           )
         )
         expect(getMessages().at(1)).toHaveTextContent(
           nb.Date.errorEndDateMinDate.replace(
             /\{date\}/,
-            formatDate(minDate, formatOptions.no)
+            formatDate(minDate, options.no)
           )
         )
 
@@ -2246,7 +2246,7 @@ describe('Field.Date', () => {
         ).toHaveTextContent(
           nb.Date.errorMinDate.replace(
             /\{date\}/,
-            formatDate(minDate, formatOptions.no)
+            formatDate(minDate, options.no)
           )
         )
 
@@ -2282,7 +2282,7 @@ describe('Field.Date', () => {
         ).toHaveTextContent(
           nb.Date.errorMaxDate.replace(
             /\{date\}/,
-            formatDate(maxDate, formatOptions.no)
+            formatDate(maxDate, options.no)
           )
         )
 
@@ -2323,13 +2323,13 @@ describe('Field.Date', () => {
         expect(startDayError).toHaveTextContent(
           nb.Date.errorStartDateMinDate.replace(
             /\{date\}/,
-            formatDate(minDate, formatOptions.no)
+            formatDate(minDate, options.no)
           )
         )
         expect(endDayError).toHaveTextContent(
           nb.Date.errorEndDateMaxDate.replace(
             /\{date\}/,
-            formatDate(maxDate, formatOptions.no)
+            formatDate(maxDate, options.no)
           )
         )
 
