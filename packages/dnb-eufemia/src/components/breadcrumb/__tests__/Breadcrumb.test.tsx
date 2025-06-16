@@ -319,7 +319,7 @@ describe('Breadcrumb', () => {
     })
   })
 
-  it.only('should fire onToggleCollapse when breadcrumb opens and collapses', async () => {
+  it('should fire onToggleCollapse when breadcrumb expands and collapses', async () => {
     const onToggleCollapse = jest.fn()
 
     render(
@@ -338,7 +338,7 @@ describe('Breadcrumb', () => {
 
     expect(onToggleCollapse).toHaveBeenCalledTimes(0)
 
-    // Open
+    // Expand
     await userEvent.click(toggleButton())
     expect(onToggleCollapse).toHaveBeenCalledTimes(1)
     expect(onToggleCollapse).toHaveBeenCalledWith(false)
@@ -346,6 +346,22 @@ describe('Breadcrumb', () => {
     // Collapse
     await userEvent.click(toggleButton())
     expect(onToggleCollapse).toHaveBeenCalledTimes(2)
+    expect(onToggleCollapse).toHaveBeenCalledWith(true)
+
+    // Set screen to small size
+    act(() => {
+      setMedia({ width: '40em' })
+    })
+    // Click to expand breadcrumbs
+    await userEvent.click(toggleButton())
+    expect(onToggleCollapse).toHaveBeenCalledTimes(3)
+    expect(onToggleCollapse).toHaveBeenCalledWith(false)
+
+    // Resize to large screen to trigger auto-collapse
+    act(() => {
+      setMedia({ width: '80em' })
+    })
+    expect(onToggleCollapse).toHaveBeenCalledTimes(4)
     expect(onToggleCollapse).toHaveBeenCalledWith(true)
   })
 
