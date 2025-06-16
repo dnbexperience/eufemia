@@ -319,6 +319,39 @@ describe('Breadcrumb', () => {
     })
   })
 
+  it('should fire onCollapse when the breadcrumb collapses', async () => {
+    setMedia({ width: '80em' })
+    const onCollapse = jest.fn()
+
+    render(
+      <Breadcrumb
+        data={[
+          { href: '/' },
+          { href: '/page1', text: 'Page 1' },
+          { href: '/page1/page2', text: 'Page 2' },
+        ]}
+        onCollapse={onCollapse}
+      />
+    )
+
+    const toggleButton = () =>
+      document.querySelector('.dnb-breadcrumb__toggle')
+
+    expect(onCollapse).toHaveBeenCalledTimes(0)
+
+    // Resize screen to make breadcrumbs collapse
+    act(() => {
+      setMedia({ width: '40em' })
+    })
+    expect(onCollapse).toHaveBeenCalledTimes(1)
+
+    // Toggle collapse
+    await userEvent.click(toggleButton())
+    await userEvent.click(toggleButton())
+
+    expect(onCollapse).toHaveBeenCalledTimes(2)
+  })
+
   describe('BreadcrumbItem', () => {
     it('renders without properties', () => {
       const props: BreadcrumbItemProps = {}
