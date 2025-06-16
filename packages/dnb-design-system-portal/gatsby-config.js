@@ -7,6 +7,10 @@ const remarkGfm = require('remark-gfm')
 const getCurrentBranchName = require('current-git-branch')
 const currentBranch = getCurrentBranchName()
 const { shouldUsePrebuild } = require('./src/core/BuildTools.cjs')
+const {
+  enablePortalStyleScope,
+  enableBuildStyleScope,
+} = require('@dnb/eufemia/src/plugins/postcss-isolated-style-scope/config')
 
 const pathPrefix = '/'
 
@@ -139,21 +143,39 @@ const plugins = [
         eiendom: { name: 'DNB Eiendom' },
         sbanken: { name: 'Sbanken (WIP)' },
       },
-      filesGlobs: shouldUsePrebuild()
-        ? [
-            '**/build/style/dnb-ui-core.min.css',
-            '**/build/style/themes/**/*-theme-{basis,components}.min.css',
-            '**/build/extensions/payment-card/**/dnb-*.min.css',
-          ]
-        : [
-            '**/src/style/dnb-ui-core.scss',
-            '**/src/style/themes/**/*-theme-{basis,components}.scss',
-            '**/src/extensions/payment-card/**/dnb-*.scss',
-          ],
+      filesGlobs:
+        enableBuildStyleScope() || enablePortalStyleScope()
+          ? shouldUsePrebuild()
+            ? [
+                // Use the isolated core package (because basis does have issues with "ui-theme-tags")
+                '**/build/style/dnb-ui-core--isolated.min.css',
+                '**/build/style/themes/**/*-theme-{basis,components}--isolated.min.css',
+                '**/build/extensions/payment-card/**/dnb-*--isolated.min.css',
+              ]
+            : [
+                // Use the isolated core package (because basis does have issues with "ui-theme-tags")
+                '**/src/style/dnb-ui-core.scss',
+                '**/src/style/themes/**/*-theme-{basis,components}.scss',
+                '**/src/extensions/payment-card/**/dnb-*.scss',
+              ]
+          : shouldUsePrebuild()
+          ? [
+              // Use the core package
+              '**/build/style/dnb-ui-core.min.css',
+              '**/build/style/themes/**/*-theme-{basis,components}.min.css',
+              '**/build/extensions/payment-card/**/dnb-*.min.css',
+            ]
+          : [
+              // Use the core package
+              '**/src/style/dnb-ui-core.scss',
+              '**/src/style/themes/**/*-theme-{basis,components}.scss',
+              '**/src/extensions/payment-card/**/dnb-*.scss',
+            ],
       includeFiles: [
-        '**/dnb-ui-core.*',
-        '**/*-theme-components.*',
-        '**/*-theme-basis.*',
+        '**/dnb-ui-core*',
+        '**/dnb-ui-basis*',
+        '**/*-theme-components*',
+        '**/*-theme-basis*',
         '**/payment-card/**/*',
       ],
       // also load the extensions CSS package

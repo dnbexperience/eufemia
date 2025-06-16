@@ -12,6 +12,7 @@ import {
   releaseBranches,
 } from '../../postbuild/getNextReleaseVersion'
 import { log } from '../../lib'
+import { getStyleScopeHash } from '../../../src/plugins/postcss-isolated-style-scope/handleScopeHash.js'
 
 export async function makeReleaseVersion() {
   const branchName = getBranchName()
@@ -73,4 +74,14 @@ export async function makeReleaseVersion() {
   }
 
   log.succeed(`Success on write version to CSS and JS sources: ${version}`)
+
+  if (version) {
+    const scopeHash = getStyleScopeHash({ version, sha })
+    const file = require.resolve('@dnb/eufemia/src/scope-hash.txt')
+    await fs.writeFile(file, scopeHash)
+
+    log.succeed(
+      `Success on write to scope-hash.txt with scope hash: ${scopeHash}`
+    )
+  }
 }
