@@ -5,7 +5,7 @@ test.describe('CodeBlock', () => {
     await page.goto('/uilib/components/textarea/demos')
 
     // Check if app is mounted
-    await page.waitForSelector('#dnb-drawer-list__portal', {
+    await page.waitForSelector('#eufemia-portal-root', {
       state: 'attached',
     })
   })

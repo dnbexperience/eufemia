@@ -16,7 +16,7 @@ test.describe('Colors for UI', () => {
     )
 
     // Check if app is mounted
-    await page.waitForSelector('#dnb-drawer-list__portal', {
+    await page.waitForSelector('#eufemia-portal-root', {
       state: 'attached',
     })
   })
@@ -40,7 +40,7 @@ test.describe('Colors for Sbanken', () => {
     )
 
     // Check if app is mounted
-    await page.waitForSelector('#dnb-drawer-list__portal', {
+    await page.waitForSelector('#eufemia-portal-root', {
       state: 'attached',
     })
   })

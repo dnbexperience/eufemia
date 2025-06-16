@@ -48,6 +48,7 @@ import Logo from './logo/Logo'
 import Modal from './modal/Modal'
 import NumberFormat from './number-format/NumberFormat'
 import Pagination from './pagination/Pagination'
+import PortalRoot from './portal-root/PortalRoot'
 import ProgressIndicator from './progress-indicator/ProgressIndicator'
 import Radio from './radio/Radio'
 import Section from './section/Section'
@@ -107,6 +108,7 @@ export {
   Modal,
   NumberFormat,
   Pagination,
+  PortalRoot,
   ProgressIndicator,
   Radio,
   Section,
@@ -167,6 +169,7 @@ export const getComponents = () => {
     Modal,
     NumberFormat,
     Pagination,
+    PortalRoot,
     ProgressIndicator,
     Radio,
     Section,

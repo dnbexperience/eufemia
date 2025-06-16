@@ -5,7 +5,7 @@ test.describe('Responsiveness', () => {
     await page.goto('/uilib/')
 
     // Check if app is mounted
-    await page.waitForSelector('#dnb-drawer-list__portal', {
+    await page.waitForSelector('#eufemia-portal-root', {
       state: 'attached',
     })
   })
@@ -30,7 +30,7 @@ test.describe('Responsiveness', () => {
     )
 
     // Check if app is mounted
-    await page.waitForSelector('#dnb-drawer-list__portal', {
+    await page.waitForSelector('#eufemia-portal-root', {
       state: 'attached',
     })
 

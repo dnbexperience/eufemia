@@ -4,8 +4,8 @@ import React, {
   useLayoutEffect,
   useState,
 } from 'react'
-import ReactDOM from 'react-dom'
 import { DatePickerProps } from './DatePicker'
+import PortalRoot from '../PortalRoot'
 import { debounce } from '../../shared/helpers'
 
 type DatePickerPortalProps = React.HTMLProps<HTMLDivElement> & {
@@ -26,7 +26,7 @@ export default function DatePickerPortal({
     if (targetElementRef.current) {
       setPosition(getPosition(targetElementRef.current, alignment))
     }
-  }, [])
+  }, [alignment, targetElementRef])
 
   const setPositionDebounce = useCallback(() => {
     const debounced = debounce(() => {
@@ -54,14 +54,15 @@ export default function DatePickerPortal({
 
   return (
     position &&
-    (!skipPortal
-      ? ReactDOM.createPortal(
-          <div className="dnb-date-picker__portal" style={position}>
-            {children}
-          </div>,
-          document.body
-        )
-      : children)
+    (!skipPortal ? (
+      <PortalRoot>
+        <div className="dnb-date-picker__portal" style={position}>
+          {children}
+        </div>
+      </PortalRoot>
+    ) : (
+      children
+    ))
   )
 }
 

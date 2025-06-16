@@ -16,7 +16,7 @@ test.describe('Typography for UI', () => {
     )
 
     // Check if app is mounted
-    await page.waitForSelector('#dnb-drawer-list__portal', {
+    await page.waitForSelector('#eufemia-portal-root', {
       state: 'attached',
     })
   })
@@ -103,7 +103,7 @@ test.describe('Typography for Sbanken', () => {
     )
 
     // Check if app is mounted
-    await page.waitForSelector('#dnb-drawer-list__portal', {
+    await page.waitForSelector('#eufemia-portal-root', {
       state: 'attached',
     })
   })
