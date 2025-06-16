@@ -102,6 +102,12 @@ describe('Field.Upload', () => {
     expect(document.querySelector('button')).toHaveAttribute('disabled')
   })
 
+  it('should support setting custom content using children', () => {
+    render(<Field.Upload>My custom content</Field.Upload>)
+
+    expect(screen.getByText('My custom content')).toBeInTheDocument()
+  })
+
   it('should display spinner for an async onFileClick event', async () => {
     const onFileClick = jest.fn(async () => {
       await wait(1)
