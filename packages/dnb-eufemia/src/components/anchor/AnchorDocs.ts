@@ -61,6 +61,16 @@ export const AnchorProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  noIcon: {
+    doc: 'Removes icons if set to `true`. Defaults to `false`.',
+    type: 'boolean',
+    status: 'optional',
+  },
+  noLaunchIcon: {
+    doc: 'Removes launch icon if set to `true`. Defaults to `false`.',
+    type: 'boolean',
+    status: 'optional',
+  },
   skeleton: {
     doc: 'If set to `true`, an overlaying skeleton with animation will be shown.',
     type: 'boolean',

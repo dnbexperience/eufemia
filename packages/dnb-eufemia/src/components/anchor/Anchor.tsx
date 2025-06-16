@@ -66,17 +66,29 @@ export type AnchorProps = {
    * Default: `false`
    */
   noUnderline?: boolean
+  /**
+   * Removes Icon.
+   * Default: `false`
+   */
+  noIcon?: boolean
+  /**
+   * Removes Luanch Icon.
+   * Default: `false`
+   */
+  noLaunchIcon?: boolean
 }
 
 export type AnchorAllProps = AnchorProps &
   Omit<React.HTMLProps<HTMLAnchorElement>, 'ref'> &
   SpacingProps
 
-const defaultProps = {
+const defaultProps: AnchorProps = {
   noAnimation: false,
   noStyle: false,
   noHover: false,
   noUnderline: false,
+  noIcon: false,
+  noLaunchIcon: false,
 }
 
 export function AnchorInstance(localProps: AnchorAllProps) {
@@ -114,6 +126,8 @@ export function AnchorInstance(localProps: AnchorAllProps) {
     noHover,
     noStyle,
     noUnderline,
+    noIcon,
+    noLaunchIcon,
     ...rest
   } = allProps
 
@@ -125,12 +139,14 @@ export function AnchorInstance(localProps: AnchorAllProps) {
   const _opensNewTab = opensNewTab(allProps.target, href)
   const showLaunchIcon =
     _opensNewTab &&
+    !noIcon &&
+    !noLaunchIcon &&
     !className?.includes('dnb-anchor--no-icon') &&
     !className?.includes('dnb-anchor--no-launch-icon') &&
     !omitClass
   const showTooltip = (tooltip || _opensNewTab) && !allProps.title
 
-  const iconNode = icon && getIcon(icon)
+  const iconNode = !noIcon && icon && getIcon(icon)
 
   const suffix =
     (iconPosition === 'right' && iconNode) ||
