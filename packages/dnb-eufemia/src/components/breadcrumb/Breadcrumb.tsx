@@ -187,9 +187,9 @@ const Breadcrumb = (localProps: BreadcrumbProps & SpacingProps) => {
 
   const [, forceUpdate] = useReducer(() => ({}), {})
 
-  const { isLarge, isMedium } = useMedia()
-
   const isCollapsedRef = useRef(overrideIsCollapsed)
+
+  const { isLarge, isMedium } = useMedia()
 
   useEffect(() => {
     if (overrideIsCollapsed !== isCollapsedRef.current) {
