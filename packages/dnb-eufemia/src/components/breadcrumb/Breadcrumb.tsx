@@ -189,7 +189,7 @@ const Breadcrumb = (localProps: BreadcrumbProps & SpacingProps) => {
 
   const isCollapsedRef = useRef(overrideIsCollapsed)
 
-  const { isLarge, isMedium } = useMedia()
+  const { isLarge } = useMedia()
 
   useEffect(() => {
     if (overrideIsCollapsed !== isCollapsedRef.current) {
@@ -210,7 +210,7 @@ const Breadcrumb = (localProps: BreadcrumbProps & SpacingProps) => {
 
       forceUpdate()
     }
-  }, [isLarge, isMedium, overrideIsCollapsed, onToggleCollapse])
+  }, [isLarge, overrideIsCollapsed, onToggleCollapse])
 
   const onClickHandler = useCallback(() => {
     isCollapsedRef.current = !isCollapsedRef.current
