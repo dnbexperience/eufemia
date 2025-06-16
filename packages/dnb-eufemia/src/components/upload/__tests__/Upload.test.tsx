@@ -43,6 +43,12 @@ describe('Upload', () => {
     ).toBeInTheDocument()
   })
 
+  it('renders custom content using children', () => {
+    render(<Upload {...defaultProps}>My custom content</Upload>)
+
+    expect(screen.getByText('My custom content')).toBeInTheDocument()
+  })
+
   describe('Text', () => {
     it('renders the title', () => {
       render(<Upload {...defaultProps} />)
