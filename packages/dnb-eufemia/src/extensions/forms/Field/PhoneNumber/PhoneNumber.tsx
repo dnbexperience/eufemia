@@ -93,6 +93,11 @@ const defaultMask = [
   /\d/,
 ]
 
+const numberOfDigitsInDefaultMask = defaultMask.filter(
+  (mask) =>
+    mask !== ' ' && typeof mask === 'object' && mask instanceof RegExp
+).length
+
 type EventValues = {
   countryCode?: string
   phoneNumber?: string
@@ -341,7 +346,23 @@ function PhoneNumber(props: Props) {
         data?.selectedKey?.trim() || emptyValue)
       currentCountryRef.current = data?.country
 
-      callOnChange({ countryCode })
+      if (
+        !numberMask &&
+        countryCodeRef.current?.includes(defaultCountryCode) &&
+        numberRef.current?.length > numberOfDigitsInDefaultMask
+      ) {
+        const truncatedNumber = numberRef.current.substring(
+          0,
+          numberOfDigitsInDefaultMask
+        )
+        callOnChange({
+          countryCode,
+          phoneNumber: truncatedNumber,
+        })
+        onNumberChange?.(truncatedNumber)
+      } else {
+        callOnChange({ countryCode })
+      }
       onCountryCodeChange?.(countryCode)
     },
     [emptyValue, callOnChange, onCountryCodeChange]
