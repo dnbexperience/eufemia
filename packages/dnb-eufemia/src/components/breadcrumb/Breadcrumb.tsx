@@ -134,7 +134,7 @@ export type BreadcrumbProps = {
   /**
    * Will be called when breadcrumb expands or collapses.
    */
-  onToggleCollapse?: (isCollapsed: boolean) => void
+  onToggle?: (isCollapsed: boolean) => void
 }
 
 export const defaultProps = {
@@ -179,7 +179,7 @@ const Breadcrumb = (localProps: BreadcrumbProps & SpacingProps) => {
     noAnimation,
     data,
     href,
-    onToggleCollapse,
+    onToggle,
     ...props
   } = allProps
   const skeletonClasses = createSkeletonClass('font', skeleton, context)
@@ -201,23 +201,23 @@ const Breadcrumb = (localProps: BreadcrumbProps & SpacingProps) => {
   // Auto-collapse breadcrumbs if going from small screen to large screen.
   useEffect(() => {
     if (isLarge && overrideIsCollapsed !== false) {
-      // Call onToggleCollapse if breadcrumbs is expanded and is going to collapse due to large screen size.
+      // Call onToggle if breadcrumbs is expanded and is going to collapse due to large screen size.
       if (isCollapsedRef.current === false) {
-        onToggleCollapse?.(true)
+        onToggle?.(true)
       }
 
       isCollapsedRef.current = true
 
       forceUpdate()
     }
-  }, [isLarge, overrideIsCollapsed, onToggleCollapse])
+  }, [isLarge, overrideIsCollapsed, onToggle])
 
   const onClickHandler = useCallback(() => {
     isCollapsedRef.current = !isCollapsedRef.current
     forceUpdate()
 
-    onToggleCollapse?.(isCollapsedRef.current)
-  }, [onToggleCollapse])
+    onToggle?.(isCollapsedRef.current)
+  }, [onToggle])
 
   const currentVariant = useMemo(() => {
     if (!variant) {

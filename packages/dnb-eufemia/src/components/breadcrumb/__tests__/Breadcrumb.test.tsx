@@ -319,8 +319,8 @@ describe('Breadcrumb', () => {
     })
   })
 
-  it('should fire onToggleCollapse when breadcrumb expands and collapses', async () => {
-    const onToggleCollapse = jest.fn()
+  it('should fire onToggle when breadcrumb expands and collapses', async () => {
+    const onToggle = jest.fn()
 
     render(
       <Breadcrumb
@@ -329,24 +329,24 @@ describe('Breadcrumb', () => {
           { href: '/page1', text: 'Page 1' },
           { href: '/page1/page2', text: 'Page 2' },
         ]}
-        onToggleCollapse={onToggleCollapse}
+        onToggle={onToggle}
       />
     )
 
     const toggleButton = () =>
       document.querySelector('.dnb-breadcrumb__toggle')
 
-    expect(onToggleCollapse).toHaveBeenCalledTimes(0)
+    expect(onToggle).toHaveBeenCalledTimes(0)
 
     // Expand
     await userEvent.click(toggleButton())
-    expect(onToggleCollapse).toHaveBeenCalledTimes(1)
-    expect(onToggleCollapse).toHaveBeenCalledWith(false)
+    expect(onToggle).toHaveBeenCalledTimes(1)
+    expect(onToggle).toHaveBeenCalledWith(false)
 
     // Collapse
     await userEvent.click(toggleButton())
-    expect(onToggleCollapse).toHaveBeenCalledTimes(2)
-    expect(onToggleCollapse).toHaveBeenCalledWith(true)
+    expect(onToggle).toHaveBeenCalledTimes(2)
+    expect(onToggle).toHaveBeenCalledWith(true)
 
     // Set screen to small size
     act(() => {
@@ -354,15 +354,15 @@ describe('Breadcrumb', () => {
     })
     // Click to expand breadcrumbs
     await userEvent.click(toggleButton())
-    expect(onToggleCollapse).toHaveBeenCalledTimes(3)
-    expect(onToggleCollapse).toHaveBeenCalledWith(false)
+    expect(onToggle).toHaveBeenCalledTimes(3)
+    expect(onToggle).toHaveBeenCalledWith(false)
 
     // Resize to large screen to trigger auto-collapse
     act(() => {
       setMedia({ width: '80em' })
     })
-    expect(onToggleCollapse).toHaveBeenCalledTimes(4)
-    expect(onToggleCollapse).toHaveBeenCalledWith(true)
+    expect(onToggle).toHaveBeenCalledTimes(4)
+    expect(onToggle).toHaveBeenCalledWith(true)
   })
 
   describe('BreadcrumbItem', () => {
