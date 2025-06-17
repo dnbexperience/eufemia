@@ -19,9 +19,15 @@ body #gatsby-focus-wrapper {
 }
 
 #gatsby-noscript {
-  position: absolute;
-  z-index: 5000;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
+  z-index: 5000;
+
+  padding: 1.25rem;
+  text-align: center;
+
   color: black;
   background-color: white;
 }
