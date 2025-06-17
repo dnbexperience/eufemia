@@ -146,7 +146,7 @@ export function AnchorInstance(localProps: AnchorAllProps) {
     !omitClass
   const showTooltip = (tooltip || _opensNewTab) && !allProps.title
 
-  const iconNode = !noIcon && icon && getIcon(icon)
+  const iconNode = icon && getIcon(icon)
 
   const suffix =
     (iconPosition === 'right' && iconNode) ||
@@ -172,7 +172,13 @@ export function AnchorInstance(localProps: AnchorAllProps) {
               noAnimation && 'dnb-anchor--no-animation',
               noHover && 'dnb-anchor--no-hover',
               noStyle && 'dnb-anchor--no-style',
-              noUnderline && 'dnb-anchor--no-underline'
+              noUnderline && 'dnb-anchor--no-underline',
+              noIcon &&
+                !className?.includes('dnb-anchor--no-icon') &&
+                'dnb-anchor--no-icon',
+              noLaunchIcon &&
+                !className?.includes('dnb-anchor--no-launch-icon') &&
+                'dnb-anchor--no-launch-icon'
             ),
           className
         )}
