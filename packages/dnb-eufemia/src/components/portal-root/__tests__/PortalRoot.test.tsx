@@ -1,6 +1,7 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 import PortalRoot, { getOrCreatePortalElement } from '../PortalRoot'
+import { IsolatedStyleScopeContext } from '../../../shared/IsolatedStyleScope'
 
 describe('PortalRoot', () => {
   let originalWindow: Window & typeof globalThis
@@ -89,6 +90,37 @@ describe('PortalRoot', () => {
 
     const portalElements = document.querySelectorAll(`#${portalId}`)
     expect(portalElements).toHaveLength(1)
+  })
+
+  it('should merge scopeStyle from context with component style prop', () => {
+    const scopeStyle = { backgroundColor: 'red', padding: '10px' }
+    const componentStyle = { color: 'blue', margin: '20px' }
+
+    render(
+      <IsolatedStyleScopeContext.Provider
+        value={{
+          style: scopeStyle,
+          generatedScopeHash: 'test-hash',
+          internalKeys: new Set(),
+          scopeHash: 'auto',
+          disableCoreStyleWrapper: false,
+        }}
+      >
+        <PortalRoot style={componentStyle}>
+          <div>Content</div>
+        </PortalRoot>
+      </IsolatedStyleScopeContext.Provider>
+    )
+
+    const portalElement = document.getElementById('eufemia-portal-root')
+    const contentDiv = portalElement.querySelector('.dnb-core-style')
+
+    expect(contentDiv).toHaveStyle({
+      backgroundColor: 'red',
+      padding: '10px',
+      color: 'blue',
+      margin: '20px',
+    })
   })
 })
 
