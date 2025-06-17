@@ -22,6 +22,7 @@ export type DrawerListPortalProps = {
   include_owner_width?: boolean
   independent_width?: boolean
   fixed_position?: boolean
+  skipPortal?: boolean
   className?: string
 }
 
@@ -33,6 +34,7 @@ function DrawerListPortal({
   include_owner_width,
   independent_width,
   fixed_position,
+  skipPortal,
   className,
   children,
 }: DrawerListPortalProps) {
@@ -154,7 +156,7 @@ function DrawerListPortal({
     rootRef,
   ])
 
-  const addPositionObserver = () => {
+  const addPositionObserver = useCallback(() => {
     if (setPosition.current || typeof window === 'undefined') {
       return // stop here
     }
@@ -179,9 +181,9 @@ function DrawerListPortal({
     } catch (e) {
       window.addEventListener('resize', setPosition.current)
     }
-  }
+  }, [opened, rootRef])
 
-  const removePositionObserver = () => {
+  const removePositionObserver = useCallback(() => {
     clearTimeout(positionTimeout.current)
     if (typeof window !== 'undefined' && setPosition.current) {
       if (customElem.current) {
@@ -197,6 +199,10 @@ function DrawerListPortal({
       window.removeEventListener('resize', setPosition.current)
     }
     setPosition.current = null
+  }, [])
+
+  if (skipPortal) {
+    return children
   }
 
   if (typeof window !== 'undefined' && isMounted) {
