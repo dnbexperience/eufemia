@@ -32,7 +32,7 @@ function MyApp() {
 }
 ```
 
-Optionally, but recommended – add the PostCSS plugin to your build tool.
+Optionally (but recommended), add the PostCSS plugin to your build tool. This ensures your custom styles have the correct CSS specificity when overriding or extending Eufemia styles.
 
 ### Good to know
 
@@ -266,6 +266,8 @@ getStyleScopeHash() // 'eufemia-scope--1_2_3'
   _e.g., `:not(#isolated) .x` → `.x`_
 
 - Selectors already containing the correct scope (e.g., `.eufemia-scope--something`) are not scoped again
+
+- `@keyframes` are omitted from scoping for now.
 
 #### CSS Modules Specific
 
