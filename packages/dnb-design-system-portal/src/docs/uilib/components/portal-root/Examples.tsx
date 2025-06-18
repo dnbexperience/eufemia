@@ -26,5 +26,6 @@ export const PortalRootExample = () => (
         <P>My content</P>
       </div>
     </PortalRoot>
+    <P>Do you see the red box?</P>
   </ComponentBox>
 )
