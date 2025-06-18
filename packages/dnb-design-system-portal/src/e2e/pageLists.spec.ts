@@ -18,7 +18,7 @@ test.describe('Page Lists', () => {
 
       // Check if app is mounted
       await page
-        .locator('#dnb-drawer-list__portal')
+        .locator('#eufemia-portal-root')
         .waitFor({ state: 'attached' })
     })
 
@@ -53,7 +53,7 @@ test.describe('Page Lists', () => {
 
       // Check if app is mounted
       await page
-        .locator('#dnb-drawer-list__portal')
+        .locator('#eufemia-portal-root')
         .waitFor({ state: 'attached' })
     })
 
@@ -84,7 +84,7 @@ test.describe('Page Lists', () => {
 
       // Check if app is mounted
       await page
-        .locator('#dnb-drawer-list__portal')
+        .locator('#eufemia-portal-root')
         .waitFor({ state: 'attached' })
     })
 

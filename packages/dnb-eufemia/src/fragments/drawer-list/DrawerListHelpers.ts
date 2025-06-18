@@ -489,8 +489,7 @@ export const prepareDerivedState = (
     state.original_data = getData(props)
   }
 
-  state.usePortal =
-    props.skip_portal !== null ? !isTrue(props.skip_portal) : true
+  state.skipPortal = isTrue(props.skip_portal)
 
   if (typeof props.wrapper_element === 'string') {
     if (typeof document !== 'undefined') {

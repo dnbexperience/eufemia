@@ -3,16 +3,17 @@
  *
  */
 
-import React from 'react'
-import ReactDOM from 'react-dom'
-import { makeUniqueId, warn } from '../../shared/component-helper'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
+import classnames from 'classnames'
+import { makeUniqueId } from '../../shared/component-helper'
+import useMountEffect from '../../shared/helpers/useMountEffect'
 import TooltipContainer from './TooltipContainer'
 import { TooltipProps } from './types'
 import { useTheme } from '../../shared'
-import { ThemeProps, getThemeClasses } from '../../shared/Theme'
+import { getThemeClasses } from '../../shared/Theme'
+import PortalRoot from '../PortalRoot'
 
 type TooltipType = {
-  node: HTMLElement
   count?: number
   delayTimeout?: NodeJS.Timeout
   hiddenTimeout?: NodeJS.Timeout
@@ -45,51 +46,33 @@ function TooltipPortal(
     children,
   } = props
 
-  const [isMounted, setIsMounted] = React.useState(false)
-  const [isActive, setIsActive] = React.useState(active)
-  const [id] = React.useState(() => makeUniqueId())
-  const isInDOM = React.useRef(false)
+  const [isMounted, setIsMounted] = useState(false)
+  const [isActive, setIsActive] = useState(active)
+  const [id] = useState(() => makeUniqueId())
+  const isInDOM = useRef(false)
 
   const theme = useTheme()
 
-  const makePortal = () => {
+  const makeTooltip = useCallback(() => {
     if (!tooltipPortal[id]) {
       tooltipPortal[id] = {
         count: 0,
-        node: createRootElement(theme),
       }
     }
-  }
+  }, [id])
 
-  const clearTimers = () => {
+  const clearTimers = useCallback(() => {
     clearTimeout(tooltipPortal[id]?.delayTimeout)
     clearTimeout(tooltipPortal[id]?.hiddenTimeout)
-  }
+  }, [id])
 
-  const removeFromDOM = (hide?: boolean) => {
-    if (isActive && hide) {
-      return // stop here
-    }
-
-    const ref = tooltipPortal[id]
-    if (ref?.node) {
-      ref.count--
-      if (ref.count <= 0) {
-        /**
-         * Remove the referenced data
-         */
-        delete tooltipPortal[id]
-      }
-    }
-  }
-
-  React.useEffect(() => {
+  useEffect(() => {
     setIsMounted(true)
 
     clearTimers()
 
     if (active) {
-      makePortal()
+      makeTooltip()
       setIsActive(true)
 
       isInDOM.current = true
@@ -104,7 +87,6 @@ function TooltipPortal(
 
       const delayHidden = () => {
         isInDOM.current = false
-        removeFromDOM(true)
       }
 
       if (noAnimation || globalThis.IS_TEST) {
@@ -121,37 +103,44 @@ function TooltipPortal(
     }
 
     return clearTimers
+  }, [
+    active,
+    clearTimers,
+    hideDelay,
+    id,
+    isMounted,
+    makeTooltip,
+    noAnimation,
+  ])
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [children, active, id, hideDelay, noAnimation])
-
-  React.useEffect(() => {
+  useMountEffect(() => {
     /**
      * Because of "aria-describedby" on the target element,
      * the Tooltip should exist in the DOM
      */
     if (keepInDOM) {
-      makePortal()
+      makeTooltip()
     }
+  })
 
-    return removeFromDOM
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  const root = tooltipPortal[id]?.node
-
-  if (root) {
-    return ReactDOM.createPortal(
-      isInDOM.current || keepInDOM ? (
-        <TooltipContainer
-          {...props}
-          targetElement={targetElement}
-          active={isActive}
+  if (isInDOM.current || keepInDOM) {
+    return (
+      <PortalRoot>
+        <div
+          className={classnames(
+            'dnb-tooltip__portal',
+            theme && getThemeClasses(theme)
+          )}
         >
-          {children}
-        </TooltipContainer>
-      ) : null,
-      root
+          <TooltipContainer
+            {...props}
+            targetElement={targetElement}
+            active={isActive}
+          >
+            {children}
+          </TooltipContainer>
+        </div>
+      </PortalRoot>
     )
   }
 
@@ -159,33 +148,3 @@ function TooltipPortal(
 }
 
 export default TooltipPortal
-
-const createRootElement = (theme: ThemeProps, className = null) => {
-  if (!className) {
-    className = 'dnb-tooltip__portal'
-  }
-  try {
-    const element: HTMLElement = document.querySelector(`.${className}`)
-
-    if (element) {
-      return element
-    }
-
-    const elem = document.createElement('div')
-    elem.classList.add(className)
-    elem.classList.add('dnb-core-style')
-
-    if (theme) {
-      elem.classList.add.call(
-        elem.classList,
-        ...getThemeClasses(theme).split(' ')
-      )
-    }
-
-    document.body.appendChild(elem)
-
-    return elem
-  } catch (e) {
-    warn(e)
-  }
-}
