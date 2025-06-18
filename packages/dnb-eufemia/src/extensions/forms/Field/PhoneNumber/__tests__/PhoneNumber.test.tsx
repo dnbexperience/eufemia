@@ -403,6 +403,27 @@ describe('Field.PhoneNumber', () => {
     })
   })
 
+  describe('onNumberChange', () => {
+    it('should return correct value', async () => {
+      const onNumberChange = jest.fn()
+
+      render(
+        <Field.PhoneNumber onNumberChange={onNumberChange} noAnimation />
+      )
+
+      const phoneElement: HTMLInputElement = document.querySelector(
+        '.dnb-forms-field-phone-number__number input'
+      )
+
+      await userEvent.type(phoneElement, '9')
+
+      await waitFor(() => {
+        expect(onNumberChange).toHaveBeenCalledTimes(1)
+        expect(onNumberChange).toHaveBeenLastCalledWith('9')
+      })
+    })
+  })
+
   describe('onChange', () => {
     it('should return correct value onChange event', async () => {
       const onChange = jest.fn()
