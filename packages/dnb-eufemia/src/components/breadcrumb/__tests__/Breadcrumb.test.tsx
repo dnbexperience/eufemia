@@ -319,6 +319,52 @@ describe('Breadcrumb', () => {
     })
   })
 
+  it('should fire onToggle when breadcrumb expands and collapses', async () => {
+    const onToggle = jest.fn()
+
+    render(
+      <Breadcrumb
+        data={[
+          { href: '/' },
+          { href: '/page1', text: 'Page 1' },
+          { href: '/page1/page2', text: 'Page 2' },
+        ]}
+        onToggle={onToggle}
+      />
+    )
+
+    const toggleButton = () =>
+      document.querySelector('.dnb-breadcrumb__toggle')
+
+    expect(onToggle).toHaveBeenCalledTimes(0)
+
+    // Expand
+    await userEvent.click(toggleButton())
+    expect(onToggle).toHaveBeenCalledTimes(1)
+    expect(onToggle).toHaveBeenCalledWith(false)
+
+    // Collapse
+    await userEvent.click(toggleButton())
+    expect(onToggle).toHaveBeenCalledTimes(2)
+    expect(onToggle).toHaveBeenCalledWith(true)
+
+    // Set screen to small size
+    act(() => {
+      setMedia({ width: '40em' })
+    })
+    // Click to expand breadcrumbs
+    await userEvent.click(toggleButton())
+    expect(onToggle).toHaveBeenCalledTimes(3)
+    expect(onToggle).toHaveBeenCalledWith(false)
+
+    // Resize to large screen to trigger auto-collapse
+    act(() => {
+      setMedia({ width: '80em' })
+    })
+    expect(onToggle).toHaveBeenCalledTimes(4)
+    expect(onToggle).toHaveBeenCalledWith(true)
+  })
+
   describe('BreadcrumbItem', () => {
     it('renders without properties', () => {
       const props: BreadcrumbItemProps = {}
