@@ -9,16 +9,6 @@ export const PortalRootProperties: PropertiesTableProps = {
     ],
     status: 'optional',
   },
-  className: {
-    doc: 'The className of the portal root.',
-    type: ['string'],
-    status: 'optional',
-  },
-  style: {
-    doc: 'The style of the portal root.',
-    type: ['React.CSSProperties'],
-    status: 'optional',
-  },
   children: {
     doc: 'The content that will be placed in a React Portal.',
     type: ['ReactNode'],
