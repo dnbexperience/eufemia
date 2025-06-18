@@ -90,6 +90,7 @@ export default {
   '--sb-shadow-large': '0 5px 20px rgba(38 35 66 / 20%)',
   '--sb-shadow-hover': '0 20px 40px rgba(38 35 66 / 20%)',
   '--sb-easing-default': 'cubic-bezier(0.42, 0, 0, 1)',
+  '--sb-text-block-max-width': '60ch',
   '--color-emerald-green-50': '#89aaac',
   '--color-emerald-green-25': '#c4d4d6',
   '--color-emerald-green-10': '#e8eeef',
@@ -175,5 +176,6 @@ export default {
   '--shadow-default-blur-radius': '16px',
   '--shadow-default-color': 'rgb(51 51 51 / 8%)',
   '--easing-default': 'cubic-bezier(0.42, 0, 0, 1)',
+  '--text-block-max-width': '60ch',
   '--theme-color-body': 'var(--sb-color-text)'
 }; // prettier-ignore
