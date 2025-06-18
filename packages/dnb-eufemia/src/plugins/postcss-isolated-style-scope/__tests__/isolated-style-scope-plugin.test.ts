@@ -5,7 +5,6 @@ import * as fs from 'fs'
 import * as scopeHash from '../plugin-scope-hash.js'
 import plugin from '../isolated-style-scope-plugin.js'
 
-// Mock fs
 jest.mock('fs', () => ({
   existsSync: jest.fn(),
   readFileSync: jest.fn(),
@@ -44,652 +43,413 @@ async function run(
 }
 
 describe('isolated-style-scope-plugin', () => {
-  it('should add scope class to simple selectors', async () => {
-    return await run(
-      '.my-class { color: red; }',
-      '.test-scope .my-class { color: red; }',
-      { scopeHash: 'test-scope' }
-    )
-  })
+  describe('Basic Selector Scoping', () => {
+    it('should add scope class to simple selectors', async () => {
+      return await run(
+        '.my-class { color: red; }',
+        '.test-scope .my-class { color: red; }',
+        { scopeHash: 'test-scope' }
+      )
+    })
 
-  it('should handle :root selector', async () => {
-    return await run(
-      ':root { --color: red; }',
-      '.test-scope { --color: red; }',
-      {
-        scopeHash: 'test-scope',
-      }
-    )
-  })
+    it('should handle multiple selectors', async () => {
+      return await run(
+        '.class1, .class2 { color: red; }',
+        '.test-scope .class1, .test-scope .class2 { color: red; }',
+        { scopeHash: 'test-scope' }
+      )
+    })
 
-  it('should handle multiple selectors', async () => {
-    return await run(
-      '.class1, .class2 { color: red; }',
-      '.test-scope .class1, .test-scope .class2 { color: red; }',
-      { scopeHash: 'test-scope' }
-    )
-  })
+    it('should handle nested selectors', async () => {
+      return await run(
+        '.parent .child { color: red; }',
+        '.test-scope .parent .child { color: red; }',
+        { scopeHash: 'test-scope' }
+      )
+    })
 
-  it('should handle nested selectors', async () => {
-    return await run(
-      '.parent .child { color: red; }',
-      '.test-scope .parent .child { color: red; }',
-      { scopeHash: 'test-scope' }
-    )
-  })
-
-  it('should handle attribute selectors', async () => {
-    return await run(
-      '[data-test] { color: red; }',
-      '.test-scope [data-test] { color: red; }',
-      { scopeHash: 'test-scope' }
-    )
-  })
-
-  it('should handle pseudo-classes', async () => {
-    return await run(
-      '.button:hover { color: red; }',
-      '.test-scope .button:hover { color: red; }',
-      { scopeHash: 'test-scope' }
-    )
-  })
-
-  it('should handle pseudo-elements', async () => {
-    return await run(
-      '.text::before { content: ""; }',
-      '.test-scope .text::before { content: ""; }',
-      { scopeHash: 'test-scope' }
-    )
-  })
-
-  it('should skip keyframes rules', async () => {
-    return await run(
-      '@keyframes spin { 0% { transform: rotate(0deg); } }',
-      '@keyframes spin { 0% { transform: rotate(0deg); } }',
-      { scopeHash: 'test-scope' }
-    )
-  })
-
-  it('should skip specified class names', async () => {
-    return await run(
-      '.dnb-core-style { color: red; }',
-      '.dnb-core-style { color: red; }',
-      { skipClassNames: ['dnb-core-style'] }
-    )
-  })
-
-  it('should handle complex selectors with multiple combinators', async () => {
-    return await run(
-      '.parent > .child + .sibling ~ .cousin { color: red; }',
-      '.test-scope .parent > .child + .sibling ~ .cousin { color: red; }',
-      { scopeHash: 'test-scope' }
-    )
-  })
-
-  it('should handle selectors with multiple attributes', async () => {
-    return await run(
-      '[data-test][data-other] { color: red; }',
-      '.test-scope [data-test][data-other] { color: red; }',
-      { scopeHash: 'test-scope' }
-    )
-  })
-
-  it('should handle custom scope hash', async () => {
-    return await run(
-      '.my-class { color: red; }',
-      '.custom-scope .my-class { color: red; }',
-      { scopeHash: 'custom-scope' }
-    )
-  })
-
-  it('should replace existing default scope hash with custom scope hash', async () => {
-    return await run(
-      '.eufemia-scope--something .my-class { color: red; }',
-      '.custom-scope .my-class { color: red; }',
-      { scopeHash: 'custom-scope' }
-    )
-  })
-
-  it('should replace .eufemia-scope--default with given scope', async () => {
-    return await run(
-      '.eufemia-scope--default { --color: red; }',
-      '.test-scope { --color: red; }',
-      { scopeHash: 'test-scope' }
-    )
-  })
-
-  it('should replace existing default scope hash when nested with custom scope hash', async () => {
-    return await run(
-      'html .eufemia-scope--something .my-class { color: red; }',
-      'html .custom-scope .my-class { color: red; }',
-      { scopeHash: 'custom-scope' }
-    )
-  })
-
-  it('should replace existing default scope hash with custom scope hash given as function', async () => {
-    const scopeHash = jest.fn(() => 'custom-scope')
-
-    await run(
-      '.eufemia-scope--something .my-class { color: red; }',
-      '.custom-scope .my-class { color: red; }',
-      { scopeHash }
-    )
-
-    expect(scopeHash).toHaveBeenCalledWith('/file.css')
-  })
-
-  it('should not replace existing default scope hash with undefined scope hash returned from function', async () => {
-    const scopeHash = jest.fn(() => undefined)
-
-    await run(
-      '.eufemia-scope--something .my-class { color: red; }',
-      '.eufemia-scope--something .my-class { color: red; }',
-      { scopeHash }
-    )
-
-    expect(scopeHash).toHaveBeenCalledWith('/file.css')
-  })
-
-  it('should handle custom scope hash given as function', async () => {
-    const scopeHash = jest.fn(() => 'custom-scope')
-
-    await run(
-      '.my-class { color: red; }',
-      '.custom-scope .my-class { color: red; }',
-      { scopeHash }
-    )
-
-    expect(scopeHash).toHaveBeenCalledWith('/file.css')
-  })
-
-  it('should handle multiple skip class names', async () => {
-    return await run(
-      '.skip1, .skip2, .normal { color: red; }',
-      '.skip1, .skip2, .test-scope .normal { color: red; }',
-      { skipClassNames: ['skip1', 'skip2'], scopeHash: 'test-scope' }
-    )
-  })
-
-  it('should skip attribute selectors when listed in skipClassNames', async () => {
-    await run(
-      '[data-skip] { color: red; }',
-      '[data-skip] { color: red; }',
-      { skipClassNames: ['data-skip'], scopeHash: 'test-scope' }
-    )
-  })
-
-  it('should handle selectors with multiple pseudo-classes', async () => {
-    return await run(
-      '.button:hover:focus:active { color: red; }',
-      '.test-scope .button:hover:focus:active { color: red; }',
-      {
-        scopeHash: 'test-scope',
-      }
-    )
-  })
-
-  it('should handle selectors with multiple classes', async () => {
-    return await run(
-      '.class1.class2.class3 { color: red; }',
-      '.test-scope .class1.class2.class3 { color: red; }',
-      {
-        scopeHash: 'test-scope',
-      }
-    )
-  })
-
-  it('should handle html tag only', async () => {
-    return await run(
-      'html { color: red; }',
-      'html { color: red; }', // keep the html unchanged
-      {
-        scopeHash: 'test-scope',
-      }
-    )
-  })
-
-  it('should handle body tag only', async () => {
-    return await run(
-      'body { color: red; }',
-      'body { color: red; }', // keep the body unchanged
-      { scopeHash: 'test-scope' }
-    )
-  })
-
-  it('should handle body tag', async () => {
-    return await run(
-      'body .module-class { color: red; }',
-      'body .test-scope .module-class { color: red; }',
-      { scopeHash: 'test-scope' }
-    )
-  })
-
-  it('should handle html and body tags only', async () => {
-    return await run(
-      'html body { color: red; }',
-      'html body { color: red; }',
-      { scopeHash: 'test-scope' }
-    )
-  })
-
-  it('should handle html and body tag', async () => {
-    return await run(
-      'html body .module-class { color: red; }',
-      'html body .test-scope .module-class { color: red; }',
-      { scopeHash: 'test-scope' }
-    )
-  })
-
-  it('should handle id selector', async () => {
-    return await run(
-      '#id-selector { color: red; }',
-      '.test-scope #id-selector { color: red; }',
-      { scopeHash: 'test-scope' }
-    )
-  })
-
-  it('should handle tag selector', async () => {
-    return await run(
-      'strong { color: red; }',
-      '.test-scope strong { color: red; }',
-      { scopeHash: 'test-scope' }
-    )
-  })
-
-  it('should not scope when selector starts with ":not(#isolated) "', async () => {
-    return await run(
-      ':not(#isolated) #id-selector { color: red; }',
-      '#id-selector { color: red; }',
-      { scopeHash: 'test-scope' }
-    )
-  })
-
-  it('should not scope when selector has ":not(#isolated)"', async () => {
-    return await run(
-      'body .some-selector :not(#isolated) #some-id { color: red; }',
-      'body .some-selector #some-id { color: red; }',
-      { scopeHash: 'test-scope' }
-    )
-  })
-
-  it('should scope when selector starts with :not(#isolated)*', async () => {
-    return await run(
-      ':not(#isolated)-something #id-selector { color: red; }',
-      '.test-scope :not(#isolated)-something #id-selector { color: red; }',
-      { scopeHash: 'test-scope' }
-    )
-  })
-
-  it('should not add scope class twice', async () => {
-    return await run(
-      '.test-scope .my-class { color: red; }',
-      '.test-scope .my-class { color: red; }',
-      { scopeHash: 'test-scope' }
-    )
-  })
-
-  it('should not add scope class twice when nested', async () => {
-    return await run(
-      'html .test-scope .my-class { color: red; }',
-      'html .test-scope .my-class { color: red; }',
-      { scopeHash: 'test-scope' }
-    )
-  })
-
-  it('should not add scope class twice when starting with "eufemia-scope--"', async () => {
-    return await run(
-      'html .eufemia-scope--something .my-class { color: red; }',
-      'html .eufemia-scope--something .my-class { color: red; }'
-    )
-  })
-
-  it('should not add scope class twice when starting with a custom prefix', async () => {
-    return await run(
-      'html .x-something .my-class { color: red; }',
-      'html .x-something .my-class { color: red; }',
-      {
-        defaultScopeHash: 'x-',
-      }
-    )
-  })
-
-  it('should replace custom defaultScopeHash prefix with given scope', async () => {
-    await run(
-      'html .x-oldprefix .child { color: red; }',
-      'html .custom .child { color: red; }',
-      {
-        defaultScopeHash: 'x-',
-        scopeHash: 'custom',
-      }
-    )
-  })
-
-  it('should not add scope class when ignored', async () => {
-    return await run(
-      'html .existing-scope .my-class { color: red; }',
-      'html .existing-scope .my-class { color: red; }',
-      {
-        scopeHash: 'ski-this-scope',
-        skipClassNames: ['existing-scope'],
-      }
-    )
-  })
-
-  it('keeps rule when selector became empty after stripping default scope', async () => {
-    await run(
-      '.eufemia-scope--default { color: red; }',
-      '.new-scope { color: red; }',
-      { scopeHash: 'new-scope' }
-    )
-  })
-
-  it('keeps rule when selector became empty inside @media', async () => {
-    await run(
-      '@media (min-width: 40em){ .eufemia-scope--default { color: red; } }',
-      '@media (min-width: 40em){ .new-scope { color: red; } }',
-      { scopeHash: 'new-scope' }
-    )
-  })
-
-  it('should replace default scope when preceded by html tag only', async () => {
-    return await run(
-      'html .eufemia-scope--default { color: red; }',
-      'html .custom-scope { color: red; }',
-      { scopeHash: 'custom-scope' }
-    )
-  })
-
-  it('never scopes the html body combo', async () => {
-    await run(
-      'html body { color: red; }',
-      'html body { color: red; }', // keep the html and body unchanged
-      {
-        scopeHash: 'should-not-appear',
-      }
-    )
-  })
-
-  it('skips + replaces correctly when both maps are active', async () => {
-    await run(
-      '.skip-me .old { color:red; }',
-      '.skip-me .new { color:red; }',
-      {
-        scopeHash: 'scoped',
-        skipClassNames: ['skip-me'],
-        replaceClassNames: { old: 'new' },
-      }
-    )
-  })
-
-  it('should scope selectors no matter what kind of node they are', async () => {
-    await run(
-      '*.foo[data-foo]::marker > :nth-child(2) { color: red; }',
-      '.test-scope *.foo[data-foo]::marker > :nth-child(2) { color: red; }',
-      { scopeHash: 'test-scope' }
-    )
-  })
-
-  it('should scope crazy selectors in CSS Modules', async () => {
-    await run(
-      '*.foo[data-foo]::marker > :nth-child(2) { color: red; }',
-      ':global(.test-scope) *.foo[data-foo]::marker > :nth-child(2) { color: red; }',
-      { runAsCssModule: true, scopeHash: 'test-scope' }
-    )
-  })
-
-  it('should scope group including *, ::before, ::after', async () => {
-    await run(
-      '*, ::before, ::after { color: red; }',
-      '.test-scope *, .test-scope ::before, .test-scope ::after { color: red; }',
-      { scopeHash: 'test-scope' }
-    )
-  })
-
-  it('should scope a lone ::before selector', async () => {
-    await run(
-      '::before { content: ""; }',
-      '.test-scope ::before { content: ""; }',
-      { scopeHash: 'test-scope' }
-    )
-  })
-
-  it('should scope lone universal selector', async () => {
-    await run('* { color: red; }', '.test-scope * { color: red; }', {
-      scopeHash: 'test-scope',
+    it('should handle complex selectors with multiple combinators', async () => {
+      return await run(
+        '.parent > .child + .sibling ~ .cousin { color: red; }',
+        '.test-scope .parent > .child + .sibling ~ .cousin { color: red; }',
+        { scopeHash: 'test-scope' }
+      )
     })
   })
 
-  it('should scope selectors inside @supports', async () => {
-    await run(
-      '@supports (display: grid) { .foo { color: red; } }',
-      '@supports (display: grid) { .test-scope .foo { color: red; } }',
-      { scopeHash: 'test-scope' }
-    )
-  })
-
-  describe('CSS Modules', () => {
-    it('should detect CSS Modules', async () => {
+  describe('Special Selectors', () => {
+    it('should handle :root selector', async () => {
       return await run(
-        'html .module-class { color: red; }',
-        'html :global(.test-scope) .module-class { color: red; }',
+        ':root { --color: red; }',
+        '.test-scope { --color: red; }',
+        { scopeHash: 'test-scope' }
+      )
+    })
+
+    it('should handle attribute selectors', async () => {
+      return await run(
+        '[data-test] { color: red; }',
+        '.test-scope [data-test] { color: red; }',
+        { scopeHash: 'test-scope' }
+      )
+    })
+
+    it('should handle selectors with multiple attributes', async () => {
+      return await run(
+        '[data-test][data-other] { color: red; }',
+        '.test-scope [data-test][data-other] { color: red; }',
+        { scopeHash: 'test-scope' }
+      )
+    })
+
+    it('should handle pseudo-classes', async () => {
+      return await run(
+        '.button:hover { color: red; }',
+        '.test-scope .button:hover { color: red; }',
+        { scopeHash: 'test-scope' }
+      )
+    })
+
+    it('should handle selectors with multiple pseudo-classes', async () => {
+      return await run(
+        '.button:hover:focus:active { color: red; }',
+        '.test-scope .button:hover:focus:active { color: red; }',
+        { scopeHash: 'test-scope' }
+      )
+    })
+
+    it('should handle pseudo-elements', async () => {
+      return await run(
+        '.text::before { content: ""; }',
+        '.test-scope .text::before { content: ""; }',
+        { scopeHash: 'test-scope' }
+      )
+    })
+
+    it('should scope a lone ::before selector', async () => {
+      return await run(
+        '::before { content: ""; }',
+        '.test-scope ::before { content: ""; }',
+        { scopeHash: 'test-scope' }
+      )
+    })
+
+    it('should scope lone universal selector', async () => {
+      return await run(
+        '* { color: red; }',
+        '.test-scope * { color: red; }',
         {
-          postcssOptions: { from: '/file.module.css' },
           scopeHash: 'test-scope',
         }
       )
     })
 
-    it('should handle html tag', async () => {
+    it('should scope group including *, ::before, ::after', async () => {
       return await run(
-        'html .module-class { color: red; }',
-        'html :global(.test-scope) .module-class { color: red; }',
-        { runAsCssModule: true, scopeHash: 'test-scope' }
-      )
-    })
-
-    it('should handle body tag', async () => {
-      return await run(
-        'body .module-class { color: red; }',
-        'body :global(.test-scope) .module-class { color: red; }',
-        { runAsCssModule: true, scopeHash: 'test-scope' }
-      )
-    })
-
-    it('should handle html tag only', async () => {
-      return await run(
-        'html { color: red; }',
-        'html { color: red; }', // keep the body unchanged
-        {
-          runAsCssModule: true,
-          scopeHash: 'test-scope',
-        }
-      )
-    })
-
-    it('should handle body tag only', async () => {
-      return await run(
-        'body { color: red; }',
-        'body { color: red; }', // keep the body unchanged
-        {
-          runAsCssModule: true,
-          scopeHash: 'test-scope',
-        }
-      )
-    })
-
-    it('should handle html and body tags only', async () => {
-      return await run(
-        'html body { color: red; }',
-        'html body { color: red; }',
-        { runAsCssModule: true, scopeHash: 'test-scope' }
-      )
-    })
-
-    it('should handle html and body tag', async () => {
-      return await run(
-        'html body .module-class { color: red; }',
-        'html body :global(.test-scope) .module-class { color: red; }',
-        { runAsCssModule: true, scopeHash: 'test-scope' }
-      )
-    })
-
-    it('should handle class selector', async () => {
-      return await run(
-        '.module-class { color: red; }',
-        ':global(.test-scope) .module-class { color: red; }',
-        { runAsCssModule: true, scopeHash: 'test-scope' }
+        '*, ::before, ::after { color: red; }',
+        '.test-scope *, .test-scope ::before, .test-scope ::after { color: red; }',
+        { scopeHash: 'test-scope' }
       )
     })
 
     it('should handle id selector', async () => {
       return await run(
         '#id-selector { color: red; }',
-        ':global(.test-scope) #id-selector { color: red; }',
-        { runAsCssModule: true, scopeHash: 'test-scope' }
+        '.test-scope #id-selector { color: red; }',
+        { scopeHash: 'test-scope' }
       )
     })
 
     it('should handle tag selector', async () => {
       return await run(
         'strong { color: red; }',
-        ':global(.test-scope) strong { color: red; }',
-        { runAsCssModule: true, scopeHash: 'test-scope' }
+        '.test-scope strong { color: red; }',
+        { scopeHash: 'test-scope' }
       )
     })
 
-    it('should replace existing default scope hash (vanilla CSS) with custom scope hash', async () => {
+    it('should handle selectors with multiple classes', async () => {
       return await run(
-        '.eufemia-scope--something .my-class { color: red; }',
-        ':global(.custom-scope) .my-class { color: red; }',
-        { runAsCssModule: true, scopeHash: 'custom-scope' }
+        '.class1.class2.class3 { color: red; }',
+        '.test-scope .class1.class2.class3 { color: red; }',
+        { scopeHash: 'test-scope' }
       )
     })
 
-    it('should replace existing default scope hash (vanilla CSS) with custom scope hash given as function', async () => {
-      const scopeHash = jest.fn(() => 'custom-scope')
+    it('should scope selectors no matter what kind of node they are', async () => {
+      return await run(
+        '*.foo[data-foo]::marker > :nth-child(2) { color: red; }',
+        '.test-scope *.foo[data-foo]::marker > :nth-child(2) { color: red; }',
+        { scopeHash: 'test-scope' }
+      )
+    })
+  })
 
+  describe('HTML and Body Tags', () => {
+    it('should handle html tag only', async () => {
+      return await run(
+        'html { color: red; }',
+        'html { color: red; }', // keep as is
+        { scopeHash: 'test-scope' }
+      )
+    })
+
+    it('should handle body tag only', async () => {
+      return await run(
+        'body { color: red; }',
+        'body { color: red; }', // keep as is
+        { scopeHash: 'test-scope' }
+      )
+    })
+
+    it('should handle html and body tags only', async () => {
+      return await run(
+        'html body { color: red; }',
+        'html body { color: red; }', // keep as is
+        { scopeHash: 'test-scope' }
+      )
+    })
+
+    it('should handle body tag', async () => {
+      return await run(
+        'body .module-class { color: red; }',
+        'body .test-scope .module-class { color: red; }',
+        { scopeHash: 'test-scope' }
+      )
+    })
+
+    it('should handle html and body tag', async () => {
+      return await run(
+        'html body .module-class { color: red; }',
+        'html body .test-scope .module-class { color: red; }',
+        { scopeHash: 'test-scope' }
+      )
+    })
+
+    it('should not scope html body combo when no scopeHash is given', async () => {
       await run(
-        '.eufemia-scope--something .my-class { color: red; }',
-        ':global(.custom-scope) .my-class { color: red; }',
-        { runAsCssModule: true, scopeHash }
+        'html body { color: red; }',
+        'html body { color: red; }' // keep as is
       )
-
-      expect(scopeHash).toHaveBeenCalledWith('/file.css')
     })
+  })
 
-    it('should replace .eufemia-scope--default with given scope', async () => {
+  describe('Scope Hash Handling', () => {
+    it('should handle custom scope hash', async () => {
       return await run(
-        ':global(.eufemia-scope--default) { --color: red; }',
-        ':global(.custom-scope) { --color: red; }',
+        '.my-class { color: red; }',
+        '.custom-scope .my-class { color: red; }',
         { scopeHash: 'custom-scope' }
       )
     })
 
-    it('should replace existing default scope hash (CSS Module) with custom scope hash', async () => {
+    it('should handle custom scope hash given as function', async () => {
+      const scopeHash = jest.fn(() => 'custom-scope')
+      await run(
+        '.my-class { color: red; }',
+        '.custom-scope .my-class { color: red; }',
+        { scopeHash }
+      )
+      expect(scopeHash).toHaveBeenCalledWith('/file.css')
+    })
+
+    it('should use scope hash from scope-hash.txt file when auto is set', async () => {
+      const readFileSyncSpy = jest
+        .spyOn(fs, 'readFileSync')
+        .mockReturnValue('test-hash-from-file')
+      const existsSyncSpy = jest
+        .spyOn(fs, 'existsSync')
+        .mockImplementation((path: string) => {
+          return path.endsWith('scope-hash.txt')
+        })
+      const getStyleScopeHashSpy = jest
+        .spyOn(scopeHash, 'getStyleScopeHash')
+        .mockReturnValue('eufemia-scope--default')
+
+      const result = await run(
+        '.my-class { color: red; }',
+        '.test-hash-from-file .my-class { color: red; }',
+        {
+          scopeHash: 'auto',
+          postcssOptions: {
+            from: '/some/path/to/style.css',
+          },
+        }
+      )
+
+      readFileSyncSpy.mockRestore()
+      existsSyncSpy.mockRestore()
+      getStyleScopeHashSpy.mockRestore()
+      expect(result).toBeDefined()
+    })
+
+    it('should fallback to default hash when scope-hash.txt is not found', async () => {
+      const readFileSyncSpy = jest.spyOn(fs, 'readFileSync')
+      const existsSyncSpy = jest
+        .spyOn(fs, 'existsSync')
+        .mockReturnValue(false)
+      const getStyleScopeHashSpy = jest
+        .spyOn(scopeHash, 'getStyleScopeHash')
+        .mockReturnValue('eufemia-scope--default')
+
+      const result = await run(
+        '.my-class { color: red; }',
+        '.eufemia-scope--default .my-class { color: red; }',
+        {
+          scopeHash: 'auto',
+          postcssOptions: {
+            from: '/some/path/to/style.css',
+          },
+        }
+      )
+
+      readFileSyncSpy.mockRestore()
+      existsSyncSpy.mockRestore()
+      getStyleScopeHashSpy.mockRestore()
+      expect(result).toBeDefined()
+    })
+
+    it('should fallback to default hash when scope-hash.txt contains spaces', async () => {
+      const readFileSyncSpy = jest
+        .spyOn(fs, 'readFileSync')
+        .mockReturnValue('test hash with spaces')
+      const existsSyncSpy = jest
+        .spyOn(fs, 'existsSync')
+        .mockImplementation((path: string) =>
+          path.includes('scope-hash.txt')
+        )
+      const getStyleScopeHashSpy = jest
+        .spyOn(scopeHash, 'getStyleScopeHash')
+        .mockReturnValue('eufemia-scope--default')
+
+      const result = await run(
+        '.my-class { color: red; }',
+        '.eufemia-scope--default .my-class { color: red; }',
+        {
+          scopeHash: 'auto',
+          postcssOptions: {
+            from: '/some/path/to/style.css',
+          },
+        }
+      )
+
+      readFileSyncSpy.mockRestore()
+      existsSyncSpy.mockRestore()
+      getStyleScopeHashSpy.mockRestore()
+      expect(result).toBeDefined()
+    })
+  })
+
+  describe('Default Scope Replacement', () => {
+    it('should replace existing default scope hash with custom scope hash', async () => {
       return await run(
-        ':global(.eufemia-scope--something) .my-class { color: red; }',
-        ':global(.custom-scope) .my-class { color: red; }',
-        { runAsCssModule: true, scopeHash: 'custom-scope' }
+        '.eufemia-scope--something .my-class { color: red; }',
+        '.custom-scope .my-class { color: red; }',
+        { scopeHash: 'custom-scope' }
+      )
+    })
+
+    it('should replace .eufemia-scope--default with given scope', async () => {
+      return await run(
+        '.eufemia-scope--default { --color: red; }',
+        '.test-scope { --color: red; }',
+        { scopeHash: 'test-scope' }
       )
     })
 
     it('should replace existing default scope hash when nested with custom scope hash', async () => {
       return await run(
-        'html :global(.eufemia-scope--something) .my-class { color: red; }',
-        'html :global(.custom-scope) .my-class { color: red; }',
-        { runAsCssModule: true, scopeHash: 'custom-scope' }
+        'html .eufemia-scope--something .my-class { color: red; }',
+        'html .custom-scope .my-class { color: red; }',
+        { scopeHash: 'custom-scope' }
       )
     })
 
-    it('should replace existing default scope hash (CSS Module) with custom scope hash given as function', async () => {
+    it('should replace existing default scope hash with custom scope hash given as function', async () => {
       const scopeHash = jest.fn(() => 'custom-scope')
-
       await run(
-        ':global(.eufemia-scope--something) .my-class { color: red; }',
-        ':global(.custom-scope) .my-class { color: red; }',
-        { runAsCssModule: true, scopeHash }
+        '.eufemia-scope--something .my-class { color: red; }',
+        '.custom-scope .my-class { color: red; }',
+        { scopeHash }
       )
-
       expect(scopeHash).toHaveBeenCalledWith('/file.css')
-    })
-
-    it('should handle custom scope hash given as function', async () => {
-      const scopeHash = jest.fn(() => 'custom-scope')
-
-      await run(
-        '.my-class { color: red; }',
-        ':global(.custom-scope) .my-class { color: red; }',
-        { runAsCssModule: true, scopeHash }
-      )
-
-      expect(scopeHash).toHaveBeenCalledWith('/file.css')
-    })
-
-    it('keeps rule when selector became empty inside :global()', async () => {
-      await run(
-        ':global(.eufemia-scope--default) { color: red; }',
-        ':global(.new-scope) { color: red; }',
-        { runAsCssModule: true, scopeHash: 'new-scope' }
-      )
-    })
-
-    it('preserves :global wrapper while replacing class', async () => {
-      await run(
-        ':global(.eufemia-scope--something) .selector { color:red; }',
-        ':global(.custom) .selector { color:red; }',
-        { runAsCssModule: true, scopeHash: 'custom' }
-      )
     })
 
     it('should not replace existing default scope hash with undefined scope hash returned from function', async () => {
       const scopeHash = jest.fn(() => undefined)
-
       await run(
-        ':global(.eufemia-scope--something) .my-class { color: red; }',
-        ':global(.eufemia-scope--something) .my-class { color: red; }',
+        '.eufemia-scope--something .my-class { color: red; }',
+        '.eufemia-scope--something .my-class { color: red; }',
         { scopeHash }
       )
-
       expect(scopeHash).toHaveBeenCalledWith('/file.css')
     })
 
-    it('should not add scope class twice', async () => {
-      return await run(
-        ':global(.test-scope) .module-class { color: red; }',
-        ':global(.test-scope) .module-class { color: red; }',
-        { scopeHash: 'test-scope' }
-      )
-    })
-
-    it('should not add scope class twice when nested', async () => {
-      return await run(
-        'html :global(.test-scope) .module-class { color: red; }',
-        'html :global(.test-scope) .module-class { color: red; }',
-        { scopeHash: 'test-scope' }
-      )
-    })
-
-    it('should not add scope class twice when starting with "eufemia-scope--"', async () => {
-      return await run(
-        'html :global(.eufemia-scope--something) .my-class { color: red; }',
-        'html :global(.eufemia-scope--something) .my-class { color: red; }'
-      )
-    })
-
-    it('should not add scope class twice when starting with a custom prefix', async () => {
-      return await run(
-        'html :global(.x-something) .my-class { color: red; }',
-        'html :global(.x-something) .my-class { color: red; }',
+    it('should replace custom defaultScopeHash prefix with given scope', async () => {
+      await run(
+        'html .x-oldprefix .child { color: red; }',
+        'html .custom .child { color: red; }',
         {
           defaultScopeHash: 'x-',
+          scopeHash: 'custom',
         }
+      )
+    })
+
+    it('should replace default scope when preceded by html tag only', async () => {
+      return await run(
+        'html .eufemia-scope--default { color: red; }',
+        'html .custom-scope { color: red; }',
+        { scopeHash: 'custom-scope' }
+      )
+    })
+
+    it('keeps rule when selector became empty after stripping default scope', async () => {
+      await run(
+        '.eufemia-scope--default { color: red; }',
+        '.new-scope { color: red; }',
+        { scopeHash: 'new-scope' }
+      )
+    })
+
+    it('keeps rule when selector became empty inside @media', async () => {
+      await run(
+        '@media (min-width: 40em){ .eufemia-scope--default { color: red; } }',
+        '@media (min-width: 40em){ .new-scope { color: red; } }',
+        { scopeHash: 'new-scope' }
+      )
+    })
+  })
+
+  describe('Skipping and Ignoring', () => {
+    it('should skip specified class names', async () => {
+      return await run(
+        '.dnb-core-style { color: red; }',
+        '.dnb-core-style { color: red; }',
+        { skipClassNames: ['dnb-core-style'] }
+      )
+    })
+
+    it('should handle multiple skip class names', async () => {
+      return await run(
+        '.skip1, .skip2, .normal { color: red; }',
+        '.skip1, .skip2, .test-scope .normal { color: red; }',
+        { skipClassNames: ['skip1', 'skip2'], scopeHash: 'test-scope' }
+      )
+    })
+
+    it('should skip attribute selectors when listed in skipClassNames', async () => {
+      await run(
+        '[data-skip] { color: red; }',
+        '[data-skip] { color: red; }',
+        { skipClassNames: ['data-skip'], scopeHash: 'test-scope' }
       )
     })
 
     it('should not add scope class when ignored', async () => {
       return await run(
-        'html :global(.existing-scope) .my-class { color: red; }',
-        'html :global(.existing-scope) .my-class { color: red; }',
+        'html .existing-scope .my-class { color: red; }',
+        'html .existing-scope .my-class { color: red; }',
         {
           scopeHash: 'ski-this-scope',
           skipClassNames: ['existing-scope'],
@@ -697,12 +457,438 @@ describe('isolated-style-scope-plugin', () => {
       )
     })
 
-    it('should handle :root selector', async () => {
+    it('should not scope when selector starts with ":not(#isolated) "', async () => {
       return await run(
-        ':root { --color: red; }',
-        ':global(.test-scope) { --color: red; }',
-        { runAsCssModule: true, scopeHash: 'test-scope' }
+        ':not(#isolated) #id-selector { color: red; }',
+        '#id-selector { color: red; }',
+        { scopeHash: 'test-scope' }
       )
+    })
+
+    it('should not scope when selector has ":not(#isolated)"', async () => {
+      return await run(
+        'body .some-selector :not(#isolated) #some-id { color: red; }',
+        'body .some-selector #some-id { color: red; }',
+        { scopeHash: 'test-scope' }
+      )
+    })
+
+    it('should scope when selector starts with :not(#isolated)*', async () => {
+      return await run(
+        ':not(#isolated)-something #id-selector { color: red; }',
+        '.test-scope :not(#isolated)-something #id-selector { color: red; }',
+        { scopeHash: 'test-scope' }
+      )
+    })
+
+    it('should not add scope class twice', async () => {
+      return await run(
+        '.test-scope .my-class { color: red; }',
+        '.test-scope .my-class { color: red; }',
+        { scopeHash: 'test-scope' }
+      )
+    })
+
+    it('should not add scope class twice when nested', async () => {
+      return await run(
+        'html .test-scope .my-class { color: red; }',
+        'html .test-scope .my-class { color: red; }',
+        { scopeHash: 'test-scope' }
+      )
+    })
+
+    it('should not add scope class twice when starting with "eufemia-scope--"', async () => {
+      return await run(
+        'html .eufemia-scope--something .my-class { color: red; }',
+        'html .eufemia-scope--something .my-class { color: red; }'
+      )
+    })
+
+    it('should not add scope class twice when starting with a custom prefix', async () => {
+      return await run(
+        'html .x-something .my-class { color: red; }',
+        'html .x-something .my-class { color: red; }',
+        { defaultScopeHash: 'x-' }
+      )
+    })
+  })
+
+  describe('Special Rules', () => {
+    it('should skip keyframes rules', async () => {
+      return await run(
+        '@keyframes spin { 0% { transform: rotate(0deg); } }',
+        '@keyframes spin { 0% { transform: rotate(0deg); } }',
+        { scopeHash: 'test-scope' }
+      )
+    })
+
+    it('should scope selectors inside @supports', async () => {
+      await run(
+        '@supports (display: grid) { .foo { color: red; } }',
+        '@supports (display: grid) { .test-scope .foo { color: red; } }',
+        { scopeHash: 'test-scope' }
+      )
+    })
+  })
+
+  describe('replaceClassNames', () => {
+    it('should replace a single class name', async () => {
+      return await run(
+        '.old-class { color: red; }',
+        '.test-scope .new-class { color: red; }',
+        {
+          replaceClassNames: { 'old-class': 'new-class' },
+          scopeHash: 'test-scope',
+        }
+      )
+    })
+
+    it('should replace multiple class names', async () => {
+      return await run(
+        '.old-class1, .old-class2 { color: red; }',
+        '.test-scope .new-class1, .test-scope .new-class2 { color: red; }',
+        {
+          replaceClassNames: {
+            'old-class1': 'new-class1',
+            'old-class2': 'new-class2',
+          },
+          scopeHash: 'test-scope',
+        }
+      )
+    })
+
+    it('should replace class names in complex selectors', async () => {
+      return await run(
+        '.parent .old-class:hover { color: red; }',
+        '.test-scope .parent .new-class:hover { color: red; }',
+        {
+          replaceClassNames: { 'old-class': 'new-class' },
+          scopeHash: 'test-scope',
+        }
+      )
+    })
+
+    it('should not replace skipped class names', async () => {
+      return await run(
+        '.old-class, .skip-class { color: red; }',
+        '.test-scope .new-class, .skip-class { color: red; }',
+        {
+          replaceClassNames: { 'old-class': 'new-class' },
+          skipClassNames: ['skip-class'],
+          scopeHash: 'test-scope',
+        }
+      )
+    })
+
+    it('should handle multiple class names in a single selector', async () => {
+      return await run(
+        '.old-class1.old-class2 { color: red; }',
+        '.test-scope .new-class1.new-class2 { color: red; }',
+        {
+          replaceClassNames: {
+            'old-class1': 'new-class1',
+            'old-class2': 'new-class2',
+          },
+          scopeHash: 'test-scope',
+        }
+      )
+    })
+
+    it('skips + replaces correctly when both maps are active', async () => {
+      await run(
+        '.skip-me .old { color:red; }',
+        '.skip-me .new { color:red; }',
+        {
+          scopeHash: 'scoped',
+          skipClassNames: ['skip-me'],
+          replaceClassNames: { old: 'new' },
+        }
+      )
+    })
+  })
+
+  describe('CSS Modules', () => {
+    describe('Detection and Basic Selectors', () => {
+      it('should detect CSS Modules', async () => {
+        return await run(
+          'html .module-class { color: red; }',
+          'html :global(.test-scope) .module-class { color: red; }',
+          {
+            postcssOptions: { from: '/file.module.css' },
+            scopeHash: 'test-scope',
+          }
+        )
+      })
+
+      it('should handle class selector', async () => {
+        return await run(
+          '.module-class { color: red; }',
+          ':global(.test-scope) .module-class { color: red; }',
+          { runAsCssModule: true, scopeHash: 'test-scope' }
+        )
+      })
+
+      it('should handle id selector', async () => {
+        return await run(
+          '#id-selector { color: red; }',
+          ':global(.test-scope) #id-selector { color: red; }',
+          { runAsCssModule: true, scopeHash: 'test-scope' }
+        )
+      })
+
+      it('should handle tag selector', async () => {
+        return await run(
+          'strong { color: red; }',
+          ':global(.test-scope) strong { color: red; }',
+          { runAsCssModule: true, scopeHash: 'test-scope' }
+        )
+      })
+    })
+
+    describe('HTML and Body Tags', () => {
+      it('should handle html tag', async () => {
+        return await run(
+          'html .module-class { color: red; }',
+          'html :global(.test-scope) .module-class { color: red; }',
+          { runAsCssModule: true, scopeHash: 'test-scope' }
+        )
+      })
+
+      it('should handle body tag', async () => {
+        return await run(
+          'body .module-class { color: red; }',
+          'body :global(.test-scope) .module-class { color: red; }',
+          { runAsCssModule: true, scopeHash: 'test-scope' }
+        )
+      })
+
+      it('should handle html tag only', async () => {
+        return await run(
+          'html { color: red; }',
+          'html { color: red; }', // keep as is
+          {
+            runAsCssModule: true,
+            scopeHash: 'test-scope',
+          }
+        )
+      })
+
+      it('should handle body tag only', async () => {
+        return await run(
+          'body { color: red; }',
+          'body { color: red; }', // keep as is
+          {
+            runAsCssModule: true,
+            scopeHash: 'test-scope',
+          }
+        )
+      })
+
+      it('should handle html and body tags only', async () => {
+        return await run(
+          'html body { color: red; }',
+          'html body { color: red; }', // keep as is
+          { runAsCssModule: true, scopeHash: 'test-scope' }
+        )
+      })
+
+      it('should handle html and body tag', async () => {
+        return await run(
+          'html body .module-class { color: red; }',
+          'html body :global(.test-scope) .module-class { color: red; }',
+          { runAsCssModule: true, scopeHash: 'test-scope' }
+        )
+      })
+    })
+
+    describe('Scope Hash Replacement', () => {
+      it('should replace existing default scope hash (vanilla CSS) with custom scope hash', async () => {
+        return await run(
+          '.eufemia-scope--something .my-class { color: red; }',
+          ':global(.custom-scope) .my-class { color: red; }',
+          { runAsCssModule: true, scopeHash: 'custom-scope' }
+        )
+      })
+
+      it('should replace existing default scope hash (CSS Module) with custom scope hash', async () => {
+        return await run(
+          ':global(.eufemia-scope--something) .my-class { color: red; }',
+          ':global(.custom-scope) .my-class { color: red; }',
+          { runAsCssModule: true, scopeHash: 'custom-scope' }
+        )
+      })
+
+      it('should replace existing default scope hash when nested with custom scope hash', async () => {
+        return await run(
+          'html :global(.eufemia-scope--something) .my-class { color: red; }',
+          'html :global(.custom-scope) .my-class { color: red; }',
+          { runAsCssModule: true, scopeHash: 'custom-scope' }
+        )
+      })
+
+      it('should replace .eufemia-scope--default with given scope', async () => {
+        return await run(
+          ':global(.eufemia-scope--default) { --color: red; }',
+          ':global(.custom-scope) { --color: red; }',
+          { scopeHash: 'custom-scope' }
+        )
+      })
+
+      it('should replace existing default scope hash (vanilla CSS) with custom scope hash given as function', async () => {
+        const scopeHash = jest.fn(() => 'custom-scope')
+        await run(
+          '.eufemia-scope--something .my-class { color: red; }',
+          ':global(.custom-scope) .my-class { color: red; }',
+          { runAsCssModule: true, scopeHash }
+        )
+        expect(scopeHash).toHaveBeenCalledWith('/file.css')
+      })
+
+      it('should replace existing default scope hash (CSS Module) with custom scope hash given as function', async () => {
+        const scopeHash = jest.fn(() => 'custom-scope')
+        await run(
+          ':global(.eufemia-scope--something) .my-class { color: red; }',
+          ':global(.custom-scope) .my-class { color: red; }',
+          { runAsCssModule: true, scopeHash }
+        )
+        expect(scopeHash).toHaveBeenCalledWith('/file.css')
+      })
+
+      it('should handle custom scope hash given as function', async () => {
+        const scopeHash = jest.fn(() => 'custom-scope')
+        await run(
+          '.my-class { color: red; }',
+          ':global(.custom-scope) .my-class { color: red; }',
+          { runAsCssModule: true, scopeHash }
+        )
+        expect(scopeHash).toHaveBeenCalledWith('/file.css')
+      })
+
+      it('should not replace existing default scope hash with undefined scope hash returned from function', async () => {
+        const scopeHash = jest.fn(() => undefined)
+        await run(
+          ':global(.eufemia-scope--something) .my-class { color: red; }',
+          ':global(.eufemia-scope--something) .my-class { color: red; }',
+          { scopeHash }
+        )
+        expect(scopeHash).toHaveBeenCalledWith('/file.css')
+      })
+    })
+
+    describe('Preventing Duplicate Scopes', () => {
+      it('should not add scope class twice', async () => {
+        return await run(
+          ':global(.test-scope) .module-class { color: red; }',
+          ':global(.test-scope) .module-class { color: red; }',
+          { scopeHash: 'test-scope' }
+        )
+      })
+
+      it('should not add scope class twice when nested', async () => {
+        return await run(
+          'html :global(.test-scope) .module-class { color: red; }',
+          'html :global(.test-scope) .module-class { color: red; }',
+          { scopeHash: 'test-scope' }
+        )
+      })
+
+      it('should not add scope class twice when starting with "eufemia-scope--"', async () => {
+        return await run(
+          'html :global(.eufemia-scope--something) .my-class { color: red; }',
+          'html :global(.eufemia-scope--something) .my-class { color: red; }'
+        )
+      })
+
+      it('should not add scope class twice when starting with a custom prefix', async () => {
+        return await run(
+          'html :global(.x-something) .my-class { color: red; }',
+          'html :global(.x-something) .my-class { color: red; }',
+          { defaultScopeHash: 'x-' }
+        )
+      })
+
+      it('should not add scope class when ignored', async () => {
+        return await run(
+          'html :global(.existing-scope) .my-class { color: red; }',
+          'html :global(.existing-scope) .my-class { color: red; }',
+          {
+            scopeHash: 'ski-this-scope',
+            skipClassNames: ['existing-scope'],
+          }
+        )
+      })
+    })
+
+    describe('Special Selectors', () => {
+      it('should handle :root selector', async () => {
+        return await run(
+          ':root { --color: red; }',
+          ':global(.test-scope) { --color: red; }',
+          { runAsCssModule: true, scopeHash: 'test-scope' }
+        )
+      })
+
+      it('should scope crazy selectors in CSS Modules', async () => {
+        await run(
+          '*.foo[data-foo]::marker > :nth-child(2) { color: red; }',
+          ':global(.test-scope) *.foo[data-foo]::marker > :nth-child(2) { color: red; }',
+          { runAsCssModule: true, scopeHash: 'test-scope' }
+        )
+      })
+
+      it('should scope group including *, ::before, ::after in CSS Modules', async () => {
+        await run(
+          '*, ::before, ::after { color: red; }',
+          ':global(.test-scope) *, :global(.test-scope) ::before, :global(.test-scope) ::after { color: red; }',
+          { runAsCssModule: true, scopeHash: 'test-scope' }
+        )
+      })
+
+      it('should scope a lone ::before selector in CSS Modules', async () => {
+        await run(
+          '::before { content: ""; }',
+          ':global(.test-scope) ::before { content: ""; }',
+          { runAsCssModule: true, scopeHash: 'test-scope' }
+        )
+      })
+
+      it('should scope lone universal in CSS Modules', async () => {
+        await run(
+          '* { color: red; }',
+          ':global(.test-scope) * { color: red; }',
+          { runAsCssModule: true, scopeHash: 'test-scope' }
+        )
+      })
+
+      it('keeps rule when selector became empty inside :global()', async () => {
+        await run(
+          ':global(.eufemia-scope--default) { color: red; }',
+          ':global(.new-scope) { color: red; }',
+          { runAsCssModule: true, scopeHash: 'new-scope' }
+        )
+      })
+
+      it('preserves :global wrapper while replacing class', async () => {
+        await run(
+          ':global(.eufemia-scope--something) .selector { color:red; }',
+          ':global(.custom) .selector { color:red; }',
+          { runAsCssModule: true, scopeHash: 'custom' }
+        )
+      })
+    })
+
+    describe('Class Name Replacement', () => {
+      it('should replace class names with CSS Modules', async () => {
+        return await run(
+          '.old-class { color: red; }',
+          ':global(.test-scope) .new-class { color: red; }',
+          {
+            replaceClassNames: { 'old-class': 'new-class' },
+            runAsCssModule: true,
+            scopeHash: 'test-scope',
+          }
+        )
+      })
     })
 
     describe('leading :global', () => {
@@ -754,331 +940,132 @@ describe('isolated-style-scope-plugin', () => {
         )
       })
     })
-
-    it('should scope selectors no matter what kind of node they are', async () => {
-      await run(
-        '*.foo[data-foo]::marker > :nth-child(2) { color: red; }',
-        ':global(.test-scope) *.foo[data-foo]::marker > :nth-child(2) { color: red; }',
-        { runAsCssModule: true, scopeHash: 'test-scope' }
-      )
-    })
-
-    it('should scope group including *, ::before, ::after in CSS Modules', async () => {
-      await run(
-        '*, ::before, ::after { color: red; }',
-        ':global(.test-scope) *, :global(.test-scope) ::before, :global(.test-scope) ::after { color: red; }',
-        { runAsCssModule: true, scopeHash: 'test-scope' }
-      )
-    })
-
-    it('should scope a lone ::before selector in CSS Modules', async () => {
-      await run(
-        '::before { content: ""; }',
-        ':global(.test-scope) ::before { content: ""; }',
-        { runAsCssModule: true, scopeHash: 'test-scope' }
-      )
-    })
-
-    it('should scope lone universal in CSS Modules', async () => {
-      await run(
-        '* { color: red; }',
-        ':global(.test-scope) * { color: red; }',
-        { runAsCssModule: true, scopeHash: 'test-scope' }
-      )
-    })
   })
 
-  describe('replaceClassNames', () => {
-    it('should replace a single class name', async () => {
+  describe('sharedScopeHash', () => {
+    it('should create duplicate selectors for each shared scope', async () => {
       return await run(
-        '.old-class { color: red; }',
-        '.test-scope .new-class { color: red; }',
+        '.my-class { color: red; }',
+        '.main-scope .my-class, .shared-1 .my-class, .shared-2 .my-class { color: red; }',
         {
-          replaceClassNames: { 'old-class': 'new-class' },
-          scopeHash: 'test-scope',
+          scopeHash: 'main-scope',
+          sharedScopeHash: () => ['shared-1', 'shared-2'],
         }
       )
     })
 
-    it('should replace multiple class names', async () => {
+    it('should use scopeHash when sharedScopeHash functions returns not an array', async () => {
       return await run(
-        '.old-class1, .old-class2 { color: red; }',
-        '.test-scope .new-class1, .test-scope .new-class2 { color: red; }',
+        '.my-class { color: red; }',
+        '.main-scope .my-class { color: red; }',
         {
-          replaceClassNames: {
-            'old-class1': 'new-class1',
-            'old-class2': 'new-class2',
-          },
-          scopeHash: 'test-scope',
+          scopeHash: 'main-scope',
+          sharedScopeHash: () => undefined,
         }
       )
     })
 
-    it('should replace class names in complex selectors', async () => {
+    it('should use default hash (eufemia-scope--default) when sharedScopeHash functions returns not an array', async () => {
       return await run(
-        '.parent .old-class:hover { color: red; }',
-        '.test-scope .parent .new-class:hover { color: red; }',
+        '.my-class { color: red; }',
+        '.eufemia-scope--default .my-class { color: red; }',
         {
-          replaceClassNames: { 'old-class': 'new-class' },
-          scopeHash: 'test-scope',
+          sharedScopeHash: () => undefined,
         }
       )
     })
 
-    it('should replace class names with CSS Modules', async () => {
+    it('should not duplicate selectors when they match', async () => {
       return await run(
-        '.old-class { color: red; }',
-        ':global(.test-scope) .new-class { color: red; }',
+        '.my-class { color: red; }',
+        '.shared-1 .my-class, .shared-2 .my-class { color: red; }',
         {
-          replaceClassNames: { 'old-class': 'new-class' },
+          scopeHash: 'shared-1',
+          sharedScopeHash: () => ['shared-1', 'shared-2'],
+        }
+      )
+    })
+
+    it('should handle multiple selectors with shared scopes', async () => {
+      return await run(
+        '.class1, .class2 { color: red; }',
+        '.main-scope .class1, .shared-1 .class1, .shared-2 .class1, .main-scope .class2, .shared-1 .class2, .shared-2 .class2 { color: red; }',
+        {
+          scopeHash: 'main-scope',
+          sharedScopeHash: () => ['shared-1', 'shared-2'],
+        }
+      )
+    })
+
+    it('should handle :root selector with shared scopes', async () => {
+      return await run(
+        ':root { --color: red; }',
+        '.main-scope, .shared-1, .shared-2 { --color: red; }',
+        {
+          scopeHash: 'main-scope',
+          sharedScopeHash: () => ['shared-1', 'shared-2'],
+        }
+      )
+    })
+
+    it('should handle complex selectors with shared scopes', async () => {
+      return await run(
+        '.parent > .child + .sibling { color: red; }',
+        '.main-scope .parent > .child + .sibling, .shared-1 .parent > .child + .sibling, .shared-2 .parent > .child + .sibling { color: red; }',
+        {
+          scopeHash: 'main-scope',
+          sharedScopeHash: () => ['shared-1', 'shared-2'],
+        }
+      )
+    })
+
+    it('should handle shared scopes with CSS modules', async () => {
+      return await run(
+        '.my-class { color: red; }',
+        ':global(.main-scope) .my-class, :global(.shared-1) .my-class, :global(.shared-2) .my-class { color: red; }',
+        {
+          scopeHash: 'main-scope',
+          sharedScopeHash: () => ['shared-1', 'shared-2'],
           runAsCssModule: true,
-          scopeHash: 'test-scope',
         }
       )
     })
 
-    it('should not replace skipped class names', async () => {
+    it('should handle shared scopes with replaceClassNames', async () => {
       return await run(
-        '.old-class, .skip-class { color: red; }',
-        '.test-scope .new-class, .skip-class { color: red; }',
+        '.old-name { color: red; }',
+        '.main-scope .new-name, .shared-1 .new-name, .shared-2 .new-name { color: red; }',
         {
-          replaceClassNames: { 'old-class': 'new-class' },
-          skipClassNames: ['skip-class'],
-          scopeHash: 'test-scope',
+          scopeHash: 'main-scope',
+          sharedScopeHash: () => ['shared-1', 'shared-2'],
+          replaceClassNames: { 'old-name': 'new-name' },
         }
       )
     })
 
-    it('should handle multiple class names in a single selector', async () => {
-      return await run(
-        '.old-class1.old-class2 { color: red; }',
-        '.test-scope .new-class1.new-class2 { color: red; }',
-        {
-          replaceClassNames: {
-            'old-class1': 'new-class1',
-            'old-class2': 'new-class2',
-          },
-          scopeHash: 'test-scope',
-        }
-      )
-    })
-  })
-
-  it('should use scope hash from scope-hash.txt file when auto is set', async () => {
-    const readFileSyncSpy = jest
-      .spyOn(fs, 'readFileSync')
-      .mockReturnValue('test-hash-from-file')
-    const existsSyncSpy = jest
-      .spyOn(fs, 'existsSync')
-      .mockImplementation((path: string) => {
-        return path.endsWith('scope-hash.txt')
+    it('should call sharedScopeHash function with file path', async () => {
+      const sharedScopeHash = jest.fn(() => ['shared-1', 'shared-2'])
+      await run('.my-class { color: red; }', undefined, {
+        scopeHash: 'main-scope',
+        sharedScopeHash,
       })
-    const getStyleScopeHashSpy = jest
-      .spyOn(scopeHash, 'getStyleScopeHash')
-      .mockReturnValue('eufemia-scope--default')
-
-    const result = await run(
-      '.my-class { color: red; }',
-      '.test-hash-from-file .my-class { color: red; }',
-      {
-        scopeHash: 'auto',
-        postcssOptions: {
-          from: '/some/path/to/style.css',
-        },
-      }
-    )
-
-    readFileSyncSpy.mockRestore()
-    existsSyncSpy.mockRestore()
-    getStyleScopeHashSpy.mockRestore()
-
-    expect(result).toBeDefined()
-  })
-
-  it('should fallback to default hash when scope-hash.txt is not found', async () => {
-    const readFileSyncSpy = jest.spyOn(fs, 'readFileSync')
-    const existsSyncSpy = jest
-      .spyOn(fs, 'existsSync')
-      .mockReturnValue(false)
-    const getStyleScopeHashSpy = jest
-      .spyOn(scopeHash, 'getStyleScopeHash')
-      .mockReturnValue('eufemia-scope--default')
-
-    const result = await run(
-      '.my-class { color: red; }',
-      '.eufemia-scope--default .my-class { color: red; }',
-      {
-        scopeHash: 'auto',
-        postcssOptions: {
-          from: '/some/path/to/style.css',
-        },
-      }
-    )
-
-    readFileSyncSpy.mockRestore()
-    existsSyncSpy.mockRestore()
-    getStyleScopeHashSpy.mockRestore()
-
-    expect(result).toBeDefined()
-  })
-
-  it('should fallback to default hash when scope-hash.txt contains spaces', async () => {
-    const readFileSyncSpy = jest
-      .spyOn(fs, 'readFileSync')
-      .mockReturnValue('test hash with spaces')
-    const existsSyncSpy = jest
-      .spyOn(fs, 'existsSync')
-      .mockImplementation((path: string) =>
-        path.includes('scope-hash.txt')
-      )
-    const getStyleScopeHashSpy = jest
-      .spyOn(scopeHash, 'getStyleScopeHash')
-      .mockReturnValue('eufemia-scope--default')
-
-    const result = await run(
-      '.my-class { color: red; }',
-      '.eufemia-scope--default .my-class { color: red; }',
-      {
-        scopeHash: 'auto',
-        postcssOptions: {
-          from: '/some/path/to/style.css',
-        },
-      }
-    )
-
-    readFileSyncSpy.mockRestore()
-    existsSyncSpy.mockRestore()
-    getStyleScopeHashSpy.mockRestore()
-
-    expect(result).toBeDefined()
-  })
-})
-
-describe('sharedScopeHash functionality', () => {
-  it('should create duplicate selectors for each shared scope', async () => {
-    return await run(
-      '.my-class { color: red; }',
-      '.main-scope .my-class, .shared-1 .my-class, .shared-2 .my-class { color: red; }',
-      {
-        scopeHash: 'main-scope',
-        sharedScopeHash: () => ['shared-1', 'shared-2'],
-      }
-    )
-  })
-
-  it('should use scopeHash when sharedScopeHash functions returns not an array', async () => {
-    return await run(
-      '.my-class { color: red; }',
-      '.main-scope .my-class { color: red; }',
-      {
-        scopeHash: 'main-scope',
-        sharedScopeHash: () => undefined,
-      }
-    )
-  })
-
-  it('should use default hash (eufemia-scope--default) when sharedScopeHash functions returns not an array', async () => {
-    return await run(
-      '.my-class { color: red; }',
-      '.eufemia-scope--default .my-class { color: red; }',
-      {
-        sharedScopeHash: () => undefined,
-      }
-    )
-  })
-
-  it('should not duplicate selectors when they match', async () => {
-    return await run(
-      '.my-class { color: red; }',
-      '.shared-1 .my-class, .shared-2 .my-class { color: red; }',
-      {
-        scopeHash: 'shared-1',
-        sharedScopeHash: () => ['shared-1', 'shared-2'],
-      }
-    )
-  })
-
-  it('should handle multiple selectors with shared scopes', async () => {
-    return await run(
-      '.class1, .class2 { color: red; }',
-      '.main-scope .class1, .shared-1 .class1, .shared-2 .class1, .main-scope .class2, .shared-1 .class2, .shared-2 .class2 { color: red; }',
-      {
-        scopeHash: 'main-scope',
-        sharedScopeHash: () => ['shared-1', 'shared-2'],
-      }
-    )
-  })
-
-  it('should handle :root selector with shared scopes', async () => {
-    return await run(
-      ':root { --color: red; }',
-      '.main-scope, .shared-1, .shared-2 { --color: red; }',
-      {
-        scopeHash: 'main-scope',
-        sharedScopeHash: () => ['shared-1', 'shared-2'],
-      }
-    )
-  })
-
-  it('should handle complex selectors with shared scopes', async () => {
-    return await run(
-      '.parent > .child + .sibling { color: red; }',
-      '.main-scope .parent > .child + .sibling, .shared-1 .parent > .child + .sibling, .shared-2 .parent > .child + .sibling { color: red; }',
-      {
-        scopeHash: 'main-scope',
-        sharedScopeHash: () => ['shared-1', 'shared-2'],
-      }
-    )
-  })
-
-  it('should handle shared scopes with CSS modules', async () => {
-    return await run(
-      '.my-class { color: red; }',
-      ':global(.main-scope) .my-class, :global(.shared-1) .my-class, :global(.shared-2) .my-class { color: red; }',
-      {
-        scopeHash: 'main-scope',
-        sharedScopeHash: () => ['shared-1', 'shared-2'],
-        runAsCssModule: true,
-      }
-    )
-  })
-
-  it('should handle shared scopes with replaceClassNames', async () => {
-    return await run(
-      '.old-name { color: red; }',
-      '.main-scope .new-name, .shared-1 .new-name, .shared-2 .new-name { color: red; }',
-      {
-        scopeHash: 'main-scope',
-        sharedScopeHash: () => ['shared-1', 'shared-2'],
-        replaceClassNames: { 'old-name': 'new-name' },
-      }
-    )
-  })
-
-  it('should call sharedScopeHash function with file path', async () => {
-    const sharedScopeHash = jest.fn(() => ['shared-1', 'shared-2'])
-
-    await run('.my-class { color: red; }', undefined, {
-      scopeHash: 'main-scope',
-      sharedScopeHash,
+      expect(sharedScopeHash).toHaveBeenCalledWith('/file.css')
     })
 
-    expect(sharedScopeHash).toHaveBeenCalledWith('/file.css')
-  })
-
-  it('should not duplicate when sharedScopeHash returns []', async () => {
-    await run('.foo { color: red; }', '.main .foo { color: red; }', {
-      scopeHash: 'main',
-      sharedScopeHash: () => [],
+    it('should not duplicate when sharedScopeHash returns []', async () => {
+      await run('.foo { color: red; }', '.main .foo { color: red; }', {
+        scopeHash: 'main',
+        sharedScopeHash: () => [],
+      })
     })
-  })
 
-  it('should ignore non-array return from sharedScopeHash', async () => {
-    await run('.foo { color: red; }', '.main .foo { color: red; }', {
-      scopeHash: 'main',
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-expect-error
-      sharedScopeHash: () => 'not-an-array',
+    it('should ignore non-array return from sharedScopeHash', async () => {
+      await run('.foo { color: red; }', '.main .foo { color: red; }', {
+        scopeHash: 'main',
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
+        sharedScopeHash: () => 'not-an-array',
+      })
     })
   })
 })
