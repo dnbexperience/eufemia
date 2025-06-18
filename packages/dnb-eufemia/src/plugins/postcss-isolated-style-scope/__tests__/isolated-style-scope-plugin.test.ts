@@ -529,6 +529,55 @@ describe('isolated-style-scope-plugin', () => {
         { scopeHash: 'test-scope' }
       )
     })
+
+    it('should scope selectors inside @media', async () => {
+      await run(
+        '@media (min-width: 40em) { .foo { color: red; } }',
+        '@media (min-width: 40em) { .test-scope .foo { color: red; } }',
+        { scopeHash: 'test-scope' }
+      )
+    })
+
+    it('should skip @font-face rules', async () => {
+      return await run(
+        '@font-face { font-family: "MyFont"; src: url("myfont.woff2"); }',
+        '@font-face { font-family: "MyFont"; src: url("myfont.woff2"); }',
+        { scopeHash: 'test-scope' }
+      )
+    })
+  })
+
+  // TODO: Add support for keyframes renaming
+  describe.skip('Keyframes Renaming', () => {
+    it('should rename keyframes with scope suffix', async () => {
+      return await run(
+        '@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }',
+        '@keyframes fadeIn__test-scope { from { opacity: 0; } to { opacity: 1; } }',
+        { scopeHash: 'test-scope' }
+      )
+    })
+
+    it('should update animation-name declarations to hashed keyframe', async () => {
+      return await run(
+        '.btn { animation-name: fadeIn; }',
+        '.test-scope .btn { animation-name: fadeIn__test-scope; }',
+        { scopeHash: 'test-scope' }
+      )
+    })
+
+    it('should update animation shorthand declarations to hashed keyframe', async () => {
+      return await run(
+        '.icon { animation: spin 2s linear infinite; }',
+        '.test-scope .icon { animation: spin__test-scope 2s linear infinite; }',
+        { scopeHash: 'test-scope' }
+      )
+    })
+
+    it('should handle multiple keyframes and animations', async () => {
+      const input = `@keyframes slide { from { left:0 } to { left:100px } }\n.icon { animation: slide 1s, spin 2s; }`
+      const output = `@keyframes slide__test-scope { from { left:0 } to { left:100px } }\n.test-scope .icon { animation: slide__test-scope 1s, spin__test-scope 2s; }`
+      return await run(input, output, { scopeHash: 'test-scope' })
+    })
   })
 
   describe('replaceClassNames', () => {
