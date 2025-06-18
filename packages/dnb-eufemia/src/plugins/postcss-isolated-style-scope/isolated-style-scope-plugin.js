@@ -3,26 +3,12 @@
  */
 
 const path = require('path')
-const fs = require('fs')
 const selectorParser = require('postcss-selector-parser')
-const { getStyleScopeHash } = require('./handleScopeHash.cjs')
-
-function findPathToScopeHash(filePath) {
-  const parts = filePath.split(path.sep)
-  parts.pop() // Remove the filename
-  let currentPath = parts[0] // Start with the first part (root on Unix, drive on Windows)
-
-  for (let i = 1; i < parts.length; i++) {
-    currentPath = path.join(currentPath, parts[i])
-    const scopeHashPath = path.join(currentPath, 'scope-hash.txt')
-
-    if (fs.existsSync(scopeHashPath)) {
-      return currentPath
-    }
-  }
-
-  return null
-}
+const {
+  findPathToScopeHash,
+  getScopeHashFromFile,
+} = require('./plugin-utils.js')
+const { getStyleScopeHash } = require('./plugin-scope-hash.cjs')
 
 const postcssIsolateStyle = (opts = {}) => {
   const {
@@ -46,7 +32,7 @@ const postcssIsolateStyle = (opts = {}) => {
 
   if (!verbose && !global.__didLog && process.env.NODE_ENV !== 'test') {
     global.__didLog = true
-    console.log('✨ @dnb/eufemia/plugins/style-scope')
+    console.log('✨ @dnb/eufemia/plugins/postcss-isolated-style-scope')
   }
 
   return {
@@ -61,10 +47,7 @@ const postcssIsolateStyle = (opts = {}) => {
       if (scopeHash === 'auto') {
         const scopeHashFromFile = findPathToScopeHash(file)
         if (scopeHashFromFile) {
-          const content = fs.readFileSync(
-            path.join(scopeHashFromFile, 'scope-hash.txt'),
-            'utf-8'
-          )
+          const content = getScopeHashFromFile(scopeHashFromFile)
 
           if (!content.includes(' ')) {
             fileFallbackHash = content
@@ -361,7 +344,7 @@ const postcssIsolateStyle = (opts = {}) => {
 
         if (verbose) {
           console.log(`
-✨ @dnb/eufemia/plugins/style-scope
+✨ @dnb/eufemia/plugins/postcss-isolated-style-scope
 Scope: ${givenScope} → ${scopeWithFallback}
 ${
   Array.isArray(sharedHashes)
@@ -381,7 +364,7 @@ Settings: ${JSON.stringify({ isCssModule }, null, 2)}
       if (verbose) {
         console.log(
           `
-  ✨ @dnb/eufemia/plugins/style-scope
+  ✨ @dnb/eufemia/plugins/postcss-isolated-style-scope
   - File: ${path.relative(process.cwd(), file)}
   - Selectors processed: ${countBefore} → ${countAfter}
   `

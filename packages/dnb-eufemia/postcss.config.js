@@ -4,7 +4,7 @@ const {
 const postcssIsolatePlugin = require('./src/plugins/postcss-isolated-style-scope')
 const {
   getStyleScopeHash,
-} = require('./src/plugins/postcss-isolated-style-scope/handleScopeHash.cjs')
+} = require('./src/plugins/postcss-isolated-style-scope/plugin-scope-hash.cjs')
 
 module.exports = {
   plugins: [

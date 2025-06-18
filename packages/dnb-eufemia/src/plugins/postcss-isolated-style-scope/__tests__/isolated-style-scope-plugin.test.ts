@@ -1,9 +1,9 @@
 /* eslint-disable jest/expect-expect */
 
 import postcss from 'postcss'
-import plugin from '../style-scope-plugin'
 import * as fs from 'fs'
-import * as scopeHash from '../handleScopeHash.js'
+import * as scopeHash from '../plugin-scope-hash.js'
+import plugin from '../isolated-style-scope-plugin.js'
 
 // Mock fs
 jest.mock('fs', () => ({
@@ -210,6 +210,14 @@ describe('isolated-style-scope-plugin', () => {
     )
   })
 
+  it('should skip attribute selectors when listed in skipClassNames', async () => {
+    await run(
+      '[data-skip] { color: red; }',
+      '[data-skip] { color: red; }',
+      { skipClassNames: ['data-skip'], scopeHash: 'test-scope' }
+    )
+  })
+
   it('should handle selectors with multiple pseudo-classes', async () => {
     return await run(
       '.button:hover:focus:active { color: red; }',
@@ -345,6 +353,17 @@ describe('isolated-style-scope-plugin', () => {
     )
   })
 
+  it('should replace custom defaultScopeHash prefix with given scope', async () => {
+    await run(
+      'html .x-oldprefix .child { color: red; }',
+      'html .custom .child { color: red; }',
+      {
+        defaultScopeHash: 'x-',
+        scopeHash: 'custom',
+      }
+    )
+  })
+
   it('should not add scope class when ignored', async () => {
     return await run(
       'html .existing-scope .my-class { color: red; }',
@@ -430,6 +449,20 @@ describe('isolated-style-scope-plugin', () => {
     await run(
       '::before { content: ""; }',
       '.test-scope ::before { content: ""; }',
+      { scopeHash: 'test-scope' }
+    )
+  })
+
+  it('should scope lone universal selector', async () => {
+    await run('* { color: red; }', '.test-scope * { color: red; }', {
+      scopeHash: 'test-scope',
+    })
+  })
+
+  it('should scope selectors inside @supports', async () => {
+    await run(
+      '@supports (display: grid) { .foo { color: red; } }',
+      '@supports (display: grid) { .test-scope .foo { color: red; } }',
       { scopeHash: 'test-scope' }
     )
   })
@@ -745,6 +778,14 @@ describe('isolated-style-scope-plugin', () => {
         { runAsCssModule: true, scopeHash: 'test-scope' }
       )
     })
+
+    it('should scope lone universal in CSS Modules', async () => {
+      await run(
+        '* { color: red; }',
+        ':global(.test-scope) * { color: red; }',
+        { runAsCssModule: true, scopeHash: 'test-scope' }
+      )
+    })
   })
 
   describe('replaceClassNames', () => {
@@ -1023,5 +1064,21 @@ describe('sharedScopeHash functionality', () => {
     })
 
     expect(sharedScopeHash).toHaveBeenCalledWith('/file.css')
+  })
+
+  it('should not duplicate when sharedScopeHash returns []', async () => {
+    await run('.foo { color: red; }', '.main .foo { color: red; }', {
+      scopeHash: 'main',
+      sharedScopeHash: () => [],
+    })
+  })
+
+  it('should ignore non-array return from sharedScopeHash', async () => {
+    await run('.foo { color: red; }', '.main .foo { color: red; }', {
+      scopeHash: 'main',
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error
+      sharedScopeHash: () => 'not-an-array',
+    })
   })
 })

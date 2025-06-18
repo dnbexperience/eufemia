@@ -5,7 +5,7 @@ const {
 const postcssIsolatePlugin = require('@dnb/eufemia/src/plugins/postcss-isolated-style-scope')
 const {
   getStyleScopeHash,
-} = require('@dnb/eufemia/src/plugins/postcss-isolated-style-scope/handleScopeHash.cjs')
+} = require('@dnb/eufemia/src/plugins/postcss-isolated-style-scope/plugin-scope-hash.cjs')
 
 module.exports = {
   plugins: [

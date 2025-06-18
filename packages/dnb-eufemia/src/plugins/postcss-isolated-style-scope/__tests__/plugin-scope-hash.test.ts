@@ -1,8 +1,8 @@
-import * as BuildInfoJs from '../handleScopeHash.js'
-import * as BuildInfoCjs from '../handleScopeHash.cjs'
+import * as BuildInfoJs from '../plugin-scope-hash.js'
+import * as BuildInfoCjs from '../plugin-scope-hash.cjs'
 import * as BuildInfoModule from '../../../shared/build-info/BuildInfo.js'
 import * as BuildInfoCjsModule from '../../../shared/build-info/BuildInfo.cjs'
-import { getStyleScopeHash } from '../handleScopeHash.js'
+import { getStyleScopeHash } from '../plugin-scope-hash.js'
 
 jest.mock('../../../shared/build-info/BuildInfo.js', () => ({
   getVersion: jest.fn(),

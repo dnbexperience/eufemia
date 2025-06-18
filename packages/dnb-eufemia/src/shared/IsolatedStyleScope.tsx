@@ -1,5 +1,5 @@
 import React, { useCallback, useContext } from 'react'
-import { getStyleScopeHash } from '../plugins/postcss-isolated-style-scope/handleScopeHash.js'
+import { getStyleScopeHash } from '../plugins/postcss-isolated-style-scope/plugin-scope-hash.js'
 
 export { getStyleScopeHash }
 

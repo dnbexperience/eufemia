@@ -12,7 +12,7 @@ import {
   releaseBranches,
 } from '../../postbuild/getNextReleaseVersion'
 import { log } from '../../lib'
-import { getStyleScopeHash } from '../../../src/plugins/postcss-isolated-style-scope/handleScopeHash.js'
+import { getStyleScopeHash } from '../../../src/plugins/postcss-isolated-style-scope/plugin-scope-hash.js'
 
 export async function makeReleaseVersion() {
   const branchName = getBranchName()

@@ -103,7 +103,7 @@ describe('babel build', () => {
     const allowedFiles = [
       '/BuildInfo.cjs',
       '/BuildInfoData.cjs',
-      '/handleScopeHash.cjs',
+      '/plugin-scope-hash.cjs',
       '/dnb-ui-lib.min.mjs',
       '/dnb-ui-basis.min.mjs',
       '/dnb-ui-components.min.mjs',
