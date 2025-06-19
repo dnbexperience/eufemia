@@ -919,10 +919,12 @@ describe('Field.PhoneNumber', () => {
 
     await userEvent.click(codeElement)
 
-    expect(
-      document.querySelector('li.dnb-drawer-list__option--selected')
-        .textContent
-    ).toBe('Sveits+41')
+    await waitFor(() => {
+      expect(
+        document.querySelector('li.dnb-drawer-list__option--selected')
+          .textContent
+      ).toBe('Sveits+41')
+    })
   })
 
   it('should render given country code from data context, even if no number is given', async () => {
