@@ -93,11 +93,6 @@ const defaultMask = [
   /\d/,
 ]
 
-const numberOfDigitsInDefaultMask = defaultMask.filter(
-  (mask) =>
-    mask !== ' ' && typeof mask === 'object' && mask instanceof RegExp
-).length
-
 type EventValues = {
   countryCode?: string
   phoneNumber?: string
@@ -346,15 +341,16 @@ function PhoneNumber(props: Props) {
         data?.selectedKey?.trim() || emptyValue)
       currentCountryRef.current = data?.country
 
+      // If the phone number is more than 8 digits, and the country code is the default one (+47),
+      // we truncate the phone number to 8 digits.
+      // This is to ensure that the phone number does not exceed the maximum length set by the mask.
+      // TODO: This is a temporary solution, and should be removed once the mask is updated to handle this case.
       if (
         !numberMask &&
         countryCodeRef.current?.includes(defaultCountryCode) &&
-        numberRef.current?.length > numberOfDigitsInDefaultMask
+        numberRef.current?.length > 8
       ) {
-        const truncatedNumber = numberRef.current.substring(
-          0,
-          numberOfDigitsInDefaultMask
-        )
+        const truncatedNumber = numberRef.current.substring(0, 8)
         callOnChange({
           countryCode,
           phoneNumber: truncatedNumber,
