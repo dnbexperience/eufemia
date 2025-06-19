@@ -164,34 +164,6 @@ describe.each(['ui', 'sbanken'])('Dropdown for %s', (themeName) => {
     },
   })
 
-  it('have to match the tertiary variant opened on left side', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="dropdown-tertiary"]',
-      simulate: 'click',
-      simulateSelector:
-        '[data-visual-test="dropdown-tertiary"] .dnb-dropdown__trigger',
-      simulateAfter: { keypress: 'Escape' },
-      style: {
-        'padding-bottom': '16rem',
-      },
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-
-  it('have to match the tertiary variant opened on right side', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="dropdown-tertiary-right"]',
-      simulate: 'click',
-      simulateSelector:
-        '[data-visual-test="dropdown-tertiary-right"] .dnb-dropdown__trigger',
-      simulateAfter: { keypress: 'Escape' },
-      style: {
-        'padding-bottom': '16rem',
-      },
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-
   it('have to match different item directions', async () => {
     const screenshot = await makeScreenshot({
       style: {
@@ -238,6 +210,43 @@ describe.each(['ui', 'sbanken'])('Dropdown for %s', (themeName) => {
       waitBeforeSimulate: 100,
       style: {
         width: '14rem',
+      },
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+})
+
+describe.each(['ui', 'sbanken'])('Dropdown for %s', (themeName) => {
+  setupPageScreenshot({
+    themeName,
+    url: '/uilib/components/dropdown/demos',
+  })
+
+  it('have to match the tertiary variant opened on left side', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="dropdown-tertiary"]',
+      simulate: 'click',
+      simulateSelector:
+        '[data-visual-test="dropdown-tertiary"] .dnb-dropdown__trigger',
+      simulateAfter: { keypress: 'Escape' },
+      style: {
+        'padding-bottom': '20rem',
+        'padding-right': '5rem',
+      },
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match the tertiary variant opened on right side', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="dropdown-tertiary-right"]',
+      simulate: ['focus', 'click'],
+      simulateSelector:
+        '[data-visual-test="dropdown-tertiary-right"] .dnb-dropdown__trigger',
+      simulateAfter: { keypress: 'Escape' },
+      style: {
+        'padding-bottom': '20rem',
+        'padding-right': '5rem',
       },
     })
     expect(screenshot).toMatchImageSnapshot()
