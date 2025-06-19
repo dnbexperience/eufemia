@@ -222,6 +222,46 @@ describe('Field.PhoneNumber', () => {
     )
   })
 
+  it('should truncate the phone number of more than 8 digits when changing country code to Norway', async () => {
+    const onNumberChange = jest.fn()
+
+    render(
+      <Field.PhoneNumber
+        value="+46 987654321231"
+        onNumberChange={onNumberChange}
+      />
+    )
+
+    const codeElement: HTMLInputElement = document.querySelector(
+      '.dnb-forms-field-phone-number__country-code input'
+    )
+    const phoneElement: HTMLInputElement = document.querySelector(
+      '.dnb-forms-field-phone-number__number input'
+    )
+
+    expect(codeElement.value).toEqual('SE (+46)')
+    expect(phoneElement.value).toEqual('987654321231')
+
+    await userEvent.clear(codeElement)
+    await userEvent.type(codeElement, 'Norge')
+    fireEvent.click(
+      document.querySelectorAll('li.dnb-drawer-list__option')[0]
+    )
+
+    const items = document.querySelectorAll('li.dnb-drawer-list__option')
+    const item = Array.from(items).find((element) => {
+      return element.className.includes('selected')
+    })
+
+    expect(item.textContent).toBe('Norge+47')
+    expect(phoneElement.value).toEqual('98 76 54 32')
+
+    await waitFor(() => {
+      expect(onNumberChange).toHaveBeenCalledTimes(1)
+      expect(onNumberChange).toHaveBeenLastCalledWith('98765432')
+    })
+  })
+
   it('should have selected correct item', async () => {
     render(<Field.PhoneNumber />)
 
@@ -879,10 +919,12 @@ describe('Field.PhoneNumber', () => {
 
     await userEvent.click(codeElement)
 
-    expect(
-      document.querySelector('li.dnb-drawer-list__option--selected')
-        .textContent
-    ).toBe('Sveits+41')
+    await waitFor(() => {
+      expect(
+        document.querySelector('li.dnb-drawer-list__option--selected')
+          .textContent
+      ).toBe('Sveits+41')
+    })
   })
 
   it('should render given country code from data context, even if no number is given', async () => {
