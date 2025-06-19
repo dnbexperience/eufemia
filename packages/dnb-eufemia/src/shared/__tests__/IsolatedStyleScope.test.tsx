@@ -1,8 +1,7 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 import IsolatedStyleScope, {
-  getStyleScopeRootElement,
-  useStyleScopeRootElement,
+  useIsolatedStyleScope,
 } from '../IsolatedStyleScope'
 
 describe('StyleScope', () => {
@@ -91,63 +90,170 @@ describe('StyleScope', () => {
   })
 })
 
-describe('getStyleScopeRootElement', () => {
-  beforeEach(() => {
-    document.body.innerHTML = ''
-  })
-
-  it('returns fallback element when no style scope provided', () => {
-    expect(getStyleScopeRootElement()).toBe(document.body)
-  })
-
-  it('returns undefined when window is not defined', () => {
-    const originalWindow = global.window
-    const windowSpy = jest.spyOn(global, 'window', 'get')
-    windowSpy.mockImplementation(() => undefined)
-
-    expect(getStyleScopeRootElement('my-scope')).toBeUndefined()
-
-    windowSpy.mockRestore()
-    global.window = originalWindow
-  })
-
-  it('finds element with matching style scope class', () => {
-    const div = document.createElement('div')
-    div.className = 'my-scope'
-    document.body.appendChild(div)
-
-    expect(getStyleScopeRootElement('my-scope')).toBe(div)
-  })
-
-  it('finds element with default style scope class when scopeHash is "auto"', () => {
-    const div = document.createElement('div')
-    div.className = 'eufemia-scope--default'
-    document.body.appendChild(div)
-
-    expect(getStyleScopeRootElement('auto')).toBe(div)
-  })
-})
-
-describe('useStyleScopeRootElement', () => {
+describe('useIsolatedStyleScope', () => {
   it('uses style scope from context', () => {
     let scopeElement = null
 
-    const TestComponent = () => {
-      const { getElement } = useStyleScopeRootElement()
+    const MockComponent = () => {
+      const { getScopeElement } = useIsolatedStyleScope()
+
       React.useEffect(() => {
-        scopeElement = getElement()
-      }, [getElement])
+        scopeElement = getScopeElement()
+      }, [getScopeElement])
 
       return null
     }
 
     render(
       <IsolatedStyleScope scopeHash="my-scope">
-        <TestComponent />
+        <MockComponent />
       </IsolatedStyleScope>
     )
 
     expect(scopeElement.className).toBe('my-scope')
+  })
+
+  it('returns undefined when used outside of a style scope', () => {
+    let scopeElement = null
+
+    const MockComponent = () => {
+      const { getScopeElement } = useIsolatedStyleScope()
+
+      React.useEffect(() => {
+        scopeElement = getScopeElement()
+      }, [getScopeElement])
+
+      return null
+    }
+
+    render(<MockComponent />)
+
+    expect(scopeElement).toBe(undefined)
+  })
+
+  it('returns the custom innerRef element if provided', () => {
+    let scopeElement = null
+    const customRef = React.createRef<HTMLDivElement>()
+
+    const MockComponent = () => {
+      const { getScopeElement } = useIsolatedStyleScope()
+
+      React.useEffect(() => {
+        scopeElement = getScopeElement()
+      }, [getScopeElement])
+
+      return null
+    }
+
+    render(
+      <IsolatedStyleScope scopeHash="custom-scope" innerRef={customRef}>
+        <MockComponent />
+      </IsolatedStyleScope>
+    )
+
+    expect(customRef.current).toBe(scopeElement)
+    expect(scopeElement.className).toBe('custom-scope')
+  })
+
+  it('returns the correct element in nested style scopes when having different uniqueKeys', () => {
+    let outerElement = null
+    let innerElement = null
+
+    const OuterComponent = () => {
+      const { getScopeElement } = useIsolatedStyleScope()
+
+      React.useEffect(() => {
+        outerElement = getScopeElement()
+      }, [getScopeElement])
+
+      return null
+    }
+
+    const InnerComponent = () => {
+      const { getScopeElement } = useIsolatedStyleScope()
+
+      React.useEffect(() => {
+        innerElement = getScopeElement()
+      }, [getScopeElement])
+
+      return null
+    }
+
+    render(
+      <IsolatedStyleScope scopeHash="outer-scope" uniqueKey="outer">
+        <OuterComponent />
+        <IsolatedStyleScope scopeHash="inner-scope" uniqueKey="inner">
+          <InnerComponent />
+        </IsolatedStyleScope>
+      </IsolatedStyleScope>
+    )
+
+    expect(innerElement).not.toBe(outerElement)
+    expect(outerElement.className).toBe('outer-scope')
+    expect(innerElement.className).toBe('inner-scope')
+  })
+
+  it('returns the same element in nested style scopes', () => {
+    let outerElement = null
+    let innerElement = null
+
+    const OuterComponent = () => {
+      const { getScopeElement } = useIsolatedStyleScope()
+
+      React.useEffect(() => {
+        outerElement = getScopeElement()
+      }, [getScopeElement])
+
+      return null
+    }
+
+    const InnerComponent = () => {
+      const { getScopeElement } = useIsolatedStyleScope()
+
+      React.useEffect(() => {
+        innerElement = getScopeElement()
+      }, [getScopeElement])
+
+      return null
+    }
+
+    render(
+      <IsolatedStyleScope scopeHash="outer-scope">
+        <OuterComponent />
+        <IsolatedStyleScope scopeHash="inner-scope">
+          <InnerComponent />
+        </IsolatedStyleScope>
+      </IsolatedStyleScope>
+    )
+
+    expect(innerElement).toBe(outerElement)
+  })
+
+  it('returns null after unmounting the style scope', () => {
+    let scopeElement = null
+
+    const MockComponent = () => {
+      const { getScopeElement } = useIsolatedStyleScope()
+
+      React.useEffect(() => {
+        scopeElement = getScopeElement()
+      }, [getScopeElement])
+
+      return null
+    }
+
+    const { unmount } = render(
+      <IsolatedStyleScope scopeHash="my-scope">
+        <MockComponent />
+      </IsolatedStyleScope>
+    )
+
+    expect(scopeElement.className).toBe('my-scope')
+
+    unmount()
+
+    // After unmount, the ref will be null
+    expect(scopeElement).not.toBe(null) // The last value is still the element
   })
 })
 

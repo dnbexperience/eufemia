@@ -103,6 +103,7 @@ describe('PortalRoot', () => {
           generatedScopeHash: 'test-hash',
           internalKeys: new Set(),
           scopeHash: 'auto',
+          scopeElementRef: undefined,
           disableCoreStyleWrapper: false,
         }}
       >

@@ -129,32 +129,16 @@ If you want to use the scope element in your app, you can use a React Hook to ge
 
 ```tsx
 import IsolatedStyleScope, {
-  useStyleScopeRootElement,
+  useIsolatedStyleScope,
 } from '@dnb/eufemia/shared/IsolatedStyleScope'
 
 function Component() {
-  const { getElement } = useStyleScopeRootElement()
-  return null
-}
+  const { getScopeElement } = useIsolatedStyleScope()
 
-render(
-  <IsolatedStyleScope>
-    <Component />
-  </IsolatedStyleScope>,
-)
-```
+  React.useEffect(() => {
+    const element = getScopeElement()
+  }, [getScopeElement])
 
-Or use a function to get the root element:
-
-```tsx
-import IsolatedStyleScope, {
-  IsolatedStyleScopeContext,
-  getStyleScopeRootElement,
-} from '@dnb/eufemia/shared/IsolatedStyleScope'
-
-function Component() {
-  const { scopeHash } = useContext(IsolatedStyleScopeContext)
-  const getElement = getStyleScopeRootElement(scopeHash)
   return null
 }
 

@@ -1,4 +1,4 @@
-import React, { useCallback, useContext } from 'react'
+import React, { useCallback, useContext, useRef } from 'react'
 import { getStyleScopeHash } from '../plugins/postcss-isolated-style-scope/plugin-scope-hash.js'
 
 export { getStyleScopeHash }
@@ -7,6 +7,7 @@ export type IsolatedStyleScopeProps = {
   scopeHash?: string | 'auto'
   disableCoreStyleWrapper?: boolean
   uniqueKey?: string | false
+  innerRef?: React.MutableRefObject<HTMLDivElement>
   children: React.ReactNode
   style?: React.CSSProperties & {
     [key: `--${string}`]: string | number
@@ -16,6 +17,7 @@ export type IsolatedStyleScopeProps = {
 export const IsolatedStyleScopeContext = React.createContext<
   {
     generatedScopeHash: string
+    scopeElementRef: React.RefObject<HTMLDivElement>
     internalKeys: Set<string>
   } & Pick<
     IsolatedStyleScopeProps,
@@ -31,9 +33,13 @@ export default function IsolatedStyleScope(
     scopeHash = 'auto',
     disableCoreStyleWrapper = false,
     uniqueKey = 'default',
+    innerRef,
     children,
     style,
   } = props
+
+  const localRef = useRef<HTMLDivElement>()
+  const scopeElementRef = innerRef || localRef
 
   if (
     // - When nested, we expect a scopeHash to be passed
@@ -56,11 +62,12 @@ export default function IsolatedStyleScope(
       return (
         <IsolatedStyleScopeContext.Provider
           value={{
-            generatedScopeHash,
             scopeHash,
-            internalKeys: internalKeys,
+            generatedScopeHash,
             disableCoreStyleWrapper,
             style,
+            scopeElementRef,
+            internalKeys: internalKeys,
           }}
         >
           <div
@@ -72,6 +79,7 @@ export default function IsolatedStyleScope(
             data-scope-hash-id={uniqueKey || undefined}
             className={generatedScopeHash}
             style={style || styleScopeContext?.style}
+            ref={scopeElementRef}
           >
             {disableCoreStyleWrapper ? (
               children
@@ -87,8 +95,9 @@ export default function IsolatedStyleScope(
   return children
 }
 
-export function getStyleScopeRootElement(
-  scopeHash = null,
+export function getCurrentStyleScopeElement(
+  currentElement: HTMLElement,
+  scopeHash = 'auto',
   fallback = null
 ) {
   if (scopeHash === 'auto') {
@@ -100,19 +109,19 @@ export function getStyleScopeRootElement(
   }
 
   if (scopeHash) {
-    return document.querySelector(`.${scopeHash}`)
+    return currentElement.closest(`.${scopeHash}`)
   }
 
   return fallback || document.body
 }
 
-export function useStyleScopeRootElement() {
+export function useIsolatedStyleScope() {
   const styleScopeContext = useContext(IsolatedStyleScopeContext)
-  const { generatedScopeHash } = styleScopeContext || {}
+  const { scopeElementRef } = styleScopeContext || {}
 
-  const getElement = useCallback(() => {
-    return getStyleScopeRootElement(generatedScopeHash)
-  }, [generatedScopeHash])
+  const getScopeElement = useCallback(() => {
+    return scopeElementRef?.current
+  }, [scopeElementRef])
 
-  return { getElement }
+  return { getScopeElement }
 }
