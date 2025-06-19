@@ -3,6 +3,36 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.76.0](https://github.com/dnbexperience/eufemia/compare/v10.75.4...v10.76.0) (2025-06-19)
+
+
+### :memo: Documentation
+
+* **Upload:** support `children` ([#5259](https://github.com/dnbexperience/eufemia/issues/5259)) ([a3f0c16](https://github.com/dnbexperience/eufemia/commit/a3f0c160b4e7e8843b6481a596792351a8411afd))
+
+
+### :bug: Bug Fixes
+
+* **Field.Indeterminate:** add support for `required` property ([#5155](https://github.com/dnbexperience/eufemia/issues/5155)) ([d451ae9](https://github.com/dnbexperience/eufemia/commit/d451ae9b5cd16cd68bb680f4f83fb42d5f7948a0))
+* **Field.PhoneNumber:** truncate to 8 digits when changing country code to `NO` ([#5266](https://github.com/dnbexperience/eufemia/issues/5266)) ([f8cb9d1](https://github.com/dnbexperience/eufemia/commit/f8cb9d178d10258d29b536ef482e09ad056ddad4))
+* **InfoCard:** align max character width ([#5262](https://github.com/dnbexperience/eufemia/issues/5262)) ([daf9e4e](https://github.com/dnbexperience/eufemia/commit/daf9e4e0c3b34690eba914c40c72f16439665a8b))
+* **Tooltip:** enhance handling of z-index when behind Dialog or Drawer ([#5268](https://github.com/dnbexperience/eufemia/issues/5268)) ([cacd8ca](https://github.com/dnbexperience/eufemia/commit/cacd8ca72ca29be13db442d2973a1de08078681d))
+
+
+### :sparkles: Features
+
+* add PortalRoot (React Portal) component and use it for Dialog, Drawer, Modal, DrawerList, DatePicker and Tooltip ([#5261](https://github.com/dnbexperience/eufemia/issues/5261)) ([45a61f7](https://github.com/dnbexperience/eufemia/commit/45a61f7a651064d152f2bbc30978fda91933f8ef))
+* **Breadcrumbs:** add `onToggle` property ([#5253](https://github.com/dnbexperience/eufemia/issues/5253)) ([a010a9c](https://github.com/dnbexperience/eufemia/commit/a010a9cce62341ccfff6dc20999ddedeb00ab240))
+* **DateFormat:** add date formatting component ([#5167](https://github.com/dnbexperience/eufemia/issues/5167)) ([b72aaae](https://github.com/dnbexperience/eufemia/commit/b72aaae8a51d76fb7e6e585e2ca6793720257068))
+* **Field.Upload:** support `children` ([#5260](https://github.com/dnbexperience/eufemia/issues/5260)) ([895ce25](https://github.com/dnbexperience/eufemia/commit/895ce25dc240ffb435d036b0fc83023591ece0d0))
+* **Forms:** add address suggestions and autofill to the Bring API connector ([#4575](https://github.com/dnbexperience/eufemia/issues/4575)) ([25ea537](https://github.com/dnbexperience/eufemia/commit/25ea537f60d35424717103847336f37166be1167)), closes [#4554](https://github.com/dnbexperience/eufemia/issues/4554)
+* **Forms:** add variant `radio` to Field.Boolean & Field.Toggle ([#5251](https://github.com/dnbexperience/eufemia/issues/5251)) ([17ce8d6](https://github.com/dnbexperience/eufemia/commit/17ce8d633d531556b4b749271341f2d3d8bb3b53))
+* **Forms:** add variant `switch` to Field.Boolean & Field.Toggle ([#5247](https://github.com/dnbexperience/eufemia/issues/5247)) ([1042fde](https://github.com/dnbexperience/eufemia/commit/1042fde33cc120e93c2982d714447574fc262cb3))
+* **Section, FormStatus, GlobalStatus:** update sbanken info color to green ([#5190](https://github.com/dnbexperience/eufemia/issues/5190)) ([f9fa0b0](https://github.com/dnbexperience/eufemia/commit/f9fa0b07dc13309a4cebf36b776e88269c277a30))
+* **Upload:** add `compact` variant ([#5254](https://github.com/dnbexperience/eufemia/issues/5254)) ([54e8cbb](https://github.com/dnbexperience/eufemia/commit/54e8cbb0cbe8f9b5680dce63ee50802371d2960d))
+* **Upload:** hide upload button when `filesAmountLimit` is met ([#5240](https://github.com/dnbexperience/eufemia/issues/5240)) ([2bec964](https://github.com/dnbexperience/eufemia/commit/2bec9645abbfadd1e1183eb2cbc5984bc7d3d538))
+* **Wizard:** add option to gracefully handle layout edge cases for nested cards ([#5157](https://github.com/dnbexperience/eufemia/issues/5157)) ([610ac1b](https://github.com/dnbexperience/eufemia/commit/610ac1bf3e95926ae3b6a2baf36cb9272e84471c))
+
 ## [10.75.4](https://github.com/dnbexperience/eufemia/compare/v10.75.3...v10.75.4) (2025-06-11)
 
 
