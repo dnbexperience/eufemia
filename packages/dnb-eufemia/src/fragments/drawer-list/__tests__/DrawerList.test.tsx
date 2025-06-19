@@ -26,14 +26,11 @@ import {
 mockImplementationForDirectionObserver()
 
 // use no_animation so we don't need to wait
-const mockProps: DrawerListAllProps = {
-  skip_portal: true,
-}
+const mockProps: DrawerListAllProps = {}
 
 const props: DrawerListAllProps = {
   id: 'drawer-list-id',
   value: 2,
-  skip_portal: true,
   opened: true,
   no_animation: true,
 }
@@ -69,6 +66,27 @@ describe('DrawerList component', () => {
     ).toBeInTheDocument()
   })
 
+  it('should skip portal when skip_portal is set', () => {
+    render(<DrawerList {...props} data={mockData} skip_portal />)
+    expect(
+      document.querySelector('.dnb-drawer-list--opened')
+    ).toBeInTheDocument()
+    expect(
+      document
+        .querySelector('.dnb-drawer-list--opened')
+        .closest('#eufemia-portal-root')
+    ).toBeNull()
+  })
+
+  it('should not skip portal when skip_portal is not set', () => {
+    render(<DrawerList {...props} data={mockData} />)
+    expect(
+      document
+        .querySelector('.dnb-drawer-list--opened')
+        .closest('#eufemia-portal-root')
+    ).toBeInTheDocument()
+  })
+
   it('has correct state after changing prop to opened', () => {
     const { rerender } = render(<DrawerList {...props} data={mockData} />)
 
@@ -89,7 +107,6 @@ describe('DrawerList component', () => {
 
   describe('with disabled option', () => {
     const disabledOptionProps = {
-      skip_portal: true,
       opened: true,
       no_animation: true,
       data: [
@@ -794,7 +811,6 @@ describe('DrawerList markup', () => {
       id: 'drawer-list-id',
       direction: 'bottom',
       value: 2,
-      skip_portal: true,
       opened: true,
       no_animation: true,
       size: 'default',
@@ -811,6 +827,39 @@ describe('DrawerList markup', () => {
         },
       })
     ).toHaveNoViolations()
+  })
+})
+
+describe('DrawerList portal', () => {
+  it('will set correct width when independent_width is set', async () => {
+    const style = {
+      getPropertyValue: () => 20,
+    } as undefined
+
+    jest.spyOn(window, 'getComputedStyle').mockImplementation(() => style)
+
+    const { rerender } = render(<DrawerList opened no_animation />)
+
+    const styleElement = document.querySelector(
+      '.dnb-drawer-list__portal__style'
+    )
+
+    await waitFor(() => {
+      expect(styleElement.getAttribute('style')).toBe(
+        'width: 64px; --drawer-list-width: 4rem; top: 0px; left: 0px;'
+      )
+    })
+
+    rerender(<DrawerList opened no_animation independent_width />)
+
+    expect(styleElement.getAttribute('style')).toBe(
+      'width: 320px; --drawer-list-width: 20rem; top: 0px; left: 0px;'
+    )
+
+    const element = document.querySelector('.dnb-drawer-list')
+    expect(Array.from(element.classList)).toContain(
+      'dnb-drawer-list--independent-width'
+    )
   })
 })
 
