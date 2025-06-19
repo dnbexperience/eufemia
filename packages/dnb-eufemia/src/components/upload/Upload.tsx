@@ -142,8 +142,11 @@ const Upload = (localProps: UploadAllProps) => {
     ]
   )
 
-  const UploadWrapper =
-    disableDragAndDrop || props.disabled ? HeightAnimation : UploadDropzone
+  const wrapperIsHeightAnimation = disableDragAndDrop || props.disabled
+
+  const UploadWrapper = wrapperIsHeightAnimation
+    ? HeightAnimation
+    : UploadDropzone
 
   return (
     <UploadContext.Provider
@@ -155,13 +158,15 @@ const Upload = (localProps: UploadAllProps) => {
     >
       <Provider skeleton={skeleton}>
         <UploadWrapper
-          hideOutline={variant === 'compact'}
           className={classnames(
             'dnb-upload',
             `dnb-upload--${variant || 'normal'}`,
             spacingClasses,
             className
           )}
+          {...(!wrapperIsHeightAnimation
+            ? { hideOutline: variant === 'compact' }
+            : {})}
         >
           {variant !== 'compact' && <UploadInfo />}
           {variant === 'compact' && (title || text) && (
