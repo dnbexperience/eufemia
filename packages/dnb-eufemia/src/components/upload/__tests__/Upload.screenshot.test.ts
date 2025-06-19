@@ -50,6 +50,13 @@ describe.each(['ui', 'sbanken'])('Upload for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('have to hide upload button when files amount limit is met', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="upload-files-amount-limit"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match the loading state', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="upload-is-loading"] .dnb-upload',

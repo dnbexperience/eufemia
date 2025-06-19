@@ -171,7 +171,11 @@ const Upload = (localProps: UploadAllProps) => {
             </>
           )}
 
-          <UploadFileInput disabled={props.disabled} {...props} />
+          <UploadFileInput
+            disabled={props.disabled}
+            files={files}
+            {...props}
+          />
 
           <UploadFileList />
         </UploadWrapper>

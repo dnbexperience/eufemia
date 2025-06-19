@@ -22,7 +22,7 @@ export const UploadProperties: PropertiesTableProps = {
     status: 'required',
   },
   filesAmountLimit: {
-    doc: 'Defines the amount of files the user can select and upload. Defaults to 100.',
+    doc: 'Defines the amount of files the user can select and upload. Defaults to `100`.',
     type: 'number',
     status: 'optional',
   },

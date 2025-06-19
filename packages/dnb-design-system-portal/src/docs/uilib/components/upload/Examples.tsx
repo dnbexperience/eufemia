@@ -166,6 +166,50 @@ export const UploadFilesAmountMessage = () => (
   </ComponentBox>
 )
 
+export const UploadFilesAmountLimit = () => (
+  <ComponentBox
+    scope={{ createMockFile }}
+    data-visual-test="upload-files-amount-limit"
+  >
+    {() => {
+      const Component = () => {
+        const { setInternalFiles, setFiles } = Upload.useUpload(
+          'upload-files-amount-limit',
+        )
+
+        React.useEffect(() => {
+          setFiles([
+            { file: createMockFile('fileName1.png', 123, 'image/png') },
+            { file: createMockFile('fileName2.png', 321, 'image/png') },
+          ])
+          setInternalFiles([
+            {
+              file: createMockFile('fileName1.png', 123, 'image/png'),
+              id: '1',
+              exists: false,
+            },
+            {
+              file: createMockFile('fileName2.png', 321, 'image/png'),
+              id: '2',
+              exists: false,
+            },
+          ])
+        }, [])
+
+        return (
+          <Upload
+            acceptedFileTypes={['jpg', 'png']}
+            id="upload-files-amount-limit"
+            filesAmountLimit={2}
+          />
+        )
+      }
+
+      return <Component />
+    }}
+  </ComponentBox>
+)
+
 export const UploadRemoveFile = () => (
   <ComponentBox>
     {() => {
