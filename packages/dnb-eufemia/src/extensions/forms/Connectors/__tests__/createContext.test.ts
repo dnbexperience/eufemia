@@ -147,6 +147,26 @@ describe('additional tests', () => {
     })
   })
 
+  it('should handle undefined response', async () => {
+    // Override the global fetch mock for this test
+    const originalFetch = global.fetch
+    global.fetch = jest.fn().mockResolvedValue(undefined)
+
+    let error = null
+    try {
+      await fetchData('testValue', {
+        generalConfig: { fetchConfig: { url: 'https://example.com' } },
+      })
+    } catch (e) {
+      error = e
+    }
+    expect(error).toBeInstanceOf(Error)
+    expect(error.message).toBe('Please try again!')
+
+    // Restore the original fetch mock
+    global.fetch = originalFetch
+  })
+
   it('should handle default country code in getCountryCodeValue', () => {
     const mockAdditionalArgs = {
       props: {},

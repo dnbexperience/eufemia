@@ -22,6 +22,7 @@ import Card from './card/Card'
 import Checkbox from './checkbox/Checkbox'
 import CopyOnClick from './copy-on-click/CopyOnClick'
 import CountryFlag from './country-flag/CountryFlag'
+import DateFormat from './date-format/DateFormat'
 import DatePicker from './date-picker/DatePicker'
 import Dialog from './dialog/Dialog'
 import Drawer from './drawer/Drawer'
@@ -47,6 +48,7 @@ import Logo from './logo/Logo'
 import Modal from './modal/Modal'
 import NumberFormat from './number-format/NumberFormat'
 import Pagination from './pagination/Pagination'
+import PortalRoot from './portal-root/PortalRoot'
 import ProgressIndicator from './progress-indicator/ProgressIndicator'
 import Radio from './radio/Radio'
 import Section from './section/Section'
@@ -80,6 +82,7 @@ export {
   Checkbox,
   CopyOnClick,
   CountryFlag,
+  DateFormat,
   DatePicker,
   Dialog,
   Drawer,
@@ -105,6 +108,7 @@ export {
   Modal,
   NumberFormat,
   Pagination,
+  PortalRoot,
   ProgressIndicator,
   Radio,
   Section,

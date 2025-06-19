@@ -43,6 +43,12 @@ describe('Upload', () => {
     ).toBeInTheDocument()
   })
 
+  it('renders custom content using children', () => {
+    render(<Upload {...defaultProps}>My custom content</Upload>)
+
+    expect(screen.getByText('My custom content')).toBeInTheDocument()
+  })
+
   describe('Text', () => {
     it('renders the title', () => {
       render(<Upload {...defaultProps} />)
@@ -499,6 +505,79 @@ describe('Upload', () => {
         name: nb.buttonTextSingular,
       })
     ).not.toHaveAttribute('disabled')
+  })
+
+  it('will hide upload button when filesAmountLimit is met', async () => {
+    const id = 'filesAmountLimitIsMet'
+
+    renderHook(useUpload, { initialProps: id })
+
+    render(<Upload {...defaultProps} id={id} filesAmountLimit={1} />)
+
+    const getRootElement = () => document.querySelector('.dnb-upload')
+
+    const element = getRootElement()
+    const file1 = createMockFile('fileName-1.png', 100, 'image/png')
+
+    expect(
+      document.querySelector('.dnb-upload__file-input-button')
+    ).toBeInTheDocument()
+
+    await waitFor(() =>
+      fireEvent.drop(element, {
+        dataTransfer: { files: [file1] },
+      })
+    )
+
+    expect(
+      document.querySelector('.dnb-upload__file-input-button')
+    ).not.toBeInTheDocument()
+
+    const [firstItem] = Array.from(element.querySelectorAll('li'))
+    const deleteButton = firstItem.querySelector('button')
+
+    fireEvent.click(deleteButton)
+
+    expect(
+      document.querySelector('.dnb-upload__file-input-button')
+    ).toBeInTheDocument()
+  })
+
+  it('will hide upload button when uploaded files is more than filesAmountLimit', async () => {
+    const id = 'filesAmountLimitIsMetWithMultipleFiles'
+
+    renderHook(useUpload, { initialProps: id })
+
+    render(<Upload {...defaultProps} id={id} filesAmountLimit={1} />)
+
+    const getRootElement = () => document.querySelector('.dnb-upload')
+
+    const element = getRootElement()
+    const file1 = createMockFile('fileName-1.png', 100, 'image/png')
+    const file2 = createMockFile('fileName-2.png', 100, 'image/png')
+
+    expect(
+      document.querySelector('.dnb-upload__file-input-button')
+    ).toBeInTheDocument()
+
+    await waitFor(() =>
+      fireEvent.drop(element, {
+        dataTransfer: { files: [file1, file2] },
+      })
+    )
+
+    expect(
+      document.querySelector('.dnb-upload__file-input-button')
+    ).not.toBeInTheDocument()
+
+    const [firstItem] = Array.from(element.querySelectorAll('li'))
+    const deleteButton = firstItem.querySelector('button')
+
+    fireEvent.click(deleteButton)
+
+    expect(
+      document.querySelector('.dnb-upload__file-input-button')
+    ).toBeInTheDocument()
   })
 
   it('will accept same file only once when fileName, size and lastModified is equal', async () => {
@@ -1872,6 +1951,56 @@ describe('Upload', () => {
       expect(
         screen.queryByText('My remove file message error')
       ).toBeInTheDocument()
+    })
+  })
+
+  describe('Compact variant', () => {
+    it('renders the title', () => {
+      render(<Upload {...defaultProps} variant="compact" />)
+
+      expect(screen.queryByText(nb.title)).toBeInTheDocument()
+    })
+
+    it('renders the custom title', () => {
+      const customTitle = 'custom title'
+
+      render(
+        <Upload {...defaultProps} title={customTitle} variant="compact" />
+      )
+
+      expect(screen.queryByText(customTitle)).toBeInTheDocument()
+    })
+
+    it('renders the text', () => {
+      render(<Upload {...defaultProps} variant="compact" />)
+
+      expect(screen.queryByText(nb.text)).toBeInTheDocument()
+    })
+
+    it('renders the custom text', () => {
+      const customText = 'custom text'
+
+      render(
+        <Upload {...defaultProps} text={customText} variant="compact" />
+      )
+
+      expect(screen.queryByText(customText)).toBeInTheDocument()
+    })
+
+    it('does not render the format description', () => {
+      render(<Upload {...defaultProps} variant="compact" />)
+
+      expect(
+        screen.queryByText(nb.fileTypeDescription)
+      ).not.toBeInTheDocument()
+    })
+
+    it('does not render the file size description', () => {
+      render(<Upload {...defaultProps} variant="compact" />)
+
+      expect(
+        screen.queryByText(nb.fileSizeDescription)
+      ).not.toBeInTheDocument()
     })
   })
 })

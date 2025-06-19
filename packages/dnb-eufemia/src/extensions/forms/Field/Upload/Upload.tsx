@@ -18,6 +18,7 @@ import useUpload from '../../../../components/upload/useUpload'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import HelpButtonInline, {
   HelpButtonInlineContent,
+  HelpProps,
 } from '../../../../components/help-button/HelpButtonInline'
 import { useTranslation as useSharedTranslation } from '../../../../shared'
 import { SpacingProps } from '../../../../shared/types'
@@ -41,7 +42,9 @@ export type Props = Omit<
   SpacingProps &
   Pick<
     Partial<UploadProps>,
+    | 'children'
     | 'title'
+    | 'variant'
     | 'text'
     | 'acceptedFileTypes'
     | 'filesAmountLimit'
@@ -133,6 +136,7 @@ function UploadComponent(props: Props) {
   const {
     title = sharedTr.title,
     text = sharedTr.text,
+    variant = 'normal',
     acceptedFileTypes = ['pdf', 'png', 'jpg', 'jpeg'],
     filesAmountLimit = 100,
     fileMaxSize = 5,
@@ -247,10 +251,13 @@ function UploadComponent(props: Props) {
     ...pickSpacingProps(props),
   }
 
+  const usedLabelDescription = labelDescription ?? text
+
   return (
     <FieldBlock {...fieldBlockProps}>
       <Upload
         id={id}
+        variant={variant}
         acceptedFileTypes={acceptedFileTypes}
         filesAmountLimit={filesAmountLimit}
         download={download}
@@ -262,19 +269,26 @@ function UploadComponent(props: Props) {
         onChange={changeHandler}
         onFileDelete={onFileDelete}
         onFileClick={onFileClick}
-        title={label ?? title}
-        text={
-          help ? (
-            <>
-              {labelDescription ?? text}
-              <HelpButtonInline
-                contentId={`${id}-help`}
-                left={text ? 'x-small' : false}
-                help={help}
-              />
-            </>
+        title={
+          help && labelDescription === false ? (
+            <LabelWithHelpButton
+              label={label ?? title}
+              id={id}
+              help={help}
+            />
           ) : (
-            labelDescription ?? text
+            label ?? title
+          )
+        }
+        text={
+          help && (labelDescription ?? text) ? (
+            <LabelWithHelpButton
+              label={usedLabelDescription}
+              id={id}
+              help={help}
+            />
+          ) : (
+            usedLabelDescription
           )
         }
         {...htmlAttributes}
@@ -283,11 +297,30 @@ function UploadComponent(props: Props) {
           <HelpButtonInlineContent
             contentId={`${id}-help`}
             help={help}
-            roundedCorner={false}
+            roundedCorner={variant === 'compact'}
           />
         )}
+        {props.children}
       </Upload>
     </FieldBlock>
+  )
+}
+
+function LabelWithHelpButton(props: {
+  label: React.ReactNode
+  id: string
+  help?: HelpProps
+}) {
+  const { label, id, help } = props
+  return (
+    <>
+      {label}
+      <HelpButtonInline
+        contentId={`${id}-help`}
+        left={label ? 'x-small' : false}
+        help={help}
+      />
+    </>
   )
 }
 

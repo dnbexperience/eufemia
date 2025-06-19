@@ -84,4 +84,9 @@ export const SwitchEvents: PropertiesTableProps = {
     type: '({ checked: boolean; event: ChangeEvent }) => void',
     status: 'optional',
   },
+  onClick: {
+    doc: 'Will be called on click.',
+    type: '({ checked: boolean; event: MouseEvent, preventDefault: () => void }) => void',
+    status: 'optional',
+  },
 }

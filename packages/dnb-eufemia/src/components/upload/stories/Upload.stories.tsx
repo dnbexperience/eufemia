@@ -33,7 +33,7 @@ export const UploadSandbox = () => {
         <Upload
           title="Upload single file"
           id="upload-example-3"
-          filesAmountLimit={2}
+          filesAmountLimit={1}
           acceptedFileTypes={acceptedFileTypes}
         />
       </Box>
@@ -183,6 +183,36 @@ export const UploadDisabled = () => {
       <Box>
         <Upload id="disabled" disabled acceptedFileTypes={['pdf']} />
       </Box>
+    </Wrapper>
+  )
+}
+
+export const UploadCompact = () => {
+  return (
+    <Wrapper>
+      <Upload
+        variant="compact"
+        id="asdadasd"
+        title="asdasdaaaaa"
+        text={false}
+        acceptedFileTypes={['pdf']}
+      />
+
+      <Upload
+        variant="compact"
+        id="b123123123"
+        title="b1231231"
+        text={false}
+        acceptedFileTypes={['pdf']}
+      />
+
+      <Upload
+        variant="compact"
+        id="x1221312312"
+        title="x12312"
+        text={false}
+        acceptedFileTypes={['pdf']}
+      />
     </Wrapper>
   )
 }

@@ -5,6 +5,10 @@
 
 @import '../../../style/core/utilities.scss';
 
+:root {
+  --tooltip-z-index: 3100; // above modal
+}
+
 .dnb-tooltip {
   --tooltip-color: white;
   --tooltip-background-color: black;
@@ -12,7 +16,10 @@
   --tooltip-border-radius: 1rem;
 
   position: absolute;
-  z-index: 3100; // over modal
+  z-index: 1000;
+  .dnb-tooltip--inside-modal & {
+    z-index: var(--tooltip-z-index);
+  }
 
   display: flex;
   flex-direction: column;

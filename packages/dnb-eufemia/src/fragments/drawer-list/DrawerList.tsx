@@ -46,8 +46,7 @@ export type DrawerListContent =
   | string
   | React.ReactNode
   | (string | React.ReactNode)[]
-export type DrawerListDataArrayObject = {
-  [customProperty: string]: any
+export type DrawerListDataArrayObjectStrict = {
   selected_value?: string | React.ReactNode
   selectedKey?: string | number
   selected_key?: string | number
@@ -65,6 +64,9 @@ export type DrawerListDataArrayObject = {
   /** internal use only */
   render?: (children: React.ReactNode, id: string) => React.ReactNode
 }
+export type DrawerListDataArrayObject = {
+  [customProperty: string]: any
+} & DrawerListDataArrayObjectStrict
 /** @deprecated use `DrawerListDataArrayItem` */
 export type DrawerListDataObjectUnion = DrawerListDataArrayItem
 export type DrawerListDataArrayItem =
@@ -395,7 +397,7 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
       showFocusRing,
       closestToTop,
       closestToBottom,
-      usePortal,
+      skipPortal,
       addObservers,
       removeObservers,
       _refShell,
@@ -582,25 +584,22 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
       <span
         className={classnames(
           'dnb-drawer-list__root',
-          usePortal && 'dnb-drawer-list__root--portal'
+          !skipPortal && 'dnb-drawer-list__root--portal'
         )}
         ref={_refRoot}
       >
-        {usePortal ? (
-          <DrawerListPortal
-            id={this._id}
-            rootRef={_refRoot}
-            opened={hidden === false}
-            include_owner_width={align_drawer === 'right'}
-            independent_width={isTrue(independent_width)}
-            fixed_position={isTrue(fixed_position)}
-            className={getThemeClasses(this.context?.theme, portal_class)}
-          >
-            {mainList}
-          </DrawerListPortal>
-        ) : (
-          mainList
-        )}
+        <DrawerListPortal
+          id={this._id}
+          rootRef={_refRoot}
+          opened={hidden === false}
+          include_owner_width={align_drawer === 'right'}
+          independent_width={isTrue(independent_width)}
+          fixed_position={isTrue(fixed_position)}
+          className={getThemeClasses(this.context?.theme, portal_class)}
+          skipPortal={skipPortal}
+        >
+          {mainList}
+        </DrawerListPortal>
       </span>
     )
   }

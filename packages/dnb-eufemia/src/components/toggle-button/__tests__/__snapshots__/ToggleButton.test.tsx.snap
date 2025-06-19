@@ -156,13 +156,17 @@ p > .dnb-icon {
 /*
  * Utilities
  */
+:root {
+  --tooltip-z-index: 3100;
+}
+
 .dnb-tooltip {
   --tooltip-color: white;
   --tooltip-background-color: black;
   --tooltip-border-color: 1px solid black;
   --tooltip-border-radius: 1rem;
   position: absolute;
-  z-index: 3100;
+  z-index: 1000;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -176,6 +180,9 @@ p > .dnb-icon {
   opacity: 0;
   visibility: hidden;
   transition: opacity 200ms var(--easing-default);
+}
+.dnb-tooltip--inside-modal .dnb-tooltip {
+  z-index: var(--tooltip-z-index);
 }
 .dnb-tooltip--large {
   padding: 0.25rem 1rem;
@@ -302,7 +309,7 @@ html[data-visual-test] .dnb-tooltip--hide {
   border-radius: var(--form-status-radius);
 }
 .dnb-form-status__text {
-  max-width: 60ch;
+  max-width: var(--text-block-max-width);
   padding: 0.625rem 1rem;
   cursor: text;
   color: inherit;
@@ -677,7 +684,7 @@ legend.dnb-form-label {
   border-radius: var(--form-status-radius);
 }
 .dnb-form-status__text {
-  max-width: 60ch;
+  max-width: var(--text-block-max-width);
   padding: 0.625rem 1rem;
   cursor: text;
   color: inherit;
@@ -1163,7 +1170,7 @@ legend.dnb-form-label {
   border-radius: var(--form-status-radius);
 }
 .dnb-form-status__text {
-  max-width: 60ch;
+  max-width: var(--text-block-max-width);
   padding: 0.625rem 1rem;
   cursor: text;
   color: inherit;
@@ -1588,7 +1595,7 @@ html[data-whatinput=keyboard] .dnb-radio__input:not([disabled]):not(:checked):no
   border-radius: var(--form-status-radius);
 }
 .dnb-form-status__text {
-  max-width: 60ch;
+  max-width: var(--text-block-max-width);
   padding: 0.625rem 1rem;
   cursor: text;
   color: inherit;

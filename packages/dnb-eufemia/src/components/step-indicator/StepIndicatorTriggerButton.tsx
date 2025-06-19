@@ -22,10 +22,12 @@ import {
 } from '../skeleton/SkeletonHelper'
 
 export type StepIndicatorTriggerButtonProps = ButtonProps & {
+  isNested?: boolean
   className?: string
 }
 function StepIndicatorTriggerButton({
   className,
+  isNested,
   ...rest
 }: StepIndicatorTriggerButtonProps) {
   const {
@@ -97,6 +99,7 @@ function StepIndicatorTriggerButton({
         medium: [true, true, !openState, !openState],
         large: [true, true, !openState, !openState],
       }}
+      outset={isNested ? true : undefined}
     >
       <HeightAnimation animate={!no_animation}>
         <div {...(triggerParams as React.HTMLProps<HTMLDivElement>)}>

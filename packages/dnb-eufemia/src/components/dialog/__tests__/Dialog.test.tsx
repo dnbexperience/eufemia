@@ -257,8 +257,6 @@ describe('Dialog', () => {
   })
 
   it('has support for nested Dialogs', async () => {
-    global.console.log = jest.fn()
-
     const on_open = {
       first: jest.fn(),
       second: jest.fn(),
@@ -340,13 +338,19 @@ describe('Dialog', () => {
       'aria-hidden'
     )
     expect(
-      document.querySelector('button.dnb-modal__close-button')
+      document.querySelector(
+        '#dnb-modal-modal-first button.dnb-modal__close-button'
+      )
     ).toHaveAttribute('aria-hidden')
     expect(
-      document.querySelectorAll('button.dnb-modal__close-button')[1]
+      document.querySelector(
+        '#dnb-modal-modal-second button.dnb-modal__close-button'
+      )
     ).toHaveAttribute('aria-hidden')
     expect(
-      document.querySelectorAll('button.dnb-modal__close-button')[2]
+      document.querySelector(
+        '#dnb-modal-modal-third button.dnb-modal__close-button'
+      )
     ).not.toHaveAttribute('aria-hidden')
 
     // Close the third one
@@ -367,10 +371,14 @@ describe('Dialog', () => {
       'aria-hidden'
     )
     expect(
-      document.querySelector('button.dnb-modal__close-button')
+      document.querySelector(
+        '#dnb-modal-modal-first button.dnb-modal__close-button'
+      )
     ).toHaveAttribute('aria-hidden')
     expect(
-      document.querySelectorAll('button.dnb-modal__close-button')[1]
+      document.querySelector(
+        '#dnb-modal-modal-second button.dnb-modal__close-button'
+      )
     ).not.toHaveAttribute('aria-hidden')
 
     // Close the second one

@@ -17,6 +17,9 @@ export default {
       homeText: 'Hem',
       backToText: 'Tillbaka till...',
     },
+    DateFormat: {
+      invalidDate: 'Ogiltigt datum: {value}',
+    },
     DatePicker: {
       day: 'dag',
       month: 'månad',

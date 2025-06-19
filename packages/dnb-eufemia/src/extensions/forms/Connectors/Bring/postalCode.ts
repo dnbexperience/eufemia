@@ -1,5 +1,6 @@
 import type { Path, PathStrict, UseFieldProps } from '../../types'
 import { FormError } from '../../utils'
+import pointer from '../../utils/json-pointer'
 import {
   GeneralConfig,
   HandlerConfig,
@@ -112,10 +113,14 @@ export function autofill(
               'No data context found in the postalCode connector'
             )
           }
-          additionalArgs.dataContext.handlePathChangeUnvalidated(
-            cityPath,
-            payload.city
-          )
+          const { dataContext } = additionalArgs
+          const internalData = dataContext.internalDataRef.current
+          const value = pointer.has(internalData, cityPath)
+            ? pointer.get(internalData, cityPath)
+            : undefined
+          if (!value) {
+            dataContext.handlePathChangeUnvalidated(cityPath, payload.city)
+          }
         }
       }
 

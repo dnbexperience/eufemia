@@ -110,12 +110,12 @@ describe('Tooltip', () => {
 
     const qS = (s: string) => document.querySelectorAll(s)
 
-    expect(qS('.dnb-tooltip__portal')).toHaveLength(1)
+    expect(qS('.dnb-tooltip__portal')).toHaveLength(2)
     expect(qS('.dnb-tooltip')).toHaveLength(2)
 
     fireEvent.click(document.querySelector('#toggle'))
 
-    expect(qS('.dnb-tooltip__portal')).toHaveLength(1)
+    expect(qS('.dnb-tooltip__portal')).toHaveLength(0)
     expect(qS('.dnb-tooltip')).toHaveLength(0)
   })
 

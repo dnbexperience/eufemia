@@ -78,7 +78,7 @@ export type DrawerListProviderProps = Omit<DrawerListProps, 'children'> &
     showFocusRing?: boolean
     closestToTop?: number
     closestToBottom?: number
-    usePortal?: boolean
+    skipPortal?: boolean
     addObservers?: () => void
     removeObservers?: () => void
     setVisible?: (
@@ -339,7 +339,6 @@ export default class DrawerListProvider extends React.PureComponent<
       direction: directionProp,
     } = this.props
 
-    // const skipPortal = isTrue(skip_portal)
     const useBodyLock = isTrue(enable_body_lock)
     const isScrollable = isTrue(scrollable)
     const customMinHeight = parseFloat(min_height as string) * 16

@@ -24,4 +24,20 @@ describe('Field.Toggle', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
+  it('have to match radio variant with help', async () => {
+    const screenshot = await makeScreenshot({
+      url,
+      selector: '[data-visual-test="toggle-variant-radio-with-help"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match radio variant without label', async () => {
+    const screenshot = await makeScreenshot({
+      url,
+      selector: '[data-visual-test="toggle-variant-radio-without-label"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })

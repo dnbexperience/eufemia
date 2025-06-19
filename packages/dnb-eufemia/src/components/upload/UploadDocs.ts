@@ -6,13 +6,23 @@ export const UploadProperties: PropertiesTableProps = {
     type: ['string', 'Function', 'Object', 'React.Context'],
     status: 'optional',
   },
+  children: {
+    doc: 'Content to display below the `title` and `text`. Can be used to add custom content.',
+    type: ['React.ReactNode'],
+    status: 'optional',
+  },
+  variant: {
+    doc: 'defines the appearance. Use one of these: `normal` or `compact`. Defaults to `normal`.',
+    type: ['normal', 'compact'],
+    status: 'optional',
+  },
   acceptedFileTypes: {
     doc: 'List of accepted file types. Either as string or [AcceptedFileType](/uilib/components/upload/properties/#acceptedfiletype). When providing a list of [AcceptedFileType](/uilib/components/upload/properties/#acceptedfiletype), the accepted file types will be presented in a table(see [example](/uilib/components/upload/demos/#upload-with-file-max-size-based-on-file-type)).',
     type: ['Array<string>', 'Array<AcceptedFileType>'],
     status: 'required',
   },
   filesAmountLimit: {
-    doc: 'Defines the amount of files the user can select and upload. Defaults to 100.',
+    doc: 'Defines the amount of files the user can select and upload. Defaults to `100`.',
     type: 'number',
     status: 'optional',
   },

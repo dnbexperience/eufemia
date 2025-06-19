@@ -22,6 +22,7 @@ export function AppearanceSize() {
           />
           <Field.Date />
           <Field.Email value="mail@dnb.no" />
+          <Field.Upload variant="compact" />
           <Field.Currency
             label="Amount"
             currencyDisplay="name"
@@ -31,6 +32,7 @@ export function AppearanceSize() {
           <Field.NationalIdentityNumber value="12345678012" />
           <Field.OrganizationNumber value="123123123" />
           <Field.PhoneNumber />
+          <Field.Upload />
           <Field.PostalCodeAndCity
             postalCode={{}}
             city={{ value: 'Oslo' }}

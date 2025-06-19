@@ -13,7 +13,7 @@ import Button from '../Button'
 import { useTranslation } from '../../shared'
 import DatePickerContext from './DatePickerContext'
 import { InternalLocale } from '../../shared/Context'
-import { formatDate } from './DatePickerCalc'
+import { formatDate } from '../date-format/DateFormatUtils'
 
 type CalendarNavigationDateType = 'month' | 'year'
 type CalendarNavigationType = 'both' | CalendarNavigationDateType
@@ -133,11 +133,11 @@ export function DatePickerCalendarNav({
         className="dnb-date-picker__header__title dnb-no-focus"
         title={title.replace(
           /%s/,
-          formatDate(date, { locale, formatOptions: titleFormat })
+          formatDate(date, { locale, options: titleFormat })
         )}
         tabIndex={-1}
       >
-        {formatDate(date, { locale, formatOptions: titleFormat })}
+        {formatDate(date, { locale, options: titleFormat })}
       </label>
       <div className="dnb-date-picker__header__nav">
         <CalendarNavButton
@@ -205,7 +205,7 @@ function CalendarNavButton({
     /%s/,
     formatDate(dateHandler(date, 1), {
       locale,
-      formatOptions: dateFormat,
+      options: dateFormat,
     })
   )
 

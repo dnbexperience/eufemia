@@ -118,4 +118,7 @@
 
   // Easing
   --sb-easing-default: cubic-bezier(0.42, 0, 0, 1);
+
+  // Width
+  --sb-text-block-max-width: 60ch;
 }

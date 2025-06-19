@@ -49,3 +49,16 @@ const onSubmitRequest: OnSubmitRequest = ({ getErrors }) => {
 ```
 
 <Examples.OnSubmitRequest />
+
+### Outset and layout (Card.Provider)
+
+The wizard navigation area ([StepIndicator](/uilib/components/step-indicator/)) will "outset" (break out) from the layout using negative margins.
+
+This outset is turned off if the `Wizard.Container` is placed inside a `<Card>`, but if placed in a different wrapper that messes with the layout, you can manually turn it off in two ways:
+
+- Wrap the Wizard.Container in `<Form.Card.Provider disableCardBreakout>` to make all nested cards act like they’re inside a `<Card>`.
+- Or set `outset={false}` on each card.
+
+See the [Form.Card "Outset" example](/uilib/extensions/forms/Form/Card/#outset) for more details.
+
+<Examples.Outset />

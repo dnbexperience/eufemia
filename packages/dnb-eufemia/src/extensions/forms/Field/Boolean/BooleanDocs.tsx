@@ -13,7 +13,7 @@ export const BooleanProperties: PropertiesTableProps = {
     status: 'optional',
   },
   variant: {
-    doc: 'Choice of input feature. Can be: `checkbox`, `button`, `checkbox-button` or `buttons`.',
+    doc: 'Choice of input feature. Can be: `checkbox`, `switch`, `button`, `checkbox-button` or `buttons`.',
     type: 'string',
     status: 'optional',
   },
