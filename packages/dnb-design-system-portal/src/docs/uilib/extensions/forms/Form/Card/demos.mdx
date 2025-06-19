@@ -9,6 +9,17 @@ import * as Examples from './Examples'
 
 <Examples.BasicUsage />
 
+## Outset
+
+`<Form.Card>` will "outsets" (break out) from the layout using negative margins to perserve content alignement in forms.
+
+This outset is turned off if it is placed inside a `<Card>` (or another `<Form.Card>`) to avoid overlapping margins/padding/borders, but if placed in a different wrapper that messes with the layout, you can manually turn it off in two ways:
+
+- Wrap it in `<Form.Card.Provider disableCardBreakout>` to make all nested `<Form.Card>` act like they’re inside a `<Card>` (stay contained in the parent content area on all screen sizes).
+- Or set `outset={false}` on each card (only affects medium and large screen sizes).
+
+<Examples.Outset />
+
 <VisibleWhenVisualTest>
   <Examples.UsageInWizard />
 </VisibleWhenVisualTest>
