@@ -5,11 +5,8 @@
 
 @import '../../../../style/core/utilities.scss';
 
-:root {
-  --drawer-list-height: 2.5rem;
-}
-
 .dnb-drawer-list {
+  --drawer-list-height: 2.5rem;
   --drawer-list-options-border-radius: 0 0 0.5rem 0.5rem;
   --drawer-list-options-border-radius-reversed: 0.5rem 0.5rem 0 0;
   --drawer-list-option-border-width: 0.125rem;
