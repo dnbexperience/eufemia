@@ -66,6 +66,28 @@ export const UploadBasic = () => (
   </ComponentBox>
 )
 
+export const UploadBasicCompactVariant = () => (
+  <ComponentBox data-visual-test="upload-basic-compact-variant">
+    <Upload
+      variant="compact"
+      acceptedFileTypes={['jpg', 'png']}
+      onChange={({ files }) => console.log('onChange', files)}
+    />
+  </ComponentBox>
+)
+
+export const UploadCompactVariantWithoutLabels = () => (
+  <ComponentBox data-visual-test="upload-basic-compact-variant-without-labels">
+    <Upload
+      variant="compact"
+      acceptedFileTypes={['jpg', 'png']}
+      title={false}
+      text={false}
+      onChange={({ files }) => console.log('onChange', files)}
+    />
+  </ComponentBox>
+)
+
 export const UploadDisabled = () => (
   <ComponentBox data-visual-test="upload-disabled">
     <Upload
@@ -615,6 +637,56 @@ export const UploadRemoveDeleteButton = () => (
                 }),
               )
             }
+          />
+        )
+      }
+
+      return <Component />
+    }}
+  </ComponentBox>
+)
+
+export const UploadCompactVariantFiles = () => (
+  <ComponentBox
+    scope={{ createMockFile, createRequest }}
+    data-visual-test="upload-compact-variant-files-list"
+  >
+    {() => {
+      const Component = () => {
+        const { setFiles } = Upload.useUpload(
+          'upload-compact-variant-files',
+        )
+
+        React.useEffect(() => {
+          setFiles([
+            {
+              file: createMockFile('1501870.jpg', 0, 'image/png'),
+              id: '1',
+            },
+            {
+              file: createMockFile(
+                'file-name-that-is-very-long-and-has-letters.png',
+                0,
+                'image/png',
+              ),
+              id: '2',
+            },
+            {
+              file: createMockFile('123.jpg', 0, 'image/png'),
+              id: '3',
+            },
+            {
+              file: createMockFile('321.jpg', 0, 'image/png'),
+              id: '4',
+            },
+          ])
+        }, [setFiles])
+
+        return (
+          <Upload
+            variant="compact"
+            acceptedFileTypes={['jpg', 'png']}
+            id="upload-compact-variant-files"
           />
         )
       }

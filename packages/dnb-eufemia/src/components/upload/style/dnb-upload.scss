@@ -162,7 +162,17 @@
     }
   }
 
-  &__subtitle.dnb-p {
-    color: var(--upload-text--secondary);
+  &--compact {
+    padding: 0;
+    border-radius: 0;
+    .dnb-upload__text {
+      color: var(--color-black-55);
+      font-size: var(--font-size-small);
+    }
+    .dnb-help-button__content {
+      .dnb-section {
+        margin-bottom: 1rem;
+      }
+    }
   }
 }

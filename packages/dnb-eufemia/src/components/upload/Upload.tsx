@@ -22,6 +22,7 @@ import { verifyFiles } from './UploadVerify'
 import type { UploadFile, UploadAllProps } from './types'
 import UploadFileList from './UploadFileList'
 import UploadInfo from './UploadInfo'
+import FormLabel from '../FormLabel'
 
 export type * from './types'
 export { defaultProps }
@@ -47,6 +48,7 @@ const Upload = (localProps: UploadAllProps) => {
 
   const {
     id: idProp,
+    variant,
     skeleton,
     className,
     acceptedFileTypes,
@@ -153,9 +155,21 @@ const Upload = (localProps: UploadAllProps) => {
     >
       <Provider skeleton={skeleton}>
         <UploadWrapper
-          className={classnames('dnb-upload', spacingClasses, className)}
+          hideOutline={variant === 'compact'}
+          className={classnames(
+            'dnb-upload',
+            `dnb-upload--${variant || 'normal'}`,
+            spacingClasses,
+            className
+          )}
         >
-          <UploadInfo />
+          {variant !== 'compact' && <UploadInfo />}
+          {variant === 'compact' && (title || text) && (
+            <>
+              <CompactLabel id={id} title={title} text={text} />
+              {props?.children}
+            </>
+          )}
 
           <UploadFileInput disabled={props.disabled} {...props} />
 
@@ -163,6 +177,27 @@ const Upload = (localProps: UploadAllProps) => {
         </UploadWrapper>
       </Provider>
     </UploadContext.Provider>
+  )
+}
+
+function CompactLabel(props: {
+  id: string
+  title?: UploadAllProps['title']
+  text?: UploadAllProps['text']
+}) {
+  const { id, title, text } = props
+  return (
+    <FormLabel
+      forId={`${id}-input`}
+      vertical
+      className="dnb-upload__label"
+    >
+      <span>
+        {title && <span>{title}</span>}
+        {title && text && <br />}
+        {text && <span className="dnb-upload__text">{text}</span>}
+      </span>
+    </FormLabel>
   )
 }
 

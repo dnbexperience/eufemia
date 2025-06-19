@@ -4,6 +4,9 @@ showTabs: true
 
 import {
   UploadBasic,
+  UploadBasicCompactVariant,
+  UploadCompactVariantFiles,
+  UploadCompactVariantWithoutLabels,
   UploadPrefilledFileList,
   UploadRemoveFile,
   UploadSingleFile,
@@ -29,6 +32,10 @@ import {
 ### Upload (default)
 
 <UploadBasic />
+
+### Upload `compact` variant
+
+<UploadBasicCompactVariant />
 
 ### `useUpload` React Hook
 
@@ -108,4 +115,6 @@ This can also be used to manually implement more complex file max size verificat
   <UploadDisabledDragAndDrop />
   <UploadFilesAmountMessage />
   <UploadDisabled />
+  <UploadCompactVariantWithoutLabels />
+  <UploadCompactVariantFiles />
 </VisibleWhenVisualTest>
