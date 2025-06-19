@@ -235,6 +235,7 @@ describe.each(['ui', 'sbanken'])('Dropdown for %s', (themeName) => {
       simulateSelector:
         '[data-visual-test="dropdown-action_menu-custom"] .dnb-dropdown__trigger',
       simulateAfter: { keypress: 'Escape' },
+      waitBeforeSimulate: 100,
       style: {
         width: '14rem',
       },

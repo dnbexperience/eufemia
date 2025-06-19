@@ -41,8 +41,9 @@ function DrawerListPortal({
   const [isMounted, setIsMounted] = useState(false)
   const [, setForceRerender] = useState<number>()
 
-  const ref: React.LegacyRef<HTMLSpanElement> =
-    innerRef || React.createRef()
+  const localRef = useRef<HTMLSpanElement>(null)
+  const portalRef =
+    innerRef && typeof innerRef !== 'function' ? innerRef : localRef
 
   const setPosition = useRef<() => void>()
   const positionTimeout = useRef<NodeJS.Timeout>()
@@ -110,12 +111,15 @@ function DrawerListPortal({
       // fallback for too narrow width - in case there is not width -> e.g. "--is-popup"
       if (independent_width || parseFloat(ownerWidth) < 64) {
         // get min-width from CSS property
-        const minWidth =
-          parseFloat(
-            window
-              .getComputedStyle(document.documentElement)
-              .getPropertyValue('--drawer-list-width')
-          ) || 0
+        let minWidth = 0
+        if (portalRef.current) {
+          minWidth =
+            parseFloat(
+              window
+                .getComputedStyle(portalRef.current)
+                .getPropertyValue('--drawer-list-width')
+            ) || 0
+        }
         width = minWidth * 16
       }
 
@@ -172,6 +176,7 @@ function DrawerListPortal({
     independent_width,
     fixed_position,
     include_owner_width,
+    portalRef,
   ])
 
   const addPositionObserver = useCallback(() => {
@@ -214,7 +219,11 @@ function DrawerListPortal({
 
     return (
       <PortalRoot>
-        <span className="dnb-drawer-list__portal" id={`${id}-portal`}>
+        <span
+          className="dnb-drawer-list__portal"
+          id={`${id}-portal`}
+          ref={portalRef}
+        >
           <span
             className={classnames(
               'dnb-drawer-list__portal__style',
@@ -222,7 +231,6 @@ function DrawerListPortal({
               className
             )}
             style={style}
-            ref={ref}
           >
             {children}
           </span>
