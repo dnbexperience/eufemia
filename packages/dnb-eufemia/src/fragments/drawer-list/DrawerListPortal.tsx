@@ -53,6 +53,24 @@ function DrawerListPortal({
     setIsMounted(true)
   }, [])
 
+  const removePositionObserver = useCallback(() => {
+    clearTimeout(positionTimeout.current)
+    if (typeof window !== 'undefined' && setPosition.current) {
+      if (customElem.current) {
+        customElem.current.removeEventListener(
+          'scroll',
+          setPosition.current
+        )
+      }
+      if (resizeObserver.current) {
+        resizeObserver.current.disconnect()
+        resizeObserver.current = null
+      }
+      window.removeEventListener('resize', setPosition.current)
+    }
+    setPosition.current = null
+  }, [])
+
   useEffect(() => {
     if (document.readyState === 'complete') {
       init()
@@ -69,7 +87,7 @@ function DrawerListPortal({
 
       removePositionObserver()
     }
-  }, [init])
+  }, [init, removePositionObserver])
 
   const makeStyle = useCallback(() => {
     if (typeof window === 'undefined' || !isMounted) {
@@ -149,11 +167,11 @@ function DrawerListPortal({
       warn(e)
     }
   }, [
-    fixed_position,
-    include_owner_width,
-    independent_width,
     isMounted,
     rootRef,
+    independent_width,
+    fixed_position,
+    include_owner_width,
   ])
 
   const addPositionObserver = useCallback(() => {
@@ -182,24 +200,6 @@ function DrawerListPortal({
       window.addEventListener('resize', setPosition.current)
     }
   }, [opened, rootRef])
-
-  const removePositionObserver = useCallback(() => {
-    clearTimeout(positionTimeout.current)
-    if (typeof window !== 'undefined' && setPosition.current) {
-      if (customElem.current) {
-        customElem.current.removeEventListener(
-          'scroll',
-          setPosition.current
-        )
-      }
-      if (resizeObserver.current) {
-        resizeObserver.current.disconnect()
-        resizeObserver.current = null
-      }
-      window.removeEventListener('resize', setPosition.current)
-    }
-    setPosition.current = null
-  }, [])
 
   if (skipPortal) {
     return children
