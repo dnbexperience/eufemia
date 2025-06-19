@@ -532,5 +532,28 @@ describe('style build', () => {
       )
       expect(content).not.toContain(`\\`)
     }
+
+    {
+      const content = fs.readFileSync(
+        path.resolve(
+          packpath.self(),
+          `build${stage}/style/dnb-ui-basis.min.css`
+        ),
+        'utf-8'
+      )
+      expect(content).toContain('html{font-size:100%}')
+    }
+
+    {
+      const content = fs.readFileSync(
+        path.resolve(
+          packpath.self(),
+          `build${stage}/style/dnb-ui-basis--isolated.min.css`
+        ),
+        'utf-8'
+      )
+      const matchCount = (content.match(/\.eufemia-scope--/g) || []).length
+      expect(matchCount).toBeGreaterThan(100)
+    }
   })
 })
