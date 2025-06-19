@@ -15,12 +15,8 @@ exports[`DrawerList scss has to match style dependencies css 1`] = `
 /*
  * Utilities
  */
-:root {
-  --drawer-list-width: 16rem;
-  --drawer-list-height: 2rem;
-}
-
 .dnb-drawer-list {
+  --drawer-list-height: 2rem;
   --drawer-list-padding-horizontal: 1rem;
   --drawer-list-focus-border-width: 0.125rem;
   --drawer-list-text-padding: 0.5rem;
@@ -38,6 +34,9 @@ exports[`DrawerList scss has to match style dependencies css 1`] = `
   min-width: inherit;
   font-size: var(--font-size-small);
   /* stylelint-disable-next-line  */
+}
+.dnb-drawer-list__portal {
+  --drawer-list-width: 16rem;
 }
 .dnb-drawer-list__portal__style {
   position: absolute;
