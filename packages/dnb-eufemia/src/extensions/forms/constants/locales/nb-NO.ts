@@ -120,6 +120,7 @@ export default {
       label: 'Gateadresse',
       errorRequired: 'Du må fylle inn en gateaddresse.',
       errorPattern: 'Ugyldig gateaddresse. Skriv inn en gateaddresse.',
+      suggestionPlaceholder: 'Skriv inn adressen',
     },
     Date: {
       label: 'Dato',

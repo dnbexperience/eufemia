@@ -1,9 +1,12 @@
 import React, { useMemo } from 'react'
 import StringField, { Props as StringFieldProps } from '../String'
 import useTranslation from '../../hooks/useTranslation'
+import type { AutocompleteAllProps } from '../../../../components/autocomplete/Autocomplete'
+import { ToCamelCase } from '../../../../shared/helpers/withCamelCaseProps'
 
 export type Props = StringFieldProps & {
   element?: React.ElementType<Props>
+  autocompleteProps?: ToCamelCase<AutocompleteAllProps>
 }
 
 function Address(props: Props) {
