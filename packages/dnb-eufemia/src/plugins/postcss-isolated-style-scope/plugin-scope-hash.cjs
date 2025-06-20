@@ -8,7 +8,7 @@ const slugify = (s) =>
     .toLowerCase()
     .replace(/[^a-z0-9-]/g, '_')
 
-const getStyleScopeHash = (opts) => {
+const getStyleScopeHash = (opts = undefined) => {
   const version = opts?.version || getVersion()
   const isVersion = String(version).match(/^\d/)
   const isBranch = String(version).includes('/')
