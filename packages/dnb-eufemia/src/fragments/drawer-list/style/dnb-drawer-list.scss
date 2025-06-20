@@ -5,10 +5,6 @@
 
 @import '../../../style/core/utilities.scss';
 
-:root {
-  --drawer-list-width: 16rem;
-  --drawer-list-height: 2rem;
-}
 @mixin openDrawerList($type: 'slide') {
   z-index: 100; // make sure we are over e.g. switch
   display: flex;
@@ -48,6 +44,7 @@
 }
 
 .dnb-drawer-list {
+  --drawer-list-height: 2rem;
   --drawer-list-padding-horizontal: 1rem;
   --drawer-list-focus-border-width: 0.125rem;
   --drawer-list-text-padding: 0.5rem;
@@ -70,9 +67,9 @@
   // reset font for correct sizing
   font-size: var(--font-size-small);
 
-  // do noting about this
-  // &__portal {
-  // }
+  &__portal {
+    --drawer-list-width: 16rem;
+  }
 
   &__portal__style {
     position: absolute;
