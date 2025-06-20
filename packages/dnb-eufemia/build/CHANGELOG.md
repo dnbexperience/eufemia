@@ -3,6 +3,13 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.77.0](https://github.com/dnbexperience/eufemia/compare/v10.76.1...v10.77.0) (2025-06-20)
+
+
+### :sparkles: Features
+
+* add style isolation support ([#5267](https://github.com/dnbexperience/eufemia/issues/5267)) ([53bbf04](https://github.com/dnbexperience/eufemia/commit/53bbf04aaf9a1917ab0c908eb6e0194424a0409c))
+
 ## [10.76.1](https://github.com/dnbexperience/eufemia/compare/v10.76.0...v10.76.1) (2025-06-20)
 
 
