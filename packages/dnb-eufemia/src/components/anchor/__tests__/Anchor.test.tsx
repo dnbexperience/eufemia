@@ -488,6 +488,25 @@ describe('Anchor element', () => {
 
     expect(anchor.className).toContain('dnb-anchor--no-underline')
   })
+
+  it('should have no-icon class if "noIcon" prop is true', () => {
+    render(<Anchor noIcon icon="bell" />)
+
+    const anchor = document.querySelector('.dnb-anchor')
+
+    expect(anchor).toHaveClass('dnb-anchor--no-icon')
+  })
+
+  it('should have no-launch-icon class if "noLaunchIcon" prop is true', () => {
+    render(<Anchor noLaunchIcon />)
+
+    const anchor = document.querySelector('.dnb-anchor')
+
+    expect(anchor).toHaveClass('dnb-anchor--no-launch-icon')
+    expect(
+      document.querySelector('.dnb-anchor__launch-icon')
+    ).not.toBeInTheDocument()
+  })
 })
 
 describe('Anchor scss', () => {
