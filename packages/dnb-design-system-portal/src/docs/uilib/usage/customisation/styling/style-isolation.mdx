@@ -227,6 +227,40 @@ getStyleScopeHash() // 'eufemia-scope--1_2_3'
 
 ### Selector transformation and scoping behavior
 
+#### [scope-placeholder] shortcut
+
+You can use the selector `[scope-placeholder]` as a shortcut for targeting the root of the isolated scope. The PostCSS plugin will automatically replace it with the actual scope class (e.g. `.eufemia-scope--1_2_3`).
+
+```scss
+.mySelector [scope-placeholder] {
+  background: #f0f0f0;
+}
+```
+
+Will become:
+
+```css
+.mySelector .eufemia-scope--1_2_3 {
+  background: #f0f0f0;
+}
+```
+
+This gives you the ability to compose selectors with flexibility.
+
+```scss
+.mySelector [scope-placeholder] .myClass {
+  background: #f0f0f0;
+}
+```
+
+Will become:
+
+```css
+.mySelector .eufemia-scope--1_2_3 .myClass {
+  background: #f0f0f0;
+}
+```
+
 #### General Rules
 
 - CSS `:root` selectors are rewritten to target the scoped container.

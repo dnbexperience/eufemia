@@ -122,7 +122,7 @@ const postcssIsolateStyle = (opts = {}) => {
         const processSelector = (selector, scope) =>
           selectorParser((selectors) => {
             selectors.each((group) => {
-              // 1. skip “root” selectors (html, body, or html body)
+              // 1. skip "root" selectors (html, body, or html body)
               const onlyHtmlOrBody =
                 group.nodes.length === 1 &&
                 group.nodes[0].type === 'tag' &&
@@ -248,7 +248,7 @@ const postcssIsolateStyle = (opts = {}) => {
                   group.nodes[i + 1].value === 'body'
                 ) {
                   i += 2
-                  // skip body’s pseudos/attrs
+                  // skip body's pseudos/attrs
                   while (
                     group.nodes[i] &&
                     (group.nodes[i].type === 'pseudo' ||
@@ -280,14 +280,14 @@ const postcssIsolateStyle = (opts = {}) => {
               const asGlobal = hadGlobalWrapper || isCssModule
 
               if (asGlobal) {
-                // <…> we want “:global(.scope)”
+                // <…> we want ":global(.scope)"
                 const inner = selectorParser.selector()
                 inner.append(scopeClass)
                 const globalPseudo = selectorParser.pseudo({
                   value: ':global',
                   nodes: [inner],
                 })
-                // inject “ <global(.scope)> ” at insertIndex
+                // inject " <global(.scope)> " at insertIndex
                 group.nodes.splice(
                   insertIndex,
                   0,
@@ -296,7 +296,7 @@ const postcssIsolateStyle = (opts = {}) => {
                   space
                 )
               } else {
-                // plain “ .scope ”
+                // plain " .scope "
                 group.nodes.splice(
                   insertIndex,
                   0,
@@ -322,6 +322,16 @@ const postcssIsolateStyle = (opts = {}) => {
                 .trim()
             )
             return
+          }
+
+          // Replace [scope-placeholder] with the actual scope hash
+          if (selector.includes('[scope-placeholder]')) {
+            selector = selector.replace(
+              /\[scope-placeholder\]/g,
+              isCssModule
+                ? `:global(.${scopeWithFallback})`
+                : `.${scopeWithFallback}`
+            )
           }
 
           // Always add the main scope selector

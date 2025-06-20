@@ -183,6 +183,22 @@ describe('isolated-style-scope-plugin', () => {
         { scopeHash: 'test-scope' }
       )
     })
+
+    it('should replace [scope-placeholder] with the actual scopeHash', async () => {
+      await run(
+        '[scope-placeholder] { color: red; }',
+        '.test-scope { color: red; }',
+        { scopeHash: 'test-scope' }
+      )
+    })
+
+    it('should replace [scope-placeholder] including selectors with the actual scopeHash', async () => {
+      await run(
+        '.selector-before [scope-placeholder] .selector-after { color: red; }',
+        '.selector-before .test-scope .selector-after { color: red; }',
+        { scopeHash: 'test-scope' }
+      )
+    })
   })
 
   describe('HTML and Body Tags', () => {
@@ -922,6 +938,22 @@ describe('isolated-style-scope-plugin', () => {
           ':global(.eufemia-scope--something) .selector { color:red; }',
           ':global(.custom) .selector { color:red; }',
           { runAsCssModule: true, scopeHash: 'custom' }
+        )
+      })
+
+      it('should replace [scope-placeholder] with the actual scopeHash', async () => {
+        await run(
+          '[scope-placeholder] { color: red; }',
+          ':global(.test-scope) { color: red; }',
+          { scopeHash: 'test-scope', runAsCssModule: true }
+        )
+      })
+
+      it('should replace [scope-placeholder] including selectors with the actual scopeHash', async () => {
+        await run(
+          '.selector-before [scope-placeholder] .selector-after { color: red; }',
+          '.selector-before :global(.test-scope) .selector-after { color: red; }',
+          { scopeHash: 'test-scope', runAsCssModule: true }
         )
       })
     })
