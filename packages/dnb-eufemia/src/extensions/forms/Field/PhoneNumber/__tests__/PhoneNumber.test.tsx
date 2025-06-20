@@ -222,6 +222,7 @@ describe('Field.PhoneNumber', () => {
     )
   })
 
+  // TODO: This is a temporary solution, and should be removed once the mask is updated to handle this case.
   it('should truncate the phone number of more than 8 digits when changing country code to Norway', async () => {
     const onNumberChange = jest.fn()
 
