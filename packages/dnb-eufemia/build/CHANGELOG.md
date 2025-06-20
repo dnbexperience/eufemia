@@ -3,6 +3,14 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.76.1](https://github.com/dnbexperience/eufemia/compare/v10.76.0...v10.76.1) (2025-06-20)
+
+
+### :bug: Bug Fixes
+
+* **Button:** fix alignment helper to support HTML v4 limited-quirks ([#5276](https://github.com/dnbexperience/eufemia/issues/5276)) ([02d45a6](https://github.com/dnbexperience/eufemia/commit/02d45a69c21388dc53292699c1889d773d980ef3))
+* **DrawerList:** move width and height style handling to local component styles ([#5275](https://github.com/dnbexperience/eufemia/issues/5275)) ([8988f3f](https://github.com/dnbexperience/eufemia/commit/8988f3f9ce3b4a0dc31a8fb6ae2c4a552ebfd0b3))
+
 ## [10.76.0](https://github.com/dnbexperience/eufemia/compare/v10.75.4...v10.76.0) (2025-06-19)
 
 
