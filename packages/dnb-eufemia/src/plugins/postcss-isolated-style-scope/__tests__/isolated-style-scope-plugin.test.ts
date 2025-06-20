@@ -183,6 +183,30 @@ describe('isolated-style-scope-plugin', () => {
         { scopeHash: 'test-scope' }
       )
     })
+
+    it('should replace [scope-placeholder] with the actual scopeHash', async () => {
+      await run(
+        '[scope-placeholder] { color: red; }',
+        '.test-scope { color: red; }',
+        { scopeHash: 'test-scope' }
+      )
+    })
+
+    it('should replace [scope-placeholder] including selectors with the actual scopeHash', async () => {
+      await run(
+        '.selector-before [scope-placeholder] .selector-after { color: red; }',
+        '.selector-before .test-scope .selector-after { color: red; }',
+        { scopeHash: 'test-scope' }
+      )
+    })
+
+    it('should scope `html [scope-placeholder] *`', async () => {
+      return await run(
+        'html [scope-placeholder] * { color: red; }',
+        'html .test-scope * { color: red; }',
+        { scopeHash: 'test-scope' }
+      )
+    })
   })
 
   describe('HTML and Body Tags', () => {
@@ -230,6 +254,30 @@ describe('isolated-style-scope-plugin', () => {
       await run(
         'html body { color: red; }',
         'html body { color: red; }' // keep as is
+      )
+    })
+
+    it('should not scope `body *`', async () => {
+      return await run(
+        'body * { color: red; }',
+        'body * { color: red; }',
+        { scopeHash: 'test-scope' }
+      )
+    })
+
+    it('should not scope `html *`', async () => {
+      return await run(
+        'html * { color: red; }',
+        'html * { color: red; }',
+        { scopeHash: 'test-scope' }
+      )
+    })
+
+    it('should not scope `html body *`', async () => {
+      return await run(
+        'html body * { color: red; }',
+        'html body * { color: red; }',
+        { scopeHash: 'test-scope' }
       )
     })
   })
@@ -457,26 +505,26 @@ describe('isolated-style-scope-plugin', () => {
       )
     })
 
-    it('should not scope when selector starts with ":not(#isolated) "', async () => {
+    it('should not scope when selector starts with "[skip-isolation] "', async () => {
       return await run(
-        ':not(#isolated) #id-selector { color: red; }',
+        '[skip-isolation] #id-selector { color: red; }',
         '#id-selector { color: red; }',
         { scopeHash: 'test-scope' }
       )
     })
 
-    it('should not scope when selector has ":not(#isolated)"', async () => {
+    it('should not scope when selector has "[skip-isolation]"', async () => {
       return await run(
-        'body .some-selector :not(#isolated) #some-id { color: red; }',
+        'body .some-selector [skip-isolation] #some-id { color: red; }',
         'body .some-selector #some-id { color: red; }',
         { scopeHash: 'test-scope' }
       )
     })
 
-    it('should scope when selector starts with :not(#isolated)*', async () => {
+    it('should scope when selector starts with [skip-isolation]*', async () => {
       return await run(
-        ':not(#isolated)-something #id-selector { color: red; }',
-        '.test-scope :not(#isolated)-something #id-selector { color: red; }',
+        '[skip-isolation]-something #id-selector { color: red; }',
+        '.test-scope [skip-isolation]-something #id-selector { color: red; }',
         { scopeHash: 'test-scope' }
       )
     })
@@ -909,7 +957,7 @@ describe('isolated-style-scope-plugin', () => {
         )
       })
 
-      it('keeps rule when selector became empty inside :global()', async () => {
+      it('keeps rule when selector Became empty inside :global', async () => {
         await run(
           ':global(.eufemia-scope--default) { color: red; }',
           ':global(.new-scope) { color: red; }',
@@ -922,6 +970,22 @@ describe('isolated-style-scope-plugin', () => {
           ':global(.eufemia-scope--something) .selector { color:red; }',
           ':global(.custom) .selector { color:red; }',
           { runAsCssModule: true, scopeHash: 'custom' }
+        )
+      })
+
+      it('should replace [scope-placeholder] with the actual scopeHash', async () => {
+        await run(
+          '[scope-placeholder] { color: red; }',
+          ':global(.test-scope) { color: red; }',
+          { runAsCssModule: true, scopeHash: 'test-scope' }
+        )
+      })
+
+      it('should replace [scope-placeholder] including selectors with the actual scopeHash', async () => {
+        await run(
+          '.selector-before [scope-placeholder] .selector-after { color: red; }',
+          '.selector-before :global(.test-scope) .selector-after { color: red; }',
+          { runAsCssModule: true, scopeHash: 'test-scope' }
         )
       })
     })
@@ -985,6 +1049,123 @@ describe('isolated-style-scope-plugin', () => {
         return await run(
           ':global(.selector) :global .selector { --color: red; }',
           ':global(.test-scope) :global(.selector) :global .selector { --color: red; }',
+          { runAsCssModule: true, scopeHash: 'test-scope' }
+        )
+      })
+    })
+
+    describe('Skip global selectors in :global block', () => {
+      it('removes :global wrapper for html selector', async () => {
+        await run(
+          ':global html { color: red; }',
+          ':global html { color: red; }',
+          {
+            runAsCssModule: true,
+            scopeHash: 'test-scope',
+          }
+        )
+      })
+
+      it('scopes class selector inside :global', async () => {
+        await run(
+          ':global .my-class { color: purple; }',
+          ':global(.test-scope) :global .my-class { color: purple; }',
+          { runAsCssModule: true, scopeHash: 'test-scope' }
+        )
+      })
+
+      it('does not scope html inside :global', async () => {
+        await run(
+          ':global {\n  html { color: red; }\n}',
+          ':global {\n  html { color: red; }\n}',
+          { runAsCssModule: true, scopeHash: 'test-scope' }
+        )
+      })
+
+      it('does not scope body inside :global', async () => {
+        await run(
+          ':global {\n  body { color: red; }\n}',
+          ':global {\n  body { color: red; }\n}',
+          { runAsCssModule: true, scopeHash: 'test-scope' }
+        )
+      })
+
+      it('does not scope html body inside :global', async () => {
+        await run(
+          ':global {\n  html body { color: red; }\n}',
+          ':global {\n  html body { color: red; }\n}',
+          { runAsCssModule: true, scopeHash: 'test-scope' }
+        )
+      })
+
+      it('does not scope html inside :global but scope the rest', async () => {
+        await run(
+          ':global {\n  html { color: red; }\n.selector { color: red; }\n}',
+          ':global {\n  html { color: red; }\n:global(.test-scope) .selector { color: red; }\n}',
+          { runAsCssModule: true, scopeHash: 'test-scope' }
+        )
+      })
+
+      it('scopes only .my-class in html body .my-class inside :global', async () => {
+        await run(
+          ':global {\n  html body .my-class { color: red; }\n}',
+          ':global {\n  html body :global(.test-scope) .my-class { color: red; }\n}',
+          { runAsCssModule: true, scopeHash: 'test-scope' }
+        )
+      })
+
+      it('scopes only .my-class in mixed :global block with html, body, and html body', async () => {
+        await run(
+          ':global {\n  html { color: red; }\n  body { color: red; }\n  html body { color: green; }\n  .my-class { color: purple; }\n}',
+          ':global {\n  html { color: red; }\n  body { color: red; }\n  html body { color: green; }\n  :global(.test-scope) .my-class { color: purple; }\n}',
+          { runAsCssModule: true, scopeHash: 'test-scope' }
+        )
+      })
+
+      it('should not scope `html *` inside a :global block', async () => {
+        await run(
+          ':global {\n  html * {\n    color: red;\n  }\n}',
+          ':global {\n  html * {\n    color: red;\n  }\n}',
+          { runAsCssModule: true, scopeHash: 'test-scope' }
+        )
+      })
+
+      it('should not scope `body *` inside a :global block', async () => {
+        await run(
+          ':global {\n  body * {\n    color: red;\n  }\n}',
+          ':global {\n  body * {\n    color: red;\n  }\n}',
+          { runAsCssModule: true, scopeHash: 'test-scope' }
+        )
+      })
+
+      it('should not scope `html body *` inside a :global block', async () => {
+        await run(
+          ':global {\n  html body * {\n    color: green;\n  }\n}',
+          ':global {\n  html body * {\n    color: green;\n  }\n}',
+          { runAsCssModule: true, scopeHash: 'test-scope' }
+        )
+      })
+
+      it('should not scope `html *` when flattened', async () => {
+        return await run(
+          ':global html * { color: red; }',
+          ':global html * { color: red; }',
+          { runAsCssModule: true, scopeHash: 'test-scope' }
+        )
+      })
+
+      it('should not scope `body *` when flattened', async () => {
+        return await run(
+          ':global body * { color: red; }',
+          ':global body * { color: red; }',
+          { runAsCssModule: true, scopeHash: 'test-scope' }
+        )
+      })
+
+      it('should not scope `html body *` when flattened', async () => {
+        return await run(
+          ':global html body * { color: red; }',
+          ':global html body * { color: red; }',
           { runAsCssModule: true, scopeHash: 'test-scope' }
         )
       })

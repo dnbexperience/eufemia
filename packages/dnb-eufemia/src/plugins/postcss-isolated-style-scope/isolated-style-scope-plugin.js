@@ -80,15 +80,37 @@ const postcssIsolateStyle = (opts = {}) => {
 
         // Special‐case lone :global
         if (
+          isCssModule &&
           rule.selectors.length === 1 &&
           rule.selectors[0].trim() === ':global'
         ) {
-          // in CSS-Module mode wrap in one :global(...)
-          if (isCssModule) {
-            rule.selector = `:global(.${scopeWithFallback})`
-          } else {
-            rule.selector = `.${scopeWithFallback}`
+          // Check if all child rules are global selectors
+          const allChildrenAreGlobal =
+            rule.nodes &&
+            rule.nodes.length > 0 &&
+            rule.nodes.every((n) => {
+              if (n.type !== 'rule') return false
+              const ast = selectorParser().astSync(n.selector.trim())
+              return ast.nodes.some((group) =>
+                isGlobalSelector(group.nodes)
+              )
+            })
+
+          if (allChildrenAreGlobal) {
+            // Do not scope this :global block or its children
+            return
           }
+
+          // Check if we have some selectors which should be skipped
+          const hasSelectorsToSkip = rule.nodes.some((n) => {
+            return isHtmlBodyCombo(n)
+          })
+
+          if (hasSelectorsToSkip) {
+            return
+          }
+
+          rule.selector = `:global(.${scopeWithFallback})`
           return
         }
 
@@ -96,7 +118,7 @@ const postcssIsolateStyle = (opts = {}) => {
         if (
           rule.selectors.length === 1 &&
           (rule.selectors[0].trim() === ':root' ||
-            rule.selectors[0].trim() === ':global :root')
+            (isCssModule && rule.selectors[0].trim() === ':global :root'))
         ) {
           const scopes = [scopeWithFallback]
 
@@ -122,25 +144,22 @@ const postcssIsolateStyle = (opts = {}) => {
         const processSelector = (selector, scope) =>
           selectorParser((selectors) => {
             selectors.each((group) => {
-              // 1. skip “root” selectors (html, body, or html body)
-              const onlyHtmlOrBody =
-                group.nodes.length === 1 &&
-                group.nodes[0].type === 'tag' &&
-                (group.nodes[0].value === 'html' ||
-                  group.nodes[0].value === 'body')
+              // 1. Skip global selectors
+              if (isGlobalSelector(group.nodes)) {
+                return
+              }
+              // 1b. Skip global selectors inside :global block
+              if (
+                group.parent &&
+                group.parent.type === 'pseudo' &&
+                group.parent.value === ':global'
+              ) {
+                if (isGlobalSelector(group.nodes)) {
+                  return
+                }
+              }
 
-              const htmlBodyCombo =
-                group.nodes.length >= 3 &&
-                group.nodes.every(
-                  (n) =>
-                    (n.type === 'tag' &&
-                      (n.value === 'html' || n.value === 'body')) ||
-                    n.type === 'combinator'
-                )
-
-              if (onlyHtmlOrBody || htmlBodyCombo) return
-
-              // Replace class names if matched
+              // 2. Replace class names if matched
               group.nodes.forEach((n) => {
                 if (
                   n.type === 'class' &&
@@ -248,7 +267,7 @@ const postcssIsolateStyle = (opts = {}) => {
                   group.nodes[i + 1].value === 'body'
                 ) {
                   i += 2
-                  // skip body’s pseudos/attrs
+                  // skip body's pseudos/attrs
                   while (
                     group.nodes[i] &&
                     (group.nodes[i].type === 'pseudo' ||
@@ -280,14 +299,14 @@ const postcssIsolateStyle = (opts = {}) => {
               const asGlobal = hadGlobalWrapper || isCssModule
 
               if (asGlobal) {
-                // <…> we want “:global(.scope)”
+                // <…> we want ":global(.scope)"
                 const inner = selectorParser.selector()
                 inner.append(scopeClass)
                 const globalPseudo = selectorParser.pseudo({
                   value: ':global',
                   nodes: [inner],
                 })
-                // inject “ <global(.scope)> ” at insertIndex
+                // inject " <global(.scope)> " at insertIndex
                 group.nodes.splice(
                   insertIndex,
                   0,
@@ -296,7 +315,7 @@ const postcssIsolateStyle = (opts = {}) => {
                   space
                 )
               } else {
-                // plain “ .scope ”
+                // plain " .scope "
                 group.nodes.splice(
                   insertIndex,
                   0,
@@ -313,15 +332,39 @@ const postcssIsolateStyle = (opts = {}) => {
 
         const processedSelectors = []
         rule.selectors.forEach((selector) => {
-          // Check if selector contains :not(#isolated) and remove it
-          if (selector.includes(':not(#isolated) ')) {
+          // If this rule is inside a :global block and selector is a global selector, skip scoping
+          if (
+            rule.parent &&
+            rule.parent.type === 'rule' &&
+            rule.parent.selector &&
+            rule.parent.selector.trim() === ':global'
+          ) {
+            const ast = selectorParser().astSync(selector.trim())
+            const isAllGlobal = ast.nodes.some((group) =>
+              isGlobalSelector(group.nodes)
+            )
+            if (isAllGlobal) {
+              processedSelectors.push(selector)
+              return
+            }
+          }
+
+          // Check if selector contains [skip-isolation] and remove it
+          if (selector.includes('[skip-isolation] ')) {
             processedSelectors.push(
-              selector
-                .replace(/\s*:not\(#isolated\)\s*/, ' ')
-                .replace(/\s+/g, ' ')
-                .trim()
+              selector.replace(/\[skip-isolation\]\s*/g, '').trim()
             )
             return
+          }
+
+          // Replace [scope-placeholder] with the actual scope hash
+          if (selector.includes('[scope-placeholder]')) {
+            selector = selector.replace(
+              /\[scope-placeholder\]/g,
+              isCssModule
+                ? `:global(.${scopeWithFallback})`
+                : `.${scopeWithFallback}`
+            )
           }
 
           // Always add the main scope selector
@@ -376,3 +419,113 @@ Settings: ${JSON.stringify({ isCssModule }, null, 2)}
 
 postcssIsolateStyle.postcss = true
 module.exports = postcssIsolateStyle
+
+// Helper to check if a selector is html, body, html body, html *, body *, or html body *
+function isGlobalSelector(nodes) {
+  if (!nodes || nodes.length === 0) return false
+  // Remove whitespace combinators
+  const parts = nodes.filter(
+    (n) => !(n.type === 'combinator' && n.value.trim() === '')
+  )
+  // Case 1: :global(html), :global(body), :global(html body), :global(html *), etc.
+  if (
+    parts.length === 1 &&
+    parts[0].type === 'pseudo' &&
+    parts[0].value === ':global' &&
+    parts[0].nodes
+  ) {
+    // Recurse on the selector inside :global()
+    return isGlobalSelector(parts[0].nodes[0].nodes)
+  }
+  // Case 2: :global html, :global body, :global html body, :global html *, etc.
+  if (
+    parts.length >= 2 &&
+    parts[0].type === 'pseudo' &&
+    parts[0].value === ':global'
+  ) {
+    // Check if the remaining parts form a global selector
+    return isGlobalSelector(parts.slice(1))
+  }
+  // Case 3: html, body, html body
+  if (parts[0].type === 'tag' && parts[0].value === 'html') {
+    if (parts.length === 1) return true // html
+    if (
+      parts.length === 2 &&
+      parts[1].type === 'tag' &&
+      parts[1].value === 'body'
+    ) {
+      return true // html body
+    }
+    // html *
+    if (parts.length === 2 && parts[1].type === 'universal') {
+      return true
+    }
+    // html body *
+    if (
+      parts.length === 3 &&
+      parts[1].type === 'tag' &&
+      parts[1].value === 'body' &&
+      parts[2].type === 'universal'
+    ) {
+      return true
+    }
+  }
+  // body
+  if (
+    parts.length === 1 &&
+    parts[0].type === 'tag' &&
+    parts[0].value === 'body'
+  ) {
+    return true
+  }
+  // body *
+  if (
+    parts.length === 2 &&
+    parts[0].type === 'tag' &&
+    parts[0].value === 'body' &&
+    parts[1].type === 'universal'
+  ) {
+    return true
+  }
+  // :global html or :global body
+  if (
+    parts.length === 2 &&
+    parts[0].type === 'pseudo' &&
+    parts[0].value === ':global' &&
+    parts[1].type === 'tag' &&
+    ['html', 'body'].includes(parts[1].value)
+  ) {
+    return true
+  }
+  return false
+}
+
+function isHtmlBodyCombo(node) {
+  if (node.type !== 'rule') {
+    return false
+  }
+
+  const selector = node.selector
+  const ast = selectorParser().astSync(selector.trim())
+
+  return ast.nodes.some((group) => {
+    const nodes = group.nodes
+    // Single tag html|body
+    const onlyHtmlOrBody =
+      nodes.length === 1 &&
+      nodes[0].type === 'tag' &&
+      (nodes[0].value === 'html' || nodes[0].value === 'body')
+
+    // html body (with a space combinator)
+    const htmlBodyCombo =
+      nodes.length >= 3 &&
+      nodes[0].type === 'tag' &&
+      nodes[0].value === 'html' &&
+      nodes[1].type === 'combinator' &&
+      nodes[1].value === ' ' &&
+      nodes[2].type === 'tag' &&
+      nodes[2].value === 'body'
+
+    return onlyHtmlOrBody || htmlBodyCombo
+  })
+}
