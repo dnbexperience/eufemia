@@ -1,9 +1,9 @@
 @import '@dnb/eufemia/src/style/core/utilities.scss';
 @import './PortalStyle.mixins.scss';
 
-body,
-body #___gatsby,
-body #gatsby-focus-wrapper {
+:not(#isolated) body,
+:not(#isolated) body #___gatsby,
+:not(#isolated) body #gatsby-focus-wrapper {
   height: 100%;
 }
 
@@ -18,7 +18,7 @@ body #gatsby-focus-wrapper {
   background-color: var(--color-emerald-green);
 }
 
-#gatsby-noscript {
+:not(#isolated) #gatsby-noscript {
   position: fixed;
   top: 0;
   left: 0;

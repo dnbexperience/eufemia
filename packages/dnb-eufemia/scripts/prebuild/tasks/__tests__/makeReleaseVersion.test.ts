@@ -63,9 +63,14 @@ describe('makeReleaseVersion', () => {
 
     await makeReleaseVersion()
 
-    expect(log.succeed).toHaveBeenCalledTimes(1)
-    expect(log.succeed).toHaveBeenCalledWith(
+    expect(log.succeed).toHaveBeenCalledTimes(2)
+    expect(log.succeed).toHaveBeenNthCalledWith(
+      1,
       'Success on write version to CSS and JS sources: 123456789'
+    )
+    expect(log.succeed).toHaveBeenNthCalledWith(
+      2,
+      'Success on write to scope-hash.txt with scope hash: eufemia-scope--123456789'
     )
   })
 
@@ -79,7 +84,7 @@ describe('makeReleaseVersion', () => {
 
     await makeReleaseVersion()
 
-    expect(fs.writeFile).toHaveBeenCalledTimes(3)
+    expect(fs.writeFile).toHaveBeenCalledTimes(4)
   })
 
   it('should run on any branch', async () => {
@@ -92,7 +97,7 @@ describe('makeReleaseVersion', () => {
 
     await makeReleaseVersion()
 
-    expect(fs.writeFile).toHaveBeenCalledTimes(3)
+    expect(fs.writeFile).toHaveBeenCalledTimes(4)
 
     // JS
     expect(fs.writeFile).toHaveBeenNthCalledWith(
@@ -126,7 +131,7 @@ describe('makeReleaseVersion', () => {
 
     await makeReleaseVersion()
 
-    expect(fs.writeFile).toHaveBeenCalledTimes(3)
+    expect(fs.writeFile).toHaveBeenCalledTimes(4)
 
     // JS
     expect(fs.writeFile).toHaveBeenNthCalledWith(
@@ -170,7 +175,7 @@ describe('makeReleaseVersion', () => {
 
     await makeReleaseVersion()
 
-    expect(fs.writeFile).toHaveBeenCalledTimes(3)
+    expect(fs.writeFile).toHaveBeenCalledTimes(4)
 
     // JS
     expect(fs.writeFile).toHaveBeenNthCalledWith(
@@ -204,7 +209,7 @@ describe('makeReleaseVersion', () => {
 
     await makeReleaseVersion()
 
-    expect(fs.writeFile).toHaveBeenCalledTimes(3)
+    expect(fs.writeFile).toHaveBeenCalledTimes(4)
 
     // JS
     expect(fs.writeFile).toHaveBeenNthCalledWith(

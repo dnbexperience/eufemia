@@ -1,6 +1,9 @@
-import React, { useEffect, useMemo, useRef } from 'react'
+import React, { useContext, useEffect, useMemo, useRef } from 'react'
 import { createPortal } from 'react-dom'
 import classnames from 'classnames'
+import IsolatedStyleScope, {
+  IsolatedStyleScopeContext,
+} from '../../shared/IsolatedStyleScope'
 
 export type PortalRootProps = {
   innerRef?:
@@ -16,6 +19,8 @@ function PortalRoot({
   children,
   ...rest
 }: PortalRootProps): JSX.Element {
+  const { style: scopeStyle } = useContext(IsolatedStyleScopeContext) || {}
+
   const id = 'eufemia-portal-root'
   const initialElement = useMemo(
     () => getOrCreatePortalElement(id),
@@ -45,13 +50,19 @@ function PortalRoot({
   }
 
   return createPortal(
-    <div
-      className={classnames('dnb-core-style', className)}
-      style={style}
-      {...rest}
+    <IsolatedStyleScope
+      scopeHash="auto"
+      disableCoreStyleWrapper
+      uniqueKey={false} // ensure that the scope is used on every portal root
     >
-      {children}
-    </div>,
+      <div
+        className={classnames('dnb-core-style', className)}
+        style={{ ...scopeStyle, ...style }}
+        {...rest}
+      >
+        {children}
+      </div>
+    </IsolatedStyleScope>,
     localRef.current
   )
 }

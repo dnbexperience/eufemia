@@ -57,7 +57,7 @@ describe.each(['ui', 'sbanken'])('Autocomplete for %s', (themeName) => {
       waitAfterSimulateSelector:
         '[data-visual-test="autocomplete-drawer-search"] .dnb-autocomplete--opened',
       style: {
-        height: '30rem',
+        height: '32rem',
       },
     })
     expect(screenshot).toMatchImageSnapshot()

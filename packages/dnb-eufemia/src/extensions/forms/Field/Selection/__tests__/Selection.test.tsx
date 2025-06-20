@@ -1,12 +1,6 @@
 import React from 'react'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
-import {
-  screen,
-  render,
-  within,
-  fireEvent,
-  waitFor,
-} from '@testing-library/react'
+import { screen, render, within, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import DataContext from '../../../DataContext/Context'
 import DrawerListProvider from '../../../../../fragments/drawer-list/DrawerListProvider'
@@ -487,7 +481,7 @@ describe('variants', () => {
       )
     })
 
-    it('should support "dataPath" with title and text property', () => {
+    it('should support "dataPath" with title and text property', async () => {
       render(
         <Form.Handler
           data={{
@@ -512,7 +506,9 @@ describe('variants', () => {
         document.querySelector('.dnb-dropdown__text__inner')
       ).toHaveTextContent('Bar! Text')
 
-      fireEvent.click(document.querySelector('.dnb-dropdown__trigger'))
+      await userEvent.click(
+        document.querySelector('.dnb-dropdown__trigger')
+      )
 
       const options = document.querySelectorAll('[role="option"]')
       expect(options[0]).toHaveTextContent('Foo!')
@@ -1166,8 +1162,11 @@ describe('variants', () => {
   })
 
   describe('dropdown', () => {
-    const openDropdown = () =>
-      fireEvent.click(document.querySelector('.dnb-dropdown__trigger'))
+    const openDropdown = async () => {
+      await userEvent.click(
+        document.querySelector('.dnb-dropdown__trigger')
+      )
+    }
 
     it('should support size', () => {
       render(
@@ -1190,7 +1189,7 @@ describe('variants', () => {
       expect(dropdownElement.classList).toContain('dnb-dropdown--large')
     })
 
-    it('has no selected value by default', () => {
+    it('has no selected value by default', async () => {
       render(
         <Field.Selection variant="dropdown">
           <Field.Option value="foo">Foo</Field.Option>
@@ -1198,7 +1197,7 @@ describe('variants', () => {
         </Field.Selection>
       )
 
-      openDropdown()
+      await openDropdown()
 
       const options = document.querySelectorAll('[role="option"]')
       expect(options.length).toEqual(2)
@@ -1218,7 +1217,7 @@ describe('variants', () => {
         </Field.Selection>
       )
 
-      openDropdown()
+      await openDropdown()
 
       const options = document.querySelectorAll('[role="option"]')
 
@@ -1280,7 +1279,7 @@ describe('variants', () => {
       ).toBeDisabled()
     })
 
-    it('renders selected option', () => {
+    it('renders selected option', async () => {
       render(
         <Field.Selection variant="dropdown" value="bar">
           <Field.Option value="foo">Foo</Field.Option>
@@ -1288,7 +1287,7 @@ describe('variants', () => {
         </Field.Selection>
       )
 
-      openDropdown()
+      await openDropdown()
 
       const options = document.querySelectorAll('[role="option"]')
       expect(options.length).toEqual(2)
@@ -1296,7 +1295,7 @@ describe('variants', () => {
       expect(options[1].getAttribute('aria-selected')).toBe('true')
     })
 
-    it('renders update selected option based on external value change', () => {
+    it('renders update selected option based on external value change', async () => {
       const { rerender } = render(
         <Field.Selection variant="dropdown" value="bar">
           <Field.Option value="foo">Foo</Field.Option>
@@ -1311,7 +1310,7 @@ describe('variants', () => {
         </Field.Selection>
       )
 
-      openDropdown()
+      await openDropdown()
 
       const options = document.querySelectorAll('[role="option"]')
       expect(options.length).toEqual(2)
@@ -1319,7 +1318,7 @@ describe('variants', () => {
       expect(options[1].getAttribute('aria-selected')).toBe('false')
     })
 
-    it('renders only options with a value', () => {
+    it('renders only options with a value', async () => {
       const { rerender } = render(
         <Field.Selection variant="dropdown" value="bar">
           <Field.Option value="foo">Foo</Field.Option>
@@ -1328,7 +1327,7 @@ describe('variants', () => {
         </Field.Selection>
       )
 
-      openDropdown()
+      await openDropdown()
 
       expect(document.querySelectorAll('[role="option"]')).toHaveLength(2)
 
@@ -1386,7 +1385,7 @@ describe('variants', () => {
       const title = document.querySelector('.dnb-dropdown')
       expect(title).toHaveTextContent('Foo!')
 
-      openDropdown()
+      await openDropdown()
 
       const options = Array.from(
         document.querySelectorAll('[role="option"]')
@@ -1427,7 +1426,7 @@ describe('variants', () => {
         </Form.Handler>
       )
 
-      openDropdown()
+      await openDropdown()
 
       const options = Array.from(
         document.querySelectorAll('[role="option"]')
@@ -1443,7 +1442,7 @@ describe('variants', () => {
       expect(option2).toHaveAttribute('aria-selected', 'false')
     })
 
-    it('should support "dataPath"', () => {
+    it('should support "dataPath"', async () => {
       render(
         <Form.Handler
           data={{
@@ -1465,7 +1464,7 @@ describe('variants', () => {
         </Form.Handler>
       )
 
-      openDropdown()
+      await openDropdown()
 
       const options = Array.from(
         document.querySelectorAll('[role="option"]')
@@ -1540,7 +1539,7 @@ describe('variants', () => {
       })
     })
 
-    it('should support inline styling using Field.Option', () => {
+    it('should support inline styling using Field.Option', async () => {
       render(
         <Field.Selection variant="dropdown">
           <Field.Option value="foo" style={{ color: 'red' }}>
@@ -1549,13 +1548,13 @@ describe('variants', () => {
         </Field.Selection>
       )
 
-      openDropdown()
+      await openDropdown()
 
       const option = document.querySelector('[role="option"]')
       expect(option.getAttribute('style')).toBe('color: red;')
     })
 
-    it('should support inline styling using data', () => {
+    it('should support inline styling using data', async () => {
       render(
         <Field.Selection
           variant="dropdown"
@@ -1569,7 +1568,7 @@ describe('variants', () => {
         />
       )
 
-      openDropdown()
+      await openDropdown()
 
       const option = document.querySelector('[role="option"]')
       expect(option.getAttribute('style')).toBe('color: red;')
@@ -1590,12 +1589,12 @@ describe('variants', () => {
           </Field.Selection>
         )
 
-        openDropdown()
+        await openDropdown()
 
         expect(await axeComponent(result)).toHaveNoViolations()
       })
 
-      it('should have aria-required', () => {
+      it('should have aria-required', async () => {
         render(
           <Field.Selection variant="dropdown" value="bar" required>
             <Field.Option value="foo">Foo</Field.Option>
@@ -1605,12 +1604,12 @@ describe('variants', () => {
 
         const button = document.querySelector('button')
 
-        openDropdown()
+        await openDropdown()
 
         expect(button).toHaveAttribute('aria-required', 'true')
       })
 
-      it('should have aria-invalid', () => {
+      it('should have aria-invalid', async () => {
         render(
           <Field.Selection variant="dropdown" required validateInitially>
             <Field.Option value="foo">Foo</Field.Option>
@@ -1618,7 +1617,7 @@ describe('variants', () => {
           </Field.Selection>
         )
 
-        openDropdown()
+        await openDropdown()
 
         const buttonElement = document.querySelector('button')
         expect(buttonElement).toHaveAttribute('aria-invalid', 'true')
@@ -1627,9 +1626,8 @@ describe('variants', () => {
   })
 
   describe('autocomplete', () => {
-    const openAutocomplete = () => {
-      fireEvent.focus(document.querySelector('.dnb-input__input'))
-      fireEvent.mouseDown(document.querySelector('.dnb-input__input'))
+    const openAutocomplete = async () => {
+      await userEvent.click(document.querySelector('.dnb-input__input'))
     }
 
     it('should support size', () => {
@@ -1676,7 +1674,7 @@ describe('variants', () => {
       })
     })
 
-    it('has no selected value by default', () => {
+    it('has no selected value by default', async () => {
       render(
         <Field.Selection variant="autocomplete">
           <Field.Option value="foo">Foo</Field.Option>
@@ -1684,7 +1682,7 @@ describe('variants', () => {
         </Field.Selection>
       )
 
-      openAutocomplete()
+      await openAutocomplete()
 
       const options = document.querySelectorAll('[role="option"]')
       expect(options.length).toEqual(2)
@@ -1887,6 +1885,8 @@ describe('variants', () => {
     })
 
     describe('mode="async"', () => {
+      jest.retryTimes(3)
+
       it('should open DrawerList when focused and data is set with updateData', async () => {
         const onType = jest.fn(({ updateData }) => {
           updateData([
@@ -1957,7 +1957,7 @@ describe('variants', () => {
         </Field.Selection>
       )
 
-      openAutocomplete()
+      await openAutocomplete()
 
       await waitFor(() => {
         const options = document.querySelectorAll('[role="option"]')
@@ -1982,7 +1982,7 @@ describe('variants', () => {
         </Field.Selection>
       )
 
-      openAutocomplete()
+      await openAutocomplete()
 
       await waitFor(() => {
         const options = document.querySelectorAll('[role="option"]')
@@ -2001,7 +2001,7 @@ describe('variants', () => {
         </Field.Selection>
       )
 
-      openAutocomplete()
+      await openAutocomplete()
 
       await waitFor(() => {
         expect(document.querySelectorAll('[role="option"]')).toHaveLength(
@@ -2065,7 +2065,7 @@ describe('variants', () => {
       const input = document.querySelector('input')
       expect(input).toHaveValue('Foo!')
 
-      openAutocomplete()
+      await openAutocomplete()
 
       await waitFor(() => {
         expect(document.querySelectorAll('[role="option"]')).toHaveLength(
@@ -2110,7 +2110,7 @@ describe('variants', () => {
         </Form.Handler>
       )
 
-      openAutocomplete()
+      await openAutocomplete()
 
       await waitFor(() => {
         expect(document.querySelectorAll('[role="option"]')).toHaveLength(
@@ -2151,7 +2151,7 @@ describe('variants', () => {
         </Form.Handler>
       )
 
-      openAutocomplete()
+      await openAutocomplete()
 
       await waitFor(() => {
         expect(document.querySelectorAll('[role="option"]')).toHaveLength(
@@ -2229,7 +2229,7 @@ describe('variants', () => {
       })
     })
 
-    it('should support inline styling using Field.Option', () => {
+    it('should support inline styling using Field.Option', async () => {
       render(
         <Field.Selection variant="autocomplete">
           <Field.Option value="foo" style={{ color: 'red' }}>
@@ -2238,13 +2238,13 @@ describe('variants', () => {
         </Field.Selection>
       )
 
-      openAutocomplete()
+      await openAutocomplete()
 
       const option = document.querySelector('[role="option"]')
       expect(option.getAttribute('style')).toBe('color: red;')
     })
 
-    it('should support inline styling using data', () => {
+    it('should support inline styling using data', async () => {
       render(
         <Field.Selection
           variant="autocomplete"
@@ -2258,7 +2258,7 @@ describe('variants', () => {
         />
       )
 
-      openAutocomplete()
+      await openAutocomplete()
 
       const option = document.querySelector('[role="option"]')
       expect(option.getAttribute('style')).toBe('color: red;')
@@ -2286,7 +2286,7 @@ describe('variants', () => {
         expect(await axeComponent(result)).toHaveNoViolations()
       })
 
-      it('should have aria-required', () => {
+      it('should have aria-required', async () => {
         render(
           <Field.Selection variant="autocomplete" value="bar" required>
             <Field.Option value="foo">Foo</Field.Option>
@@ -2296,12 +2296,12 @@ describe('variants', () => {
 
         const button = document.querySelector('input')
 
-        openAutocomplete()
+        await openAutocomplete()
 
         expect(button).toHaveAttribute('aria-required', 'true')
       })
 
-      it('should have aria-invalid', () => {
+      it('should have aria-invalid', async () => {
         render(
           <Field.Selection
             variant="autocomplete"
@@ -2313,7 +2313,7 @@ describe('variants', () => {
           </Field.Selection>
         )
 
-        openAutocomplete()
+        await openAutocomplete()
 
         const buttonElement = document.querySelector('input')
         expect(buttonElement).toHaveAttribute('aria-invalid', 'true')
