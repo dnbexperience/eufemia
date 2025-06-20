@@ -34,11 +34,6 @@ function MyApp() {
 
 Optionally (but recommended), add the PostCSS plugin to your build tool. This ensures your custom styles have the correct CSS specificity when overriding or extending Eufemia styles.
 
-### Good to know
-
-- CSS `:root` selectors are rewritten to target the scoped container (e.g., .eufemia-scope--1_2_3).
-- While a `html` selector are left untouched and continues to target the global `<html>` element.
-
 ## How to use it
 
 ### 1. Import the isolated CSS files
@@ -75,12 +70,12 @@ function MyApp() {
 ### 3. Add the PostCSS plugin
 
 1. Find and add a [PostCSS extension or loader](https://github.com/postcss/postcss#usage) for your build tool.
-2. Then Create a `postcss.config.js` file in your project root:
+2. Then create a `postcss.config.js` file in your project root:
 
 ```js
 module.exports = {
   plugins: [
-    require('@dnb/eufemia/cjs/plugins/style-scope')(/* options */),
+    require('@dnb/eufemia/cjs/plugins/postcss-isolated-style-scope')(/* options */),
   ],
 }
 ```
@@ -101,7 +96,7 @@ The plugin accepts an options object. The default options are:
 {
   skipClassNames: [],
   replaceClassNames: undefined,// { 'old-class': 'new-class' }
-  scopeHash: 'auto',
+  scopeHash: 'auto',// Can be a function: (file) => string
   sharedScopeHash: undefined, // Provide a function that returns an array of shared scope hashes
   verbose: false,
 }
@@ -168,6 +163,30 @@ You can prepend your selectors with `:not(#isolated)` which will omit the scope 
 }
 ```
 
+### Overwrite the given scope hash
+
+By using the PostCSS plugin, you can overwrite the given scope hash by providing a string or function that returns a string.
+
+```js
+{
+  scopeHash: (file) => 'my-hash',
+}
+```
+
+Additionally, you then also need to provide the same scope hash to the Eufemia component.
+
+```tsx
+import { IsolatedStyleScope } from '@dnb/eufemia/shared/IsolatedStyleScope'
+
+function MyApp() {
+  return (
+    <IsolatedStyleScope scopeHash="my-hash">
+      Your app content
+    </IsolatedStyleScope>
+  )
+}
+```
+
 ### Shared scopes
 
 The PostCSS plugin supports shared scopes. This means that you can use the same selector in one file and have it be duplicated for multiple scopes.
@@ -192,12 +211,10 @@ This will create duplicate selectors for each shared scope.
 
 ### Get the current scope hash
 
-So you can use `getStyleScopeHash` to get the scope hash for the current Eufemia version.
-
-Via the `IsolatedStyleScope` component:
+You can use `getStyleScopeHash` to get the scope hash for the current Eufemia version via the `IsolatedStyleScope` component:
 
 ```tsx
-import { getStyleScopeHash } from '@dnb/eufemia/shared/IsolatedStyleScope.js'
+import { getStyleScopeHash } from '@dnb/eufemia/shared/IsolatedStyleScope'
 
 getStyleScopeHash() // 'eufemia-scope--1_2_3'
 ```
@@ -206,74 +223,79 @@ getStyleScopeHash() // 'eufemia-scope--1_2_3'
 
 #### General Rules
 
-- CSS `:root` selectors are rewritten to target the scoped container  
-  _e.g., `:root {}` → `.eufemia-scope--1_2_3 {}`_
-- A `html` selector is left untouched and continues to target the global `<html>` element  
-  _e.g., `html {}` → `html {}`_
+- CSS `:root` selectors are rewritten to target the scoped container.
+  e.g. `:root {}` → `.eufemia-scope--1_2_3 {}`
+- A `html` selector is left untouched and continues to target the global `<html>` element.
+  e.g. `html {}` → `html {}`
 
 #### Additional Cases
 
-- A `body` selector remains unchanged  
-  _e.g., `body {}` → `body {}`_
+- A `body` selector remains unchanged.
+  e.g. `body {}` → `body {}`
 
-- A selector like `body .my-class` is scoped so that the class is prefixed, but `body` remains global  
-  _e.g., `body .my-class` → `body .eufemia-scope--1_2_3 .my-class`_
+- A selector like `body .my-class` is scoped so that the class is prefixed, but `body` remains global.
+  e.g. `body .my-class` → `body .eufemia-scope--1_2_3 .my-class`
 
-- Combined `html body` selectors remain untouched  
-  _e.g., `html body {}` → `html body {}`_
+- Combined `html body` selectors remain untouched.
+  e.g. `html body {}` → `html body {}`
 
-- A combined selector like `html body .my-class` results in only `.my-class` being scoped  
-  _e.g., `html body .my-class` → `html body .eufemia-scope--1_2_3 .my-class`_
+- A combined selector like `html body .my-class` results in only `.my-class` being scoped.
+  e.g. `html body .my-class` → `html body .eufemia-scope--1_2_3 .my-class`
 
-- Class selectors are prefixed with the scope class  
-  _e.g., `.my-class` → `.eufemia-scope--1_2_3 .my-class`_
+- Class selectors are prefixed with the scope class.
+  e.g. `.my-class` → `.eufemia-scope--1_2_3 .my-class`
 
-- ID selectors are scoped similarly  
-  _e.g., `#header` → `.eufemia-scope--1_2_3 #header`_
+- ID selectors are scoped similarly.
+  e.g. `#header` → `.eufemia-scope--1_2_3 #header`
 
-- Tag selectors like `strong`, `em`, or `input` are scoped  
-  _e.g., `strong` → `.eufemia-scope--1_2_3 strong`_
+- Tag selectors like `strong`, `em`, or `input` are scoped.
+  e.g. `strong` → `.eufemia-scope--1_2_3 strong`
 
-- Attribute selectors are scoped  
-  _e.g., `[data-test]` → `.eufemia-scope--1_2_3 [data-test]`_
+- Attribute selectors are scoped.
+  e.g. `[data-test]` → `.eufemia-scope--1_2_3 [data-test]`
 
-- Pseudo-classes are preserved after scoping  
-  _e.g., `.button:hover` → `.eufemia-scope--1_2_3 .button:hover`_
+- Pseudo-classes are preserved after scoping.
+  e.g. `.button:hover` → `.eufemia-scope--1_2_3 .button:hover`
 
-- Pseudo-elements are scoped  
-  _e.g., `.icon::before` → `.eufemia-scope--1_2_3 .icon::before`_
+- Pseudo-elements are scoped.
+  e.g. `.icon::before` → `.eufemia-scope--1_2_3 .icon::before`
 
-- The universal selector `*`, and pseudo-elements like `::before` and `::after`, are scoped when grouped  
-  _e.g., `*, ::before, ::after` → `.eufemia-scope--1_2_3 *, .eufemia-scope--1_2_3 ::before, .eufemia-scope--1_2_3 ::after`_
+- The universal selector `*`, and pseudo-elements like `::before` and `::after`, are scoped when grouped.
+  e.g. `*, ::before, ::after` → `.eufemia-scope--1_2_3 *, .eufemia-scope--1_2_3 ::before, .eufemia-scope--1_2_3 ::after`
 
-- Selectors starting with `:not(#isolated)` are excluded from scoping  
-  _e.g., `:not(#isolated) .x` → `.x`_
+- Selectors starting with `:not(#isolated)` are excluded from scoping.
+  e.g. `:not(#isolated) .x` → `.x`
 
-- Selectors already containing the correct scope (e.g., `.eufemia-scope--something`) are not scoped again
+- Selectors already containing the correct scope (e.g. `.eufemia-scope--something`) are not scoped again.
 
 - `@keyframes` are omitted from scoping for now.
 
 #### CSS Modules Specific
 
-- When `runAsCssModule` is `true`, scope classes are injected using `:global(...)`  
-  _e.g., `.my-class` → `:global(.eufemia-scope--1_2_3) .my-class`_
+- When `runAsCssModule` is `true`, scope classes are injected using `:global(...)`.
+  e.g. `.my-class` → `:global(.eufemia-scope--1_2_3) .my-class`
 
-- A top-level `:global` block is replaced with a scoped global  
-  _e.g., `:global {}` → `:global(.eufemia-scope--1_2_3) {}`_
+- A top-level `:global` block is replaced with a scoped global.
+  e.g. `:global {}` → `:global(.eufemia-scope--1_2_3) {}`
 
-- A leading `:global` selector chain is wrapped accordingly  
-  _e.g., `:global .x` → `:global(.eufemia-scope--1_2_3) :global .x`_
+- A leading `:global` selector chain is wrapped accordingly.
+  e.g. `:global .x` → `:global(.eufemia-scope--1_2_3) :global .x`
 
 #### Special Configurations
 
-- `replaceClassNames`: Specific class names are renamed before scoping  
-  _e.g., `.old-name` → `.eufemia-scope--1_2_3 .new-name`_
+- `replaceClassNames`: Specific class names are renamed before scoping.
+  e.g. `.old-name` → `.eufemia-scope--1_2_3 .new-name`
+  with `{ 'old-name': 'new-name' }`
 
-- `skipClassNames`: These classes are never scoped  
-  _e.g., `.skip-me` → `.skip-me`_
+- `skipClassNames`: These classes are never scoped.
+  e.g. `.skip-me` → `.skip-me`
+  with `['skip-me']`
 
-- `sharedScopeHash`: Selectors are duplicated for each shared scope  
-  _e.g., `.my-class` → `.main-scope .my-class, .shared-1 .my-class, .shared-2 .my-class`_
+- `sharedScopeHash`: Selectors are duplicated for each shared scope.
+  e.g. `.my-class` → `.main-scope .my-class, .shared-1 .my-class, .shared-2 .my-class`
+  with `sharedScopeHash: () => ['shared-1', 'shared-2']`
 
-- `scopeHash: 'auto'`: Reads from `scope-hash.txt` if available, or falls back to default  
-  _e.g., file contains `my-hash` → `.my-hash .my-class`_
+- `scopeHash: 'auto'`: Reads from `scope-hash.txt` if available, or falls back to default.
+  e.g. (`scopeHash: 'my-hash'`) `my-hash` → `.my-hash .my-class`
+  with a string: `scopeHash: 'my-hash'`
+  with a function: `scopeHash: (file) => 'my-hash'`
