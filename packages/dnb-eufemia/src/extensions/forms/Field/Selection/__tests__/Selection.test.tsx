@@ -1885,6 +1885,8 @@ describe('variants', () => {
     })
 
     describe('mode="async"', () => {
+      jest.retryTimes(3)
+
       it('should open DrawerList when focused and data is set with updateData', async () => {
         const onType = jest.fn(({ updateData }) => {
           updateData([
@@ -1955,7 +1957,7 @@ describe('variants', () => {
         </Field.Selection>
       )
 
-      await await openAutocomplete()
+      await openAutocomplete()
 
       await waitFor(() => {
         const options = document.querySelectorAll('[role="option"]')

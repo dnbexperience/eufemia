@@ -17,6 +17,7 @@ import DrawerList, {
   DrawerListDataArray,
   DrawerListData,
 } from '../DrawerList'
+import { IsolatedStyleScope } from '../../../shared'
 
 import {
   mockImplementationForDirectionObserver,
@@ -851,6 +852,45 @@ describe('DrawerList portal', () => {
     })
 
     rerender(<DrawerList opened no_animation independent_width />)
+
+    expect(styleElement.getAttribute('style')).toBe(
+      'width: 320px; --drawer-list-width: 20rem; top: 0px; left: 0px;'
+    )
+
+    const element = document.querySelector('.dnb-drawer-list')
+    expect(Array.from(element.classList)).toContain(
+      'dnb-drawer-list--independent-width'
+    )
+  })
+
+  it('will set correct width when independent_width is set and isolated style scope is used', async () => {
+    const style = {
+      getPropertyValue: () => 20,
+    } as undefined
+
+    jest.spyOn(window, 'getComputedStyle').mockImplementation(() => style)
+
+    const { rerender } = render(
+      <IsolatedStyleScope>
+        <DrawerList opened no_animation />
+      </IsolatedStyleScope>
+    )
+
+    const styleElement = document.querySelector(
+      '.dnb-drawer-list__portal__style'
+    )
+
+    await waitFor(() => {
+      expect(styleElement.getAttribute('style')).toBe(
+        'width: 64px; --drawer-list-width: 4rem; top: 0px; left: 0px;'
+      )
+    })
+
+    rerender(
+      <IsolatedStyleScope>
+        <DrawerList opened no_animation independent_width />
+      </IsolatedStyleScope>
+    )
 
     expect(styleElement.getAttribute('style')).toBe(
       'width: 320px; --drawer-list-width: 20rem; top: 0px; left: 0px;'

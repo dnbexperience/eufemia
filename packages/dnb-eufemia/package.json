@@ -25,6 +25,7 @@
     "build:copy": "./scripts/postbuild/copy-build-artifacts.sh",
     "build:es": "./scripts/postbuild/babel-es.sh",
     "build:esm": "./scripts/postbuild/babel-esm.sh",
+    "build:lebab": "babel-node --extensions .ts ./src/plugins/postcss-isolated-style-scope/scripts/transformToESM",
     "build:mini": "yarn build:ci && rm -rf ./build/es ./build/esm ./build/assets/icons ./build/assets/flags && find ./build/assets/fonts/ -type f \\( -name \"*.eot\" -o -name \"*.otf\" -o -name \"*.ttf\" -o -name \"*.zip\" \\) -delete",
     "build:pack": "yarn build && yarn publish:prepare && cd ./build && npm pack",
     "build:packages": "./scripts/postbuild/build-packages.sh",
@@ -113,6 +114,7 @@
     "classnames": "2.5.1",
     "core-js": "3.41.0",
     "date-fns": "2.25.0",
+    "postcss-selector-parser": "7.1.0",
     "prop-types": "15.8.1",
     "what-input": "5.2.12"
   },
@@ -233,6 +235,7 @@
     "jest-playwright-preset": "4.0.0",
     "jest-raw-loader": "1.0.1",
     "jest-tobetype": "1.2.3",
+    "lebab": "3.2.7",
     "lint-staged": "11.2.6",
     "lockfile-lint": "4.6.2",
     "lodash.isequal": "4.5.0",

@@ -9,6 +9,10 @@ const { isCI } = require('repo-utils')
 const { init } = require('./scripts/version.js')
 const { createFilePath } = require('gatsby-source-filesystem')
 const { shouldUsePrebuild } = require('./src/core/BuildTools.cjs')
+const {
+  enableBuildStyleScope,
+  enablePortalStyleScope,
+} = require('@dnb/eufemia/src/plugins/postcss-isolated-style-scope/config')
 
 const PREBUILD_EXISTS = shouldUsePrebuild()
 
@@ -278,6 +282,12 @@ exports.onCreateWebpackConfig = ({
         'process.env.ALGOLIA_SEARCH_KEY': JSON.stringify(
           process.env.ALGOLIA_SEARCH_KEY ||
             '6cf238b7456ffd9f7a400d8de37318a3',
+        ),
+        'process.env.ENABLE_BUILD_STYLE_SCOPE': JSON.stringify(
+          enableBuildStyleScope(),
+        ),
+        'process.env.ENABLE_PORTAL_STYLE_SCOPE': JSON.stringify(
+          enablePortalStyleScope(),
         ),
       }),
     ],

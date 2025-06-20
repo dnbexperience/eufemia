@@ -18,6 +18,10 @@ import {
   transformPostcss,
   transformCssnano,
 } from './transformUtils'
+import postcssIsolatePlugin from '../../../src/plugins/postcss-isolated-style-scope'
+import postcssFontUrlRewritePlugin from '../../../src/plugins/postcss-font-url-rewrite'
+import { enableBuildStyleScope } from '../../../src/plugins/postcss-isolated-style-scope/config'
+import { getFontBasePath } from '../../../src/plugins/postcss-font-url-rewrite/config'
 
 // import the post css config
 import postcssConfig from '../config/postcssConfig'
@@ -59,7 +63,8 @@ export const runFactory = (
     log.start('> PrePublish: transforming main style')
 
     try {
-      const cloneSink = clone.sink()
+      const cloneMin = clone.sink()
+      const cloneScope = clone.sink()
 
       const stream = gulp
         .src(src, {
@@ -71,11 +76,46 @@ export const runFactory = (
             extname: '.css',
           })
         )
+        .pipe(cloneScope)
         .pipe(transform('utf8', transformPostcss(postcssConfig({ sass }))))
-        .pipe(cloneSink)
+        .pipe(cloneMin)
         .pipe(transform('utf8', transformCssnano({ reduceIdents: false })))
         .pipe(rename({ suffix: '.min' }))
-        .pipe(cloneSink.tap())
+        .pipe(cloneMin.tap())
+
+      // Create a second bundle with scoped styles
+      if (enableBuildStyleScope()) {
+        cloneScope
+          .tap()
+          .pipe(
+            transform(
+              'utf8',
+              transformPostcss(
+                postcssConfig(
+                  { sass },
+                  {
+                    plugins: [
+                      postcssIsolatePlugin({
+                        verbose: true,
+                      }),
+                      postcssFontUrlRewritePlugin({
+                        basePath: getFontBasePath(),
+                        verbose: true,
+                      }),
+                    ],
+                  }
+                )
+              )
+            )
+          )
+          .pipe(rename({ suffix: '--isolated' }))
+          .pipe(cloneMin)
+          .pipe(
+            transform('utf8', transformCssnano({ reduceIdents: false }))
+          )
+          .pipe(rename({ suffix: '.min' }))
+          .pipe(cloneMin.tap())
+      }
 
       if (!returnResult && !returnFiles) {
         stream.pipe(

@@ -4,6 +4,7 @@
  */
 
 import { loadScss } from '../../../../src/core/jest/jestSetup'
+import { getFontBasePath } from '../../../../src/plugins/postcss-font-url-rewrite/config'
 import { runFactory } from '../makeMainStyle'
 import { isCI } from 'repo-utils'
 
@@ -18,7 +19,7 @@ jest.mock('ora', () => {
 })
 
 if (isCI) {
-  jest.setTimeout(30e3)
+  jest.setTimeout(50e3)
 
   describe('makeMainStyle transforms "core" SASS to CSS', () => {
     beforeAll(async () => {
@@ -138,6 +139,75 @@ if (isCI) {
       expect(global.theme[0]).toMatch(
         new RegExp('("|\\()../../../assets/fonts/dnb/')
       )
+    })
+  })
+
+  describe('makeMainStyle with enableBuildStyleScope', () => {
+    // Ensure enableBuildStyleScope returns true
+    let originalEnv
+    beforeAll(() => {
+      originalEnv = process.env.NODE_ENV
+      process.env.NODE_ENV = 'production'
+      jest.resetModules()
+    })
+    afterAll(() => {
+      process.env.NODE_ENV = originalEnv
+    })
+
+    // Mock console.log to suppress lines containing '✨'
+    const originalConsoleLog = console.log
+    beforeAll(() => {
+      console.log = (...args) => {
+        if (
+          args.some((arg) => typeof arg === 'string' && arg.includes('✨'))
+        )
+          return
+        originalConsoleLog(...args)
+      }
+    })
+    afterAll(() => {
+      console.log = originalConsoleLog
+    })
+
+    // Run the factory
+    beforeAll(async () => {
+      const { runFactory } = await import('../makeLibStyles')
+      global.css = await runFactory(
+        './src/style/themes/theme-ui/ui-theme-basis.scss',
+        {
+          returnResult: true,
+        }
+      )
+      global.files = await runFactory(
+        './src/style/themes/theme-ui/ui-theme-basis.scss',
+        {
+          returnFiles: true,
+        }
+      )
+    })
+
+    it('should transform CSS to have scoped selectors', async () => {
+      expect(global.css[0]).toContain('.eufemia-scope--default ')
+
+      const count = (
+        global.css[0].match(/\.eufemia-scope--default /g) || []
+      ).length
+      expect(count).toBeGreaterThan(50)
+    })
+
+    it('should contain the DNB Skeleton font URL in the CSS', () => {
+      expect(global.css[0]).toContain(
+        `${getFontBasePath()}dnb/DNB-Regular.woff2`
+      )
+    })
+
+    it('should generate isolated CSS files when enableBuildStyleScope is true', async () => {
+      expect(global.files.some((f) => f.includes('--isolated.css'))).toBe(
+        true
+      )
+      expect(
+        global.files.some((f) => f.includes('--isolated.min.css'))
+      ).toBe(true)
     })
   })
 } else {

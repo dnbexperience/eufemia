@@ -103,7 +103,7 @@ describe('babel build', () => {
     const allowedFiles = [
       '/BuildInfo.cjs',
       '/BuildInfoData.cjs',
-      '/handleScopeHash.cjs',
+      '/plugin-scope-hash.cjs',
       '/dnb-ui-lib.min.mjs',
       '/dnb-ui-basis.min.mjs',
       '/dnb-ui-components.min.mjs',
@@ -531,6 +531,29 @@ describe('style build', () => {
         'utf-8'
       )
       expect(content).not.toContain(`\\`)
+    }
+
+    {
+      const content = fs.readFileSync(
+        path.resolve(
+          packpath.self(),
+          `build${stage}/style/dnb-ui-basis.min.css`
+        ),
+        'utf-8'
+      )
+      expect(content).toContain('html{font-size:100%}')
+    }
+
+    {
+      const content = fs.readFileSync(
+        path.resolve(
+          packpath.self(),
+          `build${stage}/style/dnb-ui-basis--isolated.min.css`
+        ),
+        'utf-8'
+      )
+      const matchCount = (content.match(/\.eufemia-scope--/g) || []).length
+      expect(matchCount).toBeGreaterThan(100)
     }
   })
 })
