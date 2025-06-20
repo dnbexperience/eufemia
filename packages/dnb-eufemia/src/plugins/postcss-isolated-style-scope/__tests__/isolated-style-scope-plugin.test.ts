@@ -473,26 +473,26 @@ describe('isolated-style-scope-plugin', () => {
       )
     })
 
-    it('should not scope when selector starts with ":not(#isolated) "', async () => {
+    it('should not scope when selector starts with "[skip-isolation] "', async () => {
       return await run(
-        ':not(#isolated) #id-selector { color: red; }',
+        '[skip-isolation] #id-selector { color: red; }',
         '#id-selector { color: red; }',
         { scopeHash: 'test-scope' }
       )
     })
 
-    it('should not scope when selector has ":not(#isolated)"', async () => {
+    it('should not scope when selector has "[skip-isolation]"', async () => {
       return await run(
-        'body .some-selector :not(#isolated) #some-id { color: red; }',
+        'body .some-selector [skip-isolation] #some-id { color: red; }',
         'body .some-selector #some-id { color: red; }',
         { scopeHash: 'test-scope' }
       )
     })
 
-    it('should scope when selector starts with :not(#isolated)*', async () => {
+    it('should scope when selector starts with [skip-isolation]*', async () => {
       return await run(
-        ':not(#isolated)-something #id-selector { color: red; }',
-        '.test-scope :not(#isolated)-something #id-selector { color: red; }',
+        '[skip-isolation]-something #id-selector { color: red; }',
+        '.test-scope [skip-isolation]-something #id-selector { color: red; }',
         { scopeHash: 'test-scope' }
       )
     })

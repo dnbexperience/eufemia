@@ -162,10 +162,10 @@ import '@dnb/eufemia/style/components/button/button--isolated.min.css'
 
 ### Omit selectors from the scope
 
-You can prepend your selectors with `:not(#isolated)` which will omit the scope class from the selector. Also, the selector `:not(#isolated)` will be removed.
+You can prepend your selectors with `[skip-isolation]` which will omit the scope class from the selector. Also, the selector `[skip-isolation]` will be removed.
 
 ```css
-:not(#isolated) .my-global-class {
+[skip-isolation] .my-global-class {
 }
 ```
 
@@ -265,10 +265,13 @@ Will become:
 
 - CSS `:root` selectors are rewritten to target the scoped container.
   e.g. `:root {}` → `.eufemia-scope--1_2_3 {}`
-- A `html` selector is left untouched and continues to target the global `<html>` element.
-  e.g. `html {}` → `html {}`
+- Selectors starting with `[skip-isolation]` are excluded from scoping.
+  e.g. `[skip-isolation] .x` → `.x`
 
 #### Additional Cases
+
+- A `html` selector is left untouched and continues to target the global `<html>` element.
+  e.g. `html {}` → `html {}`
 
 - A `body` selector remains unchanged.
   e.g. `body {}` → `body {}`
@@ -302,9 +305,6 @@ Will become:
 
 - The universal selector `*`, and pseudo-elements like `::before` and `::after`, are scoped when grouped.
   e.g. `*, ::before, ::after` → `.eufemia-scope--1_2_3 *, .eufemia-scope--1_2_3 ::before, .eufemia-scope--1_2_3 ::after`
-
-- Selectors starting with `:not(#isolated)` are excluded from scoping.
-  e.g. `:not(#isolated) .x` → `.x`
 
 - Selectors already containing the correct scope (e.g. `.eufemia-scope--something`) are not scoped again.
 

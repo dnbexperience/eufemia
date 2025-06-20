@@ -313,13 +313,10 @@ const postcssIsolateStyle = (opts = {}) => {
 
         const processedSelectors = []
         rule.selectors.forEach((selector) => {
-          // Check if selector contains :not(#isolated) and remove it
-          if (selector.includes(':not(#isolated) ')) {
+          // Check if selector contains [skip-isolation] and remove it
+          if (selector.includes('[skip-isolation] ')) {
             processedSelectors.push(
-              selector
-                .replace(/\s*:not\(#isolated\)\s*/, ' ')
-                .replace(/\s+/g, ' ')
-                .trim()
+              selector.replace(/\[skip-isolation\]\s*/g, '').trim()
             )
             return
           }
