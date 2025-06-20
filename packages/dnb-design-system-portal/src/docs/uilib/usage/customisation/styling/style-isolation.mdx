@@ -144,6 +144,12 @@ render(
 )
 ```
 
+Optionally, you can provide a different scope hash to the hook if you need to retrieve an element from a nested scope:
+
+```tsx
+const { getScopeElement } = useIsolatedStyleScope('my-scope')
+```
+
 ## Additional information
 
 ### Isolated CSS files

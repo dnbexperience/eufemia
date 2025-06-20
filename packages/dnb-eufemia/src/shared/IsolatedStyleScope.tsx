@@ -19,11 +19,15 @@ export const IsolatedStyleScopeContext = React.createContext<
     generatedScopeHash: string
     scopeElementRef: React.RefObject<HTMLDivElement>
     internalKeys: Set<string>
+    parentContextMap?: Map<string, any>
   } & Pick<
     IsolatedStyleScopeProps,
     'scopeHash' | 'disableCoreStyleWrapper' | 'style'
   >
 >(undefined)
+
+// Map to keep track of parent contexts by generatedScopeHash
+const parentScopeContextMap = new Map<string, any>()
 
 export default function IsolatedStyleScope(
   props: IsolatedStyleScopeProps
@@ -41,6 +45,28 @@ export default function IsolatedStyleScope(
   const localRef = useRef<HTMLDivElement>()
   const scopeElementRef = innerRef || localRef
 
+  // Determine the generated scope hash for this instance
+  const generatedScopeHash =
+    scopeHash === 'auto'
+      ? styleScopeContext?.generatedScopeHash || getStyleScopeHash()
+      : scopeHash
+
+  // If we are nested and the scope hash is different, render a new scope
+  const isNestedWithNewScope =
+    styleScopeContext &&
+    styleScopeContext.generatedScopeHash &&
+    styleScopeContext.generatedScopeHash !== generatedScopeHash
+
+  // Always keep track of parent context if nested
+  const parentContextMap =
+    styleScopeContext?.parentContextMap || parentScopeContextMap
+  if (styleScopeContext?.generatedScopeHash) {
+    parentContextMap.set(
+      styleScopeContext.generatedScopeHash,
+      styleScopeContext
+    )
+  }
+
   if (
     // - When nested, we expect a scopeHash to be passed
     // else – we will not render the component with the scope a second time.
@@ -48,12 +74,9 @@ export default function IsolatedStyleScope(
   ) {
     if (
       uniqueKey === false ||
-      !styleScopeContext?.internalKeys?.has(uniqueKey)
+      !styleScopeContext?.internalKeys?.has(uniqueKey) ||
+      isNestedWithNewScope
     ) {
-      const generatedScopeHash =
-        scopeHash === 'auto'
-          ? styleScopeContext?.generatedScopeHash || getStyleScopeHash()
-          : scopeHash
       const internalKeys = new Set(styleScopeContext?.internalKeys || [])
       if (typeof uniqueKey === 'string') {
         internalKeys.add(uniqueKey)
@@ -68,6 +91,7 @@ export default function IsolatedStyleScope(
             style,
             scopeElementRef,
             internalKeys: internalKeys,
+            parentContextMap,
           }}
         >
           <div
@@ -115,13 +139,22 @@ export function getCurrentStyleScopeElement(
   return fallback || document.body
 }
 
-export function useIsolatedStyleScope() {
+// Updated hook to support looking up by scopeHash
+export function useIsolatedStyleScope(scopeHash?: string) {
   const styleScopeContext = useContext(IsolatedStyleScopeContext)
-  const { scopeElementRef } = styleScopeContext || {}
+  const { scopeElementRef, generatedScopeHash, parentContextMap } =
+    styleScopeContext || {}
 
   const getScopeElement = useCallback(() => {
-    return scopeElementRef?.current
-  }, [scopeElementRef])
+    if (!scopeHash || scopeHash === generatedScopeHash) {
+      return scopeElementRef?.current
+    }
+
+    // Look up parent context for the given scopeHash
+    const map = parentContextMap || parentScopeContextMap
+    const parentCtx = map.get(scopeHash)
+    return parentCtx?.scopeElementRef?.current
+  }, [scopeElementRef, generatedScopeHash, parentContextMap, scopeHash])
 
   return { getScopeElement }
 }
