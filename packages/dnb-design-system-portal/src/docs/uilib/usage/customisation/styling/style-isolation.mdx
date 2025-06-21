@@ -268,6 +268,15 @@ Will become:
 - Selectors starting with `[skip-isolation]` are excluded from scoping.
   e.g. `[skip-isolation] .x` → `.x`
 
+Here's how you can make a selector global when using CSS Modules:
+
+```scss
+:global {
+  [skip-isolation] .global-selector {
+  }
+}
+```
+
 #### Additional Cases
 
 - A `html` selector is left untouched and continues to target the global `<html>` element.
