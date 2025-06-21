@@ -80,15 +80,20 @@ const postcssIsolateStyle = (opts = {}) => {
 
         // Special‐case lone :global
         if (
+          isCssModule &&
           rule.selectors.length === 1 &&
           rule.selectors[0].trim() === ':global'
         ) {
-          // in CSS-Module mode wrap in one :global(...)
-          if (isCssModule) {
-            rule.selector = `:global(.${scopeWithFallback})`
-          } else {
-            rule.selector = `.${scopeWithFallback}`
+          // Check if we have some selectors which should be skipped
+          const hasSelectorsToSkip = rule.nodes.some((n) => {
+            return isHtmlBodyCombo(n)
+          })
+
+          if (hasSelectorsToSkip) {
+            return
           }
+
+          rule.selector = `:global(.${scopeWithFallback})`
           return
         }
 
@@ -96,7 +101,7 @@ const postcssIsolateStyle = (opts = {}) => {
         if (
           rule.selectors.length === 1 &&
           (rule.selectors[0].trim() === ':root' ||
-            rule.selectors[0].trim() === ':global :root')
+            (isCssModule && rule.selectors[0].trim() === ':global :root'))
         ) {
           const scopes = [scopeWithFallback]
 
@@ -122,25 +127,12 @@ const postcssIsolateStyle = (opts = {}) => {
         const processSelector = (selector, scope) =>
           selectorParser((selectors) => {
             selectors.each((group) => {
-              // 1. skip "root" selectors (html, body, or html body)
-              const onlyHtmlOrBody =
-                group.nodes.length === 1 &&
-                group.nodes[0].type === 'tag' &&
-                (group.nodes[0].value === 'html' ||
-                  group.nodes[0].value === 'body')
+              // 1. Skip html, body, or html body selectors
+              if (isHtmlOrBodySelector(group.nodes)) {
+                return
+              }
 
-              const htmlBodyCombo =
-                group.nodes.length >= 3 &&
-                group.nodes.every(
-                  (n) =>
-                    (n.type === 'tag' &&
-                      (n.value === 'html' || n.value === 'body')) ||
-                    n.type === 'combinator'
-                )
-
-              if (onlyHtmlOrBody || htmlBodyCombo) return
-
-              // Replace class names if matched
+              // 2. Replace class names if matched
               group.nodes.forEach((n) => {
                 if (
                   n.type === 'class' &&
@@ -383,3 +375,89 @@ Settings: ${JSON.stringify({ isCssModule }, null, 2)}
 
 postcssIsolateStyle.postcss = true
 module.exports = postcssIsolateStyle
+
+// Helper to check if a selector is html, body, or html body
+function isHtmlOrBodySelector(nodes) {
+  if (!nodes || nodes.length === 0) {
+    return false
+  }
+
+  // Create a "clean" list of selector parts, ignoring whitespace combinators
+  // which selector-parser adds. We only care about tags and pseudos.
+  const parts = nodes.filter(
+    (n) => !(n.type === 'combinator' && n.value.trim() === '')
+  )
+
+  // Case 1: :global(html), :global(body), :global(html body)
+  if (
+    parts.length === 1 &&
+    parts[0].type === 'pseudo' &&
+    parts[0].value === ':global' &&
+    parts[0].nodes
+  ) {
+    // Recurse on the selector inside :global()
+    return isHtmlOrBodySelector(parts[0].nodes[0].nodes)
+  }
+
+  // Case 2: `html`, `body`, `html body`
+  if (parts[0].type === 'tag' && parts[0].value === 'html') {
+    if (parts.length === 1) return true // `html`
+    if (
+      parts.length === 2 &&
+      parts[1].type === 'tag' &&
+      parts[1].value === 'body'
+    ) {
+      return true // `html body`
+    }
+  }
+  if (
+    parts.length === 1 &&
+    parts[0].type === 'tag' &&
+    parts[0].value === 'body'
+  ) {
+    return true // `body`
+  }
+
+  // Case 3: `:global html` or `:global body`
+  if (
+    parts.length === 2 &&
+    parts[0].type === 'pseudo' &&
+    parts[0].value === ':global' &&
+    parts[1].type === 'tag' &&
+    ['html', 'body'].includes(parts[1].value)
+  ) {
+    return true
+  }
+
+  return false
+}
+
+function isHtmlBodyCombo(node) {
+  if (node.type !== 'rule') {
+    return false
+  }
+
+  const selector = node.selector
+  const ast = selectorParser().astSync(selector.trim())
+
+  return ast.nodes.some((group) => {
+    const nodes = group.nodes
+    // Single tag html|body
+    const onlyHtmlOrBody =
+      nodes.length === 1 &&
+      nodes[0].type === 'tag' &&
+      (nodes[0].value === 'html' || nodes[0].value === 'body')
+
+    // html body (with a space combinator)
+    const htmlBodyCombo =
+      nodes.length >= 3 &&
+      nodes[0].type === 'tag' &&
+      nodes[0].value === 'html' &&
+      nodes[1].type === 'combinator' &&
+      nodes[1].value === ' ' &&
+      nodes[2].type === 'tag' &&
+      nodes[2].value === 'body'
+
+    return onlyHtmlOrBody || htmlBodyCombo
+  })
+}
