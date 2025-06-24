@@ -1199,10 +1199,12 @@ describe('variants', () => {
 
       await openDropdown()
 
-      const options = document.querySelectorAll('[role="option"]')
-      expect(options.length).toEqual(2)
-      expect(options[0].getAttribute('aria-selected')).toBe('false')
-      expect(options[1].getAttribute('aria-selected')).toBe('false')
+      await waitFor(() => {
+        const options = document.querySelectorAll('[role="option"]')
+        expect(options.length).toEqual(2)
+        expect(options[0].getAttribute('aria-selected')).toBe('false')
+        expect(options[1].getAttribute('aria-selected')).toBe('false')
+      })
     })
 
     it('precede option title over children', async () => {
@@ -1684,10 +1686,12 @@ describe('variants', () => {
 
       await openAutocomplete()
 
-      const options = document.querySelectorAll('[role="option"]')
-      expect(options.length).toEqual(2)
-      expect(options[0].getAttribute('aria-selected')).toBe('false')
-      expect(options[1].getAttribute('aria-selected')).toBe('false')
+      await waitFor(() => {
+        const options = document.querySelectorAll('[role="option"]')
+        expect(options.length).toEqual(2)
+        expect(options[0].getAttribute('aria-selected')).toBe('false')
+        expect(options[1].getAttribute('aria-selected')).toBe('false')
+      })
     })
 
     it('renders help', () => {
