@@ -25,6 +25,8 @@ describe('DateFormat', () => {
   })
 
   it('should return an invalid date message if the date is invalid', () => {
+    global.console.log = jest.fn()
+
     const { rerender } = render(<DateFormat>2025-13-01</DateFormat>)
 
     const dateFormat = () => document.querySelector('.dnb-date-format')
@@ -65,6 +67,8 @@ describe('DateFormat', () => {
 
     rerender(<DateFormat value={new Date('2026-12-99')} />)
     expect(dateFormat()).toHaveTextContent('Ugyldig dato: Invalid Date')
+
+    expect(global.console.log).toHaveBeenCalledTimes(7)
   })
 
   it('should have `value` prop take precedence over `children`', () => {
