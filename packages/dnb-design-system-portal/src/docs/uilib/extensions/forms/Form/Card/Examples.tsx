@@ -37,7 +37,7 @@ export const Outset = () => {
 
         <Form.Card outset={false}>
           <P>
-            Outset turned off, will still breakout (go fullwidth) on small
+            Outset turned off, will still breakout (go full width) on small
             screens
           </P>
         </Form.Card>
