@@ -1572,8 +1572,10 @@ describe('variants', () => {
 
       await openDropdown()
 
-      const option = document.querySelector('[role="option"]')
-      expect(option.getAttribute('style')).toBe('color: red;')
+      await waitFor(() => {
+        const option = document.querySelector('[role="option"]')
+        expect(option.getAttribute('style')).toBe('color: red;')
+      })
     })
 
     describe('ARIA', () => {
@@ -2263,9 +2265,10 @@ describe('variants', () => {
       )
 
       await openAutocomplete()
-
-      const option = document.querySelector('[role="option"]')
-      expect(option.getAttribute('style')).toBe('color: red;')
+      await waitFor(() => {
+        const option = document.querySelector('[role="option"]')
+        expect(option.getAttribute('style')).toBe('color: red;')
+      })
     })
 
     describe('ARIA', () => {
