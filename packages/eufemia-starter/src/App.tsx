@@ -8,7 +8,7 @@ export default function App() {
         <Form.Card>
           <Form.MainHeading>Eufemia Starter</Form.MainHeading>
           <P>
-            Feel free to Fork this StackBlitz and paste your example here
+            Feel free to fork this StackBlitz and paste your example here
             or make changes to your needs.
           </P>
 
