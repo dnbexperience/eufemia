@@ -1,0 +1,22 @@
+---
+showTabs: true
+---
+
+import TranslationsTable from 'dnb-design-system-portal/src/shared/parts/TranslationsTable'
+import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
+import { FieldProperties } from '@dnb/eufemia/src/extensions/forms/Field/FieldDocs'
+import { DateOfBirthProperties } from '@dnb/eufemia/src/extensions/forms/Field/DateOfBirth/DateOfBirthDocs'
+
+## Properties
+
+### Field-specific properties
+
+<PropertiesTable props={DateOfBirthProperties} />
+
+### General properties
+
+<PropertiesTable props={FieldProperties} omit={['onBlurValidator']} />
+
+## Translations
+
+<TranslationsTable localeKey={['DateOfBirth', 'Field']} />
