@@ -7,7 +7,7 @@ import { createMockFile } from '../../../../../../docs/uilib/components/upload/E
 export const Placeholder = () => {
   return (
     <ComponentBox>
-      <Value.Upload placeholder="No values given" />
+      <Value.Upload placeholder="No value given" />
     </ComponentBox>
   )
 }

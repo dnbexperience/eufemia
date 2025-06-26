@@ -95,6 +95,14 @@ describe('Field.Email', () => {
     expect(input).toHaveAttribute('autocomplete', 'email')
   })
 
+  it('should render autoComplete when provided', () => {
+    render(<Field.Email autoComplete="off" />)
+
+    const input = document.querySelector('input')
+
+    expect(input).toHaveAttribute('autocomplete', 'off')
+  })
+
   it('should have inputmode of email', () => {
     render(<Field.Email />)
 

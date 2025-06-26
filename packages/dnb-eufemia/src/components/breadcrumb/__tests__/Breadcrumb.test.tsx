@@ -301,19 +301,19 @@ describe('Breadcrumb', () => {
         '.dnb-breadcrumb__collapse .dnb-breadcrumb__multiple'
       )
 
-    // Collapsable menu should not be visible before toggle click
+    // Collapsible menu should not be visible before toggle click
     expect(collapseSection()).toBeNull()
 
     await userEvent.click(toggleButton())
 
-    // Collapsable should be visible now
+    // Collapsible should be visible now
     expect(collapseSection()).toBeInTheDocument()
 
     act(() => {
       setMedia({ width: '80em' })
     })
 
-    // Collapsable menu should auto-close when screen goes large
+    // Collapsible menu should auto-close when screen goes large
     await waitFor(() => {
       expect(collapseSection()).toBeNull()
     })

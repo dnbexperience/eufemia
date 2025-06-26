@@ -165,6 +165,20 @@ describe('Field.PostalCodeAndCity', () => {
     expect(city).toHaveAttribute('autocomplete', 'address-level2')
   })
 
+  it('should support overriding autofill attributes', () => {
+    render(
+      <Field.PostalCodeAndCity
+        postalCode={{ autoComplete: 'off' }}
+        city={{ autoComplete: 'off' }}
+      />
+    )
+
+    const [code, city] = Array.from(document.querySelectorAll('input'))
+
+    expect(code).toHaveAttribute('autocomplete', 'off')
+    expect(city).toHaveAttribute('autocomplete', 'off')
+  })
+
   it('should iterate over array with itemPath support', () => {
     render(
       <Iterate.Array
