@@ -1,9 +1,11 @@
-<div align="center"> 
+<!-- markdownlint-disable MD033 MD041 -->
+<div align="center">
   <a href="https://eufemia.dnb.no/">
-    <img src="./logo.png" height="100" />
+    <img src="./logo.png" height="100" alt="Eufemia logo" />
   </a>
+<!-- markdownlint-enable MD033 MD041 -->
 
-  <h1>DNB's Design System</h1>
+# DNB's Design System
 
 ![Downloads](https://img.shields.io/npm/dt/@dnb/eufemia?style=flat-square)
 ![NPM version](https://img.shields.io/npm/v/@dnb/eufemia?style=flat-square)
@@ -35,10 +37,11 @@ More information can be found in the [faq](https://eufemia.dnb.no/contribute/faq
 Find more information about how to contribute in [Eufemia Portal - Contribute](https://eufemia.dnb.no/contribute).
 
 ### Our contributors
-
+<!-- markdownlint-disable MD033 -->
 <a href="https://github.com/dnbexperience/eufemia/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=dnbexperience/eufemia" />
+  <img src="https://contrib.rocks/image?repo=dnbexperience/eufemia" alt="Contributors" />
 </a>
+<!-- markdownlint-enable MD033 -->
 
 ## Licence
 
