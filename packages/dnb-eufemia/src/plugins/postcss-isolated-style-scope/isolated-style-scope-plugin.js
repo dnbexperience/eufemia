@@ -80,15 +80,19 @@ const postcssIsolateStyle = (opts = {}) => {
 
         // Special‐case lone :global
         if (
+          isCssModule &&
           rule.selectors.length === 1 &&
           rule.selectors[0].trim() === ':global'
         ) {
-          // in CSS-Module mode wrap in one :global(...)
-          if (isCssModule) {
+          const hasNestedRules =
+            Array.isArray(rule.nodes) &&
+            rule.nodes.some((n) => n.type === 'rule')
+
+          if (!hasNestedRules) {
+            // top‐level :global with only declarations → scope the entire block
             rule.selector = `:global(.${scopeWithFallback})`
-          } else {
-            rule.selector = `.${scopeWithFallback}`
           }
+
           return
         }
 
@@ -96,7 +100,7 @@ const postcssIsolateStyle = (opts = {}) => {
         if (
           rule.selectors.length === 1 &&
           (rule.selectors[0].trim() === ':root' ||
-            rule.selectors[0].trim() === ':global :root')
+            (isCssModule && rule.selectors[0].trim() === ':global :root'))
         ) {
           const scopes = [scopeWithFallback]
 
@@ -122,25 +126,22 @@ const postcssIsolateStyle = (opts = {}) => {
         const processSelector = (selector, scope) =>
           selectorParser((selectors) => {
             selectors.each((group) => {
-              // 1. skip “root” selectors (html, body, or html body)
-              const onlyHtmlOrBody =
-                group.nodes.length === 1 &&
-                group.nodes[0].type === 'tag' &&
-                (group.nodes[0].value === 'html' ||
-                  group.nodes[0].value === 'body')
+              // 1. Skip global selectors
+              if (isGlobalSelector(group.nodes)) {
+                return
+              }
+              // 1b. Skip global selectors inside :global block
+              if (
+                group.parent &&
+                group.parent.type === 'pseudo' &&
+                group.parent.value === ':global'
+              ) {
+                if (isGlobalSelector(group.nodes)) {
+                  return
+                }
+              }
 
-              const htmlBodyCombo =
-                group.nodes.length >= 3 &&
-                group.nodes.every(
-                  (n) =>
-                    (n.type === 'tag' &&
-                      (n.value === 'html' || n.value === 'body')) ||
-                    n.type === 'combinator'
-                )
-
-              if (onlyHtmlOrBody || htmlBodyCombo) return
-
-              // Replace class names if matched
+              // 2. Replace class names if matched
               group.nodes.forEach((n) => {
                 if (
                   n.type === 'class' &&
@@ -223,17 +224,41 @@ const postcssIsolateStyle = (opts = {}) => {
                 }
               }
 
-              // 5. compute insertion point: skip a leading html, and if followed by body skip that too
-              let insertIndex = 0
+              // 5. compute insertion point: skip html/body at the front
               let i = 0
 
-              // if it starts with <html>
+              // 5a. *only* strip a leading bare `:global` when it's the
+              // special "body *flattened global-block" case (e.g. ":global body *" or
+              // ":global html body *"), not for every selector that
+              // starts with `:global`.
+              if (
+                group.nodes[0]?.type === 'pseudo' &&
+                group.nodes[0].value === ':global' &&
+                // bare pseudo (no inner `(...)`)
+                (!group.nodes[0].nodes ||
+                  group.nodes[0].nodes.length === 0) &&
+                group.nodes[1]?.type === 'combinator' &&
+                group.nodes[2]?.type === 'tag' &&
+                ['html', 'body'].includes(group.nodes[2].value)
+              ) {
+                // skip ":global" + the space
+                i = 2
+                // skip any extra spaces
+                while (
+                  group.nodes[i] &&
+                  group.nodes[i].type === 'combinator'
+                ) {
+                  i++
+                }
+              }
+
+              // now skip an initial html (and optional body) just like before
               if (
                 group.nodes[i]?.type === 'tag' &&
                 group.nodes[i].value === 'html'
               ) {
                 i++
-                // skip any pseudo/attr attached to html
+                // skip html's pseudos/attrs…
                 while (
                   group.nodes[i] &&
                   (group.nodes[i].type === 'pseudo' ||
@@ -241,14 +266,14 @@ const postcssIsolateStyle = (opts = {}) => {
                 ) {
                   i++
                 }
-                // if next is " space + body", skip both
+                // then if it's " body" (with a space), skip that too
                 if (
                   group.nodes[i]?.type === 'combinator' &&
                   group.nodes[i + 1]?.type === 'tag' &&
                   group.nodes[i + 1].value === 'body'
                 ) {
                   i += 2
-                  // skip body’s pseudos/attrs
+                  // skip body's pseudos/attrs
                   while (
                     group.nodes[i] &&
                     (group.nodes[i].type === 'pseudo' ||
@@ -257,9 +282,7 @@ const postcssIsolateStyle = (opts = {}) => {
                     i++
                   }
                 }
-              }
-              // or if it starts directly with <body>
-              else if (
+              } else if (
                 group.nodes[i]?.type === 'tag' &&
                 group.nodes[i].value === 'body'
               ) {
@@ -272,7 +295,8 @@ const postcssIsolateStyle = (opts = {}) => {
                   i++
                 }
               }
-              insertIndex = i
+
+              const insertIndex = i
 
               // 6. build the scope node
               const space = selectorParser.combinator({ value: ' ' })
@@ -280,14 +304,14 @@ const postcssIsolateStyle = (opts = {}) => {
               const asGlobal = hadGlobalWrapper || isCssModule
 
               if (asGlobal) {
-                // <…> we want “:global(.scope)”
+                // <…> we want ":global(.scope)"
                 const inner = selectorParser.selector()
                 inner.append(scopeClass)
                 const globalPseudo = selectorParser.pseudo({
                   value: ':global',
                   nodes: [inner],
                 })
-                // inject “ <global(.scope)> ” at insertIndex
+                // inject " <global(.scope)> " at insertIndex
                 group.nodes.splice(
                   insertIndex,
                   0,
@@ -296,7 +320,7 @@ const postcssIsolateStyle = (opts = {}) => {
                   space
                 )
               } else {
-                // plain “ .scope ”
+                // plain " .scope "
                 group.nodes.splice(
                   insertIndex,
                   0,
@@ -313,15 +337,39 @@ const postcssIsolateStyle = (opts = {}) => {
 
         const processedSelectors = []
         rule.selectors.forEach((selector) => {
-          // Check if selector contains :not(#isolated) and remove it
-          if (selector.includes(':not(#isolated) ')) {
+          // If this rule is inside a :global block and selector is a global selector, skip scoping
+          if (
+            rule.parent &&
+            rule.parent.type === 'rule' &&
+            rule.parent.selector &&
+            rule.parent.selector.trim() === ':global'
+          ) {
+            const ast = selectorParser().astSync(selector.trim())
+            const isAllGlobal = ast.nodes.some((group) =>
+              isGlobalSelector(group.nodes)
+            )
+            if (isAllGlobal) {
+              processedSelectors.push(selector)
+              return
+            }
+          }
+
+          // Check if selector contains [skip-isolation] and remove it
+          if (selector.includes('[skip-isolation] ')) {
             processedSelectors.push(
-              selector
-                .replace(/\s*:not\(#isolated\)\s*/, ' ')
-                .replace(/\s+/g, ' ')
-                .trim()
+              selector.replace(/\[skip-isolation\]\s*/g, '').trim()
             )
             return
+          }
+
+          // Replace [scope-placeholder] with the actual scope hash
+          if (selector.includes('[scope-placeholder]')) {
+            selector = selector.replace(
+              /\[scope-placeholder\]/g,
+              isCssModule
+                ? `:global(.${scopeWithFallback})`
+                : `.${scopeWithFallback}`
+            )
           }
 
           // Always add the main scope selector
@@ -376,3 +424,65 @@ Settings: ${JSON.stringify({ isCssModule }, null, 2)}
 
 postcssIsolateStyle.postcss = true
 module.exports = postcssIsolateStyle
+
+// Helper to check if a selector is html, body, html body, html *, body *, or html body *
+function isGlobalSelector(nodes) {
+  if (!nodes || nodes.length === 0) return false
+  // Remove whitespace combinators
+  const parts = nodes.filter(
+    (n) => !(n.type === 'combinator' && n.value.trim() === '')
+  )
+  // Case 1: :global(html), :global(body), :global(html body), :global(html *), etc.
+  if (
+    parts.length === 1 &&
+    parts[0].type === 'pseudo' &&
+    parts[0].value === ':global' &&
+    parts[0].nodes
+  ) {
+    // Recurse on the selector inside :global()
+    return isGlobalSelector(parts[0].nodes[0].nodes)
+  }
+  // Case 2: :global html, :global body, :global html body, :global html *, etc.
+  if (
+    parts.length >= 2 &&
+    parts[0].type === 'pseudo' &&
+    parts[0].value === ':global'
+  ) {
+    // Check if the remaining parts form a global selector
+    return isGlobalSelector(parts.slice(1))
+  }
+  // Case 3: html, body, html body
+  if (parts[0].type === 'tag' && parts[0].value === 'html') {
+    if (parts.length === 1) return true // html
+    if (
+      parts.length === 2 &&
+      parts[1].type === 'tag' &&
+      parts[1].value === 'body'
+    ) {
+      return true // html body
+    }
+    // html *
+    if (parts.length === 2 && parts[1].type === 'universal') {
+      return true
+    }
+  }
+  // body
+  if (
+    parts.length === 1 &&
+    parts[0].type === 'tag' &&
+    parts[0].value === 'body'
+  ) {
+    return true
+  }
+  // :global html or :global body
+  if (
+    parts.length === 2 &&
+    parts[0].type === 'pseudo' &&
+    parts[0].value === ':global' &&
+    parts[1].type === 'tag' &&
+    ['html', 'body'].includes(parts[1].value)
+  ) {
+    return true
+  }
+  return false
+}
