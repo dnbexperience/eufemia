@@ -121,7 +121,6 @@ function PostalCodeAndCity(props: Props) {
       width={width}
     >
       <StringField
-        {...postalCode}
         size={size}
         className={classnames(
           'dnb-forms-field-postal-code-and-city__postal-code',
@@ -148,11 +147,11 @@ function PostalCodeAndCity(props: Props) {
         inputMode="numeric"
         autoComplete="postal-code"
         data-country-code={country || countryCode}
+        {...postalCode}
       />
 
       <StringField
         help={help}
-        {...city}
         size={size}
         className={classnames(
           'dnb-forms-field-postal-code-and-city__city',
@@ -176,6 +175,7 @@ function PostalCodeAndCity(props: Props) {
         width={cityWidth ?? 'stretch'}
         inputClassName="dnb-forms-field-postal-code-and-city__city-input"
         autoComplete="address-level2"
+        {...city}
       />
     </CompositionField>
   )

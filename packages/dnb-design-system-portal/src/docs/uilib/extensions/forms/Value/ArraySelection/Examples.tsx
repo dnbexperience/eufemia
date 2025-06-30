@@ -5,7 +5,7 @@ import { Field, Form, Value } from '@dnb/eufemia/src/extensions/forms'
 export const Placeholder = () => {
   return (
     <ComponentBox>
-      <Value.ArraySelection placeholder="No values given" />
+      <Value.ArraySelection placeholder="No value given" />
     </ComponentBox>
   )
 }

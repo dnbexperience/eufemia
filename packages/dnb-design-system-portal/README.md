@@ -1,6 +1,6 @@
 # DNB Eufemia Portal
 
-The DNB Eufemia Design System Portal is the go to place for all who has to design, develop or create digital WEB applications with the DNB brand.
+The DNB Eufemia Design System Portal is the go-to place for all who has to design, develop or create digital WEB applications with the DNB brand.
 
 ## Run the Portal locally
 
