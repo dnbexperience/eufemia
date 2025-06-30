@@ -18,12 +18,13 @@ You as a developer has the responsibility to have the technical knowledge about 
 - Test **keyboard navigation** during development <Icon icon={CheckIcon} aria-hidden />
 - Test with **screen readers** during development <Icon icon={CheckIcon} aria-hidden />
 - Test with **200%** in `font-size` during development <Icon icon={CheckIcon} aria-hidden />
+- Test page at **320px** screen width during development <Icon icon={CheckIcon} aria-hidden />
 
 ## Keyboard users
 
 Should be able to navigate the application by their keyboard only. For those it is extremely important that [active focus management](/uilib/usage/accessibility/focus) is done right and has the required [focus ring](https://www.w3.org/TR/2008/REC-WCAG20-20081211/#navigation-mechanisms-focus-visible) in place.
 
-> **2.1.1 Keyboard:** All functionality of the content is _operable through a keyboard_ interface without requiring specific timings for individual keystrokes, except where the underlying function requires input that depends on the path of the user's movement and not just the endpoints.
+> [**2.1.1 Keyboard:**](https://www.w3.org/TR/WCAG21/#keyboard) All functionality of the content is _operable through a keyboard_ interface without requiring specific timings for individual keystrokes, except where the underlying function requires input that depends on the path of the user's movement and not just the endpoints.
 
 ### Your responsibility
 
@@ -37,7 +38,7 @@ Read more about [focus management and the helper tools](!/uilib/usage/accessibil
 
 Should be able to use the most common used screen readers like VoiceOver (Apple devices) and NVDA or JAWS on Windows. Read more about [screen readers](!/uilib/usage/accessibility/screenreader).
 
-> **4.1 Compatible:** Maximize compatibility with current and future user agents, _including assistive technologies_.
+> [**4.1 Compatible:**](https://www.w3.org/TR/WCAG21/#compatible) Maximize compatibility with current and future user agents, _including assistive technologies_.
 
 ### Your responsibility
 
@@ -47,7 +48,7 @@ Good keyboard support is crucial to make web application accessible on for assis
 
 The [WCAG 2.1](https://www.w3.org/TR/WCAG21/) document is describing it clearly:
 
-> **1.4.4 Resize text:** Text can be resized without assistive technology _up to 200 percent without loss of content or functionality_.<br /><br /> **1.4.8 Visual Presentation:** Text can be resized without assistive technology up to 200 percent in a way that _does not require the user to scroll horizontally_ to read a line of text.
+> [**1.4.4 Resize text:**](https://www.w3.org/TR/WCAG21/#resize-text) Text can be resized without assistive technology _up to 200 percent without loss of content or functionality_.<br /><br /> [**1.4.8 Visual Presentation:**](https://www.w3.org/TR/WCAG21/#visual-presentation) Text can be resized without assistive technology up to 200 percent in a way that _does not require the user to scroll horizontally_ to read a line of text.
 
 ### Your responsibility
 
@@ -56,3 +57,11 @@ This means; every application **has to be made responsive**. Even if the applica
 Read [more about responsive layouts](!/uilib/usage/layout#units).
 
 The `@dnb/eufemia` and its building blocks are build from ground up to support font-size adaption automatically.
+
+## 320px screen width minimum
+
+This is to ensure that users with visual limitations can sufficiently zoom the page even on a medium sized monitor. It's equivalent to 400% zoom in a 1280px viewport.
+
+> [**1.4.10 Reflow:**](https://www.w3.org/TR/WCAG21/#reflow) Content can be presented without loss of information or functionality, and without requiring scrolling in two dimensions for: Vertical scrolling content at a width equivalent to 320 CSS pixels.
+
+Make sure that you take in to consideration any paddings that might be added around your content. If the content you are working on will be placed inside a container with 16px padding on each side, you will need to test at 288px (320 - 16 - 16).
