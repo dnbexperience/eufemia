@@ -3,6 +3,16 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.77.1](https://github.com/dnbexperience/eufemia/compare/v10.77.0...v10.77.1) (2025-06-30)
+
+
+### :bug: Bug Fixes
+
+* **Field.PostalCodeAndCity:** `postalCode` and `city` should override existing props ([#5300](https://github.com/dnbexperience/eufemia/issues/5300)) ([875d903](https://github.com/dnbexperience/eufemia/commit/875d90348fba39c6d1fcd86cd3c5e1b56ac98aab))
+* **isolated-style-scope-plugin:** enhance handling of global selectors ([#5306](https://github.com/dnbexperience/eufemia/issues/5306)) ([b76da83](https://github.com/dnbexperience/eufemia/commit/b76da83bf824879e1aa5aaa7d04a710f28b0e5f0)), closes [/github.com/dnbexperience/eufemia/pull/5267/files#diff-8340e54205c44e8ff3c7985e33afe76d2ff212b5cdf38eebcc9d307f7b9e80f4](https://github.com/dnbexperience//github.com/dnbexperience/eufemia/pull/5267/files/issues/diff-8340e54205c44e8ff3c7985e33afe76d2ff212b5cdf38eebcc9d307f7b9e80f4)
+* **isolated-style-scope-plugin:** ensure CJS support ([#5307](https://github.com/dnbexperience/eufemia/issues/5307)) ([503f00a](https://github.com/dnbexperience/eufemia/commit/503f00a93ab37448c46f4e0d54301f441ffe2751))
+* **IsolatedStyleScope:** enhance typing for `getStyleScopeHash` ([#5281](https://github.com/dnbexperience/eufemia/issues/5281)) ([dbe62ad](https://github.com/dnbexperience/eufemia/commit/dbe62ad4d142cd5a41e206cb508e35f7d18d2dcb))
+
 ## [10.77.0](https://github.com/dnbexperience/eufemia/compare/v10.76.1...v10.77.0) (2025-06-20)
 
 
