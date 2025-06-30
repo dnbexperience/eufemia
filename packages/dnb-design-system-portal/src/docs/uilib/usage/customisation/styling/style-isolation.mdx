@@ -309,14 +309,14 @@ getStyleScopeHash() // 'eufemia-scope--1_2_3'
 - A `body` selector remains unchanged.
   e.g. `body {}` → `body {}`
 
+- Combined `html body` selectors remain untouched.
+  e.g. `html body {}` → `html body {}`
+
 - A selector like `body .my-class` is scoped so that the class is prefixed, but `body` remains global.
   e.g. `body .my-class` → `body .eufemia-scope--1_2_3 .my-class`
 
-- A selector like `body *` will scope the asterisk selector (universal selector).
+- A selector like `body *` will scope the selector.
   e.g. `body *` → `body .eufemia-scope--1_2_3 *`
-
-- Combined `html body` selectors remain untouched.
-  e.g. `html body {}` → `html body {}`
 
 - A combined selector like `html body .my-class` results in only `.my-class` being scoped.
   e.g. `html body .my-class` → `html body .eufemia-scope--1_2_3 .my-class`

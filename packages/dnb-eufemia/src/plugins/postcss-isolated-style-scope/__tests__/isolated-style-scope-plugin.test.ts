@@ -52,7 +52,7 @@ describe('isolated-style-scope-plugin', () => {
       )
     })
 
-    it('should handle multiple selectors', async () => {
+    it('should scope multiple selectors', async () => {
       return await run(
         '.class1, .class2 { color: red; }',
         '.test-scope .class1, .test-scope .class2 { color: red; }',
@@ -60,7 +60,7 @@ describe('isolated-style-scope-plugin', () => {
       )
     })
 
-    it('should handle nested selectors', async () => {
+    it('should scope nested selectors', async () => {
       return await run(
         '.parent .child { color: red; }',
         '.test-scope .parent .child { color: red; }',
@@ -68,7 +68,7 @@ describe('isolated-style-scope-plugin', () => {
       )
     })
 
-    it('should handle complex selectors with multiple combinators', async () => {
+    it('should scope complex selectors with multiple combinators', async () => {
       return await run(
         '.parent > .child + .sibling ~ .cousin { color: red; }',
         '.test-scope .parent > .child + .sibling ~ .cousin { color: red; }',
@@ -78,7 +78,7 @@ describe('isolated-style-scope-plugin', () => {
   })
 
   describe('Special Selectors', () => {
-    it('should handle :root selector', async () => {
+    it('should scope :root selector by replacing it with the scope', async () => {
       return await run(
         ':root { --color: red; }',
         '.test-scope { --color: red; }',
@@ -86,7 +86,7 @@ describe('isolated-style-scope-plugin', () => {
       )
     })
 
-    it('should handle attribute selectors', async () => {
+    it('should scope attribute selectors', async () => {
       return await run(
         '[data-test] { color: red; }',
         '.test-scope [data-test] { color: red; }',
@@ -94,7 +94,7 @@ describe('isolated-style-scope-plugin', () => {
       )
     })
 
-    it('should handle selectors with multiple attributes', async () => {
+    it('should scope selectors with multiple attributes', async () => {
       return await run(
         '[data-test][data-other] { color: red; }',
         '.test-scope [data-test][data-other] { color: red; }',
@@ -102,7 +102,7 @@ describe('isolated-style-scope-plugin', () => {
       )
     })
 
-    it('should handle pseudo-classes', async () => {
+    it('should scope pseudo-classes', async () => {
       return await run(
         '.button:hover { color: red; }',
         '.test-scope .button:hover { color: red; }',
@@ -110,7 +110,7 @@ describe('isolated-style-scope-plugin', () => {
       )
     })
 
-    it('should handle selectors with multiple pseudo-classes', async () => {
+    it('should scope selectors with multiple pseudo-classes', async () => {
       return await run(
         '.button:hover:focus:active { color: red; }',
         '.test-scope .button:hover:focus:active { color: red; }',
@@ -118,7 +118,7 @@ describe('isolated-style-scope-plugin', () => {
       )
     })
 
-    it('should handle pseudo-elements', async () => {
+    it('should scope pseudo-elements', async () => {
       return await run(
         '.text::before { content: ""; }',
         '.test-scope .text::before { content: ""; }',
@@ -152,7 +152,7 @@ describe('isolated-style-scope-plugin', () => {
       )
     })
 
-    it('should handle id selector', async () => {
+    it('should scope id selector', async () => {
       return await run(
         '#id-selector { color: red; }',
         '.test-scope #id-selector { color: red; }',
@@ -160,7 +160,7 @@ describe('isolated-style-scope-plugin', () => {
       )
     })
 
-    it('should handle tag selector', async () => {
+    it('should scope tag selectors', async () => {
       return await run(
         'strong { color: red; }',
         '.test-scope strong { color: red; }',
@@ -168,7 +168,7 @@ describe('isolated-style-scope-plugin', () => {
       )
     })
 
-    it('should handle selectors with multiple classes', async () => {
+    it('should scope selectors with multiple classes', async () => {
       return await run(
         '.class1.class2.class3 { color: red; }',
         '.test-scope .class1.class2.class3 { color: red; }',
@@ -925,7 +925,7 @@ describe('isolated-style-scope-plugin', () => {
     })
 
     describe('Special Selectors', () => {
-      it('should handle :root selector', async () => {
+      it('should scope :root selector by replacing it with the scope', async () => {
         return await run(
           ':root { --color: red; }',
           ':global(.test-scope) { --color: red; }',
@@ -933,34 +933,82 @@ describe('isolated-style-scope-plugin', () => {
         )
       })
 
-      it('should scope crazy selectors in CSS Modules', async () => {
-        await run(
-          '*.foo[data-foo]::marker > :nth-child(2) { color: red; }',
-          ':global(.test-scope) *.foo[data-foo]::marker > :nth-child(2) { color: red; }',
+      it('should scope attribute selectors', async () => {
+        return await run(
+          '[data-test] { color: red; }',
+          ':global(.test-scope) [data-test] { color: red; }',
           { runAsCssModule: true, scopeHash: 'test-scope' }
         )
       })
 
-      it('should scope group including *, ::before, ::after in CSS Modules', async () => {
-        await run(
-          '*, ::before, ::after { color: red; }',
-          ':global(.test-scope) *, :global(.test-scope) ::before, :global(.test-scope) ::after { color: red; }',
+      it('should scope selectors with multiple attributes', async () => {
+        return await run(
+          '[data-test][data-other] { color: red; }',
+          ':global(.test-scope) [data-test][data-other] { color: red; }',
           { runAsCssModule: true, scopeHash: 'test-scope' }
         )
       })
 
-      it('should scope a lone ::before selector in CSS Modules', async () => {
-        await run(
+      it('should scope pseudo-classes', async () => {
+        return await run(
+          '.button:hover { color: red; }',
+          ':global(.test-scope) .button:hover { color: red; }',
+          { runAsCssModule: true, scopeHash: 'test-scope' }
+        )
+      })
+
+      it('should scope selectors with multiple pseudo-classes', async () => {
+        return await run(
+          '.button:hover:focus:active { color: red; }',
+          ':global(.test-scope) .button:hover:focus:active { color: red; }',
+          { runAsCssModule: true, scopeHash: 'test-scope' }
+        )
+      })
+
+      it('should scope pseudo-elements', async () => {
+        return await run(
+          '.text::before { content: ""; }',
+          ':global(.test-scope) .text::before { content: ""; }',
+          { runAsCssModule: true, scopeHash: 'test-scope' }
+        )
+      })
+
+      it('should scope a lone ::before selector', async () => {
+        return await run(
           '::before { content: ""; }',
           ':global(.test-scope) ::before { content: ""; }',
           { runAsCssModule: true, scopeHash: 'test-scope' }
         )
       })
 
-      it('should scope lone universal in CSS Modules', async () => {
-        await run(
-          '* { color: red; }',
-          ':global(.test-scope) * { color: red; }',
+      it('should scope id selector', async () => {
+        return await run(
+          '#id-selector { color: red; }',
+          ':global(.test-scope) #id-selector { color: red; }',
+          { runAsCssModule: true, scopeHash: 'test-scope' }
+        )
+      })
+
+      it('should scope tag selectors', async () => {
+        return await run(
+          'strong { color: red; }',
+          ':global(.test-scope) strong { color: red; }',
+          { runAsCssModule: true, scopeHash: 'test-scope' }
+        )
+      })
+
+      it('should scope selectors with multiple classes', async () => {
+        return await run(
+          '.class1.class2.class3 { color: red; }',
+          ':global(.test-scope) .class1.class2.class3 { color: red; }',
+          { runAsCssModule: true, scopeHash: 'test-scope' }
+        )
+      })
+
+      it('should scope selectors no matter what kind of node they are', async () => {
+        return await run(
+          '*.foo[data-foo]::marker > :nth-child(2) { color: red; }',
+          ':global(.test-scope) *.foo[data-foo]::marker > :nth-child(2) { color: red; }',
           { runAsCssModule: true, scopeHash: 'test-scope' }
         )
       })
