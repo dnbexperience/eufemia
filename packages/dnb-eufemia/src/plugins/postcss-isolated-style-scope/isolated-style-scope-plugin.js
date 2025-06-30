@@ -84,33 +84,15 @@ const postcssIsolateStyle = (opts = {}) => {
           rule.selectors.length === 1 &&
           rule.selectors[0].trim() === ':global'
         ) {
-          // Check if all child rules are global selectors
-          const allChildrenAreGlobal =
-            rule.nodes &&
-            rule.nodes.length > 0 &&
-            rule.nodes.every((n) => {
-              if (n.type !== 'rule') return false
-              const ast = selectorParser().astSync(n.selector.trim())
-              return ast.nodes.some((group) =>
-                isGlobalSelector(group.nodes)
-              )
-            })
+          const hasNestedRules =
+            Array.isArray(rule.nodes) &&
+            rule.nodes.some((n) => n.type === 'rule')
 
-          if (allChildrenAreGlobal) {
-            // Do not scope this :global block or its children
-            return
+          if (!hasNestedRules) {
+            // top‐level :global with only declarations → scope the entire block
+            rule.selector = `:global(.${scopeWithFallback})`
           }
 
-          // Check if we have some selectors which should be skipped
-          const hasSelectorsToSkip = rule.nodes.some((n) => {
-            return isHtmlBodyCombo(n)
-          })
-
-          if (hasSelectorsToSkip) {
-            return
-          }
-
-          rule.selector = `:global(.${scopeWithFallback})`
           return
         }
 
@@ -242,17 +224,41 @@ const postcssIsolateStyle = (opts = {}) => {
                 }
               }
 
-              // 5. compute insertion point: skip a leading html, and if followed by body skip that too
-              let insertIndex = 0
+              // 5. compute insertion point: skip html/body at the front
               let i = 0
 
-              // if it starts with <html>
+              // 5a. *only* strip a leading bare `:global` when it's the
+              // special "body *flattened global-block" case (e.g. ":global body *" or
+              // ":global html body *"), not for every selector that
+              // starts with `:global`.
+              if (
+                group.nodes[0]?.type === 'pseudo' &&
+                group.nodes[0].value === ':global' &&
+                // bare pseudo (no inner `(...)`)
+                (!group.nodes[0].nodes ||
+                  group.nodes[0].nodes.length === 0) &&
+                group.nodes[1]?.type === 'combinator' &&
+                group.nodes[2]?.type === 'tag' &&
+                ['html', 'body'].includes(group.nodes[2].value)
+              ) {
+                // skip ":global" + the space
+                i = 2
+                // skip any extra spaces
+                while (
+                  group.nodes[i] &&
+                  group.nodes[i].type === 'combinator'
+                ) {
+                  i++
+                }
+              }
+
+              // now skip an initial html (and optional body) just like before
               if (
                 group.nodes[i]?.type === 'tag' &&
                 group.nodes[i].value === 'html'
               ) {
                 i++
-                // skip any pseudo/attr attached to html
+                // skip html's pseudos/attrs…
                 while (
                   group.nodes[i] &&
                   (group.nodes[i].type === 'pseudo' ||
@@ -260,7 +266,7 @@ const postcssIsolateStyle = (opts = {}) => {
                 ) {
                   i++
                 }
-                // if next is " space + body", skip both
+                // then if it's " body" (with a space), skip that too
                 if (
                   group.nodes[i]?.type === 'combinator' &&
                   group.nodes[i + 1]?.type === 'tag' &&
@@ -276,9 +282,7 @@ const postcssIsolateStyle = (opts = {}) => {
                     i++
                   }
                 }
-              }
-              // or if it starts directly with <body>
-              else if (
+              } else if (
                 group.nodes[i]?.type === 'tag' &&
                 group.nodes[i].value === 'body'
               ) {
@@ -291,7 +295,8 @@ const postcssIsolateStyle = (opts = {}) => {
                   i++
                 }
               }
-              insertIndex = i
+
+              const insertIndex = i
 
               // 6. build the scope node
               const space = selectorParser.combinator({ value: ' ' })
@@ -460,30 +465,12 @@ function isGlobalSelector(nodes) {
     if (parts.length === 2 && parts[1].type === 'universal') {
       return true
     }
-    // html body *
-    if (
-      parts.length === 3 &&
-      parts[1].type === 'tag' &&
-      parts[1].value === 'body' &&
-      parts[2].type === 'universal'
-    ) {
-      return true
-    }
   }
   // body
   if (
     parts.length === 1 &&
     parts[0].type === 'tag' &&
     parts[0].value === 'body'
-  ) {
-    return true
-  }
-  // body *
-  if (
-    parts.length === 2 &&
-    parts[0].type === 'tag' &&
-    parts[0].value === 'body' &&
-    parts[1].type === 'universal'
   ) {
     return true
   }
@@ -498,34 +485,4 @@ function isGlobalSelector(nodes) {
     return true
   }
   return false
-}
-
-function isHtmlBodyCombo(node) {
-  if (node.type !== 'rule') {
-    return false
-  }
-
-  const selector = node.selector
-  const ast = selectorParser().astSync(selector.trim())
-
-  return ast.nodes.some((group) => {
-    const nodes = group.nodes
-    // Single tag html|body
-    const onlyHtmlOrBody =
-      nodes.length === 1 &&
-      nodes[0].type === 'tag' &&
-      (nodes[0].value === 'html' || nodes[0].value === 'body')
-
-    // html body (with a space combinator)
-    const htmlBodyCombo =
-      nodes.length >= 3 &&
-      nodes[0].type === 'tag' &&
-      nodes[0].value === 'html' &&
-      nodes[1].type === 'combinator' &&
-      nodes[1].value === ' ' &&
-      nodes[2].type === 'tag' &&
-      nodes[2].value === 'body'
-
-    return onlyHtmlOrBody || htmlBodyCombo
-  })
 }

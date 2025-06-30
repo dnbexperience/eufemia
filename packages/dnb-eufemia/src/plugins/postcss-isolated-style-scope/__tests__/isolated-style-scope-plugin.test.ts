@@ -257,10 +257,18 @@ describe('isolated-style-scope-plugin', () => {
       )
     })
 
-    it('should not scope `body *`', async () => {
+    it('should scope `body [data-test]`', async () => {
+      return await run(
+        'body [data-test] { color: red; }',
+        'body .test-scope [data-test] { color: red; }',
+        { scopeHash: 'test-scope' }
+      )
+    })
+
+    it('should scope `body *`', async () => {
       return await run(
         'body * { color: red; }',
-        'body * { color: red; }',
+        'body .test-scope * { color: red; }',
         { scopeHash: 'test-scope' }
       )
     })
@@ -273,10 +281,10 @@ describe('isolated-style-scope-plugin', () => {
       )
     })
 
-    it('should not scope `html body *`', async () => {
+    it('should scope `html body *`', async () => {
       return await run(
         'html body * { color: red; }',
-        'html body * { color: red; }',
+        'html body .test-scope * { color: red; }',
         { scopeHash: 'test-scope' }
       )
     })
@@ -1122,6 +1130,14 @@ describe('isolated-style-scope-plugin', () => {
         )
       })
 
+      it('should scope `body [data-test]` inside a :global block', async () => {
+        await run(
+          ':global {\n  body [data-test] {\n    color: red;\n  }\n}',
+          ':global {\n  body :global(.test-scope) [data-test] {\n    color: red;\n  }\n}',
+          { runAsCssModule: true, scopeHash: 'test-scope' }
+        )
+      })
+
       it('should not scope `html *` inside a :global block', async () => {
         await run(
           ':global {\n  html * {\n    color: red;\n  }\n}',
@@ -1130,18 +1146,66 @@ describe('isolated-style-scope-plugin', () => {
         )
       })
 
-      it('should not scope `body *` inside a :global block', async () => {
+      it('should scope `body *` inside a :global block', async () => {
         await run(
           ':global {\n  body * {\n    color: red;\n  }\n}',
-          ':global {\n  body * {\n    color: red;\n  }\n}',
+          ':global {\n  body :global(.test-scope) * {\n    color: red;\n  }\n}',
           { runAsCssModule: true, scopeHash: 'test-scope' }
         )
       })
 
-      it('should not scope `html body *` inside a :global block', async () => {
+      it('should scope `:global *` inside a :global block', async () => {
+        await run(
+          ':global {\n  * {\n    color: red;\n  }\n}',
+          ':global {\n  :global(.test-scope) * {\n    color: red;\n  }\n}',
+          { runAsCssModule: true, scopeHash: 'test-scope' }
+        )
+      })
+
+      it('should scope `:global [data-test]` inside a :global block', async () => {
+        await run(
+          ':global {\n  [data-test] {\n    color: red;\n  }\n}',
+          ':global {\n  :global(.test-scope) [data-test] {\n    color: red;\n  }\n}',
+          { runAsCssModule: true, scopeHash: 'test-scope' }
+        )
+      })
+
+      it('should scope `:global *` inside a :global block when combined with `body *`', async () => {
+        await run(
+          ':global {\n  body * {\n    color: red;\n  }\n * {\n    color: red;\n  }\n}',
+          ':global {\n  body :global(.test-scope) * {\n    color: red;\n  }\n :global(.test-scope) * {\n    color: red;\n  }\n}',
+          { runAsCssModule: true, scopeHash: 'test-scope' }
+        )
+      })
+
+      it('should scope `html body *` inside a :global block', async () => {
         await run(
           ':global {\n  html body * {\n    color: green;\n  }\n}',
-          ':global {\n  html body * {\n    color: green;\n  }\n}',
+          ':global {\n  html body :global(.test-scope) * {\n    color: green;\n  }\n}',
+          { runAsCssModule: true, scopeHash: 'test-scope' }
+        )
+      })
+
+      it('should scope `body *` when flattened', async () => {
+        return await run(
+          ':global body * { color: red; }',
+          ':global body :global(.test-scope) * { color: red; }',
+          { runAsCssModule: true, scopeHash: 'test-scope' }
+        )
+      })
+
+      it('should scope `html body *` when flattened', async () => {
+        return await run(
+          ':global html body * { color: red; }',
+          ':global html body :global(.test-scope) * { color: red; }',
+          { runAsCssModule: true, scopeHash: 'test-scope' }
+        )
+      })
+
+      it('should scope `body [data-test]` when flattened', async () => {
+        return await run(
+          ':global body [data-test] { color: red; }',
+          ':global body :global(.test-scope) [data-test] { color: red; }',
           { runAsCssModule: true, scopeHash: 'test-scope' }
         )
       })
@@ -1150,22 +1214,6 @@ describe('isolated-style-scope-plugin', () => {
         return await run(
           ':global html * { color: red; }',
           ':global html * { color: red; }',
-          { runAsCssModule: true, scopeHash: 'test-scope' }
-        )
-      })
-
-      it('should not scope `body *` when flattened', async () => {
-        return await run(
-          ':global body * { color: red; }',
-          ':global body * { color: red; }',
-          { runAsCssModule: true, scopeHash: 'test-scope' }
-        )
-      })
-
-      it('should not scope `html body *` when flattened', async () => {
-        return await run(
-          ':global html body * { color: red; }',
-          ':global html body * { color: red; }',
           { runAsCssModule: true, scopeHash: 'test-scope' }
         )
       })
