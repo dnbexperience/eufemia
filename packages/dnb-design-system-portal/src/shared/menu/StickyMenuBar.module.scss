@@ -42,7 +42,8 @@
     #toggle-sidebar-menu {
       display: none;
     }
-    #github-button {
+    #github-button,
+    #figma-button {
       display: inline-flex;
     }
 
@@ -54,7 +55,8 @@
       #toggle-sidebar-menu {
         display: flex;
       }
-      #github-button {
+      #github-button,
+      #figma-button {
         display: none;
       }
     }
