@@ -3,10 +3,11 @@ import React from 'react'
 export default function FigmaLogo(props) {
   return (
     <svg
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
+      viewBox="0 0 15 15"
+      fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      width="15"
+      height="15"
       {...props}
     >
       <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
