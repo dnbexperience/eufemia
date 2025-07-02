@@ -27,6 +27,7 @@ import {
 } from './StickyMenuBar.module.scss'
 import { Link } from '../tags/Anchor'
 import GithubLogo from '../../docs/contribute/assets/github-logo.js'
+import FigmaLogo from '../../docs/contribute/assets/figma-logo.js'
 import type { IconSize } from '@dnb/eufemia/src/components/Icon'
 
 export default function StickyMenuBar({
@@ -110,6 +111,16 @@ export default function StickyMenuBar({
             target="_blank"
             icon={GithubLogo}
             title="Navigates to Eufemia's GitHub repository"
+            left="x-small"
+          />
+          <Button
+            id="figma-button"
+            href="https://www.figma.com/design/cdtwQD8IJ7pTeE45U148r1/%F0%9F%92%BB-Eufemia---Web"
+            size="default"
+            icon_size="medium"
+            target="_blank"
+            icon={FigmaLogo}
+            title="Navigates to Eufemia's Figma file"
             left="x-small"
           />
           <PortalToolsMenu />
