@@ -2,7 +2,7 @@ import React, { useContext, useMemo } from 'react'
 import SharedContext, { InternalLocale } from '../../shared/Context'
 import { convertJsxToString } from '../../shared/component-helper'
 import { convertStringToDate } from '../date-picker/DatePickerCalc'
-import { formatDate } from './DateFormatUtils'
+import { formatDate, getRelativeTime } from './DateFormatUtils'
 import { format } from 'date-fns'
 import { SpacingProps } from '../space/types'
 import classnames from 'classnames'
@@ -19,17 +19,22 @@ type DateFormatProps = SpacingProps & {
    * The date that will be formatted.
    */
   value?: Date | string
-
   /**
    * Defines the style used to format the date. Defaults to `long`.
    * Defaults to `long`.
    */
   dateStyle?: Intl.DateTimeFormatOptions['dateStyle']
   /**
+   * A boolean.
+   * Defaults to `false`
+   */
+  relativeTime?: boolean
+  /**
    * A string in {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl#locales_argument | Intl.DateTimeFormat locale} accepted format.
    * Defaults to `nb-NO`
    */
   locale?: InternalLocale
+
   /**
    * If set to `true`, an overlaying skeleton with animation will be shown.
    */
@@ -47,6 +52,7 @@ function DateFormat(props: DateFormatProps) {
     dateStyle = 'long',
     children,
     skeleton,
+    relativeTime = false,
   } = props
 
   const date = useMemo(
@@ -66,6 +72,10 @@ function DateFormat(props: DateFormatProps) {
         )}
       </span>
     )
+  }
+
+  if (relativeTime) {
+    return <span className="dnb-date-format">{getRelativeTime(date)}</span>
   }
 
   return (
