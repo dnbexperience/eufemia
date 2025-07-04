@@ -189,6 +189,19 @@ export default {
       errorBankAccountNumberLength:
         'Ugyldig kontonummer. Skriv inn et gyldig kontonummer med 11 siffer.',
     },
+    DateOfBirth: {
+      label: 'Fødselsdato',
+      dayLabel: 'Dag',
+      monthLabel: 'Måned',
+      yearLabel: 'År',
+      dayPlaceholder: 'dd',
+      monthPlaceholder: 'måned',
+      yearPlaceholder: 'åååå',
+      errorRequired: 'Du må fylle inn en fødselsdato.',
+      errorDateOfBirth: 'Ugyldig fødselsdato.',
+      errorDateOfBirthLength:
+        'Ugyldig fødselsdato. Skriv inn en gyldig fødselsdato med TODO.',
+    },
     PhoneNumber: {
       label: 'Mobilnummer',
       countryCodeLabel: 'Landskode',
