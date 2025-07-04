@@ -325,11 +325,6 @@ $breakpoint-offset: 0;
     // For supporting HTML v4 (limited-quirks)
     height: 100%;
 
-    // Because of the height, we need to align the content to the top,
-    // so the alignment helper is not in the middle of the text.
-    // Else it will make e.g. a button 0.75px higher than it should be.
-    vertical-align: top;
-
     opacity: 0; // hide the element in case ISO-8859-1 encoding is used
   }
 }
