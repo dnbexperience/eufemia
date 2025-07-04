@@ -113,7 +113,7 @@ exports[`Table scss has to match style dependencies css 1`] = `
 .dnb-table.dnb-skeleton > * {
   -webkit-text-fill-color: var(--skeleton-color);
 }
-.dnb-card .dnb-table {
+.dnb-card--no-inner-space .dnb-table {
   --table-outline-color: transparent;
   margin-bottom: 0;
 }
@@ -153,6 +153,9 @@ html[data-visual-test] .dnb-table > thead > tr > th.dnb-table--sortable .dnb-tab
   align-self: flex-end;
   margin-top: auto;
   margin-bottom: 0.25rem;
+}
+.dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button .dnb-button__alignment, .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button .dnb-button__alignment {
+  vertical-align: top;
 }
 .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:not(:focus) .dnb-button__text::after, .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:not(:focus) .dnb-button__text::after {
   opacity: 1;

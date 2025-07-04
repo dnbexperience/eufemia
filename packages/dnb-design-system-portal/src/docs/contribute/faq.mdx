@@ -40,18 +40,6 @@ When switching over to Yarn PnP, there are some issues:
   gatsby-plugin-mdx tried to access mkdirp, but it isn't declared in its dependencies; this makes the require call ambiguous and unsound.
   ```
 
-### svg2vectordrawable
-
-`svg2vectordrawable` uses an very old version of svgo that did not work with newer versions of Node.js.
-
-```json
-{
-  "resolutions": {
-    "svg2vectordrawable/svgo": "2.3.0"
-  }
-}
-```
-
 ## MDX v2
 
 In MDX v1 the Portal used an MDX template (`./templates/mdx.js`) with the `createPage` API. This is currently not the case anymore.
@@ -66,7 +54,7 @@ Jest does start several works at the same time. When we simulate states on e.g. 
 
 For running screenshot tests (visual tests), a headless Firefox browser is needed.
 
-In normal circumstances, the browser will be installed automatically via yarn install – but to either upgrade to a newer version, or to wipe out existing versions and run the install manually, you can run this commands, depending on your needs:
+In normal circumstances, the browser will be installed automatically via `yarn install` – but to either upgrade to a newer version, or to wipe out existing versions and run the install manually, you can run these commands, depending on your needs:
 
 ```
 yarn workspace @dnb/eufemia playwright uninstall --all

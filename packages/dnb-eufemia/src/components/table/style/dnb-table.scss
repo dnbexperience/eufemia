@@ -109,8 +109,8 @@
     }
   }
 
-  // When used in a Card
-  .dnb-card & {
+  // When used in a Card without inner space
+  .dnb-card--no-inner-space & {
     --table-outline-color: transparent;
     margin-bottom: 0;
   }

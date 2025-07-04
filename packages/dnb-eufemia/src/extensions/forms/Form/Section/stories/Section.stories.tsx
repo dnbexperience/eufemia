@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react'
 import { Field, Form, JSONSchema, SectionProps, Value } from '../../..'
-import { Flex } from '../../../../../components'
+import { Flex, Table } from '../../../../../components'
+import { Tr, Td, Th, P } from '../../../../../elements'
 import { Props as FieldNameProps } from '../../../Field/Name'
 
 export default {
@@ -284,6 +285,89 @@ export function OpenWhenFieldValidationError() {
         </Form.Section>
       </Form.Card>
       <Form.SubmitButton />
+    </Form.Handler>
+  )
+}
+
+export function TableInContainer() {
+  return (
+    <Form.Handler>
+      <Form.Section>
+        <Form.Section.ViewContainer innerSpace={false}>
+          <Table outline>
+            <caption className="dnb-sr-only">A Table Caption</caption>
+            <thead>
+              <Tr>
+                <Th>Column</Th>
+                <Th sortable>
+                  <Th.SortButton
+                    text="Sortable"
+                    title="Sort table column"
+                  />
+                </Th>
+                <Th align="right">Column</Th>
+              </Tr>
+            </thead>
+            <tbody>
+              <Tr>
+                <Td>Row 1</Td>
+                <Td>Row 1</Td>
+                <Td align="right">Row 1</Td>
+              </Tr>
+              <Tr>
+                <Td>
+                  <P>Row 2 with paragraph</P>
+                </Td>
+                <Td>
+                  <P>
+                    Row 2 with <b>medium paragraph</b>
+                  </P>
+                </Td>
+                <Td align="right">
+                  Row 2 with <b>medium text</b>
+                </Td>
+              </Tr>
+            </tbody>
+          </Table>
+        </Form.Section.ViewContainer>
+        <Form.Section.EditContainer innerSpace={false}>
+          <Table outline>
+            <caption className="dnb-sr-only">A Table Caption</caption>
+            <thead>
+              <Tr>
+                <Th>Column</Th>
+                <Th sortable>
+                  <Th.SortButton
+                    text="Sortable"
+                    title="Sort table column"
+                  />
+                </Th>
+                <Th align="right">Column</Th>
+              </Tr>
+            </thead>
+            <tbody>
+              <Tr>
+                <Td>Row 1</Td>
+                <Td>Row 1</Td>
+                <Td align="right">Row 1</Td>
+              </Tr>
+              <Tr>
+                <Td>
+                  <P>Row 2 with paragraph</P>
+                </Td>
+                <Td>
+                  <P>
+                    Row 2 with <b>medium paragraph</b>
+                  </P>
+                </Td>
+                <Td align="right">
+                  Row 2 with <b>medium text</b>
+                </Td>
+              </Tr>
+            </tbody>
+          </Table>
+        </Form.Section.EditContainer>
+      </Form.Section>
     </Form.Handler>
   )
 }

@@ -42,6 +42,13 @@ describe.each(['ui', 'sbanken'])('Card for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('have to match table with outline', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="layout-card-table-outline"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match nested section', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="card-nested-section"]',
