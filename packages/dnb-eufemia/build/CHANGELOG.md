@@ -3,6 +3,20 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.77.2](https://github.com/dnbexperience/eufemia/compare/v10.77.1...v10.77.2) (2025-07-04)
+
+
+### :memo: Documentation
+
+* **a11y:** add info about 320px screen width ([#5310](https://github.com/dnbexperience/eufemia/issues/5310)) ([86e6d05](https://github.com/dnbexperience/eufemia/commit/86e6d05cddcf009d8b4a78a9a879d76e96790c38))
+* add link to Eufemia's Figma file in menu bar ([#5318](https://github.com/dnbexperience/eufemia/issues/5318)) ([4956115](https://github.com/dnbexperience/eufemia/commit/495611500336c46076aa17c39d3464c19efb75bb))
+
+
+### :bug: Bug Fixes
+
+* **FieldBlock:** alignment helper when used in HTML v4 limited-quirks ([#5321](https://github.com/dnbexperience/eufemia/issues/5321)) ([15f4105](https://github.com/dnbexperience/eufemia/commit/15f4105d6ba81554619f253b232c79bb7e594a4b))
+* **Table:** allow outline in Card with inner space ([#5320](https://github.com/dnbexperience/eufemia/issues/5320)) ([4e0ca02](https://github.com/dnbexperience/eufemia/commit/4e0ca02c9d8af80dd02b3370e63fd7d915646875))
+
 ## [10.77.1](https://github.com/dnbexperience/eufemia/compare/v10.77.0...v10.77.1) (2025-06-30)
 
 
