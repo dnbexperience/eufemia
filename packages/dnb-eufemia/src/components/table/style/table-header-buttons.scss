@@ -64,6 +64,10 @@
         margin-bottom: 0.25rem;
       }
 
+      .dnb-button__alignment {
+        vertical-align: top;
+      }
+
       // underline
       &:not(:focus) .dnb-button__text::after {
         opacity: 1;

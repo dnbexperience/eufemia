@@ -154,6 +154,9 @@ html[data-visual-test] .dnb-table > thead > tr > th.dnb-table--sortable .dnb-tab
   margin-top: auto;
   margin-bottom: 0.25rem;
 }
+.dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button .dnb-button__alignment, .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button .dnb-button__alignment {
+  vertical-align: top;
+}
 .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:not(:focus) .dnb-button__text::after, .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:not(:focus) .dnb-button__text::after {
   opacity: 1;
   color: var(--color-sea-green);
