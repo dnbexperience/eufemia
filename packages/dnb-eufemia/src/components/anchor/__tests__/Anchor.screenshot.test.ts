@@ -73,6 +73,20 @@ describe.each(['ui', 'sbanken'])('Anchor for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('have to match anchor with no icon', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="anchor-no-icon-prop"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match anchor with no launch icon', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="anchor-no-launch-icon-prop"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match the "default" state', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="anchor-basic"]',
