@@ -1,3 +1,7 @@
+import React from 'react'
+import { render } from '@testing-library/react'
+import IsolatedStyleScope from '../IsolatedStyleScope'
+import { getSha, getVersion } from '../build-info/BuildInfo.js'
 import * as EufemiaImport from '../Eufemia'
 import '../component-helper'
 
@@ -8,6 +12,16 @@ jest.mock('../Eufemia', () => {
   return {
     ...actual,
     init: jest.fn(actual.init),
+  }
+})
+
+// Mock the build info to control the SHA value in tests
+jest.mock('../build-info/BuildInfo.js', () => {
+  const actual = jest.requireActual('../build-info/BuildInfo.js')
+  return {
+    ...actual,
+    getSha: jest.fn().mockImplementation(actual.getSha),
+    getVersion: jest.fn().mockImplementation(actual.getVersion),
   }
 })
 
@@ -136,6 +150,93 @@ describe('Eufemia', () => {
       expect(shas1).toEqual([sha])
       expect(shas2).toEqual([sha])
       expect(window.__eufemiaSHAs?.length).toBe(1)
+    })
+  })
+
+  describe('Eufemia.info', () => {
+    beforeEach(() => {
+      init()
+    })
+
+    beforeEach(() => {
+      jest.mocked(getSha).mockReturnValue('abc123')
+      jest.mocked(getVersion).mockReturnValue('1.0.0')
+    })
+
+    it('should get CSS and JS versions', () => {
+      window.__eufemiaVersions = ['1.2.3']
+      window.__eufemiaSHAs = ['abc123']
+
+      render(
+        <>
+          <style>
+            {`
+              .eufemia-scope--1_2_3 {
+                --eufemia-version: 1.2.333;
+              }
+            `}
+          </style>
+
+          <IsolatedStyleScope scopeHash="eufemia-scope--1_2_3">
+            content
+          </IsolatedStyleScope>
+        </>
+      )
+
+      expect(window.Eufemia?.info.versions).toEqual([
+        {
+          js: '1.2.3',
+          css: '1.2.333',
+          sha: 'abc123',
+        },
+      ])
+    })
+
+    it('should get scopes with CSS and JS versions', () => {
+      window.__eufemiaVersions = ['1.2.3', '2.8.9']
+      window.__eufemiaSHAs = ['abc123', 'def456']
+
+      // Mock the getSha to return every second call a different SHA
+      let count = 0
+      jest.mocked(getSha).mockImplementation(() => {
+        return window.__eufemiaSHAs[(++count - 1) % 2]
+      })
+
+      render(
+        <>
+          <IsolatedStyleScope scopeHash="eufemia-scope--1_2_3">
+            <style>
+              {`
+              .eufemia-scope--1_2_3 {
+                --eufemia-version: 1.2.333;
+                }
+                `}
+            </style>
+          </IsolatedStyleScope>
+          <IsolatedStyleScope scopeHash="eufemia-scope--2_8_9">
+            <style>
+              {`
+              .eufemia-scope--2_8_9 {
+                --eufemia-version: 2.8.999;
+                }
+                `}
+            </style>
+          </IsolatedStyleScope>
+        </>
+      )
+
+      expect(window.Eufemia?.info.versions).toEqual([
+        {
+          js: '1.2.3',
+          css: '1.2.333',
+          sha: 'abc123',
+        },
+        {
+          js: '2.8.9',
+          css: '2.8.999',
+          sha: 'def456',
+        },
+      ])
     })
   })
 })

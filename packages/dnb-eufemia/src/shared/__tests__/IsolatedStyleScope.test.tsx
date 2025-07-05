@@ -3,6 +3,13 @@ import { render } from '@testing-library/react'
 import IsolatedStyleScope, {
   useIsolatedStyleScope,
 } from '../IsolatedStyleScope'
+import { getSha } from '../build-info/BuildInfo.js'
+
+// Mock the build info to control the SHA value in tests
+jest.mock('../build-info/BuildInfo.js', () => ({
+  getSha: jest.fn(),
+  getVersion: jest.fn(),
+}))
 
 describe('StyleScope', () => {
   it('renders children without style scope when none provided', () => {
@@ -520,5 +527,36 @@ describe('uniqueKey functionality', () => {
       'data-scope-hash',
       'my-scope'
     )
+  })
+
+  describe('data-scope-sha', () => {
+    it('does not include data-scope-sha attribute when uniqueKey is false', () => {
+      render(
+        <IsolatedStyleScope scopeHash="my-scope" uniqueKey={false}>
+          <div id="content-child">Test Content</div>
+        </IsolatedStyleScope>
+      )
+
+      const scope =
+        document.getElementById('content-child').parentElement
+          .parentElement
+      expect(scope).not.toHaveAttribute('data-scope-sha')
+    })
+
+    it('includes data-scope-sha attribute with SHA value when uniqueKey is provided', () => {
+      const mockSha = 'abc123def'
+      jest.mocked(getSha).mockReturnValue(mockSha)
+
+      render(
+        <IsolatedStyleScope scopeHash="my-scope" uniqueKey="custom-key">
+          <div id="content-child">Test Content</div>
+        </IsolatedStyleScope>
+      )
+
+      const scope =
+        document.getElementById('content-child').parentElement
+          .parentElement
+      expect(scope).toHaveAttribute('data-scope-sha', mockSha)
+    })
   })
 })

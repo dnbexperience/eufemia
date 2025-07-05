@@ -28,6 +28,8 @@ Paste the results here:
 
 ## Eufemia Version
 
+You can type `Eufemia.info.versions` in your browser console to get both JS and CSS versions.
+
 **Browser JS:** Type `Eufemia.version` in your browser console.
 
 **Browser CSS:** Type `window.getComputedStyle(document.body).getPropertyValue('--eufemia-version')` in your browser console.
