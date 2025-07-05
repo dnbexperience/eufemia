@@ -1,5 +1,8 @@
+import React from 'react'
+import { render } from '@testing-library/react'
 import * as EufemiaImport from '../Eufemia'
 import '../component-helper'
+import IsolatedStyleScope from '../IsolatedStyleScope'
 
 const { version, sha, init } = EufemiaImport
 
@@ -136,6 +139,41 @@ describe('Eufemia', () => {
       expect(shas1).toEqual([sha])
       expect(shas2).toEqual([sha])
       expect(window.__eufemiaSHAs?.length).toBe(1)
+    })
+  })
+
+  describe('Eufemia.info', () => {
+    beforeEach(() => {
+      init()
+    })
+
+    it('should get CSS and JS versions', () => {
+      window.__eufemiaVersions = ['1.2.3']
+      window.__eufemiaSHAs = ['abc123']
+
+      render(
+        <>
+          <style>
+            {`
+              .eufemia-scope--1_2_3 {
+                --eufemia-version: 1.2.3;
+              }
+            `}
+          </style>
+
+          <IsolatedStyleScope scopeHash="eufemia-scope--1_2_3">
+            content
+          </IsolatedStyleScope>
+        </>
+      )
+
+      expect(window.Eufemia?.info.versions).toEqual([
+        {
+          js: '1.2.3',
+          css: '1.2.3',
+          sha: 'abc123',
+        },
+      ])
     })
   })
 })

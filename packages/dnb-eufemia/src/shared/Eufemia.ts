@@ -7,12 +7,13 @@ declare global {
   interface Window {
     Eufemia?: {
       version?: string
-      versions?: string[]
+      versions?: Array<string>
       sha?: string
-      shas?: string[]
+      shas?: Array<string>
+      info?: { versions: Array<{ js: string; css: string; sha: string }> }
     }
-    __eufemiaVersions?: string[]
-    __eufemiaSHAs?: string[]
+    __eufemiaVersions?: Array<string>
+    __eufemiaSHAs?: Array<string>
   }
 }
 
@@ -39,7 +40,7 @@ export function init() {
         return version
       }
 
-      get versions(): string[] {
+      get versions(): Array<string> {
         return window.__eufemiaVersions
       }
 
@@ -47,8 +48,26 @@ export function init() {
         return sha
       }
 
-      get shas(): string[] {
+      get shas(): Array<string> {
         return window.__eufemiaSHAs
+      }
+
+      get info(): {
+        versions: Array<{ js: string; css: string; sha: string }>
+      } {
+        return {
+          versions: window.__eufemiaVersions.map((js, i) => {
+            const scope = document.querySelector(
+              `.eufemia-scope--${js.replace(/\./g, '_')}`
+            )
+            const css = window
+              .getComputedStyle(scope || document.body)
+              .getPropertyValue('--eufemia-version')
+            const sha = window.__eufemiaSHAs[i]
+
+            return { js, css, sha }
+          }),
+        }
       }
     }
 
