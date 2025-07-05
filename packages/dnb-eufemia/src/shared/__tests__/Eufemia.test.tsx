@@ -24,13 +24,6 @@ describe('Eufemia', () => {
     })
   })
 
-  describe('version and sha', () => {
-    it('should export version and sha constants', () => {
-      expect(version).toBeDefined()
-      expect(sha).toBeDefined()
-    })
-  })
-
   describe('init', () => {
     it('should initialize Eufemia on window object', () => {
       init()
@@ -48,51 +41,7 @@ describe('Eufemia', () => {
     })
   })
 
-  describe('Eufemia instance', () => {
-    beforeEach(() => {
-      init()
-    })
-
-    it('should have version getter', () => {
-      expect(window.Eufemia?.version).toBe(version)
-    })
-
-    it('should have sha getter', () => {
-      expect(window.Eufemia?.sha).toBe(sha)
-    })
-
-    it('should initialize versions array on first access', () => {
-      expect(window.__eufemiaVersions).toEqual(['__VERSION__'])
-      const versions = window.Eufemia?.versions
-      expect(versions).toEqual([version])
-      expect(window.__eufemiaVersions).toEqual([version])
-    })
-
-    it('should initialize shas array on first access', () => {
-      expect(window.__eufemiaSHAs).toEqual(['__SHA__'])
-      const shas = window.Eufemia?.shas
-      expect(shas).toEqual([sha])
-      expect(window.__eufemiaSHAs).toEqual([sha])
-    })
-
-    it('should not add duplicate versions', () => {
-      const versions1 = window.Eufemia?.versions
-      const versions2 = window.Eufemia?.versions
-      expect(versions1).toEqual([version])
-      expect(versions2).toEqual([version])
-      expect(window.__eufemiaVersions?.length).toBe(1)
-    })
-
-    it('should not add duplicate shas', () => {
-      const shas1 = window.Eufemia?.shas
-      const shas2 = window.Eufemia?.shas
-      expect(shas1).toEqual([sha])
-      expect(shas2).toEqual([sha])
-      expect(window.__eufemiaSHAs?.length).toBe(1)
-    })
-  })
-
-  describe('Eufemia versions and "shas"', () => {
+  describe('Eufemia "versions" and "shas"', () => {
     it('should handle multiple different versions', () => {
       {
         init()
@@ -117,6 +66,76 @@ describe('Eufemia', () => {
         init()
         expect(window.__eufemiaSHAs).toEqual(['abc123', '__SHA__'])
       }
+    })
+  })
+
+  describe('Eufemia.version', () => {
+    beforeEach(() => {
+      init()
+    })
+
+    it('should export version constant', () => {
+      expect(version).toBeDefined()
+    })
+
+    it('should have version getter', () => {
+      expect(window.Eufemia?.version).toBe(version)
+    })
+  })
+
+  describe('Eufemia.sha', () => {
+    beforeEach(() => {
+      init()
+    })
+
+    it('should export sha constant', () => {
+      expect(sha).toBeDefined()
+    })
+
+    it('should have sha getter', () => {
+      expect(window.Eufemia?.sha).toBe(sha)
+    })
+  })
+
+  describe('Eufemia.versions', () => {
+    beforeEach(() => {
+      init()
+    })
+
+    it('should initialize versions array on first access', () => {
+      expect(window.__eufemiaVersions).toEqual(['__VERSION__'])
+      const versions = window.Eufemia?.versions
+      expect(versions).toEqual([version])
+      expect(window.__eufemiaVersions).toEqual([version])
+    })
+
+    it('should not add duplicate versions', () => {
+      const versions1 = window.Eufemia?.versions
+      const versions2 = window.Eufemia?.versions
+      expect(versions1).toEqual([version])
+      expect(versions2).toEqual([version])
+      expect(window.__eufemiaVersions?.length).toBe(1)
+    })
+  })
+
+  describe('Eufemia.shas', () => {
+    beforeEach(() => {
+      init()
+    })
+
+    it('should initialize shas array on first access', () => {
+      expect(window.__eufemiaSHAs).toEqual(['__SHA__'])
+      const shas = window.Eufemia?.shas
+      expect(shas).toEqual([sha])
+      expect(window.__eufemiaSHAs).toEqual([sha])
+    })
+
+    it('should not add duplicate shas', () => {
+      const shas1 = window.Eufemia?.shas
+      const shas2 = window.Eufemia?.shas
+      expect(shas1).toEqual([sha])
+      expect(shas2).toEqual([sha])
+      expect(window.__eufemiaSHAs?.length).toBe(1)
     })
   })
 })
