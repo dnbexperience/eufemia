@@ -57,9 +57,12 @@ export function init() {
       } {
         return {
           versions: window.__eufemiaVersions.map((js, i) => {
+            // const scopes = document.querySelectorAll('[data-scope-hash]')
+            // console.log('scopes.length', scopes.length)
             const scope = document.querySelector(
               `.eufemia-scope--${js.replace(/\./g, '_')}`
             )
+            // console.log('scope', scope !== null)
             const css = window
               .getComputedStyle(scope || document.body)
               .getPropertyValue('--eufemia-version')

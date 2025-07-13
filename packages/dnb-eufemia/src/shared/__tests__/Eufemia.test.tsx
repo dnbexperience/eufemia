@@ -175,5 +175,46 @@ describe('Eufemia', () => {
         },
       ])
     })
+
+    it('should get scopes with CSS and JS versions', () => {
+      window.__eufemiaVersions = ['1.2.3', '2.8.9']
+      window.__eufemiaSHAs = ['abc123', 'def456']
+
+      render(
+        <>
+          <IsolatedStyleScope scopeHash="eufemia-scope--1_2_3">
+            <style>
+              {`
+              .eufemia-scope--1_2_3 {
+                --eufemia-version: 1.2.3;
+                }
+                `}
+            </style>
+          </IsolatedStyleScope>
+          <IsolatedStyleScope scopeHash="eufemia-scope--2_8_9">
+            <style>
+              {`
+              .eufemia-scope--2_8_9 {
+                --eufemia-version: 2.8.9;
+                }
+                `}
+            </style>
+          </IsolatedStyleScope>
+        </>
+      )
+
+      expect(window.Eufemia?.info.versions).toEqual([
+        {
+          js: '1.2.3',
+          css: '1.2.3',
+          sha: 'abc123',
+        },
+        {
+          js: '2.8.9',
+          css: '2.8.9',
+          sha: 'def456',
+        },
+      ])
+    })
   })
 })
