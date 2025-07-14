@@ -3,6 +3,13 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.77.3](https://github.com/dnbexperience/eufemia/compare/v10.77.2...v10.77.3) (2025-07-14)
+
+
+### :bug: Bug Fixes
+
+* **Field.Number:** ensure custom mask support ([#5323](https://github.com/dnbexperience/eufemia/issues/5323)) ([a3c29a5](https://github.com/dnbexperience/eufemia/commit/a3c29a5e43f14229e9620c67760ce4efa74072f1))
+
 ## [10.77.2](https://github.com/dnbexperience/eufemia/compare/v10.77.1...v10.77.2) (2025-07-04)
 
 
