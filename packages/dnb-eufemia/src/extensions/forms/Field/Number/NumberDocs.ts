@@ -96,4 +96,9 @@ export const numberProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  mask: {
+    doc: 'An array or a function returning an array of regexes to use as a mask for the input. If not given, the input will not be masked.',
+    type: ['array', 'function'],
+    status: 'optional',
+  },
 }

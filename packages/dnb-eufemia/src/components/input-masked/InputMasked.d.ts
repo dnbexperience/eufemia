@@ -18,9 +18,11 @@ import type { NumberFormatProps } from '../NumberFormat';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
 export type InputMaskedMask =
-  | Record<string, unknown>
-  | any[]
-  | ((...args: any[]) => any);
+  | Array<RegExp | string>
+  | ((
+      value: string,
+      options: Record<string, boolean, string, number>
+    ) => Array<RegExp>);
 export type InputMaskedNumberMask =
   | string
   | boolean

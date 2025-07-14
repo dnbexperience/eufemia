@@ -27,6 +27,19 @@ export const LabelAndValue = () => {
   )
 }
 
+export const WithCustomMask = () => {
+  return (
+    <ComponentBox>
+      <Field.Number
+        label="Label text"
+        defaultValue={1234}
+        mask={Array(4).fill(/\d/)}
+        onChange={(value) => console.log('onChange', value)}
+      />
+    </ComponentBox>
+  )
+}
+
 export const LabelAndDescription = () => {
   return (
     <ComponentBox data-visual-test="number-label-description">
