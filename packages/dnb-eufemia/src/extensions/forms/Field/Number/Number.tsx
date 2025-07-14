@@ -302,11 +302,8 @@ function NumberComponent(props: Props) {
 
     // Custom mask based on props
     return {
-      as_number: true,
       mask,
-      number_mask: {
-        ...mask_options,
-      },
+      number_mask: mask ? undefined : mask_options,
     }
   }, [
     currency,
