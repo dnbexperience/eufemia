@@ -75,6 +75,7 @@ function DateFormat(props: DateFormatProps) {
   }
 
   if (relativeTime) {
+    // Duration string does not seem to be picked up or read correctly by screen readers (macOS VoiceOver at least), hence the span element
     return <span className="dnb-date-format">{getRelativeTime(date)}</span>
   }
 
@@ -87,6 +88,7 @@ function DateFormat(props: DateFormatProps) {
       )}
       lang={locale}
       // Makes sure that screen readers are reading the date correctly in the system language.
+
       dateTime={format(date, 'yyyy-MM-dd')}
       {...attributes}
     >
