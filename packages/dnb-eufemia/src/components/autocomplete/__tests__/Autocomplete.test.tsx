@@ -27,7 +27,6 @@ import {
   DrawerListDataArray,
 } from '../../../fragments/drawer-list'
 import { Provider } from '../../../shared'
-import { doc } from 'prettier'
 
 const mockProps: AutocompleteAllProps = {
   id: 'autocomplete-id',
