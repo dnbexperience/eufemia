@@ -750,14 +750,18 @@ class AutocompleteInstance extends React.PureComponent {
     }
     this.resetActiveItem()
     this.ignoreEvents()
-    this.context.drawerList.setData([
-      {
-        class_name: 'dnb-autocomplete__no-options',
-        content: this._props.no_options,
-        ignore_events: true,
-        __id: 'no_options',
-      },
-    ])
+    this.context.drawerList.setData(
+      this.props.no_options === false
+        ? []
+        : [
+            {
+              class_name: 'dnb-autocomplete__no-options',
+              content: this._props.no_options,
+              ignore_events: true,
+              __id: 'no_options',
+            },
+          ]
+    )
     this.context.drawerList.setState({
       cache_hash: 'no_options',
     })

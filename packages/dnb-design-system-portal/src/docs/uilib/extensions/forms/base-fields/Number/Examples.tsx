@@ -33,7 +33,7 @@ export const WithCustomMask = () => {
       <Field.Number
         label="Label text"
         defaultValue={1234}
-        mask={Array(4).fill(/\d/)}
+        mask={Array(4).fill(/\\d/)}
         onChange={(value) => console.log('onChange', value)}
       />
     </ComponentBox>
