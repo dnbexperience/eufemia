@@ -27,6 +27,7 @@ import {
   DrawerListDataArray,
 } from '../../../fragments/drawer-list'
 import { Provider } from '../../../shared'
+import { doc } from 'prettier'
 
 const mockProps: AutocompleteAllProps = {
   id: 'autocomplete-id',
@@ -3433,6 +3434,40 @@ describe('Autocomplete component', () => {
     await userEvent.click(input)
 
     expect(screen.getAllByRole('option')).toHaveLength(3)
+  })
+
+  it('should hide the list if no_options is false and no options are available', async () => {
+    render(
+      <Autocomplete
+        no_options={false}
+        data={[
+          { selectedKey: 1, content: 'A' },
+          { selectedKey: 2, content: 'B' },
+          { selectedKey: 3, content: 'C' },
+          { selectedKey: 4, content: 'D' },
+        ]}
+      />
+    )
+
+    const input = document.querySelector('input')
+
+    await userEvent.click(input)
+    expect(screen.getAllByRole('option')).toHaveLength(4)
+    expect(
+      document.querySelector('.dnb-drawer-list__options')
+    ).toBeInTheDocument()
+
+    await userEvent.type(input, 'A')
+    expect(screen.getAllByRole('option')).toHaveLength(2)
+    expect(
+      document.querySelector('.dnb-drawer-list__options')
+    ).toBeInTheDocument()
+
+    await userEvent.type(input, '{Backspace}F')
+
+    expect(
+      document.querySelector('.dnb-drawer-list__options')
+    ).not.toBeInTheDocument()
   })
 })
 
