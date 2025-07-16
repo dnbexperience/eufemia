@@ -118,7 +118,7 @@ export const AutocompleteProperties = {
   },
   no_options: {
     doc: 'Text show in the "no options" item. Defaults to `Ingen alternativer`.',
-    type: 'boolean',
+    type: 'React.Node',
     status: 'optional',
   },
   aria_live_options: {
