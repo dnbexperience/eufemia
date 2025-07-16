@@ -3,6 +3,13 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.77.4](https://github.com/dnbexperience/eufemia/compare/v10.77.3...v10.77.4) (2025-07-16)
+
+
+### :bug: Bug Fixes
+
+* **Autocomplete:** list is hidden when there are no results and `no_options` is set to `false` ([#5327](https://github.com/dnbexperience/eufemia/issues/5327)) ([90cef0b](https://github.com/dnbexperience/eufemia/commit/90cef0b9c65921804af823a688a8e0e9a1e15708))
+
 ## [10.77.3](https://github.com/dnbexperience/eufemia/compare/v10.77.2...v10.77.3) (2025-07-14)
 
 
