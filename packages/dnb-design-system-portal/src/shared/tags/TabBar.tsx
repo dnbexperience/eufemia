@@ -4,12 +4,14 @@
  */
 
 import React from 'react'
-import { Button, Tabs } from '@dnb/eufemia/src/components'
+import { Button, Tabs, Anchor, Space } from '@dnb/eufemia/src/components'
 import { fullscreen as fullscreenIcon } from '@dnb/eufemia/src/icons'
 import AutoLinkHeader from './AutoLinkHeader'
 import { tabsWrapperStyle } from './TabBar.module.scss'
 import { Link } from './Anchor'
 import { navigate } from 'gatsby'
+import GithubLogo from '../../docs/contribute/assets/github-logo'
+import FigmaLogo from '../../docs/contribute/assets/figma-logo'
 
 export const defaultTabsValue = [
   { title: 'Info', key: '/info' },
@@ -27,6 +29,8 @@ type TabbarProps = {
   hideTabs: Array<{ title: string }>
   rootPath: string
   children?: React.ReactNode
+  figmaUrl?: string
+  gitHubUrl?: string
 }
 
 export default function TabBar({
@@ -37,6 +41,8 @@ export default function TabBar({
   tabs,
   defaultTabs = defaultTabsValue,
   children,
+  figmaUrl,
+  gitHubUrl,
 }: TabbarProps) {
   const [wasFullscreen, setFullscreen] = React.useState(
     /fullscreen/.test(location.search),
@@ -108,6 +114,33 @@ export default function TabBar({
         <AutoLinkHeader className="dnb-no-focus" level={1} skip_correction>
           {title}
         </AutoLinkHeader>
+      )}
+      {(figmaUrl || gitHubUrl) && (
+        <Space bottom="large">
+          {gitHubUrl && (
+            <Anchor
+              target="_blank"
+              icon={GithubLogo}
+              href={gitHubUrl}
+              className="dnb-anchor--no-launch-icon"
+              title="GitHub Repository"
+              right="small"
+            >
+              GitHub
+            </Anchor>
+          )}
+          {figmaUrl && (
+            <Anchor
+              target="_blank"
+              icon={FigmaLogo}
+              href={figmaUrl}
+              className="dnb-anchor--no-launch-icon"
+              title="Figma Design File"
+            >
+              Figma
+            </Anchor>
+          )}
+        </Space>
       )}
       <Tabs
         id="tab-bar"
