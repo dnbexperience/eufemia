@@ -6,6 +6,8 @@ import {
   Tools,
   Value,
 } from '@dnb/eufemia/src/extensions/forms'
+import { TextCounter } from '@dnb/eufemia/src/fragments'
+import React from 'react'
 
 export const Placeholder = () => {
   return (
@@ -593,6 +595,31 @@ export const OnInput = () => {
             <Form.SubmitButton />
           </Form.Handler>
         )
+      }}
+    </ComponentBox>
+  )
+}
+
+export const MaximumLengthWithTextCounter = () => {
+  return (
+    <ComponentBox>
+      {() => {
+        const MyFieldStringWithTextCounter = () => {
+          const [text, setText] = React.useState('')
+
+          return (
+            <Flex.Vertical gap="x-small">
+              <Field.String
+                label="Label text (maximum 8 characters)"
+                maxLength={8}
+                onChange={setText}
+              />
+              <TextCounter variant="down" text={text} max={8} />
+            </Flex.Vertical>
+          )
+        }
+
+        return <MyFieldStringWithTextCounter />
       }}
     </ComponentBox>
   )
