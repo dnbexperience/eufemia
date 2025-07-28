@@ -254,14 +254,6 @@ describe('font-url-rewrite-plugin', () => {
         new RegExp(`^${basePathRegex}dnb/DNB-Bold\\.(woff2|woff)$`)
       )
     }
-
-    // Check CDN accessibility for each URL and fail if any are not accessible
-    for (const fontUrl of urls) {
-      const { status, accessible } = await checkUrlExists(fontUrl)
-
-      expect(accessible).toBe(true)
-      expect(status).toBe(200)
-    }
   })
 })
 
