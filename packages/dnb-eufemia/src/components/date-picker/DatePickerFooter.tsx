@@ -92,14 +92,13 @@ function DatePickerFooter({
         ? convertStringToDate(previousDateProps.date, {
             dateFormat,
           })
-        : null
+        : undefined
 
       const endDate = previousDateProps.endDate
         ? convertStringToDate(previousDateProps.endDate, {
             dateFormat,
           })
         : startDate
-
       updateDates(
         {
           startDate,
