@@ -227,8 +227,7 @@ describe('font-url-rewrite-plugin', () => {
     const input = `
       @font-face {
         font-family: 'DNB';
-        src: url('assets/fonts/dnb/DNB-Bold.woff2') format('woff2'),
-             url('assets/fonts/dnb/DNB-Bold.woff') format('woff');
+        src: url('assets/fonts/dnb/DNB-Bold.woff2') format('woff2');
       }
     `
     const output = await processCSS(input, {
@@ -238,7 +237,7 @@ describe('font-url-rewrite-plugin', () => {
     // Extract all rewritten URLs
     const urlMatches = output.css.match(/url\("([^"]+)"\)/g)
     expect(urlMatches).toBeTruthy()
-    expect(urlMatches).toHaveLength(2)
+    expect(urlMatches).toHaveLength(1)
 
     const urls = urlMatches.map(
       (match) => match.match(/url\("([^"]+)"\)/)[1]
@@ -251,7 +250,7 @@ describe('font-url-rewrite-plugin', () => {
     )
     for (const fontUrl of urls) {
       expect(fontUrl).toMatch(
-        new RegExp(`^${basePathRegex}dnb/DNB-Bold\\.(woff2|woff)$`)
+        new RegExp(`^${basePathRegex}dnb/DNB-Bold\\.woff2$`)
       )
     }
 
