@@ -99,7 +99,6 @@ function DatePickerFooter({
             dateFormat,
           })
         : startDate
-      console.log('startDate, endDate', startDate, endDate)
       updateDates(
         {
           startDate,
