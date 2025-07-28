@@ -21,7 +21,8 @@ export const SkipLink = () => (
       <SkipLinkReset>
         <a
           className="dnb-skip-link--active"
-          href="https://www.dagbladet.no/"
+          href="#dnb-app-content"
+          onClick={(e) => e.preventDefault()}
         >
           Skip to content
         </a>
