@@ -146,16 +146,16 @@ export function TableClickableButtonTd(props: {
       : 'medium'
 
   return (
-    <Td className="dnb-table__td__button-icon">
-      <span
-        className="dnb-table__button"
-        onClick={() => {
-          // Empty the selected text, so that the user can always expand/close accordion.
-          // The selected text is not automatically cleared because we have
-          // CSS property `user-select: none` to prevent selection on double-click.
-          emptySelectedText()
-        }}
-      >
+    <Td
+      className="dnb-table__td__button-icon"
+      onClick={() => {
+        // Empty the selected text, so that the user can always expand/close accordion.
+        // The selected text is not automatically cleared because we have
+        // CSS property `user-select: none` to prevent selection on double-click.
+        emptySelectedText()
+      }}
+    >
+      <span className="dnb-table__button">
         <IconPrimary icon={icon} size={iconSize} />
         <Button
           className="dnb-sr-only"
