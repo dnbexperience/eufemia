@@ -121,7 +121,7 @@ export function onClickTr(
      * Let the user select text,
      * without triggering the onclick.
      */
-    !hasSelectedText()
+    !(hasSelectedText() && event.type === 'click')
   ) {
     onClick?.(event)
   }
