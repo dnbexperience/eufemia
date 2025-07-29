@@ -1,1 +1,1 @@
-exports.getFontBasePath = () => 'https://assets.dnb.no/shared/fonts/1.0.0/'
+exports.getFontBasePath = () => 'https://eufemia.dnb.no/fonts/'
