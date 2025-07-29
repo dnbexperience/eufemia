@@ -151,28 +151,28 @@ export const FormStatusWithIcons = () => (
       icon={<InfoIcon />}
       size="medium"
       title="Some title"
-      inherit_color={false}
+      inheritColor={false}
       right
     />
     <Icon
       icon={WarnIcon}
       size="medium"
       title="Some title"
-      inherit_color={false}
+      inheritColor={false}
       right
     />
     <Icon
       icon={ErrorIcon}
       size="medium"
       title="Some title"
-      inherit_color={false}
+      inheritColor={false}
       right
     />
     <Icon
       icon={MarketingIcon}
       size="medium"
       title="Some title"
-      inherit_color={false}
+      inheritColor={false}
     />
   </ComponentBox>
 )

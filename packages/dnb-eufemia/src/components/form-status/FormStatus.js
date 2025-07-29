@@ -156,7 +156,7 @@ export default class FormStatus extends React.PureComponent {
       <Icon
         icon={<IconToLoad title={null} state={state} />}
         size={icon_size}
-        inherit_color={false}
+        inheritColor={false}
       />
     )
   }
