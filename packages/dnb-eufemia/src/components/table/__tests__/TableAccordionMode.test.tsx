@@ -516,6 +516,43 @@ describe('Table using mode="accordion" prop', () => {
     )
   })
 
+  it('tr should clear selected text on toggle button click', () => {
+    const emptyFn = jest.fn()
+    render(
+      <Table mode="accordion">
+        <tbody>
+          <Tr>
+            <Td>Nothing</Td>
+            <Td.AccordionContent>accordion content</Td.AccordionContent>
+          </Tr>
+        </tbody>
+      </Table>
+    )
+
+    const trElement = document.querySelector('tr')
+    const toggleButtonElem = trElement.querySelector(
+      '.dnb-table__button button'
+    )
+
+    const getSelection = jest.fn(() => ({
+      toString: () => '',
+      empty: emptyFn,
+    })) as jest.Mock
+    jest.spyOn(window, 'getSelection').mockImplementation(getSelection)
+
+    jest
+      .spyOn(document, 'activeElement', 'get')
+      .mockReturnValue(toggleButtonElem)
+
+    fireEvent.click(toggleButtonElem)
+
+    expect(emptyFn).toHaveBeenCalledTimes(1)
+
+    expect(Array.from(trElement.classList)).toContain(
+      'dnb-table__tr--expanded'
+    )
+  })
+
   it('chevron placement class should be set with accordionChevronPlacement', () => {
     const { rerender } = render(
       <Table mode="accordion">
