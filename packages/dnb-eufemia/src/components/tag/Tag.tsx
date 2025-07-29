@@ -214,7 +214,7 @@ const handleDeprecatedBehavior: (allProps: TagProps) => TagProps = ({
 const getIcon = (title: string) => (
   <IconPrimary
     title={title}
-    inherit_color={false}
+    inheritColor={false}
     icon={
       <svg
         width="16"

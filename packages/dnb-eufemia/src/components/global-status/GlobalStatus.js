@@ -154,7 +154,7 @@ export default class GlobalStatus extends React.PureComponent {
         <Icon
           icon={<IconToLoad state={state} />}
           size={icon_size}
-          inherit_color={false}
+          inheritColor={false}
         />
       )
     }
