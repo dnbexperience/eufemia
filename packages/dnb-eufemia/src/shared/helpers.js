@@ -263,7 +263,6 @@ export function getSelectedText() {
   } catch (e) {
     //
   }
-  return ''
 }
 
 export function emptySelectedText() {
@@ -274,7 +273,6 @@ export function emptySelectedText() {
   } catch (e) {
     //
   }
-  return ''
 }
 
 export function hasSelectedText() {
