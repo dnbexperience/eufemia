@@ -64,6 +64,56 @@ describe('NumberFormat component', () => {
     ).toBeTruthy()
   })
 
+  it('handles empty input as value', () => {
+    render(<Component value={''} />)
+    expect(document.querySelector(displaySelector).textContent).toBe('-')
+  })
+
+  it('handles null input as value', () => {
+    render(<Component value={null} />)
+    expect(document.querySelector(displaySelector).textContent).toBe('-')
+  })
+
+  it('handles undefined input as value', () => {
+    render(<Component value={undefined} />)
+    expect(document.querySelector(displaySelector).textContent).toBe('-')
+  })
+
+  it('handles 0 input as value', () => {
+    render(<Component value={0} />)
+    expect(document.querySelector(displaySelector).textContent).toBe('-')
+  })
+
+  it('handles "0" input as value', () => {
+    render(<Component value={'0'} />)
+    expect(document.querySelector(displaySelector).textContent).toBe('-')
+  })
+
+  it('handles empty input as children', () => {
+    render(<Component>{''}</Component>)
+    expect(document.querySelector(displaySelector).textContent).toBe('-')
+  })
+
+  it('handles null input as children', () => {
+    render(<Component>{null}</Component>)
+    expect(document.querySelector(displaySelector).textContent).toBe('-')
+  })
+
+  it('handles undefined input as children', () => {
+    render(<Component>{undefined}</Component>)
+    expect(document.querySelector(displaySelector).textContent).toBe('-')
+  })
+
+  it('handles 0 input as children', () => {
+    render(<Component>{0}</Component>)
+    expect(document.querySelector(displaySelector).textContent).toBe('-')
+  })
+
+  it('handles "0" input as children', () => {
+    render(<Component>{'0'}</Component>)
+    expect(document.querySelector(displaySelector).textContent).toBe('-')
+  })
+
   it('have to match default number', () => {
     render(<Component value={value} />)
     expect(document.querySelector(displaySelector).textContent).toBe(
@@ -788,6 +838,56 @@ describe('NumberFormat compact', () => {
   const displaySelector =
     element + '.dnb-number-format .dnb-number-format__visible'
   const ariaSelector = element + '.dnb-number-format .dnb-sr-only'
+
+  it('handles empty input as value', () => {
+    render(<Component compact value={''} />)
+    expect(document.querySelector(displaySelector).textContent).toBe('-')
+  })
+
+  it('handles null input as value', () => {
+    render(<Component compact value={null} />)
+    expect(document.querySelector(displaySelector).textContent).toBe('-')
+  })
+
+  it('handles undefined input as value', () => {
+    render(<Component compact value={undefined} />)
+    expect(document.querySelector(displaySelector).textContent).toBe('-')
+  })
+
+  it('handles 0 input as value', () => {
+    render(<Component compact value={0} />)
+    expect(document.querySelector(displaySelector).textContent).toBe('-')
+  })
+
+  it('handles "0" input as value', () => {
+    render(<Component compact value={'0'} />)
+    expect(document.querySelector(displaySelector).textContent).toBe('-')
+  })
+
+  it('handles empty input as children', () => {
+    render(<Component compact>{''}</Component>)
+    expect(document.querySelector(displaySelector).textContent).toBe('-')
+  })
+
+  it('handles null input as children', () => {
+    render(<Component compact>{null}</Component>)
+    expect(document.querySelector(displaySelector).textContent).toBe('-')
+  })
+
+  it('handles undefined input as children', () => {
+    render(<Component compact>{undefined}</Component>)
+    expect(document.querySelector(displaySelector).textContent).toBe('-')
+  })
+
+  it('handles 0 input as children', () => {
+    render(<Component compact>{0}</Component>)
+    expect(document.querySelector(displaySelector).textContent).toBe('-')
+  })
+
+  it('handles "0" input as children', () => {
+    render(<Component compact>{'0'}</Component>)
+    expect(document.querySelector(displaySelector).textContent).toBe('-')
+  })
 
   it('have to match default compact number', () => {
     render(<Component value={-value} compact decimals={1} />)

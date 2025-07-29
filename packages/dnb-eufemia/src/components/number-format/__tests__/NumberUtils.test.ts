@@ -156,6 +156,23 @@ describe('Decimals format', () => {
   describe('rounding', () => {
     it('omit', () => {
       expect(
+        format(null, { currency: true, decimals: 0, rounding: 'omit' })
+      ).toBe('-')
+      expect(
+        format(undefined, {
+          currency: true,
+          decimals: 0,
+          rounding: 'omit',
+        })
+      ).toBe('-')
+      expect(
+        format(0, {
+          currency: true,
+          decimals: 0,
+          rounding: 'omit',
+        })
+      ).toBe('-')
+      expect(
         format(num, { currency: true, decimals: 0, rounding: 'omit' })
       ).toBe('-12 345 kr')
       expect(
@@ -179,6 +196,24 @@ describe('Decimals format', () => {
     })
 
     it('half-even', () => {
+      expect(
+        format(null, {
+          decimals: 0,
+          rounding: 'half-even',
+        })
+      ).toBe('2')
+      expect(
+        format(undefined, {
+          decimals: 0,
+          rounding: 'half-even',
+        })
+      ).toBe('2')
+      expect(
+        format(0, {
+          decimals: 0,
+          rounding: 'half-even',
+        })
+      ).toBe('2')
       expect(
         format(2.5, {
           decimals: 0,
@@ -219,6 +254,24 @@ describe('Decimals format', () => {
 
     it('half-up (default)', () => {
       expect(
+        format(null, {
+          decimals: 0,
+          rounding: 'half-up',
+        })
+      ).toBe('3')
+      expect(
+        format(undefined, {
+          decimals: 0,
+          rounding: 'half-up',
+        })
+      ).toBe('3')
+      expect(
+        format(0, {
+          decimals: 0,
+          rounding: 'half-up',
+        })
+      ).toBe('3')
+      expect(
         format(2.5, {
           decimals: 0,
           rounding: 'half-up',
@@ -252,6 +305,24 @@ describe('Decimals format', () => {
   })
 
   it('should handle omit currency sign', () => {
+    expect(
+      format(null, {
+        currency: true,
+        omit_currency_sign: true,
+      })
+    ).toBe('-12 345,68')
+    expect(
+      format(undefined, {
+        currency: true,
+        omit_currency_sign: true,
+      })
+    ).toBe('-12 345,68')
+    expect(
+      format(0, {
+        currency: true,
+        omit_currency_sign: true,
+      })
+    ).toBe('-12 345,68')
     expect(
       format(num, {
         currency: true,
@@ -311,6 +382,26 @@ describe('Decimals format', () => {
 })
 
 describe('Currency format with dirty number', () => {
+  it('should handle empty input', () => {
+    expect(format('', { clean: true, currency: true })).toBe('-')
+  })
+
+  it('should handle null input', () => {
+    expect(format(null, { clean: true, currency: true })).toBe('-')
+  })
+
+  it('should handle undefined input', () => {
+    expect(format(undefined, { clean: true, currency: true })).toBe('-')
+  })
+
+  it('should handle 0 input', () => {
+    expect(format(0, { clean: true, currency: true })).toBe('-')
+  })
+
+  it('should handle 0 input as string', () => {
+    expect(format('0', { clean: true, currency: true })).toBe('-')
+  })
+
   it('should treat a dot as decimal', () => {
     expect(format(-12345.67, { clean: true, currency: true })).toBe(
       '-12 345,67 kr'
@@ -561,6 +652,9 @@ describe('NumberFormat percentage', () => {
     expect(format(String(number), { percent: true })).toBe(
       '−123 456 789,56 %'
     )
+    expect(format(null, { percent: true })).toBe('0,2 %')
+    expect(format(undefined, { percent: true })).toBe('0,2 %')
+    expect(format(0, { percent: true })).toBe('0,2 %')
     expect(format(0.2, { percent: true })).toBe('0,2 %')
     expect(format(-4.1, { percent: true, decimals: 1 })).toBe('−4,1 %')
     expect(format(-4.1, { percent: true })).toBe('−4,1 %')
@@ -635,6 +729,7 @@ describe('NumberFormat cleanNumber', () => {
     expect(cleanNumber('prefix -123.00 suffix')).toBe('-123.00')
     expect(cleanNumber(undefined)).toBe(undefined)
     expect(cleanNumber(null)).toBe(null)
+    expect(cleanNumber(0)).toBe(0)
   })
 
   it('should not clean up if only a dot is given', () => {
@@ -893,6 +988,14 @@ describe('countDecimals should', () => {
 
 describe('rounding', () => {
   describe('roundHalfEven', () => {
+    it('should handle null input value', () => {
+      expect(roundHalfEven(0, 2)).toEqual(0)
+    })
+
+    it('should handle undefined input value', () => {
+      expect(roundHalfEven(0, 2)).toEqual(0)
+    })
+
     it('should handle 0 input value', () => {
       expect(roundHalfEven(0, 2)).toEqual(0)
     })
@@ -1027,6 +1130,18 @@ describe('formatPhone', () => {
 
   it('should handle empty input', () => {
     const result = formatPhone('')
+    expect(result.number).toBe('')
+    expect(result.aria).toBe('')
+  })
+
+  it('should handle 0 input', () => {
+    const result = formatPhone(0)
+    expect(result.number).toBe('')
+    expect(result.aria).toBe('')
+  })
+
+  it('should handle 0 input as string', () => {
+    const result = formatPhone('0')
     expect(result.number).toBe('')
     expect(result.aria).toBe('')
   })
