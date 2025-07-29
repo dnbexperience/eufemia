@@ -49,7 +49,7 @@
 
     opacity: 0;
 
-    user-select: none; // important, so this number not gets copied if only marked/selected
+    user-select: none; // important, so this number does not get copied if only marked/selected
   }
 
   &--selected &__selection {

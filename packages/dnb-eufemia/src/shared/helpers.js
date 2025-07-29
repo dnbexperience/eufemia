@@ -263,7 +263,16 @@ export function getSelectedText() {
   } catch (e) {
     //
   }
-  return ''
+}
+
+export function emptySelectedText() {
+  try {
+    if (window.getSelection && window.getSelection().empty) {
+      window.getSelection().empty()
+    }
+  } catch (e) {
+    //
+  }
 }
 
 export function hasSelectedText() {

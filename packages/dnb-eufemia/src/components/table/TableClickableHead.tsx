@@ -2,7 +2,7 @@ import React from 'react'
 import classnames from 'classnames'
 import keycode from '../../shared/keycode'
 import useId from '../../shared/helpers/useId'
-import { hasSelectedText } from '../../shared/helpers'
+import { emptySelectedText, hasSelectedText } from '../../shared/helpers'
 import Button from '../button/Button'
 import IconPrimary from '../icon/IconPrimary'
 import Th from './TableTh'
@@ -146,7 +146,15 @@ export function TableClickableButtonTd(props: {
       : 'medium'
 
   return (
-    <Td className="dnb-table__td__button-icon">
+    <Td
+      className="dnb-table__td__button-icon"
+      onClick={() => {
+        // Empty the selected text, so that the user can always expand/close accordion.
+        // The selected text is not automatically cleared because we have
+        // CSS property `user-select: none` to prevent selection on double-click.
+        emptySelectedText()
+      }}
+    >
       <span className="dnb-table__button">
         <IconPrimary icon={icon} size={iconSize} />
         <Button
