@@ -6,22 +6,31 @@ const postcssIsolatePlugin = require('@dnb/eufemia/src/plugins/postcss-isolated-
 const {
   getStyleScopeHash,
 } = require('@dnb/eufemia/src/plugins/postcss-isolated-style-scope/plugin-scope-hash.cjs')
+const postcssFontUrlRewritePlugin = require('@dnb/eufemia/src/plugins/postcss-font-url-rewrite')
+const {
+  getFontBasePath,
+} = require('@dnb/eufemia/src/plugins/postcss-font-url-rewrite/config')
 
 module.exports = {
-  plugins: [
+  plugins:
     /**
      * We also need to process the SASS modules from the portal.
      * Because in "gatsby-config" we import the isolated files: *--isolated.min.css
      */
     enableBuildStyleScope() || enablePortalStyleScope()
-      ? postcssIsolatePlugin({
-          scopeHash: 'eufemia-scope--portal',
-          skipClassNames: ['eufemia-scope--default'],
-          replaceClassNames: {
-            [getStyleScopeHash()]: 'eufemia-scope--portal',
-          },
-          verbose: false,
-        })
-      : undefined,
-  ],
+      ? [
+          postcssIsolatePlugin({
+            scopeHash: 'eufemia-scope--portal',
+            skipClassNames: ['eufemia-scope--default'],
+            replaceClassNames: {
+              [getStyleScopeHash()]: 'eufemia-scope--portal',
+            },
+            verbose: false,
+          }),
+          postcssFontUrlRewritePlugin({
+            basePath: getFontBasePath(),
+            verbose: false,
+          }),
+        ]
+      : [],
 }
