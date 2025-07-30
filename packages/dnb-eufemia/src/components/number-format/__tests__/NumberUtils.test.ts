@@ -80,6 +80,42 @@ describe('Decimals format', () => {
       type: 'number',
       value: String(num),
     })
+    expect(
+      format('', {
+        returnAria: true,
+      })
+    ).toMatchObject({
+      aria: '–',
+      cleanedValue: '–',
+      locale: 'nb-NO',
+      number: '–',
+      type: 'number',
+      value: '–',
+    })
+    expect(
+      format(null, {
+        returnAria: true,
+      })
+    ).toMatchObject({
+      aria: '–',
+      cleanedValue: '–',
+      locale: 'nb-NO',
+      number: '–',
+      type: 'number',
+      value: '–',
+    })
+    expect(
+      format(undefined, {
+        returnAria: true,
+      })
+    ).toMatchObject({
+      aria: '–',
+      cleanedValue: '–',
+      locale: 'nb-NO',
+      number: '–',
+      type: 'number',
+      value: '–',
+    })
   })
 
   it('should handle unusual cases', () => {
@@ -402,6 +438,45 @@ describe('Currency format with dirty number', () => {
       type: 'currency',
       value: number,
     })
+    expect(
+      format('', {
+        currency: true,
+        returnAria: true,
+      })
+    ).toMatchObject({
+      aria: ' kroner-',
+      cleanedValue: '- kr',
+      locale: 'nb-NO',
+      number: '- kr',
+      type: 'currency',
+      value: '–',
+    })
+    expect(
+      format(null, {
+        currency: true,
+        returnAria: true,
+      })
+    ).toMatchObject({
+      aria: ' kroner-',
+      cleanedValue: '- kr',
+      locale: 'nb-NO',
+      number: '- kr',
+      type: 'currency',
+      value: '–',
+    })
+    expect(
+      format(undefined, {
+        currency: true,
+        returnAria: true,
+      })
+    ).toMatchObject({
+      aria: ' kroner-',
+      cleanedValue: '- kr',
+      locale: 'nb-NO',
+      number: '- kr',
+      type: 'currency',
+      value: '–',
+    })
   })
 
   it('return correct aria with "clean_copy_value"', () => {
@@ -419,6 +494,51 @@ describe('Currency format with dirty number', () => {
       number: '-123 456 789,56 kr',
       type: 'currency',
       value: number,
+    })
+
+    expect(
+      format('', {
+        currency: true,
+        returnAria: true,
+        clean_copy_value: true,
+      })
+    ).toMatchObject({
+      aria: ' kroner-',
+      cleanedValue: '–',
+      locale: 'nb-NO',
+      number: '- kr',
+      type: 'currency',
+      value: '–',
+    })
+
+    expect(
+      format(null, {
+        currency: true,
+        returnAria: true,
+        clean_copy_value: true,
+      })
+    ).toMatchObject({
+      aria: ' kroner-',
+      cleanedValue: '–',
+      locale: 'nb-NO',
+      number: '- kr',
+      type: 'currency',
+      value: '–',
+    })
+
+    expect(
+      format(undefined, {
+        currency: true,
+        returnAria: true,
+        clean_copy_value: true,
+      })
+    ).toMatchObject({
+      aria: ' kroner-',
+      cleanedValue: '–',
+      locale: 'nb-NO',
+      number: '- kr',
+      type: 'currency',
+      value: '–',
     })
   })
 
@@ -623,6 +743,51 @@ describe('NumberFormat percentage', () => {
       number: '12.34%',
       type: 'number',
       value: 12.34,
+    })
+    expect(
+      format('', {
+        percent: true,
+        decimals: 1,
+        locale: 'en-US',
+        returnAria: true,
+      })
+    ).toMatchObject({
+      aria: '–%',
+      cleanedValue: '–%',
+      locale: 'en-US',
+      number: '–%',
+      type: 'number',
+      value: '–',
+    })
+    expect(
+      format(null, {
+        percent: true,
+        decimals: 1,
+        locale: 'en-US',
+        returnAria: true,
+      })
+    ).toMatchObject({
+      aria: '–%',
+      cleanedValue: '–%',
+      locale: 'en-US',
+      number: '–%',
+      type: 'number',
+      value: '–',
+    })
+    expect(
+      format(undefined, {
+        percent: true,
+        decimals: 1,
+        locale: 'en-US',
+        returnAria: true,
+      })
+    ).toMatchObject({
+      aria: '–%',
+      cleanedValue: '–%',
+      locale: 'en-US',
+      number: '–%',
+      type: 'number',
+      value: '–',
     })
   })
 })
