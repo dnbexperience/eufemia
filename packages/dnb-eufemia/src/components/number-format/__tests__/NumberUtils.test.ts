@@ -115,10 +115,8 @@ describe('Decimals format', () => {
         decimals: undefined,
       })
     ).toBe('-1,1234567891234568')
-    expect(format(null, { currency: 'non-valid value' })).toBe('null')
-    expect(format(undefined, { currency: 'non-valid value' })).toBe(
-      'undefined'
-    )
+    expect(format(null, { currency: 'non-valid value' })).toBe('–')
+    expect(format(undefined, { currency: 'non-valid value' })).toBe('–')
     expect(global.console.log).toHaveBeenCalledTimes(4)
   })
 
@@ -1027,20 +1025,20 @@ describe('formatPhone', () => {
 
   it('should handle empty input', () => {
     const result = formatPhone('')
-    expect(result.number).toBe('')
-    expect(result.aria).toBe('')
+    expect(result.number).toBe('–')
+    expect(result.aria).toBe('–')
   })
 
   it('should handle null input', () => {
     const result = formatPhone(null)
-    expect(result.number).toBe('')
-    expect(result.aria).toBe('')
+    expect(result.number).toBe('–')
+    expect(result.aria).toBe('–')
   })
 
   it('should handle undefined input', () => {
     const result = formatPhone(undefined)
-    expect(result.number).toBe('')
-    expect(result.aria).toBe('')
+    expect(result.number).toBe('–')
+    expect(result.aria).toBe('–')
   })
 
   it.each(countries.map(({ cdc, i18n }) => [`${i18n.en}`, cdc]))(
