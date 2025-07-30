@@ -14,7 +14,7 @@ describe('font-url-rewrite-plugin', () => {
     const input = `
       @font-face {
         font-family: 'TestFont';
-        src: url('assets/fonts/TestFont.woff2') format('woff2');
+        src: url('../assets/fonts/TestFont.woff2') format('woff2');
       }
     `
     const output = await processCSS(input)
@@ -25,7 +25,7 @@ describe('font-url-rewrite-plugin', () => {
     const input = `
       @font-face {
         font-family: 'TestFont';
-        src: url('assets/fonts/TestFont.woff2') format('woff2');
+        src: url('../assets/fonts/TestFont.woff2') format('woff2');
       }
     `
     const output = await processCSS(input, {
@@ -34,11 +34,26 @@ describe('font-url-rewrite-plugin', () => {
     expect(output.css).toContain('url("/custom/fonts/TestFont.woff2")')
   })
 
+  it('should rewrite font URLs with custom base path keeping subdir', async () => {
+    const input = `
+      @font-face {
+        font-family: 'TestFont';
+        src: url('../assets/fonts/subdir/TestFont.woff2') format('woff2');
+      }
+    `
+    const output = await processCSS(input, {
+      basePath: '/custom/fonts/',
+    })
+    expect(output.css).toContain(
+      'url("/custom/fonts/subdir/TestFont.woff2")'
+    )
+  })
+
   it('should remove hash from filename', async () => {
     const input = `
       @font-face {
         font-family: 'TestFont';
-        src: url('assets/fonts/TestFont-123abc456def.woff2') format('woff2');
+        src: url('../assets/fonts/TestFont-123abc456def.woff2') format('woff2');
       }
     `
     const output = await processCSS(input)
@@ -49,8 +64,8 @@ describe('font-url-rewrite-plugin', () => {
     const input = `
       @font-face {
         font-family: 'TestFont';
-        src: url('assets/fonts/TestFont-123abc.woff2') format('woff2'),
-             url('assets/fonts/TestFont-456def.woff') format('woff');
+        src: url('../assets/fonts/TestFont-123abc.woff2') format('woff2'),
+             url('../assets/fonts/TestFont-456def.woff') format('woff');
       }
     `
     const output = await processCSS(input)
@@ -73,7 +88,7 @@ describe('font-url-rewrite-plugin', () => {
     const input = `
       @font-face {
         font-family: 'TestFont';
-        src: url('assets/fonts/TestFont.woff2') format('woff2');
+        src: url('../assets/fonts/TestFont.woff2') format('woff2');
       }
     `
     const output = await processCSS(input)
@@ -95,7 +110,7 @@ describe('font-url-rewrite-plugin', () => {
     const input = `
       @font-face {
         font-family: 'TestFont';
-        src: url('assets/fonts/subdir/TestFont.woff2') format('woff2');
+        src: url('../assets/fonts/subdir/TestFont.woff2') format('woff2');
       }
     `
     const output = await processCSS(input)
@@ -133,7 +148,7 @@ describe('font-url-rewrite-plugin', () => {
     `
     await processCSS(input, { verbose: true })
     expect(consoleSpy).toHaveBeenCalledWith(
-      `Skipped (no match for "assets/fonts/"): fonts/TestFont.woff2`
+      `Skipped (no fonts segment): fonts/TestFont.woff2`
     )
     consoleSpy.mockRestore()
   })
@@ -164,7 +179,7 @@ describe('font-url-rewrite-plugin', () => {
     const input = `
       @font-face {
         font-family: 'TestFont';
-        src: url('assets/fonts/TestFont.woff2') format('woff2');
+        src: url('../assets/fonts/TestFont.woff2') format('woff2');
       }
     `
     const output = await processCSS(input, {
@@ -179,7 +194,7 @@ describe('font-url-rewrite-plugin', () => {
     const input = `
       @font-face {
         font-family: 'TestFont';
-        src: url('assets/fonts/subdir/TestFont.woff2') format('woff2');
+        src: url('../assets/fonts/subdir/TestFont.woff2') format('woff2');
       }
     `
     const output = await processCSS(input, {
@@ -194,7 +209,7 @@ describe('font-url-rewrite-plugin', () => {
     const input = `
       @font-face {
         font-family: 'DNB';
-        src: url('assets/fonts/dnb/DNB-Regular.woff2') format('woff2');
+        src: url('../assets/fonts/dnb/DNB-Regular.woff2') format('woff2');
       }
     `
     const output = await processCSS(input, {
@@ -227,8 +242,7 @@ describe('font-url-rewrite-plugin', () => {
     const input = `
       @font-face {
         font-family: 'DNB';
-        src: url('assets/fonts/dnb/DNB-Bold.woff2') format('woff2'),
-             url('assets/fonts/dnb/DNB-Bold.woff') format('woff');
+        src: url('../assets/fonts/dnb/DNB-Bold.woff2') format('woff2');
       }
     `
     const output = await processCSS(input, {
@@ -238,7 +252,7 @@ describe('font-url-rewrite-plugin', () => {
     // Extract all rewritten URLs
     const urlMatches = output.css.match(/url\("([^"]+)"\)/g)
     expect(urlMatches).toBeTruthy()
-    expect(urlMatches).toHaveLength(2)
+    expect(urlMatches).toHaveLength(1)
 
     const urls = urlMatches.map(
       (match) => match.match(/url\("([^"]+)"\)/)[1]
@@ -251,7 +265,7 @@ describe('font-url-rewrite-plugin', () => {
     )
     for (const fontUrl of urls) {
       expect(fontUrl).toMatch(
-        new RegExp(`^${basePathRegex}dnb/DNB-Bold\\.(woff2|woff)$`)
+        new RegExp(`^${basePathRegex}dnb/DNB-Bold\\.woff2$`)
       )
     }
 
@@ -262,6 +276,102 @@ describe('font-url-rewrite-plugin', () => {
       expect(accessible).toBe(true)
       expect(status).toBe(200)
     }
+  })
+
+  it('should skip malformed/invalid URLs', async () => {
+    const input = `
+      @font-face {
+        font-family: 'TestFont';
+        src: url('not-a-valid-url') format('woff2');
+      }
+    `
+    const output = await processCSS(input)
+    expect(output.css).toContain("url('not-a-valid-url')")
+  })
+
+  it('should overwrite absolute URL with given basePath', async () => {
+    const newBasePath = 'https://cdn.example.com/fonts/'
+    const input = `
+      @font-face {
+        font-family: 'TestFont';
+        src: url('${getFontBasePath()}TestFont.woff2') format('woff2');
+      }
+    `
+    const output = await processCSS(input, {
+      basePath: newBasePath,
+    })
+    expect(output.css).toContain(`url("${newBasePath}TestFont.woff2")`)
+  })
+
+  it('should handle running the plugin twice', async () => {
+    const input = `
+      @font-face {
+        font-family: 'TestFont';
+        src: url('../assets/fonts/TestFont.woff2') format('woff2');
+      }
+    `
+
+    // First run with default options
+    const firstOutput = await processCSS(input)
+    expect(firstOutput.css).toContain('url("/new-path/TestFont.woff2")')
+
+    // Second run with custom basePath
+    const secondOutput = await processCSS(firstOutput.css, {
+      basePath: 'https://cdn.example.com/fonts/',
+    })
+    expect(secondOutput.css).toContain(
+      'url("https://cdn.example.com/fonts/TestFont.woff2")'
+    )
+  })
+
+  it('should handle running the plugin twice with version', async () => {
+    const input = `
+      @font-face {
+        font-family: 'TestFont';
+        src: url('../assets/fonts/TestFont.woff2') format('woff2');
+      }
+    `
+
+    // First run with default options
+    const firstOutput = await processCSS(input, {
+      basePath: 'https://cdn.first.com/fonts/1.2.3/',
+    })
+    expect(firstOutput.css).toContain(
+      'url("https://cdn.first.com/fonts/1.2.3/TestFont.woff2")'
+    )
+
+    // Second run with custom basePath
+    const secondOutput = await processCSS(firstOutput.css, {
+      basePath: 'https://cdn.second.com/fonts/',
+    })
+    expect(secondOutput.css).toContain(
+      'url("https://cdn.second.com/fonts/TestFont.woff2")'
+    )
+  })
+
+  it('should handle running the plugin twice with subdir', async () => {
+    const input = `
+      @font-face {
+        font-family: 'TestFont';
+        src: url('../assets/fonts/subdir/TestFont.woff2') format('woff2');
+      }
+    `
+
+    // First run with default options
+    const firstOutput = await processCSS(input, {
+      basePath: 'https://cdn.first.com/fonts/1.2.3/',
+    })
+    expect(firstOutput.css).toContain(
+      'url("https://cdn.first.com/fonts/1.2.3/subdir/TestFont.woff2")'
+    )
+
+    // Second run with custom basePath
+    const secondOutput = await processCSS(firstOutput.css, {
+      basePath: 'https://cdn.second.com/fonts/',
+    })
+    expect(secondOutput.css).toContain(
+      'url("https://cdn.second.com/fonts/subdir/TestFont.woff2")'
+    )
   })
 })
 

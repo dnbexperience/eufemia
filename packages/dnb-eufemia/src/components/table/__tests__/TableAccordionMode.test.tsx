@@ -305,6 +305,75 @@ describe('Table using mode="accordion" prop', () => {
     )
   })
 
+  it('tr should open on tr enter press', () => {
+    render(
+      <Table mode="accordion">
+        <tbody>
+          <Tr>
+            <Td>Nothing</Td>
+            <Td.AccordionContent>accordion content</Td.AccordionContent>
+          </Tr>
+        </tbody>
+      </Table>
+    )
+
+    const trElement = document.querySelector('tr')
+
+    jest.spyOn(document, 'activeElement', 'get').mockReturnValue(trElement)
+
+    expect(Array.from(trElement.classList)).not.toContain(
+      'dnb-table__tr--expanded'
+    )
+
+    // open
+    const enterKey = createEvent.keyDown(trElement, {
+      keyCode: 13, // enter
+    })
+    enterKey.preventDefault = jest.fn()
+    fireEvent(trElement, enterKey)
+
+    expect(Array.from(trElement.classList)).toContain(
+      'dnb-table__tr--expanded'
+    )
+  })
+
+  it('tr should open on tr enter press when text is selected', () => {
+    render(
+      <Table mode="accordion">
+        <tbody>
+          <Tr>
+            <Td>Nothing</Td>
+            <Td.AccordionContent>accordion content</Td.AccordionContent>
+          </Tr>
+        </tbody>
+      </Table>
+    )
+
+    const getSelection = jest.fn(() => ({
+      toString: () => 'mock selection',
+    })) as jest.Mock
+    jest.spyOn(window, 'getSelection').mockImplementationOnce(getSelection)
+
+    const trElement = document.querySelector('tr')
+
+    jest.spyOn(document, 'activeElement', 'get').mockReturnValue(trElement)
+
+    expect(Array.from(trElement.classList)).not.toContain(
+      'dnb-table__tr--expanded'
+    )
+
+    // open
+    const enterKey = createEvent.keyDown(trElement, {
+      keyCode: 13, // enter
+    })
+    enterKey.preventDefault = jest.fn()
+    fireEvent(trElement, enterKey)
+
+    expect(Array.from(trElement.classList)).toContain(
+      'dnb-table__tr--expanded'
+    )
+  })
+
   it('tr should not open on interactive element click', () => {
     render(
       <Table mode="accordion">
@@ -441,6 +510,43 @@ describe('Table using mode="accordion" prop', () => {
       .mockReturnValue(toggleButtonElem)
 
     fireEvent.click(toggleButtonElem)
+
+    expect(Array.from(trElement.classList)).toContain(
+      'dnb-table__tr--expanded'
+    )
+  })
+
+  it('tr should clear selected text on toggle button click', () => {
+    const emptyFn = jest.fn()
+    render(
+      <Table mode="accordion">
+        <tbody>
+          <Tr>
+            <Td>Nothing</Td>
+            <Td.AccordionContent>accordion content</Td.AccordionContent>
+          </Tr>
+        </tbody>
+      </Table>
+    )
+
+    const trElement = document.querySelector('tr')
+    const toggleButtonElem = trElement.querySelector(
+      '.dnb-table__button button'
+    )
+
+    const getSelection = jest.fn(() => ({
+      toString: () => '',
+      empty: emptyFn,
+    })) as jest.Mock
+    jest.spyOn(window, 'getSelection').mockImplementation(getSelection)
+
+    jest
+      .spyOn(document, 'activeElement', 'get')
+      .mockReturnValue(toggleButtonElem)
+
+    fireEvent.click(toggleButtonElem)
+
+    expect(emptyFn).toHaveBeenCalledTimes(1)
 
     expect(Array.from(trElement.classList)).toContain(
       'dnb-table__tr--expanded'

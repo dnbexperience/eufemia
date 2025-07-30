@@ -31,6 +31,9 @@ export const NUMBER_CHARS = '\\-0-9,.'
 // check also for dashes ‒  –  —  ―
 export const NUMBER_MINUS = '-|−|‐|‒|–|—|―'
 
+// this is used to format a number that is not absent
+const ABSENT_VALUE_FORMAT = '–'
+
 /**
  * Format a number to a streamlined format based on the given locale
  *
@@ -80,6 +83,8 @@ export const format = (
     invalidAriaText = null,
   } = {}
 ) => {
+  value = isAbsent(value) ? ABSENT_VALUE_FORMAT : value
+
   let display = value
   let aria = null
   let type = 'number'
@@ -185,7 +190,7 @@ export const format = (
       )
     }
 
-    // cleanup, but only if it not got cleaned up already
+    // cleanup, but only if it did not got cleaned up already
     let cleanedNumber =
       decimals >= 0 ? value : clean ? cleanNumber(value) : value
 
@@ -323,7 +328,7 @@ export const format = (
         'N/A'
     }
 
-    // return "locale" as well value,l, since we have to "auto" option
+    // return "locale" as well value, since we have to "auto" option
     return { value, cleanedValue, number: display, aria, locale, type }
   }
 
@@ -579,7 +584,16 @@ export const formatNumber = (
 }
 
 function replaceNaNWithDash(number) {
-  return String(number).replace(/NaN/, '–')
+  return String(number).replace(/NaN/, ABSENT_VALUE_FORMAT)
+}
+
+function isAbsent(value) {
+  return (
+    value === null ||
+    value === undefined ||
+    value === '' ||
+    value === ABSENT_VALUE_FORMAT
+  )
 }
 
 /**
@@ -590,6 +604,10 @@ function replaceNaNWithDash(number) {
  * @returns a formatted phone number
  */
 export const formatPhone = (number, locale = null) => {
+  if (isAbsent(number)) {
+    return { number: ABSENT_VALUE_FORMAT, aria: ABSENT_VALUE_FORMAT }
+  }
+
   let display = number
   let aria = null
 
@@ -671,6 +689,9 @@ export const formatPhone = (number, locale = null) => {
  * @returns a formatted Bank Account Number
  */
 export const formatBAN = (number, locale = null) => {
+  if (isAbsent(number)) {
+    return { number: ABSENT_VALUE_FORMAT, aria: ABSENT_VALUE_FORMAT }
+  }
   // cleanup
   number = String(number).replace(/[^0-9]/g, '')
 
@@ -707,6 +728,9 @@ export const formatBAN = (number, locale = null) => {
  * @returns a formatted Organization Number
  */
 export const formatORG = (number, locale = null) => {
+  if (isAbsent(number)) {
+    return { number: ABSENT_VALUE_FORMAT, aria: ABSENT_VALUE_FORMAT }
+  }
   // cleanup
   number = String(number).replace(/[^0-9]/g, '')
 
@@ -743,6 +767,9 @@ export const formatORG = (number, locale = null) => {
  * @returns a formatted National Identification Number
  */
 export const formatNIN = (number, locale = null) => {
+  if (isAbsent(number)) {
+    return { number: ABSENT_VALUE_FORMAT, aria: ABSENT_VALUE_FORMAT }
+  }
   // cleanup
   number = String(number).replace(/[^0-9]/g, '')
 

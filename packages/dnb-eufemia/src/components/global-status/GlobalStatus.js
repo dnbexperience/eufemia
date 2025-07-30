@@ -154,7 +154,7 @@ export default class GlobalStatus extends React.PureComponent {
         <Icon
           icon={<IconToLoad state={state} />}
           size={icon_size}
-          inherit_color={false}
+          inheritColor={false}
         />
       )
     }
@@ -658,7 +658,7 @@ export default class GlobalStatus extends React.PureComponent {
                 <Button
                   text={close_text}
                   title={close_text}
-                  variant="tertiary"
+                  variant={state === 'success' ? 'secondary' : 'tertiary'}
                   className="dnb-global-status__close-button"
                   icon="close"
                   on_click={this.closeHandler}

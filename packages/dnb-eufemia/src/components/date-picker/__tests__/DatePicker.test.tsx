@@ -1399,6 +1399,53 @@ describe('DatePicker component', () => {
     )
   })
 
+  it('should empty the input fields when clicking the reset button when `date` is `undefined`', async () => {
+    const onReset = jest.fn()
+
+    render(
+      <DatePicker
+        date={undefined}
+        onReset={onReset}
+        showResetButton
+        showInput
+      />
+    )
+
+    const [day, month, year] = Array.from(
+      document.querySelectorAll('input.dnb-date-picker__input')
+    ) as Array<HTMLInputElement>
+
+    // Verify that the date is undefined.
+    expect(day.value).toBe('dd')
+    expect(month.value).toBe('mm')
+    expect(year.value).toBe('åååå')
+
+    // Enter date in the input fields to make sure the test always runs with the same month every time.
+    await userEvent.type(day, '01082025')
+
+    expect(day.value).toBe('01')
+    expect(month.value).toBe('08')
+    expect(year.value).toBe('2025')
+
+    // Open the date picker and select a date.
+    await userEvent.click(screen.getByLabelText('Åpne datovelger'))
+    await userEvent.click(screen.getByLabelText('torsdag 14. august 2025'))
+
+    // Verify that the date is correct
+    expect(day.value).toBe('14')
+    expect(month.value).toBe('08')
+    expect(year.value).toBe('2025')
+
+    // Clear the date based on the undefined date prop and verify.
+    await userEvent.click(
+      document.querySelector('button[data-testid="reset"]')
+    )
+
+    expect(day.value).toBe('dd')
+    expect(month.value).toBe('mm')
+    expect(year.value).toBe('åååå')
+  })
+
   it('should have functioning reset button with range pickers', async () => {
     render(
       <DatePicker
