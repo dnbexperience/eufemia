@@ -782,6 +782,396 @@ describe('NumberFormat component', () => {
       ).toHaveTextContent('2')
     })
   })
+
+  describe('handles absent values', () => {
+    it('when default', () => {
+      const { rerender } = render(<Component value={''} />)
+      expect(document.querySelector(displaySelector).textContent).toBe('–')
+
+      rerender(<Component value={null} />)
+      expect(document.querySelector(displaySelector).textContent).toBe('–')
+
+      rerender(<Component value={undefined} />)
+      expect(document.querySelector(displaySelector).textContent).toBe('–')
+
+      rerender(<Component>{''}</Component>)
+      expect(document.querySelector(displaySelector).textContent).toBe('–')
+
+      rerender(<Component>{null}</Component>)
+      expect(document.querySelector(displaySelector).textContent).toBe('–')
+
+      rerender(<Component>{undefined}</Component>)
+      expect(document.querySelector(displaySelector).textContent).toBe('–')
+    })
+
+    it('when prefix', () => {
+      const { rerender } = render(<Component value={''} prefix="prefix" />)
+      expect(document.querySelector(displaySelector).textContent).toBe(
+        'prefix –'
+      )
+
+      rerender(<Component value={null} prefix="prefix" />)
+      expect(document.querySelector(displaySelector).textContent).toBe(
+        'prefix –'
+      )
+
+      rerender(<Component value={undefined} prefix="prefix" />)
+      expect(document.querySelector(displaySelector).textContent).toBe(
+        'prefix –'
+      )
+
+      rerender(<Component prefix="prefix">{''}</Component>)
+      expect(document.querySelector(displaySelector).textContent).toBe(
+        'prefix –'
+      )
+
+      rerender(<Component prefix="prefix">{null}</Component>)
+      expect(document.querySelector(displaySelector).textContent).toBe(
+        'prefix –'
+      )
+
+      rerender(<Component prefix="prefix">{undefined}</Component>)
+      expect(document.querySelector(displaySelector).textContent).toBe(
+        'prefix –'
+      )
+    })
+
+    it('when suffix', () => {
+      const { rerender } = render(<Component value={''} suffix="suffix" />)
+      expect(document.querySelector(displaySelector).textContent).toBe(
+        '– suffix'
+      )
+
+      rerender(<Component value={null} suffix="suffix" />)
+      expect(document.querySelector(displaySelector).textContent).toBe(
+        '– suffix'
+      )
+
+      rerender(<Component value={undefined} suffix="suffix" />)
+      expect(document.querySelector(displaySelector).textContent).toBe(
+        '– suffix'
+      )
+
+      rerender(<Component suffix="suffix">{''}</Component>)
+      expect(document.querySelector(displaySelector).textContent).toBe(
+        '– suffix'
+      )
+
+      rerender(<Component suffix="suffix">{null}</Component>)
+      expect(document.querySelector(displaySelector).textContent).toBe(
+        '– suffix'
+      )
+
+      rerender(<Component suffix="suffix">{undefined}</Component>)
+      expect(document.querySelector(displaySelector).textContent).toBe(
+        '– suffix'
+      )
+    })
+
+    it('when decimals', () => {
+      const { rerender } = render(<Component value={''} decimals={2} />)
+      expect(document.querySelector(displaySelector).textContent).toBe('–')
+
+      rerender(<Component value={null} decimals={2} />)
+      expect(document.querySelector(displaySelector).textContent).toBe('–')
+
+      rerender(<Component value={undefined} decimals={2} />)
+      expect(document.querySelector(displaySelector).textContent).toBe('–')
+
+      rerender(<Component decimals={2}>{''}</Component>)
+      expect(document.querySelector(displaySelector).textContent).toBe('–')
+
+      rerender(<Component decimals={2}>{null}</Component>)
+      expect(document.querySelector(displaySelector).textContent).toBe('–')
+
+      rerender(<Component decimals={2}>{undefined}</Component>)
+      expect(document.querySelector(displaySelector).textContent).toBe('–')
+    })
+
+    it('when rounding', () => {
+      const { rerender } = render(
+        <Component value={''} rounding="half-even" />
+      )
+      expect(document.querySelector(displaySelector).textContent).toBe('–')
+
+      rerender(<Component value={null} rounding="half-even" />)
+      expect(document.querySelector(displaySelector).textContent).toBe('–')
+
+      rerender(<Component value={undefined} rounding="half-even" />)
+      expect(document.querySelector(displaySelector).textContent).toBe('–')
+
+      rerender(<Component rounding="half-even">{''}</Component>)
+      expect(document.querySelector(displaySelector).textContent).toBe('–')
+
+      rerender(<Component rounding="half-even">{null}</Component>)
+      expect(document.querySelector(displaySelector).textContent).toBe('–')
+
+      rerender(<Component rounding="half-even">{undefined}</Component>)
+      expect(document.querySelector(displaySelector).textContent).toBe('–')
+    })
+
+    it('when currency', () => {
+      const { rerender } = render(<Component value={''} currency />)
+      expect(document.querySelector(displaySelector).textContent).toBe(
+        '- kr'
+      )
+
+      rerender(<Component value={null} currency />)
+      expect(document.querySelector(displaySelector).textContent).toBe(
+        '- kr'
+      )
+
+      rerender(<Component value={undefined} currency />)
+      expect(document.querySelector(displaySelector).textContent).toBe(
+        '- kr'
+      )
+
+      rerender(<Component currency>{''}</Component>)
+      expect(document.querySelector(displaySelector).textContent).toBe(
+        '- kr'
+      )
+
+      rerender(<Component currency>{null}</Component>)
+      expect(document.querySelector(displaySelector).textContent).toBe(
+        '- kr'
+      )
+
+      rerender(<Component currency>{undefined}</Component>)
+      expect(document.querySelector(displaySelector).textContent).toBe(
+        '- kr'
+      )
+    })
+
+    it('when currency and currency_position', () => {
+      const { rerender } = render(
+        <Component value={''} currency currency_position="after" />
+      )
+      expect(document.querySelector(displaySelector).textContent).toBe(
+        '- kr'
+      )
+
+      rerender(
+        <Component value={null} currency currency_position="after" />
+      )
+      expect(document.querySelector(displaySelector).textContent).toBe(
+        '- kr'
+      )
+
+      rerender(
+        <Component value={undefined} currency currency_position="after" />
+      )
+      expect(document.querySelector(displaySelector).textContent).toBe(
+        '- kr'
+      )
+
+      rerender(
+        <Component currency currency_position="after">
+          {''}
+        </Component>
+      )
+      expect(document.querySelector(displaySelector).textContent).toBe(
+        '- kr'
+      )
+
+      rerender(
+        <Component currency currency_position="after">
+          {null}
+        </Component>
+      )
+      expect(document.querySelector(displaySelector).textContent).toBe(
+        '- kr'
+      )
+
+      rerender(
+        <Component currency currency_position="after">
+          {undefined}
+        </Component>
+      )
+      expect(document.querySelector(displaySelector).textContent).toBe(
+        '- kr'
+      )
+    })
+
+    it('when currency and currency_display', () => {
+      const { rerender } = render(
+        <Component value={''} currency currency_display="code" />
+      )
+      expect(document.querySelector(displaySelector).textContent).toBe(
+        '- NOK'
+      )
+
+      rerender(<Component value={null} currency currency_display="code" />)
+      expect(document.querySelector(displaySelector).textContent).toBe(
+        '- NOK'
+      )
+
+      rerender(
+        <Component value={undefined} currency currency_display="code" />
+      )
+      expect(document.querySelector(displaySelector).textContent).toBe(
+        '- NOK'
+      )
+
+      rerender(
+        <Component currency currency_display="code">
+          {''}
+        </Component>
+      )
+      expect(document.querySelector(displaySelector).textContent).toBe(
+        '- NOK'
+      )
+
+      rerender(
+        <Component currency currency_display="code">
+          {null}
+        </Component>
+      )
+      expect(document.querySelector(displaySelector).textContent).toBe(
+        '- NOK'
+      )
+
+      rerender(
+        <Component currency currency_display="code">
+          {undefined}
+        </Component>
+      )
+      expect(document.querySelector(displaySelector).textContent).toBe(
+        '- NOK'
+      )
+    })
+
+    it('when percent', () => {
+      const { rerender } = render(<Component value={''} percent />)
+      expect(document.querySelector(displaySelector).textContent).toBe(
+        '– %'
+      )
+
+      rerender(<Component value={null} percent />)
+      expect(document.querySelector(displaySelector).textContent).toBe(
+        '– %'
+      )
+
+      rerender(<Component value={undefined} percent />)
+      expect(document.querySelector(displaySelector).textContent).toBe(
+        '– %'
+      )
+
+      rerender(<Component percent>{''}</Component>)
+      expect(document.querySelector(displaySelector).textContent).toBe(
+        '– %'
+      )
+
+      rerender(<Component percent>{null}</Component>)
+      expect(document.querySelector(displaySelector).textContent).toBe(
+        '– %'
+      )
+
+      rerender(<Component percent>{undefined}</Component>)
+      expect(document.querySelector(displaySelector).textContent).toBe(
+        '– %'
+      )
+    })
+
+    it('when ban', () => {
+      const { rerender } = render(<Component value={''} ban />)
+      expect(document.querySelector(displaySelector).textContent).toBe('–')
+
+      rerender(<Component value={null} ban />)
+      expect(document.querySelector(displaySelector).textContent).toBe('–')
+
+      rerender(<Component value={undefined} ban />)
+      expect(document.querySelector(displaySelector).textContent).toBe('–')
+
+      rerender(<Component ban>{''}</Component>)
+      expect(document.querySelector(displaySelector).textContent).toBe('–')
+
+      rerender(<Component ban>{null}</Component>)
+      expect(document.querySelector(displaySelector).textContent).toBe('–')
+
+      rerender(<Component ban>{undefined}</Component>)
+      expect(document.querySelector(displaySelector).textContent).toBe('–')
+    })
+
+    it('when nin', () => {
+      const { rerender } = render(<Component value={''} nin />)
+      expect(document.querySelector(displaySelector).textContent).toBe('–')
+
+      rerender(<Component value={null} nin />)
+      expect(document.querySelector(displaySelector).textContent).toBe('–')
+
+      rerender(<Component value={undefined} nin />)
+      expect(document.querySelector(displaySelector).textContent).toBe('–')
+
+      rerender(<Component nin>{''}</Component>)
+      expect(document.querySelector(displaySelector).textContent).toBe('–')
+
+      rerender(<Component nin>{null}</Component>)
+      expect(document.querySelector(displaySelector).textContent).toBe('–')
+
+      rerender(<Component nin>{undefined}</Component>)
+      expect(document.querySelector(displaySelector).textContent).toBe('–')
+    })
+
+    it('when org', () => {
+      const { rerender } = render(<Component value={''} org />)
+      expect(document.querySelector(displaySelector).textContent).toBe('–')
+
+      rerender(<Component value={null} org />)
+      expect(document.querySelector(displaySelector).textContent).toBe('–')
+
+      rerender(<Component value={undefined} org />)
+      expect(document.querySelector(displaySelector).textContent).toBe('–')
+
+      rerender(<Component org>{''}</Component>)
+      expect(document.querySelector(displaySelector).textContent).toBe('–')
+
+      rerender(<Component org>{null}</Component>)
+      expect(document.querySelector(displaySelector).textContent).toBe('–')
+
+      rerender(<Component org>{undefined}</Component>)
+      expect(document.querySelector(displaySelector).textContent).toBe('–')
+    })
+
+    it('when phone', () => {
+      const { rerender } = render(<Component value={''} phone />)
+      expect(document.querySelector(displaySelector).textContent).toBe('–')
+
+      rerender(<Component value={null} phone />)
+      expect(document.querySelector(displaySelector).textContent).toBe('–')
+
+      rerender(<Component value={undefined} phone />)
+      expect(document.querySelector(displaySelector).textContent).toBe('–')
+
+      rerender(<Component phone>{''}</Component>)
+      expect(document.querySelector(displaySelector).textContent).toBe('–')
+
+      rerender(<Component phone>{null}</Component>)
+      expect(document.querySelector(displaySelector).textContent).toBe('–')
+
+      rerender(<Component phone>{undefined}</Component>)
+      expect(document.querySelector(displaySelector).textContent).toBe('–')
+    })
+
+    it('when clean', () => {
+      const { rerender } = render(<Component value={''} clean />)
+      expect(document.querySelector(displaySelector).textContent).toBe('–')
+
+      rerender(<Component value={null} clean />)
+      expect(document.querySelector(displaySelector).textContent).toBe('–')
+
+      rerender(<Component value={undefined} clean />)
+      expect(document.querySelector(displaySelector).textContent).toBe('–')
+
+      rerender(<Component clean>{''}</Component>)
+      expect(document.querySelector(displaySelector).textContent).toBe('–')
+
+      rerender(<Component clean>{null}</Component>)
+      expect(document.querySelector(displaySelector).textContent).toBe('–')
+
+      rerender(<Component clean>{undefined}</Component>)
+      expect(document.querySelector(displaySelector).textContent).toBe('–')
+    })
+  })
 })
 
 describe('NumberFormat compact', () => {

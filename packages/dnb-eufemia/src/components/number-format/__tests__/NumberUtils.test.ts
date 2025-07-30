@@ -80,6 +80,42 @@ describe('Decimals format', () => {
       type: 'number',
       value: String(num),
     })
+    expect(
+      format('', {
+        returnAria: true,
+      })
+    ).toMatchObject({
+      aria: '–',
+      cleanedValue: '–',
+      locale: 'nb-NO',
+      number: '–',
+      type: 'number',
+      value: '–',
+    })
+    expect(
+      format(null, {
+        returnAria: true,
+      })
+    ).toMatchObject({
+      aria: '–',
+      cleanedValue: '–',
+      locale: 'nb-NO',
+      number: '–',
+      type: 'number',
+      value: '–',
+    })
+    expect(
+      format(undefined, {
+        returnAria: true,
+      })
+    ).toMatchObject({
+      aria: '–',
+      cleanedValue: '–',
+      locale: 'nb-NO',
+      number: '–',
+      type: 'number',
+      value: '–',
+    })
   })
 
   it('should handle unusual cases', () => {
@@ -115,10 +151,8 @@ describe('Decimals format', () => {
         decimals: undefined,
       })
     ).toBe('-1,1234567891234568')
-    expect(format(null, { currency: 'non-valid value' })).toBe('null')
-    expect(format(undefined, { currency: 'non-valid value' })).toBe(
-      'undefined'
-    )
+    expect(format(null, { currency: 'non-valid value' })).toBe('–')
+    expect(format(undefined, { currency: 'non-valid value' })).toBe('–')
     expect(global.console.log).toHaveBeenCalledTimes(4)
   })
 
@@ -404,6 +438,45 @@ describe('Currency format with dirty number', () => {
       type: 'currency',
       value: number,
     })
+    expect(
+      format('', {
+        currency: true,
+        returnAria: true,
+      })
+    ).toMatchObject({
+      aria: ' kroner-',
+      cleanedValue: '- kr',
+      locale: 'nb-NO',
+      number: '- kr',
+      type: 'currency',
+      value: '–',
+    })
+    expect(
+      format(null, {
+        currency: true,
+        returnAria: true,
+      })
+    ).toMatchObject({
+      aria: ' kroner-',
+      cleanedValue: '- kr',
+      locale: 'nb-NO',
+      number: '- kr',
+      type: 'currency',
+      value: '–',
+    })
+    expect(
+      format(undefined, {
+        currency: true,
+        returnAria: true,
+      })
+    ).toMatchObject({
+      aria: ' kroner-',
+      cleanedValue: '- kr',
+      locale: 'nb-NO',
+      number: '- kr',
+      type: 'currency',
+      value: '–',
+    })
   })
 
   it('return correct aria with "clean_copy_value"', () => {
@@ -421,6 +494,51 @@ describe('Currency format with dirty number', () => {
       number: '-123 456 789,56 kr',
       type: 'currency',
       value: number,
+    })
+
+    expect(
+      format('', {
+        currency: true,
+        returnAria: true,
+        clean_copy_value: true,
+      })
+    ).toMatchObject({
+      aria: ' kroner-',
+      cleanedValue: '–',
+      locale: 'nb-NO',
+      number: '- kr',
+      type: 'currency',
+      value: '–',
+    })
+
+    expect(
+      format(null, {
+        currency: true,
+        returnAria: true,
+        clean_copy_value: true,
+      })
+    ).toMatchObject({
+      aria: ' kroner-',
+      cleanedValue: '–',
+      locale: 'nb-NO',
+      number: '- kr',
+      type: 'currency',
+      value: '–',
+    })
+
+    expect(
+      format(undefined, {
+        currency: true,
+        returnAria: true,
+        clean_copy_value: true,
+      })
+    ).toMatchObject({
+      aria: ' kroner-',
+      cleanedValue: '–',
+      locale: 'nb-NO',
+      number: '- kr',
+      type: 'currency',
+      value: '–',
     })
   })
 
@@ -625,6 +743,51 @@ describe('NumberFormat percentage', () => {
       number: '12.34%',
       type: 'number',
       value: 12.34,
+    })
+    expect(
+      format('', {
+        percent: true,
+        decimals: 1,
+        locale: 'en-US',
+        returnAria: true,
+      })
+    ).toMatchObject({
+      aria: '–%',
+      cleanedValue: '–%',
+      locale: 'en-US',
+      number: '–%',
+      type: 'number',
+      value: '–',
+    })
+    expect(
+      format(null, {
+        percent: true,
+        decimals: 1,
+        locale: 'en-US',
+        returnAria: true,
+      })
+    ).toMatchObject({
+      aria: '–%',
+      cleanedValue: '–%',
+      locale: 'en-US',
+      number: '–%',
+      type: 'number',
+      value: '–',
+    })
+    expect(
+      format(undefined, {
+        percent: true,
+        decimals: 1,
+        locale: 'en-US',
+        returnAria: true,
+      })
+    ).toMatchObject({
+      aria: '–%',
+      cleanedValue: '–%',
+      locale: 'en-US',
+      number: '–%',
+      type: 'number',
+      value: '–',
     })
   })
 })
@@ -1027,20 +1190,20 @@ describe('formatPhone', () => {
 
   it('should handle empty input', () => {
     const result = formatPhone('')
-    expect(result.number).toBe('')
-    expect(result.aria).toBe('')
+    expect(result.number).toBe('–')
+    expect(result.aria).toBe('–')
   })
 
   it('should handle null input', () => {
     const result = formatPhone(null)
-    expect(result.number).toBe('')
-    expect(result.aria).toBe('')
+    expect(result.number).toBe('–')
+    expect(result.aria).toBe('–')
   })
 
   it('should handle undefined input', () => {
     const result = formatPhone(undefined)
-    expect(result.number).toBe('')
-    expect(result.aria).toBe('')
+    expect(result.number).toBe('–')
+    expect(result.aria).toBe('–')
   })
 
   it.each(countries.map(({ cdc, i18n }) => [`${i18n.en}`, cdc]))(
