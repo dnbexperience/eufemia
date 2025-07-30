@@ -3,6 +3,24 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.77.5](https://github.com/dnbexperience/eufemia/compare/v10.77.4...v10.77.5) (2025-07-30)
+
+
+### :memo: Documentation
+
+* **Field.String:** add demo example using `TextCounter` together with `maxLength` property ([#5335](https://github.com/dnbexperience/eufemia/issues/5335)) ([bf1510c](https://github.com/dnbexperience/eufemia/commit/bf1510cf4e00446be7e24b9186378caf05ac8de4))
+
+
+### :bug: Bug Fixes
+
+* **DatePicker:** make reset button clear the date value if the `date` props is `undefined` ([#5336](https://github.com/dnbexperience/eufemia/issues/5336)) ([f19fd34](https://github.com/dnbexperience/eufemia/commit/f19fd3463ca27656ca9e50ec2780bfeb3da4d7c4))
+* **GlobalStatus:** color contrast of close button in success state ([#5354](https://github.com/dnbexperience/eufemia/issues/5354)) ([2d8a19b](https://github.com/dnbexperience/eufemia/commit/2d8a19b663bbf1c0d25ca318fe03ad31fe623aef))
+* **NumberFormat:** display dash `-` for values `null`, `undefined`, and `''` ([#5351](https://github.com/dnbexperience/eufemia/issues/5351)) ([7fb3244](https://github.com/dnbexperience/eufemia/commit/7fb3244028d991353c3134361f1aa3d18b68f0ca))
+* skip-link styling ([#5334](https://github.com/dnbexperience/eufemia/issues/5334)) ([1351090](https://github.com/dnbexperience/eufemia/commit/1351090531d68ba68de5e241187ac11815c8ad5b))
+* **StyleIsolation:** change font base path ([#5333](https://github.com/dnbexperience/eufemia/issues/5333)) ([2e0d68a](https://github.com/dnbexperience/eufemia/commit/2e0d68afebece59d2a59c3070284a3ece17975ab))
+* **Table:** allow expand and close by keydown when text is selected ([#5344](https://github.com/dnbexperience/eufemia/issues/5344)) ([ad6049f](https://github.com/dnbexperience/eufemia/commit/ad6049f93fd1ee7e8aefb20fd205cf794cafd4d7))
+* **Table:** allow expanding by chevron when text is selected ([#5343](https://github.com/dnbexperience/eufemia/issues/5343)) ([aff2e1d](https://github.com/dnbexperience/eufemia/commit/aff2e1d0b9d44c0e1e14c4b94d22c3b7cb5f0af9))
+
 ## [10.77.4](https://github.com/dnbexperience/eufemia/compare/v10.77.3...v10.77.4) (2025-07-16)
 
 
