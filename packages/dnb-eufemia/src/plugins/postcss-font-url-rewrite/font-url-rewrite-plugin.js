@@ -1,77 +1,103 @@
 const path = require('path')
+const { URL } = require('url')
 
-const postcssFontUrlRewrite = (opts = {}) => {
+const DEFAULT_BASE = '/new-path/'
+
+function postcssFontUrlRewrite(opts = {}) {
   const {
-    basePath = '/new-path/',
-    pathPrefixToKeep = 'assets/fonts/',
+    basePath = DEFAULT_BASE, // where you *want* fonts to live:
+    sourceBase, // OPTIONAL: where they *currently* live on your origin/CNAME:
     verbose = false,
   } = opts
 
+  const FONT_MARKER = '/fonts/'
+  const baseIsFullUrl = /^https?:\/\//.test(basePath)
+
+  // helper to normalize and ensure a trailing slash
+  const normalizeBase = (str, isUrl) =>
+    isUrl
+      ? str.replace(/\/+$/, '') + '/'
+      : path.posix.normalize(str).replace(/\/+$/, '') + '/'
+
+  const normalizedTarget = normalizeBase(basePath, baseIsFullUrl)
+  const normalizedSource =
+    sourceBase &&
+    normalizeBase(sourceBase, /^https?:\/\//.test(sourceBase))
+  const defaultNormalizedBase = normalizeBase(DEFAULT_BASE, false)
+
   return {
     postcssPlugin: 'font-url-rewrite-plugin',
-
     AtRule: {
       'font-face'(atRule) {
         atRule.walkDecls('src', (decl) => {
           decl.value = decl.value.replace(
-            /url\(([^)]+)\)/g,
-            (match, rawUrl) => {
-              const url = rawUrl.replace(/^['"]|['"]$/g, '') // strip quotes
-              const normalizedUrl = url.replace(/\\/g, '/') // handle Windows paths
+            /url\(\s*(['"]?)([^'")]+)\1\s*\)/g,
+            (fullMatch, _quote, rawUrl) => {
+              // normalize backslashes
+              const urlStr = rawUrl.replace(/\\+/g, '/')
+              let subPath
 
-              const index = normalizedUrl.lastIndexOf(pathPrefixToKeep)
-              if (index === -1) {
-                if (verbose) {
-                  console.warn(
-                    `Skipped (no match for "${pathPrefixToKeep}"): ${url}`
-                  )
+              // 1. incoming sourceBase
+              if (
+                normalizedSource &&
+                urlStr.startsWith(normalizedSource)
+              ) {
+                subPath = urlStr.slice(normalizedSource.length)
+
+                // 2. already rewritten to normalizedTarget (double-run)
+              } else if (urlStr.startsWith(normalizedTarget)) {
+                subPath = urlStr.slice(normalizedTarget.length)
+
+                // 3. previously default base (double-run after default)
+              } else if (urlStr.startsWith(defaultNormalizedBase)) {
+                subPath = urlStr.slice(defaultNormalizedBase.length)
+
+                // 4. some other absolute URL
+              } else if (/^https?:\/\//.test(urlStr)) {
+                const parsed = new URL(urlStr)
+                const pathname = parsed.pathname
+                const idx = pathname.lastIndexOf(FONT_MARKER)
+                subPath =
+                  idx !== -1
+                    ? pathname.slice(idx + FONT_MARKER.length)
+                    : path.posix.basename(pathname)
+
+                // 5. fallback: find the last fonts segment
+              } else {
+                const idx = urlStr.lastIndexOf(FONT_MARKER)
+                if (idx === -1) {
+                  if (verbose)
+                    console.warn(`Skipped (no fonts segment): ${urlStr}`)
+                  return fullMatch
                 }
-                return match
+                subPath = urlStr.slice(idx + FONT_MARKER.length)
               }
 
-              const subPath = normalizedUrl.substring(
-                index + pathPrefixToKeep.length
-              )
-              const filename = path.basename(subPath)
+              // strip leading version folder (e.g. "1.2.3/subpath/..." → "subpath/..." )
+              subPath = subPath.replace(/^\d+\.\d+\.\d+\/(.+)/, '$1')
 
-              // Remove hash if any: FontName-123abc.woff → FontName.woff
-              const cleanedFile = filename.replace(
+              // strip hash from filename and get dir
+              const filename = path.posix.basename(subPath)
+              const cleaned = filename.replace(
                 /-[a-f0-9]{6,}(?=\.[^.]+$)/,
                 ''
               )
-              const dir = path.dirname(subPath)
+              const dir = path.posix.dirname(subPath)
 
-              // Handle URL joining differently based on whether basePath is a URL
+              // rebuild under target basePath
               let finalUrl
-              if (
-                basePath.startsWith('http://') ||
-                basePath.startsWith('https://')
-              ) {
-                // For URLs, manually join the parts to preserve protocol
-                const basePathWithoutTrailingSlash = basePath.replace(
-                  /\/$/,
-                  ''
-                )
-                if (dir === '.') {
-                  // If there's no directory, just join base path and filename
-                  finalUrl = `${basePathWithoutTrailingSlash}/${cleanedFile}`
-                } else {
-                  // If there is a directory, handle it normally
-                  const dirWithoutLeadingSlash = dir.replace(/^\//, '')
-                  finalUrl = `${basePathWithoutTrailingSlash}/${dirWithoutLeadingSlash}/${cleanedFile}`
-                }
+              if (baseIsFullUrl) {
+                const hostOnly = normalizedTarget.replace(/\/$/, '')
+                finalUrl = [hostOnly]
+                  .concat(dir && dir !== '.' ? [dir] : [])
+                  .concat([cleaned])
+                  .join('/')
               } else {
-                // For regular paths, use path.posix.join
-                finalUrl = path.posix.join(basePath, dir, cleanedFile)
+                finalUrl = path.posix.join(normalizedTarget, dir, cleaned)
               }
 
-              if (verbose) {
-                console.log(`
-✨ @dnb/eufemia/plugins/postcss-font-url-rewrite
-Rewriting: ${url} → ${finalUrl}
-          `)
-              }
-
+              if (verbose)
+                console.log(`Rewriting: ${urlStr} → ${finalUrl}`)
               return `url("${finalUrl}")`
             }
           )
