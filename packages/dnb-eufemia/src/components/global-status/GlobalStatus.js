@@ -8,7 +8,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import Context from '../../shared/Context'
+import { useTheme, Context } from '../../shared'
 import {
   warn,
   isTrue,
@@ -138,8 +138,10 @@ export default class GlobalStatus extends React.PureComponent {
       switch (state) {
         case 'info':
         case 'information':
-        case 'success':
           IconToLoad = InfoIcon
+          break
+        case 'success':
+          IconToLoad = SuccessIcon
           break
         case 'warning':
         case 'warn':
@@ -737,6 +739,29 @@ const isElementVisible = (elem, callback, delayFallback = 1e3) => {
     }
   }
   return null
+}
+
+export const SuccessIcon = (props) => {
+  const isSbankenTheme = useTheme()?.name === 'sbanken'
+  if (isSbankenTheme) {
+    return <InfoIcon {...props} state="success" />
+  }
+
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" {...props}>
+      <title>success</title>
+      <path
+        stroke="#FFFFFF"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="1.5"
+        d="m1.5 15 6 6 15-18"
+      />
+    </svg>
+  )
+}
+SuccessIcon.propTypes = {
+  title: PropTypes.string,
 }
 
 GlobalStatus._supportsSpacingProps = true
