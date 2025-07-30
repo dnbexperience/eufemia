@@ -33,6 +33,15 @@ describe.each(['ui', 'sbanken'])('GlobalStatus for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('have to match the success state and custom content', async () => {
+    const screenshot = await makeScreenshot({
+      style,
+      selector:
+        '[data-visual-test="global-status-success"] .dnb-global-status',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match the custom icon', async () => {
     const screenshot = await makeScreenshot({
       style,
