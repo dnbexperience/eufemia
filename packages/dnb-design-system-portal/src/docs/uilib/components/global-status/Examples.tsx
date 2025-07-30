@@ -70,7 +70,7 @@ export const GlobalStatusWarning = () => (
 )
 
 export const GlobalInfoOverlaySuccess = () => (
-  <ComponentBox>
+  <ComponentBox data-visual-test="global-status-success">
     <GlobalStatus
       state="success"
       title="Custom success title ..."
