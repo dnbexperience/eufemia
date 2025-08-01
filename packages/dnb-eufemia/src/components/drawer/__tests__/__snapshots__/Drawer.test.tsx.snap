@@ -1229,7 +1229,6 @@ html:not([data-visual-test]) .dnb-drawer--hide.dnb-drawer--bottom {
   left: 0;
   right: 0;
   bottom: 0;
-  height: 300%;
   box-shadow: var(--shadow-default);
 }
 .dnb-drawer .dnb-drawer__navigation:not(.dnb-drawer__navigation--sticky)::after {

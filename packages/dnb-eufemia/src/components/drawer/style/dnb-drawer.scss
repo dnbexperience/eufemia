@@ -249,7 +249,6 @@
       left: 0;
       right: 0;
       bottom: 0;
-      height: 300%; // hide the top shadow
 
       @include defaultDropShadow();
     }

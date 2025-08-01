@@ -38,6 +38,71 @@ export const SimpleDrawerExample = () => (
   </ComponentBox>
 )
 
+export const LargeContentExample = () => {
+  return (
+    <ComponentBox data-visual-test="large-content-drawer">
+      {() => {
+        const MockComponent = () => {
+          const scrollRef = React.useRef(null)
+          return (
+            <Drawer
+              title="Drawer title"
+              scrollRef={scrollRef}
+              onOpen={() => {
+                scrollRef.current.scrollTop = 50
+              }}
+            >
+              <P top>Some informational content</P>
+              <P top>
+                Elementum eu suspendisse sit platea elit porttitor magna
+                laoreet ad ultrices tempus urna curae parturient conubia
+                quisque viverra eget vestibulum neque pulvinar semper
+                vulputate id dis varius pellentesque nunc egestas risus
+                amet mus aptent luctus imperdiet netus natoque cubilia
+                mattis nostra proin ornare scelerisque sodales faucibus
+                placerat sem bibendum pretium rutrum vitae sociis ligula
+                inceptos morbi quam mi sed pharetra fermentum tortor
+                ullamcorper ipsum tellus eros euismod volutpat nisl dui
+                lectus fames suscipit phasellus praesent justo mollis
+                montes velit taciti gravida
+              </P>
+              <P top>
+                Elementum eu suspendisse sit platea elit porttitor magna
+                laoreet ad ultrices tempus urna curae parturient conubia
+                quisque viverra eget vestibulum neque pulvinar semper
+                vulputate id dis varius pellentesque nunc egestas risus
+                amet mus aptent luctus imperdiet netus natoque cubilia
+                mattis nostra proin ornare scelerisque sodales faucibus
+                placerat sem bibendum pretium rutrum vitae sociis ligula
+                inceptos morbi quam mi sed pharetra fermentum tortor
+                ullamcorper ipsum tellus eros euismod volutpat nisl dui
+                lectus fames suscipit phasellus praesent justo mollis
+                montes velit taciti gravida
+              </P>
+
+              <P top>
+                Elementum eu suspendisse sit platea elit porttitor magna
+                laoreet ad ultrices tempus urna curae parturient conubia
+                quisque viverra eget vestibulum neque pulvinar semper
+                vulputate id dis varius pellentesque nunc egestas risus
+                amet mus aptent luctus imperdiet netus natoque cubilia
+                mattis nostra proin ornare scelerisque sodales faucibus
+                placerat sem bibendum pretium rutrum vitae sociis ligula
+                inceptos morbi quam mi sed pharetra fermentum tortor
+                ullamcorper ipsum tellus eros euismod volutpat nisl dui
+                lectus fames suscipit phasellus praesent justo mollis
+                montes velit taciti gravida
+              </P>
+            </Drawer>
+          )
+        }
+
+        return <MockComponent />
+      }}
+    </ComponentBox>
+  )
+}
+
 export const LeftPlacementDrawerExample = () => (
   <ComponentBox data-visual-test="left-placement-drawer">
     <Drawer title="Drawer title" containerPlacement="left">
@@ -278,3 +343,96 @@ export const DrawerScrollViewSetup = () => (
     }}
   </ComponentBox>
 )
+
+export const UpdateNavigationHeaderExample = () => {
+  return (
+    <ComponentBox data-visual-test="update-navigation-header-example">
+      {() => {
+        const MockComponent = () => {
+          const [showMe, setShowMe] = React.useState(false)
+
+          const scrollRef = React.useRef(null)
+          return (
+            <Drawer
+              title="Drawer title"
+              scrollRef={scrollRef}
+              onOpen={() => {
+                setShowMe(!showMe)
+                scrollRef.current.scrollTop = 50
+              }}
+            >
+              <Drawer.Navigation>
+                {showMe ? (
+                  <>
+                    <P bottom>This is a lorem ipsum dolor</P>
+                    <P bottom>This is a lorem ipsum dolor</P>
+                    <P bottom>This is a lorem ipsum dolor</P>
+                    <P bottom>This is a lorem ipsum dolor</P>
+                  </>
+                ) : null}
+              </Drawer.Navigation>
+              <Drawer.Header>
+                <P bottom>This is a lorem ipsum dolor</P>
+                <Button bottom size="large">
+                  Lorem ipsum
+                </Button>
+                <Button bottom size="large" variant="secondary">
+                  Dolor sit
+                </Button>
+                <FormStatus state="info">
+                  This is a lorem ipsum dolor
+                </FormStatus>
+                <Tabs
+                  id="unique-linked-id-x"
+                  data={[
+                    {
+                      title: 'One',
+                      key: 'one',
+                    },
+                    {
+                      title: 'Two',
+                      key: 'two',
+                    },
+                  ]}
+                />
+              </Drawer.Header>
+              <Drawer.Body>
+                <Tabs.Content id="unique-linked-id-x" key="contentKey0">
+                  {({ title }) => {
+                    return (
+                      <>
+                        <H2>{title}</H2>
+
+                        <P top>This is a left aligned Drawer content.</P>
+                        <P top>
+                          Elementum eu suspendisse sit platea elit
+                          porttitor magna laoreet ad ultrices tempus urna
+                          curae parturient conubia quisque viverra eget
+                          vestibulum neque pulvinar semper vulputate id dis
+                        </P>
+                        <P top>
+                          Elementum eu suspendisse sit platea elit
+                          porttitor magna laoreet ad ultrices tempus urna
+                          curae parturient conubia quisque viverra eget
+                          vestibulum neque pulvinar semper vulputate id dis
+                        </P>
+                        <P top>
+                          Elementum eu suspendisse sit platea elit
+                          porttitor magna laoreet ad ultrices tempus urna
+                          curae parturient conubia quisque viverra eget
+                          vestibulum neque pulvinar semper vulputate id dis
+                        </P>
+                      </>
+                    )
+                  }}
+                </Tabs.Content>
+              </Drawer.Body>
+            </Drawer>
+          )
+        }
+
+        return <MockComponent />
+      }}
+    </ComponentBox>
+  )
+}
