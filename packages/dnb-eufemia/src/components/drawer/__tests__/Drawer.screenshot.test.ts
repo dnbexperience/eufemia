@@ -126,6 +126,35 @@ describe('Drawer', () => {
         simulateSelector:
           '[data-visual-test="drawer-scroll-view"] button:first-of-type',
         screenshotSelector: '.drawer-scroll-view',
+        simulateAfter: { keypress: 'Escape' },
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+
+    it('have to match large content drawer scrolled', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="large-content-drawer"]',
+        simulate: 'click',
+        simulateSelector:
+          '[data-visual-test="large-content-drawer"] button:first-of-type',
+        waitAfterSimulateSelector: '.dnb-scroll-view',
+        screenshotSelector: '.dnb-modal__content .dnb-scroll-view',
+        simulateAfter: { keypress: 'Escape' },
+        rootClassName: ['hide-page-content'],
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+
+    it('have to apply sticky header when header content changes', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="update-navigation-header-example"]',
+        simulate: 'click',
+        simulateSelector:
+          '[data-visual-test="update-navigation-header-example"] button:first-of-type',
+        waitAfterSimulateSelector: '.dnb-scroll-view',
+        screenshotSelector: '.dnb-modal__content .dnb-scroll-view',
+        simulateAfter: { keypress: 'Escape' },
+        rootClassName: ['hide-page-content'],
       })
       expect(screenshot).toMatchImageSnapshot()
     })
