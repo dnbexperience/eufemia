@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { fireEvent, render, waitFor, screen } from '@testing-library/react'
-import { DataContext, Field, Form, Wizard } from '../../..'
+import { DataContext, Field, Form, Iterate, Wizard } from '../../..'
 import { BYTES_IN_A_MEGA_BYTE } from '../../../../../components/upload/UploadVerify'
 import { createMockFile } from '../../../../../components/upload/__tests__/testHelpers'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
@@ -1924,6 +1924,40 @@ describe('Field.Upload', () => {
 
     expect(screen.queryByText(description)).toBeInTheDocument()
     expect(screen.queryByText(errorMessage)).toBeInTheDocument()
+  })
+
+  it('should iterate over array with itemPath support', () => {
+    render(
+      <Iterate.Array
+        value={[
+          {
+            myFiles: [
+              {
+                file: createMockFile('fileName-1.png', 100, 'image/png'),
+                id: '1',
+              },
+            ],
+          },
+          {
+            myFiles: [
+              {
+                file: createMockFile('fileName-2.png', 100, 'image/png'),
+                id: '2',
+              },
+            ],
+          },
+        ]}
+      >
+        <Field.Upload itemPath="/myFiles" />
+      </Iterate.Array>
+    )
+
+    const [file1Input, file2Input] = Array.from(
+      document.querySelectorAll('.dnb-anchor')
+    )
+
+    expect(file1Input).toHaveTextContent('fileName-1.png')
+    expect(file2Input).toHaveTextContent('fileName-2.png')
   })
 
   describe('transformIn and transformOut', () => {
