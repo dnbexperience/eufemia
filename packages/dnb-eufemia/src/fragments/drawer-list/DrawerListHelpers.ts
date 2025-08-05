@@ -23,6 +23,7 @@ import {
 import { DrawerListProviderProps } from './DrawerListProvider'
 import { DrawerListContextState } from './DrawerListContext'
 import Icon from '../../components/icon/Icon'
+import CountryFlag from '../../components/country-flag/CountryFlag'
 
 // legacy used by Autocomplete and Dropdown
 export const drawerListPropTypes = {
@@ -254,6 +255,7 @@ export function parseContentTitle(
           const nestedChildren =
             !word.props.children &&
             word?.type !== Icon &&
+            word?.type !== CountryFlag &&
             typeof word?.type === 'function' &&
             (word.type as () => React.ReactElement)()
 

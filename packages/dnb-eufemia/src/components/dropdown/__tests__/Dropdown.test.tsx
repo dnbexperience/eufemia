@@ -19,6 +19,7 @@ import {
 import { bank } from '../../../icons'
 import Icon from '../../Icon'
 import NumberFormat from '../../NumberFormat'
+import { CountryFlag } from '../../lib'
 
 // use no_animation so we don't need to wait
 const mockProps: DropdownAllProps = {
@@ -1384,7 +1385,7 @@ describe('Dropdown component', () => {
     )
   })
 
-  it('supports icon as selected_value', () => {
+  it('supports Icon as selected_value', () => {
     render(
       <Dropdown
         {...props}
@@ -1401,6 +1402,25 @@ describe('Dropdown component', () => {
     expect(
       document.querySelector('.dnb-icon').getAttribute('data-testid')
     ).toBe('bank icon')
+  })
+
+  it('supports CountryFlag as selected_value', () => {
+    render(
+      <Dropdown
+        {...props}
+        data={[
+          {
+            selected_key: 'norway',
+            selected_value: <CountryFlag iso="NO" />,
+            content: <CountryFlag iso="NO" />,
+          },
+        ]}
+        value={0}
+      />
+    )
+    expect(
+      document.querySelector('.dnb-country-flag .dnb-sr-only').textContent
+    ).toBe('Norge')
   })
 
   it('has a default title if no value is given', () => {
