@@ -1,10 +1,19 @@
 import React from 'react'
-import { render, renderHook } from '@testing-library/react'
+import {
+  fireEvent,
+  render,
+  renderHook,
+  screen,
+  waitFor,
+} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Field, Form } from '../../..'
 import useHasContentChanged from '../useHasContentChanged'
 import { createDataReference } from '../IsolationDataReference'
 import { createMockFile } from '../../../../../components/upload/__tests__/testHelpers'
+
+import nbNOShared from '../../../../../shared/locales/nb-NO'
+const nbShared = nbNOShared['nb-NO']
 
 describe('useHasContentChanged', () => {
   it('should return undefined when no wrapper was given', () => {
@@ -36,11 +45,13 @@ describe('useHasContentChanged', () => {
     const data = {
       name: 'Nora',
       age: 30,
-      file: {
-        file: createMockFile('fileName1.png', 123, 'image/png'),
-        id: '1',
-        exists: false,
-      },
+      files: [
+        {
+          file: createMockFile('fileName1.png', 123, 'image/png'),
+          id: '1',
+          exists: false,
+        },
+      ],
     }
     const { result } = renderHook(useHasContentChanged, {
       initialProps: { enabled: true },
@@ -74,6 +85,54 @@ describe('useHasContentChanged', () => {
     expect(hasContentChanged).toBe(false)
 
     await userEvent.type(document.querySelector('input'), 'bar')
+
+    expect(hasContentChanged).toBe(true)
+  })
+
+  it('should return true when data as object differs from snapshot', async () => {
+    const data = {
+      name: 'foo',
+      files: [
+        {
+          file: createMockFile('fileName1.png', 0, 'image/png'),
+          id: '1',
+          exists: false,
+        },
+      ],
+    }
+    let hasContentChanged = null
+
+    const RenderTheHook = () => {
+      const { hasContentChanged: hasChanged } = useHasContentChanged({
+        enabled: true,
+      })
+      hasContentChanged = hasChanged
+
+      return null
+    }
+
+    render(
+      <Form.Isolation defaultData={data}>
+        <RenderTheHook />
+        <Field.Upload path="/files" />
+      </Form.Isolation>
+    )
+
+    expect(hasContentChanged).toBe(false)
+
+    const deleteButton = screen.queryByRole('button', {
+      name: nbShared.Upload.deleteButton,
+    })
+
+    await userEvent.click(deleteButton)
+
+    await waitFor(() =>
+      fireEvent.drop(document.querySelector('.dnb-upload'), {
+        dataTransfer: {
+          files: [createMockFile('fileName2.jpg', 0, 'image/jpeg')],
+        },
+      })
+    )
 
     expect(hasContentChanged).toBe(true)
   })
