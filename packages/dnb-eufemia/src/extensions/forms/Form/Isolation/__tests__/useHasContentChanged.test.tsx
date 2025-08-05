@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event'
 import { Field, Form } from '../../..'
 import useHasContentChanged from '../useHasContentChanged'
 import { createDataReference } from '../IsolationDataReference'
+import { createMockFile } from '../../../../../components/upload/__tests__/testHelpers'
 
 describe('useHasContentChanged', () => {
   it('should return undefined when no wrapper was given', () => {
@@ -22,6 +23,25 @@ describe('useHasContentChanged', () => {
 
   it('should return false when data matches snapshot', () => {
     const data = { name: 'Nora', age: 30 }
+    const { result } = renderHook(useHasContentChanged, {
+      initialProps: { enabled: true },
+      wrapper: ({ children }) => (
+        <Form.Isolation defaultData={data}>{children}</Form.Isolation>
+      ),
+    })
+    expect(result.current.hasContentChanged).toBe(false)
+  })
+
+  it('should return false when data as object matches snapshot', () => {
+    const data = {
+      name: 'Nora',
+      age: 30,
+      file: {
+        file: createMockFile('fileName1.png', 123, 'image/png'),
+        id: '1',
+        exists: false,
+      },
+    }
     const { result } = renderHook(useHasContentChanged, {
       initialProps: { enabled: true },
       wrapper: ({ children }) => (
