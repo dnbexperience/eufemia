@@ -1,8 +1,6 @@
 import React, { useLayoutEffect } from 'react'
 import { Field, Form, Iterate, Tools, Value, Wizard } from '../../..'
-import { Flex, Grid, HeightAnimation } from '../../../../../components'
-import { P } from '../../../../../elements'
-import { createMockFile } from '../../../../../components/upload/__tests__/testHelpers'
+import { Flex, HeightAnimation } from '../../../../../components'
 
 export default {
   title: 'Eufemia/Extensions/Forms/Iterate/PushContainer',

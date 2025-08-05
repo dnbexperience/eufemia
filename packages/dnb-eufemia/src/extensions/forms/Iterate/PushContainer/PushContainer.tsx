@@ -356,8 +356,6 @@ function NewContainer({
             containerMode === 'edit' ||
             ((required || hasContentChanged) && showCommitStatus)
         )
-  console.log(required)
-  console.log(showCommitStatus)
 
   const { preventUncommittedChangesText } = useTranslation().Isolation
   const { createButton } = useTranslation().IteratePushContainer
