@@ -1,6 +1,8 @@
 import React, { useLayoutEffect } from 'react'
 import { Field, Form, Iterate, Tools, Value, Wizard } from '../../..'
-import { Flex, HeightAnimation } from '../../../../../components'
+import { Flex, Grid, HeightAnimation } from '../../../../../components'
+import { P } from '../../../../../elements'
+import { createMockFile } from '../../../../../components/upload/__tests__/testHelpers'
 
 export default {
   title: 'Eufemia/Extensions/Forms/Iterate/PushContainer',
@@ -214,6 +216,66 @@ export function RequireUnchanged() {
           <Form.SubmitButton />
         </Wizard.Step>
       </Wizard.Container>
+    </Form.Handler>
+  )
+}
+
+export const Something = () => {
+  return (
+    <Form.Handler data={{ test: 0 }}>
+      <Wizard.Container id="as" mode="strict">
+        <Wizard.Step title="Step 1">
+          <Wizard.Buttons />
+        </Wizard.Step>
+        <Wizard.Step title="Step 2">
+          <Field.String path="/test" required />
+
+          <Iterate.Array
+            path="/directOwnership/directOwners"
+            space="0"
+            bottom="0"
+            required
+          >
+            <Iterate.ViewContainer
+              variant="filled"
+              toolbarVariant="custom"
+            >
+              <Value.Address />
+            </Iterate.ViewContainer>
+            <Iterate.EditContainer
+              variant="filled"
+              toolbarVariant="custom"
+            >
+              <Field.Address required />
+            </Iterate.EditContainer>
+          </Iterate.Array>
+
+          <Iterate.PushContainer
+            path="/directOwnership/directOwners"
+            title={'Add'}
+            openButton={
+              <Iterate.PushContainer.OpenButton
+                top="1rem"
+                variant="tertiary"
+                text={'Add'}
+              />
+            }
+            showOpenButtonWhen={() => true}
+            variant="filled"
+            bubbleValidation
+            required
+          >
+            <Field.Address required />
+          </Iterate.PushContainer>
+
+          <Wizard.Buttons />
+        </Wizard.Step>
+
+        <Wizard.Step title="Step 3">
+          <Wizard.Buttons />
+        </Wizard.Step>
+      </Wizard.Container>
+      <Tools.Log />
     </Form.Handler>
   )
 }

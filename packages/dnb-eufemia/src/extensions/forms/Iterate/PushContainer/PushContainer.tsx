@@ -304,6 +304,7 @@ function PushContainer(props: AllProps) {
             preventUncommittedChanges={preventUncommittedChanges}
             showResetButton={showResetButton}
             outerContext={outerContext}
+            required={required}
             {...rest}
           >
             {children}
@@ -325,6 +326,7 @@ function NewContainer({
   rerenderPushContainer,
   preventUncommittedChanges,
   outerContext,
+  required,
   children,
   ...rest
 }) {
@@ -350,8 +352,13 @@ function NewContainer({
     visibilityContext?.isVisible === false
       ? false
       : Boolean(
-          !showOpenButton || containerMode === 'edit' || showCommitStatus
+          !showOpenButton ||
+            containerMode === 'edit' ||
+            ((required || hasContentChanged) && showCommitStatus)
         )
+  console.log(required)
+  console.log(showCommitStatus)
+
   const { preventUncommittedChangesText } = useTranslation().Isolation
   const { createButton } = useTranslation().IteratePushContainer
   const { clearData } = useContext(DataContext) || {}
