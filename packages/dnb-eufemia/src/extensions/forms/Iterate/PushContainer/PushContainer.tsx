@@ -334,13 +334,12 @@ function NewContainer({
     useContext(IterateItemContext) || {}
   containerModeRef.current = containerMode
 
-  const { hasContentChanged, showStatus: showCommitStatus } =
-    useHandleStatus({
-      outerContext,
-      preventUncommittedChanges,
-      error: pushContainerError,
-      name: 'push-container',
-    })
+  const { hasContentChanged, showStatus } = useHandleStatus({
+    outerContext,
+    preventUncommittedChanges,
+    error: pushContainerError,
+    name: 'push-container',
+  })
 
   useEffect(() => {
     rerenderPushContainer()
@@ -354,7 +353,7 @@ function NewContainer({
       : Boolean(
           !showOpenButton ||
             containerMode === 'edit' ||
-            ((required || hasContentChanged) && showCommitStatus)
+            ((required || hasContentChanged) && showStatus)
         )
 
   const { preventUncommittedChangesText } = useTranslation().Isolation
@@ -382,12 +381,12 @@ function NewContainer({
                 {(preventUncommittedChanges || showResetButton) && (
                   <ResetButton
                     // Use hidden in order to render the useHasContentChanged hook
-                    hidden={!(showResetButton || showCommitStatus)}
+                    hidden={!(showResetButton || showStatus)}
                   />
                 )}
               </Flex.Horizontal>
 
-              {preventUncommittedChanges && showCommitStatus && (
+              {preventUncommittedChanges && showStatus && (
                 <FormStatus no_animation={false} show={hasContentChanged}>
                   {preventUncommittedChangesText}
                 </FormStatus>
