@@ -2128,6 +2128,140 @@ describe('PushContainer', () => {
           document.querySelector('.dnb-form-status')
         ).not.toBeInTheDocument()
       })
+
+      it('should open the EditContainer when PushContainer is required', async () => {
+        global.console.error = jest.fn()
+        const previousButton = () => {
+          return document.querySelector('.dnb-forms-previous-button')
+        }
+        const nextButton = () => {
+          return document.querySelector('.dnb-forms-next-button')
+        }
+        const output = () => {
+          return document.querySelector('output')
+        }
+
+        render(
+          <Form.Handler data={{ test: 1337 }}>
+            <Wizard.Container>
+              <Wizard.Step title="Step 1">
+                <output>Step 1</output>
+                <Wizard.Buttons />
+              </Wizard.Step>
+              <Wizard.Step title="Step 2">
+                <output>Step 2</output>
+                <Field.String path="/test" required />
+                <Iterate.PushContainer
+                  path="/pushContainerItems"
+                  openButton={<Iterate.PushContainer.OpenButton />}
+                  showOpenButtonWhen={() => true}
+                  variant="filled"
+                  required
+                >
+                  <Field.Address required />
+                </Iterate.PushContainer>
+                <Wizard.Buttons />
+              </Wizard.Step>
+              <Wizard.Step title="Step 3">
+                <output>Step 3</output>
+                <Wizard.Buttons />
+              </Wizard.Step>
+            </Wizard.Container>
+          </Form.Handler>
+        )
+
+        expect(output()).toHaveTextContent('Step 1')
+
+        await userEvent.click(nextButton())
+        expect(output()).toHaveTextContent('Step 2')
+
+        await userEvent.click(nextButton())
+        expect(output()).toHaveTextContent('Step 2')
+
+        await userEvent.click(previousButton())
+        expect(output()).toHaveTextContent('Step 1')
+
+        await userEvent.click(nextButton())
+        expect(output()).toHaveTextContent('Step 2')
+
+        const editContainer = document.querySelector(
+          '.dnb-forms-section-edit-block'
+        )
+
+        expect(editContainer).toHaveClass(
+          'dnb-height-animation--is-visible'
+        )
+      })
+
+      it('should not open the EditContainer when a non related error exists in the wizard step', async () => {
+        global.console.error = jest.fn()
+        const previousButton = () => {
+          return document.querySelector('.dnb-forms-previous-button')
+        }
+        const nextButton = () => {
+          return document.querySelector('.dnb-forms-next-button')
+        }
+        const output = () => {
+          return document.querySelector('output')
+        }
+
+        render(
+          <Form.Handler data={{ test: 1337 }}>
+            <Wizard.Container>
+              <Wizard.Step title="Step 1">
+                <output>Step 1</output>
+                <Wizard.Buttons />
+              </Wizard.Step>
+              <Wizard.Step title="Step 2">
+                <output>Step 2</output>
+                <Field.String path="/test" required />
+                <Iterate.PushContainer
+                  path="/pushContainerItems"
+                  openButton={<Iterate.PushContainer.OpenButton />}
+                  showOpenButtonWhen={() => true}
+                  variant="filled"
+                >
+                  <Field.Address required />
+                </Iterate.PushContainer>
+                <Wizard.Buttons />
+              </Wizard.Step>
+              <Wizard.Step title="Step 3">
+                <output>Step 3</output>
+                <Wizard.Buttons />
+              </Wizard.Step>
+            </Wizard.Container>
+          </Form.Handler>
+        )
+
+        expect(output()).toHaveTextContent('Step 1')
+
+        await userEvent.click(nextButton())
+        expect(output()).toHaveTextContent('Step 2')
+
+        await userEvent.click(nextButton())
+        expect(output()).toHaveTextContent('Step 2')
+
+        await userEvent.click(previousButton())
+        expect(output()).toHaveTextContent('Step 1')
+
+        await userEvent.click(nextButton())
+        expect(output()).toHaveTextContent('Step 2')
+
+        const editContainer = document.querySelector(
+          '.dnb-forms-section-edit-block'
+        )
+
+        expect(editContainer).not.toHaveClass(
+          'dnb-height-animation--is-visible'
+        )
+
+        await userEvent.clear(document.querySelector('input'))
+        await userEvent.type(document.querySelector('input'), 'a')
+        expect(document.querySelector('input').value).toBe('a')
+
+        await userEvent.click(nextButton())
+        expect(output()).toHaveTextContent('Step 3')
+      })
     })
   })
 
