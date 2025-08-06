@@ -1,9 +1,10 @@
 import React, { useCallback } from 'react'
 import { P } from '../../../../elements'
-import { Button } from '../../../../components'
-import Field, { Form, Wizard } from '../../Forms'
+import { Button, Flex, Grid } from '../../../../components'
+import Field, { Form, Iterate, Tools, Value, Wizard } from '../../Forms'
 import { createRequest } from '../../Form/Handler/stories/FormHandler.stories'
 import { debounceAsync } from '../../../../shared/helpers'
+import { Toolbar } from '../../Iterate'
 // import { BrowserRouter, useSearchParams } from 'react-router-dom'
 // import {
 //   navigate,
@@ -386,5 +387,104 @@ export const AsyncWizard = () => {
         </Wizard.Container>
       </Form.Handler>
     </React.StrictMode>
+  )
+}
+
+export const DeleteFromArraySelection = () => {
+  return (
+    <Form.Handler
+      data={{
+        beneficialOwners: {
+          existingBeneficialOwners: [
+            {
+              name: 'Pã?Troppende Klinkekule',
+              address: {
+                country: 'NO',
+                postalCode: '3212',
+                addressLine1: 'Fasanveien 3 B',
+                addressLine2: 'SANDEFJORD',
+              },
+              dateOfBirth: '1977-05-07',
+              ownershipAttributes: ['OWNS_MORE_THAN_25_PERCENT'],
+            },
+            {
+              name: 'Ekstra Dråpe',
+              address: {
+                country: 'NO',
+                postalCode: '1542',
+                addressLine1: "Mads' Vei 29",
+              },
+              dateOfBirth: '1962-08-03',
+            },
+          ],
+        },
+      }}
+    >
+      <Wizard.Container>
+        <Wizard.Step title="Step 1">
+          Step 1
+          <Wizard.Buttons />
+        </Wizard.Step>
+        <Wizard.Step title="Step 2">
+          <Form.Section>
+            <Form.Card>
+              <Iterate.Array
+                path="/beneficialOwners/existingBeneficialOwners"
+                containerMode="view"
+              >
+                <Grid.Container>
+                  <Grid.Item
+                    span={{
+                      small: [1, 1],
+                      medium: [1, 2],
+                      large: [1, 4],
+                    }}
+                  >
+                    <Iterate.ViewContainer
+                      toolbarVariant="custom"
+                      variant="basic"
+                    >
+                      <Flex.Stack>
+                        <Value.String itemPath="/name" />
+                        <Toolbar>
+                          <Iterate.RemoveButton showConfirmDialog />
+                        </Toolbar>
+                      </Flex.Stack>
+                    </Iterate.ViewContainer>
+                  </Grid.Item>
+                  <Grid.Item
+                    span={{
+                      small: [2, 4],
+                      medium: [3, 6],
+                      large: [5, 12],
+                    }}
+                  >
+                    <Flex.Stack>
+                      <Field.ArraySelection
+                        itemPath="/ownershipAttributes"
+                        required
+                      >
+                        <Field.Option value="OWNS_MORE_THAN_25_PERCENT">
+                          "option"
+                        </Field.Option>
+                      </Field.ArraySelection>
+                    </Flex.Stack>
+                  </Grid.Item>
+                </Grid.Container>
+              </Iterate.Array>
+            </Form.Card>
+          </Form.Section>
+          <Wizard.Buttons />
+          <Form.SubmitButton />
+        </Wizard.Step>
+        <Wizard.Step title="Step 3">
+          Step 3
+          <Wizard.Buttons />
+        </Wizard.Step>
+      </Wizard.Container>
+
+      <Tools.Errors />
+      <Tools.Log />
+    </Form.Handler>
   )
 }

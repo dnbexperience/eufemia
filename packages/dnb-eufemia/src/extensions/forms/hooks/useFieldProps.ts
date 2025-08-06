@@ -2186,7 +2186,11 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
       if (hasItemPath) {
         if (existingValue === valueToStore) {
-          if (hasValue) {
+          if (
+            hasValue ||
+            (typeof valueToStore === 'undefined' &&
+              typeof existingValue === 'undefined')
+          ) {
             return // stop here, don't store the same value again
           } else {
             // Because the valueToStore is not a part of the data context,
