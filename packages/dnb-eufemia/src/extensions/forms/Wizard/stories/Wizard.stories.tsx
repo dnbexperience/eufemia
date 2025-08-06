@@ -397,24 +397,23 @@ export const DeleteFromArraySelection = () => {
         beneficialOwners: {
           existingBeneficialOwners: [
             {
-              name: 'Pã?Troppende Klinkekule',
-              address: {
-                country: 'NO',
-                postalCode: '3212',
-                addressLine1: 'Fasanveien 3 B',
-                addressLine2: 'SANDEFJORD',
-              },
-              dateOfBirth: '1977-05-07',
+              name: 'Has ownershipAttributes value',
               ownershipAttributes: ['OWNS_MORE_THAN_25_PERCENT'],
             },
             {
-              name: 'Ekstra Dråpe',
-              address: {
-                country: 'NO',
-                postalCode: '1542',
-                addressLine1: "Mads' Vei 29",
-              },
-              dateOfBirth: '1962-08-03',
+              name: 'Has not specified ownershipAttributes',
+            },
+            {
+              name: 'Has empty array',
+              ownershipAttributes: [],
+            },
+            {
+              name: 'Has null',
+              ownershipAttributes: null,
+            },
+            {
+              name: 'Has undefined',
+              ownershipAttributes: undefined,
             },
           ],
         },
@@ -447,7 +446,7 @@ export const DeleteFromArraySelection = () => {
                       <Flex.Stack>
                         <Value.String itemPath="/name" />
                         <Toolbar>
-                          <Iterate.RemoveButton showConfirmDialog />
+                          <Iterate.RemoveButton />
                         </Toolbar>
                       </Flex.Stack>
                     </Iterate.ViewContainer>
