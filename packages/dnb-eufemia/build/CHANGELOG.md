@@ -3,6 +3,20 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.77.6](https://github.com/dnbexperience/eufemia/compare/v10.77.5...v10.77.6) (2025-08-07)
+
+
+### :memo: Documentation
+
+* **Form.Section.Toolbar:** add events and properties ([#5358](https://github.com/dnbexperience/eufemia/issues/5358)) ([2ffc3ff](https://github.com/dnbexperience/eufemia/commit/2ffc3ffc425fdb7a560663beb183a1f2ea1378b2))
+
+
+### :bug: Bug Fixes
+
+* **Drawer:** adjust shadow when updating navigation header ([#5357](https://github.com/dnbexperience/eufemia/issues/5357)) ([d701844](https://github.com/dnbexperience/eufemia/commit/d70184400fe104915ef821486f6147552895c37f))
+* **Dropdown:** support CountryFlag in `selected_value`  ([#5362](https://github.com/dnbexperience/eufemia/issues/5362)) ([e9d7890](https://github.com/dnbexperience/eufemia/commit/e9d78905c4887ea1ec42d6cb717c438bd5d35966))
+* ensure media queries with `xx-small` max-width do work ([#5366](https://github.com/dnbexperience/eufemia/issues/5366)) ([aa38320](https://github.com/dnbexperience/eufemia/commit/aa3832046ca9af45972e4bf889915094e55bdd25))
+
 ## [10.77.5](https://github.com/dnbexperience/eufemia/compare/v10.77.4...v10.77.5) (2025-07-30)
 
 
