@@ -2,13 +2,6 @@
 @import '../../../../style/core/utilities.scss';
 @import '../../Field/style/field-sizes.scss';
 
-$breakpoints: map.merge(
-  $breakpoints,
-  (
-    'xx-small': 15em,
-  )
-);
-
 fieldset.dnb-forms-field-block {
   @include fieldsetReset();
 }
