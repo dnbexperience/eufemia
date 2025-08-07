@@ -50,6 +50,25 @@ export default class ModalHeaderBar extends React.PureComponent<
   state = { showShadow: false }
 
   componentDidMount() {
+    this.observeHeader()
+  }
+
+  componentDidUpdate(prevProps) {
+    // Re-observe if children change
+    // This is necessary to handle dynamic content changes
+    // that might affect the header's height
+    // e.g., when the modal content changes
+    if (prevProps.children !== this.props.children) {
+      this.intersectionObserver?.disconnect()
+      this.observeHeader()
+    }
+  }
+
+  componentWillUnmount() {
+    this.intersectionObserver?.disconnect()
+  }
+
+  observeHeader() {
     if (
       typeof window !== 'undefined' &&
       typeof IntersectionObserver !== 'undefined' &&
@@ -71,10 +90,6 @@ export default class ModalHeaderBar extends React.PureComponent<
 
       this.intersectionObserver.observe(this._ref.current)
     }
-  }
-
-  componentWillUnmount() {
-    this.intersectionObserver?.disconnect()
   }
 
   render() {
