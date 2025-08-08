@@ -304,6 +304,7 @@ function PushContainer(props: AllProps) {
             preventUncommittedChanges={preventUncommittedChanges}
             showResetButton={showResetButton}
             outerContext={outerContext}
+            required={required}
             {...rest}
           >
             {children}
@@ -325,6 +326,7 @@ function NewContainer({
   rerenderPushContainer,
   preventUncommittedChanges,
   outerContext,
+  required,
   children,
   ...rest
 }) {
@@ -332,13 +334,12 @@ function NewContainer({
     useContext(IterateItemContext) || {}
   containerModeRef.current = containerMode
 
-  const { hasContentChanged, showStatus: showCommitStatus } =
-    useHandleStatus({
-      outerContext,
-      preventUncommittedChanges,
-      error: pushContainerError,
-      name: 'push-container',
-    })
+  const { hasContentChanged, showStatus } = useHandleStatus({
+    outerContext,
+    preventUncommittedChanges,
+    error: pushContainerError,
+    name: 'push-container',
+  })
 
   useEffect(() => {
     rerenderPushContainer()
@@ -350,8 +351,11 @@ function NewContainer({
     visibilityContext?.isVisible === false
       ? false
       : Boolean(
-          !showOpenButton || containerMode === 'edit' || showCommitStatus
+          !showOpenButton ||
+            containerMode === 'edit' ||
+            ((required || hasContentChanged) && showStatus)
         )
+
   const { preventUncommittedChangesText } = useTranslation().Isolation
   const { createButton } = useTranslation().IteratePushContainer
   const { clearData } = useContext(DataContext) || {}
@@ -377,12 +381,12 @@ function NewContainer({
                 {(preventUncommittedChanges || showResetButton) && (
                   <ResetButton
                     // Use hidden in order to render the useHasContentChanged hook
-                    hidden={!(showResetButton || showCommitStatus)}
+                    hidden={!(showResetButton || showStatus)}
                   />
                 )}
               </Flex.Horizontal>
 
-              {preventUncommittedChanges && showCommitStatus && (
+              {preventUncommittedChanges && showStatus && (
                 <FormStatus no_animation={false} show={hasContentChanged}>
                   {preventUncommittedChangesText}
                 </FormStatus>
