@@ -424,3 +424,26 @@ export const AnchorIconWordBreak = () => (
     </ComponentBox>
   </Wrapper>
 )
+
+export const AnchorNoIconAndNoLaunchIcon = () => {
+  return (
+    <Wrapper>
+      <ComponentBox hideCode scope={{ Example }}>
+        <Example data-visual-test="anchor-no-icon-prop">
+          <Anchor href="/uilib/components/anchor" noIcon icon="bell">
+            Anchor without icon
+          </Anchor>
+        </Example>
+        <Example data-visual-test="anchor-no-launch-icon-prop">
+          <Anchor
+            target="_blank"
+            href="/uilib/components/anchor"
+            noLaunchIcon
+          >
+            Blank target without launch icon
+          </Anchor>
+        </Example>
+      </ComponentBox>
+    </Wrapper>
+  )
+}
