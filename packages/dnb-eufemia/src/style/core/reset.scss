@@ -334,16 +334,6 @@
   }
 
   /**
-   * Correct the text style of placeholders in Chrome, Edge, and Safari.
-   */
-
-  // stylelint-disable-next-line
-  ::input-placeholder {
-    color: inherit;
-    opacity: 0.54;
-  }
-
-  /**
    * Remove the inner padding in Chrome and Safari on macOS.
    */
 
