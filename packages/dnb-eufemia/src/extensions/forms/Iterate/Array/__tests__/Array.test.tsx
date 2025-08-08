@@ -2303,6 +2303,111 @@ describe('Iterate.Array', () => {
         expect.anything()
       )
     })
+
+    it('should remove array items even though they have', async () => {
+      const nextButton = () => {
+        return document.querySelector('.dnb-forms-next-button')
+      }
+      const output = () => {
+        return document.querySelector('output')
+      }
+      render(
+        <Form.Handler
+          data={{
+            beneficialOwners: {
+              existingBeneficialOwners: [
+                {
+                  name: 'Has ownershipAttributes value',
+                  ownershipAttributes: ['OWNS_MORE_THAN_25_PERCENT'],
+                },
+                {
+                  name: 'Has not specified ownershipAttributes',
+                },
+                {
+                  name: 'Has empty array',
+                  ownershipAttributes: [],
+                },
+                {
+                  name: 'Has null',
+                  ownershipAttributes: null,
+                },
+                {
+                  name: 'Has undefined',
+                  ownershipAttributes: undefined,
+                },
+              ],
+            },
+          }}
+        >
+          <Wizard.Container>
+            <Wizard.Step title="Step 1">
+              <output>Step 1</output>
+              <Wizard.Buttons />
+            </Wizard.Step>
+            <Wizard.Step title="Step 2">
+              <output>Step 2</output>
+              <Iterate.Array
+                path="/beneficialOwners/existingBeneficialOwners"
+                containerMode="view"
+              >
+                <Iterate.ViewContainer
+                  toolbarVariant="custom"
+                  variant="basic"
+                >
+                  <Value.String itemPath="/name" />
+                  <Iterate.Toolbar>
+                    <Iterate.RemoveButton />
+                  </Iterate.Toolbar>
+                </Iterate.ViewContainer>
+                <Field.ArraySelection
+                  itemPath="/ownershipAttributes"
+                  required
+                >
+                  <Field.Option value="x">"option"</Field.Option>
+                </Field.ArraySelection>
+              </Iterate.Array>
+
+              <Wizard.Buttons />
+              <Form.SubmitButton />
+            </Wizard.Step>
+            <Wizard.Step title="Step 3">
+              <output>Step 3</output>
+              <Wizard.Buttons />
+            </Wizard.Step>
+          </Wizard.Container>
+        </Form.Handler>
+      )
+
+      expect(output()).toHaveTextContent('Step 1')
+
+      await userEvent.click(nextButton())
+      expect(output()).toHaveTextContent('Step 2')
+
+      expect(
+        document.querySelectorAll('.dnb-forms-section-view-block')
+      ).toHaveLength(5)
+
+      await userEvent.click(
+        document.querySelector('.dnb-forms-iterate-remove-element-button')
+      )
+      await userEvent.click(
+        document.querySelector('.dnb-forms-iterate-remove-element-button')
+      )
+      await userEvent.click(
+        document.querySelector('.dnb-forms-iterate-remove-element-button')
+      )
+      await userEvent.click(
+        document.querySelector('.dnb-forms-iterate-remove-element-button')
+      )
+      await userEvent.click(
+        document.querySelector('.dnb-forms-iterate-remove-element-button')
+      )
+      await waitFor(() =>
+        expect(
+          document.querySelectorAll('.dnb-forms-section-view-block')
+        ).toHaveLength(0)
+      )
+    })
   })
 
   it('should contain tabindex of -1', () => {
