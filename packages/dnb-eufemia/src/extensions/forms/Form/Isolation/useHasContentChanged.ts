@@ -2,6 +2,7 @@ import { useContext, useMemo } from 'react'
 import pointer from '../../utils/json-pointer'
 import DataContext from '../../DataContext/Context'
 import useDataContextSnapshot from './useDataContextSnapshot'
+import { isObject } from '../../../../shared/component-helper'
 
 export default function useHasContentChanged({
   enabled = false,
@@ -23,9 +24,11 @@ export default function useHasContentChanged({
 
     pointer.walk(data, (value, path) => {
       const exists = pointer.has(snapshot, path)
-      if (!exists || (exists && pointer.get(snapshot, path) !== value)) {
+      const prev = exists ? pointer.get(snapshot, path) : undefined
+
+      if (!exists || hasValueChanged(value, prev)) {
         hasChanged = true
-        return false
+        return false // stop walking
       }
     })
 
@@ -33,4 +36,23 @@ export default function useHasContentChanged({
   }, [data, snapshot])
 
   return { hasContentChanged }
+}
+
+function hasValueChanged(a, b) {
+  if (a === b) {
+    return false
+  }
+
+  if (isObject(a) && isObject(b)) {
+    const keysA = Object.keys(a)
+    const keysB = Object.keys(b)
+    if (keysA.length !== keysB.length) {
+      return true
+    }
+
+    // Check for deep-equality of the values
+    return keysA.some((k) => hasValueChanged(a[k], b[k]))
+  }
+
+  return true
 }
