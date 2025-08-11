@@ -274,12 +274,13 @@ describe('Field.PhoneNumber', () => {
 
     await userEvent.type(codeElement, ' ')
 
-    const items = document.querySelectorAll('li.dnb-drawer-list__option')
-    const item = Array.from(items).find((element) => {
-      return element.className.includes('selected')
+    await waitFor(() => {
+      const items = document.querySelectorAll('li.dnb-drawer-list__option')
+      const item = Array.from(items).find((element) => {
+        return element.className.includes('selected')
+      })
+      expect(item?.textContent).toBe('Norge+47')
     })
-
-    expect(item.textContent).toBe('Norge+47')
   })
 
   it('should update internal state from outside', () => {
