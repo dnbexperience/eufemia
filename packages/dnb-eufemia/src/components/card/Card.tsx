@@ -133,7 +133,7 @@ Card._supportsSpacingProps = true
 Card.Provider = function CardProvider({
   /**
    * Defines if Card components should act as if it is nested inside another Card.
-   * Used to control side-margins outset behaviour.
+   * Used to control side-margins outset behavior.
    *
    * Defaults to existing context value.
    */

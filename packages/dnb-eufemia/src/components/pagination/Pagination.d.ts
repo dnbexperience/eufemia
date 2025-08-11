@@ -365,7 +365,7 @@ interface PaginationInstanceProps extends SpacingProps {
    */
   load_button_text?: string;
   /**
-   * Used to set loadButton text and icon aligment. Accepts a function returning a ReactNode too, so you can replace the button with your own component.
+   * Used to set loadButton text and icon alignment. Accepts a function returning a ReactNode too, so you can replace the button with your own component.
    */
   loadButton?: LoadButtonProps;
   /**
@@ -553,7 +553,7 @@ interface InfinityMarkerProps extends SpacingProps {
    */
   load_button_text?: string;
   /**
-   * Used to set loadButton text and icon aligment. Accepts a function returning a ReactNode too, so you can replace the button with your own component.
+   * Used to set loadButton text and icon alignment. Accepts a function returning a ReactNode too, so you can replace the button with your own component.
    */
   loadButton?: LoadButtonProps;
   /**
