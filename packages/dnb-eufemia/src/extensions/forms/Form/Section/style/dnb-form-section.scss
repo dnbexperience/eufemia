@@ -3,9 +3,7 @@
     --block-outline-color: var(--color-black-8);
     --block-outline-width: var(--card-outline-width);
 
-    &--error:has(.dnb-form-status--error):not(#{&}--variant-basic):not(
-        #{&}--variant-filled
-      ) {
+    &--error:has(.dnb-form-status--error):not(#{&}--variant-basic) {
       --block-outline-color: var(--color-fire-red);
       --block-outline-width: 0.0625rem;
     }
@@ -37,7 +35,6 @@
 
     &--variant-filled &__inner {
       --space: var(--spacing-small);
-      background-color: var(--color-lavender);
     }
 
     &--no-animation &__inner {
@@ -55,6 +52,11 @@
     .dnb-card & .dnb-card {
       --card-outline-color: var(--block-outline-color);
       --card-outline-width: var(--block-outline-width);
+
+      &--filled.dnb-section {
+        // Reset the background color to our own color instead of the card's outline color
+        --background-color: var(--color-lavender);
+      }
     }
   }
 }
