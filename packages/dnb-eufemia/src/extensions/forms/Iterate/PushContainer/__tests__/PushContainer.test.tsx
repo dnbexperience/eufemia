@@ -2155,7 +2155,6 @@ describe('PushContainer', () => {
                   path="/pushContainerItems"
                   openButton={<Iterate.PushContainer.OpenButton />}
                   showOpenButtonWhen={() => true}
-                  variant="filled"
                   required
                 >
                   <Field.Address required />
@@ -2175,6 +2174,13 @@ describe('PushContainer', () => {
         await userEvent.click(nextButton())
         expect(output()).toHaveTextContent('Step 2')
 
+        expect(
+          document.querySelector('.dnb-forms-iterate__open-button')
+        ).toBeInTheDocument()
+        expect(
+          document.querySelector('.dnb-forms-section-edit-block')
+        ).not.toHaveClass('dnb-height-animation--is-visible')
+
         await userEvent.click(nextButton())
         expect(output()).toHaveTextContent('Step 2')
 
@@ -2184,13 +2190,9 @@ describe('PushContainer', () => {
         await userEvent.click(nextButton())
         expect(output()).toHaveTextContent('Step 2')
 
-        const editContainer = document.querySelector(
-          '.dnb-forms-section-edit-block'
-        )
-
-        expect(editContainer).toHaveClass(
-          'dnb-height-animation--is-visible'
-        )
+        expect(
+          document.querySelector('.dnb-forms-section-edit-block')
+        ).toHaveClass('dnb-height-animation--is-visible')
       })
 
       it('should not open the EditContainer when a non related error exists in the wizard step', async () => {
@@ -2219,7 +2221,6 @@ describe('PushContainer', () => {
                   path="/pushContainerItems"
                   openButton={<Iterate.PushContainer.OpenButton />}
                   showOpenButtonWhen={() => true}
-                  variant="filled"
                 >
                   <Field.Address required />
                 </Iterate.PushContainer>
@@ -2238,6 +2239,13 @@ describe('PushContainer', () => {
         await userEvent.click(nextButton())
         expect(output()).toHaveTextContent('Step 2')
 
+        expect(
+          document.querySelector('.dnb-forms-iterate__open-button')
+        ).toBeInTheDocument()
+        expect(
+          document.querySelector('.dnb-forms-section-edit-block')
+        ).not.toHaveClass('dnb-height-animation--is-visible')
+
         await userEvent.click(nextButton())
         expect(output()).toHaveTextContent('Step 2')
 
@@ -2247,13 +2255,9 @@ describe('PushContainer', () => {
         await userEvent.click(nextButton())
         expect(output()).toHaveTextContent('Step 2')
 
-        const editContainer = document.querySelector(
-          '.dnb-forms-section-edit-block'
-        )
-
-        expect(editContainer).not.toHaveClass(
-          'dnb-height-animation--is-visible'
-        )
+        expect(
+          document.querySelector('.dnb-forms-section-edit-block')
+        ).not.toHaveClass('dnb-height-animation--is-visible')
 
         await userEvent.clear(document.querySelector('input'))
         await userEvent.type(document.querySelector('input'), 'a')
