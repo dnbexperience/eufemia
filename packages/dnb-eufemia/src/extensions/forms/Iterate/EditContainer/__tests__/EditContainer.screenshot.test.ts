@@ -15,6 +15,7 @@ describe('Iterate.EditContainer', () => {
       simulate: 'click',
       simulateSelector:
         '[data-visual-test="edit-container-error"] .dnb-forms-submit-button',
+      recalculateHeightAfterSimulate: true,
     })
     expect(screenshot).toMatchImageSnapshot()
   })
