@@ -1,5 +1,11 @@
 import React from 'react'
-import { act, fireEvent, render, screen } from '@testing-library/react'
+import {
+  act,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from '@testing-library/react'
 import nbNO from '../../../constants/locales/nb-NO'
 import { Form } from '../../..'
 
@@ -295,7 +301,7 @@ describe('Form.InfoOverlay', () => {
     expect(element).toHaveClass('dnb-forms-info-overlay--error')
   })
 
-  it('should handle focus', () => {
+  it('should handle focus', async () => {
     const formId = {}
 
     render(
@@ -312,34 +318,42 @@ describe('Form.InfoOverlay', () => {
       Form.InfoOverlay.setContent(formId, 'success')
     })
 
-    expect(
-      document.querySelector('.dnb-forms-info-overlay--success')
-    ).toHaveFocus()
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-forms-info-overlay--success')
+      ).toHaveFocus()
+    })
 
     act(() => {
       document.querySelector('body').focus()
       Form.InfoOverlay.setContent(formId, undefined)
     })
 
-    expect(document.querySelector('.dnb-forms-info-overlay')).toHaveFocus()
-    expect(
-      document.querySelector('.dnb-forms-info-overlay')
-    ).not.toHaveClass('dnb-forms-info-overlay--success')
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-forms-info-overlay')
+      ).toHaveFocus()
+      expect(
+        document.querySelector('.dnb-forms-info-overlay')
+      ).not.toHaveClass('dnb-forms-info-overlay--success')
+    })
 
     act(() => {
       document.querySelector('body').focus()
       Form.InfoOverlay.setContent(formId, 'success')
     })
 
-    expect(
-      document.querySelector('.dnb-forms-info-overlay--success')
-    ).toHaveFocus()
-    expect(document.querySelector('.dnb-forms-info-overlay')).toHaveClass(
-      'dnb-no-focus'
-    )
-    expect(
-      document.querySelector('.dnb-forms-info-overlay')
-    ).toHaveAttribute('tabindex', '-1')
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-forms-info-overlay--success')
+      ).toHaveFocus()
+      expect(
+        document.querySelector('.dnb-forms-info-overlay')
+      ).toHaveClass('dnb-no-focus')
+      expect(
+        document.querySelector('.dnb-forms-info-overlay')
+      ).toHaveAttribute('tabindex', '-1')
+    })
   })
 
   it('should show content when cancel button is clicked', () => {
