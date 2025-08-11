@@ -3,7 +3,9 @@
     --block-outline-color: var(--color-black-8);
     --block-outline-width: var(--card-outline-width);
 
-    &--error:has(.dnb-form-status--error):not(#{&}--variant-basic) {
+    &--error:has(.dnb-form-status--error):not(#{&}--variant-basic):not(
+        #{&}--variant-filled
+      ) {
       --block-outline-color: var(--color-fire-red);
       --block-outline-width: 0.0625rem;
     }
