@@ -50,7 +50,7 @@ function hasValueChanged(a, b) {
       return true
     }
 
-    // Check fo deep-equality of the values
+    // Check for deep-equality of the values
     return keysA.some((k) => hasValueChanged(a[k], b[k]))
   }
 
