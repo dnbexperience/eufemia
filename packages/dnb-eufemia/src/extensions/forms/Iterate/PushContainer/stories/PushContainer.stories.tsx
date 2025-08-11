@@ -217,31 +217,3 @@ export function RequireUnchanged() {
     </Form.Handler>
   )
 }
-
-export const Something = () => {
-  return (
-    <Form.Handler data={{ test: 1337 }}>
-      <Wizard.Container>
-        <Wizard.Step title="Step 1">
-          <Wizard.Buttons />
-        </Wizard.Step>
-        <Wizard.Step title="Step 2">
-          <Field.String path="/test" required />
-          <Iterate.PushContainer
-            path="/pushContainerItems"
-            openButton={<Iterate.PushContainer.OpenButton />}
-            showOpenButtonWhen={() => true}
-            variant="filled"
-          >
-            <Field.Address required />
-          </Iterate.PushContainer>
-          <Wizard.Buttons />
-        </Wizard.Step>
-        <Wizard.Step title="Step 3">
-          <Wizard.Buttons />
-        </Wizard.Step>
-      </Wizard.Container>
-      <Tools.Log />
-    </Form.Handler>
-  )
-}
