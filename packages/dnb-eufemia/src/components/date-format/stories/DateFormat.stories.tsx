@@ -5,9 +5,8 @@
 
 import React, { useContext } from 'react'
 import DateFormat from '../'
-import Card from '../../Card'
 import { Context, Provider } from '../../../shared'
-import { Dropdown } from '../../lib'
+import { Dropdown, Card, P } from '../../../'
 
 export default {
   title: 'Eufemia/Components/DateFormat',
@@ -93,19 +92,25 @@ export function RelativeTime() {
   const oneYearUntilNow = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000)
 
   return (
-    <Card stack>
-      <DateFormat value={thirtySecondsAgo} relativeTime />
-      <DateFormat value={fiveMinutesAgo} relativeTime />
-      <DateFormat value={twoDaysAgo} relativeTime />
-      <DateFormat value={twoWeeksAgo} relativeTime />
-      <DateFormat value={threeMonthsAgo} relativeTime />
-      <DateFormat value={oneYearAgo} relativeTime />
-      <DateFormat value={fortyFiveSecondsUntilNow} relativeTime />
-      <DateFormat value={fiveMinutesUntilNow} relativeTime />
-      <DateFormat value={twoDaysUntilNow} relativeTime />
-      <DateFormat value={twoWeeksUntilNow} relativeTime />
-      <DateFormat value={threeMonthsUntilNow} relativeTime />
-      <DateFormat value={oneYearUntilNow} relativeTime />
-    </Card>
+    <Provider>
+      <Card stack>
+        <P>
+          Skrevet <DateFormat value={thirtySecondsAgo} relativeTime />
+        </P>
+
+        <DateFormat value={fiveMinutesAgo} relativeTime />
+        <DateFormat value={twoDaysAgo} relativeTime />
+        <DateFormat value={twoWeeksAgo} relativeTime />
+        <DateFormat value={threeMonthsAgo} relativeTime />
+        <DateFormat value={oneYearAgo} relativeTime />
+        <DateFormat value={fortyFiveSecondsUntilNow} relativeTime />
+        <DateFormat value={fiveMinutesUntilNow} relativeTime />
+        <DateFormat value={twoDaysUntilNow} relativeTime />
+        <DateFormat value={twoWeeksUntilNow} relativeTime />
+        <DateFormat value={threeMonthsUntilNow} relativeTime />
+        <DateFormat value={oneYearUntilNow} relativeTime />
+        <LocaleChanger />
+      </Card>
+    </Provider>
   )
 }

@@ -46,36 +46,36 @@ export function formatDateRange(
 }
 
 // Set of constants that represent how many ms per unit
-const msSeconds = 1000
-const msMinutes = 60 * msSeconds
-const msHours = 60 * msMinutes
-const msDays = 24 * msHours
-const msWeeks = 7 * msDays
-// yeah, this is probably not perfect
-const msMonths = 4 * msWeeks
-const msYears = 12 * msMonths
-
 const timeUnitsInMs = {
-  seconds: msSeconds,
-  minutes: msMinutes,
-  hours: msHours,
-  days: msDays,
-  weeks: msWeeks,
-  months: msMonths,
-  years: msYears,
-}
+  seconds: 1000,
+  minutes: 60_000,
+  hours: 3_600_000,
+  days: 86_400_000,
+  weeks: 604_800_000,
+  months: 30.4375 * 86_400_000, // avg month (365.25 / 12 days)
+  years: 365.25 * 86_400_000, // avg year including leap years
+} as const
+export type RelativeTimeUnit = keyof typeof timeUnitsInMs
 
-type RelativeTimeUnit = keyof typeof timeUnitsInMs
-
-export function getRelativeTime(date: Date) {
-  const relativeTimeFormatter = new Intl.RelativeTimeFormat('nb-NO', {
+/**
+ * Returns a relative time string, e.g. "3 days ago"
+ */
+export function getRelativeTime(
+  date: Date,
+  locale: AnyLocale = defaultLocale,
+  options: Intl.RelativeTimeFormatOptions = {
     numeric: 'always',
     style: 'long',
-  })
+  }
+) {
+  const relativeTimeFormatter = new Intl.RelativeTimeFormat(
+    locale,
+    options
+  )
 
-  const today = new Date()
+  const now = new Date()
 
-  const msDateDifference = date.getTime() - today.getTime()
+  const msDateDifference = date.getTime() - now.getTime()
   const timeUnit = getTimeUnit(msDateDifference)
 
   const timeUnitDifference = Math.round(
@@ -85,35 +85,39 @@ export function getRelativeTime(date: Date) {
   return relativeTimeFormatter.format(timeUnitDifference, timeUnit)
 }
 
+/**
+ * Calculates the optimal delay in milliseconds until the relative time label
+ * is expected to change next. Uses the same unit logic as getRelativeTime,
+ * and schedules the update at the next rounding threshold to minimize re-renders.
+ */
+export function getRelativeTimeNextUpdateMs(
+  date: Date,
+  now = new Date()
+): number {
+  const diff = date.getTime() - now.getTime()
+  if (!Number.isFinite(diff)) {
+    return 1000
+  }
+
+  const unit = getTimeUnit(diff)
+  const unitMs = timeUnitsInMs[unit]
+  const v = diff / unitMs
+  const msUntilFlip = (v - (Math.round(v) - 0.5)) * unitMs
+  const min = unit === 'seconds' ? 500 : 1000
+
+  return Math.max(min, Math.floor(msUntilFlip) + 50)
+}
+
+const UNIT_THRESHOLDS: ReadonlyArray<[number, RelativeTimeUnit]> = [
+  [timeUnitsInMs.minutes, 'seconds'],
+  [timeUnitsInMs.hours, 'minutes'],
+  [timeUnitsInMs.days, 'hours'],
+  [timeUnitsInMs.weeks, 'days'],
+  [timeUnitsInMs.months, 'weeks'],
+  [timeUnitsInMs.years, 'months'],
+]
+
 function getTimeUnit(msDifference: number): RelativeTimeUnit {
-  const absoluteMsDifference = Math.abs(msDifference)
-
-  console.log('absoluteMsDifference', absoluteMsDifference)
-  console.log('msWeeks', msWeeks)
-
-  if (absoluteMsDifference < msMinutes) {
-    return 'seconds'
-  }
-
-  if (absoluteMsDifference < msHours) {
-    return 'minutes'
-  }
-
-  if (absoluteMsDifference < msDays) {
-    return 'hours'
-  }
-
-  if (absoluteMsDifference < msWeeks) {
-    return 'days'
-  }
-
-  if (absoluteMsDifference < msMonths) {
-    return 'weeks'
-  }
-
-  if (absoluteMsDifference < msYears) {
-    return 'months'
-  }
-
-  return 'years'
+  const abs = Math.abs(msDifference)
+  return UNIT_THRESHOLDS.find(([limit]) => abs < limit)?.[1] ?? 'years'
 }
