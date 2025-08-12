@@ -2332,7 +2332,7 @@ describe('Iterate.Array', () => {
                   ownershipAttributes: null,
                 },
                 {
-                  name: 'Has undefined',
+                  name: 'Has ownershipAttributes as undefined',
                   ownershipAttributes: undefined,
                 },
               ],
