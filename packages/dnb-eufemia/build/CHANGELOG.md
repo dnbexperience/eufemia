@@ -3,6 +3,15 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.77.7](https://github.com/dnbexperience/eufemia/compare/v10.77.6...v10.77.7) (2025-08-12)
+
+
+### :bug: Bug Fixes
+
+* **PushContainer:** should not open when error exists in other fields in step ([#5364](https://github.com/dnbexperience/eufemia/issues/5364)) ([d6cd11b](https://github.com/dnbexperience/eufemia/commit/d6cd11b81f5859b1d766b86e5aa133d65abbb18e))
+* remove unused CSS reset `input-placeholder` ([#5370](https://github.com/dnbexperience/eufemia/issues/5370)) ([5766c6c](https://github.com/dnbexperience/eufemia/commit/5766c6c030223d3509a0e2cd0b103e150561539a))
+* **Wizard:** should not report a change when comparing files/objects ([#5363](https://github.com/dnbexperience/eufemia/issues/5363)) ([90349e2](https://github.com/dnbexperience/eufemia/commit/90349e2aef7061ca3bc18d3de689308fffce7a30))
+
 ## [10.77.6](https://github.com/dnbexperience/eufemia/compare/v10.77.5...v10.77.6) (2025-08-07)
 
 
