@@ -2324,7 +2324,7 @@ describe('Iterate.Array', () => {
                   name: 'Has not specified ownershipAttributes',
                 },
                 {
-                  name: 'Has empty array',
+                  name: 'Has ownershipAttributes as empty array',
                   ownershipAttributes: [],
                 },
                 {
