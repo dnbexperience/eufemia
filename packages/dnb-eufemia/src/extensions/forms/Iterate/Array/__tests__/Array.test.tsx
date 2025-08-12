@@ -2328,7 +2328,7 @@ describe('Iterate.Array', () => {
                   ownershipAttributes: [],
                 },
                 {
-                  name: 'Has ownershipAttributes  as null',
+                  name: 'Has ownershipAttributes as null',
                   ownershipAttributes: null,
                 },
                 {
