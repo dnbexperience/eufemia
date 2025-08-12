@@ -317,3 +317,62 @@ export const PreventUncommittedChanges = () => {
     </ComponentBox>
   )
 }
+
+export const Variants = () => {
+  return (
+    <ComponentBox data-visual-test="push-container-variants">
+      <Form.Handler>
+        <Wizard.Container>
+          <Wizard.Step title="Step 1">
+            <Iterate.Array path="/x" required>
+              <Value.Address itemPath="/y" />
+            </Iterate.Array>
+            <Iterate.PushContainer
+              path="/x"
+              variant="outline"
+              top
+              bottom
+              bubbleValidation
+            >
+              <Field.Address
+                label="variant outline"
+                itemPath="/y"
+                required
+              />
+            </Iterate.PushContainer>
+            <Iterate.PushContainer
+              path="/x"
+              variant="filled"
+              top
+              bottom
+              bubbleValidation
+            >
+              <Field.Address
+                label="variant filled"
+                itemPath="/y"
+                required
+              />
+            </Iterate.PushContainer>
+            <Iterate.PushContainer
+              path="/x"
+              variant="basic"
+              top
+              bottom
+              bubbleValidation
+            >
+              <Field.Address
+                label="variant basic"
+                itemPath="/y"
+                required
+              />
+            </Iterate.PushContainer>
+            <Wizard.Buttons />
+          </Wizard.Step>
+          <Wizard.Step title="Step 2">
+            <Wizard.Buttons />
+          </Wizard.Step>
+        </Wizard.Container>
+      </Form.Handler>
+    </ComponentBox>
+  )
+}

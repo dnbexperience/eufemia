@@ -266,7 +266,7 @@ export const StepIndicatorSkeleton = () => (
 )
 
 /**
- * Examples below tests deprecated behaviour
+ * Examples below tests deprecated behavior
  */
 export const DeprecatedStepIndicatorStatic = () => (
   <ComponentBox data-visual-test="step-indicator-static">

@@ -28,7 +28,17 @@ export const EditContainerWithError = () => {
               name: undefined, // // <- Trigger an error
             },
           ],
+          withFilledVariantInsideOfCard: [
+            {
+              name: undefined, // // <- Trigger an error
+            },
+          ],
           withBasicVariant: [
+            {
+              name: '', // // <- Trigger an error
+            },
+          ],
+          withBasicVariantInsideOfCard: [
             {
               name: '', // // <- Trigger an error
             },
@@ -57,8 +67,28 @@ export const EditContainerWithError = () => {
           </Iterate.Array>
 
           <Form.Card>
-            <Iterate.Array path="/withBasicVariant">
-              <Iterate.EditContainer title="Basic variant" variant="basic">
+            <Iterate.Array path="/withFilledVariantInsideOfCard">
+              <Iterate.EditContainer
+                title="Filled variant inside of card"
+                variant="filled"
+              >
+                <Field.String label="Name" itemPath="/name" required />
+              </Iterate.EditContainer>
+            </Iterate.Array>
+          </Form.Card>
+
+          <Iterate.Array path="/withBasicVariant">
+            <Iterate.EditContainer title="Basic variant" variant="basic">
+              <Field.String label="Name" itemPath="/name" required />
+            </Iterate.EditContainer>
+          </Iterate.Array>
+
+          <Form.Card>
+            <Iterate.Array path="/withBasicVariantInsideOfCard">
+              <Iterate.EditContainer
+                title="Basic variant inside of card"
+                variant="basic"
+              >
                 <Field.String label="Name" itemPath="/name" required />
               </Iterate.EditContainer>
             </Iterate.Array>
