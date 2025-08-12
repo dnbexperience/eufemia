@@ -6,7 +6,7 @@
 import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import styled from '@emotion/styled'
-import { DateFormat, P } from '@dnb/eufemia/src'
+import { Card, DateFormat, P } from '@dnb/eufemia/src'
 
 const Style = styled.div`
   p > .dnb-date-format {
@@ -50,5 +50,88 @@ export const DateFormatInline = () => {
         you have sufficient funds available.
       </P>
     </ComponentBox>
+  )
+}
+
+export const RelativeTime = () => {
+  return (
+    <ComponentBox>
+      <P>
+        Skrevet{' '}
+        <DateFormat
+          value={new Date(new Date().getTime() - 30 * 1000)}
+          relativeTime
+        />
+      </P>
+    </ComponentBox>
+  )
+}
+
+export const RelativeTimeAdvanced = () => {
+  // Create dates for demonstration
+  const now = new Date()
+  const pastDates = [
+    new Date(now.getTime() - 30 * 1000), // 30 seconds ago
+    new Date(now.getTime() - 2 * 60 * 1000), // 2 minutes ago
+    new Date(now.getTime() - 3 * 60 * 60 * 1000), // 3 hours ago
+    new Date(now.getTime() - 2 * 24 * 60 * 60 * 1000), // 2 days ago
+    new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000), // 1 week ago
+  ]
+
+  const futureDates = [
+    new Date(now.getTime() + 45 * 1000), // 45 seconds from now
+    new Date(now.getTime() + 5 * 60 * 1000), // 5 minutes from now
+    new Date(now.getTime() + 2 * 60 * 60 * 1000), // 2 hours from now
+    new Date(now.getTime() + 3 * 24 * 60 * 60 * 1000), // 3 days from now
+    new Date(now.getTime() + 14 * 24 * 60 * 60 * 1000), // 2 weeks from now
+  ]
+
+  return (
+    <Style>
+      <ComponentBox
+        scope={{
+          pastDates,
+          futureDates,
+        }}
+      >
+        <Card stack>
+          <P>
+            <strong>Past dates:</strong>
+            <br />
+
+            {pastDates.map((date, index) => (
+              <React.Fragment key={index}>
+                <DateFormat value={date} relativeTime />
+                {index < pastDates.length - 1}
+              </React.Fragment>
+            ))}
+          </P>
+
+          <P>
+            <strong>Future dates:</strong>
+            <br />
+
+            {futureDates.map((date, index) => (
+              <React.Fragment key={index}>
+                <DateFormat value={date} relativeTime />
+                {index < futureDates.length - 1}
+              </React.Fragment>
+            ))}
+          </P>
+
+          <P>
+            <strong>With different locales:</strong>
+            <br />
+
+            <DateFormat value={pastDates[2]} relativeTime locale="en-GB" />
+            <DateFormat
+              value={futureDates[2]}
+              relativeTime
+              locale="en-GB"
+            />
+          </P>
+        </Card>
+      </ComponentBox>
+    </Style>
   )
 }

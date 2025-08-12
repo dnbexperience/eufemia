@@ -11,6 +11,11 @@ export const DateFormatProperties: PropertiesTableProps = {
     type: ['long', 'medium', 'short', 'full'],
     status: 'optional',
   },
+  relativeTime: {
+    doc: 'If set to `true`, the date will be formatted as a relative time. Defaults to `false`.',
+    type: 'boolean',
+    status: 'optional',
+  },
   locale: {
     doc: 'A string in [Intl.DateTimeFormat locale](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl#locales_argument) format. Defaults to `nb-NO`.',
     type: 'string',
