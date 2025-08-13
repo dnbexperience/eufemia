@@ -35,7 +35,6 @@
 
     &--variant-filled &__inner {
       --space: var(--spacing-small);
-      background-color: var(--color-lavender);
     }
 
     &--no-animation &__inner {
@@ -53,6 +52,11 @@
     .dnb-card & .dnb-card {
       --card-outline-color: var(--block-outline-color);
       --card-outline-width: var(--block-outline-width);
+
+      &--filled.dnb-section {
+        // Reset the background color to our own color instead of the card's outline color
+        --background-color: var(--color-lavender);
+      }
     }
   }
 }

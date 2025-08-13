@@ -477,3 +477,37 @@ export function IterateInIterate() {
     </Form.Handler>
   )
 }
+
+export const DeleteFromArraySelection = () => {
+  return (
+    <Form.Handler
+      defaultData={{
+        subdata: {
+          items: [
+            {
+              name: 'Item 1',
+              itemValue: undefined,
+            },
+            {
+              name: 'Item 2',
+              itemValue: undefined,
+            },
+          ],
+        },
+      }}
+    >
+      <Iterate.Array path="/subdata/items">
+        <Iterate.AnimatedContainer>
+          <Value.String itemPath="/name" />
+          <Iterate.Toolbar>
+            <Iterate.RemoveButton />
+          </Iterate.Toolbar>
+          <Field.ArraySelection itemPath="/itemValue">
+            <Field.Option value="something">Option</Field.Option>
+          </Field.ArraySelection>
+        </Iterate.AnimatedContainer>
+      </Iterate.Array>
+      <Tools.Log />
+    </Form.Handler>
+  )
+}
