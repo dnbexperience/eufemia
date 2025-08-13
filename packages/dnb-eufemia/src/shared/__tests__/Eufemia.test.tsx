@@ -111,27 +111,6 @@ describe('Eufemia', () => {
     })
   })
 
-  describe('Eufemia.versions', () => {
-    beforeEach(() => {
-      init()
-    })
-
-    it('should initialize versions array on first access', () => {
-      expect(window.__eufemiaVersions).toEqual(['__VERSION__'])
-      const versions = window.Eufemia?.versions
-      expect(versions).toEqual([version])
-      expect(window.__eufemiaVersions).toEqual([version])
-    })
-
-    it('should not add duplicate versions', () => {
-      const versions1 = window.Eufemia?.versions
-      const versions2 = window.Eufemia?.versions
-      expect(versions1).toEqual([version])
-      expect(versions2).toEqual([version])
-      expect(window.__eufemiaVersions?.length).toBe(1)
-    })
-  })
-
   describe('Eufemia.shas', () => {
     beforeEach(() => {
       init()
@@ -153,7 +132,7 @@ describe('Eufemia', () => {
     })
   })
 
-  describe('Eufemia.info', () => {
+  describe('Eufemia.versions', () => {
     beforeEach(() => {
       init()
     })
@@ -183,7 +162,7 @@ describe('Eufemia', () => {
         </>
       )
 
-      expect(window.Eufemia?.info.versions).toEqual([
+      expect(window.Eufemia.versions).toEqual([
         {
           js: '1.2.3',
           css: '1.2.333',
@@ -225,7 +204,7 @@ describe('Eufemia', () => {
         </>
       )
 
-      expect(window.Eufemia?.info.versions).toEqual([
+      expect(window.Eufemia.versions).toEqual([
         {
           js: '1.2.3',
           css: '1.2.333',
