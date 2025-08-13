@@ -194,7 +194,7 @@ describe('Value.Number', () => {
       (attr) => attr.name
     )
 
-    expect(attributes).toEqual(['lang', 'class', 'data-testid', 'role'])
+    expect(attributes).toEqual(['lang', 'class', 'data-testid'])
     expect(element).toHaveAttribute('data-testid', 'testid')
   })
 
