@@ -3,6 +3,21 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.77.8](https://github.com/dnbexperience/eufemia/compare/v10.77.7...v10.77.8) (2025-08-13)
+
+
+### :memo: Documentation
+
+* **Field.Upload:** add how to use `transformIn` ([#5387](https://github.com/dnbexperience/eufemia/issues/5387)) ([f4e8463](https://github.com/dnbexperience/eufemia/commit/f4e8463ad1bc8492aa19699b0e78210249b42c05))
+
+
+### :bug: Bug Fixes
+
+* **Autocomplete:** highlight letters inside words when filter is disabled with `disable_filter` ([#5385](https://github.com/dnbexperience/eufemia/issues/5385)) ([dee31c9](https://github.com/dnbexperience/eufemia/commit/dee31c922bfc41879d6ec680a843b92b7421d742))
+* **Forms:** ensure error is not shown in Wizard when Iterate.Array is required in next step ([#5389](https://github.com/dnbexperience/eufemia/issues/5389)) ([69d8cf9](https://github.com/dnbexperience/eufemia/commit/69d8cf91b8019ec587020206c85d5ccccd9fd4f0))
+* **Iterate.Array:** cannot delete from array when initial data is incomplete ([#5365](https://github.com/dnbexperience/eufemia/issues/5365)) ([b5b6601](https://github.com/dnbexperience/eufemia/commit/b5b66018bbc7ac5a959ad1f6453fa580bdfcf733))
+* **PushContainer:** styling of variant filled in error state on small screen ([#5376](https://github.com/dnbexperience/eufemia/issues/5376)) ([5a1347b](https://github.com/dnbexperience/eufemia/commit/5a1347b303c3968e0299e4b6d7c87ec8413bd182))
+
 ## [10.77.7](https://github.com/dnbexperience/eufemia/compare/v10.77.6...v10.77.7) (2025-08-12)
 
 
