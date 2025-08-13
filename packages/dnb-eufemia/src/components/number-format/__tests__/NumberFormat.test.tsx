@@ -1260,7 +1260,7 @@ describe('NumberFormat compact', () => {
       (attr) => attr.name
     )
 
-    expect(attributes).toEqual(['lang', 'class', 'role'])
+    expect(attributes).toEqual(['lang', 'class'])
   })
 
   it('have to match compact number with custom decimals', () => {
