@@ -177,7 +177,6 @@ If doing so, it's recommended to pass along the rest of the [file item object](/
   <Field.Upload
     path="/documents"
     transformIn={(value) => {
-      console.log(value)
       return (value || []).map((fileItemObj) => ({
         ...fileItemObj,
         errorMessage: 'error message',
