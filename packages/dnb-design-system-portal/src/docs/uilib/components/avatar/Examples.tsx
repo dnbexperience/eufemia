@@ -5,11 +5,12 @@
 
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import {
-  card as Card,
-  account_card as AccountCard,
-  confetti as Confetti,
+  card_medium as CardMedium,
+  account_card_medium as AccountCardMedium,
+  bank as Bank,
+  bank_medium as BankMedium,
 } from '@dnb/eufemia/src/icons'
-import { Avatar, Icon, Logo } from '@dnb/eufemia/src'
+import { Avatar, Icon, IconPrimary, Logo } from '@dnb/eufemia/src'
 
 export const AvatarSizeDefault = () => (
   <ComponentBox hideCode data-visual-test="avatar-size-default">
@@ -85,30 +86,30 @@ export const AvatarVariantTertiary = () => (
   </ComponentBox>
 )
 
-export const AvatarConfettiIcon = () => (
+export const AvatarBankIcon = () => (
   <ComponentBox
     hideCode
-    scope={{ Confetti }}
+    scope={{ Bank, BankMedium }}
     data-visual-test="avatar-children-icon-primary"
   >
-    <Avatar.Group label="Icons">
-      <Avatar variant="primary">
-        <Icon icon={Confetti} />
-      </Avatar>
-    </Avatar.Group>
+    <Avatar size="small" icon={Bank} />
+    <Avatar icon={BankMedium} />
+    <Avatar size="large" icon={<IconPrimary icon={BankMedium} />} />
+    <Avatar size="x-large" icon={<Icon icon={BankMedium} />} />
   </ComponentBox>
 )
 
 export const AvatarCardIcon = () => (
   <ComponentBox
     hideCode
-    scope={{ Card }}
+    scope={{ CardMedium }}
     data-visual-test="avatar-children-icon-secondary"
   >
     <Avatar.Group label="Icons">
-      <Avatar variant="secondary">
-        <Icon icon={Card} />
-      </Avatar>
+      <Avatar
+        variant="secondary"
+        icon={<IconPrimary icon={CardMedium} />}
+      />
     </Avatar.Group>
   </ComponentBox>
 )
@@ -116,12 +117,12 @@ export const AvatarCardIcon = () => (
 export const AvatarAccountCardIcon = () => (
   <ComponentBox
     hideCode
-    scope={{ AccountCard }}
+    scope={{ AccountCardMedium }}
     data-visual-test="avatar-children-icon-tertiary"
   >
     <Avatar.Group label="Icons">
       <Avatar variant="tertiary">
-        <Icon icon={AccountCard} />
+        <Icon icon={AccountCardMedium} />
       </Avatar>
     </Avatar.Group>
   </ComponentBox>

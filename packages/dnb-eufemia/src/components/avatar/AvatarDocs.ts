@@ -26,6 +26,11 @@ export const AvatarProperties: PropertiesTableProps = {
     type: ['ImgProps'],
     status: 'optional',
   },
+  icon: {
+    doc: 'An icon name or component. (Will override the `src` property.)',
+    type: ['string', '[Icon](/uilib/components/icon)'],
+    status: 'optional',
+  },
   variant: {
     doc: 'Override the variant of the component. Options: `primary` | `secondary` | `tertiary`. Defaults to `primary`.',
     type: ['primary', 'secondary', 'tertiary'],
