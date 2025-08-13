@@ -2304,109 +2304,83 @@ describe('Iterate.Array', () => {
       )
     })
 
-    it('should remove array items even though they have', async () => {
-      const nextButton = () => {
-        return document.querySelector('.dnb-forms-next-button')
-      }
-      const output = () => {
-        return document.querySelector('output')
-      }
+    it('should remove array item inside AnimatedContainer from data context when itemValue is undefined', async () => {
+      let collectedContext = null
+
       render(
         <Form.Handler
-          data={{
-            beneficialOwners: {
-              existingBeneficialOwners: [
+          defaultData={{
+            subdata: {
+              items: [
                 {
-                  name: 'Has ownershipAttributes value',
-                  ownershipAttributes: ['OWNS_MORE_THAN_25_PERCENT'],
+                  name: 'Item 1',
+                  itemValue: undefined,
                 },
                 {
-                  name: 'Has not specified ownershipAttributes',
-                },
-                {
-                  name: 'Has ownershipAttributes as empty array',
-                  ownershipAttributes: [],
-                },
-                {
-                  name: 'Has ownershipAttributes as null',
-                  ownershipAttributes: null,
-                },
-                {
-                  name: 'Has ownershipAttributes as undefined',
-                  ownershipAttributes: undefined,
+                  name: 'Item 2',
+                  itemValue: undefined,
                 },
               ],
             },
           }}
         >
-          <Wizard.Container>
-            <Wizard.Step title="Step 1">
-              <output>Step 1</output>
-              <Wizard.Buttons />
-            </Wizard.Step>
-            <Wizard.Step title="Step 2">
-              <output>Step 2</output>
-              <Iterate.Array
-                path="/beneficialOwners/existingBeneficialOwners"
-                containerMode="view"
-              >
-                <Iterate.ViewContainer
-                  toolbarVariant="custom"
-                  variant="basic"
-                >
-                  <Value.String itemPath="/name" />
-                  <Iterate.Toolbar>
-                    <Iterate.RemoveButton />
-                  </Iterate.Toolbar>
-                </Iterate.ViewContainer>
-                <Field.ArraySelection
-                  itemPath="/ownershipAttributes"
-                  required
-                >
-                  <Field.Option value="x">"option"</Field.Option>
-                </Field.ArraySelection>
-              </Iterate.Array>
+          <Iterate.Array path="/subdata/items">
+            <Iterate.AnimatedContainer>
+              <Value.String itemPath="/name" />
+              <Iterate.Toolbar>
+                <Iterate.RemoveButton />
+              </Iterate.Toolbar>
+              <Field.ArraySelection itemPath="/itemValue">
+                <Field.Option value="something">Option</Field.Option>
+              </Field.ArraySelection>
+            </Iterate.AnimatedContainer>
+          </Iterate.Array>
 
-              <Wizard.Buttons />
-              <Form.SubmitButton />
-            </Wizard.Step>
-            <Wizard.Step title="Step 3">
-              <output>Step 3</output>
-              <Wizard.Buttons />
-            </Wizard.Step>
-          </Wizard.Container>
+          <DataContext.Consumer>
+            {(context) => {
+              collectedContext = context
+              return null
+            }}
+          </DataContext.Consumer>
         </Form.Handler>
       )
 
-      expect(output()).toHaveTextContent('Step 1')
+      expect(
+        document.querySelectorAll('.dnb-forms-iterate__element')
+      ).toHaveLength(2)
 
-      await userEvent.click(nextButton())
-      expect(output()).toHaveTextContent('Step 2')
+      // Remove the item
+      await userEvent.click(
+        document.querySelector('.dnb-forms-iterate-remove-element-button')
+      )
 
       expect(
-        document.querySelectorAll('.dnb-forms-section-view-block')
-      ).toHaveLength(5)
+        document.querySelectorAll('.dnb-forms-iterate__element')
+      ).toHaveLength(1)
+      expect(collectedContext.data).toEqual({
+        subdata: {
+          items: [
+            {
+              name: 'Item 2',
+              itemValue: undefined,
+            },
+          ],
+        },
+      })
 
+      // Remove the item
       await userEvent.click(
         document.querySelector('.dnb-forms-iterate-remove-element-button')
       )
-      await userEvent.click(
-        document.querySelector('.dnb-forms-iterate-remove-element-button')
-      )
-      await userEvent.click(
-        document.querySelector('.dnb-forms-iterate-remove-element-button')
-      )
-      await userEvent.click(
-        document.querySelector('.dnb-forms-iterate-remove-element-button')
-      )
-      await userEvent.click(
-        document.querySelector('.dnb-forms-iterate-remove-element-button')
-      )
-      await waitFor(() =>
-        expect(
-          document.querySelectorAll('.dnb-forms-section-view-block')
-        ).toHaveLength(0)
-      )
+
+      expect(
+        document.querySelectorAll('.dnb-forms-iterate__element')
+      ).toHaveLength(0)
+      expect(collectedContext.data).toEqual({
+        subdata: {
+          items: [],
+        },
+      })
     })
   })
 

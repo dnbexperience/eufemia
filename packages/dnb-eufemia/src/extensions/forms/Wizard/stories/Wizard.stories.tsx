@@ -1,10 +1,9 @@
 import React, { useCallback } from 'react'
 import { P } from '../../../../elements'
-import { Button, Flex, Grid } from '../../../../components'
+import { Button } from '../../../../components'
 import Field, { Form, Iterate, Tools, Value, Wizard } from '../../Forms'
 import { createRequest } from '../../Form/Handler/stories/FormHandler.stories'
 import { debounceAsync } from '../../../../shared/helpers'
-import { Toolbar } from '../../Iterate'
 // import { BrowserRouter, useSearchParams } from 'react-router-dom'
 // import {
 //   navigate,
@@ -393,96 +392,32 @@ export const AsyncWizard = () => {
 export const DeleteFromArraySelection = () => {
   return (
     <Form.Handler
-      data={{
-        beneficialOwners: {
-          existingBeneficialOwners: [
+      defaultData={{
+        subdata: {
+          items: [
             {
-              name: 'Has ownershipAttributes value',
-              ownershipAttributes: ['OWNS_MORE_THAN_25_PERCENT'],
+              name: 'Item 1',
+              itemValue: undefined,
             },
             {
-              name: 'Has not specified ownershipAttributes',
-            },
-            {
-              name: 'Has empty array',
-              ownershipAttributes: [],
-            },
-            {
-              name: 'Has null',
-              ownershipAttributes: null,
-            },
-            {
-              name: 'Has undefined',
-              ownershipAttributes: undefined,
+              name: 'Item 2',
+              itemValue: undefined,
             },
           ],
         },
       }}
     >
-      <Wizard.Container>
-        <Wizard.Step title="Step 1">
-          Step 1
-          <Wizard.Buttons />
-        </Wizard.Step>
-        <Wizard.Step title="Step 2">
-          <Form.Section>
-            <Form.Card>
-              <Iterate.Array
-                path="/beneficialOwners/existingBeneficialOwners"
-                containerMode="view"
-              >
-                <Grid.Container>
-                  <Grid.Item
-                    span={{
-                      small: [1, 1],
-                      medium: [1, 2],
-                      large: [1, 4],
-                    }}
-                  >
-                    <Iterate.ViewContainer
-                      toolbarVariant="custom"
-                      variant="basic"
-                    >
-                      <Flex.Stack>
-                        <Value.String itemPath="/name" />
-                        <Toolbar>
-                          <Iterate.RemoveButton />
-                        </Toolbar>
-                      </Flex.Stack>
-                    </Iterate.ViewContainer>
-                  </Grid.Item>
-                  <Grid.Item
-                    span={{
-                      small: [2, 4],
-                      medium: [3, 6],
-                      large: [5, 12],
-                    }}
-                  >
-                    <Flex.Stack>
-                      <Field.ArraySelection
-                        itemPath="/ownershipAttributes"
-                        required
-                      >
-                        <Field.Option value="OWNS_MORE_THAN_25_PERCENT">
-                          "option"
-                        </Field.Option>
-                      </Field.ArraySelection>
-                    </Flex.Stack>
-                  </Grid.Item>
-                </Grid.Container>
-              </Iterate.Array>
-            </Form.Card>
-          </Form.Section>
-          <Wizard.Buttons />
-          <Form.SubmitButton />
-        </Wizard.Step>
-        <Wizard.Step title="Step 3">
-          Step 3
-          <Wizard.Buttons />
-        </Wizard.Step>
-      </Wizard.Container>
-
-      <Tools.Errors />
+      <Iterate.Array path="/subdata/items">
+        <Iterate.AnimatedContainer>
+          <Value.String itemPath="/name" />
+          <Iterate.Toolbar>
+            <Iterate.RemoveButton />
+          </Iterate.Toolbar>
+          <Field.ArraySelection itemPath="/itemValue">
+            <Field.Option value="something">Option</Field.Option>
+          </Field.ArraySelection>
+        </Iterate.AnimatedContainer>
+      </Iterate.Array>
       <Tools.Log />
     </Form.Handler>
   )
