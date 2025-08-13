@@ -4,6 +4,8 @@ import classnames from 'classnames'
 // Components
 import { createSpacingClasses } from '../space/SpacingHelper'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
+import Icon, { IconIcon, IconAllProps } from '../icon/Icon'
+import IconPrimary from '../IconPrimary'
 
 // Elements
 import Img, { ImgProps } from '../../elements/img/Img'
@@ -72,6 +74,12 @@ export interface AvatarProps
   imgProps?: ImgProps
 
   /**
+   * An icon name or component
+   */
+
+  icon?: IconIcon
+
+  /**
    * The variant of the component.
    * Default: primary.
    */
@@ -126,6 +134,7 @@ const Avatar = (localProps: AvatarProps & SpacingProps) => {
     variant,
     src,
     imgProps,
+    icon,
     hasLabel,
     backgroundColor,
     color,
@@ -139,12 +148,28 @@ const Avatar = (localProps: AvatarProps & SpacingProps) => {
 
   const childrenIsString = typeof childrenProp === 'string'
 
-  if (src || imgProps) {
+  if (icon) {
+    children = isIconComponent(icon) ? (
+      iconAutoSize(icon)
+    ) : (
+      <IconPrimary
+        icon={icon}
+        size="auto"
+        aria-hidden={childrenIsString ? true : null}
+        skeleton={skeleton}
+      />
+    )
+  } else if (src || imgProps) {
     const imageProps = { src, alt, ...imgProps }
     children = <Img {...imageProps} />
   } else if (childrenIsString) {
     const firstLetterUpperCase = childrenProp.charAt(0).toUpperCase()
     children = <span aria-hidden>{firstLetterUpperCase}</span>
+  } else if (
+    React.Children.count(childrenProp) === 1 &&
+    isIconComponent(childrenProp)
+  ) {
+    children = iconAutoSize(childrenProp)
   } else {
     children = childrenProp
   }
@@ -191,3 +216,30 @@ export { AvatarGroup }
 Avatar._supportsSpacingProps = true
 
 export default Avatar
+
+function isIconComponent(
+  element: unknown
+): element is React.ReactElement<IconAllProps> {
+  return (
+    React.isValidElement(element) &&
+    (element.type === Icon || element.type === IconPrimary)
+  )
+}
+
+function iconAutoSize(
+  icon: React.ReactElement<IconAllProps>
+): React.ReactElement<IconAllProps> {
+  return !icon.props.size
+    ? React.cloneElement(icon, {
+        size: 'auto',
+      })
+    : icon
+}
+
+/**
+ * TODO:
+ * - new `icon` prop accept icon component or icon name. auto sizes the icon
+ * - children still accepts icons but will only auto size if size is `--auto`
+ * - update examples to use icon prop
+ * - `icon` uses Medium version if not small
+ */

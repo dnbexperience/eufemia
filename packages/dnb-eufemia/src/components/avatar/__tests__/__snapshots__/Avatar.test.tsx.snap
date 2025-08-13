@@ -63,6 +63,9 @@ exports[`Avatar scss has to match style dependencies css 1`] = `
 .dnb-avatar--size-small, .dnb-core-style .dnb-avatar--size-small {
   line-height: var(--avatar-line-height--small);
 }
+.dnb-avatar--size-small .dnb-icon--auto {
+  font-size: 0.75rem;
+}
 .dnb-avatar--size-medium {
   width: var(--avatar-width--medium);
   height: var(--avatar-height--medium);
@@ -70,6 +73,9 @@ exports[`Avatar scss has to match style dependencies css 1`] = `
 }
 .dnb-avatar--size-medium, .dnb-core-style .dnb-avatar--size-medium {
   line-height: var(--avatar-line-height--medium);
+}
+.dnb-avatar--size-medium .dnb-icon--auto {
+  font-size: 1.25rem;
 }
 .dnb-avatar--size-large {
   width: var(--avatar-width--large);
@@ -79,6 +85,9 @@ exports[`Avatar scss has to match style dependencies css 1`] = `
 .dnb-avatar--size-large, .dnb-core-style .dnb-avatar--size-large {
   line-height: var(--avatar-line-height--large);
 }
+.dnb-avatar--size-large .dnb-icon--auto {
+  font-size: 2.5rem;
+}
 .dnb-avatar--size-x-large {
   width: var(--avatar-width--x-large);
   height: var(--avatar-height--x-large);
@@ -86,6 +95,9 @@ exports[`Avatar scss has to match style dependencies css 1`] = `
 }
 .dnb-avatar--size-x-large, .dnb-core-style .dnb-avatar--size-x-large {
   line-height: var(--avatar-line-height--x-large);
+}
+.dnb-avatar--size-x-large .dnb-icon--auto {
+  font-size: 2.75rem;
 }
 .dnb-avatar__group {
   --avatar-font-size-left--small: var(--font-size-x-small);
