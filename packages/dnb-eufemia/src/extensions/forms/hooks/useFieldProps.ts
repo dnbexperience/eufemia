@@ -1024,7 +1024,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       })
       setFieldStateDataContext?.(identifier, error ? 'error' : undefined)
 
-      if (updateContextDataInSync) {
+      if (updateContextDataInSync && !prerenderFieldProps) {
         setFieldErrorWizard?.(
           wizardIndex,
           identifier,
@@ -1039,6 +1039,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       identifier,
       inFieldBlock,
       prepareError,
+      prerenderFieldProps,
       setBlockRecord,
       setFieldErrorBoundary,
       setFieldErrorDataContext,
