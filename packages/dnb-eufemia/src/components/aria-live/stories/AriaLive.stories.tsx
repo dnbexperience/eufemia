@@ -90,7 +90,7 @@ export function AriaLiveAdditions() {
   const defaultData = React.useMemo(
     () => ({
       enabled: true,
-      content: [<P key="one">Line 1</P>],
+      content: ['Line 1'],
     }),
     []
   )
@@ -99,7 +99,7 @@ export function AriaLiveAdditions() {
   return (
     <Form.Handler id="aria-live-additions">
       <Flex.Stack>
-        <Field.Boolean label="Enabled" path="/enabled" />
+        <Field.Boolean label="Announcement enabled" path="/enabled" />
 
         <FieldBlock label="Content">
           <Form.ButtonRow>
@@ -111,8 +111,8 @@ export function AriaLiveAdditions() {
               on_click={() => {
                 update('/content', (content) => {
                   const c = content.length + 1
-                  content.push(<P key={c}>Line {c}</P>)
-                  return content
+                  content.push(`Line ${c}`)
+                  return [...content]
                 })
               }}
             />
@@ -124,7 +124,7 @@ export function AriaLiveAdditions() {
               on_click={() => {
                 update('/content', (content) => {
                   content.pop()
-                  return content
+                  return [...content]
                 })
               }}
             />
@@ -138,7 +138,9 @@ export function AriaLiveAdditions() {
             disabled={!data.enabled}
             relevant="all"
           >
-            {data.content}
+            {data.content.map((line, i) => {
+              return <P key={i}>{line}</P>
+            })}
           </AriaLive>
         </Flex.Item>
       </Flex.Stack>

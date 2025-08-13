@@ -31,7 +31,10 @@ export const AriaLivePlayground = () => (
         return (
           <Form.Handler id="aria-live-playground">
             <Flex.Stack>
-              <Field.Boolean label="Enabled" path="/enabled" />
+              <Field.Boolean
+                label="Announcement enabled"
+                path="/enabled"
+              />
               <Field.Selection
                 variant="button"
                 optionsLayout="horizontal"
@@ -93,7 +96,7 @@ export const AriaLiveAdditions = () => (
     {() => {
       const defaultData = {
         enabled: false,
-        content: [<P key="one">Line 1</P>],
+        content: ['Line 1'],
       }
 
       function AriaLiveExample() {
@@ -105,7 +108,10 @@ export const AriaLiveAdditions = () => (
         return (
           <Form.Handler id="aria-live-additions">
             <Flex.Stack>
-              <Field.Boolean label="Enabled" path="/enabled" />
+              <Field.Boolean
+                label="Announcement enabled"
+                path="/enabled"
+              />
 
               <FieldBlock label="Content">
                 <Form.ButtonRow>
@@ -117,8 +123,8 @@ export const AriaLiveAdditions = () => (
                     on_click={() => {
                       update('/content', (content) => {
                         const c = content.length + 1
-                        content.push(<P key={c}>Line {c}</P>)
-                        return content
+                        content.push(`Line ${c}`)
+                        return [...content]
                       })
                     }}
                   />
@@ -130,7 +136,7 @@ export const AriaLiveAdditions = () => (
                     on_click={() => {
                       update('/content', (content) => {
                         content.pop()
-                        return content
+                        return [...content]
                       })
                     }}
                   />
@@ -140,7 +146,10 @@ export const AriaLiveAdditions = () => (
               <Flex.Item>
                 Output:{' '}
                 <AriaLive variant="content" disabled={!data.enabled}>
-                  Message: {data.content}
+                  Message:{' '}
+                  {data.content.map((line, i) => {
+                    return <P key={i}>{line}</P>
+                  })}
                 </AriaLive>
               </Flex.Item>
             </Flex.Stack>
