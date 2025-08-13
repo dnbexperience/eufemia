@@ -1,4 +1,5 @@
 import React, { useContext, useLayoutEffect } from 'react'
+import { wait } from '../../../../../core/jest/jestSetup'
 import { fireEvent, render, waitFor, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Field, Form, Iterate, JSONSchema, Value, Wizard } from '../../..'
@@ -3409,21 +3410,44 @@ describe('PushContainer', () => {
       </Form.Handler>
     )
 
-    const openButton = document.querySelector(
-      '.dnb-forms-iterate__open-button'
+    expect(
+      document.querySelector('.dnb-forms-iterate__open-button')
+    ).toHaveTextContent('Add no. 1')
+
+    // Open the item
+    await userEvent.click(
+      document.querySelector('.dnb-forms-iterate__open-button')
     )
-    const doneButton = document.querySelector(
-      '.dnb-forms-iterate__done-button'
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-forms-iterate__open-button')
+      ).not.toBeInTheDocument()
+    })
+
+    // Add the item
+    await userEvent.click(
+      document.querySelector('.dnb-forms-iterate__done-button')
     )
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-forms-iterate__open-button')
+      ).toHaveTextContent('Add no. 2')
+    })
 
-    expect(openButton).toHaveTextContent('Add no. 1')
+    await wait(100) // Wait for the animation to finish
 
-    await userEvent.click(doneButton)
-    expect(openButton).toHaveTextContent('Add no. 2')
-
-    const removeButton = document.querySelectorAll('button')[1]
-    await userEvent.click(removeButton)
-    expect(openButton).toHaveTextContent('Add no. 1')
+    // Remove the item
+    await userEvent.click(
+      document.querySelector('.dnb-forms-iterate-remove-element-button')
+    )
+    expect(
+      document.querySelector('.dnb-forms-iterate__open-button')
+    ).toHaveTextContent('Add no. 2')
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-forms-iterate__open-button')
+      ).toHaveTextContent('Add no. 1')
+    })
   })
 
   it('should inherit "limit" prop from Array and show warning when limit is reached', async () => {

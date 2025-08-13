@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import { P } from '../../../../elements'
 import { Button } from '../../../../components'
-import Field, { Form, Wizard } from '../../Forms'
+import Field, { Form, Iterate, Tools, Value, Wizard } from '../../Forms'
 import { createRequest } from '../../Form/Handler/stories/FormHandler.stories'
 import { debounceAsync } from '../../../../shared/helpers'
 // import { BrowserRouter, useSearchParams } from 'react-router-dom'
@@ -386,5 +386,39 @@ export const AsyncWizard = () => {
         </Wizard.Container>
       </Form.Handler>
     </React.StrictMode>
+  )
+}
+
+export const DeleteFromArraySelection = () => {
+  return (
+    <Form.Handler
+      defaultData={{
+        subdata: {
+          items: [
+            {
+              name: 'Item 1',
+              itemValue: undefined,
+            },
+            {
+              name: 'Item 2',
+              itemValue: undefined,
+            },
+          ],
+        },
+      }}
+    >
+      <Iterate.Array path="/subdata/items">
+        <Iterate.AnimatedContainer>
+          <Value.String itemPath="/name" />
+          <Iterate.Toolbar>
+            <Iterate.RemoveButton />
+          </Iterate.Toolbar>
+          <Field.ArraySelection itemPath="/itemValue">
+            <Field.Option value="something">Option</Field.Option>
+          </Field.ArraySelection>
+        </Iterate.AnimatedContainer>
+      </Iterate.Array>
+      <Tools.Log />
+    </Form.Handler>
   )
 }

@@ -214,7 +214,6 @@ function ArrayComponent(props: Props) {
       }
     >
   >({})
-  const valueWhileClosingRef = useRef<Value>()
   const valueCountRef = useRef(arrayValue)
   const containerRef = useRef<HTMLDivElement>()
   const hadPushRef = useRef<boolean>()
@@ -227,7 +226,7 @@ function ArrayComponent(props: Props) {
   const { getNextContainerMode } = useSwitchContainerMode()
 
   const arrayItems = useMemo(() => {
-    const list = (valueWhileClosingRef.current || arrayValue) ?? []
+    const list = arrayValue ?? []
     const limitedList =
       typeof limit === 'number' ? list.slice(0, limit) : list
 
@@ -290,20 +289,20 @@ function ArrayComponent(props: Props) {
         },
         handleRemove: ({ keepItems = false } = {}) => {
           if (keepItems) {
-            // Add a backup as the array value while animating
-            valueWhileClosingRef.current = arrayValue
+            return // so we don't call fulfillRemove immediately
           }
 
+          itemContext.fulfillRemove()
+        },
+
+        // - Called after animation end
+        fulfillRemove: () => {
           const newArrayValue = structuredClone(arrayValue)
           newArrayValue.splice(index, 1)
           handleChange(
             newArrayValue.length === 0 ? clearedArray : newArrayValue
           )
-        },
 
-        // - Called after animation end
-        fulfillRemove: () => {
-          valueWhileClosingRef.current = null
           delete modesRef.current?.[id]
           delete isNewRef.current?.[id]
           const findIndex = idsRef.current.indexOf(id)
@@ -330,7 +329,6 @@ function ArrayComponent(props: Props) {
 
     return arrayItems
 
-    // In order to update "valueWhileClosingRef" we need to have "salt" in the deps array
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     salt,

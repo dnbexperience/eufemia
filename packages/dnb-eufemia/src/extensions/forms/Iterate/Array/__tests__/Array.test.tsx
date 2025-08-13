@@ -2303,6 +2303,89 @@ describe('Iterate.Array', () => {
         expect.anything()
       )
     })
+
+    it('should remove array item inside AnimatedContainer from data context when itemValue is undefined', async () => {
+      let collectedContext = null
+
+      render(
+        <Form.Handler
+          defaultData={{
+            subdata: {
+              items: [
+                {
+                  name: 'Item 1',
+                  itemValue: undefined,
+                },
+                {
+                  name: 'Item 2',
+                  itemValue: undefined,
+                },
+              ],
+            },
+          }}
+        >
+          <Iterate.Array path="/subdata/items">
+            <Iterate.AnimatedContainer>
+              <Value.String itemPath="/name" />
+              <Iterate.Toolbar>
+                <Iterate.RemoveButton />
+              </Iterate.Toolbar>
+              <Field.ArraySelection itemPath="/itemValue">
+                <Field.Option value="something">Option</Field.Option>
+              </Field.ArraySelection>
+            </Iterate.AnimatedContainer>
+          </Iterate.Array>
+
+          <DataContext.Consumer>
+            {(context) => {
+              collectedContext = context
+              return null
+            }}
+          </DataContext.Consumer>
+        </Form.Handler>
+      )
+
+      expect(
+        document.querySelectorAll('.dnb-forms-iterate__element')
+      ).toHaveLength(2)
+
+      // Remove the item
+      await userEvent.click(
+        document.querySelector('.dnb-forms-iterate-remove-element-button')
+      )
+
+      await waitFor(() => {
+        expect(
+          document.querySelectorAll('.dnb-forms-iterate__element')
+        ).toHaveLength(1)
+        expect(collectedContext.data).toEqual({
+          subdata: {
+            items: [
+              {
+                name: 'Item 2',
+                itemValue: undefined,
+              },
+            ],
+          },
+        })
+      })
+
+      // Remove the item
+      await userEvent.click(
+        document.querySelector('.dnb-forms-iterate-remove-element-button')
+      )
+
+      await waitFor(() => {
+        expect(
+          document.querySelectorAll('.dnb-forms-iterate__element')
+        ).toHaveLength(0)
+        expect(collectedContext.data).toEqual({
+          subdata: {
+            items: [],
+          },
+        })
+      })
+    })
   })
 
   it('should contain tabindex of -1', () => {
