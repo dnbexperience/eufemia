@@ -707,7 +707,6 @@ describe('Iterate.Array', () => {
               <output>Step 1</output>
               <Iterate.Array path="/items" required>
                 content
-                {/* <Field.String itemPath="/" /> */}
               </Iterate.Array>
               <Iterate.PushButton path="/items" pushValue="baz" />
               <Wizard.Buttons />
@@ -753,6 +752,66 @@ describe('Iterate.Array', () => {
         expect(
           document.querySelector('.dnb-form-status')
         ).toBeInTheDocument()
+      }).toNeverResolve()
+    })
+
+    it('should not show required error (or step error) initially in Wizard', async () => {
+      render(
+        <Form.Handler>
+          <Wizard.Container>
+            <Wizard.Step title="Step 1">
+              <output>Step 1</output>
+              <Wizard.Buttons />
+            </Wizard.Step>
+
+            <Wizard.Step title="Step 2">
+              <output>Step 2</output>
+              <Iterate.Array path="/items" required>
+                content
+              </Iterate.Array>
+              <Wizard.Buttons />
+            </Wizard.Step>
+          </Wizard.Container>
+        </Form.Handler>
+      )
+
+      const nextButton = () => {
+        return document.querySelector('.dnb-forms-next-button')
+      }
+      const previousButton = () => {
+        return document.querySelector('.dnb-forms-previous-button')
+      }
+      const output = () => {
+        return document.querySelector('output')
+      }
+
+      expect(output()).toHaveTextContent('Step 1')
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).not.toBeInTheDocument()
+
+      await userEvent.click(nextButton())
+      expect(output()).toHaveTextContent('Step 2')
+      await expect(() => {
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toBeInTheDocument()
+      }).toNeverResolve()
+
+      await userEvent.click(previousButton())
+      expect(output()).toHaveTextContent('Step 1')
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toBeInTheDocument()
+      })
+
+      await userEvent.click(nextButton())
+      expect(output()).toHaveTextContent('Step 2')
+      await expect(() => {
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).not.toBeInTheDocument()
       }).toNeverResolve()
     })
 
