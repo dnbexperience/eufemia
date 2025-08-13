@@ -881,26 +881,72 @@ describe('Autocomplete component', () => {
     expect(elem.getAttribute('aria-selected')).toBe('true')
   })
 
-  it('has correct options after filter if filter is disabled', () => {
-    render(
-      <Autocomplete
-        disable_filter
-        data={mockData}
-        show_submit_button
-        {...mockProps}
-      />
-    )
+  describe('disable_filter', () => {
+    it('has correct options after filter if filter is disabled', () => {
+      render(
+        <Autocomplete
+          disable_filter
+          data={mockData}
+          show_submit_button
+          {...mockProps}
+        />
+      )
 
-    toggle()
+      toggle()
 
-    fireEvent.change(document.querySelector('.dnb-input__input'), {
-      target: { value: 'aa' },
+      fireEvent.change(document.querySelector('.dnb-input__input'), {
+        target: { value: 'aa' },
+      })
+      expect(
+        document.querySelectorAll(
+          'li.dnb-drawer-list__option:not(.dnb-autocomplete__show-all)'
+        ).length
+      ).toBe(3)
     })
-    expect(
-      document.querySelectorAll(
-        'li.dnb-drawer-list__option:not(.dnb-autocomplete__show-all)'
-      ).length
-    ).toBe(3)
+
+    it('should still highlight when disabled', () => {
+      render(
+        <Autocomplete
+          disable_filter
+          data={mockData}
+          show_submit_button
+          {...mockProps}
+        />
+      )
+
+      toggle()
+
+      fireEvent.change(document.querySelector('.dnb-input__input'), {
+        target: { value: 'c' },
+      })
+      expect(
+        document.querySelectorAll(
+          'li.dnb-drawer-list__option:not(.dnb-autocomplete__show-all)'
+        ).length
+      ).toBe(3)
+
+      expect(
+        document.querySelectorAll(
+          'li.dnb-drawer-list__option:not(.dnb-autocomplete__show-all)'
+        )[0].innerHTML
+      ).toBe(
+        '<span class="dnb-drawer-list__option__inner"><span class="dnb-drawer-list__option__item"><span>AA <span class="dnb-drawer-list__option__item--highlight">c</span></span></span></span>'
+      )
+      expect(
+        document.querySelectorAll(
+          'li.dnb-drawer-list__option:not(.dnb-autocomplete__show-all)'
+        )[1].innerHTML
+      ).toBe(
+        '<span class="dnb-drawer-list__option__inner"><span class="dnb-drawer-list__option__item"><span>BB <span class="dnb-drawer-list__option__item--highlight">cc</span> zethx</span></span></span>'
+      )
+      expect(
+        document.querySelectorAll(
+          'li.dnb-drawer-list__option:not(.dnb-autocomplete__show-all)'
+        )[2].innerHTML
+      ).toBe(
+        '<span class="dnb-drawer-list__option__inner"><span class="dnb-drawer-list__option__item item-nr-1"><span><span class="dnb-drawer-list__option__item--highlight">CC</span></span></span><span class="dnb-drawer-list__option__item item-nr-2"><span><span class="dnb-drawer-list__option__item--highlight">cc</span></span></span></span>'
+      )
+    })
   })
 
   it('has correct "aria-expanded"', () => {

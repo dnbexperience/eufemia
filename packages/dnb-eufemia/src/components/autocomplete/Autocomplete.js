@@ -309,7 +309,7 @@ export default class Autocomplete extends React.PureComponent {
     align_autocomplete: null,
     options_render: null,
     data: null,
-    search_in_word_index: 3,
+    search_in_word_index: null,
     search_numbers: null,
     default_value: null,
     value: 'initval',
@@ -1323,7 +1323,9 @@ class AutocompleteInstance extends React.PureComponent {
       data = null, // rawData
       searchIndex = this.state.searchIndex,
       searchNumbers = isTrue(this.props.search_numbers),
-      inWordIndex = (parseFloat(this.props.search_in_word_index) || 3) - 2,
+      inWordIndex = parseFloat(
+        this.props.search_in_word_index ?? (this.skipFilter ? 1 : 3)
+      ) - 1,
       disableHighlighting = false,
       skipFilter = false,
       skipReorder = false,
@@ -1367,7 +1369,7 @@ class AutocompleteInstance extends React.PureComponent {
 
           // if the uses reached word 3, then we go inside words as well
           const regexWord = new RegExp(
-            wordIndex > inWordIndex ? `${word}` : `(${wordCond})${word}`,
+            wordIndex >= inWordIndex ? `${word}` : `(${wordCond})${word}`,
             'i'
           )
 
@@ -1483,7 +1485,7 @@ class AutocompleteInstance extends React.PureComponent {
                   }
                 })
               } else {
-                if (wordIndex > inWordIndex) {
+                if (wordIndex >= inWordIndex) {
                   segment = segment.replace(
                     new RegExp(`(${word})`, 'gi'),
                     `${strS}$1${strE}`
