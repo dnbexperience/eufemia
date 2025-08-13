@@ -100,15 +100,13 @@ function StepIndicatorTriggerButton({
         large: [true, true, !openState, !openState],
       }}
       outset={isNested ? true : undefined}
+      aria-label={overview_title}
     >
       <HeightAnimation animate={!no_animation}>
         <div {...(triggerParams as React.HTMLProps<HTMLDivElement>)}>
-          <span className="dnb-sr-only" id={id + '-overview'}>
-            {overview_title}{' '}
-          </span>
           <FormLabel
             aria-describedby={id}
-            forId={id}
+            aria-hidden // In order to not duplicate information for screen readers
             className="dnb-step-indicator__label"
             right="x-small"
           >
@@ -124,7 +122,7 @@ function StepIndicatorTriggerButton({
               }
             }}
             aria-expanded={openState}
-            id={id}
+            aria-label={label} // To support NVDA properly
             wrap
             variant="tertiary"
             icon={chevron_down}
