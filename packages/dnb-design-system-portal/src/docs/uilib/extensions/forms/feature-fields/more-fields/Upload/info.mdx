@@ -173,16 +173,18 @@ It does also exist some internal logic based on these values, so be careful when
 If doing so, it's recommended to pass along the rest of the [file item object](/uilib/components/upload/properties/#fileitem) using the spread operator (...fileItemObj) or so, as it can contain properties needed internally that one is not aware of, or updated values since last file was uploaded, or even future new internal properties that does not exist yet.
 
 ```tsx
-<Field.Upload
-  path="/documents"
-  transformIn={(value) => {
-    console.log(value)
-    return (value || []).map((fileItemObj) => ({
-      ...fileItemObj,
-      errorMessage: 'error message',
-    }))
-  }}
-/>
+<Form.Handler>
+  <Field.Upload
+    path="/documents"
+    transformIn={(value) => {
+      console.log(value)
+      return (value || []).map((fileItemObj) => ({
+        ...fileItemObj,
+        errorMessage: 'error message',
+      }))
+    }}
+  />
+</Form.Handler>
 ```
 
 ### Persist files in session storage
