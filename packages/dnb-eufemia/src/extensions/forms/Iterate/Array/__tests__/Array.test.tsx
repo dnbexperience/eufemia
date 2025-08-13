@@ -2354,18 +2354,20 @@ describe('Iterate.Array', () => {
         document.querySelector('.dnb-forms-iterate-remove-element-button')
       )
 
-      expect(
-        document.querySelectorAll('.dnb-forms-iterate__element')
-      ).toHaveLength(1)
-      expect(collectedContext.data).toEqual({
-        subdata: {
-          items: [
-            {
-              name: 'Item 2',
-              itemValue: undefined,
-            },
-          ],
-        },
+      await waitFor(() => {
+        expect(
+          document.querySelectorAll('.dnb-forms-iterate__element')
+        ).toHaveLength(1)
+        expect(collectedContext.data).toEqual({
+          subdata: {
+            items: [
+              {
+                name: 'Item 2',
+                itemValue: undefined,
+              },
+            ],
+          },
+        })
       })
 
       // Remove the item
@@ -2373,13 +2375,15 @@ describe('Iterate.Array', () => {
         document.querySelector('.dnb-forms-iterate-remove-element-button')
       )
 
-      expect(
-        document.querySelectorAll('.dnb-forms-iterate__element')
-      ).toHaveLength(0)
-      expect(collectedContext.data).toEqual({
-        subdata: {
-          items: [],
-        },
+      await waitFor(() => {
+        expect(
+          document.querySelectorAll('.dnb-forms-iterate__element')
+        ).toHaveLength(0)
+        expect(collectedContext.data).toEqual({
+          subdata: {
+            items: [],
+          },
+        })
       })
     })
   })

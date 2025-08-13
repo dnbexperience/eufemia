@@ -3280,9 +3280,11 @@ describe('PushContainer', () => {
     await userEvent.click(
       document.querySelector('.dnb-forms-iterate__open-button')
     )
-    expect(
-      document.querySelector('.dnb-forms-iterate__open-button')
-    ).not.toBeInTheDocument()
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-forms-iterate__open-button')
+      ).not.toBeInTheDocument()
+    })
 
     // Add the item
     await userEvent.click(
