@@ -104,7 +104,7 @@ function StepIndicatorTriggerButton({
       <HeightAnimation animate={!no_animation}>
         <div {...(triggerParams as React.HTMLProps<HTMLDivElement>)}>
           <span className="dnb-sr-only" id={id + '-overview'}>
-            {overview_title}
+            {overview_title}{' '}
           </span>
           <FormLabel
             aria-describedby={id}

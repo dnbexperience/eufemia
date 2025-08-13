@@ -281,6 +281,25 @@ describe('StepIndicator redesign', () => {
     ).toBe('false')
   })
 
+  it('should not display numbers in list for screen readers', () => {
+    render(
+      <>
+        <StepIndicator
+          mode="loose"
+          data={stepIndicatorListData}
+          expandedInitially
+        />
+      </>
+    )
+    expect(
+      document.querySelector('.dnb-step-indicator__item-content')
+        .textContent
+    ).toEqual('1.Step A')
+    expect(
+      document.querySelector('.dnb-step-indicator__item-content__number')
+    ).toHaveAttribute('aria-hidden')
+  })
+
   it('should hide numbers in list', () => {
     render(
       <>
@@ -393,7 +412,7 @@ describe('StepIndicator in loose mode', () => {
     )
     expect(
       document.querySelector('.dnb-step-indicator__trigger').textContent
-    ).toContain('StegoversiktSteg 2 av 4:Step B')
+    ).toContain('Stegoversikt Steg 2 av 4:Step B')
   })
 
   it('has correct states on steps', () => {
