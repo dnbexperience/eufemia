@@ -550,10 +550,6 @@ export const formatNumber = (
     // remove unsupported decimals
     delete options.decimals
 
-    if (locale && /(en|gb)$/i.test(locale)) {
-      formatter = getGroupFormatter(locale, null, formatter)
-    }
-
     if (formatter) {
       number = formatToParts({ number, locale, options })
         .map(formatter)
@@ -1115,15 +1111,11 @@ export function getDecimalSeparator(locale = null) {
  * @returns {string} a separator symbol
  */
 export function getThousandsSeparator(locale = null) {
-  const formatter = getGroupFormatter(locale)
-
   return (
     formatToParts({
       number: 1000,
       locale,
-    })
-      .map(formatter)
-      .find(({ type }) => type === 'group')?.value || ' '
+    }).find(({ type }) => type === 'group')?.value || ' '
   ) // defaults to nb-NO
 }
 
@@ -1160,36 +1152,6 @@ export function getCurrencySymbol(
     }).find(({ type }) => type === 'currency')?.value || currency,
     currencyDisplay
   )
-}
-
-function getGroupFormatter(
-  locale = null,
-  separatorSymbol = null,
-  existingFormatter = null
-) {
-  /**
-   * We change the thousand separator to be a non-breaking space
-   *
-   * Effected locales:
-   * - en-GB
-   * - en
-   */
-  if (locale && /(en|gb)$/i.test(locale)) {
-    separatorSymbol = ' ' // non-breaking space
-  }
-
-  return (item) => {
-    // Ensure we do not overwrite a given formatter, but run it as well
-    if (typeof existingFormatter === 'function') {
-      item = existingFormatter(item)
-    }
-
-    if (item.type === 'group') {
-      item.value = separatorSymbol || item.value
-    }
-
-    return item
-  }
 }
 
 /**

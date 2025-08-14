@@ -121,12 +121,12 @@ describe('Value.Currency', () => {
 
       expect(
         document.querySelector('.dnb-forms-value-number')
-      ).toHaveTextContent('kroner -12 345.68')
+      ).toHaveTextContent('kroner -12,345.68')
       expect(
         document
           .querySelector('.dnb-number-format .dnb-sr-only')
           .getAttribute('data-text')
-      ).toBe('-12 345.68 kroner')
+      ).toBe('-12,345.68 kroner')
     })
   })
 })
