@@ -48,7 +48,7 @@ describe('useNumberFormat', () => {
     )
     const { result } = renderHook(() => useNumberFormat(1234), { wrapper })
 
-    expect(result.current).toBe('NOK 1 234.00')
+    expect(result.current).toBe('NOK\u00A01,234.00')
   })
 
   it('will inherit locale from provider', () => {
@@ -64,7 +64,7 @@ describe('useNumberFormat', () => {
     )
     const { result } = renderHook(() => useNumberFormat(1234), { wrapper })
 
-    expect(result.current).toBe('NOK 1 234.00')
+    expect(result.current).toBe('NOK\u00A01,234.00')
   })
 
   it('should show dashes when number is invalid', () => {

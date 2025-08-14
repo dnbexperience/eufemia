@@ -1114,7 +1114,7 @@ describe('InputMasked component as_percent', () => {
       />
     )
 
-    expect(document.querySelector('input').value).toBe('12 345.678%')
+    expect(document.querySelector('input').value).toBe('12,345.678%')
 
     rerender(
       <InputMasked
@@ -1335,7 +1335,7 @@ describe('InputMasked component as_number', () => {
       />
     )
 
-    expect(document.querySelector('input').value).toBe('12 345.678')
+    expect(document.querySelector('input').value).toBe('12,345.678')
 
     rerender(
       <InputMasked
@@ -1360,7 +1360,7 @@ describe('InputMasked component as_number', () => {
       </Provider>
     )
 
-    expect(document.querySelector('input').value).toBe('12 345.678')
+    expect(document.querySelector('input').value).toBe('12,345.678')
 
     // Change the provider locale
     rerender(
@@ -1386,7 +1386,7 @@ describe('InputMasked component as_number', () => {
       />
     )
 
-    expect(document.querySelector('input').value).toBe('1 234.9123')
+    expect(document.querySelector('input').value).toBe('1,234.9123')
 
     rerender(
       <InputMasked
@@ -1454,7 +1454,7 @@ describe('InputMasked component as_currency', () => {
       />
     )
 
-    expect(document.querySelector('input').value).toBe('1 234.912 NOK')
+    expect(document.querySelector('input').value).toBe('1,234.912 NOK')
 
     rerender(
       <InputMasked
@@ -1564,7 +1564,7 @@ describe('InputMasked component as_currency', () => {
       />
     )
 
-    expect(document.querySelector('input').value).toBe('12 345.67 NOK')
+    expect(document.querySelector('input').value).toBe('12,345.67 NOK')
 
     const newValue = 'NOK 123 456 789.678 kr'
     fireEvent.change(document.querySelector('input'), {
@@ -1572,12 +1572,12 @@ describe('InputMasked component as_currency', () => {
     })
 
     expect(document.querySelector('input').value).toBe(
-      '123 456 789.67 NOK'
+      '123,456,789.67 NOK'
     )
 
     expect(
       on_change.mock.calls[on_change.mock.calls.length - 1][0].value
-    ).toBe('123 456 789.67 NOK')
+    ).toBe('123,456,789.67 NOK')
     expect(
       on_change.mock.calls[on_change.mock.calls.length - 1][0].numberValue
     ).toBe(123456789.67)
@@ -1685,7 +1685,7 @@ describe('InputMasked component as_currency', () => {
       </Provider>
     )
 
-    expect(document.querySelector('input').value).toBe('12 345.6 NOK')
+    expect(document.querySelector('input').value).toBe('12,345.6 NOK')
 
     rerender(
       <Provider
@@ -1701,7 +1701,7 @@ describe('InputMasked component as_currency', () => {
       </Provider>
     )
 
-    expect(document.querySelector('input').value).toBe('12 345.68 NOK')
+    expect(document.querySelector('input').value).toBe('12,345.68 NOK')
   })
 
   it('should react to locale change', () => {
@@ -1709,7 +1709,7 @@ describe('InputMasked component as_currency', () => {
       <InputMasked as_currency value="12345.678" locale="en-GB" />
     )
 
-    expect(document.querySelector('input').value).toBe('12 345.67 NOK')
+    expect(document.querySelector('input').value).toBe('12,345.67 NOK')
 
     rerender(<InputMasked as_currency value="12345.678" locale="nb-NO" />)
 
@@ -1723,7 +1723,7 @@ describe('InputMasked component as_currency', () => {
       </Provider>
     )
 
-    expect(document.querySelector('input').value).toBe('12 345.67 NOK')
+    expect(document.querySelector('input').value).toBe('12,345.67 NOK')
 
     // Change the provider locale
     rerender(
@@ -1861,7 +1861,7 @@ describe('InputMasked component as_currency', () => {
       <InputMasked locale="en-GB" as_currency value="12345.678" />
     )
 
-    expect(document.querySelector('input').value).toBe('12 345.67 NOK')
+    expect(document.querySelector('input').value).toBe('12,345.67 NOK')
 
     // Change the provider locale
     rerender(<InputMasked locale="nb-NO" as_currency value="12345.678" />)

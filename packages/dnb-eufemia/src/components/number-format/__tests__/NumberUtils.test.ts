@@ -331,7 +331,7 @@ describe('Decimals format', () => {
         currency: true,
         omit_currency_sign: true,
       })
-    ).toBe('-12 345.68')
+    ).toBe('-12,345.68')
     expect(
       format(num, {
         locale: 'en-US',
@@ -564,7 +564,7 @@ describe('Currency format with dirty number', () => {
         currency_position: 'after',
         locale: 'en-GB',
       })
-    ).toBe('-123 456 789.50 NOK')
+    ).toBe('-123,456,789.50 NOK')
     expect(
       format(number, {
         currency: true,
@@ -578,14 +578,14 @@ describe('Currency format with dirty number', () => {
         currency_position: 'before',
         locale: 'en-GB',
       })
-    ).toBe('-NOK 123 456 789.50')
+    ).toBe('-NOK\u00A0123,456,789.50')
     expect(
       format(number, {
         currency: true,
         currency_position: 'before',
         locale: 'en-US',
       })
-    ).toBe('-NOK 123,456,789.50')
+    ).toBe('-NOK\u00A0123,456,789.50')
     expect(
       format(-0, {
         currency: true,
@@ -620,14 +620,14 @@ describe('Currency format with dirty number', () => {
         currency_position: 'before',
         locale: 'en-GB',
       })
-    ).toBe('-NOK 0.00')
+    ).toBe('-NOK\u00A00.00')
     expect(
       format('-0', {
         currency: true,
         currency_position: 'before',
         locale: 'en-US',
       })
-    ).toBe('-NOK 0.00')
+    ).toBe('-NOK\u00A00.00')
     expect(
       format('something 1234 something', {
         clean: true,
@@ -698,7 +698,7 @@ describe('NumberFormat percentage', () => {
       '−123 456 789,56 %'
     )
     expect(format(number, { percent: true, locale: 'en-GB' })).toBe(
-      '-123 456 789.56%'
+      '-123,456,789.56%'
     )
     expect(format(number, { percent: true, locale: 'en-US' })).toBe(
       '-123,456,789.56%'
@@ -708,7 +708,7 @@ describe('NumberFormat percentage', () => {
     ).toBe('−123 456 789,6 %')
     expect(
       format(number, { percent: true, decimals: 1, locale: 'en-GB' })
-    ).toBe('-123 456 789.6%')
+    ).toBe('-123,456,789.6%')
     expect(
       format(number, { percent: true, decimals: 1, locale: 'en-US' })
     ).toBe('-123,456,789.6%')
@@ -987,7 +987,7 @@ describe('getThousandsSeparator should', () => {
   })
 
   it('return space when locale is en-GB', () => {
-    expect(getThousandsSeparator('en-GB')).toBe(' ')
+    expect(getThousandsSeparator('en-GB')).toBe(',')
   })
 
   it('return space when locale is en-US', () => {

@@ -105,7 +105,7 @@ describe('FormSet component', () => {
       document
         .querySelector('.dnb-number-format')
         .querySelector('.dnb-number-format__visible').textContent
-    ).toBe('NOK 1 234.00')
+    ).toBe('NOK\u00A01,234.00')
   })
 
   it('should not overwrite locale from provider when not set', () => {
@@ -121,7 +121,7 @@ describe('FormSet component', () => {
       document
         .querySelector('.dnb-number-format')
         .querySelector('.dnb-number-format__visible').textContent
-    ).toBe('NOK 1 234.00')
+    ).toBe('NOK\u00A01,234.00')
   })
 
   it('should validate with ARIA rules', async () => {
