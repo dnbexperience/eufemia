@@ -18,6 +18,13 @@ describe('Field.Composition', () => {
   const secondWarning = 'Second warning'
   const secondInfo = 'Second info'
 
+  it('should support className', () => {
+    render(<Field.Composition className="test-class" label="label" />)
+
+    const element = document.querySelector('.test-class')
+    expect(element).toBeInTheDocument()
+  })
+
   it('should not display error messages initially', () => {
     render(
       <Field.Composition>
