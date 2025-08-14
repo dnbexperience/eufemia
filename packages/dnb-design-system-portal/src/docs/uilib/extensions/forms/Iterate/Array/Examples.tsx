@@ -55,10 +55,7 @@ export const ValueComposition = () => {
             },
           ]}
         >
-          <Value.String
-            label={<Value.String itemPath="/label" />}
-            itemPath="/value"
-          />
+          <Value.String itemPath="/value" />
         </Iterate.Array>
       </Value.Composition>
     </ComponentBox>
