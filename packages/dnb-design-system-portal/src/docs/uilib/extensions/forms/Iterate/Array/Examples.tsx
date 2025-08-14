@@ -46,19 +46,14 @@ export const ValueComposition = () => {
         <Iterate.Array
           defaultValue={[
             {
-              label: 'Label A',
               value: 'value 1',
             },
             {
-              label: 'Label B',
               value: 'value 2',
             },
           ]}
         >
-          <Value.String
-            label={<Value.String itemPath="/label" />}
-            itemPath="/value"
-          />
+          <Value.String itemPath="/value" />
         </Iterate.Array>
       </Value.Composition>
     </ComponentBox>
