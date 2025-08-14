@@ -98,19 +98,127 @@ export function RelativeTime() {
           Skrevet <DateFormat value={thirtySecondsAgo} relativeTime />
         </P>
 
-        <DateFormat value={fiveMinutesAgo} relativeTime />
-        <DateFormat value={twoDaysAgo} relativeTime />
-        <DateFormat value={twoWeeksAgo} relativeTime />
-        <DateFormat value={threeMonthsAgo} relativeTime />
-        <DateFormat value={oneYearAgo} relativeTime />
-        <DateFormat value={fortyFiveSecondsUntilNow} relativeTime />
-        <DateFormat value={fiveMinutesUntilNow} relativeTime />
-        <DateFormat value={twoDaysUntilNow} relativeTime />
-        <DateFormat value={twoWeeksUntilNow} relativeTime />
-        <DateFormat value={threeMonthsUntilNow} relativeTime />
-        <DateFormat value={oneYearUntilNow} relativeTime />
-        <LocaleChanger />
+        <P>
+          Skrevet <DateFormat value={fiveMinutesAgo} relativeTime />
+        </P>
+
+        <P>
+          Skrevet <DateFormat value={twoDaysAgo} relativeTime />
+        </P>
+
+        <P>
+          Skrevet <DateFormat value={twoWeeksAgo} relativeTime />
+        </P>
+
+        <P>
+          Skrevet <DateFormat value={threeMonthsAgo} relativeTime />
+        </P>
+
+        <P>
+          Skrevet <DateFormat value={oneYearAgo} relativeTime />
+        </P>
+
+        <P>
+          Publiseres{' '}
+          <DateFormat value={fortyFiveSecondsUntilNow} relativeTime />
+        </P>
+
+        <P>
+          Publiseres{' '}
+          <DateFormat value={fiveMinutesUntilNow} relativeTime />
+        </P>
+
+        <P>
+          Publiseres <DateFormat value={twoDaysUntilNow} relativeTime />
+        </P>
+
+        <P>
+          Publiseres <DateFormat value={twoWeeksUntilNow} relativeTime />
+        </P>
+
+        <P>
+          Publiseres{' '}
+          <DateFormat value={threeMonthsUntilNow} relativeTime />
+        </P>
+
+        <P>
+          Publiseres <DateFormat value={oneYearUntilNow} relativeTime />
+        </P>
       </Card>
+      <LocaleChanger />
     </Provider>
+  )
+}
+
+export function Duration() {
+  return (
+    <Card stack>
+      <P>
+        <strong>Short durations:</strong>
+      </P>
+      <DateFormat value="PT1H" />
+      <DateFormat value="PT1H" locale="de-CH" />
+      <DateFormat value="PT2H30M" />
+      <P>
+        <strong>Longer durations:</strong>
+      </P>
+      <DateFormat value="P1D" />
+      <DateFormat value="P1DT2H30M" />
+      <DateFormat value="P1W" />
+      <DateFormat value="P1M" />
+      <DateFormat value="P1Y" />
+      <P>
+        <strong>Edge cases:</strong>
+      </P>
+      <DateFormat value="PT0S" />
+      <DateFormat value="P0D" />
+      <DateFormat value="PT0H0M0S" />
+    </Card>
+  )
+}
+
+export function DurationWithDateStyle() {
+  return (
+    <Card stack>
+      <P>
+        <strong>
+          Duration formatting with different dateStyle options:
+        </strong>
+      </P>
+      <P>
+        The output now depends on the browser's built-in
+        Intl.RelativeTimeFormat API, which provides different styles for
+        different locales.
+      </P>
+      <P>
+        <strong>Long (default):</strong>
+      </P>
+      <DateFormat value="PT2H30M" dateStyle="long" />
+      <DateFormat value="P1DT2H30M" dateStyle="long" />
+      <P>
+        <strong>Short:</strong>
+      </P>
+      <DateFormat value="PT2H30M" dateStyle="short" />
+      <DateFormat value="P1DT2H30M" dateStyle="short" />
+      <P>
+        <strong>Medium:</strong>
+      </P>
+      <DateFormat value="PT2H30M" dateStyle="medium" />
+      <DateFormat value="P1DT2H30M" dateStyle="medium" />
+      <P>
+        <strong>Full:</strong>
+      </P>
+      <DateFormat value="PT2H30M" dateStyle="full" />
+      <DateFormat value="P1DT2H30M" dateStyle="full" />
+
+      <P>
+        <strong>Different locales with short style:</strong>
+      </P>
+      <DateFormat value="PT2H30M" dateStyle="short" locale="en-US" />
+      <DateFormat value="PT2H30M" dateStyle="short" locale="nb-NO" />
+      <DateFormat value="PT2H30M" dateStyle="short" locale="de-DE" />
+      <DateFormat value="PT2H30M" dateStyle="short" locale="fr-FR" />
+      <DateFormat value="PT2H30M" dateStyle="short" locale="es-ES" />
+    </Card>
   )
 }
