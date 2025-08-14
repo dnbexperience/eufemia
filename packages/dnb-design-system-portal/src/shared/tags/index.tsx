@@ -17,7 +17,6 @@ import {
   Icon,
 } from '@dnb/eufemia/src'
 import Table from './Table'
-// import Img from './Img'
 import Anchor from './Anchor'
 import Header from './AutoLinkHeader'
 import VisibilityByTheme from '@dnb/eufemia/src/shared/VisibilityByTheme'
