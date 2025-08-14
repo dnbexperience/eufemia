@@ -50,13 +50,18 @@ export function init() {
       get versions(): Array<{ js: string; css: string; sha: string }> {
         return window.__eufemiaSHAs.map((sha, i) => {
           const scope = document.querySelector(
-            `[data-scope-hash-id][data-scope-sha="${sha}"]`
+            `[data-scope-hash-id][data-scope-sha="${sha}"] .dnb-core-style`
           )
           const css = window
             .getComputedStyle(scope || document.body)
             .getPropertyValue('--eufemia-version')
             .replace(/"/g, '')
-          const js = window.__eufemiaVersions[i]
+
+          // Ensure we always get a valid version, even if there are more SHAs than versions
+          const js =
+            window.__eufemiaVersions[i] ||
+            window.__eufemiaVersions[0] ||
+            this.version
 
           return { js, css, sha }
         })

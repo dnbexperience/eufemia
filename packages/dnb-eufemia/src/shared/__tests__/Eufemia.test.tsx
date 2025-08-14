@@ -150,7 +150,7 @@ describe('Eufemia', () => {
         <>
           <style>
             {`
-              .eufemia-scope--1_2_3 {
+              .eufemia-scope--1_2_3 .dnb-core-style {
                 --eufemia-version: 1.2.333;
               }
             `}
@@ -186,7 +186,7 @@ describe('Eufemia', () => {
           <IsolatedStyleScope scopeHash="eufemia-scope--1_2_3">
             <style>
               {`
-              .eufemia-scope--1_2_3 {
+              .eufemia-scope--1_2_3 .dnb-core-style {
                 --eufemia-version: 1.2.333;
                 }
                 `}
@@ -195,7 +195,7 @@ describe('Eufemia', () => {
           <IsolatedStyleScope scopeHash="eufemia-scope--2_8_9">
             <style>
               {`
-              .eufemia-scope--2_8_9 {
+              .eufemia-scope--2_8_9 .dnb-core-style {
                 --eufemia-version: 2.8.999;
                 }
                 `}
@@ -213,6 +213,78 @@ describe('Eufemia', () => {
         {
           js: '2.8.9',
           css: '2.8.999',
+          sha: 'def456',
+        },
+      ])
+    })
+
+    it('should handle fallback when there are more SHAs than versions', () => {
+      // Set up scenario: 2 SHAs but only 1 version
+      window.__eufemiaVersions = ['1.2.3']
+      window.__eufemiaSHAs = ['abc123', 'def456']
+
+      render(
+        <>
+          <style>
+            {`
+              .eufemia-scope--1_2_3 .dnb-core-style {
+                --eufemia-version: 1.2.333;
+              }
+            `}
+          </style>
+
+          <IsolatedStyleScope scopeHash="eufemia-scope--1_2_3">
+            content
+          </IsolatedStyleScope>
+        </>
+      )
+
+      // The second SHA should fall back to the first available version
+      expect(window.Eufemia.versions).toEqual([
+        {
+          js: '1.2.3', // First SHA gets first version
+          css: '1.2.333',
+          sha: 'abc123',
+        },
+        {
+          js: '1.2.3', // Second SHA falls back to first version
+          css: '', // No matching scope for second SHA
+          sha: 'def456',
+        },
+      ])
+    })
+
+    it('should handle fallback when no versions are available', () => {
+      // Set up scenario: 2 SHAs but no versions
+      window.__eufemiaVersions = []
+      window.__eufemiaSHAs = ['abc123', 'def456']
+
+      render(
+        <>
+          <style>
+            {`
+              .eufemia-scope--1_2_3 .dnb-core-style {
+                --eufemia-version: 1.2.333;
+              }
+            `}
+          </style>
+
+          <IsolatedStyleScope scopeHash="eufemia-scope--1_2_3">
+            content
+          </IsolatedStyleScope>
+        </>
+      )
+
+      // Both SHAs should fall back to the current instance version
+      expect(window.Eufemia.versions).toEqual([
+        {
+          js: '__VERSION__', // Falls back to current instance version
+          css: '1.2.333',
+          sha: 'abc123',
+        },
+        {
+          js: '__VERSION__', // Falls back to current instance version
+          css: '', // No matching scope for second SHA
           sha: 'def456',
         },
       ])
