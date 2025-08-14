@@ -678,11 +678,11 @@ export const FilledViewAndEditContainer = () => {
         const CreateNewEntry = () => {
           return (
             <Iterate.PushContainer
-              path="/accounts"
-              title="New account holder"
+              path="/persons"
+              title="New person"
               variant="filled"
               openButton={
-                <Iterate.PushContainer.OpenButton text="Add another account" />
+                <Iterate.PushContainer.OpenButton text="Add another person" />
               }
               showOpenButtonWhen={(list) => list.length > 0}
             >
@@ -725,7 +725,7 @@ export const FilledViewAndEditContainer = () => {
         return (
           <Form.Handler
             data={{
-              accounts: [
+              persons: [
                 {
                   firstName:
                     'Tony with long name that maybe will wrap over to a new line',
@@ -741,10 +741,10 @@ export const FilledViewAndEditContainer = () => {
             onSubmitRequest={() => console.log('onSubmitRequest')}
           >
             <Flex.Stack>
-              <Form.MainHeading>Accounts</Form.MainHeading>
+              <Form.MainHeading>Persons</Form.MainHeading>
 
               <Form.Card gap={false}>
-                <Iterate.Array path="/accounts" limit={2}>
+                <Iterate.Array path="/persons" limit={2}>
                   <MyViewItem />
                   <MyEditItem />
                 </Iterate.Array>
