@@ -46,11 +46,9 @@ export const ValueComposition = () => {
         <Iterate.Array
           defaultValue={[
             {
-              label: 'Label A',
               value: 'value 1',
             },
             {
-              label: 'Label B',
               value: 'value 2',
             },
           ]}
