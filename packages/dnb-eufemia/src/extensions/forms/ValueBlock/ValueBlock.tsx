@@ -99,14 +99,19 @@ function ValueBlock(localProps: Props) {
 
     let label = labelProp
 
-    if (iterateIndex !== undefined) {
+    const canRenderToString = React.isValidElement(labelProp)
+      ? typeof labelProp.type === 'string' // Not just a span or div
+      : true
+    if (iterateIndex !== undefined && canRenderToString) {
       label = convertJsxToString(labelProp).replace(
         '{itemNo}',
         String(iterateIndex + 1)
       )
     }
 
-    return transformLabel(label, transformLabelParameters)
+    return canRenderToString
+      ? transformLabel(label, transformLabelParameters)
+      : label
   }, [inline, iterateIndex, labelProp, transformLabel])
 
   const hide =

@@ -2,7 +2,7 @@ import React from 'react'
 import { axeComponent } from '../../../../core/jest/jestSetup'
 import { render, fireEvent } from '@testing-library/react'
 import ValueBlock from '../ValueBlock'
-import { Form, Value } from '../..'
+import { Form, Iterate, Value } from '../..'
 import userEvent from '@testing-library/user-event'
 
 describe('ValueBlock', () => {
@@ -240,6 +240,113 @@ describe('ValueBlock', () => {
       expect(
         document.querySelector('.dnb-forms-value-block__label strong')
       ).toBeInTheDocument()
+    })
+
+    it('renders Composition value from Iterate.Array', () => {
+      render(
+        <Value.Composition>
+          <Iterate.Array
+            defaultValue={[
+              {
+                value: 'value 1',
+              },
+              {
+                value: 'value 2',
+              },
+            ]}
+          >
+            <Value.String label="Label {itemNo}" itemPath="/value" />
+          </Iterate.Array>
+        </Value.Composition>
+      )
+
+      expect(
+        document.querySelectorAll(
+          '.dnb-forms-value-block__composition--horizontal'
+        )
+      ).toHaveLength(1)
+      expect(
+        document.querySelectorAll(
+          '.dnb-forms-value-block__content > .dnb-forms-value-block'
+        )
+      ).toHaveLength(2)
+
+      expect(
+        document.querySelector(
+          '.dnb-forms-value-block__content > .dnb-forms-value-block > .dnb-forms-value-block__label'
+        )
+      ).toHaveTextContent('Label 1')
+      expect(
+        document.querySelector(
+          '.dnb-forms-value-block__content > .dnb-forms-value-block > .dnb-forms-value-block__content'
+        )
+      ).toHaveTextContent('value 1')
+      expect(
+        document.querySelector(
+          '.dnb-forms-value-block__content > .dnb-forms-value-block:last-child > .dnb-forms-value-block__label'
+        )
+      ).toHaveTextContent('Label 2')
+      expect(
+        document.querySelector(
+          '.dnb-forms-value-block__content > .dnb-forms-value-block:last-child > .dnb-forms-value-block__content'
+        )
+      ).toHaveTextContent('value 2')
+    })
+
+    it('renders label given as a ValueBlock', () => {
+      render(
+        <Value.Composition>
+          <Iterate.Array
+            defaultValue={[
+              {
+                label: 'Label A',
+                value: 'value 1',
+              },
+              {
+                label: 'Label B',
+                value: 'value 2',
+              },
+            ]}
+          >
+            <Value.String
+              label={<Value.String itemPath="/label" />}
+              itemPath="/value"
+            />
+          </Iterate.Array>
+        </Value.Composition>
+      )
+
+      expect(
+        document.querySelectorAll(
+          '.dnb-forms-value-block__composition--horizontal'
+        )
+      ).toHaveLength(1)
+      expect(
+        document.querySelectorAll(
+          '.dnb-forms-value-block__content > .dnb-forms-value-block'
+        )
+      ).toHaveLength(2)
+
+      expect(
+        document.querySelector(
+          '.dnb-forms-value-block__content > .dnb-forms-value-block > .dnb-forms-value-block__label'
+        )
+      ).toHaveTextContent('Label A')
+      expect(
+        document.querySelector(
+          '.dnb-forms-value-block__content > .dnb-forms-value-block > .dnb-forms-value-block__content'
+        )
+      ).toHaveTextContent('value 1')
+      expect(
+        document.querySelector(
+          '.dnb-forms-value-block__content > .dnb-forms-value-block:last-child > .dnb-forms-value-block__label'
+        )
+      ).toHaveTextContent('Label B')
+      expect(
+        document.querySelector(
+          '.dnb-forms-value-block__content > .dnb-forms-value-block:last-child > .dnb-forms-value-block__content'
+        )
+      ).toHaveTextContent('value 2')
     })
 
     describe('with Visibility', () => {
@@ -536,6 +643,35 @@ describe('ValueBlock', () => {
         expect.anything()
       )
     })
+
+    it('should not transform a label when label is given as a ValueBlock', () => {
+      const transformLabel = jest.fn((label) => label.toUpperCase())
+      render(
+        <Form.Handler data={{ label: 'The label' }}>
+          <Value.String
+            label={<Value.String path="/label" />}
+            transformLabel={transformLabel}
+            showEmpty
+          />
+        </Form.Handler>
+      )
+
+      expect(
+        document.querySelector('.dnb-forms-value-block')
+      ).toHaveTextContent('The label')
+    })
+  })
+
+  it('should allow a label to be served from a ValueBlock', () => {
+    render(
+      <Form.Handler data={{ label: 'The label' }}>
+        <Value.String label={<Value.String path="/label" />} showEmpty />
+      </Form.Handler>
+    )
+
+    expect(
+      document.querySelector('.dnb-forms-value-block')
+    ).toHaveTextContent('The label')
   })
 
   describe('help', () => {
