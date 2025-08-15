@@ -26,6 +26,12 @@ export default function ChangeLocale({ listUSLocale = null, ...props }) {
         .filter((key) => {
           return !listUSLocale && key === 'en-US' ? false : true
         })
+        .sort((a, b) => {
+          // Sort based on the order defined in languageDisplayNames
+          const aIndex = Object.keys(languageDisplayNames).indexOf(a)
+          const bIndex = Object.keys(languageDisplayNames).indexOf(b)
+          return aIndex - bIndex
+        })
         .map((key) => {
           const title = languageDisplayNames[key].label
           return <Field.Option key={key} value={key} title={title} />
