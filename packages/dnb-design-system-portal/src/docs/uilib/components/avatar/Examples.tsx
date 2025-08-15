@@ -114,7 +114,7 @@ export const AvatarCardIcon = () => (
   </ComponentBox>
 )
 
-export const AvatarAccountCardIcon = () => (
+export const AvatarChildIcon = () => (
   <ComponentBox
     hideCode
     scope={{ AccountCardMedium }}
