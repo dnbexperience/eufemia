@@ -47,8 +47,6 @@ export default function PortalLayout(props: PortalLayoutProps) {
             frontmatter {
               title
               description
-              gitHubUrl
-              figmaUrl
               fullscreen
               showTabs
               breadcrumb {
@@ -72,8 +70,6 @@ export default function PortalLayout(props: PortalLayoutProps) {
                 hideInMenu
                 title
                 description
-                gitHubUrl
-                figmaUrl
                 fullscreen
                 showTabs
                 breadcrumb {
@@ -138,21 +134,6 @@ export default function PortalLayout(props: PortalLayoutProps) {
     '/' + (makeUseOfCategory ? category?.fields?.slug : mdx?.fields?.slug)
   const fullscreen = Boolean(fmData?.fullscreen) || pageContext?.fullscreen
 
-  const pagesToAutogenerateGitHubLink = ['components']
-
-  const autoGenerateGitHubUrl = pagesToAutogenerateGitHubLink.some(
-    (pageCategory) => rootPath.includes(pageCategory),
-  )
-
-  const rootGitHubUrl =
-    'https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src'
-
-  const gitHubUrlToUse =
-    fmData?.gitHubUrl ||
-    (autoGenerateGitHubUrl &&
-      `${rootGitHubUrl}${rootPath.replace('/uilib', '')}`) ||
-    null
-
   return (
     <Layout key="layout" location={location} fullscreen={fullscreen}>
       {fmData.breadcrumb && (
@@ -181,8 +162,6 @@ export default function PortalLayout(props: PortalLayoutProps) {
           location={location}
           rootPath={rootPath}
           title={fmData.title}
-          gitHubUrl={gitHubUrlToUse}
-          figmaUrl={fmData?.figmaUrl}
           tabs={fmData.tabs}
           defaultTabs={fmData.defaultTabs}
           hideTabs={fmData.hideTabs}
