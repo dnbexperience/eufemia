@@ -1,5 +1,6 @@
 import React, { useCallback, useContext, useRef } from 'react'
 import { getStyleScopeHash } from '../plugins/postcss-isolated-style-scope/plugin-scope-hash.js'
+import { getSha } from './build-info/BuildInfo.js'
 
 export { getStyleScopeHash }
 
@@ -101,6 +102,7 @@ export default function IsolatedStyleScope(
                 : scopeHash
             }
             data-scope-hash-id={uniqueKey || undefined}
+            data-scope-sha={uniqueKey ? getSha() : undefined}
             className={generatedScopeHash}
             style={style || styleScopeContext?.style}
             ref={scopeElementRef}
