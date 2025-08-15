@@ -3,6 +3,16 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.77.9](https://github.com/dnbexperience/eufemia/compare/v10.77.8...v10.77.9) (2025-08-15)
+
+
+### :bug: Bug Fixes
+
+* **Forms:** ensure labels from `Value.*` components can be served from a `Value.*` component itself ([#5398](https://github.com/dnbexperience/eufemia/issues/5398)) ([bc7bd39](https://github.com/dnbexperience/eufemia/commit/bc7bd395bc79a520ec649329b7d7591066ae2637))
+* **NumberFormat:** ensure `en-GB` locale uses comma for thousand separator ([#5393](https://github.com/dnbexperience/eufemia/issues/5393)) ([202236e](https://github.com/dnbexperience/eufemia/commit/202236e1c7bbe22cf75b6a53f3bb09618a12274b))
+* **NumberFormat:** remove `role="text"` ([#5386](https://github.com/dnbexperience/eufemia/issues/5386)) ([019bd3e](https://github.com/dnbexperience/eufemia/commit/019bd3eef6fa0108e1621bc122cd4808871a34d2))
+* **StepIndicator, Wizard:** screen reader improvements ([#5388](https://github.com/dnbexperience/eufemia/issues/5388)) ([e247409](https://github.com/dnbexperience/eufemia/commit/e2474097131008dc683b4e3518c009058b30f53a))
+
 ## [10.77.8](https://github.com/dnbexperience/eufemia/compare/v10.77.7...v10.77.8) (2025-08-13)
 
 
