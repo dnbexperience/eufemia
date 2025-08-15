@@ -106,10 +106,9 @@ export const AvatarCardIcon = () => (
     data-visual-test="avatar-children-icon-secondary"
   >
     <Avatar.Group label="Icons">
-      <Avatar
-        variant="secondary"
-        icon={<IconPrimary icon={CardMedium} />}
-      />
+      <Avatar variant="secondary">
+        <IconPrimary icon={CardMedium} />
+      </Avatar>
     </Avatar.Group>
   </ComponentBox>
 )
