@@ -2,7 +2,7 @@ import React from 'react'
 import { axeComponent } from '../../../../core/jest/jestSetup'
 import { render, fireEvent } from '@testing-library/react'
 import ValueBlock from '../ValueBlock'
-import { Form, Iterate, Value } from '../..'
+import { Field, Form, Iterate, Value } from '../..'
 import userEvent from '@testing-library/user-event'
 
 describe('ValueBlock', () => {
@@ -672,6 +672,45 @@ describe('ValueBlock', () => {
     expect(
       document.querySelector('.dnb-forms-value-block')
     ).toHaveTextContent('The label')
+  })
+
+  describe('inheritLabel', () => {
+    it('renders label from field with same path', () => {
+      render(
+        <Form.Handler
+          data={{
+            myPath: 'A value',
+          }}
+        >
+          <Field.String path="/myPath" label="The label" />
+          <Value.String path="/myPath" inheritLabel />
+        </Form.Handler>
+      )
+      expect(
+        document.querySelector('.dnb-forms-field-string')
+      ).toHaveTextContent('The label')
+      expect(
+        document.querySelector('.dnb-forms-value-string')
+      ).toHaveTextContent('The label')
+    })
+
+    it('renders label from field with same path given as a ValueBlock', () => {
+      render(
+        <Form.Handler data={{ label: 'The label' }}>
+          <Field.String
+            path="/myPath"
+            label={<Value.String path="/label" />}
+          />
+          <Value.String path="/myPath" inheritLabel />
+        </Form.Handler>
+      )
+      expect(
+        document.querySelector('.dnb-forms-field-string')
+      ).toHaveTextContent('The label')
+      expect(
+        document.querySelector('.dnb-forms-value-string')
+      ).toHaveTextContent('The label')
+    })
   })
 
   describe('help', () => {
