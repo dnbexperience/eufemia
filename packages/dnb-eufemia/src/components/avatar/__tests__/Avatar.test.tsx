@@ -65,6 +65,74 @@ describe('Avatar', () => {
     expect(screen.queryByTestId('confetti icon')).toBeInTheDocument()
   })
 
+  it('children icon has correct auto size', () => {
+    render(
+      <Avatar.Group label="label">
+        <Avatar>
+          <Icon icon={Confetti} />
+        </Avatar>
+      </Avatar.Group>
+    )
+
+    const element = document.querySelector('.dnb-icon')
+
+    expect(Array.from(element.classList)).toEqual([
+      'dnb-icon',
+      'dnb-icon--auto',
+      'dnb-icon--inherit-color',
+    ])
+  })
+
+  it('children icon can set own size', () => {
+    render(
+      <Avatar.Group label="label">
+        <Avatar>
+          <Icon icon={Confetti} size="small" />
+        </Avatar>
+      </Avatar.Group>
+    )
+
+    const element = document.querySelector('.dnb-icon')
+
+    expect(Array.from(element.classList)).toEqual([
+      'dnb-icon',
+      'dnb-icon--small',
+      'dnb-icon--inherit-color',
+    ])
+  })
+
+  it('prop icon has correct auto size', () => {
+    render(
+      <Avatar.Group label="label">
+        <Avatar icon={Confetti} />
+      </Avatar.Group>
+    )
+
+    const element = document.querySelector('.dnb-icon')
+
+    expect(Array.from(element.classList)).toEqual([
+      'dnb-icon',
+      'dnb-icon--auto',
+      'dnb-icon--inherit-color',
+    ])
+  })
+
+  it('prop icon can set own size', () => {
+    render(
+      <Avatar.Group label="label">
+        <Avatar icon={<Icon icon={Confetti} size="small" />} />
+      </Avatar.Group>
+    )
+
+    const element = document.querySelector('.dnb-icon')
+
+    expect(Array.from(element.classList)).toEqual([
+      'dnb-icon',
+      'dnb-icon--small',
+      'dnb-icon--inherit-color',
+    ])
+  })
+
   it('renders img from src', () => {
     const img_src = '/dnb/android-chrome-192x192.png'
     render(
