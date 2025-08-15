@@ -235,11 +235,3 @@ function iconAutoSize(
       })
     : icon
 }
-
-/**
- * TODO:
- * - new `icon` prop accept icon component or icon name. auto sizes the icon
- * - children still accepts icons but will only auto size if size is `--auto`
- * - update examples to use icon prop
- * - `icon` uses Medium version if not small
- */
