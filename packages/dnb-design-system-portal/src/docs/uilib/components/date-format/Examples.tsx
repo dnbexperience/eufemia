@@ -6,7 +6,7 @@
 import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import styled from '@emotion/styled'
-import { Card, DateFormat, P } from '@dnb/eufemia/src'
+import { DateFormat, H4, P } from '@dnb/eufemia/src'
 
 const Style = styled.div`
   p > .dnb-date-format {
@@ -55,27 +55,24 @@ export const DateFormatInline = () => {
 
 export const RelativeTime = () => {
   return (
-    <ComponentBox>
-      <P>
-        <strong>Basic relative time:</strong>
-        <br />
-        Skrevet{' '}
-        <DateFormat
-          value={new Date(new Date().getTime() - 30 * 1000)}
-          relativeTime
-        />
-        <br />
-        <DateFormat
-          value={new Date(new Date().getTime() - 2 * 60 * 1000)}
-          relativeTime
-        />
-        <br />
-        <DateFormat
-          value={new Date(new Date().getTime() - 24 * 60 * 60 * 1000)}
-          relativeTime
-        />
-      </P>
-    </ComponentBox>
+    <Style>
+      <ComponentBox>
+        <P>
+          <DateFormat
+            value={new Date(new Date().getTime() - 30 * 1000)}
+            relativeTime
+          />
+          <DateFormat
+            value={new Date(new Date().getTime() - 2 * 60 * 1000)}
+            relativeTime
+          />
+          <DateFormat
+            value={new Date(new Date().getTime() - 24 * 60 * 60 * 1000)}
+            relativeTime
+          />
+        </P>
+      </ComponentBox>
+    </Style>
   )
 }
 
@@ -105,70 +102,55 @@ export const RelativeTimeWithStyles = () => {
           pastDates,
           futureDates,
         }}
+        hideCode
       >
-        <Card stack>
-          <P>
-            <strong>Long (default):</strong>
-            <br />
-            {pastDates.map((date, index) => (
-              <React.Fragment key={index}>
-                <DateFormat value={date} relativeTime dateStyle="long" />
-                {index < pastDates.length - 1 && <br />}
-              </React.Fragment>
-            ))}
+        <H4>Short:</H4>
+        {pastDates.map((date, index) => (
+          <P key={index}>
+            <DateFormat value={date} relativeTime dateStyle="short" />
+            {index < pastDates.length - 1 && <br />}
           </P>
+        ))}
 
-          <P>
-            <strong>Short:</strong>
-            <br />
-            {pastDates.map((date, index) => (
-              <React.Fragment key={index}>
-                <DateFormat value={date} relativeTime dateStyle="short" />
-                {index < pastDates.length - 1 && <br />}
-              </React.Fragment>
-            ))}
+        <H4>Medium:</H4>
+        {pastDates.map((date, index) => (
+          <P key={index}>
+            <DateFormat value={date} relativeTime dateStyle="medium" />
+            {index < pastDates.length - 1 && <br />}
           </P>
+        ))}
 
-          <P>
-            <strong>Medium:</strong>
-            <br />
-            {pastDates.map((date, index) => (
-              <React.Fragment key={index}>
-                <DateFormat value={date} relativeTime dateStyle="medium" />
-                {index < pastDates.length - 1 && <br />}
-              </React.Fragment>
-            ))}
+        <H4>Long (default):</H4>
+        {pastDates.map((date, index) => (
+          <P key={index}>
+            <DateFormat value={date} relativeTime dateStyle="long" />
+            {index < pastDates.length - 1 && <br />}
           </P>
+        ))}
 
-          <P>
-            <strong>Future dates with long style:</strong>
-            <br />
-            {futureDates.map((date, index) => (
-              <React.Fragment key={index}>
-                <DateFormat value={date} relativeTime dateStyle="long" />
-                {index < futureDates.length - 1 && <br />}
-              </React.Fragment>
-            ))}
+        <H4>Future dates with long style:</H4>
+        {futureDates.map((date, index) => (
+          <P key={index}>
+            <DateFormat value={date} relativeTime dateStyle="long" />
+            {index < futureDates.length - 1 && <br />}
           </P>
+        ))}
 
-          <P>
-            <strong>Different locales with short style:</strong>
-            <br />
-            <DateFormat
-              value={pastDates[2]}
-              relativeTime
-              dateStyle="short"
-              locale="en-GB"
-            />
-            <br />
-            <DateFormat
-              value={futureDates[2]}
-              relativeTime
-              dateStyle="short"
-              locale="en-GB"
-            />
-          </P>
-        </Card>
+        <H4>Different locales with short style:</H4>
+        <P>
+          <DateFormat
+            value={pastDates[2]}
+            relativeTime
+            dateStyle="short"
+            locale="de-DE"
+          />
+          <DateFormat
+            value={futureDates[2]}
+            relativeTime
+            dateStyle="short"
+            locale="sv-SE"
+          />
+        </P>
       </ComponentBox>
     </Style>
   )
@@ -178,43 +160,28 @@ export const DurationFormatting = () => {
   return (
     <Style>
       <ComponentBox>
-        <Card stack>
-          <P>
-            <strong>Short durations:</strong>
-            <br />
-            <DateFormat value="PT1H" />
-            <DateFormat value="PT2H30M" />
-            <DateFormat value="PT45M" />
-          </P>
+        <H4>Short durations:</H4>
+        <P>
+          <DateFormat value="PT1H" />
+          <DateFormat value="PT2H30M" />
+          <DateFormat value="PT45M" />
+        </P>
 
-          <P>
-            <strong>Longer durations:</strong>
-            <br />
-            <DateFormat value="P1D" />
-            <DateFormat value="P1DT2H30M" />
-            <DateFormat value="P1W" />
-            <DateFormat value="P1M" />
-            <DateFormat value="P1Y" />
-          </P>
+        <H4>Longer durations:</H4>
+        <P>
+          <DateFormat value="P1D" />
+          <DateFormat value="P1DT2H30M" />
+          <DateFormat value="P1W" />
+          <DateFormat value="P1M" />
+          <DateFormat value="P1Y" />
+        </P>
 
-          <P>
-            <strong>Different locales:</strong>
-            <br />
-            <DateFormat value="PT2H30M" locale="en-US" />
-            <DateFormat value="PT2H30M" locale="nb-NO" />
-            <DateFormat value="PT2H30M" locale="de-DE" />
-            <DateFormat value="PT2H30M" locale="fr-FR" />
-            <DateFormat value="PT2H30M" locale="es-ES" />
-          </P>
-
-          <P>
-            <strong>Edge cases:</strong>
-            <br />
-            <DateFormat value="PT0S" />
-            <DateFormat value="P0D" />
-            <DateFormat value="PT0H0M0S" />
-          </P>
-        </Card>
+        <H4>Different locales:</H4>
+        <P>
+          <DateFormat value="PT2H30M" locale="en-US" />
+          <DateFormat value="PT2H30M" locale="nb-NO" />
+          <DateFormat value="PT2H30M" locale="de-DE" />
+        </P>
       </ComponentBox>
     </Style>
   )
@@ -224,45 +191,30 @@ export const DurationWithStyles = () => {
   return (
     <Style>
       <ComponentBox>
-        <Card stack>
-          <P>
-            <strong>Long (default):</strong>
-            <br />
-            <DateFormat value="PT2H30M" dateStyle="long" />
-            <DateFormat value="P1DT2H30M" dateStyle="long" />
-          </P>
+        <H4>Short:</H4>
+        <P>
+          <DateFormat value="PT2H30M" dateStyle="short" />
+          <DateFormat value="P1DT2H30M" dateStyle="short" />
+        </P>
 
-          <P>
-            <strong>Short:</strong>
-            <br />
-            <DateFormat value="PT2H30M" dateStyle="short" />
-            <DateFormat value="P1DT2H30M" dateStyle="short" />
-          </P>
+        <H4>Medium:</H4>
+        <P>
+          <DateFormat value="PT2H30M" dateStyle="medium" />
+          <DateFormat value="P1DT2H30M" dateStyle="medium" />
+        </P>
 
-          <P>
-            <strong>Medium:</strong>
-            <br />
-            <DateFormat value="PT2H30M" dateStyle="medium" />
-            <DateFormat value="P1DT2H30M" dateStyle="medium" />
-          </P>
+        <H4>Long (default):</H4>
+        <P>
+          <DateFormat value="PT2H30M" dateStyle="long" />
+          <DateFormat value="P1DT2H30M" dateStyle="long" />
+        </P>
 
-          <P>
-            <strong>Full:</strong>
-            <br />
-            <DateFormat value="PT2H30M" dateStyle="full" />
-            <DateFormat value="P1DT2H30M" dateStyle="full" />
-          </P>
-
-          <P>
-            <strong>Different locales with short style:</strong>
-            <br />
-            <DateFormat value="PT2H30M" dateStyle="short" locale="en-US" />
-            <DateFormat value="PT2H30M" dateStyle="short" locale="nb-NO" />
-            <DateFormat value="PT2H30M" dateStyle="short" locale="de-DE" />
-            <DateFormat value="PT2H30M" dateStyle="short" locale="fr-FR" />
-            <DateFormat value="PT2H30M" dateStyle="short" locale="es-ES" />
-          </P>
-        </Card>
+        <H4>Different locales with short style:</H4>
+        <P>
+          <DateFormat value="PT2H30M" dateStyle="short" locale="en-US" />
+          <DateFormat value="PT2H30M" dateStyle="short" locale="nb-NO" />
+          <DateFormat value="PT2H30M" dateStyle="short" locale="de-DE" />
+        </P>
       </ComponentBox>
     </Style>
   )

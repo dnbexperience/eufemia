@@ -80,7 +80,6 @@ function DateFormat(props: DateFormatProps) {
       return formatDuration(
         durationValue,
         locale,
-        undefined,
         dateStyle,
         String(value || children)
       )
