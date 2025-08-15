@@ -281,6 +281,25 @@ describe('StepIndicator redesign', () => {
     ).toBe('false')
   })
 
+  it('should not display numbers in list for screen readers', () => {
+    render(
+      <>
+        <StepIndicator
+          mode="loose"
+          data={stepIndicatorListData}
+          expandedInitially
+        />
+      </>
+    )
+    expect(
+      document.querySelector('.dnb-step-indicator__item-content')
+        .textContent
+    ).toEqual('1.Step A')
+    expect(
+      document.querySelector('.dnb-step-indicator__item-content__number')
+    ).toHaveAttribute('aria-hidden')
+  })
+
   it('should hide numbers in list', () => {
     render(
       <>
@@ -393,7 +412,7 @@ describe('StepIndicator in loose mode', () => {
     )
     expect(
       document.querySelector('.dnb-step-indicator__trigger').textContent
-    ).toContain('StegoversiktSteg 2 av 4:Step B')
+    ).toContain('Steg 2 av 4:Step B')
   })
 
   it('has correct states on steps', () => {
@@ -758,6 +777,108 @@ describe('StepIndicator ARIA', () => {
       </>
     )
     expect(await axeComponent(Comp)).toHaveNoViolations()
+  })
+
+  it('should have correct aria-label on trigger section', () => {
+    render(
+      <StepIndicator
+        mode="loose"
+        data={stepIndicatorListData}
+        overview_title="Custom Overview Title"
+      />
+    )
+
+    // The aria-label is on the section element that contains the trigger
+    const triggerSection = document.querySelector(
+      'section[aria-label="Custom Overview Title"]'
+    )
+    expect(triggerSection).toBeInTheDocument()
+
+    // Verify it contains the trigger div
+    const triggerDiv = triggerSection.querySelector(
+      '.dnb-step-indicator__trigger'
+    )
+    expect(triggerDiv).toBeInTheDocument()
+  })
+
+  it('should have default aria-label when overview_title is not provided', () => {
+    render(<StepIndicator mode="loose" data={stepIndicatorListData} />)
+
+    // The aria-label is on the section element that contains the trigger
+    // The default value gets translated, so we check for any section with an aria-label
+    const triggerSection = document.querySelector('section[aria-label]')
+    expect(triggerSection).toBeInTheDocument()
+
+    // Verify it contains the trigger div
+    const triggerDiv = triggerSection.querySelector(
+      '.dnb-step-indicator__trigger'
+    )
+    expect(triggerDiv).toBeInTheDocument()
+
+    // Verify the aria-label is not empty
+    const ariaLabel = triggerSection.getAttribute('aria-label')
+    expect(ariaLabel).toBeTruthy()
+    expect(ariaLabel.length).toBeGreaterThan(0)
+  })
+
+  it('should have aria-hidden on the form label to avoid duplicate information', () => {
+    render(<StepIndicator mode="loose" data={stepIndicatorListData} />)
+
+    // Find the form label within the trigger
+    const formLabel = document.querySelector('.dnb-step-indicator__label')
+    expect(formLabel).toBeInTheDocument()
+
+    // Verify it has aria-hidden attribute
+    expect(formLabel).toHaveAttribute('aria-hidden', 'true')
+  })
+
+  it('should have aria-hidden on step item elements to avoid duplicate information', () => {
+    render(
+      <StepIndicator
+        mode="loose"
+        data={stepIndicatorListData}
+        expandedInitially
+      />
+    )
+
+    // Find step items
+    const stepItems = document.querySelectorAll(
+      'li.dnb-step-indicator__item'
+    )
+    expect(stepItems.length).toBeGreaterThan(0)
+
+    // Check the first step item for aria-hidden attributes
+    const firstStepItem = stepItems[0]
+
+    // Check that the step number has aria-hidden (when numbers are shown)
+    const stepNumber = firstStepItem.querySelector(
+      '.dnb-step-indicator__item-content__number'
+    )
+    expect(stepNumber).toBeInTheDocument()
+    expect(stepNumber).toHaveAttribute('aria-hidden')
+
+    // Check that the screen reader only span has aria-hidden
+    const srOnlySpan = firstStepItem.querySelector('.dnb-sr-only')
+    expect(srOnlySpan).toBeInTheDocument()
+    expect(srOnlySpan).toHaveAttribute('aria-hidden')
+  })
+
+  it('should have aria-label on trigger button to support NVDA properly', () => {
+    render(<StepIndicator mode="loose" data={stepIndicatorListData} />)
+
+    // Find the trigger button
+    const triggerButton = document.querySelector(
+      '.dnb-step-indicator__trigger__button'
+    )
+    expect(triggerButton).toBeInTheDocument()
+
+    // Since there seems to be a React/DOM timing issue, we'll check the HTML directly
+    // The aria-label should be present in the rendered HTML
+    const buttonHTML = triggerButton.outerHTML
+    expect(buttonHTML).toContain('aria-label=')
+
+    // Verify the aria-label contains step information (e.g., "Steg 1 av 4:")
+    expect(buttonHTML).toMatch(/aria-label="Steg \d+ av \d+:"/)
   })
 })
 

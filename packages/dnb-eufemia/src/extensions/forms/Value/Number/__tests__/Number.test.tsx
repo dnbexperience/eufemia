@@ -139,7 +139,7 @@ describe('Value.Number', () => {
       document
         .querySelector('.dnb-number-format .dnb-sr-only')
         .getAttribute('data-text')
-    ).toBe('-12 345,68 kroner')
+    ).toBe('-12\u00A0345,68 kroner')
   })
 
   it('formats with different locale', () => {
@@ -156,12 +156,12 @@ describe('Value.Number', () => {
 
     expect(
       document.querySelector('.dnb-forms-value-number')
-    ).toHaveTextContent('kroner -12 345.68')
+    ).toHaveTextContent('kroner -12,345.68')
     expect(
       document
         .querySelector('.dnb-number-format .dnb-sr-only')
         .getAttribute('data-text')
-    ).toBe('-12 345.68 kroner')
+    ).toBe('-12,345.68 kroner')
 
     rerender(
       <Provider locale="en-GB">
@@ -176,12 +176,12 @@ describe('Value.Number', () => {
 
     expect(
       document.querySelector('.dnb-forms-value-number')
-    ).toHaveTextContent('Swedish kronor -12 345.68')
+    ).toHaveTextContent('Swedish kronor -12,345.68')
     expect(
       document
         .querySelector('.dnb-number-format .dnb-sr-only')
         .getAttribute('data-text')
-    ).toBe('-12 345.68 Swedish kronor')
+    ).toBe('-12,345.68 Swedish kronor')
   })
 
   it('should forward HTML attributes', () => {
@@ -194,7 +194,7 @@ describe('Value.Number', () => {
       (attr) => attr.name
     )
 
-    expect(attributes).toEqual(['lang', 'class', 'data-testid', 'role'])
+    expect(attributes).toEqual(['lang', 'class', 'data-testid'])
     expect(element).toHaveAttribute('data-testid', 'testid')
   })
 

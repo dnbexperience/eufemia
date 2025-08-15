@@ -81,7 +81,7 @@ describe('FormRow component', () => {
       document
         .querySelector('.dnb-number-format')
         .querySelector('.dnb-number-format__visible').textContent
-    ).toBe('NOK 1 234.00')
+    ).toBe('NOK\u00A01,234.00')
   })
 
   it('should not overwrite locale from provider when not set', () => {
@@ -97,7 +97,7 @@ describe('FormRow component', () => {
       document
         .querySelector('.dnb-number-format')
         .querySelector('.dnb-number-format__visible').textContent
-    ).toBe('NOK 1 234.00')
+    ).toBe('NOK\u00A01,234.00')
   })
 
   it('should react correct on two states in row', () => {

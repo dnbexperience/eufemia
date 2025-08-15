@@ -294,7 +294,10 @@ function StepIndicatorItem({
           )}
         >
           {!hide_numbers && (
-            <span className="dnb-step-indicator__item-content__number">
+            <span
+              className="dnb-step-indicator__item-content__number"
+              aria-hidden
+            >
               {`${currentItemNum + 1}.`}
             </span>
           )}

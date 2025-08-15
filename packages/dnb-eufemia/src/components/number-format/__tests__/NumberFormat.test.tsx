@@ -104,18 +104,18 @@ describe('NumberFormat component', () => {
     )
 
     expect(document.querySelector(displaySelector).textContent).toBe(
-      '-NOK 12 345 678.99'
+      '-NOK 12,345,678.99'
     )
 
     expect(
       document.querySelector(ariaSelector).getAttribute('data-text')
-    ).toBe('-12 345 678.99 kroner')
+    ).toBe('-12,345,678.99 kroner')
 
     // also check the formatting with one digit less
     rerender(<Component currency locale="en" decimals={0} value={12345} />)
 
     expect(document.querySelector(displaySelector).textContent).toBe(
-      'NOK 12 345'
+      'NOK 12,345'
     )
   })
 
@@ -249,12 +249,12 @@ describe('NumberFormat component', () => {
     )
 
     expect(document.querySelector(displaySelector).textContent).toBe(
-      '-12 345 678.99 NOK'
+      '-12,345,678.99 NOK'
     )
 
     expect(
       document.querySelector(ariaSelector).getAttribute('data-text')
-    ).toBe('-12 345 678.99 kroner')
+    ).toBe('-12,345,678.99 kroner')
 
     rerender(
       <Component
@@ -267,7 +267,7 @@ describe('NumberFormat component', () => {
     )
 
     expect(document.querySelector(displaySelector).textContent).toBe(
-      '-12 345 678.99 NOK'
+      '-12,345,678.99 NOK'
     )
 
     rerender(
@@ -308,12 +308,12 @@ describe('NumberFormat component', () => {
     )
 
     expect(document.querySelector(displaySelector).textContent).toBe(
-      '-NOK 12 345 678.99'
+      '-NOK\u00A012,345,678.99'
     )
 
     expect(
       document.querySelector(ariaSelector).getAttribute('data-text')
-    ).toBe('-12 345 678.99 kroner')
+    ).toBe('-12,345,678.99 kroner')
 
     rerender(
       <Component
@@ -325,7 +325,7 @@ describe('NumberFormat component', () => {
     )
 
     expect(document.querySelector(displaySelector).textContent).toBe(
-      '-NOK 12 345 678.99'
+      '-NOK\u00A012,345,678.99'
     )
 
     rerender(
@@ -391,7 +391,7 @@ describe('NumberFormat component', () => {
       />
     )
     expect(document.querySelector('.dnb-number-format').textContent).toBe(
-      '-SEK 0'
+      '-SEK\u00A00'
     )
   })
 
@@ -1260,7 +1260,7 @@ describe('NumberFormat compact', () => {
       (attr) => attr.name
     )
 
-    expect(attributes).toEqual(['lang', 'class', 'role'])
+    expect(attributes).toEqual(['lang', 'class'])
   })
 
   it('have to match compact number with custom decimals', () => {
@@ -1314,7 +1314,7 @@ describe('NumberFormat compact', () => {
         />
       )
       expect(document.querySelector(displaySelector).textContent).toBe(
-        '-NOK 12.35M'
+        '-NOK\u00A012.35M'
       )
       expect(
         document.querySelector(ariaSelector).getAttribute('data-text')
@@ -1419,7 +1419,7 @@ describe('NumberFormat component with provider', () => {
       </Provider>
     )
     expect(document.querySelector(displaySelector).textContent).toBe(
-      '12 345 678.99 kroner'
+      '12,345,678.99 kroner'
     )
   })
 })

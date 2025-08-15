@@ -51,7 +51,10 @@ const ChangeLocale = () => {
         Svenska
       </ToggleButton>
       <ToggleButton value="en-GB" className="en-GB">
-        English
+        GB
+      </ToggleButton>
+      <ToggleButton value="en-US" className="en-US">
+        US
       </ToggleButton>
     </ToggleButton.Group>
   )

@@ -45,7 +45,7 @@ export function DisplaySteps({
   const { status, status_state } = getStepIndicatorStatus() ?? {}
 
   return (
-    <aside className="dnb-forms-wizard-layout__indicator">
+    <div className="dnb-forms-wizard-layout__indicator">
       <StepIndicator
         bottom
         current_step={activeIndexRef.current}
@@ -66,6 +66,6 @@ export function DisplaySteps({
         status={status}
         status_state={status_state}
       />
-    </aside>
+    </div>
   )
 }

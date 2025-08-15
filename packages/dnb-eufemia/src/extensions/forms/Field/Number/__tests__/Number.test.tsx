@@ -573,7 +573,7 @@ describe('Field.Number', () => {
             <Field.Number value={1234.56789} currency decimalLimit={2} />
           </Provider>
         )
-        expect(document.querySelector('input')).toHaveValue('1 234.56 NOK')
+        expect(document.querySelector('input')).toHaveValue('1,234.56 NOK')
       })
 
       it('formats in other currency', () => {

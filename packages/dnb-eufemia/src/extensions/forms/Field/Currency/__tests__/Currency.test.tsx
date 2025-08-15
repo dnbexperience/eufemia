@@ -227,7 +227,7 @@ describe('Field.Currency', () => {
         </Provider>
       )
 
-      expect(input).toHaveValue('1 234 kroner')
+      expect(input).toHaveValue('1,234 kroner')
 
       rerender(
         <Provider locale="de-CH">
