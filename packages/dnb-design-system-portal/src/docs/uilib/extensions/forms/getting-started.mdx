@@ -136,7 +136,7 @@ Which results in the following data structure:
 }
 ```
 
-Paths of fields (`/dataPath`) must be unique to ensure proper error handling and data input. If Eufemia detects duplicate paths, it will print the following warning in the console: `Eufemia Path declared multiple times: /duplicatePath`.
+Paths of fields (`path="/dataPath"`) must be unique to ensure proper error handling and data input. If Eufemia detects duplicate paths, it will print the following warning in the console: `Eufemia Path declared multiple times: /duplicatePath`.
 
 This is called a [JSON Pointer](#what-is-a-json-pointer), which is a standardized way of pointing to a specific part of a JavaScript/JSON object.
 
