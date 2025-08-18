@@ -5,7 +5,7 @@
 
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import {
-  card_medium as CardMedium,
+  calendar_medium as CalendarMedium,
   account_card_medium as AccountCardMedium,
   bank as Bank,
   bank_medium as BankMedium,
@@ -86,29 +86,30 @@ export const AvatarVariantTertiary = () => (
   </ComponentBox>
 )
 
-export const AvatarBankIcon = () => (
+export const AvatarIconSize = () => (
   <ComponentBox
     hideCode
     scope={{ Bank, BankMedium }}
     data-visual-test="avatar-children-icon-primary"
   >
-    <Avatar size="small" icon={Bank} />
+    <Avatar icon={Bank} size="small" />
     <Avatar icon={BankMedium} />
-    <Avatar size="large" icon={<IconPrimary icon={BankMedium} />} />
-    <Avatar size="x-large" icon={<Icon icon={BankMedium} />} />
+    <Avatar icon={BankMedium} size="large" />
+    <Avatar icon={BankMedium} size="x-large" />
   </ComponentBox>
 )
 
-export const AvatarCardIcon = () => (
+export const AvatarIconType = () => (
   <ComponentBox
     hideCode
-    scope={{ CardMedium }}
+    scope={{ CalendarMedium }}
     data-visual-test="avatar-children-icon-secondary"
   >
-    <Avatar.Group label="Icons">
-      <Avatar variant="secondary">
-        <IconPrimary icon={CardMedium} />
-      </Avatar>
+    <Avatar.Group label="Icons" variant="secondary">
+      <Avatar icon={CalendarMedium} />
+      <Avatar icon="calendar_medium" />
+      <Avatar icon={<IconPrimary icon={CalendarMedium} />} />
+      <Avatar icon={<Icon icon={CalendarMedium} />} />
     </Avatar.Group>
   </ComponentBox>
 )
