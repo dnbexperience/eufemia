@@ -68,7 +68,7 @@ function PortalRoot({
 }
 
 export function getOrCreatePortalElement(id: string): HTMLElement | null {
-  if (typeof window === 'undefined') {
+  if (typeof window === 'undefined' || typeof document === 'undefined') {
     return null
   }
 
