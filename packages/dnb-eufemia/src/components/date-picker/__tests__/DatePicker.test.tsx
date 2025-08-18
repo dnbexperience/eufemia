@@ -4244,14 +4244,14 @@ describe('DatePicker ARIA', () => {
     expect(openButton).toHaveAttribute('aria-label', 'Open date picker')
 
     await userEvent.click(openButton)
-    await userEvent.click(screen.getByLabelText('Friday 25 April 2025'))
+    await userEvent.click(screen.getByLabelText('Friday, 25 April 2025'))
 
     expect(document.querySelector('.dnb-sr-only')).toHaveTextContent(
-      'Selected date: Friday 25 April 2025'
+      'Selected date: Friday, 25 April 2025'
     )
     expect(openButton).toHaveAttribute(
       'aria-label',
-      'Selected date: Friday 25 April 2025, Open date picker'
+      'Selected date: Friday, 25 April 2025, Open date picker'
     )
 
     // en-US
@@ -4334,8 +4334,8 @@ describe('DatePicker ARIA', () => {
     expect(openButton).toHaveAttribute('aria-label', 'Open date picker')
 
     await userEvent.click(openButton)
-    await userEvent.click(screen.getByLabelText('Wednesday 2 April 2025'))
-    await userEvent.click(screen.getByLabelText('Saturday 19 April 2025'))
+    await userEvent.click(screen.getByLabelText('Wednesday, 2 April 2025'))
+    await userEvent.click(screen.getByLabelText('Saturday, 19 April 2025'))
 
     expect(document.querySelector('.dnb-sr-only')).toHaveTextContent(
       'Selected dates: Wednesday 2 April – Saturday 19 April 2025'
