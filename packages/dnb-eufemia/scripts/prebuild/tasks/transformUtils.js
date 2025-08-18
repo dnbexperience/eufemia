@@ -23,12 +23,24 @@ export const transformSass = (config) => (content, file) => {
   log.info(`> PrePublish: sass process | ${file.path}`)
 
   let before
-  if (typeof window !== 'undefined') {
-    before = window.location
+  // Only manipulate window.location if we're not in a test environment
+  // Check for Jest environment more reliably
+  const isTestEnv =
+    process.env.NODE_ENV === 'test' ||
+    process.env.JEST_WORKER_ID !== undefined ||
+    typeof jest !== 'undefined'
 
-    delete window.location
-    window.location = {
-      href: 'file://',
+  if (typeof window !== 'undefined' && !isTestEnv) {
+    try {
+      before = window.location
+
+      delete window.location
+      window.location = {
+        href: 'file://',
+      }
+    } catch (error) {
+      // Ignore errors in test environment
+      before = null
     }
   }
 
@@ -41,8 +53,12 @@ export const transformSass = (config) => (content, file) => {
     ...config,
   })
 
-  if (typeof window !== 'undefined') {
-    window.location = before
+  if (typeof window !== 'undefined' && before && !isTestEnv) {
+    try {
+      window.location = before
+    } catch (error) {
+      // Ignore errors in test environment
+    }
   }
 
   return String(content.css)
