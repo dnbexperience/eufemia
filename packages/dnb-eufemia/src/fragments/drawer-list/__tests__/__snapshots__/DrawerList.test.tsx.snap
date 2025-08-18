@@ -421,7 +421,7 @@ exports[`DrawerList scss have to match default theme snapshot 1`] = `
   color: var(--color-emerald-green);
 }
 .dnb-drawer-list__list {
-  box-shadow: var(--shadow-default);
+  box-shadow: var(--shadow-compact);
   border-radius: calc(var(--drawer-list-options-border-radius) + 0.15rem);
 }
 .dnb-drawer-list__options {
@@ -596,7 +596,7 @@ html[data-whatinput=keyboard] .dnb-drawer-list__option--selected .dnb-drawer-lis
 .dnb-drawer-list__triangle::before {
   border: none;
   background-color: var(--color-white);
-  box-shadow: var(--shadow-default);
+  box-shadow: var(--shadow-compact);
 }
 .dnb-drawer-list--top .dnb-drawer-list__option.last-of-type:hover ~ .dnb-drawer-list__triangle::before, .dnb-drawer-list--bottom .dnb-drawer-list__option.first-of-type:hover ~ .dnb-drawer-list__triangle::before, .dnb-drawer-list--bottom .dnb-drawer-list__option.closest-to-top:hover ~ .dnb-drawer-list__triangle::before, .dnb-drawer-list--top .dnb-drawer-list__option.closest-to-bottom:hover ~ .dnb-drawer-list__triangle::before, .dnb-drawer-list--bottom .dnb-drawer-list__option.closest-to-top.dnb-drawer-list__option--focus ~ .dnb-drawer-list__triangle::before, .dnb-drawer-list--top .dnb-drawer-list__option.closest-to-bottom.dnb-drawer-list__option--focus ~ .dnb-drawer-list__triangle::before {
   background-color: var(--color-mint-green-12);

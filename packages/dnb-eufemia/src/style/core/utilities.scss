@@ -8,6 +8,10 @@
   box-shadow: var(--shadow-default);
 }
 
+@mixin compactDropShadow() {
+  box-shadow: var(--shadow-compact);
+}
+
 // Uses html:not([data-whatintent='touch'] )
 // classes on <html> element
 // based on js touch device test

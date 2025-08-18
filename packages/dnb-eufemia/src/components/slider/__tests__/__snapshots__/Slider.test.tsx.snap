@@ -984,7 +984,7 @@ html[data-whatinput=keyboard] .dnb-slider__marker:focus {
   bottom: 0;
 }
 .dnb-slider__thumb {
-  box-shadow: var(--shadow-default);
+  box-shadow: var(--shadow-compact);
 }
 .dnb-slider__button-helper, .dnb-slider__thumb {
   position: absolute;

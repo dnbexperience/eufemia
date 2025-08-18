@@ -53,6 +53,10 @@
   @include defaultDropShadow();
 }
 
+.dnb-compact-drop-shadow {
+  @include compactDropShadow();
+}
+
 .dnb-sr-only {
   @include srOnly();
 }
