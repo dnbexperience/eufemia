@@ -16,15 +16,8 @@ export const wait = (t) => new Promise((r) => setTimeout(r, t))
 
 export const loadScss = (file, options = {}) => {
   try {
-    const before = window.location
-
     const importPath1 = path.dirname(file)
     const importPath2 = path.resolve(__dirname, '../../style/core/')
-
-    delete window.location
-    window.location = {
-      href: 'file://',
-    }
 
     const sassResult = sass.renderSync({
       file,
@@ -32,8 +25,6 @@ export const loadScss = (file, options = {}) => {
       sourceMap: false,
       ...options,
     })
-
-    window.location = before
 
     return String(sassResult.css)
   } catch (e) {
