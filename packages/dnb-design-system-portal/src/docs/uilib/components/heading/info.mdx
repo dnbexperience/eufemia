@@ -21,6 +21,11 @@ The Heading component is a helper to create automated semantic headings within a
 
 > Basically, only assistive technologies do need semantic headings. But they need them correct.
 
+## Relevant links
+
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/heading)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/heading)
+
 How does it work? The heading leveling is handled synchronously. But you can easily isolate one level, or a part by using a context provider: `<Heading.Level ...`. This allows you to later, asynchronous, add new headings inside. You can nest several contexts inside each.
 
 The first code example is without using context provider. To handle levels in batches or asynchronous, use a `Heading.Level` context provider.
