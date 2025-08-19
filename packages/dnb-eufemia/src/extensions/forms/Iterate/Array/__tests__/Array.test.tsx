@@ -2838,4 +2838,84 @@ describe('Iterate.Array', () => {
       })
     })
   })
+
+  describe('validation using Zod schema', () => {
+    it('should show error for invalid array using Zod schema', async () => {
+      const { z } = await import('zod')
+      const schema = z.array(z.string()).superRefine((val, ctx) => {
+        if (val.length < 2) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: 'IterateArray.errorMinItems',
+            params: { minItems: 2 },
+          })
+        }
+      })
+
+      render(
+        <Form.Handler>
+          <Iterate.Array path="/items" schema={schema} validateInitially>
+            <Field.String itemPath="/" />
+          </Iterate.Array>
+        </Form.Handler>
+      )
+      expect(screen.getByRole('alert')).toBeInTheDocument()
+      expect(
+        screen.getByText('Du må legge til minst 2.')
+      ).toBeInTheDocument()
+    })
+
+    it('should not show error for valid array using Zod schema', async () => {
+      const { z } = await import('zod')
+      const schema = z.array(z.string()).superRefine((val, ctx) => {
+        if (val.length < 1) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: 'IterateArray.errorMinItems',
+            params: { minItems: 1 },
+          })
+        }
+      })
+
+      render(
+        <Form.Handler defaultData={{ items: ['foo'] }}>
+          <Iterate.Array path="/items" schema={schema} validateInitially>
+            <Field.String itemPath="/" />
+          </Iterate.Array>
+        </Form.Handler>
+      )
+      expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+    })
+
+    it('should show error on submit for invalid array using Zod schema', async () => {
+      const { z } = await import('zod')
+      const schema = z.array(z.string()).superRefine((val, ctx) => {
+        if (val.length < 2) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: 'IterateArray.errorMinItems',
+            params: { minItems: 2 },
+          })
+        }
+      })
+
+      render(
+        <Form.Handler>
+          <Iterate.Array path="/items" schema={schema}>
+            <Field.String itemPath="/" />
+          </Iterate.Array>
+          <button type="submit">Submit</button>
+        </Form.Handler>
+      )
+
+      fireEvent.submit(document.querySelector('form'))
+
+      await waitFor(() => {
+        expect(screen.getByRole('alert')).toBeInTheDocument()
+      })
+      expect(
+        screen.getByText('Du må legge til minst 2.')
+      ).toBeInTheDocument()
+    })
+  })
 })

@@ -8,19 +8,20 @@ import React, {
   useCallback,
 } from 'react'
 import classnames from 'classnames'
+import * as z from 'zod'
 import pointer from '../../utils/json-pointer'
 import { useFieldProps } from '../../hooks'
 import { makeUniqueId } from '../../../../shared/component-helper'
 import { Flex, FormStatus, HeightAnimation } from '../../../../components'
-import { Span } from '../../../../elements'
 import { pickSpacingProps } from '../../../../components/flex/utils'
-import useMountEffect from '../../../../shared/helpers/useMountEffect'
-import useUpdateEffect from '../../../../shared/helpers/useUpdateEffect'
 import {
   BasicProps as FlexContainerProps,
   Props as FlexContainerAllProps,
   pickFlexContainerProps,
 } from '../../../../components/flex/Container'
+import { Span } from '../../../../elements'
+import useMountEffect from '../../../../shared/helpers/useMountEffect'
+import useUpdateEffect from '../../../../shared/helpers/useUpdateEffect'
 import IterateItemContext, {
   IterateItemContextState,
   ModeOptions,
@@ -103,21 +104,36 @@ function ArrayComponent(props: Props) {
 
   const preparedProps = useMemo(() => {
     const shared = {
-      schema: undefined,
       required: false,
       validateRequired,
       ...props,
     }
 
+    // Only create our internal schema if no schema is provided via props
     if (
-      typeof props.minItems === 'number' ||
-      typeof props.maxItems === 'number'
+      !props.schema &&
+      (typeof props.minItems === 'number' ||
+        typeof props.maxItems === 'number')
     ) {
-      shared.schema = {
-        type: 'array',
-        minItems: props.minItems,
-        maxItems: props.maxItems,
-      }
+      shared.schema = z.array(z.any()).superRefine((val, ctx) => {
+        // Check minItems
+        if (props.minItems !== undefined && val.length < props.minItems) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: 'IterateArray.errorMinItems',
+            params: { minItems: props.minItems },
+          })
+        }
+
+        // Check maxItems
+        if (props.maxItems !== undefined && val.length > props.maxItems) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: 'IterateArray.errorMaxItems',
+            params: { maxItems: props.maxItems },
+          })
+        }
+      })
     }
 
     if (shared.schema && !shared.emptyValue) {
