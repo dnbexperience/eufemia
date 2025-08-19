@@ -40,6 +40,7 @@
   },
   "resolutions": {
     "babel-plugin-lodash/@babel/types": "7.20.0",
+    "jest-environment-jsdom/jsdom": "20.0.3",
     "gatsby/socket.io": "4.6.1",
     "gatsby/browserslist": "4.21.4"
   },
