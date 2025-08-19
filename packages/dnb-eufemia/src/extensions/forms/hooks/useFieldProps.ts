@@ -62,6 +62,7 @@ import { isAsync } from '../../../shared/helpers/isAsync'
 import useTranslation from './useTranslation'
 import useExternalValue from './useExternalValue'
 import useDataValue from './useDataValue'
+import { makeAjvInstance } from '../utils'
 
 // SSR warning fix: https://gist.github.com/gaearon/e7d97cdf38a2907924ea12e4ebdf3c85
 const useLayoutEffect =
@@ -523,7 +524,16 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       schemaValidatorRef.current = schema as z.ZodSchema
     } else {
       // It's a JSON schema, compile with AJV
-      schemaValidatorRef.current = dataContext.ajvInstance?.compile(schema)
+      if (dataContext.ajvInstance) {
+        // Use provided AJV instance
+        schemaValidatorRef.current =
+          dataContext.ajvInstance.compile(schema)
+      } else {
+        // Create a fallback AJV instance for JSON Schema validation
+        // This maintains backward compatibility when no ajvInstance is provided
+        const fallbackAjv = makeAjvInstance()
+        schemaValidatorRef.current = fallbackAjv.compile(schema)
+      }
     }
   }
 

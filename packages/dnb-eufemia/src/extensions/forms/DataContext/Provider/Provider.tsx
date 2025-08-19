@@ -268,7 +268,9 @@ export default function Provider<Data extends JsonObject>(
   const translation = useTranslation().Field
 
   // - Ajv
-  const ajvRef = useRef<Ajv>(makeAjvInstance(ajvInstance))
+  const ajvRef = useRef<Ajv | undefined>(
+    ajvInstance ? makeAjvInstance(ajvInstance) : undefined
+  )
 
   // - Paths
   const mountedFieldsRef: ContextState['mountedFieldsRef'] = useRef(

@@ -1,5 +1,7 @@
-import { ErrorObject } from 'ajv/dist/2020'
 import { FormsTranslationFlat } from '../hooks/useTranslation'
+
+// Make AJV types optional to avoid runtime dependency
+type ErrorObjectKeyword = string | undefined
 
 type ValidationRule =
   | string
@@ -29,7 +31,7 @@ type FormErrorOptions = {
   /**
    * The AJV keyword that caused the error.
    */
-  ajvKeyword?: ErrorObject['keyword']
+  ajvKeyword?: ErrorObjectKeyword
 
   /**
    * An array of errors that should be rendered in the same error message.
