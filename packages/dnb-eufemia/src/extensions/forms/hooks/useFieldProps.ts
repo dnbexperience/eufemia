@@ -9,6 +9,7 @@ import React, {
 } from 'react'
 import pointer from '../utils/json-pointer'
 import { ValidateFunction } from 'ajv/dist/2020'
+import * as z from 'zod'
 import {
   ajvErrorsToOneFormError,
   errorChanged,
@@ -514,9 +515,16 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     onBlurValidatorRef.current = onBlurValidator
   }, [onBlurValidator])
 
-  const schemaValidatorRef = useRef<ValidateFunction>()
+  const schemaValidatorRef = useRef<ValidateFunction | z.ZodSchema>()
   if (!schemaValidatorRef.current && schema) {
-    schemaValidatorRef.current = dataContext.ajvInstance?.compile(schema)
+    // Check if it's a Zod schema or JSON schema
+    if (schema && typeof schema === 'object' && 'safeParse' in schema) {
+      // It's a Zod schema
+      schemaValidatorRef.current = schema as z.ZodSchema
+    } else {
+      // It's a JSON schema, compile with AJV
+      schemaValidatorRef.current = dataContext.ajvInstance?.compile(schema)
+    }
   }
 
   // - Async behavior
@@ -1055,7 +1063,12 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const clearErrorState = useCallback(() => {
     persistErrorState('wipe', undefined)
     localErrorInitiatorRef.current = undefined
-    if (Array.isArray(schemaValidatorRef.current?.errors)) {
+    // Only clear errors for AJV validators, Zod schemas don't have an errors property
+    if (
+      schemaValidatorRef.current &&
+      typeof schemaValidatorRef.current === 'function' &&
+      Array.isArray(schemaValidatorRef.current.errors)
+    ) {
       schemaValidatorRef.current.errors = []
     }
   }, [persistErrorState])
@@ -1377,15 +1390,148 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       if (
         value !== undefined &&
         !prioritizeContextSchema &&
-        typeof schemaValidatorRef.current === 'function'
+        schemaValidatorRef.current
       ) {
-        if (!schemaValidatorRef.current(value)) {
-          const error = ajvErrorsToOneFormError(
-            schemaValidatorRef.current.errors,
-            value
-          )
-          initiator = 'schema'
-          throw error
+        if ('safeParse' in schemaValidatorRef.current) {
+          // It's a Zod schema
+          const result = schemaValidatorRef.current.safeParse(value)
+          if (!result.success) {
+            // Convert Zod error to FormError
+            const zodError = result.error as z.ZodError
+
+            // Try to extract the error message from the Zod error
+            let errorMessage = 'Field.errorPattern' // Use English translation key instead of hardcoded English
+
+            // First try to get from errors array if available
+            if ((zodError as any).errors?.[0]?.message) {
+              errorMessage = (zodError as any).errors[0].message
+            } else if (zodError.message) {
+              // If errors array is not available, try to parse the message
+              try {
+                const parsedErrors = JSON.parse(zodError.message)
+                if (
+                  Array.isArray(parsedErrors) &&
+                  parsedErrors[0]?.message
+                ) {
+                  errorMessage = parsedErrors[0].message
+                }
+              } catch {
+                // If parsing fails, use the English translation key
+                errorMessage = 'Field.errorPattern'
+              }
+            }
+
+            // Map Zod error codes to ajvKeyword values for translation support
+            let ajvKeyword = 'validation'
+            let messageValues = {}
+
+            // Parse the error details from the Zod error message
+            let parsedErrors = []
+            try {
+              parsedErrors = JSON.parse(zodError.message)
+            } catch (parseError) {
+              // If parsing fails, use the fallback keyword
+            }
+
+            if (Array.isArray(parsedErrors) && parsedErrors.length > 0) {
+              // If there are multiple validation errors, create individual FormErrors for each
+              if (parsedErrors.length > 1) {
+                const errors = parsedErrors.map((error) => {
+                  let errorAjvKeyword = 'validation'
+                  let errorMessageValues = {}
+
+                  if (error.code === 'custom') {
+                    const params = error.params || {}
+                    if (params.minLength !== undefined) {
+                      errorAjvKeyword = 'minLength'
+                      errorMessageValues = { minLength: params.minLength }
+                    } else if (params.maxLength !== undefined) {
+                      errorAjvKeyword = 'maxLength'
+                      errorMessageValues = { maxLength: params.maxLength }
+                    } else if (params.pattern !== undefined) {
+                      errorAjvKeyword = 'pattern'
+                    }
+                  }
+
+                  return new FormError(
+                    error.message || 'Validation failed',
+                    {
+                      ajvKeyword: errorAjvKeyword,
+                      messageValues: errorMessageValues,
+                    }
+                  )
+                })
+
+                // Create a FormError with multiple errors
+                const error = new FormError('Multiple validation errors', {
+                  errors,
+                })
+                initiator = 'schema'
+                throw error
+              }
+
+              // Single error - process as before
+              const firstError = parsedErrors[0]
+              const code = firstError.code
+
+              // Handle both built-in Zod validators and custom .refine() validators
+              if (code === 'custom') {
+                // This is a .refine() validation error
+                const params = firstError.params || {}
+
+                if (params.minLength !== undefined) {
+                  ajvKeyword = 'minLength'
+                  messageValues = { minLength: params.minLength }
+                } else if (params.maxLength !== undefined) {
+                  ajvKeyword = 'maxLength'
+                  messageValues = { maxLength: params.maxLength }
+                } else if (params.pattern !== undefined) {
+                  ajvKeyword = 'pattern'
+                }
+              } else {
+                // Handle built-in Zod validators
+                switch (code) {
+                  case 'too_small':
+                    if (firstError.minimum !== undefined) {
+                      ajvKeyword = 'minLength'
+                      messageValues = { minLength: firstError.minimum }
+                    }
+                    break
+                  case 'too_big':
+                    if (firstError.maximum !== undefined) {
+                      ajvKeyword = 'maxLength'
+                      messageValues = { maxLength: firstError.maximum }
+                    }
+                    break
+                  case 'invalid_format':
+                    if (firstError.format === 'regex') {
+                      ajvKeyword = 'pattern'
+                    }
+                    break
+                  case 'invalid_type':
+                    ajvKeyword = 'type'
+                    break
+                }
+              }
+            }
+
+            const error = new FormError(errorMessage, {
+              ajvKeyword,
+              messageValues,
+            })
+            initiator = 'schema'
+            throw error
+          }
+        } else if (typeof schemaValidatorRef.current === 'function') {
+          // It's an AJV validator function
+          if (!schemaValidatorRef.current(value)) {
+            const error = ajvErrorsToOneFormError(
+              schemaValidatorRef.current.errors,
+              value
+            )
+            initiator = 'schema'
+            throw error
+          }
         }
       }
 
