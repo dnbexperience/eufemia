@@ -119,8 +119,9 @@ render(
 You can also use a `schema` to define the properties of the nested fields:
 
 ```tsx
-import { Form, Field, JSONSchema } from '@dnb/eufemia/extensions/forms'
+import { Form, Field, JSONSchema, Ajv } from '@dnb/eufemia/extensions/forms'
 
+const ajv = new Ajv()
 const isolatedSchema: JSONSchema = {
   type: 'object',
   properties: {
@@ -133,7 +134,7 @@ const isolatedSchema: JSONSchema = {
 }
 
 render(
-  <Form.Handler>
+  <Form.Handler ajvInstance={ajv}>
     <Form.Isolation schema={isolatedSchema}>
       <Field.PhoneNumber path="/phoneNumber" />
     </Form.Isolation>

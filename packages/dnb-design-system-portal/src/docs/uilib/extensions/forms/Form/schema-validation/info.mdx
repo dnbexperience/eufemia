@@ -75,8 +75,9 @@ These two examples will result in the same validation for the user:
 vs.
 
 ```tsx
-import { JSONSchema } from '@dnb/eufemia/extensions/forms'
+import { JSONSchema, Ajv } from '@dnb/eufemia/extensions/forms'
 
+const ajv = new Ajv()
 const schema: JSONSchema = {
   properties: {
     name: { minLength: 3 },
@@ -86,7 +87,7 @@ const schema: JSONSchema = {
   required: ['name', 'email', 'birthyear'],
 }
 
-<Form.Handler data={user} schema={schema}>
+<Form.Handler data={user} schema={schema} ajvInstance={ajv}>
   <Field.String path="/name" label="Name" />
   <Field.Email path="/email" label="E-mail" />
   <Field.Number path="/birthyear" label="Birth year" />
