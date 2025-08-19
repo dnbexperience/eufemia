@@ -194,8 +194,9 @@ function makeRollupConfig(
   const globals = {
     react: 'React',
     'react-dom': 'ReactDOM',
+    zod: 'z',
   }
-  const external = Object.keys(globals)
+  const external = [...Object.keys(globals), 'zod']
 
   excludes.forEach((excl) => {
     if (excl.global) {
