@@ -23,11 +23,21 @@ import { HelpProps } from '../../components/help-button/HelpButtonInline'
 
 export type * from 'json-schema'
 export type JSONSchema = JSONSchema7
+
+/**
+ * Base types for JSON Schema validation (AJV-based).
+ * IMPORTANT: When using these types, you MUST provide ajvInstance to Form.Handler
+ */
 export type AllJSONSchemaVersionsBasis<DataType> =
   | JSONSchema4
   | JSONSchema6
   | JSONSchema7
   | JSONSchemaType<DataType>
+
+/**
+ * Union type supporting all JSON Schema (AJV).
+ * IMPORTANT: When using these types, you MUST provide ajvInstance to Form.Handler
+ */
 export type AllJSONSchemaVersions<DataType = unknown> =
   | AllJSONSchemaVersionsBasis<DataType>
 
