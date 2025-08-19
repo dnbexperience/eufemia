@@ -4423,6 +4423,7 @@ __metadata:
     vd-tool: "npm:4.0.2"
     wait-on: "npm:6.0.0"
     what-input: "npm:5.2.12"
+    zod: "npm:4.0.17"
   peerDependencies:
     "@types/react": ^17 || ^18
     "@types/react-dom": ^17 || ^18
@@ -38552,6 +38553,13 @@ __metadata:
     read: "npm:^1.0.7"
     strip-ansi: "npm:^5.2.0"
   checksum: 10/398b368d860d25a9821efeea32eeb9bf936725dc3fc40e24fc10caa068ddbe5b1a7ea9146899199d5e7bbeeead17cbba5b97fe72398fe04c26a08c47c15f4916
+  languageName: node
+  linkType: hard
+
+"zod@npm:4.0.17":
+  version: 4.0.17
+  resolution: "zod@npm:4.0.17"
+  checksum: 10/bfdb7f1a7a3dd17e83c6720f9f763d522d4914962c81844fe408512e55df11378c6032d48dea4ec6ca6a260bdd9e92c59ec75bd40cb49f4c12115366744f2def
   languageName: node
   linkType: hard
 
