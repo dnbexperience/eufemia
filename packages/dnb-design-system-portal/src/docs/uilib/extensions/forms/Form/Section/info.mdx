@@ -160,8 +160,14 @@ render(
 You can also use a `schema` to define the properties of the nested fields:
 
 ```tsx
-import { Form, Field, JSONSchema } from '@dnb/eufemia/extensions/forms'
+import {
+  Form,
+  Field,
+  JSONSchema,
+  Ajv,
+} from '@dnb/eufemia/extensions/forms'
 
+const ajv = new Ajv()
 const MySection = (props) => {
   return (
     <Form.Section {...props}>
@@ -187,7 +193,7 @@ const schema: JSONSchema = {
 }
 
 render(
-  <Form.Handler schema={schema}>
+  <Form.Handler schema={schema} ajvInstance={ajv}>
     <MySection path="/mySection" />
   </Form.Handler>,
 )

@@ -27,8 +27,9 @@ Here is a indeterminate state (partially checked) [working example](/uilib/exten
 You can use a Ajv schema to validate the value with either `const` or `enum`.
 
 ```tsx
-import { Form, Field } from '@dnb/eufemia/extensions/forms'
+import { Form, Field, Ajv } from '@dnb/eufemia/extensions/forms'
 
+const ajv = new Ajv()
 const schema = {
   type: 'object',
   properties: {
@@ -40,7 +41,11 @@ const schema = {
 }
 
 render(
-  <Form.Handler schema={schema} data={{ myField: false }}>
+  <Form.Handler
+    schema={schema}
+    ajvInstance={ajv}
+    data={{ myField: false }}
+  >
     <Field.Boolean path="/myField" />
   </Form.Handler>,
 )
