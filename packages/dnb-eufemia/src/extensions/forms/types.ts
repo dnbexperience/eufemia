@@ -19,6 +19,7 @@ import {
 } from './hooks/useTranslation'
 import { GetValueByPath } from './hooks/useDataValue'
 import { HelpProps } from '../../components/help-button/HelpButtonInline'
+import * as z from 'zod'
 
 export type * from 'json-schema'
 export type JSONSchema = JSONSchema7
@@ -29,6 +30,7 @@ export type AllJSONSchemaVersionsBasis<DataType> =
   | JSONSchemaType<DataType>
 export type AllJSONSchemaVersions<DataType = unknown> =
   | AllJSONSchemaVersionsBasis<DataType>
+  | z.ZodSchema<DataType>
 
   // In order to support "schema = { ... } as const"
   | (Omit<AllJSONSchemaVersionsBasis<DataType>, 'required'> & {
