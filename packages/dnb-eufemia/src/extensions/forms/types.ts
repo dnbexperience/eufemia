@@ -23,11 +23,33 @@ import * as z from 'zod'
 
 export type * from 'json-schema'
 export type JSONSchema = JSONSchema7
+
+/**
+ * Base types for JSON Schema validation (AJV-based).
+ * IMPORTANT: When using these types, you MUST provide ajvInstance to Form.Handler
+ */
 export type AllJSONSchemaVersionsBasis<DataType> =
   | JSONSchema4
   | JSONSchema6
   | JSONSchema7
   | JSONSchemaType<DataType>
+
+/**
+ * Union type supporting both JSON Schema (AJV) and Zod schemas.
+ *
+ * IMPORTANT:
+ * - JSON Schema types require ajvInstance prop in Form.Handler
+ * - Zod schemas work without additional setup
+ *
+ * @example
+ * // JSON Schema (requires ajvInstance)
+ * const jsonSchema = { type: 'string', minLength: 2 }
+ * <Form.Handler schema={jsonSchema} ajvInstance={new Ajv({ allErrors: true })}>
+ *
+ * // Zod schema (works out of the box)
+ * const zodSchema = z.string().min(2)
+ * <Form.Handler schema={zodSchema}>
+ */
 export type AllJSONSchemaVersions<DataType = unknown> =
   | AllJSONSchemaVersionsBasis<DataType>
   | z.ZodSchema<DataType>
@@ -38,6 +60,10 @@ export type AllJSONSchemaVersions<DataType = unknown> =
     })
 export { JSONSchemaType }
 
+/**
+ * AJV-specific JSON Schema type.
+ * IMPORTANT: This type is for AJV usage and requires ajvInstance prop in Form.Handler
+ */
 export type ValidatorReturnSync<Value> =
   | Error
   | FormError

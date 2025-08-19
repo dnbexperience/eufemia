@@ -17,7 +17,7 @@ export const ProviderProperties: PropertiesTableProps = {
     status: 'optional',
   },
   schema: {
-    doc: 'JSON Schema for validation of the data set.',
+    doc: 'JSON Schema for validation of the data set. IMPORTANT: When using JSON Schema validation, you MUST provide an ajvInstance prop.',
     type: 'object',
     status: 'optional',
   },
@@ -47,7 +47,7 @@ export const ProviderProperties: PropertiesTableProps = {
     status: 'optional',
   },
   ajvInstance: {
-    doc: 'Provide your own custom Ajv instance. More info in the [Schema validation](/uilib/extensions/forms/Form/schema-validation/#custom-ajv-instance-and-keywords) section.',
+    doc: 'REQUIRED when using JSON Schema validation. Provide your own custom Ajv instance: import Ajv from "ajv/dist/2020" and pass ajvInstance={new Ajv({ allErrors: true })}. This ensures your bundle only includes AJV when you actually need it. More info in the [Schema validation](/uilib/extensions/forms/Form/schema-validation/#custom-ajv-instance-and-keywords) section.',
     type: 'ajv',
     status: 'optional',
   },
