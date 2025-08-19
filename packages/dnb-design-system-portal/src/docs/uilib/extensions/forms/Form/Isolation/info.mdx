@@ -116,12 +116,47 @@ render(
 
 ## Schema support
 
-You can also use a `schema` to define the properties of the nested fields:
+You can also use a `schema` to define the properties of the nested fields. **Zod schemas are preferred** as they don't require AJV:
+
+**Using Zod schemas**
 
 ```tsx
-import { Form, Field, JSONSchema, Ajv } from '@dnb/eufemia/extensions/forms'
+import { Form, Field, z } from '@dnb/eufemia/extensions/forms'
 
-const ajv = new Ajv()
+const MySection = (props) => {
+  return (
+    <Form.Section {...props}>
+      <Field.PhoneNumber path="/phoneNumber" />
+    </Form.Section>
+  )
+}
+
+const schema = z.object({
+  phoneNumber: z.string().regex(/^[0-9]{10}$/),
+})
+
+render(
+  <Form.Handler>
+    <Form.Isolation schema={schema}>
+      <Field.PhoneNumber path="/phoneNumber" />
+    </Form.Isolation>
+  </Form.Handler>,
+)
+```
+
+**Using JSON Schema (Ajv)**
+
+```tsx
+import {
+  Form,
+  Field,
+  JSONSchema,
+  Ajv,
+} from '@dnb/eufemia/extensions/forms'
+
+const ajv = new Ajv({
+  allErrors: true,
+})
 const isolatedSchema: JSONSchema = {
   type: 'object',
   properties: {

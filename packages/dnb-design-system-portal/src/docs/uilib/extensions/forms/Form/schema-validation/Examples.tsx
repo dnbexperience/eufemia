@@ -9,7 +9,9 @@ import {
 import { trash as TrashIcon } from '@dnb/eufemia/src/icons'
 
 export const SingleFieldSchema = () => {
-  const ajv = new Ajv()
+  const ajv = new Ajv({
+    allErrors: true,
+  })
   return (
     <ComponentBox scope={{ ajv }}>
       <Form.Handler ajvInstance={ajv}>
@@ -20,7 +22,9 @@ export const SingleFieldSchema = () => {
 }
 
 export const DataSetSchema = () => {
-  const ajv = new Ajv()
+  const ajv = new Ajv({
+    allErrors: true,
+  })
   return (
     <ComponentBox scope={{ ajv }}>
       <Form.Handler
@@ -50,7 +54,9 @@ export const DataSetSchema = () => {
 }
 
 export const IfRuleSchema = () => {
-  const ajv = new Ajv()
+  const ajv = new Ajv({
+    allErrors: true,
+  })
   return (
     <ComponentBox scope={{ ajv }}>
       <Form.Handler
@@ -95,7 +101,9 @@ export const IfRuleSchema = () => {
 }
 
 export const DependantListSchema = () => {
-  const ajv = new Ajv()
+  const ajv = new Ajv({
+    allErrors: true,
+  })
   return (
     <ComponentBox scope={{ TrashIcon, ajv }}>
       <Form.Handler

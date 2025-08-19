@@ -173,7 +173,9 @@ export const Default = () => {
 }
 
 export const ValidationWithJsonSchema = () => {
-  const ajv = new Ajv()
+  const ajv = new Ajv({
+    allErrors: true,
+  })
   return (
     <ComponentBox
       scope={{

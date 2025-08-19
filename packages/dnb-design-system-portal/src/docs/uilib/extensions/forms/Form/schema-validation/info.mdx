@@ -16,6 +16,17 @@ showTabs: true
 
 ## About schemas
 
+** Recommendation: Use Zod schemas when possible**
+
+Zod schemas are the preferred choice for validation as they:
+
+- Work out of the box without additional dependencies
+- Provide better TypeScript integration
+- Are more performant
+- Have a more intuitive API
+
+JSON Schema validation is still supported but requires explicitly providing an AJV instance.
+
 JSON Schema is a vocabulary for annotating and validating data in js. More about JSON Schema on [json-schema.org](https://json-schema.org/)
 
 A schema can be used from the simplest description of the data type of a value:
@@ -54,7 +65,7 @@ Results in:
 }
 ```
 
-## Using schema with DataContext
+## Using schema with Form.Handler (DataContext)
 
 These two examples will result in the same validation for the user:
 
@@ -75,9 +86,29 @@ These two examples will result in the same validation for the user:
 vs.
 
 ```tsx
+import { Form, Field, z } from '@dnb/eufemia/extensions/forms'
+
+const schema = z.object({
+  name: z.string().min(3),
+  email: z.string().email(),
+  birthyear: z.number().min(1900).max(2023),
+})
+
+<Form.Handler data={user} schema={schema}>
+  <Field.String path="/name" label="Name" />
+  <Field.Email path="/email" label="E-mail" />
+  <Field.Number path="/birthyear" label="Birth year" />
+</Form.Handler>
+```
+
+**Using JSON Schema (Ajv)**
+
+```tsx
 import { JSONSchema, Ajv } from '@dnb/eufemia/extensions/forms'
 
-const ajv = new Ajv()
+const ajv = new Ajv({
+    allErrors: true,
+  })
 const schema: JSONSchema = {
   properties: {
     name: { minLength: 3 },
@@ -101,6 +132,23 @@ Also, note you can describe the schema without using the `type` property, as the
 ## Fields which are disabled or read-only
 
 Fields which have the `disabled` property or the `readOnly` property, will skip validation.
+
+## Zod schemas and TypeScript
+
+For better TypeScript integration, consider using Zod schemas instead:
+
+```ts
+import { z } from '@dnb/eufemia/extensions/forms'
+
+const schema = z.object({
+  name: z.string().min(3),
+  email: z.string().email(),
+  birthyear: z.number().min(1900).max(2023),
+})
+
+// The type is automatically inferred
+type UserData = z.infer<typeof schema>
+```
 
 ## JSONSchema and TypeScript
 
