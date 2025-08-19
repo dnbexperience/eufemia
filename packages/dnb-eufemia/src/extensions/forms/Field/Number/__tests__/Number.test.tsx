@@ -889,7 +889,7 @@ describe('Field.Number', () => {
 
         const status = document.querySelector('.dnb-form-status')
         expect(status).toHaveTextContent(
-          'The field value (foo) type must be number'
+          'Invalid input: expected number, received string'
         )
 
         log.mockRestore()
@@ -916,6 +916,49 @@ describe('Field.Number', () => {
         { myValue: 0 },
         expect.anything()
       )
+    })
+
+    describe('validation using Zod schema', () => {
+      it('should show error for invalid value using Zod schema', async () => {
+        const { z } = await import('zod')
+        const schema = z.number().min(5, 'Minimum 5 required')
+
+        render(
+          <Field.Number value={3} schema={schema} validateInitially />
+        )
+        expect(screen.getByRole('alert')).toBeInTheDocument()
+        expect(
+          screen.getByText('Verdien kan ikke være kortere enn 5 tegn.')
+        ).toBeInTheDocument()
+      })
+
+      it('should not show error for valid value using Zod schema', async () => {
+        const { z } = await import('zod')
+        const schema = z.number().min(3, 'Minimum 3 required')
+
+        render(
+          <Field.Number value={5} schema={schema} validateInitially />
+        )
+        expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+      })
+
+      it('should show error on blur for invalid value using Zod schema', async () => {
+        const { z } = await import('zod')
+        const schema = z.number().min(5, 'Minimum 5 required')
+
+        render(
+          <Field.Number value={3} schema={schema} validateUnchanged />
+        )
+        const input = document.querySelector('input')
+        input.focus()
+        fireEvent.blur(input)
+        await waitFor(() => {
+          expect(screen.getByRole('alert')).toBeInTheDocument()
+        })
+        expect(
+          screen.getByText('Verdien kan ikke være kortere enn 5 tegn.')
+        ).toBeInTheDocument()
+      })
     })
   })
 

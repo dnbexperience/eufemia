@@ -1450,6 +1450,22 @@ export default function useFieldProps<Value, EmptyValue, Props>(
                       errorMessageValues = { maxLength: params.maxLength }
                     } else if (params.pattern !== undefined) {
                       errorAjvKeyword = 'pattern'
+                    } else if (params.minimum !== undefined) {
+                      errorAjvKeyword = 'minimum'
+                      messageValues = { minimum: params.minimum }
+                    } else if (params.maximum !== undefined) {
+                      ajvKeyword = 'maximum'
+                      messageValues = { maximum: params.maximum }
+                    } else if (params.exclusiveMinimum !== undefined) {
+                      errorAjvKeyword = 'exclusiveMinimum'
+                      messageValues = {
+                        exclusiveMinimum: params.exclusiveMinimum,
+                      }
+                    } else if (params.exclusiveMaximum !== undefined) {
+                      errorAjvKeyword = 'exclusiveMaximum'
+                      messageValues = {
+                        exclusiveMaximum: params.exclusiveMaximum,
+                      }
                     }
                   }
 
@@ -1487,6 +1503,22 @@ export default function useFieldProps<Value, EmptyValue, Props>(
                   messageValues = { maxLength: params.maxLength }
                 } else if (params.pattern !== undefined) {
                   ajvKeyword = 'pattern'
+                } else if (params.minimum !== undefined) {
+                  ajvKeyword = 'minimum'
+                  messageValues = { minimum: params.minimum }
+                } else if (params.maximum !== undefined) {
+                  ajvKeyword = 'maximum'
+                  messageValues = { maximum: params.maximum }
+                } else if (params.exclusiveMinimum !== undefined) {
+                  ajvKeyword = 'exclusiveMinimum'
+                  messageValues = {
+                    exclusiveMinimum: params.exclusiveMinimum,
+                  }
+                } else if (params.exclusiveMaximum !== undefined) {
+                  ajvKeyword = 'exclusiveMaximum'
+                  messageValues = {
+                    exclusiveMaximum: params.exclusiveMaximum,
+                  }
                 }
               } else {
                 // Handle built-in Zod validators

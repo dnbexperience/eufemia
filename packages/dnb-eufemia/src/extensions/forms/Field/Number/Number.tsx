@@ -5,6 +5,8 @@ import React, {
   useEffect,
   useRef,
 } from 'react'
+import classnames from 'classnames'
+import * as z from 'zod'
 import { InputMasked, Button } from '../../../../components'
 import { InputMaskedProps } from '../../../../components/InputMasked'
 import type {
@@ -12,18 +14,17 @@ import type {
   InputProps,
   InputSize,
 } from '../../../../components/Input'
+import { pickSpacingProps } from '../../../../components/flex/utils'
+import { ButtonProps, ButtonSize } from '../../../../components/Button'
+import { clamp } from '../../../../components/slider/SliderHelpers'
 import SharedContext from '../../../../shared/Context'
 import FieldBlockContext from '../../FieldBlock/FieldBlockContext'
-import classnames from 'classnames'
 import FieldBlock, {
   Props as FieldBlockProps,
   FieldBlockWidth,
 } from '../../FieldBlock'
 import { useFieldProps } from '../../hooks'
-import { FieldProps, AllJSONSchemaVersions } from '../../types'
-import { pickSpacingProps } from '../../../../components/flex/utils'
-import { ButtonProps, ButtonSize } from '../../../../components/Button'
-import { clamp } from '../../../../components/slider/SliderHelpers'
+import { FieldProps } from '../../types'
 import DataContext from '../../DataContext/Context'
 
 export type Props = FieldProps<number, undefined | number> & {
@@ -76,25 +77,90 @@ function NumberComponent(props: Props) {
     showStepControls,
   } = props
 
-  const schema = useMemo<AllJSONSchemaVersions>(
-    () =>
-      props.schema ?? {
-        type: 'number',
-        minimum: props.minimum ?? defaultMinimum,
-        maximum: props.maximum ?? defaultMaximum,
-        exclusiveMinimum: props.exclusiveMinimum,
-        exclusiveMaximum: props.exclusiveMaximum,
-        multipleOf: props.multipleOf,
-      },
-    [
-      props.schema,
-      props.minimum,
-      props.maximum,
-      props.exclusiveMinimum,
-      props.exclusiveMaximum,
-      props.multipleOf,
-    ]
-  )
+  const schema = useMemo(() => {
+    // If a custom schema is provided, use it (could be JSON Schema or Zod)
+    if (props.schema) {
+      return props.schema
+    }
+
+    // Only create our Zod schema when no schema is provided
+    return z.number().superRefine((val, ctx) => {
+      // Always validate against JavaScript safe integer limits
+      if (val < Number.MIN_SAFE_INTEGER) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'NumberField.errorMinimum',
+          params: { minimum: Number.MIN_SAFE_INTEGER },
+        })
+      }
+
+      if (val > Number.MAX_SAFE_INTEGER) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'NumberField.errorMaximum',
+          params: { maximum: Number.MAX_SAFE_INTEGER },
+        })
+      }
+
+      // Check minimum if explicitly set
+      if (props.minimum !== undefined && val < props.minimum) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'NumberField.errorMinimum',
+          params: { minimum: props.minimum },
+        })
+      }
+
+      // Check maximum if explicitly set
+      if (props.maximum !== undefined && val > props.maximum) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'NumberField.errorMaximum',
+          params: { maximum: props.maximum },
+        })
+      }
+
+      // Check exclusive minimum if explicitly set
+      if (
+        props.exclusiveMinimum !== undefined &&
+        val <= props.exclusiveMinimum
+      ) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'NumberField.errorExclusiveMinimum',
+          params: { exclusiveMinimum: props.exclusiveMinimum },
+        })
+      }
+
+      // Check exclusive maximum if explicitly set
+      if (
+        props.exclusiveMaximum !== undefined &&
+        val >= props.exclusiveMaximum
+      ) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'NumberField.errorExclusiveMaximum',
+          params: { exclusiveMaximum: props.exclusiveMaximum },
+        })
+      }
+
+      // Check multipleOf
+      if (props.multipleOf !== undefined && val % props.multipleOf !== 0) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'Field.errorPattern',
+          params: { multipleOf: props.multipleOf },
+        })
+      }
+    })
+  }, [
+    props.schema,
+    props.minimum,
+    props.maximum,
+    props.exclusiveMinimum,
+    props.exclusiveMaximum,
+    props.multipleOf,
+  ])
 
   const toInput = useCallback((external: number | undefined) => {
     if (external === undefined) {
