@@ -1,7 +1,7 @@
 import React from 'react'
 import { isCI } from 'repo-utils'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
-import { fireEvent, render, waitFor } from '@testing-library/react'
+import { fireEvent, render, waitFor, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import SharedProvider from '../../../../../shared/Provider'
 import DataContext from '../../../DataContext/Context'
@@ -1524,7 +1524,7 @@ describe('Field.PhoneNumber', () => {
 
     const input = document.querySelector(
       '.dnb-forms-field-phone-number__number input'
-    )
+    ) as HTMLInputElement
     const countryCode = document.querySelector(
       '.dnb-forms-field-phone-number__country-code input'
     )
@@ -1581,6 +1581,55 @@ describe('Field.PhoneNumber', () => {
           value: '+45 123​​​​​​​​​',
         },
       })
+    })
+  })
+
+  describe('validation using Zod schema', () => {
+    it('should show error for invalid value using Zod schema', async () => {
+      const { z } = await import('zod')
+      const schema = z.string().min(10, 'Minimum 10 characters required')
+
+      render(
+        <Field.PhoneNumber value="123" schema={schema} validateInitially />
+      )
+      expect(screen.getByRole('alert')).toBeInTheDocument()
+      expect(
+        screen.getByText('Verdien kan ikke være kortere enn 10 tegn.')
+      ).toBeInTheDocument()
+    })
+
+    it('should not show error for valid value using Zod schema', async () => {
+      const { z } = await import('zod')
+      const schema = z.string().min(10, 'Minimum 10 characters required')
+
+      render(
+        <Field.PhoneNumber
+          value="1234567890"
+          schema={schema}
+          validateInitially
+        />
+      )
+      expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+    })
+
+    it('should show error on blur for invalid value using Zod schema', async () => {
+      const { z } = await import('zod')
+      const schema = z.string().min(10, 'Minimum 10 characters required')
+
+      render(
+        <Field.PhoneNumber value="123" schema={schema} validateUnchanged />
+      )
+      const input = document.querySelector(
+        '.dnb-forms-field-phone-number__number input'
+      ) as HTMLInputElement
+      input.focus()
+      fireEvent.blur(input)
+      await waitFor(() => {
+        expect(screen.getByRole('alert')).toBeInTheDocument()
+      })
+      expect(
+        screen.getByText('Verdien kan ikke være kortere enn 10 tegn.')
+      ).toBeInTheDocument()
     })
   })
 

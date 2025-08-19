@@ -5,9 +5,11 @@ import React, {
   useEffect,
   useRef,
 } from 'react'
+import classnames from 'classnames'
+import * as z from 'zod'
 import { Autocomplete } from '../../../../components'
 import { InputMaskedProps } from '../../../../components/InputMasked'
-import classnames from 'classnames'
+import { pickSpacingProps } from '../../../../components/flex/utils'
 import {
   CountryISO,
   type CountryLang,
@@ -18,11 +20,7 @@ import StringField, { Props as StringFieldProps } from '../String'
 import { Props as FieldBlockProps } from '../../FieldBlock'
 import CompositionField from '../Composition'
 import { useFieldProps } from '../../hooks'
-import {
-  FieldPropsWithExtraValue,
-  AllJSONSchemaVersions,
-} from '../../types'
-import { pickSpacingProps } from '../../../../components/flex/utils'
+import { FieldPropsWithExtraValue } from '../../types'
 import SharedContext from '../../../../shared/Context'
 import {
   countryFilter,
@@ -168,14 +166,24 @@ function PhoneNumber(props: Props) {
     [props.emptyValue]
   )
 
-  const schema = useMemo<AllJSONSchemaVersions>(
-    () =>
-      props.schema ?? {
-        type: 'string',
-        pattern: props.pattern,
-      },
-    [props.schema, props.pattern]
-  )
+  const schema = useMemo(() => {
+    // If a custom schema is provided, use it (could be JSON Schema or Zod)
+    if (props.schema) {
+      return props.schema
+    }
+
+    // Create a custom Zod schema for phone number validation
+    return z.string().superRefine((val, ctx) => {
+      // Check pattern if provided
+      if (props.pattern && !new RegExp(props.pattern).test(val)) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'Field.errorPattern',
+          params: { pattern: props.pattern },
+        })
+      }
+    })
+  }, [props.schema, props.pattern])
   const defaultProps: Partial<Props> = {
     schema,
     errorMessages,
