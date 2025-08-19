@@ -1,19 +1,28 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import { Flex } from '@dnb/eufemia/src'
-import { Form, Field, Iterate } from '@dnb/eufemia/src/extensions/forms'
+import {
+  Form,
+  Field,
+  Iterate,
+  Ajv,
+} from '@dnb/eufemia/src/extensions/forms'
 import { trash as TrashIcon } from '@dnb/eufemia/src/icons'
 
 export const SingleFieldSchema = () => {
+  const ajv = new Ajv()
   return (
-    <ComponentBox>
-      <Field.String schema={{ type: 'string', minLength: 5 }} />
+    <ComponentBox scope={{ ajv }}>
+      <Form.Handler ajvInstance={ajv}>
+        <Field.String schema={{ type: 'string', minLength: 5 }} />
+      </Form.Handler>
     </ComponentBox>
   )
 }
 
 export const DataSetSchema = () => {
+  const ajv = new Ajv()
   return (
-    <ComponentBox>
+    <ComponentBox scope={{ ajv }}>
       <Form.Handler
         data={{
           address: 'Prefilled address',
@@ -25,6 +34,7 @@ export const DataSetSchema = () => {
           },
           required: ['name', 'address'],
         }}
+        ajvInstance={ajv}
       >
         <Form.Card gap="small" bottom="small">
           <Form.MainHeading>Company information</Form.MainHeading>
@@ -40,8 +50,9 @@ export const DataSetSchema = () => {
 }
 
 export const IfRuleSchema = () => {
+  const ajv = new Ajv()
   return (
-    <ComponentBox>
+    <ComponentBox scope={{ ajv }}>
       <Form.Handler
         data={{}}
         schema={{
@@ -61,6 +72,7 @@ export const IfRuleSchema = () => {
           then: { required: ['name', 'companyName'] },
           else: { required: ['name'] },
         }}
+        ajvInstance={ajv}
       >
         <Form.Card gap="small">
           <Form.MainHeading>Customer information</Form.MainHeading>
@@ -83,8 +95,9 @@ export const IfRuleSchema = () => {
 }
 
 export const DependantListSchema = () => {
+  const ajv = new Ajv()
   return (
-    <ComponentBox scope={{ TrashIcon }}>
+    <ComponentBox scope={{ TrashIcon, ajv }}>
       <Form.Handler
         data={{
           accounts: [{}],
@@ -146,6 +159,7 @@ export const DependantListSchema = () => {
             },
           ],
         }}
+        ajvInstance={ajv}
       >
         <Flex.Vertical gap="small">
           <Form.MainHeading>Customer information</Form.MainHeading>
