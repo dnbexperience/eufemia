@@ -201,10 +201,33 @@ render(
 
 You can define an error message in a `schema` for one field:
 
+**Using Zod schemas**
+
+```tsx
+import { Form, Field, z } from '@dnb/eufemia/extensions/forms'
+
+const schema = z
+  .string()
+  .regex(
+    /^([a-z]+)$/,
+    'You can provide a custom message in the schema itself',
+  )
+
+render(
+  <Form.Handler>
+    <Field.String schema={schema} value="123" validateInitially />
+  </Form.Handler>,
+)
+```
+
+**Using JSON Schema (Ajv)**
+
 ```tsx
 import { Form, Field, Ajv } from '@dnb/eufemia/extensions/forms'
 
-const ajv = new Ajv()
+const ajv = new Ajv({
+  allErrors: true,
+})
 const schema = {
   type: 'string',
   pattern: '^([a-z]+)$',
@@ -222,8 +245,33 @@ render(
 
 You can also define an error message in a `schema` for the entire form:
 
+**Using Zod schemas**
+
 ```tsx
-const ajv = new Ajv()
+import { Form, Field, z } from '@dnb/eufemia/extensions/forms'
+
+const schema = z.object({
+  myKey: z
+    .string()
+    .regex(
+      /^([a-z]+)$/,
+      'You can provide a custom message in the schema itself',
+    ),
+})
+
+render(
+  <Form.Handler schema={schema}>
+    <Field.String path="/myKey" value="123" validateInitially />
+  </Form.Handler>,
+)
+```
+
+**Using JSON Schema (Ajv)**
+
+```tsx
+const ajv = new Ajv({
+  allErrors: true,
+})
 const schema = {
   type: 'object',
   properties: {
@@ -245,8 +293,31 @@ render(
 
 Or in a Form.Handler `schema` with several validation rules:
 
+**Using Zod schemas**
+
 ```tsx
-const ajv = new Ajv()
+import { Form, Field, z } from '@dnb/eufemia/extensions/forms'
+
+const schema = z.object({
+  myKey: z
+    .string()
+    .min(2, 'minLength message in provider schema')
+    .max(3, 'maxLength message in provider schema'),
+})
+
+render(
+  <Form.Handler schema={schema}>
+    <Field.String path="/myKey" value="123" validateInitially />
+  </Form.Handler>,
+)
+```
+
+**Using JSON Schema (Ajv)**
+
+```tsx
+const ajv = new Ajv({
+  allErrors: true,
+})
 const schema = {
   type: 'object',
   properties: {
@@ -284,7 +355,9 @@ Here is an example of how to do expose a custom error message for the `Field.err
 ```tsx
 import { Form, Field, Ajv } from '@dnb/eufemia/extensions/forms'
 
-const ajv = new Ajv()
+const ajv = new Ajv({
+    allErrors: true,
+  })
 
 render(
   <Form.Handler
