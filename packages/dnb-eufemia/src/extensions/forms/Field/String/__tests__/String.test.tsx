@@ -985,6 +985,49 @@ describe('Field.String', () => {
       })
     })
 
+    describe('validation using Zod schema', () => {
+      it('should show error for invalid value using Zod schema', async () => {
+        const { z } = await import('zod')
+        const schema = z.string().min(5, 'Minimum 5 characters required')
+
+        render(
+          <Field.String value="abc" schema={schema} validateInitially />
+        )
+        expect(screen.getByRole('alert')).toBeInTheDocument()
+        expect(
+          screen.getByText('Verdien kan ikke være kortere enn 5 tegn.')
+        ).toBeInTheDocument()
+      })
+
+      it('should not show error for valid value using Zod schema', async () => {
+        const { z } = await import('zod')
+        const schema = z.string().min(3, 'Minimum 3 characters required')
+
+        render(
+          <Field.String value="abc" schema={schema} validateInitially />
+        )
+        expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+      })
+
+      it('should show error on blur for invalid value using Zod schema', async () => {
+        const { z } = await import('zod')
+        const schema = z.string().min(5, 'Minimum 5 characters required')
+
+        render(
+          <Field.String value="abc" schema={schema} validateUnchanged />
+        )
+        const input = document.querySelector('input')
+        input.focus()
+        fireEvent.blur(input)
+        await waitFor(() => {
+          expect(screen.getByRole('alert')).toBeInTheDocument()
+        })
+        expect(
+          screen.getByText('Verdien kan ikke være kortere enn 5 tegn.')
+        ).toBeInTheDocument()
+      })
+    })
+
     describe('onChangeValidator', () => {
       it('should render error message given as JSX', async () => {
         const onChangeValidator: Validator<string> = jest.fn(() => {
