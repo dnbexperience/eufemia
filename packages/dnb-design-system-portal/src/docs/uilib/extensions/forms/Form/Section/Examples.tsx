@@ -278,7 +278,9 @@ export const AllFieldsRequired = () => {
           required: ['myRequiredSection'],
         }
 
-        const ajv = new Ajv()
+        const ajv = new Ajv({
+          allErrors: true,
+        })
         return (
           <Flex.Stack>
             <Form.Handler
@@ -344,7 +346,9 @@ export const SchemaSupport = () => {
           },
         }
 
-        const ajv = new Ajv()
+        const ajv = new Ajv({
+          allErrors: true,
+        })
         return (
           <Form.Handler
             onSubmit={async (data) => console.log('onSubmit', data)}

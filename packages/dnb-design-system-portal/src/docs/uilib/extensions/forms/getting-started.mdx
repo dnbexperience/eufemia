@@ -601,12 +601,28 @@ The `pattern` property is a regular expression (RegExp) that the value of the fi
 
 ### schema
 
-The `schema` property is a JSON schema that the value of the field must match:
+The `schema` property is a schema that the value of the field must match. **Zod schemas are preferred** as they don't require AJV:
+
+**Preferred: Using Zod schemas (no AJV required)**
+
+```tsx
+import { Form, Field, z } from '@dnb/eufemia/extensions/forms'
+
+const schema = z.string().min(5)
+
+<Form.Handler>
+  <Field.String schema={schema} />
+</Form.Handler>
+```
+
+**Alternative: Using JSON Schema (requires AJV)**
 
 ```tsx
 import { Form, Field, Ajv } from '@dnb/eufemia/extensions/forms'
 
-const ajv = new Ajv()
+const ajv = new Ajv({
+    allErrors: true,
+  })
 const schema = {
   /* AJV Schema */
 }
