@@ -17,7 +17,7 @@ export const ProviderProperties: PropertiesTableProps = {
     status: 'optional',
   },
   schema: {
-    doc: 'JSON Schema for validation of the data set.',
+    doc: 'JSON Schema for validation of the data set. IMPORTANT: When using JSON Schema validation, you MUST provide an `ajvInstance` prop.',
     type: 'object',
     status: 'optional',
   },
@@ -28,12 +28,12 @@ export const ProviderProperties: PropertiesTableProps = {
   },
   minimumAsyncBehaviorTime: {
     doc: 'Minimum time to display the submit indicator. Default is 1s.',
-    type: 'boolean',
+    type: 'number',
     status: 'optional',
   },
   asyncSubmitTimeout: {
     doc: 'The maximum time to display the submit indicator before it changes back to normal. In case something went wrong during submission. Default is 30s.',
-    type: 'boolean',
+    type: 'number',
     status: 'optional',
   },
   scrollTopOnSubmit: {
@@ -47,7 +47,7 @@ export const ProviderProperties: PropertiesTableProps = {
     status: 'optional',
   },
   ajvInstance: {
-    doc: 'Provide your own custom Ajv instance. More info in the [Schema validation](/uilib/extensions/forms/Form/schema-validation/#custom-ajv-instance-and-keywords) section.',
+    doc: 'REQUIRED when using JSON Schema validation. Provide your own custom Ajv instance: import Ajv from "@dnb/eufemia/extensions/forms" and pass ajvInstance={new Ajv({ allErrors: true })}. This ensures your bundle only includes AJV when you actually need it. More info in the [Schema validation](/uilib/extensions/forms/Form/schema-validation/#custom-ajv-instance-and-keywords) section.',
     type: 'ajv',
     status: 'optional',
   },
@@ -110,12 +110,12 @@ export const ProviderEvents: PropertiesTableProps = {
     status: 'optional',
   },
   onSubmitRequest: {
-    doc: 'Will be called when the user tries to submit, but errors stop the data from being submitted. The first parameter is aa object containing the `getErrors` method, returning an array with field errors. Each error object contains the `path`, `error` and `props` of the field. You can use this to log the errors before the form is submitted.',
+    doc: 'Will be called when the user tries to submit, but errors stop the data from being submitted. The first parameter is an object containing the `getErrors` method, returning an array with field errors. Each error object contains the `path`, `error` and `props` of the field. You can use this to log the errors before the form is submitted.',
     type: 'function',
     status: 'optional',
   },
   onSubmitComplete: {
-    doc: 'Will be called after onSubmit has finished and had not errors. It supports the same return values as `onSubmit` and will be merged together.',
+    doc: 'Will be called after onSubmit has finished and had no errors. It supports the same return values as `onSubmit` and will be merged together.',
     type: 'function',
     status: 'optional',
   },
