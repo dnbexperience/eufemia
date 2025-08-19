@@ -3,4 +3,4 @@
  *
  */
 
-import './dnb-drawer-theme-ui.scss'
+import './dnb-dialog-theme-ui.scss'
