@@ -1,31 +1,28 @@
 import React, { useCallback, useContext, useMemo } from 'react'
-import { DatePicker } from '../../../../components'
-import { useFieldProps } from '../../hooks'
-import type {
-  FieldProps,
-  AllJSONSchemaVersions,
-  ValidatorDisableable,
-} from '../../types'
-import { pickSpacingProps } from '../../../../components/flex/utils'
 import classnames from 'classnames'
-import FieldBlock, { Props as FieldBlockProps } from '../../FieldBlock'
-import SharedContext from '../../../../shared/Context'
-import { parseISO, isValid, isBefore, isAfter } from 'date-fns'
-import useTranslation from '../../hooks/useTranslation'
+import * as z from 'zod'
+import { useFieldProps } from '../../hooks'
+import type { FieldProps, ValidatorDisableable } from '../../types'
+import { DatePicker } from '../../../../components'
 import {
   DatePickerEvent,
   DatePickerProps,
 } from '../../../../components/DatePicker'
-import { convertStringToDate } from '../../../../components/date-picker/DatePickerCalc'
-import { ProviderProps } from '../../../../shared/Provider'
-import { FormError } from '../../utils'
-import startOfDay from 'date-fns/startOfDay'
-import { InvalidDates } from '../../../../components/date-picker/DatePickerInput'
-import useInvalidDates from './hooks/useInvalidDates'
 import {
   FormatDateOptions,
   formatDate,
 } from '../../../../components/date-format/DateFormatUtils'
+import { pickSpacingProps } from '../../../../components/flex/utils'
+import { InvalidDates } from '../../../../components/date-picker/DatePickerInput'
+import { convertStringToDate } from '../../../../components/date-picker/DatePickerCalc'
+import FieldBlock, { Props as FieldBlockProps } from '../../FieldBlock'
+import SharedContext from '../../../../shared/Context'
+import { parseISO, isValid, isBefore, isAfter } from 'date-fns'
+import useTranslation from '../../hooks/useTranslation'
+import { ProviderProps } from '../../../../shared/Provider'
+import { FormError } from '../../utils'
+import startOfDay from 'date-fns/startOfDay'
+import useInvalidDates from './hooks/useInvalidDates'
 
 // `range`, `showInput`, `showCancelButton` and `showResetButton` are not picked from the `DatePickerProps`
 // Since they require `Field.Date` specific comments, due to them having different default values
@@ -109,14 +106,24 @@ function DateComponent(props: DateProps) {
     }
   }, [props.errorMessages, errorRequired])
 
-  const schema = useMemo<AllJSONSchemaVersions>(
-    () =>
-      props.schema ?? {
-        type: 'string',
-        pattern: props.pattern,
-      },
-    [props.schema, props.pattern]
-  )
+  const schema = useMemo(() => {
+    // If a custom schema is provided, use it (could be JSON Schema or Zod)
+    if (props.schema) {
+      return props.schema
+    }
+
+    // Create a custom Zod schema for date validation
+    return z.string().superRefine((val, ctx) => {
+      // Check pattern if provided
+      if (props.pattern && !new RegExp(props.pattern).test(val)) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'Field.errorPattern',
+          params: { pattern: props.pattern },
+        })
+      }
+    })
+  }, [props.schema, props.pattern])
 
   const validateRequired = useCallback(
     (value: string, { required, error }) => {

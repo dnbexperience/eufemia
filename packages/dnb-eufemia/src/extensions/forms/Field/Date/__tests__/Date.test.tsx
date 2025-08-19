@@ -2433,4 +2433,47 @@ describe('Field.Date', () => {
       })
     })
   })
+
+  describe('validation using Zod schema', () => {
+    it('should show error for invalid value using Zod schema', async () => {
+      const { z } = await import('zod')
+      const schema = z.string().min(10, 'Minimum 10 characters required')
+
+      render(
+        <Field.Date value="2023-12-0" schema={schema} validateInitially />
+      )
+      expect(screen.getByRole('alert')).toBeInTheDocument()
+      expect(
+        screen.getByText('Verdien kan ikke være kortere enn 10 tegn.')
+      ).toBeInTheDocument()
+    })
+
+    it('should not show error for valid value using Zod schema', async () => {
+      const { z } = await import('zod')
+      const schema = z.string().min(10, 'Minimum 10 characters required')
+
+      render(
+        <Field.Date value="2023-12-01" schema={schema} validateInitially />
+      )
+      expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+    })
+
+    it('should show error on blur for invalid value using Zod schema', async () => {
+      const { z } = await import('zod')
+      const schema = z.string().min(10, 'Minimum 10 characters required')
+
+      render(
+        <Field.Date value="2023-12-0" schema={schema} validateUnchanged />
+      )
+      const input = document.querySelector('input')
+      input.focus()
+      fireEvent.blur(input)
+      await waitFor(() => {
+        expect(screen.getByRole('alert')).toBeInTheDocument()
+      })
+      expect(
+        screen.getByText('Verdien kan ikke være kortere enn 10 tegn.')
+      ).toBeInTheDocument()
+    })
+  })
 })
