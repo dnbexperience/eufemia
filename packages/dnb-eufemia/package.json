@@ -117,7 +117,8 @@
     "date-fns": "4.1.0",
     "postcss-selector-parser": "7.1.0",
     "prop-types": "15.8.1",
-    "what-input": "5.2.12"
+    "what-input": "5.2.12",
+    "zod": "4.1.8"
   },
   "peerDependencies": {
     "@types/react": "^17 || ^18",
