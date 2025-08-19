@@ -722,11 +722,12 @@ describe('DateFormat', () => {
     it('should format ISO 8601 duration strings automatically without relativeTime prop', () => {
       const { rerender } = render(<DateFormat value="PT2H30M" />)
       const dateFormat = document.querySelector('.dnb-date-format')
-      // Since Intl.DurationFormat is not available in test env, expect English fallback
-      expect(dateFormat).toHaveTextContent('2 hours 30 minutes')
+      expect(dateFormat).toHaveTextContent('2 timer og 30 minutter')
 
       rerender(<DateFormat value="P1DT2H30M" />)
-      expect(dateFormat).toHaveTextContent('1 day 2 hours 30 minutes')
+      expect(dateFormat).toHaveTextContent(
+        '1 døgn, 2 timer og 30 minutter'
+      )
     })
 
     it('should render duration with time element and correct tagName', () => {
@@ -741,8 +742,7 @@ describe('DateFormat', () => {
     it('should handle duration in children prop automatically', () => {
       render(<DateFormat>PT1H</DateFormat>)
       const dateFormat = document.querySelector('.dnb-date-format')
-      // Since Intl.DurationFormat is not available in test env, expect English fallback
-      expect(dateFormat).toHaveTextContent('1 hour')
+      expect(dateFormat).toHaveTextContent('1 time')
       expect(dateFormat.tagName).toBe('TIME')
     })
 
@@ -751,24 +751,65 @@ describe('DateFormat', () => {
         <DateFormat value="PT2H30M" locale="nb-NO" />
       )
       let dateFormat = document.querySelector('.dnb-date-format')
-      // Since Intl.DurationFormat is not available in test env, expect English fallback
-      expect(dateFormat).toHaveTextContent('2 hours 30 minutes')
+      expect(dateFormat).toHaveTextContent('2 timer og 30 minutter')
 
       rerender(<DateFormat value="PT2H30M" locale="sv-SE" />)
       dateFormat = document.querySelector('.dnb-date-format')
-      expect(dateFormat).toHaveTextContent('2 hours 30 minutes')
+      expect(dateFormat).toHaveTextContent('2 timmar, 30 minuter')
 
       rerender(<DateFormat value="PT2H30M" locale="de-DE" />)
       dateFormat = document.querySelector('.dnb-date-format')
-      expect(dateFormat).toHaveTextContent('2 hours 30 minutes')
+      expect(dateFormat).toHaveTextContent('2 Stunden, 30 Minuten')
 
       rerender(<DateFormat value="PT2H30M" locale="fr-FR" />)
       dateFormat = document.querySelector('.dnb-date-format')
-      expect(dateFormat).toHaveTextContent('2 hours 30 minutes')
+      expect(dateFormat).toHaveTextContent('2 heures et 30 minutes')
 
       rerender(<DateFormat value="PT2H30M" locale="es-ES" />)
       dateFormat = document.querySelector('.dnb-date-format')
-      expect(dateFormat).toHaveTextContent('2 hours 30 minutes')
+      expect(dateFormat).toHaveTextContent('2 horas y 30 minutos')
+    })
+
+    it('should format duration in English locale', () => {
+      const { rerender } = render(
+        <Provider locale="en-GB">
+          <DateFormat value="PT2H30M" />
+        </Provider>
+      )
+      let dateFormat = document.querySelector('.dnb-date-format')
+      expect(dateFormat).toHaveTextContent('2 hours, 30 minutes')
+
+      rerender(
+        <Provider locale="en-GB">
+          <DateFormat value="P1DT2H30M" />
+        </Provider>
+      )
+      dateFormat = document.querySelector('.dnb-date-format')
+      expect(dateFormat).toHaveTextContent('1 day, 2 hours, 30 minutes')
+
+      rerender(
+        <Provider locale="en-GB">
+          <DateFormat value="P1W" />
+        </Provider>
+      )
+      dateFormat = document.querySelector('.dnb-date-format')
+      expect(dateFormat).toHaveTextContent('1 week')
+
+      rerender(
+        <Provider locale="en-GB">
+          <DateFormat value="P1M" />
+        </Provider>
+      )
+      dateFormat = document.querySelector('.dnb-date-format')
+      expect(dateFormat).toHaveTextContent('1 month')
+
+      rerender(
+        <Provider locale="en-GB">
+          <DateFormat value="P1Y" />
+        </Provider>
+      )
+      dateFormat = document.querySelector('.dnb-date-format')
+      expect(dateFormat).toHaveTextContent('1 year')
     })
 
     it('should fallback to English for unsupported locales gracefully', () => {
@@ -776,11 +817,11 @@ describe('DateFormat', () => {
         <DateFormat value="PT2H30M" locale="xx-XX" />
       )
       let dateFormat = document.querySelector('.dnb-date-format')
-      expect(dateFormat).toHaveTextContent('2 hours 30 minutes')
+      expect(dateFormat).toHaveTextContent('2 hours, 30 minutes')
 
       rerender(<DateFormat value="P1DT2H30M" locale="xx-XX" />)
       dateFormat = document.querySelector('.dnb-date-format')
-      expect(dateFormat).toHaveTextContent('1 day 2 hours 30 minutes')
+      expect(dateFormat).toHaveTextContent('1 day, 2 hours, 30 minutes')
     })
 
     it('should fallback to English when Intl.DurationFormat is not available', () => {
@@ -868,24 +909,23 @@ describe('DateFormat', () => {
     it('should support extended ISO 8601 duration formats', () => {
       const { rerender } = render(<DateFormat value="P1W" />)
       const dateFormat = document.querySelector('.dnb-date-format')
-      // Since Intl.DurationFormat is not available in test env, expect English fallback
-      expect(dateFormat).toHaveTextContent('1 week')
+      expect(dateFormat).toHaveTextContent('1 uke')
 
       rerender(<DateFormat value="P1M" />)
-      expect(dateFormat).toHaveTextContent('1 month')
+      expect(dateFormat).toHaveTextContent('1 måned')
 
       rerender(<DateFormat value="P1Y" />)
-      expect(dateFormat).toHaveTextContent('1 year')
+      expect(dateFormat).toHaveTextContent('1 år')
 
       rerender(<DateFormat value="P1Y6M" />)
-      expect(dateFormat).toHaveTextContent('1 year 6 months')
+      expect(dateFormat).toHaveTextContent('1 år og 6 måneder')
 
       rerender(<DateFormat value="P1Y6M2W" />)
-      expect(dateFormat).toHaveTextContent('1 year 6 months 2 weeks')
+      expect(dateFormat).toHaveTextContent('1 år, 6 måneder og 2 uker')
 
       rerender(<DateFormat value="P1Y6M2W3DT4H30M" />)
       expect(dateFormat).toHaveTextContent(
-        '1 year 6 months 2 weeks 3 days 4 hours 30 minutes'
+        '1 år, 6 måneder, 2 uker, 3 døgn, 4 timer og 30 minutter'
       )
     })
 
@@ -927,8 +967,7 @@ describe('DateFormat', () => {
     it('should handle mixed duration and date scenarios', () => {
       const { rerender } = render(<DateFormat value="PT2H30M" />)
       let dateFormat = document.querySelector('.dnb-date-format')
-      // Since Intl.DurationFormat is not available in test env, expect English fallback
-      expect(dateFormat).toHaveTextContent('2 hours 30 minutes')
+      expect(dateFormat).toHaveTextContent('2 timer og 30 minutter')
 
       // Switch to date mode
       rerender(<DateFormat value="2025-08-01" />)
@@ -938,26 +977,26 @@ describe('DateFormat', () => {
       // Switch back to duration
       rerender(<DateFormat value="P1DT2H30M" />)
       dateFormat = document.querySelector('.dnb-date-format')
-      expect(dateFormat).toHaveTextContent('1 day 2 hours 30 minutes')
+      expect(dateFormat).toHaveTextContent(
+        '1 døgn, 2 timer og 30 minutter'
+      )
     })
 
     it('should prioritize duration over date when both are valid', () => {
       render(<DateFormat value="PT2H30M" />)
       const dateFormat = document.querySelector('.dnb-date-format')
-      // Since Intl.DurationFormat is not available in test env, expect English fallback
-      expect(dateFormat).toHaveTextContent('2 hours 30 minutes')
+      expect(dateFormat).toHaveTextContent('2 timer og 30 minutter')
     })
 
     it('should work with relativeTime prop for actual dates while duration works automatically', () => {
       const { rerender } = render(<DateFormat value="PT1H" />)
       let dateFormat = document.querySelector('.dnb-date-format')
-      // Since Intl.DurationFormat is not available in test env, expect English fallback
-      expect(dateFormat).toHaveTextContent('1 hour')
+      expect(dateFormat).toHaveTextContent('1 time')
 
       // Duration still works with relativeTime prop
       rerender(<DateFormat value="PT1H" relativeTime />)
       dateFormat = document.querySelector('.dnb-date-format')
-      expect(dateFormat).toHaveTextContent('1 hour')
+      expect(dateFormat).toHaveTextContent('1 time')
 
       // But actual dates use relativeTime
       rerender(<DateFormat value="2025-08-01" relativeTime />)
@@ -972,32 +1011,31 @@ describe('DateFormat', () => {
     it('should respect dateStyle prop for duration formatting', () => {
       const { rerender } = render(<DateFormat value="PT2H30M" />)
       let dateFormat = document.querySelector('.dnb-date-format')
-      // Since Intl.DurationFormat is not available in test env, expect English fallback
-      expect(dateFormat).toHaveTextContent('2 hours 30 minutes')
+      expect(dateFormat).toHaveTextContent('2 timer og 30 minutter')
 
       // Test different dateStyle options - output depends on browser's Intl.DurationFormat
       // Since it's not available in test env, all styles fallback to same English format
       rerender(<DateFormat value="PT2H30M" dateStyle="short" />)
       dateFormat = document.querySelector('.dnb-date-format')
-      expect(dateFormat).toHaveTextContent('2 hours 30 minutes')
+      expect(dateFormat).toHaveTextContent('2t, 30m')
 
       rerender(<DateFormat value="PT2H30M" dateStyle="medium" />)
       dateFormat = document.querySelector('.dnb-date-format')
-      expect(dateFormat).toHaveTextContent('2 hours 30 minutes')
+      expect(dateFormat).toHaveTextContent('2 t, 30 min')
 
       rerender(<DateFormat value="PT2H30M" dateStyle="long" />)
       dateFormat = document.querySelector('.dnb-date-format')
-      expect(dateFormat).toHaveTextContent('2 hours 30 minutes')
+      expect(dateFormat).toHaveTextContent('2 timer og 30 minutter')
 
       rerender(<DateFormat value="PT2H30M" dateStyle="full" />)
       dateFormat = document.querySelector('.dnb-date-format')
-      expect(dateFormat).toHaveTextContent('2 hours 30 minutes')
+      expect(dateFormat).toHaveTextContent('2 timer og 30 minutter')
     })
 
     describe('ARIA', () => {
       it('should validate', async () => {
         const Component = render(
-          <DateFormat value="PT2H30M" dateStyle="short" />
+          <DateFormat value="PT2H30M" dateStyle="long" />
         )
         expect(await axeComponent(Component)).toHaveNoViolations()
       })
