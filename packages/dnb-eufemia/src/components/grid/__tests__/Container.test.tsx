@@ -128,11 +128,9 @@ describe('Grid.Container', () => {
       '.dnb-grid-container'
     ) as HTMLElement
 
-    expect(element.style['_values']).toEqual({
-      '--small-columns': '10',
-      '--medium-columns': '10',
-      '--large-columns': '10',
-    })
+    expect(element.style.getPropertyValue('--small-columns')).toBe('10')
+    expect(element.style.getPropertyValue('--medium-columns')).toBe('10')
+    expect(element.style.getPropertyValue('--large-columns')).toBe('10')
 
     rerender(
       <Grid.Container
@@ -146,11 +144,9 @@ describe('Grid.Container', () => {
       </Grid.Container>
     )
 
-    expect(element.style['_values']).toEqual({
-      '--small-columns': '4',
-      '--medium-columns': '6',
-      '--large-columns': '12',
-    })
+    expect(element.style.getPropertyValue('--small-columns')).toBe('4')
+    expect(element.style.getPropertyValue('--medium-columns')).toBe('6')
+    expect(element.style.getPropertyValue('--large-columns')).toBe('12')
   })
 
   it('should set element', () => {

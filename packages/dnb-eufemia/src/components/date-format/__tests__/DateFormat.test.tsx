@@ -146,7 +146,7 @@ describe('DateFormat', () => {
 
         const dateFormat = document.querySelector('.dnb-date-format')
 
-        expect(dateFormat).toHaveTextContent('Monday 4 August 2025')
+        expect(dateFormat).toHaveTextContent('Monday, 4 August 2025')
 
         rerender(
           <DateFormat locale="en-US" dateStyle="full">
@@ -179,7 +179,7 @@ describe('DateFormat', () => {
 
         const dateFormat = document.querySelector('.dnb-date-format')
 
-        expect(dateFormat).toHaveTextContent('Monday 4 August 2025')
+        expect(dateFormat).toHaveTextContent('Monday, 4 August 2025')
 
         rerender(
           <Provider locale="en-GB">

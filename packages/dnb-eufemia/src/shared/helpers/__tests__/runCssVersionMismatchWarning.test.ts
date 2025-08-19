@@ -187,22 +187,25 @@ describe('runCssVersionMismatchWarning', () => {
     requestAnimationFrameSpy.mockRestore()
   })
 
-  it('should not log any error if document is undefined', () => {
-    const originalDocument = global.document
+  it('should log a warning if window.Eufemia is undefined', () => {
+    // Test the scenario where window.Eufemia is undefined
+    // The function should log a warning when Eufemia is not available
+    const originalEufemia = window.Eufemia
 
-    Object.defineProperty(global, 'document', {
-      configurable: true,
-      value: undefined,
-    })
+    // Remove Eufemia from window
+    delete (window as any).Eufemia
 
     runCssVersionMismatchWarning()
 
     expect(consoleErrorSpy).not.toHaveBeenCalled()
-    expect(consoleWarnSpy).not.toHaveBeenCalled()
+    expect(consoleWarnSpy).toHaveBeenCalledTimes(1)
+    expect(consoleWarnSpy).toHaveBeenCalledWith(
+      'Eufemia CSS and JS version mismatch! CSS version is either not loaded (are you perhaps using lazy loading?), or older than "10.25.0"',
+      '\nCSS: unknown',
+      '\nJS: undefined'
+    )
 
-    Object.defineProperty(global, 'document', {
-      configurable: true,
-      value: originalDocument,
-    })
+    // Restore Eufemia
+    ;(window as any).Eufemia = originalEufemia
   })
 })
