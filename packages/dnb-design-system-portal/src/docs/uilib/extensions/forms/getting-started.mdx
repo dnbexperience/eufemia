@@ -604,10 +604,16 @@ The `pattern` property is a regular expression (RegExp) that the value of the fi
 The `schema` property is a JSON schema that the value of the field must match:
 
 ```tsx
+import { Form, Field, Ajv } from '@dnb/eufemia/extensions/forms'
+
+const ajv = new Ajv()
 const schema = {
   /* AJV Schema */
 }
-<Field.PhoneNumber schema={schema} />
+
+<Form.Handler ajvInstance={ajv}>
+  <Field.PhoneNumber schema={schema} />
+</Form.Handler>
 ```
 
 ### onBlurValidator and onChangeValidator
