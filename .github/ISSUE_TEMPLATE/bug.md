@@ -28,14 +28,37 @@ Paste the results here:
 
 ## Eufemia Version
 
-**Browser JS:** Type `Eufemia.version` in your browser console.
+### Browser – JS
 
-**Browser CSS:** Type `window.getComputedStyle(document.body).getPropertyValue('--eufemia-version')` in your browser console.
-
-**Node.js:** Use import or require to find out what Eufemia version is imported:
+To check the JS version used on the current page, type in your browser console:
 
 ```js
-// NB: Use "require" if needed
+Eufemia.version
+```
+
+To view both the JS and CSS versions, along with all Eufemia versions currently rendered on the page:
+
+```js
+Eufemia.versions
+```
+
+### Browser – CSS
+
+To check the CSS version used on the current page, run in your browser console:
+
+```js
+window
+  .getComputedStyle(document.body)
+  .getPropertyValue('--eufemia-version')
+```
+
+### Node.js
+
+To find out which Eufemia version is imported in Node.js:
+
+```js
+// Use "require" instead of "import" if needed
 import { version } from '@dnb/eufemia/shared/Eufemia'
+
 console.log('Eufemia version:', version)
 ```

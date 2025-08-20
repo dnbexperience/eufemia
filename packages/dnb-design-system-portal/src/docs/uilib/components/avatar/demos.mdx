@@ -12,9 +12,9 @@ import {
   AvatarVariantPrimary,
   AvatarVariantSecondary,
   AvatarVariantTertiary,
-  AvatarConfettiIcon,
-  AvatarCardIcon,
-  AvatarAccountCardIcon,
+  AvatarIconSize,
+  AvatarIconType,
+  AvatarChildIcon,
   AvatarDNBLogo,
   AvatarImageDNB,
   AvatarImageTobias,
@@ -76,12 +76,35 @@ See more examples below.
 
 <AvatarVariantTertiary />
 
-### Passing icon as `children`
+### Passing `icon`
 
-<AvatarConfettiIcon />
-<AvatarCardIcon />
-<AvatarAccountCardIcon />
+#### Auto-size
+
+An icon will automatically be given the correct size (`size="auto"`) unless the icon's `size` prop is set.
+
+<AvatarIconSize />
+
+#### Accepted values
+
+The `icon` prop can accept either an imported icon, a primary icon string, or an `<Icon>` or `<IconPrimary>` component.
+
+```
+import {
+  calendar_medium as CalendarMedium,
+} from '@dnb/eufemia/src/icons'
+```
+
+<AvatarIconType />
+
+### Passing `children`
+
 <AvatarDNBLogo />
+
+#### Icon as child
+
+An single `<Icon>` or `<IconPrimary>` component sent as a child will also follow the same auto sizing rules as the `icon` prop.
+
+<AvatarChildIcon />
 
 ### Passing image as `src`
 

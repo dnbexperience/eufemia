@@ -19,6 +19,18 @@ Good reasons to use this component:
 - Makes the date formatting uniform for all DNB applications.
 - Makes dates accessible to screen readers.
 
+Good to know:
+
+- You can render a date in **different formats**, depending on the locale.
+- The component supports **relative time**, such as "2 hours ago", "in 3 days", etc.
+- The component supports different **date styles**, such as `short`, `medium`, `long`, and `full`.
+- The component will automatically detect and format **ISO 8601 duration** strings.
+
+## Relevant links
+
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/date-format)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/date-format)
+
 ### Under the hood
 
 The component uses `Intl.DateTimeFormat` browser API and `Date.toLocaleDateString` as a fallback, to format dates based on locale.

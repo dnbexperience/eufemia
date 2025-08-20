@@ -6,46 +6,6 @@ icon: 'helper_classes'
 
 # Frequently Asked Questions (FAQ)
 
-## How to enable lint-staged?
-
-Create a file called `.env.local` in the root of the repo (side-by-side to the .git folder), and put `LINT_STAGED=1` inside:
-
-```bash
-# File: .env.local
-LINT_STAGED=1
-```
-
-## Dependency issues
-
-## Babel
-
-Due to this bug: https://github.com/babel/babel/issues/11394 we add `.png,.snap` so they not get copied: `--extensions '.js,.ts,.tsx,.png,.snap'`
-
-### Yarn PnP
-
-Eufemia uses yarn with `node_modules`.
-
-When switching over to Yarn PnP, there are some issues:
-
-- Storybook:
-  ```bash
-  ERROR in eufemia/.yarn/__virtual__/@dnb-eufemia-virtual-761b82657c/1/packages/dnb-eufemia/src/components/slider/style/dnb-range.scss (eufemia/.yarn/__virtual__/css-loader-virtual-37c5c374e4/0/cache/css-loader-npm-5.2.7-e1e8b8d16f-fb0742b30a.zip/node_modules/css-loader/dist/cjs.js!eufemia/.yarn/__virtual__/sass-loader-virtual-577853f541/0/cache/sass-loader-npm-10.2.0-91ed64638b-d53212e5d1.zip/node_modules/sass-loader/dist/cjs.js!eufemia/.yarn/__virtual__/@dnb-eufemia-virtual-761b82657c/1/packages/dnb-eufemia/src/components/slider/style/dnb-range.scss)
-  Module build failed (from eufemia/.yarn/__virtual__/sass-loader-virtual-577853f541/0/cache/sass-loader-npm-10.2.0-91ed64638b-d53212e5d1.zip/node_modules/sass-loader/dist/cjs.js):
-  SassError: File to import not found or unreadable: eufemia/.yarn/__virtual__/@dnb-eufemia-virtual-761b82657c/1/packages/dnb-eufemia/src/style/components/imports.scss.
-          on line 6 of ../../.yarn/__virtual__/@dnb-eufemia-virtual-761b82657c/1/packages/dnb-eufemia/src/components/slider/style/dnb-range.scss
-  >> @import '../../../style/components/imports.scss';
-  ```
-- Gatsby
-  ```bash
-  gatsby-plugin-mdx tried to access mkdirp, but it isn't declared in its dependencies; this makes the require call ambiguous and unsound.
-  ```
-
-## MDX v2
-
-In MDX v1 the Portal used an MDX template (`./templates/mdx.js`) with the `createPage` API. This is currently not the case anymore.
-Instead, the "PortalLayout" is used to wrap `.mdx` pages inside the `wrapPageElement` API.
-This is due to the `JavaScript heap out of memory` error when using templates.
-
 ## Visual tests and Playwright
 
 Jest does start several works at the same time. When we simulate states on e.g. ToggleButton and Button – Playwright (v1.31.2) struggles to handle this. Some of the hover or focus tests will fail. To ensure Jest we never execute several workers as the same time, we set `--maxWorkers=1`.
@@ -89,6 +49,52 @@ This is only meant for "setup testing" purposes! In order to make faster local b
 - Inside `gatsby-config.js` rename all sourcing from `/docs` to `/docs_dummy`
 
 Run `yarn workspace dnb-design-system-portal build:visual-test`
+
+You can also run `filter=button,input yarn start` (case sensitive) to only run specific pages.
+
+## How to enable lint-staged?
+
+Create a file called `.env.local` in the root of the repo (side-by-side to the .git folder), and put `LINT_STAGED=1` inside:
+
+```bash
+# File: .env.local
+LINT_STAGED=1
+```
+
+## Dependency issues
+
+### Jest
+
+- jsdom [v21](https://github.com/jsdom/jsdom/releases/tag/21.0.0) changed `window`, `document`, `location`, and top properties of Window to be non-configurable. Which made it impossible to mock `window.location` in Jest. While there are workarounds, we decided to use v20 instead of the latest (`"jest-environment-jsdom/jsdom": "20.0.3",`).
+
+### Babel
+
+- Due to this bug: https://github.com/babel/babel/issues/11394 we add `.png,.snap` so they not get copied: `--extensions '.js,.ts,.tsx,.png,.snap'`
+
+### Yarn PnP
+
+Eufemia uses yarn with `node_modules`.
+
+When switching over to Yarn PnP, there are some issues:
+
+- Storybook:
+  ```bash
+  ERROR in eufemia/.yarn/__virtual__/@dnb-eufemia-virtual-761b82657c/1/packages/dnb-eufemia/src/components/slider/style/dnb-range.scss (eufemia/.yarn/__virtual__/css-loader-virtual-37c5c374e4/0/cache/css-loader-npm-5.2.7-e1e8b8d16f-fb0742b30a.zip/node_modules/css-loader/dist/cjs.js!eufemia/.yarn/__virtual__/sass-loader-virtual-577853f541/0/cache/sass-loader-npm-10.2.0-91ed64638b-d53212e5d1.zip/node_modules/sass-loader/dist/cjs.js!eufemia/.yarn/__virtual__/@dnb-eufemia-virtual-761b82657c/1/packages/dnb-eufemia/src/components/slider/style/dnb-range.scss)
+  Module build failed (from eufemia/.yarn/__virtual__/sass-loader-virtual-577853f541/0/cache/sass-loader-npm-10.2.0-91ed64638b-d53212e5d1.zip/node_modules/sass-loader/dist/cjs.js):
+  SassError: File to import not found or unreadable: eufemia/.yarn/__virtual__/@dnb-eufemia-virtual-761b82657c/1/packages/dnb-eufemia/src/style/components/imports.scss.
+          on line 6 of ../../.yarn/__virtual__/@dnb-eufemia-virtual-761b82657c/1/packages/dnb-eufemia/src/components/slider/style/dnb-range.scss
+  >> @import '../../../style/components/imports.scss';
+  ```
+- Gatsby
+  ```bash
+  gatsby-plugin-mdx tried to access mkdirp, but it isn't declared in its dependencies; this makes the require call ambiguous and unsound.
+  ```
+
+## MDX v1 > v2/v3
+
+In MDX v1 the Portal used an MDX template (`./templates/mdx.js`) with the `createPage` API. This is currently not the case anymore.
+Instead, the "PortalLayout" is used to wrap `.mdx` pages inside the `wrapPageElement` API.
+This is due to the `JavaScript heap out of memory` error when using templates.
 
 ## I get Gatsby 404 Not Found on the pages I work on
 

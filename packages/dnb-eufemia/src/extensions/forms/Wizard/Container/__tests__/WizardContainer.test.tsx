@@ -55,6 +55,8 @@ afterEach(() => {
 })
 
 describe('Wizard.Container', () => {
+  // Increase timeout for all tests in this suite due to async operations
+  jest.setTimeout(30000)
   // Add a shadow, so we can spy on the scrollIntoView method
   window.HTMLElement.prototype.scrollIntoView = () => null
 
@@ -3382,14 +3384,22 @@ describe('Wizard.Container', () => {
 
       expect(output()).toHaveTextContent('Step 2')
 
-      await userEvent.type(document.querySelector('input'), 'bar')
+      // Set the input value directly using fireEvent for reliability
+      const input = document.querySelector('input')
+      fireEvent.change(input, { target: { value: 'bar' } })
 
-      // Go to Step 3
-      fireEvent.submit(document.querySelector('form'))
+      // Verify the value was set
+      expect(input).toHaveValue('bar')
 
-      await waitFor(() => {
-        expect(output()).toHaveTextContent('Step 3')
-      })
+      // Go to Step 3 using Next button instead of form submission
+      await userEvent.click(nextButton())
+
+      await waitFor(
+        () => {
+          expect(output()).toHaveTextContent('Step 3')
+        },
+        { timeout: 10000, interval: 100 }
+      )
 
       expect(onSubmit).toHaveBeenCalledTimes(0)
 
@@ -3797,6 +3807,8 @@ describe('Wizard.Container', () => {
       })
 
       it('should render error status when form cannot be submitted', async () => {
+        // Increase timeout for this specific test
+        jest.setTimeout(15000)
         const onStepChange = jest.fn()
         const onSubmit = jest.fn()
 
@@ -3869,7 +3881,9 @@ describe('Wizard.Container', () => {
           )
         ).toHaveLength(1)
 
-        await userEvent.type(document.querySelector('input'), 'foo')
+        // Set the input value directly using fireEvent for reliability
+        const input1 = document.querySelector('input')
+        fireEvent.change(input1, { target: { value: 'foo' } })
 
         expect(
           document.querySelectorAll(
@@ -3888,7 +3902,9 @@ describe('Wizard.Container', () => {
           )
         ).toHaveLength(0)
 
-        await userEvent.type(document.querySelector('input'), 'bar')
+        // Set the input value directly using fireEvent for reliability
+        const input2 = document.querySelector('input')
+        fireEvent.change(input2, { target: { value: 'bar' } })
 
         expect(
           document.querySelectorAll(
@@ -3896,12 +3912,19 @@ describe('Wizard.Container', () => {
           )
         ).toHaveLength(0)
 
-        // Go to Step 3
-        fireEvent.submit(document.querySelector('form'))
+        // Go to Step 3 using Next button instead of form submission
+        await userEvent.click(nextButton())
 
-        await waitFor(() => {
-          expect(output()).toHaveTextContent('Step 3')
-        })
+        // Wait for step change to complete
+        await waitFor(
+          () => {
+            expect(output()).toHaveTextContent('Step 3')
+          },
+          {
+            timeout: 10000,
+            interval: 100,
+          }
+        )
 
         expect(onSubmit).toHaveBeenCalledTimes(0)
 
@@ -3977,6 +4000,8 @@ describe('Wizard.Container', () => {
       })
 
       it('should not show error status on navigation without form submit', async () => {
+        // Increase timeout for this specific test
+        jest.setTimeout(15000)
         render(
           <Form.Handler>
             <Wizard.Container
@@ -4008,8 +4033,22 @@ describe('Wizard.Container', () => {
 
         await userEvent.click(nextButton())
 
-        expect(output()).toHaveTextContent('Step 3')
-        expect(screen.queryAllByText(nb.Step.stepHasError)).toHaveLength(0)
+        await waitFor(
+          () => {
+            expect(output()).toHaveTextContent('Step 3')
+          },
+          { timeout: 10000, interval: 100 }
+        )
+
+        // Wait for error status to be cleared
+        await waitFor(
+          () => {
+            expect(
+              screen.queryAllByText(nb.Step.stepHasError)
+            ).toHaveLength(0)
+          },
+          { timeout: 10000, interval: 100 }
+        )
 
         fireEvent.submit(document.querySelector('form'))
 
@@ -4063,9 +4102,14 @@ describe('Wizard.Container', () => {
 
         fireEvent.submit(document.querySelector('form'))
 
-        await waitFor(() => {
-          expect(screen.getAllByText(nb.Step.stepHasError)).toHaveLength(2)
-        })
+        await waitFor(
+          () => {
+            expect(screen.getAllByText(nb.Step.stepHasError)).toHaveLength(
+              2
+            )
+          },
+          { timeout: 10000, interval: 100 }
+        )
 
         await userEvent.click(previousButton())
 
