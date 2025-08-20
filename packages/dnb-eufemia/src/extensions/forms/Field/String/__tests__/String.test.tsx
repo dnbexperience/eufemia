@@ -20,6 +20,7 @@ import {
   Iterate,
   Validator,
   Value,
+  z,
 } from '../../..'
 import sharedGB from '../../../../../shared/locales/en-GB'
 import nbNO from '../../../constants/locales/nb-NO'
@@ -2352,6 +2353,105 @@ describe('Field.String', () => {
         document.querySelector('.dnb-global-status__message__content p')
           .innerHTML
       ).toBe('A <strong>formatted</strong> error message')
+    })
+  })
+
+  describe('Zod validation', () => {
+    it('should validate with Zod schema', async () => {
+      const schema = z.string().min(5, 'Minimum 5 characters required')
+
+      render(
+        <Field.String value="abc" schema={schema} validateInitially />
+      )
+
+      expect(screen.getByRole('alert')).toBeInTheDocument()
+      expect(
+        screen.getByText('Minimum 5 characters required')
+      ).toBeInTheDocument()
+    })
+
+    it('should not show error for valid value using Zod schema', async () => {
+      const schema = z.string().min(3)
+
+      render(
+        <Field.String value="abc" schema={schema} validateInitially />
+      )
+
+      expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+    })
+
+    it('should accept Zod schema provided by Form.Handler without errors', async () => {
+      // Use a simple schema that validates the entire form data
+      const schema = z.object({
+        name: z.string().min(5, 'Name must be at least 5 characters'),
+      })
+
+      // This should render without throwing any errors
+      expect(() => {
+        render(
+          <Form.Handler schema={schema} defaultData={{ name: 'abc' }}>
+            <Field.String path="/name" />
+          </Form.Handler>
+        )
+      }).not.toThrow()
+
+      // Verify the form rendered correctly
+      expect(screen.getByRole('textbox')).toBeInTheDocument()
+      expect(screen.getByRole('textbox')).toHaveValue('abc')
+    })
+
+    it('should not show error for valid value when Zod schema is provided by Form.Handler', async () => {
+      const schema = z.object({
+        name: z.string().min(3, 'Name must be at least 3 characters'),
+      })
+
+      render(
+        <Form.Handler schema={schema}>
+          <Field.String path="/name" value="abcdef" validateInitially />
+        </Form.Handler>
+      )
+
+      expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+    })
+
+    describe('validation using Zod schema', () => {
+      it('should show error for invalid value using Zod schema', async () => {
+        const schema = z.string().min(5, 'Minimum 5 characters required')
+
+        render(
+          <Field.String value="abc" schema={schema} validateInitially />
+        )
+        expect(screen.getByRole('alert')).toBeInTheDocument()
+        expect(
+          screen.getByText('Minimum 5 characters required')
+        ).toBeInTheDocument()
+      })
+
+      it('should not show error for valid value using Zod schema', async () => {
+        const schema = z.string().min(3, 'Minimum 3 characters required')
+
+        render(
+          <Field.String value="abc" schema={schema} validateInitially />
+        )
+        expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+      })
+
+      it('should show error on blur for invalid value using Zod schema', async () => {
+        const schema = z.string().min(5, 'Minimum 5 characters required')
+
+        render(
+          <Field.String value="abc" schema={schema} validateUnchanged />
+        )
+        const input = document.querySelector('input')
+        input.focus()
+        fireEvent.blur(input)
+        await waitFor(() => {
+          expect(screen.getByRole('alert')).toBeInTheDocument()
+        })
+        expect(
+          screen.getByText('Minimum 5 characters required')
+        ).toBeInTheDocument()
+      })
     })
   })
 })
