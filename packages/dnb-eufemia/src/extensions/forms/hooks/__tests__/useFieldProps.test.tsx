@@ -3354,7 +3354,9 @@ describe('useFieldProps', () => {
 
           await userEvent.type(inputWithRefValue, '3')
 
-          expect(screen.queryByRole('alert')).toBeInTheDocument()
+          await waitFor(() => {
+            expect(screen.queryByRole('alert')).toBeInTheDocument()
+          })
         })
       })
 
@@ -4746,7 +4748,9 @@ describe('useFieldProps', () => {
 
           await userEvent.type(inputWithRefValue, '3')
 
-          expect(screen.queryByRole('alert')).toBeInTheDocument()
+          await waitFor(() => {
+            expect(screen.queryByRole('alert')).toBeInTheDocument()
+          })
         })
       })
 
@@ -5202,7 +5206,9 @@ describe('useFieldProps', () => {
 
           await userEvent.type(inputWithRefValue, '3')
 
-          expect(screen.queryByRole('alert')).toBeInTheDocument()
+          await waitFor(() => {
+            expect(screen.queryByRole('alert')).toBeInTheDocument()
+          })
         })
       })
 
