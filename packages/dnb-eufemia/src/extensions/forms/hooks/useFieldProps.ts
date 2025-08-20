@@ -15,7 +15,11 @@ import {
   overwriteErrorMessagesWithGivenAjvKeys,
   extendErrorMessagesWithTranslationMessages,
   FormError,
+  isZodSchema,
+  createZodValidator,
+  zodErrorsToOneFormError,
 } from '../utils'
+import * as z from 'zod'
 import {
   FieldPropsGeneric,
   ProvideAdditionalEventArgs,
@@ -233,6 +237,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const inFieldBlock = Boolean(
     fieldBlockContext && fieldBlockContext.disableStatusSummary !== true
   )
+  const hasZodSchema = isZodSchema(schema)
   const {
     setBlockRecord,
     setFieldState: setFieldStateFieldBlock,
@@ -514,9 +519,15 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     onBlurValidatorRef.current = onBlurValidator
   }, [onBlurValidator])
 
-  const schemaValidatorRef = useRef<ValidateFunction>()
+  const schemaValidatorRef = useRef<
+    ValidateFunction | ((value: unknown) => true | z.ZodError<any>)
+  >()
   if (!schemaValidatorRef.current && schema) {
-    schemaValidatorRef.current = dataContext.ajvInstance?.compile(schema)
+    if (hasZodSchema) {
+      schemaValidatorRef.current = createZodValidator(schema)
+    } else {
+      schemaValidatorRef.current = dataContext.ajvInstance?.compile(schema)
+    }
   }
 
   // - Async behavior
@@ -776,7 +787,10 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   }, [dataContextErrors, identifier, prepareError])
 
   // If the error is a type error, we want to show it even if the field has not been used
-  if (localErrorRef.current?.['ajvKeyword'] === 'type') {
+  if (
+    localErrorRef.current?.['ajvKeyword'] === 'type' ||
+    contextErrorRef.current?.['ajvKeyword'] === 'type'
+  ) {
     revealErrorRef.current = true
   }
 
@@ -787,6 +801,10 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     ) {
       return prepareError(errorProp)
     } else if (revealErrorRef.current) {
+      // For type errors, prioritize context (Provider) errors over local validation errors
+      if (contextErrorRef.current?.['ajvKeyword'] === 'type') {
+        return contextErrorRef.current
+      }
       return (
         prepareError(error as FormError) ??
         localErrorRef.current ??
@@ -1055,10 +1073,17 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const clearErrorState = useCallback(() => {
     persistErrorState('wipe', undefined)
     localErrorInitiatorRef.current = undefined
-    if (Array.isArray(schemaValidatorRef.current?.errors)) {
-      schemaValidatorRef.current.errors = []
+    const schemaValidator = schemaValidatorRef.current as ValidateFunction
+
+    // Clear AJV errors if it's an AJV validator
+    if (
+      schemaValidator &&
+      !hasZodSchema &&
+      Array.isArray((schemaValidator as ValidateFunction)?.errors)
+    ) {
+      schemaValidator.errors = []
     }
-  }, [persistErrorState])
+  }, [persistErrorState, hasZodSchema])
 
   const setChanged = useCallback((state: boolean) => {
     changedRef.current = state
@@ -1373,17 +1398,28 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         throw error
       }
 
-      // Validate by provided JSON Schema for this value
+      // Validate by provided schema (AJV or Zod) for this value
       if (
         value !== undefined &&
         !prioritizeContextSchema &&
         typeof schemaValidatorRef.current === 'function'
       ) {
-        if (!schemaValidatorRef.current(value)) {
-          const error = ajvErrorsToOneFormError(
-            schemaValidatorRef.current.errors,
-            value
-          )
+        const validationResult = schemaValidatorRef.current(value)
+        if (validationResult !== true) {
+          let error: FormError | undefined
+
+          if (hasZodSchema) {
+            // Zod validation failed - validationResult is a ZodError
+            const zodError = validationResult as z.ZodError<any>
+            error = zodErrorsToOneFormError(zodError.issues, value)
+          } else {
+            // AJV validation failed - validationResult is false
+            error = ajvErrorsToOneFormError(
+              (schemaValidatorRef.current as ValidateFunction).errors,
+              value
+            )
+          }
+
           initiator = 'schema'
           throw error
         }
@@ -1431,6 +1467,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     disabled,
     emptyValue,
     error,
+    hasZodSchema,
     hideError,
     persistErrorState,
     prioritizeContextSchema,
@@ -2065,11 +2102,18 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   }, [validateValue])
 
   useUpdateEffect(() => {
-    schemaValidatorRef.current = schema
-      ? dataContext.ajvInstance?.compile(schema)
-      : undefined
+    if (schema) {
+      if (hasZodSchema) {
+        schemaValidatorRef.current = createZodValidator(schema)
+      } else {
+        schemaValidatorRef.current =
+          dataContext.ajvInstance?.compile(schema)
+      }
+    } else {
+      schemaValidatorRef.current = undefined
+    }
     validateValue()
-  }, [schema])
+  }, [schema, hasZodSchema])
 
   // Use "useLayoutEffect" and "externalValueDidChangeRef"
   // to cooperate with the the data context "updateDataValueDataContext" routine further down,
