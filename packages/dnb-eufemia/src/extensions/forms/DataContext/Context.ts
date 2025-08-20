@@ -1,7 +1,6 @@
 import React from 'react'
 import { Ajv, FormError, JsonObject } from '../utils'
 import {
-  AllJSONSchemaVersions,
   GlobalErrorMessagesWithPaths,
   SubmitState,
   Path,
@@ -13,6 +12,7 @@ import {
   OnSubmitParams,
   CountryCode,
   Identifier,
+  Schema,
 } from '../types'
 import { Props as ProviderProps } from './Provider'
 import { SnapshotName } from '../Form/Snapshot'
@@ -212,7 +212,7 @@ export interface ContextState {
   formState: SubmitState
   getAjvInstance?: (instance?: Ajv) => Ajv
   contextErrorMessages: GlobalErrorMessagesWithPaths
-  schema: AllJSONSchemaVersions
+  schema: Schema
   path?: Path
   disabled?: boolean
   required?: boolean
