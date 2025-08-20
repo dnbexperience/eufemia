@@ -1,12 +1,13 @@
 import React, {
-  useContext,
-  useMemo,
   useCallback,
+  useContext,
   useEffect,
+  useMemo,
   useRef,
 } from 'react'
 import classnames from 'classnames'
 import { Input, Textarea } from '../../../../components'
+import * as z from 'zod'
 import { InputProps } from '../../../../components/input/Input'
 import InputMasked, {
   InputMaskedProps,
@@ -22,7 +23,7 @@ import { useFieldProps } from '../../hooks'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import { toCapitalized } from '../../../../shared/component-helper'
 import type { TextCounterProps } from '../../../../fragments/TextCounter'
-import type { FieldProps, AllJSONSchemaVersions } from '../../types'
+import type { FieldProps, Schema } from '../../types'
 
 export type Props = FieldProps<string, undefined | string> & {
   // - Shared props
@@ -72,16 +73,49 @@ function StringComponent(props: Props) {
   const dataContext = useContext(DataContext)
   const fieldBlockContext = useContext(FieldBlockContext)
 
-  const schema = useMemo<AllJSONSchemaVersions>(
-    () =>
-      props.schema ?? {
-        type: 'string',
-        minLength: props.minLength,
-        maxLength: props.maxLength,
-        pattern: props.pattern,
-      },
-    [props.schema, props.minLength, props.maxLength, props.pattern]
-  )
+  const schema = useMemo<Schema<string>>(() => {
+    // If a custom schema is provided, use it (could be JSON Schema or Zod)
+    if (props.schema) {
+      return props.schema
+    }
+
+    // Create a Zod schema that generates errors compatible with the existing error message injection system
+    // This allows us to eventually remove AJV support entirely
+    return z.string().superRefine((val, ctx) => {
+      // Check minLength
+      if (props.minLength !== undefined && val.length < props.minLength) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.too_small,
+          minimum: props.minLength,
+          type: 'string',
+          inclusive: true,
+          origin: 'string',
+          message: 'StringField.errorMinLength', // Use the error message key for injection
+        })
+      }
+
+      // Check maxLength
+      if (props.maxLength !== undefined && val.length > props.maxLength) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.too_big,
+          maximum: props.maxLength,
+          type: 'string',
+          inclusive: true,
+          origin: 'string',
+          message: 'StringField.errorMaxLength', // Use the error message key for injection
+        })
+      }
+
+      // Check pattern
+      if (props.pattern && !new RegExp(props.pattern).test(val)) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.invalid_format,
+          format: 'regex',
+          message: 'Field.errorPattern', // Use the error message key for injection
+        })
+      }
+    })
+  }, [props.schema, props.minLength, props.maxLength, props.pattern])
   const fromInput = useCallback(
     (event: { value: string; cleanedValue?: string }) => {
       if (typeof event === 'string') {
