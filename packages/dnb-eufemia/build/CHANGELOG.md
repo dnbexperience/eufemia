@@ -3,6 +3,24 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.78.0](https://github.com/dnbexperience/eufemia/compare/v10.77.9...v10.78.0) (2025-08-20)
+
+
+### :memo: Documentation
+
+* add links to Figma, docs, and source code ([#5319](https://github.com/dnbexperience/eufemia/issues/5319)) ([f874a9a](https://github.com/dnbexperience/eufemia/commit/f874a9a2eb4f40ff33577010b497e6cb14878fcf))
+* **Forms:** add docs about unique paths ([#5197](https://github.com/dnbexperience/eufemia/issues/5197)) ([f1511e0](https://github.com/dnbexperience/eufemia/commit/f1511e00abf0e3a7989ad52173392dc7647b8a01))
+
+
+### :sparkles: Features
+
+* add support for Eufemia.versions ([#5322](https://github.com/dnbexperience/eufemia/issues/5322)) ([e4c1530](https://github.com/dnbexperience/eufemia/commit/e4c153008c23636ff6311feb4de529d1ac56a89b))
+* **Anchor:** add `noIcon` and `noLaunchIcon` ([#5256](https://github.com/dnbexperience/eufemia/issues/5256)) ([5b5d644](https://github.com/dnbexperience/eufemia/commit/5b5d64440ed87df8ccd7fc6c1e92a006f711a86e))
+* **Avatar:** add icon prop and auto size icons ([#5390](https://github.com/dnbexperience/eufemia/issues/5390)) ([6d7e1c9](https://github.com/dnbexperience/eufemia/commit/6d7e1c9ed4cb72667586b0bb2fcd6b1024cc23cf))
+* **DateFormat:** add support for relative time (auto updated) ([#5326](https://github.com/dnbexperience/eufemia/issues/5326)) ([7e3c404](https://github.com/dnbexperience/eufemia/commit/7e3c4041a5716626f515b44b781a6196eff7c49f))
+* **DNB Carnegie:** add ArizonaFlare font to CDN ([#5397](https://github.com/dnbexperience/eufemia/issues/5397)) ([7baf1db](https://github.com/dnbexperience/eufemia/commit/7baf1db26907ec79dd2a9464f2147850178be256))
+* upgrade internal Node.js version to latest LTS ([#5400](https://github.com/dnbexperience/eufemia/issues/5400)) ([7a6762f](https://github.com/dnbexperience/eufemia/commit/7a6762f7cbbe93d9f6d75964c3e8c60fb7c83a7c))
+
 ## [10.77.9](https://github.com/dnbexperience/eufemia/compare/v10.77.8...v10.77.9) (2025-08-15)
 
 
