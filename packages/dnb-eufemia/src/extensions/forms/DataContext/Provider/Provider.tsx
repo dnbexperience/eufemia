@@ -7,16 +7,17 @@ import React, {
   useContext,
 } from 'react'
 import pointer, { JsonObject } from '../../utils/json-pointer'
-import { ValidateFunction } from 'ajv/dist/2020'
 import {
   Ajv,
   makeAjvInstance,
   ajvErrorsToFormErrors,
   FormError,
+  isZodSchema,
+  createZodValidator,
+  zodErrorsToFormErrors,
 } from '../../utils'
 import {
   GlobalErrorMessagesWithPaths,
-  AllJSONSchemaVersions,
   SubmitState,
   Path,
   EventStateObject,
@@ -29,6 +30,7 @@ import {
   OnSubmitRequest,
   CountryCode,
   PathStrict,
+  Schema,
 } from '../../types'
 import type { IsolationProviderProps } from '../../Form/Isolation/Isolation'
 import { debounce } from '../../../../shared/helpers'
@@ -105,7 +107,7 @@ export type Props<Data extends JsonObject> =
     /**
      * JSON Schema to validate the data against.
      */
-    schema?: AllJSONSchemaVersions<Data>
+    schema?: Schema<Data>
     /**
      * Custom Ajv instance, if you want to use your own
      */
@@ -342,19 +344,71 @@ export default function Provider<Data extends JsonObject>(
   const isEmptyDataRef = useRef(false)
 
   // - Validator
-  const ajvValidatorRef = useRef<ValidateFunction>()
+  type UnifiedValidator = {
+    (value: unknown): boolean
+    errors?: any[]
+  }
+
+  const ajvValidatorRef = useRef<UnifiedValidator>()
+
+  // Create a unified validator that works with both AJV and Zod
+  const createUnifiedValidator = useCallback(
+    (schema: any): UnifiedValidator => {
+      if (isZodSchema(schema)) {
+        // Wrap Zod validator to match AJV interface
+        const zodValidator = createZodValidator(schema)
+        const unifiedValidator: UnifiedValidator = (value: unknown) => {
+          const result = zodValidator(value)
+          if (result === true) {
+            return true
+          } else {
+            // Store the errors for later access
+            unifiedValidator.errors = result.issues
+            return false
+          }
+        }
+        return unifiedValidator
+      } else {
+        // AJV validator already has the right interface
+        return ajvRef.current?.compile(schema) as UnifiedValidator
+      }
+    },
+    []
+  )
+
   const executeAjvValidator = useCallback(() => {
     if (!ajvValidatorRef.current) {
       // No schema-based validator. Assume data is valid.
       return
     }
 
-    if (!ajvValidatorRef.current?.(internalDataRef.current)) {
+    const validationResult = ajvValidatorRef.current(
+      internalDataRef.current
+    )
+
+    if (!validationResult) {
       // Errors found
-      errorsRef.current = ajvErrorsToFormErrors(
-        ajvValidatorRef.current.errors,
-        internalDataRef.current
-      )
+      const errors = ajvValidatorRef.current.errors
+      if (errors && Array.isArray(errors)) {
+        // Check if these are Zod errors (they have a different structure)
+        if (
+          errors.length > 0 &&
+          errors[0] &&
+          typeof errors[0] === 'object' &&
+          'code' in errors[0]
+        ) {
+          // These are Zod errors, convert them to FormErrors
+          errorsRef.current = zodErrorsToFormErrors(errors)
+        } else {
+          // These are AJV errors, use the existing conversion
+          errorsRef.current = ajvErrorsToFormErrors(
+            errors,
+            internalDataRef.current
+          )
+        }
+      } else {
+        errorsRef.current = undefined
+      }
     } else {
       errorsRef.current = undefined
     }
@@ -804,7 +858,6 @@ export default function Provider<Data extends JsonObject>(
 
   useMemo(() => {
     executeAjvValidator()
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [internalDataRef.current]) // run validation when internal data has changed
 
@@ -1327,21 +1380,21 @@ export default function Provider<Data extends JsonObject>(
   // - ajv validator routines
   useLayoutEffect(() => {
     if (schema) {
-      ajvValidatorRef.current = ajvRef.current?.compile(schema)
-    }
+      ajvValidatorRef.current = createUnifiedValidator(schema)
 
-    // Validate the initial data
-    validateData()
-  }, [schema, validateData])
+      // Validate immediately to catch any schema errors
+      validateData()
+    }
+  }, [schema, validateData, createUnifiedValidator])
   useUpdateEffect(() => {
     if (schema && schema !== cacheRef.current.schema) {
       cacheRef.current.schema = schema
-      ajvValidatorRef.current = ajvRef.current?.compile(schema)
+      ajvValidatorRef.current = createUnifiedValidator(schema)
 
       validateData()
       forceUpdate()
     }
-  }, [schema, validateData, forceUpdate])
+  }, [schema, validateData, forceUpdate, createUnifiedValidator])
 
   const onTimeout = useCallback(() => {
     setFormState(undefined)
