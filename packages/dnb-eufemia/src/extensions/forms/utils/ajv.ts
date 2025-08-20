@@ -297,8 +297,8 @@ function ajvErrorsTransformation(
         ? pointer.get(data, path)
         : data
 
-    // Remove the error if the value is empty
-    if (value === '' || value === null) {
+    // Remove the error if the value is empty-like (including undefined)
+    if (value === '' || value === null || typeof value === 'undefined') {
       return undefined
     } else {
       // This extend the very limited error message with the value and the path
