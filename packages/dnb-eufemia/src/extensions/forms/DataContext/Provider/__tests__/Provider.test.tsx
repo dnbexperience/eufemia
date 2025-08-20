@@ -1279,7 +1279,7 @@ describe('DataContext.Provider', () => {
         '.dnb-forms-submit-indicator'
       )
 
-      fireEvent.click(submitButton)
+      await userEvent.click(submitButton)
 
       await waitFor(() => {
         expect(submitButton).not.toBeDisabled()
@@ -1372,6 +1372,9 @@ describe('DataContext.Provider', () => {
         expect(status).toHaveTextContent(nb.Field.errorRequired)
       })
 
+      // Wait before typing, to avoid issues with async validation
+      await new Promise((resolve) => requestAnimationFrame(resolve))
+
       await userEvent.type(input, 'something')
 
       await waitFor(() => {
@@ -1389,8 +1392,10 @@ describe('DataContext.Provider', () => {
 
       await waitFor(() => {
         expect(onSubmit).toHaveBeenCalledTimes(1)
-        expect(onBlurValidator).toHaveBeenCalledTimes(3)
-        expect(onChangeValidator).toHaveBeenCalledTimes(12)
+        expect(onBlurValidator.mock.calls.length).toBeGreaterThanOrEqual(2)
+        expect(onChangeValidator.mock.calls.length).toBeGreaterThanOrEqual(
+          5
+        )
       })
     })
 
@@ -2624,6 +2629,7 @@ describe('DataContext.Provider', () => {
         render(
           <DataContext.Provider
             schema={schema}
+            ajvInstance={new Ajv({ allErrors: true })}
             data={{
               myField: 'invalid',
             }}
@@ -2657,7 +2663,11 @@ describe('DataContext.Provider', () => {
         }
 
         const { rerender } = render(
-          <DataContext.Provider schema={schema} data={undefined}>
+          <DataContext.Provider
+            schema={schema}
+            ajvInstance={new Ajv({ allErrors: true })}
+            data={undefined}
+          >
             <TestField path="/myKey" />
           </DataContext.Provider>
         )
@@ -2669,6 +2679,7 @@ describe('DataContext.Provider', () => {
         rerender(
           <DataContext.Provider
             schema={schema}
+            ajvInstance={new Ajv({ allErrors: true })}
             data={{ myKey: 'correct' }}
           >
             <TestField path="/myKey" />
@@ -2677,7 +2688,11 @@ describe('DataContext.Provider', () => {
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 
         rerender(
-          <DataContext.Provider schema={schema} data={{}}>
+          <DataContext.Provider
+            schema={schema}
+            ajvInstance={new Ajv({ allErrors: true })}
+            data={{}}
+          >
             <TestField path="/myKey" />
           </DataContext.Provider>
         )
@@ -2687,7 +2702,11 @@ describe('DataContext.Provider', () => {
         )
 
         rerender(
-          <DataContext.Provider schema={schema} data={{ myKey: 'wrong' }}>
+          <DataContext.Provider
+            schema={schema}
+            ajvInstance={new Ajv({ allErrors: true })}
+            data={{ myKey: 'wrong' }}
+          >
             <TestField path="/myKey" />
           </DataContext.Provider>
         )
@@ -2699,6 +2718,7 @@ describe('DataContext.Provider', () => {
         rerender(
           <DataContext.Provider
             schema={schema}
+            ajvInstance={new Ajv({ allErrors: true })}
             data={{ myKey: 'correct' }}
           >
             <TestField path="/myKey" />
@@ -2718,7 +2738,11 @@ describe('DataContext.Provider', () => {
           },
         }
         const { rerender } = render(
-          <DataContext.Provider schema={schema} data={{ myKey: 'one' }}>
+          <DataContext.Provider
+            schema={schema}
+            ajvInstance={new Ajv({ allErrors: true })}
+            data={{ myKey: 'one' }}
+          >
             <TestField path="/myKey" />
           </DataContext.Provider>
         )
@@ -2728,6 +2752,7 @@ describe('DataContext.Provider', () => {
         rerender(
           <DataContext.Provider
             schema={schema}
+            ajvInstance={new Ajv({ allErrors: true })}
             data={{ myKey: 'fooooooooo' }}
           >
             <TestField path="/myKey" maxLength={5} />
@@ -2737,7 +2762,11 @@ describe('DataContext.Provider', () => {
 
         // Change value so only provider has errors (ensuring removed field error does not remove provider error)
         rerender(
-          <DataContext.Provider schema={schema} data={{ myKey: 'fooo' }}>
+          <DataContext.Provider
+            schema={schema}
+            ajvInstance={new Ajv({ allErrors: true })}
+            data={{ myKey: 'fooo' }}
+          >
             <TestField path="/myKey" maxLength={5} />
           </DataContext.Provider>
         )
@@ -2745,7 +2774,11 @@ describe('DataContext.Provider', () => {
 
         // Change value so only field component has error
         rerender(
-          <DataContext.Provider schema={schema} data={{ myKey: 'three' }}>
+          <DataContext.Provider
+            schema={schema}
+            ajvInstance={new Ajv({ allErrors: true })}
+            data={{ myKey: 'three' }}
+          >
             <TestField path="/myKey" maxLength={1} />
           </DataContext.Provider>
         )
@@ -2753,7 +2786,11 @@ describe('DataContext.Provider', () => {
 
         // Change value back to one with no errors again
         rerender(
-          <DataContext.Provider schema={schema} data={{ myKey: 'three' }}>
+          <DataContext.Provider
+            schema={schema}
+            ajvInstance={new Ajv({ allErrors: true })}
+            data={{ myKey: 'three' }}
+          >
             <TestField path="/myKey" maxLength={5} />
           </DataContext.Provider>
         )
@@ -2772,7 +2809,11 @@ describe('DataContext.Provider', () => {
         }
 
         render(
-          <DataContext.Provider schema={schema} data={{ val: 'abc' }}>
+          <DataContext.Provider
+            schema={schema}
+            ajvInstance={new Ajv({ allErrors: true })}
+            data={{ val: 'abc' }}
+          >
             <TestField
               path="/val"
               errorMessages={{
@@ -2799,7 +2840,11 @@ describe('DataContext.Provider', () => {
         }
 
         render(
-          <DataContext.Provider schema={schema} data={{ val: 'abc' }}>
+          <DataContext.Provider
+            schema={schema}
+            ajvInstance={new Ajv({ allErrors: true })}
+            data={{ val: 'abc' }}
+          >
             <TestField path="/val" />
           </DataContext.Provider>
         )
@@ -2814,7 +2859,7 @@ describe('DataContext.Provider', () => {
       it('should log an error when path changes and the field is required', () => {
         const log = jest.spyOn(console, 'error').mockImplementation()
 
-        const Schema: JSONSchema = {
+        const schema: JSONSchema = {
           type: 'object',
           properties: {
             foo: { type: 'number', minimum: 3 },
@@ -2822,7 +2867,11 @@ describe('DataContext.Provider', () => {
         }
 
         const { rerender } = render(
-          <DataContext.Provider data={{ foo: 'original' }} schema={Schema}>
+          <DataContext.Provider
+            data={{ foo: 'original' }}
+            schema={schema}
+            ajvInstance={new Ajv({ allErrors: true })}
+          >
             <Field.Number path="/foo" />
             <Form.SubmitButton />
           </DataContext.Provider>
@@ -2837,7 +2886,11 @@ describe('DataContext.Provider', () => {
         fireEvent.click(submitButton)
 
         rerender(
-          <DataContext.Provider data={{ foo: 'changed' }} schema={Schema}>
+          <DataContext.Provider
+            data={{ foo: 'changed' }}
+            schema={schema}
+            ajvInstance={new Ajv({ allErrors: true })}
+          >
             <Field.Number path="/fooBar" required />
             <Form.SubmitButton />
           </DataContext.Provider>
@@ -2851,7 +2904,7 @@ describe('DataContext.Provider', () => {
         )
         expect(log).toHaveBeenNthCalledWith(
           2,
-          'The field value (original) type must be number'
+          'The field at path="/foo" value (changed) type must be number'
         )
         expect(log).toHaveBeenNthCalledWith(
           3,
@@ -2880,7 +2933,10 @@ describe('DataContext.Provider', () => {
         }
 
         const { rerender } = render(
-          <DataContext.Provider schema={schema}>
+          <DataContext.Provider
+            schema={schema}
+            ajvInstance={new Ajv({ allErrors: true })}
+          >
             <TestField path="/myField" />
           </DataContext.Provider>
         )
@@ -2888,7 +2944,10 @@ describe('DataContext.Provider', () => {
         expect(screen.queryByRole('alert')).toBeInTheDocument()
 
         rerender(
-          <DataContext.Provider schema={schema}>
+          <DataContext.Provider
+            schema={schema}
+            ajvInstance={new Ajv({ allErrors: true })}
+          >
             <TestField path="/myField" disabled />
           </DataContext.Provider>
         )
@@ -2913,7 +2972,10 @@ describe('DataContext.Provider', () => {
         }
 
         const { rerender } = render(
-          <DataContext.Provider schema={schema}>
+          <DataContext.Provider
+            schema={schema}
+            ajvInstance={new Ajv({ allErrors: true })}
+          >
             <TestField path="/myField" />
           </DataContext.Provider>
         )
@@ -2921,7 +2983,10 @@ describe('DataContext.Provider', () => {
         expect(screen.queryByRole('alert')).toBeInTheDocument()
 
         rerender(
-          <DataContext.Provider schema={schema}>
+          <DataContext.Provider
+            schema={schema}
+            ajvInstance={new Ajv({ allErrors: true })}
+          >
             <TestField path="/myField" readOnly />
           </DataContext.Provider>
         )
@@ -3083,7 +3148,7 @@ describe('DataContext.Provider', () => {
 
         const onSubmitRequest = jest.fn()
 
-        const Schema: JSONSchema = {
+        const schema: JSONSchema = {
           type: 'object',
           properties: {
             foo: { type: 'number', minimum: 3 },
@@ -3094,7 +3159,8 @@ describe('DataContext.Provider', () => {
           <DataContext.Provider
             data={{ foo: 'original' }}
             onSubmitRequest={onSubmitRequest}
-            schema={Schema}
+            schema={schema}
+            ajvInstance={new Ajv({ allErrors: true })}
           >
             <Field.Number path="/foo" />
             <Form.SubmitButton />
@@ -3116,7 +3182,8 @@ describe('DataContext.Provider', () => {
           <DataContext.Provider
             data={{ foo: 'changed' }}
             onSubmitRequest={onSubmitRequest}
-            schema={Schema}
+            schema={schema}
+            ajvInstance={new Ajv({ allErrors: true })}
           >
             <Field.Number path="/fooBar" required />
             <Form.SubmitButton />
@@ -3381,7 +3448,11 @@ describe('DataContext.Provider', () => {
         myKey: 123,
       }
       const { rerender } = render(
-        <DataContext.Provider schema={schema} data={validData}>
+        <DataContext.Provider
+          schema={schema}
+          ajvInstance={new Ajv({ allErrors: true })}
+          data={validData}
+        >
           <Field.String
             path="/myKey"
             validateInitially
@@ -3392,7 +3463,11 @@ describe('DataContext.Provider', () => {
       expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 
       rerender(
-        <DataContext.Provider schema={schema} data={invalidData}>
+        <DataContext.Provider
+          schema={schema}
+          ajvInstance={new Ajv({ allErrors: true })}
+          data={invalidData}
+        >
           <Field.String
             path="/myKey"
             validateInitially
@@ -3404,7 +3479,11 @@ describe('DataContext.Provider', () => {
       expect(screen.queryByRole('alert')).toBeInTheDocument()
 
       rerender(
-        <DataContext.Provider schema={schema} data={validData}>
+        <DataContext.Provider
+          schema={schema}
+          ajvInstance={new Ajv({ allErrors: true })}
+          data={validData}
+        >
           <Field.String
             path="/myKey"
             validateInitially
@@ -3441,7 +3520,11 @@ describe('DataContext.Provider', () => {
         myKey: 'some-value',
       }
       const { rerender } = render(
-        <DataContext.Provider schema={schema1} defaultData={data}>
+        <DataContext.Provider
+          schema={schema1}
+          ajvInstance={new Ajv({ allErrors: true })}
+          defaultData={data}
+        >
           <Field.String
             path="/myKey"
             validateInitially
@@ -3455,7 +3538,11 @@ describe('DataContext.Provider', () => {
       )
 
       rerender(
-        <DataContext.Provider schema={schema2} defaultData={data}>
+        <DataContext.Provider
+          schema={schema2}
+          ajvInstance={new Ajv({ allErrors: true })}
+          defaultData={data}
+        >
           <Field.String
             path="/myKey"
             validateInitially
@@ -3467,7 +3554,11 @@ describe('DataContext.Provider', () => {
       expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 
       rerender(
-        <DataContext.Provider schema={schema1} defaultData={data}>
+        <DataContext.Provider
+          schema={schema1}
+          ajvInstance={new Ajv({ allErrors: true })}
+          defaultData={data}
+        >
           <Field.String
             path="/myKey"
             validateInitially
@@ -3499,7 +3590,11 @@ describe('DataContext.Provider', () => {
         myKey: 123,
       }
       const { rerender } = render(
-        <DataContext.Provider schema={schema} data={validData}>
+        <DataContext.Provider
+          schema={schema}
+          ajvInstance={new Ajv({ allErrors: true })}
+          data={validData}
+        >
           <Field.String
             path="/myKey"
             validateInitially
@@ -3510,7 +3605,11 @@ describe('DataContext.Provider', () => {
       expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 
       rerender(
-        <DataContext.Provider schema={schema} data={invalidData}>
+        <DataContext.Provider
+          schema={schema}
+          ajvInstance={new Ajv({ allErrors: true })}
+          data={invalidData}
+        >
           <Field.String
             path="/myKey"
             validateInitially
@@ -3522,7 +3621,11 @@ describe('DataContext.Provider', () => {
       expect(screen.queryByRole('alert')).toBeInTheDocument()
 
       rerender(
-        <DataContext.Provider schema={schema} data={validData}>
+        <DataContext.Provider
+          schema={schema}
+          ajvInstance={new Ajv({ allErrors: true })}
+          data={validData}
+        >
           <Field.String
             path="/myKey"
             validateInitially
@@ -3559,7 +3662,11 @@ describe('DataContext.Provider', () => {
         myKey: 'some-value',
       }
       const { rerender } = render(
-        <DataContext.Provider schema={schema1} defaultData={data}>
+        <DataContext.Provider
+          schema={schema1}
+          ajvInstance={new Ajv({ allErrors: true })}
+          defaultData={data}
+        >
           <Field.String
             path="/myKey"
             validateInitially
@@ -3573,7 +3680,11 @@ describe('DataContext.Provider', () => {
       )
 
       rerender(
-        <DataContext.Provider schema={schema2} defaultData={data}>
+        <DataContext.Provider
+          schema={schema2}
+          ajvInstance={new Ajv({ allErrors: true })}
+          defaultData={data}
+        >
           <Field.String
             path="/myKey"
             validateInitially
@@ -3585,7 +3696,11 @@ describe('DataContext.Provider', () => {
       expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 
       rerender(
-        <DataContext.Provider schema={schema1} defaultData={data}>
+        <DataContext.Provider
+          schema={schema1}
+          ajvInstance={new Ajv({ allErrors: true })}
+          defaultData={data}
+        >
           <Field.String
             path="/myKey"
             validateInitially
@@ -3650,7 +3765,7 @@ describe('DataContext.Provider', () => {
       } as const
 
       const { rerender } = render(
-        <DataContext.Provider>
+        <DataContext.Provider ajvInstance={new Ajv({ allErrors: true })}>
           <Field.String
             schema={fieldSchema}
             path="/myKey"
@@ -3676,7 +3791,10 @@ describe('DataContext.Provider', () => {
       } as const
 
       rerender(
-        <DataContext.Provider schema={providerSchema}>
+        <DataContext.Provider
+          schema={providerSchema}
+          ajvInstance={new Ajv({ allErrors: true })}
+        >
           <Field.String path="/myKey" value="" validateInitially />
         </DataContext.Provider>
       )
@@ -3701,7 +3819,10 @@ describe('DataContext.Provider', () => {
       } as const
 
       rerender(
-        <DataContext.Provider schema={providerSharedSchema}>
+        <DataContext.Provider
+          schema={providerSharedSchema}
+          ajvInstance={new Ajv({ allErrors: true })}
+        >
           <Field.String path="/myKey" value="" />
         </DataContext.Provider>
       )

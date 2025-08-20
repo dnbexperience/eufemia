@@ -1,5 +1,5 @@
 import React from 'react'
-import { Ajv, FormError, JsonObject, makeAjvInstance } from '../utils'
+import { Ajv, FormError, JsonObject } from '../utils'
 import {
   AllJSONSchemaVersions,
   GlobalErrorMessagesWithPaths,
@@ -34,6 +34,7 @@ export type EventListenerCall = {
     | 'onSubmitCall'
     | 'onSubmitRequest'
     | 'onBeforeCommit'
+    | 'onAfterCommit'
     | 'onPathChange'
     | 'onMount'
     | 'onSetFieldError'
@@ -209,7 +210,7 @@ export interface ContextState {
   showAllErrors: boolean | number
   hasVisibleError: boolean
   formState: SubmitState
-  ajvInstance: Ajv
+  getAjvInstance?: (instance?: Ajv) => Ajv
   contextErrorMessages: GlobalErrorMessagesWithPaths
   schema: AllJSONSchemaVersions
   path?: Path
@@ -247,7 +248,6 @@ export const defaultContextState: ContextState = {
   hasErrors: () => false,
   hasFieldState: () => false,
   hasFieldError: () => false,
-  ajvInstance: makeAjvInstance(),
   contextErrorMessages: undefined,
   props: null,
 }
