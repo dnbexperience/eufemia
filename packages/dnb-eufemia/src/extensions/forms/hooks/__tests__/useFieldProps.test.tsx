@@ -28,6 +28,7 @@ import Field, {
   UseFieldProps,
   Wizard,
 } from '../../Forms'
+import { Ajv } from '../../Forms'
 import { spyOnEufemiaWarn, wait } from '../../../../core/jest/jestSetup'
 import { useSharedState } from '../../../../shared/helpers/useSharedState'
 
@@ -2114,7 +2115,12 @@ describe('useFieldProps', () => {
             }),
           {
             wrapper: ({ children }) => {
-              return <Provider schema={schema}>{children}</Provider>
+              const ajv = new Ajv({ allErrors: true })
+              return (
+                <Provider schema={schema} ajvInstance={ajv}>
+                  {children}
+                </Provider>
+              )
             },
           }
         )
@@ -2148,7 +2154,12 @@ describe('useFieldProps', () => {
             }),
           {
             wrapper: ({ children }) => {
-              return <Provider schema={schema}>{children}</Provider>
+              const ajv = new Ajv({ allErrors: true })
+              return (
+                <Provider schema={schema} ajvInstance={ajv}>
+                  {children}
+                </Provider>
+              )
             },
           }
         )
@@ -3354,7 +3365,9 @@ describe('useFieldProps', () => {
 
           await userEvent.type(inputWithRefValue, '3')
 
-          expect(screen.queryByRole('alert')).toBeInTheDocument()
+          await waitFor(() => {
+            expect(screen.queryByRole('alert')).toBeInTheDocument()
+          })
         })
       })
 
@@ -4746,7 +4759,9 @@ describe('useFieldProps', () => {
 
           await userEvent.type(inputWithRefValue, '3')
 
-          expect(screen.queryByRole('alert')).toBeInTheDocument()
+          await waitFor(() => {
+            expect(screen.queryByRole('alert')).toBeInTheDocument()
+          })
         })
       })
 
@@ -5202,7 +5217,9 @@ describe('useFieldProps', () => {
 
           await userEvent.type(inputWithRefValue, '3')
 
-          expect(screen.queryByRole('alert')).toBeInTheDocument()
+          await waitFor(() => {
+            expect(screen.queryByRole('alert')).toBeInTheDocument()
+          })
         })
       })
 
@@ -7871,5 +7888,33 @@ describe('useFieldProps', () => {
 
       expect(log).toHaveBeenCalledTimes(0)
     })
+  })
+})
+
+describe('AJV schema warnings', () => {
+  it('warns when Field has JSON Schema but Form.Handler has no ajvInstance', async () => {
+    const log = spyOnEufemiaWarn()
+
+    const schema: JSONSchema = {
+      type: 'string',
+      pattern: '.*',
+    }
+
+    render(
+      <Form.Handler>
+        <Field.String path="/foo" schema={schema} />
+      </Form.Handler>
+    )
+
+    await waitFor(() =>
+      expect(log).toHaveBeenCalledWith(
+        expect.any(String),
+        expect.stringContaining(
+          'Field (/foo) received a JSON Schema but no ajvInstance'
+        )
+      )
+    )
+
+    log.mockRestore()
   })
 })
