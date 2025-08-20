@@ -15,7 +15,12 @@ import {
   overwriteErrorMessagesWithGivenAjvKeys,
   extendErrorMessagesWithTranslationMessages,
   FormError,
+  isZodSchema,
+  createZodValidator,
+  zodErrorsToOneFormError,
+  makeAjvInstance,
 } from '../utils'
+import * as z from 'zod'
 import {
   FieldPropsGeneric,
   ProvideAdditionalEventArgs,
@@ -218,6 +223,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     setFieldConnection: setFieldConnectionDataContext,
     revealError: revealErrorDataContext,
     setMountedFieldState: setMountedFieldStateDataContext,
+    getAjvInstance: getAjvInstanceDataContext,
     setFieldEventListener,
     errors: dataContextErrors,
     showAllErrors,
@@ -226,6 +232,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     existingFieldsRef,
     fieldInternalsRef,
     prerenderFieldProps,
+    hasContext: hasDataContext,
   } = dataContext || {}
   const onChangeContext = dataContext?.props?.onChange
 
@@ -233,6 +240,35 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const inFieldBlock = Boolean(
     fieldBlockContext && fieldBlockContext.disableStatusSummary !== true
   )
+
+  // Support schema as a factory function evaluated after props are extended
+  const resolvedSchema = useMemo(() => {
+    const s = schema as unknown
+    if (typeof s === 'function') {
+      try {
+        return (s as (p: typeof props) => unknown)(props) as unknown
+      } catch (_) {
+        return undefined
+      }
+    }
+    return s
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [schema])
+  const finalSchema = useMemo(() => {
+    const s = resolvedSchema
+    if (typeof s === 'function') {
+      try {
+        return s(props)
+      } catch (_) {
+        return undefined
+      }
+    }
+    return s
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [resolvedSchema])
+  const hasZodSchema = isZodSchema(finalSchema)
   const {
     setBlockRecord,
     setFieldState: setFieldStateFieldBlock,
@@ -285,6 +321,33 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const externalValue = transformers.current.transformIn(
     tmpValue ?? defaultValueRef.current
   )
+
+  // Warn if a field uses a JSON Schema inside Form.Handler without an explicit ajvInstance prop.
+  // Skip this warning for internally generated schemas (e.g. from Iterate.Array minItems/maxItems).
+  useEffect(() => {
+    if (
+      finalSchema &&
+      !hasZodSchema &&
+      // Do not warn for internally generated schemas
+      !omitMultiplePathWarning &&
+      // Only warn when running inside a Provider (Form.Handler)
+      hasDataContext &&
+      !dataContext?.props?.ajvInstance
+    ) {
+      warn(
+        `Field${
+          identifier ? ` (${identifier})` : ''
+        } received a JSON Schema but no ajvInstance was provided to Form.Handler. Provide "ajvInstance" on Form.Handler.`
+      )
+    }
+  }, [
+    finalSchema,
+    hasZodSchema,
+    identifier,
+    hasDataContext,
+    dataContext?.props?.ajvInstance,
+    omitMultiplePathWarning,
+  ])
 
   // Many variables are kept in refs to avoid triggering unnecessary update loops because updates using
   // useEffect depend on them (like the external `value`)
@@ -514,9 +577,22 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     onBlurValidatorRef.current = onBlurValidator
   }, [onBlurValidator])
 
-  const schemaValidatorRef = useRef<ValidateFunction>()
-  if (!schemaValidatorRef.current && schema) {
-    schemaValidatorRef.current = dataContext.ajvInstance?.compile(schema)
+  const getAjvInstance = useCallback(() => {
+    return hasDataContext
+      ? getAjvInstanceDataContext?.()
+      : makeAjvInstance()
+  }, [hasDataContext, getAjvInstanceDataContext])
+
+  const schemaValidatorRef = useRef<
+    ValidateFunction | ((value: unknown) => true | z.ZodError<any>)
+  >()
+  // Compile synchronously on first pass so initial validation uses the correct schema
+  if (!schemaValidatorRef.current && finalSchema) {
+    if (hasZodSchema) {
+      schemaValidatorRef.current = createZodValidator(finalSchema)
+    } else {
+      schemaValidatorRef.current = getAjvInstance()?.compile?.(finalSchema)
+    }
   }
 
   // - Async behavior
@@ -776,7 +852,10 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   }, [dataContextErrors, identifier, prepareError])
 
   // If the error is a type error, we want to show it even if the field has not been used
-  if (localErrorRef.current?.['ajvKeyword'] === 'type') {
+  if (
+    localErrorRef.current?.['ajvKeyword'] === 'type' ||
+    contextErrorRef.current?.['ajvKeyword'] === 'type'
+  ) {
     revealErrorRef.current = true
   }
 
@@ -787,6 +866,10 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     ) {
       return prepareError(errorProp)
     } else if (revealErrorRef.current) {
+      // For type errors, prioritize context (Provider) errors over local validation errors
+      if (contextErrorRef.current?.['ajvKeyword'] === 'type') {
+        return contextErrorRef.current
+      }
       return (
         prepareError(error as FormError) ??
         localErrorRef.current ??
@@ -1055,10 +1138,17 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const clearErrorState = useCallback(() => {
     persistErrorState('wipe', undefined)
     localErrorInitiatorRef.current = undefined
-    if (Array.isArray(schemaValidatorRef.current?.errors)) {
-      schemaValidatorRef.current.errors = []
+    const schemaValidator = schemaValidatorRef.current as ValidateFunction
+
+    // Clear AJV errors if it's an AJV validator
+    if (
+      schemaValidator &&
+      !hasZodSchema &&
+      Array.isArray((schemaValidator as ValidateFunction)?.errors)
+    ) {
+      schemaValidator.errors = []
     }
-  }, [persistErrorState])
+  }, [persistErrorState, hasZodSchema])
 
   const setChanged = useCallback((state: boolean) => {
     changedRef.current = state
@@ -1373,17 +1463,28 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         throw error
       }
 
-      // Validate by provided JSON Schema for this value
+      // Validate by provided schema (AJV or Zod) for this value
       if (
         value !== undefined &&
         !prioritizeContextSchema &&
         typeof schemaValidatorRef.current === 'function'
       ) {
-        if (!schemaValidatorRef.current(value)) {
-          const error = ajvErrorsToOneFormError(
-            schemaValidatorRef.current.errors,
-            value
-          )
+        const validationResult = schemaValidatorRef.current(value)
+        if (validationResult !== true) {
+          let error: FormError | undefined
+
+          if (hasZodSchema) {
+            // Zod validation failed - validationResult is a ZodError
+            const zodError = validationResult as z.ZodError<any>
+            error = zodErrorsToOneFormError(zodError.issues, value)
+          } else {
+            // AJV validation failed - validationResult is false
+            error = ajvErrorsToOneFormError(
+              (schemaValidatorRef.current as ValidateFunction).errors,
+              value
+            )
+          }
+
           initiator = 'schema'
           throw error
         }
@@ -1431,6 +1532,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     disabled,
     emptyValue,
     error,
+    hasZodSchema,
     hideError,
     persistErrorState,
     prioritizeContextSchema,
@@ -2065,11 +2167,18 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   }, [validateValue])
 
   useUpdateEffect(() => {
-    schemaValidatorRef.current = schema
-      ? dataContext.ajvInstance?.compile(schema)
-      : undefined
+    if (finalSchema) {
+      if (hasZodSchema) {
+        schemaValidatorRef.current = createZodValidator(finalSchema)
+      } else {
+        schemaValidatorRef.current =
+          getAjvInstance()?.compile?.(finalSchema)
+      }
+    } else {
+      schemaValidatorRef.current = undefined
+    }
     validateValue()
-  }, [schema])
+  }, [finalSchema, hasZodSchema])
 
   // Use "useLayoutEffect" and "externalValueDidChangeRef"
   // to cooperate with the the data context "updateDataValueDataContext" routine further down,
