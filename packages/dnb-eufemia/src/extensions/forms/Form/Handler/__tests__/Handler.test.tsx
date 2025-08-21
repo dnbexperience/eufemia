@@ -1380,4 +1380,13 @@ describe('Form.Handler TypeScript type validation', () => {
       )
     })
   })
+
+  it('should support innerRef prop', () => {
+    const formRef = React.createRef<HTMLFormElement>()
+
+    render(<Form.Handler innerRef={formRef}>...</Form.Handler>)
+
+    expect(formRef.current).toBeDefined()
+    expect(formRef.current.tagName).toBe('FORM')
+  })
 })
