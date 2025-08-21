@@ -7,6 +7,9 @@
  * cdc: Country Dialing Code
  */
 
+import nbLocale from './locales/countries/nb-NO'
+import enLocale from './locales/countries/en-GB'
+
 export type CountryISO = (typeof countries)[number]['iso']
 export type CountryCdc = (typeof countries)[number]['cdc']
 
@@ -43,11 +46,14 @@ export const prioritizedCountries = [
   'Finland',
 ]
 
+const en = enLocale['en-GB']
+const nb = nbLocale['nb-NO']
+
 const countries = [
   {
     i18n: {
-      en: 'Afghanistan',
-      nb: 'Afghanistan',
+      en: en.countries.AF,
+      nb: nb.countries.AF,
     },
     cdc: '93',
     iso: 'AF',
@@ -55,8 +61,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Albania',
-      nb: 'Albania',
+      en: en.countries.AL,
+      nb: nb.countries.AL,
     },
     cdc: '355',
     iso: 'AL',
@@ -64,8 +70,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Algeria',
-      nb: 'Algerie',
+      en: en.countries.DZ,
+      nb: nb.countries.DZ,
     },
     cdc: '213',
     iso: 'DZ',
@@ -73,8 +79,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'American Samoa',
-      nb: 'Amerikansk Samoa',
+      en: en.countries.AS,
+      nb: nb.countries.AS,
     },
     cdc: '1-684',
     iso: 'AS',
@@ -82,8 +88,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Andorra',
-      nb: 'Andorra',
+      en: en.countries.AD,
+      nb: nb.countries.AD,
     },
     cdc: '376',
     iso: 'AD',
@@ -91,8 +97,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Angola',
-      nb: 'Angola',
+      en: en.countries.AO,
+      nb: nb.countries.AO,
     },
     cdc: '244',
     iso: 'AO',
@@ -100,8 +106,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Anguilla',
-      nb: 'Anguilla',
+      en: en.countries.AI,
+      nb: nb.countries.AI,
     },
     cdc: '1-264',
     iso: 'AI',
@@ -109,8 +115,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Antarctica',
-      nb: 'Antarktis',
+      en: en.countries.AQ,
+      nb: nb.countries.AQ,
     },
     cdc: '672',
     iso: 'AQ',
@@ -118,8 +124,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Antigua and Barbuda',
-      nb: 'Antigua og Barbuda',
+      en: en.countries.AG,
+      nb: nb.countries.AG,
     },
     cdc: '1-268',
     iso: 'AG',
@@ -127,8 +133,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Argentina',
-      nb: 'Argentina',
+      en: en.countries.AR,
+      nb: nb.countries.AR,
     },
     cdc: '54',
     iso: 'AR',
@@ -136,8 +142,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Armenia',
-      nb: 'Armenia',
+      en: en.countries.AM,
+      nb: nb.countries.AM,
     },
     cdc: '374',
     iso: 'AM',
@@ -145,8 +151,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Aruba',
-      nb: 'Aruba',
+      en: en.countries.AW,
+      nb: nb.countries.AW,
     },
     cdc: '297',
     iso: 'AW',
@@ -154,8 +160,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Australia',
-      nb: 'Australia',
+      en: en.countries.AU,
+      nb: nb.countries.AU,
     },
     cdc: '61',
     iso: 'AU',
@@ -163,8 +169,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Austria',
-      nb: 'Østerrike',
+      en: en.countries.AT,
+      nb: nb.countries.AT,
     },
     cdc: '43',
     iso: 'AT',
@@ -172,8 +178,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Azerbaijan',
-      nb: 'Aserbajdsjan',
+      en: en.countries.AZ,
+      nb: nb.countries.AZ,
     },
     cdc: '994',
     iso: 'AZ',
@@ -181,8 +187,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Bahamas',
-      nb: 'Bahamas',
+      en: en.countries.BS,
+      nb: nb.countries.BS,
     },
     cdc: '1-242',
     iso: 'BS',
@@ -190,8 +196,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Bahrain',
-      nb: 'Bahrain',
+      en: en.countries.BH,
+      nb: nb.countries.BH,
     },
     cdc: '973',
     iso: 'BH',
@@ -199,8 +205,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Bangladesh',
-      nb: 'Bangladesh',
+      en: en.countries.BD,
+      nb: nb.countries.BD,
     },
     cdc: '880',
     iso: 'BD',
@@ -208,8 +214,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Barbados',
-      nb: 'Barbados',
+      en: en.countries.BB,
+      nb: nb.countries.BB,
     },
     cdc: '1-246',
     iso: 'BB',
@@ -217,8 +223,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Belarus',
-      nb: 'Belarus',
+      en: en.countries.BY,
+      nb: nb.countries.BY,
     },
     cdc: '375',
     iso: 'BY',
@@ -226,8 +232,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Belgium',
-      nb: 'Belgia',
+      en: en.countries.BE,
+      nb: nb.countries.BE,
     },
     cdc: '32',
     iso: 'BE',
@@ -235,8 +241,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Belize',
-      nb: 'Belize',
+      en: en.countries.BZ,
+      nb: nb.countries.BZ,
     },
     cdc: '501',
     iso: 'BZ',
@@ -244,8 +250,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Benin',
-      nb: 'Benin',
+      en: en.countries.BJ,
+      nb: nb.countries.BJ,
     },
     cdc: '229',
     iso: 'BJ',
@@ -253,8 +259,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Bermuda',
-      nb: 'Bermuda',
+      en: en.countries.BM,
+      nb: nb.countries.BM,
     },
     cdc: '1-441',
     iso: 'BM',
@@ -262,8 +268,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Bhutan',
-      nb: 'Bhutan',
+      en: en.countries.BT,
+      nb: nb.countries.BT,
     },
     cdc: '975',
     iso: 'BT',
@@ -271,8 +277,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Bolivia',
-      nb: 'Bolivia',
+      en: en.countries.BO,
+      nb: nb.countries.BO,
     },
     cdc: '591',
     iso: 'BO',
@@ -280,8 +286,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Bosnia and Herzegovina',
-      nb: 'Bosnia-Hercegovina',
+      en: en.countries.BA,
+      nb: nb.countries.BA,
     },
     cdc: '387',
     iso: 'BA',
@@ -289,8 +295,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Botswana',
-      nb: 'Botswana',
+      en: en.countries.BW,
+      nb: nb.countries.BW,
     },
     cdc: '267',
     iso: 'BW',
@@ -298,8 +304,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Bouvet Island',
-      nb: 'Bouvetøya',
+      en: en.countries.BV,
+      nb: nb.countries.BV,
     },
     cdc: '47', // Uncertain, low to no population on these islands
     iso: 'BV',
@@ -307,8 +313,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Brazil',
-      nb: 'Brasil',
+      en: en.countries.BR,
+      nb: nb.countries.BR,
     },
     cdc: '55',
     iso: 'BR',
@@ -316,8 +322,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'British Indian Ocean Territory',
-      nb: 'Det britiske territoriet i Indiahavet',
+      en: en.countries.IO,
+      nb: nb.countries.IO,
     },
     cdc: '246',
     iso: 'IO',
@@ -325,8 +331,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'British Virgin Islands',
-      nb: 'De britiske Jomfruøyer',
+      en: en.countries.VG,
+      nb: nb.countries.VG,
     },
     cdc: '1-284',
     iso: 'VG',
@@ -334,8 +340,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Brunei',
-      nb: 'Brunei',
+      en: en.countries.BN,
+      nb: nb.countries.BN,
     },
     cdc: '673',
     iso: 'BN',
@@ -343,8 +349,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Bulgaria',
-      nb: 'Bulgaria',
+      en: en.countries.BG,
+      nb: nb.countries.BG,
     },
     cdc: '359',
     iso: 'BG',
@@ -352,8 +358,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Burkina Faso',
-      nb: 'Burkina Faso',
+      en: en.countries.BF,
+      nb: nb.countries.BF,
     },
     cdc: '226',
     iso: 'BF',
@@ -361,8 +367,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Burundi',
-      nb: 'Burundi',
+      en: en.countries.BI,
+      nb: nb.countries.BI,
     },
     cdc: '257',
     iso: 'BI',
@@ -370,8 +376,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Cambodia',
-      nb: 'Kambodsja',
+      en: en.countries.KH,
+      nb: nb.countries.KH,
     },
     cdc: '855',
     iso: 'KH',
@@ -379,8 +385,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Cameroon',
-      nb: 'Kamerun',
+      en: en.countries.CM,
+      nb: nb.countries.CM,
     },
     cdc: '237',
     iso: 'CM',
@@ -388,8 +394,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Canada',
-      nb: 'Canada',
+      en: en.countries.CA,
+      nb: nb.countries.CA,
     },
     cdc: '1',
     iso: 'CA',
@@ -397,8 +403,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Cape Verde',
-      nb: 'Kapp Verde',
+      en: en.countries.CV,
+      nb: nb.countries.CV,
     },
     cdc: '238',
     iso: 'CV',
@@ -406,8 +412,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Bonaire, Sint Eustatius and Saba',
-      nb: 'Bonaire, Sint Eustatius og Saba',
+      en: en.countries.BQ,
+      nb: nb.countries.BQ,
     },
     cdc: '599',
     iso: 'BQ',
@@ -415,8 +421,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Cayman Islands',
-      nb: 'Caymanøyene',
+      en: en.countries.KY,
+      nb: nb.countries.KY,
     },
     cdc: '1-345',
     iso: 'KY',
@@ -424,8 +430,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Central African Republic',
-      nb: 'Den sentralafrikanske republikk',
+      en: en.countries.CF,
+      nb: nb.countries.CF,
     },
     cdc: '236',
     iso: 'CF',
@@ -433,8 +439,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Chad',
-      nb: 'Tsjad',
+      en: en.countries.TD,
+      nb: nb.countries.TD,
     },
     cdc: '235',
     iso: 'TD',
@@ -442,8 +448,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Chile',
-      nb: 'Chile',
+      en: en.countries.CL,
+      nb: nb.countries.CL,
     },
     cdc: '56',
     iso: 'CL',
@@ -451,8 +457,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'China',
-      nb: 'Kina',
+      en: en.countries.CN,
+      nb: nb.countries.CN,
     },
     cdc: '86',
     iso: 'CN',
@@ -460,8 +466,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Christmas Island',
-      nb: 'Christmasøya',
+      en: en.countries.CX,
+      nb: nb.countries.CX,
     },
     cdc: '61',
     iso: 'CX',
@@ -469,8 +475,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Cocos Islands',
-      nb: 'Kokosøyene',
+      en: en.countries.CC,
+      nb: nb.countries.CC,
     },
     cdc: '61',
     iso: 'CC',
@@ -478,8 +484,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Colombia',
-      nb: 'Colombia',
+      en: en.countries.CO,
+      nb: nb.countries.CO,
     },
     cdc: '57',
     iso: 'CO',
@@ -487,8 +493,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Comoros',
-      nb: 'Komorene',
+      en: en.countries.KM,
+      nb: nb.countries.KM,
     },
     cdc: '269',
     iso: 'KM',
@@ -496,8 +502,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Cook Islands',
-      nb: 'Cookøyene',
+      en: en.countries.CK,
+      nb: nb.countries.CK,
     },
     cdc: '682',
     iso: 'CK',
@@ -505,8 +511,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Costa Rica',
-      nb: 'Costa Rica',
+      en: en.countries.CR,
+      nb: nb.countries.CR,
     },
     cdc: '506',
     iso: 'CR',
@@ -514,8 +520,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Croatia',
-      nb: 'Kroatia',
+      en: en.countries.HR,
+      nb: nb.countries.HR,
     },
     cdc: '385',
     iso: 'HR',
@@ -523,8 +529,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Cuba',
-      nb: 'Cuba',
+      en: en.countries.CU,
+      nb: nb.countries.CU,
     },
     cdc: '53',
     iso: 'CU',
@@ -532,8 +538,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Curaçao',
-      nb: 'Curaçao',
+      en: en.countries.CW,
+      nb: nb.countries.CW,
     },
     cdc: '599',
     iso: 'CW',
@@ -541,8 +547,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Cyprus',
-      nb: 'Kypros',
+      en: en.countries.CY,
+      nb: nb.countries.CY,
     },
     cdc: '357',
     iso: 'CY',
@@ -550,8 +556,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Czech Republic',
-      nb: 'Tsjekkia',
+      en: en.countries.CZ,
+      nb: nb.countries.CZ,
     },
     cdc: '420',
     iso: 'CZ',
@@ -559,8 +565,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Congo, the Democratic Republic',
-      nb: 'Kongo, den demokratiske republikken',
+      en: en.countries.CD,
+      nb: nb.countries.CD,
     },
     cdc: '243',
     iso: 'CD',
@@ -568,8 +574,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Denmark',
-      nb: 'Danmark',
+      en: en.countries.DK,
+      nb: nb.countries.DK,
     },
     cdc: '45',
     iso: 'DK',
@@ -578,8 +584,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Djibouti',
-      nb: 'Djibouti',
+      en: en.countries.DJ,
+      nb: nb.countries.DJ,
     },
     cdc: '253',
     iso: 'DJ',
@@ -587,8 +593,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Dominica',
-      nb: 'Dominica',
+      en: en.countries.DM,
+      nb: nb.countries.DM,
     },
     cdc: '1-767',
     iso: 'DM',
@@ -596,8 +602,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Dominican Republic',
-      nb: 'Den dominikanske republikk',
+      en: en.countries.DO,
+      nb: nb.countries.DO,
     },
     cdc: '1-809',
     iso: 'DO',
@@ -605,8 +611,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'East Timor',
-      nb: 'Øst-Timor',
+      en: en.countries.TL,
+      nb: nb.countries.TL,
     },
     cdc: '670',
     iso: 'TL',
@@ -614,8 +620,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Ecuador',
-      nb: 'Ecuador',
+      en: en.countries.EC,
+      nb: nb.countries.EC,
     },
     cdc: '593',
     iso: 'EC',
@@ -623,8 +629,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Egypt',
-      nb: 'Egypt',
+      en: en.countries.EG,
+      nb: nb.countries.EG,
     },
     cdc: '20',
     iso: 'EG',
@@ -632,8 +638,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'El Salvador',
-      nb: 'El Salvador',
+      en: en.countries.SV,
+      nb: nb.countries.SV,
     },
     cdc: '503',
     iso: 'SV',
@@ -641,8 +647,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Equatorial Guinea',
-      nb: 'Ekvatorial-Guinea',
+      en: en.countries.GQ,
+      nb: nb.countries.GQ,
     },
     cdc: '240',
     iso: 'GQ',
@@ -650,8 +656,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Eritrea',
-      nb: 'Eritrea',
+      en: en.countries.ER,
+      nb: nb.countries.ER,
     },
     cdc: '291',
     iso: 'ER',
@@ -659,8 +665,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Estonia',
-      nb: 'Estland',
+      en: en.countries.EE,
+      nb: nb.countries.EE,
     },
     cdc: '372',
     iso: 'EE',
@@ -668,8 +674,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Eswatini',
-      nb: 'Eswatini',
+      en: en.countries.SZ,
+      nb: nb.countries.SZ,
     },
     cdc: '268',
     iso: 'SZ',
@@ -677,8 +683,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Ethiopia',
-      nb: 'Etiopia',
+      en: en.countries.ET,
+      nb: nb.countries.ET,
     },
     cdc: '251',
     iso: 'ET',
@@ -686,8 +692,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Falkland Islands',
-      nb: 'Falklandsøyene',
+      en: en.countries.FK,
+      nb: nb.countries.FK,
     },
     cdc: '500',
     iso: 'FK',
@@ -695,8 +701,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Faroe Islands',
-      nb: 'Færøyene',
+      en: en.countries.FO,
+      nb: nb.countries.FO,
     },
     cdc: '298',
     iso: 'FO',
@@ -705,8 +711,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Fiji',
-      nb: 'Fiji',
+      en: en.countries.FJ,
+      nb: nb.countries.FJ,
     },
     cdc: '679',
     iso: 'FJ',
@@ -714,8 +720,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Finland',
-      nb: 'Finland',
+      en: en.countries.FI,
+      nb: nb.countries.FI,
     },
     cdc: '358',
     iso: 'FI',
@@ -724,8 +730,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'France',
-      nb: 'Frankrike',
+      en: en.countries.FR,
+      nb: nb.countries.FR,
     },
     cdc: '33',
     iso: 'FR',
@@ -733,8 +739,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'French Guiana',
-      nb: 'Fransk Guyana',
+      en: en.countries.GF,
+      nb: nb.countries.GF,
     },
     cdc: '594',
     iso: 'GF',
@@ -742,8 +748,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'French Polynesia',
-      nb: 'Fransk Polynesia',
+      en: en.countries.PF,
+      nb: nb.countries.PF,
     },
     cdc: '689',
     iso: 'PF',
@@ -751,8 +757,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'French Southern and Antarctic Lands',
-      nb: 'De franske sørterritorier',
+      en: en.countries.TF,
+      nb: nb.countries.TF,
     },
     cdc: '262', // Uncertain, low to no population on these islands
     iso: 'TF',
@@ -760,8 +766,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Gabon',
-      nb: 'Gabon',
+      en: en.countries.GA,
+      nb: nb.countries.GA,
     },
     cdc: '241',
     iso: 'GA',
@@ -769,8 +775,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Gambia',
-      nb: 'Gambia',
+      en: en.countries.GM,
+      nb: nb.countries.GM,
     },
     cdc: '220',
     iso: 'GM',
@@ -778,8 +784,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Georgia',
-      nb: 'Georgia',
+      en: en.countries.GE,
+      nb: nb.countries.GE,
     },
     cdc: '995',
     iso: 'GE',
@@ -787,8 +793,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Germany',
-      nb: 'Tyskland',
+      en: en.countries.DE,
+      nb: nb.countries.DE,
     },
     cdc: '49',
     iso: 'DE',
@@ -796,8 +802,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Ghana',
-      nb: 'Ghana',
+      en: en.countries.GH,
+      nb: nb.countries.GH,
     },
     cdc: '233',
     iso: 'GH',
@@ -805,8 +811,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Gibraltar',
-      nb: 'Gibraltar',
+      en: en.countries.GI,
+      nb: nb.countries.GI,
     },
     cdc: '350',
     iso: 'GI',
@@ -814,8 +820,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Greece',
-      nb: 'Hellas',
+      en: en.countries.GR,
+      nb: nb.countries.GR,
     },
     cdc: '30',
     iso: 'GR',
@@ -823,8 +829,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Greenland',
-      nb: 'Grønland',
+      en: en.countries.GL,
+      nb: nb.countries.GL,
     },
     cdc: '299',
     iso: 'GL',
@@ -833,8 +839,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Grenada',
-      nb: 'Grenada',
+      en: en.countries.GD,
+      nb: nb.countries.GD,
     },
     cdc: '1-473',
     iso: 'GD',
@@ -842,8 +848,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Guadeloupe',
-      nb: 'Guadeloupe',
+      en: en.countries.GP,
+      nb: nb.countries.GP,
     },
     cdc: '590',
     iso: 'GP',
@@ -851,8 +857,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Guam',
-      nb: 'Guam',
+      en: en.countries.GU,
+      nb: nb.countries.GU,
     },
     cdc: '1-671',
     iso: 'GU',
@@ -860,8 +866,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Guatemala',
-      nb: 'Guatemala',
+      en: en.countries.GT,
+      nb: nb.countries.GT,
     },
     cdc: '502',
     iso: 'GT',
@@ -869,8 +875,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Guernsey',
-      nb: 'Guernsey',
+      en: en.countries.GG,
+      nb: nb.countries.GG,
     },
     cdc: '44-1481',
     iso: 'GG',
@@ -878,8 +884,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Guinea',
-      nb: 'Guinea',
+      en: en.countries.GN,
+      nb: nb.countries.GN,
     },
     cdc: '224',
     iso: 'GN',
@@ -887,8 +893,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Guinea-Bissau',
-      nb: 'Guinea-Bissau',
+      en: en.countries.GW,
+      nb: nb.countries.GW,
     },
     cdc: '245',
     iso: 'GW',
@@ -896,8 +902,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Guyana',
-      nb: 'Guyana',
+      en: en.countries.GY,
+      nb: nb.countries.GY,
     },
     cdc: '592',
     iso: 'GY',
@@ -905,8 +911,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Haiti',
-      nb: 'Haiti',
+      en: en.countries.HT,
+      nb: nb.countries.HT,
     },
     cdc: '509',
     iso: 'HT',
@@ -914,8 +920,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Heard Island and McDonald Islands',
-      nb: 'Heard- og McDonaldøyene',
+      en: en.countries.HM,
+      nb: nb.countries.HM,
     },
     cdc: '672',
     iso: 'HM',
@@ -923,8 +929,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Honduras',
-      nb: 'Honduras',
+      en: en.countries.HN,
+      nb: nb.countries.HN,
     },
     cdc: '504',
     iso: 'HN',
@@ -932,8 +938,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Hong Kong',
-      nb: 'Hongkong',
+      en: en.countries.HK,
+      nb: nb.countries.HK,
     },
     cdc: '852',
     iso: 'HK',
@@ -941,8 +947,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Hungary',
-      nb: 'Ungarn',
+      en: en.countries.HU,
+      nb: nb.countries.HU,
     },
     cdc: '36',
     iso: 'HU',
@@ -950,8 +956,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Iceland',
-      nb: 'Island',
+      en: en.countries.IS,
+      nb: nb.countries.IS,
     },
     cdc: '354',
     iso: 'IS',
@@ -960,8 +966,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'India',
-      nb: 'India',
+      en: en.countries.IN,
+      nb: nb.countries.IN,
     },
     cdc: '91',
     iso: 'IN',
@@ -969,8 +975,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Indonesia',
-      nb: 'Indonesia',
+      en: en.countries.ID,
+      nb: nb.countries.ID,
     },
     cdc: '62',
     iso: 'ID',
@@ -978,8 +984,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Iran',
-      nb: 'Iran',
+      en: en.countries.IR,
+      nb: nb.countries.IR,
     },
     cdc: '98',
     iso: 'IR',
@@ -987,8 +993,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Iraq',
-      nb: 'Irak',
+      en: en.countries.IQ,
+      nb: nb.countries.IQ,
     },
     cdc: '964',
     iso: 'IQ',
@@ -996,8 +1002,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Ireland',
-      nb: 'Irland',
+      en: en.countries.IE,
+      nb: nb.countries.IE,
     },
     cdc: '353',
     iso: 'IE',
@@ -1005,8 +1011,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Isle of Man',
-      nb: 'Man',
+      en: en.countries.IM,
+      nb: nb.countries.IM,
     },
     cdc: '44-1624',
     iso: 'IM',
@@ -1014,8 +1020,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Israel',
-      nb: 'Israel',
+      en: en.countries.IL,
+      nb: nb.countries.IL,
     },
     cdc: '972',
     iso: 'IL',
@@ -1023,8 +1029,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Italy',
-      nb: 'Italia',
+      en: en.countries.IT,
+      nb: nb.countries.IT,
     },
     cdc: '39',
     iso: 'IT',
@@ -1032,8 +1038,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Ivory Coast',
-      nb: 'Elfenbenskysten',
+      en: en.countries.CI,
+      nb: nb.countries.CI,
     },
     cdc: '225',
     iso: 'CI',
@@ -1041,8 +1047,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Jamaica',
-      nb: 'Jamaica',
+      en: en.countries.JM,
+      nb: nb.countries.JM,
     },
     cdc: '1-876',
     iso: 'JM',
@@ -1050,8 +1056,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Japan',
-      nb: 'Japan',
+      en: en.countries.JP,
+      nb: nb.countries.JP,
     },
     cdc: '81',
     iso: 'JP',
@@ -1059,8 +1065,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Jersey',
-      nb: 'Jersey',
+      en: en.countries.JE,
+      nb: nb.countries.JE,
     },
     cdc: '44-1534',
     iso: 'JE',
@@ -1068,8 +1074,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Jordan',
-      nb: 'Jordan',
+      en: en.countries.JO,
+      nb: nb.countries.JO,
     },
     cdc: '962',
     iso: 'JO',
@@ -1077,8 +1083,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Kazakhstan',
-      nb: 'Kasakhstan',
+      en: en.countries.KZ,
+      nb: nb.countries.KZ,
     },
     cdc: '7',
     iso: 'KZ',
@@ -1086,8 +1092,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Kenya',
-      nb: 'Kenya',
+      en: en.countries.KE,
+      nb: nb.countries.KE,
     },
     cdc: '254',
     iso: 'KE',
@@ -1095,8 +1101,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Kiribati',
-      nb: 'Kiribati',
+      en: en.countries.KI,
+      nb: nb.countries.KI,
     },
     cdc: '686',
     iso: 'KI',
@@ -1104,8 +1110,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Kosovo',
-      nb: 'Kosovo',
+      en: en.countries.XK,
+      nb: nb.countries.XK,
     },
     cdc: '383',
     iso: 'XK',
@@ -1113,8 +1119,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Kuwait',
-      nb: 'Kuwait',
+      en: en.countries.KW,
+      nb: nb.countries.KW,
     },
     cdc: '965',
     iso: 'KW',
@@ -1122,8 +1128,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Kyrgyzstan',
-      nb: 'Kirgisistan',
+      en: en.countries.KG,
+      nb: nb.countries.KG,
     },
     cdc: '996',
     iso: 'KG',
@@ -1131,8 +1137,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Laos',
-      nb: 'Laos',
+      en: en.countries.LA,
+      nb: nb.countries.LA,
     },
     cdc: '856',
     iso: 'LA',
@@ -1140,8 +1146,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Latvia',
-      nb: 'Latvia',
+      en: en.countries.LV,
+      nb: nb.countries.LV,
     },
     cdc: '371',
     iso: 'LV',
@@ -1149,8 +1155,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Lebanon',
-      nb: 'Libanon',
+      en: en.countries.LB,
+      nb: nb.countries.LB,
     },
     cdc: '961',
     iso: 'LB',
@@ -1158,8 +1164,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Lesotho',
-      nb: 'Lesotho',
+      en: en.countries.LS,
+      nb: nb.countries.LS,
     },
     cdc: '266',
     iso: 'LS',
@@ -1167,8 +1173,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Liberia',
-      nb: 'Liberia',
+      en: en.countries.LR,
+      nb: nb.countries.LR,
     },
     cdc: '231',
     iso: 'LR',
@@ -1176,8 +1182,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Libya',
-      nb: 'Libya',
+      en: en.countries.LY,
+      nb: nb.countries.LY,
     },
     cdc: '218',
     iso: 'LY',
@@ -1185,8 +1191,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Liechtenstein',
-      nb: 'Liechtenstein',
+      en: en.countries.LI,
+      nb: nb.countries.LI,
     },
     cdc: '423',
     iso: 'LI',
@@ -1194,8 +1200,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Lithuania',
-      nb: 'Litauen',
+      en: en.countries.LT,
+      nb: nb.countries.LT,
     },
     cdc: '370',
     iso: 'LT',
@@ -1203,8 +1209,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Luxembourg',
-      nb: 'Luxembourg',
+      en: en.countries.LU,
+      nb: nb.countries.LU,
     },
     cdc: '352',
     iso: 'LU',
@@ -1212,8 +1218,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Macao',
-      nb: 'Macao',
+      en: en.countries.MO,
+      nb: nb.countries.MO,
     },
     cdc: '853',
     iso: 'MO',
@@ -1221,8 +1227,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Madagascar',
-      nb: 'Madagaskar',
+      en: en.countries.MG,
+      nb: nb.countries.MG,
     },
     cdc: '261',
     iso: 'MG',
@@ -1230,8 +1236,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Malawi',
-      nb: 'Malawi',
+      en: en.countries.MW,
+      nb: nb.countries.MW,
     },
     cdc: '265',
     iso: 'MW',
@@ -1239,8 +1245,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Malaysia',
-      nb: 'Malaysia',
+      en: en.countries.MY,
+      nb: nb.countries.MY,
     },
     cdc: '60',
     iso: 'MY',
@@ -1248,8 +1254,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Maldives',
-      nb: 'Maldivene',
+      en: en.countries.MV,
+      nb: nb.countries.MV,
     },
     cdc: '960',
     iso: 'MV',
@@ -1257,8 +1263,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Mali',
-      nb: 'Mali',
+      en: en.countries.ML,
+      nb: nb.countries.ML,
     },
     cdc: '223',
     iso: 'ML',
@@ -1266,8 +1272,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Malta',
-      nb: 'Malta',
+      en: en.countries.MT,
+      nb: nb.countries.MT,
     },
     cdc: '356',
     iso: 'MT',
@@ -1275,8 +1281,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Marshall Islands',
-      nb: 'Marshalløyene',
+      en: en.countries.MH,
+      nb: nb.countries.MH,
     },
     cdc: '692',
     iso: 'MH',
@@ -1284,8 +1290,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Martinique',
-      nb: 'Martinique',
+      en: en.countries.MQ,
+      nb: nb.countries.MQ,
     },
     cdc: '596',
     iso: 'MQ',
@@ -1293,8 +1299,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Mauritania',
-      nb: 'Mauritania',
+      en: en.countries.MR,
+      nb: nb.countries.MR,
     },
     cdc: '222',
     iso: 'MR',
@@ -1302,8 +1308,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Mauritius',
-      nb: 'Mauritius',
+      en: en.countries.MU,
+      nb: nb.countries.MU,
     },
     cdc: '230',
     iso: 'MU',
@@ -1311,8 +1317,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Mayotte',
-      nb: 'Mayotte',
+      en: en.countries.YT,
+      nb: nb.countries.YT,
     },
     cdc: '262',
     iso: 'YT',
@@ -1320,8 +1326,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Mexico',
-      nb: 'Mexico',
+      en: en.countries.MX,
+      nb: nb.countries.MX,
     },
     cdc: '52',
     iso: 'MX',
@@ -1329,8 +1335,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Micronesia',
-      nb: 'Mikronesia',
+      en: en.countries.FM,
+      nb: nb.countries.FM,
     },
     cdc: '691',
     iso: 'FM',
@@ -1338,8 +1344,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Moldova',
-      nb: 'Moldova',
+      en: en.countries.MD,
+      nb: nb.countries.MD,
     },
     cdc: '373',
     iso: 'MD',
@@ -1347,8 +1353,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Monaco',
-      nb: 'Monaco',
+      en: en.countries.MC,
+      nb: nb.countries.MC,
     },
     cdc: '377',
     iso: 'MC',
@@ -1356,8 +1362,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Mongolia',
-      nb: 'Mongolia',
+      en: en.countries.MN,
+      nb: nb.countries.MN,
     },
     cdc: '976',
     iso: 'MN',
@@ -1365,8 +1371,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Montenegro',
-      nb: 'Montenegro',
+      en: en.countries.ME,
+      nb: nb.countries.ME,
     },
     cdc: '382',
     iso: 'ME',
@@ -1374,8 +1380,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Montserrat',
-      nb: 'Montserrat',
+      en: en.countries.MS,
+      nb: nb.countries.MS,
     },
     cdc: '1-664',
     iso: 'MS',
@@ -1383,8 +1389,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Morocco',
-      nb: 'Marokko',
+      en: en.countries.MA,
+      nb: nb.countries.MA,
     },
     cdc: '212',
     iso: 'MA',
@@ -1392,8 +1398,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Mozambique',
-      nb: 'Mosambik',
+      en: en.countries.MZ,
+      nb: nb.countries.MZ,
     },
     cdc: '258',
     iso: 'MZ',
@@ -1401,8 +1407,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Myanmar',
-      nb: 'Myanmar',
+      en: en.countries.MM,
+      nb: nb.countries.MM,
     },
     cdc: '95',
     iso: 'MM',
@@ -1410,8 +1416,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Namibia',
-      nb: 'Namibia',
+      en: en.countries.NA,
+      nb: nb.countries.NA,
     },
     cdc: '264',
     iso: 'NA',
@@ -1419,8 +1425,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Nauru',
-      nb: 'Nauru',
+      en: en.countries.NR,
+      nb: nb.countries.NR,
     },
     cdc: '674',
     iso: 'NR',
@@ -1428,8 +1434,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Nepal',
-      nb: 'Nepal',
+      en: en.countries.NP,
+      nb: nb.countries.NP,
     },
     cdc: '977',
     iso: 'NP',
@@ -1437,8 +1443,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Netherlands',
-      nb: 'Nederland',
+      en: en.countries.NL,
+      nb: nb.countries.NL,
     },
     cdc: '31',
     iso: 'NL',
@@ -1446,8 +1452,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'New Caledonia',
-      nb: 'Ny-Caledonia',
+      en: en.countries.NC,
+      nb: nb.countries.NC,
     },
     cdc: '687',
     iso: 'NC',
@@ -1455,8 +1461,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'New Zealand',
-      nb: 'New Zealand',
+      en: en.countries.NZ,
+      nb: nb.countries.NZ,
     },
     cdc: '64',
     iso: 'NZ',
@@ -1464,8 +1470,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Nicaragua',
-      nb: 'Nicaragua',
+      en: en.countries.NI,
+      nb: nb.countries.NI,
     },
     cdc: '505',
     iso: 'NI',
@@ -1473,8 +1479,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Niger',
-      nb: 'Niger',
+      en: en.countries.NE,
+      nb: nb.countries.NE,
     },
     cdc: '227',
     iso: 'NE',
@@ -1482,8 +1488,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Nigeria',
-      nb: 'Nigeria',
+      en: en.countries.NG,
+      nb: nb.countries.NG,
     },
     cdc: '234',
     iso: 'NG',
@@ -1491,8 +1497,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Niue',
-      nb: 'Niue',
+      en: en.countries.NU,
+      nb: nb.countries.NU,
     },
     cdc: '683',
     iso: 'NU',
@@ -1500,8 +1506,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Norfolk Island',
-      nb: 'Norfolkøya',
+      en: en.countries.NF,
+      nb: nb.countries.NF,
     },
     cdc: '672',
     iso: 'NF',
@@ -1509,8 +1515,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'North Korea',
-      nb: 'Nord-Korea',
+      en: en.countries.KP,
+      nb: nb.countries.KP,
     },
     cdc: '850',
     iso: 'KP',
@@ -1518,8 +1524,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'North Macedonia',
-      nb: 'Nord-Makedonia',
+      en: en.countries.MK,
+      nb: nb.countries.MK,
     },
     cdc: '389',
     iso: 'MK',
@@ -1527,8 +1533,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Northern Mariana Islands',
-      nb: 'Nord-Marianene',
+      en: en.countries.MP,
+      nb: nb.countries.MP,
     },
     cdc: '1-670',
     iso: 'MP',
@@ -1536,8 +1542,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Norway',
-      nb: 'Norge',
+      en: en.countries.NO,
+      nb: nb.countries.NO,
     },
     cdc: '47',
     iso: 'NO',
@@ -1546,8 +1552,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Oman',
-      nb: 'Oman',
+      en: en.countries.OM,
+      nb: nb.countries.OM,
     },
     cdc: '968',
     iso: 'OM',
@@ -1555,8 +1561,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Pakistan',
-      nb: 'Pakistan',
+      en: en.countries.PK,
+      nb: nb.countries.PK,
     },
     cdc: '92',
     iso: 'PK',
@@ -1564,8 +1570,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Palau',
-      nb: 'Palau',
+      en: en.countries.PW,
+      nb: nb.countries.PW,
     },
     cdc: '680',
     iso: 'PW',
@@ -1573,8 +1579,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Palestine',
-      nb: 'Palestina',
+      en: en.countries.PS,
+      nb: nb.countries.PS,
     },
     cdc: '970',
     iso: 'PS',
@@ -1582,8 +1588,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Panama',
-      nb: 'Panama',
+      en: en.countries.PA,
+      nb: nb.countries.PA,
     },
     cdc: '507',
     iso: 'PA',
@@ -1591,8 +1597,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Papua New Guinea',
-      nb: 'Papua Ny-Guinea',
+      en: en.countries.PG,
+      nb: nb.countries.PG,
     },
     cdc: '675',
     iso: 'PG',
@@ -1600,8 +1606,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Paraguay',
-      nb: 'Paraguay',
+      en: en.countries.PY,
+      nb: nb.countries.PY,
     },
     cdc: '595',
     iso: 'PY',
@@ -1609,8 +1615,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Peru',
-      nb: 'Peru',
+      en: en.countries.PE,
+      nb: nb.countries.PE,
     },
     cdc: '51',
     iso: 'PE',
@@ -1618,8 +1624,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Philippines',
-      nb: 'Filippinene',
+      en: en.countries.PH,
+      nb: nb.countries.PH,
     },
     cdc: '63',
     iso: 'PH',
@@ -1627,8 +1633,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Pitcairn',
-      nb: 'Pitcairnøyene',
+      en: en.countries.PN,
+      nb: nb.countries.PN,
     },
     cdc: '64',
     iso: 'PN',
@@ -1636,8 +1642,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Poland',
-      nb: 'Polen',
+      en: en.countries.PL,
+      nb: nb.countries.PL,
     },
     cdc: '48',
     iso: 'PL',
@@ -1645,8 +1651,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Portugal',
-      nb: 'Portugal',
+      en: en.countries.PT,
+      nb: nb.countries.PT,
     },
     cdc: '351',
     iso: 'PT',
@@ -1654,8 +1660,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Puerto Rico',
-      nb: 'Puerto Rico',
+      en: en.countries.PR,
+      nb: nb.countries.PR,
     },
     cdc: '1-787',
     iso: 'PR',
@@ -1663,8 +1669,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Qatar',
-      nb: 'Qatar',
+      en: en.countries.QA,
+      nb: nb.countries.QA,
     },
     cdc: '974',
     iso: 'QA',
@@ -1672,8 +1678,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Congo, the Republic',
-      nb: 'Kongo, republikken',
+      en: en.countries.CG,
+      nb: nb.countries.CG,
     },
     cdc: '242',
     iso: 'CG',
@@ -1681,8 +1687,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Réunion',
-      nb: 'Réunion',
+      en: en.countries.RE,
+      nb: nb.countries.RE,
     },
     cdc: '262',
     iso: 'RE',
@@ -1690,8 +1696,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Romania',
-      nb: 'Romania',
+      en: en.countries.RO,
+      nb: nb.countries.RO,
     },
     cdc: '40',
     iso: 'RO',
@@ -1699,8 +1705,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Russia',
-      nb: 'Russland',
+      en: en.countries.RU,
+      nb: nb.countries.RU,
     },
     cdc: '7',
     iso: 'RU',
@@ -1708,8 +1714,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Rwanda',
-      nb: 'Rwanda',
+      en: en.countries.RW,
+      nb: nb.countries.RW,
     },
     cdc: '250',
     iso: 'RW',
@@ -1717,8 +1723,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Saint-Barthélemy',
-      nb: 'Saint-Barthélemy',
+      en: en.countries.BL,
+      nb: nb.countries.BL,
     },
     cdc: '590',
     iso: 'BL',
@@ -1726,8 +1732,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Saint Helena, Ascension and Tristan da Cunha',
-      nb: 'Saint Helena, Ascension og Tristan da Cunha',
+      en: en.countries.SH,
+      nb: nb.countries.SH,
     },
     cdc: '290',
     iso: 'SH',
@@ -1735,8 +1741,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Saint Kitts and Nevis',
-      nb: 'Saint Kitts og Nevis',
+      en: en.countries.KN,
+      nb: nb.countries.KN,
     },
     cdc: '1-869',
     iso: 'KN',
@@ -1744,8 +1750,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Saint Lucia',
-      nb: 'Saint Lucia',
+      en: en.countries.LC,
+      nb: nb.countries.LC,
     },
     cdc: '1-758',
     iso: 'LC',
@@ -1753,8 +1759,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Saint-Martin (FR)',
-      nb: 'Saint-Martin (FR)',
+      en: en.countries.MF,
+      nb: nb.countries.MF,
     },
     cdc: '590',
     iso: 'MF',
@@ -1762,8 +1768,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Saint Pierre and Miquelon',
-      nb: 'Saint Pierre og Miquelon',
+      en: en.countries.PM,
+      nb: nb.countries.PM,
     },
     cdc: '508',
     iso: 'PM',
@@ -1771,8 +1777,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Saint Vincent and the Grenadines',
-      nb: 'Saint Vincent og Grenadinene',
+      en: en.countries.VC,
+      nb: nb.countries.VC,
     },
     cdc: '1-784',
     iso: 'VC',
@@ -1780,8 +1786,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Samoa',
-      nb: 'Samoa',
+      en: en.countries.WS,
+      nb: nb.countries.WS,
     },
     cdc: '685',
     iso: 'WS',
@@ -1789,8 +1795,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'San Marino',
-      nb: 'San Marino',
+      en: en.countries.SM,
+      nb: nb.countries.SM,
     },
     cdc: '378',
     iso: 'SM',
@@ -1798,8 +1804,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Sao Tome and Principe',
-      nb: 'São Tomé og Príncipe',
+      en: en.countries.ST,
+      nb: nb.countries.ST,
     },
     cdc: '239',
     iso: 'ST',
@@ -1807,8 +1813,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Saudi Arabia',
-      nb: 'Saudi-Arabia',
+      en: en.countries.SA,
+      nb: nb.countries.SA,
     },
     cdc: '966',
     iso: 'SA',
@@ -1816,8 +1822,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Senegal',
-      nb: 'Senegal',
+      en: en.countries.SN,
+      nb: nb.countries.SN,
     },
     cdc: '221',
     iso: 'SN',
@@ -1825,8 +1831,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Serbia',
-      nb: 'Serbia',
+      en: en.countries.RS,
+      nb: nb.countries.RS,
     },
     cdc: '381',
     iso: 'RS',
@@ -1834,8 +1840,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Seychelles',
-      nb: 'Seychellene',
+      en: en.countries.SC,
+      nb: nb.countries.SC,
     },
     cdc: '248',
     iso: 'SC',
@@ -1843,8 +1849,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Sierra Leone',
-      nb: 'Sierra Leone',
+      en: en.countries.SL,
+      nb: nb.countries.SL,
     },
     cdc: '232',
     iso: 'SL',
@@ -1852,8 +1858,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Singapore',
-      nb: 'Singapore',
+      en: en.countries.SG,
+      nb: nb.countries.SG,
     },
     cdc: '65',
     iso: 'SG',
@@ -1861,8 +1867,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Sint Maarten (NL)',
-      nb: 'Sint Maarten (NL)',
+      en: en.countries.SX,
+      nb: nb.countries.SX,
     },
     cdc: '1-721',
     iso: 'SX',
@@ -1870,8 +1876,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Slovakia',
-      nb: 'Slovakia',
+      en: en.countries.SK,
+      nb: nb.countries.SK,
     },
     cdc: '421',
     iso: 'SK',
@@ -1879,8 +1885,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Slovenia',
-      nb: 'Slovenia',
+      en: en.countries.SI,
+      nb: nb.countries.SI,
     },
     cdc: '386',
     iso: 'SI',
@@ -1888,8 +1894,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Solomon Islands',
-      nb: 'Salomonøyene',
+      en: en.countries.SB,
+      nb: nb.countries.SB,
     },
     cdc: '677',
     iso: 'SB',
@@ -1897,8 +1903,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Somalia',
-      nb: 'Somalia',
+      en: en.countries.SO,
+      nb: nb.countries.SO,
     },
     cdc: '252',
     iso: 'SO',
@@ -1906,8 +1912,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'South Africa',
-      nb: 'Sør-Afrika',
+      en: en.countries.ZA,
+      nb: nb.countries.ZA,
     },
     cdc: '27',
     iso: 'ZA',
@@ -1915,8 +1921,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'South Georgia and the South Sandwich Islands',
-      nb: 'Sør-Georgia og Sør-Sandwichøyene',
+      en: en.countries.GS,
+      nb: nb.countries.GS,
     },
     cdc: '500',
     iso: 'GS',
@@ -1924,8 +1930,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'South Korea',
-      nb: 'Sør-Korea',
+      en: en.countries.KR,
+      nb: nb.countries.KR,
     },
     cdc: '82',
     iso: 'KR',
@@ -1933,8 +1939,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'South Sudan',
-      nb: 'Sør-Sudan',
+      en: en.countries.SS,
+      nb: nb.countries.SS,
     },
     cdc: '211',
     iso: 'SS',
@@ -1942,8 +1948,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Spain',
-      nb: 'Spania',
+      en: en.countries.ES,
+      nb: nb.countries.ES,
     },
     cdc: '34',
     iso: 'ES',
@@ -1951,8 +1957,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Sri Lanka',
-      nb: 'Sri Lanka',
+      en: en.countries.LK,
+      nb: nb.countries.LK,
     },
     cdc: '94',
     iso: 'LK',
@@ -1960,8 +1966,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Sudan',
-      nb: 'Sudan',
+      en: en.countries.SD,
+      nb: nb.countries.SD,
     },
     cdc: '249',
     iso: 'SD',
@@ -1969,8 +1975,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Suriname',
-      nb: 'Surinam',
+      en: en.countries.SR,
+      nb: nb.countries.SR,
     },
     cdc: '597',
     iso: 'SR',
@@ -1978,8 +1984,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Svalbard and Jan Mayen',
-      nb: 'Svalbard og Jan Mayen',
+      en: en.countries.SJ,
+      nb: nb.countries.SJ,
     },
     cdc: '47',
     iso: 'SJ',
@@ -1987,8 +1993,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Sweden',
-      nb: 'Sverige',
+      en: en.countries.SE,
+      nb: nb.countries.SE,
     },
     cdc: '46',
     iso: 'SE',
@@ -1997,8 +2003,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Switzerland',
-      nb: 'Sveits',
+      en: en.countries.CH,
+      nb: nb.countries.CH,
     },
     cdc: '41',
     iso: 'CH',
@@ -2006,8 +2012,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Syria',
-      nb: 'Syria',
+      en: en.countries.SY,
+      nb: nb.countries.SY,
     },
     cdc: '963',
     iso: 'SY',
@@ -2015,8 +2021,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Taiwan',
-      nb: 'Taiwan',
+      en: en.countries.TW,
+      nb: nb.countries.TW,
     },
     cdc: '886',
     iso: 'TW',
@@ -2024,8 +2030,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Tajikistan',
-      nb: 'Tadsjikistan',
+      en: en.countries.TJ,
+      nb: nb.countries.TJ,
     },
     cdc: '992',
     iso: 'TJ',
@@ -2033,8 +2039,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Tanzania',
-      nb: 'Tanzania',
+      en: en.countries.TZ,
+      nb: nb.countries.TZ,
     },
     cdc: '255',
     iso: 'TZ',
@@ -2042,8 +2048,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Thailand',
-      nb: 'Thailand',
+      en: en.countries.TH,
+      nb: nb.countries.TH,
     },
     cdc: '66',
     iso: 'TH',
@@ -2051,8 +2057,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Togo',
-      nb: 'Togo',
+      en: en.countries.TG,
+      nb: nb.countries.TG,
     },
     cdc: '228',
     iso: 'TG',
@@ -2060,8 +2066,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Tokelau',
-      nb: 'Tokelau',
+      en: en.countries.TK,
+      nb: nb.countries.TK,
     },
     cdc: '690',
     iso: 'TK',
@@ -2069,8 +2075,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Tonga',
-      nb: 'Tonga',
+      en: en.countries.TO,
+      nb: nb.countries.TO,
     },
     cdc: '676',
     iso: 'TO',
@@ -2078,8 +2084,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Trinidad and Tobago',
-      nb: 'Trinidad og Tobago',
+      en: en.countries.TT,
+      nb: nb.countries.TT,
     },
     cdc: '1-868',
     iso: 'TT',
@@ -2087,8 +2093,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Tunisia',
-      nb: 'Tunisia',
+      en: en.countries.TN,
+      nb: nb.countries.TN,
     },
     cdc: '216',
     iso: 'TN',
@@ -2096,8 +2102,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Turkey',
-      nb: 'Tyrkia',
+      en: en.countries.TR,
+      nb: nb.countries.TR,
     },
     cdc: '90',
     iso: 'TR',
@@ -2105,8 +2111,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Turkmenistan',
-      nb: 'Turkmenistan',
+      en: en.countries.TM,
+      nb: nb.countries.TM,
     },
     cdc: '993',
     iso: 'TM',
@@ -2114,8 +2120,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Turks and Caicos Islands',
-      nb: 'Turks- og Caicosøyene',
+      en: en.countries.TC,
+      nb: nb.countries.TC,
     },
     cdc: '1-649',
     iso: 'TC',
@@ -2123,8 +2129,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Tuvalu',
-      nb: 'Tuvalu',
+      en: en.countries.TV,
+      nb: nb.countries.TV,
     },
     cdc: '688',
     iso: 'TV',
@@ -2132,8 +2138,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Virgin Islands (U.S)',
-      nb: 'De amerikanske Jomfruøyer',
+      en: en.countries.VI,
+      nb: nb.countries.VI,
     },
     cdc: '1-340',
     iso: 'VI',
@@ -2141,8 +2147,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Uganda',
-      nb: 'Uganda',
+      en: en.countries.UG,
+      nb: nb.countries.UG,
     },
     cdc: '256',
     iso: 'UG',
@@ -2150,8 +2156,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Ukraine',
-      nb: 'Ukraina',
+      en: en.countries.UA,
+      nb: nb.countries.UA,
     },
     cdc: '380',
     iso: 'UA',
@@ -2159,8 +2165,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'United Arab Emirates',
-      nb: 'De forente arabiske emirater',
+      en: en.countries.AE,
+      nb: nb.countries.AE,
     },
     cdc: '971',
     iso: 'AE',
@@ -2168,8 +2174,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'United Kingdom',
-      nb: 'Storbritannia',
+      en: en.countries.GB,
+      nb: nb.countries.GB,
     },
     cdc: '44',
     iso: 'GB',
@@ -2177,8 +2183,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'United States',
-      nb: 'USA',
+      en: en.countries.US,
+      nb: nb.countries.US,
     },
     cdc: '1',
     iso: 'US',
@@ -2186,8 +2192,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'United States Minor Outlying Islands',
-      nb: 'USAs ytre småøyer',
+      en: en.countries.UM,
+      nb: nb.countries.UM,
     },
     cdc: '1', // Uncertain, low to no population on these islands
     iso: 'UM',
@@ -2195,8 +2201,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Uruguay',
-      nb: 'Uruguay',
+      en: en.countries.UY,
+      nb: nb.countries.UY,
     },
     cdc: '598',
     iso: 'UY',
@@ -2204,8 +2210,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Uzbekistan',
-      nb: 'Usbekistan',
+      en: en.countries.UZ,
+      nb: nb.countries.UZ,
     },
     cdc: '998',
     iso: 'UZ',
@@ -2213,8 +2219,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Vanuatu',
-      nb: 'Vanuatu',
+      en: en.countries.VU,
+      nb: nb.countries.VU,
     },
     cdc: '678',
     iso: 'VU',
@@ -2222,8 +2228,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Vatican',
-      nb: 'Vatikanstaten',
+      en: en.countries.VA,
+      nb: nb.countries.VA,
     },
     cdc: '379',
     iso: 'VA',
@@ -2231,8 +2237,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Venezuela',
-      nb: 'Venezuela',
+      en: en.countries.VE,
+      nb: nb.countries.VE,
     },
     cdc: '58',
     iso: 'VE',
@@ -2240,8 +2246,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Vietnam',
-      nb: 'Vietnam',
+      en: en.countries.VN,
+      nb: nb.countries.VN,
     },
     cdc: '84',
     iso: 'VN',
@@ -2249,8 +2255,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Wallis and Futuna',
-      nb: 'Wallis og Futuna',
+      en: en.countries.WF,
+      nb: nb.countries.WF,
     },
     cdc: '681',
     iso: 'WF',
@@ -2258,8 +2264,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Western Sahara',
-      nb: 'Vest-Sahara',
+      en: en.countries.EH,
+      nb: nb.countries.EH,
     },
     cdc: '212',
     iso: 'EH',
@@ -2267,8 +2273,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Yemen',
-      nb: 'Jemen',
+      en: en.countries.YE,
+      nb: nb.countries.YE,
     },
     cdc: '967',
     iso: 'YE',
@@ -2276,8 +2282,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Zambia',
-      nb: 'Zambia',
+      en: en.countries.ZM,
+      nb: nb.countries.ZM,
     },
     cdc: '260',
     iso: 'ZM',
@@ -2285,8 +2291,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Zimbabwe',
-      nb: 'Zimbabwe',
+      en: en.countries.ZW,
+      nb: nb.countries.ZW,
     },
     cdc: '263',
     iso: 'ZW',
@@ -2294,8 +2300,8 @@ const countries = [
   },
   {
     i18n: {
-      en: 'Åland Islands',
-      nb: 'Åland',
+      en: en.countries.AX,
+      nb: nb.countries.AX,
     },
     cdc: '358',
     iso: 'AX',
