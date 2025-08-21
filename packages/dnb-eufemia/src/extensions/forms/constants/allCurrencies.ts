@@ -1,5 +1,11 @@
+import nbLocale from './locales/countries/nb-NO'
+import enLocale from './locales/countries/en-GB'
+
 import type { RegionType } from './countries'
 import type { CurrencyType } from './currencies'
+
+const en = enLocale['en-GB']
+const nb = nbLocale['nb-NO']
 
 const selectedNationalCurrencies = [
   {
@@ -12,8 +18,8 @@ const selectedNationalCurrencies = [
     },
     regions: ['Scandinavia', 'Nordic'] as RegionType,
     search: {
-      en: ['Norway'],
-      nb: ['Norge'],
+      en: [en.countries.NO],
+      nb: [nb.countries.NO],
     },
   },
   {
@@ -25,8 +31,8 @@ const selectedNationalCurrencies = [
       nb: 'Amerikansk dollar',
     },
     search: {
-      en: ['United States'],
-      nb: ['USA', 'Amerikas forente stater'],
+      en: [en.countries.US],
+      nb: [nb.countries.US],
     },
   },
   {
@@ -41,48 +47,48 @@ const selectedNationalCurrencies = [
     search: {
       // All countries that use the Euro
       en: [
-        'Austria',
-        'Belgium',
-        'Croatia',
-        'Cyprus',
-        'Estonia',
-        'Finland',
-        'France',
-        'Germany',
-        'Greece',
-        'Ireland',
-        'Italy',
-        'Latvia',
-        'Lithuania',
-        'Luxembourg',
-        'Malta',
-        'Netherlands',
-        'Portugal',
-        'Slovakia',
-        'Slovenia',
-        'Spain',
+        en.countries.AT,
+        en.countries.BE,
+        en.countries.HR,
+        en.countries.CY,
+        en.countries.EE,
+        en.countries.FI,
+        en.countries.FR,
+        en.countries.DE,
+        en.countries.GR,
+        en.countries.IE,
+        en.countries.IT,
+        en.countries.LV,
+        en.countries.LT,
+        en.countries.LU,
+        en.countries.MT,
+        en.countries.NL,
+        en.countries.PT,
+        en.countries.SK,
+        en.countries.SI,
+        en.countries.ES,
       ],
       nb: [
-        'Østerrike',
-        'Belgia',
-        'Kroatia',
-        'Kypros',
-        'Estland',
-        'Finland',
-        'Frankrike',
-        'Tyskland',
-        'Hellas',
-        'Irland',
-        'Italia',
-        'Latvia',
-        'Litauen',
-        'Luxembourg',
-        'Malta',
-        'Nederland',
-        'Portugal',
-        'Slovakia',
-        'Slovenia',
-        'Spania',
+        nb.countries.AT,
+        nb.countries.BE,
+        nb.countries.HR,
+        nb.countries.CY,
+        nb.countries.EE,
+        nb.countries.FI,
+        nb.countries.FR,
+        nb.countries.DE,
+        nb.countries.GR,
+        nb.countries.IE,
+        nb.countries.IT,
+        nb.countries.LV,
+        nb.countries.LT,
+        nb.countries.LU,
+        nb.countries.MT,
+        nb.countries.NL,
+        nb.countries.PT,
+        nb.countries.SK,
+        nb.countries.SI,
+        nb.countries.ES,
       ],
     },
   },
@@ -96,8 +102,8 @@ const selectedNationalCurrencies = [
     },
     regions: ['Scandinavia', 'Nordic'] as RegionType,
     search: {
-      en: ['Sweden'],
-      nb: ['Sverige'],
+      en: [en.countries.SE],
+      nb: [nb.countries.SE],
     },
   },
   {
@@ -110,8 +116,8 @@ const selectedNationalCurrencies = [
     },
     regions: ['Scandinavia', 'Nordic'] as RegionType,
     search: {
-      en: ['Denmark'],
-      nb: ['Danmark'],
+      en: [en.countries.DK],
+      nb: [nb.countries.DK],
     },
   },
   {
@@ -123,8 +129,8 @@ const selectedNationalCurrencies = [
       nb: 'Britisk pund',
     },
     search: {
-      en: ['United Kingdom'],
-      nb: ['Storbritannia'],
+      en: [en.countries.GB],
+      nb: [nb.countries.GB],
     },
   },
   {
@@ -136,8 +142,8 @@ const selectedNationalCurrencies = [
       nb: 'Sveitsisk franc',
     },
     search: {
-      en: ['Switzerland'],
-      nb: ['Sveits'],
+      en: [en.countries.CH],
+      nb: [nb.countries.CH],
     },
   },
   {
@@ -149,8 +155,8 @@ const selectedNationalCurrencies = [
       nb: 'Japansk yen',
     },
     search: {
-      en: ['Japan'],
-      nb: ['Japan'],
+      en: [en.countries.JP],
+      nb: [nb.countries.JP],
     },
   },
   {
@@ -162,8 +168,8 @@ const selectedNationalCurrencies = [
       nb: 'Emiratarabisk dirham',
     },
     search: {
-      en: ['United Arab Emirates'],
-      nb: ['De forente arabiske emirater'],
+      en: [en.countries.AE],
+      nb: [nb.countries.AE],
     },
   },
   {
@@ -175,8 +181,8 @@ const selectedNationalCurrencies = [
       nb: 'Australsk dollar',
     },
     search: {
-      en: ['Australia'],
-      nb: ['Australia'],
+      en: [en.countries.AU],
+      nb: [nb.countries.AU],
     },
   },
   {
@@ -188,8 +194,8 @@ const selectedNationalCurrencies = [
       nb: 'Bahrainsk dinar',
     },
     search: {
-      en: ['Bahrain'],
-      nb: ['Bahrain'],
+      en: [en.countries.BH],
+      nb: [nb.countries.BH],
     },
   },
   {
@@ -201,8 +207,8 @@ const selectedNationalCurrencies = [
       nb: 'Botswansk pula',
     },
     search: {
-      en: ['Botswana'],
-      nb: ['Botswana'],
+      en: [en.countries.BW],
+      nb: [nb.countries.BW],
     },
   },
   {
@@ -214,8 +220,8 @@ const selectedNationalCurrencies = [
       nb: 'Bulgarsk lev',
     },
     search: {
-      en: ['Bulgaria'],
-      nb: ['Bulgaria'],
+      en: [en.countries.BG],
+      nb: [nb.countries.BG],
     },
   },
   {
@@ -227,8 +233,8 @@ const selectedNationalCurrencies = [
       nb: 'Kanadisk dollar',
     },
     search: {
-      en: ['Canada'],
-      nb: ['Canada'],
+      en: [en.countries.CA],
+      nb: [nb.countries.CA],
     },
   },
   {
@@ -240,8 +246,8 @@ const selectedNationalCurrencies = [
       nb: 'Filippinsk peso',
     },
     search: {
-      en: ['Philippines'],
-      nb: ['Filippinene'],
+      en: [en.countries.PH],
+      nb: [nb.countries.PH],
     },
   },
   {
@@ -253,8 +259,8 @@ const selectedNationalCurrencies = [
       nb: 'Hongkongdollar',
     },
     search: {
-      en: ['Hong Kong'],
-      nb: ['Hongkong'],
+      en: [en.countries.HK],
+      nb: [nb.countries.HK],
     },
   },
   {
@@ -266,8 +272,8 @@ const selectedNationalCurrencies = [
       nb: 'Indisk rupi',
     },
     search: {
-      en: ['India'],
-      nb: ['India'],
+      en: [en.countries.IN],
+      nb: [nb.countries.IN],
     },
   },
   {
@@ -279,8 +285,8 @@ const selectedNationalCurrencies = [
       nb: 'Indonesisk rupiah',
     },
     search: {
-      en: ['Indonesia'],
-      nb: ['Indonesia'],
+      en: [en.countries.ID],
+      nb: [nb.countries.ID],
     },
   },
   {
@@ -293,8 +299,8 @@ const selectedNationalCurrencies = [
     },
     regions: ['Nordic'] as RegionType,
     search: {
-      en: ['Iceland'],
-      nb: ['Island'],
+      en: [en.countries.IS],
+      nb: [nb.countries.IS],
     },
   },
   {
@@ -306,8 +312,8 @@ const selectedNationalCurrencies = [
       nb: 'Ny israelsk shekel',
     },
     search: {
-      en: ['Israel'],
-      nb: ['Israel'],
+      en: [en.countries.IL],
+      nb: [nb.countries.IL],
     },
   },
   {
@@ -319,8 +325,8 @@ const selectedNationalCurrencies = [
       nb: 'Kenyansk shilling',
     },
     search: {
-      en: ['Kenya'],
-      nb: ['Kenya'],
+      en: [en.countries.KE],
+      nb: [nb.countries.KE],
     },
   },
   {
@@ -332,8 +338,8 @@ const selectedNationalCurrencies = [
       nb: 'Kinesisk renminbi',
     },
     search: {
-      en: ['China'],
-      nb: ['Kina'],
+      en: [en.countries.CN],
+      nb: [nb.countries.CN],
     },
   },
   {
@@ -345,8 +351,8 @@ const selectedNationalCurrencies = [
       nb: 'Kuwaitisk dinar',
     },
     search: {
-      en: ['Kuwait'],
-      nb: ['Kuwait'],
+      en: [en.countries.KW],
+      nb: [nb.countries.KW],
     },
   },
   {
@@ -358,8 +364,8 @@ const selectedNationalCurrencies = [
       nb: 'Marokkansk dirham',
     },
     search: {
-      en: ['Morocco'],
-      nb: ['Marokko'],
+      en: [en.countries.MA],
+      nb: [nb.countries.MA],
     },
   },
   {
@@ -371,8 +377,8 @@ const selectedNationalCurrencies = [
       nb: 'Meksikansk peso',
     },
     search: {
-      en: ['Mexico'],
-      nb: ['Mexico'],
+      en: [en.countries.MX],
+      nb: [nb.countries.MX],
     },
   },
   {
@@ -384,8 +390,8 @@ const selectedNationalCurrencies = [
       nb: 'Nyzealandsk dollar',
     },
     search: {
-      en: ['New Zealand'],
-      nb: ['New Zealand'],
+      en: [en.countries.NZ],
+      nb: [nb.countries.NZ],
     },
   },
   {
@@ -397,8 +403,8 @@ const selectedNationalCurrencies = [
       nb: 'Omansk rial',
     },
     search: {
-      en: ['Oman'],
-      nb: ['Oman'],
+      en: [en.countries.OM],
+      nb: [nb.countries.OM],
     },
   },
   {
@@ -410,8 +416,8 @@ const selectedNationalCurrencies = [
       nb: 'Pakistansk rupi',
     },
     search: {
-      en: ['Pakistan'],
-      nb: ['Pakistan'],
+      en: [en.countries.PK],
+      nb: [nb.countries.PK],
     },
   },
   {
@@ -423,8 +429,8 @@ const selectedNationalCurrencies = [
       nb: 'Polsk złoty',
     },
     search: {
-      en: ['Poland'],
-      nb: ['Polen'],
+      en: [en.countries.PL],
+      nb: [nb.countries.PL],
     },
   },
   {
@@ -436,8 +442,8 @@ const selectedNationalCurrencies = [
       nb: 'Qatarsk rijal',
     },
     search: {
-      en: ['Qatar'],
-      nb: ['Qatar'],
+      en: [en.countries.QA],
+      nb: [nb.countries.QA],
     },
   },
   {
@@ -449,8 +455,8 @@ const selectedNationalCurrencies = [
       nb: 'Rumensk leu',
     },
     search: {
-      en: ['Romania'],
-      nb: ['Romania'],
+      en: [en.countries.RO],
+      nb: [nb.countries.RO],
     },
   },
   {
@@ -462,8 +468,8 @@ const selectedNationalCurrencies = [
       nb: 'Saudiarabisk rijal',
     },
     search: {
-      en: ['Saudi Arabia'],
-      nb: ['Saudi-Arabia'],
+      en: [en.countries.SA],
+      nb: [nb.countries.SA],
     },
   },
   {
@@ -475,8 +481,8 @@ const selectedNationalCurrencies = [
       nb: 'Singaporsk dollar',
     },
     search: {
-      en: ['Singapore'],
-      nb: ['Singapore'],
+      en: [en.countries.SG],
+      nb: [nb.countries.SG],
     },
   },
   {
@@ -488,8 +494,8 @@ const selectedNationalCurrencies = [
       nb: 'Srilankisk rupi',
     },
     search: {
-      en: ['Sri Lanka'],
-      nb: ['Sri Lanka'],
+      en: [en.countries.LK],
+      nb: [nb.countries.LK],
     },
   },
   {
@@ -501,8 +507,8 @@ const selectedNationalCurrencies = [
       nb: 'Sørafrikansk rand',
     },
     search: {
-      en: ['South Africa'],
-      nb: ['Sør-Afrika'],
+      en: [en.countries.ZA],
+      nb: [nb.countries.ZA],
     },
   },
   {
@@ -514,8 +520,8 @@ const selectedNationalCurrencies = [
       nb: 'Sørkoreansk won',
     },
     search: {
-      en: ['South Korea'],
-      nb: ['Sør-Korea'],
+      en: [en.countries.KR],
+      nb: [nb.countries.KR],
     },
   },
   {
@@ -527,8 +533,8 @@ const selectedNationalCurrencies = [
       nb: 'Tanzaniansk shilling',
     },
     search: {
-      en: ['Tanzania'],
-      nb: ['Tanzania'],
+      en: [en.countries.TZ],
+      nb: [nb.countries.TZ],
     },
   },
   {
@@ -540,8 +546,8 @@ const selectedNationalCurrencies = [
       nb: 'Thailandsk baht',
     },
     search: {
-      en: ['Thailand'],
-      nb: ['Thailand'],
+      en: [en.countries.TH],
+      nb: [nb.countries.TH],
     },
   },
   {
@@ -553,8 +559,8 @@ const selectedNationalCurrencies = [
       nb: 'Tsjekkisk koruna',
     },
     search: {
-      en: ['Czechia'],
-      nb: ['Tsjekkia'],
+      en: [en.countries.CZ],
+      nb: [nb.countries.CZ],
     },
   },
   {
@@ -566,8 +572,8 @@ const selectedNationalCurrencies = [
       nb: 'Tunisisk dinar',
     },
     search: {
-      en: ['Tunisia'],
-      nb: ['Tunisia'],
+      en: [en.countries.TN],
+      nb: [nb.countries.TN],
     },
   },
   {
@@ -579,8 +585,8 @@ const selectedNationalCurrencies = [
       nb: 'Tyrkisk lira',
     },
     search: {
-      en: ['Türkiye', 'Turkey'],
-      nb: ['Tyrkia'],
+      en: [en.countries.TR],
+      nb: [nb.countries.TR],
     },
   },
   {
@@ -592,8 +598,8 @@ const selectedNationalCurrencies = [
       nb: 'Ungarsk forint',
     },
     search: {
-      en: ['Hungary'],
-      nb: ['Ungarn'],
+      en: [en.countries.HU],
+      nb: [nb.countries.HU],
     },
   },
 ] as const
