@@ -822,6 +822,7 @@ describe('Field.Number', () => {
           myFieldWithNull: { type: 'number' },
           myFieldWithUndefined: { type: 'number' },
           myFieldWithEmptyString: { type: 'number' },
+          // myFieldWitInvalidType: { type: 'number' }, // Commented out to test invalid type handling
         },
       }
 
@@ -880,7 +881,10 @@ describe('Field.Number', () => {
 
         render(
           <Form.Handler schema={schema} data={data}>
-            <Field.Number path="/myFieldWitInvalidType" />
+            <Field.Number
+              path="/myFieldWitInvalidType"
+              validateInitially
+            />
           </Form.Handler>
         )
 
@@ -888,8 +892,9 @@ describe('Field.Number', () => {
         expect(input).toHaveValue('')
 
         const status = document.querySelector('.dnb-form-status')
+        expect(status).toBeInTheDocument()
         expect(status).toHaveTextContent(
-          'The field value (foo) type must be number'
+          'Invalid input: expected number, received string'
         )
 
         log.mockRestore()
@@ -1426,6 +1431,132 @@ describe('Field.Number', () => {
         type: 'field',
         value: '456',
       },
+    })
+  })
+
+  describe('Zod validation', () => {
+    it('should validate with Zod schema directly', async () => {
+      const { z } = await import('zod')
+      const schema = z.number().min(5, 'Minimum 5 required')
+
+      render(<Field.Number schema={schema} />)
+      const input = document.querySelector('input')
+
+      // Type a value that's too small
+      await userEvent.type(input, '3')
+      input.blur()
+      await wait(0)
+
+      expect(screen.getByRole('alert')).toBeInTheDocument()
+      expect(screen.getByRole('alert')).toHaveTextContent(
+        'Minimum 5 required'
+      )
+    })
+
+    it('should validate with Zod schema via Form.Handler', async () => {
+      const { z } = await import('zod')
+      const schema = z.object({
+        amount: z.number().min(10, 'Amount must be at least 10'),
+      })
+
+      render(
+        <Form.Handler schema={schema}>
+          <Field.Number path="/amount" />
+        </Form.Handler>
+      )
+
+      const input = document.querySelector('input')
+
+      // Type a value that's too small
+      await userEvent.type(input, '5')
+      input.blur()
+      await wait(0)
+
+      expect(screen.getByRole('alert')).toBeInTheDocument()
+      expect(screen.getByRole('alert')).toHaveTextContent(
+        'Amount must be at least 10'
+      )
+    })
+
+    it('should show provided errorMessages based on validation rule with injected value', async () => {
+      render(<Field.Number minimum={5} />)
+      const input = document.querySelector('input')
+
+      // Type a value that's too small
+      await userEvent.type(input, '3')
+      input.blur()
+      await wait(0)
+
+      expect(screen.getByRole('alert')).toBeInTheDocument()
+      expect(screen.getByRole('alert')).toHaveTextContent(
+        nb.NumberField.errorMinimum.replace('{minimum}', '5')
+      )
+    })
+
+    it('should show provided errorMessages based on validation rule with injected value for maximum', async () => {
+      render(<Field.Number maximum={10} />)
+      const input = document.querySelector('input')
+
+      // Type a value that's too large
+      await userEvent.type(input, '15')
+      input.blur()
+      await wait(0)
+
+      expect(screen.getByRole('alert')).toBeInTheDocument()
+      expect(screen.getByRole('alert')).toHaveTextContent(
+        nb.NumberField.errorMaximum.replace('{maximum}', '10')
+      )
+    })
+
+    it('should show provided errorMessages based on validation rule with injected value for exclusiveMinimum', async () => {
+      render(<Field.Number exclusiveMinimum={5} />)
+      const input = document.querySelector('input')
+
+      // Type a value that's not greater than exclusiveMinimum
+      await userEvent.type(input, '5')
+      input.blur()
+      await wait(0)
+
+      expect(screen.getByRole('alert')).toBeInTheDocument()
+      expect(screen.getByRole('alert')).toHaveTextContent(
+        nb.NumberField.errorExclusiveMinimum.replace(
+          '{exclusiveMinimum}',
+          '5'
+        )
+      )
+    })
+
+    it('should show provided errorMessages based on validation rule with injected value for exclusiveMaximum', async () => {
+      render(<Field.Number exclusiveMaximum={10} />)
+      const input = document.querySelector('input')
+
+      // Type a value that's not less than exclusiveMaximum
+      await userEvent.type(input, '10')
+      input.blur()
+      await wait(0)
+
+      expect(screen.getByRole('alert')).toBeInTheDocument()
+      expect(screen.getByRole('alert')).toHaveTextContent(
+        nb.NumberField.errorExclusiveMaximum.replace(
+          '{exclusiveMaximum}',
+          '10'
+        )
+      )
+    })
+
+    it('should show provided errorMessages based on validation rule with injected value for multipleOf', async () => {
+      render(<Field.Number multipleOf={3} />)
+      const input = document.querySelector('input')
+
+      // Type a value that's not a multiple of 3
+      await userEvent.type(input, '5')
+      input.blur()
+      await wait(0)
+
+      expect(screen.getByRole('alert')).toBeInTheDocument()
+      expect(screen.getByRole('alert')).toHaveTextContent(
+        nb.NumberField.errorMultipleOf.replace('{multipleOf}', '3')
+      )
     })
   })
 })
