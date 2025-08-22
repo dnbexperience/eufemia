@@ -12,6 +12,78 @@
   "bugs": {
     "url": "https://github.com/dnbexperience/eufemia/issues"
   },
+  "exports": {
+    ".": {
+      "import": "./index.js",
+      "types": "./index.d.ts",
+      "default": "./index.js"
+    },
+    "./components": {
+      "import": "./components/index.js",
+      "types": "./components/index.d.ts",
+      "default": "./components/index.js"
+    },
+    "./elements": {
+      "import": "./elements/index.js",
+      "types": "./elements/index.d.ts",
+      "default": "./elements/index.js"
+    },
+    "./extensions/forms/Form": {
+      "import": "./extensions/forms/Form/index.js",
+      "types": "./extensions/forms/Form/index.d.ts",
+      "default": "./extensions/forms/Form/index.js"
+    },
+    "./extensions/forms": {
+      "import": "./extensions/forms/index.js",
+      "types": "./extensions/forms/index.d.ts",
+      "default": "./extensions/forms/index.js"
+    },
+    "./extensions/payment-card": {
+      "import": "./extensions/payment-card/index.js",
+      "types": "./extensions/payment-card/index.d.ts",
+      "default": "./extensions/payment-card/index.js"
+    },
+    "./icons": {
+      "import": "./icons/index.js",
+      "types": "./icons/index.d.ts",
+      "default": "./icons/index.js"
+    },
+    "./package.json": "./package.json",
+    "./shared": {
+      "import": "./shared/index.js",
+      "types": "./shared/index.d.ts",
+      "default": "./shared/index.js"
+    },
+    "./style": {
+      "import": "./style/index.js",
+      "types": "./style/index.d.ts",
+      "default": "./style/index.js"
+    },
+    "./style/core/utilities": "./style/core/utilities.scss",
+    "./style/themes/ui": {
+      "import": "./style/themes/ui/index.js",
+      "types": "./style/themes/ui/index.d.ts",
+      "default": "./style/themes/ui/index.js"
+    },
+    "./style/*": "./style/*",
+    "./*.cjs": {
+      "import": "./*.cjs",
+      "types": "./*.d.ts",
+      "default": "./*.cjs"
+    },
+    "./*.d.ts": "./*.d.ts",
+    "./*.js": {
+      "import": "./*.js",
+      "types": "./*.d.ts",
+      "default": "./*.js"
+    },
+    "./*.scss": "./*.scss",
+    "./*": {
+      "import": "./*.js",
+      "types": "./*.d.ts",
+      "default": "./*.js"
+    }
+  },
   "main": "./index.js",
   "module": "./index.js",
   "scripts": {
@@ -31,7 +103,7 @@
     "build:packages": "./scripts/postbuild/build-packages.sh",
     "build:prebuild": "babel-node --extensions .js,.ts,.tsx ./scripts/prebuild/runPrepub",
     "build:resources": "babel-node --extensions .js,.ts,.tsx ./scripts/prebuild/resources/makeResourcesPackage",
-    "build:tsdown": "NODE_ENV=production tsdown",
+    "build:tsdown": "NODE_ENV=production tsdown -c ./tsdown.config.ts",
     "build:types:definitions": "yarn tsc --project tsconfig.definitions.json",
     "build:types:dev": "nodemon --exec 'babel-node --extensions .js,.ts,.tsx ./scripts/prebuild/generateTypes' --ext js --watch './src/**/*' --watch './scripts/**/*'",
     "build:types:docs": "./scripts/prebuild/generate-types-docs.sh",
