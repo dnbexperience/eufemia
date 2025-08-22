@@ -1,8 +1,67 @@
-import type { UserConfig } from 'tsdown'
-import path from 'node:path'
+import { defineConfig, type Options } from 'tsdown'
 import pkg from './package.json'
 
-export default [
+import { writeFile, cp } from 'node:fs/promises'
+import path from 'node:path'
+import glob from 'glob'
+
+import type { RolldownPlugin } from 'rolldown'
+import { fileURLToPath } from 'url'
+import { execSync } from 'node:child_process'
+
+import { walk } from 'estree-walker'
+import MagicString from 'magic-string'
+import type {
+  Program,
+  ImportDeclaration,
+  ImportSpecifier,
+  ImportDefaultSpecifier,
+  MemberExpression,
+  Identifier,
+} from 'estree'
+
+
+const outDirBase = './build'
+
+export default defineConfig([
+  // ESM modules
+  makeModuleConfig(outDirBase, { format: 'esm'}, {
+    copy: [
+      {
+        from: './assets',
+        to: `${outDirBase}/assets`,
+      },
+    ],
+  }),
+  // ES modules
+  makeModuleConfig(`${outDirBase}/es`, { format: 'esm'}),
+  // Postcss plugins
+  makeModuleConfig(`${outDirBase}/plugins`, { format: 'cjs'}, {
+    entry: [
+      './src/plugins/**/*.{cjs,js,ts,tsx}',
+      '!./src/plugins/**/*.d.ts',
+      '!./src/plugins/**/*.(spec|test|stories).{js,ts,tsx}',
+      '!./src/plugins/**/__tests__|stories/**/*',
+      '!./src/plugins/**/stories/*',
+      '!./src/plugins/postcss-isolated-style-scope/plugin-scope-hash.js',
+    ],
+    external: ['lebab', 'globby', 'fs-extra'],
+  }),
+  // CommonJS modules
+  makeModuleConfig(`${outDirBase}/cjs`, { format: 'cjs'}, {
+    outputOptions: {
+      banner: '"use strict";',
+    },
+    hooks: {
+      async 'build:done'(ctx) {
+        await writeFile(
+          path.join(ctx.options.outDir, 'package.json'),
+          JSON.stringify({ type: 'commonjs' })
+        )
+      },
+    },
+  }),
+
   // UMD bundles
   makeBundleConfig('./src/umd/dnb-ui-lib.ts', 'dnb-ui-lib', {
     format: 'umd',
@@ -54,7 +113,7 @@ export default [
     format: 'esm',
     globalName: 'dnbIcons',
   }),
-] satisfies UserConfig[]
+])
 
 function makeBundleConfig(
   input: string,
@@ -66,7 +125,7 @@ function makeBundleConfig(
     format: 'esm' | 'umd'
     globalName: string
   }
-): UserConfig {
+): Omit<Options, "config" | "filter"> {
   // Keep these always external (UMD globals or built-ins)
   const alwaysExternal = [
     'react',
@@ -154,6 +213,112 @@ function makeBundleConfig(
   }
 }
 
+function makeModuleConfig(
+  outDir: string,
+  {
+    format,
+    disableStyleCopy
+  }: {
+    format: 'esm' | 'cjs'
+    disableStyleCopy?: boolean
+  },
+  { hooks, ...extraOptions }: Partial<Omit<Options, "config" | "filter">> = {}
+): Omit<Options, "config" | "filter"> {
+  return {
+    entry: [
+      './src/components/**/*.{js,ts,tsx}',
+      './src/elements/**/*.{js,ts,tsx}',
+      './src/extensions/**/*.{js,ts,tsx}',
+      './src/fragments/**/*.{js,ts,tsx}',
+      './src/icons/**/*.{js,ts,tsx}',
+      './src/index.ts',
+      './src/lib.ts',
+      './src/plugins/postcss-isolated-style-scope/plugin-scope-hash.js',
+      './src/shared/**/*.{js,ts,tsx}',
+      './src/style/**/*.{js,ts,tsx}',
+      '!./src/**/*.d.ts',
+      '!./src/**/*.(spec|test|stories).{js,ts,tsx}',
+      '!./src/**/__tests__|stories/**/*',
+      '!./src/**/stories/*',
+    ],
+
+    // Parse JSX that lives in .js files
+    loader: { '.js': 'jsx' },
+
+    // Pick the JSX runtime
+    inputOptions: {
+      jsx: 'react',
+    },
+
+    // Minify and treeshake
+    minify: true,
+    sourcemap: false,
+    treeshake: true,
+
+    // Avoid type emitting (and because of memory issues)
+    dts: false,
+
+    // Keep filenames/structure identical
+    unbundle: true,
+
+    // disable cleaning as we build multiple configs
+    clean: false,
+
+    // Define env variables
+    define: { 'process.env.NODE_ENV': "'production'" },
+    format,
+    outDir,
+
+    // Use .js regardless of format
+    outExtensions(){
+      return { js: '.js' }
+    },
+
+    plugins: [
+      scssImportRewriter(),
+      prependUseClientPlugin({
+        customClientImports: [
+          'Context',
+          'Provider',
+          'useMedia',
+          'useMediaQuery',
+          'useTheme',
+        ],
+      }),
+    ],
+    hooks: {
+      ...hooks,
+      async 'build:done'(ctx) {
+        if (!disableStyleCopy) {
+          const srcDir = path.resolve(currentDir, 'src')
+          const scssFiles = glob.sync(path.join(srcDir, '/**/*.scss'))
+          const dtsFiles = glob.sync(path.join(srcDir, '/**/*.d.ts'))
+          await Promise.all(
+            [...scssFiles, ...dtsFiles].map((it) =>
+              cp(
+                it,
+                path.resolve(ctx.options.outDir, path.relative(srcDir, it))
+              )
+            )
+          )
+          execSync(
+            `OUT_DIR=${ctx.options.outDir} babel-node --extensions .js,.ts,.tsx ./scripts/postbuild/copyTypeScriptFiles.js`
+          )
+          if (ctx.options.outDir !== path.resolve(currentDir, 'build')) {
+            execSync(
+              `OUT_DIR=${ctx.options.outDir} babel-node --extensions .js,.ts,.tsx ./scripts/postbuild/copyStyles.js`
+            )
+          }
+        }
+
+        // Call any extra hook if provided
+        await hooks?.['build:done']?.(ctx)
+      },
+    },
+    ...extraOptions,
+  }
+}
+
 // Helper to decide if an import should be external
 function shouldBeExternal(id: string, importer?: string) {
   // Resolve relative imports against the importer and compare absolute paths
@@ -171,4 +336,147 @@ function shouldBeExternal(id: string, importer?: string) {
   }
 
   return false
+}
+
+const CLIENT_COMPONENT_FUNCTIONS = [
+  'createContext',
+  'useContext',
+  'useDeferredValue',
+  'useEffect',
+  'useImperativeHandle',
+  'useInsertionEffect',
+  'useLayoutEffect',
+  'useReducer',
+  'useRef',
+  'useState',
+  'useSyncExternalStore',
+  'useTransition',
+]
+
+// @ts-expect-error import.meta.url is defined
+const currentDir = path.dirname(fileURLToPath(import.meta.url))
+
+function scssImportRewriter() {
+  return {
+    name: 'scss-import-rewriter',
+    resolveId: {
+      filter: {
+        id: {
+          include: /\.(scss|css)$/,
+        },
+      },
+      async handler(id, importer) {
+        if (id.endsWith('.css')) {
+          return { id, external: true }
+        }
+        const scssPath = path.resolve(path.dirname(importer), id)
+        return {
+          id: scssPath.replace(/.scss$/, '.min.css'),
+          external: true,
+        }
+      },
+    },
+  } satisfies RolldownPlugin
+}
+function prependUseClientPlugin(options: {
+  customClientImports?: string[]
+}) {
+  return {
+    name: 'use-client',
+    transform: {
+      filter: {
+        id: {
+          include: /\.[jt]sx?$/,
+        },
+      },
+      async handler(code, id, meta) {
+        const ast = this.parse(code, {
+          lang: meta.moduleType as any,
+        }) as Program
+        let needsDirective = false
+        let reactNamespace: string | null = null
+
+        // Check if "use client" already exists
+
+        if (
+          ast.body.some(
+            (it) =>
+              it.type === 'ExpressionStatement' &&
+              'directive' in it &&
+              it.directive === 'use client'
+          )
+        ) {
+          return null
+        }
+
+        walk(ast, {
+          enter(node) {
+            // import { useEffect } from 'react'
+            if (node.type === 'ImportDeclaration') {
+              const importDecl = node as ImportDeclaration
+
+              for (const spec of importDecl.specifiers) {
+                if (spec.type === 'ImportSpecifier') {
+                  const local = (spec as ImportSpecifier).local.name
+                  if (
+                    CLIENT_COMPONENT_FUNCTIONS.includes(local) ||
+                    options.customClientImports?.includes(local)
+                  ) {
+                    needsDirective = true
+                    this.skip()
+                  }
+                } else if (spec.type === 'ImportDefaultSpecifier') {
+                  const local = (spec as ImportDefaultSpecifier).local.name
+                  if (
+                    CLIENT_COMPONENT_FUNCTIONS.includes(local) ||
+                    options.customClientImports?.includes(local)
+                  ) {
+                    needsDirective = true
+                    this.skip()
+                  }
+                } else if (spec.type === 'ImportNamespaceSpecifier') {
+                  reactNamespace = spec.local.name
+                }
+              }
+            }
+
+            // React.useEffect
+            if (node.type === 'MemberExpression') {
+              const member = node as MemberExpression
+              if (
+                member.property.type === 'Identifier' &&
+                CLIENT_COMPONENT_FUNCTIONS.includes(
+                  (member.property as Identifier).name
+                )
+              ) {
+                if (
+                  member.object.type === 'Identifier' &&
+                  member.object.name === reactNamespace
+                ) {
+                  needsDirective = true
+                  this.skip()
+                }
+              }
+            }
+          },
+        })
+
+        if (id.endsWith('Button.js')) {
+          console.log({ needsDirective, lang: meta.moduleType })
+        }
+
+        if (!needsDirective) {
+          return null
+        }
+
+        const ms = new MagicString(code)
+        ms.prepend(`"use client";\n`)
+
+        return {
+          code: ms.toString(),
+          map: ms.generateMap({ hires: true }),
+        }
+      },
+    },
+  } satisfies RolldownPlugin
 }

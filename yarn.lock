@@ -4354,6 +4354,7 @@ __metadata:
     "@emotion/react": "npm:11.11.0"
     "@emotion/styled": "npm:11.11.0"
     "@navikt/fnrvalidator": "npm:2.1.5"
+    "@oxc-project/runtime": "npm:^0.82.2"
     "@playwright/test": "npm:1.49.1"
     "@semantic-release/changelog": "npm:6.0.2"
     "@semantic-release/commit-analyzer": "npm:9.0.2"
@@ -6851,7 +6852,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@oxc-project/runtime@npm:=0.82.3":
+"@oxc-project/runtime@npm:=0.82.3, @oxc-project/runtime@npm:^0.82.2":
   version: 0.82.3
   resolution: "@oxc-project/runtime@npm:0.82.3"
   checksum: 10/0bc4fe40c2830892106ded3d359393d4d5f9007e8a87b09f6ca887b5f4d856b945db5d2a6b6cd9f12f40ac998606d5660e55bcf326f6a2637adb6123e5adddc5
