@@ -1,9 +1,9 @@
-import ajvInstance, { ErrorObject } from 'ajv/dist/2020'
+import ajvInstance, { ErrorObject } from 'ajv/dist/2020.js'
 import ajvErrors from 'ajv-errors'
 import pointer, { JsonObject } from './json-pointer'
 import { DefaultErrorMessages, Path } from '../types'
 import { FormError } from './FormError'
-import type Ajv from 'ajv/dist/2020'
+import type Ajv from 'ajv/dist/2020.js'
 import type { FormsTranslation } from '../hooks/useTranslation'
 
 export type AjvInstance = typeof ajvInstance

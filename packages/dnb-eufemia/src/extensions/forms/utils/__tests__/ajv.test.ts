@@ -1,4 +1,4 @@
-import Ajv, { ErrorObject } from 'ajv/dist/2020'
+import Ajv, { ErrorObject } from 'ajv/dist/2020.js'
 import { FormError } from '../FormError'
 import { DefaultErrorMessages } from '../../types'
 import { FormsTranslation } from '../../hooks/useTranslation'
