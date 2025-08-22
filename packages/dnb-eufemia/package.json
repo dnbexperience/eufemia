@@ -31,6 +31,7 @@
     "build:packages": "./scripts/postbuild/build-packages.sh",
     "build:prebuild": "babel-node --extensions .js,.ts,.tsx ./scripts/prebuild/runPrepub",
     "build:resources": "babel-node --extensions .js,.ts,.tsx ./scripts/prebuild/resources/makeResourcesPackage",
+    "build:tsdown": "NODE_ENV=production tsdown",
     "build:types:definitions": "yarn tsc --project tsconfig.definitions.json",
     "build:types:dev": "nodemon --exec 'babel-node --extensions .js,.ts,.tsx ./scripts/prebuild/generateTypes' --ext js --watch './src/**/*' --watch './scripts/**/*'",
     "build:types:docs": "./scripts/prebuild/generate-types-docs.sh",
@@ -110,6 +111,7 @@
   "dependencies": {
     "@babel/runtime": "7.26.10",
     "@navikt/fnrvalidator": "2.1.5",
+    "@oxc-project/runtime": "^0.82.2",
     "@ungap/structured-clone": "1.2.0",
     "ajv": "8.17.1",
     "ajv-errors": "3.0.0",
