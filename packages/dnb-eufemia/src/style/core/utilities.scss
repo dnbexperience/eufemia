@@ -8,8 +8,8 @@
   box-shadow: var(--shadow-default);
 }
 
-@mixin compactDropShadow() {
-  box-shadow: var(--shadow-compact);
+@mixin sharpDropShadow() {
+  box-shadow: var(--shadow-sharp);
 }
 
 // Uses html:not([data-whatintent='touch'] )

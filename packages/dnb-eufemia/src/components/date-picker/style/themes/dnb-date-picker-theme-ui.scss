@@ -23,7 +23,7 @@
   }
 
   &__container {
-    @include compactDropShadow();
+    @include sharpDropShadow();
     border-radius: 0.25rem;
     background-color: var(--color-white);
   }
@@ -187,7 +187,7 @@
     border: none;
     background-color: var(--color-white);
 
-    @include compactDropShadow();
+    @include sharpDropShadow();
   }
 
   &__status--error:not(#{&}--opened)

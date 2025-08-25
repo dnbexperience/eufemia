@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`DatePicker scss has to match style dependencies css 1`] = `
 "/*
@@ -4299,7 +4299,7 @@ exports[`DatePicker scss have to match default theme snapshot 1`] = `
   color: var(--color-black);
 }
 .dnb-date-picker__container {
-  box-shadow: var(--shadow-compact);
+  box-shadow: var(--shadow-sharp);
   border-radius: 0.25rem;
   background-color: var(--color-white);
 }
@@ -4399,7 +4399,7 @@ html:not([data-whatintent=touch]) .dnb-date-picker__day--inactive .dnb-button[di
 .dnb-date-picker__triangle::before {
   border: none;
   background-color: var(--color-white);
-  box-shadow: var(--shadow-compact);
+  box-shadow: var(--shadow-sharp);
 }
 .dnb-date-picker__status--error:not(.dnb-date-picker--opened) .dnb-form-label:hover ~ .dnb-date-picker__inner .dnb-input:not([data-input-state=disabled]) .dnb-input__shell {
   --border-color: var(--color-fire-red);
