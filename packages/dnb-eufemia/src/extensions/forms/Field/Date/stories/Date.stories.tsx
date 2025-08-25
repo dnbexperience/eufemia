@@ -1,5 +1,5 @@
 import React from 'react'
-import { Field, Value } from '../../..'
+import { Field, Form, Value } from '../../..'
 import FormHandler from '../../../Form/Handler/Handler'
 import { Card, Dropdown } from '../../../../../components'
 import Context from '../../../../../shared/Context'
@@ -67,6 +67,47 @@ export function DateLimitValidation() {
           range
         />
         <ChangeLocale />
+      </Card>
+    </FormHandler>
+  )
+}
+
+export function DateRangeRequired() {
+  return (
+    <FormHandler>
+      <Card stack>
+        <Field.Date label="Field.Date range required" required range />
+        <Field.Date label="Field.Date required" required />
+
+        <p>Partial values:</p>
+
+        <Field.Date
+          label="Field.Date range required"
+          required
+          range
+          value="2023-01-16|null"
+        />
+        <Field.Date
+          label="Field.Date range required"
+          required
+          range
+          value="null|2023-01-16"
+        />
+
+        <p>With values:</p>
+
+        <Field.Date
+          label="Field.Date range required"
+          required
+          range
+          value="2023-01-16|2023-04-01"
+        />
+        <Field.Date
+          label="Field.Date required"
+          required
+          value="2023-04-01"
+        />
+        <Form.SubmitButton text="Happy coding!" />
       </Card>
     </FormHandler>
   )

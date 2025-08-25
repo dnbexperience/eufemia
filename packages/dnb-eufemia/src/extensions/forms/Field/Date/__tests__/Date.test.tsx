@@ -120,10 +120,52 @@ describe('Field.Date', () => {
     ).toHaveTextContent(nb.Date.errorRequiredRange)
 
     await userEvent.type(startDayInput, '0102202304052026')
+    await userEvent.click(document.body)
 
     expect(
       document.querySelector('.dnb-form-status')
     ).not.toBeInTheDocument()
+  })
+
+  it('should show required warning in range mode when value is not set', async () => {
+    render(<Field.Date range required validateInitially />)
+
+    expect(document.querySelector('.dnb-form-status')).toBeInTheDocument()
+    expect(
+      document.querySelector('.dnb-form-status__text')
+    ).toHaveTextContent(nb.Date.errorRequiredRange)
+  })
+
+  it('should show required warning in range mode when start date is not set', async () => {
+    render(
+      <Field.Date
+        value="null|2023-12-14"
+        range
+        required
+        validateInitially
+      />
+    )
+
+    expect(document.querySelector('.dnb-form-status')).toBeInTheDocument()
+    expect(
+      document.querySelector('.dnb-form-status__text')
+    ).toHaveTextContent(nb.Date.errorRequiredRange)
+  })
+
+  it('should show required warning in range mode when end date is not set', async () => {
+    render(
+      <Field.Date
+        value="2023-12-14|null"
+        range
+        required
+        validateInitially
+      />
+    )
+
+    expect(document.querySelector('.dnb-form-status')).toBeInTheDocument()
+    expect(
+      document.querySelector('.dnb-form-status__text')
+    ).toHaveTextContent(nb.Date.errorRequiredRange)
   })
 
   it('should support date range', () => {

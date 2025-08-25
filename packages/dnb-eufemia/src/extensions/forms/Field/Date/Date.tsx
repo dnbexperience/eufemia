@@ -125,11 +125,20 @@ function DateComponent(props: DateProps) {
       }
 
       if (props.range) {
-        const [startDate, endDate] = parseRangeValue(value)
-
-        if (!startDate && !endDate) {
-          return new FormError('Date.errorRequiredRange')
+        if (value) {
+          const [startDate, endDate] = parseRangeValue(value)
+          if (
+            startDate &&
+            endDate &&
+            isValid(parseISO(startDate)) &&
+            isValid(parseISO(endDate))
+          ) {
+            // If both dates are valid, we don't return an error
+            return undefined
+          }
         }
+
+        return new FormError('Date.errorRequiredRange')
       }
 
       return !value || !isValid(parseISO(value)) ? error : undefined
