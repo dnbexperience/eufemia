@@ -151,6 +151,11 @@ export interface ModalProps extends ModalRootProps {
    * To get the scroll Element, pass in your own React ref
    */
   scroll_ref?: React.RefObject<HTMLElement>
+
+  /**
+   * To get the Portal Root Element, pass in your own React ref
+   */
+  root_ref?: React.RefObject<HTMLElement>
 }
 
 export interface ModalContentProps {
@@ -318,6 +323,7 @@ export interface ModalContentProps {
   dialog_role?: 'dialog' | 'alertdialog' | 'region'
   content_ref?: React.RefObject<HTMLElement>
   scroll_ref?: React.RefObject<HTMLElement>
+  root_ref?: React.RefObject<HTMLElement>
   open_state?: ModalOpenState
   modalContentCloseRef?: React.MutableRefObject<any>
 }

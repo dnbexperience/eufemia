@@ -403,6 +403,7 @@ describe('Drawer', () => {
   it('will accept custom refs', () => {
     const contentRef = React.createRef<HTMLElement>()
     const scrollRef = React.createRef<HTMLElement>()
+    const rootRef = React.createRef<HTMLElement>()
 
     const MockComponent = () => {
       return (
@@ -411,6 +412,7 @@ describe('Drawer', () => {
           noAnimation
           contentRef={contentRef}
           scrollRef={scrollRef}
+          rootRef={rootRef}
         >
           content
         </Drawer>
@@ -421,6 +423,7 @@ describe('Drawer', () => {
 
     expect(contentRef.current).toBeTruthy()
     expect(scrollRef.current).toBeTruthy()
+    expect(rootRef.current).toBeTruthy()
   })
 
   it('will close drawer by using callback method', () => {

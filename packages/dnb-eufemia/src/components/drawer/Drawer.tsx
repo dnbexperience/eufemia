@@ -53,6 +53,7 @@ function Drawer({
   contentClass,
   contentRef,
   scrollRef,
+  rootRef,
 
   top,
   bottom,
@@ -98,6 +99,7 @@ function Drawer({
     overlayClass,
     contentRef,
     scrollRef,
+    rootRef,
     top,
     bottom,
     left,

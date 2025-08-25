@@ -528,6 +528,7 @@ class Modal extends React.PureComponent<
               {...rest}
               id={this._id}
               root_id={root_id}
+              rootRef={this.props.root_ref}
               content_id={content_id || `dnb-modal-${this._id}`}
               labelled_by={labelled_by}
               focus_selector={focus_selector}

@@ -66,6 +66,7 @@ function Dialog(localProps: DialogProps & DialogContentProps) {
     contentClass,
     contentRef,
     scrollRef,
+    rootRef,
 
     top,
     bottom,
@@ -132,6 +133,7 @@ function Dialog(localProps: DialogProps & DialogContentProps) {
     space,
     contentRef,
     scrollRef,
+    rootRef,
   }
 
   const dialogProps = {

@@ -1,5 +1,4 @@
 import React from 'react'
-import SharedContext from '../../shared/Context'
 import ModalContent from './ModalContent'
 import { ModalContentProps, ReactChildType } from './types'
 import PortalRoot from '../PortalRoot'
@@ -16,6 +15,7 @@ export interface ModalRootProps extends ModalContentProps {
    */
   id?: string
   root_id?: string
+  rootRef?: React.RefObject<HTMLElement>
   direct_dom_return?: boolean
 
   /**
@@ -35,11 +35,10 @@ export default class ModalRoot extends React.PureComponent<
   ModalRootProps,
   ModalRootState
 > {
-  portalElem: HTMLDivElement | null
-  static contextType = SharedContext
   static defaultProps = {
     id: null,
     root_id: null,
+    rootRef: null,
     direct_dom_return: false,
     children: null,
   }
@@ -52,7 +51,7 @@ export default class ModalRoot extends React.PureComponent<
     }
 
     return (
-      <PortalRoot>
+      <PortalRoot innerRef={this.props.rootRef}>
         <div
           id={
             this.props.root_id ? `dnb-modal-${this.props.root_id}` : null

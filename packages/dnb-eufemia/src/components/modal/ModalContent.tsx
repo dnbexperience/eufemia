@@ -59,6 +59,7 @@ export default class ModalContent extends React.PureComponent<
 
   _contentRef: React.RefObject<HTMLElement>
   _scrollRef: React.RefObject<HTMLElement>
+  _rootRef: React.RefObject<HTMLElement>
   _overlayClickRef: { current: null | HTMLElement }
   _id: string
   _lockTimeout: NodeJS.Timeout
@@ -78,6 +79,7 @@ export default class ModalContent extends React.PureComponent<
     super(props)
     this._contentRef = this.props.content_ref || React.createRef()
     this._scrollRef = this.props.scroll_ref || React.createRef()
+    this._rootRef = this.props.root_ref || React.createRef()
     this._overlayClickRef = React.createRef()
     if (this.props.modalContentCloseRef) {
       this.props.modalContentCloseRef.current = this.setModalContentState
@@ -511,6 +513,7 @@ export default class ModalContent extends React.PureComponent<
           onKeyDownHandler: this.onKeyDownHandler,
           contentRef: this._contentRef,
           scrollRef: this._scrollRef,
+          rootRef: this._rootRef,
           contentId,
           close,
         }}
