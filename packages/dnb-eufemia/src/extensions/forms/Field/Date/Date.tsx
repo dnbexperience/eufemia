@@ -137,7 +137,6 @@ function DateComponent(props: DateProps) {
             return undefined
           }
         }
-
         return new FormError('Date.errorRequiredRange')
       }
 
