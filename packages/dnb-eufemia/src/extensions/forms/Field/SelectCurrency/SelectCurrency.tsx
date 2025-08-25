@@ -163,7 +163,8 @@ function SelectCurrency(props: Props) {
         filter: !wasFilled.current
           ? (currency) => currency.iso === value
           : filter,
-        sort: ccFilter as Extract<CurrencyFilterSet, 'Prioritized'>,
+        enableSort: ccFilter as Extract<CurrencyFilterSet, 'Prioritized'>,
+        enableSearch: true,
       })
 
       // To force Autocomplete to re-evaluate the internal data
@@ -193,7 +194,8 @@ function SelectCurrency(props: Props) {
       dataRef.current = getCurrencyData({
         lang: langRef.current,
         filter,
-        sort: ccFilter as Extract<CurrencyFilterSet, 'Prioritized'>,
+        enableSort: ccFilter as Extract<CurrencyFilterSet, 'Prioritized'>,
+        enableSearch: true,
       })
       forceUpdate()
     }
@@ -276,7 +278,8 @@ function SelectCurrency(props: Props) {
 type GetCurrencyData = {
   lang?: CurrencyLang
   filter?: Props['filterCurrencies']
-  sort?: Extract<CurrencyFilterSet, 'Prioritized'>
+  enableSort?: Extract<CurrencyFilterSet, 'Prioritized'>
+  enableSearch?: boolean
   makeObject?: (
     currency: CurrencyType,
     lang: string
@@ -290,13 +293,18 @@ type GetCurrencyData = {
 export function getCurrencyData({
   lang = 'nb',
   filter = null,
-  sort = null,
+  enableSort = null,
+  enableSearch = null,
   makeObject = (currency: CurrencyType, lang: string) => {
     const translation = currency.i18n[lang] ?? currency.i18n.en
     const content = [translation, currency.iso]
+    const search_content = enableSearch
+      ? [translation, currency.iso, ...(currency.search?.[lang] || [])]
+      : undefined
     return {
       selectedKey: currency.iso,
       selected_value: `${translation} (${currency.iso})`,
+      search_content, // will be used for searching
       content,
     }
   },
@@ -310,7 +318,7 @@ export function getCurrencyData({
       return !filter
     })
     .sort(({ i18n: a, iso: a1 }, { i18n: b, iso: b1 }) => {
-      if (sort === 'Prioritized') {
+      if (enableSort === 'Prioritized') {
         const indexA = prioritizedCurrencies.indexOf(a1)
         const indexB = prioritizedCurrencies.indexOf(b1)
 

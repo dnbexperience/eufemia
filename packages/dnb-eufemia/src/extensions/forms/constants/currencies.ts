@@ -11,6 +11,10 @@ export type CurrencyType = {
   continent: ContinentType
   regions?: RegionType
   name?: string
+  search?: {
+    en: readonly string[]
+    nb: readonly string[]
+  }
 }
 
 export type CurrencyLang = keyof CurrencyType['i18n']

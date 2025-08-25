@@ -72,6 +72,10 @@ describe('Field.SelectCurrency', () => {
           nb: 'Norsk krone',
         },
         regions: ['Scandinavia', 'Nordic'],
+        search: {
+          en: ['Norway'],
+          nb: ['Norge'],
+        },
       },
     ]
     expect(onChange).toHaveBeenLastCalledWith(...firstEventValues)
@@ -96,6 +100,10 @@ describe('Field.SelectCurrency', () => {
         nb: 'Dansk krone',
       },
       regions: ['Scandinavia', 'Nordic'],
+      search: {
+        en: ['Denmark'],
+        nb: ['Danmark'],
+      },
     })
     expect(inputElement).toHaveValue('Dansk krone (DKK)')
   })
@@ -135,6 +143,10 @@ describe('Field.SelectCurrency', () => {
         nb: 'Svensk krone',
       },
       regions: ['Scandinavia', 'Nordic'],
+      search: {
+        en: ['Sweden'],
+        nb: ['Sverige'],
+      },
     })
   })
 
@@ -404,6 +416,120 @@ describe('Field.SelectCurrency', () => {
     expect(selectedItemElement().textContent).toBe('Dansk kroneDKK')
   })
 
+  it('should search for "Norge" and "Norway" with en-GB locale', async () => {
+    const { rerender } = render(
+      <Provider locale="nb-NO">
+        <Field.SelectCurrency />
+      </Provider>
+    )
+
+    const inputElement: HTMLInputElement = document.querySelector(
+      '.dnb-forms-field-select-currency input'
+    )
+
+    {
+      await userEvent.type(inputElement, 'Norge')
+
+      await waitFor(() => {
+        const liElements = document.querySelectorAll(
+          'li:not([aria-hidden])'
+        )
+        expect(liElements.length).toBeGreaterThan(0)
+      })
+
+      const liElements = document.querySelectorAll('li:not([aria-hidden])')
+      expect(liElements).toHaveLength(2)
+
+      const hasNOK = Array.from(liElements).some((element) =>
+        element.textContent.includes('Norsk krone')
+      )
+      expect(hasNOK).toBe(true)
+    }
+
+    rerender(
+      <Provider locale="en-GB">
+        <Field.SelectCurrency />
+      </Provider>
+    )
+
+    {
+      await userEvent.clear(inputElement)
+      await userEvent.type(inputElement, 'Norway')
+
+      await waitFor(() => {
+        const liElements = document.querySelectorAll(
+          'li:not([aria-hidden])'
+        )
+        expect(liElements.length).toBeGreaterThan(0)
+      })
+
+      const liElements = document.querySelectorAll('li:not([aria-hidden])')
+      expect(liElements).toHaveLength(2)
+
+      const hasNOK = Array.from(liElements).some((element) =>
+        element.textContent.includes('Norwegian krone')
+      )
+      expect(hasNOK).toBe(true)
+    }
+  })
+
+  it('should search for "Tyskland" and "Frankrike" to get "Euro"', async () => {
+    render(<Field.SelectCurrency />)
+
+    const inputElement: HTMLInputElement = document.querySelector(
+      '.dnb-forms-field-select-currency input'
+    )
+
+    {
+      // First search for "Tyskland" (German for Germany)
+      await userEvent.type(inputElement, 'Tyskland')
+
+      await waitFor(() => {
+        const liElements = document.querySelectorAll(
+          'li:not([aria-hidden])'
+        )
+        expect(liElements.length).toBeGreaterThan(0)
+      })
+
+      const liElements = document.querySelectorAll('li:not([aria-hidden])')
+      expect(liElements).toHaveLength(2)
+
+      const hasEuro = Array.from(liElements).some((element) =>
+        element.textContent.includes('Euro')
+      )
+      expect(hasEuro).toBe(true)
+    }
+
+    {
+      // Clear and search for "Frankrike"
+      await userEvent.clear(inputElement)
+
+      await waitFor(() => {
+        const liElements = document.querySelectorAll(
+          'li:not([aria-hidden])'
+        )
+        expect(liElements.length).toBeGreaterThan(40)
+      })
+
+      await userEvent.type(inputElement, 'Frankrike')
+
+      await waitFor(() => {
+        const liElements = document.querySelectorAll(
+          'li:not([aria-hidden])'
+        )
+        expect(liElements.length).toBeGreaterThan(0)
+      })
+
+      const liElements = document.querySelectorAll('li:not([aria-hidden])')
+      expect(liElements).toHaveLength(2)
+
+      const hasEuro = Array.from(liElements).some((element) =>
+        element.textContent.includes('Euro')
+      )
+      expect(hasEuro).toBe(true)
+    }
+  })
+
   it('renders error', () => {
     const errorMessage = new Error('Error message')
     render(<Field.SelectCurrency error={errorMessage} />)
@@ -468,6 +594,10 @@ describe('Field.SelectCurrency', () => {
         nb: 'Norsk krone',
       },
       regions: ['Scandinavia', 'Nordic'],
+      search: {
+        en: ['Norway'],
+        nb: ['Norge'],
+      },
     }
 
     const CHF = {
@@ -478,6 +608,10 @@ describe('Field.SelectCurrency', () => {
       i18n: {
         en: 'Swiss franc',
         nb: 'Sveitsisk franc',
+      },
+      search: {
+        en: ['Switzerland'],
+        nb: ['Sveits'],
       },
     }
 
@@ -605,6 +739,10 @@ describe('Field.SelectCurrency', () => {
         nb: 'Norsk krone',
       },
       regions: ['Scandinavia', 'Nordic'],
+      search: {
+        en: ['Norway'],
+        nb: ['Norge'],
+      },
     }
 
     const CHF = {
@@ -615,6 +753,10 @@ describe('Field.SelectCurrency', () => {
       i18n: {
         en: 'Swiss franc',
         nb: 'Sveitsisk franc',
+      },
+      search: {
+        en: ['Switzerland'],
+        nb: ['Sveits'],
       },
     }
 

@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`Slider scss has to match style dependencies css 1`] = `
 "/*
@@ -984,7 +984,7 @@ html[data-whatinput=keyboard] .dnb-slider__marker:focus {
   bottom: 0;
 }
 .dnb-slider__thumb {
-  box-shadow: var(--shadow-default);
+  box-shadow: var(--shadow-sharp);
 }
 .dnb-slider__button-helper, .dnb-slider__thumb {
   position: absolute;
