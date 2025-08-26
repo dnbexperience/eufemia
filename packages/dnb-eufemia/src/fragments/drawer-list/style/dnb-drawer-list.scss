@@ -163,7 +163,19 @@
   &--no-scroll-animation &__options {
     scroll-behavior: auto;
   }
-
+  &__group {
+    &-title {
+      display: block;
+      padding: 0.5rem 1rem;
+      color: var(--color-black-80); // TODO: theme
+      background-color: var(--color-lavender); // TODO: theme
+      font-weight: var(--font-weight-medium);
+    }
+    &-list {
+      padding: 0;
+      list-style: none;
+    }
+  }
   // li element
   &__option {
     position: relative;
@@ -269,7 +281,7 @@
     width: calc(var(--drawer-list-height) / 2);
     height: calc(var(--drawer-list-height) / 2);
 
-    overflow: hidden;
+    z-index: -1;
 
     &::before {
       content: '';

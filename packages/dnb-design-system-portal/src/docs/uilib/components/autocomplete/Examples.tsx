@@ -671,3 +671,41 @@ export const AutocompleteContentDecoupledExample = () => (
     </ComponentBox>
   </Wrapper>
 )
+
+export const AutocompleteSections = () => (
+  <Wrapper>
+    <ComponentBox>
+      {() => {
+        const groups = ['Money', 'Savings', 'Stocks']
+        const data = [
+          {
+            groupIndex: 0,
+            content: 'Debit Goal',
+          },
+          {
+            groupIndex: 0,
+            content: 'Delkonto',
+          },
+          {
+            groupIndex: 1,
+            content: 'Sold interest',
+          },
+          {
+            groupIndex: 1,
+            content: 'Drop Backup',
+          },
+          {
+            groupIndex: 2,
+            content: 'Dream funds',
+          },
+          {
+            groupIndex: 2,
+            content: 'Savings Goal',
+          },
+        ]
+
+        return <Autocomplete data={data} groups={groups} />
+      }}
+    </ComponentBox>
+  </Wrapper>
+)

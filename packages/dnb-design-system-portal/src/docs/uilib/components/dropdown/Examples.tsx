@@ -836,3 +836,43 @@ export const DropdownCustomizedLook = () => {
     </Wrapper>
   )
 }
+
+export const DropdownSections = () => {
+  return (
+    <Wrapper>
+      <ComponentBox>
+        {() => {
+          const groups = ['Card', 'Savings', 'Stocks']
+          const data = [
+            {
+              groupIndex: 0,
+              content: 'Debit Card',
+            },
+            {
+              groupIndex: 0,
+              content: 'Credit Card',
+            },
+            {
+              groupIndex: 1,
+              content: 'Vacation',
+            },
+            {
+              groupIndex: 1,
+              content: 'New Computer',
+            },
+            {
+              groupIndex: 2,
+              content: 'Old funds',
+            },
+            {
+              groupIndex: 3,
+              content: 'Savings Goal',
+            },
+          ]
+
+          return <Dropdown data={data} groups={groups} />
+        }}
+      </ComponentBox>
+    </Wrapper>
+  )
+}
