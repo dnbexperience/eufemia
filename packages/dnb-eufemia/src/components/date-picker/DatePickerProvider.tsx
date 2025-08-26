@@ -9,9 +9,7 @@ import type {
   DatePickerAllProps,
 } from './DatePicker'
 
-import isValid from 'date-fns/isValid'
-import format from 'date-fns/format'
-import differenceInCalendarDays from 'date-fns/differenceInCalendarDays'
+import { isValid, format, differenceInCalendarDays } from 'date-fns'
 
 import SharedContext from '../../shared/Context'
 import { correctV1Format, isDisabled } from './DatePickerCalc'

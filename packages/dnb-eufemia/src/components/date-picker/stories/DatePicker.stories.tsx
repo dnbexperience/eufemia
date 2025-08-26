@@ -7,13 +7,10 @@ import React from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 import styled from '@emotion/styled'
 
-import startOfMonth from 'date-fns/startOfMonth'
-import lastDayOfMonth from 'date-fns/lastDayOfMonth'
-import addDays from 'date-fns/addDays'
+import { startOfMonth, lastDayOfMonth, isWeekend, addDays } from 'date-fns'
 import Provider from '../../../shared/Provider'
 import Context from '../../../shared/Context'
 import nbNO from '../../../shared/locales/nb-NO'
-import isWeekend from 'date-fns/isWeekend'
 
 import {
   DatePicker,
