@@ -6,7 +6,7 @@ import {
   Translation,
   useTranslation,
   TranslationProps,
-} from '../../../../../shared'
+} from '../../../../shared'
 import nbNO from '../locales/nb-NO'
 import enGB from '../locales/en-GB'
 
