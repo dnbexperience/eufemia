@@ -1,7 +1,7 @@
 import { defineConfig, type Options } from 'tsdown'
 import pkg from './package.json'
 
-import { writeFile, cp } from 'node:fs/promises'
+import { writeFile, cp, readFile } from 'node:fs/promises'
 import path from 'node:path'
 import glob from 'glob'
 
@@ -50,6 +50,7 @@ export default defineConfig([
   // CommonJS modules
   makeModuleConfig(`${outDirBase}/cjs`, { format: 'cjs'}, {
     outputOptions: {
+      exports: 'named',
       banner: '"use strict";',
     },
     hooks: {
@@ -58,6 +59,22 @@ export default defineConfig([
           path.join(ctx.options.outDir, 'package.json'),
           JSON.stringify({ type: 'commonjs' })
         )
+
+        async function replaceInFiles(pattern, searchText, replaceText) {
+          const files = glob.sync(pattern, { absolute: true, cwd: ctx.options.outDir })
+          await Promise.all(files.map(async (file) => {
+            const content = await readFile(file, 'utf8')
+            const newContent = content.replace(
+              new RegExp(searchText, 'g'),
+              replaceText
+            )
+            if (content !== newContent) {
+              await writeFile(file, newContent)
+            }
+          }))
+        }
+
+        await replaceInFiles('**/*.{css,scss}', '../assets/', '../../assets/')
       },
     },
   }),
@@ -460,10 +477,6 @@ function prependUseClientPlugin(options: {
             }
           },
         })
-
-        if (id.endsWith('Button.js')) {
-          console.log({ needsDirective, lang: meta.moduleType })
-        }
 
         if (!needsDirective) {
           return null
