@@ -2637,6 +2637,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     setDisplayValue,
     validateValue,
     revealError,
+    handleError,
     forceUpdate,
 
     /** Internal */
@@ -2655,6 +2656,7 @@ export interface ReturnAdditional<Value> {
     overrideValue?: Value,
     additionalArgs?: ProvideAdditionalEventArgs
   ) => void
+  handleError: () => void
   handleFocus: () => void
   handleBlur: () => void
   handleChange: (
