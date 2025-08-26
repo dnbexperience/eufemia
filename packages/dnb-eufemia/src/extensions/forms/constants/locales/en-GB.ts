@@ -202,8 +202,8 @@ export default {
       yearPlaceholder: 'yyyy',
       errorRequired: 'You must enter a date of birth.',
       errorDateOfBirth: 'Invalid date of birth.',
-      errorDateOfBirthLength:
-        'Invalid date of birth. Enter a valid date of birth with TODO.',
+      errorDateOfBirthFuture:
+        'Invalid date of birth. Enter todays date or earlier.',
     },
     PhoneNumber: {
       label: 'Mobile number',

@@ -5,6 +5,7 @@ import CompositionField, {
 } from '../Composition'
 import SelectionField from '../Selection'
 import SharedContext from '../../../../shared/Context'
+import { parseISO, isValid, isAfter } from 'date-fns'
 
 import useTranslation from '../../hooks/useTranslation'
 import type {
@@ -45,7 +46,7 @@ export type Props = Omit<
 function DateOfBirth(props: Props) {
   const {
     errorDateOfBirth,
-    errorDateOfBirthLength,
+    errorDateOfBirthFuture,
     errorRequired,
     label,
     dayLabel,
@@ -71,21 +72,17 @@ function DateOfBirth(props: Props) {
 
   const dateOfBirthValidator = useCallback(
     (value: string) => {
-      // Sjekke om datoen er gyldig og sjekke om datoen ikke er i fremtiden?
-      // Eller skal man kanskje kunne registrere fødselsdato i fremtiden?
       if (value !== undefined) {
-        const bankAccountNoIs11Digits = value?.length === 11
-
-        if (!bankAccountNoIs11Digits) {
-          return Error(errorDateOfBirthLength)
-        }
-
-        if (bankAccountNoIs11Digits) {
+        const dateValue = parseISO(value)
+        if (!isValid(dateValue)) {
           return Error(errorDateOfBirth)
+        }
+        if (isAfter(dateValue, new Date())) {
+          return Error(errorDateOfBirthFuture)
         }
       }
     },
-    [errorDateOfBirth, errorDateOfBirthLength]
+    [errorDateOfBirth, errorDateOfBirthFuture]
   )
 
   const onBlurValidator = useMemo(() => {
@@ -109,6 +106,7 @@ function DateOfBirth(props: Props) {
 
   const {
     id,
+    value,
     emptyValue,
     label: labelProp,
     width = 'large',
@@ -140,10 +138,9 @@ function DateOfBirth(props: Props) {
 
   const callOnChange = useCallback(
     (data: EventValues) => {
-      console.log(data)
       const eventValues = prepareEventValues(data)
       handleChange(
-        joinValue([eventValues.day, eventValues.month, eventValues.year]),
+        joinValue([eventValues.year, eventValues.month, eventValues.day]),
         eventValues
       )
     },
@@ -156,6 +153,18 @@ function DateOfBirth(props: Props) {
     },
     [prepareEventValues, setHasFocus]
   )
+
+  useMemo(() => {
+    const valueProp = props.value || value
+    console.log('valueProp', valueProp)
+    if (isValid(parseISO(valueProp))) {
+      const [year, month, day] = splitValue(props.value || value)
+
+      yearRef.current = year
+      monthRef.current = month
+      dayRef.current = day
+    }
+  }, [value, props.value])
 
   const handleDayChange = useCallback(
     (value: string) => {
@@ -281,5 +290,9 @@ function capitalizeFirstLetter(s) {
 }
 
 function joinValue(array: Array<string>) {
-  return array.filter(Boolean).join('/')
+  return array.filter(Boolean).join('-')
+}
+
+function splitValue(value: string) {
+  return typeof value === 'string' ? value.split('-') : undefined
 }

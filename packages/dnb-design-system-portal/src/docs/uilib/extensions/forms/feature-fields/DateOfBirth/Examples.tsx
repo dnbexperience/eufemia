@@ -101,8 +101,8 @@ export const ValidationExtendValidator = () => {
     <ComponentBox>
       {() => {
         const firstDigitIs1Validator = (value: string) => {
-          if (value.substring(0, 1) !== '1') {
-            return new Error('First digit is not 1')
+          if (value.substring(0, 4) !== '1990') {
+            return new Error('Has to be born in the year 1990!')
           }
         }
 

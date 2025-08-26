@@ -200,8 +200,8 @@ export default {
       yearPlaceholder: 'åååå',
       errorRequired: 'Du må fylle inn en födelsedatum.',
       errorDateOfBirth: 'Ogiltigt födelsedatum.',
-      errorDateOfBirthLength:
-        'Ogiltigt födelsedatum. Ange ett giltigt födelsedatum med TODO.',
+      errorDateOfBirthFuture:
+        'Invalid date of birth. Skriv in dagens datum eller tidigare.',
     },
     PhoneNumber: {
       label: 'Mobilnummer',
