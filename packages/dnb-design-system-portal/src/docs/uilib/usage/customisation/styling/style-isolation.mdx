@@ -159,7 +159,13 @@ const { getScopeElement } = useIsolatedStyleScope('my-scope')
 Every component has its own isolated CSS file. You can import them directly:
 
 ```tsx
-import '@dnb/eufemia/style/components/button/button--isolated.min.css'
+// Shared basis
+import '@dnb/eufemia/style/dnb-ui-basis--isolated.min.css'
+import '@dnb/eufemia/style/themes/theme-ui/ui-theme-basis--isolated.min.css'
+
+// Components
+import '@dnb/eufemia/components/button/style/dnb-button--isolated.min.css'
+import '@dnb/eufemia/components/button/style/themes/dnb-button-theme-ui--isolated.min.css'
 ```
 
 ### Omit selectors from the scope
