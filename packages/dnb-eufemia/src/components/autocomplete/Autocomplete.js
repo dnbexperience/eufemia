@@ -1926,7 +1926,7 @@ class AutocompleteInstance extends React.PureComponent {
     const triggerParams = {
       id: id + '-submit-button',
       disabled,
-      status: !opened && status ? status_state : null,
+      status: status ? status_state : null,
       onKeyDown: this.onTriggerKeyDownHandler,
       onSubmit: this.toggleVisible,
       onMouseDown: this.reserveActivityHandler,
