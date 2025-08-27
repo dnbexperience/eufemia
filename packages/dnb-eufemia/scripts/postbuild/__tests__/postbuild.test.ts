@@ -350,7 +350,7 @@ describe('tsdown build', () => {
             expect(content).toContain('}from"react";')
             expect(content).toContain('}from"react-dom";')
             expect(content).toContain(
-              'import*as h from"../icons/dnb/primary_icons";'
+              'import*as f from"../icons/dnb/primary_icons";'
             )
           }
         }
@@ -368,7 +368,7 @@ describe('tsdown build', () => {
             )
             expect(content).toContain('function(e,t)')
             expect(content).toContain('require(`react`),')
-            expect(content).toContain('require(`react-dom`),')
+            expect(content).toContain('require(`react-dom`)):')
             expect(content).toContain(
               'require(`../icons/dnb/primary_icons`)'
             )
