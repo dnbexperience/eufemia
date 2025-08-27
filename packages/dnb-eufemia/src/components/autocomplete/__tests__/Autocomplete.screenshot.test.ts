@@ -81,7 +81,15 @@ describe.each(['ui', 'sbanken'])('Autocomplete for %s', (themeName) => {
   it('have to match the status with status_state info', async () => {
     const screenshot = await makeScreenshot({
       selector:
-        '[data-visual-test="autocomplete-status"] .dnb-autocomplete__inner',
+        '[data-visual-test="autocomplete-status-info"] .dnb-autocomplete__inner',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match the status with status_state error', async () => {
+    const screenshot = await makeScreenshot({
+      selector:
+        '[data-visual-test="autocomplete-status-error"] .dnb-autocomplete__inner',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
