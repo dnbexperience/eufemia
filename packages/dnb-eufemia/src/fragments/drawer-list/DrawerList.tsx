@@ -518,7 +518,7 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
     const ignoreEvents = isTrue(ignore_events)
 
     const GroupItems = () =>
-      renderData.map(({ groupTitle, groupData: data }, i) => {
+      renderData.map(({ groupTitle, groupData: data }, j) => {
         const Items = () =>
           data.map((dataItem, i) => {
             const _id = dataItem.__id
@@ -530,6 +530,10 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
               hash,
               className: classnames(
                 // helper classes
+                j === 0 && i === 0 && 'first-item',
+                j === renderData.length - 1 &&
+                  i === data.length - 1 &&
+                  'last-item',
                 i === closestToTop && 'closest-to-top',
                 i === closestToBottom && 'closest-to-bottom',
                 i === 0 && 'first-of-type', // because of the triangle element
@@ -571,9 +575,16 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
           )
 
         return renderData.length === 1 && groupTitle === undefined ? (
-          <ItemsRendered />
+          <ItemsRendered key={j} />
         ) : (
-          <li key={i} className="dnb-drawer-list__group">
+          <li
+            key={j}
+            className={classnames(
+              'dnb-drawer-list__group',
+              j === 0 && 'first-of-type',
+              j === renderData.length - 1 && 'last-of-type'
+            )}
+          >
             <span className="dnb-drawer-list__group-title">
               {groupTitle}
             </span>
