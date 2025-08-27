@@ -128,9 +128,9 @@ function DateOfBirth(props: Props) {
       year = yearRef.current || emptyValue,
     }: EventValues = {}) => {
       return {
-        day,
-        month,
         year,
+        month,
+        day,
       }
     },
     [emptyValue]
@@ -156,14 +156,7 @@ function DateOfBirth(props: Props) {
 
   useMemo(() => {
     const valueProp = props.value || value
-    console.log('valueProp', valueProp)
-    if (isValid(parseISO(valueProp))) {
-      const [year, month, day] = splitValue(props.value || value)
-
-      yearRef.current = year
-      monthRef.current = month
-      dayRef.current = day
-    }
+    //console.log('valueProp', valueProp)
   }, [value, props.value])
 
   const handleDayChange = useCallback(
