@@ -2273,7 +2273,7 @@ describe('Field.Date', () => {
         render(
           <Field.Date
             value="2024-12-31"
-            minDate="2025-01-01"
+            minDate={minDate}
             validateInitially
           />
         )
