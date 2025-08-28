@@ -199,7 +199,7 @@
   }
 
   &__thumb {
-    @include defaultDropShadow();
+    @include sharpDropShadow();
   }
 
   &__button-helper,

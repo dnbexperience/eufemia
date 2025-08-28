@@ -3,4 +3,4 @@
  *
  */
 
-import './dnb-input.scss'
+import './dnb-input-masked.scss'

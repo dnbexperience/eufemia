@@ -10,7 +10,7 @@ import { pickSpacingProps } from '../../../../components/flex/utils'
 import classnames from 'classnames'
 import FieldBlock, { Props as FieldBlockProps } from '../../FieldBlock'
 import SharedContext from '../../../../shared/Context'
-import { parseISO, isValid, isBefore, isAfter } from 'date-fns'
+import { parseISO, isValid, isBefore, isAfter, startOfDay } from 'date-fns'
 import useTranslation from '../../hooks/useTranslation'
 import {
   DatePickerEvent,
@@ -19,7 +19,6 @@ import {
 import { convertStringToDate } from '../../../../components/date-picker/DatePickerCalc'
 import { ProviderProps } from '../../../../shared/Provider'
 import { FormError } from '../../utils'
-import startOfDay from 'date-fns/startOfDay'
 import { InvalidDates } from '../../../../components/date-picker/DatePickerInput'
 import useInvalidDates from './hooks/useInvalidDates'
 import {
@@ -125,11 +124,14 @@ function DateComponent(props: DateProps) {
       }
 
       if (props.range) {
-        const [startDate, endDate] = parseRangeValue(value)
-
-        if (!startDate && !endDate) {
-          return new FormError('Date.errorRequiredRange')
+        if (value) {
+          const [startDate, endDate] = parseRangeValue(value)
+          if (startDate && endDate) {
+            // If both dates exists, we don't return an error
+            return undefined
+          }
         }
+        return new FormError('Date.errorRequiredRange')
       }
 
       return !value || !isValid(parseISO(value)) ? error : undefined
@@ -209,13 +211,15 @@ function DateComponent(props: DateProps) {
     itemPath,
     className,
     label,
-    value: valueProp,
+    value: internalValue,
     hasError,
     disabled,
     htmlAttributes,
+    handleError,
     handleFocus,
     handleBlur,
     handleChange,
+    setChanged,
     setDisplayValue,
     range,
     showCancelButton = true,
@@ -229,31 +233,67 @@ function DateComponent(props: DateProps) {
   } = useFieldProps(preparedProps)
 
   const datePickerProps = pickDatePickerProps(rest)
+  const handleReset = useCallback(
+    (event) => {
+      handleChange(event)
+      onReset?.(event)
+    },
+    [handleChange, onReset]
+  )
+  const onFocus = useCallback(() => {
+    handleFocus()
+    handleError()
+  }, [handleFocus, handleError])
+  const onType = useCallback(
+    (event) => {
+      const { date, start_date, end_date, ...rest } = event
+
+      if (props.range) {
+        const parsedStartDate = parseISO(start_date)
+        const parsedEndDate = parseISO(end_date)
+        if (isValid(parsedStartDate) || isValid(parsedEndDate)) {
+          handleChange({
+            ...(isValid(parsedStartDate) && { start_date }),
+            ...(isValid(parsedEndDate) && { end_date }),
+            ...rest,
+          })
+        }
+      } else if (isValid(parseISO(date))) {
+        handleChange({ date, ...rest })
+      } else {
+        handleChange(rest)
+      }
+
+      // To ensure that the form can show the required error message while typing and blurring
+      setChanged(true)
+    },
+    [handleChange, props.range, setChanged]
+  )
 
   const { value, startDate, endDate } = useMemo(() => {
-    if (!range || !valueProp) {
+    if (!range || !internalValue) {
       return {
         // Assign to null if falsy value, to properly clear input values
-        value: valueProp ?? null,
+        value: internalValue ?? null,
         startDate: undefined,
         endDate: undefined,
       }
     }
 
-    const [startDate, endDate] = parseRangeValue(valueProp)
+    const [startDate, endDate] = parseRangeValue(internalValue)
 
     return {
       value: undefined,
       startDate,
       endDate,
     }
-  }, [range, valueProp])
+  }, [range, internalValue])
 
   useMemo(() => {
-    if ((path || itemPath) && valueProp) {
-      setDisplayValue(formatDate(valueProp, { locale }), undefined)
+    if ((path || itemPath) && value) {
+      setDisplayValue(formatDate(value, { locale }), undefined)
     }
-  }, [itemPath, locale, path, setDisplayValue, valueProp])
+  }, [itemPath, locale, path, setDisplayValue, value])
 
   const fieldBlockProps: FieldBlockProps = {
     forId: id,
@@ -279,12 +319,10 @@ function DateComponent(props: DateProps) {
         maxDate={maxDate}
         status={hasError ? 'error' : undefined}
         range={range}
+        onReset={handleReset}
+        onType={onType} // To support validation while typing (e.g. required)
         onChange={handleChange}
-        onReset={(event) => {
-          handleChange(event)
-          onReset?.(event)
-        }}
-        onFocus={handleFocus}
+        onFocus={onFocus}
         onBlur={handleBlur}
         {...datePickerProps}
         {...htmlAttributes}
@@ -295,7 +333,7 @@ function DateComponent(props: DateProps) {
 
 export function parseRangeValue(value: DateProps['value']) {
   return (
-    value
+    String(value)
       .split('|')
       // Assign to null if falsy value, to properly clear input values
       .map((value) => (/(undefined|null)/.test(value) ? null : value))
@@ -321,12 +359,24 @@ function validateDateLimit({
 
   const [startDateParsed, endDateParsed] = parseRangeValue(value)
 
-  // Set dates to the start of the day to compare the actual days, and not day and time
-  const minDate = startOfDay(convertStringToDate(dates.minDate))
-  const maxDate = startOfDay(convertStringToDate(dates.maxDate))
+  const convertedMinDate = convertStringToDate(dates.minDate)
+  const convertedMaxDate = convertStringToDate(dates.maxDate)
+  const convertedStartDate = convertStringToDate(startDateParsed)
+  const convertedEndDate = convertStringToDate(endDateParsed)
 
-  const startDate = startOfDay(convertStringToDate(startDateParsed))
-  const endDate = startOfDay(convertStringToDate(endDateParsed))
+  // Set dates to the start of the day to compare the actual days, and not day and time
+  const minDate = convertedMinDate
+    ? startOfDay(convertedMinDate)
+    : undefined
+  const maxDate = convertedMaxDate
+    ? startOfDay(convertedMaxDate)
+    : undefined
+  const startDate = convertedStartDate
+    ? startOfDay(convertedStartDate)
+    : undefined
+  const endDate = convertedEndDate
+    ? startOfDay(convertedEndDate)
+    : undefined
 
   const isoDates = {
     minDate:

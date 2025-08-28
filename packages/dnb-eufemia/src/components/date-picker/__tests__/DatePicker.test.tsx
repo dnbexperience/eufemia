@@ -11,10 +11,7 @@ import DatePicker, { DatePickerAllProps } from '../DatePicker'
 
 jest.setTimeout(30e3)
 
-import addDays from 'date-fns/addDays'
-import addMonths from 'date-fns/addMonths'
-import getDaysInMonth from 'date-fns/getDaysInMonth'
-import isWeekend from 'date-fns/isWeekend'
+import { addDays, addMonths, getDaysInMonth, isWeekend } from 'date-fns'
 
 import {
   toRange,

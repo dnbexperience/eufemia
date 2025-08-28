@@ -11,7 +11,9 @@ export type Props = Omit<
   React.HTMLProps<HTMLFormElement>,
   'ref' | 'autoComplete'
 > &
-  SpacingProps
+  SpacingProps & {
+    innerRef?: React.RefObject<HTMLFormElement>
+  }
 
 export default function FormElement(props: Props) {
   const id = useId()
