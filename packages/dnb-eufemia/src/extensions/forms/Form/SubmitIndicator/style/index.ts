@@ -3,4 +3,4 @@
  *
  */
 
-import './dnb-wizard-layout.scss'
+import './dnb-form-submit-indicator.scss'

@@ -3,4 +3,4 @@
  *
  */
 
-import './dnb-textarea-theme-ui.scss'
+import './dnb-text-counter-theme-ui.scss'

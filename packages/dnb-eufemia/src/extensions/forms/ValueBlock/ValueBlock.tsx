@@ -180,7 +180,9 @@ function ValueBlock(localProps: Props) {
       : Fragment
 
     if (!label && !hasHelp && isCompositionInContext) {
-      content = <span className={defaultClass}>{children}</span> ?? (
+      content = children ? (
+        <span className={defaultClass}>{children}</span>
+      ) : (
         <span className="dnb-forms-value-block__placeholder">
           {placeholder}
         </span>
