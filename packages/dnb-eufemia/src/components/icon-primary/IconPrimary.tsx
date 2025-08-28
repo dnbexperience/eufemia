@@ -8,7 +8,7 @@ import {
   IconProps,
 } from '../icon/Icon'
 
-// NB: The path reflects the rollup.config.js -> external: '../../icons/dnb/primary_icons'
+// NB: The path reflects the tsdown.config.ts -> external: '../../icons/dnb/primary_icons'
 import * as primary_icons from '../../icons/dnb/primary_icons'
 import * as primary_icons_medium from '../../icons/dnb/primary_icons_medium'
 

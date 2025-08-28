@@ -331,7 +331,7 @@ describe('babel build', () => {
   })
 })
 
-describe('rollup build', () => {
+describe('tsdown build', () => {
   const buildStages = ['/esm', '/umd']
 
   it.each(buildStages)('has created a package on stage "%s"', (stage) => {
@@ -346,9 +346,12 @@ describe('rollup build', () => {
               ),
               'utf-8'
             )
-            expect(content).toContain(`import*as `)
-            expect(content).toContain(`from"react-dom";`)
-            expect(content).toContain(` from"../icons/dnb/primary_icons";`)
+            expect(content).toContain('import e,')
+            expect(content).toContain('}from"react";')
+            expect(content).toContain('}from"react-dom";')
+            expect(content).toContain(
+              'import*as f from"../icons/dnb/primary_icons";'
+            )
           }
         }
         break
@@ -363,8 +366,12 @@ describe('rollup build', () => {
               ),
               'utf-8'
             )
-            expect(content).toContain('require("react")')
-            expect(content).toContain('require("react-dom")')
+            expect(content).toContain('function(e,t)')
+            expect(content).toContain('require(`react`),')
+            expect(content).toContain('require(`react-dom`)):')
+            expect(content).toContain(
+              'require(`../icons/dnb/primary_icons`)'
+            )
           }
         }
         break
