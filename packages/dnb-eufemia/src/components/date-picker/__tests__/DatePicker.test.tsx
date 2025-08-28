@@ -3932,7 +3932,7 @@ describe('DatePicker calc', () => {
       render(
         <DatePicker
           date={date}
-          maxDate={new Date('2025-02-12')}
+          maxDate={date}
           onChange={onChange}
           shortcuts={[
             {
