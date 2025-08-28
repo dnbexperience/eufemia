@@ -360,11 +360,19 @@ function validateDateLimit({
   const [startDateParsed, endDateParsed] = parseRangeValue(value)
 
   // Set dates to the start of the day to compare the actual days, and not day and time
-  const minDate = startOfDay(convertStringToDate(dates.minDate))
-  const maxDate = startOfDay(convertStringToDate(dates.maxDate))
+  const minDate = dates.minDate
+    ? startOfDay(convertStringToDate(dates.minDate))
+    : null
+  const maxDate = dates.maxDate
+    ? startOfDay(convertStringToDate(dates.maxDate))
+    : null
 
-  const startDate = startOfDay(convertStringToDate(startDateParsed))
-  const endDate = startOfDay(convertStringToDate(endDateParsed))
+  const startDate = startDateParsed
+    ? startOfDay(convertStringToDate(startDateParsed))
+    : null
+  const endDate = endDateParsed
+    ? startOfDay(convertStringToDate(endDateParsed))
+    : null
 
   const isoDates = {
     minDate:
@@ -395,6 +403,8 @@ function validateDateLimit({
     }
 
     if (isAfter(startDate, maxDate)) {
+      console.log(startDate)
+      console.log(maxDate)
       messages.push(
         new FormError('Date.errorMaxDate', {
           messageValues: { date: formatDate(isoDates.maxDate, options) },
