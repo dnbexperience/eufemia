@@ -408,8 +408,6 @@ function validateDateLimit({
     }
 
     if (isAfter(startDate, maxDate)) {
-      console.log(startDate)
-      console.log(maxDate)
       messages.push(
         new FormError('Date.errorMaxDate', {
           messageValues: { date: formatDate(isoDates.maxDate, options) },
