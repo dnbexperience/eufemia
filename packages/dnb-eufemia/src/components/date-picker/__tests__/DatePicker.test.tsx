@@ -3884,14 +3884,55 @@ describe('DatePicker calc', () => {
       )
     })
 
-    it('should correctly determine `date` is after `maxDate`', async () => {
+    it('should correctly handle `minDate` of `undefined`', async () => {
       const date = new Date('2025-02-12')
       const onChange = jest.fn()
 
       render(
         <DatePicker
           date={date}
-          maxDate={date}
+          minDate={undefined}
+          onChange={onChange}
+          shortcuts={[
+            {
+              title: 'Correct#1',
+              start_date: new Date('2025-02-12'),
+              end_date: new Date('2025-02-28'),
+            },
+            {
+              title: 'Correct#2',
+              start_date: new Date('2025-02-11'),
+              end_date: new Date('2025-02-28'),
+            },
+          ]}
+          range
+        />
+      )
+
+      await userEvent.click(screen.getByLabelText('Åpne datovelger'))
+      await userEvent.click(screen.getByText('Correct#1'))
+
+      expect(onChange).toHaveBeenCalledTimes(1)
+      expect(onChange).toHaveBeenCalledWith(
+        expect.objectContaining({ is_valid_start_date: true })
+      )
+
+      await userEvent.click(screen.getByText('Correct#2'))
+
+      expect(onChange).toHaveBeenCalledTimes(2)
+      expect(onChange).toHaveBeenCalledWith(
+        expect.objectContaining({ is_valid_start_date: true })
+      )
+    })
+
+    it('should correctly determine `date` is after `maxDate`', async () => {
+      const date = new Date('2025-02-12')
+      const onChange = jest.fn()
+
+      render(
+        <DatePicker
+          date={new Date('2025-02-12')}
+          maxDate={new Date('2025-02-12')}
           onChange={onChange}
           shortcuts={[
             {
@@ -3922,6 +3963,47 @@ describe('DatePicker calc', () => {
       expect(onChange).toHaveBeenCalledTimes(2)
       expect(onChange).toHaveBeenCalledWith(
         expect.objectContaining({ is_valid_end_date: false })
+      )
+    })
+
+    it('should correctly handle `maxDate` of `undefined`', async () => {
+      const date = new Date('2025-02-12')
+      const onChange = jest.fn()
+
+      render(
+        <DatePicker
+          date={date}
+          maxDate={undefined}
+          onChange={onChange}
+          shortcuts={[
+            {
+              title: 'Correct#1',
+              start_date: new Date('2025-02-01'),
+              end_date: new Date('2025-02-12'),
+            },
+            {
+              title: 'Correct#2',
+              start_date: new Date('2025-02-01'),
+              end_date: new Date('2025-02-13'),
+            },
+          ]}
+          range
+        />
+      )
+
+      await userEvent.click(screen.getByLabelText('Åpne datovelger'))
+      await userEvent.click(screen.getByText('Correct#1'))
+
+      expect(onChange).toHaveBeenCalledTimes(1)
+      expect(onChange).toHaveBeenCalledWith(
+        expect.objectContaining({ is_valid_end_date: true })
+      )
+
+      await userEvent.click(screen.getByText('Correct#2'))
+
+      expect(onChange).toHaveBeenCalledTimes(2)
+      expect(onChange).toHaveBeenCalledWith(
+        expect.objectContaining({ is_valid_end_date: true })
       )
     })
   })
