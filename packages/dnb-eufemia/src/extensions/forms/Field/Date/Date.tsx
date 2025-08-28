@@ -359,13 +359,12 @@ function validateDateLimit({
 
   const [startDateParsed, endDateParsed] = parseRangeValue(value)
 
-  // Set dates to the start of the day to compare the actual days, and not day and time
-
   const convertedMinDate = convertStringToDate(dates.minDate)
   const convertedMaxDate = convertStringToDate(dates.maxDate)
   const convertedStartDate = convertStringToDate(startDateParsed)
   const convertedEndDate = convertStringToDate(endDateParsed)
 
+  // Set dates to the start of the day to compare the actual days, and not day and time
   const minDate = convertedMinDate
     ? startOfDay(convertedMinDate)
     : undefined
