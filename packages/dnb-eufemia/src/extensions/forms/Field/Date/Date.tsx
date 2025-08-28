@@ -10,7 +10,7 @@ import { pickSpacingProps } from '../../../../components/flex/utils'
 import classnames from 'classnames'
 import FieldBlock, { Props as FieldBlockProps } from '../../FieldBlock'
 import SharedContext from '../../../../shared/Context'
-import { parseISO, isValid, isBefore, isAfter } from 'date-fns'
+import { parseISO, isValid, isBefore, isAfter, startOfDay } from 'date-fns'
 import useTranslation from '../../hooks/useTranslation'
 import {
   DatePickerEvent,
@@ -19,7 +19,6 @@ import {
 import { convertStringToDate } from '../../../../components/date-picker/DatePickerCalc'
 import { ProviderProps } from '../../../../shared/Provider'
 import { FormError } from '../../utils'
-import startOfDay from 'date-fns/startOfDay'
 import { InvalidDates } from '../../../../components/date-picker/DatePickerInput'
 import useInvalidDates from './hooks/useInvalidDates'
 import {
@@ -360,12 +359,24 @@ function validateDateLimit({
 
   const [startDateParsed, endDateParsed] = parseRangeValue(value)
 
-  // Set dates to the start of the day to compare the actual days, and not day and time
-  const minDate = startOfDay(convertStringToDate(dates.minDate))
-  const maxDate = startOfDay(convertStringToDate(dates.maxDate))
+  const convertedMinDate = convertStringToDate(dates.minDate)
+  const convertedMaxDate = convertStringToDate(dates.maxDate)
+  const convertedStartDate = convertStringToDate(startDateParsed)
+  const convertedEndDate = convertStringToDate(endDateParsed)
 
-  const startDate = startOfDay(convertStringToDate(startDateParsed))
-  const endDate = startOfDay(convertStringToDate(endDateParsed))
+  // Set dates to the start of the day to compare the actual days, and not day and time
+  const minDate = convertedMinDate
+    ? startOfDay(convertedMinDate)
+    : undefined
+  const maxDate = convertedMaxDate
+    ? startOfDay(convertedMaxDate)
+    : undefined
+  const startDate = convertedStartDate
+    ? startOfDay(convertedStartDate)
+    : undefined
+  const endDate = convertedEndDate
+    ? startOfDay(convertedEndDate)
+    : undefined
 
   const isoDates = {
     minDate:

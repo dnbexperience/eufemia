@@ -72,6 +72,16 @@ export function DateLimitValidation() {
   )
 }
 
+export function DateLimitValidationErrorDateFns() {
+  return (
+    <Field.Date
+      value="2024-12-31"
+      minDate="2025-01-01"
+      validateInitially
+    />
+  )
+}
+
 export function DateRangeRequired() {
   return (
     <FormHandler>
