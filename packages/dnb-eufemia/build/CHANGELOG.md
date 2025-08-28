@@ -3,6 +3,30 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.79.0](https://github.com/dnbexperience/eufemia/compare/v10.78.0...v10.79.0) (2025-08-28)
+
+
+### :memo: Documentation
+
+* update change log of Eufemia ([#5409](https://github.com/dnbexperience/eufemia/issues/5409)) ([3ce9fd9](https://github.com/dnbexperience/eufemia/commit/3ce9fd90dae00d347710613e966388b7c82dff15))
+
+
+### :bug: Bug Fixes
+
+* **Autocomplete:** input icon should be red when opened in error state ([#5419](https://github.com/dnbexperience/eufemia/issues/5419)) ([91357d6](https://github.com/dnbexperience/eufemia/commit/91357d6233004f7388a79d47fd8d528022b584dd))
+* correct mismatched style index imports ([#5414](https://github.com/dnbexperience/eufemia/issues/5414)) ([a31f930](https://github.com/dnbexperience/eufemia/commit/a31f9301c2364bd34bd2ec447e6ad5d327a3e79d))
+* **Field.Date:** properly handle required error ([#5412](https://github.com/dnbexperience/eufemia/issues/5412)) ([642fc0d](https://github.com/dnbexperience/eufemia/commit/642fc0d6acd96cc453ad67cf9b716ce7bbf99ce4))
+* **Field.Date:** valid range value should not display required error ([#5410](https://github.com/dnbexperience/eufemia/issues/5410)) ([69a1b00](https://github.com/dnbexperience/eufemia/commit/69a1b00ee987e3e30142b6ace089f877e94dd045))
+* **Forms:** add type for `innerRef` to Form.Handler ([#5408](https://github.com/dnbexperience/eufemia/issues/5408)) ([a2a7ca6](https://github.com/dnbexperience/eufemia/commit/a2a7ca6405615478b31e3546dec9e106198c71ef))
+
+
+### :sparkles: Features
+
+* add sharp shadow ([#5401](https://github.com/dnbexperience/eufemia/issues/5401)) ([e578ada](https://github.com/dnbexperience/eufemia/commit/e578ada2f019ac616878ebbef26676dd5bef3223))
+* replace rollup with tsdown for UMD and ESM bundles ([#5417](https://github.com/dnbexperience/eufemia/issues/5417)) ([7ef926c](https://github.com/dnbexperience/eufemia/commit/7ef926c20a2652f998d7e4c2438a1f7b41d1c78f)), closes [#5411](https://github.com/dnbexperience/eufemia/issues/5411) [#5411](https://github.com/dnbexperience/eufemia/issues/5411) [#5413](https://github.com/dnbexperience/eufemia/issues/5413) [#5411](https://github.com/dnbexperience/eufemia/issues/5411)
+* **SelectCurrency:** make country names searchable ([#5405](https://github.com/dnbexperience/eufemia/issues/5405)) ([929cccd](https://github.com/dnbexperience/eufemia/commit/929cccd879e2f1acdd1005aaa328ffc2c61b1832))
+* upgrade date-fns to latest version (v4) – ⚠️ It may effect your direct usage of date-fns ([#5413](https://github.com/dnbexperience/eufemia/issues/5413)) ([3ddb89c](https://github.com/dnbexperience/eufemia/commit/3ddb89c0636c8c1e7b3589126f53c3f075a3202c))
+
 ## [10.78.0](https://github.com/dnbexperience/eufemia/compare/v10.77.9...v10.78.0) (2025-08-20)
 
 
