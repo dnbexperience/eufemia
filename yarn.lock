@@ -4391,8 +4391,8 @@ __metadata:
     prettier-v2: "npm:prettier@^2"
     process: "npm:0.11.10"
     prop-types: "npm:15.8.1"
-    react: "npm:18.2.0"
-    react-dom: "npm:18.2.0"
+    react: "npm:18.3.0"
+    react-dom: "npm:18.3.0"
     react-to-typescript-definitions: "npm:3.1.1"
     regenerator-runtime: "npm:0.13.9"
     repo-utils: "workspace:*"
@@ -9392,12 +9392,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-dom@npm:18.2.6":
-  version: 18.2.6
-  resolution: "@types/react-dom@npm:18.2.6"
+"@types/react-dom@npm:18.3.1":
+  version: 18.3.1
+  resolution: "@types/react-dom@npm:18.3.1"
   dependencies:
     "@types/react": "npm:*"
-  checksum: 10/dbdf98d127db58130f3e4394f23a6b4b200703049579e97a4e6049c0f47f871c7731cec37e2067afb62cc7c5486bd1b151fc0ef672b9ea7369c40d811592b948
+  checksum: 10/33f9ba79b26641ddf00a8699c30066b7e3573ab254e97475bf08f82fab83a6d3ce8d4ebad86afeb49bb8df3374390a9ba93125cece33badc4b3e8f7eac3c84d8
   languageName: node
   linkType: hard
 
@@ -9412,14 +9412,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:18.2.13":
-  version: 18.2.13
-  resolution: "@types/react@npm:18.2.13"
+"@types/react@npm:18.3.12":
+  version: 18.3.12
+  resolution: "@types/react@npm:18.3.12"
   dependencies:
     "@types/prop-types": "npm:*"
-    "@types/scheduler": "npm:*"
     csstype: "npm:^3.0.2"
-  checksum: 10/80812af6710c3ae54793c32a808534311c423595be8f412870ca841c5bae4ad183d8593cfbd53a5fde80042442fd7537868e7e36a2347f6227eb73d9a0cdfb1a
+  checksum: 10/c9bbdfeacd5347d2240e0d2cb5336bc57dbc1b9ff557b6c4024b49df83419e4955553518169d3736039f1b62608e15b35762a6c03d49bd86e33add4b43b19033
   languageName: node
   linkType: hard
 
@@ -15684,8 +15683,8 @@ __metadata:
     "@mdx-js/react": "npm:3.1.0"
     "@playwright/test": "npm:1.49.1"
     "@types/json-schema": "npm:7.0.12"
-    "@types/react": "npm:18.2.13"
-    "@types/react-dom": "npm:18.2.6"
+    "@types/react": "npm:18.3.12"
+    "@types/react-dom": "npm:18.3.1"
     "@typescript-eslint/parser": "npm:5.60.0"
     algoliasearch: "npm:4.12.0"
     babel-jest: "npm:30.0.5"
@@ -15733,8 +15732,8 @@ __metadata:
     process: "npm:0.11.10"
     prop-types: "npm:15.8.1"
     raw-loader: "npm:4.0.2"
-    react: "npm:18.2.0"
-    react-dom: "npm:18.2.0"
+    react: "npm:18.3.0"
+    react-dom: "npm:18.3.0"
     react-live: "npm:4.1.3"
     react-live-ssr: "workspace:*"
     react-markdown: "npm:8.0.7"
@@ -17670,8 +17669,8 @@ __metadata:
   dependencies:
     "@dnb/eufemia": "workspace:*"
     "@eslint/js": "npm:9.27.0"
-    "@types/react": "npm:18.2.13"
-    "@types/react-dom": "npm:18.2.6"
+    "@types/react": "npm:18.3.12"
+    "@types/react-dom": "npm:18.3.1"
     "@vitejs/plugin-react": "npm:4.5.0"
     ajv: "npm:8.14.0"
     ajv-errors: "npm:3.0.0"
@@ -17679,8 +17678,8 @@ __metadata:
     eslint-plugin-react-hooks: "npm:5.2.0"
     eslint-plugin-react-refresh: "npm:0.4.20"
     globals: "npm:15.15.0"
-    react: "npm:18.2.0"
-    react-dom: "npm:18.2.0"
+    react: "npm:18.3.0"
+    react-dom: "npm:18.3.0"
     sass: "npm:1.62.0"
     typescript: "npm:~5.8.3"
     typescript-eslint: "npm:8.32.1"
@@ -31380,15 +31379,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-dom@npm:18.2.0":
-  version: 18.2.0
-  resolution: "react-dom@npm:18.2.0"
+"react-dom@npm:18.3.0":
+  version: 18.3.0
+  resolution: "react-dom@npm:18.3.0"
   dependencies:
     loose-envify: "npm:^1.1.0"
-    scheduler: "npm:^0.23.0"
+    scheduler: "npm:^0.23.1"
   peerDependencies:
-    react: ^18.2.0
-  checksum: 10/ca5e7762ec8c17a472a3605b6f111895c9f87ac7d43a610ab7024f68cd833d08eda0625ce02ec7178cc1f3c957cf0b9273cdc17aa2cd02da87544331c43b1d21
+    react: ^18.3.0
+  checksum: 10/08d6a351fb4032c1b8cd6fc159b4d2d9f1e7ec967f3365f2585d808b381c9e83466dab9b15b72c2162c1a578776044fde641279a55af016473719be66c415408
   languageName: node
   linkType: hard
 
@@ -31536,12 +31535,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react@npm:18.2.0":
-  version: 18.2.0
-  resolution: "react@npm:18.2.0"
+"react@npm:18.3.0":
+  version: 18.3.0
+  resolution: "react@npm:18.3.0"
   dependencies:
     loose-envify: "npm:^1.1.0"
-  checksum: 10/b9214a9bd79e99d08de55f8bef2b7fc8c39630be97c4e29d7be173d14a9a10670b5325e94485f74cd8bff4966ef3c78ee53c79a7b0b9b70cba20aa8973acc694
+  checksum: 10/17112377dad4e5c868b608be57c8e970a3f6ee6eb6269a5c4c23b11b8b4f393c42a8a046be0c9ddbc5f182b909330ddbecab905bcdea5051b05ec3914491fd79
   languageName: node
   linkType: hard
 
@@ -33125,16 +33124,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"scheduler@npm:^0.23.0":
-  version: 0.23.0
-  resolution: "scheduler@npm:0.23.0"
-  dependencies:
-    loose-envify: "npm:^1.1.0"
-  checksum: 10/0c4557aa37bafca44ff21dc0ea7c92e2dbcb298bc62eae92b29a39b029134f02fb23917d6ebc8b1fa536b4184934314c20d8864d156a9f6357f3398aaf7bfda8
-  languageName: node
-  linkType: hard
-
-"scheduler@npm:^0.23.2":
+"scheduler@npm:^0.23.1, scheduler@npm:^0.23.2":
   version: 0.23.2
   resolution: "scheduler@npm:0.23.2"
   dependencies:
@@ -34309,8 +34299,8 @@ __metadata:
     "@emotion/react": "npm:11.9.3"
     "@emotion/styled": "npm:11.9.3"
     classnames: "npm:2.3.1"
-    react: "npm:18.2.0"
-    react-dom: "npm:18.2.0"
+    react: "npm:18.3.0"
+    react-dom: "npm:18.3.0"
   languageName: unknown
   linkType: soft
 
