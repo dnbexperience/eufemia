@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`Input scss has to match style dependencies css 1`] = `
 "/*
@@ -1022,6 +1022,13 @@ button .dnb-form-status__text {
   --b-width: var(--input-border-width--hover);
   --b-inset: var(--input-border-inset--hover);
 }
+.dnb-input__border:has(.dnb-input__input:autofill) {
+  --b-color: var(--input-border-color);
+  --b-inset: var(--input-border-inset--active);
+}
+.dnb-input__status--error .dnb-input__border:has(.dnb-input__input:autofill) {
+  --b-color: var(--input-border-color__error);
+}
 .dnb-input__status--error .dnb-input__border {
   --b-color: var(--input-border-color__error);
   --b-width: var(--input-border-width__error);
@@ -1032,7 +1039,7 @@ button .dnb-form-status__text {
   --b-inset: var(--input-border-inset--active);
   --b-radius: var(--input-border-radius--active);
 }
-.dnb-input__status--error .dnb-input__border:hover, .dnb-input__status--error .dnb-input__border.hover {
+.dnb-input__status--error .dnb-input__border:hover, .dnb-input__status--error .dnb-input__border:hover:has(.dnb-input__input:autofill), .dnb-input__status--error .dnb-input__border.hover {
   --b-color: var(--input-border-color__error);
   --b-width: var(--input-border-width__error--hover);
   --b-inset: var(--input-border-inset--hover);
@@ -1086,7 +1093,7 @@ html[data-whatinput=keyboard] .dnb-input__status--error .dnb-input__border:focus
   font-family: var(--font-family-monospace);
 }
 .dnb-input__input:autofill {
-  box-shadow: 0 0 0 var(--input-border-width) var(--input-border-color) var(--autofill-inset, inset), 0 0 0 10em var(--input-background-color) inset;
+  box-shadow: 0 0 0 10em var(--input-background-color) inset;
 }
 .dnb-input__suffix {
   color: inherit;
