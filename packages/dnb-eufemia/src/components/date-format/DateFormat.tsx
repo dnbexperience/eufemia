@@ -111,27 +111,36 @@ function DateFormat(props: DateFormatProps) {
     return attrs
   }, [props, skeleton, context, locale])
 
-  const absoluteDateTime = useMemo(() => {
-    if (!date || isNaN(date.getTime())) {
-      return // stop here
-    }
+  const getAbsoluteDateTime = useCallback(
+    (style = 'yyyy-MM-dd') => {
+      if (!date || isNaN(date.getTime())) {
+        return // stop here
+      }
 
-    return format(date, 'yyyy-MM-dd HH:mm:ss')
-  }, [date])
+      return format(date, style)
+    },
+    [date]
+  )
 
-  const absoluteDateFormatted = useMemo(() => {
-    if (!date || isNaN(date.getTime())) {
-      return // stop here
-    }
-
-    return formatDate(date, {
-      locale,
-      options: {
+  const getAbsoluteDateFormatted = useCallback(
+    ({
+      options = {
         dateStyle,
-        timeStyle: 'short',
       },
-    })
-  }, [date, locale, dateStyle])
+    }: {
+      options?: Intl.DateTimeFormatOptions
+    } = {}) => {
+      if (!date || isNaN(date.getTime())) {
+        return // stop here
+      }
+
+      return formatDate(date, {
+        locale,
+        options,
+      })
+    },
+    [date, locale, dateStyle]
+  )
 
   // Auto-updating relative time with minimal CPU: schedule updates only when the label changes next
   const [label, setLabel] = useState(() => {
@@ -189,10 +198,22 @@ function DateFormat(props: DateFormatProps) {
     if (hasValidDate) {
       return (
         <>
-          <time dateTime={absoluteDateTime} {...attributes} ref={ref}>
+          <time
+            dateTime={getAbsoluteDateTime('yyyy-MM-dd HH:mm:ss')}
+            {...attributes}
+            ref={ref}
+          >
             {label}
           </time>
-          <Tooltip targetElement={ref} tooltip={absoluteDateFormatted} />
+          <Tooltip
+            targetElement={ref}
+            tooltip={getAbsoluteDateFormatted({
+              options: {
+                dateStyle,
+                timeStyle: 'short',
+              },
+            })}
+          />
         </>
       )
     }
@@ -223,8 +244,8 @@ function DateFormat(props: DateFormatProps) {
   // Default date rendering - only if we have a valid date
   if (hasValidDate) {
     return (
-      <time dateTime={absoluteDateTime} {...attributes}>
-        {absoluteDateFormatted}
+      <time dateTime={getAbsoluteDateTime()} {...attributes}>
+        {getAbsoluteDateFormatted()}
       </time>
     )
   }

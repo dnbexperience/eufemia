@@ -270,10 +270,7 @@ describe('DateFormat', () => {
         render(<DateFormat>01.08.2025</DateFormat>)
         const dateFormat = document.querySelector('.dnb-date-format')
 
-        expect(dateFormat).toHaveAttribute(
-          'dateTime',
-          '2025-08-01 00:00:00'
-        )
+        expect(dateFormat).toHaveAttribute('dateTime', '2025-08-01')
       })
 
       it('should render with time element and correct tagName', () => {
