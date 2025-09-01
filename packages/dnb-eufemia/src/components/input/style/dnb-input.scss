@@ -535,10 +535,6 @@
     caret-color: var(--color-white);
   }
 
-  &[data-has-content='false'] &__input:focus:autofill {
-    --autofill-inset: none;
-  }
-
   &[data-input-state='focus'] &__placeholder {
     display: none;
   }
