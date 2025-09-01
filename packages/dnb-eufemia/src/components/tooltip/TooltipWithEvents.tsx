@@ -90,11 +90,9 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
 
   const addEvents = (element: HTMLElement) => {
     try {
-      element.addEventListener('click', onMouseLeave)
       element.addEventListener('focus', onFocus)
       element.addEventListener('blur', onMouseLeave)
       element.addEventListener('mouseenter', onMouseEnter)
-      element.addEventListener('mousedown', onMouseEnter)
       element.addEventListener('mouseleave', onMouseLeave)
       element.addEventListener('touchstart', onMouseEnter)
       element.addEventListener('touchend', onMouseLeave)
@@ -106,7 +104,6 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
   const removeEvents = (element: HTMLElement) => {
     if (!element) return
     try {
-      element.removeEventListener('click', onMouseLeave)
       element.removeEventListener('focus', onFocus)
       element.removeEventListener('blur', onMouseLeave)
       element.removeEventListener('mouseenter', onMouseEnter)

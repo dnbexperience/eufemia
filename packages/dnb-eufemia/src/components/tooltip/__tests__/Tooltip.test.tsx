@@ -351,6 +351,45 @@ describe('Tooltip', () => {
       )
     })
 
+    it('should not register click or mousedown on the target', () => {
+      const originalAdd = HTMLElement.prototype.addEventListener
+      const calls: Array<{
+        self: EventTarget
+        type: string
+      }> = []
+
+      const spy = jest
+        .spyOn(HTMLElement.prototype as any, 'addEventListener')
+        .mockImplementation(function (
+          this: EventTarget,
+          type: string,
+          listener: any,
+          options?: any
+        ) {
+          calls.push({ self: this, type })
+          return originalAdd.call(
+            this as any,
+            type,
+            listener,
+            options as any
+          )
+        })
+
+      try {
+        render(<Tooltip />)
+
+        const button = document.querySelector('button')
+        const targetCalls = calls.filter((c) => c.self === button)
+        const hasClickOrMouseDown = targetCalls.some(
+          (c) => c.type === 'click' || c.type === 'mousedown'
+        )
+
+        expect(hasClickOrMouseDown).toBe(false)
+      } finally {
+        spy.mockRestore()
+      }
+    })
+
     it('should validate with ARIA rules as a tooltip', async () => {
       const Component = render(<Tooltip active />)
       expect(await axeComponent(Component)).toHaveNoViolations()
