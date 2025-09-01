@@ -3,7 +3,7 @@ import React from 'react'
 import { render } from '@testing-library/react'
 import DateFormat from '../../DateFormat'
 import { axeComponent } from '../../../core/jest/jestSetup'
-import { Provider } from '../../../../shared'
+import { Provider } from '../../../shared'
 
 describe('DateFormat', () => {
   describe('absolute date', () => {
