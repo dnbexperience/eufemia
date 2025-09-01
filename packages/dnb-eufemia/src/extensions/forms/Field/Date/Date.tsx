@@ -5,6 +5,7 @@ import type {
   FieldProps,
   AllJSONSchemaVersions,
   ValidatorDisableable,
+  Schema,
 } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import classnames from 'classnames'
@@ -108,12 +109,23 @@ function DateComponent(props: DateProps) {
     }
   }, [props.errorMessages, errorRequired])
 
-  const schema = useMemo<AllJSONSchemaVersions>(
-    () =>
-      props.schema ?? {
-        type: 'string',
-        pattern: props.pattern,
-      },
+  const schema = useMemo<Schema<string>>(
+    () => {
+      return (
+        // Use a factory so the schema is created using the current props
+        // at validation time (pattern/range related rules). This keeps rules
+        // in sync with dynamic prop changes and avoids stale closures.
+        props.schema ??
+        ((p: DateProps): AllJSONSchemaVersions<string> => {
+          return {
+            type: 'string',
+            pattern: p.pattern,
+          }
+        })
+      )
+    },
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [props.schema, props.pattern]
   )
 
