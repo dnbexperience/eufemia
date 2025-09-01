@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import React from 'react'
-import { render } from '@testing-library/react'
+import { fireEvent, render } from '@testing-library/react'
 import DateFormat from '../../DateFormat'
-import { axeComponent } from '../../../core/jest/jestSetup'
+import { axeComponent, wait } from '../../../core/jest/jestSetup'
 import { Provider } from '../../../../shared'
 
 describe('DateFormat', () => {
@@ -269,7 +269,10 @@ describe('DateFormat', () => {
         render(<DateFormat>01.08.2025</DateFormat>)
         const dateFormat = document.querySelector('.dnb-date-format')
 
-        expect(dateFormat).toHaveAttribute('dateTime', '2025-08-01')
+        expect(dateFormat).toHaveAttribute(
+          'dateTime',
+          '2025-08-01 00:00:00'
+        )
       })
 
       it('should render with time element and correct tagName', () => {
@@ -314,6 +317,51 @@ describe('DateFormat', () => {
       const dateFormat = document.querySelector('.dnb-date-format')
 
       expect(dateFormat.tagName).toBe('TIME')
+    })
+
+    it('should render a tooltip with absolute date and show on hover', async () => {
+      render(<DateFormat value="2025-08-01" relativeTime />)
+
+      const timeElem = document.querySelector('.dnb-date-format')
+
+      const id = timeElem.getAttribute('aria-describedby')
+      expect(document.body.querySelectorAll('#' + id)).toHaveLength(1)
+
+      fireEvent.mouseEnter(timeElem)
+      await wait(350) // until the tooltip shows
+
+      const tooltipElem = document.body.querySelector(
+        '#' + id
+      ).parentElement
+
+      expect(Array.from(tooltipElem.classList)).toEqual(
+        expect.arrayContaining(['dnb-tooltip', 'dnb-tooltip--active'])
+      )
+
+      fireEvent.mouseLeave(timeElem)
+      await wait(600) // until the tooltip hides
+
+      expect(Array.from(tooltipElem.classList)).toEqual(
+        expect.arrayContaining(['dnb-tooltip', 'dnb-tooltip--hide'])
+      )
+    })
+
+    it('tooltip content should match the absolute formatted date', async () => {
+      render(<DateFormat value="2025-08-01T14:30:00" relativeTime />)
+
+      const timeElem = document.querySelector('.dnb-date-format')
+
+      const id = timeElem.getAttribute('aria-describedby')
+      expect(document.body.querySelectorAll('#' + id)).toHaveLength(1)
+
+      fireEvent.mouseEnter(timeElem)
+      await wait(350) // until the tooltip shows
+
+      const tooltipElem = document.body.querySelector(
+        '#' + id
+      ).parentElement
+
+      expect(tooltipElem).toHaveTextContent('1. august 2025 kl. 14:30')
     })
 
     it('should respect locale for relative time', () => {
@@ -666,6 +714,21 @@ describe('DateFormat', () => {
     })
 
     describe('ARIA', () => {
+      it('should have correct `dateTime` attribute', () => {
+        render(
+          <DateFormat
+            value={new Date('2025-01-15T14:30:00Z')}
+            relativeTime
+          />
+        )
+        const dateFormat = document.querySelector('.dnb-date-format')
+
+        expect(dateFormat).toHaveAttribute(
+          'dateTime',
+          '2025-01-15 15:30:00'
+        )
+      })
+
       it('should validate', async () => {
         const pastDate = new Date('2025-01-15T14:30:00Z') // Static date for testing
         const Component = render(

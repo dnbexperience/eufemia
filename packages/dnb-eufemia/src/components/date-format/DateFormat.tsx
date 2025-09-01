@@ -4,6 +4,7 @@ import React, {
   useEffect,
   useMemo,
   useState,
+  useRef,
 } from 'react'
 import SharedContext, { InternalLocale } from '../../shared/Context'
 import { convertStringToDate } from '../date-picker/DatePickerCalc'
@@ -20,6 +21,7 @@ import { SpacingProps } from '../space/types'
 import classnames from 'classnames'
 import { createSpacingClasses } from '../space/SpacingUtils'
 import { SkeletonShow } from '../Skeleton'
+import Tooltip from '../Tooltip'
 import {
   createSkeletonClass,
   skeletonDOMAttributes,
@@ -56,6 +58,7 @@ function DateFormat(props: DateFormatProps) {
   } = props
 
   const locale = localeProp || context.locale
+  const ref = useRef<HTMLTimeElement>()
 
   const date = useMemo(() => {
     // Always call getDate to maintain expected console.log behavior
@@ -65,8 +68,9 @@ function DateFormat(props: DateFormatProps) {
   const durationValue = useMemo(() => {
     const durationString = String(value || children)
 
-    if (!durationString || !isValidDuration(durationString))
-      return undefined
+    if (!durationString || !isValidDuration(durationString)) {
+      return // stop here
+    }
 
     return parseDuration(durationString)
   }, [value, children])
@@ -74,7 +78,7 @@ function DateFormat(props: DateFormatProps) {
   const getDuration = useCallback(
     (dateStyle: Intl.DateTimeFormatOptions['dateStyle']) => {
       if (durationValue === undefined) {
-        return undefined
+        return // stop here
       }
 
       return formatDuration(
@@ -103,20 +107,28 @@ function DateFormat(props: DateFormatProps) {
       lang: locale, // Makes sure that screen readers are reading the date correctly in the system language.
     }
     skeletonDOMAttributes(attrs, skeleton, context)
+
     return attrs
   }, [props, skeleton, context, locale])
 
   const absoluteDateTime = useMemo(() => {
-    if (!date || isNaN(date.getTime())) return undefined
-    return format(date, 'yyyy-MM-dd')
+    if (!date || isNaN(date.getTime())) {
+      return // stop here
+    }
+
+    return format(date, 'yyyy-MM-dd HH:mm:ss')
   }, [date])
 
   const absoluteDateFormatted = useMemo(() => {
-    if (!date || isNaN(date.getTime())) return undefined
+    if (!date || isNaN(date.getTime())) {
+      return // stop here
+    }
+
     return formatDate(date, {
       locale,
       options: {
         dateStyle,
+        timeStyle: 'short',
       },
     })
   }, [date, locale, dateStyle])
@@ -125,11 +137,6 @@ function DateFormat(props: DateFormatProps) {
   const [label, setLabel] = useState(() => {
     return relativeTime && date
       ? getRelativeTime(date, locale, undefined, dateStyle)
-      : undefined
-  })
-  const [labelFull, setLabelFull] = useState(() => {
-    return relativeTime && date
-      ? getRelativeTime(date, locale, undefined, 'full')
       : undefined
   })
 
@@ -145,13 +152,11 @@ function DateFormat(props: DateFormatProps) {
       timeoutId = setTimeout(() => {
         const next = getRelativeTime(date, locale, undefined, dateStyle)
         setLabel((prev) => (prev !== next ? next : prev))
-        setLabelFull((prev) => (prev !== next ? next : prev))
         scheduleNextUpdate()
       }, delay)
     }
 
     setLabel(getRelativeTime(date, locale, undefined, dateStyle))
-    setLabelFull(getRelativeTime(date, locale, undefined, 'full'))
     scheduleNextUpdate()
 
     return () => {
@@ -182,14 +187,13 @@ function DateFormat(props: DateFormatProps) {
   if (relativeTime) {
     // If we have a valid date, render relative time
     if (hasValidDate) {
-      const hasAriaLabel = labelFull !== label
       return (
-        <time
-          aria-label={hasAriaLabel ? labelFull : undefined}
-          {...attributes}
-        >
-          <span aria-hidden={hasAriaLabel}>{label}</span>
-        </time>
+        <>
+          <time dateTime={absoluteDateTime} {...attributes} ref={ref}>
+            {label}
+          </time>
+          <Tooltip targetElement={ref} tooltip={absoluteDateFormatted} />
+        </>
       )
     }
 
@@ -243,7 +247,7 @@ function getDate({
   if (value) {
     // Check if it's a duration string first to avoid unnecessary date conversion
     if (typeof value === 'string' && isValidDuration(value)) {
-      return undefined // Return undefined for duration strings to avoid date conversion
+      return // stop here // Return undefined for duration strings to avoid date conversion
     }
     if (typeof value === 'string') {
       return convertStringToDate(value)
@@ -258,7 +262,7 @@ function getDate({
   const childrenValue = convertJsxToString(children)
   // Check if it's a duration string first to avoid unnecessary date conversion
   if (childrenValue && isValidDuration(childrenValue)) {
-    return undefined // Return undefined for duration strings to avoid date conversion
+    return // stop here // Return undefined for duration strings to avoid date conversion
   }
   return convertStringToDate(childrenValue)
 }
