@@ -1,11 +1,8 @@
 import React, { useCallback, useContext, useMemo } from 'react'
+import * as z from 'zod'
 import { DatePicker } from '../../../../components'
 import { useFieldProps } from '../../hooks'
-import type {
-  FieldProps,
-  AllJSONSchemaVersions,
-  ValidatorDisableable,
-} from '../../types'
+import type { FieldProps, ValidatorDisableable, Schema } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import classnames from 'classnames'
 import FieldBlock, { Props as FieldBlockProps } from '../../FieldBlock'
@@ -108,12 +105,26 @@ function DateComponent(props: DateProps) {
     }
   }, [props.errorMessages, errorRequired])
 
-  const schema = useMemo<AllJSONSchemaVersions>(
-    () =>
-      props.schema ?? {
-        type: 'string',
-        pattern: props.pattern,
-      },
+  const schema = useMemo<Schema<string>>(
+    () => {
+      if (props.schema) {
+        return props.schema
+      }
+
+      return (p: DateProps) => {
+        let s = z.string()
+        if (p?.pattern) {
+          try {
+            s = s.regex(new RegExp(p.pattern, 'u'))
+          } catch (_e) {
+            // Ignore invalid regex patterns
+          }
+        }
+        return s
+      }
+    },
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [props.schema, props.pattern]
   )
 
