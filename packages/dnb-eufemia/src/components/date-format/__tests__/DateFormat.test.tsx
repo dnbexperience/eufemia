@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import React from 'react'
+import { format } from 'date-fns'
 import { fireEvent, render } from '@testing-library/react'
 import DateFormat from '../../DateFormat'
 import { axeComponent, wait } from '../../../core/jest/jestSetup'
@@ -715,18 +716,13 @@ describe('DateFormat', () => {
 
     describe('ARIA', () => {
       it('should have correct `dateTime` attribute', () => {
-        render(
-          <DateFormat
-            value={new Date('2025-01-15T14:30:00Z')}
-            relativeTime
-          />
-        )
+        const value = new Date('2025-01-15T14:30:00Z')
+        render(<DateFormat value={value} relativeTime />)
         const dateFormat = document.querySelector('.dnb-date-format')
 
-        expect(dateFormat).toHaveAttribute(
-          'dateTime',
-          '2025-01-15 15:30:00'
-        )
+        // Expect local time representation of the given UTC instant
+        const expected = format(value, 'yyyy-MM-dd HH:mm:ss')
+        expect(dateFormat).toHaveAttribute('dateTime', expected)
       })
 
       it('should validate', async () => {
