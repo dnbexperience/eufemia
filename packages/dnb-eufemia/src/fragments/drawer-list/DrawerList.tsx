@@ -598,7 +598,7 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
     const mainList = (
       <span {...mainParams} ref={_refShell}>
         <span {...listParams}>
-          {hidden === false && renderData && renderData.length > 0 ? (
+          {hidden === false && renderData?.length > 0 ? (
             <>
               <DrawerList.Options
                 cache_hash={
@@ -667,14 +667,7 @@ function makeRenderData(
 ): DrawerListRenderData {
   const renderData: DrawerListRenderData = []
   const noIndex = []
-  // if (Array.isArray(groups) && groups.length > 0) {
-  //   groups.forEach((groupTitle, i) => {
-  //     renderData[i] = {
-  //       groupTitle,
-  //       groupData: [],
-  //     }
-  //   })
-  // }
+
   if (Array.isArray(data) && data.length > 0) {
     data.forEach((dataItem, i) => {
       const index = dataItem.groupIndex ?? null
