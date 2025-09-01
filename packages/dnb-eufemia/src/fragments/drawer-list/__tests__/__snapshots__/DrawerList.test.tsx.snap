@@ -28,6 +28,8 @@ exports[`DrawerList scss has to match style dependencies css 1`] = `
   --drawer-list-list-line-height: var(--line-height-basis);
   --drawer-list-option-disabled-background: var(--color-white);
   --drawer-list-option-disabled-color: var(--color-black-20);
+  --drawer-list-group-title-color: var(--color-black-80);
+  --drawer-list-group-title-bg: var(--color-lavender);
   display: block;
   position: relative;
   width: inherit;
@@ -137,8 +139,8 @@ html[data-visual-test] .dnb-drawer-list--scroll .dnb-drawer-list__options, .dnb-
 .dnb-drawer-list__group-title {
   display: block;
   padding: 0.5rem 1rem;
-  color: var(--color-black-80);
-  background-color: var(--color-lavender);
+  color: var(--drawer-list-group-title-color);
+  background-color: var(--drawer-list-group-title-bg);
   font-weight: var(--font-weight-medium);
 }
 .dnb-drawer-list__group-list {
