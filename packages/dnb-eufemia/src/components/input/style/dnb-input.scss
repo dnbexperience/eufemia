@@ -141,6 +141,15 @@
     --b-width: var(--input-border-width--hover);
     --b-inset: var(--input-border-inset--hover);
   }
+
+  &__border:has(#{&}__input:autofill) {
+    --b-color: var(--input-border-color);
+    --b-inset: var(--input-border-inset--active);
+  }
+  &__status--error &__border:has(#{&}__input:autofill) {
+    --b-color: var(--input-border-color__error);
+  }
+
   &__status--error &__border {
     --b-color: var(--input-border-color__error);
     --b-width: var(--input-border-width__error);
@@ -152,6 +161,7 @@
     --b-radius: var(--input-border-radius--active);
   }
   &__status--error &__border:hover,
+  &__status--error &__border:hover:has(#{&}__input:autofill),
   &__status--error &__border.hover {
     --b-color: var(--input-border-color__error);
     --b-width: var(--input-border-width__error--hover);
@@ -227,13 +237,12 @@
     font-family: var(--font-family-monospace);
   }
 
-  // change the autocomplete appearance once filled out
+  // Set the background color to the default background color.
+  // Some browsers change the background color so users can see the difference between "autofill" and "user input".
+  // Which can be a bit jarring in DNBs design. We may consider to change this to a custom color in the future.
+  // NB: There are more than this ":autofill" in the theme file.
   &__input:autofill {
-    // set the border and the background
-    box-shadow:
-      0 0 0 var(--input-border-width) var(--input-border-color)
-        var(--autofill-inset, inset),
-      0 0 0 10em var(--input-background-color) inset;
+    box-shadow: 0 0 0 10em var(--input-background-color) inset;
   }
 
   &__suffix {
@@ -524,10 +533,6 @@
 
   html[data-visual-test] &__input {
     caret-color: var(--color-white);
-  }
-
-  &[data-has-content='false'] &__input:focus:autofill {
-    --autofill-inset: none;
   }
 
   &[data-input-state='focus'] &__placeholder {
