@@ -57,6 +57,9 @@
   // Disabled option
   --drawer-list-option-disabled-background: var(--color-white);
   --drawer-list-option-disabled-color: var(--color-black-20);
+  // Group
+  --drawer-list-group-title-color: var(--color-black-80); // TODO: theme
+  --drawer-list-group-title-bg: var(--color-lavender); // TODO: theme
 
   display: block; // has to be block element so we can se the content
   position: relative;
@@ -167,8 +170,8 @@
     &-title {
       display: block;
       padding: 0.5rem 1rem;
-      color: var(--color-black-80); // TODO: theme
-      background-color: var(--color-lavender); // TODO: theme
+      color: var(--drawer-list-group-title-color);
+      background-color: var(--drawer-list-group-title-bg);
       font-weight: var(--font-weight-medium);
     }
     &-list {
