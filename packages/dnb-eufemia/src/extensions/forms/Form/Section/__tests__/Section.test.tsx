@@ -126,13 +126,7 @@ describe('Form.Section', () => {
           },
           "label": "Fornavn",
           "path": "/firstName",
-          "pattern": "^(?!.*[\\-\\s]{2})[\\p{L}]+([ \\-][\\p{L}]+)*$",
-          "schema": {
-            "maxLength": undefined,
-            "minLength": undefined,
-            "pattern": "^(?!.*[\\-\\s]{2})[\\p{L}]+([ \\-][\\p{L}]+)*$",
-            "type": "string",
-          },
+          "pattern": "^(?!.*[-\\s]{2})[a-zA-ZåæøÅÆØäöüÄÖÜéèêëÉÈÊËáàâãÁÀÂÃíìîÍÌÎóòôõÓÒÔÕúùûÚÙÛçÇñÑ]+([ -][a-zA-ZåæøÅÆØäöüÄÖÜéèêëÉÈÊËáàâãÁÀÂÃíìîÍÌÎóòôõÓÒÔÕúùûÚÙÛçÇñÑ]+)*$",
           "trim": true,
           "width": "large",
         },
@@ -155,14 +149,8 @@ describe('Form.Section', () => {
           "label": "Etternavn",
           "minLength": 2,
           "path": "/lastName",
-          "pattern": "^(?!.*[\\-\\s]{2})[\\p{L}]+([ \\-][\\p{L}]+)*$",
+          "pattern": "^(?!.*[-\\s]{2})[a-zA-ZåæøÅÆØäöüÄÖÜéèêëÉÈÊËáàâãÁÀÂÃíìîÍÌÎóòôõÓÒÔÕúùûÚÙÛçÇñÑ]+([ -][a-zA-ZåæøÅÆØäöüÄÖÜéèêëÉÈÊËáàâãÁÀÂÃíìîÍÌÎóòôõÓÒÔÕúùûÚÙÛçÇñÑ]+)*$",
           "required": true,
-          "schema": {
-            "maxLength": undefined,
-            "minLength": 2,
-            "pattern": "^(?!.*[\\-\\s]{2})[\\p{L}]+([ \\-][\\p{L}]+)*$",
-            "type": "string",
-          },
           "trim": true,
           "width": "large",
         },
@@ -194,11 +182,11 @@ describe('Form.Section', () => {
       {
         "properties": {
           "firstName": {
-            "pattern": "^(?!.*[\\-\\s]{2})[\\p{L}]+([ \\-][\\p{L}]+)*$",
+            "pattern": "^(?!.*[-\\s]{2})[a-zA-ZåæøÅÆØäöüÄÖÜéèêëÉÈÊËáàâãÁÀÂÃíìîÍÌÎóòôõÓÒÔÕúùûÚÙÛçÇñÑ]+([ -][a-zA-ZåæøÅÆØäöüÄÖÜéèêëÉÈÊËáàâãÁÀÂÃíìîÍÌÎóòôõÓÒÔÕúùûÚÙÛçÇñÑ]+)*$",
             "type": "string",
           },
           "lastName": {
-            "pattern": "^(?!.*[\\-\\s]{2})[\\p{L}]+([ \\-][\\p{L}]+)*$",
+            "pattern": "^(?!.*[-\\s]{2})[a-zA-ZåæøÅÆØäöüÄÖÜéèêëÉÈÊËáàâãÁÀÂÃíìîÍÌÎóòôõÓÒÔÕúùûÚÙÛçÇñÑ]+([ -][a-zA-ZåæøÅÆØäöüÄÖÜéèêëÉÈÊËáàâãÁÀÂÃíìîÍÌÎóòôõÓÒÔÕúùûÚÙÛçÇñÑ]+)*$",
             "type": "string",
           },
         },
@@ -626,6 +614,34 @@ describe('Form.Section', () => {
       )
     })
 
+    it('should change minimum via overwrite props for Number field', () => {
+      const MyNumberSection = (props: SectionProps<{ amount: any }>) => (
+        <Form.Section {...props}>
+          <Field.Number path="/amount" />
+        </Form.Section>
+      )
+
+      render(
+        <Form.Handler>
+          <MyNumberSection
+            path="/mySection"
+            overwriteProps={{
+              amount: {
+                minimum: 30,
+                value: 5,
+                validateInitially: true,
+              },
+            }}
+          />
+        </Form.Handler>
+      )
+
+      const statusMessage = document.querySelector('.dnb-form-status')
+      expect(statusMessage).toHaveTextContent(
+        nb.NumberField.errorMinimum.replace('{minimum}', '30')
+      )
+    })
+
     it('should overwrite "path"', () => {
       const onChange = jest.fn()
 
@@ -926,6 +942,39 @@ describe('Form.Section', () => {
     })
   })
 
+  it('should change minimum via overwrite props in nested section for Number field', () => {
+    const MyOuterNumberSection = (
+      props: SectionProps<{ innerSection: { amount: any } }>
+    ) => (
+      <Form.Section {...props}>
+        <Form.Section path="/innerSection">
+          <Field.Number path="/amount" />
+        </Form.Section>
+      </Form.Section>
+    )
+
+    render(
+      <Form.Handler>
+        <MyOuterNumberSection
+          path="/mySection"
+          overwriteProps={{
+            innerSection: {
+              amount: {
+                minimum: 30,
+                value: 5,
+                validateInitially: true,
+              },
+            },
+          }}
+        />
+      </Form.Handler>
+    )
+
+    const statusMessage = document.querySelector('.dnb-form-status')
+    expect(statusMessage).toHaveTextContent(
+      nb.NumberField.errorMinimum.replace('{minimum}', '30')
+    )
+  })
   describe('schema', () => {
     it('should set "required" for firstName', () => {
       const schema: JSONSchema = {
