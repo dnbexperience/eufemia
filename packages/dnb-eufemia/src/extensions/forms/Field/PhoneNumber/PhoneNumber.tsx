@@ -21,6 +21,7 @@ import { useFieldProps } from '../../hooks'
 import {
   FieldPropsWithExtraValue,
   AllJSONSchemaVersions,
+  Schema,
 } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import SharedContext from '../../../../shared/Context'
@@ -168,12 +169,23 @@ function PhoneNumber(props: Props) {
     [props.emptyValue]
   )
 
-  const schema = useMemo<AllJSONSchemaVersions>(
-    () =>
-      props.schema ?? {
-        type: 'string',
-        pattern: props.pattern,
-      },
+  const schema = useMemo<Schema<string>>(
+    () => {
+      return (
+        // Use a factory so the schema is created using the current props
+        // at validation time (pattern and formatting). This keeps rules
+        // in sync with dynamic prop changes and avoids stale closures.
+        props.schema ??
+        ((p: Props): AllJSONSchemaVersions<string> => {
+          return {
+            type: 'string',
+            pattern: p.pattern,
+          }
+        })
+      )
+    },
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [props.schema, props.pattern]
   )
   const defaultProps: Partial<Props> = {
