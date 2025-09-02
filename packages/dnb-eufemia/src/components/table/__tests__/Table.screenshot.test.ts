@@ -469,6 +469,25 @@ describe.each(['ui', 'sbanken'])(
       })
       expect(screenshot).toMatchImageSnapshot()
     })
+
+    it('have to match table in accordion table', async () => {
+      const screenshot = await makeScreenshot({
+        ...defaults,
+        style: {
+          width: '35rem',
+        },
+        selector: '[data-visual-test="table-inside-of-accordion-table"]',
+        simulate: [
+          {
+            action: 'click',
+            selector:
+              '[data-visual-test="table-inside-of-accordion-table"] .dnb-table__td__button-icon',
+          },
+        ],
+        recalculateHeightAfterSimulate: true,
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
   }
 )
 
