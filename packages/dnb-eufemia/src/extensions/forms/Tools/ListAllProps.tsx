@@ -26,6 +26,8 @@ export default function ListAllProps<Data extends JsonObject = JsonObject>(
   dataRef.current = data
 
   const generate = useCallback(() => {
+    const includeSchema = Boolean(log)
+
     const propsOfFields = Object.entries(
       fieldInternalsRef?.current || {}
     ).reduce((acc, [path, { props }]) => {
@@ -33,12 +35,32 @@ export default function ListAllProps<Data extends JsonObject = JsonObject>(
         const propertyValue = {}
 
         for (const prop in props) {
-          if (
-            props[prop] !== undefined &&
-            typeof props[prop] !== 'function' &&
-            !isValidElement(props[prop])
-          ) {
-            propertyValue[prop] = props[prop]
+          const value = props[prop]
+          if (value === undefined) {
+            continue
+          }
+
+          // Resolve schema functions to their concrete schema objects
+          if (prop === 'schema') {
+            if (!includeSchema) {
+              continue
+            }
+            try {
+              // Some fields provide schema as a factory function depending on props
+              // Ensure we expose the resolved schema object for tooling like ListAllProps
+              propertyValue[prop] =
+                typeof value === 'function' ? value(props) : value
+            } catch {
+              // Ignore schema resolution errors and fall back to the raw value if it is not a function
+              if (typeof value !== 'function') {
+                propertyValue[prop] = value
+              }
+            }
+            continue
+          }
+
+          if (typeof value !== 'function' && !isValidElement(value)) {
+            propertyValue[prop] = value
           }
         }
 
