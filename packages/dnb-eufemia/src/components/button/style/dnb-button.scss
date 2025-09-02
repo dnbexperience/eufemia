@@ -41,11 +41,6 @@
 
   position: relative;
 
-  user-select: none;
-
-  /* stylelint-disable-next-line */
-  -webkit-user-select: none; // Safari / Touch fix
-
   cursor: pointer;
   white-space: nowrap;
 
