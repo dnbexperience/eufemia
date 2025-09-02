@@ -23,6 +23,9 @@ export { default as ValueBlock } from './ValueBlock'
  */
 export { default as Ajv } from 'ajv/dist/2020'
 
+// Re-export Zod so consumers can `import { z } from '@dnb/eufemia/extensions/forms'`
+export * as z from 'zod'
+
 // Types
 export type { SectionProps } from './Form/Section'
 
