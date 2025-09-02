@@ -247,7 +247,7 @@
   }
 
   &__tr__accordion-content--single {
-    td {
+    > td {
       padding: 0 !important; // medium and small size sets padding – but we never want a padding on this td
 
       width: calc(100% - 3.5rem);
@@ -260,7 +260,7 @@
       }
     }
 
-    td::before {
+    > td::before {
       content: '';
       position: absolute;
       top: auto;

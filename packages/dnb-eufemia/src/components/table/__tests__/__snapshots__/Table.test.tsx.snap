@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`Table scss has to match style dependencies css 1`] = `
 "/*
@@ -760,17 +760,17 @@ html[data-visual-test] .dnb-table__tr__accordion-content--parallax .dnb-table__t
 .dnb-table__tr__accordion-content--expanded + .dnb-table__tr--clickable .dnb-table__td:last-child::after {
   right: 0;
 }
-.dnb-table__tr__accordion-content--single td {
+.dnb-table__tr__accordion-content--single > td {
   padding: 0 !important;
   width: calc(100% - 3.5rem);
 }
-.dnb-table__size--medium .dnb-table__tr__accordion-content--single td {
+.dnb-table__size--medium .dnb-table__tr__accordion-content--single > td {
   width: calc(100% - 3rem);
 }
-.dnb-table__size--small .dnb-table__tr__accordion-content--single td {
+.dnb-table__size--small .dnb-table__tr__accordion-content--single > td {
   width: calc(100% - 2.5rem);
 }
-.dnb-table__tr__accordion-content--single td::before {
+.dnb-table__tr__accordion-content--single > td::before {
   content: "";
   position: absolute;
   top: auto;
