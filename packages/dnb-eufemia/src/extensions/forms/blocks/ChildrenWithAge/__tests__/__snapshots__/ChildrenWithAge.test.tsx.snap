@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`ChildrenWithAge should match snapshot 1`] = `
 {
@@ -27,14 +27,6 @@ exports[`ChildrenWithAge should match snapshot 1`] = `
         "minimum": 0,
         "placeholder": "0",
         "required": true,
-        "schema": {
-          "exclusiveMaximum": undefined,
-          "exclusiveMinimum": undefined,
-          "maximum": 17,
-          "minimum": 0,
-          "multipleOf": undefined,
-          "type": "number",
-        },
         "translations": {
           "en-GB": {
             "ChildrenWithAge": {
@@ -137,14 +129,6 @@ exports[`ChildrenWithAge should match snapshot 1`] = `
         "minimum": 0,
         "placeholder": "0",
         "required": true,
-        "schema": {
-          "exclusiveMaximum": undefined,
-          "exclusiveMinimum": undefined,
-          "maximum": 17,
-          "minimum": 0,
-          "multipleOf": undefined,
-          "type": "number",
-        },
         "translations": {
           "en-GB": {
             "ChildrenWithAge": {
@@ -346,14 +330,6 @@ exports[`ChildrenWithAge should match snapshot 1`] = `
     "minimum": 1,
     "path": "/countChildren",
     "required": true,
-    "schema": {
-      "exclusiveMaximum": undefined,
-      "exclusiveMinimum": undefined,
-      "maximum": 9,
-      "minimum": 1,
-      "multipleOf": undefined,
-      "type": "number",
-    },
     "showStepControls": true,
     "space": {
       "bottom": 0,
