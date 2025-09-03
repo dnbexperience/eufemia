@@ -20,17 +20,18 @@ import type {
 } from './TableAccordionContent'
 import type { TableTrProps } from '../TableTr'
 
+// Extend the ViewTransition API types
+type DocumentWithViewTransition = Document & {
+  startViewTransition?: (
+    updateCallback?: () => void | Promise<void>
+  ) => void
+}
+
 export type TableAccordionHeadProps = {
   /** The row number */
   count: number
 } & TableTrProps &
   React.TableHTMLAttributes<HTMLTableRowElement>
-
-declare global {
-  interface Document {
-    startViewTransition?: (callback?: () => Promise<void> | void) => void
-  }
-}
 
 export function TableAccordionHead(allProps: TableAccordionHeadProps) {
   const {
@@ -80,8 +81,12 @@ export function TableAccordionHead(allProps: TableAccordionHeadProps) {
 
   const toggleOpenFn = useCallback(
     (event: React.SyntheticEvent) => {
-      if (document?.startViewTransition) {
-        document.startViewTransition(() => {
+      const doc = document as DocumentWithViewTransition
+      if (
+        typeof doc !== 'undefined' &&
+        typeof doc.startViewTransition !== 'undefined'
+      ) {
+        doc.startViewTransition?.(() => {
           setOpen(!trIsOpen)
         })
       } else {
