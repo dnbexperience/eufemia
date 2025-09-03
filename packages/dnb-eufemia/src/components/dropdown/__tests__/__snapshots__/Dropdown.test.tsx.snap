@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`Dropdown scss has to match style dependencies css 1`] = `
 "/*
@@ -449,9 +449,6 @@ button .dnb-form-status__text {
   --button-icon-margin-left: 0;
   --button-icon-margin-right: 0;
   position: relative;
-  user-select: none;
-  /* stylelint-disable-next-line */
-  -webkit-user-select: none;
   cursor: pointer;
   white-space: nowrap;
   display: inline-flex;
