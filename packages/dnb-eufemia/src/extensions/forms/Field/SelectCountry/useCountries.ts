@@ -9,7 +9,7 @@ export default function useCountries({
 }: {
   /**
    * If set to `true`, all locales will be translated.
-   * This is useful when you want to show the translated country name (e.g. sv) in the current locale (e.g. nb).
+   * This is useful when you want to show the translated country name (e.g. sv or da) in the current locale (e.g. nb).
    */
   translateAllLocales?: boolean
 } = {}) {

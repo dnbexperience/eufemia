@@ -25,6 +25,7 @@ import { fireEvent, render, waitFor, screen } from '@testing-library/react'
 import { Provider } from '../../../shared'
 import Input from '../../input/Input'
 import svSE from '../../../shared/locales/sv-SE'
+import daDK from '../../../shared/locales/da-DK'
 import Button from '../../Button'
 
 describe('DatePicker component', () => {
@@ -2565,10 +2566,51 @@ describe('DatePicker component', () => {
     ).toBe('Okej')
   })
 
+  it('renders should support `da-DK` locale', () => {
+    render(
+      <Provider locale="da-DK" translations={daDK}>
+        <DatePicker
+          showCancelButton
+          showResetButton
+          showSubmitButton
+          showInput
+          opened
+        />
+      </Provider>
+    )
+
+    const dayLabels = Array.from(
+      document.querySelectorAll('.dnb-date-picker__labels__day')
+    )
+
+    expect(dayLabels.at(0)).toHaveAttribute('aria-label', 'mandag')
+    expect(dayLabels.at(1)).toHaveAttribute('aria-label', 'tirsdag')
+    expect(dayLabels.at(2)).toHaveAttribute('aria-label', 'onsdag')
+    expect(dayLabels.at(3)).toHaveAttribute('aria-label', 'torsdag')
+    expect(dayLabels.at(4)).toHaveAttribute('aria-label', 'fredag')
+    expect(dayLabels.at(5)).toHaveAttribute('aria-label', 'lørdag')
+    expect(dayLabels.at(6)).toHaveAttribute('aria-label', 'søndag')
+
+    expect(
+      document.querySelector('[data-testid="cancel"]  .dnb-button__text')
+        .textContent
+    ).toBe('Annuller')
+
+    expect(
+      document.querySelector('[data-testid="reset"]  .dnb-button__text')
+        .textContent
+    ).toBe('Nulstil')
+
+    expect(
+      document.querySelector('[data-testid="submit"]  .dnb-button__text')
+        .textContent
+    ).toBe('Ok')
+  })
+
   it('should fire fire event when input gets focus', async () => {
     const onFocus = jest.fn()
     render(
-      // Reset locale to prevent following tests from failing after the swedish locale test
+      // Reset locale to prevent following tests from failing after the danish locale test
       <Provider locale="nb-NO">
         <DatePicker showInput onFocus={onFocus} date="2024-01-05" />
       </Provider>
@@ -4286,6 +4328,26 @@ describe('DatePicker ARIA', () => {
       'aria-label',
       'Valt datum: tisdag 22 april 2025, Öppna datumväljaren'
     )
+
+    // da-DK
+    rerender(
+      <Provider locale="da-DK" translations={daDK}>
+        <DatePicker date="2025-04-01" />
+      </Provider>
+    )
+
+    await userEvent.click(openButton)
+    await userEvent.click(
+      screen.getByLabelText('fredag den 4. april 2025')
+    )
+
+    expect(document.querySelector('.dnb-sr-only')).toHaveTextContent(
+      'Valgt dato: fredag den 4. april 2025'
+    )
+    expect(openButton).toHaveAttribute(
+      'aria-label',
+      'Valgt dato: fredag den 4. april 2025, Åbn datovælger'
+    )
   })
 
   it('should announce selected date range', async () => {
@@ -4394,6 +4456,35 @@ describe('DatePicker ARIA', () => {
     expect(openButton).toHaveAttribute(
       'aria-label',
       'Valda datum: måndag 14 april–tisdag 22 april 2025, Öppna datumväljaren'
+    )
+
+    // da-DK
+    rerender(
+      <Provider locale="da-DK" translations={daDK}>
+        <DatePicker
+          startDate="2025-04-01"
+          endDate="2025-05-31"
+          range
+          // To prevent tests from failing on build server
+          preventClose
+        />
+      </Provider>
+    )
+
+    await userEvent.click(openButton)
+    await userEvent.click(
+      screen.getByLabelText('onsdag den 2. april 2025')
+    )
+    await userEvent.click(
+      screen.getByLabelText('lørdag den 19. april 2025')
+    )
+
+    expect(document.querySelector('.dnb-sr-only')).toHaveTextContent(
+      'Valgte datoer: onsdag 2.–lørdag 19. april 2025'
+    )
+    expect(openButton).toHaveAttribute(
+      'aria-label',
+      'Valgte datoer: onsdag 2.–lørdag 19. april 2025, Åbn datovælger'
     )
   })
 })

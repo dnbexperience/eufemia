@@ -164,6 +164,13 @@ describe('DateFormat', () => {
         expect(dateFormat).toHaveTextContent('måndag 4 augusti 2025')
 
         rerender(
+          <DateFormat locale="da-DK" dateStyle="full">
+            2025-08-04
+          </DateFormat>
+        )
+        expect(dateFormat).toHaveTextContent('mandag den 4. august 2025')
+
+        rerender(
           <DateFormat locale="nb-NO" dateStyle="full">
             2025-08-04
           </DateFormat>
@@ -199,6 +206,15 @@ describe('DateFormat', () => {
           </Provider>
         )
         expect(dateFormat).toHaveTextContent('måndag 4 augusti 2025')
+
+        rerender(
+          <Provider locale="en-GB">
+            <DateFormat locale="da-DK" dateStyle="full">
+              2025-08-04
+            </DateFormat>
+          </Provider>
+        )
+        expect(dateFormat).toHaveTextContent('mandag den 4. august 2025')
 
         rerender(
           <Provider locale="en-GB">
@@ -812,6 +828,10 @@ describe('DateFormat', () => {
       rerender(<DateFormat value="PT2H30M" locale="sv-SE" />)
       dateFormat = document.querySelector('.dnb-date-format')
       expect(dateFormat).toHaveTextContent('2 timmar, 30 minuter')
+
+      rerender(<DateFormat value="PT2H30M" locale="da-DK" />)
+      dateFormat = document.querySelector('.dnb-date-format')
+      expect(dateFormat).toHaveTextContent('2 timer og 30 minutter')
 
       rerender(<DateFormat value="PT2H30M" locale="de-DE" />)
       dateFormat = document.querySelector('.dnb-date-format')

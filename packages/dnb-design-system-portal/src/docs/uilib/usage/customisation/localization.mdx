@@ -44,6 +44,11 @@ import nbNO_forms from '@dnb/eufemia/extensions/forms/constants/locales/nb-NO'
 import svSE from '@dnb/eufemia/shared/locales/sv-SE'
 import svSE_forms from '@dnb/eufemia/extensions/forms/constants/locales/sv-SE'
 import svSE_forms_countries from '@dnb/eufemia/extensions/forms/constants/locales/countries/sv-SE'
+
+// Additional locales you can add
+import daDK from '@dnb/eufemia/shared/locales/da-DK'
+import daDK_forms from '@dnb/eufemia/extensions/forms/constants/locales/da-DK'
+import daDK_forms_countries from '@dnb/eufemia/extensions/forms/constants/locales/countries/da-DK'
 ```
 
 ## How to set the locale
@@ -113,6 +118,7 @@ const ChangeLocale = () => {
     <Field.Selection value={locale} onChange={(value) => setLocale(value)}>
       <Field.Option value="nb-NO" title="Norsk" />
       <Field.Option value="sv-SE" title="Svenska" />
+      <Field.Option value="da-DK" title="Dansk" />
       <Field.Option value="en-GB" title="English (GB)" />
     </Field.Selection>
   )
@@ -400,6 +406,19 @@ render(
 )
 ```
 
+To include e.g. `da-DK` you can use the following code:
+
+```js
+import { Provider } from '@dnb/eufemia/shared'
+import daDK from '@dnb/eufemia/shared/locales/da-DK'
+
+render(
+  <Provider translations={daDK} locale="da-DK">
+    Your app
+  </Provider>,
+)
+```
+
 ### Eufemia Forms
 
 Eufemia provides forms translations for the following locales:
@@ -418,7 +437,7 @@ Eufemia provides forms translations for the following locales:
 
 **Note:** Only `nb-NO` and `en-GB` are included by default.
 
-To support other locales such as `sv-SE`, you can provide translations for fields and values in a few different ways.
+To support other locales such as `sv-SE` or `da-DK`, you can provide translations for fields and values in a few different ways.
 
 #### Form.Handler
 
