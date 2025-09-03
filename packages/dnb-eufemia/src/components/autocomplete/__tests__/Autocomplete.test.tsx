@@ -455,7 +455,7 @@ describe('Autocomplete component', () => {
     expect(
       document.querySelectorAll('li.dnb-drawer-list__option')[0].outerHTML
     ).toBe(
-      '<li class="first-of-type dnb-drawer-list__option dnb-drawer-list__option--focus" role="option" tabindex="-1" aria-selected="true" data-item="1" id="option-autocomplete-id-1"><span class="dnb-drawer-list__option__inner"><span class="dnb-drawer-list__option__item"><span>item <span class="dnb-drawer-list__option__item--highlight">bb</span></span></span></span></li>'
+      '<li class="first-of-type dnb-drawer-list__option dnb-drawer-list__option--focus" role="option" tabindex="-1" aria-selected="false" aria-current="true" data-item="1" id="option-autocomplete-id-1"><span class="dnb-drawer-list__option__inner"><span class="dnb-drawer-list__option__item"><span>item <span class="dnb-drawer-list__option__item--highlight">bb</span></span></span></span></li>'
     )
 
     // First result direction
@@ -475,7 +475,7 @@ describe('Autocomplete component', () => {
     expect(
       document.querySelectorAll('li.dnb-drawer-list__option')[0].outerHTML
     ).toBe(
-      '<li class="first-of-type dnb-drawer-list__option dnb-drawer-list__option--focus" role="option" tabindex="-1" aria-selected="true" data-item="1" id="option-autocomplete-id-1"><span class="dnb-drawer-list__option__inner"><span class="dnb-drawer-list__option__item"><span>item <span class="dnb-drawer-list__option__item--highlight">bb</span></span></span></span></li>'
+      '<li class="first-of-type dnb-drawer-list__option dnb-drawer-list__option--focus" role="option" tabindex="-1" aria-selected="false" aria-current="true" data-item="1" id="option-autocomplete-id-1"><span class="dnb-drawer-list__option__inner"><span class="dnb-drawer-list__option__item"><span>item <span class="dnb-drawer-list__option__item--highlight">bb</span></span></span></span></li>'
     )
 
     // With three matches, we prioritize the second one to be on the first place
@@ -671,7 +671,7 @@ describe('Autocomplete component', () => {
     expect(
       document.querySelectorAll('li.dnb-drawer-list__option')[0].outerHTML
     ).toBe(
-      /* html */ `<li class="first-of-type dnb-drawer-list__option dnb-drawer-list__option--focus" role="option" tabindex="-1" aria-selected="true" data-item="1" id="option-autocomplete-id-1"><span class="dnb-drawer-list__option__inner"><span class="dnb-drawer-list__option__item"><span><span class="dnb-drawer-list__option__item--highlight">2223</span> <span class="dnb-drawer-list__option__item--highlight">33</span> <span class="dnb-drawer-list__option__item--highlight">4442</span>5</span></span></span></li>`
+      /* html */ `<li class="first-of-type dnb-drawer-list__option dnb-drawer-list__option--focus" role="option" tabindex="-1" aria-selected="false" aria-current="true" data-item="1" id="option-autocomplete-id-1"><span class="dnb-drawer-list__option__inner"><span class="dnb-drawer-list__option__item"><span><span class="dnb-drawer-list__option__item--highlight">2223</span> <span class="dnb-drawer-list__option__item--highlight">33</span> <span class="dnb-drawer-list__option__item--highlight">4442</span>5</span></span></span></li>`
     )
 
     fireEvent.change(document.querySelector('.dnb-input__input'), {
@@ -864,12 +864,12 @@ describe('Autocomplete component', () => {
     expect(
       document
         .querySelectorAll('li.dnb-drawer-list__option')[1]
-        .getAttribute('aria-selected')
+        .getAttribute('aria-current')
     ).toBe('true')
 
     let elem = optionElements()[1]
     expect(elem.textContent).toBe(mockData[1])
-    expect(elem.getAttribute('aria-selected')).toBe('true')
+    expect(elem.getAttribute('aria-current')).toBe('true')
 
     // remove selection and reset the order and open again
     // aria-selected should now be on place 1
@@ -878,7 +878,7 @@ describe('Autocomplete component', () => {
 
     elem = optionElements()[1]
     expect(elem.textContent).toBe(mockData[1])
-    expect(elem.getAttribute('aria-selected')).toBe('true')
+    expect(elem.getAttribute('aria-current')).toBe('true')
   })
 
   describe('disable_filter', () => {
