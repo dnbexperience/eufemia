@@ -92,6 +92,7 @@ export const PaymentCardCustomExample = () => (
   >
     {() => {
       const customData = {
+        productCode: 'CUSTOM',
         productName: 'DNB Custom Card',
         displayName: 'Custom card',
         cardDesign: Designs.gold,
