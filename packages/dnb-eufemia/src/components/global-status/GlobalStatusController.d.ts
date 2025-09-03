@@ -1,9 +1,6 @@
 import * as React from 'react';
 export interface GlobalStatusControllerProps
   extends React.HTMLProps<HTMLElement> {
-  /**
-   * The main ID. Defaults to `main`.
-   */
   id?: string;
   status_id?: string;
   remove_on_unmount?: boolean;
@@ -16,9 +13,6 @@ export default class GlobalStatusController extends React.Component<
   render(): JSX.Element;
 }
 export interface GlobalStatusRemoveProps {
-  /**
-   * The main ID. Defaults to `main`.
-   */
   id?: string;
   status_id: string;
 }
@@ -31,9 +25,6 @@ export class GlobalStatusRemove extends React.Component<
 }
 export interface GlobalStatusInterceptorProps
   extends React.HTMLProps<HTMLElement> {
-  /**
-   * The main ID. Defaults to `main`.
-   */
   id?: string;
 }
 export class GlobalStatusInterceptor extends React.Component<

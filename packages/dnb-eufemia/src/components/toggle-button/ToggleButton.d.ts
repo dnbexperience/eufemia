@@ -31,7 +31,7 @@ export interface ToggleButtonProps
   extends Omit<React.HTMLProps<HTMLButtonElement>, 'ref'>,
     SpacingProps {
   /**
-   * <em>(required)</em> the text shown in the ToggleButton.
+   * The text shown in the ToggleButton.
    */
   text?: React.ReactNode;
   /**
@@ -70,7 +70,7 @@ export interface ToggleButtonProps
   status_props?: FormStatusProps;
   status_no_animation?: boolean;
   /**
-   * The <a href="/uilib/components/global-status/properties/#configuration-object">configuration</a> used for the target <a href="/uilib/components/global-status">GlobalStatus</a>.
+   * The [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status).
    */
   globalStatus?: GlobalStatusConfigObject;
   /**
@@ -82,11 +82,11 @@ export interface ToggleButtonProps
    */
   tooltip?: ButtonTooltip;
   /**
-   * <em>(required)</em> defines the `value` as a string. Use it to get the value during the `on_change` event listener callback in the "ToggleButtonGroup".
+   * Defines the `value` as a string. Use it to get the value during the `on_change` event listener callback in the **ToggleButtonGroup**.
    */
   value?: ToggleButtonValue;
   /**
-   * The size of the toggle button. For now there is `small`, `medium`, `default` and `large`.
+   * The size of the button. For now there is `small`, `medium`, `default` and `large`.
    */
   size?: ButtonSize;
   /**
@@ -98,16 +98,13 @@ export interface ToggleButtonProps
    */
   icon_position?: ButtonIconPosition;
   /**
-   * Define icon width and height. Defaults to 16px.
+   * Define icon width and height. Defaults to `16px`.
    */
   icon_size?: IconSize;
   attributes?: ToggleButtonAttributes;
   readOnly?: boolean;
   className?: string;
   children?: ToggleButtonChildren;
-  /**
-   * Will be called on state changes made by the user. Returns a boolean and string `{ checked, value, event }`.
-   */
   on_change?: (...args: any[]) => any;
   on_state_update?: (...args: any[]) => any;
 }

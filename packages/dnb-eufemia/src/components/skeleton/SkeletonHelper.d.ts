@@ -12,9 +12,6 @@ export class AutoSize extends React.Component<AutoSizeProps, any> {
 export type SkeletonContextProps = ContextProps & {
   translation?: {
     Skeleton?: {
-      /**
-       * Is used for screen reader text translation, defined in the translation files. You can set a custom text if needed.
-       */
       aria_busy: string;
     };
   };
@@ -28,9 +25,6 @@ export declare const createSkeletonClass: (
 export type skeletonDOMAttributesContext = {
   translation?: {
     Skeleton: {
-      /**
-       * Is used for screen reader text translation, defined in the translation files. You can set a custom text if needed.
-       */
       aria_busy: string;
     };
   };
