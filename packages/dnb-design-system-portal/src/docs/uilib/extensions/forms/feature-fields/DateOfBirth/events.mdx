@@ -1,0 +1,40 @@
+---
+showTabs: true
+---
+
+import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
+import {
+  DateOfBirthSpecificEvents,
+  DateOfBirthGeneralEvents,
+} from '@dnb/eufemia/src/extensions/forms/Field/DateOfBirth/DateOfBirthDocs'
+
+## Events
+
+### Field-specific events
+
+<PropertiesTable props={DateOfBirthSpecificEvents} />
+
+### General events
+
+<PropertiesTable props={DateOfBirthGeneralEvents} />
+
+#### Details about general events arguments
+
+The first argument value returned by the event handlers is a string where the day, month, and year is separated by a `/`, e.g. `24/01/2024`.
+
+The DateOfBirth field also has an extra second parameter that includes additional information about the day, month, and year. This is an object with the following properties:
+
+```tsx
+render(
+  <Field.DateOfBirth
+    onChange={(
+      value: string | undefined, // e.g. "24/01/2024"
+      additionalArgs?: {
+        day: string | undefined // e.g. "24"
+        month: string // e.g. "01"
+        year: string // e.g. "2024"
+      },
+    ) => {}}
+  />,
+)
+```
