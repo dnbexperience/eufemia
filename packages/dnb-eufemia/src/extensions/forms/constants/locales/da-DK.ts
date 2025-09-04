@@ -22,7 +22,7 @@ export default {
     Isolation: {
       commitButtonText: 'Tilføj',
       preventUncommittedChangesText:
-        'Du har ændringer, som enten skal tilføjes eller ryddes.',
+        'Du har ændringer, som enten skal tilføjes eller nulstilles.',
     },
     Step: {
       summaryTitle: 'Oversigt',
@@ -80,7 +80,7 @@ export default {
     },
     IterateArray: {
       errorMinItems: 'Du skal tilføje mindst {minItems}.',
-      errorMaxItems: 'Du kan ikke tilføje mere end {maxItems}.',
+      errorMaxItems: 'Du kan ikke tilføje flere end {maxItems}.',
     },
 
     /**

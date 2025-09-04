@@ -79,7 +79,7 @@ export default {
       title: 'Skriv og vælg',
       submit_button_title: 'Vis muligheder',
       no_options: 'Ingen muligheder',
-      show_all: 'Vis alle',
+      show_all: 'Vis alt',
       show_options_sr: 'Gennemse muligheder, luk med esc-knappen',
       aria_live_options: '%s muligheder',
       selected_sr: 'Valgt:',
@@ -164,7 +164,7 @@ export default {
       errorLargeFile:
         'Filen du prøver at uploade er for stor, den maksimale understøttede størrelse er %size MB.',
       errorAmountLimit:
-        'Der er begrænset hvor mange filer du kan uploade (%amount).',
+        'Der er en grænse for, hvor mange filer du kan uploade (%amount).',
       errorUnsupportedFile:
         'Filen du prøver at uploade er ikke understøttet.',
       deleteButton: 'Slet',
