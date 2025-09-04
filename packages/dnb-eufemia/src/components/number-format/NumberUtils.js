@@ -971,7 +971,7 @@ export function showSelectionNotice({ value, label, timeout = 3e3 }) {
   let elem, content, root
 
   try {
-    root = document.querySelector('.dnb-tooltip__portal, body')
+    root = document.querySelector('.dnb-tooltip__portal') || document.body
 
     // create that portal element
     elem = document.createElement('span')
