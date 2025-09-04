@@ -1292,6 +1292,7 @@ class AutocompleteInstance extends React.PureComponent {
   }
 
   resetActiveItem = () => {
+    // TODO: is this needed if we reset active item on close in DrawerList?
     this.context.drawerList.setState({
       active_item: null,
     })
