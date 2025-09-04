@@ -87,7 +87,7 @@ export const inputProperties: PropertiesTableProps = {
     status: 'optional',
   },
   submit_button_title: {
-    doc: 'Title attribute for the search icon. Only relevant if search input.',
+    doc: 'Title attribute for the search/submit button. Only relevant when `type="search"`.',
     type: 'string',
     status: 'optional',
   },
@@ -180,7 +180,17 @@ export const inputEvents: PropertiesTableProps = {
     status: 'optional',
   },
   on_submit: {
-    doc: 'will be called on submit button click. Returns `{ value, event }`.',
+    doc: 'will be called on enter key press or submit button click. Returns `{ value, event }`.',
+    type: 'function',
+    status: 'optional',
+  },
+  on_submit_focus: {
+    doc: 'will be called on submit button focus. Only relevant when `type="search"`. Returns `{ value, event }`.',
+    type: 'function',
+    status: 'optional',
+  },
+  on_submit_blur: {
+    doc: 'will be called on submit button blur. Only relevant when `type="search"`. Returns `{ value, event }`.',
     type: 'function',
     status: 'optional',
   },

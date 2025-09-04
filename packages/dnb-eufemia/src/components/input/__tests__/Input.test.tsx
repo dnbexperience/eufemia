@@ -496,7 +496,7 @@ describe('Input component', () => {
     expect(input).toHaveValue('foo bar')
   })
 
-  it('should call on_submit event handler', () => {
+  it('should call on_submit event handler on enter key press', () => {
     const on_submit = jest.fn()
     render(
       <Input
@@ -515,6 +515,66 @@ describe('Input component', () => {
     })
     expect(on_submit).toHaveBeenCalledTimes(1)
     expect(on_submit.mock.calls[0][0].value).toBe('value')
+  })
+
+  it('should call on_submit event handler on submit button click', () => {
+    const on_submit = jest.fn()
+    render(
+      <Input
+        id="input-id"
+        value="value"
+        type="search"
+        on_submit={on_submit}
+      />
+    )
+
+    expect(document.querySelector('input').value).toBe('value')
+
+    const submitButton = document.querySelector('.dnb-button')
+    fireEvent.click(submitButton)
+
+    expect(on_submit).toHaveBeenCalledTimes(1)
+    expect(on_submit.mock.calls[0][0].value).toBe('value')
+  })
+
+  it('should call on_submit_focus event handler on submit button focus', () => {
+    const on_submit_focus = jest.fn()
+    render(
+      <Input
+        id="input-id"
+        value="value"
+        type="search"
+        on_submit_focus={on_submit_focus}
+      />
+    )
+
+    expect(document.querySelector('input').value).toBe('value')
+
+    const submitButton = document.querySelector('.dnb-button')
+    fireEvent.focus(submitButton)
+
+    expect(on_submit_focus).toHaveBeenCalledTimes(1)
+    expect(on_submit_focus.mock.calls[0][0].value).toBe('value')
+  })
+
+  it('should call on_submit_blur event handler on submit button blur', () => {
+    const on_submit_blur = jest.fn()
+    render(
+      <Input
+        id="input-id"
+        value="value"
+        type="search"
+        on_submit_blur={on_submit_blur}
+      />
+    )
+
+    expect(document.querySelector('input').value).toBe('value')
+
+    const submitButton = document.querySelector('.dnb-button')
+    fireEvent.blur(submitButton)
+
+    expect(on_submit_blur).toHaveBeenCalledTimes(1)
+    expect(on_submit_blur.mock.calls[0][0].value).toBe('value')
   })
 })
 
