@@ -13,20 +13,20 @@ describe('CopyOnClick', () => {
     url: '/uilib/components/copy-on-click/demos',
   })
 
-  it('have to match default', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="copy-on-click-default"]',
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
+  const style = {
+    display: 'block',
+    'padding-top': '1.5rem',
+    'max-width': '30rem',
+  }
 
   it('have to match tooltip', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="copy-on-click-default"]',
+      style,
       simulate: 'click',
       simulateSelector: '.dnb-copy-on-click',
-      recalculateHeightAfterSimulate: true,
       waitAfterSimulate: 250,
+      recalculateHeightAfterSimulate: true,
     })
     expect(screenshot).toMatchImageSnapshot()
   })

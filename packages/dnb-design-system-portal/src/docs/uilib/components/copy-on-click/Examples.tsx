@@ -9,9 +9,9 @@ import { CopyOnClick, NumberFormat, P } from '@dnb/eufemia/src'
 
 export const Default = () => {
   return (
-    <ComponentBox>
+    <ComponentBox data-visual-test="copy-on-click-default">
       <P>
-        <CopyOnClick data-visual-test="copy-on-click-default">
+        <CopyOnClick>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
           cursus pharetra elit in bibendum. Praesent nunc ipsum, convallis
           eget convallis gravida, vehicula vitae metus.
@@ -25,10 +25,7 @@ export const CopyCursorHidden = () => {
   return (
     <ComponentBox>
       <P>
-        <CopyOnClick
-          data-visual-test="copy-on-click-cursor-disabled"
-          showCursor={false}
-        >
+        <CopyOnClick showCursor={false}>
           Praesent nunc ipsum, convallis eget convallis gravida, vehicula
           vitae metus.
         </CopyOnClick>
