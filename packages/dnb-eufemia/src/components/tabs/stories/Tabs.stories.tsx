@@ -443,14 +443,15 @@ export function TabsAndFlex() {
 }
 
 export function TabsContentConditionalRendering() {
+  const show = () => false as boolean
   return (
     <Tabs>
-      {false && (
+      {show() && (
         <Tabs.Content key="first" title="First">
           First tab content
         </Tabs.Content>
       )}
-      {null && (
+      {show() && (
         <Tabs.Content key="second" title="Second">
           Second tab content
         </Tabs.Content>
@@ -458,7 +459,7 @@ export function TabsContentConditionalRendering() {
       <Tabs.Content key="third" title="Third">
         Third tab content
       </Tabs.Content>
-      {undefined && (
+      {show() && (
         <Tabs.Content key="fourth" title="Fourth">
           Fourth tab content
         </Tabs.Content>

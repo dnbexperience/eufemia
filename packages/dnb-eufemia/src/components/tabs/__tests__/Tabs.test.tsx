@@ -596,6 +596,9 @@ describe('A single Tab component', () => {
   })
 
   it('has to work when conditional rendering "Tabs.Content" as children components', () => {
+    const whenUndefined = undefined
+    const whenNull = null
+
     render(
       <Tabs {...props}>
         {false && (
@@ -603,7 +606,7 @@ describe('A single Tab component', () => {
             First tab content
           </Tabs.Content>
         )}
-        {null && (
+        {whenNull && (
           <Tabs.Content key="second" title="Second">
             Second tab content
           </Tabs.Content>
@@ -611,7 +614,7 @@ describe('A single Tab component', () => {
         <Tabs.Content key="third" title="Third">
           Third tab content
         </Tabs.Content>
-        {undefined && (
+        {whenUndefined && (
           <Tabs.Content key="fourth" title="Fourth">
             Fourth tab content
           </Tabs.Content>

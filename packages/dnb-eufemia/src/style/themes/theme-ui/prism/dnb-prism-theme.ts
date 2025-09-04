@@ -3,6 +3,7 @@
  *
  */
 
+const italic = 'italic' as const
 const prismTheme = {
   plain: {
     color: 'var(--color-mint-green-12)',
@@ -13,29 +14,29 @@ const prismTheme = {
       types: ['changed'],
       style: {
         color: 'var(--color-accent-yellow-30)',
-        fontStyle: 'italic',
+        fontStyle: italic,
       },
     },
     {
       types: ['deleted'],
       style: {
         color: 'var(--color-fire-red)',
-        fontStyle: 'italic',
+        fontStyle: italic,
       },
     },
     {
       types: ['inserted', 'attr-name'],
       style: {
         color: 'var(--color-summer-green)',
-        fontStyle: 'italic',
+        fontStyle: italic,
       },
     },
     {
       types: ['comment'],
       style: {
         color: 'var(--color-accent-yellow-30)',
-        fontStyle: 'italic',
-        opacity: '0.8',
+        fontStyle: italic,
+        opacity: 0.8,
       },
     },
     {
@@ -78,7 +79,7 @@ const prismTheme = {
       types: ['selector', 'doctype'],
       style: {
         color: 'var(--color-sea-green-30)',
-        fontStyle: 'italic',
+        fontStyle: italic,
       },
     },
     {

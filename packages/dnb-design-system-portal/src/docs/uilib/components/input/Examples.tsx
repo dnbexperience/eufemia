@@ -228,14 +228,14 @@ export const InputExamplePassword = () => (
       <InputPassword
         label="Label"
         placeholder="A placeholder text"
-        on_change={({ value }) => {
-          console.log('on_change:', value)
+        onChange={(value: string) => {
+          console.log('onChange:', value)
         }}
-        on_show_password={() => {
-          console.log('on_show_password')
+        onShowPassword={() => {
+          console.log('onShowPassword')
         }}
-        on_hide_password={() => {
-          console.log('on_hide_password')
+        onHidePassword={() => {
+          console.log('onHidePassword')
         }}
       />
     </ComponentBox>

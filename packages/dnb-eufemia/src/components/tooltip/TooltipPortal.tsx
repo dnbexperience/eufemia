@@ -29,7 +29,7 @@ type TooltipType = {
 let tooltipPortal: Record<string, TooltipType>
 if (typeof globalThis !== 'undefined') {
   globalThis.tooltipPortal = globalThis.tooltipPortal || {}
-  tooltipPortal = globalThis.tooltipPortal
+  tooltipPortal = globalThis.tooltipPortal as Record<string, TooltipType>
 } else {
   tooltipPortal = {}
 }

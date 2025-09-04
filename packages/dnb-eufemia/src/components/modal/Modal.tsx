@@ -465,8 +465,11 @@ class Modal extends React.PureComponent<
     const { hide, modalActive } = this.state
     const modal_content = Modal.getContent(
       typeof this.props.children === 'function'
-        ? Object.freeze({ ...this.props, close: this.close })
-        : this.props
+        ? (Object.freeze({
+            ...(this.props as any),
+            close: this.close,
+          }) as any)
+        : (this.props as any)
     )
 
     const render = (suffixProps) => {
@@ -514,7 +517,7 @@ class Modal extends React.PureComponent<
               innerRef={this._triggerRef}
               className={classnames(
                 'dnb-modal__trigger',
-                createSpacingClasses(props),
+                createSpacingClasses(rest as any),
                 triggerAttributes.className,
 
                 // @deprecated – can be removed in v11
