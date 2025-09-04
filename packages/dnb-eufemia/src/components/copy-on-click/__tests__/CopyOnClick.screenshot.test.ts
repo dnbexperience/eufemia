@@ -26,6 +26,7 @@ describe('CopyOnClick', () => {
       simulate: 'click',
       simulateSelector: '.dnb-copy-on-click',
       waitAfterSimulate: 250,
+      recalculateHeightAfterSimulate: true,
     })
     expect(screenshot).toMatchImageSnapshot()
   })
