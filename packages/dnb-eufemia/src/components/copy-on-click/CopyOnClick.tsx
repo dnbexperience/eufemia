@@ -38,7 +38,7 @@ const CopyOnClick = ({
   const copy = useCallback(
     (value: string, positionElement: HTMLElement) => {
       const message = tooltipContent ?? clipboard_copy
-      copyWithEffect(value, message, positionElement) // use copyWithNotice only to use the nice effect / animation
+      copyWithEffect(value, message, positionElement) // use copyWithEffect only to use the nice effect / animation
     },
     [clipboard_copy, tooltipContent]
   )
