@@ -291,6 +291,7 @@ export const Locale = () => {
                 >
                   <Field.Option value="nb-NO">Norsk</Field.Option>
                   <Field.Option value="sv-SE">Svenska</Field.Option>
+                  <Field.Option value="da-DK">Dansk</Field.Option>
                   <Field.Option value="en-GB">English</Field.Option>
                 </Field.Selection>
               </Form.Card>

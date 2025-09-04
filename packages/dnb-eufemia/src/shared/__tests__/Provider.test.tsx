@@ -58,6 +58,9 @@ describe('Provider', () => {
           <ToggleButton value="sv-SE" className="sv-SE">
             sv-SE
           </ToggleButton>
+          <ToggleButton value="da-DK" className="da-DK">
+            da-DK
+          </ToggleButton>
           <ToggleButton value="en-GB" className="en-GB">
             en-GB
           </ToggleButton>
