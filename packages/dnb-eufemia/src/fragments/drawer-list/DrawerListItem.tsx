@@ -53,11 +53,11 @@ export const DrawerListItem = forwardRef(function DrawerListItem(
     role,
     tabIndex: selected ? 0 : -1,
     disabled,
-    'aria-selected': active,
+    'aria-selected': !!selected,
     'aria-disabled': disabled,
   }
-  if (selected) {
-    params['aria-current'] = true // has best support on NVDA
+  if (active) {
+    params['aria-current'] = true
   }
 
   if (on_click && !rest.onClick) {
