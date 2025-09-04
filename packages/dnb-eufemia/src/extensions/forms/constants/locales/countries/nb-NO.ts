@@ -49,7 +49,7 @@ export default {
       TD: 'Tsjad',
       CL: 'Chile',
       CN: 'Kina',
-      CX: 'Christmasøya',
+      CX: 'Juleøya',
       CC: 'Kokosøyene',
       CO: 'Colombia',
       KM: 'Komorene',

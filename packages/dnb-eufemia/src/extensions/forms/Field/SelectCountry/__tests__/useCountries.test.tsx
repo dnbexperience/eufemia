@@ -118,7 +118,7 @@ describe('useCountries', () => {
     })
 
     expect(getOneCountry(result.current.countries, 'CX').i18n['sv']).toBe(
-      'Christmasøya'
+      'Juleøya'
     )
 
     log.mockRestore()
