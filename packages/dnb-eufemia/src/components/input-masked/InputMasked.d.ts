@@ -53,7 +53,7 @@ export interface InputMaskedProps
   extends Omit<React.HTMLProps<HTMLElement>, 'ref'>,
     SpacingProps {
   /**
-   * A mask can be defined both as a [RegExp style of characters](https://github.com/text-mask/text-mask/blob/master/componentDocumentation.md#readme) or a callback function. Example below.
+   * A mask can be defined both as a [RegExp style of characters](https://github.com/text-mask/text-mask/blob/master/componentDocumentation.md#readme) or a callback function. Example below. Defaults to number mask.
    */
   mask?: InputMaskedMask;
   /**
@@ -106,21 +106,9 @@ export interface InputMaskedProps
    */
   placeholder_char?: string;
   inner_ref?: React.Ref;
-  /**
-   * Will be called on value changes made by the user. Returns an object with the value as a string and the native event: `{ value, event }`.
-   */
   on_change?: (...args: any[]) => any;
-  /**
-   * Will be called on submit button click. Returns `{ value, event }`.
-   */
   on_submit?: (...args: any[]) => any;
-  /**
-   * Will be called on focus set by the user. Returns `{ value, event }`.
-   */
   on_focus?: (...args: any[]) => any;
-  /**
-   * Will be called on blur set by the user. Returns `{ value, event }`.
-   */
   on_blur?: (...args: any[]) => any;
   on_submit_focus?: (...args: any[]) => any;
   on_submit_blur?: (...args: any[]) => any;
@@ -143,9 +131,6 @@ export interface InputMaskedProps
   placeholder?: string;
   clear?: boolean;
   keep_placeholder?: boolean;
-  /**
-   * (string): What to display after the amount. Defaults to an empty string.
-   */
   suffix?: InputMaskedSuffix;
   align?: InputMaskedAlign;
   selectall?: boolean;

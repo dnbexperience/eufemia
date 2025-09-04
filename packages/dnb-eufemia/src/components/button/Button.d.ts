@@ -65,7 +65,7 @@ export type ButtonProps = {
    */
   text?: ButtonText;
   /**
-   * `button`, `reset` or `submit` for the `type` HTML attribute. Defaults to `button` for legacy reasons.
+   * The type HTML attribute. Defaults to `button` for legacy reasons.
    */
   type?: string;
   /**
@@ -81,7 +81,7 @@ export type ButtonProps = {
    */
   size?: ButtonSize;
   /**
-   * To be included in the button. <a href="/icons/primary">Primary Icons</a> can be set as a string (e.g. `icon="chevron_right"`), other icons should be set as React elements.
+   * To be included in the button. [Primary Icons](/icons/primary) can be set as a string (e.g. `icon="chevron_right"`), other icons should be set as React elements.
    */
   icon?: ButtonIcon;
   /**
@@ -110,7 +110,7 @@ export type ButtonProps = {
   status_props?: FormStatusProps;
   status_no_animation?: boolean;
   /**
-   * The <a href="/uilib/components/global-status/properties/#configuration-object">configuration</a> used for the target <a href="/uilib/components/global-status">GlobalStatus</a>.
+   * The [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status).
    */
   globalStatus?: GlobalStatusConfigObject;
   id?: string;
@@ -155,17 +155,11 @@ export type ButtonProps = {
   className?: string;
   class?: string;
   innerRef?: any;
-  /**
-   * The content of the button can be a string or a React Element.
-   */
   children?: ButtonChildren;
   /**
    * Only meant to be used for special use cases. Defaults to `button` or `a` depending if href is set or not.
    */
   element?: ButtonElement;
-  /**
-   * Will be called on a click event. Returns an object with the native event: `{ event }`.
-   */
   on_click?: ButtonOnClick;
 } & Partial<
   DataAttributeTypes &

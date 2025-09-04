@@ -175,6 +175,11 @@ export default {
   '--shadow-default-y': '8px',
   '--shadow-default-blur-radius': '16px',
   '--shadow-default-color': 'rgb(51 51 51 / 8%)',
+  '--shadow-sharp': '0 1px 6px rgb(0 0 0 / 16%)',
+  '--shadow-sharp-x': '0',
+  '--shadow-sharp-y': '1px',
+  '--shadow-sharp-blur-radius': '6px',
+  '--shadow-sharp-color': 'rgb(0 0 0 / 16%)',
   '--easing-default': 'cubic-bezier(0.42, 0, 0, 1)',
   '--text-block-max-width': '60ch',
   '--theme-color-body': 'var(--sb-color-text)'

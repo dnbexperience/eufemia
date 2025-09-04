@@ -5,9 +5,6 @@ export type PaginationIndicatorIndicatorElement =
   | ((...args: any[]) => any)
   | string;
 export interface PaginationIndicatorProps {
-  /**
-   * (infinity mode) is used by the <em>indicator</em>. Falls back to `fallback_element` if not defined.
-   */
   indicator_element?: PaginationIndicatorIndicatorElement;
 }
 export class PaginationIndicator extends React.Component<
