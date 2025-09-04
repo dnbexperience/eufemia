@@ -16,6 +16,16 @@ class JestEnvironment extends PlaywrightEnvironment {
 
   async setup() {
     await super.setup()
+
+    // jest-playwright exposes these on the global
+    const browser = this.global.browser
+    const browserName = this.global.browserName || 'firefox'
+
+    if (browser && typeof browser.version === 'function') {
+      const version = browser.version() // e.g. "129.0"
+      // One neat line before your test output:
+      console.log(`\n▶ Using ${browserName} ${version}\n`)
+    }
   }
 
   async teardown() {
