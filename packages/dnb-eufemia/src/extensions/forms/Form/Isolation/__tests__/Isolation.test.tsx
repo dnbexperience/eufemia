@@ -2312,11 +2312,18 @@ describe('Form.Isolation', () => {
 
       await userEvent.click(commitButton)
 
-      expect(onCommit).toHaveBeenCalledTimes(1)
+      await waitFor(() => {
+        expect(input).toHaveValue('')
+        expect(document.querySelector('.dnb-form-status')).toBeNull()
+      })
 
       fireEvent.submit(form)
 
       expect(onSubmit).toHaveBeenCalledTimes(1)
+      expect(onSubmit).toHaveBeenLastCalledWith(
+        { name: 'Tony' },
+        expect.anything()
+      )
       expect(onSubmitRequest).toHaveBeenCalledTimes(1)
       expect(onCommit).toHaveBeenCalledTimes(1)
     })
@@ -2358,9 +2365,11 @@ describe('Form.Isolation', () => {
 
       fireEvent.submit(form)
 
-      expect(
-        document.querySelector('.dnb-form-status')
-      ).not.toBeInTheDocument()
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).not.toBeInTheDocument()
+      })
     })
 
     describe('with emptyValue prop', () => {
@@ -3009,14 +3018,14 @@ describe('Form.Isolation', () => {
         expect(
           document.querySelector('.dnb-form-status')
         ).not.toBeInTheDocument()
+        expect(
+          document.querySelector('.dnb-forms-isolate__reset-button')
+        ).toHaveAttribute('disabled')
+        expect(
+          document.querySelector('.dnb-forms-isolate__reset-button')
+            .parentElement
+        ).not.toHaveAttribute('hidden')
       })
-      expect(
-        document.querySelector('.dnb-forms-isolate__reset-button')
-      ).toHaveAttribute('disabled')
-      expect(
-        document.querySelector('.dnb-forms-isolate__reset-button')
-          .parentElement
-      ).not.toHaveAttribute('hidden')
     })
 
     it('should submit form when uncommitted data was cleared (with confirmation)', async () => {
