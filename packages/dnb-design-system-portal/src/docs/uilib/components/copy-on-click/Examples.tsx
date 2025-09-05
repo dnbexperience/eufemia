@@ -5,7 +5,7 @@
 
 import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
-import { CopyOnClick, NumberFormat, P } from '@dnb/eufemia/src'
+import { CopyOnClick, Drawer, NumberFormat, P } from '@dnb/eufemia/src'
 
 export const Default = () => {
   return (
@@ -68,6 +68,16 @@ export const CustomTooltipMessage = () => {
           eget convallis gravida, vehicula vitae metus.
         </CopyOnClick>
       </P>
+    </ComponentBox>
+  )
+}
+
+export const InsideDrawer = () => {
+  return (
+    <ComponentBox data-visual-test="copy-on-click-inside-drawer">
+      <Drawer openState="opened">
+        <CopyOnClick>I'm inside the drawer</CopyOnClick>
+      </Drawer>
     </ComponentBox>
   )
 }

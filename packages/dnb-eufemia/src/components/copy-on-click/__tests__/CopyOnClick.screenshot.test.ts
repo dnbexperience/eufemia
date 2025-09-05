@@ -31,3 +31,26 @@ describe('CopyOnClick', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 })
+
+describe('CopyOnClick in drawer', () => {
+  const pageViewport = {
+    width: 200,
+    height: 200,
+  }
+  setupPageScreenshot({
+    url: '/uilib/components/copy-on-click/screenshot-test',
+    pageViewport,
+  })
+
+  it('have to match tooltip', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="copy-on-click-inside-drawer"]',
+      simulate: 'click',
+      simulateSelector: '.dnb-copy-on-click',
+      screenshotSelector: '.dnb-modal__content .dnb-scroll-view',
+      waitAfterSimulate: 250,
+      recalculateHeightAfterSimulate: true,
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+})
