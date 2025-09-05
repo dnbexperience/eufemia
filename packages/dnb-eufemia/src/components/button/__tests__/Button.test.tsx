@@ -253,6 +253,23 @@ describe('Button component', () => {
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 
+  it('does not navigate when href is set and button is disabled', async () => {
+    render(
+      <Button href="https://url" disabled>
+        Go to example
+      </Button>
+    )
+
+    const anchor = document.querySelector('a')
+
+    const dispatched = fireEvent.click(anchor)
+    expect(dispatched).toBe(false)
+
+    // Also expect proper disabled semantics
+    expect(anchor).toHaveAttribute('aria-disabled', 'true')
+    expect(anchor).toHaveAttribute('tabindex', '-1')
+  })
+
   it('has variant set to primary as default', () => {
     render(<Button />)
     const button = document.querySelector('button')
