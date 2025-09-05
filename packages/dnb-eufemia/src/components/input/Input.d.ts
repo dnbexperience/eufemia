@@ -83,7 +83,7 @@ export interface InputProps
    */
   autocomplete?: string;
   /**
-   * Title attribute for the search icon. Only relevant if search input.
+   * Title attribute for the search/submit button. Only relevant when `type="search"`.
    */
   submit_button_title?: string;
   clear_button_title?: string;
