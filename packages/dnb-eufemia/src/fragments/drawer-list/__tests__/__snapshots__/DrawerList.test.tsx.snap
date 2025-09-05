@@ -136,16 +136,17 @@ html[data-visual-test] .dnb-drawer-list--scroll .dnb-drawer-list__options, .dnb-
 .dnb-drawer-list--no-scroll-animation .dnb-drawer-list__options {
   scroll-behavior: auto;
 }
+.dnb-drawer-list__group {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
 .dnb-drawer-list__group-title {
   display: block;
   padding: 0.5rem 1rem;
   color: var(--drawer-list-group-title-color);
   background-color: var(--drawer-list-group-title-bg);
   font-weight: var(--font-weight-medium);
-}
-.dnb-drawer-list__group-list {
-  padding: 0;
-  list-style: none;
 }
 .dnb-drawer-list__option {
   position: relative;

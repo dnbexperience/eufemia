@@ -704,7 +704,9 @@ export const AutocompleteSections = () => (
           },
         ]
 
-        return <Autocomplete data={data} groups={groups} />
+        return (
+          <Autocomplete data={data} groups={groups} show_submit_button />
+        )
       }}
     </ComponentBox>
   </Wrapper>
