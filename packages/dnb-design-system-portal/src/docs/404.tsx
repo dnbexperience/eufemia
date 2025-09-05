@@ -35,6 +35,13 @@ export default function PageNotFound({ location }) {
             },
           },
         },
+        'da-DK': {
+          GlobalError: {
+            404: {
+              text: `Det findes ingen side på adressen: ${pathname}`,
+            },
+          },
+        },
       }}
     >
       <Layout key="layout" location={location} hideSidebar>

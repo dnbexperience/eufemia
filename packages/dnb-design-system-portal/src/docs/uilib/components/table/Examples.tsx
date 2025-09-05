@@ -1742,3 +1742,80 @@ export const ResponsiveInCard = () => (
     }}
   </ComponentBox>
 )
+
+export const TableInAccordionTable = () => (
+  <ComponentBox
+    hideCode
+    data-visual-test="table-inside-of-accordion-table"
+  >
+    {() => {
+      const AccordionTable = ({ id, showCheckbox = false, ...props }) => {
+        const TdCheckbox = () => {
+          return <Checkbox label="Select row" label_sr_only />
+        }
+        const TdInput = () => {
+          return <Input label="Label" label_sr_only size={4} />
+        }
+        const Row = ({ nr }) => {
+          const shareId = id + '-' + nr
+          return (
+            <Tr id={shareId}>
+              <Td>{showCheckbox ? <TdCheckbox /> : 'Row ' + nr}</Td>
+              <Td>Row {nr}</Td>
+              <Td spacing="horizontal">
+                <TdInput />
+              </Td>
+              <Td align="right">Row {nr}</Td>
+
+              <Td.AccordionContent>
+                <Table>
+                  <thead>
+                    <Tr>
+                      <Th>Column A</Th>
+                      <Th>Column B</Th>
+                    </Tr>
+                  </thead>
+                  <tbody>
+                    <Tr>
+                      <td>test</td>
+                      <td>test</td>
+                    </Tr>
+                    <Tr>
+                      <td>test</td>
+                      <td>test</td>
+                    </Tr>
+                  </tbody>
+                </Table>
+              </Td.AccordionContent>
+            </Tr>
+          )
+        }
+        return (
+          <Table mode="accordion" id={id} {...props}>
+            <caption className="dnb-sr-only">A Table Caption</caption>
+            <thead>
+              <Tr>
+                <Th>Column A</Th>
+                <Th>Column B</Th>
+                <Th>Column C</Th>
+                <Th align="right">Column D</Th>
+              </Tr>
+            </thead>
+            <tbody>
+              <Row nr="1" />
+            </tbody>
+          </Table>
+        )
+      }
+
+      return (
+        <Table.ScrollView>
+          <AccordionTable
+            id="accordion-table-in-table"
+            accordionChevronPlacement="end"
+          />
+        </Table.ScrollView>
+      )
+    }}
+  </ComponentBox>
+)

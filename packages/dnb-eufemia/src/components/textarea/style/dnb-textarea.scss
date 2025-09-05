@@ -131,9 +131,10 @@
     }
   }
 
-  // change the autocomplete appearance once filled out
+  // Set the background color to the default background color.
+  // Some browsers change the background color so users can see the difference between "autofill" and "user input".
+  // Which can be a bit jarring in DNBs design. We may consider to change this to a custom color in the future.
   &__input:autofill {
-    // set the border and the background
     box-shadow:
       0 0 0 var(--border-width) var(--border-color),
       0 0 0 10em var(--textarea-background-color) inset;

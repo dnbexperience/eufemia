@@ -117,21 +117,9 @@ export interface TextareaProps
   className?: string;
   textarea_element?: TextareaTextareaElement;
   children?: TextareaChildren;
-  /**
-   * Will be called on value changes made by the user. Returns an object with a string value and the native event: `{ value, rows, event }`.
-   */
   on_change?: (...args: any[]) => any;
-  /**
-   * Will be called on the focus set by the user. Returns `{ value, event }`.
-   */
   on_focus?: (...args: any[]) => any;
-  /**
-   * Will be called on blur set by the user. Returns `{ value, event }`.
-   */
   on_blur?: (...args: any[]) => any;
-  /**
-   * Will be called during every keystroke. Returns `{ value, rows, event }`.
-   */
   on_key_down?: (...args: any[]) => any;
   on_state_update?: (...args: any[]) => any;
 }

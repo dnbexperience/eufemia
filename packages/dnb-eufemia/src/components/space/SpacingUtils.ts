@@ -166,8 +166,8 @@ export const createSpacingClasses = (
      * To support typical not defined props form components
      */
     | SpacingUnknownProps,
-  Element = null
-) => {
+  elementName: string | null = null
+): string[] => {
   const p = Object.isFrozen(props) ? { ...props } : props
 
   if (typeof p.space !== 'undefined') {
@@ -191,7 +191,7 @@ export const createSpacingClasses = (
     delete p.space
   }
 
-  return Object.entries(p).reduce((acc, [direction, cur]) => {
+  return Object.entries(p).reduce<string[]>((acc, [direction, cur]) => {
     if (isValidSpaceProp(direction) && direction !== 'innerSpace') {
       if (String(cur) === '0' || String(cur) === 'false') {
         acc.push(`dnb-space__${direction}--zero`)
@@ -220,7 +220,7 @@ export const createSpacingClasses = (
       }
     } else if (direction === 'no_collapse') {
       acc.push('dnb-space--no-collapse')
-      if (Element && isInline(Element)) {
+      if (elementName && isInline(elementName)) {
         acc.push('dnb-space--inline')
       }
     }

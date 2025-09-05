@@ -31,40 +31,40 @@ export interface FormStatusProps
     SpacingProps {
   id?: string;
   /**
-   * The `title` attribute in the status.
+   * the `title` attribute in the status.
    */
   title?: string;
   label?: React.ReactNode;
   /**
-   * Provide `false` if you want to animate the visibility. Defaults to `true`.
+   * provide `false` if you want to animate the visibility. Defaults to `true`.
    */
   show?: boolean;
   /**
-   * The `text` appears as the status message. Beside plain text, you can send in a React component as well.
+   * the `text` appears as the status message. Beside plain text, you can send in a React component as well.
    */
   text?: FormStatusText;
   /**
-   * The <a href="/uilib/components/global-status/properties/#configuration-object">configuration</a> used for the target <a href="/uilib/components/global-status">GlobalStatus</a>.
+   * the [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status).
    */
   globalStatus?: GlobalStatusConfigObject;
   /**
-   * The `icon` show before the status text. Defaults to `exclamation`.
+   * the `icon` show before the status text. Defaults to `exclamation`.
    */
   icon?: IconIcon;
   /**
-   * The icon size of the icon shows. Defaults to `medium`.
+   * the icon size of the icon shows. Defaults to `medium`.
    */
   icon_size?: IconSize;
   /**
-   * Defines the visual appearance of the status. These are the statuses `error`, `warn`, `info` and `marketing`. The default status is `error`.
+   * defines the visual appearance of the status. These are the statuses `error`, `warn`, `info` and `marketing`. The default status is `error`.
    */
   state?: FormStatusState;
   /**
-   * As of now, there is the `flat` and the `outlined` variant. Defaults to `flat`.
+   * as of now, there is the `flat` and the `outlined` variant. Defaults to `flat`.
    */
   variant?: FormStatusVariant;
   /**
-   * Defines the appearance size. There are these sizes `default`, `large`. The default status is `default`.
+   * defines the appearance size. There are these sizes `default`, `large`. The default status is `default`.
    */
   size?: FormStatusSize;
   attributes?: FormStatusAttributes;
@@ -72,7 +72,7 @@ export interface FormStatusProps
   width_selector?: string;
   width_element?: Record<string, unknown>;
   /**
-   * NB: Animation is disabled as of now. <del>use `true` to omit the animation on content visibility. Defaults to `false`.</del>
+   * NB: Animation is disabled as of now. ~~use `true` to omit the animation on content visibility. Defaults to `false`.~~
    */
   no_animation?: boolean;
   /**
@@ -80,20 +80,20 @@ export interface FormStatusProps
    */
   skeleton?: SkeletonShow;
   /**
-   * If set to `true`, then the FormStatus will be 100% in available `width`. "NB:" Only use this on independent status messages.
+   * if set to `true`, then the FormStatus will be 100% in available `width`. **NB:** Only use this on independent status messages.
    */
   stretch?: boolean;
   /**
-   * The `role` attribute for accessibility, defaults to `alert`
+   * the `role` attribute for accessibility, defaults to `alert`.
    */
   role?: string;
   /**
-   * Use it to set an inner margin. It supports the same properties as `space`. Useful for animation.
+   * Use it to set an inner margin. It supports the same properties as [Space](/uilib/layout/space/properties). Useful for animation.
    */
   shellSpace?: SpaceTypeAll;
   className?: string;
   /**
-   * The `text` appears as the status message. Beside plain text, you can send in a React component as well.
+   * the `text` appears as the status message. Beside plain text, you can send in a React component as well.
    */
   children?: FormStatusChildren;
 }
@@ -106,28 +106,28 @@ export default class FormStatus extends React.Component<
 }
 export interface ErrorIconProps {
   /**
-   * The `title` attribute in the status.
+   * the `title` attribute in the status.
    */
   title?: string;
 }
 export declare const ErrorIcon: React.FC<ErrorIconProps>;
 export interface WarnIconProps {
   /**
-   * The `title` attribute in the status.
+   * the `title` attribute in the status.
    */
   title?: string;
 }
 export declare const WarnIcon: React.FC<WarnIconProps>;
 export interface InfoIconProps {
   /**
-   * The `title` attribute in the status.
+   * the `title` attribute in the status.
    */
   title?: string;
 }
 export declare const InfoIcon: React.FC<InfoIconProps>;
 export interface MarketingIconProps {
   /**
-   * The `title` attribute in the status.
+   * the `title` attribute in the status.
    */
   title?: string;
 }

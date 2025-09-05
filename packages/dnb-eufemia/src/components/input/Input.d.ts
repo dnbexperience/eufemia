@@ -162,32 +162,14 @@ export interface InputProps
   submit_button_status?: string;
   className?: string;
   children?: InputChildren;
-  /**
-   * Will be called on value changes made by the user. Returns an object with the value as a string and the native event: `{ value, event }`.
-   */
   on_change?: (...args: any[]) => any;
-  /**
-   * Will be called on key down by the user. Returns `{ value, event }`.
-   */
   on_key_down?: (...args: any[]) => any;
-  /**
-   * Will be called on submit button click. Returns `{ value, event }`.
-   */
   on_submit?: (...args: any[]) => any;
-  /**
-   * Will be called on focus set by the user. Returns `{ value, event }`.
-   */
   on_focus?: (...args: any[]) => any;
-  /**
-   * Will be called on blur set by the user. Returns `{ value, event }`.
-   */
   on_blur?: (...args: any[]) => any;
   on_submit_focus?: (...args: any[]) => any;
   on_submit_blur?: (...args: any[]) => any;
   on_state_update?: (...args: any[]) => any;
-  /**
-   * Will be called on a clear button click. Returns `{ value, previousValue, event }`.
-   */
   on_clear?: (...args: any[]) => any;
 }
 export default class Input extends React.Component<InputProps, any> {
@@ -233,9 +215,6 @@ export interface SubmitButtonProps
    */
   status_props?: FormStatusProps;
   className?: string;
-  /**
-   * Will be called on submit button click. Returns `{ value, event }`.
-   */
   on_submit?: (...args: any[]) => any;
   on_submit_focus?: (...args: any[]) => any;
   on_submit_blur?: (...args: any[]) => any;

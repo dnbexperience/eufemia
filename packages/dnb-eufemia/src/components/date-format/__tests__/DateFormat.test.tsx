@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import React from 'react'
-import { render } from '@testing-library/react'
+import { format } from 'date-fns'
+import { fireEvent, render } from '@testing-library/react'
 import DateFormat from '../../DateFormat'
-import { axeComponent } from '../../../core/jest/jestSetup'
+import { axeComponent, wait } from '../../../core/jest/jestSetup'
 import { Provider } from '../../../../shared'
 
 describe('DateFormat', () => {
@@ -163,6 +164,13 @@ describe('DateFormat', () => {
         expect(dateFormat).toHaveTextContent('måndag 4 augusti 2025')
 
         rerender(
+          <DateFormat locale="da-DK" dateStyle="full">
+            2025-08-04
+          </DateFormat>
+        )
+        expect(dateFormat).toHaveTextContent('mandag den 4. august 2025')
+
+        rerender(
           <DateFormat locale="nb-NO" dateStyle="full">
             2025-08-04
           </DateFormat>
@@ -198,6 +206,15 @@ describe('DateFormat', () => {
           </Provider>
         )
         expect(dateFormat).toHaveTextContent('måndag 4 augusti 2025')
+
+        rerender(
+          <Provider locale="en-GB">
+            <DateFormat locale="da-DK" dateStyle="full">
+              2025-08-04
+            </DateFormat>
+          </Provider>
+        )
+        expect(dateFormat).toHaveTextContent('mandag den 4. august 2025')
 
         rerender(
           <Provider locale="en-GB">
@@ -314,6 +331,51 @@ describe('DateFormat', () => {
       const dateFormat = document.querySelector('.dnb-date-format')
 
       expect(dateFormat.tagName).toBe('TIME')
+    })
+
+    it('should render a tooltip with absolute date and show on hover', async () => {
+      render(<DateFormat value="2025-08-01" relativeTime />)
+
+      const timeElem = document.querySelector('.dnb-date-format')
+
+      const id = timeElem.getAttribute('aria-describedby')
+      expect(document.body.querySelectorAll('#' + id)).toHaveLength(1)
+
+      fireEvent.mouseEnter(timeElem)
+      await wait(350) // until the tooltip shows
+
+      const tooltipElem = document.body.querySelector(
+        '#' + id
+      ).parentElement
+
+      expect(Array.from(tooltipElem.classList)).toEqual(
+        expect.arrayContaining(['dnb-tooltip', 'dnb-tooltip--active'])
+      )
+
+      fireEvent.mouseLeave(timeElem)
+      await wait(600) // until the tooltip hides
+
+      expect(Array.from(tooltipElem.classList)).toEqual(
+        expect.arrayContaining(['dnb-tooltip', 'dnb-tooltip--hide'])
+      )
+    })
+
+    it('tooltip content should match the absolute formatted date', async () => {
+      render(<DateFormat value="2025-08-01T14:30:00" relativeTime />)
+
+      const timeElem = document.querySelector('.dnb-date-format')
+
+      const id = timeElem.getAttribute('aria-describedby')
+      expect(document.body.querySelectorAll('#' + id)).toHaveLength(1)
+
+      fireEvent.mouseEnter(timeElem)
+      await wait(350) // until the tooltip shows
+
+      const tooltipElem = document.body.querySelector(
+        '#' + id
+      ).parentElement
+
+      expect(tooltipElem).toHaveTextContent('1. august 2025 kl. 14:30')
     })
 
     it('should respect locale for relative time', () => {
@@ -666,6 +728,16 @@ describe('DateFormat', () => {
     })
 
     describe('ARIA', () => {
+      it('should have correct `dateTime` attribute', () => {
+        const value = new Date('2025-01-15T14:30:00Z')
+        render(<DateFormat value={value} relativeTime />)
+        const dateFormat = document.querySelector('.dnb-date-format')
+
+        // Expect local time representation of the given UTC instant
+        const expected = format(value, 'yyyy-MM-dd HH:mm:ss')
+        expect(dateFormat).toHaveAttribute('dateTime', expected)
+      })
+
       it('should validate', async () => {
         const pastDate = new Date('2025-01-15T14:30:00Z') // Static date for testing
         const Component = render(
@@ -756,6 +828,10 @@ describe('DateFormat', () => {
       rerender(<DateFormat value="PT2H30M" locale="sv-SE" />)
       dateFormat = document.querySelector('.dnb-date-format')
       expect(dateFormat).toHaveTextContent('2 timmar, 30 minuter')
+
+      rerender(<DateFormat value="PT2H30M" locale="da-DK" />)
+      dateFormat = document.querySelector('.dnb-date-format')
+      expect(dateFormat).toHaveTextContent('2 timer og 30 minutter')
 
       rerender(<DateFormat value="PT2H30M" locale="de-DE" />)
       dateFormat = document.querySelector('.dnb-date-format')
@@ -1004,7 +1080,7 @@ describe('DateFormat', () => {
       // The output depends on the current date and locale, so we'll check for a relative time pattern
       // This should match patterns like "in X days", "for X uker siden", "om X dager", etc.
       expect(dateFormat.textContent).toMatch(
-        /^(?:in |for |om )?\d+ (?:days?|dager?|uker?|weeks?|months?|years?)(?:\s+(?:siden|ago))?$/
+        /^(?:in |for |om )?\d+ (?:days?|dager?|dag|uker?|uke|weeks?|months?|måned(er)?|years?|år)(?:\s+(?:siden|ago))?$/
       )
     })
 

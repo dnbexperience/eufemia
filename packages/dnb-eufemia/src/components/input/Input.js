@@ -606,7 +606,7 @@ export default class Input extends React.PureComponent {
                   <InputSubmitButton
                     {...attributes}
                     id={id + '-submit-button'}
-                    value={inputParams.value}
+                    value={hasValue ? value : ''}
                     icon={submit_button_icon}
                     status={convertStatusToStateOnly(
                       submit_button_status || status,
@@ -695,14 +695,14 @@ class InputSubmitButton extends React.PureComponent {
 
   state = { focusState: 'virgin' }
 
-  onFocusHandler = (event) => {
+  onSubmitFocusHandler = (event) => {
     const value = this.props.value
     this.setState({
       focusState: 'focus',
     })
     dispatchCustomElementEvent(this, 'on_submit_focus', { value, event })
   }
-  onBlurHandler = (event) => {
+  onSubmitBlurHandler = (event) => {
     const value = this.props.value
     this.setState({
       focusState: 'dirty',
@@ -759,8 +759,8 @@ class InputSubmitButton extends React.PureComponent {
           status={status}
           status_state={status_state}
           onClick={this.onSubmitHandler}
-          onFocus={this.onFocusHandler}
-          onBlur={this.onBlurHandler}
+          onFocus={this.onSubmitFocusHandler}
+          onBlur={this.onSubmitBlurHandler}
           {...params}
           {...status_props}
         />

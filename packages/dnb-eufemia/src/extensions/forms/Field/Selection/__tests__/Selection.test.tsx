@@ -1204,6 +1204,9 @@ describe('variants', () => {
         expect(options.length).toEqual(2)
         expect(options[0].getAttribute('aria-selected')).toBe('false')
         expect(options[1].getAttribute('aria-selected')).toBe('false')
+
+        expect(options[0].getAttribute('aria-current')).toBe(null)
+        expect(options[1].getAttribute('aria-current')).toBe(null)
       })
     })
 
@@ -1295,6 +1298,9 @@ describe('variants', () => {
       expect(options.length).toEqual(2)
       expect(options[0].getAttribute('aria-selected')).toBe('false')
       expect(options[1].getAttribute('aria-selected')).toBe('true')
+
+      expect(options[0].getAttribute('aria-current')).toBe(null)
+      expect(options[1].getAttribute('aria-current')).toBe('true')
     })
 
     it('renders update selected option based on external value change', async () => {
@@ -1318,6 +1324,9 @@ describe('variants', () => {
       expect(options.length).toEqual(2)
       expect(options[0].getAttribute('aria-selected')).toBe('true')
       expect(options[1].getAttribute('aria-selected')).toBe('false')
+
+      expect(options[0].getAttribute('aria-current')).toBe('true')
+      expect(options[1].getAttribute('aria-current')).toBe(null)
     })
 
     it('renders only options with a value', async () => {
@@ -1401,6 +1410,9 @@ describe('variants', () => {
 
       expect(option1).toHaveAttribute('aria-selected', 'true')
       expect(option2).toHaveAttribute('aria-selected', 'false')
+
+      expect(option1).toHaveAttribute('aria-current', 'true')
+      expect(option2).not.toHaveAttribute('aria-current')
     })
 
     it('should support selected value from "path"', async () => {
@@ -1442,6 +1454,9 @@ describe('variants', () => {
 
       expect(option1).toHaveAttribute('aria-selected', 'true')
       expect(option2).toHaveAttribute('aria-selected', 'false')
+
+      expect(option1).toHaveAttribute('aria-current', 'true')
+      expect(option2).not.toHaveAttribute('aria-current')
     })
 
     it('should support "dataPath"', async () => {
@@ -1483,6 +1498,10 @@ describe('variants', () => {
       expect(option1).toHaveAttribute('aria-selected', 'false')
       expect(option2).toHaveAttribute('aria-selected', 'false')
       expect(option3).toHaveAttribute('aria-selected', 'false')
+
+      expect(option1).not.toHaveAttribute('aria-current')
+      expect(option2).not.toHaveAttribute('aria-current')
+      expect(option3).not.toHaveAttribute('aria-current')
     })
 
     it('should store "displayValue" in data context', async () => {
@@ -1693,6 +1712,9 @@ describe('variants', () => {
         expect(options.length).toEqual(2)
         expect(options[0].getAttribute('aria-selected')).toBe('false')
         expect(options[1].getAttribute('aria-selected')).toBe('false')
+
+        expect(options[0].getAttribute('aria-current')).toBe(null)
+        expect(options[1].getAttribute('aria-current')).toBe(null)
       })
     })
 
@@ -1970,6 +1992,9 @@ describe('variants', () => {
         expect(options.length).toEqual(2)
         expect(options[0].getAttribute('aria-selected')).toBe('false')
         expect(options[1].getAttribute('aria-selected')).toBe('true')
+
+        expect(options[0].getAttribute('aria-current')).toBe(null)
+        expect(options[1].getAttribute('aria-current')).toBe('true')
       })
     })
 
@@ -1995,6 +2020,9 @@ describe('variants', () => {
         expect(options.length).toEqual(2)
         expect(options[0].getAttribute('aria-selected')).toBe('true')
         expect(options[1].getAttribute('aria-selected')).toBe('false')
+
+        expect(options[0].getAttribute('aria-current')).toBe('true')
+        expect(options[1].getAttribute('aria-current')).toBe(null)
       })
     })
 
@@ -2089,6 +2117,9 @@ describe('variants', () => {
 
       expect(option1).toHaveAttribute('aria-selected', 'true')
       expect(option2).toHaveAttribute('aria-selected', 'false')
+
+      expect(option1).toHaveAttribute('aria-current', 'true')
+      expect(option2).not.toHaveAttribute('aria-current')
     })
 
     it('should support selected value from "path"', async () => {
@@ -2133,6 +2164,9 @@ describe('variants', () => {
 
       expect(option1).toHaveAttribute('aria-selected', 'true')
       expect(option2).toHaveAttribute('aria-selected', 'false')
+
+      expect(option1).toHaveAttribute('aria-current', 'true')
+      expect(option2).not.toHaveAttribute('aria-current')
     })
 
     it('should support "dataPath"', async () => {
@@ -2177,6 +2211,10 @@ describe('variants', () => {
       expect(option1).toHaveAttribute('aria-selected', 'false')
       expect(option2).toHaveAttribute('aria-selected', 'false')
       expect(option3).toHaveAttribute('aria-selected', 'false')
+
+      expect(option1).not.toHaveAttribute('aria-current')
+      expect(option2).not.toHaveAttribute('aria-current')
+      expect(option3).not.toHaveAttribute('aria-current')
     })
 
     it('should store "displayValue" in data context', async () => {

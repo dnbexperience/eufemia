@@ -11,6 +11,7 @@ import { DateFormat, H4, P } from '@dnb/eufemia/src'
 const Style = styled.div`
   p > .dnb-date-format {
     display: block;
+    width: fit-content;
   }
 `
 

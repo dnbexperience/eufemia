@@ -17,6 +17,9 @@ import enUS from '@dnb/eufemia/src/shared/locales/en-US'
 import svSE from '@dnb/eufemia/src/shared/locales/sv-SE'
 import svSE_forms from '@dnb/eufemia/src/extensions/forms/constants/locales/sv-SE'
 import svSE_forms_countries from '@dnb/eufemia/src/extensions/forms/constants/locales/countries/sv-SE'
+import daDK from '@dnb/eufemia/src/shared/locales/da-DK'
+import daDK_forms from '@dnb/eufemia/src/extensions/forms/constants/locales/da-DK'
+import daDK_forms_countries from '@dnb/eufemia/src/extensions/forms/constants/locales/countries/da-DK'
 import { isTrue } from '@dnb/eufemia/src/shared/component-helper'
 import PortalLayout, { PortalLayoutProps } from './PortalLayout'
 import { useThemeHandler } from 'gatsby-plugin-eufemia-theme-handler'
@@ -28,6 +31,9 @@ export const translationsWithoutEnUS = mergeTranslations(
   svSE,
   svSE_forms,
   svSE_forms_countries,
+  daDK,
+  daDK_forms,
+  daDK_forms_countries,
 )
 export const translations = mergeTranslations(
   translationsWithoutEnUS,

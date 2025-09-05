@@ -5,6 +5,7 @@ import listOfCountries from '../../../constants/countries'
 import Provider from '../../../../../shared/Provider'
 import { mergeTranslations } from '../../../../../shared'
 import svSE_forms_countries from '../../../constants/locales/countries/sv-SE'
+import daDK_forms_countries from '../../../constants/locales/countries/da-DK'
 
 const getOneCountry = (countries, country: string) => {
   return countries.find((c) => c.iso === country)
@@ -16,7 +17,7 @@ describe('useCountries', () => {
     expect(result.current.countries).toStrictEqual(listOfCountries)
   })
 
-  it('should extend the list of countries with the provided translations', () => {
+  it('should extend the list of countries with the provided swedish translations', () => {
     const translations = mergeTranslations(svSE_forms_countries)
 
     const { result } = renderHook(useCountries, {
@@ -29,6 +30,22 @@ describe('useCountries', () => {
 
     expect(getOneCountry(result.current.countries, 'CX').i18n['sv']).toBe(
       'Julön'
+    )
+  })
+
+  it('should extend the list of countries with the provided danish translations', () => {
+    const translations = mergeTranslations(daDK_forms_countries)
+
+    const { result } = renderHook(useCountries, {
+      wrapper: ({ children }) => (
+        <Provider translations={translations} locale="da-DK">
+          {children}
+        </Provider>
+      ),
+    })
+
+    expect(getOneCountry(result.current.countries, 'CX').i18n['da']).toBe(
+      'Juleøen'
     )
   })
 
@@ -118,7 +135,7 @@ describe('useCountries', () => {
     })
 
     expect(getOneCountry(result.current.countries, 'CX').i18n['sv']).toBe(
-      'Christmasøya'
+      'Juleøya'
     )
 
     log.mockRestore()

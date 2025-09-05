@@ -31,7 +31,7 @@ export type DatePickerCalendarNavigationProps = Omit<
   date?: Date
 
   /**
-   * To define the locale used in the calendar. Needs to be an `date-fns` "v2" locale object, like `import enLocale from &#39;date-fns/locale/en-GB&#39;`. Defaults to `nb-NO`.
+   * To define the locale used in the calendar. Needs to be an `date-fns` locale object, like `import enLocale from &#39;date-fns/locale/en-GB&#39;`. Defaults to `nb-NO`.
    */
   locale?: InternalLocale
 }

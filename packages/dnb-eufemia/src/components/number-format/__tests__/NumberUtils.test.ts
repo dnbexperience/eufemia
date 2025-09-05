@@ -960,6 +960,10 @@ describe('getDecimalSeparator should', () => {
     expect(getDecimalSeparator('sv-SE')).toBe(',')
   })
 
+  it('return comma when locale is da-DK', () => {
+    expect(getDecimalSeparator('da-DK')).toBe(',')
+  })
+
   it('return dot when locale is en-GB', () => {
     expect(getDecimalSeparator('en-GB')).toBe('.')
   })
@@ -980,6 +984,10 @@ describe('getThousandsSeparator should', () => {
 
   it('return space when locale is sv-SE', () => {
     expect(getThousandsSeparator('sv-SE')).toBe(' ')
+  })
+
+  it('return space when locale is da-DK', () => {
+    expect(getThousandsSeparator('da-DK')).toBe('.')
   })
 
   it('return space when locale is de-DE', () => {
@@ -1006,6 +1014,10 @@ describe('getCurrencySymbol should', () => {
 
   it('return NOK when locale is sv-SE', () => {
     expect(getCurrencySymbol('sv-SE')).toBe('NOK')
+  })
+
+  it('return NOK when locale is da-DK', () => {
+    expect(getCurrencySymbol('da-DK')).toBe('NOK')
   })
 
   it('return NOK when locale is en-GB', () => {
