@@ -1066,9 +1066,9 @@ export default class DrawerListProvider extends React.PureComponent<
 
   getElementGroup = (element: HTMLUListElement | HTMLLIElement) => {
     return element.parentElement.classList.contains(
-      'dnb-drawer-list__group-list'
+      'dnb-drawer-list__group'
     )
-      ? element.parentElement.parentElement
+      ? element.parentElement
       : null
   }
 
@@ -1097,7 +1097,10 @@ export default class DrawerListProvider extends React.PureComponent<
     const activeElement = this.getActiveElement()
 
     const elem =
-      activeElement.previousSibling ||
+      (activeElement.previousElementSibling?.classList.contains(
+        'dnb-drawer-list__option'
+      ) &&
+        activeElement.previousSibling) ||
       this.getElementGroup(
         activeElement
       )?.previousElementSibling?.querySelector(

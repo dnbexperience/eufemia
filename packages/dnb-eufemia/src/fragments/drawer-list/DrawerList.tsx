@@ -19,6 +19,7 @@ import type { SpacingProps } from '../../shared/types'
 import { getThemeClasses } from '../../shared/Theme'
 import { createSpacingClasses } from '../../components/space/SpacingHelper'
 
+import E from '../../elements/Element'
 import DrawerListContext, {
   DrawerListContextProps,
 } from './DrawerListContext'
@@ -431,6 +432,8 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
     } = noNullNumbers(this.context.drawerList)
 
     const renderData = makeRenderData(data, groups)
+    const hasTitledGroup =
+      renderData.length > 0 && renderData[0].groupTitle !== undefined
 
     const mainParams = {
       id: `${id}-drawer-list`,
@@ -574,33 +577,38 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
             <Items />
           )
 
-        return renderData.length === 1 && groupTitle === undefined ? (
-          <ItemsRendered key={j} />
-        ) : (
-          <li
+        return hasTitledGroup ? (
+          <ul
             key={j}
+            role="group"
+            aria-labelledby={`${id}-group-title-${j}`}
             className={classnames(
               'dnb-drawer-list__group',
               j === 0 && 'first-of-type',
               j === renderData.length - 1 && 'last-of-type'
             )}
           >
-            <span className="dnb-drawer-list__group-title">
+            <li
+              id={`${id}-group-title-${j}`}
+              role="presentation"
+              className="dnb-drawer-list__group-title"
+            >
               {groupTitle}
-            </span>
-            <ul className="dnb-drawer-list__group-list">
-              <ItemsRendered />
-            </ul>
-          </li>
+            </li>
+            <ItemsRendered />
+          </ul>
+        ) : (
+          <ItemsRendered key={j} />
         )
       })
 
     const mainList = (
       <span {...mainParams} ref={_refShell}>
         <span {...listParams}>
-          {hidden === false && renderData?.length > 0 ? (
+          {hidden === false && renderData.length > 0 ? (
             <>
               <DrawerList.Options
+                hasGroups={hasTitledGroup}
                 cache_hash={
                   cache_hash +
                   active_item +
@@ -698,16 +706,17 @@ function makeRenderData(
 
 export type DrawerListOptionsProps = React.HTMLProps<HTMLUListElement> & {
   children: React.ReactNode
-  triangleRef?: React.LegacyRef<HTMLLIElement>
+  triangleRef?: React.ForwardedRef<HTMLLIElement | HTMLSpanElement>
   cache_hash?: string
   showFocusRing?: boolean
+  hasGroups?: boolean
 }
 // DrawerList List
 DrawerList.Options = React.memo(
   React.forwardRef(
     (
       props: DrawerListOptionsProps,
-      ref: React.LegacyRef<HTMLUListElement>
+      ref: React.ForwardedRef<HTMLUListElement | HTMLSpanElement>
     ) => {
       const {
         children,
@@ -715,11 +724,14 @@ DrawerList.Options = React.memo(
         triangleRef,
         cache_hash, // eslint-disable-line
         showFocusRing = false,
+        hasGroups = false,
         ...rest
       } = props
 
       return (
-        <ul
+        <E
+          internalClass={false}
+          as={hasGroups ? 'span' : 'ul'}
           className={classnames(
             'dnb-drawer-list__options',
             showFocusRing && 'dnb-drawer-list__options--focusring',
@@ -729,12 +741,14 @@ DrawerList.Options = React.memo(
           ref={ref}
         >
           {children}
-          <li
+          <E
+            internalClass={false}
+            as={hasGroups ? 'span' : 'li'}
             className="dnb-drawer-list__triangle"
             aria-hidden
             ref={triangleRef}
           />
-        </ul>
+        </E>
       )
     }
   ),
@@ -764,3 +778,5 @@ class OnMounted extends React.PureComponent<{
   }
 }
 export default DrawerList
+
+// TODO: fix closestToTop and closestToBottom triangle styling when scrolling
