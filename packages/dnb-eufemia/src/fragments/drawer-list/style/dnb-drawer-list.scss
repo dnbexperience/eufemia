@@ -167,16 +167,16 @@
     scroll-behavior: auto;
   }
   &__group {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+
     &-title {
       display: block;
       padding: 0.5rem 1rem;
       color: var(--drawer-list-group-title-color);
       background-color: var(--drawer-list-group-title-bg);
       font-weight: var(--font-weight-medium);
-    }
-    &-list {
-      padding: 0;
-      list-style: none;
     }
   }
   // li element
