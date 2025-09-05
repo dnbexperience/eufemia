@@ -526,3 +526,25 @@ export const GlobalStatusExample = () => {
     </>
   )
 }
+
+export const OnSubmitTypeSearch = () => {
+  return (
+    <Wrapper>
+      <Box>
+        <Input
+          label="type: search"
+          type="search"
+          on_submit={({ value }) => {
+            console.log('on_submit:', value)
+          }}
+          on_submit_focus={({ value }) => {
+            console.log('on_submit_focus:', value)
+          }}
+          on_submit_blur={({ value }) => {
+            console.log('on_submit_blur:', value)
+          }}
+        />
+      </Box>
+    </Wrapper>
+  )
+}
