@@ -822,16 +822,10 @@ export default class DrawerListProvider extends React.PureComponent<
         {
           e.preventDefault()
 
-          if (
-            this.state.direction === 'bottom' &&
-            this.state.active_item === this.getFirstItem()
-          ) {
-            active_item = -1
-          } else {
-            active_item = this.getPrevActiveItem()
-            if (isNaN(active_item)) {
-              active_item = this.getLastItem()
-            }
+          active_item = this.getPrevActiveItem()
+          if (isNaN(active_item)) {
+            // Loop to the bottom
+            active_item = this.getLastItem()
           }
         }
         break
@@ -840,17 +834,10 @@ export default class DrawerListProvider extends React.PureComponent<
         {
           e.preventDefault()
 
-          if (
-            this.state.direction === 'top' &&
-            this.state.active_item === this.getLastItem()
-          ) {
-            active_item = -1
-          } else {
-            active_item = this.getNextActiveItem()
-
-            if (isNaN(active_item)) {
-              active_item = this.getFirstItem()
-            }
+          active_item = this.getNextActiveItem()
+          if (isNaN(active_item)) {
+            // Loop to the top
+            active_item = this.getFirstItem()
           }
         }
         break
@@ -1006,7 +993,13 @@ export default class DrawerListProvider extends React.PureComponent<
         break
 
       default:
-        active_item = this.findItemByValue(keycode(e))
+        {
+          const searchIndex = this.findItemByValue(keycode(e))
+          if (searchIndex > -1) {
+            // Only change position if we find a result
+            active_item = searchIndex
+          }
+        }
         break
     }
 
@@ -1017,7 +1010,7 @@ export default class DrawerListProvider extends React.PureComponent<
     ) {
       const ulElem = getPreviousSibling(
         'dnb-drawer-list__options',
-        document.activeElement
+        document.activeElement // TODO: scrolling the drawer changes the document.activeElement to <body>, so this only works if the drawer was not scrolled on last item navigation
       )
 
       if (ulElem === this._refUl.current) {
@@ -1047,7 +1040,7 @@ export default class DrawerListProvider extends React.PureComponent<
     return (
       this._refUl.current?.querySelector<HTMLLIElement>(
         'li.dnb-drawer-list__option--selected'
-      ) || this._refUl.current
+      ) || this._refUl.current // TODO: Should we perhaps just return `undefined` if nothing is selected?
     )
   }
 
@@ -1250,6 +1243,7 @@ export default class DrawerListProvider extends React.PureComponent<
     if (res !== false) {
       this.setState({
         opened: false,
+        active_item: null,
       })
 
       const delayHandler = () => {
