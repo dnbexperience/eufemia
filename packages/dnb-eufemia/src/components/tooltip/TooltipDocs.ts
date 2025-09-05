@@ -7,7 +7,7 @@ export const TooltipProperties: PropertiesTableProps = {
     status: 'optional',
   },
   active: {
-    doc: 'set to `true` the tooltip will show up.',
+    doc: 'Controls visibility. When provided, Tooltip is controlled and ignores DOM events (hover/focus/touch). `true` keeps it visible; `false` keeps it hidden.',
     type: 'boolean',
     status: 'optional',
   },

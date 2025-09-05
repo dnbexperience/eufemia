@@ -394,6 +394,45 @@ describe('Tooltip', () => {
       const Component = render(<Tooltip active />)
       expect(await axeComponent(Component)).toHaveNoViolations()
     })
+
+    it('should ignore DOM events when active initially is true (controlled)', async () => {
+      render(<Tooltip active />)
+
+      const buttonElem = document.querySelector('button')
+
+      // Initially active due to controlled prop
+      expect(getMainElem().classList).toContain('dnb-tooltip--active')
+
+      // DOM events should not change visibility when controlled
+      fireEvent.mouseLeave(buttonElem)
+      await wait(1)
+      expect(getMainElem().classList).toContain('dnb-tooltip--active')
+
+      fireEvent.mouseEnter(buttonElem)
+      await wait(1)
+      expect(getMainElem().classList).toContain('dnb-tooltip--active')
+      expect(getMainElem().classList).not.toContain('dnb-tooltip--hide')
+    })
+
+    it('should ignore DOM events when active initially is false (controlled)', async () => {
+      render(<Tooltip active={false} />)
+
+      const buttonElem = document.querySelector('button')
+
+      // Initially not active due to controlled prop
+      expect(getMainElem().classList).not.toContain('dnb-tooltip--active')
+      expect(getMainElem().classList).not.toContain('dnb-tooltip--hide')
+
+      // DOM events should not change visibility when controlled
+      fireEvent.mouseEnter(buttonElem)
+      await wait(1)
+      expect(getMainElem().classList).not.toContain('dnb-tooltip--active')
+
+      fireEvent.mouseLeave(buttonElem)
+      await wait(1)
+      expect(getMainElem().classList).not.toContain('dnb-tooltip--active')
+      expect(getMainElem().classList).not.toContain('dnb-tooltip--hide')
+    })
   })
 
   describe('NumberFormat with tooltip', () => {
