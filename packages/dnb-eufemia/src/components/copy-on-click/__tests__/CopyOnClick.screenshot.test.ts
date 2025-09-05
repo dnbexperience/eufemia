@@ -34,8 +34,8 @@ describe('CopyOnClick', () => {
 
 describe('CopyOnClick in drawer', () => {
   const pageViewport = {
-    width: 700,
-    height: 600,
+    width: 200,
+    height: 200,
   }
   setupPageScreenshot({
     url: '/uilib/components/copy-on-click/screenshot-test',
