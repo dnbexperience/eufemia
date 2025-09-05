@@ -3,6 +3,26 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.80.0](https://github.com/dnbexperience/eufemia/compare/v10.79.0...v10.80.0) (2025-09-05)
+
+
+### :sparkles: Features
+
+* add support for locale `da-DK` ([#5432](https://github.com/dnbexperience/eufemia/issues/5432)) ([d4a94a2](https://github.com/dnbexperience/eufemia/commit/d4a94a27153ca5241fc500383e4355b18b1e28fc))
+* **DateFormat:** show Tooltip on hover when rendering `relativeTime` ([#5425](https://github.com/dnbexperience/eufemia/issues/5425)) ([25c0b11](https://github.com/dnbexperience/eufemia/commit/25c0b11c7ff1ee97537bab9331a5d6ed2ba6bb6f))
+
+
+### :bug: Bug Fixes
+
+* **Button:** make button text selectable ([#5429](https://github.com/dnbexperience/eufemia/issues/5429)) ([22f4ad8](https://github.com/dnbexperience/eufemia/commit/22f4ad826b94733545f1c6817089efbab0561b3d))
+* **CopyOnClick:** show Tooltip after copy ([#5442](https://github.com/dnbexperience/eufemia/issues/5442)) ([2629e83](https://github.com/dnbexperience/eufemia/commit/2629e8389345ec32d841971fee8025de3d0bf988))
+* **DrawerList:** swap aria-selected and aria-current ([#5435](https://github.com/dnbexperience/eufemia/issues/5435)) ([8b818bd](https://github.com/dnbexperience/eufemia/commit/8b818bd4cd18a2047eb6d8f51d3a382af7365de1))
+* **Input:** correct `value` in `on_submit` events ([#5434](https://github.com/dnbexperience/eufemia/issues/5434)) ([bedf377](https://github.com/dnbexperience/eufemia/commit/bedf377182fbd684cf0f0400884c3125106f30e5))
+* **Input:** ensure error, focus, and hover states work with autofilled content ([#5424](https://github.com/dnbexperience/eufemia/issues/5424)) ([484f341](https://github.com/dnbexperience/eufemia/commit/484f341285e4d0ca8527d6b3c6f2d76612adbba5)), closes [#5217](https://github.com/dnbexperience/eufemia/issues/5217)
+* Norwegian translation of Christmas Island ([#5433](https://github.com/dnbexperience/eufemia/issues/5433)) ([4625f54](https://github.com/dnbexperience/eufemia/commit/4625f543956ebd0d02619c371761526c0f3b4ebd))
+* **Table:** style table inside of an accordion mode table ([#5428](https://github.com/dnbexperience/eufemia/issues/5428)) ([3a77c0e](https://github.com/dnbexperience/eufemia/commit/3a77c0e72e8bab186af632acd57accdaaa0c399d))
+* **Tooltip:** remove click event to make screen reader not read out "clickable" ([#5426](https://github.com/dnbexperience/eufemia/issues/5426)) ([4e13600](https://github.com/dnbexperience/eufemia/commit/4e136004f93a9fffbf0980b9297596c6528270ee))
+
 ## [10.79.0](https://github.com/dnbexperience/eufemia/compare/v10.78.0...v10.79.0) (2025-08-28)
 
 
