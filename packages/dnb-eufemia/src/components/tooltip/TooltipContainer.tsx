@@ -133,15 +133,10 @@ export default function TooltipContainer(
     const elementWidth = element.offsetWidth
     const elementHeight = element.offsetHeight
     const rect = target.getBoundingClientRect()
+    // Prefer precise floating client rect sizes; fall back to offset sizes
     const targetBodySize = {
-      width: target.offsetWidth,
-      height: target.offsetHeight,
-    }
-
-    // fix for svg
-    if (!target.offsetHeight) {
-      targetBodySize.width = rect.width
-      targetBodySize.height = rect.height
+      width: rect.width || target.offsetWidth,
+      height: rect.height || target.offsetHeight,
     }
 
     if (skipPortal && (!offsetLeft.current || !offsetTop.current)) {
@@ -156,17 +151,9 @@ export default function TooltipContainer(
     const top =
       (isTrue(fixedPosition) ? 0 : scrollY) + rect.top - offsetTop.current
 
-    // Use Mouse position when target is too wide
-    const useMouseWhen = targetBodySize.width > 400
-    const mousePos =
-      getOffsetLeft(target) +
-      rect.left / 2 +
-      (element ? element.offsetWidth : 0)
+    // Base left on target's left edge; centering happens later via element/target widths
     const widthBased = scrollX + rect.left
-    const left =
-      (useMouseWhen && mousePos < targetBodySize.width
-        ? mousePos
-        : widthBased) - offsetLeft.current
+    const left = widthBased - offsetLeft.current
 
     const style = { ...props.style }
     const arrowStyle = { top: null, left: null }
@@ -254,7 +241,7 @@ export default function TooltipContainer(
     setArrowStyle(arrowStyle)
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [active, arrow, position, children, renewStyles])
+  }, [active, arrow, position, children, renewStyles, align])
 
   const handleMouseEnter = () => {
     if (isTrue(active) && useHover !== false) {
