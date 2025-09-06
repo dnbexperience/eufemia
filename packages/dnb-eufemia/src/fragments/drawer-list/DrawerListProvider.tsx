@@ -1064,20 +1064,49 @@ export default class DrawerListProvider extends React.PureComponent<
     )
   }
 
+  getElementGroup = (element: HTMLUListElement | HTMLLIElement) => {
+    return element.parentElement.classList.contains(
+      'dnb-drawer-list__group'
+    )
+      ? element.parentElement
+      : null
+  }
+
   getCurrentActiveItem = () => {
     const elem = this.getActiveElement()
     return parseFloat(elem && elem.getAttribute('data-item'))
   }
 
   getNextActiveItem = () => {
-    const elem = this.getActiveElement().nextSibling
+    const activeElement = this.getActiveElement()
+
+    const elem =
+      activeElement.nextSibling ||
+      this.getElementGroup(
+        activeElement
+      )?.nextElementSibling?.querySelector(
+        'li.dnb-drawer-list__option.first-of-type'
+      )
+
     return parseFloat(
       elem && elem instanceof Element && elem.getAttribute('data-item')
     )
   }
 
   getPrevActiveItem = () => {
-    const elem = this.getActiveElement().previousSibling
+    const activeElement = this.getActiveElement()
+
+    const elem =
+      (activeElement.previousElementSibling?.classList.contains(
+        'dnb-drawer-list__option'
+      ) &&
+        activeElement.previousSibling) ||
+      this.getElementGroup(
+        activeElement
+      )?.previousElementSibling?.querySelector(
+        'li.dnb-drawer-list__option.last-of-type'
+      )
+
     return parseFloat(
       elem && elem instanceof Element && elem.getAttribute('data-item')
     )
@@ -1085,14 +1114,14 @@ export default class DrawerListProvider extends React.PureComponent<
 
   getFirstItem = () => {
     const elem = this._refUl.current?.querySelector(
-      'li.dnb-drawer-list__option.first-of-type' // because of the triangle element
+      'li.dnb-drawer-list__option.first-item' // because of the triangle element
     )
     return parseFloat(elem && elem.getAttribute('data-item'))
   }
 
   getLastItem = () => {
     const elem = this._refUl.current?.querySelector(
-      'li.dnb-drawer-list__option.last-of-type' // because of the triangle element
+      'li.dnb-drawer-list__option.last-item' // because of the triangle element
     )
     return parseFloat(elem && elem.getAttribute('data-item'))
   }
