@@ -227,6 +227,20 @@ export default class Button extends React.PureComponent {
       params.onClick = this.getOnClickHandler(props)
     }
 
+    // Prevent navigation when used as Anchor and disabled
+    if (Element === Anchor && params.disabled) {
+      const originalOnClick = params.onClick
+      params.onClick = (e) => {
+        e.preventDefault()
+        e.stopPropagation()
+        if (typeof originalOnClick === 'function') {
+          originalOnClick(e)
+        }
+      }
+      params.tabIndex = -1
+      params['aria-disabled'] = true
+    }
+
     if (Element !== Anchor && !params.type) {
       params.type = params.type === '' ? undefined : 'button'
     }
