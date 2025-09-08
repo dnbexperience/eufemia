@@ -277,6 +277,17 @@ describe('Button component', () => {
         expect(anchor).toHaveAttribute('tabindex', '-1')
       })
 
+      it('should not render disabled attribute when', async () => {
+        render(
+          <Button href="https://url" disabled>
+            Go to example
+          </Button>
+        )
+
+        const anchor = document.querySelector('a')
+        expect(anchor).not.toHaveAttribute('disabled')
+      })
+
       it('removes href from anchor when disabled', () => {
         render(
           <Button href="https://example.com" disabled>
