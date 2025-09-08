@@ -114,12 +114,6 @@ export const cleanNumber: (
   options?: cleanNumberOptions
 ) => number | string;
 
-export const copyWithEffect: (
-  value: number | string,
-  label?: React.ReactNode,
-  positionElement?: HTMLElement
-) => boolean;
-
 export const getFallbackCurrencyDisplay: (
   locale?: InternalLocale,
   currency_display?: string
@@ -141,11 +135,6 @@ export const countDecimals: (
 ) => number;
 
 type copy = (content: string, HTMLElement) => void;
-
-/**
- * Only for internal use as of now. So it's not documented.
- */
-export const useCopyWithNotice: () => { copy: copy };
 
 /**
  * Only for internal use as of now. So it's not documented.
