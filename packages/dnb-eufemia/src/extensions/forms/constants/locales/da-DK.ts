@@ -97,7 +97,7 @@ export default {
         'Værdien skal være større end {exclusiveMinimum}.',
       errorExclusiveMaximum:
         'Værdien skal være mindre end {exclusiveMaximum}.',
-      errorMultipleOf: 'Værdien skal være et multiplum af {multipleOf}.',
+      errorMultipleOf: 'Indtast en værdi, der går op i {multipleOf}.',
     },
     BooleanField: {
       yes: 'Ja',

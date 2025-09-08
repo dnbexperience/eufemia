@@ -58,8 +58,8 @@ export default {
     },
     GlobalError: {
       404: {
-        title: 'Vi kan ikke finde den side, du leder efter …',
-        text: 'Er du sikker på, at du har skrevet den rigtige adresse? Eller har vi rodet med links?',
+        title: 'Vi kan ikke finde den siden du leder efter …',
+        text: 'Er du sikker på, at du har skrevet den rigtige adresse?',
       },
       500: {
         title: 'Beklager, der opstod en fejl!',
@@ -105,7 +105,7 @@ export default {
       aria_role: 'Hjælp-knap',
     },
     Input: {
-      submit_button_title: 'Send-knap',
+      submit_button_title: 'Send ind knap',
       clear_button_title: 'Nulstil',
     },
     Pagination: {
