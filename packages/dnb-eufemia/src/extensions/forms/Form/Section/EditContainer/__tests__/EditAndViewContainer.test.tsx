@@ -134,7 +134,8 @@ describe('EditContainer and ViewContainer', () => {
     // Press Cancel
     const buttons = Array.from(document.querySelectorAll('button'))
     const cancelButton = buttons.find(
-      (btn) => btn.textContent?.trim() === nb.SectionEditContainer.cancelButton
+      (btn) =>
+        btn.textContent?.trim() === nb.SectionEditContainer.cancelButton
     )
     await userEvent.click(cancelButton)
 
@@ -144,7 +145,9 @@ describe('EditContainer and ViewContainer', () => {
       '.dnb-forms-section-toolbar .dnb-form-status'
     )
     expect(status).toBeInTheDocument()
-    expect(status).toHaveTextContent(nb.SectionEditContainer.errorInSection)
+    expect(status).toHaveTextContent(
+      nb.SectionEditContainer.errorInSection
+    )
   })
 
   it('should not show ViewContainer after cancel then form submit', async () => {
