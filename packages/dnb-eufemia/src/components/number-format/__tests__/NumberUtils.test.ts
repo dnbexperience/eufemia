@@ -13,7 +13,6 @@ import * as helpers from '../../../shared/helpers'
 import {
   format,
   cleanNumber,
-  copyWithEffect,
   getFallbackCurrencyDisplay,
   getDecimalSeparator,
   getThousandsSeparator,
@@ -918,13 +917,6 @@ describe('NumberFormat cleanNumber', () => {
     expect(cleanNumber("prefix -1.234.567'891 suffix")).toBe(
       '-1234567.891'
     )
-  })
-})
-
-describe('copyWithEffect should', () => {
-  it('make valid clipboard copy', async () => {
-    copyWithEffect('1234.56')
-    expect(await navigator.clipboard.readText()).toBe('1234.56')
   })
 })
 
