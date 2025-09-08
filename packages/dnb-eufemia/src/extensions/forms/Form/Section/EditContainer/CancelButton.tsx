@@ -11,17 +11,32 @@ export default function CancelButton() {
   const { onCancel, setShowError } = useContext(ToolbarContext) || {}
   const { restoreOriginalData } = useContainerDataStore()
   const { switchContainerMode } = useContext(SectionContainerContext) || {}
-  const { setShowBoundaryErrors } = useContext(FieldBoundaryContext) || {}
+  const {
+    setShowBoundaryErrors,
+    hasError,
+    hasVisibleError,
+    hasSubmitError,
+  } = useContext(FieldBoundaryContext) || {}
 
   const translation = useTranslation().SectionEditContainer
 
   const cancelHandler = useCallback(() => {
-    setShowError(false)
-    setShowBoundaryErrors?.(false)
-    restoreOriginalData()
-    switchContainerMode?.('view')
-    onCancel?.()
+    if (hasError && hasSubmitError) {
+      setShowBoundaryErrors?.(true)
+      if (hasVisibleError) {
+        setShowError(true)
+      }
+    } else {
+      setShowError(false)
+      setShowBoundaryErrors?.(false)
+      restoreOriginalData()
+      switchContainerMode?.('view')
+      onCancel?.()
+    }
   }, [
+    hasError,
+    hasSubmitError,
+    hasVisibleError,
     onCancel,
     restoreOriginalData,
     setShowBoundaryErrors,

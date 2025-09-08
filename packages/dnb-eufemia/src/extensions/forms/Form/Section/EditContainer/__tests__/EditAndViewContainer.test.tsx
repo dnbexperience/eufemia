@@ -97,6 +97,56 @@ describe('EditContainer and ViewContainer', () => {
     expect(containerMode).toBe('edit')
   })
 
+  it('should keep edit open and show section error on Cancel after submit error', async () => {
+    let containerMode = null
+
+    const ContextConsumer = () => {
+      const context = React.useContext(SectionContainerContext)
+      containerMode = context.containerMode
+      return null
+    }
+
+    render(
+      <Form.Handler>
+        <Form.Section>
+          <Form.Section.EditContainer>
+            <Field.String
+              path="/"
+              label="Label"
+              onBlurValidator={() => new Error('Error message')}
+            />
+          </Form.Section.EditContainer>
+
+          <Form.Section.ViewContainer>content</Form.Section.ViewContainer>
+          <ContextConsumer />
+        </Form.Section>
+      </Form.Handler>
+    )
+
+    // Submit to open edit due to error
+    const input = document.querySelector('input')
+    await userEvent.type(input, 'x{Backspace}')
+    fireEvent.submit(document.querySelector('form'))
+
+    expect(containerMode).toBe('edit')
+    expect(document.querySelector('.dnb-form-status')).toBeInTheDocument()
+
+    // Press Cancel
+    const buttons = Array.from(document.querySelectorAll('button'))
+    const cancelButton = buttons.find(
+      (btn) => btn.textContent?.trim() === nb.SectionEditContainer.cancelButton
+    )
+    await userEvent.click(cancelButton)
+
+    // Should still be in edit mode and show the section error message
+    expect(containerMode).toBe('edit')
+    const status = document.querySelector(
+      '.dnb-forms-section-toolbar .dnb-form-status'
+    )
+    expect(status).toBeInTheDocument()
+    expect(status).toHaveTextContent(nb.SectionEditContainer.errorInSection)
+  })
+
   it('should not show ViewContainer after cancel then form submit', async () => {
     let containerMode = null
 
