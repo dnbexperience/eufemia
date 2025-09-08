@@ -102,24 +102,6 @@ describe('Button component', () => {
     ).toBeInTheDocument()
   })
 
-  it('has a anchor tag', () => {
-    render(<Button {...props} href="https://url" icon={null} />)
-    expect(document.querySelector('a')).toBeInTheDocument()
-    expect(document.querySelector('svg')).not.toBeInTheDocument()
-  })
-
-  it('has a anchor tag and includes a launch icon', () => {
-    render(
-      <Button {...props} href="https://url" target="_blank" icon={null} />
-    )
-    expect(document.querySelector('svg')).toBeInTheDocument()
-  })
-
-  it('supports anchor rel property', () => {
-    render(<Button {...props} href="https://url" icon={null} rel="me" />)
-    expect(document.querySelector('a').getAttribute('rel')).toBe('me')
-  })
-
   it('has a disabled attribute, once we set disabled to true', () => {
     const { rerender } = render(<Button />)
     expect(document.querySelector('button')).not.toHaveAttribute(
@@ -248,26 +230,65 @@ describe('Button component', () => {
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 
-  it('should validate with ARIA rules as a anchor', async () => {
-    const Comp = render(<Button {...props} href="https://url" />)
-    expect(await axeComponent(Comp)).toHaveNoViolations()
-  })
+  describe('href', () => {
+    it('has a anchor tag', () => {
+      render(<Button {...props} href="https://url" icon={null} />)
+      expect(document.querySelector('a')).toBeInTheDocument()
+      expect(document.querySelector('svg')).not.toBeInTheDocument()
+    })
 
-  it('does not navigate when href is set and button is disabled', async () => {
-    render(
-      <Button href="https://url" disabled>
-        Go to example
-      </Button>
-    )
+    it('has a anchor tag and includes a launch icon', () => {
+      render(
+        <Button
+          {...props}
+          href="https://url"
+          target="_blank"
+          icon={null}
+        />
+      )
+      expect(document.querySelector('svg')).toBeInTheDocument()
+    })
 
-    const anchor = document.querySelector('a')
+    it('supports anchor rel property', () => {
+      render(<Button {...props} href="https://url" icon={null} rel="me" />)
+      expect(document.querySelector('a').getAttribute('rel')).toBe('me')
+    })
 
-    const dispatched = fireEvent.click(anchor)
-    expect(dispatched).toBe(false)
+    describe('disabled', () => {
+      it('should validate with ARIA rules as a anchor', async () => {
+        const Comp = render(<Button {...props} href="https://url" />)
+        expect(await axeComponent(Comp)).toHaveNoViolations()
+      })
 
-    // Also expect proper disabled semantics
-    expect(anchor).toHaveAttribute('aria-disabled', 'true')
-    expect(anchor).toHaveAttribute('tabindex', '-1')
+      it('does not navigate when href is set and button is disabled', async () => {
+        render(
+          <Button href="https://url" disabled>
+            Go to example
+          </Button>
+        )
+
+        const anchor = document.querySelector('a')
+
+        const dispatched = fireEvent.click(anchor)
+        expect(dispatched).toBe(false)
+
+        // Also expect proper disabled semantics
+        expect(anchor).toHaveAttribute('aria-disabled', 'true')
+        expect(anchor).toHaveAttribute('tabindex', '-1')
+      })
+
+      it('removes href from anchor when disabled', () => {
+        render(
+          <Button href="https://example.com" disabled>
+            Disabled link button
+          </Button>
+        )
+
+        const anchor = document.querySelector('a')
+        expect(anchor).toBeInTheDocument()
+        expect(anchor).not.toHaveAttribute('href')
+      })
+    })
   })
 
   it('has variant set to primary as default', () => {

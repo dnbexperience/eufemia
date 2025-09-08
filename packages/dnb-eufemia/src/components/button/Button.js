@@ -239,6 +239,11 @@ export default class Button extends React.PureComponent {
       }
       params.tabIndex = -1
       params['aria-disabled'] = true
+
+      // Remove href when disabled to avoid navigation via URL bar/status
+      if (params.href) {
+        delete params.href
+      }
     }
 
     if (Element !== Anchor && !params.type) {
