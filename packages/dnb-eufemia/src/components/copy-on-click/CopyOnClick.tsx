@@ -5,14 +5,17 @@
 import React, { useCallback, useEffect, useRef } from 'react'
 import classnames from 'classnames'
 import type { CopyOnClickAllProps } from './types'
+import { runIOSSelectionFix } from '../number-format/NumberUtils'
 import {
-  runIOSSelectionFix,
-  copyWithEffect,
-} from '../number-format/NumberUtils'
-import { hasSelectedText, IS_IOS, warn } from '../../shared/helpers'
+  copyToClipboard,
+  hasSelectedText,
+  IS_IOS,
+  warn,
+} from '../../shared/helpers'
 import { convertJsxToString } from '../../shared/component-helper'
 import { useTranslation } from '../../shared'
 import { Span } from '../../elements'
+import Tooltip from '../Tooltip'
 
 const CopyOnClick = ({
   children,
@@ -24,6 +27,8 @@ const CopyOnClick = ({
   ...props
 }: CopyOnClickAllProps) => {
   const ref = useRef<HTMLSpanElement>(null)
+  const timeoutRef = useRef<NodeJS.Timeout>()
+  const [active, setActive] = React.useState(false)
 
   useEffect(() => {
     if (IS_IOS) {
@@ -35,13 +40,23 @@ const CopyOnClick = ({
     CopyOnClick: { clipboard_copy },
   } = useTranslation()
 
-  const copy = useCallback(
-    (value: string, positionElement: HTMLElement) => {
-      const message = tooltipContent ?? clipboard_copy
-      copyWithEffect(value, message, positionElement) // use copyWithEffect only to use the nice effect / animation
-    },
-    [clipboard_copy, tooltipContent]
-  )
+  const copy = useCallback(async (str: string) => {
+    const clear = () => clearInterval(timeoutRef.current)
+    clear()
+
+    try {
+      const success = await copyToClipboard(str)
+      if (success === true) {
+        setActive(true)
+
+        timeoutRef.current = setTimeout(() => setActive(false), 2000)
+      }
+    } catch (e) {
+      warn(e)
+    }
+
+    return () => clear()
+  }, [])
 
   const onClickHandler = useCallback(() => {
     if (!hasSelectedText()) {
@@ -57,7 +72,7 @@ const CopyOnClick = ({
           selection.removeAllRanges()
           selection.addRange(range)
 
-          copy(str, ref.current)
+          copy(str)
         }
       } catch (e) {
         warn(e)
@@ -68,6 +83,7 @@ const CopyOnClick = ({
   const params = {
     onClick: disabled ? undefined : onClickHandler,
   }
+  const message = tooltipContent ?? clipboard_copy
 
   return (
     <Span
@@ -81,6 +97,9 @@ const CopyOnClick = ({
       {...params}
     >
       {children}
+      <Tooltip active={active} targetElement={ref}>
+        {message}
+      </Tooltip>
     </Span>
   )
 }

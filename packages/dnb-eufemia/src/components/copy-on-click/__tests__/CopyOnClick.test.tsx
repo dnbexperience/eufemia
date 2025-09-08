@@ -2,7 +2,6 @@ import React from 'react'
 import { render, screen, waitFor } from '@testing-library/react'
 import CopyOnClick from '../CopyOnClick'
 import { mockClipboard } from '../../../core/jest/jestSetup'
-import { copyWithEffect } from '../../../components/number-format/NumberUtils'
 import NumberFormat from '../../NumberFormat'
 import userEvent from '@testing-library/user-event'
 
@@ -90,11 +89,6 @@ describe('CopyOnClick', () => {
     expect(element).toHaveClass('dnb-copy-on-click')
   })
 
-  it('should copy to clipboard', async () => {
-    copyWithEffect('CopyOnClick')
-    expect(await navigator.clipboard.readText()).toBe('CopyOnClick')
-  })
-
   it('should accept copyContent prop', () => {
     render(
       <CopyOnClick copyContent="copyContent">CopyOnClick</CopyOnClick>
@@ -164,5 +158,50 @@ describe('CopyOnClick', () => {
           .textContent
       ).toBe(customMessage)
     })
+  })
+
+  it('should not copy to clipboard when disabled', async () => {
+    // Seed clipboard with a known value
+    await navigator.clipboard.writeText('seed')
+
+    render(<CopyOnClick disabled>Copy me</CopyOnClick>)
+
+    await userEvent.click(document.querySelector('.dnb-copy-on-click'))
+
+    // Clipboard should remain unchanged because click is ignored
+    expect(await navigator.clipboard.readText()).toBe('seed')
+  })
+
+  it('should not activate tooltip and not change clipboard on copy failure', async () => {
+    // Seed clipboard with a known value
+    await navigator.clipboard.writeText('initial')
+
+    // Force async clipboard API to fail
+    const originalWrite = navigator.clipboard.writeText
+    navigator.clipboard.writeText = jest
+      .fn()
+      .mockRejectedValue(new Error('permission denied'))
+
+    // Ensure fallback does not succeed
+    document.execCommand = jest.fn(() => false)
+
+    render(<CopyOnClick>Copy me</CopyOnClick>)
+
+    await userEvent.click(document.querySelector('.dnb-copy-on-click'))
+
+    // Clipboard should remain unchanged
+    expect(await navigator.clipboard.readText()).toBe('initial')
+
+    // Tooltip should not become active
+    await waitFor(() => {
+      const tooltip = document.querySelector('.dnb-tooltip')
+      expect(tooltip).toBeInTheDocument()
+      expect(Array.from(tooltip.classList)).not.toContain(
+        'dnb-tooltip--active'
+      )
+    })
+
+    // Restore original mock
+    navigator.clipboard.writeText = originalWrite
   })
 })
