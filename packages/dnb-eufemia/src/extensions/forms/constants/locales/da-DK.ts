@@ -26,7 +26,7 @@ export default {
     },
     Step: {
       summaryTitle: 'Oversigt',
-      stepHasError: 'Formularen indeholder fejl.',
+      stepHasError: 'Skemaet indeholder fejl.',
     },
     WizardEditButton: {
       text: 'Rediger',
