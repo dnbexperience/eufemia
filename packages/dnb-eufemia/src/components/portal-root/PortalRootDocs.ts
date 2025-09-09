@@ -11,7 +11,7 @@ export const PortalRootProperties: PropertiesTableProps = {
   },
   children: {
     doc: 'The content that will be placed in a React Portal.',
-    type: ['ReactNode'],
+    type: 'ReactNode',
     status: 'required',
   },
 }

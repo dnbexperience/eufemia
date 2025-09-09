@@ -3,12 +3,12 @@ import { PropertiesTableProps } from '../../shared/types'
 export const TextCounterProperties: PropertiesTableProps = {
   text: {
     doc: 'The text to count characters from.',
-    type: ['string'],
+    type: 'string',
     status: 'required',
   },
   max: {
     doc: 'The maximum number of characters allowed.',
-    type: ['number'],
+    type: 'number',
     status: 'required',
   },
   variant: {
