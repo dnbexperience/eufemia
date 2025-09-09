@@ -56,6 +56,13 @@ describe.each(['ui', 'sbanken'])('Card for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('have to match in colored section', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="card-in-colored-section"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match flex', async () => {
     const screenshot = await makeScreenshot({
       addWrapper: false,

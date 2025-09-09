@@ -311,6 +311,19 @@ export const WithNestedSection = () => {
   )
 }
 
+export const InColoredSection = () => {
+  return (
+    <ComponentBox data-visual-test="card-in-colored-section">
+      <Section
+        backgroundColor="var(--color-signal-orange)"
+        spacing="large"
+      >
+        <Card>Some card</Card>
+      </Section>
+    </ComponentBox>
+  )
+}
+
 export const WithOutset = () => {
   return (
     <ComponentBox data-visual-test="layout-card-outset">
