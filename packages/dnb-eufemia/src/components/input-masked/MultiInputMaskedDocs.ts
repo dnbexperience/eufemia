@@ -51,7 +51,7 @@ export const multiInputMaskedProperties: PropertiesTableProps = {
   },
   status: {
     doc: 'text with a status message. The style defaults to an error message. You can use true to only get the status color, without a message.`.',
-    type: ['React.ReactNode'],
+    type: 'React.ReactNode',
     status: 'optional',
   },
   statusState: {

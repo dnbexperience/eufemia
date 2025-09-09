@@ -8,7 +8,7 @@ export const UploadProperties: PropertiesTableProps = {
   },
   children: {
     doc: 'Content to display below the `title` and `text`. Can be used to add custom content.',
-    type: ['React.ReactNode'],
+    type: 'React.ReactNode',
     status: 'optional',
   },
   variant: {
