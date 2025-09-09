@@ -792,8 +792,8 @@ button .dnb-form-status__text {
 .dnb-upload__file-input {
   position: absolute;
   visibility: hidden;
-  width: 0;
-  height: 0;
+  width: 1px;
+  height: 1px;
 }
 .dnb-upload__file-list {
   position: relative;
