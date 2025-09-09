@@ -69,7 +69,8 @@
   &__file-input {
     position: absolute;
     visibility: hidden;
-    max-height: 0;
+    width: 0;
+    height: 0;
   }
 
   &__file-list {
