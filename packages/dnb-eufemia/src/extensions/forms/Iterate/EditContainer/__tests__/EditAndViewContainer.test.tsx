@@ -194,6 +194,236 @@ describe('EditContainer and ViewContainer', () => {
     expect(containerMode).toBe('edit')
   })
 
+  describe('Cancel routine', () => {
+    it('should stay in edit and show container error on Cancel after submit error', async () => {
+      let containerMode = null
+
+      const ContextConsumer = () => {
+        const context = React.useContext(IterateItemContext)
+        containerMode = context.containerMode
+        return null
+      }
+
+      render(
+        <Form.Handler>
+          <Iterate.Array value={[null]}>
+            <Iterate.EditContainer>
+              <Field.String required itemPath="/" />
+            </Iterate.EditContainer>
+            <Iterate.ViewContainer>content</Iterate.ViewContainer>
+            <ContextConsumer />
+          </Iterate.Array>
+        </Form.Handler>
+      )
+
+      // Submit to open edit due to error
+      const input = document.querySelector('input')
+      fireEvent.submit(input)
+
+      expect(containerMode).toBe('edit')
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toBeInTheDocument()
+      })
+
+      // Press Cancel (find by translated label)
+      const buttons = Array.from(document.querySelectorAll('button'))
+      const cancelButton = buttons.find(
+        (btn) => btn.textContent?.trim() === tr.editContainer.cancelButton
+      ) as HTMLButtonElement
+      await userEvent.click(cancelButton)
+
+      // Should stay in edit mode and show the iterate error message on toolbar
+      await waitFor(() => {
+        expect(containerMode).toBe('edit')
+        const status = document.querySelector(
+          '.dnb-forms-iterate-toolbar .dnb-form-status'
+        )
+        expect(status).toBeInTheDocument()
+      })
+    })
+
+    it('should keep edit after cancel when required error exists, and submit should still be edit', async () => {
+      let containerMode = null
+
+      const ContextConsumer = () => {
+        const context = React.useContext(IterateItemContext)
+        containerMode = context.containerMode
+        return null
+      }
+
+      render(
+        <Form.Handler>
+          <Iterate.Array value={[{ name: '' }]}>
+            <Iterate.EditContainer>
+              <Field.String path="/name" label="Name" required />
+            </Iterate.EditContainer>
+            <Iterate.ViewContainer>view</Iterate.ViewContainer>
+            <ContextConsumer />
+          </Iterate.Array>
+        </Form.Handler>
+      )
+
+      const element = document.querySelector('.dnb-forms-iterate__element')
+      const viewBlock = element
+        .querySelector('.dnb-forms-section-view-block')
+        .closest('.dnb-forms-section-block')
+      const editBlock = element
+        .querySelector('.dnb-forms-section-edit-block')
+        .closest('.dnb-forms-section-block')
+
+      // Initially edit due to required error
+      expect(containerMode).toBe('edit')
+      expect(viewBlock.className).toContain('dnb-height-animation--hidden')
+      expect(editBlock.className).not.toContain(
+        'dnb-height-animation--hidden'
+      )
+
+      // Cancel should keep edit (because errors exist)
+      const buttons = Array.from(document.querySelectorAll('button'))
+      const cancelButton = buttons.find(
+        (btn) => btn.textContent?.trim() === tr.editContainer.cancelButton
+      )
+      await userEvent.click(cancelButton)
+
+      await waitFor(() => {
+        expect(containerMode).toBe('edit')
+        expect(editBlock.className).not.toContain(
+          'dnb-height-animation--hidden'
+        )
+        expect(viewBlock.className).toContain(
+          'dnb-height-animation--hidden'
+        )
+      })
+
+      // Submit while still invalid should stay edit and hide view
+      const form = document.querySelector('form')
+      fireEvent.submit(form)
+
+      // Only edit should be open
+      expect(containerMode).toBe('edit')
+      await waitFor(() => {
+        expect(viewBlock.className).toContain(
+          'dnb-height-animation--hidden'
+        )
+        expect(editBlock.className).not.toContain(
+          'dnb-height-animation--hidden'
+        )
+      })
+    })
+
+    it('should keep edit after cancel (when view is rendered first), and submit should still be edit', async () => {
+      let containerMode = null
+
+      const ContextConsumer = () => {
+        const context = React.useContext(IterateItemContext)
+        containerMode = context.containerMode
+        return null
+      }
+
+      render(
+        <Form.Handler>
+          <Iterate.Array value={[{ name: '' }]}>
+            <Iterate.ViewContainer>view</Iterate.ViewContainer>
+            <Iterate.EditContainer>
+              <Field.String path="/name" label="Name" required />
+            </Iterate.EditContainer>
+            <ContextConsumer />
+          </Iterate.Array>
+        </Form.Handler>
+      )
+
+      const element = document.querySelector('.dnb-forms-iterate__element')
+      const viewBlock = element
+        .querySelector('.dnb-forms-section-view-block')
+        .closest('.dnb-forms-section-block')
+      const editBlock = element
+        .querySelector('.dnb-forms-section-edit-block')
+        .closest('.dnb-forms-section-block')
+
+      // Initially edit due to required error
+      expect(containerMode).toBe('edit')
+      expect(viewBlock.className).toContain('dnb-height-animation--hidden')
+      expect(editBlock.className).not.toContain(
+        'dnb-height-animation--hidden'
+      )
+
+      // Cancel should keep edit (by label)
+      const buttons = Array.from(document.querySelectorAll('button'))
+      const cancelButton = buttons.find(
+        (btn) => btn.textContent?.trim() === tr.editContainer.cancelButton
+      )
+      await userEvent.click(cancelButton)
+
+      await waitFor(() => {
+        expect(containerMode).toBe('edit')
+        expect(editBlock.className).not.toContain(
+          'dnb-height-animation--hidden'
+        )
+        expect(viewBlock.className).toContain(
+          'dnb-height-animation--hidden'
+        )
+      })
+
+      // Submit while still invalid should stay edit and hide view
+      const form = document.querySelector('form')
+      fireEvent.submit(form)
+
+      // Only edit should be open
+      expect(containerMode).toBe('edit')
+      await waitFor(() => {
+        expect(viewBlock.className).toContain(
+          'dnb-height-animation--hidden'
+        )
+        expect(editBlock.className).not.toContain(
+          'dnb-height-animation--hidden'
+        )
+      })
+    })
+
+    it('should reset entered data on Cancel press, when containerMode is set to "edit"', async () => {
+      let containerMode = null
+
+      const ContextConsumer = () => {
+        const context = React.useContext(IterateItemContext)
+        containerMode = context.containerMode
+        return null
+      }
+
+      render(
+        <Form.Handler>
+          <Iterate.Array value={['bar']} containerMode="edit">
+            <Iterate.EditContainer>
+              <Field.String itemPath="/" required />
+            </Iterate.EditContainer>
+            <Iterate.ViewContainer>content</Iterate.ViewContainer>
+            <ContextConsumer />
+          </Iterate.Array>
+        </Form.Handler>
+      )
+
+      expect(containerMode).toBe('edit')
+
+      const input = document.querySelector('input') as HTMLInputElement
+      expect(input).toHaveValue('bar')
+
+      await userEvent.type(input, ' additional')
+      expect(input).toHaveValue('bar additional')
+
+      const buttons = Array.from(document.querySelectorAll('button'))
+      const cancelButton = buttons.find(
+        (btn) => btn.textContent?.trim() === tr.editContainer.cancelButton
+      )
+      await userEvent.click(cancelButton)
+
+      await waitFor(() => {
+        expect(containerMode).toBe('view')
+      })
+      expect(input).toHaveValue('bar')
+    })
+  })
+
   it('should not show error if every field is required via Form.Handler required', async () => {
     let containerMode = null
 
@@ -350,7 +580,6 @@ describe('EditContainer and ViewContainer', () => {
         )
         expect(elements).toHaveLength(2)
 
-        const firstElement = elements[0]
         const secondElement = elements[1]
         const [, editBlock] = Array.from(
           secondElement.querySelectorAll('.dnb-forms-section-block')
@@ -362,9 +591,7 @@ describe('EditContainer and ViewContainer', () => {
         await waitFor(() => {
           expect(editBlock).toHaveStyle('height: auto;')
         })
-        expect(
-          firstElement.querySelector('.dnb-forms-section-block')
-        ).toHaveStyle('height: 0;')
+        // First element is no longer required to collapse height here
         expect(secondElement).toHaveFocus()
         expect(containerMode).toEqual([
           'edit',
@@ -595,15 +822,11 @@ describe('EditContainer and ViewContainer', () => {
 
     await userEvent.click(cancelButton)
 
-    expect(
-      document.querySelector('.dnb-form-status')
-    ).not.toBeInTheDocument()
+    expect(document.querySelector('.dnb-form-status')).toBeInTheDocument()
 
     await userEvent.click(editButton)
 
-    expect(
-      document.querySelector('.dnb-form-status')
-    ).not.toBeInTheDocument()
+    expect(document.querySelector('.dnb-form-status')).toBeInTheDocument()
 
     await userEvent.click(doneButton)
 

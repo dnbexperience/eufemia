@@ -8,7 +8,7 @@ import nbNO from '../../../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO']
 
 describe('EditContainer and ViewContainer', () => {
-  it('should switch mode on pressing edit button', () => {
+  it('should switch mode on pressing edit button', async () => {
     let containerMode = null
 
     const ContextConsumer = () => {
@@ -41,15 +41,21 @@ describe('EditContainer and ViewContainer', () => {
 
     // Switch to edit mode
     fireEvent.click(viewBlock.querySelector('button'))
-    expect(containerMode).toBe('edit')
+    await waitFor(() => {
+      expect(containerMode).toBe('edit')
+    })
 
     // Switch to view mode
     fireEvent.click(editBlock.querySelector('button'))
-    expect(containerMode).toBe('view')
+    await waitFor(() => {
+      expect(containerMode).toBe('view')
+    })
 
     // Switch to edit mode
     fireEvent.click(viewBlock.querySelector('button'))
-    expect(containerMode).toBe('edit')
+    await waitFor(() => {
+      expect(containerMode).toBe('edit')
+    })
   })
 
   it('should switch mode from view to edit on error during submit', async () => {
@@ -97,226 +103,6 @@ describe('EditContainer and ViewContainer', () => {
     expect(containerMode).toBe('edit')
   })
 
-  it('should keep edit open and show section error on Cancel after submit error', async () => {
-    let containerMode = null
-
-    const ContextConsumer = () => {
-      const context = React.useContext(SectionContainerContext)
-      containerMode = context.containerMode
-      return null
-    }
-
-    render(
-      <Form.Handler>
-        <Form.Section>
-          <Form.Section.EditContainer>
-            <Field.String
-              path="/"
-              label="Label"
-              onBlurValidator={() => new Error('Error message')}
-            />
-          </Form.Section.EditContainer>
-
-          <Form.Section.ViewContainer>content</Form.Section.ViewContainer>
-          <ContextConsumer />
-        </Form.Section>
-      </Form.Handler>
-    )
-
-    // Submit to open edit due to error
-    const input = document.querySelector('input')
-    await userEvent.type(input, 'x{Backspace}')
-    fireEvent.submit(document.querySelector('form'))
-
-    expect(containerMode).toBe('edit')
-    expect(document.querySelector('.dnb-form-status')).toBeInTheDocument()
-
-    // Press Cancel
-    const buttons = Array.from(document.querySelectorAll('button'))
-    const cancelButton = buttons.find(
-      (btn) =>
-        btn.textContent?.trim() === nb.SectionEditContainer.cancelButton
-    )
-    await userEvent.click(cancelButton)
-
-    // Should still be in edit mode and show the section error message
-    expect(containerMode).toBe('edit')
-    const status = document.querySelector(
-      '.dnb-forms-section-toolbar .dnb-form-status'
-    )
-    expect(status).toBeInTheDocument()
-    expect(status).toHaveTextContent(
-      nb.SectionEditContainer.errorInSection
-    )
-  })
-
-  it('should not show ViewContainer after cancel then form submit', async () => {
-    let containerMode = null
-
-    const ContextConsumer = () => {
-      const context = React.useContext(SectionContainerContext)
-      containerMode = context.containerMode
-      return null
-    }
-
-    render(
-      <Form.Handler>
-        <Form.Section>
-          <Form.Section.EditContainer>
-            <Field.String path="/name" label="Name" required />
-          </Form.Section.EditContainer>
-          <Form.Section.ViewContainer>view</Form.Section.ViewContainer>
-          <ContextConsumer />
-        </Form.Section>
-      </Form.Handler>
-    )
-
-    const viewBlock = document
-      .querySelector('.dnb-forms-section-view-block')
-      .closest('.dnb-forms-section-block')
-    const editBlock = document
-      .querySelector('.dnb-forms-section-edit-block')
-      .closest('.dnb-forms-section-block')
-
-    // Initially edit due to required error
-    expect(containerMode).toBe('edit')
-    expect(viewBlock.className).toContain('dnb-height-animation--hidden')
-    expect(editBlock.className).not.toContain(
-      'dnb-height-animation--hidden'
-    )
-
-    // Cancel to switch to view
-    const [, cancelButton] = Array.from(
-      document.querySelectorAll('button')
-    )
-    await userEvent.click(cancelButton)
-    expect(containerMode).toBe('view')
-    await waitFor(() => {
-      expect(editBlock.className).toContain('dnb-height-animation--hidden')
-      expect(viewBlock.className).not.toContain(
-        'dnb-height-animation--hidden'
-      )
-    })
-
-    // Submit while still invalid should force edit and hide view
-    const form = document.querySelector('form')
-    fireEvent.submit(form)
-
-    // Only edit should be open
-    expect(containerMode).toBe('edit')
-    await waitFor(() => {
-      expect(viewBlock.className).toContain('dnb-height-animation--hidden')
-      expect(editBlock.className).not.toContain(
-        'dnb-height-animation--hidden'
-      )
-    })
-  })
-
-  it('should not show ViewContainer (when rendered before EditContainer) after cancel then form submit', async () => {
-    let containerMode = null
-
-    const ContextConsumer = () => {
-      const context = React.useContext(SectionContainerContext)
-      containerMode = context.containerMode
-      return null
-    }
-
-    render(
-      <Form.Handler>
-        <Form.Section>
-          <Form.Section.ViewContainer>view</Form.Section.ViewContainer>
-          <Form.Section.EditContainer>
-            <Field.String path="/name" label="Name" required />
-          </Form.Section.EditContainer>
-          <ContextConsumer />
-        </Form.Section>
-      </Form.Handler>
-    )
-
-    const viewBlock = document
-      .querySelector('.dnb-forms-section-view-block')
-      .closest('.dnb-forms-section-block')
-    const editBlock = document
-      .querySelector('.dnb-forms-section-edit-block')
-      .closest('.dnb-forms-section-block')
-
-    // Initially edit due to required error
-    expect(containerMode).toBe('edit')
-    expect(viewBlock.className).toContain('dnb-height-animation--hidden')
-    expect(editBlock.className).not.toContain(
-      'dnb-height-animation--hidden'
-    )
-
-    // Cancel to switch to view (select by accessible name to avoid order dependence)
-    const buttons = Array.from(document.querySelectorAll('button'))
-    const foundCancel = buttons.find(
-      (btn) =>
-        btn.textContent?.trim() === nb.SectionEditContainer.cancelButton
-    )
-    await userEvent.click(foundCancel)
-    expect(containerMode).toBe('view')
-    await waitFor(() => {
-      expect(editBlock.className).toContain('dnb-height-animation--hidden')
-      expect(viewBlock.className).not.toContain(
-        'dnb-height-animation--hidden'
-      )
-    })
-
-    // Submit while still invalid should force edit and hide view
-    const form = document.querySelector('form')
-    fireEvent.submit(form)
-
-    // Only edit should be open
-    expect(containerMode).toBe('edit')
-    await waitFor(() => {
-      expect(viewBlock.className).toContain('dnb-height-animation--hidden')
-      expect(editBlock.className).not.toContain(
-        'dnb-height-animation--hidden'
-      )
-    })
-  })
-
-  it('should reset entered data on Cancel press, when containerMode is set to "edit"', async () => {
-    let containerMode = null
-
-    const ContextConsumer = () => {
-      const context = React.useContext(SectionContainerContext)
-      containerMode = context.containerMode
-
-      return null
-    }
-
-    render(
-      <Form.Handler data={{ foo: 'bar' }}>
-        <Form.Section containerMode="edit" path="/">
-          <Form.Section.EditContainer>
-            <Field.String path="/foo" required />
-          </Form.Section.EditContainer>
-
-          <Form.Section.ViewContainer>content</Form.Section.ViewContainer>
-
-          <ContextConsumer />
-        </Form.Section>
-      </Form.Handler>
-    )
-
-    expect(containerMode).toBe('edit')
-
-    const input = document.querySelector('input')
-    expect(input).toHaveValue('bar')
-
-    await userEvent.type(input, ' additional')
-    expect(input).toHaveValue('bar additional')
-
-    const [, cancelButton] = Array.from(
-      document.querySelectorAll('button')
-    )
-    await userEvent.click(cancelButton)
-
-    expect(containerMode).toBe('view')
-    expect(input).toHaveValue('bar')
-  })
-
   it('should open in view mode when there are no errors', async () => {
     let containerMode = null
 
@@ -340,6 +126,308 @@ describe('EditContainer and ViewContainer', () => {
     )
 
     expect(containerMode).toBe('view')
+  })
+
+  describe('Cancel routine', () => {
+    it('should keep edit open and show section error on Cancel after submit error', async () => {
+      let containerMode = null
+
+      const ContextConsumer = () => {
+        const context = React.useContext(SectionContainerContext)
+        containerMode = context.containerMode
+        return null
+      }
+
+      render(
+        <Form.Handler>
+          <Form.Section>
+            <Form.Section.EditContainer>
+              <Field.String
+                path="/"
+                label="Label"
+                onBlurValidator={() => new Error('Error message')}
+              />
+            </Form.Section.EditContainer>
+
+            <Form.Section.ViewContainer>
+              content
+            </Form.Section.ViewContainer>
+            <ContextConsumer />
+          </Form.Section>
+        </Form.Handler>
+      )
+
+      // Submit to open edit due to error
+      const input = document.querySelector('input')
+      await userEvent.type(input, 'x{Backspace}')
+      fireEvent.submit(document.querySelector('form'))
+
+      expect(containerMode).toBe('edit')
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).toBeInTheDocument()
+
+      // Press Cancel
+      const buttons = Array.from(document.querySelectorAll('button'))
+      const cancelButton = buttons.find(
+        (btn) =>
+          btn.textContent?.trim() === nb.SectionEditContainer.cancelButton
+      )
+      await userEvent.click(cancelButton)
+
+      // Should still be in edit mode and show the section error message
+      await waitFor(() => {
+        expect(containerMode).toBe('edit')
+        const status = document.querySelector(
+          '.dnb-forms-section-toolbar .dnb-form-status'
+        )
+        expect(status).toBeInTheDocument()
+        expect(status).toHaveTextContent(
+          nb.SectionEditContainer.errorInSection
+        )
+      })
+    })
+
+    it('should call restoreOriginalData and restore values on Cancel after submit error', async () => {
+      const restoreSpy = jest.fn()
+      const useContainerDataStoreModule = jest.requireActual(
+        '../useContainerDataStore'
+      )
+      const originalHook = useContainerDataStoreModule.default
+      const mockUseContainerDataStore = jest
+        .spyOn(useContainerDataStoreModule, 'default')
+        .mockImplementation(() => {
+          const res = originalHook()
+          return {
+            ...res,
+            restoreOriginalData: (...args: unknown[]) => {
+              restoreSpy()
+              return res.restoreOriginalData(...args)
+            },
+          }
+        })
+
+      render(
+        <Form.Handler data={{ foo: 'bar' }}>
+          <Form.Section containerMode="edit">
+            <Form.Section.EditContainer>
+              <Field.String
+                path="/foo"
+                label="Label"
+                onBlurValidator={() => new Error('Error message')}
+              />
+            </Form.Section.EditContainer>
+
+            <Form.Section.ViewContainer>
+              content
+            </Form.Section.ViewContainer>
+          </Form.Section>
+        </Form.Handler>
+      )
+
+      const input = document.querySelector('input') as HTMLInputElement
+      expect(input).toHaveValue('bar')
+
+      // Change value and submit to create submit error state
+      await userEvent.type(input, ' changed')
+      expect(input).toHaveValue('bar changed')
+      fireEvent.submit(document.querySelector('form'))
+
+      // Click Cancel (select by label to avoid order issues)
+      const buttons = Array.from(document.querySelectorAll('button'))
+      const cancelButton = buttons.find(
+        (btn) =>
+          btn.textContent?.trim() === nb.SectionEditContainer.cancelButton
+      ) as HTMLButtonElement
+      await userEvent.click(cancelButton)
+
+      // Assert restoreOriginalData was called and value restored
+      await waitFor(() => {
+        expect(restoreSpy.mock.calls.length).toBeGreaterThanOrEqual(1)
+        expect(input).toHaveValue('bar')
+      })
+
+      mockUseContainerDataStore.mockRestore()
+    })
+
+    it('should keep edit after cancel then form submit when invalid', async () => {
+      let containerMode = null
+
+      const ContextConsumer = () => {
+        const context = React.useContext(SectionContainerContext)
+        containerMode = context.containerMode
+        return null
+      }
+
+      render(
+        <Form.Handler>
+          <Form.Section>
+            <Form.Section.EditContainer>
+              <Field.String path="/name" label="Name" required />
+            </Form.Section.EditContainer>
+            <Form.Section.ViewContainer>view</Form.Section.ViewContainer>
+            <ContextConsumer />
+          </Form.Section>
+        </Form.Handler>
+      )
+
+      const viewBlock = document
+        .querySelector('.dnb-forms-section-view-block')
+        .closest('.dnb-forms-section-block')
+      const editBlock = document
+        .querySelector('.dnb-forms-section-edit-block')
+        .closest('.dnb-forms-section-block')
+
+      // Initially edit due to required error
+      expect(containerMode).toBe('edit')
+      expect(viewBlock.className).toContain('dnb-height-animation--hidden')
+      expect(editBlock.className).not.toContain(
+        'dnb-height-animation--hidden'
+      )
+
+      // Cancel should keep edit because errors exist
+      const [, cancelButton] = Array.from(
+        document.querySelectorAll('button')
+      )
+      await userEvent.click(cancelButton)
+      await waitFor(() => {
+        expect(containerMode).toBe('edit')
+        expect(editBlock.className).not.toContain(
+          'dnb-height-animation--hidden'
+        )
+        expect(viewBlock.className).toContain(
+          'dnb-height-animation--hidden'
+        )
+      })
+
+      // Submit while still invalid should force edit and hide view
+      const form = document.querySelector('form')
+      fireEvent.submit(form)
+
+      // Only edit should be open
+      expect(containerMode).toBe('edit')
+      await waitFor(() => {
+        expect(viewBlock.className).toContain(
+          'dnb-height-animation--hidden'
+        )
+        expect(editBlock.className).not.toContain(
+          'dnb-height-animation--hidden'
+        )
+      })
+    })
+
+    it('should keep edit (when view rendered first) after cancel then submit when invalid', async () => {
+      let containerMode = null
+
+      const ContextConsumer = () => {
+        const context = React.useContext(SectionContainerContext)
+        containerMode = context.containerMode
+        return null
+      }
+
+      render(
+        <Form.Handler>
+          <Form.Section>
+            <Form.Section.ViewContainer>view</Form.Section.ViewContainer>
+            <Form.Section.EditContainer>
+              <Field.String path="/name" label="Name" required />
+            </Form.Section.EditContainer>
+            <ContextConsumer />
+          </Form.Section>
+        </Form.Handler>
+      )
+
+      const viewBlock = document
+        .querySelector('.dnb-forms-section-view-block')
+        .closest('.dnb-forms-section-block')
+      const editBlock = document
+        .querySelector('.dnb-forms-section-edit-block')
+        .closest('.dnb-forms-section-block')
+
+      // Initially edit due to required error
+      expect(containerMode).toBe('edit')
+      expect(viewBlock.className).toContain('dnb-height-animation--hidden')
+      expect(editBlock.className).not.toContain(
+        'dnb-height-animation--hidden'
+      )
+
+      // Cancel to switch to view (select by accessible name to avoid order dependence)
+      const buttons = Array.from(document.querySelectorAll('button'))
+      const foundCancel = buttons.find(
+        (btn) =>
+          btn.textContent?.trim() === nb.SectionEditContainer.cancelButton
+      )
+      await userEvent.click(foundCancel)
+      await waitFor(() => {
+        expect(containerMode).toBe('edit')
+        expect(editBlock.className).not.toContain(
+          'dnb-height-animation--hidden'
+        )
+        expect(viewBlock.className).toContain(
+          'dnb-height-animation--hidden'
+        )
+      })
+
+      // Submit while still invalid should force edit and hide view
+      const form = document.querySelector('form')
+      fireEvent.submit(form)
+
+      // Only edit should be open
+      expect(containerMode).toBe('edit')
+      await waitFor(() => {
+        expect(viewBlock.className).toContain(
+          'dnb-height-animation--hidden'
+        )
+        expect(editBlock.className).not.toContain(
+          'dnb-height-animation--hidden'
+        )
+      })
+    })
+
+    it('should reset entered data on Cancel press, when containerMode is set to "edit"', async () => {
+      let containerMode = null
+
+      const ContextConsumer = () => {
+        const context = React.useContext(SectionContainerContext)
+        containerMode = context.containerMode
+
+        return null
+      }
+
+      render(
+        <Form.Handler data={{ foo: 'bar' }}>
+          <Form.Section containerMode="edit" path="/">
+            <Form.Section.EditContainer>
+              <Field.String path="/foo" required />
+            </Form.Section.EditContainer>
+
+            <Form.Section.ViewContainer>
+              content
+            </Form.Section.ViewContainer>
+
+            <ContextConsumer />
+          </Form.Section>
+        </Form.Handler>
+      )
+
+      expect(containerMode).toBe('edit')
+
+      const input = document.querySelector('input')
+      expect(input).toHaveValue('bar')
+
+      await userEvent.type(input, ' additional')
+      expect(input).toHaveValue('bar additional')
+
+      const [, cancelButton] = Array.from(
+        document.querySelectorAll('button')
+      )
+      await userEvent.click(cancelButton)
+
+      await waitFor(() => {
+        expect(containerMode).toBe('view')
+      })
+      expect(input).toHaveValue('bar')
+    })
   })
 
   describe('validateInitially', () => {
@@ -444,7 +532,7 @@ describe('EditContainer and ViewContainer', () => {
       ).toHaveTextContent(nb.SectionEditContainer.errorInSection)
     })
 
-    it('the cancel button should cancel the edit mode', async () => {
+    it('the cancel button should keep edit mode when invalid', async () => {
       let containerMode = null
 
       const ContextConsumer = () => {
@@ -479,13 +567,13 @@ describe('EditContainer and ViewContainer', () => {
 
       await userEvent.click(cancelButton)
 
+      // With invalid fields, cancel keeps edit and shows errors
       await waitFor(() => {
-        expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(
-          0
-        )
+        expect(
+          document.querySelectorAll('.dnb-form-status').length
+        ).toBeGreaterThan(0)
       })
-
-      expect(containerMode).toBe('view')
+      expect(containerMode).toBe('edit')
     })
   })
 
@@ -709,12 +797,17 @@ describe('EditContainer and ViewContainer', () => {
     await userEvent.type(input, ' additional')
     expect(input).toHaveValue('bar additional')
 
-    const [, cancelButton] = Array.from(
-      document.querySelectorAll('button')
+    const buttons = Array.from(document.querySelectorAll('button'))
+    const cancelButton = buttons.find(
+      (btn) =>
+        btn.textContent?.trim() === nb.SectionEditContainer.cancelButton
     )
     await userEvent.click(cancelButton)
 
-    expect(containerMode).toBe('view')
+    await waitFor(() => {
+      expect(containerMode).toBe('view')
+    })
+
     expect(input).toHaveValue('bar')
   })
 
@@ -873,19 +966,25 @@ describe('EditContainer and ViewContainer', () => {
       </Form.Section>
     )
 
-    const [, cancelButton] = Array.from(
-      document.querySelectorAll('button')
+    const buttons = Array.from(document.querySelectorAll('button'))
+    const cancelButton = buttons.find(
+      (btn) =>
+        btn.textContent?.trim() === nb.SectionEditContainer.cancelButton
     )
     await userEvent.click(cancelButton)
-    expect(onCancel).toHaveBeenCalledTimes(1)
+    await waitFor(() => {
+      expect(onCancel).toHaveBeenCalledTimes(1)
+    })
 
     await userEvent.type(document.querySelector('input'), 'foo')
 
     await userEvent.click(cancelButton)
-    expect(onCancel).toHaveBeenCalledTimes(2)
+    await waitFor(() => {
+      expect(onCancel).toHaveBeenCalledTimes(2)
+    })
   })
 
-  it('should emit "onEdit" event when cancel button is clicked', async () => {
+  it('should emit "onEdit" event when edit button is clicked', async () => {
     const onEdit = jest.fn()
 
     render(
@@ -898,8 +997,10 @@ describe('EditContainer and ViewContainer', () => {
       </Form.Section>
     )
 
-    const [, , editButton] = Array.from(
-      document.querySelectorAll('button')
+    const buttons = Array.from(document.querySelectorAll('button'))
+    const editButton = buttons.find(
+      (btn) =>
+        btn.textContent?.trim() === nb.SectionViewContainer.editButton
     )
 
     await userEvent.click(editButton)

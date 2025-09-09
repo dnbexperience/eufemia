@@ -1,5 +1,5 @@
 import React from 'react'
-import { fireEvent, render } from '@testing-library/react'
+import { fireEvent, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Field, Form, JSONSchema, Tools } from '../../'
 
@@ -158,17 +158,18 @@ describe('Tools.Errors', () => {
 
     await userEvent.click(commitButton)
 
-    // After commit, the errors should be cleared,
-    // which we achieve with the "forceUpdate" in handleSetFieldError.
-    expect(element.textContent).toBe(
-      JSON.stringify(
-        {
-          fieldErrors: {},
-          formErrors: {},
-        },
-        null,
-        2
-      ) + ' '
+    // After commit, the errors should be cleared (forceUpdate schedules async)
+    await waitFor(() =>
+      expect(element.textContent).toBe(
+        JSON.stringify(
+          {
+            fieldErrors: {},
+            formErrors: {},
+          },
+          null,
+          2
+        ) + ' '
+      )
     )
   })
 })
