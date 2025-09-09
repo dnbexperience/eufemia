@@ -13,6 +13,7 @@ import {
   extendPropsWithContextInClassComponent,
   validateDOMAttributes,
   keycode,
+  warn,
 } from '../../shared/component-helper'
 import type { SpacingProps } from '../../shared/types'
 
@@ -92,6 +93,8 @@ export type DrawerListSize =
 export type DrawerListGroup<T> = {
   groupTitle: React.ReactNode
   groupData: T
+  /** Make title screen reader only */
+  hideTitle?: boolean
 }
 
 export type DrawerListGroupTitles = React.ReactNode[]
@@ -432,8 +435,8 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
     } = noNullNumbers(this.context.drawerList)
 
     const renderData = makeRenderData(data, groups)
-    const hasTitledGroup =
-      renderData.length > 0 && renderData[0].groupTitle !== undefined
+    const hasGroups =
+      renderData.length > 1 || renderData[0]?.groupTitle !== undefined
 
     const mainParams = {
       id: `${id}-drawer-list`,
@@ -521,86 +524,90 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
     const ignoreEvents = isTrue(ignore_events)
 
     const GroupItems = () =>
-      renderData.map(({ groupTitle, groupData: data }, j) => {
-        const Items = () =>
-          data.map((dataItem, i) => {
-            const _id = dataItem.__id
-            const hash = `option-${id}-${_id}-${i}`
-            const liParams = {
-              role: role === 'menu' ? 'menuitem' : 'option',
-              'data-item': _id,
-              id: `option-${id}-${_id}`,
-              hash,
-              className: classnames(
-                // helper classes
-                j === 0 && i === 0 && 'first-item',
-                j === renderData.length - 1 &&
-                  i === data.length - 1 &&
-                  'last-item',
-                i === closestToTop && 'closest-to-top',
-                i === closestToBottom && 'closest-to-bottom',
-                i === 0 && 'first-of-type', // because of the triangle element
-                i === data.length - 1 && 'last-of-type', // because of the triangle element
-                ignoreEvents ||
-                  (dataItem.ignore_events && 'ignore-events'),
-                dataItem.class_name
-              ),
-              active: _id == active_item,
-              selected: !dataItem.ignore_events && _id == selected_item,
-              onClick: this.selectItemHandler,
-              onKeyDown: this.preventTab,
-              disabled: dataItem.disabled,
-              style: dataItem.style,
-            }
+      renderData
+        .filter(Boolean) // filter out empty groups
+        .map(({ groupTitle, groupData: data, hideTitle }, j) => {
+          const Items = () =>
+            data.map((dataItem, i) => {
+              const _id = dataItem.__id
+              const hash = `option-${id}-${_id}-${i}`
+              const liParams = {
+                role: role === 'menu' ? 'menuitem' : 'option',
+                'data-item': _id,
+                id: `option-${id}-${_id}`,
+                hash,
+                className: classnames(
+                  // helper classes
+                  j === 0 && i === 0 && 'first-item',
+                  j === renderData.length - 1 &&
+                    i === data.length - 1 &&
+                    'last-item',
+                  i === closestToTop && 'closest-to-top',
+                  i === closestToBottom && 'closest-to-bottom',
+                  i === 0 && 'first-of-type', // because of the triangle element
+                  i === data.length - 1 && 'last-of-type', // because of the triangle element
+                  ignoreEvents ||
+                    (dataItem.ignore_events && 'ignore-events'),
+                  dataItem.class_name
+                ),
+                active: _id == active_item,
+                selected: !dataItem.ignore_events && _id == selected_item,
+                onClick: this.selectItemHandler,
+                onKeyDown: this.preventTab,
+                disabled: dataItem.disabled,
+                style: dataItem.style,
+              }
+              if (ignoreEvents) {
+                liParams.active = null
+                liParams.selected = null
+                liParams.onClick = null
+                liParams.onKeyDown = null
+                liParams.className = classnames(
+                  liParams.className,
+                  'dnb-drawer-list__option--ignore'
+                )
+              }
 
-            if (ignoreEvents) {
-              liParams.active = null
-              liParams.selected = null
-              liParams.onClick = null
-              liParams.onKeyDown = null
-              liParams.className = classnames(
-                liParams.className,
-                'dnb-drawer-list__option--ignore'
+              return (
+                <DrawerList.Item key={hash} {...liParams}>
+                  {dataItem}
+                </DrawerList.Item>
               )
-            }
-
-            return (
-              <DrawerList.Item key={hash} {...liParams}>
-                {dataItem}
-              </DrawerList.Item>
+            })
+          const ItemsRendered = () =>
+            typeof options_render === 'function' ? (
+              options_render({ data, Items, Item: DrawerList.Item })
+            ) : (
+              <Items />
             )
-          })
-        const ItemsRendered = () =>
-          typeof options_render === 'function' ? (
-            options_render({ data, Items, Item: DrawerList.Item })
-          ) : (
-            <Items />
-          )
 
-        return hasTitledGroup ? (
-          <ul
-            key={j}
-            role="group"
-            aria-labelledby={`${id}-group-title-${j}`}
-            className={classnames(
-              'dnb-drawer-list__group',
-              j === 0 && 'first-of-type',
-              j === renderData.length - 1 && 'last-of-type'
-            )}
-          >
-            <li
-              id={`${id}-group-title-${j}`}
-              role="presentation"
-              className="dnb-drawer-list__group-title"
+          return hasGroups ? (
+            <ul
+              key={j}
+              role="group"
+              aria-labelledby={`${id}-group-title-${j}`}
+              className={classnames(
+                'dnb-drawer-list__group',
+                j === 0 && 'first-of-type',
+                j === renderData.length - 1 && 'last-of-type'
+              )}
             >
-              {groupTitle}
-            </li>
-            <ItemsRendered />
-          </ul>
-        ) : (
-          <ItemsRendered key={j} />
-        )
-      })
+              <li
+                id={`${id}-group-title-${j}`}
+                role="presentation"
+                className={classnames(
+                  'dnb-drawer-list__group-title',
+                  hideTitle && 'dnb-sr-only'
+                )}
+              >
+                {groupTitle}
+              </li>
+              <ItemsRendered />
+            </ul>
+          ) : (
+            <ItemsRendered key={j} />
+          )
+        })
 
     const mainList = (
       <span {...mainParams} ref={_refShell}>
@@ -608,7 +615,7 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
           {hidden === false && renderData.length > 0 ? (
             <>
               <DrawerList.Options
-                hasGroups={hasTitledGroup}
+                hasGroups={hasGroups}
                 cache_hash={
                   cache_hash +
                   active_item +
@@ -677,13 +684,27 @@ function makeRenderData(
   const noIndex = []
 
   if (Array.isArray(data) && data.length > 0) {
-    data.forEach((dataItem, i) => {
-      const index = dataItem.groupIndex ?? null
+    data.forEach((dataItem) => {
+      const index = dataItem.groupIndex ?? undefined
 
-      if (groups?.[index]) {
+      if (index >= 0) {
         if (!renderData[index]) {
+          let groupTitle = groups?.[index]
+          let hideTitle = false
+
+          if (!groupTitle) {
+            if (index === 0) {
+              groupTitle = 'Standardvalg' // TODO: PR use localization
+              hideTitle = true
+            } else {
+              warn(`Missing group title for groupIndex: ${index}`)
+              groupTitle = `Gruppe ${index + 1}` // TODO: PR use localization
+            }
+          }
+
           renderData[index] = {
-            groupTitle: groups[index],
+            groupTitle,
+            hideTitle,
             groupData: [],
           }
         }
@@ -696,7 +717,8 @@ function makeRenderData(
 
   if (noIndex.length > 0) {
     renderData.push({
-      groupTitle: undefined,
+      groupTitle: renderData.length > 0 ? 'Andre valg' : undefined, // TODO: PR use localization
+      hideTitle: true,
       groupData: noIndex,
     })
   }
@@ -779,4 +801,5 @@ class OnMounted extends React.PureComponent<{
 }
 export default DrawerList
 
-// TODO: fix closestToTop and closestToBottom triangle styling when scrolling
+// TODO: PR fix closestToTop and closestToBottom triangle styling when scrolling
+// TODO: PR add tests
