@@ -57,13 +57,7 @@ function SectionContainer(props: Props & FlexContainerProps) {
     useContext(FieldBoundaryContext) || {}
   contextRef.current.hasError = hasError
   contextRef.current.hasSubmitError = hasSubmitError
-
-  // - Set the container mode to "edit" if we have an error
-  if (hasSubmitError) {
-    contextRef.current.containerMode = 'edit'
-  }
-
-  const { containerMode } = contextRef.current
+  const { containerMode, switchContainerMode } = contextRef.current
 
   const openRef = useRef(open ?? containerMode === mode)
   const setOpenState = useCallback((open: boolean) => {
@@ -82,6 +76,13 @@ function SectionContainer(props: Props & FlexContainerProps) {
       }
     }
   }, [containerMode, mode, open, setOpenState])
+
+  // - Set the container mode to "edit" if we have an error
+  useEffect(() => {
+    if (hasSubmitError && containerMode !== 'edit') {
+      switchContainerMode?.('edit')
+    }
+  }, [hasSubmitError, containerMode, switchContainerMode])
 
   const setFocus = useCallback(
     (state) => {
