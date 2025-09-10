@@ -14,6 +14,7 @@ import { loadScss, axeComponent, wait } from '../../../core/jest/jestSetup'
 import { UploadAllProps } from '../types'
 import useUpload from '../useUpload'
 import Provider from '../../../shared/Provider'
+import IconPrimary from '../../IconPrimary'
 
 const nb = nbNO['nb-NO'].Upload
 const en = enGB['en-GB'].Upload
@@ -33,6 +34,78 @@ describe('Upload', () => {
     render(<Upload {...defaultProps} />)
 
     expect(document.querySelector('.dnb-upload')).toBeInTheDocument()
+  })
+
+  it('renders default button', () => {
+    render(<Upload {...defaultProps} />)
+
+    const button = document.querySelector('button')
+    expect(button.classList).toContain('dnb-button--secondary')
+    expect(button.classList).toContain('dnb-button--icon-position-left')
+    expect(button.textContent).toBe(nb.buttonText)
+  })
+
+  it('renders custom button icon using buttonProps', () => {
+    const { rerender } = render(
+      <Upload
+        {...defaultProps}
+        buttonProps={{
+          icon: <span className="dnb-icon custom-icon">icon</span>,
+        }}
+      />
+    )
+    expect(document.querySelector('.custom-icon')).toBeInTheDocument()
+
+    rerender(
+      <Upload
+        {...defaultProps}
+        buttonProps={{
+          icon: (
+            <IconPrimary icon="bell" className="custom-icon-component" />
+          ),
+        }}
+      />
+    )
+
+    expect(document.querySelector('.custom-icon')).not.toBeInTheDocument()
+    expect(
+      document.querySelector('.custom-icon-component')
+    ).toBeInTheDocument()
+  })
+
+  it('renders custom button properties using buttonProps', () => {
+    const onClick = jest.fn()
+    const { rerender } = render(
+      <Upload
+        {...defaultProps}
+        buttonProps={{
+          icon: <span className="dnb-icon custom-icon">icon</span>,
+        }}
+      />
+    )
+    expect(document.querySelector('.custom-icon')).toBeInTheDocument()
+
+    rerender(
+      <Upload
+        {...defaultProps}
+        buttonProps={{
+          icon: (
+            <IconPrimary icon="bell" className="custom-icon-component" />
+          ),
+          onClick,
+        }}
+      />
+    )
+
+    expect(document.querySelector('.custom-icon')).not.toBeInTheDocument()
+    expect(
+      document.querySelector('.custom-icon-component')
+    ).toBeInTheDocument()
+
+    fireEvent.click(
+      document.querySelector('.dnb-upload__file-input-button')
+    )
+    expect(onClick).toHaveBeenCalledTimes(1)
   })
 
   it('renders the upload file input section', () => {
