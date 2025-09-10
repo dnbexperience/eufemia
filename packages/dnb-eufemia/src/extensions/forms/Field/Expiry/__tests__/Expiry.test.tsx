@@ -387,6 +387,50 @@ describe('Field.Expiry', () => {
       ).not.toBeInTheDocument()
     })
 
+    it('should not display error if a valid value is cleared/removed', async () => {
+      render(<Field.Expiry value="0835" />)
+
+      const [monthInput, yearInput] = Array.from(
+        document.querySelectorAll('input')
+      )
+
+      expect(monthInput).toHaveValue('08')
+      expect(yearInput).toHaveValue('35')
+
+      await userEvent.click(yearInput)
+      await userEvent.keyboard('{Backspace>4}')
+      await userEvent.click(document.body)
+
+      expect(monthInput).toHaveValue('mm')
+      expect(yearInput).toHaveValue('åå')
+
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).not.toBeInTheDocument()
+    })
+
+    it('should display error if a valid value is cleared/removed when required', async () => {
+      render(<Field.Expiry value="0835" required />)
+
+      const [monthInput, yearInput] = Array.from(
+        document.querySelectorAll('input')
+      )
+
+      expect(monthInput).toHaveValue('08')
+      expect(yearInput).toHaveValue('35')
+
+      await userEvent.click(yearInput)
+      await userEvent.keyboard('{Backspace>4}')
+      await userEvent.click(document.body)
+
+      expect(monthInput).toHaveValue('mm')
+      expect(yearInput).toHaveValue('åå')
+
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).toBeInTheDocument()
+    })
+
     it('should display month and year messages based on locale', async () => {
       render(
         <FormHandler locale="en-GB">
