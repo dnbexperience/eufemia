@@ -44,6 +44,12 @@ export interface FieldBoundaryContextState {
    * To set the local visible error state.
    */
   revealError?: (path: Path, hasError: boolean) => void
+
+  /**
+   * To manually verify if there are any field errors.
+   * Use it for when "hasError" is one tick behind.
+   */
+  verifyFieldError?: () => boolean
 }
 
 const FieldBoundaryContext = React.createContext<

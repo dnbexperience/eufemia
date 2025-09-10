@@ -1,30 +1,38 @@
 import React from 'react'
-import { render, fireEvent } from '@testing-library/react'
+import { render, fireEvent, waitFor } from '@testing-library/react'
 import FieldBoundaryContext from '../../../DataContext/FieldBoundary/FieldBoundaryContext'
+import FieldBoundaryProvider from '../../../DataContext/FieldBoundary/FieldBoundaryProvider'
 import IterateItemContext from '../../IterateItemContext'
 import Toolbar from '../../Toolbar'
 import CancelButton from '../CancelButton'
 import nbNO from '../../../constants/locales/nb-NO'
 import ToolbarContext from '../../Toolbar/ToolbarContext'
+import PushContainerContext from '../../PushContainer/PushContainerContext'
 
 const nb = nbNO['nb-NO'].IterateEditContainer
 
 describe('CancelButton', () => {
-  it('calls "switchContainerMode"', () => {
+  it('calls "switchContainerMode"', async () => {
     const switchContainerMode = jest.fn()
 
     render(
-      <IterateItemContext.Provider value={{ switchContainerMode }}>
-        <Toolbar>
-          <CancelButton />
-        </Toolbar>
-      </IterateItemContext.Provider>
+      <FieldBoundaryContext.Provider
+        value={{ verifyFieldError: () => false }}
+      >
+        <IterateItemContext.Provider value={{ switchContainerMode }}>
+          <Toolbar>
+            <CancelButton />
+          </Toolbar>
+        </IterateItemContext.Provider>
+      </FieldBoundaryContext.Provider>
     )
 
     fireEvent.click(document.querySelectorAll('button')[0])
 
-    expect(switchContainerMode).toHaveBeenCalledTimes(1)
-    expect(switchContainerMode).toHaveBeenCalledWith('view')
+    await waitFor(() => {
+      expect(switchContainerMode).toHaveBeenCalledTimes(1)
+      expect(switchContainerMode).toHaveBeenCalledWith('view')
+    })
   })
 
   it('should not call "switchContainerMode" when isNew is true', () => {
@@ -69,56 +77,78 @@ describe('CancelButton', () => {
     expect(restoreOriginalValue).toHaveBeenCalledWith('original value')
   })
 
-  it('should call "setShowError=false" when hasError is true and hasVisibleError is false', () => {
+  it('does not show toolbar error when inside push container (no visible error)', () => {
     const setShowError = jest.fn()
     const setShowBoundaryErrors = jest.fn()
 
+    const SetErrorOnce = () => {
+      const { setFieldError } = React.useContext(FieldBoundaryContext)
+      React.useEffect(() => {
+        setFieldError?.('/x' as any, new Error('err'))
+      }, [setFieldError])
+      return null
+    }
+
+    const MockBoundary: React.FC<{ children: React.ReactNode }> = ({
+      children,
+    }) => (
+      <FieldBoundaryProvider>
+        <SetErrorOnce />
+        <FieldBoundaryContext.Consumer>
+          {(ctx) => (
+            <FieldBoundaryContext.Provider
+              value={{
+                ...ctx,
+                hasVisibleError: false,
+                setShowBoundaryErrors,
+              }}
+            >
+              {children}
+            </FieldBoundaryContext.Provider>
+          )}
+        </FieldBoundaryContext.Consumer>
+      </FieldBoundaryProvider>
+    )
+
     render(
-      <FieldBoundaryContext.Provider
-        value={{
-          hasError: true,
-          hasVisibleError: false,
-          setShowBoundaryErrors,
-        }}
-      >
-        <IterateItemContext.Provider
-          value={{
-            containerMode: 'edit',
-          }}
-        >
-          <Toolbar>
-            <ToolbarContext.Provider value={{ setShowError }}>
-              <CancelButton />
-            </ToolbarContext.Provider>
-          </Toolbar>
+      <MockBoundary>
+        <IterateItemContext.Provider value={{ containerMode: 'edit' }}>
+          <PushContainerContext.Provider
+            value={{ some: 'context' } as any}
+          >
+            <Toolbar>
+              <ToolbarContext.Provider value={{ setShowError }}>
+                <CancelButton />
+              </ToolbarContext.Provider>
+            </Toolbar>
+          </PushContainerContext.Provider>
         </IterateItemContext.Provider>
-      </FieldBoundaryContext.Provider>
+      </MockBoundary>
     )
 
     fireEvent.click(document.querySelector('button'))
-    expect(setShowError).toHaveBeenCalledTimes(1)
-    expect(setShowError).toHaveBeenCalledWith(false)
-    expect(setShowBoundaryErrors).toHaveBeenCalledTimes(1)
-    expect(setShowBoundaryErrors).toHaveBeenCalledWith(false)
+    const promise = waitFor(() => {
+      expect(setShowBoundaryErrors).toHaveBeenCalledTimes(1)
+      expect(setShowBoundaryErrors).toHaveBeenCalledWith(false)
+      expect(setShowError).toHaveBeenCalledTimes(1)
+      expect(setShowError).toHaveBeenCalledWith(false)
+    })
+    return promise
   })
 
-  it('should call "setShowError=false" when hasError and hasVisibleError is true', () => {
+  it('sets boundary and toolbar errors when there are field errors and a visible error', () => {
     const setShowError = jest.fn()
     const setShowBoundaryErrors = jest.fn()
 
     render(
       <FieldBoundaryContext.Provider
         value={{
-          hasError: true,
           hasVisibleError: true,
+          verifyFieldError: () => true,
           setShowBoundaryErrors,
         }}
       >
-        <IterateItemContext.Provider
-          value={{
-            containerMode: 'edit',
-          }}
-        >
+        <IterateItemContext.Provider value={{ containerMode: 'edit' }}>
           <Toolbar>
             <ToolbarContext.Provider value={{ setShowError }}>
               <CancelButton />
@@ -129,29 +159,28 @@ describe('CancelButton', () => {
     )
 
     fireEvent.click(document.querySelector('button'))
-    expect(setShowError).toHaveBeenCalledTimes(1)
-    expect(setShowError).toHaveBeenCalledWith(false)
-    expect(setShowBoundaryErrors).toHaveBeenCalledTimes(1)
-    expect(setShowBoundaryErrors).toHaveBeenCalledWith(false)
+    return waitFor(() => {
+      expect(setShowBoundaryErrors).toHaveBeenCalledTimes(1)
+      expect(setShowBoundaryErrors).toHaveBeenCalledWith(true)
+      expect(setShowError).toHaveBeenCalledTimes(1)
+      expect(setShowError).toHaveBeenCalledWith(true)
+    })
   })
 
-  it('should call "setShowError=false" when hasError and hasVisibleError is true and initialContainerMode is "auto"', () => {
+  it('respects initialContainerMode but still shows errors when fields have errors and visible error exists', () => {
     const setShowError = jest.fn()
     const setShowBoundaryErrors = jest.fn()
 
     render(
       <FieldBoundaryContext.Provider
         value={{
-          hasError: true,
           hasVisibleError: true,
+          verifyFieldError: () => true,
           setShowBoundaryErrors,
         }}
       >
         <IterateItemContext.Provider
-          value={{
-            containerMode: 'edit',
-            initialContainerMode: 'auto',
-          }}
+          value={{ containerMode: 'edit', initialContainerMode: 'auto' }}
         >
           <Toolbar>
             <ToolbarContext.Provider value={{ setShowError }}>
@@ -163,21 +192,23 @@ describe('CancelButton', () => {
     )
 
     fireEvent.click(document.querySelector('button'))
-    expect(setShowError).toHaveBeenCalledTimes(1)
-    expect(setShowError).toHaveBeenCalledWith(false)
-    expect(setShowBoundaryErrors).toHaveBeenCalledTimes(1)
-    expect(setShowBoundaryErrors).toHaveBeenCalledWith(false)
+    return waitFor(() => {
+      expect(setShowBoundaryErrors).toHaveBeenCalledTimes(1)
+      expect(setShowBoundaryErrors).toHaveBeenCalledWith(true)
+      expect(setShowError).toHaveBeenCalledTimes(1)
+      expect(setShowError).toHaveBeenCalledWith(true)
+    })
   })
 
-  it('should call "setShowError=false" when hasError is false and hasVisibleError is true', () => {
+  it('clears errors and switches to view when no field errors exist', () => {
     const setShowError = jest.fn()
     const setShowBoundaryErrors = jest.fn()
 
     render(
       <FieldBoundaryContext.Provider
         value={{
-          hasError: false,
           hasVisibleError: true,
+          verifyFieldError: () => false,
           setShowBoundaryErrors,
         }}
       >
@@ -196,10 +227,12 @@ describe('CancelButton', () => {
     )
 
     fireEvent.click(document.querySelector('button'))
-    expect(setShowError).toHaveBeenCalledTimes(1)
-    expect(setShowError).toHaveBeenCalledWith(false)
-    expect(setShowBoundaryErrors).toHaveBeenCalledTimes(1)
-    expect(setShowBoundaryErrors).toHaveBeenCalledWith(false)
+    return waitFor(() => {
+      expect(setShowError).toHaveBeenCalledTimes(1)
+      expect(setShowError).toHaveBeenCalledWith(false)
+      expect(setShowBoundaryErrors).toHaveBeenCalledTimes(1)
+      expect(setShowBoundaryErrors).toHaveBeenCalledWith(false)
+    })
   })
 
   describe('to have button with correct text', () => {

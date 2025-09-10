@@ -5,6 +5,7 @@ import useTranslation from '../../hooks/useTranslation'
 import IterateItemContext from '../IterateItemContext'
 import ToolbarContext from '../Toolbar/ToolbarContext'
 import FieldBoundaryContext from '../../DataContext/FieldBoundary/FieldBoundaryContext'
+import PushContainerContext from '../PushContainer/PushContainerContext'
 import { close } from '../../../../icons'
 import { ButtonProps } from '../../../../components/Button'
 import RemoveButton, { Props as RemoveButtonProps } from '../RemoveButton'
@@ -22,8 +23,10 @@ export default function CancelButton(props: Props) {
     isNew,
     index,
   } = useContext(IterateItemContext) || {}
-  const { setShowBoundaryErrors } = useContext(FieldBoundaryContext) || {}
+  const { setShowBoundaryErrors, verifyFieldError, hasVisibleError } =
+    useContext(FieldBoundaryContext) || {}
   const { setShowError } = useContext(ToolbarContext) || {}
+  const pushContext = useContext(PushContainerContext)
 
   const { cancelButton, removeButton } =
     useTranslation().IterateEditContainer
@@ -40,18 +43,34 @@ export default function CancelButton(props: Props) {
 
   const cancelHandler = useCallback(
     ({ event }: { event: React.MouseEvent<HTMLButtonElement> }) => {
-      onClick?.(event)
       restoreOriginalValue?.(valueBackupRef.current)
-      setShowError(false)
-      setShowBoundaryErrors?.(false)
-      switchContainerMode?.('view')
+
+      requestAnimationFrame(() => {
+        const isInsidePushContainer = Boolean(pushContext)
+
+        if (!isInsidePushContainer && verifyFieldError?.()) {
+          setShowBoundaryErrors?.(true)
+          if (hasVisibleError) {
+            setShowError(true)
+          }
+        } else {
+          setShowError(false)
+          setShowBoundaryErrors?.(false)
+          switchContainerMode?.('view')
+        }
+
+        onClick?.(event)
+      }) // because of the re-render of "restoreOriginalData"
     },
     [
+      hasVisibleError,
+      pushContext,
       onClick,
       restoreOriginalValue,
       setShowBoundaryErrors,
       setShowError,
       switchContainerMode,
+      verifyFieldError,
     ]
   )
 

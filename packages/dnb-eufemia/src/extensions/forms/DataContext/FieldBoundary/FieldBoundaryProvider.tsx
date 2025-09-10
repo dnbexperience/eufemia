@@ -22,6 +22,9 @@ export default function FieldBoundaryProvider(props: Props) {
   const showBoundaryErrorsRef =
     useRef<FieldBoundaryContextState['showBoundaryErrors']>(showErrors)
   const hasError = Object.keys(errorsRef.current).length > 0
+  const verifyFieldError = useCallback(() => {
+    return Object.keys(errorsRef.current).length > 0
+  }, [])
   const hasSubmitError = showAllErrors && hasError
 
   const setFieldError = useCallback((path: Path, error: Error) => {
@@ -58,6 +61,7 @@ export default function FieldBoundaryProvider(props: Props) {
     hasVisibleError: hasVisibleErrorRef.current.size > 0,
     errorsRef,
     showBoundaryErrors: showBoundaryErrorsRef.current,
+    verifyFieldError,
     setShowBoundaryErrors,
     setFieldError,
     revealError,
