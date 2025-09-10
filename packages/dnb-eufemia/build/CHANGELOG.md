@@ -3,6 +3,20 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.80.1](https://github.com/dnbexperience/eufemia/compare/v10.80.0...v10.80.1) (2025-09-10)
+
+
+### :bug: Bug Fixes
+
+* **Autocomplete:** ensure list shows up after input has cleared ([#5457](https://github.com/dnbexperience/eufemia/issues/5457)) ([9d8841b](https://github.com/dnbexperience/eufemia/commit/9d8841be52e67d3a5cf7d03885596625b1e2fb1f))
+* **Button:** prevent navigation when disabled with `href` prop ([#5447](https://github.com/dnbexperience/eufemia/issues/5447)) ([f207d09](https://github.com/dnbexperience/eufemia/commit/f207d095f526f7bdfeeb050bfd64ea23015eb9b6))
+* **Button:** remove `disabled` attribute when disabled with `href` ([#5454](https://github.com/dnbexperience/eufemia/issues/5454)) ([105c744](https://github.com/dnbexperience/eufemia/commit/105c7441b0d115d0495fdb308b9a3ce4bdc2adfe)), closes [#5447](https://github.com/dnbexperience/eufemia/issues/5447)
+* **CopyOnClick:** use original Tooltip component to show tooltip for better support ([#5449](https://github.com/dnbexperience/eufemia/issues/5449)) ([80c0a56](https://github.com/dnbexperience/eufemia/commit/80c0a567cd7952352f9ccf5af5d3f670d42473d1))
+* **Form.Section:** avoid showing view and edit container at the same time ([#5455](https://github.com/dnbexperience/eufemia/issues/5455)) ([2c07e30](https://github.com/dnbexperience/eufemia/commit/2c07e30c7d5283f5318d6e152a5de1587a02668f)), closes [#5431](https://github.com/dnbexperience/eufemia/issues/5431)
+* **Forms:** ensure Form.Iterate and Form.Section runs validation when cancel button is pressed ([#5463](https://github.com/dnbexperience/eufemia/issues/5463)) ([516d71a](https://github.com/dnbexperience/eufemia/commit/516d71a814ddd4c8545ecb24b737b7b50f26147f)), closes [#5431](https://github.com/dnbexperience/eufemia/issues/5431)
+* **Tooltip:** make Tooltip controlled when `active` prop is set ([#5446](https://github.com/dnbexperience/eufemia/issues/5446)) ([3a6656b](https://github.com/dnbexperience/eufemia/commit/3a6656b981ed6ed1f6118b9a519617cb577db7dc))
+* **Upload:** input element overflow ([#5458](https://github.com/dnbexperience/eufemia/issues/5458)) ([633bc68](https://github.com/dnbexperience/eufemia/commit/633bc687302f1dec721fcb793343573bf223a1a2))
+
 ## [10.80.0](https://github.com/dnbexperience/eufemia/compare/v10.79.0...v10.80.0) (2025-09-05)
 
 
