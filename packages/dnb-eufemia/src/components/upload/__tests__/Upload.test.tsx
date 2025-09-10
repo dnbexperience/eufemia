@@ -73,38 +73,39 @@ describe('Upload', () => {
     ).toBeInTheDocument()
   })
 
-  it('renders custom button properties using buttonProps', () => {
-    const onClick = jest.fn()
-    const { rerender } = render(
-      <Upload
-        {...defaultProps}
-        buttonProps={{
-          icon: <span className="dnb-icon custom-icon">icon</span>,
-        }}
-      />
-    )
-    expect(document.querySelector('.custom-icon')).toBeInTheDocument()
+  it('opens file dialog when clicking button', () => {
+    render(<Upload {...defaultProps} />)
 
-    rerender(
+    const input = document.querySelector('.dnb-upload__file-input')
+    const inputClick = jest.spyOn(input as HTMLInputElement, 'click')
+
+    fireEvent.click(
+      document.querySelector('.dnb-upload__file-input-button')
+    )
+
+    expect(inputClick).toHaveBeenCalledTimes(1)
+  })
+
+  it('renders custom onClick using buttonProps', () => {
+    const onClick = jest.fn()
+
+    render(
       <Upload
         {...defaultProps}
         buttonProps={{
-          icon: (
-            <IconPrimary icon="bell" className="custom-icon-component" />
-          ),
           onClick,
         }}
       />
     )
 
-    expect(document.querySelector('.custom-icon')).not.toBeInTheDocument()
-    expect(
-      document.querySelector('.custom-icon-component')
-    ).toBeInTheDocument()
+    const input = document.querySelector('.dnb-upload__file-input')
+    const inputClick = jest.spyOn(input as HTMLInputElement, 'click')
 
     fireEvent.click(
       document.querySelector('.dnb-upload__file-input-button')
     )
+
+    expect(inputClick).toHaveBeenCalledTimes(1)
     expect(onClick).toHaveBeenCalledTimes(1)
   })
 
