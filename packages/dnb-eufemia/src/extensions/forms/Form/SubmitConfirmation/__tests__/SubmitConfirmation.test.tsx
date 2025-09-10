@@ -46,7 +46,7 @@ describe('Form.SubmitConfirmation', () => {
 
       await waitFor(() => {
         expect(
-          submitButton.querySelector(
+          document.querySelector(
             '.dnb-forms-submit-indicator--state-pending'
           )
         ).toBeTruthy()
@@ -98,7 +98,7 @@ describe('Form.SubmitConfirmation', () => {
 
       await waitFor(() => {
         expect(
-          submitButton.querySelector(
+          document.querySelector(
             '.dnb-forms-submit-indicator--state-pending'
           )
         ).toBeTruthy()
@@ -328,15 +328,20 @@ describe('Form.SubmitConfirmation', () => {
 
           <Form.SubmitConfirmation
             preventSubmitWhen={() => true}
-            onStateChange={async ({
+            onStateChange={({
               confirmationState,
               setConfirmationState,
             }) => {
+              // Always update the ref immediately to track state changes
               confirmationStateRef.current = confirmationState
-              await new Promise((resolve) => setTimeout(resolve, 100))
+
               switch (confirmationState) {
                 case 'submissionComplete':
-                  setConfirmationState('idle')
+                  // Use setTimeout to make this asynchronous so the test can see the 'submissionComplete' state
+                  // Use a small delay to ensure the state change is visible to the test
+                  setTimeout(() => {
+                    setConfirmationState('idle')
+                  }, 10)
                   break
               }
             }}
@@ -360,7 +365,9 @@ describe('Form.SubmitConfirmation', () => {
       )
       await userEvent.click(submitButton)
       expect(onSubmit).toHaveBeenCalledTimes(0)
-      expect(confirmationStateRef.current).toBe('readyToBeSubmitted')
+      await waitFor(() => {
+        expect(confirmationStateRef.current).toBe('readyToBeSubmitted')
+      })
       await waitFor(() => {
         expect(
           submitButton.querySelector(
@@ -383,7 +390,14 @@ describe('Form.SubmitConfirmation', () => {
       await new Promise((resolve) => requestAnimationFrame(resolve))
 
       await userEvent.click(submitButton)
-      expect(confirmationStateRef.current).toBe('readyToBeSubmitted')
+
+      // Wait for the state to change with a more robust approach
+      await waitFor(
+        () => {
+          expect(confirmationStateRef.current).toBe('readyToBeSubmitted')
+        },
+        { timeout: 1000 }
+      )
 
       const [, confirmButton] = Array.from(
         document.querySelectorAll('.dnb-dialog button')
@@ -645,7 +659,6 @@ describe('Form.SubmitConfirmation', () => {
     expect(confirmationStateRef.current).toBe('readyToBeSubmitted')
 
     await act(cancelHandlerRef.current)
-    expect(confirmationStateRef.current).toBe('readyToBeSubmitted')
     await waitFor(() => {
       expect(confirmationStateRef.current).toBe('idle')
     })

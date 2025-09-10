@@ -609,6 +609,10 @@ class AutocompleteInstance extends React.PureComponent {
       }
 
       this.showAllItems()
+
+      if (this.state.inputValue?.length > 0) {
+        this.setVisible()
+      }
     }
 
     // Opens the drawer, also when pressing on the clear button

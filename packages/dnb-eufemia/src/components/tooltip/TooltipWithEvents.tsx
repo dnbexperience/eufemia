@@ -3,7 +3,15 @@
  *
  */
 
-import React from 'react'
+import React, {
+  cloneElement,
+  isValidElement,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 import { combineDescribedBy, warn } from '../../shared/component-helper'
 import TooltipContainer from './TooltipContainer'
 import {
@@ -33,28 +41,30 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
     internalId,
   } = restProps
 
-  const [isActive, setIsActive] = React.useState(active)
-  const [isNotSemanticElement, setIsNotSemanticElement] =
-    React.useState(false)
-  const [isMounted, setIsMounted] = React.useState(!target)
+  const [isActive, setIsActive] = useState(active)
+  const [isNotSemanticElement, setIsNotSemanticElement] = useState(false)
+  const [isMounted, setIsMounted] = useState(!target)
+  const [isControlled] = useState(() => typeof active === 'boolean')
 
-  const delayTimeout = React.useRef<NodeJS.Timeout>()
-  const cloneRef = React.useRef<HTMLElement>()
-  const targetRef = React.useRef<HTMLElement>()
+  const delayTimeout = useRef<NodeJS.Timeout>()
+  const cloneRef = useRef<HTMLElement>()
+  const targetRef = useRef<HTMLElement>()
 
   const clearTimers = () => {
     clearTimeout(delayTimeout.current)
   }
 
-  React.useLayoutEffect(() => {
+  useLayoutEffect(() => {
     targetRef.current = getRefElement(cloneRef)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [target])
 
-  React.useLayoutEffect(() => {
+  useLayoutEffect(() => {
     if (targetRef.current) {
       setIsMounted(true)
-      addEvents(targetRef.current)
+      if (!isControlled) {
+        addEvents(targetRef.current)
+      }
       handleSemanticElement()
     }
 
@@ -182,14 +192,14 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
   /**
    * Here we get our "target" / "targetSelector"
    */
-  const componentWrapper = React.useMemo(() => {
+  const componentWrapper = useMemo(() => {
     // we could also check against && target.props && !target.props.tooltip
-    if (React.isValidElement(target)) {
+    if (isValidElement(target)) {
       const params = isNotSemanticElement
         ? injectTooltipSemantic({ className: props.className })
         : {}
 
-      return React.cloneElement(target, {
+      return cloneElement(target, {
         ref: cloneRef,
         ...params,
         'aria-describedby': combineDescribedBy(target.props, internalId),
@@ -203,6 +213,12 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
   }, [target])
 
   useHandleAria(targetRef.current, internalId)
+
+  useEffect(() => {
+    if (isControlled) {
+      setIsActive(active)
+    }
+  }, [active, isControlled])
 
   return (
     <>

@@ -346,11 +346,11 @@ describe('tsdown build', () => {
               ),
               'utf-8'
             )
-            expect(content).toContain('import e,')
+            expect(content).toMatch(/import\s\w,/)
             expect(content).toContain('}from"react";')
             expect(content).toContain('}from"react-dom";')
-            expect(content).toContain(
-              'import*as f from"../icons/dnb/primary_icons";'
+            expect(content).toMatch(
+              /import\*as \w from"\.\.\/icons\/dnb\/primary_icons";/ // "../icons/dnb/primary_icons"
             )
           }
         }

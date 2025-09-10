@@ -315,16 +315,14 @@ describe('Slider component', () => {
       render(<Slider {...props} id="unique-tooltip" tooltip />)
 
       const mainElem = document.querySelector('.dnb-slider')
-      const thumbElem = mainElem.querySelector(
-        '.dnb-slider__thumb .dnb-button'
-      )
+      const inputElem = mainElem.querySelector('[type="range"]')
 
       expect(getTooltipElements(0).textContent).toBe('70')
       expect(Array.from(getTooltipElements(0).classList)).toEqual([
         'dnb-tooltip',
       ])
 
-      fireEvent.focus(thumbElem)
+      fireEvent.focus(inputElem)
 
       simulateMouseMove({ pageX: 80, width: 100, height: 10 })
 
@@ -337,7 +335,7 @@ describe('Slider component', () => {
 
       expect(getTooltipElements(0).textContent).toBe('80')
 
-      fireEvent.blur(thumbElem)
+      fireEvent.blur(inputElem)
 
       await wait(300)
 

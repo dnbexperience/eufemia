@@ -1,6 +1,3 @@
-import React from 'react'
-import Context from '../../shared/Context'
-
 /**
  * Web NumberFormat Helpers
  *
@@ -17,7 +14,6 @@ import {
   getOffsetTop,
   getOffsetLeft,
   getSelectedElement,
-  copyToClipboard,
   IS_MAC,
   IS_WIN,
 } from '../../shared/helpers'
@@ -919,41 +915,6 @@ export function runIOSSelectionFix() {
 }
 
 /**
- * A function that tries to copy to the clipboard
- * at the same time it shows the copy result in a tooltip
- *
- * NB: This function is not documented.
- * It should not be used!
- *
- * @param {string} value any number
- * @param {*} label
- * @param {*} positionElement
- * @returns
- */
-export async function copyWithEffect(
-  value,
-  label,
-  positionElement = null
-) {
-  let success = null
-
-  if (value) {
-    try {
-      const fx = showSelectionNotice({ value, label })
-      success = await copyToClipboard(value)
-      if (success === true) {
-        fx.run(positionElement)
-      }
-    } catch (e) {
-      warn(e)
-      success = e
-    }
-  }
-
-  return success
-}
-
-/**
  * This function add a tooltip looking
  *
  * @type {object} object with property
@@ -1047,26 +1008,6 @@ export function showSelectionNotice({ value, label, timeout = 3e3 }) {
       }
     }
   })()
-}
-
-/**
- * React Hook
- * It returns "copyWithEffect" but with a translated string
- *
- * @returns copyWithEffect function inside object { copy }
- */
-export function useCopyWithNotice() {
-  const {
-    translation: {
-      NumberFormat: { clipboard_copy },
-    },
-  } = React.useContext(Context)
-
-  const copy = (value, positionElement) => {
-    copyWithEffect(value, clipboard_copy, positionElement)
-  }
-
-  return { copy }
 }
 
 /**

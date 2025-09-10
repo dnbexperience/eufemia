@@ -3514,6 +3514,102 @@ describe('Autocomplete component', () => {
       document.querySelector('.dnb-drawer-list__options')
     ).not.toBeInTheDocument()
   })
+
+  it('should open and search after clearing input following selection', async () => {
+    const movies = [
+      'The Shawshank Redemption',
+      'The Godfather',
+      'The Dark Knight',
+    ]
+
+    render(<Autocomplete data={movies} {...mockProps} />)
+
+    const input = document.querySelector('input') as HTMLInputElement
+
+    // Open
+    await userEvent.click(input)
+    expect(screen.getAllByRole('option')).toHaveLength(3)
+
+    // Type to match only Shawshank
+    await userEvent.type(input, 'sha')
+    expect(screen.getAllByRole('option')[0].textContent).toBe(
+      'The Shawshank Redemption'
+    )
+
+    // Select the first item by clicking
+    await userEvent.click(screen.getAllByRole('option')[0])
+
+    // Ensure it is selected and drawer is closed
+    expect(input.value).toBe('The Shawshank Redemption')
+    expect(
+      document.querySelector('.dnb-drawer-list__options')
+    ).not.toBeInTheDocument()
+
+    // Clear input (simulate user erasing the text)
+    await userEvent.clear(input)
+    expect(input.value).toBe('')
+
+    expect(screen.getAllByRole('option')[0].textContent).toBe(
+      'The Shawshank Redemption'
+    )
+
+    // Now type a valid query again
+    await userEvent.type(input, 'the godfather')
+
+    // Expect the drawer to open and show matching option
+    expect(screen.getAllByRole('option')[0].textContent).toBe(
+      'The Godfather'
+    )
+
+    // And allow selecting it
+    await userEvent.click(screen.getAllByRole('option')[0])
+
+    expect(input.value).toBe('The Godfather')
+  })
+
+  it('should open and search after clearing input following keyboard selection', async () => {
+    const movies = [
+      'The Shawshank Redemption',
+      'The Godfather',
+      'The Dark Knight',
+    ]
+
+    render(<Autocomplete data={movies} {...mockProps} />)
+
+    const input = document.querySelector('input') as HTMLInputElement
+
+    // Open and search
+    await userEvent.click(input)
+    await userEvent.type(input, 'sha')
+    expect(screen.getAllByRole('option')[0].textContent).toBe(
+      'The Shawshank Redemption'
+    )
+
+    // Move focus to list and select with Enter, like other tests do
+    keyDownOnInput(13) // enter
+    keyDownOnInput(40) // down
+    const list = document.querySelector('.dnb-autocomplete__list')
+    fireEvent.keyDown(list, { keyCode: 13 }) // enter selects
+
+    // Ensure it is selected and drawer is closed
+    expect(input.value).toBe('The Shawshank Redemption')
+    expect(
+      document.querySelector('.dnb-drawer-list__options')
+    ).not.toBeInTheDocument()
+
+    // Clear input and search again
+    await userEvent.clear(input)
+
+    expect(screen.getAllByRole('option')[0].textContent).toBe(
+      'The Shawshank Redemption'
+    )
+
+    await userEvent.type(input, 'the godfather')
+
+    expect(screen.getAllByRole('option')[0].textContent).toBe(
+      'The Godfather'
+    )
+  })
 })
 
 describe('Autocomplete markup', () => {

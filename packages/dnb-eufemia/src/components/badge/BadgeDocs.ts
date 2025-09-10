@@ -8,7 +8,7 @@ export const BadgeProperties: PropertiesTableProps = {
   },
   children: {
     doc: 'Content to display the badge on top of.',
-    type: ['React.ReactNode'],
+    type: 'React.ReactNode',
     status: 'optional',
   },
   vertical: {
@@ -23,7 +23,7 @@ export const BadgeProperties: PropertiesTableProps = {
   },
   className: {
     doc: 'Custom className for the component.',
-    type: ['string'],
+    type: 'string',
     status: 'optional',
   },
   skeleton: {
@@ -38,7 +38,7 @@ export const BadgeProperties: PropertiesTableProps = {
   },
   label: {
     doc: 'The label description of the badge. Only required when passing a number as the badge content.',
-    type: ['React.ReactNode'],
+    type: 'React.ReactNode',
     status: 'optional',
   },
   '[Space](/uilib/layout/space/properties)': {

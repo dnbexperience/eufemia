@@ -2962,10 +2962,12 @@ describe('PushContainer', () => {
         nb.IterateEditContainer.cancelButton
       )
 
-      // Hide the form by adding a new item
+      // Hide the form by pressing cancel (close)
       await userEvent.click(buttons[1])
 
-      expect(editBlock).toHaveAttribute('aria-hidden', 'true')
+      await waitFor(() => {
+        expect(editBlock).toHaveAttribute('aria-hidden', 'true')
+      })
     }
   })
 

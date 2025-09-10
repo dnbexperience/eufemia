@@ -3,11 +3,10 @@
  *
  */
 
-import React from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 import styled from '@emotion/styled'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
-import { useMedia } from '@dnb/eufemia/src/shared'
-import { useCopyWithNotice } from '@dnb/eufemia/src/components/number-format/NumberUtils'
+import { useMedia, useTranslation } from '@dnb/eufemia/src/shared'
 import {
   H2,
   P,
@@ -19,6 +18,7 @@ import {
   Card,
   Flex,
   Badge,
+  Tooltip,
 } from '@dnb/eufemia/src'
 import {
   stop as stopIcon,
@@ -38,6 +38,35 @@ import Td from '@dnb/eufemia/src/components/table/TableTd'
 import Tr from '@dnb/eufemia/src/components/table/TableTr'
 import TableContainer from '@dnb/eufemia/src/components/table/TableContainer'
 import useHandleSortState from '@dnb/eufemia/src/components/table/useHandleSortState'
+import { copyToClipboard } from '@dnb/eufemia/src/shared/helpers'
+
+function useCopyWithNotice() {
+  const [active, setActive] = useState(false)
+  const { NumberFormat } = useTranslation()
+  const timeoutRef = useRef<NodeJS.Timeout>()
+
+  const CopyTooltip = useCallback(
+    ({ target }) => {
+      return (
+        <Tooltip active={active} targetElement={target}>
+          {NumberFormat.clipboard_copy}
+        </Tooltip>
+      )
+    },
+    [NumberFormat.clipboard_copy, active],
+  )
+
+  const copy = useCallback((str: string) => {
+    copyToClipboard(str)
+    setActive(true)
+    clearTimeout(timeoutRef.current)
+    timeoutRef.current = setTimeout(() => {
+      setActive(false)
+    }, 1500)
+  }, [])
+
+  return { copy, CopyTooltip }
+}
 
 export const VariantBasic = () => (
   <ComponentBox
@@ -715,12 +744,12 @@ export const Accordion = () => (
         }
         const Content = ({ shareId }) => {
           const ref = React.useRef()
-          const { copy } = useCopyWithNotice()
+          const { copy, CopyTooltip } = useCopyWithNotice()
 
           const shareHandler = () => {
             const url = new URL(location.href)
             url.hash = '#' + shareId
-            copy(url.toString(), ref.current)
+            copy(url.toString())
           }
 
           return (
@@ -748,6 +777,8 @@ export const Accordion = () => (
               >
                 Copy link to this row
               </Button>
+
+              <CopyTooltip target={ref.current} />
             </>
           )
         }
@@ -832,12 +863,12 @@ export const AccordionMixed = () => (
         }
         const Content = ({ shareId }) => {
           const ref = React.useRef()
-          const { copy } = useCopyWithNotice()
+          const { copy, CopyTooltip } = useCopyWithNotice()
 
           const shareHandler = () => {
             const url = new URL(location.href)
             url.hash = '#' + shareId
-            copy(url.toString(), ref.current)
+            copy(url.toString())
           }
 
           return (
@@ -865,6 +896,8 @@ export const AccordionMixed = () => (
               >
                 Copy link to this row
               </Button>
+
+              <CopyTooltip target={ref.current} />
             </>
           )
         }

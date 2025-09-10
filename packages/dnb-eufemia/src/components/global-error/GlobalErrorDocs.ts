@@ -13,27 +13,27 @@ export const GlobalErrorProperties: PropertiesTableProps = {
   },
   title: {
     doc: 'Overwrites the default title for the provided `statusCode`.',
-    type: ['React.ReactNode'],
+    type: 'React.ReactNode',
     status: 'optional',
   },
   text: {
     doc: 'Overwrites the default text for the provided `statusCode`.',
-    type: ['React.ReactNode'],
+    type: 'React.ReactNode',
     status: 'optional',
   },
   code: {
     doc: 'Overwrites the default error message code text `Feilmeldings-kode:`. . This prop is deprecated and will be removed in v11, please use `errorMessageCode` instead.',
-    type: ['React.ReactNode'],
+    type: 'React.ReactNode',
     status: 'deprecated',
   },
   errorMessageCode: {
     doc: 'Overwrites the default error message code text `Feilmeldings-kode: %statusCode`.',
-    type: ['React.ReactNode'],
+    type: 'React.ReactNode',
     status: 'optional',
   },
   help: {
     doc: 'Overwrites the default additional help text `Her er noen lenker som kanskje kan hjelpe:`. This text is only rendered when `links` are provided.',
-    type: ['React.ReactNode'],
+    type: 'React.ReactNode',
     status: 'optional',
   },
   links: {
@@ -43,7 +43,7 @@ export const GlobalErrorProperties: PropertiesTableProps = {
   },
   center: {
     doc: 'If true, it will use `80vh` as the height and center its content.',
-    type: ['boolean'],
+    type: 'boolean',
     status: 'optional',
   },
   skeleton: {
@@ -53,7 +53,7 @@ export const GlobalErrorProperties: PropertiesTableProps = {
   },
   locale: {
     doc: 'Set a [supported locale](/uilib/usage/customisation/localization/) if needed.',
-    type: ['string'],
+    type: 'string',
     status: 'optional',
   },
   children: {
