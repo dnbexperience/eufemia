@@ -316,9 +316,9 @@ export const InColoredSection = () => {
     <ComponentBox data-visual-test="card-in-colored-section">
       <Section
         backgroundColor="var(--color-signal-orange)"
-        spacing="large"
+        innerSpace="large"
       >
-        <Card>Some card</Card>
+        <Card>Card in colored Section</Card>
       </Section>
     </ComponentBox>
   )
