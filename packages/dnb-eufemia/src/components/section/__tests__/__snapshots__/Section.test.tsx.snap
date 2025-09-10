@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`Section scss has to match style dependencies css 1`] = `
 "/*
@@ -15,8 +15,13 @@ exports[`Section scss has to match style dependencies css 1`] = `
 /*
  * Utilities
  */
+:root {
+  --section-z-index: 1;
+}
+
 .dnb-section {
   position: relative;
+  isolation: isolate;
   display: flow-root;
   --breakout--on: visible;
   --breakout--off: hidden;
@@ -81,6 +86,7 @@ exports[`Section scss has to match style dependencies css 1`] = `
     --background-color--value: var(--background-color--small);
     --text-color--value: var(--text-color--small);
     --outline-color: var(--outline-color--small);
+    --outline-width: var(--outline-width--small);
     --drop-shadow: var(--drop-shadow--small);
     --rounded-corner: var(
       --rounded-corner--small,
@@ -95,6 +101,7 @@ exports[`Section scss has to match style dependencies css 1`] = `
     --background-color--value: var(--background-color--medium);
     --text-color--value: var(--text-color--medium);
     --outline-color: var(--outline-color--medium);
+    --outline-width: var(--outline-width--medium);
     --drop-shadow: var(--drop-shadow--medium);
     --rounded-corner: var(
       --rounded-corner--medium,
@@ -109,6 +116,7 @@ exports[`Section scss has to match style dependencies css 1`] = `
     --background-color--value: var(--background-color--large);
     --text-color--value: var(--text-color--large);
     --outline-color: var(--outline-color--large);
+    --outline-width: var(--outline-width--large);
     --drop-shadow: var(--drop-shadow--large);
     --rounded-corner: var(
       --rounded-corner--large,
