@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useEffect, useRef } from 'react'
 import classnames from 'classnames'
-import { Button } from '../../../../components'
+import { Button, Dialog } from '../../../../components'
 import useTranslation from '../../hooks/useTranslation'
 import IterateItemContext from '../IterateItemContext'
 import ToolbarContext from '../Toolbar/ToolbarContext'
@@ -11,10 +11,12 @@ import { ButtonProps } from '../../../../components/Button'
 import RemoveButton, { Props as RemoveButtonProps } from '../RemoveButton'
 import { ContainerMode } from '../Array'
 
-type Props = ButtonProps
+type Props = ButtonProps & {
+  showConfirmDialog?: boolean
+}
 
 export default function CancelButton(props: Props) {
-  const { onClick, className, ...rest } = props
+  const { onClick, className, showConfirmDialog = true, ...rest } = props
   const {
     restoreOriginalValue,
     switchContainerMode,
@@ -28,8 +30,9 @@ export default function CancelButton(props: Props) {
   const { setShowError } = useContext(ToolbarContext) || {}
   const pushContext = useContext(PushContainerContext)
 
-  const { cancelButton, removeButton } =
-    useTranslation().IterateEditContainer
+  const translation = useTranslation()
+  const { cancelButton, removeButton } = translation.IterateEditContainer
+  const { confirmCancelText } = translation.SectionEditContainer
   const valueBackupRef = useRef<unknown>()
 
   useEffect(() => {
@@ -42,7 +45,8 @@ export default function CancelButton(props: Props) {
   }, [arrayValue, containerMode, index])
 
   const cancelHandler = useCallback(
-    ({ event }: { event: React.MouseEvent<HTMLButtonElement> }) => {
+    ({ close, event }) => {
+      close?.()
       restoreOriginalValue?.(valueBackupRef.current)
 
       requestAnimationFrame(() => {
@@ -85,22 +89,34 @@ export default function CancelButton(props: Props) {
       <RemoveButton
         text={removeButton}
         onClick={onClick}
+        showConfirmDialog={showConfirmDialog}
         {...(rest as RemoveButtonProps)}
       />
     )
   }
 
+  const triggerAttributes: ButtonProps = {
+    variant: 'tertiary',
+    className: classnames('dnb-forms-iterate__cancel-button', className),
+    icon: close,
+    icon_position: 'left',
+    text: cancelButton,
+    ...rest,
+  }
+
+  if (showConfirmDialog) {
+    return (
+      <Dialog
+        variant="confirmation"
+        title={confirmCancelText}
+        triggerAttributes={triggerAttributes}
+        onConfirm={cancelHandler}
+      />
+    )
+  }
+
   return (
-    <Button
-      variant="tertiary"
-      className={classnames('dnb-forms-iterate__cancel-button', className)}
-      icon={close}
-      icon_position="left"
-      on_click={cancelHandler}
-      {...rest}
-    >
-      {cancelButton}
-    </Button>
+    <Button {...triggerAttributes} on_click={cancelHandler} {...rest} />
   )
 }
 

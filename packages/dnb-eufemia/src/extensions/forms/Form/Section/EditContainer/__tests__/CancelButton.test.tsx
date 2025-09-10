@@ -1,5 +1,6 @@
 import React from 'react'
 import { render, fireEvent, waitFor } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { DataContext, Field } from '../../../../'
 import FieldBoundaryContext from '../../../../DataContext/FieldBoundary/FieldBoundaryContext'
 import ToolbarContext from '../../Toolbar/ToolbarContext'
@@ -20,7 +21,7 @@ describe('CancelButton', () => {
       >
         <SectionContainerContext.Provider value={{ switchContainerMode }}>
           <Toolbar>
-            <CancelButton />
+            <CancelButton showConfirmDialog={false} />
           </Toolbar>
         </SectionContainerContext.Provider>
       </FieldBoundaryContext.Provider>
@@ -42,7 +43,7 @@ describe('CancelButton', () => {
         }}
       >
         <Toolbar>
-          <CancelButton />
+          <CancelButton showConfirmDialog={false} />
         </Toolbar>
       </SectionContainerContext.Provider>
     )
@@ -68,7 +69,7 @@ describe('CancelButton', () => {
         >
           <Toolbar>
             <ToolbarContext.Provider value={{ setShowError }}>
-              <CancelButton />
+              <CancelButton showConfirmDialog={false} />
             </ToolbarContext.Provider>
           </Toolbar>
         </SectionContainerContext.Provider>
@@ -100,7 +101,7 @@ describe('CancelButton', () => {
         >
           <Toolbar>
             <ToolbarContext.Provider value={{ setShowError }}>
-              <CancelButton />
+              <CancelButton showConfirmDialog={false} />
             </ToolbarContext.Provider>
           </Toolbar>
         </SectionContainerContext.Provider>
@@ -133,7 +134,7 @@ describe('CancelButton', () => {
         >
           <Toolbar>
             <ToolbarContext.Provider value={{ setShowError }}>
-              <CancelButton />
+              <CancelButton showConfirmDialog={false} />
             </ToolbarContext.Provider>
           </Toolbar>
         </SectionContainerContext.Provider>
@@ -168,7 +169,7 @@ describe('CancelButton', () => {
         >
           <Toolbar>
             <ToolbarContext.Provider value={{ setShowError }}>
-              <CancelButton />
+              <CancelButton showConfirmDialog={false} />
             </ToolbarContext.Provider>
           </Toolbar>
         </SectionContainerContext.Provider>
@@ -204,7 +205,7 @@ describe('CancelButton', () => {
           value={{ containerMode: 'edit' }}
         >
           <Toolbar>
-            <CancelButton />
+            <CancelButton showConfirmDialog={false} />
           </Toolbar>
         </SectionContainerContext.Provider>
       </DataContext.Provider>
@@ -217,5 +218,33 @@ describe('CancelButton', () => {
 
     fireEvent.click(document.querySelector('button'))
     expect(submitData).toEqual({ foo: 'original value' })
+  })
+
+  it('shows a confirm dialog by default and proceeds on confirm', async () => {
+    render(
+      <FieldBoundaryContext.Provider
+        value={{ verifyFieldError: () => false }}
+      >
+        <SectionContainerContext.Provider value={{}}>
+          <Toolbar>
+            <CancelButton />
+          </Toolbar>
+        </SectionContainerContext.Provider>
+      </FieldBoundaryContext.Provider>
+    )
+
+    fireEvent.click(document.querySelector('button'))
+
+    const dialog = document.querySelector('.dnb-dialog')
+    expect(dialog).toBeInTheDocument()
+    expect(dialog).toHaveTextContent(nb.confirmCancelText)
+
+    await userEvent.click(
+      document.querySelector('.dnb-dialog .dnb-button--primary')
+    )
+
+    await waitFor(() => {
+      expect(document.querySelector('.dnb-dialog')).not.toBeInTheDocument()
+    })
   })
 })

@@ -1,5 +1,6 @@
 import React from 'react'
 import { render, fireEvent, waitFor } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import FieldBoundaryContext from '../../../DataContext/FieldBoundary/FieldBoundaryContext'
 import FieldBoundaryProvider from '../../../DataContext/FieldBoundary/FieldBoundaryProvider'
 import IterateItemContext from '../../IterateItemContext'
@@ -21,7 +22,7 @@ describe('CancelButton', () => {
       >
         <IterateItemContext.Provider value={{ switchContainerMode }}>
           <Toolbar>
-            <CancelButton />
+            <CancelButton showConfirmDialog={false} />
           </Toolbar>
         </IterateItemContext.Provider>
       </FieldBoundaryContext.Provider>
@@ -43,7 +44,7 @@ describe('CancelButton', () => {
         value={{ switchContainerMode, isNew: true }}
       >
         <Toolbar>
-          <CancelButton />
+          <CancelButton showConfirmDialog={false} />
         </Toolbar>
       </IterateItemContext.Provider>
     )
@@ -66,7 +67,7 @@ describe('CancelButton', () => {
         }}
       >
         <Toolbar>
-          <CancelButton />
+          <CancelButton showConfirmDialog={false} />
         </Toolbar>
       </IterateItemContext.Provider>
     )
@@ -118,7 +119,7 @@ describe('CancelButton', () => {
           >
             <Toolbar>
               <ToolbarContext.Provider value={{ setShowError }}>
-                <CancelButton />
+                <CancelButton showConfirmDialog={false} />
               </ToolbarContext.Provider>
             </Toolbar>
           </PushContainerContext.Provider>
@@ -151,7 +152,7 @@ describe('CancelButton', () => {
         <IterateItemContext.Provider value={{ containerMode: 'edit' }}>
           <Toolbar>
             <ToolbarContext.Provider value={{ setShowError }}>
-              <CancelButton />
+              <CancelButton showConfirmDialog={false} />
             </ToolbarContext.Provider>
           </Toolbar>
         </IterateItemContext.Provider>
@@ -184,7 +185,7 @@ describe('CancelButton', () => {
         >
           <Toolbar>
             <ToolbarContext.Provider value={{ setShowError }}>
-              <CancelButton />
+              <CancelButton showConfirmDialog={false} />
             </ToolbarContext.Provider>
           </Toolbar>
         </IterateItemContext.Provider>
@@ -219,7 +220,7 @@ describe('CancelButton', () => {
         >
           <Toolbar>
             <ToolbarContext.Provider value={{ setShowError }}>
-              <CancelButton />
+              <CancelButton showConfirmDialog={false} />
             </ToolbarContext.Provider>
           </Toolbar>
         </IterateItemContext.Provider>
@@ -245,7 +246,7 @@ describe('CancelButton', () => {
           }}
         >
           <Toolbar>
-            <CancelButton />
+            <CancelButton showConfirmDialog={false} />
           </Toolbar>
         </IterateItemContext.Provider>
       )
@@ -258,13 +259,46 @@ describe('CancelButton', () => {
       render(
         <IterateItemContext.Provider value={{ containerMode: 'edit' }}>
           <Toolbar>
-            <CancelButton />
+            <CancelButton showConfirmDialog={false} />
           </Toolbar>
         </IterateItemContext.Provider>
       )
 
       const button = document.querySelector('button')
       expect(button).toHaveTextContent(nb.cancelButton)
+    })
+  })
+
+  it('shows a confirm dialog by default and proceeds on confirm', async () => {
+    const switchContainerMode = jest.fn()
+
+    render(
+      <FieldBoundaryContext.Provider
+        value={{ verifyFieldError: () => false }}
+      >
+        <IterateItemContext.Provider value={{ switchContainerMode }}>
+          <Toolbar>
+            <CancelButton />
+          </Toolbar>
+        </IterateItemContext.Provider>
+      </FieldBoundaryContext.Provider>
+    )
+
+    fireEvent.click(document.querySelectorAll('button')[0])
+
+    const confirmDialog = document.querySelector('.dnb-dialog')
+    expect(confirmDialog).toBeInTheDocument()
+    // Ensure the confirm dialog uses cancel-specific title
+    expect(confirmDialog).toHaveTextContent(
+      nbNO['nb-NO'].SectionEditContainer.confirmCancelText
+    )
+
+    await userEvent.click(
+      document.querySelector('.dnb-dialog .dnb-button--primary')
+    )
+
+    await waitFor(() => {
+      expect(switchContainerMode).toHaveBeenCalledWith('view')
     })
   })
 })
