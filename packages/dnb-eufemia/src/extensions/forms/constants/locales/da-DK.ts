@@ -178,11 +178,11 @@ export default {
         'Ugyldig fødselsdato. Indtast en gyldig fødselsdato (inkl. århundredetal) med 7 cifre.',
     },
     OrganizationNumber: {
-      label: 'CVR-nummer',
-      errorRequired: 'Du skal udfylde et CVR-nummer.',
-      errorOrgNo: 'Ugyldigt CVR-nummer.',
+      label: 'Organisationsnummer',
+      errorRequired: 'Du skal udfylde et organisationsnummer.',
+      errorOrgNo: 'Ugyldigt organisationsnummer.',
       errorOrgNoLength:
-        'Ugyldigt CVR-nummer. Indtast et gyldigt CVR-nummer med 8 cifre.',
+        'Ugyldigt organisationsnummer. Indtast et gyldigt organisationsnummer med 9 cifre.',
     },
     BankAccountNumber: {
       label: 'Bankkonto',
