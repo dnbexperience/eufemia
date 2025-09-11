@@ -1,4 +1,5 @@
 import { defineConfig, transformWithEsbuild } from 'vite'
+import path from 'node:path'
 import react from '@vitejs/plugin-react'
 
 // https://vite.dev/config/
@@ -9,17 +10,44 @@ export default defineConfig({
       name: 'load+transform-js-files-as-jsx',
       enforce: 'pre',
       async transform(code, id) {
-        if (!id.match(/src\/.*\.js$/)) {
+        // Vite appends query params to ids (e.g. ?v=hash). Strip them first.
+        const [filepath] = id.split('?')
+
+        // Treat any JS file under a src/ folder as JSX (starter and workspace packages)
+        if (!/\/src\/.*\.js$/.test(filepath)) {
           return null
         }
 
-        // Use the exposed transform from vite, instead of directly
-        // transforming with esbuild
-        return transformWithEsbuild(code, id, {
+        // Use the exposed transform from Vite instead of calling esbuild directly
+        return transformWithEsbuild(code, filepath, {
           loader: 'jsx',
           jsx: 'automatic',
         })
       },
     },
   ],
+
+  // Ensure dependency pre-bundling treats .js files as JSX where needed
+  optimizeDeps: {
+    esbuildOptions: {
+      loader: {
+        '.js': 'jsx',
+      },
+      jsx: 'automatic',
+    },
+  },
+
+  // Suppress Sass deprecations from dependencies and silence categories
+  css: {
+    preprocessorOptions: {
+      scss: {
+        quietDeps: true,
+        silenceDeprecations: ['import', 'global-builtin'],
+      },
+    },
+  },
+
+  // Expose Eufemia's static assets (fonts) at "/assets/..." for dev environments like StackBlitz
+  // This ensures URLs like "/assets/fonts/dnb/DNB-Regular.woff2" resolve to real files
+  publicDir: path.resolve(__dirname, '../dnb-eufemia/assets'),
 })

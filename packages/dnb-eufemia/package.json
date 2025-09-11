@@ -102,7 +102,8 @@
     "umd/*",
     "style/**/*",
     "es/style/**/*",
-    "esm/style/**/*"
+    "esm/style/**/*",
+    "src/style/**/*"
   ],
   "typings": "./index.d.ts",
   "dependencies": {
