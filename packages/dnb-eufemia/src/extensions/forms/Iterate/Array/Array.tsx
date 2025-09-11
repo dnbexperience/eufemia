@@ -7,6 +7,7 @@ import React, {
   useContext,
   useCallback,
 } from 'react'
+import * as z from 'zod'
 import classnames from 'classnames'
 import pointer from '../../utils/json-pointer'
 import { useFieldProps } from '../../hooks'
@@ -113,11 +114,17 @@ function ArrayComponent(props: Props) {
       typeof props.minItems === 'number' ||
       typeof props.maxItems === 'number'
     ) {
-      shared.schema = {
-        type: 'array',
-        minItems: props.minItems,
-        maxItems: props.maxItems,
-      }
+      // Use Zod internally so AJV is not required
+      shared.schema = ((p: Props) => {
+        let s = z.array(z.any())
+        if (typeof p.minItems === 'number') {
+          s = s.min(p.minItems, { message: 'IterateArray.errorMinItems' })
+        }
+        if (typeof p.maxItems === 'number') {
+          s = s.max(p.maxItems, { message: 'IterateArray.errorMaxItems' })
+        }
+        return s
+      }) as unknown
     }
 
     if (shared.schema && !shared.emptyValue) {
