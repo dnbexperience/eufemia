@@ -189,7 +189,7 @@ export default {
       errorRequired: 'Du skal udfylde et kontonummer.',
       errorBankAccountNumber: 'Ugyldigt kontonummer.',
       errorBankAccountNumberLength:
-        'Ugyldigt kontonummer. Indtast et gyldigt kontonummer med 10 cifre.',
+        'Ugyldigt kontonummer. Indtast et gyldigt kontonummer med 11 cifre.',
     },
     PhoneNumber: {
       label: 'Mobilnummer',
