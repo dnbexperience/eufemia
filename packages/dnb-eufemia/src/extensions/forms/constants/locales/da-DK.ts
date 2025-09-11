@@ -165,14 +165,14 @@ export default {
       errorRequired: 'Du skal udfylde firmanavn.',
     },
     NationalIdentityNumber: {
-      label: 'Dansk CPR-nummer (10 cifre)',
-      errorRequired: 'Du skal udfylde et CPR-nummer.',
-      errorFnr: 'Ugyldigt CPR-nummer.',
+      label: 'Norsk "fødselsnummer" (11 cifre)',
+      errorRequired: 'Du skal udfylde et fødselsnummer.',
+      errorFnr: 'Ugyldigt fødselsnummer.',
       errorFnrLength:
-        'Ugyldigt CPR-nummer. Indtast et gyldigt CPR-nummer med 10 cifre.',
+        'Ugyldigt fødselsnummer. Indtast et gyldigt fødselsnummer med 11 cifre.',
       errorDnr: 'Ugyldigt d-nummer.',
       errorDnrLength:
-        'Ugyldigt d-nummer. Indtast et gyldigt d-nummer med 10 cifre.',
+        'Ugyldigt d-nummer. Indtast et gyldigt d-nummer med 11 cifre.',
       errorMinimumAgeValidator: 'Skal være mindst {age} år.',
       errorMinimumAgeValidatorLength:
         'Ugyldig fødselsdato. Indtast en gyldig fødselsdato (inkl. århundredetal) med 7 cifre.',
