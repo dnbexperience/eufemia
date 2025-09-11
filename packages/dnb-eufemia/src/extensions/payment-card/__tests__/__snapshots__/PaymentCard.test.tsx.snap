@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`PaymentCard scss has to match style dependencies css 1`] = `
 "/*
@@ -123,9 +123,9 @@ exports[`PaymentCard scss has to match style dependencies css 1`] = `
   --dnb-payment-bg-default: var(--color-sea-green);
   --dnb-payment-bg-pluss: var(--color-ocean-green);
   --dnb-payment-bg-white: var(--color-white);
-  --dnb-payment-bg-gold: #D8C583;
-  --dnb-payment-bg-black-gold: #1F1B10;
-  --dnb-payment-bg-black-grey: #1C1C1E;
+  --dnb-payment-bg-gold: #d8c583;
+  --dnb-payment-bg-black-gold: #1f1b10;
+  --dnb-payment-bg-black-grey: #1c1c1e;
   --dnb-payment-overlay-bg-dark: rgba(0 0 0 / 60%);
   --dnb-payment-overlay-bg-light: rgba(255 255 255 / 70%);
   --dnb-payment-border-radius: 12px;
@@ -352,7 +352,8 @@ exports[`PaymentCard scss has to match style dependencies css 1`] = `
   margin-top: 5px;
   height: 1.375rem;
 }
-.dnb-payment-card--compact .dnb-payment-card__card__providers div, .dnb-payment-card--compact .dnb-payment-card__card__providers svg {
+.dnb-payment-card--compact .dnb-payment-card__card__providers div,
+.dnb-payment-card--compact .dnb-payment-card__card__providers svg {
   height: 100%;
   width: auto;
 }
@@ -361,7 +362,8 @@ exports[`PaymentCard scss has to match style dependencies css 1`] = `
   height: 1rem;
   column-gap: 0.5rem;
 }
-.dnb-payment-card--compact .dnb-payment-card__card__providers--multiple div, .dnb-payment-card--compact .dnb-payment-card__card__providers--multiple svg {
+.dnb-payment-card--compact .dnb-payment-card__card__providers--multiple div,
+.dnb-payment-card--compact .dnb-payment-card__card__providers--multiple svg {
   vertical-align: top;
 }
 .dnb-payment-card--compact .dnb-payment-card__card__providers--multiple .provider--separator {
