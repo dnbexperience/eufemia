@@ -56,6 +56,11 @@ export const UploadProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  buttonProps: {
+    doc: 'Define any valid Eufemia [Button properties](/uilib/components/button/properties) or HTML attribute inside an object, to customize the upload button behavior and appearance.',
+    type: 'ButtonProps',
+    status: 'optional',
+  },
   skeleton: {
     doc: 'Skeleton should be applied when loading content.',
     type: 'boolean',
