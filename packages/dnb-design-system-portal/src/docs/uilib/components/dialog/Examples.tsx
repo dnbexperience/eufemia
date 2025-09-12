@@ -408,3 +408,87 @@ export const DialogConfirmScrollableContent = () => {
     </ComponentBox>
   )
 }
+
+export const DialogInformationScrollableContent = () => {
+  return (
+    <ComponentBox data-visual-test="dialog-scroll-content-info">
+      {() => {
+        const MockComponent = () => {
+          const scrollRef = React.useRef(null)
+          return (
+            <Dialog
+              variant="information"
+              scrollRef={scrollRef}
+              onOpen={() => {
+                if (
+                  document.documentElement.classList.contains(
+                    'scroll-to-bottom-info',
+                  )
+                ) {
+                  scrollRef.current.scrollTop = 100000
+                }
+              }}
+            >
+              Newline
+              <br />
+              Newline
+              <br />
+              Newline
+              <br />
+              Newline
+              <br />
+              Newline
+              <br />
+              Newline
+              <br />
+              Newline
+              <br />
+              Newline
+              <br />
+              Newline
+              <br />
+              Newline
+              <br />
+              Newline
+              <br />
+              Newline
+              <br />
+              Newline
+              <br />
+              Newline
+              <br />
+              Newline
+              <br />
+              Newline
+              <br />
+              Newline
+              <br />
+              Newline
+              <br />
+              Newline
+              <br />
+              Newline
+              <br />
+              Newline
+              <br />
+              Newline
+              <br />
+              Newline
+              <br />
+              Newline
+              <br />
+              Newline
+              <br />
+              Newline
+              <br />
+              <br />
+              Last line
+            </Dialog>
+          )
+        }
+
+        return <MockComponent />
+      }}
+    </ComponentBox>
+  )
+}
