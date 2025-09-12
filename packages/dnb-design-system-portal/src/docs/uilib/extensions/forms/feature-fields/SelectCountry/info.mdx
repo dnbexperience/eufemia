@@ -8,6 +8,8 @@ showTabs: true
 [The list of available countries to select](/uilib/extensions/forms/feature-fields/SelectCountry/properties/#list-of-available-countries) is carefully curated to meet the demands we know today.
 When selecting a country, the value returned is the selected country's [ISO 3166-1 alpha-2 code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) (country code) like `NO` for Norway.
 
+It supports the HTML [autocomplete](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete) attribute (`country-name`) if no value is given.
+
 There is a corresponding [Value.SelectCountry](/uilib/extensions/forms/Value/SelectCountry) component.
 
 ```jsx
@@ -15,7 +17,10 @@ import { Field } from '@dnb/eufemia/extensions/forms'
 render(<Field.SelectCountry />)
 ```
 
-It supports the HTML [autocomplete](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete) attribute (`country-name`) if no value is given.
+## Relevant links
+
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Field/SelectCountry)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/extensions/forms/feature-fields/SelectCountry)
 
 ## Support for locales like `sv-SE` and `da-DK`
 
