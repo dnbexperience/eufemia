@@ -10,12 +10,12 @@ This input expects a 9-digit number as its value. This is because Norwegian orga
 It validates input for Norwegian organization numbers as described by [Brønnøysundregistrene](https://www.brreg.no/om-oss/registrene-vare/om-enhetsregisteret/organisasjonsnummeret/), and in addition we validate `000 000 000` as invalid.
 The validation happens on blur, internally using the `onBlurValidator` [property](/uilib/extensions/forms/feature-fields/OrganizationNumber/properties/#field-specific-properties).
 
+There is a corresponding [Value.OrganizationNumber](/uilib/extensions/forms/Value/OrganizationNumber) component.
+
 ```jsx
 import { Field } from '@dnb/eufemia/extensions/forms'
 render(<Field.OrganizationNumber />)
 ```
-
-There is a corresponding [Value.OrganizationNumber](/uilib/extensions/forms/Value/OrganizationNumber) component.
 
 ## Validators
 
