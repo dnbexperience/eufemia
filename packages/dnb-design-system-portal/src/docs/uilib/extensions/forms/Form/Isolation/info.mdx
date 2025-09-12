@@ -147,12 +147,8 @@ render(
 **Using JSON Schema (Ajv)**
 
 ```tsx
-import {
-  Form,
-  Field,
-  JSONSchema,
-  Ajv,
-} from '@dnb/eufemia/extensions/forms'
+import Ajv from 'ajv/dist/2020'
+import { Form, Field, JSONSchema } from '@dnb/eufemia/extensions/forms'
 
 const ajv = new Ajv({
   allErrors: true,
