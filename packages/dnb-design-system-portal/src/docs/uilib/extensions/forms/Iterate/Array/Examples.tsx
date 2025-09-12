@@ -9,6 +9,7 @@ import {
   Wizard,
   ValueBlock,
   FieldBlock,
+  Ajv,
 } from '@dnb/eufemia/src/extensions/forms'
 export { Default as AnimatedContainer } from '../AnimatedContainer/Examples'
 
@@ -423,11 +424,11 @@ export const InitiallyOpen = () => {
 
 export const MinItems = () => {
   return (
-    <ComponentBox
-      scope={{ Iterate, Tools, ValueBlock, FieldBlock }}
-      hideCode
-    >
+    <ComponentBox hideCode scope={{ Ajv }}>
       {() => {
+        const ajv = new Ajv({
+          allErrors: true,
+        })
         const schema = {
           type: 'object',
           properties: {
@@ -439,7 +440,7 @@ export const MinItems = () => {
         }
 
         return (
-          <Form.Handler schema={schema}>
+          <Form.Handler schema={schema} ajvInstance={ajv}>
             <Iterate.Array
               path="/myList"
               defaultValue={[

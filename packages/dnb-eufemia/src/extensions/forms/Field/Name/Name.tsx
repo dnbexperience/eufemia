@@ -8,7 +8,11 @@ function Name(props: Props) {
   const StringFieldProps: Props = {
     trim: true,
     autoComplete: 'name',
-    pattern: '^(?!.*[\\-\\s]{2})[\\p{L}]+([ \\-][\\p{L}]+)*$',
+    // Require at least 3 letters, disallow consecutive hyphens/spaces or dots,
+    // allow letters, spaces, hyphens and dots inside, but do not allow digits
+    // and do not allow trailing punctuation (e.g. ending with '-').
+    pattern:
+      '^(?=(?:.*[\\p{L}]){3,})(?!.*[-\\s]{2})(?!.*[\\.]{2})[\\p{L}][\\p{L}\\p{M}\\p{Zs}\\.-]*[\\p{L}]$',
     ...props,
   }
 

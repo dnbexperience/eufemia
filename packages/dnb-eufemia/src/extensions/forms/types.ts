@@ -12,6 +12,7 @@ import type {
 import type { SharedFieldBlockProps } from './FieldBlock'
 import type { JSONSchema4, JSONSchema6, JSONSchema7 } from 'json-schema'
 import type { JSONSchemaType } from 'ajv/dist/2020'
+import type { ZodSchema } from './utils'
 import { JsonObject, FormError } from './utils'
 import {
   FormsTranslationFlat,
@@ -22,11 +23,21 @@ import { HelpProps } from '../../components/help-button/HelpButtonInline'
 
 export type * from 'json-schema'
 export type JSONSchema = JSONSchema7
+
+/**
+ * Base types for JSON Schema validation (AJV-based).
+ * IMPORTANT: When using these types, you MUST provide ajvInstance to Form.Handler
+ */
 export type AllJSONSchemaVersionsBasis<DataType> =
   | JSONSchema4
   | JSONSchema6
   | JSONSchema7
   | JSONSchemaType<DataType>
+
+/**
+ * Union type supporting all JSON Schema (AJV).
+ * IMPORTANT: When using these types, you MUST provide ajvInstance to Form.Handler
+ */
 export type AllJSONSchemaVersions<DataType = unknown> =
   | AllJSONSchemaVersionsBasis<DataType>
 
@@ -35,6 +46,11 @@ export type AllJSONSchemaVersions<DataType = unknown> =
       required?: readonly string[]
     })
 export { JSONSchemaType }
+
+// Union type for both AJV and Zod schemas
+export type Schema<Value = unknown> =
+  | AllJSONSchemaVersions<Value>
+  | ZodSchema
 
 export type ValidatorReturnSync<Value> =
   | Error
@@ -398,7 +414,7 @@ export interface UseFieldProps<
 
   // - Validation
   required?: boolean
-  schema?: AllJSONSchemaVersions<Value>
+  schema?: Schema<Value> | ((props: UseFieldProps<Value>) => Schema<Value>)
   /** @deprecated Use `onChangeValidator` instead */
   validator?: Validator<Value>
   onChangeValidator?: Validator<Value>

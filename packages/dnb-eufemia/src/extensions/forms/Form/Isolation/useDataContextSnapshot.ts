@@ -56,14 +56,13 @@ export default function useDataContextSnapshot({
   }, [cleanup, enabled, eventsRef, hasWizard, refresh, updateHandler])
 
   const handleReset = useCallback(() => {
-    window.requestAnimationFrame(() => {
-      if (snapshotRef) {
-        const data = structuredClone(snapshotRef.current)
-        setIsolatedData(data)
-        setData(data)
-        updateHandler(data)
-      }
-    }) // To actually reset the data without influence the data we are about to push, we need to wait for the next frame
+    // Reset immediately after commit completes to avoid racing with new typing
+    if (snapshotRef) {
+      const data = structuredClone(snapshotRef.current)
+      setIsolatedData(data)
+      setData(data)
+      updateHandler(data)
+    }
   }, [setData, setIsolatedData, snapshotRef, updateHandler])
 
   return { handleReset, snapshotRef }

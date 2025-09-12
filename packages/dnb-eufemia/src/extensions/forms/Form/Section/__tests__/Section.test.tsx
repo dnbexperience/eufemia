@@ -2,7 +2,7 @@
 import React from 'react'
 import { spyOnEufemiaWarn } from '../../../../../core/jest/jestSetup'
 import { fireEvent, render } from '@testing-library/react'
-import { Field, Form, JSONSchema, Tools, Value } from '../../..'
+import { Field, Form, JSONSchema, Tools, Value, Ajv } from '../../..'
 import { SectionProps } from '../Section'
 import { Props as FieldNameProps } from '../../../Field/Name'
 import FieldPropsProvider from '../../../Field/Provider'
@@ -126,13 +126,7 @@ describe('Form.Section', () => {
           },
           "label": "Fornavn",
           "path": "/firstName",
-          "pattern": "^(?!.*[\\-\\s]{2})[\\p{L}]+([ \\-][\\p{L}]+)*$",
-          "schema": {
-            "maxLength": undefined,
-            "minLength": undefined,
-            "pattern": "^(?!.*[\\-\\s]{2})[\\p{L}]+([ \\-][\\p{L}]+)*$",
-            "type": "string",
-          },
+          "pattern": "^(?=(?:.*[\\p{L}]){3,})(?!.*[-\\s]{2})(?!.*[\\.]{2})[\\p{L}][\\p{L}\\p{M}\\p{Zs}\\.-]*[\\p{L}]$",
           "trim": true,
           "width": "large",
         },
@@ -155,14 +149,8 @@ describe('Form.Section', () => {
           "label": "Etternavn",
           "minLength": 2,
           "path": "/lastName",
-          "pattern": "^(?!.*[\\-\\s]{2})[\\p{L}]+([ \\-][\\p{L}]+)*$",
+          "pattern": "^(?=(?:.*[\\p{L}]){3,})(?!.*[-\\s]{2})(?!.*[\\.]{2})[\\p{L}][\\p{L}\\p{M}\\p{Zs}\\.-]*[\\p{L}]$",
           "required": true,
-          "schema": {
-            "maxLength": undefined,
-            "minLength": 2,
-            "pattern": "^(?!.*[\\-\\s]{2})[\\p{L}]+([ \\-][\\p{L}]+)*$",
-            "type": "string",
-          },
           "trim": true,
           "width": "large",
         },
@@ -194,11 +182,11 @@ describe('Form.Section', () => {
       {
         "properties": {
           "firstName": {
-            "pattern": "^(?!.*[\\-\\s]{2})[\\p{L}]+([ \\-][\\p{L}]+)*$",
+            "pattern": "^(?=(?:.*[\\p{L}]){3,})(?!.*[-\\s]{2})(?!.*[\\.]{2})[\\p{L}][\\p{L}\\p{M}\\p{Zs}\\.-]*[\\p{L}]$",
             "type": "string",
           },
           "lastName": {
-            "pattern": "^(?!.*[\\-\\s]{2})[\\p{L}]+([ \\-][\\p{L}]+)*$",
+            "pattern": "^(?=(?:.*[\\p{L}]){3,})(?!.*[-\\s]{2})(?!.*[\\.]{2})[\\p{L}][\\p{L}\\p{M}\\p{Zs}\\.-]*[\\p{L}]$",
             "type": "string",
           },
         },
@@ -626,6 +614,34 @@ describe('Form.Section', () => {
       )
     })
 
+    it('should change minimum via overwrite props for Number field', () => {
+      const MyNumberSection = (props: SectionProps<{ amount: any }>) => (
+        <Form.Section {...props}>
+          <Field.Number path="/amount" />
+        </Form.Section>
+      )
+
+      render(
+        <Form.Handler>
+          <MyNumberSection
+            path="/mySection"
+            overwriteProps={{
+              amount: {
+                minimum: 30,
+                value: 5,
+                validateInitially: true,
+              },
+            }}
+          />
+        </Form.Handler>
+      )
+
+      const statusMessage = document.querySelector('.dnb-form-status')
+      expect(statusMessage).toHaveTextContent(
+        nb.NumberField.errorMinimum.replace('{minimum}', '30')
+      )
+    })
+
     it('should overwrite "path"', () => {
       const onChange = jest.fn()
 
@@ -926,6 +942,39 @@ describe('Form.Section', () => {
     })
   })
 
+  it('should change minimum via overwrite props in nested section for Number field', () => {
+    const MyOuterNumberSection = (
+      props: SectionProps<{ innerSection: { amount: any } }>
+    ) => (
+      <Form.Section {...props}>
+        <Form.Section path="/innerSection">
+          <Field.Number path="/amount" />
+        </Form.Section>
+      </Form.Section>
+    )
+
+    render(
+      <Form.Handler>
+        <MyOuterNumberSection
+          path="/mySection"
+          overwriteProps={{
+            innerSection: {
+              amount: {
+                minimum: 30,
+                value: 5,
+                validateInitially: true,
+              },
+            },
+          }}
+        />
+      </Form.Handler>
+    )
+
+    const statusMessage = document.querySelector('.dnb-form-status')
+    expect(statusMessage).toHaveTextContent(
+      nb.NumberField.errorMinimum.replace('{minimum}', '30')
+    )
+  })
   describe('schema', () => {
     it('should set "required" for firstName', () => {
       const schema: JSONSchema = {
@@ -934,7 +983,10 @@ describe('Form.Section', () => {
       }
 
       render(
-        <Form.Handler schema={schema}>
+        <Form.Handler
+          schema={schema}
+          ajvInstance={new Ajv({ allErrors: true })}
+        >
           <MySection path="/mySection" />
         </Form.Handler>
       )
@@ -954,7 +1006,10 @@ describe('Form.Section', () => {
       }
 
       render(
-        <Form.Handler schema={schema}>
+        <Form.Handler
+          schema={schema}
+          ajvInstance={new Ajv({ allErrors: true })}
+        >
           <MySection path="/mySection" />
         </Form.Handler>
       )
@@ -984,7 +1039,10 @@ describe('Form.Section', () => {
       }
 
       render(
-        <Form.Handler schema={schema}>
+        <Form.Handler
+          schema={schema}
+          ajvInstance={new Ajv({ allErrors: true })}
+        >
           <MySection path="/mySection" />
         </Form.Handler>
       )
@@ -1019,7 +1077,10 @@ describe('Form.Section', () => {
       }
 
       render(
-        <Form.Handler schema={schema}>
+        <Form.Handler
+          schema={schema}
+          ajvInstance={new Ajv({ allErrors: true })}
+        >
           <MySection path="/myObject/mySection" />
         </Form.Handler>
       )
@@ -1049,7 +1110,10 @@ describe('Form.Section', () => {
       }
 
       render(
-        <Form.Handler schema={schema}>
+        <Form.Handler
+          schema={schema}
+          ajvInstance={new Ajv({ allErrors: true })}
+        >
           <MySection path="/firstName" />
         </Form.Handler>
       )
@@ -1074,7 +1138,10 @@ describe('Form.Section', () => {
       }
 
       render(
-        <Form.Handler schema={schema}>
+        <Form.Handler
+          schema={schema}
+          ajvInstance={new Ajv({ allErrors: true })}
+        >
           <MySection path="/firstName" />
         </Form.Handler>
       )
@@ -1104,7 +1171,10 @@ describe('Form.Section', () => {
       }
 
       render(
-        <Form.Handler schema={schema}>
+        <Form.Handler
+          schema={schema}
+          ajvInstance={new Ajv({ allErrors: true })}
+        >
           <MySection
             path="/mySection"
             overwriteProps={{

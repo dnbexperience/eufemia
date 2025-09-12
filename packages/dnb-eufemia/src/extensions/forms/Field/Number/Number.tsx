@@ -20,11 +20,12 @@ import FieldBlock, {
   FieldBlockWidth,
 } from '../../FieldBlock'
 import { useFieldProps } from '../../hooks'
-import { FieldProps, AllJSONSchemaVersions } from '../../types'
+import { FieldProps, Schema } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import { ButtonProps, ButtonSize } from '../../../../components/Button'
 import { clamp } from '../../../../components/slider/SliderHelpers'
 import DataContext from '../../DataContext/Context'
+import * as z from 'zod'
 
 export type Props = FieldProps<number, undefined | number> & {
   innerRef?: React.RefObject<HTMLInputElement>
@@ -76,29 +77,130 @@ function NumberComponent(props: Props) {
     showStepControls,
   } = props
 
-  const schema = useMemo<AllJSONSchemaVersions>(
-    () =>
-      props.schema ?? {
-        type: 'number',
-        minimum: props.minimum ?? defaultMinimum,
-        maximum: props.maximum ?? defaultMaximum,
-        exclusiveMinimum: props.exclusiveMinimum,
-        exclusiveMaximum: props.exclusiveMaximum,
-        multipleOf: props.multipleOf,
-      },
-    [
-      props.schema,
-      props.minimum,
-      props.maximum,
-      props.exclusiveMinimum,
-      props.exclusiveMaximum,
-      props.multipleOf,
-    ]
-  )
+  const schema = useMemo<Schema>(() => {
+    return (
+      // Use a factory so the schema is created using the current props
+      // at validation time (min/max/exclusive/multipleOf). This keeps rules
+      // in sync with dynamic prop changes and avoids stale closures.
+      props.schema ??
+      ((p: Props) => {
+        return z
+          .number()
+          .nullish()
+          .superRefine((val, ctx) => {
+            // Skip validation for null/undefined values (they are treated as empty)
+            if (val === null || val === undefined) {
+              return
+            }
+            // Default JavaScript safe integer limits
+            if (val < defaultMinimum) {
+              ctx.addIssue({
+                code: 'too_small',
+                minimum: defaultMinimum,
+                type: 'number',
+                inclusive: true,
+                message: 'NumberField.errorMinimum',
+                origin: 'number',
+              })
+            }
 
-  const toInput = useCallback((external: number | undefined) => {
-    if (external === undefined) {
+            if (val > defaultMaximum) {
+              ctx.addIssue({
+                code: 'too_big',
+                maximum: defaultMaximum,
+                type: 'number',
+                inclusive: true,
+                message: 'NumberField.errorMaximum',
+                origin: 'number',
+              })
+            }
+
+            // minimum validation
+            if (p.minimum !== undefined && val < p.minimum) {
+              ctx.addIssue({
+                code: 'too_small',
+                minimum: p.minimum,
+                type: 'number',
+                inclusive: true,
+                message: 'NumberField.errorMinimum',
+                origin: 'number',
+              })
+            }
+
+            // maximum validation
+            if (p.maximum !== undefined && val > p.maximum) {
+              ctx.addIssue({
+                code: 'too_big',
+                maximum: p.maximum,
+                type: 'number',
+                inclusive: true,
+                message: 'NumberField.errorMaximum',
+                origin: 'number',
+              })
+            }
+
+            // exclusiveMinimum validation
+            if (
+              p.exclusiveMinimum !== undefined &&
+              val <= p.exclusiveMinimum
+            ) {
+              ctx.addIssue({
+                code: 'too_small',
+                minimum: p.exclusiveMinimum,
+                type: 'number',
+                inclusive: false,
+                message: 'NumberField.errorExclusiveMinimum',
+                origin: 'number',
+                exclusiveMinimum: p.exclusiveMinimum,
+              })
+            }
+
+            // exclusiveMaximum validation
+            if (
+              p.exclusiveMaximum !== undefined &&
+              val >= p.exclusiveMaximum
+            ) {
+              ctx.addIssue({
+                code: 'too_big',
+                maximum: p.exclusiveMaximum,
+                type: 'number',
+                inclusive: false,
+                message: 'NumberField.errorExclusiveMaximum',
+                origin: 'number',
+                exclusiveMaximum: p.exclusiveMaximum,
+              })
+            }
+
+            // multipleOf validation
+            if (p.multipleOf !== undefined && val % p.multipleOf !== 0) {
+              ctx.addIssue({
+                code: 'custom',
+                message: 'NumberField.errorMultipleOf',
+                origin: 'number',
+                multipleOf: p.multipleOf,
+              })
+            }
+          })
+      })
+    )
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    props.schema,
+    props.minimum,
+    props.maximum,
+    props.exclusiveMinimum,
+    props.exclusiveMaximum,
+    props.multipleOf,
+  ])
+
+  const toInput = useCallback((external: number | undefined | unknown) => {
+    if (external === undefined || external === null) {
       return null
+    }
+    // Handle invalid types (e.g., strings) by converting to empty string for display
+    if (typeof external !== 'number' || isNaN(external)) {
+      return ''
     }
     return external
   }, [])

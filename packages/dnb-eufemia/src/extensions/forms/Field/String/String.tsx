@@ -7,6 +7,7 @@ import React, {
 } from 'react'
 import classnames from 'classnames'
 import { Input, Textarea } from '../../../../components'
+import * as z from 'zod'
 import { InputProps } from '../../../../components/input/Input'
 import InputMasked, {
   InputMaskedProps,
@@ -22,7 +23,7 @@ import { useFieldProps } from '../../hooks'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import { toCapitalized } from '../../../../shared/component-helper'
 import type { TextCounterProps } from '../../../../fragments/TextCounter'
-import type { FieldProps, AllJSONSchemaVersions } from '../../types'
+import type { FieldProps, Schema } from '../../types'
 
 export type Props = FieldProps<string, undefined | string> & {
   // - Shared props
@@ -72,16 +73,48 @@ function StringComponent(props: Props) {
   const dataContext = useContext(DataContext)
   const fieldBlockContext = useContext(FieldBlockContext)
 
-  const schema = useMemo<AllJSONSchemaVersions>(
-    () =>
-      props.schema ?? {
-        type: 'string',
-        minLength: props.minLength,
-        maxLength: props.maxLength,
-        pattern: props.pattern,
-      },
-    [props.schema, props.minLength, props.maxLength, props.pattern]
-  )
+  const schema = useMemo<Schema<string>>(() => {
+    return (
+      // Use a factory so the schema is created using the current props
+      // at validation time (min/max/pattern). This keeps rules in sync
+      // with dynamic prop changes and avoids stale closures.
+      props.schema ??
+      ((p: Props) => {
+        return z.string().superRefine((val, ctx) => {
+          if (p.minLength !== undefined && val.length < p.minLength) {
+            ctx.addIssue({
+              code: 'too_small',
+              minimum: p.minLength,
+              type: 'string',
+              inclusive: true,
+              origin: 'string',
+              message: 'StringField.errorMinLength',
+            })
+          }
+          if (p.maxLength !== undefined && val.length > p.maxLength) {
+            ctx.addIssue({
+              code: 'too_big',
+              maximum: p.maxLength,
+              type: 'string',
+              inclusive: true,
+              origin: 'string',
+              message: 'StringField.errorMaxLength',
+            })
+          }
+          if (p.pattern && !new RegExp(p.pattern, 'u').test(val)) {
+            ctx.addIssue({
+              code: 'invalid_format',
+              validation: 'regex',
+              format: 'regex',
+              message: 'Field.errorPattern',
+            })
+          }
+        })
+      })
+    )
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.schema, props.minLength, props.maxLength, props.pattern])
   const fromInput = useCallback(
     (event: { value: string; cleanedValue?: string }) => {
       if (typeof event === 'string') {
