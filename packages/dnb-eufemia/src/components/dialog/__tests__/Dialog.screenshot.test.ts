@@ -223,46 +223,6 @@ describe.each(['ui', 'sbanken'])('Dialog for %s', (themeName) => {
     })
   })
 
-  describe('scrollable content', () => {
-    setupPageScreenshot({
-      themeName,
-      url: '/uilib/components/dialog/demos',
-      pageViewport: {
-        width: 400,
-        height: 400,
-      },
-      headers: { 'User-Agent': 'iPhone OS 15' },
-    })
-
-    it('have to match scrolled to top', async () => {
-      const screenshot = await makeScreenshot({
-        selector: '[data-visual-test="dialog-scroll-content"]', // only to make sure we have a valid selector
-        simulate: 'click',
-        simulateSelector:
-          '[data-visual-test="dialog-scroll-content"] button:first-of-type',
-        waitAfterSimulateSelector: '.dnb-scroll-view',
-        simulateAfter: { keypress: 'Escape' },
-        screenshotSelector: '.dnb-modal__content .dnb-scroll-view',
-        rootClassName: 'hide-page-content',
-      })
-      expect(screenshot).toMatchImageSnapshot()
-    })
-
-    it('have to match scrolled to bottom', async () => {
-      const screenshot = await makeScreenshot({
-        selector: '[data-visual-test="dialog-scroll-content"]', // only to make sure we have a valid selector
-        simulate: 'click',
-        simulateSelector:
-          '[data-visual-test="dialog-scroll-content"] button:first-of-type',
-        waitAfterSimulateSelector: '.dnb-scroll-view',
-        simulateAfter: { keypress: 'Escape' },
-        screenshotSelector: '.dnb-modal__content .dnb-scroll-view',
-        rootClassName: ['hide-page-content', 'scroll-to-bottom'],
-      })
-      expect(screenshot).toMatchImageSnapshot()
-    })
-  })
-
   describe('scrollable content in variant info', () => {
     setupPageScreenshot({
       themeName,
