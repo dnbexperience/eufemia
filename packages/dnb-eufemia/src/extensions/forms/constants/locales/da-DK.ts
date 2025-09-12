@@ -165,7 +165,7 @@ export default {
       errorRequired: 'Du skal udfylde firmanavn.',
     },
     NationalIdentityNumber: {
-      label: 'Norsk "fødselsnummer" (11 cifre)',
+      label: 'Norsk fødselsnummer (11 cifre)',
       errorRequired: 'Du skal udfylde et fødselsnummer.',
       errorFnr: 'Ugyldigt fødselsnummer.',
       errorFnrLength:
