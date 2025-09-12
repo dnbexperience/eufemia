@@ -29,7 +29,11 @@ export default function App() {
 
           <Hr />
 
-          <Field.String label="Label" placeholder="This is a Field" />
+          <Field.String
+            label="Label"
+            placeholder="This is a Field"
+            path="/myField"
+          />
         </Form.Card>
 
         <Form.SubmitButton text="Happy coding!" />
