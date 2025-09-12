@@ -5,8 +5,17 @@
 
 @import '../../../style/core/utilities.scss';
 
+:root {
+  --section-z-index: 1;
+}
+
 .dnb-section {
   position: relative;
+
+  // Create a new stacking context without affecting global z-order.
+  // This keeps the ::before (z-index: -1) inside the section,
+  // so nested sections still render their border correctly.
+  isolation: isolate;
 
   // flow-root allows content to have margin top and bottom
   // it eliminates margin-collapsing
@@ -97,6 +106,7 @@
     --background-color--value: var(--background-color--small);
     --text-color--value: var(--text-color--small);
     --outline-color: var(--outline-color--small);
+    --outline-width: var(--outline-width--small);
     --drop-shadow: var(--drop-shadow--small);
     --rounded-corner: var(
       --rounded-corner--small,
@@ -109,6 +119,7 @@
     --background-color--value: var(--background-color--medium);
     --text-color--value: var(--text-color--medium);
     --outline-color: var(--outline-color--medium);
+    --outline-width: var(--outline-width--medium);
     --drop-shadow: var(--drop-shadow--medium);
     --rounded-corner: var(
       --rounded-corner--medium,
@@ -121,6 +132,7 @@
     --background-color--value: var(--background-color--large);
     --text-color--value: var(--text-color--large);
     --outline-color: var(--outline-color--large);
+    --outline-width: var(--outline-width--large);
     --drop-shadow: var(--drop-shadow--large);
     --rounded-corner: var(
       --rounded-corner--large,

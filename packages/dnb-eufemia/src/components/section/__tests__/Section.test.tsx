@@ -145,7 +145,7 @@ describe('Section component', () => {
       expect(
         document.querySelector('.dnb-section').getAttribute('style')
       ).toBe(
-        '--breakout--small: var(--breakout--on); --breakout--medium: var(--breakout--on); --breakout--large: var(--breakout--on); font-size: 2rem;'
+        '--breakout--small: var(--breakout--on); --breakout--medium: var(--breakout--on); --breakout--large: var(--breakout--on); --outline-width--small: none; --outline-width--medium: none; --outline-width--large: none; font-size: 2rem;'
       )
     })
 
@@ -185,7 +185,7 @@ describe('Section component', () => {
       expect(
         document.querySelector('.dnb-section').getAttribute('style')
       ).toBe(
-        '--breakout--small: var(--breakout--on); --breakout--medium: var(--breakout--on); --breakout--large: var(--breakout--on); --background-color--small: var(--color-fire-red); --background-color--medium: var(--color-fire-red); --background-color--large: var(--color-fire-red);'
+        '--breakout--small: var(--breakout--on); --breakout--medium: var(--breakout--on); --breakout--large: var(--breakout--on); --background-color--small: var(--color-fire-red); --background-color--medium: var(--color-fire-red); --background-color--large: var(--color-fire-red); --outline-width--small: none; --outline-width--medium: none; --outline-width--large: none;'
       )
 
       rerender(
@@ -200,7 +200,7 @@ describe('Section component', () => {
       expect(
         document.querySelector('.dnb-section').getAttribute('style')
       ).toBe(
-        '--breakout--small: var(--breakout--on); --breakout--medium: var(--breakout--on); --breakout--large: var(--breakout--on); --background-color--small: var(--color-fire-red); --background-color--medium: var(--color-success-green); --background-color--large: var(--color-black);'
+        '--breakout--small: var(--breakout--on); --breakout--medium: var(--breakout--on); --breakout--large: var(--breakout--on); --background-color--small: var(--color-fire-red); --background-color--medium: var(--color-success-green); --background-color--large: var(--color-black); --outline-width--small: none; --outline-width--medium: none; --outline-width--large: none;'
       )
     })
 
@@ -209,7 +209,7 @@ describe('Section component', () => {
       expect(
         document.querySelector('.dnb-section').getAttribute('style')
       ).toBe(
-        '--breakout--small: var(--breakout--on); --breakout--medium: var(--breakout--on); --breakout--large: var(--breakout--on); --text-color--small: var(--color-fire-red); --text-color--medium: var(--color-fire-red); --text-color--large: var(--color-fire-red);'
+        '--breakout--small: var(--breakout--on); --breakout--medium: var(--breakout--on); --breakout--large: var(--breakout--on); --text-color--small: var(--color-fire-red); --text-color--medium: var(--color-fire-red); --text-color--large: var(--color-fire-red); --outline-width--small: none; --outline-width--medium: none; --outline-width--large: none;'
       )
 
       rerender(
@@ -224,7 +224,7 @@ describe('Section component', () => {
       expect(
         document.querySelector('.dnb-section').getAttribute('style')
       ).toBe(
-        '--breakout--small: var(--breakout--on); --breakout--medium: var(--breakout--on); --breakout--large: var(--breakout--on); --text-color--small: var(--color-fire-red); --text-color--medium: var(--color-success-green); --text-color--large: var(--color-black);'
+        '--breakout--small: var(--breakout--on); --breakout--medium: var(--breakout--on); --breakout--large: var(--breakout--on); --text-color--small: var(--color-fire-red); --text-color--medium: var(--color-success-green); --text-color--large: var(--color-black); --outline-width--small: none; --outline-width--medium: none; --outline-width--large: none;'
       )
     })
 
@@ -233,7 +233,7 @@ describe('Section component', () => {
       expect(
         document.querySelector('.dnb-section').getAttribute('style')
       ).toBe(
-        '--breakout--small: var(--breakout--off); --breakout--medium: var(--breakout--off); --breakout--large: var(--breakout--off);'
+        '--breakout--small: var(--breakout--off); --breakout--medium: var(--breakout--off); --breakout--large: var(--breakout--off); --outline-width--small: none; --outline-width--medium: none; --outline-width--large: none;'
       )
 
       rerender(
@@ -248,7 +248,7 @@ describe('Section component', () => {
       expect(
         document.querySelector('.dnb-section').getAttribute('style')
       ).toBe(
-        '--breakout--small: var(--breakout--on); --breakout--medium: var(--breakout--off); --breakout--large: var(--breakout--on);'
+        '--breakout--small: var(--breakout--on); --breakout--medium: var(--breakout--off); --breakout--large: var(--breakout--on); --outline-width--small: none; --outline-width--medium: none; --outline-width--large: none;'
       )
     })
 
@@ -259,7 +259,7 @@ describe('Section component', () => {
       expect(
         document.querySelector('.dnb-section').getAttribute('style')
       ).toBe(
-        '--breakout--small: var(--breakout--off); --breakout--medium: var(--breakout--off); --breakout--large: var(--breakout--off);'
+        '--breakout--small: var(--breakout--off); --breakout--medium: var(--breakout--off); --breakout--large: var(--breakout--off); --outline-width--small: none; --outline-width--medium: none; --outline-width--large: none;'
       )
 
       rerender(
@@ -275,7 +275,7 @@ describe('Section component', () => {
       expect(
         document.querySelector('.dnb-section').getAttribute('style')
       ).toBe(
-        '--breakout--small: var(--breakout--off); --breakout--medium: var(--breakout--off); --breakout--large: var(--breakout--off); --rounded-corner--small: var(--rounded-corner--value); --rounded-corner--large: var(--rounded-corner--value);'
+        '--breakout--small: var(--breakout--off); --breakout--medium: var(--breakout--off); --breakout--large: var(--breakout--off); --outline-width--small: none; --outline-width--medium: none; --outline-width--large: none; --rounded-corner--small: var(--rounded-corner--value); --rounded-corner--large: var(--rounded-corner--value);'
       )
     })
 
@@ -284,14 +284,14 @@ describe('Section component', () => {
       expect(
         document.querySelector('.dnb-section').getAttribute('style')
       ).toBe(
-        '--breakout--small: var(--breakout--on); --breakout--medium: var(--breakout--on); --breakout--large: var(--breakout--on); --space-t-s: 1rem; --space-r-s: 1rem; --space-b-s: 1rem; --space-l-s: 1rem; --space-t-m: 1rem; --space-r-m: 1rem; --space-b-m: 1rem; --space-l-m: 1rem; --space-t-l: 1rem; --space-r-l: 1rem; --space-b-l: 1rem; --space-l-l: 1rem;'
+        '--breakout--small: var(--breakout--on); --breakout--medium: var(--breakout--on); --breakout--large: var(--breakout--on); --outline-width--small: none; --outline-width--medium: none; --outline-width--large: none; --space-t-s: 1rem; --space-r-s: 1rem; --space-b-s: 1rem; --space-l-s: 1rem; --space-t-m: 1rem; --space-r-m: 1rem; --space-b-m: 1rem; --space-l-m: 1rem; --space-t-l: 1rem; --space-r-l: 1rem; --space-b-l: 1rem; --space-l-l: 1rem;'
       )
 
       rerender(<Section innerSpace="large medium small" />)
       expect(
         document.querySelector('.dnb-section').getAttribute('style')
       ).toBe(
-        '--breakout--small: var(--breakout--on); --breakout--medium: var(--breakout--on); --breakout--large: var(--breakout--on); --space-t-s: 4.5rem; --space-r-s: 4.5rem; --space-b-s: 4.5rem; --space-l-s: 4.5rem; --space-t-m: 4.5rem; --space-r-m: 4.5rem; --space-b-m: 4.5rem; --space-l-m: 4.5rem; --space-t-l: 4.5rem; --space-r-l: 4.5rem; --space-b-l: 4.5rem; --space-l-l: 4.5rem;'
+        '--breakout--small: var(--breakout--on); --breakout--medium: var(--breakout--on); --breakout--large: var(--breakout--on); --outline-width--small: none; --outline-width--medium: none; --outline-width--large: none; --space-t-s: 4.5rem; --space-r-s: 4.5rem; --space-b-s: 4.5rem; --space-l-s: 4.5rem; --space-t-m: 4.5rem; --space-r-m: 4.5rem; --space-b-m: 4.5rem; --space-l-m: 4.5rem; --space-t-l: 4.5rem; --space-r-l: 4.5rem; --space-b-l: 4.5rem; --space-l-l: 4.5rem;'
       )
 
       rerender(
@@ -306,7 +306,7 @@ describe('Section component', () => {
       expect(
         document.querySelector('.dnb-section').getAttribute('style')
       ).toBe(
-        '--breakout--small: var(--breakout--on); --breakout--medium: var(--breakout--on); --breakout--large: var(--breakout--on); --space-t-s: 0.5rem; --space-r-s: 2rem; --space-t-m: 1rem; --space-r-m: 1rem; --space-b-m: 1rem; --space-l-m: 1rem; --space-r-l: 0.5rem; --space-l-l: 1rem;'
+        '--breakout--small: var(--breakout--on); --breakout--medium: var(--breakout--on); --breakout--large: var(--breakout--on); --outline-width--small: none; --outline-width--medium: none; --outline-width--large: none; --space-t-s: 0.5rem; --space-r-s: 2rem; --space-t-m: 1rem; --space-r-m: 1rem; --space-b-m: 1rem; --space-l-m: 1rem; --space-r-l: 0.5rem; --space-l-l: 1rem;'
       )
     })
   })

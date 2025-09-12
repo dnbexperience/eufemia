@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`Tabs scss has to match style dependencies css 1`] = `
 "/*
@@ -326,7 +326,8 @@ html[data-visual-test] .dnb-tabs .dnb-tabs__cached, html[data-visual-test] .dnb-
 .dnb-tabs__content:focus::before {
   content: "";
   position: absolute;
-  z-index: -1;
+  z-index: calc(var(--section-z-index) + 1);
+  pointer-events: none;
   top: 0.125rem;
   bottom: -0.5rem;
   left: -0.5rem;

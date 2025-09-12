@@ -89,6 +89,11 @@ export type SectionProps = {
   outline?: OutlineColor | ResponsiveProp<OutlineColor>
 
   /**
+   * Define a custom border width. Defaults to `var(--card-outline-width)`.
+   */
+  outlineWidth?: number | string | ResponsiveProp<number | string>
+
+  /**
    * Define a custom text color to compliment the backgroundColor. Use a Eufemia color.
    */
   textColor?: TextColor | ResponsiveProp<TextColor>
@@ -167,6 +172,10 @@ export function SectionParams(
     backgroundColor,
     dropShadow,
     outline,
+    outlineWidth = typeof props.outline === 'undefined' &&
+    typeof props.outlineWidth === 'undefined'
+      ? 'none'
+      : props.outlineWidth,
     innerRef,
 
     className,
@@ -219,6 +228,9 @@ export function SectionParams(
           ? value && 'var(--outline-color--value)'
           : getColor(value)
       ),
+      ...computeStyle(outlineWidth, 'outline-width', (value) =>
+        typeof value === 'number' ? `${value}px` : value
+      ),
       ...attributes?.style,
     } as React.CSSProperties,
     innerRef: elementRef,
@@ -226,7 +238,7 @@ export function SectionParams(
   })
 }
 
-function computeStyle<T extends boolean | string | boolean[]>(
+function computeStyle<T extends boolean | string | number | boolean[]>(
   property: T | ResponsiveProp<T>,
   name: string,
   valueCallback: (value: T) => string | undefined

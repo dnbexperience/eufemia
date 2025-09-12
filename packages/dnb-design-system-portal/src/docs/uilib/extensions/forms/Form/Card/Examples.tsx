@@ -74,9 +74,9 @@ export const UsageInWizard = () => {
                 </Form.Section.EditContainer>
               </Form.Section>
             </Form.Card>
+            <Form.SubmitButton text="Happy coding!" />
           </Wizard.Step>
         </Wizard.Container>
-        <Form.SubmitButton text="Happy coding!" />
       </Form.Handler>
     </ComponentBox>
   )

@@ -337,7 +337,10 @@
     &::before {
       content: '';
       position: absolute;
-      z-index: -1;
+
+      // Above a Section
+      z-index: calc(var(--section-z-index) + 1);
+      pointer-events: none;
 
       top: 0.125rem;
       bottom: -0.5rem;

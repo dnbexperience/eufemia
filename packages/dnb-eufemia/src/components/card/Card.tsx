@@ -28,7 +28,10 @@ export type Props = {
    */
   filled?: boolean
 } & FlexContainerProps &
-  Pick<SectionProps, 'outset'> &
+  Pick<
+    SectionProps,
+    'outset' | 'outline' | 'outlineWidth' | 'backgroundColor'
+  > &
   FlexItemProps & {
     stack?: boolean
   } & SpaceProps &
@@ -88,7 +91,9 @@ function Card(props: Props) {
       ? falseWhenSmall
       : outset,
     roundedCorner: responsive ? falseWhenSmall : true,
-    outline: 'var(--outline-card-color)',
+    outline: 'var(--card-outline-color)',
+    outlineWidth: 'var(--card-outline-width)',
+    backgroundColor: 'var(--card-background-color)',
     innerSpace:
       innerSpace ??
       ({

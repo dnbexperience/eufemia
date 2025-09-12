@@ -88,6 +88,14 @@ describe.each(['ui', 'sbanken'])('Card for %s', (themeName) => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
+  it('have to match background color', async () => {
+    const screenshot = await makeScreenshot({
+      selector:
+        '[data-visual-test="layout-card-background-color-outline"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })
 
 describe.each(['ui', 'sbanken'])(

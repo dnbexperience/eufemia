@@ -36,6 +36,16 @@ export const CardProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  outline: {
+    doc: 'Define the outline color. Defaults to `var(--card-outline-color)`.',
+    type: 'string',
+    status: 'optional',
+  },
+  backgroundColor: {
+    doc: 'Define the background color. Defaults to `var(--card-background-color)`.',
+    type: 'string',
+    status: 'optional',
+  },
   element: {
     doc: 'Define the type of element. Defaults to `section`.',
     type: 'React.Element',

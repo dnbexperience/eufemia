@@ -576,6 +576,7 @@ button.dnb-button::-moz-focus-inner {
  */
 .dnb-step-indicator {
   --step-indicator-trigger-background: var(--color-black-3);
+  --step-indicator-trigger-content-background: var(--color-white);
   --step-indicator-check-bg: var(--color-pistachio);
   --step-indicator-check-color: var(--color-success-green);
   --step-indicator-current-border: var(--color-black-80);
