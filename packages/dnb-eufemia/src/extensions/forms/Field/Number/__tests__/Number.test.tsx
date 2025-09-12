@@ -837,7 +837,11 @@ describe('Field.Number', () => {
 
       it('allow undefined as emptyValue', () => {
         render(
-          <Form.Handler schema={schema} data={data}>
+          <Form.Handler
+            schema={schema}
+            ajvInstance={new Ajv({ allErrors: true })}
+            data={data}
+          >
             <Field.Number path="/myFieldWithUndefined" />
           </Form.Handler>
         )
@@ -851,7 +855,11 @@ describe('Field.Number', () => {
 
       it('allow number as emptyValue', () => {
         render(
-          <Form.Handler schema={schema} data={data}>
+          <Form.Handler
+            schema={schema}
+            ajvInstance={new Ajv({ allErrors: true })}
+            data={data}
+          >
             <Field.Number path="/myFieldWithZero" />
           </Form.Handler>
         )
@@ -865,7 +873,11 @@ describe('Field.Number', () => {
 
       it('allow null as empty value', () => {
         render(
-          <Form.Handler schema={schema} data={data}>
+          <Form.Handler
+            schema={schema}
+            ajvInstance={new Ajv({ allErrors: true })}
+            data={data}
+          >
             <Field.Number path="/myFieldWithNull" />
           </Form.Handler>
         )
@@ -881,7 +893,11 @@ describe('Field.Number', () => {
         const log = jest.spyOn(console, 'error').mockImplementation()
 
         render(
-          <Form.Handler schema={schema} data={data}>
+          <Form.Handler
+            schema={schema}
+            ajvInstance={new Ajv({ allErrors: true })}
+            data={data}
+          >
             <Field.Number
               path="/myFieldWitInvalidType"
               validateInitially
@@ -1459,7 +1475,10 @@ describe('Field.Number', () => {
       })
 
       render(
-        <Form.Handler schema={schema}>
+        <Form.Handler
+          schema={schema}
+          ajvInstance={new Ajv({ allErrors: true })}
+        >
           <Field.Number path="/amount" />
         </Form.Handler>
       )

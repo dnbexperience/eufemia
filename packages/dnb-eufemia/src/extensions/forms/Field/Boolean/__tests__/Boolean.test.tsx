@@ -2,7 +2,7 @@ import React from 'react'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
 import { screen, render, waitFor, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { DataContext, Field, Form, Iterate } from '../../..'
+import { DataContext, Field, Form, Iterate, Ajv, z } from '../../..'
 import nbNO from '../../../constants/locales/nb-NO'
 
 const nb = nbNO['nb-NO']
@@ -1706,7 +1706,11 @@ describe('Field.Boolean', () => {
       }
 
       render(
-        <Form.Handler schema={schema} data={{ myField: false }}>
+        <Form.Handler
+          schema={schema}
+          ajvInstance={new Ajv({ allErrors: true })}
+          data={{ myField: false }}
+        >
           <Field.Boolean path="/myField" validateInitially />
         </Form.Handler>
       )
@@ -1728,7 +1732,11 @@ describe('Field.Boolean', () => {
       }
 
       render(
-        <Form.Handler schema={schema} data={{ myField: undefined }}>
+        <Form.Handler
+          schema={schema}
+          ajvInstance={new Ajv({ allErrors: true })}
+          data={{ myField: undefined }}
+        >
           <Field.Boolean required path="/myField" />
         </Form.Handler>
       )
@@ -1749,5 +1757,65 @@ describe('Field.Boolean', () => {
       expect(formStatus()).toBeInTheDocument()
       expect(formStatus()).toHaveTextContent('must be equal to constant')
     })
+  })
+
+  describe('Zod validation', () => {
+    it('should validate with Zod schema directly', async () => {
+      const schema = z
+        .boolean()
+        .refine((v) => v === true, { message: 'Must be true' })
+
+      render(
+        <Field.Boolean value={false} schema={schema} validateInitially />
+      )
+
+      expect(screen.getByRole('alert')).toBeInTheDocument()
+      expect(screen.getByRole('alert')).toHaveTextContent('Must be true')
+    })
+
+    it('should not show error for valid value using Zod schema', async () => {
+      const schema = z
+        .boolean()
+        .refine((v) => v === true, { message: 'Must be true' })
+
+      render(
+        <Field.Boolean value={true} schema={schema} validateInitially />
+      )
+
+      expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+    })
+
+    it('should accept Zod schema provided by Form.Handler without errors', async () => {
+      const schema = z.object({ agree: z.boolean() })
+
+      expect(() => {
+        render(
+          <Form.Handler schema={schema} defaultData={{ agree: false }}>
+            <Field.Boolean path="/agree" />
+          </Form.Handler>
+        )
+      }).not.toThrow()
+
+      expect(screen.getByRole('checkbox')).toBeInTheDocument()
+    })
+
+    it('should not show error for valid value when Zod schema is provided by Form.Handler', async () => {
+      const schema = z.object({
+        agree: z
+          .boolean()
+          .refine((v) => v === true, { message: 'Must be true' }),
+      })
+
+      render(
+        <Form.Handler schema={schema}>
+          <Field.Boolean path="/agree" value={true} validateInitially />
+        </Form.Handler>
+      )
+
+      expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+    })
+
+    // Note: Boolean field does not surface a field-level error on blur with validateUnchanged,
+    // so we cover initial validation and handler-provided schema cases above.
   })
 })
