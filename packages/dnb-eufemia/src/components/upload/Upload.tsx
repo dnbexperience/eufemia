@@ -73,6 +73,7 @@ const Upload = (localProps: UploadAllProps) => {
     errorAmountLimit, // eslint-disable-line
     deleteButton, // eslint-disable-line
     fileListAriaLabel, // eslint-disable-line
+    buttonProps, // eslint-disable-line
     disableDragAndDrop,
     ...props
   } = extendedProps

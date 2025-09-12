@@ -36,6 +36,7 @@ const UploadFileInput = ({
     onInputUpload,
     filesAmountLimit,
     variant,
+    buttonProps,
   } = context
 
   const openFileDialog = () => fileInput.current?.click()
@@ -54,11 +55,14 @@ const UploadFileInput = ({
           icon_position="left"
           variant="secondary"
           wrap
-          onClick={openFileDialog}
           disabled={disabled}
-        >
-          {buttonText}
-        </Button>
+          text={buttonText}
+          {...buttonProps}
+          onClick={(e) => {
+            openFileDialog()
+            buttonProps?.onClick?.(e)
+          }}
+        />
       )}
       <UploadStatus />
 

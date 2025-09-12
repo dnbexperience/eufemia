@@ -9,14 +9,19 @@ showTabs: true
 These fields is meant for Norwegian postal codes and cities. The postal code input takes a 4-digit string as values, since it's meant for Norwegian postal codes. A Norwegian postal code can have a leading zero, which is why the value is a string and not a number.
 More info about postal codes can be found at [Posten](https://www.bring.no/tjenester/adressetjenester/postnummer).
 
+It supports the HTML [autocomplete](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete) attribute, and by default set it to `postal-code` for the postal code field, and to `address-level2` for the city field.
+
+There is a corresponding [Value.PostalCodeAndCity](/uilib/extensions/forms/Value/PostalCodeAndCity) component.
+
 ```jsx
 import { Field } from '@dnb/eufemia/extensions/forms'
 render(<Field.PostalCodeAndCity />)
 ```
 
-It supports the HTML [autocomplete](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete) attribute, and by default set it to `postal-code` for the postal code field, and to `address-level2` for the city field.
+## Relevant links
 
-There is a corresponding [Value.PostalCodeAndCity](/uilib/extensions/forms/Value/PostalCodeAndCity) component.
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Field/PostalCodeAndCity)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/extensions/forms/feature-fields/PostalCodeAndCity)
 
 ## Validation and autofill
 

@@ -60,6 +60,7 @@ export default {
       doneButton: 'Done',
       cancelButton: 'Cancel',
       errorInSection: 'Please correct the errors above.',
+      confirmCancelText: 'Are you sure you want to discard your changes?',
     },
     IterateViewContainer: {
       removeButton: 'Remove',

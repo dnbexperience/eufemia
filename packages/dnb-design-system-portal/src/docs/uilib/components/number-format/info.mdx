@@ -182,7 +182,23 @@ So, numbers are formatted differently for screen readers than the visual number.
 
 Eufemia is basing their number formats on both the [Norwegian authority](https://lovdata.no/forskrift/2004-02-16-426/§16) and [Språkradet](https://www.sprakradet.no/sprakhjelp/Skriveregler/Dato), and currency is based on [guidelines](https://www.sprakradet.no/svardatabase/sporsmal-og-svar/kronebelop-rekkjefolgje-komma-og-strek/) from Språkrådet. Wikipedia has more info on world wide [decimal separator](https://en.wikipedia.org/wiki/Decimal_separator) usage.
 
-For international number formatting, we use the [EU Style Guide](https://ec.europa.eu/info/sites/default/files/styleguide_english_dgt_en.pdf).
+For international number formatting we use these sources:
+
+- [ONS – Writing numbers](https://service-manual.ons.gov.uk/content/numbers/writing-numbers)
+- [GOV.UK Style Guide](https://www.gov.uk/guidance/style-guide/a-to-z-of-gov-uk-style#numbers)
+- [NHS Service Manual](https://service-manual.nhs.uk/content/numbers-measurements-dates-time) all recommend using **commas** as the thousands separator for `en-GB`.
+- [EU Data Visualisation Guide](https://data.europa.eu/apps/data-visualisation-guide/number-formatting) states the same for digital content.
+- [EU’s Handbook for authors and translators](https://commission.europa.eu/system/files/2023-11/styleguide_english_dgt_en.pdf) specifies non-breaking spaces as the main rule, **but explicitly allows commas when writing for the web** – which is exactly our context.
+- [ISO 80000-1](https://www.iso.org/standard/76921.html) (formerly ISO 31-0) is a scientific/technical standard and **not a linguistic style guide**, so we don't use it for how we present numbers to end users on the web.
+
+**Difference between formats:**
+
+- `1 234.00` – 🇬🇧 Current DNB practice for English
+- `1,234.00` – 🇬🇧 Recommended by official UK sources (ONS, GOV.UK, NHS)
+
+**Accessibility:** WCAG [1.3.1 Info and Relationships](https://www.w3.org/WAI/WCAG21/Understanding/info-and-relationships.html) and [3.1.1 Language of Page](https://www.w3.org/WAI/WCAG21/Understanding/language-of-page.html) require that content can be correctly interpreted by assistive technologies.
+
+When using spaces as thousand separators, screen readers misinterpret numbers in English – for example: `45 804` → read as “45” and “804” instead of “forty-five thousand eight hundred and four.”
 
 ## Node.js and SSR usage
 

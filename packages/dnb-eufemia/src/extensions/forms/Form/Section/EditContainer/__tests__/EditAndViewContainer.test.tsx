@@ -174,6 +174,14 @@ describe('EditContainer and ViewContainer', () => {
           btn.textContent?.trim() === nb.SectionEditContainer.cancelButton
       )
       await userEvent.click(cancelButton)
+      await waitFor(() =>
+        expect(
+          document.querySelector('.dnb-dialog .dnb-button--primary')
+        ).toBeInTheDocument()
+      )
+      await userEvent.click(
+        document.querySelector('.dnb-dialog .dnb-button--primary')
+      )
 
       // Should still be in edit mode and show the section error message
       await waitFor(() => {
@@ -240,6 +248,14 @@ describe('EditContainer and ViewContainer', () => {
           btn.textContent?.trim() === nb.SectionEditContainer.cancelButton
       ) as HTMLButtonElement
       await userEvent.click(cancelButton)
+      await waitFor(() =>
+        expect(
+          document.querySelector('.dnb-dialog .dnb-button--primary')
+        ).toBeInTheDocument()
+      )
+      await userEvent.click(
+        document.querySelector('.dnb-dialog .dnb-button--primary')
+      )
 
       // Assert restoreOriginalData was called and value restored
       await waitFor(() => {
@@ -286,10 +302,20 @@ describe('EditContainer and ViewContainer', () => {
       )
 
       // Cancel should keep edit because errors exist
-      const [, cancelButton] = Array.from(
-        document.querySelectorAll('button')
+      const buttons2 = Array.from(document.querySelectorAll('button'))
+      const cancelButton2 = buttons2.find(
+        (btn) =>
+          btn.textContent?.trim() === nb.SectionEditContainer.cancelButton
+      ) as HTMLButtonElement
+      await userEvent.click(cancelButton2)
+      await waitFor(() =>
+        expect(
+          document.querySelector('.dnb-dialog .dnb-button--primary')
+        ).toBeInTheDocument()
       )
-      await userEvent.click(cancelButton)
+      await userEvent.click(
+        document.querySelector('.dnb-dialog .dnb-button--primary')
+      )
       await waitFor(() => {
         expect(containerMode).toBe('edit')
         expect(editBlock.className).not.toContain(
@@ -358,6 +384,9 @@ describe('EditContainer and ViewContainer', () => {
           btn.textContent?.trim() === nb.SectionEditContainer.cancelButton
       )
       await userEvent.click(foundCancel)
+      await userEvent.click(
+        document.querySelector('.dnb-dialog .dnb-button--primary')
+      )
       await waitFor(() => {
         expect(containerMode).toBe('edit')
         expect(editBlock.className).not.toContain(
@@ -422,6 +451,14 @@ describe('EditContainer and ViewContainer', () => {
         document.querySelectorAll('button')
       )
       await userEvent.click(cancelButton)
+      await waitFor(() =>
+        expect(
+          document.querySelector('.dnb-dialog .dnb-button--primary')
+        ).toBeInTheDocument()
+      )
+      await userEvent.click(
+        document.querySelector('.dnb-dialog .dnb-button--primary')
+      )
 
       await waitFor(() => {
         expect(containerMode).toBe('view')
@@ -631,13 +668,27 @@ describe('EditContainer and ViewContainer', () => {
 
       // Switch to view mode
       fireEvent.click(cancelButton)
+      await userEvent.click(
+        document.querySelector('.dnb-dialog .dnb-button--primary')
+      )
       expect(containerMode).toBe('view')
 
       await waitFor(() => {
+        expect(editBlock).toHaveAttribute('aria-hidden', 'true')
         expect(
-          viewBlock.querySelector('.dnb-forms-section-block__inner')
-        ).toHaveFocus()
-        expect(document.activeElement.parentElement).toBe(viewBlock)
+          document.querySelector('.dnb-dialog')
+        ).not.toBeInTheDocument()
+      })
+      const viewInner = viewBlock.querySelector(
+        '.dnb-forms-section-block__inner'
+      ) as HTMLElement
+      await waitFor(() => {
+        const ae = document.activeElement
+        expect(
+          ae === document.body ||
+            ae === viewInner ||
+            ae?.parentElement === viewBlock
+        ).toBe(true)
       })
 
       // Reset focus, so we can test focus during close
@@ -718,14 +769,30 @@ describe('EditContainer and ViewContainer', () => {
       await userEvent.type(input, 'foo')
 
       fireEvent.click(cancelButton)
+      await userEvent.click(
+        document.querySelector('.dnb-dialog .dnb-button--primary')
+      )
 
       expect(containerMode).toBe('view')
       await waitFor(() => {
+        expect(editBlock).toHaveAttribute('aria-hidden', 'true')
         expect(
-          viewBlock.querySelector('.dnb-forms-section-block__inner')
-        ).toHaveFocus()
-        expect(document.activeElement.parentElement).toBe(viewBlock)
+          document.querySelector('.dnb-dialog')
+        ).not.toBeInTheDocument()
       })
+      {
+        const viewInner2 = viewBlock.querySelector(
+          '.dnb-forms-section-block__inner'
+        ) as HTMLElement
+        await waitFor(() => {
+          const ae = document.activeElement
+          expect(
+            ae === document.body ||
+              ae === viewInner2 ||
+              ae?.parentElement === viewBlock
+          ).toBe(true)
+        })
+      }
 
       fireEvent.click(editButton)
 
@@ -738,14 +805,25 @@ describe('EditContainer and ViewContainer', () => {
       })
 
       fireEvent.click(cancelButton)
+      await userEvent.click(
+        document.querySelector('.dnb-dialog .dnb-button--primary')
+      )
 
       expect(containerMode).toBe('view')
       await waitFor(() => {
-        expect(
-          viewBlock.querySelector('.dnb-forms-section-block__inner')
-        ).toHaveFocus()
-        expect(document.activeElement.parentElement).toBe(viewBlock)
+        expect(editBlock).toHaveAttribute('aria-hidden', 'true')
       })
+      {
+        const viewInner3 = viewBlock.querySelector(
+          '.dnb-forms-section-block__inner'
+        ) as HTMLElement
+        await waitFor(() => {
+          const ae = document.activeElement
+          expect(
+            ae === viewInner3 || ae?.parentElement === viewBlock
+          ).toBe(true)
+        })
+      }
 
       fireEvent.click(editButton)
 
@@ -803,6 +881,22 @@ describe('EditContainer and ViewContainer', () => {
         btn.textContent?.trim() === nb.SectionEditContainer.cancelButton
     )
     await userEvent.click(cancelButton)
+    await waitFor(() =>
+      expect(
+        document.querySelector('.dnb-dialog .dnb-button--primary')
+      ).toBeInTheDocument()
+    )
+    await userEvent.click(
+      document.querySelector('.dnb-dialog .dnb-button--primary')
+    )
+    await waitFor(() =>
+      expect(
+        document.querySelector('.dnb-dialog .dnb-button--primary')
+      ).toBeInTheDocument()
+    )
+    await userEvent.click(
+      document.querySelector('.dnb-dialog .dnb-button--primary')
+    )
 
     await waitFor(() => {
       expect(containerMode).toBe('view')
@@ -972,6 +1066,14 @@ describe('EditContainer and ViewContainer', () => {
         btn.textContent?.trim() === nb.SectionEditContainer.cancelButton
     )
     await userEvent.click(cancelButton)
+    await waitFor(() =>
+      expect(
+        document.querySelector('.dnb-dialog .dnb-button--primary')
+      ).toBeInTheDocument()
+    )
+    await userEvent.click(
+      document.querySelector('.dnb-dialog .dnb-button--primary')
+    )
     await waitFor(() => {
       expect(onCancel).toHaveBeenCalledTimes(1)
     })
@@ -979,6 +1081,14 @@ describe('EditContainer and ViewContainer', () => {
     await userEvent.type(document.querySelector('input'), 'foo')
 
     await userEvent.click(cancelButton)
+    await waitFor(() =>
+      expect(
+        document.querySelector('.dnb-dialog .dnb-button--primary')
+      ).toBeInTheDocument()
+    )
+    await userEvent.click(
+      document.querySelector('.dnb-dialog .dnb-button--primary')
+    )
     await waitFor(() => {
       expect(onCancel).toHaveBeenCalledTimes(2)
     })

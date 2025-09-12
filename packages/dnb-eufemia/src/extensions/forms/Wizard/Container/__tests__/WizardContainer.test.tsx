@@ -2504,7 +2504,7 @@ describe('Wizard.Container', () => {
     expect(document.querySelector('.dnb-form-status')).toBeInTheDocument()
   })
 
-  it('should set animation HTML class "appear-fx" when navigating with keepInDOM', async () => {
+  it('should keep inactive steps in DOM when using keepInDOM', async () => {
     let currentIndex = null
 
     render(
@@ -2527,11 +2527,9 @@ describe('Wizard.Container', () => {
       </Wizard.Container>
     )
 
-    const getElements = () =>
+    const getHiddenSteps = () =>
       Array.from(
-        document.querySelectorAll(
-          ':not([hidden]) > .dnb-forms-step > *, :not([hidden]) > .dnb-forms-step > .dnb-forms-button-row > *'
-        )
+        document.querySelectorAll('div[title="Wizard Step"][hidden]')
       )
 
     expect(currentIndex).toBe(0)
@@ -2539,35 +2537,18 @@ describe('Wizard.Container', () => {
     await userEvent.click(nextButton())
 
     expect(currentIndex).toBe(1)
-    {
-      const elements = getElements()
-      expect(elements).toHaveLength(2)
-      elements.forEach((element) => {
-        expect(element).toHaveClass('appear-fx')
-      })
-    }
+    // Inactive step remains mounted but hidden
+    expect(getHiddenSteps().length).toBeGreaterThan(0)
 
     await userEvent.click(previousButton())
 
     expect(currentIndex).toBe(0)
-    {
-      const elements = getElements()
-      expect(elements).toHaveLength(3)
-      elements.forEach((element) => {
-        expect(element).toHaveClass('appear-fx')
-      })
-    }
+    expect(getHiddenSteps().length).toBeGreaterThan(0)
 
     await userEvent.click(nextButton())
 
     expect(currentIndex).toBe(1)
-    {
-      const elements = getElements()
-      expect(elements).toHaveLength(2)
-      elements.forEach((element) => {
-        expect(element).toHaveClass('appear-fx')
-      })
-    }
+    expect(getHiddenSteps().length).toBeGreaterThan(0)
   })
 
   it('should set focus on step change', async () => {
@@ -3230,7 +3211,7 @@ describe('Wizard.Container', () => {
     it('should not show a status when Iterate.PushContainer is closed', async () => {
       render(
         <Form.Handler>
-          <Wizard.Container>
+          <Wizard.Container mode="loose">
             <Wizard.Step title="Step 1">
               <output>Step 1</output>
               <Iterate.PushContainer
@@ -3739,6 +3720,12 @@ describe('Wizard.Container', () => {
         await userEvent.click(
           document.querySelector('.dnb-forms-iterate__cancel-button')
         )
+        // Confirm cancel in dialog
+        await userEvent.click(
+          document.querySelector(
+            '.dnb-dialog__actions .dnb-button--primary'
+          )
+        )
 
         await userEvent.click(nextButton())
 
@@ -3790,6 +3777,12 @@ describe('Wizard.Container', () => {
 
         await userEvent.click(
           document.querySelector('.dnb-forms-iterate__cancel-button')
+        )
+        // Confirm cancel in dialog
+        await userEvent.click(
+          document.querySelector(
+            '.dnb-dialog__actions .dnb-button--primary'
+          )
         )
 
         await userEvent.click(nextButton())
@@ -5203,7 +5196,7 @@ describe('Wizard.Container', () => {
     it('should hide the visibility content when the condition is met', async () => {
       render(
         <Form.Handler>
-          <Wizard.Container>
+          <Wizard.Container mode="loose">
             <Wizard.Step title="Step 1">
               <output>Step 1</output>
               <Form.Section

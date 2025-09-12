@@ -59,7 +59,7 @@
     "make-properties": "babel-node --extensions .js,.ts,.tsx ./scripts/prebuild/makeProperties",
     "prebuild:figma:ci": "yarn figma",
     "precommit": "yarn lint-staged",
-    "prettier:check": "prettier --check '{scripts,src}/**/*.{md,mdx,js,ts,tsx}'",
+    "prettier:check": "prettier --check '{scripts,src}/**/*.{md,mdx,js,ts,tsx,scss,css,json}'",
     "prettier:js:staged": "prettier --config ./.prettierrc --log-level warn '{scripts,src}/**/*.{js,ts,tsx}'",
     "prettier:js:write": "prettier --log-level warn --write '{scripts,src}/**/*.{js,ts,tsx}'",
     "prettier:other": "prettier --log-level warn './src/**/*.{json,md,mdx}' && yarn prettier:package",
@@ -102,7 +102,8 @@
     "umd/*",
     "style/**/*",
     "es/style/**/*",
-    "esm/style/**/*"
+    "esm/style/**/*",
+    "src/style/**/*"
   ],
   "typings": "./index.d.ts",
   "dependencies": {

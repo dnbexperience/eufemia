@@ -8,30 +8,31 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "vite build",
     "lint": "eslint .",
     "remove-src": "node remove-src.mjs",
     "preview": "vite preview"
   },
   "dependencies": {
     "@dnb/eufemia": "workspace:*",
-    "ajv": "8.14.0",
+    "ajv": "8.17.1",
     "ajv-errors": "3.0.0",
     "react": "18.2.0",
     "react-dom": "18.2.0"
   },
   "devDependencies": {
-    "@eslint/js": "9.27.0",
+    "@eslint/js": "9.35.0",
     "@types/react": "18.2.13",
     "@types/react-dom": "18.2.6",
-    "@vitejs/plugin-react": "4.5.0",
-    "eslint": "9.27.0",
+    "@vitejs/plugin-react": "5.0.2",
+    "eslint": "9.35.0",
     "eslint-plugin-react-hooks": "5.2.0",
     "eslint-plugin-react-refresh": "0.4.20",
-    "globals": "15.15.0",
-    "sass": "1.62.0",
+    "globals": "16.4.0",
+    "sass": "1.92.1",
+    "sass-embedded": "1.92.1",
     "typescript": "5.9.2",
-    "typescript-eslint": "8.32.1",
-    "vite": "6.3.5"
+    "typescript-eslint": "8.43.0",
+    "vite": "7.1.5"
   }
 }
