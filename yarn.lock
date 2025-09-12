@@ -17921,8 +17921,6 @@ __metadata:
     "@types/react": "npm:18.2.13"
     "@types/react-dom": "npm:18.2.6"
     "@vitejs/plugin-react": "npm:5.0.2"
-    ajv: "npm:8.17.1"
-    ajv-errors: "npm:3.0.0"
     eslint: "npm:9.35.0"
     eslint-plugin-react-hooks: "npm:5.2.0"
     eslint-plugin-react-refresh: "npm:0.4.20"
