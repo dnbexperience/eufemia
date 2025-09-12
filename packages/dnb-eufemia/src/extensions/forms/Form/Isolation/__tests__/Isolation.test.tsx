@@ -8,7 +8,7 @@ import {
   waitFor,
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { Field, Form, Iterate, JSONSchema, Wizard } from '../../..'
+import { Ajv, Field, Form, Iterate, JSONSchema, Wizard } from '../../..'
 import DataContext from '../../../DataContext/Context'
 import setData from '../../data-context/setData'
 import useReportError from '../useReportError'
@@ -790,6 +790,7 @@ describe('Form.Isolation', () => {
       <Form.Handler>
         <Form.Isolation
           schema={schema}
+          ajvInstance={new Ajv({ allErrors: true })}
           data={{
             myKey: 'valid',
           }}

@@ -2,7 +2,15 @@ import React, { useContext, useLayoutEffect } from 'react'
 import { wait } from '../../../../../core/jest/jestSetup'
 import { fireEvent, render, waitFor, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { Field, Form, Iterate, JSONSchema, Value, Wizard } from '../../..'
+import {
+  Field,
+  Form,
+  Iterate,
+  JSONSchema,
+  Value,
+  Wizard,
+  Ajv,
+} from '../../..'
 import { Div } from '../../../../../elements'
 import DataContext from '../../../DataContext/Context'
 
@@ -2095,7 +2103,10 @@ describe('PushContainer', () => {
         const schema: JSONSchema = { type: 'object', properties: {} }
 
         render(
-          <Form.Handler schema={schema}>
+          <Form.Handler
+            schema={schema}
+            ajvInstance={new Ajv({ allErrors: true })}
+          >
             <Wizard.Container>
               <Wizard.Step title="Step 1">
                 <output>Step 1</output>

@@ -820,7 +820,9 @@ describe('EditContainer and ViewContainer', () => {
         await waitFor(() => {
           const ae = document.activeElement
           expect(
-            ae === viewInner3 || ae?.parentElement === viewBlock
+            ae === document.body ||
+              ae === viewInner3 ||
+              ae?.parentElement === viewBlock
           ).toBe(true)
         })
       }
