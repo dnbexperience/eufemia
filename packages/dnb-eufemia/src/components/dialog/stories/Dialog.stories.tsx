@@ -19,7 +19,7 @@ import {
 } from '../..'
 import { ScrollView } from '../../../fragments'
 import Dialog from '../Dialog'
-import { H2, P, Hr, Flex, ToggleButton } from '../../..'
+import { H2, P, Hr, Flex, ToggleButton, Card } from '../../..'
 import Provider from '../../../shared/Provider'
 import {
   trash_medium as TrashIcon,
@@ -839,5 +839,29 @@ export function WithStrictMode() {
         </Button>
       </Dialog>
     </React.StrictMode>
+  )
+}
+
+export function ScrollInScrollOnSmallScreen() {
+  const text =
+    'The Dialog component is a Modal variation that appears at the center of the screen. The Dialog has similar functionality to a traditional popup window and is mostly used for informational purposes (for example explaining a word on the page). Similar to Modal, it has to be triggered by the user to appear. Typical usage would be to read an explanation, then closing it. The Dialog component is a Modal variation that appears at the center of the screen. The Dialog has similar functionality to a traditional popup window and is mostly used for informational purposes (for example explaining a word on the page). Similar to Modal, it has to be triggered by the user to appear. Typical usage would be to read an explanation, then closing it. The Dialog component is a Modal variation that appears at the center of the screen. The Dialog has similar functionality to a traditional popup window and is mostly used for informational purposes (for example explaining a word on the page). Similar to Modal, it has to be triggered by the user to appear. Typical usage would be to read an explanation, then closing it. The Dialog component is a Modal variation that appears at the center of the screen. The Dialog has similar functionality to a traditional popup window and is mostly used for informational purposes (for example explaining a word on the page). Similar to Modal, it has to be triggered by the user to appear. Typical usage would be to read an explanation, then closing it. The Dialog component is a Modal variation that appears at the center of the screen. The Dialog has similar functionality to a traditional popup window and is mostly used for informational purposes (for example explaining a word on the page). Similar to Modal, it has to be triggered by the user to appear. Typical usage would be to read an explanation, then closing it. The Dialog component is a Modal variation that appears at the center of the screen. The Dialog has similar functionality to a traditional popup window and is mostly used for informational purposes (for example explaining a word on the page). Similar to Modal, it has to be triggered by the user to appear. Typical usage would be to read an explanation, then closing it.'
+  return (
+    <Card>
+      <Card>
+        <P>{text}</P>
+      </Card>
+      <Card>
+        <Dialog title="What is a Dialog?">
+          <P>
+            {text}
+            {text}
+            {text}
+          </P>
+        </Dialog>
+      </Card>
+      <Card>
+        <P>{text}</P>
+      </Card>
+    </Card>
   )
 }
