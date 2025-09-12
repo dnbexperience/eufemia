@@ -27,7 +27,8 @@ export default function IsolatedContainer({ children }) {
       handleReset()
     }
   }, [handleReset, resetDataAfterCommit])
-  useEventListener('onBeforeCommit', handleSubmit)
+  // Reset right after committing to ensure it does not affect what gets committed
+  useEventListener('onAfterCommit', handleSubmit)
 
   return (
     <>
