@@ -77,25 +77,38 @@ function SubmitConfirmation(props: ConfirmProps) {
     async (state: ConfirmationState) => {
       confirmationStateRef.current = state
       await onStateChange?.(getParamsRef.current())
-      if (typeof window !== 'undefined') {
-        window.requestAnimationFrame(() => {
-          switch (state) {
-            case 'idle':
-              setFormState('complete', { keepPending: false })
-              break
-            case 'readyToBeSubmitted':
-              setFormState('pending', { keepPending: true })
-              break
-            case 'submitInProgress':
-              setFormState('pending', { keepPending: true })
-              break
-            case 'submissionComplete':
-              setFormState('complete', { keepPending: false })
-              break
-            default:
-              forceUpdate()
+
+      const setBuffered = (
+        target: 'pending' | 'complete',
+        keepPending: boolean
+      ) => {
+        // Defer non-pending transitions by one frame so UI can reflect intermediate content
+        if (target === 'complete') {
+          if (typeof window !== 'undefined') {
+            window.requestAnimationFrame(() =>
+              setFormState(target, { keepPending })
+            )
+            return
           }
-        })
+        }
+        setFormState(target, { keepPending })
+      }
+
+      switch (state) {
+        case 'idle':
+          setBuffered('complete', false)
+          break
+        case 'readyToBeSubmitted':
+          setBuffered('pending', true)
+          break
+        case 'submitInProgress':
+          setBuffered('pending', true)
+          break
+        case 'submissionComplete':
+          setBuffered('complete', false)
+          break
+        default:
+          forceUpdate()
       }
     },
     [onStateChange, setFormState]
