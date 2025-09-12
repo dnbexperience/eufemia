@@ -50,4 +50,30 @@ export default defineConfig({
   // Expose Eufemia's static assets (fonts) at "/assets/..." for dev environments like StackBlitz
   // This ensures URLs like "/assets/fonts/dnb/DNB-Regular.woff2" resolve to real files
   publicDir: path.resolve(__dirname, '../dnb-eufemia/assets'),
+
+  // Add some basic security headers, including a Content Security Policy (CSP)
+  preview: {
+    headers: getHeaders(),
+  },
+  // For local testing of CSP. Does not work on StackBlitz
+  // server: {
+  //   headers: getHeaders(),
+  // },
 })
+
+function getHeaders() {
+  return {
+    'Content-Security-Policy': [
+      "default-src 'self'",
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval'", // Add 'unsafe-eval' to be able to run Ajv
+      "style-src 'self' 'unsafe-inline'",
+      "img-src 'self' data:",
+      "font-src 'self' data:",
+      "connect-src 'self'",
+      "object-src 'none'",
+      "base-uri 'self'",
+      "form-action 'self'",
+      "frame-ancestors 'self'",
+    ].join('; '),
+  }
+}
