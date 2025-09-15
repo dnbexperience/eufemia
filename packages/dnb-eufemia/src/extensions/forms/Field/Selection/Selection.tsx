@@ -24,7 +24,10 @@ import type { FormStatusText } from '../../../../components/FormStatus'
 import type { AutocompleteAllProps } from '../../../../components/Autocomplete'
 import type { DropdownAllProps } from '../../../../components/Dropdown'
 import { HelpProps } from '../../../../components/help-button/HelpButtonInline'
-import { DrawerListProps } from '../../../../fragments/DrawerList'
+import {
+  DrawerListDataArrayObjectStrict,
+  DrawerListProps,
+} from '../../../../fragments/DrawerList'
 import {
   AssertNoMissing,
   convertCamelCasePropsToSnakeCase,
@@ -55,13 +58,15 @@ type IOption = {
   value: number | string
   status: FormStatusText
 }
-export type Data = Array<{
-  value: string
-  title: React.ReactNode
-  text?: React.ReactNode
-  disabled?: boolean
-  style?: React.CSSProperties
-}>
+export type Data = Array<
+  {
+    value: string
+    title: React.ReactNode
+    text?: React.ReactNode
+    disabled?: boolean
+    style?: React.CSSProperties
+  } & Partial<DrawerListDataArrayObjectStrict>
+>
 
 export type Props = FieldProps<IOption['value']> & {
   /**
@@ -649,7 +654,7 @@ function renderDropdownItems(
 ) {
   return (
     data?.map((props) => {
-      const { value, title, text, disabled, style } = props
+      const { value, title, text, disabled, style, ...rest } = props
       return {
         selectedKey: value,
         content: (text ? [title, text] : title) || <em>Untitled</em>,
@@ -658,6 +663,7 @@ function renderDropdownItems(
           : undefined,
         disabled,
         style,
+        ...rest,
       }
     }) || []
   )

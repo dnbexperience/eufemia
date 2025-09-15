@@ -1739,6 +1739,40 @@ describe('variants', () => {
       ).toBe(document.querySelector('.dnb-tooltip__content').id)
     })
 
+    it('should support extra props in data (e.g. search_content)', async () => {
+      render(
+        <Field.Selection
+          variant="autocomplete"
+          data={[
+            {
+              value: 'foo',
+              title: 'Foo!',
+              text: 'Text',
+              search_content: ['Foo!', 'extra search value'],
+            },
+          ]}
+        />
+      )
+
+      // Should be found when searching by extra search content
+      const input = document.querySelector('.dnb-input__input')
+      await userEvent.type(input, 'extra search value')
+      expect(
+        document.querySelectorAll('li.dnb-drawer-list__option')
+      ).toHaveLength(1)
+      expect(document.querySelector('[role="option"]')).toHaveTextContent(
+        'Foo!'
+      )
+
+      // But not found when searching by display content only (search_content takes precedence)
+      await userEvent.clear(input as HTMLInputElement)
+      await userEvent.type(input, 'invalid')
+      await waitFor(() => {
+        const first = document.querySelector('li.dnb-drawer-list__option')
+        expect(first?.textContent).toBe('Ingen alternativer')
+      })
+    })
+
     describe('autocompleteProps', () => {
       it('should support autoComplete (HTML attribute)', () => {
         render(
