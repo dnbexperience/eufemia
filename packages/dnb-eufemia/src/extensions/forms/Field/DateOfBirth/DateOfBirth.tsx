@@ -246,14 +246,15 @@ function DateOfBirth(props: Props) {
         value={monthRef.current}
         variant="autocomplete"
         labelDescription={monthLabel}
-        width="medium"
+        width="8rem"
         placeholder=""
         autocompleteProps={{
-          searchNumbers: true,
+          openOnFocus: true,
           inputIcon: '',
-          showSubmitButton: true,
           placeholder: monthPlaceholder,
           autoComplete: 'bday-month',
+          independentWidth: true,
+          disableReorder: true,
         }}
         data={months}
         onChange={handleMonthChange}
