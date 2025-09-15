@@ -335,7 +335,7 @@ describe('Field.DateOfBirth', () => {
     })
   })
 
-  describe.skip('ARIA', () => {
+  describe('ARIA', () => {
     it('should validate with ARIA rules', async () => {
       const result = render(
         <Field.DateOfBirth required validateInitially />

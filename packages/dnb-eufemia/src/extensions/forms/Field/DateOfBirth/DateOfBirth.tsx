@@ -119,6 +119,7 @@ function DateOfBirth(props: Props) {
     help,
     error,
     disabled,
+    htmlAttributes,
     handleChange,
     onDayChange,
     onMonthChange,
@@ -264,6 +265,7 @@ function DateOfBirth(props: Props) {
         onFocus={handleOnFocus}
         onBlur={handleOnBlur}
         disabled={disabled}
+        htmlAttributes={htmlAttributes}
       />
       <SelectionField
         value={monthRef.current}
@@ -285,6 +287,7 @@ function DateOfBirth(props: Props) {
         onFocus={handleOnFocus}
         onBlur={handleOnBlur}
         disabled={disabled}
+        htmlAttributes={htmlAttributes}
       />
       <StringField
         value={yearRef.current}
@@ -298,6 +301,7 @@ function DateOfBirth(props: Props) {
         onFocus={handleOnFocus}
         onBlur={handleOnBlur}
         disabled={disabled}
+        htmlAttributes={htmlAttributes}
       />
     </CompositionField>
   )
