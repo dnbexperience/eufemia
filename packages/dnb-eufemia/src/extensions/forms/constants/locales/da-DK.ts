@@ -100,6 +100,7 @@ export default {
       errorExclusiveMaximum:
         'Værdien skal være mindre end {exclusiveMaximum}.',
       errorMultipleOf: 'Indtast en værdi, der går op i {multipleOf}.',
+      errorInteger: 'Værdien skal være et helt tal (uden decimaler).',
     },
     BooleanField: {
       yes: 'Ja',

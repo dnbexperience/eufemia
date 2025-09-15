@@ -99,6 +99,7 @@ export default {
       errorExclusiveMaximum:
         'Verdien må være mindre enn {exclusiveMaximum}.',
       errorMultipleOf: 'Verdien må være et multiplum av {multipleOf}.',
+      errorInteger: 'Verdien må være et heltall (uten desimaler).',
     },
     BooleanField: {
       yes: 'Ja',

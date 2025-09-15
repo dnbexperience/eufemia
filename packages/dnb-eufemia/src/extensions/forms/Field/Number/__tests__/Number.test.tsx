@@ -817,6 +817,49 @@ describe('Field.Number', () => {
       })
     })
 
+    describe('integer (Ajv and Zod)', () => {
+      // Silence console.error noise during these tests while still allowing per-test spies
+      let consoleErrorSpy: jest.SpyInstance
+      beforeEach(() => {
+        consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation()
+      })
+      afterEach(() => {
+        consoleErrorSpy?.mockRestore()
+      })
+
+      it('Ajv integer field schema: shows type error when typing 1.2 (decimal)', async () => {
+        const schema: JSONSchema = { type: 'integer' }
+
+        render(<Field.Number schema={schema} />)
+
+        const input = document.querySelector('input')
+        await userEvent.type(input, '1.2')
+        input.blur()
+
+        await waitFor(() => {
+          const status = document.querySelector('.dnb-form-status')
+          expect(status).toBeInTheDocument()
+          expect(status).toHaveTextContent(nb.NumberField.errorInteger)
+        })
+      })
+
+      it('Zod integer field schema: shows type error when typing 1.2 (decimal)', async () => {
+        const schema = z.number().int()
+
+        render(<Field.Number schema={schema} />)
+
+        const input = document.querySelector('input')
+        await userEvent.type(input, '1.2')
+        input.blur()
+
+        await waitFor(() => {
+          const status = document.querySelector('.dnb-form-status')
+          expect(status).toBeInTheDocument()
+          expect(status).toHaveTextContent(nb.NumberField.errorInteger)
+        })
+      })
+    })
+
     describe('provider schema', () => {
       const schema: JSONSchema = {
         type: 'object',
@@ -915,6 +958,71 @@ describe('Field.Number', () => {
         )
 
         log.mockRestore()
+      })
+
+      describe('integer (Ajv and Zod)', () => {
+        // Silence console.error noise during these tests while still allowing per-test spies
+        let consoleErrorSpy: jest.SpyInstance
+        beforeEach(() => {
+          consoleErrorSpy = jest
+            .spyOn(console, 'error')
+            .mockImplementation()
+        })
+        afterEach(() => {
+          consoleErrorSpy?.mockRestore()
+        })
+
+        it('Ajv provider integer schema: shows type error when typing 1.2 (decimal)', async () => {
+          const schema: JSONSchema = {
+            type: 'object',
+            properties: {
+              amount: {
+                type: 'integer',
+                minimum: 0,
+                exclusiveMaximum: 10,
+              },
+            },
+          }
+
+          render(
+            <Form.Handler
+              schema={schema}
+              ajvInstance={new Ajv({ allErrors: true })}
+            >
+              <Field.Number path="/amount" />
+            </Form.Handler>
+          )
+
+          const input = document.querySelector('input')
+          await userEvent.type(input, '1.2')
+          input.blur()
+
+          await waitFor(() => {
+            const status = document.querySelector('.dnb-form-status')
+            expect(status).toBeInTheDocument()
+            expect(status).toHaveTextContent(nb.NumberField.errorInteger)
+          })
+        })
+
+        it('Zod provider integer schema: shows type error when typing 1.2 (decimal)', async () => {
+          const schema = z.object({ amount: z.number().int() })
+
+          render(
+            <Form.Handler schema={schema}>
+              <Field.Number path="/amount" />
+            </Form.Handler>
+          )
+
+          const input = document.querySelector('input')
+          await userEvent.type(input, '1.2')
+          input.blur()
+
+          await waitFor(() => {
+            const status = document.querySelector('.dnb-form-status')
+            expect(status).toBeInTheDocument()
+            expect(status).toHaveTextContent(nb.NumberField.errorInteger)
+          })
+        })
       })
     })
 

@@ -3,6 +3,17 @@ import { FormError } from './FormError'
 
 export type ZodSchema = z.ZodTypeAny
 
+function normalizeZodIssueMessage(
+  issue: z.core.$ZodIssue
+): string | undefined {
+  const msg = issue.message
+  if (typeof msg === 'string' && /expected\s*int/i.test(msg)) {
+    // Use a translation key; actual text is resolved by prepareError
+    return 'NumberField.errorInteger'
+  }
+  return msg
+}
+
 /**
  * Checks if a schema is a Zod schema by checking if it has the Zod-specific properties
  */
@@ -105,11 +116,12 @@ export function zodErrorToFormError(zodError: z.ZodError): FormError {
   const issues = zodError.issues || []
   if (issues.length === 1) {
     const issue = issues[0]
+    const normalizedMessage = normalizeZodIssueMessage(issue)
 
     // Check if this is a custom message that should be preserved
     // Custom messages are user-provided messages that don't match error message keys
     const hasCustomMessage =
-      issue.message &&
+      normalizedMessage &&
       !issue.message.startsWith('StringField.error') &&
       !issue.message.startsWith('Field.error') &&
       !issue.message.startsWith('nb.') &&
@@ -117,17 +129,20 @@ export function zodErrorToFormError(zodError: z.ZodError): FormError {
 
     if (hasCustomMessage) {
       // Use the custom message directly without error message injection
-      return new FormError(issue.message, {
+      return new FormError(normalizedMessage, {
         messageValues: getMessageValuesFromZodIssue(issue),
       })
     }
 
     // This is an error message key - set it as ajvKeyword so the system can find it in combinedErrorMessages
     // The error message injection system will then process the message and messageValues
-    return new FormError(issue.message ?? 'Validation error', {
-      ajvKeyword: issue.message, // Use the error message key as ajvKeyword for lookup
-      messageValues: getMessageValuesFromZodIssue(issue),
-    })
+    return new FormError(
+      normalizedMessage ?? issue.message ?? 'Validation error',
+      {
+        ajvKeyword: issue.message, // Use the error message key as ajvKeyword for lookup
+        messageValues: getMessageValuesFromZodIssue(issue),
+      }
+    )
   }
 
   // Multiple errors - create individual FormError objects for each issue
@@ -169,11 +184,12 @@ export function zodErrorsToOneFormError(
 ): FormError {
   if (zodIssues.length === 1) {
     const issue = zodIssues[0]
+    const normalizedMessage = normalizeZodIssueMessage(issue)
 
     // Check if this is a custom message that should be preserved
     // Custom messages are user-provided messages that don't match error message keys
     const hasCustomMessage =
-      issue.message &&
+      normalizedMessage &&
       !issue.message.startsWith('StringField.error') &&
       !issue.message.startsWith('Field.error') &&
       !issue.message.startsWith('nb.') &&
@@ -181,25 +197,29 @@ export function zodErrorsToOneFormError(
 
     if (hasCustomMessage) {
       // Use the custom message directly without error message injection
-      return new FormError(issue.message, {
+      return new FormError(normalizedMessage, {
         messageValues: getMessageValuesFromZodIssue(issue),
       })
     }
 
     // This is an error message key - set it as ajvKeyword so the system can find it in combinedErrorMessages
     // The error message injection system will then process the message and messageValues
-    return new FormError(issue.message ?? 'Validation error', {
-      ajvKeyword: issue.message, // Use the error message key as ajvKeyword for lookup
-      messageValues: getMessageValuesFromZodIssue(issue),
-    })
+    return new FormError(
+      normalizedMessage ?? issue.message ?? 'Validation error',
+      {
+        ajvKeyword: issue.message, // Use the error message key as ajvKeyword for lookup
+        messageValues: getMessageValuesFromZodIssue(issue),
+      }
+    )
   }
 
   // Multiple errors - create individual FormError objects for each issue
   // This matches the AJV pattern for handling multiple errors
   const errors = zodIssues.map((issue) => {
+    const normalizedMessage = normalizeZodIssueMessage(issue)
     // Check if this is a custom message that should be preserved
     const hasCustomMessage =
-      issue.message &&
+      normalizedMessage &&
       !issue.message.startsWith('StringField.error') &&
       !issue.message.startsWith('Field.error') &&
       !issue.message.startsWith('nb.') &&
@@ -207,16 +227,19 @@ export function zodErrorsToOneFormError(
 
     if (hasCustomMessage) {
       // Use the custom message directly without error message injection
-      return new FormError(issue.message, {
+      return new FormError(normalizedMessage, {
         messageValues: getMessageValuesFromZodIssue(issue),
       })
     }
 
     // This is an error message key - set it as ajvKeyword so the system can find it in combinedErrorMessages
-    return new FormError(issue.message ?? 'Validation error', {
-      ajvKeyword: issue.message, // Use the error message key as ajvKeyword for lookup
-      messageValues: getMessageValuesFromZodIssue(issue),
-    })
+    return new FormError(
+      normalizedMessage ?? issue.message ?? 'Validation error',
+      {
+        ajvKeyword: issue.message, // Use the error message key as ajvKeyword for lookup
+        messageValues: getMessageValuesFromZodIssue(issue),
+      }
+    )
   })
 
   return new FormError('Multiple errors', {
@@ -233,11 +256,12 @@ export const zodErrorsToFormErrors = (
   return (issues ?? []).reduce(
     (acc, issue) => {
       const path = issue.path.length > 0 ? `/${issue.path.join('/')}` : '/'
+      const normalizedMessage = normalizeZodIssueMessage(issue)
 
       // Check if this is a custom message that should be preserved
       // Custom messages are user-provided messages that don't match error message keys
       const hasCustomMessage =
-        issue.message &&
+        normalizedMessage &&
         !issue.message.startsWith('StringField.error') &&
         !issue.message.startsWith('Field.error') &&
         !issue.message.startsWith('nb.') &&
@@ -245,16 +269,19 @@ export const zodErrorsToFormErrors = (
 
       if (hasCustomMessage) {
         // Use the custom message directly without error message injection
-        acc[path] = new FormError(issue.message, {
+        acc[path] = new FormError(normalizedMessage, {
           messageValues: getMessageValuesFromZodIssue(issue),
         })
       } else {
         // This is an error message key - set it as ajvKeyword so the system can find it in combinedErrorMessages
         // The error message injection system will then process the message and messageValues
-        acc[path] = new FormError(issue.message ?? 'Validation error', {
-          ajvKeyword: issue.message, // Use the error message key as ajvKeyword for lookup
-          messageValues: getMessageValuesFromZodIssue(issue),
-        })
+        acc[path] = new FormError(
+          normalizedMessage ?? issue.message ?? 'Validation error',
+          {
+            ajvKeyword: issue.message, // Use the error message key as ajvKeyword for lookup
+            messageValues: getMessageValuesFromZodIssue(issue),
+          }
+        )
       }
 
       return acc
