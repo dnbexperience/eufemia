@@ -1,6 +1,7 @@
 import React from 'react'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { Field, Form, Validator } from '../../..'
 import nbNO from '../../../constants/locales/nb-NO'
 
@@ -41,6 +42,32 @@ describe('Field.DateOfBirth', () => {
       expect(
         screen.queryByText(nb.DateOfBirth.monthLabel)
       ).toBeInTheDocument()
+    })
+
+    it('should allow searching months by numbers', async () => {
+      render(<Field.DateOfBirth />)
+
+      const inputs = document.querySelectorAll('input')
+      const monthInput = inputs[1] as HTMLInputElement
+
+      await userEvent.click(monthInput)
+
+      // Search by numeric month (uses search_content: [title, nr, value])
+      await userEvent.type(monthInput, '12')
+
+      await waitFor(() => {
+        const option = document.querySelector('[role="option"]')
+        expect(option).toBeInTheDocument()
+      })
+
+      // Non-existing month number should yield no results
+      await userEvent.clear(monthInput)
+      await userEvent.type(monthInput, '13')
+
+      await waitFor(() => {
+        const first = document.querySelector('li.dnb-drawer-list__option')
+        expect(first?.textContent).toBe('Ingen alternativer')
+      })
     })
   })
 

@@ -210,17 +210,33 @@ function DateOfBirth(props: Props) {
     label: labelProp ?? label,
   }
 
-  const months = [...Array(12)].map((_, i) => {
-    return {
-      value: String(i + 1).padStart(2, '0'),
-      title: capitalizeFirstLetter(
+  const months = useMemo(() => {
+    return [...Array(12)].map((_, i) => {
+      const nr = String(i + 1)
+      const value = nr.padStart(2, '0')
+      const title = capitalizeFirstLetter(
         formatDate(new Date(0, i, 1), {
           locale,
           options: { month: 'long' },
         })
-      ),
-    }
-  })
+      )
+
+      return { value, title, search_content: [title, nr, value] }
+    })
+  }, [locale])
+
+  const onBlurAutocomplete = useCallback(
+    ({ value }) => {
+      const nr = parseFloat(value)
+      if (!isNaN(nr)) {
+        const value = months.find((m) => parseFloat(m.value) === nr)?.value
+        const month = value || emptyValue
+        monthRef.current = month
+        callOnChange({ month })
+      }
+    },
+    [callOnChange, emptyValue, months]
+  )
 
   return (
     <CompositionField
@@ -255,6 +271,7 @@ function DateOfBirth(props: Props) {
           autoComplete: 'bday-month',
           independentWidth: true,
           disableReorder: true,
+          onBlur: onBlurAutocomplete,
         }}
         data={months}
         onChange={handleMonthChange}
