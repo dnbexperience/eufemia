@@ -61,7 +61,7 @@ jobs:
         run: yarn install --immutable
 
       - name: Build
-        run: yarn workspace @dnb/eufemia build:mini
+        run: yarn workspace @dnb/eufemia build:ci
 
       - name: Publish to StackBlitz
         run: yarn workspace eufemia-starter remove-src && yarn dlx pkg-pr-new publish './packages/dnb-eufemia/build' --template './packages/eufemia-starter' --packageManager=yarn
