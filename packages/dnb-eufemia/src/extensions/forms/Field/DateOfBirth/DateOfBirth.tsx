@@ -90,8 +90,15 @@ function DateOfBirth(props: Props) {
       return undefined
     }
 
-    if (props.onBlurValidator) {
-      return props.onBlurValidator
+    if (typeof props.onBlurValidator === 'function') {
+      // Prioritize the internal validator first; only then run the external one
+      return (value: string, args) => {
+        const coreResult = dateOfBirthValidator(value)
+        if (coreResult instanceof Error) {
+          return coreResult
+        }
+        return props.onBlurValidator(value, args)
+      }
     }
 
     return dateOfBirthValidator

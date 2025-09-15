@@ -168,7 +168,7 @@ describe('Field.DateOfBirth', () => {
       )
     })
 
-    describe.skip('should extend validation using custom validator', () => {
+    describe('should extend validation using custom validator', () => {
       const validDatesIn1990 = ['1990-01-01', '1990-12-31']
 
       const validDatesNotIn1990 = [
@@ -177,7 +177,9 @@ describe('Field.DateOfBirth', () => {
         '2000-05-17',
       ]
 
-      const invalidDates = ['1989-12-31', '2001-01-01', '2000-05-32']
+      const coreInvalidDatesWithCustom = ['2000-05-32']
+
+      const alsoNotIn1990 = ['1989-12-31', '2001-01-01']
 
       const invalidDatesInTheFuture = ['3000-07-17']
 
@@ -232,6 +234,8 @@ describe('Field.DateOfBirth', () => {
             />
           )
 
+          fireEvent.blur(document.querySelector('input'))
+
           await waitFor(() => {
             expect(screen.queryByRole('alert')).toBeInTheDocument()
             expect(screen.queryByRole('alert')).toHaveTextContent(
@@ -241,8 +245,30 @@ describe('Field.DateOfBirth', () => {
         }
       )
 
-      it.each(invalidDates)(
-        'Invalid date of birth: %s',
+      it.each(alsoNotIn1990)(
+        'Invalid (domain) date of birth: %s',
+        async (dateOfBirth) => {
+          render(
+            <Field.DateOfBirth
+              value={dateOfBirth}
+              validateInitially
+              onBlurValidator={customValidator}
+            />
+          )
+
+          fireEvent.blur(document.querySelector('input'))
+
+          await waitFor(() => {
+            expect(screen.queryByRole('alert')).toBeInTheDocument()
+            expect(screen.queryByRole('alert')).toHaveTextContent(
+              customError
+            )
+          })
+        }
+      )
+
+      it.each(coreInvalidDatesWithCustom)(
+        'Core invalid date of birth: %s',
         async (dateOfBirth) => {
           render(
             <Field.DateOfBirth
@@ -301,7 +327,7 @@ describe('Field.DateOfBirth', () => {
           await waitFor(() => {
             expect(screen.queryByRole('alert')).toBeInTheDocument()
             expect(screen.queryByRole('alert')).toHaveTextContent(
-              nb.DateOfBirth.errorDateOfBirth
+              customError
             )
           })
         }
