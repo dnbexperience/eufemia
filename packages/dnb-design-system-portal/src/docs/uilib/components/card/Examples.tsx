@@ -298,7 +298,7 @@ export const WithNestedSection = () => {
 
         <Card innerSpace={false} align="stretch">
           <P>no inner space</P>
-          <Section innerSpace backgroundColor="var(--card-outline-color)">
+          <Section innerSpace backgroundColor="var(--color-lavender)">
             <Field.String
               width="medium"
               label="Card with no inner space"
@@ -336,6 +336,22 @@ export const WithOutset = () => {
           </Card>
         </Card>
         <Form.SubmitButton text="I'm also left aligned" />
+      </Flex.Vertical>
+    </ComponentBox>
+  )
+}
+
+export const CustomBackgroundColorAndOutline = () => {
+  return (
+    <ComponentBox data-visual-test="layout-card-background-color-outline">
+      <Flex.Vertical>
+        <Form.MainHeading>I'm left aligned</Form.MainHeading>
+        <Card stack backgroundColor="pistachio" outline="sea-green">
+          <P>Card content</P>
+          <Card outline="transparent">
+            <P>Nested card</P>
+          </Card>
+        </Card>
       </Flex.Vertical>
     </ComponentBox>
   )
