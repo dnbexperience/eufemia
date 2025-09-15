@@ -4984,11 +4984,19 @@ describe('Wizard.Container', () => {
         </Form.Handler>
       )
 
-      expect(document.querySelector('input')).toHaveValue('123')
+      const input = () => {
+        const element = content()?.querySelector('input')
+        if (!element) {
+          throw new Error('Active wizard input not found')
+        }
+        return element as HTMLInputElement
+      }
 
-      await userEvent.type(document.querySelector('input'), '4')
+      expect(input()).toHaveValue('123')
 
-      expect(document.querySelector('input')).toHaveValue('1234')
+      await userEvent.type(input(), '4')
+
+      expect(input()).toHaveValue('1234')
 
       await userEvent.click(nextButton())
 
@@ -5006,7 +5014,7 @@ describe('Wizard.Container', () => {
         expect.anything()
       )
 
-      expect(document.querySelector('input')).toHaveValue('1234')
+      expect(input()).toHaveValue('1234')
     })
 
     it('should remember an entered value between step changes', async () => {
@@ -5037,11 +5045,19 @@ describe('Wizard.Container', () => {
         </Form.Handler>
       )
 
-      expect(document.querySelector('input')).toHaveValue('')
+      const input = () => {
+        const element = content()?.querySelector('input')
+        if (!element) {
+          throw new Error('Active wizard input not found')
+        }
+        return element as HTMLInputElement
+      }
 
-      await userEvent.type(document.querySelector('input'), '123')
+      expect(input()).toHaveValue('')
 
-      expect(document.querySelector('input')).toHaveValue('123')
+      await userEvent.type(input(), '123')
+
+      expect(input()).toHaveValue('123')
 
       await userEvent.click(nextButton())
       expect(onStepChange).toHaveBeenLastCalledWith(
@@ -5049,10 +5065,12 @@ describe('Wizard.Container', () => {
         'next',
         expect.anything()
       )
-      expect(document.querySelector('input')).toHaveValue('123')
+      expect(input()).toHaveValue('123')
 
-      await userEvent.type(document.querySelector('input'), '4')
-      expect(document.querySelector('input')).toHaveValue('1234')
+      await userEvent.type(input(), '4')
+      await waitFor(() => {
+        expect(input()).toHaveValue('1234')
+      })
 
       await userEvent.click(previousButton())
       expect(onStepChange).toHaveBeenLastCalledWith(
@@ -5060,7 +5078,9 @@ describe('Wizard.Container', () => {
         'previous',
         expect.anything()
       )
-      expect(document.querySelector('input')).toHaveValue('1234')
+      await waitFor(() => {
+        expect(input()).toHaveValue('1234')
+      })
 
       log.mockRestore()
     })
@@ -5089,12 +5109,20 @@ describe('Wizard.Container', () => {
         </Form.Handler>
       )
 
+      const input = () => {
+        const element = content()?.querySelector('input')
+        if (!element) {
+          throw new Error('Active wizard input not found')
+        }
+        return element as HTMLInputElement
+      }
+
       expect(document.querySelectorAll('input')).toHaveLength(1)
-      expect(document.querySelector('input')).toHaveValue('123')
+      expect(input()).toHaveValue('123')
 
-      await userEvent.type(document.querySelector('input'), '4')
+      await userEvent.type(input(), '4')
 
-      expect(document.querySelector('input')).toHaveValue('1234')
+      expect(input()).toHaveValue('1234')
 
       const pushButton = document.querySelector(
         '.dnb-forms-iterate-push-button'
@@ -5119,7 +5147,7 @@ describe('Wizard.Container', () => {
         'previous',
         expect.anything()
       )
-      expect(document.querySelector('input')).toHaveValue('1234')
+      expect(input()).toHaveValue('1234')
     })
   })
 
