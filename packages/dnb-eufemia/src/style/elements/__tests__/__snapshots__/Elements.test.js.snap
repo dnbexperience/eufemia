@@ -487,7 +487,7 @@ del .dnb-code {
 .dnb-ol .dnb-anchor {
   font-size: inherit;
 }
-.dnb-ol li {
+.dnb-ol > li {
   list-style-type: decimal;
 }
 .dnb-ol--nested, .dnb-ol--nested ol {

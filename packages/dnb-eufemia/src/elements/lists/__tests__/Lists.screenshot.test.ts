@@ -16,6 +16,7 @@ describe('List', () => {
   it('have to match ul list', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="lists-ul"]',
+      style: { width: '20rem', height: '18rem' },
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -68,6 +69,13 @@ describe('List', () => {
   it('have to match lists reset', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="lists-reset"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match ul inside ol', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="ul-inside-ol"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
