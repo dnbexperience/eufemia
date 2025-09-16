@@ -272,7 +272,7 @@
       margin-right: 0;
     }
 
-    & [role='radiogroup'],
+    & [role='radiogroup']:not(&__fieldset):not(.dnb-forms-field-block),
     &__shell {
       display: flex;
       flex-wrap: wrap;

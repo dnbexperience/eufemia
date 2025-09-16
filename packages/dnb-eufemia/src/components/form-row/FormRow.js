@@ -235,7 +235,12 @@ export default class FormRow extends React.PureComponent {
 
     return (
       <Context.Provider value={providerContext}>
-        <Fieldset useFieldset={useFieldset}>
+        <Fieldset
+          useFieldset={useFieldset}
+          aria-labelledby={
+            useFieldset && label ? label_id ?? `${id}-label` : undefined
+          }
+        >
           <Section
             style_type={section_style || 'transparent'}
             spacing={section_spacing}

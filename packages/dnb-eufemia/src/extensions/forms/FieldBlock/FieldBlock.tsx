@@ -141,6 +141,8 @@ export type Props<Value = unknown> = SharedFieldBlockProps &
     disableStatusSummary?: boolean
     /** For internal use only */
     required?: boolean
+    /** Role for the fieldset element when using fieldset */
+    fieldsetRole?: string
     children?: React.ReactNode
   } & React.HTMLAttributes<HTMLDivElement>
 
@@ -179,6 +181,7 @@ function FieldBlock<Value = unknown>(props: Props<Value>) {
     contentWidth,
     align,
     contentClassName,
+    fieldsetRole,
     children,
     ...rest
   } = Object.assign({}, sharedData.data, props)
@@ -545,6 +548,8 @@ function FieldBlock<Value = unknown>(props: Props<Value>) {
         element={enableFieldset ? 'fieldset' : 'div'} // use fieldset and legend to enhance a11y
         style={mainStyle}
         className={mainClasses}
+        aria-labelledby={enableFieldset ? labelProps.id : undefined}
+        role={enableFieldset ? fieldsetRole : undefined}
         {...rest}
       >
         <div className={gridClasses}>

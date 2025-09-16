@@ -358,7 +358,7 @@ html[data-whatinput=keyboard] .dnb-radio__focus {
 .dnb-radio-group .dnb-radio:last-of-type {
   margin-right: 0;
 }
-.dnb-radio-group [role=radiogroup], .dnb-radio-group__shell {
+.dnb-radio-group [role=radiogroup]:not(.dnb-radio-group__fieldset):not(.dnb-forms-field-block), .dnb-radio-group__shell {
   display: flex;
   flex-wrap: wrap;
   column-gap: var(--radio-group-column-gap);

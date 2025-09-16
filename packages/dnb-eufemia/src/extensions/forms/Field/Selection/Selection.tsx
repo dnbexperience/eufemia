@@ -401,6 +401,10 @@ function Selection(props: Props) {
 
       const additionalFieldBlockProps: FieldBlockProps = {
         asFieldset: React.Children.count(items) > 1,
+        fieldsetRole:
+          variant === 'radio' || variant === 'radio-list'
+            ? 'radiogroup'
+            : 'group',
       }
       if (!size) {
         additionalFieldBlockProps.labelHeight = 'small'
@@ -412,7 +416,6 @@ function Selection(props: Props) {
       return (
         <FieldBlock {...fieldBlockProps} {...additionalFieldBlockProps}>
           <Component.Group
-            role="radiogroup"
             size={size}
             className={cn}
             layout_direction={

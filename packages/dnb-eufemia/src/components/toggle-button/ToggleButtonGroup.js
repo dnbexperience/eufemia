@@ -296,7 +296,11 @@ export default class ToggleButtonGroup extends React.PureComponent {
       <ToggleButtonGroupContext.Provider value={context}>
         <div className={classes}>
           <AlignmentHelper />
-          <Fieldset className="dnb-toggle-button-group__fieldset">
+          <Fieldset
+            className="dnb-toggle-button-group__fieldset"
+            aria-labelledby={label ? id + '-label' : undefined}
+            role={variant === 'radio' ? 'radiogroup' : 'group'}
+          >
             <Flex.Container
               direction={
                 vertical || label_direction === 'vertical'
@@ -319,7 +323,6 @@ export default class ToggleButtonGroup extends React.PureComponent {
                 element="span"
                 id={id}
                 className="dnb-toggle-button-group__shell"
-                role="group"
                 {...params}
               >
                 <FormStatus
