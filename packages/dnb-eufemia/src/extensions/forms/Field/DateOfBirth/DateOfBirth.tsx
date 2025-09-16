@@ -205,9 +205,65 @@ function DateOfBirth(props: Props) {
     [emptyValue, callOnChange, onYearChange]
   )
 
+  const normalizeDay = useCallback((value: string | undefined) => {
+    if (!value) {
+      return value
+    }
+
+    const trimmed = value.trim()
+    if (/^[1-9]$/.test(trimmed)) {
+      return trimmed.padStart(2, '0')
+    }
+
+    return trimmed
+  }, [])
+
+  const normalizeYear = useCallback((value: string | undefined) => {
+    if (!value) {
+      return value
+    }
+
+    const trimmed = value.trim()
+
+    if (/^\d{1,2}$/.test(trimmed)) {
+      const padded = trimmed.padStart(2, '0')
+      const currentYear = new Date().getFullYear()
+      const currentCentury = Math.floor(currentYear / 100) * 100
+      let normalized = currentCentury + parseInt(padded, 10)
+
+      if (normalized > currentYear) {
+        normalized -= 100
+      }
+
+      return String(normalized)
+    }
+
+    return trimmed
+  }, [])
+
   const handleOnBlur = useCallback(() => {
     callOnBlurOrFocus(false)
   }, [callOnBlurOrFocus])
+
+  const handleDayBlur = useCallback(() => {
+    const normalized = normalizeDay(dayRef.current)
+
+    if (normalized && normalized !== dayRef.current) {
+      handleDayChange(normalized)
+    }
+
+    handleOnBlur()
+  }, [handleDayChange, handleOnBlur, normalizeDay])
+
+  const handleYearBlur = useCallback(() => {
+    const normalized = normalizeYear(yearRef.current)
+
+    if (normalized && normalized !== yearRef.current) {
+      handleYearChange(normalized)
+    }
+
+    handleOnBlur()
+  }, [handleOnBlur, handleYearChange, normalizeYear])
 
   const handleOnFocus = useCallback(() => {
     callOnBlurOrFocus(true)
@@ -263,7 +319,7 @@ function DateOfBirth(props: Props) {
         placeholder={dayPlaceholder}
         onChange={handleDayChange}
         onFocus={handleOnFocus}
-        onBlur={handleOnBlur}
+        onBlur={handleDayBlur}
         disabled={disabled}
         htmlAttributes={htmlAttributes}
       />
@@ -299,7 +355,7 @@ function DateOfBirth(props: Props) {
         placeholder={yearPlaceholder}
         onChange={handleYearChange}
         onFocus={handleOnFocus}
-        onBlur={handleOnBlur}
+        onBlur={handleYearBlur}
         disabled={disabled}
         htmlAttributes={htmlAttributes}
       />

@@ -27,6 +27,29 @@ describe('Field.DateOfBirth', () => {
         screen.queryByText(nb.DateOfBirth.dayLabel)
       ).toBeInTheDocument()
     })
+
+    it('should pad single-digit day on blur', async () => {
+      const onDayChange = jest.fn()
+
+      render(<Field.DateOfBirth onDayChange={onDayChange} />)
+
+      const dayInput = document.querySelectorAll(
+        'input'
+      )[0] as HTMLInputElement
+
+      await userEvent.type(dayInput, '2')
+
+      expect(onDayChange).toHaveBeenLastCalledWith('2')
+
+      onDayChange.mockClear()
+
+      fireEvent.blur(dayInput)
+
+      await waitFor(() => {
+        expect(dayInput.value).toBe('02')
+        expect(onDayChange).toHaveBeenLastCalledWith('02')
+      })
+    })
   })
 
   describe('Month', () => {
@@ -84,6 +107,40 @@ describe('Field.DateOfBirth', () => {
       expect(
         screen.queryByText(nb.DateOfBirth.yearLabel)
       ).toBeInTheDocument()
+    })
+
+    it('should expand two-digit year on blur', async () => {
+      const onYearChange = jest.fn()
+      const currentYear = new Date().getFullYear()
+      const computeExpectedYear = (value: string) => {
+        const padded = value.padStart(2, '0')
+        const currentCentury = Math.floor(currentYear / 100) * 100
+        const candidate = currentCentury + parseInt(padded, 10)
+        const normalized =
+          candidate > currentYear ? candidate - 100 : candidate
+        return String(normalized)
+      }
+
+      render(<Field.DateOfBirth onYearChange={onYearChange} />)
+
+      const yearInput = document.querySelectorAll(
+        'input'
+      )[2] as HTMLInputElement
+
+      await userEvent.type(yearInput, '85')
+
+      expect(onYearChange).toHaveBeenLastCalledWith('85')
+
+      onYearChange.mockClear()
+
+      fireEvent.blur(yearInput)
+
+      const expectedYear = computeExpectedYear('85')
+
+      await waitFor(() => {
+        expect(yearInput.value).toBe(expectedYear)
+        expect(onYearChange).toHaveBeenLastCalledWith(expectedYear)
+      })
     })
   })
 
