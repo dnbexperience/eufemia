@@ -459,7 +459,8 @@ function validateDate({
   invalidStartDate,
   invalidEndDate,
 }: InvalidDates) {
-  if (invalidDate) {
+  // Don't show error if the date is empty or contains only placeholder values
+  if (invalidDate && !isEmptyOrPlaceholder(invalidDate)) {
     return [
       new FormError('Date.errorInvalidDate', {
         messageValues: { date: invalidDate },
@@ -469,7 +470,7 @@ function validateDate({
 
   const errors: Array<FormError> = []
 
-  if (invalidStartDate) {
+  if (invalidStartDate && !isEmptyOrPlaceholder(invalidStartDate)) {
     errors.push(
       new FormError('Date.errorInvalidStartDate', {
         messageValues: { date: invalidStartDate },
@@ -477,7 +478,7 @@ function validateDate({
     )
   }
 
-  if (invalidEndDate) {
+  if (invalidEndDate && !isEmptyOrPlaceholder(invalidEndDate)) {
     errors.push(
       new FormError('Date.errorInvalidEndDate', {
         messageValues: { date: invalidEndDate },
@@ -486,6 +487,16 @@ function validateDate({
   }
 
   return errors
+}
+
+function isEmptyOrPlaceholder(date: string): boolean {
+  if (!date) {
+    return true
+  }
+
+  // Check if the date is empty or contains only non-numeric characters
+  // This covers placeholder patterns like "dd", "mm", "yyyy", "åååå", etc.
+  return !/\d/.test(date)
 }
 
 // Used to filter out DatePickerProps from the FieldProps.
