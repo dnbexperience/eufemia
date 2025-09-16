@@ -80,7 +80,7 @@ export const UnorderedListExample = () => (
         <Ul>
           <Li>
             Item 1 <br />
-            Break with a <Anchor href="/">Anchor (Text Link</Anchor>
+            Break with a <Anchor href="/">Anchor (Text Link)</Anchor>
           </Li>
           <Li>Item 2</Li>
         </Ul>
@@ -195,5 +195,21 @@ export const RemoveListExample = () => (
       <dt>dl Title</dt>
       <dd>dl Description</dd>
     </dl>
+  </ComponentBox>
+)
+
+export const UlInsideOl = () => (
+  <ComponentBox hideCode data-visual-test="ul-inside-ol">
+    <Ol>
+      <Li>
+        Ordered item 1
+        <Ul>
+          <Li>Unordered item 1</Li>
+          <Li>Unordered item 2</Li>
+          <Li>Unordered item 3</Li>
+        </Ul>
+      </Li>
+      <Li>Ordered item 2</Li>
+    </Ol>
   </ComponentBox>
 )

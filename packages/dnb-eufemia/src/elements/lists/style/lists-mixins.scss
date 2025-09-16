@@ -71,7 +71,7 @@
 
   @include listDefaults();
 
-  & li {
+  & > li {
     list-style-type: decimal;
   }
 
