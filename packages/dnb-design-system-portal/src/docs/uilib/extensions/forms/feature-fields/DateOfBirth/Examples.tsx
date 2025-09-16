@@ -74,7 +74,6 @@ export const WithError = () => {
   return (
     <ComponentBox data-visual-test="date-of-birth-error">
       <Field.DateOfBirth
-        value="007"
         label="Label text"
         onChange={(value) => console.log('onChange', value)}
         error={new Error('This is what is wrong...')}
