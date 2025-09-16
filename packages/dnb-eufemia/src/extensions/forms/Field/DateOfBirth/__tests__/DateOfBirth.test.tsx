@@ -392,6 +392,258 @@ describe('Field.DateOfBirth', () => {
     })
   })
 
+  describe('dateFormat', () => {
+    it('should use default format yyyy-MM-dd when no dateFormat is provided', async () => {
+      const onChange = jest.fn()
+
+      render(<Field.DateOfBirth value="2023-12-25" onChange={onChange} />)
+
+      // Check that the value is parsed correctly with default format
+      const dayInput = document.querySelectorAll('input')[0]
+      const monthInput = document.querySelectorAll('input')[1]
+      const yearInput = document.querySelectorAll('input')[2]
+
+      expect(dayInput.value).toBe('25')
+      expect(monthInput).toHaveValue('Desember')
+      expect(yearInput.value).toBe('2023')
+    })
+
+    it('should accept and return dates in yyyy/MM/dd format', async () => {
+      const onChange = jest.fn()
+
+      render(
+        <Field.DateOfBirth
+          value="2023/12/25"
+          dateFormat="yyyy/MM/dd"
+          onChange={onChange}
+        />
+      )
+
+      const dayInput = document.querySelectorAll('input')[0]
+      const monthInput = document.querySelectorAll('input')[1]
+      const yearInput = document.querySelectorAll('input')[2]
+
+      expect(dayInput.value).toBe('25')
+      expect(monthInput).toHaveValue('Desember')
+      expect(yearInput.value).toBe('2023')
+
+      // Test that changes return the correct format
+      await userEvent.clear(dayInput)
+      await userEvent.type(dayInput, '1')
+      await userEvent.clear(yearInput)
+      await userEvent.type(yearInput, '2024')
+
+      // Wait for the onChange to be called
+      await waitFor(() => {
+        expect(onChange).toHaveBeenCalled()
+      })
+
+      // Check that the last call has the correct format
+      const lastCall = onChange.mock.calls[onChange.mock.calls.length - 1]
+      expect(lastCall[0]).toMatch(/2024\/12\/01/)
+    })
+
+    it('should accept and return dates in dd/MM/yyyy format', async () => {
+      const onChange = jest.fn()
+
+      render(
+        <Field.DateOfBirth
+          value="25/12/2023"
+          dateFormat="dd/MM/yyyy"
+          onChange={onChange}
+        />
+      )
+
+      const dayInput = document.querySelectorAll('input')[0]
+      const monthInput = document.querySelectorAll('input')[1]
+      const yearInput = document.querySelectorAll('input')[2]
+
+      expect(dayInput.value).toBe('25')
+      expect(monthInput).toHaveValue('Desember')
+      expect(yearInput.value).toBe('2023')
+
+      // Test that changes return the correct format
+      await userEvent.clear(dayInput)
+      await userEvent.type(dayInput, '1')
+      await userEvent.clear(yearInput)
+      await userEvent.type(yearInput, '2024')
+
+      // Wait for the onChange to be called
+      await waitFor(() => {
+        expect(onChange).toHaveBeenCalled()
+      })
+
+      // Check that the last call has the correct format
+      const lastCall = onChange.mock.calls[onChange.mock.calls.length - 1]
+      expect(lastCall[0]).toMatch(/01\/12\/2024/)
+    })
+
+    it('should accept and return dates in MM/dd/yyyy format', async () => {
+      const onChange = jest.fn()
+
+      render(
+        <Field.DateOfBirth
+          value="12/25/2023"
+          dateFormat="MM/dd/yyyy"
+          onChange={onChange}
+        />
+      )
+
+      const dayInput = document.querySelectorAll('input')[0]
+      const monthInput = document.querySelectorAll('input')[1]
+      const yearInput = document.querySelectorAll('input')[2]
+
+      expect(dayInput.value).toBe('25')
+      expect(monthInput).toHaveValue('Desember')
+      expect(yearInput.value).toBe('2023')
+
+      // Test that changes return the correct format
+      await userEvent.clear(dayInput)
+      await userEvent.type(dayInput, '1')
+      await userEvent.clear(yearInput)
+      await userEvent.type(yearInput, '2024')
+
+      // Wait for the onChange to be called
+      await waitFor(() => {
+        expect(onChange).toHaveBeenCalled()
+      })
+
+      // Check that the last call has the correct format
+      const lastCall = onChange.mock.calls[onChange.mock.calls.length - 1]
+      expect(lastCall[0]).toMatch(/12\/01\/2024/)
+    })
+
+    it('should accept and return dates in dd-MM-yyyy format', async () => {
+      const onChange = jest.fn()
+
+      render(
+        <Field.DateOfBirth
+          value="25-12-2023"
+          dateFormat="dd-MM-yyyy"
+          onChange={onChange}
+        />
+      )
+
+      const dayInput = document.querySelectorAll('input')[0]
+      const monthInput = document.querySelectorAll('input')[1]
+      const yearInput = document.querySelectorAll('input')[2]
+
+      expect(dayInput.value).toBe('25')
+      expect(monthInput).toHaveValue('Desember')
+      expect(yearInput.value).toBe('2023')
+
+      // Test that changes return the correct format
+      await userEvent.clear(dayInput)
+      await userEvent.type(dayInput, '1')
+      await userEvent.clear(yearInput)
+      await userEvent.type(yearInput, '2024')
+
+      // Wait for the onChange to be called
+      await waitFor(() => {
+        expect(onChange).toHaveBeenCalled()
+      })
+
+      // Check that the last call has the correct format
+      const lastCall = onChange.mock.calls[onChange.mock.calls.length - 1]
+      expect(lastCall[0]).toMatch(/01-12-2024/)
+    })
+
+    it('should validate dates correctly with custom format', async () => {
+      render(
+        <Field.DateOfBirth
+          value="25/12/2023"
+          dateFormat="dd/MM/yyyy"
+          validateInitially
+        />
+      )
+
+      // Should not show error for valid date in custom format
+      await waitFor(() => {
+        expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+      })
+    })
+
+    it('should show validation error for invalid date in custom format', async () => {
+      render(
+        <Field.DateOfBirth
+          value="32/12/2023"
+          dateFormat="dd/MM/yyyy"
+          validateInitially
+        />
+      )
+
+      fireEvent.blur(document.querySelector('input'))
+
+      await waitFor(() => {
+        expect(screen.queryByRole('alert')).toBeInTheDocument()
+        expect(screen.queryByRole('alert')).toHaveTextContent(
+          nb.DateOfBirth.errorDateOfBirth
+        )
+      })
+    })
+
+    it('should show validation error for future date in custom format', async () => {
+      const futureYear = new Date().getFullYear() + 1
+      render(
+        <Field.DateOfBirth
+          value={`25/12/${futureYear}`}
+          dateFormat="dd/MM/yyyy"
+          validateInitially
+        />
+      )
+
+      fireEvent.blur(document.querySelector('input'))
+
+      await waitFor(() => {
+        expect(screen.queryByRole('alert')).toBeInTheDocument()
+        expect(screen.queryByRole('alert')).toHaveTextContent(
+          nb.DateOfBirth.errorDateOfBirthFuture
+        )
+      })
+    })
+
+    it('should handle empty values with custom format', async () => {
+      const onChange = jest.fn()
+
+      render(
+        <Field.DateOfBirth
+          value=""
+          dateFormat="dd/MM/yyyy"
+          onChange={onChange}
+        />
+      )
+
+      const dayInput = document.querySelectorAll('input')[0]
+      const monthInput = document.querySelectorAll('input')[1]
+      const yearInput = document.querySelectorAll('input')[2]
+
+      expect(dayInput.value).toBe('')
+      expect(yearInput.value).toBe('')
+      expect(monthInput).toHaveValue('')
+    })
+
+    it('should handle malformed input gracefully with custom format', async () => {
+      const onChange = jest.fn()
+
+      render(
+        <Field.DateOfBirth
+          value="invalid-date"
+          dateFormat="dd/MM/yyyy"
+          onChange={onChange}
+        />
+      )
+
+      const dayInput = document.querySelectorAll('input')[0]
+      const monthInput = document.querySelectorAll('input')[1]
+      const yearInput = document.querySelectorAll('input')[2]
+
+      // Should handle malformed input gracefully
+      expect(dayInput.value).toBe('')
+      expect(yearInput.value).toBe('')
+      expect(monthInput).toHaveValue('')
+    })
+  })
+
   describe('ARIA', () => {
     it('should validate with ARIA rules', async () => {
       const result = render(

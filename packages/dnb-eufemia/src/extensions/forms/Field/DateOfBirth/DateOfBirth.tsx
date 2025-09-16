@@ -36,11 +36,14 @@ export type Props = Omit<
   | 'labelDescriptionInline'
 > & {
   validate?: boolean
+  dateFormat?: string
   onDayChange?: (value: string | undefined) => void
   onMonthChange?: (value: string | undefined) => void
   onYearChange?: (value: string | undefined) => void
   onBlurValidator?: ValidatorDisableable<string>
 }
+
+export const DEFAULT_DATE_FORMAT = 'yyyy-MM-dd'
 
 function DateOfBirth(props: Props) {
   const {
@@ -57,6 +60,8 @@ function DateOfBirth(props: Props) {
   } = useTranslation().DateOfBirth
   const { locale } = useContext(SharedContext)
 
+  const { dateFormat = DEFAULT_DATE_FORMAT } = props
+
   const dayRef = useRef<Props['value']>(props?.emptyValue)
   const monthRef = useRef<Props['value']>(props?.emptyValue)
   const yearRef = useRef<Props['value']>(props?.emptyValue)
@@ -71,9 +76,11 @@ function DateOfBirth(props: Props) {
 
   const dateOfBirthValidator = useCallback(
     (value: string) => {
-      const [year, month, day] = splitValue(value)
+      const [year, month, day] = splitValue(value, dateFormat)
       if (year && month && day) {
-        const dateValue = parseISO(value)
+        // Convert to ISO format for validation
+        const isoValue = `${year}-${month}-${day}`
+        const dateValue = parseISO(isoValue)
         if (!isValid(dateValue)) {
           return Error(errorDateOfBirth)
         }
@@ -82,37 +89,50 @@ function DateOfBirth(props: Props) {
         }
       }
     },
-    [errorDateOfBirth, errorDateOfBirthFuture]
+    [errorDateOfBirth, errorDateOfBirthFuture, dateFormat]
   )
 
+  const { onBlurValidator: propOnBlurValidator } = props
+
   const onBlurValidator = useMemo(() => {
-    if (props.onBlurValidator === false) {
+    if (propOnBlurValidator === false) {
       return undefined
     }
 
-    if (typeof props.onBlurValidator === 'function') {
+    if (typeof propOnBlurValidator === 'function') {
       // Prioritize the internal validator first; only then run the external one
       return (value: string, args) => {
         const coreResult = dateOfBirthValidator(value)
         if (coreResult instanceof Error) {
           return coreResult
         }
-        return props.onBlurValidator(value, args)
+        return propOnBlurValidator(value, args)
       }
     }
 
     return dateOfBirthValidator
-  }, [props.onBlurValidator, dateOfBirthValidator])
+  }, [propOnBlurValidator, dateOfBirthValidator])
 
-  const preparedProps: Props = {
-    ...props,
-    errorMessages,
-    onBlurValidator,
-    exportValidators: { dateOfBirthValidator },
-  }
+  const { value: propValue, ...otherProps } = props
+
+  const preparedProps: Props = useMemo(
+    () => ({
+      ...otherProps,
+      value: propValue,
+      errorMessages,
+      onBlurValidator,
+      exportValidators: { dateOfBirthValidator },
+    }),
+    [
+      otherProps,
+      propValue,
+      errorMessages,
+      onBlurValidator,
+      dateOfBirthValidator,
+    ]
+  )
 
   const {
-    value,
     emptyValue,
     label: labelProp,
     width = 'large',
@@ -146,11 +166,14 @@ function DateOfBirth(props: Props) {
     (data: EventValues) => {
       const eventValues = prepareEventValues(data)
       handleChange(
-        joinValue([eventValues.year, eventValues.month, eventValues.day]),
+        joinValue(
+          [eventValues.year, eventValues.month, eventValues.day],
+          dateFormat
+        ),
         eventValues
       )
     },
-    [prepareEventValues, handleChange]
+    [prepareEventValues, handleChange, dateFormat]
   )
 
   const callOnBlurOrFocus = useCallback(
@@ -167,13 +190,13 @@ function DateOfBirth(props: Props) {
       !monthRef.current &&
       !yearRef.current
     ) {
-      const [year, month, day] = splitValue(props.value)
+      const [year, month, day] = splitValue(props.value, dateFormat)
 
       dayRef.current = day
       monthRef.current = month
       yearRef.current = year
     }
-  }, [value, props.value])
+  }, [props.value, dateFormat])
 
   const handleDayChange = useCallback(
     (value: string) => {
@@ -291,12 +314,21 @@ function DateOfBirth(props: Props) {
 
   const onBlurAutocomplete = useCallback(
     ({ value }) => {
+      // If the value is a number, find the corresponding month
       const nr = parseFloat(value)
       if (!isNaN(nr)) {
-        const value = months.find((m) => parseFloat(m.value) === nr)?.value
-        const month = value || emptyValue
+        const monthValue = months.find((m) => parseFloat(m.value) === nr)
+          ?.value
+        const month = monthValue || emptyValue
         monthRef.current = month
         callOnChange({ month })
+      } else {
+        // If the value is a month name, find the corresponding value
+        const monthValue = months.find((m) => m.title === value)?.value
+        if (monthValue) {
+          monthRef.current = monthValue
+          callOnChange({ month: monthValue })
+        }
       }
     },
     [callOnChange, emptyValue, months]
@@ -370,12 +402,60 @@ function capitalizeFirstLetter(s) {
   return s.charAt(0).toUpperCase() + s.slice(1)
 }
 
-function joinValue(array: Array<string>) {
-  return array.filter(Boolean).join('-')
+function joinValue(
+  array: Array<string>,
+  dateFormat = DEFAULT_DATE_FORMAT
+) {
+  const [year, month, day] = array
+  if (!year || !month || !day) {
+    return ''
+  }
+
+  return dateFormat
+    .replace('yyyy', year)
+    .replace('MM', month)
+    .replace('dd', day)
 }
 
-function splitValue(value: string) {
-  return typeof value === 'string'
-    ? value.split('-')
-    : [undefined, undefined, undefined]
+function splitValue(value: string, dateFormat = DEFAULT_DATE_FORMAT) {
+  if (typeof value !== 'string' || !value) {
+    return [undefined, undefined, undefined]
+  }
+
+  // Create a regex pattern based on the date format
+  const formatPattern = dateFormat
+    .replace(/[.*+?^${}()|[\]\\]/g, '\\$&') // Escape special regex characters
+    .replace(/yyyy/g, '(\\d{4})')
+    .replace(/MM/g, '(\\d{2})')
+    .replace(/dd/g, '(\\d{2})')
+
+  const regex = new RegExp(`^${formatPattern}$`)
+  const match = value.match(regex)
+
+  if (!match) {
+    return [undefined, undefined, undefined]
+  }
+
+  // Extract year, month, day based on their position in the format
+  const yearIndex = dateFormat.indexOf('yyyy')
+  const monthIndex = dateFormat.indexOf('MM')
+  const dayIndex = dateFormat.indexOf('dd')
+
+  // Create array of indices sorted by position in format
+  const sortedIndices = [yearIndex, monthIndex, dayIndex].sort(
+    (a, b) => a - b
+  )
+
+  // Map sorted indices to their corresponding match groups
+  const result = sortedIndices.map((originalIndex, sortedPosition) => {
+    const matchGroupIndex = sortedPosition + 1 // +1 because match[0] is the full match
+    return match[matchGroupIndex]
+  })
+
+  // Now map back to [year, month, day] order
+  const year = result[sortedIndices.indexOf(yearIndex)]
+  const month = result[sortedIndices.indexOf(monthIndex)]
+  const day = result[sortedIndices.indexOf(dayIndex)]
+
+  return [year, month, day]
 }

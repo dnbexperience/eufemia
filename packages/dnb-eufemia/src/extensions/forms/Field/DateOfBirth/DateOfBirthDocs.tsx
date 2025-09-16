@@ -2,6 +2,11 @@ import { PropertiesTableProps } from '../../../../shared/types'
 import { getFieldEventsWithTypes } from '../FieldDocs'
 
 export const DateOfBirthProperties: PropertiesTableProps = {
+  dateFormat: {
+    doc: 'Defines the date format. The default value is `yyyy-MM-dd`.',
+    type: 'string',
+    status: 'optional',
+  },
   validate: {
     doc: 'Using this prop you can disable the default validation.',
     type: 'boolean',
