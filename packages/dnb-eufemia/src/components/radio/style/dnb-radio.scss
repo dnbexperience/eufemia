@@ -272,15 +272,12 @@
       margin-right: 0;
     }
 
-    & [role='radiogroup']:not(&__fieldset):not(.dnb-forms-field-block),
     &__shell {
       display: flex;
       flex-wrap: wrap;
       column-gap: var(--radio-group-column-gap);
       row-gap: var(--radio-group-row-gap);
-    }
 
-    &__shell {
       & > .dnb-form-status {
         margin-top: 0;
         margin-bottom: 0;

@@ -510,9 +510,11 @@ describe('variants', () => {
         document.querySelector('.dnb-dropdown__trigger')
       )
 
-      const options = document.querySelectorAll('[role="option"]')
-      expect(options[0]).toHaveTextContent('Foo!')
-      expect(options[1]).toHaveTextContent('Bar!')
+      await waitFor(() => {
+        const options = document.querySelectorAll('[role="option"]')
+        expect(options[0]).toHaveTextContent('Foo!')
+        expect(options[1]).toHaveTextContent('Bar!')
+      })
     })
 
     it('should support keyboard navigation to select an option', async () => {
