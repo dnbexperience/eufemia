@@ -86,16 +86,20 @@ export function TableAccordionHead(allProps: TableAccordionHeadProps) {
         typeof doc !== 'undefined' &&
         typeof doc.startViewTransition !== 'undefined'
       ) {
-        doc.startViewTransition?.(() => {
+        if (tableContext.hasAccordionRows) {
+          doc.startViewTransition?.(() => {
+            setOpen(!trIsOpen)
+          })
+        } else {
           setOpen(!trIsOpen)
-        })
+        }
       } else {
         setOpen(!trIsOpen)
       }
       setHadClick(true)
       onClick?.(event)
     },
-    [trIsOpen, onClick]
+    [onClick, tableContext.hasAccordionRows, trIsOpen]
   )
 
   const toggleOpenTr = useCallback(
