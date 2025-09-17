@@ -12,6 +12,7 @@ import Th from '../TableTh'
 import nbNO from '../../../shared/locales/nb-NO'
 import enGB from '../../../shared/locales/en-GB'
 import Provider from '../../../shared/Provider'
+import { TableContext } from '../TableContext'
 
 const nb = nbNO['nb-NO'].Table
 const en = enGB['en-GB'].Table
@@ -780,7 +781,9 @@ describe('TableAccordion', () => {
           <tbody>
             <Tr>
               <Td>content</Td>
-              <Td.AccordionContent>accordion content</Td.AccordionContent>
+              <Tr.AccordionContent>
+                <Td>row content</Td>
+              </Tr.AccordionContent>
             </Tr>
           </tbody>
         </Table>
@@ -1866,6 +1869,48 @@ describe('TableAccordion', () => {
           'dnb-table__tr__accordion-content--expanded'
         )
       })
+    })
+
+    it('should set hasAccordionRows to true for Tr.AccordionContent but not for Td.AccordionContent', () => {
+      // Test component to capture table context
+      let capturedContext = null
+      const ContextCapture = () => {
+        const tableContext = React.useContext(TableContext)
+        capturedContext = tableContext
+        return null
+      }
+
+      // Test with Td.AccordionContent - should not set hasAccordionRows
+      render(
+        <Table mode="accordion">
+          <ContextCapture />
+          <tbody>
+            <Tr>
+              <Td>content</Td>
+              <Td.AccordionContent>accordion content</Td.AccordionContent>
+            </Tr>
+          </tbody>
+        </Table>
+      )
+
+      expect(capturedContext?.hasAccordionRows).toBeFalsy()
+
+      // Test with Tr.AccordionContent - should set hasAccordionRows
+      render(
+        <Table mode="accordion">
+          <ContextCapture />
+          <tbody>
+            <Tr>
+              <Td>content</Td>
+              <Tr.AccordionContent>
+                <Td>row content</Td>
+              </Tr.AccordionContent>
+            </Tr>
+          </tbody>
+        </Table>
+      )
+
+      expect(capturedContext?.hasAccordionRows).toBeTruthy()
     })
   })
 })

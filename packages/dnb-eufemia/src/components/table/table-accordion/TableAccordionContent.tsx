@@ -138,6 +138,8 @@ const ChevronTd = ({
 export function TableAccordionContentRow(
   props: TableAccordionContentRowProps
 ) {
+  const tableContext = React.useContext(TableContext)
+  tableContext.hasAccordionRows = true
   return <TableAccordionContent variant="row" {...props} />
 }
 
