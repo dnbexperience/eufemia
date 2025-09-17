@@ -79,6 +79,7 @@ function ArraySelection(props: Props) {
     handleChange,
     setDisplayValue,
     children,
+    label,
   } = useFieldProps(props)
 
   const { getValueByPath } = useDataValue()
@@ -97,6 +98,8 @@ function ArraySelection(props: Props) {
     ),
     contentClassName: 'dnb-forms-field-array-selection__options',
     disableStatusSummary: true,
+    asFieldset: Boolean(label),
+    fieldsetRole: 'group',
     ...pickSpacingProps(props),
   }
   if (!size) {
