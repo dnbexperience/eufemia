@@ -22,6 +22,26 @@ describe('ArraySelection', () => {
       expect(screen.getByText('Option 2')).toBeInTheDocument()
     })
 
+    it('should use fieldset when label is provided', () => {
+      render(
+        <Field.ArraySelection label="Test Label">
+          <Field.Option value="option1">Option 1</Field.Option>
+          <Field.Option value="option2">Option 2</Field.Option>
+        </Field.ArraySelection>
+      )
+
+      const fieldset = document.querySelector('fieldset')
+      const legend = document.querySelector('legend')
+
+      expect(document.querySelectorAll('fieldset')).toHaveLength(1)
+      expect(document.querySelectorAll('legend')).toHaveLength(1)
+      expect(fieldset).toHaveAttribute('aria-labelledby', legend.id)
+      expect(fieldset).toHaveAttribute('role', 'group')
+      expect(legend).toHaveAttribute('id')
+      // Checkboxes should have individual labels
+      expect(document.querySelectorAll('label')).toHaveLength(2)
+    })
+
     it('should support size', () => {
       render(
         <Field.ArraySelection size="large">
@@ -520,6 +540,57 @@ describe('ArraySelection', () => {
         expect(first).toHaveAttribute('aria-invalid', 'true')
         expect(second).toHaveAttribute('aria-invalid', 'true')
       })
+    })
+
+    it('should have aria-labelledby and role="group" on fieldset when label is given', () => {
+      render(
+        <Field.ArraySelection label="Legend">
+          <Field.Option value="foo">Foo</Field.Option>
+          <Field.Option value="bar">Bar</Field.Option>
+        </Field.ArraySelection>
+      )
+
+      const fieldset = document.querySelector('fieldset')
+      const legend = document.querySelector('legend')
+
+      expect(fieldset).toHaveAttribute('aria-labelledby', legend.id)
+      expect(fieldset).toHaveAttribute('role', 'group')
+      expect(legend).toHaveAttribute('id')
+    })
+
+    it('should not have fieldset when no label is given', () => {
+      render(
+        <Field.ArraySelection>
+          <Field.Option value="foo">Foo</Field.Option>
+          <Field.Option value="bar">Bar</Field.Option>
+        </Field.ArraySelection>
+      )
+
+      const fieldset = document.querySelector('fieldset')
+      expect(fieldset).not.toBeInTheDocument()
+
+      // Should have individual labels for checkboxes
+      expect(document.querySelectorAll('label')).toHaveLength(2)
+    })
+
+    it('should validate with ARIA rules when using fieldset', async () => {
+      const Comp = render(
+        <Field.ArraySelection label="Legend">
+          <Field.Option value="foo">Foo</Field.Option>
+          <Field.Option value="bar">Bar</Field.Option>
+        </Field.ArraySelection>
+      )
+      expect(await axeComponent(Comp)).toHaveNoViolations()
+    })
+
+    it('should validate with ARIA rules when not using fieldset', async () => {
+      const Comp = render(
+        <Field.ArraySelection>
+          <Field.Option value="foo">Foo</Field.Option>
+          <Field.Option value="bar">Bar</Field.Option>
+        </Field.ArraySelection>
+      )
+      expect(await axeComponent(Comp)).toHaveNoViolations()
     })
   })
 
@@ -1074,6 +1145,57 @@ describe('ArraySelection', () => {
           expect(first).toHaveAttribute('aria-invalid', 'true')
           expect(second).toHaveAttribute('aria-invalid', 'true')
         })
+      })
+
+      it('should have aria-labelledby and role="group" on fieldset when label is given', () => {
+        render(
+          <Field.ArraySelection label="Legend" variant={testVariant}>
+            <Field.Option value="foo">Foo</Field.Option>
+            <Field.Option value="bar">Bar</Field.Option>
+          </Field.ArraySelection>
+        )
+
+        const fieldset = document.querySelector('fieldset')
+        const legend = document.querySelector('legend')
+
+        expect(fieldset).toHaveAttribute('aria-labelledby', legend.id)
+        expect(fieldset).toHaveAttribute('role', 'group')
+        expect(legend).toHaveAttribute('id')
+      })
+
+      it('should not have fieldset when no label is given', () => {
+        render(
+          <Field.ArraySelection variant={testVariant}>
+            <Field.Option value="foo">Foo</Field.Option>
+            <Field.Option value="bar">Bar</Field.Option>
+          </Field.ArraySelection>
+        )
+
+        const fieldset = document.querySelector('fieldset')
+        expect(fieldset).not.toBeInTheDocument()
+
+        // Toggle buttons don't have individual labels like checkboxes do
+        expect(document.querySelectorAll('label')).toHaveLength(0)
+      })
+
+      it('should validate with ARIA rules when using fieldset', async () => {
+        const Comp = render(
+          <Field.ArraySelection label="Legend" variant={testVariant}>
+            <Field.Option value="foo">Foo</Field.Option>
+            <Field.Option value="bar">Bar</Field.Option>
+          </Field.ArraySelection>
+        )
+        expect(await axeComponent(Comp)).toHaveNoViolations()
+      })
+
+      it('should validate with ARIA rules when not using fieldset', async () => {
+        const Comp = render(
+          <Field.ArraySelection variant={testVariant}>
+            <Field.Option value="foo">Foo</Field.Option>
+            <Field.Option value="bar">Bar</Field.Option>
+          </Field.ArraySelection>
+        )
+        expect(await axeComponent(Comp)).toHaveNoViolations()
       })
     }
   )

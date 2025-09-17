@@ -37,7 +37,7 @@
     .dnb-radio-group__shell {
       row-gap: 0;
     }
-    .dnb-toggle-button-group__fieldset {
+    .dnb-radio-group__fieldset {
       border-radius: 0.5rem;
       @include fakeBorder(var(--outline-color), var(--outline-width));
       background-color: var(--color-white);

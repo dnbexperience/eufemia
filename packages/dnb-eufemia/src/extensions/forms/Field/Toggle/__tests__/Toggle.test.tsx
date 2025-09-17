@@ -834,6 +834,72 @@ describe('Field.Toggle', () => {
         expect(yesElement).toHaveClass('dnb-toggle-button__status--error')
         expect(noElement).toHaveClass('dnb-toggle-button__status--error')
       })
+
+      it('should have aria-labelledby and role="radiogroup" on fieldset when label is given', () => {
+        render(
+          <Field.Toggle
+            valueOn="on"
+            valueOff="off"
+            variant="buttons"
+            label="Legend"
+          />
+        )
+
+        const fieldset = document.querySelector('fieldset')
+        const legend = document.querySelector('legend')
+
+        expect(fieldset).toHaveAttribute('aria-labelledby', legend.id)
+        expect(fieldset).toHaveAttribute('role', 'radiogroup')
+        expect(legend).toHaveAttribute('id')
+      })
+
+      it('should not have fieldset when no label is given', () => {
+        render(
+          <Field.Toggle valueOn="on" valueOff="off" variant="buttons" />
+        )
+
+        const fieldset = document.querySelector('fieldset')
+        expect(fieldset).not.toBeInTheDocument()
+
+        // Toggle buttons don't have individual labels
+        expect(document.querySelectorAll('label')).toHaveLength(0)
+      })
+
+      it('should have correct aria-labelledby when fieldset is created by label', () => {
+        render(
+          <Field.Toggle
+            valueOn="on"
+            valueOff="off"
+            variant="buttons"
+            label="Test Label"
+          />
+        )
+
+        const fieldset = document.querySelector('fieldset')
+        const legend = document.querySelector('legend')
+
+        expect(fieldset).toHaveAttribute('aria-labelledby', legend.id)
+        expect(legend).toHaveTextContent('Test Label')
+      })
+
+      it('should validate with ARIA rules when using fieldset', async () => {
+        const Comp = render(
+          <Field.Toggle
+            valueOn="on"
+            valueOff="off"
+            variant="buttons"
+            label="Legend"
+          />
+        )
+        expect(await axeComponent(Comp)).toHaveNoViolations()
+      })
+
+      it('should validate with ARIA rules when not using fieldset', async () => {
+        const Comp = render(
+          <Field.Toggle valueOn="on" valueOff="off" variant="buttons" />
+        )
+        expect(await axeComponent(Comp)).toHaveNoViolations()
+      })
     })
 
     describe('radio', () => {

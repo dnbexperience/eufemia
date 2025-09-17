@@ -207,6 +207,7 @@ export default class RadioGroup extends React.PureComponent {
     const params = {
       ...rest,
     }
+    const legendId = id + '-label'
 
     if (showStatus || suffix) {
       params['aria-describedby'] = combineDescribedBy(
@@ -216,7 +217,7 @@ export default class RadioGroup extends React.PureComponent {
       )
     }
     if (label) {
-      params['aria-labelledby'] = combineLabelledBy(params, id + '-label')
+      params['aria-labelledby'] = combineLabelledBy(params, legendId)
     }
 
     // also used for code markup simulation
@@ -237,7 +238,11 @@ export default class RadioGroup extends React.PureComponent {
       <RadioGroupContext.Provider value={context}>
         <div className={classes}>
           <AlignmentHelper />
-          <Fieldset className="dnb-toggle-button-group__fieldset">
+          <Fieldset
+            className="dnb-radio-group__fieldset"
+            aria-labelledby={label ? legendId : undefined}
+            role="radiogroup"
+          >
             <Flex.Container
               direction={
                 vertical || label_direction === 'vertical'
@@ -249,7 +254,7 @@ export default class RadioGroup extends React.PureComponent {
               {label && (
                 <FormLabel
                   element="legend"
-                  id={id + '-label'}
+                  id={legendId}
                   srOnly={label_sr_only}
                 >
                   {label}
@@ -260,7 +265,6 @@ export default class RadioGroup extends React.PureComponent {
                 element="span"
                 id={id}
                 className="dnb-radio-group__shell"
-                role="radiogroup"
                 {...params}
               >
                 {children}
@@ -283,7 +287,7 @@ export default class RadioGroup extends React.PureComponent {
                   text={status}
                   state={status_state}
                   text_id={id + '-status'} // used for "aria-describedby"
-                  width_selector={id + ', ' + id + '-label'}
+                  width_selector={id + ', ' + legendId}
                   no_animation={status_no_animation}
                   skeleton={skeleton}
                   {...status_props}

@@ -118,6 +118,51 @@ describe('FormRow component', () => {
     const Comp = render(<FormRow {...props} />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
+
+  describe('accessibility', () => {
+    it('should have aria-labelledby on fieldset when using fieldset', () => {
+      render(<FormRow {...props} />)
+
+      const fieldset = document.querySelector('fieldset')
+      const legend = document.querySelector('legend')
+
+      expect(fieldset).toHaveAttribute('aria-labelledby', legend.id)
+      expect(legend).toHaveAttribute('id')
+    })
+
+    it('should not have aria-labelledby when not using fieldset', () => {
+      render(<FormRow {...props} no_fieldset />)
+
+      const fieldset = document.querySelector('fieldset')
+      expect(fieldset).not.toBeInTheDocument()
+
+      const div = document.querySelector('.dnb-form-row__fieldset')
+      expect(div).not.toHaveAttribute('aria-labelledby')
+    })
+
+    it('should have correct aria-labelledby with custom label_id', () => {
+      render(<FormRow {...props} label_id="custom-label-id" />)
+
+      const fieldset = document.querySelector('fieldset')
+      const legend = document.querySelector('legend')
+
+      expect(fieldset).toHaveAttribute(
+        'aria-labelledby',
+        'custom-label-id'
+      )
+      expect(legend).toHaveAttribute('id', 'custom-label-id')
+    })
+
+    it('should validate with ARIA rules when using fieldset', async () => {
+      const Comp = render(<FormRow {...props} />)
+      expect(await axeComponent(Comp)).toHaveNoViolations()
+    })
+
+    it('should validate with ARIA rules when not using fieldset', async () => {
+      const Comp = render(<FormRow {...props} no_fieldset />)
+      expect(await axeComponent(Comp)).toHaveNoViolations()
+    })
+  })
 })
 
 describe('FormRow scss', () => {

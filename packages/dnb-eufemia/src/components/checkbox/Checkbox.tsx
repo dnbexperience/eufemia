@@ -447,3 +447,6 @@ function Checkbox(localProps: CheckboxProps) {
 }
 
 export default Checkbox
+
+// Mark as form element for FieldBlock
+Checkbox._formElement = true
