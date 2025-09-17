@@ -8,17 +8,20 @@ import {
   formatDate,
   formatDateRange,
 } from '../../../../components/date-format/DateFormatUtils'
+import { DEFAULT_DATE_FORMAT } from '../../Field/DateOfBirth/DateOfBirth'
 
 export type Props = StringValueProps & {
   variant?: 'long' | 'short' | 'numeric'
   locale?: AnyLocale
+  dateFormat?: string
 }
 
 function DateComponent(props: Props) {
   const translations = useTranslation().Date
   const { locale: contextLocale } = useContext(SharedContext)
   const locale = props.locale ?? contextLocale
-  const options = convertVariantToDateStyle(props.variant ?? 'long')
+  const { dateFormat, variant = 'long' } = props
+  const options = convertVariantToDateStyle(variant)
 
   const toInput = useCallback(
     (value: string) => {
@@ -35,9 +38,14 @@ function DateComponent(props: Props) {
         return formatDateRange({ startDate, endDate }, { locale, options })
       }
 
+      // If custom dateFormat is provided, use it instead of the variant
+      if (dateFormat && dateFormat !== DEFAULT_DATE_FORMAT) {
+        return formatCustomDate(value, dateFormat)
+      }
+
       return formatDate(value, { locale, options })
     },
-    [locale, options]
+    [locale, options, dateFormat]
   )
 
   const stringProps: Props = {
@@ -59,6 +67,29 @@ function convertVariantToDateStyle(
   }
 
   return { dateStyle: 'short' }
+}
+
+function formatCustomDate(value: string, dateFormat: string): string {
+  try {
+    // Parse the date value (assuming it's in ISO format or similar)
+    const date = new Date(value)
+
+    if (isNaN(date.getTime())) {
+      return value // Return original value if parsing fails
+    }
+
+    // Convert the custom format to a format that can be used with date formatting
+    const year = date.getFullYear()
+    const month = String(date.getMonth() + 1).padStart(2, '0')
+    const day = String(date.getDate()).padStart(2, '0')
+
+    return dateFormat
+      .replace('yyyy', year.toString())
+      .replace('MM', month)
+      .replace('dd', day)
+  } catch (error) {
+    return value // Return original value if formatting fails
+  }
 }
 
 DateComponent._supportsSpacingProps = true
