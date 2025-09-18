@@ -156,17 +156,29 @@ export default class ModalContent extends React.PureComponent<
     const firstLevel = modalRoots[0]
 
     if (firstLevel === this) {
+      // List all parent elements of the modal content
+      // If contentRef is not available, use the modal root element
+      const contentElement =
+        this._contentRef.current ||
+        document.querySelector(`#${this.props.content_id}`)
+      const parentElements = getParents(contentElement)
+
       this._ii = new InteractionInvalidation()
+      this._ii.setBypassElements(parentElements)
       this._ii.setBypassSelector(
         [
-          // Bypass modal content
-          '.dnb-modal__content *',
-          `#dnb-modal-${this.props.root_id || 'root'}`,
-          `#dnb-modal-${this.props.root_id || 'root'} *`,
+          // Bypass everything inside the portal root, so no aria-hidden is set all the way down to body.
+          // This way VoiceOver is still able to navigate (with ctrl+option+arrows) inside the modal.
+          '#eufemia-portal-root',
+          '#eufemia-portal-root *',
 
-          // TODO: Eventually in future, make it possible to bypass invalidation from outside
-          // '.dnb-modal--bypass_invalidation',
-          // '.dnb-modal--bypass_invalidation_deep *',
+          // The same as above, but when no portal is used
+          `#${this.props.content_id}`,
+          `#${this.props.content_id} *`,
+
+          // Allow bypassing invalidation from outside
+          '.dnb-modal--bypass_invalidation',
+          '.dnb-modal--bypass_invalidation_deep *',
 
           ...(this.props?.bypass_invalidation_selectors || []),
         ].filter(Boolean)
@@ -278,34 +290,38 @@ export default class ModalContent extends React.PureComponent<
       this._focusTimeout = setTimeout(
         () => {
           try {
-            let focusElement = elem as HTMLInputElement
+            let focusElement = elem as HTMLElement
+
+            const headerElem = elem.querySelector(
+              '.dnb-drawer__header, .dnb-dialog__header'
+            )
+            const firstHeading = (headerElem?.querySelector(
+              'h1, h2, h3'
+            ) || elem.querySelector('h1, h2, h3')) as HTMLElement
+
+            if (firstHeading) {
+              if (firstHeading.tagName !== 'H1') {
+                warn('A Dialog or Drawer needs a h1 as its first element!')
+              }
+
+              firstHeading.setAttribute('tabIndex', '-1')
+              firstHeading.classList.add('dnb-no-focus')
+
+              focusElement = firstHeading
+            } else {
+              // Focus the hidden focus helper first so VoiceOver
+              const focusHelper = elem.querySelector(
+                '.dnb-modal__close-button, .dnb-modal__focus-helper'
+              ) as HTMLElement
+              focusElement = focusHelper
+            }
 
             // Try to use the "first-focus" method first
             if (typeof focus_selector === 'string') {
               focusElement = elem.querySelector(focus_selector)
             }
 
-            focusElement?.focus?.()
-            focusElement?.select?.()
-
-            const noH1Elem = elem.querySelector('h1, h2, h3')
-            // Check if there's a header in a Drawer.Header
-            const noH1ElemInDrawerHeader = elem.parentElement
-              ?.querySelector('.dnb-drawer__header')
-              ?.querySelector('h1, h2, h3')
-
-            // Check if there's a header in a Dialog.Header
-            const noH1ElemInDialogHeader = elem.parentElement
-              ?.querySelector('.dnb-dialog__header')
-              ?.querySelector('h1, h2, h3')
-
-            if (
-              noH1Elem?.tagName !== 'H1' &&
-              noH1ElemInDrawerHeader?.tagName !== 'H1' &&
-              noH1ElemInDialogHeader?.tagName !== 'H1'
-            ) {
-              warn('A Dialog or Drawer needs a h1 as its first element!')
-            }
+            focusElement?.focus({ preventScroll: true })
           } catch (e) {
             warn(e)
           }
@@ -542,4 +558,20 @@ export default class ModalContent extends React.PureComponent<
       </ModalContext.Provider>
     )
   }
+}
+
+function getParents(elem?: HTMLElement | null) {
+  if (!elem || typeof document === 'undefined') {
+    return [] as HTMLElement[]
+  }
+
+  const parents: HTMLElement[] = []
+  let current: HTMLElement | null = elem.parentElement
+
+  while (current && current !== document.body) {
+    parents.push(current)
+    current = current.parentElement
+  }
+
+  return parents
 }

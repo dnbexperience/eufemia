@@ -75,6 +75,14 @@ export default class ModalHeader extends React.PureComponent<
         }
         {...sectionProps}
       >
+        <div
+          aria-hidden
+          tabIndex={-1}
+          className="dnb-modal__focus-helper dnb-sr-only"
+        >
+          {/* Used to set focus when no close button is present */}
+          {usedTitle}
+        </div>
         {showTitle && (
           <h1
             className={classnames(

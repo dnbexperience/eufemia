@@ -1,8 +1,8 @@
 export type TargetElement = HTMLElement
 export type TargetSelector = string
 export type HTMLElementNode = TargetElement & {
-  __ariahidden: string
-  __tabindex: string
+  __ariaHidden: string
+  __tabIndex: string
 }
 
 export type InteractionInvalidationOptions = {
@@ -18,23 +18,20 @@ export type InteractionInvalidationOptions = {
 }
 
 export class InteractionInvalidation {
-  bypassElement: TargetElement
+  bypassElements: Array<TargetElement>
   bypassSelectors: Array<TargetSelector>
   _nodesToInvalidate: Array<HTMLElementNode>
   options: InteractionInvalidationOptions
 
   constructor(options: InteractionInvalidationOptions = null) {
-    this.bypassElement = null
+    this.bypassElements = []
     this.bypassSelectors = []
     this.options = options || {}
     return this
   }
 
-  setBypassElement(bypassElement: TargetElement) {
-    if (bypassElement instanceof HTMLElement) {
-      this.bypassElement = bypassElement
-    }
-    return this
+  setBypassElements(bypassElements: Array<TargetElement>) {
+    this.bypassElements = bypassElements
   }
 
   setBypassSelector(
@@ -77,20 +74,20 @@ export class InteractionInvalidation {
       }
 
       if (this.options.tabIndex !== false) {
-        const tabindex = node.getAttribute('tabindex')
-        if (tabindex !== null && typeof node.__tabindex === 'undefined') {
-          node.__tabindex = tabindex
+        const tabIndex = node.getAttribute('tabindex')
+        if (tabIndex !== null && typeof node.__tabIndex === 'undefined') {
+          node.__tabIndex = tabIndex
         }
         node.setAttribute('tabindex', '-1')
       }
 
       if (this.options.ariaHidden !== false) {
-        const ariahidden = node.getAttribute('aria-hidden')
+        const ariaHidden = node.getAttribute('aria-hidden')
         if (
-          ariahidden !== null &&
-          typeof node.__ariahidden === 'undefined'
+          ariaHidden !== null &&
+          typeof node.__ariaHidden === 'undefined'
         ) {
-          node.__ariahidden = ariahidden
+          node.__ariaHidden = ariaHidden
         }
         node.setAttribute('aria-hidden', 'true')
       }
@@ -109,18 +106,18 @@ export class InteractionInvalidation {
       }
 
       if (this.options.tabIndex !== false) {
-        if (typeof node.__tabindex !== 'undefined') {
-          node.setAttribute('tabindex', node.__tabindex)
-          delete node.__tabindex
+        if (typeof node.__tabIndex !== 'undefined') {
+          node.setAttribute('tabindex', node.__tabIndex)
+          delete node.__tabIndex
         } else {
           node.removeAttribute('tabindex')
         }
       }
 
       if (this.options.ariaHidden !== false) {
-        if (typeof node.__ariahidden !== 'undefined') {
-          node.setAttribute('aria-hidden', node.__ariahidden)
-          delete node.__ariahidden
+        if (typeof node.__ariaHidden !== 'undefined') {
+          node.setAttribute('aria-hidden', node.__ariaHidden)
+          delete node.__ariaHidden
         } else {
           node.removeAttribute('aria-hidden')
         }
@@ -155,42 +152,59 @@ export class InteractionInvalidation {
     // so we remove the asterisk from the selector, but add it to the exclude selectors list and make another querySelectorAll call
     // - so we query all bypass selectors with "asterisk" manually
     if (process.env.NODE_ENV === 'test') {
-      const excludeSelectors = []
-
-      const testSelector = selector
-        .split(':')
-        .map((localSel) => {
-          if (localSel.endsWith(' *)')) {
-            excludeSelectors.push(
-              ...Array.from(
-                (
-                  (targetElement as TargetElement) ||
-                  document.documentElement
-                ).querySelectorAll(localSel.match(/\(([^)]*)\)/)[1])
-              )
-            )
-            localSel = localSel.replace(' *', '')
-          }
-
-          return localSel
-        })
-        .join(':')
-
-      return Array.from(
+      const allNodes = Array.from(
         (targetElement || document.documentElement).querySelectorAll(
-          testSelector
+          '*'
+        ) as NodeListOf<HTMLElementNode>
+      )
+
+      return allNodes.filter((node) => {
+        // Skip script, style, path, head, and body elements
+        if (
+          node.tagName === 'SCRIPT' ||
+          node.tagName === 'STYLE' ||
+          node.tagName === 'PATH' ||
+          node.tagName === 'HEAD' ||
+          node.tagName === 'BODY'
+        ) {
+          return false
+        }
+
+        // Check if node should be bypassed by elements or selectors
+        const bypassedByElement = this.bypassElements.includes(node)
+        const bypassedBySelector = this.bypassSelectors.some(
+          (selector) => {
+            try {
+              // Handle wildcard selectors (ending with *)
+              if (selector.endsWith(' *')) {
+                const baseSelector = selector.replace(' *', '')
+                const baseElement = (
+                  targetElement || document.documentElement
+                ).querySelector(baseSelector)
+                return baseElement && baseElement.contains(node)
+              } else {
+                // Handle direct selectors
+                const matchingElement = (
+                  targetElement || document.documentElement
+                ).querySelector(selector)
+                return matchingElement && matchingElement.contains(node)
+              }
+            } catch (e) {
+              return false
+            }
+          }
         )
-      ).filter(
-        (node) => !excludeSelectors.includes(node)
-      ) as Array<HTMLElementNode>
+
+        return !(bypassedByElement || bypassedBySelector)
+      })
     }
 
     try {
       return Array.from(
         (targetElement || document.documentElement).querySelectorAll(
           selector
-        )
-      )
+        ) as NodeListOf<HTMLElementNode>
+      ).filter((node) => !this.bypassElements.includes(node))
     } catch (error) {
       //
     }

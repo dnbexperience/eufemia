@@ -165,7 +165,7 @@ describe('HelpButton', () => {
     const dialogElem = document.querySelector('.custom-class')
 
     expect(
-      dialogElem.querySelector('.dnb-dialog__header').textContent
+      dialogElem.querySelector('.dnb-dialog__title').textContent
     ).toBe('Title')
     expect(
       dialogElem.querySelector('.dnb-dialog__content').textContent

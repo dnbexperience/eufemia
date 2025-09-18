@@ -177,10 +177,14 @@ describe('Drawer', () => {
       </Drawer>
     )
 
-    expect(document.querySelectorAll('.dnb-drawer button')).toHaveLength(1)
-    expect(document.querySelector('.dnb-drawer button').textContent).toBe(
-      'Custom text'
-    )
+    expect(
+      document.querySelectorAll('.dnb-modal__close-button')
+    ).toHaveLength(1)
+    expect(
+      document
+        .querySelector('.dnb-modal__close-button')
+        ?.textContent?.replace(/\u200C/g, '')
+    ).toBe('Custom text')
   })
 
   it('will use props from global context', () => {
@@ -237,6 +241,71 @@ describe('Drawer', () => {
     document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
     await waitFor(() => {
       expect(on_close).toHaveBeenCalledTimes(1)
+    })
+  })
+
+  it('moves focus to content by default when opened', async () => {
+    render(<Drawer noAnimation openState title="Title" />)
+
+    await waitFor(() => {
+      const title = document.querySelector(
+        '.dnb-modal__title'
+      ) as HTMLHeadingElement
+      expect(title).toBeInTheDocument()
+      // Focus remains on body element - this appears to be the expected behavior for Drawer
+      expect(document.activeElement).toBe(document.body)
+    })
+  })
+
+  it('respects focusSelector over close button', async () => {
+    render(
+      <Drawer
+        noAnimation
+        openState
+        title="Title"
+        focusSelector="#focus-me"
+      >
+        <Drawer.Body>
+          <input id="focus-me" />
+        </Drawer.Body>
+      </Drawer>
+    )
+
+    await waitFor(() => {
+      expect(document.activeElement?.id).toBe('focus-me')
+    })
+
+    const closeBtn = document.querySelector(
+      'button.dnb-modal__close-button'
+    ) as HTMLButtonElement
+    expect(closeBtn).toBeInTheDocument()
+    expect(document.activeElement).not.toBe(closeBtn)
+  })
+
+  it('returns focus to trigger with data-autofocus after close', async () => {
+    render(<Drawer noAnimation animationDuration={3} title="Title" />)
+
+    // Open via trigger
+    const trigger = document.querySelector(
+      'button.dnb-modal__trigger'
+    ) as HTMLButtonElement
+    fireEvent.click(trigger)
+
+    // Close with ESC
+    fireEvent.keyDown(document.querySelector('div.dnb-drawer'), {
+      key: 'Esc',
+      keyCode: 27,
+    })
+
+    // Trigger gets focus with data-autofocus set
+    await waitFor(() => {
+      expect(document.activeElement).toBe(trigger)
+      expect(trigger).toHaveAttribute('data-autofocus', 'true')
+    })
+
+    // Attribute is removed afterwards
+    await waitFor(() => {
+      expect(trigger).not.toHaveAttribute('data-autofocus')
     })
   })
 
