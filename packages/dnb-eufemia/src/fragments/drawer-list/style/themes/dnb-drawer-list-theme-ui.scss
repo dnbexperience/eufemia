@@ -246,12 +246,24 @@
     @include sharpDropShadow();
   }
 
-  // hover
-  &--top &__option.last-of-type:hover ~ &__triangle::before,/* only for the visual demo */
-  &--bottom &__option.first-of-type:hover ~ &__triangle::before,/* only for the visual demo */
+  // group title arrow
+  &--bottom:has(#{&}__group-title.closest-to-top) &__triangle,
+  &--top:has(#{&}__group-title.closest-to-bottom) &__triangle {
+    &::before {
+      background-color: var(--drawer-list-group-title-bg);
+    }
+  }
+
+  // hover and focus arrow
+  &--bottom:has(#{&}__option.closest-to-top:hover) &__triangle::before,
+  &--top:has(#{&}__option.closest-to-bottom:hover) &__triangle::before,
+  &--bottom:has(#{&}__option.closest-to-top#{&}__option--focus)
+    &__triangle::before,
+  &--top:has(#{&}__option.closest-to-bottom#{&}__option--focus)
+    &__triangle::before,
   &--bottom &__option.closest-to-top:hover ~ &__triangle::before,
   &--top &__option.closest-to-bottom:hover ~ &__triangle::before,
-    &--bottom
+  &--bottom
     &__option.closest-to-top#{&}__option--focus
     ~ &__triangle::before,
   &--top
@@ -260,20 +272,11 @@
     background-color: var(--color-mint-green-12);
   }
 
-  // selected
-  // The code below makes the triangle on focus only, because of the focus ring, it can make sense
-  // &--bottom
-  //   &__option.closest-to-top#{&}__option--focus
-  //   ~ &__triangle::before,
-  // &--top
-  //   &__option.closest-to-bottom#{&}__option--focus
-  //   ~ &__triangle::before,
-  &--bottom
-    &__option.first-of-type#{&}__option--selected
-    ~ &__triangle::before,
-  &--top
-    &__option.last-of-type#{&}__option--selected
-    ~ &__triangle::before,
+  // selected arrow
+  &--bottom:has(#{&}__option.closest-to-top#{&}__option--selected)
+    &__triangle::before,
+  &--top:has(#{&}__option.closest-to-bottom#{&}__option--selected)
+    &__triangle::before,
   &--bottom
     &__option.closest-to-top#{&}__option--selected
     ~ &__triangle::before,

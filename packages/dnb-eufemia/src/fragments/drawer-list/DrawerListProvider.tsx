@@ -76,8 +76,8 @@ export type DrawerListProviderProps = Omit<DrawerListProps, 'children'> &
     selected_item?: string | number
     active_item?: string | number
     showFocusRing?: boolean
-    closestToTop?: number
-    closestToBottom?: number
+    closestToTop?: string
+    closestToBottom?: string
     skipPortal?: boolean
     addObservers?: () => void
     removeObservers?: () => void
@@ -149,7 +149,7 @@ export default class DrawerListProvider extends React.PureComponent<
   _scrollTimeout: NodeJS.Timeout
   _directionTimeout: NodeJS.Timeout
 
-  itemSpots: { [customProperty: number]: { i: number } }
+  itemSpots: { [customProperty: number]: { id: string } }
   itemSpotsCount: number
   setOnScroll: () => void
   _bodyLockIsEnabled: boolean
@@ -226,18 +226,15 @@ export default class DrawerListProvider extends React.PureComponent<
     if (typeof window === 'undefined' || !this._refUl.current) {
       return
     }
-
-    this.itemSpots = this.state.data.reduce((acc, cur, i) => {
-      const element = this._refUl.current?.querySelector<HTMLLIElement>(
-        `li.dnb-drawer-list__option:nth-of-type(${i + 1})`
-      )
-      if (element) {
-        acc[element.offsetTop] = {
-          i,
-        }
+    const elements = this._refUl.current?.querySelectorAll<HTMLLIElement>(
+      `li.dnb-drawer-list__option,li.dnb-drawer-list__group-title`
+    )
+    this.itemSpots = {}
+    elements.forEach((element) => {
+      this.itemSpots[element.offsetTop] = {
+        id: element.getAttribute('id'),
       }
-      return acc
-    }, {})
+    })
 
     this.itemSpotsCount = Object.keys(this.itemSpots).length
   }
@@ -257,6 +254,7 @@ export default class DrawerListProvider extends React.PureComponent<
         tmpToBottom
 
       this.setOnScroll = () => {
+        // TODO: BUG: doesn't run when direction changes or when search results change
         if (!this._refUl.current) {
           return // stop here
         }
@@ -272,23 +270,26 @@ export default class DrawerListProvider extends React.PureComponent<
           this._refUl.current.scrollTop + this._refUl.current.offsetHeight
         )
         closestToTop = findClosest(counts, this._refUl.current.scrollTop)
-        if (this.itemSpots[closestToTop] && closestToTop !== tmpToTop) {
+        if (
+          this.itemSpots[closestToTop] &&
+          this.itemSpots[closestToTop].id !== tmpToTop
+        ) {
+          tmpToTop = this.itemSpots[closestToTop].id
           this.setState({
-            closestToTop: this.itemSpots[closestToTop].i,
+            closestToTop: this.itemSpots[closestToTop].id,
           })
         }
         // we do this because we want the arrow
         // to change visually
         if (
-          closestToBottom !== tmpToBottom &&
-          this.itemSpots[closestToBottom]
+          this.itemSpots[closestToBottom] &&
+          this.itemSpots[closestToBottom].id !== tmpToBottom
         ) {
+          tmpToBottom = this.itemSpots[closestToBottom].id
           this.setState({
-            closestToBottom: this.itemSpots[closestToBottom].i,
+            closestToBottom: this.itemSpots[closestToBottom].id,
           })
         }
-        tmpToTop = closestToTop
-        tmpToBottom = closestToBottom
       }
 
       this._refUl.current.addEventListener('scroll', this.setOnScroll)

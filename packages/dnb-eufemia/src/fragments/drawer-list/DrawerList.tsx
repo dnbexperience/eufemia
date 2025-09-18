@@ -531,10 +531,11 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
             data.map((dataItem, i) => {
               const _id = dataItem.__id
               const hash = `option-${id}-${_id}-${i}`
+              const tagId = `option-${id}-${_id}`
               const liParams = {
                 role: role === 'menu' ? 'menuitem' : 'option',
                 'data-item': _id,
-                id: `option-${id}-${_id}`,
+                id: tagId,
                 hash,
                 className: classnames(
                   // helper classes
@@ -542,8 +543,8 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
                   j === renderData.length - 1 &&
                     i === data.length - 1 &&
                     'last-item',
-                  i === closestToTop && 'closest-to-top',
-                  i === closestToBottom && 'closest-to-bottom',
+                  tagId === closestToTop && 'closest-to-top',
+                  tagId === closestToBottom && 'closest-to-bottom',
                   i === 0 && 'first-of-type', // because of the triangle element
                   i === data.length - 1 && 'last-of-type', // because of the triangle element
                   ignoreEvents ||
@@ -580,33 +581,37 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
             ) : (
               <Items />
             )
-
-          return hasGroups ? (
-            <ul
-              key={j}
-              role="group"
-              aria-labelledby={`${id}-group-title-${j}`}
-              className={classnames(
-                'dnb-drawer-list__group',
-                j === 0 && 'first-of-type',
-                j === renderData.length - 1 && 'last-of-type'
-              )}
-            >
-              <li
-                id={`${id}-group-title-${j}`}
-                role="presentation"
+          if (hasGroups) {
+            const groupdId = `${id}-group-title-${j}`
+            return (
+              <ul
+                key={j}
+                role="group"
+                aria-labelledby={groupdId}
                 className={classnames(
-                  'dnb-drawer-list__group-title',
-                  hideTitle && 'dnb-sr-only'
+                  'dnb-drawer-list__group',
+                  j === 0 && 'first-of-type',
+                  j === renderData.length - 1 && 'last-of-type'
                 )}
               >
-                {groupTitle}
-              </li>
-              <ItemsRendered />
-            </ul>
-          ) : (
-            <ItemsRendered key={j} />
-          )
+                <li
+                  id={groupdId}
+                  role="presentation"
+                  className={classnames(
+                    'dnb-drawer-list__group-title',
+                    hideTitle && 'dnb-sr-only',
+                    groupdId === closestToBottom && 'closest-to-bottom',
+                    groupdId === closestToTop && 'closest-to-top'
+                  )}
+                >
+                  {groupTitle}
+                </li>
+                <ItemsRendered />
+              </ul>
+            )
+          } else {
+            return <ItemsRendered key={j} />
+          }
         })
 
     const mainList = (
@@ -803,3 +808,5 @@ export default DrawerList
 
 // TODO: PR fix closestToTop and closestToBottom triangle styling when scrolling
 // TODO: PR add tests
+// TODO: PR focus/hover selected border radius effect
+// TODO: BUG: closestToBottom and closestToTop is not updated when list content changes
