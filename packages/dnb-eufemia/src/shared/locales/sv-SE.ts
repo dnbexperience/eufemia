@@ -73,6 +73,11 @@ export default {
     ProgressIndicator: {
       indicator_label: 'Vänligen vänta ...',
     },
+    DrawerList: {
+      defaultGroup: 'Standardval',
+      missingGroup: 'Grupp',
+      noGroup: 'Andra val',
+    },
     Dropdown: {
       title: 'Valmeny',
     },
