@@ -5,6 +5,7 @@ import {
   Field,
   Value,
   JSONSchema,
+  Ajv,
 } from '@dnb/eufemia/src/extensions/forms'
 import { Flex } from '@dnb/eufemia/src'
 
@@ -172,6 +173,9 @@ export const Default = () => {
 }
 
 export const ValidationWithJsonSchema = () => {
+  const ajv = new Ajv({
+    allErrors: true,
+  })
   return (
     <ComponentBox
       scope={{
@@ -179,11 +183,13 @@ export const ValidationWithJsonSchema = () => {
         Value,
         testData,
         TestDataSchema,
+        ajv,
       }}
     >
       <DataContext.Provider
         data={testData}
         schema={TestDataSchema}
+        ajvInstance={ajv}
         onChange={(data) => console.log('onChange', data)}
         onPathChange={(path, value) =>
           console.log('onPathChange', path, value)

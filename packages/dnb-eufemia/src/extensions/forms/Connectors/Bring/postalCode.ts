@@ -7,7 +7,6 @@ import {
   PreResponseResolver,
   ResponseResolver,
   fetchData,
-  getCountryCodeValue,
   handleCountryPath,
   isSupportedCountryCode,
 } from '../createContext'
@@ -149,7 +148,13 @@ export function validator(
       return // stop here
     }
 
-    const { countryCode } = getCountryCodeValue({ additionalArgs })
+    // Get country code from path or use given countryCode value, and re-validate on path changes
+    const { countryCode } = handleCountryPath({
+      value,
+      countryCode: handlerConfig?.countryCode,
+      additionalArgs,
+      handler: validatorHandler,
+    })
 
     if (!isSupportedCountryCode(countryCode, supportedCountryCodes)) {
       return new Error(

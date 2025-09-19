@@ -5,6 +5,7 @@ import React, {
   useEffect,
   useRef,
 } from 'react'
+import * as z from 'zod'
 import { Autocomplete } from '../../../../components'
 import { InputMaskedProps } from '../../../../components/InputMasked'
 import classnames from 'classnames'
@@ -18,10 +19,7 @@ import StringField, { Props as StringFieldProps } from '../String'
 import { Props as FieldBlockProps } from '../../FieldBlock'
 import CompositionField from '../Composition'
 import { useFieldProps } from '../../hooks'
-import {
-  FieldPropsWithExtraValue,
-  AllJSONSchemaVersions,
-} from '../../types'
+import { FieldPropsWithExtraValue, Schema } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import SharedContext from '../../../../shared/Context'
 import {
@@ -168,16 +166,27 @@ function PhoneNumber(props: Props) {
     [props.emptyValue]
   )
 
-  const schema = useMemo<AllJSONSchemaVersions>(
-    () =>
-      props.schema ?? {
-        type: 'string',
-        pattern: props.pattern,
-      },
-    [props.schema, props.pattern]
-  )
+  const schema = useMemo<Schema<string> | undefined>(() => {
+    if (props.schema) {
+      return props.schema
+    }
+
+    if (!props.pattern) return undefined
+    // Use Zod internally when only pattern is provided
+    return (p: Props) => {
+      let s = z.string()
+      if (p?.pattern) {
+        try {
+          s = s.regex(new RegExp(p.pattern, 'u'), 'Field.errorPattern')
+        } catch (_e) {
+          // ignore invalid pattern
+        }
+      }
+      return s
+    }
+  }, [props.schema, props.pattern])
   const defaultProps: Partial<Props> = {
-    schema,
+    ...(schema ? { schema } : {}),
     errorMessages,
   }
   const ref = useRef<HTMLInputElement>()

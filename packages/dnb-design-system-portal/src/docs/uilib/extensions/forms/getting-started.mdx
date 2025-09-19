@@ -601,13 +601,38 @@ The `pattern` property is a regular expression (RegExp) that the value of the fi
 
 ### schema
 
-The `schema` property is a JSON schema that the value of the field must match:
+The `schema` property is a schema that the value of the field must match in order to be valid. You can use either a Zod schema or a JSON Schema (Ajv) schema:
+
+**Using Zod schemas**
 
 ```tsx
+import { Form, Field, z } from '@dnb/eufemia/extensions/forms'
+
+const schema = z.string().min(5)
+
+<Form.Handler>
+  <Field.String schema={schema} />
+</Form.Handler>
+```
+
+**Using JSON Schema (Ajv)**
+
+**NB:** An `Ajv` instance is required on the `Form.Handler`.
+
+```tsx
+import Ajv from 'ajv/dist/2020'
+import { Form, Field } from '@dnb/eufemia/extensions/forms'
+
+const ajv = new Ajv({
+    allErrors: true,
+  })
 const schema = {
-  /* AJV Schema */
+  /* Ajv Schema */
 }
-<Field.PhoneNumber schema={schema} />
+
+<Form.Handler ajvInstance={ajv}>
+  <Field.PhoneNumber schema={schema} />
+</Form.Handler>
 ```
 
 ### onBlurValidator and onChangeValidator

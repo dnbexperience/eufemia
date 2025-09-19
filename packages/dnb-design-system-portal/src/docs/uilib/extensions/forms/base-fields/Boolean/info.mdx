@@ -24,11 +24,33 @@ Here is a indeterminate state (partially checked) [working example](/uilib/exten
 
 ## Schema validation
 
-You can use a Ajv schema to validate the value with either `const` or `enum`.
+You can use a schema to validate the value with either `const` or `enum`.
+
+**Using Zod schemas**
 
 ```tsx
+import { Form, Field, z } from '@dnb/eufemia/extensions/forms'
+
+const schema = z.object({
+  myField: z.literal(true), // or z.enum([true])
+})
+
+render(
+  <Form.Handler schema={schema} data={{ myField: false }}>
+    <Field.Boolean path="/myField" />
+  </Form.Handler>,
+)
+```
+
+**Using JSON Schema (Ajv)**
+
+```tsx
+import Ajv from 'ajv/dist/2020'
 import { Form, Field } from '@dnb/eufemia/extensions/forms'
 
+const ajv = new Ajv({
+  allErrors: true,
+})
 const schema = {
   type: 'object',
   properties: {
@@ -40,7 +62,11 @@ const schema = {
 }
 
 render(
-  <Form.Handler schema={schema} data={{ myField: false }}>
+  <Form.Handler
+    schema={schema}
+    ajvInstance={ajv}
+    data={{ myField: false }}
+  >
     <Field.Boolean path="/myField" />
   </Form.Handler>,
 )

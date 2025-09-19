@@ -201,9 +201,34 @@ render(
 
 You can define an error message in a `schema` for one field:
 
-```tsx
-import { Provider } from '@dnb/eufemia/shared'
+**Using Zod schemas**
 
+```tsx
+import { Form, Field, z } from '@dnb/eufemia/extensions/forms'
+
+const schema = z
+  .string()
+  .regex(
+    /^([a-z]+)$/,
+    'You can provide a custom message in the schema itself',
+  )
+
+render(
+  <Form.Handler>
+    <Field.String schema={schema} value="123" validateInitially />
+  </Form.Handler>,
+)
+```
+
+**Using JSON Schema (Ajv)**
+
+```tsx
+import Ajv from 'ajv/dist/2020'
+import { Form, Field } from '@dnb/eufemia/extensions/forms'
+
+const ajv = new Ajv({
+  allErrors: true,
+})
 const schema = {
   type: 'string',
   pattern: '^([a-z]+)$',
@@ -211,7 +236,7 @@ const schema = {
 } as const
 
 render(
-  <Form.Handler>
+  <Form.Handler ajvInstance={ajv}>
     <Field.String schema={schema} value="123" validateInitially />
   </Form.Handler>,
 )
@@ -221,7 +246,33 @@ render(
 
 You can also define an error message in a `schema` for the entire form:
 
+**Using Zod schemas**
+
 ```tsx
+import { Form, Field, z } from '@dnb/eufemia/extensions/forms'
+
+const schema = z.object({
+  myKey: z
+    .string()
+    .regex(
+      /^([a-z]+)$/,
+      'You can provide a custom message in the schema itself',
+    ),
+})
+
+render(
+  <Form.Handler schema={schema}>
+    <Field.String path="/myKey" value="123" validateInitially />
+  </Form.Handler>,
+)
+```
+
+**Using JSON Schema (Ajv)**
+
+```tsx
+const ajv = new Ajv({
+  allErrors: true,
+})
 const schema = {
   type: 'object',
   properties: {
@@ -235,7 +286,7 @@ const schema = {
 } as const
 
 render(
-  <Form.Handler schema={schema}>
+  <Form.Handler schema={schema} ajvInstance={ajv}>
     <Field.String path="/myKey" value="123" validateInitially />
   </Form.Handler>,
 )
@@ -243,7 +294,34 @@ render(
 
 Or in a Form.Handler `schema` with several validation rules:
 
+**Using Zod schemas**
+
 ```tsx
+import { Form, Field, z } from '@dnb/eufemia/extensions/forms'
+
+const schema = z.object({
+  myKey: z
+    .string()
+    .min(2, 'minLength message in provider schema')
+    .max(3, 'maxLength message in provider schema'),
+})
+
+render(
+  <Form.Handler schema={schema}>
+    <Field.String path="/myKey" value="123" validateInitially />
+  </Form.Handler>,
+)
+```
+
+**Using JSON Schema (Ajv)**
+
+```tsx
+import Ajv from 'ajv/dist/2020'
+import { Form, Field } from '@dnb/eufemia/extensions/forms'
+
+const ajv = new Ajv({
+  allErrors: true,
+})
 const schema = {
   type: 'object',
   properties: {
@@ -260,7 +338,7 @@ const schema = {
 } as const
 
 render(
-  <Form.Handler schema={schema}>
+  <Form.Handler schema={schema} ajvInstance={ajv}>
     <Field.String path="/myKey" value="123" validateInitially />
   </Form.Handler>,
 )
@@ -279,10 +357,16 @@ The levels are prioritized in the order above, so the field level error message 
 Here is an example of how to do expose a custom error message for the `Field.errorRequired` validation rule on all levels:
 
 ```tsx
-import { Form, Field } from '@dnb/eufemia/extensions/forms'
+import Ajv from 'ajv/dist/2020'
+import { Form, Field,  } from '@dnb/eufemia/extensions/forms'
+
+const ajv = new Ajv({
+    allErrors: true,
+  })
 
 render(
   <Form.Handler
+    ajvInstance={ajv}
     errorMessages={{
       // Level 1
       'Field.errorRequired': 'Or on the provider',

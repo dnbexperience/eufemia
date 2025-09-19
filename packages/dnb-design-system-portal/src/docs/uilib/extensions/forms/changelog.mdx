@@ -15,6 +15,13 @@ Change log for the Eufemia Forms extension.
 
 Get more [details about releases](/uilib/releases) or have a look on all [release notes on GitHub](https://github.com/dnbexperience/eufemia/releases).
 
+## v10.82.0
+
+- Added support for [Zod](https://zod.dev/) schemas (along with Ajv).
+- When using JSON Schema (Ajv) it is recommended to explicitly providing an `ajvInstance` to `Form.Handler`:
+  - Import Ajv from `ajv`: `import Ajv from 'ajv/dist/2020'`
+  - Pass an instance to your form: `<Form.Handler ajvInstance={new Ajv({ allErrors: true })}>`
+
 ## v10.81.0
 
 - Added [Field.DateOfBirth](/uilib/extensions/forms/feature-fields/DateOfBirth/) and [Value.DateOfBirth](/uilib/extensions/forms/Value/DateOfBirth/) component to select a date of birth.
