@@ -1120,7 +1120,7 @@ describe('Modal component', () => {
     expect(outsideButton.getAttribute('aria-hidden')).toEqual('true')
   })
 
-  it('should not add aria-hidden to the modal parent elements when directDomReturn is true', () => {
+  it('should not add aria-hidden to the modal parent elements when direct_dom_return is true', () => {
     const modalContent = 'Modal Content'
 
     render(
@@ -1147,7 +1147,7 @@ describe('Modal component', () => {
     const parentElement1 = document.querySelector('#parent-element-1')
     const parentElement2 = document.querySelector('#parent-element-2')
 
-    // When directDomReturn is true, the modal content is rendered directly in the DOM
+    // When direct_dom_return is true, the modal content is rendered directly in the DOM
     // so the modal root and its parent elements should not have aria-hidden
     expect(modalRoot).not.toHaveAttribute('aria-hidden')
     expect(rootElement).not.toHaveAttribute('aria-hidden')
