@@ -105,6 +105,10 @@ export type Props = FieldProps<IOption['value']> & {
   data?: Data
 
   /**
+   * Array of groups, only the first can be `undefined`
+   */
+  groups?: React.ReactNode[]
+  /**
    * Autocomplete specific props
    */
   autocompleteProps?: ToCamelCase<AutocompleteAllProps>
@@ -290,6 +294,7 @@ function Selection(props: Props) {
     setDisplayValue,
     transformSelection,
     data,
+    groups,
     dataPath,
     children,
     additionalArgs,
@@ -451,6 +456,7 @@ function Selection(props: Props) {
         disabled,
         ...htmlAttributes,
         data,
+        groups,
         size,
         on_change: handleDrawerListChange,
         on_show: handleShow,
@@ -636,10 +642,19 @@ export function makeOptions<T = DrawerListProps['data']>(
         ? transformSelection(props)
         : undefined
       const selectedKey = String(props.value ?? '')
+
       const disabled = props.disabled
       const style = props.style
+      const groupIndex = props.groupIndex
 
-      return { selectedKey, selected_value, content, disabled, style }
+      return {
+        selectedKey,
+        selected_value,
+        content,
+        disabled,
+        style,
+        groupIndex,
+      }
     }
 
     // For other children, just show them as content

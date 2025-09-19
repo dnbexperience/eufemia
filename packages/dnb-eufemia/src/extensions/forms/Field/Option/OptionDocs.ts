@@ -12,6 +12,11 @@ export const OptionProperties: PropertiesTableProps = {
     type: ['string', 'React.Node'],
     status: 'optional',
   },
+  groupIndex: {
+    doc: `What group in the \`groups\` prop ([Field.Selection](/uilib/extensions/forms/base-fields/Selection/)) this item belongs to.`,
+    type: 'number',
+    status: 'optional',
+  },
   text: {
     doc: 'Secondary text.',
     type: ['string', 'React.Node'],
