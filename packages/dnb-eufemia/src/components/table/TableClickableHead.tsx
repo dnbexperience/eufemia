@@ -42,6 +42,7 @@ export function TableClickableHead(allProps: TableClickableHeadProps) {
     ...props
   } = allProps
 
+  const tableContext = React.useContext(TableContext)
   const id = useId()
   const trParams =
     !disabled && clickable
@@ -66,7 +67,9 @@ export function TableClickableHead(allProps: TableClickableHeadProps) {
       )}
       style={{
         ...style,
-        viewTransitionName: `row-${id}`,
+        viewTransitionName: tableContext.hasAccordionRows
+          ? `row-${id}`
+          : undefined,
       }}
       {...trParams}
       {...props}

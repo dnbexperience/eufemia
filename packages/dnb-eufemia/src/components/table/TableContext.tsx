@@ -14,6 +14,7 @@ type TableContextProps = {
   rerenderAlias: Record<string, never>
   collapseTrCallbacks: React.MutableRefObject<(() => void)[]>
   allProps: TableAllProps & Translation['Table']
+  hasAccordionRows?: boolean
 }
 
 export const TableContext = React.createContext<TableContextProps>(null)

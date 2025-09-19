@@ -35,9 +35,9 @@ const Ul = ({ nested, inside, outside, ...props }: UlAllProps = {}) => {
       {...props}
       className={classnames(
         props.className,
-        nested && 'dnb-ol--nested',
-        inside && 'dnb-ol--inside',
-        outside && 'dnb-ol--outside'
+        nested && 'dnb-ul--nested',
+        inside && 'dnb-ul--inside',
+        outside && 'dnb-ul--outside'
       )}
       skeleton={false}
     />

@@ -2527,6 +2527,14 @@ describe('PushContainer', () => {
         await userEvent.click(
           document.querySelector('.dnb-forms-iterate__cancel-button')
         )
+        await waitFor(() =>
+          expect(
+            document.querySelector('.dnb-dialog .dnb-button--primary')
+          ).toBeInTheDocument()
+        )
+        await userEvent.click(
+          document.querySelector('.dnb-dialog .dnb-button--primary')
+        )
 
         await userEvent.click(nextButton())
 
@@ -2939,8 +2947,11 @@ describe('PushContainer', () => {
         nb.IterateEditContainer.cancelButton
       )
 
-      // Hide the form by adding a new item
+      // Hide the form by cancel (requires confirm)
       await userEvent.click(buttons[1])
+      await userEvent.click(
+        document.querySelector('.dnb-dialog .dnb-button--primary')
+      )
     }
 
     expect(editBlock).toHaveAttribute('aria-hidden', 'true')
@@ -2964,6 +2975,9 @@ describe('PushContainer', () => {
 
       // Hide the form by pressing cancel (close)
       await userEvent.click(buttons[1])
+      await userEvent.click(
+        document.querySelector('.dnb-dialog .dnb-button--primary')
+      )
 
       await waitFor(() => {
         expect(editBlock).toHaveAttribute('aria-hidden', 'true')

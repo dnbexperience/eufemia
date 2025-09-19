@@ -1450,7 +1450,7 @@ html[data-whatinput=keyboard] .dnb-radio__focus {
 .dnb-radio-group .dnb-radio:last-of-type {
   margin-right: 0;
 }
-.dnb-radio-group [role=radiogroup], .dnb-radio-group__shell {
+.dnb-radio-group__shell {
   display: flex;
   flex-wrap: wrap;
   column-gap: var(--radio-group-column-gap);

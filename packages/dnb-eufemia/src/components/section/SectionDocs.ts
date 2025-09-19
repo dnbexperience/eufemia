@@ -21,6 +21,11 @@ export const SectionProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
+  outlineWidth: {
+    doc: "Define a custom border width. Defaults to `var(--card-outline-width)`. Supports also media query breakpoints like `{ small: '2px' }`.",
+    type: 'string | number',
+    status: 'optional',
+  },
   roundedCorner: {
     doc: 'Use `true` to enable rounded corners (border-radius). Supports also media query breakpoints like `{ small: boolean }`. Defaults to `false`.',
     type: 'boolean',

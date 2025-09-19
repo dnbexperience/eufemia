@@ -10,6 +10,12 @@
 .headerStyle {
   position: fixed;
 
+  // When using view transitions, like in the table component,
+  // we use view-transition-name on every tr when there are accordion rows,
+  // but then they appear above the header. We don't want that,
+  // so we add view-transition-name here as well to create a new stacking context.
+  view-transition-name: header;
+
   /* 
     - Higher than z-index of 2 by ContentWrapper (.dnb-app-content)
     - and higher than z-index of 3200 by .dnb-drawer-list__portal__style 

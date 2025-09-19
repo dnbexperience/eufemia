@@ -154,5 +154,245 @@ describe('Value.Date', () => {
         ).toHaveTextContent('16 January 2023')
       })
     })
+
+    describe('dateFormat', () => {
+      it('formats with custom dateFormat dd/MM/yyyy', () => {
+        render(<Value.Date value="2023-01-16" dateFormat="dd/MM/yyyy" />)
+
+        expect(
+          document.querySelector('.dnb-forms-value-block__content')
+        ).toHaveTextContent('16/01/2023')
+      })
+
+      it('formats with custom dateFormat MM/dd/yyyy', () => {
+        render(<Value.Date value="2023-01-16" dateFormat="MM/dd/yyyy" />)
+
+        expect(
+          document.querySelector('.dnb-forms-value-block__content')
+        ).toHaveTextContent('01/16/2023')
+      })
+
+      it('formats with custom dateFormat yyyy-MM-dd', () => {
+        render(<Value.Date value="2023-01-16" dateFormat="yyyy-MM-dd" />)
+
+        // yyyy-MM-dd is the DEFAULT_DATE_FORMAT, so custom formatting is not applied
+        // It falls back to the default locale formatting
+        expect(
+          document.querySelector('.dnb-forms-value-block__content')
+        ).toHaveTextContent('16. januar 2023')
+      })
+
+      it('formats with custom dateFormat dd-MM-yyyy', () => {
+        render(<Value.Date value="2023-01-16" dateFormat="dd-MM-yyyy" />)
+
+        expect(
+          document.querySelector('.dnb-forms-value-block__content')
+        ).toHaveTextContent('16-01-2023')
+      })
+
+      it('formats with custom dateFormat d/M/yyyy (single digits)', () => {
+        render(<Value.Date value="2023-01-16" dateFormat="d/M/yyyy" />)
+
+        // The formatCustomDate function only handles yyyy, MM, dd patterns
+        // Single digit patterns (d, M) are not replaced, so they remain as-is
+        expect(
+          document.querySelector('.dnb-forms-value-block__content')
+        ).toHaveTextContent('d/M/2023')
+      })
+
+      it('formats with custom dateFormat dd/MM/yy (two digit year)', () => {
+        render(<Value.Date value="2023-01-16" dateFormat="dd/MM/yy" />)
+
+        // The formatCustomDate function only handles yyyy, MM, dd patterns
+        // Two digit year pattern (yy) is not replaced, so it remains as-is
+        expect(
+          document.querySelector('.dnb-forms-value-block__content')
+        ).toHaveTextContent('16/01/yy')
+      })
+
+      it('handles invalid date gracefully', () => {
+        render(<Value.Date value="invalid-date" dateFormat="dd/MM/yyyy" />)
+
+        expect(
+          document.querySelector('.dnb-forms-value-block__content')
+        ).toHaveTextContent('invalid-date')
+      })
+
+      it('handles empty value with dateFormat', () => {
+        render(<Value.Date value="" dateFormat="dd/MM/yyyy" />)
+
+        expect(document.body.textContent).toBe('')
+      })
+
+      it('handles null value with dateFormat', () => {
+        render(<Value.Date value={null} dateFormat="dd/MM/yyyy" />)
+
+        expect(document.body.textContent).toBe('')
+      })
+
+      it('handles undefined value with dateFormat', () => {
+        render(<Value.Date value={undefined} dateFormat="dd/MM/yyyy" />)
+
+        expect(document.body.textContent).toBe('')
+      })
+
+      it('formats with custom dateFormat and range values', () => {
+        render(
+          <Value.Date
+            value="2024-09-01|2024-09-30"
+            dateFormat="dd/MM/yyyy"
+          />
+        )
+
+        // Range values fall back to default formatting, not custom dateFormat
+        expect(
+          document.querySelector('.dnb-forms-value-block__content')
+        ).toHaveTextContent('1.–30. september 2024')
+      })
+
+      it('formats with custom dateFormat and different locale', () => {
+        render(
+          <Value.Date
+            value="2023-01-16"
+            dateFormat="dd/MM/yyyy"
+            locale="en-GB"
+          />
+        )
+
+        expect(
+          document.querySelector('.dnb-forms-value-block__content')
+        ).toHaveTextContent('16/01/2023')
+      })
+
+      it('formats with custom dateFormat and Form.Handler locale', () => {
+        render(
+          <Form.Handler locale="en-GB">
+            <Value.Date value="2023-01-16" dateFormat="dd/MM/yyyy" />
+          </Form.Handler>
+        )
+
+        expect(
+          document.querySelector('.dnb-forms-value-block__content')
+        ).toHaveTextContent('16/01/2023')
+      })
+
+      it('formats with custom dateFormat and shared context locale', () => {
+        render(
+          <Provider locale="en-GB">
+            <Value.Date value="2023-01-16" dateFormat="dd/MM/yyyy" />
+          </Provider>
+        )
+
+        expect(
+          document.querySelector('.dnb-forms-value-block__content')
+        ).toHaveTextContent('16/01/2023')
+      })
+
+      it('formats with custom dateFormat and label', () => {
+        render(
+          <Value.Date
+            value="2023-01-16"
+            dateFormat="dd/MM/yyyy"
+            label="Custom Date"
+          />
+        )
+
+        expect(
+          document.querySelector('.dnb-forms-value-block__content')
+        ).toHaveTextContent('16/01/2023')
+        expect(
+          document.querySelector('.dnb-form-label')
+        ).toHaveTextContent('Custom Date')
+      })
+
+      it('formats with custom dateFormat and placeholder', () => {
+        render(
+          <Value.Date
+            value=""
+            dateFormat="dd/MM/yyyy"
+            placeholder="No date selected"
+          />
+        )
+
+        expect(screen.getByText('No date selected')).toBeInTheDocument()
+      })
+
+      it('formats with custom dateFormat and showEmpty', () => {
+        render(
+          <Value.Date
+            value=""
+            dateFormat="dd/MM/yyyy"
+            label="Date Label"
+            showEmpty
+          />
+        )
+
+        expect(
+          document.querySelector('.dnb-form-label')
+        ).toHaveTextContent('Date Label')
+        expect(document.body.textContent).toBe('Date Label')
+      })
+
+      it('formats with custom dateFormat and gets value from path', () => {
+        render(
+          <Form.Handler data={{ myDate: '2023-01-16' }}>
+            <Value.Date path="/myDate" dateFormat="dd/MM/yyyy" />
+          </Form.Handler>
+        )
+
+        expect(
+          document.querySelector('.dnb-forms-value-block__content')
+        ).toHaveTextContent('16/01/2023')
+      })
+
+      it('formats with custom dateFormat and variant (dateFormat takes precedence)', () => {
+        render(
+          <Value.Date
+            value="2023-01-16"
+            dateFormat="dd/MM/yyyy"
+            variant="short"
+          />
+        )
+
+        // dateFormat should take precedence over variant
+        expect(
+          document.querySelector('.dnb-forms-value-block__content')
+        ).toHaveTextContent('16/01/2023')
+      })
+
+      it('formats with complex custom dateFormat', () => {
+        render(
+          <Value.Date value="2023-01-16" dateFormat="dd-MM-yyyy (EEEE)" />
+        )
+
+        expect(
+          document.querySelector('.dnb-forms-value-block__content')
+        ).toHaveTextContent('16-01-2023 (EEEE)')
+      })
+
+      it('formats with custom dateFormat containing only year', () => {
+        render(<Value.Date value="2023-01-16" dateFormat="yyyy" />)
+
+        expect(
+          document.querySelector('.dnb-forms-value-block__content')
+        ).toHaveTextContent('2023')
+      })
+
+      it('formats with custom dateFormat containing only month', () => {
+        render(<Value.Date value="2023-01-16" dateFormat="MM" />)
+
+        expect(
+          document.querySelector('.dnb-forms-value-block__content')
+        ).toHaveTextContent('01')
+      })
+
+      it('formats with custom dateFormat containing only day', () => {
+        render(<Value.Date value="2023-01-16" dateFormat="dd" />)
+
+        expect(
+          document.querySelector('.dnb-forms-value-block__content')
+        ).toHaveTextContent('16')
+      })
+    })
   })
 })

@@ -130,6 +130,17 @@ describe('InteractionInvalidation', () => {
       hasInvalidatedState('.effected')
     })
 
+    it('have invalidated only .effected by using setBypassElements', () => {
+      const bypassElems = Array.from(
+        document.querySelectorAll('.bypass *')
+      ) as HTMLElement[]
+      ii.setBypassElements(bypassElems)
+      ii.activate()
+
+      hasDefaultState('.bypass')
+      hasInvalidatedState('.effected')
+    })
+
     it('have invalidated only .effected', () => {
       ii.activate('.effected')
 

@@ -510,9 +510,11 @@ describe('variants', () => {
         document.querySelector('.dnb-dropdown__trigger')
       )
 
-      const options = document.querySelectorAll('[role="option"]')
-      expect(options[0]).toHaveTextContent('Foo!')
-      expect(options[1]).toHaveTextContent('Bar!')
+      await waitFor(() => {
+        const options = document.querySelectorAll('[role="option"]')
+        expect(options[0]).toHaveTextContent('Foo!')
+        expect(options[1]).toHaveTextContent('Bar!')
+      })
     })
 
     it('should support keyboard navigation to select an option', async () => {
@@ -738,6 +740,101 @@ describe('variants', () => {
         expect(second).toHaveAttribute('aria-invalid', 'true')
       })
     })
+
+    it('should have aria-labelledby and role="radiogroup" on fieldset when label is given', () => {
+      render(
+        <Field.Selection variant="radio" label="Legend">
+          <Field.Option value="foo">Foo</Field.Option>
+          <Field.Option value="bar">Bar</Field.Option>
+        </Field.Selection>
+      )
+
+      const fieldset = document.querySelector('fieldset')
+      const legend = document.querySelector('legend')
+
+      expect(fieldset).toHaveAttribute('aria-labelledby', legend.id)
+      expect(fieldset).toHaveAttribute('role', 'radiogroup')
+      expect(legend).toHaveAttribute('id')
+    })
+
+    it('should not have fieldset when only one option is given', () => {
+      render(
+        <Field.Selection variant="radio" label="Legend">
+          <Field.Option value="foo">Foo</Field.Option>
+        </Field.Selection>
+      )
+
+      const fieldset = document.querySelector('fieldset')
+      expect(fieldset).not.toBeInTheDocument()
+
+      const label = document.querySelector('label')
+      expect(label).toBeInTheDocument()
+      expect(label).toHaveAttribute('for')
+    })
+
+    it('should have correct aria-labelledby when fieldset is created by multiple options', () => {
+      render(
+        <Field.Selection variant="radio" label="Legend">
+          <Field.Option value="foo">Foo</Field.Option>
+          <Field.Option value="bar">Bar</Field.Option>
+          <Field.Option value="baz">Baz</Field.Option>
+        </Field.Selection>
+      )
+
+      const fieldset = document.querySelector('fieldset')
+      const legend = document.querySelector('legend')
+
+      expect(fieldset).toHaveAttribute('aria-labelledby', legend.id)
+      expect(fieldset).toHaveAttribute('role', 'radiogroup')
+      expect(legend).toHaveAttribute('id')
+    })
+
+    it('should validate with ARIA rules when using fieldset', async () => {
+      const Comp = render(
+        <Field.Selection variant="radio" label="Legend">
+          <Field.Option value="foo">Foo</Field.Option>
+          <Field.Option value="bar">Bar</Field.Option>
+        </Field.Selection>
+      )
+      expect(await axeComponent(Comp)).toHaveNoViolations()
+    })
+
+    it('should validate with ARIA rules when not using fieldset', async () => {
+      const Comp = render(
+        <Field.Selection variant="radio" label="Legend">
+          <Field.Option value="foo">Foo</Field.Option>
+        </Field.Selection>
+      )
+      expect(await axeComponent(Comp)).toHaveNoViolations()
+    })
+  })
+
+  describe('radio-list', () => {
+    it('should have aria-labelledby and role="radiogroup" on fieldset when label is given', () => {
+      render(
+        <Field.Selection variant="radio-list" label="Legend">
+          <Field.Option value="foo">Foo</Field.Option>
+          <Field.Option value="bar">Bar</Field.Option>
+        </Field.Selection>
+      )
+
+      const fieldset = document.querySelector('fieldset')
+      const legend = document.querySelector('legend')
+
+      expect(fieldset).toHaveAttribute('aria-labelledby', legend.id)
+      expect(fieldset).toHaveAttribute('role', 'radiogroup')
+      expect(legend).toHaveAttribute('id')
+    })
+
+    it('should validate with ARIA rules when using fieldset', async () => {
+      const Comp = render(
+        <Field.Selection variant="radio-list" label="Legend">
+          <Field.Option value="foo">Foo</Field.Option>
+          <Field.Option value="bar">Bar</Field.Option>
+        </Field.Selection>
+      )
+      expect(await axeComponent(Comp)).toHaveNoViolations()
+    })
   })
 
   describe('button', () => {
@@ -777,16 +874,17 @@ describe('variants', () => {
 
     it('has radio roles', () => {
       render(
-        <Field.Selection variant="button">
+        <Field.Selection variant="button" label="Legend">
           <Field.Option value="foo">Foo</Field.Option>
+          <Field.Option value="bar">Bar</Field.Option>
         </Field.Selection>
       )
 
-      expect(
-        document
-          .querySelector('.dnb-toggle-button-group__shell')
-          .getAttribute('role')
-      ).toBe('radiogroup')
+      // Check that the fieldset has the group role when using multiple options
+      expect(document.querySelector('fieldset')).toHaveAttribute(
+        'role',
+        'group'
+      )
 
       expect(
         document
@@ -1158,6 +1256,73 @@ describe('variants', () => {
         expect(first).toHaveAttribute('aria-invalid', 'true')
         expect(second).toHaveAttribute('aria-invalid', 'true')
       })
+    })
+
+    it('should have aria-labelledby and role="group" on fieldset when label is given', () => {
+      render(
+        <Field.Selection variant="button" label="Legend">
+          <Field.Option value="foo">Foo</Field.Option>
+          <Field.Option value="bar">Bar</Field.Option>
+        </Field.Selection>
+      )
+
+      const fieldset = document.querySelector('fieldset')
+      const legend = document.querySelector('legend')
+
+      expect(fieldset).toHaveAttribute('aria-labelledby', legend.id)
+      expect(fieldset).toHaveAttribute('role', 'group')
+      expect(legend).toHaveAttribute('id')
+    })
+
+    it('should not have fieldset when only one option is given', () => {
+      render(
+        <Field.Selection variant="button" label="Legend">
+          <Field.Option value="foo">Foo</Field.Option>
+        </Field.Selection>
+      )
+
+      const fieldset = document.querySelector('fieldset')
+      expect(fieldset).not.toBeInTheDocument()
+
+      const label = document.querySelector('label')
+      expect(label).toBeInTheDocument()
+      expect(label).toHaveAttribute('for')
+    })
+
+    it('should have correct aria-labelledby when fieldset is created by multiple options', () => {
+      render(
+        <Field.Selection variant="button" label="Legend">
+          <Field.Option value="foo">Foo</Field.Option>
+          <Field.Option value="bar">Bar</Field.Option>
+          <Field.Option value="baz">Baz</Field.Option>
+        </Field.Selection>
+      )
+
+      const fieldset = document.querySelector('fieldset')
+      const legend = document.querySelector('legend')
+
+      expect(fieldset).toHaveAttribute('aria-labelledby', legend.id)
+      expect(fieldset).toHaveAttribute('role', 'group')
+      expect(legend).toHaveAttribute('id')
+    })
+
+    it('should validate with ARIA rules when using fieldset', async () => {
+      const Comp = render(
+        <Field.Selection variant="button" label="Legend">
+          <Field.Option value="foo">Foo</Field.Option>
+          <Field.Option value="bar">Bar</Field.Option>
+        </Field.Selection>
+      )
+      expect(await axeComponent(Comp)).toHaveNoViolations()
+    })
+
+    it('should validate with ARIA rules when not using fieldset', async () => {
+      const Comp = render(
+        <Field.Selection variant="button" label="Legend">
+          <Field.Option value="foo">Foo</Field.Option>
+        </Field.Selection>
+      )
+      expect(await axeComponent(Comp)).toHaveNoViolations()
     })
   })
 
@@ -1646,6 +1811,31 @@ describe('variants', () => {
         expect(buttonElement).toHaveAttribute('aria-invalid', 'true')
       })
     })
+
+    it('should not use fieldset for dropdown variant', () => {
+      render(
+        <Field.Selection variant="dropdown" label="Legend">
+          <Field.Option value="foo">Foo</Field.Option>
+          <Field.Option value="bar">Bar</Field.Option>
+        </Field.Selection>
+      )
+
+      const fieldset = document.querySelector('fieldset')
+      expect(fieldset).not.toBeInTheDocument()
+
+      const label = document.querySelector('label')
+      expect(label).toBeInTheDocument()
+    })
+
+    it('should validate with ARIA rules for dropdown variant', async () => {
+      const Comp = render(
+        <Field.Selection variant="dropdown" label="Legend">
+          <Field.Option value="foo">Foo</Field.Option>
+          <Field.Option value="bar">Bar</Field.Option>
+        </Field.Selection>
+      )
+      expect(await axeComponent(Comp)).toHaveNoViolations()
+    })
   })
 
   describe('autocomplete', () => {
@@ -1737,6 +1927,40 @@ describe('variants', () => {
           .querySelector('.dnb-help-button')
           .getAttribute('aria-describedby')
       ).toBe(document.querySelector('.dnb-tooltip__content').id)
+    })
+
+    it('should support extra props in data (e.g. search_content)', async () => {
+      render(
+        <Field.Selection
+          variant="autocomplete"
+          data={[
+            {
+              value: 'foo',
+              title: 'Foo!',
+              text: 'Text',
+              search_content: ['Foo!', 'extra search value'],
+            },
+          ]}
+        />
+      )
+
+      // Should be found when searching by extra search content
+      const input = document.querySelector('.dnb-input__input')
+      await userEvent.type(input, 'extra search value')
+      expect(
+        document.querySelectorAll('li.dnb-drawer-list__option')
+      ).toHaveLength(1)
+      expect(document.querySelector('[role="option"]')).toHaveTextContent(
+        'Foo!'
+      )
+
+      // But not found when searching by display content only (search_content takes precedence)
+      await userEvent.clear(input as HTMLInputElement)
+      await userEvent.type(input, 'invalid')
+      await waitFor(() => {
+        const first = document.querySelector('li.dnb-drawer-list__option')
+        expect(first?.textContent).toBe('Ingen alternativer')
+      })
     })
 
     describe('autocompleteProps', () => {
@@ -2363,6 +2587,31 @@ describe('variants', () => {
         const buttonElement = document.querySelector('input')
         expect(buttonElement).toHaveAttribute('aria-invalid', 'true')
       })
+    })
+
+    it('should not use fieldset for autocomplete variant', () => {
+      render(
+        <Field.Selection variant="autocomplete" label="Legend">
+          <Field.Option value="foo">Foo</Field.Option>
+          <Field.Option value="bar">Bar</Field.Option>
+        </Field.Selection>
+      )
+
+      const fieldset = document.querySelector('fieldset')
+      expect(fieldset).not.toBeInTheDocument()
+
+      const label = document.querySelector('label')
+      expect(label).toBeInTheDocument()
+    })
+
+    it('should validate with ARIA rules for autocomplete variant', async () => {
+      const Comp = render(
+        <Field.Selection variant="autocomplete" label="Legend">
+          <Field.Option value="foo">Foo</Field.Option>
+          <Field.Option value="bar">Bar</Field.Option>
+        </Field.Selection>
+      )
+      expect(await axeComponent(Comp)).toHaveNoViolations()
     })
   })
 })

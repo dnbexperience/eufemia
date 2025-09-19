@@ -60,6 +60,8 @@ export default {
       doneButton: 'Klar',
       cancelButton: 'Avbryt',
       errorInSection: 'Felen ovan måste åtgärdas.',
+      confirmCancelText:
+        'Är du säker på att du vill ångra dina ändringar?',
     },
     IterateViewContainer: {
       removeButton: 'Ta bort',
@@ -189,6 +191,19 @@ export default {
       errorBankAccountNumber: 'Ogiltigt kontonummer.',
       errorBankAccountNumberLength:
         'Ogiltigt kontonummer. Ange ett giltigt kontonummer med 11 siffror.',
+    },
+    DateOfBirth: {
+      label: 'Födelsedatum',
+      dayLabel: 'Dag',
+      monthLabel: 'Månad',
+      yearLabel: 'År',
+      dayPlaceholder: 'dd',
+      monthPlaceholder: 'månad',
+      yearPlaceholder: 'åååå',
+      errorRequired: 'Du må fylle inn en födelsedatum.',
+      errorDateOfBirth: 'Ogiltigt födelsedatum.',
+      errorDateOfBirthFuture:
+        'Invalid date of birth. Skriv in dagens datum eller tidigare.',
     },
     PhoneNumber: {
       label: 'Mobilnummer',

@@ -256,6 +256,70 @@ describe('Dialog', () => {
     })
   })
 
+  it('moves focus to content by default when opened', async () => {
+    render(<Dialog noAnimation openState title="Title" />)
+
+    await waitFor(() => {
+      const title = document.querySelector(
+        '.dnb-modal__title'
+      ) as HTMLHeadingElement
+      expect(title).toBeInTheDocument()
+      expect(document.activeElement).toBe(title)
+    })
+  })
+
+  it('respects focusSelector over close button', async () => {
+    render(
+      <Dialog
+        noAnimation
+        openState
+        title="Title"
+        focusSelector="#focus-me"
+      >
+        <Dialog.Body>
+          <input id="focus-me" />
+        </Dialog.Body>
+      </Dialog>
+    )
+
+    await waitFor(() => {
+      expect(document.activeElement?.id).toBe('focus-me')
+    })
+
+    const closeBtn = document.querySelector(
+      'button.dnb-modal__close-button'
+    ) as HTMLButtonElement
+    expect(closeBtn).toBeInTheDocument()
+    expect(document.activeElement).not.toBe(closeBtn)
+  })
+
+  it('returns focus to trigger with data-autofocus after close', async () => {
+    render(<Dialog noAnimation animationDuration={3} title="Title" />)
+
+    // Open via trigger
+    const trigger = document.querySelector(
+      'button.dnb-modal__trigger'
+    ) as HTMLButtonElement
+    fireEvent.click(trigger)
+
+    // Close with ESC
+    fireEvent.keyDown(document.querySelector('div.dnb-dialog'), {
+      key: 'Esc',
+      keyCode: 27,
+    })
+
+    // Trigger gets focus with data-autofocus set
+    await waitFor(() => {
+      expect(document.activeElement).toBe(trigger)
+      expect(trigger).toHaveAttribute('data-autofocus', 'true')
+    })
+
+    // Attribute is removed afterwards
+    await waitFor(() => {
+      expect(trigger).not.toHaveAttribute('data-autofocus')
+    })
+  })
+
   it('has support for nested Dialogs', async () => {
     const on_open = {
       first: jest.fn(),

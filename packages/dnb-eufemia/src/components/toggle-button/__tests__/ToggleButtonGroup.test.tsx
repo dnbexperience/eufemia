@@ -180,6 +180,73 @@ describe('ToggleButton group component', () => {
     expect(document.querySelector('label')).not.toBeInTheDocument()
   })
 
+  describe('accessibility', () => {
+    it('should have aria-labelledby and role="group" on fieldset when label is given and variant is not radio', () => {
+      render(
+        <ToggleButton.Group label="Legend">
+          <ToggleButton text="First" value="first" />
+          <ToggleButton text="Second" value="second" />
+        </ToggleButton.Group>
+      )
+
+      const fieldset = document.querySelector('fieldset')
+      const legend = document.querySelector('legend')
+
+      expect(fieldset).toHaveAttribute('aria-labelledby', legend.id)
+      expect(fieldset).toHaveAttribute('role', 'group')
+      expect(legend).toHaveAttribute('id')
+    })
+
+    it('should have aria-labelledby and role="radiogroup" on fieldset when label is given and variant is radio', () => {
+      render(
+        <ToggleButton.Group label="Legend" variant="radio">
+          <ToggleButton text="First" value="first" variant="radio" />
+          <ToggleButton text="Second" value="second" variant="radio" />
+        </ToggleButton.Group>
+      )
+
+      const fieldset = document.querySelector('fieldset')
+      const legend = document.querySelector('legend')
+
+      expect(fieldset).toHaveAttribute('aria-labelledby', legend.id)
+      expect(fieldset).toHaveAttribute('role', 'radiogroup')
+      expect(legend).toHaveAttribute('id')
+    })
+
+    it('should not have aria-labelledby or role when no label is given', () => {
+      render(
+        <ToggleButton.Group>
+          <ToggleButton text="First" value="first" />
+          <ToggleButton text="Second" value="second" />
+        </ToggleButton.Group>
+      )
+
+      const fieldset = document.querySelector('fieldset')
+      expect(fieldset).not.toBeInTheDocument()
+
+      const div = document.querySelector(
+        '.dnb-toggle-button-group__fieldset'
+      )
+      expect(div).not.toHaveAttribute('aria-labelledby')
+      // Note: The div still has role="group" because it's set by the component logic
+      // This is expected behavior when no fieldset is used
+    })
+
+    it('should not have role on inner shell element', () => {
+      render(
+        <ToggleButton.Group label="Legend">
+          <ToggleButton text="First" value="first" />
+          <ToggleButton text="Second" value="second" />
+        </ToggleButton.Group>
+      )
+
+      const shell = document.querySelector(
+        '.dnb-toggle-button-group__shell'
+      )
+      expect(shell).not.toHaveAttribute('role')
+    })
+  })
+
   it('has multiselect "on_change" event which will trigger on a button click', () => {
     const my_event = jest.fn()
     render(
@@ -464,7 +531,7 @@ describe('ToggleButton group component', () => {
     ])
   })
 
-  it('should validate with ARIA rules', async () => {
+  it('should validate with ARIA rules with label', async () => {
     const Comp = render(
       <ToggleButton.Group label="Label" id="group">
         <ToggleButton
@@ -478,6 +545,35 @@ describe('ToggleButton group component', () => {
           variant="radio"
           checked
         />
+      </ToggleButton.Group>
+    )
+    expect(await axeComponent(Comp)).toHaveNoViolations()
+  })
+
+  it('should validate with ARIA rules without label', async () => {
+    const Comp = render(
+      <ToggleButton.Group id="group">
+        <ToggleButton
+          id="toggle-button-1"
+          text="ToggleButton 1"
+          variant="radio"
+        />
+        <ToggleButton
+          id="toggle-button-2"
+          text="ToggleButton 2"
+          variant="radio"
+          checked
+        />
+      </ToggleButton.Group>
+    )
+    expect(await axeComponent(Comp)).toHaveNoViolations()
+  })
+
+  it('should validate with ARIA rules for group variant', async () => {
+    const Comp = render(
+      <ToggleButton.Group label="Label" id="group">
+        <ToggleButton id="toggle-button-1" text="ToggleButton 1" />
+        <ToggleButton id="toggle-button-2" text="ToggleButton 2" checked />
       </ToggleButton.Group>
     )
     expect(await axeComponent(Comp)).toHaveNoViolations()

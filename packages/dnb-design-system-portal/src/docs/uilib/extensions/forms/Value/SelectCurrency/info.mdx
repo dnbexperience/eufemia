@@ -6,6 +6,8 @@ showTabs: true
 
 `Value.SelectCurrency` will render the selected currency display name by the `value`'s ISO code ([ISO 4217 code](https://en.wikipedia.org/wiki/ISO_4217)). It displays the currency name in the current locale, together with the currency ISO code, like `Norwegian krone (NOK)`. If the value provided is not a valid/supported ISO code, it displays the value.
 
+There is a corresponding [Field.SelectCurrency](/uilib/extensions/forms/feature-fields/SelectCurrency) component.
+
 ```jsx
 import { Value } from '@dnb/eufemia/extensions/forms'
 render(<Value.SelectCurrency path="/currency" />)
@@ -15,8 +17,6 @@ render(<Value.SelectCurrency path="/currency" />)
 
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Value/SelectCurrency)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/extensions/forms/Value/SelectCurrency)
-
-There is a corresponding [Field.SelectCurrency](/uilib/extensions/forms/feature-fields/SelectCurrency) component.
 
 ### The `useCurrency` hook
 

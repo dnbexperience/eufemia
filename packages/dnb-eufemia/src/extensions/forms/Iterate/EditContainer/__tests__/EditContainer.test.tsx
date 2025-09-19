@@ -79,7 +79,12 @@ describe('EditContainer', () => {
       </IterateItemContext.Provider>
     )
 
+    // Opens confirmation dialog
     fireEvent.click(document.querySelectorAll('button')[1])
+    // Confirm removal in dialog
+    fireEvent.click(
+      document.querySelector('.dnb-dialog__actions .dnb-button--primary')
+    )
 
     expect(handleRemove).toHaveBeenCalledTimes(1)
   })
@@ -100,7 +105,12 @@ describe('EditContainer', () => {
       </IterateItemContext.Provider>
     )
 
+    // Opens confirmation dialog
     fireEvent.click(document.querySelectorAll('button')[1])
+    // Confirm cancel in dialog
+    fireEvent.click(
+      document.querySelector('.dnb-dialog__actions .dnb-button--primary')
+    )
 
     expect(restoreOriginalValue).toHaveBeenCalledTimes(1)
     expect(restoreOriginalValue).toHaveBeenCalledWith('original value')

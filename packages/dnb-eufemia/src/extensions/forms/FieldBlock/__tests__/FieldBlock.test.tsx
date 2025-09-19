@@ -1,5 +1,5 @@
 import React from 'react'
-import { wait } from '../../../../core/jest/jestSetup'
+import { wait, axeComponent } from '../../../../core/jest/jestSetup'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import { Input } from '../../../../components'
 import FieldBlock from '../FieldBlock'
@@ -535,6 +535,94 @@ describe('FieldBlock', () => {
     expect(document.querySelector('.dnb-forms-field-block').tagName).toBe(
       'FIELDSET'
     )
+  })
+
+  describe('accessibility', () => {
+    it('should have aria-labelledby on fieldset when using fieldset', () => {
+      render(
+        <FieldBlock label="Legend" asFieldset>
+          content
+        </FieldBlock>
+      )
+
+      const fieldset = document.querySelector('fieldset')
+      const legend = document.querySelector('legend')
+
+      expect(fieldset).toHaveAttribute('aria-labelledby', legend.id)
+      expect(legend).toHaveAttribute('id')
+    })
+
+    it('should not have aria-labelledby when not using fieldset', () => {
+      render(<FieldBlock label="Legend">content</FieldBlock>)
+
+      const div = document.querySelector('.dnb-forms-field-block')
+      expect(div.tagName).toBe('DIV')
+      expect(div).not.toHaveAttribute('aria-labelledby')
+    })
+
+    it('should have correct aria-labelledby when fieldset is enabled by multiple form elements', () => {
+      render(
+        <FieldBlock label="Legend">
+          <MockComponent label="Label" />
+          <MockComponent label="Label" />
+        </FieldBlock>
+      )
+
+      const fieldset = document.querySelector('fieldset')
+      const legend = document.querySelector('legend')
+
+      expect(fieldset).toHaveAttribute('aria-labelledby', legend.id)
+      expect(legend).toHaveAttribute('id')
+    })
+
+    it('should have correct aria-labelledby when fieldset is enabled by _formElement', () => {
+      MockComponent._formElement = true
+
+      render(
+        <FieldBlock label="Legend">
+          <MockComponent />
+          <MockComponent />
+        </FieldBlock>
+      )
+
+      const fieldset = document.querySelector('fieldset')
+      const legend = document.querySelector('legend')
+
+      expect(fieldset).toHaveAttribute('aria-labelledby', legend.id)
+      expect(legend).toHaveAttribute('id')
+
+      delete MockComponent._formElement
+    })
+
+    it('should have role on fieldset when fieldsetRole is provided', () => {
+      render(
+        <FieldBlock label="Legend" asFieldset fieldsetRole="radiogroup">
+          content
+        </FieldBlock>
+      )
+
+      const fieldset = document.querySelector('fieldset')
+      const legend = document.querySelector('legend')
+
+      expect(fieldset).toHaveAttribute('aria-labelledby', legend.id)
+      expect(fieldset).toHaveAttribute('role', 'radiogroup')
+      expect(legend).toHaveAttribute('id')
+    })
+
+    it('should not have role on fieldset when fieldsetRole is not provided', () => {
+      render(
+        <FieldBlock label="Legend" asFieldset>
+          content
+        </FieldBlock>
+      )
+
+      const fieldset = document.querySelector('fieldset')
+      const legend = document.querySelector('legend')
+
+      expect(fieldset).toHaveAttribute('aria-labelledby', legend.id)
+      expect(fieldset).not.toHaveAttribute('role')
+      expect(legend).toHaveAttribute('id')
+    })
   })
 
   it('should support "layout" property', () => {
@@ -1542,6 +1630,27 @@ describe('FieldBlock', () => {
         expect(element).toBeInTheDocument()
         expect(element.textContent).toBe('Help content')
       })
+    })
+  })
+
+  describe('ARIA accessibility', () => {
+    it('should validate with ARIA rules when using fieldset', async () => {
+      const Comp = render(
+        <FieldBlock label="Legend" asFieldset>
+          <MockComponent label="Label" id="input-1" />
+          <MockComponent label="Label" id="input-2" />
+        </FieldBlock>
+      )
+      expect(await axeComponent(Comp)).toHaveNoViolations()
+    })
+
+    it('should validate with ARIA rules when not using fieldset', async () => {
+      const Comp = render(
+        <FieldBlock label="Legend">
+          <MockComponent label="Label" id="input-1" />
+        </FieldBlock>
+      )
+      expect(await axeComponent(Comp)).toHaveNoViolations()
     })
   })
 })

@@ -60,6 +60,8 @@ export default {
       doneButton: 'Færdig',
       cancelButton: 'Annuller',
       errorInSection: 'Fejlene ovenfor skal rettes.',
+      confirmCancelText:
+        'Er du sikker på, at du vil forkaste dine ændringer?',
     },
     IterateViewContainer: {
       removeButton: 'Fjern',
@@ -163,31 +165,44 @@ export default {
       errorRequired: 'Du skal udfylde firmanavn.',
     },
     NationalIdentityNumber: {
-      label: 'Dansk CPR-nummer (10 cifre)',
-      errorRequired: 'Du skal udfylde et CPR-nummer.',
-      errorFnr: 'Ugyldigt CPR-nummer.',
+      label: 'Norsk fødselsnummer (11 cifre)',
+      errorRequired: 'Du skal udfylde et fødselsnummer.',
+      errorFnr: 'Ugyldigt fødselsnummer.',
       errorFnrLength:
-        'Ugyldigt CPR-nummer. Indtast et gyldigt CPR-nummer med 10 cifre.',
+        'Ugyldigt fødselsnummer. Indtast et gyldigt fødselsnummer med 11 cifre.',
       errorDnr: 'Ugyldigt d-nummer.',
       errorDnrLength:
-        'Ugyldigt d-nummer. Indtast et gyldigt d-nummer med 10 cifre.',
+        'Ugyldigt d-nummer. Indtast et gyldigt d-nummer med 11 cifre.',
       errorMinimumAgeValidator: 'Skal være mindst {age} år.',
       errorMinimumAgeValidatorLength:
         'Ugyldig fødselsdato. Indtast en gyldig fødselsdato (inkl. århundredetal) med 7 cifre.',
     },
     OrganizationNumber: {
-      label: 'CVR-nummer',
-      errorRequired: 'Du skal udfylde et CVR-nummer.',
-      errorOrgNo: 'Ugyldigt CVR-nummer.',
+      label: 'Organisationsnummer',
+      errorRequired: 'Du skal udfylde et organisationsnummer.',
+      errorOrgNo: 'Ugyldigt organisationsnummer.',
       errorOrgNoLength:
-        'Ugyldigt CVR-nummer. Indtast et gyldigt CVR-nummer med 8 cifre.',
+        'Ugyldigt organisationsnummer. Indtast et gyldigt organisationsnummer med 9 cifre.',
     },
     BankAccountNumber: {
       label: 'Bankkonto',
       errorRequired: 'Du skal udfylde et kontonummer.',
       errorBankAccountNumber: 'Ugyldigt kontonummer.',
       errorBankAccountNumberLength:
-        'Ugyldigt kontonummer. Indtast et gyldigt kontonummer med 10 cifre.',
+        'Ugyldigt kontonummer. Indtast et gyldigt kontonummer med 11 cifre.',
+    },
+    DateOfBirth: {
+      label: 'Fødselsdato',
+      dayLabel: 'Dag',
+      monthLabel: 'Måned',
+      yearLabel: 'År',
+      dayPlaceholder: 'dd',
+      monthPlaceholder: 'måned',
+      yearPlaceholder: 'åååå',
+      errorRequired: 'Du skal udfylde en fødselsdato.',
+      errorDateOfBirth: 'Ugyldig fødselsdato.',
+      errorDateOfBirthFuture:
+        'Ugyldig fødselsdato. Angiv dags dato eller tidligere.',
     },
     PhoneNumber: {
       label: 'Mobilnummer',

@@ -7,4 +7,8 @@
   &__content {
     --help-button-content-background: var(--sb-color-green);
   }
+
+  &__content .dnb-section {
+    --card-outline-width: 0;
+  }
 }

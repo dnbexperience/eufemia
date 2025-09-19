@@ -241,6 +241,17 @@ function validateMonthAndYear(
 
   const messages: Array<FormError> = []
 
+  // If both month and year are empty/placeholder only, don't show any errors
+  const isMonthEmpty =
+    !month || (month.includes(placeholders.month) && !/\d/.test(month))
+  const isYearEmpty =
+    !year || (year.includes(placeholders.year) && !/\d/.test(year))
+
+  if (isMonthEmpty && isYearEmpty) {
+    // Both fields are empty/placeholder only, don't show any errors
+    return messages
+  }
+
   if (
     month.includes(placeholders.month) ||
     monthNumber < 1 ||
@@ -253,6 +264,7 @@ function validateMonthAndYear(
     )
   }
 
+  // Original validation logic for year
   if (year.includes(placeholders.year)) {
     messages.push(
       new FormError('Expiry.errorYear', {

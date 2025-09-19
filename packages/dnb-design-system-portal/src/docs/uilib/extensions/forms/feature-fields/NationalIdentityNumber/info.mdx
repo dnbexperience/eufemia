@@ -12,12 +12,17 @@ More info can be found at [Skatteetaten](https://www.skatteetaten.no/en/person/n
 It validates input for [Norwegian national identity numbers(fnr)](https://www.skatteetaten.no/en/person/national-registry/identitetsnummer/fodselsnummer/) and [D numbers](https://www.skatteetaten.no/en/person/national-registry/identitetsnummer/d-nummer/) using the [fnrvalidator](https://github.com/navikt/fnrvalidator).
 The validation happens on blur, internally using the `onBlurValidator` [property](/uilib/extensions/forms/feature-fields/NationalIdentityNumber/properties/#field-specific-properties).
 
+There is a corresponding [Value.NationalIdentityNumber](/uilib/extensions/forms/Value/NationalIdentityNumber) component.
+
 ```jsx
 import { Field } from '@dnb/eufemia/extensions/forms'
 render(<Field.NationalIdentityNumber />)
 ```
 
-There is a corresponding [Value.NationalIdentityNumber](/uilib/extensions/forms/Value/NationalIdentityNumber) component.
+## Relevant links
+
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Field/NationalIdentityNumber)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/extensions/forms/feature-fields/NationalIdentityNumber)
 
 ### Support for different countries
 

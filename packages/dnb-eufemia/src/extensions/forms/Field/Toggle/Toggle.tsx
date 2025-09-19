@@ -212,9 +212,13 @@ function Toggle(props: Props) {
       )
     case 'buttons':
       return (
-        <FieldBlock {...fieldBlockProps} asFieldset>
+        <FieldBlock
+          {...fieldBlockProps}
+          asFieldset={Boolean(label)}
+          fieldsetRole="radiogroup"
+        >
           <ButtonRow bottom="x-small">
-            <ToggleButton.Group role="radiogroup">
+            <ToggleButton.Group>
               <ToggleButtonGroupContext.Provider
                 value={{
                   value: isOn ? 'on' : isOff ? 'off' : null, // use "null" to reset the value
@@ -243,7 +247,11 @@ function Toggle(props: Props) {
       )
     case 'radio':
       return (
-        <FieldBlock {...fieldBlockProps} asFieldset>
+        <FieldBlock
+          {...fieldBlockProps}
+          asFieldset={Boolean(label)}
+          fieldsetRole="radiogroup"
+        >
           <Radio.Group
             value={isOn ? 'on' : isOff ? 'off' : null}
             on_change={handleToggleChange}

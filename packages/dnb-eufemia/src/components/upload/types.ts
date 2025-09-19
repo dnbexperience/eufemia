@@ -2,6 +2,7 @@ import React from 'react'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 import type { LocaleProps, SpacingProps } from '../../shared/types'
 import type { SharedStateId } from '../../shared/helpers/useSharedState'
+import { ButtonProps } from '../Button'
 
 export type UploadAcceptedFileTypes = string[]
 
@@ -89,6 +90,11 @@ export type UploadProps = {
    * Default: false
    */
   disableDragAndDrop?: boolean
+
+  /**
+   * Custom icon used for the upload button. [Primary Icons](/icons/primary) can be set as a string (e.g. `icon="information"`), other icons should be set as React elements. Defaults to the `folder` icon.
+   */
+  buttonProps?: ButtonProps
 
   /**
    * Custom text properties

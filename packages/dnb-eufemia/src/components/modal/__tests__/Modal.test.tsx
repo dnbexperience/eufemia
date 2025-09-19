@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import { axeComponent, loadScss, wait } from '../../../core/jest/jestSetup'
+import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import Input from '../../input/Input'
 import Modal, { OriginalComponent } from '../Modal'
@@ -279,7 +279,7 @@ describe('Modal component', () => {
     // and check the class of that element
     await waitFor(() => {
       expect(document.activeElement.classList).toContain(
-        'dnb-dialog__inner'
+        'dnb-modal__focus-helper'
       )
     })
 
@@ -304,16 +304,15 @@ describe('Modal component', () => {
     )
 
     fireEvent.click(document.querySelector('button'))
-    await wait(2)
 
-    const inputElement = document.getElementById(
-      'focus-me'
-    ) as HTMLInputElement
-
-    expect(document.activeElement.id).toContain('focus-me')
-    expect(inputElement).toHaveFocus()
-    expect(inputElement.selectionStart).toBe(0)
-    expect(inputElement.selectionEnd).toBe(5)
+    await waitFor(() => {
+      const inputElement = document.getElementById(
+        'focus-me'
+      ) as HTMLInputElement
+      expect(document.activeElement.id).toContain('focus-me')
+      expect(inputElement).toHaveFocus()
+    })
+    // Selection range is not enforced anymore
 
     fireEvent.keyDown(document.querySelector('div.dnb-dialog'), {
       key: 'Esc',
@@ -329,16 +328,171 @@ describe('Modal component', () => {
     )
 
     fireEvent.click(document.querySelector('button'))
-    await wait(2)
 
-    const buttonElement = document.getElementById(
-      'focus-me'
-    ) as HTMLInputElement
+    await waitFor(() => {
+      const buttonElement = document.getElementById(
+        'focus-me'
+      ) as HTMLInputElement
+      expect(document.activeElement.id).toContain('focus-me')
+      expect(buttonElement).toHaveFocus()
+      expect(buttonElement.selectionStart).toBe(undefined)
+      expect(buttonElement.selectionEnd).toBe(undefined)
+    })
+  })
 
-    expect(document.activeElement.id).toContain('focus-me')
-    expect(buttonElement).toHaveFocus()
-    expect(buttonElement.selectionStart).toBe(undefined)
-    expect(buttonElement.selectionEnd).toBe(undefined)
+  it('will move focus to content by default when opened', async () => {
+    render(
+      <Modal no_animation={true}>
+        <DialogContent>
+          <Modal.Header>
+            <h1>Heading</h1>
+          </Modal.Header>
+          <Modal.Content>content</Modal.Content>
+        </DialogContent>
+      </Modal>
+    )
+
+    // Open modal
+    fireEvent.click(document.querySelector('button'))
+
+    // Focus moves to title
+    await waitFor(() => {
+      const title = document.querySelector('h1') as HTMLHeadingElement
+      expect(title).toBeInTheDocument()
+      expect(document.activeElement).toBe(title)
+    })
+  })
+
+  it('renders a focus helper in the header', () => {
+    render(
+      <Modal no_animation>
+        <DialogContent>
+          <Modal.Header>
+            <h1>Heading</h1>
+          </Modal.Header>
+          <Modal.Content>content</Modal.Content>
+        </DialogContent>
+      </Modal>
+    )
+
+    // Open modal
+    fireEvent.click(document.querySelector('button'))
+
+    const focusHelper = document.querySelector(
+      '.dnb-modal__focus-helper.dnb-sr-only'
+    ) as HTMLButtonElement
+    expect(focusHelper).toBeInTheDocument()
+  })
+
+  it('should call focus with preventScroll: true when focusing elements with focusSelector', async () => {
+    const focusSpy = jest.spyOn(HTMLElement.prototype, 'focus')
+
+    render(
+      <Modal no_animation={true} focusSelector="#focus-me">
+        <DialogContent>
+          <input type="text" id="focus-me" defaultValue="value" />
+        </DialogContent>
+      </Modal>
+    )
+
+    // Open modal
+    fireEvent.click(document.querySelector('button'))
+
+    await waitFor(() => {
+      expect(focusSpy).toHaveBeenCalledWith({ preventScroll: true })
+    })
+
+    focusSpy.mockRestore()
+  })
+
+  it('should call focus with preventScroll: true when focusing elements by default', async () => {
+    const focusSpy = jest.spyOn(HTMLElement.prototype, 'focus')
+
+    render(
+      <Modal no_animation={true}>
+        <DialogContent>
+          <Modal.Header>
+            <h1>Heading</h1>
+          </Modal.Header>
+          <Modal.Content>content</Modal.Content>
+        </DialogContent>
+      </Modal>
+    )
+
+    // Open modal
+    fireEvent.click(document.querySelector('button'))
+
+    await waitFor(() => {
+      expect(focusSpy).toHaveBeenCalledWith({ preventScroll: true })
+    })
+
+    focusSpy.mockRestore()
+  })
+
+  it('should bypass elements with dnb-modal--bypass_invalidation class', () => {
+    render(
+      <>
+        <button className="dnb-modal--bypass_invalidation">button</button>
+        <button className="but-not-me">button</button>
+        <Modal no_animation>
+          <DialogContent>
+            <button>inside</button>
+          </DialogContent>
+        </Modal>
+      </>
+    )
+
+    fireEvent.click(document.querySelector('button.dnb-modal__trigger'))
+
+    expect(
+      document.querySelector('button.dnb-modal--bypass_invalidation')
+    ).not.toHaveAttribute('aria-hidden')
+    expect(
+      document.querySelector('button.dnb-modal--bypass_invalidation')
+    ).not.toHaveAttribute('tabindex')
+
+    expect(
+      document
+        .querySelector('button.but-not-me')
+        ?.getAttribute('aria-hidden')
+    ).toBe('true')
+    expect(
+      document.querySelector('button.but-not-me')?.getAttribute('tabindex')
+    ).toBe('-1')
+  })
+
+  it('should bypass descendants with dnb-modal--bypass_invalidation_deep', () => {
+    render(
+      <>
+        <div className="dnb-modal--bypass_invalidation_deep">
+          <button className="bypass-child">button</button>
+        </div>
+        <button className="but-not-me">button</button>
+        <Modal no_animation>
+          <DialogContent>
+            <button>inside</button>
+          </DialogContent>
+        </Modal>
+      </>
+    )
+
+    fireEvent.click(document.querySelector('button.dnb-modal__trigger'))
+
+    expect(
+      document.querySelector('button.bypass-child')
+    ).not.toHaveAttribute('aria-hidden')
+    expect(
+      document.querySelector('button.bypass-child')
+    ).not.toHaveAttribute('tabindex')
+
+    expect(
+      document
+        .querySelector('button.but-not-me')
+        ?.getAttribute('aria-hidden')
+    ).toBe('true')
+    expect(
+      document.querySelector('button.but-not-me')?.getAttribute('tabindex')
+    ).toBe('-1')
   })
 
   it('will set "data-autofocus" attribute on focusing the trigger when closed', async () => {
@@ -935,10 +1089,6 @@ describe('Modal component', () => {
     const modalElem = document.querySelector(id)
 
     expect(modalElem.textContent).toContain(modalContent)
-
-    fireEvent.click(
-      document.querySelector('button.dnb-modal__close-button')
-    )
   })
 
   it('should not add aria-hidden to the modal root', () => {
@@ -968,10 +1118,44 @@ describe('Modal component', () => {
 
     expect(modalRoot).not.toHaveAttribute('aria-hidden')
     expect(outsideButton.getAttribute('aria-hidden')).toEqual('true')
+  })
 
-    fireEvent.click(
-      document.querySelector('button.dnb-modal__close-button')
+  it('should not add aria-hidden to the modal parent elements when direct_dom_return is true', () => {
+    const modalContent = 'Modal Content'
+
+    render(
+      <div id="root-element">
+        <div id="parent-element-1">
+          <div id="parent-element-2">
+            <Modal {...props} direct_dom_return={true}>
+              <Modal.Bar />
+              {modalContent}
+            </Modal>
+          </div>
+        </div>
+
+        <button id="my-button">I should become hidden after open</button>
+      </div>
     )
+
+    fireEvent.click(document.querySelector('button.dnb-modal__trigger'))
+
+    const id = `#dnb-modal-${props.id}`
+    const modalRoot = document.querySelector(id)
+    const outsideButton = document.querySelector('#my-button')
+    const rootElement = document.querySelector('#root-element')
+    const parentElement1 = document.querySelector('#parent-element-1')
+    const parentElement2 = document.querySelector('#parent-element-2')
+
+    // When direct_dom_return is true, the modal content is rendered directly in the DOM
+    // so the modal root and its parent elements should not have aria-hidden
+    expect(modalRoot).not.toHaveAttribute('aria-hidden')
+    expect(rootElement).not.toHaveAttribute('aria-hidden')
+    expect(parentElement1).not.toHaveAttribute('aria-hidden')
+    expect(parentElement2).not.toHaveAttribute('aria-hidden')
+
+    // But elements outside the modal should still be invalidated
+    expect(outsideButton.getAttribute('aria-hidden')).toEqual('true')
   })
 
   it('runs expected side effects on desktop', () => {
