@@ -16,6 +16,7 @@ import {
   warn,
 } from '../../shared/component-helper'
 import type { SpacingProps } from '../../shared/types'
+import type { Translation } from '../../shared/Context'
 
 import { getThemeClasses } from '../../shared/Theme'
 import { createSpacingClasses } from '../../components/space/SpacingHelper'
@@ -434,7 +435,11 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
       _refRoot,
     } = noNullNumbers(this.context.drawerList)
 
-    const renderData = makeRenderData(data, groups)
+    const renderData = makeRenderData(
+      data,
+      groups,
+      this.context.getTranslation(this.props).DrawerList
+    )
     const hasGroups =
       renderData.length > 1 || renderData[0]?.groupTitle !== undefined
 
@@ -683,7 +688,8 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
 
 function makeRenderData(
   data: DrawerListInternalData,
-  groups?: DrawerListGroupTitles
+  groups?: DrawerListGroupTitles,
+  translation?: Translation['DrawerList']
 ): DrawerListRenderData {
   const renderData: DrawerListRenderData = []
   const noIndex = []
@@ -699,11 +705,11 @@ function makeRenderData(
 
           if (!groupTitle) {
             if (index === 0) {
-              groupTitle = 'Standardvalg' // TODO: PR use localization
+              groupTitle = translation.defaultGroup
               hideTitle = true
             } else {
               warn(`Missing group title for groupIndex: ${index}`)
-              groupTitle = `Gruppe ${index + 1}` // TODO: PR use localization
+              groupTitle = `${translation.missingGroup} ${index + 1}`
             }
           }
 
@@ -722,7 +728,7 @@ function makeRenderData(
 
   if (noIndex.length > 0) {
     renderData.push({
-      groupTitle: renderData.length > 0 ? 'Andre valg' : undefined, // TODO: PR use localization
+      groupTitle: renderData.length > 0 ? translation.noGroup : undefined,
       hideTitle: true,
       groupData: noIndex,
     })
