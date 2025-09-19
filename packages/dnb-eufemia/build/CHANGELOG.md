@@ -3,6 +3,13 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.82.0](https://github.com/dnbexperience/eufemia/compare/v10.81.0...v10.82.0) (2025-09-19)
+
+
+### :sparkles: Features
+
+* **Forms:** add Zod support and use it internally ([#5471](https://github.com/dnbexperience/eufemia/issues/5471)) ([547f952](https://github.com/dnbexperience/eufemia/commit/547f9523576a90f377a7caee7536023e4b29dfc4))
+
 ## [10.81.0](https://github.com/dnbexperience/eufemia/compare/v10.80.1...v10.81.0) (2025-09-19)
 
 
