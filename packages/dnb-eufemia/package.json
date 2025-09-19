@@ -83,17 +83,17 @@
     "test:e2e:ci": "start-server-and-test 'yarn workspace dnb-design-system-portal serve:8001' http://localhost:8001 test:e2e",
     "test:e2e:watch": "playwright test --ui",
     "test:postbuild": "yarn jest ./scripts/postbuild/__tests__/postbuild.test.ts --ci --testPathIgnorePatterns=[]",
-    "test:screenshots": "yarn jest --config=./jest.config.screenshots.js --maxWorkers=1 --detectOpenHandles --testPathPatterns ",
+    "test:screenshots": "yarn jest --config=./jest.config.screenshots.js --maxWorkers=1",
     "test:screenshots:ci": "yarn jest --config=./jest.config.screenshots.js --ci --bail --maxWorkers=1",
     "test:screenshots:ci:update": "yarn test:screenshots:ci --updateSnapshot",
     "test:screenshots:reset": "find . -name '*.snap.png' -type f|xargs rm -f && yarn test:screenshots",
-    "test:screenshots:update": "yarn jest --config=./jest.config.screenshots.js --maxWorkers=1 --updateSnapshot --testPathPatterns ",
-    "test:screenshots:watch": "JEST_IMAGE_SNAPSHOT_TRACK_OBSOLETE=1 jest --config=./jest.config.screenshots.js --watchAll --detectOpenHandles --testPathPatterns ",
+    "test:screenshots:update": "yarn jest --config=./jest.config.screenshots.js --maxWorkers=1 --updateSnapshot",
+    "test:screenshots:watch": "JEST_IMAGE_SNAPSHOT_TRACK_OBSOLETE=1 jest --config=./jest.config.screenshots.js --watchAll --detectOpenHandles",
     "test:staged": "yarn jest --bail --findRelatedTests ",
     "test:types": "tsc --noEmit",
     "test:types:watch": "tsc --noEmit --watch",
     "test:update": "yarn jest --updateSnapshot",
-    "test:watch": "yarn jest --watchAll --testPathPatterns "
+    "test:watch": "yarn jest --watchAll"
   },
   "sideEffects": [
     "*.css",
