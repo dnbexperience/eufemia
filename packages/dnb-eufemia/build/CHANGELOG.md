@@ -3,6 +3,35 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.81.0](https://github.com/dnbexperience/eufemia/compare/v10.80.1...v10.81.0) (2025-09-19)
+
+
+### :memo: Documentation
+
+* **NumberFormat:** add source and reasons for using `en-GB` ([#5474](https://github.com/dnbexperience/eufemia/issues/5474)) ([137d5a8](https://github.com/dnbexperience/eufemia/commit/137d5a8187482745a4c11cd32c7c17b0769a54f0))
+
+
+### :sparkles: Features
+
+* **Card:** add `backgroundColor` and `outline` property support ([#5473](https://github.com/dnbexperience/eufemia/issues/5473)) ([8932b90](https://github.com/dnbexperience/eufemia/commit/8932b9079a1d50316a6fd407d1437a513f2203be))
+* **Forms:** add `Field.DateOfBirth` for selecting date of birth ([#5019](https://github.com/dnbexperience/eufemia/issues/5019)) ([3449904](https://github.com/dnbexperience/eufemia/commit/3449904132000b0d7682026686fe48ae07442606))
+* **Forms:** ask user for confirmation when cancel button is pressed in Form.Iterate and Form.Section ([#5472](https://github.com/dnbexperience/eufemia/issues/5472)) ([632f904](https://github.com/dnbexperience/eufemia/commit/632f9049fe5d80f9bbea3ef965a40b81f4134877))
+* **Upload:** add `buttonProps` property ([#5452](https://github.com/dnbexperience/eufemia/issues/5452)) ([bb8a741](https://github.com/dnbexperience/eufemia/commit/bb8a7414c647c93b1c1f4c5aae1d366048befc7f))
+
+
+### :bug: Bug Fixes
+
+* **Dialog, Drawer:** enhance screen reader support and focus management ([#5491](https://github.com/dnbexperience/eufemia/issues/5491)) ([00289ae](https://github.com/dnbexperience/eufemia/commit/00289ae8240c45241cd73ea29e35da02718395fb))
+* **Field.BankAccountNumber:** danish translations ([#5475](https://github.com/dnbexperience/eufemia/issues/5475)) ([571a26b](https://github.com/dnbexperience/eufemia/commit/571a26bab703f947b3a6d0d62d699efcb756623d))
+* **Field.Date:** should not display error when clearing the value ([#5464](https://github.com/dnbexperience/eufemia/issues/5464)) ([dd809e8](https://github.com/dnbexperience/eufemia/commit/dd809e812a9ae9fe065e4e61b9ac06356cb1495c))
+* **Field.Expiry:** should not display error when clearing the value ([#5465](https://github.com/dnbexperience/eufemia/issues/5465)) ([c654b81](https://github.com/dnbexperience/eufemia/commit/c654b8145611a3c31989ef57d5f1babdb6a98b75))
+* **Field.NationalIdentityNumber:** danish translations ([#5477](https://github.com/dnbexperience/eufemia/issues/5477)) ([7aa7dd7](https://github.com/dnbexperience/eufemia/commit/7aa7dd7a4cbced795f67b07b8586da0938dbed9c))
+* **Field.OrganizationNumber:** danish translations ([#5476](https://github.com/dnbexperience/eufemia/issues/5476)) ([1f55851](https://github.com/dnbexperience/eufemia/commit/1f55851cc55a6e499eaf5e4c7472e73b2ac69a5d))
+* **Field.Selection, Field.ArraySelection, Field.Toggle, Field.Boolean:** enhance accessibility for radio and button variants ([#5489](https://github.com/dnbexperience/eufemia/issues/5489)) ([f13ac84](https://github.com/dnbexperience/eufemia/commit/f13ac84a3f8569ed8727f90b5c777215cc26c181))
+* **Field.Selection:** support `search_content` in data for variant="autocomplete" ([#5487](https://github.com/dnbexperience/eufemia/issues/5487)) ([a39eac5](https://github.com/dnbexperience/eufemia/commit/a39eac5d4486822ccb6ad1b7a531b7e084ee7c64))
+* **Lists:** support UL inside OL ([#5488](https://github.com/dnbexperience/eufemia/issues/5488)) ([5de61a0](https://github.com/dnbexperience/eufemia/commit/5de61a0dcadf39d17d9ec100f8da2bce449cfeda))
+* **Table:** ensure smooth animation when Td.AccordionContent or Tr.AccordionContent is used ([#5490](https://github.com/dnbexperience/eufemia/issues/5490)) ([bcce7d3](https://github.com/dnbexperience/eufemia/commit/bcce7d3dcfe19b97ab2985c7d3585e0fd83eef11))
+
 ## [10.80.1](https://github.com/dnbexperience/eufemia/compare/v10.80.0...v10.80.1) (2025-09-10)
 
 
