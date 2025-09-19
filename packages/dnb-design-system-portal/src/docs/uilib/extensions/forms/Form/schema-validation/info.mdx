@@ -16,6 +16,17 @@ showTabs: true
 
 ## About schemas
 
+** Recommendation: Use Zod schemas when possible**
+
+Zod schemas are the preferred choice for validation as they:
+
+- Work out of the box without additional dependencies
+- Provide better TypeScript integration
+- Are more performant
+- Have a more intuitive API
+
+JSON Schema validation is still supported but requires explicitly providing an AJV instance.
+
 JSON Schema is a vocabulary for annotating and validating data in js. More about JSON Schema on [json-schema.org](https://json-schema.org/)
 
 A schema can be used from the simplest description of the data type of a value:
@@ -54,7 +65,7 @@ Results in:
 }
 ```
 
-## Using schema with DataContext
+## Using schema with Form.Handler (DataContext)
 
 These two examples will result in the same validation for the user:
 
@@ -75,8 +86,30 @@ These two examples will result in the same validation for the user:
 vs.
 
 ```tsx
-import { JSONSchema } from '@dnb/eufemia/extensions/forms'
+import { Form, Field, z } from '@dnb/eufemia/extensions/forms'
 
+const schema = z.object({
+  name: z.string().min(3),
+  email: z.string().email(),
+  birthyear: z.number().min(1900).max(2023),
+})
+
+<Form.Handler data={user} schema={schema}>
+  <Field.String path="/name" label="Name" />
+  <Field.Email path="/email" label="E-mail" />
+  <Field.Number path="/birthyear" label="Birth year" />
+</Form.Handler>
+```
+
+**Using JSON Schema (Ajv)**
+
+```tsx
+import Ajv from 'ajv/dist/2020'
+import { JSONSchema,  } from '@dnb/eufemia/extensions/forms'
+
+const ajv = new Ajv({
+    allErrors: true,
+  })
 const schema: JSONSchema = {
   properties: {
     name: { minLength: 3 },
@@ -86,7 +119,7 @@ const schema: JSONSchema = {
   required: ['name', 'email', 'birthyear'],
 }
 
-<Form.Handler data={user} schema={schema}>
+<Form.Handler data={user} schema={schema} ajvInstance={ajv}>
   <Field.String path="/name" label="Name" />
   <Field.Email path="/email" label="E-mail" />
   <Field.Number path="/birthyear" label="Birth year" />
@@ -100,6 +133,23 @@ Also, note you can describe the schema without using the `type` property, as the
 ## Fields which are disabled or read-only
 
 Fields which have the `disabled` property or the `readOnly` property, will skip validation.
+
+## Zod schemas and TypeScript
+
+For better TypeScript integration, consider using Zod schemas instead:
+
+```ts
+import { z } from '@dnb/eufemia/extensions/forms'
+
+const schema = z.object({
+  name: z.string().min(3),
+  email: z.string().email(),
+  birthyear: z.number().min(1900).max(2023),
+})
+
+// The type is automatically inferred
+type UserData = z.infer<typeof schema>
+```
 
 ## JSONSchema and TypeScript
 
@@ -158,7 +208,7 @@ You can provide your custom `validate` function with your own keywords to your s
 First, you need to create your won instance of Ajv:
 
 ```ts
-import { Ajv } from '@dnb/eufemia/extensions/forms'
+import Ajv from 'ajv/dist/2020'
 
 const ajv = new Ajv({
   strict: true,
@@ -195,10 +245,11 @@ Use `as const` to make sure the schema is not inferred as `JSONSchema7` but as a
 And finally add the Ajv instance to your form:
 
 ```tsx
+import Ajv from 'ajv/dist/2020'
 import { Form, Field } from '@dnb/eufemia/extensions/forms'
 
 render(
-  <Form.Handler schema={schema} ajvInstance={ajv}>
+  <Form.Handler schema={schema} ajvInstance={new Ajv({ allErrors: true })}>
     <Field.String path="/myKey" value="1" validateInitially />
   </Form.Handler>,
 )
@@ -209,7 +260,8 @@ render(
 Here is another example of a custom keyword, used in one field only:
 
 ```tsx
-import { Ajv, Form, Field } from '@dnb/eufemia/extensions/forms'
+import Ajv from 'ajv/dist/2020'
+import { Form, Field } from '@dnb/eufemia/extensions/forms'
 
 const ajv = new Ajv({
   strict: true,

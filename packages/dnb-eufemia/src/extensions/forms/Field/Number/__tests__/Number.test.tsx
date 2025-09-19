@@ -15,6 +15,8 @@ import {
   Form,
   Iterate,
   JSONSchema,
+  Ajv,
+  z,
 } from '../../..'
 import { Provider } from '../../../../../shared'
 import nbNO from '../../../constants/locales/nb-NO'
@@ -815,6 +817,49 @@ describe('Field.Number', () => {
       })
     })
 
+    describe('integer (Ajv and Zod)', () => {
+      // Silence console.error noise during these tests while still allowing per-test spies
+      let consoleErrorSpy: jest.SpyInstance
+      beforeEach(() => {
+        consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation()
+      })
+      afterEach(() => {
+        consoleErrorSpy?.mockRestore()
+      })
+
+      it('Ajv integer field schema: shows type error when typing 1.2 (decimal)', async () => {
+        const schema: JSONSchema = { type: 'integer' }
+
+        render(<Field.Number schema={schema} />)
+
+        const input = document.querySelector('input')
+        await userEvent.type(input, '1.2')
+        input.blur()
+
+        await waitFor(() => {
+          const status = document.querySelector('.dnb-form-status')
+          expect(status).toBeInTheDocument()
+          expect(status).toHaveTextContent(nb.NumberField.errorInteger)
+        })
+      })
+
+      it('Zod integer field schema: shows type error when typing 1.2 (decimal)', async () => {
+        const schema = z.number().int()
+
+        render(<Field.Number schema={schema} />)
+
+        const input = document.querySelector('input')
+        await userEvent.type(input, '1.2')
+        input.blur()
+
+        await waitFor(() => {
+          const status = document.querySelector('.dnb-form-status')
+          expect(status).toBeInTheDocument()
+          expect(status).toHaveTextContent(nb.NumberField.errorInteger)
+        })
+      })
+    })
+
     describe('provider schema', () => {
       const schema: JSONSchema = {
         type: 'object',
@@ -835,7 +880,11 @@ describe('Field.Number', () => {
 
       it('allow undefined as emptyValue', () => {
         render(
-          <Form.Handler schema={schema} data={data}>
+          <Form.Handler
+            schema={schema}
+            ajvInstance={new Ajv({ allErrors: true })}
+            data={data}
+          >
             <Field.Number path="/myFieldWithUndefined" />
           </Form.Handler>
         )
@@ -849,7 +898,11 @@ describe('Field.Number', () => {
 
       it('allow number as emptyValue', () => {
         render(
-          <Form.Handler schema={schema} data={data}>
+          <Form.Handler
+            schema={schema}
+            ajvInstance={new Ajv({ allErrors: true })}
+            data={data}
+          >
             <Field.Number path="/myFieldWithZero" />
           </Form.Handler>
         )
@@ -863,7 +916,11 @@ describe('Field.Number', () => {
 
       it('allow null as empty value', () => {
         render(
-          <Form.Handler schema={schema} data={data}>
+          <Form.Handler
+            schema={schema}
+            ajvInstance={new Ajv({ allErrors: true })}
+            data={data}
+          >
             <Field.Number path="/myFieldWithNull" />
           </Form.Handler>
         )
@@ -879,8 +936,15 @@ describe('Field.Number', () => {
         const log = jest.spyOn(console, 'error').mockImplementation()
 
         render(
-          <Form.Handler schema={schema} data={data}>
-            <Field.Number path="/myFieldWitInvalidType" />
+          <Form.Handler
+            schema={schema}
+            ajvInstance={new Ajv({ allErrors: true })}
+            data={data}
+          >
+            <Field.Number
+              path="/myFieldWitInvalidType"
+              validateInitially
+            />
           </Form.Handler>
         )
 
@@ -888,11 +952,77 @@ describe('Field.Number', () => {
         expect(input).toHaveValue('')
 
         const status = document.querySelector('.dnb-form-status')
+        expect(status).toBeInTheDocument()
         expect(status).toHaveTextContent(
-          'The field value (foo) type must be number'
+          'Invalid input: expected number, received string'
         )
 
         log.mockRestore()
+      })
+
+      describe('integer (Ajv and Zod)', () => {
+        // Silence console.error noise during these tests while still allowing per-test spies
+        let consoleErrorSpy: jest.SpyInstance
+        beforeEach(() => {
+          consoleErrorSpy = jest
+            .spyOn(console, 'error')
+            .mockImplementation()
+        })
+        afterEach(() => {
+          consoleErrorSpy?.mockRestore()
+        })
+
+        it('Ajv provider integer schema: shows type error when typing 1.2 (decimal)', async () => {
+          const schema: JSONSchema = {
+            type: 'object',
+            properties: {
+              amount: {
+                type: 'integer',
+                minimum: 0,
+                exclusiveMaximum: 10,
+              },
+            },
+          }
+
+          render(
+            <Form.Handler
+              schema={schema}
+              ajvInstance={new Ajv({ allErrors: true })}
+            >
+              <Field.Number path="/amount" />
+            </Form.Handler>
+          )
+
+          const input = document.querySelector('input')
+          await userEvent.type(input, '1.2')
+          input.blur()
+
+          await waitFor(() => {
+            const status = document.querySelector('.dnb-form-status')
+            expect(status).toBeInTheDocument()
+            expect(status).toHaveTextContent(nb.NumberField.errorInteger)
+          })
+        })
+
+        it('Zod provider integer schema: shows type error when typing 1.2 (decimal)', async () => {
+          const schema = z.object({ amount: z.number().int() })
+
+          render(
+            <Form.Handler schema={schema}>
+              <Field.Number path="/amount" />
+            </Form.Handler>
+          )
+
+          const input = document.querySelector('input')
+          await userEvent.type(input, '1.2')
+          input.blur()
+
+          await waitFor(() => {
+            const status = document.querySelector('.dnb-form-status')
+            expect(status).toBeInTheDocument()
+            expect(status).toHaveTextContent(nb.NumberField.errorInteger)
+          })
+        })
       })
     })
 
@@ -1426,6 +1556,180 @@ describe('Field.Number', () => {
         type: 'field',
         value: '456',
       },
+    })
+  })
+
+  describe('Zod validation', () => {
+    it('should validate with Zod schema directly', async () => {
+      const schema = z.number().min(5, 'Minimum 5 required')
+
+      render(<Field.Number schema={schema} />)
+      const input = document.querySelector('input')
+
+      // Type a value that's too small
+      await userEvent.type(input, '3')
+      input.blur()
+      await wait(0)
+
+      expect(screen.getByRole('alert')).toBeInTheDocument()
+      expect(screen.getByRole('alert')).toHaveTextContent(
+        'Minimum 5 required'
+      )
+    })
+
+    it('should validate with Zod schema via Form.Handler', async () => {
+      const schema = z.object({
+        amount: z.number().min(10, 'Amount must be at least 10'),
+      })
+
+      render(
+        <Form.Handler
+          schema={schema}
+          ajvInstance={new Ajv({ allErrors: true })}
+        >
+          <Field.Number path="/amount" />
+        </Form.Handler>
+      )
+
+      const input = document.querySelector('input')
+
+      // Type a value that's too small
+      await userEvent.type(input, '5')
+      input.blur()
+      await wait(0)
+
+      expect(screen.getByRole('alert')).toBeInTheDocument()
+      expect(screen.getByRole('alert')).toHaveTextContent(
+        'Amount must be at least 10'
+      )
+    })
+
+    it('should show provided errorMessages based on validation rule with injected value', async () => {
+      render(<Field.Number minimum={5} />)
+      const input = document.querySelector('input')
+
+      // Type a value that's too small
+      await userEvent.type(input, '3')
+      input.blur()
+      await wait(0)
+
+      expect(screen.getByRole('alert')).toBeInTheDocument()
+      expect(screen.getByRole('alert')).toHaveTextContent(
+        nb.NumberField.errorMinimum.replace('{minimum}', '5')
+      )
+    })
+
+    it('should show provided errorMessages based on validation rule with injected value for maximum', async () => {
+      render(<Field.Number maximum={10} />)
+      const input = document.querySelector('input')
+
+      // Type a value that's too large
+      await userEvent.type(input, '15')
+      input.blur()
+      await wait(0)
+
+      expect(screen.getByRole('alert')).toBeInTheDocument()
+      expect(screen.getByRole('alert')).toHaveTextContent(
+        nb.NumberField.errorMaximum.replace('{maximum}', '10')
+      )
+    })
+
+    it('should show provided errorMessages based on validation rule with injected value for exclusiveMinimum', async () => {
+      render(<Field.Number exclusiveMinimum={5} />)
+      const input = document.querySelector('input')
+
+      // Type a value that's not greater than exclusiveMinimum
+      await userEvent.type(input, '5')
+      input.blur()
+      await wait(0)
+
+      expect(screen.getByRole('alert')).toBeInTheDocument()
+      expect(screen.getByRole('alert')).toHaveTextContent(
+        nb.NumberField.errorExclusiveMinimum.replace(
+          '{exclusiveMinimum}',
+          '5'
+        )
+      )
+    })
+
+    it('should show provided errorMessages based on validation rule with injected value for exclusiveMaximum', async () => {
+      render(<Field.Number exclusiveMaximum={10} />)
+      const input = document.querySelector('input')
+
+      // Type a value that's not less than exclusiveMaximum
+      await userEvent.type(input, '10')
+      input.blur()
+      await wait(0)
+
+      expect(screen.getByRole('alert')).toBeInTheDocument()
+      expect(screen.getByRole('alert')).toHaveTextContent(
+        nb.NumberField.errorExclusiveMaximum.replace(
+          '{exclusiveMaximum}',
+          '10'
+        )
+      )
+    })
+
+    it('should show provided errorMessages based on validation rule with injected value for multipleOf', async () => {
+      render(<Field.Number multipleOf={3} />)
+      const input = document.querySelector('input')
+
+      // Type a value that's not a multiple of 3
+      await userEvent.type(input, '5')
+      input.blur()
+      await wait(0)
+
+      expect(screen.getByRole('alert')).toBeInTheDocument()
+      expect(screen.getByRole('alert')).toHaveTextContent(
+        nb.NumberField.errorMultipleOf.replace('{multipleOf}', '3')
+      )
+    })
+
+    it('should not show error for valid value using Zod schema directly', async () => {
+      const schema = z.number().min(5, 'Minimum 5 required')
+
+      render(<Field.Number schema={schema} />)
+      const input = document.querySelector('input')
+
+      await userEvent.type(input, '7')
+      input.blur()
+      await wait(0)
+
+      expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+    })
+
+    it('should not show error for valid value when Zod schema is provided by Form.Handler', async () => {
+      const schema = z.object({ amount: z.number().min(3) })
+
+      render(
+        <Form.Handler schema={schema}>
+          <Field.Number path="/amount" />
+        </Form.Handler>
+      )
+
+      const input = document.querySelector('input')
+      await userEvent.type(input, '5')
+      input.blur()
+      await wait(0)
+
+      expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+    })
+
+    it('should show error on blur for invalid value using Zod schema with validateUnchanged', async () => {
+      const schema = z.number().min(5, 'Minimum 5 required')
+
+      render(<Field.Number schema={schema} validateUnchanged />)
+      const input = document.querySelector('input')
+
+      await userEvent.type(input, '3')
+      input.focus()
+      input.blur()
+      await wait(0)
+
+      expect(screen.getByRole('alert')).toBeInTheDocument()
+      expect(screen.getByRole('alert')).toHaveTextContent(
+        'Minimum 5 required'
+      )
     })
   })
 })

@@ -100,6 +100,7 @@ export default {
       errorExclusiveMaximum:
         'The value must be less than {exclusiveMaximum}.',
       errorMultipleOf: 'The value must be a multiple of {multipleOf}.',
+      errorInteger: 'The value must be an integer (no decimals).',
     },
     BooleanField: {
       yes: 'Yes',

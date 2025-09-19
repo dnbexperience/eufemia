@@ -2,7 +2,14 @@ import React, { useState } from 'react'
 import { render, waitFor, screen, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
-import { DataContext, Field, FieldBlock, Form, Wizard } from '../../..'
+import {
+  DataContext,
+  Field,
+  FieldBlock,
+  Form,
+  Wizard,
+  Ajv,
+} from '../../..'
 import nbNO from '../../../constants/locales/nb-NO'
 import enGB from '../../../constants/locales/en-GB'
 import {
@@ -2508,11 +2515,13 @@ describe('Field.Date', () => {
         const log = jest.spyOn(console, 'log').mockImplementation()
 
         render(
-          <Field.Date
-            value="2023-12-0"
-            schema={{ type: 'string', minLength: 10 }}
-            validateUnchanged
-          />
+          <Form.Handler ajvInstance={new Ajv({ allErrors: true })}>
+            <Field.Date
+              value="2023-12-0"
+              schema={{ type: 'string', minLength: 10 }}
+              validateUnchanged
+            />
+          </Form.Handler>
         )
 
         const input = document.querySelector('input')

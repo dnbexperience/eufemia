@@ -297,13 +297,22 @@ function ajvErrorsTransformation(
         ? pointer.get(data, path)
         : data
 
-    // Remove the error if the value is empty
-    if (value === '' || value === null) {
+    // Remove the error if the value is empty-like (including undefined)
+    if (value === '' || value === null || typeof value === 'undefined') {
       return undefined
     } else {
-      // This extend the very limited error message with the value and the path
-      const field = path ? `field at path="${path}"` : 'field'
-      ajvError.message = `The ${field} value (${value}) type ${ajvError.message}`
+      // Provide a human-friendly message for integer-only fields when a decimal is given
+      // Ajv sets params.type for type errors
+      const expectedType = ajvError?.params?.type
+
+      if (expectedType === 'integer') {
+        // Use a translation key; actual text is resolved by prepareError
+        ajvError.message = 'NumberField.errorInteger'
+      } else {
+        // Extend the very limited default message with the value and the path
+        const field = path ? `field at path="${path}"` : 'field'
+        ajvError.message = `The ${field} value (${value}) type ${ajvError.message}`
+      }
 
       // Warn about the issue
       console.error(ajvError.message)

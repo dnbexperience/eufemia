@@ -101,6 +101,7 @@ export default {
       errorExclusiveMaximum:
         'Värdet måste vara mindre än {exclusiveMaximum}.',
       errorMultipleOf: 'Värdet måste vara en multipel av {multipleOf}.',
+      errorInteger: 'Värdet måste vara ett heltal (utan decimaler).',
     },
     BooleanField: {
       yes: 'Ja',

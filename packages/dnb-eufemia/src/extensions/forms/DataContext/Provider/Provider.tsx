@@ -7,16 +7,17 @@ import React, {
   useContext,
 } from 'react'
 import pointer, { JsonObject } from '../../utils/json-pointer'
-import { ValidateFunction } from 'ajv/dist/2020'
 import {
   Ajv,
   makeAjvInstance,
   ajvErrorsToFormErrors,
   FormError,
+  isZodSchema,
+  createZodValidator,
+  zodErrorsToFormErrors,
 } from '../../utils'
 import {
   GlobalErrorMessagesWithPaths,
-  AllJSONSchemaVersions,
   SubmitState,
   Path,
   EventStateObject,
@@ -29,9 +30,11 @@ import {
   OnSubmitRequest,
   CountryCode,
   PathStrict,
+  Schema,
 } from '../../types'
 import type { IsolationProviderProps } from '../../Form/Isolation/Isolation'
 import { debounce } from '../../../../shared/helpers'
+import { warn } from '../../../../shared/helpers'
 import FieldPropsProvider from '../../Field/Provider'
 import useUpdateEffect from '../../../../shared/helpers/useUpdateEffect'
 import { isAsync } from '../../../../shared/helpers/isAsync'
@@ -105,7 +108,7 @@ export type Props<Data extends JsonObject> =
     /**
      * JSON Schema to validate the data against.
      */
-    schema?: AllJSONSchemaVersions<Data>
+    schema?: Schema<Data>
     /**
      * Custom Ajv instance, if you want to use your own
      */
@@ -267,8 +270,26 @@ export default function Provider<Data extends JsonObject>(
   const { locale: sharedLocale } = useContext(SharedContext) || {}
   const translation = useTranslation().Field
 
-  // - Ajv
-  const ajvRef = useRef<Ajv>(makeAjvInstance(ajvInstance))
+  // - Ajv (lazy initialization)
+  const ajvRef = useRef<Ajv>()
+  const getAjvInstance = useCallback(
+    (instance = ajvInstance) => {
+      if (!ajvRef.current) {
+        ajvRef.current = makeAjvInstance(instance)
+      }
+      return ajvRef.current
+    },
+    [ajvInstance]
+  )
+
+  // Warn if JSON Schema is provided but no custom ajvInstance prop was passed
+  useEffect(() => {
+    if (schema && !isZodSchema(schema) && !ajvInstance) {
+      warn(
+        'Form.Handler received a JSON Schema but no ajvInstance. Provide ajvInstance={new Ajv({ allErrors: true })} to enable schema validation.'
+      )
+    }
+  }, [schema, ajvInstance])
 
   // - Paths
   const mountedFieldsRef: ContextState['mountedFieldsRef'] = useRef(
@@ -342,19 +363,80 @@ export default function Provider<Data extends JsonObject>(
   const isEmptyDataRef = useRef(false)
 
   // - Validator
-  const ajvValidatorRef = useRef<ValidateFunction>()
+  type UnifiedValidator = {
+    (value: unknown): boolean
+    errors?: any[]
+  }
+
+  const ajvValidatorRef = useRef<UnifiedValidator>()
+
+  // Create a unified validator that works with both AJV and Zod
+  const createUnifiedValidator = useCallback(
+    (schema: Schema): UnifiedValidator => {
+      if (isZodSchema(schema)) {
+        // Wrap Zod validator to match AJV interface
+        const zodValidator = createZodValidator(schema)
+        const unifiedValidator: UnifiedValidator = (value: unknown) => {
+          const result = zodValidator(value)
+          if (result === true) {
+            return true
+          } else {
+            // Store the errors for later access
+            unifiedValidator.errors = result.issues
+            return false
+          }
+        }
+        return unifiedValidator
+      } else {
+        return getAjvInstance()?.compile(schema)
+      }
+    },
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  )
+
+  // Ensure the AJV/Zod validator is created synchronously when a schema is present
+  // This avoids a timing window where validation runs before the validator exists
+  useMemo(() => {
+    if (schema) {
+      ajvValidatorRef.current = createUnifiedValidator(schema)
+    }
+  }, [schema, createUnifiedValidator])
+
   const executeAjvValidator = useCallback(() => {
     if (!ajvValidatorRef.current) {
       // No schema-based validator. Assume data is valid.
       return
     }
 
-    if (!ajvValidatorRef.current?.(internalDataRef.current)) {
+    const validationResult = ajvValidatorRef.current(
+      internalDataRef.current
+    )
+
+    if (!validationResult) {
       // Errors found
-      errorsRef.current = ajvErrorsToFormErrors(
-        ajvValidatorRef.current.errors,
-        internalDataRef.current
-      )
+      const errors = ajvValidatorRef.current.errors
+      if (errors && Array.isArray(errors)) {
+        // Check if these are Zod errors (they have a different structure)
+        if (
+          errors.length > 0 &&
+          errors[0] &&
+          typeof errors[0] === 'object' &&
+          'code' in errors[0]
+        ) {
+          // These are Zod errors, convert them to FormErrors
+          errorsRef.current = zodErrorsToFormErrors(errors)
+        } else {
+          // These are AJV errors, use the existing conversion
+          errorsRef.current = ajvErrorsToFormErrors(
+            errors,
+            internalDataRef.current
+          )
+        }
+      } else {
+        errorsRef.current = undefined
+      }
     } else {
       errorsRef.current = undefined
     }
@@ -804,7 +886,6 @@ export default function Provider<Data extends JsonObject>(
 
   useMemo(() => {
     executeAjvValidator()
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [internalDataRef.current]) // run validation when internal data has changed
 
@@ -1060,6 +1141,7 @@ export default function Provider<Data extends JsonObject>(
         let submitResult: OnSubmitReturn
         try {
           if (isolate) {
+            // Notify listeners before committing isolated data
             for (const item of fieldEventListenersRef.current) {
               const { type, callback } = item
               if (type === 'onBeforeCommit') {
@@ -1069,6 +1151,14 @@ export default function Provider<Data extends JsonObject>(
             submitResult = await onCommit?.(internalDataRef.current, {
               clearData,
             })
+
+            // Notify listeners after committing isolated data
+            for (const item of fieldEventListenersRef.current) {
+              const { type, callback } = item
+              if (type === 'onAfterCommit') {
+                callback()
+              }
+            }
           } else {
             submitResult = await onSubmit()
           }
@@ -1324,24 +1414,16 @@ export default function Provider<Data extends JsonObject>(
     onSubmitContinueRef.current = null
   }
 
-  // - ajv validator routines
-  useLayoutEffect(() => {
-    if (schema) {
-      ajvValidatorRef.current = ajvRef.current?.compile(schema)
-    }
-
-    // Validate the initial data
-    validateData()
-  }, [schema, validateData])
+  // Validator is created synchronously above; schema change handling is done below in useUpdateEffect
   useUpdateEffect(() => {
     if (schema && schema !== cacheRef.current.schema) {
       cacheRef.current.schema = schema
-      ajvValidatorRef.current = ajvRef.current?.compile(schema)
+      ajvValidatorRef.current = createUnifiedValidator(schema)
 
       validateData()
       forceUpdate()
     }
-  }, [schema, validateData, forceUpdate])
+  }, [schema, validateData, forceUpdate, createUnifiedValidator])
 
   const onTimeout = useCallback(() => {
     setFormState(undefined)
@@ -1486,7 +1568,7 @@ export default function Provider<Data extends JsonObject>(
     isEmptyDataRef,
     fieldErrorRef,
     errorsRef,
-    ajvInstance: ajvRef.current,
+    getAjvInstance,
     countryCode: countryCode
       ? getSourceValue<CountryCode>(countryCode)
       : undefined,

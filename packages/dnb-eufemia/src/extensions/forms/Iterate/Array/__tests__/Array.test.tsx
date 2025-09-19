@@ -13,6 +13,7 @@ import {
   ValueBlock,
   Wizard,
 } from '../../..'
+import { Ajv } from '../../..'
 import { ContextState, FilterData } from '../../../DataContext'
 
 import nbNO from '../../../constants/locales/nb-NO'
@@ -2628,7 +2629,7 @@ describe('Iterate.Array', () => {
       }
 
       const { rerender } = render(
-        <Form.Handler>
+        <Form.Handler ajvInstance={new Ajv({ allErrors: true })}>
           <Iterate.Array
             path="/items"
             schema={schema}
@@ -2645,7 +2646,10 @@ describe('Iterate.Array', () => {
       )
 
       rerender(
-        <Form.Handler data={{ items: ['one', 'two', 'three'] }}>
+        <Form.Handler
+          data={{ items: ['one', 'two', 'three'] }}
+          ajvInstance={new Ajv({ allErrors: true })}
+        >
           <Iterate.Array
             path="/items"
             schema={schema}
@@ -2677,7 +2681,11 @@ describe('Iterate.Array', () => {
       const minItems = 'You need at least one item.'
 
       render(
-        <Form.Handler schema={schema} defaultData={{ myList: [{ foo }] }}>
+        <Form.Handler
+          schema={schema}
+          ajvInstance={new Ajv({ allErrors: true })}
+          defaultData={{ myList: [{ foo }] }}
+        >
           <Iterate.Array path="/myList" errorMessages={{ minItems }}>
             <Iterate.ViewContainer>
               <Value.String itemPath="/foo" />
@@ -2791,6 +2799,7 @@ describe('Iterate.Array', () => {
       render(
         <Form.Handler
           schema={schema}
+          ajvInstance={new Ajv({ allErrors: true })}
           defaultData={{
             mySection: {
               myList: [{ foo }],

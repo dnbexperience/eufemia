@@ -11,6 +11,7 @@ import {
   JSONSchemaType,
   OnSubmit,
 } from '../../..'
+import { Ajv } from '../../..'
 import type { Props as StringFieldProps } from '../../../Field/String'
 import nbNO from '../../../constants/locales/nb-NO'
 import enGB from '../../../constants/locales/en-GB'
@@ -19,6 +20,31 @@ const nb = nbNO['nb-NO']
 const en = enGB['en-GB']
 
 describe('Form.Handler', () => {
+  it('warns when JSON Schema is provided without ajvInstance', async () => {
+    const log = spyOnEufemiaWarn()
+
+    const schema: JSONSchema = {
+      type: 'object',
+      properties: {
+        foo: { type: 'string' },
+      },
+    }
+
+    render(
+      <Form.Handler schema={schema}>
+        <Field.String path="/foo" />
+      </Form.Handler>
+    )
+
+    await waitFor(() =>
+      expect(log).toHaveBeenCalledWith(
+        expect.any(String),
+        expect.stringContaining('JSON Schema but no ajvInstance')
+      )
+    )
+
+    log.mockRestore()
+  })
   it('should support types given to the Form.Handler', () => {
     let value = null
 
@@ -928,7 +954,7 @@ describe('Form.Handler', () => {
       const onSubmit = async () => null
 
       render(
-        <Form.Handler onSubmit={onSubmit} minimumAsyncBehaviorTime={2}>
+        <Form.Handler onSubmit={onSubmit} minimumAsyncBehaviorTime={4}>
           <Form.SubmitButton />
         </Form.Handler>
       )
@@ -1115,7 +1141,14 @@ describe('Form.Handler', () => {
         required: ['foo'],
       }
 
-      render(<Form.Handler schema={schema}>content</Form.Handler>)
+      render(
+        <Form.Handler
+          schema={schema}
+          ajvInstance={new Ajv({ allErrors: true })}
+        >
+          content
+        </Form.Handler>
+      )
       expect(document.body).toHaveTextContent('content')
     })
 
@@ -1130,7 +1163,14 @@ describe('Form.Handler', () => {
         required: ['foo'],
       } as const
 
-      render(<Form.Handler schema={schema}>content</Form.Handler>)
+      render(
+        <Form.Handler
+          schema={schema}
+          ajvInstance={new Ajv({ allErrors: true })}
+        >
+          content
+        </Form.Handler>
+      )
       expect(document.body).toHaveTextContent('content')
     })
 
@@ -1149,7 +1189,14 @@ describe('Form.Handler', () => {
       }
 
       expect(() => {
-        render(<Form.Handler schema={schema}>content</Form.Handler>)
+        render(
+          <Form.Handler
+            schema={schema}
+            ajvInstance={new Ajv({ allErrors: true })}
+          >
+            content
+          </Form.Handler>
+        )
       }).toThrow('strict mode: unknown keyword: "invalid"')
     })
 
@@ -1163,7 +1210,14 @@ describe('Form.Handler', () => {
         },
       }
 
-      render(<Form.Handler schema={schema}>content</Form.Handler>)
+      render(
+        <Form.Handler
+          schema={schema}
+          ajvInstance={new Ajv({ allErrors: true })}
+        >
+          content
+        </Form.Handler>
+      )
       expect(document.body).toHaveTextContent('content')
     })
 
@@ -1180,10 +1234,15 @@ describe('Form.Handler', () => {
       }
 
       expect(() => {
-        render(<Form.Handler schema={schema}>content</Form.Handler>)
-      }).toThrow(
-        'schema is invalid: data/properties/foo/type must be equal to one of the allowed values, data/properties/foo/type must be array, data/properties/foo/type must match a schema in anyOf'
-      )
+        render(
+          <Form.Handler
+            schema={schema}
+            ajvInstance={new Ajv({ allErrors: true })}
+          >
+            content
+          </Form.Handler>
+        )
+      }).toThrow('type must be JSONType or JSONType[]: invalid')
     })
 
     it('should support JSONSchemaType', () => {
@@ -1202,7 +1261,14 @@ describe('Form.Handler', () => {
         },
       }
 
-      render(<Form.Handler schema={schema}>content</Form.Handler>)
+      render(
+        <Form.Handler
+          schema={schema}
+          ajvInstance={new Ajv({ allErrors: true })}
+        >
+          content
+        </Form.Handler>
+      )
       expect(document.body).toHaveTextContent('content')
     })
   })
