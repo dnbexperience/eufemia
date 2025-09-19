@@ -812,7 +812,4 @@ class OnMounted extends React.PureComponent<{
 }
 export default DrawerList
 
-// TODO: PR fix closestToTop and closestToBottom triangle styling when scrolling
 // TODO: PR add tests
-// TODO: PR focus/hover selected border radius effect
-// TODO: BUG: closestToBottom and closestToTop is not updated when list content changes
