@@ -6,6 +6,7 @@ import Provider from '../../../shared/Provider'
 import { loadScss, axeComponent } from '../../../core/jest/jestSetup'
 import * as helpers from '../../../shared/helpers'
 import { fireEvent, render, waitFor, screen } from '@testing-library/react'
+import { Form } from '../../../extensions/forms'
 
 const props: DialogProps & DialogContentProps = {
   noAnimation: true,
@@ -543,6 +544,56 @@ describe('Dialog', () => {
         document.querySelector('.dnb-dialog__inner')
       ).not.toBeInTheDocument()
     })
+  })
+
+  it('sets focus inside modal when opened after form submission, not on submit button', async () => {
+    const TestComponent = () => {
+      const [isOpen, setIsOpen] = React.useState(false)
+
+      return (
+        <Form.Handler
+          onSubmit={async () => {
+            await new Promise((r) => setTimeout(r, 100))
+            setIsOpen(true)
+          }}
+        >
+          <Dialog
+            openState={isOpen}
+            onClose={() => setIsOpen(false)}
+            title="Test Dialog"
+          >
+            <input
+              className="modal-input"
+              placeholder="Focus should be here"
+            />
+          </Dialog>
+
+          <Form.SubmitButton>Submit</Form.SubmitButton>
+        </Form.Handler>
+      )
+    }
+
+    render(<TestComponent />)
+
+    const submitButton = document.querySelector('.dnb-forms-submit-button')
+
+    // Click the submit button
+    fireEvent.click(submitButton)
+
+    // Wait for the modal to open and focus to be set
+    await waitFor(() => {
+      expect(document.querySelector('.modal-input')).toBeInTheDocument()
+    })
+
+    // Wait a bit more for focus management to complete
+    await waitFor(() => {
+      const modalTitle = document.querySelector('.dnb-modal__title')
+      expect(modalTitle).toBeInTheDocument()
+      expect(document.activeElement).toBe(modalTitle)
+    })
+
+    // Verify that focus is NOT on the submit button
+    expect(document.activeElement).not.toBe(submitButton)
   })
 })
 
