@@ -405,6 +405,7 @@ function NumberComponent(props: Props) {
     // Custom mask based on props
     return {
       mask,
+      as_number: mask ? undefined : true,
       number_mask: mask ? undefined : mask_options,
     }
   }, [
