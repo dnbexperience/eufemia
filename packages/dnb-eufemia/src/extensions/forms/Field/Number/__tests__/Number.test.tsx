@@ -95,6 +95,24 @@ describe('Field.Number', () => {
       expect(document.querySelector('input')).toHaveValue('1234')
     })
 
+    it('should format according to en-GB locale (no currency)', () => {
+      render(
+        <Provider locale="en-GB">
+          <Field.Number value={1234.56789} decimalLimit={2} />
+        </Provider>
+      )
+      expect(document.querySelector('input')).toHaveValue('1,234.56')
+    })
+
+    it('should format according to de-DE locale (no currency)', () => {
+      render(
+        <Provider locale="de-DE">
+          <Field.Number value={1234.56789} decimalLimit={2} />
+        </Provider>
+      )
+      expect(document.querySelector('input')).toHaveValue('1.234,56')
+    })
+
     it('shows error when minimum exceeded', () => {
       render(<Field.Number value={Number.MIN_SAFE_INTEGER} />)
 
