@@ -13,7 +13,7 @@ declare global {
         js: string
         css: string
         sha: string
-        scopeElement: Element
+        scopeElement: Element | null
       }>
     }
     __eufemiaVersions?: Array<string>
@@ -56,14 +56,16 @@ export function init() {
         js: string
         css: string
         sha: string
-        scopeElement: Element
+        scopeElement: Element | null
       }> {
         return window.__eufemiaSHAs.map((sha, i) => {
           const scopeElement = document.querySelector(
-            `[data-scope-hash-id][data-scope-sha="${sha}"] .dnb-core-style`
+            `[data-scope-hash-id][data-scope-sha="${sha}"]`
           )
+          const styleElement =
+            scopeElement?.querySelector('.dnb-core-style')
           const css = window
-            .getComputedStyle(scopeElement || document.body)
+            .getComputedStyle(styleElement || document.body)
             .getPropertyValue('--eufemia-version')
             .replace(/"/g, '')
 

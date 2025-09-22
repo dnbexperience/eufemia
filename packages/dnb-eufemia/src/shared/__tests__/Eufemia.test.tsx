@@ -324,7 +324,7 @@ describe('Eufemia', () => {
 
       // Verify the scopeElement is the correct element
       const expectedScopeElement = container.querySelector(
-        '[data-scope-hash-id][data-scope-sha="abc123"] .dnb-core-style'
+        '[data-scope-hash-id][data-scope-sha="abc123"]'
       )
       expect(versions[0].scopeElement).toBe(expectedScopeElement)
     })
