@@ -15,7 +15,7 @@ import {
   AutocompleteSuffix,
   AutocompleteStatusInfoExample,
   AutocompleteStatusErrorExample,
-  AutocompleteSections,
+  AutocompleteGroups,
 } from 'Docs/uilib/components/autocomplete/Examples'
 
 ## Demos
@@ -98,4 +98,6 @@ const data = [
 
 ### Groups
 
-<AutocompleteSections />
+If an item has a `groupIndex` prop it will use the groups in the `group` prop. Only the first group can be without title, all other groups must have a title.
+
+<AutocompleteGroups />
