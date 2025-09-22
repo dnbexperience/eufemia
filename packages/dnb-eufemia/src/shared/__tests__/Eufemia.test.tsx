@@ -167,6 +167,7 @@ describe('Eufemia', () => {
           js: '1.2.3',
           css: '1.2.333',
           sha: 'abc123',
+          scopeElement: expect.any(Element),
         },
       ])
     })
@@ -209,11 +210,13 @@ describe('Eufemia', () => {
           js: '1.2.3',
           css: '1.2.333',
           sha: 'abc123',
+          scopeElement: expect.any(Element),
         },
         {
           js: '2.8.9',
           css: '2.8.999',
           sha: 'def456',
+          scopeElement: expect.any(Element),
         },
       ])
     })
@@ -245,11 +248,13 @@ describe('Eufemia', () => {
           js: '1.2.3', // First SHA gets first version
           css: '1.2.333',
           sha: 'abc123',
+          scopeElement: expect.any(Element),
         },
         {
           js: '1.2.3', // Second SHA falls back to first version
           css: '', // No matching scope for second SHA
           sha: 'def456',
+          scopeElement: null,
         },
       ])
     })
@@ -281,13 +286,73 @@ describe('Eufemia', () => {
           js: '__VERSION__', // Falls back to current instance version
           css: '1.2.333',
           sha: 'abc123',
+          scopeElement: expect.any(Element),
         },
         {
           js: '__VERSION__', // Falls back to current instance version
           css: '', // No matching scope for second SHA
           sha: 'def456',
+          scopeElement: null,
         },
       ])
+    })
+
+    it('should include scopeElement in versions array', () => {
+      window.__eufemiaVersions = ['1.2.3']
+      window.__eufemiaSHAs = ['abc123']
+
+      const { container } = render(
+        <>
+          <style>
+            {`
+              .eufemia-scope--1_2_3 .dnb-core-style {
+                --eufemia-version: 1.2.333;
+              }
+            `}
+          </style>
+
+          <IsolatedStyleScope scopeHash="eufemia-scope--1_2_3">
+            content
+          </IsolatedStyleScope>
+        </>
+      )
+
+      const versions = window.Eufemia.versions
+      expect(versions).toHaveLength(1)
+      expect(versions[0]).toHaveProperty('scopeElement')
+      expect(versions[0].scopeElement).toBeInstanceOf(Element)
+
+      // Verify the scopeElement is the correct element
+      const expectedScopeElement = container.querySelector(
+        '[data-scope-hash-id][data-scope-sha="abc123"] .dnb-core-style'
+      )
+      expect(versions[0].scopeElement).toBe(expectedScopeElement)
+    })
+
+    it('should handle missing scopeElement gracefully', () => {
+      window.__eufemiaVersions = ['1.2.3']
+      window.__eufemiaSHAs = ['nonexistent-sha']
+
+      render(
+        <>
+          <style>
+            {`
+              .eufemia-scope--1_2_3 .dnb-core-style {
+                --eufemia-version: 1.2.333;
+              }
+            `}
+          </style>
+
+          <IsolatedStyleScope scopeHash="eufemia-scope--1_2_3">
+            content
+          </IsolatedStyleScope>
+        </>
+      )
+
+      const versions = window.Eufemia.versions
+      expect(versions).toHaveLength(1)
+      expect(versions[0]).toHaveProperty('scopeElement')
+      expect(versions[0].scopeElement).toBeNull()
     })
   })
 })
