@@ -1560,6 +1560,79 @@ describe('Field.Number', () => {
   })
 
   describe('validateContinuously', () => {
+    it('should show error during paste when exceeding MAX_SAFE_INTEGER', async () => {
+      render(<Field.Number />)
+      const input = document.querySelector('input')
+
+      input.focus()
+      const getData = jest.fn(() => String(Number.MAX_SAFE_INTEGER + 1))
+      const clipboardData = { getData }
+      fireEvent.paste(input, { clipboardData })
+      // Simulate the input event that follows paste with the new value
+      fireEvent.input(input, {
+        inputType: 'insertFromPaste',
+        target: { value: String(Number.MAX_SAFE_INTEGER + 1) },
+      })
+
+      await waitFor(() => {
+        expect(screen.getByRole('alert')).toBeInTheDocument()
+        expect(screen.getByRole('alert')).toHaveTextContent(
+          nb.NumberField.errorMaximum.replace(
+            '{maximum}',
+            String(Number.MAX_SAFE_INTEGER)
+          )
+        )
+      })
+    })
+
+    it('should show error when pasting safe value then typing 2 to exceed MAX_SAFE_INTEGER', async () => {
+      render(<Field.Number />)
+      const input = document.querySelector('input')
+
+      // Paste a safe value: 900719925474099 (below MAX_SAFE_INTEGER)
+      input.focus()
+      const getData = jest.fn(() => '900719925474099')
+      const clipboardData = { getData }
+      fireEvent.paste(input, { clipboardData })
+      fireEvent.input(input, {
+        inputType: 'insertFromPaste',
+        target: { value: '900719925474099' },
+      })
+
+      // No error yet
+      expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+
+      // Now type '2' to make it 9007199254740992 (> MAX_SAFE_INTEGER)
+      await userEvent.type(input, '2')
+
+      await waitFor(() => {
+        expect(screen.getByRole('alert')).toBeInTheDocument()
+        expect(screen.getByRole('alert')).toHaveTextContent(
+          nb.NumberField.errorMaximum.replace(
+            '{maximum}',
+            String(Number.MAX_SAFE_INTEGER)
+          )
+        )
+      })
+    })
+
+    it('should show error when entering value less than MIN_SAFE_INTEGER (e.g. -9007199254740992)', async () => {
+      render(<Field.Number />)
+      const input = document.querySelector('input')
+
+      await userEvent.type(input, '-9007199254740992')
+
+      await waitFor(() => {
+        expect(screen.getByRole('alert')).toBeInTheDocument()
+        expect(screen.getByRole('alert')).toHaveTextContent(
+          nb.NumberField.errorMinimum.replace(
+            '{minimum}',
+            String(Number.MIN_SAFE_INTEGER)
+          )
+        )
+      })
+    })
+
     it('should set validateContinuously to true when numberValue exceeds MAX_SAFE_INTEGER', () => {
       const TestComponent = () => {
         const [value, setValue] = React.useState(undefined)
@@ -1689,20 +1762,14 @@ describe('Field.Number', () => {
       // Type a value that exceeds MAX_SAFE_INTEGER
       await userEvent.type(input, '9007199254740992') // MAX_SAFE_INTEGER + 1
 
-      // No error should appear during typing (default behavior)
-      expect(screen.queryByRole('alert')).not.toBeInTheDocument()
-
-      // Error should appear on blur
-      input.blur()
-      await waitFor(() => {
-        expect(screen.getByRole('alert')).toBeInTheDocument()
-        expect(screen.getByRole('alert')).toHaveTextContent(
-          nb.NumberField.errorMaximum.replace(
-            '{maximum}',
-            '9007199254740991'
-          )
+      // Error should appear during typing because it exceeds safe integer range
+      expect(screen.getByRole('alert')).toBeInTheDocument()
+      expect(screen.getByRole('alert')).toHaveTextContent(
+        nb.NumberField.errorMaximum.replace(
+          '{maximum}',
+          '9007199254740991'
         )
-      })
+      )
     })
   })
 

@@ -211,8 +211,6 @@ function NumberComponent(props: Props) {
       if (value === '') {
         return props.emptyValue
       }
-      validateContinuouslyRef.current =
-        numberValue > defaultMaximum ? true : undefined
       return numberValue
     },
     [props.emptyValue]
@@ -311,6 +309,22 @@ function NumberComponent(props: Props) {
       step,
       value,
     ]
+  )
+
+  const onChangeHandler = useCallback(
+    (args: { numberValue?: number; stringValue?: string }) => {
+      handleChange(args)
+      if (typeof args?.numberValue === 'number') {
+        if (
+          args.numberValue > defaultMaximum ||
+          args.numberValue < defaultMinimum
+        ) {
+          // After the value/validation update, trigger blur logic to reveal immediately
+          handleBlur()
+        }
+      }
+    },
+    [handleChange, handleBlur]
   )
 
   const fieldBlockProps: FieldBlockProps = {
@@ -447,9 +461,10 @@ function NumberComponent(props: Props) {
     value,
     align: showStepControls ? 'center' : align,
     onKeyDown: onKeyDownHandler,
+    onPaste: handleBlur, // So that we trigger validation on paste as well
     onFocus: handleFocus,
     onBlur: handleBlur,
-    onChange: handleChange,
+    onChange: onChangeHandler,
     disabled,
     status: hasError ? 'error' : undefined,
     stretch: Boolean(width),
