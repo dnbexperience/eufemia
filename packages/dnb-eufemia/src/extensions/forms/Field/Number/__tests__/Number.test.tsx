@@ -1559,6 +1559,153 @@ describe('Field.Number', () => {
     })
   })
 
+  describe('validateContinuously', () => {
+    it('should set validateContinuously to true when numberValue exceeds MAX_SAFE_INTEGER', () => {
+      const TestComponent = () => {
+        const [value, setValue] = React.useState(undefined)
+        const [validateContinuously, setValidateContinuously] =
+          React.useState(false)
+
+        return (
+          <div>
+            <Field.Number
+              value={value}
+              onChange={(newValue) => {
+                setValue(newValue)
+                // This simulates the internal logic
+                setValidateContinuously(newValue > Number.MAX_SAFE_INTEGER)
+              }}
+            />
+            <output>{validateContinuously.toString()}</output>
+          </div>
+        )
+      }
+
+      render(<TestComponent />)
+      const input = document.querySelector('input')
+      const output = document.querySelector('output')
+
+      // Initially should be false
+      expect(output).toHaveTextContent('false')
+
+      // Type a value within MAX_SAFE_INTEGER
+      fireEvent.change(input, { target: { value: '9007199254740991' } })
+      expect(output).toHaveTextContent('false')
+
+      // Type a value exceeding MAX_SAFE_INTEGER
+      fireEvent.change(input, { target: { value: '9007199254740992' } })
+      expect(output).toHaveTextContent('true')
+    })
+
+    it('should not show error during typing when validateContinuously is explicitly set to false', async () => {
+      render(<Field.Number maximum={1000} validateContinuously={false} />)
+      const input = document.querySelector('input')
+
+      // Type a value that exceeds the maximum
+      await userEvent.type(input, '1001')
+
+      // No error should appear during typing
+      expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+
+      // Error should appear on blur
+      input.blur()
+      await waitFor(() => {
+        expect(screen.getByRole('alert')).toBeInTheDocument()
+        expect(screen.getByRole('alert')).toHaveTextContent(
+          nb.NumberField.errorMaximum.replace('{maximum}', '1000')
+        )
+      })
+    })
+
+    it('should show error during typing when using custom validator with validateContinuously', async () => {
+      const validator = (value) => {
+        if (value > 1000) {
+          return new Error('Value must be less than or equal to 1000')
+        }
+      }
+
+      render(<Field.Number validateContinuously validator={validator} />)
+      const input = document.querySelector('input')
+
+      // Type a value that exceeds the validator limit
+      await userEvent.type(input, '1001')
+
+      // Error should appear during typing
+      await waitFor(() => {
+        expect(screen.getByRole('alert')).toBeInTheDocument()
+        expect(screen.getByRole('alert')).toHaveTextContent(
+          'Value must be less than or equal to 1000'
+        )
+      })
+    })
+
+    it('should show error on blur when maximum is exceeded (default behavior)', async () => {
+      render(<Field.Number maximum={1000} />)
+      const input = document.querySelector('input')
+
+      // Type a value that exceeds the maximum
+      await userEvent.type(input, '1001')
+
+      // No error should appear during typing (default behavior)
+      expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+
+      // Error should appear on blur
+      input.blur()
+      await waitFor(() => {
+        expect(screen.getByRole('alert')).toBeInTheDocument()
+        expect(screen.getByRole('alert')).toHaveTextContent(
+          nb.NumberField.errorMaximum.replace('{maximum}', '1000')
+        )
+      })
+    })
+
+    it('should show error on blur when exclusiveMaximum is exceeded (default behavior)', async () => {
+      render(<Field.Number exclusiveMaximum={1000} />)
+      const input = document.querySelector('input')
+
+      // Type a value that exceeds the exclusive maximum
+      await userEvent.type(input, '1000')
+
+      // No error should appear during typing (default behavior)
+      expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+
+      // Error should appear on blur
+      input.blur()
+      await waitFor(() => {
+        expect(screen.getByRole('alert')).toBeInTheDocument()
+        expect(screen.getByRole('alert')).toHaveTextContent(
+          nb.NumberField.errorExclusiveMaximum.replace(
+            '{exclusiveMaximum}',
+            '1000'
+          )
+        )
+      })
+    })
+
+    it('should show error on blur when maximum safe integer is exceeded (default behavior)', async () => {
+      render(<Field.Number maximum={Number.MAX_SAFE_INTEGER} />)
+      const input = document.querySelector('input')
+
+      // Type a value that exceeds MAX_SAFE_INTEGER
+      await userEvent.type(input, '9007199254740992') // MAX_SAFE_INTEGER + 1
+
+      // No error should appear during typing (default behavior)
+      expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+
+      // Error should appear on blur
+      input.blur()
+      await waitFor(() => {
+        expect(screen.getByRole('alert')).toBeInTheDocument()
+        expect(screen.getByRole('alert')).toHaveTextContent(
+          nb.NumberField.errorMaximum.replace(
+            '{maximum}',
+            '9007199254740991'
+          )
+        )
+      })
+    })
+  })
+
   describe('Zod validation', () => {
     it('should validate with Zod schema directly', async () => {
       const schema = z.number().min(5, 'Minimum 5 required')

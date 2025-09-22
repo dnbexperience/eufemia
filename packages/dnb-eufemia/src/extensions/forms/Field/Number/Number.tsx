@@ -63,6 +63,8 @@ function NumberComponent(props: Props) {
   const fieldBlockContext = useContext(FieldBlockContext)
   const sharedContext = useContext(SharedContext)
 
+  const validateContinuouslyRef = useRef(props?.validateContinuously)
+
   const {
     currency,
     currencyDisplay,
@@ -209,6 +211,8 @@ function NumberComponent(props: Props) {
       if (value === '') {
         return props.emptyValue
       }
+      validateContinuouslyRef.current =
+        numberValue > defaultMaximum ? true : undefined
       return numberValue
     },
     [props.emptyValue]
@@ -217,6 +221,7 @@ function NumberComponent(props: Props) {
   const ref = useRef<HTMLInputElement>()
   const preparedProps: Props = {
     valueType: 'number',
+    validateContinuously: validateContinuouslyRef.current,
     ...props,
     schema,
     toInput,
