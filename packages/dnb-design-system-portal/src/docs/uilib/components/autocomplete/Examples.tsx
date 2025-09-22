@@ -672,42 +672,20 @@ export const AutocompleteContentDecoupledExample = () => (
   </Wrapper>
 )
 
-export const AutocompleteSections = () => (
+export const AutocompleteGroups = () => (
   <Wrapper>
-    <ComponentBox>
-      {() => {
-        const groups = ['Money', 'Savings', 'Stocks']
-        const data = [
-          {
-            groupIndex: 0,
-            content: 'Debit Goal',
-          },
-          {
-            groupIndex: 0,
-            content: 'Delkonto',
-          },
-          {
-            groupIndex: 1,
-            content: 'Sold interest',
-          },
-          {
-            groupIndex: 1,
-            content: 'Drop Backup',
-          },
-          {
-            groupIndex: 2,
-            content: 'Dream funds',
-          },
-          {
-            groupIndex: 2,
-            content: 'Savings Goal',
-          },
-        ]
-
-        return (
-          <Autocomplete data={data} groups={groups} show_submit_button />
-        )
-      }}
+    <ComponentBox data-visual-test="autocomplete-groups">
+      <Autocomplete
+        groups={[undefined, 'Pets', 'Cars']}
+        data={[
+          { groupIndex: 0, content: 'Default 1' },
+          { groupIndex: 0, content: 'Default 2' },
+          { groupIndex: 1, content: 'Cat' },
+          { groupIndex: 1, content: 'Dog' },
+          { groupIndex: 2, content: 'Jeep' },
+          { groupIndex: 2, content: 'Van' },
+        ]}
+      />
     </ComponentBox>
   </Wrapper>
 )

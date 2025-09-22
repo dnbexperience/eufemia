@@ -23,7 +23,7 @@ import {
   DropdownDisabledTertiary,
   DropdownEllipsisOverflow,
   DropdownCustomizedLook,
-  DropdownSections,
+  DropdownGroups,
 } from 'Docs/uilib/components/dropdown/Examples'
 
 ## Demos
@@ -119,4 +119,6 @@ Only to visualize and used for visual testing
 
 ### Groups
 
-<DropdownSections />
+If an item has a `groupIndex` prop it will use the groups in the `group` prop. Only the first group can be without title, all other groups must have a title.
+
+<DropdownGroups />
