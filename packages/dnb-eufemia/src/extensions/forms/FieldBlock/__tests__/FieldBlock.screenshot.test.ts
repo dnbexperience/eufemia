@@ -120,4 +120,11 @@ describe.each(['ui', 'sbanken'])('FieldBlock for %s', (themeName) => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+  it('have to match wrapping label description', async () => {
+    const screenshot = await makeScreenshot({
+      selector:
+        '[data-visual-test="forms-field-block-wrapping-label-description"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })
