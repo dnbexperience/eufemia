@@ -21,7 +21,7 @@ jobs:
   process-icons:
     name: Fetch and Build Icons
 
-    runs-on: macos-15
+    runs-on: macos-26
 
     timeout-minutes: 60
 

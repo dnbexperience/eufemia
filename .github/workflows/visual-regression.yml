@@ -43,7 +43,7 @@ jobs:
   visual-regression:
     name: Run visual-regression tests
 
-    runs-on: macos-15
+    runs-on: macos-26
 
     timeout-minutes: 40
 
