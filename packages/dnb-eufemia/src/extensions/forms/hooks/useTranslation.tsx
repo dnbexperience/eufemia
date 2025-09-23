@@ -42,9 +42,20 @@ export default function useTranslation<T = FormsTranslation>(
   return useMemo<
     TranslationFlatToObject<T> & AdditionalReturnUtils
   >(() => {
+    // Handle translation fallback logic
+    let translationLocale = locale
+
+    // If e.g. en-US translations don't exist, fallback to en-GB
+    if (
+      locale.startsWith('en-') &&
+      !Object.keys(formsLocales).some((l) => l === locale)
+    ) {
+      translationLocale = 'en-GB'
+    }
+
     const translation = extendDeep(
       {},
-      formsLocales[locale] || formsLocales[LOCALE],
+      formsLocales[translationLocale] || formsLocales[LOCALE],
       globalTranslation
     )
 

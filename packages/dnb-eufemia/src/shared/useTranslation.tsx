@@ -40,11 +40,22 @@ export default function useTranslation<T = Translation>(
       return formatMessage(id, args, translation)
     }
 
+    // Handle translation fallback logic
+    let translationLocale = locale
+
+    // If e.g. en-US translations don't exist, fallback to en-GB
+    if (
+      locale.startsWith('en-') &&
+      !Object.keys(defaultLocales).some((l) => l === locale)
+    ) {
+      translationLocale = 'en-GB'
+    }
+
     return assignUtils(
       combineWithExternalTranslations({
         translation,
         messages,
-        locale,
+        locale: translationLocale,
       })
     )
   }, [messages, translation, locale, assignUtils, args])
