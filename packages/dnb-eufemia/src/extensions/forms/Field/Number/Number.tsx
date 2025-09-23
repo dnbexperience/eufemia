@@ -63,6 +63,8 @@ function NumberComponent(props: Props) {
   const fieldBlockContext = useContext(FieldBlockContext)
   const sharedContext = useContext(SharedContext)
 
+  const validateContinuouslyRef = useRef(props?.validateContinuously)
+
   const {
     currency,
     currencyDisplay,
@@ -217,6 +219,7 @@ function NumberComponent(props: Props) {
   const ref = useRef<HTMLInputElement>()
   const preparedProps: Props = {
     valueType: 'number',
+    validateContinuously: validateContinuouslyRef.current,
     ...props,
     schema,
     toInput,
@@ -306,6 +309,22 @@ function NumberComponent(props: Props) {
       step,
       value,
     ]
+  )
+
+  const onChangeHandler = useCallback(
+    (args: { numberValue?: number; stringValue?: string }) => {
+      handleChange(args)
+      if (typeof args?.numberValue === 'number') {
+        if (
+          args.numberValue > defaultMaximum ||
+          args.numberValue < defaultMinimum
+        ) {
+          // After the value/validation update, trigger blur logic to reveal immediately
+          handleBlur()
+        }
+      }
+    },
+    [handleChange, handleBlur]
   )
 
   const fieldBlockProps: FieldBlockProps = {
@@ -443,9 +462,10 @@ function NumberComponent(props: Props) {
     value,
     align: showStepControls ? 'center' : align,
     onKeyDown: onKeyDownHandler,
+    onPaste: handleBlur, // So that we trigger validation on paste as well
     onFocus: handleFocus,
     onBlur: handleBlur,
-    onChange: handleChange,
+    onChange: onChangeHandler,
     disabled,
     status: hasError ? 'error' : undefined,
     stretch: Boolean(width),
