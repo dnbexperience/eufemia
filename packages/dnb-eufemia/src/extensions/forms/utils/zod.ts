@@ -32,78 +32,14 @@ export function isZodSchema(schema: unknown): schema is ZodSchema {
 function getMessageValuesFromZodIssue(
   issue: z.core.$ZodIssue
 ): FormError['messageValues'] {
-  switch (issue.code) {
-    case 'too_small': {
-      // For too_small errors, we can safely access minimum and origin
-      const minimum = (issue as z.core.$ZodIssueTooSmall<unknown>).minimum
-      const origin = (issue as z.core.$ZodIssueTooSmall<unknown>).origin
-
-      // Check if this is an exclusive minimum validation
-      const exclusiveMinimum = (issue as any).exclusiveMinimum
-      if (exclusiveMinimum !== undefined) {
-        return { exclusiveMinimum: String(exclusiveMinimum) }
-      }
-
-      switch (origin) {
-        case 'string': {
-          return { minLength: String(minimum) }
-        }
-        case 'number': {
-          return { minimum: String(minimum) }
-        }
-        case 'array': {
-          return { minItems: String(minimum) }
-        }
-      }
-      break
-    }
-    case 'too_big': {
-      // For too_big errors, we can safely access maximum and origin
-      const maximum = (issue as z.core.$ZodIssueTooBig<unknown>).maximum
-      const origin = (issue as z.core.$ZodIssueTooBig<unknown>).origin
-
-      // Check if this is an exclusive maximum validation
-      const exclusiveMaximum = (issue as any).exclusiveMaximum
-      if (exclusiveMaximum !== undefined) {
-        return { exclusiveMaximum: String(exclusiveMaximum) }
-      }
-
-      switch (origin) {
-        case 'string': {
-          return { maxLength: String(maximum) }
-        }
-        case 'number': {
-          return { maximum: String(maximum) }
-        }
-        case 'array': {
-          return { maxItems: String(maximum) }
-        }
-      }
-      break
-    }
-    case 'invalid_format': {
-      // For invalid_format errors, we can safely access validation
-      const validation = (issue as any).validation
-      return { validation }
-    }
-    case 'custom': {
-      // Handle custom validation errors
-      // Check for multipleOf validation
-      const multipleOf = (issue as any).multipleOf
-      if (multipleOf !== undefined) {
-        return { multipleOf: String(multipleOf) }
-      }
-      break
-    }
-  }
-
-  // For other cases, try to provide generic context
-  // Only access received if it exists on the specific issue type
-  if (issue.code === 'invalid_type') {
-    const received = (issue as any).received
-    if (received !== undefined) {
-      return { received: String(received) }
-    }
+  // Prefer explicit message parameters provided by field validation
+  // (e.g., pre-formatted and locale-aware values)
+  const explicitParams = (issue as any)?.messageValues
+  if (explicitParams && typeof explicitParams === 'object') {
+    const messages = Object.fromEntries(
+      Object.entries(explicitParams).map(([k, v]) => [k, String(v)])
+    )
+    return messages
   }
 
   return undefined
@@ -179,8 +115,7 @@ export function zodErrorToFormError(zodError: z.ZodError): FormError {
  * Converts an array of Zod issues to a single FormError
  */
 export function zodErrorsToOneFormError(
-  zodIssues: z.core.$ZodIssue[],
-  value: unknown
+  zodIssues: z.core.$ZodIssue[]
 ): FormError {
   if (zodIssues.length === 1) {
     const issue = zodIssues[0]

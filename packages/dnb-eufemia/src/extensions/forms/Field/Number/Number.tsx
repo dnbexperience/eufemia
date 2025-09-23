@@ -7,6 +7,7 @@ import React, {
 } from 'react'
 import { InputMasked, Button } from '../../../../components'
 import { InputMaskedProps } from '../../../../components/InputMasked'
+import { format } from '../../../../components/number-format/NumberUtils'
 import type {
   InputAlign,
   InputProps,
@@ -62,6 +63,7 @@ function NumberComponent(props: Props) {
   const dataContext = useContext(DataContext)
   const fieldBlockContext = useContext(FieldBlockContext)
   const sharedContext = useContext(SharedContext)
+  const locale = sharedContext?.locale
 
   const validateContinuouslyRef = useRef(props?.validateContinuously)
 
@@ -102,7 +104,11 @@ function NumberComponent(props: Props) {
                 type: 'number',
                 inclusive: true,
                 message: 'NumberField.errorMinimum',
+                messageValues: {
+                  minimum: format(defaultMinimum, { locale }),
+                },
                 origin: 'number',
+                locale,
               })
             }
 
@@ -113,7 +119,11 @@ function NumberComponent(props: Props) {
                 type: 'number',
                 inclusive: true,
                 message: 'NumberField.errorMaximum',
+                messageValues: {
+                  maximum: format(defaultMaximum, { locale }),
+                },
                 origin: 'number',
+                locale,
               })
             }
 
@@ -125,7 +135,11 @@ function NumberComponent(props: Props) {
                 type: 'number',
                 inclusive: true,
                 message: 'NumberField.errorMinimum',
+                messageValues: {
+                  minimum: format(p.minimum, { locale }),
+                },
                 origin: 'number',
+                locale,
               })
             }
 
@@ -137,7 +151,11 @@ function NumberComponent(props: Props) {
                 type: 'number',
                 inclusive: true,
                 message: 'NumberField.errorMaximum',
+                messageValues: {
+                  maximum: format(p.maximum, { locale }),
+                },
                 origin: 'number',
+                locale,
               })
             }
 
@@ -152,8 +170,12 @@ function NumberComponent(props: Props) {
                 type: 'number',
                 inclusive: false,
                 message: 'NumberField.errorExclusiveMinimum',
+                messageValues: {
+                  exclusiveMinimum: format(p.exclusiveMinimum, { locale }),
+                },
                 origin: 'number',
                 exclusiveMinimum: p.exclusiveMinimum,
+                locale,
               })
             }
 
@@ -168,8 +190,12 @@ function NumberComponent(props: Props) {
                 type: 'number',
                 inclusive: false,
                 message: 'NumberField.errorExclusiveMaximum',
+                messageValues: {
+                  exclusiveMaximum: format(p.exclusiveMaximum, { locale }),
+                },
                 origin: 'number',
                 exclusiveMaximum: p.exclusiveMaximum,
+                locale,
               })
             }
 
@@ -178,8 +204,12 @@ function NumberComponent(props: Props) {
               ctx.addIssue({
                 code: 'custom',
                 message: 'NumberField.errorMultipleOf',
+                messageValues: {
+                  multipleOf: format(p.multipleOf, { locale }),
+                },
                 origin: 'number',
                 multipleOf: p.multipleOf,
+                locale,
               })
             }
           })
@@ -194,6 +224,7 @@ function NumberComponent(props: Props) {
     props.exclusiveMinimum,
     props.exclusiveMaximum,
     props.multipleOf,
+    locale,
   ])
 
   const toInput = useCallback((external: number | undefined | unknown) => {

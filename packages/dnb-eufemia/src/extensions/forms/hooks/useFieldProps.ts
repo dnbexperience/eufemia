@@ -1476,7 +1476,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
           if (hasZodSchema) {
             // Zod validation failed - validationResult is a ZodError
             const zodError = validationResult as z.ZodError<any>
-            error = zodErrorsToOneFormError(zodError.issues, value)
+            error = zodErrorsToOneFormError(zodError.issues)
           } else {
             // AJV validation failed - validationResult is false
             error = ajvErrorsToOneFormError(
