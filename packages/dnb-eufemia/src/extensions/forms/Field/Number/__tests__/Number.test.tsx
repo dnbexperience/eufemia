@@ -1038,6 +1038,39 @@ describe('Field.Number', () => {
           )
         })
       })
+
+      it('should show currency-specific message with decimalLimit', async () => {
+        render(
+          <Field.Number
+            value={10.5}
+            exclusiveMinimum={20.123456}
+            validateInitially
+            currency
+            decimalLimit={2}
+          />
+        )
+
+        await waitFor(() => {
+          const alertElement = screen.getByRole('alert')
+          expect(alertElement).toBeInTheDocument()
+
+          const expected = nb.NumberField.errorExclusiveMinimum.replace(
+            '{exclusiveMinimum}',
+            String(
+              format(20.123456, {
+                locale: 'nb-NO',
+                currency: true,
+                decimals: 2,
+              })
+            )
+          )
+          // Use regex to handle both regular and non-breaking spaces
+          const expectedRegex = expected.replace(/\s/g, '\\s')
+          expect(alertElement.textContent).toMatch(
+            new RegExp(expectedRegex)
+          )
+        })
+      })
     })
 
     describe('percent', () => {
@@ -1158,6 +1191,35 @@ describe('Field.Number', () => {
             '{multipleOf}',
             String(
               format(2.5, { locale: 'nb-NO', percent: true, decimals: 1 })
+            )
+          )
+          // Use regex to handle both regular and non-breaking spaces
+          const expectedRegex = expected.replace(/\s/g, '\\s')
+          expect(alertElement.textContent).toMatch(
+            new RegExp(expectedRegex)
+          )
+        })
+      })
+
+      it('should show percent-specific message with decimalLimit', async () => {
+        render(
+          <Field.Number
+            percent
+            value={5.25}
+            exclusiveMinimum={10.123456}
+            validateInitially
+            decimalLimit={1}
+          />
+        )
+
+        await waitFor(() => {
+          const alertElement = screen.getByRole('alert')
+          expect(alertElement).toBeInTheDocument()
+
+          const expected = nb.NumberField.errorExclusiveMinimum.replace(
+            '{exclusiveMinimum}',
+            String(
+              format(10.123456, { locale: 'nb-NO', percent: true, decimals: 1 })
             )
           )
           // Use regex to handle both regular and non-breaking spaces

@@ -7,7 +7,10 @@ import React, {
 } from 'react'
 import { InputMasked, Button } from '../../../../components'
 import { InputMaskedProps } from '../../../../components/InputMasked'
-import { format } from '../../../../components/number-format/NumberUtils'
+import {
+  format,
+  formatOptionParams,
+} from '../../../../components/number-format/NumberUtils'
 import type {
   InputAlign,
   InputProps,
@@ -90,13 +93,19 @@ function NumberComponent(props: Props) {
       ((p: Props) => {
         // Helper function to format validation values with currency/percent suffix
         const formatValidationValue = (value: number) => {
+          const formatOptions: Partial<formatOptionParams> = { locale }
+
           if (p.currency) {
-            return format(value, { locale, currency: p.currency })
+            formatOptions.currency = p.currency
           }
           if (p.percent) {
-            return format(value, { locale, percent: true })
+            formatOptions.percent = true
           }
-          return format(value, { locale })
+          if (p.decimalLimit !== undefined) {
+            formatOptions.decimals = p.decimalLimit
+          }
+
+          return format(value, formatOptions)
         }
 
         return z
@@ -241,6 +250,7 @@ function NumberComponent(props: Props) {
     props.multipleOf,
     props.currency,
     props.percent,
+    props.decimalLimit,
     locale,
   ])
 
