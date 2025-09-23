@@ -71,6 +71,10 @@ fieldset.dnb-forms-field-block {
 
     margin-right: 0;
 
+    &__description {
+      vertical-align: top;
+    }
+
     &__content:has(+ .dnb-help-button),
     &__description:has(+ .dnb-help-button) {
       margin-right: 0.5rem;
