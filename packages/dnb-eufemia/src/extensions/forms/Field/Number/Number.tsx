@@ -88,6 +88,17 @@ function NumberComponent(props: Props) {
       // in sync with dynamic prop changes and avoids stale closures.
       props.schema ??
       ((p: Props) => {
+        // Helper function to format validation values with currency/percent suffix
+        const formatValidationValue = (value: number) => {
+          if (p.currency) {
+            return format(value, { locale, currency: p.currency })
+          }
+          if (p.percent) {
+            return format(value, { locale, percent: true })
+          }
+          return format(value, { locale })
+        }
+
         return z
           .number()
           .nullish()
@@ -105,7 +116,7 @@ function NumberComponent(props: Props) {
                 inclusive: true,
                 message: 'NumberField.errorMinimum',
                 messageValues: {
-                  minimum: format(defaultMinimum, { locale }),
+                  minimum: formatValidationValue(defaultMinimum),
                 },
                 origin: 'number',
                 locale,
@@ -120,7 +131,7 @@ function NumberComponent(props: Props) {
                 inclusive: true,
                 message: 'NumberField.errorMaximum',
                 messageValues: {
-                  maximum: format(defaultMaximum, { locale }),
+                  maximum: formatValidationValue(defaultMaximum),
                 },
                 origin: 'number',
                 locale,
@@ -136,7 +147,7 @@ function NumberComponent(props: Props) {
                 inclusive: true,
                 message: 'NumberField.errorMinimum',
                 messageValues: {
-                  minimum: format(p.minimum, { locale }),
+                  minimum: formatValidationValue(p.minimum),
                 },
                 origin: 'number',
                 locale,
@@ -152,7 +163,7 @@ function NumberComponent(props: Props) {
                 inclusive: true,
                 message: 'NumberField.errorMaximum',
                 messageValues: {
-                  maximum: format(p.maximum, { locale }),
+                  maximum: formatValidationValue(p.maximum),
                 },
                 origin: 'number',
                 locale,
@@ -171,7 +182,9 @@ function NumberComponent(props: Props) {
                 inclusive: false,
                 message: 'NumberField.errorExclusiveMinimum',
                 messageValues: {
-                  exclusiveMinimum: format(p.exclusiveMinimum, { locale }),
+                  exclusiveMinimum: formatValidationValue(
+                    p.exclusiveMinimum
+                  ),
                 },
                 origin: 'number',
                 exclusiveMinimum: p.exclusiveMinimum,
@@ -191,7 +204,9 @@ function NumberComponent(props: Props) {
                 inclusive: false,
                 message: 'NumberField.errorExclusiveMaximum',
                 messageValues: {
-                  exclusiveMaximum: format(p.exclusiveMaximum, { locale }),
+                  exclusiveMaximum: formatValidationValue(
+                    p.exclusiveMaximum
+                  ),
                 },
                 origin: 'number',
                 exclusiveMaximum: p.exclusiveMaximum,
@@ -205,7 +220,7 @@ function NumberComponent(props: Props) {
                 code: 'custom',
                 message: 'NumberField.errorMultipleOf',
                 messageValues: {
-                  multipleOf: format(p.multipleOf, { locale }),
+                  multipleOf: formatValidationValue(p.multipleOf),
                 },
                 origin: 'number',
                 multipleOf: p.multipleOf,
@@ -224,6 +239,8 @@ function NumberComponent(props: Props) {
     props.exclusiveMinimum,
     props.exclusiveMaximum,
     props.multipleOf,
+    props.currency,
+    props.percent,
     locale,
   ])
 

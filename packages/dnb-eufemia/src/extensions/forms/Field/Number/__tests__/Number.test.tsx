@@ -907,6 +907,267 @@ describe('Field.Number', () => {
         expect(screen.getByRole('alert')).toHaveTextContent(expected)
       })
     })
+
+    describe('currency', () => {
+      it('should show currency-specific message for exclusiveMinimum', async () => {
+        render(
+          <Field.Number
+            value={10}
+            exclusiveMinimum={20}
+            validateInitially
+            currency
+          />
+        )
+
+        await waitFor(() => {
+          const alertElement = screen.getByRole('alert')
+          expect(alertElement).toBeInTheDocument()
+
+          const expected = nb.NumberField.errorExclusiveMinimum.replace(
+            '{exclusiveMinimum}',
+            String(format(20, { locale: 'nb-NO', currency: true }))
+          )
+          // Use regex to handle both regular and non-breaking spaces
+          const expectedRegex = expected.replace(/\s/g, '\\s')
+          expect(alertElement.textContent).toMatch(
+            new RegExp(expectedRegex)
+          )
+        })
+      })
+
+      it('should show currency-specific message for exclusiveMaximum', async () => {
+        render(
+          <Field.Number
+            value={100}
+            exclusiveMaximum={100}
+            validateInitially
+            currency
+          />
+        )
+
+        await waitFor(() => {
+          const alertElement = screen.getByRole('alert')
+          expect(alertElement).toBeInTheDocument()
+
+          const expected = nb.NumberField.errorExclusiveMaximum.replace(
+            '{exclusiveMaximum}',
+            String(format(100, { locale: 'nb-NO', currency: true }))
+          )
+          // Use regex to handle both regular and non-breaking spaces
+          const expectedRegex = expected.replace(/\s/g, '\\s')
+          expect(alertElement.textContent).toMatch(
+            new RegExp(expectedRegex)
+          )
+        })
+      })
+
+      it('should show currency-specific message for minimum', async () => {
+        render(
+          <Field.Number
+            value={30}
+            minimum={50}
+            validateInitially
+            currency
+          />
+        )
+
+        await waitFor(() => {
+          const alertElement = screen.getByRole('alert')
+          expect(alertElement).toBeInTheDocument()
+
+          const expected = nb.NumberField.errorMinimum.replace(
+            '{minimum}',
+            String(format(50, { locale: 'nb-NO', currency: true }))
+          )
+          // Use regex to handle both regular and non-breaking spaces
+          const expectedRegex = expected.replace(/\s/g, '\\s')
+          expect(alertElement.textContent).toMatch(
+            new RegExp(expectedRegex)
+          )
+        })
+      })
+
+      it('should show currency-specific message for maximum', async () => {
+        render(
+          <Field.Number
+            value={1500}
+            maximum={1000}
+            validateInitially
+            currency
+          />
+        )
+
+        await waitFor(() => {
+          const alertElement = screen.getByRole('alert')
+          expect(alertElement).toBeInTheDocument()
+
+          const expected = nb.NumberField.errorMaximum.replace(
+            '{maximum}',
+            String(format(1000, { locale: 'nb-NO', currency: true }))
+          )
+          // Use regex to handle both regular and non-breaking spaces
+          const expectedRegex = expected.replace(/\s/g, '\\s')
+          expect(alertElement.textContent).toMatch(
+            new RegExp(expectedRegex)
+          )
+        })
+      })
+
+      it('should show currency-specific message for multipleOf', async () => {
+        render(
+          <Field.Number
+            value={7}
+            multipleOf={5}
+            validateInitially
+            currency
+          />
+        )
+
+        await waitFor(() => {
+          const alertElement = screen.getByRole('alert')
+          expect(alertElement).toBeInTheDocument()
+
+          const expected = nb.NumberField.errorMultipleOf.replace(
+            '{multipleOf}',
+            String(format(5, { locale: 'nb-NO', currency: true }))
+          )
+          // Use regex to handle both regular and non-breaking spaces
+          const expectedRegex = expected.replace(/\s/g, '\\s')
+          expect(alertElement.textContent).toMatch(
+            new RegExp(expectedRegex)
+          )
+        })
+      })
+    })
+
+    describe('percent', () => {
+      it('should show percent-specific message for exclusiveMinimum', async () => {
+        render(
+          <Field.Number
+            percent
+            value={5}
+            exclusiveMinimum={10}
+            validateInitially
+          />
+        )
+
+        await waitFor(() => {
+          const alertElement = screen.getByRole('alert')
+          expect(alertElement).toBeInTheDocument()
+
+          const expected = nb.NumberField.errorExclusiveMinimum.replace(
+            '{exclusiveMinimum}',
+            String(format(10, { locale: 'nb-NO', percent: true }))
+          )
+          // Use regex to handle both regular and non-breaking spaces
+          const expectedRegex = expected.replace(/\s/g, '\\s')
+          expect(alertElement.textContent).toMatch(
+            new RegExp(expectedRegex)
+          )
+        })
+      })
+
+      it('should show percent-specific message for exclusiveMaximum', async () => {
+        render(
+          <Field.Number
+            percent
+            value={90}
+            exclusiveMaximum={90}
+            validateInitially
+          />
+        )
+
+        await waitFor(() => {
+          const alertElement = screen.getByRole('alert')
+          expect(alertElement).toBeInTheDocument()
+
+          const expected = nb.NumberField.errorExclusiveMaximum.replace(
+            '{exclusiveMaximum}',
+            String(format(90, { locale: 'nb-NO', percent: true }))
+          )
+          // Use regex to handle both regular and non-breaking spaces
+          const expectedRegex = expected.replace(/\s/g, '\\s')
+          expect(alertElement.textContent).toMatch(
+            new RegExp(expectedRegex)
+          )
+        })
+      })
+
+      it('should show percent-specific message for minimum', async () => {
+        render(
+          <Field.Number percent value={2} minimum={5} validateInitially />
+        )
+
+        await waitFor(() => {
+          const alertElement = screen.getByRole('alert')
+          expect(alertElement).toBeInTheDocument()
+
+          const expected = nb.NumberField.errorMinimum.replace(
+            '{minimum}',
+            String(format(5, { locale: 'nb-NO', percent: true }))
+          )
+          // Use regex to handle both regular and non-breaking spaces
+          const expectedRegex = expected.replace(/\s/g, '\\s')
+          expect(alertElement.textContent).toMatch(
+            new RegExp(expectedRegex)
+          )
+        })
+      })
+
+      it('should show percent-specific message for maximum', async () => {
+        render(
+          <Field.Number
+            percent
+            value={150}
+            maximum={100}
+            validateInitially
+          />
+        )
+
+        await waitFor(() => {
+          const alertElement = screen.getByRole('alert')
+          expect(alertElement).toBeInTheDocument()
+
+          const expected = nb.NumberField.errorMaximum.replace(
+            '{maximum}',
+            String(format(100, { locale: 'nb-NO', percent: true }))
+          )
+          // Use regex to handle both regular and non-breaking spaces
+          const expectedRegex = expected.replace(/\s/g, '\\s')
+          expect(alertElement.textContent).toMatch(
+            new RegExp(expectedRegex)
+          )
+        })
+      })
+
+      it('should show percent-specific message for multipleOf', async () => {
+        render(
+          <Field.Number
+            percent
+            value={3}
+            multipleOf={2.5}
+            validateInitially
+          />
+        )
+
+        await waitFor(() => {
+          const alertElement = screen.getByRole('alert')
+          expect(alertElement).toBeInTheDocument()
+
+          const expected = nb.NumberField.errorMultipleOf.replace(
+            '{multipleOf}',
+            String(
+              format(2.5, { locale: 'nb-NO', percent: true, decimals: 1 })
+            )
+          )
+          // Use regex to handle both regular and non-breaking spaces
+          const expectedRegex = expected.replace(/\s/g, '\\s')
+          expect(alertElement.textContent).toMatch(
+            new RegExp(expectedRegex)
+          )
+        })
+      })
+    })
   })
 
   describe('should gracefully handle empty value', () => {
