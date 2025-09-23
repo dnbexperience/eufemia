@@ -97,7 +97,7 @@ jobs:
 
       - name: Run visual tests
         if: env.RUN_VISUAL_TEST == 'true'
-        run: yarn workspace dnb-design-system-portal test:screenshots:ci
+        run: yarn workspace dnb-design-system-portal test:screenshots:ci:conditional
 
       - uses: actions/upload-artifact@v4
         if: failure()
