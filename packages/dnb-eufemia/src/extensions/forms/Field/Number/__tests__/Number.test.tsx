@@ -1219,7 +1219,11 @@ describe('Field.Number', () => {
           const expected = nb.NumberField.errorExclusiveMinimum.replace(
             '{exclusiveMinimum}',
             String(
-              format(10.123456, { locale: 'nb-NO', percent: true, decimals: 1 })
+              format(10.123456, {
+                locale: 'nb-NO',
+                percent: true,
+                decimals: 1,
+              })
             )
           )
           // Use regex to handle both regular and non-breaking spaces
