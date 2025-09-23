@@ -323,7 +323,7 @@ export function LabelSrOnly() {
       <Flex.Stack>
         Field.ArraySelection:
         <Field.ArraySelection label="label" path="/size" labelSrOnly>
-          <Field.Option value="default" title="Small (Default)" />
+          <Field.Option value="default" title="Default" />
           <Field.Option value="medium" title="Medium" />
           <Field.Option value="large" title="Large" />
         </Field.ArraySelection>
@@ -333,7 +333,7 @@ export function LabelSrOnly() {
           path="/size"
           labelSrOnly
         >
-          <Field.Option value="default" title="Small (Default)" />
+          <Field.Option value="default" title="Default" />
           <Field.Option value="medium" title="Medium" />
           <Field.Option value="large" title="Large" />
         </Field.ArraySelection>
@@ -343,7 +343,7 @@ export function LabelSrOnly() {
           path="/size"
           labelSrOnly
         >
-          <Field.Option value="default" title="Small (Default)" />
+          <Field.Option value="default" title="Default" />
           <Field.Option value="medium" title="Medium" />
           <Field.Option value="large" title="Large" />
         </Field.ArraySelection>
@@ -353,13 +353,13 @@ export function LabelSrOnly() {
           path="/size"
           labelSrOnly
         >
-          <Field.Option value="default" title="Small (Default)" />
+          <Field.Option value="default" title="Default" />
           <Field.Option value="medium" title="Medium" />
           <Field.Option value="large" title="Large" />
         </Field.ArraySelection>
         Field.Selection:
         <Field.Selection label="label" path="/size" labelSrOnly>
-          <Field.Option value="default" title="Small (Default)" />
+          <Field.Option value="default" title="Default" />
           <Field.Option value="medium" title="Medium" />
           <Field.Option value="large" title="Large" />
         </Field.Selection>
@@ -369,7 +369,7 @@ export function LabelSrOnly() {
           path="/size"
           labelSrOnly
         >
-          <Field.Option value="default" title="Small (Default)" />
+          <Field.Option value="default" title="Default" />
           <Field.Option value="medium" title="Medium" />
           <Field.Option value="large" title="Large" />
         </Field.Selection>
@@ -379,7 +379,7 @@ export function LabelSrOnly() {
           path="/size"
           labelSrOnly
         >
-          <Field.Option value="default" title="Small (Default)" />
+          <Field.Option value="default" title="Default" />
           <Field.Option value="medium" title="Medium" />
           <Field.Option value="large" title="Large" />
         </Field.Selection>
@@ -389,7 +389,7 @@ export function LabelSrOnly() {
           path="/size"
           labelSrOnly
         >
-          <Field.Option value="default" title="Small (Default)" />
+          <Field.Option value="default" title="Default" />
           <Field.Option value="medium" title="Medium" />
           <Field.Option value="large" title="Large" />
         </Field.Selection>
@@ -399,7 +399,7 @@ export function LabelSrOnly() {
           path="/size"
           labelSrOnly
         >
-          <Field.Option value="default" title="Small (Default)" />
+          <Field.Option value="default" title="Default" />
           <Field.Option value="medium" title="Medium" />
           <Field.Option value="large" title="Large" />
         </Field.Selection>
@@ -409,7 +409,7 @@ export function LabelSrOnly() {
           path="/size"
           labelSrOnly
         >
-          <Field.Option value="default" title="Small (Default)" />
+          <Field.Option value="default" title="Default" />
           <Field.Option value="medium" title="Medium" />
           <Field.Option value="large" title="Large" />
         </Field.Selection>
