@@ -12,5 +12,5 @@ export default {
       errorOrgNoLength:
         'Invalid organization number. Enter a valid organization number with 9 digits.',
     },
-  },
+  } satisfies typeof enGB,
 }

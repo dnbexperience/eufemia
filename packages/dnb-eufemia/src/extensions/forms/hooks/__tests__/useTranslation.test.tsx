@@ -279,4 +279,49 @@ describe('Form.useTranslation', () => {
 
     expect(result.current).toEqual(expect.objectContaining(nb))
   })
+
+  it('should fallback to en-GB when en-US is requested but not available', () => {
+    const { result } = renderHook(useTranslation, {
+      wrapper: ({ children }) => (
+        <Provider locale="en-US">{children}</Provider>
+      ),
+    })
+
+    const gb = {}
+    extendDeep(gb, forms_enGB['en-GB'], global_enGB['en-GB'])
+    gb['formatMessage'] = expect.any(Function)
+    gb['renderMessage'] = expect.any(Function)
+
+    expect(result.current).toEqual(gb)
+  })
+
+  it('should fallback to en-GB when en-CA is requested but not available', () => {
+    const { result } = renderHook(useTranslation, {
+      wrapper: ({ children }) => (
+        <Provider locale="en-CA">{children}</Provider>
+      ),
+    })
+
+    const gb = {}
+    extendDeep(gb, forms_enGB['en-GB'], global_enGB['en-GB'])
+    gb['formatMessage'] = expect.any(Function)
+    gb['renderMessage'] = expect.any(Function)
+
+    expect(result.current).toEqual(gb)
+  })
+
+  it('should not fallback when en-GB is explicitly requested', () => {
+    const { result } = renderHook(useTranslation, {
+      wrapper: ({ children }) => (
+        <Provider locale="en-GB">{children}</Provider>
+      ),
+    })
+
+    const gb = {}
+    extendDeep(gb, forms_enGB['en-GB'], global_enGB['en-GB'])
+    gb['formatMessage'] = expect.any(Function)
+    gb['renderMessage'] = expect.any(Function)
+
+    expect(result.current).toEqual(gb)
+  })
 })
