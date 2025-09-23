@@ -113,7 +113,7 @@ function DateOfBirth(props: Props) {
     return dateOfBirthValidator
   }, [propOnBlurValidator, dateOfBirthValidator])
 
-  const { value: propValue, ...otherProps } = props
+  const { value: propValue, space, ...otherProps } = props
 
   const preparedProps: Props = useMemo(
     () => ({
@@ -295,6 +295,7 @@ function DateOfBirth(props: Props) {
   const compositionFieldProps: CompositionFieldProps = {
     error,
     label: labelProp ?? label,
+    space,
   }
 
   const months = useMemo(() => {

@@ -523,3 +523,28 @@ export function LabelSrOnly() {
     </Form.Handler>
   )
 }
+
+export function Labels() {
+  return (
+    <>
+      <FieldBlock label="Label text" />
+      <FieldBlock labelDescription="Label description" />
+      <FieldBlock
+        label="Label text"
+        labelDescription="Label description"
+      />
+      <FieldBlock
+        label={
+          '00000000000000000000000000000000000000000000000000000000 0'
+        }
+        help={{ title: 'Help title', content: 'Help content' }}
+      />
+      <FieldBlock
+        labelDescription={
+          '000000000000000000000000000000000000000000000000000000000000000 0'
+        }
+        help={{ title: 'Help title', content: 'Help content' }}
+      />
+    </>
+  )
+}

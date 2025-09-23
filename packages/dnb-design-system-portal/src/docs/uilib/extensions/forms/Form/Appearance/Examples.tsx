@@ -55,6 +55,7 @@ export const Size = () => {
                   <Field.BankAccountNumber />
                   <Field.Name.First />
                   <Field.Name.Last />
+                  <Field.DateOfBirth />
                   <Field.Password />
                   <Field.Slider />
                   <Field.Upload />
