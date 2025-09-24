@@ -811,5 +811,3 @@ class OnMounted extends React.PureComponent<{
   }
 }
 export default DrawerList
-
-// TODO: PR add tests
