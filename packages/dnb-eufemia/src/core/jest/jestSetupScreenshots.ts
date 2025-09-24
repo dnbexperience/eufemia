@@ -66,6 +66,7 @@ export const makeScreenshot = async (
     simulateAfter = null,
     waitBeforeFinish = null,
     waitBeforeSimulate = null,
+    waitBeforeSimulateSelector = null,
     waitAfterSimulate = null,
     waitAfterSimulateSelector = null,
     screenshotSelector = null,
@@ -106,6 +107,8 @@ export const makeScreenshot = async (
     waitBeforeFinish?: number
     /** Delay right before running simulations and right after simulation element has been selected */
     waitBeforeSimulate?: number
+    /** Delay before the selector is visible */
+    waitBeforeSimulateSelector?: string
     /** Delay after all simulations have run */
     waitAfterSimulate?: number
     /** Selector for an element. After all simulations have run, delay until this element is visible. */
@@ -170,6 +173,7 @@ export const makeScreenshot = async (
     waitAfterSimulateSelector,
     waitAfterSimulate,
     waitBeforeSimulate,
+    waitBeforeSimulateSelector,
   })
   const { delaySimulation } = simulationValues
   let { lastMouseAction } = simulationValues
@@ -496,6 +500,7 @@ async function handleSimulation({
   waitAfterSimulateSelector = undefined,
   waitAfterSimulate = undefined,
   waitBeforeSimulate = undefined,
+  waitBeforeSimulateSelector = undefined,
 }: {
   page
   element
@@ -504,6 +509,7 @@ async function handleSimulation({
   waitAfterSimulateSelector?: string
   waitAfterSimulate?: number
   waitBeforeSimulate?: number
+  waitBeforeSimulateSelector?: string
 }) {
   if (simulateSelector) {
     element = await page.$(simulateSelector)
@@ -511,6 +517,12 @@ async function handleSimulation({
 
   if (waitBeforeSimulate) {
     await page.waitForTimeout(waitBeforeSimulate)
+  }
+
+  if (waitBeforeSimulateSelector) {
+    await page.waitForSelector(waitBeforeSimulateSelector, {
+      visible: true,
+    })
   }
 
   const elementsToDispose = []
