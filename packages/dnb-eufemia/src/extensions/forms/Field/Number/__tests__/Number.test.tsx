@@ -810,7 +810,9 @@ describe('Field.Number', () => {
 
         // Check that the message contains the Norwegian text and the formatted number
         const alertText = alertElement.textContent
-        expect(alertText).toContain('Verdien må være maksimalt')
+        expect(alertText).toContain(
+          nb.NumberField.errorMaximum.split('{maximum}')[0]
+        )
         expect(alertText).toMatch(/1\s000/) // The number should be formatted with space separator (regular or non-breaking)
         expect(alertText).toContain('.') // Should end with a period
       })
@@ -878,9 +880,16 @@ describe('Field.Number', () => {
         target: { value: '1' },
       })
 
+      const expected = nb.NumberField.errorMultipleOf.replace(
+        '{multipleOf}',
+        String(format(3000, { locale: 'nb-NO' }))
+      )
+      // Use regex to handle both regular and non-breaking spaces
+      const expectedRegex = expected.replace(/\s/g, '\\s')
+
       await waitFor(() => {
         expect(screen.getByRole('alert')).toHaveTextContent(
-          'Verdien må være et multiplum av 3 000.'
+          new RegExp(expectedRegex)
         )
       })
     })
@@ -2171,8 +2180,14 @@ describe('Field.Number', () => {
       input.blur()
       await waitFor(() => {
         expect(screen.getByRole('alert')).toBeInTheDocument()
+        const expected = nb.NumberField.errorMaximum.replace(
+          '{maximum}',
+          String(format(1000, { locale: 'nb-NO' }))
+        )
+        // Use regex to handle both regular and non-breaking spaces
+        const expectedRegex = expected.replace(/\s/g, '\\s')
         expect(screen.getByRole('alert')).toHaveTextContent(
-          'Verdien må være maksimalt 1 000.'
+          new RegExp(expectedRegex)
         )
       })
     })
@@ -2213,8 +2228,14 @@ describe('Field.Number', () => {
       input.blur()
       await waitFor(() => {
         expect(screen.getByRole('alert')).toBeInTheDocument()
+        const expected = nb.NumberField.errorMaximum.replace(
+          '{maximum}',
+          String(format(1000, { locale: 'nb-NO' }))
+        )
+        // Use regex to handle both regular and non-breaking spaces
+        const expectedRegex = expected.replace(/\s/g, '\\s')
         expect(screen.getByRole('alert')).toHaveTextContent(
-          'Verdien må være maksimalt 1 000.'
+          new RegExp(expectedRegex)
         )
       })
     })
@@ -2233,8 +2254,14 @@ describe('Field.Number', () => {
       input.blur()
       await waitFor(() => {
         expect(screen.getByRole('alert')).toBeInTheDocument()
+        const expected = nb.NumberField.errorExclusiveMaximum.replace(
+          '{exclusiveMaximum}',
+          String(format(1000, { locale: 'nb-NO' }))
+        )
+        // Use regex to handle both regular and non-breaking spaces
+        const expectedRegex = expected.replace(/\s/g, '\\s')
         expect(screen.getByRole('alert')).toHaveTextContent(
-          'Verdien må være mindre enn 1 000.'
+          new RegExp(expectedRegex)
         )
       })
     })
