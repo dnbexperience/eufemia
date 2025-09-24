@@ -1,11 +1,9 @@
 /**
  * Jest Setup for Screenshot testing
- * github.com/GoogleChrome/puppeteer/blob/master/docs/api/index.md
  */
 
 import fs from 'fs-extra'
 import path from 'path'
-import os from 'os'
 import ora from 'ora'
 import { isCI } from 'repo-utils'
 import { slugify, makeUniqueId } from '../../shared/component-helper'
@@ -20,7 +18,6 @@ const isHeadless = playwrightSettings.launchOptions.headless
 const log = ora()
 
 export const config = {
-  DIR: path.join(os.tmpdir(), 'jest_puppeteer_global_setup'),
   testScreenshotOnHost: 'localhost',
   testScreenshotOnPort: 8000,
   retryTimes: isCI ? 5 : 0,

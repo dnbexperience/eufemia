@@ -22,7 +22,7 @@ module.exports = {
   },
   testTimeout: 60e3,
   testRegex: 'screenshot.test.(js|ts|tsx)$',
-  testEnvironment: './src/core/jest/jestPuppeteerEnvironment.js',
+  testEnvironment: './src/core/jest/jestPlaywrightEnvironment.js',
   setupFilesAfterEnv: ['./src/core/jest/setupJestScreenshot.js'],
   reporters: [
     'default',

@@ -54,6 +54,6 @@ gatsby-qod {
 
 [data-visual-test].hide-page-content
   div.eufemia-theme:not(.dnb-modal__content) {
-  /* NB: visibility: hidden; does not work here, because puppeteer does not find the selectors anymore */
+  /* NB: visibility: hidden; does not work here, because playwright does not find the selectors anymore */
   opacity: 0;
 }
