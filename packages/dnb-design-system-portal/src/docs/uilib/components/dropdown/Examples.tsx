@@ -438,6 +438,52 @@ export const DropdownMoreMenu = () => {
   )
 }
 
+export const DropdownIndependentWidthLeft = () => {
+  return (
+    <Wrapper>
+      <ComponentBox data-visual-test="dropdown-independent_width_left">
+        <Dropdown
+          independent_width={true}
+          icon_position="left"
+          direction="top"
+          title="Choose an item"
+          data={() => [
+            <Link href="/" key="item-1">
+              Go to this Link
+            </Link>,
+            'Or press on me',
+            <>Custom component</>,
+          ]}
+          right="small"
+        />
+      </ComponentBox>
+    </Wrapper>
+  )
+}
+
+export const DropdownIndependentWidthRight = () => {
+  return (
+    <Wrapper>
+      <ComponentBox data-visual-test="dropdown-independent_width_right">
+        <Dropdown
+          independent_width={true}
+          icon_position="right"
+          direction="top"
+          title="Choose an item"
+          data={() => [
+            <Link href="/" key="item-1">
+              Go to this Link
+            </Link>,
+            'Or press on me',
+            <>Custom component</>,
+          ]}
+          right="small"
+        />
+      </ComponentBox>
+    </Wrapper>
+  )
+}
+
 export const DropdownDisabled = () => (
   <Wrapper>
     <ComponentBox scope={{ data }} data-visual-test="dropdown-disabled">
