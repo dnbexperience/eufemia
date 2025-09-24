@@ -67,6 +67,26 @@ yarn test:screenshots:watch breadcrumb avatar
 
 Visual tests uses this naming convention: `/__tests__/{ComponentName}.e2e.spec.ts`
 
+### Conditional screenshot testing
+
+The screenshot tests support conditional behavior based on your git commit message. By default, tests will stop on the first failure (`--bail` flag), but you can disable this behavior by including `--run-all` in your commit message.
+
+**Default behavior (stops on first failure):**
+
+```bash
+git commit -m "feat: implement new feature"
+# Runs: yarn jest --config=./jest.config.screenshots.js --ci --bail --runInBand
+```
+
+**Run all tests (continues on failures):**
+
+```bash
+git commit -m "feat: implement new feature --run-all"
+# Runs: yarn jest --config=./jest.config.screenshots.js --ci --runInBand
+```
+
+This is particularly useful when you want to see all visual test failures at once, rather than stopping at the first one. The CI/CD pipeline automatically detects this flag and adjusts the test behavior accordingly.
+
 **Playwright end-to-end tests:**
 
 ```bash
