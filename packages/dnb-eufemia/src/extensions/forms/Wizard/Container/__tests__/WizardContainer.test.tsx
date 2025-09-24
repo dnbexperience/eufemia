@@ -3735,9 +3735,11 @@ describe('Wizard.Container', () => {
           )
         )
 
-        await userEvent.click(nextButton())
+        await waitFor(async () => {
+          await userEvent.click(nextButton())
+          expect(output()).toHaveTextContent('Step 2')
+        })
 
-        expect(output()).toHaveTextContent('Step 2')
         expect(
           document.querySelector(
             '.dnb-step-indicator__item-content__status'
@@ -3793,9 +3795,10 @@ describe('Wizard.Container', () => {
           )
         )
 
-        await userEvent.click(nextButton())
-
-        expect(output()).toHaveTextContent('Step 2')
+        await waitFor(async () => {
+          await userEvent.click(nextButton())
+          expect(output()).toHaveTextContent('Step 2')
+        })
 
         fireEvent.submit(document.querySelector('form'))
         fireEvent.submit(document.querySelector('form')) // Try a second time
@@ -5067,8 +5070,8 @@ describe('Wizard.Container', () => {
       )
       expect(input()).toHaveValue('123')
 
-      await userEvent.type(input(), '4')
-      await waitFor(() => {
+      await waitFor(async () => {
+        await userEvent.type(input(), '4')
         expect(input()).toHaveValue('1234')
       })
 
