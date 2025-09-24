@@ -3,7 +3,7 @@ export function startPageTransition() {
     typeof document !== 'undefined' &&
     typeof document.startViewTransition !== 'undefined' &&
     !globalThis.IS_TEST &&
-    !window.location.href.includes('data-visual-test')
+    !process.env.isCI
   ) {
     document.startViewTransition()
   }
