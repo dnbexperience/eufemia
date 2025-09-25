@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`Textarea scss has to match style dependencies css 1`] = `
 "/*
@@ -250,9 +250,6 @@ html:not([data-visual-test]) .dnb-textarea__textarea {
     overflow-x: clip !important;
   }
 }
-.dnb-textarea__input:autofill {
-  box-shadow: 0 0 0 var(--border-width) var(--border-color), 0 0 0 10em var(--textarea-background-color) inset;
-}
 .dnb-textarea__placeholder {
   pointer-events: none;
   position: absolute;
@@ -279,6 +276,9 @@ html:not([data-visual-test]) .dnb-textarea__textarea {
 }
 .dnb-textarea__textarea, .dnb-textarea__placeholder {
   text-align: left;
+}
+.dnb-textarea__textarea:autofill {
+  box-shadow: 0 0 0 10em var(--textarea-background-color, var(--color-white)) inset;
 }
 .dnb-textarea__align--right .dnb-textarea__textarea, .dnb-textarea__align--right .dnb-textarea__placeholder {
   text-align: right;
