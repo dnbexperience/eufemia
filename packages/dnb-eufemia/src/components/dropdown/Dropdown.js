@@ -497,6 +497,9 @@ class DropdownInstance extends React.PureComponent {
         align_dropdown = 'left'
       }
     }
+    // TODO: This is an temporary fix for now.
+    // We believe this can be removed and replaced by placing the triangle
+    // By calculating the position based on the dropdowns width.
     if (
       isTrue(independent_width) &&
       icon_position !== 'left' &&
