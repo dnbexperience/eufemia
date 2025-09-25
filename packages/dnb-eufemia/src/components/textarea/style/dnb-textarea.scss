@@ -131,15 +131,6 @@
     }
   }
 
-  // Set the background color to the default background color.
-  // Some browsers change the background color so users can see the difference between "autofill" and "user input".
-  // Which can be a bit jarring in DNBs design. We may consider to change this to a custom color in the future.
-  &__input:autofill {
-    box-shadow:
-      0 0 0 var(--border-width) var(--border-color),
-      0 0 0 10em var(--textarea-background-color) inset;
-  }
-
   &__placeholder {
     pointer-events: none;
 
@@ -168,6 +159,13 @@
   &__textarea,
   &__placeholder {
     text-align: left;
+  }
+
+  // Some browsers change the background color so users can see the difference between "autofill" and "user input".
+  // How ever; the background color change does look not good because of the padding we have.
+  &__textarea:autofill {
+    box-shadow: 0 0 0 10em
+      var(--textarea-background-color, var(--color-white)) inset;
   }
 
   &__align--right &__textarea,

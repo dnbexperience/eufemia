@@ -20,6 +20,10 @@ The Textarea component is used as a multi-line text input control with an unlimi
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/textarea)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/textarea)
 
+### Browser autofill styling
+
+When users insert values using autofill in their browser, the browser applies its own background and text colors. How ever, in contrast to the [Input](/uilib/components/input/info) component, Eufemia does overwrite the `:autofill` background color because of its wired looking gap around the writing area when autofill is used.
+
 ### Accessibility
 
 Please avoid using the `maxlength` attribute whenever possible, as it is not accessible. Instead, use the `characterCounter` property.
