@@ -12,7 +12,7 @@ describe('Selection', () => {
     it('have to match groups', async () => {
       const screenshot = await makeScreenshot({
         style: {
-          'padding-bottom': '13rem',
+          height: '16rem',
         },
         selector: '[data-visual-test="selection-autocomplete-groups"]',
         simulate: 'click',
@@ -78,7 +78,7 @@ describe('Selection', () => {
     it('have to match groups', async () => {
       const screenshot = await makeScreenshot({
         style: {
-          'padding-bottom': '13rem',
+          height: '16rem',
         },
         selector: '[data-visual-test="selection-dropdown-groups"]',
         simulate: 'click',
