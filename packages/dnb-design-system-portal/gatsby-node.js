@@ -271,6 +271,11 @@ exports.onCreateWebpackConfig = ({
       // Webpack 4 to 5 migration
       plugins.provide({ process: 'process/browser' }),
 
+      // Setup
+      plugins.define({
+        'process.env.isCI': JSON.stringify(isCI),
+      }),
+
       // Algolia info
       plugins.define({
         'process.env.ALGOLIA_INDEX_NAME': JSON.stringify(
