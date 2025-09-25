@@ -163,6 +163,41 @@ const seaGreenColor = properties['--color-sea-green']
 const basisFontSize = properties['--font-size-basis']
 ```
 
+## Using Tailwind
+
+Tailwind can be used as a tooling layer alongside Eufemia, but avoid overlapping CSS and resets.
+
+**Recommended approach:**
+
+- Use Eufemia as the source of truth for tokens and reset.
+- Do not include Tailwind's base/reset; only include its `theme` + `utilities`.
+- Map Tailwind tokens to Eufemia CSS variables; avoid self-referencing variables.
+
+NB: import only Tailwind theme and utilities (Tailwind v4):
+
+```css
+@layer theme, utilities;
+
+@import 'tailwindcss/theme.css' layer(theme);
+@import 'tailwindcss/utilities.css' layer(utilities);
+```
+
+Example: bridge Tailwind tokens to Eufemia variables using `@theme`:
+
+```css
+/* index.css */
+@theme {
+  /* spacing */
+  --spacing-sm: var(--spacing-small);
+  --spacing-md: var(--spacing-medium);
+  --spacing-lg: var(--spacing-large);
+
+  /* typography */
+  --font-family-sans: var(--font-family-default);
+  --font-family-mono: var(--font-family-monospace);
+}
+```
+
 ## Known styling and CSS issues
 
 - Safari, both on mobile and desktop has a problem where we combine `border-radius` with the usage of `inset` in a `box-shadow`. The solution for now is to not use `inset` – which results in an outer border, which is not ideal as we then not do follow the UX guidelines for these browsers. We have a SASS function handling this for us: `@mixin fakeBorder`.
