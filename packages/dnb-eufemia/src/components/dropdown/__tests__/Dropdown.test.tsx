@@ -1744,6 +1744,54 @@ describe('Dropdown component', () => {
       document.querySelector('.dnb-dropdown--icon-position-right')
     ).toBeInTheDocument()
   })
+
+  it('should set align_dropdown to right as default', () => {
+    render(<Dropdown />)
+
+    expect(
+      document.querySelector('.dnb-drawer-list--left')
+    ).toBeInTheDocument()
+  })
+
+  it('should set align_dropdown to right', () => {
+    render(<Dropdown align_dropdown="right" />)
+
+    expect(
+      document.querySelector('.dnb-drawer-list--right')
+    ).toBeInTheDocument()
+  })
+
+  it('should set align_dropdown to left', () => {
+    render(<Dropdown align_dropdown="left" />)
+
+    expect(
+      document.querySelector('.dnb-drawer-list--left')
+    ).toBeInTheDocument()
+  })
+
+  it('should set align_dropdown to right as default when independent_width', () => {
+    render(<Dropdown independent_width />)
+
+    expect(
+      document.querySelector('.dnb-drawer-list--right')
+    ).toBeInTheDocument()
+  })
+
+  it('should set align_dropdown to right when independent_width', () => {
+    render(<Dropdown independent_width align_dropdown="right" />)
+
+    expect(
+      document.querySelector('.dnb-drawer-list--right')
+    ).toBeInTheDocument()
+  })
+
+  it('should set align_dropdown to left when independent_width', () => {
+    render(<Dropdown independent_width align_dropdown="left" />)
+
+    expect(
+      document.querySelector('.dnb-drawer-list--left')
+    ).toBeInTheDocument()
+  })
 })
 
 describe('Dropdown markup', () => {
