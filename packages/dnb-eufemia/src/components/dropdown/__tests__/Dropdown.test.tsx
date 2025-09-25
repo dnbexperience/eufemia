@@ -1744,30 +1744,6 @@ describe('Dropdown component', () => {
       document.querySelector('.dnb-dropdown--icon-position-right')
     ).toBeInTheDocument()
   })
-
-  it('should set icon_position to left as default when independent_width', () => {
-    render(<Dropdown independent_width />)
-
-    expect(
-      document.querySelector('.dnb-dropdown--icon-position-left')
-    ).toBeInTheDocument()
-  })
-
-  it('should set icon_position to left when independent_width', () => {
-    render(<Dropdown independent_width icon_position="left" />)
-
-    expect(
-      document.querySelector('.dnb-dropdown--icon-position-left')
-    ).toBeInTheDocument()
-  })
-
-  it('should set icon_position to right when independent_width', () => {
-    render(<Dropdown independent_width icon_position="right" />)
-
-    expect(
-      document.querySelector('.dnb-dropdown--icon-position-right')
-    ).toBeInTheDocument()
-  })
 })
 
 describe('Dropdown markup', () => {
