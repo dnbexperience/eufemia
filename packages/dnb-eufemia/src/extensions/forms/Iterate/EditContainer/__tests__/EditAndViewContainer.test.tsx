@@ -752,7 +752,9 @@ describe('EditContainer and ViewContainer', () => {
       // Remove the element
       await userEvent.click(removeButton)
 
-      expect(onChange).toHaveBeenCalledTimes(1)
+      await waitFor(() => {
+        expect(onChange).toHaveBeenCalledTimes(1)
+      })
       expect(onChange).toHaveBeenLastCalledWith(
         {
           myList: ['bar'],
