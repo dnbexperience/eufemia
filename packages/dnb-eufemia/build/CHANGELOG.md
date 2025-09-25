@@ -3,6 +3,21 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.82.1](https://github.com/dnbexperience/eufemia/compare/v10.82.0...v10.82.1) (2025-09-25)
+
+
+### :bug: Bug Fixes
+
+* **Dialog:** gracefully handle focus during async submit ([#5492](https://github.com/dnbexperience/eufemia/issues/5492)) ([a0ae155](https://github.com/dnbexperience/eufemia/commit/a0ae1559daaac4447edd0943ca76ddae8aaa7785))
+* **Dropdown:** default `align_dropdown="right"` for `independent_width` ([#5524](https://github.com/dnbexperience/eufemia/issues/5524)) ([1ca9a88](https://github.com/dnbexperience/eufemia/commit/1ca9a887b5aa9e60ac7416a17ba263aa43367ed6))
+* **Field.DateOfBirth:** adjust widths of fields ([#5511](https://github.com/dnbexperience/eufemia/issues/5511)) ([a14f46f](https://github.com/dnbexperience/eufemia/commit/a14f46f5f5afd14a5a11978f2486ae3aa342310c))
+* **Field.DateOfBirth:** space above legend ([#5502](https://github.com/dnbexperience/eufemia/issues/5502)) ([c7bf2f5](https://github.com/dnbexperience/eufemia/commit/c7bf2f56338fb5af76a67593b60e249f4b472f86))
+* **Field.Number:** ensure the field reacts on `locale` without currency variant ([#5503](https://github.com/dnbexperience/eufemia/issues/5503)) ([bc6b96c](https://github.com/dnbexperience/eufemia/commit/bc6b96ca40adcb9b867f880c12dfa218d23849da))
+* **Field.Number:** show error immediately when the input exceeds the maximum possible number ([#5498](https://github.com/dnbexperience/eufemia/issues/5498)) ([c2e5222](https://github.com/dnbexperience/eufemia/commit/c2e522291960988ca30a311ccef1b0b05277dc8f))
+* **Field.Number:** show formatted numbers in error messages ([#5510](https://github.com/dnbexperience/eufemia/issues/5510)) ([8b5d878](https://github.com/dnbexperience/eufemia/commit/8b5d878ff38333d2132cdab22808040936bd2598))
+* **Input:** use browser autofill background color ([#5526](https://github.com/dnbexperience/eufemia/issues/5526)) ([32113fa](https://github.com/dnbexperience/eufemia/commit/32113fa7b5009da59351765c37b81f165b5499ff))
+* use `en-GB` translation strings when `en-US` is given ([#5507](https://github.com/dnbexperience/eufemia/issues/5507)) ([f547c8f](https://github.com/dnbexperience/eufemia/commit/f547c8ff0281f3f7399f7ef97d59da4a73d8745a))
+
 ## [10.82.0](https://github.com/dnbexperience/eufemia/compare/v10.81.0...v10.82.0) (2025-09-19)
 
 
