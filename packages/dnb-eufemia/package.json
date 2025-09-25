@@ -85,6 +85,7 @@
     "test:postbuild": "yarn jest ./scripts/postbuild/__tests__/postbuild.test.ts --ci --testPathIgnorePatterns=[]",
     "test:screenshots": "yarn jest --config=./jest.config.screenshots.js --maxWorkers=1",
     "test:screenshots:ci": "yarn jest --config=./jest.config.screenshots.js --ci --bail --maxWorkers=1",
+    "test:screenshots:ci:conditional": "node ./scripts/tools/runScreenshotsConditionally.js",
     "test:screenshots:ci:update": "yarn test:screenshots:ci --updateSnapshot",
     "test:screenshots:reset": "find . -name '*.snap.png' -type f|xargs rm -f && yarn test:screenshots",
     "test:screenshots:update": "yarn jest --config=./jest.config.screenshots.js --maxWorkers=1 --updateSnapshot",

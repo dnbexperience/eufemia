@@ -42,6 +42,18 @@ Or, in the very worst case, you can manually download the zip file that `yarn wo
 @dnb/eufemia playwright install firefox` attempts to download, and extract the file
 ("Nightly" for Firefox) to the folder indicated when `yarn test:screenshots` fails.
 
+## How can I run all screenshot tests without stopping on first failure?
+
+By default, screenshot tests stop on the first failure (`--bail` flag). To run all tests and see all failures at once, include `--run-all` in your commit message:
+
+```bash
+git commit -m "feat: implement new feature --run-all"
+```
+
+This will disable the `--bail` flag and run all screenshot tests, showing you all visual differences at once. This is particularly useful when you're making changes that might affect multiple components and want to see the full scope of visual changes.
+
+The CI/CD pipeline automatically detects this flag and adjusts the test behavior accordingly.
+
 ## How can I make faster builds?
 
 This is only meant for "setup testing" purposes! In order to make faster local builds, you can:
