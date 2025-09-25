@@ -321,6 +321,26 @@ export const DropdownWithAPath = () => (
   </ComponentBox>
 )
 
+export const DropdownGroups = () => {
+  return (
+    <ComponentBox data-visual-test="selection-dropdown-groups">
+      <Field.Selection
+        label="Label text"
+        path="/selection"
+        dataPath="/example/list"
+        groups={['Foos', 'Bars']}
+      >
+        <Field.Option value="foo" groupIndex={0}>
+          Fooo
+        </Field.Option>
+        <Field.Option value="bar" groupIndex={1}>
+          Bar
+        </Field.Option>
+      </Field.Selection>
+    </ComponentBox>
+  )
+}
+
 // - Autocomplete
 
 export const AutocompleteLabel = () => (
@@ -352,7 +372,26 @@ export const AutocompleteValidationRequired = () => (
     </Field.Selection>
   </ComponentBox>
 )
-
+export const AutocompleteGroups = () => {
+  return (
+    <ComponentBox data-visual-test="selection-autocomplete-groups">
+      <Field.Selection
+        variant="autocomplete"
+        label="Label text"
+        path="/selection"
+        dataPath="/example/list"
+        groups={['Foos', 'Bars']}
+      >
+        <Field.Option value="foo" groupIndex={0}>
+          Fooo
+        </Field.Option>
+        <Field.Option value="bar" groupIndex={1}>
+          Bar
+        </Field.Option>
+      </Field.Selection>
+    </ComponentBox>
+  )
+}
 // - Radio
 
 export const RadioEmpty = () => (

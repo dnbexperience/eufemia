@@ -367,3 +367,27 @@ export const DrawerListExampleOptionsRender = () => (
     </ComponentBox>
   </Wrapper>
 )
+
+export const DrawerListGroups = () => (
+  <Wrapper>
+    <ComponentBox data-visual-test="drawer-list-groups">
+      <DrawerList
+        skip_portal
+        opened
+        prevent_close
+        observer_element=".dnb-live-preview" // prevents direction to change when scrolling in this example
+        groups={[undefined, 'Pets', undefined, 'Cars']}
+        data={[
+          { groupIndex: 0, content: 'Default 1' },
+          { groupIndex: 0, content: 'Default 2' },
+          { groupIndex: 1, content: 'Cat' },
+          { groupIndex: 1, content: 'Dog' },
+          { groupIndex: 2, content: 'Something' },
+          { groupIndex: 3, content: 'Jeep' },
+          { groupIndex: 3, content: 'Van' },
+          { content: 'No group' },
+        ]}
+      />
+    </ComponentBox>
+  </Wrapper>
+)
