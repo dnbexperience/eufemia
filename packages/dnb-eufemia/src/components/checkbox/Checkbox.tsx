@@ -43,7 +43,12 @@ import FormStatus from '../form-status/FormStatus'
 import CheckIcon from './CheckIcon'
 
 export type CheckboxLabelPosition = 'left' | 'right'
-export type CheckboxSize = 'default' | 'medium' | 'large'
+export type CheckboxSize =
+  | 'default'
+  | 'small'
+  | 'medium'
+  | 'large'
+  | number
 export type CheckboxAttributes = string | Record<string, unknown>
 export type OnChangeParams = {
   checked: boolean

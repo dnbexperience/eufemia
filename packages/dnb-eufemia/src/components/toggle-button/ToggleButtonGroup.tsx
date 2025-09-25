@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 /**
  * Web ToggleButtonGroup Component
  *
@@ -6,7 +8,6 @@
  */
 
 import React from 'react'
-import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {
   isTrue,
@@ -18,10 +19,7 @@ import {
   combineLabelledBy,
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
-import {
-  spacingPropTypes,
-  createSpacingClasses,
-} from '../space/SpacingHelper'
+import { createSpacingClasses } from '../space/SpacingHelper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import FormLabel from '../FormLabel'
 import FormStatus from '../FormStatus'
@@ -32,69 +30,8 @@ import Suffix from '../../shared/helpers/Suffix'
 import ToggleButtonGroupContext from './ToggleButtonGroupContext'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 
-export default class ToggleButtonGroup extends React.PureComponent {
+class ToggleButtonGroup extends React.PureComponent<ToggleButtonGroupProps> {
   static contextType = Context
-
-  static propTypes = {
-    label: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-      PropTypes.node,
-    ]),
-    label_direction: PropTypes.oneOf(['horizontal', 'vertical']),
-    label_sr_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    title: PropTypes.string,
-    multiselect: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    variant: PropTypes.oneOf(['default', 'checkbox', 'radio']),
-    left_component: PropTypes.node,
-    disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    id: PropTypes.string,
-    name: PropTypes.string,
-    size: PropTypes.oneOf(['default', 'medium', 'large']),
-    status: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-      PropTypes.func,
-      PropTypes.node,
-    ]),
-    status_state: PropTypes.string,
-    status_props: PropTypes.object,
-    status_no_animation: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-    ]),
-    globalStatus: PropTypes.shape({
-      id: PropTypes.string,
-      message: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-    }),
-    suffix: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-      PropTypes.node,
-    ]),
-    vertical: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    layout_direction: PropTypes.oneOf(['column', 'row']),
-    value: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number,
-      PropTypes.object,
-      PropTypes.array,
-    ]),
-    values: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
-    attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-
-    ...spacingPropTypes,
-
-    className: PropTypes.string,
-    children: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-      PropTypes.node,
-    ]),
-
-    on_change: PropTypes.func,
-  }
 
   static defaultProps = {
     label: null,
@@ -366,3 +303,113 @@ export default class ToggleButtonGroup extends React.PureComponent {
 }
 
 ToggleButtonGroup._supportsSpacingProps = true
+
+export default ToggleButtonGroup as React.ComponentClass<ToggleButtonGroupProps>
+
+// Type definitions
+import type {
+  FormStatusProps,
+  FormStatusState,
+  FormStatusText,
+} from '../FormStatus'
+import type { ButtonSize } from '../Button'
+import type { SkeletonShow } from '../Skeleton'
+import type { SpacingProps, SpaceType } from '../space/types'
+import type { GlobalStatusConfigObject } from '../GlobalStatus'
+
+export type ToggleButtonGroupVariant = 'default' | 'checkbox' | 'radio'
+export type ToggleButtonGroupSuffix =
+  | string
+  | ((...args: any[]) => any)
+  | React.ReactNode
+export type ToggleButtonGroupLayoutDirection = 'column' | 'row'
+export type ToggleButtonGroupValue =
+  | string
+  | number
+  | Record<string, unknown>
+  | any[]
+export type ToggleButtonGroupValues = string | any[]
+export type ToggleButtonGroupAttributes = string | Record<string, unknown>
+export type ToggleButtonGroupChildren =
+  | string
+  | ((...args: any[]) => any)
+  | React.ReactNode
+
+export interface ToggleButtonGroupProps
+  extends Omit<React.HTMLProps<HTMLElement>, 'label' | 'value'>,
+    Omit<SpacingProps, 'top' | 'right' | 'bottom' | 'left'> {
+  /**
+   * Use either the `label` property or provide a custom one.
+   */
+  label?: string | React.ReactNode
+  label_direction?: 'horizontal' | 'vertical'
+  label_sr_only?: boolean
+  /**
+   * The `title` of the input - describing it a bit further for accessibility reasons.
+   */
+  title?: string
+  /**
+   * Determine whether the ToggleButtonGroup is checked or not. The default will be `false`.
+   */
+  checked?: boolean
+  variant?: ToggleButtonGroupVariant
+  left_component?: React.ReactNode
+  disabled?: boolean
+  /**
+   * If set to `true`, an overlaying skeleton with animation will be shown.
+   */
+  skeleton?: SkeletonShow
+  id?: string
+  /**
+   * Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.
+   */
+  status?: FormStatusText
+  /**
+   * Defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`.
+   */
+  status_state?: FormStatusState
+  /**
+   * Use an object to define additional FormStatus properties.
+   */
+  status_props?: FormStatusProps
+  status_no_animation?: boolean
+  /**
+   * The [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status).
+   */
+  globalStatus?: GlobalStatusConfigObject
+  /**
+   * Text describing the content of the ToggleButtonGroup more than the label. You can also send in a React component, so it gets wrapped inside the ToggleButtonGroup component.
+   */
+  suffix?: ToggleButtonGroupSuffix
+  /**
+   * Defines the `value` as a string. Use it to get the value during the `on_change` event listener callback in the **ToggleButtonGroup**.
+   */
+  value?: ToggleButtonGroupValue
+  /**
+   * The size of the button. For now there is `small`, `medium`, `default` and `large`.
+   */
+  size?: ButtonSize
+  /**
+   * Defines the layout direction of the ToggleButtonGroup. Set to `column` or `row`. Defaults to `row` if not set.
+   */
+  layout_direction?: ToggleButtonGroupLayoutDirection
+  /**
+   * Defines the `values` as a string. Use it to get the values during the `on_change` event listener callback in the **ToggleButtonGroup**.
+   */
+  values?: ToggleButtonGroupValues
+  attributes?: ToggleButtonGroupAttributes
+  readOnly?: boolean
+  className?: string
+  children?: ToggleButtonGroupChildren
+  on_change?: (...args: any[]) => any
+  on_state_update?: (...args: any[]) => any
+  // Additional properties that are used in tests and stories
+  onChange?: (...args: any[]) => any
+  top?: SpaceType
+  right?: SpaceType
+  bottom?: SpaceType
+  left?: SpaceType
+  multiselect?: boolean
+  name?: string
+  vertical?: boolean
+}

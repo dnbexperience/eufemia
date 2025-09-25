@@ -1,14 +1,20 @@
 import React from 'react'
 
 export type CheckIconProps = {
-  size: string
+  size: 'default' | 'small' | 'medium' | 'large' | number
 }
 
 // The new checkbox has too low contrast, as it is too thin on web
 function CheckIcon({ size }: CheckIconProps) {
   let vB = 16
-  if (size === 'large') {
+  if (typeof size === 'number') {
+    vB = size
+  } else if (size === 'large') {
     vB = 24
+  } else if (size === 'medium') {
+    vB = 20
+  } else if (size === 'small') {
+    vB = 14
   }
   return (
     <svg

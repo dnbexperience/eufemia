@@ -36,7 +36,7 @@ import { SkeletonShow } from '../Skeleton'
 import { SpacingProps } from '../space/types'
 
 export type SwitchLabelPosition = 'left' | 'right'
-export type SwitchSize = 'default' | 'medium' | 'large'
+export type SwitchSize = 'default' | 'small' | 'medium' | 'large' | number
 export type SwitchAttributes = string | Record<string, unknown>
 export type SwitchOnChangeParams = {
   checked: boolean

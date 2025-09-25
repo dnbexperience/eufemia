@@ -20,7 +20,7 @@ export type ButtonVariant =
   | 'tertiary'
   | 'signal'
   | 'unstyled';
-export type ButtonSize = 'default' | 'small' | 'medium' | 'large';
+export type ButtonSize = 'default' | 'small' | 'medium' | 'large' | number;
 export type ButtonIcon = IconIcon;
 export type ButtonIconPositionTertiary = 'top';
 export type ButtonIconPosition = 'left' | 'right';
