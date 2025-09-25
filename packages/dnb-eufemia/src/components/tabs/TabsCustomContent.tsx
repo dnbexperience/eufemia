@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
@@ -25,6 +27,8 @@ export default class CustomContent extends React.PureComponent {
     ]), // eslint-disable-line
     hash: PropTypes.string, // eslint-disable-line
     selected: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]), // eslint-disable-line
+    id: PropTypes.string, // eslint-disable-line
+    key: PropTypes.oneOfType([PropTypes.string, PropTypes.number]), // eslint-disable-line
     disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]), // eslint-disable-line
 
     ...spacingPropTypes,
@@ -68,4 +72,30 @@ export default class CustomContent extends React.PureComponent {
       </div>
     )
   }
+}
+
+// Type definitions
+import type { SpacingProps } from '../space/types'
+
+export type CustomContentTitle =
+  | Record<string, unknown>
+  | React.ReactNode
+  | ((...args: any[]) => any)
+
+export type CustomContentChildren =
+  | React.ReactNode
+  | ((...args: any[]) => any)
+
+export interface CustomContentProps
+  extends React.HTMLProps<HTMLElement>,
+    SpacingProps {
+  displayName?: string
+  title?: CustomContentTitle
+  hash?: string
+  selected?: boolean
+  disabled?: boolean
+  id?: string
+  key?: string | number
+  children?: CustomContentChildren
+  className?: string
 }
