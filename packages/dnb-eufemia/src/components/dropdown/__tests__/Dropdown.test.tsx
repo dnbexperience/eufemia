@@ -1720,6 +1720,30 @@ describe('Dropdown component', () => {
     expect(dropdown).not.toHaveClass('dnb-dropdown--opened')
     expect(trigger).not.toHaveAttribute('aria-expanded', 'true')
   })
+
+  it('should set icon_position to right as default', () => {
+    render(<Dropdown />)
+
+    expect(
+      document.querySelector('.dnb-dropdown--icon-position-right')
+    ).toBeInTheDocument()
+  })
+
+  it('should set icon_position to left', () => {
+    render(<Dropdown icon_position="left" />)
+
+    expect(
+      document.querySelector('.dnb-dropdown--icon-position-left')
+    ).toBeInTheDocument()
+  })
+
+  it('should set icon_position to right', () => {
+    render(<Dropdown icon_position="right" />)
+
+    expect(
+      document.querySelector('.dnb-dropdown--icon-position-right')
+    ).toBeInTheDocument()
+  })
 })
 
 describe('Dropdown markup', () => {
