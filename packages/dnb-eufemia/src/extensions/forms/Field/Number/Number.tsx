@@ -7,6 +7,10 @@ import React, {
 } from 'react'
 import { InputMasked, Button } from '../../../../components'
 import { InputMaskedProps } from '../../../../components/InputMasked'
+import {
+  format,
+  formatOptionParams,
+} from '../../../../components/number-format/NumberUtils'
 import type {
   InputAlign,
   InputProps,
@@ -62,6 +66,9 @@ function NumberComponent(props: Props) {
   const dataContext = useContext(DataContext)
   const fieldBlockContext = useContext(FieldBlockContext)
   const sharedContext = useContext(SharedContext)
+  const locale = sharedContext?.locale
+
+  const validateContinuouslyRef = useRef(props?.validateContinuously)
 
   const {
     currency,
@@ -84,6 +91,23 @@ function NumberComponent(props: Props) {
       // in sync with dynamic prop changes and avoids stale closures.
       props.schema ??
       ((p: Props) => {
+        // Helper function to format validation values with currency/percent suffix
+        const formatValidationValue = (value: number) => {
+          const formatOptions: Partial<formatOptionParams> = { locale }
+
+          if (p.currency) {
+            formatOptions.currency = p.currency
+          }
+          if (p.percent) {
+            formatOptions.percent = true
+          }
+          if (p.decimalLimit !== undefined) {
+            formatOptions.decimals = p.decimalLimit
+          }
+
+          return format(value, formatOptions)
+        }
+
         return z
           .number()
           .nullish()
@@ -100,7 +124,11 @@ function NumberComponent(props: Props) {
                 type: 'number',
                 inclusive: true,
                 message: 'NumberField.errorMinimum',
+                messageValues: {
+                  minimum: formatValidationValue(defaultMinimum),
+                },
                 origin: 'number',
+                locale,
               })
             }
 
@@ -111,7 +139,11 @@ function NumberComponent(props: Props) {
                 type: 'number',
                 inclusive: true,
                 message: 'NumberField.errorMaximum',
+                messageValues: {
+                  maximum: formatValidationValue(defaultMaximum),
+                },
                 origin: 'number',
+                locale,
               })
             }
 
@@ -123,7 +155,11 @@ function NumberComponent(props: Props) {
                 type: 'number',
                 inclusive: true,
                 message: 'NumberField.errorMinimum',
+                messageValues: {
+                  minimum: formatValidationValue(p.minimum),
+                },
                 origin: 'number',
+                locale,
               })
             }
 
@@ -135,7 +171,11 @@ function NumberComponent(props: Props) {
                 type: 'number',
                 inclusive: true,
                 message: 'NumberField.errorMaximum',
+                messageValues: {
+                  maximum: formatValidationValue(p.maximum),
+                },
                 origin: 'number',
+                locale,
               })
             }
 
@@ -150,8 +190,14 @@ function NumberComponent(props: Props) {
                 type: 'number',
                 inclusive: false,
                 message: 'NumberField.errorExclusiveMinimum',
+                messageValues: {
+                  exclusiveMinimum: formatValidationValue(
+                    p.exclusiveMinimum
+                  ),
+                },
                 origin: 'number',
                 exclusiveMinimum: p.exclusiveMinimum,
+                locale,
               })
             }
 
@@ -166,8 +212,14 @@ function NumberComponent(props: Props) {
                 type: 'number',
                 inclusive: false,
                 message: 'NumberField.errorExclusiveMaximum',
+                messageValues: {
+                  exclusiveMaximum: formatValidationValue(
+                    p.exclusiveMaximum
+                  ),
+                },
                 origin: 'number',
                 exclusiveMaximum: p.exclusiveMaximum,
+                locale,
               })
             }
 
@@ -176,8 +228,12 @@ function NumberComponent(props: Props) {
               ctx.addIssue({
                 code: 'custom',
                 message: 'NumberField.errorMultipleOf',
+                messageValues: {
+                  multipleOf: formatValidationValue(p.multipleOf),
+                },
                 origin: 'number',
                 multipleOf: p.multipleOf,
+                locale,
               })
             }
           })
@@ -192,6 +248,10 @@ function NumberComponent(props: Props) {
     props.exclusiveMinimum,
     props.exclusiveMaximum,
     props.multipleOf,
+    props.currency,
+    props.percent,
+    props.decimalLimit,
+    locale,
   ])
 
   const toInput = useCallback((external: number | undefined | unknown) => {
@@ -217,6 +277,7 @@ function NumberComponent(props: Props) {
   const ref = useRef<HTMLInputElement>()
   const preparedProps: Props = {
     valueType: 'number',
+    validateContinuously: validateContinuouslyRef.current,
     ...props,
     schema,
     toInput,
@@ -306,6 +367,22 @@ function NumberComponent(props: Props) {
       step,
       value,
     ]
+  )
+
+  const onChangeHandler = useCallback(
+    (args: { numberValue?: number; stringValue?: string }) => {
+      handleChange(args)
+      if (typeof args?.numberValue === 'number') {
+        if (
+          args.numberValue > defaultMaximum ||
+          args.numberValue < defaultMinimum
+        ) {
+          // After the value/validation update, trigger blur logic to reveal immediately
+          handleBlur()
+        }
+      }
+    },
+    [handleChange, handleBlur]
   )
 
   const fieldBlockProps: FieldBlockProps = {
@@ -405,6 +482,7 @@ function NumberComponent(props: Props) {
     // Custom mask based on props
     return {
       mask,
+      as_number: mask ? undefined : true,
       number_mask: mask ? undefined : mask_options,
     }
   }, [
@@ -442,9 +520,10 @@ function NumberComponent(props: Props) {
     value,
     align: showStepControls ? 'center' : align,
     onKeyDown: onKeyDownHandler,
+    onPaste: handleBlur, // So that we trigger validation on paste as well
     onFocus: handleFocus,
     onBlur: handleBlur,
-    onChange: handleChange,
+    onChange: onChangeHandler,
     disabled,
     status: hasError ? 'error' : undefined,
     stretch: Boolean(width),

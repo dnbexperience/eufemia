@@ -32,7 +32,7 @@ describe.each(['ui', 'sbanken'])('Slider for %s', (themeName) => {
       simulateSelector:
         '[data-visual-test="slider-default"] .dnb-slider__thumb .dnb-slider__button-helper',
       simulate: 'hover',
-      waitAfterSimulate: 100,
+      waitAfterSimulateSelector: '.dnb-tooltip--active',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -44,7 +44,7 @@ describe.each(['ui', 'sbanken'])('Slider for %s', (themeName) => {
       simulateSelector:
         '[data-visual-test="slider-default"] .dnb-slider__thumb .dnb-slider__button-helper',
       simulate: 'focusclick',
-      waitAfterSimulate: 100,
+      waitAfterSimulateSelector: '.dnb-tooltip--active',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -56,7 +56,7 @@ describe.each(['ui', 'sbanken'])('Slider for %s', (themeName) => {
       simulateSelector:
         '[data-visual-test="slider-default"] .dnb-slider__thumb .dnb-slider__button-helper',
       simulate: 'active',
-      waitAfterSimulate: 100,
+      waitAfterSimulateSelector: '.dnb-tooltip--active',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -85,7 +85,7 @@ describe.each(['ui', 'sbanken'])('Slider for %s', (themeName) => {
       simulateSelector:
         '[data-visual-test="slider-marker"] .dnb-slider__marker',
       simulate: 'hover',
-      waitAfterSimulate: 300,
+      waitAfterSimulateSelector: '.dnb-tooltip--active',
     })
     expect(screenshot).toMatchImageSnapshot()
   })

@@ -893,7 +893,7 @@ describe('Iterate.Array', () => {
       )
 
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        nb.IterateArray.errorMinItems.replace('{minItems}', '1')
+        nb.IterateArray.errorMinItems
       )
     })
   })
@@ -909,7 +909,7 @@ describe('Iterate.Array', () => {
       )
 
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        nb.IterateArray.errorMaxItems.replace('{maxItems}', '1')
+        nb.IterateArray.errorMaxItems
       )
     })
   })

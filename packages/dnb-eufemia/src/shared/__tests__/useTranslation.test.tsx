@@ -584,4 +584,49 @@ describe('useTranslation with an ID', () => {
 
     expect(result.current).toEqual(nbNO['nb-NO'].Modal.close_title)
   })
+
+  it('should fallback to en-GB when en-US is requested but not available', () => {
+    const { result } = renderHook(useTranslation, {
+      wrapper: ({ children }) => (
+        <Provider locale="en-US">{children}</Provider>
+      ),
+    })
+
+    expect(result.current).toEqual(
+      Object.assign({}, enGB['en-GB'], {
+        formatMessage: expect.any(Function),
+        renderMessage: expect.any(Function),
+      })
+    )
+  })
+
+  it('should fallback to en-GB when en-CA is requested but not available', () => {
+    const { result } = renderHook(useTranslation, {
+      wrapper: ({ children }) => (
+        <Provider locale="en-CA">{children}</Provider>
+      ),
+    })
+
+    expect(result.current).toEqual(
+      Object.assign({}, enGB['en-GB'], {
+        formatMessage: expect.any(Function),
+        renderMessage: expect.any(Function),
+      })
+    )
+  })
+
+  it('should not fallback when en-GB is explicitly requested', () => {
+    const { result } = renderHook(useTranslation, {
+      wrapper: ({ children }) => (
+        <Provider locale="en-GB">{children}</Provider>
+      ),
+    })
+
+    expect(result.current).toEqual(
+      Object.assign({}, enGB['en-GB'], {
+        formatMessage: expect.any(Function),
+        renderMessage: expect.any(Function),
+      })
+    )
+  })
 })

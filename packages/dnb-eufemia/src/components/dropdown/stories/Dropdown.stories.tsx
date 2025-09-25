@@ -1124,3 +1124,21 @@ export function Title() {
     </>
   )
 }
+
+export const DropdownIndependentWidth = () => (
+  <Wrapper>
+    <Dropdown
+      independent_width
+      size="default"
+      title="sadsadasd sad asd asdasdas das dasdas d"
+      data={dropdownData}
+    />
+    <Dropdown independent_width size="default" data={dropdownData} />
+    <Dropdown
+      independent_width
+      size="default"
+      title="s"
+      data={dropdownData}
+    />
+  </Wrapper>
+)

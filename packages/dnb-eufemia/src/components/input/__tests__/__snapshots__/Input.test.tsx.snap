@@ -1089,9 +1089,6 @@ html[data-whatinput=keyboard] .dnb-input__status--error .dnb-input__border:focus
 .dnb-input--password .dnb-input__input {
   font-family: var(--font-family-monospace);
 }
-.dnb-input__input:autofill {
-  box-shadow: 0 0 0 10em var(--input-background-color) inset;
-}
 .dnb-input__suffix {
   color: inherit;
 }

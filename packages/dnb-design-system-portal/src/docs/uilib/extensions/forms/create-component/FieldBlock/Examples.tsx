@@ -486,7 +486,7 @@ export const InlineHelpButtonCompositionFields = () => {
   )
 }
 
-export const Wrapping = () => {
+export const WrappingLabel = () => {
   const sixtyOneChars =
     '0000000000000000000000000000000000000000000000000000000000000'
   const sixtyOneCharsIncludingASpace =
@@ -535,6 +535,65 @@ export const Wrapping = () => {
           </Form.SubHeading>
           <FieldBlock
             label={fiftyEightCharsIncludingASpace}
+            help={{ title: 'Help title', content: 'Help content' }}
+          >
+            value
+          </FieldBlock>
+        </Form.Card>
+      </Flex.Stack>
+    </ComponentBox>
+  )
+}
+
+export const WrappingLabelDescription = () => {
+  const sixtyEightChars =
+    '00000000000000000000000000000000000000000000000000000000000000000000'
+  const sixtyEightCharsIncludingASpace =
+    '0000000000000000000000000000000000 000000000000000000000000000000000'
+  const sixtyFiveCharsIncludingASpace =
+    '000000000000000000000000000000000000000000000000000000000000000 0'
+  return (
+    <ComponentBox
+      data-visual-test="forms-field-block-wrapping-label-description"
+      scope={{
+        sixtyEightChars,
+        sixtyEightCharsIncludingASpace,
+        sixtyFiveCharsIncludingASpace,
+      }}
+    >
+      <Flex.Stack>
+        <Form.Card>
+          <Form.SubHeading>
+            Breaking word with 68 characters
+          </Form.SubHeading>
+          <FieldBlock labelDescription={sixtyEightChars}>value</FieldBlock>
+          <FieldBlock
+            labelDescription={sixtyEightChars}
+            help={{ title: 'Help title', content: 'Help content' }}
+          >
+            value
+          </FieldBlock>
+        </Form.Card>
+        <Form.Card>
+          <Form.SubHeading>
+            Breaking a sentence of 68 characters that include a space
+          </Form.SubHeading>
+          <FieldBlock labelDescription={sixtyEightCharsIncludingASpace}>
+            value
+          </FieldBlock>
+          <FieldBlock
+            labelDescription={sixtyEightCharsIncludingASpace}
+            help={{ title: 'Help title', content: 'Help content' }}
+          >
+            value
+          </FieldBlock>
+        </Form.Card>
+        <Form.Card>
+          <Form.SubHeading>
+            Help button should not wrap alone
+          </Form.SubHeading>
+          <FieldBlock
+            labelDescription={sixtyFiveCharsIncludingASpace}
             help={{ title: 'Help title', content: 'Help content' }}
           >
             value

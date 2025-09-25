@@ -92,8 +92,8 @@ export default {
       errorMaxLength: 'Verdien kan ikke være lengre enn {maxLength} tegn.',
     },
     NumberField: {
-      errorMinimum: 'Verdien må være minst {minimum}.',
-      errorMaximum: 'Verdien må være maksimalt {maximum}.',
+      errorMinimum: 'Verdien må minst være {minimum}.',
+      errorMaximum: 'Verdien må maksimalt være {maximum}.',
       errorExclusiveMinimum:
         'Verdien må være større enn {exclusiveMinimum}.',
       errorExclusiveMaximum:

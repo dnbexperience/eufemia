@@ -237,14 +237,6 @@
     font-family: var(--font-family-monospace);
   }
 
-  // Set the background color to the default background color.
-  // Some browsers change the background color so users can see the difference between "autofill" and "user input".
-  // Which can be a bit jarring in DNBs design. We may consider to change this to a custom color in the future.
-  // NB: There are more than this ":autofill" in the theme file.
-  &__input:autofill {
-    box-shadow: 0 0 0 10em var(--input-background-color) inset;
-  }
-
   &__suffix {
     color: inherit;
   }

@@ -18,10 +18,13 @@ import {
   Ajv,
   z,
 } from '../../..'
+import { format } from '../../../../../components/number-format/NumberUtils'
 import { Provider } from '../../../../../shared'
 import nbNO from '../../../constants/locales/nb-NO'
+import enGB from '../../../constants/locales/en-GB'
 
 const nb = nbNO['nb-NO']
+const en = enGB['en-GB']
 
 describe('Field.Number', () => {
   describe('props', () => {
@@ -95,6 +98,24 @@ describe('Field.Number', () => {
       expect(document.querySelector('input')).toHaveValue('1234')
     })
 
+    it('should format according to en-GB locale (no currency)', () => {
+      render(
+        <Provider locale="en-GB">
+          <Field.Number value={1234.56789} decimalLimit={2} />
+        </Provider>
+      )
+      expect(document.querySelector('input')).toHaveValue('1,234.56')
+    })
+
+    it('should format according to de-DE locale (no currency)', () => {
+      render(
+        <Provider locale="de-DE">
+          <Field.Number value={1234.56789} decimalLimit={2} />
+        </Provider>
+      )
+      expect(document.querySelector('input')).toHaveValue('1.234,56')
+    })
+
     it('shows error when minimum exceeded', () => {
       render(<Field.Number value={Number.MIN_SAFE_INTEGER} />)
 
@@ -112,13 +133,18 @@ describe('Field.Number', () => {
 
       expect(input).toHaveValue('-9 007 199 254 740 992')
 
-      expect(screen.getByRole('alert')).toBeInTheDocument()
-      expect(screen.getByRole('alert')).toHaveTextContent(
-        nb.NumberField.errorMinimum.replace(
-          '{minimum}',
-          '-9007199254740991'
-        )
+      const alertElement = screen.getByRole('alert')
+      expect(alertElement).toBeInTheDocument()
+
+      // Check that the message contains the Norwegian text and the formatted number
+      const alertText = alertElement.textContent
+      const expectedText = nb.NumberField.errorMinimum.replace(
+        '{minimum}',
+        String(format(Number.MIN_SAFE_INTEGER, { locale: 'nb-NO' }))
       )
+      // Use regex to handle both regular and non-breaking spaces
+      const expectedRegex = expectedText.replace(/\s/g, '\\s')
+      expect(alertText).toMatch(new RegExp(expectedRegex))
     })
 
     it('shows error when maximum exceeded', () => {
@@ -138,13 +164,18 @@ describe('Field.Number', () => {
 
       expect(input).toHaveValue('9 007 199 254 740 992')
 
-      expect(screen.getByRole('alert')).toBeInTheDocument()
-      expect(screen.getByRole('alert')).toHaveTextContent(
-        nb.NumberField.errorMaximum.replace(
-          '{maximum}',
-          '9007199254740991'
-        )
+      const alertElement = screen.getByRole('alert')
+      expect(alertElement).toBeInTheDocument()
+
+      // Check that the message contains the Norwegian text and the formatted number
+      const alertText = alertElement.textContent
+      const expectedText = nb.NumberField.errorMaximum.replace(
+        '{maximum}',
+        String(format(Number.MAX_SAFE_INTEGER, { locale: 'nb-NO' }))
       )
+      // Use regex to handle both regular and non-breaking spaces
+      const expectedRegex = expectedText.replace(/\s/g, '\\s')
+      expect(alertText).toMatch(new RegExp(expectedRegex))
     })
 
     it('should support disabled prop', () => {
@@ -760,6 +791,456 @@ describe('Field.Number', () => {
         expect(onChange).toHaveBeenCalledTimes(7)
         expect(onChange).toHaveBeenNthCalledWith(6, 0, expect.anything())
         expect(onChange).toHaveBeenNthCalledWith(7, 0.1, expect.anything())
+      })
+    })
+  })
+
+  describe('localized number formatting in error messages', () => {
+    it('formats {maximum} using nb-NO locale', async () => {
+      render(<Field.Number maximum={1000} />)
+
+      const input = document.querySelector('input')
+      fireEvent.change(input, {
+        target: { value: '1001' },
+      })
+
+      await waitFor(() => {
+        const alertElement = screen.getByRole('alert')
+        expect(alertElement).toBeInTheDocument()
+
+        // Check that the message contains the Norwegian text and the formatted number
+        const alertText = alertElement.textContent
+        expect(alertText).toContain(
+          nb.NumberField.errorMaximum.split('{maximum}')[0]
+        )
+        expect(alertText).toMatch(/1\s000/) // The number should be formatted with space separator (regular or non-breaking)
+        expect(alertText).toContain('.') // Should end with a period
+      })
+    })
+
+    it('formats {minimum} using nb-NO locale (decimals)', async () => {
+      render(<Field.Number minimum={1.5} />)
+
+      const input = document.querySelector('input')
+      fireEvent.change(input, {
+        target: { value: '1' },
+      })
+
+      const expected = nb.NumberField.errorMinimum.replace(
+        '{minimum}',
+        String(format(1.5, { locale: 'nb-NO', decimals: 1 }))
+      )
+
+      await waitFor(() => {
+        expect(screen.getByRole('alert')).toHaveTextContent(expected)
+      })
+    })
+
+    it('formats {exclusiveMinimum} using nb-NO locale (decimals)', async () => {
+      render(<Field.Number exclusiveMinimum={1.5} />)
+
+      const input = document.querySelector('input')
+      fireEvent.change(input, {
+        target: { value: '1' },
+      })
+
+      const expected = nb.NumberField.errorExclusiveMinimum.replace(
+        '{exclusiveMinimum}',
+        String(format(1.5, { locale: 'nb-NO', decimals: 1 }))
+      )
+
+      await waitFor(() => {
+        expect(screen.getByRole('alert')).toHaveTextContent(expected)
+      })
+    })
+
+    it('formats {exclusiveMaximum} using nb-NO locale (decimals)', async () => {
+      render(<Field.Number exclusiveMaximum={2.75} />)
+
+      const input = document.querySelector('input')
+      fireEvent.change(input, {
+        target: { value: '2.75' },
+      })
+
+      const expected = nb.NumberField.errorExclusiveMaximum.replace(
+        '{exclusiveMaximum}',
+        String(format(2.75, { locale: 'nb-NO', decimals: 2 }))
+      )
+
+      await waitFor(() => {
+        expect(screen.getByRole('alert')).toHaveTextContent(expected)
+      })
+    })
+
+    it('formats {multipleOf} using nb-NO locale', async () => {
+      render(<Field.Number multipleOf={3000} />)
+
+      const input = document.querySelector('input')
+      fireEvent.change(input, {
+        target: { value: '1' },
+      })
+
+      const expected = nb.NumberField.errorMultipleOf.replace(
+        '{multipleOf}',
+        String(format(3000, { locale: 'nb-NO' }))
+      )
+      // Use regex to handle both regular and non-breaking spaces
+      const expectedRegex = expected.replace(/\s/g, '\\s')
+
+      await waitFor(() => {
+        expect(screen.getByRole('alert')).toHaveTextContent(
+          new RegExp(expectedRegex)
+        )
+      })
+    })
+
+    it('formats using provided locale (en-GB)', async () => {
+      render(
+        <Provider locale="en-GB">
+          <Field.Number maximum={1000} />
+        </Provider>
+      )
+
+      const input = document.querySelector('input')
+      fireEvent.change(input, {
+        target: { value: '1001' },
+      })
+
+      const enFormatted = String(format(1000, { locale: 'en-GB' }))
+      const expected = en.NumberField.errorMaximum.replace(
+        '{maximum}',
+        enFormatted
+      )
+
+      await waitFor(() => {
+        expect(screen.getByRole('alert')).toHaveTextContent(expected)
+      })
+    })
+
+    describe('currency', () => {
+      it('should show currency-specific message for exclusiveMinimum', async () => {
+        render(
+          <Field.Number
+            value={10}
+            exclusiveMinimum={20}
+            validateInitially
+            currency
+          />
+        )
+
+        await waitFor(() => {
+          const alertElement = screen.getByRole('alert')
+          expect(alertElement).toBeInTheDocument()
+
+          const expected = nb.NumberField.errorExclusiveMinimum.replace(
+            '{exclusiveMinimum}',
+            String(format(20, { locale: 'nb-NO', currency: true }))
+          )
+          // Use regex to handle both regular and non-breaking spaces
+          const expectedRegex = expected.replace(/\s/g, '\\s')
+          expect(alertElement.textContent).toMatch(
+            new RegExp(expectedRegex)
+          )
+        })
+      })
+
+      it('should show currency-specific message for exclusiveMaximum', async () => {
+        render(
+          <Field.Number
+            value={100}
+            exclusiveMaximum={100}
+            validateInitially
+            currency
+          />
+        )
+
+        await waitFor(() => {
+          const alertElement = screen.getByRole('alert')
+          expect(alertElement).toBeInTheDocument()
+
+          const expected = nb.NumberField.errorExclusiveMaximum.replace(
+            '{exclusiveMaximum}',
+            String(format(100, { locale: 'nb-NO', currency: true }))
+          )
+          // Use regex to handle both regular and non-breaking spaces
+          const expectedRegex = expected.replace(/\s/g, '\\s')
+          expect(alertElement.textContent).toMatch(
+            new RegExp(expectedRegex)
+          )
+        })
+      })
+
+      it('should show currency-specific message for minimum', async () => {
+        render(
+          <Field.Number
+            value={30}
+            minimum={50}
+            validateInitially
+            currency
+          />
+        )
+
+        await waitFor(() => {
+          const alertElement = screen.getByRole('alert')
+          expect(alertElement).toBeInTheDocument()
+
+          const expected = nb.NumberField.errorMinimum.replace(
+            '{minimum}',
+            String(format(50, { locale: 'nb-NO', currency: true }))
+          )
+          // Use regex to handle both regular and non-breaking spaces
+          const expectedRegex = expected.replace(/\s/g, '\\s')
+          expect(alertElement.textContent).toMatch(
+            new RegExp(expectedRegex)
+          )
+        })
+      })
+
+      it('should show currency-specific message for maximum', async () => {
+        render(
+          <Field.Number
+            value={1500}
+            maximum={1000}
+            validateInitially
+            currency
+          />
+        )
+
+        await waitFor(() => {
+          const alertElement = screen.getByRole('alert')
+          expect(alertElement).toBeInTheDocument()
+
+          const expected = nb.NumberField.errorMaximum.replace(
+            '{maximum}',
+            String(format(1000, { locale: 'nb-NO', currency: true }))
+          )
+          // Use regex to handle both regular and non-breaking spaces
+          const expectedRegex = expected.replace(/\s/g, '\\s')
+          expect(alertElement.textContent).toMatch(
+            new RegExp(expectedRegex)
+          )
+        })
+      })
+
+      it('should show currency-specific message for multipleOf', async () => {
+        render(
+          <Field.Number
+            value={7}
+            multipleOf={5}
+            validateInitially
+            currency
+          />
+        )
+
+        await waitFor(() => {
+          const alertElement = screen.getByRole('alert')
+          expect(alertElement).toBeInTheDocument()
+
+          const expected = nb.NumberField.errorMultipleOf.replace(
+            '{multipleOf}',
+            String(format(5, { locale: 'nb-NO', currency: true }))
+          )
+          // Use regex to handle both regular and non-breaking spaces
+          const expectedRegex = expected.replace(/\s/g, '\\s')
+          expect(alertElement.textContent).toMatch(
+            new RegExp(expectedRegex)
+          )
+        })
+      })
+
+      it('should show currency-specific message with decimalLimit', async () => {
+        render(
+          <Field.Number
+            value={10.5}
+            exclusiveMinimum={20.123456}
+            validateInitially
+            currency
+            decimalLimit={2}
+          />
+        )
+
+        await waitFor(() => {
+          const alertElement = screen.getByRole('alert')
+          expect(alertElement).toBeInTheDocument()
+
+          const expected = nb.NumberField.errorExclusiveMinimum.replace(
+            '{exclusiveMinimum}',
+            String(
+              format(20.123456, {
+                locale: 'nb-NO',
+                currency: true,
+                decimals: 2,
+              })
+            )
+          )
+          // Use regex to handle both regular and non-breaking spaces
+          const expectedRegex = expected.replace(/\s/g, '\\s')
+          expect(alertElement.textContent).toMatch(
+            new RegExp(expectedRegex)
+          )
+        })
+      })
+    })
+
+    describe('percent', () => {
+      it('should show percent-specific message for exclusiveMinimum', async () => {
+        render(
+          <Field.Number
+            percent
+            value={5}
+            exclusiveMinimum={10}
+            validateInitially
+          />
+        )
+
+        await waitFor(() => {
+          const alertElement = screen.getByRole('alert')
+          expect(alertElement).toBeInTheDocument()
+
+          const expected = nb.NumberField.errorExclusiveMinimum.replace(
+            '{exclusiveMinimum}',
+            String(format(10, { locale: 'nb-NO', percent: true }))
+          )
+          // Use regex to handle both regular and non-breaking spaces
+          const expectedRegex = expected.replace(/\s/g, '\\s')
+          expect(alertElement.textContent).toMatch(
+            new RegExp(expectedRegex)
+          )
+        })
+      })
+
+      it('should show percent-specific message for exclusiveMaximum', async () => {
+        render(
+          <Field.Number
+            percent
+            value={90}
+            exclusiveMaximum={90}
+            validateInitially
+          />
+        )
+
+        await waitFor(() => {
+          const alertElement = screen.getByRole('alert')
+          expect(alertElement).toBeInTheDocument()
+
+          const expected = nb.NumberField.errorExclusiveMaximum.replace(
+            '{exclusiveMaximum}',
+            String(format(90, { locale: 'nb-NO', percent: true }))
+          )
+          // Use regex to handle both regular and non-breaking spaces
+          const expectedRegex = expected.replace(/\s/g, '\\s')
+          expect(alertElement.textContent).toMatch(
+            new RegExp(expectedRegex)
+          )
+        })
+      })
+
+      it('should show percent-specific message for minimum', async () => {
+        render(
+          <Field.Number percent value={2} minimum={5} validateInitially />
+        )
+
+        await waitFor(() => {
+          const alertElement = screen.getByRole('alert')
+          expect(alertElement).toBeInTheDocument()
+
+          const expected = nb.NumberField.errorMinimum.replace(
+            '{minimum}',
+            String(format(5, { locale: 'nb-NO', percent: true }))
+          )
+          // Use regex to handle both regular and non-breaking spaces
+          const expectedRegex = expected.replace(/\s/g, '\\s')
+          expect(alertElement.textContent).toMatch(
+            new RegExp(expectedRegex)
+          )
+        })
+      })
+
+      it('should show percent-specific message for maximum', async () => {
+        render(
+          <Field.Number
+            percent
+            value={150}
+            maximum={100}
+            validateInitially
+          />
+        )
+
+        await waitFor(() => {
+          const alertElement = screen.getByRole('alert')
+          expect(alertElement).toBeInTheDocument()
+
+          const expected = nb.NumberField.errorMaximum.replace(
+            '{maximum}',
+            String(format(100, { locale: 'nb-NO', percent: true }))
+          )
+          // Use regex to handle both regular and non-breaking spaces
+          const expectedRegex = expected.replace(/\s/g, '\\s')
+          expect(alertElement.textContent).toMatch(
+            new RegExp(expectedRegex)
+          )
+        })
+      })
+
+      it('should show percent-specific message for multipleOf', async () => {
+        render(
+          <Field.Number
+            percent
+            value={3}
+            multipleOf={2.5}
+            validateInitially
+          />
+        )
+
+        await waitFor(() => {
+          const alertElement = screen.getByRole('alert')
+          expect(alertElement).toBeInTheDocument()
+
+          const expected = nb.NumberField.errorMultipleOf.replace(
+            '{multipleOf}',
+            String(
+              format(2.5, { locale: 'nb-NO', percent: true, decimals: 1 })
+            )
+          )
+          // Use regex to handle both regular and non-breaking spaces
+          const expectedRegex = expected.replace(/\s/g, '\\s')
+          expect(alertElement.textContent).toMatch(
+            new RegExp(expectedRegex)
+          )
+        })
+      })
+
+      it('should show percent-specific message with decimalLimit', async () => {
+        render(
+          <Field.Number
+            percent
+            value={5.25}
+            exclusiveMinimum={10.123456}
+            validateInitially
+            decimalLimit={1}
+          />
+        )
+
+        await waitFor(() => {
+          const alertElement = screen.getByRole('alert')
+          expect(alertElement).toBeInTheDocument()
+
+          const expected = nb.NumberField.errorExclusiveMinimum.replace(
+            '{exclusiveMinimum}',
+            String(
+              format(10.123456, {
+                locale: 'nb-NO',
+                percent: true,
+                decimals: 1,
+              })
+            )
+          )
+          // Use regex to handle both regular and non-breaking spaces
+          const expectedRegex = expected.replace(/\s/g, '\\s')
+          expect(alertElement.textContent).toMatch(
+            new RegExp(expectedRegex)
+          )
+        })
       })
     })
   })
@@ -1559,6 +2040,257 @@ describe('Field.Number', () => {
     })
   })
 
+  describe('validateContinuously', () => {
+    it('should show error during paste when exceeding MAX_SAFE_INTEGER', async () => {
+      render(<Field.Number />)
+      const input = document.querySelector('input')
+
+      input.focus()
+      const getData = jest.fn(() => String(Number.MAX_SAFE_INTEGER + 1))
+      const clipboardData = { getData }
+      fireEvent.paste(input, { clipboardData })
+      // Simulate the input event that follows paste with the new value
+      fireEvent.input(input, {
+        inputType: 'insertFromPaste',
+        target: { value: String(Number.MAX_SAFE_INTEGER + 1) },
+      })
+
+      await waitFor(() => {
+        const alertElement = screen.getByRole('alert')
+        expect(alertElement).toBeInTheDocument()
+
+        // Check that the message contains the Norwegian text and the formatted number
+        const alertText = alertElement.textContent
+        const expectedText = nb.NumberField.errorMaximum.replace(
+          '{maximum}',
+          String(format(Number.MAX_SAFE_INTEGER, { locale: 'nb-NO' }))
+        )
+        // Use regex to handle both regular and non-breaking spaces
+        const expectedRegex = expectedText.replace(/\s/g, '\\s')
+        expect(alertText).toMatch(new RegExp(expectedRegex))
+      })
+    })
+
+    it('should show error when pasting safe value then typing 2 to exceed MAX_SAFE_INTEGER', async () => {
+      render(<Field.Number />)
+      const input = document.querySelector('input')
+
+      // Paste a safe value: 900719925474099 (below MAX_SAFE_INTEGER)
+      input.focus()
+      const getData = jest.fn(() => '900719925474099')
+      const clipboardData = { getData }
+      fireEvent.paste(input, { clipboardData })
+      fireEvent.input(input, {
+        inputType: 'insertFromPaste',
+        target: { value: '900719925474099' },
+      })
+
+      // No error yet
+      expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+
+      // Now type '2' to make it 9007199254740992 (> MAX_SAFE_INTEGER)
+      await userEvent.type(input, '2')
+
+      await waitFor(() => {
+        const alertElement = screen.getByRole('alert')
+        expect(alertElement).toBeInTheDocument()
+
+        // Check that the message contains the Norwegian text and the formatted number
+        const alertText = alertElement.textContent
+        const expectedText = nb.NumberField.errorMaximum.replace(
+          '{maximum}',
+          String(format(Number.MAX_SAFE_INTEGER, { locale: 'nb-NO' }))
+        )
+        // Use regex to handle both regular and non-breaking spaces
+        const expectedRegex = expectedText.replace(/\s/g, '\\s')
+        expect(alertText).toMatch(new RegExp(expectedRegex))
+      })
+    })
+
+    it('should show error when entering value less than MIN_SAFE_INTEGER (e.g. -9007199254740992)', async () => {
+      render(<Field.Number />)
+      const input = document.querySelector('input')
+
+      await userEvent.type(input, '-9007199254740992')
+
+      await waitFor(() => {
+        const alertElement = screen.getByRole('alert')
+        expect(alertElement).toBeInTheDocument()
+
+        // Check that the message contains the Norwegian text and the formatted number
+        const alertText = alertElement.textContent
+        const expectedText = nb.NumberField.errorMinimum.replace(
+          '{minimum}',
+          String(format(Number.MIN_SAFE_INTEGER, { locale: 'nb-NO' }))
+        )
+        // Use regex to handle both regular and non-breaking spaces
+        const expectedRegex = expectedText.replace(/\s/g, '\\s')
+        expect(alertText).toMatch(new RegExp(expectedRegex))
+      })
+    })
+
+    it('should set validateContinuously to true when numberValue exceeds MAX_SAFE_INTEGER', () => {
+      const TestComponent = () => {
+        const [value, setValue] = React.useState(undefined)
+        const [validateContinuously, setValidateContinuously] =
+          React.useState(false)
+
+        return (
+          <div>
+            <Field.Number
+              value={value}
+              onChange={(newValue) => {
+                setValue(newValue)
+                // This simulates the internal logic
+                setValidateContinuously(newValue > Number.MAX_SAFE_INTEGER)
+              }}
+            />
+            <output>{validateContinuously.toString()}</output>
+          </div>
+        )
+      }
+
+      render(<TestComponent />)
+      const input = document.querySelector('input')
+      const output = document.querySelector('output')
+
+      // Initially should be false
+      expect(output).toHaveTextContent('false')
+
+      // Type a value within MAX_SAFE_INTEGER
+      fireEvent.change(input, { target: { value: '9007199254740991' } })
+      expect(output).toHaveTextContent('false')
+
+      // Type a value exceeding MAX_SAFE_INTEGER
+      fireEvent.change(input, { target: { value: '9007199254740992' } })
+      expect(output).toHaveTextContent('true')
+    })
+
+    it('should not show error during typing when validateContinuously is explicitly set to false', async () => {
+      render(<Field.Number maximum={1000} validateContinuously={false} />)
+      const input = document.querySelector('input')
+
+      // Type a value that exceeds the maximum
+      await userEvent.type(input, '1001')
+
+      // No error should appear during typing
+      expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+
+      // Error should appear on blur
+      input.blur()
+      await waitFor(() => {
+        expect(screen.getByRole('alert')).toBeInTheDocument()
+        const expected = nb.NumberField.errorMaximum.replace(
+          '{maximum}',
+          String(format(1000, { locale: 'nb-NO' }))
+        )
+        // Use regex to handle both regular and non-breaking spaces
+        const expectedRegex = expected.replace(/\s/g, '\\s')
+        expect(screen.getByRole('alert')).toHaveTextContent(
+          new RegExp(expectedRegex)
+        )
+      })
+    })
+
+    it('should show error during typing when using custom validator with validateContinuously', async () => {
+      const validator = (value) => {
+        if (value > 1000) {
+          return new Error('Value must be less than or equal to 1000')
+        }
+      }
+
+      render(<Field.Number validateContinuously validator={validator} />)
+      const input = document.querySelector('input')
+
+      // Type a value that exceeds the validator limit
+      await userEvent.type(input, '1001')
+
+      // Error should appear during typing
+      await waitFor(() => {
+        expect(screen.getByRole('alert')).toBeInTheDocument()
+        expect(screen.getByRole('alert')).toHaveTextContent(
+          'Value must be less than or equal to 1000'
+        )
+      })
+    })
+
+    it('should show error on blur when maximum is exceeded (default behavior)', async () => {
+      render(<Field.Number maximum={1000} />)
+      const input = document.querySelector('input')
+
+      // Type a value that exceeds the maximum
+      await userEvent.type(input, '1001')
+
+      // No error should appear during typing (default behavior)
+      expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+
+      // Error should appear on blur
+      input.blur()
+      await waitFor(() => {
+        expect(screen.getByRole('alert')).toBeInTheDocument()
+        const expected = nb.NumberField.errorMaximum.replace(
+          '{maximum}',
+          String(format(1000, { locale: 'nb-NO' }))
+        )
+        // Use regex to handle both regular and non-breaking spaces
+        const expectedRegex = expected.replace(/\s/g, '\\s')
+        expect(screen.getByRole('alert')).toHaveTextContent(
+          new RegExp(expectedRegex)
+        )
+      })
+    })
+
+    it('should show error on blur when exclusiveMaximum is exceeded (default behavior)', async () => {
+      render(<Field.Number exclusiveMaximum={1000} />)
+      const input = document.querySelector('input')
+
+      // Type a value that exceeds the exclusive maximum
+      await userEvent.type(input, '1000')
+
+      // No error should appear during typing (default behavior)
+      expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+
+      // Error should appear on blur
+      input.blur()
+      await waitFor(() => {
+        expect(screen.getByRole('alert')).toBeInTheDocument()
+        const expected = nb.NumberField.errorExclusiveMaximum.replace(
+          '{exclusiveMaximum}',
+          String(format(1000, { locale: 'nb-NO' }))
+        )
+        // Use regex to handle both regular and non-breaking spaces
+        const expectedRegex = expected.replace(/\s/g, '\\s')
+        expect(screen.getByRole('alert')).toHaveTextContent(
+          new RegExp(expectedRegex)
+        )
+      })
+    })
+
+    it('should show error on blur when maximum safe integer is exceeded (default behavior)', async () => {
+      render(<Field.Number maximum={Number.MAX_SAFE_INTEGER} />)
+      const input = document.querySelector('input')
+
+      // Type a value that exceeds MAX_SAFE_INTEGER
+      await userEvent.type(input, '9007199254740992') // MAX_SAFE_INTEGER + 1
+
+      // Error should appear during typing because it exceeds safe integer range
+      await waitFor(() => {
+        const alertElement = screen.getByRole('alert')
+        expect(alertElement).toBeInTheDocument()
+
+        // Check that the message contains the Norwegian text and the formatted number
+        const alertText = alertElement.textContent
+        const expectedText = nb.NumberField.errorMaximum.replace(
+          '{maximum}',
+          String(format(Number.MAX_SAFE_INTEGER, { locale: 'nb-NO' }))
+        )
+        // Use regex to handle both regular and non-breaking spaces
+        const expectedRegex = expectedText.replace(/\s/g, '\\s')
+        expect(alertText).toMatch(new RegExp(expectedRegex))
+      })
+    })
+  })
+
   describe('Zod validation', () => {
     it('should validate with Zod schema directly', async () => {
       const schema = z.number().min(5, 'Minimum 5 required')
@@ -1615,7 +2347,10 @@ describe('Field.Number', () => {
 
       expect(screen.getByRole('alert')).toBeInTheDocument()
       expect(screen.getByRole('alert')).toHaveTextContent(
-        nb.NumberField.errorMinimum.replace('{minimum}', '5')
+        nb.NumberField.errorMinimum.replace(
+          '{minimum}',
+          String(format(5, { locale: 'nb-NO' }))
+        )
       )
     })
 
@@ -1630,7 +2365,10 @@ describe('Field.Number', () => {
 
       expect(screen.getByRole('alert')).toBeInTheDocument()
       expect(screen.getByRole('alert')).toHaveTextContent(
-        nb.NumberField.errorMaximum.replace('{maximum}', '10')
+        nb.NumberField.errorMaximum.replace(
+          '{maximum}',
+          String(format(10, { locale: 'nb-NO' }))
+        )
       )
     })
 
@@ -1647,7 +2385,7 @@ describe('Field.Number', () => {
       expect(screen.getByRole('alert')).toHaveTextContent(
         nb.NumberField.errorExclusiveMinimum.replace(
           '{exclusiveMinimum}',
-          '5'
+          String(format(5, { locale: 'nb-NO' }))
         )
       )
     })
@@ -1665,7 +2403,7 @@ describe('Field.Number', () => {
       expect(screen.getByRole('alert')).toHaveTextContent(
         nb.NumberField.errorExclusiveMaximum.replace(
           '{exclusiveMaximum}',
-          '10'
+          String(format(10, { locale: 'nb-NO' }))
         )
       )
     })
@@ -1681,7 +2419,10 @@ describe('Field.Number', () => {
 
       expect(screen.getByRole('alert')).toBeInTheDocument()
       expect(screen.getByRole('alert')).toHaveTextContent(
-        nb.NumberField.errorMultipleOf.replace('{multipleOf}', '3')
+        nb.NumberField.errorMultipleOf.replace(
+          '{multipleOf}',
+          String(format(3, { locale: 'nb-NO' }))
+        )
       )
     })
 

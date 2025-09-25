@@ -69,6 +69,7 @@ export default class ModalContent extends React.PureComponent<
   _triggeredBy: TriggeredBy
   _triggeredByEvent: React.SyntheticEvent
   _mounted = 0
+  _lastFocusTime = 0
 
   static contextType = Context
 
@@ -85,6 +86,12 @@ export default class ModalContent extends React.PureComponent<
 
     // NB: The ""._id" is used in the __modalStack as "last._id"
     this._id = props.id
+  }
+
+  componentDidUpdate(prevProps: ModalContentProps) {
+    if (prevProps.children !== this.props.children) {
+      this.setFocus()
+    }
   }
 
   componentDidMount() {
@@ -286,6 +293,12 @@ export default class ModalContent extends React.PureComponent<
         : animation_duration
 
     if (elem) {
+      // Prevent focus if more than 2 seconds have passed
+      if (this._lastFocusTime && Date.now() - this._lastFocusTime > 2000) {
+        return // stop here
+      }
+      this._lastFocusTime = Date.now()
+
       clearTimeout(this._focusTimeout)
       this._focusTimeout = setTimeout(
         () => {
@@ -321,7 +334,9 @@ export default class ModalContent extends React.PureComponent<
               focusElement = elem.querySelector(focus_selector)
             }
 
-            focusElement?.focus({ preventScroll: true })
+            if (focusElement !== document.activeElement) {
+              focusElement?.focus({ preventScroll: true })
+            }
           } catch (e) {
             warn(e)
           }

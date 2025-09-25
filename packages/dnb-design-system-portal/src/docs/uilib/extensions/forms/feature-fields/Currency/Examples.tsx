@@ -52,7 +52,7 @@ export const LabelAndValue = () => {
 export const ExclusiveMinMax = () => {
   return (
     <ComponentBox>
-      <Field.Number
+      <Field.Currency
         value={1000}
         label="Label text"
         allowNegative={false}

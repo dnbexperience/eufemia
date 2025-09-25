@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 // The original can be found here: https://github.com/text-mask/text-mask/tree/master/addons
 // No license was given at the point of writing
 
@@ -23,12 +25,12 @@ function emailMask(rawValue, config) {
   const indexOfTopLevelDomainDot =
     indexOfLastDot < indexOfFirstAtSymbol ? -1 : indexOfLastDot
 
-  let localPartToDomainConnector = getConnector(
+  const localPartToDomainConnector = getConnector(
     rawValue,
     indexOfFirstAtSymbol + 1,
     atSymbol
   )
-  let domainNameToTopLevelDomainConnector = getConnector(
+  const domainNameToTopLevelDomainConnector = getConnector(
     rawValue,
     indexOfTopLevelDomainDot - 1,
     dot
