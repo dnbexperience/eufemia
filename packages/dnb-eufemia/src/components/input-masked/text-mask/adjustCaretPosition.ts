@@ -1,4 +1,6 @@
-const defaultArray = []
+import type { CaretAdjustmentArgs } from './types'
+
+const defaultArray: number[] = []
 const emptyString = ''
 
 export default function adjustCaretPosition({
@@ -12,7 +14,7 @@ export default function adjustCaretPosition({
   indexesOfPipedChars = defaultArray,
   caretTrapIndexes = defaultArray,
   keepCharPositions = false,
-}) {
+}: CaretAdjustmentArgs): number {
   if (currentCaretPosition === 0 || !rawValue.length) {
     return 0
   }
@@ -61,8 +63,8 @@ export default function adjustCaretPosition({
       conformedValue === placeholder)
 
   let startingSearchIndex = 0
-  let trackRightCharacter
-  let targetChar
+  let trackRightCharacter: boolean | undefined
+  let targetChar: string | undefined
 
   if (possiblyHasRejectedChar) {
     startingSearchIndex = currentCaretPosition - editLength

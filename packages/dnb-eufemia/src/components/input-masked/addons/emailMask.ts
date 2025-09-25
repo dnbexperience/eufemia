@@ -1,5 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
 // The original can be found here: https://github.com/text-mask/text-mask/tree/master/addons
 // No license was given at the point of writing
 
@@ -16,7 +14,10 @@ const anyNonWhitespaceRegExp = /[^\s]/
 const anyNonDotOrWhitespaceRegExp = /[^.\s]/
 const allWhitespaceRegExp = /\s/g
 
-function emailMask(rawValue, config) {
+function emailMask(
+  rawValue: string,
+  config: { placeholderChar: string; currentCaretPosition?: number }
+): Array<string | RegExp> {
   rawValue = rawValue.replace(allWhitespaceRegExp, emptyString)
 
   const { placeholderChar, currentCaretPosition } = config
@@ -36,29 +37,25 @@ function emailMask(rawValue, config) {
     dot
   )
 
-  let localPart = getLocalPart(
-    rawValue,
-    indexOfFirstAtSymbol,
-    placeholderChar
-  )
-  let domainName = getDomainName(
+  const localPartStr = getLocalPart(rawValue, indexOfFirstAtSymbol)
+  const domainNameStr = getDomainName(
     rawValue,
     indexOfFirstAtSymbol,
     indexOfTopLevelDomainDot,
     placeholderChar
   )
-  let topLevelDomain = getTopLevelDomain(
+  const topLevelDomainStr = getTopLevelDomain(
     rawValue,
     indexOfTopLevelDomainDot,
     placeholderChar,
     currentCaretPosition
   )
 
-  localPart = convertToMask(localPart)
-  domainName = convertToMask(domainName)
-  topLevelDomain = convertToMask(topLevelDomain, true)
+  const localPart = convertToMask(localPartStr)
+  const domainName = convertToMask(domainNameStr)
+  const topLevelDomain = convertToMask(topLevelDomainStr, true)
 
-  const mask = localPart
+  const mask: Array<string | RegExp> = localPart
     .concat(localPartToDomainConnector)
     .concat(domainName)
     .concat(domainNameToTopLevelDomainConnector)
@@ -67,8 +64,12 @@ function emailMask(rawValue, config) {
   return mask
 }
 
-function getConnector(rawValue, indexOfConnection, connectionSymbol) {
-  const connector = []
+function getConnector(
+  rawValue: string,
+  indexOfConnection: number,
+  connectionSymbol: string
+) {
+  const connector: Array<string> = []
 
   if (rawValue[indexOfConnection] === connectionSymbol) {
     connector.push(connectionSymbol)
@@ -81,7 +82,10 @@ function getConnector(rawValue, indexOfConnection, connectionSymbol) {
   return connector
 }
 
-function getLocalPart(rawValue, indexOfFirstAtSymbol) {
+function getLocalPart(
+  rawValue: string,
+  indexOfFirstAtSymbol: number
+): string {
   if (indexOfFirstAtSymbol === -1) {
     return rawValue
   } else {
@@ -90,12 +94,12 @@ function getLocalPart(rawValue, indexOfFirstAtSymbol) {
 }
 
 function getDomainName(
-  rawValue,
-  indexOfFirstAtSymbol,
-  indexOfTopLevelDomainDot,
-  placeholderChar
-) {
-  let domainName = emptyString
+  rawValue: string,
+  indexOfFirstAtSymbol: number,
+  indexOfTopLevelDomainDot: number,
+  placeholderChar: string
+): string {
+  let domainName: string = emptyString
 
   if (indexOfFirstAtSymbol !== -1) {
     if (indexOfTopLevelDomainDot === -1) {
@@ -128,12 +132,12 @@ function getDomainName(
 }
 
 function getTopLevelDomain(
-  rawValue,
-  indexOfTopLevelDomainDot,
-  placeholderChar,
-  currentCaretPosition
-) {
-  let topLevelDomain = emptyString
+  rawValue: string,
+  indexOfTopLevelDomainDot: number,
+  placeholderChar: string,
+  currentCaretPosition?: number
+): string {
+  let topLevelDomain: string = emptyString
 
   if (indexOfTopLevelDomainDot !== -1) {
     topLevelDomain = rawValue.slice(
@@ -157,7 +161,10 @@ function getTopLevelDomain(
   }
 }
 
-function convertToMask(str, noDots) {
+function convertToMask(
+  str: string,
+  noDots?: boolean
+): Array<string | RegExp> {
   return str
     .split(emptyString)
     .map((char) =>

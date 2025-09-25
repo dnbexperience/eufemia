@@ -1,5 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
 // The original can be found here: https://github.com/text-mask/text-mask/tree/master/addons
 // No license was given at the point of writing
 
@@ -11,13 +9,30 @@ const number = 'number'
 const caretTrap = '[]'
 const digitRegExp = /\d/
 
-function convertToMask(strNumber) {
-  return strNumber.split(emptyString).map((char) => {
-    if (digitRegExp.test(char)) {
-      char = digitRegExp
-    }
-    return char
+function convertToMask(strNumber: string): Array<string | RegExp> {
+  return strNumber.split(emptyString).map((ch): string | RegExp => {
+    return digitRegExp.test(ch) ? digitRegExp : ch
   })
+}
+
+export type CreateNumberMaskOptions = {
+  prefix?: string
+  suffix?: string
+  includeThousandsSeparator?: boolean
+  thousandsSeparatorSymbol?: string
+  allowDecimal?: boolean
+  decimalSymbol?: string
+  decimalLimit?: number
+  integerLimit?: number | false
+  requireDecimal?: boolean
+  allowNegative?: boolean
+}
+
+export type NumberMaskFunction = ((
+  rawValue?: string
+) => Array<string | RegExp>) & {
+  instanceOf?: string
+  maskParams?: Record<string, unknown>
 }
 
 export default function createNumberMask({
@@ -31,31 +46,34 @@ export default function createNumberMask({
   integerLimit = false,
   requireDecimal = false,
   allowNegative = true,
-} = {}) {
+}: CreateNumberMaskOptions = {}): NumberMaskFunction {
   // http://stackoverflow.com/a/10899795/604296
-  function addThousandsSeparator(n, thousandsSeparatorSymbol) {
+  function addThousandsSeparator(
+    n: string,
+    thousandsSeparatorSymbol: string
+  ) {
     return n.replace(/\B(?=(\d{3})+(?!\d))/g, thousandsSeparatorSymbol) // eslint-disable-line
   }
 
   const prefixLength = (prefix && prefix.length) || 0
   const suffixLength = (suffix && suffix.length) || 0
 
-  function numberMask(rawValue = emptyString) {
+  const numberMask: NumberMaskFunction = function (
+    rawValue: string = emptyString
+  ) {
     const rawValueLength = rawValue.length
 
     if (
       rawValue === emptyString ||
       (rawValue[0] === prefix[0] && rawValueLength === 1)
     ) {
-      return prefix
-        .split(emptyString)
+      return (prefix.split(emptyString) as Array<string | RegExp>)
         .concat([digitRegExp])
-        .concat(suffix.split(emptyString))
+        .concat(suffix.split(emptyString) as Array<string | RegExp>)
     } else if (rawValue === decimalSymbol && allowDecimal) {
-      return prefix
-        .split(emptyString)
+      return (prefix.split(emptyString) as Array<string | RegExp>)
         .concat(['0', decimalSymbol, digitRegExp])
-        .concat(suffix.split(emptyString))
+        .concat(suffix.split(emptyString) as Array<string | RegExp>)
     }
 
     const isNegative = rawValue[0] === minus && allowNegative
@@ -147,7 +165,7 @@ export default function createNumberMask({
     }
 
     return mask
-  }
+  } as NumberMaskFunction
 
   numberMask.instanceOf = 'createNumberMask'
 

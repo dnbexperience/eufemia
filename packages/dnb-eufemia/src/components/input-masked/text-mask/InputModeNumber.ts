@@ -128,7 +128,13 @@ export default class InputModeNumber {
       this.inputElement.type = this._type
       this.inputElement.style.cssText = this._cssText // Because we did set a width, we need to reset the cssText
       this.inputElement.classList.remove('dnb-input-masked--hide-controls')
-      this.inputElement.value = this._value // set the input value, else it will be empty
+      // Only restore the previous value if no new value was entered
+      if (
+        this.inputElement.value === '' ||
+        this.inputElement.value == null
+      ) {
+        this.inputElement.value = this._value
+      }
       this.inputElement.placeholder = this._placeholder
       if (this._selectionStart > 0) {
         this.inputElement.selectionStart = this._selectionStart

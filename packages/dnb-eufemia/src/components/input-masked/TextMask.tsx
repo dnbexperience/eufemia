@@ -1,61 +1,37 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
 import React from 'react'
-import PropTypes from 'prop-types'
-import createTextMaskInputElement from './text-mask/createTextMaskInputElement'
+import createTextMaskInputElement, {
+  type CreateTextMaskConfig,
+  type TextMaskInputController,
+} from './text-mask/createTextMaskInputElement'
 import InputModeNumber from './text-mask/InputModeNumber'
 import { isNil } from './text-mask/utilities'
+import type { Mask, MaskFunction, Pipe } from './text-mask/types'
 
 export type TextMaskMask =
-  | any[]
-  | ((...args: any[]) => any)
+  | Mask
+  | MaskFunction
   | boolean
-  | {
-      mask?: any[] | ((...args: any[]) => any)
-      pipe?: (...args: any[]) => any
-    }
-export type TextMaskInputElement =
-  | React.ReactNode
-  | ((...args: any[]) => any)
+  | { mask?: Mask | MaskFunction; pipe?: Pipe }
+export type TextMaskInputElement = React.ReactElement
 export type TextMaskValue = string | number
 export interface TextMaskProps
   extends Omit<React.HTMLProps<HTMLInputElement>, 'ref'> {
   mask: TextMaskMask
-  inputRef?: React.MutableRefObject<HTMLInputElement>
+  inputRef?: React.RefObject<HTMLInputElement>
   inputElement?: TextMaskInputElement
-  onChange?: (...args: any[]) => any
+  onChange?: React.ChangeEventHandler<HTMLInputElement>
   guide?: boolean
   value?: TextMaskValue
-  pipe?: (...args: any[]) => any
+  pipe?: Pipe
   placeholderChar?: string
   keepCharPositions?: boolean
   showMask?: boolean
 }
 
-export default class TextMask extends React.PureComponent<
-  TextMaskProps,
-  any
-> {
-  static propTypes = {
-    mask: PropTypes.oneOfType([
-      PropTypes.array,
-      PropTypes.func,
-      PropTypes.bool,
-      PropTypes.shape({
-        mask: PropTypes.oneOfType([PropTypes.array, PropTypes.func]),
-        pipe: PropTypes.func,
-      }),
-    ]).isRequired,
-    inputRef: PropTypes.object,
-    inputElement: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
-    onChange: PropTypes.func,
-    guide: PropTypes.bool,
-    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    pipe: PropTypes.func,
-    placeholderChar: PropTypes.string,
-    keepCharPositions: PropTypes.bool,
-    showMask: PropTypes.bool,
-  }
+export default class TextMask extends React.PureComponent<TextMaskProps> {
+  inputRef: React.RefObject<HTMLInputElement>
+  textMaskInputElement?: TextMaskInputController
+  inputMode?: InputModeNumber
 
   static defaultProps = {
     inputElement: null,
@@ -69,7 +45,7 @@ export default class TextMask extends React.PureComponent<
     showMask: null,
   }
 
-  constructor(props) {
+  constructor(props: TextMaskProps) {
     super(props)
 
     this.inputRef = props.inputRef || React.createRef()
@@ -93,7 +69,7 @@ export default class TextMask extends React.PureComponent<
     this.textMaskInputElement = createTextMaskInputElement({
       ...props,
       inputElement,
-    })
+    } as unknown as CreateTextMaskConfig)
     this.textMaskInputElement.update(value)
 
     if (!inputMode && inputMode !== 'none') {
@@ -103,7 +79,7 @@ export default class TextMask extends React.PureComponent<
     this.inputMode?.setElement(inputElement)
   }
 
-  onChange = (event) => {
+  onChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     this.textMaskInputElement.update()
 
     if (typeof this.props.onChange === 'function') {
@@ -111,7 +87,7 @@ export default class TextMask extends React.PureComponent<
     }
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: TextMaskProps) {
     // Getting props affecting value
     const { value, pipe, mask, guide, placeholderChar, showMask } =
       this.props
@@ -136,7 +112,7 @@ export default class TextMask extends React.PureComponent<
 
     // Сalculate that value was changed
     const isValueChanged =
-      value !== this.inputRef.current.value || prevProps.value !== value
+      value !== this.inputRef.current!.value || prevProps.value !== value
 
     // Check value and settings to prevent duplicating update() call
     if (isValueChanged || isSettingChanged) {

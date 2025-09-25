@@ -1,14 +1,12 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
-
 import { placeholderChar as defaultPlaceholderChar } from './constants'
+import type { Mask } from './types'
 
 const emptyArray = []
 
 export function convertMaskToPlaceholder(
-  mask = emptyArray,
-  placeholderChar = defaultPlaceholderChar
-) {
+  mask: Mask = emptyArray,
+  placeholderChar: string = defaultPlaceholderChar
+): string {
   if (!isArray(mask)) {
     throw new Error(
       'Text-mask:convertMaskToPlaceholder; The mask property must be an array.'
@@ -27,35 +25,36 @@ export function convertMaskToPlaceholder(
   }
 
   return mask
-    .map((char) => {
-      return char instanceof RegExp ? placeholderChar : char
-    })
+    .map((char) =>
+      char instanceof RegExp ? placeholderChar : String(char)
+    )
     .join('')
 }
 
-export function isArray(value) {
+export function isArray(value: unknown): value is unknown[] {
   return (Array.isArray && Array.isArray(value)) || value instanceof Array
 }
 
-export function isString(value) {
+export function isString(value: unknown): value is string {
   return typeof value === 'string' || value instanceof String
 }
 
-export function isNumber(value) {
-  return (
-    typeof value === 'number' &&
-    value.length === undefined &&
-    !isNaN(value)
-  )
+export function isNumber(value: unknown): value is number {
+  return typeof value === 'number' && Number.isFinite(value)
 }
 
-export function isNil(value) {
+export function isNil<T>(
+  value: T | undefined | null
+): value is undefined | null {
   return typeof value === 'undefined' || value === null
 }
 
 const strCaretTrap = '[]'
-export function processCaretTraps(mask) {
-  const indexes = []
+export function processCaretTraps(mask: Mask): {
+  maskWithoutCaretTraps: Mask
+  indexes: number[]
+} {
+  const indexes: number[] = []
 
   let indexOfCaretTrap
   while (

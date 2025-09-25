@@ -1,5 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
 /**
  * Web InputMasked Component
  *
@@ -10,7 +8,6 @@ import classnames from 'classnames'
 import {
   cleanNumber,
   getCurrencySymbol,
-  NUMBER_MINUS,
 } from '../number-format/NumberUtils'
 import {
   isTrue,
@@ -44,6 +41,9 @@ import {
 const useLayoutEffect =
   typeof window === 'undefined' ? React.useEffect : React.useLayoutEffect
 
+// Local minus class pattern, matches multiple minus-like characters
+const NUMBER_MINUS = '-|−|‐|‒|–|—|―'
+
 /**
  * Takes all component properties and filters out all internal used properties
  *
@@ -72,7 +72,10 @@ export const useFilteredProps = () => {
     ...attributes
   } = props
 
-  return { props, htmlAttributes: Object.freeze(attributes) }
+  return {
+    props,
+    htmlAttributes: Object.freeze(attributes as Record<string, unknown>),
+  }
 }
 
 /**
@@ -88,7 +91,7 @@ export const useTranslation = () => {
     locale = context.locale
   }
 
-  return locale
+  return locale as string
 }
 
 /**
@@ -222,7 +225,7 @@ export const useInputElement = () => {
     useMaskParams()
 
   const isFn = typeof inner_ref === 'function'
-  const refHook = React.useRef()
+  const refHook = React.useRef<HTMLInputElement>(null)
   const ref = (!isFn && inner_ref) || refHook
 
   useLayoutEffect(() => {
@@ -232,10 +235,15 @@ export const useInputElement = () => {
   }, [inner_ref, isFn, ref])
 
   // Create the actual input element
-  const inputElementRef = React.useRef(<input ref={ref} />)
+  const inputElementRef = React.useRef<JSX.Element>(
+    <input ref={ref as React.Ref<HTMLInputElement>} />
+  )
 
   return useCallback(
-    (params, innerRef) => {
+    (
+      params: Record<string, unknown>,
+      innerRef: { current: HTMLInputElement | null }
+    ) => {
       // Set ref for Eufemia input
       innerRef.current = ref.current
 
@@ -249,7 +257,7 @@ export const useInputElement = () => {
           guide={showGuide}
           keepCharPositions={keepCharPositions}
           placeholderChar={placeholderChar}
-          {...getSoftKeyboardAttributes(mask)}
+          {...(getSoftKeyboardAttributes(mask) || {})}
           {...params}
           className={classnames(
             params.className,
@@ -310,8 +318,14 @@ export const useEventMapping = ({ setLocalValue }) => {
  * @property {function} setLocalValue setState handler
  * @returns event handler function
  */
-const useCallEvent = ({ setLocalValue }) => {
-  const maskParamsRef = React.useRef()
+const useCallEvent = ({
+  setLocalValue,
+}: {
+  setLocalValue: (v: string) => void
+}) => {
+  const maskParamsRef = React.useRef<ReturnType<
+    typeof useMaskParams
+  > | null>(null)
   maskParamsRef.current = useMaskParams()
 
   const { props } = React.useContext(InputMaskedContext)
@@ -321,8 +335,13 @@ const useCallEvent = ({ setLocalValue }) => {
   const decimalSeparators = /[,.'·]/
   let isUnidentified = false
 
-  const callEvent = ({ event, value }, name) => {
-    const maskParams = maskParamsRef.current
+  const callEvent = (
+    { event, value }: { event: any; value?: any },
+    name: string
+  ) => {
+    const maskParams = maskParamsRef.current as ReturnType<
+      typeof useMaskParams
+    >
     value = value || event.target.value
     const selStart = event.target.selectionStart
     let keyCode = keycode(event)
@@ -527,19 +546,19 @@ const useNumberMaskParams = () => {
   const locale = useTranslation()
 
   if (!isRequestingNumberMask(props)) {
-    return { ...fromJSON(props.mask_options) }
+    return { ...(fromJSON(props.mask_options) as Record<string, unknown>) }
   }
 
   let { number_mask, currency_mask, mask_options } = props
   const { as_number, as_percent, as_currency, value } = props
 
-  mask_options = fromJSON(mask_options)
-  number_mask = isTrue(number_mask) ? {} : fromJSON(number_mask)
+  mask_options = fromJSON(mask_options) as any
+  number_mask = isTrue(number_mask) ? {} : (fromJSON(number_mask) as any)
   currency_mask = isTrue(currency_mask)
     ? {}
-    : fromJSON(currency_mask, {
+    : (fromJSON(currency_mask, {
         currency: currency_mask,
-      })
+      }) as any)
   if (!currency_mask?.currency) {
     delete currency_mask.currency
   }
@@ -557,7 +576,7 @@ const useNumberMaskParams = () => {
       currency_mask = extendPropsWithContext(currency_mask, null, {
         decimalSymbol,
         thousandsSeparatorSymbol,
-        currency: getCurrencySymbol(
+        currency: (getCurrencySymbol as any)(
           locale,
           typeof as_currency === 'string' ? as_currency : null,
           currency_mask?.currencyDisplay,
