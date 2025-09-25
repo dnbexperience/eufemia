@@ -497,6 +497,13 @@ class DropdownInstance extends React.PureComponent {
         align_dropdown = 'left'
       }
     }
+    if (
+      isTrue(independent_width) &&
+      icon_position !== 'left' &&
+      !align_dropdown
+    ) {
+      align_dropdown = 'right'
+    }
 
     const { selected_item, direction, opened } = this.context.drawerList
     const showStatus = getStatusState(status)
