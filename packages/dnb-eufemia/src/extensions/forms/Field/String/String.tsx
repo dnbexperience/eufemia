@@ -89,6 +89,9 @@ function StringComponent(props: Props) {
               inclusive: true,
               origin: 'string',
               message: 'StringField.errorMinLength',
+              messageValues: {
+                minLength: String(p.minLength),
+              },
             })
           }
           if (p.maxLength !== undefined && val.length > p.maxLength) {
@@ -99,6 +102,9 @@ function StringComponent(props: Props) {
               inclusive: true,
               origin: 'string',
               message: 'StringField.errorMaxLength',
+              messageValues: {
+                maxLength: String(p.maxLength),
+              },
             })
           }
           if (p.pattern && !new RegExp(p.pattern, 'u').test(val)) {
@@ -107,6 +113,9 @@ function StringComponent(props: Props) {
               validation: 'regex',
               format: 'regex',
               message: 'Field.errorPattern',
+              messageValues: {
+                pattern: p.pattern,
+              },
             })
           }
         })

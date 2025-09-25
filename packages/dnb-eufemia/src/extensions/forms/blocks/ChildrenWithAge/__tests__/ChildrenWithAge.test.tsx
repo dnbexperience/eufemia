@@ -12,6 +12,7 @@ import ChildrenWithAge from '../ChildrenWithAge'
 import { translations } from '../ChildrenWithAgeTranslations'
 import { GenerateRef } from '../../../Tools/ListAllProps'
 import nbNO from '../../../constants/locales/nb-NO'
+import { format } from '../../../../../components/number-format/NumberUtils'
 
 describe('ChildrenWithAge', () => {
   const translationsNO = translations['nb-NO']
@@ -162,8 +163,14 @@ describe('ChildrenWithAge', () => {
 
     fireEvent.blur(numOfChildrenInput)
 
-    expect(screen.getByRole('alert')).toHaveTextContent(
-      nbNO['nb-NO'].NumberField.errorMaximum.replace('{maximum}', '9')
+    const expectedText = nbNO['nb-NO'].NumberField.errorMaximum.replace(
+      '{maximum}',
+      String(format(9, { locale: 'nb-NO' }))
+    )
+    // Use regex to handle both regular and non-breaking spaces
+    const expectedRegex = expectedText.replace(/\s/g, '\\s')
+    expect(screen.getByRole('alert').textContent).toMatch(
+      new RegExp(expectedRegex)
     )
   })
 
@@ -210,8 +217,14 @@ describe('ChildrenWithAge', () => {
 
     fireEvent.blur(input)
 
-    expect(screen.getByRole('alert')).toHaveTextContent(
-      nbNO['nb-NO'].NumberField.errorMaximum.replace('{maximum}', '17')
+    const expectedText = nbNO['nb-NO'].NumberField.errorMaximum.replace(
+      '{maximum}',
+      String(format(17, { locale: 'nb-NO' }))
+    )
+    // Use regex to handle both regular and non-breaking spaces
+    const expectedRegex = expectedText.replace(/\s/g, '\\s')
+    expect(screen.getByRole('alert').textContent).toMatch(
+      new RegExp(expectedRegex)
     )
   })
 
@@ -252,11 +265,14 @@ describe('ChildrenWithAge', () => {
 
     fireEvent.blur(input)
 
-    expect(screen.getByRole('alert')).toHaveTextContent(
-      nbNO['nb-NO'].NumberField.errorMaximum.replace(
-        '{maximum}',
-        '1000000'
-      )
+    const expectedText = nbNO['nb-NO'].NumberField.errorMaximum.replace(
+      '{maximum}',
+      String(format(1000000, { locale: 'nb-NO' }))
+    )
+    // Use regex to handle both regular and non-breaking spaces
+    const expectedRegex = expectedText.replace(/\s/g, '\\s')
+    expect(screen.getByRole('alert').textContent).toMatch(
+      new RegExp(expectedRegex)
     )
   })
 
@@ -271,18 +287,14 @@ describe('ChildrenWithAge', () => {
 
     fireEvent.blur(input)
 
-    expect(screen.getByRole('alert')).toHaveTextContent(
-      nbNO['nb-NO'].NumberField.errorMaximum.replace(
-        '{maximum}',
-        '1000000'
-      )
+    const expectedText = nbNO['nb-NO'].NumberField.errorMaximum.replace(
+      '{maximum}',
+      String(format(1000000, { locale: 'nb-NO' }))
     )
-
-    expect(screen.getByRole('alert')).toHaveTextContent(
-      nbNO['nb-NO'].NumberField.errorMaximum.replace(
-        '{maximum}',
-        '1000000'
-      )
+    // Use regex to handle both regular and non-breaking spaces
+    const expectedRegex = expectedText.replace(/\s/g, '\\s')
+    expect(screen.getByRole('alert').textContent).toMatch(
+      new RegExp(expectedRegex)
     )
   })
 
@@ -303,7 +315,7 @@ describe('ChildrenWithAge', () => {
     expect(document.querySelectorAll('input')).toHaveLength(0)
     const dlDDs = Array.from(document.querySelectorAll('dl dd'))
     expect(dlDDs).toHaveLength(1)
-    expect(dlDDs.at(0)).toHaveTextContent('Nei')
+    expect(dlDDs.at(0)).toHaveTextContent(nbNO['nb-NO'].BooleanField.no)
 
     await userEvent.click(yesButton)
     expect(document.querySelector('.dnb-input__input')).toHaveValue('1')
@@ -311,7 +323,7 @@ describe('ChildrenWithAge', () => {
     await waitFor(() => {
       const dlDDs = Array.from(document.querySelectorAll('dl dd'))
       expect(dlDDs).toHaveLength(3)
-      expect(dlDDs.at(0)).toHaveTextContent('Ja')
+      expect(dlDDs.at(0)).toHaveTextContent(nbNO['nb-NO'].BooleanField.yes)
     })
 
     await userEvent.click(noButton)
@@ -323,7 +335,7 @@ describe('ChildrenWithAge', () => {
     {
       const dlDDs = Array.from(document.querySelectorAll('dl dd'))
       expect(dlDDs).toHaveLength(1)
-      expect(dlDDs.at(0)).toHaveTextContent('Nei')
+      expect(dlDDs.at(0)).toHaveTextContent(nbNO['nb-NO'].BooleanField.no)
     }
 
     await userEvent.click(yesButton)
@@ -332,7 +344,7 @@ describe('ChildrenWithAge', () => {
     {
       const dlDDs = Array.from(document.querySelectorAll('dl dd'))
       expect(dlDDs).toHaveLength(3)
-      expect(dlDDs.at(0)).toHaveTextContent('Ja')
+      expect(dlDDs.at(0)).toHaveTextContent(nbNO['nb-NO'].BooleanField.yes)
     }
   })
 
