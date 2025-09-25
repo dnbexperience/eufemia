@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 /**
  * Web InputMasked Component
  *
@@ -403,7 +405,7 @@ export function handleThousandsSeparator(locale) {
  * @returns string
  */
 export function handleDecimalSeparator(locale) {
-  let decimalSymbol = getDecimalSeparator(locale)
+  const decimalSymbol = getDecimalSeparator(locale)
 
   return decimalSymbol
 }

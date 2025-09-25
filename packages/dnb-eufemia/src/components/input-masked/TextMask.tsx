@@ -1,10 +1,41 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import React from 'react'
 import PropTypes from 'prop-types'
 import createTextMaskInputElement from './text-mask/createTextMaskInputElement'
 import InputModeNumber from './text-mask/InputModeNumber'
 import { isNil } from './text-mask/utilities'
 
-export default class TextMask extends React.PureComponent {
+export type TextMaskMask =
+  | any[]
+  | ((...args: any[]) => any)
+  | boolean
+  | {
+      mask?: any[] | ((...args: any[]) => any)
+      pipe?: (...args: any[]) => any
+    }
+export type TextMaskInputElement =
+  | React.ReactNode
+  | ((...args: any[]) => any)
+export type TextMaskValue = string | number
+export interface TextMaskProps
+  extends Omit<React.HTMLProps<HTMLInputElement>, 'ref'> {
+  mask: TextMaskMask
+  inputRef?: React.MutableRefObject<HTMLInputElement>
+  inputElement?: TextMaskInputElement
+  onChange?: (...args: any[]) => any
+  guide?: boolean
+  value?: TextMaskValue
+  pipe?: (...args: any[]) => any
+  placeholderChar?: string
+  keepCharPositions?: boolean
+  showMask?: boolean
+}
+
+export default class TextMask extends React.PureComponent<
+  TextMaskProps,
+  any
+> {
   static propTypes = {
     mask: PropTypes.oneOfType([
       PropTypes.array,
@@ -113,7 +144,7 @@ export default class TextMask extends React.PureComponent {
     }
   }
 
-  render() {
+  render(): JSX.Element {
     const {
       inputElement,
       inputRef, // eslint-disable-line

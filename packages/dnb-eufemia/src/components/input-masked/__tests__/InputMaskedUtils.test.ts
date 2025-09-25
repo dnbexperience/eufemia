@@ -17,6 +17,7 @@ describe('correctNumberValue', () => {
   it('should return the same value if it is not a number', () => {
     const result = correctNumberValue({
       props: { value: 'abc' },
+      locale: 'nb-NO',
       maskParams: {},
     })
     expect(result).toBe('abc')
@@ -25,6 +26,7 @@ describe('correctNumberValue', () => {
   it('should limit the number of integers if integerLimit is set', () => {
     const result = correctNumberValue({
       props: { value: '1234567890' },
+      locale: 'nb-NO',
       maskParams: { integerLimit: 5 },
     })
     expect(result).toBe('12345')
@@ -33,6 +35,7 @@ describe('correctNumberValue', () => {
   it('should remove decimals if shouldHaveDecimals is false', () => {
     const result = correctNumberValue({
       props: { value: '123.45' },
+      locale: 'nb-NO',
       maskParams: { allowDecimal: false },
     })
     expect(result).toBe('123')
@@ -41,6 +44,7 @@ describe('correctNumberValue', () => {
   it('should format the value according to number_format options', () => {
     const result = correctNumberValue({
       props: { value: '1234.5678', number_format: { locale: 'en-US' } },
+      locale: 'en-US',
       maskParams: { decimalSymbol: '.', decimalLimit: 2 },
     })
     expect(result).toBe('1,234.57')
@@ -49,6 +53,7 @@ describe('correctNumberValue', () => {
   it('should replace decimal symbol with the specified decimalSymbol', () => {
     const result = correctNumberValue({
       props: { value: '123.45' },
+      locale: 'nb-NO',
       maskParams: { decimalSymbol: ',', allowDecimal: true },
     })
     expect(result).toBe('123,45')
@@ -58,6 +63,7 @@ describe('correctNumberValue', () => {
     const result = correctNumberValue({
       localValue: '20,',
       props: { value: '20.999' },
+      locale: 'nb-NO',
       maskParams: { decimalSymbol: ',' },
     })
     expect(result).toBe('20,')
@@ -67,6 +73,7 @@ describe('correctNumberValue', () => {
     const result = correctNumberValue({
       localValue: '20,0',
       props: { value: '20.999' },
+      locale: 'nb-NO',
       maskParams: { decimalSymbol: ',' },
     })
     expect(result).toBe('20,0')
@@ -76,6 +83,7 @@ describe('correctNumberValue', () => {
     const result = correctNumberValue({
       localValue: '012',
       props: { value: '12' },
+      locale: 'nb-NO',
       maskParams: {},
     })
     expect(result).toBe('012')
@@ -85,6 +93,7 @@ describe('correctNumberValue', () => {
     const result = correctNumberValue({
       localValue: '-0',
       props: { value: '0' },
+      locale: 'nb-NO',
       maskParams: { decimalSymbol: ',' },
     })
     expect(result).toBe('-0')
@@ -94,6 +103,7 @@ describe('correctNumberValue', () => {
     const result = correctNumberValue({
       localValue: '',
       props: { value: '0' },
+      locale: 'nb-NO',
       maskParams: { decimalSymbol: ',' },
     })
     expect(result).toBe('')
@@ -301,9 +311,10 @@ describe('correctCaretPosition', () => {
 describe('handlePercentMask', () => {
   it('should handle percent mask with default locale', () => {
     const props = { value: 0.5 }
+    const locale = 'nb-NO'
     const maskParams = {}
 
-    const result = handlePercentMask({ props, maskParams })
+    const result = handlePercentMask({ props, locale, maskParams })
 
     expect(result.suffix).toBe(' %')
   })
@@ -361,7 +372,10 @@ describe('handlePercentMask', () => {
 
 describe('handleCurrencyMask', () => {
   it('should return the default maskParams when no options are provided', () => {
-    const result = handleCurrencyMask({})
+    const result = handleCurrencyMask({
+      mask_options: {},
+      currency_mask: {},
+    })
     expect(result).toEqual({
       showMask: true,
       placeholderChar: null,
@@ -395,6 +409,7 @@ describe('handleCurrencyMask', () => {
 
   it('should use the provided currency_mask string as the suffix', () => {
     const result = handleCurrencyMask({
+      mask_options: {},
       currency_mask: '€',
     })
     expect(result).toEqual({
@@ -409,7 +424,10 @@ describe('handleCurrencyMask', () => {
   })
 
   it('should use "kr" as the default suffix when no currency_mask is provided', () => {
-    const result = handleCurrencyMask({})
+    const result = handleCurrencyMask({
+      mask_options: {},
+      currency_mask: {},
+    })
     expect(result).toEqual({
       showMask: true,
       placeholderChar: null,
