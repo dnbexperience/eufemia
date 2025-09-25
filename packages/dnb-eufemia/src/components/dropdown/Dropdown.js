@@ -497,7 +497,7 @@ class DropdownInstance extends React.PureComponent {
         align_dropdown = 'left'
       }
     }
-    if (isTrue(independent_width) && !icon_position) {
+    if (isTrue(independent_width) && !icon_position && !align_dropdown) {
       icon_position = 'left'
     }
 
