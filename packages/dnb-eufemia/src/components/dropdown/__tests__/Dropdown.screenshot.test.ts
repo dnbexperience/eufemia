@@ -200,6 +200,34 @@ describe.each(['ui', 'sbanken'])('Dropdown for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('have to match the dropdown with independent_width opened with icon_position left', async () => {
+    const screenshot = await makeScreenshot({
+      style: {
+        'padding-top': '16rem',
+      },
+      selector: '[data-visual-test="dropdown-independent_width_left"]',
+      simulate: 'click',
+      simulateSelector:
+        '[data-visual-test="dropdown-independent_width_left"] .dnb-dropdown button',
+      simulateAfter: { keypress: 'Escape' },
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match the dropdown with independent_width opened with icon_position right', async () => {
+    const screenshot = await makeScreenshot({
+      style: {
+        'padding-top': '16rem',
+      },
+      selector: '[data-visual-test="dropdown-independent_width_right"]',
+      simulate: 'click',
+      simulateSelector:
+        '[data-visual-test="dropdown-independent_width_right"] .dnb-dropdown button',
+      simulateAfter: { keypress: 'Escape' },
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match the dropdown action menu in mobile view', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="dropdown-action_menu-custom"]',
