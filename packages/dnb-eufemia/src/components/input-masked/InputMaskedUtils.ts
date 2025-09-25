@@ -1,30 +1,33 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
 /**
  * Web InputMasked Component
  *
  */
-
 import {
   format,
   getDecimalSeparator,
   getThousandsSeparator,
-  NUMBER_MINUS,
 } from '../number-format/NumberUtils'
 import { warn } from '../../shared/component-helper'
 import { IS_IOS } from '../../shared/helpers'
 import { safeSetSelection } from './text-mask/createTextMaskInputElement'
 
-const enableLocaleSupportWhen = ['as_number', 'as_percent', 'as_currency']
+const enableLocaleSupportWhen = [
+  'as_number',
+  'as_percent',
+  'as_currency',
+] as const
 const enableNumberMaskWhen = [
   'as_number',
   'as_percent',
   'as_currency',
   'number_mask',
   'currency_mask',
-]
+] as const
 
 export const invisibleSpace = '\u200B'
+// Local minus class pattern, matches multiple minus-like characters
+// Used instead of importing NUMBER_MINUS to keep types local
+const NUMBER_MINUS = '-|−|‐|‒|–|—|―'
 
 /**
  * Will return true if a prop needs Locale support
@@ -32,9 +35,12 @@ export const invisibleSpace = '\u200B'
  * @param {object} props object with given component props
  * @returns boolean
  */
-export const isRequestingLocaleSupport = (props) => {
+export const isRequestingLocaleSupport = (
+  props: Record<string, any>
+): boolean => {
   return Object.entries(props).some(
-    ([k, v]) => v && enableLocaleSupportWhen.includes(k)
+    ([k, v]) =>
+      v && (enableLocaleSupportWhen as readonly string[]).includes(k)
   )
 }
 
@@ -44,9 +50,12 @@ export const isRequestingLocaleSupport = (props) => {
  * @param {object} props object with given component props
  * @returns boolean
  */
-export const isRequestingNumberMask = (props) => {
+export const isRequestingNumberMask = (
+  props: Record<string, any>
+): boolean => {
   return Object.entries(props).some(
-    ([k, v]) => v && enableNumberMaskWhen.includes(k)
+    ([k, v]) =>
+      v && (enableNumberMaskWhen as readonly string[]).includes(k)
   )
 }
 
@@ -62,12 +71,30 @@ export const isRequestingNumberMask = (props) => {
  * @property {object} maskParams predefined mask parameters
  * @returns string Value
  */
+export type InputMaskParams = {
+  showMask?: boolean
+  placeholderChar?: string | null
+  allowDecimal?: boolean
+  decimalLimit?: number
+  decimalSymbol?: string
+  thousandsSeparatorSymbol?: string
+  prefix?: string
+  suffix?: string
+  disallowLeadingZeroes?: boolean
+  integerLimit?: number
+}
+
 export const correctNumberValue = ({
   localValue = null,
   props,
   locale,
   maskParams,
-}) => {
+}: {
+  localValue?: string | null
+  props: Record<string, any>
+  locale: string
+  maskParams: InputMaskParams
+}): string => {
   let value =
     props.value === null
       ? null
@@ -116,7 +143,7 @@ export const correctNumberValue = ({
     if (shouldHaveDecimals) {
       options.decimals = maskParams.decimalLimit
     }
-    value = format(value, options)
+    value = String(format(value, options))
   }
 
   const decimalSymbol = maskParams.decimalSymbol
@@ -199,7 +226,17 @@ export const correctNumberValue = ({
  * @param {Element} element Input Element
  * @param {Object} maskParams Mask parameters, containing eventually suffix or prefix
  */
-export const correctCaretPosition = (element, maskParamsRef, props) => {
+export const correctCaretPosition = (
+  element: HTMLInputElement,
+  maskParamsRef: {
+    current?: {
+      suffix?: string
+      prefix?: string
+      placeholderChar?: string
+    }
+  },
+  props: { mask?: Array<RegExp | { test?: (char: string) => boolean }> }
+) => {
   const correction = () => {
     try {
       const maskParams = maskParamsRef?.current
@@ -217,7 +254,7 @@ export const correctCaretPosition = (element, maskParamsRef, props) => {
       if (suffix || prefix) {
         const suffixStart = element.value.indexOf(suffix)
         const suffixEnd = suffixStart + suffix?.length
-        let pos = undefined
+        let pos: number | undefined = undefined
 
         if (start >= suffixStart && start <= suffixEnd) {
           pos = suffixStart
@@ -245,7 +282,7 @@ export const correctCaretPosition = (element, maskParamsRef, props) => {
           pos = suffixStart - 1
         }
 
-        if (!isNaN(parseFloat(pos))) {
+        if (!isNaN(parseFloat(String(pos)))) {
           safeSetSelection(element, pos)
         }
       } else if (props?.mask && element.value.length === end) {
@@ -291,9 +328,18 @@ export const correctCaretPosition = (element, maskParamsRef, props) => {
  * @property {object} maskParams predefined mask parameters
  * @returns object maskParams
  */
-export const handlePercentMask = ({ props, locale, maskParams }) => {
-  const value = format(props.value, { locale, percent: true })
-  maskParams.suffix = String(value)?.match(/((\s|)%)$/g, '$1')?.[0] || ' %'
+export const handlePercentMask = ({
+  props,
+  locale,
+  maskParams,
+}: {
+  props: Record<string, any>
+  locale: string
+  maskParams: InputMaskParams
+}) => {
+  const value = format(props.value as any, { locale, percent: true })
+  const m = String(value).match(/((\s|)%)$/g)
+  maskParams.suffix = m?.[0] || ' %'
 
   return maskParams
 }
@@ -307,12 +353,18 @@ export const handlePercentMask = ({ props, locale, maskParams }) => {
  * @property {object} currency_mask Component property for change the currency parameters
  * @returns object maskParams
  */
-export const handleCurrencyMask = ({ mask_options, currency_mask }) => {
-  const givenParams = {
-    ...mask_options,
-    ...currency_mask,
-  }
-  const paramsWithDefaults = {
+export const handleCurrencyMask = ({
+  mask_options,
+  currency_mask,
+}: {
+  mask_options: Record<string, any>
+  currency_mask: string | Record<string, any>
+}): InputMaskParams => {
+  const givenParams =
+    typeof currency_mask === 'string'
+      ? { ...mask_options, ...({ 0: String(currency_mask) } as any) }
+      : { ...mask_options, ...(currency_mask as Record<string, any>) }
+  const paramsWithDefaults: InputMaskParams = {
     showMask: true,
     placeholderChar: null,
     allowDecimal: true,
@@ -348,8 +400,14 @@ export const handleCurrencyMask = ({ mask_options, currency_mask }) => {
  * @property {object} number_mask Component property for change the number parameters
  * @returns object maskParams
  */
-export const handleNumberMask = ({ mask_options, number_mask }) => {
-  const maskParams = {
+export const handleNumberMask = ({
+  mask_options,
+  number_mask,
+}: {
+  mask_options: Record<string, any>
+  number_mask: Record<string, any>
+}): InputMaskParams => {
+  const maskParams: InputMaskParams = {
     decimalSymbol: ',',
     ...mask_options,
     ...number_mask,
@@ -368,7 +426,18 @@ export const handleNumberMask = ({ mask_options, number_mask }) => {
  * @param {function} mask mask function
  * @returns undefined|decimal|numeric
  */
-export function getSoftKeyboardAttributes(mask) {
+export function getSoftKeyboardAttributes(
+  mask:
+    | undefined
+    | {
+        instanceOf?: string
+        maskParams?: {
+          allowNegative?: boolean
+          allowDecimal?: boolean
+          decimalLimit?: number
+        }
+      }
+): undefined | { inputMode: 'decimal' | 'numeric' } {
   if (mask?.instanceOf !== 'createNumberMask') {
     return undefined
   }
@@ -394,7 +463,7 @@ export function getSoftKeyboardAttributes(mask) {
  * @param {string} locale Component or context locale
  * @returns string
  */
-export function handleThousandsSeparator(locale) {
+export function handleThousandsSeparator(locale: string): string {
   return getThousandsSeparator(locale).replace(' ', ' ') // replace non-breaking space with a regular space
 }
 
@@ -404,7 +473,7 @@ export function handleThousandsSeparator(locale) {
  * @param {string} locale Component or context locale
  * @returns string
  */
-export function handleDecimalSeparator(locale) {
+export function handleDecimalSeparator(locale: string): string {
   const decimalSymbol = getDecimalSeparator(locale)
 
   return decimalSymbol
@@ -417,7 +486,10 @@ export function handleDecimalSeparator(locale) {
  * @param {*} fallback optional fallback
  * @returns parsed json
  */
-export function fromJSON(str, fallback = null) {
+export function fromJSON<T = unknown>(
+  str: unknown,
+  fallback: T | null = null
+): T | unknown {
   if (typeof str === 'string' && str[0] === '{') {
     return JSON.parse(str)
   }

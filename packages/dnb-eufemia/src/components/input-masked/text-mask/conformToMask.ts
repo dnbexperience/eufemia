@@ -1,5 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
 import {
   convertMaskToPlaceholder,
   isArray,
@@ -9,15 +7,22 @@ import {
   placeholderChar as defaultPlaceholderChar,
   strFunction,
 } from './constants'
+import type {
+  ConformToMaskConfig,
+  ConformToMaskResult,
+  Mask,
+  MaskFunction,
+} from './types'
 
-const emptyArray = []
+const emptyArray: Mask = []
 const emptyString = ''
 
 export default function conformToMask(
-  rawValue = emptyString,
-  mask = emptyArray,
-  config = {}
-) {
+  rawValue: string = emptyString,
+  mask: Mask | MaskFunction = emptyArray,
+  config: ConformToMaskConfig = {}
+): ConformToMaskResult {
+  let finalMask: Mask
   if (!isArray(mask)) {
     // If someone passes a function as the mask property, we should call the
     // function to get the mask array - Normally this is handled by the
@@ -25,16 +30,20 @@ export default function conformToMask(
     // to be used directly with `conformToMask`
     if (typeof mask === strFunction) {
       // call the mask function to get the mask array
-      mask = mask(rawValue, config)
+      const generated = (mask as MaskFunction)(rawValue, config)
 
       // mask functions can setup caret traps to have some control over how the caret moves. We need to process
       // the mask for any caret traps. `processCaretTraps` will remove the caret traps from the mask
-      mask = processCaretTraps(mask).maskWithoutCaretTraps
+      finalMask = processCaretTraps(
+        generated as Mask
+      ).maskWithoutCaretTraps
     } else {
       throw new Error(
         'Text-mask:conformToMask; The mask property must be an array.'
       )
     }
+  } else {
+    finalMask = mask as Mask
   }
 
   // These configurations tell us how to conform the mask
@@ -42,7 +51,7 @@ export default function conformToMask(
     guide = true,
     previousConformedValue = emptyString,
     placeholderChar = defaultPlaceholderChar,
-    placeholder = convertMaskToPlaceholder(mask, placeholderChar),
+    placeholder = convertMaskToPlaceholder(finalMask, placeholderChar),
     currentCaretPosition,
     keepCharPositions,
   } = config
@@ -55,7 +64,7 @@ export default function conformToMask(
   const rawValueLength = rawValue.length
   const previousConformedValueLength = previousConformedValue.length
   const placeholderLength = placeholder.length
-  const maskLength = mask.length
+  const maskLength = finalMask.length
 
   // This tells us the number of edited characters and the direction in which they were edited (+/-)
   const editDistance = rawValueLength - previousConformedValueLength
@@ -155,7 +164,10 @@ export default function conformToMask(
 
             // Else if, the character we got from the user input is not a placeholder, let's see
             // if the current position in the mask can accept it.
-          } else if (mask[i].test(rawValueChar)) {
+          } else if (
+            finalMask[i] instanceof RegExp &&
+            (finalMask[i] as RegExp).test(rawValueChar)
+          ) {
             // we map the character differently based on whether we are keeping character positions or not.
             // If any of the conditions below are met, we simply map the raw value character to the
             // placeholder position.
@@ -176,7 +188,7 @@ export default function conformToMask(
               // `9`, to the first available placeholder position, but then, there are no more spots available for the
               // `4` and `2`. So, we discard them and end up with a conformed value of `92__`.
               const rawValueArrLength = rawValueArr.length
-              let indexOfNextAvailablePlaceholderChar = null
+              let indexOfNextAvailablePlaceholderChar: number | null = null
 
               // Let's loop through the remaining raw value characters. We are looking for either a suitable spot, ie,
               // a placeholder character or a non-suitable spot, ie, a non-placeholder character that is not new.
@@ -246,7 +258,7 @@ export default function conformToMask(
   // That's why the logic below finds the last filled placeholder character, and removes everything
   // from that point on.
   if (suppressGuide && isAddition === false) {
-    let indexOfLastFilledPlaceholderChar = null
+    let indexOfLastFilledPlaceholderChar: number | null = null
 
     // Find the last filled placeholder position and substring from there
     for (let i = 0; i < conformedValue.length; i++) {
