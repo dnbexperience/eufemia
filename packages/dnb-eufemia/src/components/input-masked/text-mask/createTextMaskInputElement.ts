@@ -1,9 +1,14 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
+
 /**
  * Source for a non maintained repo:
  * https://github.com/text-mask/text-mask/tree/master/core/src
  */
 
 import adjustCaretPosition from './adjustCaretPosition'
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import conformToMask from './conformToMask'
 import {
   convertMaskToPlaceholder,

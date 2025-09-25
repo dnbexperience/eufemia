@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 // The original can be found here: https://github.com/text-mask/text-mask/tree/master/addons
 // No license was given at the point of writing
 
