@@ -140,7 +140,12 @@ export const Width = () => {
 export const InForm = () => {
   return (
     <ComponentBox data-visual-test="date-of-birth-in-form">
-      <Form.Handler onSubmit={console.log}>
+      <Form.Handler
+        onSubmit={console.log}
+        data={{
+          dob: '2000-05-17',
+        }}
+      >
         <Form.Card>
           <Field.DateOfBirth path="/dob" />
 

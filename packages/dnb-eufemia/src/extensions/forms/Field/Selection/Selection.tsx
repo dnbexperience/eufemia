@@ -326,7 +326,7 @@ function Selection(props: Props) {
   )
 
   // Specific handleShow and handleHide because Dropdown preserve the initially received callbacks, so changes
-  // due to `useCallback` usage will have no effect, leading to useFieldPropss handleFocus and handleBlur sending out old
+  // due to `useCallback` usage will have no effect, leading to useFieldProps's handleFocus and handleBlur sending out old
   // copies of value as arguments.
   const handleShow = useCallback(
     ({ data }) => {

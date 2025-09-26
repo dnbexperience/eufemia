@@ -63,7 +63,7 @@ export const DatePickerRange = () => (
         partialEndDate,
       }) => {
         console.log('onBlurPartial', partialStartDate, partialEndDate)
-        console.log('onBlurcomplete', start_date, end_date)
+        console.log('onBlurComplete', start_date, end_date)
       }}
       shortcuts={[
         {
