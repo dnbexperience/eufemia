@@ -86,10 +86,10 @@ describe('Tools.Errors', () => {
       JSON.stringify(
         {
           fieldErrors: {
-            '/foo': 'Dette feltet må fylles ut.',
+            '/foo': 'Feltet må fylles ut.',
           },
           formErrors: {
-            '/foo': 'Dette feltet må fylles ut.',
+            '/foo': 'Feltet må fylles ut.',
           },
         },
         null,

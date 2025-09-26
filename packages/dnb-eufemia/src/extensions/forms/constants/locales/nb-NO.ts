@@ -7,7 +7,7 @@ export default {
       errorSummaryTitle: 'Feil som må rettes',
       stateSummary: 'Oppsummering:',
       errorSummary: 'Feil som må rettes:',
-      errorRequired: 'Dette feltet må fylles ut.',
+      errorRequired: 'Feltet må fylles ut.',
       errorPattern: 'Verdien er ugyldig.',
       optionalLabelSuffix: '(valgfritt)',
     },
