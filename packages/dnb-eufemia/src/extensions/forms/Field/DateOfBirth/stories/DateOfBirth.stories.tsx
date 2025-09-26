@@ -1,4 +1,4 @@
-import { Field, Form, Value } from '../../..'
+import { Field, Form } from '../../..'
 import { Flex } from '../../../../..'
 
 export default {
