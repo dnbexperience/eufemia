@@ -3,6 +3,23 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.83.0](https://github.com/dnbexperience/eufemia/compare/v10.82.1...v10.83.0) (2025-09-26)
+
+
+### :memo: Documentation
+
+* how to use Tailwind with Eufemia ([#5527](https://github.com/dnbexperience/eufemia/issues/5527)) ([16fd835](https://github.com/dnbexperience/eufemia/commit/16fd8357d48330e72b9ba6db48020c0a5fec1b91))
+
+
+### :sparkles: Features
+
+* attach `scopeElement` when calling `Eufemia.versions` ([#5496](https://github.com/dnbexperience/eufemia/issues/5496)) ([6bb01f1](https://github.com/dnbexperience/eufemia/commit/6bb01f178872e0b874856cdfad3fce610485c2ac))
+
+
+### :bug: Bug Fixes
+
+* **Field.DateOfBirth:** add support for data handling via `path="/myPath"` ([#5539](https://github.com/dnbexperience/eufemia/issues/5539)) ([3097364](https://github.com/dnbexperience/eufemia/commit/30973647ef5212a7ba86d4855c3a1c23c8052cc7))
+
 ## [10.82.1](https://github.com/dnbexperience/eufemia/compare/v10.82.0...v10.82.1) (2025-09-25)
 
 
