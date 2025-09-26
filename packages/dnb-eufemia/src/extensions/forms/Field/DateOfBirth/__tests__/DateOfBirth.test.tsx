@@ -33,9 +33,7 @@ describe('Field.DateOfBirth', () => {
 
       render(<Field.DateOfBirth onDayChange={onDayChange} />)
 
-      const dayInput = document.querySelectorAll(
-        'input'
-      )[0] as HTMLInputElement
+      const dayInput = document.querySelectorAll('input')[0]
 
       await userEvent.type(dayInput, '2')
 
@@ -71,7 +69,7 @@ describe('Field.DateOfBirth', () => {
       render(<Field.DateOfBirth />)
 
       const inputs = document.querySelectorAll('input')
-      const monthInput = inputs[1] as HTMLInputElement
+      const monthInput = inputs[1]
 
       await userEvent.click(monthInput)
 
@@ -123,9 +121,7 @@ describe('Field.DateOfBirth', () => {
 
       render(<Field.DateOfBirth onYearChange={onYearChange} />)
 
-      const yearInput = document.querySelectorAll(
-        'input'
-      )[2] as HTMLInputElement
+      const yearInput = document.querySelectorAll('input')[2]
 
       await userEvent.type(yearInput, '85')
 
@@ -641,6 +637,204 @@ describe('Field.DateOfBirth', () => {
       expect(dayInput.value).toBe('')
       expect(yearInput.value).toBe('')
       expect(monthInput).toHaveValue('')
+    })
+  })
+
+  describe('path', () => {
+    it('should set value from source data when using path', async () => {
+      const sourceData = {
+        personalInfo: {
+          dateOfBirth: '1990-05-15',
+        },
+      }
+
+      render(
+        <Form.Handler defaultData={sourceData}>
+          <Field.DateOfBirth path="/personalInfo/dateOfBirth" />
+        </Form.Handler>
+      )
+
+      const dayInput = document.querySelectorAll('input')[0]
+      const monthInput = document.querySelectorAll('input')[1]
+      const yearInput = document.querySelectorAll('input')[2]
+
+      // The field should be populated with the source data
+      expect(dayInput.value).toBe('15')
+      expect(monthInput).toHaveValue('Mai')
+      expect(yearInput.value).toBe('1990')
+    })
+
+    it('should update internal refs when source data changes', async () => {
+      const sourceData = {
+        personalInfo: {
+          dateOfBirth: '1990-05-15',
+        },
+      }
+
+      const { rerender } = render(
+        <Form.Handler defaultData={sourceData}>
+          <Field.DateOfBirth path="/personalInfo/dateOfBirth" />
+        </Form.Handler>
+      )
+
+      const dayInput = document.querySelectorAll('input')[0]
+      const monthInput = document.querySelectorAll('input')[1]
+      const yearInput = document.querySelectorAll('input')[2]
+
+      // Initial values
+      expect(dayInput.value).toBe('15')
+      expect(monthInput).toHaveValue('Mai')
+      expect(yearInput.value).toBe('1990')
+
+      // Update source data
+      const updatedSourceData = {
+        personalInfo: {
+          dateOfBirth: '1985-12-25',
+        },
+      }
+
+      rerender(
+        <Form.Handler data={updatedSourceData}>
+          <Field.DateOfBirth path="/personalInfo/dateOfBirth" />
+        </Form.Handler>
+      )
+
+      // Values should update to reflect new source data
+      expect(dayInput.value).toBe('25')
+      expect(monthInput).toHaveValue('Desember')
+      expect(yearInput.value).toBe('1985')
+    })
+
+    it('should not show validation error when source data is valid', async () => {
+      const sourceData = {
+        personalInfo: {
+          dateOfBirth: '1990-05-15',
+        },
+      }
+
+      render(
+        <Form.Handler defaultData={sourceData}>
+          <Field.DateOfBirth
+            path="/personalInfo/dateOfBirth"
+            required
+            validateInitially
+          />
+        </Form.Handler>
+      )
+
+      // Should not show validation error for valid date from source
+      await waitFor(() => {
+        expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+      })
+    })
+
+    it('should handle empty source data gracefully', async () => {
+      const sourceData = {
+        personalInfo: {
+          dateOfBirth: '',
+        },
+      }
+
+      render(
+        <Form.Handler defaultData={sourceData}>
+          <Field.DateOfBirth path="/personalInfo/dateOfBirth" />
+        </Form.Handler>
+      )
+
+      const dayInput = document.querySelectorAll('input')[0]
+      const monthInput = document.querySelectorAll('input')[1]
+      const yearInput = document.querySelectorAll('input')[2]
+
+      // Should handle empty source data gracefully
+      expect(dayInput.value).toBe('')
+      expect(monthInput).toHaveValue('')
+      expect(yearInput.value).toBe('')
+    })
+
+    it('should update form data when user types in fields', async () => {
+      const onChange = jest.fn()
+      const sourceData = {
+        personalInfo: {
+          dateOfBirth: '1990-05-15',
+        },
+      }
+
+      render(
+        <Form.Handler defaultData={sourceData} onChange={onChange}>
+          <Field.DateOfBirth path="/personalInfo/dateOfBirth" />
+        </Form.Handler>
+      )
+
+      const dayInput = document.querySelectorAll('input')[0]
+      const yearInput = document.querySelectorAll('input')[2]
+
+      // Clear the day input and type a new value
+      await userEvent.clear(dayInput)
+      await userEvent.type(dayInput, '25')
+
+      expect(onChange).toHaveBeenCalledWith(
+        expect.objectContaining({
+          personalInfo: {
+            dateOfBirth: expect.stringMatching(/1990-05-25/),
+          },
+        }),
+        expect.any(Object)
+      )
+
+      // Clear the year input and type a new value
+      await userEvent.clear(yearInput)
+      await userEvent.type(yearInput, '1985')
+
+      expect(onChange).toHaveBeenCalledWith(
+        expect.objectContaining({
+          personalInfo: {
+            dateOfBirth: expect.stringMatching(/1985-05-25/),
+          },
+        }),
+        expect.any(Object)
+      )
+    })
+
+    it('should update form data when source data changes', async () => {
+      const onChange = jest.fn()
+      const sourceData = {
+        personalInfo: {
+          dateOfBirth: '1990-05-15',
+        },
+      }
+
+      const { rerender } = render(
+        <Form.Handler data={sourceData} onChange={onChange}>
+          <Field.DateOfBirth path="/personalInfo/dateOfBirth" />
+        </Form.Handler>
+      )
+
+      // Verify initial state - the field should be populated with source data
+      const dayInput = document.querySelectorAll('input')[0]
+      const monthInput = document.querySelectorAll('input')[1]
+      const yearInput = document.querySelectorAll('input')[2]
+
+      expect(dayInput.value).toBe('15')
+      expect(monthInput).toHaveValue('Mai')
+      expect(yearInput.value).toBe('1990')
+
+      // Update source data
+      const updatedSourceData = {
+        personalInfo: {
+          dateOfBirth: '1985-12-25',
+        },
+      }
+
+      rerender(
+        <Form.Handler data={updatedSourceData} onChange={onChange}>
+          <Field.DateOfBirth path="/personalInfo/dateOfBirth" />
+        </Form.Handler>
+      )
+
+      // The field should now reflect the new source data
+      expect(dayInput.value).toBe('25')
+      expect(monthInput).toHaveValue('Desember')
+      expect(yearInput.value).toBe('1985')
     })
   })
 

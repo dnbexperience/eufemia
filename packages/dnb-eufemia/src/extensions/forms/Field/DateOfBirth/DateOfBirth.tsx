@@ -1,4 +1,11 @@
-import React, { useCallback, useContext, useMemo, useRef } from 'react'
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useReducer,
+  useRef,
+} from 'react'
 import StringField from '../String'
 import CompositionField, {
   Props as CompositionFieldProps,
@@ -46,6 +53,7 @@ export type Props = Omit<
 export const DEFAULT_DATE_FORMAT = 'yyyy-MM-dd'
 
 function DateOfBirth(props: Props) {
+  const [, forceUpdate] = useReducer(() => ({}), {})
   const {
     errorDateOfBirth,
     errorDateOfBirthFuture,
@@ -145,6 +153,7 @@ function DateOfBirth(props: Props) {
     onMonthChange,
     onYearChange,
     setHasFocus,
+    value: fieldValue,
   } = useFieldProps(preparedProps)
 
   const prepareEventValues = useCallback(
@@ -183,26 +192,36 @@ function DateOfBirth(props: Props) {
     [prepareEventValues, setHasFocus]
   )
 
-  useMemo(() => {
-    if (
-      props.value &&
-      !dayRef.current &&
-      !monthRef.current &&
-      !yearRef.current
-    ) {
-      const [year, month, day] = splitValue(props.value, dateFormat)
+  useEffect(() => {
+    if (fieldValue) {
+      const [year, month, day] = splitValue(fieldValue, dateFormat)
 
-      dayRef.current = day
-      monthRef.current = month
-      yearRef.current = year
+      // Only update refs if they are empty or if the fieldValue represents a complete date
+      // This prevents overriding user input while typing
+      const currentValues = joinValue(
+        [yearRef.current, monthRef.current, dayRef.current],
+        dateFormat
+      )
+      const shouldUpdate =
+        (!dayRef.current && !monthRef.current && !yearRef.current) ||
+        fieldValue !== currentValues
+
+      if (shouldUpdate) {
+        dayRef.current = day
+        monthRef.current = month
+        yearRef.current = year
+
+        forceUpdate()
+      }
     }
-  }, [props.value, dateFormat])
+  }, [fieldValue, dateFormat])
 
   const handleDayChange = useCallback(
     (value: string) => {
       const day = (dayRef.current = value || emptyValue)
+      forceUpdate()
 
-      callOnChange({ day })
+      callOnChange({ day, month: monthRef.current, year: yearRef.current })
       onDayChange?.(day)
     },
     [emptyValue, callOnChange, onDayChange]
@@ -211,8 +230,9 @@ function DateOfBirth(props: Props) {
   const handleMonthChange = useCallback(
     (value: string) => {
       const month = (monthRef.current = value || emptyValue)
+      forceUpdate()
 
-      callOnChange({ month })
+      callOnChange({ day: dayRef.current, month, year: yearRef.current })
       onMonthChange?.(month)
     },
     [emptyValue, callOnChange, onMonthChange]
@@ -221,8 +241,9 @@ function DateOfBirth(props: Props) {
   const handleYearChange = useCallback(
     (value: string) => {
       const year = (yearRef.current = value || emptyValue)
+      forceUpdate()
 
-      callOnChange({ year })
+      callOnChange({ day: dayRef.current, month: monthRef.current, year })
       onYearChange?.(year)
     },
     [emptyValue, callOnChange, onYearChange]
