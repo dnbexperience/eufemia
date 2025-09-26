@@ -6,7 +6,7 @@ import {
 
 export const IsolationProperties: PropertiesTableProps = {
   path: {
-    doc: 'JSON Pointer to define the object key for all the generated nested field data.',
+    doc: 'JSON Pointer to define the object key for all the generated nested field data. When provided, Form.Isolation will inherit schema validation from the parent Form.Handler for fields within this path.',
     type: 'string',
     status: 'optional',
   },

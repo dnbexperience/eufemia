@@ -556,7 +556,7 @@ describe('Form.SubmitConfirmation', () => {
       expect(output).toHaveAttribute('aria-hidden', 'true')
     })
 
-    await userEvent.click(submitButton)
+    fireEvent.submit(submitButton)
     expect(document.querySelector('output')).toHaveTextContent(
       'readyToBeSubmitted'
     )
