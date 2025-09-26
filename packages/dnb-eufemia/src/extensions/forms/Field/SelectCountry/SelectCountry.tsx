@@ -152,7 +152,7 @@ function SelectCountry(props: Props) {
    * Only when the Autocomplete opens (focus).
    * To achieve this, we use memo instead of effect to update refs in sync.
    *
-   * We set or update the data list depending on if the countrycode changes or lang changes.
+   * We set or update the data list depending on if the country code changes or lang changes.
    * We then update data set when value changes.
    */
   useMemo(() => {

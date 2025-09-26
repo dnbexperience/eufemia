@@ -72,7 +72,7 @@ export type AnchorProps = {
    */
   noIcon?: boolean
   /**
-   * Removes Luanch Icon.
+   * Removes Launch Icon.
    * Default: `false`
    */
   noLaunchIcon?: boolean
