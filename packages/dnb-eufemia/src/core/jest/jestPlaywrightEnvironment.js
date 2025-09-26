@@ -7,7 +7,6 @@ const PlaywrightEnvironment =
   require('jest-playwright-preset/lib/PlaywrightEnvironment').default
 const chalk = require('chalk')
 const { config } = require('./jestSetupScreenshots')
-const { slugify } = require('../../shared/component-helper')
 
 class JestEnvironment extends PlaywrightEnvironment {
   constructor(config, context) {
@@ -30,6 +29,10 @@ class JestEnvironment extends PlaywrightEnvironment {
 
   async teardown() {
     await super.teardown()
+  }
+
+  setRetryAttempt(retryAttempt) {
+    this.global.retryAttempt = retryAttempt
   }
 
   getCurrentTestName(state) {
@@ -66,22 +69,26 @@ class JestEnvironment extends PlaywrightEnvironment {
     }
 
     if (config.retryTimes > 0) {
-      this.global.retryAttempt = 0
+      // Reset retry attempt at the start of each test
+      if (event.name === 'test_start') {
+        this.setRetryAttempt(0)
+      }
 
       if (event.name === 'test_fn_failure') {
         const currentTestName = this.getCurrentTestName(state)
-        const slug = slugify(currentTestName)
-
-        if (typeof global.__EVENT_FAILURE_CACHE__ === 'undefined') {
-          global.__EVENT_FAILURE_CACHE__ = {}
-        }
-        global.__EVENT_FAILURE_CACHE__[slug] = {
-          currentTestName,
-          failed: true,
-        }
-
         const retryAttempt = state.currentlyRunningTest.invocations
-        this.global.retryAttempt = retryAttempt
+        this.setRetryAttempt(retryAttempt)
+
+        // Set a marker on the page to indicate this is a retry
+        if (this.global.page) {
+          this.global.page
+            .evaluate(() => {
+              window.__VISUAL_TEST_RETRY__ = true
+            })
+            .catch(() => {
+              // Ignore errors if page is not available
+            })
+        }
 
         console.log(
           chalk.yellow(
@@ -91,12 +98,8 @@ class JestEnvironment extends PlaywrightEnvironment {
       }
 
       if (event.name === 'test_fn_success') {
-        const currentTestName = this.getCurrentTestName(state)
-
-        const slug = slugify(currentTestName)
-        if (global.__EVENT_FAILURE_CACHE__[slug]) {
-          global.__EVENT_FAILURE_CACHE__[slug].failed = false
-        }
+        // Reset retry attempt on success
+        this.setRetryAttempt(0)
       }
     }
   }

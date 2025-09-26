@@ -9,6 +9,7 @@ import { isCI } from 'repo-utils'
 import { slugify, makeUniqueId } from '../../shared/component-helper'
 import { configureToMatchImageSnapshot } from 'jest-image-snapshot'
 import screenshotConfig from '../../../jest.config.screenshots'
+import { Page } from '@playwright/test'
 
 const playwrightSettings =
   screenshotConfig.testEnvironmentOptions['jest-playwright']
@@ -36,13 +37,158 @@ export const config = {
     },
   },
   // We may use one of these: load, domcontentloaded, networkidle2
-  waitUntil: isCI ? 'load' : 'load',
+  waitUntil: 'load' as
+    | 'load'
+    | 'domcontentloaded'
+    | 'networkidle'
+    | 'commit',
 }
 export { isCI }
 
 type ActionName = 'click' | 'hover' | 'focus' | 'focusclick' | 'active'
 type Action = { action?: ActionName; selector?: string; keypress?: string }
 type Simulate = Action | ActionName | (Action | ActionName)[]
+
+// Helper function to apply test configuration to the page
+async function applyTestConfiguration(page: Page) {
+  global.IS_TEST = true
+  await page.evaluate(() => {
+    try {
+      window['IS_TEST'] = true
+      document.documentElement.setAttribute('data-visual-test', 'true')
+    } catch (e) {
+      //
+    }
+  })
+}
+
+// Helper function to add test stylesheet
+async function addTestStylesheet(page: Page) {
+  // Keep in mind, we also import this file in dev/prod portal (gatsby-browser),
+  // just because it makes local dev easier
+  await page.addStyleTag({
+    path: path.resolve(__dirname, './jestSetupScreenshots.css'),
+  })
+}
+
+// Helper function to clear browser storage
+async function clearBrowserStorage(page: Page) {
+  await page.evaluate(() => {
+    window.localStorage.clear()
+    window.sessionStorage.clear()
+  })
+}
+
+// Helper function to detect and handle retry attempts
+async function detectAndHandleRetry(page: Page): Promise<boolean> {
+  let isRetry = false
+  try {
+    const hasRetryMarker = await page.evaluate(() => {
+      return globalThis.__VISUAL_TEST_RETRY__ === true
+    })
+
+    if (hasRetryMarker) {
+      isRetry = true
+      // Clear the marker
+      await page.evaluate(() => {
+        delete globalThis.__VISUAL_TEST_RETRY__
+      })
+    }
+  } catch (e) {
+    // If we can't check the page, assume it's not a retry
+  }
+
+  return isRetry
+}
+
+// Helper function to apply page viewport and headers
+async function applyPageSettings(
+  page: Page,
+  pageViewport?: { width?: number; height?: number },
+  headers?: Record<string, string>
+) {
+  if (pageViewport || config.pageViewport) {
+    let finalViewport: { width: number; height: number }
+
+    if (pageViewport && config.pageViewport) {
+      finalViewport = { ...config.pageViewport, ...pageViewport } as {
+        width: number
+        height: number
+      }
+    } else if (pageViewport) {
+      finalViewport = pageViewport as { width: number; height: number }
+    } else {
+      finalViewport = config.pageViewport as {
+        width: number
+        height: number
+      }
+    }
+
+    await page.setViewportSize(finalViewport)
+  }
+
+  if (headers) {
+    await page.setExtraHTTPHeaders(headers)
+  }
+}
+
+// Helper function to handle page navigation
+async function navigateToPage({
+  page,
+  url,
+  themeName,
+  pageViewport,
+  headers,
+  fullscreen,
+}: {
+  page: Page
+  url: string
+  themeName?: string
+  pageViewport?: { width?: number; height?: number }
+  headers?: Record<string, string>
+  fullscreen?: boolean
+}) {
+  // Apply page settings (viewport, headers) before navigation
+  await applyPageSettings(page, pageViewport, headers)
+
+  global.themeName = themeName
+  global.pageUrl = createUrl(url, fullscreen, themeName)
+
+  await page.goto(global.pageUrl, {
+    waitUntil: config.waitUntil,
+    timeout: config.timeout,
+  })
+}
+
+// Helper function to handle complete retry setup
+async function handleRetrySetup({
+  page,
+  pageViewport,
+  headers,
+}: {
+  page: Page
+  pageViewport?: { width?: number; height?: number }
+  headers?: Record<string, string>
+}) {
+  // Complete page reset for retry attempts
+  await clearBrowserStorage(page)
+
+  // Reload the page to get a completely fresh state
+  await page.reload({
+    waitUntil: config.waitUntil,
+    timeout: config.timeout,
+  })
+
+  // Apply page settings (viewport, headers) after reload
+  await applyPageSettings(page, pageViewport, headers)
+
+  // Re-apply test configuration after reload
+  await applyTestConfiguration(page)
+  await addTestStylesheet(page)
+
+  // Wait for a moment to ensure the page is fully ready
+  await page.waitForTimeout(100)
+}
 
 export const makeScreenshot = async (
   {
@@ -73,11 +219,11 @@ export const makeScreenshot = async (
     matchConfig = null,
     recalculateHeightAfterSimulate = false,
   }: {
-    page?
+    page?: Page
     url?: string
     themeName?: string
     pageViewport?: { width?: number; height?: number }
-    headers?
+    headers?: Record<string, string>
     /** Reloads the page before making changes to the elements */
     reload?: boolean
     fullscreen?: boolean
@@ -116,7 +262,11 @@ export const makeScreenshot = async (
     /** Custom style to apply to the element wrapping the selected element */
     wrapperStyle?: Record<string, string>
     measureElement?: string
-    matchConfig?
+    matchConfig?: {
+      failureThreshold?: number
+      failureThresholdType?: 'pixel' | 'percent'
+      comparisonMethod?: 'pixelmatch' | 'ssim' | 'ssim-fast'
+    }
     /**
      * Used if your simulation changes the height of the component
      *
@@ -125,15 +275,24 @@ export const makeScreenshot = async (
     recalculateHeightAfterSimulate?: boolean
   } = { selector: undefined }
 ) => {
-  await makePageReady({
-    page,
-    url,
-    themeName,
-    pageViewport,
-    headers,
-    fullscreen,
-    matchConfig,
-  })
+  // Handle retry attempts with complete page reset
+  const isRetry = await detectAndHandleRetry(page)
+
+  if (isRetry) {
+    // Handle complete retry setup
+    await handleRetrySetup({ page, pageViewport, headers })
+  } else {
+    // Normal page setup for first attempt
+    await makePageReady({
+      page,
+      url,
+      themeName,
+      pageViewport,
+      headers,
+      fullscreen,
+      matchConfig,
+    })
+  }
 
   if (reload) {
     await page.reload()
@@ -265,8 +424,8 @@ export const setupPageScreenshot = (
     }, timeout)
   }
 
-  const before = async () => {
-    await makePageReady({
+  beforeAll(async () => {
+    await navigateToPage({
       page,
       url,
       themeName,
@@ -274,9 +433,7 @@ export const setupPageScreenshot = (
       headers,
       fullscreen,
     })
-  }
-
-  beforeAll(before, timeout)
+  }, timeout)
 }
 
 async function handleElement({
@@ -343,58 +500,41 @@ async function makePageReady({
   headers = null,
   fullscreen = false,
   matchConfig = null,
+}: {
+  page: Page
+  url?: string
+  themeName?: string
+  pageViewport?: { width?: number; height?: number }
+  headers?: Record<string, string>
+  fullscreen?: boolean
+  matchConfig?: {
+    failureThreshold?: number
+    failureThresholdType?: 'pixel' | 'percent'
+    comparisonMethod?: 'pixelmatch' | 'ssim' | 'ssim-fast'
+  }
 }) {
   if (matchConfig) {
     setMatchConfig(matchConfig)
   }
 
   if (url) {
-    if (pageViewport || (pageViewport !== false && config.pageViewport)) {
-      if (pageViewport && config.pageViewport) {
-        pageViewport = { ...config.pageViewport, ...pageViewport }
-      } else {
-        pageViewport = config.pageViewport
-      }
-      await page.setViewportSize(pageViewport)
-    }
-
-    if (headers) {
-      await page.setExtraHTTPHeaders(headers)
-    }
-
-    global.themeName = themeName
-    global.pageUrl = createUrl(url, fullscreen, themeName)
-
-    await page.goto(global.pageUrl, {
-      waitUntil: config.waitUntil,
-      timeout: config.timeout,
-    })
-
-    await page.evaluate(() => {
-      // Remove all stored
-      window.localStorage.clear()
+    await navigateToPage({
+      page,
+      url,
+      themeName,
+      pageViewport,
+      headers,
+      fullscreen,
     })
   }
 
-  if (global.retryAttempt) {
-    await page.reload()
-  }
+  // Apply test configuration
+  await applyTestConfiguration(page)
+  await addTestStylesheet(page)
 
-  global.IS_TEST = true
-  await page.evaluate(() => {
-    try {
-      window['IS_TEST'] = true
-      document.documentElement.setAttribute('data-visual-test', 'true')
-    } catch (e) {
-      //
-    }
-  })
-
-  // Keep in mind, we also import this file in dev/prod portal (gatsby-browser),
-  // just because it makes local dev easier
-  await page.addStyleTag({
-    path: path.resolve(__dirname, './jestSetupScreenshots.css'),
-  })
+  // Wait for a moment to ensure the page is fully ready
+  // This helps to avoid retry attempts.
+  await page.waitForTimeout(50)
 }
 
 async function handleRootClassName({ page, rootClassName }) {
