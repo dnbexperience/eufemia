@@ -1093,6 +1093,7 @@ describe('Dropdown component', () => {
   })
 
   it('will set focus on options when key down/up is pressed on first item', async () => {
+    // TODO: why? Shouldn't we just loop?
     const { rerender } = render(
       <Dropdown id="key-nav" no_animation data={mockData} />
     )
