@@ -9,7 +9,12 @@ declare global {
       version?: string
       sha?: string
       shas?: Array<string>
-      versions?: Array<{ js: string; css: string; sha: string }>
+      versions?: Array<{
+        js: string
+        css: string
+        sha: string
+        scopeElement: Element | null
+      }>
     }
     __eufemiaVersions?: Array<string>
     __eufemiaSHAs?: Array<string>
@@ -47,13 +52,20 @@ export function init() {
         return window.__eufemiaSHAs
       }
 
-      get versions(): Array<{ js: string; css: string; sha: string }> {
+      get versions(): Array<{
+        js: string
+        css: string
+        sha: string
+        scopeElement: Element | null
+      }> {
         return window.__eufemiaSHAs.map((sha, i) => {
-          const scope = document.querySelector(
-            `[data-scope-hash-id][data-scope-sha="${sha}"] .dnb-core-style`
+          const scopeElement = document.querySelector(
+            `[data-scope-hash-id][data-scope-sha="${sha}"]`
           )
+          const styleElement =
+            scopeElement?.querySelector('.dnb-core-style')
           const css = window
-            .getComputedStyle(scope || document.body)
+            .getComputedStyle(styleElement || document.body)
             .getPropertyValue('--eufemia-version')
             .replace(/"/g, '')
 
@@ -63,7 +75,7 @@ export function init() {
             window.__eufemiaVersions[0] ||
             this.version
 
-          return { js, css, sha }
+          return { js, css, sha, scopeElement }
         })
       }
     }
