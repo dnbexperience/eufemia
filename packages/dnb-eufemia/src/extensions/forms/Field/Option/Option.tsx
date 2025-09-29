@@ -6,7 +6,7 @@ export type Props = FieldProps<number | string> & {
   title?: React.ReactNode
   /** Secondary text. */
   text?: React.ReactNode
-  /** What group in the `groups` prop this item belongs to. */
+  /** What group index in the `groups` prop this item belongs to. */
   groupIndex?: number
   /** Optional way to provide `title`. Will be ignored if `title` is used. */
   children?: React.ReactNode

@@ -198,7 +198,7 @@ export const DrawerListItem = {
     status: 'optional',
   },
   groupIndex: {
-    doc: 'What group in the `groups` prop this item belongs to.',
+    doc: 'What group index in the `groups` prop this item belongs to.',
     type: 'number',
     status: 'optional',
   },

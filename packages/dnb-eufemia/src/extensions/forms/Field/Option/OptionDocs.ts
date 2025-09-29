@@ -13,7 +13,7 @@ export const OptionProperties: PropertiesTableProps = {
     status: 'optional',
   },
   groupIndex: {
-    doc: `What group in the \`groups\` prop ([Field.Selection](/uilib/extensions/forms/base-fields/Selection/)) this item belongs to.`,
+    doc: `What group index in the \`groups\` prop ([Field.Selection](/uilib/extensions/forms/base-fields/Selection/)) this item belongs to.`,
     type: 'number',
     status: 'optional',
   },
