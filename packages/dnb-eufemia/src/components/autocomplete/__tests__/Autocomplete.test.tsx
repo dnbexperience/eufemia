@@ -25,8 +25,12 @@ import {
   DrawerListData,
   DrawerListDataArrayObject,
   DrawerListDataArray,
+  DrawerListGroupTitles,
 } from '../../../fragments/drawer-list'
 import { Provider } from '../../../shared'
+import locales from '../../../shared/locales/nb-NO'
+
+const nbNO = locales['nb-NO'].DrawerList
 
 const mockProps: AutocompleteAllProps = {
   id: 'autocomplete-id',
@@ -63,7 +67,7 @@ describe('Autocomplete component', () => {
     expect(
       document.querySelectorAll('li.dnb-drawer-list__option')[0].outerHTML
     ).toBe(
-      /* html */ `<li class="first-of-type dnb-drawer-list__option" role="option" tabindex="-1" aria-selected="false" data-item="1" id="option-autocomplete-id-1"><span class="dnb-drawer-list__option__inner"><span class="dnb-drawer-list__option__item"><span><span class="dnb-drawer-list__option__item--highlight">Th</span>e <span class="dnb-drawer-list__option__item--highlight">G</span>odfa<span class="dnb-drawer-list__option__item--highlight">th</span>er <span class="dnb-drawer-list__option__item--highlight">th</span>e <span class="dnb-drawer-list__option__item--highlight">g</span>odfa<span class="dnb-drawer-list__option__item--highlight">th</span>er <span class="dnb-drawer-list__option__item--highlight">Th</span>e <span class="dnb-drawer-list__option__item--highlight">G</span>odfa<span class="dnb-drawer-list__option__item--highlight">th</span>er</span></span></span></li>`
+      /* html */ `<li class="first-of-type first-item dnb-drawer-list__option" role="option" tabindex="-1" aria-selected="false" data-item="1" id="option-autocomplete-id-1"><span class="dnb-drawer-list__option__inner"><span class="dnb-drawer-list__option__item"><span><span class="dnb-drawer-list__option__item--highlight">Th</span>e <span class="dnb-drawer-list__option__item--highlight">G</span>odfa<span class="dnb-drawer-list__option__item--highlight">th</span>er <span class="dnb-drawer-list__option__item--highlight">th</span>e <span class="dnb-drawer-list__option__item--highlight">g</span>odfa<span class="dnb-drawer-list__option__item--highlight">th</span>er <span class="dnb-drawer-list__option__item--highlight">Th</span>e <span class="dnb-drawer-list__option__item--highlight">G</span>odfa<span class="dnb-drawer-list__option__item--highlight">th</span>er</span></span></span></li>`
     )
   })
 
@@ -169,7 +173,7 @@ describe('Autocomplete component', () => {
     expect(
       document.querySelectorAll('li.dnb-drawer-list__option')[0].outerHTML
     ).toBe(
-      /* html */ `<li class="first-of-type dnb-drawer-list__option" role="option" tabindex="-1" aria-selected="false" data-item="1" id="option-autocomplete-id-1"><span class="dnb-drawer-list__option__inner"><span class="dnb-drawer-list__option__item"><span><span class="dnb-drawer-list__option__item--highlight">BB</span> <span class="dnb-drawer-list__option__item--highlight">cc</span> ze<span class="dnb-drawer-list__option__item--highlight">thx</span></span></span></span></li>`
+      /* html */ `<li class="first-of-type first-item dnb-drawer-list__option" role="option" tabindex="-1" aria-selected="false" data-item="1" id="option-autocomplete-id-1"><span class="dnb-drawer-list__option__inner"><span class="dnb-drawer-list__option__item"><span><span class="dnb-drawer-list__option__item--highlight">BB</span> <span class="dnb-drawer-list__option__item--highlight">cc</span> ze<span class="dnb-drawer-list__option__item--highlight">thx</span></span></span></span></li>`
     )
 
     // check "invalid"
@@ -455,7 +459,7 @@ describe('Autocomplete component', () => {
     expect(
       document.querySelectorAll('li.dnb-drawer-list__option')[0].outerHTML
     ).toBe(
-      '<li class="first-of-type dnb-drawer-list__option dnb-drawer-list__option--focus" role="option" tabindex="-1" aria-selected="false" aria-current="true" data-item="1" id="option-autocomplete-id-1"><span class="dnb-drawer-list__option__inner"><span class="dnb-drawer-list__option__item"><span>item <span class="dnb-drawer-list__option__item--highlight">bb</span></span></span></span></li>'
+      '<li class="first-of-type first-item dnb-drawer-list__option dnb-drawer-list__option--focus" role="option" tabindex="-1" aria-selected="false" aria-current="true" data-item="1" id="option-autocomplete-id-1"><span class="dnb-drawer-list__option__inner"><span class="dnb-drawer-list__option__item"><span>item <span class="dnb-drawer-list__option__item--highlight">bb</span></span></span></span></li>'
     )
 
     // First result direction
@@ -465,7 +469,7 @@ describe('Autocomplete component', () => {
     expect(
       document.querySelectorAll('li.dnb-drawer-list__option')[0].outerHTML
     ).toBe(
-      '<li class="first-of-type dnb-drawer-list__option" role="option" tabindex="-1" aria-selected="false" data-item="2" id="option-autocomplete-id-2"><span class="dnb-drawer-list__option__inner"><span class="dnb-drawer-list__option__item"><span>item <span class="dnb-drawer-list__option__item--highlight">cc</span></span></span></span></li>'
+      '<li class="first-of-type first-item dnb-drawer-list__option" role="option" tabindex="-1" aria-selected="false" data-item="2" id="option-autocomplete-id-2"><span class="dnb-drawer-list__option__inner"><span class="dnb-drawer-list__option__item"><span>item <span class="dnb-drawer-list__option__item--highlight">cc</span></span></span></span></li>'
     )
 
     // Second result direction
@@ -475,7 +479,7 @@ describe('Autocomplete component', () => {
     expect(
       document.querySelectorAll('li.dnb-drawer-list__option')[0].outerHTML
     ).toBe(
-      '<li class="first-of-type dnb-drawer-list__option dnb-drawer-list__option--focus" role="option" tabindex="-1" aria-selected="false" aria-current="true" data-item="1" id="option-autocomplete-id-1"><span class="dnb-drawer-list__option__inner"><span class="dnb-drawer-list__option__item"><span>item <span class="dnb-drawer-list__option__item--highlight">bb</span></span></span></span></li>'
+      '<li class="first-of-type first-item dnb-drawer-list__option dnb-drawer-list__option--focus" role="option" tabindex="-1" aria-selected="false" aria-current="true" data-item="1" id="option-autocomplete-id-1"><span class="dnb-drawer-list__option__inner"><span class="dnb-drawer-list__option__item"><span>item <span class="dnb-drawer-list__option__item--highlight">bb</span></span></span></span></li>'
     )
 
     // With three matches, we prioritize the second one to be on the first place
@@ -485,7 +489,7 @@ describe('Autocomplete component', () => {
     expect(
       document.querySelectorAll('li.dnb-drawer-list__option')[0].outerHTML
     ).toBe(
-      '<li class="first-of-type dnb-drawer-list__option" role="option" tabindex="-1" aria-selected="false" data-item="3" id="option-autocomplete-id-3"><span class="dnb-drawer-list__option__inner"><span class="dnb-drawer-list__option__item"><span>item <span class="dnb-drawer-list__option__item--highlight">cc</span> second</span></span></span></li>'
+      '<li class="first-of-type first-item closest-to-top closest-to-bottom dnb-drawer-list__option" role="option" tabindex="-1" aria-selected="false" data-item="3" id="option-autocomplete-id-3"><span class="dnb-drawer-list__option__inner"><span class="dnb-drawer-list__option__item"><span>item <span class="dnb-drawer-list__option__item--highlight">cc</span> second</span></span></span></li>'
     )
 
     // Do not find item, as there is defined a search_content
@@ -671,7 +675,7 @@ describe('Autocomplete component', () => {
     expect(
       document.querySelectorAll('li.dnb-drawer-list__option')[0].outerHTML
     ).toBe(
-      /* html */ `<li class="first-of-type dnb-drawer-list__option dnb-drawer-list__option--focus" role="option" tabindex="-1" aria-selected="false" aria-current="true" data-item="1" id="option-autocomplete-id-1"><span class="dnb-drawer-list__option__inner"><span class="dnb-drawer-list__option__item"><span><span class="dnb-drawer-list__option__item--highlight">2223</span> <span class="dnb-drawer-list__option__item--highlight">33</span> <span class="dnb-drawer-list__option__item--highlight">4442</span>5</span></span></span></li>`
+      /* html */ `<li class="first-of-type first-item dnb-drawer-list__option dnb-drawer-list__option--focus" role="option" tabindex="-1" aria-selected="false" aria-current="true" data-item="1" id="option-autocomplete-id-1"><span class="dnb-drawer-list__option__inner"><span class="dnb-drawer-list__option__item"><span><span class="dnb-drawer-list__option__item--highlight">2223</span> <span class="dnb-drawer-list__option__item--highlight">33</span> <span class="dnb-drawer-list__option__item--highlight">4442</span>5</span></span></span></li>`
     )
 
     fireEvent.change(document.querySelector('.dnb-input__input'), {
@@ -3609,6 +3613,248 @@ describe('Autocomplete component', () => {
     expect(screen.getAllByRole('option')[0].textContent).toBe(
       'The Godfather'
     )
+  })
+
+  describe('groups', () => {
+    const dataProp: DrawerListDataArray = [
+      { groupIndex: 0, content: 'Item 0.1' },
+      { groupIndex: 0, content: 'Item 0.2' },
+      { groupIndex: 1, content: 'Item 1.1' },
+      { groupIndex: 2, content: 'Item 2.1' },
+      { groupIndex: 3, content: 'Item 3.1' },
+    ]
+
+    const groupsProp: DrawerListGroupTitles = [
+      'First',
+      'Second',
+      'Third',
+      'Fourth',
+    ]
+
+    it('renders groups', async () => {
+      render(
+        <Autocomplete
+          no_animation={true}
+          data={dataProp}
+          groups={groupsProp}
+        />
+      )
+
+      const input = document.querySelector(
+        '.dnb-autocomplete .dnb-input__input'
+      )
+      await userEvent.click(input)
+
+      const groupsUL = document.querySelectorAll('.dnb-drawer-list__group')
+      expect(groupsUL.length).toBe(4)
+      expect(
+        groupsUL[0].querySelector('.dnb-drawer-list__group-title')
+          .textContent
+      ).toBe('First')
+      expect(
+        groupsUL[1].querySelector('.dnb-drawer-list__group-title')
+          .textContent
+      ).toBe('Second')
+      expect(
+        groupsUL[2].querySelector('.dnb-drawer-list__group-title')
+          .textContent
+      ).toBe('Third')
+      expect(
+        groupsUL[3].querySelector('.dnb-drawer-list__group-title')
+          .textContent
+      ).toBe('Fourth')
+
+      const options = document.querySelectorAll('.dnb-drawer-list__option')
+      expect(options.length).toBe(5)
+
+      expect(
+        groupsUL[0].querySelectorAll('.dnb-drawer-list__option')[0]
+          .textContent
+      ).toBe('Item 0.1')
+      expect(
+        groupsUL[0].querySelectorAll('.dnb-drawer-list__option')[1]
+          .textContent
+      ).toBe('Item 0.2')
+      expect(
+        groupsUL[1].querySelectorAll('.dnb-drawer-list__option')[0]
+          .textContent
+      ).toBe('Item 1.1')
+      expect(
+        groupsUL[2].querySelectorAll('.dnb-drawer-list__option')[0]
+          .textContent
+      ).toBe('Item 2.1')
+      expect(
+        groupsUL[3].querySelectorAll('.dnb-drawer-list__option')[0]
+          .textContent
+      ).toBe('Item 3.1')
+    })
+
+    it('uses default title for groups missing title', async () => {
+      render(
+        <Autocomplete
+          no_animation={true}
+          data={dataProp}
+          groups={[undefined, undefined, 'Third']}
+        />
+      )
+
+      const input = document.querySelector(
+        '.dnb-autocomplete .dnb-input__input'
+      )
+      await userEvent.click(input)
+
+      const groupsUL = document.querySelectorAll(
+        '.dnb-drawer-list__group-title'
+      )
+      expect(groupsUL.length).toBe(4)
+
+      expect(groupsUL[0].textContent).toBe(nbNO.defaultGroup)
+      expect(groupsUL[0].classList).toContain('dnb-sr-only')
+
+      expect(groupsUL[1].textContent).toBe(nbNO.missingGroup + ' 2')
+      expect(groupsUL[1].classList).not.toContain('dnb-sr-only')
+
+      expect(groupsUL[2].textContent).toBe('Third')
+      expect(groupsUL[2].classList).not.toContain('dnb-sr-only')
+
+      expect(groupsUL[3].textContent).toBe(nbNO.missingGroup + ' 4')
+      expect(groupsUL[3].classList).not.toContain('dnb-sr-only')
+    })
+
+    it('adds group for items without group index', async () => {
+      render(
+        <Autocomplete
+          no_animation={true}
+          data={[...dataProp, { content: 'Item without groupIndex' }]}
+          groups={groupsProp}
+        />
+      )
+
+      const input = document.querySelector(
+        '.dnb-autocomplete .dnb-input__input'
+      )
+      await userEvent.click(input)
+
+      const groups = document.querySelectorAll('.dnb-drawer-list__group')
+      expect(groups.length).toBe(5)
+
+      const finalGroupTitle = groups[4].querySelector(
+        '.dnb-drawer-list__group-title'
+      )
+      expect(finalGroupTitle.textContent).toBe(nbNO.noGroup)
+      expect(finalGroupTitle.classList).toContain('dnb-sr-only')
+
+      const finalGroupItems = groups[4].querySelectorAll(
+        '.dnb-drawer-list__option'
+      )
+      expect(finalGroupItems.length).toBe(1)
+      expect(finalGroupItems[0].textContent).toBe(
+        'Item without groupIndex'
+      )
+    })
+
+    it('has correct options after filter', () => {
+      const searchData = [
+        { groupIndex: 0, content: 'Abed' },
+        { groupIndex: 0, content: 'Better' },
+        { groupIndex: 1, content: 'Ask' },
+        { groupIndex: 2, content: 'Home Bug' },
+        { groupIndex: 3, content: 'Another' },
+      ]
+      render(
+        <Autocomplete
+          groups={[undefined, 'One', 'Two']}
+          data={searchData}
+          show_submit_button
+          no_animation={true}
+        />
+      )
+
+      toggle()
+
+      // First search
+      fireEvent.change(document.querySelector('.dnb-input__input'), {
+        target: { value: 'A' },
+      })
+
+      expect(
+        document.querySelectorAll('ul.dnb-drawer-list__group').length
+      ).toBe(4)
+
+      let results = document.querySelectorAll(
+        'li.dnb-drawer-list__option:not(.dnb-autocomplete__show-all)'
+      )
+      expect(results.length).toBe(3)
+      expect(results[0].textContent).toBe(searchData[0].content)
+      expect(results[1].textContent).toBe(searchData[2].content)
+      expect(results[2].textContent).toBe(searchData[4].content)
+
+      expect(
+        document.querySelectorAll(
+          'li.dnb-drawer-list__option.dnb-autocomplete__show-all'
+        ).length
+      ).toBe(1)
+
+      // Second search
+      fireEvent.change(document.querySelector('.dnb-input__input'), {
+        target: { value: 'B' },
+      })
+
+      expect(
+        document.querySelectorAll('ul.dnb-drawer-list__group').length
+      ).toBe(3)
+
+      results = document.querySelectorAll(
+        'li.dnb-drawer-list__option:not(.dnb-autocomplete__show-all)'
+      )
+      expect(results.length).toBe(2)
+      expect(results[0].textContent).toBe(searchData[1].content)
+      expect(results[1].textContent).toBe(searchData[3].content)
+
+      expect(
+        document.querySelectorAll(
+          'li.dnb-drawer-list__option.dnb-autocomplete__show-all'
+        ).length
+      ).toBe(1)
+
+      // Third search
+      fireEvent.change(document.querySelector('.dnb-input__input'), {
+        target: { value: 'Be' },
+      })
+
+      expect(
+        document.querySelectorAll('ul.dnb-drawer-list__group').length
+      ).toBe(2)
+
+      results = document.querySelectorAll(
+        'li.dnb-drawer-list__option:not(.dnb-autocomplete__show-all)'
+      )
+      expect(results.length).toBe(1)
+      expect(results[0].textContent).toBe(searchData[1].content)
+
+      expect(
+        document.querySelectorAll(
+          'li.dnb-drawer-list__option.dnb-autocomplete__show-all'
+        ).length
+      ).toBe(1)
+
+      // Fourth search
+      fireEvent.change(document.querySelector('.dnb-input__input'), {
+        target: { value: 'None' },
+      })
+
+      expect(
+        document.querySelectorAll('ul.dnb-drawer-list__group').length
+      ).toBe(0)
+
+      const options = document.querySelectorAll(
+        'li.dnb-drawer-list__option'
+      )
+      expect(options.length).toBe(1)
+      expect(options[0].classList).toContain(
+        'dnb-autocomplete__no-options'
+      )
+    })
   })
 })
 

@@ -73,6 +73,11 @@ export default {
     ProgressIndicator: {
       indicator_label: 'Please wait ...',
     },
+    DrawerList: {
+      defaultGroup: 'Default options',
+      missingGroup: 'Group',
+      noGroup: 'Other options',
+    },
     Dropdown: {
       title: 'Option Menu',
     },
