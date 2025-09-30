@@ -126,7 +126,7 @@ Get more [details about releases](/uilib/releases) or have a look on all [releas
 
 - New design for [Wizard](/uilib/extensions/forms/Wizard/).
 - Deprecated `variant` in [Wizard.Container](/uilib/extensions/forms/Wizard/Container/), as it no longer has any variants.
-- Deprecated `sidebarId` in [Wizard.Container](/uilib/extensions/forms/Wizard/Container/), as it no longer has any sidebar. If an id is needed, use the `id` prop.
+- Deprecated `sidebarId` in [Wizard.Container](/uilib/extensions/forms/Wizard/Container/), as it no longer has any sidebar. If an id is needed, use the `id` property.
 
 ## v10.71.0
 
@@ -177,7 +177,7 @@ Get more [details about releases](/uilib/releases) or have a look on all [releas
 - Fixed so [Field.Name.Company](/uilib/extensions/forms/feature-fields/Name/) must consist of at least 3 letters.
 - Fixed so there's no error message in the step menu of [Wizard.Container](/uilib/extensions/forms/Wizard/Container/) after user has entered required data.
 - Fixed so there's no error message in the step menu of [Wizard.Container](/uilib/extensions/forms/Wizard/Container/) for the active/current step.
-- Fixed so [Value.Composition](/uilib/extensions/forms/Value/Composition/) inherits props defined in [Value.Provider](/uilib/extensions/forms/Value/Provider/).
+- Fixed so [Value.Composition](/uilib/extensions/forms/Value/Composition/) inherits properties defined in [Value.Provider](/uilib/extensions/forms/Value/Provider/).
 
 ## v10.67.1
 
@@ -193,7 +193,7 @@ Get more [details about releases](/uilib/releases) or have a look on all [releas
 - Fixed spacing of help button in [Value.SummaryList](/uilib/extensions/forms/Value/SummaryList/) when used in a [Form.InfoOverlay](/uilib/extensions/forms/Form/InfoOverlay/).
 - Fixed so [Field.Composition](/uilib/extensions/forms/base-fields/Composition/) always renders a `fieldset`.
 - Fixed so `skipPortal` can be used in [Field.Date](/uilib/extensions/forms/feature-fields/Date/).
-- Fixed so `aria-required` and `required` props is set in the `input` element for [Field.Upload](/uilib/extensions/forms/feature-fields/more-fields/Upload/).
+- Fixed so `aria-required` and `required` properties is set in the `input` element for [Field.Upload](/uilib/extensions/forms/feature-fields/more-fields/Upload/).
 
 ## v10.66.0
 
@@ -384,7 +384,7 @@ Get more [details about releases](/uilib/releases) or have a look on all [releas
 - Added displaying of `hasChildren` value in summary of [Block.ChildrenWithAge](/uilib/extensions/forms/blocks/ChildrenWithAge/).
 - Added `range` for date range functionality in [Field.Date](/uilib/extensions/forms/feature-fields/Date/), and [Value.Date](/uilib/extensions/forms/Value/Date/).
 - Added [Form.SubmitConfirmation](/uilib/extensions/forms/Form/SubmitConfirmation/) to confirm a submit during or before sending.
-- Added [Value.Provider](/uilib/extensions/forms/Value/Provider/) to propagate value props down to [Value components](/uilib/extensions/forms/Value/components/) (e.g. `inheritVisibility`).
+- Added [Value.Provider](/uilib/extensions/forms/Value/Provider/) to propagate value properties down to [Value components](/uilib/extensions/forms/Value/components/) (e.g. `inheritVisibility`).
 - Deprecated [Form.useError](/uilib/extensions/forms/Form/useError/) and replaced with [Form.useValidation](/uilib/extensions/forms/Form/useValidation/).
 - Deprecated `omit_rounding` in [Value.Number](/uilib/extensions/forms/Value/Number/) and [Value.Currency](/uilib/extensions/forms/Value/Currency/), replaced with `rounding="omit"`.
 - Deprecated [Form.FieldProps](/uilib/extensions/forms/Form/FieldProps/) and replaced with [Field.Provider](/uilib/extensions/forms/feature-fields/Provider/).
@@ -436,7 +436,7 @@ Get more [details about releases](/uilib/releases) or have a look on all [releas
 
 ## v10.36
 
-- Added support for dynamic Wizard steps with the `active` and `activeWhen` prop ([Wizard.Step](/uilib/extensions/forms/Wizard/Step/)).
+- Added support for dynamic Wizard steps with the `active` and `activeWhen` property ([Wizard.Step](/uilib/extensions/forms/Wizard/Step/)).
 
 ## v10.35
 
@@ -463,8 +463,8 @@ Get more [details about releases](/uilib/releases) or have a look on all [releas
 
 - Added `Form.FieldProps` (which got renamed to [Field.Provider](/uilib/extensions/forms/feature-fields/Provider/)) component to forward field properties, such as `required` or `disabled` to all nested field components.
 - Added `locale` and `translations` to [Form.Handler](/uilib/extensions/forms/Form/Handler/) component to support custom translations.
-- Added `disabled` and `required` to [Form.Handler](/uilib/extensions/forms/Form/Handler/) component and pass these props to the children fields.
-- Added `fieldPropsWhenHidden` to [Form.Visibility](/uilib/extensions/forms/Form/Visibility/) component to pass props to the children when visibility is hidden.
+- Added `disabled` and `required` to [Form.Handler](/uilib/extensions/forms/Form/Handler/) component and pass these properties to the children fields.
+- Added `fieldPropsWhenHidden` to [Form.Visibility](/uilib/extensions/forms/Form/Visibility/) component to pass properties to the children when visibility is hidden.
 
 ## v10.29
 
@@ -480,7 +480,7 @@ Get more [details about releases](/uilib/releases) or have a look on all [releas
 ## v10.28
 
 - Added `getValue` method to [Form.useData](/uilib/extensions/forms/Form/useData/#filter-data) and [Form.getData](/uilib/extensions/forms/Form/getData/#filter-data).
-- Added `keepInDOM` prop to [Form.Visibility](/uilib/extensions/forms/Form/Visibility/).
+- Added `keepInDOM` property to [Form.Visibility](/uilib/extensions/forms/Form/Visibility/).
 
 ## v10.27
 
