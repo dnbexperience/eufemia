@@ -74,9 +74,9 @@ export default {
       indicator_label: 'Vänligen vänta ...',
     },
     DrawerList: {
-      defaultGroup: 'Standardval',
+      defaultGroupSR: 'Standardval',
       missingGroup: 'Grupp',
-      noGroup: 'Andra val',
+      noGroupSR: 'Andra val',
     },
     Dropdown: {
       title: 'Valmeny',

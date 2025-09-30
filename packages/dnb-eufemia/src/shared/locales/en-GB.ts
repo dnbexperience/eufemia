@@ -74,9 +74,9 @@ export default {
       indicator_label: 'Please wait ...',
     },
     DrawerList: {
-      defaultGroup: 'Default options',
+      defaultGroupSR: 'Default options',
       missingGroup: 'Group',
-      noGroup: 'Other options',
+      noGroupSR: 'Other options',
     },
     Dropdown: {
       title: 'Option Menu',

@@ -894,7 +894,7 @@ describe('DrawerList component', () => {
       )
       expect(groupsUL.length).toBe(4)
 
-      expect(groupsUL[0].textContent).toBe(nbNO.defaultGroup)
+      expect(groupsUL[0].textContent).toBe(nbNO.defaultGroupSR)
       expect(groupsUL[0].classList).toContain('dnb-sr-only')
 
       expect(groupsUL[1].textContent).toBe(nbNO.missingGroup + ' 2')
@@ -923,7 +923,7 @@ describe('DrawerList component', () => {
       const finalGroupTitle = groups[4].querySelector(
         '.dnb-drawer-list__group-title'
       )
-      expect(finalGroupTitle.textContent).toBe(nbNO.noGroup)
+      expect(finalGroupTitle.textContent).toBe(nbNO.noGroupSR)
       expect(finalGroupTitle.classList).toContain('dnb-sr-only')
 
       const finalGroupItems = groups[4].querySelectorAll(
