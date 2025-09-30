@@ -73,9 +73,9 @@ export default {
       indicator_label: 'Vennligst vent ...',
     },
     DrawerList: {
-      defaultGroup: 'Standardvalg',
+      defaultGroupSR: 'Standardvalg',
       missingGroup: 'Gruppe',
-      noGroup: 'Andre valg',
+      noGroupSR: 'Andre valg',
     },
     Dropdown: {
       title: 'Valgmeny',

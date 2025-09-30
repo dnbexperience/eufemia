@@ -73,9 +73,9 @@ export default {
       indicator_label: 'Vent venligst ...',
     },
     DrawerList: {
-      defaultGroup: 'Standardvalg',
+      defaultGroupSR: 'Standardvalg',
       missingGroup: 'Gruppe',
-      noGroup: 'Andre valg',
+      noGroupSR: 'Andre valg',
     },
     Dropdown: {
       title: 'Valgmenu',
