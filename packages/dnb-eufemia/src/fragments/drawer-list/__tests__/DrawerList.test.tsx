@@ -810,6 +810,10 @@ describe('DrawerList component', () => {
   })
 
   describe('groups', () => {
+    beforeEach(() => {
+      global.console.log = jest.fn()
+    })
+
     const dataProp: DrawerListDataArray = [
       { groupIndex: 0, content: 'Item 0.1' },
       { groupIndex: 0, content: 'Item 0.2' },
@@ -905,6 +909,12 @@ describe('DrawerList component', () => {
 
       expect(groupsUL[3].textContent).toBe(nbNO.missingGroup + ' 4')
       expect(groupsUL[3].classList).not.toContain('dnb-sr-only')
+
+      expect(global.console.log).toHaveBeenCalledTimes(6)
+      expect(global.console.log).toHaveBeenLastCalledWith(
+        expect.stringContaining('Eufemia'),
+        `Missing group title for groupIndex: 3`
+      )
     })
 
     it('adds group for items without group index', () => {
