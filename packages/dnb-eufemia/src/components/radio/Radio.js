@@ -166,7 +166,7 @@ export default class Radio extends React.PureComponent {
   onKeyDownHandler = (event) => {
     const key = keycode(event)
     // only have key support if there is only a single radio
-    if (this.isInnoGroupSR()) {
+    if (this.isInNoGroup()) {
       switch (key) {
         case 'enter':
           this.onChangeHandler(event)
@@ -227,7 +227,7 @@ export default class Radio extends React.PureComponent {
     typeof this.context.value !== 'undefined' && !this.props.group
   isPlainGroup = () =>
     typeof this.context.value === 'undefined' && this.props.group
-  isInnoGroupSR = () =>
+  isInNoGroup = () =>
     typeof this.context.value === 'undefined' && !this.props.group
 
   onClickHandler = (event) => {
