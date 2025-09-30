@@ -705,7 +705,7 @@ function makeRenderData(
 
           if (!groupTitle) {
             if (index === 0) {
-              groupTitle = translation.defaultGroup
+              groupTitle = translation.defaultGroupSR
               hideTitle = true
             } else {
               warn(`Missing group title for groupIndex: ${index}`)
@@ -728,7 +728,8 @@ function makeRenderData(
 
   if (noIndex.length > 0) {
     renderData.push({
-      groupTitle: renderData.length > 0 ? translation.noGroup : undefined,
+      groupTitle:
+        renderData.length > 0 ? translation.noGroupSR : undefined,
       hideTitle: true,
       groupData: noIndex,
     })
