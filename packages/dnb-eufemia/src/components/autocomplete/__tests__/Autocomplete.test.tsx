@@ -3752,6 +3752,7 @@ describe('Autocomplete component', () => {
         'Item without groupIndex'
       )
     })
+
     it('has correct options after filter', () => {
       const searchData = [
         { groupIndex: 0, content: 'Abed' },
