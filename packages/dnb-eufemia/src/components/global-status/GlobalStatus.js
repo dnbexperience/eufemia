@@ -354,6 +354,8 @@ export default class GlobalStatus extends React.PureComponent {
       this._scrollToStatusTimeout = isElementVisible(element, isDone)
       if (element && typeof element.scrollIntoView === 'function') {
         // wait a tick, to make sure that the element is visible, as firefox needs that
+        // or else it reports:
+        // scroll anchoring was disabled in a scroll container because of too many consecutive adjustments
         await wait(1)
         element.scrollIntoView({
           block: 'center',
