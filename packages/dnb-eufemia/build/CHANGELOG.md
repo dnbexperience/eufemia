@@ -3,6 +3,20 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.84.0](https://github.com/dnbexperience/eufemia/compare/v10.83.0...v10.84.0) (2025-10-02)
+
+
+### :sparkles: Features
+
+* **Dropdown,Autocomplete:** add `groups` in lists ([#5415](https://github.com/dnbexperience/eufemia/issues/5415)) ([6cee965](https://github.com/dnbexperience/eufemia/commit/6cee9656f1bd2b0bed9a7d5927584c4380ee6f72))
+
+
+### :bug: Bug Fixes
+
+* **DatePicker:** improve Swedish: Återställa -> Återställ  ([#5555](https://github.com/dnbexperience/eufemia/issues/5555)) ([fb89a2a](https://github.com/dnbexperience/eufemia/commit/fb89a2afbf10b7d445d26596a8e17dac808ab588))
+* **DatePicker:** improve Swedish: Stänga -> Stäng ([#5554](https://github.com/dnbexperience/eufemia/issues/5554)) ([f76a20d](https://github.com/dnbexperience/eufemia/commit/f76a20dc7c23531d93532c3cc2cd62d9cb7bd705))
+* **GlobalStatus:** scroll into view on Firefox ([#5550](https://github.com/dnbexperience/eufemia/issues/5550)) ([c8235a7](https://github.com/dnbexperience/eufemia/commit/c8235a778d2c5d86c958e138f1cbcf87261f153f))
+
 ## [10.83.0](https://github.com/dnbexperience/eufemia/compare/v10.82.1...v10.83.0) (2025-09-26)
 
 
