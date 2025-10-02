@@ -6,6 +6,11 @@ export const DrawerListProperties = {
     type: ['{DATA}', '() => {DATA}'],
     status: 'required',
   },
+  groups: {
+    doc: 'An array of group titles for the list items. Only the first group can be `undefined`',
+    type: 'React.ReactNode[]',
+    status: 'optional',
+  },
   value: {
     doc: 'Define a preselected `data` entry. In order of priority, `value` can be set to: object key (if `data` is an object), `selectedKey` prop (if `data` is an array), array index (if no `selectedKey`) or content (if `value` is a non-integer string).',
     type: ['string', 'number'],
@@ -190,6 +195,11 @@ export const DrawerListItem = {
   disabled: {
     doc: 'Disables the list item from selection',
     type: 'boolean',
+    status: 'optional',
+  },
+  groupIndex: {
+    doc: 'What group index in the `groups` prop this item belongs to.',
+    type: 'number',
     status: 'optional',
   },
   selectedKey: {

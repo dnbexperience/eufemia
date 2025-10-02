@@ -72,6 +72,11 @@ export default {
     ProgressIndicator: {
       indicator_label: 'Vennligst vent ...',
     },
+    DrawerList: {
+      defaultGroupSR: 'Standardvalg',
+      missingGroup: 'Gruppe',
+      noGroupSR: 'Andre valg',
+    },
     Dropdown: {
       title: 'Valgmeny',
     },

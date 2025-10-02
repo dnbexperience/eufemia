@@ -16,6 +16,7 @@ import DrawerList, {
   DrawerListAllProps,
   DrawerListDataArray,
   DrawerListData,
+  DrawerListGroupTitles,
 } from '../DrawerList'
 import { IsolatedStyleScope } from '../../../shared'
 
@@ -24,6 +25,9 @@ import {
   testDirectionObserver,
 } from './DrawerListTestMocks'
 
+import locales from '../../../shared/locales/nb-NO'
+
+const nbNO = locales['nb-NO'].DrawerList
 mockImplementationForDirectionObserver()
 
 // use no_animation so we don't need to wait
@@ -802,6 +806,143 @@ describe('DrawerList component', () => {
           .querySelector('span.dnb-drawer-list__option__item')
           .getAttribute('style')
       ).toBe('hyphens: auto;')
+    })
+  })
+
+  describe('groups', () => {
+    beforeEach(() => {
+      global.console.log = jest.fn()
+    })
+
+    const dataProp: DrawerListDataArray = [
+      { groupIndex: 0, content: 'Item 0.1' },
+      { groupIndex: 0, content: 'Item 0.2' },
+      { groupIndex: 1, content: 'Item 1.1' },
+      { groupIndex: 2, content: 'Item 2.1' },
+      { groupIndex: 3, content: 'Item 3.1' },
+    ]
+
+    const groupsProp: DrawerListGroupTitles = [
+      'First',
+      'Second',
+      'Third',
+      'Fourth',
+    ]
+
+    it('renders groups', () => {
+      render(
+        <DrawerList
+          opened={true}
+          no_animation={true}
+          data={dataProp}
+          groups={groupsProp}
+        />
+      )
+
+      const groupsUL = document.querySelectorAll('.dnb-drawer-list__group')
+      expect(groupsUL.length).toBe(4)
+      expect(
+        groupsUL[0].querySelector('.dnb-drawer-list__group-title')
+          .textContent
+      ).toBe('First')
+      expect(
+        groupsUL[1].querySelector('.dnb-drawer-list__group-title')
+          .textContent
+      ).toBe('Second')
+      expect(
+        groupsUL[2].querySelector('.dnb-drawer-list__group-title')
+          .textContent
+      ).toBe('Third')
+      expect(
+        groupsUL[3].querySelector('.dnb-drawer-list__group-title')
+          .textContent
+      ).toBe('Fourth')
+
+      const options = document.querySelectorAll('.dnb-drawer-list__option')
+      expect(options.length).toBe(5)
+
+      expect(
+        groupsUL[0].querySelectorAll('.dnb-drawer-list__option')[0]
+          .textContent
+      ).toBe('Item 0.1')
+      expect(
+        groupsUL[0].querySelectorAll('.dnb-drawer-list__option')[1]
+          .textContent
+      ).toBe('Item 0.2')
+      expect(
+        groupsUL[1].querySelectorAll('.dnb-drawer-list__option')[0]
+          .textContent
+      ).toBe('Item 1.1')
+      expect(
+        groupsUL[2].querySelectorAll('.dnb-drawer-list__option')[0]
+          .textContent
+      ).toBe('Item 2.1')
+      expect(
+        groupsUL[3].querySelectorAll('.dnb-drawer-list__option')[0]
+          .textContent
+      ).toBe('Item 3.1')
+    })
+
+    it('uses default title for groups missing title', () => {
+      render(
+        <DrawerList
+          opened={true}
+          no_animation={true}
+          data={dataProp}
+          groups={[undefined, undefined, 'Third']}
+        />
+      )
+
+      const groupsUL = document.querySelectorAll(
+        '.dnb-drawer-list__group-title'
+      )
+      expect(groupsUL.length).toBe(4)
+
+      expect(groupsUL[0].textContent).toBe(nbNO.defaultGroupSR)
+      expect(groupsUL[0].classList).toContain('dnb-sr-only')
+
+      expect(groupsUL[1].textContent).toBe(nbNO.missingGroup + ' 2')
+      expect(groupsUL[1].classList).not.toContain('dnb-sr-only')
+
+      expect(groupsUL[2].textContent).toBe('Third')
+      expect(groupsUL[2].classList).not.toContain('dnb-sr-only')
+
+      expect(groupsUL[3].textContent).toBe(nbNO.missingGroup + ' 4')
+      expect(groupsUL[3].classList).not.toContain('dnb-sr-only')
+
+      expect(global.console.log).toHaveBeenCalledTimes(6)
+      expect(global.console.log).toHaveBeenLastCalledWith(
+        expect.stringContaining('Eufemia'),
+        `Missing group title for groupIndex: 3`
+      )
+    })
+
+    it('adds group for items without group index', () => {
+      render(
+        <DrawerList
+          opened={true}
+          no_animation={true}
+          data={[...dataProp, { content: 'Item without groupIndex' }]}
+          groups={groupsProp}
+        />
+      )
+
+      const groups = document.querySelectorAll('.dnb-drawer-list__group')
+      expect(groups.length).toBe(5)
+
+      const finalGroupTitle = groups[4].querySelector(
+        '.dnb-drawer-list__group-title'
+      )
+      expect(finalGroupTitle.textContent).toBe(nbNO.noGroupSR)
+      expect(finalGroupTitle.classList).toContain('dnb-sr-only')
+
+      const finalGroupItems = groups[4].querySelectorAll(
+        '.dnb-drawer-list__option'
+      )
+      expect(finalGroupItems.length).toBe(1)
+      expect(finalGroupItems[0].textContent).toBe(
+        'Item without groupIndex'
+      )
     })
   })
 })

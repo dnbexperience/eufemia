@@ -23,6 +23,7 @@ import {
   DropdownDisabledTertiary,
   DropdownEllipsisOverflow,
   DropdownCustomizedLook,
+  DropdownGroups,
 } from 'Docs/uilib/components/dropdown/Examples'
 
 ## Demos
@@ -115,3 +116,9 @@ Only to visualize and used for visual testing
   <DropdownIndependentWidthLeft />
   <DropdownIndependentWidthRight />
 </VisibleWhenVisualTest>
+
+### Groups
+
+If an item has a `groupIndex` property, it will use the groups in the `groups` property. Only the first group can be without title, all other groups must have a title.
+
+<DropdownGroups />

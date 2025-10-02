@@ -41,8 +41,8 @@ export default {
       returnFormat: 'yyyy-MM-dd', // used in date-fns v1: YYYY-MM-DD
       firstDay: 'monday', // used in DatePickerCalendar to set the first day of the week
       submitButtonText: 'Okej',
-      cancelButtonText: 'Stänga',
-      resetButtonText: 'Återställa',
+      cancelButtonText: 'Stäng',
+      resetButtonText: 'Återställ',
       placeholderCharacters: {
         day: 'd',
         month: 'm',
@@ -72,6 +72,11 @@ export default {
     },
     ProgressIndicator: {
       indicator_label: 'Vänligen vänta ...',
+    },
+    DrawerList: {
+      defaultGroupSR: 'Standardval',
+      missingGroup: 'Grupp',
+      noGroupSR: 'Andra val',
     },
     Dropdown: {
       title: 'Valmeny',

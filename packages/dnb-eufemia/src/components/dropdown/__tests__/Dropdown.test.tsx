@@ -15,11 +15,16 @@ import {
 import {
   DrawerListDataArrayObject,
   DrawerListDataArray,
+  DrawerListGroupTitles,
 } from '../../../fragments/drawer-list'
 import { bank } from '../../../icons'
 import Icon from '../../Icon'
 import NumberFormat from '../../NumberFormat'
 import { CountryFlag } from '../../lib'
+
+import locales from '../../../shared/locales/nb-NO'
+
+const nbNO = locales['nb-NO'].DrawerList
 
 // use no_animation so we don't need to wait
 const mockProps: DropdownAllProps = {
@@ -1791,6 +1796,281 @@ describe('Dropdown component', () => {
     expect(
       document.querySelector('.dnb-drawer-list--left')
     ).toBeInTheDocument()
+  })
+
+  describe('groups', () => {
+    beforeEach(() => {
+      global.console.log = jest.fn()
+    })
+
+    const dataProp: DrawerListDataArray = [
+      { groupIndex: 0, content: 'Item 0.1' },
+      { groupIndex: 0, content: 'Item 0.2' },
+      { groupIndex: 1, content: 'Item 1.1' },
+      { groupIndex: 2, content: 'Item 2.1' },
+      { groupIndex: 3, content: 'Item 3.1' },
+    ]
+
+    const groupsProp: DrawerListGroupTitles = [
+      'First',
+      'Second',
+      'Third',
+      'Fourth',
+    ]
+
+    it('renders groups', async () => {
+      render(
+        <Dropdown
+          no_animation={true}
+          data={dataProp}
+          groups={groupsProp}
+        />
+      )
+
+      const trigger = document.querySelector('.dnb-dropdown__trigger')
+      await userEvent.click(trigger)
+
+      const groupsUL = document.querySelectorAll('.dnb-drawer-list__group')
+      expect(groupsUL.length).toBe(4)
+      expect(
+        groupsUL[0].querySelector('.dnb-drawer-list__group-title')
+          .textContent
+      ).toBe('First')
+      expect(
+        groupsUL[1].querySelector('.dnb-drawer-list__group-title')
+          .textContent
+      ).toBe('Second')
+      expect(
+        groupsUL[2].querySelector('.dnb-drawer-list__group-title')
+          .textContent
+      ).toBe('Third')
+      expect(
+        groupsUL[3].querySelector('.dnb-drawer-list__group-title')
+          .textContent
+      ).toBe('Fourth')
+
+      const options = document.querySelectorAll('.dnb-drawer-list__option')
+      expect(options.length).toBe(5)
+
+      expect(
+        groupsUL[0].querySelectorAll('.dnb-drawer-list__option')[0]
+          .textContent
+      ).toBe('Item 0.1')
+      expect(
+        groupsUL[0].querySelectorAll('.dnb-drawer-list__option')[1]
+          .textContent
+      ).toBe('Item 0.2')
+      expect(
+        groupsUL[1].querySelectorAll('.dnb-drawer-list__option')[0]
+          .textContent
+      ).toBe('Item 1.1')
+      expect(
+        groupsUL[2].querySelectorAll('.dnb-drawer-list__option')[0]
+          .textContent
+      ).toBe('Item 2.1')
+      expect(
+        groupsUL[3].querySelectorAll('.dnb-drawer-list__option')[0]
+          .textContent
+      ).toBe('Item 3.1')
+    })
+
+    it('uses default title for groups missing title', async () => {
+      render(
+        <Dropdown
+          no_animation={true}
+          data={dataProp}
+          groups={[undefined, undefined, 'Third']}
+        />
+      )
+
+      const trigger = document.querySelector('.dnb-dropdown__trigger')
+      await userEvent.click(trigger)
+
+      const groupsUL = document.querySelectorAll(
+        '.dnb-drawer-list__group-title'
+      )
+      expect(groupsUL.length).toBe(4)
+
+      expect(groupsUL[0].textContent).toBe(nbNO.defaultGroupSR)
+      expect(groupsUL[0].classList).toContain('dnb-sr-only')
+
+      expect(groupsUL[1].textContent).toBe(nbNO.missingGroup + ' 2')
+      expect(groupsUL[1].classList).not.toContain('dnb-sr-only')
+
+      expect(groupsUL[2].textContent).toBe('Third')
+      expect(groupsUL[2].classList).not.toContain('dnb-sr-only')
+
+      expect(groupsUL[3].textContent).toBe(nbNO.missingGroup + ' 4')
+      expect(groupsUL[3].classList).not.toContain('dnb-sr-only')
+
+      expect(global.console.log).toHaveBeenCalledTimes(8)
+      expect(global.console.log).toHaveBeenLastCalledWith(
+        expect.stringContaining('Eufemia'),
+        `Missing group title for groupIndex: 3`
+      )
+    })
+
+    it('adds group for items without group index', async () => {
+      render(
+        <Dropdown
+          no_animation={true}
+          data={[...dataProp, { content: 'Item without groupIndex' }]}
+          groups={groupsProp}
+        />
+      )
+
+      const trigger = document.querySelector('.dnb-dropdown__trigger')
+      await userEvent.click(trigger)
+
+      const groups = document.querySelectorAll('.dnb-drawer-list__group')
+      expect(groups.length).toBe(5)
+
+      const finalGroupTitle = groups[4].querySelector(
+        '.dnb-drawer-list__group-title'
+      )
+      expect(finalGroupTitle.textContent).toBe(nbNO.noGroupSR)
+      expect(finalGroupTitle.classList).toContain('dnb-sr-only')
+
+      const finalGroupItems = groups[4].querySelectorAll(
+        '.dnb-drawer-list__option'
+      )
+      expect(finalGroupItems.length).toBe(1)
+      expect(finalGroupItems[0].textContent).toBe(
+        'Item without groupIndex'
+      )
+    })
+
+    it('keyboard navigation', async () => {
+      const { rerender } = render(
+        <Dropdown
+          no_animation
+          data={dataProp}
+          groups={groupsProp}
+          direction="bottom"
+        />
+      )
+
+      // first open
+      keydown(40) // down
+
+      expect(document.querySelector('.dnb-dropdown').classList).toContain(
+        'dnb-dropdown--opened'
+      )
+      expect(
+        document.querySelector('.dnb-drawer-list').classList
+      ).toContain('dnb-drawer-list--bottom')
+
+      expect(document.activeElement.classList).toContain(
+        'dnb-drawer-list__options'
+      )
+
+      keydown(40) // down
+
+      // delay because we want to wait to have the DOM focus to be called
+      await wait(1)
+
+      expect(document.activeElement.classList).toContain(
+        'dnb-drawer-list__option'
+      )
+      expect(document.activeElement.classList).toContain(
+        'dnb-drawer-list__option--focus'
+      )
+      expect(
+        document.querySelectorAll('li.dnb-drawer-list__option')[0]
+          .classList
+      ).toContain('dnb-drawer-list__option--focus')
+
+      keydown(38) // up
+
+      expect(document.activeElement.classList).toContain(
+        'dnb-drawer-list__options'
+      )
+
+      // then simulate changes
+      keydown(38) // up
+
+      // delay because we want to wait to have the DOM focus to be called
+      await wait(1)
+
+      expect(document.activeElement.classList).toContain(
+        'dnb-drawer-list__option'
+      )
+      let options = document.querySelectorAll('li.dnb-drawer-list__option')
+      expect(options[dataProp.length - 1].classList).toContain(
+        'dnb-drawer-list__option--focus'
+      )
+
+      // then simulate changes
+      keydown(40) // down
+
+      expect(
+        document.querySelectorAll('li.dnb-drawer-list__option')[0]
+          .classList // the first item
+      ).toContain('dnb-drawer-list__option--focus')
+
+      rerender(
+        <Dropdown
+          no_animation
+          data={dataProp}
+          groups={groupsProp}
+          direction="top"
+        />
+      )
+
+      expect(
+        document.querySelector('.dnb-drawer-list').classList
+      ).toContain('dnb-drawer-list--top')
+
+      // then simulate changes
+      keydown(38) // up
+
+      options = document.querySelectorAll('li.dnb-drawer-list__option')
+      expect(
+        options[dataProp.length - 1].classList // the last item
+      ).toContain('dnb-drawer-list__option--focus')
+
+      // delay because we want to wait to have the DOM focus to be called
+      await wait(1)
+
+      // then simulate changes
+      keydown(40) // down
+
+      expect(document.activeElement.classList).toContain(
+        'dnb-drawer-list__options'
+      )
+
+      // then simulate changes
+      keydown(38) // up
+
+      options = document.querySelectorAll('li.dnb-drawer-list__option')
+      expect(
+        options[dataProp.length - 1].classList // the last item
+      ).toContain('dnb-drawer-list__option--focus')
+
+      // then simulate changes
+      keydown(38) // up
+
+      options = document.querySelectorAll('li.dnb-drawer-list__option')
+      expect(
+        options[dataProp.length - 2].classList // the second item
+      ).toContain('dnb-drawer-list__option--focus')
+
+      // then simulate changes
+      keydown(33) // pageUp
+
+      expect(
+        document.querySelectorAll('li.dnb-drawer-list__option')[0]
+          .classList // the first item
+      ).toContain('dnb-drawer-list__option--focus')
+
+      // then simulate changes
+      keydown(38) // up
+
+      options = document.querySelectorAll('li.dnb-drawer-list__option')
+      expect(
+        options[dataProp.length - 1].classList // the last item
+      ).toContain('dnb-drawer-list__option--focus')
+    })
   })
 })
 

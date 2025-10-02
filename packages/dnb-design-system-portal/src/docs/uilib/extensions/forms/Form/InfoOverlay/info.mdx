@@ -27,7 +27,7 @@ render(
 There are two ways to display a message:
 
 - Using the `Form.InfoOverlay.setContent` method.
-- Using the `content` prop.
+- Using the `content` property.
 
 ### Using the `Form.InfoOverlay.setContent` method
 
@@ -43,7 +43,7 @@ Form.InfoOverlay.setContent(myId, 'error')
 Form.InfoOverlay.setContent(myId, undefined)
 ```
 
-And render the component with an `id` prop:
+And render the component with an `id` property:
 
 ```tsx
 <Form.InfoOverlay id={myId}>content</Form.InfoOverlay>
@@ -51,7 +51,7 @@ And render the component with an `id` prop:
 
 You can call it whenever you need to show the success message. Here is an example of how to use it.
 
-**Note:** the `id` prop is inherited from the `Form.Handler` component in this example.
+**Note:** the `id` property is inherited from the `Form.Handler` component in this example.
 
 ```tsx
 import { Form } from '@dnb/eufemia/extensions/forms'
@@ -74,9 +74,9 @@ render(
 )
 ```
 
-### Using the `content` prop
+### Using the `content` property
 
-You can show the success or error message by using the `content` prop:
+You can show the success or error message by using the `content` property:
 
 ```tsx
 <Form.InfoOverlay content={<>info content</>}>fallback content</Form.InfoOverlay>
@@ -86,7 +86,7 @@ You can show the success or error message by using the `content` prop:
 
 ## Customization of the `success` and `error` messages
 
-You can customize the `success` and `error` messages by using the `success` and `error` props.
+You can customize the `success` and `error` messages by using the `success` and `error` properties.
 
 ```tsx
 <Form.InfoOverlay

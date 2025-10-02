@@ -8,6 +8,22 @@ describe('Selection', () => {
     url: '/uilib/extensions/forms/base-fields/Selection/demos',
   })
 
+  describe('autocomplete', () => {
+    it('have to match groups', async () => {
+      const screenshot = await makeScreenshot({
+        style: {
+          height: '16rem',
+        },
+        selector: '[data-visual-test="selection-autocomplete-groups"]',
+        simulate: 'click',
+        simulateSelector:
+          '[data-visual-test="selection-autocomplete-groups"] .dnb-autocomplete .dnb-input__input',
+        simulateAfter: { keypress: 'Escape' },
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+  })
+
   describe('dropdown', () => {
     it('have to match dropdown-default', async () => {
       const screenshot = await makeScreenshot({
@@ -55,6 +71,20 @@ describe('Selection', () => {
       const screenshot = await makeScreenshot({
         selector:
           '[data-visual-test="selection-dropdown-warning-message"]',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+
+    it('have to match groups', async () => {
+      const screenshot = await makeScreenshot({
+        style: {
+          height: '16rem',
+        },
+        selector: '[data-visual-test="selection-dropdown-groups"]',
+        simulate: 'click',
+        simulateSelector:
+          '[data-visual-test="selection-dropdown-groups"] .dnb-dropdown__trigger',
+        simulateAfter: { keypress: 'Escape' },
       })
       expect(screenshot).toMatchImageSnapshot()
     })

@@ -28,7 +28,6 @@ export default class CustomContent extends React.PureComponent {
     hash: PropTypes.string, // eslint-disable-line
     selected: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]), // eslint-disable-line
     id: PropTypes.string, // eslint-disable-line
-    key: PropTypes.oneOfType([PropTypes.string, PropTypes.number]), // eslint-disable-line
     disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]), // eslint-disable-line
 
     ...spacingPropTypes,
