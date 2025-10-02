@@ -2558,7 +2558,7 @@ describe('DatePicker component', () => {
     expect(
       document.querySelector('[data-testid="reset"]  .dnb-button__text')
         .textContent
-    ).toBe('Återställa')
+    ).toBe('Återställ')
 
     expect(
       document.querySelector('[data-testid="submit"]  .dnb-button__text')
