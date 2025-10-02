@@ -2553,7 +2553,7 @@ describe('DatePicker component', () => {
     expect(
       document.querySelector('[data-testid="cancel"]  .dnb-button__text')
         .textContent
-    ).toBe('Stänga')
+    ).toBe('Stäng')
 
     expect(
       document.querySelector('[data-testid="reset"]  .dnb-button__text')
