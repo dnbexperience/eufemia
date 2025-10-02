@@ -1130,7 +1130,7 @@ export const DropdownIndependentWidth = () => (
     <Dropdown
       independent_width
       size="default"
-      title="sadsadasd sad asd asdasdas das dasdas d"
+      title="sadsadasd sad asdasdas das dasdas d"
       data={dropdownData}
     />
     <Dropdown independent_width size="default" data={dropdownData} />
