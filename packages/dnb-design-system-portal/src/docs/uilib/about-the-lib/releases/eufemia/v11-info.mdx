@@ -66,15 +66,15 @@ For more information on how to replace these, check out [these docs](/uilib/layo
 
 ## Tag
 
-- Find property `onDelete` and replace with `onClick`, add property `variant='removable'`.
+- Find prop `onDelete` and replace with `onClick`, add prop `variant='removable'`.
 
 ## Definition lists
 
 - Find `direction` in `<Dl>` and replace with `layout`.
 
-## Removal of passing down properties to BreadcrumbItem's span
+## Removal of passing down props to BreadcrumbItem's span
 
-We don't think this has been used for anything other than passing down `data-testid`'s for testing. We believe the potential side effects of passing down properties to this span is greater than the advantages it gives for those who want to test this span using data-testid as their way of selecting the span.
+We don't think this has been used for anything other than passing down `data-testid`'s for testing. We believe the potential side effects of passing down props to this span is greater than the advantages it gives for those who want to test this span using data-testid as their way of selecting the span.
 We recommend to [use other methods](/uilib/usage/best-practices/for-testing/) to select and test the inner parts of Eufemia components. You could use e.g. `screen.queryByRole`, `screen.queryByRole` or `document.querySelector`.
 For more context, take a look in this [PR](https://github.com/dnbexperience/eufemia/pull/2798).
 
@@ -103,7 +103,7 @@ The `InputPassword` component has been moved to `Field.Password`, and is now a p
 ## Flex
 
 - replace `spacing` with `gap` on all Flex components.
-- `rowGap` no longer accepts value `true`. Replace `true` with `undefined` or simply remove the property to get the same behavior.
+- `rowGap` no longer accepts value `true`. Replace `true` with `undefined` or simply remove the prop to get the same behavior.
 
 ## Checkbox
 
@@ -128,7 +128,7 @@ The `InputPassword` component has been moved to `Field.Password`, and is now a p
 ## Logo
 
 - remove `size`. replace it with `height` if it contains a numeric value and with `inheritSize` where `size='inherit'`.
-- remove the following properties: `alt` and `ratio`.
+- remove the following props: `alt` and `ratio`.
 - replace `inherit_color` with `inheritColor`.
 - change `width` from number to string.
 - change `height`from number to string.
@@ -241,9 +241,9 @@ const errorMessages = {
 ## `StepIndicator`
 
 - Major redesign of component. Main result is that there is now only one variant, instead of two.
-- `on_item_render` removed. No longer has any other function than each step's `title` property.
-- step item `on_render` removed. No longer has any other function than the `title` property.
-- `sidebarId` removed. No longer has any sidebar. If an id is needed, use the `id` property.
+- `on_item_render` removed. No longer has any other function than each step's `title` prop.
+- step item `on_render` removed. No longer has any other function than the `title` prop.
+- `sidebarId` removed. No longer has any sidebar. If an id is needed, use the `id` prop.
 - `step_title_extended` removed. Only `step_title` is needed.
 
 ## `StepIndicator.Sidebar`
@@ -253,7 +253,7 @@ const errorMessages = {
 ## `Wizard.Container`
 
 - `variant` removed. No longer has any variants.
-- `sidebarId` removed. No longer has any sidebar. If an id is needed, use the `id` property.
+- `sidebarId` removed. No longer has any sidebar. If an id is needed, use the `id` prop.
 
 ## `Wizard.Step`
 

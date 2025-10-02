@@ -19,8 +19,6 @@ import {
   DrawerListData,
   DrawerListDataAll,
   DrawerListDataArray,
-  DrawerListInternalData,
-  DrawerListInternalItem,
 } from './DrawerList'
 import { DrawerListProviderProps } from './DrawerListProvider'
 import { DrawerListContextState } from './DrawerListContext'
@@ -298,7 +296,7 @@ export function preSelectData(data: DrawerListData): DrawerListDataAll {
  * @param {*} props object containing the data in props.data or props.children, or the data itself
  * @returns an array representation of the data
  */
-export function normalizeData(props): DrawerListInternalData {
+export function normalizeData(props): DrawerListDataArrayObject[] {
   let data = preSelectData(props.data || props.children || props) ?? []
 
   if (typeof data === 'object' && !Array.isArray(data)) {
@@ -317,8 +315,9 @@ export function normalizeData(props): DrawerListInternalData {
 
   return data.map((dataItem, __id) => {
     const normalized = normalizeDataItem(dataItem, true)
+
     return typeof normalized?.__id !== 'undefined'
-      ? (normalized as DrawerListInternalItem)
+      ? normalized
       : { ...normalized, __id }
   })
 }
@@ -556,7 +555,6 @@ export const prepareDerivedState = (
 
   state._data = props.data
   state._value = props.value
-  state.groups = props.groups
 
   return state
 }

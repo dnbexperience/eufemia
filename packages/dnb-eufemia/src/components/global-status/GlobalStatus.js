@@ -342,7 +342,7 @@ export default class GlobalStatus extends React.PureComponent {
     )
   }
 
-  async scrollToStatus(isDone = null) {
+  scrollToStatus(isDone = null) {
     if (
       typeof window === 'undefined' ||
       isTrue(this.state.globalStatus.autoscroll) === false
@@ -353,10 +353,6 @@ export default class GlobalStatus extends React.PureComponent {
       const element = this._wrapperRef.current
       this._scrollToStatusTimeout = isElementVisible(element, isDone)
       if (element && typeof element.scrollIntoView === 'function') {
-        // wait a tick, to make sure that the element is visible, as firefox needs that
-        // or else it reports:
-        // scroll anchoring was disabled in a scroll container because of too many consecutive adjustments
-        await wait(1)
         element.scrollIntoView({
           block: 'center',
           behavior: 'smooth',
@@ -742,7 +738,5 @@ const isElementVisible = (elem, callback, delayFallback = 1e3) => {
   }
   return null
 }
-
-const wait = (duration) => new Promise((r) => setTimeout(r, duration))
 
 GlobalStatus._supportsSpacingProps = true

@@ -78,22 +78,6 @@ describe.each(['ui', 'sbanken'])('Autocomplete for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match autocomplete with groups', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="autocomplete-groups"]',
-      simulateSelector:
-        '[data-visual-test="autocomplete-groups"] .dnb-autocomplete .dnb-input',
-      waitAfterSimulateSelector:
-        '[data-visual-test="autocomplete-groups"] .dnb-autocomplete--opened',
-      simulate: 'click',
-      style: {
-        height: '29rem',
-      },
-      simulateAfter: { keypress: 'Escape' },
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-
   it('have to match the status with status_state info', async () => {
     const screenshot = await makeScreenshot({
       selector:

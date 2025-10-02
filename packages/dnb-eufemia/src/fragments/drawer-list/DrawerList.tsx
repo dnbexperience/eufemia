@@ -13,15 +13,12 @@ import {
   extendPropsWithContextInClassComponent,
   validateDOMAttributes,
   keycode,
-  warn,
 } from '../../shared/component-helper'
 import type { SpacingProps } from '../../shared/types'
-import type { Translation } from '../../shared/Context'
 
 import { getThemeClasses } from '../../shared/Theme'
 import { createSpacingClasses } from '../../components/space/SpacingHelper'
 
-import E from '../../elements/Element'
 import DrawerListContext, {
   DrawerListContextProps,
 } from './DrawerListContext'
@@ -44,17 +41,12 @@ const propsToFilterOut = {
   options_render: null,
   wrapper_element: null,
 }
-/** @deprecated use `DrawerListDataArrayItem` */
-export type DrawerListDataObjectUnion = DrawerListDataArrayItem
 
 export type DrawerListContent =
   | string
   | React.ReactNode
   | (string | React.ReactNode)[]
-
 export type DrawerListDataArrayObjectStrict = {
-  /** index of group supplied in the `groups` prop */
-  groupIndex?: number
   selected_value?: string | React.ReactNode
   selectedKey?: string | number
   selected_key?: string | number
@@ -75,14 +67,13 @@ export type DrawerListDataArrayObjectStrict = {
 export type DrawerListDataArrayObject = {
   [customProperty: string]: any
 } & DrawerListDataArrayObjectStrict
-
+/** @deprecated use `DrawerListDataArrayItem` */
+export type DrawerListDataObjectUnion = DrawerListDataArrayItem
 export type DrawerListDataArrayItem =
   | DrawerListDataArrayObject
   | DrawerListContent
-
 export type DrawerListDataArray = DrawerListDataArrayItem[]
 export type DrawerListDataRecord = Record<string, DrawerListContent>
-
 export type DrawerListDataAll = DrawerListDataRecord | DrawerListDataArray
 export type DrawerListSize =
   | 'default'
@@ -91,14 +82,6 @@ export type DrawerListSize =
   | 'large'
   | number
 
-export type DrawerListGroup<T> = {
-  groupTitle: React.ReactNode
-  groupData: T
-  /** Make title screen reader only */
-  hideTitle?: boolean
-}
-
-export type DrawerListGroupTitles = React.ReactNode[]
 export type DrawerListOptionsRender = ({
   data,
   Items,
@@ -217,7 +200,6 @@ export interface DrawerListProps {
   skip_keysearch?: boolean
   opened?: boolean
   data?: DrawerListData
-  groups?: DrawerListGroupTitles
   prepared_data?: any[]
   /**
    * If set to `true`, all keyboard and mouse events will be ignored.
@@ -248,18 +230,6 @@ export interface DrawerListProps {
   on_select?: (...args: any[]) => any
   on_state_update?: (...args: any[]) => any
 }
-
-// Internal data structures
-export type DrawerListInternalItem = {
-  __id: number
-} & DrawerListDataArrayObject
-
-export type DrawerListInternalData = Array<DrawerListInternalItem>
-
-export type DrawerListRenderData = Array<
-  DrawerListGroup<DrawerListInternalData>
->
-
 export type DrawerListAllProps = DrawerListProps &
   SpacingProps &
   Omit<
@@ -365,6 +335,7 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
       // TODO: should we only allow getTranslation if we define lang and locale props?
       // this.context.getTranslation(this.props).Button
     )
+
     const {
       role,
       align_drawer,
@@ -393,6 +364,7 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
       opened: _opened, // eslint-disable-line
       value: _value, // eslint-disable-line
       children,
+
       ...attributes
     } = props
 
@@ -414,7 +386,6 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
 
     const {
       data,
-      groups,
       opened,
       hidden,
       triangle_position,
@@ -434,14 +405,6 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
       _refUl,
       _refRoot,
     } = noNullNumbers(this.context.drawerList)
-
-    const renderData = makeRenderData(
-      data,
-      groups,
-      this.context.getTranslation(this.props).DrawerList
-    )
-    const hasGroups =
-      renderData.length > 1 || renderData[0]?.groupTitle !== undefined
 
     const mainParams = {
       id: `${id}-drawer-list`,
@@ -528,104 +491,56 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
 
     const ignoreEvents = isTrue(ignore_events)
 
-    const GroupItems = () =>
-      renderData
-        .filter(Boolean) // filter out empty groups
-        .map(({ groupTitle, groupData: data, hideTitle }, j) => {
-          const Items = () =>
-            data.map((dataItem, i) => {
-              const _id = dataItem.__id
-              const hash = `option-${id}-${_id}-${i}`
-              const tagId = `option-${id}-${_id}`
-              const liParams = {
-                role: role === 'menu' ? 'menuitem' : 'option',
-                'data-item': _id,
-                id: tagId,
-                hash,
-                className: classnames(
-                  // helper classes
-                  j === 0 && i === 0 && 'first-item',
-                  j === renderData.length - 1 &&
-                    i === data.length - 1 &&
-                    'last-item',
-                  tagId === closestToTop && 'closest-to-top',
-                  tagId === closestToBottom && 'closest-to-bottom',
-                  i === 0 && 'first-of-type', // because of the triangle element
-                  i === data.length - 1 && 'last-of-type', // because of the triangle element
-                  ignoreEvents ||
-                    (dataItem.ignore_events && 'ignore-events'),
-                  dataItem.class_name
-                ),
-                active: _id == active_item,
-                selected: !dataItem.ignore_events && _id == selected_item,
-                onClick: this.selectItemHandler,
-                onKeyDown: this.preventTab,
-                disabled: dataItem.disabled,
-                style: dataItem.style,
-              }
-              if (ignoreEvents) {
-                liParams.active = null
-                liParams.selected = null
-                liParams.onClick = null
-                liParams.onKeyDown = null
-                liParams.className = classnames(
-                  liParams.className,
-                  'dnb-drawer-list__option--ignore'
-                )
-              }
+    const Items = () =>
+      data.map((dataItem, i) => {
+        const _id = dataItem.__id
+        const hash = `option-${id}-${_id}-${i}`
+        const liParams = {
+          role: role === 'menu' ? 'menuitem' : 'option',
+          'data-item': _id,
+          id: `option-${id}-${_id}`,
+          hash,
+          className: classnames(
+            // helper classes
+            i === closestToTop && 'closest-to-top',
+            i === closestToBottom && 'closest-to-bottom',
+            i === 0 && 'first-of-type', // because of the triangle element
+            i === data.length - 1 && 'last-of-type', // because of the triangle element
+            ignoreEvents || (dataItem.ignore_events && 'ignore-events'),
+            dataItem.class_name
+          ),
+          active: _id == active_item,
+          selected: !dataItem.ignore_events && _id == selected_item,
+          onClick: this.selectItemHandler,
+          onKeyDown: this.preventTab,
+          disabled: dataItem.disabled,
+          style: dataItem.style,
+        }
 
-              return (
-                <DrawerList.Item key={hash} {...liParams}>
-                  {dataItem}
-                </DrawerList.Item>
-              )
-            })
-          const ItemsRendered = () =>
-            typeof options_render === 'function' ? (
-              options_render({ data, Items, Item: DrawerList.Item })
-            ) : (
-              <Items />
-            )
-          if (hasGroups) {
-            const groupdId = `${id}-group-title-${j}`
-            return (
-              <ul
-                key={j}
-                role="group"
-                aria-labelledby={groupdId}
-                className={classnames(
-                  'dnb-drawer-list__group',
-                  j === 0 && 'first-of-type',
-                  j === renderData.length - 1 && 'last-of-type'
-                )}
-              >
-                <li
-                  id={groupdId}
-                  role="presentation"
-                  className={classnames(
-                    'dnb-drawer-list__group-title',
-                    hideTitle && 'dnb-sr-only',
-                    groupdId === closestToBottom && 'closest-to-bottom',
-                    groupdId === closestToTop && 'closest-to-top'
-                  )}
-                >
-                  {groupTitle}
-                </li>
-                <ItemsRendered />
-              </ul>
-            )
-          } else {
-            return <ItemsRendered key={j} />
-          }
-        })
+        if (ignoreEvents) {
+          liParams.active = null
+          liParams.selected = null
+          liParams.onClick = null
+          liParams.onKeyDown = null
+          liParams.className = classnames(
+            liParams.className,
+            'dnb-drawer-list__option--ignore'
+          )
+        }
+
+        return (
+          <DrawerList.Item key={hash} {...liParams}>
+            {dataItem}
+          </DrawerList.Item>
+        )
+      })
 
     const mainList = (
       <span {...mainParams} ref={_refShell}>
         <span {...listParams}>
-          {hidden === false && renderData.length > 0 ? (
+          {hidden === false && data && data.length > 0 ? (
             <>
               <DrawerList.Options
-                hasGroups={hasGroups}
                 cache_hash={
                   cache_hash +
                   active_item +
@@ -639,7 +554,11 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
                 showFocusRing={showFocusRing}
                 triangleRef={_refTriangle}
               >
-                <GroupItems />
+                {typeof options_render === 'function' ? (
+                  options_render({ data, Items, Item: DrawerList.Item })
+                ) : (
+                  <Items />
+                )}
               </DrawerList.Options>
               <OnMounted
                 addObservers={addObservers}
@@ -686,71 +605,18 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
   }
 }
 
-function makeRenderData(
-  data: DrawerListInternalData,
-  groups?: DrawerListGroupTitles,
-  translation?: Translation['DrawerList']
-): DrawerListRenderData {
-  const renderData: DrawerListRenderData = []
-  const noIndex = []
-
-  if (Array.isArray(data) && data.length > 0) {
-    data.forEach((dataItem) => {
-      const index = dataItem.groupIndex ?? undefined
-
-      if (index >= 0) {
-        if (!renderData[index]) {
-          let groupTitle = groups?.[index]
-          let hideTitle = false
-
-          if (!groupTitle) {
-            if (index === 0) {
-              groupTitle = translation.defaultGroupSR
-              hideTitle = true
-            } else {
-              warn(`Missing group title for groupIndex: ${index}`)
-              groupTitle = `${translation.missingGroup} ${index + 1}`
-            }
-          }
-
-          renderData[index] = {
-            groupTitle,
-            hideTitle,
-            groupData: [],
-          }
-        }
-        renderData[index].groupData.push(dataItem)
-      } else {
-        noIndex.push(dataItem)
-      }
-    })
-  }
-
-  if (noIndex.length > 0) {
-    renderData.push({
-      groupTitle:
-        renderData.length > 0 ? translation.noGroupSR : undefined,
-      hideTitle: true,
-      groupData: noIndex,
-    })
-  }
-
-  return renderData
-}
-
 export type DrawerListOptionsProps = React.HTMLProps<HTMLUListElement> & {
   children: React.ReactNode
-  triangleRef?: React.ForwardedRef<HTMLLIElement | HTMLSpanElement>
+  triangleRef?: React.LegacyRef<HTMLLIElement>
   cache_hash?: string
   showFocusRing?: boolean
-  hasGroups?: boolean
 }
 // DrawerList List
 DrawerList.Options = React.memo(
   React.forwardRef(
     (
       props: DrawerListOptionsProps,
-      ref: React.ForwardedRef<HTMLUListElement | HTMLSpanElement>
+      ref: React.LegacyRef<HTMLUListElement>
     ) => {
       const {
         children,
@@ -758,14 +624,11 @@ DrawerList.Options = React.memo(
         triangleRef,
         cache_hash, // eslint-disable-line
         showFocusRing = false,
-        hasGroups = false,
         ...rest
       } = props
 
       return (
-        <E
-          internalClass={false}
-          as={hasGroups ? 'span' : 'ul'}
+        <ul
           className={classnames(
             'dnb-drawer-list__options',
             showFocusRing && 'dnb-drawer-list__options--focusring',
@@ -775,14 +638,12 @@ DrawerList.Options = React.memo(
           ref={ref}
         >
           {children}
-          <E
-            internalClass={false}
-            as={hasGroups ? 'span' : 'li'}
+          <li
             className="dnb-drawer-list__triangle"
             aria-hidden
             ref={triangleRef}
           />
-        </E>
+        </ul>
       )
     }
   ),

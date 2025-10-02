@@ -76,8 +76,8 @@ export type DrawerListProviderProps = Omit<DrawerListProps, 'children'> &
     selected_item?: string | number
     active_item?: string | number
     showFocusRing?: boolean
-    closestToTop?: string
-    closestToBottom?: string
+    closestToTop?: number
+    closestToBottom?: number
     skipPortal?: boolean
     addObservers?: () => void
     removeObservers?: () => void
@@ -149,7 +149,7 @@ export default class DrawerListProvider extends React.PureComponent<
   _scrollTimeout: NodeJS.Timeout
   _directionTimeout: NodeJS.Timeout
 
-  itemSpots: { [customProperty: number]: { id: string } }
+  itemSpots: { [customProperty: number]: { i: number } }
   itemSpotsCount: number
   setOnScroll: () => void
   _bodyLockIsEnabled: boolean
@@ -226,15 +226,18 @@ export default class DrawerListProvider extends React.PureComponent<
     if (typeof window === 'undefined' || !this._refUl.current) {
       return
     }
-    const elements = this._refUl.current?.querySelectorAll<HTMLLIElement>(
-      `li.dnb-drawer-list__option,li.dnb-drawer-list__group-title`
-    )
-    this.itemSpots = {}
-    elements.forEach((element) => {
-      this.itemSpots[element.offsetTop] = {
-        id: element.getAttribute('id'),
+
+    this.itemSpots = this.state.data.reduce((acc, cur, i) => {
+      const element = this._refUl.current?.querySelector<HTMLLIElement>(
+        `li.dnb-drawer-list__option:nth-of-type(${i + 1})`
+      )
+      if (element) {
+        acc[element.offsetTop] = {
+          i,
+        }
       }
-    })
+      return acc
+    }, {})
 
     this.itemSpotsCount = Object.keys(this.itemSpots).length
   }
@@ -254,7 +257,6 @@ export default class DrawerListProvider extends React.PureComponent<
         tmpToBottom
 
       this.setOnScroll = () => {
-        // TODO: BUG: doesn't run when direction changes or when search results change
         if (!this._refUl.current) {
           return // stop here
         }
@@ -270,26 +272,23 @@ export default class DrawerListProvider extends React.PureComponent<
           this._refUl.current.scrollTop + this._refUl.current.offsetHeight
         )
         closestToTop = findClosest(counts, this._refUl.current.scrollTop)
-        if (
-          this.itemSpots[closestToTop] &&
-          this.itemSpots[closestToTop].id !== tmpToTop
-        ) {
-          tmpToTop = this.itemSpots[closestToTop].id
+        if (this.itemSpots[closestToTop] && closestToTop !== tmpToTop) {
           this.setState({
-            closestToTop: this.itemSpots[closestToTop].id,
+            closestToTop: this.itemSpots[closestToTop].i,
           })
         }
         // we do this because we want the arrow
         // to change visually
         if (
-          this.itemSpots[closestToBottom] &&
-          this.itemSpots[closestToBottom].id !== tmpToBottom
+          closestToBottom !== tmpToBottom &&
+          this.itemSpots[closestToBottom]
         ) {
-          tmpToBottom = this.itemSpots[closestToBottom].id
           this.setState({
-            closestToBottom: this.itemSpots[closestToBottom].id,
+            closestToBottom: this.itemSpots[closestToBottom].i,
           })
         }
+        tmpToTop = closestToTop
+        tmpToBottom = closestToBottom
       }
 
       this._refUl.current.addEventListener('scroll', this.setOnScroll)
@@ -1065,49 +1064,20 @@ export default class DrawerListProvider extends React.PureComponent<
     )
   }
 
-  getElementGroup = (element: HTMLUListElement | HTMLLIElement) => {
-    return element.parentElement.classList.contains(
-      'dnb-drawer-list__group'
-    )
-      ? element.parentElement
-      : null
-  }
-
   getCurrentActiveItem = () => {
     const elem = this.getActiveElement()
     return parseFloat(elem && elem.getAttribute('data-item'))
   }
 
   getNextActiveItem = () => {
-    const activeElement = this.getActiveElement()
-
-    const elem =
-      activeElement.nextSibling ||
-      this.getElementGroup(
-        activeElement
-      )?.nextElementSibling?.querySelector(
-        'li.dnb-drawer-list__option.first-of-type'
-      )
-
+    const elem = this.getActiveElement().nextSibling
     return parseFloat(
       elem && elem instanceof Element && elem.getAttribute('data-item')
     )
   }
 
   getPrevActiveItem = () => {
-    const activeElement = this.getActiveElement()
-
-    const elem =
-      (activeElement.previousElementSibling?.classList.contains(
-        'dnb-drawer-list__option'
-      ) &&
-        activeElement.previousSibling) ||
-      this.getElementGroup(
-        activeElement
-      )?.previousElementSibling?.querySelector(
-        'li.dnb-drawer-list__option.last-of-type'
-      )
-
+    const elem = this.getActiveElement().previousSibling
     return parseFloat(
       elem && elem instanceof Element && elem.getAttribute('data-item')
     )
@@ -1115,14 +1085,14 @@ export default class DrawerListProvider extends React.PureComponent<
 
   getFirstItem = () => {
     const elem = this._refUl.current?.querySelector(
-      'li.dnb-drawer-list__option.first-item' // because of the triangle element
+      'li.dnb-drawer-list__option.first-of-type' // because of the triangle element
     )
     return parseFloat(elem && elem.getAttribute('data-item'))
   }
 
   getLastItem = () => {
     const elem = this._refUl.current?.querySelector(
-      'li.dnb-drawer-list__option.last-item' // because of the triangle element
+      'li.dnb-drawer-list__option.last-of-type' // because of the triangle element
     )
     return parseFloat(elem && elem.getAttribute('data-item'))
   }

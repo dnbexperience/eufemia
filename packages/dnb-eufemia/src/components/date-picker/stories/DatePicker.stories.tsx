@@ -571,8 +571,8 @@ export const ProviderLocaleExample = () => {
             dateFormat: 'yyyy-MM-dd',
             returnFormat: 'yyyy-MM-dd',
             submitButtonText: 'Okej',
-            cancelButtonText: 'Stäng',
-            resetButtonText: 'Återställ',
+            cancelButtonText: 'Stänga',
+            resetButtonText: 'Återställa',
             placeholderCharacters: {
               day: 'd',
               month: 'm',

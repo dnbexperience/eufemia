@@ -286,7 +286,7 @@ Find references to `assets/browser` and replace it with `assets/browser/dnb`.
 
 1. Find the `active_item` property and replace it with `current_step`.
 1. Find `use_navigation` and remove it or replace it with `mode="strict"` or `mode="loose"`.
-1. URL support has been removed – so properties like `active_url`, `url`, `url_future`, and `url_passed` are not supported anymore. You have to handle it by yourself from inside your application. Here is [an example](/uilib/components/step-indicator/#stepindicator-with-a-router).
+1. URL support has been removed – so props like `active_url`, `url`, `url_future`, and `url_passed` are not supported anymore. You have to handle it by yourself from inside your application. Here is [an example](/uilib/components/step-indicator/#stepindicator-with-a-router).
 
 ### [Table](/uilib/components/table)
 
@@ -361,22 +361,22 @@ The Anchor was moved from `/elements` to `/components`.
 
    When you convert from `<Modal mode="drawer" />` to `<Drawer />` – follow these steps:
 
-   1. All `trigger_*` properties are not supported for Drawer, use `triggerAttributes` instead to pass in properties for the trigger button.
+   1. All `trigger_*` props are not supported for Drawer, use `triggerAttributes` instead to pass in props for the trigger button.
 
-      - Change property `trigger_hidden` to `omitTriggerButton` to omit the default trigger button from Modal.
+      - Change prop `trigger_hidden` to `omitTriggerButton` to omit the default trigger button from Modal.
 
-   2. Only camelCase properties are supported for Drawer, so you will need to update the property names.
+   2. Only camelCase props are supported for Drawer, so you will need to update the prop names.
    3. `Modal.Inner` or `Modal.Content` converts to `Drawer.Body`.
    4. `Modal.Bar` converts to `Drawer.Navigation`.
    5. `Modal` was a class component and `Drawer` is a functional component.
 
    When you convert from `<Modal />` or `<Modal mode="dialog" />` to `<Dialog />` – follow these steps:
 
-   1. All `trigger_*` properties are not supported for Dialog, use `triggerAttributes` instead to pass in properties for the trigger button.
+   1. All `trigger_*` props are not supported for Dialog, use `triggerAttributes` instead to pass in props for the trigger button.
 
-      - Change property `trigger_hidden` to `omitTriggerButton` to omit the default trigger button from Modal.
+      - Change prop `trigger_hidden` to `omitTriggerButton` to omit the default trigger button from Modal.
 
-   2. Only camelCase properties are supported for Dialog, so you will need to update the property names.
+   2. Only camelCase props are supported for Dialog, so you will need to update the prop names.
    3. `Modal.Inner` or `Modal.Content` converts to `Dialog.Body`.
    4. `Modal.Bar` converts to `Dialog.Navigation`.
    5. `Modal` was a class component and `Dialog` is a functional component.
@@ -407,7 +407,7 @@ The Anchor was moved from `/elements` to `/components`.
 
 ### [HelpButton](/uilib/components/help-button)
 
-1. The properties `modal_props` and `modal_content` was removed. You may replace these properties with the new `render` property. See [this example](/uilib/components/help-button/properties/).
+1. The properties `modal_props` and `modal_content` was removed. You may replace these props with the new `render` property. See [this example](/uilib/components/help-button/properties/).
 
 ### [Autocomplete](/uilib/components/autocomplete)
 
@@ -457,13 +457,13 @@ The Anchor was moved from `/elements` to `/components`.
 
 ### [Paragraph](/uilib/elements/paragraph/)
 
-1. Removed `small` as property. Use `size="small"` instead.
+1. Removed `small` as prop. Use `size="small"` instead.
 
-2. Removed deprecated `style_type` property. Use `medium`, `bold` or `modifier` instead.
+2. Removed deprecated `style_type` prop. Use `medium`, `bold` or `modifier` instead.
 
 ### [Img](/uilib/elements/image/)
 
-Changed `img_class` property to be `imgClass`.
+Changed `img_class` prop to be `imgClass`.
 
 1. Find all instances of `img_class` and change it to `imgClass`
 

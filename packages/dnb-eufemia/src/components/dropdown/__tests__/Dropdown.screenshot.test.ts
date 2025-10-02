@@ -143,20 +143,6 @@ describe.each(['ui', 'sbanken'])('Dropdown for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the dropdown with groups', async () => {
-    const screenshot = await makeScreenshot({
-      style: {
-        'padding-bottom': '26rem',
-      },
-      selector: '[data-visual-test="dropdown-groups"]',
-      simulate: 'click',
-      simulateSelector:
-        '[data-visual-test="dropdown-groups"] .dnb-dropdown__trigger',
-      simulateAfter: { keypress: 'Escape' },
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-
   it('have to match the dropdown action menu with custom items', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="dropdown-action_menu-custom"]',

@@ -671,21 +671,3 @@ export const AutocompleteContentDecoupledExample = () => (
     </ComponentBox>
   </Wrapper>
 )
-
-export const AutocompleteGroups = () => (
-  <Wrapper>
-    <ComponentBox data-visual-test="autocomplete-groups">
-      <Autocomplete
-        groups={[undefined, 'Pets', 'Cars']}
-        data={[
-          { groupIndex: 0, content: 'Default 1' },
-          { groupIndex: 0, content: 'Default 2' },
-          { groupIndex: 1, content: 'Cat' },
-          { groupIndex: 1, content: 'Dog' },
-          { groupIndex: 2, content: 'Jeep' },
-          { groupIndex: 2, content: 'Van' },
-        ]}
-      />
-    </ComponentBox>
-  </Wrapper>
-)

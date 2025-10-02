@@ -6,21 +6,16 @@
 import React from 'react'
 import type { DrawerListProviderProps } from './DrawerListProvider'
 import { ContextProps } from '../../shared/Context'
-import {
-  DrawerListDataAll,
-  DrawerListGroupTitles,
-  DrawerListInternalData,
-} from './'
+import { DrawerListDataAll, DrawerListDataArrayObject } from './'
 
 export type DrawerListContextState = Omit<
   DrawerListProviderProps,
   'data' | 'wrapper_element' | 'children'
 > & {
-  data: DrawerListInternalData
-  groups?: DrawerListGroupTitles
+  data: DrawerListDataArrayObject[]
   wrapper_element?: HTMLElement
   /** used by Autocomplete */
-  original_data?: DrawerListInternalData
+  original_data?: DrawerListDataArrayObject[]
   /** used by Autocomplete */
   current_title?: string
   isOpen?: boolean

@@ -31,11 +31,6 @@ export const SelectionProperties: PropertiesTableProps = {
     type: 'array',
     status: 'optional',
   },
-  groups: {
-    doc: 'An array of group titles for the list items. Only the first group can be `undefined`',
-    type: 'React.ReactNode[]',
-    status: 'optional',
-  },
   dataPath: {
     doc: 'The path to the context data (Form.Handler). The context data object needs to have a `value` and a `title` property. The generated options will be placed above given JSX based children.',
     type: 'string',

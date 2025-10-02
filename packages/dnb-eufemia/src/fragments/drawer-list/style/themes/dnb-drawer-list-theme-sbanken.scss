@@ -57,11 +57,6 @@
     border-radius: var(--drawer-list-options-border-radius);
   }
 
-  &__group-title {
-    position: relative;
-    z-index: -1;
-  }
-
   &__option {
     box-shadow: inset 0 0 0 var(--drawer-list-option-border-width)
       var(--drawer-list-option-border-color);
@@ -97,7 +92,7 @@
         --sb-color-gray-dark-2
       ); // Compensate for transparent right border
 
-      &.last-item {
+      &.last-of-type {
         border-bottom-color: var(--sb-color-gray-dark-2);
       }
 
@@ -132,11 +127,11 @@
       }
     }
 
-    &.first-item &__inner::before {
+    &.first-of-type &__inner::before {
       content: none;
     }
 
-    &.last-item {
+    &.last-of-type {
       border-radius: var(--drawer-list-options-border-radius);
     }
 
@@ -184,17 +179,17 @@
     }
 
     .dnb-drawer-list__option {
-      &.last-item {
+      &.last-of-type {
         border-radius: 0;
       }
 
-      &.first-item {
+      &.first-of-type {
         border-radius: var(--drawer-list-options-border-radius-reversed);
       }
     }
 
     .dnb-drawer-list__option--selected {
-      &.first-item {
+      &.first-of-type {
         border-top-color: var(--sb-color-gray-dark-2);
       }
     }

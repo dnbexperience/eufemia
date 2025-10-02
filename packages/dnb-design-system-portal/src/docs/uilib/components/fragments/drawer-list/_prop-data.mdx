@@ -94,7 +94,7 @@ const onChange = ({ data, value }) => {
 
 ### `data` types overview
 
-The following is an overview of all the types that the `data` property accepts. (These are not actual names of actual types in the library.)
+The following is an overview of all the types that the `data` prop accepts. (These are not actual names of actual types in the library.)
 
 ```ts
 // The visual content that is shown in one DrawerList item.
@@ -122,10 +122,10 @@ type RECORD = Record<string, CONTENT>
 // An object or array that represents the entire DrawerList list.
 type DATA = ARRAY | RECORD
 
-// The final type of the `data` property:
+// The final type of the `data` prop:
 let data: DATA | () => DATA
 ```
 
 #### JSON string
 
-There is technically support for sending in a JSON string of the data to the `data` property. But this is an old functionality that we do not really support anymore.
+There is technically support for sending in a JSON string of the data to the `data` prop. But this is an old functionality that we do not really support anymore.

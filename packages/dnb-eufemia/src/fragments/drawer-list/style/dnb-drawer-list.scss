@@ -57,9 +57,6 @@
   // Disabled option
   --drawer-list-option-disabled-background: var(--color-white);
   --drawer-list-option-disabled-color: var(--color-black-20);
-  // Group
-  --drawer-list-group-title-color: var(--color-black-80); // TODO: theme
-  --drawer-list-group-title-bg: var(--color-lavender); // TODO: theme
 
   display: block; // has to be block element so we can se the content
   position: relative;
@@ -166,19 +163,7 @@
   &--no-scroll-animation &__options {
     scroll-behavior: auto;
   }
-  &__group {
-    padding: 0;
-    margin: 0;
-    list-style: none;
 
-    &-title {
-      display: block;
-      padding: 0.5rem 1rem;
-      color: var(--drawer-list-group-title-color);
-      background-color: var(--drawer-list-group-title-bg);
-      font-weight: var(--font-weight-medium);
-    }
-  }
   // li element
   &__option {
     position: relative;
@@ -284,7 +269,7 @@
     width: calc(var(--drawer-list-height) / 2);
     height: calc(var(--drawer-list-height) / 2);
 
-    z-index: -1;
+    overflow: hidden;
 
     &::before {
       content: '';

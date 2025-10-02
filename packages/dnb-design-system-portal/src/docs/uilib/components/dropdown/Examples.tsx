@@ -836,23 +836,3 @@ export const DropdownCustomizedLook = () => {
     </Wrapper>
   )
 }
-
-export const DropdownGroups = () => {
-  return (
-    <Wrapper>
-      <ComponentBox data-visual-test="dropdown-groups">
-        <Dropdown
-          groups={[undefined, 'Pets', 'Cars']}
-          data={[
-            { groupIndex: 0, content: 'Default 2' },
-            { groupIndex: 0, content: 'Default 1' },
-            { groupIndex: 1, content: 'Cat' },
-            { groupIndex: 1, content: 'Dog' },
-            { groupIndex: 2, content: 'Jeep' },
-            { groupIndex: 2, content: 'Van' },
-          ]}
-        />
-      </ComponentBox>
-    </Wrapper>
-  )
-}
