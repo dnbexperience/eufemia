@@ -356,7 +356,7 @@ export default class GlobalStatus extends React.PureComponent {
         // wait a tick, to make sure that the element is visible, as firefox needs that
         // or else it reports:
         // scroll anchoring was disabled in a scroll container because of too many consecutive adjustments
-        await wait(1)
+        await wait()
         element.scrollIntoView({
           block: 'center',
           behavior: 'smooth',
@@ -743,6 +743,6 @@ const isElementVisible = (elem, callback, delayFallback = 1e3) => {
   return null
 }
 
-const wait = (duration) => new Promise((r) => setTimeout(r, duration))
+const wait = () => new Promise((r) => requestAnimationFrame(r))
 
 GlobalStatus._supportsSpacingProps = true
