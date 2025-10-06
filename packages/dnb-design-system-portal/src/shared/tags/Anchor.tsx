@@ -49,11 +49,11 @@ export default function Anchor({ href, to = null, ...rest }: AnchorProps) {
     href = to
   }
 
-  if (href.startsWith('!')) {
+  if (href?.startsWith('!')) {
     href = href.substr(1)
   }
 
-  const isAbsoluteUrl = href.startsWith('http')
+  const isAbsoluteUrl = href?.startsWith('http')
 
   if (isAbsoluteUrl) {
     rest.target = '_blank'

@@ -1,0 +1,104 @@
+.detailsBox {
+  --summary-border: var(--color-mint-green);
+  --summary-bg: var(--color-mint-green-25);
+
+  /* stylelint-disable-next-line property-no-unknown */
+  interpolate-size: allow-keywords;
+
+  margin-bottom: 1.5rem;
+  background: var(--color-mint-green-12);
+  position: relative;
+
+  &__tag {
+    white-space: nowrap;
+    font-size: var(--font-size-x-small);
+  }
+
+  /* stylelint-disable-next-line selector-pseudo-element-no-unknown */
+  &::details-content {
+    height: 0;
+    transition: content-visibility, height;
+    transition-duration: 400ms;
+    /* stylelint-disable-next-line property-no-unknown */
+    transition-behavior: allow-discrete;
+    transition-timing-function: ease-in-out;
+    overflow: hidden;
+  }
+
+  summary {
+    list-style: none;
+    cursor: pointer;
+    transition: all 0.4s;
+    padding: 0.25rem 0.5rem;
+    background: var(--summary-bg);
+    box-shadow: inset 0 0 0 1px var(--summary-border);
+
+    &:hover:not(:active) {
+      box-shadow: 0 0 0 2px var(--color-mint-green);
+    }
+
+    &::marker,
+    &::-webkit-details-marker {
+      content: none;
+      display: none;
+    }
+  }
+  &:hover:not(:active) {
+    box-shadow: 0 0 0 2px var(--color-mint-green-50);
+  }
+
+  &[open] {
+    --summary-border: var(--color-mint-green-50);
+    --summary-bg: var(--color-mint-green-50);
+
+    box-shadow: 0 0 0 2px var(--color-mint-green-50);
+
+    /* stylelint-disable-next-line selector-pseudo-element-no-unknown */
+    &::details-content {
+      height: auto;
+    }
+  }
+
+  &__content {
+    margin: 1rem 1rem 0;
+
+    &::after {
+      content: '';
+      display: block;
+      margin-bottom: 1rem;
+    }
+  }
+
+  &__button {
+    :global(.dnb-button__text) {
+      font-size: var(--font-size-small);
+    }
+  }
+
+  &__icon {
+    position: relative;
+
+    &__line {
+      &:global(.dnb-icon) {
+        transition: 0.4s ease-out;
+        transition-property: transform, opacity;
+        vertical-align: baseline;
+      }
+
+      &:first-child {
+        position: absolute;
+        transform: rotate(-90deg);
+      }
+
+      .detailsBox[open] & {
+        &:first-child {
+          transform: rotate(0deg);
+        }
+        &:last-child {
+          opacity: 0;
+          transform: rotate(90deg) scaleX(0.5);
+        }
+      }
+    }
+  }
+}
