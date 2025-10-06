@@ -2,6 +2,13 @@
 showTabs: true
 ---
 
+## Import
+
+```tsx
+import { Field } from '@dnb/eufemia/extensions/forms'
+render(<Field.SelectCurrency />)
+```
+
 ## Description
 
 `Field.SelectCurrency` is a wrapper component for [Field.Selection](/uilib/extensions/forms/base-fields/Selection), with options built in for selecting a currency.
@@ -11,11 +18,6 @@ When selecting a currency, the value returned is the selected currency's [ISO 42
 It supports the HTML [autocomplete](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete) attribute. Consider setting `autoComplete="transaction-currency"` if used to set the currency of a transaction, in a payment form.
 
 There is a corresponding [Value.SelectCurrency](/uilib/extensions/forms/Value/SelectCurrency) component.
-
-```jsx
-import { Field } from '@dnb/eufemia/extensions/forms'
-render(<Field.SelectCurrency />)
-```
 
 ## Relevant links
 
