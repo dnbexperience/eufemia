@@ -1414,11 +1414,19 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
   const prioritizeContextSchema = useMemo(() => {
     if (errorPrioritization) {
+      const contextSchema = dataContext?.schema
+
+      // Check if context schema is a Zod schema
+      if (isZodSchema(contextSchema)) {
+        // For Zod schemas, we can't easily check if a specific field exists
+        // without parsing the schema structure. For now, we'll assume
+        // context schema takes priority when errorPrioritization includes 'contextSchema'
+        return errorPrioritization?.indexOf('contextSchema') === 0
+      }
+
+      // For JSON Schema, use the existing JSON Pointer logic
       const schemaPath = identifier.split('/').join('/properties/')
-      const hasContextSchema = pointer.has(
-        dataContext?.schema || {},
-        schemaPath
-      )
+      const hasContextSchema = pointer.has(contextSchema || {}, schemaPath)
       return (
         hasContextSchema &&
         errorPrioritization?.indexOf('contextSchema') === 0
