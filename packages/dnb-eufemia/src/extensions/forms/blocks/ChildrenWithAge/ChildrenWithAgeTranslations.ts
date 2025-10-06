@@ -1,6 +1,3 @@
-import daDK from 'src/shared/locales/da-DK'
-import svSE from 'src/shared/locales/sv-SE'
-
 const nbNO = {
   hasChildren: {
     title: 'Antall barn',
