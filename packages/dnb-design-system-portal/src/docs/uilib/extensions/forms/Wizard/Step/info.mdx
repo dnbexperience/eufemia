@@ -2,6 +2,13 @@
 showTabs: true
 ---
 
+## Import
+
+```tsx
+import { Wizard } from '@dnb/eufemia/extensions/forms'
+render(<Wizard.Step />)
+```
+
 ## Description
 
 `Wizard.Step` shows child components when the surrounding [Wizard.Container](/uilib/extensions/forms/Wizard/Container/) has been navigated to this step. Wizard.Container keeps track of what is the active step, and navigating between wizard steps is done through callbacks on the `Wizard.Context`, i.e. using [navigation buttons](/uilib/extensions/forms/Wizard/Buttons/).
