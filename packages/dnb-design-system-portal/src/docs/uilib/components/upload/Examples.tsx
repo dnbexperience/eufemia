@@ -129,7 +129,7 @@ export const UploadFilesAmountMessage = () => (
   >
     {() => {
       const Component = () => {
-        const { setInternalFiles, setFiles } = Upload.useUpload(
+        const { setFiles } = Upload.useUpload(
           'upload-files-amount-message',
         )
 
@@ -169,9 +169,7 @@ export const UploadFilesAmountLimit = () => (
   >
     {() => {
       const Component = () => {
-        const { setInternalFiles, setFiles } = Upload.useUpload(
-          'upload-files-amount-limit',
-        )
+        const { setFiles } = Upload.useUpload('upload-files-amount-limit')
 
         React.useEffect(() => {
           setFiles([
