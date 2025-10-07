@@ -5,7 +5,7 @@
 
 import React, { useEffect } from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
-import { Upload } from '../..'
+import { Upload, Dialog } from '../..'
 
 export default {
   title: 'Eufemia/Components/Upload',
@@ -172,6 +172,22 @@ export const UploadEdgeCases = () => {
     <Wrapper>
       <Box>
         <Upload id="file-list" acceptedFileTypes={['pdf']} />
+      </Box>
+    </Wrapper>
+  )
+}
+
+export const UploadInAModal = () => {
+  return (
+    <Wrapper>
+      <Box>
+        <Dialog>
+          <Upload
+            id="upload-files"
+            acceptedFileTypes={['pdf']}
+            filesAmountLimit={5}
+          />
+        </Dialog>
       </Box>
     </Wrapper>
   )
