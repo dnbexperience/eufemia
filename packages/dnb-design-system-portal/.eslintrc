@@ -1,5 +1,5 @@
 {
-  "extends": ["../dnb-eufemia/.eslintrc", "plugin:workspaces/recommended"],
+  "extends": ["../dnb-eufemia/.eslintrc.cjs", "plugin:workspaces/recommended"],
   "rules": {
     "workspaces/no-relative-imports": "error",
     "no-restricted-imports": "off"
