@@ -8,8 +8,11 @@ const UploadStatus = () => {
   const context = React.useContext(UploadContext)
 
   const { id, filesAmountLimit, errorAmountLimit } = context
-  const { internalFiles } = useUpload(id)
+  const { internalFiles, files } = useUpload(id)
   const open = internalFiles.length > filesAmountLimit
+
+  console.log(files)
+  console.log(internalFiles)
 
   return (
     <HeightAnimation
