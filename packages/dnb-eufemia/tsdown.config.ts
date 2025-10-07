@@ -59,22 +59,6 @@ export default defineConfig([
           path.join(ctx.options.outDir, 'package.json'),
           JSON.stringify({ type: 'commonjs' })
         )
-
-        async function replaceInFiles(pattern, searchText, replaceText) {
-          const files = glob.sync(pattern, { absolute: true, cwd: ctx.options.outDir })
-          await Promise.all(files.map(async (file) => {
-            const content = await readFile(file, 'utf8')
-            const newContent = content.replace(
-              new RegExp(searchText, 'g'),
-              replaceText
-            )
-            if (content !== newContent) {
-              await writeFile(file, newContent)
-            }
-          }))
-        }
-
-        await replaceInFiles('**/*.{css,scss}', '../assets/', '../../assets/')
       },
     },
   }),
@@ -268,9 +252,7 @@ function makeModuleConfig(
     },
 
     // Minify and treeshake
-    minify: true,
-    sourcemap: false,
-    treeshake: true,
+    sourcemap: true,
 
     // Avoid type emitting (and because of memory issues)
     dts: false,
@@ -284,6 +266,7 @@ function makeModuleConfig(
     // Define env variables
     define: { 'process.env.NODE_ENV': "'production'" },
     format,
+    target: 'es2015',
     outDir,
 
     // Use .js regardless of format
@@ -306,6 +289,19 @@ function makeModuleConfig(
     hooks: {
       ...hooks,
       async 'build:done'(ctx) {
+        async function replaceInFiles(pattern, searchText, replaceText) {
+          const files = glob.sync(pattern, { absolute: true, cwd: ctx.options.outDir })
+          await Promise.all(files.map(async (file) => {
+            const content = await readFile(file, 'utf8')
+            const newContent = content.replace(
+              new RegExp(searchText, 'g'),
+              replaceText
+            )
+            if (content !== newContent) {
+              await writeFile(file, newContent)
+            }
+          }))
+        }
         if (!disableStyleCopy) {
           const srcDir = path.resolve(currentDir, 'src')
           const scssFiles = glob.sync(path.join(srcDir, '/**/*.scss'))
@@ -325,6 +321,8 @@ function makeModuleConfig(
             execSync(
               `OUT_DIR=${ctx.options.outDir} babel-node --extensions .js,.ts,.tsx ./scripts/postbuild/copyStyles.js`
             )
+
+            await replaceInFiles('**/*.{css,scss}', '../assets/', '../../assets/')
           }
         }
 
