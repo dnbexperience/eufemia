@@ -3,6 +3,14 @@ import { FormError } from './FormError'
 
 export type ZodSchema = z.ZodTypeAny
 
+// Common Zod default prefixes/messages we should NOT treat as custom
+const defaultPatterns: RegExp[] = [
+  /^Too small:/, // e.g. "Too small: expected number to be >= 5"
+  /^Too big:/, // e.g. "Too big: expected number to be <= 5"
+  /^Invalid input:/, // e.g. "Invalid input: expected int, received number"
+  /^Invalid string:/, // e.g. "Invalid string: must match pattern ..."
+  /^Invalid number: must be a multiple of/, // For .multipleOf()
+]
 /**
  * Zod doesn’t mark “custom vs default” on the issue; the only signal we have at runtime is the message text.
  *
@@ -16,17 +24,7 @@ function isLikelyCustomZodMessage(issue: z.core.$ZodIssue): boolean {
     return false
   }
 
-  // Common Zod default prefixes/messages we should NOT treat as custom
-  const defaultPatterns: RegExp[] = [
-    /^Too small/i, // e.g. "Too small: expected number to be >= 5"
-    /^Too big/i, // e.g. "Too big: expected number to be <= 5"
-    /^Invalid number:\s*must\s*be\s*a\s*multiple\s*of/i,
-    /^Invalid input:\s*expected\s*int/i, // e.g. "Invalid input: expected int, received number"
-    /^Invalid input:/i,
-    /^Expected\s+(string|number|boolean|date|array|object)/i,
-  ]
-
-  return !defaultPatterns.some((re) => re.test(msg))
+  return !defaultPatterns.some((regex) => regex.test(msg))
 }
 
 function normalizeZodIssueMessage(
@@ -35,13 +33,39 @@ function normalizeZodIssueMessage(
   // Map common Zod issue messages to our translation keys
   if (
     typeof issue?.message === 'string' &&
-    /expected\s*int/i.test(issue.message)
+    /expected int/.test(issue.message)
   ) {
     return 'NumberField.errorInteger'
   }
 
-  if (issue?.code === 'not_multiple_of') {
-    return 'NumberField.errorMultipleOf'
+  if (
+    issue?.code === 'too_small' &&
+    issue.origin === 'number' &&
+    issue.inclusive === false
+  ) {
+    return 'NumberField.errorExclusiveMinimum'
+  }
+  if (
+    issue?.code === 'too_big' &&
+    issue.origin === 'number' &&
+    issue.inclusive === false
+  ) {
+    return 'NumberField.errorExclusiveMaximum'
+  }
+
+  if (
+    issue?.code === 'too_small' &&
+    issue.origin === 'array' &&
+    typeof issue.minimum === 'number'
+  ) {
+    return 'IterateArray.errorMinItems'
+  }
+  if (
+    issue?.code === 'too_big' &&
+    issue.origin === 'array' &&
+    typeof issue.maximum === 'number'
+  ) {
+    return 'IterateArray.errorMaxItems'
   }
 
   if (typeof issue?.message === 'string') {
@@ -61,6 +85,14 @@ function normalizeZodIssueMessage(
         return 'StringField.errorMaxLength'
       }
     }
+  }
+
+  if (issue?.code === 'not_multiple_of') {
+    return 'NumberField.errorMultipleOf'
+  }
+
+  if (issue?.code === 'invalid_format' && issue.format === 'regex') {
+    return 'Field.errorPattern'
   }
 
   return issue?.message
@@ -114,6 +146,12 @@ function getMessageValuesFromZodIssue(
         return { maxLength: String(max) }
       }
     }
+    if (code === 'invalid_format' && issue.format === 'regex') {
+      const pattern = issue.pattern
+      if (typeof pattern === 'string') {
+        return { pattern }
+      }
+    }
   }
 
   if (type === 'number') {
@@ -139,6 +177,21 @@ function getMessageValuesFromZodIssue(
       const m = fallbackMsg.match(/multiple\s*of\s*([0-9]+(?:\.[0-9]+)?)/i)
       if (m && m[1]) {
         return { multipleOf: m[1] }
+      }
+    }
+  }
+
+  if (type === 'array') {
+    if (code === 'too_small') {
+      const min = issue.minimum
+      if (typeof min === 'number') {
+        return { minItems: String(min) }
+      }
+    }
+    if (code === 'too_big') {
+      const max = issue.maximum
+      if (typeof max === 'number') {
+        return { maxItems: String(max) }
       }
     }
   }

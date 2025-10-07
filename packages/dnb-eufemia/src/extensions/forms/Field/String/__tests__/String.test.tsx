@@ -2473,6 +2473,34 @@ describe('Field.String', () => {
         )
       })
     })
+
+    it('shows custom pattern error when Zod schema has regex with custom message', async () => {
+      const schema = z
+        .string()
+        .regex(/^[A-Z]{2}\d{4}$/, 'Must be 2 letters followed by 4 digits')
+
+      render(
+        <Field.String schema={schema} value="abc123" validateInitially />
+      )
+
+      expect(screen.getByRole('alert')).toBeInTheDocument()
+      expect(screen.getByRole('alert')).toHaveTextContent(
+        'Must be 2 letters followed by 4 digits'
+      )
+    })
+
+    it('shows localized pattern error when Zod schema has regex without custom message (default)', async () => {
+      const schema = z.string().regex(/^[A-Z]{2}\d{4}$/)
+
+      render(
+        <Field.String schema={schema} value="abc123" validateInitially />
+      )
+
+      expect(screen.getByRole('alert')).toBeInTheDocument()
+      expect(screen.getByRole('alert')).toHaveTextContent(
+        nb.Field.errorPattern
+      )
+    })
     it('should validate with Zod schema', async () => {
       const schema = z.string().min(5, 'Minimum 5 characters required')
 
