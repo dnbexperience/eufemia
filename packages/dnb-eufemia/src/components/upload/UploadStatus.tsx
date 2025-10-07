@@ -8,7 +8,7 @@ const UploadStatus = () => {
   const context = React.useContext(UploadContext)
 
   const { id, filesAmountLimit, errorAmountLimit } = context
-  const { internalFiles, files } = useUpload(id)
+  const { internalFiles } = useUpload(id)
   const open = internalFiles.length > filesAmountLimit
 
   return (

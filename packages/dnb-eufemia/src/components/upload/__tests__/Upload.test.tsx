@@ -1553,7 +1553,7 @@ describe('Upload', () => {
       ).not.toBeInTheDocument()
     })
 
-    it('can sets both files and internal files when using setFiles', async () => {
+    it('sets both files and internal files when using setFiles', async () => {
       const id = 'reset-set-files'
 
       const { result } = renderHook(useUpload, { initialProps: id })
