@@ -11,9 +11,6 @@ const UploadStatus = () => {
   const { internalFiles, files } = useUpload(id)
   const open = internalFiles.length > filesAmountLimit
 
-  console.log(files)
-  console.log(internalFiles)
-
   return (
     <HeightAnimation
       open={open}
