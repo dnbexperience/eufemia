@@ -552,8 +552,14 @@ describe('Form.SubmitConfirmation', () => {
       'readyToBeSubmitted'
     )
     await waitFor(() => {
-      const output = document.querySelector('output')
-      expect(output).toHaveAttribute('aria-hidden', 'true')
+      expect(document.querySelector('output')).toHaveAttribute(
+        'aria-hidden',
+        'true'
+      )
+    })
+
+    await waitFor(() => {
+      expect(submitButton).not.toBeDisabled()
     })
 
     await userEvent.click(submitButton)
@@ -571,8 +577,7 @@ describe('Form.SubmitConfirmation', () => {
     )
 
     await waitFor(() => {
-      const output = document.querySelector('output')
-      expect(output).toBeNull()
+      expect(document.querySelector('output')).toBeNull()
     })
   })
 
