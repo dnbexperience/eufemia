@@ -8,6 +8,10 @@ import React, {
 } from 'react'
 import classnames from 'classnames'
 import Isolation, { IsolationProps } from '../../Form/Isolation'
+import { extractZodSubSchema } from '../../Form/Isolation/extractZodSubSchema'
+import * as z from 'zod'
+import { isZodSchema } from '../../utils/zod'
+import pointer from '../../utils/json-pointer'
 import useHandleStatus from '../../Form/Isolation/useHandleStatus'
 import PushContainerContext from './PushContainerContext'
 import IterateItemContext from '../IterateItemContext'
@@ -249,6 +253,50 @@ function PushContainer(props: AllProps) {
     [dataProp, defaultDataProp, isolatedData]
   )
 
+  // Derive an isolation-specific schema from parent context schema
+  // so that fields inside PushContainer validate against the target array's item schema.
+  const isolationSchema = useMemo(() => {
+    const parentSchema = outerContext?.props?.schema as unknown
+    const targetPath = absolutePath || relativePath
+
+    if (!parentSchema || !targetPath) {
+      return // stop here
+    }
+
+    if (isZodSchema(parentSchema)) {
+      // Extract array element subschema: e.g. "/entries/0" → item schema
+      const element = extractZodSubSchema(
+        parentSchema as unknown as z.ZodTypeAny,
+        `${targetPath}/0`
+      ) as z.ZodTypeAny
+      return z.object({ pushContainerItems: z.array(element) })
+    } else {
+      // JSON Schema: find items schema at the target path
+      // Convert e.g. "/entries" → "/properties/entries/items"
+      const segments = String(targetPath).split('/').filter(Boolean)
+      const schemaPointer = `/properties/${segments.join(
+        '/properties/'
+      )}/items`
+      const itemsSchema = pointer.has(parentSchema, schemaPointer)
+        ? pointer.get(parentSchema, schemaPointer)
+        : undefined
+
+      if (!itemsSchema) {
+        return // stop here
+      }
+
+      return {
+        type: 'object',
+        properties: {
+          pushContainerItems: {
+            type: 'array',
+            items: itemsSchema,
+          },
+        },
+      }
+    }
+  }, [outerContext?.props?.schema, absolutePath, relativePath])
+
   return (
     <Isolation
       data={data}
@@ -260,6 +308,7 @@ function PushContainer(props: AllProps) {
         containerModeRef.current === 'view' ? false : bubbleValidation
       }
       commitHandleRef={commitHandleRef}
+      schema={isolationSchema}
       transformOnCommit={({ pushContainerItems }) => {
         return moveValueToPath(
           absolutePath || relativePath,
