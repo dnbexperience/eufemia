@@ -14,6 +14,7 @@ import {
   Wizard,
 } from '../../..'
 import { Ajv } from '../../..'
+import * as z from 'zod'
 import { ContextState, FilterData } from '../../../DataContext'
 
 import nbNO from '../../../constants/locales/nb-NO'
@@ -250,6 +251,54 @@ describe('Iterate.Array', () => {
         expect(ValueBlock1).toHaveTextContent('ValueBlock label 1')
         expect(FieldBlock2).toHaveTextContent('FieldBlock label 2')
         expect(ValueBlock2).toHaveTextContent('ValueBlock label 2')
+      })
+    })
+  })
+
+  describe('Zod validation', () => {
+    it('shows localized min items error for Zod array schema', async () => {
+      const schema = z.array(z.string()).min(3)
+
+      render(
+        <Form.Handler schema={schema}>
+          <Iterate.Array path="/" value={['a']} validateInitially>
+            <Field.String itemPath="/" />
+          </Iterate.Array>
+        </Form.Handler>
+      )
+
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toBeInTheDocument()
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toHaveTextContent(
+          nb.IterateArray.errorMinItems.replace('{minItems}', '3')
+        )
+      })
+    })
+
+    it('shows localized max items error for Zod array schema', async () => {
+      const schema = z.array(z.string()).max(1)
+
+      render(
+        <Form.Handler schema={schema}>
+          <Iterate.Array path="/" value={['a', 'b']} validateInitially>
+            <Field.String itemPath="/" />
+          </Iterate.Array>
+        </Form.Handler>
+      )
+
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toBeInTheDocument()
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toHaveTextContent(
+          nb.IterateArray.errorMaxItems.replace('{maxItems}', '1')
+        )
       })
     })
   })
@@ -893,7 +942,7 @@ describe('Iterate.Array', () => {
       )
 
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        nb.IterateArray.errorMinItems
+        nb.IterateArray.errorMinItems.replace('{minItems}', '1')
       )
     })
   })
@@ -909,7 +958,7 @@ describe('Iterate.Array', () => {
       )
 
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        nb.IterateArray.errorMaxItems
+        nb.IterateArray.errorMaxItems.replace('{maxItems}', '1')
       )
     })
   })
