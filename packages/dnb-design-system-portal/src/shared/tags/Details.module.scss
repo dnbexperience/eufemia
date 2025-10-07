@@ -14,6 +14,8 @@
   box-shadow: inset 0 0 0 2px var(--details-border);
   position: relative;
   border-radius: 1.25rem;
+  transition: 0.4s;
+  transition-property: margin-left, margin-right;
 
   /* stylelint-disable-next-line selector-pseudo-element-no-unknown */
   &::details-content {
@@ -96,18 +98,28 @@
   }
 
   &__content {
-    margin: 1rem 1rem 0;
+    margin-top: 1rem;
+    transition: 0.4s;
+    transition-property: margin-left, margin-right;
 
     &::after {
       content: '';
       display: block;
       margin-bottom: 1rem;
     }
+
+    .detailsBox[open] & {
+      margin-left: 0.75rem;
+      margin-right: 0.75rem;
+    }
   }
 
   &[open] {
     --p-details-summary-bg: var(--details-border);
     --p-details-summary-border: var(--details-border);
+
+    margin-left: -0.75rem;
+    margin-right: -0.75rem;
 
     /* stylelint-disable-next-line selector-pseudo-element-no-unknown */
     &::details-content {
