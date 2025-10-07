@@ -253,8 +253,12 @@ describe('babel build', () => {
               path.resolve(packpath.self(), `build${stage}/index.js`),
               'utf-8'
             )
-            const [_, expectedVariable] = /(\w+)\s*as\s+default/.exec(content)
-            expect(content).toMatch(RegExp(`${expectedVariable}\\s*=\\s*\\{\\}`))
+            const [_, expectedVariable] = /(\w+)\s*as\s+default/.exec(
+              content
+            )
+            expect(content).toMatch(
+              RegExp(`${expectedVariable}\\s*=\\s*\\{\\}`)
+            )
           }
 
           {
