@@ -1,17 +1,19 @@
+@use '@dnb/eufemia/src/style/core/utilities.scss';
+
 .detailsBox {
-  // Constants
   --details-bg: var(--color-mint-green-12);
-  --details-border: var(--color-mint-green-50);
+  --details-border: var(--color-mint-green);
   --details-border--strong: var(--color-emerald-green);
-  // Placeholders
-  --p-details-summary-bg: var(--color-mint-green-25);
-  --p-details-summary-border: var(--color-mint-green);
+  --details-summary-bg: var(--color-mint-green-25);
+  --details-summary-bg--open: var(--color-mint-green-50);
+  --details-text: var(--color-sea-green);
+  --details-outset: 0.75rem;
 
   /* stylelint-disable-next-line property-no-unknown */
   interpolate-size: allow-keywords;
   margin-bottom: 1.5rem;
   background: var(--details-bg);
-  box-shadow: inset 0 0 0 2px var(--details-border);
+  box-shadow: inset 0 0 0 0.125rem var(--details-border);
   position: relative;
   border-radius: 1.25rem;
   transition: 0.4s;
@@ -31,10 +33,11 @@
   summary {
     list-style: none;
     cursor: pointer;
-    transition: border-radius 0.4s;
+    transition: 0.4s;
+    transition-property: border-radius, padding-left;
     padding: 0.5rem 0.75rem;
-    background: var(--p-details-summary-bg);
-    box-shadow: inset 0 0 0 2px var(--p-details-summary-border);
+    background: var(--details-summary-bg);
+    box-shadow: inset 0 0 0 0.125rem var(--details-border);
     border-radius: 1.25rem;
 
     &::marker,
@@ -42,18 +45,20 @@
       content: none;
       display: none;
     }
-
     &:focus-visible {
       outline: none;
-      box-shadow: inset 0 0 0 2px var(--details-border--strong);
+    }
+    @include utilities.focus-visible() {
+      box-shadow: inset 0 0 0 0.125rem var(--details-border--strong);
     }
 
-    &:hover {
-      box-shadow: 0 0 0 2px var(--details-border--strong);
+    @include utilities.hover() {
+      box-shadow: 0 0 0 0.125rem var(--details-border--strong);
     }
 
-    &:active {
-      box-shadow: inset 0 0 0 2px var(--details-border--strong);
+    @include utilities.active() {
+      box-shadow: inset 0 0 0 0.125rem var(--details-border);
+      background-color: var(--details-border);
     }
   }
 
@@ -64,7 +69,7 @@
   }
 
   &__text {
-    color: var(--color-sea-green);
+    color: var(--details-text);
   }
 
   &__icon {
@@ -72,11 +77,18 @@
     position: relative;
     align-content: center;
     height: 1.5rem;
+    width: 1.5rem;
+    padding: 0.25rem;
+    background-color: var(--color-white);
+    border-radius: 50%;
+    box-shadow: 0 0 0 0.125rem var(--details-border);
+    margin-right: -0.25rem;
+    color: var(--details-text);
 
     &__line {
       &:global(.dnb-icon) {
         display: block;
-        transition: 0.4s ease-out;
+        transition: 0.4s;
         transition-property: transform, opacity;
       }
 
@@ -109,17 +121,16 @@
     }
 
     .detailsBox[open] & {
-      margin-left: 0.75rem;
-      margin-right: 0.75rem;
+      margin-left: var(--details-outset);
+      margin-right: var(--details-outset);
     }
   }
 
   &[open] {
-    --p-details-summary-bg: var(--details-border);
-    --p-details-summary-border: var(--details-border);
+    --details-summary-bg: var(--details-summary-bg--open);
 
-    margin-left: -0.75rem;
-    margin-right: -0.75rem;
+    margin-left: calc(-1 * var(--details-outset));
+    margin-right: calc(-1 * var(--details-outset));
 
     /* stylelint-disable-next-line selector-pseudo-element-no-unknown */
     &::details-content {
@@ -129,6 +140,7 @@
     summary {
       border-bottom-left-radius: 0.25rem;
       border-bottom-right-radius: 0.25rem;
+      padding-left: calc(0.75rem + var(--details-outset));
     }
   }
 }
