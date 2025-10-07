@@ -27,8 +27,8 @@ function useUpload(id: UploadProps['id']): useUploadReturn {
       const newFiles = files?.filter((file) => file?.file instanceof File)
       extend({
         files: newFiles,
-        internalFiles: newFiles,
       })
+      setInternalFiles(newFiles)
     },
     [extend]
   )
