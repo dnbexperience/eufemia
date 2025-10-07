@@ -253,7 +253,8 @@ describe('babel build', () => {
               path.resolve(packpath.self(), `build${stage}/index.js`),
               'utf-8'
             )
-            expect(content).toContain('src_default as default')
+            const [_, expectedVariable] = /(\w+)\s*as\s+default/.exec(content)
+            expect(content).toMatch(RegExp(`${expectedVariable}\\s*=\\s*\\{\\}`))
           }
 
           {
@@ -462,9 +463,15 @@ describe('style build', () => {
       )
       expect(content).toContain(`.dnb-typo-regular`)
       expect(content).toContain(`@font-face`)
-      expect(content).toContain(
-        `src: url("../../../assets/fonts/dnb/DNB-Regular.woff2") format("woff2"),`
-      )
+      if (stage === '') {
+        expect(content).toContain(
+          `src: url("../../../assets/fonts/dnb/DNB-Regular.woff2") format("woff2"),`
+        )
+      } else {
+        expect(content).toContain(
+          `src: url("../../../../assets/fonts/dnb/DNB-Regular.woff2") format("woff2"),`
+        )
+      }
       expect(content).toContain(`
 .dnb-p {
   font-size: var(--font-size-basis);
