@@ -10,6 +10,7 @@ import {
   Value,
   Wizard,
   Ajv,
+  z,
 } from '../../..'
 import { Div } from '../../../../../elements'
 import DataContext from '../../../DataContext/Context'
@@ -2547,6 +2548,10 @@ describe('PushContainer', () => {
           document.querySelector('.dnb-dialog .dnb-button--primary')
         )
 
+        await waitFor(() => {
+          expect(nextButton()).not.toBeDisabled()
+        })
+
         await userEvent.click(nextButton())
 
         expect(output()).toHaveTextContent('Step 2')
@@ -2629,6 +2634,124 @@ describe('PushContainer', () => {
             document.querySelector('.dnb-form-status')
           ).toBeInTheDocument()
         }).toNeverResolve()
+      })
+    })
+  })
+
+  describe('schema inheritance', () => {
+    it('inherits JSON Schema and ajvInstance from Form.Handler', async () => {
+      const onChange = jest.fn()
+      const schema: JSONSchema = {
+        type: 'object',
+        properties: {
+          entries: {
+            type: 'array',
+            items: {
+              type: 'object',
+              properties: {
+                name: { type: 'string', minLength: 4 },
+              },
+              required: ['name'],
+            },
+          },
+        },
+      }
+
+      render(
+        <Form.Handler
+          schema={schema}
+          ajvInstance={new Ajv({ allErrors: true })}
+          onChange={onChange}
+        >
+          <Iterate.Array path="/entries">...</Iterate.Array>
+
+          <Iterate.PushContainer path="/entries">
+            {/* Should validate using inherited schema */}
+            <Field.String itemPath="/name" />
+          </Iterate.PushContainer>
+        </Form.Handler>
+      )
+
+      const input = document.querySelector('input')
+      const doneButton = document.querySelector(
+        '.dnb-forms-iterate__done-button'
+      )
+
+      // Enter too-short value and try to commit
+      await userEvent.type(input, 'foo')
+      await userEvent.click(doneButton)
+
+      // Check if the form status is showing the error
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).toBeInTheDocument()
+
+      // Should not commit invalid item (no array update)
+      expect(onChange).toHaveBeenCalledTimes(0)
+
+      // Fix and commit again
+      await userEvent.type(input, 'X')
+      await userEvent.click(doneButton)
+
+      await waitFor(() => {
+        expect(onChange).toHaveBeenCalledTimes(1)
+        expect(onChange).toHaveBeenLastCalledWith(
+          { entries: [{ name: 'fooX' }] },
+          expect.anything()
+        )
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).not.toBeInTheDocument()
+      })
+    })
+
+    it('inherits Zod schema from Form.Handler', async () => {
+      const onChange = jest.fn()
+      const schema = z.object({
+        entries: z.array(z.object({ name: z.string().min(4) })),
+      })
+
+      render(
+        <Form.Handler schema={schema} onChange={onChange}>
+          <Iterate.Array path="/entries">...</Iterate.Array>
+
+          <Iterate.PushContainer path="/entries">
+            {/* Should validate using inherited Zod schema */}
+            <Field.String itemPath="/name" />
+          </Iterate.PushContainer>
+        </Form.Handler>
+      )
+
+      const input = document.querySelector('input')
+      const doneButton = document.querySelector(
+        '.dnb-forms-iterate__done-button'
+      )
+
+      // Enter too-short value and try to commit
+      await userEvent.type(input, 'foo')
+      await userEvent.click(doneButton)
+
+      // Check if the form status is showing the error
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).toBeInTheDocument()
+
+      // Should not commit invalid item
+      expect(onChange).toHaveBeenCalledTimes(0)
+
+      // Fix and commit again
+      await userEvent.type(input, 'X')
+      await userEvent.click(doneButton)
+
+      await waitFor(() => {
+        expect(onChange).toHaveBeenCalledTimes(1)
+        expect(onChange).toHaveBeenLastCalledWith(
+          { entries: [{ name: 'fooX' }] },
+          expect.anything()
+        )
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).not.toBeInTheDocument()
       })
     })
   })
