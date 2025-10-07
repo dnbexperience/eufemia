@@ -748,9 +748,14 @@ describe('Field.String', () => {
       const input = document.querySelector('input')
       input.focus()
       fireEvent.blur(input)
-      await wait(0)
-      expect(onBlur).toHaveBeenCalledTimes(1)
-      expect(onBlur).toHaveBeenNthCalledWith(1, 'song2', expect.anything())
+      await waitFor(() => {
+        expect(onBlur).toHaveBeenCalledTimes(1)
+        expect(onBlur).toHaveBeenNthCalledWith(
+          1,
+          'song2',
+          expect.anything()
+        )
+      })
       await userEvent.type(input, '345')
       fireEvent.blur(input)
       expect(onBlur).toHaveBeenCalledTimes(2)
@@ -801,7 +806,9 @@ describe('Field.String', () => {
               schema={{ type: 'string', minLength: 6 }}
             />
           )
-          expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).not.toBeInTheDocument()
         })
 
         it('should not show error messages after focus and blur if value was not changed', () => {
@@ -812,9 +819,13 @@ describe('Field.String', () => {
             />
           )
           const input = document.querySelector('input')
-          expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).not.toBeInTheDocument()
           fireEvent.blur(input)
-          expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).not.toBeInTheDocument()
         })
 
         it('should show error only after changing when the value is still invalid', async () => {
@@ -825,18 +836,24 @@ describe('Field.String', () => {
             />
           )
           // Do not show error initially when validateInitially is not enabled, to avoid initial error messages all over empty forms
-          expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).not.toBeInTheDocument()
           const input = document.querySelector('input')
           // Errors should be hidden while typing (field is in focus)
           await userEvent.type(input, 'd')
-          expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).not.toBeInTheDocument()
           // Error should be visible after blurring the field
           fireEvent.blur(input)
           expect(screen.getByRole('alert')).toBeInTheDocument()
           // But remain gone when it becomes valid before blurring
           await userEvent.type(input, 'ef')
           fireEvent.blur(input)
-          expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).not.toBeInTheDocument()
         })
       })
 
@@ -856,10 +873,12 @@ describe('Field.String', () => {
         )
         const secondError = nb.Field.errorPattern
 
-        expect(screen.queryByRole('alert')).toBeInTheDocument()
-        expect(screen.queryByRole('alert').textContent).toBe(
-          nb.Field.errorSummary + firstError + secondError
-        )
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toBeInTheDocument()
+        expect(
+          document.querySelector('.dnb-form-status').textContent
+        ).toBe(nb.Field.errorSummary + firstError + secondError)
       })
 
       describe('with validateInitially', () => {
@@ -887,7 +906,9 @@ describe('Field.String', () => {
             />
           )
           const input = document.querySelector('input')
-          expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).not.toBeInTheDocument()
           input.focus()
           fireEvent.blur(input)
           await waitFor(() => {
@@ -915,7 +936,9 @@ describe('Field.String', () => {
         const input = document.querySelector('input')
         await userEvent.type(input, 'b')
         fireEvent.blur(input)
-        expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).not.toBeInTheDocument()
       })
 
       it('should show error for initially empty value when required and validateInitially is set', async () => {
@@ -946,7 +969,9 @@ describe('Field.String', () => {
         const input = document.querySelector('input')
         await userEvent.type(input, 'd')
         fireEvent.blur(input)
-        expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).not.toBeInTheDocument()
       })
     })
 
@@ -964,7 +989,9 @@ describe('Field.String', () => {
         const input = document.querySelector('input')
         await userEvent.type(input, 'd')
         fireEvent.blur(input)
-        expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).not.toBeInTheDocument()
       })
     })
 
@@ -982,7 +1009,9 @@ describe('Field.String', () => {
         const input = document.querySelector('input')
         await userEvent.type(input, '2')
         fireEvent.blur(input)
-        expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).not.toBeInTheDocument()
       })
     })
 
@@ -1098,7 +1127,9 @@ describe('Field.String', () => {
             />
           )
           await expect(() => {
-            expect(screen.queryByRole('alert')).toBeInTheDocument()
+            expect(
+              document.querySelector('.dnb-form-status')
+            ).toBeInTheDocument()
           }).toNeverResolve()
         })
       })
@@ -1169,7 +1200,9 @@ describe('Field.String', () => {
           )
 
           await expect(() => {
-            expect(screen.queryByRole('alert')).toBeInTheDocument()
+            expect(
+              document.querySelector('.dnb-form-status')
+            ).toBeInTheDocument()
           }).toNeverResolve()
         })
       })
@@ -1240,7 +1273,9 @@ describe('Field.String', () => {
           await waitFor(() => {
             // Wait for since external validators are processed asynchronously
             expect(onBlurValidator).toHaveBeenCalledTimes(1)
-            expect(screen.queryByRole('alert')).toBeInTheDocument()
+            expect(
+              document.querySelector('.dnb-form-status')
+            ).toBeInTheDocument()
           })
           const input = document.querySelector('input')
           await userEvent.type(input, 'def')
@@ -1281,7 +1316,9 @@ describe('Field.String', () => {
           await userEvent.type(input, 'd')
           fireEvent.blur(input)
           await expect(() => {
-            expect(screen.queryByRole('alert')).toBeInTheDocument()
+            expect(
+              document.querySelector('.dnb-form-status')
+            ).toBeInTheDocument()
           }).toNeverResolve()
         })
       })
@@ -1302,7 +1339,9 @@ describe('Field.String', () => {
           await waitFor(() => {
             // Wait for since external validators are processed asynchronously
             expect(onBlurValidator).toHaveBeenCalledTimes(1)
-            expect(screen.queryByRole('alert')).toBeInTheDocument()
+            expect(
+              document.querySelector('.dnb-form-status')
+            ).toBeInTheDocument()
           })
           const input = document.querySelector('input')
           await userEvent.type(input, 'def')
@@ -1343,7 +1382,9 @@ describe('Field.String', () => {
           await userEvent.type(input, 'd')
           fireEvent.blur(input)
           await expect(() => {
-            expect(screen.queryByRole('alert')).toBeInTheDocument()
+            expect(
+              document.querySelector('.dnb-form-status')
+            ).toBeInTheDocument()
           }).toNeverResolve()
         })
       })
@@ -1900,7 +1941,7 @@ describe('Field.String', () => {
 
       render(<Field.String warning={[firstWarning, secondWarning]} />)
 
-      expect(screen.queryByRole('alert').textContent).toBe(
+      expect(document.querySelector('.dnb-form-status').textContent).toBe(
         nb.Field.stateSummary + firstWarning + secondWarning
       )
     })
@@ -1932,7 +1973,7 @@ describe('Field.String', () => {
         />
       )
 
-      expect(screen.queryByRole('alert').textContent).toBe(
+      expect(document.querySelector('.dnb-form-status').textContent).toBe(
         nb.Field.errorSummary + firstError + secondError
       )
     })
@@ -2357,6 +2398,81 @@ describe('Field.String', () => {
   })
 
   describe('Zod validation', () => {
+    it('shows localized min error when Zod schema has min without custom message (direct)', async () => {
+      const schema = z.string().min(4) // expect localized key usage
+
+      render(<Field.String schema={schema} />)
+      const input = document.querySelector('input')
+
+      await userEvent.type(input, 'foo') // length 3
+      input.blur()
+
+      await waitFor(() => {
+        expect(screen.getByRole('alert')).toBeInTheDocument()
+        expect(screen.getByRole('alert')).toHaveTextContent(
+          nb.StringField.errorMinLength.replace('{minLength}', '4')
+        )
+      })
+    })
+
+    it('shows localized min error when Zod schema has min without custom message (via Form.Handler)', async () => {
+      const schema = z.object({ name: z.string().min(6) })
+
+      render(
+        <Form.Handler schema={schema}>
+          <Field.String path="/name" />
+        </Form.Handler>
+      )
+
+      const input = document.querySelector('input')
+      await userEvent.type(input, 'hello') // length 5
+      input.blur()
+
+      await waitFor(() => {
+        expect(screen.getByRole('alert')).toBeInTheDocument()
+        expect(screen.getByRole('alert')).toHaveTextContent(
+          nb.StringField.errorMinLength.replace('{minLength}', '6')
+        )
+      })
+    })
+
+    it('shows localized max error when Zod schema has max without custom message (direct)', async () => {
+      const schema = z.string().max(3)
+
+      render(<Field.String schema={schema} />)
+      const input = document.querySelector('input')
+
+      await userEvent.type(input, 'four') // length 4 exceeds
+      input.blur()
+
+      await waitFor(() => {
+        expect(screen.getByRole('alert')).toBeInTheDocument()
+        expect(screen.getByRole('alert')).toHaveTextContent(
+          nb.StringField.errorMaxLength.replace('{maxLength}', '3')
+        )
+      })
+    })
+
+    it('shows localized max error when Zod schema has max without custom message (via Form.Handler)', async () => {
+      const schema = z.object({ code: z.string().max(2) })
+
+      render(
+        <Form.Handler schema={schema}>
+          <Field.String path="/code" />
+        </Form.Handler>
+      )
+
+      const input = document.querySelector('input')
+      await userEvent.type(input, 'ABC') // length 3
+      input.blur()
+
+      await waitFor(() => {
+        expect(screen.getByRole('alert')).toBeInTheDocument()
+        expect(screen.getByRole('alert')).toHaveTextContent(
+          nb.StringField.errorMaxLength.replace('{maxLength}', '2')
+        )
+      })
+    })
     it('should validate with Zod schema', async () => {
       const schema = z.string().min(5, 'Minimum 5 characters required')
 
@@ -2377,7 +2493,9 @@ describe('Field.String', () => {
         <Field.String value="abc" schema={schema} validateInitially />
       )
 
-      expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).not.toBeInTheDocument()
     })
 
     it('should accept Zod schema provided by Form.Handler without errors', async () => {
@@ -2396,8 +2514,8 @@ describe('Field.String', () => {
       }).not.toThrow()
 
       // Verify the form rendered correctly
-      expect(screen.getByRole('textbox')).toBeInTheDocument()
-      expect(screen.getByRole('textbox')).toHaveValue('abc')
+      expect(document.querySelector('input')).toBeInTheDocument()
+      expect(document.querySelector('input')).toHaveValue('abc')
     })
 
     it('should not show error for valid value when Zod schema is provided by Form.Handler', async () => {
@@ -2411,7 +2529,9 @@ describe('Field.String', () => {
         </Form.Handler>
       )
 
-      expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).not.toBeInTheDocument()
     })
 
     describe('validation using Zod schema', () => {
@@ -2433,7 +2553,9 @@ describe('Field.String', () => {
         render(
           <Field.String value="abc" schema={schema} validateInitially />
         )
-        expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).not.toBeInTheDocument()
       })
 
       it('should show error on blur for invalid value using Zod schema', async () => {

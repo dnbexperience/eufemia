@@ -1,5 +1,5 @@
 import React from 'react'
-import { axeComponent, wait } from '../../../../../core/jest/jestSetup'
+import { axeComponent } from '../../../../../core/jest/jestSetup'
 import {
   screen,
   render,
@@ -133,11 +133,11 @@ describe('Field.Number', () => {
 
       expect(input).toHaveValue('-9 007 199 254 740 992')
 
-      const alertElement = screen.getByRole('alert')
-      expect(alertElement).toBeInTheDocument()
+      const statusElement = document.querySelector('.dnb-form-status')
+      expect(statusElement).toBeInTheDocument()
 
       // Check that the message contains the Norwegian text and the formatted number
-      const alertText = alertElement.textContent
+      const alertText = statusElement.textContent
       const expectedText = nb.NumberField.errorMinimum.replace(
         '{minimum}',
         String(format(Number.MIN_SAFE_INTEGER, { locale: 'nb-NO' }))
@@ -164,11 +164,11 @@ describe('Field.Number', () => {
 
       expect(input).toHaveValue('9 007 199 254 740 992')
 
-      const alertElement = screen.getByRole('alert')
-      expect(alertElement).toBeInTheDocument()
+      const statusElement = document.querySelector('.dnb-form-status')
+      expect(statusElement).toBeInTheDocument()
 
       // Check that the message contains the Norwegian text and the formatted number
-      const alertText = alertElement.textContent
+      const alertText = statusElement.textContent
       const expectedText = nb.NumberField.errorMaximum.replace(
         '{maximum}',
         String(format(Number.MAX_SAFE_INTEGER, { locale: 'nb-NO' }))
@@ -805,11 +805,11 @@ describe('Field.Number', () => {
       })
 
       await waitFor(() => {
-        const alertElement = screen.getByRole('alert')
-        expect(alertElement).toBeInTheDocument()
+        const statusElement = document.querySelector('.dnb-form-status')
+        expect(statusElement).toBeInTheDocument()
 
         // Check that the message contains the Norwegian text and the formatted number
-        const alertText = alertElement.textContent
+        const alertText = statusElement.textContent
         expect(alertText).toContain(
           nb.NumberField.errorMaximum.split('{maximum}')[0]
         )
@@ -832,7 +832,9 @@ describe('Field.Number', () => {
       )
 
       await waitFor(() => {
-        expect(screen.getByRole('alert')).toHaveTextContent(expected)
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toHaveTextContent(expected)
       })
     })
 
@@ -850,7 +852,9 @@ describe('Field.Number', () => {
       )
 
       await waitFor(() => {
-        expect(screen.getByRole('alert')).toHaveTextContent(expected)
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toHaveTextContent(expected)
       })
     })
 
@@ -868,7 +872,9 @@ describe('Field.Number', () => {
       )
 
       await waitFor(() => {
-        expect(screen.getByRole('alert')).toHaveTextContent(expected)
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toHaveTextContent(expected)
       })
     })
 
@@ -888,9 +894,9 @@ describe('Field.Number', () => {
       const expectedRegex = expected.replace(/\s/g, '\\s')
 
       await waitFor(() => {
-        expect(screen.getByRole('alert')).toHaveTextContent(
-          new RegExp(expectedRegex)
-        )
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toHaveTextContent(new RegExp(expectedRegex))
       })
     })
 
@@ -913,7 +919,9 @@ describe('Field.Number', () => {
       )
 
       await waitFor(() => {
-        expect(screen.getByRole('alert')).toHaveTextContent(expected)
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toHaveTextContent(expected)
       })
     })
 
@@ -929,8 +937,8 @@ describe('Field.Number', () => {
         )
 
         await waitFor(() => {
-          const alertElement = screen.getByRole('alert')
-          expect(alertElement).toBeInTheDocument()
+          const statusElement = document.querySelector('.dnb-form-status')
+          expect(statusElement).toBeInTheDocument()
 
           const expected = nb.NumberField.errorExclusiveMinimum.replace(
             '{exclusiveMinimum}',
@@ -938,7 +946,7 @@ describe('Field.Number', () => {
           )
           // Use regex to handle both regular and non-breaking spaces
           const expectedRegex = expected.replace(/\s/g, '\\s')
-          expect(alertElement.textContent).toMatch(
+          expect(statusElement.textContent).toMatch(
             new RegExp(expectedRegex)
           )
         })
@@ -955,8 +963,8 @@ describe('Field.Number', () => {
         )
 
         await waitFor(() => {
-          const alertElement = screen.getByRole('alert')
-          expect(alertElement).toBeInTheDocument()
+          const statusElement = document.querySelector('.dnb-form-status')
+          expect(statusElement).toBeInTheDocument()
 
           const expected = nb.NumberField.errorExclusiveMaximum.replace(
             '{exclusiveMaximum}',
@@ -964,7 +972,7 @@ describe('Field.Number', () => {
           )
           // Use regex to handle both regular and non-breaking spaces
           const expectedRegex = expected.replace(/\s/g, '\\s')
-          expect(alertElement.textContent).toMatch(
+          expect(statusElement.textContent).toMatch(
             new RegExp(expectedRegex)
           )
         })
@@ -981,8 +989,8 @@ describe('Field.Number', () => {
         )
 
         await waitFor(() => {
-          const alertElement = screen.getByRole('alert')
-          expect(alertElement).toBeInTheDocument()
+          const statusElement = document.querySelector('.dnb-form-status')
+          expect(statusElement).toBeInTheDocument()
 
           const expected = nb.NumberField.errorMinimum.replace(
             '{minimum}',
@@ -990,7 +998,7 @@ describe('Field.Number', () => {
           )
           // Use regex to handle both regular and non-breaking spaces
           const expectedRegex = expected.replace(/\s/g, '\\s')
-          expect(alertElement.textContent).toMatch(
+          expect(statusElement.textContent).toMatch(
             new RegExp(expectedRegex)
           )
         })
@@ -1007,8 +1015,8 @@ describe('Field.Number', () => {
         )
 
         await waitFor(() => {
-          const alertElement = screen.getByRole('alert')
-          expect(alertElement).toBeInTheDocument()
+          const statusElement = document.querySelector('.dnb-form-status')
+          expect(statusElement).toBeInTheDocument()
 
           const expected = nb.NumberField.errorMaximum.replace(
             '{maximum}',
@@ -1016,7 +1024,7 @@ describe('Field.Number', () => {
           )
           // Use regex to handle both regular and non-breaking spaces
           const expectedRegex = expected.replace(/\s/g, '\\s')
-          expect(alertElement.textContent).toMatch(
+          expect(statusElement.textContent).toMatch(
             new RegExp(expectedRegex)
           )
         })
@@ -1033,8 +1041,8 @@ describe('Field.Number', () => {
         )
 
         await waitFor(() => {
-          const alertElement = screen.getByRole('alert')
-          expect(alertElement).toBeInTheDocument()
+          const statusElement = document.querySelector('.dnb-form-status')
+          expect(statusElement).toBeInTheDocument()
 
           const expected = nb.NumberField.errorMultipleOf.replace(
             '{multipleOf}',
@@ -1042,7 +1050,7 @@ describe('Field.Number', () => {
           )
           // Use regex to handle both regular and non-breaking spaces
           const expectedRegex = expected.replace(/\s/g, '\\s')
-          expect(alertElement.textContent).toMatch(
+          expect(statusElement.textContent).toMatch(
             new RegExp(expectedRegex)
           )
         })
@@ -1060,8 +1068,8 @@ describe('Field.Number', () => {
         )
 
         await waitFor(() => {
-          const alertElement = screen.getByRole('alert')
-          expect(alertElement).toBeInTheDocument()
+          const statusElement = document.querySelector('.dnb-form-status')
+          expect(statusElement).toBeInTheDocument()
 
           const expected = nb.NumberField.errorExclusiveMinimum.replace(
             '{exclusiveMinimum}',
@@ -1075,7 +1083,7 @@ describe('Field.Number', () => {
           )
           // Use regex to handle both regular and non-breaking spaces
           const expectedRegex = expected.replace(/\s/g, '\\s')
-          expect(alertElement.textContent).toMatch(
+          expect(statusElement.textContent).toMatch(
             new RegExp(expectedRegex)
           )
         })
@@ -1094,8 +1102,8 @@ describe('Field.Number', () => {
         )
 
         await waitFor(() => {
-          const alertElement = screen.getByRole('alert')
-          expect(alertElement).toBeInTheDocument()
+          const statusElement = document.querySelector('.dnb-form-status')
+          expect(statusElement).toBeInTheDocument()
 
           const expected = nb.NumberField.errorExclusiveMinimum.replace(
             '{exclusiveMinimum}',
@@ -1103,7 +1111,7 @@ describe('Field.Number', () => {
           )
           // Use regex to handle both regular and non-breaking spaces
           const expectedRegex = expected.replace(/\s/g, '\\s')
-          expect(alertElement.textContent).toMatch(
+          expect(statusElement.textContent).toMatch(
             new RegExp(expectedRegex)
           )
         })
@@ -1120,8 +1128,8 @@ describe('Field.Number', () => {
         )
 
         await waitFor(() => {
-          const alertElement = screen.getByRole('alert')
-          expect(alertElement).toBeInTheDocument()
+          const statusElement = document.querySelector('.dnb-form-status')
+          expect(statusElement).toBeInTheDocument()
 
           const expected = nb.NumberField.errorExclusiveMaximum.replace(
             '{exclusiveMaximum}',
@@ -1129,7 +1137,7 @@ describe('Field.Number', () => {
           )
           // Use regex to handle both regular and non-breaking spaces
           const expectedRegex = expected.replace(/\s/g, '\\s')
-          expect(alertElement.textContent).toMatch(
+          expect(statusElement.textContent).toMatch(
             new RegExp(expectedRegex)
           )
         })
@@ -1141,8 +1149,8 @@ describe('Field.Number', () => {
         )
 
         await waitFor(() => {
-          const alertElement = screen.getByRole('alert')
-          expect(alertElement).toBeInTheDocument()
+          const statusElement = document.querySelector('.dnb-form-status')
+          expect(statusElement).toBeInTheDocument()
 
           const expected = nb.NumberField.errorMinimum.replace(
             '{minimum}',
@@ -1150,7 +1158,7 @@ describe('Field.Number', () => {
           )
           // Use regex to handle both regular and non-breaking spaces
           const expectedRegex = expected.replace(/\s/g, '\\s')
-          expect(alertElement.textContent).toMatch(
+          expect(statusElement.textContent).toMatch(
             new RegExp(expectedRegex)
           )
         })
@@ -1167,8 +1175,8 @@ describe('Field.Number', () => {
         )
 
         await waitFor(() => {
-          const alertElement = screen.getByRole('alert')
-          expect(alertElement).toBeInTheDocument()
+          const statusElement = document.querySelector('.dnb-form-status')
+          expect(statusElement).toBeInTheDocument()
 
           const expected = nb.NumberField.errorMaximum.replace(
             '{maximum}',
@@ -1176,7 +1184,7 @@ describe('Field.Number', () => {
           )
           // Use regex to handle both regular and non-breaking spaces
           const expectedRegex = expected.replace(/\s/g, '\\s')
-          expect(alertElement.textContent).toMatch(
+          expect(statusElement.textContent).toMatch(
             new RegExp(expectedRegex)
           )
         })
@@ -1193,8 +1201,8 @@ describe('Field.Number', () => {
         )
 
         await waitFor(() => {
-          const alertElement = screen.getByRole('alert')
-          expect(alertElement).toBeInTheDocument()
+          const statusElement = document.querySelector('.dnb-form-status')
+          expect(statusElement).toBeInTheDocument()
 
           const expected = nb.NumberField.errorMultipleOf.replace(
             '{multipleOf}',
@@ -1204,7 +1212,7 @@ describe('Field.Number', () => {
           )
           // Use regex to handle both regular and non-breaking spaces
           const expectedRegex = expected.replace(/\s/g, '\\s')
-          expect(alertElement.textContent).toMatch(
+          expect(statusElement.textContent).toMatch(
             new RegExp(expectedRegex)
           )
         })
@@ -1222,8 +1230,8 @@ describe('Field.Number', () => {
         )
 
         await waitFor(() => {
-          const alertElement = screen.getByRole('alert')
-          expect(alertElement).toBeInTheDocument()
+          const statusElement = document.querySelector('.dnb-form-status')
+          expect(statusElement).toBeInTheDocument()
 
           const expected = nb.NumberField.errorExclusiveMinimum.replace(
             '{exclusiveMinimum}',
@@ -1237,7 +1245,7 @@ describe('Field.Number', () => {
           )
           // Use regex to handle both regular and non-breaking spaces
           const expectedRegex = expected.replace(/\s/g, '\\s')
-          expect(alertElement.textContent).toMatch(
+          expect(statusElement.textContent).toMatch(
             new RegExp(expectedRegex)
           )
         })
@@ -1563,12 +1571,16 @@ describe('Field.Number', () => {
   describe('error handling', () => {
     it('should not show error initially', () => {
       render(<Field.Number required />)
-      expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).not.toBeInTheDocument()
     })
 
     it('should show error initially when validateInitially', () => {
       render(<Field.Number required validateInitially />)
-      expect(screen.queryByRole('alert')).toBeInTheDocument()
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).toBeInTheDocument()
     })
 
     it('should call onChangeValidator with validateInitially', async () => {
@@ -1591,7 +1603,9 @@ describe('Field.Number', () => {
       )
 
       await waitFor(() => {
-        expect(screen.queryByRole('alert')).toBeInTheDocument()
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toBeInTheDocument()
       })
     })
 
@@ -1619,7 +1633,9 @@ describe('Field.Number', () => {
       )
 
       await waitFor(() => {
-        expect(screen.queryByRole('alert')).toBeInTheDocument()
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toBeInTheDocument()
       })
     })
 
@@ -1629,8 +1645,12 @@ describe('Field.Number', () => {
         const input = document.querySelector('input')
         await userEvent.type(input, '{backspace}')
         input.blur()
-        await wait(0)
-        expect(screen.getByRole('alert')).toBeInTheDocument()
+
+        await waitFor(() => {
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).toBeInTheDocument()
+        })
       })
 
       it('should not show error when value is not empty', async () => {
@@ -1638,7 +1658,10 @@ describe('Field.Number', () => {
         const input = document.querySelector('input')
         await userEvent.type(input, '2')
         input.blur()
-        expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).not.toBeInTheDocument()
       })
     })
 
@@ -1648,8 +1671,12 @@ describe('Field.Number', () => {
         const input = document.querySelector('input')
         await userEvent.type(input, '1')
         input.blur()
-        await wait(0)
-        expect(screen.getByRole('alert')).toBeInTheDocument()
+
+        await waitFor(() => {
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).toBeInTheDocument()
+        })
       })
 
       it('should not show error message for valid value', async () => {
@@ -1657,7 +1684,10 @@ describe('Field.Number', () => {
         const input = document.querySelector('input')
         await userEvent.type(input, '5')
         input.blur()
-        expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).not.toBeInTheDocument()
       })
     })
 
@@ -1667,8 +1697,12 @@ describe('Field.Number', () => {
         const input = document.querySelector('input')
         await userEvent.type(input, '0')
         input.blur()
-        await wait(0)
-        expect(screen.getByRole('alert')).toBeInTheDocument()
+
+        await waitFor(() => {
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).toBeInTheDocument()
+        })
       })
 
       it('should not show error message for valid value', async () => {
@@ -1676,7 +1710,12 @@ describe('Field.Number', () => {
         const input = document.querySelector('input')
         await userEvent.type(input, '1')
         input.blur()
-        expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+
+        await waitFor(() => {
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).not.toBeInTheDocument()
+        })
       })
     })
   })
@@ -2056,11 +2095,11 @@ describe('Field.Number', () => {
       })
 
       await waitFor(() => {
-        const alertElement = screen.getByRole('alert')
-        expect(alertElement).toBeInTheDocument()
+        const statusElement = document.querySelector('.dnb-form-status')
+        expect(statusElement).toBeInTheDocument()
 
         // Check that the message contains the Norwegian text and the formatted number
-        const alertText = alertElement.textContent
+        const alertText = statusElement.textContent
         const expectedText = nb.NumberField.errorMaximum.replace(
           '{maximum}',
           String(format(Number.MAX_SAFE_INTEGER, { locale: 'nb-NO' }))
@@ -2086,17 +2125,19 @@ describe('Field.Number', () => {
       })
 
       // No error yet
-      expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).not.toBeInTheDocument()
 
       // Now type '2' to make it 9007199254740992 (> MAX_SAFE_INTEGER)
       await userEvent.type(input, '2')
 
       await waitFor(() => {
-        const alertElement = screen.getByRole('alert')
-        expect(alertElement).toBeInTheDocument()
+        const statusElement = document.querySelector('.dnb-form-status')
+        expect(statusElement).toBeInTheDocument()
 
         // Check that the message contains the Norwegian text and the formatted number
-        const alertText = alertElement.textContent
+        const alertText = statusElement.textContent
         const expectedText = nb.NumberField.errorMaximum.replace(
           '{maximum}',
           String(format(Number.MAX_SAFE_INTEGER, { locale: 'nb-NO' }))
@@ -2114,11 +2155,11 @@ describe('Field.Number', () => {
       await userEvent.type(input, '-9007199254740992')
 
       await waitFor(() => {
-        const alertElement = screen.getByRole('alert')
-        expect(alertElement).toBeInTheDocument()
+        const statusElement = document.querySelector('.dnb-form-status')
+        expect(statusElement).toBeInTheDocument()
 
         // Check that the message contains the Norwegian text and the formatted number
-        const alertText = alertElement.textContent
+        const alertText = statusElement.textContent
         const expectedText = nb.NumberField.errorMinimum.replace(
           '{minimum}',
           String(format(Number.MIN_SAFE_INTEGER, { locale: 'nb-NO' }))
@@ -2174,21 +2215,26 @@ describe('Field.Number', () => {
       await userEvent.type(input, '1001')
 
       // No error should appear during typing
-      expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).not.toBeInTheDocument()
 
       // Error should appear on blur
       input.blur()
+
       await waitFor(() => {
-        expect(screen.getByRole('alert')).toBeInTheDocument()
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toBeInTheDocument()
         const expected = nb.NumberField.errorMaximum.replace(
           '{maximum}',
           String(format(1000, { locale: 'nb-NO' }))
         )
         // Use regex to handle both regular and non-breaking spaces
         const expectedRegex = expected.replace(/\s/g, '\\s')
-        expect(screen.getByRole('alert')).toHaveTextContent(
-          new RegExp(expectedRegex)
-        )
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toHaveTextContent(new RegExp(expectedRegex))
       })
     })
 
@@ -2207,10 +2253,12 @@ describe('Field.Number', () => {
 
       // Error should appear during typing
       await waitFor(() => {
-        expect(screen.getByRole('alert')).toBeInTheDocument()
-        expect(screen.getByRole('alert')).toHaveTextContent(
-          'Value must be less than or equal to 1000'
-        )
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toBeInTheDocument()
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toHaveTextContent('Value must be less than or equal to 1000')
       })
     })
 
@@ -2222,21 +2270,26 @@ describe('Field.Number', () => {
       await userEvent.type(input, '1001')
 
       // No error should appear during typing (default behavior)
-      expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).not.toBeInTheDocument()
 
       // Error should appear on blur
       input.blur()
+
       await waitFor(() => {
-        expect(screen.getByRole('alert')).toBeInTheDocument()
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toBeInTheDocument()
         const expected = nb.NumberField.errorMaximum.replace(
           '{maximum}',
           String(format(1000, { locale: 'nb-NO' }))
         )
         // Use regex to handle both regular and non-breaking spaces
         const expectedRegex = expected.replace(/\s/g, '\\s')
-        expect(screen.getByRole('alert')).toHaveTextContent(
-          new RegExp(expectedRegex)
-        )
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toHaveTextContent(new RegExp(expectedRegex))
       })
     })
 
@@ -2248,21 +2301,26 @@ describe('Field.Number', () => {
       await userEvent.type(input, '1000')
 
       // No error should appear during typing (default behavior)
-      expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).not.toBeInTheDocument()
 
       // Error should appear on blur
       input.blur()
+
       await waitFor(() => {
-        expect(screen.getByRole('alert')).toBeInTheDocument()
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toBeInTheDocument()
         const expected = nb.NumberField.errorExclusiveMaximum.replace(
           '{exclusiveMaximum}',
           String(format(1000, { locale: 'nb-NO' }))
         )
         // Use regex to handle both regular and non-breaking spaces
         const expectedRegex = expected.replace(/\s/g, '\\s')
-        expect(screen.getByRole('alert')).toHaveTextContent(
-          new RegExp(expectedRegex)
-        )
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toHaveTextContent(new RegExp(expectedRegex))
       })
     })
 
@@ -2275,11 +2333,11 @@ describe('Field.Number', () => {
 
       // Error should appear during typing because it exceeds safe integer range
       await waitFor(() => {
-        const alertElement = screen.getByRole('alert')
-        expect(alertElement).toBeInTheDocument()
+        const statusElement = document.querySelector('.dnb-form-status')
+        expect(statusElement).toBeInTheDocument()
 
         // Check that the message contains the Norwegian text and the formatted number
-        const alertText = alertElement.textContent
+        const alertText = statusElement.textContent
         const expectedText = nb.NumberField.errorMaximum.replace(
           '{maximum}',
           String(format(Number.MAX_SAFE_INTEGER, { locale: 'nb-NO' }))
@@ -2292,8 +2350,63 @@ describe('Field.Number', () => {
   })
 
   describe('Zod validation', () => {
+    it('shows localized min error when Zod schema has min without custom message (direct)', async () => {
+      const schema = z.number().min(5)
+
+      render(<Field.Number schema={schema} />)
+      const input = document.querySelector('input')
+
+      await userEvent.type(input, '3')
+      input.blur()
+
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toBeInTheDocument()
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toHaveTextContent(
+          nb.NumberField.errorMinimum.replace(
+            '{minimum}',
+            String(format(5, { locale: 'nb-NO' }))
+          )
+        )
+      })
+    })
+
+    it('shows localized max error when Zod schema has max without custom message (via Form.Handler)', async () => {
+      const schema = z.object({ amount: z.number().max(10) })
+
+      render(
+        <Form.Handler
+          schema={schema}
+          ajvInstance={new Ajv({ allErrors: true })}
+        >
+          <Field.Number path="/amount" />
+        </Form.Handler>
+      )
+
+      const input = document.querySelector('input')
+      await userEvent.type(input, '15')
+      input.blur()
+
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toBeInTheDocument()
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toHaveTextContent(
+          nb.NumberField.errorMaximum.replace(
+            '{maximum}',
+            String(format(10, { locale: 'nb-NO' }))
+          )
+        )
+      })
+    })
+
     it('should validate with Zod schema directly', async () => {
-      const schema = z.number().min(5, 'Minimum 5 required')
+      const schema = z.number().min(5)
 
       render(<Field.Number schema={schema} />)
       const input = document.querySelector('input')
@@ -2301,17 +2414,25 @@ describe('Field.Number', () => {
       // Type a value that's too small
       await userEvent.type(input, '3')
       input.blur()
-      await wait(0)
 
-      expect(screen.getByRole('alert')).toBeInTheDocument()
-      expect(screen.getByRole('alert')).toHaveTextContent(
-        'Minimum 5 required'
-      )
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toBeInTheDocument()
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toHaveTextContent(
+          nb.NumberField.errorMinimum.replace(
+            '{minimum}',
+            String(format(5, { locale: 'nb-NO' }))
+          )
+        )
+      })
     })
 
     it('should validate with Zod schema via Form.Handler', async () => {
       const schema = z.object({
-        amount: z.number().min(10, 'Amount must be at least 10'),
+        amount: z.number().min(10),
       })
 
       render(
@@ -2328,12 +2449,45 @@ describe('Field.Number', () => {
       // Type a value that's too small
       await userEvent.type(input, '5')
       input.blur()
-      await wait(0)
 
-      expect(screen.getByRole('alert')).toBeInTheDocument()
-      expect(screen.getByRole('alert')).toHaveTextContent(
-        'Amount must be at least 10'
-      )
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toBeInTheDocument()
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toHaveTextContent(
+          nb.NumberField.errorMinimum.replace(
+            '{minimum}',
+            String(format(10, { locale: 'nb-NO' }))
+          )
+        )
+      })
+    })
+
+    it('shows localized multipleOf error when Zod schema has multipleOf without custom message (direct)', async () => {
+      const schema = z.number().multipleOf(3)
+
+      render(<Field.Number schema={schema} />)
+      const input = document.querySelector('input')
+
+      // Type a value that's not a multiple of 3
+      await userEvent.type(input, '5')
+      input.blur()
+
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toBeInTheDocument()
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toHaveTextContent(
+          nb.NumberField.errorMultipleOf.replace(
+            '{multipleOf}',
+            String(format(3, { locale: 'nb-NO' }))
+          )
+        )
+      })
     })
 
     it('should show provided errorMessages based on validation rule with injected value', async () => {
@@ -2343,15 +2497,20 @@ describe('Field.Number', () => {
       // Type a value that's too small
       await userEvent.type(input, '3')
       input.blur()
-      await wait(0)
 
-      expect(screen.getByRole('alert')).toBeInTheDocument()
-      expect(screen.getByRole('alert')).toHaveTextContent(
-        nb.NumberField.errorMinimum.replace(
-          '{minimum}',
-          String(format(5, { locale: 'nb-NO' }))
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toBeInTheDocument()
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toHaveTextContent(
+          nb.NumberField.errorMinimum.replace(
+            '{minimum}',
+            String(format(5, { locale: 'nb-NO' }))
+          )
         )
-      )
+      })
     })
 
     it('should show provided errorMessages based on validation rule with injected value for maximum', async () => {
@@ -2361,15 +2520,20 @@ describe('Field.Number', () => {
       // Type a value that's too large
       await userEvent.type(input, '15')
       input.blur()
-      await wait(0)
 
-      expect(screen.getByRole('alert')).toBeInTheDocument()
-      expect(screen.getByRole('alert')).toHaveTextContent(
-        nb.NumberField.errorMaximum.replace(
-          '{maximum}',
-          String(format(10, { locale: 'nb-NO' }))
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toBeInTheDocument()
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toHaveTextContent(
+          nb.NumberField.errorMaximum.replace(
+            '{maximum}',
+            String(format(10, { locale: 'nb-NO' }))
+          )
         )
-      )
+      })
     })
 
     it('should show provided errorMessages based on validation rule with injected value for exclusiveMinimum', async () => {
@@ -2379,15 +2543,20 @@ describe('Field.Number', () => {
       // Type a value that's not greater than exclusiveMinimum
       await userEvent.type(input, '5')
       input.blur()
-      await wait(0)
 
-      expect(screen.getByRole('alert')).toBeInTheDocument()
-      expect(screen.getByRole('alert')).toHaveTextContent(
-        nb.NumberField.errorExclusiveMinimum.replace(
-          '{exclusiveMinimum}',
-          String(format(5, { locale: 'nb-NO' }))
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toBeInTheDocument()
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toHaveTextContent(
+          nb.NumberField.errorExclusiveMinimum.replace(
+            '{exclusiveMinimum}',
+            String(format(5, { locale: 'nb-NO' }))
+          )
         )
-      )
+      })
     })
 
     it('should show provided errorMessages based on validation rule with injected value for exclusiveMaximum', async () => {
@@ -2397,15 +2566,20 @@ describe('Field.Number', () => {
       // Type a value that's not less than exclusiveMaximum
       await userEvent.type(input, '10')
       input.blur()
-      await wait(0)
 
-      expect(screen.getByRole('alert')).toBeInTheDocument()
-      expect(screen.getByRole('alert')).toHaveTextContent(
-        nb.NumberField.errorExclusiveMaximum.replace(
-          '{exclusiveMaximum}',
-          String(format(10, { locale: 'nb-NO' }))
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toBeInTheDocument()
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toHaveTextContent(
+          nb.NumberField.errorExclusiveMaximum.replace(
+            '{exclusiveMaximum}',
+            String(format(10, { locale: 'nb-NO' }))
+          )
         )
-      )
+      })
     })
 
     it('should show provided errorMessages based on validation rule with injected value for multipleOf', async () => {
@@ -2415,15 +2589,20 @@ describe('Field.Number', () => {
       // Type a value that's not a multiple of 3
       await userEvent.type(input, '5')
       input.blur()
-      await wait(0)
 
-      expect(screen.getByRole('alert')).toBeInTheDocument()
-      expect(screen.getByRole('alert')).toHaveTextContent(
-        nb.NumberField.errorMultipleOf.replace(
-          '{multipleOf}',
-          String(format(3, { locale: 'nb-NO' }))
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toBeInTheDocument()
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toHaveTextContent(
+          nb.NumberField.errorMultipleOf.replace(
+            '{multipleOf}',
+            String(format(3, { locale: 'nb-NO' }))
+          )
         )
-      )
+      })
     })
 
     it('should not show error for valid value using Zod schema directly', async () => {
@@ -2434,9 +2613,12 @@ describe('Field.Number', () => {
 
       await userEvent.type(input, '7')
       input.blur()
-      await wait(0)
 
-      expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).not.toBeInTheDocument()
+      })
     })
 
     it('should not show error for valid value when Zod schema is provided by Form.Handler', async () => {
@@ -2451,9 +2633,12 @@ describe('Field.Number', () => {
       const input = document.querySelector('input')
       await userEvent.type(input, '5')
       input.blur()
-      await wait(0)
 
-      expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).not.toBeInTheDocument()
+      })
     })
 
     it('should show error on blur for invalid value using Zod schema with validateUnchanged', async () => {
@@ -2465,12 +2650,15 @@ describe('Field.Number', () => {
       await userEvent.type(input, '3')
       input.focus()
       input.blur()
-      await wait(0)
 
-      expect(screen.getByRole('alert')).toBeInTheDocument()
-      expect(screen.getByRole('alert')).toHaveTextContent(
-        'Minimum 5 required'
-      )
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toBeInTheDocument()
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toHaveTextContent('Minimum 5 required')
+      })
     })
   })
 })
