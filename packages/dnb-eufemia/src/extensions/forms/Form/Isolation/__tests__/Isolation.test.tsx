@@ -8,7 +8,7 @@ import {
   waitFor,
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { Ajv, Field, Form, Iterate, JSONSchema, Wizard } from '../../..'
+import { Ajv, Field, Form, Iterate, JSONSchema, Wizard, z } from '../../..'
 import DataContext from '../../../DataContext/Context'
 import setData from '../../data-context/setData'
 import useReportError from '../useReportError'
@@ -3459,6 +3459,716 @@ describe('Form.Isolation', () => {
       await userEvent.click(document.querySelector('button'))
 
       expect(document.querySelector('output')).toBeInTheDocument()
+    })
+  })
+
+  describe('Schema validation from Form.Handler', () => {
+    describe('Ajv JSON Schema', () => {
+      it('should validate nested fields inside Form.Isolation with path', async () => {
+        const schema: JSONSchema = {
+          type: 'object',
+          properties: {
+            user: {
+              type: 'object',
+              properties: {
+                foo: {
+                  type: 'string',
+                  minLength: 4,
+                },
+              },
+              required: ['foo'],
+            },
+          },
+          required: ['user'],
+        }
+
+        render(
+          <Form.Handler
+            schema={schema}
+            ajvInstance={new Ajv({ allErrors: true })}
+            defaultData={{
+              user: {
+                foo: 'foo', // This should fail validation (minLength: 4)
+              },
+            }}
+          >
+            <Form.Isolation path="/user">
+              <Field.String path="/foo" />
+              <Form.Isolation.CommitButton />
+            </Form.Isolation>
+          </Form.Handler>
+        )
+
+        const input = document.querySelector('input[name="foo"]')
+        const commitButton = document.querySelector(
+          '.dnb-forms-isolate__commit-button'
+        )
+
+        expect(input).toBeInTheDocument()
+        expect(commitButton).toBeInTheDocument()
+        expect(input).toHaveValue('foo')
+
+        // Click commit button to trigger validation
+        await userEvent.click(commitButton)
+
+        // Wait for validation error to appear
+        await waitFor(() => {
+          const statusMessage = document.querySelector('.dnb-form-status')
+          expect(statusMessage).toHaveTextContent(
+            nb.StringField.errorMinLength.replace('{minLength}', '4')
+          )
+        })
+
+        await userEvent.type(input, 'X')
+        expect(input).toHaveValue('fooX')
+
+        // Click commit button to trigger validation
+        await userEvent.click(commitButton)
+
+        // Should not have validation error anymore
+        await waitFor(() => {
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).not.toBeInTheDocument()
+        })
+      })
+
+      it('should validate deep nested fields inside Form.Isolation with path', async () => {
+        const schema: JSONSchema = {
+          type: 'object',
+          properties: {
+            firstSubPath: {
+              type: 'object',
+              properties: {
+                secondSubPath: {
+                  type: 'object',
+                  properties: {
+                    foo: {
+                      type: 'string',
+                      minLength: 4,
+                    },
+                  },
+                  required: ['foo'],
+                },
+              },
+              required: ['foo'],
+            },
+          },
+          required: ['firstSubPath'],
+        }
+
+        render(
+          <Form.Handler
+            schema={schema}
+            ajvInstance={new Ajv({ allErrors: true })}
+            defaultData={{
+              firstSubPath: {
+                secondSubPath: {
+                  foo: 'foo', // This should fail validation (minLength: 4)
+                },
+              },
+            }}
+          >
+            <Form.Isolation path="/firstSubPath/secondSubPath">
+              <Field.String path="/foo" />
+              <Form.Isolation.CommitButton />
+            </Form.Isolation>
+          </Form.Handler>
+        )
+
+        const input = document.querySelector('input[name="foo"]')
+        const commitButton = document.querySelector(
+          '.dnb-forms-isolate__commit-button'
+        )
+
+        expect(input).toBeInTheDocument()
+        expect(commitButton).toBeInTheDocument()
+        expect(input).toHaveValue('foo')
+
+        // Click commit button to trigger validation
+        await userEvent.click(commitButton)
+
+        // Wait for validation error to appear
+        await waitFor(() => {
+          const statusMessage = document.querySelector('.dnb-form-status')
+          expect(statusMessage).toHaveTextContent(
+            nb.StringField.errorMinLength.replace('{minLength}', '4')
+          )
+        })
+
+        await userEvent.type(input, 'X')
+        expect(input).toHaveValue('fooX')
+
+        // Click commit button to trigger validation
+        await userEvent.click(commitButton)
+
+        // Should not have validation error anymore
+        await waitFor(() => {
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).not.toBeInTheDocument()
+        })
+      })
+
+      it('should validate fields inside Form.Isolation from Form.Handler when path is /', async () => {
+        const schema: JSONSchema = {
+          type: 'object',
+          properties: {
+            foo: {
+              type: 'string',
+              minLength: 4,
+            },
+          },
+          required: ['foo'],
+        }
+
+        render(
+          <Form.Handler
+            schema={schema}
+            ajvInstance={new Ajv({ allErrors: true })}
+            defaultData={{
+              foo: 'foo',
+            }}
+          >
+            <Form.Isolation path="/">
+              <Field.String path="/foo" />
+              <Form.Isolation.CommitButton />
+            </Form.Isolation>
+          </Form.Handler>
+        )
+
+        const input = document.querySelector('input[name="foo"]')
+        const commitButton = document.querySelector(
+          '.dnb-forms-isolate__commit-button'
+        )
+
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).not.toBeInTheDocument()
+        expect(input).toHaveValue('foo')
+
+        // Trigger validation by clicking commit button
+        await userEvent.click(commitButton)
+
+        await waitFor(() => {
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).toBeInTheDocument()
+        })
+
+        await userEvent.type(input, 'X')
+        expect(input).toHaveValue('fooX')
+
+        // Commit again - should work now
+        await userEvent.click(commitButton)
+
+        await waitFor(() => {
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).not.toBeInTheDocument()
+        })
+      })
+
+      it('inherits JSON Schema and ajvInstance from Form.Handler (no path)', async () => {
+        const schema: JSONSchema = {
+          type: 'object',
+          properties: {
+            foo: {
+              type: 'string',
+              minLength: 4,
+            },
+          },
+          required: ['foo'],
+        }
+
+        render(
+          <Form.Handler
+            schema={schema}
+            ajvInstance={new Ajv({ allErrors: true })}
+            defaultData={{ foo: 'foo' }}
+          >
+            {/* No schema/ajv passed to Isolation. It should inherit from Form.Handler */}
+            <Form.Isolation>
+              <Field.String path="/foo" />
+              <Form.Isolation.CommitButton />
+            </Form.Isolation>
+          </Form.Handler>
+        )
+
+        const input = document.querySelector('input[name="foo"]')
+        const commitButton = document.querySelector(
+          '.dnb-forms-isolate__commit-button'
+        )
+
+        expect(input).toBeInTheDocument()
+        expect(input).toHaveValue('foo')
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).not.toBeInTheDocument()
+
+        // Trigger validation from inherited schema/ajv
+        await userEvent.click(commitButton)
+
+        await waitFor(() => {
+          const statusMessage = document.querySelector('.dnb-form-status')
+          expect(statusMessage).toBeInTheDocument()
+        })
+
+        // Fix validation
+        await userEvent.type(input, 'X')
+        expect(input).toHaveValue('fooX')
+
+        await userEvent.click(commitButton)
+
+        await waitFor(() => {
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).not.toBeInTheDocument()
+        })
+      })
+
+      it('should show validation errors only when the commit button is clicked', async () => {
+        const schema: JSONSchema = {
+          type: 'object',
+          properties: {
+            foo: {
+              type: 'string',
+              minLength: 4,
+            },
+          },
+          required: ['foo'],
+        }
+
+        render(
+          <Form.Handler
+            schema={schema}
+            ajvInstance={new Ajv({ allErrors: true })}
+            defaultData={{
+              foo: 'foo',
+            }}
+          >
+            <Form.Isolation path="/">
+              <Field.String path="/foo" />
+              <Form.Isolation.CommitButton />
+            </Form.Isolation>
+            <Form.SubmitButton />
+          </Form.Handler>
+        )
+
+        const input = document.querySelector('input[name="foo"]')
+        const commitButton = document.querySelector(
+          '.dnb-forms-isolate__commit-button'
+        )
+        const submitButton = document.querySelector(
+          '.dnb-forms-submit-button'
+        )
+
+        expect(input).toBeInTheDocument()
+        expect(submitButton).toBeInTheDocument()
+        expect(input).toHaveValue('foo')
+
+        // Click submit button to trigger validation
+        await userEvent.click(submitButton)
+
+        // No validation error yet
+        await expect(() => {
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).toBeInTheDocument()
+        }).toNeverResolve()
+
+        // Click commit button to trigger validation
+        await userEvent.click(commitButton)
+
+        // Wait for validation error to appear
+        await waitFor(() => {
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).toBeInTheDocument()
+        })
+      })
+
+      it('should validate with "preventUncommittedChanges"', async () => {
+        const schema: JSONSchema = {
+          type: 'object',
+          properties: {
+            user: {
+              type: 'object',
+              properties: {
+                foo: {
+                  type: 'string',
+                  minLength: 4,
+                },
+              },
+              required: ['foo'],
+            },
+          },
+          required: ['user'],
+        }
+
+        const dataReference = Form.Isolation.createDataReference()
+
+        render(
+          <Form.Handler
+            schema={schema}
+            ajvInstance={new Ajv({ allErrors: true })}
+            defaultData={{ foo: 'foo' }}
+          >
+            <Form.Isolation
+              path="/user"
+              preventUncommittedChanges
+              resetDataAfterCommit
+              dataReference={dataReference}
+            >
+              <Field.String path="/foo" />
+              <Form.Isolation.CommitButton />
+            </Form.Isolation>
+            <Form.SubmitButton />
+          </Form.Handler>
+        )
+
+        const nameInput = document.querySelector('input[name="foo"]')
+        const commitButton = document.querySelector(
+          '.dnb-forms-isolate__commit-button'
+        )
+        const submitButton = document.querySelector(
+          '.dnb-forms-submit-button'
+        )
+
+        expect(nameInput).toHaveValue('foo')
+
+        // Make an uncommitted change, then submit to trigger status
+        await userEvent.type(nameInput, 'X')
+
+        // Try to submit form - should be prevented due to uncommitted changes
+        await userEvent.click(submitButton)
+
+        await waitFor(() => {
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).toBeInTheDocument()
+        })
+
+        // Fix the field to a valid value and refresh snapshot before commit
+        await userEvent.clear(nameInput)
+        await userEvent.type(nameInput, 'John')
+        dataReference.refresh()
+
+        // Commit the isolation
+        await userEvent.click(commitButton)
+
+        // Wait until reset applied to the refreshed snapshot
+        await waitFor(() => {
+          expect(nameInput).toHaveValue('John')
+        })
+
+        // Now submit should work (no uncommitted changes and value is valid)
+        await userEvent.click(submitButton)
+
+        await waitFor(() => {
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).not.toBeInTheDocument()
+        })
+      })
+    })
+
+    describe('Zod schema', () => {
+      it('should validate fields inside Form.Isolation from Form.Handler when path is /', async () => {
+        const schema = z.object({
+          foo: z.string().min(4, 'Foo must be at least 4 characters'),
+        })
+
+        render(
+          <Form.Handler
+            schema={schema}
+            defaultData={{
+              foo: 'foo', // This should fail validation (minLength: 4)
+            }}
+          >
+            <Form.Isolation path="/">
+              <Field.String path="/foo" />
+              <Form.Isolation.CommitButton />
+            </Form.Isolation>
+          </Form.Handler>
+        )
+
+        const input = document.querySelector('input[name="foo"]')
+        const commitButton = document.querySelector(
+          '.dnb-forms-isolate__commit-button'
+        )
+
+        expect(input).toHaveValue('foo')
+
+        // Trigger validation
+        await userEvent.click(commitButton)
+
+        await waitFor(() => {
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).toBeInTheDocument()
+        })
+
+        // Fix the field
+        await userEvent.type(input, 'X')
+
+        // Commit again
+        await userEvent.click(commitButton)
+
+        await waitFor(() => {
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).not.toBeInTheDocument()
+        })
+      })
+
+      it('inherits Zod schema from Form.Handler (no path)', async () => {
+        const schema = z.object({
+          foo: z.string().min(4, 'Foo must be at least 4 characters'),
+        })
+
+        render(
+          <Form.Handler schema={schema} defaultData={{ foo: 'foo' }}>
+            {/* No schema passed to Isolation. It should inherit Zod schema from Form.Handler */}
+            <Form.Isolation>
+              <Field.String path="/foo" />
+              <Form.Isolation.CommitButton />
+            </Form.Isolation>
+          </Form.Handler>
+        )
+
+        const input = document.querySelector('input[name="foo"]')
+        const commitButton = document.querySelector(
+          '.dnb-forms-isolate__commit-button'
+        )
+
+        expect(input).toBeInTheDocument()
+        expect(input).toHaveValue('foo')
+
+        // Trigger validation using inherited Zod schema
+        await userEvent.click(commitButton)
+
+        await waitFor(() => {
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).toBeInTheDocument()
+        })
+
+        // Fix validation
+        await userEvent.type(input, 'X')
+        expect(input).toHaveValue('fooX')
+
+        await userEvent.click(commitButton)
+
+        await waitFor(() => {
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).not.toBeInTheDocument()
+        })
+      })
+
+      it('should validate nested fields inside Form.Isolation with path', async () => {
+        const schema = z.object({
+          user: z.object({
+            foo: z.string().min(4, 'Foo must be at least 4 characters'),
+          }),
+        })
+
+        render(
+          <Form.Handler
+            schema={schema}
+            defaultData={{
+              user: {
+                foo: 'foo',
+              },
+            }}
+          >
+            <Form.Isolation path="/user">
+              <Field.String path="/foo" />
+              <Form.Isolation.CommitButton />
+            </Form.Isolation>
+          </Form.Handler>
+        )
+
+        const input = document.querySelector('input[name="foo"]')
+        const commitButton = document.querySelector(
+          '.dnb-forms-isolate__commit-button'
+        )
+
+        expect(input).toBeInTheDocument()
+        expect(commitButton).toBeInTheDocument()
+        expect(input).toHaveValue('foo')
+
+        // Click commit button to trigger validation
+        await userEvent.click(commitButton)
+
+        // Wait for validation error to appear
+        await waitFor(() => {
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).toBeInTheDocument()
+        })
+      })
+
+      it('should show validation errors only when the commit button is clicked', async () => {
+        const schema = z.object({
+          foo: z.string().min(4, 'Foo must be at least 4 characters'),
+        })
+
+        render(
+          <Form.Handler schema={schema} defaultData={{ foo: 'foo' }}>
+            <Form.Isolation path="/">
+              <Field.String path="/foo" />
+              <Form.Isolation.CommitButton />
+            </Form.Isolation>
+            <Form.SubmitButton />
+          </Form.Handler>
+        )
+
+        const input = document.querySelector('input[name="foo"]')
+        const commitButton = document.querySelector(
+          '.dnb-forms-isolate__commit-button'
+        )
+        const submitButton = document.querySelector(
+          '.dnb-forms-submit-button'
+        )
+
+        expect(input).toBeInTheDocument()
+        expect(submitButton).toBeInTheDocument()
+        expect(input).toHaveValue('foo')
+
+        // Click submit button to trigger validation
+        await userEvent.click(submitButton)
+
+        // No validation error yet
+        await expect(() => {
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).toBeInTheDocument()
+        }).toNeverResolve()
+
+        // Click commit button to trigger validation
+        await userEvent.click(commitButton)
+
+        // Wait for validation error to appear
+        await waitFor(() => {
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).toBeInTheDocument()
+        })
+      })
+
+      it('should handle complex Zod schema with nested objects and arrays', async () => {
+        const schema = z.object({
+          user: z.object({
+            foo: z.string().min(4, 'Foo must be at least 4 characters'),
+          }),
+        })
+
+        render(
+          <Form.Handler
+            schema={schema}
+            defaultData={{
+              user: {
+                foo: 'foo',
+              },
+            }}
+          >
+            <Form.Isolation path="/user">
+              <Field.String path="/foo" />
+              <Form.Isolation.CommitButton />
+            </Form.Isolation>
+          </Form.Handler>
+        )
+
+        const input = document.querySelector('input[name="foo"]')
+        const commitButton = document.querySelector(
+          '.dnb-forms-isolate__commit-button'
+        )
+
+        expect(input).toBeInTheDocument()
+        expect(commitButton).toBeInTheDocument()
+        expect(input).toHaveValue('foo')
+
+        // Click commit button to trigger validation
+        await userEvent.click(commitButton)
+
+        // Wait for validation error to appear
+        await waitFor(() => {
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).toBeInTheDocument()
+        })
+      })
+
+      it('should validate with "preventUncommittedChanges"', async () => {
+        const schema = z.object({
+          user: z.object({
+            foo: z.string().min(4, 'Foo must be at least 4 characters'),
+          }),
+        })
+
+        const dataReference = Form.Isolation.createDataReference()
+
+        render(
+          <Form.Handler schema={schema} defaultData={{ foo: 'foo' }}>
+            <Form.Isolation
+              path="/user"
+              preventUncommittedChanges
+              resetDataAfterCommit
+              dataReference={dataReference}
+            >
+              <Field.String path="/foo" />
+              <Form.Isolation.CommitButton />
+            </Form.Isolation>
+            <Form.SubmitButton />
+          </Form.Handler>
+        )
+
+        const nameInput = document.querySelector('input[name="foo"]')
+        const commitButton = document.querySelector(
+          '.dnb-forms-isolate__commit-button'
+        )
+        const submitButton = document.querySelector(
+          '.dnb-forms-submit-button'
+        )
+
+        expect(nameInput).toHaveValue('foo')
+
+        // Make an uncommitted change, then submit to trigger status
+        await userEvent.type(nameInput, 'X')
+
+        // Try to submit form - should be prevented due to uncommitted changes
+        await userEvent.click(submitButton)
+
+        await waitFor(() => {
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).toBeInTheDocument()
+        })
+
+        // Fix the field and refresh snapshot before commit
+        await userEvent.clear(nameInput)
+        await userEvent.type(nameInput, 'John')
+        dataReference.refresh()
+
+        // Commit the isolation
+        await userEvent.click(commitButton)
+
+        // Wait until reset applied to the refreshed snapshot
+        await waitFor(() => {
+          expect(nameInput).toHaveValue('John')
+        })
+
+        // Now submit should work
+        await userEvent.click(submitButton)
+
+        await waitFor(() => {
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).not.toBeInTheDocument()
+        })
+      })
     })
   })
 })
