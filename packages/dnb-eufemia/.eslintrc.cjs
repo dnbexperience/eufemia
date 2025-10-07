@@ -1,4 +1,7 @@
-{
+const { join } = require('node:path')
+
+
+module.exports = {
   "env": {
     "es6": true,
     "jest": true,
@@ -8,7 +11,7 @@
   "parser": "@babel/eslint-parser",
   "parserOptions": {
     "babelOptions": {
-      "configFile": "@dnb/eufemia/babel.config.js"
+      "configFile": join(__dirname, "babel.config.js")
     },
     "ecmaVersion": 2020,
     "ecmaFeatures": {
@@ -163,7 +166,7 @@
         "import/named": "off",
         "no-unused-vars": [
           "error",
-          { "args": "none", "ignoreRestSiblings": true }
+          { "args": "none", "ignoreRestSiblings": true, "varsIgnorePattern": "^_" }
         ],
         "react/prop-types": "off",
         "react/require-default-props": "off"
