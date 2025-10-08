@@ -9,8 +9,6 @@
   --details-text: var(--color-sea-green);
   --details-outset: 0.75rem;
 
-  /* stylelint-disable-next-line property-no-unknown */
-  interpolate-size: allow-keywords;
   margin-bottom: 1.5rem;
   background: var(--details-bg);
   box-shadow: inset 0 0 0 0.125rem var(--details-border);
@@ -24,13 +22,11 @@
     display: block; /* ensure it keeps a block box while closing */
     overflow: clip; /* prevents content from overflowing outside the box while closing */
     content-visibility: auto; /* prevents UA from hiding it immediately */
-
+    visibility: hidden; /* prevents keyboard navigation and can be transitioned */
     max-height: 0;
     will-change: max-height;
-    transition: max-height 400ms var(--easing-default);
-
-    /* stylelint-disable-next-line property-no-unknown */
-    transition-behavior: allow-discrete;
+    transition: 400ms var(--easing-default);
+    transition-property: visibility, max-height;
   }
 
   summary {
@@ -132,6 +128,7 @@
 
     /* stylelint-disable-next-line selector-pseudo-element-no-unknown */
     &::details-content {
+      visibility: visible;
       max-height: 100rem; /* for the transition — large enough for typical content */
     }
 
