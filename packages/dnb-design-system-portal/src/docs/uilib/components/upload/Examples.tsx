@@ -129,16 +129,12 @@ export const UploadFilesAmountMessage = () => (
   >
     {() => {
       const Component = () => {
-        const { setInternalFiles, setFiles } = Upload.useUpload(
+        const { setFiles } = Upload.useUpload(
           'upload-files-amount-message',
         )
 
         React.useEffect(() => {
           setFiles([
-            { file: createMockFile('fileName1.png', 123, 'image/png') },
-            { file: createMockFile('fileName2.png', 321, 'image/png') },
-          ])
-          setInternalFiles([
             {
               file: createMockFile('fileName1.png', 123, 'image/png'),
               id: '1',
@@ -173,16 +169,10 @@ export const UploadFilesAmountLimit = () => (
   >
     {() => {
       const Component = () => {
-        const { setInternalFiles, setFiles } = Upload.useUpload(
-          'upload-files-amount-limit',
-        )
+        const { setFiles } = Upload.useUpload('upload-files-amount-limit')
 
         React.useEffect(() => {
           setFiles([
-            { file: createMockFile('fileName1.png', 123, 'image/png') },
-            { file: createMockFile('fileName2.png', 321, 'image/png') },
-          ])
-          setInternalFiles([
             {
               file: createMockFile('fileName1.png', 123, 'image/png'),
               id: '1',
