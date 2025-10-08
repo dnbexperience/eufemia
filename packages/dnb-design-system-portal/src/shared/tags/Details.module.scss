@@ -1,0 +1,151 @@
+@use '@dnb/eufemia/src/style/core/utilities.scss';
+
+.detailsBox {
+  --details-bg: var(--color-mint-green-12);
+  --details-border: var(--color-mint-green);
+  --details-border--strong: var(--color-emerald-green);
+  --details-summary-bg: var(--color-mint-green-25);
+  --details-summary-bg--open: var(--color-mint-green-50);
+  --details-text: var(--color-sea-green);
+  --details-outset: 0.75rem;
+
+  margin-bottom: 1.5rem;
+  background: var(--details-bg);
+  box-shadow: inset 0 0 0 0.125rem var(--details-border);
+  position: relative;
+  border-radius: 1.25rem;
+  transition: 400ms var(--easing-default);
+  transition-property: margin-left, margin-right, padding;
+
+  /* stylelint-disable-next-line selector-pseudo-element-no-unknown */
+  &::details-content {
+    display: block; /* ensure it keeps a block box while closing */
+    overflow: clip; /* prevents content from overflowing outside the box while closing */
+    content-visibility: auto; /* prevents UA from hiding it immediately */
+    visibility: hidden; /* prevents keyboard navigation and can be transitioned */
+    max-height: 0;
+    will-change: max-height;
+    transition: 400ms cubic-bezier(1, 0, 0, 1); /* use slower easing since we are always animating to 100rem */
+    transition-property: visibility, max-height;
+  }
+
+  summary {
+    list-style: none;
+    cursor: pointer;
+    transition: 400ms var(--easing-default);
+    transition-property: border-radius, padding-left, margin;
+    padding: 0.5rem 0.75rem;
+    background: var(--details-summary-bg);
+    box-shadow: inset 0 0 0 0.125rem var(--details-border);
+    border-radius: 1.25rem;
+
+    &::marker,
+    &::-webkit-details-marker {
+      content: none;
+      display: none;
+    }
+    &:focus-visible {
+      outline: none;
+    }
+    @include utilities.focus-visible() {
+      box-shadow: inset 0 0 0 0.125rem var(--details-border--strong);
+    }
+
+    @include utilities.hover() {
+      box-shadow: 0 0 0 0.125rem var(--details-border--strong);
+    }
+
+    @include utilities.active() {
+      box-shadow: inset 0 0 0 0.125rem var(--details-border);
+      background-color: var(--details-border);
+    }
+  }
+
+  &__tag {
+    &:global(.dnb-icon) {
+      vertical-align: baseline;
+    }
+  }
+
+  &__text {
+    color: var(--details-text);
+  }
+
+  &__icon {
+    display: block;
+    position: relative;
+    align-content: center;
+    height: 1.5rem;
+    width: 1.5rem;
+    padding: 0.25rem;
+    background-color: var(--color-white);
+    border-radius: 50%;
+    box-shadow: 0 0 0 0.125rem var(--details-border);
+    margin-right: -0.25rem;
+    color: var(--details-text);
+
+    &__line {
+      &:global(.dnb-icon) {
+        display: block;
+        transition: 400ms var(--easing-default);
+        transition-property: transform, opacity;
+      }
+
+      &:first-child {
+        position: absolute;
+        transform: rotate(-90deg);
+      }
+
+      .detailsBox[open] & {
+        &:first-child {
+          transform: rotate(0deg);
+        }
+        &:last-child {
+          opacity: 0;
+          transform: rotate(90deg) scaleX(0.5);
+        }
+      }
+    }
+  }
+
+  &__content {
+    margin-top: 1rem;
+
+    &::after {
+      content: '';
+      display: block;
+      margin-bottom: 1rem;
+    }
+
+    // For smooth content reveal
+    transition: 600ms var(--easing-default);
+    transition-property: transform;
+    transform: translate3d(0, -8px, 0);
+  }
+
+  &[open] &__content {
+    transform: translate3d(0, 0, 0);
+  }
+
+  &[open] {
+    --details-summary-bg: var(--details-summary-bg--open);
+
+    margin-left: calc(-1 * var(--details-outset));
+    margin-right: calc(-1 * var(--details-outset));
+    padding-left: var(--details-outset);
+    padding-right: var(--details-outset);
+
+    /* stylelint-disable-next-line selector-pseudo-element-no-unknown */
+    &::details-content {
+      visibility: visible;
+      max-height: 100rem; /* for the transition — large enough for typical content */
+    }
+
+    summary {
+      border-bottom-left-radius: 0.25rem;
+      border-bottom-right-radius: 0.25rem;
+      padding-left: calc(0.75rem + var(--details-outset));
+      margin: 0 calc(-1 * var(--details-outset));
+    }
+  }
+}
