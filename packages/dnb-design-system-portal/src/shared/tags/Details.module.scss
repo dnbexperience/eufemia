@@ -116,6 +116,15 @@
       display: block;
       margin-bottom: 1rem;
     }
+
+    // For smooth content reveal
+    transition: 600ms var(--easing-default);
+    transition-property: transform;
+    transform: translate3d(0, -8px, 0);
+  }
+
+  &[open] &__content {
+    transform: translate3d(0, 0, 0);
   }
 
   &[open] {
