@@ -8,6 +8,7 @@ import {
   pickSpacingProps,
 } from '../../../../components/flex/utils'
 import { SpacingProps } from '../../../../shared/types'
+import useTranslationWithFallback from '../../hooks/useTranslationWithFallback'
 
 type Mode = 'edit' | 'summary'
 type Variant = Array<'joint-responsibility' | 'daycare'>
@@ -52,7 +53,9 @@ function EditContainer({
 }: Props & {
   spacingProps?: SpacingProps
 }) {
-  const tr = Form.useTranslation<Translation>()
+  const tr = useTranslationWithFallback<Translation>({
+    fallbackLocale: 'en-GB',
+  })
 
   const { getValue } = Form.useData()
   const hasChildren = getValue('/hasChildren') === true
@@ -192,7 +195,9 @@ function SummaryContainer({
 }: Props & {
   spacingProps?: SpacingProps
 }) {
-  const tr = Form.useTranslation<Translation>()
+  const tr = useTranslationWithFallback<Translation>({
+    fallbackLocale: 'en-GB',
+  })
 
   return (
     <Form.Card {...spacingProps}>

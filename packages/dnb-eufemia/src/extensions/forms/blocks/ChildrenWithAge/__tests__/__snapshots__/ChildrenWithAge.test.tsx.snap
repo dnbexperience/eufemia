@@ -15,9 +15,9 @@ exports[`ChildrenWithAge should match snapshot 1`] = `
             aria-placeholder="0"
             aria-required="true"
             class="dnb-input__input"
-            id="id-rkh"
+            id="id-rkq"
             inputmode="numeric"
-            name="id-rkh"
+            name="id-rkq"
             type="text"
           />,
         },
@@ -189,9 +189,9 @@ exports[`ChildrenWithAge should match snapshot 1`] = `
             aria-placeholder="0"
             aria-required="true"
             class="dnb-input__input"
-            id="id-rkn"
+            id="id-rl0"
             inputmode="numeric"
-            name="id-rkn"
+            name="id-rl0"
             type="text"
           />,
         },
@@ -533,7 +533,7 @@ exports[`ChildrenWithAge should match snapshot 1`] = `
         aria-valuenow="2"
         aria-valuetext="2"
         class="dnb-input__input"
-        id="id-rk5"
+        id="id-rke"
         inputmode="numeric"
         name="countChildren"
         role="spinbutton"
