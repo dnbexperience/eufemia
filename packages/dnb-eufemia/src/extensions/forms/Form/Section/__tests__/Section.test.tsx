@@ -3,11 +3,13 @@ import React from 'react'
 import { spyOnEufemiaWarn } from '../../../../../core/jest/jestSetup'
 import { fireEvent, render } from '@testing-library/react'
 import { Field, Form, JSONSchema, Tools, Value, Ajv } from '../../..'
+import useTranslationWithFallback from '../../../hooks/useTranslationWithFallback'
 import { SectionProps } from '../Section'
 import { Props as FieldNameProps } from '../../../Field/Name'
 import FieldPropsProvider from '../../../Field/Provider'
 import { GenerateRef as GeneratePropsRef } from '../../../Tools/ListAllProps'
 import { GenerateRef as GenerateSchemaRef } from '../../../Tools/GenerateSchema'
+import { mergeTranslations } from '../../../../../shared'
 
 import nbNO from '../../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO']
@@ -1387,6 +1389,54 @@ describe('Form.Section', () => {
       ).toBe('Section en')
 
       log.mockRestore()
+    })
+
+    it('should fallback to nb-NO translations when locale to section is missing', () => {
+      const consoleSpy = jest.spyOn(console, 'log').mockImplementation()
+
+      const globalTranslations = mergeTranslations({
+        'sv-SE': { something: { foo: 'bar' } },
+      })
+
+      const sectionTranslations = {
+        'nb-NO': {
+          MyComponent: {
+            title: 'Title nb',
+          },
+        },
+        // 'sv-SE' is not defined here to test the fallback
+      }
+
+      type SectionTranslation =
+        (typeof sectionTranslations)[keyof typeof sectionTranslations]
+
+      const MySectionContent = () => {
+        const tr = useTranslationWithFallback<SectionTranslation>({
+          fallbackLocale: 'nb-NO',
+        })
+        return <output>{tr.MyComponent.title}</output>
+      }
+
+      const MySection = () => {
+        return (
+          <Form.Section translations={sectionTranslations}>
+            <MySectionContent />
+          </Form.Section>
+        )
+      }
+
+      render(
+        <Form.Handler locale="sv-SE" translations={globalTranslations}>
+          <MySection />
+        </Form.Handler>
+      )
+
+      expect(document.querySelector('output')).toHaveTextContent(
+        sectionTranslations['nb-NO'].MyComponent.title
+      )
+
+      expect(consoleSpy).toHaveBeenCalled()
+      consoleSpy.mockRestore()
     })
   })
 
