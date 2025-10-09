@@ -24,3 +24,13 @@ export function Email() {
     />
   )
 }
+
+export function Crashes() {
+  return (
+    <Field.Email
+      value={
+        'hehehehehehehehehehehehehehehehehehehehehehehehehehehehehehehehehehehehehehe'
+      }
+    />
+  )
+}
