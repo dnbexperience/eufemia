@@ -1,7 +1,6 @@
 import React from 'react'
 import { Field, Form, FormError } from '../../..'
 import { Flex } from '../../../../../components'
-import { add } from 'date-fns'
 
 export default {
   title: 'Eufemia/Extensions/Forms/PhoneNumber',
@@ -46,15 +45,6 @@ export function PhoneNumber() {
           onChange={(value) => {
             console.log('onChange', value)
             update('/phone', () => value)
-          }}
-          transformOut={(_value, additionalArgs = {}) => {
-            const { countryCode, phoneNumber, iso } = additionalArgs
-            console.log(additionalArgs)
-            return {
-              countryCode: iso,
-              phoneNumber,
-              countryCodePrefix: countryCode,
-            }
           }}
         />
         <Field.String label="Shadow" path="/phone" />
