@@ -8,6 +8,7 @@ import DataContext from '../../../DataContext/Context'
 import { Field, Form, JSONSchema } from '../../..'
 import locales from '../../../constants/locales'
 import DrawerListProvider from '../../../../../fragments/drawer-list/DrawerListProvider'
+import { AdditionalArgs } from '../PhoneNumber'
 
 const nbNO = locales['nb-NO']
 const enGB = locales['en-GB']
@@ -553,6 +554,43 @@ describe('Field.PhoneNumber', () => {
       expect(onChange).toHaveBeenCalledTimes(4)
       expect(onChange).toHaveBeenLastCalledWith(
         { phone: '+47 9999' },
+        expect.anything()
+      )
+    })
+
+    it('should return correct value onChange event in data context when using transformOut', async () => {
+      const onChange = jest.fn()
+
+      render(
+        <Form.Handler onChange={onChange}>
+          <Field.PhoneNumber
+            path="/phone"
+            transformOut={(_value, additionalArgs: AdditionalArgs) => {
+              const { countryCode, phoneNumber, iso } =
+                additionalArgs || {}
+              return {
+                countryCode: iso,
+                phoneNumber,
+                countryCodePrefix: countryCode,
+              }
+            }}
+          />
+        </Form.Handler>
+      )
+
+      const phoneElement = document.querySelector(
+        '.dnb-forms-field-phone-number__number .dnb-input__input'
+      )
+
+      await userEvent.type(phoneElement, '9999')
+
+      expect(onChange).toHaveBeenCalledTimes(4)
+      expect(onChange).toHaveBeenLastCalledWith(
+        {
+          countryCode: 'NO',
+          phoneNumber: '9999',
+          countryCodePrefix: '+47',
+        },
         expect.anything()
       )
     })
