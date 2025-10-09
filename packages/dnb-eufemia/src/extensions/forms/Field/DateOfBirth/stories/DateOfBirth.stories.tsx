@@ -1,4 +1,4 @@
-import { Field, Form } from '../../..'
+import { Field, Form, Tools } from '../../..'
 import { Flex } from '../../../../..'
 
 export default {
@@ -7,12 +7,31 @@ export default {
 
 export const DateOfBirth = () => {
   return (
-    <Form.Handler data={{ dob: '1960-11-13' }} onSubmit={console.log}>
+    <Form.Handler onSubmit={console.log}>
       <Flex.Stack space>
-        <Field.DateOfBirth path="/dob" required />
+        <Field.DateOfBirth
+          path="/dob"
+          transformOut={(_value, additionalArgs: any) => {
+            if (additionalArgs) {
+              const { year, month, day } = additionalArgs
+              return {
+                year,
+                month,
+                day,
+              }
+            }
+          }}
+          transformIn={(value: any) => {
+            if (value) {
+              const { year, month, day } = value
+              return `${year}-${month}-${day}`
+            }
+          }}
+        />
 
         <Form.SubmitButton />
       </Flex.Stack>
+      <Tools.Log />
     </Form.Handler>
   )
 }

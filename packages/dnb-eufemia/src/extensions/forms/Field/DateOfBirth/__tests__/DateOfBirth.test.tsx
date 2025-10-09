@@ -13,6 +13,55 @@ describe('Field.DateOfBirth', () => {
     expect(screen.queryByText(nb.DateOfBirth.label)).toBeInTheDocument()
   })
 
+  it('should return correct value onChange event in data context when using transformOut', async () => {
+    const onChange = jest.fn()
+
+    render(
+      <Form.Handler onChange={onChange}>
+        <Field.DateOfBirth
+          path="/dob"
+          transformOut={(_value, additionalArgs: any) => {
+            if (additionalArgs) {
+              const { year, month, day } = additionalArgs
+              return {
+                year,
+                month,
+                day,
+              }
+            }
+          }}
+          transformIn={(value: any) => {
+            if (value) {
+              const { year, month, day } = value
+              return `${year}-${month}-${day}`
+            }
+          }}
+        />
+      </Form.Handler>
+    )
+
+    const dayInput = document.querySelectorAll('input')[0]
+    const monthInput = document.querySelectorAll('input')[1]
+    const yearInput = document.querySelectorAll('input')[2]
+
+    await userEvent.type(dayInput, '24')
+    await userEvent.type(monthInput, '12')
+    await waitFor(() => {
+      const option = document.querySelector('[role="option"]')
+      expect(option).toBeInTheDocument()
+    })
+    await userEvent.click(document.querySelector('[role="option"]'))
+    await userEvent.type(yearInput, '2023')
+
+    expect(onChange).toHaveBeenCalledTimes(5)
+    expect(onChange).toHaveBeenLastCalledWith(
+      {
+        dob: { year: '2023', month: '12', day: '24' },
+      },
+      expect.anything()
+    )
+  })
+
   describe('Day', () => {
     it('should have autoComplete value bday-day', () => {
       render(<Field.DateOfBirth />)
