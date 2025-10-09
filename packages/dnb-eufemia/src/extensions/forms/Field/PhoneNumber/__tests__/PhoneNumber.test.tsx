@@ -587,9 +587,11 @@ describe('Field.PhoneNumber', () => {
       expect(onChange).toHaveBeenCalledTimes(4)
       expect(onChange).toHaveBeenLastCalledWith(
         {
-          countryCode: 'NO',
-          phoneNumber: '9999',
-          countryCodePrefix: '+47',
+          phone: {
+            countryCode: 'NO',
+            phoneNumber: '9999',
+            countryCodePrefix: '+47',
+          },
         },
         expect.anything()
       )
