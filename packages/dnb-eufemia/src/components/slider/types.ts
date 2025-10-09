@@ -1,10 +1,7 @@
 import React from 'react'
 
 import type { SuffixChildren } from '../../shared/helpers/Suffix'
-import type {
-  formatReturnType,
-  formatOptionParams,
-} from '../number-format/NumberUtils'
+import type { formatOptionParams } from '../number-format/NumberUtils'
 import { IncludeSnakeCase } from '../../shared/helpers/withSnakeCaseProps'
 import type { SpacingProps } from '../../shared/types'
 import type { SkeletonShow } from '../Skeleton'
@@ -17,7 +14,7 @@ export type NumberFormatTypes =
 export type onChangeEventProps = {
   value: ValueTypes
   rawValue: number
-  number?: formatReturnType | null
+  number?: string | null
   event?: Event
 }
 
