@@ -1007,7 +1007,13 @@ export default class DrawerListProvider extends React.PureComponent<
         break
 
       default:
-        active_item = this.findItemByValue(keycode(e))
+        {
+          const searchIndex = this.findItemByValue(keycode(e))
+          if (searchIndex > -1) {
+            // Only change position if we find a result
+            active_item = searchIndex
+          }
+        }
         break
     }
 
