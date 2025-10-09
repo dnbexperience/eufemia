@@ -163,39 +163,26 @@ const seaGreenColor = properties['--color-sea-green']
 const basisFontSize = properties['--font-size-basis']
 ```
 
-## Using Tailwind
+## Using Tailwind with Eufemia
 
-Tailwind can be used as a tooling layer alongside Eufemia, but avoid overlapping CSS and resets.
+Tailwind can act as a utility layer on top of (or beside) Eufemia. Keep Eufemia the single source of tokens, colors, spacing, typography, CSS reset etc.
 
-**Recommended approach:**
+Guidelines:
 
-- Use Eufemia as the source of truth for tokens and reset.
-- Do not include Tailwind's base/reset; only include its `theme` + `utilities`.
-- Map Tailwind tokens to Eufemia CSS variables; avoid self-referencing variables.
+- Keep Eufemia resets: use either `@dnb/eufemia/style` (global) or the scoped combo `basis + themes`.
+- Disable Tailwind's `preflight` (its reset) to avoid collisions.
+- Let Tailwind generate utilities and its theme layer.
 
-NB: import only Tailwind theme and utilities (Tailwind v4):
+You can import the pre-generated `properties-tailwind.css` files that contain all Eufemia CSS custom properties in Tailwind-compatible format:
 
 ```css
-@layer theme, utilities;
+/* Import Eufemia properties in Tailwind format */
+@import '@dnb/eufemia/style/themes/theme-ui/properties-tailwind.css';
 
+/* Import Tailwind layers */
+@layer theme, utilities;
 @import 'tailwindcss/theme.css' layer(theme);
 @import 'tailwindcss/utilities.css' layer(utilities);
-```
-
-Example: bridge Tailwind tokens to Eufemia variables using `@theme`:
-
-```css
-/* index.css */
-@theme {
-  /* spacing */
-  --spacing-sm: var(--spacing-small);
-  --spacing-md: var(--spacing-medium);
-  --spacing-lg: var(--spacing-large);
-
-  /* typography */
-  --font-family-sans: var(--font-family-default);
-  --font-family-mono: var(--font-family-monospace);
-}
 ```
 
 ## Known styling and CSS issues
