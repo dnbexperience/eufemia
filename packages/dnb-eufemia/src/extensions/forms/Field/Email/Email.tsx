@@ -21,15 +21,21 @@ function Email(props: Props) {
     autoComplete: 'email',
     inputMode: 'email',
     pattern:
-      `^(?!.*\\.\\.)(?!.*--)(?!.*\\.-)(?!.*-\\.)` + // No consecutive dots, hyphens, or dot-hyphen sequences
-      `[a-zA-Z0-9]+([._%+-]?[a-zA-Z0-9]+)*@` + // Local part: letters, numbers, dots, etc.
+      `^[A-Za-z0-9]+(?:[._%+-][A-Za-z0-9]+)*@` + // Local part: alnum + separators, no consecutive symbols
       `(?:` +
-      `([a-zA-Z0-9]+([.-]?[a-zA-Z0-9]+)*\\.[a-zA-Z]{2,})` + // Domain part: standard domain names
+      // Multi-label domain ending with a TLD (e.g. example.com, sub.example.co.uk)
+      `(?:` +
+      `(?:xn--[A-Za-z0-9-]+|[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*)\\.)+` +
+      `(?:[A-Za-z]{2,}|xn--[A-Za-z0-9-]{2,})` +
       `|` +
+      // Single-label TLDs (e.g. xn--p1ai, com if you choose to allow it)
+      `(?:[A-Za-z]{2,}|xn--[A-Za-z0-9-]{2,})` +
+      `|` +
+      // IP literals
       `\\[(?:` +
-      `(?:\\d{1,3}\\.){3}\\d{1,3}` + // Allow IPv4 address (no validation)
+      `\\d{1,3}(?:\\.\\d{1,3}){3}` + // IPv4 literal (basic format only)
       `|` +
-      `IPv6:[0-9a-fA-F:]+` + // Allow IPv6 address (no validation)
+      `IPv6:[0-9A-Fa-f:]+` + // IPv6 literal (basic format only)
       `)\\]` +
       `)$`,
     trim: true,
