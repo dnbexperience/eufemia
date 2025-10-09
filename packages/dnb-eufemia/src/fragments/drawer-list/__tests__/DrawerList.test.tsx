@@ -254,7 +254,7 @@ describe('DrawerList component', () => {
   })
 
   it('has correct value on key search', async () => {
-    const { rerender } = render(<DrawerList {...props} data={mockData} />)
+    render(<DrawerList {...props} data={mockData} />)
 
     expect(
       document.querySelector('.dnb-drawer-list__option--focus')
@@ -276,9 +276,6 @@ describe('DrawerList component', () => {
 
     keydown(70) // F
 
-    // force re-render
-    rerender(<DrawerList {...props} data={mockData} />)
-
     await waitFor(() => {
       expect(
         Array.from(
@@ -288,6 +285,56 @@ describe('DrawerList component', () => {
       ).toEqual([
         'dnb-drawer-list__option',
         'dnb-drawer-list__option--selected',
+        'dnb-drawer-list__option--focus',
+      ])
+    })
+  })
+
+  it('does not change focus with no search results', async () => {
+    render(<DrawerList {...props} data={mockData} />)
+
+    expect(
+      document.querySelector('.dnb-drawer-list__option--focus')
+    ).toBeInTheDocument()
+
+    keydown(83) // S
+
+    await waitFor(() => {
+      expect(
+        Array.from(
+          document.querySelectorAll('.dnb-drawer-list__option')[1]
+            .classList
+        )
+      ).toEqual([
+        'dnb-drawer-list__option',
+        'dnb-drawer-list__option--focus',
+      ])
+    })
+
+    keydown(69) // E
+
+    await waitFor(() => {
+      expect(
+        Array.from(
+          document.querySelectorAll('.dnb-drawer-list__option')[1]
+            .classList
+        )
+      ).toEqual([
+        'dnb-drawer-list__option',
+        'dnb-drawer-list__option--focus',
+      ])
+    })
+
+    keydown(17) // ctrl
+
+    await waitFor(() => {
+      expect(
+        Array.from(
+          document.querySelectorAll('.dnb-drawer-list__option')[1]
+            .classList
+        )
+      ).toEqual([
+        'dnb-drawer-list__option',
         'dnb-drawer-list__option--focus',
       ])
     })
