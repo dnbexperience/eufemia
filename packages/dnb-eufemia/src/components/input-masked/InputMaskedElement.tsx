@@ -1,5 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
 /**
  * Web InputMasked Component
  *
@@ -15,7 +13,7 @@ import {
   useLocalValue,
 } from './InputMaskedHooks'
 
-export default function InputMaskedElement() {
+export default function InputMaskedElement(): JSX.Element {
   const inputElement = useInputElement()
   const { localValue, setLocalValue } = useLocalValue()
   const events = useEventMapping({ setLocalValue })

@@ -1,5 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
 /* eslint-disable react/no-unused-prop-types */
 /**
  * Web InputMasked Component
@@ -9,15 +7,13 @@
  */
 
 import React from 'react'
-import PropTypes from 'prop-types'
 import { extendPropsWithContext } from '../../shared/component-helper'
 import InputMaskedContext from './InputMaskedContext'
 import InputMaskedElement from './InputMaskedElement'
-import Input, { inputPropTypes } from '../input/Input'
+import Input from '../input/Input'
 import Context from '../../shared/Context'
 import type { InternalLocale } from '../../shared/Context'
-import type { ButtonIconPosition } from '../Button'
-import type { FormLabelLabelDirection } from '../FormLabel'
+import type { ButtonIconPosition, ButtonVariant } from '../Button'
 import type {
   FormStatusProps,
   FormStatusState,
@@ -29,17 +25,31 @@ import type {
   InputInputAttributes,
   InputInputElement,
   InputSize,
+  InputSubmitElement,
+  InputSubmitButtonIcon,
+  InputSuffix,
+  InputChildren,
+  InputProps,
 } from '../Input'
+import type { Pipe, Mask, MaskFunction } from './text-mask/types'
 import type { NumberFormatProps } from '../NumberFormat'
 import type { SkeletonShow } from '../Skeleton'
 import type { SpacingProps } from '../space/types'
+
+type LooseMaskPair = {
+  mask: (...args: unknown[]) => unknown
+  pipe?: (...args: unknown[]) => unknown
+}
 
 export type InputMaskedMask =
   | Array<RegExp | string>
   | ((
       value: string,
-      options: Record<string, boolean, string, number>
-    ) => Array<RegExp>)
+      options: Record<string, unknown>
+    ) => Array<RegExp | string>)
+  | boolean
+  | { mask: Mask | MaskFunction; pipe?: Pipe }
+  | LooseMaskPair
 export type InputMaskedNumberMask =
   | string
   | boolean
@@ -51,23 +61,23 @@ export type InputMaskedCurrencyMask =
 export type InputMaskedMaskOptions = string | Record<string, unknown>
 export type InputMaskedAsCurrency = string | boolean
 export type InputMaskedValue = string | number
-export type InputMaskedSuffix =
-  | string
-  | ((...args: any[]) => any)
-  | React.ReactNode
+export type InputMaskedSuffix = InputSuffix
 export type InputMaskedAlign = 'left' | 'center' | 'right'
-export type InputMaskedSubmitElement =
-  | ((...args: any[]) => any)
-  | React.ReactNode
-export type InputMaskedSubmitButtonIcon =
-  | string
-  | React.ReactNode
-  | ((...args: any[]) => any)
-export type InputMaskedChildren =
-  | React.ReactNode
-  | ((...args: any[]) => any)
+export type InputMaskedSubmitElement = InputSubmitElement
+export type InputMaskedSubmitButtonIcon = InputSubmitButtonIcon
+export type InputMaskedChildren = InputChildren
+
+export type InputMaskedChangePayload = {
+  event?: unknown
+  value: string
+  numberValue?: number
+  cleanedValue?: string | number
+}
 export interface InputMaskedProps
-  extends Omit<React.HTMLProps<HTMLElement>, 'ref'>,
+  extends Omit<
+      React.HTMLProps<HTMLInputElement>,
+      'ref' | 'placeholder' | 'label' | 'children' | 'onChange' | 'size'
+    >,
     SpacingProps {
   /**
    * A mask can be defined both as a [RegExp style of characters](https://github.com/text-mask/text-mask/blob/master/componentDocumentation.md#readme) or a callback function. Example below. Defaults to number mask.
@@ -113,7 +123,7 @@ export interface InputMaskedProps
    * When `false` is given, it doesn't print out placeholder characters and only adds mask characters when the user reaches them as they're typing. Defaults to `true`.
    */
   show_guide?: boolean
-  pipe?: (...args: any[]) => any
+  pipe?: Pipe
   /**
    * When `true`, adding or deleting characters will not affect the positions of existing characters. Defaults to `false`.
    */
@@ -122,19 +132,23 @@ export interface InputMaskedProps
    * The placeholder character represents the fillable spot in the mask (e.g. `_`). Defaults to invisible space.
    */
   placeholder_char?: string
-  inner_ref?: React.Ref
-  on_change?: (...args: any[]) => any
-  on_submit?: (...args: any[]) => any
-  on_focus?: (...args: any[]) => any
-  on_blur?: (...args: any[]) => any
-  on_submit_focus?: (...args: any[]) => any
-  on_submit_blur?: (...args: any[]) => any
+  inner_ref?: InputProps['inner_ref']
+  on_change?: (payload: { value: string } & Record<string, any>) => unknown
+  on_submit?: (payload: { value: string } & Record<string, any>) => unknown
+  on_focus?: (payload: { value: string } & Record<string, any>) => unknown
+  on_blur?: (payload: { value: string } & Record<string, any>) => unknown
+  on_submit_focus?: (
+    payload: { value: string } & Record<string, any>
+  ) => unknown
+  on_submit_blur?: (
+    payload: { value: string } & Record<string, any>
+  ) => unknown
   type?: string
   size?: InputSize
   value?: InputMaskedValue
   id?: string
   label?: React.ReactNode
-  label_direction?: FormLabelLabelDirection
+  label_direction?: 'horizontal' | 'vertical'
   label_sr_only?: boolean
   status?: FormStatusText
   status_state?: FormStatusState
@@ -145,7 +159,7 @@ export interface InputMaskedProps
   autocomplete?: string
   submit_button_title?: string
   clear_button_title?: string
-  placeholder?: string
+  placeholder?: React.ReactNode
   clear?: boolean
   keep_placeholder?: boolean
   suffix?: InputMaskedSuffix
@@ -163,15 +177,18 @@ export interface InputMaskedProps
   readOnly?: boolean
   inner_element?: React.ReactNode
   submit_element?: InputMaskedSubmitElement
-  submit_button_variant?: any
+  submit_button_variant?: ButtonVariant
   submit_button_icon?: InputMaskedSubmitButtonIcon
   submit_button_status?: string
   className?: string
   children?: InputMaskedChildren
-  on_state_update?: (...args: any[]) => any
+  on_state_update?: (...args: unknown[]) => unknown
+  onChange?:
+    | React.ChangeEventHandler<HTMLInputElement>
+    | ((payload: { value: string } & Record<string, any>) => unknown)
 }
 
-const InputMasked = (props) => {
+function InputMasked(props: InputMaskedProps) {
   const context = React.useContext(Context)
 
   // Remove masks defined in Provider/Context, because it overwrites a custom mask
@@ -194,56 +211,11 @@ const InputMasked = (props) => {
 
   return (
     <InputMaskedContext.Provider
-      value={{
-        props: contextAndProps,
-        context,
-      }}
+      value={{ props: contextAndProps, context }}
     >
       <InputMaskedElement />
     </InputMaskedContext.Provider>
   )
-}
-
-InputMasked.propTypes = {
-  mask: PropTypes.oneOfType([
-    PropTypes.object,
-    PropTypes.array,
-    PropTypes.func,
-  ]),
-  number_mask: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool,
-    PropTypes.object,
-  ]),
-  currency_mask: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool,
-    PropTypes.object,
-  ]),
-  mask_options: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-  number_format: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-  locale: PropTypes.string,
-  as_currency: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  as_number: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  as_percent: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  show_mask: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  show_guide: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  pipe: PropTypes.func,
-  keep_char_positions: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool,
-  ]),
-  placeholder_char: PropTypes.string,
-  inner_ref: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
-
-  on_change: PropTypes.func,
-  on_submit: PropTypes.func,
-  on_focus: PropTypes.func,
-  on_blur: PropTypes.func,
-  on_submit_focus: PropTypes.func,
-  on_submit_blur: PropTypes.func,
-
-  ...inputPropTypes,
 }
 
 const defaultProps = {
@@ -273,7 +245,8 @@ const defaultProps = {
   on_submit_blur: null,
 }
 
+export default InputMasked
+
+// Mark as form element for FieldBlock
 InputMasked._formElement = true
 InputMasked._supportsSpacingProps = true
-
-export default InputMasked
