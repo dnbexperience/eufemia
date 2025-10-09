@@ -9,7 +9,12 @@ import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
 import type { GlobalStatusConfigObject } from '../GlobalStatus';
 export type RadioGroupLabelPosition = 'left' | 'right';
-export type RadioGroupSize = 'default' | 'medium' | 'large' | number;
+export type RadioGroupSize =
+  | 'default'
+  | 'small'
+  | 'medium'
+  | 'large'
+  | number;
 export type RadioGroupSuffix =
   | string
   | ((...args: any[]) => any)
