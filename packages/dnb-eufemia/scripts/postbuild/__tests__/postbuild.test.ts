@@ -164,12 +164,10 @@ describe('babel build', () => {
               path.resolve(packpath.self(), `build${stage}/index.js`),
               'utf-8'
             )
-            expect(content).toContain(
-              'Object.defineProperty(exports, "__esModule", {'
+            expect(content).toMatch(
+              /Object\.defineProperty\(exports, ["'`]__esModule["'`], \{/
             )
-            expect(content).toContain(
-              `var _default = exports.default = {};`
-            )
+            expect(content).toContain(`exports.default =`)
 
             // Has extra cjs package
             expect(
@@ -194,7 +192,7 @@ describe('babel build', () => {
               'utf-8'
             )
             expect(content).toContain('class Input extends')
-            expect(content).toMatch(/^"use strict";/g)
+            expect(content).toMatch(/^["'`]use strict["'`];/g)
           }
 
           {
@@ -205,10 +203,8 @@ describe('babel build', () => {
               ),
               'utf-8'
             )
-            expect(content).toContain(
-              'var _default = exports.default = Breadcrumb'
-            )
-            expect(content).toMatch(/^"use strict";/g)
+            expect(content).toContain('exports.default = Breadcrumb')
+            expect(content).toMatch(/^["'`]use strict["'`];/g)
           }
         }
         break
@@ -222,7 +218,7 @@ describe('babel build', () => {
               path.resolve(packpath.self(), `build${stage}/index.js`),
               'utf-8'
             )
-            expect(content).toContain('export default {};')
+            expect(content).toContain('src_default as default')
           }
 
           {
@@ -233,11 +229,8 @@ describe('babel build', () => {
               ),
               'utf-8'
             )
-            expect(content).toContain('export default class Input extends')
+            expect(content).toContain('Input as default')
             expect(content).not.toContain('core-js/modules/es')
-            expect(content).toContain(
-              'import _extends from "@babel/runtime/helpers/esm/extends";'
-            )
           }
 
           {
@@ -248,10 +241,7 @@ describe('babel build', () => {
               ),
               'utf-8'
             )
-            expect(content).toContain('export default Breadcrumb;')
-            expect(content).toContain(
-              'import _extends from "@babel/runtime/helpers/esm/extends";'
-            )
+            expect(content).toContain('Breadcrumb_default as default')
           }
         }
         break
@@ -263,7 +253,12 @@ describe('babel build', () => {
               path.resolve(packpath.self(), `build${stage}/index.js`),
               'utf-8'
             )
-            expect(content).toContain('export default {};')
+            const [_, expectedVariable] = /(\w+)\s*as\s+default/.exec(
+              content
+            )
+            expect(content).toMatch(
+              RegExp(`${expectedVariable}\\s*=\\s*\\{\\}`)
+            )
           }
 
           {
@@ -274,11 +269,8 @@ describe('babel build', () => {
               ),
               'utf-8'
             )
-            expect(content).toMatch(/export default class Input extends/g)
+            expect(content).toMatch(/Input as default/g)
             expect(content).not.toContain('core-js/modules/es')
-            expect(content).toContain(
-              'import _extends from "@babel/runtime/helpers/esm/extends";'
-            )
           }
 
           {
@@ -289,11 +281,8 @@ describe('babel build', () => {
               ),
               'utf-8'
             )
-            expect(content).toContain('export default Breadcrumb;')
+            expect(content).toContain('Breadcrumb_default as default')
             expect(content).not.toContain('core-js/modules/es')
-            expect(content).toContain(
-              'import _extends from "@babel/runtime/helpers/esm/extends";'
-            )
           }
         }
         break
@@ -478,9 +467,15 @@ describe('style build', () => {
       )
       expect(content).toContain(`.dnb-typo-regular`)
       expect(content).toContain(`@font-face`)
-      expect(content).toContain(
-        `src: url("../../../assets/fonts/dnb/DNB-Regular.woff2") format("woff2"),`
-      )
+      if (stage === '') {
+        expect(content).toContain(
+          `src: url("../../../assets/fonts/dnb/DNB-Regular.woff2") format("woff2"),`
+        )
+      } else {
+        expect(content).toContain(
+          `src: url("../../../../assets/fonts/dnb/DNB-Regular.woff2") format("woff2"),`
+        )
+      }
       expect(content).toContain(`
 .dnb-p {
   font-size: var(--font-size-basis);
