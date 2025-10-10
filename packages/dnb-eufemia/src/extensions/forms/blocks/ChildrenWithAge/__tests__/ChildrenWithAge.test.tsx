@@ -10,6 +10,7 @@ import userEvent from '@testing-library/user-event'
 import { Form, Tools } from '../../..'
 import ChildrenWithAge from '../ChildrenWithAge'
 import { translations } from '../ChildrenWithAgeTranslations'
+import { mergeTranslations } from '../../../../../shared'
 import { GenerateRef } from '../../../Tools/ListAllProps'
 import nbNO from '../../../constants/locales/nb-NO'
 import { format } from '../../../../../components/number-format/NumberUtils'
@@ -377,8 +378,39 @@ describe('ChildrenWithAge', () => {
     )
 
     expect(document.querySelector('.dnb-p')).toHaveTextContent(
-      'Antall barn'
+      translations['nb-NO'].ChildrenWithAge.hasChildren.title
     )
+  })
+
+  it('should fallback to en-GB translations when locale has no ChildrenWithAge translations', () => {
+    const consoleSpy = jest.spyOn(console, 'log').mockImplementation()
+
+    const mergedTranslations = mergeTranslations({
+      'nn-NO': {},
+    })
+
+    render(
+      <Form.Handler locale="nn-NO" translations={mergedTranslations}>
+        <ChildrenWithAge />
+      </Form.Handler>
+    )
+
+    expect(document.querySelector('.dnb-p')).toHaveTextContent(
+      translations['en-GB'].ChildrenWithAge.hasChildren.title
+    )
+    expect(document.querySelector('legend')).toHaveTextContent(
+      translations['en-GB'].ChildrenWithAge.hasChildren.fieldLabel
+    )
+
+    // Should have warned about missing translations
+    expect(consoleSpy).toHaveBeenCalledWith(
+      expect.any(String), // Eufemia styling prefix
+      expect.stringContaining(
+        'Form.useTranslation: No translations found for locale "nn-NO"!'
+      )
+    )
+
+    consoleSpy.mockRestore()
   })
 
   it('should match snapshot', () => {
