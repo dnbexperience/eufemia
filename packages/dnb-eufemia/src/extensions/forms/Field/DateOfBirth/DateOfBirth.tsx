@@ -82,17 +82,20 @@ function DateOfBirth(props: Props) {
     }
   }, [errorDateOfBirth, errorRequired, props.errorMessages])
 
-  const provideAdditionalArgs = useCallback((value: string) => {
-    const [year, month, day] = splitValue(value, dateFormat)
+  const provideAdditionalArgs = useCallback(
+    (value: string) => {
+      const [year, month, day] = splitValue(value, dateFormat)
 
-    if (year && month && day) {
-      return {
-        year,
-        month,
-        day,
+      if (year && month && day) {
+        return {
+          year,
+          month,
+          day,
+        }
       }
-    }
-  }, [])
+    },
+    [dateFormat]
+  )
 
   const dateOfBirthValidator = useCallback(
     (value: string) => {

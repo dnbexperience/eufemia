@@ -1,37 +1,45 @@
 import { Field, Form, Tools } from '../../..'
-import { Flex } from '../../../../..'
+import { AdditionalArgs } from '../DateOfBirth'
 
 export default {
   title: 'Eufemia/Extensions/Forms/DateOfBirth',
 }
 
+const transformOut = (internal, additionalArgs: AdditionalArgs) => {
+  if (additionalArgs) {
+    const { year, month, day } = additionalArgs
+    return { year, month, day }
+  }
+}
+
+const transformIn = (external: AdditionalArgs) => {
+  if (external) {
+    const { year, month, day } = external
+    return `${year}-${month}-${day}`
+  }
+}
+
 export const DateOfBirth = () => {
   return (
-    <Form.Handler onSubmit={console.log}>
-      <Flex.Stack space>
+    <Form.Handler
+      onSubmit={console.log}
+      defaultData={{
+        myField: {
+          year: '1990',
+          month: '05',
+          day: '15',
+        },
+      }}
+    >
+      <Form.Card space>
         <Field.DateOfBirth
-          path="/dob"
-          transformOut={(_value, additionalArgs: any) => {
-            if (additionalArgs) {
-              const { year, month, day } = additionalArgs
-              return {
-                year,
-                month,
-                day,
-              }
-            }
-          }}
-          transformIn={(value: any) => {
-            if (value) {
-              const { year, month, day } = value
-              return `${year}-${month}-${day}`
-            }
-          }}
+          path="/myField"
+          transformOut={transformOut}
+          transformIn={transformIn}
         />
 
-        <Form.SubmitButton />
-      </Flex.Stack>
-      <Tools.Log />
+        <Tools.Log />
+      </Form.Card>
     </Form.Handler>
   )
 }
