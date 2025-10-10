@@ -1,5 +1,5 @@
 {
-  "extends": ["../dnb-eufemia/.stylelintrc"],
+  "extends": ["@dnb/eufemia/.stylelintrc"],
   "rules": {
     "selector-pseudo-class-no-unknown": null,
     "scss/no-global-function-names": null,
