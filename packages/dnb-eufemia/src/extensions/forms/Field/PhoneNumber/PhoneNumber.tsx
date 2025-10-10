@@ -96,7 +96,7 @@ type EventValues = {
   phoneNumber?: string
 }
 
-function PhoneNumber(props: Props) {
+function PhoneNumber(props: Props = {}) {
   const sharedContext = useContext(SharedContext)
   const {
     label: defaultLabel,
@@ -105,9 +105,9 @@ function PhoneNumber(props: Props) {
   } = useTranslation().PhoneNumber
   const lang = sharedContext.locale?.split('-')[0] as CountryLang
 
-  const countryCodeRef = useRef<Props['value']>(props?.emptyValue)
+  const countryCodeRef = useRef<Props['value']>(props.emptyValue)
   const prevCountryCodeRef = useRef(countryCodeRef.current)
-  const numberRef = useRef<Props['value']>(props?.emptyValue)
+  const numberRef = useRef<Props['value']>(props.emptyValue)
   const dataRef = useRef<Array<DrawerListDataArrayItem>>(null)
   const langRef = useRef<string>(lang)
   const wasFilled = useRef<boolean>(false)
@@ -146,9 +146,11 @@ function PhoneNumber(props: Props) {
 
   const fromExternal = useCallback(
     (external: string) => {
-      const [countryCode, phoneNumber] = splitValue(external)
-      if (!countryCode && !phoneNumber && !props.omitCountryCodeField) {
-        return countryCodeRef.current
+      if (typeof external === 'string') {
+        const [countryCode, phoneNumber] = splitValue(external)
+        if (!countryCode && !phoneNumber && !props.omitCountryCodeField) {
+          return countryCodeRef.current
+        }
       }
       return external
     },
@@ -166,6 +168,40 @@ function PhoneNumber(props: Props) {
     [props.emptyValue]
   )
 
+  const transformIn = (value: string) => {
+    if (props.transformIn) {
+      const external = props.transformIn(value) as AdditionalArgs | string
+
+      if (typeof external === 'string') {
+        return external
+      }
+
+      if (external?.phoneNumber) {
+        return joinValue([external.countryCode, external.phoneNumber])
+      }
+    }
+
+    return value
+  }
+
+  const provideAdditionalArgs = useCallback(
+    (value: string) => {
+      const [countryCode, phoneNumber] = splitValue(value)
+
+      return {
+        ...(!props.omitCountryCodeField
+          ? {
+              countryCode:
+                countryCode || countryCodeRef.current || undefined,
+            }
+          : {}),
+        phoneNumber: phoneNumber || numberRef.current || undefined,
+        iso: currentCountryRef.current?.iso,
+      } satisfies AdditionalArgs | Omit<AdditionalArgs, 'countryCode'>
+    },
+    [props.omitCountryCodeField]
+  )
+
   const schema = useMemo<Schema<string> | undefined>(() => {
     if (props.schema) {
       return props.schema
@@ -179,7 +215,7 @@ function PhoneNumber(props: Props) {
         try {
           s = s.regex(new RegExp(p.pattern, 'u'), 'Field.errorPattern')
         } catch (_e) {
-          // ignore invalid pattern
+          // Ignore invalid regex patterns
         }
       }
       return s
@@ -196,6 +232,8 @@ function PhoneNumber(props: Props) {
     validateRequired,
     fromExternal,
     toEvent,
+    provideAdditionalArgs,
+    transformIn,
     inputRef: props.inputRef ?? ref,
   }
 
@@ -313,7 +351,8 @@ function PhoneNumber(props: Props) {
 
   const callOnBlurOrFocus = useCallback(
     (hasFocus: boolean) => {
-      setHasFocus(hasFocus, undefined, prepareEventValues())
+      const eventValues = prepareEventValues()
+      setHasFocus(hasFocus, undefined, eventValues)
     },
     [prepareEventValues, setHasFocus]
   )
@@ -370,7 +409,13 @@ function PhoneNumber(props: Props) {
       }
       onCountryCodeChange?.(countryCode)
     },
-    [emptyValue, callOnChange, onCountryCodeChange]
+    [
+      emptyValue,
+      numberMask,
+      onCountryCodeChange,
+      callOnChange,
+      onNumberChange,
+    ]
   )
 
   const handleNumberChange = useCallback(
