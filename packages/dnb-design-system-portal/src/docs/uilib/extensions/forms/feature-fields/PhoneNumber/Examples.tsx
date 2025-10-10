@@ -1,5 +1,5 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
-import { Field, Form } from '@dnb/eufemia/src/extensions/forms'
+import { Field, Form, Tools } from '@dnb/eufemia/src/extensions/forms'
 
 export const Empty = () => {
   return (
@@ -205,6 +205,52 @@ export const Width = () => {
           label="stretch"
         />
       </Form.Card>
+    </ComponentBox>
+  )
+}
+
+export const TransformInAndOut = () => {
+  return (
+    <ComponentBox>
+      {() => {
+        const transformOut = (internal, additionalArgs) => {
+          return {
+            countryCode: additionalArgs?.iso,
+            phoneNumber: additionalArgs?.phoneNumber,
+            countryCodePrefix: additionalArgs?.countryCode,
+          }
+        }
+
+        const transformIn = (external) => {
+          return {
+            countryCode: external?.iso,
+            phoneNumber: external?.phoneNumber,
+            iso: external?.countryCodePrefix,
+          }
+        }
+
+        return (
+          <Form.Handler
+            defaultData={{
+              myField: {
+                countryCode: 'GB',
+                phoneNumber: '9123457',
+                countryCodePrefix: '+44',
+              },
+            }}
+          >
+            <Form.Card>
+              <Field.PhoneNumber
+                path="/myField"
+                transformOut={transformOut}
+                transformIn={transformIn}
+                label="Transform in and out"
+              />
+              <Tools.Log />
+            </Form.Card>
+          </Form.Handler>
+        )
+      }}
     </ComponentBox>
   )
 }

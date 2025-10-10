@@ -190,6 +190,7 @@ describe('Field.PhoneNumber', () => {
       expect.objectContaining({
         countryCode: '+47',
         phoneNumber: undefined,
+        iso: 'NO',
       })
     )
 
@@ -199,6 +200,7 @@ describe('Field.PhoneNumber', () => {
       expect.objectContaining({
         countryCode: '+47',
         phoneNumber: undefined,
+        iso: 'NO',
       })
     )
 
@@ -210,6 +212,7 @@ describe('Field.PhoneNumber', () => {
       expect.objectContaining({
         countryCode: '+47',
         phoneNumber: '99999999',
+        iso: 'NO',
       })
     )
 
@@ -219,6 +222,7 @@ describe('Field.PhoneNumber', () => {
       expect.objectContaining({
         countryCode: '+47',
         phoneNumber: '99999999',
+        iso: 'NO',
       })
     )
   })
@@ -489,6 +493,7 @@ describe('Field.PhoneNumber', () => {
         expect.objectContaining({
           countryCode: '+47',
           phoneNumber: '99999999',
+          iso: 'NO',
         })
       )
       expect(codeElement.value).toEqual('NO (+47)')
@@ -520,6 +525,7 @@ describe('Field.PhoneNumber', () => {
         expect.objectContaining({
           countryCode: '+41',
           phoneNumber: '99999999',
+          iso: 'CH',
         })
       )
       expect(codeElement.value).toEqual('CH (+41)')
@@ -532,8 +538,11 @@ describe('Field.PhoneNumber', () => {
         expect.objectContaining({
           countryCode: '+41',
           phoneNumber: undefined,
+          iso: 'CH',
         })
       )
+      expect(codeElement.value).toEqual('CH (+41)')
+      expect(phoneElement.value).toEqual('')
     })
 
     it('should return correct value onChange event in data context', async () => {
@@ -558,22 +567,113 @@ describe('Field.PhoneNumber', () => {
       )
     })
 
-    it.skip('should return correct value onChange event in data context when using transformOut', async () => {
+    it('should support transformIn', async () => {
+      type PhoneNumberDataShape = {
+        countryCode: string
+        phoneNumber: string
+        countryCodePrefix: string
+      }
+
+      const transformIn = jest.fn(
+        (
+          {
+            countryCode: iso,
+            phoneNumber,
+            countryCodePrefix: countryCode,
+          }: PhoneNumberDataShape = {} as PhoneNumberDataShape | undefined
+        ) => {
+          return {
+            countryCode,
+            phoneNumber,
+            iso,
+          } satisfies AdditionalArgs
+        }
+      )
+
+      render(
+        <Form.Handler
+          defaultData={{
+            myField: {
+              countryCode: 'GB',
+              phoneNumber: '9999',
+              countryCodePrefix: '+44',
+            },
+          }}
+        >
+          <Field.PhoneNumber path="/myField" transformIn={transformIn} />
+        </Form.Handler>
+      )
+
+      expect(transformIn).toHaveBeenCalledTimes(1)
+      expect(transformIn).toHaveBeenLastCalledWith({
+        countryCode: 'GB',
+        phoneNumber: '9999',
+        countryCodePrefix: '+44',
+      })
+
+      const phoneElement = document.querySelector(
+        '.dnb-forms-field-phone-number__number .dnb-input__input'
+      )
+      const codeElement = document.querySelector(
+        '.dnb-forms-field-phone-number__country-code input'
+      )
+
+      expect(phoneElement).toHaveValue('9999​​​​​​​​')
+      expect(codeElement).toHaveValue('GB (+44)')
+
+      expect(transformIn).toHaveBeenCalledTimes(1)
+      expect(transformIn).toHaveBeenLastCalledWith({
+        countryCode: 'GB',
+        countryCodePrefix: '+44',
+        phoneNumber: '9999',
+      })
+    })
+
+    it('should support transformOut', async () => {
       const onChange = jest.fn()
+
+      type PhoneNumberDataShape = {
+        countryCode: string
+        phoneNumber: string
+        countryCodePrefix: string
+      }
+
+      const transformOut = jest.fn((internal, additionalArgs = {}) => {
+        const {
+          countryCode: countryCodePrefix,
+          phoneNumber,
+          iso: countryCode,
+        } = additionalArgs as AdditionalArgs
+
+        return {
+          countryCode,
+          phoneNumber,
+          countryCodePrefix,
+        } satisfies PhoneNumberDataShape
+      })
+
+      const transformIn = jest.fn(
+        (
+          {
+            countryCode: iso,
+            phoneNumber,
+            countryCodePrefix: countryCode,
+          }: PhoneNumberDataShape = {} as PhoneNumberDataShape | undefined
+        ) => {
+          return {
+            countryCode,
+            phoneNumber,
+            iso,
+          } satisfies AdditionalArgs
+        }
+      )
 
       render(
         <Form.Handler onChange={onChange}>
           <Field.PhoneNumber
-            path="/phone"
-            transformOut={(_value, additionalArgs: AdditionalArgs) => {
-              const { countryCode, phoneNumber, iso } =
-                additionalArgs || {}
-              return {
-                countryCode: iso,
-                phoneNumber,
-                countryCodePrefix: countryCode,
-              }
-            }}
+            path="/myField"
+            transformOut={transformOut}
+            transformIn={transformIn}
           />
         </Form.Handler>
       )
@@ -587,7 +687,7 @@ describe('Field.PhoneNumber', () => {
       expect(onChange).toHaveBeenCalledTimes(4)
       expect(onChange).toHaveBeenLastCalledWith(
         {
-          phone: {
+          myField: {
             countryCode: 'NO',
             phoneNumber: '9999',
             countryCodePrefix: '+47',
@@ -595,6 +695,44 @@ describe('Field.PhoneNumber', () => {
         },
         expect.anything()
       )
+      expect(transformOut).toHaveBeenCalledTimes(10)
+      expect(transformOut).toHaveBeenLastCalledWith('+47 9999', {
+        countryCode: '+47',
+        phoneNumber: '9999',
+        iso: 'NO',
+      })
+      expect(transformIn).toHaveBeenCalledTimes(8)
+      expect(transformIn).toHaveBeenLastCalledWith({
+        countryCode: 'NO',
+        countryCodePrefix: '+47',
+        phoneNumber: '9999',
+      })
+
+      await userEvent.clear(phoneElement)
+
+      expect(onChange).toHaveBeenCalledTimes(5)
+      expect(onChange).toHaveBeenLastCalledWith(
+        {
+          myField: {
+            countryCode: 'NO',
+            countryCodePrefix: '+47',
+            phoneNumber: undefined,
+          },
+        },
+        expect.anything()
+      )
+      expect(transformOut).toHaveBeenCalledTimes(12)
+      expect(transformOut).toHaveBeenLastCalledWith(undefined, {
+        countryCode: '+47',
+        phoneNumber: undefined,
+        iso: 'NO',
+      })
+      expect(transformIn).toHaveBeenCalledTimes(10)
+      expect(transformIn).toHaveBeenLastCalledWith({
+        countryCode: 'NO',
+        countryCodePrefix: '+47',
+        phoneNumber: undefined,
+      })
     })
 
     it('should return phoneNumber in additional args', async () => {
@@ -1267,7 +1405,9 @@ describe('Field.PhoneNumber', () => {
 
     await userEvent.type(numberElement, '123')
 
-    expect(numberElement.value).toBe('12 3​ ​​ ​​')
+    await waitFor(() => {
+      expect(numberElement.value).toBe('12 3​ ​​ ​​')
+    })
     expect(onChange).toHaveBeenLastCalledWith(
       '123',
       expect.objectContaining({
@@ -1287,7 +1427,9 @@ describe('Field.PhoneNumber', () => {
 
     await userEvent.type(numberElement, '{Backspace>8}8888')
 
-    expect(numberElement.value).toBe('88 88 ​​ ​​')
+    await waitFor(() => {
+      expect(numberElement.value).toBe('88 88 ​​ ​​')
+    })
     expect(onChange).toHaveBeenLastCalledWith(
       '8888',
       expect.objectContaining({

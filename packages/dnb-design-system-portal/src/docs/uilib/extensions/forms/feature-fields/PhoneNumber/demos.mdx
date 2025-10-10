@@ -56,6 +56,54 @@ This example demonstrates how to filter specific countries. Use the `countries` 
 
 <Examples.FilterCountries />
 
+### Transform in and out
+
+This example demonstrates how to transform data when it enters and leaves the form field.
+
+You can use the `transformIn` property to modify the incoming data before it is displayed in the field, and the `transformOut` property to adjust the data before it is submitted or processed.
+
+<Examples.TransformInAndOut />
+
+Here is how you can deal with TypeScript types for the transform functions:
+
+```ts
+import { AdditionalArgs } from '@dnb/eufemia/src/extensions/forms/Field/PhoneNumber'
+
+type MyFieldShape = {
+  countryCode: string
+  phoneNumber: string
+  countryCodePrefix: string
+}
+
+const transformOut = (internal, additionalArgs = {}) => {
+  const {
+    countryCode: countryCodePrefix,
+    phoneNumber,
+    iso: countryCode,
+  } = additionalArgs as AdditionalArgs
+
+  return {
+    countryCode,
+    phoneNumber,
+    countryCodePrefix,
+  } satisfies MyFieldShape
+}
+
+const transformIn = (
+  {
+    countryCode: iso,
+    phoneNumber,
+    countryCodePrefix: countryCode,
+  }: MyFieldShape = {} as MyFieldShape | undefined,
+) => {
+  return {
+    countryCode,
+    phoneNumber,
+    iso,
+  } satisfies AdditionalArgs
+}
+```
+
 <VisibleWhenVisualTest>
   <Examples.LongLabel />
   <Examples.Width />
