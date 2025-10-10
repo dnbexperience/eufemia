@@ -45,8 +45,8 @@ describe('package.json', () => {
     expect(fs.existsSync(path.resolve(packageJsonFile))).toBeTruthy()
   })
 
-  it('has no type="module"', () => {
-    expect(packageJson.type).toBeFalsy()
+  it('has type="module"', () => {
+    expect(packageJson.type).toBe('module')
   })
 
   it('has not these deleted fields', () => {
