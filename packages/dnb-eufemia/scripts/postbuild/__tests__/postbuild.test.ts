@@ -567,18 +567,18 @@ describe('style build', () => {
     const themeTests = [
       {
         theme: 'theme-ui',
-        expectedFontFamily: "--font-family-default: 'DNB', sans-serif;",
+        expectedFontFamily: "--font-default: 'DNB', sans-serif;",
         expectedColor: '--color-black: #000;',
       },
       {
         theme: 'theme-sbanken',
         expectedFontFamily:
-          "--sb-font-family-default: 'Roboto', 'Helvetica', 'Arial', sans-serif;",
-        expectedColor: '--sb-color-purple: #1c1b4e;',
+          "--font-sb-default: 'Roboto', 'Helvetica', 'Arial', sans-serif;",
+        expectedColor: '--color-sb-purple: #1c1b4e;',
       },
       {
         theme: 'theme-eiendom',
-        expectedFontFamily: "--font-family-default: 'DNB', sans-serif;",
+        expectedFontFamily: "--font-default: 'DNB', sans-serif;",
         expectedColor: '--color-black: #000;',
       },
     ]

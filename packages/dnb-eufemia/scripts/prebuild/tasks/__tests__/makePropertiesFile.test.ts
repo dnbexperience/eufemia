@@ -1,49 +1,207 @@
-/**
- * Scripts test
- *
- */
+import { convertVariablesToTailwindFormat } from '../tailwindTransform'
 
-import { runFactory } from '../makePropertiesFile'
+describe('makePropertiesFile', () => {
+  const global = {
+    ui: null,
+    sbanken: null,
+  }
 
-jest.mock('ora', () => {
-  return jest.fn(() => ({
-    start: jest.fn(),
-    info: jest.fn(),
-    warn: jest.fn(),
-    succeed: jest.fn(),
-    fail: jest.fn(),
-  }))
-})
+  beforeAll(async () => {
+    const { execSync } = await import('child_process')
+    execSync(
+      'babel-node --extensions .js,.ts,.tsx ./scripts/prebuild/tasks/makePropertiesFile.js',
+      {
+        cwd: process.cwd(),
+        stdio: 'pipe',
+      }
+    )
 
-beforeAll(async () => {
-  global.ui = await runFactory({
-    glob: './src/style/themes/theme-ui/properties-js.scss',
-    returnResult: true,
-  })
-  global.sbanken = await runFactory({
-    glob: './src/style/themes/theme-sbanken/properties-js.scss',
-    returnResult: true,
-  })
-})
+    const fs = await import('fs')
+    const path = await import('path')
 
-describe('Properties for ui', () => {
-  it('has to validate', () => {
-    expect(global.ui).toMatchSnapshot()
-    expect(global.ui).toContain(`'--font-size-large': '1.625rem'`)
-    expect(global.ui).toContain(
-      `'--font-family-default': '"DNB", sans-serif'`
+    global.ui = fs.readFileSync(
+      path.resolve('src/style/themes/theme-ui/properties.js'),
+      'utf-8'
+    )
+    global.sbanken = fs.readFileSync(
+      path.resolve('src/style/themes/theme-sbanken/properties.js'),
+      'utf-8'
     )
   })
-})
 
-describe('Properties for sbanken', () => {
-  it('has to validate', () => {
-    expect(global.sbanken).toMatchSnapshot()
-    expect(global.sbanken).toContain(
-      `'--sb-font-family-default': '"Roboto", "Helvetica", "Arial", sans-serif'`
-    )
-    expect(global.sbanken).toContain(
-      `'--font-family-default': 'var(--sb-font-family-default)'`
-    )
+  describe('Properties for ui', () => {
+    it('has to validate', () => {
+      expect(global.ui).toMatchSnapshot()
+      expect(global.ui).toContain(`'--font-size-large': '1.625rem'`)
+      expect(global.ui).toContain(
+        `'--font-family-default': '"DNB", sans-serif'`
+      )
+    })
+  })
+
+  describe('Properties for sbanken', () => {
+    it('has to validate', () => {
+      expect(global.sbanken).toMatchSnapshot()
+      expect(global.sbanken).toContain(
+        `'--sb-font-family-default': '"Roboto", "Helvetica", "Arial", sans-serif'`
+      )
+      expect(global.sbanken).toContain(
+        `'--font-family-default': 'var(--sb-font-family-default)'`
+      )
+    })
+  })
+
+  describe('convertVariablesToTailwindFormat Function', () => {
+    it('should convert --sb-* variables to --*-sb-* format', () => {
+      const input = {
+        '--sb-color-black': '#000',
+        '--sb-font-size-small': '0.875rem',
+        '--sb-line-height-medium': '2rem',
+      }
+      const result = convertVariablesToTailwindFormat(input)
+
+      expect(result).toEqual({
+        '--color-sb-black': '#000',
+        '--text-sb-small': '0.875rem',
+        '--leading-sb-medium': '2rem',
+      })
+    })
+
+    it('should handle var() references correctly', () => {
+      const input = {
+        '--font-size-lead': 'var(--sb-font-size-medium)',
+      }
+      const result = convertVariablesToTailwindFormat(input)
+
+      expect(result).toEqual({
+        '--text-lead': 'var(--text-sb-medium)',
+      })
+    })
+
+    it('should preserve non-sb variables unchanged', () => {
+      const input = {
+        '--color-white': '#fff',
+        '--font-size-large': '2rem',
+      }
+      const result = convertVariablesToTailwindFormat(input)
+
+      expect(result).toEqual({
+        '--color-white': '#fff',
+        '--text-large': '2rem',
+      })
+    })
+  })
+
+  describe('Tailwind CSS Properties Generation', () => {
+    let uiTailwindResult, sbankenTailwindResult, eiendomTailwindResult
+
+    beforeAll(async () => {
+      // Generate the Tailwind CSS files by running the actual make-properties script
+      // This will create the properties-tailwind.css files
+      const { execSync } = await import('child_process')
+      execSync(
+        'babel-node --extensions .js,.ts,.tsx ./scripts/prebuild/tasks/makePropertiesFile.js',
+        {
+          cwd: process.cwd(),
+          stdio: 'pipe',
+        }
+      )
+
+      // Read the generated files
+      const fs = await import('fs')
+      const path = await import('path')
+
+      uiTailwindResult = fs.readFileSync(
+        path.resolve('src/style/themes/theme-ui/properties-tailwind.css'),
+        'utf-8'
+      )
+      sbankenTailwindResult = fs.readFileSync(
+        path.resolve(
+          'src/style/themes/theme-sbanken/properties-tailwind.css'
+        ),
+        'utf-8'
+      )
+      eiendomTailwindResult = fs.readFileSync(
+        path.resolve(
+          'src/style/themes/theme-eiendom/properties-tailwind.css'
+        ),
+        'utf-8'
+      )
+    })
+
+    describe('CSS File Structure', () => {
+      it('should contain proper CSS file header', () => {
+        expect(uiTailwindResult).toContain(
+          '/* This file is auto generated by makePropertiesFile.js */'
+        )
+        expect(uiTailwindResult).toContain(
+          '/* stylelint-disable-next-line scss/at-rule-no-unknown */'
+        )
+        expect(uiTailwindResult).toContain('@theme {')
+      })
+
+      it('should have proper CSS formatting', () => {
+        expect(uiTailwindResult).toMatch(/}\s*$/)
+      })
+    })
+
+    describe('Variable Transformation', () => {
+      it('should convert --sb-* variables to --*-sb-* format', () => {
+        expect(sbankenTailwindResult).toContain(
+          '--color-sb-purple: #1c1b4e;'
+        )
+        expect(sbankenTailwindResult).toContain(
+          '--text-sb-small: 0.875rem;'
+        )
+        expect(sbankenTailwindResult).toContain(
+          '--leading-sb-medium: 2rem;'
+        )
+      })
+
+      it('should convert base variables to Tailwind namespaces', () => {
+        expect(uiTailwindResult).toContain('--text-small: 1rem;')
+        expect(uiTailwindResult).toContain('--leading-basis: 1.5rem;')
+        expect(uiTailwindResult).toContain('--breakpoint-small: 40em;')
+      })
+    })
+
+    describe('Theme-Specific Content', () => {
+      it('should contain theme-ui specific variables', () => {
+        expect(uiTailwindResult).toContain(
+          "--font-default: 'DNB', sans-serif;"
+        )
+        expect(uiTailwindResult).toContain('--color-black: #000;')
+      })
+
+      it('should contain theme-sbanken specific variables', () => {
+        expect(sbankenTailwindResult).toContain(
+          '--font-default: var(--font-sb-default);'
+        )
+        expect(sbankenTailwindResult).toContain(
+          '--color-sb-purple: #1c1b4e;'
+        )
+      })
+
+      it('should contain theme-eiendom specific variables', () => {
+        expect(eiendomTailwindResult).toContain(
+          "--font-default: 'DNB', sans-serif;"
+        )
+        expect(eiendomTailwindResult).toContain('--color-black: #000;')
+      })
+    })
+
+    describe('No --sb- Prefix Remaining', () => {
+      it('should not contain any --sb- variables in the generated CSS', () => {
+        expect(uiTailwindResult).not.toMatch(/--sb-[a-zA-Z-]+:/)
+        expect(sbankenTailwindResult).not.toMatch(/--sb-[a-zA-Z-]+:/)
+        expect(eiendomTailwindResult).not.toMatch(/--sb-[a-zA-Z-]+:/)
+      })
+
+      it('should not contain any var(--sb-*) references', () => {
+        expect(uiTailwindResult).not.toMatch(/var\(--sb-[a-zA-Z-]+\)/)
+        expect(sbankenTailwindResult).not.toMatch(/var\(--sb-[a-zA-Z-]+\)/)
+        expect(eiendomTailwindResult).not.toMatch(/var\(--sb-[a-zA-Z-]+\)/)
+      })
+    })
   })
 })

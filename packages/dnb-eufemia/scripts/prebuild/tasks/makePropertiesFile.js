@@ -10,6 +10,7 @@ import prettier from 'prettier'
 import packpath from 'packpath'
 import { log } from '../../lib'
 import { transformSass } from './transformUtils'
+import { convertVariablesToTailwindFormat } from './tailwindTransform'
 
 const ROOT_DIR = packpath.self()
 
@@ -66,7 +67,10 @@ const transformModulesContentCSS = async (content) => {
       return acc
     }, {})
 
-  const cssContent = Object.entries(variables)
+  // Convert --sb-* variables to Tailwind-compatible format
+  const convertedVariables = convertVariablesToTailwindFormat(variables)
+
+  const cssContent = Object.entries(convertedVariables)
     .map(([key, value]) => `  ${key}: ${value};`)
     .join('\n')
 
