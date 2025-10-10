@@ -307,7 +307,10 @@ function makeModuleConfig(
           const scssFiles = glob.sync(path.join(srcDir, '/**/*.scss'))
           const dtsFiles = glob.sync(path.join(srcDir, '/**/*.d.ts'))
           await Promise.all(
-            [...scssFiles, ...dtsFiles].map((it) =>
+            [...scssFiles, ...dtsFiles,
+            path.resolve(srcDir, 'icons/dnb/icons-meta.json'),
+            path.resolve(srcDir, 'icons/dnb/icons-svg.lock'),
+            ].map((it) =>
               cp(
                 it,
                 path.resolve(ctx.options.outDir, path.relative(srcDir, it))
