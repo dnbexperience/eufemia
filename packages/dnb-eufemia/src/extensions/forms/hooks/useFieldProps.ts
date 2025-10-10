@@ -318,9 +318,11 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     emptyValue: defaultValue ? undefined : emptyValue,
   })
   const externalValueDeps = tmpValue
-  const externalValue = transformers.current.transformIn(
+
+  // Ensure externalValue is strongly typed as Value (transformIn returns Value by contract)
+  const externalValue: Value = transformers.current.transformIn(
     tmpValue ?? defaultValueRef.current
-  )
+  ) as Value
 
   // Warn if a field uses a JSON Schema inside Form.Handler without an explicit ajvInstance prop.
   // Skip this warning for internally generated schemas (e.g. from Iterate.Array minItems/maxItems).
@@ -354,6 +356,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
   // Hold an internal copy of the input value in case the input component is used uncontrolled,
   // and to handle errors in Eufemia on components that does not take updated callback functions into account.
+  // Internal mutable value reference – explicitly typed to Value
   const valueRef = useRef<Value>(externalValue)
   const changedRef = useRef<boolean>()
   const hasFocusRef = useRef<boolean>()
@@ -584,7 +587,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   }, [hasDataContext, getAjvInstanceDataContext])
 
   const schemaValidatorRef = useRef<
-    ValidateFunction | ((value: unknown) => true | z.ZodError<any>)
+    ValidateFunction | ((value: unknown) => true | z.ZodError<unknown>)
   >()
   // Compile synchronously on first pass so initial validation uses the correct schema
   if (!schemaValidatorRef.current && finalSchema) {
@@ -1483,7 +1486,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
           if (hasZodSchema) {
             // Zod validation failed - validationResult is a ZodError
-            const zodError = validationResult as z.ZodError<any>
+            const zodError = validationResult as z.ZodError<unknown>
             error = zodErrorsToOneFormError(zodError.issues)
           } else {
             // AJV validation failed - validationResult is false
@@ -1854,6 +1857,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       const transformedValue =
         transformers.current.transformValue(newValue, currentValue) ??
         (emptyValue as unknown as Value)
+
       const contextValue = transformers.current.transformOut(
         transformedValue,
         transformers.current.provideAdditionalArgs(
@@ -2401,10 +2405,12 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         return // stop here, avoid infinite loop
       }
 
-      const valueIn = transformers.current.transformIn(valueToStore)
+      const valueIn: Value = transformers.current.transformIn(
+        valueToStore
+      ) as Value
       const transformedValue = transformers.current.transformOut(
         valueIn,
-        transformers.current.provideAdditionalArgs(valueIn as Value)
+        transformers.current.provideAdditionalArgs(valueIn)
       )
       if (transformedValue !== valueToStore) {
         // When the value got transformed, we want to update the internal value, and avoid an infinite loop
