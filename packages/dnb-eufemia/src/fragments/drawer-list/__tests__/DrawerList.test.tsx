@@ -340,6 +340,137 @@ describe('DrawerList component', () => {
     })
   })
 
+  it('keyboard navigation loops', async () => {
+    render(<DrawerList {...props} data={mockData} />)
+
+    expect(
+      document.querySelector('li.dnb-drawer-list__option--focus')
+    ).toBeInTheDocument()
+
+    expect(
+      document.querySelector('ul.dnb-drawer-list__options--focusring')
+    ).not.toBeInTheDocument()
+
+    await waitFor(() => {
+      expect(
+        Array.from(
+          document.querySelectorAll('li.dnb-drawer-list__option')[2]
+            .classList
+        )
+      ).toEqual([
+        'dnb-drawer-list__option',
+        'dnb-drawer-list__option--selected',
+        'dnb-drawer-list__option--focus',
+      ])
+    })
+
+    keydown(38) // up
+
+    await waitFor(() => {
+      expect(
+        Array.from(
+          document.querySelectorAll('li.dnb-drawer-list__option')[1]
+            .classList
+        )
+      ).toEqual([
+        'dnb-drawer-list__option',
+        'dnb-drawer-list__option--focus',
+      ])
+    })
+
+    keydown(38) // up
+
+    await waitFor(() => {
+      expect(
+        Array.from(
+          document.querySelectorAll('li.dnb-drawer-list__option')[0]
+            .classList
+        )
+      ).toEqual([
+        'first-of-type',
+        'first-item',
+        'dnb-drawer-list__option',
+        'dnb-drawer-list__option--focus',
+      ])
+    })
+
+    keydown(38) // up
+
+    await waitFor(() => {
+      expect(
+        Array.from(
+          document.querySelector('ul.dnb-drawer-list__options').classList
+        )
+      ).toEqual([
+        'dnb-drawer-list__options',
+        'dnb-drawer-list__options--focusring',
+      ])
+    })
+
+    keydown(38) // up
+
+    await waitFor(() => {
+      expect(
+        Array.from(
+          document.querySelectorAll('li.dnb-drawer-list__option')[6]
+            .classList
+        )
+      ).toEqual([
+        'last-of-type',
+        'last-item',
+        'closest-to-top',
+        'closest-to-bottom',
+        'dnb-drawer-list__option',
+        'dnb-drawer-list__option--focus',
+      ])
+    })
+
+    keydown(40) // down
+
+    await waitFor(() => {
+      expect(
+        Array.from(
+          document.querySelectorAll('li.dnb-drawer-list__option')[0]
+            .classList
+        )
+      ).toEqual([
+        'first-of-type',
+        'first-item',
+        'dnb-drawer-list__option',
+        'dnb-drawer-list__option--focus',
+      ])
+    })
+
+    keydown(38) // up
+
+    await waitFor(() => {
+      expect(
+        Array.from(
+          document.querySelector('ul.dnb-drawer-list__options').classList
+        )
+      ).toEqual([
+        'dnb-drawer-list__options',
+        'dnb-drawer-list__options--focusring',
+      ])
+    })
+
+    keydown(40) // down
+
+    await waitFor(() => {
+      expect(
+        Array.from(
+          document.querySelectorAll('li.dnb-drawer-list__option')[0]
+            .classList
+        )
+      ).toEqual([
+        'first-of-type',
+        'first-item',
+        'dnb-drawer-list__option',
+        'dnb-drawer-list__option--focus',
+      ])
+    })
+  })
+
   it('has valid on_select callback', async () => {
     const on_select = jest.fn()
 
