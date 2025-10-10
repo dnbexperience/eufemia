@@ -163,7 +163,7 @@
         "import/named": "off",
         "no-unused-vars": [
           "error",
-          { "args": "none", "ignoreRestSiblings": true }
+          { "args": "none", "ignoreRestSiblings": true, "varsIgnorePattern": "^_" }
         ],
         "react/prop-types": "off",
         "react/require-default-props": "off"
