@@ -163,40 +163,63 @@ const seaGreenColor = properties['--color-sea-green']
 const basisFontSize = properties['--font-size-basis']
 ```
 
-## Using Tailwind
+## Using Tailwind with Eufemia
 
-Tailwind can be used as a tooling layer alongside Eufemia, but avoid overlapping CSS and resets.
+Tailwind can act as a utility layer on top of (or beside) Eufemia. Keep Eufemia the single source of tokens, colors, spacing, typography, CSS reset etc.
 
-**Recommended approach:**
+Guidelines:
 
-- Use Eufemia as the source of truth for tokens and reset.
-- Do not include Tailwind's base/reset; only include its `theme` + `utilities`.
-- Map Tailwind tokens to Eufemia CSS variables; avoid self-referencing variables.
+- Keep Eufemia resets: use either `@dnb/eufemia/style` (global) or the scoped combo `basis + themes`.
+- Disable Tailwind's `preflight` (its reset) to avoid collisions.
+- Let Tailwind generate utilities and its theme layer.
 
-NB: import only Tailwind theme and utilities (Tailwind v4):
+You can import the pre-generated `properties-tailwind.css` files that contain all Eufemia CSS custom properties in Tailwind-compatible format:
 
 ```css
-@layer theme, utilities;
+/* Import Eufemia properties in Tailwind format */
+@import '@dnb/eufemia/style/themes/theme-ui/properties-tailwind.css';
 
+/* Import Tailwind layers */
+@layer theme, utilities;
 @import 'tailwindcss/theme.css' layer(theme);
 @import 'tailwindcss/utilities.css' layer(utilities);
 ```
 
-Example: bridge Tailwind tokens to Eufemia variables using `@theme`:
+### Tailwind-Compatible CSS Variables
 
-```css
-/* index.css */
-@theme {
-  /* spacing */
-  --spacing-sm: var(--spacing-small);
-  --spacing-md: var(--spacing-medium);
-  --spacing-lg: var(--spacing-large);
+The `properties-tailwind.css` files contain Eufemia's CSS custom properties transformed to be compatible with Tailwind CSS. This transformation makes Eufemia properties available as Tailwind theme variables.
 
-  /* typography */
-  --font-family-sans: var(--font-family-default);
-  --font-family-mono: var(--font-family-monospace);
-}
-```
+#### Available Namespaces
+
+The following CSS variable namespaces are available in Tailwind-compatible format:
+
+- **`--color-*`** - Color variables (e.g., `--color-black`, `--color-sea-green`, `--color-sky-blue`)
+- **`--font-*`** - Font family variables (e.g., `--font-default`, `--font-heading`) - converted from `--font-family-*`
+- **`--font-weight-*`** - Font weight variables (e.g., `--font-weight-default`, `--font-weight-medium`)
+- **`--text-*`** - Font size variables (e.g., `--text-small`, `--text-large`) - converted from `--font-size-*`
+- **`--leading-*`** - Line height variables (e.g., `--leading-small`, `--leading-medium`) - converted from `--line-height-*`
+- **`--spacing-*`** - Spacing variables (e.g., `--spacing-small`, `--spacing-large`)
+- **`--shadow-*`** - Box shadow variables (e.g., `--shadow-default`, `--shadow-sharp`)
+- **`--ease-*`** - Transition timing function variables (e.g., `--ease-default`) - converted from `--easing-*`
+- **`--breakpoint-*`** - Responsive breakpoint variables (e.g., `--breakpoint-small`, `--breakpoint-large`) - converted from `--layout-*`
+
+#### Brand-Specific Variables
+
+For brand-specific properties, variables are transformed to include the brand identifier after the namespace.
+
+For Sbanken, the following namespaces are available:
+
+- **`--color-sb-*`** - (e.g., `--color-sb-purple`, `--color-sb-green`)
+- **`--font-sb-*`** - (e.g., `--font-sb-default`, `--font-sb-heading`)
+- **`--font-weight-sb-*`** - (e.g., `--font-weight-sb-default`, `--font-weight-sb-medium`)
+- **`--text-sb-*`** - (e.g., `--text-sb-small`, `--text-sb-large`)
+- **`--leading-sb-*`** - (e.g., `--leading-sb-small`, `--leading-sb-medium`)
+- **`--spacing-sb-*`** - (e.g., `--spacing-sb-small`, `--spacing-sb-large`)
+- **`--shadow-sb-*`** - (e.g., `--shadow-sb-small`, `--shadow-sb-medium`)
+- **`--ease-sb-*`** - (e.g., `--ease-sb-default`)
+- **`--breakpoint-sb-*`** - (e.g., `--breakpoint-sb-small`, `--breakpoint-sb-large`)
+
+This makes Eufemia properties directly usable with Tailwind's utility classes while maintaining brand-specific variants.
 
 ## Known styling and CSS issues
 
