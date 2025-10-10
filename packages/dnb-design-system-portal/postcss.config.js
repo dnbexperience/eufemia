@@ -1,7 +1,7 @@
 const {
   enablePortalStyleScope,
   enableBuildStyleScope,
-} = require('@dnb/eufemia/src/plugins/postcss-isolated-style-scope/config/index.js')
+} = require('@dnb/eufemia/src/plugins/postcss-isolated-style-scope/config')
 const postcssIsolatePlugin = require('@dnb/eufemia/src/plugins/postcss-isolated-style-scope')
 const {
   getStyleScopeHash,
