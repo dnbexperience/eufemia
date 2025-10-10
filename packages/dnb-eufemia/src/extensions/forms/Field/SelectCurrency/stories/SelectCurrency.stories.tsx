@@ -24,7 +24,7 @@ export function SelectCurrency() {
   )
 }
 
-const transformOut = (internal: string, currency: CurrencyType) => {
+const transformOut = (internal: CurrencyType, currency: CurrencyType) => {
   if (internal) {
     return `${currency.name} (${internal})`
   }
