@@ -88,7 +88,6 @@ function buildExports(buildDir) {
     ...formatSpecificExports('cjs'),
   }
   const files = new Set(fs.readdirSync(buildDir, { recursive: true }))
-  const uniq = new Set()
   for (let file of files) {
     const firstSegment = file.split(path.sep)[0]
     if (
@@ -98,7 +97,6 @@ function buildExports(buildDir) {
     ) {
       continue
     }
-    uniq.add(firstSegment)
     let format
     switch (file.split(path.sep)[0]) {
       case 'cjs':
