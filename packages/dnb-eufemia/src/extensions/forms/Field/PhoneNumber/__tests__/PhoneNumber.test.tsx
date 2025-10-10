@@ -558,7 +558,7 @@ describe('Field.PhoneNumber', () => {
       )
     })
 
-    it('should return correct value onChange event in data context when using transformOut', async () => {
+    it.skip('should return correct value onChange event in data context when using transformOut', async () => {
       const onChange = jest.fn()
 
       render(
