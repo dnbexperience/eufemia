@@ -14,7 +14,7 @@ import P from '../../elements/P'
 import homeIcon from '../../icons/home'
 
 // Shared
-import { useMediaQuery } from '../../shared'
+import { useMediaQuery, useTheme } from '../../shared'
 import Context from '../../shared/Context'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 import {
@@ -77,7 +77,11 @@ const defaultProps = {
   skeleton: null,
 }
 
-const determineIcon = (variant: string, isSmallScreen: boolean) => {
+const determineIcon = (
+  variant: string,
+  isSmallScreen: boolean,
+  isSbanken: boolean
+) => {
   switch (variant) {
     case 'home':
       return 'home-icon'
@@ -85,11 +89,12 @@ const determineIcon = (variant: string, isSmallScreen: boolean) => {
     case 'collapse':
       return 'chevron_left'
     default:
-      return isSmallScreen ? 'chevron_left' : 'chevron_right'
+      return isSbanken && isSmallScreen ? 'chevron_left' : 'chevron_right'
   }
 }
 
 const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
+  const isSbanken = useTheme()?.isSbanken
   // Every component should have a context
   const context = React.useContext(Context)
   const {
@@ -125,7 +130,7 @@ const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
 
   useLayoutEffect(() => {
     if (!icon) {
-      setCurrentIcon(determineIcon(variant, isSmallScreen))
+      setCurrentIcon(determineIcon(variant, isSmallScreen, isSbanken))
     } else {
       if (variant !== 'home') {
         setCurrentIcon(icon ?? 'chevron_left')
