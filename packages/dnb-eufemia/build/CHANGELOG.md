@@ -3,6 +3,32 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.85.0](https://github.com/dnbexperience/eufemia/compare/v10.84.0...v10.85.0) (2025-10-10)
+
+
+### :memo: Documentation
+
+* **DateFormat:** document `formatDate` helper function ([#5568](https://github.com/dnbexperience/eufemia/issues/5568)) ([fb4f44c](https://github.com/dnbexperience/eufemia/commit/fb4f44c00ddea2da10530d666decb893aed34fca))
+* **Forms:** add import statement to info docs ([#5562](https://github.com/dnbexperience/eufemia/issues/5562)) ([4a6adb4](https://github.com/dnbexperience/eufemia/commit/4a6adb44f647519e445c89335cb8486d64d49ef5))
+
+
+### :sparkles: Features
+
+* **Form.Isolation:** inherit schema from Form.Handler ([#5567](https://github.com/dnbexperience/eufemia/issues/5567)) ([d83184d](https://github.com/dnbexperience/eufemia/commit/d83184d070b9622ecfd998e9394bc6210e9da2f3))
+* **Forms:** enhance typing for complex additional arguments in `transformIn` and `transformOut` ([#5587](https://github.com/dnbexperience/eufemia/issues/5587)) ([ec7e572](https://github.com/dnbexperience/eufemia/commit/ec7e57250d216162d45b4570c119968e218e2ed6)), closes [#5584](https://github.com/dnbexperience/eufemia/issues/5584)
+* **InputMasked:** rewrite to TypeScript (part 2 of 2) ([#5581](https://github.com/dnbexperience/eufemia/issues/5581)) ([25a7112](https://github.com/dnbexperience/eufemia/commit/25a7112ed4f1b8dbffea980c5395e9de59ef4a2a)), closes [#5520](https://github.com/dnbexperience/eufemia/issues/5520)
+* **Iterate.PushContainer:** inherit schema from Form.Handler ([#5570](https://github.com/dnbexperience/eufemia/issues/5570)) ([79bba2d](https://github.com/dnbexperience/eufemia/commit/79bba2db683f27d437ea2658110c6d85dd5fe36d)), closes [#5567](https://github.com/dnbexperience/eufemia/issues/5567)
+
+
+### :bug: Bug Fixes
+
+* **ChildrenWithAge:** add translations for locale `da-DK` & `sv-SE` ([#5563](https://github.com/dnbexperience/eufemia/issues/5563)) ([718be47](https://github.com/dnbexperience/eufemia/commit/718be47fad2157c21cbe0e5262a215bf5da1200f))
+* **Field.Email:** crashes when validating long values ([#5582](https://github.com/dnbexperience/eufemia/issues/5582)) ([092f155](https://github.com/dnbexperience/eufemia/commit/092f15591450ce32c3e84537470b5acb630b93de)), closes [/github.com/dnbexperience/eufemia/blob/e656eb518d03ab06d4534ed46358abd167aca96b/packages/dnb-eufemia/src/extensions/forms/Field/Email/Email.tsx#L23-L34](https://github.com/dnbexperience//github.com/dnbexperience/eufemia/blob/e656eb518d03ab06d4534ed46358abd167aca96b/packages/dnb-eufemia/src/extensions/forms/Field/Email/Email.tsx/issues/L23-L34)
+* **Field.PhoneNumber:** ensure support for `transformIn` and `transformOut` ([#5588](https://github.com/dnbexperience/eufemia/issues/5588)) ([95aa9c7](https://github.com/dnbexperience/eufemia/commit/95aa9c7192c8822aad62c92e7631ed0d938e0cae)), closes [#5584](https://github.com/dnbexperience/eufemia/issues/5584) [#5587](https://github.com/dnbexperience/eufemia/issues/5587)
+* **Forms:** add Zod schema translations support ([#5572](https://github.com/dnbexperience/eufemia/issues/5572)) ([8b3aa2e](https://github.com/dnbexperience/eufemia/commit/8b3aa2e722421e5196bbaac40c6fbfe7615d4e75))
+* **Forms:** enhance schema prioritization when using Zod schema ([#5566](https://github.com/dnbexperience/eufemia/issues/5566)) ([43d82a0](https://github.com/dnbexperience/eufemia/commit/43d82a070d7565030a763d07697866aaf4b4587a))
+* **Upload:** call `setInternalFiles` on `setFiles` ([#5571](https://github.com/dnbexperience/eufemia/issues/5571)) ([ae170ca](https://github.com/dnbexperience/eufemia/commit/ae170caac0bc6c31b940b416a7b36a3f80b47290)), closes [/github.com/dnbexperience/eufemia/blob/d83184d070b9622ecfd998e9394bc6210e9da2f3/packages/dnb-eufemia/src/components/upload/UploadStatus.tsx#L11](https://github.com/dnbexperience//github.com/dnbexperience/eufemia/blob/d83184d070b9622ecfd998e9394bc6210e9da2f3/packages/dnb-eufemia/src/components/upload/UploadStatus.tsx/issues/L11)
+
 ## [10.84.0](https://github.com/dnbexperience/eufemia/compare/v10.83.0...v10.84.0) (2025-10-02)
 
 
