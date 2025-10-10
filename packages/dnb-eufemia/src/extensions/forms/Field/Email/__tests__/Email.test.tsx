@@ -190,6 +190,14 @@ describe('Field.Email', () => {
       'user@[IPv6:2001:db8:abcd:1234::]',
       'service@[IPv6:2001:0db8:85a3:0000:0000:8a2e:0370:7334]',
       'test@[IPv6:2001:db8:1234::abcd]',
+
+      // Long values
+      'hehehehehehehehehehehehehehehehehehehehehehehehehehehehehehehehehehehehehehe@hotmail.com',
+      'e@longlonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglongdomain.com',
+
+      // Punycode
+      'user@xn--caf-dma.com', // Punycode for café.com
+      'user@xn--p1ai', // Punycode for .рф
     ]
 
     const invalidNames = [
@@ -203,6 +211,14 @@ describe('Field.Email', () => {
       'user@domain..com', // Consecutive dots in the domain
       'user@domain.c', // TLD too short
       'user@-domain.com', // Hyphen at the start of the domain
+
+      // Long values
+      'hehehehehehehehehehehehehehehehehehehehehehehehehehehehehehehehehehehehehehe',
+      '@longlonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglongdomain.com',
+
+      // Unicode - the regex we have does not take such addresses into account as of now
+      'user@café.com', // raw Unicode not supported by ASCII regex
+      'usér@exämple.com',
 
       // The regex we have does not take such invalid addresses into account
       // 'user@[256.100.50.25]', // Invalid IPv4, 256 is out of range

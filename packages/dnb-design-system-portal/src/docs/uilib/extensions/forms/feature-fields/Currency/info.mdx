@@ -2,20 +2,22 @@
 showTabs: true
 ---
 
+## Import
+
+```tsx
+import { Field } from '@dnb/eufemia/extensions/forms'
+render(<Field.Currency />)
+```
+
 ## Description
 
 `Field.Currency` is a wrapper component for the [input of numbers](/uilib/extensions/forms/base-fields/Number), with user experience tailored for currency values.
 
-There is a corresponding [Value.Currency](/uilib/extensions/forms/Value/Currency) component.
+It supports the HTML [autocomplete](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete) attribute. Consider setting `autoComplete="transaction-amount"` if used to set the amount of a transaction, in a payment form.
 
-```jsx
-import { Field } from '@dnb/eufemia/extensions/forms'
-render(<Field.Currency />)
-```
+There is a corresponding [Value.Currency](/uilib/extensions/forms/Value/Currency) component.
 
 ## Relevant links
 
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Field/Currency)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/extensions/forms/feature-fields/Currency)
-
-It supports the HTML [autocomplete](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete) attribute. Consider setting `autoComplete="transaction-amount"` if used to set the amount of a transaction, in a payment form.

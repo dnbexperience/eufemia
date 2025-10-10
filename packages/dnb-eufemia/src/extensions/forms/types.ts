@@ -377,6 +377,8 @@ export interface UseFieldProps<
   Value = unknown,
   EmptyValue = undefined | unknown,
   ErrorMessages extends DefaultErrorMessages = DefaultErrorMessages,
+  ExtraValue extends
+    ProvideAdditionalEventArgs = ProvideAdditionalEventArgs,
 > extends DataValueReadWriteComponentProps<Value, EmptyValue>,
     AriaAttributes {
   // - HTML Element Attributes
@@ -467,13 +469,16 @@ export interface UseFieldProps<
    * Transforms the `value` before it's displayed in the field (e.g. input).
    * Public API. Should not be used internally.
    */
-  transformIn?: (external: unknown) => Value
+  transformIn?: (external: unknown) => Value | ExtraValue
 
   /**
    * Transforms the value before it gets forwarded to the form data object or returned as the onChange value parameter.
    * Public API. Should not be used internally.
    */
-  transformOut?: (internal: Value, additionalArgs?: unknown) => unknown
+  transformOut?: (
+    internal: Value | ExtraValue,
+    additionalArgs?: unknown
+  ) => unknown
 
   /**
    * Transforms the value given by `handleChange` after `fromInput` and before `updateValue` and `toEvent`. The second parameter returns the current value.
@@ -521,7 +526,10 @@ export type FieldProps<
   Value = unknown,
   EmptyValue = undefined | unknown,
   ErrorMessages extends DefaultErrorMessages = DefaultErrorMessages,
-> = UseFieldProps<Value, EmptyValue, ErrorMessages> & SharedFieldBlockProps
+  ExtraValue extends
+    ProvideAdditionalEventArgs = ProvideAdditionalEventArgs,
+> = UseFieldProps<Value, EmptyValue, ErrorMessages, ExtraValue> &
+  SharedFieldBlockProps
 
 export type FieldPropsGeneric<
   Value = unknown,
@@ -540,7 +548,7 @@ export type FieldPropsWithExtraValue<
   EmptyValue = undefined | unknown,
   ErrorMessages extends DefaultErrorMessages = DefaultErrorMessages,
 > = Omit<
-  FieldProps<Value, EmptyValue, ErrorMessages>,
+  FieldProps<Value, EmptyValue, ErrorMessages, ExtraValue>,
   keyof DataValueWriteProps
 > &
   DataValueWriteProps<Value, EmptyValue, ExtraValue>

@@ -92,7 +92,7 @@ export const DataValueWritePropsProperties: PropertiesTableProps = {
     status: 'optional',
   },
   transformOut: {
-    doc: 'Transforms the value before it gets forwarded to the form data object (context) or returned as the `onChange` value parameter. The first parameter is the internal value. Some fields to support a second parameter, like the SelectCountry, where the country object is given.',
+    doc: 'Transforms the value before it gets forwarded to the form data object (context) or returned as the `onChange` value parameter. The first parameter is the internal value. Some fields do support a second parameter, like the SelectCountry, where the country object is given.',
     type: 'function',
     status: 'optional',
   },

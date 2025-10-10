@@ -29,6 +29,21 @@ describe('Form.useTranslation', () => {
     expect(result.current).toEqual(nb)
   })
 
+  it('should default to nb-NO if a non-existing locale is specified in context', () => {
+    const { result } = renderHook(useTranslation, {
+      wrapper: ({ children }) => (
+        <Provider locale="non-EXISTING">{children}</Provider>
+      ),
+    })
+
+    const nb = {}
+    extendDeep(nb, forms_nbNO['nb-NO'], global_nbNO['nb-NO'])
+    nb['formatMessage'] = expect.any(Function)
+    nb['renderMessage'] = expect.any(Function)
+
+    expect(result.current).toEqual(nb)
+  })
+
   it('should inherit locale from shared context', () => {
     const { result: resultGB } = renderHook(useTranslation, {
       wrapper: ({ children }) => (

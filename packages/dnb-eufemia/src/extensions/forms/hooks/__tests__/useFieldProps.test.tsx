@@ -27,8 +27,11 @@ import Field, {
   SubmitState,
   UseFieldProps,
   Wizard,
+  Ajv,
 } from '../../Forms'
-import { Ajv } from '../../Forms'
+import SectionContext, {
+  SectionContextState,
+} from '../../Form/Section/SectionContext'
 import { spyOnEufemiaWarn, wait } from '../../../../core/jest/jestSetup'
 import { useSharedState } from '../../../../shared/helpers/useSharedState'
 
@@ -7916,5 +7919,320 @@ describe('AJV schema warnings', () => {
     )
 
     log.mockRestore()
+  })
+})
+
+describe('Zod schema support', () => {
+  // Mock Zod schema for testing
+  const mockZodSchema = {
+    safeParse: jest.fn(),
+    parse: jest.fn(),
+  }
+
+  beforeEach(() => {
+    jest.clearAllMocks()
+    // Mock successful Zod validation by default
+    mockZodSchema.safeParse.mockReturnValue({ success: true, data: {} })
+  })
+
+  it('validates against context JSON Schema (regression test)', async () => {
+    const identifier = '/nested/testField'
+    const errorPrioritization: SectionContextState['errorPrioritization'] =
+      ['contextSchema', 'fieldSchema']
+
+    const jsonSchema = {
+      type: 'object',
+      properties: {
+        nested: {
+          type: 'object',
+          properties: {
+            testField: {
+              type: 'string',
+              pattern: '^(valid)$',
+            },
+          },
+          required: ['testField'],
+        },
+      },
+    }
+
+    const wrapper = ({ children }) => (
+      <SectionContext.Provider value={{ path: '', errorPrioritization }}>
+        <Provider
+          schema={jsonSchema}
+          ajvInstance={new Ajv({ allErrors: true })}
+        >
+          {children}
+        </Provider>
+      </SectionContext.Provider>
+    )
+
+    const { result } = renderHook(
+      () =>
+        useFieldProps({
+          path: identifier,
+          value: '',
+        }),
+      { wrapper }
+    )
+
+    // Failing value -> expect error from context JSON Schema
+    act(() => {
+      result.current.handleChange('invalid') // does not match ^(valid)$
+    })
+    await waitFor(() => {
+      expect(result.current.error).toBeInstanceOf(Error)
+    })
+
+    // Passing value -> error cleared
+    act(() => {
+      result.current.handleChange('valid')
+    })
+    await waitFor(() => {
+      expect(result.current.error).toBeUndefined()
+    })
+  })
+
+  it('should handle undefined schema gracefully', () => {
+    const identifier = '/testField'
+    const errorPrioritization: SectionContextState['errorPrioritization'] =
+      ['contextSchema']
+
+    const wrapper = ({ children }) => (
+      <SectionContext.Provider value={{ path: '', errorPrioritization }}>
+        <Provider schema={undefined}>{children}</Provider>
+      </SectionContext.Provider>
+    )
+
+    const { result } = renderHook(
+      () => useFieldProps({ path: identifier }),
+      {
+        wrapper,
+      }
+    )
+
+    // Should handle undefined schema gracefully
+    expect(result.current).toBeDefined()
+    expect(result.current.path).toBe(identifier)
+  })
+
+  it('should work with mixed schema types in different contexts', () => {
+    const identifier = '/testField'
+
+    // Test with Zod schema
+    const zodWrapper = ({ children }) => (
+      <SectionContext.Provider
+        value={{
+          path: '',
+          errorPrioritization: ['contextSchema', 'fieldSchema'],
+        }}
+      >
+        <Provider schema={mockZodSchema}>{children}</Provider>
+      </SectionContext.Provider>
+    )
+
+    const { result: zodResult } = renderHook(
+      () =>
+        useFieldProps({
+          path: identifier,
+          required: true,
+        }),
+      { wrapper: zodWrapper }
+    )
+
+    expect(zodResult.current.required).toBe(true)
+
+    // Test with JSON Schema
+    const jsonSchema = {
+      type: 'object',
+      properties: {
+        testField: {
+          type: 'string',
+        },
+      },
+    }
+
+    const jsonWrapper = ({ children }) => (
+      <SectionContext.Provider
+        value={{
+          path: '',
+          errorPrioritization: ['contextSchema', 'fieldSchema'],
+        }}
+      >
+        <Provider
+          schema={jsonSchema}
+          ajvInstance={new Ajv({ allErrors: true })}
+        >
+          {children}
+        </Provider>
+      </SectionContext.Provider>
+    )
+
+    const { result: jsonResult } = renderHook(
+      () =>
+        useFieldProps({
+          path: identifier,
+        }),
+      { wrapper: jsonWrapper }
+    )
+
+    expect(jsonResult.current).toBeDefined()
+  })
+
+  it('surfaces context Zod validation errors after change', async () => {
+    const identifier = '/testField'
+
+    // Mock Zod validation failure for any value
+    mockZodSchema.safeParse.mockReturnValue({
+      success: false,
+      error: {
+        issues: [
+          {
+            message: 'Invalid value',
+            code: 'custom',
+            path: ['testField'],
+          },
+        ],
+      },
+    })
+
+    const wrapper = ({ children }) => (
+      <Provider schema={mockZodSchema}>{children}</Provider>
+    )
+
+    const { result } = renderHook(
+      () =>
+        useFieldProps({
+          path: identifier,
+          value: '',
+        }),
+      { wrapper }
+    )
+
+    // Trigger change without focus to reveal errors
+    act(() => {
+      result.current.handleChange('invalid')
+    })
+
+    await waitFor(() => {
+      expect(result.current.error).toBeInstanceOf(Error)
+    })
+  })
+
+  it('should not crash when using JSON Pointer logic with Zod schema (tests the fix)', () => {
+    const identifier = '/testField'
+    const errorPrioritization: SectionContextState['errorPrioritization'] =
+      ['contextSchema', 'fieldSchema']
+
+    const wrapper = ({ children }) => (
+      <SectionContext.Provider value={{ path: '', errorPrioritization }}>
+        <Provider
+          schema={mockZodSchema}
+          ajvInstance={new Ajv({ allErrors: true })}
+        >
+          {children}
+        </Provider>
+      </SectionContext.Provider>
+    )
+
+    // This test specifically verifies that the JSON Pointer logic doesn't crash
+    // when used with a Zod schema. Without the fix, this would try to use
+    // pointer.has() on a Zod schema object, which would fail.
+    const { result } = renderHook(
+      () => useFieldProps({ path: identifier }),
+      { wrapper }
+    )
+
+    // The hook should work without throwing errors
+    expect(result.current).toBeDefined()
+    expect(result.current.path).toBe(identifier)
+  })
+
+  it('prioritizes context Zod schema over failing field schema when errorPrioritization starts with contextSchema', async () => {
+    const errorPrioritization: SectionContextState['errorPrioritization'] =
+      ['contextSchema', 'fieldSchema']
+
+    // Field-level JSON Schema that fails for value 'invalid'
+    const fieldSchema = {
+      type: 'string',
+      pattern: '^(valid)$',
+    }
+
+    // Context Zod schema succeeds (mocked in beforeEach)
+    const wrapper = ({ children }) => (
+      <SectionContext.Provider value={{ path: '', errorPrioritization }}>
+        <Provider
+          schema={mockZodSchema}
+          ajvInstance={new Ajv({ allErrors: true })}
+        >
+          {children}
+        </Provider>
+      </SectionContext.Provider>
+    )
+
+    const { result } = renderHook(
+      () =>
+        useFieldProps({
+          path: '/field',
+          value: 'invalid', // fails field schema
+          schema: fieldSchema, // local field schema
+          validateInitially: true,
+        }),
+      { wrapper }
+    )
+
+    // Drive validation by changing the value (ensures local validator would run if not prioritized)
+    act(() => {
+      result.current.handleChange('invalid2')
+    })
+
+    // Since context schema is prioritized, the local field schema must not run -> no error
+    await waitFor(() => {
+      expect(result.current.error).toBeUndefined()
+    })
+  })
+
+  it('prioritizes field schema when errorPrioritization starts with fieldSchema (with context Zod schema)', async () => {
+    const errorPrioritization: SectionContextState['errorPrioritization'] =
+      ['fieldSchema', 'contextSchema']
+
+    // Field-level JSON Schema that fails for value 'invalid'
+    const fieldSchema = {
+      type: 'string',
+      pattern: '^(valid)$',
+    }
+
+    // Context Zod schema succeeds (mocked in beforeEach)
+    const wrapper = ({ children }) => (
+      <SectionContext.Provider value={{ path: '', errorPrioritization }}>
+        <Provider
+          schema={mockZodSchema}
+          ajvInstance={new Ajv({ allErrors: true })}
+        >
+          {children}
+        </Provider>
+      </SectionContext.Provider>
+    )
+
+    const { result } = renderHook(
+      () =>
+        useFieldProps({
+          path: '/field',
+          value: 'invalid', // fails field schema
+          schema: fieldSchema, // local field schema
+          validateInitially: true,
+        }),
+      { wrapper }
+    )
+
+    // Drive validation to ensure the local validator runs
+    act(() => {
+      result.current.handleChange('invalid2')
+    })
+
+    // Since field schema is prioritized, the local field schema runs -> error present
+    await waitFor(() => {
+      expect(result.current.error).toBeInstanceOf(Error)
+    })
   })
 })

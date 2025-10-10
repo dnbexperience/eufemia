@@ -5,7 +5,17 @@
 
 import React, { useEffect } from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
-import { Upload } from '../..'
+import { Upload, Dialog, Button } from '../..'
+
+function createMockFile(name: string, size: number, type: string) {
+  const file = new File([], name, { type })
+  Object.defineProperty(file, 'size', {
+    get() {
+      return size
+    },
+  })
+  return file
+}
 
 export default {
   title: 'Eufemia/Components/Upload',
@@ -172,6 +182,52 @@ export const UploadEdgeCases = () => {
     <Wrapper>
       <Box>
         <Upload id="file-list" acceptedFileTypes={['pdf']} />
+      </Box>
+    </Wrapper>
+  )
+}
+
+export const UploadInAModal = () => {
+  return (
+    <Wrapper>
+      <Box>
+        <Dialog>
+          <Upload
+            id="upload-files-x"
+            acceptedFileTypes={['pdf']}
+            filesAmountLimit={5}
+          />
+        </Dialog>
+      </Box>
+    </Wrapper>
+  )
+}
+
+export const UploadReset = () => {
+  const { setFiles } = Upload.useUpload('reset-files')
+
+  useEffect(() => {
+    setFiles([
+      { file: createMockFile('fileName1.png', 123, 'image/png') },
+      { file: createMockFile('fileName2.png', 123, 'image/png') },
+    ])
+  }, [setFiles])
+
+  return (
+    <Wrapper>
+      <Box>
+        <Button
+          onClick={() => {
+            setFiles([])
+          }}
+        >
+          Clear upload
+        </Button>
+        <Upload
+          id="reset-files"
+          acceptedFileTypes={['pdf']}
+          filesAmountLimit={1}
+        />
       </Box>
     </Wrapper>
   )

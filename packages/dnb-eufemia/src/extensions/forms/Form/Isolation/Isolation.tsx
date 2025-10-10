@@ -8,6 +8,8 @@ import React, {
 } from 'react'
 import useMountEffect from '../../../../shared/helpers/useMountEffect'
 import pointer, { JsonObject } from '../../utils/json-pointer'
+import { isZodSchema } from '../../utils/zod'
+import { extractZodSubSchema } from './extractZodSubSchema'
 import { extendDeep } from '../../../../shared/component-helper'
 import { isAsync } from '../../../../shared/helpers/isAsync'
 import useDataValue from '../../hooks/useDataValue'
@@ -286,6 +288,29 @@ function IsolationProvider<Data extends JsonObject>(
     onCommit,
     onClear,
     isolate: true,
+
+    // Inherit schema and ajvInstance from parent context
+    schema: props?.schema || outerContext?.props?.schema,
+    ajvInstance: props?.ajvInstance || outerContext?.props?.ajvInstance,
+  }
+
+  if (
+    props?.path &&
+    props?.path !== '/' &&
+    !props?.schema &&
+    outerContext?.props?.schema
+  ) {
+    if (isZodSchema(outerContext.props.schema)) {
+      providerProps.schema = extractZodSubSchema(
+        outerContext.props.schema,
+        props.path
+      )
+    } else {
+      providerProps.schema = {
+        $defs: { root: outerContext.props.schema },
+        $ref: `#/$defs/root${props.path.split('/').join('/properties/')}`,
+      }
+    }
   }
 
   return (

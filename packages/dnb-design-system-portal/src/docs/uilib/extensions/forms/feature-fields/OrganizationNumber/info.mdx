@@ -2,6 +2,13 @@
 showTabs: true
 ---
 
+## Import
+
+```tsx
+import { Field } from '@dnb/eufemia/extensions/forms'
+render(<Field.OrganizationNumber />)
+```
+
 ## Description
 
 `Field.OrganizationNumber` is a wrapper component for the [input of strings](/uilib/extensions/forms/base-fields/String), with user experience tailored for organization number values.
@@ -11,11 +18,6 @@ It validates input for Norwegian organization numbers as described by [Brønnøy
 The validation happens on blur, internally using the `onBlurValidator` [property](/uilib/extensions/forms/feature-fields/OrganizationNumber/properties/#field-specific-properties).
 
 There is a corresponding [Value.OrganizationNumber](/uilib/extensions/forms/Value/OrganizationNumber) component.
-
-```jsx
-import { Field } from '@dnb/eufemia/extensions/forms'
-render(<Field.OrganizationNumber />)
-```
 
 ## Relevant links
 

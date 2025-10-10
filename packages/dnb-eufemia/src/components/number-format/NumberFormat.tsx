@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 /**
  * Web NumberFormat Component
  *
@@ -34,6 +36,80 @@ import {
   showSelectionNotice,
   runIOSSelectionFix,
 } from './NumberUtils'
+
+// TypeScript types
+export type NumberFormatValue = number | string
+export type NumberFormatPrefix =
+  | React.ReactNode
+  | ((...args: any[]) => any)
+export type NumberFormatSuffix =
+  | React.ReactNode
+  | ((...args: any[]) => any)
+export type NumberFormatCurrency = string | boolean
+export type NumberFormatCurrencyPosition = 'auto' | 'before' | 'after'
+export type NumberFormatCompact = 'short' | 'long' | boolean
+export type NumberFormatLink = 'tel' | 'sms'
+export type NumberFormatOptions = Record<string, unknown> | string
+export type NumberFormatDecimals = number | string
+export type NumberFormatElement = string
+export type NumberFormatTooltip =
+  | string
+  | ((...args: any[]) => any)
+  | React.ReactNode
+export type NumberFormatChildren =
+  | React.ReactNode
+  | ((...args: any[]) => any)
+export type NumberFormatProps = {
+  id?: string
+  value?: NumberFormatValue
+  locale?: string
+  prefix?: NumberFormatPrefix
+  suffix?: NumberFormatSuffix
+  currency?: NumberFormatCurrency
+  currency_display?:
+    | 'code'
+    | 'name'
+    | 'symbol'
+    | 'narrowSymbol'
+    | ''
+    | false
+  currency_position?: NumberFormatCurrencyPosition
+  compact?: NumberFormatCompact
+  ban?: boolean
+  nin?: boolean
+  phone?: boolean
+  org?: boolean
+  percent?: boolean
+  link?: NumberFormatLink
+  monospace?: boolean
+  options?: NumberFormatOptions
+  decimals?: NumberFormatDecimals
+  selectall?: boolean
+  always_selectall?: boolean
+  copy_selection?: boolean
+  clean_copy_value?: boolean
+  omit_rounding?: boolean
+  rounding?: 'omit' | 'half-even' | 'half-up'
+  clean?: boolean
+  srLabel?: React.ReactNode
+  element?: NumberFormatElement
+  tooltip?: NumberFormatTooltip
+  skeleton?: string | boolean
+  className?: string
+  children?: NumberFormatChildren
+  // Additional props used in stories
+  style?: React.CSSProperties
+  lang?: string
+  // Spacing props
+  space?: any
+  top?: any
+  right?: any
+  bottom?: any
+  left?: any
+}
+export type NumberFormatAllProps = NumberFormatProps &
+  Omit<React.HTMLProps<HTMLElement>, 'prefix' | 'label' | 'placeholder'> &
+  any
 
 export default class NumberFormat extends React.PureComponent {
   static contextType = Context
@@ -104,6 +180,10 @@ export default class NumberFormat extends React.PureComponent {
       PropTypes.node,
     ]),
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+
+    // Additional props used in stories
+    style: PropTypes.object,
+    lang: PropTypes.string,
 
     ...spacingPropTypes,
 
@@ -349,12 +429,9 @@ export default class NumberFormat extends React.PureComponent {
       }
     }
 
-    let {
-      cleanedValue,
-      number: display,
-      aria,
-      locale: lang,
-    } = format(value, formatOptions)
+    const result = format(value, formatOptions)
+    const { cleanedValue, locale: lang } = result
+    let { aria, number: display } = result
     this.cleanedValue = cleanedValue
 
     if (prefix) {

@@ -70,8 +70,82 @@ const enGB = {
   },
 } satisfies typeof nbNO
 
+const svSE = {
+  hasChildren: {
+    title: 'Antal barn',
+    fieldLabel: 'Har du barn under 18 år?',
+    required: 'Du måste ange om du har barn under 18 år eller inte.',
+  },
+  countChildren: {
+    fieldLabel: 'Antal barn under 18 år',
+    required: 'Du måste ange antal barn.',
+    suffix: 'barn',
+  },
+  childrenAge: {
+    fieldLabel: 'Ålder på barn nr. {itemNo}',
+    required: 'Du måste ange barnets ålder.',
+    suffix: 'år',
+  },
+  hasJointResponsibility: {
+    fieldLabel: 'Betalar du barnbidrag?',
+    required: 'Du måste ange om du betalar barnbidrag.',
+  },
+  jointResponsibilityExpenses: {
+    fieldLabel: 'Ange barnbidrag per månad',
+    required: 'Du måste ange barnbidrag per månad.',
+  },
+  usesDaycare: {
+    fieldLabel: 'Har du utgifter för fritids?',
+    required: 'Du måste ange om du har utgifter för fritids.',
+    helpText:
+      'Ange det totala beloppet per månad som du betalar för fritidsverksamhet.{br}{br}Förskole-/barnhageutgifter ska inte tas med här.',
+  },
+  dayCareExpenses: {
+    fieldLabel: 'Ange utgifter för fritids per månad',
+    required: 'Du måste ange dina utgifter för fritids per månad.',
+  },
+} satisfies typeof nbNO
+
+const daDK = {
+  hasChildren: {
+    title: 'Antal børn',
+    fieldLabel: 'Har du børn under 18 år?',
+    required: 'Du skal angive, om du har børn under 18 år eller ej.',
+  },
+  countChildren: {
+    fieldLabel: 'Antal børn under 18 år',
+    required: 'Du skal indtaste antallet af børn.',
+    suffix: 'børn',
+  },
+  childrenAge: {
+    fieldLabel: 'Alder på barn nr. {itemNo}',
+    required: 'Du skal indtaste barnets alder.',
+    suffix: 'år',
+  },
+  hasJointResponsibility: {
+    fieldLabel: 'Betaler du børnebidrag?',
+    required: 'Du skal angive, om du betaler børnebidrag.',
+  },
+  jointResponsibilityExpenses: {
+    fieldLabel: 'Angiv børnebidrag pr. måned',
+    required: 'Du skal angive børnebidrag pr. måned.',
+  },
+  usesDaycare: {
+    fieldLabel: 'Har du udgifter til SFO/AKS?',
+    required: 'Du skal angive, om du har udgifter til SFO/AKS.',
+    helpText:
+      'Angiv det samlede beløb pr. måned, som du betaler til Skolefritidsordningen (SFO) eller Aktivitetsskolen (AKS).{br}{br}Udgifter til børnehave skal ikke medregnes her.',
+  },
+  dayCareExpenses: {
+    fieldLabel: 'Angiv udgifter til SFO/AKS pr. måned',
+    required: 'Du skal angive dine udgifter til SFO/AKS pr. måned.',
+  },
+} satisfies typeof nbNO
+
 export const translations = {
   'nb-NO': { ChildrenWithAge: nbNO },
+  'sv-SE': { ChildrenWithAge: svSE },
+  'da-DK': { ChildrenWithAge: daDK },
   'en-GB': { ChildrenWithAge: enGB },
 }
 
