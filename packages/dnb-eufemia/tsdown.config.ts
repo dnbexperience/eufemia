@@ -1,7 +1,7 @@
 import { defineConfig, type Options } from 'tsdown'
 import pkg from './package.json'
 
-import { writeFile, cp, readFile } from 'node:fs/promises'
+import { writeFile, cp, rm, readFile } from 'node:fs/promises'
 import path from 'node:path'
 import glob from 'glob'
 
@@ -31,30 +31,40 @@ export default defineConfig([
         from: './assets',
         to: `${outDirBase}/assets`,
       },
+      {
+        from: './src/plugins',
+        to: `${outDirBase}/plugins`,
+      },
     ],
+    hooks: {
+      async 'build:done'(ctx) {
+        await Promise.all([
+          ...glob.sync(`plugins/**/__tests__`, { cwd: ctx.options.outDir, absolute: true }),
+          ...glob.sync(`plugins/**/scripts`, { cwd: ctx.options.outDir, absolute: true })
+        ].map(it => rm(it, { recursive: true})))
+      }
+    }
   }),
   // ES modules
   makeModuleConfig(`${outDirBase}/es`, { format: 'esm'}),
-  // Postcss plugins
-  makeModuleConfig(`${outDirBase}/plugins`, { format: 'cjs'}, {
-    entry: [
-      './src/plugins/**/*.{cjs,js,ts,tsx}',
-      '!./src/plugins/**/*.d.ts',
-      '!./src/plugins/**/*.(spec|test|stories).{js,ts,tsx}',
-      '!./src/plugins/**/__tests__|stories/**/*',
-      '!./src/plugins/**/stories/*',
-      '!./src/plugins/postcss-isolated-style-scope/plugin-scope-hash.js',
-    ],
-    external: ['lebab', 'globby', 'fs-extra'],
-  }),
   // CommonJS modules
   makeModuleConfig(`${outDirBase}/cjs`, { format: 'cjs'}, {
     outputOptions: {
       exports: 'named',
       banner: '"use strict";',
     },
+    copy: [
+      {
+        from: './src/plugins',
+        to: `${outDirBase}/plugins`,
+      },
+    ],
     hooks: {
       async 'build:done'(ctx) {
+        await Promise.all([
+          ...glob.sync(`plugins/**/__tests__`, { cwd: ctx.options.outDir, absolute: true }),
+          ...glob.sync(`plugins/**/scripts`, { cwd: ctx.options.outDir, absolute: true })
+        ].map(it => rm(it, { recursive: true})))
         await writeFile(
           path.join(ctx.options.outDir, 'package.json'),
           JSON.stringify({ type: 'commonjs' })
@@ -234,9 +244,9 @@ function makeModuleConfig(
       './src/icons/**/*.{js,ts,tsx}',
       './src/index.ts',
       './src/lib.ts',
-      './src/plugins/postcss-isolated-style-scope/plugin-scope-hash.js',
       './src/shared/**/*.{js,ts,tsx}',
       './src/style/**/*.{js,ts,tsx}',
+      '!./src/plugins/**/*',
       '!./src/**/*.d.ts',
       '!./src/**/*.(spec|test|stories).{js,ts,tsx}',
       '!./src/**/__tests__|stories/**/*',
