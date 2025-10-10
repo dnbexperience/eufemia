@@ -24,7 +24,10 @@ export function SelectCountry() {
   )
 }
 
-const transformOut = (internal: string, country: CountryType) => {
+const transformOut = (
+  internal: string | CountryType,
+  country: CountryType
+) => {
   if (internal) {
     return `${country.name} (${internal})`
   }
