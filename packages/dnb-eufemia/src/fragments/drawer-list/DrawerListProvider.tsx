@@ -22,7 +22,7 @@ import {
   getOffsetTop,
   getOffsetLeft,
   hasSelectedText,
-  getSelectedElement,
+  getSelectedElement as getSelectedTextElement,
 } from '../../shared/helpers'
 import {
   getData,
@@ -1436,7 +1436,7 @@ export default class DrawerListProvider extends React.PureComponent<
     }
 
     if (hasSelectedText()) {
-      const elem = getSelectedElement()
+      const elem = getSelectedTextElement()
       const isInput =
         elem instanceof Element
           ? getClosestParent('dnb-input', elem)
