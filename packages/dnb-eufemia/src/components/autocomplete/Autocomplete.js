@@ -20,7 +20,7 @@ import {
   combineDescribedBy,
   convertJsxToString,
   escapeRegexChars,
-  getPreviousSibling,
+  getClosestParent,
   keycode,
 } from '../../shared/component-helper'
 import {
@@ -1012,8 +1012,8 @@ class AutocompleteInstance extends React.PureComponent {
     this.__preventFiringBlurEvent = Boolean(
       event.key === 'enter' ||
         (event?.currentTarget
-          ? getPreviousSibling('dnb-drawer-list', event.currentTarget) ||
-            getPreviousSibling(
+          ? getClosestParent('dnb-drawer-list', event.currentTarget) ||
+            getClosestParent(
               'dnb-input__submit-button__button',
               event.currentTarget
             )

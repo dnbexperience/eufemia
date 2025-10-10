@@ -8,7 +8,7 @@ import React from 'react'
 import keycode from './keycode'
 import whatInput from 'what-input'
 import { warn } from './helpers'
-import { getPreviousSibling } from './helpers/getPreviousSibling'
+import { getClosestParent } from './helpers/getClosest'
 import { init } from './Eufemia'
 import { defineNavigator } from './legacy/component-helper-legacy'
 
@@ -21,7 +21,7 @@ export {
 export { assignPropsWithContext } from './helpers/assignPropsWithContext'
 export { filterProps } from './helpers/filterProps'
 
-export { keycode, getPreviousSibling, warn }
+export { keycode, getClosestParent, warn }
 
 init()
 
@@ -403,7 +403,7 @@ export const roundToNearest = (num, target) => {
 }
 
 export const getClosestScrollViewElement = (currentElement) => {
-  return getPreviousSibling('.dnb-scroll-view', currentElement)
+  return getClosestParent('.dnb-scroll-view', currentElement)
 }
 
 export function convertJsxToString(

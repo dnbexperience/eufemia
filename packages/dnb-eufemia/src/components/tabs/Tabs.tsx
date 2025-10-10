@@ -17,7 +17,7 @@ import {
   extendPropsWithContextInClassComponent,
   validateDOMAttributes,
   dispatchCustomElementEvent,
-  getPreviousSibling,
+  getClosestParent,
   filterProps,
   combineLabelledBy,
   keycode,
@@ -714,7 +714,7 @@ export default class Tabs extends React.PureComponent {
     try {
       selected_key = (function (elem) {
         return (
-          getPreviousSibling('dnb-tabs__button', elem) || { dataset: {} }
+          getClosestParent('dnb-tabs__button', elem) || { dataset: {} }
         )
       })(event.target).dataset.tabKey
     } catch (e) {
