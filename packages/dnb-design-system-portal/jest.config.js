@@ -4,7 +4,7 @@ module.exports = {
   transform: {
     '^.+\\.(js|jsx|ts|tsx)$': [
       'babel-jest',
-      { configFile: '../dnb-eufemia/babel.config.js' },
+      { configFile: '@dnb/eufemia/babel.config.js' },
     ],
   },
 }

@@ -12,7 +12,7 @@ const { shouldUsePrebuild } = require('./src/core/BuildTools.cjs')
 const {
   enableBuildStyleScope,
   enablePortalStyleScope,
-} = require('@dnb/eufemia/src/plugins/postcss-isolated-style-scope/config/index.js')
+} = require('@dnb/eufemia/src/plugins/postcss-isolated-style-scope/config')
 
 const PREBUILD_EXISTS = shouldUsePrebuild()
 
