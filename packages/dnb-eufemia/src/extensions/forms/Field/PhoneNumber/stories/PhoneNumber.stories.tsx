@@ -1,6 +1,7 @@
 import React from 'react'
-import { Field, Form, FormError } from '../../..'
+import { Field, Form, FormError, Tools } from '../../..'
 import { Flex } from '../../../../../components'
+import { AdditionalArgs } from '../PhoneNumber'
 
 export default {
   title: 'Eufemia/Extensions/Forms/PhoneNumber',
@@ -52,6 +53,63 @@ export function PhoneNumber() {
           <Form.SubmitButton />
         </Form.ButtonRow>
       </Flex.Stack>
+    </Form.Handler>
+  )
+}
+
+type PhoneNumberDataShape = {
+  countryCode: string
+  phoneNumber: string
+  countryCodePrefix: string
+}
+
+const transformOut = (internal, additionalArgs = {}) => {
+  const {
+    countryCode: countryCodePrefix,
+    phoneNumber,
+    iso: countryCode,
+  } = additionalArgs as AdditionalArgs
+
+  return {
+    countryCode,
+    phoneNumber,
+    countryCodePrefix,
+  } satisfies PhoneNumberDataShape
+}
+const transformIn = (
+  {
+    countryCode: iso,
+    phoneNumber,
+    countryCodePrefix: countryCode,
+  }: PhoneNumberDataShape = {} as PhoneNumberDataShape | undefined
+) => {
+  return {
+    countryCode,
+    phoneNumber,
+    iso,
+  } satisfies AdditionalArgs
+}
+
+export function TransformOut() {
+  return (
+    <Form.Handler
+      defaultData={{
+        primaryMobile: {
+          countryCode: 'GB',
+          phoneNumber: '9123457',
+          countryCodePrefix: '+44',
+        },
+      }}
+    >
+      <Flex.Stack>
+        <Field.PhoneNumber
+          path="/primaryMobile"
+          transformOut={transformOut}
+          transformIn={transformIn}
+        />
+      </Flex.Stack>
+
+      <Tools.Log top />
     </Form.Handler>
   )
 }

@@ -158,3 +158,47 @@ export const InForm = () => {
     </ComponentBox>
   )
 }
+
+export const TransformInAndOut = () => {
+  return (
+    <ComponentBox>
+      {() => {
+        const transformOut = (internal, additionalArgs) => {
+          if (additionalArgs) {
+            const { year, month, day } = additionalArgs
+            return { year, month, day }
+          }
+        }
+
+        const transformIn = (external) => {
+          if (external) {
+            const { year, month, day } = external
+            return `${year}-${month}-${day}`
+          }
+        }
+
+        return (
+          <Form.Handler
+            defaultData={{
+              myField: {
+                year: '1990',
+                month: '05',
+                day: '15',
+              },
+            }}
+          >
+            <Form.Card>
+              <Field.DateOfBirth
+                path="/myField"
+                transformOut={transformOut}
+                transformIn={transformIn}
+                label="Transform in and out"
+              />
+              <Tools.Log />
+            </Form.Card>
+          </Form.Handler>
+        )
+      }}
+    </ComponentBox>
+  )
+}

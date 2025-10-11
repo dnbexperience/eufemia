@@ -4,6 +4,7 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Field, Form, Validator } from '../../..'
 import nbNO from '../../../constants/locales/nb-NO'
+import { AdditionalArgs } from '../DateOfBirth'
 
 const nb = nbNO['nb-NO']
 
@@ -11,6 +12,267 @@ describe('Field.DateOfBirth', () => {
   it('should have correct label', () => {
     render(<Field.DateOfBirth />)
     expect(screen.queryByText(nb.DateOfBirth.label)).toBeInTheDocument()
+  })
+
+  describe('onChange', () => {
+    it('should return correct value onChange event', async () => {
+      const onChange = jest.fn()
+
+      render(<Field.DateOfBirth onChange={onChange} />)
+
+      const dayInput = document.querySelectorAll('input')[0]
+      const monthInput = document.querySelectorAll('input')[1]
+      const yearInput = document.querySelectorAll('input')[2]
+
+      await userEvent.type(dayInput, '24')
+      await userEvent.type(monthInput, '12')
+      await waitFor(() => {
+        const option = document.querySelector('[role="option"]')
+        expect(option).toBeInTheDocument()
+      })
+      await userEvent.click(document.querySelector('[role="option"]'))
+      await userEvent.type(yearInput, '2023')
+
+      expect(onChange).toHaveBeenCalledTimes(5)
+      expect(onChange).toHaveBeenLastCalledWith(
+        '2023-12-24',
+        expect.objectContaining({
+          year: '2023',
+          month: '12',
+          day: '24',
+        })
+      )
+    })
+
+    it('should return correct value onChange event in data context', async () => {
+      const onChange = jest.fn()
+
+      render(
+        <Form.Handler onChange={onChange}>
+          <Field.DateOfBirth path="/dob" />
+        </Form.Handler>
+      )
+
+      const dayInput = document.querySelectorAll('input')[0]
+      const monthInput = document.querySelectorAll('input')[1]
+      const yearInput = document.querySelectorAll('input')[2]
+
+      await userEvent.type(dayInput, '24')
+      await userEvent.type(monthInput, '12')
+      await waitFor(() => {
+        const option = document.querySelector('[role="option"]')
+        expect(option).toBeInTheDocument()
+      })
+      await userEvent.click(document.querySelector('[role="option"]'))
+      await userEvent.type(yearInput, '2023')
+
+      expect(onChange).toHaveBeenCalledTimes(5)
+      expect(onChange).toHaveBeenLastCalledWith(
+        { dob: '2023-12-24' },
+        expect.anything()
+      )
+    })
+
+    it('should support transformIn', async () => {
+      const transformIn = jest.fn((external: AdditionalArgs) => {
+        if (external) {
+          const { year, month, day } = external
+          return `${year}-${month}-${day}`
+        }
+      })
+
+      render(
+        <Form.Handler
+          defaultData={{
+            myField: {
+              year: '1990',
+              month: '05',
+              day: '15',
+            },
+          }}
+        >
+          <Field.DateOfBirth path="/myField" transformIn={transformIn} />
+        </Form.Handler>
+      )
+
+      expect(transformIn).toHaveBeenCalledTimes(2)
+      expect(transformIn).toHaveBeenLastCalledWith({
+        year: '1990',
+        month: '05',
+        day: '15',
+      })
+
+      const dayInput = document.querySelectorAll('input')[0]
+      const monthInput = document.querySelectorAll('input')[1]
+      const yearInput = document.querySelectorAll('input')[2]
+
+      expect(dayInput.value).toBe('15')
+      expect(monthInput).toHaveValue('Mai')
+      expect(yearInput.value).toBe('1990')
+
+      expect(transformIn).toHaveBeenCalledTimes(2)
+      expect(transformIn).toHaveBeenLastCalledWith({
+        year: '1990',
+        month: '05',
+        day: '15',
+      })
+    })
+
+    it('should support transformOut', async () => {
+      const onChange = jest.fn()
+
+      const transformOut = jest.fn(
+        (internal, additionalArgs: AdditionalArgs) => {
+          if (additionalArgs) {
+            const { year, month, day } = additionalArgs
+            return { year, month, day }
+          }
+        }
+      )
+
+      const transformIn = jest.fn((external: AdditionalArgs) => {
+        if (external) {
+          const { year, month, day } = external
+          return `${year}-${month}-${day}`
+        }
+      })
+
+      render(
+        <Form.Handler onChange={onChange}>
+          <Field.DateOfBirth
+            path="/myField"
+            transformOut={transformOut}
+            transformIn={transformIn}
+          />
+        </Form.Handler>
+      )
+
+      const dayInput = document.querySelectorAll('input')[0]
+      const monthInput = document.querySelectorAll('input')[1]
+      const yearInput = document.querySelectorAll('input')[2]
+
+      await userEvent.type(dayInput, '24')
+      await userEvent.type(monthInput, '12')
+      await waitFor(() => {
+        const option = document.querySelector('[role="option"]')
+        expect(option).toBeInTheDocument()
+      })
+      await userEvent.click(document.querySelector('[role="option"]'))
+      await userEvent.type(yearInput, '2023')
+
+      // Check that transformOut was called with the correct values
+      expect(transformOut).toHaveBeenCalledTimes(17)
+      expect(transformOut).toHaveBeenLastCalledWith('2023-12-24', {
+        year: '2023',
+        month: '12',
+        day: '24',
+      })
+
+      // Check that onChange was called with the transformed data
+      expect(onChange).toHaveBeenLastCalledWith(
+        {
+          myField: {
+            year: '2023',
+            month: '12',
+            day: '24',
+          },
+        },
+        expect.anything()
+      )
+    })
+
+    it('should return year in additional args', async () => {
+      const onChange = jest.fn()
+
+      render(<Field.DateOfBirth onChange={onChange} />)
+
+      const dayInput = document.querySelectorAll('input')[0]
+      const monthInput = document.querySelectorAll('input')[1]
+      const yearInput = document.querySelectorAll('input')[2]
+
+      // Fill all fields to trigger onChange
+      await userEvent.type(dayInput, '24')
+      await userEvent.type(monthInput, '12')
+      await waitFor(() => {
+        const option = document.querySelector('[role="option"]')
+        expect(option).toBeInTheDocument()
+      })
+      await userEvent.click(document.querySelector('[role="option"]'))
+      await userEvent.type(yearInput, '2023')
+
+      await waitFor(() => {
+        expect(onChange).toHaveBeenCalledTimes(5)
+      })
+
+      expect(onChange).toHaveBeenLastCalledWith(
+        '2023-12-24',
+        expect.objectContaining({
+          year: '2023',
+        })
+      )
+    })
+
+    it('should return month in additional args', async () => {
+      const onChange = jest.fn()
+
+      render(<Field.DateOfBirth onChange={onChange} />)
+
+      const dayInput = document.querySelectorAll('input')[0]
+      const monthInput = document.querySelectorAll('input')[1]
+      const yearInput = document.querySelectorAll('input')[2]
+
+      // Fill all fields to trigger onChange
+      await userEvent.type(dayInput, '24')
+      await userEvent.type(monthInput, '12')
+      await waitFor(() => {
+        const option = document.querySelector('[role="option"]')
+        expect(option).toBeInTheDocument()
+      })
+      await userEvent.click(document.querySelector('[role="option"]'))
+      await userEvent.type(yearInput, '2023')
+
+      await waitFor(() => {
+        expect(onChange).toHaveBeenCalledTimes(5)
+      })
+
+      expect(onChange).toHaveBeenLastCalledWith(
+        '2023-12-24',
+        expect.objectContaining({
+          month: '12',
+        })
+      )
+    })
+
+    it('should return day in additional args', async () => {
+      const onChange = jest.fn()
+
+      render(<Field.DateOfBirth onChange={onChange} />)
+
+      const dayInput = document.querySelectorAll('input')[0]
+      const monthInput = document.querySelectorAll('input')[1]
+      const yearInput = document.querySelectorAll('input')[2]
+
+      // Fill all fields to trigger onChange
+      await userEvent.type(dayInput, '24')
+      await userEvent.type(monthInput, '12')
+      await waitFor(() => {
+        const option = document.querySelector('[role="option"]')
+        expect(option).toBeInTheDocument()
+      })
+      await userEvent.click(document.querySelector('[role="option"]'))
+      await userEvent.type(yearInput, '2023')
+
+      await waitFor(() => {
+        expect(onChange).toHaveBeenCalledTimes(5)
+      })
+
+      expect(onChange).toHaveBeenLastCalledWith(
+        '2023-12-24',
+        expect.objectContaining({
+          day: '24',
+        })
+      )
+    })
   })
 
   describe('Day', () => {

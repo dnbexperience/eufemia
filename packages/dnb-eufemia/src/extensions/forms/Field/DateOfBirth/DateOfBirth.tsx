@@ -82,6 +82,21 @@ function DateOfBirth(props: Props) {
     }
   }, [errorDateOfBirth, errorRequired, props.errorMessages])
 
+  const provideAdditionalArgs = useCallback(
+    (value: string) => {
+      const [year, month, day] = splitValue(value, dateFormat)
+
+      if (year && month && day) {
+        return {
+          year,
+          month,
+          day,
+        }
+      }
+    },
+    [dateFormat]
+  )
+
   const dateOfBirthValidator = useCallback(
     (value: string) => {
       const [year, month, day] = splitValue(value, dateFormat)
@@ -130,6 +145,7 @@ function DateOfBirth(props: Props) {
       errorMessages,
       onBlurValidator,
       exportValidators: { dateOfBirthValidator },
+      provideAdditionalArgs,
     }),
     [
       otherProps,
