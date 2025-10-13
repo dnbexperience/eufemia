@@ -13,7 +13,7 @@ import Section from '../section/Section'
 import EventEmitter from '../../shared/helpers/EventEmitter'
 import HeightAnimation from '../height-animation/HeightAnimation'
 
-export default class ContentWrapper extends React.PureComponent {
+export default class ContentWrapper extends React.PureComponent<ContentWrapperProps> {
   static propTypes = {
     id: PropTypes.string.isRequired,
     selected_key: PropTypes.oneOfType([

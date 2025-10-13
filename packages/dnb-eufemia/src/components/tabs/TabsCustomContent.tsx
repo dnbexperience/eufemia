@@ -7,7 +7,31 @@ import {
   spacingPropTypes,
   createSpacingClasses,
 } from '../space/SpacingHelper'
+import type { SpacingProps } from '../space/types'
 import ContentWrapper from './TabsContentWrapper'
+
+export type CustomContentTitle =
+  | Record<string, unknown>
+  | React.ReactNode
+  | ((...args: any[]) => any)
+
+export type CustomContentChildren =
+  | React.ReactNode
+  | ((...args: any[]) => any)
+
+export interface CustomContentProps
+  extends Omit<React.HTMLProps<HTMLElement>, 'title' | 'children'>,
+    SpacingProps {
+  displayName?: string
+  title?: CustomContentTitle
+  hash?: string
+  selected?: boolean
+  disabled?: boolean
+  id?: string
+  key?: string | number
+  children?: CustomContentChildren
+  className?: string
+}
 
 // This component is only a dummy component to collect data
 /**
@@ -17,7 +41,7 @@ import ContentWrapper from './TabsContentWrapper'
     <Tabs.Content title="second">second</Tabs.Content>
   </Tabs>
  */
-export default class CustomContent extends React.PureComponent {
+export default class CustomContent extends React.PureComponent<CustomContentProps> {
   static propTypes = {
     displayName: PropTypes.string,
     title: PropTypes.oneOfType([
@@ -71,30 +95,4 @@ export default class CustomContent extends React.PureComponent {
       </div>
     )
   }
-}
-
-// Type definitions
-import type { SpacingProps } from '../space/types'
-
-export type CustomContentTitle =
-  | Record<string, unknown>
-  | React.ReactNode
-  | ((...args: any[]) => any)
-
-export type CustomContentChildren =
-  | React.ReactNode
-  | ((...args: any[]) => any)
-
-export interface CustomContentProps
-  extends React.HTMLProps<HTMLElement>,
-    SpacingProps {
-  displayName?: string
-  title?: CustomContentTitle
-  hash?: string
-  selected?: boolean
-  disabled?: boolean
-  id?: string
-  key?: string | number
-  children?: CustomContentChildren
-  className?: string
 }
