@@ -1,7 +1,7 @@
 import React from 'react'
 import { Field, Form, Value } from '../../..'
 import FormHandler from '../../../Form/Handler/Handler'
-import { Card, Dropdown } from '../../../../../components'
+import { Card, Drawer, Dropdown } from '../../../../../components'
 import Context from '../../../../../shared/Context'
 
 export default {
@@ -120,5 +120,42 @@ export function DateRangeRequired() {
         <Form.SubmitButton text="Happy coding!" />
       </Card>
     </FormHandler>
+  )
+}
+
+export function DatePositioningInDrawer() {
+  return (
+    <Form.Handler>
+      <Drawer
+        title="Drawer title"
+        triggerAttributes={{
+          text: 'Open drawer',
+        }}
+      >
+        <Form.Card stack>
+          <p>Text text text text text</p>
+          <p>Text text text text text</p>
+          <p>Text text text text text</p>
+          <p>Text text text text text</p>
+          <p>Text text text text text</p>
+          <p>Text text text text text</p>
+          <p>Text text text text text</p>
+
+          <p>Text text text text text</p>
+          <p>Text text text text text</p>
+          <p>Text text text text text</p>
+          <p>Text text text text text</p>
+          <p>Text text text text text</p>
+          <p>Text text text text text</p>
+          <p>Text text text text text</p>
+
+          <Field.Date
+            label="Field.Date required"
+            required
+            value="2023-04-01"
+          />
+        </Form.Card>
+      </Drawer>
+    </Form.Handler>
   )
 }
