@@ -313,6 +313,55 @@ describe('DrawerList component', () => {
     })
   })
 
+  it('keyboard navigation loops when item is selected', async () => {
+    render(<DrawerList {...props} data={mockData} />)
+
+    expect(getFocusedItemIndex()).toBe(2)
+    expect(isListFocused()).toBe(false)
+
+    keydown(38) // up
+
+    await waitFor(() => {
+      expect(getFocusedItemIndex()).toBe(1)
+    })
+
+    keydown(38) // up
+
+    await waitFor(() => {
+      expect(getFocusedItemIndex()).toBe(0)
+    })
+
+    keydown(38) // up
+
+    await waitFor(() => {
+      expect(isListFocused()).toBe(true)
+    })
+
+    keydown(38) // up
+
+    await waitFor(() => {
+      expect(getFocusedItemIndex()).toBe(6)
+    })
+
+    keydown(40) // down
+
+    await waitFor(() => {
+      expect(getFocusedItemIndex()).toBe(0)
+    })
+
+    keydown(38) // up
+
+    await waitFor(() => {
+      expect(isListFocused()).toBe(true)
+    })
+
+    keydown(40) // down
+
+    await waitFor(() => {
+      expect(getFocusedItemIndex()).toBe(0)
+    })
+  })
+
   it('has valid on_select callback', async () => {
     const on_select = jest.fn()
 
