@@ -150,6 +150,62 @@ describe('Field.Slider', () => {
 
       expect(input).toHaveValue('410')
     })
+
+    it('should support transformers', async () => {
+      const onChange = jest.fn()
+      const value = 70
+
+      const transformOut = (internal) => {
+        if (internal) {
+          return { value: internal }
+        }
+      }
+
+      const transformIn = (external: any) => {
+        if (external) {
+          const { value } = external
+          return value
+        }
+      }
+
+      render(
+        <Form.Handler
+          onChange={onChange}
+          defaultData={{
+            myField: {
+              value,
+            },
+          }}
+        >
+          <Field.Slider
+            path="/myField"
+            transformOut={transformOut}
+            transformIn={transformIn}
+          />
+        </Form.Handler>
+      )
+
+      expect(parseFloat(getButtonHelper().value)).toBe(value)
+
+      simulateMouseMove({ pageX: 80, width: 100, height: 10 })
+
+      expect(parseFloat(getButtonHelper().value)).toBe(value + 10)
+
+      // Check that transformOut was called with the correct values
+      expect(transformOut).toHaveBeenLastCalledWith(value + 10, {
+        value: value + 10,
+      })
+
+      // Check that onChange was called with the transformed data
+      expect(onChange).toHaveBeenLastCalledWith(
+        {
+          myField: {
+            value: value + 10,
+          },
+        },
+        expect.anything()
+      )
+    })
   })
 
   describe('multi thumb', () => {

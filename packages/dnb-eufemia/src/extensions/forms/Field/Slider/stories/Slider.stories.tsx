@@ -1,4 +1,4 @@
-import { Field, Form, Value } from '../../..'
+import { Field, Form, Tools, Value } from '../../..'
 import { Flex, HelpButton } from '../../../../../components'
 import { P } from '../../../../../elements'
 
@@ -67,6 +67,41 @@ export function Slider() {
           max="/maxValue"
         /> */}
       </Flex.Stack>
+    </Form.Handler>
+  )
+}
+
+const transformOut = (internal) => {
+  if (internal) {
+    return { value: internal }
+  }
+}
+
+const transformIn = (external: any) => {
+  if (external) {
+    const { value } = external
+    return value
+  }
+}
+
+export const SlidersTransformers = () => {
+  return (
+    <Form.Handler
+      defaultData={{
+        myField: {
+          value: 21,
+        },
+      }}
+    >
+      <Form.Card space>
+        <Field.Slider
+          path="/myField"
+          transformOut={transformOut}
+          transformIn={transformIn}
+        />
+
+        <Tools.Log />
+      </Form.Card>
     </Form.Handler>
   )
 }
