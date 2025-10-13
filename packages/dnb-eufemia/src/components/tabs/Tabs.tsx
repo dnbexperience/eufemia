@@ -36,7 +36,7 @@ import CustomContent from './TabsCustomContent'
 import ContentWrapper from './TabsContentWrapper'
 import EventEmitter from '../../shared/helpers/EventEmitter'
 
-export default class Tabs extends React.PureComponent {
+export default class Tabs extends React.PureComponent<TabsProps> {
   static contextType = Context
 
   static propTypes = {
