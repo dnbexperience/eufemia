@@ -1390,7 +1390,7 @@ describe('Form.Section', () => {
       log.mockRestore()
     })
 
-    it('should fallback to nb-NO translations when locale to section is missing', () => {
+    it('should fallback to translations keys when locale to section is missing', () => {
       const consoleSpy = jest.spyOn(console, 'log').mockImplementation()
 
       const globalTranslations = {
@@ -1410,9 +1410,7 @@ describe('Form.Section', () => {
         (typeof sectionTranslations)[keyof typeof sectionTranslations]
 
       const MySectionContent = () => {
-        const tr = useTranslationWithFallback<SectionTranslation>({
-          fallbackLocale: 'nb-NO',
-        })
+        const tr = useTranslationWithFallback<SectionTranslation>()
         return <output>{tr.MyComponent.title}</output>
       }
 
@@ -1431,10 +1429,17 @@ describe('Form.Section', () => {
       )
 
       expect(document.querySelector('output')).toHaveTextContent(
-        sectionTranslations['nb-NO'].MyComponent.title
+        'MyComponent.title'
       )
 
-      expect(consoleSpy).toHaveBeenCalled()
+      // Should have warned about missing translations
+      expect(consoleSpy).toHaveBeenCalledWith(
+        expect.any(String), // Eufemia styling prefix
+        expect.stringContaining(
+          'Form.useTranslation: No translations found for locale "sv-SE"!'
+        )
+      )
+
       consoleSpy.mockRestore()
     })
   })

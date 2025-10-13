@@ -53,9 +53,7 @@ function EditContainer({
 }: Props & {
   spacingProps?: SpacingProps
 }) {
-  const tr = useTranslationWithFallback<Translation>({
-    fallbackLocale: 'en-GB',
-  })
+  const tr = useTranslationWithFallback<Translation>()
 
   const { getValue } = Form.useData()
   const hasChildren = getValue('/hasChildren') === true
@@ -195,9 +193,7 @@ function SummaryContainer({
 }: Props & {
   spacingProps?: SpacingProps
 }) {
-  const tr = useTranslationWithFallback<Translation>({
-    fallbackLocale: 'en-GB',
-  })
+  const tr = useTranslationWithFallback<Translation>()
 
   return (
     <Form.Card {...spacingProps}>
