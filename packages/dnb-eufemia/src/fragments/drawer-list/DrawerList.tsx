@@ -423,7 +423,6 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
       cache_hash,
       selected_item,
       active_item,
-      showFocusRing,
       closestToTop,
       closestToBottom,
       skipPortal,
@@ -636,7 +635,7 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
                   max_height
                 }
                 {...ulParams}
-                showFocusRing={showFocusRing}
+                showFocusRing={active_item === -1}
                 triangleRef={_refTriangle}
               >
                 <GroupItems />

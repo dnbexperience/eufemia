@@ -73,8 +73,8 @@ export type DrawerListProviderProps = Omit<DrawerListProps, 'children'> &
       }
     ) => any
     selected_item?: string | number
+    /** The index of the currently focused item, is -1 if the list is focused */
     active_item?: string | number
-    showFocusRing?: boolean
     closestToTop?: string
     closestToBottom?: string
     skipPortal?: boolean
@@ -1002,32 +1002,25 @@ export default class DrawerListProvider extends React.PureComponent<
         break
     }
 
-    if (
-      active_item === -1 &&
-      this._refUl.current &&
-      typeof document !== 'undefined'
-    ) {
-      const ulElem = getClosestParent(
-        'dnb-drawer-list__options',
-        document.activeElement
-      )
+    if (active_item === -1) {
+      this.setState({
+        active_item,
+      })
 
-      if (ulElem === this._refUl.current) {
-        this.setState({
-          showFocusRing: true,
-          active_item,
-        })
-
-        this._refUl.current.focus({ preventScroll: true })
-        dispatchCustomElementEvent(this.state, 'handle_dismiss_focus')
+      if (this._refUl.current && typeof document !== 'undefined') {
+        const ulElem = getClosestParent(
+          'dnb-drawer-list__options',
+          document.activeElement
+        )
+        if (ulElem === this._refUl.current) {
+          // only DOM focus the ul list if the DOM focus is inside the list already (i.e. when not DOM focused on the input field)
+          this._refUl.current.focus({ preventScroll: true })
+        }
       }
     } else if (
       active_item > -1 &&
       active_item !== this.state.active_item
     ) {
-      this.setState({
-        showFocusRing: false,
-      })
       this.setActiveItemAndScrollToIt(active_item, {
         fireSelectEvent: true,
         event: e,
