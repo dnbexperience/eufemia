@@ -130,6 +130,7 @@ describe.each(['ui', 'sbanken'])(
 
       it('have to match checkbox-button-options-horizontal', async () => {
         const screenshot = await makeScreenshot({
+          style: { width: '40rem' },
           selector:
             '[data-visual-test="array-selection-checkbox-button-options-horizontal"]',
         })
