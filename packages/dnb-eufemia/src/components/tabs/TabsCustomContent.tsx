@@ -20,7 +20,7 @@ export type CustomContentChildren =
   | ((...args: any[]) => any)
 
 export interface CustomContentProps
-  extends React.HTMLProps<HTMLElement>,
+  extends Omit<React.HTMLProps<HTMLElement>, 'title' | 'children'>,
     SpacingProps {
   displayName?: string
   title?: CustomContentTitle

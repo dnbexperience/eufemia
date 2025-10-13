@@ -40,10 +40,11 @@ import { DynamicElement } from '../../shared/types'
 import { ButtonProps } from '../Button'
 import { AnchorAllProps } from '../Anchor'
 import type {
-  SkeletonShow,
   SectionSpacing,
   SectionStyleTypes,
+  SectionVariants,
 } from '../Section'
+import type { SkeletonShow } from '../Skeleton'
 
 export type TabsData =
   | string
@@ -74,7 +75,10 @@ export type TabsChildren =
   | ((...args: any[]) => any)
 
 export interface TabsProps
-  extends Omit<React.HTMLProps<HTMLElement>, 'ref'>,
+  extends Omit<
+      React.HTMLProps<HTMLElement>,
+      'ref' | 'content' | 'children'
+    >,
     SpacingProps {
   data?: TabsData
   /**
