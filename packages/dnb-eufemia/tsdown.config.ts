@@ -276,7 +276,7 @@ function makeModuleConfig(
     // Define env variables
     define: { 'process.env.NODE_ENV': "'production'" },
     format,
-    target: 'es2015',
+    target: 'es2017',
     outDir,
 
     // Use .js regardless of format
