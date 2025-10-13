@@ -2,7 +2,7 @@ import {
   makeScreenshot,
   setupPageScreenshot,
 } from '../../../../../core/jest/jestSetupScreenshots'
-
+// test
 describe.each(['ui', 'sbanken'])(
   'ArraySelection field for %s',
   (themeName) => {
