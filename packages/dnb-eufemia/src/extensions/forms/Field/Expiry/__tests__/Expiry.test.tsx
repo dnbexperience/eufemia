@@ -94,6 +94,69 @@ describe('Field.Expiry', () => {
     expect(year).toHaveAttribute('autocomplete', 'cc-exp-year')
   })
 
+  it('should support transformers', async () => {
+    const onChange = jest.fn()
+
+    const transformOut = (internal, additionalArgs: any) => {
+      if (internal?.length === 4) {
+        const month = internal.slice(0, 2)
+        const year = internal.slice(2, 4)
+        return { year, month }
+      }
+    }
+
+    const transformIn = (external: any) => {
+      if (external) {
+        const { year, month } = external
+        return `${month}${year}`
+      }
+    }
+
+    render(
+      <Form.Handler
+        onChange={onChange}
+        defaultData={{
+          myField: {
+            year: '35',
+            month: '08',
+          },
+        }}
+      >
+        <Field.Expiry
+          path="/myField"
+          transformOut={transformOut}
+          transformIn={transformIn}
+        />
+      </Form.Handler>
+    )
+
+    const monthInput = document.querySelectorAll('input')[0]
+    const yearInput = document.querySelectorAll('input')[1]
+
+    expect(monthInput.value).toBe('08')
+    expect(yearInput.value).toBe('35')
+
+    await userEvent.type(monthInput, '1224')
+
+    // Check that transformOut was called with the correct values
+    expect(transformOut).toHaveBeenCalledTimes(17)
+    expect(transformOut).toHaveBeenLastCalledWith('1224', {
+      year: '24',
+      month: '12',
+    })
+
+    // Check that onChange was called with the transformed data
+    expect(onChange).toHaveBeenLastCalledWith(
+      {
+        myField: {
+          year: '24',
+          month: '12',
+        },
+      },
+      expect.anything()
+    )
+  })
+
   describe('keydown', () => {
     beforeEach(() => {
       window.requestAnimationFrame = jest.fn((callback) => {
