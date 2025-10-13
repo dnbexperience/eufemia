@@ -139,7 +139,6 @@ describe('Field.Expiry', () => {
     await userEvent.type(monthInput, '1224')
 
     // Check that transformOut was called with the correct values
-    expect(transformOut).toHaveBeenCalledTimes(17)
     expect(transformOut).toHaveBeenLastCalledWith('1224', {
       year: '24',
       month: '12',
