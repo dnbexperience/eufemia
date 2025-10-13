@@ -41,7 +41,7 @@ export interface CustomContentProps
     <Tabs.Content title="second">second</Tabs.Content>
   </Tabs>
  */
-export default class CustomContent extends React.PureComponent {
+export default class CustomContent extends React.PureComponent<CustomContentProps> {
   static propTypes = {
     displayName: PropTypes.string,
     title: PropTypes.oneOfType([
