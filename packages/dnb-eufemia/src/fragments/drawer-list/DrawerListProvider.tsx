@@ -14,7 +14,7 @@ import {
   getClosestScrollViewElement,
   detectOutsideClick,
   dispatchCustomElementEvent,
-  getPreviousSibling,
+  getClosestParent,
   keycode,
   DetectOutsideClickClass,
 } from '../../shared/component-helper'
@@ -786,7 +786,7 @@ export default class DrawerListProvider extends React.PureComponent<
     ) {
       let isSameDrawer = false
       try {
-        const ulElem = getPreviousSibling(
+        const ulElem = getClosestParent(
           'dnb-drawer-list__options',
           document.activeElement
         )
@@ -927,7 +927,7 @@ export default class DrawerListProvider extends React.PureComponent<
               e.stopPropagation()
 
               // Also, set the focus actively into the active element, if it is not from beforehand
-              const currentActiveElement = getPreviousSibling(
+              const currentActiveElement = getClosestParent(
                 'dnb-drawer-list__option',
                 document.activeElement
               )
@@ -1022,7 +1022,7 @@ export default class DrawerListProvider extends React.PureComponent<
       this._refUl.current &&
       typeof document !== 'undefined'
     ) {
-      const ulElem = getPreviousSibling(
+      const ulElem = getClosestParent(
         'dnb-drawer-list__options',
         document.activeElement
       )
@@ -1439,7 +1439,7 @@ export default class DrawerListProvider extends React.PureComponent<
       const elem = getSelectedElement()
       const isInput =
         elem instanceof Element
-          ? getPreviousSibling('dnb-input', elem)
+          ? getClosestParent('dnb-input', elem)
           : null
       if (!isInput) {
         return // stop here

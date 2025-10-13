@@ -1,5 +1,5 @@
 import React from 'react'
-import { getPreviousSibling, warn } from '../../shared/component-helper'
+import { getClosestParent, warn } from '../../shared/component-helper'
 import { getOffsetTop } from '../../shared/helpers'
 
 export type StickyTableHeaderProps = {
@@ -50,7 +50,7 @@ export const useStickyHeader = ({
             }
           }
 
-          const modalElem = getPreviousSibling(
+          const modalElem = getClosestParent(
             '.dnb-modal__content',
             tableElem
           )
@@ -67,7 +67,7 @@ export const useStickyHeader = ({
                 ).offsetHeight || 0
             }
           } else {
-            const scrollElem = getPreviousSibling(
+            const scrollElem = getClosestParent(
               '.dnb-scroll-view',
               tableElem
             ) as HTMLElement

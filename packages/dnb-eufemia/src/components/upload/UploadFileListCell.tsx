@@ -28,7 +28,7 @@ import {
 import { UploadFile, UploadFileNative } from './types'
 
 // Shared
-import { getPreviousSibling } from '../../shared/component-helper'
+import { getClosestParent } from '../../shared/component-helper'
 import useUpload, { isFileEqual } from './useUpload'
 import { getFileTypeFromExtension } from './UploadVerify'
 import UploadFileLink from './UploadFileListLink'
@@ -114,7 +114,7 @@ const UploadFileListCell = ({
 
   const handleDisappearFocus = useCallback(() => {
     const cellElement = cellRef.current
-    const focusElement = getPreviousSibling(
+    const focusElement = getClosestParent(
       '.dnb-upload',
       cellElement
     )?.querySelector('.dnb-upload__file-input-button') as HTMLButtonElement

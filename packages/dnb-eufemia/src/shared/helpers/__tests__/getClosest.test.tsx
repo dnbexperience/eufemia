@@ -1,6 +1,6 @@
 import React from 'react'
 import { render } from '@testing-library/react'
-import { getPreviousSibling } from '../getPreviousSibling'
+import { getClosestParent } from '../getClosest'
 
 const Body = () => {
   return (
@@ -18,33 +18,33 @@ const Body = () => {
   )
 }
 
-describe('getPreviousSibling', () => {
+describe('getClosestParent', () => {
   render(<Body />)
 
   const root = document.querySelector('.five')
 
   it('returns a HTML element based on its class name', () => {
-    const element = getPreviousSibling('two', root)
+    const element = getClosestParent('two', root)
     expect(element?.getAttribute('class')).toBe('some two more classes')
   })
 
   it('returns a HTML element based on its class selector', () => {
-    const element = getPreviousSibling('.two', root)
+    const element = getClosestParent('.two', root)
     expect(element?.getAttribute('class')).toBe('some two more classes')
   })
 
   it('returns the same element of the selector matches', () => {
-    const element = getPreviousSibling('.five', root)
+    const element = getClosestParent('.five', root)
     expect(element?.getAttribute('class')).toBe('five')
   })
 
   it('returns null if not found', () => {
-    const element = getPreviousSibling('.invalid', root)
+    const element = getClosestParent('.invalid', root)
     expect(element).toBe(null)
   })
 
   it('returns a HTML element based on its tag name', () => {
-    const element = getPreviousSibling('BUTTON', root)
+    const element = getClosestParent('BUTTON', root)
     expect(element?.tagName).toBe('BUTTON')
   })
 })

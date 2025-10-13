@@ -343,7 +343,7 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
   selectItemHandler = (event) => {
     // In case we want to stop if the users makes a number selection.
     // Should optional
-    // if (getPreviousSibling('dnb-number-format', event.target)) {
+    // if (getClosestParent('dnb-number-format', event.target)) {
     //   return // stop
     // }
     const selected_item = parseFloat(
