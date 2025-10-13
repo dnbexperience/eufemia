@@ -823,10 +823,7 @@ export default class DrawerListProvider extends React.PureComponent<
         {
           e.preventDefault()
 
-          if (
-            this.state.direction === 'bottom' &&
-            this.state.active_item === this.getFirstItem()
-          ) {
+          if (this.state.active_item === this.getFirstItem()) {
             active_item = -1
           } else {
             active_item = this.getPrevActiveItem() ?? this.getLastItem()
@@ -838,10 +835,7 @@ export default class DrawerListProvider extends React.PureComponent<
         {
           e.preventDefault()
 
-          if (
-            this.state.direction === 'top' &&
-            this.state.active_item === this.getLastItem()
-          ) {
+          if (this.state.active_item === this.getLastItem()) {
             active_item = -1
           } else {
             active_item = this.getNextActiveItem() ?? this.getFirstItem()

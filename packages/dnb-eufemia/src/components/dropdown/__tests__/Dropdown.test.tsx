@@ -1097,7 +1097,7 @@ describe('Dropdown component', () => {
     )
   })
 
-  it('will set focus on options when key down/up is pressed on first item', async () => {
+  it('will set focus on options when key down/up is pressed on first or last item', async () => {
     const { rerender } = render(
       <Dropdown id="key-nav" no_animation data={mockData} />
     )
@@ -1151,6 +1151,12 @@ describe('Dropdown component', () => {
     // then simulate changes
     keydown(40) // down
 
+    expect(document.activeElement.classList).toContain(
+      'dnb-drawer-list__options'
+    )
+
+    keydown(40) // down
+
     expect(
       document.querySelectorAll('li.dnb-drawer-list__option')[0].classList // the first item
     ).toContain('dnb-drawer-list__option--focus')
@@ -1167,6 +1173,11 @@ describe('Dropdown component', () => {
     // then simulate changes
     keydown(38) // up
 
+    expect(document.activeElement.classList).toContain(
+      'dnb-drawer-list__options'
+    )
+
+    keydown(38) // up
     options = document.querySelectorAll('li.dnb-drawer-list__option')
     expect(
       options[mockData.length - 1].classList // the last item
@@ -1206,6 +1217,12 @@ describe('Dropdown component', () => {
     ).toContain('dnb-drawer-list__option--focus')
 
     // then simulate changes
+    keydown(38) // up
+
+    expect(document.activeElement.classList).toContain(
+      'dnb-drawer-list__options'
+    )
+
     keydown(38) // up
 
     options = document.querySelectorAll('li.dnb-drawer-list__option')
@@ -2003,6 +2020,12 @@ describe('Dropdown component', () => {
       // then simulate changes
       keydown(40) // down
 
+      expect(document.activeElement.classList).toContain(
+        'dnb-drawer-list__options'
+      )
+
+      keydown(40) // down
+
       expect(
         document.querySelectorAll('li.dnb-drawer-list__option')[0]
           .classList // the first item
@@ -2022,6 +2045,12 @@ describe('Dropdown component', () => {
       ).toContain('dnb-drawer-list--top')
 
       // then simulate changes
+      keydown(38) // up
+
+      expect(document.activeElement.classList).toContain(
+        'dnb-drawer-list__options'
+      )
+
       keydown(38) // up
 
       options = document.querySelectorAll('li.dnb-drawer-list__option')
@@ -2064,6 +2093,12 @@ describe('Dropdown component', () => {
       ).toContain('dnb-drawer-list__option--focus')
 
       // then simulate changes
+      keydown(38) // up
+
+      expect(document.activeElement.classList).toContain(
+        'dnb-drawer-list__options'
+      )
+
       keydown(38) // up
 
       options = document.querySelectorAll('li.dnb-drawer-list__option')

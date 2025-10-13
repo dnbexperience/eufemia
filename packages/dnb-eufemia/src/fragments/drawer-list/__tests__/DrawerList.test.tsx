@@ -313,6 +313,43 @@ describe('DrawerList component', () => {
     })
   })
 
+  it('keyboard navigation focuses list before looping', async () => {
+    render(<DrawerList {...props} value={undefined} data={mockData} />)
+
+    expect(getFocusedItemIndex()).toBe(-1)
+    expect(isListFocused()).toBe(false)
+
+    keydown(40) // down
+
+    await waitFor(() => {
+      expect(getFocusedItemIndex()).toBe(0)
+    })
+
+    keydown(38) // up
+
+    await waitFor(() => {
+      expect(isListFocused()).toBe(true)
+    })
+
+    keydown(38) // up
+
+    await waitFor(() => {
+      expect(getFocusedItemIndex()).toBe(6)
+    })
+
+    keydown(40) // down
+
+    await waitFor(() => {
+      expect(isListFocused()).toBe(true)
+    })
+
+    keydown(40) // down
+
+    await waitFor(() => {
+      expect(getFocusedItemIndex()).toBe(0)
+    })
+  })
+
   it('keyboard navigation loops when item is selected', async () => {
     render(<DrawerList {...props} data={mockData} />)
 
@@ -344,12 +381,6 @@ describe('DrawerList component', () => {
     })
 
     keydown(40) // down
-
-    await waitFor(() => {
-      expect(getFocusedItemIndex()).toBe(0)
-    })
-
-    keydown(38) // up
 
     await waitFor(() => {
       expect(isListFocused()).toBe(true)
