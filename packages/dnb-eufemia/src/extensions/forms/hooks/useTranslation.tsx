@@ -12,6 +12,7 @@ import { extendDeep } from '../../../shared/component-helper'
 import { DeepPartial } from '../../../shared/types'
 import { LOCALE } from '../../../shared/defaults'
 import formsLocales from '../constants/locales'
+import useTranslationFallback from './useTranslationFallback'
 
 export type FormsTranslationDefaultLocales = typeof formsLocales
 export type FormsTranslationLocale = keyof FormsTranslationDefaultLocales
@@ -29,8 +30,17 @@ type CustomLocales = Partial<
   Record<FormsTranslationLocale, FormsTranslation>
 >
 
-export default function useTranslation<T = FormsTranslation>(
+export type UseTranslationArgs<T = FormsTranslation> = {
   messages?:
+    | FormsTranslation
+    | CustomLocales
+    | Record<FormsTranslationLocale, T>
+  fallbackLocale?: FormsTranslationLocale
+}
+
+export default function useTranslation<T = FormsTranslation>(
+  messagesOrArgs?:
+    | UseTranslationArgs<T>
     | FormsTranslation
     | CustomLocales
     | Record<FormsTranslationLocale, T>
@@ -38,6 +48,38 @@ export default function useTranslation<T = FormsTranslation>(
   const { locale, translation: globalTranslation } =
     useContext(SharedContext)
   const { assignUtils } = useAdditionalUtils()
+
+  const { messages, fallbackLocale } = useMemo(() => {
+    const arg = messagesOrArgs as UseTranslationArgs<T>
+    if (
+      messagesOrArgs &&
+      typeof messagesOrArgs === 'object' &&
+      ('messages' in (messagesOrArgs as Record<string, unknown>) ||
+        'fallbackLocale' in (messagesOrArgs as Record<string, unknown>))
+    ) {
+      return {
+        messages: arg?.messages as
+          | FormsTranslation
+          | CustomLocales
+          | Record<FormsTranslationLocale, T>
+          | undefined,
+        fallbackLocale: arg?.fallbackLocale,
+      }
+    }
+    return {
+      messages: messagesOrArgs as
+        | FormsTranslation
+        | CustomLocales
+        | Record<FormsTranslationLocale, T>
+        | undefined,
+      fallbackLocale: LOCALE,
+    }
+  }, [messagesOrArgs])
+
+  const applyFallback = useTranslationFallback<T>({
+    messages: messages as any,
+    fallbackLocale,
+  })
 
   return useMemo<
     TranslationFlatToObject<T> & AdditionalReturnUtils
@@ -59,12 +101,22 @@ export default function useTranslation<T = FormsTranslation>(
       globalTranslation
     )
 
-    return assignUtils(
+    const base = assignUtils(
       combineWithExternalTranslations({
         translation,
-        messages,
+        messages: messages as any,
         locale,
       })
     ) as TranslationFlatToObject<T> & AdditionalReturnUtils
-  }, [assignUtils, globalTranslation, locale, messages])
+
+    // Enhance with fallback merging if requested
+    return applyFallback(base)
+  }, [
+    assignUtils,
+    globalTranslation,
+    locale,
+    messages,
+    fallbackLocale,
+    applyFallback,
+  ])
 }

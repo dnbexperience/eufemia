@@ -1,109 +1,105 @@
-import { useMemo, useContext } from 'react'
+import { useCallback, useContext } from 'react'
 import SharedContext, {
   TranslationFlatToObject,
 } from '../../../shared/Context'
 import { LOCALE } from '../../../shared/defaults'
 import { AdditionalReturnUtils } from '../../../shared/useTranslation'
 import { warn, isObject } from '../../../shared/component-helper'
-import { DeepPartial } from '../../../shared/types'
 import formsLocales from '../constants/locales'
-import useTranslation from './useTranslation'
 
 export type FormsTranslationDefaultLocales = typeof formsLocales
-
 export type FormsTranslationLocale = keyof FormsTranslationDefaultLocales
-export type FormsTranslationKeys =
-  keyof FormsTranslationDefaultLocales[FormsTranslationLocale]
-export type FormsTranslationValues =
-  FormsTranslationDefaultLocales[FormsTranslationLocale]
 
-export type FormsTranslation = DeepPartial<FormsTranslationValues>
-export type CustomLocales = Record<
-  FormsTranslationLocale,
-  FormsTranslation
->
-
-export type UseTranslationWithFallbackArgs<T = FormsTranslation> = {
-  messages?:
-    | FormsTranslation
-    | CustomLocales
-    | Record<FormsTranslationLocale, T>
+export type UseTranslationFallbackArgs<T> = {
+  messages?: Record<FormsTranslationLocale, T> | unknown
   fallbackLocale?: FormsTranslationLocale
 }
 
-export default function useTranslationWithFallback<
-  T extends Record<string, unknown> = FormsTranslation,
->({
-  messages,
-  fallbackLocale = LOCALE,
-}: UseTranslationWithFallbackArgs<T> = {}) {
+export default function useTranslationFallback<
+  T extends Record<string, unknown>,
+>({ messages, fallbackLocale = LOCALE }: UseTranslationFallbackArgs<T>) {
   const { locale, translations: contextTranslations } =
     useContext(SharedContext)
 
-  // Use the base useTranslation hook
-  const baseResult = useTranslation<T>(messages)
+  const apply = useCallback(
+    (base: TranslationFlatToObject<T> & AdditionalReturnUtils) => {
+      if (!fallbackLocale) {
+        return base
+      }
 
-  return useMemo<
-    TranslationFlatToObject<T> & AdditionalReturnUtils
-  >(() => {
-    // No explicit fallback -> use base translations
-    if (!fallbackLocale) {
-      return baseResult
-    }
+      // Prefer explicit messages; otherwise, fall back to internal forms locales
+      const explicitMessages = messages as
+        | Record<string, unknown>
+        | undefined
 
-    const translationsToUse = messages || contextTranslations
-    const currentMessages = translationsToUse?.[locale]
-    const fallbackMessages = translationsToUse?.[fallbackLocale] as
-      | T
-      | undefined
+      let hasExplicitCurrent = false
+      let currentMessages = undefined as T | undefined
+      if (explicitMessages && Object.prototype.hasOwnProperty.call(explicitMessages, locale)) {
+        hasExplicitCurrent = true
+        currentMessages = explicitMessages[locale] as T | undefined
+      } else if (
+        contextTranslations &&
+        Object.prototype.hasOwnProperty.call(contextTranslations, locale)
+      ) {
+        hasExplicitCurrent = true
+        currentMessages = contextTranslations[locale] as T | undefined
+      }
+      const fallbackMessages =
+        ((explicitMessages?.[fallbackLocale] as T | undefined) ||
+          (contextTranslations?.[fallbackLocale] as T | undefined) ||
+          ((formsLocales as unknown as Record<string, unknown>)[
+            fallbackLocale
+          ] as T | undefined)) ?? undefined
 
-    // If either current or fallback is unavailable, keep base result
-    if (!currentMessages || !fallbackMessages) {
-      return baseResult
-    }
+      if (!fallbackMessages) {
+        return base
+      }
 
-    const currentHasContent =
-      isObject(currentMessages) && Object.keys(currentMessages).length > 0
+      if (!hasExplicitCurrent) {
+        // No explicit current locale provided -> keep base result
+        return base
+      }
 
-    // Empty current locale: return full pointer structure (dotted paths)
-    if (!currentHasContent) {
-      warnAboutMissingTranslation(locale)
-      const obj = generateTranslationKeyReferences(
-        '',
+      const currentHasContent =
+        isObject(currentMessages) && Object.keys(currentMessages).length > 0
+
+      if (!currentHasContent) {
+        warnMissing(locale)
+        const obj = generateTranslationKeyReferences(
+          '',
+          fallbackMessages
+        ) as TranslationFlatToObject<T>
+        return withUtils(base, obj)
+      }
+
+      const { result, hasMissing } = mergeMissingKeys<T>(
+        base as unknown as TranslationFlatToObject<T>,
         fallbackMessages
-      ) as TranslationFlatToObject<T>
-      return withUtils(baseResult, obj)
-    }
+      )
+      if (hasMissing) {
+        warnMissing(locale)
+        return withUtils(base, result)
+      }
 
-    // Merge missing keys from fallback into current (leaves become leaf-key pointers)
-    const { result, hasMissing } = mergeMissingKeys<T>(
-      baseResult as unknown as TranslationFlatToObject<T>,
-      fallbackMessages
-    )
-    if (hasMissing) {
-      warnAboutMissingTranslation(locale)
-      return withUtils(baseResult, result)
-    }
+      return base
+    },
+    [contextTranslations, fallbackLocale, locale, messages]
+  )
 
-    return baseResult
-  }, [baseResult, locale, messages, contextTranslations, fallbackLocale])
+  return apply
 }
 
 function withUtils<T extends Record<string, unknown>>(
-  base: AdditionalReturnUtils,
+  base: TranslationFlatToObject<T> & AdditionalReturnUtils,
   obj: TranslationFlatToObject<T>
 ): TranslationFlatToObject<T> & AdditionalReturnUtils {
-  return Object.assign({}, obj, {
+  return Object.assign({}, base, obj, {
     formatMessage: base.formatMessage,
     renderMessage: base.renderMessage,
     countries: base.countries,
   })
 }
 
-/**
- * Merges missing keys from source into target, returning both the result and whether any keys were missing
- * This function is pure and doesn't mutate the input objects
- */
 function mergeMissingKeys<T extends Record<string, unknown>>(
   target: TranslationFlatToObject<T>,
   source: T
@@ -147,10 +143,6 @@ function mergeMissingKeys<T extends Record<string, unknown>>(
   return { result: resultLocal as TranslationFlatToObject<T>, hasMissing }
 }
 
-/**
- * Generates translation key references for nested objects
- * This creates a structure where values are translation keys instead of actual translated text
- */
 function generateTranslationKeyReferences(
   baseKey: string,
   sourceValue: unknown
@@ -170,7 +162,7 @@ function generateTranslationKeyReferences(
   return result
 }
 
-function warnAboutMissingTranslation(locale: string) {
+function warnMissing(locale: string) {
   warn(
     `Form.useTranslation: No translations found for locale "${locale}"!`
   )

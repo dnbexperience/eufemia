@@ -3,7 +3,6 @@ import React from 'react'
 import { spyOnEufemiaWarn } from '../../../../../core/jest/jestSetup'
 import { fireEvent, render } from '@testing-library/react'
 import { Field, Form, JSONSchema, Tools, Value, Ajv } from '../../..'
-import useTranslationWithFallback from '../../../hooks/useTranslationWithFallback'
 import { SectionProps } from '../Section'
 import { Props as FieldNameProps } from '../../../Field/Name'
 import FieldPropsProvider from '../../../Field/Provider'
@@ -1410,7 +1409,7 @@ describe('Form.Section', () => {
         (typeof sectionTranslations)[keyof typeof sectionTranslations]
 
       const MySectionContent = () => {
-        const tr = useTranslationWithFallback<SectionTranslation>()
+        const tr = Form.useTranslation<SectionTranslation>()
         return <output>{tr.MyComponent.title}</output>
       }
 
