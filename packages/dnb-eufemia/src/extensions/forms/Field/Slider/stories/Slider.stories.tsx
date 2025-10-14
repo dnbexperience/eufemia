@@ -72,15 +72,13 @@ export function Slider() {
 }
 
 const transformOut = (internal) => {
-  if (internal) {
-    return { value: internal }
-  }
+  return { someValue: internal }
 }
 
 const transformIn = (external: any) => {
   if (external) {
-    const { value } = external
-    return value
+    const { someValue } = external
+    return someValue
   }
 }
 
@@ -89,7 +87,7 @@ export const SlidersTransformers = () => {
     <Form.Handler
       defaultData={{
         myField: {
-          value: 21,
+          someValue: 21,
         },
       }}
     >

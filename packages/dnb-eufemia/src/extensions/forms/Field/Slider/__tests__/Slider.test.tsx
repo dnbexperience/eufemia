@@ -155,18 +155,16 @@ describe('Field.Slider', () => {
       const onChange = jest.fn()
       const value = 70
 
-      const transformOut = (internal) => {
-        if (internal) {
-          return { value: internal }
-        }
-      }
+      const transformOut = jest.fn((internal) => {
+        return { value: internal }
+      })
 
-      const transformIn = (external: any) => {
+      const transformIn = jest.fn((external) => {
         if (external) {
           const { value } = external
           return value
         }
-      }
+      })
 
       render(
         <Form.Handler
