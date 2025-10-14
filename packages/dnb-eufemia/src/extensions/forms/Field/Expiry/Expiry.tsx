@@ -89,33 +89,31 @@ function Expiry(props: ExpiryProps) {
     return undefined
   }, [props.validateInitially, props.value])
 
-  const valueProp = useMemo(() => {
-    const { month, year } = stringToExpiryValue(
-      props.value ?? props.defaultValue
-    )
-    const monthString = expiryValueToString(month, placeholders.month)
-    const yearString = expiryValueToString(year, placeholders.year)
-
-    if (
-      isFieldEmpty(monthString, placeholders.month) &&
-      isFieldEmpty(yearString, placeholders.year)
-    ) {
-      return ''
-    }
-
-    return `${monthString}${yearString}`
-  }, [
-    props.value,
-    props.defaultValue,
-    placeholders.month,
-    placeholders.year,
-  ])
-
   const preparedProps: ExpiryProps = {
     ...props,
     errorMessages,
-    value: valueProp,
+    fromExternal: (external) => {
+      if (typeof external === 'string') {
+        const { month, year } = stringToExpiryValue(external)
+        const monthString = expiryValueToString(month, placeholders.month)
+        const yearString = expiryValueToString(year, placeholders.year)
+
+        if (
+          isFieldEmpty(monthString, placeholders.month) &&
+          isFieldEmpty(yearString, placeholders.year)
+        ) {
+          return ''
+        }
+
+        return `${monthString}${yearString}`
+      }
+      return external
+    },
     fromInput: handleInput,
+    provideAdditionalArgs: (v: string) =>
+      v && v.length >= 4
+        ? { month: v.slice(0, 2), year: v.slice(2, 4) }
+        : { month: undefined, year: undefined },
     validateRequired,
     validateInitially: validateInitially,
     onBlurValidator: monthAndYearValidator,

@@ -97,20 +97,20 @@ describe('Field.Expiry', () => {
   it('should support transformers', async () => {
     const onChange = jest.fn()
 
-    const transformOut = (internal) => {
+    const transformOut = jest.fn((internal) => {
       if (internal?.length === 4) {
         const month = internal.slice(0, 2)
         const year = internal.slice(2, 4)
         return { year, month }
       }
-    }
+    })
 
-    const transformIn = (external: any) => {
+    const transformIn = jest.fn((external) => {
       if (external) {
         const { year, month } = external
         return `${month}${year}`
       }
-    }
+    })
 
     render(
       <Form.Handler
