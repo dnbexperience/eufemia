@@ -120,5 +120,17 @@ describe.each(['ui', 'sbanken'])('Breadcrumb for %s', (themeName) => {
       })
       expect(screenshot).toMatchImageSnapshot()
     })
+
+    it('have to match Breadcrumb collapse opened', async () => {
+      const screenshot = await makeScreenshot({
+        selector:
+          '[data-visual-test="breadcrumb-collapse"] .dnb-breadcrumb',
+        simulateSelector:
+          '[data-visual-test="breadcrumb-collapse"] .dnb-breadcrumb__toggle',
+        recalculateHeightAfterSimulate: true,
+        simulate: 'click',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
   })
 })
