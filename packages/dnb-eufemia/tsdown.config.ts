@@ -79,7 +79,7 @@ function makeBundleConfig(
     ...pkg.dependencies,
     ...pkg.peerDependencies,
   }).filter((dep) => !alwaysExternal.includes(dep))
-  noExternal.push(/^date-fns(?:\/|$)/, 'ajv/dist/2020')
+  noExternal.push(/^date-fns(?:\/|$)/, /^ajv\/dist\/2020/)
 
   return {
     // Parse JSX that lives in .js files
