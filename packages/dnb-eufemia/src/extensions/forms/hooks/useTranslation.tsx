@@ -3,16 +3,13 @@ import SharedContext, {
   TranslationFlatToObject,
   TranslationObjectToFlat,
 } from '../../../shared/Context'
-import {
-  combineWithExternalTranslations,
+import sharedUseTranslation, {
   AdditionalReturnUtils,
-  useAdditionalUtils,
 } from '../../../shared/useTranslation'
-import { extendDeep } from '../../../shared/component-helper'
+import { extendDeep, isObject } from '../../../shared/component-helper'
 import { DeepPartial } from '../../../shared/types'
 import { LOCALE } from '../../../shared/defaults'
 import formsLocales from '../constants/locales'
-import useTranslationFallback from './useTranslationFallback'
 
 export type FormsTranslationDefaultLocales = typeof formsLocales
 export type FormsTranslationLocale = keyof FormsTranslationDefaultLocales
@@ -47,13 +44,11 @@ export default function useTranslation<T = FormsTranslation>(
 ) {
   const { locale, translation: globalTranslation } =
     useContext(SharedContext)
-  const { assignUtils } = useAdditionalUtils()
 
   const { messages, fallbackLocale } = useMemo(() => {
     const arg = messagesOrArgs as UseTranslationArgs<T>
     if (
-      messagesOrArgs &&
-      typeof messagesOrArgs === 'object' &&
+      isObject(messagesOrArgs) &&
       ('messages' in (messagesOrArgs as Record<string, unknown>) ||
         'fallbackLocale' in (messagesOrArgs as Record<string, unknown>))
     ) {
@@ -76,47 +71,29 @@ export default function useTranslation<T = FormsTranslation>(
     }
   }, [messagesOrArgs])
 
-  const applyFallback = useTranslationFallback<T>({
-    messages: messages as any,
-    fallbackLocale,
-  })
+  // Resolve forms translation locale
+  let translationLocale = locale
+  if (
+    locale.startsWith('en-') &&
+    !Object.keys(formsLocales).some((l) => l === locale)
+  ) {
+    translationLocale = 'en-GB'
+  }
 
-  return useMemo<
-    TranslationFlatToObject<T> & AdditionalReturnUtils
-  >(() => {
-    // Handle translation fallback logic
-    let translationLocale = locale
-
-    // If e.g. en-US translations don't exist, fallback to en-GB
-    if (
-      locale.startsWith('en-') &&
-      !Object.keys(formsLocales).some((l) => l === locale)
-    ) {
-      translationLocale = 'en-GB'
-    }
-
-    const translation = extendDeep(
+  const base = useMemo(() => {
+    return extendDeep(
       {},
       formsLocales[translationLocale] || formsLocales[LOCALE],
       globalTranslation
     )
+  }, [globalTranslation, translationLocale])
 
-    const base = assignUtils(
-      combineWithExternalTranslations({
-        translation,
-        messages: messages as any,
-        locale,
-      })
-    ) as TranslationFlatToObject<T> & AdditionalReturnUtils
-
-    // Enhance with fallback merging if requested
-    return applyFallback(base)
-  }, [
-    assignUtils,
-    globalTranslation,
-    locale,
+  return sharedUseTranslation<
+    TranslationFlatToObject<T> & AdditionalReturnUtils
+  >({
     messages,
     fallbackLocale,
-    applyFallback,
-  ])
+    base,
+    warnLabel: 'Form.useTranslation',
+  }) as TranslationFlatToObject<T> & AdditionalReturnUtils
 }

@@ -52,6 +52,21 @@ describe('useTranslation without an ID', () => {
     )
   })
 
+  it('should default to nb-NO if a non-existing locale is specified in context', () => {
+    const { result } = renderHook(useTranslation, {
+      wrapper: ({ children }) => (
+        <Provider locale="non-EXISTING">{children}</Provider>
+      ),
+    })
+
+    expect(result.current).toEqual(
+      Object.assign({}, nbNO['nb-NO'], {
+        formatMessage: expect.any(Function),
+        renderMessage: expect.any(Function),
+      })
+    )
+  })
+
   it('should extend translation', () => {
     const extendedLocale = {
       DatePicker: {
@@ -69,6 +84,8 @@ describe('useTranslation without an ID', () => {
   })
 
   it('should extend translation inside locale key', () => {
+    const spy = jest.spyOn(console, 'log').mockImplementation()
+
     const extendedLocale = {
       'nb-NO': {
         DatePicker: {
@@ -97,6 +114,15 @@ describe('useTranslation without an ID', () => {
     expect(resultGB.current.DatePicker).not.toMatchObject(
       extendedLocale['nb-NO'].DatePicker
     )
+
+    expect(console.log).toHaveBeenCalledWith(
+      expect.any(String),
+      expect.stringContaining(
+        'useTranslation: No translations found for locale "en-GB"!'
+      )
+    )
+
+    spy.mockRestore()
   })
 
   it('should support custom translation strings', () => {
@@ -404,11 +430,12 @@ describe('useTranslation with an ID', () => {
     }
 
     const RenderUseTranslation = () => {
-      return useTranslation('other.string', {
+      const str = useTranslation('other.string', {
         foo: 'foo',
         bar: 'bar',
         max: 'max',
-      }) as JSX.Element
+      })
+      return <>{str}</>
     }
 
     const ChangeLocale = (props) => {
@@ -571,6 +598,216 @@ describe('useTranslation with an ID', () => {
           <br />
         </React.Fragment>,
       ])
+    })
+  })
+
+  describe('fallback functionality', () => {
+    let consoleSpy: jest.SpyInstance
+    beforeAll(() => {
+      consoleSpy = jest.spyOn(console, 'log').mockImplementation()
+    })
+    afterEach(() => {
+      consoleSpy.mockClear()
+    })
+    afterAll(() => {
+      consoleSpy.mockRestore()
+    })
+
+    it('should support fallback with new object format', () => {
+      const customTranslations = {
+        'sv-SE': {}, // Empty locale
+        'en-GB': {
+          MyComponent: {
+            title: 'English title',
+            description: 'English description',
+          },
+        },
+      }
+
+      type Translation = (typeof customTranslations)['en-GB']
+
+      const { result } = renderHook(
+        () =>
+          useTranslation<Translation>({
+            messages: customTranslations,
+            fallbackLocale: 'en-GB',
+          }),
+        {
+          wrapper: ({ children }) => (
+            <Provider locale="sv-SE">{children}</Provider>
+          ),
+        }
+      )
+
+      expect(result.current.MyComponent.title).toBe('MyComponent.title')
+      expect(result.current.MyComponent.description).toBe(
+        'MyComponent.description'
+      )
+
+      expect(console.log).toHaveBeenCalledWith(
+        expect.any(String),
+        expect.stringContaining(
+          'useTranslation: No translations found for locale "sv-SE"!'
+        )
+      )
+    })
+
+    it('should merge missing keys from fallback when current locale has partial content', () => {
+      const customTranslations = {
+        'sv-SE': {
+          MyComponent: {
+            title: 'Swedish title',
+            // description is missing
+          },
+        },
+        'en-GB': {
+          MyComponent: {
+            title: 'English title',
+            description: 'English description',
+          },
+        },
+      }
+
+      type Translation = (typeof customTranslations)['en-GB']
+
+      const { result } = renderHook(
+        () =>
+          useTranslation<Translation>({
+            messages: customTranslations,
+            fallbackLocale: 'en-GB',
+          }),
+        {
+          wrapper: ({ children }) => (
+            <Provider locale="sv-SE">{children}</Provider>
+          ),
+        }
+      )
+
+      expect(result.current.MyComponent.title).toBe('Swedish title')
+      expect(result.current.MyComponent.description).toBe('description')
+
+      expect(console.log).toHaveBeenCalledWith(
+        expect.any(String),
+        expect.stringContaining(
+          'useTranslation: No translations found for locale "sv-SE"!'
+        )
+      )
+    })
+
+    it('should not apply fallback when current locale has complete content', () => {
+      const customTranslations = {
+        'sv-SE': {
+          MyComponent: {
+            title: 'Swedish title',
+            description: 'Swedish description',
+          },
+        },
+        'en-GB': {
+          MyComponent: {
+            title: 'English title',
+            description: 'English description',
+          },
+        },
+      }
+
+      type Translation = (typeof customTranslations)['en-GB']
+
+      const { result } = renderHook(
+        () =>
+          useTranslation<Translation>({
+            messages: customTranslations,
+            fallbackLocale: 'en-GB',
+          }),
+        {
+          wrapper: ({ children }) => (
+            <Provider locale="sv-SE">{children}</Provider>
+          ),
+        }
+      )
+
+      expect(result.current.MyComponent.title).toBe('Swedish title')
+      expect(result.current.MyComponent.description).toBe(
+        'Swedish description'
+      )
+
+      expect(console.log).not.toHaveBeenCalled()
+    })
+
+    it('should work with context translations and fallback', () => {
+      const contextTranslations = {
+        'sv-SE': {},
+        'en-GB': {
+          MyComponent: {
+            title: 'English title',
+            description: 'English description',
+          },
+        },
+      }
+
+      type Translation = (typeof contextTranslations)['en-GB']
+
+      const { result } = renderHook(
+        () =>
+          useTranslation<Translation>({
+            fallbackLocale: 'en-GB',
+          }),
+        {
+          wrapper: ({ children }) => (
+            <Provider locale="sv-SE" translations={contextTranslations}>
+              {children}
+            </Provider>
+          ),
+        }
+      )
+
+      expect(result.current.MyComponent.title).toBe('MyComponent.title')
+      expect(result.current.MyComponent.description).toBe(
+        'MyComponent.description'
+      )
+
+      expect(console.log).toHaveBeenCalledWith(
+        expect.any(String),
+        expect.stringContaining(
+          'useTranslation: No translations found for locale "sv-SE"!'
+        )
+      )
+    })
+
+    it('should support fallback with default signature (messages only)', () => {
+      const customTranslations = {
+        'sv-SE': {}, // Empty locale
+        'nb-NO': {
+          MyComponent: {
+            title: 'Norwegian title',
+            description: 'Norwegian description',
+          },
+        },
+      }
+
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error
+      type Translation = (typeof customTranslations)['en-GB']
+
+      const { result } = renderHook(
+        () => useTranslation<Translation>(customTranslations),
+        {
+          wrapper: ({ children }) => (
+            <Provider locale="sv-SE">{children}</Provider>
+          ),
+        }
+      )
+
+      expect(result.current.MyComponent.title).toBe('MyComponent.title')
+      expect(result.current.MyComponent.description).toBe(
+        'MyComponent.description'
+      )
+
+      expect(console.log).toHaveBeenCalledWith(
+        expect.any(String),
+        expect.stringContaining(
+          'useTranslation: No translations found for locale "sv-SE"!'
+        )
+      )
     })
   })
 

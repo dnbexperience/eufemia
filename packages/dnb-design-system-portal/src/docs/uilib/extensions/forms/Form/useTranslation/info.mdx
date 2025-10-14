@@ -106,6 +106,39 @@ render(
 )
 ```
 
+## Fallback for missing or partial translations
+
+The shared `Form.useTranslation` hook will output missing keys..
+
+- Empty explicit locale: returns pointer strings (e.g. `MyNamespace.label`) derived from `fallbackLocale="nb-NO"`.
+- Partial explicit locale: merges missing keys as pointer strings, preserving existing ones.
+- Non-existent current locale (no explicit entry in your translations): the hook preserves defaults (no pointers).
+
+```tsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+
+const translations = {
+  'sv-SE': {}, // empty explicit current-locale
+  'en-GB': { MyNamespace: { label: 'English label' } },
+}
+
+type T = (typeof translations)['en-GB']
+
+function Example() {
+  const t = Form.useTranslation<T>({
+    messages: translations,
+    fallbackLocale: 'en-GB',
+  })
+  return <>{t.MyNamespace.label /* 'MyNamespace.label' */}</>
+}
+
+render(
+  <Provider locale="sv-SE" translations={translations}>
+    <Example />
+  </Provider>,
+)
+```
+
 ## Using the `<Translation />`
 
 Instead of using the hook, you can also, use the `<Translation />` component to consume your translations:
