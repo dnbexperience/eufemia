@@ -3,6 +3,14 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.85.1](https://github.com/dnbexperience/eufemia/compare/v10.85.0...v10.85.1) (2025-10-14)
+
+
+### :bug: Bug Fixes
+
+* **Field.DateOfBirth:** ensure support for `transformIn` and `transformOut` ([#5586](https://github.com/dnbexperience/eufemia/issues/5586)) ([208e605](https://github.com/dnbexperience/eufemia/commit/208e60541e4cdeefe4dbd5d446a4a7109713ba69))
+* **Tabs:** address TypeScript issues introduced in recent changes ([#5597](https://github.com/dnbexperience/eufemia/issues/5597)) ([f7760dd](https://github.com/dnbexperience/eufemia/commit/f7760dd42d95581b612b83a8454336cd97ad23a7))
+
 ## [10.85.0](https://github.com/dnbexperience/eufemia/compare/v10.84.0...v10.85.0) (2025-10-10)
 
 
