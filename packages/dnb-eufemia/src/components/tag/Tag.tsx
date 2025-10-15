@@ -118,6 +118,7 @@ const Tag = (
     variant = 'default',
     onClick,
     omitOnKeyUpDeleteEvent,
+    icon,
     removeIconTitle, // has a translation in context
     addIconTitle, // has a translation in context
     ...props
@@ -135,8 +136,7 @@ const Tag = (
     isInteractive && 'dnb-tag--interactive',
     `dnb-tag--${variant}`
   )
-  const buttonAttr: typeof props & Pick<ButtonProps, 'element' | 'type'> =
-    props
+  const additionalButtonParams: Pick<ButtonProps, 'element' | 'type'> = {}
 
   const isDeleteKeyboardEvent = (keyboardEvent) => {
     return (
@@ -151,14 +151,8 @@ const Tag = (
   }
 
   if (!isInteractive) {
-    buttonAttr.element = 'span'
-    buttonAttr.type = ''
-  }
-
-  if (addIcon) {
-    buttonAttr.icon = getIcon(
-      variant === 'addable' ? addIconTitle : removeIconTitle
-    )
+    additionalButtonParams.element = 'span'
+    additionalButtonParams.type = ''
   }
 
   if (!tagGroupContext && !hasLabel) {
@@ -171,6 +165,11 @@ const Tag = (
     <Button
       variant="unstyled"
       size="small"
+      icon={
+        addIcon
+          ? getIcon(variant === 'addable' ? addIconTitle : removeIconTitle)
+          : icon
+      }
       icon_position={addIcon ? 'right' : 'left'}
       className={tagClassNames}
       on_click={onClick}
@@ -181,7 +180,8 @@ const Tag = (
           ? (e) => handleDeleteKeyUp(e)
           : undefined
       }
-      {...buttonAttr}
+      {...additionalButtonParams}
+      {...(props as any)}
     />
   )
 }
