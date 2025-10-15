@@ -223,9 +223,8 @@ export const TransformInAndOut = () => {
 
         const transformIn = (external) => {
           return {
-            countryCode: external?.iso,
+            countryCode: external?.countryCodePrefix,
             phoneNumber: external?.phoneNumber,
-            iso: external?.countryCodePrefix,
           }
         }
 
