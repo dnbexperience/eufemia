@@ -2,8 +2,14 @@ import React from 'react'
 import { render, fireEvent, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
-import DataContext from '../../../DataContext/Context'
-import { Field, FieldBlock, Form, Iterate } from '../../..'
+import {
+  Field,
+  FieldBlock,
+  Form,
+  Iterate,
+  makeAjvInstance,
+  DataContext,
+} from '../../..'
 
 import nbNO from '../../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO']
@@ -875,19 +881,21 @@ describe('ArraySelection', () => {
         ]
 
         render(
-          <Field.ArraySelection
-            label="Select cities"
-            data={data}
-            schema={{
-              type: 'array',
-              minItems: 2,
-              maxItems: 3,
-            }}
-            errorMessages={{
-              minItems: 'You must select at least two',
-              maxItems: 'You can only select up to three',
-            }}
-          />
+          <DataContext.Provider ajvInstance={makeAjvInstance()}>
+            <Field.ArraySelection
+              label="Select cities"
+              data={data}
+              schema={{
+                type: 'array',
+                minItems: 2,
+                maxItems: 3,
+              }}
+              errorMessages={{
+                minItems: 'You must select at least two',
+                maxItems: 'You can only select up to three',
+              }}
+            />
+          </DataContext.Provider>
         )
 
         // Trying to select only one item

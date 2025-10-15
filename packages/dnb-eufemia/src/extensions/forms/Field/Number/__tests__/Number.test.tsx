@@ -19,7 +19,7 @@ import {
   z,
 } from '../../..'
 import { format } from '../../../../../components/number-format/NumberUtils'
-import { Provider } from '../../../../../shared'
+import { Provider as SharedProvider } from '../../../../../shared'
 import nbNO from '../../../constants/locales/nb-NO'
 import enGB from '../../../constants/locales/en-GB'
 
@@ -100,18 +100,18 @@ describe('Field.Number', () => {
 
     it('should format according to en-GB locale (no currency)', () => {
       render(
-        <Provider locale="en-GB">
+        <SharedProvider locale="en-GB">
           <Field.Number value={1234.56789} decimalLimit={2} />
-        </Provider>
+        </SharedProvider>
       )
       expect(document.querySelector('input')).toHaveValue('1,234.56')
     })
 
     it('should format according to de-DE locale (no currency)', () => {
       render(
-        <Provider locale="de-DE">
+        <SharedProvider locale="de-DE">
           <Field.Number value={1234.56789} decimalLimit={2} />
-        </Provider>
+        </SharedProvider>
       )
       expect(document.querySelector('input')).toHaveValue('1.234,56')
     })
@@ -602,9 +602,9 @@ describe('Field.Number', () => {
 
       it('formats in different locale', () => {
         render(
-          <Provider locale="en-GB">
+          <SharedProvider locale="en-GB">
             <Field.Number value={1234.56789} currency decimalLimit={2} />
-          </Provider>
+          </SharedProvider>
         )
         expect(document.querySelector('input')).toHaveValue('1,234.56 NOK')
       })
@@ -902,9 +902,9 @@ describe('Field.Number', () => {
 
     it('formats using provided locale (en-GB)', async () => {
       render(
-        <Provider locale="en-GB">
+        <SharedProvider locale="en-GB">
           <Field.Number maximum={1000} />
-        </Provider>
+        </SharedProvider>
       )
 
       const input = document.querySelector('input')
@@ -1292,7 +1292,11 @@ describe('Field.Number', () => {
         const log = jest.spyOn(console, 'error').mockImplementation()
 
         const invalidValue = 'foo' as null
-        render(<Field.Number schema={schema} value={invalidValue} />)
+        render(
+          <DataContext.Provider ajvInstance={makeAjvInstance()}>
+            <Field.Number schema={schema} value={invalidValue} />
+          </DataContext.Provider>
+        )
 
         const input = document.querySelector('input')
         expect(input).toHaveValue('')
@@ -1319,7 +1323,11 @@ describe('Field.Number', () => {
       it('Ajv integer field schema: shows type error when typing 1.2 (decimal)', async () => {
         const schema: JSONSchema = { type: 'integer' }
 
-        render(<Field.Number schema={schema} />)
+        render(
+          <DataContext.Provider ajvInstance={makeAjvInstance()}>
+            <Field.Number schema={schema} />
+          </DataContext.Provider>
+        )
 
         const input = document.querySelector('input')
         await userEvent.type(input, '1.2')

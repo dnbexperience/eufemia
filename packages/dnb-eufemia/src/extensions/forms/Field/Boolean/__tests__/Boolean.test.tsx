@@ -1668,11 +1668,13 @@ describe('Field.Boolean', () => {
       }
 
       render(
-        <Field.Boolean
-          value={false}
-          schema={booleanSchema}
-          validateInitially
-        />
+        <DataContext.Provider ajvInstance={makeAjvInstance()}>
+          <Field.Boolean
+            value={false}
+            schema={booleanSchema}
+            validateInitially
+          />
+        </DataContext.Provider>
       )
 
       const formStatus = document.querySelector('.dnb-form-status')
@@ -1687,11 +1689,13 @@ describe('Field.Boolean', () => {
       }
 
       render(
-        <Field.Boolean
-          value={false}
-          schema={booleanSchema}
-          validateInitially
-        />
+        <DataContext.Provider ajvInstance={makeAjvInstance()}>
+          <Field.Boolean
+            value={false}
+            schema={booleanSchema}
+            validateInitially
+          />
+        </DataContext.Provider>
       )
 
       const formStatus = document.querySelector('.dnb-form-status')

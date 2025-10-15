@@ -21,6 +21,7 @@ import {
   Validator,
   Value,
   z,
+  makeAjvInstance,
 } from '../../..'
 import sharedGB from '../../../../../shared/locales/en-GB'
 import nbNO from '../../../constants/locales/nb-NO'
@@ -830,10 +831,12 @@ describe('Field.String', () => {
 
         it('should show error only after changing when the value is still invalid', async () => {
           render(
-            <Field.String
-              value="abc"
-              schema={{ type: 'string', minLength: 6 }}
-            />
+            <Provider ajvInstance={makeAjvInstance()}>
+              <Field.String
+                value="abc"
+                schema={{ type: 'string', minLength: 6 }}
+              />
+            </Provider>
           )
           // Do not show error initially when validateInitially is not enabled, to avoid initial error messages all over empty forms
           expect(
@@ -884,11 +887,13 @@ describe('Field.String', () => {
       describe('with validateInitially', () => {
         it('should show error message initially', async () => {
           render(
-            <Field.String
-              value="abc"
-              schema={{ type: 'string', minLength: 6 }}
-              validateInitially
-            />
+            <Provider ajvInstance={makeAjvInstance()}>
+              <Field.String
+                value="abc"
+                schema={{ type: 'string', minLength: 6 }}
+                validateInitially
+              />
+            </Provider>
           )
           await waitFor(() => {
             expect(screen.getByRole('alert')).toBeInTheDocument()
@@ -899,11 +904,13 @@ describe('Field.String', () => {
       describe('with validateUnchanged', () => {
         it('should show error message when blurring without any changes', async () => {
           render(
-            <Field.String
-              value="abc"
-              schema={{ type: 'string', minLength: 6 }}
-              validateUnchanged
-            />
+            <Provider ajvInstance={makeAjvInstance()}>
+              <Field.String
+                value="abc"
+                schema={{ type: 'string', minLength: 6 }}
+                validateUnchanged
+              />
+            </Provider>
           )
           const input = document.querySelector('input')
           expect(
@@ -1847,11 +1854,13 @@ describe('Field.String', () => {
 
     it('should have aria-invalid', () => {
       render(
-        <Field.String
-          value="abc"
-          schema={{ type: 'string', minLength: 6 }}
-          validateInitially
-        />
+        <Provider ajvInstance={makeAjvInstance()}>
+          <Field.String
+            value="abc"
+            schema={{ type: 'string', minLength: 6 }}
+            validateInitially
+          />
+        </Provider>
       )
 
       const input = document.querySelector('input')
@@ -1881,12 +1890,14 @@ describe('Field.String', () => {
 
       it('should have aria-invalid', () => {
         render(
-          <Field.String
-            multiline
-            value="abc"
-            schema={{ type: 'string', minLength: 6 }}
-            validateInitially
-          />
+          <Provider ajvInstance={makeAjvInstance()}>
+            <Field.String
+              multiline
+              value="abc"
+              schema={{ type: 'string', minLength: 6 }}
+              validateInitially
+            />
+          </Provider>
         )
 
         const textarea = document.querySelector('textarea')

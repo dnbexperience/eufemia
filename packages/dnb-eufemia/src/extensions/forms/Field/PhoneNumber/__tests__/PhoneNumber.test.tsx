@@ -4,8 +4,13 @@ import { axeComponent } from '../../../../../core/jest/jestSetup'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import SharedProvider from '../../../../../shared/Provider'
-import DataContext from '../../../DataContext/Context'
-import { Field, Form, JSONSchema } from '../../..'
+import {
+  Field,
+  Form,
+  JSONSchema,
+  makeAjvInstance,
+  DataContext,
+} from '../../..'
 import locales from '../../../constants/locales'
 import DrawerListProvider from '../../../../../fragments/drawer-list/DrawerListProvider'
 import { AdditionalArgs } from '../PhoneNumber'
@@ -1510,7 +1515,11 @@ describe('Field.PhoneNumber', () => {
       pattern: '^\\+47 [49]+',
     }
 
-    render(<Field.PhoneNumber schema={schema} />)
+    render(
+      <DataContext.Provider ajvInstance={makeAjvInstance()}>
+        <Field.PhoneNumber schema={schema} />
+      </DataContext.Provider>
+    )
 
     const numberElement = document.querySelector(
       '.dnb-forms-field-phone-number__number input'
