@@ -72,13 +72,6 @@ export interface TagProps {
   /**
    * Handle the delete event on 'tag' element
    * Default: null
-   * @deprecated Use `onClick` instead. With `variant='removable'`
-   */
-  onDelete?: React.MouseEventHandler<HTMLButtonElement>
-
-  /**
-   * Handle the delete event on 'tag' element
-   * Default: null
    */
   omitOnKeyUpDeleteEvent?: boolean
 
@@ -128,7 +121,7 @@ const Tag = (
     removeIconTitle, // has a translation in context
     addIconTitle, // has a translation in context
     ...props
-  } = handleDeprecatedBehavior(allProps)
+  } = allProps
 
   const content = text || children
 
@@ -193,24 +186,6 @@ const Tag = (
   )
 }
 
-/**
- * Support deprecated behavior by mutating the props.
- * Deprecated behavior: variant 'clickable' and 'removable' is defined by the 'onClick' and 'onDelete' props
- */
-const handleDeprecatedBehavior: (allProps: TagProps) => TagProps = ({
-  onDelete,
-  ...allProps
-}) => {
-  if (!allProps.variant) {
-    if (allProps.onClick) {
-      allProps.variant = 'clickable'
-    } else if (onDelete) {
-      allProps.onClick = onDelete
-      allProps.variant = 'removable'
-    }
-  }
-  return allProps
-}
 const getIcon = (title: string) => (
   <IconPrimary
     title={title}
