@@ -4418,7 +4418,6 @@ __metadata:
     postcss-selector-parser: "npm:7.1.0"
     prettier: "npm:3.0.3"
     prettier-package-json: "npm:2.8.0"
-    prettier-v2: "npm:prettier@^2"
     process: "npm:0.11.10"
     prop-types: "npm:15.8.1"
     react: "npm:18.2.0"
@@ -31018,15 +31017,6 @@ __metadata:
   bin:
     prettier-package-json: bin/prettier-package-json
   checksum: 10/728b3b83a88ef4fc24e892864587f32f4193b6dbffe673452e8071d2eef1baa1208fe7c3aa7089f683947c637551fbaaf753543fd6c77df603ac6c2b53b0eaff
-  languageName: node
-  linkType: hard
-
-"prettier-v2@npm:prettier@^2":
-  version: 2.8.8
-  resolution: "prettier@npm:2.8.8"
-  bin:
-    prettier: bin-prettier.js
-  checksum: 10/00cdb6ab0281f98306cd1847425c24cbaaa48a5ff03633945ab4c701901b8e96ad558eb0777364ffc312f437af9b5a07d0f45346266e8245beaf6247b9c62b24
   languageName: node
   linkType: hard
 
