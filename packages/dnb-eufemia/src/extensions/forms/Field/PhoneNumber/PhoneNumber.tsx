@@ -168,21 +168,25 @@ function PhoneNumber(props: Props = {}) {
     [props.emptyValue]
   )
 
-  const transformIn = (value: string) => {
-    if (props.transformIn) {
-      const external = props.transformIn(value) as AdditionalArgs | string
+  const customTransformIn = props.transformIn
+  const transformIn = useCallback(
+    (value: string) => {
+      if (customTransformIn) {
+        const external = customTransformIn(value)
 
-      if (typeof external === 'string') {
-        return external
+        if (typeof external === 'string') {
+          return external
+        }
+
+        if (external?.phoneNumber) {
+          return joinValue([external.countryCode, external.phoneNumber])
+        }
       }
 
-      if (external?.phoneNumber) {
-        return joinValue([external.countryCode, external.phoneNumber])
-      }
-    }
-
-    return value
-  }
+      return value
+    },
+    [customTransformIn]
+  )
 
   const provideAdditionalArgs = useCallback(
     (value: string) => {
