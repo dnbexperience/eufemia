@@ -33,7 +33,7 @@ import { DrawerListDataArrayItem } from '../../../../fragments/DrawerList'
 export type AdditionalArgs = {
   phoneNumber: string
   countryCode: string
-  iso: string
+  iso?: string
 }
 
 export type Props = Omit<
