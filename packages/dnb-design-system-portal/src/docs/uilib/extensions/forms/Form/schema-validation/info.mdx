@@ -86,7 +86,7 @@ These two examples will result in the same validation for the user:
 vs.
 
 ```tsx
-import { Form, Field, z } from '@dnb/eufemia/extensions/forms'
+import { Form, Field, z, makeAjvInstance } from '@dnb/eufemia/extensions/forms'
 
 const schema = z.object({
   name: z.string().min(3),
@@ -107,9 +107,7 @@ const schema = z.object({
 import Ajv from 'ajv/dist/2020'
 import { JSONSchema,  } from '@dnb/eufemia/extensions/forms'
 
-const ajv = new Ajv({
-    allErrors: true,
-  })
+const ajv = makeAjvInstance()
 const schema: JSONSchema = {
   properties: {
     name: { minLength: 3 },
@@ -208,12 +206,15 @@ You can provide your custom `validate` function with your own keywords to your s
 First, you need to create your won instance of Ajv:
 
 ```ts
+import { makeAjvInstance } from '@dnb/eufemia/extensions/forms'
 import Ajv from 'ajv/dist/2020'
 
-const ajv = new Ajv({
-  strict: true,
-  allErrors: true,
-})
+const ajv = makeAjvInstance(
+  new Ajv({
+    strict: true,
+    allErrors: true,
+  }),
+)
 ```
 
 Then you add your custom keyword to the Ajv instance:
@@ -246,10 +247,14 @@ And finally add the Ajv instance to your form:
 
 ```tsx
 import Ajv from 'ajv/dist/2020'
-import { Form, Field } from '@dnb/eufemia/extensions/forms'
+import {
+  Form,
+  Field,
+  makeAjvInstance,
+} from '@dnb/eufemia/extensions/forms'
 
 render(
-  <Form.Handler schema={schema} ajvInstance={new Ajv({ allErrors: true })}>
+  <Form.Handler schema={schema} ajvInstance={makeAjvInstance()}>
     <Field.String path="/myKey" value="1" validateInitially />
   </Form.Handler>,
 )
@@ -260,10 +265,13 @@ render(
 Here is another example of a custom keyword, used in one field only:
 
 ```tsx
-import Ajv from 'ajv/dist/2020'
-import { Form, Field } from '@dnb/eufemia/extensions/forms'
+import {
+  Form,
+  Field,
+  makeAjvInstance,
+} from '@dnb/eufemia/extensions/forms'
 
-const ajv = new Ajv({
+const ajv = makeAjvInstance({
   strict: true,
   allErrors: true,
 })

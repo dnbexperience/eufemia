@@ -2,7 +2,14 @@ import React from 'react'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
 import { screen, render, waitFor, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { DataContext, Field, Form, Iterate, Ajv, z } from '../../..'
+import {
+  DataContext,
+  Field,
+  Form,
+  Iterate,
+  makeAjvInstance,
+  z,
+} from '../../..'
 import nbNO from '../../../constants/locales/nb-NO'
 
 const nb = nbNO['nb-NO']
@@ -1708,7 +1715,7 @@ describe('Field.Boolean', () => {
       render(
         <Form.Handler
           schema={schema}
-          ajvInstance={new Ajv({ allErrors: true })}
+          ajvInstance={makeAjvInstance()}
           data={{ myField: false }}
         >
           <Field.Boolean path="/myField" validateInitially />
@@ -1734,7 +1741,7 @@ describe('Field.Boolean', () => {
       render(
         <Form.Handler
           schema={schema}
-          ajvInstance={new Ajv({ allErrors: true })}
+          ajvInstance={makeAjvInstance()}
           data={{ myField: undefined }}
         >
           <Field.Boolean required path="/myField" />

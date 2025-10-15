@@ -7,8 +7,8 @@ import {
   Field,
   FieldBlock,
   Form,
+  makeAjvInstance,
   Wizard,
-  Ajv,
 } from '../../..'
 import nbNO from '../../../constants/locales/nb-NO'
 import enGB from '../../../constants/locales/en-GB'
@@ -2515,7 +2515,7 @@ describe('Field.Date', () => {
         const log = jest.spyOn(console, 'log').mockImplementation()
 
         render(
-          <Form.Handler ajvInstance={new Ajv({ allErrors: true })}>
+          <Form.Handler ajvInstance={makeAjvInstance()}>
             <Field.Date
               value="2023-12-0"
               schema={{ type: 'string', minLength: 10 }}

@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { Field, Form, JSONSchema, Ajv } from '../../..'
+import { Field, Form, JSONSchema, makeAjvInstance } from '../../..'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
 
 import nbNO from '../../../constants/locales/nb-NO'
@@ -591,10 +591,7 @@ describe('Field.Composition', () => {
       }
 
       render(
-        <Form.Handler
-          schema={schema}
-          ajvInstance={new Ajv({ allErrors: true })}
-        >
+        <Form.Handler schema={schema} ajvInstance={makeAjvInstance()}>
           <Field.Composition>
             <Field.Name.First path="/first" />
             <Field.Name.Last path="/last" />
@@ -629,10 +626,7 @@ describe('Field.Composition', () => {
       }
 
       render(
-        <Form.Handler
-          schema={schema}
-          ajvInstance={new Ajv({ allErrors: true })}
-        >
+        <Form.Handler schema={schema} ajvInstance={makeAjvInstance()}>
           <Field.Composition>
             <Field.Name.First path="/first" validateInitially />
             <Field.Name.Last path="/last" validateInitially />
@@ -666,10 +660,7 @@ describe('Field.Composition', () => {
       }
 
       render(
-        <Form.Handler
-          schema={schema}
-          ajvInstance={new Ajv({ allErrors: true })}
-        >
+        <Form.Handler schema={schema} ajvInstance={makeAjvInstance()}>
           <Field.Composition>
             <Field.String path="/first" value="f" validateInitially />
             <Field.String path="/last" value="l" validateInitially />
@@ -703,10 +694,7 @@ describe('Field.Composition', () => {
       }
 
       render(
-        <Form.Handler
-          schema={schema}
-          ajvInstance={new Ajv({ allErrors: true })}
-        >
+        <Form.Handler schema={schema} ajvInstance={makeAjvInstance()}>
           <Field.Composition>
             <Field.String
               path="/first"
@@ -787,10 +775,7 @@ describe('Field.Composition', () => {
       }
 
       render(
-        <Form.Handler
-          schema={schema}
-          ajvInstance={new Ajv({ allErrors: true })}
-        >
+        <Form.Handler schema={schema} ajvInstance={makeAjvInstance()}>
           <Field.Composition>
             <Field.String
               path="/first"

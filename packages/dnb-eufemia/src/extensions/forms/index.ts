@@ -12,17 +12,6 @@ export * as Connectors from './Connectors'
 export { default as FieldBlock } from './FieldBlock'
 export { default as ValueBlock } from './ValueBlock'
 
-/**
- * IMPORTANT: In future AJV will not longer be imported by default in Eufemia Forms.
- *
- * If you use JSON Schema validation (AJV schemas), you MUST:
- * 1. Import AJV: import Ajv from '@dnb/eufemia/extensions/forms'
- * 2. Provide ajvInstance prop to Form.Handler: <Form.Handler ajvInstance={new Ajv({ allErrors: true })}>
- *
- * This ensures your bundle only includes AJV when you actually need it.
- */
-export { default as Ajv } from 'ajv/dist/2020.js'
-
 // Re-export Zod so consumers can `import { z } from '@dnb/eufemia/extensions/forms'`
 export * as z from 'zod'
 

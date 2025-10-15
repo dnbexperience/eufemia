@@ -7,9 +7,9 @@ import {
   Form,
   Iterate,
   JSONSchema,
+  makeAjvInstance,
   Value,
   Wizard,
-  Ajv,
   z,
 } from '../../..'
 import { Div } from '../../../../../elements'
@@ -2104,10 +2104,7 @@ describe('PushContainer', () => {
         const schema: JSONSchema = { type: 'object', properties: {} }
 
         render(
-          <Form.Handler
-            schema={schema}
-            ajvInstance={new Ajv({ allErrors: true })}
-          >
+          <Form.Handler schema={schema} ajvInstance={makeAjvInstance()}>
             <Wizard.Container>
               <Wizard.Step title="Step 1">
                 <output>Step 1</output>
@@ -2660,7 +2657,7 @@ describe('PushContainer', () => {
       render(
         <Form.Handler
           schema={schema}
-          ajvInstance={new Ajv({ allErrors: true })}
+          ajvInstance={makeAjvInstance()}
           onChange={onChange}
         >
           <Iterate.Array path="/entries">...</Iterate.Array>

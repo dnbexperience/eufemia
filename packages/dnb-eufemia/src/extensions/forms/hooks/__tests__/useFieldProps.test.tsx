@@ -27,7 +27,7 @@ import Field, {
   SubmitState,
   UseFieldProps,
   Wizard,
-  Ajv,
+  makeAjvInstance,
 } from '../../Forms'
 import SectionContext, {
   SectionContextState,
@@ -2118,7 +2118,7 @@ describe('useFieldProps', () => {
             }),
           {
             wrapper: ({ children }) => {
-              const ajv = new Ajv({ allErrors: true })
+              const ajv = makeAjvInstance()
               return (
                 <Provider schema={schema} ajvInstance={ajv}>
                   {children}
@@ -2157,7 +2157,7 @@ describe('useFieldProps', () => {
             }),
           {
             wrapper: ({ children }) => {
-              const ajv = new Ajv({ allErrors: true })
+              const ajv = makeAjvInstance()
               return (
                 <Provider schema={schema} ajvInstance={ajv}>
                   {children}
@@ -7958,10 +7958,7 @@ describe('Zod schema support', () => {
 
     const wrapper = ({ children }) => (
       <SectionContext.Provider value={{ path: '', errorPrioritization }}>
-        <Provider
-          schema={jsonSchema}
-          ajvInstance={new Ajv({ allErrors: true })}
-        >
+        <Provider schema={jsonSchema} ajvInstance={makeAjvInstance()}>
           {children}
         </Provider>
       </SectionContext.Provider>
@@ -8059,10 +8056,7 @@ describe('Zod schema support', () => {
           errorPrioritization: ['contextSchema', 'fieldSchema'],
         }}
       >
-        <Provider
-          schema={jsonSchema}
-          ajvInstance={new Ajv({ allErrors: true })}
-        >
+        <Provider schema={jsonSchema} ajvInstance={makeAjvInstance()}>
           {children}
         </Provider>
       </SectionContext.Provider>
@@ -8126,10 +8120,7 @@ describe('Zod schema support', () => {
 
     const wrapper = ({ children }) => (
       <SectionContext.Provider value={{ path: '', errorPrioritization }}>
-        <Provider
-          schema={mockZodSchema}
-          ajvInstance={new Ajv({ allErrors: true })}
-        >
+        <Provider schema={mockZodSchema} ajvInstance={makeAjvInstance()}>
           {children}
         </Provider>
       </SectionContext.Provider>
@@ -8161,10 +8152,7 @@ describe('Zod schema support', () => {
     // Context Zod schema succeeds (mocked in beforeEach)
     const wrapper = ({ children }) => (
       <SectionContext.Provider value={{ path: '', errorPrioritization }}>
-        <Provider
-          schema={mockZodSchema}
-          ajvInstance={new Ajv({ allErrors: true })}
-        >
+        <Provider schema={mockZodSchema} ajvInstance={makeAjvInstance()}>
           {children}
         </Provider>
       </SectionContext.Provider>
@@ -8205,10 +8193,7 @@ describe('Zod schema support', () => {
     // Context Zod schema succeeds (mocked in beforeEach)
     const wrapper = ({ children }) => (
       <SectionContext.Provider value={{ path: '', errorPrioritization }}>
-        <Provider
-          schema={mockZodSchema}
-          ajvInstance={new Ajv({ allErrors: true })}
-        >
+        <Provider schema={mockZodSchema} ajvInstance={makeAjvInstance()}>
           {children}
         </Provider>
       </SectionContext.Provider>

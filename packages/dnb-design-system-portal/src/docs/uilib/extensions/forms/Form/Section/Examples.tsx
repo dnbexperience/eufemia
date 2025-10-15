@@ -7,7 +7,7 @@ import {
   SectionProps,
   Tools,
   Value,
-  Ajv,
+  makeAjvInstance,
 } from '@dnb/eufemia/src/extensions/forms'
 
 export const WithoutDataContext = () => {
@@ -258,7 +258,7 @@ export const OverwriteProps = () => {
 
 export const AllFieldsRequired = () => {
   return (
-    <ComponentBox scope={{ Ajv }}>
+    <ComponentBox scope={{ makeAjvInstance }}>
       {() => {
         const MyNameSection = (props: SectionProps) => {
           return (
@@ -278,9 +278,7 @@ export const AllFieldsRequired = () => {
           required: ['myRequiredSection'],
         }
 
-        const ajv = new Ajv({
-          allErrors: true,
-        })
+        const ajv = makeAjvInstance()
         return (
           <Flex.Stack>
             <Form.Handler
@@ -307,7 +305,7 @@ export const AllFieldsRequired = () => {
 
 export const SchemaSupport = () => {
   return (
-    <ComponentBox scope={{ Ajv }}>
+    <ComponentBox scope={{ makeAjvInstance }}>
       {() => {
         const MyNameSection = (props: SectionProps) => {
           return (
@@ -346,9 +344,7 @@ export const SchemaSupport = () => {
           },
         }
 
-        const ajv = new Ajv({
-          allErrors: true,
-        })
+        const ajv = makeAjvInstance()
         return (
           <Form.Handler
             onSubmit={async (data) => console.log('onSubmit', data)}
