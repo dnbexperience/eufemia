@@ -351,9 +351,6 @@ html:not([data-visual-test]) .dnb-textarea__textarea {
   --textarea-placeholder-color: var(--textarea-placeholder-color--focus);
   display: block;
 }
-.dnb-form-row--horizontal .dnb-textarea--stretch {
-  width: 100%;
-}
 @media screen and (max-width: 40em) {
   .dnb-responsive-component .dnb-textarea {
     display: flex;

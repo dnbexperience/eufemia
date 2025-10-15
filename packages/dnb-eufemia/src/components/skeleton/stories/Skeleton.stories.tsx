@@ -18,13 +18,12 @@ import {
   Checkbox,
   Radio,
   DatePicker,
-  FormRow,
   ToggleButton,
   Accordion,
   Skeleton,
   IconPrimary,
 } from '../..'
-import { H1, H2, P, Ol, Li, Ul, Dl, Dt, Dd, Anchor } from '../../..'
+import { H1, H2, P, Ol, Li, Ul, Dl, Dt, Dd, Anchor, Flex } from '../../..'
 import Provider from '../../../shared/Provider'
 
 // import SkeletonArticle from '../../skeleton/figures/Article'
@@ -41,7 +40,7 @@ const CustomStyle = styled.div`
   }
 `
 
-const WidthLimit = styled(FormRow)`
+const WidthLimit = styled(Flex.Vertical)`
   ${'' /* width: 10rem; */}
 `
 
@@ -157,7 +156,7 @@ export const SkeletonSandbox = () => {
             </Box>
 
             <Box>
-              <WidthLimit vertical>
+              <WidthLimit>
                 {/* <div className="dnb-skeleton dnb-h--large">y</div> */}
                 <H2>H2</H2>
                 <P top>
