@@ -6,10 +6,7 @@
 import React from 'react'
 import classnames from 'classnames'
 import Context from '../../shared/Context'
-import {
-  isTrue,
-  extendPropsWithContext,
-} from '../../shared/component-helper'
+import { extendPropsWithContext } from '../../shared/component-helper'
 import type {
   DynamicElement,
   ResponsiveProp,
