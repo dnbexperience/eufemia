@@ -339,4 +339,206 @@ describe('Form.useTranslation', () => {
 
     expect(result.current).toEqual(gb)
   })
+
+  describe('fallback functionality', () => {
+    // Mock console.log globally to suppress warning messages during tests
+    const originalConsoleLog = console.log
+    beforeAll(() => {
+      console.log = jest.fn()
+    })
+
+    afterEach(() => {
+      // Reset the mock after each test to avoid interference between tests
+      jest.clearAllMocks()
+    })
+
+    afterAll(() => {
+      console.log = originalConsoleLog
+    })
+
+    it('should support fallback with new object format', () => {
+      const customTranslations = {
+        'sv-SE': {}, // Empty locale
+        'nb-NO': {
+          MyComponent: {
+            title: 'Norwegian title',
+            description: 'Norwegian description',
+          },
+        },
+      }
+
+      type Translation = (typeof customTranslations)['nb-NO']
+
+      const { result } = renderHook(
+        () =>
+          useTranslation<Translation>({
+            messages: customTranslations as any,
+            fallbackLocale: 'nb-NO',
+          }),
+        {
+          wrapper: ({ children }) => (
+            <Provider locale="sv-SE">{children}</Provider>
+          ),
+        }
+      )
+
+      // Should have the fallback translations as translation keys
+      expect(result.current.MyComponent.title).toBe('MyComponent.title')
+      expect(result.current.MyComponent.description).toBe(
+        'MyComponent.description'
+      )
+
+      // Should have warned about missing translations
+      expect(console.log).toHaveBeenCalledWith(
+        expect.any(String), // Eufemia styling prefix
+        expect.stringContaining(
+          'Form.useTranslation: No translations found for locale "sv-SE"!'
+        )
+      )
+    })
+
+    it('should merge missing keys from fallback when current locale has partial content', () => {
+      const customTranslations = {
+        'sv-SE': {
+          MyComponent: {
+            title: 'Swedish title',
+            // description is missing
+          },
+        },
+        'nb-NO': {
+          MyComponent: {
+            title: 'Norwegian title',
+            description: 'Norwegian description',
+          },
+        },
+      }
+
+      type Translation = (typeof customTranslations)['nb-NO']
+
+      const { result } = renderHook(
+        () =>
+          useTranslation<Translation>({
+            messages: customTranslations as any,
+            fallbackLocale: 'nb-NO',
+          }),
+        {
+          wrapper: ({ children }) => (
+            <Provider locale="sv-SE">{children}</Provider>
+          ),
+        }
+      )
+
+      // Should have the current locale's content for existing keys
+      expect(result.current.MyComponent.title).toBe('Swedish title')
+      // Should have translation key for missing keys (just the key name, not full path)
+      expect(result.current.MyComponent.description).toBe('description')
+
+      // Should have warned about missing translations
+      expect(console.log).toHaveBeenCalledWith(
+        expect.any(String), // Eufemia styling prefix
+        expect.stringContaining(
+          'Form.useTranslation: No translations found for locale "sv-SE"!'
+        )
+      )
+    })
+
+    it('should not apply fallback when current locale has complete content', () => {
+      const customTranslations = {
+        'da-DK': {
+          MyComponent: {
+            title: 'Danish title',
+            description: 'Danish description',
+          },
+        },
+        'nb-NO': {
+          MyComponent: {
+            title: 'Norwegian title',
+            description: 'Norwegian description',
+          },
+        },
+      }
+
+      type Translation = (typeof customTranslations)['nb-NO']
+
+      const { result } = renderHook(
+        () =>
+          useTranslation<Translation>({
+            messages: customTranslations as any,
+            fallbackLocale: 'nb-NO',
+          }),
+        {
+          wrapper: ({ children }) => (
+            <Provider locale="da-DK">{children}</Provider>
+          ),
+        }
+      )
+
+      // Should only have the current locale's content, no fallback
+      expect(result.current.MyComponent.title).toBe(
+        customTranslations['da-DK'].MyComponent.title
+      )
+      expect(result.current.MyComponent.description).toBe(
+        customTranslations['da-DK'].MyComponent.description
+      )
+
+      // Should not have warned about missing translations
+      expect(console.log).not.toHaveBeenCalled()
+    })
+
+    it('should work with context translations and fallback', () => {
+      const contextTranslations = {
+        'sv-SE': {}, // Empty locale in context
+        'nb-NO': {
+          MyComponent: {
+            title: 'Context Norwegian title',
+            description: 'Context Norwegian description',
+          },
+        },
+      }
+
+      type Translation = (typeof contextTranslations)['nb-NO']
+
+      const { result } = renderHook(
+        () =>
+          useTranslation<Translation>({
+            fallbackLocale: 'nb-NO',
+          }),
+        {
+          wrapper: ({ children }) => (
+            <Provider locale="sv-SE" translations={contextTranslations}>
+              {children}
+            </Provider>
+          ),
+        }
+      )
+
+      // Should have the fallback translations from context
+      expect(result.current.MyComponent.title).toBe('MyComponent.title')
+      expect(result.current.MyComponent.description).toBe(
+        'MyComponent.description'
+      )
+
+      // Should have warned about empty locale
+      expect(console.log).toHaveBeenCalledWith(
+        expect.any(String), // Eufemia styling prefix
+        expect.stringContaining(
+          'Form.useTranslation: No translations found for locale "sv-SE"!'
+        )
+      )
+    })
+
+    it('should maintain backward compatibility with old format', () => {
+      const extendedLocale = {
+        Email: {
+          label: 'Custom label',
+        },
+      }
+
+      const { result } = renderHook(() => useTranslation(extendedLocale), {
+        wrapper: Provider,
+      })
+
+      expect(result.current.Email).toMatchObject(extendedLocale.Email)
+    })
+  })
 })

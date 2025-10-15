@@ -13,6 +13,7 @@ import Context, {
   TranslationFlatToObject,
 } from './Context'
 import defaultLocales from './locales'
+import { isObject, warn } from './component-helper'
 
 export type TranslationId = string
 export type TranslationIdAsFunction<T = TranslationCustomLocales> = (
@@ -24,13 +25,41 @@ export type UseTranslationMessages<T = Translation> =
   | Translation
   | TranslationCustomLocales
   | Record<TranslationLocale, T>
+export type UseTranslationArgs<T = Translation> = {
+  messages?: UseTranslationMessages<T>
+  fallbackLocale?: TranslationLocale
+  base?: Translation
+  warnLabel?: string
+}
 
-export default function useTranslation<T = Translation>(
-  messages?: UseTranslationMessages<T>,
+export default function useTranslation<
+  T extends Record<string, unknown> = Translation,
+>(
+  messages?: UseTranslationMessages<T> | UseTranslationArgs<T>,
   args?: TranslationArguments
 ) {
   const { locale, translation } = useContext(Context)
+  const { translations: contextTranslations } = useContext(Context)
   const { assignUtils } = useAdditionalUtils()
+
+  const { extMessages, fallbackLocale, baseOverride, warnLabel } =
+    useMemo(() => {
+      const defaultLocale = Object.keys(defaultLocales)[0]
+
+      const arg: Partial<UseTranslationArgs<T>> =
+        isObject(messages) &&
+        ('messages' in (messages as Translation) ||
+          'fallbackLocale' in (messages as Translation))
+          ? (messages as UseTranslationArgs<T>)
+          : { messages }
+
+      return {
+        extMessages: arg.messages,
+        fallbackLocale: arg.fallbackLocale ?? defaultLocale,
+        baseOverride: arg.base,
+        warnLabel: arg.warnLabel || 'useTranslation',
+      }
+    }, [messages])
 
   return useMemo<
     TranslationFlatToObject<T> & AdditionalReturnUtils
@@ -51,14 +80,157 @@ export default function useTranslation<T = Translation>(
       translationLocale = 'en-GB'
     }
 
-    return assignUtils(
+    const base = assignUtils(
       combineWithExternalTranslations({
-        translation,
-        messages,
+        translation: (baseOverride || translation) as Translation,
+        messages: extMessages as TranslationCustomLocales,
         locale: translationLocale,
       })
+    ) as TranslationFlatToObject<T> & AdditionalReturnUtils
+
+    // Inline fallback behavior (opt-in via object arg)
+    if (!fallbackLocale) {
+      return base
+    }
+
+    // Apply pointer fallback only if an explicit current-locale translation exists
+    const explicitMessages = extMessages as
+      | Record<string, unknown>
+      | undefined
+    let hasExplicitCurrent = false
+    let currentMessages = undefined as T | undefined
+    if (explicitMessages && Object.hasOwn(explicitMessages, locale)) {
+      hasExplicitCurrent = true
+      currentMessages = explicitMessages[locale] as T | undefined
+    } else if (
+      contextTranslations &&
+      Object.hasOwn(contextTranslations, locale)
+    ) {
+      hasExplicitCurrent = true
+      currentMessages = contextTranslations[locale] as T | undefined
+    }
+
+    const fallbackMessages =
+      ((explicitMessages?.[fallbackLocale] as T | undefined) ||
+        (contextTranslations?.[fallbackLocale] as T | undefined) ||
+        ((defaultLocales as Record<string, unknown>)[fallbackLocale] as
+          | T
+          | undefined)) ??
+      undefined
+
+    if (!fallbackMessages || !hasExplicitCurrent) {
+      return base
+    }
+
+    const currentHasContent =
+      isObject(currentMessages) && Object.keys(currentMessages).length > 0
+
+    if (!currentHasContent) {
+      warnMissing(locale, warnLabel)
+      const obj = generateTranslationKeyReferences(
+        '',
+        fallbackMessages
+      ) as TranslationFlatToObject<T>
+      return withUtils(base, obj)
+    }
+
+    const { result, hasMissing } = mergeMissingKeys<T>(
+      base as TranslationFlatToObject<T>,
+      fallbackMessages
     )
-  }, [messages, translation, locale, assignUtils, args])
+    if (hasMissing) {
+      warnMissing(locale, warnLabel)
+      return withUtils(base, result)
+    }
+
+    return base
+  }, [
+    messages,
+    locale,
+    assignUtils,
+    baseOverride,
+    translation,
+    extMessages,
+    fallbackLocale,
+    contextTranslations,
+    args,
+    warnLabel,
+  ])
+}
+
+function withUtils<T extends Record<string, unknown>>(
+  base: TranslationFlatToObject<T> & AdditionalReturnUtils,
+  obj: TranslationFlatToObject<T>
+): TranslationFlatToObject<T> & AdditionalReturnUtils {
+  return Object.assign({}, base, obj, {
+    formatMessage: base.formatMessage,
+    renderMessage: base.renderMessage,
+    countries: base.countries,
+  })
+}
+
+function mergeMissingKeys<T extends Record<string, unknown>>(
+  target: TranslationFlatToObject<T>,
+  source: T
+): { result: TranslationFlatToObject<T>; hasMissing: boolean } {
+  const resultLocal = {
+    ...(target as Record<string, unknown>),
+  }
+  let hasMissing = false
+
+  const keys = Object.keys(source as Record<string, unknown>)
+  for (const key of keys) {
+    const sourceValue = (source as Record<string, unknown>)[key]
+    const targetValue = (resultLocal as Record<string, unknown>)[key]
+
+    if (isObject(sourceValue)) {
+      if (!targetValue) {
+        resultLocal[key] = generateTranslationKeyReferences(
+          key,
+          sourceValue
+        )
+        hasMissing = true
+      } else if (isObject(targetValue)) {
+        const nested = mergeMissingKeys(
+          targetValue as TranslationFlatToObject<Record<string, unknown>>,
+          sourceValue as Record<string, unknown>
+        )
+        ;(resultLocal as Record<string, unknown>)[key] =
+          nested.result as Record<string, unknown>
+        if (nested.hasMissing) {
+          hasMissing = true
+        }
+      }
+    } else if (targetValue === undefined) {
+      resultLocal[key] = key
+      hasMissing = true
+    }
+  }
+
+  return { result: resultLocal as TranslationFlatToObject<T>, hasMissing }
+}
+
+function generateTranslationKeyReferences(
+  baseKey: string,
+  sourceValue: unknown
+): unknown {
+  if (!isObject(sourceValue)) {
+    return baseKey ? baseKey : sourceValue
+  }
+
+  const result = {}
+  const entries = Object.entries(sourceValue)
+  for (const [key, value] of entries) {
+    const translationKey = baseKey ? `${baseKey}.${key}` : key
+    result[key] = isObject(value)
+      ? generateTranslationKeyReferences(translationKey, value)
+      : translationKey
+  }
+  return result
+}
+
+function warnMissing(locale: string, label = 'useTranslation') {
+  warn(`${label}: No translations found for locale "${locale}"!`)
 }
 
 export type CombineWithExternalTranslationsArgs = {

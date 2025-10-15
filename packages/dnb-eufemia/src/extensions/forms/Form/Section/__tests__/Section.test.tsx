@@ -1388,6 +1388,59 @@ describe('Form.Section', () => {
 
       log.mockRestore()
     })
+
+    it('should fallback to translations keys when locale to section is missing', () => {
+      const consoleSpy = jest.spyOn(console, 'log').mockImplementation()
+
+      const globalTranslations = {
+        'sv-SE': { something: { foo: 'bar' } },
+      }
+
+      const sectionTranslations = {
+        'nb-NO': {
+          MyComponent: {
+            title: 'Title nb',
+          },
+        },
+        // 'sv-SE' is not defined here to test the fallback
+      }
+
+      type SectionTranslation =
+        (typeof sectionTranslations)[keyof typeof sectionTranslations]
+
+      const MySectionContent = () => {
+        const tr = Form.useTranslation<SectionTranslation>()
+        return <output>{tr.MyComponent.title}</output>
+      }
+
+      const MySection = () => {
+        return (
+          <Form.Section translations={sectionTranslations}>
+            <MySectionContent />
+          </Form.Section>
+        )
+      }
+
+      render(
+        <Form.Handler locale="sv-SE" translations={globalTranslations}>
+          <MySection />
+        </Form.Handler>
+      )
+
+      expect(document.querySelector('output')).toHaveTextContent(
+        'MyComponent.title'
+      )
+
+      // Should have warned about missing translations
+      expect(consoleSpy).toHaveBeenCalledWith(
+        expect.any(String), // Eufemia styling prefix
+        expect.stringContaining(
+          'Form.useTranslation: No translations found for locale "sv-SE"!'
+        )
+      )
+
+      consoleSpy.mockRestore()
+    })
   })
 
   describe('data', () => {

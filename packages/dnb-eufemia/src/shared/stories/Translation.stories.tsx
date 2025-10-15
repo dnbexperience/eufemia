@@ -32,11 +32,7 @@ const UseTrans = () => {
   })
   console.log('str', str)
 
-  return useTranslation('other.string', {
-    foo: 'foo',
-    bar: 'riskScore',
-    max: 'max',
-  }) as JSX.Element
+  return <>{str}</>
 }
 
 const ChangeLocale = () => {
