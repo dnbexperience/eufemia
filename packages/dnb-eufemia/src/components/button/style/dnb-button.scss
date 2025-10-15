@@ -283,13 +283,6 @@
     outline: none; // when state goes from enabled to disabled and the focus is set, the outline (Safari) will show up, because it already had focus
   }
 
-  .dnb-form-row--vertical .dnb-form-row__content > & {
-    align-self: flex-start;
-  }
-  .dnb-form-row--horizontal .dnb-form-row__content &__text {
-    white-space: nowrap;
-  }
-
   & + .dnb-form-status {
     margin-top: 0.5rem;
   }

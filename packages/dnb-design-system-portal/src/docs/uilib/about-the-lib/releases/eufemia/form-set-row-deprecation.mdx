@@ -1,5 +1,4 @@
 import {
-  FormSetAlternativeBefore,
   FormSetAlternativeAfter,
   FormSetAlternativeForms,
 } from 'Docs/uilib/layout/Examples'
@@ -10,7 +9,15 @@ In order to replace FormSet or FormRow you may use the Eufemia [Provider](/uilib
 
 e.g. before:
 
-<FormSetAlternativeBefore />
+```tsx
+<FormSet label_direction="vertical">
+  <H2 top={0}>Heading</H2>
+  <FormRow label={<span className="dnb-h--medium">Legend</span>}>
+    <Input label="Label A" right />
+    <Input label="Label B" />
+  </FormRow>
+</FormSet>
+```
 
 e.g. after (two examples):
 
