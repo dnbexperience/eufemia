@@ -452,9 +452,9 @@ export const SimulateSteps = () => {
 // }
 
 const NestedSections = () => (
-  <Section spacing>
+  <Section innerSpace>
     Content 1
-    <Section spacing style_type="mint-green">
+    <Section innerSpace style_type="mint-green">
       Content 2
       <GlobalStatus
         id="default-1"
@@ -653,7 +653,7 @@ const UpdateDemoTools = () => {
   React.useEffect(() => () => inst.current.remove(), [])
 
   return (
-    <Section top spacing style_type="divider">
+    <Section top innerSpace style_type="divider">
       <ToggleButton
         text="Toggle"
         variant="checkbox"
@@ -748,7 +748,7 @@ export function GlobalStatusSelector() {
     useState<GlobalStatusState>('warning')
 
   return (
-    <Section spacing>
+    <Section innerSpace>
       <Space left>
         <GlobalStatus
           show={true}

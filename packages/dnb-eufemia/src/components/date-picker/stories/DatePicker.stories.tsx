@@ -414,7 +414,7 @@ const CustomDate = () => {
   // }, [count])
 
   return (
-    <Section spacing>
+    <Section innerSpace>
       {/* <H2>{count}</H2> */}
       <DatePicker
         right
@@ -485,7 +485,7 @@ const CustomDate = () => {
 //   }, [])
 //
 //   return (
-//     <Section spacing>
+//     <Section innerSpace>
 //       <H2>{count}</H2>
 //       <DatePicker
 //         right

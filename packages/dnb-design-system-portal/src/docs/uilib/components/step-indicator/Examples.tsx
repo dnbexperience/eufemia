@@ -385,7 +385,7 @@ export const DeprecatedStepIndicatorCustomized = () => (
               on_change={({ current_step }) => setStep(current_step)}
               {...props}
             />
-            <Section style_type="lavender" spacing>
+            <Section style_type="lavender" innerSpace>
               {children(step)}
             </Section>
           </>
