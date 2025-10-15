@@ -23,7 +23,7 @@ describe('Section component', () => {
   })
 
   it('should support "variant" prop', () => {
-    const { rerender } = render(<Section variant="warning">text</Section>)
+    render(<Section variant="warning">text</Section>)
 
     const element = document.querySelector('section.dnb-section')
 
