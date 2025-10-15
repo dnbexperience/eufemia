@@ -717,12 +717,45 @@ describe('HeightAnimationInstance', () => {
       const toHeight = 100
       inst.adjustTo(fromHeight, toHeight)
 
-      expect(inst['state']).toBe('adjusted')
+      expect(inst['state']).toBe('init')
       expect(element).not.toHaveAttribute('style')
 
       expect(onTransitionEnd).toHaveBeenCalledTimes(0)
       expect(onStart).toHaveBeenCalledTimes(0)
       expect(onEnd).toHaveBeenCalledTimes(0)
+    })
+
+    it('should not change state to adjusted when already adjusting and heights are equal', () => {
+      const inst = new HeightAnimationInstance()
+      inst.setElement(element)
+
+      const onStart = jest.fn()
+      inst.onStart(onStart)
+      const onEnd = jest.fn()
+      inst.onEnd(onEnd)
+
+      // First adjustment - should work normally
+      const fromHeight = 100
+      const toHeight = 200
+      inst.adjustTo(fromHeight, toHeight)
+
+      expect(inst['state']).toBe('adjusting')
+      expect(onStart).toHaveBeenCalledTimes(1)
+      expect(onStart).toHaveBeenLastCalledWith('adjusting')
+
+      // Second adjustment with same heights while already adjusting
+      // Should not change state to 'adjusted' until height is set to auto
+      inst.adjustTo(100, 100)
+
+      expect(inst['state']).toBe('adjusting') // Should still be adjusting
+      expect(onStart).toHaveBeenCalledTimes(1) // Should not call onStart again
+
+      // Simulate animation end to set height to auto
+      simulateAnimationEnd(element)
+
+      expect(inst['state']).toBe('adjusted')
+      expect(onEnd).toHaveBeenCalledTimes(1)
+      expect(onEnd).toHaveBeenLastCalledWith('adjusted')
     })
   })
 
