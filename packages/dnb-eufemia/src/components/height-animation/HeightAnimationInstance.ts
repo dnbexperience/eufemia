@@ -377,8 +377,7 @@ export default class HeightAnimation {
     }
 
     if (fromHeight === toHeight) {
-      this.setState('adjusted')
-      return
+      return // no need to adjust
     }
 
     this.setState('adjusting')
