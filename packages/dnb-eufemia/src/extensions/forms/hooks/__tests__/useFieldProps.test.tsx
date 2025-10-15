@@ -358,11 +358,17 @@ describe('useFieldProps', () => {
         pattern: '^(valid)$',
       }
 
-      const { result } = renderHook(() =>
-        useFieldProps({
-          value: 'valid',
-          schema,
-        })
+      const { result } = renderHook(
+        () =>
+          useFieldProps({
+            value: 'valid',
+            schema,
+          }),
+        {
+          wrapper: ({ children }) => (
+            <Provider ajvInstance={makeAjvInstance()}>{children}</Provider>
+          ),
+        }
       )
 
       const { handleChange, handleFocus } = result.current
@@ -396,11 +402,17 @@ describe('useFieldProps', () => {
         type: 'number',
       }
 
-      const { result } = renderHook(() =>
-        useFieldProps({
-          value: '',
-          schema,
-        })
+      const { result } = renderHook(
+        () =>
+          useFieldProps({
+            value: '',
+            schema,
+          }),
+        {
+          wrapper: ({ children }) => (
+            <Provider ajvInstance={makeAjvInstance()}>{children}</Provider>
+          ),
+        }
       )
 
       await waitFor(() => {
@@ -447,6 +459,9 @@ describe('useFieldProps', () => {
           value: 'invalid',
           schema,
         },
+        wrapper: ({ children }) => (
+          <Provider ajvInstance={makeAjvInstance()}>{children}</Provider>
+        ),
       })
 
       const { handleChange } = result.current
@@ -542,6 +557,9 @@ describe('useFieldProps', () => {
 
       const { result } = renderHook(useFieldProps, {
         initialProps,
+        wrapper: ({ children }) => (
+          <Provider ajvInstance={makeAjvInstance()}>{children}</Provider>
+        ),
       })
 
       // Try onBlurValidator
@@ -4471,10 +4489,12 @@ describe('useFieldProps', () => {
         }
 
         render(
-          <Field.String
-            schema={schema}
-            onChangeValidator={onChangeValidator}
-          />
+          <Provider ajvInstance={makeAjvInstance()}>
+            <Field.String
+              schema={schema}
+              onChangeValidator={onChangeValidator}
+            />
+          </Provider>
         )
 
         const input = document.querySelector('input')
@@ -6962,6 +6982,9 @@ describe('useFieldProps', () => {
           onBlurValidator,
           schema,
         },
+        wrapper: ({ children }) => (
+          <Provider ajvInstance={makeAjvInstance()}>{children}</Provider>
+        ),
       })
 
       expect(result.current.error).toBeUndefined()
