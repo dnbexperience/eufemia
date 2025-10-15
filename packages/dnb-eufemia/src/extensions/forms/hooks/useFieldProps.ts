@@ -17,7 +17,6 @@ import {
   isZodSchema,
   createZodValidator,
   zodErrorsToOneFormError,
-  makeAjvInstance,
 } from '../utils'
 import * as z from 'zod'
 import {
@@ -576,9 +575,9 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   }, [onBlurValidator])
 
   const getAjvInstance = useCallback(() => {
-    return hasDataContext
-      ? getAjvInstanceDataContext?.()
-      : makeAjvInstance()
+    if (hasDataContext) {
+      return getAjvInstanceDataContext?.()
+    }
   }, [hasDataContext, getAjvInstanceDataContext])
 
   const schemaValidatorRef = useRef<
