@@ -359,12 +359,14 @@ function DateOfBirth(props: Props) {
           ?.value
         const month = monthValue || emptyValue
         monthRef.current = month
+        forceUpdate()
         callOnChange({ month })
       } else {
         // If the value is a month name, find the corresponding value
         const monthValue = months.find((m) => m.title === value)?.value
         if (monthValue) {
           monthRef.current = monthValue
+          forceUpdate()
           callOnChange({ month: monthValue })
         }
       }
