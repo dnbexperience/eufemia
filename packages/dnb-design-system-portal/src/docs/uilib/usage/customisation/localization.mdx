@@ -230,7 +230,7 @@ formatMessage('myGroup.subString')
 
 ### Fallback for missing or partial translations
 
-The shared `useTranslation` hook will output missing keys..
+The shared `useTranslation` hook will output missing keys when:
 
 - Empty explicit locale: returns pointer strings (e.g. `MyNamespace.label`) derived from `fallbackLocale="nb-NO"`.
 - Partial explicit locale: merges missing keys as pointer strings, preserving existing ones.
@@ -248,8 +248,7 @@ type T = (typeof translations)['en-GB']
 
 function Example() {
   const t = useTranslation<T>({
-    messages: translations,
-    fallbackLocale: 'en-GB',
+    fallbackLocale: 'en-GB', // default: 'nb-NO'
   })
   return <>{t.MyNamespace.label /* 'MyNamespace.label' */}</>
 }
