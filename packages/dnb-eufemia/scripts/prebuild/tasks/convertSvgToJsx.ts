@@ -23,9 +23,30 @@ import {
   NAME_SEPARATOR,
 } from '../../figma/tasks/assetsExtractors'
 import packpath from 'packpath'
+import { fileURLToPath } from 'url'
 
 const FALLBACK = 'dnb' // defines if an index file should be created
-const ROOT_DIR = packpath.self()
+// Ensure ROOT_DIR is a filesystem path string (Bun may return URL-like objects)
+const __rawRoot: unknown =
+  (packpath as unknown as { self: (() => unknown) | unknown })
+    .self instanceof Function
+    ? (packpath as unknown as { self: () => unknown }).self()
+    : (packpath as unknown as { self: unknown }).self
+const ROOT_DIR = (() => {
+  if (typeof __rawRoot === 'string') {
+    return __rawRoot.startsWith('file:')
+      ? fileURLToPath(__rawRoot)
+      : __rawRoot
+  }
+  if (__rawRoot && typeof __rawRoot === 'object') {
+    // URL instance or similar
+    const u = __rawRoot as { href?: unknown }
+    if (typeof u.href === 'string') {
+      return fileURLToPath(u.href)
+    }
+  }
+  return process.cwd()
+})()
 
 type TransformedIcons = Array<{ name: string }>
 type IconItem = { filename: string; basename: string; name: string }
