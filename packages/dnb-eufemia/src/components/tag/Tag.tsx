@@ -181,7 +181,6 @@ const Tag = (
           : undefined
       }
       {...additionalButtonParams}
-      {...(props as any)}
     />
   )
 }
