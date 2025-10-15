@@ -12,7 +12,7 @@ export default {
 // Section = ({ children, variant, ...rest }) => {
 //   return (
 //     <Section
-//       // style_type="white"
+//       // backgroundColor="white"
 //       variant={variant}
 //       // responsive
 //       {...rest}

@@ -454,7 +454,7 @@ export const SimulateSteps = () => {
 const NestedSections = () => (
   <Section spacing>
     Content 1
-    <Section spacing style_type="mint-green">
+    <Section spacing backgroundColor="mint-green">
       Content 2
       <GlobalStatus
         id="default-1"
@@ -653,7 +653,7 @@ const UpdateDemoTools = () => {
   React.useEffect(() => () => inst.current.remove(), [])
 
   return (
-    <Section top spacing style_type="divider">
+    <Section top spacing variant="divider">
       <ToggleButton
         text="Toggle"
         variant="checkbox"

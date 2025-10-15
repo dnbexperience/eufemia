@@ -2,7 +2,7 @@ import { PropertiesTableProps } from '../../shared/types'
 
 export const SectionProperties: PropertiesTableProps = {
   variant: {
-    doc: 'Defines the semantic purpose and subsequently the style of the visual helper. Will take precedence over the style_type property.',
+    doc: 'Defines the semantic purpose and subsequently the style of the visual helper.',
     type: 'string',
     status: 'optional',
   },
