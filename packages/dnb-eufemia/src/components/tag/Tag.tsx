@@ -126,15 +126,18 @@ const Tag = (
 
   const content = text || children
 
-  const addIcon = variant === 'removable' || variant === 'addable'
-  const isInteractive = variant !== 'default'
+  const usedVariant =
+    onClick && variant === 'default' ? 'clickable' : variant
+
+  const addIcon = usedVariant === 'removable' || variant === 'addable'
+  const isInteractive = usedVariant !== 'default'
   const spacingClasses = createSpacingClasses(props)
   const tagClassNames = classnames(
     'dnb-tag',
     className,
     spacingClasses,
     isInteractive && 'dnb-tag--interactive',
-    `dnb-tag--${variant}`
+    `dnb-tag--${usedVariant}`
   )
   const additionalButtonParams: Pick<ButtonProps, 'element' | 'type'> = {}
 
@@ -181,6 +184,7 @@ const Tag = (
           : undefined
       }
       {...additionalButtonParams}
+      {...(props as any)}
     />
   )
 }
