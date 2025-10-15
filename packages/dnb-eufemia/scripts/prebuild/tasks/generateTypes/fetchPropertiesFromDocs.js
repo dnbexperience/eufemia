@@ -8,11 +8,26 @@ import path from 'path'
 import { log } from '../../../lib'
 import { asyncForEach } from '../../../tools'
 import { Extractor } from 'markdown-tables-to-json'
-import {
-  toKebabCase,
-  toPascalCase,
-  toSnakeCase,
-} from '../../../../src/shared/component-helper'
+// Local copies of simple string helpers to avoid importing from src/shared/component-helper,
+// which pulls in legacy React/JSX code and breaks tsx/esbuild during prebuild.
+const toSnakeCase = (str) =>
+  str.replace(/\B[A-Z]/g, (letter) => `_${letter}`).toLowerCase()
+
+const toKebabCase = (str) =>
+  str.replace(/\B[A-Z]/g, (letter) => `-${letter}`).toLowerCase()
+
+const toPascalCase = (s) =>
+  s
+    .split(/_/g)
+    .reduce(
+      (acc, cur) =>
+        acc +
+        cur.replace(
+          /(\w)(\w*)/g,
+          (g0, g1, g2) => g1.toUpperCase() + g2.toLowerCase()
+        ),
+      ''
+    )
 
 const TS_ROOT_DIR = path.resolve(
   path.dirname(require.resolve('@dnb/eufemia/package.json')),
