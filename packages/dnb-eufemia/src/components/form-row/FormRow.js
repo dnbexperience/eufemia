@@ -242,7 +242,7 @@ export default class FormRow extends React.PureComponent {
           }
         >
           <Section
-            style_type={section_style || 'transparent'}
+            backgroundColor={section_style || 'transparent'}
             spacing={section_spacing}
             element="div"
             {...params}
