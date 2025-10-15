@@ -171,31 +171,4 @@
   & & & & & & & & &::after {
     z-index: -7;
   }
-
-  // deprecated and can be removed in v11
-  &--spacing-x-small {
-    padding-top: var(--spacing-x-small);
-    padding-bottom: var(--spacing-x-small);
-  }
-  &--spacing-small {
-    padding-top: var(--spacing-small);
-    padding-bottom: var(--spacing-small);
-  }
-  &--spacing-medium {
-    padding-top: var(--spacing-medium);
-    padding-bottom: var(--spacing-medium);
-  }
-  &--spacing,
-  &--spacing-large {
-    padding-top: var(--spacing-large);
-    padding-bottom: var(--spacing-large);
-  }
-  &--spacing-x-large {
-    padding-top: var(--spacing-x-large);
-    padding-bottom: var(--spacing-x-large);
-  }
-  &--spacing-xx-large {
-    padding-top: var(--spacing-xx-large);
-    padding-bottom: var(--spacing-xx-large);
-  }
 }

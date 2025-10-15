@@ -46,15 +46,6 @@ export type SectionStyleTypes =
   /** @deprecated in v11 use "variant" or "backgroundColor" prop instead */
   | 'mint-green-12'
 
-export type SectionSpacing =
-  | boolean
-  | 'x-small'
-  | 'small'
-  | 'medium'
-  | 'large'
-  | 'x-large'
-  | 'xx-large'
-
 export type TextColor = string
 export type OutlineColor = string | boolean
 export type BackgroundColor = string
@@ -119,10 +110,6 @@ export type SectionProps = {
   innerRef?: React.RefObject<HTMLElement>
 
   /**
-   * @deprecated in v11 use "innerSpace" prop instead
-   */
-  spacing?: SectionSpacing | ResponsiveProp<SectionSpacing>
-  /**
    * @deprecated in v11 use "background" prop instead
    */
   style_type?: SectionStyleTypes | string
@@ -181,7 +168,6 @@ export function SectionParams(
     className,
     children,
 
-    spacing,
     style_type,
     inner_ref,
 
@@ -196,8 +182,6 @@ export function SectionParams(
     className: classnames(
       'dnb-section',
       `dnb-section--${variant ? variant : style_type || 'default'}`,
-      spacing &&
-        `dnb-section--spacing-${isTrue(spacing) ? 'large' : spacing}`,
       className
     ),
     style: {
