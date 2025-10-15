@@ -9,11 +9,11 @@ import {
   FieldBlock,
   Form,
   JSONSchema,
+  makeAjvInstance,
   Value,
   ValueBlock,
   Wizard,
 } from '../../..'
-import { Ajv } from '../../..'
 import * as z from 'zod'
 import { ContextState, FilterData } from '../../../DataContext'
 
@@ -2678,7 +2678,7 @@ describe('Iterate.Array', () => {
       }
 
       const { rerender } = render(
-        <Form.Handler ajvInstance={new Ajv({ allErrors: true })}>
+        <Form.Handler ajvInstance={makeAjvInstance()}>
           <Iterate.Array
             path="/items"
             schema={schema}
@@ -2697,7 +2697,7 @@ describe('Iterate.Array', () => {
       rerender(
         <Form.Handler
           data={{ items: ['one', 'two', 'three'] }}
-          ajvInstance={new Ajv({ allErrors: true })}
+          ajvInstance={makeAjvInstance()}
         >
           <Iterate.Array
             path="/items"
@@ -2732,7 +2732,7 @@ describe('Iterate.Array', () => {
       render(
         <Form.Handler
           schema={schema}
-          ajvInstance={new Ajv({ allErrors: true })}
+          ajvInstance={makeAjvInstance()}
           defaultData={{ myList: [{ foo }] }}
         >
           <Iterate.Array path="/myList" errorMessages={{ minItems }}>
@@ -2848,7 +2848,7 @@ describe('Iterate.Array', () => {
       render(
         <Form.Handler
           schema={schema}
-          ajvInstance={new Ajv({ allErrors: true })}
+          ajvInstance={makeAjvInstance()}
           defaultData={{
             mySection: {
               myList: [{ foo }],

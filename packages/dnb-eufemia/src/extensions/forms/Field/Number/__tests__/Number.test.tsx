@@ -15,7 +15,7 @@ import {
   Form,
   Iterate,
   JSONSchema,
-  Ajv,
+  makeAjvInstance,
   z,
 } from '../../..'
 import { format } from '../../../../../components/number-format/NumberUtils'
@@ -1371,7 +1371,7 @@ describe('Field.Number', () => {
         render(
           <Form.Handler
             schema={schema}
-            ajvInstance={new Ajv({ allErrors: true })}
+            ajvInstance={makeAjvInstance()}
             data={data}
           >
             <Field.Number path="/myFieldWithUndefined" />
@@ -1389,7 +1389,7 @@ describe('Field.Number', () => {
         render(
           <Form.Handler
             schema={schema}
-            ajvInstance={new Ajv({ allErrors: true })}
+            ajvInstance={makeAjvInstance()}
             data={data}
           >
             <Field.Number path="/myFieldWithZero" />
@@ -1407,7 +1407,7 @@ describe('Field.Number', () => {
         render(
           <Form.Handler
             schema={schema}
-            ajvInstance={new Ajv({ allErrors: true })}
+            ajvInstance={makeAjvInstance()}
             data={data}
           >
             <Field.Number path="/myFieldWithNull" />
@@ -1427,7 +1427,7 @@ describe('Field.Number', () => {
         render(
           <Form.Handler
             schema={schema}
-            ajvInstance={new Ajv({ allErrors: true })}
+            ajvInstance={makeAjvInstance()}
             data={data}
           >
             <Field.Number
@@ -1474,10 +1474,7 @@ describe('Field.Number', () => {
           }
 
           render(
-            <Form.Handler
-              schema={schema}
-              ajvInstance={new Ajv({ allErrors: true })}
-            >
+            <Form.Handler schema={schema} ajvInstance={makeAjvInstance()}>
               <Field.Number path="/amount" />
             </Form.Handler>
           )
@@ -2378,10 +2375,7 @@ describe('Field.Number', () => {
       const schema = z.object({ amount: z.number().max(10) })
 
       render(
-        <Form.Handler
-          schema={schema}
-          ajvInstance={new Ajv({ allErrors: true })}
-        >
+        <Form.Handler schema={schema} ajvInstance={makeAjvInstance()}>
           <Field.Number path="/amount" />
         </Form.Handler>
       )
@@ -2436,10 +2430,7 @@ describe('Field.Number', () => {
       })
 
       render(
-        <Form.Handler
-          schema={schema}
-          ajvInstance={new Ajv({ allErrors: true })}
-        >
+        <Form.Handler schema={schema} ajvInstance={makeAjvInstance()}>
           <Field.Number path="/amount" />
         </Form.Handler>
       )

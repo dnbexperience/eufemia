@@ -2,7 +2,14 @@
 import React from 'react'
 import { spyOnEufemiaWarn } from '../../../../../core/jest/jestSetup'
 import { fireEvent, render } from '@testing-library/react'
-import { Field, Form, JSONSchema, Tools, Value, Ajv } from '../../..'
+import {
+  Field,
+  Form,
+  JSONSchema,
+  makeAjvInstance,
+  Tools,
+  Value,
+} from '../../..'
 import { SectionProps } from '../Section'
 import { Props as FieldNameProps } from '../../../Field/Name'
 import FieldPropsProvider from '../../../Field/Provider'
@@ -983,10 +990,7 @@ describe('Form.Section', () => {
       }
 
       render(
-        <Form.Handler
-          schema={schema}
-          ajvInstance={new Ajv({ allErrors: true })}
-        >
+        <Form.Handler schema={schema} ajvInstance={makeAjvInstance()}>
           <MySection path="/mySection" />
         </Form.Handler>
       )
@@ -1006,10 +1010,7 @@ describe('Form.Section', () => {
       }
 
       render(
-        <Form.Handler
-          schema={schema}
-          ajvInstance={new Ajv({ allErrors: true })}
-        >
+        <Form.Handler schema={schema} ajvInstance={makeAjvInstance()}>
           <MySection path="/mySection" />
         </Form.Handler>
       )
@@ -1039,10 +1040,7 @@ describe('Form.Section', () => {
       }
 
       render(
-        <Form.Handler
-          schema={schema}
-          ajvInstance={new Ajv({ allErrors: true })}
-        >
+        <Form.Handler schema={schema} ajvInstance={makeAjvInstance()}>
           <MySection path="/mySection" />
         </Form.Handler>
       )
@@ -1077,10 +1075,7 @@ describe('Form.Section', () => {
       }
 
       render(
-        <Form.Handler
-          schema={schema}
-          ajvInstance={new Ajv({ allErrors: true })}
-        >
+        <Form.Handler schema={schema} ajvInstance={makeAjvInstance()}>
           <MySection path="/myObject/mySection" />
         </Form.Handler>
       )
@@ -1110,10 +1105,7 @@ describe('Form.Section', () => {
       }
 
       render(
-        <Form.Handler
-          schema={schema}
-          ajvInstance={new Ajv({ allErrors: true })}
-        >
+        <Form.Handler schema={schema} ajvInstance={makeAjvInstance()}>
           <MySection path="/firstName" />
         </Form.Handler>
       )
@@ -1138,10 +1130,7 @@ describe('Form.Section', () => {
       }
 
       render(
-        <Form.Handler
-          schema={schema}
-          ajvInstance={new Ajv({ allErrors: true })}
-        >
+        <Form.Handler schema={schema} ajvInstance={makeAjvInstance()}>
           <MySection path="/firstName" />
         </Form.Handler>
       )
@@ -1171,10 +1160,7 @@ describe('Form.Section', () => {
       }
 
       render(
-        <Form.Handler
-          schema={schema}
-          ajvInstance={new Ajv({ allErrors: true })}
-        >
+        <Form.Handler schema={schema} ajvInstance={makeAjvInstance()}>
           <MySection
             path="/mySection"
             overwriteProps={{

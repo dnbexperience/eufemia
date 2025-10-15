@@ -9,7 +9,7 @@ import {
   Wizard,
   ValueBlock,
   FieldBlock,
-  Ajv,
+  makeAjvInstance,
 } from '@dnb/eufemia/src/extensions/forms'
 export { Default as AnimatedContainer } from '../AnimatedContainer/Examples'
 
@@ -424,11 +424,9 @@ export const InitiallyOpen = () => {
 
 export const MinItems = () => {
   return (
-    <ComponentBox hideCode scope={{ Ajv }}>
+    <ComponentBox hideCode scope={{ makeAjvInstance }}>
       {() => {
-        const ajv = new Ajv({
-          allErrors: true,
-        })
+        const ajv = makeAjvInstance()
         const schema = {
           type: 'object',
           properties: {

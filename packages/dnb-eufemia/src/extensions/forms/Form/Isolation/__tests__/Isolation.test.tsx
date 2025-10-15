@@ -8,7 +8,15 @@ import {
   waitFor,
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { Ajv, Field, Form, Iterate, JSONSchema, Wizard, z } from '../../..'
+import {
+  Field,
+  Form,
+  Iterate,
+  JSONSchema,
+  makeAjvInstance,
+  Wizard,
+  z,
+} from '../../..'
 import DataContext from '../../../DataContext/Context'
 import setData from '../../data-context/setData'
 import useReportError from '../useReportError'
@@ -790,7 +798,7 @@ describe('Form.Isolation', () => {
       <Form.Handler>
         <Form.Isolation
           schema={schema}
-          ajvInstance={new Ajv({ allErrors: true })}
+          ajvInstance={makeAjvInstance()}
           data={{
             myKey: 'valid',
           }}
@@ -3485,7 +3493,7 @@ describe('Form.Isolation', () => {
         render(
           <Form.Handler
             schema={schema}
-            ajvInstance={new Ajv({ allErrors: true })}
+            ajvInstance={makeAjvInstance()}
             defaultData={{
               user: {
                 foo: 'foo', // This should fail validation (minLength: 4)
@@ -3560,7 +3568,7 @@ describe('Form.Isolation', () => {
         render(
           <Form.Handler
             schema={schema}
-            ajvInstance={new Ajv({ allErrors: true })}
+            ajvInstance={makeAjvInstance()}
             defaultData={{
               firstSubPath: {
                 secondSubPath: {
@@ -3625,7 +3633,7 @@ describe('Form.Isolation', () => {
         render(
           <Form.Handler
             schema={schema}
-            ajvInstance={new Ajv({ allErrors: true })}
+            ajvInstance={makeAjvInstance()}
             defaultData={{
               foo: 'foo',
             }}
@@ -3684,7 +3692,7 @@ describe('Form.Isolation', () => {
         render(
           <Form.Handler
             schema={schema}
-            ajvInstance={new Ajv({ allErrors: true })}
+            ajvInstance={makeAjvInstance()}
             defaultData={{ foo: 'foo' }}
           >
             {/* No schema/ajv passed to Isolation. It should inherit from Form.Handler */}
@@ -3742,7 +3750,7 @@ describe('Form.Isolation', () => {
         render(
           <Form.Handler
             schema={schema}
-            ajvInstance={new Ajv({ allErrors: true })}
+            ajvInstance={makeAjvInstance()}
             defaultData={{
               foo: 'foo',
             }}
@@ -3811,7 +3819,7 @@ describe('Form.Isolation', () => {
         render(
           <Form.Handler
             schema={schema}
-            ajvInstance={new Ajv({ allErrors: true })}
+            ajvInstance={makeAjvInstance()}
             defaultData={{ foo: 'foo' }}
           >
             <Form.Isolation

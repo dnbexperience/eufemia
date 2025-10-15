@@ -5,8 +5,8 @@ import {
   FieldBlock,
   Form,
   useFieldProps,
-  Ajv,
   z,
+  makeAjvInstance,
 } from '@dnb/eufemia/src/extensions/forms'
 import { Flex, Slider } from '@dnb/eufemia/src'
 
@@ -215,7 +215,7 @@ export const CustomComponentWithZodSchemaExample = () => {
 
 export const CustomComponentWithJsonSchema = () => {
   return (
-    <ComponentBox scope={{ useFieldProps, Ajv }}>
+    <ComponentBox scope={{ useFieldProps, makeAjvInstance }}>
       {() => {
         const MySliderComponent = (props) => {
           const fromInput = React.useCallback(
@@ -296,9 +296,7 @@ export const CustomComponentWithJsonSchema = () => {
         }
 
         // Note: When using JSON Schema, you must provide ajvInstance to Form.Handler
-        const ajv = new Ajv({
-          allErrors: true,
-        })
+        const ajv = makeAjvInstance()
         return (
           <Form.Handler data={{ sliderValue: 50 }} ajvInstance={ajv}>
             <MySliderComponent

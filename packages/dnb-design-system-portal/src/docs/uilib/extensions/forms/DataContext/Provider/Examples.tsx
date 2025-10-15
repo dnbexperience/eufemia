@@ -5,7 +5,7 @@ import {
   Field,
   Value,
   JSONSchema,
-  Ajv,
+  makeAjvInstance,
 } from '@dnb/eufemia/src/extensions/forms'
 import { Flex } from '@dnb/eufemia/src'
 
@@ -173,9 +173,7 @@ export const Default = () => {
 }
 
 export const ValidationWithJsonSchema = () => {
-  const ajv = new Ajv({
-    allErrors: true,
-  })
+  const ajv = makeAjvInstance()
   return (
     <ComponentBox
       scope={{
