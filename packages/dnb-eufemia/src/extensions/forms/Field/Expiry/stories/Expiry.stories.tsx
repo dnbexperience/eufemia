@@ -16,20 +16,15 @@ export const Expiry = () => {
   return <Field.Expiry onChange={onChange} value={value} />
 }
 
-const transformOut = (internal) => {
-  if (internal?.length === 4) {
-    const month = internal.slice(0, 2)
-    const year = internal.slice(2, 4)
-    return { year, month }
-  }
+const transformOut = (internal, args) => {
+  const { year, month } = args
+  return { year, month }
 }
 
-const transformIn = (external: any) => {
-  console.log('transformIn')
-  console.log(external)
+const transformIn = (external) => {
   if (external) {
     const { year, month } = external
-    return `${month}${year}`
+    return { year, month }
   }
 }
 

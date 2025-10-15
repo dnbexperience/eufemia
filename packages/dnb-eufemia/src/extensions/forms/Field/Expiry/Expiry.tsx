@@ -26,7 +26,7 @@ export type ExpiryProps = Omit<
   size?: MultiInputMaskProps<'month' | 'year'>['size']
 }
 
-function Expiry(props: ExpiryProps) {
+function Expiry(props: ExpiryProps = {}) {
   const {
     Date: { errorRequired },
     Expiry: { label: expiryLabel },
@@ -48,7 +48,7 @@ function Expiry(props: ExpiryProps) {
     [errorRequired, props.errorMessages]
   )
 
-  const handleInput = useCallback(
+  const fromInput = useCallback(
     (values: ExpiryValue) => {
       const month = expiryValueToString(values.month, placeholders.month)
       const year = expiryValueToString(values.year, placeholders.year)
@@ -72,7 +72,7 @@ function Expiry(props: ExpiryProps) {
     []
   )
 
-  const monthAndYearValidator = useCallback(
+  const onBlurValidator = useCallback(
     (value: string) => validateMonthAndYear(value, placeholders),
     [placeholders]
   )
@@ -89,10 +89,8 @@ function Expiry(props: ExpiryProps) {
     return undefined
   }, [props.validateInitially, props.value])
 
-  const preparedProps: ExpiryProps = {
-    ...props,
-    errorMessages,
-    fromExternal: (external) => {
+  const fromExternal = useCallback(
+    (external) => {
       if (typeof external === 'string') {
         const { month, year } = stringToExpiryValue(external)
         const monthString = expiryValueToString(month, placeholders.month)
@@ -109,14 +107,52 @@ function Expiry(props: ExpiryProps) {
       }
       return external
     },
-    fromInput: handleInput,
-    provideAdditionalArgs: (v: string) =>
-      v && v.length >= 4
-        ? { month: v.slice(0, 2), year: v.slice(2, 4) }
-        : { month: undefined, year: undefined },
+    [placeholders.month, placeholders.year]
+  )
+
+  const customTransformIn = props.transformIn
+  const transformIn = useCallback(
+    (value: string) => {
+      if (customTransformIn) {
+        const external = customTransformIn(value)
+
+        if (typeof external === 'string') {
+          return external
+        }
+
+        if (external?.year && external?.month) {
+          return `${external.month}${external.year}`
+        }
+      }
+
+      return value
+    },
+    [customTransformIn]
+  )
+
+  const provideAdditionalArgs = useCallback((value: string) => {
+    let { month, year } = stringToExpiryValue(value)
+
+    if (isNaN(Number(month))) {
+      month = undefined
+    }
+    if (isNaN(Number(year))) {
+      year = undefined
+    }
+
+    return { month, year }
+  }, [])
+
+  const preparedProps: ExpiryProps = {
+    ...props,
+    errorMessages,
+    validateInitially,
+    fromExternal,
+    transformIn,
+    fromInput,
+    provideAdditionalArgs,
     validateRequired,
-    validateInitially: validateInitially,
-    onBlurValidator: monthAndYearValidator,
+    onBlurValidator,
   }
 
   const {
@@ -208,13 +244,10 @@ function isFieldEmpty(value: string, placeholder: string) {
 }
 
 function stringToExpiryValue(value: string) {
-  const month = value?.substring(0, 2) ?? ''
-  const year = value?.substring(2, 4) ?? ''
+  const month = (typeof value === 'string' && value?.substring(0, 2)) ?? ''
+  const year = (typeof value === 'string' && value?.substring(2, 4)) ?? ''
 
-  return {
-    month,
-    year,
-  }
+  return { month, year }
 }
 
 function expiryValueToString(value: string, placeholder: string) {
