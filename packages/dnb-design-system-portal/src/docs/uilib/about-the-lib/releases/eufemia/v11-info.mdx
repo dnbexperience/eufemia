@@ -7,10 +7,7 @@ draft: true
 
 # v11
 
-- [v11](#v11)
-  - [Migration](#migration)
-  - [Install](#install)
-  - [Section](#section)
+This page lists the changes introduced in v11. It focuses on breaking changes, removals, and required migrations, grouped by area for clarity.
 
 ## Migration
 
@@ -24,153 +21,188 @@ To upgrade to @dnb/eufemia v11 with NPM, use:
 $ npm i @dnb/eufemia@11
 # or
 $ yarn add @dnb/eufemia@11
+# or
+$ pnpm add @dnb/eufemia@11
 ```
 
-## Section
+## Components
 
-1. Most of the `style_type` variants were removed. Instead use the new `variant` or `backgroundColor` property:
+### [Section](/uilib/components/section/)
 
-- `mint-green`
-- `sea-green`
-- `emerald-green`
-- `lavender`
-- `black-3`
-- `sand-yellow`
-- `pistachio`
-- `fire-red`
-- `fire-red-8`
+1. Most `style_type` variants were removed. Use the new `variant` or `backgroundColor` property instead:
+   - `mint-green`
+   - `sea-green`
+   - `emerald-green`
+   - `lavender`
+   - `black-3`
+   - `sand-yellow`
+   - `pistachio`
+   - `fire-red`
+   - `fire-red-8`
+2. Remove `spacing`. Use `innerSpace` instead.
+3. Replace `inner_ref` with `innerRef`.
 
-2. `spacing` is removed. Use `innerSpace` instead.
-3. `inner_ref` is removed. Use `innerRef` instead.
+### [Anchor](/uilib/components/anchor/)
 
-## Anchor
-
-- For when using icons in an Anchor (text link), use the `icon` property instead of inlining it.
+- When using icons in an Anchor (text link), use the `icon` property instead of inlining it.
 - Find and remove `scrollToHashHandler`. Smooth hash scrolling is now supported by all major browsers.
 
-## Removal of FormRow and FormSet
+### [FormLabel](/uilib/components/form-label/)
 
-For more information on how to replace these, check out [these docs](/uilib/layout/form-set-row-deprecation#deprecation).
+- Replace `for_id` with `forId`.
+- Replace `sr_only` with `srOnly`.
 
-- Find `<FormRow>` and replace with `<Flex.Horizontal align="baseline">`.
-- Find `<FormRow vertical>` and replace with `<Flex.Vertical>`.
-- Find `<FormRow centered>` and replace with `<Flex.Horizontal align="center">`.
-- Find `FormRow=` and replace with `formElement=`.
-- Find `FormRow:` and replace with `formElement:`.
-- Find `import { includeValidProps } from '@dnb/eufemia/components/form-row/FormRowHelpers'` and replace with `import { pickFormElementProps } from '@dnb/eufemia/shared/helpers/filterValidProps'`.
+### [Tag](/uilib/components/tag/)
 
-## FormLabel
+- Replace `onDelete` with `onClick`, and add `variant="removable"`.
 
-- Find `for_id` and replace with `forId`.
-- Find `sr_only` and replace with `srOnly`.
+### [Definition lists](/uilib/elements/lists/#definition-lists)
 
-## Tag
+- Replace `direction` in `<Dl>` with `layout`.
 
-- Find property `onDelete` and replace with `onClick`, add property `variant='removable'`.
+### [BreadcrumbItem](/uilib/components/breadcrumb/)
 
-## Definition lists
+- Removed passing down properties to the internal `span`.
 
-- Find `direction` in `<Dl>` and replace with `layout`.
+We don't think this has been used for anything other than passing down `data-testid`s for testing. We believe the potential side effects of passing down properties to this span are greater than the advantages it gives for those who want to test this span using `data-testid` as their way of selecting the span.
 
-## Removal of passing down properties to BreadcrumbItem's span
+We recommend [other testing methods](/uilib/usage/best-practices/for-testing/) to select and test the inner parts of Eufemia components. You could use, e.g., `screen.queryByRole` or `document.querySelector`.
 
-We don't think this has been used for anything other than passing down `data-testid`'s for testing. We believe the potential side effects of passing down properties to this span is greater than the advantages it gives for those who want to test this span using data-testid as their way of selecting the span.
-We recommend to [use other methods](/uilib/usage/best-practices/for-testing/) to select and test the inner parts of Eufemia components. You could use e.g. `screen.queryByRole`, `screen.queryByRole` or `document.querySelector`.
-For more context, take a look in this [PR](https://github.com/dnbexperience/eufemia/pull/2798).
+For more context, see this [PR](https://github.com/dnbexperience/eufemia/pull/2798).
 
-## Moved InputPassword to Field.Password
+### [ProgressIndicator](/uilib/components/progress-indicator/)
 
-The `InputPassword` component has been moved to `Field.Password`, and is now a part of Eufemia Forms. Change your import statement from `import InputPassword from '@dnb/eufemia/components/input/InputPassword'` to `import { Field } from '@dnb/eufemia/extensions/forms'`.
+- Replace `no_animation` with `noAnimation`.
+- Replace `label_direction` with `labelDirection`.
+- Replace `show_label` with `showDefaultLabel`.
+- Replace `on_complete` with `onComplete`.
+- Replace `class` with `className`.
+- Replace `children` with `label`.
 
-## ProgressIndicator
+### [PaymentCard](/uilib/extensions/payment-card/)
 
-- replace `no_animation` with `noAnimation`.
-- replace `label_direction` with `labelDirection`.
-- replace `show_label` with `showDefaultLabel`.
-- replace `on_complete` with `onComplete`.
-- replace `class` with `className`.
-- replace `children` with `label`.
+- Remove translation `text_card_number` as it's not supported anymore.
 
-## PaymentCard
+### Divider ([Horizontal Rule](/uilib/elements/horizontal-rule/))
 
-- remove translation `text_card_number` as it's not supported anymore.
+- Remove `light` and `medium` as they are not supported anymore.
+- Replace `fullscreen` with `breakout`.
 
-## Hr-line (Divider)
+### [Checkbox](/uilib/components/checkbox/)
 
-- remove `light` and `medium` as it's not supported anymore.
-- replace `fullscreen` with `breakout`.
+- Replace `label_position` with `labelPosition`.
+- Replace `label_sr_only` with `labelSrOnly`.
+- Replace `status_state` with `statusState`.
+- Replace `status_props` with `statusProps`.
+- Replace `on_change` with `onChange`.
+- Replace `children` with `label`.
 
-## Flex
+### [Switch](/uilib/components/switch/)
 
-- replace `spacing` with `gap` on all Flex components.
-- `rowGap` no longer accepts value `true`. Replace `true` with `undefined` or simply remove the property to get the same behavior.
+- Replace `label_position` with `labelPosition`.
+- Replace `label_sr_only` with `labelSrOnly`.
+- Replace `status_state` with `statusState`.
+- Replace `status_props` with `statusProps`.
+- Replace `on_change` with `onChange`.
+- Replace `on_change_end` with `onChangeEnd`.
+- Replace `on_state_update` with `onStateUpdate`.
+- Replace `status_no_animation` with `statusNoAnimation`.
 
-## Checkbox
+### [Logo](/uilib/components/logo/)
 
-- replace `label_position` with `labelPosition`.
-- replace `label_sr_only` with `labelSrOnly`.
-- replace `status_state` with `statusState`.
-- replace `status_props` with `statusProps`.
-- replace `on_change` with `onChange`.
-- replace `children` with `label`.
+- Remove `size`. Replace it with `height` if it contains a numeric value, and with `inheritSize` where `size='inherit'`.
+- Remove the following properties: `alt` and `ratio`.
+- Replace `inherit_color` with `inheritColor`.
+- Change `width` from number to string.
+- Change `height` from number to string.
 
-## Switch
+### [Button](/uilib/components/button/)
 
-- replace `label_position` with `labelPosition`.
-- replace `label_sr_only` with `labelSrOnly`.
-- replace `status_state` with `statusState`.
-- replace `status_props` with `statusProps`.
-- replace `on_change` with `onChange`.
-- replace `on_change_end` with `onChangeEnd`.
-- replace `on_state_update` with `onStateUpdate`.
-- replace `status_no_animation` with `statusNoAnimation`.
+- Replace `class` with `className`.
 
-## Logo
+### [Modal](/uilib/components/modal/), [Dialog](/uilib/components/dialog/) and [Drawer](/uilib/components/drawer/)
 
-- remove `size`. replace it with `height` if it contains a numeric value and with `inheritSize` where `size='inherit'`.
-- remove the following properties: `alt` and `ratio`.
-- replace `inherit_color` with `inheritColor`.
-- change `width` from number to string.
-- change `height`from number to string.
+- Replace `class` with `className`.
 
-## Button
+### [Table](/uilib/components/table/)
 
-- replace `class` with `className`.
+- Replace `accordion` with `mode="accordion"`.
 
-## Modal, Dialog and Drawer
+### [Pagination](/uilib/components/pagination/)
 
-- replace `class` with `className`.
+- Replace `place_maker_before_content` with `place_marker_before_content`.
 
-## Table
+### [DatePicker](/uilib/components/date-picker/)
 
-- replace `accordion` with `mode="accordion"`.
+- Find `correctInvalidDate` and remove it. You may rather use [Field.Date](/uilib/extensions/forms/feature-fields/Date/) from Eufemia Forms when using `minDate` and `maxDate`.
 
-## Pagination
-
-- replace `place_maker_before_content` with `place_marker_before_content`.
-
-## DatePicker
-
-- find `correctInvalidDate` and remove it. You may rather use [Field.Date](/uilib/extensions/forms/feature-fields/Date/) from Eufemia Forms when using `minDate` and `maxDate`.
-
-## Visibility
-
-- replace `withValue` with `hasValue`.
-
-## Eufemia Forms
-
-- replace `useError` with `useValidation`.
-- replace `internal.error` with `error`.
-- replace Form.Iterate label variable `{itemNr}` with `{itemNo}`.
-- replace `Form.FieldProps` with `Field.Provider`.
-- replace `<Card stack>...</Card>` with `<Form.Card>...</Form.Card>`.
-- replace `<Card>...</Card>` with `<Form.Card>...</Form.Card>`.
-
-## NumberFormat
+### [NumberFormat](/uilib/components/number-format/)
 
 - Replace `omit_rounding` with `rounding="omit"`.
 
-## Forms error handling
+### [DrawerList](/uilib/components/fragments/drawer-list/)
+
+- Replace type `DrawerListDataObjectUnion` with `DrawerListDataArrayItem`.
+- Replace type `DrawerListDataObject` with `DrawerListDataArrayObject`.
+- Replace `import { ItemContent } from '@dnb/eufemia/fragments/drawer-list/DrawerList'` with `import { ItemContent } from '@dnb/eufemia/fragments/drawer-list/DrawerListItem'`.
+
+### [StepIndicator](/uilib/components/step-indicator/)
+
+- Major redesign of component. There is now only one variant (instead of two).
+- Remove `on_item_render`. No longer has any other function than each step's `title` property.
+- Remove step item `on_render`. No longer has any other function than the `title` property.
+- Remove `sidebarId`. No longer has any sidebar. If an id is needed, use the `id` property.
+- Remove `step_title_extended`. Only `step_title` is needed.
+
+#### StepIndicator.Sidebar
+
+- Component removed entirely after redesign. The variant that used this component no longer exists.
+
+### [GlobalError](/uilib/components/global-error/)
+
+- Replace `status` with `statusCode`.
+- Replace `code` with `errorMessageCode`.
+
+## Layout
+
+### [Flex](/uilib/layout/flex/)
+
+- Replace `spacing` with `gap` on all Flex components.
+- `rowGap` no longer accepts value `true`. Replace `true` with `undefined` or remove the property to get the same behavior.
+
+### Removal of FormRow and FormSet
+
+For more information on how to replace these, see [FormSet/FormRow deprecation](/uilib/layout/form-set-row-deprecation#deprecation).
+
+- Replace `<FormRow>` with `<Flex.Horizontal align="baseline">`.
+- Replace `<FormRow vertical>` with `<Flex.Vertical>`.
+- Replace `<FormRow centered>` with `<Flex.Horizontal align="center">`.
+- Replace `FormRow=` with `formElement=`.
+- Replace `FormRow:` with `formElement:`.
+- Replace `import { includeValidProps } from '@dnb/eufemia/components/form-row/FormRowHelpers'` with `import { pickFormElementProps } from '@dnb/eufemia/shared/helpers/filterValidProps'`.
+
+Docs: [FormRow](/uilib/layout/form-row/), [FormSet](/uilib/layout/form-set/)
+
+## Eufemia Forms
+
+### General
+
+- Replace `useError` with `useValidation`.
+- Replace `internal.error` with `error`.
+- Replace Form.Iterate label variable `{itemNr}` with `{itemNo}`.
+- Replace `Form.FieldProps` with `Field.Provider`.
+- Replace `<Card stack>...</Card>` with `<Form.Card>...</Form.Card>`.
+- Replace `<Card>...</Card>` with `<Form.Card>...</Form.Card>`.
+
+Docs: [Eufemia Forms](/uilib/extensions/forms/)
+
+### InputPassword moved to Field.Password
+
+The `InputPassword` component has been moved to `Field.Password`, and is now a part of Eufemia Forms. Change your import statement from `import InputPassword from '@dnb/eufemia/components/input/InputPassword'` to `import { Field } from '@dnb/eufemia/extensions/forms'`.
+
+Docs: [Input](/uilib/components/input/), [All Fields](/uilib/extensions/forms/all-fields/)
+
+### Error handling
 
 **FormError**
 
@@ -214,55 +246,37 @@ const errorMessages = {
 
 **useErrorMessage**
 
-- Got removed. Simply provide your error message as a object in the `errorMessages` property with an `useMemo` hook.
+- Removed. Provide your error messages as an object in the `errorMessages` property (e.g., with a `useMemo` hook).
 
-## DrawerList
+See also: [Form error messages](/uilib/extensions/forms/Form/error-messages/), [useValidation](/uilib/extensions/forms/Form/useValidation/)
 
-- replace type `DrawerListDataObjectUnion` with `DrawerListDataArrayItem`.
-- replace type `DrawerListDataObject` with `DrawerListDataArrayObject`.
-- Find `import { ItemContent } from '@dnb/eufemia/fragments/drawer-list/DrawerList'` and replace with `import { ItemContent } from '@dnb/eufemia/fragments/drawer-list/DrawerListItem'`.
+### [Form.Visibility](/uilib/extensions/forms/Form/Visibility/)
 
-## `Form.Visibility`
+- Replace `continuousValidation` with `validateContinuously`.
+- Replace `withValue` with `hasValue`.
 
-- replace `continuousValidation` with `validateContinuously`.
+### Every `Field.*` component
 
-## `Field.*` components
+- Replace `continuousValidation` with `validateContinuously`.
 
-- replace `continuousValidation` with `validateContinuously`.
+Docs: [All Fields](/uilib/extensions/forms/all-fields/)
 
-## `Field.PostalCodeAndCity`
+### [Field.PostalCodeAndCity](/uilib/extensions/forms/feature-fields/PostalCodeAndCity/)
 
-- replace `country` with `countryCode`.
+- Replace `country` with `countryCode`.
 
-## `Iterate.PushContainer`
+### [Iterate.PushContainer](/uilib/extensions/forms/Iterate/PushContainer/)
 
-- replace `requireCommit` with `preventUncommittedChanges`.
+- Replace `requireCommit` with `preventUncommittedChanges`.
 
-## `StepIndicator`
+### [Wizard.Container](/uilib/extensions/forms/Wizard/Container/)
 
-- Major redesign of component. Main result is that there is now only one variant, instead of two.
-- `on_item_render` removed. No longer has any other function than each step's `title` property.
-- step item `on_render` removed. No longer has any other function than the `title` property.
-- `sidebarId` removed. No longer has any sidebar. If an id is needed, use the `id` property.
-- `step_title_extended` removed. Only `step_title` is needed.
+- Remove `variant`. No longer has any variants.
+- Remove `sidebarId`. No longer has any sidebar. If an id is needed, use the `id` property.
 
-## `StepIndicator.Sidebar`
+### [Wizard.Step](/uilib/extensions/forms/Wizard/Step/)
 
-- component is removed entirely after redesign. The variant that used this component no longer exist.
+- Replace `active` with `include`.
+- Replace `activeWhen` with `includeWhen`.
 
-## `Wizard.Container`
-
-- `variant` removed. No longer has any variants.
-- `sidebarId` removed. No longer has any sidebar. If an id is needed, use the `id` property.
-
-## `Wizard.Step`
-
-- replace `active` with `include`
-- replace `activeWhen` with `includeWhen`
-
-## `GlobalError`
-
-- replace `status` with `statusCode`.
-- replace `code` with `errorMessageCode`.
-
-_February, 6. 2024_
+_November 14, 2025_
