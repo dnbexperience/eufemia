@@ -24,6 +24,5 @@ const config = {
     '^.+\\.(svg)$': '<rootDir>/src/core/jest/jsxMock.js',
   },
   setupFilesAfterEnv: ['<rootDir>/src/core/jest/setupJest.js'],
-  prettierPath: require.resolve('prettier-v2'),
 }
 module.exports = config
