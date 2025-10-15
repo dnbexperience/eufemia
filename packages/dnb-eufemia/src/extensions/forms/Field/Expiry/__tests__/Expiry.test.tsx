@@ -94,6 +94,199 @@ describe('Field.Expiry', () => {
     expect(year).toHaveAttribute('autocomplete', 'cc-exp-year')
   })
 
+  it('should support transformIn and transformOut', async () => {
+    const onChange = jest.fn()
+
+    const transformOut = jest.fn((internal, args) => {
+      const { year, month } = args
+      return { year, month }
+    })
+
+    const transformIn = jest.fn((external) => {
+      if (external) {
+        const { year, month } = external
+        return { year, month }
+      }
+    })
+
+    render(
+      <Form.Handler
+        onChange={onChange}
+        defaultData={{
+          myField: {
+            year: '35',
+            month: '08',
+          },
+        }}
+      >
+        <Field.Expiry
+          path="/myField"
+          transformOut={transformOut}
+          transformIn={transformIn}
+        />
+      </Form.Handler>
+    )
+
+    const monthInput = document.querySelectorAll('input')[0]
+    const yearInput = document.querySelectorAll('input')[1]
+
+    expect(monthInput.value).toBe('08')
+    expect(yearInput.value).toBe('35')
+
+    await userEvent.type(monthInput, '1224')
+
+    // Check that transformOut was called with the correct values
+    expect(transformOut).toHaveBeenCalledTimes(9)
+    expect(transformOut).toHaveBeenLastCalledWith('1224', {
+      year: '24',
+      month: '12',
+    })
+    expect(transformIn).toHaveBeenCalledTimes(6)
+    expect(transformIn).toHaveBeenLastCalledWith({
+      year: '24',
+      month: '12',
+    })
+
+    // Check that onChange was called with the transformed data
+    expect(onChange).toHaveBeenLastCalledWith(
+      {
+        myField: {
+          year: '24',
+          month: '12',
+        },
+      },
+      expect.anything()
+    )
+  })
+
+  it('should handle removing input values with transformIn and transformOut', async () => {
+    const onChange = jest.fn()
+
+    const transformOut = jest.fn((internal, args) => {
+      const { year, month } = args
+      return { year, month }
+    })
+
+    const transformIn = jest.fn((external) => {
+      if (external) {
+        const { year, month } = external
+        return { year, month }
+      }
+    })
+
+    render(
+      <Form.Handler
+        onChange={onChange}
+        defaultData={{
+          myField: {
+            year: '35',
+            month: '08',
+          },
+        }}
+      >
+        <Field.Expiry
+          path="/myField"
+          transformOut={transformOut}
+          transformIn={transformIn}
+        />
+      </Form.Handler>
+    )
+
+    const monthInput = document.querySelectorAll('input')[0]
+    const yearInput = document.querySelectorAll('input')[1]
+
+    // Verify initial state
+    expect(monthInput.value).toBe('08')
+    expect(yearInput.value).toBe('35')
+
+    // Remove month value completely
+    await userEvent.click(monthInput)
+    await userEvent.keyboard('{Backspace>2}')
+    expect(monthInput.value).toBe('mm')
+
+    // Check that transformOut was called with the correct values when month is removed
+    expect(transformOut).toHaveBeenCalledWith('mm35', {
+      year: '35',
+      month: undefined,
+    })
+
+    // Remove year value completely
+    await userEvent.click(yearInput)
+    await userEvent.keyboard('{Backspace>2}')
+    expect(yearInput.value).toBe('åå')
+
+    // Check that transformOut was called with empty values when both are removed
+    expect(transformOut).toHaveBeenLastCalledWith('', {
+      year: '',
+      month: '',
+    })
+
+    // Check that onChange was called with the transformed data
+    expect(onChange).toHaveBeenLastCalledWith(
+      {
+        myField: {
+          year: '',
+          month: '',
+        },
+      },
+      expect.anything()
+    )
+
+    // Verify final state - both inputs should be empty/placeholder
+    expect(monthInput.value).toBe('mm')
+    expect(yearInput.value).toBe('åå')
+  })
+
+  it('should handle removing input values and check event state', async () => {
+    const onChange = jest.fn()
+    const onBlur = jest.fn()
+    const onFocus = jest.fn()
+
+    render(
+      <Field.Expiry
+        value="0835"
+        onChange={onChange}
+        onBlur={onBlur}
+        onFocus={onFocus}
+      />
+    )
+
+    const monthInput = document.querySelectorAll('input')[0]
+    const yearInput = document.querySelectorAll('input')[1]
+
+    // Verify initial state
+    expect(monthInput.value).toBe('08')
+    expect(yearInput.value).toBe('35')
+
+    // Focus on month input
+    await userEvent.click(monthInput)
+    expect(onFocus).toHaveBeenCalledTimes(1)
+
+    // Remove month value completely
+    await userEvent.keyboard('{Backspace>2}')
+    expect(monthInput.value).toBe('mm')
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenLastCalledWith('mm35', expect.anything())
+
+    // Focus on year input
+    await userEvent.click(yearInput)
+    // Note: onFocus might not be called again if already focused
+
+    // Remove year value completely
+    await userEvent.keyboard('{Backspace>2}')
+    expect(yearInput.value).toBe('åå')
+    expect(onChange).toHaveBeenCalledTimes(2)
+    expect(onChange).toHaveBeenLastCalledWith('', expect.anything())
+
+    // Blur to trigger validation
+    await userEvent.click(document.body)
+    expect(onBlur).toHaveBeenCalledTimes(1)
+
+    // Verify final state - both inputs should be empty/placeholder
+    expect(monthInput.value).toBe('mm')
+    expect(yearInput.value).toBe('åå')
+  })
+
   describe('keydown', () => {
     beforeEach(() => {
       window.requestAnimationFrame = jest.fn((callback) => {
