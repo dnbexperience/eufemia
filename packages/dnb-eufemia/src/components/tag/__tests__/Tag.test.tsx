@@ -346,7 +346,7 @@ describe('Tag', () => {
 
     it('does not support icon if variant="addable"', () => {
       render(
-        <Tag.Group label="onDelete">
+        <Tag.Group label="addable">
           <Tag
             text="Tag with icon"
             icon="bell"
@@ -362,7 +362,7 @@ describe('Tag', () => {
 
     it('renders the delete icon if variant="addable" is provided', () => {
       render(
-        <Tag.Group label="onDelete">
+        <Tag.Group label="addable">
           <Tag text="Addable" variant="addable" onClick={jest.fn()} />
         </Tag.Group>
       )
@@ -414,7 +414,7 @@ describe('Tag', () => {
 
     it('does not support icon if variant="removable"', () => {
       render(
-        <Tag.Group label="onDelete">
+        <Tag.Group label="removable">
           <Tag
             text="Tag with icon"
             icon="bell"
@@ -430,7 +430,7 @@ describe('Tag', () => {
 
     it('renders the delete icon if variant="removable" is provided', () => {
       render(
-        <Tag.Group label="onDelete">
+        <Tag.Group label="removable">
           <Tag text="Removable" variant="removable" onClick={jest.fn()} />
         </Tag.Group>
       )
