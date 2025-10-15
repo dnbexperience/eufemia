@@ -11,7 +11,7 @@ import type {
 } from './DataContext'
 import type { SharedFieldBlockProps } from './FieldBlock'
 import type { JSONSchema4, JSONSchema6, JSONSchema7 } from 'json-schema'
-import type { JSONSchemaType } from 'ajv/dist/2020'
+import type { JSONSchemaType } from 'ajv/dist/2020.js'
 import type { ZodSchema } from './utils'
 import { JsonObject, FormError } from './utils'
 import {

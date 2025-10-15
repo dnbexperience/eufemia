@@ -1,13 +1,12 @@
-import ajvInstance, { ErrorObject } from 'ajv/dist/2020'
+import Ajv from 'ajv/dist/2020.js'
 import ajvErrors from 'ajv-errors'
 import pointer, { JsonObject } from './json-pointer'
 import { DefaultErrorMessages, Path } from '../types'
 import { FormError } from './FormError'
-import type Ajv from 'ajv/dist/2020'
+import type { ErrorObject } from 'ajv/dist/2020.js'
 import type { FormsTranslation } from '../hooks/useTranslation'
 
-export type AjvInstance = typeof ajvInstance
-export { ajvInstance, Ajv }
+export { Ajv }
 
 /**
  * Translation table for Ajv error keywords.
@@ -50,10 +49,10 @@ const ajvErrorKeywordsTranslationTable = [
  * @param instance - Optional custom instance of Ajv.
  * @returns The created or provided instance of Ajv.
  */
-export function makeAjvInstance(instance?: Ajv) {
+export function makeAjvInstance(instance?: Ajv): Ajv {
   const ajv =
     instance ||
-    new ajvInstance({
+    new Ajv({
       // If allErrors is off, Ajv only give you the first error it finds
       allErrors: true,
     })

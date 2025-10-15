@@ -21,7 +21,7 @@ export { default as ValueBlock } from './ValueBlock'
  *
  * This ensures your bundle only includes AJV when you actually need it.
  */
-export { default as Ajv } from 'ajv/dist/2020'
+export { default as Ajv } from 'ajv/dist/2020.js'
 
 // Re-export Zod so consumers can `import { z } from '@dnb/eufemia/extensions/forms'`
 export * as z from 'zod'
