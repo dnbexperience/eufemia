@@ -33,7 +33,7 @@ export const SkipContentTable = () => (
       <LargeTableWithInteractiveElements id="table-with-caption" />
     </section>
 
-    <Section id="submit-area" spacing="small" style_type="divider" top>
+    <Section id="submit-area" spacing="small" variant="divider" top>
       <SkipContent.Return selector="#submit-area" bottom>
         Back to beginning of table
       </SkipContent.Return>

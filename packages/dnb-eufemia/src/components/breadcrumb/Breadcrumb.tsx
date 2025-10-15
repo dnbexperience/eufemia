@@ -264,7 +264,7 @@ const Breadcrumb = (localProps: BreadcrumbAllProps) => {
     >
       <Section
         className="dnb-breadcrumb__bar"
-        style_type={styleType || 'transparent'}
+        backgroundColor={styleType || 'transparent'}
         innerSpace={innerSpace}
       >
         {currentVariant === 'single' ? (
