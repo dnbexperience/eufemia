@@ -758,7 +758,7 @@ export const Accordion = () => (
                 Ring the bell
               </Button>
 
-              <Section top spacing>
+              <Section top innerSpace>
                 <Dl>
                   <Dt>Favorittfarge</Dt>
                   <Dd>Grønn</Dd>
@@ -877,7 +877,7 @@ export const AccordionMixed = () => (
                 Ring the bell
               </Button>
 
-              <Section top spacing>
+              <Section top innerSpace>
                 <Dl>
                   <Dt>Favorittfarge</Dt>
                   <Dd>Grønn</Dd>

@@ -9,11 +9,11 @@ import { isTrue } from '../../../shared/component-helper'
 import Section from '../../section/Section'
 import ModalContext from '../ModalContext'
 import CloseButton from './CloseButton'
-import { SectionProps } from '../../Section'
+import { SectionAllProps } from '../../Section'
 import { ReactChildType } from '../types'
 
 export interface ModalHeaderBarProps
-  extends Omit<SectionProps, 'children'> {
+  extends Omit<SectionAllProps, 'children'> {
   /**
    * The content which will appear when triggering the modal/drawer.
    */

@@ -714,30 +714,6 @@ button.dnb-button::-moz-focus-inner {
 .dnb-section .dnb-section .dnb-section .dnb-section .dnb-section .dnb-section .dnb-section .dnb-section .dnb-section::after {
   z-index: -7;
 }
-.dnb-section--spacing-x-small {
-  padding-top: var(--spacing-x-small);
-  padding-bottom: var(--spacing-x-small);
-}
-.dnb-section--spacing-small {
-  padding-top: var(--spacing-small);
-  padding-bottom: var(--spacing-small);
-}
-.dnb-section--spacing-medium {
-  padding-top: var(--spacing-medium);
-  padding-bottom: var(--spacing-medium);
-}
-.dnb-section--spacing, .dnb-section--spacing-large {
-  padding-top: var(--spacing-large);
-  padding-bottom: var(--spacing-large);
-}
-.dnb-section--spacing-x-large {
-  padding-top: var(--spacing-x-large);
-  padding-bottom: var(--spacing-x-large);
-}
-.dnb-section--spacing-xx-large {
-  padding-top: var(--spacing-xx-large);
-  padding-bottom: var(--spacing-xx-large);
-}
 
 /*
  * GlobalStatus component

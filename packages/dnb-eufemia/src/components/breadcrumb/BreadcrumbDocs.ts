@@ -62,7 +62,7 @@ export const BreadcrumbProperties: PropertiesTableProps = {
     status: 'optional',
   },
   spacing: {
-    doc: 'Include spacing properties from [Section](/uilib/components/section/properties) in breadcrumb. If only `true` is given, the spacing will be `small`. Defaults to `false`.',
+    doc: 'Include spacing properties in breadcrumb. If only `true` is given, the spacing will be `small`. Defaults to `false`.',
     type: 'Various',
     status: 'optional',
   },

@@ -533,11 +533,11 @@ const ModalCloseExample = () => {
         }}
       >
         <Hr />
-        <Section spacing>
+        <Section innerSpace>
           <H2>Some content {count}</H2>
           <Input>Focus me with Tab key</Input>
         </Section>
-        <Section spacing>
+        <Section innerSpace>
           <P>
             <Switch label="Checked:" checked />
           </P>
@@ -573,7 +573,7 @@ const ModalTriggerExample = () => {
                 openState="opened"
                 labelledBy="custom-triggerer"
               >
-                <Section spacing style_type="divider">
+                <Section innerSpace style_type="divider">
                   <P>This Modal was opened by a custom trigger button.</P>
                 </Section>
               </Dialog>
