@@ -24,11 +24,11 @@ export type LogoProps = {
   /**
    * Define the width of the logo.
    */
-  width?: LogoWidth // v11: replace with string
+  width?: LogoWidth
   /**
    * Define the height of the logo.
    */
-  height?: LogoHeight // v11: replace with string
+  height?: LogoHeight
   /**
    * Define the color of the logo.
    */

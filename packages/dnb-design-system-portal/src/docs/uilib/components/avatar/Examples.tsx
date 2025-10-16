@@ -132,7 +132,7 @@ export const AvatarDNBLogo = () => (
   <ComponentBox hideCode data-visual-test="avatar-children-logo">
     <Avatar.Group label="Logos">
       <Avatar>
-        <Logo size="auto" inheritColor />
+        <Logo height="auto" inheritColor />
       </Avatar>
     </Avatar.Group>
   </ComponentBox>
