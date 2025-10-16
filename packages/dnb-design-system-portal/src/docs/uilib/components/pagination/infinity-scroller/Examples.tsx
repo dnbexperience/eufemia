@@ -152,7 +152,7 @@ export const PaginationExampleInfinityTable = () => (
 
 export function PaginationTableExample() {
   return (
-    <Wrapper className="dnb-core-style" spacing>
+    <Wrapper className="dnb-core-style" innerSpace>
       <Space left>
         <H1 size="small">Infinity Table</H1>
         <P bottom>
