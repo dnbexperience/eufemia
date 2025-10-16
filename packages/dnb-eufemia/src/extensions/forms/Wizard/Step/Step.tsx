@@ -60,19 +60,6 @@ export type Props = ComponentProps &
     prerenderFieldProps?: boolean
   }
 
-export function handleDeprecatedProps({
-  activeWhen,
-  include,
-  includeWhen,
-  ...rest
-}: Props): Omit<Props, 'activeWhen'> {
-  return {
-    include,
-    includeWhen: includeWhen ?? activeWhen,
-    ...rest,
-  }
-}
-
 function Step(props: Props): JSX.Element {
   const {
     id,
@@ -87,7 +74,7 @@ function Step(props: Props): JSX.Element {
     prerenderFieldProps,
     children,
     ...restProps
-  } = handleDeprecatedProps(props)
+  } = props
 
   const {
     check,
