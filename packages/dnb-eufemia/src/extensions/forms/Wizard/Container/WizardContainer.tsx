@@ -115,11 +115,6 @@ export type Props = ComponentProps & {
    * The children of the wizard container.
    */
   children: React.ReactNode
-
-  /**
-   * @deprecated Is enabled by default. You can disable it with "omitScrollManagement"
-   */
-  scrollTopOnStepChange?: boolean
 }
 
 function handleDeprecatedProps(
