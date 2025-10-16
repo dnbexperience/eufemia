@@ -6,6 +6,7 @@
 import React, {
   cloneElement,
   isValidElement,
+  useCallback,
   useEffect,
   useLayoutEffect,
   useMemo,
@@ -54,32 +55,120 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
     clearTimeout(delayTimeout.current)
   }
 
-  useLayoutEffect(() => {
-    targetRef.current = getRefElement(cloneRef)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [target])
+  const onMouseEnter = useCallback(
+    (e: MouseEvent) => {
+      try {
+        const elem = e.currentTarget as HTMLElement
 
-  useLayoutEffect(() => {
-    if (targetRef.current) {
-      setIsMounted(true)
-      if (!isControlled) {
-        addEvents(targetRef.current)
+        if (elem.getAttribute('data-autofocus')) {
+          return // stop here
+        }
+
+        if (isTouch(e.type)) {
+          elem.style.userSelect = 'none'
+        }
+      } catch (e) {
+        warn(e)
       }
-      handleSemanticElement()
-    }
 
-    return () => {
+      const run = () => {
+        setIsActive(true)
+      }
+
+      if (noAnimation || globalThis.IS_TEST) {
+        run()
+      } else {
+        clearTimers()
+        delayTimeout.current = setTimeout(
+          run,
+          parseFloat(String(showDelay)) || 1
+        ) // have min 1 to make sure we are after onMouseLeave
+      }
+    },
+    [noAnimation, showDelay]
+  )
+
+  const onFocus = useCallback(
+    (e: MouseEvent) => {
+      /**
+       * VoiceOver needs to show the Tooltip in order to read the aria-describedby
+       */
+      return onMouseEnter(e)
+    },
+    [onMouseEnter]
+  )
+
+  const onMouseLeave = useCallback(
+    (e: MouseEvent) => {
+      if (active) {
+        return // stop here, because it is set to true by the original prop
+      }
+
+      try {
+        if (isTouch(e.type)) {
+          const elem = e.currentTarget as HTMLElement
+          elem.style.userSelect = ''
+        }
+      } catch (e) {
+        warn(e)
+      }
+
       clearTimers()
-      removeEvents(targetRef.current)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+
+      const run = () => {
+        setIsActive(false)
+      }
+
+      if (skipPortal) {
+        delayTimeout.current = setTimeout(
+          run,
+          parseFloat(String(hideDelay))
+        )
+      } else {
+        run()
+      }
+    },
+    [active, hideDelay, skipPortal]
+  )
+
+  const addEvents = useCallback(
+    (element: HTMLElement) => {
+      try {
+        element.addEventListener('focus', onFocus)
+        element.addEventListener('blur', onMouseLeave)
+        element.addEventListener('mouseenter', onMouseEnter)
+        element.addEventListener('mouseleave', onMouseLeave)
+        element.addEventListener('touchstart', onMouseEnter)
+        element.addEventListener('touchend', onMouseLeave)
+      } catch (e) {
+        warn(e)
+      }
+    },
+    [onFocus, onMouseLeave, onMouseEnter]
+  )
+
+  const removeEvents = useCallback(
+    (element: HTMLElement) => {
+      if (!element) return
+      try {
+        element.removeEventListener('focus', onFocus)
+        element.removeEventListener('blur', onMouseLeave)
+        element.removeEventListener('mouseenter', onMouseEnter)
+        element.removeEventListener('mouseleave', onMouseLeave)
+        element.removeEventListener('touchstart', onMouseEnter)
+        element.removeEventListener('touchend', onMouseLeave)
+      } catch (e) {
+        warn(e)
+      }
+    },
+    [onFocus, onMouseEnter, onMouseLeave]
+  )
 
   /**
    * Make the element focus-able by keyboard, if it is not a semantic element.
    * This will enable keyboard access to the tooltip by adding focus possibility
    */
-  const handleSemanticElement = () => {
+  const handleSemanticElement = useCallback(() => {
     try {
       const targetElement = document.querySelector(
         `*[aria-describedby*="${internalId}"]`
@@ -96,98 +185,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
     } catch (e) {
       warn(e)
     }
-  }
-
-  const addEvents = (element: HTMLElement) => {
-    try {
-      element.addEventListener('focus', onFocus)
-      element.addEventListener('blur', onMouseLeave)
-      element.addEventListener('mouseenter', onMouseEnter)
-      element.addEventListener('mouseleave', onMouseLeave)
-      element.addEventListener('touchstart', onMouseEnter)
-      element.addEventListener('touchend', onMouseLeave)
-    } catch (e) {
-      warn(e)
-    }
-  }
-
-  const removeEvents = (element: HTMLElement) => {
-    if (!element) return
-    try {
-      element.removeEventListener('focus', onFocus)
-      element.removeEventListener('blur', onMouseLeave)
-      element.removeEventListener('mouseenter', onMouseEnter)
-      element.removeEventListener('mouseleave', onMouseLeave)
-      element.removeEventListener('touchstart', onMouseEnter)
-      element.removeEventListener('touchend', onMouseLeave)
-    } catch (e) {
-      warn(e)
-    }
-  }
-
-  const onFocus = (e: MouseEvent) => {
-    /**
-     * VoiceOver needs to show the Tooltip in order to read the aria-describedby
-     */
-    return onMouseEnter(e)
-  }
-
-  const onMouseEnter = (e: MouseEvent) => {
-    try {
-      const elem = e.currentTarget as HTMLElement
-
-      if (elem.getAttribute('data-autofocus')) {
-        return // stop here
-      }
-
-      if (isTouch(e.type)) {
-        elem.style.userSelect = 'none'
-      }
-    } catch (e) {
-      warn(e)
-    }
-
-    const run = () => {
-      setIsActive(true)
-    }
-
-    if (noAnimation || globalThis.IS_TEST) {
-      run()
-    } else {
-      clearTimers()
-      delayTimeout.current = setTimeout(
-        run,
-        parseFloat(String(showDelay)) || 1
-      ) // have min 1 to make sure we are after onMouseLeave
-    }
-  }
-
-  const onMouseLeave = (e: MouseEvent) => {
-    if (active) {
-      return // stop here, because it is set to true by the original prop
-    }
-
-    try {
-      if (isTouch(e.type)) {
-        const elem = e.currentTarget as HTMLElement
-        elem.style.userSelect = ''
-      }
-    } catch (e) {
-      warn(e)
-    }
-
-    clearTimers()
-
-    const run = () => {
-      setIsActive(false)
-    }
-
-    if (skipPortal) {
-      delayTimeout.current = setTimeout(run, parseFloat(String(hideDelay)))
-    } else {
-      run()
-    }
-  }
+  }, [internalId])
 
   /**
    * Here we get our "target" / "targetSelector"
@@ -209,16 +207,39 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
     }
 
     return null
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [target])
+  }, [internalId, isNotSemanticElement, props.className, target])
 
   useHandleAria(targetRef.current, internalId)
+
+  useLayoutEffect(() => {
+    targetRef.current = getRefElement(cloneRef)
+  }, [target])
+
+  useLayoutEffect(() => {
+    if (targetRef.current) {
+      setIsMounted(true)
+      if (!isControlled) {
+        addEvents(targetRef.current)
+      }
+    }
+
+    return () => {
+      clearTimers()
+      removeEvents(targetRef.current)
+    }
+  }, [addEvents, isControlled, removeEvents])
 
   useEffect(() => {
     if (isControlled) {
       setIsActive(active)
     }
   }, [active, isControlled])
+
+  useEffect(() => {
+    if (isActive) {
+      handleSemanticElement()
+    }
+  }, [isActive, handleSemanticElement])
 
   return (
     <>

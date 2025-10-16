@@ -13,6 +13,7 @@ import React, {
 import classnames from 'classnames'
 import { makeUniqueId } from '../../shared/component-helper'
 import useMountEffect from '../../shared/helpers/useMountEffect'
+import useMounted from '../../shared/helpers/useMounted'
 import TooltipContainer from './TooltipContainer'
 import { TooltipProps } from './types'
 import { useTheme } from '../../shared'
@@ -54,7 +55,6 @@ function TooltipPortal(
   } = props
 
   const modalContext = useContext(ModalContext)
-  const [isMounted, setIsMounted] = useState(false)
   const [isActive, setIsActive] = useState(active)
   const [id] = useState(() => makeUniqueId())
   const isInDOM = useRef(false)
@@ -74,21 +74,20 @@ function TooltipPortal(
     clearTimeout(tooltipPortal[id]?.hiddenTimeout)
   }, [id])
 
+  const isMountedRef = useMounted()
+
   useEffect(() => {
-    setIsMounted(true)
-
-    clearTimers()
-
     if (active) {
+      clearTimers()
       makeTooltip()
       setIsActive(true)
 
       isInDOM.current = true
 
-      if (!isMounted) {
+      if (!isMountedRef.current) {
         tooltipPortal[id].count++
       }
-    } else if (!active && isMounted) {
+    } else if (!active && isMountedRef.current) {
       const delayRender = () => {
         setIsActive(false)
       }
@@ -116,7 +115,7 @@ function TooltipPortal(
     clearTimers,
     hideDelay,
     id,
-    isMounted,
+    isMountedRef,
     makeTooltip,
     noAnimation,
   ])
