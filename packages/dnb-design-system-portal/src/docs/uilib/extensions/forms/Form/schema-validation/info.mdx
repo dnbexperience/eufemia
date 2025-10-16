@@ -104,8 +104,7 @@ const schema = z.object({
 **Using JSON Schema (Ajv)**
 
 ```tsx
-import Ajv from 'ajv/dist/2020'
-import { JSONSchema,  } from '@dnb/eufemia/extensions/forms'
+import { JSONSchema, makeAjvInstance } from '@dnb/eufemia/extensions/forms'
 
 const ajv = makeAjvInstance()
 const schema: JSONSchema = {
@@ -246,7 +245,6 @@ Use `as const` to make sure the schema is not inferred as `JSONSchema7` but as a
 And finally add the Ajv instance to your form:
 
 ```tsx
-import Ajv from 'ajv/dist/2020'
 import {
   Form,
   Field,

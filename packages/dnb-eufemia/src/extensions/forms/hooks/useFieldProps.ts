@@ -8,7 +8,7 @@ import React, {
   AriaAttributes,
 } from 'react'
 import pointer from '../utils/json-pointer'
-import { ValidateFunction } from 'ajv/dist/2020.js'
+import type { ValidateFunction } from 'ajv/dist/2020.js'
 import {
   ajvErrorsToOneFormError,
   errorChanged,
