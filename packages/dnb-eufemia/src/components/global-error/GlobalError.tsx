@@ -13,7 +13,7 @@ import {
 import { createSpacingClasses } from '../space/SpacingHelper'
 import Anchor from '../anchor/Anchor'
 import Skeleton, { SkeletonShow } from '../skeleton/Skeleton'
-import { H1, P, Code } from '../../elements'
+import { H1, P } from '../../elements'
 import type { SpacingProps } from '../../shared/types'
 
 export type GlobalErrorLink = {
