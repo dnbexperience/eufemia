@@ -136,8 +136,6 @@ export type CheckboxProps = {
 type DeprecatedCheckboxProps = {
   /** @deprecated use the `label` prop instead */
   children?: React.ReactNode
-  /**  @deprecated use `onChange` */
-  on_change?: (args: OnChangeParams) => void
   /**  @deprecated use `labelPosition` */
   label_position?: CheckboxLabelPosition
   /**  @deprecated use `labelSrOnly` */
