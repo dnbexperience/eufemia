@@ -35,8 +35,6 @@ import {
 export type DeprecatedProgressIndicatorProps = {
   /** @deprecated use `labelDirection`. */
   label_direction?: string
-  /** @deprecated use `showDefaultLabel`. */
-  show_label?: boolean
 }
 
 function ProgressIndicator(
@@ -192,15 +190,10 @@ function handleDeprecatedBehavior(
 ): ProgressIndicatorAllProps {
   // Rename deprecated props
   // And indicator_label should still be snake case
-  const {
-    show_label: showDefaultLabel,
-    indicator_label,
-    ...propsToConvertToCamelCase
-  } = oldProps
+  const { indicator_label, ...propsToConvertToCamelCase } = oldProps
 
   // Merge deprecated props with new names (will not overwrite)
   return {
-    showDefaultLabel,
     indicator_label,
     ...convertSnakeCaseProps(propsToConvertToCamelCase, {
       overrideExistingValue: false,
