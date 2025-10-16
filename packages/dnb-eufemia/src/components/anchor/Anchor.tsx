@@ -11,7 +11,7 @@ import {
   makeUniqueId,
   extendPropsWithContext,
 } from '../../shared/component-helper'
-import { getOffsetTop, warn } from '../../shared/helpers'
+import { getOffsetTop } from '../../shared/helpers'
 import IconPrimary from '../icon-primary/IconPrimary'
 import Tooltip from '../tooltip/Tooltip'
 import { launch as launchIcon } from '../../icons'
