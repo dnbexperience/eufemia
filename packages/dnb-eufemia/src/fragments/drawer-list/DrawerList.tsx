@@ -67,7 +67,7 @@ export type DrawerListDataArrayObjectStrict = {
   style?: React.CSSProperties
   /** classname added to the html list item */
   class_name?: string
-  /** set to true to disable mouse events selected style. Keyboard can still select @deprecated */
+  /** set to true to disable mouse events selected style. Keyboard can still select. */
   ignore_events?: boolean
   /** internal use only */
   render?: (children: React.ReactNode, id: string) => React.ReactNode
