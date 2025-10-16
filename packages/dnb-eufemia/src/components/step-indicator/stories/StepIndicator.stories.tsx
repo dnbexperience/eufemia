@@ -83,13 +83,6 @@ const data = [
       'Du må velge bestill nytt kort eller erstatt kort for å kunne fullføre bestillingen din.',
     // status_state: 'warn',
     // on_click: ({ currentStep }) => console.log('on_click', currentStep),
-    // on_render: ({ StepItem }) => (
-    //   <StepItem
-    //     onClick={e => {
-    //       console.log('on_render.onClick', e)
-    //     }}
-    //   />
-    // )
   },
   {
     title:
@@ -332,7 +325,6 @@ export const EventTests = () => {
     },
     {
       title: 'Step B',
-      on_render: () => <p>Sep Render yall</p>,
     },
     {
       title: 'Step C',

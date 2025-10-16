@@ -479,9 +479,6 @@ export const DeprecatedStepIndicatorCustomRenderer = () => (
         {
           title: 'Ditt lån og egenkapital',
           on_click: ({ current_step }) => console.log(current_step),
-          on_render: ({ StepItem }) => (
-            <StepItem onClick={(e) => console.log(e)} />
-          ),
         },
         {
           title: 'Oppsummering',
