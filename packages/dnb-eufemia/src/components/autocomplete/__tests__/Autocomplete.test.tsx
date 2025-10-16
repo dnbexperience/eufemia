@@ -573,6 +573,43 @@ describe('Autocomplete component', () => {
     expect(document.querySelector('.dnb-aria-live').textContent).toBe('')
   })
 
+  it('should track canRenderAria state for accessibility announcements', async () => {
+    render(
+      <Autocomplete data={mockData} show_submit_button {...mockProps} />
+    )
+
+    // Initially closed - canRenderAria should be false
+    const autocompleteElement = document.querySelector('.dnb-autocomplete')
+    expect(autocompleteElement.classList).not.toContain(
+      'dnb-autocomplete--opened'
+    )
+
+    // Open the autocomplete
+    fireEvent.mouseDown(document.querySelector('.dnb-input__input'))
+
+    await waitFor(() => {
+      expect(autocompleteElement.classList).toContain(
+        'dnb-autocomplete--opened'
+      )
+    })
+
+    // Make a selection to close the autocomplete
+    fireEvent.click(
+      document.querySelectorAll('li.dnb-drawer-list__option')[0]
+    )
+
+    await waitFor(() => {
+      expect(autocompleteElement.classList).not.toContain(
+        'dnb-autocomplete--opened'
+      )
+    })
+
+    // Check that aria-live elements are present (indicating wasOpen is true)
+    // This tests that the component remembers it was open for accessibility
+    const ariaLiveElements = document.querySelectorAll('.dnb-aria-live')
+    expect(ariaLiveElements.length).toBeGreaterThan(0)
+  })
+
   it('can be used with regex chars', () => {
     const mockData = [
       'AA aa',
