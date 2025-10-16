@@ -34,9 +34,3 @@ export { default as useLocale } from '../hooks/useTranslation'
  * @deprecated Use `useValidation` instead
  */
 export { default as useError } from './data-context/useValidation'
-
-/**
- * Can be removed in v11
- * @deprecated Use `Field.Provider` instead
- */
-export const FieldProps = FieldProvider
