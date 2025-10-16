@@ -33,12 +33,6 @@ export type Props = ComponentProps &
     required?: boolean
 
     /**
-     * Provide a `path` and a `hasValue` property with the expected value in order to enable the step. You can alternatively provide a `hasValue` function that returns a boolean. The first parameter is the value of the path.
-     * @deprecated use `includeWhen` instead
-     */
-    activeWhen?: VisibleWhen
-
-    /**
      * If set to `false`, the step will not be rendered.
      */
 
