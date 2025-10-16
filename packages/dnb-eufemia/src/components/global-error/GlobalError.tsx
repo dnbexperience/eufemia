@@ -29,14 +29,6 @@ export type GlobalErrorProps = {
   statusCode?: '404' | '500' | string
 
   /**
-   *
-   * When `404` or `500` is given, a predefined text will be shown.
-   * Defaults to `404`.
-   * @deprecated – Replaced with statusCode, status can be removed in v11.
-   */
-  status?: '404' | '500' | string
-
-  /**
    * Will overwrite the default title.
    */
   title?: React.ReactNode
@@ -101,8 +93,6 @@ export type GlobalErrorTranslation = {
 }
 
 const defaultProps = {
-  // deprecated – Replaced with statusCode, status can be removed in v11.
-  status: '404',
   statusCode: '404',
 }
 
@@ -142,9 +132,6 @@ export default function GlobalError(localProps: GlobalErrorAllProps) {
     ...attributes
   } = allProps
 
-  // When status is deprecated, we just use the statusCode
-  const statusToUse = status !== defaultProps.status ? status : statusCode
-
   const textParams: React.HTMLAttributes<HTMLElement> = {}
   if (typeof text === 'string') {
     textParams.dangerouslySetInnerHTML = { __html: text }
@@ -157,7 +144,7 @@ export default function GlobalError(localProps: GlobalErrorAllProps) {
   const params = {
     className: classnames(
       'dnb-global-error',
-      `dnb-global-error--${statusToUse}`,
+      `dnb-global-error--${statusCode}`,
       center && 'dnb-global-error--center',
       createSpacingClasses(attributes),
       className,
@@ -184,15 +171,12 @@ export default function GlobalError(localProps: GlobalErrorAllProps) {
           <P bottom {...textParams} />
           {userProvidedCodeValue && code && (
             <P bottom className="dnb-global-error__status">
-              {code} {statusToUse && <Code>{statusToUse}</Code>}
+              {code} {statusCode && <Code>{statusCode}</Code>}
             </P>
           )}
           {!userProvidedCodeValue && errorMessageCode && (
             <P bottom className="dnb-global-error__status">
-              {String(errorMessageCode).replace(
-                '%statusCode',
-                statusToUse
-              )}
+              {String(errorMessageCode).replace('%statusCode', statusCode)}
             </P>
           )}
           {help && links?.length && (
