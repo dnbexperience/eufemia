@@ -146,11 +146,6 @@ export default function useVisibility(props?: Partial<Props>) {
         return false
       }
 
-      // Deprecated can be removed in v11
-      if (pathValue && getValue(makeLocalPath(pathValue)) !== whenValue) {
-        return false
-      }
-
       return true
     },
     [
