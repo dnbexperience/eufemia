@@ -3,11 +3,15 @@
  *
  */
 
-import React from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 import { isTrue } from '../../shared/component-helper'
 import { getOffsetLeft, getOffsetTop } from '../../shared/helpers'
 import classnames from 'classnames'
 import { TooltipProps } from './types'
+
+// SSR warning fix: https://gist.github.com/gaearon/e7d97cdf38a2907924ea12e4ebdf3c85
+const useLayoutEffect =
+  typeof window === 'undefined' ? React.useEffect : React.useLayoutEffect
 
 type TooltipContainerProps = {
   targetElement: HTMLElement
@@ -36,52 +40,54 @@ export default function TooltipContainer(
     targetElement: target,
   } = props
 
-  const [style, setStyle] = React.useState(null)
-  const [arrowStyle, setArrowStyle] = React.useState(null)
-  const [hover, setHover] = React.useState(false)
+  const [style, setStyle] = useState(null)
+  const [arrowStyle, setArrowStyle] = useState(null)
+  const [hover, setHover] = useState(false)
   const isActive = isTrue(active) || hover
-  const [wasActive, makeActive] = React.useState(false)
-  const [renewStyles, forceRerender] = React.useState(getBodySize)
 
-  const elementRef = React.useRef<HTMLSpanElement>(null)
-  const offset = React.useRef(16)
-  const debounceTimeout = React.useRef<NodeJS.Timeout>()
-  const resizeObserver = React.useRef<ResizeObserver>(null)
-
-  function getBodySize() {
+  const getBodySize = useCallback(() => {
     if (!isActive || typeof document === 'undefined') {
-      return 0 // stop here
+      return 1 // stop here
     }
 
     const { width, height } = document.body.getBoundingClientRect()
 
     return width + height
-  }
+  }, [isActive])
+
+  const [wasActive, makeActive] = useState(false)
+  const [renewStyles, forceRerender] = useState(getBodySize)
+
+  const elementRef = useRef<HTMLSpanElement>(null)
+  const offset = useRef(16)
+  const debounceTimeout = useRef<NodeJS.Timeout>()
+  const resizeObserver = useRef<ResizeObserver>(null)
 
   const clearTimers = () => {
     clearTimeout(debounceTimeout.current)
   }
 
-  React.useLayoutEffect(() => {
-    const addPositionObserver = () => {
-      if (resizeObserver.current || typeof document === 'undefined') {
-        return // stop here
-      }
-
-      try {
-        resizeObserver.current = new ResizeObserver(() => {
-          clearTimers()
-          debounceTimeout.current = setTimeout(
-            () => forceRerender(getBodySize()),
-            100
-          )
-        })
-
-        resizeObserver.current.observe(document.body)
-      } catch (e) {
-        //
-      }
+  const addPositionObserver = useCallback(() => {
+    if (resizeObserver.current || typeof document === 'undefined') {
+      return // stop here
     }
+
+    try {
+      resizeObserver.current = new ResizeObserver(() => {
+        clearTimers()
+        debounceTimeout.current = setTimeout(
+          () => forceRerender(getBodySize()),
+          100
+        )
+      })
+
+      resizeObserver.current.observe(document.body)
+    } catch (e) {
+      //
+    }
+  }, [getBodySize])
+
+  useLayoutEffect(() => {
     const removePositionObserver = () => {
       clearTimers()
       resizeObserver.current?.disconnect()
@@ -90,26 +96,24 @@ export default function TooltipContainer(
     if (isActive) {
       makeActive(true)
       addPositionObserver()
-    } else {
+    } else if (wasActive) {
       removePositionObserver()
     }
 
     return removePositionObserver
+  }, [addPositionObserver, getBodySize, isActive, wasActive])
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isActive])
+  const offsetLeft = useRef(0)
+  const offsetTop = useRef(0)
 
-  const offsetLeft = React.useRef(0)
-  const offsetTop = React.useRef(0)
-
-  React.useLayoutEffect(() => {
-    if (!isActive) {
+  useLayoutEffect(() => {
+    if (!isActive && renewStyles) {
       /**
        * This "resets" the position between elements,
        * when not active. Else it will always first show on the older position.
        */
       if (wasActive) {
-        clearTimeout(debounceTimeout.current)
+        clearTimers()
         debounceTimeout.current = setTimeout(
           () => setStyle(null),
           hideDelay
@@ -239,9 +243,19 @@ export default function TooltipContainer(
 
     setStyle(style)
     setArrowStyle(arrowStyle)
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [active, arrow, position, children, renewStyles, align])
+  }, [
+    align,
+    arrow,
+    fixedPosition,
+    hideDelay,
+    isActive,
+    position,
+    props.style,
+    renewStyles,
+    skipPortal,
+    target,
+    wasActive,
+  ])
 
   const handleMouseEnter = () => {
     if (isTrue(active) && useHover !== false) {

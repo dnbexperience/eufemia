@@ -211,7 +211,7 @@ describe('Tooltip', () => {
 
       expect(
         document.querySelector('.dnb-tooltip').getAttribute('style')
-      ).not.toBeInTheDocument()
+      ).toBeNull()
     })
 
     it('creates a React Portal', () => {
