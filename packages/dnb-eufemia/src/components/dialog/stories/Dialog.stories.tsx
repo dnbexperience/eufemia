@@ -222,7 +222,7 @@ export const DialogSandbox = () => (
       >
         <P>This is a Modal Window with no close button.</P>
         <P>Click outside me, and I will be closed within 1 second.</P>
-        <Section top spacing style_type="divider">
+        <Section top innerSpace style_type="divider">
           <Input label="Focus:">Focus me with Tab key</Input>
         </Section>
       </Dialog>
@@ -278,7 +278,7 @@ export const DialogSandbox = () => (
         // openState="opened"
         // noAnimation
       >
-        <Dialog.Body spacing styleType="mint-green">
+        <Dialog.Body innerSpace styleType="mint-green">
           <P>This is the modal text.</P>
         </Dialog.Body>
       </Dialog>
@@ -345,11 +345,11 @@ export const DialogSandbox = () => (
           console.log('on_close', e)
         }}
       >
-        <Dialog.Body spacing>
+        <Dialog.Body innerSpace>
           <Hr />
           <H2 top>Some content</H2>
           <Input>Focus me with Tab key</Input>
-          <Section top spacing>
+          <Section top innerSpace>
             <P>
               <Switch label="Checked:" checked />
             </P>
@@ -398,7 +398,7 @@ class ModalRerenderExample extends React.PureComponent {
         }}
         title={this.state.title}
       >
-        <Dialog.Body spacing>
+        <Dialog.Body innerSpace>
           <DatePicker label="DatePicker" right />
           <Dropdown
             label="Dropdown"
