@@ -109,14 +109,11 @@ export default function GlobalError(localProps: GlobalErrorAllProps) {
     defaultProps,
     context?.GlobalError,
     translation,
-    translation[
-      localProps.status || localProps.statusCode || defaultProps.statusCode
-    ],
+    translation[localProps.statusCode || defaultProps.statusCode],
     { skeleton: context?.skeleton }
   )
 
   const {
-    status,
     statusCode,
     skeleton,
     center,
