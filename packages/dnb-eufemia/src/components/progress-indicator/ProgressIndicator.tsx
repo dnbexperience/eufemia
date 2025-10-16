@@ -46,11 +46,7 @@ export type DeprecatedProgressIndicatorProps = {
 function ProgressIndicator(
   props: ProgressIndicatorAllProps & DeprecatedProgressIndicatorProps
 ) {
-  const undeprecatedProps = handleDeprecatedBehavior(props)
-  const allProps = updatePropsWithContext(
-    undeprecatedProps,
-    useContext(Context)
-  )
+  const allProps = updatePropsWithContext(props, useContext(Context))
 
   const {
     type = 'circular',
@@ -187,30 +183,6 @@ function updatePropsWithContext(
     localPropsFromContext,
     componentPropsFromContext
   )
-}
-
-/**
- * Support deprecated behavior by mutating the props.
- */
-function handleDeprecatedBehavior(
-  oldProps: ProgressIndicatorAllProps & DeprecatedProgressIndicatorProps
-): ProgressIndicatorAllProps {
-  // Rename deprecated props
-  // And indicator_label should still be snake case
-  const {
-    show_label: showDefaultLabel,
-    indicator_label,
-    ...propsToConvertToCamelCase
-  } = oldProps
-
-  // Merge deprecated props with new names (will not overwrite)
-  return {
-    showDefaultLabel,
-    indicator_label,
-    ...convertSnakeCaseProps(propsToConvertToCamelCase, {
-      overrideExistingValue: false,
-    }),
-  }
 }
 
 function formatProgress(progress) {
