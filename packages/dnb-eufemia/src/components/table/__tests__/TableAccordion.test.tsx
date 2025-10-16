@@ -12,7 +12,6 @@ import Th from '../TableTh'
 import nbNO from '../../../shared/locales/nb-NO'
 import enGB from '../../../shared/locales/en-GB'
 import Provider from '../../../shared/Provider'
-import { TableContext } from '../TableContext'
 
 const nb = nbNO['nb-NO'].Table
 const en = enGB['en-GB'].Table
