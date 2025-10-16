@@ -33,8 +33,6 @@ import {
 
 // deprecated, can be removed in v11
 export type DeprecatedProgressIndicatorProps = {
-  /** @deprecated use `noAnimation`. */
-  no_animation?: boolean
   /** @deprecated use `labelDirection`. */
   label_direction?: string
   /** @deprecated use `showDefaultLabel`. */
