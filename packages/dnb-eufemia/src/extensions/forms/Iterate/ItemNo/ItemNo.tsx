@@ -20,12 +20,8 @@ export function replaceItemNo(
   const text =
     typeof children !== 'string' ? convertJsxToString(children) : children
 
-  if (text.includes('{itemN')) {
-    /**
-     * {itemNr} is deprecated, and can be removed in v11 in favor of {itemNo}
-     * So in v11 we can use '{itemNo}' instead of a regex
-     */
-    return text.replace(/\{itemN(r|o)\}/g, String(index + 1))
+  if (text.includes('{itemNo}')) {
+    return text.replace('{itemNo}', String(index + 1))
   }
 
   return children
