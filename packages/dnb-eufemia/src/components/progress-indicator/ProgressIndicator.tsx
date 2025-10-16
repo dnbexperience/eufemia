@@ -18,7 +18,6 @@ import {
   dispatchCustomElementEvent,
   extendPropsWithContext,
 } from '../../shared/component-helper'
-import { convertSnakeCaseProps } from '../../shared/helpers/withSnakeCaseProps'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import ProgressIndicatorCircular from './ProgressIndicatorCircular'
 import ProgressIndicatorLinear from './ProgressIndicatorLinear'
