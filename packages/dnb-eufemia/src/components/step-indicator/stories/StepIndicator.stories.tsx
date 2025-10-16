@@ -36,15 +36,6 @@ export function RenderDuringSSR() {
   return (
     <>
       <Provider StepIndicator={{ data }}>
-        <StepIndicator.Sidebar
-          // showInitialData
-          // top
-          id="sidebar"
-          sidebar_id="unique-id-strict"
-          // data={data}
-          // mode="loose"
-          // current_step={2}
-        />
         <StepIndicator
           // skeleton
           id="main"
@@ -111,11 +102,6 @@ const InteractiveDemo = () => {
 
   return (
     <div style={{ display: 'flex' }}>
-      <StepIndicator.Sidebar
-        sidebar_id="unique-id-loose"
-        // right="large"
-      />
-
       <Space stretch>
         <StepIndicator
           sidebar_id="unique-id-loose"
@@ -210,12 +196,6 @@ export const StepIndicatorSandbox = () => {
           //   )
           // }}
           data={data}
-        />
-      </Box>
-      <Box>
-        <StepIndicator.Sidebar
-          sidebar_id="unique-step-indicator"
-          top="large"
         />
       </Box>
       <Box>
