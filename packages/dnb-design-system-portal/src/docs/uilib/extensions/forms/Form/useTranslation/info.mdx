@@ -197,3 +197,36 @@ render(
   </Form.Handler>,
 )
 ```
+
+### Formatted messages
+
+For richer inline formatting inside form translations, use the `renderWithFormatting` helper from `@dnb/eufemia/shared`.
+
+More info about the supported formatting in the [renderWithFormatting documentation](/uilib/usage/customisation/localization/#formatted-messages).
+
+```tsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+import { renderWithFormatting } from '@dnb/eufemia/shared'
+
+const translations = {
+  'en-GB': {
+    'Field.info': 'Fill out the **form** and _submit_ {br}when ready.',
+  },
+}
+
+type T = (typeof translations)['en-GB']
+
+function MyComponent() {
+  const t = Form.useTranslation<T>()
+
+  return <>{renderWithFormatting(t.Field.info)}</>
+}
+
+function MyApp() {
+  return (
+    <Form.Handler translations={translations} locale="en-GB">
+      <MyComponent />
+    </Form.Handler>
+  )
+}
+```

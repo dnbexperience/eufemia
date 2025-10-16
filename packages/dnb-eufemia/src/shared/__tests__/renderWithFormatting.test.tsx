@@ -1,0 +1,189 @@
+import React from 'react'
+import { render, screen } from '@testing-library/react'
+import renderWithFormatting from '../renderWithFormatting'
+import useTranslation from '../useTranslation'
+import Provider from '../Provider'
+import { Form } from '../../extensions/forms'
+
+const renderNode = (node: React.ReactNode) =>
+  render(<output>{node}</output>)
+
+describe('renderWithFormatting', () => {
+  it('renders plain text without changes', () => {
+    const { container } = renderNode(renderWithFormatting('Hello world'))
+    expect(container.textContent).toBe('Hello world')
+  })
+
+  it('inserts <br> for {br} tokens', () => {
+    const { container } = renderNode(
+      renderWithFormatting('Line A{br}Line B{br}Line C')
+    )
+    const brs = container.querySelectorAll('br')
+    expect(brs.length).toBe(2)
+    expect(container.textContent).toBe('Line ALine BLine C')
+  })
+
+  it('supports custom brToken', () => {
+    const { container } = renderNode(
+      renderWithFormatting('A~B~C', { brToken: '~' })
+    )
+    expect(container.querySelectorAll('br').length).toBe(2)
+    expect(container.textContent).toBe('ABC')
+  })
+
+  it('formats bold syntax using **text**', () => {
+    renderNode(renderWithFormatting('A **bold** move'))
+    const strong = screen.getByText('bold')
+    expect(strong.tagName.toLowerCase()).toBe('strong')
+  })
+
+  it('formats italic syntax using _text_', () => {
+    renderNode(renderWithFormatting('Some _emphasis_ here'))
+    const em = screen.getByText('emphasis')
+    expect(em.tagName.toLowerCase()).toBe('em')
+  })
+
+  it('handles combined formatting and line breaks', () => {
+    const { container } = renderNode(
+      renderWithFormatting('**Bold** then _italic_{br}next line')
+    )
+    expect(container.querySelectorAll('strong').length).toBe(1)
+    expect(container.querySelectorAll('em').length).toBe(1)
+    expect(container.querySelectorAll('br').length).toBe(1)
+    expect(container.textContent).toBe('Bold then italicnext line')
+  })
+
+  it('supports custom wrappers for strong and em', () => {
+    const { container } = renderNode(
+      renderWithFormatting('**B** and _I_', {
+        strong: (c) => <b data-testid="custom-strong">{c}</b>,
+        em: (c) => <i data-testid="custom-em">{c}</i>,
+      })
+    )
+    expect(screen.getByTestId('custom-strong').tagName.toLowerCase()).toBe(
+      'b'
+    )
+    expect(screen.getByTestId('custom-em').tagName.toLowerCase()).toBe('i')
+    expect(container.textContent).toBe('B and I')
+  })
+
+  it('accepts array input with strings and nodes', () => {
+    const nodes = renderWithFormatting(['A', '{br}', 'B'])
+    const { container } = renderNode(nodes)
+    expect(container.querySelectorAll('br').length).toBe(1)
+    expect(container.textContent).toBe('AB')
+  })
+
+  it('parses markdown-like links', () => {
+    const text = 'Go to [DNB](https://www.dnb.no) today'
+    const { container } = renderNode(renderWithFormatting(text))
+    const a = container.querySelector('a') as HTMLAnchorElement
+    expect(a).toBeTruthy()
+    expect(a.textContent).toBe('DNB')
+    expect(a.getAttribute('href')).toBe('https://www.dnb.no')
+  })
+
+  it('supports formatting inside link labels', () => {
+    const text = 'Click [**here**](https://example.com)'
+    const { container } = renderNode(renderWithFormatting(text))
+    const a = container.querySelector('a') as HTMLAnchorElement
+    expect(a).toBeTruthy()
+    expect(a.querySelector('strong')?.textContent).toBe('here')
+    expect(a.getAttribute('href')).toBe('https://example.com')
+  })
+
+  it('supports URLs https:// without label', () => {
+    const text = 'Go to https://example.com now'
+    const { container } = renderNode(renderWithFormatting(text))
+    const a = container.querySelector('a') as HTMLAnchorElement
+    expect(a).toBeTruthy()
+    expect(a.textContent).toBe('https://example.com')
+    expect(a.getAttribute('href')).toBe('https://example.com')
+  })
+
+  it('formats inline code using backticks', () => {
+    const text = 'Use `const x = 1` inline'
+    const { container } = renderNode(renderWithFormatting(text))
+    expect(container.querySelector('code')).toBeTruthy()
+    expect(container.querySelector('code').textContent).toBe('const x = 1')
+  })
+
+  it('does not format tokens inside inline code', () => {
+    const text = 'This is `**not bold** and _not italic_` example'
+    const { container } = renderNode(renderWithFormatting(text))
+    expect(container.querySelector('code')).toBeTruthy()
+    expect(container.querySelector('code').textContent).toBe(
+      '**not bold** and _not italic_'
+    )
+    expect(container.querySelector('strong')).toBeNull()
+    expect(container.querySelector('em')).toBeNull()
+  })
+
+  it('useTranslation with shared Provider and renderWithFormatting', () => {
+    const translations = {
+      'en-GB': {
+        'Info.formatted':
+          'Use **bold** and _italic_ with a {br}line-break and `code` and a [link](https://www.dnb.no)',
+      },
+    }
+
+    type T = (typeof translations)['en-GB']
+
+    const Comp = () => {
+      const t = useTranslation<T>()
+      return <>{renderWithFormatting(t.Info.formatted)}</>
+    }
+
+    const { container } = render(
+      <Provider translations={translations} locale="en-GB">
+        <Comp />
+      </Provider>
+    )
+
+    expect(container.querySelectorAll('strong').length).toBe(1)
+    expect(container.querySelectorAll('em').length).toBe(1)
+    expect(container.querySelectorAll('br').length).toBe(1)
+    expect(container.querySelectorAll('code').length).toBe(1)
+    expect(container.querySelector('a').getAttribute('href')).toBe(
+      'https://www.dnb.no'
+    )
+    expect(container.innerHTML).toMatchInlineSnapshot(
+      `"Use <strong>bold</strong> and <em>italic</em> with a <br>line-break and <code class="dnb-code">code</code> and a <a class="dnb-anchor dnb-anchor--was-node dnb-a" href="https://www.dnb.no" rel="noopener noreferrer">link</a>"`
+    )
+  })
+
+  it('Form.useTranslation with Form.Handler and renderWithFormatting', () => {
+    const translations = {
+      'en-GB': {
+        'Field.info':
+          'Fill out the **form** and _submit_ {br}when `ready` with a [link](https://example.com)',
+      },
+    }
+
+    type T = (typeof translations)['en-GB']
+
+    const Comp = () => {
+      const t = Form.useTranslation<T>()
+      return <>{renderWithFormatting(t.Field.info)}</>
+    }
+
+    const { container } = render(
+      <Form.Handler translations={translations} locale="en-GB">
+        <Comp />
+      </Form.Handler>
+    )
+
+    expect(container.querySelectorAll('strong').length).toBe(1)
+    expect(container.querySelectorAll('em').length).toBe(1)
+    expect(container.querySelectorAll('br').length).toBe(1)
+    expect(container.querySelectorAll('code').length).toBe(1)
+    expect(container.querySelector('a').getAttribute('href')).toBe(
+      'https://example.com'
+    )
+    expect(
+      container.querySelector('form').innerHTML
+    ).toMatchInlineSnapshot(
+      `"Fill out the <strong>form</strong> and <em>submit</em> <br>when <code class="dnb-code">ready</code> with a <a class="dnb-anchor dnb-anchor--was-node dnb-a" href="https://example.com" rel="noopener noreferrer">link</a>"`
+    )
+  })
+})

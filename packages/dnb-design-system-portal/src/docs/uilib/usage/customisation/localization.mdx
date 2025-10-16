@@ -228,6 +228,49 @@ the `formatMessage` function:
 formatMessage('myGroup.subString')
 ```
 
+### Formatted messages
+
+For richer inline formatting in your translated strings, you can use the `renderWithFormatting` helper from `@dnb/eufemia/shared`. It supports simple markup tokens inside your messages:
+
+- `{br}` inserts a line break (`<br />`).
+- `**bold**` wraps content in `<strong>` by default.
+- `_italic_` wraps content in `<em>` by default.
+- `[label](url)` renders an anchor link.
+  - Bare URLs (e.g. `http://…` or `https://…`) are automatically linked and use the URL as the label.
+- Backticks render monospace literals. Useful for short, copy‑critical strings like reference IDs, promo codes etc. Example: `` `AB12-XYZ9` ``. You can customize the renderer via `renderWithFormatting(text, { code: (c) => <span className="dnb-code">{c}</span> })` if you prefer monospace styling without the semantic `<code>` tag.
+
+You can also customize the wrappers and the break token.
+
+```tsx
+import {
+  useTranslation,
+  renderWithFormatting,
+  Provider,
+} from '@dnb/eufemia/shared'
+
+const translations = {
+  'en-GB': {
+    'myGroup.subString':
+      'Use **bold** and _italic_ with a {br}line-break.',
+  },
+}
+
+type T = (typeof translations)['en-GB']
+
+function MyComponent() {
+  const t = useTranslation<T>()
+  return <>{renderWithFormatting(t.myGroup.subString)}</>
+}
+
+function MyApp() {
+  return (
+    <Provider translations={translations} locale="en-GB">
+      <MyComponent />
+    </Provider>
+  )
+}
+```
+
 ### Fallback for missing or partial translations
 
 The shared `useTranslation` hook will output missing keys when:
