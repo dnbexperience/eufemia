@@ -127,11 +127,6 @@ export const StepIndicatorStepProperties: PropertiesTableProps = {
     type: [`'warn'`, `'info'`, `'error'`],
     status: 'optional',
   },
-  on_render: {
-    doc: 'Deprecated, just use `title`. Callback function whose return is rendered inside the step instead of the default render (or `on_item_render`). Has to return a React Node. <br/> Receives parameter `{ StepItem, element, attributes, props, context }`, where `props` also includes all props in the step object (like `title` or `status`) and the `<StepItem>` is a component that can be used to wrap your returned content.',
-    type: 'function',
-    status: 'deprecated',
-  },
 }
 
 export const StepIndicatorStepEvents: PropertiesTableProps = {
