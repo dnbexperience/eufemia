@@ -67,6 +67,7 @@ export function handleDeprecatedProps({
   ...rest
 }: Props): Omit<Props, 'activeWhen'> {
   return {
+    include,
     includeWhen: includeWhen ?? activeWhen,
     ...rest,
   }
