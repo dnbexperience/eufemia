@@ -216,39 +216,6 @@ Anchor._supportsSpacingProps = true
 
 export default Anchor
 
-/**
- * @deprecated – can be removed in v11
- */
-export function scrollToHashHandler(
-  event: React.MouseEvent<HTMLAnchorElement, MouseEvent>
-) {
-  warn('"scrollToHashHandler" is deprecated.')
-
-  const element = event.currentTarget as HTMLAnchorElement
-  const href = element.getAttribute('href')
-
-  if (typeof document === 'undefined' || !href.includes('#')) {
-    return // stop here
-  }
-
-  /**
-   * What happens here?
-   * When `scroll-behavior: smooth;` in CSS is set,
-   * Blink/Chromium wants the user to click two times in order to actually scroll to the anchor hash.
-   * The first click, sets the hash, the second one, scrolls to it.
-   * We want Chromium browsers to scroll to the element on the first click.
-   */
-  const isSamePath =
-    href.startsWith('#') ||
-    window.location.href.includes(element.pathname?.replace(/\/$/, ''))
-
-  // Only continue, when we are sure we are on the same page,
-  // because, the same ID may exists occasionally on the current page.
-  if (isSamePath) {
-    return scrollToHash(href)
-  }
-}
-
 export function scrollToHash(hash: string) {
   if (typeof document === 'undefined' || !hash || !hash.includes('#')) {
     return // stop here
