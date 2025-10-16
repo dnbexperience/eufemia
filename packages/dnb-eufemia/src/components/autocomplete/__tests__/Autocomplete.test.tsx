@@ -885,6 +885,58 @@ describe('Autocomplete component', () => {
     expect(elem.getAttribute('aria-current')).toBe('true')
   })
 
+  it('should loop when hitting end of list', async () => {
+    const getFocusedItemIndex = () => {
+      const item = document.querySelector(
+        'li.dnb-drawer-list__option.dnb-drawer-list__option--focus'
+      )
+      return Array.from(item?.parentElement.children || []).indexOf(item)
+    }
+    const isListFocused = () => {
+      const item = document.querySelector(
+        'ul.dnb-drawer-list__options.dnb-drawer-list__options--focusring'
+      )
+      return getFocusedItemIndex() === -1 && item !== null
+    }
+    render(
+      <Autocomplete data={mockData} show_submit_button {...mockProps} />
+    )
+    const inputElement: HTMLInputElement = document.querySelector(
+      '.dnb-input__input'
+    )
+    fireEvent.focus(inputElement)
+    // open list
+    keyDownOnInput(40) // down
+
+    expect(isListFocused()).toBe(true)
+
+    // got to first item
+    keyDownOnInput(40) // down
+
+    expect(isListFocused()).toBe(false)
+    expect(getFocusedItemIndex()).toBe(0)
+
+    keyDownOnInput(38) // up
+
+    expect(isListFocused()).toBe(true)
+
+    // loop to last item
+    keyDownOnInput(38) // up
+
+    expect(isListFocused()).toBe(false)
+    expect(getFocusedItemIndex()).toBe(2)
+
+    keyDownOnInput(40) // down
+
+    expect(isListFocused()).toBe(true)
+
+    // loop to first item
+    keyDownOnInput(40) // down
+
+    expect(isListFocused()).toBe(false)
+    expect(getFocusedItemIndex()).toBe(0)
+  })
+
   describe('disable_filter', () => {
     it('has correct options after filter if filter is disabled', () => {
       render(

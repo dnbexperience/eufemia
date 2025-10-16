@@ -64,6 +64,27 @@ const mockData: DrawerListDataArray = [
 ]
 
 describe('DrawerList component', () => {
+  const getFocusedItemIndex = () => {
+    const item = document.querySelector(
+      'li.dnb-drawer-list__option.dnb-drawer-list__option--focus'
+    )
+    return Array.from(item?.parentElement.children || []).indexOf(item)
+  }
+
+  const getSelectedItemIndex = () => {
+    const item = document.querySelector(
+      'li.dnb-drawer-list__option.dnb-drawer-list__option--selected'
+    )
+    return Array.from(item?.parentElement.children || []).indexOf(item)
+  }
+
+  const isListFocused = () => {
+    const item = document.querySelector(
+      'ul.dnb-drawer-list__options.dnb-drawer-list__options--focusring'
+    )
+    return getFocusedItemIndex() === -1 && item !== null
+  }
+
   it('has correct state at startup', () => {
     render(<DrawerList {...props} data={mockData} />)
     expect(
@@ -205,13 +226,9 @@ describe('DrawerList component', () => {
         {...mockProps}
       />
     )
-    let elem
 
-    elem = document.querySelectorAll('.dnb-drawer-list__option')[
-      props.value
-    ]
-    expect(elem.classList).toContain('dnb-drawer-list__option--focus')
-    expect(elem.classList).toContain('dnb-drawer-list__option--selected')
+    expect(getSelectedItemIndex()).toBe(props.value)
+    expect(getFocusedItemIndex()).toBe(props.value)
 
     // force re-render by prop change
     const title = 'show this attribute now'
@@ -240,21 +257,17 @@ describe('DrawerList component', () => {
       />
     )
 
-    // the selected option got a new position
-    elem = document.querySelectorAll('.dnb-drawer-list__option')[
-      (props.value as number) + 1
-    ]
-    expect(elem.classList).toContain('dnb-drawer-list__option--selected')
+    // the selected option got a new position and is focused
 
-    // as well as the focus / active state
-    expect(elem.classList).toContain('dnb-drawer-list__option--focus')
+    expect(getSelectedItemIndex()).toBe((props.value as number) + 1)
+    expect(getFocusedItemIndex()).toBe((props.value as number) + 1)
 
     // and for sure, the title attribute is still the same
     expect(screen.getByTitle(title)).toBeInTheDocument()
   })
 
   it('has correct value on key search', async () => {
-    const { rerender } = render(<DrawerList {...props} data={mockData} />)
+    render(<DrawerList {...props} data={mockData} />)
 
     expect(
       document.querySelector('.dnb-drawer-list__option--focus')
@@ -263,33 +276,120 @@ describe('DrawerList component', () => {
     keydown(83) // S
 
     await waitFor(() => {
-      expect(
-        Array.from(
-          document.querySelectorAll('.dnb-drawer-list__option')[1]
-            .classList
-        )
-      ).toEqual([
-        'dnb-drawer-list__option',
-        'dnb-drawer-list__option--focus',
-      ])
+      expect(getFocusedItemIndex()).toBe(1)
     })
 
     keydown(70) // F
 
-    // force re-render
-    rerender(<DrawerList {...props} data={mockData} />)
+    await waitFor(() => {
+      expect(getFocusedItemIndex()).toBe(2)
+      expect(getSelectedItemIndex()).toBe(2)
+    })
+  })
+
+  it('does not change focus with no search results', async () => {
+    render(<DrawerList {...props} data={mockData} />)
+
+    expect(
+      document.querySelector('.dnb-drawer-list__option--focus')
+    ).toBeInTheDocument()
+
+    keydown(83) // S
 
     await waitFor(() => {
-      expect(
-        Array.from(
-          document.querySelectorAll('.dnb-drawer-list__option')[2]
-            .classList
-        )
-      ).toEqual([
-        'dnb-drawer-list__option',
-        'dnb-drawer-list__option--selected',
-        'dnb-drawer-list__option--focus',
-      ])
+      expect(getFocusedItemIndex()).toBe(1)
+    })
+
+    keydown(69) // E
+
+    await waitFor(() => {
+      expect(getFocusedItemIndex()).toBe(1)
+    })
+
+    keydown(17) // ctrl
+
+    await waitFor(() => {
+      expect(getFocusedItemIndex()).toBe(1)
+    })
+  })
+
+  it('keyboard navigation focuses list before looping', async () => {
+    render(<DrawerList {...props} value={undefined} data={mockData} />)
+
+    expect(getFocusedItemIndex()).toBe(-1)
+    expect(isListFocused()).toBe(false)
+
+    keydown(40) // down
+
+    await waitFor(() => {
+      expect(getFocusedItemIndex()).toBe(0)
+    })
+
+    keydown(38) // up
+
+    await waitFor(() => {
+      expect(isListFocused()).toBe(true)
+    })
+
+    keydown(38) // up
+
+    await waitFor(() => {
+      expect(getFocusedItemIndex()).toBe(6)
+    })
+
+    keydown(40) // down
+
+    await waitFor(() => {
+      expect(isListFocused()).toBe(true)
+    })
+
+    keydown(40) // down
+
+    await waitFor(() => {
+      expect(getFocusedItemIndex()).toBe(0)
+    })
+  })
+
+  it('keyboard navigation loops when item is selected', async () => {
+    render(<DrawerList {...props} data={mockData} />)
+
+    expect(getFocusedItemIndex()).toBe(2)
+    expect(isListFocused()).toBe(false)
+
+    keydown(38) // up
+
+    await waitFor(() => {
+      expect(getFocusedItemIndex()).toBe(1)
+    })
+
+    keydown(38) // up
+
+    await waitFor(() => {
+      expect(getFocusedItemIndex()).toBe(0)
+    })
+
+    keydown(38) // up
+
+    await waitFor(() => {
+      expect(isListFocused()).toBe(true)
+    })
+
+    keydown(38) // up
+
+    await waitFor(() => {
+      expect(getFocusedItemIndex()).toBe(6)
+    })
+
+    keydown(40) // down
+
+    await waitFor(() => {
+      expect(isListFocused()).toBe(true)
+    })
+
+    keydown(40) // down
+
+    await waitFor(() => {
+      expect(getFocusedItemIndex()).toBe(0)
     })
   })
 

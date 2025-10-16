@@ -28,12 +28,9 @@
       var(--drawer-list-options-border-radius) + 0.15rem
     );
 
-    &:focus {
-      @include focusRing();
-    }
-
+    &:focus,
     &--focusring {
-      @include focusRing('mouse');
+      @include focusRing('always');
     }
   }
 
