@@ -12,7 +12,6 @@ import CardContext from '../card/CardContext'
 import StepIndicatorTriggerButton from './StepIndicatorTriggerButton'
 import StepIndicatorList from './StepIndicatorList'
 import StepIndicatorContext, {
-  StepIndicatorContextValues,
   StepIndicatorProvider,
 } from './StepIndicatorContext'
 
@@ -46,17 +45,6 @@ export type StepIndicatorMouseEvent = {
   item: StepIndicatorItemProps
   currentStep: number
   current_step: number
-}
-
-export type StepIndicatorRenderCallback = {
-  /** A component that will render the item with the correct props. */
-  StepItem: typeof StepItemWrapper
-  /** Element that was originally going to be rendered */
-  element: React.ReactNode
-  /** @deprecated never has values */
-  attributes: React.HTMLProps<HTMLElement>
-  props: StepIndicatorItemProps
-  context: StepIndicatorContextValues
 }
 
 export type StepIndicatorProps = Omit<
