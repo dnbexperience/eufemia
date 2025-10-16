@@ -300,7 +300,7 @@ export const OnSubmitRequest = () => {
           })
         }}
       >
-        <Wizard.Container mode="loose" variant="drawer">
+        <Wizard.Container mode="loose">
           <Wizard.Step title="Step 1">
             <Form.Card>
               <Field.String
