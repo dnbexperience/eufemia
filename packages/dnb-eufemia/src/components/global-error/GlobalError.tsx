@@ -44,12 +44,6 @@ export type GlobalErrorProps = {
   errorMessageCode?: React.ReactNode
 
   /**
-   * Will overwrite the default error message code.
-   * @deprecated – Replaced with errorMessageCode, code can be removed in v11.
-   */
-  code?: React.ReactNode
-
-  /**
    * Will overwrite the default additional help text.
    */
   help?: React.ReactNode
@@ -121,7 +115,6 @@ export default function GlobalError(localProps: GlobalErrorAllProps) {
 
     title,
     help,
-    code,
     errorMessageCode,
     links,
     text,
@@ -152,12 +145,6 @@ export default function GlobalError(localProps: GlobalErrorAllProps) {
 
   const additionalContent = processChildren(allProps)
 
-  // deprecated – Replaced with errorMessageCode, code and the line below can be removed in v11.
-  const userProvidedCodeValue = Object.prototype.hasOwnProperty.call(
-    localProps,
-    'code'
-  )
-
   return (
     <Skeleton {...params} show={skeleton} element="section">
       <div className="dnb-global-error__inner">
@@ -166,12 +153,7 @@ export default function GlobalError(localProps: GlobalErrorAllProps) {
             {title}
           </H1>
           <P bottom {...textParams} />
-          {userProvidedCodeValue && code && (
-            <P bottom className="dnb-global-error__status">
-              {code} {statusCode && <Code>{statusCode}</Code>}
-            </P>
-          )}
-          {!userProvidedCodeValue && errorMessageCode && (
+          {errorMessageCode && (
             <P bottom className="dnb-global-error__status">
               {String(errorMessageCode).replace('%statusCode', statusCode)}
             </P>
