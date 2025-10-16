@@ -467,6 +467,9 @@ class AutocompleteInstance extends React.PureComponent {
 
     this.skipFilter = isTrue(props.disable_filter)
     this.skipReorder = isTrue(props.disable_reorder)
+
+    // Initialize wasVisible to track if component was previously open
+    this.wasVisible = false
   }
 
   componentDidMount() {
@@ -477,11 +480,17 @@ class AutocompleteInstance extends React.PureComponent {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.data !== this.props.data) {
+    // Only recompute the search index when we actually need it:
+    // while the drawer is open or the input has focus (about to open)
+    if (
+      (this.context.drawerList.opened || this.state.hasFocus) &&
+      prevProps.data !== this.props.data
+    ) {
       this.setSearchIndex({ overwriteSearchIndex: true }, () => {
         this.runFilterWithSideEffects(this.state.inputValue)
       })
     }
+
     if (prevProps.value !== this.props.value) {
       this.revalidateSelectedItem()
       this.revalidateInputValue()
@@ -495,6 +504,7 @@ class AutocompleteInstance extends React.PureComponent {
   }
 
   setVisible = (args = null, onStateComplete = null) => {
+    this.wasVisible = true
     this.context.drawerList
       .setWrapperElement(this._ref.current)
       .setVisible(args, onStateComplete)
@@ -996,14 +1006,12 @@ class AutocompleteInstance extends React.PureComponent {
         this.showAll()
       }
 
+      // Mark focus first so updateData (triggered in on_focus) can act on it
+      this.setState({ hasFocus: true, hasBlur: false })
+
       dispatchCustomElementEvent(this, 'on_focus', {
         event,
         ...this.getEventObjects('on_focus'),
-      })
-
-      this.setState({
-        hasFocus: true,
-        hasBlur: false,
       })
     }
   }
@@ -2115,9 +2123,11 @@ class AutocompleteInstance extends React.PureComponent {
         </span>
 
         {/* Add VoiceOver support to read the "selected" item */}
-        {this.getVoiceOverActiveItem(selected_sr)}
+        {this.wasVisible ? this.getVoiceOverActiveItem(selected_sr) : null}
 
-        <AriaLive priority="high">{this.getAriaLiveUpdate()}</AriaLive>
+        {this.wasVisible ? (
+          <AriaLive priority="high">{this.getAriaLiveUpdate()}</AriaLive>
+        ) : null}
       </span>
     )
   }
