@@ -1,5 +1,3 @@
-import FieldProvider from '../Field/Provider/FieldProvider'
-
 export { default as Handler } from './Handler'
 export { default as Element } from './Element'
 export { default as Appearance } from './Appearance'
