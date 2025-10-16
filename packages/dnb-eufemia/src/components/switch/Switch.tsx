@@ -128,28 +128,7 @@ export type SwitchProps = {
   React.HTMLProps<HTMLElement>,
   'ref' | 'size' | 'onChange' | 'onClick' | 'innerRef' | 'label'
 > &
-  SpacingProps &
-  DeprecatedSwitchProps
-
-// deprecated, can be removed in v11
-type DeprecatedSwitchProps = {
-  /**  @deprecated use `labelPosition` */
-  label_position?: SwitchLabelPosition
-  /**  @deprecated use `labelSrOnly` */
-  label_sr_only?: boolean
-  /**  @deprecated use `statusState` */
-  status_state?: FormStatusState
-  /**  @deprecated use `statusProps` */
-  status_props?: Record<string, unknown>
-  /**  @deprecated use `onChange` */
-  on_change?: SwitchOnChange
-  /**  @deprecated use `onChangeEnd` */
-  on_change_end?: SwitchOnChange
-  /**  @deprecated use `onStateUpdate` */
-  on_state_update?: SwitchOnChange
-  /**  @deprecated use `statusNoAnimation` */
-  status_no_animation?: boolean
-}
+  SpacingProps
 
 const defaultProps = {
   statusState: 'error',
