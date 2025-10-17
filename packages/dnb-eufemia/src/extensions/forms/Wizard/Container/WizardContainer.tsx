@@ -75,11 +75,6 @@ export type Props = ComponentProps & {
   onStepChange?: OnStepChange
 
   /**
-   * The sidebar variant.
-   * @deprecated there is only one variant available. This props has no effect
-   */
-  variant?: 'sidebar' | 'drawer'
-  /**
    * @deprecated there is no longer a sidebar. This prop does nothing.
    */
   sidebarId?: string
@@ -122,10 +117,8 @@ export type Props = ComponentProps & {
   scrollTopOnStepChange?: boolean
 }
 
-function handleDeprecatedProps(
-  props: Props
-): Omit<Props, 'variant' | 'sidebarId'> {
-  const { variant, sidebarId, ...rest } = props
+function handleDeprecatedProps(props: Props): Omit<Props, 'sidebarId'> {
+  const { sidebarId, ...rest } = props
   return rest
 }
 
