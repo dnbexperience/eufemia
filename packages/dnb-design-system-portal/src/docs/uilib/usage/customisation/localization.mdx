@@ -228,6 +228,80 @@ the `formatMessage` function:
 formatMessage('myGroup.subString')
 ```
 
+### Formatted messages
+
+For richer inline formatting in your translated strings, you can use the `renderWithFormatting` helper from `@dnb/eufemia/shared`. It supports simple markup tokens inside your messages:
+
+- `{br}` inserts a line break (`<br />`).
+- `**bold**` wraps content in `<strong>` by default.
+- `_italic_` wraps content in `<em>` by default.
+- `[label](url)` renders an anchor link.
+  - Bare URLs (e.g. `http://…` or `https://…`) are automatically linked and use the URL as the label.
+- Backticks render monospace literals. Useful for short, copy‑critical strings like reference IDs, promo codes etc. Example: `` `AB12-XYZ9` ``. You can customize the renderer via `renderWithFormatting(text, { code: (c) => <span className="dnb-code">{c}</span> })` if you prefer monospace styling without the semantic `<code>` tag.
+
+You can also customize the wrappers and the break token.
+
+```tsx
+import {
+  useTranslation,
+  renderWithFormatting,
+  Provider,
+} from '@dnb/eufemia/shared'
+
+const translations = {
+  'en-GB': {
+    'myGroup.subString':
+      'Use **bold** and _italic_ with a {br}line-break.',
+  },
+}
+
+type T = (typeof translations)['en-GB']
+
+function MyComponent() {
+  const t = useTranslation<T>()
+  return <>{renderWithFormatting(t.myGroup.subString)}</>
+}
+
+function MyApp() {
+  return (
+    <Provider translations={translations} locale="en-GB">
+      <MyComponent />
+    </Provider>
+  )
+}
+```
+
+#### Use without translations
+
+You can also use `renderWithFormatting` directly, without the translation context. This is handy for static copy or small strings you build at runtime.
+
+```tsx
+import { renderWithFormatting } from '@dnb/eufemia/shared'
+
+const text =
+  'Use **bold**, _italic_, `AB12-XYZ9` and a link https://www.dnb.no{br}Next line'
+
+export function InlineFormattingExample() {
+  return <>{renderWithFormatting(text)}</>
+}
+```
+
+Array input and dynamic strings are also supported:
+
+```tsx
+import { renderWithFormatting } from '@dnb/eufemia/shared'
+
+function ArrayInputExample() {
+  const parts = ['Hello', '{br}', 'world! See https://example.com']
+  return <>{renderWithFormatting(parts)}</>
+}
+
+function DynamicExample({ refId }: { refId: string }) {
+  const text = `Keep your reference \`${'${refId}'}\` for support.`
+  return <>{renderWithFormatting(text)}</>
+}
+```
+
 ### Fallback for missing or partial translations
 
 The shared `useTranslation` hook will output missing keys when:
