@@ -22,7 +22,7 @@ export const SwitchSandbox = () => (
       <Switch
         checked
         status="Error message"
-        status_state="info"
+        statusState="info"
         size="large"
       />
     </Box>
@@ -75,7 +75,7 @@ export const SwitchSandbox = () => (
         label_position="left"
         checked
         status="Error message Vulputate consequat pellentesque senectus conubia proin sapien felis inceptos eu"
-        status_state="info"
+        statusState="info"
       />
     </Box>
     <Box>
