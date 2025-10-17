@@ -320,7 +320,6 @@ export const TitleTests = () => {
         <StepIndicator
           overview_title="Custom Overview Title"
           step_title="Custom Step Title"
-          step_title_extended="Custom Step Title Extended"
           top="large"
           mode="loose"
           current_step={current_step}
