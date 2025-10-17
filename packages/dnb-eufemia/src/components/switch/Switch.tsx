@@ -128,14 +128,7 @@ export type SwitchProps = {
   React.HTMLProps<HTMLElement>,
   'ref' | 'size' | 'onChange' | 'onClick' | 'innerRef' | 'label'
 > &
-  SpacingProps &
-  DeprecatedSwitchProps
-
-// deprecated, can be removed in v11
-type DeprecatedSwitchProps = {
-  /**  @deprecated use `labelPosition` */
-  label_position?: SwitchLabelPosition
-}
+  SpacingProps
 
 const defaultProps = {
   statusState: 'error',
