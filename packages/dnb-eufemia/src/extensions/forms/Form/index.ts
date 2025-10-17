@@ -25,12 +25,6 @@ export { default as useSnapshot } from '../hooks/useSnapshot'
 
 /**
  * Can be removed in v11
- * @deprecated Use `useTranslation` instead
- */
-export { default as useLocale } from '../hooks/useTranslation'
-
-/**
- * Can be removed in v11
  * @deprecated Use `useValidation` instead
  */
 export { default as useError } from './data-context/useValidation'
