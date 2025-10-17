@@ -622,7 +622,7 @@ export const TableDeprecatedAccordionProp = () => {
 
       <Table.ScrollView top>
         <Table
-          accordion
+          mode="accordion"
           skeleton={skeleton}
           outline
           border
