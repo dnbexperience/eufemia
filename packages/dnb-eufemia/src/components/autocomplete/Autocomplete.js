@@ -752,7 +752,6 @@ class AutocompleteInstance extends React.PureComponent {
       return
     }
     this.resetActiveItem()
-    this.ignoreEvents()
     this.context.drawerList.setData(
       this.props.no_options === false
         ? []
@@ -772,7 +771,6 @@ class AutocompleteInstance extends React.PureComponent {
 
   showIndicatorItem = () => {
     this.resetActiveItem()
-    this.ignoreEvents()
     this.context.drawerList.setData([
       {
         class_name: 'dnb-autocomplete__indicator',
@@ -946,7 +944,6 @@ class AutocompleteInstance extends React.PureComponent {
         e.preventDefault()
 
         if (!this.context.drawerList.opened && this.hasFilterActive()) {
-          this.ignoreEvents()
           this.showAll()
         }
 
@@ -966,7 +963,6 @@ class AutocompleteInstance extends React.PureComponent {
   onInputClickHandler = (e) => {
     // Show the entire list when an item is selected
     if (!this.context.drawerList.opened && this.hasFilterActive()) {
-      this.ignoreEvents()
       this.showAll()
     }
 
