@@ -123,10 +123,3 @@ export const ProgressIndicatorEvents: PropertiesTableProps = {
     status: 'optional',
   },
 }
-export const ProgressIndicatorDeprecatedEvents: PropertiesTableProps = {
-  on_complete: {
-    doc: 'Use `onComplete`.',
-    type: 'function',
-    status: 'deprecated',
-  },
-}
