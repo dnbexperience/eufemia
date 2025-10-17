@@ -16,19 +16,19 @@ import type { SpacingProps } from '../space/types'
 import { convertSnakeCaseProps } from '../../shared/helpers/withSnakeCaseProps'
 import LogoSvg from './LogoSvg'
 
-export type LogoWidth = number | string
-export type LogoHeight = number | string
+export type LogoWidth = string
+export type LogoHeight = string
 export type LogoVariant = 'default' | 'compact' | 'compactHorizontal'
 
 export type LogoProps = {
   /**
    * Define the width of the logo.
    */
-  width?: LogoWidth // v11: replace with string
+  width?: LogoWidth
   /**
    * Define the height of the logo.
    */
-  height?: LogoHeight // v11: replace with string
+  height?: LogoHeight
   /**
    * Define the color of the logo.
    */
@@ -50,20 +50,9 @@ export type LogoProps = {
    */
   inheritSize?: boolean
 } & SpacingProps &
-  Omit<React.HTMLProps<HTMLElement>, 'ref' | 'size'> &
-  DeprecatedLogoProps
-
-type DeprecatedLogoProps = {
-  /** @deprecated Will be removed in eufemia v11 */
-  alt?: string
-  /** @deprecated Will be removed in eufemia v11 */
-  ratio?: number | string
-  /** @deprecated Will be removed in eufemia v11 */
-  size?: string | number
-}
+  Omit<React.HTMLProps<HTMLElement>, 'ref' | 'size'>
 
 const defaultProps: LogoProps = {
-  size: 'auto',
   variant: 'default',
   inheritSize: false,
 }
@@ -78,19 +67,16 @@ function Logo(localProps: LogoProps) {
   )
 
   const {
-    alt, // eslint-disable-line
-    size, // eslint-disable-line
-    ratio, // eslint-disable-line
     width,
     inheritSize,
-    height: heightProp,
+    height,
     brand: brandProp,
     variant,
     color,
     inheritColor,
     className: classNameProp,
     ...rest
-  } = convertDimensionalPropsToString(props)
+  } = props
 
   // Attempt to get theme from context
   const brand = context.theme ? context.theme.name : brandProp
@@ -109,9 +95,6 @@ function Logo(localProps: LogoProps) {
     return 'dnb'
   }, [brand, variant])
 
-  /** @deprecated Can remove this in v11 */
-  const height = parseFloat(size) > 0 ? size : heightProp
-
   // Alt text for the logo does not need to be translated. DNB alt will be the same in English, and sbanken alt should always be in Norwegian
   const altText =
     logoType === 'dnb' ? 'DNB Logo' : 'Sbanken - et konsept fra DNB logo'
@@ -127,7 +110,7 @@ function Logo(localProps: LogoProps) {
         sharedClasses,
         (parseFloat(width) > 0 || parseFloat(height) > 0) &&
           'dnb-logo--has-size',
-        (inheritSize || size === 'inherit') && 'dnb-logo--inherit-size',
+        inheritSize && 'dnb-logo--inherit-size',
         inheritColor && 'dnb-logo--inherit-color'
       )
     }
@@ -137,18 +120,10 @@ function Logo(localProps: LogoProps) {
       sharedClasses,
       (parseFloat(width) > 0 || parseFloat(height) > 0) &&
         'sbanken-logo--has-size',
-      (inheritSize || size === 'inherit') && 'sbanken-logo--inherit-size',
+      inheritSize && 'sbanken-logo--inherit-size',
       inheritColor && 'sbanken-logo--inherit-color'
     )
-  }, [
-    logoType,
-    sharedClasses,
-    width,
-    height,
-    inheritSize,
-    size,
-    inheritColor,
-  ])
+  }, [logoType, sharedClasses, width, height, inheritSize, inheritColor])
 
   const rootParams = {
     role: 'img',
@@ -172,23 +147,6 @@ function Logo(localProps: LogoProps) {
       <LogoSvg logoType={logoType} svgParams={svgParams} />
     </span>
   )
-}
-
-/**
- * @deprecated Can be removed in v11
- */
-function convertDimensionalPropsToString(allProps: LogoProps) {
-  return {
-    ...allProps,
-    size: handleTypeToString(allProps.size),
-    ratio: handleTypeToString(allProps.ratio),
-    width: handleTypeToString(allProps.width),
-    height: handleTypeToString(allProps.height),
-  }
-}
-
-function handleTypeToString(val: number | string) {
-  return val ? String(val) : undefined
 }
 
 export default Logo
