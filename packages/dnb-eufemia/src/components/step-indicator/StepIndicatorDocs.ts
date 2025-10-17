@@ -66,11 +66,6 @@ export const StepIndicatorProperties: PropertiesTableProps = {
     type: ['string', 'object'],
     status: 'optional',
   },
-  sidebar_id: {
-    doc: 'A unique string-based ID in order to bind together the main component and the sidebar (`<StepIndicator.Sidebar />`). Both have to get the same ID.',
-    type: 'string',
-    status: 'deprecated',
-  },
   step_title_extended: {
     doc: 'Descriptive label for `<StepIndicatorModal />`. Must contain `%step` and `%count` to interpolate `current_step` and `stepCount` into the text. Defaults to `You are on step %step of %count`.',
     type: 'string',
