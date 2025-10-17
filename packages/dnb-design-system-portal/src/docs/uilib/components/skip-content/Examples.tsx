@@ -45,7 +45,7 @@ export const SkipContentTable = () => (
 
 const LargeTableWithInteractiveElements = (props) => {
   const TdCheckbox = () => {
-    return <Checkbox label="Select row" label_sr_only />
+    return <Checkbox label="Select row" labelSrOnly />
   }
   const TdInput = () => {
     return <Input label="Label" label_sr_only size={4} />
