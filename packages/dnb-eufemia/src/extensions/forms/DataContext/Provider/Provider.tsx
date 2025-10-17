@@ -1257,12 +1257,7 @@ export default function Provider<Data extends JsonObject>(
       ? mutateDataHandler(data, transformOut)
       : data
 
-    // @deprecated – can be removed in v11 (use only mutatedData instead)
-    const filteredData = filterSubmitData
-      ? filterDataHandler(mutatedData, filterSubmitData)
-      : mutatedData
-
-    return filteredData
+    return mutatedData
   }, [
     filterDataHandler,
     filterSubmitData,
