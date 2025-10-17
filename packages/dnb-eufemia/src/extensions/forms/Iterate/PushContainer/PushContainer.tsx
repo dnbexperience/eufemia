@@ -113,14 +113,6 @@ export type Props = (OnlyPathRequired | OnlyItemPathRequired) & {
   bubbleValidation?: boolean
 
   /**
-   * If the container should be committed before the form is submitted.
-   */
-  /**
-   * @deprecated – Replaced with preventUncommittedChanges, requireCommit will be removed in v11.
-   */
-  requireCommit?: boolean
-
-  /**
    * Prevents uncommitted changes before the form is submitted. Will display an error message if user tries to submit without committing their changes.
    */
   preventUncommittedChanges?: boolean
@@ -160,8 +152,7 @@ function PushContainer(props: AllProps) {
     defaultData: defaultDataProp,
     isolatedData,
     bubbleValidation,
-    preventUncommittedChanges = props?.requireCommit,
-    requireCommit, // eslint-disable-line @typescript-eslint/no-unused-vars
+    preventUncommittedChanges,
     dataReference,
     showResetButton,
     path,
