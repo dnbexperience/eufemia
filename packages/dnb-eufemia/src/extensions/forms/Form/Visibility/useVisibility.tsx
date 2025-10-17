@@ -75,8 +75,7 @@ export default function useVisibility(props?: Partial<Props>) {
             return Boolean(visibleWhenNot)
           }
           const result =
-            (visibleWhen.continuousValidation ||
-            visibleWhen.validateContinuously
+            (visibleWhen.validateContinuously
               ? true
               : item.isFocused !== true) && !hasFieldError(path)
           return visibleWhenNot ? !result : result
