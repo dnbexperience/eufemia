@@ -45,7 +45,7 @@ function PropMapping({ enabled, ...props }) {
       top
       label="Toggle Color Mapping"
       checked={propMapping === 'basis' || enabled}
-      on_change={({ checked }) => {
+      onChange={({ checked }) => {
         setTheme({ propMapping: checked ? 'basis' : null })
       }}
       {...props}

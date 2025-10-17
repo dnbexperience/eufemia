@@ -10,7 +10,7 @@ export default function PortalSkeleton({ enabled, ...props }) {
       top
       label="Toggle Portal Skeletons"
       checked={skeleton || enabled}
-      on_change={({ checked }) => {
+      onChange={({ checked }) => {
         setSkeletonEnabled(checked)
         update({ skeleton: checked })
       }}
