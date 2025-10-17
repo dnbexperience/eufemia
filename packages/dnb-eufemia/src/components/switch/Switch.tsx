@@ -143,8 +143,6 @@ type DeprecatedSwitchProps = {
   status_props?: Record<string, unknown>
   /**  @deprecated use `onChange` */
   on_change?: SwitchOnChange
-  /**  @deprecated use `onChangeEnd` */
-  on_change_end?: SwitchOnChange
   /**  @deprecated use `statusNoAnimation` */
   status_no_animation?: boolean
 }
