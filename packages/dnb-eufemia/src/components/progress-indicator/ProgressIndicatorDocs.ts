@@ -115,25 +115,6 @@ export const CustomColorsData: PropertiesTableProps = {
   },
 }
 
-export const ProgressIndicatorDeprecatedProperties: PropertiesTableProps =
-  {
-    no_animation: {
-      doc: 'use `noAnimation`.',
-      type: ' boolean',
-      status: 'deprecated',
-    },
-    label_direction: {
-      doc: 'use `labelDirection`.',
-      type: 'string',
-      status: 'deprecated',
-    },
-    show_label: {
-      doc: 'use `showDefaultLabel`.',
-      type: 'boolean',
-      status: 'deprecated',
-    },
-  }
-
 export const ProgressIndicatorEvents: PropertiesTableProps = {
   onComplete: {
     doc: "Will be called once it's no longer `visible`.",
