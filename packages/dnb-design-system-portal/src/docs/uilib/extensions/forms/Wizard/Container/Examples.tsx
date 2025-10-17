@@ -53,7 +53,7 @@ export const Default = () => {
         )
 
         const Summary = () => {
-          const { summaryTitle } = Form.useLocale().Step
+          const { summaryTitle } = Form.useTranslation().Step
 
           return (
             <Wizard.Step title={summaryTitle}>
