@@ -136,7 +136,7 @@ export const CheckboxSandbox = () => (
         <Checkbox
           // label="Unchecked status error:"
           label="Unchecked:"
-          label_position="left"
+          labelPosition="left"
           // status="Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
           status="Potenti viverra facilisi blandit sodales lorem est fusce"
           status_state="info"
@@ -146,7 +146,7 @@ export const CheckboxSandbox = () => (
         <Checkbox
           // label="Unchecked status error:"
           label="Unchecked:"
-          label_position="right"
+          labelPosition="right"
           // status="Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
           status="Potenti viverra facilisi blandit sodales lorem est fusce"
           status_state="info"
