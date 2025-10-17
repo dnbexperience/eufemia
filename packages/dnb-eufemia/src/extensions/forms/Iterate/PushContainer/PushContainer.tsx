@@ -39,12 +39,6 @@ import { usePath, useTranslation } from '../../hooks'
 import { JsonObject } from '../../utils'
 import { clearedData } from '../../DataContext/Provider'
 
-/**
- * Deprecated, as it is supported by all major browsers and Node.js >=v18
- * So it's a question of time, when we will remove this polyfill
- */
-import structuredClone from '@ungap/structured-clone'
-
 type OnlyPathRequired = {
   /**
    * The path to the array to add the new item to.

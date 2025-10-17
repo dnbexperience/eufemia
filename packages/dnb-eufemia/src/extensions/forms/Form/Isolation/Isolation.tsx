@@ -34,12 +34,6 @@ import IsolatedContainer, { isolationError } from './IsolatedContainer'
 import IsolationContext from './IsolationContext'
 import type { OnCommit, Path } from '../../types'
 
-/**
- * Deprecated, as it is supported by all major browsers and Node.js >=v18
- * So it's a question of time, when we will remove this polyfill
- */
-import structuredClone from '@ungap/structured-clone'
-
 export type IsolationProviderProps<Data extends JsonObject> = {
   /**
    * Form.Isolation: Will be called when the isolated context is committed.
@@ -233,7 +227,10 @@ function IsolationProvider<Data extends JsonObject>(
       let isolatedData = structuredClone(mountedData)
 
       if (typeof transformOnCommitProp === 'function') {
-        isolatedData = transformOnCommitProp(isolatedData, outerData)
+        isolatedData = transformOnCommitProp(
+          isolatedData,
+          outerData
+        ) as Data
       }
 
       let stop = false
