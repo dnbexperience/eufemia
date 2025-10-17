@@ -1904,49 +1904,6 @@ describe('Wizard.Container', () => {
     })
   })
 
-  it('should support drawer variant', () => {
-    const { rerender } = render(
-      <Wizard.Container variant="drawer">
-        <Wizard.Step title="Step 1">
-          <output>Step 1</output>
-        </Wizard.Step>
-
-        <Wizard.Step title="Step 2">
-          <output>Step 2</output>
-        </Wizard.Step>
-      </Wizard.Container>
-    )
-
-    const sidebar = document.querySelector(
-      '.dnb-forms-wizard-layout__indicator'
-    )
-
-    const stepTrigger = () =>
-      sidebar.querySelector('.dnb-step-indicator__trigger')
-
-    const wizardList = () =>
-      sidebar.querySelector('.dnb-step-indicator__list')
-
-    expect(stepTrigger()).toBeInTheDocument()
-    expect(wizardList()).not.toBeInTheDocument()
-
-    rerender(
-      <Wizard.Container variant="drawer">
-        <Wizard.Step title="Step 1">
-          <output>ensure re-render</output>
-        </Wizard.Step>
-
-        <Wizard.Step title="Step 2">
-          <output>Step 2</output>
-        </Wizard.Step>
-      </Wizard.Container>
-    )
-
-    expect(output()).toHaveTextContent('ensure re-render')
-    expect(stepTrigger()).toBeInTheDocument()
-    expect(wizardList()).not.toBeInTheDocument()
-  })
-
   describe('async step change', () => {
     it('should disable and enable buttons', async () => {
       const onStepChange = async () => null
@@ -4466,7 +4423,7 @@ describe('Wizard.Container', () => {
       it('should remove error in menu when visibility hides the field', async () => {
         render(
           <Form.Handler>
-            <Wizard.Container variant="drawer">
+            <Wizard.Container>
               <Wizard.Step title="Step 1">
                 <output>Step 1</output>
                 <Form.Section
