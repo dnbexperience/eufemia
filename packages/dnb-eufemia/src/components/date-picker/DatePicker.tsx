@@ -818,7 +818,6 @@ function DatePicker(externalProps: DatePickerAllProps) {
     defaultProps,
     { skeleton: context?.skeleton },
     convertSnakeCaseProps(context.getTranslation(props).DatePicker), // convertSnakeCaseProps - can be removed in v11
-    pickFormElementProps(context?.FormRow), // Deprecated – can be removed in v11
     convertSnakeCaseProps(pickFormElementProps(context?.formElement)), // Deprecated – can be removed in v11
     context.DatePicker
   )

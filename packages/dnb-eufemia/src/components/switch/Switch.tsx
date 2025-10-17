@@ -402,8 +402,6 @@ export default function Switch(props: SwitchProps) {
       convertSnakeCaseProps(props),
       defaultProps,
       { skeleton: context?.skeleton },
-      // Deprecated – can be removed in v11
-      pickFormElementProps(context?.FormRow),
       pickFormElementProps(context?.formElement),
       context.Switch
     )
