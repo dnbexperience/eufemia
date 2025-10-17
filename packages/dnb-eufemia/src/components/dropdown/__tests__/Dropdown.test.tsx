@@ -757,6 +757,7 @@ describe('Dropdown component', () => {
         __id: 0,
         content: 'English',
         selectedKey: 'en-GB',
+        selected_key: 'en-GB',
         type: 'object',
         value: 'en-GB',
       },
