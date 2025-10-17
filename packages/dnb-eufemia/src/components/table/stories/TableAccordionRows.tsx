@@ -191,7 +191,7 @@ const TableAccordionRows = () => {
       </ToggleButton>
 
       <Table
-        accordion
+        mode="accordion"
         skeleton={skeleton}
         outline
         border

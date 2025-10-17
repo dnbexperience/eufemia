@@ -94,13 +94,7 @@ export default function Tr(
 
   const tableContext = React.useContext(TableContext)
 
-  // Deprecated – can be removed in v11
-  const deprecatedAccordionProp = tableContext?.allProps?.accordion
-
-  if (
-    deprecatedAccordionProp ||
-    tableContext?.allProps?.mode === 'accordion'
-  ) {
+  if (tableContext?.allProps?.mode == 'accordion') {
     return (
       <TableAccordionHead
         count={count}
