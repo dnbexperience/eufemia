@@ -50,8 +50,6 @@ export type FormLabelProps = {
 
   /** @deprecated use forId instead */
   for_id?: string
-  /** @deprecated use "vertical" (or "labelDirection" for internal use) instead (was not documented before) */
-  label_direction?: FormElementProps['label_direction']
 }
 
 export type FormLabelAllProps = FormLabelProps &
