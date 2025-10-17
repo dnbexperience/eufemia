@@ -3,7 +3,7 @@ import Anchor from '../components/Anchor'
 import CodeEl from '../elements/Code'
 
 export type FormatOptions = {
-  brToken?: string
+  br?: string
   strong?: (c: React.ReactNode) => React.ReactNode
   em?: (c: React.ReactNode) => React.ReactNode
   link?: (c: React.ReactNode, href: string) => React.ReactNode
@@ -14,42 +14,42 @@ type Nodes = React.ReactNode[]
 
 const Strong = (c) => <strong>{c}</strong>
 const Em = (c) => <em>{c}</em>
+const Code = (c) => <CodeEl>{c}</CodeEl>
 const Link = (c, href) => (
   <Anchor href={href} rel="noopener noreferrer">
     {c}
   </Anchor>
 )
-const Code = (c) => <CodeEl>{c}</CodeEl>
 
 export default function renderWithFormatting(
   text: string | Nodes,
   {
-    brToken = '{br}',
+    br = '{br}',
     strong = Strong,
     em = Em,
     link = Link,
     code = Code,
   }: FormatOptions = {}
 ): React.ReactNode {
-  return withFormatting(text, { strong, em, brToken, link, code })
+  return withFormatting(text, { strong, em, br, link, code })
 }
 
 function withFormatting(
   text: string | Nodes,
   {
-    brToken,
+    br,
     strong,
     em,
     link,
     code,
   }: Required<
-    Pick<FormatOptions, 'strong' | 'em' | 'brToken' | 'link' | 'code'>
+    Pick<FormatOptions, 'strong' | 'em' | 'br' | 'link' | 'code'>
   >
 ): React.ReactNode {
   let nodes: Nodes = Array.isArray(text) ? text : [text]
 
   // {br}
-  nodes = splitToken(nodes, brToken, ({ k }) => <br key={k()} />)
+  nodes = splitToken(nodes, br, ({ k }) => <br key={k()} />)
 
   // `inline code` — prevent further formatting inside code
   const codeRe = /(`[^`]+`)/g
@@ -62,7 +62,7 @@ function withFormatting(
   nodes = replaceInStrings(nodes, linkRe, (m, { k }) => {
     const [, label, href] = m
     const children = withFormatting(label, {
-      brToken,
+      br,
       strong,
       em,
       link,

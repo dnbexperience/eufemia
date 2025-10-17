@@ -23,9 +23,9 @@ describe('renderWithFormatting', () => {
     expect(container.textContent).toBe('Line ALine BLine C')
   })
 
-  it('supports custom brToken', () => {
+  it('supports custom br', () => {
     const { container } = renderNode(
-      renderWithFormatting('A~B~C', { brToken: '~' })
+      renderWithFormatting('A~B~C', { br: '~' })
     )
     expect(container.querySelectorAll('br').length).toBe(2)
     expect(container.textContent).toBe('ABC')
