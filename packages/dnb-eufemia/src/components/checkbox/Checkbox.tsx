@@ -129,14 +129,7 @@ export type CheckboxProps = {
   Omit<
     React.HTMLProps<HTMLInputElement>,
     'ref' | 'label' | 'size' | 'onChange' | 'onClick'
-  > &
-  DeprecatedCheckboxProps
-
-// deprecated, can be removed in v11
-type DeprecatedCheckboxProps = {
-  /**  @deprecated use `statusNoAnimation` */
-  status_no_animation?: boolean
-}
+  >
 
 const defaultProps: CheckboxProps = {
   statusState: 'error',
