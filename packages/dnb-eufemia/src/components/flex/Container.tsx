@@ -29,8 +29,7 @@ export type BasicProps = {
   wrap?: boolean
   /** Disable automatic Space wrappers for intrinsic DOM children such as `li` or `p`. */
   wrapChildrenInSpace?: boolean
-  /** value `true` is deprecated, use `undefined` instead */
-  rowGap?: Gap | true
+  rowGap?: Gap
   sizeCount?: number
   justify?:
     | 'flex-start'
@@ -94,7 +93,7 @@ function handleDeprecatedProps({
 }: Props): Omit<Props, 'spacing'> & { rowGap?: Gap } {
   return {
     ...rest,
-    rowGap: rowGap === true ? undefined : rowGap,
+    rowGap,
     gap: spacing ?? gap,
   }
 }
