@@ -134,7 +134,6 @@ export default {
       subtractTitle: 'Decrease (%s)',
     },
     PaymentCard: {
-      text_card_number: 'Card number', // Deprecated: As it's not in use anymore, can be removed in v11.
       text_blocked: 'Blocked',
       text_expired: 'Expired',
       text_not_active: 'Inactive',
