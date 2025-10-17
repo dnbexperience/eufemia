@@ -16,7 +16,7 @@ export const LogoSandbox = () => {
   return (
     <Wrapper>
       <Box>
-        <Logo size="80" style={{ color: 'var(--color-fire-red)' }} />
+        <Logo height="80" style={{ color: 'var(--color-fire-red)' }} />
       </Box>
       <Box>
         <h1 className="dnb-h--xx-large">
