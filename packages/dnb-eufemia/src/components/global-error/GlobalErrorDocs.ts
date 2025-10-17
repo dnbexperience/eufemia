@@ -6,11 +6,6 @@ export const GlobalErrorProperties: PropertiesTableProps = {
     type: ['404', '500', 'string'],
     status: 'optional',
   },
-  status: {
-    doc: 'Defines a status code as a string. When `404` or `500` is given, predefined `text` and `title` will be shown. Defaults to `404`. This prop is deprecated and will be removed in v11, please use `statusCode` instead.',
-    type: ['404', '500', 'string'],
-    status: 'deprecated',
-  },
   title: {
     doc: 'Overwrites the default title for the provided `statusCode`.',
     type: 'React.ReactNode',
