@@ -176,15 +176,6 @@ export const StepIndicatorSandbox = () => {
             setCurrentStep(currentStep)
             // console.log('on_change', currentStep)
           }}
-          // on_item_render={({ StepItem }) => {
-          //   return (
-          //     <StepItem
-          //       onClick={(e) => {
-          //         console.log('on_item_render.onClick', e)
-          //       }}
-          //     />
-          //   )
-          // }}
           data={data}
         />
       </Box>
@@ -200,15 +191,6 @@ export const StepIndicatorSandbox = () => {
             setCurrentStep(currentStep)
             // console.log('on_change', currentStep)
           }}
-          // on_item_render={({ StepItem }) => {
-          //   return (
-          //     <StepItem
-          //       onClick={(e) => {
-          //         console.log('on_item_render.onClick', e)
-          //       }}
-          //     />
-          //   )
-          // }}
           data={data}
         />
       </Box>
