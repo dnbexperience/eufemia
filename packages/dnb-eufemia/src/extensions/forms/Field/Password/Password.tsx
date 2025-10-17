@@ -53,7 +53,8 @@ function Password({
   size,
   ...externalProps
 }: PasswordProps) {
-  const idToUse = useId()
+  const generatedId = useId()
+  const idToUse = id || generatedId
 
   // Object freeze used to prevent mutation of show_password and hide_password props. Freeze and convertToSnakeCase can be removed in v11.
   const props = convertSnakeCaseProps(Object.freeze(externalProps))
