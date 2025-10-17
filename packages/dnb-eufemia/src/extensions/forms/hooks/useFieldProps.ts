@@ -788,15 +788,6 @@ export default function useFieldProps<Value, EmptyValue, Props>(
             }
           }
 
-          /** @deprecated – can be removed in v11 */
-          const { validationRule } = error
-          if (typeof validationRule === 'string') {
-            const ajvMessage = combinedErrorMessages?.[validationRule]
-            if (ajvMessage) {
-              message = ajvMessage
-            }
-          }
-
           if (combinedErrorMessages?.[message]) {
             // - For when the message is e.g. Field.errorRequired or Custom.key, but delivered in the `errorMessages` object
             message = combinedErrorMessages?.[message]
