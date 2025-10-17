@@ -134,8 +134,6 @@ export type CheckboxProps = {
 
 // deprecated, can be removed in v11
 type DeprecatedCheckboxProps = {
-  /** @deprecated use the `label` prop instead */
-  children?: React.ReactNode
   /**  @deprecated use `statusNoAnimation` */
   status_no_animation?: boolean
 }
