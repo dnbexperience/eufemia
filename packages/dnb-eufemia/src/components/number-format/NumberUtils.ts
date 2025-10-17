@@ -54,8 +54,6 @@ export interface formatOptionParams {
   compact?: boolean | 'short' | 'long'
   /** How many decimals */
   decimals?: number
-  /** @deprecated Use `rounding: "omit"` instead. */
-  omit_rounding?: boolean
   /**
    * Rounding method
    * - If set to `omit`, the decimal will NOT be rounded.
@@ -126,7 +124,6 @@ const ABSENT_VALUE_FORMAT = '–'
  * @property {string} currency_position - can be "before" or "after"
  * @property {string} omit_currency_sign - hides currency sign if true is given
  * @property {number} decimals - defines how many decimals should be added
- * @property {boolean} omit_rounding - deprecated Use `rounding: "omit"` instead.
  * @property {string} rounding - if `omit`, the decimal will NOT be rounded. If `half-even`, the value will be rounded to the nearest even number. If set to `half-up`, the fractional part is 0.5 or greater, the number is rounded up. If the fractional part is less than 0.5, the number is rounded down. Defaults to `half-up`.
  * @property {object} options - accepts all number.toLocaleString API options
  * @property {boolean} returnAria - if true, this function returns an object that includes an aria property with a special aria formatting
@@ -150,7 +147,6 @@ export const format = (
     omit_currency_sign = null,
     clean_copy_value = null,
     decimals = null,
-    omit_rounding = null, // @deprecated – can be removed in v11
     rounding = null,
     options = null,
     returnAria = false,
@@ -184,12 +180,7 @@ export const format = (
       : options) || {}
 
   if (parseFloat(decimals) >= 0) {
-    value = formatDecimals(
-      value,
-      decimals,
-      rounding ?? omit_rounding,
-      opts
-    )
+    value = formatDecimals(value, decimals, rounding, opts)
   } else if (
     typeof opts.maximumFractionDigits === 'undefined' &&
     !isTrue(percent) &&
@@ -233,12 +224,7 @@ export const format = (
       if (typeof opts.maximumFractionDigits === 'undefined') {
         decimals = countDecimals(value)
       }
-      value = formatDecimals(
-        value,
-        decimals,
-        rounding ?? omit_rounding,
-        opts
-      )
+      value = formatDecimals(value, decimals, rounding, opts)
     }
 
     if (!opts.style) {
@@ -256,12 +242,7 @@ export const format = (
 
     if (decimals === null) {
       decimals = 2
-      value = formatDecimals(
-        value,
-        decimals,
-        rounding ?? omit_rounding,
-        opts
-      )
+      value = formatDecimals(value, decimals, rounding, opts)
     }
 
     // cleanup, but only if it did not got cleaned up already
