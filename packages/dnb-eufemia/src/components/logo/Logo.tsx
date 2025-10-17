@@ -18,11 +18,8 @@ import LogoSvg, { DnbLogoAlt, SbankenLogoAlt } from './LogoSvg'
 
 export * from './LogoSvg'
 
-export type LogoWidth = number | string
-export type LogoHeight = number | string
-/**
- * @deprecated Will be removed in eufemia v11. Use the `svg` prop to provide a custom logo instead.
- */
+export type LogoWidth = string
+export type LogoHeight = string
 export type LogoVariant = 'default' | 'compact' | 'compactHorizontal'
 export type CustomLogoSvg =
   | React.ComponentType<
@@ -36,11 +33,11 @@ export type LogoProps = {
   /**
    * Define the width of the logo.
    */
-  width?: LogoWidth // v11: replace with string
+  width?: LogoWidth
   /**
    * Define the height of the logo.
    */
-  height?: LogoHeight // v11: replace with string
+  height?: LogoHeight
   /**
    * Define the color of the logo.
    */
@@ -68,23 +65,9 @@ export type LogoProps = {
    */
   svg?: CustomLogoSvg
 } & SpacingProps &
-  Omit<React.HTMLProps<HTMLElement>, 'ref' | 'size'> &
-  DeprecatedLogoProps
-
-type DeprecatedLogoProps = {
-  /** @deprecated Will be removed in eufemia v11 */
-  alt?: string
-  /** @deprecated Will be removed in eufemia v11 */
-  ratio?: number | string
-  /** @deprecated Will be removed in eufemia v11 */
-  size?: string | number
-}
+  Omit<React.HTMLProps<HTMLElement>, 'ref' | 'size'>
 
 const defaultProps: LogoProps = {
-  size: 'auto',
-  /**
-   * @deprecated Will be removed in v11
-   */
   variant: 'default',
   inheritSize: false,
 }
@@ -99,12 +82,9 @@ function Logo(localProps: LogoProps) {
   )
 
   const {
-    alt, // eslint-disable-line
-    size, // eslint-disable-line
-    ratio, // eslint-disable-line
     width,
     inheritSize,
-    height: heightProp,
+    height,
     brand: brandProp,
     variant,
     color,
@@ -112,7 +92,7 @@ function Logo(localProps: LogoProps) {
     className: classNameProp,
     svg,
     ...rest
-  } = convertDimensionalPropsToString(props)
+  } = props
 
   // Attempt to get theme from context
   const brand = useMemo(() => {
@@ -148,45 +128,43 @@ function Logo(localProps: LogoProps) {
     return 'dnb'
   }, [brand, variant])
 
-  /** @deprecated Can remove this in v11 */
-  const height = parseFloat(size) > 0 ? size : heightProp
-
   // Alt text for the logo does not need to be translated. DNB alt will be the same in English.
   const altText = useMemo(() => {
-    const alt = svg?.['alt']
-    if (alt) {
-      return alt
-    }
-
-    switch (brand) {
-      case 'sbanken':
-        return SbankenLogoAlt
-
-      case 'dnb':
-        return DnbLogoAlt
-    }
-  }, [brand, svg])
+    const alt = (svg as any)?.['alt']
+    if (alt) return alt as string
+    return logoType === 'dnb' ? DnbLogoAlt : SbankenLogoAlt
+  }, [logoType, svg])
 
   const sharedClasses = classnames(
     classNameProp,
     createSpacingClasses(props)
   )
   const className = useMemo(() => {
+    if (logoType === 'dnb') {
+      return classnames(
+        'dnb-logo',
+        sharedClasses,
+        (parseFloat(width) > 0 || parseFloat(height) > 0) &&
+          'dnb-logo--has-size',
+        inheritSize && 'dnb-logo--inherit-size',
+        inheritColor && 'dnb-logo--inherit-color'
+      )
+    }
     return classnames(
       `${brand}-logo`,
       sharedClasses,
       (parseFloat(width) > 0 || parseFloat(height) > 0) &&
         `${brand}-logo--has-size`,
-      (inheritSize || size === 'inherit') && `${brand}-logo--inherit-size`,
+      inheritSize && `${brand}-logo--inherit-size`,
       inheritColor && `${brand}-logo--inherit-color`
     )
   }, [
+    logoType,
     brand,
     sharedClasses,
     width,
     height,
     inheritSize,
-    size,
     inheritColor,
   ])
 
@@ -218,23 +196,6 @@ function Logo(localProps: LogoProps) {
   )
 }
 
-/**
- * @deprecated Can be removed in v11
- */
-function convertDimensionalPropsToString(allProps: LogoProps) {
-  return {
-    ...allProps,
-    size: handleTypeToString(allProps.size),
-    ratio: handleTypeToString(allProps.ratio),
-    width: handleTypeToString(allProps.width),
-    height: handleTypeToString(allProps.height),
-  }
-}
-
-function handleTypeToString(val: number | string) {
-  return val ? String(val) : undefined
-}
-
 function renderCustomSvg(
   svg:
     | React.ComponentType<React.SVGProps<SVGSVGElement>>
@@ -250,5 +211,4 @@ function renderCustomSvg(
   >
   return <SvgComponent {...svgParams} />
 }
-
 export default Logo
