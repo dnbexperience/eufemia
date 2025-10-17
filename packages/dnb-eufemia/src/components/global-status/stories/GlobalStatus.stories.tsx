@@ -255,7 +255,7 @@ const InputWithError = () => {
             <Flex.Vertical>
               <Switch
                 status={haveAnErrorMessage3 ? 'Error Message #3' : null}
-                on_change={({ checked }) => {
+                onChange={({ checked }) => {
                   setErrorMessage3(checked)
                 }}
                 bottom="small"
@@ -263,7 +263,7 @@ const InputWithError = () => {
               />
               <Switch
                 status={haveAnErrorMessage4 ? 'Error Message #4' : null}
-                on_change={({ checked }) => {
+                onChange={({ checked }) => {
                   setErrorMessage4(checked)
                 }}
                 // status_no_animation
