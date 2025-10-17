@@ -13,7 +13,7 @@ import {
 import { createSpacingClasses } from '../space/SpacingHelper'
 import Anchor from '../anchor/Anchor'
 import Skeleton, { SkeletonShow } from '../skeleton/Skeleton'
-import { H1, P, Code } from '../../elements'
+import { H1, P } from '../../elements'
 import type { SpacingProps } from '../../shared/types'
 
 export type GlobalErrorLink = {
@@ -42,12 +42,6 @@ export type GlobalErrorProps = {
    * Will overwrite the default error message code.
    */
   errorMessageCode?: React.ReactNode
-
-  /**
-   * Will overwrite the default error message code.
-   * @deprecated – Replaced with errorMessageCode, code can be removed in v11.
-   */
-  code?: React.ReactNode
 
   /**
    * Will overwrite the default additional help text.
@@ -121,7 +115,6 @@ export default function GlobalError(localProps: GlobalErrorAllProps) {
 
     title,
     help,
-    code,
     errorMessageCode,
     links,
     text,
@@ -148,9 +141,6 @@ export default function GlobalError(localProps: GlobalErrorAllProps) {
 
   const additionalContent = processChildren(allProps)
 
-  // deprecated – Replaced with errorMessageCode, code and the line below can be removed in v11.
-  const userProvidedCodeValue = Object.hasOwn(localProps, 'code')
-
   return (
     <Skeleton {...params} show={skeleton} element="section">
       <div className="dnb-global-error__inner">
@@ -159,12 +149,7 @@ export default function GlobalError(localProps: GlobalErrorAllProps) {
             {title}
           </H1>
           <P bottom {...textParams} />
-          {userProvidedCodeValue && code && (
-            <P bottom className="dnb-global-error__status">
-              {code} {statusCode && <Code>{statusCode}</Code>}
-            </P>
-          )}
-          {!userProvidedCodeValue && errorMessageCode && (
+          {errorMessageCode && (
             <P bottom className="dnb-global-error__status">
               {String(errorMessageCode).replace('%statusCode', statusCode)}
             </P>

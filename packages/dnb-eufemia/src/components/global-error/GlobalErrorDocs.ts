@@ -16,11 +16,6 @@ export const GlobalErrorProperties: PropertiesTableProps = {
     type: 'React.ReactNode',
     status: 'optional',
   },
-  code: {
-    doc: 'Overwrites the default error message code text `Feilmeldings-kode:`. . This prop is deprecated and will be removed in v11, please use `errorMessageCode` instead.',
-    type: 'React.ReactNode',
-    status: 'deprecated',
-  },
   errorMessageCode: {
     doc: 'Overwrites the default error message code text `Feilmeldings-kode: %statusCode`.',
     type: 'React.ReactNode',

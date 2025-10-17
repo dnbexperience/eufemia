@@ -66,7 +66,6 @@ export default {
         title: 'Sorry, a technical error happened!',
         text: 'The service is not working properly at the moment. Try again later.',
       },
-      code: 'Error code:', // Deprecated:  Replaced with errorMessageCode, code can be removed in v11.
       errorMessageCode: 'Error code: %statusCode',
       help: 'Here are some links that might help:',
     },
