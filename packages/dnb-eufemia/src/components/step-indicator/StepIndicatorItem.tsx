@@ -18,10 +18,7 @@ import FormStatus, {
 } from '../form-status/FormStatus'
 import StepIndicatorContext from './StepIndicatorContext'
 import { stepIndicatorDefaultProps } from './StepIndicatorProps'
-import {
-  StepIndicatorMouseEvent,
-  StepIndicatorRenderCallback,
-} from './StepIndicator'
+import { StepIndicatorMouseEvent } from './StepIndicator'
 import Context from '../../shared/Context'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 
@@ -54,17 +51,6 @@ export type StepIndicatorItemProps = Omit<
    * Defaults to `warn`.
    */
   status_state?: StepIndicatorStatusState
-  /**
-   * Callback function to manipulate or wrap the step item. Has to return a React Node. You receive an object `{ StepItem, element, attributes, props, context }`.
-   * @deprecated no longer does anything other than the `title` prop
-   */
-  on_render?: ({
-    StepItem,
-    element,
-    attributes,
-    props,
-    context,
-  }: StepIndicatorRenderCallback) => React.ReactNode
   /**
    * Will be called once the user clicks on the current or another step. Will be emitted on every click. Returns an object `{ event, item, current_step }`.
    */
@@ -161,7 +147,6 @@ function StepIndicatorItem({
     status,
     status_state = 'warn',
 
-    on_render,
     on_click, // eslint-disable-line
   } = props
 
@@ -188,7 +173,6 @@ function StepIndicatorItem({
     <StepItemWrapper>{title}</StepItemWrapper>
   ) as React.ReactNode
 
-  // should be entirely removed in v11 as well as any other functionality associated with `on_render` and `on_item_render`
   const callbackProps = {
     StepItem: StepItemWrapper,
     element,
@@ -197,9 +181,7 @@ function StepIndicatorItem({
     context,
   }
 
-  if (typeof on_render === 'function') {
-    element = on_render(callbackProps)
-  } else if (typeof on_item_render === 'function') {
+  if (typeof on_item_render === 'function') {
     element = on_item_render(callbackProps)
   }
 
