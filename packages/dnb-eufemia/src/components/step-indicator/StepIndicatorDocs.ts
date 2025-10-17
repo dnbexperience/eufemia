@@ -66,11 +66,6 @@ export const StepIndicatorProperties: PropertiesTableProps = {
     type: ['string', 'object'],
     status: 'optional',
   },
-  step_title_extended: {
-    doc: 'Descriptive label for `<StepIndicatorModal />`. Must contain `%step` and `%count` to interpolate `current_step` and `stepCount` into the text. Defaults to `You are on step %step of %count`.',
-    type: 'string',
-    status: 'deprecated',
-  },
 }
 
 export const StepIndicatorEvents: PropertiesTableProps = {
