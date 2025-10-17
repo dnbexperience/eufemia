@@ -139,7 +139,7 @@ export const CheckboxSandbox = () => (
           labelPosition="left"
           // status="Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
           status="Potenti viverra facilisi blandit sodales lorem est fusce"
-          status_state="info"
+          statusState="info"
         />
       </Box>
       <Box>
@@ -149,7 +149,7 @@ export const CheckboxSandbox = () => (
           labelPosition="right"
           // status="Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
           status="Potenti viverra facilisi blandit sodales lorem est fusce"
-          status_state="info"
+          statusState="info"
         />
       </Box>
       <Box>
