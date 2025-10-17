@@ -68,11 +68,6 @@ export type TableProps = {
   mode?: 'accordion' | 'navigation'
 
   /**
-   * @deprecated – use mode="accordion" instead. Will be removed in v11.
-   */
-  accordion?: boolean
-
-  /**
    * Defines where the chevron will be placed, should only be used together with mode="accordion".
    * Default: 'start'
    */
@@ -125,7 +120,6 @@ const Table = (componentProps: TableAllProps) => {
     fixed,
     border,
     outline,
-    accordion, // Deprecated – can be removed in v11
     mode,
     accordionChevronPlacement, // eslint-disable-line
     collapseAllHandleRef,
@@ -171,7 +165,6 @@ const Table = (componentProps: TableAllProps) => {
             fixed && 'dnb-table--fixed',
             border && 'dnb-table--border',
             outline && 'dnb-table--outline',
-            accordion && 'dnb-table--accordion', // Deprecated – can be removed in v11
             mode === 'accordion' && 'dnb-table--accordion',
             mode === 'navigation' && 'dnb-table--navigation',
             spacingClasses,
