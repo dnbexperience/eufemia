@@ -39,8 +39,6 @@ export type DeprecatedProgressIndicatorProps = {
   label_direction?: string
   /** @deprecated use `showDefaultLabel`. */
   show_label?: boolean
-  /**  @deprecated use `onComplete`. */
-  on_complete?: (...args: any[]) => any
 }
 
 function ProgressIndicator(
