@@ -66,7 +66,6 @@ export default {
         title: 'Tyvärr, något gick fel!',
         text: 'Tjänsten fungerar inte som den ska just nu, men försök igen senare.',
       },
-      code: 'Felmeddelande-kod:', // Deprecated:  Replaced with errorMessageCode, code can be removed in v11.
       errorMessageCode: 'Felmeddelande-kod: %statusCode',
       help: 'Här är några länkar som kanske kan hjälpa:',
     },
@@ -135,7 +134,6 @@ export default {
       subtractTitle: 'Minska (%s)',
     },
     PaymentCard: {
-      text_card_number: 'Kortnummer', // Deprecated: As it's not in use anymore, can be removed in v11.
       text_blocked: 'Spärrat',
       text_expired: 'Utgånget',
       text_not_active: 'Inaktiv',

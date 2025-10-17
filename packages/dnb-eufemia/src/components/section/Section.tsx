@@ -126,10 +126,6 @@ export type SectionProps = {
    * @deprecated in v11 use "background" prop instead
    */
   style_type?: SectionStyleTypes | string
-  /**
-   * @deprecated in v11 use "innerRef" prop instead
-   */
-  inner_ref?: React.RefObject<HTMLElement>
 }
 
 export type SectionAllProps = SectionProps &
@@ -183,13 +179,12 @@ export function SectionParams(
 
     spacing,
     style_type,
-    inner_ref,
 
     ...attributes
   } = props
 
   const internalRef = React.useRef<HTMLElement>()
-  const elementRef = innerRef || inner_ref || internalRef
+  const elementRef = innerRef || internalRef
 
   return Object.freeze({
     ...attributes,

@@ -66,21 +66,6 @@ export const StepIndicatorProperties: PropertiesTableProps = {
     type: ['string', 'object'],
     status: 'optional',
   },
-  sidebar_id: {
-    doc: 'A unique string-based ID in order to bind together the main component and the sidebar (`<StepIndicator.Sidebar />`). Both have to get the same ID.',
-    type: 'string',
-    status: 'deprecated',
-  },
-  step_title_extended: {
-    doc: 'Descriptive label for `<StepIndicatorModal />`. Must contain `%step` and `%count` to interpolate `current_step` and `stepCount` into the text. Defaults to `You are on step %step of %count`.',
-    type: 'string',
-    status: 'deprecated',
-  },
-  on_item_render: {
-    doc: 'Deprecated, just use step item `title`. Callback function whose return is rendered inside each step instead of the default render. Has to return a React Node. Receives parameter `{ StepItem, element, attributes, props, context }`, where `props` also includes all props from the step object (like `title` or `status`) and the `<StepItem>` is a component that can be used to wrap your returned content.',
-    type: 'function',
-    status: 'deprecated',
-  },
 }
 
 export const StepIndicatorEvents: PropertiesTableProps = {
@@ -126,11 +111,6 @@ export const StepIndicatorStepProperties: PropertiesTableProps = {
     doc: 'In case the status state should be `info` or `error`. Defaults to `warn`.',
     type: [`'warn'`, `'info'`, `'error'`],
     status: 'optional',
-  },
-  on_render: {
-    doc: 'Deprecated, just use `title`. Callback function whose return is rendered inside the step instead of the default render (or `on_item_render`). Has to return a React Node. <br/> Receives parameter `{ StepItem, element, attributes, props, context }`, where `props` also includes all props in the step object (like `title` or `status`) and the `<StepItem>` is a component that can be used to wrap your returned content.',
-    type: 'function',
-    status: 'deprecated',
   },
 }
 

@@ -36,19 +36,9 @@ export function RenderDuringSSR() {
   return (
     <>
       <Provider StepIndicator={{ data }}>
-        <StepIndicator.Sidebar
-          // showInitialData
-          // top
-          id="sidebar"
-          sidebar_id="unique-id-strict"
-          // data={data}
-          // mode="loose"
-          // current_step={2}
-        />
         <StepIndicator
           // skeleton
           id="main"
-          sidebar_id="unique-id-strict"
           // mode="strict"
           mode="loose"
           data={data}
@@ -83,13 +73,6 @@ const data = [
       'Du må velge bestill nytt kort eller erstatt kort for å kunne fullføre bestillingen din.',
     // status_state: 'warn',
     // on_click: ({ currentStep }) => console.log('on_click', currentStep),
-    // on_render: ({ StepItem }) => (
-    //   <StepItem
-    //     onClick={e => {
-    //       console.log('on_render.onClick', e)
-    //     }}
-    //   />
-    // )
   },
   {
     title:
@@ -111,14 +94,8 @@ const InteractiveDemo = () => {
 
   return (
     <div style={{ display: 'flex' }}>
-      <StepIndicator.Sidebar
-        sidebar_id="unique-id-loose"
-        // right="large"
-      />
-
       <Space stretch>
         <StepIndicator
-          sidebar_id="unique-id-loose"
           mode="loose"
           current_step={step}
           on_change={({ current_step }) => {
@@ -189,7 +166,6 @@ export const StepIndicatorSandbox = () => {
         <StepIndicator
           // skeleton
           top="large"
-          sidebar_id="unique-step-indicator"
           // hide_numbers
           // mode="static"
           // mode="strict"
@@ -200,29 +176,13 @@ export const StepIndicatorSandbox = () => {
             setCurrentStep(currentStep)
             // console.log('on_change', currentStep)
           }}
-          // on_item_render={({ StepItem }) => {
-          //   return (
-          //     <StepItem
-          //       onClick={(e) => {
-          //         console.log('on_item_render.onClick', e)
-          //       }}
-          //     />
-          //   )
-          // }}
           data={data}
-        />
-      </Box>
-      <Box>
-        <StepIndicator.Sidebar
-          sidebar_id="unique-step-indicator"
-          top="large"
         />
       </Box>
       <Box>
         <StepIndicator
           // skeleton
           top="large"
-          sidebar_id="second-unique-step-indicator"
           // mode="static"
           mode="strict"
           current_step={current_step}
@@ -231,15 +191,6 @@ export const StepIndicatorSandbox = () => {
             setCurrentStep(currentStep)
             // console.log('on_change', currentStep)
           }}
-          // on_item_render={({ StepItem }) => {
-          //   return (
-          //     <StepItem
-          //       onClick={(e) => {
-          //         console.log('on_item_render.onClick', e)
-          //       }}
-          //     />
-          //   )
-          // }}
           data={data}
         />
       </Box>
@@ -265,8 +216,6 @@ const stepIndicatorListData = [
 export const CurrentStepPropChange = () => {
   const [current_step, setCurrentStep] = React.useState(1)
 
-  const id = 'prop-step-test'
-
   function stepOn() {
     if (current_step === stepIndicatorListData.length - 1) {
       return setCurrentStep(0)
@@ -283,11 +232,9 @@ export const CurrentStepPropChange = () => {
         <Button onClick={() => setCurrentStep(0)}>Reset</Button>
       </Box>
       <Box>
-        <StepIndicator.Sidebar sidebar_id={id} />
         <StepIndicator
           current_step={current_step}
           mode="loose"
-          sidebar_id={id}
           data={stepIndicatorListData}
         />
       </Box>
@@ -296,15 +243,11 @@ export const CurrentStepPropChange = () => {
 }
 
 export const OnlyOneCurrent = () => {
-  const id = 'only-one-current'
-
   return (
     <Wrapper>
       <Box>
-        <StepIndicator.Sidebar sidebar_id={id} />
         <StepIndicator
           mode="loose"
-          sidebar_id={id}
           data={[
             {
               title: 'Step A',
@@ -324,15 +267,12 @@ export const OnlyOneCurrent = () => {
 }
 
 export const EventTests = () => {
-  const id = 'data-test'
-
   const data: StepIndicatorDataItem[] = [
     {
       title: 'Step A',
     },
     {
       title: 'Step B',
-      on_render: () => <p>Sep Render yall</p>,
     },
     {
       title: 'Step C',
@@ -346,14 +286,12 @@ export const EventTests = () => {
   return (
     <Wrapper>
       <Box>
-        <StepIndicator.Sidebar sidebar_id={id} />
         <StepIndicator
           on_click={(event) => {
             console.log('Stepinidcator Click', event)
           }}
           on_change={(event) => console.log('On Change', event)}
           mode="loose"
-          sidebar_id={id}
           data={data}
         />
       </Box>
@@ -379,15 +317,10 @@ export const TitleTests = () => {
   return (
     <>
       <Box>
-        <StepIndicator.Sidebar sidebar_id="title-test" top="large" />
-      </Box>
-      <Box>
         <StepIndicator
           overview_title="Custom Overview Title"
           step_title="Custom Step Title"
-          step_title_extended="Custom Step Title Extended"
           top="large"
-          sidebar_id="second-title-test"
           mode="loose"
           current_step={current_step}
           data={data}

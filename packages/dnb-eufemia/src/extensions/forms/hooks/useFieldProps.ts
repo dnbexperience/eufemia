@@ -138,16 +138,12 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     onBlur,
     onChange,
     onBlurValidator,
-    // Deprecated – can be removed in v11
-    validator,
-    onChangeValidator = validator,
+    onChangeValidator,
     exportValidators,
     schema,
     validateInitially,
     validateUnchanged,
-    // Deprecated – can be removed in v11
-    continuousValidation,
-    validateContinuously = continuousValidation,
+    validateContinuously,
     transformIn = (external: unknown) => external as Value,
     transformOut = (internal: Value) => internal,
     toInput = (value: Value) => value,
@@ -574,7 +570,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const onChangeValidatorRef = useRef(onChangeValidator)
   useUpdateEffect(() => {
     onChangeValidatorRef.current = onChangeValidator
-  }, [onChangeValidator]) // Tobias, will this still work? now that we do onChangeValidator = validator?
+  }, [onChangeValidator])
   const onBlurValidatorRef = useRef(onBlurValidator)
   useUpdateEffect(() => {
     onBlurValidatorRef.current = onBlurValidator
@@ -782,15 +778,6 @@ export default function useFieldProps<Value, EmptyValue, Props>(
           const { ajvKeyword } = error
           if (typeof ajvKeyword === 'string') {
             const ajvMessage = combinedErrorMessages?.[ajvKeyword]
-            if (ajvMessage) {
-              message = ajvMessage
-            }
-          }
-
-          /** @deprecated – can be removed in v11 */
-          const { validationRule } = error
-          if (typeof validationRule === 'string') {
-            const ajvMessage = combinedErrorMessages?.[validationRule]
             if (ajvMessage) {
               message = ajvMessage
             }

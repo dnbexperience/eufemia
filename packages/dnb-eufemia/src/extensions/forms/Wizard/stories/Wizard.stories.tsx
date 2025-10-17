@@ -201,7 +201,6 @@ export function AsyncStepChange() {
         onStepChange={onStepChange}
         id="unique-wizard"
         mode="loose"
-        // variant="drawer"
       >
         <Wizard.Step title="Step 1">
           <Form.Card>
@@ -362,7 +361,7 @@ export const AsyncWizard = () => {
   )
 
   const Summary = () => {
-    const { summaryTitle } = Form.useLocale().Step
+    const { summaryTitle } = Form.useTranslation().Step
     return (
       <Wizard.Step title={summaryTitle}>
         <output>Summary</output>

@@ -65,7 +65,6 @@ export default {
         title: 'Beklager, her skjedde det noe feil!',
         text: 'Tjenesten fungerer ikke slik den skal for øyeblikket, men prøv igjen senere.',
       },
-      code: 'Feilmeldings-kode:', // Deprecated:  Replaced with errorMessageCode, code can be removed in v11.
       errorMessageCode: 'Feilmeldings-kode: %statusCode',
       help: 'Her er noen lenker som kanskje kan hjelpe:',
     },
@@ -134,7 +133,6 @@ export default {
       subtractTitle: 'Reduser (%s)',
     },
     PaymentCard: {
-      text_card_number: 'Kortnummer', // Deprecated: As it's not in use anymore, can be removed in v11.
       text_blocked: 'Sperret',
       text_expired: 'Utløpt',
       text_not_active: 'Inaktivt',

@@ -65,7 +65,6 @@ export default {
         title: 'Beklager, der opstod en fejl!',
         text: 'Tjenesten fungerer ikke som den skal i øjeblikket, prøv igen senere.',
       },
-      code: 'Fejlkode:', // Deprecated:  Replaced with errorMessageCode, code can be removed in v11.
       errorMessageCode: 'Fejlkode: %statusCode',
       help: 'Her er nogle links, der måske kan hjælpe:',
     },
@@ -134,7 +133,6 @@ export default {
       subtractTitle: 'Reducer (%s)',
     },
     PaymentCard: {
-      text_card_number: 'Kortnummer', // Deprecated: As it's not in use anymore, can be removed in v11.
       text_blocked: 'Spærret',
       text_expired: 'Udløbet',
       text_not_active: 'Inaktivt',

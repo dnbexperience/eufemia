@@ -66,7 +66,6 @@ export default {
         title: 'Sorry, a technical error happened!',
         text: 'The service is not working properly at the moment. Try again later.',
       },
-      code: 'Error code:', // Deprecated:  Replaced with errorMessageCode, code can be removed in v11.
       errorMessageCode: 'Error code: %statusCode',
       help: 'Here are some links that might help:',
     },
@@ -135,7 +134,6 @@ export default {
       subtractTitle: 'Decrease (%s)',
     },
     PaymentCard: {
-      text_card_number: 'Card number', // Deprecated: As it's not in use anymore, can be removed in v11.
       text_blocked: 'Blocked',
       text_expired: 'Expired',
       text_not_active: 'Inactive',
