@@ -256,9 +256,6 @@ del .dnb-code {
   box-shadow: 100vw 0 0 0 var(--hr-color, grey);
   border-radius: 0;
 }
-.dnb-hr--light {
-  --hr-thickness: 0.5px;
-}
 .dnb-spacing .dnb-hr:not([class*=dnb-space__top]) {
   margin-top: 0;
 }
