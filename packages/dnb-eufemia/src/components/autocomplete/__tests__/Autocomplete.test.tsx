@@ -1202,17 +1202,17 @@ describe('Autocomplete component', () => {
     expect(inputElement.value).toBe('')
   })
 
-  it('will invalidate selected_item when selected_key changes', () => {
+  it('will invalidate selected_item when selectedKey changes', () => {
     const mockData = [
-      { selected_key: 'a', content: 'AA c' },
-      { selected_key: 'b', content: 'BB cc zethx' },
-      { selected_key: 'c', content: ['CC', 'cc'] },
+      { selectedKey: 'a', content: 'AA c' },
+      { selectedKey: 'b', content: 'BB cc zethx' },
+      { selectedKey: 'c', content: ['CC', 'cc'] },
     ]
 
     const newMockData = [
-      { selected_key: 'a', content: 'AA c' },
-      { selected_key: 'x', content: 'BB cc changed value' },
-      { selected_key: 'c', content: ['CC', 'cc'] },
+      { selectedKey: 'a', content: 'AA c' },
+      { selectedKey: 'x', content: 'BB cc changed value' },
+      { selectedKey: 'c', content: ['CC', 'cc'] },
     ]
 
     const onTypeHandler = ({ value, updateData }) => {
@@ -1336,9 +1336,9 @@ describe('Autocomplete component', () => {
 
   it('should show "no-options" when in sync mode', async () => {
     const mockData = [
-      { selected_key: 'a', content: 'AA c' },
-      { selected_key: 'b', content: 'BB cc zethx' },
-      { selected_key: 'c', content: ['CC', 'cc'] },
+      { selectedKey: 'a', content: 'AA c' },
+      { selectedKey: 'b', content: 'BB cc zethx' },
+      { selectedKey: 'c', content: ['CC', 'cc'] },
     ]
 
     render(<Autocomplete {...mockProps} data={mockData} mode="sync" />)
@@ -1366,9 +1366,9 @@ describe('Autocomplete component', () => {
 
   it('should not show "no-options" during async mode', async () => {
     const mockData = [
-      { selected_key: 'a', content: 'AA c' },
-      { selected_key: 'b', content: 'BB cc zethx' },
-      { selected_key: 'c', content: ['CC', 'cc'] },
+      { selectedKey: 'a', content: 'AA c' },
+      { selectedKey: 'b', content: 'BB cc zethx' },
+      { selectedKey: 'c', content: ['CC', 'cc'] },
     ]
 
     render(<Autocomplete {...mockProps} data={mockData} mode="async" />)
@@ -1403,8 +1403,8 @@ describe('Autocomplete component', () => {
   })
 
   it('will call on_change on each change, when selecting the first option from different data sources', async () => {
-    const mockDataA = [{ selected_key: 'a', content: 'A' }]
-    const mockDataB = [{ selected_key: 'b', content: 'B' }]
+    const mockDataA = [{ selectedKey: 'a', content: 'A' }]
+    const mockDataB = [{ selectedKey: 'b', content: 'B' }]
 
     const onTypeHandler = ({ value, updateData }) => {
       if (value === 'a') {
@@ -1469,11 +1469,11 @@ describe('Autocomplete component', () => {
 
   it('selects correct value and key', () => {
     const mockData = [
-      { selected_key: 'a', content: 'A value' },
-      { selected_key: 'b', content: 'B value' },
-      { selected_key: 'c', content: 'C value' },
-      { selected_key: 'id-123', content: '123 value' },
-      { selected_key: 'id-456', content: '456 value' },
+      { selectedKey: 'a', content: 'A value' },
+      { selectedKey: 'b', content: 'B value' },
+      { selectedKey: 'c', content: 'C value' },
+      { selectedKey: 'id-123', content: '123 value' },
+      { selectedKey: 'id-456', content: '456 value' },
     ]
 
     const on_change = jest.fn()
@@ -1505,7 +1505,7 @@ describe('Autocomplete component', () => {
       (document.querySelector('.dnb-input__input') as HTMLInputElement)
         .value
     ).toBe('A value')
-    expect(on_change.mock.calls[0][0].data.selected_key).toBe('a')
+    expect(on_change.mock.calls[0][0].data.selectedKey).toBe('a')
 
     rerender(
       <Autocomplete
@@ -1530,7 +1530,7 @@ describe('Autocomplete component', () => {
       (document.querySelector('.dnb-input__input') as HTMLInputElement)
         .value
     ).toBe('C value')
-    expect(on_change.mock.calls[1][0].data.selected_key).toBe('c')
+    expect(on_change.mock.calls[1][0].data.selectedKey).toBe('c')
 
     rerender(
       <Autocomplete
@@ -1555,7 +1555,7 @@ describe('Autocomplete component', () => {
       (document.querySelector('.dnb-input__input') as HTMLInputElement)
         .value
     ).toBe('456 value')
-    expect(on_change.mock.calls[2][0].data.selected_key).toBe('id-456')
+    expect(on_change.mock.calls[2][0].data.selectedKey).toBe('id-456')
 
     rerender(
       <Autocomplete
