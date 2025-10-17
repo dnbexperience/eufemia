@@ -72,10 +72,6 @@ export interface PaginationProps
    */
   parallel_load_count?: PaginationParallelLoadCount;
   /**
-   * If set to `true`, the infinity marker will be placed before the content (on top off). This could potentially have negative side effects. But it depends really on the content if this would make more sense to use instead. Defaults to `false`. This prop is deprecated and will be removed in v11, use `place_marker_before_content` instead.
-   */
-  place_maker_before_content?: boolean;
-  /**
    * If set to `true`, the infinity marker will be placed before the content (on top off). This could potentially have negative side effects. But it depends really on the content if this would make more sense to use instead. Defaults to `false`.
    */
   place_marker_before_content?: boolean;
@@ -256,11 +252,6 @@ interface PaginationInstanceProps extends SpacingProps {
    * Defines how many `infinity` pages should be loaded / shown once the user scrolls down. Defaults to `1`.
    */
   parallel_load_count?: PaginationInstanceParallelLoadCount;
-  /**
-   * If set to `true`, the infinity marker will be placed before the content (on top off). This could potentially have negative side effects. But it depends really on the content if this would make more sense to use instead. Defaults to `false`.
-   * @deprecated – Replaced with place_marker_before_content, code can be removed in v11.
-   */
-  place_maker_before_content?: boolean;
   /**
    * If set to `true`, the infinity marker will be placed before the content (on top off). This could potentially have negative side effects. But it depends really on the content if this would make more sense to use instead. Defaults to `false`.
    */
@@ -444,11 +435,6 @@ interface InfinityMarkerProps extends SpacingProps {
    * Defines how many `infinity` pages should be loaded / shown once the user scrolls down. Defaults to `1`.
    */
   parallel_load_count?: InfinityMarkerParallelLoadCount;
-  /**
-   * If set to `true`, the infinity marker will be placed before the content (on top off). This could potentially have negative side effects. But it depends really on the content if this would make more sense to use instead. Defaults to `false`.
-   * @deprecated – Replaced with place_marker_before_content, code can be removed in v11.
-   */
-  place_maker_before_content?: boolean;
   /**
    * If set to `true`, the infinity marker will be placed before the content (on top off). This could potentially have negative side effects. But it depends really on the content if this would make more sense to use instead. Defaults to `false`.
    */
