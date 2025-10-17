@@ -76,8 +76,6 @@ type DeprecatedLogoProps = {
   alt?: string
   /** @deprecated Will be removed in eufemia v11 */
   ratio?: number | string
-  /** @deprecated Use 'inheritColor' */
-  inherit_color?: boolean
   /** @deprecated Will be removed in eufemia v11 */
   size?: string | number
 }
