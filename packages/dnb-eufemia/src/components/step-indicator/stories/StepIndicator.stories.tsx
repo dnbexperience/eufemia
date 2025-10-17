@@ -36,15 +36,6 @@ export function RenderDuringSSR() {
   return (
     <>
       <Provider StepIndicator={{ data }}>
-        <StepIndicator.Sidebar
-          // showInitialData
-          // top
-          id="sidebar"
-          sidebar_id="unique-id-strict"
-          // data={data}
-          // mode="loose"
-          // current_step={2}
-        />
         <StepIndicator
           // skeleton
           id="main"
@@ -111,11 +102,6 @@ const InteractiveDemo = () => {
 
   return (
     <div style={{ display: 'flex' }}>
-      <StepIndicator.Sidebar
-        sidebar_id="unique-id-loose"
-        // right="large"
-      />
-
       <Space stretch>
         <StepIndicator
           sidebar_id="unique-id-loose"
@@ -213,12 +199,6 @@ export const StepIndicatorSandbox = () => {
         />
       </Box>
       <Box>
-        <StepIndicator.Sidebar
-          sidebar_id="unique-step-indicator"
-          top="large"
-        />
-      </Box>
-      <Box>
         <StepIndicator
           // skeleton
           top="large"
@@ -283,7 +263,6 @@ export const CurrentStepPropChange = () => {
         <Button onClick={() => setCurrentStep(0)}>Reset</Button>
       </Box>
       <Box>
-        <StepIndicator.Sidebar sidebar_id={id} />
         <StepIndicator
           current_step={current_step}
           mode="loose"
@@ -301,7 +280,6 @@ export const OnlyOneCurrent = () => {
   return (
     <Wrapper>
       <Box>
-        <StepIndicator.Sidebar sidebar_id={id} />
         <StepIndicator
           mode="loose"
           sidebar_id={id}
@@ -346,7 +324,6 @@ export const EventTests = () => {
   return (
     <Wrapper>
       <Box>
-        <StepIndicator.Sidebar sidebar_id={id} />
         <StepIndicator
           on_click={(event) => {
             console.log('Stepinidcator Click', event)
@@ -378,9 +355,6 @@ export const TitleTests = () => {
 
   return (
     <>
-      <Box>
-        <StepIndicator.Sidebar sidebar_id="title-test" top="large" />
-      </Box>
       <Box>
         <StepIndicator
           overview_title="Custom Overview Title"
