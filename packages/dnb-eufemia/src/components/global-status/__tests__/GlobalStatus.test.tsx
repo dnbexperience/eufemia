@@ -309,7 +309,7 @@ describe('GlobalStatus component', () => {
         <Switch
           id="switch-1"
           status={status}
-          status_no_animation={true}
+          statusNoAnimation={true}
           onChange={({ checked }) => {
             setStatus(checked ? 'error-message-1' : null)
           }}
@@ -323,7 +323,7 @@ describe('GlobalStatus component', () => {
         <Switch
           id="switch-2"
           status={status}
-          status_no_animation={true}
+          statusNoAnimation={true}
           onChange={({ checked }) => {
             setStatus(checked ? 'error-message-2' : null)
           }}
@@ -440,7 +440,7 @@ describe('GlobalStatus component', () => {
         <Switch
           id="switch"
           status={status}
-          status_no_animation={true}
+          statusNoAnimation={true}
           globalStatus={{ id: 'scroll-to-test' }}
           onChange={({ checked }) => {
             setStatus(checked ? 'error-message' : null)
@@ -508,7 +508,7 @@ describe('GlobalStatus component', () => {
         <Switch
           id="switch"
           status={status}
-          status_no_animation={true}
+          statusNoAnimation={true}
           globalStatus={{ id: 'esc-test' }}
           onChange={({ checked }) => {
             setStatus(checked ? 'error-message' : null)
@@ -600,7 +600,7 @@ describe('GlobalStatus component', () => {
         <Switch
           id="switch"
           status={status}
-          status_no_animation={true}
+          statusNoAnimation={true}
           globalStatus={{ id: 'height-test' }}
           onChange={({ checked }) => {
             setStatus(checked ? 'error-message' : null)
@@ -633,7 +633,7 @@ describe('GlobalStatus component', () => {
         <Switch
           id="switch"
           status={status}
-          status_no_animation={true}
+          statusNoAnimation={true}
           globalStatus={{ id: 'main-to-be-empty' }}
           onChange={({ checked }) => {
             setStatus(checked ? 'error-message' : null)
@@ -738,7 +738,7 @@ describe('GlobalStatus component', () => {
           id="switch"
           label={<LabelAsComponent />}
           status={status}
-          status_no_animation={true}
+          statusNoAnimation={true}
           globalStatus={{ id: 'main-to-be-empty' }}
           onChange={({ checked }) => {
             setStatus(checked ? <StatusAsComponent /> : null)
