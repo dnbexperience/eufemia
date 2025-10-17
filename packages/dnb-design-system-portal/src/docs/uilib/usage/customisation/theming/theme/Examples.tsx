@@ -13,7 +13,7 @@ export const ThemeBasis = () => (
     {() => {
       return (
         <Theme name="sbanken">
-          <Logo size={40} />
+          <Logo height="40" />
         </Theme>
       )
     }}
