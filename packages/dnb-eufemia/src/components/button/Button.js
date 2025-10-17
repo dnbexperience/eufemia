@@ -105,7 +105,6 @@ export default class Button extends React.PureComponent {
     )
 
     const {
-      class: classProp, // @deprecated – can be removed in v11
       className,
       variant,
       size,
@@ -208,7 +207,6 @@ export default class Button extends React.PureComponent {
         this.context
       ),
       createSpacingClasses(props),
-      classProp, // @deprecated – can be removed in v11
       className,
       props.href || props.to ? '' : null, // dnb-anchor--no-underline dnb-anchor--no-hover
       Element === Anchor && 'dnb-anchor--no-style'
@@ -350,10 +348,6 @@ Button.propTypes = {
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   inner_ref: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   className: PropTypes.string,
-  /**
-   * @deprecated – use className instead. Will be removed in v11.
-   */
-  class: PropTypes.string,
   innerRef: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   children: PropTypes.oneOfType([
     PropTypes.string,
@@ -400,10 +394,6 @@ Button.defaultProps = {
   inner_ref: null,
 
   className: null,
-  /**
-   * @deprecated – use className instead. Will be removed in v11.
-   */
-  class: null,
   innerRef: null,
   children: null,
   element: null,
