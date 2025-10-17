@@ -1,10 +1,7 @@
 import React, { useContext } from 'react'
 import WizardContext from '../Context/WizardContext'
 import WizardStepContext from '../Step/StepContext'
-import Step, {
-  Props as StepProps,
-  handleDeprecatedProps as handleDeprecatedStepProps,
-} from '../Step/Step'
+import Step, { Props as StepProps } from '../Step/Step'
 import { useCollectStepsData } from './useCollectStepsData'
 
 export function IterateOverSteps({
@@ -48,7 +45,7 @@ export function IterateOverSteps({
 
       if (child?.type === Step) {
         const { title, inactive, keepInDOM, include, id, includeWhen } =
-          handleDeprecatedStepProps(child.props)
+          child.props
 
         if (include === false) {
           return null
