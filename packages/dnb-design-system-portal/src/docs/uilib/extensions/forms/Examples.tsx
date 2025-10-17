@@ -432,7 +432,7 @@ export const UsingWizard = () => {
         function MyForm() {
           // Routers like "react-router" are supported as well
           Wizard.useQueryLocator('my-wizard')
-          const { summaryTitle } = Form.useLocale().Step
+          const { summaryTitle } = Form.useTranslation().Step
 
           return (
             <Form.Handler
