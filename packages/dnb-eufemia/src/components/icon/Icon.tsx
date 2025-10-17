@@ -86,9 +86,6 @@ export type IconProps = {
    */
   inheritColor?: boolean
 
-  /** @deprecated Use `inheritColor` instead */
-  inherit_color?: boolean
-
   /**
    * The alternative label (text version) of the icon. Defaults to the imported icon name.
    */
@@ -333,7 +330,6 @@ export function prepareIcon(props: IconAllProps, context: ContextProps) {
     border,
     color,
     inheritColor,
-    inherit_color,
     modifier,
     alt,
     title,
@@ -385,7 +381,7 @@ export function prepareIcon(props: IconAllProps, context: ContextProps) {
     'dnb-icon',
     modifier && `dnb-icon--${modifier}`,
     border && 'dnb-icon--border',
-    (inheritColor ?? inherit_color) !== false && 'dnb-icon--inherit-color',
+    inheritColor !== false && 'dnb-icon--inherit-color',
     sizeAsString ? `dnb-icon--${sizeAsString}` : 'dnb-icon--default',
     createSkeletonClass(null, skeleton, context),
     createSpacingClasses(props),
