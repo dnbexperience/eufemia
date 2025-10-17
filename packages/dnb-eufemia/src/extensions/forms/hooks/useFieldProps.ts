@@ -139,9 +139,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     onBlur,
     onChange,
     onBlurValidator,
-    // Deprecated – can be removed in v11
-    validator,
-    onChangeValidator = validator,
+    onChangeValidator,
     exportValidators,
     schema,
     validateInitially,
@@ -575,7 +573,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const onChangeValidatorRef = useRef(onChangeValidator)
   useUpdateEffect(() => {
     onChangeValidatorRef.current = onChangeValidator
-  }, [onChangeValidator]) // Tobias, will this still work? now that we do onChangeValidator = validator?
+  }, [onChangeValidator])
   const onBlurValidatorRef = useRef(onBlurValidator)
   useUpdateEffect(() => {
     onBlurValidatorRef.current = onBlurValidator
