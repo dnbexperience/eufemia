@@ -65,7 +65,6 @@ export default {
         title: 'Beklager, her skjedde det noe feil!',
         text: 'Tjenesten fungerer ikke slik den skal for øyeblikket, men prøv igjen senere.',
       },
-      code: 'Feilmeldings-kode:', // Deprecated:  Replaced with errorMessageCode, code can be removed in v11.
       errorMessageCode: 'Feilmeldings-kode: %statusCode',
       help: 'Her er noen lenker som kanskje kan hjelpe:',
     },
