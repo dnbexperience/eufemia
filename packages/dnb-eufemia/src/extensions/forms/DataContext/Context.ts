@@ -210,7 +210,7 @@ export interface ContextState {
   showAllErrors: boolean | number
   hasVisibleError: boolean
   formState: SubmitState
-  getAjvInstance?: (instance?: Ajv) => Ajv
+  getAjvInstance?: () => Ajv
   contextErrorMessages: GlobalErrorMessagesWithPaths
   schema: Schema
   path?: Path

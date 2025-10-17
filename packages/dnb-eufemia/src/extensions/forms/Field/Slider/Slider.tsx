@@ -59,21 +59,19 @@ function SliderComponent(props: Props) {
     },
     [getSourceValue]
   )
-
-  const value = getValues(
-    props.paths ?? props.path ?? props.value ?? props.defaultValue
-  )
   const preparedProps = {
     ...props,
     step: getSourceValue(props.step),
     min: getSourceValue(props.min),
     max: getSourceValue(props.max),
+    provideAdditionalArgs: (v: SliderValue) => ({ value: v }),
   }
 
   const {
     id,
     path,
     itemPath,
+    value,
     step = 1,
     min = 0,
     max = 100,
@@ -99,12 +97,21 @@ function SliderComponent(props: Props) {
     omitMultiplePathWarning: true,
   })
 
+  // Ensure we use the useFieldProps value (with transformIn/toInput) for single-path usage,
+  // while still supporting multiple paths via props.paths
+  const sliderValue: SliderProps['value'] = Array.isArray(props.paths)
+    ? getValues(props.paths)
+    : (value as SliderValue)
+
   useMemo(() => {
     if ((path || itemPath) && numberFormat) {
-      const { number } = getFormattedNumber(value, numberFormat)
+      const { number } = getFormattedNumber(
+        (sliderValue as number) ?? 0,
+        numberFormat
+      )
       setDisplayValue(number)
     }
-  }, [itemPath, numberFormat, path, setDisplayValue, value])
+  }, [itemPath, numberFormat, path, setDisplayValue, sliderValue])
 
   const handleLocalChange = useCallback(
     ({ value }: { value: number | number[] }) => {
@@ -114,7 +121,10 @@ function SliderComponent(props: Props) {
         })
       }
 
-      handleChange?.(value)
+      // For single-path usage, delegate to useFieldProps so transformOut and validations apply
+      if (!Array.isArray(props.paths)) {
+        handleChange?.(value as number)
+      }
     },
     [handleChange, props.paths]
   )
@@ -128,7 +138,7 @@ function SliderComponent(props: Props) {
 
   const sliderProps: SliderProps = {
     id: `${id}-slider`,
-    value,
+    value: sliderValue,
     step,
     min,
     max,

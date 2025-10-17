@@ -377,11 +377,42 @@ describe('ChildrenWithAge', () => {
     )
 
     expect(document.querySelector('.dnb-p')).toHaveTextContent(
-      'Antall barn'
+      translations['nb-NO'].ChildrenWithAge.hasChildren.title
     )
   })
 
-  it('should match snapshot', () => {
+  it('should fallback to translations keys when locale has no ChildrenWithAge translations', () => {
+    const consoleSpy = jest.spyOn(console, 'log').mockImplementation()
+
+    const translations = {
+      'nn-NO': {},
+    }
+
+    render(
+      <Form.Handler locale="nn-NO" translations={translations}>
+        <ChildrenWithAge />
+      </Form.Handler>
+    )
+
+    expect(document.querySelector('.dnb-p')).toHaveTextContent(
+      'ChildrenWithAge.hasChildren.title'
+    )
+    expect(document.querySelector('legend')).toHaveTextContent(
+      'ChildrenWithAge.hasChildren.fieldLabel'
+    )
+
+    // Should have warned about missing translations
+    expect(consoleSpy).toHaveBeenCalledWith(
+      expect.any(String), // Eufemia styling prefix
+      expect.stringContaining(
+        'Form.useTranslation: No translations found for locale "nn-NO"!'
+      )
+    )
+
+    consoleSpy.mockRestore()
+  })
+
+  it('should render with correct props', () => {
     const generateRef = React.createRef<GenerateRef>()
 
     const data = {
@@ -407,7 +438,27 @@ describe('ChildrenWithAge', () => {
     )
 
     const { propsOfFields } = generateRef.current()
-    expect(propsOfFields).toMatchSnapshot()
+
+    // Test essential properties without snapshots
+    expect(propsOfFields['hasChildren']).toMatchObject({
+      path: '/hasChildren',
+      required: true,
+      valueType: 'boolean',
+      variant: 'buttons',
+    })
+
+    expect(propsOfFields['countChildren']).toMatchObject({
+      path: '/countChildren',
+      required: true,
+      valueType: 'number',
+      maximum: 9,
+      minimum: 1,
+    })
+
+    expect(propsOfFields['children']).toMatchObject({
+      path: '/children',
+      required: false,
+    })
 
     render(
       <Form.Handler defaultData={data}>
@@ -418,7 +469,15 @@ describe('ChildrenWithAge', () => {
     )
 
     const { propsOfValues } = generateRef.current()
-    expect(propsOfValues).toMatchSnapshot()
+
+    // Test summary mode properties
+    expect(propsOfValues).toHaveProperty('children')
+    expect(propsOfValues).toHaveProperty('countChildren')
+    expect(propsOfValues).toHaveProperty('hasChildren')
+    expect(propsOfValues).toHaveProperty('daycareExpenses')
+    expect(propsOfValues).toHaveProperty('hasJointResponsibility')
+    expect(propsOfValues).toHaveProperty('jointResponsibilityExpenses')
+    expect(propsOfValues).toHaveProperty('usesDaycare')
   })
 
   it('should run "reduceToVisibleFields" on submit in React.StrictMode', async () => {

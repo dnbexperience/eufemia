@@ -1,6 +1,6 @@
 import React from 'react'
 import { Field, Form, Wizard, Value, Tools } from '..'
-import { Provider } from '../../../../shared'
+import { Provider } from '../../../shared'
 
 export default {
   title: 'Eufemia/Forms/PizzaDemo',

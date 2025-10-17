@@ -620,19 +620,22 @@ const schema = z.string().min(5)
 **NB:** An `Ajv` instance is required on the `Form.Handler`.
 
 ```tsx
-import Ajv from 'ajv/dist/2020'
-import { Form, Field } from '@dnb/eufemia/extensions/forms'
+import {
+  Form,
+  Field,
+  makeAjvInstance,
+} from '@dnb/eufemia/extensions/forms'
 
-const ajv = new Ajv({
-    allErrors: true,
-  })
+const ajv = makeAjvInstance()
 const schema = {
   /* Ajv Schema */
 }
 
-<Form.Handler ajvInstance={ajv}>
-  <Field.PhoneNumber schema={schema} />
-</Form.Handler>
+render(
+  <Form.Handler ajvInstance={ajv}>
+    <Field.PhoneNumber schema={schema} />
+  </Form.Handler>,
+)
 ```
 
 ### onBlurValidator and onChangeValidator

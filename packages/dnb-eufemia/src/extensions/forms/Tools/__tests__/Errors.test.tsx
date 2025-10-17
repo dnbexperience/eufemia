@@ -1,7 +1,7 @@
 import React from 'react'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { Field, Form, JSONSchema, Tools, Ajv } from '../../'
+import { Field, Form, JSONSchema, Tools, makeAjvInstance } from '../../'
 
 describe('Tools.Errors', () => {
   it('should render empty log when no errors are present', () => {
@@ -72,7 +72,7 @@ describe('Tools.Errors', () => {
       required: ['foo'],
     }
 
-    const ajv = new Ajv({ allErrors: true })
+    const ajv = makeAjvInstance()
 
     const { rerender } = render(
       <Form.Handler schema={schema1} ajvInstance={ajv}>

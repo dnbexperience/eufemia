@@ -33,8 +33,7 @@ import {
   Schema,
 } from '../../types'
 import type { IsolationProviderProps } from '../../Form/Isolation/Isolation'
-import { debounce } from '../../../../shared/helpers'
-import { warn } from '../../../../shared/helpers'
+import { debounce, warn } from '../../../../shared/helpers'
 import FieldPropsProvider from '../../Field/Provider'
 import useUpdateEffect from '../../../../shared/helpers/useUpdateEffect'
 import { isAsync } from '../../../../shared/helpers/isAsync'
@@ -286,7 +285,7 @@ export default function Provider<Data extends JsonObject>(
   useEffect(() => {
     if (schema && !isZodSchema(schema) && !ajvInstance) {
       warn(
-        'Form.Handler received a JSON Schema but no ajvInstance. Provide ajvInstance={new Ajv({ allErrors: true })} to enable schema validation.'
+        'Form.Handler received a JSON Schema but no ajvInstance. Provide ajvInstance={makeAjvInstance()} to enable schema validation.'
       )
     }
   }, [schema, ajvInstance])

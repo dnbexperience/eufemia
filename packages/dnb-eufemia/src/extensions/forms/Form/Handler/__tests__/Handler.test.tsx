@@ -10,8 +10,8 @@ import {
   JSONSchema,
   JSONSchemaType,
   OnSubmit,
+  makeAjvInstance,
 } from '../../..'
-import { Ajv } from '../../..'
 import type { Props as StringFieldProps } from '../../../Field/String'
 import nbNO from '../../../constants/locales/nb-NO'
 import enGB from '../../../constants/locales/en-GB'
@@ -1142,10 +1142,7 @@ describe('Form.Handler', () => {
       }
 
       render(
-        <Form.Handler
-          schema={schema}
-          ajvInstance={new Ajv({ allErrors: true })}
-        >
+        <Form.Handler schema={schema} ajvInstance={makeAjvInstance()}>
           content
         </Form.Handler>
       )
@@ -1164,10 +1161,7 @@ describe('Form.Handler', () => {
       } as const
 
       render(
-        <Form.Handler
-          schema={schema}
-          ajvInstance={new Ajv({ allErrors: true })}
-        >
+        <Form.Handler schema={schema} ajvInstance={makeAjvInstance()}>
           content
         </Form.Handler>
       )
@@ -1190,10 +1184,7 @@ describe('Form.Handler', () => {
 
       expect(() => {
         render(
-          <Form.Handler
-            schema={schema}
-            ajvInstance={new Ajv({ allErrors: true })}
-          >
+          <Form.Handler schema={schema} ajvInstance={makeAjvInstance()}>
             content
           </Form.Handler>
         )
@@ -1211,10 +1202,7 @@ describe('Form.Handler', () => {
       }
 
       render(
-        <Form.Handler
-          schema={schema}
-          ajvInstance={new Ajv({ allErrors: true })}
-        >
+        <Form.Handler schema={schema} ajvInstance={makeAjvInstance()}>
           content
         </Form.Handler>
       )
@@ -1235,10 +1223,7 @@ describe('Form.Handler', () => {
 
       expect(() => {
         render(
-          <Form.Handler
-            schema={schema}
-            ajvInstance={new Ajv({ allErrors: true })}
-          >
+          <Form.Handler schema={schema} ajvInstance={makeAjvInstance()}>
             content
           </Form.Handler>
         )
@@ -1262,10 +1247,7 @@ describe('Form.Handler', () => {
       }
 
       render(
-        <Form.Handler
-          schema={schema}
-          ajvInstance={new Ajv({ allErrors: true })}
-        >
+        <Form.Handler schema={schema} ajvInstance={makeAjvInstance()}>
           content
         </Form.Handler>
       )

@@ -26,6 +26,7 @@ import {
   Iterate,
   OnSubmitRequest,
   Wizard,
+  makeAjvInstance,
 } from '../../../'
 import { isCI } from 'repo-utils'
 import { Props as StringFieldProps } from '../../../Field/String'
@@ -2629,7 +2630,7 @@ describe('DataContext.Provider', () => {
         render(
           <DataContext.Provider
             schema={schema}
-            ajvInstance={new Ajv({ allErrors: true })}
+            ajvInstance={makeAjvInstance()}
             data={{
               myField: 'invalid',
             }}
@@ -2665,7 +2666,7 @@ describe('DataContext.Provider', () => {
         const { rerender } = render(
           <DataContext.Provider
             schema={schema}
-            ajvInstance={new Ajv({ allErrors: true })}
+            ajvInstance={makeAjvInstance()}
             data={undefined}
           >
             <TestField path="/myKey" />
@@ -2679,7 +2680,7 @@ describe('DataContext.Provider', () => {
         rerender(
           <DataContext.Provider
             schema={schema}
-            ajvInstance={new Ajv({ allErrors: true })}
+            ajvInstance={makeAjvInstance()}
             data={{ myKey: 'correct' }}
           >
             <TestField path="/myKey" />
@@ -2690,7 +2691,7 @@ describe('DataContext.Provider', () => {
         rerender(
           <DataContext.Provider
             schema={schema}
-            ajvInstance={new Ajv({ allErrors: true })}
+            ajvInstance={makeAjvInstance()}
             data={{}}
           >
             <TestField path="/myKey" />
@@ -2704,7 +2705,7 @@ describe('DataContext.Provider', () => {
         rerender(
           <DataContext.Provider
             schema={schema}
-            ajvInstance={new Ajv({ allErrors: true })}
+            ajvInstance={makeAjvInstance()}
             data={{ myKey: 'wrong' }}
           >
             <TestField path="/myKey" />
@@ -2718,7 +2719,7 @@ describe('DataContext.Provider', () => {
         rerender(
           <DataContext.Provider
             schema={schema}
-            ajvInstance={new Ajv({ allErrors: true })}
+            ajvInstance={makeAjvInstance()}
             data={{ myKey: 'correct' }}
           >
             <TestField path="/myKey" />
@@ -2740,7 +2741,7 @@ describe('DataContext.Provider', () => {
         const { rerender } = render(
           <DataContext.Provider
             schema={schema}
-            ajvInstance={new Ajv({ allErrors: true })}
+            ajvInstance={makeAjvInstance()}
             data={{ myKey: 'one' }}
           >
             <TestField path="/myKey" />
@@ -2752,7 +2753,7 @@ describe('DataContext.Provider', () => {
         rerender(
           <DataContext.Provider
             schema={schema}
-            ajvInstance={new Ajv({ allErrors: true })}
+            ajvInstance={makeAjvInstance()}
             data={{ myKey: 'fooooooooo' }}
           >
             <TestField path="/myKey" maxLength={5} />
@@ -2764,7 +2765,7 @@ describe('DataContext.Provider', () => {
         rerender(
           <DataContext.Provider
             schema={schema}
-            ajvInstance={new Ajv({ allErrors: true })}
+            ajvInstance={makeAjvInstance()}
             data={{ myKey: 'fooo' }}
           >
             <TestField path="/myKey" maxLength={5} />
@@ -2776,7 +2777,7 @@ describe('DataContext.Provider', () => {
         rerender(
           <DataContext.Provider
             schema={schema}
-            ajvInstance={new Ajv({ allErrors: true })}
+            ajvInstance={makeAjvInstance()}
             data={{ myKey: 'three' }}
           >
             <TestField path="/myKey" maxLength={1} />
@@ -2788,7 +2789,7 @@ describe('DataContext.Provider', () => {
         rerender(
           <DataContext.Provider
             schema={schema}
-            ajvInstance={new Ajv({ allErrors: true })}
+            ajvInstance={makeAjvInstance()}
             data={{ myKey: 'three' }}
           >
             <TestField path="/myKey" maxLength={5} />
@@ -2811,7 +2812,7 @@ describe('DataContext.Provider', () => {
         render(
           <DataContext.Provider
             schema={schema}
-            ajvInstance={new Ajv({ allErrors: true })}
+            ajvInstance={makeAjvInstance()}
             data={{ val: 'abc' }}
           >
             <TestField
@@ -2842,7 +2843,7 @@ describe('DataContext.Provider', () => {
         render(
           <DataContext.Provider
             schema={schema}
-            ajvInstance={new Ajv({ allErrors: true })}
+            ajvInstance={makeAjvInstance()}
             data={{ val: 'abc' }}
           >
             <TestField path="/val" />
@@ -2870,7 +2871,7 @@ describe('DataContext.Provider', () => {
           <DataContext.Provider
             data={{ foo: 'original' }}
             schema={schema}
-            ajvInstance={new Ajv({ allErrors: true })}
+            ajvInstance={makeAjvInstance()}
           >
             <Field.Number path="/foo" />
             <Form.SubmitButton />
@@ -2889,7 +2890,7 @@ describe('DataContext.Provider', () => {
           <DataContext.Provider
             data={{ foo: 'changed' }}
             schema={schema}
-            ajvInstance={new Ajv({ allErrors: true })}
+            ajvInstance={makeAjvInstance()}
           >
             <Field.Number path="/fooBar" required />
             <Form.SubmitButton />
@@ -2935,7 +2936,7 @@ describe('DataContext.Provider', () => {
         const { rerender } = render(
           <DataContext.Provider
             schema={schema}
-            ajvInstance={new Ajv({ allErrors: true })}
+            ajvInstance={makeAjvInstance()}
           >
             <TestField path="/myField" />
           </DataContext.Provider>
@@ -2946,7 +2947,7 @@ describe('DataContext.Provider', () => {
         rerender(
           <DataContext.Provider
             schema={schema}
-            ajvInstance={new Ajv({ allErrors: true })}
+            ajvInstance={makeAjvInstance()}
           >
             <TestField path="/myField" disabled />
           </DataContext.Provider>
@@ -2974,7 +2975,7 @@ describe('DataContext.Provider', () => {
         const { rerender } = render(
           <DataContext.Provider
             schema={schema}
-            ajvInstance={new Ajv({ allErrors: true })}
+            ajvInstance={makeAjvInstance()}
           >
             <TestField path="/myField" />
           </DataContext.Provider>
@@ -2985,7 +2986,7 @@ describe('DataContext.Provider', () => {
         rerender(
           <DataContext.Provider
             schema={schema}
-            ajvInstance={new Ajv({ allErrors: true })}
+            ajvInstance={makeAjvInstance()}
           >
             <TestField path="/myField" readOnly />
           </DataContext.Provider>
@@ -3160,7 +3161,7 @@ describe('DataContext.Provider', () => {
             data={{ foo: 'original' }}
             onSubmitRequest={onSubmitRequest}
             schema={schema}
-            ajvInstance={new Ajv({ allErrors: true })}
+            ajvInstance={makeAjvInstance()}
           >
             <Field.Number path="/foo" />
             <Form.SubmitButton />
@@ -3183,7 +3184,7 @@ describe('DataContext.Provider', () => {
             data={{ foo: 'changed' }}
             onSubmitRequest={onSubmitRequest}
             schema={schema}
-            ajvInstance={new Ajv({ allErrors: true })}
+            ajvInstance={makeAjvInstance()}
           >
             <Field.Number path="/fooBar" required />
             <Form.SubmitButton />
@@ -3450,7 +3451,7 @@ describe('DataContext.Provider', () => {
       const { rerender } = render(
         <DataContext.Provider
           schema={schema}
-          ajvInstance={new Ajv({ allErrors: true })}
+          ajvInstance={makeAjvInstance()}
           data={validData}
         >
           <Field.String
@@ -3465,7 +3466,7 @@ describe('DataContext.Provider', () => {
       rerender(
         <DataContext.Provider
           schema={schema}
-          ajvInstance={new Ajv({ allErrors: true })}
+          ajvInstance={makeAjvInstance()}
           data={invalidData}
         >
           <Field.String
@@ -3481,7 +3482,7 @@ describe('DataContext.Provider', () => {
       rerender(
         <DataContext.Provider
           schema={schema}
-          ajvInstance={new Ajv({ allErrors: true })}
+          ajvInstance={makeAjvInstance()}
           data={validData}
         >
           <Field.String
@@ -3522,7 +3523,7 @@ describe('DataContext.Provider', () => {
       const { rerender } = render(
         <DataContext.Provider
           schema={schema1}
-          ajvInstance={new Ajv({ allErrors: true })}
+          ajvInstance={makeAjvInstance()}
           defaultData={data}
         >
           <Field.String
@@ -3540,7 +3541,7 @@ describe('DataContext.Provider', () => {
       rerender(
         <DataContext.Provider
           schema={schema2}
-          ajvInstance={new Ajv({ allErrors: true })}
+          ajvInstance={makeAjvInstance()}
           defaultData={data}
         >
           <Field.String
@@ -3556,7 +3557,7 @@ describe('DataContext.Provider', () => {
       rerender(
         <DataContext.Provider
           schema={schema1}
-          ajvInstance={new Ajv({ allErrors: true })}
+          ajvInstance={makeAjvInstance()}
           defaultData={data}
         >
           <Field.String
@@ -3592,7 +3593,7 @@ describe('DataContext.Provider', () => {
       const { rerender } = render(
         <DataContext.Provider
           schema={schema}
-          ajvInstance={new Ajv({ allErrors: true })}
+          ajvInstance={makeAjvInstance()}
           data={validData}
         >
           <Field.String
@@ -3607,7 +3608,7 @@ describe('DataContext.Provider', () => {
       rerender(
         <DataContext.Provider
           schema={schema}
-          ajvInstance={new Ajv({ allErrors: true })}
+          ajvInstance={makeAjvInstance()}
           data={invalidData}
         >
           <Field.String
@@ -3623,7 +3624,7 @@ describe('DataContext.Provider', () => {
       rerender(
         <DataContext.Provider
           schema={schema}
-          ajvInstance={new Ajv({ allErrors: true })}
+          ajvInstance={makeAjvInstance()}
           data={validData}
         >
           <Field.String
@@ -3664,7 +3665,7 @@ describe('DataContext.Provider', () => {
       const { rerender } = render(
         <DataContext.Provider
           schema={schema1}
-          ajvInstance={new Ajv({ allErrors: true })}
+          ajvInstance={makeAjvInstance()}
           defaultData={data}
         >
           <Field.String
@@ -3682,7 +3683,7 @@ describe('DataContext.Provider', () => {
       rerender(
         <DataContext.Provider
           schema={schema2}
-          ajvInstance={new Ajv({ allErrors: true })}
+          ajvInstance={makeAjvInstance()}
           defaultData={data}
         >
           <Field.String
@@ -3698,7 +3699,7 @@ describe('DataContext.Provider', () => {
       rerender(
         <DataContext.Provider
           schema={schema1}
-          ajvInstance={new Ajv({ allErrors: true })}
+          ajvInstance={makeAjvInstance()}
           defaultData={data}
         >
           <Field.String
@@ -3715,10 +3716,12 @@ describe('DataContext.Provider', () => {
     })
 
     it('should accept custom ajv instance', async () => {
-      const ajv = new Ajv({
-        strict: true,
-        allErrors: true,
-      })
+      const ajv = makeAjvInstance(
+        new Ajv({
+          strict: true,
+          allErrors: true,
+        })
+      )
 
       ajv.addKeyword({
         keyword: 'isEven',
@@ -3765,7 +3768,7 @@ describe('DataContext.Provider', () => {
       } as const
 
       const { rerender } = render(
-        <DataContext.Provider ajvInstance={new Ajv({ allErrors: true })}>
+        <DataContext.Provider ajvInstance={makeAjvInstance()}>
           <Field.String
             schema={fieldSchema}
             path="/myKey"
@@ -3793,7 +3796,7 @@ describe('DataContext.Provider', () => {
       rerender(
         <DataContext.Provider
           schema={providerSchema}
-          ajvInstance={new Ajv({ allErrors: true })}
+          ajvInstance={makeAjvInstance()}
         >
           <Field.String path="/myKey" value="" validateInitially />
         </DataContext.Provider>
@@ -3821,7 +3824,7 @@ describe('DataContext.Provider', () => {
       rerender(
         <DataContext.Provider
           schema={providerSharedSchema}
-          ajvInstance={new Ajv({ allErrors: true })}
+          ajvInstance={makeAjvInstance()}
         >
           <Field.String path="/myKey" value="" />
         </DataContext.Provider>
@@ -3845,10 +3848,12 @@ describe('DataContext.Provider', () => {
     })
 
     it('should accept custom ajv instance with custom error messages', () => {
-      const ajv = new Ajv({
-        strict: true,
-        allErrors: true,
-      })
+      const ajv = makeAjvInstance(
+        new Ajv({
+          strict: true,
+          allErrors: true,
+        })
+      )
 
       ajv.addKeyword({
         keyword: 'notEmpty',

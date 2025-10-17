@@ -154,12 +154,14 @@ render(
 **Using JSON Schema (Ajv)**
 
 ```tsx
-import Ajv from 'ajv/dist/2020'
-import { Form, Field, JSONSchema } from '@dnb/eufemia/extensions/forms'
+import {
+  Form,
+  Field,
+  JSONSchema,
+  makeAjvInstance,
+} from '@dnb/eufemia/extensions/forms'
 
-const ajv = new Ajv({
-  allErrors: true,
-})
+const ajv = makeAjvInstance()
 const isolatedSchema: JSONSchema = {
   type: 'object',
   properties: {

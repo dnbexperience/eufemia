@@ -3,12 +3,10 @@ import SharedContext, {
   TranslationFlatToObject,
   TranslationObjectToFlat,
 } from '../../../shared/Context'
-import {
-  combineWithExternalTranslations,
+import sharedUseTranslation, {
   AdditionalReturnUtils,
-  useAdditionalUtils,
 } from '../../../shared/useTranslation'
-import { extendDeep } from '../../../shared/component-helper'
+import { extendDeep, isObject } from '../../../shared/component-helper'
 import { DeepPartial } from '../../../shared/types'
 import { LOCALE } from '../../../shared/defaults'
 import formsLocales from '../constants/locales'
@@ -29,42 +27,73 @@ type CustomLocales = Partial<
   Record<FormsTranslationLocale, FormsTranslation>
 >
 
-export default function useTranslation<T = FormsTranslation>(
+export type UseTranslationArgs<T = FormsTranslation> = {
   messages?:
+    | FormsTranslation
+    | CustomLocales
+    | Record<FormsTranslationLocale, T>
+  fallbackLocale?: FormsTranslationLocale
+}
+
+export default function useTranslation<T = FormsTranslation>(
+  messagesOrArgs?:
+    | UseTranslationArgs<T>
     | FormsTranslation
     | CustomLocales
     | Record<FormsTranslationLocale, T>
 ) {
   const { locale, translation: globalTranslation } =
     useContext(SharedContext)
-  const { assignUtils } = useAdditionalUtils()
 
-  return useMemo<
-    TranslationFlatToObject<T> & AdditionalReturnUtils
-  >(() => {
-    // Handle translation fallback logic
-    let translationLocale = locale
-
-    // If e.g. en-US translations don't exist, fallback to en-GB
+  const { messages, fallbackLocale } = useMemo(() => {
+    const arg = messagesOrArgs as UseTranslationArgs<T>
     if (
-      locale.startsWith('en-') &&
-      !Object.keys(formsLocales).some((l) => l === locale)
+      isObject(messagesOrArgs) &&
+      ('messages' in (messagesOrArgs as Record<string, unknown>) ||
+        'fallbackLocale' in (messagesOrArgs as Record<string, unknown>))
     ) {
-      translationLocale = 'en-GB'
+      return {
+        messages: arg?.messages as
+          | FormsTranslation
+          | CustomLocales
+          | Record<FormsTranslationLocale, T>
+          | undefined,
+        fallbackLocale: arg?.fallbackLocale,
+      }
     }
+    return {
+      messages: messagesOrArgs as
+        | FormsTranslation
+        | CustomLocales
+        | Record<FormsTranslationLocale, T>
+        | undefined,
+      fallbackLocale: LOCALE,
+    }
+  }, [messagesOrArgs])
 
-    const translation = extendDeep(
+  // Resolve forms translation locale
+  let translationLocale = locale
+  if (
+    locale.startsWith('en-') &&
+    !Object.keys(formsLocales).some((l) => l === locale)
+  ) {
+    translationLocale = 'en-GB'
+  }
+
+  const base = useMemo(() => {
+    return extendDeep(
       {},
       formsLocales[translationLocale] || formsLocales[LOCALE],
       globalTranslation
     )
+  }, [globalTranslation, translationLocale])
 
-    return assignUtils(
-      combineWithExternalTranslations({
-        translation,
-        messages,
-        locale,
-      })
-    ) as TranslationFlatToObject<T> & AdditionalReturnUtils
-  }, [assignUtils, globalTranslation, locale, messages])
+  return sharedUseTranslation<
+    TranslationFlatToObject<T> & AdditionalReturnUtils
+  >({
+    messages,
+    fallbackLocale,
+    base,
+    warnLabel: 'Form.useTranslation',
+  }) as TranslationFlatToObject<T> & AdditionalReturnUtils
 }

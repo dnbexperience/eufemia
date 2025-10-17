@@ -352,6 +352,33 @@ describe('Field.DateOfBirth', () => {
         expect(first?.textContent).toBe('Ingen alternativer')
       })
     })
+
+    it('should autofill day and month name when shifting focus after typing single digit', async () => {
+      render(<Field.DateOfBirth />)
+
+      const inputs = document.querySelectorAll('input')
+      const dayInput = inputs[0]
+      const monthInput = inputs[1]
+      const yearInput = inputs[2]
+
+      // Ensure day has a value
+      await userEvent.type(dayInput, '2')
+
+      // Type a single digit in month and focus on the next input with a clicktab
+      await userEvent.click(monthInput)
+      await waitFor(() => {
+        expect(dayInput).toHaveValue('02')
+      })
+
+      // Type a single digit in month and focus on the next input with a clicktab
+      await userEvent.type(monthInput, '2')
+      await userEvent.click(yearInput)
+
+      // Expect month to be changed to the corresponding month name
+      await waitFor(() => {
+        expect(monthInput).toHaveValue('Februar')
+      })
+    })
   })
 
   describe('Year', () => {

@@ -1,13 +1,12 @@
-import ajvInstance, { ErrorObject } from 'ajv/dist/2020'
+import Ajv from 'ajv/dist/2020.js'
 import ajvErrors from 'ajv-errors'
 import pointer, { JsonObject } from './json-pointer'
 import { DefaultErrorMessages, Path } from '../types'
 import { FormError } from './FormError'
-import type Ajv from 'ajv/dist/2020'
+import type { ErrorObject } from 'ajv/dist/2020.js'
 import type { FormsTranslation } from '../hooks/useTranslation'
 
-export type AjvInstance = typeof ajvInstance
-export { ajvInstance, Ajv }
+export { Ajv }
 
 /**
  * Translation table for Ajv error keywords.
@@ -43,27 +42,27 @@ const ajvErrorKeywordsTranslationTable = [
 ]
 
 /**
- * Creates an instance of Ajv (Another JSON Schema Validator) with optional custom instance.
- * If no instance is provided, a new instance of Ajv is created with the specified options.
- * The created Ajv instance is enhanced with custom error handling.
+ * Creates or enhances an Ajv instance.
+ * If no instance is provided, a new one is created with allErrors option enabled.
+ * The ajv-errors plugin is added to the instance if it hasn't been added yet.
+ */
+export function makeAjvInstance(instance?: Ajv): Ajv {
+  return enhanceAjvInstance(instance || new Ajv({ allErrors: true }))
+}
+
+/**
+ * Enhances an Ajv instance by adding the ajv-errors plugin if it hasn't been added yet.
  *
  * @param instance - Optional custom instance of Ajv.
  * @returns The created or provided instance of Ajv.
  */
-export function makeAjvInstance(instance?: Ajv) {
-  const ajv =
-    instance ||
-    new ajvInstance({
-      // If allErrors is off, Ajv only give you the first error it finds
-      allErrors: true,
-    })
-
-  if (!ajv['__ajvErrors__']) {
-    ajvErrors(ajv)
-    ajv['__ajvErrors__'] = true
+export function enhanceAjvInstance(instance?: Ajv): Ajv {
+  if (!instance['__ajvErrors__']) {
+    ajvErrors(instance)
+    instance['__ajvErrors__'] = true
   }
 
-  return ajv
+  return instance
 }
 
 /**

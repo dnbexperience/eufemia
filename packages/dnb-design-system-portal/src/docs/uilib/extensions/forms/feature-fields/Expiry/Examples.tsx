@@ -1,5 +1,5 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
-import { Field } from '@dnb/eufemia/src/extensions/forms'
+import { Field, Form, Tools } from '@dnb/eufemia/src/extensions/forms'
 
 export const Empty = () => {
   return (
@@ -88,6 +88,47 @@ export const ValidationRequired = () => {
         onChange={(expiry) => console.log('onChange', expiry)}
         required
       />
+    </ComponentBox>
+  )
+}
+
+export const TransformInAndOut = () => {
+  return (
+    <ComponentBox>
+      {() => {
+        const transformOut = (internal, additionalArgs) => {
+          const { year, month } = additionalArgs
+          return { year, month }
+        }
+
+        const transformIn = (external) => {
+          if (external) {
+            const { year, month } = external
+            return { year, month }
+          }
+        }
+
+        return (
+          <Form.Handler
+            defaultData={{
+              myField: {
+                year: '35',
+                month: '08',
+              },
+            }}
+          >
+            <Form.Card>
+              <Field.Expiry
+                path="/myField"
+                transformOut={transformOut}
+                transformIn={transformIn}
+                label="Transform in and out"
+              />
+              <Tools.Log />
+            </Form.Card>
+          </Form.Handler>
+        )
+      }}
     </ComponentBox>
   )
 }

@@ -47,7 +47,7 @@ export const ProviderProperties: PropertiesTableProps = {
     status: 'optional',
   },
   ajvInstance: {
-    doc: 'REQUIRED when using JSON Schema validation. Provide your own custom Ajv instance: import Ajv from "@dnb/eufemia/extensions/forms" and pass ajvInstance={new Ajv({ allErrors: true })}. This ensures your bundle only includes AJV when you actually need it. More info in the [Schema validation](/uilib/extensions/forms/Form/schema-validation/#custom-ajv-instance-and-keywords) section.',
+    doc: 'REQUIRED when using JSON Schema validation. Provide your own custom Ajv instance: import Ajv from "@dnb/eufemia/extensions/forms" and pass ajvInstance={makeAjvInstance()}. This ensures your bundle only includes AJV when you actually need it. More info in the [Schema validation](/uilib/extensions/forms/Form/schema-validation/#custom-ajv-instance-and-keywords) section.',
     type: 'ajv',
     status: 'optional',
   },

@@ -111,7 +111,7 @@ export type NumberFormatAllProps = NumberFormatProps &
   Omit<React.HTMLProps<HTMLElement>, 'prefix' | 'label' | 'placeholder'> &
   any
 
-export default class NumberFormat extends React.PureComponent {
+export default class NumberFormat extends React.PureComponent<NumberFormatAllProps> {
   static contextType = Context
 
   static propTypes = {

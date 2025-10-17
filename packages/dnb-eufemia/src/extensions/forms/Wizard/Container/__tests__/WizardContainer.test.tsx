@@ -11,8 +11,8 @@ import {
   OnSubmit,
   OnSubmitRequest,
   Wizard,
+  makeAjvInstance,
 } from '../../..'
-import { Ajv } from '../../..'
 import WizardContext from '../../Context'
 
 import nbNO from '../../../constants/locales/nb-NO'
@@ -2683,10 +2683,7 @@ describe('Wizard.Container', () => {
     } as const
 
     render(
-      <Form.Handler
-        schema={schema}
-        ajvInstance={new Ajv({ allErrors: true })}
-      >
+      <Form.Handler schema={schema} ajvInstance={makeAjvInstance()}>
         <Wizard.Container>
           <Wizard.Step title="Step 1">
             <output>Step 1</output>
@@ -3405,7 +3402,7 @@ describe('Wizard.Container', () => {
       render(
         <Form.Handler
           schema={schema}
-          ajvInstance={new Ajv({ allErrors: true })}
+          ajvInstance={makeAjvInstance()}
           onSubmit={onSubmit}
         >
           <Wizard.Container initialActiveIndex={1}>
@@ -5322,7 +5319,7 @@ describe('Wizard.Container', () => {
               },
             },
           }}
-          ajvInstance={new Ajv({ allErrors: true })}
+          ajvInstance={makeAjvInstance()}
         >
           <Wizard.Container expandedInitially>
             <Wizard.Step title="Step 1">

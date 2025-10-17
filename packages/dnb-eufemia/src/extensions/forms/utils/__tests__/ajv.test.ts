@@ -1,10 +1,12 @@
-import Ajv, { ErrorObject } from 'ajv/dist/2020'
+import type { ErrorObject } from 'ajv/dist/2020.js'
 import { FormError } from '../FormError'
 import { DefaultErrorMessages } from '../../types'
 import { FormsTranslation } from '../../hooks/useTranslation'
 import { AdditionalReturnUtils } from '../../../../shared/useTranslation'
 import {
+  Ajv,
   makeAjvInstance,
+  enhanceAjvInstance,
   getInstancePath,
   getValidationRule,
   getMessageValues,
@@ -33,6 +35,36 @@ describe('makeAjvInstance', () => {
 
     expect(ajvInstance).toBeDefined()
     expect(ajvInstance).toBeInstanceOf(Ajv)
+  })
+})
+
+describe('enhanceAjvInstance', () => {
+  it('should enhance an existing Ajv instance with ajv-errors plugin', () => {
+    const ajv = new Ajv({
+      allErrors: true,
+    })
+
+    const ajvInstance = enhanceAjvInstance(ajv)
+
+    expect(ajvInstance).toBeDefined()
+    expect(ajvInstance).toBeInstanceOf(Ajv)
+    expect(ajvInstance).toBe(ajv) // Should return the same instance
+    expect(ajvInstance['__ajvErrors__']).toBe(true) // Should be enhanced
+  })
+
+  it('should not re-enhance an already enhanced Ajv instance', () => {
+    const ajv = new Ajv({
+      allErrors: true,
+    })
+
+    // First enhancement
+    const ajvInstance1 = enhanceAjvInstance(ajv)
+    expect(ajvInstance1['__ajvErrors__']).toBe(true)
+
+    // Second enhancement should not cause issues
+    const ajvInstance2 = enhanceAjvInstance(ajv)
+    expect(ajvInstance2).toBe(ajv)
+    expect(ajvInstance2['__ajvErrors__']).toBe(true)
   })
 })
 

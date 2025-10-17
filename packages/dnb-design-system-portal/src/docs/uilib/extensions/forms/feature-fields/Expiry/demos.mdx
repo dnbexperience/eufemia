@@ -53,3 +53,12 @@ import enUS from '@dnb/eufemia/shared/locales/en-US'
 ### Validation - Required
 
 <Examples.ValidationRequired />
+
+### Transform in and out
+
+This example demonstrates how to transform data when it enters and leaves the form field.
+
+You can use the `transformIn` property to modify the incoming data before it is displayed in the field, and the `transformOut` property to adjust the data before it is submitted or processed.
+When `transformIn` one can either return a simple value `"0835"` or an object `{ month:"08", year:"35" }`.
+
+<Examples.TransformInAndOut />

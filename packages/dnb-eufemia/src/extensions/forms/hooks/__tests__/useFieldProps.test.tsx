@@ -27,7 +27,7 @@ import Field, {
   SubmitState,
   UseFieldProps,
   Wizard,
-  Ajv,
+  makeAjvInstance,
 } from '../../Forms'
 import SectionContext, {
   SectionContextState,
@@ -358,11 +358,17 @@ describe('useFieldProps', () => {
         pattern: '^(valid)$',
       }
 
-      const { result } = renderHook(() =>
-        useFieldProps({
-          value: 'valid',
-          schema,
-        })
+      const { result } = renderHook(
+        () =>
+          useFieldProps({
+            value: 'valid',
+            schema,
+          }),
+        {
+          wrapper: ({ children }) => (
+            <Provider ajvInstance={makeAjvInstance()}>{children}</Provider>
+          ),
+        }
       )
 
       const { handleChange, handleFocus } = result.current
@@ -396,11 +402,17 @@ describe('useFieldProps', () => {
         type: 'number',
       }
 
-      const { result } = renderHook(() =>
-        useFieldProps({
-          value: '',
-          schema,
-        })
+      const { result } = renderHook(
+        () =>
+          useFieldProps({
+            value: '',
+            schema,
+          }),
+        {
+          wrapper: ({ children }) => (
+            <Provider ajvInstance={makeAjvInstance()}>{children}</Provider>
+          ),
+        }
       )
 
       await waitFor(() => {
@@ -447,6 +459,9 @@ describe('useFieldProps', () => {
           value: 'invalid',
           schema,
         },
+        wrapper: ({ children }) => (
+          <Provider ajvInstance={makeAjvInstance()}>{children}</Provider>
+        ),
       })
 
       const { handleChange } = result.current
@@ -542,6 +557,9 @@ describe('useFieldProps', () => {
 
       const { result } = renderHook(useFieldProps, {
         initialProps,
+        wrapper: ({ children }) => (
+          <Provider ajvInstance={makeAjvInstance()}>{children}</Provider>
+        ),
       })
 
       // Try onBlurValidator
@@ -2118,7 +2136,7 @@ describe('useFieldProps', () => {
             }),
           {
             wrapper: ({ children }) => {
-              const ajv = new Ajv({ allErrors: true })
+              const ajv = makeAjvInstance()
               return (
                 <Provider schema={schema} ajvInstance={ajv}>
                   {children}
@@ -2157,7 +2175,7 @@ describe('useFieldProps', () => {
             }),
           {
             wrapper: ({ children }) => {
-              const ajv = new Ajv({ allErrors: true })
+              const ajv = makeAjvInstance()
               return (
                 <Provider schema={schema} ajvInstance={ajv}>
                   {children}
@@ -4471,10 +4489,12 @@ describe('useFieldProps', () => {
         }
 
         render(
-          <Field.String
-            schema={schema}
-            onChangeValidator={onChangeValidator}
-          />
+          <Provider ajvInstance={makeAjvInstance()}>
+            <Field.String
+              schema={schema}
+              onChangeValidator={onChangeValidator}
+            />
+          </Provider>
         )
 
         const input = document.querySelector('input')
@@ -6962,6 +6982,9 @@ describe('useFieldProps', () => {
           onBlurValidator,
           schema,
         },
+        wrapper: ({ children }) => (
+          <Provider ajvInstance={makeAjvInstance()}>{children}</Provider>
+        ),
       })
 
       expect(result.current.error).toBeUndefined()
@@ -7958,10 +7981,7 @@ describe('Zod schema support', () => {
 
     const wrapper = ({ children }) => (
       <SectionContext.Provider value={{ path: '', errorPrioritization }}>
-        <Provider
-          schema={jsonSchema}
-          ajvInstance={new Ajv({ allErrors: true })}
-        >
+        <Provider schema={jsonSchema} ajvInstance={makeAjvInstance()}>
           {children}
         </Provider>
       </SectionContext.Provider>
@@ -8059,10 +8079,7 @@ describe('Zod schema support', () => {
           errorPrioritization: ['contextSchema', 'fieldSchema'],
         }}
       >
-        <Provider
-          schema={jsonSchema}
-          ajvInstance={new Ajv({ allErrors: true })}
-        >
+        <Provider schema={jsonSchema} ajvInstance={makeAjvInstance()}>
           {children}
         </Provider>
       </SectionContext.Provider>
@@ -8126,10 +8143,7 @@ describe('Zod schema support', () => {
 
     const wrapper = ({ children }) => (
       <SectionContext.Provider value={{ path: '', errorPrioritization }}>
-        <Provider
-          schema={mockZodSchema}
-          ajvInstance={new Ajv({ allErrors: true })}
-        >
+        <Provider schema={mockZodSchema} ajvInstance={makeAjvInstance()}>
           {children}
         </Provider>
       </SectionContext.Provider>
@@ -8161,10 +8175,7 @@ describe('Zod schema support', () => {
     // Context Zod schema succeeds (mocked in beforeEach)
     const wrapper = ({ children }) => (
       <SectionContext.Provider value={{ path: '', errorPrioritization }}>
-        <Provider
-          schema={mockZodSchema}
-          ajvInstance={new Ajv({ allErrors: true })}
-        >
+        <Provider schema={mockZodSchema} ajvInstance={makeAjvInstance()}>
           {children}
         </Provider>
       </SectionContext.Provider>
@@ -8205,10 +8216,7 @@ describe('Zod schema support', () => {
     // Context Zod schema succeeds (mocked in beforeEach)
     const wrapper = ({ children }) => (
       <SectionContext.Provider value={{ path: '', errorPrioritization }}>
-        <Provider
-          schema={mockZodSchema}
-          ajvInstance={new Ajv({ allErrors: true })}
-        >
+        <Provider schema={mockZodSchema} ajvInstance={makeAjvInstance()}>
           {children}
         </Provider>
       </SectionContext.Provider>

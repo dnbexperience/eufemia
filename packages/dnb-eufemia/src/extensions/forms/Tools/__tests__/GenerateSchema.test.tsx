@@ -1,6 +1,6 @@
 import React from 'react'
 import { render } from '@testing-library/react'
-import { Ajv, Field, Form, Value, Tools } from '../../'
+import { Field, Form, Value, Tools, makeAjvInstance } from '../../'
 import { GenerateRef } from '../GenerateSchema'
 
 describe('Tools.GenerateSchema', () => {
@@ -541,7 +541,7 @@ describe('Tools.GenerateSchema', () => {
       }
     `)
 
-    const ajv = new Ajv()
+    const ajv = makeAjvInstance()
     const validate = ajv.compile(schema)
     const valid = validate(data)
 
