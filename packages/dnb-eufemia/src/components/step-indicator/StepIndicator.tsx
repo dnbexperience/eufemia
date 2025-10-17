@@ -66,11 +66,6 @@ export type StepIndicatorProps = Omit<
 > &
   SpacingProps & {
     /**
-     * <em>(required with `<StepIndicator.Sidebar />`)</em> a unique string-based ID in order to bind together the main component and the sidebar (`<StepIndicator.Sidebar />`). Both have to get the same ID.
-     * @deprecated StepIndicator.Sidebar variant is no longer supported
-     */
-    sidebar_id?: string
-    /**
      * <em>(required)</em> defines how the StepIndicator should work. Use `static` for non-interactive steps. Use `strict` for a chronological step order, also, the user can navigate between visited steps. Use `loose` if the user should be able to navigate freely.
      */
     mode: StepIndicatorMode
@@ -165,8 +160,8 @@ export type StepIndicatorProps = Omit<
 
 function handleDeprecatedProps(
   props: StepIndicatorProps
-): Omit<StepIndicatorProps, 'sidebar_id' | 'step_title_extended'> {
-  const { sidebar_id, step_title_extended, ...rest } = props
+): Omit<StepIndicatorProps, 'step_title_extended'> {
+  const { step_title_extended, ...rest } = props
   return rest
 }
 
