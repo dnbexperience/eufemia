@@ -86,15 +86,6 @@ export type StepIndicatorProps = Omit<
      */
     step_title?: string
     /**
-     *  A descriptive label used in `<StepIndicatorModal />`
-     *  This value need to contain `%step` and `%count` if you want to display the current step and total amount of steps
-     * `%step` is used to place the current step into the text
-     * `%count` is used to place the step total into the text
-     *  Defaults to `You are on step %step of %count`
-     * @deprecated only `step_title`is used
-     */
-    step_title_extended?: string
-    /**
      * Defines the active number marked step starting by 0. Defaults to `0`.
      */
     current_step?: number
@@ -146,13 +137,6 @@ export type StepIndicatorProps = Omit<
     children?: React.ReactNode
   }
 
-function handleDeprecatedProps(
-  props: StepIndicatorProps
-): Omit<StepIndicatorProps, 'step_title_extended'> {
-  const { step_title_extended, ...rest } = props
-  return rest
-}
-
 function StepIndicator({
   status,
   status_state = 'warn',
@@ -164,7 +148,7 @@ function StepIndicator({
   expandedInitially = stepIndicatorDefaultProps.expandedInitially,
   ...restOfProps
 }: StepIndicatorProps) {
-  const { outset, ...props } = handleDeprecatedProps({
+  const { outset, ...props } = {
     data,
     skeleton,
     current_step,
@@ -172,7 +156,7 @@ function StepIndicator({
     no_animation,
     expandedInitially,
     ...restOfProps,
-  })
+  }
 
   return (
     <StepIndicatorProvider {...props}>
