@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { isValidElement, useMemo } from 'react'
 import { useItem } from '../hooks'
 import { convertJsxToString } from '../../../../shared/component-helper'
 
@@ -16,19 +16,44 @@ function ItemNo({ children }) {
 export function replaceItemNo(
   children: React.ReactNode,
   index: number
-): string | React.ReactNode {
-  const text =
-    typeof children !== 'string' ? convertJsxToString(children) : children
+): React.ReactNode {
+  const tokenRegex = /\{itemN(r|o)\}/g // supports {itemNr} (deprecated) and {itemNo}
 
-  if (text.includes('{itemN')) {
-    /**
-     * {itemNr} is deprecated, and can be removed in v11 in favor of {itemNo}
-     * So in v11 we can use '{itemNo}' instead of a regex
-     */
-    return text.replace(/\{itemN(r|o)\}/g, String(index + 1))
+  const replaceIn = (node: React.ReactNode): React.ReactNode => {
+    if (node == null || node === false) return node
+
+    if (typeof node === 'string') {
+      // Fast path for strings
+      return tokenRegex.test(node)
+        ? node.replace(tokenRegex, String(index + 1))
+        : node
+    }
+
+    if (Array.isArray(node)) {
+      return node.map((n, i) => (
+        <React.Fragment key={i}>{replaceIn(n)}</React.Fragment>
+      ))
+    }
+
+    if (isValidElement(node)) {
+      // Recursively process children while preserving element and props
+      const { children: childProps, ...rest } = (node as any).props || {}
+      const nextChildren = replaceIn(childProps)
+      // Only clone if children changed (optional optimization)
+      return nextChildren === childProps
+        ? node
+        : React.cloneElement(node as any, rest, nextChildren)
+    }
+
+    // Fallback: try to convert to string if possible
+    const text = convertJsxToString(node)
+    if (text && text.includes('{itemN')) {
+      return text.replace(tokenRegex, String(index + 1))
+    }
+    return node
   }
 
-  return children
+  return replaceIn(children)
 }
 
 ItemNo._supportsSpacingProps = false

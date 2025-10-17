@@ -2,11 +2,12 @@ import React, { useMemo } from 'react'
 import { useItem } from '../hooks'
 import { useTranslation } from '../../hooks'
 import { convertJsxToString } from '../../../../shared/component-helper'
+import { replaceItemNo } from './ItemNo'
 
 export function useIterateItemNo({
   label: labelProp,
-  labelSuffix,
-  required,
+  labelSuffix = undefined,
+  required = undefined,
 }) {
   const { index: iterateIndex } = useItem() || {}
 
@@ -25,10 +26,7 @@ export function useIterateItemNo({
     let content = labelProp
 
     if (iterateIndex !== undefined) {
-      content = convertJsxToString(labelProp).replace(
-        '{itemNo}',
-        String(iterateIndex + 1)
-      )
+      content = replaceItemNo(labelProp, iterateIndex)
     }
 
     if (labelSuffixText) {
