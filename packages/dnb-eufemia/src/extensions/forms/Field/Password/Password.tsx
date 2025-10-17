@@ -9,6 +9,7 @@ import React, {
 import classnames from 'classnames'
 import SharedContext from '../../../../shared/Context'
 import StringField, { Props as StringFieldProps } from '../String'
+import useId from '../../../../shared/helpers/useId'
 
 import { InputProps, SubmitButton } from '../../../../components/Input'
 import IconView from '../../../../icons/view'
@@ -52,6 +53,8 @@ function Password({
   size,
   ...externalProps
 }: PasswordProps) {
+  const idToUse = id || useId()
+
   // Object freeze used to prevent mutation of show_password and hide_password props. Freeze and convertToSnakeCase can be removed in v11.
   const props = convertSnakeCaseProps(Object.freeze(externalProps))
 
@@ -87,10 +90,10 @@ function Password({
   const ToggleVisibilityButton = useCallback(() => {
     return (
       <SubmitButton
-        id={id + '-submit-button'}
+        id={idToUse + '-submit-button'}
         type="button"
         variant="secondary"
-        aria-controls={id}
+        aria-controls={idToUse}
         aria-label={
           hidden ? translations.ariaLabelShow : translations.ariaLabelHide
         }
@@ -109,7 +112,7 @@ function Password({
       />
     )
   }, [
-    id,
+    idToUse,
     hidden,
     sharedContext.skeleton,
     disabled,
@@ -119,13 +122,13 @@ function Password({
 
   return (
     <StringField
-      id={id}
+      id={idToUse}
       className={classnames('dnb-forms-field-password', className)}
       label={label ?? translations.label}
       type={hidden ? 'password' : 'text'}
       value={value}
       innerRef={ref}
-      aria-describedby={id + '-submit-button'}
+      aria-describedby={idToUse + '-submit-button'}
       submitElement={<ToggleVisibilityButton />}
       disabled={disabled}
       size={size}
