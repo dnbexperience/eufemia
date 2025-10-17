@@ -58,7 +58,6 @@ function ProgressIndicator(
     noAnimation = false,
     onComplete,
     label,
-    children,
     indicator_label,
     labelDirection = 'horizontal',
     showDefaultLabel = false,
@@ -91,7 +90,7 @@ function ProgressIndicator(
       : undefined
 
   const indicatorLabel =
-    label || children || (isTrue(showDefaultLabel) && indicator_label)
+    label || (isTrue(showDefaultLabel) && indicator_label)
   const progressTitle = title || formatProgress(progressNumber)
 
   useEffect(() => {
