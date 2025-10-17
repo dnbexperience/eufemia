@@ -530,10 +530,7 @@ class Modal extends React.PureComponent<
               className={classnames(
                 'dnb-modal__trigger',
                 createSpacingClasses(rest as SpacingProps),
-                triggerAttributes.className,
-
-                // @deprecated – can be removed in v11
-                triggerAttributes.class
+                triggerAttributes.className
               )}
             />
           )}
