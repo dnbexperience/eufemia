@@ -59,7 +59,7 @@ export const ChildrenWithAgeWizard = (props) => {
             },
           }
 
-          const { summaryTitle } = Form.useLocale().Step
+          const { summaryTitle } = Form.useTranslation().Step
           return (
             <Form.Handler
               onSubmit={(data, { reduceToVisibleFields }) => {
