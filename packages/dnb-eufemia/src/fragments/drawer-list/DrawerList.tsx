@@ -43,8 +43,6 @@ const propsToFilterOut = {
   options_render: null,
   wrapper_element: null,
 }
-/** @deprecated use `DrawerListDataArrayItem` */
-export type DrawerListDataObjectUnion = DrawerListDataArrayItem
 
 export type DrawerListContent =
   | string
