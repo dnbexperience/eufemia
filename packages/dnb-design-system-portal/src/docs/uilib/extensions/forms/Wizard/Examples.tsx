@@ -13,11 +13,7 @@ export const IntroExample = () => {
 
           return (
             <Form.Handler>
-              <Wizard.Container
-                id="my-wizard"
-                variant="drawer"
-                omitScrollManagement
-              >
+              <Wizard.Container id="my-wizard" omitScrollManagement>
                 <Wizard.Step title="Step 1">
                   <Form.MainHeading>Heading</Form.MainHeading>
                   <Form.Card>
