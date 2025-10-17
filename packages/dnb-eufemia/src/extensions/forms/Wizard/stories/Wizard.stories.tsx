@@ -201,7 +201,6 @@ export function AsyncStepChange() {
         onStepChange={onStepChange}
         id="unique-wizard"
         mode="loose"
-        // variant="drawer"
       >
         <Wizard.Step title="Step 1">
           <Form.Card>
