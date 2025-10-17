@@ -494,9 +494,6 @@ button.dnb-button::-moz-focus-inner {
   --padding-top: 0;
   --padding-bottom: 0;
 }
-.dnb-step-indicator__sidebar {
-  display: none;
-}
 .dnb-step-indicator__list {
   padding: 0;
   margin: 0;
