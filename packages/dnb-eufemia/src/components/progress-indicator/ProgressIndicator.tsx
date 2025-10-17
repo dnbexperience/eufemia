@@ -18,7 +18,6 @@ import {
   dispatchCustomElementEvent,
   extendPropsWithContext,
 } from '../../shared/component-helper'
-import { convertSnakeCaseProps } from '../../shared/helpers/withSnakeCaseProps'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import ProgressIndicatorCircular from './ProgressIndicatorCircular'
 import ProgressIndicatorLinear from './ProgressIndicatorLinear'
@@ -31,20 +30,8 @@ import {
   CustomSize,
 } from './types'
 
-// deprecated, can be removed in v11
-export type DeprecatedProgressIndicatorProps = {
-  /** @deprecated use `labelDirection`. */
-  label_direction?: string
-}
-
-function ProgressIndicator(
-  props: ProgressIndicatorAllProps & DeprecatedProgressIndicatorProps
-) {
-  const undeprecatedProps = handleDeprecatedBehavior(props)
-  const allProps = updatePropsWithContext(
-    undeprecatedProps,
-    useContext(Context)
-  )
+function ProgressIndicator(props: ProgressIndicatorAllProps) {
+  const allProps = updatePropsWithContext(props, useContext(Context))
 
   const {
     type = 'circular',
@@ -180,25 +167,6 @@ function updatePropsWithContext(
     localPropsFromContext,
     componentPropsFromContext
   )
-}
-
-/**
- * Support deprecated behavior by mutating the props.
- */
-function handleDeprecatedBehavior(
-  oldProps: ProgressIndicatorAllProps & DeprecatedProgressIndicatorProps
-): ProgressIndicatorAllProps {
-  // Rename deprecated props
-  // And indicator_label should still be snake case
-  const { indicator_label, ...propsToConvertToCamelCase } = oldProps
-
-  // Merge deprecated props with new names (will not overwrite)
-  return {
-    indicator_label,
-    ...convertSnakeCaseProps(propsToConvertToCamelCase, {
-      overrideExistingValue: false,
-    }),
-  }
 }
 
 function formatProgress(progress) {
