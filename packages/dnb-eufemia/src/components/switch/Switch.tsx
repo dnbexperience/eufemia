@@ -137,8 +137,6 @@ type DeprecatedSwitchProps = {
   label_position?: SwitchLabelPosition
   /**  @deprecated use `labelSrOnly` */
   label_sr_only?: boolean
-  /**  @deprecated use `onChange` */
-  on_change?: SwitchOnChange
   /**  @deprecated use `statusNoAnimation` */
   status_no_animation?: boolean
 }
