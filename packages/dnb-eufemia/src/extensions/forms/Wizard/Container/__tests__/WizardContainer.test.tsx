@@ -277,7 +277,7 @@ describe('Wizard.Container', () => {
     )
 
     const Summary = () => {
-      const { summaryTitle } = Form.useLocale().Step
+      const { summaryTitle } = Form.useTranslation().Step
       return (
         <Wizard.Step title={summaryTitle}>
           <output>Summary</output>
@@ -441,7 +441,7 @@ describe('Wizard.Container', () => {
       )
 
       const Summary = () => {
-        const { summaryTitle } = Form.useLocale().Step
+        const { summaryTitle } = Form.useTranslation().Step
         return (
           <Wizard.Step title={summaryTitle}>
             <output>Summary</output>
@@ -524,7 +524,7 @@ describe('Wizard.Container', () => {
       )
 
       const Summary = () => {
-        const { summaryTitle } = Form.useLocale().Step
+        const { summaryTitle } = Form.useTranslation().Step
         return (
           <Wizard.Step title={summaryTitle}>
             <output>Summary</output>
