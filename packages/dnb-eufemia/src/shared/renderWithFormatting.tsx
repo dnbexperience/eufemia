@@ -90,7 +90,7 @@ function withFormatting(
     <Fragment key={`i-${k()}`}>{em(m[1])}</Fragment>,
   ])
 
-  return <>{nodes}</>
+  return <Fragment key="renderWithFormatting">{nodes}</Fragment>
 }
 
 function replaceInStrings(
