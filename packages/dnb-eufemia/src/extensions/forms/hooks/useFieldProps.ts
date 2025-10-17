@@ -146,9 +146,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     schema,
     validateInitially,
     validateUnchanged,
-    // Deprecated – can be removed in v11
-    continuousValidation,
-    validateContinuously = continuousValidation,
+    validateContinuously,
     transformIn = (external: unknown) => external as Value,
     transformOut = (internal: Value) => internal,
     toInput = (value: Value) => value,
