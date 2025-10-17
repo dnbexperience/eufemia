@@ -55,7 +55,7 @@ export default StepIndicatorContext
 
 export type StepIndicatorProviderProps = Omit<
   StepIndicatorProps,
-  'mode' | 'data' | 'sidebar_id' | 'step_title_extended'
+  'mode' | 'data' | 'step_title_extended'
 > & {
   /**
    * <em>(required)</em> defines the data/steps showing up in a JavaScript Array or JSON format like `[{title,is_current}]`. See parameters and the example above.

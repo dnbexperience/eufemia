@@ -73,11 +73,6 @@ export type Props = ComponentProps & {
   onStepChange?: OnStepChange
 
   /**
-   * @deprecated there is no longer a sidebar. This prop does nothing.
-   */
-  sidebarId?: string
-
-  /**
    * If set to `true`, the wizard will not animate the steps.
    */
   noAnimation?: boolean
@@ -110,11 +105,6 @@ export type Props = ComponentProps & {
   children: React.ReactNode
 }
 
-function handleDeprecatedProps(props: Props): Omit<Props, 'sidebarId'> {
-  const { sidebarId, ...rest } = props
-  return rest
-}
-
 function WizardContainer(props: Props) {
   const {
     className,
@@ -132,7 +122,7 @@ function WizardContainer(props: Props) {
     validationMode,
     outset = true,
     ...rest
-  } = handleDeprecatedProps(props)
+  } = props
 
   const dataContext = useContext(DataContext)
   const {

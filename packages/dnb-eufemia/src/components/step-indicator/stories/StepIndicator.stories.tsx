@@ -39,7 +39,6 @@ export function RenderDuringSSR() {
         <StepIndicator
           // skeleton
           id="main"
-          sidebar_id="unique-id-strict"
           // mode="strict"
           mode="loose"
           data={data}
@@ -104,7 +103,6 @@ const InteractiveDemo = () => {
     <div style={{ display: 'flex' }}>
       <Space stretch>
         <StepIndicator
-          sidebar_id="unique-id-loose"
           mode="loose"
           current_step={step}
           on_change={({ current_step }) => {
@@ -175,7 +173,6 @@ export const StepIndicatorSandbox = () => {
         <StepIndicator
           // skeleton
           top="large"
-          sidebar_id="unique-step-indicator"
           // hide_numbers
           // mode="static"
           // mode="strict"
@@ -202,7 +199,6 @@ export const StepIndicatorSandbox = () => {
         <StepIndicator
           // skeleton
           top="large"
-          sidebar_id="second-unique-step-indicator"
           // mode="static"
           mode="strict"
           current_step={current_step}
@@ -245,8 +241,6 @@ const stepIndicatorListData = [
 export const CurrentStepPropChange = () => {
   const [current_step, setCurrentStep] = React.useState(1)
 
-  const id = 'prop-step-test'
-
   function stepOn() {
     if (current_step === stepIndicatorListData.length - 1) {
       return setCurrentStep(0)
@@ -266,7 +260,6 @@ export const CurrentStepPropChange = () => {
         <StepIndicator
           current_step={current_step}
           mode="loose"
-          sidebar_id={id}
           data={stepIndicatorListData}
         />
       </Box>
@@ -275,14 +268,11 @@ export const CurrentStepPropChange = () => {
 }
 
 export const OnlyOneCurrent = () => {
-  const id = 'only-one-current'
-
   return (
     <Wrapper>
       <Box>
         <StepIndicator
           mode="loose"
-          sidebar_id={id}
           data={[
             {
               title: 'Step A',
@@ -302,8 +292,6 @@ export const OnlyOneCurrent = () => {
 }
 
 export const EventTests = () => {
-  const id = 'data-test'
-
   const data: StepIndicatorDataItem[] = [
     {
       title: 'Step A',
@@ -330,7 +318,6 @@ export const EventTests = () => {
           }}
           on_change={(event) => console.log('On Change', event)}
           mode="loose"
-          sidebar_id={id}
           data={data}
         />
       </Box>
@@ -361,7 +348,6 @@ export const TitleTests = () => {
           step_title="Custom Step Title"
           step_title_extended="Custom Step Title Extended"
           top="large"
-          sidebar_id="second-title-test"
           mode="loose"
           current_step={current_step}
           data={data}
