@@ -32,10 +32,6 @@
   &--light {
     --hr-thickness: 0.5px;
   }
-  // @deprecated
-  &--medium {
-    --hr-thickness: 1.5px;
-  }
 
   .dnb-spacing & {
     @include ui-spacing.defaultSpacing();
