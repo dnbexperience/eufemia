@@ -103,28 +103,6 @@ describe('Section component', () => {
     ).toContain('dnb-section--divider')
   })
 
-  it('should have correct spacing', () => {
-    const hasSpacing = () =>
-      Array.from(document.querySelector('section.dnb-section').classList)
-        .filter((className) => className.includes('dnb-section--spacing'))
-        .join('')
-
-    const { rerender } = render(<Section />)
-    expect(hasSpacing()).toBe('')
-
-    rerender(<Section spacing="large" />)
-    expect(hasSpacing()).toBe('dnb-section--spacing-large')
-
-    rerender(<Section spacing="medium" />)
-    expect(hasSpacing()).toBe('dnb-section--spacing-medium')
-
-    rerender(<Section spacing="small" />)
-    expect(hasSpacing()).toBe('dnb-section--spacing-small')
-
-    rerender(<Section spacing />)
-    expect(hasSpacing()).toBe('dnb-section--spacing-large')
-  })
-
   it('should have a div as the element tag', () => {
     render(<Section element="div" />)
     expect(document.querySelector('div.dnb-section')).toBeInTheDocument()
