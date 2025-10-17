@@ -776,7 +776,6 @@ describe('Dropdown component', () => {
       data: {
         content: 'Norsk',
         selectedKey: 'nb-NO',
-        selected_key: 'nb-NO',
         type: 'object',
         value: 'nb-NO',
       },
