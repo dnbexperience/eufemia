@@ -65,8 +65,6 @@ export type DrawerListDataArrayObjectStrict = {
   style?: React.CSSProperties
   /** classname added to the html list item */
   class_name?: string
-  /** set to true to disable mouse events selected style. Keyboard can still select @deprecated */
-  ignore_events?: boolean
   /** internal use only */
   render?: (children: React.ReactNode, id: string) => React.ReactNode
 }
@@ -217,10 +215,6 @@ export interface DrawerListProps {
   data?: DrawerListData
   groups?: DrawerListGroupTitles
   prepared_data?: any[]
-  /**
-   * If set to `true`, all keyboard and mouse events will be ignored.
-   */
-  ignore_events?: boolean
   className?: string
   /** Accepts the same values as the `data` prop. Will be ignored if `data` is used. Can also accept a single child for custom rendering. */
   children?: DrawerListData | React.ReactElement
@@ -378,7 +372,6 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
       is_popup,
       portal_class,
       list_class,
-      ignore_events,
       options_render,
       className,
       cache_hash: _cache_hash, // eslint-disable-line
@@ -524,8 +517,6 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
       validateDOMAttributes(null, attributes)
     )
 
-    const ignoreEvents = isTrue(ignore_events)
-
     const GroupItems = () =>
       renderData
         .filter(Boolean) // filter out empty groups
@@ -550,26 +541,14 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
                   tagId === closestToBottom && 'closest-to-bottom',
                   i === 0 && 'first-of-type', // because of the triangle element
                   i === data.length - 1 && 'last-of-type', // because of the triangle element
-                  ignoreEvents ||
-                    (dataItem.ignore_events && 'ignore-events'),
                   dataItem.class_name
                 ),
                 active: _id == active_item,
-                selected: !dataItem.ignore_events && _id == selected_item,
+                selected: _id == selected_item,
                 onClick: this.selectItemHandler,
                 onKeyDown: this.preventTab,
                 disabled: dataItem.disabled,
                 style: dataItem.style,
-              }
-              if (ignoreEvents) {
-                liParams.active = null
-                liParams.selected = null
-                liParams.onClick = null
-                liParams.onKeyDown = null
-                liParams.className = classnames(
-                  liParams.className,
-                  'dnb-drawer-list__option--ignore'
-                )
               }
 
               return (

@@ -119,7 +119,6 @@ export const drawerListPropTypes = {
     PropTypes.object,
     PropTypes.func,
   ]),
-  ignore_events: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
 
   ...spacingPropTypes,
 
@@ -173,7 +172,6 @@ export const drawerListDefaultProps = {
   opened: null,
   data: null,
   raw_data: null,
-  ignore_events: null,
 
   className: null,
   children: null,

@@ -173,7 +173,6 @@ export default class DrawerListProvider extends React.PureComponent<
       cache_hash: '',
       active_item: undefined,
       selected_item: undefined,
-      ignore_events: false,
       ...prepareStartupState(props),
     }
 
@@ -803,10 +802,6 @@ export default class DrawerListProvider extends React.PureComponent<
     }
 
     if (!this.state.isOpen) {
-      return // stop here
-    }
-
-    if (isTrue(this.state.ignore_events) && key !== 'tab') {
       return // stop here
     }
 
