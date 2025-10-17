@@ -272,24 +272,6 @@ describe('Helper functions', () => {
 describe('PaymentCard translations', () => {
   const customText = 'MySpecialText'
 
-  /** @deprecated – can be removed in v11 */
-  it('should not break when setting text_card_number', () => {
-    render(
-      <Provider
-        locale="nb-NO"
-        translations={{
-          'nb-NO': {
-            PaymentCard: { text_card_number: customText },
-          },
-        }}
-      >
-        <PaymentCard {...defaultProps} />
-      </Provider>
-    )
-
-    expect(document.querySelector('.dnb-payment-card')).toBeInTheDocument()
-  })
-
   it('should override text_expired', () => {
     render(
       <Provider
