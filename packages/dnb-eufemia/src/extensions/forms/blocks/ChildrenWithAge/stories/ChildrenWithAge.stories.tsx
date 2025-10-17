@@ -54,7 +54,7 @@ export function Basic() {
 export function InsideWizard() {
   const { filterData } = Form.useData('ChildrenWithAge')
   console.log('data', filterData(filterDataPaths))
-  const { summaryTitle } = Form.useLocale().Step
+  const { summaryTitle } = Form.useTranslation().Step
 
   return (
     <Form.Handler
