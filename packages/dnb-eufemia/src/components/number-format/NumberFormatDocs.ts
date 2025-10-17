@@ -67,11 +67,6 @@ export const NumberFormatProperties: PropertiesTableProps = {
     type: ['omit', 'half-even', 'half-up'],
     status: 'optional',
   },
-  omit_rounding: {
-    doc: 'Use `rounding="omit"` instead.',
-    type: 'boolean',
-    status: 'deprecated',
-  },
   prefix: {
     doc: 'Add a string or React component before the number, including white space.',
     type: 'React.Node',
