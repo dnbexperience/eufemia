@@ -7,18 +7,17 @@ export default {
 export function HrThickness() {
   return (
     <>
-      <Hr light />
+      <Hr />
       <Hr top />
       <Hr top />
-      <Hr breakout top light />
+      <Hr breakout top />
       <Hr breakout top />
       <Hr breakout top />
 
       <Flex.Vertical top divider="line">
-        <Hr light />
         <Hr />
         <Hr />
-        <Hr breakout light />
+        <Hr breakout />
         <Hr breakout />
         <Hr breakout />
       </Flex.Vertical>
