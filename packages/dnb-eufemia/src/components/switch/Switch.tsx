@@ -145,8 +145,6 @@ type DeprecatedSwitchProps = {
   on_change?: SwitchOnChange
   /**  @deprecated use `onChangeEnd` */
   on_change_end?: SwitchOnChange
-  /**  @deprecated use `onStateUpdate` */
-  on_state_update?: SwitchOnChange
   /**  @deprecated use `statusNoAnimation` */
   status_no_animation?: boolean
 }
