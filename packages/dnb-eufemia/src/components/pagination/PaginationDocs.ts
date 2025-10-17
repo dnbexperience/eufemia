@@ -51,11 +51,6 @@ export const PaginationProperties: PropertiesTableProps = {
     type: ['number', 'string'],
     status: 'optional',
   },
-  place_maker_before_content: {
-    doc: 'if set to `true`, the infinity marker will be placed before the content (on top off). This could potentially have negative side effects. But it depends really on the content if this would make more sense to use instead. Defaults to `false`. This prop is deprecated and will be removed in v11, use `place_marker_before_content` instead.',
-    type: 'boolean',
-    status: 'deprecated',
-  },
   place_marker_before_content: {
     doc: 'if set to `true`, the infinity marker will be placed before the content (on top off). This could potentially have negative side effects. But it depends really on the content if this would make more sense to use instead. Defaults to `false`.',
     type: 'boolean',
