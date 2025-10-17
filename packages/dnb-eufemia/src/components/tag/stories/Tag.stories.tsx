@@ -216,9 +216,10 @@ export const TagRemovable = () => {
           <Tag
             icon={tag}
             text={'Removable'}
-            onDelete={() => {
+            onClick={() => {
               console.log('Removed!')
             }}
+            variant="removable"
           />
         </Tag.Group>
       </Box>
@@ -234,10 +235,8 @@ export const TagRemovableClickable = () => {
           <Tag
             icon={tag}
             text={'Click/Delete'}
+            variant="removable"
             onClick={() => {
-              console.log('Clicked!')
-            }}
-            onDelete={() => {
               console.log('Removed!')
             }}
           />
@@ -254,30 +253,34 @@ export const TagMultipleRemovable = () => {
         <Tag.Group label="multiple removable">
           <Tag
             icon={save}
-            onDelete={() => {
+            onClick={() => {
               console.log('Delete1')
             }}
+            variant="removable"
             text={'First'}
           />
           <Tag
             icon={scissors}
-            onDelete={() => {
+            onClick={() => {
               console.log('Delete2')
             }}
+            variant="removable"
             text={'Second'}
           />
           <Tag
             icon={scooter}
-            onDelete={() => {
+            onClick={() => {
               console.log('Delete3')
             }}
+            variant="removable"
             text={'Third'}
           />
           <Tag
             icon={share_ios}
-            onDelete={() => {
+            onClick={() => {
               console.log('Delete4')
             }}
+            variant="removable"
             text={'Fourth'}
           />
         </Tag.Group>
