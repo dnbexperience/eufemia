@@ -140,8 +140,6 @@ type DeprecatedCheckboxProps = {
   on_change?: (args: OnChangeParams) => void
   /**  @deprecated use `labelPosition` */
   label_position?: CheckboxLabelPosition
-  /**  @deprecated use `labelSrOnly` */
-  label_sr_only?: boolean
   /**  @deprecated use `statusState` */
   status_state?: FormStatusState
   /**  @deprecated use `statusProps` */
