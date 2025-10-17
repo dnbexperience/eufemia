@@ -47,9 +47,6 @@ export type FormLabelProps = {
    * For internal use only
    */
   labelDirection?: FormElementProps['labelDirection']
-
-  /** @deprecated use forId instead */
-  for_id?: string
 }
 
 export type FormLabelAllProps = FormLabelProps &
