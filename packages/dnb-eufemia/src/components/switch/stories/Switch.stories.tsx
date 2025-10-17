@@ -36,7 +36,7 @@ export const SwitchSandbox = () => (
     <Box>
       <Switch
         label="Checked"
-        label_position="left"
+        labelPosition="left"
         suffix={<HelpButton>Help</HelpButton>}
       />
     </Box>
@@ -46,7 +46,7 @@ export const SwitchSandbox = () => (
     </Box>
     <Box>
       <p className="dnb-p">
-        <Switch label="Checked:" checked label_position="left" />
+        <Switch label="Checked:" checked labelPosition="left" />
       </p>
     </Box>
     <Box>
@@ -55,7 +55,7 @@ export const SwitchSandbox = () => (
         label="Unchecked disabled:"
         checked={false}
         disabled
-        label_position="left"
+        labelPosition="left"
       />
     </Box>
     <Box>
@@ -64,7 +64,7 @@ export const SwitchSandbox = () => (
     <Box>
       <Switch
         label="Unchecked status error:"
-        label_position="left"
+        labelPosition="left"
         checked={false}
         status="error"
       />
@@ -72,7 +72,7 @@ export const SwitchSandbox = () => (
     <Box>
       <Switch
         label="Label:"
-        label_position="left"
+        labelPosition="left"
         checked
         status="Error message Vulputate consequat pellentesque senectus conubia proin sapien felis inceptos eu"
         statusState="info"
