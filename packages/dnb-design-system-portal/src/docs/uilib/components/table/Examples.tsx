@@ -737,7 +737,7 @@ export const Accordion = () => (
     {() => {
       const AccordionTable = ({ id, showCheckbox = false, ...props }) => {
         const TdCheckbox = () => {
-          return <Checkbox label="Select row" label_sr_only />
+          return <Checkbox label="Select row" labelSrOnly />
         }
         const TdInput = () => {
           return <Input label="Label" label_sr_only size={4} />
@@ -856,7 +856,7 @@ export const AccordionMixed = () => (
     {() => {
       const AccordionTable = ({ id, showCheckbox = false, ...props }) => {
         const TdCheckbox = () => {
-          return <Checkbox label="Select row" label_sr_only />
+          return <Checkbox label="Select row" labelSrOnly />
         }
         const TdInput = () => {
           return <Input label="Label" label_sr_only size={4} />
@@ -1067,7 +1067,7 @@ export const Navigation = () => (
     {() => {
       const NavigationTable = ({ id, showCheckbox = false, ...props }) => {
         const TdCheckbox = () => {
-          return <Checkbox label="Select row" label_sr_only />
+          return <Checkbox label="Select row" labelSrOnly />
         }
         const TdInput = () => {
           return <Input label="Label" label_sr_only size={4} />
@@ -1140,7 +1140,7 @@ export const NavigationMixed = () => (
     {() => {
       const NavigationTable = ({ id, showCheckbox = false, ...props }) => {
         const TdCheckbox = () => {
-          return <Checkbox label="Select row" label_sr_only />
+          return <Checkbox label="Select row" labelSrOnly />
         }
         const TdInput = () => {
           return <Input label="Label" label_sr_only size={4} />
@@ -1784,7 +1784,7 @@ export const TableInAccordionTable = () => (
     {() => {
       const AccordionTable = ({ id, showCheckbox = false, ...props }) => {
         const TdCheckbox = () => {
-          return <Checkbox label="Select row" label_sr_only />
+          return <Checkbox label="Select row" labelSrOnly />
         }
         const TdInput = () => {
           return <Input label="Label" label_sr_only size={4} />
