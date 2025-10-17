@@ -73,19 +73,19 @@ describe('Icon component', () => {
     )
   })
 
-  it('should inherit color and vice versa when inherit_color is false', () => {
+  it('should inherit color and vice versa when inheritColor is false', () => {
     const { rerender } = render(<Icon icon={question} />)
     expect(document.querySelector('span.dnb-icon').classList).toContain(
       'dnb-icon--inherit-color'
     )
 
-    rerender(<Icon icon={question} inherit_color={true} />)
+    rerender(<Icon icon={question} inheritColor={true} />)
 
     expect(document.querySelector('span.dnb-icon').classList).toContain(
       'dnb-icon--inherit-color'
     )
 
-    rerender(<Icon icon={question} inherit_color={false} />)
+    rerender(<Icon icon={question} inheritColor={false} />)
 
     expect(
       document.querySelector('span.dnb-icon').classList
@@ -142,7 +142,7 @@ describe('Icon component', () => {
       )
     }
     render(
-      <Icon icon={FunctionalComponentWithHookIcon} inherit_color={false} />
+      <Icon icon={FunctionalComponentWithHookIcon} inheritColor={false} />
     )
     expect(document.querySelector('svg title').textContent).toBe('banana')
   })
