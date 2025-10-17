@@ -19,15 +19,3 @@
     }
   }
 }
-
-// Deprecated – can be removed in v11 (its handled by the outset prop)
-.dnb-card:not([style*='--outset']) {
-  & + .dnb-forms-button-row,
-  & + .dnb-button--primary {
-    @include allAbove(small) {
-      &:not([class*='space__left']) {
-        margin-left: var(--spacing-medium);
-      }
-    }
-  }
-}
