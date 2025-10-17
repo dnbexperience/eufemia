@@ -38,7 +38,6 @@ export type StepIndicatorDataItem = Pick<
   | 'status'
   | 'status_state'
   | 'on_click'
-  | 'on_render'
 >
 export type StepIndicatorData = string | string[] | StepIndicatorDataItem[]
 
