@@ -58,7 +58,7 @@ const ProgressIndicatorCircular = () => {
       size="large"
       visible={visible}
       onComplete={() => {
-        console.log('on_complete')
+        console.log('onComplete')
       }}
     />
   )
