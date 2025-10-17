@@ -95,9 +95,9 @@ export default class PaginationProvider extends React.PureComponent {
 
     state.parallelLoadCount = parseFloat(props.parallel_load_count) || 1
     state.minTime = parseFloat(props.min_wait_time) || 0
-    state.placeMakerBeforeContent =
-      isTrue(props.place_maker_before_content) ||
-      isTrue(props.place_marker_before_content)
+    state.placeMakerBeforeContent = isTrue(
+      props.place_marker_before_content
+    )
 
     // reset pagination, like the resetInfinity method
     if (props.useMarkerOnly && isTrue(props.reset_pagination_handler)) {
