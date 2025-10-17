@@ -50,8 +50,6 @@ export type FormLabelProps = {
 
   /** @deprecated use forId instead */
   for_id?: string
-  /** @deprecated use srOnly instead */
-  sr_only?: boolean
   /** @deprecated use "vertical" (or "labelDirection" for internal use) instead (was not documented before) */
   label_direction?: FormElementProps['label_direction']
 }
