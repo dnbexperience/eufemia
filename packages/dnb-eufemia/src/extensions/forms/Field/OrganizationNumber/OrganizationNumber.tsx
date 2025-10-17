@@ -48,9 +48,7 @@ function OrganizationNumber(props: Props) {
   const {
     validate = true,
     omitMask,
-    // Deprecated – can be removed in v11
-    validator,
-    onChangeValidator = validator,
+    onChangeValidator,
     onBlurValidator = organizationNumberValidator,
     label: labelProp,
     width,
