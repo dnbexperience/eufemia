@@ -65,11 +65,12 @@ export const ProgressIndicatorCircularLabelInsideExample = () => (
       type="circular"
       labelDirection="inside"
       data-visual-test="progress-indicator-label-inside"
-    >
-      <span className="dnb-p dnb-t__weight--bold dnb-t__size--small">
-        {72}%
-      </span>
-    </ProgressIndicator>
+      label={
+        <span className="dnb-p dnb-t__weight--bold dnb-t__size--small">
+          {72}%
+        </span>
+      }
+    />
   </ComponentBox>
 )
 
@@ -223,7 +224,6 @@ export const ProgressIndicatorLinearLabelVerticalExample = () => (
   <ComponentBox>
     <ProgressIndicator
       type="linear"
-      // label="Custom label ..."
       showDefaultLabel={true}
       labelDirection="vertical"
     />
@@ -390,9 +390,8 @@ export const ProgressIndicatorCountdownExample = () => (
             title={`${current} av ${max}`}
             size="large"
             labelDirection="inside"
-          >
-            <MyCustomLabel aria-hidden>{current}</MyCustomLabel>
-          </ProgressIndicator>
+            label={<MyCustomLabel aria-hidden>{current}</MyCustomLabel>}
+          />
         )
       }
 
@@ -446,12 +445,13 @@ export const ProgressIndicatorCustomCountdown = () => (
               }}
               title={daysLeft + 'days left'}
               customCircleWidth="0.5rem"
-            >
-              <StyledText>
-                <StyledTitle>{daysLeft} d</StyledTitle>
-                left
-              </StyledText>
-            </ProgressIndicator>
+              label={
+                <StyledText>
+                  <StyledTitle>{daysLeft} d</StyledTitle>
+                  left
+                </StyledText>
+              }
+            />
           </DarkBackground>
         )
       }
@@ -486,11 +486,12 @@ export const ProgressIndicatorCustomHorizontal = () => (
                 line: 'var(--color-summer-green)',
                 shaft: 'var(--color-sea-green)',
               }}
-            >
-              <StyledText>
-                <NumberFormat percent value={75} /> done
-              </StyledText>
-            </ProgressIndicator>
+              label={
+                <StyledText>
+                  <NumberFormat percent value={75} /> done
+                </StyledText>
+              }
+            />
           </DarkBackground>
         )
       }
