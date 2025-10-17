@@ -42,7 +42,7 @@ export const ProgressIndicatorSandbox = () => (
 export const ProgressIndicatorLabel = () => (
   <>
     <Button>Button</Button>
-    <ProgressIndicator left size="small" show_label progress={60} />
+    <ProgressIndicator left size="small" showDefaultLabel progress={60} />
   </>
 )
 
