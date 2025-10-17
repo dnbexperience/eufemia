@@ -28,7 +28,7 @@ export function ProgressIndicatorSizes() {
 export const ProgressIndicatorSandbox = () => (
   <Wrapper>
     <Box>
-      <ProgressIndicator progress={60} no_animation />
+      <ProgressIndicator progress={60} noAnimation />
     </Box>
     <Box>
       <ProgressIndicator size="large" />
