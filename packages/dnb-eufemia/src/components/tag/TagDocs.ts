@@ -6,11 +6,6 @@ export const TagEvents: PropertiesTableProps = {
     type: 'function',
     status: 'optional',
   },
-  onDelete: {
-    doc: 'Deprecated: use `onClick` with `variant="removable"` instead. Will be called on a click event. Returns an object with the native event: `{ event }`. This property does not support icon and will be ignored if `onClick`is defined.',
-    type: 'function',
-    status: 'deprecated',
-  },
 }
 
 export const TagProperties: PropertiesTableProps = {
