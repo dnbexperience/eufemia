@@ -47,7 +47,7 @@ export default function ToggleGrid(
         id="switch-grid"
         label="Grid"
         checked={isGridVisible()}
-        on_change={handleChange}
+        onChange={handleChange}
       />
       <GridActivator />
     </span>
