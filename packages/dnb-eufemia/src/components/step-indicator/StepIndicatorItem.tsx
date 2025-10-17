@@ -168,17 +168,9 @@ function StepIndicatorItem({
 
   const isCurrent = currentItemNum === activeStep
 
-  let element = (
+  const element = (
     <StepItemWrapper>{title}</StepItemWrapper>
   ) as React.ReactNode
-
-  const callbackProps = {
-    StepItem: StepItemWrapper,
-    element,
-    attributes: {}, // deprecated in v11
-    props,
-    context,
-  }
 
   const itemParams = {} as HTMLProps<HTMLLIElement>
   const buttonParams = {
