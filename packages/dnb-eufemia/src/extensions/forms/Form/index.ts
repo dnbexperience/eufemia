@@ -20,9 +20,3 @@ export { default as clearData } from './data-context/clearData'
 export { default as useValidation } from './data-context/useValidation'
 export { default as useTranslation } from '../hooks/useTranslation'
 export { default as useSnapshot } from '../hooks/useSnapshot'
-
-/**
- * Can be removed in v11
- * @deprecated Use `useValidation` instead
- */
-export { default as useError } from './data-context/useValidation'
