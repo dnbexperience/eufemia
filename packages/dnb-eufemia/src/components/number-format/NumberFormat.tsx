@@ -88,7 +88,6 @@ export type NumberFormatProps = {
   always_selectall?: boolean
   copy_selection?: boolean
   clean_copy_value?: boolean
-  omit_rounding?: boolean
   rounding?: 'omit' | 'half-even' | 'half-up'
   signDisplay?: NumberFormatSignDisplay
   clean?: boolean
@@ -136,7 +135,6 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
     always_selectall: false,
     copy_selection: true,
     clean_copy_value: false,
-    omit_rounding: null,
     rounding: null,
     clean: null,
     srLabel: null,
@@ -320,7 +318,6 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
       options,
       locale,
       decimals,
-      omit_rounding,
       rounding,
       signDisplay,
       clean,
@@ -358,7 +355,6 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
       org,
       percent,
       decimals,
-      omit_rounding: isTrue(omit_rounding),
       rounding,
       signDisplay,
       options,
