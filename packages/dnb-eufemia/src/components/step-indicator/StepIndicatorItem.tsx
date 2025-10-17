@@ -131,7 +131,6 @@ function StepIndicatorItem({
     countSteps,
     listOfReachedSteps,
     hide_numbers = stepIndicatorDefaultProps.hide_numbers,
-    on_item_render,
     step_title,
     no_animation,
     skeleton,
@@ -179,10 +178,6 @@ function StepIndicatorItem({
     attributes: {}, // deprecated in v11
     props,
     context,
-  }
-
-  if (typeof on_item_render === 'function') {
-    element = on_item_render(callbackProps)
   }
 
   const itemParams = {} as HTMLProps<HTMLLIElement>
