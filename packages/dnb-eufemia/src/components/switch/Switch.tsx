@@ -135,8 +135,6 @@ export type SwitchProps = {
 type DeprecatedSwitchProps = {
   /**  @deprecated use `labelPosition` */
   label_position?: SwitchLabelPosition
-  /**  @deprecated use `labelSrOnly` */
-  label_sr_only?: boolean
   /**  @deprecated use `statusNoAnimation` */
   status_no_animation?: boolean
 }
