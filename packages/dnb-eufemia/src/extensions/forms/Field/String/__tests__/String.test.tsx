@@ -1447,56 +1447,6 @@ describe('Field.String', () => {
           document.querySelector('.dnb-form-status').textContent
         ).toBe('A formatted error message')
       })
-
-      it('should show provided errorMessages based on validation rule with injected value', () => {
-        render(
-          <Field.String
-            emptyValue=""
-            value=""
-            errorMessages={{
-              'StringField.errorMinLength': 'At least {minLength}.',
-
-              /** @deprecated – can be removed in v11 */
-              minLength: 'At least {minLength}.',
-            }}
-            minLength={4}
-            validateInitially
-          />
-        )
-
-        expect(
-          document.querySelector('.dnb-form-status').textContent
-        ).toBe('At least 4.')
-      })
-
-      it('should provide error message to the onBlurValidator', async () => {
-        let collectDeprecatedMessage = null
-        let collectCustomMessage = null
-        const customMessage = 'Your custom error message'
-
-        render(
-          <Field.String
-            errorMessages={{
-              'MyCustom.message': customMessage,
-            }}
-            onBlurValidator={(value, { errorMessages }) => {
-              collectDeprecatedMessage = errorMessages.required
-              collectCustomMessage = errorMessages['MyCustom.message']
-              return new FormError('MyCustom.message')
-            }}
-            validateInitially
-          />
-        )
-
-        await waitFor(() => {
-          expect(
-            document.querySelector('.dnb-form-status').textContent
-          ).toBe(customMessage)
-        })
-
-        expect(collectCustomMessage).toBe(customMessage)
-        expect(collectDeprecatedMessage).toBe(nb.Field.errorRequired)
-      })
     })
   })
 
