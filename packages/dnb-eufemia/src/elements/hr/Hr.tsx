@@ -27,19 +27,12 @@ type HrDeprecatedProps = {
    * @deprecated Will be removed in future version.
    */
   light?: boolean
-
-  /**
-   * Not official prop, but used to make the hr stronger.
-   * @deprecated Will be removed in future version.
-   */
-  medium?: boolean
 }
 
 const Hr = ({
   breakout,
   dashed,
   light,
-  medium,
   className,
   ...props
 }: HrProps = {}) => {
@@ -49,7 +42,6 @@ const Hr = ({
       className={classnames(
         className,
         light && 'dnb-hr--light',
-        medium && 'dnb-hr--medium',
         dashed && 'dnb-hr--dashed',
         breakout && 'dnb-hr--breakout'
       )}
