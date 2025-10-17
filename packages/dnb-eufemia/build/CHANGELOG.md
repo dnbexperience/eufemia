@@ -3,6 +3,31 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.86.0](https://github.com/dnbexperience/eufemia/compare/v10.85.1...v10.86.0) (2025-10-17)
+
+
+### :memo: Documentation
+
+* use `makeAjvInstance` to create an Ajv instance ([#5614](https://github.com/dnbexperience/eufemia/issues/5614)) ([304e8eb](https://github.com/dnbexperience/eufemia/commit/304e8eb467f2d355330d6f17b81c83f6e04371d6))
+
+
+### :bug: Bug Fixes
+
+* **Autocomplete:** skip unnecessary render of AriaLive ([#5667](https://github.com/dnbexperience/eufemia/issues/5667)) ([754a1e0](https://github.com/dnbexperience/eufemia/commit/754a1e008c643dc9773663375be646c2129d9c81))
+* **Field.DateOfBirth:** ensure smart autofill when tabbing out of day and month ([#5603](https://github.com/dnbexperience/eufemia/issues/5603)) ([ac85b76](https://github.com/dnbexperience/eufemia/commit/ac85b7648ef4217b57c44dfdf26ca0103a635838))
+* **Field.Expiry:** ensure support for `transformIn` and `transformOut` ([#5591](https://github.com/dnbexperience/eufemia/issues/5591)) ([2e32e65](https://github.com/dnbexperience/eufemia/commit/2e32e65b8c0e8cc8fff5f7b1600cd0acb6b9be7d))
+* **Field.Slider:** ensure support for `transformIn` and `transformOut` ([#5592](https://github.com/dnbexperience/eufemia/issues/5592)) ([1b953ef](https://github.com/dnbexperience/eufemia/commit/1b953ef122bf8fa3d266d73b900530ebaa4160d7))
+* **HeightAnimation:** resolve stale height issue when adjusting to content changes ([#5621](https://github.com/dnbexperience/eufemia/issues/5621)) ([56abab6](https://github.com/dnbexperience/eufemia/commit/56abab68aebb27c899a52829c99afb7699daee5a))
+* **NumberFormat:** address TypeScript issues introduced in recent changes ([#5600](https://github.com/dnbexperience/eufemia/issues/5600)) ([7eff844](https://github.com/dnbexperience/eufemia/commit/7eff8440154f71c09ac0c83676339d05cd14ba3b))
+* **Tooltip:** enhance performance ([#5666](https://github.com/dnbexperience/eufemia/issues/5666)) ([864796e](https://github.com/dnbexperience/eufemia/commit/864796e7202e1c5c8c7f3d19e09abbdb1fd9f651))
+
+
+### :sparkles: Features
+
+* **properties-tailwind.css:** generate predefined properties file to be used with Tailwind ([#5583](https://github.com/dnbexperience/eufemia/issues/5583)) ([79bb858](https://github.com/dnbexperience/eufemia/commit/79bb858b3f61e4f518496c4a8650eb23321832d7)), closes [#5527](https://github.com/dnbexperience/eufemia/issues/5527)
+* **renderWithFormatting:** add new text formatter (simple markdown like) to shared tools ([#5702](https://github.com/dnbexperience/eufemia/issues/5702)) ([35aa0d2](https://github.com/dnbexperience/eufemia/commit/35aa0d24e561f94ecc9341c757bb7c7f64c5d1c6))
+* **useTranslation:** fallback to translation key and log warning on missing entries ([#5577](https://github.com/dnbexperience/eufemia/issues/5577)) ([eee83fb](https://github.com/dnbexperience/eufemia/commit/eee83fb4ecbcbe26936d98580e957cf107a514d3)), closes [#5563](https://github.com/dnbexperience/eufemia/issues/5563)
+
 ## [10.85.1](https://github.com/dnbexperience/eufemia/compare/v10.85.0...v10.85.1) (2025-10-14)
 
 
