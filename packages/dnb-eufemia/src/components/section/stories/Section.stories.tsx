@@ -25,74 +25,74 @@ export const SectionSandbox = () => (
       {/* <DatePicker></DatePicker> */}
     </Box>
     <Box>
-      <Section style_type="divider">
+      <Section variant="divider">
         <P top="xx-large" bottom="xx-large">
-          style_type="divider"
+          variant="divider"
         </P>
       </Section>
-      <Section style_type="white">
+      <Section backgroundColor="white">
         <P top="xx-large" bottom="xx-large">
-          style_type="white"
+          backgroundColor="white"
         </P>
       </Section>
-      <Section style_type="transparent">
+      <Section backgroundColor="transparent">
         <P top="xx-large" bottom="xx-large">
-          style_type="transparent"
+          backgroundColor="transparent"
         </P>
       </Section>
-      <Section style_type="lavender">
+      <Section backgroundColor="lavender">
         <P top="xx-large" bottom="xx-large">
-          style_type="lavender"
+          backgroundColor="lavender"
         </P>
       </Section>
-      <Section style_type="pistachio">
+      <Section backgroundColor="pistachio">
         <P top="xx-large" bottom="xx-large">
-          style_type="pistachio"
+          backgroundColor="pistachio"
         </P>
       </Section>
-      <Section style_type="emerald-green">
+      <Section backgroundColor="emerald-green">
         <P top="xx-large" bottom="xx-large">
-          style_type="emerald-green"
+          backgroundColor="emerald-green"
         </P>
       </Section>
-      <Section style_type="sea-green">
+      <Section backgroundColor="sea-green">
         <P top="xx-large" bottom="xx-large">
-          style_type="sea-green"
+          backgroundColor="sea-green"
         </P>
       </Section>
-      <Section style_type="fire-red">
+      <Section backgroundColor="fire-red">
         <P top="xx-large" bottom="xx-large">
-          style_type="fire-red"
+          backgroundColor="fire-red"
         </P>
       </Section>
-      <Section style_type="fire-red-8">
+      <Section backgroundColor="fire-red-8">
         <P top="xx-large" bottom="xx-large">
-          style_type="fire-red-8"
+          backgroundColor="fire-red-8"
         </P>
       </Section>
-      <Section style_type="pistachio">
+      <Section backgroundColor="pistachio">
         <P top="xx-large" bottom="xx-large">
-          style_type="pistachio"
+          backgroundColor="pistachio"
         </P>
       </Section>
-      <Section style_type="sand-yellow">
+      <Section backgroundColor="sand-yellow">
         <P top="xx-large" bottom="xx-large">
-          style_type="sand-yellow"
+          backgroundColor="sand-yellow"
         </P>
       </Section>
-      <Section style_type="black-3">
+      <Section backgroundColor="black-3">
         <P top="xx-large" bottom="xx-large">
-          style_type="black-3"
+          backgroundColor="black-3"
         </P>
       </Section>
-      <Section style_type="mint-green">
+      <Section backgroundColor="mint-green">
         <P top="xx-large" bottom="xx-large">
-          style_type="mint-green"
+          backgroundColor="mint-green"
         </P>
       </Section>
-      <Section style_type="mint-green-12">
+      <Section backgroundColor="mint-green-12">
         <P top="xx-large" bottom="xx-large">
-          style_type="mint-green-12"
+          backgroundColor="mint-green-12"
         </P>
       </Section>
     </Box>
@@ -120,7 +120,7 @@ export const SectionWrapped = () => (
   <Wrapper>
     <WidthWrapper>
       <WidthWrapperInner>
-        <Section style_type="emerald-green" spacing>
+        <Section backgroundColor="emerald-green" spacing>
           <p className="dnb-p">
             Tempor auctor mi vel sociosqu suspendisse eros fames congue at
           </p>

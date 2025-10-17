@@ -110,7 +110,7 @@ export default class ModalHeaderBar extends React.PureComponent<
 
     return (
       <Section
-        style_type="white"
+        backgroundColor="white"
         className={classnames(
           'dnb-modal__header__bar',
           showShadow && shadow_class,

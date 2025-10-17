@@ -68,7 +68,7 @@ export default class ModalHeader extends React.PureComponent<
 
     return (
       <Section
-        style_type="white"
+        backgroundColor="white"
         className={classnames(className)}
         id={
           showTitle ? 'dnb-modal-' + this.context.id + '-title' : undefined
