@@ -92,12 +92,12 @@ export const CheckboxSandbox = () => (
       </Box>
       <Box>
         <p className="dnb-p">
-          Text:{' onchange:'}
+          Text:{' onChange:'}
           <Checkbox
             label="Checked"
             checked
-            on_change={({ checked }) => {
-              console.log('on_change', checked)
+            onChange={({ checked }) => {
+              console.log('onChange', checked)
             }}
           />
         </p>
@@ -111,8 +111,8 @@ export const CheckboxSandbox = () => (
           <Checkbox
             id="checkbox-2"
             label="Unchecked"
-            on_change={({ checked }) => {
-              console.log('on_change', checked)
+            onChange={({ checked }) => {
+              console.log('onChange', checked)
             }}
           />
         </CustomRow>
@@ -274,7 +274,7 @@ function ControlledVsUncontrolled() {
         checked={checked}
         indeterminate={indeterminate}
         id="checkbox1"
-        on_change={({ checked }) => {
+        onChange={({ checked }) => {
           setChecked(checked)
         }}
       />
