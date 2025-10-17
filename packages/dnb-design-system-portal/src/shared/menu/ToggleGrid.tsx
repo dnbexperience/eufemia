@@ -41,7 +41,7 @@ export default function ToggleGrid(props) {
         id="switch-grid"
         label="Grid"
         checked={isGridVisible()}
-        on_change={onChangeHandler}
+        onChange={onChangeHandler}
       />
       <GridActivator />
     </span>
