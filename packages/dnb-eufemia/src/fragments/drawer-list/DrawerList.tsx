@@ -55,7 +55,6 @@ export type DrawerListDataArrayObjectStrict = {
   groupIndex?: number
   selected_value?: string | React.ReactNode
   selectedKey?: string | number
-  selected_key?: string | number
   suffix_value?: string | React.ReactNode
   content: DrawerListContent
   disabled?: boolean
