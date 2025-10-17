@@ -142,8 +142,6 @@ type DeprecatedCheckboxProps = {
   label_position?: CheckboxLabelPosition
   /**  @deprecated use `statusState` */
   status_state?: FormStatusState
-  /**  @deprecated use `statusProps` */
-  status_props?: FormStatusProps
   /**  @deprecated use `statusNoAnimation` */
   status_no_animation?: boolean
 }
