@@ -56,11 +56,6 @@ export const WizardContainerProperties: PropertiesTableProps = {
     type: ['string', 'object'],
     status: 'optional',
   },
-  sidebarId: {
-    doc: 'There is no longer any sidebar. This prop does nothing. Old docs: Sets the id for `<StepIndicator.Sidebar />` Inherited from StepIndicator.',
-    type: 'string',
-    status: 'deprecated',
-  },
 }
 
 export const WizardContainerEvents: PropertiesTableProps = {
