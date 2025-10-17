@@ -43,8 +43,6 @@ export type BasicProps = {
   divider?: 'space' | 'line' | 'line-framed'
   /** Spacing between items inside */
   gap?: Gap
-  /** @deprecated Use `gap` instead */
-  spacing?: Gap
   breakpoints?: MediaQueryBreakpoints
   queries?: UseMediaQueries
 }
@@ -62,7 +60,6 @@ const propNames: Array<keyof Props> = [
   'justify',
   'align',
   'divider',
-  'spacing',
   'gap',
 ]
 
@@ -80,18 +77,6 @@ export function pickFlexContainerProps<T extends Props>(
           !skip.includes(key as keyof Props)
       )
     ),
-  }
-}
-function handleDeprecatedProps({
-  spacing,
-  gap,
-  rowGap,
-  ...rest
-}: Props): Omit<Props, 'spacing'> & { rowGap?: Gap } {
-  return {
-    ...rest,
-    rowGap,
-    gap: spacing ?? gap,
   }
 }
 
@@ -113,7 +98,7 @@ function FlexContainer(props: Props) {
     breakpoints,
     queries,
     ...rest
-  } = handleDeprecatedProps(props)
+  } = props
 
   const spacing = useMemo(
     () => (direction === 'vertical' ? rowGap : undefined) ?? gap,
