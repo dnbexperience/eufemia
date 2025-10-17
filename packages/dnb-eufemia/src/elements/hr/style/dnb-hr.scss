@@ -28,11 +28,6 @@
 
   --thickness: calc(var(--hr-thickness, 0.0625rem) + var(--modifier, 0px));
 
-  // @deprecated
-  &--light {
-    --hr-thickness: 0.5px;
-  }
-
   .dnb-spacing & {
     @include ui-spacing.defaultSpacing();
   }

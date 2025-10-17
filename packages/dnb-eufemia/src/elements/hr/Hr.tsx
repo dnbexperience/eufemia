@@ -19,29 +19,14 @@ type HrProps = SpacingProps &
      * To make the hr dashed.
      */
     dashed?: boolean
-  } & HrDeprecatedProps
+  }
 
-type HrDeprecatedProps = {
-  /**
-   * Not official prop, but used to make the hr lighter.
-   * @deprecated Will be removed in future version.
-   */
-  light?: boolean
-}
-
-const Hr = ({
-  breakout,
-  dashed,
-  light,
-  className,
-  ...props
-}: HrProps = {}) => {
+const Hr = ({ breakout, dashed, className, ...props }: HrProps = {}) => {
   return (
     <E
       as="hr"
       className={classnames(
         className,
-        light && 'dnb-hr--light',
         dashed && 'dnb-hr--dashed',
         breakout && 'dnb-hr--breakout'
       )}
