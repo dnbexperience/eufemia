@@ -66,5 +66,4 @@ The StepIndicator has been majorly redesigned. In general it should still work w
 - The sidebar has been removed. The component still exists to avoid breaking changes, but it will just add an invisible div.
 - Removing the sidebar means the list of steps is not visible initially. Since this was always the case on small screens, it hopefully won't cause many issues.
 - The new property `expandedInitially` allows you to start with the list of steps visible.
-- Custom rendering of steps using the `on_item_render` and `on_render` properties will no longer do anything of value, it will be the same as using the item's `title` property.
 - The `sidebar_id` property no longer adds anything as we no longer have a sidebar. But if you need an id for other purposes, use the `id` property.
