@@ -1,5 +1,3 @@
-import FieldProvider from '../Field/Provider/FieldProvider'
-
 export { default as Handler } from './Handler'
 export { default as Element } from './Element'
 export { default as Appearance } from './Appearance'
@@ -28,9 +26,3 @@ export { default as useSnapshot } from '../hooks/useSnapshot'
  * @deprecated Use `useValidation` instead
  */
 export { default as useError } from './data-context/useValidation'
-
-/**
- * Can be removed in v11
- * @deprecated Use `Field.Provider` instead
- */
-export const FieldProps = FieldProvider
