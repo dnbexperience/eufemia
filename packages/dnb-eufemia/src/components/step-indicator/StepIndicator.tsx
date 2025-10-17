@@ -10,7 +10,6 @@ import { createSpacingClasses } from '../space/SpacingHelper'
 import Card from '../Card'
 import CardContext from '../card/CardContext'
 import StepIndicatorTriggerButton from './StepIndicatorTriggerButton'
-import StepIndicatorSidebar from './StepIndicatorSidebar'
 import StepIndicatorList from './StepIndicatorList'
 import StepIndicatorContext, {
   StepIndicatorContextValues,
@@ -228,10 +227,6 @@ function StepIndicatorStatus({ status, status_state }) {
     </FormStatus>
   )
 }
-/**
- * @deprecated StepIndicator.Sidebar variant is no longer supported
- */
-StepIndicator.Sidebar = StepIndicatorSidebar
 
 StepIndicator._supportsSpacingProps = true
 
