@@ -1030,7 +1030,7 @@ describe('Flex.Container', () => {
       expect(element).toHaveClass('dnb-flex-container--row-gap-medium')
 
       rerender(
-        <Flex.Container rowGap>
+        <Flex.Container rowGap="small">
           <Flex.Item>FlexItem</Flex.Item>
         </Flex.Container>
       )
