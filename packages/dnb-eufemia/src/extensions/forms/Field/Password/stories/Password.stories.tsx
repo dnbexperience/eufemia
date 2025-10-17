@@ -1,6 +1,5 @@
 import { Field, Form } from '../../../'
 import { Flex } from '../../../../../components'
-import InputPassword from '../../../../../components/input/InputPassword'
 import { Provider } from '../../../../../shared'
 
 export default {
@@ -11,7 +10,7 @@ export const Password = () => {
   return (
     <Form.Handler>
       <Flex.Stack>
-        <InputPassword
+        <Field.Password
           hide_password="Gjem dykk!"
           show_password="Vis deg!"
           on_hide_password={(e) => console.log('Gjemmer seg', e)}
