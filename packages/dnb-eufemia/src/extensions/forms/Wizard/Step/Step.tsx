@@ -33,12 +33,6 @@ export type Props = ComponentProps &
     required?: boolean
 
     /**
-     * If set to `false`, the step will not be rendered.
-     * @deprecated use `include` instead
-     */
-    active?: boolean
-
-    /**
      * Provide a `path` and a `hasValue` property with the expected value in order to enable the step. You can alternatively provide a `hasValue` function that returns a boolean. The first parameter is the value of the path.
      * @deprecated use `includeWhen` instead
      */
@@ -67,14 +61,13 @@ export type Props = ComponentProps &
   }
 
 export function handleDeprecatedProps({
-  active,
   activeWhen,
   include,
   includeWhen,
   ...rest
-}: Props): Omit<Props, 'active' | 'activeWhen'> {
+}: Props): Omit<Props, 'activeWhen'> {
   return {
-    include: include ?? active,
+    include,
     includeWhen: includeWhen ?? activeWhen,
     ...rest,
   }
