@@ -23,11 +23,6 @@ type HrProps = SpacingProps &
 
 type HrDeprecatedProps = {
   /**
-   * @deprecated use `breakout` instead
-   */
-  fullscreen?: boolean
-
-  /**
    * Not official prop, but used to make the hr lighter.
    * @deprecated Will be removed in future version.
    */
@@ -43,7 +38,6 @@ type HrDeprecatedProps = {
 const Hr = ({
   breakout,
   dashed,
-  fullscreen,
   light,
   medium,
   className,
@@ -57,7 +51,7 @@ const Hr = ({
         light && 'dnb-hr--light',
         medium && 'dnb-hr--medium',
         dashed && 'dnb-hr--dashed',
-        (breakout || fullscreen) && 'dnb-hr--breakout'
+        breakout && 'dnb-hr--breakout'
       )}
       {...props}
     />
