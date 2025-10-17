@@ -271,6 +271,37 @@ function MyApp() {
 }
 ```
 
+#### Use without translations
+
+You can also use `renderWithFormatting` directly, without the translation context. This is handy for static copy or small strings you build at runtime.
+
+```tsx
+import { renderWithFormatting } from '@dnb/eufemia/shared'
+
+const text =
+  'Use **bold**, _italic_, `AB12-XYZ9` and a link https://www.dnb.no{br}Next line'
+
+export function InlineFormattingExample() {
+  return <>{renderWithFormatting(text)}</>
+}
+```
+
+Array input and dynamic strings are also supported:
+
+```tsx
+import { renderWithFormatting } from '@dnb/eufemia/shared'
+
+function ArrayInputExample() {
+  const parts = ['Hello', '{br}', 'world! See https://example.com']
+  return <>{renderWithFormatting(parts)}</>
+}
+
+function DynamicExample({ refId }: { refId: string }) {
+  const text = `Keep your reference \`${'${refId}'}\` for support.`
+  return <>{renderWithFormatting(text)}</>
+}
+```
+
 ### Fallback for missing or partial translations
 
 The shared `useTranslation` hook will output missing keys when:
