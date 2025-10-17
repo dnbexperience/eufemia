@@ -5,12 +5,6 @@ import {
 } from '../../../../shared/helpers/useSharedState'
 import type { UseDataReturnUpdate } from './useData'
 
-/**
- * Deprecated, as it is supported by all major browsers and Node.js >=v18
- * So it's a question of time, when we will remove this polyfill
- */
-import structuredClone from '@ungap/structured-clone'
-
 type SetDataReturn<Data> = {
   update: UseDataReturnUpdate<Data>
 }

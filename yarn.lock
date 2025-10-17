@@ -4348,7 +4348,6 @@ __metadata:
     "@types/json-schema": "npm:7.0.12"
     "@typescript-eslint/eslint-plugin": "npm:5.60.0"
     "@typescript-eslint/parser": "npm:5.60.0"
-    "@ungap/structured-clone": "npm:1.2.0"
     ajv: "npm:8.17.1"
     ajv-errors: "npm:3.0.0"
     audit-ci: "npm:6.6.1"
@@ -10166,13 +10165,6 @@ __metadata:
     "@typescript-eslint/types": "npm:8.43.0"
     eslint-visitor-keys: "npm:^4.2.1"
   checksum: 10/d694425dd8592b9452640a82d638f4161ac880a8825f1cd6ce41b227bacff3a2e9106238344cbb85cb432593caf892bf4dcca0b73dcc884449ba88ee0ebec94a
-  languageName: node
-  linkType: hard
-
-"@ungap/structured-clone@npm:1.2.0":
-  version: 1.2.0
-  resolution: "@ungap/structured-clone@npm:1.2.0"
-  checksum: 10/c6fe89a505e513a7592e1438280db1c075764793a2397877ff1351721fe8792a966a5359769e30242b3cd023f2efb9e63ca2ca88019d73b564488cc20e3eab12
   languageName: node
   linkType: hard
 

@@ -110,7 +110,6 @@
   "dependencies": {
     "@babel/runtime": "7.26.10",
     "@navikt/fnrvalidator": "2.1.5",
-    "@ungap/structured-clone": "1.2.0",
     "ajv": "8.17.1",
     "ajv-errors": "3.0.0",
     "classnames": "2.5.1",

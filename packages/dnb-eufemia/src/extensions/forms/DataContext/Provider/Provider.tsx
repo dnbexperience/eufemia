@@ -57,12 +57,6 @@ import DataContext, {
   DataPathHandlerParameters,
 } from '../Context'
 
-/**
- * Deprecated, as it is supported by all major browsers and Node.js >=v18
- * So its a question of time, when we will remove this polyfill
- */
-import structuredClone from '@ungap/structured-clone'
-
 // SSR warning fix: https://gist.github.com/gaearon/e7d97cdf38a2907924ea12e4ebdf3c85
 const useLayoutEffect =
   typeof window === 'undefined' ? React.useEffect : React.useLayoutEffect
