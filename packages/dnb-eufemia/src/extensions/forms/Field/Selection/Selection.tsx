@@ -145,7 +145,6 @@ const validDrawerListProps = [
   'fixed_position',
   'enable_body_lock',
   'skip_keysearch',
-  'ignore_events',
   'align_drawer',
   'list_class',
   'portal_class',
