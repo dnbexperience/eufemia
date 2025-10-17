@@ -310,7 +310,7 @@ describe('GlobalStatus component', () => {
           id="switch-1"
           status={status}
           status_no_animation={true}
-          on_change={({ checked }) => {
+          onChange={({ checked }) => {
             setStatus(checked ? 'error-message-1' : null)
           }}
         />
@@ -324,7 +324,7 @@ describe('GlobalStatus component', () => {
           id="switch-2"
           status={status}
           status_no_animation={true}
-          on_change={({ checked }) => {
+          onChange={({ checked }) => {
             setStatus(checked ? 'error-message-2' : null)
           }}
         />
@@ -442,7 +442,7 @@ describe('GlobalStatus component', () => {
           status={status}
           status_no_animation={true}
           globalStatus={{ id: 'scroll-to-test' }}
-          on_change={({ checked }) => {
+          onChange={({ checked }) => {
             setStatus(checked ? 'error-message' : null)
           }}
         />
@@ -506,7 +506,7 @@ describe('GlobalStatus component', () => {
           status={status}
           status_no_animation={true}
           globalStatus={{ id: 'esc-test' }}
-          on_change={({ checked }) => {
+          onChange={({ checked }) => {
             setStatus(checked ? 'error-message' : null)
           }}
         />
@@ -598,7 +598,7 @@ describe('GlobalStatus component', () => {
           status={status}
           status_no_animation={true}
           globalStatus={{ id: 'height-test' }}
-          on_change={({ checked }) => {
+          onChange={({ checked }) => {
             setStatus(checked ? 'error-message' : null)
           }}
         />
@@ -631,7 +631,7 @@ describe('GlobalStatus component', () => {
           status={status}
           status_no_animation={true}
           globalStatus={{ id: 'main-to-be-empty' }}
-          on_change={({ checked }) => {
+          onChange={({ checked }) => {
             setStatus(checked ? 'error-message' : null)
           }}
         />
@@ -736,7 +736,7 @@ describe('GlobalStatus component', () => {
           status={status}
           status_no_animation={true}
           globalStatus={{ id: 'main-to-be-empty' }}
-          on_change={({ checked }) => {
+          onChange={({ checked }) => {
             setStatus(checked ? <StatusAsComponent /> : null)
           }}
         />
