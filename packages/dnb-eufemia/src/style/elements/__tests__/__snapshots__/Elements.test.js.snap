@@ -259,9 +259,6 @@ del .dnb-code {
 .dnb-hr--light {
   --hr-thickness: 0.5px;
 }
-.dnb-hr--medium {
-  --hr-thickness: 1.5px;
-}
 .dnb-spacing .dnb-hr:not([class*=dnb-space__top]) {
   margin-top: 0;
 }
