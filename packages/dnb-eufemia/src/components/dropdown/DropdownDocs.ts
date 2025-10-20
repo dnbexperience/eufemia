@@ -54,7 +54,7 @@ export const DropdownProperties = {
     type: ['left', 'right'],
     status: 'optional',
   },
-  triangle_position: {
+  trianglePosition: {
     doc: 'position of arrow / triangle of the drawer. Set to `left` or `right`. Defaults to `right`.',
     type: ['left', 'right'],
     status: 'optional',
