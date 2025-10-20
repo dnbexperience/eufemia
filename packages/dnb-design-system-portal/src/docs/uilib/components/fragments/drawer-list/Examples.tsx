@@ -33,7 +33,7 @@ export const DrawerListExampleInteractive = () => (
                 on_change={({ checked }) => setOpened(checked)}
               />
               <DrawerList
-                skip_portal
+                skipPortal
                 data={data}
                 opened={opened}
                 on_hide={() => setOpened(false)}
@@ -108,7 +108,7 @@ export const DrawerListExampleDefault = () => (
   <Wrapper>
     <ComponentBox scope={{ data }}>
       <DrawerList
-        skip_portal
+        skipPortal
         opened
         preventClose
         triangle_position="left"
@@ -130,7 +130,7 @@ export const DrawerListExampleDisabled = () => (
   <Wrapper>
     <ComponentBox data-visual-test="drawer-list-disabled">
       <DrawerList
-        skip_portal
+        skipPortal
         opened
         preventClose
         data={[
@@ -155,7 +155,7 @@ export const DrawerListExampleInlineStyling = () => (
   <Wrapper>
     <ComponentBox>
       <DrawerList
-        skip_portal
+        skipPortal
         opened
         preventClose
         observer_element=".dnb-live-preview" // prevents direction to change when scrolling in this example
@@ -190,7 +190,7 @@ export const DrawerListExampleInlineStylingData = () => (
   <Wrapper>
     <ComponentBox data-visual-test="drawer-list-inline-style">
       <DrawerList
-        skip_portal
+        skipPortal
         opened
         preventClose
         data={[
@@ -249,7 +249,7 @@ export const DrawerListExampleSingleItem = () => (
 
         return (
           <CustomWidth
-            skip_portal
+            skipPortal
             opened
             preventClose
             // more_menu
@@ -290,7 +290,7 @@ export const DrawerListExampleMarkup = () => (
           const [selected, setSelected] = React.useState('C')
 
           return (
-            <CustomWidth skip_portal opened preventClose>
+            <CustomWidth skipPortal opened preventClose>
               <DrawerList.Options>
                 {list.map(({ value, ...props }, i) => (
                   <DrawerList.Item
@@ -372,7 +372,7 @@ export const DrawerListGroups = () => (
   <Wrapper>
     <ComponentBox data-visual-test="drawer-list-groups">
       <DrawerList
-        skip_portal
+        skipPortal
         opened
         preventClose
         observer_element=".dnb-live-preview" // prevents direction to change when scrolling in this example
