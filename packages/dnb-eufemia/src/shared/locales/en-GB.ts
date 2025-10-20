@@ -70,7 +70,7 @@ export default {
       help: 'Here are some links that might help:',
     },
     ProgressIndicator: {
-      indicator_label: 'Please wait ...',
+      indicatorLabel: 'Please wait ...',
     },
     DrawerList: {
       defaultGroupSR: 'Default options',
