@@ -140,7 +140,6 @@ const validDrawerListProps = [
   'skip_keysearch',
   'ignore_events',
   'no_animation',
-  'max_height',
   'page_offset',
   'observer_element',
   'cache_hash',
