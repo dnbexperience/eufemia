@@ -17,10 +17,7 @@ import homeIcon from '../../icons/home'
 import { useMediaQuery } from '../../shared'
 import Context from '../../shared/Context'
 import type { SkeletonShow } from '../skeleton/Skeleton'
-import {
-  extendPropsWithContext,
-  filterProps,
-} from '../../shared/component-helper'
+import { extendPropsWithContext } from '../../shared/component-helper'
 
 // SSR warning fix: https://gist.github.com/gaearon/e7d97cdf38a2907924ea12e4ebdf3c85
 const useLayoutEffect =

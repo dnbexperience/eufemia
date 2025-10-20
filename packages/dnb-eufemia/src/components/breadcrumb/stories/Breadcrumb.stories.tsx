@@ -5,7 +5,7 @@
 
 import React, { useState } from 'react'
 import { Box, Wrapper } from 'storybook-utils/helpers'
-import { Button, Skeleton, ToggleButton } from '../../'
+import { Skeleton, ToggleButton } from '../../'
 import Breadcrumb from '../Breadcrumb'
 import { Provider } from '../../../shared'
 import { BreadcrumbItemProps } from '../BreadcrumbItem'
