@@ -219,10 +219,10 @@ describe.each(['ui', 'sbanken'])('Dropdown for %s', (themeName) => {
       style: {
         'padding-top': '16rem',
       },
-      selector: '[data-visual-test="dropdown-independentWidth_left"]',
+      selector: '[data-visual-test="dropdown-independent_width_left"]',
       simulate: 'click',
       simulateSelector:
-        '[data-visual-test="dropdown-independentWidth_left"] .dnb-dropdown button',
+        '[data-visual-test="dropdown-independent_width_left"] .dnb-dropdown button',
       simulateAfter: { keypress: 'Escape' },
     })
     expect(screenshot).toMatchImageSnapshot()
@@ -233,10 +233,10 @@ describe.each(['ui', 'sbanken'])('Dropdown for %s', (themeName) => {
       style: {
         'padding-top': '16rem',
       },
-      selector: '[data-visual-test="dropdown-independentWidth_right"]',
+      selector: '[data-visual-test="dropdown-independent_width_right"]',
       simulate: 'click',
       simulateSelector:
-        '[data-visual-test="dropdown-independentWidth_right"] .dnb-dropdown button',
+        '[data-visual-test="dropdown-independent_width_right"] .dnb-dropdown button',
       simulateAfter: { keypress: 'Escape' },
     })
     expect(screenshot).toMatchImageSnapshot()
