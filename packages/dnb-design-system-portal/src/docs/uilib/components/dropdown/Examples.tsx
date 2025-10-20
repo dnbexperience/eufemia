@@ -383,7 +383,7 @@ export const DropdownMoreMenu = () => {
           {...visualTestProps(globalThis.IS_TEST)}
         />
         <Dropdown
-          prevent_selection={true}
+          preventSelection={true}
           align_dropdown="right"
           size="small"
           title={null}
@@ -413,7 +413,7 @@ export const DropdownMoreMenu = () => {
           right="small"
         />
         <Dropdown
-          prevent_selection={true}
+          preventSelection={true}
           align_dropdown="right"
           title={null}
           aria-label="Choose an item"

@@ -381,7 +381,7 @@ describe('Dropdown component', () => {
     }
   })
 
-  it('has no selected items on using prevent_selection', async () => {
+  it('has no selected items on using preventSelection', async () => {
     const on_change = jest.fn()
     const title = 'custom title'
 
@@ -392,7 +392,7 @@ describe('Dropdown component', () => {
         data={mockData}
         title={title}
         on_change={on_change}
-        prevent_selection
+        preventSelection
       />
     )
 
@@ -422,7 +422,7 @@ describe('Dropdown component', () => {
         data={mockData}
         title={title}
         on_change={on_change}
-        prevent_selection={false}
+        preventSelection={false}
       />
     )
 
@@ -446,7 +446,7 @@ describe('Dropdown component', () => {
         data={mockData}
         title={title}
         on_change={on_change}
-        prevent_selection={false}
+        preventSelection={false}
         action_menu={true}
       />
     )
@@ -471,7 +471,7 @@ describe('Dropdown component', () => {
         data={mockData}
         title={title}
         on_change={on_change}
-        prevent_selection={true}
+        preventSelection={true}
         action_menu={false}
       />
     )
@@ -504,7 +504,7 @@ describe('Dropdown component', () => {
         data={mockData}
         title={null}
         on_change={on_change}
-        prevent_selection={true}
+        preventSelection={true}
         action_menu={false}
       />
     )
@@ -853,8 +853,8 @@ describe('Dropdown component', () => {
     ).toBe('true')
   })
 
-  it('has correct "aria-haspopup" when prevent_selection', () => {
-    render(<Dropdown {...props} data={mockData} prevent_selection />)
+  it('has correct "aria-haspopup" when preventSelection', () => {
+    render(<Dropdown {...props} data={mockData} preventSelection />)
 
     expect(
       document
@@ -916,14 +916,14 @@ describe('Dropdown component', () => {
     ).toBe('menu')
   })
 
-  it('has correct "role" in options when prevent_selection', () => {
+  it('has correct "role" in options when preventSelection', () => {
     render(
       <Dropdown
         skip_portal
         no_animation
         opened={true}
         data={mockData}
-        prevent_selection
+        preventSelection
       />
     )
 
