@@ -1872,7 +1872,7 @@ class AutocompleteInstance extends React.PureComponent {
       triangle_position,
       icon_position,
       skip_portal,
-      independent_width,
+      independentWidth,
       autoComplete,
 
       mode: _mode, // eslint-disable-line
@@ -2161,7 +2161,7 @@ class AutocompleteInstance extends React.PureComponent {
                 on_pre_change={this.onPreChangeHandler}
                 on_key_down={this.reserveActivityHandler}
                 onMouseDown={this.reserveActivityHandler}
-                independent_width={independent_width}
+                independentWidth={independentWidth}
               />
             </span>
 
