@@ -139,7 +139,6 @@ const validDrawerListProps = [
   'label_direction',
   'skip_keysearch',
   'ignore_events',
-  'portal_class',
   'no_scroll_animation',
   'no_animation',
   'skip_portal',
@@ -436,7 +435,7 @@ function Selection(props: Props) {
       const sharedProps: AutocompleteAllProps & DropdownAllProps = {
         id,
         listClass: 'dnb-forms-field-selection__list',
-        portal_class: 'dnb-forms-field-selection__portal',
+        portalClass: 'dnb-forms-field-selection__portal',
         title: placeholder,
         value: String(value ?? ''),
         status:
