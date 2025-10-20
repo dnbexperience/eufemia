@@ -442,14 +442,6 @@ export type GroupProps = AccordionProps & {
    * Determines how many accordions can be expanded at once.
    * Default: `single`
    */
-  /**
-   * @deprecated – Replaced with expandBehavior, expandBehaviour can be removed in v11.
-   */
-  expandBehaviour?: 'single' | 'multiple'
-  /**
-   * Determines how many accordions can be expanded at once.
-   * Default: `single`
-   */
   expandBehavior?: 'single' | 'multiple'
   /**
    * ref handle to collapse all expanded accordions. Send in a ref and use `.current()` to collapse all accordions.
@@ -460,12 +452,7 @@ export type GroupProps = AccordionProps & {
   collapseAllHandleRef?: React.MutableRefObject<() => void>
 }
 
-const Group = ({
-  // expandBehaviour can be removed in v11
-  expandBehaviour,
-  expandBehavior = 'single',
-  ...props
-}: GroupProps) => {
+const Group = ({ expandBehavior = 'single', ...props }: GroupProps) => {
   if (props.remember_state && !props.id) {
     rememberWarning('accordion group')
   }
@@ -533,8 +520,7 @@ const Group = ({
       onInit={onInit}
       {...props}
       group={group}
-      // expandBehaviour can be removed in v11
-      expandBehavior={expandBehaviour || expandBehavior}
+      expandBehavior={expandBehavior}
       expanded_id={expandedId || props.expanded_id}
     />
   )
