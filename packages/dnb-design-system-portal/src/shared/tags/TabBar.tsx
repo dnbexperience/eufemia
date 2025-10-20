@@ -153,5 +153,5 @@ export default function TabBar({
 }
 
 TabBar.ContentWrapper = (props) => (
-  <Tabs.ContentWrapper id="tab-bar" content_spacing={false} {...props} />
+  <Tabs.ContentWrapper id="tab-bar" contentSpacing={false} {...props} />
 )
