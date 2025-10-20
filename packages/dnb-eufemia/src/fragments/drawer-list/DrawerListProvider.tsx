@@ -169,7 +169,7 @@ export default class DrawerListProvider extends React.PureComponent<
 
     this.attributes = {}
     this.state = {
-      cache_hash: '',
+      cacheHash: '',
       active_item: undefined,
       selected_item: undefined,
       ignore_events: false,
