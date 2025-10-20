@@ -17,7 +17,7 @@ export default class ContentWrapper extends React.PureComponent<ContentWrapperPr
   static propTypes = {
     id: PropTypes.string.isRequired,
     selectedKey: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    content_style: PropTypes.string,
+    contentStyle: PropTypes.string,
     animate: PropTypes.bool,
     content_spacing: PropTypes.oneOfType([
       PropTypes.string,
@@ -27,7 +27,7 @@ export default class ContentWrapper extends React.PureComponent<ContentWrapperPr
   }
   static defaultProps = {
     selectedKey: null,
-    content_style: null,
+    contentStyle: null,
     animate: null,
     content_spacing: true,
     children: null,
@@ -66,7 +66,7 @@ export default class ContentWrapper extends React.PureComponent<ContentWrapperPr
       id,
       children,
       selectedKey: key,
-      content_style,
+      contentStyle,
       animate,
       content_spacing,
       ...rest
@@ -98,12 +98,12 @@ export default class ContentWrapper extends React.PureComponent<ContentWrapperPr
         tabIndex="-1"
         id={`${id}-content`}
         element={
-          content_style
+          contentStyle
             ? React.forwardRef((props, ref) => {
                 return (
                   <Section
-                    spacing={content_style ? false : undefined}
-                    style_type={content_style ? content_style : undefined}
+                    spacing={contentStyle ? false : undefined}
+                    style_type={contentStyle ? contentStyle : undefined}
                     innerRef={ref}
                     {...props}
                   />
@@ -146,7 +146,7 @@ export type ContentWrapperChildren =
 export interface ContentWrapperProps extends React.HTMLProps<HTMLElement> {
   id: string
   selectedKey?: ContentWrapperSelectedKey
-  content_style?: SectionStyleTypes | SectionVariants
+  contentStyle?: SectionStyleTypes | SectionVariants
   animate?: boolean
   content_spacing?: SectionSpacing
   children?: ContentWrapperChildren
