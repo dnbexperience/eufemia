@@ -50,17 +50,17 @@ export const TabsSandbox = () => {
         <TabsInGrid />
       </Box>
       <Box>
-        <Tabs tabs_style="mint-green" contentStyle="black-3">
+        <Tabs tabsStyle="mint-green" contentStyle="black-3">
           <Tabs.Content title="First" key="first">
             <div>hello1</div>
           </Tabs.Content>
         </Tabs>
         <Tabs
-          tabs_style="mint-green"
+          tabsStyle="mint-green"
           contentStyle="black-3"
           data={[{ title: 'First', key: 1, content: <div>hello1</div> }]}
         />
-        <Tabs tabs_style="mint-green" contentStyle="black-3">
+        <Tabs tabsStyle="mint-green" contentStyle="black-3">
           <Tabs.Content title="First" key="first">
             <div>hello1</div>
           </Tabs.Content>
@@ -155,7 +155,7 @@ export const TabsSandbox = () => {
         />
       </Box>
       <Box>
-        <Tabs tabs_style="mint-green">
+        <Tabs tabsStyle="mint-green">
           <Tabs.Content title="First" key="first">
             <H2>First</H2>
           </Tabs.Content>
@@ -228,7 +228,7 @@ const tabsData = [
 
 const TabsAndRerender = () => (
   <Tabs
-    tabs_style="mint-green"
+    tabsStyle="mint-green"
     prevent_rerender
     content={manyTabsContent}
     data={manyTabs}
@@ -288,7 +288,7 @@ const TabsInGrid = () => (
   <TabGridStyle>
     <TabGridWrapperStyle>
       <Tabs
-        // tabs_style="mint-green"
+        // tabsStyle="mint-green"
         prevent_rerender
         content={manyTabsContent}
         data={manyTabs}
