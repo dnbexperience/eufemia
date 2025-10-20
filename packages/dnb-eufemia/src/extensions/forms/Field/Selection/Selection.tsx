@@ -136,7 +136,6 @@ export type Props = FieldProps<IOption['value']> & {
 const validDrawerListProps = [
   // DrawerList Properties
   'label_direction',
-  'ignore_events',
   'no_animation',
 
   // DrawerList Events
