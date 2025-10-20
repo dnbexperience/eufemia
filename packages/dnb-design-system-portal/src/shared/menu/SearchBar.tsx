@@ -73,7 +73,7 @@ export const SearchBarInput = () => {
       className={classnames(autocompleteStyle, 'portal-search')}
       mode="async"
       show_clear_button
-      no_scroll_animation
+      noScrollAnimation
       preventSelection
       disable_filter
       fixedPosition
