@@ -117,9 +117,8 @@ function mergeContextWithProps<ContextT, PropsT>(
   // Merge our new values with an existing context
   const mergedContext = { ...nestedContext, ...props }
 
-  const nestedTranslations =
-    nestedContext?.translations || nestedContext?.locales
-  const localTranslations = props.translations || props.locales
+  const nestedTranslations = nestedContext?.translations
+  const localTranslations = props.translations
 
   if (nestedTranslations && localTranslations) {
     const mergedTranslations = mergeTranslations(
@@ -127,9 +126,6 @@ function mergeContextWithProps<ContextT, PropsT>(
       localTranslations as Record<string, any>
     )
     mergedContext.translations = mergedTranslations
-    if (mergedContext.locales || props.locales || nestedContext.locales) {
-      mergedContext.locales = mergedTranslations
-    }
   }
 
   // Because we don't want to deep merge, we merge formElement additionally
