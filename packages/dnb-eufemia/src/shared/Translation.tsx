@@ -15,11 +15,11 @@ export type TranslationProps<T = TranslationCustomLocales> = {
   children?: TranslationId
 } & TranslationArguments
 
-export default function Translation({
+const TranslationImpl = <T = TranslationCustomLocales,>({
   id,
   children,
   ...params
-}: TranslationProps) {
+}: TranslationProps<T>) => {
   const { translation } = useContext(SharedContext)
   const result = formatMessage(id || children, params, translation)
 
@@ -29,6 +29,28 @@ export default function Translation({
 
   return <>{result}</>
 }
+
+type TranslationFn = <T = TranslationCustomLocales>(
+  props: TranslationProps<T>
+) => JSX.Element
+
+export type TranslationComponent = TranslationFn & {
+  withTypes: <T = TranslationCustomLocales>() => (
+    props: TranslationProps<T>
+  ) => JSX.Element
+}
+
+const Translation = TranslationImpl as unknown as TranslationComponent
+
+Translation.withTypes = function withTypes<
+  T = TranslationCustomLocales,
+>() {
+  return function TypedTranslation(props: TranslationProps<T>) {
+    return <TranslationImpl {...(props as TranslationProps)} />
+  }
+}
+
+export default Translation
 
 export function mergeTranslations(
   ...translations: Array<Record<string, any>>

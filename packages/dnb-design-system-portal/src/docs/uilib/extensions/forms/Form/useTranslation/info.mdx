@@ -118,19 +118,16 @@ const myTranslations = {
   'nb-NO': { 'custom.string': 'Min egendefinerte streng' },
   'en-GB': { 'custom.string': 'My custom string' },
 }
-
-// For TypeScript support
-type Tr<T> = TranslationProps<T[keyof T]>
-const Tr = (props: Tr<typeof myTranslations>) => <Translation {...props} />
+type TranslationType = (typeof myTranslations)[keyof typeof myTranslations]
 
 render(
   <Form.Handler translations={myTranslations}>
     <Form.MainHeading>
-      <Translation id="custom.string" />
+      <Translation<TranslationType> id="custom.string" />
     </Form.MainHeading>
 
     <Form.SubHeading>
-      <Tr id={(t) => t.custom.string} />
+      <Translation<TranslationType> id={(t) => t.custom.string} />
     </Form.SubHeading>
   </Form.Handler>,
 )
@@ -152,11 +149,12 @@ const myTranslations = {
     'custom.string': 'My custom string',
   },
 }
+type TranslationType = (typeof myTranslations)[keyof typeof myTranslations]
 
 render(
   <Provider translations={myTranslations}>
     <Heading>
-      <Translation id="custom.string" />
+      <Translation<TranslationType> id={(t) => t.custom.string} />
     </Heading>
 
     <Form.Handler>
