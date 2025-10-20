@@ -3401,7 +3401,7 @@ describe('Autocomplete component', () => {
   })
 
   it('should support "preventSelection"', async () => {
-    render(<Autocomplete data={mockData} prevent_selection />)
+    render(<Autocomplete data={mockData} preventSelection />)
 
     const input = document.querySelector('input')
     await userEvent.type(input, 'aa')

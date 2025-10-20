@@ -161,7 +161,7 @@ export default class Autocomplete extends React.PureComponent {
       PropTypes.bool,
     ]),
     submit_element: PropTypes.node,
-    prevent_selection: PropTypes.oneOfType([
+    preventSelection: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool,
     ]),
@@ -300,7 +300,7 @@ export default class Autocomplete extends React.PureComponent {
     no_scroll_animation: false,
     show_submit_button: false,
     submit_element: null,
-    prevent_selection: false,
+    preventSelection: false,
     size: 'default',
     align_autocomplete: null,
     options_render: null,
@@ -1043,7 +1043,7 @@ class AutocompleteInstance extends React.PureComponent {
       open_on_focus,
       keep_value,
       keep_value_and_selection,
-      prevent_selection,
+      preventSelection,
       no_animation,
     } = this.props
 
@@ -1059,7 +1059,7 @@ class AutocompleteInstance extends React.PureComponent {
       })
     }
 
-    if (!isTrue(prevent_selection)) {
+    if (!isTrue(preventSelection)) {
       const existingValue = this.state.inputValue
 
       this.resetInputValue()
@@ -1673,9 +1673,9 @@ class AutocompleteInstance extends React.PureComponent {
   onChangeHandler = (args) => {
     const selected_item = args.selected_item
 
-    const { prevent_selection, keep_open } = this.props
+    const { preventSelection, keep_open } = this.props
 
-    if (!isTrue(prevent_selection)) {
+    if (!isTrue(preventSelection)) {
       if (!isTrue(keep_open)) {
         this.setState({
           skipFocusDuringChange: true,
@@ -1800,7 +1800,7 @@ class AutocompleteInstance extends React.PureComponent {
       submit_element,
       input_element: CustomInput,
       options_render,
-      prevent_selection,
+      preventSelection,
       max_height,
       defaultValue,
       search_numbers, // eslint-disable-line
@@ -2091,7 +2091,7 @@ class AutocompleteInstance extends React.PureComponent {
                 no_animation={no_animation}
                 no_scroll_animation={no_scroll_animation}
                 skip_portal={skip_portal}
-                prevent_selection={prevent_selection}
+                preventSelection={preventSelection}
                 triangle_position={triangle_position || icon_position}
                 keep_open={keep_open}
                 prevent_close={prevent_close}
