@@ -51,7 +51,7 @@ export const DrawerListProperties = {
     type: 'boolean',
     status: 'optional',
   },
-  keep_open: {
+  keepOpen: {
     doc: 'If set to `true`, the DrawerList will close on outside clicks, but not on selection.',
     type: 'boolean',
     status: 'optional',
