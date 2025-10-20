@@ -389,6 +389,11 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
       data: _data, // eslint-disable-line
       opened: _opened, // eslint-disable-line
       value: _value, // eslint-disable-line
+      keepOpen: _keepOpen, // eslint-disable-line
+      preventClose: _preventClose, // eslint-disable-line
+      skipKeysearch: _skipKeysearch, // eslint-disable-line
+      skipPortal: _skipPortal, // eslint-disable-line
+      enableBodyLock: _enableBodyLock, // eslint-disable-line
       children,
       ...attributes
     } = props
