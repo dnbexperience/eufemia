@@ -101,7 +101,7 @@ const DropdownStory = () => {
         <RightAligned>
           <Dropdown
             size="small"
-            independent_width
+            independentWidth
             icon_position="left"
             align_dropdown="left"
             variant="tertiary"
@@ -115,7 +115,7 @@ const DropdownStory = () => {
           />
           <Dropdown
             size="small"
-            independent_width
+            independentWidth
             // icon_position="right"
             // align_dropdown="right"
             variant="tertiary"
@@ -1128,14 +1128,14 @@ export function Title() {
 export const DropdownIndependentWidth = () => (
   <Wrapper>
     <Dropdown
-      independent_width
+      independentWidth
       size="default"
       title="sadsadasd sad asdasdas das dasdas d"
       data={dropdownData}
     />
-    <Dropdown independent_width size="default" data={dropdownData} />
+    <Dropdown independentWidth size="default" data={dropdownData} />
     <Dropdown
-      independent_width
+      independentWidth
       size="default"
       title="s"
       data={dropdownData}
