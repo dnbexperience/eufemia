@@ -11,7 +11,7 @@ export const TabsProperties: PropertiesTableProps = {
     type: ['left', 'center', 'right'],
     status: 'optional',
   },
-  content_style: {
+  contentStyle: {
     doc: 'To enable the visual helper `.dnb-section` on to the content wrapper. Use a supported modifier from the [Section component](/uilib/components/section/properties). Defaults to `null`.',
     type: ['divider', 'white', 'transparent'],
     status: 'optional',
