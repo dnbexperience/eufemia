@@ -404,11 +404,11 @@ describe('A single Tab component', () => {
     ).toBe('Second')
   })
 
-  it('has to run "prevent_rerender" as supposed', () => {
+  it('has to run "preventRerender" as supposed', () => {
     render(
       <Tabs
         {...props}
-        prevent_rerender
+        preventRerender
         data={[
           {
             title: 'One',
