@@ -69,7 +69,7 @@ export default {
       help: 'Her er noen lenker som kanskje kan hjelpe:',
     },
     ProgressIndicator: {
-      indicator_label: 'Vennligst vent ...',
+      indicatorLabel: 'Vennligst vent ...',
     },
     DrawerList: {
       defaultGroupSR: 'Standardvalg',
