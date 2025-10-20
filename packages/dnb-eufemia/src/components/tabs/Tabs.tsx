@@ -88,7 +88,7 @@ export interface TabsProps
   /**
    * To enable the visual helper `.dnb-section` on to the content wrapper. Use a supported modifier from the [Section component](/uilib/components/section/properties). Defaults to `null`.
    */
-  content_style?: SectionStyleTypes | SectionVariants
+  contentStyle?: SectionStyleTypes | SectionVariants
   /**
    * To modify the `spacing` onto the content wrapper. Use a supported modifier from the [Section component](/uilib/components/section/properties). Defaults to `large`.
    */
@@ -205,7 +205,7 @@ export default class Tabs extends React.PureComponent<TabsProps> {
       PropTypes.node,
       PropTypes.func,
     ]),
-    content_style: PropTypes.string,
+    contentStyle: PropTypes.string,
     content_spacing: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool,
@@ -255,7 +255,7 @@ export default class Tabs extends React.PureComponent<TabsProps> {
   static defaultProps = {
     data: null,
     content: null,
-    content_style: null,
+    contentStyle: null,
     content_spacing: true,
     label: null,
     tab_element: 'button',
@@ -1196,7 +1196,7 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
       <ContentWrapper
         id={this._id}
         selectedKey={selectedKey}
-        content_style={this.props.content_style}
+        contentStyle={this.props.contentStyle}
         content_spacing={this.props.content_spacing}
         animate={this.props.prerender}
       >
