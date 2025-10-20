@@ -97,7 +97,7 @@ export interface TabsProps
   /**
    * In case one of the tabs should be opened by a `key`.
    */
-  selected_key?: TabsSelectedKey
+  selectedKey?: TabsSelectedKey
   /**
    * To align the tab list on the right side `align="right"`. Defaults to `left`.
    */
@@ -169,7 +169,7 @@ export default class Tabs extends React.PureComponent<TabsProps> {
     content_spacing: true,
     label: null,
     tab_element: 'button',
-    selected_key: null,
+    selectedKey: null,
     align: 'left',
     tabs_style: null,
     tabs_spacing: null,
@@ -195,10 +195,10 @@ export default class Tabs extends React.PureComponent<TabsProps> {
   static Content = CustomContent
   static ContentWrapper = ContentWrapper
 
-  static getSelectedKeyOrFallback(selected_key, data) {
-    let useKey = selected_key
+  static getSelectedKeyOrFallback(selectedKey, data) {
+    let useKey = selectedKey
 
-    // 1. if selected_key is null/undefined then try to get it from data
+    // 1. if selectedKey is null/undefined then try to get it from data
     if (!useKey) {
       useKey =
         data.reduce(
@@ -209,7 +209,7 @@ export default class Tabs extends React.PureComponent<TabsProps> {
     } else {
       // 2. check if the key is valid
       // just to make sure we never get an empty content
-      const keyExists = data.findIndex(({ key }) => key == selected_key)
+      const keyExists = data.findIndex(({ key }) => key == selectedKey)
       if (keyExists === -1) {
         // key did not exists, so we get the first one
         useKey = data[0] && data[0].key
@@ -232,12 +232,9 @@ export default class Tabs extends React.PureComponent<TabsProps> {
           state.data = Tabs.getData(props)
         }
       }
-      if (
-        props.selected_key &&
-        state._selected_key !== props.selected_key
-      ) {
-        state.selected_key = state._selected_key =
-          Tabs.getSelectedKeyOrFallback(props.selected_key, state.data)
+      if (props.selectedKey && state._selectedKey !== props.selectedKey) {
+        state.selectedKey = state._selectedKey =
+          Tabs.getSelectedKeyOrFallback(props.selectedKey, state.data)
       }
     }
     state._listenForPropChanges = true
@@ -342,20 +339,20 @@ export default class Tabs extends React.PureComponent<TabsProps> {
     this._id = props.id || makeUniqueId() // cause we need an id anyway
     const data = Tabs.getData(props)
 
-    const selected_key = Tabs.getSelectedKeyOrFallback(
-      props.selected_key,
+    const selectedKey = Tabs.getSelectedKeyOrFallback(
+      props.selectedKey,
       data
     )
 
     const lastPosition = this.getLastPosition()
     this.state = {
       data,
-      selected_key,
-      focus_key: selected_key,
+      selectedKey,
+      focus_key: selectedKey,
       atEdge: false,
       lastPosition,
       hasScrollbar: lastPosition > -1,
-      _selected_key: selected_key,
+      _selectedKey: selectedKey,
       _data: props.data || props.children,
       _listenForPropChanges: true,
     }
@@ -365,7 +362,7 @@ export default class Tabs extends React.PureComponent<TabsProps> {
 
     if (props.id) {
       this._eventEmitter = EventEmitter.createInstance(props.id)
-      this._eventEmitter.set(this.getEventArgs({ selected_key }))
+      this._eventEmitter.set(this.getEventArgs({ selectedKey }))
     }
   }
 
@@ -428,14 +425,14 @@ export default class Tabs extends React.PureComponent<TabsProps> {
   componentDidUpdate(props) {
     if (
       this._eventEmitter &&
-      (this.props.selected_key !== props.selected_key ||
+      (this.props.selectedKey !== props.selectedKey ||
         this.props.data !== props.data)
     ) {
       this.onResizeHandler()
 
       if (this._eventEmitter) {
-        const selected_key = this.state.selected_key
-        this._eventEmitter.update(this.getEventArgs({ selected_key }))
+        const selectedKey = this.state.selectedKey
+        this._eventEmitter.update(this.getEventArgs({ selectedKey }))
       }
     }
   }
@@ -478,7 +475,7 @@ export default class Tabs extends React.PureComponent<TabsProps> {
       try {
         window.localStorage.setItem(
           `tabs-last-${this._id}`,
-          this.state.selected_key
+          this.state.selectedKey
         ) // gets removed right afterwards
       } catch (e) {
         warn(e)
@@ -713,36 +710,36 @@ export default class Tabs extends React.PureComponent<TabsProps> {
   }
 
   onMouseEnterHandler = (event) => {
-    const selected_key = this.getCurrentKey(event)
-    if (selected_key) {
+    const selectedKey = this.getCurrentKey(event)
+    if (selectedKey) {
       dispatchCustomElementEvent(
         this,
         'on_mouse_enter',
-        this.getEventArgs({ event, selected_key })
+        this.getEventArgs({ event, selectedKey })
       )
     }
   }
 
   onClickHandler = (event) => {
-    const selected_key = this.getCurrentKey(event)
-    if (selected_key) {
+    const selectedKey = this.getCurrentKey(event)
+    if (selectedKey) {
       const ret = dispatchCustomElementEvent(
         this,
         'on_click',
-        this.getEventArgs({ event, selected_key })
+        this.getEventArgs({ event, selectedKey })
       )
 
       if (ret !== false) {
-        this.openTab(selected_key, event)
+        this.openTab(selectedKey, event)
         this.scrollToTab({ type: 'selected' })
       }
     }
   }
 
   getCurrentKey = (event) => {
-    let selected_key
+    let selectedKey
     try {
-      selected_key = (function (elem) {
+      selectedKey = (function (elem) {
         return (
           getClosestParent('dnb-tabs__button', elem) || { dataset: {} }
         )
@@ -751,12 +748,12 @@ export default class Tabs extends React.PureComponent<TabsProps> {
       warn('Tabs Error:', e)
     }
 
-    return selected_key
+    return selectedKey
   }
 
-  getCurrentTitle = (selected_key = this.state.selected_key) => {
+  getCurrentTitle = (selectedKey = this.state.selectedKey) => {
     const current = this.state.data.filter(
-      ({ key }) => key == selected_key
+      ({ key }) => key == selectedKey
     )[0]
     return (current && current.title) || null
   }
@@ -836,22 +833,22 @@ export default class Tabs extends React.PureComponent<TabsProps> {
     )
   }
 
-  openTab = (selected_key, event = null, mode = null) => {
+  openTab = (selectedKey, event = null, mode = null) => {
     // saving the position will avoid flickering if the new tab will be done by a new page load
     this.saveLastPosition()
     this.saveLastUsedTab()
     this.resetWhatInput()
 
     // for handling openPrevTab and openNextTab
-    if (mode === 'step' && parseFloat(selected_key)) {
-      selected_key = this.getStepKey(selected_key, this.state.selected_key)
+    if (mode === 'step' && parseFloat(selectedKey)) {
+      selectedKey = this.getStepKey(selectedKey, this.state.selectedKey)
     }
 
-    if (typeof selected_key !== 'undefined') {
+    if (typeof selectedKey !== 'undefined') {
       this.setState(
         {
-          selected_key,
-          focus_key: selected_key,
+          selectedKey,
+          focus_key: selectedKey,
           _listenForPropChanges: false,
         },
         this.handleVerticalScroll
@@ -861,7 +858,7 @@ export default class Tabs extends React.PureComponent<TabsProps> {
     dispatchCustomElementEvent(
       this,
       'on_change',
-      this.getEventArgs({ event, selected_key })
+      this.getEventArgs({ event, selectedKey })
     )
 
     if (
@@ -869,27 +866,27 @@ export default class Tabs extends React.PureComponent<TabsProps> {
       typeof window !== 'undefined'
     ) {
       try {
-        this.props.onOpenTabNavigationFn(selected_key)
+        this.props.onOpenTabNavigationFn(selectedKey)
       } catch (e) {
         warn('Tabs Error:', e)
       }
     }
 
     if (this._eventEmitter) {
-      this._eventEmitter.update(this.getEventArgs({ event, selected_key }))
+      this._eventEmitter.update(this.getEventArgs({ event, selectedKey }))
     }
   }
 
   getEventArgs(args) {
-    const { selected_key, focus_key } = this.state
+    const { selectedKey, focus_key } = this.state
     const key =
-      typeof args.selected_key !== 'undefined'
-        ? args.selected_key
-        : selected_key
+      typeof args.selectedKey !== 'undefined'
+        ? args.selectedKey
+        : selectedKey
 
     return {
       key,
-      selected_key,
+      selectedKey,
       focus_key,
       title: this.getCurrentTitle(key),
       ...args,
@@ -900,11 +897,11 @@ export default class Tabs extends React.PureComponent<TabsProps> {
     return this.state.focus_key == tabKey
   }
   isSelected(tabKey) {
-    return this.state.selected_key == tabKey
+    return this.state.selectedKey == tabKey
   }
 
   renderCachedContent() {
-    const { selected_key, data } = this.state
+    const { selectedKey, data } = this.state
     const { prevent_rerender, prerender } = this.props
 
     if (isTrue(prerender)) {
@@ -922,13 +919,13 @@ export default class Tabs extends React.PureComponent<TabsProps> {
     } else if (isTrue(prevent_rerender)) {
       this._cache = {
         ...(this._cache || {}),
-        [selected_key]: { content: this.getContent(selected_key) },
+        [selectedKey]: { content: this.getContent(selectedKey) },
       }
     }
 
     const cachedContent = Object.entries(this._cache).map(
       ([key, { content }]) => {
-        const hide = key !== String(selected_key)
+        const hide = key !== String(selectedKey)
         return (
           <div
             key={key}
@@ -954,10 +951,10 @@ export default class Tabs extends React.PureComponent<TabsProps> {
       return this.renderCachedContent()
     }
 
-    return this.getContent(this.state.selected_key)
+    return this.getContent(this.state.selectedKey)
   }
 
-  getContent = (selected_key) => {
+  getContent = (selectedKey) => {
     const { children, content: _content } = this.props
 
     const contentToRender = children || _content
@@ -967,13 +964,13 @@ export default class Tabs extends React.PureComponent<TabsProps> {
     if (contentToRender) {
       if (
         typeof contentToRender === 'object' &&
-        contentToRender[selected_key]
+        contentToRender[selectedKey]
       ) {
         // if content is provided as an object
-        content = contentToRender[selected_key]
+        content = contentToRender[selectedKey]
       } else if (typeof contentToRender === 'function') {
         // if content is provided as a render prop
-        content = contentToRender.apply(this, [selected_key])
+        content = contentToRender.apply(this, [selectedKey])
       } else if (React.isValidElement(contentToRender)) {
         content = contentToRender
       }
@@ -993,7 +990,7 @@ export default class Tabs extends React.PureComponent<TabsProps> {
       // - or the content was provided as a content prop i data
       if (items) {
         content = items
-          .filter(({ key }) => key && selected_key && key == selected_key) // like isSelected
+          .filter(({ key }) => key && selectedKey && key == selectedKey) // like isSelected
           .reduce((acc, { content }) => content || acc, null)
       }
     }
@@ -1091,7 +1088,7 @@ export default class Tabs extends React.PureComponent<TabsProps> {
   }
 
   TabContentHandler = () => {
-    const { selected_key } = this.state
+    const { selectedKey } = this.state
 
     const content = this.renderContent()
 
@@ -1104,7 +1101,7 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
     return (
       <ContentWrapper
         id={this._id}
-        selected_key={selected_key}
+        selectedKey={selectedKey}
         content_style={this.props.content_style}
         content_spacing={this.props.content_spacing}
         animate={this.props.prerender}
@@ -1116,7 +1113,7 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
 
   TabsHandler = (props) => {
     const { label, skeleton, tab_element } = { ...this._props, ...props }
-    const { selected_key } = this.state
+    const { selectedKey } = this.state
 
     const TabElement = tab_element || 'button'
 
@@ -1188,10 +1185,10 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
     if (label) {
       params['aria-label'] = label
     }
-    if (selected_key) {
+    if (selectedKey) {
       params['aria-labelledby'] = combineLabelledBy(
         params,
-        `${this._id}-tab-${selected_key}`
+        `${this._id}-tab-${selectedKey}`
       )
     }
     return (
