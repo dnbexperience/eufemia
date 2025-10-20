@@ -49,7 +49,7 @@ const mockData: DrawerListDataArray = [
   {
     selected_value:
       'Feriekonto - Kari Nordmann med et kjempelangt etternavnsen',
-    selected_key: 1,
+    selectedKey: 1,
     content: [
       '1134 56 78962',
       'Feriekonto - Kari Nordmann med et kjempelangt etternavnsen',
@@ -57,7 +57,7 @@ const mockData: DrawerListDataArray = [
   },
   {
     selected_value: 'Oppussing - Ole Nordmann',
-    selected_key: '0x',
+    selectedKey: '0x',
     content: ['1534 96 48901', 'Oppussing - Ole Nordmann'],
   },
   {
@@ -556,11 +556,11 @@ describe('Dropdown component', () => {
 
   it('selects correct value and key', () => {
     const mockData = [
-      { selected_key: 'a', content: 'A value' },
-      { selected_key: 'b', content: 'B value' },
-      { selected_key: 'c', content: 'C value' },
-      { selected_key: 'id-123', content: '123 value' },
-      { selected_key: 'id-456', content: '456 value' },
+      { selectedKey: 'a', content: 'A value' },
+      { selectedKey: 'b', content: 'B value' },
+      { selectedKey: 'c', content: 'C value' },
+      { selectedKey: 'id-123', content: '123 value' },
+      { selectedKey: 'id-456', content: '456 value' },
     ]
 
     const on_change = jest.fn()
@@ -585,7 +585,7 @@ describe('Dropdown component', () => {
     expect(document.querySelector('.dnb-dropdown__text').textContent).toBe(
       'A value'
     )
-    expect(on_change.mock.calls[0][0].data.selected_key).toBe('a')
+    expect(on_change.mock.calls[0][0].data.selectedKey).toBe('a')
 
     rerender(
       <Dropdown
@@ -605,7 +605,7 @@ describe('Dropdown component', () => {
     expect(document.querySelector('.dnb-dropdown__text').textContent).toBe(
       'C value'
     )
-    expect(on_change.mock.calls[1][0].data.selected_key).toBe('c')
+    expect(on_change.mock.calls[1][0].data.selectedKey).toBe('c')
 
     rerender(
       <Dropdown
@@ -625,7 +625,7 @@ describe('Dropdown component', () => {
     expect(document.querySelector('.dnb-dropdown__text').textContent).toBe(
       '456 value'
     )
-    expect(on_change.mock.calls[2][0].data.selected_key).toBe('id-456')
+    expect(on_change.mock.calls[2][0].data.selectedKey).toBe('id-456')
 
     rerender(
       <Dropdown
@@ -1396,7 +1396,7 @@ describe('Dropdown component', () => {
         {...props}
         data={[
           {
-            selected_key: 'banking',
+            selectedKey: 'banking',
             selected_value: <Icon icon={bank} />,
             content: <Icon icon={bank} />,
           },
@@ -1415,7 +1415,7 @@ describe('Dropdown component', () => {
         {...props}
         data={[
           {
-            selected_key: 'norway',
+            selectedKey: 'norway',
             selected_value: <CountryFlag iso="NO" />,
             content: <CountryFlag iso="NO" />,
           },
@@ -1442,7 +1442,7 @@ describe('Dropdown component', () => {
         {...props}
         data={[
           {
-            selected_key: 'test',
+            selectedKey: 'test',
             selected_value: <>my value</>,
             content: 'test',
           },
@@ -1461,7 +1461,7 @@ describe('Dropdown component', () => {
         {...props}
         data={[
           {
-            selected_key: 'test',
+            selectedKey: 'test',
             selected_value: (
               <>
                 <Icon icon={bank} />
@@ -1485,7 +1485,7 @@ describe('Dropdown component', () => {
         {...props}
         data={[
           {
-            selected_key: 'test',
+            selectedKey: 'test',
             selected_value: <Icon icon={bank} />,
             content: 'test',
           },
@@ -1504,7 +1504,7 @@ describe('Dropdown component', () => {
         {...props}
         data={[
           {
-            selected_key: 'test',
+            selectedKey: 'test',
             selected_value: <NumberFormat>11345678962</NumberFormat>,
             content: 'test',
           },
