@@ -48,9 +48,9 @@ describe('Tabs component', () => {
     )
   })
 
-  it('has working "on_change" and "on_click" event handler', () => {
+  it('has working "onChange" and "on_click" event handler', () => {
     let preventChange = false
-    const on_change = jest.fn((e) => {
+    const onChange = jest.fn((e) => {
       if (preventChange) {
         return false
       }
@@ -67,7 +67,7 @@ describe('Tabs component', () => {
       <Tabs
         {...props}
         data={tablistData}
-        on_change={on_change}
+        onChange={onChange}
         on_click={on_click}
       >
         {contentWrapperData}
@@ -75,17 +75,17 @@ describe('Tabs component', () => {
     )
 
     fireEvent.click(document.querySelectorAll('.dnb-tabs__button')[1])
-    expect(on_change).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenCalledTimes(1)
     expect(on_click).toHaveBeenCalledTimes(1)
 
     fireEvent.click(document.querySelectorAll('.dnb-tabs__button')[2])
-    expect(on_change).toHaveBeenCalledTimes(2)
+    expect(onChange).toHaveBeenCalledTimes(2)
     expect(on_click).toHaveBeenCalledTimes(2)
 
     preventChange = true
 
     fireEvent.click(document.querySelectorAll('.dnb-tabs__button')[1])
-    expect(on_change).toHaveBeenCalledTimes(2)
+    expect(onChange).toHaveBeenCalledTimes(2)
     expect(on_click).toHaveBeenCalledTimes(3)
   })
 
