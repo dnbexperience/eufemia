@@ -149,7 +149,7 @@ export default class Autocomplete extends React.PureComponent {
       PropTypes.bool,
     ]),
     direction: PropTypes.oneOf(['auto', 'top', 'bottom']),
-    max_height: PropTypes.number,
+    maxHeight: PropTypes.number,
     skipPortal: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     noScrollAnimation: PropTypes.oneOfType([
@@ -293,7 +293,7 @@ export default class Autocomplete extends React.PureComponent {
     scrollable: true,
     focusable: false,
     disable_highlighting: false,
-    max_height: null,
+    maxHeight: null,
     direction: 'auto',
     skipPortal: null,
     no_animation: false,
@@ -1781,7 +1781,7 @@ class AutocompleteInstance extends React.PureComponent {
       input_element: CustomInput,
       options_render,
       preventSelection,
-      max_height,
+      maxHeight,
       defaultValue,
       search_numbers, // eslint-disable-line
       search_in_word_index, // eslint-disable-line
@@ -2078,7 +2078,7 @@ class AutocompleteInstance extends React.PureComponent {
                 alignDrawer={align_autocomplete}
                 fixedPosition={fixedPosition}
                 disabled={disabled}
-                max_height={max_height}
+                maxHeight={maxHeight}
                 direction={direction}
                 size={size}
                 options_render={options_render}
