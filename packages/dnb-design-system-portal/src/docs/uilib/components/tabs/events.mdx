@@ -11,11 +11,11 @@ import { TabsEvents } from '@dnb/eufemia/src/components/tabs/TabsDocs'
 
 ### Prevent a change
 
-You can prevent a change from happening by returning false on the `on_click` event handler:
+You can prevent a change from happening by returning false on the `onClick` event handler:
 
 ```tsx
 <Tabs
-  on_click={() => {
+  onClick={() => {
     if (condition === true) {
       return false
     }
