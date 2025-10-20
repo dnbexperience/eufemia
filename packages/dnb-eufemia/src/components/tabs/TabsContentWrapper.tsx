@@ -14,7 +14,7 @@ import HeightAnimation from '../height-animation/HeightAnimation'
 
 export default class ContentWrapper extends React.PureComponent<ContentWrapperProps> {
   static defaultProps = {
-    selected_key: null,
+    selectedKey: null,
     content_style: null,
     animate: null,
     content_spacing: true,
@@ -53,7 +53,7 @@ export default class ContentWrapper extends React.PureComponent<ContentWrapperPr
     const {
       id,
       children,
-      selected_key: key,
+      selectedKey: key,
       content_style,
       animate,
       content_spacing,
@@ -133,7 +133,7 @@ export type ContentWrapperChildren =
 
 export interface ContentWrapperProps extends React.HTMLProps<HTMLElement> {
   id: string
-  selected_key?: ContentWrapperSelectedKey
+  selectedKey?: ContentWrapperSelectedKey
   content_style?: SectionStyleTypes | SectionVariants
   animate?: boolean
   content_spacing?: SectionSpacing
