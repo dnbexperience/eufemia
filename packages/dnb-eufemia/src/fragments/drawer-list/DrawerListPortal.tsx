@@ -19,7 +19,6 @@ export type DrawerListPortalProps = {
   opened: boolean
   innerRef?: React.ForwardedRef<HTMLSpanElement>
   rootRef: React.RefObject<HTMLSpanElement>
-  include_owner_width?: boolean
   independentWidth?: boolean
   fixedPosition?: boolean
   skipPortal?: boolean
@@ -31,7 +30,6 @@ function DrawerListPortal({
   id,
   opened,
   rootRef = { current: undefined },
-  include_owner_width,
   independentWidth,
   fixedPosition,
   skipPortal,
@@ -143,10 +141,7 @@ function DrawerListPortal({
         : window.pageXOffset
 
       let top = scrollY + rect.top
-      let left =
-        scrollX +
-        rect.left +
-        (include_owner_width ? parseFloat(ownerWidth || '0') : 0)
+      let left = scrollX + rect.left
 
       if (width > window.innerWidth) {
         width = window.innerWidth
@@ -170,14 +165,7 @@ function DrawerListPortal({
     } catch (e) {
       warn(e)
     }
-  }, [
-    isMounted,
-    rootRef,
-    independentWidth,
-    fixedPosition,
-    include_owner_width,
-    portalRef,
-  ])
+  }, [isMounted, rootRef, independentWidth, fixedPosition, portalRef])
 
   const addPositionObserver = useCallback(() => {
     if (setPosition.current || typeof window === 'undefined') {
