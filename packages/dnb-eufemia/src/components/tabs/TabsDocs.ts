@@ -131,22 +131,22 @@ export const TabsDataObject: PropertiesTableProps = {
 
 export const TabsEvents: PropertiesTableProps = {
   onChange: {
-    doc: '(preferred) this event gets triggered once the tab changes its selected key. Returns `{ key, selectedKey, focus_key, event }`.',
+    doc: '(preferred) this event gets triggered once the tab changes its selected key. Returns `{ key, selectedKey, focusKey, event }`.',
     type: 'function',
     status: 'optional',
   },
   onClick: {
-    doc: 'This event gets triggered once the tab gets clicked. Returns `{ key, selectedKey, focus_key, event }`.',
+    doc: 'This event gets triggered once the tab gets clicked. Returns `{ key, selectedKey, focusKey, event }`.',
     type: 'function',
     status: 'optional',
   },
   onFocus: {
-    doc: 'This event gets triggered once the tab changes its focus key. Returns `{ key, selectedKey, focus_key, event }`.',
+    doc: 'This event gets triggered once the tab changes its focus key. Returns `{ key, selectedKey, focusKey, event }`.',
     type: 'function',
     status: 'optional',
   },
   onMouseEnter: {
-    doc: "This event gets triggered once the user';s mouse enters a tab (hover). Returns `{ key, selectedKey, focus_key, event }`.",
+    doc: "This event gets triggered once the user';s mouse enters a tab (hover). Returns `{ key, selectedKey, focusKey, event }`.",
     type: 'function',
     status: 'optional',
   },
