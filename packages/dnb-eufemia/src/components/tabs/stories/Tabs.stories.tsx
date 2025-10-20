@@ -82,7 +82,7 @@ export const TabsSandbox = () => {
           bottom
           prerender
           contentStyle="black-3"
-          content_spacing={false}
+          contentSpacing={false}
         >
           <Tabs.Content title="Tab 1" key="first">
             <>
