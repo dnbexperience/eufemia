@@ -29,12 +29,12 @@ const nbNO = locales['nb-NO'].DrawerList
 
 // use no_animation so we don't need to wait
 const mockProps: DropdownAllProps = {
-  skip_portal: true,
+  skipPortal: true,
 }
 const props: DropdownAllProps = {
   id: 'dropdown-id',
   value: 2,
-  skip_portal: true,
+  skipPortal: true,
   no_animation: true,
 }
 
@@ -156,7 +156,7 @@ describe('Dropdown component', () => {
 
   it('has correct state when opened prop is given', () => {
     render(
-      <Dropdown skip_portal no_animation opened={true} data={mockData} />
+      <Dropdown skipPortal no_animation opened={true} data={mockData} />
     )
 
     expect(
@@ -172,7 +172,7 @@ describe('Dropdown component', () => {
   it('supports a trigger_element properly', () => {
     render(
       <Dropdown
-        skip_portal
+        skipPortal
         no_animation
         trigger_element={(props) => <button {...props}>test</button>}
         data={mockData}
@@ -198,7 +198,7 @@ describe('Dropdown component', () => {
   it('shows form-status with correct classes', () => {
     render(
       <Dropdown
-        skip_portal
+        skipPortal
         no_animation
         data={mockData}
         status="status text"
@@ -216,7 +216,7 @@ describe('Dropdown component', () => {
     const on_change = jest.fn()
     render(
       <Dropdown
-        skip_portal
+        skipPortal
         no_animation
         opened={true}
         keepOpen={true}
@@ -256,7 +256,7 @@ describe('Dropdown component', () => {
     render(
       <Dropdown
         preventClose={true}
-        skip_portal
+        skipPortal
         no_animation
         on_change={on_change}
         on_hide={on_hide}
@@ -867,11 +867,11 @@ describe('Dropdown component', () => {
 
   it('has correct "role" in options', () => {
     render(
-      <Dropdown skip_portal no_animation opened={true} data={mockData} />
+      <Dropdown skipPortal no_animation opened={true} data={mockData} />
     )
 
     render(
-      <Dropdown skip_portal no_animation opened={true} data={mockData} />
+      <Dropdown skipPortal no_animation opened={true} data={mockData} />
     )
 
     expect(
@@ -884,7 +884,7 @@ describe('Dropdown component', () => {
   it('has correct "role" in options when action_menu', () => {
     render(
       <Dropdown
-        skip_portal
+        skipPortal
         no_animation
         opened={true}
         data={mockData}
@@ -902,7 +902,7 @@ describe('Dropdown component', () => {
   it('has correct "role" in options when more_menu', () => {
     render(
       <Dropdown
-        skip_portal
+        skipPortal
         no_animation
         opened={true}
         data={mockData}
@@ -920,7 +920,7 @@ describe('Dropdown component', () => {
   it('has correct "role" in options when preventSelection', () => {
     render(
       <Dropdown
-        skip_portal
+        skipPortal
         no_animation
         opened={true}
         data={mockData}
@@ -1533,7 +1533,7 @@ describe('Dropdown component', () => {
   })
 
   it('should support empty data entry', () => {
-    render(<Dropdown skip_portal no_animation data={['']} />)
+    render(<Dropdown skipPortal no_animation data={['']} />)
 
     expect(
       document.querySelector('button').getAttribute('aria-expanded')
@@ -2119,7 +2119,7 @@ describe('Dropdown markup', () => {
       status_state: 'error',
       value: 2,
       opened: true,
-      skip_portal: true,
+      skipPortal: true,
       no_animation: true,
       variant: 'secondary',
     }
