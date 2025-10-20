@@ -341,7 +341,7 @@ export const AutocompleteSandbox = () => {
           on_change={(e) => {
             console.log('on_change', e)
           }}
-          options_render={({
+          optionsRender={({
             Items,
             // , Item
           }) => (
