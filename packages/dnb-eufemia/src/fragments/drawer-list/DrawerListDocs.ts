@@ -81,7 +81,7 @@ export const DrawerListProperties = {
     type: 'boolean',
     status: 'optional',
   },
-  align_drawer: {
+  alignDrawer: {
     doc: "Use 'right' to change the options alignment direction. Makes only sense to use in combination with `preventSelection` or `more_menu` - or if an independent width is used.",
     type: 'string',
     status: 'optional',
