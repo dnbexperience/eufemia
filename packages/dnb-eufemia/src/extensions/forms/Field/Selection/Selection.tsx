@@ -139,7 +139,7 @@ const validDrawerListProps = [
   'label_direction',
   'skip_keysearch',
   'ignore_events',
-  'align_drawer',
+  'alignDrawer',
   'list_class',
   'portal_class',
   'no_scroll_animation',
