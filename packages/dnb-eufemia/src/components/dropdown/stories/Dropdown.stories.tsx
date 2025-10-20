@@ -181,7 +181,7 @@ const DropdownStory = () => {
               </Link>,
               'Or to this one',
             ]}
-            // skip_portal
+            // skipPortal
             align_dropdown="right"
           />
           <Dropdown
@@ -194,7 +194,7 @@ const DropdownStory = () => {
               </Link>,
               'Or to this one',
             ]}
-            // skip_portal
+            // skipPortal
             // align_dropdown="right"
           />
         </RightAligned>
@@ -211,7 +211,7 @@ const DropdownStory = () => {
         <Box>
           <Dropdown
             size="small"
-            skip_portal
+            skipPortal
             opened={opened}
             no_animation
             direction={direction}
@@ -235,7 +235,7 @@ const DropdownStory = () => {
         </Box>
         <Box top={opened ? 'x-large x-large' : 0}>
           <Dropdown
-            skip_portal
+            skipPortal
             opened={opened}
             no_animation
             direction={direction}
@@ -259,7 +259,7 @@ const DropdownStory = () => {
         <Box top={opened ? 'x-large x-large' : 0}>
           <Dropdown
             size="medium"
-            skip_portal
+            skipPortal
             opened={opened}
             no_animation
             direction={direction}
@@ -284,7 +284,7 @@ const DropdownStory = () => {
         <Box top={opened ? 'x-large x-large' : 0}>
           <Dropdown
             size="large"
-            skip_portal
+            skipPortal
             opened={opened}
             no_animation
             direction={direction}
@@ -326,7 +326,7 @@ const DropdownStory = () => {
                 'Or to this one',
               ]}
               right="x-large x-large"
-              skip_portal
+              skipPortal
             />
             <Dropdown
               more_menu={true}
