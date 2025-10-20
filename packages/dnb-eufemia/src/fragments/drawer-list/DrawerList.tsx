@@ -160,7 +160,7 @@ export interface DrawerListProps {
   /**
    * Use 'right' to change the options alignment direction. Makes only sense to use in combination with `preventSelection` or `more_menu` - or if an independent width is used.
    */
-  align_drawer?: 'left' | 'right'
+  alignDrawer?: 'left' | 'right'
   /**
    * Has to be a function, returning the items again. See [example](/uilib/components/fragments/drawer-list#example-usage-of-options_render). This can be used to add additional options above the actual rendered list.
    */
@@ -358,7 +358,7 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
     )
     const {
       role,
-      align_drawer,
+      alignDrawer,
       fixedPosition,
       independentWidth,
       scrollable,
@@ -442,7 +442,7 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
         `dnb-drawer-list--${direction}`,
         triangle_position &&
           `dnb-drawer-list--triangle-position-${triangle_position}`,
-        align_drawer && `dnb-drawer-list--${align_drawer}`,
+        alignDrawer && `dnb-drawer-list--${alignDrawer}`,
         size && `dnb-drawer-list--${size}`,
         isTrue(action_menu) && `dnb-drawer-list--action-menu`,
         isTrue(is_popup) && 'dnb-drawer-list--is-popup',
@@ -651,7 +651,7 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
           id={id}
           rootRef={_refRoot}
           opened={hidden === false}
-          include_owner_width={align_drawer === 'right'}
+          include_owner_width={alignDrawer === 'right'}
           independentWidth={isTrue(independentWidth)}
           fixedPosition={isTrue(fixedPosition)}
           className={getThemeClasses(this.context?.theme, portal_class)}
