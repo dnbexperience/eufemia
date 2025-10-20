@@ -979,7 +979,7 @@ export function UpdateData() {
         value={value}
         size="large"
         direction="top"
-        prevent_close={preventClose}
+        preventClose={preventClose}
       />
       <Dropdown
         top="10rem"
@@ -989,7 +989,7 @@ export function UpdateData() {
         on_show={onShow}
         value={value}
         size="large"
-        prevent_close={preventClose}
+        preventClose={preventClose}
       />
     </>
   )
