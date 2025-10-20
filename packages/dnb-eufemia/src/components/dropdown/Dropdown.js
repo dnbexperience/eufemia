@@ -147,7 +147,7 @@ export default class Dropdown extends React.PureComponent {
     ]),
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     open_on_focus: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    prevent_close: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    preventClose: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     keep_open: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     opened: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -208,7 +208,7 @@ export default class Dropdown extends React.PureComponent {
     defaultValue: null,
     value: 'initval',
     open_on_focus: false,
-    prevent_close: false,
+    preventClose: false,
     keep_open: false,
     opened: false,
     disabled: null,
@@ -439,7 +439,7 @@ class DropdownInstance extends React.PureComponent {
       scrollable,
       focusable,
       keep_open,
-      prevent_close,
+      preventClose,
       no_animation,
       no_scroll_animation,
       triangle_position,
@@ -674,7 +674,7 @@ class DropdownInstance extends React.PureComponent {
                   triangle_position || icon_position || 'right'
                 }
                 keep_open={keep_open}
-                prevent_close={prevent_close}
+                preventClose={preventClose}
                 independent_width={
                   isTrue(independent_width) || isPopupMenu || action_menu
                 }

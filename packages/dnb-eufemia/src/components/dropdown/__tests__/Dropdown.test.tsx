@@ -249,12 +249,12 @@ describe('Dropdown component', () => {
     ).not.toContain('dnb-dropdown--opened')
   })
 
-  it('will stay open when prevent_close is given, regardless', async () => {
+  it('will stay open when preventClose is given, regardless', async () => {
     const on_change = jest.fn()
     const on_hide = jest.fn()
     render(
       <Dropdown
-        prevent_close={true}
+        preventClose={true}
         skip_portal
         no_animation
         on_change={on_change}
