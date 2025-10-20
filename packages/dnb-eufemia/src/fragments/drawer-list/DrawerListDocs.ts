@@ -146,8 +146,8 @@ export const DrawerListProperties = {
     type: ['string', 'HTMLElement'],
     status: 'optional',
   },
-  options_render: {
-    doc: 'Has to be a function, returning the items again. See [example](/uilib/components/fragments/drawer-list#example-usage-of-options_render). This can be used to add additional options above the actual rendered list.',
+  optionsRender: {
+    doc: 'Has to be a function, returning the items again. See [example](/uilib/components/fragments/drawer-list#example-usage-of-optionsRender). This can be used to add additional options above the actual rendered list.',
     type: 'function',
     status: 'optional',
   },
