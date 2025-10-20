@@ -134,7 +134,7 @@ export interface TabsProps
   /**
    * If set to `true`, the Tabs content will stay in the DOM. The visibility will be handled by using the `hidden` and `aria-hidden` HTML attributes. Similar to `prerender`, but in contrast, the content will render once the user is activating a tab. Defaults to `false`.
    */
-  prevent_rerender?: boolean
+  preventRerender?: boolean
   /**
    * If set to `true`, the content will scroll on tab change, until all tabs will be visible on the upper side of the browser window view. Defaults to `false`.
    */
@@ -225,7 +225,7 @@ export default class Tabs extends React.PureComponent<TabsProps> {
     navButtonEdge: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     onOpenTabNavigationFn: PropTypes.func,
     prerender: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    prevent_rerender: PropTypes.oneOfType([
+    preventRerender: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool,
     ]),
@@ -264,7 +264,7 @@ export default class Tabs extends React.PureComponent<TabsProps> {
     navButtonEdge: false,
     onOpenTabNavigationFn: null,
     prerender: false,
-    prevent_rerender: false,
+    preventRerender: false,
     scroll: null,
     skeleton: null,
     id: null,
@@ -989,7 +989,7 @@ export default class Tabs extends React.PureComponent<TabsProps> {
 
   renderCachedContent() {
     const { selectedKey, data } = this.state
-    const { prevent_rerender, prerender } = this.props
+    const { preventRerender, prerender } = this.props
 
     if (isTrue(prerender)) {
       this._cache = Object.entries(data).reduce(
@@ -1003,7 +1003,7 @@ export default class Tabs extends React.PureComponent<TabsProps> {
         },
         {}
       )
-    } else if (isTrue(prevent_rerender)) {
+    } else if (isTrue(preventRerender)) {
       this._cache = {
         ...(this._cache || {}),
         [selectedKey]: { content: this.getContent(selectedKey) },
@@ -1032,9 +1032,9 @@ export default class Tabs extends React.PureComponent<TabsProps> {
   }
 
   renderContent() {
-    const { prevent_rerender, prerender } = this.props
+    const { preventRerender, prerender } = this.props
 
-    if (isTrue(prevent_rerender) || isTrue(prerender)) {
+    if (isTrue(preventRerender) || isTrue(prerender)) {
       return this.renderCachedContent()
     }
 
