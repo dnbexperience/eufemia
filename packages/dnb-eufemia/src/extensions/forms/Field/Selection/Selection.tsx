@@ -149,7 +149,6 @@ const validDrawerListProps = [
   // DrawerList Properties
   'triangle_position',
   'label_direction',
-  'independent_width',
   'fixed_position',
   'enable_body_lock',
   'skip_keysearch',
@@ -248,7 +247,6 @@ const validDropdownProps = [
   'action_menu',
   'more_menu',
   'align_dropdown',
-  'independent_width',
   'skip_portal',
   'status_state',
   'status_props',
