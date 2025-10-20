@@ -192,14 +192,14 @@ export const drawerListProviderPropTypes = {
     PropTypes.string,
     PropTypes.node,
   ]),
-  min_height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  minHeight: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 }
 
 export const drawerListProviderDefaultProps = {
   enableBodyLock: false,
   page_offset: null,
   observer_element: null,
-  min_height: 10, // 10rem = 10x16=160,
+  minHeight: 10, // 10rem = 10x16=160,
 }
 
 export function parseContentTitle(
