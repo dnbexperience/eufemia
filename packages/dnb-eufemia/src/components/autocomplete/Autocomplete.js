@@ -167,7 +167,7 @@ export default class Autocomplete extends React.PureComponent {
     ]),
     size: PropTypes.oneOf(['default', 'small', 'medium', 'large']),
     align_autocomplete: PropTypes.oneOf(['left', 'right']),
-    options_render: PropTypes.oneOfType([
+    optionsRender: PropTypes.oneOfType([
       PropTypes.object,
       PropTypes.func,
       PropTypes.node,
@@ -303,7 +303,7 @@ export default class Autocomplete extends React.PureComponent {
     preventSelection: false,
     size: 'default',
     align_autocomplete: null,
-    options_render: null,
+    optionsRender: null,
     data: null,
     search_in_word_index: null,
     search_numbers: null,
@@ -1799,7 +1799,7 @@ class AutocompleteInstance extends React.PureComponent {
       show_submit_button,
       submit_element,
       input_element: CustomInput,
-      options_render,
+      optionsRender,
       preventSelection,
       maxHeight,
       defaultValue,
@@ -2101,7 +2101,7 @@ class AutocompleteInstance extends React.PureComponent {
                 maxHeight={maxHeight}
                 direction={direction}
                 size={size}
-                options_render={options_render}
+                optionsRender={optionsRender}
                 on_change={this.onChangeHandler}
                 on_select={this.onSelectHandler}
                 on_hide={this.onHideHandler}
