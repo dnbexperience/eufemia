@@ -213,7 +213,7 @@ export default class Autocomplete extends React.PureComponent {
       PropTypes.string,
       PropTypes.bool,
     ]),
-    default_value: PropTypes.oneOfType([
+    defaultValue: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.number,
     ]),
@@ -306,7 +306,7 @@ export default class Autocomplete extends React.PureComponent {
     data: null,
     search_in_word_index: null,
     search_numbers: null,
-    default_value: null,
+    defaultValue: null,
     value: 'initval',
     input_value: 'initval',
     autoComplete: 'off',
@@ -404,12 +404,12 @@ class AutocompleteInstance extends React.PureComponent {
       if (props?.data?.length > 0 && state?.prevData?.length === 0) {
         let selectedItem = state.selected_item
 
-        if (props.default_value) {
-          selectedItem = props.default_value
+        if (props.defaultValue) {
+          selectedItem = props.defaultValue
         }
 
         if (
-          !props.default_value &&
+          !props.defaultValue &&
           props.value &&
           props.value !== 'initval'
         ) {
@@ -1774,7 +1774,7 @@ class AutocompleteInstance extends React.PureComponent {
       options_render,
       prevent_selection,
       max_height,
-      default_value,
+      defaultValue,
       search_numbers, // eslint-disable-line
       search_in_word_index, // eslint-disable-line
       show_options_sr, // eslint-disable-line
@@ -2066,7 +2066,7 @@ class AutocompleteInstance extends React.PureComponent {
                 portal_class={portal_class}
                 list_class="dnb-autocomplete__list"
                 value={selected_item}
-                default_value={default_value}
+                defaultValue={defaultValue}
                 scrollable={scrollable}
                 focusable={focusable}
                 no_animation={no_animation}
