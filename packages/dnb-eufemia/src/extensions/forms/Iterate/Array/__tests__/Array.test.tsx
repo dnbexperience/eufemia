@@ -2064,7 +2064,7 @@ describe('Iterate.Array', () => {
       expect(log).toHaveBeenCalledWith(
         expect.any(String),
         'Value components as siblings should be wrapped inside a Value.SummaryList:',
-        { itemPath: '/', label: '', path: undefined }
+        { itemPath: '/', label: undefined, path: undefined }
       )
 
       log.mockRestore()

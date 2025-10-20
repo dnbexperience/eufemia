@@ -2,6 +2,8 @@ import React from 'react'
 import { render, screen } from '@testing-library/react'
 import { useIterateItemNo } from '../useIterateItemNo'
 import IterateItemContext from '../../IterateItemContext'
+import { Field, Iterate } from '../../..'
+import { renderWithFormatting } from '../../../../../shared'
 
 function TestComponent(props: any) {
   const content = useIterateItemNo(props)
@@ -74,5 +76,30 @@ describe('useIterateItemNo', () => {
       </IterateItemContext.Provider>
     )
     expect(screen.getByText('Custom 4')).toBeInTheDocument()
+  })
+
+  it('should support renderWithFormatting', () => {
+    const label = 'Item no. `{itemNo}` – **ready**'
+
+    const Item = () => {
+      const str = useIterateItemNo({ label })
+      return <Field.String label={renderWithFormatting(str)} />
+    }
+
+    render(
+      <Iterate.Array value={['foo']}>
+        <Item />
+      </Iterate.Array>
+    )
+
+    expect(document.querySelector('label').textContent).toContain(
+      'Item no. 1 – ready'
+    )
+    expect(
+      document.querySelector('.dnb-forms-field-block__label__content')
+        .innerHTML
+    ).toMatchInlineSnapshot(
+      `"Item no. <code class="dnb-code">1</code> – <strong>ready</strong>"`
+    )
   })
 })
