@@ -113,7 +113,7 @@ export interface TabsProps
   /**
    * To modify the `spacing` inside the tab list. Defaults to `null`.
    */
-  tabs_spacing?: boolean
+  tabsSpacing?: boolean
   /**
    * If set to `true`, the default horizontal border line under the tablist will be removed. Defaults to `false`.
    */
@@ -219,7 +219,7 @@ export default class Tabs extends React.PureComponent<TabsProps> {
     selectedKey: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     align: PropTypes.oneOf(['left', 'center', 'right']),
     tabsStyle: PropTypes.string,
-    tabs_spacing: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    tabsSpacing: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     no_border: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     breakout: PropTypes.bool,
     nav_button_edge: PropTypes.oneOfType([
@@ -262,7 +262,7 @@ export default class Tabs extends React.PureComponent<TabsProps> {
     selectedKey: null,
     align: 'left',
     tabsStyle: null,
-    tabs_spacing: null,
+    tabsSpacing: null,
     no_border: false,
     nav_button_edge: false,
     onOpenTabNavigationFn: null,
@@ -1121,7 +1121,7 @@ export default class Tabs extends React.PureComponent<TabsProps> {
     const {
       align,
       tabsStyle,
-      tabs_spacing,
+      tabsSpacing,
       no_border,
       nav_button_edge,
       breakout,
@@ -1134,9 +1134,9 @@ export default class Tabs extends React.PureComponent<TabsProps> {
           'dnb-tabs__tabs',
           align ? `dnb-tabs__tabs--${align}` : null,
           tabsStyle ? `dnb-section dnb-section--${tabsStyle}` : null,
-          tabs_spacing
+          tabsSpacing
             ? `dnb-section--spacing-${
-                isTrue(tabs_spacing) ? 'large' : tabs_spacing
+                isTrue(tabsSpacing) ? 'large' : tabsSpacing
               }`
             : null,
           hasScrollbar && 'dnb-tabs--has-scrollbar',
