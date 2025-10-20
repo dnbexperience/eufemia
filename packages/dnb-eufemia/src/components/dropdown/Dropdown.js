@@ -58,7 +58,7 @@ export default class Dropdown extends React.PureComponent {
     ]),
     icon_size: PropTypes.string,
     icon_position: PropTypes.oneOf(['left', 'right']),
-    triangle_position: PropTypes.oneOf(['left', 'right']),
+    trianglePosition: PropTypes.oneOf(['left', 'right']),
     label: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.func,
@@ -177,7 +177,7 @@ export default class Dropdown extends React.PureComponent {
     icon: null,
     icon_size: null,
     icon_position: null,
-    triangle_position: null,
+    trianglePosition: null,
     label: null,
     label_direction: null,
     label_sr_only: null,
@@ -442,7 +442,7 @@ class DropdownInstance extends React.PureComponent {
       preventClose,
       no_animation,
       noScrollAnimation,
-      triangle_position,
+      trianglePosition,
       skipPortal,
       portalClass,
       trigger_element: CustomTrigger,
@@ -670,8 +670,8 @@ class DropdownInstance extends React.PureComponent {
                 skipPortal={skipPortal}
                 preventSelection={handleAsMenu}
                 action_menu={action_menu}
-                triangle_position={
-                  triangle_position || icon_position || 'right'
+                trianglePosition={
+                  trianglePosition || icon_position || 'right'
                 }
                 keepOpen={keepOpen}
                 preventClose={preventClose}
