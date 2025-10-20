@@ -379,9 +379,9 @@ describe('DrawerList component', () => {
     )
   })
 
-  it('will lock body scroll when enable_body_lock is true', () => {
+  it('will lock body scroll when enableBodyLock is true', () => {
     const MockComponent = (p) => (
-      <DrawerList {...props} data={mockData} enable_body_lock {...p} />
+      <DrawerList {...props} data={mockData} enableBodyLock {...p} />
     )
 
     const { rerender } = render(<MockComponent opened={false} />)
