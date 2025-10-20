@@ -102,7 +102,7 @@ describe('renderWithFormatting', () => {
   })
 
   it('returns fragment with key="renderWithFormatting"', () => {
-    const node = renderWithFormatting('Test')
+    const node = renderWithFormatting('`Test`')
     expect(React.isValidElement(node)).toBe(true)
     expect((node as React.ReactElement).key).toBe('renderWithFormatting')
   })
@@ -164,6 +164,24 @@ describe('renderWithFormatting', () => {
     ).toMatchInlineSnapshot(
       `"A label with <code class="dnb-code">code</code> and a <strong>bold</strong> text and a link: <a class="dnb-anchor dnb-anchor--was-node dnb-a" href="https://www.dnb.no" rel="noopener noreferrer">DNB</a>"`
     )
+  })
+
+  it('does not format when markers are not closed', () => {
+    const cases = [
+      'Start **bold only',
+      'Some _italic only',
+      'Backtick `code only',
+      'Broken [link](example.com',
+    ]
+
+    cases.forEach((text) => {
+      const { container } = renderNode(renderWithFormatting(text))
+      expect(container.querySelector('strong')).toBeNull()
+      expect(container.querySelector('em')).toBeNull()
+      expect(container.querySelector('code')).toBeNull()
+      expect(container.querySelector('a')).toBeNull()
+      expect(container.textContent).toBe(text)
+    })
   })
 
   it('useTranslation with shared Provider and renderWithFormatting', () => {
