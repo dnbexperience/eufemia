@@ -188,17 +188,14 @@ export const drawerListDefaultProps = {
 export const drawerListProviderPropTypes = {
   enableBodyLock: PropTypes.bool,
   page_offset: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  observer_element: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node,
-  ]),
+  observerElement: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   minHeight: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 }
 
 export const drawerListProviderDefaultProps = {
   enableBodyLock: false,
   page_offset: null,
-  observer_element: null,
+  observerElement: null,
   minHeight: 10, // 10rem = 10x16=160,
 }
 
