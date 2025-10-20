@@ -192,7 +192,7 @@ export interface DrawerListProps {
   /**
    * If set to `true`, the DrawerList will not close on any events.
    */
-  prevent_close?: boolean
+  preventClose?: boolean
   /**
    * If set to `true`, the DrawerList will handle its width and position independently of the parent/mother element.
    */
