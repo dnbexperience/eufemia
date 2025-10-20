@@ -146,7 +146,7 @@ export interface TabsProps
    */
   children?: TabsChildren
   render?: (...args: any[]) => any
-  on_change?: (...args: any[]) => any
+  onChange?: (...args: any[]) => any
   on_mouse_enter?: (...args: any[]) => any
   on_click?: (...args: any[]) => any
   on_focus?: (...args: any[]) => any
@@ -185,7 +185,7 @@ export default class Tabs extends React.PureComponent<TabsProps> {
     className: null,
     children: null,
     render: null,
-    on_change: null,
+    onChange: null,
     on_mouse_enter: null,
     on_click: null,
     on_focus: null,
@@ -857,7 +857,7 @@ export default class Tabs extends React.PureComponent<TabsProps> {
 
     dispatchCustomElementEvent(
       this,
-      'on_change',
+      'onChange',
       this.getEventArgs({ event, selectedKey })
     )
 
