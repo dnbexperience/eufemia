@@ -196,7 +196,7 @@ const AutocompleteWithState = () => {
   return (
     <Autocomplete
       mode="async" // prevents showing no options message og typing
-      no_scroll_animation
+      noScrollAnimation
       // preventSelection
       placeholder="Search ..."
       // label="Search"
@@ -410,7 +410,7 @@ export const AutocompleteSandbox = () => {
               return () => clearTimeout(timeout)
             })
           }}
-          no_scroll_animation={true}
+          noScrollAnimation={true}
         />
         <Autocomplete
           mode="async"
@@ -434,7 +434,7 @@ export const AutocompleteSandbox = () => {
               }, 100)
             }
           }}
-          no_scroll_animation={true}
+          noScrollAnimation={true}
         />
         <AutocompleteWithState />
       </Box>
@@ -1007,7 +1007,7 @@ export const AsyncSearchExample = () => {
           top
           mode="async"
           on_type={onTypeHandler}
-          no_scroll_animation={true}
+          noScrollAnimation={true}
           placeholder="Search ..."
           on_change={({ data }) => {
             console.log('on_change', data)
