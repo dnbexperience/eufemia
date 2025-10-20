@@ -20,7 +20,7 @@ export type DrawerListPortalProps = {
   innerRef?: React.ForwardedRef<HTMLSpanElement>
   rootRef: React.RefObject<HTMLSpanElement>
   include_owner_width?: boolean
-  independent_width?: boolean
+  independentWidth?: boolean
   fixed_position?: boolean
   skipPortal?: boolean
   className?: string
@@ -32,7 +32,7 @@ function DrawerListPortal({
   opened,
   rootRef = { current: undefined },
   include_owner_width,
-  independent_width,
+  independentWidth,
   fixed_position,
   skipPortal,
   className,
@@ -109,7 +109,7 @@ function DrawerListPortal({
       const ownerWidth = window.getComputedStyle(ownerElem).width
 
       // fallback for too narrow width - in case there is not width -> e.g. "--is-popup"
-      if (independent_width || parseFloat(ownerWidth) < 64) {
+      if (independentWidth || parseFloat(ownerWidth) < 64) {
         // get min-width from CSS property
         let minWidth = 0
         if (portalRef.current) {
@@ -125,7 +125,7 @@ function DrawerListPortal({
 
       // also check if root "has a custom width"
       const customWidth = rootElem.getBoundingClientRect().width
-      if (!independent_width && (customWidth || 0) >= 64) {
+      if (!independentWidth && (customWidth || 0) >= 64) {
         width = customWidth
       }
 
@@ -173,7 +173,7 @@ function DrawerListPortal({
   }, [
     isMounted,
     rootRef,
-    independent_width,
+    independentWidth,
     fixed_position,
     include_owner_width,
     portalRef,
