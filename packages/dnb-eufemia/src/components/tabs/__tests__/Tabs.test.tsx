@@ -185,9 +185,9 @@ describe('Tabs component', () => {
     )
   })
 
-  it('should support "tabs_spacing" prop', () => {
+  it('should support "tabsSpacing" prop', () => {
     render(
-      <Tabs {...props} data={tablistData} tabs_spacing={true}>
+      <Tabs {...props} data={tablistData} tabsSpacing={true}>
         {contentWrapperData}
       </Tabs>
     )
