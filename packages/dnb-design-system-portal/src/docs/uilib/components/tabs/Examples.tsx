@@ -74,7 +74,7 @@ export const TabsExamplePrerender = () => (
   <Wrapper>
     <ComponentBox>
       <>
-        <Tabs prerender content_style="info">
+        <Tabs prerender contentStyle="info">
           <Tabs.Content title="Tab 1" key="first">
             <H2>Content 1</H2>
           </Tabs.Content>
@@ -155,7 +155,7 @@ export const TabsExampleScrollable = () => (
 export const TabsExampleLeftAligned = () => (
   <Wrapper>
     <ComponentBox data-visual-test="tabs-section-styles">
-      <Tabs tabs_style="info" content_style="info">
+      <Tabs tabs_style="info" contentStyle="info">
         <Tabs.Content title="First" key="first">
           <Section spacing top bottom style_type="white">
             <H2 top={0} bottom>
