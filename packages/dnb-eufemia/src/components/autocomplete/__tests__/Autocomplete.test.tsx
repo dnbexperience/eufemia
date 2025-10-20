@@ -186,7 +186,7 @@ describe('Autocomplete component', () => {
     ).toBe('Ingen alternativer')
   })
 
-  it('will set correct width when independent_width is set', async () => {
+  it('will set correct width when independentWidth is set', async () => {
     const style = {
       getPropertyValue: () => 20,
     } as undefined
@@ -208,7 +208,7 @@ describe('Autocomplete component', () => {
     })
 
     rerender(
-      <Autocomplete value={1} data={mockData} independent_width opened />
+      <Autocomplete value={1} data={mockData} independentWidth opened />
     )
 
     expect(styleElement.getAttribute('style')).toBe(

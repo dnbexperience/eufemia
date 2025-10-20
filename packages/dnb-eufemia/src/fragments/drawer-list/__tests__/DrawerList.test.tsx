@@ -973,7 +973,7 @@ describe('DrawerList markup', () => {
 })
 
 describe('DrawerList portal', () => {
-  it('will set correct width when independent_width is set', async () => {
+  it('will set correct width when independentWidth is set', async () => {
     const style = {
       getPropertyValue: () => 20,
     } as undefined
@@ -992,7 +992,7 @@ describe('DrawerList portal', () => {
       )
     })
 
-    rerender(<DrawerList opened no_animation independent_width />)
+    rerender(<DrawerList opened no_animation independentWidth />)
 
     expect(styleElement.getAttribute('style')).toBe(
       'width: 320px; --drawer-list-width: 20rem; top: 0px; left: 0px;'
@@ -1004,7 +1004,7 @@ describe('DrawerList portal', () => {
     )
   })
 
-  it('will set correct width when independent_width is set and isolated style scope is used', async () => {
+  it('will set correct width when independentWidth is set and isolated style scope is used', async () => {
     const style = {
       getPropertyValue: () => 20,
     } as undefined
@@ -1029,7 +1029,7 @@ describe('DrawerList portal', () => {
 
     rerender(
       <IsolatedStyleScope>
-        <DrawerList opened no_animation independent_width />
+        <DrawerList opened no_animation independentWidth />
       </IsolatedStyleScope>
     )
 
