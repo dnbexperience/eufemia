@@ -151,7 +151,6 @@ const validDrawerListProps = [
   'label_direction',
   'skip_keysearch',
   'ignore_events',
-  'no_scroll_animation',
   'no_animation',
   'skip_portal',
   'min_height',
