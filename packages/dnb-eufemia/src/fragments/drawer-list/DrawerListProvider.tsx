@@ -333,7 +333,7 @@ export default class DrawerListProvider extends React.PureComponent<
       enableBodyLock,
       scrollable,
       minHeight,
-      max_height,
+      maxHeight,
       on_resize,
       page_offset,
       observer_element,
@@ -343,7 +343,7 @@ export default class DrawerListProvider extends React.PureComponent<
     const useBodyLock = isTrue(enableBodyLock)
     const isScrollable = isTrue(scrollable)
     const customMinHeight = parseFloat(minHeight as string) * 16
-    const customMaxHeight = parseFloat(max_height as string) || 0
+    const customMaxHeight = parseFloat(maxHeight as string) || 0
 
     let customElem =
       typeof observer_element === 'string'
@@ -440,7 +440,7 @@ export default class DrawerListProvider extends React.PureComponent<
 
     const renderDirection = () => {
       try {
-        const { direction, maxHeight: max_height } = calculateMaxHeight()
+        const { direction, maxHeight: maxHeight } = calculateMaxHeight()
 
         // update the states
         if (this.props.direction === 'auto') {
@@ -449,14 +449,14 @@ export default class DrawerListProvider extends React.PureComponent<
           })
         }
         this.setState({
-          max_height,
+          maxHeight,
         })
 
         // call the event, if set
         if (on_resize) {
           dispatchCustomElementEvent(this.state, 'on_resize', {
             direction,
-            max_height,
+            maxHeight,
           })
         }
       } catch (e) {
