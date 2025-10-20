@@ -123,7 +123,7 @@ export interface DrawerListProps {
   /**
    * Position of the arrow icon/triangle inside the drawer-list. Set to 'left' or 'right'. Defaults to 'left' if not set.
    */
-  triangle_position?: string
+  trianglePosition?: string
   /**
    * Defines if the options list should be scrollable (the `max-height` is set by default to `50vh`).
    */
@@ -318,7 +318,7 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
     )
 
     this.context.drawerList.setState({
-      triangle_position: this.props.triangle_position,
+      trianglePosition: this.props.trianglePosition,
     })
   }
   preventTab = (e) => {
@@ -382,7 +382,7 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
       className,
       cacheHash: _cacheHash, // eslint-disable-line
       wrapperElement: _wrapperElement, // eslint-disable-line
-      triangle_position: _triangle_position, // eslint-disable-line
+      trianglePosition: _trianglePosition, // eslint-disable-line
       direction: _direction, // eslint-disable-line
       maxHeight: _maxHeight, // eslint-disable-line
       id: _id, // eslint-disable-line
@@ -414,7 +414,7 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
       groups,
       opened,
       hidden,
-      triangle_position,
+      trianglePosition,
       direction,
       maxHeight,
       cacheHash,
@@ -447,8 +447,8 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
         opened && 'dnb-drawer-list--opened',
         hidden && 'dnb-drawer-list--hidden',
         `dnb-drawer-list--${direction}`,
-        triangle_position &&
-          `dnb-drawer-list--triangle-position-${triangle_position}`,
+        trianglePosition &&
+          `dnb-drawer-list--triangle-position-${trianglePosition}`,
         alignDrawer && `dnb-drawer-list--${alignDrawer}`,
         size && `dnb-drawer-list--${size}`,
         isTrue(action_menu) && `dnb-drawer-list--action-menu`,
