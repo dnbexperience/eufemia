@@ -117,7 +117,7 @@ export interface TabsProps
   /**
    * If set to `true`, the default horizontal border line under the tablist will be removed. Defaults to `false`.
    */
-  no_border?: boolean
+  noBorder?: boolean
   /**
    * If set to `false`, the default horizontal border line under the tablist remains inside the parent boundaries. Defaults to `true`.
    */
@@ -220,7 +220,7 @@ export default class Tabs extends React.PureComponent<TabsProps> {
     align: PropTypes.oneOf(['left', 'center', 'right']),
     tabsStyle: PropTypes.string,
     tabsSpacing: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    no_border: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    noBorder: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     breakout: PropTypes.bool,
     navButtonEdge: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     onOpenTabNavigationFn: PropTypes.func,
@@ -260,7 +260,7 @@ export default class Tabs extends React.PureComponent<TabsProps> {
     align: 'left',
     tabsStyle: null,
     tabsSpacing: null,
-    no_border: false,
+    noBorder: false,
     navButtonEdge: false,
     onOpenTabNavigationFn: null,
     prerender: false,
@@ -1119,7 +1119,7 @@ export default class Tabs extends React.PureComponent<TabsProps> {
       align,
       tabsStyle,
       tabsSpacing,
-      no_border,
+      noBorder,
       navButtonEdge,
       breakout,
     } = this.props
@@ -1138,7 +1138,7 @@ export default class Tabs extends React.PureComponent<TabsProps> {
             : null,
           hasScrollbar && 'dnb-tabs--has-scrollbar',
           navButtonEdge && 'dnb-tabs--at-edge',
-          no_border && 'dnb-tabs__tabs--no-border',
+          noBorder && 'dnb-tabs__tabs--no-border',
           breakout && 'dnb-tabs__tabs--breakout',
           className
         )}
