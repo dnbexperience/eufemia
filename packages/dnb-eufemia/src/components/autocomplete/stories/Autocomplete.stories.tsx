@@ -197,7 +197,7 @@ const AutocompleteWithState = () => {
     <Autocomplete
       mode="async" // prevents showing no options message og typing
       no_scroll_animation
-      // prevent_selection
+      // preventSelection
       placeholder="Search ..."
       // label="Search"
       // label_sr_only={true}
@@ -245,7 +245,7 @@ export const AutocompleteSandbox = () => {
           // disable_filter
           keep_value_and_selection
           show_clear_button
-          // prevent_selection
+          // preventSelection
           // on_change={({ data }) => {
           //   console.log('on_change', data)
           // }}
@@ -385,7 +385,7 @@ export const AutocompleteSandbox = () => {
           mode="async" // prevents showing no options message og typing
           label="No selection / no filter"
           // label_sr_only={true}
-          prevent_selection
+          preventSelection
           disable_filter
           data={topMovies}
           on_type={({
@@ -458,7 +458,7 @@ export const AutocompleteSandbox = () => {
           // opened
           // prevent_close
           no_animation
-          // prevent_selection
+          // preventSelection
           // input_value="the g er"
           input_value="episode a I"
           mode="async"
@@ -827,9 +827,9 @@ function UpdateDataExample() {
       </pre>
 
       <Autocomplete
-        prevent_selection
+        preventSelection
         title="Choose an item"
-        // prevent_selection
+        // preventSelection
         data={choiceData}
         on_change={({
           data,

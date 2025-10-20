@@ -77,11 +77,11 @@ export interface DropdownProps {
    */
   buttonRef?: React.Ref;
   /**
-   * Same as `prevent_selection`, but the "selection area" (given title) will not be visible and the icon `more` (three dots) is used. Defaults to `false`.
+   * Same as `preventSelection`, but the "selection area" (given title) will not be visible and the icon `more` (three dots) is used. Defaults to `false`.
    */
   more_menu?: boolean;
   /**
-   * Use `right` to change the options alignment direction. Makes only sense to use in combination with `prevent_selection` or `more_menu`. Defaults to `left`.
+   * Use `right` to change the options alignment direction. Makes only sense to use in combination with `preventSelection` or `more_menu`. Defaults to `left`.
    */
   align_dropdown?: DropdownAlignDropdown;
   /**

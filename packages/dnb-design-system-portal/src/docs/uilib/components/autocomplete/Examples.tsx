@@ -181,7 +181,7 @@ export const AutocompleteFirstFocusUpdate = () => (
           <Autocomplete
             mode="async"
             no_scroll_animation={true}
-            prevent_selection={true}
+            preventSelection={true}
             on_type={({ value /* updateData, ... */ }) => {
               console.log('on_type', value)
             }}
