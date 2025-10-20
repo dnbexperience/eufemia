@@ -28,7 +28,7 @@ import type { DropdownAllProps } from '@dnb/eufemia/src/components/dropdown/Drop
 type VisibleWhenVisualTestReturn = Pick<
   DropdownAllProps,
   | 'opened'
-  | 'prevent_close'
+  | 'preventClose'
   | 'independent_width'
   | 'skip_portal'
   | 'direction'
@@ -533,7 +533,7 @@ export const DropdownCustomEvent = () => {
       return {}
     }
     return {
-      prevent_close: true,
+      preventClose: true,
       independent_width: true,
       skip_portal: true,
       direction: 'bottom',
