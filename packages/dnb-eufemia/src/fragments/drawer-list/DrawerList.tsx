@@ -172,7 +172,7 @@ export interface DrawerListProps {
   /**
    * Define a startup value or handle a re-render without handling the state during the re-render by yourself. Defaults to null.
    */
-  default_value?: DrawerListValue
+  defaultValue?: DrawerListValue
   /**
    * Define a preselected `data` entry. In order of priority, `value` can be set to: object key (if `data` is an object), `selectedKey` prop (if `data` is an array), array index (if no `selectedKey`) or content (if `value` is a non-integer string).
    */
