@@ -52,7 +52,7 @@ export const drawerListPropTypes = {
   action_menu: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   is_popup: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   alignDrawer: PropTypes.oneOf(['left', 'right']),
-  options_render: PropTypes.oneOfType([
+  optionsRender: PropTypes.oneOfType([
     PropTypes.object,
     PropTypes.func,
     PropTypes.node,
@@ -182,7 +182,7 @@ export const drawerListDefaultProps = {
   on_resize: null,
   on_select: null,
   on_state_update: null,
-  options_render: null,
+  optionsRender: null,
 }
 
 // legacy used by Dropdown
