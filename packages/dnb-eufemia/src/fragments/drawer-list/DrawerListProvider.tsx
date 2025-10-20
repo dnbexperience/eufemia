@@ -329,7 +329,7 @@ export default class DrawerListProvider extends React.PureComponent<
     }
 
     const {
-      enable_body_lock,
+      enableBodyLock,
       scrollable,
       min_height,
       max_height,
@@ -339,7 +339,7 @@ export default class DrawerListProvider extends React.PureComponent<
       direction: directionProp,
     } = this.props
 
-    const useBodyLock = isTrue(enable_body_lock)
+    const useBodyLock = isTrue(enableBodyLock)
     const isScrollable = isTrue(scrollable)
     const customMinHeight = parseFloat(min_height as string) * 16
     const customMaxHeight = parseFloat(max_height as string) || 0
