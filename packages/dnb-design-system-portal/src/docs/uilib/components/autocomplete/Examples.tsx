@@ -66,7 +66,7 @@ export const AutocompleteStatusErrorExample = () => (
         show_submit_button
         opened
         no_animation
-        prevent_close
+        preventClose
         direction="bottom"
       />
     </ComponentBox>
@@ -383,7 +383,7 @@ export const AutocompleteOpened = () => {
           opened
           no_animation
           direction="bottom"
-          prevent_close
+          preventClose
           data={topMovies}
           right="large"
         />
@@ -394,7 +394,7 @@ export const AutocompleteOpened = () => {
           opened
           no_animation
           direction="bottom"
-          prevent_close
+          preventClose
           data={topMovies}
           className="focus-trigger"
         />
