@@ -68,7 +68,7 @@ export const drawerListPropTypes = {
   portal_class: PropTypes.string,
   list_class: PropTypes.string,
   preventClose: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  independent_width: PropTypes.oneOfType([
+  independentWidth: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.bool,
   ]),
@@ -164,7 +164,7 @@ export const drawerListDefaultProps = {
   keepOpen: false,
   prevent_focus: false,
   fixed_position: false,
-  independent_width: false,
+  independentWidth: false,
   skip_keysearch: false,
   opened: null,
   data: null,
