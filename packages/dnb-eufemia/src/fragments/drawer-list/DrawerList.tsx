@@ -42,7 +42,7 @@ const propsToFilterOut = {
   on_state_update: null,
   on_key_down: null,
   options_render: null,
-  wrapper_element: null,
+  wrapperElement: null,
 }
 
 export type DrawerListContent =
@@ -168,9 +168,9 @@ export interface DrawerListProps {
    */
   options_render?: DrawerListOptionsRender
   /**
-   * Has to be an HTML Element, ideally a mother element, used to calculate sizes and distances. Also used for the 'click outside' detection. Clicking on the `wrapper_element` will not trigger an outside click.
+   * Has to be an HTML Element, ideally a mother element, used to calculate sizes and distances. Also used for the 'click outside' detection. Clicking on the `wrapperElement` will not trigger an outside click.
    */
-  wrapper_element?: string | HTMLElement
+  wrapperElement?: string | HTMLElement
   /**
    * Define a startup value or handle a re-render without handling the state during the re-render by yourself. Defaults to null.
    */
@@ -381,7 +381,7 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
       options_render,
       className,
       cacheHash: _cacheHash, // eslint-disable-line
-      wrapper_element: _wrapper_element, // eslint-disable-line
+      wrapperElement: _wrapperElement, // eslint-disable-line
       triangle_position: _triangle_position, // eslint-disable-line
       direction: _direction, // eslint-disable-line
       maxHeight: _maxHeight, // eslint-disable-line
