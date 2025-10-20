@@ -151,8 +151,6 @@ const validDrawerListProps = [
   'label_direction',
   'skip_keysearch',
   'ignore_events',
-  'alignDrawer',
-  'list_class',
   'portal_class',
   'no_scroll_animation',
   'no_animation',
@@ -456,7 +454,7 @@ function Selection(props: Props) {
 
       const sharedProps: AutocompleteAllProps & DropdownAllProps = {
         id,
-        list_class: 'dnb-forms-field-selection__list',
+        listClass: 'dnb-forms-field-selection__list',
         portal_class: 'dnb-forms-field-selection__portal',
         title: placeholder,
         value: String(value ?? ''),

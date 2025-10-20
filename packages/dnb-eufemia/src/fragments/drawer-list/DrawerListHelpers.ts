@@ -66,7 +66,7 @@ export const drawerListPropTypes = {
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   skip_portal: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   portal_class: PropTypes.string,
-  list_class: PropTypes.string,
+  listClass: PropTypes.string,
   preventClose: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   independentWidth: PropTypes.oneOfType([
     PropTypes.string,
@@ -158,7 +158,7 @@ export const drawerListDefaultProps = {
   defaultValue: null,
   value: 'initval',
   portal_class: null,
-  list_class: null,
+  listClass: null,
   skip_portal: null,
   preventClose: false,
   keepOpen: false,
