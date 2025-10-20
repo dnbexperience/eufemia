@@ -101,7 +101,7 @@ export interface TabsProps
   /**
    * In case one of the tabs should be opened by a `key`.
    */
-  selected_key?: TabsSelectedKey
+  selectedKey?: TabsSelectedKey
   /**
    * To align the tab list on the right side `align="right"`. Defaults to `left`.
    */
@@ -216,10 +216,7 @@ export default class Tabs extends React.PureComponent<TabsProps> {
       PropTypes.node,
       PropTypes.func,
     ]),
-    selected_key: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number,
-    ]),
+    selectedKey: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     align: PropTypes.oneOf(['left', 'center', 'right']),
     tabs_style: PropTypes.string,
     tabs_spacing: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -262,7 +259,7 @@ export default class Tabs extends React.PureComponent<TabsProps> {
     content_spacing: true,
     label: null,
     tab_element: 'button',
-    selected_key: null,
+    selectedKey: null,
     align: 'left',
     tabs_style: null,
     tabs_spacing: null,
