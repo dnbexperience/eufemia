@@ -56,7 +56,7 @@ export const drawerListPropTypes = {
     PropTypes.func,
     PropTypes.node,
   ]),
-  wrapper_element: PropTypes.oneOfType([
+  wrapperElement: PropTypes.oneOfType([
     PropTypes.object,
     PropTypes.func,
     PropTypes.node,
@@ -153,7 +153,7 @@ export const drawerListDefaultProps = {
   action_menu: false,
   is_popup: false,
   alignDrawer: 'left',
-  wrapper_element: null,
+  wrapperElement: null,
   defaultValue: null,
   value: 'initval',
   portalClass: null,
@@ -481,17 +481,17 @@ export const prepareDerivedState = (
 
   state.skipPortal = isTrue(props.skipPortal)
 
-  if (typeof props.wrapper_element === 'string') {
+  if (typeof props.wrapperElement === 'string') {
     if (typeof document !== 'undefined') {
-      const wrapper_element = document.querySelector<HTMLElement>(
-        props.wrapper_element
+      const wrapperElement = document.querySelector<HTMLElement>(
+        props.wrapperElement
       )
-      if (wrapper_element) {
-        state.wrapper_element = wrapper_element
+      if (wrapperElement) {
+        state.wrapperElement = wrapperElement
       }
     }
-  } else if (props.wrapper_element) {
-    state.wrapper_element = props.wrapper_element
+  } else if (props.wrapperElement) {
+    state.wrapperElement = props.wrapperElement
   }
 
   if (
