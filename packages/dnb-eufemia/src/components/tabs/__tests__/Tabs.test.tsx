@@ -151,9 +151,9 @@ describe('Tabs component', () => {
     ])
   })
 
-  it('should support "no_border" prop', () => {
+  it('should support "noBorder" prop', () => {
     render(
-      <Tabs {...props} data={tablistData} no_border>
+      <Tabs {...props} data={tablistData} noBorder>
         {contentWrapperData}
       </Tabs>
     )
