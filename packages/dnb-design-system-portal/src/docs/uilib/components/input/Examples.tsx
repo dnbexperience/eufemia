@@ -5,7 +5,6 @@
 
 import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
-import InputPassword from '@dnb/eufemia/src/components/input/InputPassword'
 import styled from '@emotion/styled'
 import { HelpButton, Span, Input, Flex, FormLabel } from '@dnb/eufemia/src'
 import { Field, FieldBlock, Form } from '@dnb/eufemia/src/extensions/forms'
@@ -215,29 +214,6 @@ export const InputExampleSubmit = () => (
           <Form.SubmitButton />
         </Flex.Horizontal>
       </Form.Handler>
-    </ComponentBox>
-  </Wrapper>
-)
-
-export const InputExamplePassword = () => (
-  <Wrapper>
-    <ComponentBox
-      scope={{ InputPassword }}
-      data-visual-test="input-password"
-    >
-      <InputPassword
-        label="Label"
-        placeholder="A placeholder text"
-        onChange={(value: string) => {
-          console.log('onChange:', value)
-        }}
-        onShowPassword={() => {
-          console.log('onShowPassword')
-        }}
-        onHidePassword={() => {
-          console.log('onHidePassword')
-        }}
-      />
     </ComponentBox>
   </Wrapper>
 )
