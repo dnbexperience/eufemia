@@ -121,7 +121,7 @@ export const DrawerListProperties = {
     type: 'string',
     status: 'optional',
   },
-  max_height: {
+  maxHeight: {
     doc: 'Defines the maximum height (in `rem`) of the options list.',
     type: 'string',
     status: 'optional',
