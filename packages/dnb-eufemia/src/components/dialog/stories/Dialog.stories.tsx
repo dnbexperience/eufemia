@@ -238,7 +238,7 @@ export const DialogSandbox = () => (
         alignContent="centered"
         hideCloseButton
         triggerAttributes={{ text: 'Show' }}
-        // prevent_close
+        // preventClose
         maxWidth="12rem"
       >
         <ProgressIndicator
@@ -258,7 +258,7 @@ export const DialogSandbox = () => (
         alignContent="centered"
         hideCloseButton
         triggerAttributes={{ icon: 'bell' }}
-        // prevent_close
+        // preventClose
         maxWidth="12rem"
       >
         <ProgressIndicator
