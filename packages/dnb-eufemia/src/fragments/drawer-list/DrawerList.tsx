@@ -209,7 +209,7 @@ export interface DrawerListProps {
   /**
    * If set to `true`, search items by the first key will be ignored.
    */
-  skip_keysearch?: boolean
+  skipKeysearch?: boolean
   opened?: boolean
   data?: DrawerListData
   groups?: DrawerListGroupTitles

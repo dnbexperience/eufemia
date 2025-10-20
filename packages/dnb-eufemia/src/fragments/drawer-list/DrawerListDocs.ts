@@ -71,7 +71,7 @@ export const DrawerListProperties = {
     type: 'boolean',
     status: 'optional',
   },
-  skip_keysearch: {
+  skipKeysearch: {
     doc: 'If set to `true`, search items by the first key will be ignored.',
     type: 'boolean',
     status: 'optional',
