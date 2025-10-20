@@ -138,7 +138,7 @@ export interface DrawerListProps {
   /**
    * Defines the minimum height (in `rem`) of the options list.
    */
-  min_height?: string | number
+  minHeight?: string | number
   /**
    * Defines the maximum height (in `rem`) of the options list.
    */
