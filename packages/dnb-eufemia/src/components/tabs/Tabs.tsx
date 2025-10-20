@@ -153,7 +153,7 @@ export interface TabsProps
   onChange?: (...args: any[]) => any
   onMouseEnter?: (...args: any[]) => any
   onClick?: (...args: any[]) => any
-  on_focus?: (...args: any[]) => any
+  onFocus?: (...args: any[]) => any
 }
 
 export interface DummyProps {
@@ -246,7 +246,7 @@ export default class Tabs extends React.PureComponent<TabsProps> {
     onChange: PropTypes.func,
     onMouseEnter: PropTypes.func,
     onClick: PropTypes.func,
-    on_focus: PropTypes.func,
+    onFocus: PropTypes.func,
   }
 
   static defaultProps = {
@@ -275,7 +275,7 @@ export default class Tabs extends React.PureComponent<TabsProps> {
     onChange: null,
     onMouseEnter: null,
     onClick: null,
-    on_focus: null,
+    onFocus: null,
     breakout: true,
   }
 
@@ -880,7 +880,7 @@ export default class Tabs extends React.PureComponent<TabsProps> {
 
     dispatchCustomElementEvent(
       this,
-      'on_focus',
+      'onFocus',
       this.getEventArgs({ event, focus_key })
     )
 
