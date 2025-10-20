@@ -91,11 +91,6 @@ export const drawerListPropTypes = {
             PropTypes.string,
             PropTypes.number,
           ]),
-          /** @deprecated use `selectedKey` */
-          selected_key: PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.number,
-          ]),
           selected_value: PropTypes.oneOfType([
             PropTypes.string,
             PropTypes.node,
@@ -306,7 +301,6 @@ export function normalizeData(props): DrawerListInternalData {
     for (const key in data) {
       list.push({
         selectedKey: key,
-        selected_key: key,
         value: key,
         content: data[key],
         type: 'object',
@@ -369,7 +363,6 @@ export const getCurrentIndex = (value, data) => {
       }
       if (
         typeof data[i]?.selectedKey !== 'undefined' ||
-        typeof data[i]?.selected_key !== 'undefined' ||
         data[i]?.type === 'object'
       ) {
         return true
@@ -391,9 +384,6 @@ export const getSelectedItemValue = (value, state) => {
 export const parseCurrentValue = (current) => {
   if (typeof current?.selectedKey !== 'undefined') {
     return current?.selectedKey
-  }
-  if (typeof current?.selected_key !== 'undefined') {
-    return current?.selected_key
   }
   if (typeof current?.content !== 'undefined') {
     return current?.content
