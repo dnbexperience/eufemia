@@ -41,7 +41,7 @@ const propsToFilterOut = {
   on_select: null,
   on_state_update: null,
   on_key_down: null,
-  options_render: null,
+  optionsRender: null,
   wrapperElement: null,
 }
 
@@ -164,9 +164,9 @@ export interface DrawerListProps {
    */
   alignDrawer?: 'left' | 'right'
   /**
-   * Has to be a function, returning the items again. See [example](/uilib/components/fragments/drawer-list#example-usage-of-options_render). This can be used to add additional options above the actual rendered list.
+   * Has to be a function, returning the items again. See [example](/uilib/components/fragments/drawer-list#example-usage-of-optionsRender). This can be used to add additional options above the actual rendered list.
    */
-  options_render?: DrawerListOptionsRender
+  optionsRender?: DrawerListOptionsRender
   /**
    * Has to be an HTML Element, ideally a mother element, used to calculate sizes and distances. Also used for the 'click outside' detection. Clicking on the `wrapperElement` will not trigger an outside click.
    */
@@ -378,7 +378,7 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
       portalClass,
       listClass,
       ignore_events,
-      options_render,
+      optionsRender,
       className,
       cacheHash: _cacheHash, // eslint-disable-line
       wrapperElement: _wrapperElement, // eslint-disable-line
@@ -578,8 +578,8 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
               )
             })
           const ItemsRendered = () =>
-            typeof options_render === 'function' ? (
-              options_render({ data, Items, Item: DrawerList.Item })
+            typeof optionsRender === 'function' ? (
+              optionsRender({ data, Items, Item: DrawerList.Item })
             ) : (
               <Items />
             )
