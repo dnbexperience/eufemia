@@ -93,7 +93,7 @@ export default class Dropdown extends React.PureComponent {
     focusable: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     direction: PropTypes.oneOf(['auto', 'top', 'bottom']),
     max_height: PropTypes.number,
-    skip_portal: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    skipPortal: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     portalClass: PropTypes.string,
     no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     noScrollAnimation: PropTypes.oneOfType([
@@ -193,7 +193,7 @@ export default class Dropdown extends React.PureComponent {
     focusable: false,
     max_height: null,
     direction: 'auto',
-    skip_portal: null,
+    skipPortal: null,
     portalClass: null,
     no_animation: false,
     noScrollAnimation: false,
@@ -443,7 +443,7 @@ class DropdownInstance extends React.PureComponent {
       no_animation,
       noScrollAnimation,
       triangle_position,
-      skip_portal,
+      skipPortal,
       portalClass,
       trigger_element: CustomTrigger,
       more_menu,
@@ -667,7 +667,7 @@ class DropdownInstance extends React.PureComponent {
                 focusable={focusable}
                 no_animation={no_animation}
                 noScrollAnimation={noScrollAnimation}
-                skip_portal={skip_portal}
+                skipPortal={skipPortal}
                 preventSelection={handleAsMenu}
                 action_menu={action_menu}
                 triangle_position={
