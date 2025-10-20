@@ -1,7 +1,7 @@
 import { PropertiesTableProps } from '../../shared/types'
 
 export const TabsProperties: PropertiesTableProps = {
-  selected_key: {
+  selectedKey: {
     doc: 'In case one of the tabs should be opened by a `key`.',
     type: ['string', 'number'],
     status: 'optional',
@@ -131,22 +131,22 @@ export const TabsDataObject: PropertiesTableProps = {
 
 export const TabsEvents: PropertiesTableProps = {
   on_change: {
-    doc: '(preferred) this event gets triggered once the tab changes its selected key. Returns `{ key, selected_key, focus_key, event }`.',
+    doc: '(preferred) this event gets triggered once the tab changes its selected key. Returns `{ key, selectedKey, focus_key, event }`.',
     type: 'function',
     status: 'optional',
   },
   on_click: {
-    doc: 'This event gets triggered once the tab gets clicked. Returns `{ key, selected_key, focus_key, event }`.',
+    doc: 'This event gets triggered once the tab gets clicked. Returns `{ key, selectedKey, focus_key, event }`.',
     type: 'function',
     status: 'optional',
   },
   on_focus: {
-    doc: 'This event gets triggered once the tab changes its focus key. Returns `{ key, selected_key, focus_key, event }`.',
+    doc: 'This event gets triggered once the tab changes its focus key. Returns `{ key, selectedKey, focus_key, event }`.',
     type: 'function',
     status: 'optional',
   },
   on_mouse_enter: {
-    doc: "This event gets triggered once the user';s mouse enters a tab (hover). Returns `{ key, selected_key, focus_key, event }`.",
+    doc: "This event gets triggered once the user';s mouse enters a tab (hover). Returns `{ key, selectedKey, focus_key, event }`.",
     type: 'function',
     status: 'optional',
   },

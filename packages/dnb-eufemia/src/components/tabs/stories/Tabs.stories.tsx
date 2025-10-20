@@ -147,7 +147,7 @@ export const TabsSandbox = () => {
       </Box>
       <Box>
         <Tabs
-          selected_key="second"
+          selectedKey="second"
           data={{
             first: { title: 'First', content: () => <H2>First</H2> },
             second: { title: 'Second', content: () => <H2>Second</H2> },
@@ -312,7 +312,7 @@ const TabsContentUsage = () => {
             key: 'two',
           },
         ]}
-        selected_key={value}
+        selectedKey={value}
         on_change={({ key }) => {
           setValue(key)
         }}
@@ -398,7 +398,7 @@ export function TabsAndFlex() {
           <Tabs
             left
             no_border
-            selected_key="5"
+            selectedKey="5"
             id="unique-tabs-row"
             data={data}
           />
@@ -410,7 +410,7 @@ export function TabsAndFlex() {
           top
           no_border
           nav_button_edge
-          selected_key="5"
+          selectedKey="5"
           id="unique-tabs-edge"
           data={data}
         />
@@ -420,7 +420,7 @@ export function TabsAndFlex() {
         top
         no_border
         id="right-aligned"
-        selected_key="2"
+        selectedKey="2"
         align="right"
         label="Some Tabs label"
         data={data.slice(0, 3)}
