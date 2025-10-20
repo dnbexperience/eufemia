@@ -34,7 +34,7 @@ export const TabsProperties: PropertiesTableProps = {
     type: ['divider', 'white', 'transparent'],
     status: 'optional',
   },
-  tabs_spacing: {
+  tabsSpacing: {
     doc: 'To modify the `spacing` inside the tab list. Defaults to `null`.',
     type: 'boolean',
     status: 'optional',
