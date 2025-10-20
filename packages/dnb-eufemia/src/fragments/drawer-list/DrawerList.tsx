@@ -156,11 +156,11 @@ export interface DrawerListProps {
   /**
    * If set to `true`, the DrawerList will then not make any permanent selection.
    */
-  prevent_selection?: boolean
+  preventSelection?: boolean
   action_menu?: boolean
   is_popup?: boolean
   /**
-   * Use 'right' to change the options alignment direction. Makes only sense to use in combination with `prevent_selection` or `more_menu` - or if an independent width is used.
+   * Use 'right' to change the options alignment direction. Makes only sense to use in combination with `preventSelection` or `more_menu` - or if an independent width is used.
    */
   align_drawer?: 'left' | 'right'
   /**
@@ -372,7 +372,7 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
       size,
       no_animation,
       no_scroll_animation,
-      prevent_selection,
+      preventSelection,
       action_menu,
       is_popup,
       portal_class,
@@ -501,7 +501,7 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
         parseFloat(active_item as string) > -1 ? active_item : 0
       }`
     } else if (
-      !isTrue(prevent_selection) &&
+      !isTrue(preventSelection) &&
       !hidden &&
       parseFloat(selected_item as string) > -1
     ) {
