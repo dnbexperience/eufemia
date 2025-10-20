@@ -925,18 +925,18 @@ describe('DrawerList component', () => {
   it('should update and correctly set selected item on data prop change', () => {
     const data: Record<string, DrawerListData> = {
       first: [
-        { selected_key: 'key_1', content: 'Content 1' },
-        { selected_key: 'key_2', content: 'Content 2' },
-        { selected_key: 'key_3', content: 'Content 3' },
+        { selectedKey: 'key_1', content: 'Content 1' },
+        { selectedKey: 'key_2', content: 'Content 2' },
+        { selectedKey: 'key_3', content: 'Content 3' },
       ],
       second: [
-        { selected_key: 'key_4', content: 'Content 4' },
-        { selected_key: 'key_5', content: 'Content 5' },
+        { selectedKey: 'key_4', content: 'Content 4' },
+        { selectedKey: 'key_5', content: 'Content 5' },
       ],
       third: [
-        { selected_key: 'key_6', content: 'Content 6' },
-        { selected_key: 'key_7', content: 'Content 7' },
-        { selected_key: 'key_8', content: 'Content 8' },
+        { selectedKey: 'key_6', content: 'Content 6' },
+        { selectedKey: 'key_7', content: 'Content 7' },
+        { selectedKey: 'key_8', content: 'Content 8' },
       ],
     }
 
@@ -948,7 +948,7 @@ describe('DrawerList component', () => {
         opened
         no_animation
         data={data.first}
-        value={data.first[0].selected_key}
+        value={data.first[0].selectedKey}
         {...mockProps}
       />
     )
@@ -960,7 +960,7 @@ describe('DrawerList component', () => {
         opened
         no_animation
         data={data.second}
-        value={data.second[1].selected_key}
+        value={data.second[1].selectedKey}
         {...mockProps}
       />
     )
@@ -972,7 +972,7 @@ describe('DrawerList component', () => {
         opened
         no_animation
         data={data.third}
-        value={data.third[2].selected_key}
+        value={data.third[2].selectedKey}
         {...mockProps}
       />
     )
