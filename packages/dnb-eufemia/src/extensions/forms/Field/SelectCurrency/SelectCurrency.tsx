@@ -268,7 +268,7 @@ function SelectCurrency(props: Props) {
         show_submit_button
         keep_selection
         autoComplete={autoComplete}
-        no_animation={noAnimation}
+        noAnimation={noAnimation}
         {...htmlAttributes}
       />
     </FieldBlock>
