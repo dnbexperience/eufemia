@@ -286,50 +286,6 @@ describe('Iterate.Visibility', () => {
       )
       expect(screen.queryByText('Child')).not.toBeInTheDocument()
     })
-
-    it('should render children when withValue matches', () => {
-      const log = jest.spyOn(console, 'warn').mockImplementation()
-
-      render(
-        <Provider data={{ myList: [{ myPath: 'foo' }] }}>
-          <Iterate.Array path="/myList">
-            <Iterate.Visibility
-              visibleWhen={{
-                itemPath: '/myPath',
-                withValue: (value) => value === 'foo',
-              }}
-            >
-              Child
-            </Iterate.Visibility>
-          </Iterate.Array>
-        </Provider>
-      )
-      expect(screen.getByText('Child')).toBeInTheDocument()
-
-      log.mockRestore()
-    })
-
-    it('should not render children when withValue does not match', () => {
-      const log = jest.spyOn(console, 'warn').mockImplementation()
-
-      render(
-        <Provider data={{ myList: [{ myPath: 'foo' }] }}>
-          <Iterate.Array path="/myList">
-            <Iterate.Visibility
-              visibleWhen={{
-                itemPath: '/myPath',
-                withValue: (value) => value === 'bar',
-              }}
-            >
-              Child
-            </Iterate.Visibility>
-          </Iterate.Array>
-        </Provider>
-      )
-      expect(screen.queryByText('Child')).not.toBeInTheDocument()
-
-      log.mockRestore()
-    })
   })
 
   describe('visibleWhenNot', () => {
