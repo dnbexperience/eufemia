@@ -9,6 +9,7 @@ import SharedContext, {
   TranslationCustomLocales,
   TranslationFlatToObject,
 } from './Context'
+import renderWithFormatting from './renderWithFormatting'
 
 export type TranslationProps<T = TranslationCustomLocales> = {
   id?: TranslationId | TranslationIdAsFunction<TranslationFlatToObject<T>>
@@ -27,7 +28,7 @@ const TranslationImpl = <T = TranslationCustomLocales,>({
     return <>{String(id)}</>
   }
 
-  return <>{result}</>
+  return <>{renderWithFormatting(result)}</>
 }
 
 type TranslationFn = <T = TranslationCustomLocales>(
