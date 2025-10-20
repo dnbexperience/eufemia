@@ -99,7 +99,7 @@ class Modal extends React.PureComponent<
     close_title: 'Lukk', // Close Modal Window
     hide_close_button: false,
     close_button_attributes: null,
-    prevent_close: false,
+    preventClose: false,
     prevent_core_style: false,
     animation_duration: ANIMATION_DURATION,
     no_animation: false,
@@ -364,9 +364,9 @@ class Modal extends React.PureComponent<
   ) => {
     this.modalContentCloseRef.current?.(event, { triggeredBy })
 
-    const { prevent_close = false } = this.props
+    const { preventClose = false } = this.props
 
-    if (isTrue(prevent_close)) {
+    if (isTrue(preventClose)) {
       const id = this._id
       dispatchCustomElementEvent(this, 'on_close_prevent', {
         id,

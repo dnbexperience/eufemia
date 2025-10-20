@@ -296,7 +296,7 @@ export const AutocompleteSandbox = () => {
       <Box>
         <Autocomplete
           // opened
-          // prevent_close
+          // preventClose
           // no_animation
           // input_value="foo bar th"
           // input_value="bb th x"
@@ -354,7 +354,7 @@ export const AutocompleteSandbox = () => {
         />
         <Autocomplete
           // opened
-          // prevent_close
+          // preventClose
           // no_animation
           // input_value="foo bar th"
           input_value="bb c"
@@ -438,7 +438,7 @@ export const AutocompleteSandbox = () => {
           input_icon={null}
           title="Type to find ..."
           // opened
-          // prevent_close
+          // preventClose
           // no_animation
           input_value="d"
           on_select={(e) => {
@@ -451,7 +451,7 @@ export const AutocompleteSandbox = () => {
         />
         <Autocomplete
           // opened
-          // prevent_close
+          // preventClose
           no_animation
           // preventSelection
           // input_value="the g er"
