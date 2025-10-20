@@ -441,7 +441,7 @@ export const DropdownMoreMenu = () => {
 export const DropdownIndependentWidthLeft = () => {
   return (
     <Wrapper>
-      <ComponentBox data-visual-test="dropdown-independentWidth_left">
+      <ComponentBox data-visual-test="dropdown-independent_width_left">
         <Dropdown
           independentWidth={true}
           icon_position="left"
@@ -464,7 +464,7 @@ export const DropdownIndependentWidthLeft = () => {
 export const DropdownIndependentWidthRight = () => {
   return (
     <Wrapper>
-      <ComponentBox data-visual-test="dropdown-independentWidth_right">
+      <ComponentBox data-visual-test="dropdown-independent_width_right">
         <Dropdown
           independentWidth={true}
           icon_position="right"
