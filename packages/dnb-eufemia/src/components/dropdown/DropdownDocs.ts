@@ -94,7 +94,7 @@ export const DropdownProperties = {
     type: ['left', 'right'],
     status: 'optional',
   },
-  independent_width: {
+  independentWidth: {
     doc: 'If set to `true`, the Dropdown will handle its width independent to the content width. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',

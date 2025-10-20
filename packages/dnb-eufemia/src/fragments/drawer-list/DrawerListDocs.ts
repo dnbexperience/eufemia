@@ -56,7 +56,7 @@ export const DrawerListProperties = {
     type: 'boolean',
     status: 'optional',
   },
-  independent_width: {
+  independentWidth: {
     doc: 'If set to `true`, the DrawerList will handle its width and position independently of the parent/mother element.',
     type: 'boolean',
     status: 'optional',
