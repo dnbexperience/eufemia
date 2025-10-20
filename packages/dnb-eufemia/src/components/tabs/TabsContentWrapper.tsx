@@ -16,10 +16,7 @@ import HeightAnimation from '../height-animation/HeightAnimation'
 export default class ContentWrapper extends React.PureComponent<ContentWrapperProps> {
   static propTypes = {
     id: PropTypes.string.isRequired,
-    selected_key: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number,
-    ]),
+    selectedKey: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     content_style: PropTypes.string,
     animate: PropTypes.bool,
     content_spacing: PropTypes.oneOfType([
@@ -29,7 +26,7 @@ export default class ContentWrapper extends React.PureComponent<ContentWrapperPr
     children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
   }
   static defaultProps = {
-    selected_key: null,
+    selectedKey: null,
     content_style: null,
     animate: null,
     content_spacing: true,
@@ -68,7 +65,7 @@ export default class ContentWrapper extends React.PureComponent<ContentWrapperPr
     const {
       id,
       children,
-      selected_key: key,
+      selectedKey: key,
       content_style,
       animate,
       content_spacing,
@@ -148,7 +145,7 @@ export type ContentWrapperChildren =
 
 export interface ContentWrapperProps extends React.HTMLProps<HTMLElement> {
   id: string
-  selected_key?: ContentWrapperSelectedKey
+  selectedKey?: ContentWrapperSelectedKey
   content_style?: SectionStyleTypes | SectionVariants
   animate?: boolean
   content_spacing?: SectionSpacing
