@@ -148,7 +148,7 @@ export const TabsExampleScrollable = () => (
 export const TabsExampleLeftAligned = () => (
   <Wrapper>
     <ComponentBox data-visual-test="tabs-section-styles">
-      <Tabs tabs_style="info" contentStyle="info">
+      <Tabs tabsStyle="info" contentStyle="info">
         <Tabs.Content title="First" key="first">
           <Section spacing top bottom style_type="white">
             <H2 top={0} bottom>
@@ -268,7 +268,7 @@ export const TabsExampleReachRouterNavigation = () =>
                 ]}
                 selectedKey={pathname}
                 on_change={({ key }) => navigate(key)}
-                tabs_style="info"
+                tabsStyle="info"
               >
                 <React.Suspense fallback={<em>Loading ...</em>}>
                   <Router>
