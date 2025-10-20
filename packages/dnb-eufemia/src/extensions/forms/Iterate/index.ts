@@ -1,6 +1,3 @@
-import PushButton from './PushButton'
-import RemoveButton from './RemoveButton'
-
 export { default as Array } from './Array'
 export { default as PushButton } from './PushButton'
 export { default as PushContainer } from './PushContainer'
@@ -14,10 +11,3 @@ export { default as ItemNo } from './ItemNo'
 export { useCount, count, Count } from './Count'
 export { default as useItem } from './hooks/useItem'
 export { default as IterateItemContext } from './IterateItemContext'
-
-/**
- * Deprecated and will be removed in v11
- *
- * @deprecated use "RemoveButton" instead
- */
-export const ArrayRemoveElementButton = RemoveButton
