@@ -125,7 +125,7 @@ export interface TabsProps
   /**
    * If set to `true`, the navigation icons will have a straight border at their outside. This feature is meant to be used when the Tabs component goes all the way to the browser window. Defaults to `false`.
    */
-  nav_button_edge?: boolean
+  navButtonEdge?: boolean
   onOpenTabNavigationFn?: (...args: any[]) => any
   /**
    * If set to `true`, the Tabs content will pre-render all contents. The visibility will be handled by using the `hidden` and `aria-hidden` HTML attributes. Defaults to `false`.
@@ -222,10 +222,7 @@ export default class Tabs extends React.PureComponent<TabsProps> {
     tabsSpacing: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     no_border: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     breakout: PropTypes.bool,
-    nav_button_edge: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-    ]),
+    navButtonEdge: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     onOpenTabNavigationFn: PropTypes.func,
     prerender: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     prevent_rerender: PropTypes.oneOfType([
@@ -264,7 +261,7 @@ export default class Tabs extends React.PureComponent<TabsProps> {
     tabsStyle: null,
     tabsSpacing: null,
     no_border: false,
-    nav_button_edge: false,
+    navButtonEdge: false,
     onOpenTabNavigationFn: null,
     prerender: false,
     prevent_rerender: false,
@@ -1127,7 +1124,7 @@ export default class Tabs extends React.PureComponent<TabsProps> {
       tabsStyle,
       tabsSpacing,
       no_border,
-      nav_button_edge,
+      navButtonEdge,
       breakout,
     } = this.props
     const { hasScrollbar } = this.state
@@ -1144,7 +1141,7 @@ export default class Tabs extends React.PureComponent<TabsProps> {
               }`
             : null,
           hasScrollbar && 'dnb-tabs--has-scrollbar',
-          nav_button_edge && 'dnb-tabs--at-edge',
+          navButtonEdge && 'dnb-tabs--at-edge',
           no_border && 'dnb-tabs__tabs--no-border',
           breakout && 'dnb-tabs__tabs--breakout',
           className
