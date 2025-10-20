@@ -112,7 +112,7 @@ export default function TabBar({
       <Tabs
         id="tab-bar"
         onOpenTabNavigationFn={navigate}
-        tab_element={Link}
+        tabElement={Link}
         data={preparedTabs}
         selectedKey={selectedKey}
         render={({ Wrapper, Content, TabsList, Tabs }) => {
