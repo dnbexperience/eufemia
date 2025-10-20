@@ -141,7 +141,7 @@ export default class Dropdown extends React.PureComponent {
         ])
       ),
     ]),
-    default_value: PropTypes.oneOfType([
+    defaultValue: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.number,
     ]),
@@ -205,7 +205,7 @@ export default class Dropdown extends React.PureComponent {
     align_dropdown: null,
     trigger_element: null,
     data: null,
-    default_value: null,
+    defaultValue: null,
     value: 'initval',
     open_on_focus: false,
     prevent_close: false,
@@ -451,7 +451,7 @@ class DropdownInstance extends React.PureComponent {
       independent_width,
       prevent_selection,
       max_height,
-      default_value,
+      defaultValue,
       className,
       disabled,
       stretch,
@@ -662,7 +662,7 @@ class DropdownInstance extends React.PureComponent {
                   variant === 'tertiary' && 'dnb-dropdown__list--tertiary'
                 )}
                 value={selected_item}
-                default_value={default_value}
+                defaultValue={defaultValue}
                 scrollable={scrollable}
                 focusable={focusable}
                 no_animation={no_animation}

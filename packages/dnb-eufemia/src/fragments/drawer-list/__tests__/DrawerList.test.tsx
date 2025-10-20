@@ -195,13 +195,13 @@ describe('DrawerList component', () => {
     })
   })
 
-  it('handles default_value correctly on forcing re-render', () => {
+  it('handles defaultValue correctly on forcing re-render', () => {
     const { rerender } = render(
       <DrawerList
         opened
         no_animation
         data={mockData}
-        default_value={props.value}
+        defaultValue={props.value}
         {...mockProps}
       />
     )
@@ -220,7 +220,7 @@ describe('DrawerList component', () => {
         opened
         no_animation
         data={mockData}
-        default_value={props.value}
+        defaultValue={props.value}
         {...mockProps}
         title={title}
       />
@@ -233,7 +233,7 @@ describe('DrawerList component', () => {
         opened
         no_animation
         data={mockData}
-        default_value={props.value}
+        defaultValue={props.value}
         {...mockProps}
         title={title}
         value={(props.value as number) + 1}
