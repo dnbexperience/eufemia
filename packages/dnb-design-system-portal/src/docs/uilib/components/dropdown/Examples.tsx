@@ -30,7 +30,7 @@ type VisibleWhenVisualTestReturn = Pick<
   | 'opened'
   | 'preventClose'
   | 'independentWidth'
-  | 'skip_portal'
+  | 'skipPortal'
   | 'direction'
 >
 
@@ -275,7 +275,7 @@ export const DropdownIconLeft = () => (
         icon_position="left"
         data={data}
         value={3}
-        skip_portal={true}
+        skipPortal={true}
         on_change={({ data: selectedDataItem }) => {
           console.log('on_change', selectedDataItem)
         }}
@@ -535,7 +535,7 @@ export const DropdownCustomEvent = () => {
     return {
       preventClose: true,
       independentWidth: true,
-      skip_portal: true,
+      skipPortal: true,
       direction: 'bottom',
     }
   }
