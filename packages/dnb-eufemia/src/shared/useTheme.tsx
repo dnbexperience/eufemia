@@ -12,6 +12,7 @@ export type UseThemeReturn =
       isUi: boolean
       isSbanken: boolean
       isEiendom: boolean
+      isCarnegie: boolean
     })
   | null
 
@@ -25,6 +26,7 @@ export default function useTheme(): UseThemeReturn {
       isUi: name === 'ui',
       isSbanken: name === 'sbanken',
       isEiendom: name === 'eiendom',
+      isCarnegie: name === 'carnegie',
     }
   }
 

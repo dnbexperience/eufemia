@@ -1,0 +1,10 @@
+/*
+ * CSS Properties Carnegie
+ *
+ */
+
+.eufemia-theme__carnegie,
+:root {
+  // Use DNB default for body text (from theme-ui), but override headings
+  --font-family-heading: 'ArizonaFlare', var(--font-family-default);
+}
