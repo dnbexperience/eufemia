@@ -212,14 +212,14 @@ describe('Dropdown component', () => {
     )
   })
 
-  it('will stay open when keep_open and a selection is made', () => {
+  it('will stay open when keepOpen and a selection is made', () => {
     const on_change = jest.fn()
     render(
       <Dropdown
         skip_portal
         no_animation
         opened={true}
-        keep_open={true}
+        keepOpen={true}
         on_change={on_change}
         data={mockData}
       />
