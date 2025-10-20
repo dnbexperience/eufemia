@@ -99,8 +99,8 @@ export const DropdownProperties = {
     type: 'boolean',
     status: 'optional',
   },
-  skip_portal: {
-    doc: 'Set to `true` to disable the React Portal behavior. Defaults to `false`.',
+  skipPortal: {
+    doc: 'set to `true` to disable the React Portal behavior. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
