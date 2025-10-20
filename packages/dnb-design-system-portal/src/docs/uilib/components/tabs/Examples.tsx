@@ -124,8 +124,8 @@ export const TabsExampleUsingData = () => (
           console.log('on_click', selectedKey)
         }}
         // Preferred way to listen on changes
-        on_change={({ selectedKey }) => {
-          console.log('on_change', selectedKey)
+        onChange={({ selectedKey }) => {
+          console.log('onChange', selectedKey)
         }}
       />
     </ComponentBox>
@@ -267,7 +267,7 @@ export const TabsExampleReachRouterNavigation = () =>
                   { title: 'Topics', key: '/topics' },
                 ]}
                 selectedKey={pathname}
-                on_change={({ key }) => navigate(key)}
+                onChange={({ key }) => navigate(key)}
                 tabsStyle="info"
               >
                 <React.Suspense fallback={<em>Loading ...</em>}>
