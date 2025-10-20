@@ -184,7 +184,7 @@ export interface DrawerListProps {
   /**
    * Define an HTML class that will be set on the DOM portal beside `dnb-drawer-list__portal__style`. Can be useful to handle e.g. a custom `z-index` in relation to a header.
    */
-  portal_class?: string
+  portalClass?: string
   /**
    * Define an HTML class that will be set on the list, beside `dnb-drawer-list__list`.
    */
@@ -369,7 +369,7 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
       preventSelection,
       action_menu,
       is_popup,
-      portal_class,
+      portalClass,
       listClass,
       ignore_events,
       options_render,
@@ -654,7 +654,7 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
           include_owner_width={alignDrawer === 'right'}
           independentWidth={isTrue(independentWidth)}
           fixedPosition={isTrue(fixedPosition)}
-          className={getThemeClasses(this.context?.theme, portal_class)}
+          className={getThemeClasses(this.context?.theme, portalClass)}
           skipPortal={skipPortal}
         >
           {mainList}
