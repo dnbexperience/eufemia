@@ -76,7 +76,7 @@ export const SearchBarInput = () => {
       no_scroll_animation
       preventSelection
       disable_filter
-      fixed_position
+      fixedPosition
       size="medium"
       align_autocomplete="right"
       placeholder="Search ..."
