@@ -128,7 +128,7 @@ export default class Dropdown extends React.PureComponent {
               PropTypes.string,
               PropTypes.number,
             ]),
-            selected_value: PropTypes.oneOfType([
+            selectedValue: PropTypes.oneOfType([
               PropTypes.string,
               PropTypes.node,
             ]),
@@ -402,7 +402,7 @@ class DropdownInstance extends React.PureComponent {
       )
       if (currentOptionData) {
         title =
-          currentOptionData.selected_value ||
+          currentOptionData.selectedValue ||
           parseContentTitle(currentOptionData)
       }
     }
