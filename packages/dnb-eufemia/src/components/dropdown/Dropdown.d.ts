@@ -63,7 +63,7 @@ export interface DropdownProps {
    * use an object to define additional FormStatus properties.
    */
   status_props?: FormStatusProps;
-  status_no_animation?: boolean;
+  status_noAnimation?: boolean;
   /**
    * the [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status).
    */

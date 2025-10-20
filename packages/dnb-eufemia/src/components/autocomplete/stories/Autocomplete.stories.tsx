@@ -45,7 +45,7 @@ export const SearchNumbers = () => {
       input_value="201"
       // input_value="100 222 4"
       opened
-      no_animation
+      noAnimation
       label="Label:"
       data={numbers}
       search_numbers
@@ -166,7 +166,7 @@ export const SearchWithWrappers = () => {
         // input_value="red the"
         // input_value="100 222 4"
         opened
-        no_animation
+        noAnimation
         label="Label:"
         data={topMovies}
         // disable_highlighting
@@ -297,7 +297,7 @@ export const AutocompleteSandbox = () => {
         <Autocomplete
           // opened
           // preventClose
-          // no_animation
+          // noAnimation
           // input_value="foo bar th"
           // input_value="bb th x"
           input_value="co pr ti"
@@ -355,7 +355,7 @@ export const AutocompleteSandbox = () => {
         <Autocomplete
           // opened
           // preventClose
-          // no_animation
+          // noAnimation
           // input_value="foo bar th"
           input_value="bb c"
           // value={2}
@@ -439,7 +439,7 @@ export const AutocompleteSandbox = () => {
           title="Type to find ..."
           // opened
           // preventClose
-          // no_animation
+          // noAnimation
           input_value="d"
           on_select={(e) => {
             console.log('on_select', e)
@@ -452,7 +452,7 @@ export const AutocompleteSandbox = () => {
         <Autocomplete
           // opened
           // preventClose
-          no_animation
+          noAnimation
           // preventSelection
           // input_value="the g er"
           input_value="episode a I"
@@ -934,7 +934,7 @@ export const GlobalStatusExample = () => {
     <>
       <GlobalStatus id="my-id" />
       <Autocomplete
-        no_animation
+        noAnimation
         label="Label:"
         data={numbers}
         search_numbers

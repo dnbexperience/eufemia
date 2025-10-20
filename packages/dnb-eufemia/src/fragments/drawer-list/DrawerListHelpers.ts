@@ -38,7 +38,7 @@ export const drawerListPropTypes = {
   direction: PropTypes.oneOf(['auto', 'top', 'bottom']),
   size: PropTypes.oneOf(['default', 'small', 'medium', 'large']),
   maxHeight: PropTypes.number,
-  no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  noAnimation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   noScrollAnimation: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.bool,
@@ -147,7 +147,7 @@ export const drawerListDefaultProps = {
   maxHeight: null,
   direction: 'auto',
   size: 'default',
-  no_animation: false,
+  noAnimation: false,
   noScrollAnimation: false,
   preventSelection: false,
   action_menu: false,

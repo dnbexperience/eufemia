@@ -74,7 +74,7 @@ export default class Dropdown extends React.PureComponent {
     ]),
     status_state: PropTypes.string,
     status_props: PropTypes.object,
-    status_no_animation: PropTypes.oneOfType([
+    status_noAnimation: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool,
     ]),
@@ -95,7 +95,7 @@ export default class Dropdown extends React.PureComponent {
     maxHeight: PropTypes.number,
     skipPortal: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     portalClass: PropTypes.string,
-    no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    noAnimation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     noScrollAnimation: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool,
@@ -184,7 +184,7 @@ export default class Dropdown extends React.PureComponent {
     status: null,
     status_state: 'error',
     status_props: null,
-    status_no_animation: null,
+    status_noAnimation: null,
     globalStatus: null,
     innerRef: null,
     buttonRef: null,
@@ -195,7 +195,7 @@ export default class Dropdown extends React.PureComponent {
     direction: 'auto',
     skipPortal: null,
     portalClass: null,
-    no_animation: false,
+    noAnimation: false,
     noScrollAnimation: false,
     preventSelection: false,
     more_menu: false,
@@ -433,14 +433,14 @@ class DropdownInstance extends React.PureComponent {
       status,
       status_state,
       status_props,
-      status_no_animation,
+      status_noAnimation,
       globalStatus,
       suffix,
       scrollable,
       focusable,
       keepOpen,
       preventClose,
-      no_animation,
+      noAnimation,
       noScrollAnimation,
       trianglePosition,
       skipPortal,
@@ -605,7 +605,7 @@ class DropdownInstance extends React.PureComponent {
             text_id={id + '-status'} // used for "aria-describedby"
             text={status}
             state={status_state}
-            no_animation={status_no_animation}
+            noAnimation={status_noAnimation}
             skeleton={skeleton}
             {...status_props}
           />
@@ -667,7 +667,7 @@ class DropdownInstance extends React.PureComponent {
                 defaultValue={defaultValue}
                 scrollable={scrollable}
                 focusable={focusable}
-                no_animation={no_animation}
+                noAnimation={noAnimation}
                 noScrollAnimation={noScrollAnimation}
                 skipPortal={skipPortal}
                 preventSelection={handleAsMenu}
