@@ -29,7 +29,7 @@ export const TabsProperties: PropertiesTableProps = {
     ],
     status: 'optional',
   },
-  tabs_style: {
+  tabsStyle: {
     doc: 'To enable the visual helper `.dnb-section` inside the tabs list. Use a supported modifier from the [Section component](/uilib/components/section/properties). Defaults to `null`.',
     type: ['divider', 'white', 'transparent'],
     status: 'optional',
