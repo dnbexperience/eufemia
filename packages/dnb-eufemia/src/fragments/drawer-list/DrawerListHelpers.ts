@@ -62,7 +62,7 @@ export const drawerListPropTypes = {
     PropTypes.func,
     PropTypes.node,
   ]),
-  default_value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  defaultValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   skip_portal: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   portal_class: PropTypes.string,
@@ -155,7 +155,7 @@ export const drawerListDefaultProps = {
   is_popup: false,
   align_drawer: 'left',
   wrapper_element: null,
-  default_value: null,
+  defaultValue: null,
   value: 'initval',
   portal_class: null,
   list_class: null,
@@ -476,9 +476,9 @@ export function prepareStartupState(
       props.value,
       data
     )
-  } else if (props.default_value !== null) {
+  } else if (props.defaultValue !== null) {
     state.selected_item = state.active_item = getCurrentIndex(
-      props.default_value,
+      props.defaultValue,
       data
     )
     state._value = props.value
