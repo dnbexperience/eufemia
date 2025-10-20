@@ -353,7 +353,7 @@ export default class Autocomplete extends React.PureComponent {
         tagName="dnb-autocomplete"
         ignore_events={false}
         prevent_focus
-        skip_keysearch
+        skipKeysearch
       >
         <AutocompleteInstance {...this.props} id={this._id} />
       </DrawerListProvider>
