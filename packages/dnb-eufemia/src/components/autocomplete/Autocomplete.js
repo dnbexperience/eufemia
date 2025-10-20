@@ -220,7 +220,7 @@ export default class Autocomplete extends React.PureComponent {
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     input_value: PropTypes.string,
     open_on_focus: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    prevent_close: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    preventClose: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     keep_open: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     opened: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -311,7 +311,7 @@ export default class Autocomplete extends React.PureComponent {
     input_value: 'initval',
     autoComplete: 'off',
     open_on_focus: false,
-    prevent_close: false,
+    preventClose: false,
     keep_open: false,
     opened: null,
     disabled: null,
@@ -513,7 +513,7 @@ class AutocompleteInstance extends React.PureComponent {
     }
     if (
       !args.hasFilter &&
-      !isTrue(this.props.prevent_close) &&
+      !isTrue(this.props.preventClose) &&
       !this.context.drawerList.hidden &&
       this.context.drawerList.isOpen
     ) {
@@ -1765,7 +1765,7 @@ class AutocompleteInstance extends React.PureComponent {
       keep_value, // eslint-disable-line
       keep_value_and_selection, // eslint-disable-line
       show_clear_button,
-      prevent_close,
+      preventClose,
       no_animation,
       no_scroll_animation,
       show_submit_button,
@@ -2075,7 +2075,7 @@ class AutocompleteInstance extends React.PureComponent {
                 preventSelection={preventSelection}
                 triangle_position={triangle_position || icon_position}
                 keep_open={keep_open}
-                prevent_close={prevent_close}
+                preventClose={preventClose}
                 align_drawer={align_autocomplete}
                 fixed_position={fixed_position}
                 disabled={disabled}
