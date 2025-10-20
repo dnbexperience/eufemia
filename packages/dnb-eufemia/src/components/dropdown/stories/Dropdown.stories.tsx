@@ -518,7 +518,7 @@ const DropdownStory = () => {
           // direction="top"
           data={dropdownDataScrollable}
           value={4}
-          no_scroll_animation={true}
+          noScrollAnimation={true}
           status="Message to the user"
           right
         />
