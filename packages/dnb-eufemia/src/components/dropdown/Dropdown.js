@@ -106,7 +106,7 @@ export default class Dropdown extends React.PureComponent {
     ]),
     more_menu: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     action_menu: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    independent_width: PropTypes.oneOfType([
+    independentWidth: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool,
     ]),
@@ -200,7 +200,7 @@ export default class Dropdown extends React.PureComponent {
     preventSelection: false,
     more_menu: false,
     action_menu: false,
-    independent_width: false,
+    independentWidth: false,
     size: 'default',
     align_dropdown: null,
     trigger_element: null,
@@ -448,7 +448,7 @@ class DropdownInstance extends React.PureComponent {
       trigger_element: CustomTrigger,
       more_menu,
       action_menu,
-      independent_width,
+      independentWidth,
       preventSelection,
       max_height,
       defaultValue,
@@ -496,7 +496,7 @@ class DropdownInstance extends React.PureComponent {
     // We believe this can be removed and replaced by placing the triangle based on,
     // calculating the position based on the dropdowns width.
     if (
-      isTrue(independent_width) &&
+      isTrue(independentWidth) &&
       icon_position !== 'left' &&
       !align_dropdown
     ) {
@@ -521,7 +521,7 @@ class DropdownInstance extends React.PureComponent {
         `dnb-dropdown--icon-position-${icon_position || 'right'}`,
         isPopupMenu && 'dnb-dropdown--is-popup',
         isTrue(action_menu) && `dnb-dropdown--action-menu`,
-        (isTrue(independent_width) || isTrue(action_menu)) &&
+        (isTrue(independentWidth) || isTrue(action_menu)) &&
           'dnb-dropdown--independent-width',
         size && `dnb-dropdown--${size}`,
         isTrue(stretch) && `dnb-dropdown--stretch`,
@@ -675,8 +675,8 @@ class DropdownInstance extends React.PureComponent {
                 }
                 keepOpen={keepOpen}
                 preventClose={preventClose}
-                independent_width={
-                  isTrue(independent_width) || isPopupMenu || action_menu
+                independentWidth={
+                  isTrue(independentWidth) || isPopupMenu || action_menu
                 }
                 is_popup={isPopupMenu || action_menu}
                 align_drawer={align_dropdown || 'left'}
