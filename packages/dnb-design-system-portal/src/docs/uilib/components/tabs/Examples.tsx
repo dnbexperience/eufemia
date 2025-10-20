@@ -119,9 +119,9 @@ export const TabsExampleUsingData = () => (
             content: exampleContent.second,
           },
         }}
-        // Only use "on_click" if you really have to
-        on_click={({ selectedKey }) => {
-          console.log('on_click', selectedKey)
+        // Only use "onClick" if you really have to
+        onClick={({ selectedKey }) => {
+          console.log('onClick', selectedKey)
         }}
         // Preferred way to listen on changes
         onChange={({ selectedKey }) => {
