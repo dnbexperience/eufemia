@@ -111,7 +111,7 @@ export const DrawerListExampleDefault = () => (
         skipPortal
         opened
         preventClose
-        triangle_position="left"
+        trianglePosition="left"
         data={data}
         value={3}
         on_change={({ data: selectedDataItem }) => {
