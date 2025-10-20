@@ -70,7 +70,7 @@ export default {
       help: 'Här är några länkar som kanske kan hjälpa:',
     },
     ProgressIndicator: {
-      indicator_label: 'Vänligen vänta ...',
+      indicatorLabel: 'Vänligen vänta ...',
     },
     DrawerList: {
       defaultGroupSR: 'Standardval',
