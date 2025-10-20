@@ -147,7 +147,6 @@ export type Props = FieldProps<IOption['value']> & {
 
 const validDrawerListProps = [
   // DrawerList Properties
-  'triangle_position',
   'label_direction',
   'skip_keysearch',
   'ignore_events',
@@ -198,7 +197,7 @@ const validAutocompleteProps = [
   'submit_button_icon',
   'submit_button_title',
   'submit_element',
-  'triangle_position',
+  'trianglePosition',
 
   // Autocomplete Events
   'on_type',
@@ -228,7 +227,7 @@ const validDropdownProps = [
   // From DropdownProperties
   'icon_size',
   'icon_position',
-  'triangle_position',
+  'trianglePosition',
   'open_on_focus',
   'action_menu',
   'more_menu',
