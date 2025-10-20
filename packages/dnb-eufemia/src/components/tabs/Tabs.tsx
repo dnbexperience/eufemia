@@ -91,9 +91,9 @@ export interface TabsProps
   contentSpacing?: SectionSpacing
   label?: string
   /**
-   * Define what HTML element should be used. You can provide e.g. `tab_element={GatsbyLink}` – you may then provide the `to` property inside every entry (`data={[{ to: ';url';, ... }]}`). Defaults to `<button>`.
+   * Define what HTML element should be used. You can provide e.g. `tabElement={GatsbyLink}` – you may then provide the `to` property inside every entry (`data={[{ to: ';url';, ... }]}`). Defaults to `<button>`.
    */
-  tab_element?: TabsTabElement
+  tabElement?: TabsTabElement
   /**
    * In case one of the tabs should be opened by a `key`.
    */
@@ -168,7 +168,7 @@ export default class Tabs extends React.PureComponent<TabsProps> {
     contentStyle: null,
     contentSpacing: true,
     label: null,
-    tab_element: 'button',
+    tabElement: 'button',
     selectedKey: null,
     align: 'left',
     tabs_style: null,
@@ -1112,10 +1112,10 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
   }
 
   TabsHandler = (props) => {
-    const { label, skeleton, tab_element } = { ...this._props, ...props }
+    const { label, skeleton, tabElement } = { ...this._props, ...props }
     const { selectedKey } = this.state
 
-    const TabElement = tab_element || 'button'
+    const TabElement = tabElement || 'button'
 
     const tabs = this.state.data.map(
       ({ title, key, disabled = false, to, href }) => {
