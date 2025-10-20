@@ -86,7 +86,7 @@ export const DrawerListProperties = {
     type: 'string',
     status: 'optional',
   },
-  list_class: {
+  listClass: {
     doc: 'Define an HTML class that will be set on the list, beside `dnb-drawer-list__list`.',
     type: 'string',
     status: 'optional',
