@@ -44,8 +44,6 @@ export type AnchorProps = {
   omitClass?: boolean
   innerRef?: React.RefObject<HTMLAnchorElement>
 
-  /** @deprecated use innerRef instead */
-  inner_ref?: React.RefObject<HTMLAnchorElement>
   /**
    * Removes default animation.
    * Default: `false`
@@ -100,12 +98,6 @@ export function AnchorInstance(localProps: AnchorAllProps) {
     context?.getTranslation(localProps as AnchorAllProps).Anchor,
     context?.Anchor
   )
-
-  // deprecated: inner_ref is still needed to support Button's usage of Anchor
-  if (typeof allProps.inner_ref !== 'undefined') {
-    allProps.innerRef = allProps.inner_ref
-    delete allProps.inner_ref
-  }
 
   if (!allProps.innerRef) {
     allProps.innerRef = React.createRef()
