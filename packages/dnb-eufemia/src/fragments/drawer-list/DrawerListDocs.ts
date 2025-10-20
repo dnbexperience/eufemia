@@ -16,7 +16,7 @@ export const DrawerListProperties = {
     type: ['string', 'number'],
     status: 'optional',
   },
-  default_value: {
+  defaultValue: {
     doc: 'Define a startup value or handle a re-render without handling the state during the re-render by yourself. Defaults to `null`.',
     type: 'number',
     status: 'optional',
