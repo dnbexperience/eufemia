@@ -73,7 +73,7 @@ export const ModalProperties: PropertiesTableProps = {
     type: ['number', 'string'],
     status: 'optional',
   },
-  preventClose: {
+  prevent_close: {
     doc: "if set to `true` (boolean or string), then the user can't close the modal.",
     type: 'boolean',
     status: 'optional',
@@ -195,7 +195,7 @@ export const ModalEvents: PropertiesTableProps = {
     status: 'optional',
   },
   onClosePrevent: {
-    doc: 'This event gets triggered once the user tries to close the modal, but `preventClose` is set to **true**. Returns a callback `close` you can call to trigger the close mechanism. More details below. Returns the modal id: `{ id, event, close: Method, triggeredBy }`.',
+    doc: 'This event gets triggered once the user tries to close the modal, but `prevent_close` is set to **true**. Returns a callback `close` you can call to trigger the close mechanism. More details below. Returns the modal id: `{ id, event, close: Method, triggeredBy }`.',
     type: 'function',
     status: 'optional',
   },
