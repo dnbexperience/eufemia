@@ -89,7 +89,7 @@ export const SearchBarInput = () => {
       on_change={onChangeHandler}
       on_focus={onFocusHandler}
       page_offset={0} // drawer-list property
-      options_render={({ Items, data }) => {
+      optionsRender={({ Items, data }) => {
         return (
           <>
             <Items />
