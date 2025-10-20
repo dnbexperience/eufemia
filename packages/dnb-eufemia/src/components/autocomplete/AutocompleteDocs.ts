@@ -61,7 +61,7 @@ export const AutocompleteProperties = {
     type: 'boolean',
     status: 'optional',
   },
-  prevent_selection: {
+  preventSelection: {
     doc: 'If set to `true`, no permanent selection will be made. Also, the typed value will not disappear on input blur (like `keep_value`). Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
