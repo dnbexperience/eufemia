@@ -81,18 +81,11 @@ export default function useVisibility(props?: Partial<Props>) {
           return visibleWhenNot ? !result : result
         }
 
-        if ('hasValue' in visibleWhen || 'withValue' in visibleWhen) {
+        if ('hasValue' in visibleWhen) {
           const hasPath = pointer.has(data, path)
           const value = hasPath ? pointer.get(data, path) : undefined
 
-          if (visibleWhen?.['withValue']) {
-            console.warn(
-              'VisibleWhen: "withValue" is deprecated, use "hasValue" instead'
-            )
-          }
-
-          const hasValue =
-            visibleWhen?.['hasValue'] ?? visibleWhen?.['withValue']
+          const hasValue = visibleWhen?.['hasValue']
           const result =
             typeof hasValue === 'function'
               ? hasValue(value) === false
