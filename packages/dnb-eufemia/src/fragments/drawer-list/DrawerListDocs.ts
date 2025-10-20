@@ -126,7 +126,7 @@ export const DrawerListProperties = {
     type: 'string',
     status: 'optional',
   },
-  page_offset: {
+  pageOffset: {
     doc: 'Defines the available scrollable height. If scrolling should not change the height of the drawer-list, then set it to `0` (useful if the DrawerList is used in fixed positions on contrast to a scrollable page content).',
     type: 'string',
     status: 'optional',
