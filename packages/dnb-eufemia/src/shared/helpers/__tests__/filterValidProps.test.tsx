@@ -79,14 +79,12 @@ describe('filterValidProps', () => {
 
     expect(verticalTrue).toEqual({
       labelDirection: 'vertical',
-      labelDirection: 'vertical',
       vertical: true,
     })
 
     const verticalFalse = prepareFormElementContext({ vertical: false })
 
     expect(verticalFalse).toEqual({
-      labelDirection: undefined,
       labelDirection: undefined,
       vertical: false,
     })
