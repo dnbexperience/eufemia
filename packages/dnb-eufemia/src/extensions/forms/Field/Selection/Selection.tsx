@@ -141,7 +141,6 @@ const validDrawerListProps = [
   'ignore_events',
   'no_animation',
   'page_offset',
-  'wrapperElement',
   'options_render',
 
   // DrawerList Events
