@@ -76,7 +76,7 @@ export const DrawerListProperties = {
     type: 'boolean',
     status: 'optional',
   },
-  ignore_events: {
+  ignoreEvents: {
     doc: 'If set to `true`, all keyboard and mouse events will be ignored.',
     type: 'boolean',
     status: 'optional',
