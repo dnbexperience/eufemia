@@ -96,7 +96,7 @@ export default class Dropdown extends React.PureComponent {
     skip_portal: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     portalClass: PropTypes.string,
     no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    no_scroll_animation: PropTypes.oneOfType([
+    noScrollAnimation: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool,
     ]),
@@ -196,7 +196,7 @@ export default class Dropdown extends React.PureComponent {
     skip_portal: null,
     portalClass: null,
     no_animation: false,
-    no_scroll_animation: false,
+    noScrollAnimation: false,
     preventSelection: false,
     more_menu: false,
     action_menu: false,
@@ -441,7 +441,7 @@ class DropdownInstance extends React.PureComponent {
       keepOpen,
       preventClose,
       no_animation,
-      no_scroll_animation,
+      noScrollAnimation,
       triangle_position,
       skip_portal,
       portalClass,
@@ -666,7 +666,7 @@ class DropdownInstance extends React.PureComponent {
                 scrollable={scrollable}
                 focusable={focusable}
                 no_animation={no_animation}
-                no_scroll_animation={no_scroll_animation}
+                noScrollAnimation={noScrollAnimation}
                 skip_portal={skip_portal}
                 preventSelection={handleAsMenu}
                 action_menu={action_menu}
