@@ -196,7 +196,7 @@ export interface DrawerListProps {
   /**
    * If set to `true`, the DrawerList will handle its width and position independently of the parent/mother element.
    */
-  independent_width?: boolean
+  independentWidth?: boolean
   /**
    * If set to `true`, the DrawerList will be fixed in its scroll position by using CSS `position: fixed;`.
    */
@@ -360,7 +360,7 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
       role,
       align_drawer,
       fixed_position,
-      independent_width,
+      independentWidth,
       scrollable,
       focusable,
       size,
@@ -446,7 +446,7 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
         size && `dnb-drawer-list--${size}`,
         isTrue(action_menu) && `dnb-drawer-list--action-menu`,
         isTrue(is_popup) && 'dnb-drawer-list--is-popup',
-        (isTrue(independent_width) || isTrue(action_menu)) &&
+        (isTrue(independentWidth) || isTrue(action_menu)) &&
           'dnb-drawer-list--independent-width',
         isTrue(scrollable) && 'dnb-drawer-list--scroll',
         isTrue(no_scroll_animation) &&
@@ -652,7 +652,7 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
           rootRef={_refRoot}
           opened={hidden === false}
           include_owner_width={align_drawer === 'right'}
-          independent_width={isTrue(independent_width)}
+          independentWidth={isTrue(independentWidth)}
           fixed_position={isTrue(fixed_position)}
           className={getThemeClasses(this.context?.theme, portal_class)}
           skipPortal={skipPortal}
