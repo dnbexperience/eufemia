@@ -178,11 +178,6 @@ export type ContextProps = ContextComponents & {
    */
   translations?: Translations | TranslationCustomLocales
 
-  /**
-   * @deprecated Use `translations` instead
-   */
-  locales?: Translations | TranslationCustomLocales
-
   // -- For internal use --
   __context__?: Record<string, unknown>
   updateTranslation?: (
@@ -252,10 +247,9 @@ export function prepareContext<Props>(
     delete props.__context__
   }
 
-  const translations: Translations =
-    props.translations || props.locales
-      ? extendDeep({}, defaultLocales, props.translations || props.locales)
-      : extendDeep({}, defaultLocales) // make a copy
+  const translations: Translations = props.translations
+    ? extendDeep({}, defaultLocales, props.translations)
+    : extendDeep({}, defaultLocales) // make a copy
 
   const localeWithFallback = handleLocaleFallbacks(
     props.locale || LOCALE,
@@ -285,22 +279,16 @@ export function prepareContext<Props>(
         context.translation as TranslationFlat
       )
       context.translations = newTranslations
-
-      if (context.locales) {
-        context.locales = context.translations
-      }
     },
     getTranslation: (localProps) => {
       if (localProps) {
         const locale = localProps.lang || localProps.locale
         if (
           locale &&
-          (context.translations || context.locales)[locale] &&
+          context.translations[locale] &&
           locale !== localeWithFallback
         ) {
-          return destructFlatTranslation(
-            (context.translations || context.locales)[locale]
-          )
+          return destructFlatTranslation(context.translations[locale])
         }
       }
       return context.translation || defaultLocales[LOCALE]
@@ -309,7 +297,6 @@ export function prepareContext<Props>(
     /**
      * Make sure we set this after props, since we update this one!
      */
-    locales: translations, // @deprecated – can be removed in v11
     translations,
     translation,
   } as Props & ContextProps
