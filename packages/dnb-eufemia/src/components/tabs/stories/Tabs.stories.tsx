@@ -397,7 +397,7 @@ export function TabsAndFlex() {
         <RightArea>
           <Tabs
             left
-            no_border
+            noBorder
             selectedKey="5"
             id="unique-tabs-row"
             data={data}
@@ -408,7 +408,7 @@ export function TabsAndFlex() {
       <MaxWidthWrapper>
         <Tabs
           top
-          no_border
+          noBorder
           navButtonEdge
           selectedKey="5"
           id="unique-tabs-edge"
@@ -418,7 +418,7 @@ export function TabsAndFlex() {
 
       <Tabs
         top
-        no_border
+        noBorder
         id="right-aligned"
         selectedKey="2"
         align="right"

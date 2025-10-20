@@ -212,7 +212,7 @@ export const TabsExampleHorizontallyAligned = () => (
             <RightArea>
               <Tabs
                 left
-                no_border
+                noBorder
                 selectedKey="first"
                 id="unique-tabs-row"
                 data={manyTabs}
@@ -240,7 +240,7 @@ export const TabsExampleMaxWidth = () => (
           <MaxWidthWrapper>
             <Tabs
               top
-              no_border
+              noBorder
               selectedKey="fifth"
               id="unique-tabs-max-width"
               data={manyTabs}
@@ -332,7 +332,7 @@ const Wrapper = styled.div`
 export const TabsNoBorder = () => (
   <Wrapper>
     <ComponentBox data-visual-test="tabs-no-border">
-      <Tabs no_border={true}>
+      <Tabs noBorder={true}>
         <Tabs.Content title="First" key="first">
           <H2 top={0} bottom>
             First
