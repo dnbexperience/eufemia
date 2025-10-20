@@ -214,29 +214,29 @@ describe.each(['ui', 'sbanken'])('Dropdown for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the dropdown with independent_width opened with icon_position left', async () => {
+  it('have to match the dropdown with independentWidth opened with icon_position left', async () => {
     const screenshot = await makeScreenshot({
       style: {
         'padding-top': '16rem',
       },
-      selector: '[data-visual-test="dropdown-independent_width_left"]',
+      selector: '[data-visual-test="dropdown-independentWidth_left"]',
       simulate: 'click',
       simulateSelector:
-        '[data-visual-test="dropdown-independent_width_left"] .dnb-dropdown button',
+        '[data-visual-test="dropdown-independentWidth_left"] .dnb-dropdown button',
       simulateAfter: { keypress: 'Escape' },
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the dropdown with independent_width opened with icon_position right', async () => {
+  it('have to match the dropdown with independentWidth opened with icon_position right', async () => {
     const screenshot = await makeScreenshot({
       style: {
         'padding-top': '16rem',
       },
-      selector: '[data-visual-test="dropdown-independent_width_right"]',
+      selector: '[data-visual-test="dropdown-independentWidth_right"]',
       simulate: 'click',
       simulateSelector:
-        '[data-visual-test="dropdown-independent_width_right"] .dnb-dropdown button',
+        '[data-visual-test="dropdown-independentWidth_right"] .dnb-dropdown button',
       simulateAfter: { keypress: 'Escape' },
     })
     expect(screenshot).toMatchImageSnapshot()

@@ -29,7 +29,7 @@ type VisibleWhenVisualTestReturn = Pick<
   DropdownAllProps,
   | 'opened'
   | 'preventClose'
-  | 'independent_width'
+  | 'independentWidth'
   | 'skip_portal'
   | 'direction'
 >
@@ -323,7 +323,7 @@ export const DropdownTertiary = () => (
       <Dropdown
         variant="tertiary"
         direction="bottom"
-        independent_width={true}
+        independentWidth={true}
         icon_position="left"
         align_dropdown="left"
         data={data}
@@ -341,7 +341,7 @@ export const DropdownTertiaryRight = () => (
       <Dropdown
         variant="tertiary"
         direction="bottom"
-        independent_width={true}
+        independentWidth={true}
         icon_position="right"
         align_dropdown="right"
         data={data}
@@ -358,7 +358,7 @@ export const DropdownMoreMenu = () => {
       return {}
     }
     return {
-      independent_width: true,
+      independentWidth: true,
       direction: 'bottom',
     }
   }
@@ -441,9 +441,9 @@ export const DropdownMoreMenu = () => {
 export const DropdownIndependentWidthLeft = () => {
   return (
     <Wrapper>
-      <ComponentBox data-visual-test="dropdown-independent_width_left">
+      <ComponentBox data-visual-test="dropdown-independentWidth_left">
         <Dropdown
-          independent_width={true}
+          independentWidth={true}
           icon_position="left"
           direction="top"
           title="Choose an item"
@@ -464,9 +464,9 @@ export const DropdownIndependentWidthLeft = () => {
 export const DropdownIndependentWidthRight = () => {
   return (
     <Wrapper>
-      <ComponentBox data-visual-test="dropdown-independent_width_right">
+      <ComponentBox data-visual-test="dropdown-independentWidth_right">
         <Dropdown
-          independent_width={true}
+          independentWidth={true}
           icon_position="right"
           direction="top"
           title="Choose an item"
@@ -534,7 +534,7 @@ export const DropdownCustomEvent = () => {
     }
     return {
       preventClose: true,
-      independent_width: true,
+      independentWidth: true,
       skip_portal: true,
       direction: 'bottom',
     }
