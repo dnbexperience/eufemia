@@ -117,9 +117,9 @@ export interface DrawerListProps {
   _id?: string
   role?: string
   /**
-   * Set a `cache_hash` as a string to enable internal memorizing of the list to enhance rerendering performance. Components like Autocomplete are using this because of the huge data changes due to search and reorder.
+   * Set a `cacheHash` as a string to enable internal memorizing of the list to enhance rerendering performance. Components like Autocomplete are using this because of the huge data changes due to search and reorder.
    */
-  cache_hash?: string
+  cacheHash?: string
   /**
    * Position of the arrow icon/triangle inside the drawer-list. Set to 'left' or 'right'. Defaults to 'left' if not set.
    */
@@ -380,7 +380,7 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
       ignore_events,
       options_render,
       className,
-      cache_hash: _cache_hash, // eslint-disable-line
+      cacheHash: _cacheHash, // eslint-disable-line
       wrapper_element: _wrapper_element, // eslint-disable-line
       triangle_position: _triangle_position, // eslint-disable-line
       direction: _direction, // eslint-disable-line
@@ -417,7 +417,7 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
       triangle_position,
       direction,
       maxHeight,
-      cache_hash,
+      cacheHash,
       selected_item,
       active_item,
       showFocusRing,
@@ -623,8 +623,8 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
             <>
               <DrawerList.Options
                 hasGroups={hasGroups}
-                cache_hash={
-                  cache_hash +
+                cacheHash={
+                  cacheHash +
                   active_item +
                   selected_item +
                   closestToTop +
@@ -738,7 +738,7 @@ function makeRenderData(
 export type DrawerListOptionsProps = React.HTMLProps<HTMLUListElement> & {
   children: React.ReactNode
   triangleRef?: React.ForwardedRef<HTMLLIElement | HTMLSpanElement>
-  cache_hash?: string
+  cacheHash?: string
   showFocusRing?: boolean
   hasGroups?: boolean
 }
@@ -753,7 +753,7 @@ DrawerList.Options = React.memo(
         children,
         className,
         triangleRef,
-        cache_hash, // eslint-disable-line
+        cacheHash, // eslint-disable-line
         showFocusRing = false,
         hasGroups = false,
         ...rest
@@ -784,10 +784,10 @@ DrawerList.Options = React.memo(
     }
   ),
   (prevProps, nextProps) => {
-    if (!prevProps.cache_hash) {
+    if (!prevProps.cacheHash) {
       return null
     }
-    return prevProps.cache_hash === nextProps.cache_hash
+    return prevProps.cacheHash === nextProps.cacheHash
   }
 )
 
