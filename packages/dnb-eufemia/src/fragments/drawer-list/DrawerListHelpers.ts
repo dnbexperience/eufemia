@@ -74,7 +74,7 @@ export const drawerListPropTypes = {
   fixedPosition: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   keepOpen: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   prevent_focus: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  skip_keysearch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  skipKeysearch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   opened: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   data: PropTypes.oneOfType([
     PropTypes.oneOfType([
@@ -164,7 +164,7 @@ export const drawerListDefaultProps = {
   prevent_focus: false,
   fixedPosition: false,
   independentWidth: false,
-  skip_keysearch: false,
+  skipKeysearch: false,
   opened: null,
   data: null,
   raw_data: null,
