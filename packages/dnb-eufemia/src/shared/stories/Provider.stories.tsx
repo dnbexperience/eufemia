@@ -67,7 +67,7 @@ const ChangeLocale = () => {
         left
         value={locale}
         data={{ 'en-GB': 'English', 'nb-NO': 'Norsk', 'sv-SE': 'Svenska' }}
-        on_change={({ data: { selected_key: locale } }) => {
+        on_change={({ data: { selectedKey: locale } }) => {
           setLocale(locale)
         }}
       />
