@@ -94,7 +94,7 @@ export default class Dropdown extends React.PureComponent {
     direction: PropTypes.oneOf(['auto', 'top', 'bottom']),
     max_height: PropTypes.number,
     skip_portal: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    portal_class: PropTypes.string,
+    portalClass: PropTypes.string,
     no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     no_scroll_animation: PropTypes.oneOfType([
       PropTypes.string,
@@ -194,7 +194,7 @@ export default class Dropdown extends React.PureComponent {
     max_height: null,
     direction: 'auto',
     skip_portal: null,
-    portal_class: null,
+    portalClass: null,
     no_animation: false,
     no_scroll_animation: false,
     preventSelection: false,
@@ -444,7 +444,7 @@ class DropdownInstance extends React.PureComponent {
       no_scroll_animation,
       triangle_position,
       skip_portal,
-      portal_class,
+      portalClass,
       trigger_element: CustomTrigger,
       more_menu,
       action_menu,
@@ -656,7 +656,7 @@ class DropdownInstance extends React.PureComponent {
               <DrawerList
                 id={id}
                 role={handleAsMenu ? 'menu' : 'listbox'}
-                portal_class={portal_class}
+                portalClass={portalClass}
                 listClass={classnames(
                   'dnb-dropdown__list',
                   variant === 'tertiary' && 'dnb-dropdown__list--tertiary'
