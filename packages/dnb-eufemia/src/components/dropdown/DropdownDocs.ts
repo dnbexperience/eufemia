@@ -74,22 +74,22 @@ export const DropdownProperties = {
     type: 'boolean',
     status: 'optional',
   },
-  prevent_selection: {
+  preventSelection: {
     doc: 'If set to `true`, no permanent selection will be made. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
-  action_menu: {
+  actionMenu: {
     doc: 'Same as `prevent_selection`, but the DrawerList will be opened from the bottom of the page for mobile devices. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
-  more_menu: {
+  moreMenu: {
     doc: 'Same as `prevent_selection`, but the "selection area" (given title) will not be visible and the icon `more` (three dots) is used. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
-  align_dropdown: {
+  alignDropdown: {
     doc: 'Use `right` to change the options alignment direction. Makes only sense to use in combination with `prevent_selection` or `more_menu`. Defaults to `left`.',
     type: ['left', 'right'],
     status: 'optional',
