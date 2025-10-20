@@ -190,7 +190,7 @@ export interface DrawerListProps {
   /**
    * Define an HTML class that will be set on the list, beside `dnb-drawer-list__list`.
    */
-  list_class?: string
+  listClass?: string
   /**
    * If set to `true`, the DrawerList will not close on any events.
    */
@@ -376,7 +376,7 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
       action_menu,
       is_popup,
       portal_class,
-      list_class,
+      listClass,
       ignore_events,
       options_render,
       className,
@@ -474,7 +474,7 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
       className: classnames(
         'dnb-drawer-list__list',
         isTrue(no_animation) && 'dnb-drawer-list__list--no-animation',
-        list_class
+        listClass
       ),
     }
 
