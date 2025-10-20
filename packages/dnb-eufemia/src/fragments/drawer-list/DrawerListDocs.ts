@@ -21,7 +21,7 @@ export const DrawerListProperties = {
     type: 'number',
     status: 'optional',
   },
-  triangle_position: {
+  trianglePosition: {
     doc: "Position of the arrow icon/triangle inside the drawer-list. Set to 'left' or 'right'. Defaults to 'left' if not set.",
     type: 'string',
     status: 'optional',
