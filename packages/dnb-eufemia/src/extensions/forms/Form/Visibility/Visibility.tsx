@@ -35,23 +35,6 @@ export type VisibleWhen =
       validateContinuously?: boolean
     }
 
-  /**
-   * @deprecated Will be removed in v11!
-   */
-  | {
-      path: Path
-      /** @deprecated Use `hasValue` instead */
-      withValue: (value: unknown) => boolean
-    }
-  /**
-   * @deprecated  Will be removed in v11!
-   */
-  | {
-      itemPath: Path
-      /** @deprecated Use `hasValue` instead */
-      withValue: (value: unknown) => boolean
-    }
-
 export type Props = {
   visible?: boolean
   /** Given data context path must be defined to show children */
