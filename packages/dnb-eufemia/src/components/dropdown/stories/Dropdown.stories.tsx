@@ -923,22 +923,22 @@ function UpdateDataExample() {
 
 const filter1ToShow = [
   {
-    selected_key: 'key_1',
+    selectedKey: 'key_1',
     content: 'item_1',
   },
   {
-    selected_key: 'key_2',
+    selectedKey: 'key_2',
     content: 'item_2',
   },
 ]
 
 const filter2ToShow = [
   {
-    selected_key: 'key_3',
+    selectedKey: 'key_3',
     content: 'item_3',
   },
   {
-    selected_key: 'key_4',
+    selectedKey: 'key_4',
     content: 'item_4',
   },
 ]
@@ -951,7 +951,7 @@ export function UpdateData() {
 
   const onFilterChange = ({ value, data }) => {
     setValue(value)
-    if (data?.selected_key === 'key_1' || data?.selected_key === 'key_2') {
+    if (data?.selectedKey === 'key_1' || data?.selectedKey === 'key_2') {
       setFiltersToShow(filter2ToShow)
       setValue(null)
       setTimeout(() => {
@@ -1012,7 +1012,7 @@ export const GlobalStatusExample = () => {
 export const TypesExample = () => {
   interface MyInterface {
     content: string
-    selected_key: string
+    selectedKey: string
   }
 
   const myData: MyInterface[] = []
@@ -1065,7 +1065,7 @@ export function Title() {
       <Dropdown
         data={[
           {
-            selected_key: 'test',
+            selectedKey: 'test',
             selected_value: <>my value</>,
             content: 'test',
           },
@@ -1076,7 +1076,7 @@ export function Title() {
       <Dropdown
         data={[
           {
-            selected_key: 'test',
+            selectedKey: 'test',
             selected_value: <P>my value</P>,
             content: 'test',
           },
@@ -1087,7 +1087,7 @@ export function Title() {
       <Dropdown
         data={[
           {
-            selected_key: 'test',
+            selectedKey: 'test',
             selected_value: (
               <>
                 <Icon icon={bank} />
@@ -1103,7 +1103,7 @@ export function Title() {
       <Dropdown
         data={[
           {
-            selected_key: 'test',
+            selectedKey: 'test',
             selected_value: <Icon icon={bank} />,
             content: 'test',
           },
@@ -1114,7 +1114,7 @@ export function Title() {
       <Dropdown
         data={[
           {
-            selected_key: 'test',
+            selectedKey: 'test',
             selected_value: <NumberFormat>11345678962</NumberFormat>,
             content: 'test',
           },

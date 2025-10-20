@@ -132,7 +132,7 @@ export const DropdownFind = () => (
             content: 'E',
           },
           {
-            selected_key: 'key_1',
+            selectedKey: 'key_1',
             selected_value: 'Find me by keypress',
             content: ['F', 'F', 'F', 'F'],
           },
@@ -147,7 +147,7 @@ export const DropdownFind = () => (
         return (
           <Dropdown
             data={scrollableData}
-            value="key_1" // use either index (5) or selected_key: 'key_1'
+            value="key_1" // use either index (5) or selectedKey: 'key_1'
             label="Label"
           />
         )
@@ -164,7 +164,7 @@ export const DropdownNoValue = () => (
           // Every data item can, beside "content" - contain what ever
           {
             // (optional) can be what ever
-            selected_key: 'key_0',
+            selectedKey: 'key_0',
 
             // (optional) is show instead of "content", once selected
             selected_value: 'Item 1 Value',
@@ -173,7 +173,7 @@ export const DropdownNoValue = () => (
             content: 'Item 1 Content',
           },
           {
-            selected_key: 'key_1',
+            selectedKey: 'key_1',
             content: ['Item 2 Value', 'Item 2 Content'],
           },
           {
@@ -190,12 +190,12 @@ export const DropdownNoValue = () => (
             ],
           },
           {
-            selected_key: 'key_2',
+            selectedKey: 'key_2',
             selected_value: 'Item 3 Value',
             content: ['Item 3 Content A', 'Item 3 Content B'],
           },
           {
-            selected_key: 'key_3',
+            selectedKey: 'key_3',
             selected_value: 'Item 4 Value',
             content: ['Item 4 Content A', <>Custom Component</>],
           },
