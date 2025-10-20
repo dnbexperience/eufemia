@@ -179,6 +179,54 @@ describe('Logo component', () => {
       'title',
     ])
   })
+
+  it('should render a custom SVG and support height and color', () => {
+    const CustomSvg = (props: React.SVGProps<SVGSVGElement>) => (
+      <svg viewBox="0 0 10 10" {...props}>
+        <circle cx="5" cy="5" r="5" />
+      </svg>
+    )
+
+    render(<Logo svg={CustomSvg} height="48" color="tomato" />)
+
+    const svg = document.querySelector('svg')
+    expect(svg).toBeInTheDocument()
+    expect(svg).toHaveAttribute('height', '48')
+    expect(svg).toHaveAttribute('color', 'tomato')
+
+    expect(document.querySelector('.dnb-logo')).toBeInTheDocument()
+  })
+
+  it('should render alt/title given in custom SVG', () => {
+    const CustomSvg = ({
+      alt = 'Custom SVG',
+      ...props
+    }: React.SVGProps<SVGSVGElement> & { alt: React.ReactNode }) => (
+      <svg viewBox="0 0 10 10" {...props}>
+        <title>{alt}</title>
+        <circle cx="5" cy="5" r="5" />
+      </svg>
+    )
+
+    render(<Logo svg={CustomSvg} />)
+
+    const svg = document.querySelector('svg')
+    expect(svg.querySelector('title')).toHaveTextContent('Custom SVG')
+  })
+
+  it('should render a custom SVG when provided as an element', () => {
+    const CustomSvg = (props: React.SVGProps<SVGSVGElement>) => (
+      <svg viewBox="0 0 10 10" {...props}>
+        <rect width="10" height="10" />
+      </svg>
+    )
+
+    render(<Logo svg={<CustomSvg />} width="24" />)
+
+    const svg = document.querySelector('svg')
+    expect(svg).toBeInTheDocument()
+    expect(svg).toHaveAttribute('width', '24')
+  })
 })
 
 describe('Logo scss', () => {

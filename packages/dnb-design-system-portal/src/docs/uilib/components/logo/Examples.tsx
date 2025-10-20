@@ -42,3 +42,22 @@ export const LogoCompactVariantExample = () => (
     <Logo height="96" variant="compact" />
   </ComponentBox>
 )
+
+export const LogoCustomSvgExample = () => {
+  const CustomSvg = (props) => (
+    <svg viewBox="0 0 32 32" {...props}>
+      <title>Custom SVG</title>
+      <circle cx="16" cy="16" r="14" />
+    </svg>
+  )
+
+  return (
+    <ComponentBox scope={{ CustomSvg }}>
+      <Logo
+        svg={CustomSvg}
+        height="64"
+        color="var(--color-emerald-green)"
+      />
+    </ComponentBox>
+  )
+}

@@ -1,6 +1,11 @@
 import { PropertiesTableProps } from '../../shared/types'
 
 export const LogoProperties: PropertiesTableProps = {
+  svg: {
+    doc: 'Provide a custom SVG to render instead of the built-in logos. Accepts a React SVG component or element. Width, height and color props still apply.',
+    type: ['React.Component', 'React.Element'],
+    status: 'optional',
+  },
   brand: {
     doc: 'Define which brands logo to show. `ui` (DNB) or `sbanken`. Defaults to `ui`.',
     type: ['"ui"', '"sbanken"'],

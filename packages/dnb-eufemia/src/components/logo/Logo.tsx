@@ -16,9 +16,18 @@ import type { SpacingProps } from '../space/types'
 import { convertSnakeCaseProps } from '../../shared/helpers/withSnakeCaseProps'
 import LogoSvg from './LogoSvg'
 
+export * from './LogoSvg'
+
 export type LogoWidth = number | string
 export type LogoHeight = number | string
 export type LogoVariant = 'default' | 'compact' | 'compactHorizontal'
+export type CustomLogoSvg =
+  | React.ComponentType<
+      React.SVGProps<SVGSVGElement> & { alt?: React.ReactNode }
+    >
+  | React.ReactElement<
+      React.SVGProps<SVGSVGElement> & { alt?: React.ReactNode }
+    >
 
 export type LogoProps = {
   /**
@@ -49,6 +58,11 @@ export type LogoProps = {
    * Set to `true` if you want the logo to inherit the parent size
    */
   inheritSize?: boolean
+  /**
+   * Provide a custom SVG to render instead of the built-in logos.
+   * Can be a React component (receives standard SVG props) or a React element.
+   */
+  svg?: CustomLogoSvg
 } & SpacingProps &
   Omit<React.HTMLProps<HTMLElement>, 'ref' | 'size'> &
   DeprecatedLogoProps
@@ -91,6 +105,7 @@ function Logo(localProps: LogoProps) {
     color,
     inheritColor,
     className: classNameProp,
+    svg,
     ...rest
   } = convertDimensionalPropsToString(props)
 
@@ -164,14 +179,18 @@ function Logo(localProps: LogoProps) {
     width,
     height,
     color,
-    alt: altText,
+    alt: svg ? undefined : altText,
   }
 
   const remainingDOMProps = validateDOMAttributes(props, rootParams)
 
   return (
     <span {...remainingDOMProps}>
-      <LogoSvg logoType={logoType} svgParams={svgParams} />
+      {svg ? (
+        renderCustomSvg(svg, svgParams)
+      ) : (
+        <LogoSvg logoType={logoType} svgParams={svgParams} />
+      )}
     </span>
   )
 }
@@ -191,6 +210,22 @@ function convertDimensionalPropsToString(allProps: LogoProps) {
 
 function handleTypeToString(val: number | string) {
   return val ? String(val) : undefined
+}
+
+function renderCustomSvg(
+  svg:
+    | React.ComponentType<React.SVGProps<SVGSVGElement>>
+    | React.ReactElement<React.SVGProps<SVGSVGElement>>,
+  svgParams: React.SVGProps<SVGSVGElement> & { alt: string }
+) {
+  if (React.isValidElement(svg)) {
+    return React.cloneElement(svg, { ...svgParams, ...svg.props })
+  }
+
+  const SvgComponent = svg as React.ComponentType<
+    React.SVGProps<SVGSVGElement>
+  >
+  return <SvgComponent {...svgParams} />
 }
 
 export default Logo
