@@ -21,7 +21,7 @@ export type DrawerListPortalProps = {
   rootRef: React.RefObject<HTMLSpanElement>
   include_owner_width?: boolean
   independentWidth?: boolean
-  fixed_position?: boolean
+  fixedPosition?: boolean
   skipPortal?: boolean
   className?: string
 }
@@ -33,7 +33,7 @@ function DrawerListPortal({
   rootRef = { current: undefined },
   include_owner_width,
   independentWidth,
-  fixed_position,
+  fixedPosition,
   skipPortal,
   className,
   children,
@@ -131,12 +131,12 @@ function DrawerListPortal({
 
       // Handle positions
       const rect = rootElem.getBoundingClientRect()
-      const scrollY = fixed_position
+      const scrollY = fixedPosition
         ? 0
         : window.scrollY !== undefined
         ? window.scrollY
         : window.pageYOffset
-      const scrollX = fixed_position
+      const scrollX = fixedPosition
         ? 0
         : window.scrollX !== undefined
         ? window.scrollX
@@ -174,7 +174,7 @@ function DrawerListPortal({
     isMounted,
     rootRef,
     independentWidth,
-    fixed_position,
+    fixedPosition,
     include_owner_width,
     portalRef,
   ])
@@ -227,7 +227,7 @@ function DrawerListPortal({
           <span
             className={classnames(
               'dnb-drawer-list__portal__style',
-              fixed_position && 'dnb-drawer-list__portal__style--fixed',
+              fixedPosition && 'dnb-drawer-list__portal__style--fixed',
               className
             )}
             style={style}
