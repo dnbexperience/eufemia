@@ -243,46 +243,6 @@ describe('Visibility', () => {
       expect(screen.queryByText('Child')).not.toBeInTheDocument()
     })
 
-    it('should render children when withValue matches', () => {
-      const log = jest.spyOn(console, 'warn').mockImplementation()
-
-      render(
-        <Provider data={{ myPath: 'foo' }}>
-          <Visibility
-            visibleWhen={{
-              path: '/myPath',
-              withValue: (value) => value === 'foo',
-            }}
-          >
-            Child
-          </Visibility>
-        </Provider>
-      )
-      expect(screen.getByText('Child')).toBeInTheDocument()
-
-      log.mockRestore()
-    })
-
-    it('should not render children when withValue does not match', () => {
-      const log = jest.spyOn(console, 'warn').mockImplementation()
-
-      render(
-        <Provider data={{ myPath: 'foo' }}>
-          <Visibility
-            visibleWhen={{
-              path: '/myPath',
-              withValue: (value) => value === 'bar',
-            }}
-          >
-            Child
-          </Visibility>
-        </Provider>
-      )
-      expect(screen.queryByText('Child')).not.toBeInTheDocument()
-
-      log.mockRestore()
-    })
-
     it('should run hasValue even when path not exists', () => {
       const hasValue = jest.fn((value) => value === 'foo')
 
