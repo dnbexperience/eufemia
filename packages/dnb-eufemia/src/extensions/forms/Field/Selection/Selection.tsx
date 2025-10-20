@@ -137,7 +137,6 @@ const validDrawerListProps = [
   // DrawerList Properties
   'triangle_position',
   'label_direction',
-  'prevent_selection',
   'prevent_close',
   'keep_open',
   'independent_width',
@@ -191,7 +190,6 @@ const validAutocompleteProps = [
   'label_sr_only',
   'no_options',
   'open_on_focus',
-  'prevent_selection',
   'search_in_word_index',
   'search_numbers',
   'selected_sr',
@@ -237,7 +235,6 @@ const validDropdownProps = [
   'icon_position',
   'triangle_position',
   'open_on_focus',
-  'prevent_selection',
   'action_menu',
   'more_menu',
   'align_dropdown',
