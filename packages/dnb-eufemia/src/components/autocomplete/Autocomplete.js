@@ -228,7 +228,7 @@ export default class Autocomplete extends React.PureComponent {
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     portalClass: PropTypes.string,
     drawer_class: PropTypes.string,
-    page_offset: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    pageOffset: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     observerElement: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.node,
@@ -319,7 +319,7 @@ export default class Autocomplete extends React.PureComponent {
     skeleton: null,
     portalClass: null,
     drawer_class: null,
-    page_offset: null,
+    pageOffset: null,
     observerElement: null,
     enableBodyLock: false,
 
