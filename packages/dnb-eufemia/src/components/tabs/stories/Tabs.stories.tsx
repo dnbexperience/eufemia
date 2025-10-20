@@ -110,7 +110,7 @@ export const TabsSandbox = () => {
         <TabsAndRerender />
       </Box>
       <Box>
-        <Tabs prevent_rerender data={tabsData}>
+        <Tabs preventRerender data={tabsData}>
           {{
             first: (
               <>
@@ -229,7 +229,7 @@ const tabsData = [
 const TabsAndRerender = () => (
   <Tabs
     tabsStyle="mint-green"
-    prevent_rerender
+    preventRerender
     content={manyTabsContent}
     data={manyTabs}
   />
@@ -289,7 +289,7 @@ const TabsInGrid = () => (
     <TabGridWrapperStyle>
       <Tabs
         // tabsStyle="mint-green"
-        prevent_rerender
+        preventRerender
         content={manyTabsContent}
         data={manyTabs}
       />
