@@ -34,7 +34,8 @@ $carnegie-fonts-path: '../../../../assets/fonts/carnegie';
 // Regular
 @font-face {
   font-family: ArizonaFlare;
-  src: url('#{$carnegie-fonts-path}/ArizonaFlare-Regular.woff2') format('woff2');
+  src: url('#{$carnegie-fonts-path}/ArizonaFlare-Regular.woff2')
+    format('woff2');
   font-weight: normal; // should match --font-weight-regular
   font-style: normal;
   font-display: fallback;
@@ -43,7 +44,8 @@ $carnegie-fonts-path: '../../../../assets/fonts/carnegie';
 // Medium
 @font-face {
   font-family: ArizonaFlare;
-  src: url('#{$carnegie-fonts-path}/ArizonaFlare-Medium.woff2') format('woff2');
+  src: url('#{$carnegie-fonts-path}/ArizonaFlare-Medium.woff2')
+    format('woff2');
   font-weight: 500; // should match --font-weight-medium
   font-style: normal;
   font-display: fallback;
@@ -52,7 +54,8 @@ $carnegie-fonts-path: '../../../../assets/fonts/carnegie';
 // Bold
 @font-face {
   font-family: ArizonaFlare;
-  src: url('#{$carnegie-fonts-path}/ArizonaFlare-Bold.woff2') format('woff2');
+  src: url('#{$carnegie-fonts-path}/ArizonaFlare-Bold.woff2')
+    format('woff2');
   font-weight: 700; // should match --font-weight-bold
   font-style: normal;
   font-display: fallback;
