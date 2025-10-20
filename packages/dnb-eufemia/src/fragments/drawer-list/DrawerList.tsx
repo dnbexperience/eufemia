@@ -523,7 +523,7 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
       validateDOMAttributes(null, attributes)
     )
 
-    const ignoreEvents = isTrue(ignoreEvents)
+    const ignoreEventsBoolean = isTrue(ignoreEvents)
 
     const GroupItems = () =>
       renderData
@@ -549,7 +549,7 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
                   tagId === closestToBottom && 'closest-to-bottom',
                   i === 0 && 'first-of-type', // because of the triangle element
                   i === data.length - 1 && 'last-of-type', // because of the triangle element
-                  ignoreEvents ||
+                  ignoreEventsBoolean ||
                     (dataItem.ignoreEvents && 'ignore-events'),
                   dataItem.class_name
                 ),
@@ -560,7 +560,7 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
                 disabled: dataItem.disabled,
                 style: dataItem.style,
               }
-              if (ignoreEvents) {
+              if (ignoreEventsBoolean) {
                 liParams.active = null
                 liParams.selected = null
                 liParams.onClick = null
