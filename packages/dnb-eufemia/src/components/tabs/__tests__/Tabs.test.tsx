@@ -237,9 +237,9 @@ describe('Tabs component', () => {
     )
   })
 
-  it('should use section component when "content_style" is set', () => {
+  it('should use section component when "contentStyle" is set', () => {
     render(
-      <Tabs {...props} data={tablistData} content_style="black-3">
+      <Tabs {...props} data={tablistData} contentStyle="black-3">
         {contentWrapperData}
       </Tabs>
     )
