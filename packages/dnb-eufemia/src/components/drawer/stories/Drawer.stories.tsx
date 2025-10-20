@@ -229,7 +229,7 @@ function FillContent() {
         label="Dropdown"
         data={dropdownData}
         right
-        skip_portal
+        skipPortal
         // direction="top"
       />
       montes tempus tortor mi aptent enim cursus venenatis cras ornare nisl
