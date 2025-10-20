@@ -53,7 +53,7 @@ const ChangeLocale = () => {
     <Dropdown
       value={locale}
       data={{ 'en-GB': 'English', 'nb-NO': 'Norsk' }}
-      on_change={({ data: { selected_key: locale } }) => {
+      on_change={({ data: { selectedKey: locale } }) => {
         setLocale(locale)
       }}
     />
