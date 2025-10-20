@@ -96,8 +96,8 @@ describe('DrawerList component', () => {
     ).toBeInTheDocument()
   })
 
-  it('should skip portal when skip_portal is set', () => {
-    render(<DrawerList {...props} data={mockData} skip_portal />)
+  it('should skip portal when skipPortal is set', () => {
+    render(<DrawerList {...props} data={mockData} skipPortal />)
     expect(
       document.querySelector('.dnb-drawer-list--opened')
     ).toBeInTheDocument()
@@ -108,7 +108,7 @@ describe('DrawerList component', () => {
     ).toBeNull()
   })
 
-  it('should not skip portal when skip_portal is not set', () => {
+  it('should not skip portal when skipPortal is not set', () => {
     render(<DrawerList {...props} data={mockData} />)
     expect(
       document

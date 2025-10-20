@@ -416,7 +416,7 @@ export const AutocompleteOpened = () => {
         <Autocomplete
           label="Label"
           input_value="angry"
-          skip_portal
+          skipPortal
           opened
           no_animation
           direction="bottom"
