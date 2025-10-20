@@ -49,7 +49,7 @@ export interface ModalProps extends ModalRootProps {
   /**
    * If set to `true` (boolean or string), then the user can&#39;t close the modal/drawer.
    */
-  prevent_close?: boolean
+  preventClose?: boolean
 
   /**
    * Duration of animation open/close in ms. Defaults to 300ms.
@@ -95,7 +95,7 @@ export interface ModalProps extends ModalRootProps {
   }) => void
 
   /**
-   * This event gets triggered once the user tries to close the modal, but `prevent_close` is set to "true". Returns a callback `close` you can call to trigger the close mechanism. More details below. Returns the modal id: `{ id, event, close: Method, triggeredBy }`
+   * This event gets triggered once the user tries to close the modal, but `preventClose` is set to "true". Returns a callback `close` you can call to trigger the close mechanism. More details below. Returns the modal id: `{ id, event, close: Method, triggeredBy }`
    */
   on_close_prevent?: ({
     id,
