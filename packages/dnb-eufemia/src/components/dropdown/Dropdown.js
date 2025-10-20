@@ -428,7 +428,7 @@ class DropdownInstance extends React.PureComponent {
       label_sr_only,
       icon_size,
       size,
-      fixed_position,
+      fixedPosition,
       enable_body_lock,
       status,
       status_state,
@@ -680,7 +680,7 @@ class DropdownInstance extends React.PureComponent {
                 }
                 is_popup={isPopupMenu || action_menu}
                 align_drawer={align_dropdown || 'left'}
-                fixed_position={fixed_position}
+                fixedPosition={fixedPosition}
                 enable_body_lock={enable_body_lock}
                 disabled={disabled}
                 max_height={max_height}
