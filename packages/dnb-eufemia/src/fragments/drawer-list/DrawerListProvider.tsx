@@ -778,7 +778,7 @@ export default class DrawerListProvider extends React.PureComponent<
     // stop here if the focus is not set
     // and the drawer is opened by default
     if (
-      isTrue(this.props.prevent_close)
+      isTrue(this.props.preventClose)
       // TODO: Has to be worked on better!
       // !isTrue(this.props.prevent_focus)
     ) {
@@ -974,7 +974,7 @@ export default class DrawerListProvider extends React.PureComponent<
 
             // We may consider to close the list and set the focus it the handler
             // but also, in portal mode, we want to prevent to start the focus from the top of the page
-            else if (isTrue(this.props.prevent_close)) {
+            else if (isTrue(this.props.preventClose)) {
               active_item = -1
             }
           }
@@ -1242,7 +1242,7 @@ export default class DrawerListProvider extends React.PureComponent<
   }
 
   setHidden = (args = {}, onStateComplete = null) => {
-    if (!this.state.opened || isTrue(this.props.prevent_close)) {
+    if (!this.state.opened || isTrue(this.props.preventClose)) {
       if (typeof onStateComplete === 'function') {
         onStateComplete(false)
       }

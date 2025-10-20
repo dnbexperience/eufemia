@@ -110,7 +110,7 @@ export const DrawerListExampleDefault = () => (
       <DrawerList
         skip_portal
         opened
-        prevent_close
+        preventClose
         triangle_position="left"
         data={data}
         value={3}
@@ -132,7 +132,7 @@ export const DrawerListExampleDisabled = () => (
       <DrawerList
         skip_portal
         opened
-        prevent_close
+        preventClose
         data={[
           {
             content: 'Item 1',
@@ -157,7 +157,7 @@ export const DrawerListExampleInlineStyling = () => (
       <DrawerList
         skip_portal
         opened
-        prevent_close
+        preventClose
         observer_element=".dnb-live-preview" // prevents direction to change when scrolling in this example
       >
         <DrawerList.Options>
@@ -192,7 +192,7 @@ export const DrawerListExampleInlineStylingData = () => (
       <DrawerList
         skip_portal
         opened
-        prevent_close
+        preventClose
         data={[
           {
             content:
@@ -251,7 +251,7 @@ export const DrawerListExampleSingleItem = () => (
           <CustomWidth
             skip_portal
             opened
-            prevent_close
+            preventClose
             // more_menu
             right
             title="Choose an item"
@@ -290,7 +290,7 @@ export const DrawerListExampleMarkup = () => (
           const [selected, setSelected] = React.useState('C')
 
           return (
-            <CustomWidth skip_portal opened prevent_close>
+            <CustomWidth skip_portal opened preventClose>
               <DrawerList.Options>
                 {list.map(({ value, ...props }, i) => (
                   <DrawerList.Item
@@ -374,7 +374,7 @@ export const DrawerListGroups = () => (
       <DrawerList
         skip_portal
         opened
-        prevent_close
+        preventClose
         observer_element=".dnb-live-preview" // prevents direction to change when scrolling in this example
         groups={[undefined, 'Pets', undefined, 'Cars']}
         data={[

@@ -53,7 +53,7 @@ export const ModalSandbox = () => (
         title="1s close delay"
         triggerAttributes={{ text: 'Click me' }}
         focus_selector=".dnb-input__input:first-of-type"
-        prevent_close={true}
+        preventClose={true}
         // hide_close_button={true}
         on_open={(e) => console.log('on_open', e)}
         on_close={(e) => console.log('on_close', e)}
@@ -85,7 +85,7 @@ export const ModalSandbox = () => (
         align_content="centered"
         hide_close_button
         triggerAttributes={{ text: 'Show' }}
-        // prevent_close
+        // preventClose
         max_width="12rem"
       >
         <ProgressIndicator
@@ -102,7 +102,7 @@ export const ModalSandbox = () => (
         align_content="centered"
         hide_close_button
         triggerAttributes={{ icon: 'bell' }}
-        // prevent_close
+        // preventClose
         max_width="12rem"
       >
         <ProgressIndicator
