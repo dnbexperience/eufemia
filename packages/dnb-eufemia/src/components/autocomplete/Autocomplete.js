@@ -2076,7 +2076,7 @@ class AutocompleteInstance extends React.PureComponent {
                 triangle_position={triangle_position || icon_position}
                 keepOpen={keepOpen}
                 preventClose={preventClose}
-                align_drawer={align_autocomplete}
+                alignDrawer={align_autocomplete}
                 fixedPosition={fixedPosition}
                 disabled={disabled}
                 max_height={max_height}
