@@ -50,8 +50,8 @@ export function prepareFormElementContext<Props>(
     if (typeof props.labelDirection === 'undefined') {
       props.labelDirection = 'vertical'
     }
-    if (typeof props.label_direction === 'undefined') {
-      props.label_direction = 'vertical'
+    if (typeof props.labelDirection === 'undefined') {
+      props.labelDirection = 'vertical'
     }
   }
   return props
@@ -62,7 +62,7 @@ export type FormElementProps = {
   labelDirection?: 'vertical' | 'horizontal'
 
   /** @deprecated use labelDirection instead */
-  label_direction?: 'vertical' | 'horizontal'
+  labelDirection?: 'vertical' | 'horizontal'
 }
 const validFormElementProps = {
   skeleton: null,
@@ -71,5 +71,5 @@ const validFormElementProps = {
   labelDirection: null,
 
   /** @deprecated use labelDirection instead */
-  label_direction: null,
+  labelDirection: null,
 }

@@ -99,9 +99,9 @@ describe('FormLabel component', () => {
   })
 
   /** @deprecated can be removed in v11 */
-  it('should inherit formElement label_direction', () => {
+  it('should inherit formElement labelDirection', () => {
     render(
-      <Provider formElement={{ label_direction: 'vertical' }}>
+      <Provider formElement={{ labelDirection: 'vertical' }}>
         <FormLabel />
       </Provider>
     )
