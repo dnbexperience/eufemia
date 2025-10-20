@@ -521,7 +521,7 @@ function PhoneNumber(props: Props = {}) {
           on_blur={handleOnBlur}
           on_change={handleCountryCodeChange}
           on_type={onTypeHandler}
-          independent_width
+          independentWidth
           search_numbers
           keep_selection
           selectall
