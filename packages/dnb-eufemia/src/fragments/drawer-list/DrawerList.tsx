@@ -371,7 +371,7 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
       is_popup,
       portalClass,
       listClass,
-      ignoreEvents: ignoreEventsProp,
+      ignoreEvents,
       optionsRender,
       className,
       cacheHash: _cacheHash, // eslint-disable-line
@@ -504,7 +504,7 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
       validateDOMAttributes(null, attributes)
     )
 
-    const ignoreEvents = isTrue(ignoreEventsProp)
+    const ignoreEventsBoolean = isTrue(ignoreEvents)
 
     const GroupItems = () =>
       renderData
@@ -531,17 +531,18 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
                   tagId === closestToBottom && 'closest-to-bottom',
                   i === 0 && 'first-of-type', // because of the triangle element
                   i === data.length - 1 && 'last-of-type', // because of the triangle element
-                  ignoreEvents || (ignoreEvents && 'ignore-events'),
+                  ignoreEventsBoolean ||
+                    (ignoreEventsBoolean && 'ignore-events'),
                   class_name
                 ),
                 active: __id == active_item,
-                selected: !ignoreEvents && __id == selected_item,
+                selected: !ignoreEventsBoolean && __id == selected_item,
                 onClick: this.selectItemHandler,
                 onKeyDown: this.preventTab,
                 disabled: disabled,
                 style: style,
               }
-              if (ignoreEvents) {
+              if (ignoreEventsBoolean) {
                 liParams.active = null
                 liParams.selected = null
                 liParams.onClick = null
