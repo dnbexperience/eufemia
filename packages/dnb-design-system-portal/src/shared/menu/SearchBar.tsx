@@ -83,7 +83,7 @@ export const SearchBarInput = () => {
       label="Search the Eufemia documentation"
       label_sr_only
       status={status}
-      portal_class={portalClassStyle}
+      portalClass={portalClassStyle}
       drawer_class={drawerClassStyle}
       on_type={onTypeHandler}
       on_change={onChangeHandler}
