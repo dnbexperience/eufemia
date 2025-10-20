@@ -46,7 +46,7 @@ export const DrawerListProperties = {
     type: 'boolean',
     status: 'optional',
   },
-  prevent_close: {
+  preventClose: {
     doc: 'If set to `true`, the DrawerList will not close on any events.',
     type: 'boolean',
     status: 'optional',
