@@ -56,7 +56,7 @@ const MagicOpen = (props) => {
         inner_ref={ref}
       />
       <Drawer
-        wrapper_element={ref.current}
+        wrapperElement={ref.current}
         opened={opened}
         // data={['A', 'B']}
         on_select={(e) => {
@@ -116,7 +116,7 @@ const DrawerListWithState = (props) => {
         data={['A', 'B', 'C']}
         opened={opened}
         on_hide={() => setOpened(false)}
-        wrapper_element="#ToggleButton"
+        wrapperElement="#ToggleButton"
         {...props}
       />
     </>

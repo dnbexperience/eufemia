@@ -14,11 +14,11 @@ import {
 
 export type DrawerListContextState = Omit<
   DrawerListProviderProps,
-  'data' | 'wrapper_element' | 'children'
+  'data' | 'wrapperElement' | 'children'
 > & {
   data: DrawerListInternalData
   groups?: DrawerListGroupTitles
-  wrapper_element?: HTMLElement
+  wrapperElement?: HTMLElement
   /** used by Autocomplete */
   original_data?: DrawerListInternalData
   /** used by Autocomplete */
