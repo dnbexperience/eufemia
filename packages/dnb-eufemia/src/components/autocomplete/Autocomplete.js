@@ -234,7 +234,7 @@ export default class Autocomplete extends React.PureComponent {
       PropTypes.string,
       PropTypes.node,
     ]),
-    enable_body_lock: PropTypes.bool,
+    enableBodyLock: PropTypes.bool,
 
     class: PropTypes.string,
     className: PropTypes.string,
@@ -323,7 +323,7 @@ export default class Autocomplete extends React.PureComponent {
     drawer_class: null,
     page_offset: null,
     observer_element: null,
-    enable_body_lock: false,
+    enableBodyLock: false,
 
     className: null,
     children: null,
