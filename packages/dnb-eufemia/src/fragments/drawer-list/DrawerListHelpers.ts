@@ -45,7 +45,7 @@ export const drawerListPropTypes = {
     PropTypes.bool,
   ]),
 
-  prevent_selection: PropTypes.oneOfType([
+  preventSelection: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.bool,
   ]),
@@ -150,7 +150,7 @@ export const drawerListDefaultProps = {
   size: 'default',
   no_animation: false,
   no_scroll_animation: false,
-  prevent_selection: false,
+  preventSelection: false,
   action_menu: false,
   is_popup: false,
   align_drawer: 'left',
@@ -520,7 +520,7 @@ export const prepareDerivedState = (
 
   if (
     state.selected_item !== props.value &&
-    (state._value !== props.value || isTrue(props.prevent_selection))
+    (state._value !== props.value || isTrue(props.preventSelection))
   ) {
     if (props.value === 'initval') {
       state.selected_item = null

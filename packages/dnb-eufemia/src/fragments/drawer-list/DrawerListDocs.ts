@@ -36,7 +36,7 @@ export const DrawerListProperties = {
     type: 'string',
     status: 'optional',
   },
-  prevent_selection: {
+  preventSelection: {
     doc: 'If set to `true`, the DrawerList will then not make any permanent selection.',
     type: 'boolean',
     status: 'optional',
@@ -82,7 +82,7 @@ export const DrawerListProperties = {
     status: 'optional',
   },
   align_drawer: {
-    doc: "Use 'right' to change the options alignment direction. Makes only sense to use in combination with `prevent_selection` or `more_menu` - or if an independent width is used.",
+    doc: "Use 'right' to change the options alignment direction. Makes only sense to use in combination with `preventSelection` or `more_menu` - or if an independent width is used.",
     type: 'string',
     status: 'optional',
   },
