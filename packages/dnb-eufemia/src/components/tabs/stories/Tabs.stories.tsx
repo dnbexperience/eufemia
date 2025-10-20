@@ -409,7 +409,7 @@ export function TabsAndFlex() {
         <Tabs
           top
           no_border
-          nav_button_edge
+          navButtonEdge
           selectedKey="5"
           id="unique-tabs-edge"
           data={data}

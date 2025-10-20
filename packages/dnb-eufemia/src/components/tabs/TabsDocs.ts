@@ -79,7 +79,7 @@ export const TabsProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  nav_button_edge: {
+  navButtonEdge: {
     doc: 'If set to `true`, the navigation icons will have a straight border at their outside. This feature is meant to be used when the Tabs component goes all the way to the browser window. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
