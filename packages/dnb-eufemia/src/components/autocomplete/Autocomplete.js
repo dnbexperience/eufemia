@@ -593,7 +593,7 @@ class AutocompleteInstance extends React.PureComponent {
       } else if (count > 0) {
         this.context.drawerList.setData(this.wrapWithShowAll(data))
         this.context.drawerList.setState({
-          cache_hash: value + count,
+          cacheHash: value + count,
         })
 
         if (count === 1) {
@@ -658,7 +658,7 @@ class AutocompleteInstance extends React.PureComponent {
 
     this.context.drawerList.setData(this.wrapWithShowAll(data))
     this.context.drawerList.setState({
-      cache_hash: value + this.countData(data),
+      cacheHash: value + this.countData(data),
     })
 
     return data
@@ -772,7 +772,7 @@ class AutocompleteInstance extends React.PureComponent {
           ]
     )
     this.context.drawerList.setState({
-      cache_hash: 'no_options',
+      cacheHash: 'no_options',
     })
     this.setVisible()
   }
@@ -789,7 +789,7 @@ class AutocompleteInstance extends React.PureComponent {
       },
     ])
     this.context.drawerList.setState({
-      cache_hash: 'indicator',
+      cacheHash: 'indicator',
     })
     this.setVisible()
   }
@@ -863,7 +863,7 @@ class AutocompleteInstance extends React.PureComponent {
     // because we get else the same after we show the new result
     this.context.drawerList.setState(
       {
-        cache_hash: 'updateData',
+        cacheHash: 'updateData',
       },
       () => {
         // If the "selectedKey" has changed in comparison to the existing data,
@@ -1265,7 +1265,7 @@ class AutocompleteInstance extends React.PureComponent {
     this.resetFilter()
 
     this.context.drawerList.setState({
-      cache_hash: 'all',
+      cacheHash: 'all',
     })
 
     this.runFilterToHighlight({ skipFilter: true, fillDataIfEmpty: true })
@@ -1274,7 +1274,7 @@ class AutocompleteInstance extends React.PureComponent {
   showAllItems = () => {
     this.resetFilter()
     this.context.drawerList.setState({
-      cache_hash: 'all',
+      cacheHash: 'all',
     })
     this.context.drawerList.setActiveItemAndScrollToIt(
       this.context.drawerList.selected_item,
