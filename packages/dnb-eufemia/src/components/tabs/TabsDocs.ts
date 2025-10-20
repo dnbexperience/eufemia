@@ -74,7 +74,7 @@ export const TabsProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  no_border: {
+  noBorder: {
     doc: 'If set to `true`, the default horizontal border line under the tablist will be removed. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
