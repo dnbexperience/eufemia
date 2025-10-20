@@ -114,7 +114,7 @@ export default function TabBar({
         onOpenTabNavigationFn={navigate}
         tab_element={Link}
         data={preparedTabs}
-        selected_key={selectedKey}
+        selectedKey={selectedKey}
         render={({ Wrapper, Content, TabsList, Tabs }) => {
           return (
             <Wrapper className={tabsWrapperStyle}>
