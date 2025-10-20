@@ -36,7 +36,7 @@ const nbNO = locales['nb-NO'].DrawerList
 const mockProps: AutocompleteAllProps = {
   id: 'autocomplete-id',
   no_animation: true, // use no_animation so we don't need to wait
-  skip_portal: true,
+  skipPortal: true,
 }
 const props: AutocompleteAllProps = {
   id: 'autocomplete-id',
@@ -44,7 +44,7 @@ const props: AutocompleteAllProps = {
   value: 1,
   show_submit_button: true,
   no_animation: true,
-  skip_portal: true,
+  skipPortal: true,
 }
 
 const mockData: DrawerListDataArray = [
@@ -4146,7 +4146,7 @@ describe('Autocomplete markup', () => {
       opened: true,
       show_submit_button: true,
       no_animation: true,
-      skip_portal: true,
+      skipPortal: true,
     }
     const result = render(
       <Autocomplete {...snapshotProps} data={mockData} />
