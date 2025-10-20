@@ -120,7 +120,7 @@ export const DrawerListExampleDefault = () => (
         on_show={() => {
           console.log('on_show')
         }}
-        observer_element=".dnb-live-preview" // prevents direction to change when scrolling in this example
+        observerElement=".dnb-live-preview" // prevents direction to change when scrolling in this example
       />
     </ComponentBox>
   </Wrapper>
@@ -145,7 +145,7 @@ export const DrawerListExampleDisabled = () => (
             content: 'Item 3',
           },
         ]}
-        observer_element=".dnb-live-preview" // prevents direction to change when scrolling in this example
+        observerElement=".dnb-live-preview" // prevents direction to change when scrolling in this example
       />
     </ComponentBox>
   </Wrapper>
@@ -158,7 +158,7 @@ export const DrawerListExampleInlineStyling = () => (
         skipPortal
         opened
         preventClose
-        observer_element=".dnb-live-preview" // prevents direction to change when scrolling in this example
+        observerElement=".dnb-live-preview" // prevents direction to change when scrolling in this example
       >
         <DrawerList.Options>
           <DrawerList.Item
@@ -210,7 +210,7 @@ export const DrawerListExampleInlineStylingData = () => (
             style: { hyphens: 'manual', color: 'blue' },
           },
         ]}
-        observer_element=".dnb-live-preview" // prevents direction to change when scrolling in this example
+        observerElement=".dnb-live-preview" // prevents direction to change when scrolling in this example
       />
     </ComponentBox>
   </Wrapper>
@@ -268,7 +268,7 @@ export const DrawerListExampleSingleItem = () => (
             suffix={
               <HelpButton title="Modal Title">Modal content</HelpButton>
             }
-            observer_element=".dnb-live-preview" // prevents direction to change when scrolling in this example
+            observerElement=".dnb-live-preview" // prevents direction to change when scrolling in this example
           />
         )
       }}
@@ -375,7 +375,7 @@ export const DrawerListGroups = () => (
         skipPortal
         opened
         preventClose
-        observer_element=".dnb-live-preview" // prevents direction to change when scrolling in this example
+        observerElement=".dnb-live-preview" // prevents direction to change when scrolling in this example
         groups={[undefined, 'Pets', undefined, 'Cars']}
         data={[
           { groupIndex: 0, content: 'Default 1' },
