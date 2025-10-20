@@ -221,7 +221,7 @@ export default class Autocomplete extends React.PureComponent {
     input_value: PropTypes.string,
     open_on_focus: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     preventClose: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    keep_open: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    keepOpen: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     opened: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     stretch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -312,7 +312,7 @@ export default class Autocomplete extends React.PureComponent {
     autoComplete: 'off',
     open_on_focus: false,
     preventClose: false,
-    keep_open: false,
+    keepOpen: false,
     opened: null,
     disabled: null,
     stretch: null,
@@ -1653,10 +1653,10 @@ class AutocompleteInstance extends React.PureComponent {
   onChangeHandler = (args) => {
     const selected_item = args.selected_item
 
-    const { preventSelection, keep_open } = this.props
+    const { preventSelection, keepOpen } = this.props
 
     if (!isTrue(preventSelection)) {
-      if (!isTrue(keep_open)) {
+      if (!isTrue(keepOpen)) {
         this.setState({
           skipFocusDuringChange: true,
           disableHighlighting: true,
@@ -1769,7 +1769,7 @@ class AutocompleteInstance extends React.PureComponent {
       suffix,
       scrollable,
       focusable,
-      keep_open,
+      keepOpen,
       keep_value, // eslint-disable-line
       keep_value_and_selection, // eslint-disable-line
       show_clear_button,
@@ -2082,7 +2082,7 @@ class AutocompleteInstance extends React.PureComponent {
                 skip_portal={skip_portal}
                 preventSelection={preventSelection}
                 triangle_position={triangle_position || icon_position}
-                keep_open={keep_open}
+                keepOpen={keepOpen}
                 preventClose={preventClose}
                 align_drawer={align_autocomplete}
                 fixed_position={fixed_position}
