@@ -2064,7 +2064,7 @@ class AutocompleteInstance extends React.PureComponent {
                   drawer_class
                 )}
                 portal_class={portal_class}
-                list_class="dnb-autocomplete__list"
+                listClass="dnb-autocomplete__list"
                 value={selected_item}
                 defaultValue={defaultValue}
                 scrollable={scrollable}
