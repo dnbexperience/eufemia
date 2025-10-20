@@ -137,7 +137,6 @@ const validDrawerListProps = [
   // DrawerList Properties
   'triangle_position',
   'label_direction',
-  'fixed_position',
   'enable_body_lock',
   'skip_keysearch',
   'ignore_events',
