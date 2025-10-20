@@ -11,7 +11,7 @@ import Input from '../../input/Input'
 
 const props: TabsProps = { id: 'id' }
 
-const startup_selected_key = 'second'
+const startup_selectedKey = 'second'
 const tablistData = [
   { title: 'First', key: 'first' },
   { title: 'Second', key: 'second' },
@@ -29,12 +29,12 @@ const contentWrapperData = {
 }
 
 describe('Tabs component', () => {
-  it('have a "selected_key" state have to be same as prop from startup', () => {
+  it('have a "selectedKey" state have to be same as prop from startup', () => {
     render(
       <Tabs
         {...props}
         data={tablistData}
-        selected_key={startup_selected_key}
+        selectedKey={startup_selectedKey}
       >
         {contentWrapperData}
       </Tabs>
@@ -44,7 +44,7 @@ describe('Tabs component', () => {
         .querySelector('.dnb-tabs__button.selected')
         .querySelectorAll('span')[0].textContent
     ).toBe(
-      tablistData.find(({ key }) => key === startup_selected_key).title
+      tablistData.find(({ key }) => key === startup_selectedKey).title
     )
   })
 
@@ -268,7 +268,7 @@ describe('Tabs component', () => {
         {...props}
         data={tablistData}
         breakout={false}
-        selected_key={startup_selected_key}
+        selectedKey={startup_selectedKey}
       >
         {contentWrapperData}
       </Tabs>
@@ -299,7 +299,7 @@ describe('TabList component', () => {
       <Tabs
         {...props}
         data={tablistData}
-        selected_key={startup_selected_key}
+        selectedKey={startup_selectedKey}
       >
         {contentWrapperData}
       </Tabs>
@@ -318,7 +318,7 @@ describe('TabList component', () => {
       <Tabs
         {...props}
         data={tablistData}
-        selected_key={startup_selected_key}
+        selectedKey={startup_selectedKey}
       >
         {contentWrapperData}
       </Tabs>
@@ -342,7 +342,7 @@ describe('A single Tab component', () => {
       <Tabs
         {...props}
         data={tablistData}
-        selected_key={startup_selected_key}
+        selectedKey={startup_selectedKey}
       >
         {contentWrapperData}
       </Tabs>
@@ -363,7 +363,7 @@ describe('A single Tab component', () => {
       <Tabs
         {...props}
         data={tablistData}
-        selected_key={startup_selected_key}
+        selectedKey={startup_selectedKey}
       >
         {contentWrapperData}
       </Tabs>
@@ -532,7 +532,7 @@ describe('A single Tab component', () => {
   it('has to work with "Tabs.Content" from outside', () => {
     let testKey = null
     let testTitle = null
-    const LinkedContent = (props: { selected_key?: string }) => {
+    const LinkedContent = (props: { selectedKey?: string }) => {
       return (
         <>
           <Tabs id="linked" data={tablistData} {...props} />
@@ -558,7 +558,7 @@ describe('A single Tab component', () => {
     expect(testKey).toBe('first')
     expect(testTitle).toBe('First')
 
-    rerender(<LinkedContent selected_key="second" />)
+    rerender(<LinkedContent selectedKey="second" />)
 
     expect(
       document
@@ -739,7 +739,7 @@ describe('Tabs ARIA', () => {
       <Tabs
         {...props}
         data={tablistData}
-        selected_key={startup_selected_key}
+        selectedKey={startup_selectedKey}
       >
         {contentWrapperData}
       </Tabs>
