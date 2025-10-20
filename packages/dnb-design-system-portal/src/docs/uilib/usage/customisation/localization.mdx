@@ -467,16 +467,11 @@ const translations = {
   'nb-NO': { my: { string: 'streng {foo}' } },
   'en-GB': { my: { string: 'string {foo}' } },
 }
-type Translation = (typeof translations)[keyof typeof translations]
-
-// Make a wrapper, so we can use your translation types
-const MyTranslation = (props: TranslationProps<Translation>) => (
-  <Translation {...props} />
-)
+type TranslationType = (typeof translations)[keyof typeof translations]
 
 render(
   <EufemiaProvider locale="nb-NO" translations={translations}>
-    <MyTranslation id={(t) => t.my.string} foo="bar" />
+    <Translation<TranslationType> id={(t) => t.my.string} foo="bar" />
   </EufemiaProvider>,
 )
 ```
