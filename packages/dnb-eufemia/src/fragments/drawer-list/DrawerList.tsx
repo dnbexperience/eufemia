@@ -142,7 +142,7 @@ export interface DrawerListProps {
   /**
    * Defines the maximum height (in `rem`) of the options list.
    */
-  max_height?: string | number
+  maxHeight?: string | number
   /**
    * To disable appear/disappear (show/hide) animation.
    */
@@ -378,7 +378,7 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
       wrapper_element: _wrapper_element, // eslint-disable-line
       triangle_position: _triangle_position, // eslint-disable-line
       direction: _direction, // eslint-disable-line
-      max_height: _max_height, // eslint-disable-line
+      maxHeight: _maxHeight, // eslint-disable-line
       id: _id, // eslint-disable-line
       data: _data, // eslint-disable-line
       opened: _opened, // eslint-disable-line
@@ -390,13 +390,13 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
     function noNullNumbers({
       selected_item,
       active_item,
-      max_height,
+      maxHeight,
       ...rest
     }: DrawerListContextProps['drawerList']): DrawerListContextProps['drawerList'] {
       return {
         selected_item: selected_item ?? undefined,
         active_item: active_item ?? undefined,
-        max_height: max_height ?? undefined,
+        maxHeight: maxHeight ?? undefined,
         ...rest,
       }
     }
@@ -409,7 +409,7 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
       hidden,
       triangle_position,
       direction,
-      max_height,
+      maxHeight,
       cache_hash,
       selected_item,
       active_item,
@@ -479,7 +479,7 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
       tabIndex: -1,
       style: {
         maxHeight:
-          parseFloat(max_height as string) > 0 ? `${max_height}rem` : null,
+          parseFloat(maxHeight as string) > 0 ? `${maxHeight}rem` : null,
       },
       ref: _refUl,
     }
@@ -611,7 +611,7 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
                   closestToTop +
                   closestToBottom +
                   direction +
-                  max_height
+                  maxHeight
                 }
                 {...ulParams}
                 showFocusRing={showFocusRing}
