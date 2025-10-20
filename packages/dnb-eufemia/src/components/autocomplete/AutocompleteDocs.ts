@@ -186,7 +186,7 @@ export const AutocompleteProperties = {
     type: 'boolean',
     status: 'optional',
   },
-  skip_portal: {
+  skipPortal: {
     doc: 'Set to `true` to disable the React Portal behavior. Defaults to `false`.',
     type: 'string',
     status: 'optional',

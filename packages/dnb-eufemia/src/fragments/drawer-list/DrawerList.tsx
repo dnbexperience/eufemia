@@ -180,7 +180,7 @@ export interface DrawerListProps {
   /**
    * To disable the React Portal behavior.
    */
-  skip_portal?: boolean
+  skipPortal?: boolean
   /**
    * Define an HTML class that will be set on the DOM portal beside `dnb-drawer-list__portal__style`. Can be useful to handle e.g. a custom `z-index` in relation to a header.
    */

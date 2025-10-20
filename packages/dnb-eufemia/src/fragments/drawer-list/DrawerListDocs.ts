@@ -111,7 +111,7 @@ export const DrawerListProperties = {
     type: 'boolean',
     status: 'optional',
   },
-  skip_portal: {
+  skipPortal: {
     doc: 'To disable the React Portal behavior.',
     type: 'boolean',
     status: 'optional',
