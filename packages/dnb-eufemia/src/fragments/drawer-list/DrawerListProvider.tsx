@@ -545,7 +545,7 @@ export default class DrawerListProvider extends React.PureComponent<
   // this gives us the possibility to quickly search for an item
   // by simply pressing any alphabetical key
   findItemByValue(value) {
-    if (isTrue(this.props.skip_keysearch)) {
+    if (isTrue(this.props.skipKeysearch)) {
       return
     }
 
@@ -862,7 +862,7 @@ export default class DrawerListProvider extends React.PureComponent<
             this.getCurrentActiveItem() ?? this.getCurrentSelectedItem()
 
           if (
-            isTrue(this.props.skip_keysearch)
+            isTrue(this.props.skipKeysearch)
               ? active_item > -1 && key !== 'space'
               : true
           ) {
