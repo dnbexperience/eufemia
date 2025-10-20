@@ -152,7 +152,7 @@ export default class Autocomplete extends React.PureComponent {
     max_height: PropTypes.number,
     skip_portal: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    no_scroll_animation: PropTypes.oneOfType([
+    noScrollAnimation: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool,
     ]),
@@ -298,7 +298,7 @@ export default class Autocomplete extends React.PureComponent {
     direction: 'auto',
     skip_portal: null,
     no_animation: false,
-    no_scroll_animation: false,
+    noScrollAnimation: false,
     show_submit_button: false,
     submit_element: null,
     preventSelection: false,
@@ -1847,7 +1847,7 @@ class AutocompleteInstance extends React.PureComponent {
       show_clear_button,
       preventClose,
       no_animation,
-      no_scroll_animation,
+      noScrollAnimation,
       show_submit_button,
       submit_element,
       input_element: CustomInput,
@@ -2142,7 +2142,7 @@ class AutocompleteInstance extends React.PureComponent {
                 scrollable={scrollable}
                 focusable={focusable}
                 no_animation={no_animation}
-                no_scroll_animation={no_scroll_animation}
+                noScrollAnimation={noScrollAnimation}
                 skip_portal={skip_portal}
                 preventSelection={preventSelection}
                 triangle_position={triangle_position || icon_position}
