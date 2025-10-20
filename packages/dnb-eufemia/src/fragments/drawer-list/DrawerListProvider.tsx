@@ -335,7 +335,7 @@ export default class DrawerListProvider extends React.PureComponent<
       minHeight,
       maxHeight,
       on_resize,
-      page_offset,
+      pageOffset,
       observerElement,
       direction: directionProp,
     } = this.props
@@ -382,8 +382,8 @@ export default class DrawerListProvider extends React.PureComponent<
       // make calculation for both direction and height
       const rootElem = customElem || document.documentElement
 
-      const pageYOffset = !isNaN(parseFloat(page_offset as string))
-        ? parseFloat(page_offset as string)
+      const pageYOffset = !isNaN(parseFloat(pageOffset as string))
+        ? parseFloat(pageOffset as string)
         : rootElem.scrollTop
       const spaceToTop =
         getOffsetTop(elem) + elem.offsetHeight - pageYOffset
