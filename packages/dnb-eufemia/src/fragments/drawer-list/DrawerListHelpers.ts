@@ -64,7 +64,7 @@ export const drawerListPropTypes = {
   ]),
   defaultValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  skip_portal: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  skipPortal: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   portalClass: PropTypes.string,
   listClass: PropTypes.string,
   preventClose: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -159,7 +159,7 @@ export const drawerListDefaultProps = {
   value: 'initval',
   portalClass: null,
   listClass: null,
-  skip_portal: null,
+  skipPortal: null,
   preventClose: false,
   keepOpen: false,
   prevent_focus: false,
@@ -503,7 +503,7 @@ export const prepareDerivedState = (
     state.original_data = getData(props)
   }
 
-  state.skipPortal = isTrue(props.skip_portal)
+  state.skipPortal = isTrue(props.skipPortal)
 
   if (typeof props.wrapper_element === 'string') {
     if (typeof document !== 'undefined') {
