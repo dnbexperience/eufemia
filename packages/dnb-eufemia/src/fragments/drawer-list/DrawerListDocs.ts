@@ -131,7 +131,7 @@ export const DrawerListProperties = {
     type: 'string',
     status: 'optional',
   },
-  observer_element: {
+  observerElement: {
     doc: 'Set a HTML element, either as a selector or a DOM element. Can be used to send in an element which will be used to make the direction calculation on.',
     type: 'string',
     status: 'optional',
