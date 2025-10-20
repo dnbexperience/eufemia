@@ -31,6 +31,17 @@ export default function renderWithFormatting(
     code = Code,
   }: FormatOptions = {}
 ): React.ReactNode {
+  // Fast-path: if text is a plain string without any formatting markers, return it directly
+  if (typeof text === 'string') {
+    const HAS_MARKERS_RE =
+      /(`[^`]+`|\[[^\]]+\]\([^)\s]+\)|\bhttps?:\/\/[^\s<>()]+|\*\*[^*]+\*\*|_[^_]+_)/
+    const hasFormatting =
+      (br && text.includes(br)) || HAS_MARKERS_RE.test(text)
+    if (!hasFormatting) {
+      return text
+    }
+  }
+
   return withFormatting(text, { strong, em, br, link, code })
 }
 
