@@ -226,7 +226,7 @@ export default class Autocomplete extends React.PureComponent {
     disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     stretch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    portal_class: PropTypes.string,
+    portalClass: PropTypes.string,
     drawer_class: PropTypes.string,
     page_offset: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     observer_element: PropTypes.oneOfType([
@@ -317,7 +317,7 @@ export default class Autocomplete extends React.PureComponent {
     disabled: null,
     stretch: null,
     skeleton: null,
-    portal_class: null,
+    portalClass: null,
     drawer_class: null,
     page_offset: null,
     observer_element: null,
@@ -1789,7 +1789,7 @@ class AutocompleteInstance extends React.PureComponent {
       selected_sr,
       submit_button_title,
       submit_button_icon,
-      portal_class,
+      portalClass,
       drawer_class,
       input_ref, // eslint-disable-line
       className,
@@ -2071,7 +2071,7 @@ class AutocompleteInstance extends React.PureComponent {
                   'dnb-autocomplete__root',
                   drawer_class
                 )}
-                portal_class={portal_class}
+                portalClass={portalClass}
                 listClass="dnb-autocomplete__list"
                 value={selected_item}
                 defaultValue={defaultValue}
