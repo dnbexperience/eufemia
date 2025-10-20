@@ -89,11 +89,11 @@ describe('Tabs component', () => {
     expect(onClick).toHaveBeenCalledTimes(3)
   })
 
-  it('has working "on_focus" event handler', () => {
-    const on_focus = jest.fn()
+  it('has working "onFocus" event handler', () => {
+    const onFocus = jest.fn()
 
     render(
-      <Tabs {...props} data={tablistData} on_focus={on_focus}>
+      <Tabs {...props} data={tablistData} onFocus={onFocus}>
         {contentWrapperData}
       </Tabs>
     )
@@ -101,12 +101,12 @@ describe('Tabs component', () => {
     fireEvent.keyDown(document.querySelector('.dnb-tabs__tabs__tablist'), {
       keyCode: 39, // right
     })
-    expect(on_focus).toHaveBeenCalledTimes(1)
+    expect(onFocus).toHaveBeenCalledTimes(1)
 
     fireEvent.keyDown(document.querySelector('.dnb-tabs__tabs__tablist'), {
       keyCode: 39, // right
     })
-    expect(on_focus).toHaveBeenCalledTimes(2)
+    expect(onFocus).toHaveBeenCalledTimes(2)
   })
 
   it('will use given tabElement', () => {
