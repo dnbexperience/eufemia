@@ -200,7 +200,7 @@ export interface DrawerListProps {
   /**
    * If set to `true`, the DrawerList will be fixed in its scroll position by using CSS `position: fixed;`.
    */
-  fixed_position?: boolean
+  fixedPosition?: boolean
   /**
    * If set to `true`, the DrawerList will close on outside clicks, but not on selection.
    */
@@ -359,7 +359,7 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
     const {
       role,
       align_drawer,
-      fixed_position,
+      fixedPosition,
       independentWidth,
       scrollable,
       focusable,
@@ -653,7 +653,7 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
           opened={hidden === false}
           include_owner_width={align_drawer === 'right'}
           independentWidth={isTrue(independentWidth)}
-          fixed_position={isTrue(fixed_position)}
+          fixedPosition={isTrue(fixedPosition)}
           className={getThemeClasses(this.context?.theme, portal_class)}
           skipPortal={skipPortal}
         >

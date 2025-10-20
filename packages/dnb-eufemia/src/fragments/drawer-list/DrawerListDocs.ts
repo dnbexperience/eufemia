@@ -61,7 +61,7 @@ export const DrawerListProperties = {
     type: 'boolean',
     status: 'optional',
   },
-  fixed_position: {
+  fixedPosition: {
     doc: 'If set to `true`, the DrawerList will be fixed in its scroll position by using CSS `position: fixed;`.',
     type: 'boolean',
     status: 'optional',
