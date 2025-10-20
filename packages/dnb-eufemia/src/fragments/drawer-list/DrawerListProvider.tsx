@@ -62,7 +62,7 @@ export type DrawerListProviderProps = Omit<DrawerListProps, 'children'> &
     ) => DrawerListProvider
     setState?: (state: any, cb?: any) => void
     setWrapperElement?: (
-      wrapper_element?: string | HTMLElement
+      wrapperElement?: string | HTMLElement
     ) => DrawerListProvider
     setHidden?: (args?: any[], onStateComplete?: any) => void
     selectItemAndClose?: (
@@ -323,7 +323,7 @@ export default class DrawerListProvider extends React.PureComponent<
     if (
       typeof window === 'undefined' ||
       typeof document === 'undefined' ||
-      !(this.state.wrapper_element || this._refRoot.current)
+      !(this.state.wrapperElement || this._refRoot.current)
     ) {
       return
     }
@@ -359,7 +359,7 @@ export default class DrawerListProvider extends React.PureComponent<
     const directionOffset = 96
     const spaceToTopOffset = 2 * 16
     const spaceToBottomOffset = 2 * 16
-    const elem = this.state.wrapper_element || this._refRoot.current
+    const elem = this.state.wrapperElement || this._refRoot.current
     const getSpaceToBottom = ({ rootElem, pageYOffset }) => {
       const spaceToBottom =
         rootElem.clientHeight -
@@ -403,7 +403,7 @@ export default class DrawerListProvider extends React.PureComponent<
         if (direction === 'top') {
           maxHeight =
             spaceToTop -
-            ((this.state.wrapper_element || this._refRoot.current)
+            ((this.state.wrapperElement || this._refRoot.current)
               .offsetHeight || 0) -
             spaceToTopOffset
         }
@@ -719,17 +719,17 @@ export default class DrawerListProvider extends React.PureComponent<
     }
   }
 
-  setWrapperElement = (wrapper_element = this.props.wrapper_element) => {
-    if (typeof wrapper_element === 'string') {
-      wrapper_element =
+  setWrapperElement = (wrapperElement = this.props.wrapperElement) => {
+    if (typeof wrapperElement === 'string') {
+      wrapperElement =
         typeof document !== 'undefined'
-          ? document.querySelector<HTMLElement>(wrapper_element)
+          ? document.querySelector<HTMLElement>(wrapperElement)
           : undefined
     }
 
-    if (wrapper_element !== this.state.wrapper_element) {
+    if (wrapperElement !== this.state.wrapperElement) {
       this.setState({
-        wrapper_element,
+        wrapperElement,
       })
     }
 
@@ -1120,7 +1120,7 @@ export default class DrawerListProvider extends React.PureComponent<
 
     this.outsideClick = detectOutsideClick(
       [
-        this.state.wrapper_element,
+        this.state.wrapperElement,
         this._refRoot.current,
         this._refUl.current,
       ],
