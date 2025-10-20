@@ -99,7 +99,7 @@ export const ModalExampleTriggerProps = () => (
 export const ModalExampleOnClosePrevent = () => (
   <ComponentBox hidePreview>
     <Modal
-      preventClose={true}
+      prevent_close={true}
       onClosePrevent={({ triggeredBy, close /* id, event */ }) => {
         switch (triggeredBy) {
           case 'keyboard':
