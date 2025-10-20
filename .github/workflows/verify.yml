@@ -61,6 +61,7 @@ jobs:
         run: yarn install --immutable
 
       - name: Audit dependencies
+        if: ${{ !contains(github.event.head_commit.message || '', '--skip-audit') && !(github.event.pull_request && contains(github.event.pull_request.title || '', '--skip-audit')) }}
         run: yarn workspace @dnb/eufemia audit:ci
 
       - name: Run lint
