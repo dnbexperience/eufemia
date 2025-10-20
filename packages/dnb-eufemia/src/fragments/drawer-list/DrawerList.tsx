@@ -227,7 +227,7 @@ export interface DrawerListProps {
   /**
    * If set to `true`, the HTML body will get locked from scrolling when the Dropdown is open.
    */
-  enable_body_lock?: boolean
+  enableBodyLock?: boolean
   /**
    * Defines the available scrollable height. If scrolling should not change the height of the drawer-list, then set it to `0` (useful if the DrawerList is used in fixed positions on contrast to a scrollable page content).
    */
