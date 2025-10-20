@@ -136,8 +136,8 @@ export const DrawerListProperties = {
     type: 'string',
     status: 'optional',
   },
-  cache_hash: {
-    doc: 'Set a `cache_hash` as a string to enable internal memorizing of the list to enhance rerendering performance. Components like Autocomplete are using this because of the huge data changes due to search and reorder.',
+  cacheHash: {
+    doc: 'Set a `cacheHash` as a string to enable internal memorizing of the list to enhance rerendering performance. Components like Autocomplete are using this because of the huge data changes due to search and reorder.',
     type: 'string',
     status: 'optional',
   },
