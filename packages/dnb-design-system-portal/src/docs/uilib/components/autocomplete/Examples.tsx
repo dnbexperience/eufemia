@@ -151,7 +151,7 @@ export const AutocompleteDynamicallyUpdatedData = () => (
           <Autocomplete
             mode="async"
             on_type={onTypeHandler}
-            no_scroll_animation={true}
+            noScrollAnimation={true}
             placeholder="Search ..."
           />
         )
@@ -180,7 +180,7 @@ export const AutocompleteFirstFocusUpdate = () => (
         return (
           <Autocomplete
             mode="async"
-            no_scroll_animation={true}
+            noScrollAnimation={true}
             preventSelection={true}
             on_type={({ value /* updateData, ... */ }) => {
               console.log('on_type', value)
