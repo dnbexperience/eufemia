@@ -152,7 +152,7 @@ export interface DrawerListProps {
   /**
    * To disable scrolling animation.
    */
-  no_scroll_animation?: boolean
+  noScrollAnimation?: boolean
   /**
    * If set to `true`, the DrawerList will then not make any permanent selection.
    */
@@ -371,7 +371,7 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
       focusable,
       size,
       no_animation,
-      no_scroll_animation,
+      noScrollAnimation,
       preventSelection,
       action_menu,
       is_popup,
@@ -456,7 +456,7 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
         (isTrue(independentWidth) || isTrue(action_menu)) &&
           'dnb-drawer-list--independent-width',
         isTrue(scrollable) && 'dnb-drawer-list--scroll',
-        isTrue(no_scroll_animation) &&
+        isTrue(noScrollAnimation) &&
           'dnb-drawer-list--no-scroll-animation',
         createSpacingClasses(props),
         className

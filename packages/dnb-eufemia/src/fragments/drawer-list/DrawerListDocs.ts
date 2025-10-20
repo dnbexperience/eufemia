@@ -101,7 +101,7 @@ export const DrawerListProperties = {
     type: 'boolean',
     status: 'optional',
   },
-  no_scroll_animation: {
+  noScrollAnimation: {
     doc: 'To disable scrolling animation.',
     type: 'boolean',
     status: 'optional',
