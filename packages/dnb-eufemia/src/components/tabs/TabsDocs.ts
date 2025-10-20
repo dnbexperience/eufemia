@@ -135,7 +135,7 @@ export const TabsEvents: PropertiesTableProps = {
     type: 'function',
     status: 'optional',
   },
-  on_click: {
+  onClick: {
     doc: 'This event gets triggered once the tab gets clicked. Returns `{ key, selectedKey, focus_key, event }`.',
     type: 'function',
     status: 'optional',
