@@ -1427,7 +1427,7 @@ export default class DrawerListProvider extends React.PureComponent<
       }
     }
 
-    const { keep_open, preventSelection } = this.props
+    const { keepOpen, preventSelection } = this.props
 
     const doCallOnChange =
       parseFloat(itemToSelect) > -1 &&
@@ -1443,7 +1443,7 @@ export default class DrawerListProvider extends React.PureComponent<
         })
       }
 
-      if (closeOnSelection && !isTrue(keep_open)) {
+      if (closeOnSelection && !isTrue(keepOpen)) {
         this.setHidden()
       }
     }
