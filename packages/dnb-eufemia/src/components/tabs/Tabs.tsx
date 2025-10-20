@@ -348,7 +348,7 @@ export default class Tabs extends React.PureComponent<TabsProps> {
     this.state = {
       data,
       selectedKey,
-      focus_key: selectedKey,
+      focusKey: selectedKey,
       atEdge: false,
       lastPosition,
       hasScrollbar: lastPosition > -1,
@@ -777,15 +777,15 @@ export default class Tabs extends React.PureComponent<TabsProps> {
     )
   }
 
-  focusTab = (focus_key, event = null, mode = null) => {
+  focusTab = (focusKey, event = null, mode = null) => {
     // for handling openPrevTab and openNextTab
-    if (mode === 'step' && parseFloat(focus_key)) {
-      focus_key = this.getStepKey(focus_key, this.state.focus_key)
+    if (mode === 'step' && parseFloat(focusKey)) {
+      focusKey = this.getStepKey(focusKey, this.state.focusKey)
     }
 
     this.setState(
       {
-        focus_key,
+        focusKey,
         _listenForPropChanges: false,
       },
       this.setFocusOnTabButton
@@ -794,7 +794,7 @@ export default class Tabs extends React.PureComponent<TabsProps> {
     dispatchCustomElementEvent(
       this,
       'onFocus',
-      this.getEventArgs({ event, focus_key })
+      this.getEventArgs({ event, focusKey })
     )
 
     this.setWhatInput()
@@ -848,7 +848,7 @@ export default class Tabs extends React.PureComponent<TabsProps> {
       this.setState(
         {
           selectedKey,
-          focus_key: selectedKey,
+          focusKey: selectedKey,
           _listenForPropChanges: false,
         },
         this.handleVerticalScroll
@@ -878,7 +878,7 @@ export default class Tabs extends React.PureComponent<TabsProps> {
   }
 
   getEventArgs(args) {
-    const { selectedKey, focus_key } = this.state
+    const { selectedKey, focusKey } = this.state
     const key =
       typeof args.selectedKey !== 'undefined'
         ? args.selectedKey
@@ -887,14 +887,14 @@ export default class Tabs extends React.PureComponent<TabsProps> {
     return {
       key,
       selectedKey,
-      focus_key,
+      focusKey,
       title: this.getCurrentTitle(key),
       ...args,
     }
   }
 
   isFocus(tabKey) {
-    return this.state.focus_key == tabKey
+    return this.state.focusKey == tabKey
   }
   isSelected(tabKey) {
     return this.state.selectedKey == tabKey
