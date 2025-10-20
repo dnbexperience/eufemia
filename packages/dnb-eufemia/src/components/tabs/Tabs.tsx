@@ -92,7 +92,7 @@ export interface TabsProps
   /**
    * To modify the `spacing` onto the content wrapper. Use a supported modifier from the [Section component](/uilib/components/section/properties). Defaults to `large`.
    */
-  content_spacing?: SectionSpacing
+  contentSpacing?: SectionSpacing
   label?: string
   /**
    * Define what HTML element should be used. You can provide e.g. `tab_element={GatsbyLink}` – you may then provide the `to` property inside every entry (`data={[{ to: ';url';, ... }]}`). Defaults to `<button>`.
@@ -206,7 +206,7 @@ export default class Tabs extends React.PureComponent<TabsProps> {
       PropTypes.func,
     ]),
     contentStyle: PropTypes.string,
-    content_spacing: PropTypes.oneOfType([
+    contentSpacing: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool,
     ]),
@@ -256,7 +256,7 @@ export default class Tabs extends React.PureComponent<TabsProps> {
     data: null,
     content: null,
     contentStyle: null,
-    content_spacing: true,
+    contentSpacing: true,
     label: null,
     tab_element: 'button',
     selectedKey: null,
@@ -1193,7 +1193,7 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
         id={this._id}
         selectedKey={selectedKey}
         contentStyle={this.props.contentStyle}
-        content_spacing={this.props.content_spacing}
+        contentSpacing={this.props.contentSpacing}
         animate={this.props.prerender}
       >
         {content}
