@@ -351,7 +351,7 @@ export default class Autocomplete extends React.PureComponent {
         data={this.props.data || this.props.children}
         opened={null}
         tagName="dnb-autocomplete"
-        ignore_events={false}
+        ignoreEvents={false}
         prevent_focus
         skipKeysearch
       >
@@ -765,7 +765,7 @@ class AutocompleteInstance extends React.PureComponent {
             {
               class_name: 'dnb-autocomplete__no-options',
               content: this._props.no_options,
-              ignore_events: true,
+              ignoreEvents: true,
               __id: 'no_options',
             },
           ]
@@ -783,7 +783,7 @@ class AutocompleteInstance extends React.PureComponent {
       {
         class_name: 'dnb-autocomplete__indicator',
         content: <ProgressIndicator label={this._props.indicator_label} />,
-        ignore_events: true,
+        ignoreEvents: true,
         __id: 'indicator',
       },
     ])
@@ -1246,7 +1246,7 @@ class AutocompleteInstance extends React.PureComponent {
     clearTimeout(this.showAllTimeout)
     this.context.drawerList.setState(
       {
-        ignore_events: true, // we also have to reset this one
+        ignoreEvents: true, // we also have to reset this one
       },
       () => {
         // but we reset it right after the rerender
@@ -1254,7 +1254,7 @@ class AutocompleteInstance extends React.PureComponent {
           this.context &&
             this.context.drawerList &&
             this.context.drawerList.setState({
-              ignore_events: false, // we also have to reset this one
+              ignoreEvents: false, // we also have to reset this one
             })
         }, 10) // make sure we reset once the rerender of DrawerList is done, because then we keep the active_item at it's position by using key="down"
       }
