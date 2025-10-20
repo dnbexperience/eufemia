@@ -140,7 +140,7 @@ export const TabsEvents: PropertiesTableProps = {
     type: 'function',
     status: 'optional',
   },
-  on_focus: {
+  onFocus: {
     doc: 'This event gets triggered once the tab changes its focus key. Returns `{ key, selectedKey, focus_key, event }`.',
     type: 'function',
     status: 'optional',
