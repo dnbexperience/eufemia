@@ -145,7 +145,7 @@ export const TabsEvents: PropertiesTableProps = {
     type: 'function',
     status: 'optional',
   },
-  on_mouse_enter: {
+  onMouseEnter: {
     doc: "This event gets triggered once the user';s mouse enters a tab (hover). Returns `{ key, selectedKey, focus_key, event }`.",
     type: 'function',
     status: 'optional',
