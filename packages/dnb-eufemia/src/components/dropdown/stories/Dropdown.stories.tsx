@@ -894,7 +894,7 @@ function UpdateDataExample() {
       <Dropdown
         title="Choose an item"
         preventSelection
-        enable_body_lock
+        enableBodyLock
         data={choiceData}
         on_change={({ data }) => {
           console.log('data', data)
