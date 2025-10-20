@@ -109,7 +109,7 @@ describe('Tabs component', () => {
     expect(on_focus).toHaveBeenCalledTimes(2)
   })
 
-  it('will use given tab_element', () => {
+  it('will use given tabElement', () => {
     const Link = ({ href, children }) => {
       return <a href={href}>{children}</a>
     }
@@ -121,7 +121,7 @@ describe('Tabs component', () => {
     ]
 
     render(
-      <Tabs {...props} data={tablistData} tab_element={Link}>
+      <Tabs {...props} data={tablistData} tabElement={Link}>
         {contentWrapperData}
       </Tabs>
     )
