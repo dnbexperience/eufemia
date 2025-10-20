@@ -217,9 +217,4 @@ export const DrawerListItem = {
     type: ['string', 'React.node'],
     status: 'optional',
   },
-  selected_key: {
-    doc: 'Use prop `selectedKey` instead',
-    type: ['string', 'number'],
-    status: 'deprecated',
-  },
 } satisfies PropertiesTableProps
