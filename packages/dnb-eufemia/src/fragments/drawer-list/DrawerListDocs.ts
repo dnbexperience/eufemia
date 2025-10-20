@@ -66,7 +66,7 @@ export const DrawerListProperties = {
     type: 'boolean',
     status: 'optional',
   },
-  enable_body_lock: {
+  enableBodyLock: {
     doc: 'If set to `true`, the HTML body will get locked from scrolling when the Dropdown is open.',
     type: 'boolean',
     status: 'optional',
