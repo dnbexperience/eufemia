@@ -116,7 +116,7 @@ export const DrawerListProperties = {
     type: 'boolean',
     status: 'optional',
   },
-  min_height: {
+  minHeight: {
     doc: 'Defines the minimum height (in `rem`) of the options list.',
     type: 'string',
     status: 'optional',
