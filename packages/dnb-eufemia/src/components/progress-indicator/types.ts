@@ -35,7 +35,7 @@ export type ProgressIndicatorProps = {
    */
   progress?: string | number
   /**
-   * Content of a custom label. (Overrides `indicator_label` and `showDefaultLabel`)
+   * Content of a custom label. (Overrides `indicatorLabel` and `showDefaultLabel`)
    */
   label?: React.ReactNode
   /**
@@ -53,7 +53,7 @@ export type ProgressIndicatorProps = {
   /**
    * Use this to override the default label from text locales.
    */
-  indicator_label?: string
+  indicatorLabel?: string
   /**
    * Used to set title and aria-label. Defaults to the value of progress property, formatted as a percent.
    */
