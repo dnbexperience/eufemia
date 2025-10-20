@@ -175,24 +175,3 @@ export const SupportsChildrenAsNull = () => {
     </Wrapper>
   )
 }
-
-// TODO – can be removed in v11 when we deprecate passing down props to dnb-breadcrumb__item__span
-export const BreadcrumbItemWithButtonPropsButNotInteractive = () => {
-  const props = {
-    ...Button.defaultProps,
-    text: 'Page',
-    href: null,
-    onClick: null,
-    'data-testid': 'my-testid',
-  }
-  return (
-    <Wrapper>
-      <Box>
-        <Breadcrumb data={[props, props, props]} />
-        <Breadcrumb>
-          <Breadcrumb.Item {...props} />
-        </Breadcrumb>
-      </Box>
-    </Wrapper>
-  )
-}
