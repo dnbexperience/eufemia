@@ -781,7 +781,7 @@ function DropdownStatesSync() {
         <Dropdown
           data={dropdownDataScrollable}
           // value={0}
-          default_value={0}
+          defaultValue={0}
           title="Dropdown 1"
           on_change={handleOnChange}
         />
@@ -789,7 +789,7 @@ function DropdownStatesSync() {
         top
         data={dropdownDataScrollable}
         // value={1}
-        default_value={1}
+        defaultValue={1}
         title="Dropdown 2"
         on_change={handleOnChange}
       /> */}
