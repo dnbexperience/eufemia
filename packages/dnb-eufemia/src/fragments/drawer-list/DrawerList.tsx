@@ -65,7 +65,7 @@ export type DrawerListDataArrayObjectStrict = {
   /** classname added to the html list item */
   class_name?: string
   /** set to true to disable mouse events selected style. Keyboard can still select. */
-  ignore_events?: boolean
+  ignoreEvents?: boolean
   /** internal use only */
   render?: (children: React.ReactNode, id: string) => React.ReactNode
 }
@@ -219,7 +219,7 @@ export interface DrawerListProps {
   /**
    * If set to `true`, all keyboard and mouse events will be ignored.
    */
-  ignore_events?: boolean
+  ignoreEvents?: boolean
   className?: string
   /** Accepts the same values as the `data` prop. Will be ignored if `data` is used. Can also accept a single child for custom rendering. */
   children?: DrawerListData | React.ReactElement
@@ -377,7 +377,7 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
       is_popup,
       portalClass,
       listClass,
-      ignore_events,
+      ignoreEvents,
       optionsRender,
       className,
       cacheHash: _cacheHash, // eslint-disable-line
@@ -523,7 +523,7 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
       validateDOMAttributes(null, attributes)
     )
 
-    const ignoreEvents = isTrue(ignore_events)
+    const ignoreEvents = isTrue(ignoreEvents)
 
     const GroupItems = () =>
       renderData
@@ -550,11 +550,11 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
                   i === 0 && 'first-of-type', // because of the triangle element
                   i === data.length - 1 && 'last-of-type', // because of the triangle element
                   ignoreEvents ||
-                    (dataItem.ignore_events && 'ignore-events'),
+                    (dataItem.ignoreEvents && 'ignore-events'),
                   dataItem.class_name
                 ),
                 active: _id == active_item,
-                selected: !dataItem.ignore_events && _id == selected_item,
+                selected: !dataItem.ignoreEvents && _id == selected_item,
                 onClick: this.selectItemHandler,
                 onKeyDown: this.preventTab,
                 disabled: dataItem.disabled,

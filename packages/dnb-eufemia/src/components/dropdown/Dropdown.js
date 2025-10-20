@@ -239,7 +239,7 @@ export default class Dropdown extends React.PureComponent {
         data={data || children}
         opened={false}
         tagName="dnb-dropdown"
-        ignore_events={false}
+        ignoreEvents={false}
         preventSelection={
           isTrue(more_menu) ||
           isTrue(action_menu) ||
