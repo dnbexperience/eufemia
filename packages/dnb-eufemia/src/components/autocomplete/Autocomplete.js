@@ -188,11 +188,6 @@ export default class Autocomplete extends React.PureComponent {
               PropTypes.string,
               PropTypes.number,
             ]),
-            /** @deprecated use `selectedKey` */
-            selected_key: PropTypes.oneOfType([
-              PropTypes.string,
-              PropTypes.number,
-            ]),
             selected_value: PropTypes.oneOfType([
               PropTypes.string,
               PropTypes.node,
@@ -853,11 +848,7 @@ class AutocompleteInstance extends React.PureComponent {
     if (parseFloat(selected_item) > -1) {
       const newItem = rawData?.[selected_item]
       const oldItem = this.context.drawerList.original_data[selected_item]
-      if (
-        typeof newItem?.selectedKey !== 'undefined'
-          ? newItem?.selectedKey !== oldItem?.selectedKey
-          : newItem?.selected_key !== oldItem?.selected_key
-      ) {
+      if (newItem?.selectedKey !== oldItem?.selectedKey) {
         return true
       }
     }
@@ -874,7 +865,7 @@ class AutocompleteInstance extends React.PureComponent {
         cache_hash: 'updateData',
       },
       () => {
-        // If the "selected_key" has changed in comparison to the existing data,
+        // If the "selectedKey" has changed in comparison to the existing data,
         // invalidated our selected_item
         // Also, ensure to run it after a state update, because the "selected_item" (value prop) can have changed,
         // and should match the new data
