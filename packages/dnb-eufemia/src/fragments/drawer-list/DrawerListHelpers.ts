@@ -38,7 +38,7 @@ export const drawerListPropTypes = {
   focusable: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   direction: PropTypes.oneOf(['auto', 'top', 'bottom']),
   size: PropTypes.oneOf(['default', 'small', 'medium', 'large']),
-  max_height: PropTypes.number,
+  maxHeight: PropTypes.number,
   no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   noScrollAnimation: PropTypes.oneOfType([
     PropTypes.string,
@@ -145,7 +145,7 @@ export const drawerListDefaultProps = {
   triangle_position: 'left',
   scrollable: true,
   focusable: false,
-  max_height: null,
+  maxHeight: null,
   direction: 'auto',
   size: 'default',
   no_animation: false,
@@ -458,7 +458,7 @@ export function prepareStartupState(
     original_data: data, // used to reset in case we reorder data etc.
     raw_data,
     direction: props.direction,
-    max_height: props.max_height,
+    maxHeight: props.maxHeight,
     selected_item,
     active_item: selected_item,
     on_hide: props.on_hide,
