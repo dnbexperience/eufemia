@@ -336,7 +336,7 @@ export default class DrawerListProvider extends React.PureComponent<
       maxHeight,
       on_resize,
       page_offset,
-      observer_element,
+      observerElement,
       direction: directionProp,
     } = this.props
 
@@ -346,8 +346,8 @@ export default class DrawerListProvider extends React.PureComponent<
     const customMaxHeight = parseFloat(maxHeight as string) || 0
 
     let customElem =
-      typeof observer_element === 'string'
-        ? document.querySelector(observer_element)
+      typeof observerElement === 'string'
+        ? document.querySelector(observerElement)
         : null
 
     if (!customElem) {

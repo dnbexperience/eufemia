@@ -235,7 +235,7 @@ export interface DrawerListProps {
   /**
    * Set a HTML element, either as a selector or a DOM element. Can be used to send in an element which will be used to make the direction calculation on.
    */
-  observer_element?: string | React.ReactNode
+  observerElement?: string | React.ReactNode
   on_show?: (...args: any[]) => any
   on_hide?: (...args: any[]) => any
   handle_dismiss_focus?: (...args: any[]) => any
