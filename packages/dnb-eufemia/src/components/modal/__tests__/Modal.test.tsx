@@ -859,15 +859,15 @@ describe('Modal component', () => {
     })
   })
 
-  it('will prevent closing the modal on preventClose', async () => {
-    let preventClose = true
+  it('will prevent closing the modal on prevent_close', async () => {
+    let prevent_close = true
     let testTriggeredBy = null
     const on_close = jest.fn(
       ({ triggeredBy }) => (testTriggeredBy = triggeredBy)
     )
     const on_open = jest.fn()
     const on_close_prevent = jest.fn(({ triggeredBy, close }) => {
-      if (preventClose) {
+      if (prevent_close) {
         return
       }
       switch (triggeredBy) {
@@ -884,7 +884,7 @@ describe('Modal component', () => {
     render(
       <Modal
         {...props}
-        preventClose
+        prevent_close
         on_open={on_open}
         on_close={on_close}
         on_close_prevent={on_close_prevent}
@@ -942,7 +942,7 @@ describe('Modal component', () => {
       )
     })
 
-    preventClose = false
+    prevent_close = false
 
     // trigger the close on the overlay
     fireEvent.mouseDown(document.querySelector('div.dnb-modal__content'))
