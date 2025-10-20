@@ -127,7 +127,7 @@ const DrawerStory = () => {
   return (
     <Wrapper>
       <Box>
-        <Drawer opened no_animation prevent_close>
+        <Drawer opened no_animation preventClose>
           Empty
         </Drawer>
       </Box>

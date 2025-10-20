@@ -859,7 +859,7 @@ describe('Modal component', () => {
     })
   })
 
-  it('will prevent closing the modal on prevent_close', async () => {
+  it('will prevent closing the modal on preventClose', async () => {
     let preventClose = true
     let testTriggeredBy = null
     const on_close = jest.fn(
@@ -884,7 +884,7 @@ describe('Modal component', () => {
     render(
       <Modal
         {...props}
-        prevent_close
+        preventClose
         on_open={on_open}
         on_close={on_close}
         on_close_prevent={on_close_prevent}
