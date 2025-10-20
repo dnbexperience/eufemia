@@ -18,13 +18,6 @@ export { default as IterateItemContext } from './IterateItemContext'
 /**
  * Deprecated and will be removed in v11
  *
- * @deprecated use "PushButton" instead
- */
-export const ArrayPushButton = PushButton
-
-/**
- * Deprecated and will be removed in v11
- *
  * @deprecated use "RemoveButton" instead
  */
 export const ArrayRemoveElementButton = RemoveButton
