@@ -31,7 +31,7 @@ import CountryFlag from '../../components/country-flag/CountryFlag'
 export const drawerListPropTypes = {
   id: PropTypes.string,
   role: PropTypes.string,
-  cache_hash: PropTypes.string,
+  cacheHash: PropTypes.string,
   triangle_position: PropTypes.string,
   scrollable: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   focusable: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -140,7 +140,7 @@ export const drawerListPropTypes = {
 export const drawerListDefaultProps = {
   id: null,
   role: 'listbox',
-  cache_hash: null,
+  cacheHash: null,
   triangle_position: 'left',
   scrollable: true,
   focusable: false,
@@ -473,7 +473,7 @@ export const prepareDerivedState = (
 
   if (props.data && props.data !== state._data) {
     if (state._data) {
-      state.cache_hash = state.cache_hash + Date.now()
+      state.cacheHash = state.cacheHash + Date.now()
     }
     state.data = getData(props)
     state.original_data = getData(props)
