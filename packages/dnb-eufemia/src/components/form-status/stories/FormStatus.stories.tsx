@@ -277,7 +277,7 @@ export const SuffixAndStretchedStatus = () => {
         data={numbers}
         size="medium"
         show_submit_button
-        skip_portal
+        skipPortal
         stretch
         value={1}
       />
