@@ -332,7 +332,7 @@ export default class DrawerListProvider extends React.PureComponent<
     const {
       enableBodyLock,
       scrollable,
-      min_height,
+      minHeight,
       max_height,
       on_resize,
       page_offset,
@@ -342,7 +342,7 @@ export default class DrawerListProvider extends React.PureComponent<
 
     const useBodyLock = isTrue(enableBodyLock)
     const isScrollable = isTrue(scrollable)
-    const customMinHeight = parseFloat(min_height as string) * 16
+    const customMinHeight = parseFloat(minHeight as string) * 16
     const customMaxHeight = parseFloat(max_height as string) || 0
 
     let customElem =
