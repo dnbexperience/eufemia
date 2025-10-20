@@ -127,12 +127,12 @@ export const TabsExampleUsingData = () => (
           },
         }}
         // Only use "on_click" if you really have to
-        on_click={({ selected_key }) => {
-          console.log('on_click', selected_key)
+        on_click={({ selectedKey }) => {
+          console.log('on_click', selectedKey)
         }}
         // Preferred way to listen on changes
-        on_change={({ selected_key }) => {
-          console.log('on_change', selected_key)
+        on_change={({ selectedKey }) => {
+          console.log('on_change', selectedKey)
         }}
       />
     </ComponentBox>
@@ -145,7 +145,7 @@ export const TabsExampleScrollable = () => (
       data-visual-test="tabs-tablist-scrollable"
       scope={{ manyTabs, manyTabsContent }}
     >
-      <Tabs selected_key="second" data={manyTabs}>
+      <Tabs selectedKey="second" data={manyTabs}>
         {manyTabsContent}
       </Tabs>
     </ComponentBox>
@@ -213,7 +213,7 @@ export const TabsExampleHorizontallyAligned = () => (
               <Tabs
                 left
                 no_border
-                selected_key="first"
+                selectedKey="first"
                 id="unique-tabs-row"
                 data={manyTabs}
               />
@@ -241,7 +241,7 @@ export const TabsExampleMaxWidth = () => (
             <Tabs
               top
               no_border
-              selected_key="fifth"
+              selectedKey="fifth"
               id="unique-tabs-max-width"
               data={manyTabs}
             />
@@ -273,7 +273,7 @@ export const TabsExampleReachRouterNavigation = () =>
                   { title: 'About', key: '/about' },
                   { title: 'Topics', key: '/topics' },
                 ]}
-                selected_key={pathname}
+                selectedKey={pathname}
                 on_change={({ key }) => navigate(key)}
                 tabs_style="info"
               >
