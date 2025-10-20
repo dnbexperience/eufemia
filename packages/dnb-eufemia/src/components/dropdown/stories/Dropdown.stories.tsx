@@ -893,7 +893,7 @@ function UpdateDataExample() {
 
       <Dropdown
         title="Choose an item"
-        prevent_selection
+        preventSelection
         enable_body_lock
         data={choiceData}
         on_change={({ data }) => {
