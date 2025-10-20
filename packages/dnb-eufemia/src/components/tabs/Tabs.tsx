@@ -109,7 +109,7 @@ export interface TabsProps
   /**
    * To enable the visual helper `.dnb-section` inside the tabs list. Use a supported modifier from the [Section component](/uilib/components/section/properties). Defaults to `null`.
    */
-  tabs_style?: SectionStyleTypes | SectionVariants
+  tabsStyle?: SectionStyleTypes | SectionVariants
   /**
    * To modify the `spacing` inside the tab list. Defaults to `null`.
    */
@@ -218,7 +218,7 @@ export default class Tabs extends React.PureComponent<TabsProps> {
     ]),
     selectedKey: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     align: PropTypes.oneOf(['left', 'center', 'right']),
-    tabs_style: PropTypes.string,
+    tabsStyle: PropTypes.string,
     tabs_spacing: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     no_border: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     breakout: PropTypes.bool,
@@ -261,7 +261,7 @@ export default class Tabs extends React.PureComponent<TabsProps> {
     tabElement: 'button',
     selectedKey: null,
     align: 'left',
-    tabs_style: null,
+    tabsStyle: null,
     tabs_spacing: null,
     no_border: false,
     nav_button_edge: false,
@@ -1120,7 +1120,7 @@ export default class Tabs extends React.PureComponent<TabsProps> {
   TabsListHandler = ({ children, className, ...rest }) => {
     const {
       align,
-      tabs_style,
+      tabsStyle,
       tabs_spacing,
       no_border,
       nav_button_edge,
@@ -1133,7 +1133,7 @@ export default class Tabs extends React.PureComponent<TabsProps> {
         className={classnames(
           'dnb-tabs__tabs',
           align ? `dnb-tabs__tabs--${align}` : null,
-          tabs_style ? `dnb-section dnb-section--${tabs_style}` : null,
+          tabsStyle ? `dnb-section dnb-section--${tabsStyle}` : null,
           tabs_spacing
             ? `dnb-section--spacing-${
                 isTrue(tabs_spacing) ? 'large' : tabs_spacing
