@@ -138,7 +138,6 @@ const validDrawerListProps = [
   'label_direction',
   'ignore_events',
   'no_animation',
-  'page_offset',
 
   // DrawerList Events
   'on_pre_change',
@@ -184,7 +183,6 @@ const validAutocompleteProps = [
   'submit_button_icon',
   'submit_button_title',
   'submit_element',
-  'trianglePosition',
 
   // Autocomplete Events
   'on_type',
@@ -214,7 +212,6 @@ const validDropdownProps = [
   // From DropdownProperties
   'icon_size',
   'icon_position',
-  'trianglePosition',
   'open_on_focus',
   'action_menu',
   'more_menu',
