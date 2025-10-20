@@ -92,7 +92,7 @@ export default class Dropdown extends React.PureComponent {
     scrollable: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     focusable: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     direction: PropTypes.oneOf(['auto', 'top', 'bottom']),
-    max_height: PropTypes.number,
+    maxHeight: PropTypes.number,
     skipPortal: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     portalClass: PropTypes.string,
     no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -191,7 +191,7 @@ export default class Dropdown extends React.PureComponent {
     suffix: null,
     scrollable: true,
     focusable: false,
-    max_height: null,
+    maxHeight: null,
     direction: 'auto',
     skipPortal: null,
     portalClass: null,
@@ -450,7 +450,7 @@ class DropdownInstance extends React.PureComponent {
       action_menu,
       independentWidth,
       preventSelection,
-      max_height,
+      maxHeight,
       defaultValue,
       className,
       disabled,
@@ -683,7 +683,7 @@ class DropdownInstance extends React.PureComponent {
                 fixedPosition={fixedPosition}
                 enableBodyLock={enableBodyLock}
                 disabled={disabled}
-                max_height={max_height}
+                maxHeight={maxHeight}
                 direction={direction}
                 size={size}
                 on_change={this.onChangeHandler}

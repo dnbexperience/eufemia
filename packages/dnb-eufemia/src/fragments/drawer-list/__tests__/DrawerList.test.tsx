@@ -666,8 +666,8 @@ describe('DrawerList component', () => {
   })
 
   describe('height calculation', () => {
-    it('has given max-height when max_height is set', () => {
-      render(<DrawerList {...props} data={mockData} max_height={10} />)
+    it('has given max-height when maxHeight is set', () => {
+      render(<DrawerList {...props} data={mockData} maxHeight={10} />)
 
       expect(
         document
