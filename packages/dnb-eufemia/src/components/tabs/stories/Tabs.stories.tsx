@@ -50,17 +50,17 @@ export const TabsSandbox = () => {
         <TabsInGrid />
       </Box>
       <Box>
-        <Tabs tabs_style="mint-green" content_style="black-3">
+        <Tabs tabs_style="mint-green" contentStyle="black-3">
           <Tabs.Content title="First" key="first">
             <div>hello1</div>
           </Tabs.Content>
         </Tabs>
         <Tabs
           tabs_style="mint-green"
-          content_style="black-3"
+          contentStyle="black-3"
           data={[{ title: 'First', key: 1, content: <div>hello1</div> }]}
         />
-        <Tabs tabs_style="mint-green" content_style="black-3">
+        <Tabs tabs_style="mint-green" contentStyle="black-3">
           <Tabs.Content title="First" key="first">
             <div>hello1</div>
           </Tabs.Content>
@@ -81,7 +81,7 @@ export const TabsSandbox = () => {
         <Tabs
           bottom
           prerender
-          content_style="black-3"
+          contentStyle="black-3"
           content_spacing={false}
         >
           <Tabs.Content title="Tab 1" key="first">
