@@ -328,7 +328,7 @@ const TabsContentUsage = () => {
         size="small"
         variant="secondary"
         text="one"
-        on_click={() => {
+        onClick={() => {
           setValue('one')
         }}
       />
@@ -336,7 +336,7 @@ const TabsContentUsage = () => {
         size="small"
         variant="secondary"
         text="two"
-        on_click={() => {
+        onClick={() => {
           setValue('two')
         }}
       />
