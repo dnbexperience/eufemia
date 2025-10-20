@@ -64,7 +64,7 @@ export const TabsProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  prevent_rerender: {
+  preventRerender: {
     doc: 'If set to `true`, the Tabs content will stay in the DOM. The visibility will be handled by using the `hidden` and `aria-hidden` HTML attributes. Similar to `prerender`, but in contrast, the content will render once the user is activating a tab. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
