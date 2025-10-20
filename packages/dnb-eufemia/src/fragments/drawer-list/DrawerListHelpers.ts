@@ -186,7 +186,7 @@ export const drawerListDefaultProps = {
 
 // legacy used by Dropdown
 export const drawerListProviderPropTypes = {
-  enable_body_lock: PropTypes.bool,
+  enableBodyLock: PropTypes.bool,
   page_offset: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   observer_element: PropTypes.oneOfType([
     PropTypes.string,
@@ -196,7 +196,7 @@ export const drawerListProviderPropTypes = {
 }
 
 export const drawerListProviderDefaultProps = {
-  enable_body_lock: false,
+  enableBodyLock: false,
   page_offset: null,
   observer_element: null,
   min_height: 10, // 10rem = 10x16=160,
