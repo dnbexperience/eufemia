@@ -192,6 +192,54 @@ describe('Translation', () => {
 
     expect(document.body.textContent).toBe('string baz')
   })
+
+  it('should render with formatting (br, strong, em, code, link)', () => {
+    const translations = {
+      'nb-NO': {
+        my: {
+          msg: '**Bold** and _Italic_ with `code`, link to [Site](https://example.com){br}next line',
+        },
+      },
+    }
+
+    type TranslationType = (typeof translations)[keyof typeof translations]
+
+    const { container } = render(
+      <Provider translations={translations}>
+        <output>
+          <Translation<TranslationType> id={(t) => t.my.msg} />
+        </output>
+      </Provider>
+    )
+
+    expect(container.querySelector('output')).toMatchInlineSnapshot(`
+      <output>
+        <strong>
+          Bold
+        </strong>
+         and 
+        <em>
+          Italic
+        </em>
+         with 
+        <code
+          class="dnb-code"
+        >
+          code
+        </code>
+        , link to 
+        <a
+          class="dnb-anchor dnb-anchor--was-node dnb-a"
+          href="https://example.com"
+          rel="noopener noreferrer"
+        >
+          Site
+        </a>
+        <br />
+        next line
+      </output>
+    `)
+  })
 })
 
 describe('mergeTranslations', () => {
