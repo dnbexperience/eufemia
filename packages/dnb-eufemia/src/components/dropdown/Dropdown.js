@@ -679,7 +679,7 @@ class DropdownInstance extends React.PureComponent {
                   isTrue(independentWidth) || isPopupMenu || action_menu
                 }
                 is_popup={isPopupMenu || action_menu}
-                align_drawer={align_dropdown || 'left'}
+                alignDrawer={align_dropdown || 'left'}
                 fixedPosition={fixedPosition}
                 enableBodyLock={enableBodyLock}
                 disabled={disabled}

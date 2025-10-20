@@ -50,7 +50,7 @@ export const drawerListPropTypes = {
   ]),
   action_menu: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   is_popup: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  align_drawer: PropTypes.oneOf(['left', 'right']),
+  alignDrawer: PropTypes.oneOf(['left', 'right']),
   options_render: PropTypes.oneOfType([
     PropTypes.object,
     PropTypes.func,
@@ -152,7 +152,7 @@ export const drawerListDefaultProps = {
   preventSelection: false,
   action_menu: false,
   is_popup: false,
-  align_drawer: 'left',
+  alignDrawer: 'left',
   wrapper_element: null,
   defaultValue: null,
   value: 'initval',
