@@ -39,7 +39,7 @@ function ProgressIndicator(props: ProgressIndicatorAllProps) {
     noAnimation = false,
     onComplete,
     label,
-    indicator_label,
+    indicatorLabel,
     labelDirection = 'horizontal',
     showDefaultLabel = false,
     className,
@@ -70,8 +70,8 @@ function ProgressIndicator(props: ProgressIndicatorAllProps) {
       ? progress
       : undefined
 
-  const indicatorLabel =
-    label || (isTrue(showDefaultLabel) && indicator_label)
+  const usedIndicatorLabel =
+    label || (isTrue(showDefaultLabel) && indicatorLabel)
   const progressTitle = title || formatProgress(progressNumber)
 
   useEffect(() => {
@@ -145,9 +145,9 @@ function ProgressIndicator(props: ProgressIndicatorAllProps) {
           customColors={customColors}
         />
       )}
-      {indicatorLabel && (
+      {usedIndicatorLabel && (
         <span className="dnb-progress-indicator__label dnb-p">
-          {indicatorLabel}
+          {usedIndicatorLabel}
         </span>
       )}
     </span>

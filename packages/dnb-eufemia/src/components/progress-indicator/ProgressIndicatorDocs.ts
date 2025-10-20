@@ -39,7 +39,7 @@ export const ProgressIndicatorProperties: PropertiesTableProps = {
     status: 'optional',
   },
   label: {
-    doc: 'Content of a custom label. (Overrides `indicator_label` and `showDefaultLabel`)',
+    doc: 'Content of a custom label. (Overrides `indicatorLabel` and `showDefaultLabel`)',
     type: 'React.ReactNode',
     defaultValue: 'undefined',
     status: 'optional',
@@ -62,7 +62,7 @@ export const ProgressIndicatorProperties: PropertiesTableProps = {
     defaultValue: 'false',
     status: 'optional',
   },
-  indicator_label: {
+  indicatorLabel: {
     doc: 'Use this to override the default label from text locales.',
     type: 'string',
     defaultValue: 'undefined',
