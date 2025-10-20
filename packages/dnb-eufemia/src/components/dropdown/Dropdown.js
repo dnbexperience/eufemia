@@ -100,7 +100,7 @@ export default class Dropdown extends React.PureComponent {
       PropTypes.string,
       PropTypes.bool,
     ]),
-    prevent_selection: PropTypes.oneOfType([
+    preventSelection: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool,
     ]),
@@ -197,7 +197,7 @@ export default class Dropdown extends React.PureComponent {
     portal_class: null,
     no_animation: false,
     no_scroll_animation: false,
-    prevent_selection: false,
+    preventSelection: false,
     more_menu: false,
     action_menu: false,
     independent_width: false,
@@ -229,7 +229,7 @@ export default class Dropdown extends React.PureComponent {
   render() {
     // generate ID here, so we can send it along the provider
     const id = this.props.id || makeUniqueId()
-    const { more_menu, action_menu, prevent_selection, children, data } =
+    const { more_menu, action_menu, preventSelection, children, data } =
       this.props
 
     return (
@@ -240,10 +240,10 @@ export default class Dropdown extends React.PureComponent {
         opened={false}
         tagName="dnb-dropdown"
         ignore_events={false}
-        prevent_selection={
+        preventSelection={
           isTrue(more_menu) ||
           isTrue(action_menu) ||
-          isTrue(prevent_selection)
+          isTrue(preventSelection)
         }
       >
         <DropdownInstance {...this.props} id={id} />
@@ -448,7 +448,7 @@ class DropdownInstance extends React.PureComponent {
       more_menu,
       action_menu,
       independent_width,
-      prevent_selection,
+      preventSelection,
       max_height,
       defaultValue,
       className,
@@ -476,7 +476,7 @@ class DropdownInstance extends React.PureComponent {
     let { icon, icon_position, align_dropdown } = props
 
     const handleAsMenu =
-      isTrue(action_menu) || isTrue(more_menu) || isTrue(prevent_selection)
+      isTrue(action_menu) || isTrue(more_menu) || isTrue(preventSelection)
 
     const title = this.getTitle(_title)
     const isPopupMenu = isTrue(more_menu) || !title
@@ -667,7 +667,7 @@ class DropdownInstance extends React.PureComponent {
                 no_animation={no_animation}
                 no_scroll_animation={no_scroll_animation}
                 skip_portal={skip_portal}
-                prevent_selection={handleAsMenu}
+                preventSelection={handleAsMenu}
                 action_menu={action_menu}
                 triangle_position={
                   triangle_position || icon_position || 'right'
