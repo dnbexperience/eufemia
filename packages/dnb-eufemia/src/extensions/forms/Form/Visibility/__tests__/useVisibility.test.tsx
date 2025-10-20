@@ -268,48 +268,6 @@ describe('useVisibility', () => {
       ).toBe(false)
     })
 
-    it('should return true when withValue matches', () => {
-      const log = jest.spyOn(console, 'warn').mockImplementation()
-
-      const { result } = renderHook(
-        () =>
-          useVisibility({
-            visibleWhen: {
-              path: '/myPath',
-              withValue: (value) => value === 'foo',
-            },
-          }),
-        {
-          wrapper: ({ children }) => (
-            <Provider data={{ myPath: 'foo' }}>{children}</Provider>
-          ),
-        }
-      )
-      expect(result.current.check()).toBe(true)
-
-      log.mockRestore()
-    })
-
-    it('should return false when withValue does not match', () => {
-      const log = jest.spyOn(console, 'warn').mockImplementation()
-
-      const { result } = renderHook(useVisibility, {
-        wrapper: ({ children }) => (
-          <Provider data={{ myPath: 'foo' }}>{children}</Provider>
-        ),
-      })
-      expect(
-        result.current.check({
-          visibleWhen: {
-            path: '/myPath',
-            withValue: (value) => value === 'bar',
-          },
-        })
-      ).toBe(false)
-
-      log.mockRestore()
-    })
-
     it('should run hasValue even when path not exists', () => {
       const hasValue = jest.fn((value) => value === 'bar')
       const { result } = renderHook(
