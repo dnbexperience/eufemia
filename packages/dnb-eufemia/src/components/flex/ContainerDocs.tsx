@@ -97,19 +97,4 @@ export const FlexContainerProperties: PropertiesTableProps = {
     type: 'Various',
     status: 'optional',
   },
-  spacing: {
-    doc: 'Deprecated, use `gap` instead. ~~How much space between sub components. Can be `false` for no spacing.~~',
-    type: [
-      `'xx-small'`,
-      `'x-small'`,
-      `'small'`,
-      `'medium'`,
-      `'large'`,
-      `'x-large'`,
-      `'xx-large'`,
-      'false',
-    ],
-    defaultValue: `'small'`,
-    status: 'deprecated',
-  },
 }
