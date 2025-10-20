@@ -204,7 +204,7 @@ export interface DrawerListProps {
   /**
    * If set to `true`, the DrawerList will close on outside clicks, but not on selection.
    */
-  keep_open?: boolean
+  keepOpen?: boolean
   prevent_focus?: boolean
   /**
    * If set to `true`, search items by the first key will be ignored.
