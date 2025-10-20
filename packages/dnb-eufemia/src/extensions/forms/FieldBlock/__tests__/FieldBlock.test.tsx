@@ -1417,12 +1417,14 @@ describe('FieldBlock', () => {
       )
       expect(elements).toHaveLength(2)
 
-      expect(elements[0].className).not.toContain(
-        'dnb-forms-submit-indicator--state-'
-      )
-      expect(elements[1].className).not.toContain(
-        'dnb-forms-submit-indicator--state-'
-      )
+      await waitFor(() => {
+        expect(elements[0].className).not.toContain(
+          'dnb-forms-submit-indicator--state-'
+        )
+        expect(elements[1].className).not.toContain(
+          'dnb-forms-submit-indicator--state-'
+        )
+      })
 
       await userEvent.type(document.querySelector('input'), '1')
 
