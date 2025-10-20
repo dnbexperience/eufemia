@@ -356,7 +356,7 @@ export const DrawerListExampleOptionsRender = () => (
   <Wrapper>
     <ComponentBox scope={{ data }} hidePreview hideToolbar>
       <DrawerList
-        options_render={({ Items, Item, data }) => (
+        optionsRender={({ Items, Item, data }) => (
           <>
             <Items />
             <Item>Addition</Item>
