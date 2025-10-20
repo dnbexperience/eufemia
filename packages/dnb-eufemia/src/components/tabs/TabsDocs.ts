@@ -16,7 +16,7 @@ export const TabsProperties: PropertiesTableProps = {
     type: ['divider', 'white', 'transparent'],
     status: 'optional',
   },
-  content_spacing: {
+  contentSpacing: {
     doc: 'To modify the `spacing` onto the content wrapper. Use a supported modifier from the [Section component](/uilib/components/section/properties). Defaults to `large`.',
     type: [
       'boolean',
