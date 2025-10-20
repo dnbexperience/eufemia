@@ -1124,13 +1124,8 @@ export default class Tabs extends React.PureComponent<TabsProps> {
   TabsListHandler = ({ children, className, ...rest }) => {
     const {
       align,
-<<<<<<< HEAD
       tabsStyle,
-      tabs_spacing,
-=======
-      tabs_style,
       tabsSpacing,
->>>>>>> 6da04d137d (break(Tabs): remove tabs_spacing property)
       no_border,
       nav_button_edge,
       breakout,
@@ -1142,13 +1137,8 @@ export default class Tabs extends React.PureComponent<TabsProps> {
         className={classnames(
           'dnb-tabs__tabs',
           align ? `dnb-tabs__tabs--${align}` : null,
-<<<<<<< HEAD
           tabsStyle ? `dnb-section dnb-section--${tabsStyle}` : null,
-          tabs_spacing
-=======
-          tabs_style ? `dnb-section dnb-section--${tabs_style}` : null,
           tabsSpacing
->>>>>>> 6da04d137d (break(Tabs): remove tabs_spacing property)
             ? `dnb-section--spacing-${
                 isTrue(tabsSpacing) ? 'large' : tabsSpacing
               }`
