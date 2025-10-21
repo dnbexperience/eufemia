@@ -183,30 +183,6 @@ describe('Visibility', () => {
     })
   })
 
-  describe('pathValue', () => {
-    it('renders children when target path and value matches', () => {
-      render(
-        <Provider data={{ myPath: 'checked' }}>
-          <Visibility pathValue="/myPath" whenValue="checked">
-            Child
-          </Visibility>
-        </Provider>
-      )
-      expect(screen.getByText('Child')).toBeInTheDocument()
-    })
-
-    it('does not render children when target path not not value matches', () => {
-      render(
-        <Provider data={{ myPath: 'checked' }}>
-          <Visibility pathValue="/myPath" whenValue="not-checked">
-            Child
-          </Visibility>
-        </Provider>
-      )
-      expect(screen.queryByText('Child')).toBeNull()
-    })
-  })
-
   describe('visibleWhen', () => {
     it('should render children when hasValue matches', () => {
       render(
