@@ -221,7 +221,7 @@ function AccordionWithContainer() {
         // prevent_rerender_conditional
         single_container
         remember_state
-        flush_remembered_state={flushCache}
+        flushRememberedState={flushCache}
         // allow_close_all
         id="group-id"
       >
