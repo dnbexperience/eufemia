@@ -793,7 +793,7 @@ export default class DrawerListProvider extends React.PureComponent<
 
         isSameDrawer =
           ulElem === this._refUl.current ||
-          ulElem?.getAttribute('id') === this.props.id
+          ulElem?.getAttribute('id') === this.state.id
       } catch (e) {
         warn(e)
       }
@@ -1311,7 +1311,7 @@ export default class DrawerListProvider extends React.PureComponent<
         if (active) {
           document.documentElement.setAttribute(
             'data-dnb-drawer-list-active',
-            String(this.props.id)
+            String(this.state.id)
           )
         } else {
           document.documentElement.removeAttribute(

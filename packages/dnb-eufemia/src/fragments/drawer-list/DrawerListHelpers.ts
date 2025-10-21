@@ -9,6 +9,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {
   isTrue,
+  makeUniqueId,
   dispatchCustomElementEvent,
   convertJsxToString,
 } from '../../shared/component-helper'
@@ -442,6 +443,7 @@ export function prepareStartupState(
   const opened = props.opened !== null ? isTrue(props.opened) : null
 
   const state: DrawerListContextState = {
+    id: props.id || makeUniqueId(),
     opened,
     data,
     original_data: data, // used to reset in case we reorder data etc.

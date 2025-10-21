@@ -18,6 +18,7 @@ import DrawerList, {
   DrawerListData,
   DrawerListGroupTitles,
 } from '../DrawerList'
+import DrawerListProvider from '../DrawerListProvider'
 import { IsolatedStyleScope } from '../../../shared'
 
 import {
@@ -459,6 +460,106 @@ describe('DrawerList component', () => {
     expect(document.documentElement).not.toHaveAttribute(
       'data-dnb-drawer-list-active'
     )
+  })
+
+  describe('id', () => {
+    const testAllIds = (id) => {
+      expect(
+        document.querySelector('.dnb-drawer-list').getAttribute('id')
+      ).toBe(`${id}-drawer-list`)
+
+      expect(
+        document.querySelector('.dnb-drawer-list__list').getAttribute('id')
+      ).toBe(`${id}-listbox`)
+
+      expect(
+        document
+          .querySelector('.dnb-drawer-list__options')
+          .getAttribute('id')
+      ).toBe(`${id}-ul`)
+
+      expect(
+        document
+          .querySelector('.dnb-drawer-list__option')
+          .getAttribute('id')
+      ).toBe(`option-${id}-0`)
+
+      keydown(40) // down
+
+      expect(
+        document
+          .querySelector('.dnb-drawer-list__options')
+          .getAttribute('aria-activedescendant')
+      ).toBe(`option-${id}-3`)
+
+      expect(
+        document.documentElement.getAttribute(
+          'data-dnb-drawer-list-active'
+        )
+      ).toBe(id)
+    }
+
+    describe('when component', () => {
+      it('is same when given', () => {
+        render(<DrawerList {...props} data={mockData} />)
+        testAllIds(props.id)
+      })
+
+      it('is same when generated', () => {
+        const { id: _id, ...rest } = props
+        render(<DrawerList {...rest} data={mockData} />)
+
+        const domId = document
+          .querySelector('.dnb-drawer-list')
+          .getAttribute('id')
+
+        expect(domId).not.toBe(`${undefined}-drawer-list`)
+
+        const id = domId.replace('-drawer-list', '')
+
+        testAllIds(id)
+      })
+    })
+
+    describe('from context', () => {
+      it('is used by instance', () => {
+        render(
+          <DrawerListProvider {...props} data={mockData}>
+            <DrawerList />
+          </DrawerListProvider>
+        )
+
+        testAllIds(props.id)
+      })
+
+      it('overrides instance', () => {
+        render(
+          <DrawerListProvider {...props} data={mockData}>
+            <DrawerList id="badId" />
+          </DrawerListProvider>
+        )
+
+        testAllIds(props.id)
+      })
+
+      it('is same when generated', () => {
+        const { id: _id, ...rest } = props
+        render(
+          <DrawerListProvider {...rest} data={mockData}>
+            <DrawerList />
+          </DrawerListProvider>
+        )
+        const domId = document
+          .querySelector('.dnb-drawer-list')
+          .getAttribute('id')
+
+        expect(domId).not.toBe(`${undefined}-drawer-list`)
+
+        const id = domId.replace('-drawer-list', '')
+
+        testAllIds(id)
+      })
+    })
   })
 
   it('will unset data-dnb-drawer-list-active on unmount', () => {

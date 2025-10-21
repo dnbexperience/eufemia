@@ -359,7 +359,7 @@ export default class Autocomplete extends React.PureComponent {
         prevent_focus
         skip_keysearch
       >
-        <AutocompleteInstance id={this._id} {...this.props} />
+        <AutocompleteInstance {...this.props} id={this._id} />
       </DrawerListProvider>
     )
   }
@@ -445,8 +445,6 @@ class AutocompleteInstance extends React.PureComponent {
 
   constructor(props, context) {
     super(props)
-
-    this._id = props.id || makeUniqueId()
 
     this.attributes = {}
     this.state = this.state || {}
@@ -1821,12 +1819,11 @@ class AutocompleteInstance extends React.PureComponent {
       ...attributes
     } = props
 
-    const id = this._id
     const showStatus = getStatusState(status)
 
     const { inputValue, visibleIndicator } = this.state
 
-    const { hidden, selected_item, active_item, direction, opened } =
+    const { id, hidden, selected_item, active_item, direction, opened } =
       this.context.drawerList
 
     const isExpanded = Boolean(opened) && this.hasValidData()

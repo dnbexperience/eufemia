@@ -335,6 +335,129 @@ describe('Autocomplete component', () => {
     })
   })
 
+  describe('id', () => {
+    const testAllIds = (id) => {
+      // DrawerList specifics
+      expect(
+        document.querySelector('.dnb-drawer-list').getAttribute('id')
+      ).toBe(`${id}-drawer-list`)
+
+      expect(
+        document.querySelector('.dnb-drawer-list__list').getAttribute('id')
+      ).toBe(`${id}-listbox`)
+
+      expect(
+        document
+          .querySelector('.dnb-drawer-list__options')
+          .getAttribute('id')
+      ).toBe(`${id}-ul`)
+
+      expect(
+        document
+          .querySelector('.dnb-drawer-list__option')
+          .getAttribute('id')
+      ).toBe(`option-${id}-0`)
+
+      keyDownOnInput(40) // down
+
+      expect(
+        document
+          .querySelector('.dnb-drawer-list__options')
+          .getAttribute('aria-activedescendant')
+      ).toBe(`option-${id}-2`)
+
+      expect(
+        document.documentElement.getAttribute(
+          'data-dnb-drawer-list-active'
+        )
+      ).toBe(id)
+
+      // Autocomplete specifics
+      const input = document.querySelector(
+        '.dnb-autocomplete__input .dnb-input__input'
+      )
+      expect(input.getAttribute('aria-controls')).toBe(`${id}-ul`)
+      expect(input.getAttribute('aria-activedescendant')).toBe(
+        `option-${id}-2`
+      )
+      expect(input.getAttribute('aria-describedby')).toBe(
+        `${id}-status ${id}-suffix`
+      )
+
+      expect(
+        document
+          .querySelector('.dnb-autocomplete__inner')
+          .getAttribute('id')
+      ).toBe(`${id}-inner`)
+
+      expect(
+        document
+          .querySelector('.dnb-autocomplete .dnb-button')
+          .getAttribute('id')
+      ).toBe(`${id}-submit-button`)
+
+      const formLabel = document.querySelector(
+        '.dnb-autocomplete .dnb-form-label'
+      )
+      expect(formLabel.getAttribute('id')).toBe(`${id}-label`)
+      expect(formLabel.getAttribute('for')).toBe(`${id}`)
+
+      expect(
+        document
+          .querySelector('.dnb-autocomplete .dnb-form-status')
+          .getAttribute('id')
+      ).toBe(`${id}-form-status`)
+
+      expect(
+        document
+          .querySelector('.dnb-autocomplete .dnb-form-status__text')
+          .getAttribute('id')
+      ).toBe(`${id}-status`)
+
+      expect(
+        document
+          .querySelector('.dnb-autocomplete__suffix')
+          .getAttribute('id')
+      ).toBe(`${id}-suffix`)
+    }
+
+    const idTestProps = {
+      data: ['A', { content: 'B', suffix_value: 'suffix B' }, 'C'],
+      show_submit_button: true,
+      value: 1,
+      status: 'status text',
+      suffix: 'suffix text',
+      label: 'Autocomplete label',
+      no_animation: true,
+      skip_portal: true,
+    }
+
+    it('is same when set', () => {
+      render(<Autocomplete {...idTestProps} id="custom-id" />)
+
+      toggle()
+
+      testAllIds('custom-id')
+    })
+
+    it('is same when generated', () => {
+      render(<Autocomplete {...idTestProps} />)
+
+      toggle()
+
+      const domId = document
+        .querySelector('.dnb-drawer-list')
+        .getAttribute('id')
+
+      expect(domId.endsWith('-drawer-list')).toBe(true)
+
+      const id = domId.replace('-drawer-list', '')
+
+      expect(id.length).toBeGreaterThan(0)
+
+      testAllIds(id)
+    })
+  })
   it('has correct options when search_in_word_index is set to 1', () => {
     render(
       <Autocomplete

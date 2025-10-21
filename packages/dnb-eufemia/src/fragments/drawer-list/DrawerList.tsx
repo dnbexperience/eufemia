@@ -9,7 +9,6 @@ import React, { useContext } from 'react'
 import classnames from 'classnames'
 import {
   isTrue,
-  makeUniqueId,
   extendPropsWithContextInClassComponent,
   validateDOMAttributes,
   keycode,
@@ -117,7 +116,6 @@ export type DrawerListSuffix = React.ReactNode
 
 export interface DrawerListProps {
   id?: string
-  _id?: string
   role?: string
   /**
    * Set a `cache_hash` as a string to enable internal memorizing of the list to enhance rerendering performance. Components like Autocomplete are using this because of the huge data changes due to search and reorder.
@@ -273,12 +271,10 @@ function DrawerList(props: DrawerListAllProps) {
     return <DrawerListInstance {...props} />
   }
 
-  const { data, children, id, ...rest } = props
-  const _id = id || makeUniqueId()
+  const { data, children, ...rest } = props
 
   return (
     <DrawerListProvider
-      id={_id}
       {...rest}
       data={
         data ||
@@ -287,7 +283,7 @@ function DrawerList(props: DrawerListAllProps) {
           : undefined)
       }
     >
-      <DrawerListInstance id={_id} {...props} />
+      <DrawerListInstance {...props} />
     </DrawerListProvider>
   )
 }
@@ -299,12 +295,10 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
   }
   static contextType = DrawerListContext
   context!: React.ContextType<typeof DrawerListContext>
-  _id: string
 
   constructor(props) {
     super(props)
 
-    this._id = props.id || makeUniqueId()
     this.state = this.state || {}
   }
 
@@ -396,8 +390,6 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
       ...attributes
     } = props
 
-    const id = this._id
-
     function noNullNumbers({
       selected_item,
       active_item,
@@ -413,6 +405,7 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
     }
 
     const {
+      id,
       data,
       groups,
       opened,
@@ -534,12 +527,13 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
         .map(({ groupTitle, groupData: data, hideTitle }, j) => {
           const Items = () =>
             data.map((dataItem, i) => {
-              const _id = dataItem.__id
-              const hash = `option-${id}-${_id}-${i}`
-              const tagId = `option-${id}-${_id}`
+              const { __id, ignore_events, class_name, disabled, style } =
+                dataItem
+              const hash = `option-${id}-${__id}-${i}`
+              const tagId = `option-${id}-${__id}`
               const liParams = {
                 role: role === 'menu' ? 'menuitem' : 'option',
-                'data-item': _id,
+                'data-item': __id,
                 id: tagId,
                 hash,
                 className: classnames(
@@ -552,16 +546,15 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
                   tagId === closestToBottom && 'closest-to-bottom',
                   i === 0 && 'first-of-type', // because of the triangle element
                   i === data.length - 1 && 'last-of-type', // because of the triangle element
-                  ignoreEvents ||
-                    (dataItem.ignore_events && 'ignore-events'),
-                  dataItem.class_name
+                  ignoreEvents || (ignore_events && 'ignore-events'),
+                  class_name
                 ),
-                active: _id == active_item,
-                selected: !dataItem.ignore_events && _id == selected_item,
+                active: __id == active_item,
+                selected: !ignore_events && __id == selected_item,
                 onClick: this.selectItemHandler,
                 onKeyDown: this.preventTab,
-                disabled: dataItem.disabled,
-                style: dataItem.style,
+                disabled: disabled,
+                style: style,
               }
               if (ignoreEvents) {
                 liParams.active = null
@@ -670,7 +663,7 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
         ref={_refRoot}
       >
         <DrawerListPortal
-          id={this._id}
+          id={id}
           rootRef={_refRoot}
           opened={hidden === false}
           include_owner_width={align_drawer === 'right'}
