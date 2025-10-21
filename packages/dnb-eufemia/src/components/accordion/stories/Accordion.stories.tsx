@@ -105,13 +105,13 @@ export const AccordionSandbox = () => {
       <Box>
         <Accordion
           expanded
-          remember_state
+          rememberState
           id="single-accordion"
           title="Accordion title"
           icon="bell"
           iconPosition="right"
         >
-          remember_state Accordion content
+          rememberState Accordion content
         </Accordion>
       </Box>
 
@@ -218,9 +218,9 @@ function AccordionWithContainer() {
         variant="outlined"
         // prerender
         // prevent_rerender
-        // prevent_rerender_conditional
+        // preventRerenderConditional
         singleContainer
-        remember_state
+        rememberState
         flushRememberedState={flushCache}
         // allow_close_all
         id="group-id"
