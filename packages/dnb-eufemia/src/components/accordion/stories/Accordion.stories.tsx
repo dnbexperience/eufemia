@@ -384,7 +384,7 @@ function ChangingContent({ changeHeight, children }) {
     <>
       <ToggleButton
         checked={contentSize}
-        on_change={() => {
+        onChange={() => {
           changeContentSize((s) => !s)
         }}
         bottom
