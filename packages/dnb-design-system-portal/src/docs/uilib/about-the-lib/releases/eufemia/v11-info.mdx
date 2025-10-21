@@ -142,7 +142,7 @@ For more context, see this [PR](https://github.com/dnbexperience/eufemia/pull/27
 
 ### [DatePicker](/uilib/components/date-picker/)
 
-- Find `correctInvalidDate` / `correct_invalid_date` and remove it. You may rather use [Field.Date](/uilib/extensions/forms/feature-fields/Date/) from Eufemia Forms when using `minDate` and `maxDate`.
+- Find `correctInvalidDate` / `correct_invalid_date` and remove it. You may rather use [Field.Date](/uilib/extensions/forms/feature-fields/Date/) from Eufemia Forms when using `minDate` and `maxDate`, as this has built in validation. Reason for removing this is because we believe it's not good UX, or best practice to automatically change the user input. This often leads to confusion, as what they typed in, magically changes for seemingly no reason. We believe it's better to inform them about the error and let them correct it themselves
 
 ### [NumberFormat](/uilib/components/number-format/)
 
