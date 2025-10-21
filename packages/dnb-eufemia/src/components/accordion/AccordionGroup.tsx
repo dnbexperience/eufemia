@@ -63,6 +63,8 @@ const AccordionGroup = (props: AccordionGroupProps) => {
     allowCloseAll, // eslint-disable-line
     rememberState, // eslint-disable-line
     flushRememberedState, // eslint-disable-line
+    noAnimation, // eslint-disable-line
+    iconSize, // eslint-disable-line
     disabled, // eslint-disable-line
     group, // eslint-disable-line
     onInit, // eslint-disable-line
