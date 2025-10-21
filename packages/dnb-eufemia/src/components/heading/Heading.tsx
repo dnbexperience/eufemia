@@ -100,7 +100,7 @@ export type HeadingProps = {
   /**
    * If set to `true`, the heading will not be corrected and warnings will not be shown. Warnings do not show up in "production builds" else either.
    */
-  skip_correction?: boolean
+  skipCorrection?: boolean
 
   /**
    * If set to `true`, the content will have a prefix, showing the heading level.
@@ -110,7 +110,7 @@ export type HeadingProps = {
   /**
    * If set to `true`, the content will have both a prefix and a JSON log attached to both headings and level contexts.
    */
-  debug_counter?: HeadingDebugCounter
+  debugCounter?: HeadingDebugCounter
   counter?: HeadingCounter
 
   /**
@@ -147,9 +147,9 @@ export default function Heading(props: HeadingAllProps) {
     text,
     group: _group, // eslint-disable-line
     debug: _debug, // eslint-disable-line
-    debug_counter: _debug_counter, // eslint-disable-line
+    debugCounter: _debugCounter, // eslint-disable-line
     reset: _reset, // eslint-disable-line
-    skip_correction: _skip_correction, // eslint-disable-line
+    skipCorrection: _skipCorrection, // eslint-disable-line
     increase: _increase, // eslint-disable-line
     decrease: _decrease, // eslint-disable-line
     up: _up, // eslint-disable-line
@@ -199,8 +199,8 @@ export default function Heading(props: HeadingAllProps) {
       increase: isTrue(props.increase) || isTrue(props.up),
       decrease: isTrue(props.decrease) || isTrue(props.down),
       bypassChecks:
-        isTrue(props.skip_correction) ||
-        isTrue(state.headingContext?.heading?.skip_correction),
+        isTrue(props.skipCorrection) ||
+        isTrue(state.headingContext?.heading?.skipCorrection),
       source: props.text || props.children, // only for debugging
       debug: props.debug || state.headingContext?.heading?.debug,
     })
@@ -236,8 +236,8 @@ export default function Heading(props: HeadingAllProps) {
         isRerender: true,
         level,
         bypassChecks:
-          isTrue(props.skip_correction) ||
-          isTrue(state.headingContext?.heading?.skip_correction),
+          isTrue(props.skipCorrection) ||
+          isTrue(state.headingContext?.heading?.skipCorrection),
         source: props.text || props.children, // only for debugging
         debug: props.debug || state.headingContext?.heading?.debug,
       })
@@ -253,8 +253,8 @@ export default function Heading(props: HeadingAllProps) {
   const { level } = state
 
   const debug = _debug || headingContext?.heading?.debug
-  const debug_counter =
-    _debug_counter || headingContext?.heading?.debug_counter
+  const debugCounter =
+    _debugCounter || headingContext?.heading?.debugCounter
 
   const attributes: Record<string, unknown> = {
     ...rest,
@@ -299,7 +299,7 @@ export default function Heading(props: HeadingAllProps) {
       {debug && (
         <span className="dnb-heading__debug">
           {`[h${level || '6'}] `}
-          {debug_counter && (
+          {debugCounter && (
             <>
               {' '}
               <span className="dnb-code">
