@@ -84,8 +84,6 @@ function DatePickerProvider(props: DatePickerProviderProps) {
     onChange,
     setReturnObject,
     hidePicker,
-    // Deprecated – can be removed in v11
-    correctInvalidDate,
   } = props
 
   const returnFormat = useMemo(
@@ -106,8 +104,6 @@ function DatePickerProvider(props: DatePickerProviderProps) {
     {
       dateFormat,
       isRange: range,
-      // Deprecated – can be removed in v11
-      shouldCorrectDate: correctInvalidDate,
     }
   )
 
