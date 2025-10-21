@@ -148,11 +148,11 @@ export const GlobalStatuseSandbox = () => (
       // items={[
       //   {
       //     text: 'List item',
-      //     status_anchor_url: '/uilib/components/global-status'
+      //     statusAnchorUrl: '/uilib/components/global-status'
       //   }
       // ]}
       // show={true}
-      // no_animation={true}
+      // noAnimation={true}
       // autoscroll={false}
       id="demo-1"
     />
@@ -177,7 +177,7 @@ export const GlobalStatuseSandbox = () => (
     <Box>
       <GlobalStatus
         show
-        no_animation
+        noAnimation
         autoscroll={false}
         state="info"
         title="Custom Title"
@@ -292,12 +292,12 @@ const ModalExample = () => (
           status.remove()
         }, 2e3)
         // const status = new GlobalStatus.Add({
-        //   status_id: 'custom-id-1',
+        //   statusId: 'custom-id-1',
         //   text: 'Second Text',
         //   item: 'Second Item'
         // })
         // new GlobalStatus.Remove({
-        //   status_id: 'custom-id-1'
+        //   statusId: 'custom-id-1'
         // })
       }, 1)
     }}
@@ -308,7 +308,7 @@ const ModalExample = () => (
         // title={'Title 1'}
         // demo
         // show
-        // no_animation
+        // noAnimation
         // autoclose={false}
         autoscroll={false}
         // id="default-1"
@@ -359,30 +359,30 @@ export const SimulateSteps = () => {
         <>
           <GlobalStatus.Add
             id="custom-status"
-            status_id="custom-id-1"
+            statusId="custom-id-1"
             title="New title"
             text="First long info text ..."
             item="Item from status #1"
-            on_close={({ status_id }) => {
-              console.log('on_close 1', status_id)
+            on_close={({ statusId }) => {
+              console.log('on_close 1', statusId)
             }}
           />
           <GlobalStatus.Add
             id="custom-status"
-            status_id="custom-id-2"
+            statusId="custom-id-2"
             text="Second long info text ..."
             item="Item from status #2"
-            on_close={({ status_id }) => {
-              console.log('on_close 2', status_id)
+            on_close={({ statusId }) => {
+              console.log('on_close 2', statusId)
             }}
           />
         </>
       )}
       {count === 2 && (
-        <GlobalStatus.Remove id="custom-status" status_id="custom-id-2" />
+        <GlobalStatus.Remove id="custom-status" statusId="custom-id-2" />
       )}
       {count === 3 && (
-        <GlobalStatus.Remove id="custom-status" status_id="custom-id-1" />
+        <GlobalStatus.Remove id="custom-status" statusId="custom-id-1" />
       )}
     </>
   )
@@ -432,15 +432,15 @@ export const SimulateSteps = () => {
 //             key="e"
 //             // title="Title 5"
 //             item="List item 5"
-//             status_id="123"
+//             statusId="123"
 //           />
 //           <GlobalStatus.Add key="f" item="List item 5" id="other-id" />
 //         </>
 //       )}
 //       {count === 3 && (
 //         <>
-//           <GlobalStatus.Remove key="z" status_id="123" />
-//           {/* <GlobalStatus.Remove key="z" status_id="123" id="other-id" /> */}
+//           <GlobalStatus.Remove key="z" statusId="123" />
+//           {/* <GlobalStatus.Remove key="z" statusId="123" id="other-id" /> */}
 //         </>
 //       )}
 //     </>
@@ -457,7 +457,7 @@ const NestedSections = () => (
         // title={'Title 1'}
         // demo
         show
-        no_animation
+        noAnimation
         // autoclose={false}
         autoscroll={false}
         // delay={300}
@@ -465,43 +465,43 @@ const NestedSections = () => (
           console.log('on_close', props)
         }}
         items={[
-          { id: 1, text: 'Error message', status_anchor_url: '#link' },
-          { id: 2, text: 'Error message', status_anchor_url: '#link' },
-          { id: 3, text: 'Error message', status_anchor_url: '#link' },
-          { id: 4, text: 'Error message', status_anchor_url: '#link' },
+          { id: 1, text: 'Error message', statusAnchorUrl: '#link' },
+          { id: 2, text: 'Error message', statusAnchorUrl: '#link' },
+          { id: 3, text: 'Error message', statusAnchorUrl: '#link' },
+          { id: 4, text: 'Error message', statusAnchorUrl: '#link' },
         ]}
       >
         Default Text
       </GlobalStatus>
       {/* <GlobalStatus.Add
         id="default-1"
-        status_id="custom-id-1"
+        statusId="custom-id-1"
         text="Second Text"
-        items={[{ text: 'Second Item 2', status_anchor_url: '#link' }]}
+        items={[{ text: 'Second Item 2', statusAnchorUrl: '#link' }]}
         // item="Second Item"
-        // status_anchor_url="http://"
+        // statusAnchorUrl="http://"
       /> */}
       {/* <GlobalStatus.Add
         id="default-1"
-        status_id="custom-id-2"
-        items={[{ text: 'Item 3', status_anchor_url: '#link' }]}
+        statusId="custom-id-2"
+        items={[{ text: 'Item 3', statusAnchorUrl: '#link' }]}
         // item="Second Item"
-        // status_anchor_url="http://"
+        // statusAnchorUrl="http://"
       /> */}
       {/* <GlobalStatus.Add
       id="default-1"
-      status_id="custom-id-2"
+      statusId="custom-id-2"
       text="Third Text"
       item="Third Item"
     />
     <GlobalStatus.Add
       id="default-1"
-      status_id="custom-id-2"
+      statusId="custom-id-2"
       text="Third Text bøø"
-      item={{ text: 'Third Item bøø', status_anchor_url: '/' }}
+      item={{ text: 'Third Item bøø', statusAnchorUrl: '/' }}
     /> */}
-      {/* <GlobalStatus.Remove status_id="custom-id-1" /> */}
-      {/* <GlobalStatus.Remove status_id="custom-id-2" /> */}
+      {/* <GlobalStatus.Remove statusId="custom-id-1" /> */}
+      {/* <GlobalStatus.Remove statusId="custom-id-2" /> */}
     </Section>
   </Section>
 )
@@ -530,7 +530,7 @@ const DemoAnimation = () => {
         // demo={showDemo}
         show={showDemo}
         autoscroll={false}
-        // no_animation={true}
+        // noAnimation={true}
         // delay={0}
         id="demo-3"
       />
@@ -573,9 +573,9 @@ const UpdateDemoStatus = () => {
         title="Custom Title"
         text="Failure text"
         id="demo-2"
-        // no_animation
-        // omit_set_focus
-        omit_set_focus_on_update
+        // noAnimation
+        // omitSetFocus
+        omitSetFocusOnUpdate
       />
       <Input
         top
@@ -620,7 +620,7 @@ const UpdateDemoTools = () => {
         id: 'demo-2',
         title: 'New Title',
         text: 'New Text',
-        status_id: 'custom-item',
+        statusId: 'custom-item',
         show: true,
       })
 
@@ -682,8 +682,8 @@ export const AsFigmaGlobalStatus = () => {
           title="Kortet vil bli sendt til adresse: Osloveien 68b, 1234 Oslo"
           show={true}
           autoscroll={false}
-          no_animation={true}
-          omit_set_focus={true}
+          noAnimation={true}
+          omitSetFocus={true}
           id="demo-1"
         />
       </Box>
@@ -692,8 +692,8 @@ export const AsFigmaGlobalStatus = () => {
           title="Custom Title"
           show={true}
           autoscroll={false}
-          no_animation={true}
-          omit_set_focus={true}
+          noAnimation={true}
+          omitSetFocus={true}
           id="demo-1"
         />
       </Box>
@@ -712,8 +712,8 @@ export const AsFigmaGlobalStatus = () => {
           ]}
           show={true}
           autoscroll={false}
-          no_animation={true}
-          omit_set_focus={true}
+          noAnimation={true}
+          omitSetFocus={true}
           id="demo-1"
         />
       </Box>
@@ -724,14 +724,14 @@ export const AsFigmaGlobalStatus = () => {
           items={[
             {
               text: 'List item',
-              status_anchor_url: '/uilib/components/global-status',
-              status_anchor_label: 'eksempel',
+              statusAnchorUrl: '/uilib/components/global-status',
+              statusAnchorLabel: 'eksempel',
             },
           ]}
           show={true}
           autoscroll={false}
-          no_animation={true}
-          omit_set_focus={true}
+          noAnimation={true}
+          omitSetFocus={true}
           id="demo-1"
         />
       </Box>
