@@ -21,112 +21,112 @@ export const PaginationProperties: PropertiesTableProps = {
     type: ['left', 'center', 'right'],
     status: 'optional',
   },
-  startup_page: {
-    doc: 'the page shown in the very beginning. If `current_page` is set, then it may not make too much sense to set this as well.',
+  startupPage: {
+    doc: 'the page shown in the very beginning. If `currentPage` is set, then it may not make too much sense to set this as well.',
     type: ['number', 'string'],
     status: 'optional',
   },
-  current_page: {
+  currentPage: {
     doc: 'the page shown at the moment the component renders. Defaults to `1`.',
     type: ['number', 'string'],
     status: 'optional',
   },
-  page_count: {
+  pageCount: {
     doc: 'the total pages count. Defaults to `1`.',
     type: ['number', 'string'],
     status: 'optional',
   },
-  startup_count: {
+  startupCount: {
     doc: 'defines how many `infinity` pages should be loaded / shown on the first render. Defaults to `1`.',
     type: ['number', 'string'],
     status: 'optional',
   },
-  parallel_load_count: {
+  parallelLoadCount: {
     doc: 'defines how many `infinity` pages should be loaded / shown once the user scrolls down. Defaults to `1`.',
     type: ['number', 'string'],
     status: 'optional',
   },
-  min_wait_time: {
+  minWaitTime: {
     doc: 'the minimum time to wait, if the infinity scroll was invoked under that time threshold. This prevents not intentional infinity scroll loop calls. Defaults to `400` milliseconds.',
     type: ['number', 'string'],
     status: 'optional',
   },
-  place_marker_before_content: {
+  placeMarkerBeforeContent: {
     doc: 'if set to `true`, the infinity marker will be placed before the content (on top off). This could potentially have negative side effects. But it depends really on the content if this would make more sense to use instead. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
-  use_load_button: {
+  useLoadButton: {
     doc: 'if set to `true` it will disable the automated infinity scrolling, but shows a load more button at the of the content instead.',
     type: 'boolean',
     status: 'optional',
   },
-  hide_progress_indicator: {
+  hideProgressIndicator: {
     doc: 'if set to `true` no indicator will be shown.',
     type: 'boolean',
     status: 'optional',
   },
-  page_element: {
+  pageElement: {
     doc: 'by default a `<div>` is used. Set it to any element you have to use. Adds also a class: `dnb-pagination__page` shown.',
     type: ['string', 'object', 'React.ReactNode'],
     status: 'optional',
   },
-  fallback_element: {
+  fallbackElement: {
     doc: '(infinity mode) is used by the _indicator_, _load more_ bar as well as by the marker. Defaults to a `div`.',
     type: ['string', 'object', 'React.ReactNode'],
     status: 'optional',
   },
-  indicator_element: {
-    doc: '(infinity mode) is used by the _indicator_. Falls back to `fallback_element` if not defined.',
+  indicatorElement: {
+    doc: '(infinity mode) is used by the _indicator_. Falls back to `fallbackElement` if not defined.',
     type: ['string', 'object', 'React.ReactNode'],
     status: 'optional',
   },
-  marker_element: {
-    doc: '(infinity mode) is used by the internal marker. Falls back to `fallback_element` if not defined.',
+  markerElement: {
+    doc: '(infinity mode) is used by the internal marker. Falls back to `fallbackElement` if not defined.',
     type: ['string', 'object', 'React.ReactNode'],
     status: 'optional',
   },
-  set_content_handler: {
-    doc: 'callback function to get the `setContent` handler from the current pagination instance. e.g. `set_content_handler={fn => (...)}`. Use this handler to insert content during infinity mode.',
+  setContentHandler: {
+    doc: 'callback function to get the `setContent` handler from the current pagination instance. e.g. `setContentHandler={fn => (...)}`. Use this handler to insert content during infinity mode.',
     type: 'function',
     status: 'optional',
   },
-  reset_content_handler: {
-    doc: 'callback function to get the `resetContent` handler from the current pagination instance. e.g. `reset_content_handler={fn => (...)}`. Use this handler to reset all the content. You can set it to `true`, to programmatically reset the content.',
+  resetContentHandler: {
+    doc: 'callback function to get the `resetContent` handler from the current pagination instance. e.g. `resetContentHandler={fn => (...)}`. Use this handler to reset all the content. You can set it to `true`, to programmatically reset the content.',
     type: 'function',
     status: 'optional',
   },
-  reset_pagination_handler: {
-    doc: 'callback function to get the `resetInfinity` handler from the current pagination instance. e.g. `reset_pagination_handler={fn => (...)}`. Use this handler to reset all the internal states. You can set it to `true`, to programmatically reset the states.',
+  resetPaginationHandler: {
+    doc: 'callback function to get the `resetInfinity` handler from the current pagination instance. e.g. `resetPaginationHandler={fn => (...)}`. Use this handler to reset all the internal states. You can set it to `true`, to programmatically reset the states.',
     type: 'function',
     status: 'optional',
   },
-  end_infinity_handler: {
-    doc: 'callback function to get the `endInfinity` handler from the current pagination instance. e.g. `end_infinity_handler={fn => (...)}`. Use this handler to end the infinity scrolling procedure, in case the `page_count` is unknown.',
+  endInfinityHandler: {
+    doc: 'callback function to get the `endInfinity` handler from the current pagination instance. e.g. `endInfinityHandler={fn => (...)}`. Use this handler to end the infinity scrolling procedure, in case the `pageCount` is unknown.',
     type: 'function',
     status: 'optional',
   },
-  button_title: {
+  buttonTitle: {
     doc: 'The title used in every button shown in the bar. Defaults to `Side %s`.',
     type: 'string',
     status: 'optional',
   },
-  next_title: {
+  nextTitle: {
     doc: 'The title used in the next page button. Defaults to `Neste side`.',
     type: 'string',
     status: 'optional',
   },
-  prev_title: {
+  prevTitle: {
     doc: 'The title used in the previous page button. Defaults to `Forrige side`.',
     type: 'string',
     status: 'optional',
   },
-  more_pages: {
+  morePages: {
     doc: 'The title used in the dots. Relevant for screen readers. Defaults to `%s flere sider`.',
     type: 'string',
     status: 'optional',
   },
-  is_loading_text: {
+  isLoadingText: {
     doc: 'Shown until new content is inserted in to the page. Defaults to `Laster nytt innhold`.',
     type: 'string',
     status: 'optional',
@@ -136,8 +136,8 @@ export const PaginationProperties: PropertiesTableProps = {
     type: 'Various',
     status: 'optional',
   },
-  load_button_text: {
-    doc: 'Used during infinity mode. If `use_load_button` is set to `true`, then a button is show on the bottom. If the `startup_page` is higher than 1. Defaults to `Vis mer innhold`.',
+  loadButtonText: {
+    doc: 'Used during infinity mode. If `useLoadButton` is set to `true`, then a button is show on the bottom. If the `startupPage` is higher than 1. Defaults to `Vis mer innhold`.',
     type: 'string',
     status: 'optional',
   },
@@ -180,7 +180,7 @@ export const PaginationEvents: PropertiesTableProps = {
     status: 'optional',
   },
   on_end: {
-    doc: 'Only on **infinity** mode. Will be called once `page_count` is reached or `endInfinity` was called.',
+    doc: 'Only on **infinity** mode. Will be called once `pageCount` is reached or `endInfinity` was called.',
     type: 'function',
     status: 'optional',
   },
