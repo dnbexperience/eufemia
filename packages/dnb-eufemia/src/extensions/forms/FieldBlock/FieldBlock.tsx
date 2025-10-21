@@ -368,10 +368,10 @@ function FieldBlock<Value = unknown>(props: Props<Value>) {
         id,
         label,
         state: type === 'warning' ? 'warn' : type,
-        width_element: contentsRef,
+        widthElement: contentsRef,
 
         // Enable animation only in the browser and not in tests
-        no_animation:
+        noAnimation:
           process.env.NODE_ENV === 'test'
             ? true
             : typeof globalThis !== 'undefined'

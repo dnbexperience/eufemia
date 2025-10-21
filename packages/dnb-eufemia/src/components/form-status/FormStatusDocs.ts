@@ -36,8 +36,8 @@ export const FormStatusProperties: PropertiesTableProps = {
     type: 'React.ReactNode',
     status: 'optional',
   },
-  icon_size: {
-    doc: 'The icon size of the icon shows. Defaults to `medium`.',
+  iconSize: {
+    doc: 'the icon size of the icon shows. Defaults to `medium`.',
     type: 'string',
     status: 'optional',
   },
@@ -56,7 +56,7 @@ export const FormStatusProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  no_animation: {
+  noAnimation: {
     doc: 'NB: Animation is disabled as of now. ~~use `true` to omit the animation on content visibility. Defaults to `false`.~~',
     type: 'boolean',
     status: 'optional',
