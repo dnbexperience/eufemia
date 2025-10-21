@@ -67,7 +67,7 @@ export const TextareaSandbox = () => (
       </Flex.Stack>
     </Box>
     <Box>
-      <Provider formElement={{ label_direction: 'vertical' }}>
+      <Provider formElement={{ labelDirection: 'vertical' }}>
         <Textarea value="Text" label="Label:" suffix="123" />
       </Provider>
     </Box>
@@ -77,7 +77,7 @@ export const TextareaSandbox = () => (
         rows={1}
         stretch
         autoresize={true}
-        autoresize_max_rows={4}
+        autoresizeMaxRows={4}
         placeholder="Placeholder"
         on_key_down={({ rows, event }) => {
           if (rows >= 4 && event.key === 'Enter') {
@@ -87,7 +87,7 @@ export const TextareaSandbox = () => (
       />
     </Box>
     <Box>
-      <Provider formElement={{ label_direction: 'vertical' }}>
+      <Provider formElement={{ labelDirection: 'vertical' }}>
         <FieldBlock label="Legend:">
           <Flex.Vertical>
             <Textarea
@@ -108,7 +108,7 @@ export const TextareaSandbox = () => (
       </Provider>
     </Box>
     <Box>
-      <Provider formElement={{ label_direction: 'vertical' }}>
+      <Provider formElement={{ labelDirection: 'vertical' }}>
         <FieldBlock label="Legend:">
           <Flex.Vertical>
             <Textarea
@@ -188,7 +188,7 @@ export const TextareaSandbox = () => (
       <Textarea
         stretch
         label="Stretched label:"
-        label_direction="vertical"
+        labelDirection="vertical"
         value="Nec litora inceptos vestibulum id interdum donec gravida nostra
               lacinia bibendum hendrerit porttitor volutpat nam duis nisl
               scelerisque sapien erat"
