@@ -217,7 +217,7 @@ function AccordionWithContainer() {
         no_animation
         variant="outlined"
         // prerender
-        // prevent_rerender
+        // preventRerender
         // preventRerenderConditional
         singleContainer
         rememberState
