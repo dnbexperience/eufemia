@@ -120,14 +120,14 @@ describe('GlobalStatus component', () => {
         />
         <GlobalStatus.Add
           id="custom-status-update"
-          status_id="status-update-1"
+          statusId="status-update-1"
           text="will be overwritten"
           item={{ text: 'item#2' }}
           on_close={jest.fn()}
         />
         <GlobalStatus.Add
           id="custom-status-update"
-          status_id="status-update-1"
+          statusId="status-update-1"
           text={newText}
           item={{ text: 'item#3' }}
           on_close={jest.fn()}
@@ -165,7 +165,7 @@ describe('GlobalStatus component', () => {
     render(
       <GlobalStatus.Add
         id="custom-status-update"
-        status_id="status-update-1"
+        statusId="status-update-1"
         text={startupText}
         items={startupItems}
         on_close={jest.fn()}
@@ -184,7 +184,7 @@ describe('GlobalStatus component', () => {
     render(
       <GlobalStatus.Add
         id="custom-status-update"
-        status_id="status-update-1"
+        statusId="status-update-1"
         text={newText}
         items={newItems}
         on_close={jest.fn()}
@@ -203,8 +203,8 @@ describe('GlobalStatus component', () => {
     render(
       <GlobalStatus.Remove
         id="custom-status-update"
-        status_id="status-update-1"
-        buffer_delay={0}
+        statusId="status-update-1"
+        bufferDelay={0}
       />
     )
 
@@ -226,7 +226,7 @@ describe('GlobalStatus component', () => {
     render(
       <GlobalStatus.Add
         id="custom-status-remove"
-        status_id="status-remove-1"
+        statusId="status-remove-1"
         text={startupText}
         items={startupItems}
         on_close={jest.fn()}
@@ -248,7 +248,7 @@ describe('GlobalStatus component', () => {
     render(
       <GlobalStatus.Add
         id="custom-status-remove"
-        status_id="status-remove-2"
+        statusId="status-remove-2"
         text={newText}
         items={newItems}
         on_close={jest.fn()}
@@ -270,8 +270,8 @@ describe('GlobalStatus component', () => {
     render(
       <GlobalStatus.Remove
         id="custom-status-remove"
-        status_id="status-remove-1"
-        buffer_delay={0}
+        statusId="status-remove-1"
+        bufferDelay={0}
       />
     )
 
@@ -292,8 +292,8 @@ describe('GlobalStatus component', () => {
     render(
       <GlobalStatus.Remove
         id="custom-status-remove"
-        status_id="status-remove-2"
-        buffer_delay={0}
+        statusId="status-remove-2"
+        bufferDelay={0}
       />
     )
 
@@ -678,11 +678,22 @@ describe('GlobalStatus component', () => {
     expect(document.querySelector('.dnb-global-status__shell')).toBeNull()
   })
 
-  it('should generate item_id form React Element', async () => {
-    const StatusAsComponent = React.forwardRef<
-      HTMLSpanElement,
-      React.PropsWithChildren<unknown>
-    >(({ children }, ref) => <span ref={ref}>{children}</span>)
+  it('should generate itemId form React Element', async () => {
+    const StatusComponent = ({
+      children,
+      innerRef,
+    }: {
+      children?: any
+      innerRef?: any
+    }) => {
+      return children
+    }
+
+    const StatusAsComponent = React.forwardRef(
+      (props: { children: React.ReactNode }, ref) => {
+        return <StatusComponent {...props} innerRef={ref} />
+      }
+    )
 
     render(<GlobalStatus autoscroll={false} id="custom-status-element" />)
 
@@ -691,24 +702,20 @@ describe('GlobalStatus component', () => {
     })
 
     provider.add({
-      status_id: 'status-1',
+      statusId: 'status-1',
       item: {
         text: <StatusAsComponent>error-message--a</StatusAsComponent>,
-        status_anchor_label: (
-          <StatusAsComponent>label--a</StatusAsComponent>
-        ),
-        status_anchor_url: true,
+        statusAnchorLabel: <StatusAsComponent>label--a</StatusAsComponent>,
+        statusAnchorUrl: true,
       },
     })
 
     provider.add({
-      status_id: 'status-2',
+      statusId: 'status-2',
       item: {
         text: <StatusAsComponent>error-message--b</StatusAsComponent>,
-        status_anchor_label: (
-          <StatusAsComponent>label--b</StatusAsComponent>
-        ),
-        status_anchor_url: true,
+        statusAnchorLabel: <StatusAsComponent>label--b</StatusAsComponent>,
+        statusAnchorUrl: true,
       },
     })
 
@@ -751,7 +758,7 @@ describe('GlobalStatus component', () => {
         <GlobalStatus
           id="main-to-be-empty"
           autoscroll={false}
-          status_anchor_text={<span>custom anchor text</span>}
+          statusAnchorText={<span>custom anchor text</span>}
         />
         <ToggleStatus />
       </>
@@ -791,7 +798,7 @@ describe('GlobalStatus component', () => {
     render(
       <GlobalStatus.Add
         id="custom-status-autoclose"
-        status_id="status-autoclose-1"
+        statusId="status-autoclose-1"
         text="text only"
         on_close={jest.fn()}
       />
@@ -811,7 +818,7 @@ describe('GlobalStatus component', () => {
     render(
       <GlobalStatus.Add
         id="custom-status-autoclose"
-        status_id="status-autoclose-2"
+        statusId="status-autoclose-2"
         text="text only"
         items={['foo']}
         on_close={jest.fn()}
@@ -825,8 +832,8 @@ describe('GlobalStatus component', () => {
     render(
       <GlobalStatus.Remove
         id="custom-status-autoclose"
-        status_id="status-autoclose-1"
-        buffer_delay={0}
+        statusId="status-autoclose-1"
+        bufferDelay={0}
       />
     )
 
@@ -837,8 +844,8 @@ describe('GlobalStatus component', () => {
     render(
       <GlobalStatus.Remove
         id="custom-status-autoclose"
-        status_id="status-autoclose-2"
-        buffer_delay={0}
+        statusId="status-autoclose-2"
+        bufferDelay={0}
       />
     )
 
@@ -854,7 +861,7 @@ describe('GlobalStatus component', () => {
     render(
       <GlobalStatus.Add
         id="custom-status-autoclose"
-        status_id="status-autoclose-1"
+        statusId="status-autoclose-1"
         items={['foo']}
         on_close={jest.fn()}
         text="text"
@@ -903,7 +910,7 @@ describe('GlobalStatus component', () => {
     render(
       <GlobalStatus.Add
         id="custom-status-show"
-        status_id="status-show-1"
+        statusId="status-show-1"
         text="text only"
         on_close={jest.fn()}
       />
@@ -924,7 +931,7 @@ describe('GlobalStatus component', () => {
     render(
       <GlobalStatus.Remove
         id="custom-status-show"
-        status_id="status-show-1"
+        statusId="status-show-1"
       />
     )
 
@@ -959,9 +966,7 @@ describe('GlobalStatus component', () => {
   })
 
   it('should support removing icon', () => {
-    render(
-      <GlobalStatus icon={null} show no_animation hide_close_button />
-    )
+    render(<GlobalStatus icon={null} show noAnimation hideCloseButton />)
 
     expect(document.querySelector('.dnb-icon')).not.toBeInTheDocument()
   })
@@ -973,8 +978,8 @@ describe('GlobalStatus component', () => {
           <Icon icon={ConfettiIcon} data-testid="custom-icon-testid" />
         }
         show
-        no_animation
-        hide_close_button
+        noAnimation
+        hideCloseButton
       />
     )
 
