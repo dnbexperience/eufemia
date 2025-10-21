@@ -1386,26 +1386,6 @@ describe('useFieldProps', () => {
           document.querySelector('.dnb-form-status')
         ).not.toBeInTheDocument()
       })
-
-      /**
-       * @deprecated – can be removed in v11
-       */
-      it('with backwards compatibility', () => {
-        const { result } = renderHook(() =>
-          useFieldProps({
-            value: undefined,
-            required: true,
-            validateInitially: true,
-            errorMessages: {
-              required: 'Show this message',
-            },
-          })
-        )
-        expect(result.current.error).toBeInstanceOf(Error)
-        expect(getError(result.current.error).message).toBe(
-          'Show this message'
-        )
-      })
     })
 
     it('should validate required when value is empty string', () => {
