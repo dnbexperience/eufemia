@@ -70,7 +70,7 @@ export const AccordionLargeContentExample = () => (
 
 export const AccordionCustomisationExample = () => (
   <ComponentBox data-visual-test="accordion-custom" scope={{ bell }}>
-    <Accordion group="unique-id" left_component={<Icon icon={bell} />}>
+    <Accordion group="unique-id" leftComponent={<Icon icon={bell} />}>
       <Accordion.Header>Accordion title</Accordion.Header>
       <Accordion.Content>
         <P>

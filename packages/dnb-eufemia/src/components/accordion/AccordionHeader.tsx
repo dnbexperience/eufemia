@@ -162,7 +162,7 @@ export type AccordionHeaderProps = React.HTMLProps<HTMLElement> &
     title?: AccordionHeaderTitle
     expanded?: boolean
     description?: AccordionHeaderDescription
-    left_component?: AccordionHeaderLeftComponent
+    leftComponent?: AccordionHeaderLeftComponent
     element?: AccordionHeaderElement
     heading?: AccordionHeaderHeading
     heading_level?: HeadingLevel
@@ -238,7 +238,7 @@ export const AccordionHeader = ({
     id,
 
     // 1. these props should be the same as ...
-    left_component,
+    leftComponent,
     expanded, // eslint-disable-line
     title,
     description,
@@ -260,7 +260,7 @@ export const AccordionHeader = ({
     className,
 
     // 2. ... these
-    left_component: _left_component, // eslint-disable-line
+    leftComponent: _left_component, // eslint-disable-line
     expanded: _expanded, // eslint-disable-line
     title: _title, // eslint-disable-line
     description: _description, // eslint-disable-line
@@ -280,7 +280,7 @@ export const AccordionHeader = ({
       icon_position={icon_position}
     />,
     <AccordionHeaderContainer key="container">
-      {left_component as React.ReactNode}
+      {leftComponent as React.ReactNode}
     </AccordionHeaderContainer>,
     <AccordionHeaderTitle key="title">
       {title ||
@@ -352,7 +352,7 @@ export const AccordionHeader = ({
       icon_position = 'right'
     }
 
-    if (left_component) {
+    if (leftComponent) {
       icon_position = 'right'
     }
   }
