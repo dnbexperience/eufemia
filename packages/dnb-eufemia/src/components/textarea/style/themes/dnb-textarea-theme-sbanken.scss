@@ -50,7 +50,7 @@
     --textarea-border-color: var(--sb-color-gray-dark-2);
   }
 
-  // with status_state = "error"
+  // with statusState = "error"
   &__status--error &__textarea:not([disabled]):not(#{&}--disabled) {
     --textarea-color--default: var(--sb-color-red);
     --textarea-color--active: var(--color-black);
