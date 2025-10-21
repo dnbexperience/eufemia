@@ -139,7 +139,7 @@ export const SkeletonSandbox = () => {
                 left
               />
               <Input top label_direction="vertical" label="Input" />
-              <Textarea top label_direction="vertical" label="Textarea" />
+              <Textarea top labelDirection="vertical" label="Textarea" />
             </Box>
 
             <Box>
