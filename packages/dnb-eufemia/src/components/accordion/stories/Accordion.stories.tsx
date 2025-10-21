@@ -109,7 +109,7 @@ export const AccordionSandbox = () => {
           id="single-accordion"
           title="Accordion title"
           icon="bell"
-          icon_position="right"
+          iconPosition="right"
         >
           rememberState Accordion content
         </Accordion>
@@ -277,7 +277,7 @@ function AccordionWithContainer() {
         </Accordion>
         <Accordion
           bottom
-          icon_position="right"
+          iconPosition="right"
           id="remembered-state-2"
           // top="x-large"
         >
@@ -329,7 +329,7 @@ function AccordionWithContainer() {
           </Accordion.Content>
         </Accordion>
         <Accordion
-          icon_position="right"
+          iconPosition="right"
           id="remembered-state-3"
           // top="x-large"
         >
