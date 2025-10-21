@@ -142,7 +142,7 @@ export type AccordionProps = Omit<React.HTMLProps<HTMLElement>, 'ref'> &
     /**
      * Will set the placement of the icon. Defaults to `left`.
      */
-    icon_position?: AccordionIconPosition
+    iconPosition?: AccordionIconPosition
     /**
      * Define a different icon size. Defaults to `medium` (1.5rem).
      */
@@ -358,7 +358,7 @@ function Accordion({
               description, // eslint-disable-line
               leftComponent, // eslint-disable-line
               icon, // eslint-disable-line
-              icon_position, // eslint-disable-line
+              iconPosition, // eslint-disable-line
               iconSize, // eslint-disable-line
               on_change, // eslint-disable-line
               onStateUpdate, // eslint-disable-line
