@@ -1443,24 +1443,6 @@ describe('Field.String', () => {
         ).toBe('A formatted error message')
       })
 
-      /**
-       * @deprecated – can be removed in v11
-       */
-      it('should support deprecated "required" errorMessage', () => {
-        render(
-          <Field.String
-            errorMessages={{
-              required: 'You need this',
-            }}
-            required
-            validateInitially
-          />
-        )
-        expect(
-          document.querySelector('.dnb-form-status').textContent
-        ).toBe('You need this')
-      })
-
       it('should show provided errorMessages based on validation rule with injected value', () => {
         render(
           <Field.String
@@ -1468,9 +1450,6 @@ describe('Field.String', () => {
             value=""
             errorMessages={{
               'StringField.errorMinLength': 'At least {minLength}.',
-
-              /** @deprecated – can be removed in v11 */
-              minLength: 'At least {minLength}.',
             }}
             minLength={4}
             validateInitially
