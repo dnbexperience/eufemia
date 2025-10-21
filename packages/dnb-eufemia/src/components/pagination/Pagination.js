@@ -199,7 +199,7 @@ class PaginationInstance extends React.PureComponent {
       mode: _mode, // eslint-disable-line
       hideProgressIndicator: _hideProgressIndicator, // eslint-disable-line
       useLoadButton: _useLoadButton, // eslint-disable-line
-      currentPage: _currentPage, // eslint-disable-line
+      currentPageInternal: _currentPage, // eslint-disable-line
       markerElement: _markerElement, // eslint-disable-line
       fallbackElement: _fallbackElement, // eslint-disable-line
       setContentHandler: _setContentHandler, // eslint-disable-line
@@ -224,8 +224,12 @@ class PaginationInstance extends React.PureComponent {
     } = props
 
     // our props
-    const { currentPage, items, fallbackElement, indicatorElement } =
-      this.context.pagination
+    const {
+      currentPageInternal,
+      items,
+      fallbackElement,
+      indicatorElement,
+    } = this.context.pagination
 
     // Pagination mode
     if (this.context.pagination.mode === 'pagination') {
@@ -244,7 +248,7 @@ class PaginationInstance extends React.PureComponent {
       validateDOMAttributes(props, mainParams)
 
       const content = items.find(
-        ({ pageNumber }) => pageNumber === currentPage
+        ({ pageNumber }) => pageNumber === currentPageInternal
       )?.content
 
       return (

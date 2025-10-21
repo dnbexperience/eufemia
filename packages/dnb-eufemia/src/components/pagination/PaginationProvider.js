@@ -76,15 +76,15 @@ export default class PaginationProvider extends React.PureComponent {
     }
     if (
       props.current_page !== null &&
-      typeof state.currentPage === 'undefined'
+      typeof state.currentPageInternal === 'undefined'
     ) {
-      state.currentPage = parseFloat(props.current_page) || 1
+      state.currentPageInternal = parseFloat(props.current_page) || 1
     }
     if (typeof state.startupPage !== 'number') {
       state.startupPage =
         parseFloat(props.startupPage) ||
         parseFloat(props.current_page) ||
-        state.currentPage
+        state.currentPageInternal
       // We do not fall back to 1 here,
       // because the first render cycle in the users component may have:
       // props.current_page: null – that means, we fall back only in the on_startup / on_change callbacks
@@ -185,7 +185,7 @@ export default class PaginationProvider extends React.PureComponent {
     this._isMounted = true
 
     this.updatePageContent(
-      this.state.startupPage || this.state.currentPage
+      this.state.startupPage || this.state.currentPageInternal
     )
   }
 
@@ -199,10 +199,10 @@ export default class PaginationProvider extends React.PureComponent {
 
   componentDidUpdate({ current_page: current, internalContent: content }) {
     const { internalContent, current_page } = this.props
-    const currentPage = parseFloat(current_page)
+    const currentPageInternal = parseFloat(current_page)
     if (current_page !== current) {
-      this.setState({ currentPage })
-      this.updatePageContent(currentPage)
+      this.setState({ currentPageInternal })
+      this.updatePageContent(currentPageInternal)
     } else if (internalContent !== content) {
       this.updatePageContent()
     }
@@ -245,7 +245,7 @@ export default class PaginationProvider extends React.PureComponent {
       this.setState(
         {
           items: [...(items || this.state.items)], // we make a copy, only to rerender
-          currentPage: pageNumber, // update the currentPage
+          currentPageInternal: pageNumber, // update the currentPageInternal
         },
         this.callOnPageUpdate
       )
@@ -266,14 +266,14 @@ export default class PaginationProvider extends React.PureComponent {
   resetInfinity = (pageNumber = this.state.startupPage) => {
     const lowerPage = pageNumber
     const upperPage = pageNumber + parseFloat(this.props.startupCount) - 1
-    const currentPage = pageNumber
+    const currentPageInternal = pageNumber
 
     this.setState({
       items: [],
       hasEndedInfinity: true,
       lowerPage,
       upperPage,
-      currentPage,
+      currentPageInternal,
     })
 
     this.startInfinity()
@@ -291,7 +291,7 @@ export default class PaginationProvider extends React.PureComponent {
         hasEndedInfinity: true,
       },
       () => {
-        const pageNumber = this.state.currentPage + 1
+        const pageNumber = this.state.currentPageInternal + 1
         dispatchCustomElementEvent(this, 'on_end', {
           pageNumber,
           ...this,
@@ -312,7 +312,7 @@ export default class PaginationProvider extends React.PureComponent {
   prefillItems = (pageNumber, props = {}, items = this.state.items) => {
     const position =
       props.position ||
-      (pageNumber < this.state.currentPage ? 'before' : 'after')
+      (pageNumber < this.state.currentPageInternal ? 'before' : 'after')
 
     if (isNaN(pageNumber)) {
       pageNumber = 1
@@ -354,7 +354,7 @@ export default class PaginationProvider extends React.PureComponent {
     }
   }
 
-  updatePageContent = (pageNumber = this.state.currentPage) => {
+  updatePageContent = (pageNumber = this.state.currentPageInternal) => {
     let potentialElement = this.props.internalContent
 
     if (typeof this.props.internalContent === 'function') {
