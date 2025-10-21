@@ -234,7 +234,7 @@ function AccordionWithContainer() {
           // element="h2"
           // heading
           // heading={Heading}
-          // heading_level="3"
+          // headingLevel="3"
         >
           <Accordion.Header title="Title2" description="Description2">
             {/* Title 3 string */}
