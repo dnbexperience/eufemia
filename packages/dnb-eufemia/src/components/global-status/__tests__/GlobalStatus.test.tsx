@@ -631,7 +631,7 @@ describe('GlobalStatus component', () => {
     expect(document.querySelector('.dnb-global-status__shell')).toBeNull()
   })
 
-  it('should generate item_id form React Element', async () => {
+  it('should generate itemId form React Element', async () => {
     const StatusComponent = ({
       children,
       inner_ref,

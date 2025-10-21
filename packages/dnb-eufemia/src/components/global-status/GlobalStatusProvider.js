@@ -249,14 +249,14 @@ class GlobalStatusProvider {
       item = { text: item }
     }
 
-    if (!item.item_id) {
+    if (!item.itemId) {
       if (statusId && statusId !== 'status-main') {
-        item.item_id = statusId
+        item.itemId = statusId
       } else {
         if (item?.text) {
-          item.item_id = slugify(convertJsxToString(item.text))
+          item.itemId = slugify(convertJsxToString(item.text))
         } else {
-          item.item_id = slugify(item)
+          item.itemId = slugify(item)
         }
       }
     }
@@ -290,7 +290,7 @@ class GlobalStatusProvider {
           item = GlobalStatusProvider.prepareItemWithStatusId(item)
 
           const foundAtIndex = _acc.findIndex(
-            ({ item_id }) => item_id === item.item_id
+            ({ itemId }) => itemId === item.itemId
           )
           if (foundAtIndex > -1) {
             _acc[foundAtIndex] = item

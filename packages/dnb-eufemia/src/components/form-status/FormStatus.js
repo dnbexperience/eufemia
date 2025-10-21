@@ -194,7 +194,7 @@ export default class FormStatus extends React.PureComponent {
             state,
             statusId: this.getStatusId(),
             item: {
-              item_id: this.state.id,
+              itemId: this.state.id,
               text: globalStatus?.message || text || children,
               statusAnchorLabel: label,
               statusAnchorUrl: true,
@@ -279,7 +279,7 @@ export default class FormStatus extends React.PureComponent {
               state,
               statusId,
               item: {
-                item_id: this.state.id,
+                itemId: this.state.id,
                 text: globalStatus?.message || text || children,
                 statusAnchorLabel: label,
                 statusAnchorUrl: true,

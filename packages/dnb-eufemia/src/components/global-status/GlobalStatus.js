@@ -378,7 +378,7 @@ export default class GlobalStatus extends React.PureComponent {
     event.persist()
     const keyCode = keycode(event)
     if (
-      (item.item_id &&
+      (item.itemId &&
         typeof document !== 'undefined' &&
         typeof window !== 'undefined' &&
         keyCode === 'space') ||
@@ -388,7 +388,7 @@ export default class GlobalStatus extends React.PureComponent {
       event.preventDefault()
       try {
         // find the element
-        const element = document.getElementById(item.item_id)
+        const element = document.getElementById(item.itemId)
 
         if (!element) {
           return
@@ -444,7 +444,7 @@ export default class GlobalStatus extends React.PureComponent {
       }
 
       const id =
-        item.id || item.item_id ? `${item.item_id}-${i}` : makeUniqueId()
+        item.id || item.itemId ? `${item.itemId}-${i}` : makeUniqueId()
 
       let anchorText = statusAnchorText
 
@@ -463,7 +463,7 @@ export default class GlobalStatus extends React.PureComponent {
           .replace(/[: ]$/g, '')
       }
 
-      const useAutolink = item.item_id && isTrue(item.statusAnchorUrl)
+      const useAutolink = item.itemId && isTrue(item.statusAnchorUrl)
 
       return (
         <li key={i}>
@@ -476,9 +476,7 @@ export default class GlobalStatus extends React.PureComponent {
               className="dnb-anchor"
               aria-describedby={id}
               lang={lang}
-              href={
-                useAutolink ? `#${item.item_id}` : item.statusAnchorUrl
-              }
+              href={useAutolink ? `#${item.itemId}` : item.statusAnchorUrl}
               onClick={(e) => this.gotoItem(e, item)}
               onKeyDown={(e) => this.gotoItem(e, item)}
             >
