@@ -958,11 +958,11 @@ function DatePicker(externalProps: DatePickerAllProps) {
             id={id + '-form-status'}
             globalStatus={globalStatus}
             label={String(label)}
-            text_id={id + '-status'} // used for "aria-describedby"
-            width_selector={id + '-shell'}
+            textId={id + '-status'} // used for "aria-describedby"
+            widthSelector={id + '-shell'}
             text={status}
             state={statusState}
-            no_animation={statusNoAnimation}
+            noAnimation={statusNoAnimation}
             skeleton={skeleton}
             {...statusProps}
           />
