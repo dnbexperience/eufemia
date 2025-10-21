@@ -31,7 +31,7 @@ export const AccordionProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  no_animation: {
+  noAnimation: {
     doc: 'If set to `true`, the open and close animation will be omitted.',
     type: 'boolean',
     status: 'optional',
