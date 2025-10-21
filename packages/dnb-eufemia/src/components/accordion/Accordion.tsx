@@ -101,7 +101,7 @@ export type AccordionProps = Omit<React.HTMLProps<HTMLElement>, 'ref'> &
     /**
      * If set to `true`, a group of accordions will be wrapped to sidebar looking menu for medium and larger screens.
      */
-    single_container?: boolean
+    singleContainer?: boolean
     /**
      * Defines the used styling. As of now, only `outlined` is available. Use `plain` for no styles. It defaults to `outlined`.
      */
@@ -342,7 +342,7 @@ function Accordion({
               prerender,
               prevent_rerender,
               prevent_rerender_conditional,
-              single_container,
+              singleContainer,
               remember_state,
               disabled,
               skeleton,
@@ -401,7 +401,7 @@ function Accordion({
               prerender: prerender,
               prevent_rerender: prevent_rerender,
               prevent_rerender_conditional: prevent_rerender_conditional,
-              single_container: single_container,
+              singleContainer: singleContainer,
               remember_state: remember_state,
               disabled: disabled,
               skeleton: skeleton,
