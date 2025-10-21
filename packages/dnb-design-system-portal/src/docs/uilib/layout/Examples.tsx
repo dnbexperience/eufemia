@@ -480,7 +480,12 @@ export const AllComponentsVerticalLabelsTestCase = (
     data-visual-test="form-components-alignment-vertical-labels"
     {...props}
   >
-    <Provider formElement={{ label_direction: 'vertical' }}>
+    <Provider
+      formElement={{
+        label_direction: 'vertical',
+        labelDirection: 'vertical',
+      }}
+    >
       <AllComponents direction="vertical" />
     </Provider>
   </div>
