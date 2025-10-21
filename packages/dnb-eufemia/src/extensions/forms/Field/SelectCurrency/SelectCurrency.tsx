@@ -285,7 +285,7 @@ type GetCurrencyData = {
     lang: string
   ) => {
     selectedKey: string
-    selected_value: string
+    selectedValue: string
     content: string[]
   }
 }
@@ -298,13 +298,13 @@ export function getCurrencyData({
   makeObject = (currency: CurrencyType, lang: string) => {
     const translation = currency.i18n[lang] ?? currency.i18n.en
     const content = [translation, currency.iso]
-    const search_content = enableSearch
+    const searchContent = enableSearch
       ? [translation, currency.iso, ...(currency.search?.[lang] || [])]
       : undefined
     return {
       selectedKey: currency.iso,
-      selected_value: `${translation} (${currency.iso})`,
-      search_content, // will be used for searching
+      selectedValue: `${translation} (${currency.iso})`,
+      searchContent, // will be used for searching
       content,
     }
   },
