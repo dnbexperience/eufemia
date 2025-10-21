@@ -61,7 +61,7 @@ const AccordionGroup = (props: AccordionGroupProps) => {
     singleContainer, // eslint-disable-line
     contentRef, // eslint-disable-line
     allow_close_all, // eslint-disable-line
-    remember_state, // eslint-disable-line
+    rememberState, // eslint-disable-line
     flushRememberedState, // eslint-disable-line
     disabled, // eslint-disable-line
     group, // eslint-disable-line
