@@ -685,7 +685,7 @@ export default class DrawerListProvider extends React.PureComponent<
           }
         }
 
-        if (isTrue(this.props.no_animation)) {
+        if (isTrue(this.props.noAnimation)) {
           scrollTo = false
         }
 
@@ -1205,7 +1205,7 @@ export default class DrawerListProvider extends React.PureComponent<
         this.setActiveState(true)
       }
 
-      if (isTrue(this.props.no_animation)) {
+      if (isTrue(this.props.noAnimation)) {
         // our tests want no delay!
         if (process?.env.NODE_ENV === 'test') {
           animationDelayHandler()
@@ -1243,7 +1243,7 @@ export default class DrawerListProvider extends React.PureComponent<
 
     // If a user clicks on a second drawer list
     // we ensure we first close it, before we open it
-    if (DrawerListProvider.isOpen && !isTrue(this.props.no_animation)) {
+    if (DrawerListProvider.isOpen && !isTrue(this.props.noAnimation)) {
       clearTimeout(this._hideTimeout)
       this._hideTimeout = setTimeout(
         handleSingleComponentCheck,
@@ -1297,7 +1297,7 @@ export default class DrawerListProvider extends React.PureComponent<
         this.setActiveState(false)
       }
 
-      if (isTrue(this.props.no_animation)) {
+      if (isTrue(this.props.noAnimation)) {
         delayHandler()
       } else {
         clearTimeout(this._hideTimeout)
