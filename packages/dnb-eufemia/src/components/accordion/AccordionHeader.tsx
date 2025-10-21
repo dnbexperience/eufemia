@@ -99,14 +99,14 @@ export type AccordionHeaderIconProps = {
   icon?: AccordionHeaderIconIcon
   size?: IconSize
   expanded?: boolean
-  icon_position?: AccordionIconPosition
+  iconPosition?: AccordionIconPosition
 }
 
 function AccordionHeaderIcon({
   icon: iconProp,
   expanded,
   size = 'medium',
-  icon_position,
+  iconPosition,
 }: AccordionHeaderIconProps) {
   const icon = (
     iconProp &&
@@ -120,7 +120,7 @@ function AccordionHeaderIcon({
     <span
       className={classnames(
         'dnb-accordion__header__icon',
-        icon_position && `dnb-accordion__header__icon--${icon_position}`
+        iconPosition && `dnb-accordion__header__icon--${iconPosition}`
       )}
     >
       <IconPrimary size={size} icon={icon} aria-hidden />
@@ -167,7 +167,7 @@ export type AccordionHeaderProps = React.HTMLProps<HTMLElement> &
     heading?: AccordionHeaderHeading
     headingLevel?: HeadingLevel
     icon?: AccordionIcon
-    icon_position?: AccordionIconPosition
+    iconPosition?: AccordionIconPosition
     iconSize?: IconSize
     disabled?: boolean
     skeleton?: SkeletonShow
@@ -253,7 +253,7 @@ export const AccordionHeader = ({
     variant,
   } = extendedProps
 
-  let { icon_position } = extendedProps
+  let { iconPosition } = extendedProps
 
   const {
     children,
@@ -277,7 +277,7 @@ export const AccordionHeader = ({
       icon={icon}
       size={iconSize}
       expanded={context.expanded}
-      icon_position={icon_position}
+      iconPosition={iconPosition}
     />,
     <AccordionHeaderContainer key="container">
       {leftComponent as React.ReactNode}
@@ -343,17 +343,17 @@ export const AccordionHeader = ({
   })
 
   // position the icon to the right, if the element is not in the beginning
-  if (icon_position === undefined) {
+  if (iconPosition === undefined) {
     const iconIndex = partsToRender.findIndex(
       (c) => c.type === AccordionHeaderIcon
     )
     // because of the container at the beginning, we use 1
     if (iconIndex > 1) {
-      icon_position = 'right'
+      iconPosition = 'right'
     }
 
     if (leftComponent) {
-      icon_position = 'right'
+      iconPosition = 'right'
     }
   }
 
@@ -367,7 +367,7 @@ export const AccordionHeader = ({
       'dnb-accordion__header',
       variant && `dnb-accordion__header--${variant}`,
       context.expanded && 'dnb-accordion__header--expanded',
-      icon_position && `dnb-accordion__header--icon-${icon_position}`,
+      iconPosition && `dnb-accordion__header--icon-${iconPosition}`,
       isHovering &&
         hasClicked &&
         context.expanded &&
