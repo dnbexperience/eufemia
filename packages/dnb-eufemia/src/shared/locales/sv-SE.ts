@@ -53,9 +53,9 @@ export default {
       targetBlankTitle: 'Öppnar ett nytt fönster',
     },
     GlobalStatus: {
-      default_title: 'Ett fel har inträffat',
-      close_text: 'Stäng',
-      status_anchor_text: 'Gå till %s',
+      defaultTitle: 'Ett fel har inträffat',
+      closeText: 'Stäng',
+      statusAnchorText: 'Gå till %s',
     },
     GlobalError: {
       404: {
