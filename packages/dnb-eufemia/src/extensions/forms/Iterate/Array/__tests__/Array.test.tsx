@@ -1659,7 +1659,6 @@ describe('Iterate.Array', () => {
               ],
             },
             props: expect.objectContaining({ path: '/myList' }),
-            internal: { error: undefined },
           })
           expect(filterDataHandler).toHaveBeenNthCalledWith(2, {
             path: '/myList/0/foo',
@@ -1675,7 +1674,6 @@ describe('Iterate.Array', () => {
             props: expect.objectContaining({
               itemPath: '/foo',
             }),
-            internal: { error: undefined },
           })
           expect(filterDataHandler).toHaveBeenNthCalledWith(3, {
             path: '/myList/0/bar',
@@ -1691,7 +1689,6 @@ describe('Iterate.Array', () => {
             props: expect.objectContaining({
               itemPath: '/bar',
             }),
-            internal: { error: undefined },
           })
           expect(filterDataHandler).toHaveBeenNthCalledWith(4, {
             path: '/myList/1/foo',
@@ -1705,7 +1702,6 @@ describe('Iterate.Array', () => {
               ],
             },
             props: expect.objectContaining({ itemPath: '/foo' }),
-            internal: { error: undefined },
           })
           expect(filterDataHandler).toHaveBeenNthCalledWith(5, {
             path: '/myList/1/bar',
@@ -1719,7 +1715,6 @@ describe('Iterate.Array', () => {
               ],
             },
             props: expect.objectContaining({ itemPath: '/bar' }),
-            internal: { error: undefined },
           })
 
           rerender(
@@ -1767,7 +1762,6 @@ describe('Iterate.Array', () => {
               ],
             },
             props: expect.objectContaining({ path: '/myList' }),
-            internal: { error: undefined },
           })
           expect(filterDataHandler).toHaveBeenNthCalledWith(7, {
             path: '/myList/0/foo',
@@ -1783,7 +1777,6 @@ describe('Iterate.Array', () => {
             props: expect.objectContaining({
               itemPath: '/foo',
             }),
-            internal: { error: undefined },
           })
           expect(filterDataHandler).toHaveBeenNthCalledWith(8, {
             path: '/myList/0/bar',
@@ -1799,7 +1792,6 @@ describe('Iterate.Array', () => {
             props: expect.objectContaining({
               itemPath: '/bar',
             }),
-            internal: { error: undefined },
           })
           expect(filterDataHandler).toHaveBeenNthCalledWith(9, {
             path: '/myList/1/foo',
@@ -1815,7 +1807,6 @@ describe('Iterate.Array', () => {
             props: expect.objectContaining({
               itemPath: '/foo',
             }),
-            internal: { error: undefined },
           })
           expect(filterDataHandler).toHaveBeenNthCalledWith(10, {
             path: '/myList/1/bar',
@@ -1831,7 +1822,6 @@ describe('Iterate.Array', () => {
             props: expect.objectContaining({
               itemPath: '/bar',
             }),
-            internal: { error: undefined },
           })
 
           expect(filteredData).toEqual({
