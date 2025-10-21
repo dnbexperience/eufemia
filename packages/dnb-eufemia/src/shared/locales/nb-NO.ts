@@ -52,9 +52,9 @@ export default {
       targetBlankTitle: 'Åpner et nytt vindu',
     },
     GlobalStatus: {
-      default_title: 'En feil har skjedd',
-      close_text: 'Lukk',
-      status_anchor_text: 'Gå til %s',
+      defaultTitle: 'En feil har skjedd',
+      closeText: 'Lukk',
+      statusAnchorText: 'Gå til %s',
     },
     GlobalError: {
       404: {
