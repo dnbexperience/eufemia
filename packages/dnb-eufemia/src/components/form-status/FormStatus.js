@@ -363,6 +363,8 @@ export default class FormStatus extends React.PureComponent {
       text, // eslint-disable-line
       icon, // eslint-disable-line
       iconSize, // eslint-disable-line
+      widthSelector, // eslint-disable-line
+      widthElement, // eslint-disable-line
       skeleton, // eslint-disable-line
       children, // eslint-disable-line
       role,
