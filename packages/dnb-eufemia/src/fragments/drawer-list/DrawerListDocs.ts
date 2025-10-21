@@ -106,7 +106,7 @@ export const DrawerListProperties = {
     type: 'boolean',
     status: 'optional',
   },
-  no_animation: {
+  noAnimation: {
     doc: 'To disable appear/disappear (show/hide) animation.',
     type: 'boolean',
     status: 'optional',
