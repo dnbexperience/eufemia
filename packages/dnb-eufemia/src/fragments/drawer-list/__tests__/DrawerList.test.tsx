@@ -34,14 +34,14 @@ import locales from '../../../shared/locales/nb-NO'
 const nbNO = locales['nb-NO'].DrawerList
 mockImplementationForDirectionObserver()
 
-// use no_animation so we don't need to wait
+// use noAnimation so we don't need to wait
 const mockProps: DrawerListAllProps = {}
 
 const props: DrawerListAllProps = {
   id: 'drawer-list-id',
   value: 2,
   opened: true,
-  no_animation: true,
+  noAnimation: true,
 }
 
 const mockData: DrawerListDataArray = [
@@ -181,7 +181,7 @@ describe('DrawerList component', () => {
   describe('with disabled option', () => {
     const disabledOptionProps = {
       opened: true,
-      no_animation: true,
+      noAnimation: true,
       data: [
         { content: 'item 1' },
         { disabled: true, content: 'item 2' },
@@ -267,7 +267,7 @@ describe('DrawerList component', () => {
     const { rerender } = render(
       <DrawerList
         opened
-        no_animation
+        noAnimation
         data={mockData}
         defaultValue={props.value}
         {...mockProps}
@@ -282,7 +282,7 @@ describe('DrawerList component', () => {
     rerender(
       <DrawerList
         opened
-        no_animation
+        noAnimation
         data={mockData}
         defaultValue={props.value}
         {...mockProps}
@@ -295,7 +295,7 @@ describe('DrawerList component', () => {
     rerender(
       <DrawerList
         opened
-        no_animation
+        noAnimation
         data={mockData}
         defaultValue={props.value}
         {...mockProps}
@@ -895,7 +895,7 @@ describe('DrawerList component', () => {
     render(
       <DrawerList
         opened
-        no_animation
+        noAnimation
         on_change={on_change}
         on_select={on_select}
         data={() => ({ a: 'A', b: 'B', c: 'C' })}
@@ -946,7 +946,7 @@ describe('DrawerList component', () => {
     const { rerender } = render(
       <DrawerList
         opened
-        no_animation
+        noAnimation
         data={data.first}
         value={data.first[0].selectedKey}
         {...mockProps}
@@ -958,7 +958,7 @@ describe('DrawerList component', () => {
     rerender(
       <DrawerList
         opened
-        no_animation
+        noAnimation
         data={data.second}
         value={data.second[1].selectedKey}
         {...mockProps}
@@ -970,7 +970,7 @@ describe('DrawerList component', () => {
     rerender(
       <DrawerList
         opened
-        no_animation
+        noAnimation
         data={data.third}
         value={data.third[2].selectedKey}
         {...mockProps}
@@ -1171,7 +1171,7 @@ describe('DrawerList component', () => {
       render(
         <DrawerList
           opened={true}
-          no_animation={true}
+          noAnimation={true}
           data={dataProp}
           groups={groupsProp}
         />
@@ -1225,7 +1225,7 @@ describe('DrawerList component', () => {
       render(
         <DrawerList
           opened={true}
-          no_animation={true}
+          noAnimation={true}
           data={dataProp}
           groups={[undefined, undefined, 'Third']}
         />
@@ -1259,7 +1259,7 @@ describe('DrawerList component', () => {
       render(
         <DrawerList
           opened={true}
-          no_animation={true}
+          noAnimation={true}
           data={[...dataProp, { content: 'Item without groupIndex' }]}
           groups={groupsProp}
         />
@@ -1292,7 +1292,7 @@ describe('DrawerList markup', () => {
       direction: 'bottom',
       value: 2,
       opened: true,
-      no_animation: true,
+      noAnimation: true,
       size: 'default',
     }
 
@@ -1375,7 +1375,7 @@ describe('DrawerList portal', () => {
 
     jest.spyOn(window, 'getComputedStyle').mockImplementation(() => style)
 
-    const { rerender } = render(<DrawerList opened no_animation />)
+    const { rerender } = render(<DrawerList opened noAnimation />)
 
     const styleElement = document.querySelector(
       '.dnb-drawer-list__portal__style'
@@ -1387,7 +1387,7 @@ describe('DrawerList portal', () => {
       )
     })
 
-    rerender(<DrawerList opened no_animation independentWidth />)
+    rerender(<DrawerList opened noAnimation independentWidth />)
 
     expect(styleElement.getAttribute('style')).toBe(
       'width: 320px; --drawer-list-width: 20rem; top: 0px; left: 0px;'
@@ -1408,7 +1408,7 @@ describe('DrawerList portal', () => {
 
     const { rerender } = render(
       <IsolatedStyleScope>
-        <DrawerList opened no_animation />
+        <DrawerList opened noAnimation />
       </IsolatedStyleScope>
     )
 
@@ -1424,7 +1424,7 @@ describe('DrawerList portal', () => {
 
     rerender(
       <IsolatedStyleScope>
-        <DrawerList opened no_animation independentWidth />
+        <DrawerList opened noAnimation independentWidth />
       </IsolatedStyleScope>
     )
 
