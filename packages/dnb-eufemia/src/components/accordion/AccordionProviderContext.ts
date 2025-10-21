@@ -10,7 +10,7 @@ type AccordionGroupContextProps = {
   expanded?: boolean
   group?: string
   expandedSsr?: boolean
-  remember_state?: boolean
+  rememberState?: boolean
   flushRememberedState?: boolean
   expanded_id?: string
   onChange?: (...params: unknown[]) => void

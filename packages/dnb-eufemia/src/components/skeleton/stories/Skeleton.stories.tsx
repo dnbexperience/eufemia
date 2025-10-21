@@ -71,7 +71,7 @@ export const SkeletonSandbox = () => {
             <Box>
               <Skeleton.Exclude>
                 <Accordion
-                  remember_state
+                  rememberState
                   id="single-accordion"
                   variant="outlined"
                   title="Accordion title"
@@ -80,7 +80,7 @@ export const SkeletonSandbox = () => {
                 </Accordion>
                 <Accordion.Provider
                   top
-                  remember_state
+                  rememberState
                   icon="bell"
                   icon_position="right"
                   variant="outlined"
