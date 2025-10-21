@@ -140,27 +140,6 @@ export function getMessageValues(
 }
 
 /**
- * Overwrite the internal translation messages with given messaged that uses the Ajv keywords.
- *
- * @deprecated – can be removed in v11
- */
-export function overwriteErrorMessagesWithGivenAjvKeys(
-  messages: DefaultErrorMessages
-) {
-  messages = { ...messages }
-
-  ajvErrorKeywordsTranslationTable.forEach(
-    ({ ajvKey, translationKey }) => {
-      if (messages[ajvKey]) {
-        messages[translationKey] = messages[ajvKey]
-      }
-    }
-  )
-
-  return messages
-}
-
-/**
  * Extend the error messages with relevant translation messages.
  */
 export function extendErrorMessagesWithTranslationMessages(
