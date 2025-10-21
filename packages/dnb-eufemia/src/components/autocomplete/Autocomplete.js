@@ -1990,12 +1990,12 @@ class AutocompleteInstance extends React.PureComponent {
             id={id + '-form-status'}
             globalStatus={globalStatus}
             label={label}
-            text_id={id + '-status'} // used for "aria-describedby"
+            textId={id + '-status'} // used for "aria-describedby"
             text={status}
             state={status_state}
-            no_animation={status_no_animation}
+            noAnimation={status_no_animation}
             skeleton={skeleton}
-            width_selector={innerId}
+            widthSelector={innerId}
             {...status_props}
           />
 
