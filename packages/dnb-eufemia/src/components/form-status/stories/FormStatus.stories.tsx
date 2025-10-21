@@ -230,8 +230,8 @@ export const SuffixAndStretchedStatus = () => {
 
   const numbers: DrawerListDataArray = [
     {
-      selected_value: `Brukskonto (${ban})`,
-      suffix_value: (
+      selectedValue: `Brukskonto (${ban})`,
+      suffixValue: (
         <NumberFormat lang="nb" currency srLabel="Total:">
           {12345678}
         </NumberFormat>
@@ -239,8 +239,8 @@ export const SuffixAndStretchedStatus = () => {
       content: ['Brukskonto', ban],
     },
     {
-      selected_value: `BSU (${ban})`,
-      suffix_value: (
+      selectedValue: `BSU (${ban})`,
+      suffixValue: (
         <NumberFormat currency srLabel="Total:">
           {2223}
         </NumberFormat>
@@ -248,8 +248,8 @@ export const SuffixAndStretchedStatus = () => {
       content: ['BSU', ban],
     },
     {
-      selected_value: `Sparekonto (${ban})`,
-      suffix_value: (
+      selectedValue: `Sparekonto (${ban})`,
+      suffixValue: (
         <NumberFormat currency srLabel="Total:">
           {876555.5}
         </NumberFormat>
@@ -257,8 +257,8 @@ export const SuffixAndStretchedStatus = () => {
       content: ['Sparekonto', ban],
     },
     {
-      selected_value: `Brukskonto (${ban})`,
-      suffix_value: (
+      selectedValue: `Brukskonto (${ban})`,
+      suffixValue: (
         <NumberFormat currency srLabel="Total:">
           {34999.2}
         </NumberFormat>

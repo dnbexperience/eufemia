@@ -313,29 +313,29 @@ export const AutocompleteCustomWidth = () => (
 export const AutocompleteSuffix = () => {
   const { locale } = React.useContext(Context)
   const ban = format(20001234567, { ban: true, locale }) as string
-  const suffix_value = format(12345678, {
+  const suffixValue = format(12345678, {
     currency: true,
     locale,
   }) as string
   const numbers = [
     {
-      selected_value: 'Brukskonto',
-      suffix_value,
+      selectedValue: 'Brukskonto',
+      suffixValue,
       content: ['Brukskonto', ban],
     },
     {
-      selected_value: 'BSU',
-      suffix_value,
+      selectedValue: 'BSU',
+      suffixValue,
       content: ['BSU', ban],
     },
     {
-      selected_value: 'Sparekonto',
-      suffix_value,
+      selectedValue: 'Sparekonto',
+      suffixValue,
       content: ['Sparekonto', ban],
     },
     {
-      selected_value: 'Brukskonto',
-      suffix_value,
+      selectedValue: 'Brukskonto',
+      suffixValue,
       content: ['Brukskonto', ban],
     },
   ]
@@ -663,7 +663,7 @@ export const AutocompleteContentDecoupledExample = () => (
         data={[
           {
             content: ['your visual content'],
-            search_content: ['your search content'],
+            searchContent: ['your search content'],
           },
         ]}
         label="Label"
