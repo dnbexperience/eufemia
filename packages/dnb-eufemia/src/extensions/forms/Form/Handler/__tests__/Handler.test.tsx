@@ -939,12 +939,6 @@ describe('Form.Handler', () => {
             'NumberField.errorExclusiveMinimum': expect.any(String),
             'NumberField.errorExclusiveMaximum': expect.any(String),
             'NumberField.errorMultipleOf': expect.any(String),
-
-            /** @deprecated – can be removed in v11 */
-            maxLength: expect.any(String),
-            minLength: expect.any(String),
-            pattern: expect.any(String),
-            required: expect.any(String),
           }),
         })
       )
