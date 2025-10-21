@@ -19,7 +19,7 @@ export type DrawerListPortalProps = {
   opened: boolean
   innerRef?: React.ForwardedRef<HTMLSpanElement>
   rootRef: React.RefObject<HTMLSpanElement>
-  include_owner_width?: boolean
+  includeOwnerWidth?: boolean
   independentWidth?: boolean
   fixedPosition?: boolean
   skipPortal?: boolean
@@ -31,7 +31,7 @@ function DrawerListPortal({
   id,
   opened,
   rootRef = { current: undefined },
-  include_owner_width,
+  includeOwnerWidth,
   independentWidth,
   fixedPosition,
   skipPortal,
@@ -146,7 +146,7 @@ function DrawerListPortal({
       let left =
         scrollX +
         rect.left +
-        (include_owner_width ? parseFloat(ownerWidth || '0') : 0)
+        (includeOwnerWidth ? parseFloat(ownerWidth || '0') : 0)
 
       if (width > window.innerWidth) {
         width = window.innerWidth
@@ -175,7 +175,7 @@ function DrawerListPortal({
     rootRef,
     independentWidth,
     fixedPosition,
-    include_owner_width,
+    includeOwnerWidth,
     portalRef,
   ])
 
