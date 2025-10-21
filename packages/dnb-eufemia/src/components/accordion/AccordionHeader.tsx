@@ -171,7 +171,7 @@ export type AccordionHeaderProps = React.HTMLProps<HTMLElement> &
     iconSize?: IconSize
     disabled?: boolean
     skeleton?: SkeletonShow
-    no_animation?: boolean
+    noAnimation?: boolean
     className?: string
     children?: string | React.ReactNode | ((...args: any[]) => any)
     variant?: AccordionVariant
@@ -249,7 +249,7 @@ export const AccordionHeader = ({
     iconSize,
     disabled,
     skeleton,
-    no_animation,
+    noAnimation,
     variant,
   } = extendedProps
 
@@ -374,7 +374,7 @@ export const AccordionHeader = ({
         'dnb-accordion__header--after-click',
       !canClick() && 'dnb-accordion__header--prevent-click',
       description && 'dnb-accordion__header--description',
-      no_animation && 'dnb-accordion__header--no-animation',
+      noAnimation && 'dnb-accordion__header--no-animation',
       createSkeletonClass('font', skeleton, context),
       createSpacingClasses(rest),
       className
