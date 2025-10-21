@@ -349,11 +349,11 @@ function Checkbox(localProps: CheckboxProps) {
       id={id + '-form-status'}
       globalStatus={globalStatus}
       label={label}
-      text_id={id + '-status'} // used for "aria-describedby"
-      width_selector={id + ', ' + id + '-label'}
+      textId={id + '-status'} // used for "aria-describedby"
+      widthSelector={id + ', ' + id + '-label'}
       text={status}
       state={statusState}
-      no_animation={statusNoAnimation}
+      noAnimation={statusNoAnimation}
       skeleton={skeleton}
       {...statusProps}
     />
