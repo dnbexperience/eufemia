@@ -58,7 +58,7 @@ The correction will ensure that:
 
 You get a `console.warn` warning (only in development) about corrections. You can attach a custom warning / handler if you need that: `<Heading.Level debug={(...logs) => console.info(...logs)}>`
 
-You can also disable corrections by using the property `skip_correction={true}`.
+You can also disable corrections by using the property `skipCorrection={true}`.
 
 ### Heading level context provider / asynchronous
 
@@ -70,7 +70,7 @@ They are completely optional. But can help out to solve some kinds of challenges
 
 ### Skip auto correction and warnings
 
-First, warnings will not show up in production builds. And to skip the auto correction of heading levels, simply use the `skip_correction` property.
+First, warnings will not show up in production builds. And to skip the auto correction of heading levels, simply use the `skipCorrection` property.
 
 ### Heading levels interceptor modification
 
