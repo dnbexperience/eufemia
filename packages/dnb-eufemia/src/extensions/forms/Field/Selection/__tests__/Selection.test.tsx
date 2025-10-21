@@ -1929,7 +1929,7 @@ describe('variants', () => {
       ).toBe(document.querySelector('.dnb-tooltip__content').id)
     })
 
-    it('should support extra props in data (e.g. search_content)', async () => {
+    it('should support extra props in data (e.g. searchContent)', async () => {
       render(
         <Field.Selection
           variant="autocomplete"
@@ -1938,7 +1938,7 @@ describe('variants', () => {
               value: 'foo',
               title: 'Foo!',
               text: 'Text',
-              search_content: ['Foo!', 'extra search value'],
+              searchContent: ['Foo!', 'extra search value'],
             },
           ]}
         />
@@ -1954,7 +1954,7 @@ describe('variants', () => {
         'Foo!'
       )
 
-      // But not found when searching by display content only (search_content takes precedence)
+      // But not found when searching by display content only (searchContent takes precedence)
       await userEvent.clear(input as HTMLInputElement)
       await userEvent.type(input, 'invalid')
       await waitFor(() => {
