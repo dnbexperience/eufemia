@@ -94,7 +94,7 @@ export const AccordionCustomisationExample = () => (
 
 export const AccordionGroupExample = () => (
   <ComponentBox data-visual-test="accordion-group">
-    <Accordion.Group expanded allow_close_all>
+    <Accordion.Group expanded allowCloseAll>
       <Accordion expanded={false}>
         <Accordion.Header>Accordion title</Accordion.Header>
         <Accordion.Content top>
@@ -311,7 +311,7 @@ export function AccordionCloseAllInGroup() {
       </Button>
       <Accordion.Group
         expanded
-        allow_close_all
+        allowCloseAll
         collapseAllHandleRef={collapseAll}
       >
         <Accordion>
