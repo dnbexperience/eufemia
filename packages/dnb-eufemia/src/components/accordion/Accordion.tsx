@@ -89,7 +89,7 @@ export type AccordionProps = Omit<React.HTMLProps<HTMLElement>, 'ref'> &
     /**
      * If set to `true`, it will remember a changed state initiated by the user. It requires a unique `id`. It will store the sate in the local storage.
      */
-    remember_state?: boolean
+    rememberState?: boolean
     /**
      * Send along a custom React Ref for `.dnb-accordion__content`.
      */
@@ -119,7 +119,7 @@ export type AccordionProps = Omit<React.HTMLProps<HTMLElement>, 'ref'> &
      */
     skeleton?: SkeletonShow
     /**
-     * A unique `id` that will be used on the button element. If you use `remember_state`, an id is required.
+     * A unique `id` that will be used on the button element. If you use `rememberState`, an id is required.
      */
     id?: string
     group?: string
@@ -250,7 +250,7 @@ function Accordion({
       return typeof window === 'undefined'
     }
 
-    if (props.remember_state || context.remember_state) {
+    if (props.rememberState || context.rememberState) {
       const storedExpanded = store.getState()
 
       if (props.expanded && storedExpanded === false) {
@@ -281,7 +281,7 @@ function Accordion({
     setExpanded(expanded)
 
     // check if a event exists, because, then it's a user click
-    if (props.remember_state || context.remember_state) {
+    if (props.rememberState || context.rememberState) {
       store.saveState(expanded)
     }
   }
@@ -343,7 +343,7 @@ function Accordion({
               prevent_rerender,
               preventRerenderConditional,
               singleContainer,
-              remember_state,
+              rememberState,
               disabled,
               skeleton,
               no_animation,
@@ -402,7 +402,7 @@ function Accordion({
               prevent_rerender: prevent_rerender,
               preventRerenderConditional: preventRerenderConditional,
               singleContainer: singleContainer,
-              remember_state: remember_state,
+              rememberState: rememberState,
               disabled: disabled,
               skeleton: skeleton,
               no_animation: no_animation,
@@ -453,7 +453,7 @@ export type GroupProps = AccordionProps & {
 }
 
 const Group = ({ expandBehavior = 'single', ...props }: GroupProps) => {
-  if (props.remember_state && !props.id) {
+  if (props.rememberState && !props.id) {
     rememberWarning('accordion group')
   }
 
