@@ -527,7 +527,7 @@ function PhoneNumber(props: Props = {}) {
           keep_selection
           selectall
           autoComplete="tel-country-code"
-          no_animation={props.noAnimation}
+          noAnimation={props.noAnimation}
           size={size}
         />
       )}
