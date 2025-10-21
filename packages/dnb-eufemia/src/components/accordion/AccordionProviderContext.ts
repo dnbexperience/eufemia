@@ -9,7 +9,7 @@ import { AccordionGroupProps } from './AccordionGroup'
 type AccordionGroupContextProps = {
   expanded?: boolean
   group?: string
-  expanded_ssr?: boolean
+  expandedSsr?: boolean
   remember_state?: boolean
   flushRememberedState?: boolean
   expanded_id?: string
