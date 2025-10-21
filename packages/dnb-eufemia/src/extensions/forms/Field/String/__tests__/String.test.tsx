@@ -1448,6 +1448,24 @@ describe('Field.String', () => {
         ).toBe('A formatted error message')
       })
 
+      it('should show provided errorMessages based on validation rule with injected value', () => {
+        render(
+          <Field.String
+            emptyValue=""
+            value=""
+            errorMessages={{
+              'StringField.errorMinLength': 'At least {minLength}.',
+            }}
+            minLength={4}
+            validateInitially
+          />
+        )
+
+        expect(
+          document.querySelector('.dnb-form-status').textContent
+        ).toBe('At least 4.')
+      })
+
       it('should provide error message to the onBlurValidator', async () => {
         let collectDeprecatedMessage = null
         let collectCustomMessage = null
