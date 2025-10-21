@@ -335,11 +335,11 @@ export default function Switch(props: SwitchProps) {
             id={id + '-form-status'}
             globalStatus={globalStatus}
             label={label}
-            width_selector={id + ', ' + id + '-label'}
+            widthSelector={id + ', ' + id + '-label'}
             text={status}
             state={statusState}
             skeleton={skeleton}
-            no_animation={statusNoAnimation}
+            noAnimation={statusNoAnimation}
             {...statusProps}
           />
 
