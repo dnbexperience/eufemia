@@ -53,17 +53,17 @@ export type DrawerListContent =
 export type DrawerListDataArrayObjectStrict = {
   /** index of group supplied in the `groups` prop */
   groupIndex?: number
-  selected_value?: string | React.ReactNode
+  selectedValue?: string | React.ReactNode
   selectedKey?: string | number
-  suffix_value?: string | React.ReactNode
+  suffixValue?: string | React.ReactNode
   content: DrawerListContent
   disabled?: boolean
   /** used by Autocomplete for additional search hits */
-  search_content?: string | React.ReactNode | string[]
+  searchContent?: string | React.ReactNode | string[]
   /** style prop of the html list item */
   style?: React.CSSProperties
   /** classname added to the html list item */
-  class_name?: string
+  className?: string
   /** set to true to disable mouse events selected style. Keyboard can still select. */
   ignoreEvents?: boolean
   /** internal use only */
@@ -556,7 +556,7 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
                   i === data.length - 1 && 'last-of-type', // because of the triangle element
                   ignoreEventsBoolean ||
                     (dataItem.ignoreEvents && 'ignore-events'),
-                  dataItem.class_name
+                  dataItem.className
                 ),
                 active: _id == active_item,
                 selected: !dataItem.ignoreEvents && _id == selected_item,

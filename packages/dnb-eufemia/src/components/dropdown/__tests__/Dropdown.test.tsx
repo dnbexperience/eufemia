@@ -39,15 +39,15 @@ const props: DropdownAllProps = {
 
 const mockData: DrawerListDataArray = [
   {
-    selected_value: 'Brukskonto - Kari Nordmann',
+    selectedValue: 'Brukskonto - Kari Nordmann',
     content: ['1234 56 78901', 'Brukskonto - Kari Nordmann'],
   },
   {
-    selected_value: 'Sparekonto - Ole Nordmann',
+    selectedValue: 'Sparekonto - Ole Nordmann',
     content: ['1234 56 78902', 'Sparekonto - Ole Nordmann'],
   },
   {
-    selected_value:
+    selectedValue:
       'Feriekonto - Kari Nordmann med et kjempelangt etternavnsen',
     selectedKey: 1,
     content: [
@@ -56,7 +56,7 @@ const mockData: DrawerListDataArray = [
     ],
   },
   {
-    selected_value: 'Oppussing - Ole Nordmann',
+    selectedValue: 'Oppussing - Ole Nordmann',
     selectedKey: '0x',
     content: ['1534 96 48901', 'Oppussing - Ole Nordmann'],
   },
@@ -82,13 +82,13 @@ describe('Dropdown component', () => {
     expect(
       document.querySelector('.dnb-dropdown__text__inner').textContent
     ).toBe(
-      (mockData[props.value] as DrawerListDataArrayObject).selected_value
+      (mockData[props.value] as DrawerListDataArrayObject).selectedValue
     )
     expect(
       document.querySelector('.dnb-dropdown__trigger')
     ).toHaveAttribute(
       'title',
-      (mockData[props.value] as DrawerListDataArrayObject).selected_value
+      (mockData[props.value] as DrawerListDataArrayObject).selectedValue
     )
 
     keydown(32) // space
@@ -114,14 +114,14 @@ describe('Dropdown component', () => {
       document.querySelector('.dnb-dropdown__text__inner').textContent
     ).toBe(
       (mockData[(props.value as number) + 1] as DrawerListDataArrayObject)
-        .selected_value
+        .selectedValue
     )
     expect(
       document.querySelector('.dnb-dropdown__trigger')
     ).toHaveAttribute(
       'title',
       (mockData[(props.value as number) + 1] as DrawerListDataArrayObject)
-        .selected_value
+        .selectedValue
     )
   })
 
@@ -531,7 +531,7 @@ describe('Dropdown component', () => {
     rerender(<Dropdown {...props} value={value} data={mockData} />)
 
     expect(document.querySelector('.dnb-dropdown__text').textContent).toBe(
-      (mockData[value] as DrawerListDataArrayObject).selected_value
+      (mockData[value] as DrawerListDataArrayObject).selectedValue
     )
 
     rerender(<Dropdown {...props} value={undefined} data={mockData} />)
@@ -544,7 +544,7 @@ describe('Dropdown component', () => {
     rerender(<Dropdown {...props} value={value} data={mockData} />)
 
     expect(document.querySelector('.dnb-dropdown__text').textContent).toBe(
-      (mockData[value] as DrawerListDataArrayObject).selected_value
+      (mockData[value] as DrawerListDataArrayObject).selectedValue
     )
 
     rerender(<Dropdown {...props} value={null} data={mockData} />)
@@ -1230,7 +1230,7 @@ describe('Dropdown component', () => {
       document.querySelector('.dnb-dropdown__text__inner').textContent
     ).toBe(
       (mockData[(props.value as number) + 1] as DrawerListDataArrayObject)
-        .selected_value
+        .selectedValue
     )
   })
 
@@ -1239,7 +1239,7 @@ describe('Dropdown component', () => {
     expect(
       document.querySelector('.dnb-dropdown__text__inner').textContent
     ).toBe(
-      (mockData[props.value] as DrawerListDataArrayObject).selected_value
+      (mockData[props.value] as DrawerListDataArrayObject).selectedValue
     )
   })
 
@@ -1253,7 +1253,7 @@ describe('Dropdown component', () => {
     expect(
       document.querySelector('.dnb-dropdown__text__inner').textContent
     ).toBe(
-      (mockData[props.value] as DrawerListDataArrayObject).selected_value
+      (mockData[props.value] as DrawerListDataArrayObject).selectedValue
     )
   })
 
@@ -1273,9 +1273,7 @@ describe('Dropdown component', () => {
 
     expect(
       document.querySelector('.dnb-dropdown__text__inner').textContent
-    ).toBe(
-      (mockData[newValue] as DrawerListDataArrayObject).selected_value
-    )
+    ).toBe((mockData[newValue] as DrawerListDataArrayObject).selectedValue)
 
     open()
 
@@ -1338,7 +1336,7 @@ describe('Dropdown component', () => {
       document.querySelector('.dnb-dropdown__trigger')
     ).toHaveAttribute(
       'title',
-      (mockData[props.value] as DrawerListDataArrayObject).selected_value
+      (mockData[props.value] as DrawerListDataArrayObject).selectedValue
     )
   })
 
@@ -1352,7 +1350,7 @@ describe('Dropdown component', () => {
       document.querySelector('.dnb-dropdown__trigger')
     ).toHaveAttribute(
       'title',
-      (mockData[props.value] as DrawerListDataArrayObject).selected_value
+      (mockData[props.value] as DrawerListDataArrayObject).selectedValue
     )
   })
 
@@ -1374,7 +1372,7 @@ describe('Dropdown component', () => {
       document.querySelector('.dnb-dropdown__trigger')
     ).toHaveAttribute(
       'title',
-      (mockData[newValue] as DrawerListDataArrayObject).selected_value
+      (mockData[newValue] as DrawerListDataArrayObject).selectedValue
     )
 
     open()
@@ -1388,14 +1386,14 @@ describe('Dropdown component', () => {
     )
   })
 
-  it('supports Icon as selected_value', () => {
+  it('supports Icon as selectedValue', () => {
     render(
       <Dropdown
         {...props}
         data={[
           {
             selectedKey: 'banking',
-            selected_value: <Icon icon={bank} />,
+            selectedValue: <Icon icon={bank} />,
             content: <Icon icon={bank} />,
           },
         ]}
@@ -1407,14 +1405,14 @@ describe('Dropdown component', () => {
     ).toBe('bank icon')
   })
 
-  it('supports CountryFlag as selected_value', () => {
+  it('supports CountryFlag as selectedValue', () => {
     render(
       <Dropdown
         {...props}
         data={[
           {
             selectedKey: 'norway',
-            selected_value: <CountryFlag iso="NO" />,
+            selectedValue: <CountryFlag iso="NO" />,
             content: <CountryFlag iso="NO" />,
           },
         ]}
@@ -1434,14 +1432,14 @@ describe('Dropdown component', () => {
     ).toHaveAttribute('title', title)
   })
 
-  it('has correct title when passing a react fragment as selected_value', () => {
+  it('has correct title when passing a react fragment as selectedValue', () => {
     render(
       <Dropdown
         {...props}
         data={[
           {
             selectedKey: 'test',
-            selected_value: <>my value</>,
+            selectedValue: <>my value</>,
             content: 'test',
           },
         ]}
@@ -1453,14 +1451,14 @@ describe('Dropdown component', () => {
     ).toHaveAttribute('title', 'my value')
   })
 
-  it('has correct title when passing a react fragment with an Icon as selected_value', () => {
+  it('has correct title when passing a react fragment with an Icon as selectedValue', () => {
     render(
       <Dropdown
         {...props}
         data={[
           {
             selectedKey: 'test',
-            selected_value: (
+            selectedValue: (
               <>
                 <Icon icon={bank} />
                 Banking
@@ -1477,14 +1475,14 @@ describe('Dropdown component', () => {
     ).toHaveAttribute('title', 'Banking')
   })
 
-  it('has no title when passing an Icon as selected_value', () => {
+  it('has no title when passing an Icon as selectedValue', () => {
     render(
       <Dropdown
         {...props}
         data={[
           {
             selectedKey: 'test',
-            selected_value: <Icon icon={bank} />,
+            selectedValue: <Icon icon={bank} />,
             content: 'test',
           },
         ]}
@@ -1496,14 +1494,14 @@ describe('Dropdown component', () => {
     ).not.toHaveAttribute('title')
   })
 
-  it('has correct title when passing a NumberFormat as selected_value', () => {
+  it('has correct title when passing a NumberFormat as selectedValue', () => {
     render(
       <Dropdown
         {...props}
         data={[
           {
             selectedKey: 'test',
-            selected_value: <NumberFormat>11345678962</NumberFormat>,
+            selectedValue: <NumberFormat>11345678962</NumberFormat>,
             content: 'test',
           },
         ]}
