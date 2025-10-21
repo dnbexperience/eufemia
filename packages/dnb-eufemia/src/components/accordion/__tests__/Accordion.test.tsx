@@ -360,7 +360,7 @@ describe('Accordion container component', () => {
           id="container"
           singleContainer
           prevent_rerender
-          remember_state
+          rememberState
           no_animation
           {...props}
         >
