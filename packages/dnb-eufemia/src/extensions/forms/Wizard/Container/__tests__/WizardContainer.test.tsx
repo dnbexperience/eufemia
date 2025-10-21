@@ -4745,9 +4745,6 @@ describe('Wizard.Container', () => {
           bar: undefined,
         },
         error: new Error(nb.Field.errorRequired),
-        internal: {
-          error: new Error(nb.Field.errorRequired),
-        },
       },
     ])
   })
