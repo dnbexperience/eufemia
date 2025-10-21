@@ -4009,6 +4009,49 @@ describe('Autocomplete markup', () => {
 
     expect(await axeComponent(result)).toHaveNoViolations()
   })
+
+  it('should have correct aria-activedescendant', async () => {
+    render(<Autocomplete {...props} value={undefined} data={mockData} />)
+
+    toggle()
+
+    const ul = document.querySelector('ul.dnb-drawer-list__options')
+    const input = document.querySelector(
+      '.dnb-autocomplete .dnb-input__input'
+    )
+
+    // active descendant should be the first item when no item is focused
+    expect(ul.getAttribute('aria-activedescendant')).toEqual(
+      `option-${props.id}-0`
+    )
+    expect(input.getAttribute('aria-activedescendant')).toEqual(
+      `option-${props.id}-0`
+    )
+
+    keyDownOnInput(40) // down
+
+    // active descendant is still the first item as that is focused now
+    await waitFor(() => {
+      expect(ul.getAttribute('aria-activedescendant')).toEqual(
+        `option-${props.id}-0`
+      )
+      expect(input.getAttribute('aria-activedescendant')).toEqual(
+        `option-${props.id}-0`
+      )
+    })
+
+    keyDownOnInput(40) // down
+
+    // active descendant is now the second item as that is focused now
+    await waitFor(() => {
+      expect(ul.getAttribute('aria-activedescendant')).toEqual(
+        `option-${props.id}-1`
+      )
+      expect(input.getAttribute('aria-activedescendant')).toEqual(
+        `option-${props.id}-1`
+      )
+    })
+  })
 })
 
 describe('Autocomplete scss', () => {

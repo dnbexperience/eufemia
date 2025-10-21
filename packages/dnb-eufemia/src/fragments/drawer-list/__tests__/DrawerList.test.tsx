@@ -1171,6 +1171,63 @@ describe('DrawerList markup', () => {
       })
     ).toHaveNoViolations()
   })
+
+  it('should have correct aria-activedescendant', async () => {
+    render(<DrawerList {...props} value={undefined} data={mockData} />)
+    const ul = document.querySelector('ul.dnb-drawer-list__options')
+
+    expect(ul.getAttribute('aria-activedescendant')).toEqual(
+      `option-${props.id}-0`
+    )
+
+    keydown(40) // down
+
+    await waitFor(() => {
+      expect(ul.getAttribute('aria-activedescendant')).toEqual(
+        `option-${props.id}-0`
+      )
+    })
+
+    keydown(38) // up
+
+    await waitFor(() => {
+      expect(ul.getAttribute('aria-activedescendant')).toEqual(
+        `option-${props.id}-0`
+      )
+    })
+
+    keydown(38) // up
+
+    await waitFor(() => {
+      expect(ul.getAttribute('aria-activedescendant')).toEqual(
+        `option-${props.id}-6`
+      )
+    })
+
+    keydown(40) // down
+
+    await waitFor(() => {
+      expect(ul.getAttribute('aria-activedescendant')).toEqual(
+        `option-${props.id}-0`
+      )
+    })
+
+    keydown(40) // down
+
+    await waitFor(() => {
+      expect(ul.getAttribute('aria-activedescendant')).toEqual(
+        `option-${props.id}-0`
+      )
+    })
+
+    keydown(40) // down
+
+    await waitFor(() => {
+      expect(ul.getAttribute('aria-activedescendant')).toEqual(
+        `option-${props.id}-1`
+      )
+    })
+  })
 })
 
 describe('DrawerList portal', () => {

@@ -487,21 +487,9 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
       ref: _refUl,
     }
 
-    if (
-      !hidden &&
-      (parseFloat(active_item as string) > -1 ||
-        (!(parseFloat(active_item as string) > -1) &&
-          !(parseFloat(selected_item as string) > -1)))
-    ) {
-      ulParams['aria-activedescendant'] = `option-${id}-${
-        parseFloat(active_item as string) > -1 ? active_item : 0
-      }`
-    } else if (
-      !isTrue(prevent_selection) &&
-      !hidden &&
-      parseFloat(selected_item as string) > -1
-    ) {
-      ulParams['aria-activedescendant'] = `option-${id}-${selected_item}`
+    if (!hidden) {
+      ulParams['aria-activedescendant'] =
+        this.context.drawerList.ariaActiveDescendant
     }
 
     if (isTrue(focusable)) {

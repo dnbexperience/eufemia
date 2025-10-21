@@ -1823,7 +1823,7 @@ class AutocompleteInstance extends React.PureComponent {
 
     const { inputValue, visibleIndicator } = this.state
 
-    const { id, hidden, selected_item, active_item, direction, opened } =
+    const { id, hidden, selected_item, direction, opened } =
       this.context.drawerList
 
     const isExpanded = Boolean(opened) && this.hasValidData()
@@ -1901,18 +1901,8 @@ class AutocompleteInstance extends React.PureComponent {
 
     // Handling of activedescendant – required by NVDA
     if (isExpanded) {
-      if (parseFloat(active_item) > -1) {
-        inputParams[
-          'aria-activedescendant'
-        ] = `option-${id}-${active_item}`
-      } else if (
-        !isTrue(prevent_selection) &&
-        parseFloat(selected_item) > -1
-      ) {
-        inputParams[
-          'aria-activedescendant'
-        ] = `option-${id}-${selected_item}`
-      }
+      inputParams['aria-activedescendant'] =
+        this.context.drawerList.ariaActiveDescendant
     }
 
     if (showStatus || suffix) {
