@@ -219,7 +219,7 @@ function AccordionWithContainer() {
         // prerender
         // prevent_rerender
         // prevent_rerender_conditional
-        single_container
+        singleContainer
         remember_state
         flushRememberedState={flushCache}
         // allow_close_all

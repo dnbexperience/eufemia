@@ -76,7 +76,7 @@ export const AccordionProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  single_container: {
+  singleContainer: {
     doc: 'If set to `true`, a group of accordions will be wrapped to a sidebar looking menu for medium and larger screens.',
     type: 'boolean',
     status: 'optional',

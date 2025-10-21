@@ -358,7 +358,7 @@ describe('Accordion container component', () => {
         <Increment />
         <Accordion.Group
           id="container"
-          single_container
+          singleContainer
           prevent_rerender
           remember_state
           no_animation
