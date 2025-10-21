@@ -97,11 +97,11 @@ export type AccordionProps = Omit<React.HTMLProps<HTMLElement>, 'ref'> &
     /**
      * If set to `true`, the saved (remembered) will be removed and the initial component state will be used and set.
      */
-    flush_remembered_state?: boolean
+    flushRememberedState?: boolean
     /**
      * If set to `true`, a group of accordions will be wrapped to sidebar looking menu for medium and larger screens.
      */
-    single_container?: boolean
+    singleContainer?: boolean
     /**
      * Defines the used styling. As of now, only `outlined` is available. Use `plain` for no styles. It defaults to `outlined`.
      */
@@ -109,7 +109,7 @@ export type AccordionProps = Omit<React.HTMLProps<HTMLElement>, 'ref'> &
     /**
      * Will add a React element on the left side of the `title`, inside `AccordionHeaderContainer`.
      */
-    left_component?: React.ReactNode
+    leftComponent?: React.ReactNode
     /**
      * If set to `true`, the accordion button will be disabled (dimmed).
      */
@@ -220,7 +220,7 @@ function Accordion({
 
   // componentDidUpdate
   useEffect(() => {
-    if (context.flush_remembered_state) {
+    if (context.flushRememberedState) {
       store.flush()
       setExpanded(props.expanded)
     }
@@ -229,7 +229,7 @@ function Accordion({
       setExpanded(true)
     }
   }, [
-    context.flush_remembered_state,
+    context.flushRememberedState,
     context.expanded_id,
     props.expanded,
     props.id,
@@ -342,7 +342,7 @@ function Accordion({
               prerender,
               prevent_rerender,
               prevent_rerender_conditional,
-              single_container,
+              singleContainer,
               remember_state,
               disabled,
               skeleton,
@@ -356,7 +356,7 @@ function Accordion({
 
               title, // eslint-disable-line
               description, // eslint-disable-line
-              left_component, // eslint-disable-line
+              leftComponent, // eslint-disable-line
               icon, // eslint-disable-line
               icon_position, // eslint-disable-line
               iconSize, // eslint-disable-line
@@ -401,7 +401,7 @@ function Accordion({
               prerender: prerender,
               prevent_rerender: prevent_rerender,
               prevent_rerender_conditional: prevent_rerender_conditional,
-              single_container: single_container,
+              singleContainer: singleContainer,
               remember_state: remember_state,
               disabled: disabled,
               skeleton: skeleton,
