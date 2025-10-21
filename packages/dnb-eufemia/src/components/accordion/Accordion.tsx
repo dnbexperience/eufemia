@@ -74,7 +74,7 @@ export type AccordionProps = Omit<React.HTMLProps<HTMLElement>, 'ref'> &
     /**
      * If set to `true` the accordion will be expanded during SSR. Can be potentially useful for SEO, although it will disturb client hydration, where React expects the same state. But that&#39;s mainly a technical aspect to consider.
      */
-    expanded_ssr?: boolean
+    expandedSsr?: boolean
     /**
      */
     prerender?: boolean
@@ -246,7 +246,7 @@ function Accordion({
   // That happens when if we put this logic in a useEffect that runs after the initial expanded state is set
   // Since useEffect runs after every render
   function getInitialExpandedState() {
-    if (props.expanded_ssr || context?.expanded_ssr) {
+    if (props.expandedSsr || context?.expandedSsr) {
       return typeof window === 'undefined'
     }
 
@@ -347,7 +347,7 @@ function Accordion({
               disabled,
               skeleton,
               no_animation,
-              expanded_ssr: _expanded_ssr, // eslint-disable-line
+              expandedSsr: _expandedSsr, // eslint-disable-line
               children,
 
               id: _id, // eslint-disable-line
