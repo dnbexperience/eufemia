@@ -348,7 +348,7 @@ describe('Accordion container component', () => {
         <Accordion.Group
           id="container"
           singleContainer
-          prevent_rerender
+          preventRerender
           rememberState
           no_animation
           {...props}
