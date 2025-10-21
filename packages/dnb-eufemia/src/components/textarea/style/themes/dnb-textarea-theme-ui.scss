@@ -43,7 +43,7 @@
     --textarea-border-color: var(--textarea-border-color--disabled);
   }
 
-  // with status_state = "error"
+  // with statusState = "error"
   &__status--error:not(#{&}--focus)
     &__textarea:not([disabled]):not(#{&}--disabled),
   &__status--error:not(#{&}--focus)
