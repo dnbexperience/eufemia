@@ -46,7 +46,7 @@ export const AccordionProperties: PropertiesTableProps = {
     type: 'React.ReactNode',
     status: 'optional',
   },
-  icon_position: {
+  iconPosition: {
     doc: 'Will set the placement of the icon. Defaults to `left`.',
     type: 'string',
     status: 'optional',

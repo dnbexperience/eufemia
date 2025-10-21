@@ -82,7 +82,7 @@ export const SkeletonSandbox = () => {
                   top
                   rememberState
                   icon="bell"
-                  icon_position="right"
+                  iconPosition="right"
                   variant="outlined"
                 >
                   <Accordion
