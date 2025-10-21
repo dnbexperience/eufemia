@@ -9,7 +9,6 @@ import {
   LogoDefaultExample,
   LogoInheritColorExample,
   LogoCompactVariantExample,
-  LogoCustomSvgExample,
 } from 'Docs/uilib/components/logo/Examples'
 
 ## Demos
@@ -46,15 +45,15 @@ The color will be set based on the parent, inherited `color` by using `currentCo
 
 <LogoInheritColorExample />
 
-### Logo with a custom SVG
-
-Provide a custom SVG component or element via the `svg` prop. The `height`, `width` and `color` props still apply.
-
-<LogoCustomSvgExample />
-
 <VisibilityByTheme visible="sbanken">
 
 ### Logo with compact variant
+
+You can import the SVG like this:
+
+```jsx
+import { SbankenCompact } from '@dnb/eufemia/components/Logo'
+```
 
 <LogoCompactVariantExample />
 

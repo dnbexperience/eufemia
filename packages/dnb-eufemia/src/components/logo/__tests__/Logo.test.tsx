@@ -199,7 +199,7 @@ describe('Logo component', () => {
 
   it('should render alt/title given in custom SVG', () => {
     const CustomSvg = ({
-      alt = 'Custom SVG',
+      alt,
       ...props
     }: React.SVGProps<SVGSVGElement> & { alt: React.ReactNode }) => (
       <svg viewBox="0 0 10 10" {...props}>
@@ -207,6 +207,7 @@ describe('Logo component', () => {
         <circle cx="5" cy="5" r="5" />
       </svg>
     )
+    CustomSvg.alt = 'Custom SVG'
 
     render(<Logo svg={CustomSvg} />)
 

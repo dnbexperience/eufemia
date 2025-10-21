@@ -14,7 +14,7 @@ export const LogoProperties: PropertiesTableProps = {
   variant: {
     doc: 'Define the logo variant, if there is more than one variant of a brands logo. Currently the only option other than default is `compact` and `compactHorizontal` variant of the Sbanken logo. Defaults to `default`.',
     type: ['"default"', '"compact"', '"compactHorizontal"'],
-    status: 'optional',
+    status: 'deprecated',
   },
   color: {
     doc: 'Define the color of the logo.',

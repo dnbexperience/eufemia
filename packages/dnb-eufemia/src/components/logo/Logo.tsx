@@ -20,6 +20,9 @@ export * from './LogoSvg'
 
 export type LogoWidth = number | string
 export type LogoHeight = number | string
+/**
+ * @deprecated Will be removed in eufemia v11. Use the `svg` prop to provide a custom logo instead.
+ */
 export type LogoVariant = 'default' | 'compact' | 'compactHorizontal'
 export type CustomLogoSvg =
   | React.ComponentType<
@@ -48,6 +51,7 @@ export type LogoProps = {
   brand?: string
   /**
    * Define the logo variant, if there is more than one variant of a brands logo. Currently the only option other than default is a `compact` variant of the Sbanken logo. Defaults to `default`.
+   * @deprecated Will be removed in eufemia v11. Use the `svg` prop to provide a custom logo instead.
    */
   variant?: LogoVariant
   /**
@@ -80,6 +84,9 @@ type DeprecatedLogoProps = {
 
 const defaultProps: LogoProps = {
   size: 'auto',
+  /**
+   * @deprecated Will be removed in v11
+   */
   variant: 'default',
   inheritSize: false,
 }
@@ -110,8 +117,25 @@ function Logo(localProps: LogoProps) {
   } = convertDimensionalPropsToString(props)
 
   // Attempt to get theme from context
-  const brand = context.theme ? context.theme.name : brandProp
+  const brand = useMemo(() => {
+    if (brandProp) {
+      return brandProp
+    }
 
+    if (context?.theme) {
+      switch (context.theme.name) {
+        case 'ui':
+        case 'eiendom':
+          return 'dnb'
+      }
+
+      return context.theme.name
+    }
+
+    return 'dnb'
+  }, [brandProp, context?.theme])
+
+  // @deprecated Can remove this in v11
   const logoType = useMemo(() => {
     if (brand === 'sbanken') {
       if (variant === 'compact') {
@@ -129,35 +153,37 @@ function Logo(localProps: LogoProps) {
   /** @deprecated Can remove this in v11 */
   const height = parseFloat(size) > 0 ? size : heightProp
 
-  // Alt text for the logo does not need to be translated. DNB alt will be the same in English, and sbanken alt should always be in Norwegian
-  const altText = logoType === 'dnb' ? DnbLogoAlt : SbankenLogoAlt
+  // Alt text for the logo does not need to be translated. DNB alt will be the same in English.
+  const altText = useMemo(() => {
+    const alt = svg?.['alt']
+    if (alt) {
+      return alt
+    }
+
+    switch (brand) {
+      case 'sbanken':
+        return SbankenLogoAlt
+
+      case 'dnb':
+        return DnbLogoAlt
+    }
+  }, [brand, svg])
 
   const sharedClasses = classnames(
     classNameProp,
     createSpacingClasses(props)
   )
   const className = useMemo(() => {
-    if (logoType === 'dnb') {
-      return classnames(
-        'dnb-logo',
-        sharedClasses,
-        (parseFloat(width) > 0 || parseFloat(height) > 0) &&
-          'dnb-logo--has-size',
-        (inheritSize || size === 'inherit') && 'dnb-logo--inherit-size',
-        inheritColor && 'dnb-logo--inherit-color'
-      )
-    }
-
     return classnames(
-      'sbanken-logo',
+      `${brand}-logo`,
       sharedClasses,
       (parseFloat(width) > 0 || parseFloat(height) > 0) &&
-        'sbanken-logo--has-size',
-      (inheritSize || size === 'inherit') && 'sbanken-logo--inherit-size',
-      inheritColor && 'sbanken-logo--inherit-color'
+        `${brand}-logo--has-size`,
+      (inheritSize || size === 'inherit') && `${brand}-logo--inherit-size`,
+      inheritColor && `${brand}-logo--inherit-color`
     )
   }, [
-    logoType,
+    brand,
     sharedClasses,
     width,
     height,
@@ -178,7 +204,7 @@ function Logo(localProps: LogoProps) {
     width,
     height,
     color,
-    alt: svg ? undefined : altText,
+    alt: altText,
   }
 
   const remainingDOMProps = validateDOMAttributes(props, rootParams)

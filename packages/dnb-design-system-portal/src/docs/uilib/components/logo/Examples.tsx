@@ -9,6 +9,7 @@ import { Card, Logo } from '@dnb/eufemia/src'
 import { Provider, useTheme } from '@dnb/eufemia/shared'
 import {
   DnbDefault,
+  SbankenCompact,
   SbankenDefault,
 } from '@dnb/eufemia/src/components/Logo'
 import ChangeStyleTheme from '../../../../core/ChangeStyleTheme'
@@ -44,8 +45,11 @@ export const LogoInheritColorExample = () => (
 )
 
 export const LogoCompactVariantExample = () => (
-  <ComponentBox data-visual-test="logo-compact-variant">
-    <Logo height="96" variant="compact" />
+  <ComponentBox
+    data-visual-test="logo-compact-variant"
+    scope={{ SbankenCompact }}
+  >
+    <Logo height="96" svg={SbankenCompact} />
   </ComponentBox>
 )
 
@@ -81,22 +85,3 @@ export const LogoChangeExample = () => (
     }}
   </ComponentBox>
 )
-
-export const LogoCustomSvgExample = () => {
-  const CustomSvg = (props) => (
-    <svg viewBox="0 0 32 32" {...props}>
-      <title>Custom SVG</title>
-      <circle cx="16" cy="16" r="14" />
-    </svg>
-  )
-
-  return (
-    <ComponentBox scope={{ CustomSvg }}>
-      <Logo
-        svg={CustomSvg}
-        height="64"
-        color="var(--color-emerald-green)"
-      />
-    </ComponentBox>
-  )
-}
