@@ -44,7 +44,7 @@ export default class GlobalStatus extends React.PureComponent {
     id: PropTypes.string,
     statusId: PropTypes.string,
     title: PropTypes.oneOfType([PropTypes.node, PropTypes.bool]),
-    default_title: PropTypes.string,
+    defaultTitle: PropTypes.string,
     text: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.func,
@@ -100,7 +100,7 @@ export default class GlobalStatus extends React.PureComponent {
     id: 'main',
     statusId: 'status-main',
     title: null,
-    default_title: null,
+    defaultTitle: null,
     text: null,
     items: [],
     icon: 'error',
@@ -567,7 +567,7 @@ export default class GlobalStatus extends React.PureComponent {
 
     const {
       title,
-      default_title, // eslint-disable-line
+      defaultTitle, // eslint-disable-line
       state: rawState,
       className,
       noAnimation,
@@ -614,7 +614,7 @@ export default class GlobalStatus extends React.PureComponent {
       theme: this.context?.theme?.name || 'ui',
     })
     const titleToRender =
-      title || fallbackProps.title || fallbackProps.default_title
+      title || fallbackProps.title || fallbackProps.defaultTitle
     const noAnimationUsed = isTrue(noAnimation)
     const itemsToRender = props.items || []
     const contentToRender = props.text || props.children

@@ -52,7 +52,7 @@ export default {
       targetBlankTitle: 'Åpner et nytt vindu',
     },
     GlobalStatus: {
-      default_title: 'En feil har skjedd',
+      defaultTitle: 'En feil har skjedd',
       closeText: 'Lukk',
       statusAnchorText: 'Gå til %s',
     },

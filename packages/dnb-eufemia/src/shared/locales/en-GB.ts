@@ -53,7 +53,7 @@ export default {
       targetBlankTitle: 'Opens a new Window',
     },
     GlobalStatus: {
-      default_title: 'An error has occurred',
+      defaultTitle: 'An error has occurred',
       closeText: 'Close',
       statusAnchorText: 'Go to %s',
     },

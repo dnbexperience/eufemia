@@ -53,7 +53,7 @@ export default {
       targetBlankTitle: 'Öppnar ett nytt fönster',
     },
     GlobalStatus: {
-      default_title: 'Ett fel har inträffat',
+      defaultTitle: 'Ett fel har inträffat',
       closeText: 'Stäng',
       statusAnchorText: 'Gå till %s',
     },

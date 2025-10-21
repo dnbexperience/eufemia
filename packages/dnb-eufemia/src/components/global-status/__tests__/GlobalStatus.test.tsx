@@ -204,7 +204,7 @@ describe('GlobalStatus component', () => {
       <GlobalStatus.Remove
         id="custom-status-update"
         statusId="status-update-1"
-        buffer_delay={0}
+        bufferDelay={0}
       />
     )
 
@@ -271,7 +271,7 @@ describe('GlobalStatus component', () => {
       <GlobalStatus.Remove
         id="custom-status-remove"
         statusId="status-remove-1"
-        buffer_delay={0}
+        bufferDelay={0}
       />
     )
 
@@ -293,7 +293,7 @@ describe('GlobalStatus component', () => {
       <GlobalStatus.Remove
         id="custom-status-remove"
         statusId="status-remove-2"
-        buffer_delay={0}
+        bufferDelay={0}
       />
     )
 
@@ -785,7 +785,7 @@ describe('GlobalStatus component', () => {
       <GlobalStatus.Remove
         id="custom-status-autoclose"
         statusId="status-autoclose-1"
-        buffer_delay={0}
+        bufferDelay={0}
       />
     )
 
@@ -797,7 +797,7 @@ describe('GlobalStatus component', () => {
       <GlobalStatus.Remove
         id="custom-status-autoclose"
         statusId="status-autoclose-2"
-        buffer_delay={0}
+        bufferDelay={0}
       />
     )
 

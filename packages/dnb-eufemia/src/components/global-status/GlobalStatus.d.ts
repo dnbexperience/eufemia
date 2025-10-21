@@ -35,7 +35,7 @@ export interface GlobalStatusProps
    * the title appears as a part of the status content. Defaults to `En feil har skjedd`.
    */
   title?: GlobalStatusTitle;
-  default_title?: string;
+  defaultTitle?: string;
   /**
    * the text appears as the status content. Besides plain text, you can send in a React component as well. Defaults to `null`.
    */
@@ -149,7 +149,7 @@ export type GlobalStatusRemoveProps = {
    */
   id: string;
   statusId: GlobalStatusStatusId;
-  buffer_delay?: number;
+  bufferDelay?: number;
 };
 export type GlobalStatusInterceptorProps = {
   /**

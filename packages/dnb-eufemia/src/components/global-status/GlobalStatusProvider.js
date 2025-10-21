@@ -31,7 +31,7 @@ export class GlobalStatusProviderItem {
   forceRerender(
     globalStatus,
     props,
-    { buffer_delay = 0, isEmpty = false } = {}
+    { bufferDelay = 0, isEmpty = false } = {}
   ) {
     const run = () => {
       this._onUpdateEvents.forEach((event) => {
@@ -41,9 +41,9 @@ export class GlobalStatusProviderItem {
       })
     }
 
-    if (buffer_delay > 0) {
+    if (bufferDelay > 0) {
       clearTimeout(this._bufferDelayId)
-      this._bufferDelayId = setTimeout(run, buffer_delay) // delay the sum & rerender, in case we change the state in the same frame
+      this._bufferDelayId = setTimeout(run, bufferDelay) // delay the sum & rerender, in case we change the state in the same frame
     } else {
       run()
     }
@@ -90,7 +90,7 @@ export class GlobalStatusProviderItem {
 
     if (!opts?.preventRerender) {
       this.forceRerender(globalStatus, props, {
-        buffer_delay: props?.buffer_delay > -1 ? props.buffer_delay : 0,
+        bufferDelay: props?.bufferDelay > -1 ? props.bufferDelay : 0,
       })
     }
 
@@ -125,8 +125,7 @@ export class GlobalStatusProviderItem {
 
     if (!opts?.preventRerender) {
       this.forceRerender(globalStatus, null, {
-        buffer_delay:
-          newProps?.buffer_delay > -1 ? newProps.buffer_delay : 1,
+        bufferDelay: newProps?.bufferDelay > -1 ? newProps.bufferDelay : 1,
       })
     }
   }
@@ -152,7 +151,7 @@ export class GlobalStatusProviderItem {
 
       if (!opts?.preventRerender) {
         this.forceRerender(globalStatus, null, {
-          buffer_delay: opts?.buffer_delay > -1 ? opts.buffer_delay : 1,
+          bufferDelay: opts?.bufferDelay > -1 ? opts.bufferDelay : 1,
         })
       }
     }
