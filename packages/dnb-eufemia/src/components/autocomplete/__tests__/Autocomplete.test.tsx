@@ -335,6 +335,40 @@ describe('Autocomplete component', () => {
     })
   })
 
+  it('keyboard navigation loops', () => {
+    render(
+      <Autocomplete
+        data={mockData}
+        {...mockProps}
+        value={1}
+        show_submit_button
+      />
+    )
+    toggle()
+
+    expect(
+      document.querySelectorAll('.dnb-drawer-list__option')[1].classList
+    ).toContain('dnb-drawer-list__option--focus')
+
+    keyDownOnInput(38) // up
+
+    expect(
+      document.querySelectorAll('.dnb-drawer-list__option')[0].classList
+    ).toContain('dnb-drawer-list__option--focus')
+
+    keyDownOnInput(38) // up
+
+    expect(
+      document.querySelectorAll('.dnb-drawer-list__option')[2].classList
+    ).toContain('dnb-drawer-list__option--focus')
+
+    keyDownOnInput(40) // down
+
+    expect(
+      document.querySelectorAll('.dnb-drawer-list__option')[0].classList
+    ).toContain('dnb-drawer-list__option--focus')
+  })
+
   describe('id', () => {
     const testAllIds = (id) => {
       // DrawerList specifics

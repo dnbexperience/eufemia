@@ -314,7 +314,7 @@ describe('DrawerList component', () => {
     })
   })
 
-  it('keyboard navigation focuses list before looping', async () => {
+  it('keyboard navigation does not focus list before looping', async () => {
     render(<DrawerList {...props} value={undefined} data={mockData} />)
 
     expect(getFocusedItemIndex()).toBe(-1)
@@ -329,11 +329,8 @@ describe('DrawerList component', () => {
     keydown(38) // up
 
     await waitFor(() => {
-      expect(isListFocused()).toBe(true)
+      expect(isListFocused()).toBe(false)
     })
-
-    keydown(38) // up
-
     await waitFor(() => {
       expect(getFocusedItemIndex()).toBe(6)
     })
@@ -341,11 +338,8 @@ describe('DrawerList component', () => {
     keydown(40) // down
 
     await waitFor(() => {
-      expect(isListFocused()).toBe(true)
+      expect(isListFocused()).toBe(false)
     })
-
-    keydown(40) // down
-
     await waitFor(() => {
       expect(getFocusedItemIndex()).toBe(0)
     })
@@ -372,10 +366,8 @@ describe('DrawerList component', () => {
     keydown(38) // up
 
     await waitFor(() => {
-      expect(isListFocused()).toBe(true)
+      expect(isListFocused()).toBe(false)
     })
-
-    keydown(38) // up
 
     await waitFor(() => {
       expect(getFocusedItemIndex()).toBe(6)
@@ -384,11 +376,8 @@ describe('DrawerList component', () => {
     keydown(40) // down
 
     await waitFor(() => {
-      expect(isListFocused()).toBe(true)
+      expect(isListFocused()).toBe(false)
     })
-
-    keydown(40) // down
-
     await waitFor(() => {
       expect(getFocusedItemIndex()).toBe(0)
     })
@@ -1192,7 +1181,7 @@ describe('DrawerList markup', () => {
 
     await waitFor(() => {
       expect(ul.getAttribute('aria-activedescendant')).toEqual(
-        `option-${props.id}-0`
+        `option-${props.id}-6`
       )
     })
 
@@ -1200,7 +1189,7 @@ describe('DrawerList markup', () => {
 
     await waitFor(() => {
       expect(ul.getAttribute('aria-activedescendant')).toEqual(
-        `option-${props.id}-6`
+        `option-${props.id}-5`
       )
     })
 
@@ -1208,7 +1197,7 @@ describe('DrawerList markup', () => {
 
     await waitFor(() => {
       expect(ul.getAttribute('aria-activedescendant')).toEqual(
-        `option-${props.id}-0`
+        `option-${props.id}-6`
       )
     })
 

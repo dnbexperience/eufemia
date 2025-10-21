@@ -1097,7 +1097,7 @@ describe('Dropdown component', () => {
     )
   })
 
-  it('will set focus on options when key down/up is pressed on first or last item', async () => {
+  it('will not set focus on options when key down/up is pressed on first or last item', async () => {
     const { rerender } = render(
       <Dropdown id="key-nav" no_animation data={mockData} />
     )
@@ -1129,17 +1129,11 @@ describe('Dropdown component', () => {
     ).toContain('dnb-drawer-list__option--focus')
 
     keydown(38) // up
-
-    expect(document.activeElement.classList).toContain(
-      'dnb-drawer-list__options'
-    )
-
-    // then simulate changes
-    keydown(38) // up
-
-    // delay because we want to wait to have the DOM focus to be called
     await wait(1)
 
+    expect(document.activeElement.classList).not.toContain(
+      'dnb-drawer-list__options'
+    )
     expect(document.activeElement.classList).toContain(
       'dnb-drawer-list__option'
     )
@@ -1150,12 +1144,11 @@ describe('Dropdown component', () => {
 
     // then simulate changes
     keydown(40) // down
+    await wait(1)
 
-    expect(document.activeElement.classList).toContain(
+    expect(document.activeElement.classList).not.toContain(
       'dnb-drawer-list__options'
     )
-
-    keydown(40) // down
 
     expect(
       document.querySelectorAll('li.dnb-drawer-list__option')[0].classList // the first item
@@ -1170,64 +1163,36 @@ describe('Dropdown component', () => {
       />
     )
 
-    // then simulate changes
-    keydown(38) // up
-
-    expect(document.activeElement.classList).toContain(
-      'dnb-drawer-list__options'
-    )
-
-    keydown(38) // up
-    options = document.querySelectorAll('li.dnb-drawer-list__option')
-    expect(
-      options[mockData.length - 1].classList // the last item
-    ).toContain('dnb-drawer-list__option--focus')
-
-    // delay because we want to wait to have the DOM focus to be called
-    await wait(1)
-
-    // then simulate changes
-    keydown(40) // down
-
-    expect(document.activeElement.classList).toContain(
-      'dnb-drawer-list__options'
-    )
-
-    // then simulate changes
-    keydown(38) // up
-
-    options = document.querySelectorAll('li.dnb-drawer-list__option')
-    expect(
-      options[mockData.length - 1].classList // the last item
-    ).toContain('dnb-drawer-list__option--focus')
-
-    // then simulate changes
-    keydown(38) // up
-
-    options = document.querySelectorAll('li.dnb-drawer-list__option')
-    expect(
-      options[mockData.length - 2].classList // the second item
-    ).toContain('dnb-drawer-list__option--focus')
-
-    // then simulate changes
-    keydown(33) // pageUp
-
     expect(
       document.querySelectorAll('li.dnb-drawer-list__option')[0].classList // the first item
     ).toContain('dnb-drawer-list__option--focus')
 
     // then simulate changes
     keydown(38) // up
+    await wait(1)
 
-    expect(document.activeElement.classList).toContain(
+    expect(document.activeElement.classList).not.toContain(
       'dnb-drawer-list__options'
     )
-
-    keydown(38) // up
 
     options = document.querySelectorAll('li.dnb-drawer-list__option')
     expect(
       options[mockData.length - 1].classList // the last item
+    ).toContain('dnb-drawer-list__option--focus')
+
+    // then simulate changes
+    keydown(40) // down
+    await wait(1)
+
+    expect(document.activeElement.classList).not.toContain(
+      'dnb-drawer-list__options'
+    )
+    expect(document.activeElement.classList).toContain(
+      'dnb-drawer-list__option--focus'
+    )
+
+    expect(
+      document.querySelectorAll('li.dnb-drawer-list__option')[0].classList // the first item
     ).toContain('dnb-drawer-list__option--focus')
   })
 
@@ -1969,6 +1934,7 @@ describe('Dropdown component', () => {
 
       // first open
       keydown(40) // down
+      await wait(1)
 
       expect(document.querySelector('.dnb-dropdown').classList).toContain(
         'dnb-dropdown--opened'
@@ -1997,17 +1963,15 @@ describe('Dropdown component', () => {
           .classList
       ).toContain('dnb-drawer-list__option--focus')
 
-      keydown(38) // up
-
-      expect(document.activeElement.classList).toContain(
-        'dnb-drawer-list__options'
-      )
-
       // then simulate changes
       keydown(38) // up
 
       // delay because we want to wait to have the DOM focus to be called
       await wait(1)
+
+      expect(document.activeElement.classList).not.toContain(
+        'dnb-drawer-list__options'
+      )
 
       expect(document.activeElement.classList).toContain(
         'dnb-drawer-list__option'
@@ -2019,12 +1983,15 @@ describe('Dropdown component', () => {
 
       // then simulate changes
       keydown(40) // down
+      await wait(1)
 
-      expect(document.activeElement.classList).toContain(
+      expect(document.activeElement.classList).not.toContain(
         'dnb-drawer-list__options'
       )
 
-      keydown(40) // down
+      expect(document.activeElement.classList).toContain(
+        'dnb-drawer-list__option--focus'
+      )
 
       expect(
         document.querySelectorAll('li.dnb-drawer-list__option')[0]
@@ -2044,29 +2011,37 @@ describe('Dropdown component', () => {
         document.querySelector('.dnb-drawer-list').classList
       ).toContain('dnb-drawer-list--top')
 
+      expect(
+        document.querySelectorAll('li.dnb-drawer-list__option')[0]
+          .classList // the first item
+      ).toContain('dnb-drawer-list__option--focus')
+
       // then simulate changes
       keydown(38) // up
+      await wait(1)
 
-      expect(document.activeElement.classList).toContain(
+      expect(document.activeElement.classList).not.toContain(
         'dnb-drawer-list__options'
       )
-
-      keydown(38) // up
 
       options = document.querySelectorAll('li.dnb-drawer-list__option')
       expect(
         options[dataProp.length - 1].classList // the last item
       ).toContain('dnb-drawer-list__option--focus')
 
+      // then simulate changes
+      keydown(40) // down
       // delay because we want to wait to have the DOM focus to be called
       await wait(1)
 
-      // then simulate changes
-      keydown(40) // down
-
-      expect(document.activeElement.classList).toContain(
+      expect(document.activeElement.classList).not.toContain(
         'dnb-drawer-list__options'
       )
+
+      expect(
+        document.querySelectorAll('li.dnb-drawer-list__option')[0]
+          .classList // the first item
+      ).toContain('dnb-drawer-list__option--focus')
 
       // then simulate changes
       keydown(38) // up
@@ -2094,12 +2069,12 @@ describe('Dropdown component', () => {
 
       // then simulate changes
       keydown(38) // up
+      // delay because we want to wait to have the DOM focus to be called
+      await wait(1)
 
-      expect(document.activeElement.classList).toContain(
+      expect(document.activeElement.classList).not.toContain(
         'dnb-drawer-list__options'
       )
-
-      keydown(38) // up
 
       options = document.querySelectorAll('li.dnb-drawer-list__option')
       expect(
