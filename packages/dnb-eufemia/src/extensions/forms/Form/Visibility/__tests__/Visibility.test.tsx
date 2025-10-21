@@ -892,9 +892,6 @@ describe('Visibility', () => {
         props: expect.objectContaining({
           path: '/isVisible',
         }),
-        internal: {
-          error: undefined,
-        },
       })
 
       await userEvent.click(document.querySelector('input'))
@@ -914,9 +911,6 @@ describe('Visibility', () => {
         props: expect.objectContaining({
           path: '/isVisible',
         }),
-        internal: {
-          error: undefined,
-        },
       })
     })
 
