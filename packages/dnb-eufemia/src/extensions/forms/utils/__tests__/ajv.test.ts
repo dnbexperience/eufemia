@@ -1,6 +1,5 @@
 import type { ErrorObject } from 'ajv/dist/2020.js'
 import { FormError } from '../FormError'
-import { DefaultErrorMessages } from '../../types'
 import { FormsTranslation } from '../../hooks/useTranslation'
 import { AdditionalReturnUtils } from '../../../../shared/useTranslation'
 import {
@@ -15,7 +14,6 @@ import {
   ajvErrorsToFormErrors,
   getTranslationKeyFromValidationRule,
   extendErrorMessagesWithTranslationMessages,
-  overwriteErrorMessagesWithGivenAjvKeys,
 } from '../ajv'
 
 describe('makeAjvInstance', () => {
@@ -542,45 +540,5 @@ describe('extendErrorMessagesWithTranslationMessages', () => {
 
     expect(result['Field.errorRequired']).toBe('Already exists')
     expect(result.required).toBe('Already exists')
-  })
-})
-
-describe('overwriteErrorMessagesWithGivenAjvKeys', () => {
-  it('should map Ajv error messages to the corresponding translation keys when provided', () => {
-    const messages: DefaultErrorMessages = {
-      required: 'This field is required',
-      pattern: 'Invalid pattern',
-    }
-
-    const result = overwriteErrorMessagesWithGivenAjvKeys(messages)
-
-    expect(result).toEqual({
-      required: 'This field is required',
-      pattern: 'Invalid pattern',
-      'Field.errorRequired': 'This field is required',
-      'Field.errorPattern': 'Invalid pattern',
-    })
-  })
-
-  it('should not alter the message object if no Ajv keys are provided', () => {
-    const messages: DefaultErrorMessages = {}
-
-    const result = overwriteErrorMessagesWithGivenAjvKeys(messages)
-
-    expect(result).toEqual({})
-  })
-
-  it('should overwrite existing translations with Ajv keys', () => {
-    const messages: DefaultErrorMessages = {
-      required: 'This field is required',
-      'Field.errorRequired': 'Should not overwrite',
-    }
-
-    const result = overwriteErrorMessagesWithGivenAjvKeys(messages)
-
-    expect(result).toEqual({
-      required: 'This field is required',
-      'Field.errorRequired': 'This field is required',
-    })
   })
 })
