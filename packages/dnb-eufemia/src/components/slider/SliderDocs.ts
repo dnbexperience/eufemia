@@ -107,7 +107,7 @@ export const SliderProperties: PropertiesTableProps = {
     status: 'optional',
   },
   globalStatusId: {
-    doc: 'The `status_id` used for the target [GlobalStatus](/uilib/components/global-status).',
+    doc: 'The `statusId` used for the target [GlobalStatus](/uilib/components/global-status).',
     type: 'string',
     status: 'optional',
   },
