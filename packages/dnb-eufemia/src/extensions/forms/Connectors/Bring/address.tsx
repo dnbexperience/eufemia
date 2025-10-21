@@ -36,7 +36,7 @@ export type AddressResolverData = {
 }
 export type AddressResolverPayload = Array<{
   item: AddressResolverData['addresses'][0]
-  selected_value: string
+  selectedValue: string
   selectedKey: string
   content: string[]
 }>
@@ -84,7 +84,7 @@ export const responseResolver: ResponseResolver<
 
     return {
       item,
-      selected_value: street,
+      selectedValue: street,
       selectedKey: street || item['address_id'],
       content: [street, city],
     } satisfies DrawerListDataArrayObjectStrict &
