@@ -162,13 +162,13 @@ export type AccordionHeaderProps = React.HTMLProps<HTMLElement> &
     title?: AccordionHeaderTitle
     expanded?: boolean
     description?: AccordionHeaderDescription
-    left_component?: AccordionHeaderLeftComponent
+    leftComponent?: AccordionHeaderLeftComponent
     element?: AccordionHeaderElement
     heading?: AccordionHeaderHeading
     headingLevel?: HeadingLevel
     icon?: AccordionIcon
     icon_position?: AccordionIconPosition
-    icon_size?: IconSize
+    iconSize?: IconSize
     disabled?: boolean
     skeleton?: SkeletonShow
     no_animation?: boolean
@@ -178,14 +178,14 @@ export type AccordionHeaderProps = React.HTMLProps<HTMLElement> &
   }
 
 const accordionHeaderDefaultProps = {
-  icon_size: 'medium',
+  iconSize: 'medium',
 }
 
 export const AccordionHeader = ({
-  icon_size: icon_size_default = 'medium',
+  iconSize: icon_size_default = 'medium',
   ...restOfProps
 }: AccordionHeaderProps) => {
-  const props = { icon_size: icon_size_default, ...restOfProps }
+  const props = { iconSize: icon_size_default, ...restOfProps }
 
   const [isHovering, setIsHovering] = useState<boolean>(false)
   const [hasClicked, setHasClicked] = useState<boolean>(false)
@@ -238,7 +238,7 @@ export const AccordionHeader = ({
     id,
 
     // 1. these props should be the same as ...
-    left_component,
+    leftComponent,
     expanded, // eslint-disable-line
     title,
     description,
@@ -246,7 +246,7 @@ export const AccordionHeader = ({
     heading,
     headingLevel,
     icon,
-    icon_size,
+    iconSize,
     disabled,
     skeleton,
     no_animation,
@@ -260,12 +260,12 @@ export const AccordionHeader = ({
     className,
 
     // 2. ... these
-    left_component: _left_component, // eslint-disable-line
+    leftComponent: _left_component, // eslint-disable-line
     expanded: _expanded, // eslint-disable-line
     title: _title, // eslint-disable-line
     description: _description, // eslint-disable-line
     icon: _icon, // eslint-disable-line
-    icon_size: _icon_size, // eslint-disable-line
+    iconSize: _icon_size, // eslint-disable-line
     disabled: _disabled, // eslint-disable-line
 
     ...rest
@@ -275,12 +275,12 @@ export const AccordionHeader = ({
     <AccordionHeaderIcon
       key="icon"
       icon={icon}
-      size={icon_size}
+      size={iconSize}
       expanded={context.expanded}
       icon_position={icon_position}
     />,
     <AccordionHeaderContainer key="container">
-      {left_component as React.ReactNode}
+      {leftComponent as React.ReactNode}
     </AccordionHeaderContainer>,
     <AccordionHeaderTitle key="title">
       {title ||
@@ -352,7 +352,7 @@ export const AccordionHeader = ({
       icon_position = 'right'
     }
 
-    if (left_component) {
+    if (leftComponent) {
       icon_position = 'right'
     }
   }

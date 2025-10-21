@@ -58,11 +58,11 @@ const AccordionGroup = (props: AccordionGroupProps) => {
     expanded_id, // eslint-disable-line
     prerender, // eslint-disable-line
     prevent_rerender, // eslint-disable-line
-    single_container, // eslint-disable-line
+    singleContainer, // eslint-disable-line
     contentRef, // eslint-disable-line
     allow_close_all, // eslint-disable-line
     remember_state, // eslint-disable-line
-    flush_remembered_state, // eslint-disable-line
+    flushRememberedState, // eslint-disable-line
     disabled, // eslint-disable-line
     group, // eslint-disable-line
     onInit, // eslint-disable-line
@@ -90,7 +90,7 @@ const AccordionGroup = (props: AccordionGroupProps) => {
 
   const classes = classnames(
     'dnb-accordion-group',
-    isTrue(single_container) && 'dnb-accordion-group--single-container',
+    isTrue(singleContainer) && 'dnb-accordion-group--single-container',
     createSpacingClasses(extendedProps),
     className
   )
@@ -102,7 +102,7 @@ const AccordionGroup = (props: AccordionGroupProps) => {
   // also used for code markup simulation
   validateDOMAttributes(props, params)
 
-  if (!extendedProps?.group && isTrue(props.single_container)) {
+  if (!extendedProps?.group && isTrue(props.singleContainer)) {
     extendedProps.group = makeUniqueId()
   }
 
