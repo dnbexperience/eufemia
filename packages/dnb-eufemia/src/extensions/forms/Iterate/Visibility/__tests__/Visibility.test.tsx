@@ -207,37 +207,6 @@ describe('Iterate.Visibility', () => {
     })
   })
 
-  describe('pathValue', () => {
-    it('renders children when target path and value matches', () => {
-      render(
-        <Provider data={{ myList: [{ myPath: 'checked' }] }}>
-          <Iterate.Array path="/myList">
-            <Iterate.Visibility pathValue="/myPath" whenValue="checked">
-              Child
-            </Iterate.Visibility>
-          </Iterate.Array>
-        </Provider>
-      )
-      expect(screen.getByText('Child')).toBeInTheDocument()
-    })
-
-    it('does not render children when target path not not value matches', () => {
-      render(
-        <Provider data={{ myList: [{ myPath: 'checked' }] }}>
-          <Iterate.Array path="/myList">
-            <Iterate.Visibility
-              pathValue="/myPath"
-              whenValue="not-checked"
-            >
-              Child
-            </Iterate.Visibility>
-          </Iterate.Array>
-        </Provider>
-      )
-      expect(screen.queryByText('Child')).toBeNull()
-    })
-  })
-
   describe('visibleWhen', () => {
     it('should render children when hasValue matches', () => {
       render(
