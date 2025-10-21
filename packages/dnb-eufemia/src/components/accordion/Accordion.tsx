@@ -74,7 +74,7 @@ export type AccordionProps = Omit<React.HTMLProps<HTMLElement>, 'ref'> &
     /**
      * If set to `true` the accordion will be expanded during SSR. Can be potentially useful for SEO, although it will disturb client hydration, where React expects the same state. But that&#39;s mainly a technical aspect to consider.
      */
-    expanded_ssr?: boolean
+    expandedSsr?: boolean
     /**
      */
     prerender?: boolean
@@ -97,11 +97,11 @@ export type AccordionProps = Omit<React.HTMLProps<HTMLElement>, 'ref'> &
     /**
      * If set to `true`, the saved (remembered) will be removed and the initial component state will be used and set.
      */
-    flush_remembered_state?: boolean
+    flushRememberedState?: boolean
     /**
      * If set to `true`, a group of accordions will be wrapped to sidebar looking menu for medium and larger screens.
      */
-    single_container?: boolean
+    singleContainer?: boolean
     /**
      * Defines the used styling. As of now, only `outlined` is available. Use `plain` for no styles. It defaults to `outlined`.
      */
@@ -109,7 +109,7 @@ export type AccordionProps = Omit<React.HTMLProps<HTMLElement>, 'ref'> &
     /**
      * Will add a React element on the left side of the `title`, inside `AccordionHeaderContainer`.
      */
-    left_component?: React.ReactNode
+    leftComponent?: React.ReactNode
     /**
      * If set to `true`, the accordion button will be disabled (dimmed).
      */
@@ -128,13 +128,13 @@ export type AccordionProps = Omit<React.HTMLProps<HTMLElement>, 'ref'> &
      */
     element?: React.ReactNode
     /**
-     * If set to `true`, level 2 (h2) will be used. You can provide your own HTML heading (`h3`), or provide a `heading_level` property.
+     * If set to `true`, level 2 (h2) will be used. You can provide your own HTML heading (`h3`), or provide a `headingLevel` property.
      */
     heading?: AccordionHeading
     /**
      * If `heading` is set to `true`, you can provide a numeric value to define a different heading level. Defaults to `2`.
      */
-    heading_level?: HeadingLevel
+    headingLevel?: HeadingLevel
     /**
      * Will replace the `chevron` icon. The icon will still rotate (by CSS). You can use an object to use two different icons, one for the closed state and one for the expanded state `{ closed, expanded }`.
      */
@@ -146,7 +146,7 @@ export type AccordionProps = Omit<React.HTMLProps<HTMLElement>, 'ref'> &
     /**
      * Define a different icon size. Defaults to `medium` (1.5rem).
      */
-    icon_size?: IconSize
+    iconSize?: IconSize
     attributes?: AccordionAttributes
     className?: string
     children?: React.ReactNode
@@ -159,10 +159,10 @@ export type AccordionProps = Omit<React.HTMLProps<HTMLElement>, 'ref'> &
 
 function Accordion({
   variant = 'outlined',
-  icon_size = 'medium',
+  iconSize = 'medium',
   ...restOfProps
 }: AccordionProps) {
-  const props = { variant, icon_size, ...restOfProps }
+  const props = { variant, iconSize, ...restOfProps }
 
   const context = useContext(AccordionProviderContext)
 
@@ -220,7 +220,7 @@ function Accordion({
 
   // componentDidUpdate
   useEffect(() => {
-    if (context.flush_remembered_state) {
+    if (context.flushRememberedState) {
       store.flush()
       setExpanded(props.expanded)
     }
@@ -229,7 +229,7 @@ function Accordion({
       setExpanded(true)
     }
   }, [
-    context.flush_remembered_state,
+    context.flushRememberedState,
     context.expanded_id,
     props.expanded,
     props.id,
@@ -246,7 +246,7 @@ function Accordion({
   // That happens when if we put this logic in a useEffect that runs after the initial expanded state is set
   // Since useEffect runs after every render
   function getInitialExpandedState() {
-    if (props.expanded_ssr || context?.expanded_ssr) {
+    if (props.expandedSsr || context?.expandedSsr) {
       return typeof window === 'undefined'
     }
 
@@ -342,12 +342,12 @@ function Accordion({
               prerender,
               prevent_rerender,
               prevent_rerender_conditional,
-              single_container,
+              singleContainer,
               remember_state,
               disabled,
               skeleton,
               no_animation,
-              expanded_ssr: _expanded_ssr, // eslint-disable-line
+              expandedSsr: _expandedSsr, // eslint-disable-line
               children,
 
               id: _id, // eslint-disable-line
@@ -356,10 +356,10 @@ function Accordion({
 
               title, // eslint-disable-line
               description, // eslint-disable-line
-              left_component, // eslint-disable-line
+              leftComponent, // eslint-disable-line
               icon, // eslint-disable-line
               icon_position, // eslint-disable-line
-              icon_size, // eslint-disable-line
+              iconSize, // eslint-disable-line
               on_change, // eslint-disable-line
               onStateUpdate, // eslint-disable-line
 
@@ -401,7 +401,7 @@ function Accordion({
               prerender: prerender,
               prevent_rerender: prevent_rerender,
               prevent_rerender_conditional: prevent_rerender_conditional,
-              single_container: single_container,
+              singleContainer: singleContainer,
               remember_state: remember_state,
               disabled: disabled,
               skeleton: skeleton,

@@ -16,7 +16,7 @@ export const AccordionProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  expanded_ssr: {
+  expandedSsr: {
     doc: "If set to `true` the accordion will be expanded during SSR. Can be potentially useful for SEO, although it will disturb client hydration, where React expects the same state. But that's mainly a technical aspect to consider.",
     type: 'boolean',
     status: 'optional',
@@ -26,7 +26,7 @@ export const AccordionProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  flush_remembered_state: {
+  flushRememberedState: {
     doc: 'If set to `true`, the saved (remembered) state will be removed and the initial component state will be used and set.',
     type: 'boolean',
     status: 'optional',
@@ -51,12 +51,12 @@ export const AccordionProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
-  icon_size: {
+  iconSize: {
     doc: 'Define a different icon size. Defaults to `medium` (1.5rem).',
     type: 'string',
     status: 'optional',
   },
-  left_component: {
+  leftComponent: {
     doc: 'Will add a React element on the left side of the `title`, inside `AccordionHeaderContainer`.',
     type: 'React.ReactNode',
     status: 'optional',
@@ -76,7 +76,7 @@ export const AccordionProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  single_container: {
+  singleContainer: {
     doc: 'If set to `true`, a group of accordions will be wrapped to a sidebar looking menu for medium and larger screens.',
     type: 'boolean',
     status: 'optional',
@@ -87,11 +87,11 @@ export const AccordionProperties: PropertiesTableProps = {
     status: 'optional',
   },
   heading: {
-    doc: 'If set to `true`, level 2 (h2) will be used. You can provide your own HTML heading (`h3`), or provide a `heading_level` property.',
+    doc: 'If set to `true`, level 2 (h2) will be used. You can provide your own HTML heading (`h3`), or provide a `headingLevel` property.',
     type: 'boolean',
     status: 'optional',
   },
-  heading_level: {
+  headingLevel: {
     doc: 'If `heading` is set to `true`, you can provide a numeric value to define a different heading level. Defaults to `2`.',
     type: 'boolean',
     status: 'optional',
