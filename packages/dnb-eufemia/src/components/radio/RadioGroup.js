@@ -286,9 +286,9 @@ export default class RadioGroup extends React.PureComponent {
                   label={label}
                   text={status}
                   state={status_state}
-                  text_id={id + '-status'} // used for "aria-describedby"
-                  width_selector={id + ', ' + legendId}
-                  no_animation={status_no_animation}
+                  textId={id + '-status'} // used for "aria-describedby"
+                  widthSelector={id + ', ' + legendId}
+                  noAnimation={status_no_animation}
                   skeleton={skeleton}
                   {...status_props}
                 />

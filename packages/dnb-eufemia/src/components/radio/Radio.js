@@ -401,11 +401,11 @@ export default class Radio extends React.PureComponent {
                     id={id + '-form-status'}
                     globalStatus={globalStatus}
                     label={label}
-                    text_id={id + '-status'} // used for "aria-describedby"
-                    width_selector={id + ', ' + id + '-label'}
+                    textId={id + '-status'} // used for "aria-describedby"
+                    widthSelector={id + ', ' + id + '-label'}
                     text={status}
                     state={status_state}
-                    no_animation={status_no_animation}
+                    noAnimation={status_no_animation}
                     skeleton={skeleton}
                     {...status_props}
                   />
