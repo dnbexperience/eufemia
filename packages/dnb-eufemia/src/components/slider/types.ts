@@ -43,7 +43,7 @@ export type SliderProps = IncludeSnakeCase<{
   statusProps?: Record<string, unknown>
   statusNoAnimation?: boolean
 
-  /** the `status_id` used for the target [GlobalStatus](/uilib/components/global-status). */
+  /** the `statusId` used for the target [GlobalStatus](/uilib/components/global-status). */
   globalStatus?: GlobalStatusConfigObject
 
   /** text describing the content of the Slider more than the label. You can also send in a React component, so it gets wrapped inside the Slider component. */

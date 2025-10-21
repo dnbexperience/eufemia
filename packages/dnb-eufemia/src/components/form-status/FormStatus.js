@@ -193,12 +193,12 @@ export default class FormStatus extends React.PureComponent {
             this.getProps(context)
           provider.add({
             state,
-            status_id: this.getStatusId(),
+            statusId: this.getStatusId(),
             item: {
-              item_id: this.state.id,
+              itemId: this.state.id,
               text: globalStatus?.message || text || children,
-              status_anchor_label: label,
-              status_anchor_url: true,
+              statusAnchorLabel: label,
+              statusAnchorUrl: true,
             },
             ...globalStatus,
           })
@@ -249,8 +249,8 @@ export default class FormStatus extends React.PureComponent {
 
   componentWillUnmount() {
     this._isMounted = false
-    const status_id = this.getStatusId()
-    this._globalStatus.remove(status_id)
+    const statusId = this.getStatusId()
+    this._globalStatus.remove(statusId)
     if (typeof window !== 'undefined') {
       window.removeEventListener('load', this.init)
       window.removeEventListener('resize', this.updateWidth)
@@ -271,19 +271,19 @@ export default class FormStatus extends React.PureComponent {
       this.fillCache()
 
       if (state === 'error') {
-        const status_id = this.getStatusId()
+        const statusId = this.getStatusId()
 
         if (isTrue(show)) {
           this._globalStatus.update(
-            status_id,
+            statusId,
             {
               state,
-              status_id,
+              statusId,
               item: {
-                item_id: this.state.id,
+                itemId: this.state.id,
                 text: globalStatus?.message || text || children,
-                status_anchor_label: label,
-                status_anchor_url: true,
+                statusAnchorLabel: label,
+                statusAnchorUrl: true,
               },
               ...globalStatus,
             },
@@ -292,8 +292,8 @@ export default class FormStatus extends React.PureComponent {
             }
           )
         } else if (!FormStatus.getContent(this.props)) {
-          const status_id = this.getStatusId()
-          this._globalStatus.remove(status_id)
+          const statusId = this.getStatusId()
+          this._globalStatus.remove(statusId)
         }
       }
 
@@ -358,7 +358,7 @@ export default class FormStatus extends React.PureComponent {
       show, // eslint-disable-line
       noAnimation, // eslint-disable-line
       label, // eslint-disable-line
-      status_id, // eslint-disable-line
+      statusId, // eslint-disable-line
       globalStatus, // eslint-disable-line
       id, // eslint-disable-line
       text, // eslint-disable-line
