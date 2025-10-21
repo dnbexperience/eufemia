@@ -101,10 +101,10 @@ export function SliderInstance() {
           show={showStatus}
           id={id + '-form-status'}
           globalStatus={globalStatus}
-          text_id={id + '-status'} // used for "aria-describedby"
+          textId={id + '-status'} // used for "aria-describedby"
           text={status}
           state={statusState}
-          no_animation={statusNoAnimation}
+          noAnimation={statusNoAnimation}
           skeleton={skeleton}
           {...statusProps}
         />
