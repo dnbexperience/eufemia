@@ -27,22 +27,22 @@ export type PaginationBarProps = {
   /**
    * The title used in every button shown in the bar. Defaults to Side %s.
    */
-  button_title?: string
+  buttonTitle?: string
 
   /**
    *  The title used in the previous page button. Defaults to Forrige side.
    */
-  prev_title?: string
+  prevTitle?: string
 
   /**
    *  The title used in the next page button. Defaults to Neste side.
    */
-  next_title?: string
+  nextTitle?: string
 
   /**
    * The title used in the dots. Relevant for screen readers. Defaults to %s flere sider.
    */
-  more_pages?: string
+  morePages?: string
 
   /**
    * Reference to the parent component. Used to contain height between updates.
@@ -64,19 +64,19 @@ export type PaginationBarAllProps = PaginationBarProps &
   React.HTMLProps<HTMLElement>
 
 type PaginationBarContext = {
-  currentPage: number
-  pageCount: number
+  currentPageInternal: number
+  pageCountInternal: number
   disabled: boolean
   onPageUpdate: (cb: () => void) => void
-  setState: (state: { currentPage: number }) => void
-  updatePageContent: (currentPage: number) => void
+  setState: (state: { currentPageInternal: number }) => void
+  updatePageContent: (currentPageInternal: number) => void
 }
 
 const defaultProps = {
-  button_title: null,
-  prev_title: null,
-  next_title: null,
-  more_pages: null,
+  buttonTitle: null,
+  prevTitle: null,
+  nextTitle: null,
+  morePages: null,
   contentRef: null,
   children: null,
   space: null,
@@ -91,7 +91,13 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
     context.pagination
   ) as PaginationBarProps & PaginationBarContext
 
-  const { currentPage, pageCount, disabled, skeleton, space } = props
+  const {
+    currentPageInternal,
+    pageCountInternal,
+    disabled,
+    skeleton,
+    space,
+  } = props
 
   const spacingClasses = createSpacingClasses({ space })
 
@@ -132,27 +138,27 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
     })
   }
 
-  const setPage = (currentPage: number, event = null) => {
+  const setPage = (currentPageInternal: number, event = null) => {
     keepPageHeight()
 
     const { setState: setContextState, updatePageContent } = props
     setContextState({
-      currentPage,
+      currentPageInternal,
     })
-    updatePageContent(currentPage)
+    updatePageContent(currentPageInternal)
 
     dispatchCustomElementEvent(props, 'on_change', {
-      pageNumber: currentPage,
+      pageNumber: currentPageInternal,
       ...props,
       event,
     })
   }
 
   const setPrevPage = () => {
-    setPage(props.currentPage - 1)
+    setPage(props.currentPageInternal - 1)
   }
   const setNextPage = () => {
-    setPage(props.currentPage + 1)
+    setPage(props.currentPageInternal + 1)
   }
 
   const clickHandler = ({ pageNumber, event }) => {
@@ -161,23 +167,27 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
   }
 
   const { getTranslation } = useContext(Context)
-  const { button_title, prev_title, next_title, more_pages } =
+  const { buttonTitle, prevTitle, nextTitle, morePages } =
     extendPropsWithContext(
       props,
       defaultProps,
       getTranslation(props as LocaleProps).Pagination
     )
 
-  const prevIsDisabled = currentPage > -1 ? currentPage === 1 : true
+  const prevIsDisabled =
+    currentPageInternal > -1 ? currentPageInternal === 1 : true
   const nextIsDisabled =
-    currentPage > -1 ? currentPage === pageCount || pageCount === 0 : true
+    currentPageInternal > -1
+      ? currentPageInternal === pageCountInternal ||
+        pageCountInternal === 0
+      : true
 
   const paginationBarRef = useRef(null)
   const currentScreenSize = useResizeObserver(paginationBarRef)
 
   const pageNumberGroups = calculatePagination(
-    pageCount,
-    currentPage,
+    pageCountInternal,
+    currentPageInternal,
     currentScreenSize === 'small'
   )
 
@@ -186,7 +196,7 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
       ref={paginationBarRef}
       className={classnames(
         'dnb-pagination__bar',
-        pageCount >= 8 && 'dnb-pagination--many-pages',
+        pageCountInternal >= 8 && 'dnb-pagination--many-pages',
         spacingClasses
       )}
     >
@@ -199,9 +209,9 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
             variant="tertiary"
             icon="chevron_left"
             icon_position="left"
-            text={prev_title}
+            text={prevTitle}
             on_click={setPrevPage}
-            title={prevIsDisabled ? null : prev_title}
+            title={prevIsDisabled ? null : prevTitle}
           />
 
           <Button
@@ -211,9 +221,9 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
             variant="tertiary"
             icon="chevron_right"
             icon_position="right"
-            text={next_title}
+            text={nextTitle}
             on_click={setNextPage}
-            title={nextIsDisabled ? null : next_title}
+            title={nextIsDisabled ? null : nextTitle}
           />
         </div>
 
@@ -223,13 +233,17 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
               key={pageNumber}
               className="dnb-pagination__button"
               text={String(pageNumber)}
-              aria-label={button_title.replace('%s', String(pageNumber))}
+              aria-label={buttonTitle.replace('%s', String(pageNumber))}
               variant={
-                pageNumber === currentPage ? 'primary' : 'secondary'
+                pageNumber === currentPageInternal
+                  ? 'primary'
+                  : 'secondary'
               }
               disabled={disabled}
               skeleton={skeleton}
-              aria-current={pageNumber === currentPage ? 'page' : null}
+              aria-current={
+                pageNumber === currentPageInternal ? 'page' : null
+              }
               on_click={(event) => clickHandler({ pageNumber, event })}
             />
           ))}
@@ -241,7 +255,7 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
                 aria-orientation="vertical"
                 aria-hidden={false}
                 title={getDotsAriaLabel({
-                  more_pages,
+                  morePages,
                   numbersList,
                   pageNumberGroups,
                 })}
@@ -261,17 +275,19 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
                         : null
                     )}
                     text={String(pageNumber)}
-                    aria-label={button_title.replace(
+                    aria-label={buttonTitle.replace(
                       '%s',
                       String(pageNumber)
                     )}
                     variant={
-                      pageNumber === currentPage ? 'primary' : 'secondary'
+                      pageNumber === currentPageInternal
+                        ? 'primary'
+                        : 'secondary'
                     }
                     disabled={disabled}
                     skeleton={skeleton}
                     aria-current={
-                      pageNumber === currentPage ? 'page' : null
+                      pageNumber === currentPageInternal ? 'page' : null
                     }
                     on_click={(event) =>
                       clickHandler({ pageNumber, event })
@@ -285,7 +301,7 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
       </div>
 
       <span className="dnb-sr-only" aria-live="assertive">
-        {button_title.replace('%s', String(currentPage))}
+        {buttonTitle.replace('%s', String(currentPageInternal))}
       </span>
     </div>
   )
