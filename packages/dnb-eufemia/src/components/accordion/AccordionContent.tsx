@@ -36,7 +36,7 @@ export default function AccordionContent(props: AccordionContentProps) {
     id,
     expanded,
     prerender,
-    prevent_rerender,
+    preventRerender,
     singleContainer,
     disabled,
     no_animation,
@@ -86,7 +86,7 @@ export default function AccordionContent(props: AccordionContentProps) {
     const {
       expanded,
       prerender,
-      prevent_rerender,
+      preventRerender,
       preventRerenderConditional,
     } = context
 
@@ -96,7 +96,7 @@ export default function AccordionContent(props: AccordionContentProps) {
       content = <p className="dnb-p">{content}</p>
     }
 
-    if (prevent_rerender) {
+    if (preventRerender) {
       /**
        * Ensure we do not render, if it is not expanded
        */
@@ -142,7 +142,7 @@ export default function AccordionContent(props: AccordionContentProps) {
     ...rest,
   }
 
-  const keepInDOM = prerender || prevent_rerender
+  const keepInDOM = prerender || preventRerender
 
   const innerParams = {
     id: `${id}-content`,
