@@ -36,7 +36,7 @@ export default function IsolatedContainer({ children }) {
 
       {preventUncommittedChanges && (
         <FormStatus
-          no_animation={false}
+          noAnimation={false}
           shellSpace={{ top: true }}
           show={Boolean(showCommitStatus)}
         >
