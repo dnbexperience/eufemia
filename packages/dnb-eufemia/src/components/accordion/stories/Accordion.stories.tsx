@@ -214,7 +214,7 @@ function AccordionWithContainer() {
         Increment {count}
       </Button>
       <Accordion.Group
-        no_animation
+        noAnimation
         variant="outlined"
         // prerender
         // preventRerender
