@@ -87,11 +87,11 @@ export const AccordionProperties: PropertiesTableProps = {
     status: 'optional',
   },
   heading: {
-    doc: 'If set to `true`, level 2 (h2) will be used. You can provide your own HTML heading (`h3`), or provide a `heading_level` property.',
+    doc: 'If set to `true`, level 2 (h2) will be used. You can provide your own HTML heading (`h3`), or provide a `headingLevel` property.',
     type: 'boolean',
     status: 'optional',
   },
-  heading_level: {
+  headingLevel: {
     doc: 'If `heading` is set to `true`, you can provide a numeric value to define a different heading level. Defaults to `2`.',
     type: 'boolean',
     status: 'optional',

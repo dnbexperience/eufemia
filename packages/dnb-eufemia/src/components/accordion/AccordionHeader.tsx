@@ -165,7 +165,7 @@ export type AccordionHeaderProps = React.HTMLProps<HTMLElement> &
     left_component?: AccordionHeaderLeftComponent
     element?: AccordionHeaderElement
     heading?: AccordionHeaderHeading
-    heading_level?: HeadingLevel
+    headingLevel?: HeadingLevel
     icon?: AccordionIcon
     icon_position?: AccordionIconPosition
     icon_size?: IconSize
@@ -244,7 +244,7 @@ export const AccordionHeader = ({
     description,
     element,
     heading,
-    heading_level,
+    headingLevel,
     icon,
     icon_size,
     disabled,
@@ -403,7 +403,7 @@ export const AccordionHeader = ({
   // (String(heading) === 'true' || String(heading) === '1') extracted from isTrue function
   if (heading && (String(heading) === 'true' || String(heading) === '1')) {
     headerParams.role = 'heading'
-    headerParams['aria-level'] = heading_level ? Number(heading_level) : 2
+    headerParams['aria-level'] = headingLevel ? Number(headingLevel) : 2
   } else if (heading) {
     headerParams.role = null
     Element = heading as string
