@@ -1464,10 +1464,6 @@ describe('Field.PhoneNumber', () => {
         errorMessages: expect.objectContaining({
           'Field.errorRequired': enGB.PhoneNumber.errorRequired,
           'Field.errorPattern': enGB.PhoneNumber.errorRequired,
-
-          /** @deprecated – can be removed in v11 */
-          required: enGB.PhoneNumber.errorRequired,
-          pattern: enGB.PhoneNumber.errorRequired,
         }),
       })
     )
