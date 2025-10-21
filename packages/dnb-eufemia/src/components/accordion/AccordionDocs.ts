@@ -56,7 +56,7 @@ export const AccordionProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
-  left_component: {
+  leftComponent: {
     doc: 'Will add a React element on the left side of the `title`, inside `AccordionHeaderContainer`.',
     type: 'React.ReactNode',
     status: 'optional',
