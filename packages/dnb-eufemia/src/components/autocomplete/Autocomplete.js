@@ -151,7 +151,7 @@ export default class Autocomplete extends React.PureComponent {
     direction: PropTypes.oneOf(['auto', 'top', 'bottom']),
     maxHeight: PropTypes.number,
     skipPortal: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    noAnimation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     noScrollAnimation: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool,
@@ -295,7 +295,7 @@ export default class Autocomplete extends React.PureComponent {
     maxHeight: null,
     direction: 'auto',
     skipPortal: null,
-    no_animation: false,
+    noAnimation: false,
     noScrollAnimation: false,
     show_submit_button: false,
     submit_element: null,
@@ -1016,7 +1016,7 @@ class AutocompleteInstance extends React.PureComponent {
         () => {
           this.__preventFiringBlurEvent = false
         },
-        isTrue(this.props.no_animation) ? 1 : DrawerList.blurDelay
+        isTrue(this.props.noAnimation) ? 1 : DrawerList.blurDelay
       )
     }
   }
@@ -1036,7 +1036,7 @@ class AutocompleteInstance extends React.PureComponent {
       keep_value,
       keep_value_and_selection,
       preventSelection,
-      no_animation,
+      noAnimation,
     } = this.props
 
     this.setState({
@@ -1067,7 +1067,7 @@ class AutocompleteInstance extends React.PureComponent {
         this.resetFilter()
       }
 
-      if (isTrue(no_animation)) {
+      if (isTrue(noAnimation)) {
         resetAfterClose()
       } else {
         clearTimeout(this._blurTimeout)
@@ -1766,7 +1766,7 @@ class AutocompleteInstance extends React.PureComponent {
       keep_value_and_selection, // eslint-disable-line
       show_clear_button,
       preventClose,
-      no_animation,
+      noAnimation,
       noScrollAnimation,
       show_submit_button,
       submit_element,
@@ -2071,7 +2071,7 @@ class AutocompleteInstance extends React.PureComponent {
                 defaultValue={defaultValue}
                 scrollable={scrollable}
                 focusable={focusable}
-                no_animation={no_animation}
+                noAnimation={noAnimation}
                 noScrollAnimation={noScrollAnimation}
                 skipPortal={skipPortal}
                 preventSelection={preventSelection}

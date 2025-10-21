@@ -148,7 +148,7 @@ export interface DrawerListProps {
   /**
    * To disable appear/disappear (show/hide) animation.
    */
-  no_animation?: boolean
+  noAnimation?: boolean
   /**
    * To disable scrolling animation.
    */
@@ -370,7 +370,7 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
       scrollable,
       focusable,
       size,
-      no_animation,
+      noAnimation,
       noScrollAnimation,
       preventSelection,
       action_menu,
@@ -478,7 +478,7 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
       // hidden: hidden !== false,
       className: classnames(
         'dnb-drawer-list__list',
-        isTrue(no_animation) && 'dnb-drawer-list__list--no-animation',
+        isTrue(noAnimation) && 'dnb-drawer-list__list--no-animation',
         listClass
       ),
     }
