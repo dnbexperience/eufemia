@@ -24,20 +24,17 @@ export default class PaginationProvider extends React.PureComponent {
 
   static propTypes = {
     // eslint-disable-next-line
-    startup_page: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number,
-    ]),
+    startupPage: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     // eslint-disable-next-line
     current_page: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.number,
     ]),
-    page_count: PropTypes.oneOfType([PropTypes.string, PropTypes.number]), // eslint-disable-line
-    set_content_handler: PropTypes.func,
-    reset_content_handler: PropTypes.func,
-    reset_pagination_handler: PropTypes.func,
-    end_infinity_handler: PropTypes.func,
+    pageCount: PropTypes.oneOfType([PropTypes.string, PropTypes.number]), // eslint-disable-line
+    setContentHandler: PropTypes.func,
+    resetContentHandler: PropTypes.func,
+    resetPaginationHandler: PropTypes.func,
+    endInfinityHandler: PropTypes.func,
     rerender: PropTypes.shape({ current: PropTypes.func }),
     store: PropTypes.shape({
       current: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
@@ -59,13 +56,13 @@ export default class PaginationProvider extends React.PureComponent {
     ]),
   }
   static defaultProps = {
-    startup_page: null,
+    startupPage: null,
     current_page: null,
-    page_count: null,
-    set_content_handler: null,
-    reset_content_handler: null,
-    reset_pagination_handler: null,
-    end_infinity_handler: null,
+    pageCount: null,
+    setContentHandler: null,
+    resetContentHandler: null,
+    resetPaginationHandler: null,
+    endInfinityHandler: null,
     rerender: null,
     store: null,
     useMarkerOnly: null,
@@ -74,8 +71,8 @@ export default class PaginationProvider extends React.PureComponent {
   }
 
   static getDerivedStateFromProps(props, state) {
-    if (props.page_count !== null) {
-      state.pageCount = parseFloat(props.page_count) || 1
+    if (props.pageCount !== null) {
+      state.pageCount = parseFloat(props.pageCount) || 1
     }
     if (
       props.current_page !== null &&
@@ -85,7 +82,7 @@ export default class PaginationProvider extends React.PureComponent {
     }
     if (typeof state.startupPage !== 'number') {
       state.startupPage =
-        parseFloat(props.startup_page) ||
+        parseFloat(props.startupPage) ||
         parseFloat(props.current_page) ||
         state.currentPage
       // We do not fall back to 1 here,
@@ -93,14 +90,12 @@ export default class PaginationProvider extends React.PureComponent {
       // props.current_page: null – that means, we fall back only in the on_startup / on_change callbacks
     }
 
-    state.parallelLoadCount = parseFloat(props.parallel_load_count) || 1
-    state.minTime = parseFloat(props.min_wait_time) || 0
-    state.placeMakerBeforeContent = isTrue(
-      props.place_marker_before_content
-    )
+    state.parallelLoadCount = parseFloat(props.parallelLoadCount) || 1
+    state.minTime = parseFloat(props.minWaitTime) || 0
+    state.placeMakerBeforeContent = isTrue(props.placeMarkerBeforeContent)
 
     // reset pagination, like the resetInfinity method
-    if (props.useMarkerOnly && isTrue(props.reset_pagination_handler)) {
+    if (props.useMarkerOnly && isTrue(props.resetPaginationHandler)) {
       state.lowerPage = undefined
       state.upperPage = undefined
     }
@@ -116,15 +111,15 @@ export default class PaginationProvider extends React.PureComponent {
       }
       if (typeof state.upperPage === 'undefined') {
         state.upperPage =
-          state.startupPage + (parseFloat(props.startup_count) || 1) - 1 ||
+          state.startupPage + (parseFloat(props.startupCount) || 1) - 1 ||
           1
       }
     }
 
     // reset content, like the resetContent method
-    if (isTrue(props.reset_content_handler)) {
+    if (isTrue(props.resetContentHandler)) {
       state.items = []
-      state.pageCount = parseFloat(props.page_count) || 1
+      state.pageCount = parseFloat(props.pageCount) || 1
     }
 
     if (typeof props.items === 'string' && props.items[0] === '[') {
@@ -162,24 +157,24 @@ export default class PaginationProvider extends React.PureComponent {
 
   componentDidMount() {
     const {
-      set_content_handler,
-      reset_content_handler,
-      reset_pagination_handler,
-      end_infinity_handler,
+      setContentHandler,
+      resetContentHandler,
+      resetPaginationHandler,
+      endInfinityHandler,
     } = this.props
 
     // update the callback handlers
-    if (typeof set_content_handler === 'function') {
-      set_content_handler(this.setContent)
+    if (typeof setContentHandler === 'function') {
+      setContentHandler(this.setContent)
     }
-    if (typeof reset_content_handler === 'function') {
-      reset_content_handler(this.resetContent)
+    if (typeof resetContentHandler === 'function') {
+      resetContentHandler(this.resetContent)
     }
-    if (typeof reset_pagination_handler === 'function') {
-      reset_pagination_handler(this.resetInfinity)
+    if (typeof resetPaginationHandler === 'function') {
+      resetPaginationHandler(this.resetInfinity)
     }
-    if (typeof end_infinity_handler === 'function') {
-      end_infinity_handler(this.endInfinity)
+    if (typeof endInfinityHandler === 'function') {
+      endInfinityHandler(this.endInfinity)
     }
 
     if (this.props.store && this.props.store.current) {
@@ -257,7 +252,7 @@ export default class PaginationProvider extends React.PureComponent {
     }
   }
 
-  // like reset_content_handler in DerivedState
+  // like resetContentHandler in DerivedState
   resetContent = () => {
     clearTimeout(this.resetContentTimeout)
     this.resetContentTimeout = setTimeout(() => {
@@ -267,10 +262,10 @@ export default class PaginationProvider extends React.PureComponent {
     }, 10) // we have to be two tick after "rerender"
   }
 
-  // like reset_content_handler in DerivedState
+  // like resetContentHandler in DerivedState
   resetInfinity = (pageNumber = this.state.startupPage) => {
     const lowerPage = pageNumber
-    const upperPage = pageNumber + parseFloat(this.props.startup_count) - 1
+    const upperPage = pageNumber + parseFloat(this.props.startupCount) - 1
     const currentPage = pageNumber
 
     this.setState({

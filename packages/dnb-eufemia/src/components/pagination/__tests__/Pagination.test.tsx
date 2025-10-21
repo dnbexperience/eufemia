@@ -20,7 +20,7 @@ const en = enGB['en-GB'].Pagination
 
 describe('Pagination bar', () => {
   const props: PaginationProps = {
-    page_count: 30,
+    pageCount: 30,
     current_page: 15,
   }
 
@@ -136,7 +136,7 @@ describe('Pagination bar', () => {
 
   it('accepts element in the function return', () => {
     render(
-      <Pagination page_count={3} startup_page={2}>
+      <Pagination pageCount={3} startupPage={2}>
         {({ pageNumber }) => <div>{pageNumber}</div>}
       </Pagination>
     )
@@ -147,7 +147,7 @@ describe('Pagination bar', () => {
 
   it('sets content with setContent', () => {
     render(
-      <Pagination page_count={3} startup_page={2}>
+      <Pagination pageCount={3} startupPage={2}>
         {({ pageNumber, setContent }) => {
           setContent(pageNumber, <div>{pageNumber}</div>)
         }}
@@ -174,8 +174,8 @@ describe('Pagination bar', () => {
   it('should set correct class when paginationBarLayout is set to "horizontal"', () => {
     render(
       <Pagination
-        page_count={3}
-        startup_page={2}
+        pageCount={3}
+        startupPage={2}
         paginationBarLayout="horizontal"
       >
         {({ pageNumber, setContent }) => {
@@ -203,7 +203,7 @@ describe('Pagination bar', () => {
           <button id="button" onClick={onClickHandler}>
             {count}
           </button>
-          <Pagination page_count={3} startup_page={2}>
+          <Pagination pageCount={3} startupPage={2}>
             {({ pageNumber, setContent }) => {
               setContent(
                 pageNumber,
@@ -275,9 +275,9 @@ describe('Infinity scroller', () => {
   })
 
   const props: PaginationProps = {
-    page_count: 5,
+    pageCount: 5,
     current_page: 3,
-    min_wait_time: 0,
+    minWaitTime: 0,
   }
 
   const PageItem = ({ children }) => (
@@ -362,7 +362,7 @@ describe('Infinity scroller', () => {
     expect(on_end).toHaveBeenCalledTimes(1)
   })
 
-  it('should handle startup_count properly', async () => {
+  it('should handle startupCount properly', async () => {
     let resetInfinityHandler
 
     const on_startup = jest.fn()
@@ -423,9 +423,9 @@ describe('Infinity scroller', () => {
 
       return (
         <InfinityMarker
-          min_wait_time={0}
+          minWaitTime={0}
           current_page={currentPage}
-          startup_count={2}
+          startupCount={2}
           on_startup={(e) => {
             action(e)
             on_startup(e)
@@ -531,7 +531,7 @@ describe('Infinity scroller', () => {
       }, [])
 
       return (
-        <InfinityMarker min_wait_time={0} current_page={currentPage}>
+        <InfinityMarker minWaitTime={0} current_page={currentPage}>
           {items}
         </InfinityMarker>
       )
@@ -629,7 +629,7 @@ describe('Infinity scroller', () => {
       '.dnb-pagination__bar__skip button'
     )
 
-    expect(element.textContent).toContain(nb.prev_title)
+    expect(element.textContent).toContain(nb.prevTitle)
 
     rerender(
       <Provider locale="en-GB">
@@ -637,7 +637,7 @@ describe('Infinity scroller', () => {
       </Provider>
     )
 
-    expect(element.textContent).toContain(en.prev_title)
+    expect(element.textContent).toContain(en.prevTitle)
 
     rerender(
       <Provider locale="nb-NO">
@@ -645,7 +645,7 @@ describe('Infinity scroller', () => {
       </Provider>
     )
 
-    expect(element.textContent).toContain(nb.prev_title)
+    expect(element.textContent).toContain(nb.prevTitle)
   })
 
   it('should support spacing props', () => {
@@ -709,7 +709,7 @@ describe('Infinity scroller', () => {
 
       return (
         <InfinityMarker
-          min_wait_time={0}
+          minWaitTime={0}
           current_page={currentPage}
           on_startup={(e) => {
             action(e)
@@ -797,7 +797,7 @@ describe('Infinity scroller', () => {
         mode="infinity"
         {...props}
         on_startup={on_startup}
-        use_load_button
+        useLoadButton
         loadButton={{ text: 'Load please', iconPosition: 'right' }}
       />
     )
@@ -824,7 +824,7 @@ describe('Infinity scroller', () => {
         mode="infinity"
         {...props}
         on_startup={on_startup}
-        use_load_button
+        useLoadButton
         loadButton={() => (
           <button className="my-cool-button">The best load button</button>
         )}
@@ -845,7 +845,7 @@ describe('Infinity scroller', () => {
 describe('Pagination ARIA', () => {
   it('should validate with ARIA rules for pagination bar', async () => {
     const snapshotProps: PaginationProps = {
-      page_count: 4,
+      pageCount: 4,
       current_page: 2,
     }
 
@@ -857,9 +857,9 @@ describe('Pagination ARIA', () => {
     const result = render(
       <Pagination
         mode="infinity"
-        page_count={5}
+        pageCount={5}
         current_page={3}
-        min_wait_time={0}
+        minWaitTime={0}
       />
     )
     await wait(1)

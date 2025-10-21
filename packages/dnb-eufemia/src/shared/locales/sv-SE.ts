@@ -114,12 +114,12 @@ export default {
       clear_button_title: 'Återställ',
     },
     Pagination: {
-      button_title: 'Sida %s',
-      next_title: 'Nästa sida',
-      prev_title: 'Föregående sida',
-      more_pages: '%s fler sidor',
-      is_loading_text: 'Laddar nytt innehåll',
-      load_button_text: 'Visa mer innehåll',
+      buttonTitle: 'Sida %s',
+      nextTitle: 'Nästa sida',
+      prevTitle: 'Föregående sida',
+      morePages: '%s fler sidor',
+      isLoadingText: 'Laddar nytt innehåll',
+      loadButtonText: 'Visa mer innehåll',
     },
     Skeleton: {
       aria_busy: 'Bearbetar data ...',

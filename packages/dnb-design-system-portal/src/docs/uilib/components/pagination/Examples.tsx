@@ -33,7 +33,7 @@ const LargePage = styled.div`
 export const PaginationExampleDefault = () => (
   <ComponentBox data-visual-test="pagination-default">
     <Pagination
-      page_count={888}
+      pageCount={888}
       current_page={4}
       on_change={({ pageNumber }) => {
         console.log('on_change:', pageNumber)
@@ -47,7 +47,7 @@ export const PaginationExampleDefault = () => (
 export const PaginationExampleWithHorizontalLayout = () => (
   <ComponentBox data-visual-test="pagination-horizontal">
     <Pagination
-      page_count={888}
+      pageCount={888}
       current_page={4}
       on_change={({ pageNumber }) => {
         console.log('on_change:', pageNumber)
@@ -62,8 +62,8 @@ export const PaginationExampleWithHorizontalLayout = () => (
 export const PaginationExampleWithCallback = () => (
   <ComponentBox hideCode>
     <Pagination
-      page_count={5}
-      startup_page={3}
+      pageCount={5}
+      startupPage={3}
       on_change={({ pageNumber }) => {
         console.log('on_change:', pageNumber)
       }}
@@ -75,7 +75,7 @@ export const PaginationExampleWithCallback = () => (
 
 export const PaginationExampleCentered = () => (
   <ComponentBox scope={{ LargePage }}>
-    <Pagination align="center" page_count={30}>
+    <Pagination align="center" pageCount={30}>
       {({ pageNumber, setContent }) => {
         // simulate server communication delay
         const timeout = setTimeout(
@@ -111,7 +111,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
   const [cacheHash, forceRerender] = React.useState(null) // eslint-disable-line
 
   React.useEffect(() => {
-    // Could also be set as "startup_page" in <Pagination startup_page={startupPage} ...>
+    // Could also be set as "startupPage" in <Pagination startupPage={startupPage} ...>
     setLocalPage(startupPage)
   }, [])
 
@@ -239,15 +239,15 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
       <tbody>
         <Pagination
           mode="infinity"
-          // use_load_button // disables infinity scroller, but will add a button to do so
-          marker_element="tr"
-          fallback_element={({ className, ...props }) => (
+          // useLoadButton // disables infinity scroller, but will add a button to do so
+          markerElement="tr"
+          fallbackElement={({ className, ...props }) => (
             <TableRow className={className}>
               <TableData colSpan={2} {...props} />
             </TableRow>
           )} // in order to show the injected "indicator" and "load button" in the middle of the orw
           current_page={currentPage}
-          page_count={maxPagesCount}
+          pageCount={maxPagesCount}
           {...props}
           on_startup={action}
           on_change={action}
