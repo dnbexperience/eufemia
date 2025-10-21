@@ -24,75 +24,75 @@ import InfinityScroller from './PaginationInfinity'
 import PaginationBar from './PaginationBar'
 
 const paginationPropTypes = {
-  startup_page: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  current_page: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  page_count: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  startup_count: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  parallel_load_count: PropTypes.oneOfType([
+  startupPage: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  currentPage: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  pageCount: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  startupCount: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  parallelLoadCount: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
   ]),
-  place_marker_before_content: PropTypes.oneOfType([
+  placeMarkerBeforeContent: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.bool,
   ]),
-  min_wait_time: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  minWaitTime: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   mode: PropTypes.oneOf(['pagination', 'infinity']),
   paginationBarLayout: PropTypes.oneOf(['vertical', 'horizontal']),
-  use_load_button: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  useLoadButton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   items: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
-  hide_progress_indicator: PropTypes.oneOfType([
+  hideProgressIndicator: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.bool,
   ]),
-  set_content_handler: PropTypes.oneOfType([
+  setContentHandler: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.func,
   ]),
-  reset_content_handler: PropTypes.oneOfType([
+  resetContentHandler: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.func,
   ]),
-  reset_pagination_handler: PropTypes.oneOfType([
+  resetPaginationHandler: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.func,
   ]),
-  end_infinity_handler: PropTypes.oneOfType([
+  endInfinityHandler: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.func,
   ]),
-  page_element: PropTypes.oneOfType([
+  pageElement: PropTypes.oneOfType([
     PropTypes.object,
     PropTypes.node,
     PropTypes.func,
     PropTypes.string,
   ]),
-  fallback_element: PropTypes.oneOfType([
+  fallbackElement: PropTypes.oneOfType([
     PropTypes.object,
     PropTypes.node,
     PropTypes.func,
     PropTypes.string,
   ]),
-  marker_element: PropTypes.oneOfType([
+  markerElement: PropTypes.oneOfType([
     PropTypes.object,
     PropTypes.node,
     PropTypes.func,
     PropTypes.string,
   ]),
-  indicator_element: PropTypes.oneOfType([
+  indicatorElement: PropTypes.oneOfType([
     PropTypes.node,
     PropTypes.func,
     PropTypes.string,
   ]),
   align: PropTypes.string,
-  button_title: PropTypes.string,
-  prev_title: PropTypes.string,
-  next_title: PropTypes.string,
-  more_pages: PropTypes.string,
-  is_loading_text: PropTypes.string,
-  load_button_text: PropTypes.string,
+  buttonTitle: PropTypes.string,
+  prevTitle: PropTypes.string,
+  nextTitle: PropTypes.string,
+  morePages: PropTypes.string,
+  isLoadingText: PropTypes.string,
+  loadButtonText: PropTypes.string,
   loadButton: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
   barSpace: spacingPropTypes.space,
 
@@ -108,33 +108,33 @@ const paginationPropTypes = {
 }
 
 const paginationDefaultProps = {
-  startup_page: null,
-  current_page: null,
-  page_count: null,
+  startupPage: null,
+  currentPage: null,
+  pageCount: null,
   mode: 'pagination',
   paginationBarLayout: 'vertical',
-  use_load_button: false,
+  useLoadButton: false,
   items: null,
-  hide_progress_indicator: false,
-  set_content_handler: null,
-  reset_content_handler: null,
-  page_element: undefined,
-  fallback_element: undefined,
-  marker_element: undefined,
-  indicator_element: undefined,
+  hideProgressIndicator: false,
+  setContentHandler: null,
+  resetContentHandler: null,
+  pageElement: undefined,
+  fallbackElement: undefined,
+  markerElement: undefined,
+  indicatorElement: undefined,
   align: 'left',
-  button_title: null,
-  prev_title: null,
-  next_title: null,
-  more_pages: null,
-  is_loading_text: null,
-  load_button_text: null,
+  buttonTitle: null,
+  prevTitle: null,
+  nextTitle: null,
+  morePages: null,
+  isLoadingText: null,
+  loadButtonText: null,
   loadButton: null,
   barSpace: null,
-  startup_count: 1,
-  parallel_load_count: 1,
-  place_marker_before_content: false,
-  min_wait_time: 400,
+  startupCount: 1,
+  parallelLoadCount: 1,
+  placeMarkerBeforeContent: false,
+  minWaitTime: 400,
   disabled: null,
   skeleton: null,
 
@@ -193,20 +193,43 @@ class PaginationInstance extends React.PureComponent {
       disabled: _disabled, // eslint-disable-line
       skeleton: _skeleton, // eslint-disable-line
       tagName: _tagName, // eslint-disable-line
-      page_count: _page_count, // eslint-disable-line
-      current_page: _current_page, // eslint-disable-line
-      startup_page: _startup_page, // eslint-disable-line
+      pageCount: _page_count, // eslint-disable-line
+      currentPage: _current_page, // eslint-disable-line
+      startupPage: _startupPage, // eslint-disable-line
       mode: _mode, // eslint-disable-line
-      hide_progress_indicator: _hide_progress_indicator, // eslint-disable-line
-      use_load_button: _use_load_button, // eslint-disable-line
-      currentPage: _currentPage, // eslint-disable-line
+      hideProgressIndicator: _hideProgressIndicator, // eslint-disable-line
+      useLoadButton: _useLoadButton, // eslint-disable-line
+      currentPageInternal: _currentPage, // eslint-disable-line
+      markerElement: _markerElement, // eslint-disable-line
+      fallbackElement: _fallbackElement, // eslint-disable-line
+      setContentHandler: _setContentHandler, // eslint-disable-line
+      resetContentHandler: _resetContentHandler, // eslint-disable-line
+      resetPaginationHandler: _resetPaginationHandler, // eslint-disable-line
+      endInfinityHandler: _endInfinityHandler, // eslint-disable-line
+      minWaitTime: _minWaitTime, // eslint-disable-line
+      pageElement: _pageElement, // eslint-disable-line
+      startupCount: _startupCount, // eslint-disable-line
+      parallelLoadCount: _parallelLoadCount, // eslint-disable-line
+      buttonTitle: _buttonTitle, // eslint-disable-line
+      prevTitle: _prevTitle, // eslint-disable-line
+      nextTitle: _nextTitle, // eslint-disable-line
+      morePages: _morePages, // eslint-disable-line
+      isLoadingText: _isLoadingText, // eslint-disable-line
+      loadButtonText: _loadButtonText, // eslint-disable-line
+      loadButton: _loadButton, // eslint-disable-line
+      indicatorElement: _indicatorElement, // eslint-disable-line
+      placeMarkerBeforeContent: _placeMarkerBeforeContent, // eslint-disable-line
 
       ...attributes
     } = props
 
     // our props
-    const { currentPage, items, fallback_element, indicator_element } =
-      this.context.pagination
+    const {
+      currentPageInternal,
+      items,
+      fallbackElement,
+      indicatorElement,
+    } = this.context.pagination
 
     // Pagination mode
     if (this.context.pagination.mode === 'pagination') {
@@ -225,7 +248,7 @@ class PaginationInstance extends React.PureComponent {
       validateDOMAttributes(props, mainParams)
 
       const content = items.find(
-        ({ pageNumber }) => pageNumber === currentPage
+        ({ pageNumber }) => pageNumber === currentPageInternal
       )?.content
 
       return (
@@ -237,7 +260,7 @@ class PaginationInstance extends React.PureComponent {
             <PaginationContent ref={this._contentRef}>
               {content || (
                 <PaginationIndicator
-                  indicator_element={indicator_element || fallback_element}
+                  indicatorElement={indicatorElement || fallbackElement}
                 />
               )}
             </PaginationContent>
@@ -296,7 +319,7 @@ const PaginationWrapper = Pagination
 const InfinityMarkerWrapper = InfinityMarker
 
 export const Bar = (props) => (
-  <Pagination fallback_element={() => null} {...props} />
+  <Pagination fallbackElement={() => null} {...props} />
 )
 
 export const createPagination = (initProps = {}) => {
@@ -327,10 +350,10 @@ export const createPagination = (initProps = {}) => {
     ...{ ...initProps, ...props },
     store,
     rerender,
-    set_content_handler: (fn) => (_setContent.current = fn),
-    reset_content_handler: (fn) => (_resetContent.current = fn),
-    reset_pagination_handler: (fn) => (_resetInfinity.current = fn),
-    end_infinity_handler: (fn) => (_endInfinity.current = fn),
+    setContentHandler: (fn) => (_setContent.current = fn),
+    resetContentHandler: (fn) => (_resetContent.current = fn),
+    resetPaginationHandler: (fn) => (_resetInfinity.current = fn),
+    endInfinityHandler: (fn) => (_endInfinity.current = fn),
   })
 
   const Pagination = (props) => (

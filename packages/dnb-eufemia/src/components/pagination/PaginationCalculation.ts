@@ -68,11 +68,11 @@ export const calculatePagination = (
 }
 
 export const getDotsAriaLabel = ({
-  more_pages,
+  morePages,
   numbersList: nList,
   pageNumberGroups: pGroups,
 }: {
-  more_pages: string
+  morePages: string
   numbersList: Array<number>
   pageNumberGroups: Array<Array<number>>
 }) => {
@@ -92,5 +92,5 @@ export const getDotsAriaLabel = ({
     //
   }
 
-  return count > 0 ? more_pages.replace('%s', count.toString()) : null
+  return count > 0 ? morePages.replace('%s', count.toString()) : null
 }
