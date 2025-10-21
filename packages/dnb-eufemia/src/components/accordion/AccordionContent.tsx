@@ -39,7 +39,7 @@ export default function AccordionContent(props: AccordionContentProps) {
     preventRerender,
     singleContainer,
     disabled,
-    no_animation,
+    noAnimation,
     contentRef,
   } = context
 
@@ -66,7 +66,7 @@ export default function AccordionContent(props: AccordionContentProps) {
             contentElem
           ) as HTMLElement
 
-          if (no_animation) {
+          if (noAnimation) {
             containerElement.style.transitionDuration = '1ms'
           }
 
@@ -170,7 +170,7 @@ export default function AccordionContent(props: AccordionContentProps) {
   validateDOMAttributes(props, wrapperParams)
   validateDOMAttributes(null, innerParams)
 
-  const animate = !no_animation && (singleContainer ? isSmallScreen : true)
+  const animate = !noAnimation && (singleContainer ? isSmallScreen : true)
 
   return (
     <HeightAnimation
