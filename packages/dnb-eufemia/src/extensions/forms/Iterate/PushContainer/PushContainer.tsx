@@ -427,7 +427,7 @@ function NewContainer({
               </Flex.Horizontal>
 
               {preventUncommittedChanges && showStatus && (
-                <FormStatus no_animation={false} show={hasContentChanged}>
+                <FormStatus noAnimation={false} show={hasContentChanged}>
                   {preventUncommittedChangesText}
                 </FormStatus>
               )}
