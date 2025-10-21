@@ -57,9 +57,9 @@ export const PaginationExampleInfinityLoadButton = () => (
     <HeightLimit>
       <Pagination
         mode="infinity"
-        use_load_button
-        startup_page={5}
-        min_wait_time={0}
+        useLoadButton
+        startupPage={5}
+        minWaitTime={0}
         on_load={({ pageNumber, setContent }) => {
           // simulate server communication delay
           const timeout = setTimeout(
@@ -81,12 +81,12 @@ export const PaginationExampleInfinityIndicator = () => (
     <HeightLimit>
       <Pagination
         mode="infinity"
-        indicator_element={() => (
+        indicatorElement={() => (
           <LargePage color="lightgreen">Loading ...</LargePage>
         )}
-        startup_page={3}
-        page_count={10}
-        min_wait_time={0}
+        startupPage={3}
+        pageCount={10}
+        minWaitTime={0}
         on_load={({ pageNumber, setContent }) => {
           // simulate server communication delay
           const timeout = setTimeout(
@@ -114,8 +114,8 @@ export const PaginationExampleInfinityUnknown = () => (
     <HeightLimit>
       <Pagination
         mode="infinity"
-        parallel_load_count={2}
-        min_wait_time={0}
+        parallelLoadCount={2}
+        minWaitTime={0}
         on_load={({ pageNumber, setContent, endInfinity }) => {
           // simulate server communication delay
           const timeout = setTimeout(
@@ -192,7 +192,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
   const [cacheHash, forceRerender] = React.useState(null) // eslint-disable-line
 
   React.useEffect(() => {
-    // Could also be set as "startup_page" in <Pagination startup_page={startupPage} ...>
+    // Could also be set as "startupPage" in <Pagination startupPage={startupPage} ...>
     setLocalPage(startupPage)
   }, [])
 
@@ -320,15 +320,15 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
       <tbody>
         <Pagination
           mode="infinity"
-          // use_load_button // disables infinity scroller, but will add a button to do so
-          marker_element="tr"
-          fallback_element={({ className, ...props }) => (
+          // useLoadButton // disables infinity scroller, but will add a button to do so
+          markerElement="tr"
+          fallbackElement={({ className, ...props }) => (
             <TableRow className={className}>
               <TableData colSpan={2} {...props} />
             </TableRow>
           )} // in order to show the injected "indicator" and "load button" in the middle of the row
-          current_page={currentPage}
-          page_count={maxPagesCount}
+          currentPage={currentPage}
+          pageCount={maxPagesCount}
           {...props}
           on_startup={action}
           on_change={action}
