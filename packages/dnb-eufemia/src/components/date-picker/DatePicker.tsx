@@ -486,7 +486,7 @@ type DatePickerDeprecatedProps = {
    */
   prevent_close?: boolean
   /**
-   * @deprecated use `no_animation` instead.
+   * @deprecated use `noAnimation` instead.
    */
   no_animation?: boolean
   /**
