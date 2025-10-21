@@ -207,12 +207,12 @@ export const DrawerListItem = {
     type: ['string', 'number'],
     status: 'optional',
   },
-  selected_value: {
+  selectedValue: {
     doc: 'Replaces the standard value output for selected item. Only used in some implementations (Dropdown, Autocomplete).',
     type: ['string', 'React.Node'],
     status: 'optional',
   },
-  suffix_value: {
+  suffixValue: {
     doc: 'Content placed to the right in the list item.',
     type: ['string', 'React.node'],
     status: 'optional',
