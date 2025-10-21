@@ -37,7 +37,7 @@ export default function AccordionContent(props: AccordionContentProps) {
     expanded,
     prerender,
     prevent_rerender,
-    single_container,
+    singleContainer,
     disabled,
     no_animation,
     contentRef,
@@ -53,9 +53,9 @@ export default function AccordionContent(props: AccordionContentProps) {
   }
 
   const setContainerHeight = () => {
-    const { single_container } = context
+    const { singleContainer } = context
 
-    if (single_container) {
+    if (singleContainer) {
       const contentElem = elementRef.current
       if (contentElem) {
         try {
@@ -120,11 +120,11 @@ export default function AccordionContent(props: AccordionContentProps) {
   }
 
   React.useEffect(() => {
-    if (expanded && single_container) {
+    if (expanded && singleContainer) {
       setContainerHeight()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [children, expanded, single_container])
+  }, [children, expanded, singleContainer])
 
   React.useState(() => {
     if (
@@ -170,8 +170,7 @@ export default function AccordionContent(props: AccordionContentProps) {
   validateDOMAttributes(props, wrapperParams)
   validateDOMAttributes(null, innerParams)
 
-  const animate =
-    !no_animation && (single_container ? isSmallScreen : true)
+  const animate = !no_animation && (singleContainer ? isSmallScreen : true)
 
   return (
     <HeightAnimation
