@@ -24,7 +24,7 @@ export const AccordionDefaultExample = () => (
   <ComponentBox data-visual-test="accordion-default">
     <Accordion
       expanded
-      remember_state
+      rememberState
       id="single-accordion"
       title="Accordion title"
     >
@@ -32,7 +32,7 @@ export const AccordionDefaultExample = () => (
     </Accordion>
     <Accordion.Provider
       top
-      remember_state
+      rememberState
       icon="chevron_down"
       icon_position="right"
     >
@@ -179,18 +179,13 @@ export const AccordionNestedExample = () => {
 
 export const AccordionDisabledExample = () => (
   <ComponentBox data-visual-test="accordion-disabled">
-    <Accordion
-      expanded
-      disabled
-      remember_state
-      title="Disabled (expanded)"
-    >
+    <Accordion expanded disabled rememberState title="Disabled (expanded)">
       <P>I am expanded, but disabled, so I can't be closed</P>
     </Accordion>
     <Accordion.Provider
       top
       disabled
-      remember_state
+      rememberState
       icon="chevron_down"
       icon_position="right"
     >

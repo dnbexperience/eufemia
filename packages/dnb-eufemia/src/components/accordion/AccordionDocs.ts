@@ -2,7 +2,7 @@ import { PropertiesTableProps } from '../../shared/types'
 
 export const AccordionProperties: PropertiesTableProps = {
   id: {
-    doc: 'A unique `id` that will be used on the button element. If you use `remember_state`, an id is required.',
+    doc: 'A unique `id` that will be used on the button element. If you use `rememberState`, an id is required.',
     type: 'string',
     status: 'optional',
   },
@@ -21,7 +21,7 @@ export const AccordionProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  remember_state: {
+  rememberState: {
     doc: 'If set to `true`, it will remember a changed state initiated by the user. It requires a unique `id`. It will store the state in the local storage.',
     type: 'boolean',
     status: 'optional',
