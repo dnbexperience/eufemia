@@ -643,9 +643,6 @@ export default function Provider<Data extends JsonObject>(
         props,
         data: internalDataRef.current, // always use the internal data
         error,
-
-        /** @deprecated – can be removed in v11 */
-        internal: { error },
       }
     },
     []
