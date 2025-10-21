@@ -51,7 +51,7 @@ export const AccordionProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
-  icon_size: {
+  iconSize: {
     doc: 'Define a different icon size. Defaults to `medium` (1.5rem).',
     type: 'string',
     status: 'optional',

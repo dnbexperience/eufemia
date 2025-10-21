@@ -2,5 +2,5 @@ import { AccordionProps, GroupProps } from './Accordion'
 
 export const accordionDefaultProps: AccordionProps & GroupProps = {
   variant: 'outlined',
-  icon_size: 'medium',
+  iconSize: 'medium',
 } as const
