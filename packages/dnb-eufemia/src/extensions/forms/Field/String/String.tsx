@@ -53,7 +53,7 @@ export type Props = FieldProps<string, undefined | string> & {
 
   // - Textarea props
   rows?: TextareaProps['rows']
-  autoresizeMaxRows?: TextareaProps['autoresize_max_rows']
+  autoresizeMaxRows?: TextareaProps['autoresizeMaxRows']
   autoresize?: TextareaProps['autoresize']
   characterCounter?: Omit<TextCounterProps, 'text'> | number
 
@@ -280,7 +280,7 @@ function StringComponent(props: Props) {
   const textareaProps: TextareaProps = {
     keepPlaceholder,
     rows,
-    autoresize_max_rows: autoresizeMaxRows,
+    autoresizeMaxRows: autoresizeMaxRows,
     autoresize,
     characterCounter,
   }
