@@ -95,7 +95,7 @@ export default class Dropdown extends React.PureComponent {
     maxHeight: PropTypes.number,
     skipPortal: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     portalClass: PropTypes.string,
-    no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    noAnimation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     noScrollAnimation: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool,
@@ -195,7 +195,7 @@ export default class Dropdown extends React.PureComponent {
     direction: 'auto',
     skipPortal: null,
     portalClass: null,
-    no_animation: false,
+    noAnimation: false,
     noScrollAnimation: false,
     preventSelection: false,
     more_menu: false,
@@ -439,7 +439,7 @@ class DropdownInstance extends React.PureComponent {
       focusable,
       keepOpen,
       preventClose,
-      no_animation,
+      noAnimation,
       noScrollAnimation,
       trianglePosition,
       skipPortal,
@@ -604,7 +604,7 @@ class DropdownInstance extends React.PureComponent {
             text_id={id + '-status'} // used for "aria-describedby"
             text={status}
             state={status_state}
-            no_animation={status_no_animation}
+            noAnimation={status_no_animation}
             skeleton={skeleton}
             {...status_props}
           />
@@ -666,7 +666,7 @@ class DropdownInstance extends React.PureComponent {
                 defaultValue={defaultValue}
                 scrollable={scrollable}
                 focusable={focusable}
-                no_animation={no_animation}
+                noAnimation={noAnimation}
                 noScrollAnimation={noScrollAnimation}
                 skipPortal={skipPortal}
                 preventSelection={handleAsMenu}
