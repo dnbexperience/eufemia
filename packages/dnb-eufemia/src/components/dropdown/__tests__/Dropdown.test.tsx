@@ -27,7 +27,7 @@ import locales from '../../../shared/locales/nb-NO'
 
 const nbNO = locales['nb-NO'].DrawerList
 
-// use no_animation so we don't need to wait
+// use noAnimation so we don't need to wait
 const mockProps: DropdownAllProps = {
   skipPortal: true,
 }
@@ -35,7 +35,7 @@ const props: DropdownAllProps = {
   id: 'dropdown-id',
   value: 2,
   skipPortal: true,
-  no_animation: true,
+  noAnimation: true,
 }
 
 const mockData: DrawerListDataArray = [
@@ -156,7 +156,7 @@ describe('Dropdown component', () => {
 
   it('has correct state when opened prop is given', () => {
     render(
-      <Dropdown skipPortal no_animation opened={true} data={mockData} />
+      <Dropdown skipPortal noAnimation opened={true} data={mockData} />
     )
 
     expect(
@@ -173,7 +173,7 @@ describe('Dropdown component', () => {
     render(
       <Dropdown
         skipPortal
-        no_animation
+        noAnimation
         trigger_element={(props) => <button {...props}>test</button>}
         data={mockData}
       />
@@ -199,7 +199,7 @@ describe('Dropdown component', () => {
     render(
       <Dropdown
         skipPortal
-        no_animation
+        noAnimation
         data={mockData}
         status="status text"
         status_state="warn"
@@ -217,7 +217,7 @@ describe('Dropdown component', () => {
     render(
       <Dropdown
         skipPortal
-        no_animation
+        noAnimation
         opened={true}
         keepOpen={true}
         on_change={on_change}
@@ -257,7 +257,7 @@ describe('Dropdown component', () => {
       <Dropdown
         preventClose={true}
         skipPortal
-        no_animation
+        noAnimation
         on_change={on_change}
         on_hide={on_hide}
         data={mockData}
@@ -567,7 +567,7 @@ describe('Dropdown component', () => {
     const on_change = jest.fn()
 
     const { rerender } = render(
-      <Dropdown no_animation data={mockData} on_change={on_change} />
+      <Dropdown noAnimation data={mockData} on_change={on_change} />
     )
 
     // open first
@@ -590,7 +590,7 @@ describe('Dropdown component', () => {
 
     rerender(
       <Dropdown
-        no_animation
+        noAnimation
         data={mockData}
         on_change={on_change}
         value="b"
@@ -610,7 +610,7 @@ describe('Dropdown component', () => {
 
     rerender(
       <Dropdown
-        no_animation
+        noAnimation
         data={mockData}
         on_change={on_change}
         value="id-123"
@@ -630,7 +630,7 @@ describe('Dropdown component', () => {
 
     rerender(
       <Dropdown
-        no_animation
+        noAnimation
         data={mockData}
         on_change={on_change}
         value={123}
@@ -867,11 +867,11 @@ describe('Dropdown component', () => {
 
   it('has correct "role" in options', () => {
     render(
-      <Dropdown skipPortal no_animation opened={true} data={mockData} />
+      <Dropdown skipPortal noAnimation opened={true} data={mockData} />
     )
 
     render(
-      <Dropdown skipPortal no_animation opened={true} data={mockData} />
+      <Dropdown skipPortal noAnimation opened={true} data={mockData} />
     )
 
     expect(
@@ -885,7 +885,7 @@ describe('Dropdown component', () => {
     render(
       <Dropdown
         skipPortal
-        no_animation
+        noAnimation
         opened={true}
         data={mockData}
         action_menu
@@ -903,7 +903,7 @@ describe('Dropdown component', () => {
     render(
       <Dropdown
         skipPortal
-        no_animation
+        noAnimation
         opened={true}
         data={mockData}
         more_menu
@@ -921,7 +921,7 @@ describe('Dropdown component', () => {
     render(
       <Dropdown
         skipPortal
-        no_animation
+        noAnimation
         opened={true}
         data={mockData}
         preventSelection
@@ -966,7 +966,7 @@ describe('Dropdown component', () => {
     const params = { 'data-attr': 'value' }
     render(
       <Dropdown
-        no_animation
+        noAnimation
         on_show={on_show}
         on_hide={on_hide}
         {...params}
@@ -1008,7 +1008,7 @@ describe('Dropdown component', () => {
 
     render(
       <Dropdown
-        no_animation
+        noAnimation
         on_show={on_show}
         on_hide={on_hide}
         on_show_focus={on_show_focus}
@@ -1054,7 +1054,7 @@ describe('Dropdown component', () => {
   it('will prevent close if false gets returned from on_hide event', () => {
     let preventClose = false
     const on_hide = jest.fn(() => !preventClose)
-    render(<Dropdown no_animation on_hide={on_hide} data={mockData} />)
+    render(<Dropdown noAnimation on_hide={on_hide} data={mockData} />)
 
     // first open
     open()
@@ -1124,7 +1124,7 @@ describe('Dropdown component', () => {
 
   it('will not set focus on options when key down/up is pressed on first or last item', async () => {
     const { rerender } = render(
-      <Dropdown id="key-nav" no_animation data={mockData} />
+      <Dropdown id="key-nav" noAnimation data={mockData} />
     )
 
     // first open
@@ -1180,12 +1180,7 @@ describe('Dropdown component', () => {
     ).toContain('dnb-drawer-list__option--focus')
 
     rerender(
-      <Dropdown
-        id="key-nav"
-        no_animation
-        data={mockData}
-        direction="top"
-      />
+      <Dropdown id="key-nav" noAnimation data={mockData} direction="top" />
     )
 
     expect(
@@ -1224,7 +1219,7 @@ describe('Dropdown component', () => {
   it('will change the selected value when StrictMode is enabled', () => {
     render(
       <React.StrictMode>
-        <Dropdown no_animation data={mockData} value={props.value} />
+        <Dropdown noAnimation data={mockData} value={props.value} />
       </React.StrictMode>
     )
 
@@ -1531,7 +1526,7 @@ describe('Dropdown component', () => {
   })
 
   it('should support empty data entry', () => {
-    render(<Dropdown skipPortal no_animation data={['']} />)
+    render(<Dropdown skipPortal noAnimation data={['']} />)
 
     expect(
       document.querySelector('button').getAttribute('aria-expanded')
@@ -1824,11 +1819,7 @@ describe('Dropdown component', () => {
 
     it('renders groups', async () => {
       render(
-        <Dropdown
-          no_animation={true}
-          data={dataProp}
-          groups={groupsProp}
-        />
+        <Dropdown noAnimation={true} data={dataProp} groups={groupsProp} />
       )
 
       const trigger = document.querySelector('.dnb-dropdown__trigger')
@@ -1881,7 +1872,7 @@ describe('Dropdown component', () => {
     it('uses default title for groups missing title', async () => {
       render(
         <Dropdown
-          no_animation={true}
+          noAnimation={true}
           data={dataProp}
           groups={[undefined, undefined, 'Third']}
         />
@@ -1917,7 +1908,7 @@ describe('Dropdown component', () => {
     it('adds group for items without group index', async () => {
       render(
         <Dropdown
-          no_animation={true}
+          noAnimation={true}
           data={[...dataProp, { content: 'Item without groupIndex' }]}
           groups={groupsProp}
         />
@@ -1947,7 +1938,7 @@ describe('Dropdown component', () => {
     it('keyboard navigation', async () => {
       const { rerender } = render(
         <Dropdown
-          no_animation
+          noAnimation
           data={dataProp}
           groups={groupsProp}
           direction="bottom"
@@ -2022,7 +2013,7 @@ describe('Dropdown component', () => {
 
       rerender(
         <Dropdown
-          no_animation
+          noAnimation
           data={dataProp}
           groups={groupsProp}
           direction="top"
@@ -2117,7 +2108,7 @@ describe('Dropdown markup', () => {
       value: 2,
       opened: true,
       skipPortal: true,
-      no_animation: true,
+      noAnimation: true,
       variant: 'secondary',
     }
 
