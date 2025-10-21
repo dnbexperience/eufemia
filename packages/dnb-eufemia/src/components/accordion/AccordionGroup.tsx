@@ -55,12 +55,12 @@ const AccordionGroup = (props: AccordionGroupProps) => {
 
   const {
     expanded, // eslint-disable-line
-    expanded_id, // eslint-disable-line
+    expandedId, // eslint-disable-line
     prerender, // eslint-disable-line
     preventRerender, // eslint-disable-line
     singleContainer, // eslint-disable-line
     contentRef, // eslint-disable-line
-    allow_close_all, // eslint-disable-line
+    allowCloseAll, // eslint-disable-line
     rememberState, // eslint-disable-line
     flushRememberedState, // eslint-disable-line
     disabled, // eslint-disable-line
