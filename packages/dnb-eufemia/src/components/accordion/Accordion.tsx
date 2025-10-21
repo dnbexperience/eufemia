@@ -85,11 +85,11 @@ export type AccordionProps = Omit<React.HTMLProps<HTMLElement>, 'ref'> &
     /**
      * Use this prop together with `prevent_rerender` – and if it is to `true`, the accordion component will re-render if the children are a new React element and does not match the previous one anymore.
      */
-    prevent_rerender_conditional?: boolean
+    preventRerenderConditional?: boolean
     /**
      * If set to `true`, it will remember a changed state initiated by the user. It requires a unique `id`. It will store the sate in the local storage.
      */
-    remember_state?: boolean
+    rememberState?: boolean
     /**
      * Send along a custom React Ref for `.dnb-accordion__content`.
      */
@@ -119,7 +119,7 @@ export type AccordionProps = Omit<React.HTMLProps<HTMLElement>, 'ref'> &
      */
     skeleton?: SkeletonShow
     /**
-     * A unique `id` that will be used on the button element. If you use `remember_state`, an id is required.
+     * A unique `id` that will be used on the button element. If you use `rememberState`, an id is required.
      */
     id?: string
     group?: string
@@ -142,7 +142,7 @@ export type AccordionProps = Omit<React.HTMLProps<HTMLElement>, 'ref'> &
     /**
      * Will set the placement of the icon. Defaults to `left`.
      */
-    icon_position?: AccordionIconPosition
+    iconPosition?: AccordionIconPosition
     /**
      * Define a different icon size. Defaults to `medium` (1.5rem).
      */
@@ -250,7 +250,7 @@ function Accordion({
       return typeof window === 'undefined'
     }
 
-    if (props.remember_state || context.remember_state) {
+    if (props.rememberState || context.rememberState) {
       const storedExpanded = store.getState()
 
       if (props.expanded && storedExpanded === false) {
@@ -281,7 +281,7 @@ function Accordion({
     setExpanded(expanded)
 
     // check if a event exists, because, then it's a user click
-    if (props.remember_state || context.remember_state) {
+    if (props.rememberState || context.rememberState) {
       store.saveState(expanded)
     }
   }
@@ -341,9 +341,9 @@ function Accordion({
               className,
               prerender,
               prevent_rerender,
-              prevent_rerender_conditional,
+              preventRerenderConditional,
               singleContainer,
-              remember_state,
+              rememberState,
               disabled,
               skeleton,
               no_animation,
@@ -358,7 +358,7 @@ function Accordion({
               description, // eslint-disable-line
               leftComponent, // eslint-disable-line
               icon, // eslint-disable-line
-              icon_position, // eslint-disable-line
+              iconPosition, // eslint-disable-line
               iconSize, // eslint-disable-line
               onChange, // eslint-disable-line
               onStateUpdate, // eslint-disable-line
@@ -400,9 +400,9 @@ function Accordion({
               expanded: expandedState,
               prerender: prerender,
               prevent_rerender: prevent_rerender,
-              prevent_rerender_conditional: prevent_rerender_conditional,
+              preventRerenderConditional: preventRerenderConditional,
               singleContainer: singleContainer,
-              remember_state: remember_state,
+              rememberState: rememberState,
               disabled: disabled,
               skeleton: skeleton,
               no_animation: no_animation,
@@ -453,7 +453,7 @@ export type GroupProps = AccordionProps & {
 }
 
 const Group = ({ expandBehavior = 'single', ...props }: GroupProps) => {
-  if (props.remember_state && !props.id) {
+  if (props.rememberState && !props.id) {
     rememberWarning('accordion group')
   }
 

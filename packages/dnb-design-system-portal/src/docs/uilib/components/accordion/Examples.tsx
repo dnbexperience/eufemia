@@ -24,7 +24,7 @@ export const AccordionDefaultExample = () => (
   <ComponentBox data-visual-test="accordion-default">
     <Accordion
       expanded
-      remember_state
+      rememberState
       id="single-accordion"
       title="Accordion title"
     >
@@ -32,9 +32,9 @@ export const AccordionDefaultExample = () => (
     </Accordion>
     <Accordion.Provider
       top
-      remember_state
+      rememberState
       icon="chevron_down"
-      icon_position="right"
+      iconPosition="right"
     >
       <Accordion id="single-provider-accordion" title="Accordion title">
         <P>Accordion content</P>
@@ -131,7 +131,7 @@ export const AccordionPlainVariant = () => {
           closed: AddIcon,
           expanded: SubtractIcon,
         }}
-        icon_position="right"
+        iconPosition="right"
       >
         <P>content</P>
       </Accordion>
@@ -142,7 +142,7 @@ export const AccordionPlainVariant = () => {
           closed: AddIcon,
           expanded: SubtractIcon,
         }}
-        icon_position="right"
+        iconPosition="right"
         expanded
       >
         <P>content</P>
@@ -179,20 +179,15 @@ export const AccordionNestedExample = () => {
 
 export const AccordionDisabledExample = () => (
   <ComponentBox data-visual-test="accordion-disabled">
-    <Accordion
-      expanded
-      disabled
-      remember_state
-      title="Disabled (expanded)"
-    >
+    <Accordion expanded disabled rememberState title="Disabled (expanded)">
       <P>I am expanded, but disabled, so I can't be closed</P>
     </Accordion>
     <Accordion.Provider
       top
       disabled
-      remember_state
+      rememberState
       icon="chevron_down"
-      icon_position="right"
+      iconPosition="right"
     >
       <Accordion title="Disabled (closed)">
         <P>You can't see this text because I am disabled and closed.</P>
@@ -213,7 +208,7 @@ export const AccordionDescriptionExample = () => (
     <Accordion
       top
       icon="chevron_down"
-      icon_position="right"
+      iconPosition="right"
       id="description-provider-accordion"
       title="Accordion title"
       description="Accordion description"

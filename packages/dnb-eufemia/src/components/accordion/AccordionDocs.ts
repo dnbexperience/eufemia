@@ -2,7 +2,7 @@ import { PropertiesTableProps } from '../../shared/types'
 
 export const AccordionProperties: PropertiesTableProps = {
   id: {
-    doc: 'A unique `id` that will be used on the button element. If you use `remember_state`, an id is required.',
+    doc: 'A unique `id` that will be used on the button element. If you use `rememberState`, an id is required.',
     type: 'string',
     status: 'optional',
   },
@@ -21,7 +21,7 @@ export const AccordionProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  remember_state: {
+  rememberState: {
     doc: 'If set to `true`, it will remember a changed state initiated by the user. It requires a unique `id`. It will store the state in the local storage.',
     type: 'boolean',
     status: 'optional',
@@ -46,7 +46,7 @@ export const AccordionProperties: PropertiesTableProps = {
     type: 'React.ReactNode',
     status: 'optional',
   },
-  icon_position: {
+  iconPosition: {
     doc: 'Will set the placement of the icon. Defaults to `left`.',
     type: 'string',
     status: 'optional',
@@ -71,7 +71,7 @@ export const AccordionProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  prevent_rerender_conditional: {
+  preventRerenderConditional: {
     doc: 'Use this prop together with `prevent_rerender` – and if it is set to `true`, the accordion component will re-render if the children are a new React element and do not match the previous one anymore.',
     type: 'boolean',
     status: 'optional',
