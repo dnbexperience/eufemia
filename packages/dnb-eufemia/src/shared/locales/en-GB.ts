@@ -53,9 +53,9 @@ export default {
       targetBlankTitle: 'Opens a new Window',
     },
     GlobalStatus: {
-      default_title: 'An error has occurred',
-      close_text: 'Close',
-      status_anchor_text: 'Go to %s',
+      defaultTitle: 'An error has occurred',
+      closeText: 'Close',
+      statusAnchorText: 'Go to %s',
     },
     GlobalError: {
       404: {
