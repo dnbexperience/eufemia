@@ -19,7 +19,7 @@ const props: TextareaProps = {
   id: 'textarea',
   label: null,
   status: null, // to make sure we don't get aria-details
-  textarea_element: null,
+  textareaElement: null,
   disabled: false,
 }
 
@@ -187,8 +187,8 @@ describe('Textarea component', () => {
     expect(document.querySelector('textarea').value).toBe('children')
   })
 
-  it('has correct size attribute (chars length) on textarea by using textarea_attributes', () => {
-    render(<Textarea textarea_attributes={{ size: 2 }} />)
+  it('has correct size attribute (chars length) on textarea by using textareaAttributes', () => {
+    render(<Textarea textareaAttributes={{ size: 2 }} />)
     expect(document.querySelector('textarea').getAttribute('size')).toBe(
       '2'
     )
@@ -215,7 +215,7 @@ describe('Textarea component', () => {
   })
 
   it('has to have a status value as defined in the prop', () => {
-    render(<Textarea {...props} status="status" status_state="error" />)
+    render(<Textarea {...props} status="status" statusState="error" />)
     expect(
       document.querySelector('.dnb-form-status__text').textContent
     ).toBe('status')
@@ -242,7 +242,7 @@ describe('Textarea component', () => {
   })
 
   it('will correctly auto resize if prop autoresize is used', async () => {
-    render(<Textarea rows={1} autoresize={true} autoresize_max_rows={4} />)
+    render(<Textarea rows={1} autoresize={true} autoresizeMaxRows={4} />)
 
     const elem = document.querySelector('textarea')
 
@@ -286,7 +286,7 @@ describe('Textarea component', () => {
 
   it('should inherit formElement vertical label', () => {
     render(
-      <Provider formElement={{ label_direction: 'vertical' }}>
+      <Provider formElement={{ labelDirection: 'vertical' }}>
         <Textarea label="Label" />
       </Provider>
     )
@@ -321,7 +321,7 @@ describe('Textarea component', () => {
 
     function MockComponent() {
       ref = React.useRef()
-      return <Textarea {...props} inner_ref={ref} />
+      return <Textarea {...props} innerRef={ref} />
     }
 
     render(<MockComponent />)
@@ -339,7 +339,7 @@ describe('Textarea component', () => {
       ref.current = elem
     }
 
-    render(<Textarea id="unique" inner_ref={refFn} />)
+    render(<Textarea id="unique" innerRef={refFn} />)
 
     expect(ref.current.getAttribute('id')).toBe('unique')
     expect(ref.current.classList).toContain('dnb-textarea__textarea')
