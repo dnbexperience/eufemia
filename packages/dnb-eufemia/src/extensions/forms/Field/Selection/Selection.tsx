@@ -609,7 +609,7 @@ export function makeOptions<T = DrawerListProps['data']>(
       const props = child.props as OptionFieldProps
       const title = props.title ?? props.children ?? <em>Untitled</em>
       const content = props.text ? [title, props.text] : title
-      const selected_value = transformSelection
+      const selectedValue = transformSelection
         ? transformSelection(props)
         : undefined
       const selectedKey = String(props.value ?? '')
@@ -620,7 +620,7 @@ export function makeOptions<T = DrawerListProps['data']>(
 
       return {
         selectedKey,
-        selected_value,
+        selectedValue,
         content,
         disabled,
         style,
@@ -647,7 +647,7 @@ function renderDropdownItems(
       return {
         selectedKey: value,
         content: (text ? [title, text] : title) || <em>Untitled</em>,
-        selected_value: transformSelection
+        selectedValue: transformSelection
           ? transformSelection(props)
           : undefined,
         disabled,

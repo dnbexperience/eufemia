@@ -458,7 +458,7 @@ const DropdownStory = () => {
             onClick={() => {
               const id = Math.random()
               dropdownData.unshift({
-                selected_value: `I'm New ${id}`,
+                selectedValue: `I'm New ${id}`,
                 content: `New content ${id}`,
               })
               // setData(dropdownData)
@@ -632,7 +632,7 @@ export const DropdownSandbox = () => (
 
 let dropdownData: DrawerListDataArray = [
   {
-    selected_value: 'Brukskonto - Kari Nordmann',
+    selectedValue: 'Brukskonto - Kari Nordmann',
     content: (
       <>
         {/* <Checkbox checked aria-hidden />  */}
@@ -651,7 +651,7 @@ let dropdownData: DrawerListDataArray = [
     ],
   },
   {
-    selected_value:
+    selectedValue:
       'Feriekonto - Kari Nordmann med et kjempelangt etternavnsen',
     content: [
       <NumberFormat key={11345678962} ban>
@@ -661,7 +661,7 @@ let dropdownData: DrawerListDataArray = [
     ],
   },
   {
-    selected_value: (
+    selectedValue: (
       <React.Fragment key="cs-1">Custom selected {'🔥'}</React.Fragment>
     ),
     content: [
@@ -674,7 +674,7 @@ let dropdownData: DrawerListDataArray = [
 ]
 const dropdownDataScrollable = [
   {
-    selected_value: 'AA',
+    selectedValue: 'AA',
     content: 'A',
   },
   {
@@ -686,7 +686,7 @@ const dropdownDataScrollable = [
     ],
   },
   {
-    selected_value: 'CC',
+    selectedValue: 'CC',
     content: [
       <NumberFormat key={11345678962} ban>
         11345678962
@@ -695,7 +695,7 @@ const dropdownDataScrollable = [
     ],
   },
   {
-    selected_value: 'DD',
+    selectedValue: 'DD',
     content: [
       <NumberFormat key={15349648901} ban>
         15349648901
@@ -742,15 +742,15 @@ function CurrencySelector({
       value={itemIndex}
       title={strings.currencyBlankLabel}
       // eslint-disable-next-line camelcase
-      on_change={({ data: { selected_value }, event }) => {
+      on_change={({ data: { selectedValue }, event }) => {
         console.log('event', event)
         if (event && typeof event.persist === 'function') {
           event.persist()
         }
-        onChange(selected_value)
+        onChange(selectedValue)
       }}
       data={currencies.map((currency) => ({
-        selected_value: currency,
+        selectedValue: currency,
         content: (
           <>
             {currency} <Flag />
@@ -850,10 +850,10 @@ const strings = {
 }
 
 const initialData = [
-  { selected_value: '1', content: '1' },
-  { selected_value: '2', content: '2' },
-  { selected_value: '3', content: '3' },
-  { selected_value: '4', content: '4' },
+  { selectedValue: '1', content: '1' },
+  { selectedValue: '2', content: '2' },
+  { selectedValue: '3', content: '3' },
+  { selectedValue: '4', content: '4' },
 ]
 
 function UpdateDataExample() {
@@ -871,15 +871,15 @@ function UpdateDataExample() {
               size="small"
               on_click={() => {
                 const updatedSelectedData = selectedData.filter(
-                  (data) => item?.selected_value !== data?.selected_value
+                  (data) => item?.selectedValue !== data?.selectedValue
                 )
                 setSelectedData(updatedSelectedData)
                 setChoiceData(
                   initialData.filter(
                     (data) =>
                       updatedSelectedData.findIndex(
-                        ({ selected_value: updatedValue }) =>
-                          updatedValue === data?.selected_value
+                        ({ selectedValue: updatedValue }) =>
+                          updatedValue === data?.selectedValue
                       ) === -1
                   )
                 )
@@ -901,15 +901,12 @@ function UpdateDataExample() {
           if (data) {
             setChoiceData(
               choiceData.filter((item) => {
-                return (
-                  data && item?.selected_value !== data?.selected_value
-                )
+                return data && item?.selectedValue !== data?.selectedValue
               })
             )
             if (
               selectedData.findIndex(
-                ({ selected_value }) =>
-                  selected_value === data.selected_value
+                ({ selectedValue }) => selectedValue === data.selectedValue
               ) === -1
             ) {
               setSelectedData([...selectedData, data])
@@ -1066,7 +1063,7 @@ export function Title() {
         data={[
           {
             selectedKey: 'test',
-            selected_value: <>my value</>,
+            selectedValue: <>my value</>,
             content: 'test',
           },
         ]}
@@ -1077,7 +1074,7 @@ export function Title() {
         data={[
           {
             selectedKey: 'test',
-            selected_value: <P>my value</P>,
+            selectedValue: <P>my value</P>,
             content: 'test',
           },
         ]}
@@ -1088,7 +1085,7 @@ export function Title() {
         data={[
           {
             selectedKey: 'test',
-            selected_value: (
+            selectedValue: (
               <>
                 <Icon icon={bank} />
                 Banking
@@ -1104,7 +1101,7 @@ export function Title() {
         data={[
           {
             selectedKey: 'test',
-            selected_value: <Icon icon={bank} />,
+            selectedValue: <Icon icon={bank} />,
             content: 'test',
           },
         ]}
@@ -1115,7 +1112,7 @@ export function Title() {
         data={[
           {
             selectedKey: 'test',
-            selected_value: <NumberFormat>11345678962</NumberFormat>,
+            selectedValue: <NumberFormat>11345678962</NumberFormat>,
             content: 'test',
           },
         ]}
