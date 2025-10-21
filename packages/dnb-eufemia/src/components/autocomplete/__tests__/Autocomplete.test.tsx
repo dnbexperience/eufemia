@@ -221,26 +221,26 @@ describe('Autocomplete component', () => {
     )
   })
 
-  describe('suffix_value', () => {
+  describe('suffixValue', () => {
     const mockData = [
       {
-        selected_value: 'a selected',
-        suffix_value: 'a suffix',
+        selectedValue: 'a selected',
+        suffixValue: 'a suffix',
         content: '11 aa',
       },
       {
-        selected_value: 'b selected',
-        suffix_value: <span>b suffix</span>,
+        selectedValue: 'b selected',
+        suffixValue: <span>b suffix</span>,
         content: '22 bb',
       },
       {
-        selected_value: 'c selected',
-        suffix_value: 'c suffix',
+        selectedValue: 'c selected',
+        suffixValue: 'c suffix',
         content: '22 cc',
       },
     ]
 
-    it('will show suffix_value in options and in input when selected', () => {
+    it('will show suffixValue in options and in input when selected', () => {
       let index = 1
 
       const { rerender } = render(
@@ -251,7 +251,7 @@ describe('Autocomplete component', () => {
         expect(
           (document.querySelector('.dnb-input__input') as HTMLInputElement)
             .value
-        ).toBe(mockData[index].selected_value)
+        ).toBe(mockData[index].selectedValue)
       }
 
       assertInputValue()
@@ -279,16 +279,16 @@ describe('Autocomplete component', () => {
           .querySelector(
             '.dnb-drawer-list__option__item.dnb-drawer-list__option__suffix'
           ).textContent
-      ).toBe(mockData[2].suffix_value)
+      ).toBe(mockData[2].suffixValue)
     })
 
-    it('will not open drawer-list when click on suffix_value and is disabled', () => {
+    it('will not open drawer-list when click on suffixValue and is disabled', () => {
       render(
         <Autocomplete {...mockProps} value={1} data={mockData} disabled />
       )
 
       fireEvent.click(
-        document.querySelector('.dnb-autocomplete__suffix_value')
+        document.querySelector('.dnb-autocomplete__suffixValue')
       )
 
       expect(
@@ -298,7 +298,7 @@ describe('Autocomplete component', () => {
       expect(document.activeElement.tagName).toBe('BODY')
     })
 
-    it('will open drawer-list when click on suffix_value', () => {
+    it('will open drawer-list when click on suffixValue', () => {
       render(<Autocomplete {...mockProps} value={1} data={mockData} />)
 
       expect(
@@ -306,7 +306,7 @@ describe('Autocomplete component', () => {
       ).not.toContain('dnb-autocomplete--opened')
 
       fireEvent.click(
-        document.querySelector('.dnb-autocomplete__suffix_value')
+        document.querySelector('.dnb-autocomplete__suffixValue')
       )
       expect(
         document.querySelector('.dnb-autocomplete').classList
@@ -439,12 +439,12 @@ describe('Autocomplete component', () => {
     ).toBe('Ingen alternativer')
   })
 
-  it('will prefer search_content over content', () => {
+  it('will prefer searchContent over content', () => {
     const mockData = [
-      { content: 'item aa', search_content: ['AA c'] },
-      { content: 'item bb', search_content: ['BB cc zethx'] },
-      { content: 'item cc', search_content: ['CC', 'cc'] },
-      { content: 'item cc second', search_content: ['CC', 'cc', 'more'] },
+      { content: 'item aa', searchContent: ['AA c'] },
+      { content: 'item bb', searchContent: ['BB cc zethx'] },
+      { content: 'item cc', searchContent: ['CC', 'cc'] },
+      { content: 'item cc second', searchContent: ['CC', 'cc', 'more'] },
     ]
 
     render(
@@ -492,7 +492,7 @@ describe('Autocomplete component', () => {
       '<li class="first-of-type first-item closest-to-top closest-to-bottom dnb-drawer-list__option" role="option" tabindex="-1" aria-selected="false" data-item="3" id="option-autocomplete-id-3"><span class="dnb-drawer-list__option__inner"><span class="dnb-drawer-list__option__item"><span>item <span class="dnb-drawer-list__option__item--highlight">cc</span> second</span></span></span></li>'
     )
 
-    // Do not find item, as there is defined a search_content
+    // Do not find item, as there is defined a searchContent
     fireEvent.change(document.querySelector('.dnb-input__input'), {
       target: { value: 'item' },
     })
@@ -1611,7 +1611,7 @@ describe('Autocomplete component', () => {
     ).toBe('')
   })
 
-  it('should render "selected_value" when set to React.Element', async () => {
+  it('should render "selectedValue" when set to React.Element', async () => {
     function ValueA() {
       return (
         <span>
@@ -1637,15 +1637,15 @@ describe('Autocomplete component', () => {
 
     const data = [
       {
-        selected_value: <ValueA />,
+        selectedValue: <ValueA />,
         content: <ValueA />,
       },
       {
-        selected_value: <ValueB />,
+        selectedValue: <ValueB />,
         content: <ValueB />,
       },
       {
-        selected_value: <ValueC />,
+        selectedValue: <ValueC />,
         content: <ValueC />,
       },
     ]
@@ -1687,15 +1687,15 @@ describe('Autocomplete component', () => {
         value={1}
         data={[
           {
-            selected_value: 'Bedriftskonto',
+            selectedValue: 'Bedriftskonto',
             content: 'Bedriftskonto',
           },
           {
-            selected_value: 'Sparekonto',
+            selectedValue: 'Sparekonto',
             content: 'Sparekonto',
           },
           {
-            selected_value: 'Felleskonto',
+            selectedValue: 'Felleskonto',
             content: 'Felleskonto',
           },
         ]}
@@ -2443,11 +2443,11 @@ describe('Autocomplete component', () => {
     expect(callThree.dataList).toStrictEqual(callTwo.dataList)
   })
 
-  it('will use selected_value as the input value when selected', () => {
+  it('will use selectedValue as the input value when selected', () => {
     const mockData = [
-      { selected_value: 'a value', content: '11 aa' },
-      { selected_value: 'b value', content: '22 bb' },
-      { selected_value: 'c value', content: '22 cc' },
+      { selectedValue: 'a value', content: '11 aa' },
+      { selectedValue: 'b value', content: '22 bb' },
+      { selectedValue: 'c value', content: '22 cc' },
     ]
 
     let index = 1
@@ -2460,7 +2460,7 @@ describe('Autocomplete component', () => {
       expect(
         (document.querySelector('.dnb-input__input') as HTMLInputElement)
           .value
-      ).toBe(mockData[index].selected_value)
+      ).toBe(mockData[index].selectedValue)
     }
 
     assert()
@@ -2473,9 +2473,9 @@ describe('Autocomplete component', () => {
 
   it('will select correct item after updateData', () => {
     const mockData = [
-      { selected_value: 'a value', content: '11 aa' },
-      { selected_value: 'b value', content: '22 bb' },
-      { selected_value: 'c value', content: '22 cc' },
+      { selectedValue: 'a value', content: '11 aa' },
+      { selectedValue: 'b value', content: '22 bb' },
+      { selectedValue: 'c value', content: '22 cc' },
     ]
 
     const onTypeHandler = ({ updateData }) => {
@@ -2943,22 +2943,22 @@ describe('Autocomplete component', () => {
     const data = [
       {
         selectedKey: '+93',
-        selected_value: 'AF (+93)',
+        selectedValue: 'AF (+93)',
         content: '+93 Afghanistan',
       },
       {
         selectedKey: '+47',
-        selected_value: 'NO (+47)',
+        selectedValue: 'NO (+47)',
         content: '+47 Norge',
       },
       {
         selectedKey: '+46',
-        selected_value: 'SE (+46)',
+        selectedValue: 'SE (+46)',
         content: '+46 Sverige',
       },
       {
         selectedKey: '+41',
-        selected_value: 'CH (+41)',
+        selectedValue: 'CH (+41)',
         content: '+41 Sveits',
       },
     ]
