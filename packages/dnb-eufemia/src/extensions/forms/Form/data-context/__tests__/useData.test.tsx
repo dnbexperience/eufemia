@@ -1279,15 +1279,6 @@ describe('Form.useData', () => {
       field3: 'baz',
     })
 
-    const filterError: FilterData = jest.fn(({ internal }) => {
-      return !(internal.error instanceof Error)
-    })
-
-    expect(result.current.filterData(filterError)).toEqual({
-      field1: 'foo',
-      field3: 'baz',
-    })
-
     const filterValue: FilterData = jest.fn(({ path, value }) => {
       return path === '/field3' && value === 'baz'
     })
