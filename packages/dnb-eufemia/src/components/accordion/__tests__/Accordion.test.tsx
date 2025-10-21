@@ -17,7 +17,7 @@ import userEvent from '@testing-library/user-event'
 new MatchMediaMock()
 
 const props: AccordionProps = {
-  no_animation: true,
+  noAnimation: true,
   title: 'title',
 }
 
@@ -93,8 +93,8 @@ describe('Accordion component', () => {
     ).toHaveAttribute('disabled')
   })
 
-  it('has correct classes when no_animation', () => {
-    render(<Accordion no_animation />)
+  it('has correct classes when noAnimation', () => {
+    render(<Accordion noAnimation />)
 
     expect(
       Array.from(
@@ -350,7 +350,7 @@ describe('Accordion container component', () => {
           singleContainer
           preventRerender
           rememberState
-          no_animation
+          noAnimation
           {...props}
         >
           <Accordion id="accordion-1" title="Accordion 1">
