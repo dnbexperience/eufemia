@@ -188,11 +188,11 @@ export default class Autocomplete extends React.PureComponent {
               PropTypes.string,
               PropTypes.number,
             ]),
-            selected_value: PropTypes.oneOfType([
+            selectedValue: PropTypes.oneOfType([
               PropTypes.string,
               PropTypes.node,
             ]),
-            suffix_value: PropTypes.oneOfType([
+            suffixValue: PropTypes.oneOfType([
               PropTypes.string,
               PropTypes.node,
             ]),
@@ -367,7 +367,7 @@ class AutocompleteInstance extends React.PureComponent {
 
   static parseDataItem(dataItem) {
     const searchWord = parseContentTitle(
-      dataItem.search_content || dataItem,
+      dataItem.searchContent || dataItem,
       {
         separator: ' ',
       }
@@ -667,7 +667,7 @@ class AutocompleteInstance extends React.PureComponent {
         data.push({
           __id: lastItem.__id + 1,
           lastActiveItem: lastActiveItem.__id,
-          class_name: 'dnb-autocomplete__show-all',
+          className: 'dnb-autocomplete__show-all',
           show_all: true,
           active_item: false,
           selected_item: false,
@@ -754,7 +754,7 @@ class AutocompleteInstance extends React.PureComponent {
         ? []
         : [
             {
-              class_name: 'dnb-autocomplete__no-options',
+              className: 'dnb-autocomplete__no-options',
               content: this._props.no_options,
               ignoreEvents: true,
               __id: 'no_options',
@@ -772,7 +772,7 @@ class AutocompleteInstance extends React.PureComponent {
     this.ignoreEvents()
     this.context.drawerList.setData([
       {
-        class_name: 'dnb-autocomplete__indicator',
+        className: 'dnb-autocomplete__indicator',
         content: <ProgressIndicator label={this._props.indicator_label} />,
         ignoreEvents: true,
         __id: 'indicator',
@@ -1960,7 +1960,7 @@ class AutocompleteInstance extends React.PureComponent {
     )
 
     const innerId =
-      currentDataItem?.suffix_value && showStatus ? `${id}-inner` : null
+      currentDataItem?.suffixValue && showStatus ? `${id}-inner` : null
 
     // also used for code markup simulation
     validateDOMAttributes(null, mainParams)
@@ -2024,15 +2024,15 @@ class AutocompleteInstance extends React.PureComponent {
                   status_state={status_state}
                   type={null}
                   inner_element={
-                    currentDataItem?.suffix_value && (
+                    currentDataItem?.suffixValue && (
                       // eslint-disable-next-line jsx-a11y/click-events-have-key-events
                       <span
                         onClick={
                           disabled ? null : this.setVisibleAndFocusOnInput
                         }
-                        className="dnb-autocomplete__suffix_value"
+                        className="dnb-autocomplete__suffixValue"
                       >
-                        {currentDataItem?.suffix_value}
+                        {currentDataItem?.suffixValue}
                       </span>
                     )
                   }

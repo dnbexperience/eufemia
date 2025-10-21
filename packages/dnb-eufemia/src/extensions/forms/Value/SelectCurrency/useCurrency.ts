@@ -18,7 +18,7 @@ export default function useCurrency() {
         filter: (currency) => {
           return currency.iso === iso
         },
-      })?.at(0)?.selected_value
+      })?.at(0)?.selectedValue
     },
     [locale]
   )
