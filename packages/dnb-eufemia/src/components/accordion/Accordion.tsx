@@ -81,9 +81,9 @@ export type AccordionProps = Omit<React.HTMLProps<HTMLElement>, 'ref'> &
     /**
      * If set to `true` the accordion component will not re-render its content – can be useful for components you don&#39;t have control of storing the temporary state during an interaction.
      */
-    prevent_rerender?: boolean
+    preventRerender?: boolean
     /**
-     * Use this prop together with `prevent_rerender` – and if it is to `true`, the accordion component will re-render if the children are a new React element and does not match the previous one anymore.
+     * Use this prop together with `preventRerender` – and if it is to `true`, the accordion component will re-render if the children are a new React element and does not match the previous one anymore.
      */
     preventRerenderConditional?: boolean
     /**
@@ -340,7 +340,7 @@ function Accordion({
               variant,
               className,
               prerender,
-              prevent_rerender,
+              preventRerender,
               preventRerenderConditional,
               singleContainer,
               rememberState,
@@ -399,7 +399,7 @@ function Accordion({
               id,
               expanded: expandedState,
               prerender: prerender,
-              prevent_rerender: prevent_rerender,
+              preventRerender: preventRerender,
               preventRerenderConditional: preventRerenderConditional,
               singleContainer: singleContainer,
               rememberState: rememberState,
