@@ -5,7 +5,7 @@ export type PaginationIndicatorIndicatorElement =
   | ((...args: any[]) => any)
   | string;
 export interface PaginationIndicatorProps {
-  indicator_element?: PaginationIndicatorIndicatorElement;
+  indicatorElement?: PaginationIndicatorIndicatorElement;
 }
 export class PaginationIndicator extends React.Component<
   PaginationIndicatorProps,
