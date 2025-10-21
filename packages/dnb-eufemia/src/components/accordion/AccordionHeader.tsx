@@ -224,8 +224,8 @@ export const AccordionHeader = ({
   }
 
   function canClick() {
-    const { expanded, allow_close_all, group } = context
-    return !group || (group && !expanded) || allow_close_all
+    const { expanded, allowCloseAll, group } = context
+    return !group || (group && !expanded) || allowCloseAll
   }
 
   const extendedProps = extendPropsWithContext(

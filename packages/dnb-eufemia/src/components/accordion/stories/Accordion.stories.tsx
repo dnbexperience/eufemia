@@ -116,7 +116,7 @@ export const AccordionSandbox = () => {
       </Box>
 
       <Box>
-        <Accordion.Group expanded allow_close_all>
+        <Accordion.Group expanded allowCloseAll>
           <Accordion expanded={false}>
             <Accordion.Header>Accordion title 1</Accordion.Header>
             <Accordion.Content top="x-large">
@@ -222,7 +222,7 @@ function AccordionWithContainer() {
         singleContainer
         rememberState
         flushRememberedState={flushCache}
-        // allow_close_all
+        // allowCloseAll
         id="group-id"
       >
         <Accordion
