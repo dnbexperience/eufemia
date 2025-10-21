@@ -97,7 +97,7 @@ export type AccordionProps = Omit<React.HTMLProps<HTMLElement>, 'ref'> &
     /**
      * If set to `true`, the saved (remembered) will be removed and the initial component state will be used and set.
      */
-    flush_remembered_state?: boolean
+    flushRememberedState?: boolean
     /**
      * If set to `true`, a group of accordions will be wrapped to sidebar looking menu for medium and larger screens.
      */
@@ -220,7 +220,7 @@ function Accordion({
 
   // componentDidUpdate
   useEffect(() => {
-    if (context.flush_remembered_state) {
+    if (context.flushRememberedState) {
       store.flush()
       setExpanded(props.expanded)
     }
@@ -229,7 +229,7 @@ function Accordion({
       setExpanded(true)
     }
   }, [
-    context.flush_remembered_state,
+    context.flushRememberedState,
     context.expanded_id,
     props.expanded,
     props.id,

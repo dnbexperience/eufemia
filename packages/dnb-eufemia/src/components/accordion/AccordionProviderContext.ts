@@ -11,7 +11,7 @@ type AccordionGroupContextProps = {
   group?: string
   expanded_ssr?: boolean
   remember_state?: boolean
-  flush_remembered_state?: boolean
+  flushRememberedState?: boolean
   expanded_id?: string
   onChange?: (...params: unknown[]) => void
   onInit?: (...args: any[]) => any
