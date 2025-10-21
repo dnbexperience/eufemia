@@ -584,6 +584,9 @@ export default class GlobalStatus extends React.PureComponent {
       delay,
       autoscroll, // eslint-disable-line
       text, // eslint-disable-line
+      omitSetFocus, // eslint-disable-line
+      omitSetFocusOnUpdate, // eslint-disable-line
+      statusId, // eslint-disable-line
       icon,
       iconSize,
       children, // eslint-disable-line
