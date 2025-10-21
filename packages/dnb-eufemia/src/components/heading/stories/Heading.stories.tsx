@@ -372,11 +372,11 @@ export const HeadingSandbox = () => {
 // const StateUpdateKeepLevel = () => {
 //   // const [level, setLevel] = React.useState(1)
 //   const [foo, setFoo] = React.useState(1)
-//   const [skip_correction, setskip_correction] = React.useState(false)
+//   const [skipCorrection, setskipCorrection] = React.useState(false)
 
 //   React.useEffect(() => {
 //     const tA = setTimeout(() => {
-//       setskip_correction(true)
+//       setskipCorrection(true)
 //       setFoo(3)
 //     }, 500)
 
@@ -388,7 +388,7 @@ export const HeadingSandbox = () => {
 //   return (
 //     <>
 //       {/* <Heading debug>Heading #1</Heading> */}
-//       <Heading debug level={foo} skip_correction={skip_correction}>
+//       <Heading debug level={foo} skipCorrection={skipCorrection}>
 //         Heading #2
 //       </Heading>
 //     </>
@@ -408,7 +408,7 @@ function App() {
     <Heading.Level
       group="A"
       debug
-      debug_counter
+      debugCounter
       // reset={1}
     >
       <Button text="Reset" size="small" onClick={() => resetLevels(1)} />
