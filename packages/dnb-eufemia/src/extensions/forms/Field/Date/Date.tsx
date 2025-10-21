@@ -544,7 +544,6 @@ const datePickerPropKeys = [
   'endMonth',
   'minDate',
   'maxDate',
-  'correctInvalidDate',
   'maskOrder',
   'maskPlaceholder',
   'dateFormat',
