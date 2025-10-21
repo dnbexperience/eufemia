@@ -23,7 +23,7 @@ import {
   globalHeadingCounter,
   windupHeadings,
   teardownHeadings,
-  debugCounter,
+  debugCounter as debugCounterFn,
   getHeadingSize,
   getHeadingElement,
 } from './HeadingHelpers'
@@ -303,7 +303,7 @@ export default function Heading(props: HeadingAllProps) {
             <>
               {' '}
               <span className="dnb-code">
-                {debugCounter(state.counter)}
+                {debugCounterFn(state.counter)}
               </span>
             </>
           )}
