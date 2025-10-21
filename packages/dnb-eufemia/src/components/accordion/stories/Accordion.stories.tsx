@@ -170,7 +170,7 @@ export const AccordionSandbox = () => {
       <Box>
         <Accordion
           group="unique-id"
-          left_component={<IconPrimary icon="bell" />}
+          leftComponent={<IconPrimary icon="bell" />}
         >
           <Accordion.Header>Accordion title</Accordion.Header>
           <Accordion.Content>
@@ -221,7 +221,7 @@ function AccordionWithContainer() {
         // prevent_rerender_conditional
         singleContainer
         remember_state
-        flush_remembered_state={flushCache}
+        flushRememberedState={flushCache}
         // allow_close_all
         id="group-id"
       >

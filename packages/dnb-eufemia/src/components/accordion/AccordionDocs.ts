@@ -26,7 +26,7 @@ export const AccordionProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  flush_remembered_state: {
+  flushRememberedState: {
     doc: 'If set to `true`, the saved (remembered) state will be removed and the initial component state will be used and set.',
     type: 'boolean',
     status: 'optional',
@@ -56,7 +56,7 @@ export const AccordionProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
-  left_component: {
+  leftComponent: {
     doc: 'Will add a React element on the left side of the `title`, inside `AccordionHeaderContainer`.',
     type: 'React.ReactNode',
     status: 'optional',
