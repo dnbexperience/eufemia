@@ -327,7 +327,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
               <TableData colSpan={2} {...props} />
             </TableRow>
           )} // in order to show the injected "indicator" and "load button" in the middle of the row
-          current_page={currentPage}
+          currentPage={currentPage}
           page_count={maxPagesCount}
           {...props}
           on_startup={action}

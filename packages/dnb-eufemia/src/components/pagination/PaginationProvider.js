@@ -26,10 +26,7 @@ export default class PaginationProvider extends React.PureComponent {
     // eslint-disable-next-line
     startupPage: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     // eslint-disable-next-line
-    current_page: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number,
-    ]),
+    currentPage: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     page_count: PropTypes.oneOfType([PropTypes.string, PropTypes.number]), // eslint-disable-line
     setContentHandler: PropTypes.func,
     resetContentHandler: PropTypes.func,
@@ -57,7 +54,7 @@ export default class PaginationProvider extends React.PureComponent {
   }
   static defaultProps = {
     startupPage: null,
-    current_page: null,
+    currentPage: null,
     page_count: null,
     setContentHandler: null,
     resetContentHandler: null,
@@ -75,19 +72,19 @@ export default class PaginationProvider extends React.PureComponent {
       state.pageCount = parseFloat(props.page_count) || 1
     }
     if (
-      props.current_page !== null &&
+      props.currentPage !== null &&
       typeof state.currentPageInternal === 'undefined'
     ) {
-      state.currentPageInternal = parseFloat(props.current_page) || 1
+      state.currentPageInternal = parseFloat(props.currentPage) || 1
     }
     if (typeof state.startupPage !== 'number') {
       state.startupPage =
         parseFloat(props.startupPage) ||
-        parseFloat(props.current_page) ||
+        parseFloat(props.currentPage) ||
         state.currentPageInternal
       // We do not fall back to 1 here,
       // because the first render cycle in the users component may have:
-      // props.current_page: null – that means, we fall back only in the on_startup / on_change callbacks
+      // props.currentPage: null – that means, we fall back only in the on_startup / on_change callbacks
     }
 
     state.parallelLoadCount = parseFloat(props.parallelLoadCount) || 1
@@ -105,7 +102,7 @@ export default class PaginationProvider extends React.PureComponent {
       if (typeof state.lowerPage === 'undefined') {
         state.lowerPage = state.startupPage || 1
       }
-      const cur = parseFloat(props.current_page)
+      const cur = parseFloat(props.currentPage)
       if (!isNaN(cur) && cur < state.lowerPage) {
         state.lowerPage = cur
       }
@@ -197,10 +194,10 @@ export default class PaginationProvider extends React.PureComponent {
     this._isMounted = false
   }
 
-  componentDidUpdate({ current_page: current, internalContent: content }) {
-    const { internalContent, current_page } = this.props
-    const currentPageInternal = parseFloat(current_page)
-    if (current_page !== current) {
+  componentDidUpdate({ currentPage: current, internalContent: content }) {
+    const { internalContent, currentPage } = this.props
+    const currentPageInternal = parseFloat(currentPage)
+    if (currentPage !== current) {
       this.setState({ currentPageInternal })
       this.updatePageContent(currentPageInternal)
     } else if (internalContent !== content) {

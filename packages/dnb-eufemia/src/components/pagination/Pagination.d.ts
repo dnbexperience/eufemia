@@ -52,13 +52,13 @@ export interface PaginationProps
   extends Omit<React.HTMLProps<HTMLElement>, 'ref'>,
     SpacingProps {
   /**
-   * the page shown in the very beginning. If `current_page` is set, then it may not make too much sense to set this as well.
+   * the page shown in the very beginning. If `currentPage` is set, then it may not make too much sense to set this as well.
    */
   startupPage?: PaginationStartupPage;
   /**
    * the page shown at the moment the component renders. Defaults to `1`.
    */
-  current_page?: PaginationCurrentPage;
+  currentPage?: PaginationCurrentPage;
   /**
    * the total pages count. Defaults to `1`.
    */
@@ -233,13 +233,13 @@ type PaginationInstanceChildren =
   | ((...args: any[]) => any);
 interface PaginationInstanceProps extends SpacingProps {
   /**
-   * The page shown in the very beginning. If `current_page` is set, then it may not make too much sense to set this as well.
+   * The page shown in the very beginning. If `currentPage` is set, then it may not make too much sense to set this as well.
    */
   startupPage?: PaginationInstanceStartupPage;
   /**
    * The page shown at the moment the component renders. Defaults to `1`.
    */
-  current_page?: PaginationInstanceCurrentPage;
+  currentPage?: PaginationInstanceCurrentPage;
   /**
    * The total pages count. Defaults to `1`.
    */
@@ -416,13 +416,13 @@ type InfinityMarkerIndicatorElement =
 type InfinityMarkerChildren = React.ReactNode | ((...args: any[]) => any);
 interface InfinityMarkerProps extends SpacingProps {
   /**
-   * The page shown in the very beginning. If `current_page` is set, then it may not make too much sense to set this as well.
+   * The page shown in the very beginning. If `currentPage` is set, then it may not make too much sense to set this as well.
    */
   startupPage?: InfinityMarkerStartupPage;
   /**
    * The page shown at the moment the component renders. Defaults to `1`.
    */
-  current_page?: InfinityMarkerCurrentPage;
+  currentPage?: InfinityMarkerCurrentPage;
   /**
    * The total pages count. Defaults to `1`.
    */

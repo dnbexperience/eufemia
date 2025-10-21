@@ -21,7 +21,7 @@ const en = enGB['en-GB'].Pagination
 describe('Pagination bar', () => {
   const props: PaginationProps = {
     page_count: 30,
-    current_page: 15,
+    currentPage: 15,
   }
 
   it('has correct state at startup', () => {
@@ -49,7 +49,7 @@ describe('Pagination bar', () => {
     expect(document.querySelector('div#page-content')).toBeInTheDocument()
 
     rerender(
-      <Pagination {...props} current_page={1}>
+      <Pagination {...props} currentPage={1}>
         <div id="page-content">content</div>
       </Pagination>
     )
@@ -108,7 +108,7 @@ describe('Pagination bar', () => {
     expect(document.querySelector('div#page-no').textContent).toBe('14')
 
     rerender(
-      <Pagination {...props} current_page={5}>
+      <Pagination {...props} currentPage={5}>
         {({ pageNumber }) => {
           // Update our test reference
           currentPage = pageNumber
@@ -121,7 +121,7 @@ describe('Pagination bar', () => {
     expect(document.querySelector('div#page-no').textContent).toBe('5')
 
     rerender(
-      <Pagination {...props} current_page={3}>
+      <Pagination {...props} currentPage={3}>
         {({ pageNumber }) => {
           // Update our test reference
           currentPage = pageNumber
@@ -276,7 +276,7 @@ describe('Infinity scroller', () => {
 
   const props: PaginationProps = {
     page_count: 5,
-    current_page: 3,
+    currentPage: 3,
     minWaitTime: 0,
   }
 
@@ -424,7 +424,7 @@ describe('Infinity scroller', () => {
       return (
         <InfinityMarker
           minWaitTime={0}
-          current_page={currentPage}
+          currentPage={currentPage}
           startupCount={2}
           on_startup={(e) => {
             action(e)
@@ -495,7 +495,7 @@ describe('Infinity scroller', () => {
     ).toBe('page-30')
   })
 
-  it('should handle re-render with decreasing current_page and not show the loadbar', async () => {
+  it('should handle re-render with decreasing currentPage and not show the loadbar', async () => {
     const perPageCount = 10
 
     const tableItems = []
@@ -531,7 +531,7 @@ describe('Infinity scroller', () => {
       }, [])
 
       return (
-        <InfinityMarker minWaitTime={0} current_page={currentPage}>
+        <InfinityMarker minWaitTime={0} currentPage={currentPage}>
           {items}
         </InfinityMarker>
       )
@@ -710,7 +710,7 @@ describe('Infinity scroller', () => {
       return (
         <InfinityMarker
           minWaitTime={0}
-          current_page={currentPage}
+          currentPage={currentPage}
           on_startup={(e) => {
             action(e)
             on_startup(e)
@@ -846,7 +846,7 @@ describe('Pagination ARIA', () => {
   it('should validate with ARIA rules for pagination bar', async () => {
     const snapshotProps: PaginationProps = {
       page_count: 4,
-      current_page: 2,
+      currentPage: 2,
     }
 
     const result = render(<Pagination {...snapshotProps} />)
@@ -858,7 +858,7 @@ describe('Pagination ARIA', () => {
       <Pagination
         mode="infinity"
         page_count={5}
-        current_page={3}
+        currentPage={3}
         minWaitTime={0}
       />
     )

@@ -194,7 +194,7 @@ export default class InfinityScroller extends React.PureComponent {
       parallelLoadCount,
 
       // our props
-      current_page,
+      currentPage,
       fallbackElement,
       markerElement,
       indicatorElement,
@@ -246,12 +246,12 @@ export default class InfinityScroller extends React.PureComponent {
 
     return (
       <>
-        {parseFloat(current_page) > 0 && lowerPage > 1 && <LoadButton />}
+        {parseFloat(currentPage) > 0 && lowerPage > 1 && <LoadButton />}
 
         {children}
 
         {!hasEndedInfinity &&
-          parseFloat(current_page) > 0 &&
+          parseFloat(currentPage) > 0 &&
           (typeof pageCount === 'undefined' || upperPage < pageCount) && (
             <Marker />
           )}

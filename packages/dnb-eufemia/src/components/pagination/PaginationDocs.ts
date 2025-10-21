@@ -22,11 +22,11 @@ export const PaginationProperties: PropertiesTableProps = {
     status: 'optional',
   },
   startupPage: {
-    doc: 'the page shown in the very beginning. If `current_page` is set, then it may not make too much sense to set this as well.',
+    doc: 'the page shown in the very beginning. If `currentPage` is set, then it may not make too much sense to set this as well.',
     type: ['number', 'string'],
     status: 'optional',
   },
-  current_page: {
+  currentPage: {
     doc: 'the page shown at the moment the component renders. Defaults to `1`.',
     type: ['number', 'string'],
     status: 'optional',

@@ -42,7 +42,7 @@ for (let i = 1; i <= 300; i++) {
 
 export const InfinitySandbox = () => {
   const props = {
-    current_page: 3,
+    currentPage: 3,
     // page_count: 30,
   }
 
@@ -70,7 +70,7 @@ export const PaginationNoChildren = () => (
   <Wrapper>
     <Pagination
       page_count={10}
-      current_page={2}
+      currentPage={2}
       on_change={(params) => {
         console.log(params)
       }}
@@ -78,7 +78,7 @@ export const PaginationNoChildren = () => (
     <Box>
       <Pagination
         page_count={10}
-        current_page={2}
+        currentPage={2}
         on_change={(params) => {
           console.log(params)
         }}
@@ -88,7 +88,7 @@ export const PaginationNoChildren = () => (
     <Box>
       <Pagination
         page_count={10}
-        current_page={2}
+        currentPage={2}
         on_change={(params) => {
           console.log(params)
         }}
@@ -98,7 +98,7 @@ export const PaginationNoChildren = () => (
     <Box>
       <Pagination
         page_count={10}
-        current_page={2}
+        currentPage={2}
         on_change={(params) => {
           console.log(params)
         }}
@@ -107,7 +107,7 @@ export const PaginationNoChildren = () => (
     </Box>
     <Pagination
       page_count={3}
-      current_page={2}
+      currentPage={2}
       on_change={(params) => {
         console.log(params)
       }}
@@ -123,7 +123,7 @@ export const PaginationSandbox = () => (
     <Box>
       <Pagination
         page_count={10}
-        current_page={2}
+        currentPage={2}
         on_change={(params) => {
           console.log(params)
         }}
@@ -258,7 +258,7 @@ const PaginationWithState = ({ children, ...props }) => {
     <PaginationInstance
       {...props}
       page_count={30}
-      current_page={currentPage}
+      currentPage={currentPage}
       on_change={({ pageNumber }) => {
         console.log('PaginationWithState on_change:', pageNumber)
         setCurrentPage(pageNumber)
@@ -339,7 +339,7 @@ function PaginationRender() {
       <Pagination
         page_count={pageCount}
         startupPage={startupPage}
-        current_page={delayedCount}
+        currentPage={delayedCount}
         on_change={({ pageNumber }) => {
           setCurrentPage(pageNumber)
         }}
@@ -363,7 +363,7 @@ export function PaginationBarSpacing() {
           left: 'x-small x-small small',
         }}
         page_count={888}
-        current_page={4}
+        currentPage={4}
         on_change={({ pageNumber }) => {
           console.log('on_change:', pageNumber)
         }}
@@ -373,7 +373,7 @@ export function PaginationBarSpacing() {
           left: 'xx-large',
         }}
         page_count={888}
-        current_page={4}
+        currentPage={4}
         on_change={({ pageNumber }) => {
           console.log('on_change:', pageNumber)
         }}
@@ -383,7 +383,7 @@ export function PaginationBarSpacing() {
           left: true,
         }}
         page_count={888}
-        current_page={4}
+        currentPage={4}
         on_change={({ pageNumber }) => {
           console.log('on_change:', pageNumber)
         }}

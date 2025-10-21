@@ -34,7 +34,7 @@ export const PaginationExampleDefault = () => (
   <ComponentBox data-visual-test="pagination-default">
     <Pagination
       page_count={888}
-      current_page={4}
+      currentPage={4}
       on_change={({ pageNumber }) => {
         console.log('on_change:', pageNumber)
       }}
@@ -48,7 +48,7 @@ export const PaginationExampleWithHorizontalLayout = () => (
   <ComponentBox data-visual-test="pagination-horizontal">
     <Pagination
       page_count={888}
-      current_page={4}
+      currentPage={4}
       on_change={({ pageNumber }) => {
         console.log('on_change:', pageNumber)
       }}
@@ -246,7 +246,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
               <TableData colSpan={2} {...props} />
             </TableRow>
           )} // in order to show the injected "indicator" and "load button" in the middle of the orw
-          current_page={currentPage}
+          currentPage={currentPage}
           page_count={maxPagesCount}
           {...props}
           on_startup={action}
