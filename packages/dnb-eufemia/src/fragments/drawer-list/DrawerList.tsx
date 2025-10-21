@@ -675,7 +675,7 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
           id={this._id}
           rootRef={_refRoot}
           opened={hidden === false}
-          include_owner_width={alignDrawer === 'right'}
+          includeOwnerWidth={alignDrawer === 'right'}
           independentWidth={isTrue(independentWidth)}
           fixedPosition={isTrue(fixedPosition)}
           className={getThemeClasses(this.context?.theme, portalClass)}
