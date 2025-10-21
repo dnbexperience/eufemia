@@ -23,22 +23,22 @@ export class GlobalStatusInterceptor {
     }
 
     this.provider = GSP.init(props.id || 'main', (provider) => {
-      const { status_id } = provider.add(props)
+      const { statusId } = provider.add(props)
 
       // current status id
-      this.status_id = status_id
+      this.statusId = statusId
     })
 
     return this
   }
   add(props) {
-    return this.provider.add({ status_id: this.status_id, ...props })
+    return this.provider.add({ statusId: this.statusId, ...props })
   }
   update(props) {
-    return this.provider.update(this.status_id, props)
+    return this.provider.update(this.statusId, props)
   }
   remove() {
-    return this.provider.remove(this.status_id)
+    return this.provider.remove(this.statusId)
   }
 }
 
@@ -46,7 +46,7 @@ export class GlobalStatusInterceptor {
 class GlobalStatusController extends React.PureComponent {
   static propTypes = {
     id: PropTypes.string, // Provider id
-    status_id: PropTypes.string, // Status Item id
+    statusId: PropTypes.string, // Status Item id
     remove_on_unmount: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool,
@@ -54,13 +54,13 @@ class GlobalStatusController extends React.PureComponent {
   }
   static defaultProps = {
     id: 'main',
-    status_id: null,
+    statusId: null,
     remove_on_unmount: false,
   }
 
   static getDerivedStateFromProps(props, state) {
     if (state._props !== props) {
-      state.provider.update(state.status_id, props)
+      state.provider.update(state.statusId, props)
       state._props = props
     }
 
@@ -89,15 +89,15 @@ class GlobalStatusController extends React.PureComponent {
   }
 
   componentDidMount() {
-    const { status_id } = this.state.provider.add(this.props)
+    const { statusId } = this.state.provider.add(this.props)
 
     // current status id
-    this.setState({ status_id })
+    this.setState({ statusId })
   }
 
   componentWillUnmount() {
     if (this.state.provider && isTrue(this.props.remove_on_unmount)) {
-      this.state.provider.remove(this.state.status_id)
+      this.state.provider.remove(this.state.statusId)
       /**
        * For now, do not unbind, because of re-render issues
        */
@@ -114,7 +114,7 @@ class GlobalStatusController extends React.PureComponent {
 class GlobalStatusRemove extends React.PureComponent {
   static propTypes = {
     id: PropTypes.string, // Provider id
-    status_id: PropTypes.string.isRequired, // Status Item id
+    statusId: PropTypes.string.isRequired, // Status Item id
   }
   static defaultProps = {
     id: 'main',
@@ -122,7 +122,7 @@ class GlobalStatusRemove extends React.PureComponent {
 
   static getDerivedStateFromProps(props, state) {
     if (state._props !== props) {
-      state.provider.update(props.status_id, props)
+      state.provider.update(props.statusId, props)
     }
 
     return state
@@ -147,7 +147,7 @@ class GlobalStatusRemove extends React.PureComponent {
   }
 
   componentDidMount() {
-    this.state.provider.remove(this.props.status_id, this.props)
+    this.state.provider.remove(this.props.statusId, this.props)
   }
 
   render() {
