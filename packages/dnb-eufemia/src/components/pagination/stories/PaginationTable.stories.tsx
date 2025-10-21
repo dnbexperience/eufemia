@@ -56,7 +56,7 @@ const InfinityPaginationTable = ({ tableItems, ...props }) => {
   const [cacheHash, forceRerender] = React.useState(null) // eslint-disable-line
 
   React.useEffect(() => {
-    // Could also be set as "startup_page" in <Pagination startup_page={startupPage} ...>
+    // Could also be set as "startupPage" in <Pagination startupPage={startupPage} ...>
     setLocalPage(startupPage)
   }, [])
 
@@ -184,14 +184,14 @@ const InfinityPaginationTable = ({ tableItems, ...props }) => {
       <tbody>
         <Pagination
           mode="infinity"
-          marker_element="tr"
-          fallback_element={({ className, ...props }) => (
+          markerElement="tr"
+          fallbackElement={({ className, ...props }) => (
             <TableRow className={className}>
               <TableData colSpan={2} {...props} />
             </TableRow>
           )} // in order to show the injected "indicator" and "load button" in the middle of the orw
-          current_page={currentPage}
-          page_count={maxPagesCount}
+          currentPage={currentPage}
+          pageCount={maxPagesCount}
           {...props}
           on_startup={action}
           on_change={action}

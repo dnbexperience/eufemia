@@ -44,7 +44,7 @@ Returning a component directly inside a function as a child.
 import { Pagination } from '@dnb/eufemia/components'
 
 render(
-  <Pagination page_count={2}>
+  <Pagination pageCount={2}>
     {() => {
       return ReactComponent
     }}
@@ -60,7 +60,7 @@ Returning a function as a child and using `setContent`.
 import { Pagination } from '@dnb/eufemia/components'
 
 render(
-  <Pagination page_count={2}>
+  <Pagination pageCount={2}>
     {({ pageNumber, setContent }) => {
       setContent(pageNumber, ReactComponent)
     }}
@@ -77,7 +77,7 @@ import { Pagination } from '@dnb/eufemia/components'
 
 render(
   <Pagination
-    page_count={2}
+    pageCount={2}
     on_change={({ pageNumber, setContent }) => {
       setContent(pageNumber, ReactComponent)
     }}
@@ -98,7 +98,7 @@ const { Pagination, setContent, resetContent } = createPagination()
 // Later we can call this
 setContent(pageNumber, ReactComponent)
 
-render(<Pagination page_count={2} />)
+render(<Pagination pageCount={2} />)
 ```
 
 ---
