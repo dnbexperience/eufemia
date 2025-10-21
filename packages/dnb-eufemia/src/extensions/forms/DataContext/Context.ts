@@ -86,11 +86,6 @@ export type DataPathHandlerParameters<Data = unknown> = {
    * Used in the "filterData" given by the "useData" hook.
    */
   data: Data
-
-  /** @deprecated – can be removed in v11 */
-  internal: {
-    error: Error | undefined
-  }
 }
 export type FilterDataPathObject<Data> = Record<
   Path,
