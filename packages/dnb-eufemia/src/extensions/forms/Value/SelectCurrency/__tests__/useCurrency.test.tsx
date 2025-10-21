@@ -14,7 +14,7 @@ describe('useCurrency', () => {
     {
       iso: 'USD',
       content: ['United States dollar', 'USD'],
-      selected_value: 'United States dollar (USD)',
+      selectedValue: 'United States dollar (USD)',
     },
   ]
 

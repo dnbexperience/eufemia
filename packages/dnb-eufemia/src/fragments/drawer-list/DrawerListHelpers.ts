@@ -91,11 +91,11 @@ export const drawerListPropTypes = {
             PropTypes.string,
             PropTypes.number,
           ]),
-          selected_value: PropTypes.oneOfType([
+          selectedValue: PropTypes.oneOfType([
             PropTypes.string,
             PropTypes.node,
           ]),
-          suffix_value: PropTypes.oneOfType([
+          suffixValue: PropTypes.oneOfType([
             PropTypes.string,
             PropTypes.node,
           ]),
@@ -216,7 +216,7 @@ export function parseContentTitle(
   let ret = ''
   const onlyNumericRegex = /[0-9.,-\s]+/
 
-  const hasValue = dataItem && dataItem.selected_value
+  const hasValue = dataItem && dataItem.selectedValue
 
   if (
     !(preferSelectedValue && hasValue) &&
@@ -245,7 +245,7 @@ export function parseContentTitle(
   if (hasValue) {
     if (preferSelectedValue) {
       ret = String(
-        convertJsxToString(dataItem.selected_value, separator, (word) => {
+        convertJsxToString(dataItem.selectedValue, separator, (word) => {
           const nestedChildren =
             !word.props.children &&
             word?.type !== Icon &&
@@ -256,7 +256,7 @@ export function parseContentTitle(
           return nestedChildren?.props?.children ? nestedChildren : word
         })
       )
-    } else if (!onlyNumericRegex.test(dataItem.selected_value as string)) {
+    } else if (!onlyNumericRegex.test(dataItem.selectedValue as string)) {
       ret = separator + ret
     }
   }
