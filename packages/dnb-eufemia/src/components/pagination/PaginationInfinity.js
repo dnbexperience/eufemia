@@ -72,10 +72,10 @@ export default class InfinityScroller extends React.PureComponent {
     props = {},
     { callStartupEvent = false, preventWaitForDelay = false } = {}
   ) => {
-    const { pageCount, endInfinity } = this.context.pagination
+    const { pageCountInternal, endInfinity } = this.context.pagination
 
-    // if "page_count" is set do not load more than that value
-    if (newPageNo > pageCount) {
+    // if "pageCount" is set do not load more than that value
+    if (newPageNo > pageCountInternal) {
       return endInfinity()
     }
 
@@ -189,7 +189,7 @@ export default class InfinityScroller extends React.PureComponent {
       // our states
       lowerPage,
       upperPage,
-      pageCount,
+      pageCountInternal,
       hasEndedInfinity,
       parallelLoadCount,
 
@@ -252,13 +252,13 @@ export default class InfinityScroller extends React.PureComponent {
 
         {!hasEndedInfinity &&
           parseFloat(currentPage) > 0 &&
-          (typeof pageCount === 'undefined' || upperPage < pageCount) && (
-            <Marker />
-          )}
+          (typeof pageCountInternal === 'undefined' ||
+            upperPage < pageCountInternal) && <Marker />}
 
         {!hasEndedInfinity &&
           !this.hideIndicator &&
-          (typeof pageCount === 'undefined' || upperPage < pageCount) && (
+          (typeof pageCountInternal === 'undefined' ||
+            upperPage < pageCountInternal) && (
             <PaginationIndicator
               indicatorElement={indicatorElement || fallbackElement}
             />
@@ -271,7 +271,7 @@ export default class InfinityScroller extends React.PureComponent {
     const {
       // our states
       items,
-      pageCount,
+      pageCountInternal,
       startupPage,
       hasEndedInfinity,
       parallelLoadCount,
@@ -322,8 +322,8 @@ export default class InfinityScroller extends React.PureComponent {
           !this.useLoadButton &&
           !skipObserver &&
           !hasEndedInfinity &&
-          (typeof pageCount === 'undefined' ||
-            pageNumber <= pageCount) && (
+          (typeof pageCountInternal === 'undefined' ||
+            pageNumber <= pageCountInternal) && (
             <InteractionMarker
               pageNumber={pageNumber}
               markerElement={markerElement || fallbackElement}
@@ -384,8 +384,8 @@ export default class InfinityScroller extends React.PureComponent {
             {hasContent &&
               this.useLoadButton &&
               isLastItem &&
-              (typeof pageCount === 'undefined' ||
-                pageNumber < pageCount) && (
+              (typeof pageCountInternal === 'undefined' ||
+                pageNumber < pageCountInternal) && (
                 <InfinityLoadButton
                   element={
                     typeof loadButton === 'function'

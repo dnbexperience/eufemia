@@ -26,7 +26,7 @@ import PaginationBar from './PaginationBar'
 const paginationPropTypes = {
   startupPage: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   currentPage: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  page_count: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  pageCount: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   startupCount: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   parallelLoadCount: PropTypes.oneOfType([
     PropTypes.string,
@@ -110,7 +110,7 @@ const paginationPropTypes = {
 const paginationDefaultProps = {
   startupPage: null,
   currentPage: null,
-  page_count: null,
+  pageCount: null,
   mode: 'pagination',
   paginationBarLayout: 'vertical',
   useLoadButton: false,
@@ -193,7 +193,7 @@ class PaginationInstance extends React.PureComponent {
       disabled: _disabled, // eslint-disable-line
       skeleton: _skeleton, // eslint-disable-line
       tagName: _tagName, // eslint-disable-line
-      page_count: _page_count, // eslint-disable-line
+      pageCount: _page_count, // eslint-disable-line
       currentPage: _current_page, // eslint-disable-line
       startupPage: _startupPage, // eslint-disable-line
       mode: _mode, // eslint-disable-line

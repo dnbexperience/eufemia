@@ -62,7 +62,7 @@ export interface PaginationProps
   /**
    * the total pages count. Defaults to `1`.
    */
-  page_count?: PaginationPageCount;
+  pageCount?: PaginationPageCount;
   /**
    * defines how many `infinity` pages should be loaded / shown on the first render. Defaults to `1`.
    */
@@ -117,7 +117,7 @@ export interface PaginationProps
    */
   resetPaginationHandler?: PaginationResetPaginationHandler;
   /**
-   * callback function to get the `endInfinity` handler from the current pagination instance. e.g. `endInfinityHandler={fn => (...)}`. Use this handler to end the infinity scrolling procedure, in case the `page_count` is unknown.
+   * callback function to get the `endInfinity` handler from the current pagination instance. e.g. `endInfinityHandler={fn => (...)}`. Use this handler to end the infinity scrolling procedure, in case the `pageCount` is unknown.
    */
   endInfinityHandler?: PaginationEndInfinityHandler;
   /**
@@ -243,7 +243,7 @@ interface PaginationInstanceProps extends SpacingProps {
   /**
    * The total pages count. Defaults to `1`.
    */
-  page_count?: PaginationInstancePageCount;
+  pageCount?: PaginationInstancePageCount;
   /**
    * Defines how many `infinity` pages should be loaded / shown on the first render. Defaults to `1`.
    */
@@ -294,7 +294,7 @@ interface PaginationInstanceProps extends SpacingProps {
    */
   resetPaginationHandler?: PaginationInstanceResetPaginationHandler;
   /**
-   * Callback function to get the `endInfinity` handler from the current pagination instance. e.g. `endInfinityHandler={fn => (...)}`. Use this handler to end the infinity scrolling procedure, in case the `page_count` is unknown.
+   * Callback function to get the `endInfinity` handler from the current pagination instance. e.g. `endInfinityHandler={fn => (...)}`. Use this handler to end the infinity scrolling procedure, in case the `pageCount` is unknown.
    */
   endInfinityHandler?: PaginationInstanceEndInfinityHandler;
   /**
@@ -367,7 +367,7 @@ interface PaginationInstanceProps extends SpacingProps {
    */
   on_load?: (...args: any[]) => any;
   /**
-   * Only on "infinity" mode. Will be called once `page_count` is reached or `endInfinity` was called.
+   * Only on "infinity" mode. Will be called once `pageCount` is reached or `endInfinity` was called.
    */
   on_end?: (...args: any[]) => any;
 }
@@ -426,7 +426,7 @@ interface InfinityMarkerProps extends SpacingProps {
   /**
    * The total pages count. Defaults to `1`.
    */
-  page_count?: InfinityMarkerPageCount;
+  pageCount?: InfinityMarkerPageCount;
   /**
    * Defines how many `infinity` pages should be loaded / shown on the first render. Defaults to `1`.
    */
@@ -477,7 +477,7 @@ interface InfinityMarkerProps extends SpacingProps {
    */
   resetPaginationHandler?: InfinityMarkerResetPaginationHandler;
   /**
-   * Callback function to get the `endInfinity` handler from the current pagination instance. e.g. `endInfinityHandler={fn => (...)}`. Use this handler to end the infinity scrolling procedure, in case the `page_count` is unknown.
+   * Callback function to get the `endInfinity` handler from the current pagination instance. e.g. `endInfinityHandler={fn => (...)}`. Use this handler to end the infinity scrolling procedure, in case the `pageCount` is unknown.
    */
   endInfinityHandler?: InfinityMarkerEndInfinityHandler;
   /**
@@ -551,7 +551,7 @@ interface InfinityMarkerProps extends SpacingProps {
    */
   on_load?: (...args: any[]) => any;
   /**
-   * Only on "infinity" mode. Will be called once `page_count` is reached or `endInfinity` was called.
+   * Only on "infinity" mode. Will be called once `pageCount` is reached or `endInfinity` was called.
    */
   on_end?: (...args: any[]) => any;
 }

@@ -31,7 +31,7 @@ export const PaginationProperties: PropertiesTableProps = {
     type: ['number', 'string'],
     status: 'optional',
   },
-  page_count: {
+  pageCount: {
     doc: 'the total pages count. Defaults to `1`.',
     type: ['number', 'string'],
     status: 'optional',
@@ -102,7 +102,7 @@ export const PaginationProperties: PropertiesTableProps = {
     status: 'optional',
   },
   endInfinityHandler: {
-    doc: 'callback function to get the `endInfinity` handler from the current pagination instance. e.g. `endInfinityHandler={fn => (...)}`. Use this handler to end the infinity scrolling procedure, in case the `page_count` is unknown.',
+    doc: 'callback function to get the `endInfinity` handler from the current pagination instance. e.g. `endInfinityHandler={fn => (...)}`. Use this handler to end the infinity scrolling procedure, in case the `pageCount` is unknown.',
     type: 'function',
     status: 'optional',
   },
@@ -180,7 +180,7 @@ export const PaginationEvents: PropertiesTableProps = {
     status: 'optional',
   },
   on_end: {
-    doc: 'Only on **infinity** mode. Will be called once `page_count` is reached or `endInfinity` was called.',
+    doc: 'Only on **infinity** mode. Will be called once `pageCount` is reached or `endInfinity` was called.',
     type: 'function',
     status: 'optional',
   },

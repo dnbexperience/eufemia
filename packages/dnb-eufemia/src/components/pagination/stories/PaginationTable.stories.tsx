@@ -191,7 +191,7 @@ const InfinityPaginationTable = ({ tableItems, ...props }) => {
             </TableRow>
           )} // in order to show the injected "indicator" and "load button" in the middle of the orw
           currentPage={currentPage}
-          page_count={maxPagesCount}
+          pageCount={maxPagesCount}
           {...props}
           on_startup={action}
           on_change={action}

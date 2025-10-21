@@ -85,7 +85,7 @@ export const PaginationExampleInfinityIndicator = () => (
           <LargePage color="lightgreen">Loading ...</LargePage>
         )}
         startupPage={3}
-        page_count={10}
+        pageCount={10}
         minWaitTime={0}
         on_load={({ pageNumber, setContent }) => {
           // simulate server communication delay
@@ -328,7 +328,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
             </TableRow>
           )} // in order to show the injected "indicator" and "load button" in the middle of the row
           currentPage={currentPage}
-          page_count={maxPagesCount}
+          pageCount={maxPagesCount}
           {...props}
           on_startup={action}
           on_change={action}

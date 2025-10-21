@@ -1395,7 +1395,7 @@ export function PaginationTable() {
 
           return (
             <Pagination
-              page_count={data.length / amountPerPage}
+              pageCount={data.length / amountPerPage}
               currentPage={currentPage}
               on_change={({ pageNumber }) => {
                 setCurrentPage(pageNumber)

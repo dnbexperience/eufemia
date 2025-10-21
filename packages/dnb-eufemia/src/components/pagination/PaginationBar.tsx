@@ -65,7 +65,7 @@ export type PaginationBarAllProps = PaginationBarProps &
 
 type PaginationBarContext = {
   currentPageInternal: number
-  pageCount: number
+  pageCountInternal: number
   disabled: boolean
   onPageUpdate: (cb: () => void) => void
   setState: (state: { currentPageInternal: number }) => void
@@ -91,8 +91,13 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
     context.pagination
   ) as PaginationBarProps & PaginationBarContext
 
-  const { currentPageInternal, pageCount, disabled, skeleton, space } =
-    props
+  const {
+    currentPageInternal,
+    pageCountInternal,
+    disabled,
+    skeleton,
+    space,
+  } = props
 
   const spacingClasses = createSpacingClasses({ space })
 
@@ -173,14 +178,15 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
     currentPageInternal > -1 ? currentPageInternal === 1 : true
   const nextIsDisabled =
     currentPageInternal > -1
-      ? currentPageInternal === pageCount || pageCount === 0
+      ? currentPageInternal === pageCountInternal ||
+        pageCountInternal === 0
       : true
 
   const paginationBarRef = useRef(null)
   const currentScreenSize = useResizeObserver(paginationBarRef)
 
   const pageNumberGroups = calculatePagination(
-    pageCount,
+    pageCountInternal,
     currentPageInternal,
     currentScreenSize === 'small'
   )
@@ -190,7 +196,7 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
       ref={paginationBarRef}
       className={classnames(
         'dnb-pagination__bar',
-        pageCount >= 8 && 'dnb-pagination--many-pages',
+        pageCountInternal >= 8 && 'dnb-pagination--many-pages',
         spacingClasses
       )}
     >

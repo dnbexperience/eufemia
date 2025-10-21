@@ -33,7 +33,7 @@ const LargePage = styled.div`
 export const PaginationExampleDefault = () => (
   <ComponentBox data-visual-test="pagination-default">
     <Pagination
-      page_count={888}
+      pageCount={888}
       currentPage={4}
       on_change={({ pageNumber }) => {
         console.log('on_change:', pageNumber)
@@ -47,7 +47,7 @@ export const PaginationExampleDefault = () => (
 export const PaginationExampleWithHorizontalLayout = () => (
   <ComponentBox data-visual-test="pagination-horizontal">
     <Pagination
-      page_count={888}
+      pageCount={888}
       currentPage={4}
       on_change={({ pageNumber }) => {
         console.log('on_change:', pageNumber)
@@ -62,7 +62,7 @@ export const PaginationExampleWithHorizontalLayout = () => (
 export const PaginationExampleWithCallback = () => (
   <ComponentBox hideCode>
     <Pagination
-      page_count={5}
+      pageCount={5}
       startupPage={3}
       on_change={({ pageNumber }) => {
         console.log('on_change:', pageNumber)
@@ -75,7 +75,7 @@ export const PaginationExampleWithCallback = () => (
 
 export const PaginationExampleCentered = () => (
   <ComponentBox scope={{ LargePage }}>
-    <Pagination align="center" page_count={30}>
+    <Pagination align="center" pageCount={30}>
       {({ pageNumber, setContent }) => {
         // simulate server communication delay
         const timeout = setTimeout(
@@ -247,7 +247,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
             </TableRow>
           )} // in order to show the injected "indicator" and "load button" in the middle of the orw
           currentPage={currentPage}
-          page_count={maxPagesCount}
+          pageCount={maxPagesCount}
           {...props}
           on_startup={action}
           on_change={action}

@@ -20,7 +20,7 @@ const en = enGB['en-GB'].Pagination
 
 describe('Pagination bar', () => {
   const props: PaginationProps = {
-    page_count: 30,
+    pageCount: 30,
     currentPage: 15,
   }
 
@@ -136,7 +136,7 @@ describe('Pagination bar', () => {
 
   it('accepts element in the function return', () => {
     render(
-      <Pagination page_count={3} startupPage={2}>
+      <Pagination pageCount={3} startupPage={2}>
         {({ pageNumber }) => <div>{pageNumber}</div>}
       </Pagination>
     )
@@ -147,7 +147,7 @@ describe('Pagination bar', () => {
 
   it('sets content with setContent', () => {
     render(
-      <Pagination page_count={3} startupPage={2}>
+      <Pagination pageCount={3} startupPage={2}>
         {({ pageNumber, setContent }) => {
           setContent(pageNumber, <div>{pageNumber}</div>)
         }}
@@ -174,7 +174,7 @@ describe('Pagination bar', () => {
   it('should set correct class when paginationBarLayout is set to "horizontal"', () => {
     render(
       <Pagination
-        page_count={3}
+        pageCount={3}
         startupPage={2}
         paginationBarLayout="horizontal"
       >
@@ -203,7 +203,7 @@ describe('Pagination bar', () => {
           <button id="button" onClick={onClickHandler}>
             {count}
           </button>
-          <Pagination page_count={3} startupPage={2}>
+          <Pagination pageCount={3} startupPage={2}>
             {({ pageNumber, setContent }) => {
               setContent(
                 pageNumber,
@@ -275,7 +275,7 @@ describe('Infinity scroller', () => {
   })
 
   const props: PaginationProps = {
-    page_count: 5,
+    pageCount: 5,
     currentPage: 3,
     minWaitTime: 0,
   }
@@ -845,7 +845,7 @@ describe('Infinity scroller', () => {
 describe('Pagination ARIA', () => {
   it('should validate with ARIA rules for pagination bar', async () => {
     const snapshotProps: PaginationProps = {
-      page_count: 4,
+      pageCount: 4,
       currentPage: 2,
     }
 
@@ -857,7 +857,7 @@ describe('Pagination ARIA', () => {
     const result = render(
       <Pagination
         mode="infinity"
-        page_count={5}
+        pageCount={5}
         currentPage={3}
         minWaitTime={0}
       />

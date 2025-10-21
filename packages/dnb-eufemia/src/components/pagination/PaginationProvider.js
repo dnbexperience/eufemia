@@ -27,7 +27,7 @@ export default class PaginationProvider extends React.PureComponent {
     startupPage: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     // eslint-disable-next-line
     currentPage: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    page_count: PropTypes.oneOfType([PropTypes.string, PropTypes.number]), // eslint-disable-line
+    pageCount: PropTypes.oneOfType([PropTypes.string, PropTypes.number]), // eslint-disable-line
     setContentHandler: PropTypes.func,
     resetContentHandler: PropTypes.func,
     resetPaginationHandler: PropTypes.func,
@@ -55,7 +55,7 @@ export default class PaginationProvider extends React.PureComponent {
   static defaultProps = {
     startupPage: null,
     currentPage: null,
-    page_count: null,
+    pageCount: null,
     setContentHandler: null,
     resetContentHandler: null,
     resetPaginationHandler: null,
@@ -68,8 +68,8 @@ export default class PaginationProvider extends React.PureComponent {
   }
 
   static getDerivedStateFromProps(props, state) {
-    if (props.page_count !== null) {
-      state.pageCount = parseFloat(props.page_count) || 1
+    if (props.pageCount !== null) {
+      state.pageCountInternal = parseFloat(props.pageCount) || 1
     }
     if (
       props.currentPage !== null &&
@@ -116,7 +116,7 @@ export default class PaginationProvider extends React.PureComponent {
     // reset content, like the resetContent method
     if (isTrue(props.resetContentHandler)) {
       state.items = []
-      state.pageCount = parseFloat(props.page_count) || 1
+      state.pageCountInternal = parseFloat(props.pageCount) || 1
     }
 
     if (typeof props.items === 'string' && props.items[0] === '[') {
