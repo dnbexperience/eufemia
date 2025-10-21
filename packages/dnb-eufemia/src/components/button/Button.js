@@ -279,8 +279,8 @@ export default class Button extends React.PureComponent {
           label={text}
           text={status}
           state={status_state}
-          text_id={this._id + '-status'} // used for "aria-describedby"
-          no_animation={status_no_animation}
+          textId={this._id + '-status'} // used for "aria-describedby"
+          noAnimation={status_no_animation}
           skeleton={skeleton}
           {...status_props}
         />
