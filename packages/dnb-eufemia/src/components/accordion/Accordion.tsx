@@ -109,7 +109,7 @@ export type AccordionProps = Omit<React.HTMLProps<HTMLElement>, 'ref'> &
     /**
      * Will add a React element on the left side of the `title`, inside `AccordionHeaderContainer`.
      */
-    left_component?: React.ReactNode
+    leftComponent?: React.ReactNode
     /**
      * If set to `true`, the accordion button will be disabled (dimmed).
      */
@@ -356,7 +356,7 @@ function Accordion({
 
               title, // eslint-disable-line
               description, // eslint-disable-line
-              left_component, // eslint-disable-line
+              leftComponent, // eslint-disable-line
               icon, // eslint-disable-line
               icon_position, // eslint-disable-line
               icon_size, // eslint-disable-line
