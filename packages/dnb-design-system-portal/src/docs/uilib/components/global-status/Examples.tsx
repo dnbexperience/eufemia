@@ -31,7 +31,7 @@ export const GlobalInfoOverlayError = () => (
       ]}
       show={true}
       autoscroll={false}
-      no_animation={true}
+      noAnimation={true}
       omitSetFocus={true}
       id="demo-1"
     />
@@ -47,7 +47,7 @@ export const GlobalStatusInfo = () => (
       items={['Status text 1', 'Status text 2']}
       show={true}
       autoscroll={false}
-      no_animation={true}
+      noAnimation={true}
       omitSetFocus={true}
       id="demo-4"
     />
@@ -62,7 +62,7 @@ export const GlobalStatusWarning = () => (
       text="A string of text providing a warning or semi-urgent message of some kind to the user"
       show={true}
       autoscroll={false}
-      no_animation={true}
+      noAnimation={true}
       omitSetFocus={true}
       id="demo-5"
     />
@@ -77,7 +77,7 @@ export const GlobalInfoOverlaySuccess = () => (
       text="A string of text providing a success message of some kind to the user"
       show={true}
       autoscroll={false}
-      no_animation={true}
+      noAnimation={true}
       omitSetFocus={true}
       id="demo-6"
     />
@@ -93,7 +93,7 @@ export const GlobalInfoCustomIcon = () => (
       icon={<Icon icon={confetti_medium} />}
       show={true}
       autoscroll={false}
-      no_animation={true}
+      noAnimation={true}
       omitSetFocus={true}
       id="demo-icon"
     />
