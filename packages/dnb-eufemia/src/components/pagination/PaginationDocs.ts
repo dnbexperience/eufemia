@@ -21,7 +21,7 @@ export const PaginationProperties: PropertiesTableProps = {
     type: ['left', 'center', 'right'],
     status: 'optional',
   },
-  startup_page: {
+  startupPage: {
     doc: 'the page shown in the very beginning. If `current_page` is set, then it may not make too much sense to set this as well.',
     type: ['number', 'string'],
     status: 'optional',
@@ -137,7 +137,7 @@ export const PaginationProperties: PropertiesTableProps = {
     status: 'optional',
   },
   loadButtonText: {
-    doc: 'Used during infinity mode. If `useLoadButton` is set to `true`, then a button is show on the bottom. If the `startup_page` is higher than 1. Defaults to `Vis mer innhold`.',
+    doc: 'Used during infinity mode. If `useLoadButton` is set to `true`, then a button is show on the bottom. If the `startupPage` is higher than 1. Defaults to `Vis mer innhold`.',
     type: 'string',
     status: 'optional',
   },

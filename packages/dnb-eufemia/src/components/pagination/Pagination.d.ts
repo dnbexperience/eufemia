@@ -40,7 +40,7 @@ type LoadButtonProps =
   | (() => React.ReactNode)
   | {
       /**
-       * Used during infinity mode. If `useLoadButton` is set to true, then a button is show on the bottom. If the `startup_page` is higher than 1. Defaults to `Vis mer innhold`.
+       * Used during infinity mode. If `useLoadButton` is set to true, then a button is show on the bottom. If the `startupPage` is higher than 1. Defaults to `Vis mer innhold`.
        */
       text: string;
       /**
@@ -54,7 +54,7 @@ export interface PaginationProps
   /**
    * the page shown in the very beginning. If `current_page` is set, then it may not make too much sense to set this as well.
    */
-  startup_page?: PaginationStartupPage;
+  startupPage?: PaginationStartupPage;
   /**
    * the page shown at the moment the component renders. Defaults to `1`.
    */
@@ -161,7 +161,7 @@ export interface PaginationProps
    */
   isLoadingText?: string;
   /**
-   * Used during infinity mode. If `useLoadButton` is set to `true`, then a button is show on the bottom. If the `startup_page` is higher than 1. Defaults to `Vis mer innhold`.
+   * Used during infinity mode. If `useLoadButton` is set to `true`, then a button is show on the bottom. If the `startupPage` is higher than 1. Defaults to `Vis mer innhold`.
    */
   loadButtonText?: string;
   /**
@@ -235,7 +235,7 @@ interface PaginationInstanceProps extends SpacingProps {
   /**
    * The page shown in the very beginning. If `current_page` is set, then it may not make too much sense to set this as well.
    */
-  startup_page?: PaginationInstanceStartupPage;
+  startupPage?: PaginationInstanceStartupPage;
   /**
    * The page shown at the moment the component renders. Defaults to `1`.
    */
@@ -338,7 +338,7 @@ interface PaginationInstanceProps extends SpacingProps {
    */
   isLoadingText?: string;
   /**
-   * Used during infinity mode. If `useLoadButton` is set to true, then a button is show on the bottom. If the `startup_page` is higher than 1. Defaults to `Vis mer innhold`.
+   * Used during infinity mode. If `useLoadButton` is set to true, then a button is show on the bottom. If the `startupPage` is higher than 1. Defaults to `Vis mer innhold`.
    * @deprecated use `loadButtonProps.text` instead
    */
   loadButtonText?: string;
@@ -418,7 +418,7 @@ interface InfinityMarkerProps extends SpacingProps {
   /**
    * The page shown in the very beginning. If `current_page` is set, then it may not make too much sense to set this as well.
    */
-  startup_page?: InfinityMarkerStartupPage;
+  startupPage?: InfinityMarkerStartupPage;
   /**
    * The page shown at the moment the component renders. Defaults to `1`.
    */
@@ -521,7 +521,7 @@ interface InfinityMarkerProps extends SpacingProps {
    */
   isLoadingText?: string;
   /**
-   * Used during infinity mode. If `useLoadButton` is set to true, then a button is show on the bottom. If the `startup_page` is higher than 1. Defaults to `Vis mer innhold`.
+   * Used during infinity mode. If `useLoadButton` is set to true, then a button is show on the bottom. If the `startupPage` is higher than 1. Defaults to `Vis mer innhold`.
    * @deprecated use `loadButtonProps.text` instead
    */
   loadButtonText?: string;

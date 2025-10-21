@@ -58,7 +58,7 @@ export const PaginationExampleInfinityLoadButton = () => (
       <Pagination
         mode="infinity"
         useLoadButton
-        startup_page={5}
+        startupPage={5}
         minWaitTime={0}
         on_load={({ pageNumber, setContent }) => {
           // simulate server communication delay
@@ -84,7 +84,7 @@ export const PaginationExampleInfinityIndicator = () => (
         indicatorElement={() => (
           <LargePage color="lightgreen">Loading ...</LargePage>
         )}
-        startup_page={3}
+        startupPage={3}
         page_count={10}
         minWaitTime={0}
         on_load={({ pageNumber, setContent }) => {
@@ -192,7 +192,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
   const [cacheHash, forceRerender] = React.useState(null) // eslint-disable-line
 
   React.useEffect(() => {
-    // Could also be set as "startup_page" in <Pagination startup_page={startupPage} ...>
+    // Could also be set as "startupPage" in <Pagination startupPage={startupPage} ...>
     setLocalPage(startupPage)
   }, [])
 

@@ -148,7 +148,7 @@ export const PaginationSandbox = () => (
     <Box>
       <Pagination
         page_count={30}
-        startup_page={15}
+        startupPage={15}
         on_change={(pageNumber) => {
           console.log('on_change:', pageNumber)
         }}
@@ -172,7 +172,7 @@ export const PaginationSandbox = () => (
 
     <Box>
       <HeightLimit>
-        <InfinityPagination useLoadButton startup_page={5}>
+        <InfinityPagination useLoadButton startupPage={5}>
           {(pageNumber, ref) => (
             <LargePage ref={ref} color="LightCoral">
               {pageNumber}
@@ -188,7 +188,7 @@ export const PaginationSandbox = () => (
           indicatorElement={() => (
             <CustomIndicator>Loading ...</CustomIndicator>
           )}
-          startup_page={3}
+          startupPage={3}
           page_count={10}
           minWaitTime={0}
         >
@@ -338,7 +338,7 @@ function PaginationRender() {
       />
       <Pagination
         page_count={pageCount}
-        startup_page={startupPage}
+        startupPage={startupPage}
         current_page={delayedCount}
         on_change={({ pageNumber }) => {
           setCurrentPage(pageNumber)

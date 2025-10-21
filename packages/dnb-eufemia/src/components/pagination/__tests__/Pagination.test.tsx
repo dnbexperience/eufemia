@@ -136,7 +136,7 @@ describe('Pagination bar', () => {
 
   it('accepts element in the function return', () => {
     render(
-      <Pagination page_count={3} startup_page={2}>
+      <Pagination page_count={3} startupPage={2}>
         {({ pageNumber }) => <div>{pageNumber}</div>}
       </Pagination>
     )
@@ -147,7 +147,7 @@ describe('Pagination bar', () => {
 
   it('sets content with setContent', () => {
     render(
-      <Pagination page_count={3} startup_page={2}>
+      <Pagination page_count={3} startupPage={2}>
         {({ pageNumber, setContent }) => {
           setContent(pageNumber, <div>{pageNumber}</div>)
         }}
@@ -175,7 +175,7 @@ describe('Pagination bar', () => {
     render(
       <Pagination
         page_count={3}
-        startup_page={2}
+        startupPage={2}
         paginationBarLayout="horizontal"
       >
         {({ pageNumber, setContent }) => {
@@ -203,7 +203,7 @@ describe('Pagination bar', () => {
           <button id="button" onClick={onClickHandler}>
             {count}
           </button>
-          <Pagination page_count={3} startup_page={2}>
+          <Pagination page_count={3} startupPage={2}>
             {({ pageNumber, setContent }) => {
               setContent(
                 pageNumber,

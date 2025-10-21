@@ -24,10 +24,7 @@ export default class PaginationProvider extends React.PureComponent {
 
   static propTypes = {
     // eslint-disable-next-line
-    startup_page: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number,
-    ]),
+    startupPage: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     // eslint-disable-next-line
     current_page: PropTypes.oneOfType([
       PropTypes.string,
@@ -59,7 +56,7 @@ export default class PaginationProvider extends React.PureComponent {
     ]),
   }
   static defaultProps = {
-    startup_page: null,
+    startupPage: null,
     current_page: null,
     page_count: null,
     setContentHandler: null,
@@ -85,7 +82,7 @@ export default class PaginationProvider extends React.PureComponent {
     }
     if (typeof state.startupPage !== 'number') {
       state.startupPage =
-        parseFloat(props.startup_page) ||
+        parseFloat(props.startupPage) ||
         parseFloat(props.current_page) ||
         state.currentPage
       // We do not fall back to 1 here,

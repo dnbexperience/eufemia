@@ -63,7 +63,7 @@ export const PaginationExampleWithCallback = () => (
   <ComponentBox hideCode>
     <Pagination
       page_count={5}
-      startup_page={3}
+      startupPage={3}
       on_change={({ pageNumber }) => {
         console.log('on_change:', pageNumber)
       }}
@@ -111,7 +111,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
   const [cacheHash, forceRerender] = React.useState(null) // eslint-disable-line
 
   React.useEffect(() => {
-    // Could also be set as "startup_page" in <Pagination startup_page={startupPage} ...>
+    // Could also be set as "startupPage" in <Pagination startupPage={startupPage} ...>
     setLocalPage(startupPage)
   }, [])
 

@@ -24,7 +24,7 @@ import InfinityScroller from './PaginationInfinity'
 import PaginationBar from './PaginationBar'
 
 const paginationPropTypes = {
-  startup_page: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  startupPage: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   current_page: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   page_count: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   startupCount: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
@@ -108,7 +108,7 @@ const paginationPropTypes = {
 }
 
 const paginationDefaultProps = {
-  startup_page: null,
+  startupPage: null,
   current_page: null,
   page_count: null,
   mode: 'pagination',
@@ -195,11 +195,30 @@ class PaginationInstance extends React.PureComponent {
       tagName: _tagName, // eslint-disable-line
       page_count: _page_count, // eslint-disable-line
       current_page: _current_page, // eslint-disable-line
-      startup_page: _startup_page, // eslint-disable-line
+      startupPage: _startupPage, // eslint-disable-line
       mode: _mode, // eslint-disable-line
-      hideProgressIndicator: _hide_progress_indicator, // eslint-disable-line
-      useLoadButton: _use_load_button, // eslint-disable-line
+      hideProgressIndicator: _hideProgressIndicator, // eslint-disable-line
+      useLoadButton: _useLoadButton, // eslint-disable-line
       currentPage: _currentPage, // eslint-disable-line
+      markerElement: _markerElement, // eslint-disable-line
+      fallbackElement: _fallbackElement, // eslint-disable-line
+      setContentHandler: _setContentHandler, // eslint-disable-line
+      resetContentHandler: _resetContentHandler, // eslint-disable-line
+      resetPaginationHandler: _resetPaginationHandler, // eslint-disable-line
+      endInfinityHandler: _endInfinityHandler, // eslint-disable-line
+      minWaitTime: _minWaitTime, // eslint-disable-line
+      pageElement: _pageElement, // eslint-disable-line
+      startupCount: _startupCount, // eslint-disable-line
+      parallelLoadCount: _parallelLoadCount, // eslint-disable-line
+      buttonTitle: _buttonTitle, // eslint-disable-line
+      prevTitle: _prevTitle, // eslint-disable-line
+      nextTitle: _nextTitle, // eslint-disable-line
+      morePages: _morePages, // eslint-disable-line
+      isLoadingText: _isLoadingText, // eslint-disable-line
+      loadButtonText: _loadButtonText, // eslint-disable-line
+      loadButton: _loadButton, // eslint-disable-line
+      indicatorElement: _indicatorElement, // eslint-disable-line
+      placeMarkerBeforeContent: _placeMarkerBeforeContent, // eslint-disable-line
 
       ...attributes
     } = props

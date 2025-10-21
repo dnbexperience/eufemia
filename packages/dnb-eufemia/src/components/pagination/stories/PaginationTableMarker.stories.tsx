@@ -160,7 +160,7 @@ const InfinityPaginationTable = ({ tableItems, ...props }) => {
           )} // in order to show the injected "indicator" and "load button" in the middle of the orw
           {...props}
           minWaitTime={0}
-          startup_page={startupPage}
+          startupPage={startupPage}
           startupCount={2}
           current_page={currentPage} // Mandatory
           on_load={({ pageNumber }) => {
