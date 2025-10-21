@@ -65,7 +65,7 @@ export const AutocompleteStatusErrorExample = () => (
         status_state="error"
         show_submit_button
         opened
-        no_animation
+        noAnimation
         preventClose
         direction="bottom"
       />
@@ -248,7 +248,7 @@ export const AutocompletePredefinedInput = () => (
       <Autocomplete
         label="Label"
         input_value="the pa ther"
-        no_animation
+        noAnimation
         on_change={({ data }) => {
           console.log('on_change', data)
         }}
@@ -407,7 +407,7 @@ export const AutocompleteOpened = () => {
           label="Label"
           input_value="lord"
           opened
-          no_animation
+          noAnimation
           direction="bottom"
           preventClose
           data={topMovies}
@@ -418,7 +418,7 @@ export const AutocompleteOpened = () => {
           input_value="angry"
           skipPortal
           opened
-          no_animation
+          noAnimation
           direction="bottom"
           preventClose
           data={topMovies}
