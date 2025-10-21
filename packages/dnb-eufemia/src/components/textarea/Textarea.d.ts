@@ -36,13 +36,13 @@ export interface TextareaProps
    */
   label?: React.ReactNode;
   /**
-   * Use `label_direction="vertical"` to change the label layout direction. Defaults to `horizontal`.
+   * Use `labelDirection="vertical"` to change the label layout direction. Defaults to `horizontal`.
    */
-  label_direction?: FormLabelLabelDirection;
+  labelDirection?: FormLabelLabelDirection;
   /**
    * Use `true` to make the label only readable by screen readers.
    */
-  label_sr_only?: boolean;
+  labelSrOnly?: boolean;
   /**
    * The sizes you can choose for 1 row is `small` (2rem), `medium` (2.5rem) and `large` (3rem). Defaults to `small`.
    */
@@ -54,16 +54,16 @@ export interface TextareaProps
   /**
    * To control the visual focus state as a prop, like `focus` or `blur`.
    */
-  textarea_state?: string;
+  textareaState?: string;
   /**
    * Defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`.
    */
-  status_state?: FormStatusState;
+  statusState?: FormStatusState;
   /**
    * Use an object to define additional FormStatus properties.
    */
-  status_props?: FormStatusProps;
-  status_no_animation?: boolean;
+  statusProps?: FormStatusProps;
+  statusNoAnimation?: boolean;
   /**
    * The [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status).
    */
@@ -104,18 +104,18 @@ export interface TextareaProps
   /**
    * Set a number to define how many rows the Textarea can auto grow.
    */
-  autoresize_max_rows?: TextareaAutoresizeMaxRows;
-  textarea_class?: string;
-  textarea_attributes?: TextareaTextareaAttributes;
+  autoresizeMaxRows?: TextareaAutoresizeMaxRows;
+  textareaClass?: string;
+  textareaAttributes?: TextareaTextareaAttributes;
   readOnly?: boolean;
   rows?: TextareaRows;
   cols?: TextareaCols;
   /**
-   * By providing a React.Ref we can get the internally used Textarea element (DOM). E.g. `inner_ref={myRef}` by using `React.createRef()` or `React.useRef()`.
+   * By providing a React.Ref we can get the internally used Textarea element (DOM). E.g. `innerRef={myRef}` by using `React.createRef()` or `React.useRef()`.
    */
-  inner_ref?: React.Ref;
+  innerRef?: React.Ref;
   className?: string;
-  textarea_element?: TextareaTextareaElement;
+  textareaElement?: TextareaTextareaElement;
   children?: TextareaChildren;
   on_change?: (...args: any[]) => any;
   on_focus?: (...args: any[]) => any;
