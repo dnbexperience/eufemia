@@ -70,7 +70,7 @@ const data = [
     selectedKey: 'key_0',
 
     // (optional) is show instead of "content", once selected
-    selected_value: 'Item 1 Value',
+    selectedValue: 'Item 1 Value',
 
     // Item content as a string or array
     content: 'Item 1 Content',
@@ -81,12 +81,12 @@ const data = [
   },
   {
     selectedKey: 'key_2',
-    selected_value: 'Item 3 Value',
+    selectedValue: 'Item 3 Value',
     content: ['Item 3 Content A', 'Item 3 Content B'],
   },
   {
     selectedKey: 'key_3',
-    selected_value: 'Item 4 Value',
+    selectedValue: 'Item 4 Value',
     content: ['Item 4 Content A', <>Custom Component</>],
   },
 ]
@@ -103,7 +103,7 @@ export const DropdownFind = () => (
             content: 'B',
           },
           {
-            selected_value: (
+            selectedValue: (
               <NumberFormat always_selectall ban>
                 11345678962
               </NumberFormat>
@@ -116,7 +116,7 @@ export const DropdownFind = () => (
             ],
           },
           {
-            selected_value: (
+            selectedValue: (
               <NumberFormat always_selectall ban>
                 15349648901
               </NumberFormat>
@@ -133,7 +133,7 @@ export const DropdownFind = () => (
           },
           {
             selectedKey: 'key_1',
-            selected_value: 'Find me by keypress',
+            selectedValue: 'Find me by keypress',
             content: ['F', 'F', 'F', 'F'],
           },
           {
@@ -167,7 +167,7 @@ export const DropdownNoValue = () => (
             selectedKey: 'key_0',
 
             // (optional) is show instead of "content", once selected
-            selected_value: 'Item 1 Value',
+            selectedValue: 'Item 1 Value',
 
             // Item content as a string or array
             content: 'Item 1 Content',
@@ -177,7 +177,7 @@ export const DropdownNoValue = () => (
             content: ['Item 2 Value', 'Item 2 Content'],
           },
           {
-            selected_value: (
+            selectedValue: (
               <NumberFormat always_selectall ban>
                 11345678962
               </NumberFormat>
@@ -191,12 +191,12 @@ export const DropdownNoValue = () => (
           },
           {
             selectedKey: 'key_2',
-            selected_value: 'Item 3 Value',
+            selectedValue: 'Item 3 Value',
             content: ['Item 3 Content A', 'Item 3 Content B'],
           },
           {
             selectedKey: 'key_3',
-            selected_value: 'Item 4 Value',
+            selectedValue: 'Item 4 Value',
             content: ['Item 4 Content A', <>Custom Component</>],
           },
         ]
