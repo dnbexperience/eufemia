@@ -394,10 +394,10 @@ class ToggleButton extends React.PureComponent<ToggleButtonProps> {
                   id={id + '-form-status'}
                   globalStatus={globalStatus}
                   label={label}
-                  text_id={id + '-status'} // used for "aria-describedby"
+                  textId={id + '-status'} // used for "aria-describedby"
                   text={status}
                   state={status_state}
-                  no_animation={status_no_animation}
+                  noAnimation={status_no_animation}
                   skeleton={skeleton}
                   {...status_props}
                 />
