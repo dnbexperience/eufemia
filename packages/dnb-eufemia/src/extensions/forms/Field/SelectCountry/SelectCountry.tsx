@@ -270,7 +270,7 @@ function SelectCountry(props: Props) {
         show_submit_button
         keep_selection
         autoComplete={autoComplete ?? 'country-name'}
-        no_animation={noAnimation}
+        noAnimation={noAnimation}
         {...htmlAttributes}
       />
     </FieldBlock>
