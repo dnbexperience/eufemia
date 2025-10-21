@@ -14,7 +14,7 @@ import { createSpacingClasses } from '../space/SpacingHelper'
 import type { IconColor } from '../Icon'
 import type { SpacingProps } from '../space/types'
 import { convertSnakeCaseProps } from '../../shared/helpers/withSnakeCaseProps'
-import LogoSvg from './LogoSvg'
+import LogoSvg, { DnbLogoAlt, SbankenLogoAlt } from './LogoSvg'
 
 export * from './LogoSvg'
 
@@ -130,8 +130,7 @@ function Logo(localProps: LogoProps) {
   const height = parseFloat(size) > 0 ? size : heightProp
 
   // Alt text for the logo does not need to be translated. DNB alt will be the same in English, and sbanken alt should always be in Norwegian
-  const altText =
-    logoType === 'dnb' ? 'DNB Logo' : 'Sbanken - et konsept fra DNB logo'
+  const altText = logoType === 'dnb' ? DnbLogoAlt : SbankenLogoAlt
 
   const sharedClasses = classnames(
     classNameProp,

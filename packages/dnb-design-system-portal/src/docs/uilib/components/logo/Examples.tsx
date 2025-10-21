@@ -5,7 +5,13 @@
 
 import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
-import { Logo } from '@dnb/eufemia/src'
+import { Card, Logo } from '@dnb/eufemia/src'
+import { Provider, useTheme } from '@dnb/eufemia/shared'
+import {
+  DnbDefault,
+  SbankenDefault,
+} from '@dnb/eufemia/src/components/Logo'
+import ChangeStyleTheme from '../../../../core/ChangeStyleTheme'
 
 export const LogoDefaultExample = () => (
   <ComponentBox data-visual-test="logo-default">
@@ -40,6 +46,39 @@ export const LogoInheritColorExample = () => (
 export const LogoCompactVariantExample = () => (
   <ComponentBox data-visual-test="logo-compact-variant">
     <Logo height="96" variant="compact" />
+  </ComponentBox>
+)
+
+export const LogoChangeExample = () => (
+  <ComponentBox
+    scope={{ ChangeStyleTheme, useTheme, DnbDefault, SbankenDefault }}
+  >
+    {() => {
+      function getLogoSvg(themeName) {
+        switch (themeName) {
+          case 'sbanken':
+            return SbankenDefault
+
+          default:
+            return DnbDefault
+        }
+      }
+
+      function MyApp() {
+        const { name } = useTheme()
+
+        return (
+          <Provider>
+            <Card stack>
+              <ChangeStyleTheme />
+              <Logo height="32" svg={getLogoSvg(name)} />
+            </Card>
+          </Provider>
+        )
+      }
+
+      return <MyApp />
+    }}
   </ComponentBox>
 )
 

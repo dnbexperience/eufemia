@@ -29,7 +29,9 @@ export default function LogoSvg({
   }
 }
 
-function DnbDefault({ alt, ...props }) {
+export const DnbLogoAlt = 'DNB Logo'
+
+export function DnbDefault({ alt = DnbLogoAlt, ...props }) {
   return (
     <svg {...props} viewBox="0 0 93.0362 64">
       <title>{alt}</title>
@@ -40,7 +42,9 @@ function DnbDefault({ alt, ...props }) {
   )
 }
 
-function SbankenDefault({ alt, ...props }) {
+export const SbankenLogoAlt = 'Sbanken - et konsept fra DNB'
+
+export function SbankenDefault({ alt = SbankenLogoAlt, ...props }) {
   return (
     <svg {...props} viewBox="0 0 1601 533">
       <title>{alt}</title>
@@ -49,7 +53,7 @@ function SbankenDefault({ alt, ...props }) {
   )
 }
 
-function SbankenCompact({ alt, ...props }) {
+export function SbankenCompact({ alt = SbankenLogoAlt, ...props }) {
   return (
     <svg {...props} viewBox="0 0 281 401">
       <title>{alt}</title>
@@ -58,7 +62,7 @@ function SbankenCompact({ alt, ...props }) {
   )
 }
 
-function SbankenHorizontal({ alt, ...props }) {
+export function SbankenHorizontal({ alt = SbankenLogoAlt, ...props }) {
   return (
     <svg {...props} viewBox="0 0 494 288">
       <title>{alt}</title>
