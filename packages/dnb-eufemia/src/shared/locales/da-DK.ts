@@ -113,12 +113,12 @@ export default {
       clear_button_title: 'Nulstil',
     },
     Pagination: {
-      button_title: 'Side %s',
-      next_title: 'Næste side',
-      prev_title: 'Forrige side',
-      more_pages: '%s flere sider',
-      is_loading_text: 'Indlæser nyt indhold',
-      load_button_text: 'Vis mere indhold',
+      buttonTitle: 'Side %s',
+      nextTitle: 'Næste side',
+      prevTitle: 'Forrige side',
+      morePages: '%s flere sider',
+      isLoadingText: 'Indlæser nyt indhold',
+      loadButtonText: 'Vis mere indhold',
     },
     Skeleton: {
       aria_busy: 'Behandler data ...',
