@@ -45,7 +45,7 @@ export default function Toolbar(props: Props) {
       <FormStatus
         show={showError && hasVisibleError}
         shellSpace={{ top: 'x-small' }}
-        no_animation={false}
+        noAnimation={false}
       >
         {errorInSection}
       </FormStatus>
