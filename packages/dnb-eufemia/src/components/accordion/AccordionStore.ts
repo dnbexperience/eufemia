@@ -136,5 +136,5 @@ export class Store {
 }
 
 export function rememberWarning(type = 'accordion') {
-  warn(`Missing "id" prop the ${type}! "remember_state" is enabled.`)
+  warn(`Missing "id" prop the ${type}! "rememberState" is enabled.`)
 }
