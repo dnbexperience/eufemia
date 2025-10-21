@@ -170,7 +170,7 @@ export const AccordionSandbox = () => {
       <Box>
         <Accordion
           group="unique-id"
-          left_component={<IconPrimary icon="bell" />}
+          leftComponent={<IconPrimary icon="bell" />}
         >
           <Accordion.Header>Accordion title</Accordion.Header>
           <Accordion.Content>
