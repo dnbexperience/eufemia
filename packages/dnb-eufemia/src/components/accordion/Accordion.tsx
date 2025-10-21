@@ -154,7 +154,7 @@ export type AccordionProps = Omit<React.HTMLProps<HTMLElement>, 'ref'> &
      * Will be called by user click interaction. Returns an object with a boolean state `expanded` inside `{ expanded, id, event, ...event }`.
      */
     on_change?: (...args: any[]) => any
-    on_state_update?: (...args: any[]) => any
+    onStateUpdate?: (...args: any[]) => any
   }
 
 function Accordion({
@@ -361,7 +361,7 @@ function Accordion({
               icon_position, // eslint-disable-line
               icon_size, // eslint-disable-line
               on_change, // eslint-disable-line
-              on_state_update, // eslint-disable-line
+              onStateUpdate, // eslint-disable-line
 
               contentRef, // eslint-disable-line
 
