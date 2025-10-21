@@ -45,13 +45,13 @@ describe('Accordion component', () => {
     ).toBe('false')
   })
 
-  it('has "on_change" event which will trigger on click', () => {
+  it('has "onChange" event which will trigger on click', () => {
     const my_event = jest.fn()
     const myEvent = jest.fn()
     render(
       <Accordion
         {...props}
-        on_change={my_event}
+        onChange={my_event}
         onChange={myEvent}
         expanded={false}
       />
@@ -233,13 +233,13 @@ describe('Accordion group component', () => {
     ).toBeFalsy()
   })
 
-  it('has "on_change" event which will trigger on a button click', () => {
+  it('has "onChange" event which will trigger on a button click', () => {
     const my_event = jest.fn()
     const myEvent = jest.fn()
     render(
       <Accordion.Group
         id="group"
-        on_change={my_event}
+        onChange={my_event}
         onChange={myEvent}
         value="second"
         data-prop="group-value"
