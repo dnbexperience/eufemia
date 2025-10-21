@@ -34,7 +34,7 @@ export const AccordionDefaultExample = () => (
       top
       rememberState
       icon="chevron_down"
-      icon_position="right"
+      iconPosition="right"
     >
       <Accordion id="single-provider-accordion" title="Accordion title">
         <P>Accordion content</P>
@@ -131,7 +131,7 @@ export const AccordionPlainVariant = () => {
           closed: AddIcon,
           expanded: SubtractIcon,
         }}
-        icon_position="right"
+        iconPosition="right"
       >
         <P>content</P>
       </Accordion>
@@ -142,7 +142,7 @@ export const AccordionPlainVariant = () => {
           closed: AddIcon,
           expanded: SubtractIcon,
         }}
-        icon_position="right"
+        iconPosition="right"
         expanded
       >
         <P>content</P>
@@ -187,7 +187,7 @@ export const AccordionDisabledExample = () => (
       disabled
       rememberState
       icon="chevron_down"
-      icon_position="right"
+      iconPosition="right"
     >
       <Accordion title="Disabled (closed)">
         <P>You can't see this text because I am disabled and closed.</P>
@@ -208,7 +208,7 @@ export const AccordionDescriptionExample = () => (
     <Accordion
       top
       icon="chevron_down"
-      icon_position="right"
+      iconPosition="right"
       id="description-provider-accordion"
       title="Accordion title"
       description="Accordion description"
