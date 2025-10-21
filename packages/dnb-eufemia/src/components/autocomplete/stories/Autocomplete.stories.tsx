@@ -148,12 +148,12 @@ export function onBlur() {
 
 export const SearchWithWrappers = () => {
   const topMovies = [
-    { content: 'item aa', search_content: ['AA c'] },
-    { content: 'item bb', search_content: ['BB cc zethx'] },
-    { content: 'item cc', search_content: ['CC', 'cc'] },
-    { content: 'item cc second', search_content: ['CC', 'cc', 'more'] },
-    { content: 'item dd', search_content: ['DD', 'dd'] },
-    { content: 'item ee', search_content: ['EE', 'ee'] },
+    { content: 'item aa', searchContent: ['AA c'] },
+    { content: 'item bb', searchContent: ['BB cc zethx'] },
+    { content: 'item cc', searchContent: ['CC', 'cc'] },
+    { content: 'item cc second', searchContent: ['CC', 'cc', 'more'] },
+    { content: 'item dd', searchContent: ['DD', 'dd'] },
+    { content: 'item ee', searchContent: ['EE', 'ee'] },
   ]
   // const topMovies = ['AA c', 'BB cc zethx', { content: ['CC', 'cc'] }]
   return (
@@ -516,7 +516,7 @@ const testData = [
     content: 'B',
   },
   {
-    selected_value: 99999999,
+    selectedValue: 99999999,
     content: [
       <NumberFormat phone key={99999999}>
         99999999
@@ -525,7 +525,7 @@ const testData = [
     ],
   },
   {
-    selected_value: 99999999,
+    selectedValue: 99999999,
     content: [
       <NumberFormat phone key={99999999}>
         99999999
@@ -537,7 +537,7 @@ const testData = [
     content: 'E',
   },
   {
-    selected_value: 'Find me by keypress',
+    selectedValue: 'Find me by keypress',
     content: ['F', 'F', 'F', 'F'],
   },
   {
@@ -550,7 +550,7 @@ const testData = [
 
 const autocompleteData = [
   {
-    selected_value: 'Brukskonto - Kari Nordmann',
+    selectedValue: 'Brukskonto - Kari Nordmann',
     content: (
       <>
         {/* <Checkbox checked aria-hidden />  */}
@@ -567,7 +567,7 @@ const autocompleteData = [
     ],
   },
   {
-    selected_value:
+    selectedValue:
       'Feriekonto - Kari Nordmann med et kjempelangt etternavnsen',
     content: [
       <NumberFormat key={99999999} phone>
@@ -577,7 +577,7 @@ const autocompleteData = [
     ],
   },
   {
-    selected_value: <>Custom selected {'🔥'}</>,
+    selectedValue: <>Custom selected {'🔥'}</>,
     content: [
       <NumberFormat key={99999999} phone>
         99999999
@@ -588,7 +588,7 @@ const autocompleteData = [
 ]
 const autocompleteDataScrollable = [
   {
-    selected_value: 'AAA',
+    selectedValue: 'AAA',
     content: 'AA',
   },
   {
@@ -600,7 +600,7 @@ const autocompleteDataScrollable = [
     ],
   },
   {
-    selected_value: 'CCC',
+    selectedValue: 'CCC',
     content: [
       <NumberFormat key={99999999} phone>
         99999999
@@ -609,7 +609,7 @@ const autocompleteDataScrollable = [
     ],
   },
   {
-    selected_value: 'DDD',
+    selectedValue: 'DDD',
     content: [
       <NumberFormat key={99999999} phone>
         99999999
@@ -667,7 +667,7 @@ const topMovies = [
         />
       </>
     ),
-    // search_content: ['aa', 're', 1234],
+    // searchContent: ['aa', 're', 1234],
     year: 1994,
   },
   { content: 'The Godfather', year: 1972 },
@@ -782,10 +782,10 @@ const topMovies = [
 ]
 
 const initialData = [
-  { selected_value: '1', content: '1' },
-  { selected_value: '2', content: '2' },
-  { selected_value: '3', content: '3' },
-  { selected_value: '4', content: '4' },
+  { selectedValue: '1', content: '1' },
+  { selectedValue: '2', content: '2' },
+  { selectedValue: '3', content: '3' },
+  { selectedValue: '4', content: '4' },
 ]
 
 function UpdateDataExample() {
@@ -798,19 +798,19 @@ function UpdateDataExample() {
         Selected data:{' '}
         {selectedData.map((item) => (
           <Button
-            key={item.selected_value}
+            key={item.selectedValue}
             size="small"
             on_click={() => {
               const updatedSelectedData = selectedData.filter(
-                (data) => item.selected_value !== data.selected_value
+                (data) => item.selectedValue !== data.selectedValue
               )
               setSelectedData(updatedSelectedData)
               setChoiceData(
                 initialData.filter(
                   (data) =>
                     updatedSelectedData.findIndex(
-                      ({ selected_value: updatedValue }) =>
-                        updatedValue === data?.selected_value
+                      ({ selectedValue: updatedValue }) =>
+                        updatedValue === data?.selectedValue
                     ) === -1
                 )
               )
@@ -834,7 +834,7 @@ function UpdateDataExample() {
           // update our choices
           setChoiceData(
             choiceData.filter(
-              (item) => item.selected_value !== data.selected_value
+              (item) => item.selectedValue !== data.selectedValue
             )
           )
 
@@ -844,8 +844,7 @@ function UpdateDataExample() {
           // only update selected data if they do not exists in the list
           if (
             selectedData.findIndex(
-              ({ selected_value }) =>
-                selected_value === data.selected_value
+              ({ selectedValue }) => selectedValue === data.selectedValue
             ) === -1
           ) {
             setSelectedData([...selectedData, data])
@@ -874,8 +873,8 @@ export function DataSuffix() {
   const ban = format(21001234567, { ban: true, locale }) as string
   const numbers: DrawerListDataArray = [
     {
-      selected_value: `Brukskonto (${ban})`,
-      suffix_value: (
+      selectedValue: `Brukskonto (${ban})`,
+      suffixValue: (
         <NumberFormat lang="nb" currency srLabel="Total:">
           {12345678}
         </NumberFormat>
@@ -883,8 +882,8 @@ export function DataSuffix() {
       content: ['Brukskonto', ban],
     },
     {
-      selected_value: `BSU (${ban})`,
-      suffix_value: (
+      selectedValue: `BSU (${ban})`,
+      suffixValue: (
         <NumberFormat currency srLabel="Total:">
           {2223}
         </NumberFormat>
@@ -892,8 +891,8 @@ export function DataSuffix() {
       content: ['BSU', ban],
     },
     {
-      selected_value: `Sparekonto (${ban})`,
-      suffix_value: (
+      selectedValue: `Sparekonto (${ban})`,
+      suffixValue: (
         <NumberFormat currency srLabel="Total:">
           {876555.5}
         </NumberFormat>
@@ -901,8 +900,8 @@ export function DataSuffix() {
       content: ['Sparekonto', ban],
     },
     {
-      selected_value: `Brukskonto (${ban})`,
-      suffix_value: (
+      selectedValue: `Brukskonto (${ban})`,
+      suffixValue: (
         <NumberFormat currency srLabel="Total:">
           {34999.2}
         </NumberFormat>
