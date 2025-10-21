@@ -66,7 +66,7 @@ export default function HeadingProvider(props: HeadingProviderAllProps) {
       reset: props.reset,
       increase: isTrue(props.increase) || isTrue(props.up),
       decrease: isTrue(props.decrease) || isTrue(props.down),
-      bypassChecks: isTrue(state.newProps.skip_correction),
+      bypassChecks: isTrue(state.newProps.skipCorrection),
       source: props.text || props.children,
       debug: state.newProps.debug,
     })
@@ -94,8 +94,8 @@ export default function HeadingProvider(props: HeadingProviderAllProps) {
         counter: state.counter,
         level,
         bypassChecks:
-          isTrue(props.skip_correction) ||
-          isTrue(state.context.heading?.skip_correction),
+          isTrue(props.skipCorrection) ||
+          isTrue(state.context.heading?.skipCorrection),
         source: props.text || props.children, // only for debugging
         debug: props.debug || state.context.heading?.debug,
       })
@@ -122,7 +122,7 @@ export default function HeadingProvider(props: HeadingProviderAllProps) {
         },
       }}
     >
-      {(state.newProps.debug_counter && (
+      {(state.newProps.debugCounter && (
         <span className="dnb-heading__context">
           <span className="dnb-heading__debug">
             Context:{' '}
