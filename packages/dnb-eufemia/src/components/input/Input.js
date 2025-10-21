@@ -540,8 +540,8 @@ export default class Input extends React.PureComponent {
             label={label}
             text={status}
             state={status_state}
-            text_id={id + '-status'} // used for "aria-describedby"
-            no_animation={status_no_animation}
+            textId={id + '-status'} // used for "aria-describedby"
+            noAnimation={status_no_animation}
             skeleton={skeleton}
             {...status_props}
           />

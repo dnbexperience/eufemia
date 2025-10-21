@@ -90,7 +90,7 @@ export const FormStatusSandbox = () => {
           platea rutrum eu condimentum erat risus lacinia viverra magnis
           lobortis nibh mollis suspendisse
         </FormStatus>
-        <FormStatus state="info" size="large" stretch icon_size="small">
+        <FormStatus state="info" size="large" stretch iconSize="small">
           Long info text Ipsum habitant enim ullamcorper elit sit elementum
           platea rutrum eu condimentum erat risus lacinia viverra magnis
           lobortis nibh mollis suspendisse

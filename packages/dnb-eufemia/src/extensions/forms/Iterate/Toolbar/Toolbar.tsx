@@ -71,7 +71,7 @@ export default function Toolbar({
       <FormStatus
         show={showError && hasVisibleError}
         shellSpace={{ top: 'x-small' }}
-        no_animation={false}
+        noAnimation={false}
       >
         {errorInContainer}
       </FormStatus>
