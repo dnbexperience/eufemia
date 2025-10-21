@@ -32,8 +32,8 @@ export default class InfinityScroller extends React.PureComponent {
 
   constructor(props, context) {
     super(props)
-    this.hideIndicator = isTrue(context.pagination.hide_progress_indicator)
-    this.useLoadButton = isTrue(context.pagination.use_load_button)
+    this.hideIndicator = isTrue(context.pagination.hideProgressIndicator)
+    this.useLoadButton = isTrue(context.pagination.useLoadButton)
     this.lastElement = React.createRef()
     this.callOnUnmount = []
   }
@@ -195,15 +195,15 @@ export default class InfinityScroller extends React.PureComponent {
 
       // our props
       current_page,
-      fallback_element,
-      marker_element,
-      indicator_element,
+      fallbackElement,
+      markerElement,
+      indicatorElement,
     } = this.context.pagination
 
     const Marker = () => (
       <InteractionMarker
         pageNumber={upperPage}
-        markerElement={marker_element || fallback_element}
+        markerElement={markerElement || fallbackElement}
         onVisible={(pageNumber) => {
           let newPageNo
           // load several pages at once
@@ -225,10 +225,10 @@ export default class InfinityScroller extends React.PureComponent {
     const LoadButton = () => (
       <InfinityLoadButton
         icon="arrow_up"
-        element={fallback_element}
+        element={fallbackElement}
         pressed_element={
           <PaginationIndicator
-            indicator_element={indicator_element || fallback_element}
+            indicatorElement={indicatorElement || fallbackElement}
           />
         }
         on_click={() => {
@@ -260,7 +260,7 @@ export default class InfinityScroller extends React.PureComponent {
           !this.hideIndicator &&
           (typeof pageCount === 'undefined' || upperPage < pageCount) && (
             <PaginationIndicator
-              indicator_element={indicator_element || fallback_element}
+              indicatorElement={indicatorElement || fallbackElement}
             />
           )}
       </>
@@ -278,11 +278,11 @@ export default class InfinityScroller extends React.PureComponent {
       placeMakerBeforeContent,
 
       // our props
-      page_element,
-      fallback_element,
-      marker_element,
-      indicator_element,
-      load_button_text,
+      pageElement,
+      fallbackElement,
+      markerElement,
+      indicatorElement,
+      loadButtonText,
       loadButton,
     } = this.context.pagination
 
@@ -298,7 +298,7 @@ export default class InfinityScroller extends React.PureComponent {
     }
 
     // make sure we handle Table markup correctly
-    const Element = preparePageElement(page_element || React.Fragment)
+    const Element = preparePageElement(pageElement || React.Fragment)
 
     return items.map(
       (
@@ -326,7 +326,7 @@ export default class InfinityScroller extends React.PureComponent {
             pageNumber <= pageCount) && (
             <InteractionMarker
               pageNumber={pageNumber}
-              markerElement={marker_element || fallback_element}
+              markerElement={markerElement || fallbackElement}
               onVisible={(pageNumber) => {
                 let newPageNo
                 // load several pages at once
@@ -356,10 +356,10 @@ export default class InfinityScroller extends React.PureComponent {
                   element={
                     typeof loadButton === 'function'
                       ? loadButton
-                      : fallback_element
+                      : fallbackElement
                   }
                   icon="arrow_up"
-                  text={load_button_text ?? loadButton?.text}
+                  text={loadButtonText ?? loadButton?.text}
                   icon_position={loadButton?.iconPosition}
                   on_click={(event) =>
                     this.getNewContent(pageNumber - 1, {
@@ -377,7 +377,7 @@ export default class InfinityScroller extends React.PureComponent {
 
             {showIndicator && (
               <PaginationIndicator
-                indicator_element={indicator_element || fallback_element}
+                indicatorElement={indicatorElement || fallbackElement}
               />
             )}
 
@@ -390,9 +390,9 @@ export default class InfinityScroller extends React.PureComponent {
                   element={
                     typeof loadButton === 'function'
                       ? loadButton
-                      : fallback_element
+                      : fallbackElement
                   }
-                  text={load_button_text ?? loadButton?.text}
+                  text={loadButtonText ?? loadButton?.text}
                   icon_position={loadButton?.iconPosition}
                   icon="arrow_down"
                   on_click={(event) =>
@@ -402,7 +402,7 @@ export default class InfinityScroller extends React.PureComponent {
                       ScrollElement: (props) =>
                         hasContent && (
                           <ScrollToElement
-                            page_element={page_element}
+                            pageElement={pageElement}
                             {...props}
                           />
                         ),
@@ -439,7 +439,7 @@ class InteractionMarker extends React.PureComponent {
 
     if (typeof props.markerElement === 'function') {
       warn(
-        'Pagination: Please use a string or React element e.g. marker_element="tr"'
+        'Pagination: Please use a string or React element e.g. markerElement="tr"'
       )
     }
 
@@ -574,7 +574,7 @@ export class InfinityLoadButton extends React.PureComponent {
             icon={icon}
             icon_position={icon_position}
             text={
-              text || this.context.translation.Pagination.load_button_text
+              text || this.context.translation.Pagination.loadButtonText
             }
             variant="secondary"
             on_click={this.onClickHandler}
@@ -587,7 +587,7 @@ export class InfinityLoadButton extends React.PureComponent {
 
 class ScrollToElement extends React.PureComponent {
   static propTypes = {
-    page_element: PropTypes.oneOfType([
+    pageElement: PropTypes.oneOfType([
       PropTypes.object,
       PropTypes.node,
       PropTypes.func,
@@ -595,7 +595,7 @@ class ScrollToElement extends React.PureComponent {
     ]),
   }
   static defaultProps = {
-    page_element: null,
+    pageElement: null,
   }
   componentDidMount() {
     // we use "findDOMNode" here, because we have situations, where we don't know about what the input element is,
@@ -615,8 +615,8 @@ class ScrollToElement extends React.PureComponent {
     }
   }
   render() {
-    const { page_element, ...props } = this.props
-    const Element = preparePageElement(page_element || React.Fragment)
+    const { pageElement, ...props } = this.props
+    const Element = preparePageElement(pageElement || React.Fragment)
     return <Element {...props} />
   }
 }

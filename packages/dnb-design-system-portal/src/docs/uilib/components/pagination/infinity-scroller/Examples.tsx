@@ -57,9 +57,9 @@ export const PaginationExampleInfinityLoadButton = () => (
     <HeightLimit>
       <Pagination
         mode="infinity"
-        use_load_button
+        useLoadButton
         startup_page={5}
-        min_wait_time={0}
+        minWaitTime={0}
         on_load={({ pageNumber, setContent }) => {
           // simulate server communication delay
           const timeout = setTimeout(
@@ -81,12 +81,12 @@ export const PaginationExampleInfinityIndicator = () => (
     <HeightLimit>
       <Pagination
         mode="infinity"
-        indicator_element={() => (
+        indicatorElement={() => (
           <LargePage color="lightgreen">Loading ...</LargePage>
         )}
         startup_page={3}
         page_count={10}
-        min_wait_time={0}
+        minWaitTime={0}
         on_load={({ pageNumber, setContent }) => {
           // simulate server communication delay
           const timeout = setTimeout(
@@ -114,8 +114,8 @@ export const PaginationExampleInfinityUnknown = () => (
     <HeightLimit>
       <Pagination
         mode="infinity"
-        parallel_load_count={2}
-        min_wait_time={0}
+        parallelLoadCount={2}
+        minWaitTime={0}
         on_load={({ pageNumber, setContent, endInfinity }) => {
           // simulate server communication delay
           const timeout = setTimeout(
@@ -320,9 +320,9 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
       <tbody>
         <Pagination
           mode="infinity"
-          // use_load_button // disables infinity scroller, but will add a button to do so
-          marker_element="tr"
-          fallback_element={({ className, ...props }) => (
+          // useLoadButton // disables infinity scroller, but will add a button to do so
+          markerElement="tr"
+          fallbackElement={({ className, ...props }) => (
             <TableRow className={className}>
               <TableData colSpan={2} {...props} />
             </TableRow>

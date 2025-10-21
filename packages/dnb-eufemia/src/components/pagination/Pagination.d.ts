@@ -40,11 +40,11 @@ type LoadButtonProps =
   | (() => React.ReactNode)
   | {
       /**
-       * Used during infinity mode. If `use_load_button` is set to true, then a button is show on the bottom. If the `startup_page` is higher than 1. Defaults to `Vis mer innhold`.
+       * Used during infinity mode. If `useLoadButton` is set to true, then a button is show on the bottom. If the `startup_page` is higher than 1. Defaults to `Vis mer innhold`.
        */
       text: string;
       /**
-       * Used during infinity mode. Sets the icon position on the `use_load_button`. Default: `left`.
+       * Used during infinity mode. Sets the icon position on the `useLoadButton`. Default: `left`.
        */
       iconPosition: ButtonIconPosition;
     };
@@ -70,15 +70,15 @@ export interface PaginationProps
   /**
    * defines how many `infinity` pages should be loaded / shown once the user scrolls down. Defaults to `1`.
    */
-  parallel_load_count?: PaginationParallelLoadCount;
+  parallelLoadCount?: PaginationParallelLoadCount;
   /**
    * if set to `true`, the infinity marker will be placed before the content (on top off). This could potentially have negative side effects. But it depends really on the content if this would make more sense to use instead. Defaults to `false`.
    */
-  place_marker_before_content?: boolean;
+  placeMarkerBeforeContent?: boolean;
   /**
    * the minimum time to wait, if the infinity scroll was invoked under that time threshold. This prevents not intentional infinity scroll loop calls. Defaults to `400` milliseconds.
    */
-  min_wait_time?: PaginationMinWaitTime;
+  minWaitTime?: PaginationMinWaitTime;
   /**
    * if set to `true`, all pagination bar buttons are disabled.
    */
@@ -98,44 +98,44 @@ export interface PaginationProps
   /**
    * if set to `true` it will disable the automated infinity scrolling, but shows a load more button at the of the content instead.
    */
-  use_load_button?: boolean;
+  useLoadButton?: boolean;
   items?: PaginationItems;
   /**
    * if set to `true` no indicator will be shown.
    */
-  hide_progress_indicator?: boolean;
+  hideProgressIndicator?: boolean;
   /**
-   * callback function to get the `setContent` handler from the current pagination instance. e.g. `set_content_handler={fn => (...)}`. Use this handler to insert content during infinity mode.
+   * callback function to get the `setContent` handler from the current pagination instance. e.g. `setContentHandler={fn => (...)}`. Use this handler to insert content during infinity mode.
    */
-  set_content_handler?: PaginationSetContentHandler;
+  setContentHandler?: PaginationSetContentHandler;
   /**
-   * callback function to get the `resetContent` handler from the current pagination instance. e.g. `reset_content_handler={fn => (...)}`. Use this handler to reset all the content. You can set it to `true`, to programmatically reset the content.
+   * callback function to get the `resetContent` handler from the current pagination instance. e.g. `resetContentHandler={fn => (...)}`. Use this handler to reset all the content. You can set it to `true`, to programmatically reset the content.
    */
-  reset_content_handler?: PaginationResetContentHandler;
+  resetContentHandler?: PaginationResetContentHandler;
   /**
-   * callback function to get the `resetInfinity` handler from the current pagination instance. e.g. `reset_pagination_handler={fn => (...)}`. Use this handler to reset all the internal states. You can set it to `true`, to programmatically reset the states.
+   * callback function to get the `resetInfinity` handler from the current pagination instance. e.g. `resetPaginationHandler={fn => (...)}`. Use this handler to reset all the internal states. You can set it to `true`, to programmatically reset the states.
    */
-  reset_pagination_handler?: PaginationResetPaginationHandler;
+  resetPaginationHandler?: PaginationResetPaginationHandler;
   /**
-   * callback function to get the `endInfinity` handler from the current pagination instance. e.g. `end_infinity_handler={fn => (...)}`. Use this handler to end the infinity scrolling procedure, in case the `page_count` is unknown.
+   * callback function to get the `endInfinity` handler from the current pagination instance. e.g. `endInfinityHandler={fn => (...)}`. Use this handler to end the infinity scrolling procedure, in case the `page_count` is unknown.
    */
-  end_infinity_handler?: PaginationEndInfinityHandler;
+  endInfinityHandler?: PaginationEndInfinityHandler;
   /**
    * by default a `<div>` is used. Set it to any element you have to use. Adds also a class: `dnb-pagination__page` shown.
    */
-  page_element?: PaginationPageElement;
+  pageElement?: PaginationPageElement;
   /**
    * (infinity mode) is used by the _indicator_, _load more_ bar as well as by the marker. Defaults to a `div`.
    */
-  fallback_element?: PaginationFallbackElement;
+  fallbackElement?: PaginationFallbackElement;
   /**
-   * (infinity mode) is used by the internal marker. Falls back to `fallback_element` if not defined.
+   * (infinity mode) is used by the internal marker. Falls back to `fallbackElement` if not defined.
    */
-  marker_element?: PaginationMarkerElement;
+  markerElement?: PaginationMarkerElement;
   /**
-   * (infinity mode) is used by the _indicator_. Falls back to `fallback_element` if not defined.
+   * (infinity mode) is used by the _indicator_. Falls back to `fallbackElement` if not defined.
    */
-  indicator_element?: PaginationIndicatorElement;
+  indicatorElement?: PaginationIndicatorElement;
   /**
    * define the alignment of the pagination button bar. Can be `center`, `left` or `right`. Defaults to `left`.
    */
@@ -143,27 +143,27 @@ export interface PaginationProps
   /**
    * The title used in every button shown in the bar. Defaults to `Side %s`.
    */
-  button_title?: string;
+  buttonTitle?: string;
   /**
    * The title used in the previous page button. Defaults to `Forrige side`.
    */
-  prev_title?: string;
+  prevTitle?: string;
   /**
    * The title used in the next page button. Defaults to `Neste side`.
    */
-  next_title?: string;
+  nextTitle?: string;
   /**
    * The title used in the dots. Relevant for screen readers. Defaults to `%s flere sider`.
    */
-  more_pages?: string;
+  morePages?: string;
   /**
    * Shown until new content is inserted in to the page. Defaults to `Laster nytt innhold`.
    */
-  is_loading_text?: string;
+  isLoadingText?: string;
   /**
-   * Used during infinity mode. If `use_load_button` is set to `true`, then a button is show on the bottom. If the `startup_page` is higher than 1. Defaults to `Vis mer innhold`.
+   * Used during infinity mode. If `useLoadButton` is set to `true`, then a button is show on the bottom. If the `startup_page` is higher than 1. Defaults to `Vis mer innhold`.
    */
-  load_button_text?: string;
+  loadButtonText?: string;
   /**
    * Used to set load button text and icon alignment. Accepts a function returning a ReactNode too, so you can replace the button with your own component.
    */
@@ -251,15 +251,15 @@ interface PaginationInstanceProps extends SpacingProps {
   /**
    * Defines how many `infinity` pages should be loaded / shown once the user scrolls down. Defaults to `1`.
    */
-  parallel_load_count?: PaginationInstanceParallelLoadCount;
+  parallelLoadCount?: PaginationInstanceParallelLoadCount;
   /**
    * If set to `true`, the infinity marker will be placed before the content (on top off). This could potentially have negative side effects. But it depends really on the content if this would make more sense to use instead. Defaults to `false`.
    */
-  place_marker_before_content?: boolean;
+  placeMarkerBeforeContent?: boolean;
   /**
    * The minimum time to wait, if the infinity scroll was invoked under that time threshold. This prevents not intentional infinity scroll loop calls. Defaults to `400` milliseconds.
    */
-  min_wait_time?: PaginationInstanceMinWaitTime;
+  minWaitTime?: PaginationInstanceMinWaitTime;
   /**
    * If set to `true`, all pagination bar buttons are disabled.
    */
@@ -275,44 +275,44 @@ interface PaginationInstanceProps extends SpacingProps {
   /**
    * If set to `true` it will disable the automated infinity scrolling, but shows a load more button at the of the content instead.
    */
-  use_load_button?: boolean;
+  useLoadButton?: boolean;
   items?: PaginationInstanceItems;
   /**
    * If set to `true` no indicator will be shown.
    */
-  hide_progress_indicator?: boolean;
+  hideProgressIndicator?: boolean;
   /**
-   * Callback function to get the `setContent` handler from the current pagination instance. e.g. `set_content_handler={fn => (...)}`. Use this handler to insert content during infinity mode.
+   * Callback function to get the `setContent` handler from the current pagination instance. e.g. `setContentHandler={fn => (...)}`. Use this handler to insert content during infinity mode.
    */
-  set_content_handler?: PaginationInstanceSetContentHandler;
+  setContentHandler?: PaginationInstanceSetContentHandler;
   /**
-   * Callback function to get the `resetContent` handler from the current pagination instance. e.g. `reset_content_handler={fn => (...)}`. Use this handler to reset all the content. You can set it to `true`, to programmatically reset the content.
+   * Callback function to get the `resetContent` handler from the current pagination instance. e.g. `resetContentHandler={fn => (...)}`. Use this handler to reset all the content. You can set it to `true`, to programmatically reset the content.
    */
-  reset_content_handler?: PaginationInstanceResetContentHandler;
+  resetContentHandler?: PaginationInstanceResetContentHandler;
   /**
-   * Callback function to get the `resetInfinity` handler from the current pagination instance. e.g. `reset_pagination_handler={fn => (...)}`. Use this handler to reset all the internal states. You can set it to `true`, to programmatically reset the states.
+   * Callback function to get the `resetInfinity` handler from the current pagination instance. e.g. `resetPaginationHandler={fn => (...)}`. Use this handler to reset all the internal states. You can set it to `true`, to programmatically reset the states.
    */
-  reset_pagination_handler?: PaginationInstanceResetPaginationHandler;
+  resetPaginationHandler?: PaginationInstanceResetPaginationHandler;
   /**
-   * Callback function to get the `endInfinity` handler from the current pagination instance. e.g. `end_infinity_handler={fn => (...)}`. Use this handler to end the infinity scrolling procedure, in case the `page_count` is unknown.
+   * Callback function to get the `endInfinity` handler from the current pagination instance. e.g. `endInfinityHandler={fn => (...)}`. Use this handler to end the infinity scrolling procedure, in case the `page_count` is unknown.
    */
-  end_infinity_handler?: PaginationInstanceEndInfinityHandler;
+  endInfinityHandler?: PaginationInstanceEndInfinityHandler;
   /**
    * By default a `<div>` is used. Set it to any element you have to use. Adds also a class: `dnb-pagination__page` shown.
    */
-  page_element?: PaginationInstancePageElement;
+  pageElement?: PaginationInstancePageElement;
   /**
    * (infinity mode) is used by the <em>indicator</em>, <em>load more</em> bar as well as by the marker. Defaults to a `div`.
    */
-  fallback_element?: PaginationInstanceFallbackElement;
+  fallbackElement?: PaginationInstanceFallbackElement;
   /**
-   * (infinity mode) is used by the internal marker. Falls back to `fallback_element` if not defined.
+   * (infinity mode) is used by the internal marker. Falls back to `fallbackElement` if not defined.
    */
-  marker_element?: PaginationInstanceMarkerElement;
+  markerElement?: PaginationInstanceMarkerElement;
   /**
-   * (infinity mode) is used by the <em>indicator</em>. Falls back to `fallback_element` if not defined.
+   * (infinity mode) is used by the <em>indicator</em>. Falls back to `fallbackElement` if not defined.
    */
-  indicator_element?: PaginationInstanceIndicatorElement;
+  indicatorElement?: PaginationInstanceIndicatorElement;
   /**
    * Define the alignment of the pagination button bar. Can be `center`, `left` or `right`. Defaults to `left`.
    */
@@ -320,28 +320,28 @@ interface PaginationInstanceProps extends SpacingProps {
   /**
    * The title used in every button shown in the bar. Defaults to `Side %s`.
    */
-  button_title?: string;
+  buttonTitle?: string;
   /**
    * The title used in the previous page button. Defaults to `Forrige side`.
    */
-  prev_title?: string;
+  prevTitle?: string;
   /**
    * The title used in the next page button. Defaults to `Neste side`.
    */
-  next_title?: string;
+  nextTitle?: string;
   /**
    * The title used in the dots. Relevant for screen readers. Defaults to `%s flere sider`.
    */
-  more_pages?: string;
+  morePages?: string;
   /**
    * Shown until new content is inserted in to the page. Defaults to `Laster nytt innhold`.
    */
-  is_loading_text?: string;
+  isLoadingText?: string;
   /**
-   * Used during infinity mode. If `use_load_button` is set to true, then a button is show on the bottom. If the `startup_page` is higher than 1. Defaults to `Vis mer innhold`.
+   * Used during infinity mode. If `useLoadButton` is set to true, then a button is show on the bottom. If the `startup_page` is higher than 1. Defaults to `Vis mer innhold`.
    * @deprecated use `loadButtonProps.text` instead
    */
-  load_button_text?: string;
+  loadButtonText?: string;
   /**
    * Used to set loadButton text and icon alignment. Accepts a function returning a ReactNode too, so you can replace the button with your own component.
    */
@@ -434,15 +434,15 @@ interface InfinityMarkerProps extends SpacingProps {
   /**
    * Defines how many `infinity` pages should be loaded / shown once the user scrolls down. Defaults to `1`.
    */
-  parallel_load_count?: InfinityMarkerParallelLoadCount;
+  parallelLoadCount?: InfinityMarkerParallelLoadCount;
   /**
    * If set to `true`, the infinity marker will be placed before the content (on top off). This could potentially have negative side effects. But it depends really on the content if this would make more sense to use instead. Defaults to `false`.
    */
-  place_marker_before_content?: boolean;
+  placeMarkerBeforeContent?: boolean;
   /**
    * The minimum time to wait, if the infinity scroll was invoked under that time threshold. This prevents not intentional infinity scroll loop calls. Defaults to `400` milliseconds.
    */
-  min_wait_time?: InfinityMarkerMinWaitTime;
+  minWaitTime?: InfinityMarkerMinWaitTime;
   /**
    * If set to `true`, all pagination bar buttons are disabled.
    */
@@ -458,44 +458,44 @@ interface InfinityMarkerProps extends SpacingProps {
   /**
    * If set to `true` it will disable the automated infinity scrolling, but shows a load more button at the of the content instead.
    */
-  use_load_button?: boolean;
+  useLoadButton?: boolean;
   items?: InfinityMarkerItems;
   /**
    * If set to `true` no indicator will be shown.
    */
-  hide_progress_indicator?: boolean;
+  hideProgressIndicator?: boolean;
   /**
-   * Callback function to get the `setContent` handler from the current pagination instance. e.g. `set_content_handler={fn => (...)}`. Use this handler to insert content during infinity mode.
+   * Callback function to get the `setContent` handler from the current pagination instance. e.g. `setContentHandler={fn => (...)}`. Use this handler to insert content during infinity mode.
    */
-  set_content_handler?: InfinityMarkerSetContentHandler;
+  setContentHandler?: InfinityMarkerSetContentHandler;
   /**
-   * Callback function to get the `resetContent` handler from the current pagination instance. e.g. `reset_content_handler={fn => (...)}`. Use this handler to reset all the content. You can set it to `true`, to programmatically reset the content.
+   * Callback function to get the `resetContent` handler from the current pagination instance. e.g. `resetContentHandler={fn => (...)}`. Use this handler to reset all the content. You can set it to `true`, to programmatically reset the content.
    */
-  reset_content_handler?: InfinityMarkerResetContentHandler;
+  resetContentHandler?: InfinityMarkerResetContentHandler;
   /**
-   * Callback function to get the `resetInfinity` handler from the current pagination instance. e.g. `reset_pagination_handler={fn => (...)}`. Use this handler to reset all the internal states. You can set it to `true`, to programmatically reset the states.
+   * Callback function to get the `resetInfinity` handler from the current pagination instance. e.g. `resetPaginationHandler={fn => (...)}`. Use this handler to reset all the internal states. You can set it to `true`, to programmatically reset the states.
    */
-  reset_pagination_handler?: InfinityMarkerResetPaginationHandler;
+  resetPaginationHandler?: InfinityMarkerResetPaginationHandler;
   /**
-   * Callback function to get the `endInfinity` handler from the current pagination instance. e.g. `end_infinity_handler={fn => (...)}`. Use this handler to end the infinity scrolling procedure, in case the `page_count` is unknown.
+   * Callback function to get the `endInfinity` handler from the current pagination instance. e.g. `endInfinityHandler={fn => (...)}`. Use this handler to end the infinity scrolling procedure, in case the `page_count` is unknown.
    */
-  end_infinity_handler?: InfinityMarkerEndInfinityHandler;
+  endInfinityHandler?: InfinityMarkerEndInfinityHandler;
   /**
    * By default a `<div>` is used. Set it to any element you have to use. Adds also a class: `dnb-pagination__page` shown.
    */
-  page_element?: InfinityMarkerPageElement;
+  pageElement?: InfinityMarkerPageElement;
   /**
    * (infinity mode) is used by the <em>indicator</em>, <em>load more</em> bar as well as by the marker. Defaults to a `div`.
    */
-  fallback_element?: InfinityMarkerFallbackElement;
+  fallbackElement?: InfinityMarkerFallbackElement;
   /**
-   * (infinity mode) is used by the internal marker. Falls back to `fallback_element` if not defined.
+   * (infinity mode) is used by the internal marker. Falls back to `fallbackElement` if not defined.
    */
-  marker_element?: InfinityMarkerMarkerElement;
+  markerElement?: InfinityMarkerMarkerElement;
   /**
-   * (infinity mode) is used by the <em>indicator</em>. Falls back to `fallback_element` if not defined.
+   * (infinity mode) is used by the <em>indicator</em>. Falls back to `fallbackElement` if not defined.
    */
-  indicator_element?: InfinityMarkerIndicatorElement;
+  indicatorElement?: InfinityMarkerIndicatorElement;
   /**
    * Define the alignment of the pagination button bar. Can be `center`, `left` or `right`. Defaults to `left`.
    */
@@ -503,28 +503,28 @@ interface InfinityMarkerProps extends SpacingProps {
   /**
    * The title used in every button shown in the bar. Defaults to `Side %s`.
    */
-  button_title?: string;
+  buttonTitle?: string;
   /**
    * The title used in the previous page button. Defaults to `Forrige side`.
    */
-  prev_title?: string;
+  prevTitle?: string;
   /**
    * The title used in the next page button. Defaults to `Neste side`.
    */
-  next_title?: string;
+  nextTitle?: string;
   /**
    * The title used in the dots. Relevant for screen readers. Defaults to `%s flere sider`.
    */
-  more_pages?: string;
+  morePages?: string;
   /**
    * Shown until new content is inserted in to the page. Defaults to `Laster nytt innhold`.
    */
-  is_loading_text?: string;
+  isLoadingText?: string;
   /**
-   * Used during infinity mode. If `use_load_button` is set to true, then a button is show on the bottom. If the `startup_page` is higher than 1. Defaults to `Vis mer innhold`.
+   * Used during infinity mode. If `useLoadButton` is set to true, then a button is show on the bottom. If the `startup_page` is higher than 1. Defaults to `Vis mer innhold`.
    * @deprecated use `loadButtonProps.text` instead
    */
-  load_button_text?: string;
+  loadButtonText?: string;
   /**
    * Used to set loadButton text and icon alignment. Accepts a function returning a ReactNode too, so you can replace the button with your own component.
    */

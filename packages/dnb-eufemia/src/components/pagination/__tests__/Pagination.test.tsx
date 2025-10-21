@@ -277,7 +277,7 @@ describe('Infinity scroller', () => {
   const props: PaginationProps = {
     page_count: 5,
     current_page: 3,
-    min_wait_time: 0,
+    minWaitTime: 0,
   }
 
   const PageItem = ({ children }) => (
@@ -423,7 +423,7 @@ describe('Infinity scroller', () => {
 
       return (
         <InfinityMarker
-          min_wait_time={0}
+          minWaitTime={0}
           current_page={currentPage}
           startup_count={2}
           on_startup={(e) => {
@@ -531,7 +531,7 @@ describe('Infinity scroller', () => {
       }, [])
 
       return (
-        <InfinityMarker min_wait_time={0} current_page={currentPage}>
+        <InfinityMarker minWaitTime={0} current_page={currentPage}>
           {items}
         </InfinityMarker>
       )
@@ -629,7 +629,7 @@ describe('Infinity scroller', () => {
       '.dnb-pagination__bar__skip button'
     )
 
-    expect(element.textContent).toContain(nb.prev_title)
+    expect(element.textContent).toContain(nb.prevTitle)
 
     rerender(
       <Provider locale="en-GB">
@@ -637,7 +637,7 @@ describe('Infinity scroller', () => {
       </Provider>
     )
 
-    expect(element.textContent).toContain(en.prev_title)
+    expect(element.textContent).toContain(en.prevTitle)
 
     rerender(
       <Provider locale="nb-NO">
@@ -645,7 +645,7 @@ describe('Infinity scroller', () => {
       </Provider>
     )
 
-    expect(element.textContent).toContain(nb.prev_title)
+    expect(element.textContent).toContain(nb.prevTitle)
   })
 
   it('should support spacing props', () => {
@@ -709,7 +709,7 @@ describe('Infinity scroller', () => {
 
       return (
         <InfinityMarker
-          min_wait_time={0}
+          minWaitTime={0}
           current_page={currentPage}
           on_startup={(e) => {
             action(e)
@@ -797,7 +797,7 @@ describe('Infinity scroller', () => {
         mode="infinity"
         {...props}
         on_startup={on_startup}
-        use_load_button
+        useLoadButton
         loadButton={{ text: 'Load please', iconPosition: 'right' }}
       />
     )
@@ -824,7 +824,7 @@ describe('Infinity scroller', () => {
         mode="infinity"
         {...props}
         on_startup={on_startup}
-        use_load_button
+        useLoadButton
         loadButton={() => (
           <button className="my-cool-button">The best load button</button>
         )}
@@ -859,7 +859,7 @@ describe('Pagination ARIA', () => {
         mode="infinity"
         page_count={5}
         current_page={3}
-        min_wait_time={0}
+        minWaitTime={0}
       />
     )
     await wait(1)

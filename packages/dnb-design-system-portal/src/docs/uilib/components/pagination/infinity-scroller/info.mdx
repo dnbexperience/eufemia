@@ -80,7 +80,7 @@ render(
 
 #### Infinity scroller method #3
 
-Using a `set_content_handler` handler.
+Using a `setContentHandler` handler.
 
 ```jsx
 import InfinityScroller from '@dnb/eufemia/components/pagination/InfinityScroller'
@@ -94,7 +94,7 @@ React.useEffect(() => {
 
 render(
   <InfinityScroller
-    set_content_handler={(fn) => (setContent = fn)}
+    setContentHandler={(fn) => (setContent = fn)}
     on_change={({ pageNumber }) => {
       setLocalPage(pageNumber)
     }}

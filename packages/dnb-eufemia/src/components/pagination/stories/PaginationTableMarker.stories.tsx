@@ -152,14 +152,14 @@ const InfinityPaginationTable = ({ tableItems, ...props }) => {
       </thead>
       <tbody>
         <InfinityMarker
-          marker_element="tr"
-          fallback_element={({ className, ...props }) => (
+          markerElement="tr"
+          fallbackElement={({ className, ...props }) => (
             <TableRow className={className}>
               <TableData colSpan={2} {...props} />
             </TableRow>
           )} // in order to show the injected "indicator" and "load button" in the middle of the orw
           {...props}
-          min_wait_time={0}
+          minWaitTime={0}
           startup_page={startupPage}
           startup_count={2}
           current_page={currentPage} // Mandatory

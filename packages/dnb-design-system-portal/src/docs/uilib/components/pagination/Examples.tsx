@@ -239,9 +239,9 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
       <tbody>
         <Pagination
           mode="infinity"
-          // use_load_button // disables infinity scroller, but will add a button to do so
-          marker_element="tr"
-          fallback_element={({ className, ...props }) => (
+          // useLoadButton // disables infinity scroller, but will add a button to do so
+          markerElement="tr"
+          fallbackElement={({ className, ...props }) => (
             <TableRow className={className}>
               <TableData colSpan={2} {...props} />
             </TableRow>

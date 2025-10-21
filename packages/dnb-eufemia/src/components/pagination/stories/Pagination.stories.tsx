@@ -172,7 +172,7 @@ export const PaginationSandbox = () => (
 
     <Box>
       <HeightLimit>
-        <InfinityPagination use_load_button startup_page={5}>
+        <InfinityPagination useLoadButton startup_page={5}>
           {(pageNumber, ref) => (
             <LargePage ref={ref} color="LightCoral">
               {pageNumber}
@@ -185,12 +185,12 @@ export const PaginationSandbox = () => (
     <Box>
       <HeightLimit>
         <InfinityPagination
-          indicator_element={() => (
+          indicatorElement={() => (
             <CustomIndicator>Loading ...</CustomIndicator>
           )}
           startup_page={3}
           page_count={10}
-          min_wait_time={0}
+          minWaitTime={0}
         >
           {(pageNumber, ref) => (
             <LargePage ref={ref} color="Indigo">
@@ -206,9 +206,9 @@ export const PaginationSandbox = () => (
         <Pagination
           mode="infinity"
           startup_count={2}
-          // parallel_load_count={1}
+          // parallelLoadCount={1}
           // page_count={10} // the last one we fill with "End"
-          min_wait_time={0}
+          minWaitTime={0}
           on_load={({ pageNumber, setContent, endInfinity }) => {
             console.log('on_load: ', pageNumber)
             if (pageNumber > 10) {
