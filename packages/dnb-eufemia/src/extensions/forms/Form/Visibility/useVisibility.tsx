@@ -45,8 +45,6 @@ export default function useVisibility(props?: Partial<Props>) {
         pathFalsy,
         pathTrue,
         pathFalse,
-        pathValue,
-        whenValue,
         inferData,
         filterData,
       }: Partial<Props> = propsRef.current
@@ -135,11 +133,6 @@ export default function useVisibility(props?: Partial<Props>) {
       }
 
       if (inferData && !inferData(data)) {
-        return false
-      }
-
-      // Deprecated can be removed in v11
-      if (pathValue && getValue(makeLocalPath(pathValue)) !== whenValue) {
         return false
       }
 
