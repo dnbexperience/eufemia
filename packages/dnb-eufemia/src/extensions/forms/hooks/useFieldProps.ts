@@ -12,7 +12,6 @@ import type { ValidateFunction } from 'ajv/dist/2020.js'
 import {
   ajvErrorsToOneFormError,
   errorChanged,
-  overwriteErrorMessagesWithGivenAjvKeys,
   extendErrorMessagesWithTranslationMessages,
   FormError,
   isZodSchema,
@@ -784,7 +783,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
     const extendedErrorMessages =
       extendErrorMessagesWithTranslationMessages(
-        overwriteErrorMessagesWithGivenAjvKeys(messages),
+        messages,
         translationRef.current
       )
 
