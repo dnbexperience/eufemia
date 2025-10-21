@@ -46,28 +46,19 @@ describe('Accordion component', () => {
   })
 
   it('has "onChange" event which will trigger on click', () => {
-    const my_event = jest.fn()
     const myEvent = jest.fn()
-    render(
-      <Accordion
-        {...props}
-        onChange={my_event}
-        onChange={myEvent}
-        expanded={false}
-      />
-    )
+    render(<Accordion {...props} onChange={myEvent} expanded={false} />)
 
     // first click
     fireEvent.click(document.querySelector('.dnb-accordion__header'))
-    expect(my_event).toHaveBeenCalled()
-    expect(my_event.mock.calls[0][0].expanded).toBe(true)
+
     expect(myEvent.mock.calls.length).toBe(1)
     expect(myEvent.mock.calls[0][0]).toHaveProperty('expanded')
     expect(myEvent.mock.calls[0][0].expanded).toBe(true)
 
     // second click
     fireEvent.click(document.querySelector('.dnb-accordion__header'))
-    expect(my_event.mock.calls[1][0].expanded).toBe(false)
+    expect(myEvent.mock.calls[1][0].expanded).toBe(false)
   })
 
   it('uses a p element when string content is given', () => {
@@ -234,12 +225,10 @@ describe('Accordion group component', () => {
   })
 
   it('has "onChange" event which will trigger on a button click', () => {
-    const my_event = jest.fn()
     const myEvent = jest.fn()
     render(
       <Accordion.Group
         id="group"
-        onChange={my_event}
         onChange={myEvent}
         value="second"
         data-prop="group-value"
@@ -262,21 +251,21 @@ describe('Accordion group component', () => {
     fireEvent.click(
       document.querySelector('#accordion-1 .dnb-accordion__header')
     )
-    expect(my_event).toHaveBeenCalled()
-    expect(my_event.mock.calls[0][0].id).toBe('accordion-1')
-    expect(my_event.mock.calls[0][0].expanded).toBe(true)
+    expect(myEvent).toHaveBeenCalled()
+    expect(myEvent.mock.calls[0][0].id).toBe('accordion-1')
+    expect(myEvent.mock.calls[0][0].expanded).toBe(true)
     expect(myEvent.mock.calls.length).toBe(1)
 
     fireEvent.click(
       document.querySelector('#accordion-2 .dnb-accordion__header')
     )
-    expect(my_event.mock.calls[1][0].id).toBe('accordion-2')
-    expect(my_event.mock.calls[1][0].expanded).toBe(true)
+    expect(myEvent.mock.calls[1][0].id).toBe('accordion-2')
+    expect(myEvent.mock.calls[1][0].expanded).toBe(true)
 
     fireEvent.click(
       document.querySelector('#accordion-1 .dnb-accordion__header')
     )
-    expect(my_event.mock.calls[2][0].expanded).toBe(true)
+    expect(myEvent.mock.calls[2][0].expanded).toBe(true)
   })
 
   it('should close all accordions inside a group with collapseAllHandleRef', () => {
