@@ -196,10 +196,10 @@ export default class PaginationProvider extends React.PureComponent {
 
   componentDidUpdate({ currentPage: current, internalContent: content }) {
     const { internalContent, currentPage } = this.props
-    const currentPage = parseFloat(currentPage)
-    if (currentPage !== current) {
-      this.setState({ currentPage })
-      this.updatePageContent(currentPage)
+    const usedCurrentPage = parseFloat(currentPage)
+    if (usedCurrentPage !== current) {
+      this.setState({ currentPage: usedCurrentPage })
+      this.updatePageContent(usedCurrentPage)
     } else if (internalContent !== content) {
       this.updatePageContent()
     }
