@@ -35,7 +35,7 @@ const nbNO = locales['nb-NO'].DrawerList
 
 const mockProps: AutocompleteAllProps = {
   id: 'autocomplete-id',
-  no_animation: true, // use no_animation so we don't need to wait
+  noAnimation: true, // use noAnimation so we don't need to wait
   skipPortal: true,
 }
 const props: AutocompleteAllProps = {
@@ -43,7 +43,7 @@ const props: AutocompleteAllProps = {
   mode: 'sync',
   value: 1,
   show_submit_button: true,
-  no_animation: true,
+  noAnimation: true,
   skipPortal: true,
 }
 
@@ -1928,7 +1928,7 @@ describe('Autocomplete component', () => {
     const { rerender } = render(
       <Autocomplete
         {...mockProps}
-        no_animation
+        noAnimation
         show_submit_button
         data={mockData}
         on_change={on_change}
@@ -1957,7 +1957,7 @@ describe('Autocomplete component', () => {
     rerender(
       <Autocomplete
         {...mockProps}
-        no_animation
+        noAnimation
         show_submit_button
         data={mockData}
         on_change={on_change}
@@ -1982,7 +1982,7 @@ describe('Autocomplete component', () => {
     rerender(
       <Autocomplete
         {...mockProps}
-        no_animation
+        noAnimation
         show_submit_button
         data={mockData}
         on_change={on_change}
@@ -2007,7 +2007,7 @@ describe('Autocomplete component', () => {
     rerender(
       <Autocomplete
         {...mockProps}
-        no_animation
+        noAnimation
         show_submit_button
         data={mockData}
         on_change={on_change}
@@ -2526,7 +2526,7 @@ describe('Autocomplete component', () => {
   })
 
   it('should have a button for screen readers to open options – regardless', () => {
-    render(<Autocomplete {...mockProps} data={mockData} no_animation />)
+    render(<Autocomplete {...mockProps} data={mockData} noAnimation />)
 
     const buttonElem = document
       .querySelector('.dnb-sr-only')
@@ -3389,7 +3389,7 @@ describe('Autocomplete component', () => {
             updateData(data)
           }}
           search_numbers
-          no_animation
+          noAnimation
         />
       )
     }
@@ -4126,7 +4126,7 @@ describe('Autocomplete component', () => {
     it('renders groups', async () => {
       render(
         <Autocomplete
-          no_animation={true}
+          noAnimation={true}
           data={dataProp}
           groups={groupsProp}
         />
@@ -4184,7 +4184,7 @@ describe('Autocomplete component', () => {
     it('uses default title for groups missing title', async () => {
       render(
         <Autocomplete
-          no_animation={true}
+          noAnimation={true}
           data={dataProp}
           groups={[undefined, undefined, 'Third']}
         />
@@ -4222,7 +4222,7 @@ describe('Autocomplete component', () => {
     it('adds group for items without group index', async () => {
       render(
         <Autocomplete
-          no_animation={true}
+          noAnimation={true}
           data={[...dataProp, { content: 'Item without groupIndex' }]}
           groups={groupsProp}
         />
@@ -4264,7 +4264,7 @@ describe('Autocomplete component', () => {
           groups={[undefined, 'One', 'Two']}
           data={searchData}
           show_submit_button
-          no_animation={true}
+          noAnimation={true}
         />
       )
 
@@ -4366,7 +4366,7 @@ describe('Autocomplete markup', () => {
       value: 2,
       opened: true,
       show_submit_button: true,
-      no_animation: true,
+      noAnimation: true,
       skipPortal: true,
     }
     const result = render(
