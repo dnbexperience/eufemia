@@ -87,7 +87,7 @@ export default function AccordionContent(props: AccordionContentProps) {
       expanded,
       prerender,
       prevent_rerender,
-      prevent_rerender_conditional,
+      preventRerenderConditional,
     } = context
 
     let content = children
@@ -105,7 +105,7 @@ export default function AccordionContent(props: AccordionContentProps) {
       }
 
       // update the cache if children is not the same anymore
-      if (prevent_rerender_conditional && cacheRef.current !== content) {
+      if (preventRerenderConditional && cacheRef.current !== content) {
         cacheRef.current = content
       }
 
