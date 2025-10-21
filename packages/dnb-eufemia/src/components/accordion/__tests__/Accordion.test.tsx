@@ -274,7 +274,7 @@ describe('Accordion group component', () => {
     render(
       <Accordion.Group
         expanded
-        allow_close_all
+        allowCloseAll
         collapseAllHandleRef={collapseAll}
       >
         <Accordion>
