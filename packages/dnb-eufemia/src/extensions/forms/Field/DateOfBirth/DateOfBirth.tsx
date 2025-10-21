@@ -346,7 +346,7 @@ function DateOfBirth(props: Props) {
         })
       )
 
-      return { value, title, search_content: [title, nr, value] }
+      return { value, title, searchContent: [title, nr, value] }
     })
   }, [locale])
 
