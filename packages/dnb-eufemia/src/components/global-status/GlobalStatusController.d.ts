@@ -2,7 +2,7 @@ import * as React from 'react';
 export interface GlobalStatusControllerProps
   extends React.HTMLProps<HTMLElement> {
   id?: string;
-  status_id?: string;
+  statusId?: string;
   remove_on_unmount?: boolean;
 }
 export default class GlobalStatusController extends React.Component<
@@ -14,7 +14,7 @@ export default class GlobalStatusController extends React.Component<
 }
 export interface GlobalStatusRemoveProps {
   id?: string;
-  status_id: string;
+  statusId: string;
 }
 export class GlobalStatusRemove extends React.Component<
   GlobalStatusRemoveProps,
@@ -33,5 +33,5 @@ export class GlobalStatusInterceptor extends React.Component<
 > {
   static defaultProps: object;
   render(): JSX.Element;
-  add: (props: { status_id: string; item?: GlobalStatusItem }) => void;
+  add: (props: { statusId: string; item?: GlobalStatusItem }) => void;
 }

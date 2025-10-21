@@ -42,9 +42,9 @@ export default class GlobalStatus extends React.PureComponent {
 
   static propTypes = {
     id: PropTypes.string,
-    status_id: PropTypes.string,
+    statusId: PropTypes.string,
     title: PropTypes.oneOfType([PropTypes.node, PropTypes.bool]),
-    default_title: PropTypes.string,
+    defaultTitle: PropTypes.string,
     text: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.func,
@@ -60,27 +60,24 @@ export default class GlobalStatus extends React.PureComponent {
       PropTypes.func,
       PropTypes.node,
     ]),
-    icon_size: PropTypes.string,
+    iconSize: PropTypes.string,
     state: PropTypes.oneOf(['error', 'info', 'warning', 'success']),
     show: PropTypes.oneOf(['auto', true, false, 'true', 'false']),
     autoscroll: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     autoclose: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    noAnimation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     delay: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    close_text: PropTypes.node,
-    hide_close_button: PropTypes.oneOfType([
+    closeText: PropTypes.node,
+    hideCloseButton: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool,
     ]),
-    omit_set_focus: PropTypes.oneOfType([
+    omitSetFocus: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    omitSetFocusOnUpdate: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool,
     ]),
-    omit_set_focus_on_update: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-    ]),
-    status_anchor_text: PropTypes.node,
+    statusAnchorText: PropTypes.node,
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
 
     ...spacingPropTypes,
@@ -101,24 +98,24 @@ export default class GlobalStatus extends React.PureComponent {
 
   static defaultProps = {
     id: 'main',
-    status_id: 'status-main',
+    statusId: 'status-main',
     title: null,
-    default_title: null,
+    defaultTitle: null,
     text: null,
     items: [],
     icon: 'error',
-    icon_size: 'medium',
+    iconSize: 'medium',
     state: 'error',
     show: 'auto',
     autoscroll: true,
     autoclose: true,
-    no_animation: false,
-    close_text: 'Lukk',
-    hide_close_button: false,
-    omit_set_focus: false,
-    omit_set_focus_on_update: true,
+    noAnimation: false,
+    closeText: 'Lukk',
+    hideCloseButton: false,
+    omitSetFocus: false,
+    omitSetFocusOnUpdate: true,
     delay: null,
-    status_anchor_text: null,
+    statusAnchorText: null,
     skeleton: null,
 
     className: null,
@@ -131,7 +128,7 @@ export default class GlobalStatus extends React.PureComponent {
     on_hide: null,
   }
 
-  static getIcon({ state, icon, icon_size }) {
+  static getIcon({ state, icon, iconSize }) {
     if (typeof icon === 'string') {
       let IconToLoad = icon
 
@@ -153,7 +150,7 @@ export default class GlobalStatus extends React.PureComponent {
       icon = (
         <Icon
           icon={<IconToLoad state={state} />}
-          size={icon_size}
+          size={iconSize}
           inheritColor={false}
         />
       )
@@ -316,14 +313,14 @@ export default class GlobalStatus extends React.PureComponent {
     ) {
       this.initialActiveElement = document.activeElement
     }
-    if (this._wrapperRef.current && !isTrue(this.props.omit_set_focus)) {
+    if (this._wrapperRef.current && !isTrue(this.props.omitSetFocus)) {
       this._wrapperRef.current.focus({ preventScroll: true })
     }
   }
 
   closeHandler = () => {
     this.provider.add({
-      status_id: 'internal-close',
+      statusId: 'internal-close',
       show: false,
     })
 
@@ -382,7 +379,7 @@ export default class GlobalStatus extends React.PureComponent {
     event.persist()
     const keyCode = keycode(event)
     if (
-      (item.item_id &&
+      (item.itemId &&
         typeof document !== 'undefined' &&
         typeof window !== 'undefined' &&
         keyCode === 'space') ||
@@ -392,7 +389,7 @@ export default class GlobalStatus extends React.PureComponent {
       event.preventDefault()
       try {
         // find the element
-        const element = document.getElementById(item.item_id)
+        const element = document.getElementById(item.itemId)
 
         if (!element) {
           return
@@ -435,7 +432,7 @@ export default class GlobalStatus extends React.PureComponent {
   }
 
   itemsRenderHandler =
-    ({ status_anchor_text, lang }) =>
+    ({ statusAnchorText, lang }) =>
     (item, i) => {
       const text = item?.text
         ? item.text
@@ -448,26 +445,26 @@ export default class GlobalStatus extends React.PureComponent {
       }
 
       const id =
-        item.id || item.item_id ? `${item.item_id}-${i}` : makeUniqueId()
+        item.id || item.itemId ? `${item.itemId}-${i}` : makeUniqueId()
 
-      let anchorText = status_anchor_text
+      let anchorText = statusAnchorText
 
-      if (React.isValidElement(item.status_anchor_label)) {
+      if (React.isValidElement(item.statusAnchorLabel)) {
         anchorText = (
           <>
-            {typeof status_anchor_text === 'string'
-              ? status_anchor_text.replace('%s', '').trim()
-              : status_anchor_text}{' '}
-            {item.status_anchor_label}
+            {typeof statusAnchorText === 'string'
+              ? statusAnchorText.replace('%s', '').trim()
+              : statusAnchorText}{' '}
+            {item.statusAnchorLabel}
           </>
         )
       } else {
-        anchorText = String(item.status_anchor_text || status_anchor_text)
-          .replace('%s', item.status_anchor_label || '')
+        anchorText = String(item.statusAnchorText || statusAnchorText)
+          .replace('%s', item.statusAnchorLabel || '')
           .replace(/[: ]$/g, '')
       }
 
-      const useAutolink = item.item_id && isTrue(item.status_anchor_url)
+      const useAutolink = item.itemId && isTrue(item.statusAnchorUrl)
 
       return (
         <li key={i}>
@@ -475,14 +472,12 @@ export default class GlobalStatus extends React.PureComponent {
             {text}
           </p>
 
-          {item && (useAutolink || item.status_anchor_url) && (
+          {item && (useAutolink || item.statusAnchorUrl) && (
             <a
               className="dnb-anchor"
               aria-describedby={id}
               lang={lang}
-              href={
-                useAutolink ? `#${item.item_id}` : item.status_anchor_url
-              }
+              href={useAutolink ? `#${item.itemId}` : item.statusAnchorUrl}
               onClick={(e) => this.gotoItem(e, item)}
               onKeyDown={(e) => this.gotoItem(e, item)}
             >
@@ -517,7 +512,7 @@ export default class GlobalStatus extends React.PureComponent {
         break
 
       case 'adjusted':
-        if (!isTrue(this.props.omit_set_focus_on_update)) {
+        if (!isTrue(this.props.omitSetFocusOnUpdate)) {
           this.setFocus()
         }
 
@@ -571,13 +566,13 @@ export default class GlobalStatus extends React.PureComponent {
 
     const {
       title,
-      default_title, // eslint-disable-line
+      defaultTitle, // eslint-disable-line
       state: rawState,
       className,
-      no_animation,
-      hide_close_button,
-      close_text,
-      status_anchor_text,
+      noAnimation,
+      hideCloseButton,
+      closeText,
+      statusAnchorText,
       skeleton,
 
       id,
@@ -588,8 +583,11 @@ export default class GlobalStatus extends React.PureComponent {
       delay,
       autoscroll, // eslint-disable-line
       text, // eslint-disable-line
+      omitSetFocus, // eslint-disable-line
+      omitSetFocusOnUpdate, // eslint-disable-line
+      statusId, // eslint-disable-line
       icon,
-      icon_size,
+      iconSize,
       children, // eslint-disable-line
 
       ...attributes
@@ -614,12 +612,12 @@ export default class GlobalStatus extends React.PureComponent {
     const iconToRender = GlobalStatus.getIcon({
       state,
       icon: icon || fallbackProps.icon,
-      icon_size: icon_size || fallbackProps.icon_size,
+      iconSize: iconSize || fallbackProps.iconSize,
       theme: this.context?.theme?.name || 'ui',
     })
     const titleToRender =
-      title || fallbackProps.title || fallbackProps.default_title
-    const noAnimation = isTrue(no_animation)
+      title || fallbackProps.title || fallbackProps.defaultTitle
+    const noAnimationUsed = isTrue(noAnimation)
     const itemsToRender = props.items || []
     const contentToRender = props.text || props.children
 
@@ -639,7 +637,7 @@ export default class GlobalStatus extends React.PureComponent {
     const renderedItems = itemsToRender.length > 0 && (
       <ul className="dnb-ul">
         {itemsToRender.map(
-          this.itemsRenderHandler({ status_anchor_text, lang })
+          this.itemsRenderHandler({ statusAnchorText, lang })
         )}
       </ul>
     )
@@ -659,10 +657,10 @@ export default class GlobalStatus extends React.PureComponent {
                 {iconToRender}
               </span>
               {titleToRender}
-              {!isTrue(hide_close_button) && (
+              {!isTrue(hideCloseButton) && (
                 <Button
-                  text={close_text}
-                  title={close_text}
+                  text={closeText}
+                  title={closeText}
                   variant={state === 'success' ? 'secondary' : 'tertiary'}
                   className="dnb-global-status__close-button"
                   icon="close"
@@ -703,7 +701,7 @@ export default class GlobalStatus extends React.PureComponent {
             duration={800}
             delay={delay}
             open={isActive}
-            animate={!noAnimation}
+            animate={!noAnimationUsed}
             onAnimationEnd={this.onAnimationEnd}
             onAnimationStart={this.onAnimationStart}
             onOpen={this.onOpen}
