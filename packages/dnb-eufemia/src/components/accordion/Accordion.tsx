@@ -128,13 +128,13 @@ export type AccordionProps = Omit<React.HTMLProps<HTMLElement>, 'ref'> &
      */
     element?: React.ReactNode
     /**
-     * If set to `true`, level 2 (h2) will be used. You can provide your own HTML heading (`h3`), or provide a `heading_level` property.
+     * If set to `true`, level 2 (h2) will be used. You can provide your own HTML heading (`h3`), or provide a `headingLevel` property.
      */
     heading?: AccordionHeading
     /**
      * If `heading` is set to `true`, you can provide a numeric value to define a different heading level. Defaults to `2`.
      */
-    heading_level?: HeadingLevel
+    headingLevel?: HeadingLevel
     /**
      * Will replace the `chevron` icon. The icon will still rotate (by CSS). You can use an object to use two different icons, one for the closed state and one for the expanded state `{ closed, expanded }`.
      */
