@@ -129,7 +129,7 @@ export const AccordionProviderGroupProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
-  allow_close_all: {
+  allowCloseAll: {
     doc: 'If set to `true`, the group of accordions will allow all to close.',
     type: 'boolean',
     status: 'optional',
@@ -139,7 +139,7 @@ export const AccordionProviderGroupProperties: PropertiesTableProps = {
     type: ['single', 'multiple'],
     status: 'optional',
   },
-  expanded_id: {
+  expandedId: {
     doc: 'Define an `id` of a nested accordion that will get expanded.',
     type: 'string',
     status: 'optional',

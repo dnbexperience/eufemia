@@ -225,12 +225,12 @@ function Accordion({
       setExpanded(props.expanded)
     }
 
-    if (context?.expanded_id && context.expanded_id === props.id) {
+    if (context?.expandedId && context.expandedId === props.id) {
       setExpanded(true)
     }
   }, [
     context.flushRememberedState,
-    context.expanded_id,
+    context.expandedId,
     props.expanded,
     props.id,
     store,
@@ -437,7 +437,7 @@ function Accordion({
 }
 
 export type GroupProps = AccordionProps & {
-  allow_close_all?: boolean
+  allowCloseAll?: boolean
   /**
    * Determines how many accordions can be expanded at once.
    * Default: `single`
@@ -448,7 +448,7 @@ export type GroupProps = AccordionProps & {
    *
    * Default: `undefined`
    */
-  expanded_id?: string
+  expandedId?: string
   collapseAllHandleRef?: React.MutableRefObject<() => void>
 }
 
@@ -469,7 +469,7 @@ const Group = ({ expandBehavior = 'single', ...props }: GroupProps) => {
 
   const store = useMemo(() => new Store({ group }), [group])
 
-  // Set stored expanded_id on mount
+  // Set stored expandedId on mount
   useEffect(() => {
     const storedData = store.getData()
     const currentIDs = instanceIDs?.current
@@ -521,7 +521,7 @@ const Group = ({ expandBehavior = 'single', ...props }: GroupProps) => {
       {...props}
       group={group}
       expandBehavior={expandBehavior}
-      expanded_id={expandedId || props.expanded_id}
+      expandedId={expandedId || props.expandedId}
     />
   )
 }

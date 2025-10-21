@@ -12,7 +12,7 @@ type AccordionGroupContextProps = {
   expandedSsr?: boolean
   rememberState?: boolean
   flushRememberedState?: boolean
-  expanded_id?: string
+  expandedId?: string
   onChange?: (...params: unknown[]) => void
   onInit?: (...args: any[]) => any
   collapseAccordionCallbacks?: React.MutableRefObject<(() => void)[]>
