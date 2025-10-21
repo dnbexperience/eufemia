@@ -49,7 +49,7 @@ export const HeadingProperties: PropertiesTableProps = {
     type: ['boolean', 'number'],
     status: 'optional',
   },
-  skip_correction: {
+  skipCorrection: {
     doc: 'If set to `true`, the heading will not be corrected and warnings will not be shown. Warnings do not show up in **production builds** else either',
     type: 'boolean',
     status: 'optional',
@@ -59,7 +59,7 @@ export const HeadingProperties: PropertiesTableProps = {
     type: ['boolean', 'function'],
     status: 'optional',
   },
-  debug_counter: {
+  debugCounter: {
     doc: 'If set to `true`, the content will have both a prefix and a JSON log attached to both headings and level contexts.',
     type: ['boolean', 'function'],
     status: 'optional',
