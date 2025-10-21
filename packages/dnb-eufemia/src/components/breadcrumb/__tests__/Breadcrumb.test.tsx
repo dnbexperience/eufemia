@@ -69,30 +69,6 @@ describe('Breadcrumb', () => {
     expect(screen.queryByTestId(dataTestId)).toHaveClass('dnb-anchor')
   })
 
-  // TODO – can be removed in v11 when we deprecate passing down props to dnb-breadcrumb__item__span
-  it('forwards rest props like data-testid, etc, to the breadcrumb item span when not interactive', () => {
-    const dataTestId = 'my-test-id'
-    render(
-      <Breadcrumb
-        data={[
-          {
-            text: 'Page 2',
-            'aria-label': 'Label',
-            'data-testid': dataTestId,
-          },
-        ]}
-      />
-    )
-
-    expect(screen.queryByTestId(dataTestId)).toBeInTheDocument()
-    expect(screen.queryByTestId(dataTestId)).toHaveClass(
-      'dnb-breadcrumb__item__span'
-    )
-    expect(
-      document.querySelector('.dnb-breadcrumb__item__span')
-    ).toHaveAttribute('aria-label', 'Label')
-  })
-
   it('renders a breadcrumb with multiple items by children', () => {
     render(
       <Breadcrumb>
@@ -477,26 +453,6 @@ describe('Breadcrumb', () => {
       expect(screen.queryByTestId(dataTestId)).toBeInTheDocument()
 
       expect(screen.queryByTestId(dataTestId)).toHaveClass('dnb-anchor')
-    })
-
-    // TODO – can be removed in v11 when we deprecate passing down props to dnb-breadcrumb__item__span
-    it('forwards rest props like data-testid, etc, to the breadcrumb item span when not interactive', () => {
-      const dataTestId = 'my-test-id'
-      render(
-        <BreadcrumbItem
-          text="Home"
-          data-testid={dataTestId}
-          role="button"
-        />
-      )
-
-      expect(screen.queryByTestId(dataTestId)).toBeInTheDocument()
-      expect(screen.queryByTestId(dataTestId)).toHaveClass(
-        'dnb-breadcrumb__item__span'
-      )
-      expect(
-        document.querySelector('.dnb-breadcrumb__item__span')
-      ).not.toHaveAttribute('role')
     })
 
     describe('will set animation style', () => {
