@@ -586,8 +586,8 @@ function makeObject(country: CountryType, lang: string) {
   const code = formatCountryCode(country.cdc)
   return {
     selectedKey: code,
-    selected_value: `${country.iso} (${code})`,
-    search_content: [code, name],
+    selectedValue: `${country.iso} (${code})`,
+    searchContent: [code, name],
     content: [name, code],
     country,
   }
