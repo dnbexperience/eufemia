@@ -118,12 +118,12 @@ export default {
       clear_button_title: 'Clear value',
     },
     Pagination: {
-      button_title: 'Page %s',
-      next_title: 'Next page',
-      prev_title: 'Previous page',
-      more_pages: '%s more pages',
-      is_loading_text: 'Loading new content',
-      load_button_text: 'Show more content',
+      buttonTitle: 'Page %s',
+      nextTitle: 'Next page',
+      prevTitle: 'Previous page',
+      morePages: '%s more pages',
+      isLoadingText: 'Loading new content',
+      loadButtonText: 'Show more content',
     },
     StepIndicator: {
       overview_title: 'Steps Overview',
