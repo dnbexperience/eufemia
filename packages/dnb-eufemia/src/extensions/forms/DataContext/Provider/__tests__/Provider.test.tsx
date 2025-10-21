@@ -448,7 +448,6 @@ describe('DataContext.Provider', () => {
           props: expect.objectContaining({}),
           data: { bar: 'bar', foo: 'Include this value' },
           error: undefined,
-          internal: { error: undefined },
         })
         expect(barHandler).toHaveBeenLastCalledWith({
           path: '/bar',
@@ -457,7 +456,6 @@ describe('DataContext.Provider', () => {
           props: expect.objectContaining({}),
           data: { bar: 'bar', foo: 'Include this value' },
           error: undefined,
-          internal: { error: undefined },
         })
 
         rerender(
@@ -495,7 +493,6 @@ describe('DataContext.Provider', () => {
           props: expect.objectContaining({}),
           data: { bar: 'bar value', foo: 'Skip this value' },
           error: undefined,
-          internal: { error: undefined },
         })
         expect(barHandler).toHaveBeenLastCalledWith({
           path: '/bar',
@@ -505,7 +502,6 @@ describe('DataContext.Provider', () => {
           props: expect.objectContaining({}),
           data: { bar: 'bar value', foo: 'Skip this value' },
           error: undefined,
-          internal: { error: undefined },
         })
 
         expect(filteredData).toEqual({ bar: 'bar value' })
@@ -559,9 +555,6 @@ describe('DataContext.Provider', () => {
             value: 'Include this value',
           }),
           error: undefined,
-          internal: {
-            error: undefined,
-          },
         })
         expect(filterDataHandler).toHaveBeenNthCalledWith(2, {
           path: '/bar',
@@ -576,9 +569,6 @@ describe('DataContext.Provider', () => {
             value: 'bar',
           }),
           error: undefined,
-          internal: {
-            error: undefined,
-          },
         })
 
         rerender(
@@ -619,9 +609,6 @@ describe('DataContext.Provider', () => {
             value: 'Skip this value',
           }),
           error: undefined,
-          internal: {
-            error: undefined,
-          },
         })
         expect(filterDataHandler).toHaveBeenNthCalledWith(4, {
           path: '/bar',
@@ -636,9 +623,6 @@ describe('DataContext.Provider', () => {
             value: 'bar value',
           }),
           error: undefined,
-          internal: {
-            error: undefined,
-          },
         })
 
         expect(filteredData).toEqual({ bar: 'bar value' })
@@ -723,9 +707,6 @@ describe('DataContext.Provider', () => {
             value: 'Include this value',
           }),
           error: undefined,
-          internal: {
-            error: undefined,
-          },
         })
         expect(filterDataHandler).toHaveBeenNthCalledWith(2, {
           path: '/_bar',
@@ -737,9 +718,6 @@ describe('DataContext.Provider', () => {
             value: 'Exclude this value',
           }),
           error: undefined,
-          internal: {
-            error: undefined,
-          },
         })
         expect(filterDataHandler).toHaveBeenNthCalledWith(3, {
           path: '/nested/_baz',
@@ -749,9 +727,6 @@ describe('DataContext.Provider', () => {
           data,
           props: {},
           error: undefined,
-          internal: {
-            error: undefined,
-          },
         })
         expect(filterDataHandler).toHaveBeenNthCalledWith(4, {
           path: '/nested/baz',
@@ -761,9 +736,6 @@ describe('DataContext.Provider', () => {
           data,
           props: {},
           error: undefined,
-          internal: {
-            error: undefined,
-          },
         })
         expect(filterDataHandler).toHaveBeenNthCalledWith(5, {
           path: '/_nested/baz',
@@ -773,9 +745,6 @@ describe('DataContext.Provider', () => {
           data,
           props: {},
           error: undefined,
-          internal: {
-            error: undefined,
-          },
         })
       })
 
@@ -3308,9 +3277,6 @@ describe('DataContext.Provider', () => {
               foo: 'foo',
             },
             error: new Error(nb.Field.errorRequired),
-            internal: {
-              error: new Error(nb.Field.errorRequired),
-            },
           },
         ])
 
@@ -3339,9 +3305,6 @@ describe('DataContext.Provider', () => {
               bar: undefined,
             },
             error: new Error(nb.Field.errorRequired),
-            internal: {
-              error: new Error(nb.Field.errorRequired),
-            },
           },
           {
             path: '/foo',
@@ -3355,9 +3318,6 @@ describe('DataContext.Provider', () => {
               foo: undefined,
             },
             error: new Error(nb.Field.errorRequired),
-            internal: {
-              error: new Error(nb.Field.errorRequired),
-            },
           },
         ])
 
@@ -3384,9 +3344,6 @@ describe('DataContext.Provider', () => {
               foo: 'foo',
             },
             error: new Error(nb.Field.errorRequired),
-            internal: {
-              error: new Error(nb.Field.errorRequired),
-            },
           },
         ])
       })
@@ -4001,9 +3958,6 @@ describe('DataContext.Provider', () => {
       props: expect.objectContaining({
         disabled: true,
       }),
-      internal: {
-        error: undefined,
-      },
     })
     expect(filteredData).toEqual({})
 
@@ -4032,9 +3986,6 @@ describe('DataContext.Provider', () => {
       props: expect.objectContaining({
         disabled: false,
       }),
-      internal: {
-        error: undefined,
-      },
     })
     expect(filteredData).toEqual({
       myField: 'bar',
@@ -4778,9 +4729,6 @@ describe('DataContext.Provider', () => {
         props: expect.objectContaining({
           disabled: true,
         }),
-        internal: {
-          error: undefined,
-        },
       })
       expect(filteredData).toEqual({})
 
@@ -4822,9 +4770,6 @@ describe('DataContext.Provider', () => {
         props: expect.objectContaining({
           disabled: false,
         }),
-        internal: {
-          error: undefined,
-        },
       })
       expect(filteredData).toEqual({
         myField: 'bar',
@@ -4852,9 +4797,6 @@ describe('DataContext.Provider', () => {
         props: expect.objectContaining({
           disabled: true,
         }),
-        internal: {
-          error: undefined,
-        },
       })
       expect(filteredData).toEqual({ myField: 'bar' })
     })
