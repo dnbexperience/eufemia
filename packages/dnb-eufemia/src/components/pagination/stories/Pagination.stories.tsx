@@ -205,7 +205,7 @@ export const PaginationSandbox = () => (
       <HeightLimit>
         <Pagination
           mode="infinity"
-          startup_count={2}
+          startupCount={2}
           // parallelLoadCount={1}
           // page_count={10} // the last one we fill with "End"
           minWaitTime={0}

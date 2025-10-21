@@ -66,7 +66,7 @@ export interface PaginationProps
   /**
    * defines how many `infinity` pages should be loaded / shown on the first render. Defaults to `1`.
    */
-  startup_count?: PaginationStartupCount;
+  startupCount?: PaginationStartupCount;
   /**
    * defines how many `infinity` pages should be loaded / shown once the user scrolls down. Defaults to `1`.
    */
@@ -247,7 +247,7 @@ interface PaginationInstanceProps extends SpacingProps {
   /**
    * Defines how many `infinity` pages should be loaded / shown on the first render. Defaults to `1`.
    */
-  startup_count?: PaginationInstanceStartupCount;
+  startupCount?: PaginationInstanceStartupCount;
   /**
    * Defines how many `infinity` pages should be loaded / shown once the user scrolls down. Defaults to `1`.
    */
@@ -430,7 +430,7 @@ interface InfinityMarkerProps extends SpacingProps {
   /**
    * Defines how many `infinity` pages should be loaded / shown on the first render. Defaults to `1`.
    */
-  startup_count?: InfinityMarkerStartupCount;
+  startupCount?: InfinityMarkerStartupCount;
   /**
    * Defines how many `infinity` pages should be loaded / shown once the user scrolls down. Defaults to `1`.
    */

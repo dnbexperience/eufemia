@@ -45,15 +45,15 @@ export default class InfinityScroller extends React.PureComponent {
   }
 
   startup = () => {
-    const { startupPage, startup_count } = this.context.pagination
-    const startupCount = parseFloat(startup_count)
+    const { startupPage, startupCount } = this.context.pagination
+    const usedStartupCount = parseFloat(startupCount)
 
     let newPageNo, skipObserver, callStartupEvent, preventWaitForDelay
-    for (let i = 0; i < startupCount; ++i) {
+    for (let i = 0; i < usedStartupCount; ++i) {
       newPageNo = startupPage + i
-      skipObserver = newPageNo < startupCount
+      skipObserver = newPageNo < usedStartupCount
       callStartupEvent = i === 0
-      preventWaitForDelay = i <= startupCount - 1
+      preventWaitForDelay = i <= usedStartupCount - 1
 
       // NB: Looks like we have to do more work here to use a waitBuffer
       this.getNewContent(

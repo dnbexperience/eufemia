@@ -36,7 +36,7 @@ export const PaginationProperties: PropertiesTableProps = {
     type: ['number', 'string'],
     status: 'optional',
   },
-  startup_count: {
+  startupCount: {
     doc: 'defines how many `infinity` pages should be loaded / shown on the first render. Defaults to `1`.',
     type: ['number', 'string'],
     status: 'optional',

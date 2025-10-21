@@ -114,7 +114,7 @@ export default class PaginationProvider extends React.PureComponent {
       }
       if (typeof state.upperPage === 'undefined') {
         state.upperPage =
-          state.startupPage + (parseFloat(props.startup_count) || 1) - 1 ||
+          state.startupPage + (parseFloat(props.startupCount) || 1) - 1 ||
           1
       }
     }
@@ -268,7 +268,7 @@ export default class PaginationProvider extends React.PureComponent {
   // like resetContentHandler in DerivedState
   resetInfinity = (pageNumber = this.state.startupPage) => {
     const lowerPage = pageNumber
-    const upperPage = pageNumber + parseFloat(this.props.startup_count) - 1
+    const upperPage = pageNumber + parseFloat(this.props.startupCount) - 1
     const currentPage = pageNumber
 
     this.setState({

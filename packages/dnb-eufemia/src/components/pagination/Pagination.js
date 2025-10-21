@@ -27,7 +27,7 @@ const paginationPropTypes = {
   startup_page: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   current_page: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   page_count: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  startup_count: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  startupCount: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   parallelLoadCount: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
@@ -131,7 +131,7 @@ const paginationDefaultProps = {
   loadButtonText: null,
   loadButton: null,
   barSpace: null,
-  startup_count: 1,
+  startupCount: 1,
   parallelLoadCount: 1,
   placeMarkerBeforeContent: false,
   minWaitTime: 400,

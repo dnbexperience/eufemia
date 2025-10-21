@@ -362,7 +362,7 @@ describe('Infinity scroller', () => {
     expect(on_end).toHaveBeenCalledTimes(1)
   })
 
-  it('should handle startup_count properly', async () => {
+  it('should handle startupCount properly', async () => {
     let resetInfinityHandler
 
     const on_startup = jest.fn()
@@ -425,7 +425,7 @@ describe('Infinity scroller', () => {
         <InfinityMarker
           minWaitTime={0}
           current_page={currentPage}
-          startup_count={2}
+          startupCount={2}
           on_startup={(e) => {
             action(e)
             on_startup(e)

@@ -161,7 +161,7 @@ const InfinityPaginationTable = ({ tableItems, ...props }) => {
           {...props}
           minWaitTime={0}
           startup_page={startupPage}
-          startup_count={2}
+          startupCount={2}
           current_page={currentPage} // Mandatory
           on_load={({ pageNumber }) => {
             console.log('on_load: with page', pageNumber)
