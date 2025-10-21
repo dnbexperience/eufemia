@@ -66,13 +66,13 @@ export const AccordionProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  prevent_rerender: {
+  preventRerender: {
     doc: "If set to `true` the accordion component will not re-render its content – can be useful for components you don't have control of storing the temporary state during an interaction.",
     type: 'boolean',
     status: 'optional',
   },
   preventRerenderConditional: {
-    doc: 'Use this prop together with `prevent_rerender` – and if it is set to `true`, the accordion component will re-render if the children are a new React element and do not match the previous one anymore.',
+    doc: 'Use this prop together with `preventRerender` – and if it is set to `true`, the accordion component will re-render if the children are a new React element and do not match the previous one anymore.',
     type: 'boolean',
     status: 'optional',
   },
