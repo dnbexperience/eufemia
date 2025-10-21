@@ -60,8 +60,8 @@ export class GlobalStatusProviderItem {
     const newProps = { ...props }
 
     // make sure we have a status id
-    if (!newProps.status_id) {
-      newProps.status_id = makeUniqueId()
+    if (!newProps.statusId) {
+      newProps.statusId = makeUniqueId()
     }
 
     // also, set show to true
@@ -77,7 +77,7 @@ export class GlobalStatusProviderItem {
 
     // replace the props if exists
     const stackIndex = this.stack.findIndex(
-      (cur) => cur.status_id === newProps.status_id
+      (cur) => cur.statusId === newProps.statusId
     )
     if (stackIndex > -1) {
       this.stack[stackIndex] = newProps
@@ -97,22 +97,20 @@ export class GlobalStatusProviderItem {
     return globalStatus
   }
 
-  get(status_id) {
-    return this.stack.find((cur) => cur.status_id === status_id)
+  get(statusId) {
+    return this.stack.find((cur) => cur.statusId === statusId)
   }
 
-  update(status_id, newProps, opts = {}) {
-    const item = this.get(status_id)
+  update(statusId, newProps, opts = {}) {
+    const item = this.get(statusId)
     if (!item) {
       this.add(newProps, { preventRerender: true })
     } else {
       this.stack = this.stack.map((cur, i, arr) => {
-        if (
-          status_id ? cur.status_id === status_id : i === arr.length - 1
-        ) {
-          // if (!status_id) {
+        if (statusId ? cur.statusId === statusId : i === arr.length - 1) {
+          // if (!statusId) {
           //   // newProps = { ...newProps }
-          //   delete newProps.status_id
+          //   delete newProps.statusId
           // }
           return { ...cur, ...newProps }
         }
@@ -121,7 +119,7 @@ export class GlobalStatusProviderItem {
       })
     }
 
-    this.restack(status_id)
+    this.restack(statusId)
 
     const globalStatus = GlobalStatusProvider.combineMessages(this.stack)
 
@@ -133,22 +131,22 @@ export class GlobalStatusProviderItem {
     }
   }
 
-  restack(status_id) {
-    const item = this.get(status_id)
+  restack(statusId) {
+    const item = this.get(statusId)
 
     // re-stack,so the new one is the latest
     if (item) {
       this.stack = this.stack.filter((cur) => {
-        return cur.status_id !== status_id
+        return cur.statusId !== statusId
       })
       this.stack.push(item)
     }
   }
 
-  remove(status_id, opts = {}) {
-    if (status_id) {
+  remove(statusId, opts = {}) {
+    if (statusId) {
       this.stack = this.stack.filter((cur) => {
-        return cur.status_id !== status_id
+        return cur.statusId !== statusId
       })
       const globalStatus = GlobalStatusProvider.combineMessages(this.stack)
 
@@ -247,14 +245,14 @@ class GlobalStatusProvider {
     }
   }
 
-  static prepareItemWithStatusId(item, status_id = null) {
+  static prepareItemWithStatusId(item, statusId = null) {
     if (typeof item === 'string') {
       item = { text: item }
     }
 
     if (!item.item_id) {
-      if (status_id && status_id !== 'status-main') {
-        item.item_id = status_id
+      if (statusId && statusId !== 'status-main') {
+        item.item_id = statusId
       } else {
         if (item?.text) {
           item.item_id = slugify(convertJsxToString(item.text))

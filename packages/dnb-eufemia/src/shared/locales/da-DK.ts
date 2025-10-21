@@ -53,8 +53,8 @@ export default {
     },
     GlobalStatus: {
       default_title: 'Der er opstået en fejl',
-      close_text: 'Luk',
-      status_anchor_text: 'Gå til %s',
+      closeText: 'Luk',
+      statusAnchorText: 'Gå til %s',
     },
     GlobalError: {
       404: {

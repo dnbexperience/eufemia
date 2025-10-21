@@ -54,8 +54,8 @@ export default {
     },
     GlobalStatus: {
       default_title: 'An error has occurred',
-      close_text: 'Close',
-      status_anchor_text: 'Go to %s',
+      closeText: 'Close',
+      statusAnchorText: 'Go to %s',
     },
     GlobalError: {
       404: {

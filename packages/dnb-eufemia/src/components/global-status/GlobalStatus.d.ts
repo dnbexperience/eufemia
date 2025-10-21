@@ -30,7 +30,7 @@ export interface GlobalStatusProps
    * the main ID. Defaults to `main`.
    */
   id?: string;
-  status_id?: string;
+  statusId?: string;
   /**
    * the title appears as a part of the status content. Defaults to `En feil har skjedd`.
    */
@@ -51,7 +51,7 @@ export interface GlobalStatusProps
   /**
    * the icon size of the title icon shows. Defaults to `medium`.
    */
-  icon_size?: IconSize;
+  iconSize?: IconSize;
   /**
    * defines the visual appearance of the status. There are four main statuses `error`, `warning`, `info` and `success`. The default status is `error`.
    */
@@ -71,7 +71,7 @@ export interface GlobalStatusProps
   /**
    * set to `true` to disable the show/hide/slide/fade/grow/shrink animation. Defaults to `false`.
    */
-  no_animation?: boolean;
+  noAnimation?: boolean;
   /**
    * defines the delay on how long the automated visibility should wait before it appears to the user. Defaults to `200ms`.
    */
@@ -79,23 +79,23 @@ export interface GlobalStatusProps
   /**
    * text of the close button. Defaults to `Lukk`.
    */
-  close_text?: React.ReactNode;
+  closeText?: React.ReactNode;
   /**
    * set to `true` if the close button should be hidden for the user. Defaults to `false`.
    */
-  hide_close_button?: boolean;
+  hideCloseButton?: boolean;
   /**
-   * set to `true` to omit setting the focus during visibility. Defaults to `false`. Additionally, there is `omit_set_focus_on_update` which is set to `true` by default.
+   * set to `true` to omit setting the focus during visibility. Defaults to `false`. Additionally, there is `omitSetFocusOnUpdate` which is set to `true` by default.
    */
-  omit_set_focus?: boolean;
+  omitSetFocus?: boolean;
   /**
    * set to `true` to omit setting the focus during update. Defaults to `true`.
    */
-  omit_set_focus_on_update?: boolean;
+  omitSetFocusOnUpdate?: boolean;
   /**
-   * defines the anchor text showing up after every item, in case there is a `status_id` defined. Defaults to `Gå til %s`. The `%s` represents the optional and internal handled label addition.
+   * defines the anchor text showing up after every item, in case there is a `statusId` defined. Defaults to `Gå til %s`. The `%s` represents the optional and internal handled label addition.
    */
-  status_anchor_text?: React.ReactNode;
+  statusAnchorText?: React.ReactNode;
   /**
    * If set to `true`, an overlaying skeleton with animation will be shown.
    */
@@ -117,7 +117,7 @@ export type GlobalStatusAddProps = {
    * the main ID. Defaults to `main`.
    */
   id: string;
-  status_id: GlobalStatusStatusId;
+  statusId: GlobalStatusStatusId;
   /**
    * the title appears as a part of the status content. Defaults to `En feil har skjedd`.
    */
@@ -131,7 +131,7 @@ export type GlobalStatusAddProps = {
    * the items (list items) appear as a part of the status content. you can both use an JSON array, or a vanilla array with a string or an object content. See **Item Object** example below.
    */
   items?: GlobalStatusItem[];
-  on_close: ({ status_id }: { status_id: GlobalStatusStatusId }) => void;
+  on_close: ({ statusId }: { statusId: GlobalStatusStatusId }) => void;
 };
 export type GlobalStatusUpdateProps = {
   /**
@@ -148,7 +148,7 @@ export type GlobalStatusRemoveProps = {
    * the main ID. Defaults to `main`.
    */
   id: string;
-  status_id: GlobalStatusStatusId;
+  statusId: GlobalStatusStatusId;
   buffer_delay?: number;
 };
 export type GlobalStatusInterceptorProps = {
@@ -164,7 +164,7 @@ export type GlobalStatusInterceptorProps = {
    * the text appears as the status content. Besides plain text, you can send in a React component as well. Defaults to `null`.
    */
   text: string;
-  status_id: GlobalStatusStatusId;
+  statusId: GlobalStatusStatusId;
   /**
    * set to `true` or `false` to manually make the global status visible. Defaults to `true`.
    */
