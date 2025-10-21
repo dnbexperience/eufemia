@@ -29,7 +29,7 @@ function SubHeading({ level, ...props }: Props) {
           className
         )}
         level={level || 3}
-        skip_correction
+        skipCorrection
         size="medium"
         {...rest}
       >
