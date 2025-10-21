@@ -213,7 +213,7 @@ const DropdownStory = () => {
             size="small"
             skipPortal
             opened={opened}
-            no_animation
+            noAnimation
             direction={direction}
             align_dropdown={align_dropdown}
             icon_position={icon_position}
@@ -224,7 +224,7 @@ const DropdownStory = () => {
           <Dropdown
             size="small"
             opened={opened}
-            // no_animation
+            // noAnimation
             direction={direction}
             align_dropdown={align_dropdown}
             icon_position={icon_position}
@@ -237,7 +237,7 @@ const DropdownStory = () => {
           <Dropdown
             skipPortal
             opened={opened}
-            no_animation
+            noAnimation
             direction={direction}
             align_dropdown={align_dropdown}
             icon_position={icon_position}
@@ -247,7 +247,7 @@ const DropdownStory = () => {
           />
           <Dropdown
             opened={opened}
-            no_animation
+            noAnimation
             direction={direction}
             align_dropdown={align_dropdown}
             icon_position={icon_position}
@@ -261,7 +261,7 @@ const DropdownStory = () => {
             size="medium"
             skipPortal
             opened={opened}
-            no_animation
+            noAnimation
             direction={direction}
             align_dropdown={align_dropdown}
             icon_position={icon_position}
@@ -272,7 +272,7 @@ const DropdownStory = () => {
           <Dropdown
             size="medium"
             opened={opened}
-            no_animation
+            noAnimation
             direction={direction}
             align_dropdown={align_dropdown}
             icon_position={icon_position}
@@ -286,7 +286,7 @@ const DropdownStory = () => {
             size="large"
             skipPortal
             opened={opened}
-            no_animation
+            noAnimation
             direction={direction}
             align_dropdown={align_dropdown}
             icon_position={icon_position}
@@ -298,7 +298,7 @@ const DropdownStory = () => {
             size="large"
             opened={opened}
             // opened
-            no_animation
+            noAnimation
             align_dropdown={align_dropdown}
             icon_position={icon_position}
             direction={direction}
@@ -314,7 +314,7 @@ const DropdownStory = () => {
               opened={opened}
               // opened
               label={label}
-              no_animation
+              noAnimation
               direction={direction}
               align_dropdown={align_dropdown}
               icon_position={icon_position}
@@ -332,7 +332,7 @@ const DropdownStory = () => {
               more_menu={true}
               opened={opened}
               label={label}
-              no_animation
+              noAnimation
               direction={direction}
               align_dropdown={align_dropdown}
               icon_position={icon_position}
@@ -349,7 +349,7 @@ const DropdownStory = () => {
               more_menu={true}
               opened={opened}
               label={label}
-              no_animation
+              noAnimation
               direction={direction}
               align_dropdown={align_dropdown}
               icon_position={icon_position}
@@ -366,7 +366,7 @@ const DropdownStory = () => {
               more_menu
               opened={opened}
               label={label}
-              no_animation
+              noAnimation
               direction={direction}
               align_dropdown={align_dropdown}
               icon_position={icon_position}
