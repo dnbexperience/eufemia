@@ -66,11 +66,6 @@ export type Props = {
 
   /** For internal use only. Used by "Iterate.Visibility" */
   withinIterate?: boolean
-
-  /** @deprecated Use `visibleWhen` instead */
-  pathValue?: string
-  /** @deprecated Use `visibleWhen` instead */
-  whenValue?: unknown
 } & Pick<
   HeightAnimationAllProps,
   | 'onAnimationEnd'
@@ -89,8 +84,6 @@ function Visibility(props: Props) {
     pathFalsy,
     pathTrue,
     pathFalse,
-    pathValue,
-    whenValue,
     visibleWhen,
     visibleWhenNot,
     inferData,
@@ -121,8 +114,6 @@ function Visibility(props: Props) {
     pathFalsy,
     pathTrue,
     pathFalse,
-    pathValue,
-    whenValue,
     visibleWhen,
     visibleWhenNot,
     inferData,
