@@ -146,7 +146,7 @@ export type AccordionProps = Omit<React.HTMLProps<HTMLElement>, 'ref'> &
     /**
      * Define a different icon size. Defaults to `medium` (1.5rem).
      */
-    icon_size?: IconSize
+    iconSize?: IconSize
     attributes?: AccordionAttributes
     className?: string
     children?: React.ReactNode
@@ -159,10 +159,10 @@ export type AccordionProps = Omit<React.HTMLProps<HTMLElement>, 'ref'> &
 
 function Accordion({
   variant = 'outlined',
-  icon_size = 'medium',
+  iconSize = 'medium',
   ...restOfProps
 }: AccordionProps) {
-  const props = { variant, icon_size, ...restOfProps }
+  const props = { variant, iconSize, ...restOfProps }
 
   const context = useContext(AccordionProviderContext)
 
@@ -359,7 +359,7 @@ function Accordion({
               left_component, // eslint-disable-line
               icon, // eslint-disable-line
               icon_position, // eslint-disable-line
-              icon_size, // eslint-disable-line
+              iconSize, // eslint-disable-line
               on_change, // eslint-disable-line
               on_state_update, // eslint-disable-line
 
