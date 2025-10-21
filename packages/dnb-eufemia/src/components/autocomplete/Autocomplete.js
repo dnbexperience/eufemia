@@ -1997,7 +1997,7 @@ class AutocompleteInstance extends React.PureComponent {
             state={status_state}
             noAnimation={status_no_animation}
             skeleton={skeleton}
-            width_selector={innerId}
+            widthSelector={innerId}
             {...status_props}
           />
 

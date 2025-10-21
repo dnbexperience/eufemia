@@ -402,7 +402,7 @@ export default class Radio extends React.PureComponent {
                     globalStatus={globalStatus}
                     label={label}
                     textId={id + '-status'} // used for "aria-describedby"
-                    width_selector={id + ', ' + id + '-label'}
+                    widthSelector={id + ', ' + id + '-label'}
                     text={status}
                     state={status_state}
                     noAnimation={status_no_animation}
