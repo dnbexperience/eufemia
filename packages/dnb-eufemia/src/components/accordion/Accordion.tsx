@@ -85,7 +85,7 @@ export type AccordionProps = Omit<React.HTMLProps<HTMLElement>, 'ref'> &
     /**
      * Use this prop together with `prevent_rerender` – and if it is to `true`, the accordion component will re-render if the children are a new React element and does not match the previous one anymore.
      */
-    prevent_rerender_conditional?: boolean
+    preventRerenderConditional?: boolean
     /**
      * If set to `true`, it will remember a changed state initiated by the user. It requires a unique `id`. It will store the sate in the local storage.
      */
@@ -341,7 +341,7 @@ function Accordion({
               className,
               prerender,
               prevent_rerender,
-              prevent_rerender_conditional,
+              preventRerenderConditional,
               singleContainer,
               remember_state,
               disabled,
@@ -400,7 +400,7 @@ function Accordion({
               expanded: expandedState,
               prerender: prerender,
               prevent_rerender: prevent_rerender,
-              prevent_rerender_conditional: prevent_rerender_conditional,
+              preventRerenderConditional: preventRerenderConditional,
               singleContainer: singleContainer,
               remember_state: remember_state,
               disabled: disabled,
