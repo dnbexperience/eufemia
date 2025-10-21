@@ -70,7 +70,7 @@ export type AccordionProps = Omit<React.HTMLProps<HTMLElement>, 'ref'> &
     /**
      * If set to `true`, the open and close animation will be omitted.
      */
-    no_animation?: boolean
+    noAnimation?: boolean
     /**
      * If set to `true` the accordion will be expanded during SSR. Can be potentially useful for SEO, although it will disturb client hydration, where React expects the same state. But that&#39;s mainly a technical aspect to consider.
      */
@@ -346,7 +346,7 @@ function Accordion({
               rememberState,
               disabled,
               skeleton,
-              no_animation,
+              noAnimation,
               expandedSsr: _expandedSsr, // eslint-disable-line
               children,
 
@@ -405,7 +405,7 @@ function Accordion({
               rememberState: rememberState,
               disabled: disabled,
               skeleton: skeleton,
-              no_animation: no_animation,
+              noAnimation: noAnimation,
               callOnChange: callOnChangeHandler,
             }
 
