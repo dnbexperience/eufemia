@@ -29,7 +29,7 @@ export const RadioExampleVerticalGroup = () => (
   <ComponentBox data-visual-test="radio-group-vertical">
     <Radio.Group
       label="Vertical Group"
-      layout_direction="column"
+      layoutDirection="column"
       on_change={({ value }) => {
         console.log('on_change', value)
       }}
@@ -46,7 +46,7 @@ export const RadioExampleLabelAbove = () => (
     <Radio.Group
       vertical
       label="Vertical Group"
-      layout_direction="column"
+      layoutDirection="column"
       on_change={({ value }) => {
         console.log('on_change', value)
       }}
@@ -62,7 +62,7 @@ export const RadioExampleGroupStatus = () => (
   <ComponentBox data-visual-test="radio-group-status">
     <Radio.Group
       label="Radio Group with status"
-      layout_direction="column"
+      layoutDirection="column"
       on_change={({ value }) => {
         console.log('on_change', value)
       }}
@@ -74,7 +74,7 @@ export const RadioExampleGroupStatus = () => (
         value="third"
         checked
         status="Info message"
-        status_state="info"
+        statusState="info"
       />
     </Radio.Group>
   </ComponentBox>
@@ -131,7 +131,7 @@ export const RadioExampleDisabled = () => (
     <Radio.Group
       label="Disabled Group"
       disabled
-      label_position="left"
+      labelPosition="left"
       name="MyGroup"
     >
       <Radio label="First" value="first" />
@@ -143,7 +143,7 @@ export const RadioExampleDisabled = () => (
 
 export const RadioExampleSuffix = () => (
   <ComponentBox>
-    <Radio.Group label="With suffixes" label_position="left">
+    <Radio.Group label="With suffixes" labelPosition="left">
       <Radio label="First" value="first" />
       <Radio
         label="Second"
