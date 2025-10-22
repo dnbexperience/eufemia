@@ -17,12 +17,21 @@ export const renderBody =
     setHeadComponents(
       <HeadComponents
         key="portal-head-components"
+        pathname={pathname}
         {...pageContext?.headData}
       />,
     )
   }
 
-export function HeadComponents({ title = null, description = null }) {
+export function HeadComponents({
+  title = null,
+  description = null,
+  pathname,
+}: {
+  title?: string | null
+  description?: string | null
+  pathname?: string
+}) {
   return (
     <>
       <title id="head-title">{title ? formatTitle(title) : ''}</title>
@@ -31,6 +40,33 @@ export function HeadComponents({ title = null, description = null }) {
         name="description"
         content={description}
       />
+      {pathname === '/' ? (
+        <>
+          <link
+            rel="alternate"
+            type="text/plain"
+            title="Eufemia LLM discovery manifest"
+            href="/llms.txt"
+          />
+          <link
+            rel="alternate"
+            type="application/json"
+            title="Eufemia LLM index"
+            href="/llm/index.json"
+          />
+        </>
+      ) : (
+        pathname && (
+          <link
+            rel="alternate"
+            type="application/json"
+            title="Machine-readable metadata"
+            href={`/llm${
+              pathname.endsWith('/') ? pathname : pathname + '/'
+            }metadata.json`}
+          />
+        )
+      )}
     </>
   )
 }
