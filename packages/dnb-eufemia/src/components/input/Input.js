@@ -52,7 +52,7 @@ export const inputPropTypes = {
     PropTypes.func,
     PropTypes.node,
   ]),
-  label_direction: PropTypes.oneOf(['horizontal', 'vertical']),
+  labelDirection: PropTypes.oneOf(['horizontal', 'vertical']),
   label_sr_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   status: PropTypes.oneOfType([
     PropTypes.string,
@@ -146,7 +146,7 @@ export default class Input extends React.PureComponent {
     value: 'initval',
     id: null,
     label: null,
-    label_direction: null,
+    labelDirection: null,
     label_sr_only: null,
     status: null,
     globalStatus: null,
@@ -363,7 +363,7 @@ export default class Input extends React.PureComponent {
       type,
       size,
       label,
-      label_direction,
+      labelDirection,
       label_sr_only,
       status,
       globalStatus,
@@ -437,7 +437,7 @@ export default class Input extends React.PureComponent {
         icon && `dnb-input--icon-position-${icon_position}`,
         icon && 'dnb-input--has-icon',
         icon && iconSize && `dnb-input--icon-size-${iconSize}`,
-        label_direction && `dnb-input--${label_direction}`,
+        labelDirection && `dnb-input--${labelDirection}`,
         isTrue(stretch) && `dnb-input--stretch`,
         isTrue(keep_placeholder) && 'dnb-input--keep-placeholder',
         'dnb-form-component',
@@ -523,7 +523,7 @@ export default class Input extends React.PureComponent {
             id={id + '-label'}
             forId={id}
             text={label}
-            labelDirection={label_direction}
+            labelDirection={labelDirection}
             srOnly={label_sr_only}
             disabled={disabled}
             skeleton={skeleton}

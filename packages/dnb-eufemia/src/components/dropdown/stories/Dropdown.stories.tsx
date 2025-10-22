@@ -389,8 +389,8 @@ const DropdownStory = () => {
       </Box>
       <Box>
         <FormRow
-          label="Vertical label_direction:"
-          label_direction="vertical"
+          label="Vertical labelDirection:"
+          labelDirection="vertical"
         >
           <Dropdown
             label="Vertical A (function):"
@@ -488,7 +488,7 @@ const DropdownStory = () => {
       <Box>
         <Dropdown
           label="Label vertical:"
-          label_direction="vertical"
+          labelDirection="vertical"
           title={<>Custom title {'🔥'}</>}
           data={dropdownData}
           on_change={({ data }) => {
@@ -507,7 +507,7 @@ const DropdownStory = () => {
         </p>
       </Box>
       <Box>
-        <Provider formElement={{ label_direction: 'vertical' }}>
+        <Provider formElement={{ labelDirection: 'vertical' }}>
           <Dropdown label="Vertical:" data={dropdownData} />
         </Provider>
       </Box>
@@ -775,7 +775,7 @@ function DropdownStatesSync() {
   }
 
   return (
-    <Provider formElement={{ label_direction: 'vertical' }}>
+    <Provider formElement={{ labelDirection: 'vertical' }}>
       <Flex.Vertical>
         <>{JSON.stringify(state)}</>
         <Dropdown

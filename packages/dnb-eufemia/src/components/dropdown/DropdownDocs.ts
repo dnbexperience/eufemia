@@ -134,12 +134,12 @@ export const DropdownProperties = {
     type: 'React.ReactNode',
     status: 'optional',
   },
-  label_direction: {
-    doc: 'Use `label_direction="vertical"` to change the label layout direction. Defaults to `horizontal`.',
+  labelDirection: {
+    doc: 'Use `labelDirection="vertical"` to change the label layout direction. Defaults to `horizontal`.',
     type: ['horizontal', 'vertical'],
     status: 'optional',
   },
-  label_sr_only: {
+  labelSrOnly: {
     doc: 'Use `true` to make the label only readable by screen readers.',
     type: 'boolean',
     status: 'optional',

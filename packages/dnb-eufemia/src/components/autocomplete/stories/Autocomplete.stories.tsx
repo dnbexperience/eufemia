@@ -917,7 +917,7 @@ export function DataSuffix() {
 
   return (
     <WideStyle>
-      <Provider formElement={{ label_direction: 'vertical' }}>
+      <Provider formElement={{ labelDirection: 'vertical' }}>
         <Autocomplete
           lang="nb"
           value={0}
@@ -926,7 +926,7 @@ export function DataSuffix() {
           input_icon={null}
           show_submit_button
           label="From account"
-          label_direction="vertical"
+          labelDirection="vertical"
         />
       </Provider>
     </WideStyle>
