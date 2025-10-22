@@ -313,7 +313,7 @@ class ToggleButton extends React.PureComponent<ToggleButtonProps> {
             title,
             icon,
             icon_size: iconSize,
-            iconPosition: iconPosition,
+            icon_position: iconPosition,
             [`aria-${
               role === 'radio' || role === 'checkbox'
                 ? 'checked'
