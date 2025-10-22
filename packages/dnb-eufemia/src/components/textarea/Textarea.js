@@ -421,6 +421,7 @@ export default class Textarea extends React.PureComponent {
       children, //eslint-disable-line
       value: _value, //eslint-disable-line
       textareaElement: _textareaElement, //eslint-disable-line
+      innerRef: _innerRef, //eslint-disable-line
 
       ...attributes
     } = props
