@@ -114,7 +114,7 @@ export default {
       aria_ready: 'Ready to interact',
     },
     Input: {
-      submitButtonTitle: 'Submit button',
+      submit_button_title: 'Submit button',
       clear_button_title: 'Clear value',
     },
     Pagination: {

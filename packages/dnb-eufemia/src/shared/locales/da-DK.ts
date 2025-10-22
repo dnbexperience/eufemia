@@ -1,3 +1,5 @@
+import nb from './nb-NO'
+
 export default {
   'da-DK': {
     TextCounter: {
@@ -109,7 +111,7 @@ export default {
       aria_role: 'Hjælp-knap',
     },
     Input: {
-      submitButtonTitle: 'Send ind knap',
+      submit_button_title: 'Send ind knap',
       clear_button_title: 'Nulstil',
     },
     Pagination: {
@@ -173,5 +175,5 @@ export default {
       deleteButton: 'Slet',
       fileListAriaLabel: 'uploadede filer',
     },
-  },
+  } satisfies (typeof nb)['nb-NO'],
 }
