@@ -53,7 +53,7 @@ class ToggleButtonGroup extends React.PureComponent<ToggleButtonGroupProps> {
     globalStatus: null,
     suffix: null,
     vertical: null,
-    layout_direction: 'row',
+    layoutDirection: 'row',
     value: undefined,
     values: undefined,
     attributes: null,
@@ -149,7 +149,7 @@ class ToggleButtonGroup extends React.PureComponent<ToggleButtonGroupProps> {
       labelDirection,
       labelSrOnly,
       vertical,
-      layout_direction,
+      layoutDirection,
       label,
       variant,
       leftComponent,
@@ -178,7 +178,7 @@ class ToggleButtonGroup extends React.PureComponent<ToggleButtonGroupProps> {
       'dnb-toggle-button-group',
       status && `dnb-toggle-button-group__status--${statusState}`,
       !label && 'dnb-toggle-button-group--no-label',
-      `dnb-toggle-button-group--${layout_direction}`,
+      `dnb-toggle-button-group--${layoutDirection}`,
       'dnb-form-component',
       createSpacingClasses(props),
       className
@@ -278,7 +278,7 @@ class ToggleButtonGroup extends React.PureComponent<ToggleButtonGroupProps> {
                 <span
                   className={classnames(
                     'dnb-toggle-button-group__shell__children',
-                    `dnb-toggle-button-group__shell__children--${layout_direction}`
+                    `dnb-toggle-button-group__shell__children--${layoutDirection}`
                   )}
                 >
                   {children}
@@ -392,7 +392,7 @@ export interface ToggleButtonGroupProps
   /**
    * Defines the layout direction of the ToggleButtonGroup. Set to `column` or `row`. Defaults to `row` if not set.
    */
-  layout_direction?: ToggleButtonGroupLayoutDirection
+  layoutDirection?: ToggleButtonGroupLayoutDirection
   /**
    * Defines the `values` as a string. Use it to get the values during the `on_change` event listener callback in the **ToggleButtonGroup**.
    */

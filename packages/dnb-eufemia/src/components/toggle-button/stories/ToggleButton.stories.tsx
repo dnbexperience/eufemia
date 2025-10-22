@@ -267,7 +267,7 @@ export const ToggleButtonSandbox = () => (
       </FieldBlock>
     </Box>
     <Box>
-      <ToggleButton.Group label="Column group:" layout_direction="column">
+      <ToggleButton.Group label="Column group:" layoutDirection="column">
         <ToggleButton text="First" value="first" />
         <ToggleButton text="Second" value="second" />
         <ToggleButton text="Third" value="third" checked />
@@ -276,7 +276,7 @@ export const ToggleButtonSandbox = () => (
     <Box>
       <ToggleButton.Group
         label="Vertical group with error:"
-        layout_direction="column"
+        layoutDirection="column"
         labelDirection="vertical"
         // vertical={true}
         status="Error message Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"

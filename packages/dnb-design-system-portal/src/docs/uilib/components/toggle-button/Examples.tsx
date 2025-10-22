@@ -63,7 +63,7 @@ export const ToggleButtonVertical = () => (
   <ComponentBox data-visual-test="toggle-button-group-vertical">
     <ToggleButton.Group
       label="Vertical Group"
-      layout_direction="column"
+      layoutDirection="column"
       multiselect={true}
       variant="checkbox"
       on_change={({ values }) => {
