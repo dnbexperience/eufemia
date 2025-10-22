@@ -19,9 +19,9 @@ export interface FormRowProps
    */
   label?: React.ReactNode;
   /**
-   * use `label_direction="vertical"` to change the label/legend layout direction. Defaults to `horizontal`.
+   * use `labelDirection="vertical"` to change the label/legend layout direction. Defaults to `horizontal`.
    */
-  label_direction?: FormLabelLabelDirection;
+  labelDirection?: FormLabelLabelDirection;
   /**
    * use `true` to make the label only readable by screen readers.
    */
@@ -49,7 +49,7 @@ export interface FormRowProps
    */
   direction?: FormRowDirection;
   /**
-   * will force both `direction` and `label_direction` to be **vertical** if set to `true`.
+   * will force both `direction` and `labelDirection` to be **vertical** if set to `true`.
    */
   vertical?: boolean;
   /**

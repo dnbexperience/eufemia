@@ -319,7 +319,7 @@ export const ResponsiveGridContainer = () => {
 // Deprecated – can be removed in v11
 export const FormSetAlternativeBefore = () => (
   <ComponentBox>
-    <FormSet label_direction="vertical">
+    <FormSet labelDirection="vertical">
       <H2 top={0}>Heading</H2>
       <FormRow label={<span className="dnb-h--medium">Legend</span>}>
         <Input label="Label A" right />
@@ -331,7 +331,7 @@ export const FormSetAlternativeBefore = () => (
 
 export const FormSetAlternativeAfter = () => (
   <ComponentBox>
-    <Provider formElement={{ label_direction: 'vertical' }}>
+    <Provider formElement={{ labelDirection: 'vertical' }}>
       <Form.Handler>
         <H2 top={0}>Heading</H2>
         <FieldBlock label={<span className="dnb-h--medium">Legend</span>}>
@@ -482,7 +482,6 @@ export const AllComponentsVerticalLabelsTestCase = (
   >
     <Provider
       formElement={{
-        label_direction: 'vertical',
         labelDirection: 'vertical',
       }}
     >
