@@ -138,7 +138,7 @@ export const SkeletonSandbox = () => {
                 // disabled
                 left
               />
-              <Input top label_direction="vertical" label="Input" />
+              <Input top labelDirection="vertical" label="Input" />
               <Textarea top labelDirection="vertical" label="Textarea" />
             </Box>
 
