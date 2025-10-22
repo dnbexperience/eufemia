@@ -97,7 +97,7 @@ export const ToggleButtonSandbox = () => (
 
     <Box>
       <Provider
-        formElement={{ label_direction: 'vertical', disabled: true }}
+        formElement={{ labelDirection: 'vertical', disabled: true }}
       >
         <ToggleButton.Group>
           <ToggleButton
@@ -157,7 +157,7 @@ export const ToggleButtonSandbox = () => (
           checked
           label="Label:"
           variant="checkbox"
-          icon_position="right"
+          iconPosition="right"
           // icon="bell"
           icon="chevron_right"
           text="Toggle Button"
@@ -175,7 +175,7 @@ export const ToggleButtonSandbox = () => (
           checked
           label="Label"
           variant="radio"
-          icon_position="right"
+          iconPosition="right"
           // icon="bell"
           icon="chevron_right"
           text="Toggle Button"
@@ -261,7 +261,7 @@ export const ToggleButtonSandbox = () => (
             value="third"
             checked
             status="Info message"
-            status_state="info"
+            statusState="info"
           />
         </ToggleButton.Group>
       </FieldBlock>
@@ -277,7 +277,7 @@ export const ToggleButtonSandbox = () => (
       <ToggleButton.Group
         label="Vertical group with error:"
         layout_direction="column"
-        label_direction="vertical"
+        labelDirection="vertical"
         // vertical={true}
         status="Error message Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
       >
@@ -346,14 +346,14 @@ export const ToggleButtonSandbox = () => (
         text="Checked status message"
         variant="radio"
         status="Info message\n123"
-        status_state="info"
+        statusState="info"
       />
       <ToggleButton
         text="Checked status message"
         checked
         variant="checkbox"
         status="Error message Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
-        status_state="info"
+        statusState="info"
         top="small"
       />
     </Box>

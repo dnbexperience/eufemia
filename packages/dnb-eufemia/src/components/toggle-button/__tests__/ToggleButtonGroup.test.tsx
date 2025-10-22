@@ -36,7 +36,7 @@ describe('ToggleButton group component', () => {
     ])
 
     rerender(
-      <ToggleButton.Group label="Label" label_direction="vertical">
+      <ToggleButton.Group label="Label" labelDirection="vertical">
         <ToggleButton />
       </ToggleButton.Group>
     )
@@ -472,7 +472,7 @@ describe('ToggleButton group component', () => {
 
   it('should inherit formElement vertical label', () => {
     render(
-      <Provider formElement={{ label_direction: 'vertical' }}>
+      <Provider formElement={{ labelDirection: 'vertical' }}>
         <ToggleButton.Group id="group" label="Label">
           <ToggleButton
             variant="checkbox"

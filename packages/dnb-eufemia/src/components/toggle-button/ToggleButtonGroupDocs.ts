@@ -31,12 +31,12 @@ export const ToggleButtonGroupProperties: PropertiesTableProps = {
     type: ['error', 'info', 'boolean'],
     status: 'optional',
   },
-  status_state: {
+  statusState: {
     doc: 'Defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`.',
     type: ['error', 'info'],
     status: 'optional',
   },
-  status_props: {
+  statusProps: {
     doc: 'Use an object to define additional FormStatus properties.',
     type: 'object',
     status: 'optional',
@@ -51,18 +51,18 @@ export const ToggleButtonGroupProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
-  label_direction: {
+  labelDirection: {
     doc: 'To define the `label` layout direction on how the next element should be placed on. Can be either `vertical` or `horizontal`. Defaults to `horizontal`.',
     type: ['vertical', 'horizontal'],
     status: 'optional',
   },
-  label_sr_only: {
+  labelSrOnly: {
     doc: 'Use `true` to make the label only readable by screen readers.',
     type: 'boolean',
     status: 'optional',
   },
   vertical: {
-    doc: 'Will force both `direction` and `label_direction` to be **vertical** if set to `true`.',
+    doc: 'Will force both `direction` and `labelDirection` to be **vertical** if set to `true`.',
     type: 'boolean',
     status: 'optional',
   },
