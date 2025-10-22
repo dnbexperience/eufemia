@@ -376,7 +376,7 @@ class DropdownInstance extends React.PureComponent {
   }
 
   onSelectHandler = (args) => {
-    if (parseFloat(args.active_item) > -1) {
+    if (parseFloat(args.activeItem) > -1) {
       const attributes = this.attributes || {}
       dispatchCustomElementEvent(this, 'on_select', {
         ...args,
@@ -397,7 +397,7 @@ class DropdownInstance extends React.PureComponent {
     const { data } = this.context.drawerList
     if (data && data.length > 0) {
       const currentOptionData = getCurrentData(
-        this.context.drawerList.selected_item,
+        this.context.drawerList.selectedItem,
         data
       )
       if (currentOptionData) {
@@ -506,7 +506,7 @@ class DropdownInstance extends React.PureComponent {
       alignDropdown = 'right'
     }
 
-    const { selected_item, direction, opened } = this.context.drawerList
+    const { selectedItem, direction, opened } = this.context.drawerList
     const showStatus = getStatusState(status)
 
     // make it possible to grab the rest attributes and return it with all events
@@ -634,7 +634,7 @@ class DropdownInstance extends React.PureComponent {
                         aria-hidden
                         className={classnames(
                           'dnb-dropdown__icon',
-                          parseFloat(selected_item) === 0 &&
+                          parseFloat(selectedItem) === 0 &&
                             'dnb-dropdown__icon--first'
                         )}
                       >
@@ -664,7 +664,7 @@ class DropdownInstance extends React.PureComponent {
                   'dnb-dropdown__list',
                   variant === 'tertiary' && 'dnb-dropdown__list--tertiary'
                 )}
-                value={selected_item}
+                value={selectedItem}
                 defaultValue={defaultValue}
                 scrollable={scrollable}
                 focusable={focusable}
