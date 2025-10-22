@@ -32,7 +32,7 @@ export const NumberDefault = () => (
           -12345678.9
         </NumberFormat>
         <NumberFormat decimals={1}>-1234.54321</NumberFormat>
-        <NumberFormat decimals={2} copy_selection={false}>
+        <NumberFormat decimals={2} copySelection={false}>
           -1234
         </NumberFormat>
         <NumberFormat decimals={2}>invalid</NumberFormat>
@@ -62,19 +62,19 @@ export const NumberCurrency = () => (
         <NumberFormat currency>12345</NumberFormat>
         <NumberFormat
           currency
-          currency_position="before"
+          currencyPosition="before"
           value={-12345678.9}
         />
         <NumberFormat currency value={-12345678.95} decimals={0} />
         <NumberFormat
           currency
           value={-12345678.9}
-          currency_display="code"
+          currencyDisplay="code"
         />
         <NumberFormat
           currency
           value={-12345678.9}
-          currency_display={false}
+          currencyDisplay={false}
         />
         <NumberFormat currency decimals={2}>
           invalid
@@ -92,14 +92,14 @@ export const NumberProvider = () => (
           NumberFormat: {
             currency: true,
             rounding: 'omit',
-            clean_copy_value: true,
+            cleanCopyValue: true,
           },
         }}
       >
         <P>
           <NumberFormat>12345</NumberFormat>
           <NumberFormat value={-12345.123} decimals={0} />
-          <NumberFormat value={-12345678.955} currency_position="before" />
+          <NumberFormat value={-12345678.955} currencyPosition="before" />
         </P>
       </Provider>
     </ComponentBox>
@@ -121,7 +121,7 @@ export const NumberCompact = () => (
           currency
           value={12345}
           decimals={1}
-          currency_display="name"
+          currencyDisplay="name"
         />
         <NumberFormat compact value={123455678912} decimals={3} />
       </P>

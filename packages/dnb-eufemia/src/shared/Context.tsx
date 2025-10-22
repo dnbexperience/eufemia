@@ -151,7 +151,7 @@ export type ContextProps = ContextComponents & {
   /**
    * Defines the currencyDisplay used by the NumberFormat component
    */
-  currency_display?: string
+  currencyDisplay?: string
 
   /**
    * Update any given provider/context properties
@@ -320,7 +320,7 @@ const Context = createContext<ContextProps>(
   prepareContext({
     locale: LOCALE,
     currency: CURRENCY,
-    currency_display: CURRENCY_DISPLAY,
+    currencyDisplay: CURRENCY_DISPLAY,
   })
 )
 
