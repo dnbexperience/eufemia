@@ -17,7 +17,7 @@ export const FormLabelProperties: PropertiesTableProps = {
     status: 'optional',
   },
   vertical: {
-    doc: 'If set to `true`, will do the same as `label_direction` when set to **vertical**.',
+    doc: 'If set to `true`, will do the same as `labelDirection` when set to **vertical**.',
     type: 'boolean',
     status: 'optional',
   },
