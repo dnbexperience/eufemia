@@ -63,7 +63,7 @@ export const ToggleButtonVertical = () => (
   <ComponentBox data-visual-test="toggle-button-group-vertical">
     <ToggleButton.Group
       label="Vertical Group"
-      layout_direction="column"
+      layoutDirection="column"
       multiselect={true}
       variant="checkbox"
       on_change={({ values }) => {
@@ -114,7 +114,7 @@ export const ToggleButtonStatusMessages = () => (
         text="Third"
         value="third"
         status="Info message"
-        status_state="info"
+        statusState="info"
       />
     </ToggleButton.Group>
   </ComponentBox>
