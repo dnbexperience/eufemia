@@ -35,25 +35,25 @@ class ToggleButtonGroup extends React.PureComponent<ToggleButtonGroupProps> {
 
   static defaultProps = {
     label: null,
-    label_direction: null,
-    label_sr_only: null,
+    labelDirection: null,
+    labelSrOnly: null,
     title: null,
     multiselect: null,
     variant: null,
-    left_component: null,
+    leftComponent: null,
     disabled: null,
     skeleton: null,
     id: null,
     name: null,
     size: null,
     status: null,
-    status_state: 'error',
-    status_props: null,
-    status_no_animation: null,
+    statusState: 'error',
+    statusProps: null,
+    statusNoAnimation: null,
     globalStatus: null,
     suffix: null,
     vertical: null,
-    layout_direction: 'row',
+    layoutDirection: 'row',
     value: undefined,
     values: undefined,
     attributes: null,
@@ -141,18 +141,18 @@ class ToggleButtonGroup extends React.PureComponent<ToggleButtonGroupProps> {
 
     const {
       status,
-      status_state,
-      status_props,
-      status_no_animation,
+      statusState,
+      statusProps,
+      statusNoAnimation,
       globalStatus,
       suffix,
-      label_direction,
-      label_sr_only,
+      labelDirection,
+      labelSrOnly,
       vertical,
-      layout_direction,
+      layoutDirection,
       label,
       variant,
-      left_component,
+      leftComponent,
       size,
       disabled,
       skeleton,
@@ -176,9 +176,9 @@ class ToggleButtonGroup extends React.PureComponent<ToggleButtonGroupProps> {
 
     const classes = classnames(
       'dnb-toggle-button-group',
-      status && `dnb-toggle-button-group__status--${status_state}`,
+      status && `dnb-toggle-button-group__status--${statusState}`,
       !label && 'dnb-toggle-button-group--no-label',
-      `dnb-toggle-button-group--${layout_direction}`,
+      `dnb-toggle-button-group--${layoutDirection}`,
       'dnb-form-component',
       createSpacingClasses(props),
       className
@@ -209,7 +209,7 @@ class ToggleButtonGroup extends React.PureComponent<ToggleButtonGroupProps> {
       size,
       multiselect: isTrue(multiselect),
       variant,
-      left_component,
+      leftComponent,
       disabled,
       skeleton,
       setContext: (context) => {
@@ -240,7 +240,7 @@ class ToggleButtonGroup extends React.PureComponent<ToggleButtonGroupProps> {
           >
             <Flex.Container
               direction={
-                vertical || label_direction === 'vertical'
+                vertical || labelDirection === 'vertical'
                   ? 'vertical'
                   : 'horizontal'
               }
@@ -250,7 +250,7 @@ class ToggleButtonGroup extends React.PureComponent<ToggleButtonGroupProps> {
                 <FormLabel
                   element="legend"
                   id={id + '-label'}
-                  srOnly={label_sr_only}
+                  srOnly={labelSrOnly}
                 >
                   {label}
                 </FormLabel>
@@ -269,16 +269,16 @@ class ToggleButtonGroup extends React.PureComponent<ToggleButtonGroupProps> {
                   label={label}
                   textId={id + '-status'} // used for "aria-describedby"
                   text={status}
-                  state={status_state}
-                  noAnimation={status_no_animation}
+                  state={statusState}
+                  noAnimation={statusNoAnimation}
                   skeleton={skeleton}
-                  {...status_props}
+                  {...statusProps}
                 />
 
                 <span
                   className={classnames(
                     'dnb-toggle-button-group__shell__children',
-                    `dnb-toggle-button-group__shell__children--${layout_direction}`
+                    `dnb-toggle-button-group__shell__children--${layoutDirection}`
                   )}
                 >
                   {children}
@@ -342,8 +342,8 @@ export interface ToggleButtonGroupProps
    * Use either the `label` property or provide a custom one.
    */
   label?: string | React.ReactNode
-  label_direction?: 'horizontal' | 'vertical'
-  label_sr_only?: boolean
+  labelDirection?: 'horizontal' | 'vertical'
+  labelSrOnly?: boolean
   /**
    * The `title` of the input - describing it a bit further for accessibility reasons.
    */
@@ -353,7 +353,7 @@ export interface ToggleButtonGroupProps
    */
   checked?: boolean
   variant?: ToggleButtonGroupVariant
-  left_component?: React.ReactNode
+  leftComponent?: React.ReactNode
   disabled?: boolean
   /**
    * If set to `true`, an overlaying skeleton with animation will be shown.
@@ -367,12 +367,12 @@ export interface ToggleButtonGroupProps
   /**
    * Defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`.
    */
-  status_state?: FormStatusState
+  statusState?: FormStatusState
   /**
    * Use an object to define additional FormStatus properties.
    */
-  status_props?: FormStatusProps
-  status_no_animation?: boolean
+  statusProps?: FormStatusProps
+  statusNoAnimation?: boolean
   /**
    * The [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status).
    */
@@ -392,7 +392,7 @@ export interface ToggleButtonGroupProps
   /**
    * Defines the layout direction of the ToggleButtonGroup. Set to `column` or `row`. Defaults to `row` if not set.
    */
-  layout_direction?: ToggleButtonGroupLayoutDirection
+  layoutDirection?: ToggleButtonGroupLayoutDirection
   /**
    * Defines the `values` as a string. Use it to get the values during the `on_change` event listener callback in the **ToggleButtonGroup**.
    */
