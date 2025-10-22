@@ -462,6 +462,7 @@ class DropdownInstance extends React.PureComponent {
       icon: _icon, // eslint-disable-line
       alignDropdown: _align_dropdown, // eslint-disable-line
       iconPosition: _iconPosition, // eslint-disable-line
+      openOnFocus: _openOnFocus, // eslint-disable-line
       data: _data, // eslint-disable-line
       children: _children, // eslint-disable-line
       direction: _direction, // eslint-disable-line
