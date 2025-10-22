@@ -32,12 +32,12 @@ export const ToggleButtonProperties: PropertiesTableProps = {
     type: ['string', 'React.ReactNode'],
     status: 'optional',
   },
-  icon_position: {
+  iconPosition: {
     doc: 'Position of the icon inside the toggle button. Set to `left` or `right`. Defaults to `right` if not set.',
     type: ['left', 'right'],
     status: 'optional',
   },
-  icon_size: {
+  iconSize: {
     doc: 'Define icon width and height. Defaults to `16px`.',
     type: 'string',
     status: 'optional',
@@ -49,12 +49,12 @@ export const ToggleButtonProperties: PropertiesTableProps = {
     type: ['error', 'info', 'boolean'],
     status: 'optional',
   },
-  status_state: {
+  statusState: {
     doc: 'Defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`.',
     type: ['error', 'info'],
     status: 'optional',
   },
-  status_props: {
+  statusProps: {
     doc: 'Use an object to define additional FormStatus properties.',
     type: 'object',
     status: 'optional',
