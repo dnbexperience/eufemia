@@ -66,14 +66,14 @@ export type NumberFormatProps = {
   prefix?: NumberFormatPrefix
   suffix?: NumberFormatSuffix
   currency?: NumberFormatCurrency
-  currency_display?:
+  currencyDisplay?:
     | 'code'
     | 'name'
     | 'symbol'
     | 'narrowSymbol'
     | ''
     | false
-  currency_position?: NumberFormatCurrencyPosition
+  currencyPosition?: NumberFormatCurrencyPosition
   compact?: NumberFormatCompact
   ban?: boolean
   nin?: boolean
@@ -85,9 +85,9 @@ export type NumberFormatProps = {
   options?: NumberFormatOptions
   decimals?: NumberFormatDecimals
   selectall?: boolean
-  always_selectall?: boolean
-  copy_selection?: boolean
-  clean_copy_value?: boolean
+  alwaysSelectall?: boolean
+  copySelection?: boolean
+  cleanCopyValue?: boolean
   rounding?: 'omit' | 'half-even' | 'half-up'
   clean?: boolean
   srLabel?: React.ReactNode
@@ -122,11 +122,11 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
 
     // currency
     currency: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    currency_display: PropTypes.oneOfType([
+    currencyDisplay: PropTypes.oneOfType([
       PropTypes.bool,
       PropTypes.oneOf(['code', 'name', 'symbol', 'narrowSymbol', '']),
     ]),
-    currency_position: PropTypes.oneOf(['auto', 'before', 'after']),
+    currencyPosition: PropTypes.oneOf(['auto', 'before', 'after']),
 
     // shortens any number or currency including an abbreviation
     compact: PropTypes.oneOfType([
@@ -156,15 +156,12 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
     options: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
     decimals: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     selectall: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    always_selectall: PropTypes.oneOfType([
+    alwaysSelectall: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool,
     ]),
-    copy_selection: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-    ]),
-    clean_copy_value: PropTypes.oneOfType([
+    copySelection: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    cleanCopyValue: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool,
     ]),
@@ -195,8 +192,8 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
     prefix: null,
     suffix: null,
     currency: null,
-    currency_display: null, // code, name, symbol
-    currency_position: null, // null, before, after
+    currencyDisplay: null, // code, name, symbol
+    currencyPosition: null, // null, before, after
     compact: null,
     ban: null,
     nin: null,
@@ -208,9 +205,9 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
     options: null,
     decimals: null,
     selectall: true,
-    always_selectall: false,
-    copy_selection: true,
-    clean_copy_value: false,
+    alwaysSelectall: false,
+    copySelection: true,
+    cleanCopyValue: false,
     rounding: null,
     clean: null,
     srLabel: null,
@@ -266,7 +263,7 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
   onClickHandler = () => {
     if (
       (isTrue(this.props.selectall) ||
-        isTrue(this.props.always_selectall)) &&
+        isTrue(this.props.alwaysSelectall)) &&
       !hasSelectedText()
     ) {
       this.setFocus()
@@ -282,7 +279,7 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
       this._selectionRef.current?.focus()
       this.selectAll()
 
-      if (!isTrue(this.props.copy_selection)) {
+      if (!isTrue(this.props.copySelection)) {
         this.outsideClick = detectOutsideClick(
           this._ref.current,
           this.onBlurHandler
@@ -346,8 +343,8 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
       suffix,
       children,
       currency,
-      currency_display,
-      currency_position,
+      currencyDisplay,
+      currencyPosition,
       compact,
       ban,
       nin,
@@ -364,8 +361,8 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
       rounding,
       clean,
       selectall,
-      copy_selection,
-      clean_copy_value,
+      copySelection,
+      cleanCopyValue,
       srLabel,
       element,
       className,
@@ -383,9 +380,9 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
     const formatOptions = {
       locale,
       currency,
-      currency_display,
-      currency_position,
-      omit_currency_sign: this.state.omitCurrencySign,
+      currencyDisplay,
+      currencyPosition,
+      omitCurrencySign: this.state.omitCurrencySign,
       compact,
       ban,
       nin,
@@ -396,7 +393,7 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
       rounding,
       options,
       clean: isTrue(clean),
-      clean_copy_value: isTrue(clean_copy_value),
+      cleanCopyValue: isTrue(cleanCopyValue),
       returnAria: true,
       invalidAriaText:
         locale && locale !== this.context.locale
@@ -479,7 +476,7 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
     }
 
     const displayParams = {}
-    if (isTrue(selectall) || isTrue(copy_selection)) {
+    if (isTrue(selectall) || isTrue(copySelection)) {
       displayParams.onClick = this.onClickHandler
       displayParams.onContextMenu = this.onContextMenuHandler
     }
@@ -523,7 +520,7 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
           }
         />
 
-        {isTrue(copy_selection) && (
+        {isTrue(copySelection) && (
           <span
             className="dnb-number-format__selection dnb-no-focus"
             ref={this._selectionRef}
