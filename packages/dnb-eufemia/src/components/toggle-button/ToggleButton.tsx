@@ -355,23 +355,23 @@ class ToggleButton extends React.PureComponent<ToggleButtonProps> {
             buttonParams['aria-readonly'] = buttonParams.readOnly = true
           }
 
-          let leftComponent = null
+          let usedLeftComponent = null
           switch (variant) {
             case 'radio':
-              leftComponent = (
+              usedLeftComponent = (
                 <Radio id={`${id}-radio`} {...componentParams} />
               )
               break
 
             case 'checkbox':
-              leftComponent = (
+              usedLeftComponent = (
                 <Checkbox id={`${id}-checkbox`} {...componentParams} />
               )
               break
 
             case 'default':
             default:
-              leftComponent = leftComponent
+              usedLeftComponent = leftComponent
               break
           }
 
@@ -409,9 +409,9 @@ class ToggleButton extends React.PureComponent<ToggleButtonProps> {
                     variant="secondary"
                     className="dnb-toggle-button__button"
                     custom_content={
-                      leftComponent && (
+                      usedLeftComponent && (
                         <span className="dnb-toggle-button__component">
-                          {leftComponent}
+                          {usedLeftComponent}
                         </span>
                       )
                     }
