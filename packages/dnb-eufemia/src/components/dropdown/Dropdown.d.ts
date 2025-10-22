@@ -34,11 +34,11 @@ export interface DropdownProps {
   /**
    * Change the size of the icon pragmatically.
    */
-  icon_size?: IconSize;
+  iconSize?: IconSize;
   /**
    * Position of the icon inside the dropdown. Set to `left` or `right`. Defaults to `right`.
    */
-  icon_position?: ButtonIconPosition;
+  iconPosition?: ButtonIconPosition;
   /**
    * Prepends the Form Label component. If no ID is provided, a random ID is created.
    */
@@ -50,7 +50,7 @@ export interface DropdownProps {
   /**
    * Use `true` to make the label only readable by screen readers.
    */
-  label_sr_only?: boolean;
+  labelSrOnly?: boolean;
   /**
    * Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.
    */
@@ -58,12 +58,12 @@ export interface DropdownProps {
   /**
    * Defines the state of the status. It's two statuses `[error, info]`. Defaults to `error`.
    */
-  status_state?: FormStatusState;
+  statusState?: FormStatusState;
   /**
    * Use an object to define additional FormStatus properties.
    */
-  status_props?: FormStatusProps;
-  status_no_animation?: boolean;
+  statusProps?: FormStatusProps;
+  statusNoAnimation?: boolean;
   /**
    * The [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status).
    */
@@ -79,19 +79,19 @@ export interface DropdownProps {
   /**
    * Same as `preventSelection`, but the "selection area" (given title) will not be visible and the icon `more` (three dots) is used. Defaults to `false`.
    */
-  more_menu?: boolean;
+  moreMenu?: boolean;
   /**
-   * Use `right` to change the options alignment direction. Makes only sense to use in combination with `preventSelection` or `more_menu`. Defaults to `left`.
+   * Use `right` to change the options alignment direction. Makes only sense to use in combination with `preventSelection` or `moreMenu`. Defaults to `left`.
    */
-  align_dropdown?: DropdownAlignDropdown;
+  alignDropdown?: DropdownAlignDropdown;
   /**
    * Lets you provide a custom React element as the trigger HTML element.
    */
-  trigger_element?: DropdownTriggerElement;
+  triggerElement?: DropdownTriggerElement;
   /**
    * If set to `true`, the Dropdown will be opened when the users enter the trigger button with a focus action.
    */
-  open_on_focus?: boolean;
+  openOnFocus?: boolean;
   disabled?: boolean;
   /**
    * If set to `true`, then the dropdown will be 100% in available `width`.
