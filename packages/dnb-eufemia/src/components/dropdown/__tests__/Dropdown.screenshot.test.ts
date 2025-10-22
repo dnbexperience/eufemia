@@ -83,7 +83,7 @@ describe.each(['ui', 'sbanken'])('Dropdown for %s', (themeName) => {
   it('have to match the dropdown as action menu', async () => {
     const screenshot = await makeScreenshot({
       selector:
-        '[data-visual-test="dropdown-action_menu"] .dnb-dropdown__inner',
+        '[data-visual-test="dropdown-actionMenu"] .dnb-dropdown__inner',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -159,10 +159,10 @@ describe.each(['ui', 'sbanken'])('Dropdown for %s', (themeName) => {
 
   it('have to match the dropdown action menu with custom items', async () => {
     const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="dropdown-action_menu-custom"]',
+      selector: '[data-visual-test="dropdown-actionMenu-custom"]',
       simulate: 'click',
       simulateSelector:
-        '[data-visual-test="dropdown-action_menu-custom"] .dnb-dropdown__trigger',
+        '[data-visual-test="dropdown-actionMenu-custom"] .dnb-dropdown__trigger',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -192,29 +192,29 @@ describe.each(['ui', 'sbanken'])('Dropdown for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the dropdown as more_menu opened on left side', async () => {
+  it('have to match the dropdown as moreMenu opened on left side', async () => {
     const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="dropdown-more_menu"]',
+      selector: '[data-visual-test="dropdown-moreMenu"]',
       simulate: 'click',
       simulateSelector:
-        '[data-visual-test="dropdown-more_menu"] .dnb-dropdown:first-child button',
+        '[data-visual-test="dropdown-moreMenu"] .dnb-dropdown:first-child button',
       simulateAfter: { keypress: 'Escape' },
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the dropdown as more_menu opened on right side', async () => {
+  it('have to match the dropdown as moreMenu opened on right side', async () => {
     const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="dropdown-more_menu"]',
+      selector: '[data-visual-test="dropdown-moreMenu"]',
       simulate: 'click',
       simulateSelector:
-        '[data-visual-test="dropdown-more_menu"] .dnb-dropdown:nth-child(2) button',
+        '[data-visual-test="dropdown-moreMenu"] .dnb-dropdown:nth-child(2) button',
       simulateAfter: { keypress: 'Escape' },
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the dropdown with independentWidth opened with icon_position left', async () => {
+  it('have to match the dropdown with independentWidth opened with iconPosition left', async () => {
     const screenshot = await makeScreenshot({
       style: {
         'padding-top': '16rem',
@@ -228,7 +228,7 @@ describe.each(['ui', 'sbanken'])('Dropdown for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the dropdown with independentWidth opened with icon_position right', async () => {
+  it('have to match the dropdown with independentWidth opened with iconPosition right', async () => {
     const screenshot = await makeScreenshot({
       style: {
         'padding-top': '16rem',
@@ -244,10 +244,10 @@ describe.each(['ui', 'sbanken'])('Dropdown for %s', (themeName) => {
 
   it('have to match the dropdown action menu in mobile view', async () => {
     const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="dropdown-action_menu-custom"]',
+      selector: '[data-visual-test="dropdown-actionMenu-custom"]',
       simulate: 'click',
       simulateSelector:
-        '[data-visual-test="dropdown-action_menu-custom"] .dnb-dropdown__trigger',
+        '[data-visual-test="dropdown-actionMenu-custom"] .dnb-dropdown__trigger',
       simulateAfter: { keypress: 'Escape' },
       waitBeforeSimulate: 100,
       style: {
