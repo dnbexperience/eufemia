@@ -8,7 +8,6 @@ import classnames from 'classnames'
 import Context from '../../shared/Context'
 import type { ContextProps } from '../../shared/Context'
 import { validateDOMAttributes } from '../../shared/component-helper'
-import { convertSnakeCaseProps } from '../../shared/helpers/withSnakeCaseProps'
 import useId from '../../shared/helpers/useId'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import TooltipWithEvents from './TooltipWithEvents'
@@ -90,13 +89,13 @@ function resolveProps(
   >
 
   // Use only the props from context that are relevant for Tooltip
-  return convertSnakeCaseProps({
+  return {
     ...defaultProps,
     ...localProps,
     ...inherited,
     ...tooltipTranslation,
     ...context.Tooltip,
-  })
+  }
 }
 
 function useTooltipTarget(
