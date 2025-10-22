@@ -16,7 +16,6 @@ import IconView from '../../../../icons/view'
 import IconViewOff from '../../../../icons/hide'
 import IconViewMedium from '../../../../icons/view_medium'
 import IconViewOffMedium from '../../../../icons/hide_medium'
-import { convertSnakeCaseProps } from '../../../../shared/helpers/withSnakeCaseProps'
 import useTranslation from '../../hooks/useTranslation'
 
 export type PasswordVisibilityEvent =
@@ -51,13 +50,10 @@ function Password({
   label,
   disabled,
   size,
-  ...externalProps
+  ...props
 }: PasswordProps) {
   const generatedId = useId()
   const idToUse = id || generatedId
-
-  // Object freeze used to prevent mutation of show_password and hide_password props. Freeze and convertToSnakeCase can be removed in v11.
-  const props = convertSnakeCaseProps(Object.freeze(externalProps))
 
   const [hidden, setHidden] = useState<boolean>(true)
 
@@ -68,8 +64,7 @@ function Password({
 
   const toggleVisibility = useCallback(
     (event: React.MouseEvent<HTMLButtonElement>) => {
-      const { onShowPassword, onHidePassword } =
-        convertSnakeCaseProps(props)
+      const { onShowPassword, onHidePassword } = props
 
       const value = ref.current.value
 
