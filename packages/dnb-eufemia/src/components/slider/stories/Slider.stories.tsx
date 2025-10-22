@@ -153,7 +153,7 @@ export function MultiButtons() {
           numberFormat={{
             decimals: 2,
             currency: 'EUR',
-            currency_display: 'symbol',
+            currencyDisplay: 'symbol',
           }}
           tooltip
           onChange={({ value, number }) => {
