@@ -108,7 +108,7 @@ const DrawerListWithState = (props) => {
         text="Toggle"
         checked={opened}
         icon={'chevron_' + (opened ? 'up' : 'down')}
-        icon_position="left"
+        iconPosition="left"
         on_change={({ checked }) => setOpened(checked)}
       />
       <DrawerList

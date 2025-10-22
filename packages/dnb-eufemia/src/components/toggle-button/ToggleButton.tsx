@@ -45,27 +45,27 @@ class ToggleButton extends React.PureComponent<ToggleButtonProps> {
   static defaultProps = {
     text: null,
     label: null,
-    label_direction: null,
-    label_sr_only: null,
+    labelDirection: null,
+    labelSrOnly: null,
     title: null,
     checked: undefined,
     variant: null,
     size: null,
-    left_component: null,
+    leftComponent: null,
     disabled: null,
     skeleton: null,
     id: null,
     status: null,
-    status_state: 'error',
-    status_props: null,
-    status_no_animation: null,
+    statusState: 'error',
+    statusProps: null,
+    statusNoAnimation: null,
     globalStatus: null,
     suffix: null,
     value: '',
     role: undefined,
     icon: null,
-    icon_position: 'right',
-    icon_size: null,
+    iconPosition: 'right',
+    iconSize: null,
     attributes: null,
     readOnly: false,
 
@@ -230,14 +230,14 @@ class ToggleButton extends React.PureComponent<ToggleButtonProps> {
 
           const {
             status,
-            status_state,
-            status_props,
-            status_no_animation,
+            statusState,
+            statusProps,
+            statusNoAnimation,
             globalStatus,
             suffix,
             label,
-            label_direction,
-            label_sr_only,
+            labelDirection,
+            labelSrOnly,
             text,
             title,
             readOnly,
@@ -245,10 +245,10 @@ class ToggleButton extends React.PureComponent<ToggleButtonProps> {
             disabled,
             skeleton,
             variant,
-            left_component,
+            leftComponent,
             icon,
-            icon_size,
-            icon_position,
+            iconSize,
+            iconPosition,
             value: propValue,
             role,
 
@@ -294,9 +294,9 @@ class ToggleButton extends React.PureComponent<ToggleButtonProps> {
           const mainParams = {
             className: classnames(
               'dnb-toggle-button',
-              status && `dnb-toggle-button__status--${status_state}`,
+              status && `dnb-toggle-button__status--${statusState}`,
               checked && `dnb-toggle-button--checked`,
-              label_direction && `dnb-toggle-button--${label_direction}`,
+              labelDirection && `dnb-toggle-button--${labelDirection}`,
               createSpacingClasses(props),
               className
             ),
@@ -312,8 +312,8 @@ class ToggleButton extends React.PureComponent<ToggleButtonProps> {
             text: text || children,
             title,
             icon,
-            icon_size,
-            icon_position,
+            iconSize,
+            iconPosition,
             [`aria-${
               role === 'radio' || role === 'checkbox'
                 ? 'checked'
@@ -337,8 +337,8 @@ class ToggleButton extends React.PureComponent<ToggleButtonProps> {
 
           if (status) {
             // do not send along the message, but only the status states
-            if (status_state === 'info') {
-              componentParams.status_state = 'info'
+            if (statusState === 'info') {
+              componentParams.statusState = 'info'
             } else {
               componentParams.status = 'error'
             }
@@ -355,23 +355,23 @@ class ToggleButton extends React.PureComponent<ToggleButtonProps> {
             buttonParams['aria-readonly'] = buttonParams.readOnly = true
           }
 
-          let leftComponent = null
+          let usedLeftComponent = null
           switch (variant) {
             case 'radio':
-              leftComponent = (
+              usedLeftComponent = (
                 <Radio id={`${id}-radio`} {...componentParams} />
               )
               break
 
             case 'checkbox':
-              leftComponent = (
+              usedLeftComponent = (
                 <Checkbox id={`${id}-checkbox`} {...componentParams} />
               )
               break
 
             case 'default':
             default:
-              leftComponent = left_component
+              usedLeftComponent = leftComponent
               break
           }
 
@@ -384,8 +384,8 @@ class ToggleButton extends React.PureComponent<ToggleButtonProps> {
                   text={label}
                   disabled={disabled}
                   skeleton={skeleton}
-                  labelDirection={label_direction}
-                  srOnly={label_sr_only}
+                  labelDirection={labelDirection}
+                  srOnly={labelSrOnly}
                 />
               )}
               <span className="dnb-toggle-button__inner">
@@ -396,10 +396,10 @@ class ToggleButton extends React.PureComponent<ToggleButtonProps> {
                   label={label}
                   textId={id + '-status'} // used for "aria-describedby"
                   text={status}
-                  state={status_state}
-                  noAnimation={status_no_animation}
+                  state={statusState}
+                  noAnimation={statusNoAnimation}
                   skeleton={skeleton}
-                  {...status_props}
+                  {...statusProps}
                 />
 
                 <span className="dnb-toggle-button__shell">
@@ -409,9 +409,9 @@ class ToggleButton extends React.PureComponent<ToggleButtonProps> {
                     variant="secondary"
                     className="dnb-toggle-button__button"
                     custom_content={
-                      leftComponent && (
+                      usedLeftComponent && (
                         <span className="dnb-toggle-button__component">
-                          {leftComponent}
+                          {usedLeftComponent}
                         </span>
                       )
                     }
@@ -490,8 +490,8 @@ export interface ToggleButtonProps
    * Use either the `label` property or provide a custom one.
    */
   label?: string | React.ReactNode
-  label_direction?: 'horizontal' | 'vertical'
-  label_sr_only?: boolean
+  labelDirection?: 'horizontal' | 'vertical'
+  labelSrOnly?: boolean
   /**
    * The `title` of the input - describing it a bit further for accessibility reasons.
    */
@@ -501,7 +501,7 @@ export interface ToggleButtonProps
    */
   checked?: boolean
   variant?: ToggleButtonVariant
-  left_component?: React.ReactNode
+  leftComponent?: React.ReactNode
   disabled?: boolean
   /**
    * If set to `true`, an overlaying skeleton with animation will be shown.
@@ -515,12 +515,12 @@ export interface ToggleButtonProps
   /**
    * Defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`.
    */
-  status_state?: FormStatusState
+  statusState?: FormStatusState
   /**
    * Use an object to define additional FormStatus properties.
    */
-  status_props?: FormStatusProps
-  status_no_animation?: boolean
+  statusProps?: FormStatusProps
+  statusNoAnimation?: boolean
   /**
    * The [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status).
    */
@@ -548,11 +548,11 @@ export interface ToggleButtonProps
   /**
    * Position of the icon inside the toggle button. Set to `left` or `right`. Defaults to `right` if not set.
    */
-  icon_position?: ButtonIconPosition
+  iconPosition?: ButtonIconPosition
   /**
    * Define icon width and height. Defaults to `16px`.
    */
-  icon_size?: IconSize
+  iconSize?: IconSize
   attributes?: ToggleButtonAttributes
   readOnly?: boolean
   className?: string
