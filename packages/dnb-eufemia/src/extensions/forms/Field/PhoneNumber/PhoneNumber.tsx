@@ -500,7 +500,7 @@ function PhoneNumber(props: Props = {}) {
           )}
           mode="async"
           placeholder={countryCodePlaceholder}
-          label_direction="vertical"
+          labelDirection="vertical"
           label={countryCodeLabel ?? defaultCountryCodeLabel}
           label_sr_only={labelSrOnly}
           data={dataRef.current}
