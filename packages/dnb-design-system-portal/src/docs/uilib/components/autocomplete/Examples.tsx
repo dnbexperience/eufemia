@@ -45,8 +45,8 @@ export const AutocompleteStatusInfoExample = () => (
         data={topMovies}
         label="Label"
         status="Please select a valid date"
-        status_state="info"
-        show_submit_button
+        statusState="info"
+        showSubmitButton
       />
     </ComponentBox>
   </Wrapper>
@@ -62,8 +62,8 @@ export const AutocompleteStatusErrorExample = () => (
         label="Status error"
         data={[topMovies[0]]}
         status="Error"
-        status_state="error"
-        show_submit_button
+        statusState="error"
+        showSubmitButton
         opened
         noAnimation
         preventClose
@@ -84,11 +84,11 @@ export const AutocompleteNumbersExample = () => (
   <Wrapper>
     <ComponentBox scope={{ numbersData }}>
       <Autocomplete
-        input_value="201"
-        show_clear_button
+        inputValue="201"
+        showClearButton
         label="Label"
         data={numbersData}
-        search_numbers={true}
+        searchNumbers={true}
       />
     </ComponentBox>
   </Wrapper>
@@ -102,8 +102,8 @@ export const AutocompleteWithCustomTitle = () => (
     >
       <Autocomplete
         data={topMovies}
-        keep_value={true}
-        show_clear_button={true}
+        keepValue={true}
+        showClearButton={true}
         label="Label"
         placeholder="Custom placeholder ..."
         on_change={({ data }) => {
@@ -202,7 +202,7 @@ export const AutocompleteToggleExample = () => (
       <Autocomplete
         label="Label"
         value={10}
-        show_submit_button={true}
+        showSubmitButton={true}
         on_change={({ data }) => {
           console.log('on_change', data)
         }}
@@ -221,7 +221,7 @@ export const AutocompletePredefinedInput = () => (
     >
       <Autocomplete
         label="Label"
-        input_value="the pa ther"
+        inputValue="the pa ther"
         noAnimation
         on_change={({ data }) => {
           console.log('on_change', data)
@@ -284,24 +284,24 @@ export const AutocompleteCustomWidth = () => (
         <Flex.Vertical>
           <CustomWidthOne
             label="Label"
-            label_sr_only
+            labelSrOnly
             size="default"
-            icon_position="left"
+            iconPosition="left"
             data={topMovies}
           />
           <CustomWidthTwo
             label="Label"
-            label_sr_only
+            labelSrOnly
             size="medium"
             data={topMovies}
           />
           <CustomWidthThree
             label="Label"
-            label_sr_only
+            labelSrOnly
             size="large"
-            align_autocomplete="right"
-            icon_position="right"
-            input_icon="bell"
+            alignAutocomplete="right"
+            iconPosition="right"
+            inputIcon="bell"
             data={topMovies}
           />
         </Flex.Vertical>
@@ -358,8 +358,8 @@ export const AutocompleteSuffix = () => {
             value={1}
             data={numbers}
             size="medium"
-            input_icon={null}
-            show_submit_button
+            inputIcon={null}
+            showSubmitButton
             label="From account"
             labelDirection="vertical"
           />
@@ -379,7 +379,7 @@ export const AutocompleteOpened = () => {
       >
         <Autocomplete
           label="Label"
-          input_value="lord"
+          inputValue="lord"
           opened
           noAnimation
           direction="bottom"
@@ -389,7 +389,7 @@ export const AutocompleteOpened = () => {
         />
         <Autocomplete
           label="Label"
-          input_value="angry"
+          inputValue="angry"
           skipPortal
           opened
           noAnimation
@@ -544,7 +544,7 @@ export const AutocompleteDisabledExample = () => (
     >
       <Autocomplete
         disabled
-        show_submit_button
+        showSubmitButton
         data={topMovies}
         value={1}
         label="Label"
@@ -553,7 +553,7 @@ export const AutocompleteDisabledExample = () => (
       <br />
       <Autocomplete
         disabled
-        show_submit_button
+        showSubmitButton
         data={topMovies}
         value={1}
         label="Label"
@@ -568,7 +568,7 @@ export const AutocompleteDisabledOptionsExample = () => (
   <Wrapper>
     <ComponentBox data-visual-test="autocomplete-disabled-options">
       <Autocomplete
-        show_submit_button
+        showSubmitButton
         data={[
           {
             disabled: true,
