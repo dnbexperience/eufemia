@@ -30,11 +30,11 @@ export interface RadioProps
   /**
    * Use `true` to make the label only readable by screen readers.
    */
-  label_sr_only?: boolean;
+  labelSrOnly?: boolean;
   /**
    * Defines the position of the `label`. Use either `left` or `right`. Defaults to `right`.
    */
-  label_position?: RadioLabelPosition;
+  labelPosition?: RadioLabelPosition;
   /**
    * Determine whether the radio is checked or not. Default will be `false`.
    */
@@ -57,12 +57,12 @@ export interface RadioProps
   /**
    * Defines the state of the status. It's two statuses `[error, info]`. Defaults to `error`.
    */
-  status_state?: FormStatusState;
+  statusState?: FormStatusState;
   /**
    * Use an object to define additional FormStatus properties.
    */
-  status_props?: FormStatusProps;
-  status_no_animation?: RadioStatusNoAnimation;
+  statusProps?: FormStatusProps;
+  statusNoAnimation?: RadioStatusNoAnimation;
   /**
    * The [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status).
    */
