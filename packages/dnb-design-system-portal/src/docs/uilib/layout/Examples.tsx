@@ -482,7 +482,6 @@ export const AllComponentsVerticalLabelsTestCase = (
   >
     <Provider
       formElement={{
-        label_direction: 'vertical',
         labelDirection: 'vertical',
       }}
     >
