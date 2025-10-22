@@ -161,7 +161,7 @@ function MultiInputMask<T extends string>({
           )
         }
         className={classnames('dnb-multi-input-mask', className)}
-        label_direction={labelDirection}
+        labelDirection={labelDirection}
         disabled={disabled}
         status={status}
         status_state={statusState}

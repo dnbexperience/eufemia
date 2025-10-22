@@ -163,7 +163,7 @@ export const Textarea = () => (
   <Wrapper className="dnb-spacing">
     <CustomStyles>
       <Box>
-        <Provider formElement={{ label_direction: 'vertical' }}>
+        <Provider formElement={{ labelDirection: 'vertical' }}>
           <Flex.Vertical>
             <label className="dnb-form-label" htmlFor="hendrerit">
               Label for the textarea:
@@ -212,7 +212,7 @@ export const Textarea = () => (
         <p className="dnb-p">I have to be on the grid!</p>
       </Box>
       <Box>
-        <Provider formElement={{ label_direction: 'vertical' }}>
+        <Provider formElement={{ labelDirection: 'vertical' }}>
           <Flex.Vertical>
             <label className="dnb-form-label" htmlFor="vestibulum">
               Label:

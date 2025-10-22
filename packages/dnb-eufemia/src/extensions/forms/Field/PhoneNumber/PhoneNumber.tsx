@@ -507,7 +507,7 @@ function PhoneNumber(props: Props = {}) {
           )}
           mode="async"
           placeholder={countryCodePlaceholder}
-          label_direction="vertical"
+          labelDirection="vertical"
           label={
             countryCodeLabel === false
               ? defaultCountryCodeLabel
