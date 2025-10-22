@@ -99,7 +99,7 @@ export const FormSetSandbox = () => {
                     value="third"
                     checked
                     status="Info message"
-                    status_state="info"
+                    statusState="info"
                   />
                 </Radio.Group>
               </FormRow>
@@ -108,7 +108,7 @@ export const FormSetSandbox = () => {
               <FormRow>
                 <Radio.Group
                   label="Column group:"
-                  layout_direction="column"
+                  layoutDirection="column"
                 >
                   <Radio label="First" value="first" />
                   <Radio label="Second" value="second" />
@@ -120,7 +120,7 @@ export const FormSetSandbox = () => {
               <FormRow>
                 <Radio.Group
                   label="Column group with error:"
-                  layout_direction="column"
+                  layoutDirection="column"
                   status="Error message Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
                 >
                   <Radio label="First" value="first" />
@@ -133,17 +133,17 @@ export const FormSetSandbox = () => {
               <FormRow label="Group with error Long Group name Vitae dapibus eros viverra torquent euismod at dignissim vel mattis:">
                 <Radio.Group status="Error message Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum">
                   <Radio
-                    label_position="left"
+                    labelPosition="left"
                     label="First"
                     value="first"
                   />
                   <Radio
-                    label_position="left"
+                    labelPosition="left"
                     label="Second"
                     value="second"
                   />
                   <Radio
-                    label_position="left"
+                    labelPosition="left"
                     label="Third"
                     value="third"
                     checked
