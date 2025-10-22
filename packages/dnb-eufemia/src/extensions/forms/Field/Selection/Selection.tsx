@@ -203,18 +203,6 @@ export const listOfValidAutocompleteProps = [
 ]
 
 const validDropdownProps = [
-  // From DropdownProperties
-  'icon_size',
-  'icon_position',
-  'open_on_focus',
-  'action_menu',
-  'more_menu',
-  'align_dropdown',
-  'status_state',
-  'status_props',
-  'label_sr_only',
-  'trigger_element',
-
   // From DropdownEvents
   'on_change',
   'on_select',
