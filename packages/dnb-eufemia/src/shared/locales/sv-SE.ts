@@ -122,8 +122,8 @@ export default {
       loadButtonText: 'Visa mer innehåll',
     },
     Skeleton: {
-      aria_busy: 'Bearbetar data ...',
-      aria_ready: 'Klar att interagera',
+      ariaBusy: 'Bearbetar data ...',
+      ariaReady: 'Klar att interagera',
     },
     StepIndicator: {
       overview_title: 'Stegöversikt',
