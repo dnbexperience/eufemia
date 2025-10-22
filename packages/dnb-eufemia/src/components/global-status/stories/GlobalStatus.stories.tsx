@@ -47,7 +47,7 @@ export const ComponentAsLabel = () => {
 
       <Provider
         formElement={{
-          label_direction: 'vertical',
+          labelDirection: 'vertical',
           globalStatus: { id: 'test' },
         }}
       >
@@ -95,7 +95,7 @@ export const CustomGlobalStatusMessage = () => {
 
       <Provider
         formElement={{
-          label_direction: 'vertical',
+          labelDirection: 'vertical',
           globalStatus: { id: 'test-test', message: 'Hva skjer nå' },
         }}
       >
@@ -255,7 +255,7 @@ const InputWithError = () => {
             right="small"
             // status_no_animation
           />
-          <Provider formElement={{ label_direction: 'vertical' }}>
+          <Provider formElement={{ labelDirection: 'vertical' }}>
             <Flex.Vertical>
               <Switch
                 status={haveAnErrorMessage3 ? 'Error Message #3' : null}
