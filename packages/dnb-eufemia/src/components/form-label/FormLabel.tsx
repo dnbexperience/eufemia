@@ -19,7 +19,6 @@ import {
   FormElementProps,
   pickFormElementProps,
 } from '../../shared/helpers/filterValidProps'
-import { convertSnakeCaseProps } from '../../shared/helpers/withSnakeCaseProps'
 import { omitSpacingProps } from '../flex/utils'
 import Context from '../../shared/Context'
 import type {
@@ -57,15 +56,13 @@ export default function FormLabel(localProps: FormLabelAllProps) {
   const context = React.useContext(Context)
 
   // use only the props from context, who are available here anyway
-  const props = convertSnakeCaseProps(
-    extendPropsWithContext(
-      localProps,
-      null,
-      { skeleton: context?.skeleton },
-      pickFormElementProps(context?.FormRow), // Deprecated – can be removed in v11
-      pickFormElementProps(context?.formElement),
-      context?.FormLabel
-    )
+  const props = extendPropsWithContext(
+    localProps,
+    null,
+    { skeleton: context?.skeleton },
+    pickFormElementProps(context?.FormRow), // Deprecated – can be removed in v11
+    pickFormElementProps(context?.formElement),
+    context?.FormLabel
   )
 
   const nestedContent = props?.text || props?.children
