@@ -27,7 +27,7 @@ export const RadioButtonSandbox = () => (
     <Box>
       <Radio.Group
         label="With suffixes:"
-        // label_position="left"
+        // labelPosition="left"
         suffix="And a group suffix"
       >
         <Radio label="First" value="first" />
@@ -163,13 +163,13 @@ export const RadioButtonSandbox = () => (
             value="third"
             checked
             status="Info message"
-            status_state="info"
+            statusState="info"
           />
         </Radio.Group>
       </FormRow>
     </Box>
     <Box>
-      <Radio.Group label="Vertical group:" layout_direction="column">
+      <Radio.Group label="Vertical group:" layoutDirection="column">
         <Radio label="First" value="first" />
         <Radio label="Second" value="second" />
         <Radio label="Third" value="third" />
@@ -178,8 +178,8 @@ export const RadioButtonSandbox = () => (
     <Box>
       <Radio.Group
         label="Vertical group with error:"
-        layout_direction="column"
-        label_direction="vertical"
+        layoutDirection="column"
+        labelDirection="vertical"
         // vertical={true}
         status="Error message Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
       >
@@ -189,7 +189,7 @@ export const RadioButtonSandbox = () => (
       </Radio.Group>
     </Box>
     <Box>
-      <Provider formElement={{ label_direction: 'vertical' }}>
+      <Provider formElement={{ labelDirection: 'vertical' }}>
         <Radio.Group label="Vertical with FormRow:">
           <Radio label="First" value="first" />
           <Radio label="Second" value="second" />
@@ -198,7 +198,7 @@ export const RadioButtonSandbox = () => (
       </Provider>
     </Box>
     <Box>
-      <Radio.Group label="Vertical label:" label_direction="vertical">
+      <Radio.Group label="Vertical label:" labelDirection="vertical">
         <Radio label="First" value="first" />
         <Radio label="Second" value="second" />
         <Radio label="Third" value="third" checked />
@@ -207,8 +207,8 @@ export const RadioButtonSandbox = () => (
     <Box>
       <Radio.Group
         label="Group with error:"
-        label_direction="vertical"
-        label_position="left" // for every radio button
+        labelDirection="vertical"
+        labelPosition="left" // for every radio button
         status="Error message left position Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
       >
         <Radio label="First" value="first" />
@@ -246,10 +246,10 @@ const RadioGroupsWithStatus = () => {
 
   return (
     <Form.Handler>
-      <Provider formElement={{ label_direction: 'vertical' }}>
+      <Provider formElement={{ labelDirection: 'vertical' }}>
         <Radio.Group
           label="Group A label:"
-          // label_direction="vertical"
+          // labelDirection="vertical"
           value={currentValueForGroupA}
           on_change={({ value }) => {
             console.log('on_change A', value)
@@ -262,7 +262,7 @@ const RadioGroupsWithStatus = () => {
         </Radio.Group>
         <Radio.Group
           label="Group B label:"
-          // label_direction="vertical"
+          // labelDirection="vertical"
           value={currentValueForGroupB}
           on_change={({ value }) => {
             console.log('on_change B', value)
