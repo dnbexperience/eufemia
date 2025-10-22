@@ -111,7 +111,7 @@ export type BreadcrumbProps = {
   collapsed?: boolean
 
   /**
-   * Use one of the Section component style types (style_type)
+   * Use one of the Section component style types (styleType)
    * Default: transparent
    */
   styleType?: SectionStyle

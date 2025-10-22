@@ -42,7 +42,7 @@ export const BreadcrumbProperties: PropertiesTableProps = {
     status: 'optional',
   },
   styleType: {
-    doc: 'Use one of the Section component style types (style_type). Defaults to `transparent`.',
+    doc: 'Use one of the Section component style types (styleType). Defaults to `transparent`.',
     type: 'Various',
     status: 'optional',
   },

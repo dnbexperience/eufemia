@@ -108,10 +108,6 @@ export type SectionProps = {
    * @deprecated in v11 use "innerSpace" prop instead
    */
   spacing?: SectionSpacing | ResponsiveProp<SectionSpacing>
-  /**
-   * @deprecated in v11 use "background" prop instead
-   */
-  style_type?: SectionStyleTypes | string
 
   /**
    * @deprecated in v11 use "innerRef" prop instead
@@ -177,7 +173,6 @@ export function SectionParams(
     children,
 
     spacing,
-    style_type,
     inner_ref,
 
     ...attributes
