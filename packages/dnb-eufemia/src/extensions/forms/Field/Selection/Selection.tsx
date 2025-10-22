@@ -146,9 +146,6 @@ export type Props = FieldProps<IOption['value']> & {
 }
 
 const validDrawerListProps = [
-  // DrawerList Properties
-  'label_direction',
-
   // DrawerList Events
   'on_pre_change',
   'on_change',
@@ -177,7 +174,6 @@ const validAutocompleteProps = [
   'keep_selection',
   'keep_value',
   'keep_value_and_selection',
-  'label_direction',
   'label_sr_only',
   'no_options',
   'open_on_focus',
@@ -228,7 +224,6 @@ const validDropdownProps = [
   'align_dropdown',
   'status_state',
   'status_props',
-  'label_direction',
   'label_sr_only',
   'trigger_element',
 

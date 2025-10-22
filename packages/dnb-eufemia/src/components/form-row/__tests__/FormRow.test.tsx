@@ -27,7 +27,7 @@ describe('FormRow component', () => {
     render(
       <FormRow vertical>
         <Input label="Vertical" />
-        <FormRow vertical={false} label_direction="horizontal">
+        <FormRow vertical={false} labelDirection="horizontal">
           <Input label="Horizontal" />
         </FormRow>
         <Input label="Vertical" />
