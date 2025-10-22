@@ -506,13 +506,9 @@ function PhoneNumber(props: Props = {}) {
           )}
           mode="async"
           placeholder={countryCodePlaceholder}
-          label_direction="vertical"
-          label={
-            countryCodeLabel === false
-              ? defaultCountryCodeLabel
-              : countryCodeLabel ?? defaultCountryCodeLabel
-          }
-          label_sr_only={countryCodeLabel === false ? true : undefined}
+          labelDirection="vertical"
+          label={countryCodeLabel ?? defaultCountryCodeLabel}
+          label_sr_only={labelSrOnly}
           data={dataRef.current}
           value={countryCodeRef.current}
           status={hasError ? 'error' : undefined}

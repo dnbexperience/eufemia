@@ -687,7 +687,7 @@ export const DropdownStatusVertical = () => (
       <Dropdown
         data={data}
         label="Label"
-        label_direction="vertical"
+        labelDirection="vertical"
         status="Message to the user"
       />
     </ComponentBox>

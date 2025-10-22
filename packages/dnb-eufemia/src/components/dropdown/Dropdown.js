@@ -64,7 +64,7 @@ export default class Dropdown extends React.PureComponent {
       PropTypes.func,
       PropTypes.node,
     ]),
-    label_direction: PropTypes.oneOf(['horizontal', 'vertical']),
+    labelDirection: PropTypes.oneOf(['horizontal', 'vertical']),
     label_sr_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     status: PropTypes.oneOfType([
       PropTypes.string,
@@ -179,7 +179,7 @@ export default class Dropdown extends React.PureComponent {
     icon_position: null,
     trianglePosition: null,
     label: null,
-    label_direction: null,
+    labelDirection: null,
     label_sr_only: null,
     status: null,
     status_state: 'error',
@@ -423,7 +423,7 @@ class DropdownInstance extends React.PureComponent {
 
     const {
       label,
-      label_direction,
+      labelDirection,
       label_sr_only,
       icon_size,
       size,
@@ -518,7 +518,7 @@ class DropdownInstance extends React.PureComponent {
         'dnb-dropdown',
         `dnb-dropdown--${direction}`,
         opened && 'dnb-dropdown--opened',
-        label_direction && `dnb-dropdown--${label_direction}`,
+        labelDirection && `dnb-dropdown--${labelDirection}`,
         `dnb-dropdown--icon-position-${icon_position || 'right'}`,
         isPopupMenu && 'dnb-dropdown--is-popup',
         isTrue(action_menu) && `dnb-dropdown--action-menu`,
@@ -585,7 +585,7 @@ class DropdownInstance extends React.PureComponent {
             id={id + '-label'}
             forId={id}
             text={label}
-            labelDirection={label_direction}
+            labelDirection={labelDirection}
             srOnly={label_sr_only}
             disabled={disabled}
             skeleton={skeleton}
