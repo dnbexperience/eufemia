@@ -49,7 +49,7 @@ export const FormRowSandbox = () => (
 
       {/* <Box>
         <H3 bottom="large">Horizontal with vertical label direction</H3>
-        <FormRow label="Vertical Legend:" label_direction="vertical">
+        <FormRow label="Vertical Legend:" labelDirection="vertical">
           <AllComponents showText horizontal />
         </FormRow>
       </Box> */}
@@ -58,7 +58,7 @@ export const FormRowSandbox = () => (
         <H3 bottom="large">
           Horizontal with vertical label direction, but no label
         </H3>
-        <FormRow label="Vertical Legend:" label_direction="vertical">
+        <FormRow label="Vertical Legend:" labelDirection="vertical">
           <AllComponents showText horizontal hideLabel />
         </FormRow>
       </Box> */}
@@ -103,7 +103,7 @@ export const FormRowSandbox = () => (
             // direction="horizontal"
 
             vertical={false}
-            label_direction="horizontal"
+            labelDirection="horizontal"
             top="medium"
           >
             <Input label="Horizontal input A" right="small" />
