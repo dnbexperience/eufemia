@@ -5,7 +5,7 @@
  *
  */
 
-import { LOCALE, CURRENCY, currencyDisplay } from '../../shared/defaults'
+import { LOCALE, CURRENCY, CURRENCY_DISPLAY } from '../../shared/defaults'
 import {
   warn,
   isTrue,
@@ -1087,7 +1087,7 @@ export function getFallbackCurrencyDisplay(
     currencyDisplay = 'narrowSymbol'
   }
 
-  return currencyDisplay || currencyDisplay // code, name, symbol
+  return currencyDisplay || CURRENCY_DISPLAY // code, name, symbol
 }
 
 /**
