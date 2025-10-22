@@ -17,7 +17,7 @@ import { MultiInputMask } from '@dnb/eufemia/src/components/input-masked'
 export const InputMaskedExampleNumberLocale = () => (
   <Wrapper>
     <ComponentBox data-visual-test="input-masked-number">
-      <Provider formElement={{ label_direction: 'vertical' }}>
+      <Provider formElement={{ labelDirection: 'vertical' }}>
         <Flex.Vertical>
           <InputMasked
             label="Number"
@@ -55,7 +55,7 @@ export const InputMaskedExampleNumberLocale = () => (
 export const InputMaskedExampleCurrencyLocale = () => (
   <Wrapper>
     <ComponentBox data-visual-test="input-masked-currency">
-      <Provider formElement={{ label_direction: 'vertical' }}>
+      <Provider formElement={{ labelDirection: 'vertical' }}>
         <Flex.Vertical>
           <InputMasked
             label="Currency"
@@ -91,7 +91,7 @@ export const InputMaskedExampleCurrencyLocale = () => (
 export const InputMaskedExampleCurrencyMask = () => (
   <Wrapper>
     <ComponentBox data-visual-test="input-masked-currency_mask">
-      <Provider formElement={{ label_direction: 'vertical' }}>
+      <Provider formElement={{ labelDirection: 'vertical' }}>
         <Flex.Vertical>
           <InputMasked
             label="Left aligned (default)"
