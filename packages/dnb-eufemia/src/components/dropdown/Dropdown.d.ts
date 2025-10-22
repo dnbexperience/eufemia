@@ -44,9 +44,9 @@ export interface DropdownProps {
    */
   label?: React.ReactNode;
   /**
-   * Use `label_direction="vertical"` to change the label layout direction. Defaults to `horizontal`.
+   * Use `labelDirection="vertical"` to change the label layout direction. Defaults to `horizontal`.
    */
-  label_direction?: FormLabelLabelDirection;
+  labelDirection?: FormLabelLabelDirection;
   /**
    * Use `true` to make the label only readable by screen readers.
    */
