@@ -158,7 +158,7 @@ export interface DrawerListProps {
   actionMenu?: boolean
   isPopup?: boolean
   /**
-   * Use 'right' to change the options alignment direction. Makes only sense to use in combination with `preventSelection` or `more_menu` - or if an independent width is used.
+   * Use 'right' to change the options alignment direction. Makes only sense to use in combination with `preventSelection` or `moreMenu` - or if an independent width is used.
    */
   alignDrawer?: 'left' | 'right'
   /**
@@ -205,7 +205,7 @@ export interface DrawerListProps {
    * If set to `true`, the DrawerList will close on outside clicks, but not on selection.
    */
   keepOpen?: boolean
-  prevent_focus?: boolean
+  preventFocus?: boolean
   /**
    * If set to `true`, search items by the first key will be ignored.
    */
@@ -337,11 +337,11 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
     // if (getClosestParent('dnb-number-format', event.target)) {
     //   return // stop
     // }
-    const selected_item = parseFloat(
+    const selectedItem = parseFloat(
       event.currentTarget.getAttribute('data-item')
     )
-    if (selected_item > -1) {
-      this.context.drawerList.selectItemAndClose(selected_item, {
+    if (selectedItem > -1) {
+      this.context.drawerList.selectItemAndClose(selectedItem, {
         fireSelectEvent: true,
         event,
       })
@@ -388,19 +388,20 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
       skipKeysearch: _skipKeysearch, // eslint-disable-line
       skipPortal: _skipPortal, // eslint-disable-line
       enableBodyLock: _enableBodyLock, // eslint-disable-line
+      preventFocus: _preventFocus, // eslint-disable-line
       children,
       ...attributes
     } = props
 
     function noNullNumbers({
-      selected_item,
-      active_item,
+      selectedItem,
+      activeItem,
       maxHeight,
       ...rest
     }: DrawerListContextProps['drawerList']): DrawerListContextProps['drawerList'] {
       return {
-        selected_item: selected_item ?? undefined,
-        active_item: active_item ?? undefined,
+        selectedItem: selectedItem ?? undefined,
+        activeItem: activeItem ?? undefined,
         maxHeight: maxHeight ?? undefined,
         ...rest,
       }
@@ -416,8 +417,8 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
       direction,
       maxHeight,
       cacheHash,
-      selected_item,
-      active_item,
+      selectedItem,
+      activeItem,
       showFocusRing,
       closestToTop,
       closestToBottom,
@@ -540,8 +541,8 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
                     (ignoreEventsBoolean && 'ignore-events'),
                   class_name
                 ),
-                active: __id == active_item,
-                selected: !ignoreEventsBoolean && __id == selected_item,
+                active: __id == activeItem,
+                selected: !ignoreEventsBoolean && __id == selectedItem,
                 onClick: this.selectItemHandler,
                 onKeyDown: this.preventTab,
                 disabled: disabled,
@@ -612,8 +613,8 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
                 hasGroups={hasGroups}
                 cacheHash={
                   cacheHash +
-                  active_item +
-                  selected_item +
+                  activeItem +
+                  selectedItem +
                   closestToTop +
                   closestToBottom +
                   direction +

@@ -487,8 +487,8 @@ describe('Dropdown component', () => {
     const event = on_change.mock.calls[0][0]
     const selectedItem = mockData[event.value]
     expect(event.value).toBe(1)
-    expect(event.selected_item).toBe(1)
-    expect(event.active_item).toBe(undefined)
+    expect(event.selectedItem).toBe(1)
+    expect(event.activeItem).toBe(undefined)
     expect(event.data).toStrictEqual(selectedItem)
 
     expect(document.querySelector('.dnb-dropdown__text').textContent).toBe(
@@ -718,7 +718,7 @@ describe('Dropdown component', () => {
       isTrusted: false,
       data: selectedItem,
       event: new KeyboardEvent('keydown', {}),
-      selected_item: (props.value as number) + 1,
+      selectedItem: (props.value as number) + 1,
       value: (props.value as number) + 1,
     })
 
@@ -762,7 +762,7 @@ describe('Dropdown component', () => {
         value: 'en-GB',
       },
       event: new KeyboardEvent('keydown', {}),
-      selected_item: 0,
+      selectedItem: 0,
       value: 'en-GB',
     })
 
@@ -780,7 +780,7 @@ describe('Dropdown component', () => {
         value: 'nb-NO',
       },
       event: new KeyboardEvent('keydown', {}),
-      selected_item: 1,
+      selectedItem: 1,
       value: 'nb-NO',
     })
 
