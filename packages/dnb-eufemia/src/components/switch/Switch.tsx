@@ -29,7 +29,6 @@ import FormStatus, {
   FormStatusState,
   FormStatusText,
 } from '../form-status/FormStatus'
-import { convertSnakeCaseProps } from '../../shared/helpers/withSnakeCaseProps'
 import useId from '../../shared/helpers/useId'
 import { GlobalStatusConfigObject } from '../GlobalStatus'
 import { SkeletonShow } from '../Skeleton'
@@ -399,7 +398,7 @@ export default function Switch(props: SwitchProps) {
 
   function extractPropsFromContext() {
     return extendPropsWithContext(
-      convertSnakeCaseProps(props),
+      props,
       defaultProps,
       { skeleton: context?.skeleton },
       // Deprecated – can be removed in v11
