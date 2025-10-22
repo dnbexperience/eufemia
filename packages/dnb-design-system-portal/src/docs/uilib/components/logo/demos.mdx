@@ -3,6 +3,7 @@ showTabs: true
 ---
 
 import {
+  LogoChangeExample,
   LogoInheritFontSizeExample,
   LogoInheritHeightExample,
   LogoDefaultExample,
@@ -11,6 +12,16 @@ import {
 } from 'Docs/uilib/components/logo/Examples'
 
 ## Demos
+
+### Logo that changes based on theme
+
+You can import the SVGs for each brand like this:
+
+```jsx
+import { DnbDefault, SbankenDefault } from '@dnb/eufemia/components/Logo'
+```
+
+<LogoChangeExample />
 
 ### Logo with dynamic height
 
@@ -37,6 +48,12 @@ The color will be set based on the parent, inherited `color` by using `currentCo
 <VisibilityByTheme visible="sbanken">
 
 ### Logo with compact variant
+
+You can import the SVG like this:
+
+```jsx
+import { SbankenCompact } from '@dnb/eufemia/components/Logo'
+```
 
 <LogoCompactVariantExample />
 

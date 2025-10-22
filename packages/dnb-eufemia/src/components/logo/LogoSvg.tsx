@@ -7,6 +7,9 @@ export type LogoType =
   | 'sbankenCompact'
   | 'sbankenHorizontal'
 
+/**
+ * @deprecated Will be removed in eufemia v11. Use the `svg` prop to provide a custom logo instead.
+ */
 export default function LogoSvg({
   svgParams,
   logoType,
@@ -29,7 +32,9 @@ export default function LogoSvg({
   }
 }
 
-function DnbDefault({ alt, ...props }) {
+export const DnbLogoAlt = 'DNB Logo'
+
+export function DnbDefault({ alt, ...props }) {
   return (
     <svg {...props} viewBox="0 0 93.0362 64">
       <title>{alt}</title>
@@ -39,8 +44,11 @@ function DnbDefault({ alt, ...props }) {
     </svg>
   )
 }
+DnbDefault.alt = DnbLogoAlt
 
-function SbankenDefault({ alt, ...props }) {
+export const SbankenLogoAlt = 'Sbanken - et konsept fra DNB'
+
+export function SbankenDefault({ alt, ...props }) {
   return (
     <svg {...props} viewBox="0 0 1601 533">
       <title>{alt}</title>
@@ -48,8 +56,9 @@ function SbankenDefault({ alt, ...props }) {
     </svg>
   )
 }
+SbankenDefault.alt = SbankenLogoAlt
 
-function SbankenCompact({ alt, ...props }) {
+export function SbankenCompact({ alt, ...props }) {
   return (
     <svg {...props} viewBox="0 0 281 401">
       <title>{alt}</title>
@@ -57,8 +66,9 @@ function SbankenCompact({ alt, ...props }) {
     </svg>
   )
 }
+SbankenCompact.alt = SbankenLogoAlt
 
-function SbankenHorizontal({ alt, ...props }) {
+export function SbankenHorizontal({ alt, ...props }) {
   return (
     <svg {...props} viewBox="0 0 494 288">
       <title>{alt}</title>
@@ -66,3 +76,4 @@ function SbankenHorizontal({ alt, ...props }) {
     </svg>
   )
 }
+SbankenHorizontal.alt = SbankenLogoAlt
