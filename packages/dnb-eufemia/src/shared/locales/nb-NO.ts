@@ -81,13 +81,13 @@ export default {
     },
     Autocomplete: {
       title: 'Skriv og velg',
-      submit_button_title: 'Vis alternativer',
-      no_options: 'Ingen alternativer',
-      show_all: 'Vis alt',
-      show_options_sr: 'Bla gjennom alternativer, lukk med esc knappen',
-      aria_live_options: '%s alternativer',
-      selected_sr: 'Valgt:',
-      indicator_label: 'Henter data ...',
+      submitButtonTitle: 'Vis alternativer',
+      noOptions: 'Ingen alternativer',
+      showAll: 'Vis alt',
+      showOptionsSr: 'Bla gjennom alternativer, lukk med esc knappen',
+      ariaLiveOptions: '%s alternativer',
+      selectedSr: 'Valgt:',
+      indicatorLabel: 'Henter data ...',
     },
     Modal: {
       dialog_title: 'Separat Vindu',
@@ -109,7 +109,7 @@ export default {
       aria_role: 'Hjelp-knapp',
     },
     Input: {
-      submit_button_title: 'Send knapp',
+      submitButtonTitle: 'Send knapp',
       clear_button_title: 'Nullstill',
     },
     Pagination: {

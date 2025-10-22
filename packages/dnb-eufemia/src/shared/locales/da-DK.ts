@@ -81,13 +81,13 @@ export default {
     },
     Autocomplete: {
       title: 'Skriv og vælg',
-      submit_button_title: 'Vis muligheder',
-      no_options: 'Ingen muligheder',
-      show_all: 'Vis alt',
-      show_options_sr: 'Gennemse muligheder, luk med esc-knappen',
-      aria_live_options: '%s muligheder',
-      selected_sr: 'Valgt:',
-      indicator_label: 'Henter data ...',
+      submitButtonTitle: 'Vis muligheder',
+      noOptions: 'Ingen muligheder',
+      showAll: 'Vis alt',
+      showOptionsSr: 'Gennemse muligheder, luk med esc-knappen',
+      ariaLiveOptions: '%s muligheder',
+      selectedSr: 'Valgt:',
+      indicatorLabel: 'Henter data ...',
     },
     Modal: {
       dialog_title: 'Separat vindue',
@@ -109,7 +109,7 @@ export default {
       aria_role: 'Hjælp-knap',
     },
     Input: {
-      submit_button_title: 'Send ind knap',
+      submitButtonTitle: 'Send ind knap',
       clear_button_title: 'Nulstil',
     },
     Pagination: {
