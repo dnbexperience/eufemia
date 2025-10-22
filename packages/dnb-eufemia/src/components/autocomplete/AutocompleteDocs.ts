@@ -6,7 +6,7 @@ export const AutocompleteProperties = {
     type: 'string',
     status: 'optional',
   },
-  input_value: {
+  inputValue: {
     doc: 'Lets you define a custom input value. Setting it to an empty string `""` will reset the input value.',
     type: 'string',
     status: 'optional',
@@ -21,52 +21,52 @@ export const AutocompleteProperties = {
     type: 'React.Node',
     status: 'optional',
   },
-  disable_filter: {
+  disableFilter: {
     doc: 'If set to `true`, word highlighting will still be active, but no options will be filtered out. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
-  disable_highlighting: {
+  disableHighlighting: {
     doc: 'If set to `true`, word highlighting will be disabled, but the options will still get filtered. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
-  disable_reorder: {
+  disableReorder: {
     doc: 'If set to `true`, reordering of search results will be disabled. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
-  search_numbers: {
-    doc: 'If set to `true` and `search_in_word_index` is not set, the user will be able to more easily search and filter e.g. bank account numbers. Defaults to `false`.',
+  searchNumbers: {
+    doc: 'If set to `true` and `searchInWordIndex` is not set, the user will be able to more easily search and filter e.g. bank account numbers. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
-  search_in_word_index: {
+  searchInWordIndex: {
     doc: 'This gives you the possibility to change the threshold number, which defines from what word on we search "inside words". Defaults to `3`.',
     type: 'boolean',
     status: 'optional',
   },
-  keep_value: {
+  keepValue: {
     doc: 'Use `true` to not remove the typed value on input blur, if it is invalid. By default, the typed value will disappear / replaced by a selected value from the data list during the input field blur. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
-  keep_selection: {
+  keepSelection: {
     doc: 'Use `true` to not remove selected item on input blur, when the input value is empty. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
-  keep_value_and_selection: {
-    doc: 'Like `keep_value` – but would not reset to the selected value during input field blur. Also, the selected value would still be kept. Defaults to `false`.',
+  keepValueAndSelection: {
+    doc: 'Like `keepValue` – but would not reset to the selected value during input field blur. Also, the selected value would still be kept. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
   preventSelection: {
-    doc: 'If set to `true`, no permanent selection will be made. Also, the typed value will not disappear on input blur (like `keep_value`). Defaults to `false`.',
+    doc: 'If set to `true`, no permanent selection will be made. Also, the typed value will not disappear on input blur (like `keepValue`). Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
-  show_clear_button: {
+  showClearButton: {
     doc: 'If set to `true`, a clear button is shown inside the input field. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
@@ -76,17 +76,17 @@ export const AutocompleteProperties = {
     type: ['string', 'React.Node'],
     status: 'optional',
   },
-  icon_size: {
+  iconSize: {
     doc: 'Change the size of the icon pragmatically.',
     type: 'string',
     status: 'optional',
   },
-  icon_position: {
+  iconPosition: {
     doc: 'Position of the icon inside the autocomplete. Set to `left` or `right`. Defaults to `left`.',
     type: 'string',
     status: 'optional',
   },
-  input_icon: {
+  inputIcon: {
     doc: 'Same as `icon`.',
     type: ['string', 'React.Node'],
     status: 'optional',
@@ -101,47 +101,47 @@ export const AutocompleteProperties = {
     type: 'string',
     status: 'optional',
   },
-  drawer_class: {
+  drawerClass: {
     doc: 'Define a custom class for the internal drawer-list. This makes it possible more easily customize the drawer-list style with styled-components and the `css` style method. Defaults to `null`.',
     type: 'string',
     status: 'optional',
   },
-  show_submit_button: {
+  showSubmitButton: {
     doc: 'Use `true` to show a Autocomplete button to toggle the [DrawerList](/uilib/components/fragments/drawer-list). Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
-  align_autocomplete: {
+  alignAutocomplete: {
     doc: 'Use `right` to change the options alignment direction. Defaults to `left`.',
     type: 'string',
     status: 'optional',
   },
-  no_options: {
+  noOptions: {
     doc: 'Text show in the "no options" item. If set to `false`, the list will not be rendered when there are no options available. Defaults to `Ingen alternativer`.',
     type: 'React.Node',
     status: 'optional',
   },
-  aria_live_options: {
+  ariaLiveOptions: {
     doc: 'Text read out by screen readers. This way users with screen readers know how many options they got during typing. Defaults to `%s alternativer`.',
     type: 'React.Node',
     status: 'optional',
   },
-  show_all: {
+  showAll: {
     doc: 'Text that lets a user unravel all the available options. Defaults to `Vis alt`.',
     type: 'React.Node',
     status: 'optional',
   },
-  indicator_label: {
+  indicatorLabel: {
     doc: 'Text show on indicator "options" item. Defaults to `Henter data ...`.',
     type: 'React.Node',
     status: 'optional',
   },
-  show_options_sr: {
+  showOptionsSr: {
     doc: 'Only for screen readers. Title of the button to show the suggestions / options. It is always present and when activating, it opens the DrawerList and sets the focus on it. Defaults to `Bla gjennom alternativer`.',
     type: 'string',
     status: 'optional',
   },
-  selected_sr: {
+  selectedSr: {
     doc: 'Only for screen readers (VoiceOver). The label used to announce the selected item. Defaults to `Valgt:`.',
     type: 'string',
     status: 'optional',
@@ -151,17 +151,17 @@ export const AutocompleteProperties = {
     type: 'boolean',
     status: 'optional',
   },
-  submit_button_title: {
+  submitButtonTitle: {
     doc: 'Title on submit button. Defaults to `Vis alternativer`.',
     type: 'React.Node',
     status: 'optional',
   },
-  submit_button_icon: {
+  submitButtonIcon: {
     doc: 'The icon used in the submit button. Defaults to `chevron_down`.',
     type: ['string', 'React.Element'],
     status: 'optional',
   },
-  submit_element: {
+  submitElement: {
     doc: 'Replace the dropdown / submit button with a custom React element. Defaults to the input SubmitButton `import { SubmitButton } from &#39;@dnb/eufemia/components/input/Input&#39;`.',
     type: 'React.Node',
     status: 'optional',
@@ -171,7 +171,7 @@ export const AutocompleteProperties = {
     type: 'boolean',
     status: 'optional',
   },
-  open_on_focus: {
+  openOnFocus: {
     doc: 'Use `true` to auto open the list once the user is entering the input field with the keyboard.',
     type: 'boolean',
     status: 'optional',
@@ -191,12 +191,12 @@ export const AutocompleteProperties = {
     type: ['error', 'info', 'boolean'],
     status: 'optional',
   },
-  status_state: {
+  statusState: {
     doc: 'Defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`.',
     type: ['error', 'info'],
     status: 'optional',
   },
-  status_props: {
+  statusProps: {
     doc: 'Use an object to define additional FormStatus properties.',
     type: 'object',
     status: 'optional',
@@ -216,7 +216,7 @@ export const AutocompleteProperties = {
     type: 'React.Node',
     status: 'optional',
   },
-  label_sr_only: {
+  labelSrOnly: {
     doc: 'Use `true` to make the label only readable by screen readers.',
     type: 'boolean',
     status: 'optional',
@@ -231,12 +231,12 @@ export const AutocompleteProperties = {
     type: 'boolean',
     status: 'optional',
   },
-  input_ref: {
+  inputRef: {
     doc: 'Use a React.Ref to get access to the `input` DOM element.',
     type: 'React.RefObject',
     status: 'optional',
   },
-  input_element: {
+  inputElement: {
     doc: 'Lets you provide a custom React element as the input HTML element.',
     type: ['string', 'React.Element'],
     status: 'optional',
@@ -275,7 +275,7 @@ export const AutocompleteEvents = {
     status: 'optional',
   },
   on_select: {
-    doc: 'Will be called once the users focuses or selects an item by a click or keyboard navigation. Returns an object with the new selected `data` item `{ data, event, attributes, value, active_item }` including [these methods](/uilib/components/autocomplete/events#dynamically-change-data). The "active_item" property is the currently selected item by keyboard navigation',
+    doc: 'Will be called once the users focuses or selects an item by a click or keyboard navigation. Returns an object with the new selected `data` item `{ data, event, attributes, value, activeItem }` including [these methods](/uilib/components/autocomplete/events#dynamically-change-data). The "activeItem" property is the currently selected item by keyboard navigation',
     type: 'function',
     status: 'optional',
   },
