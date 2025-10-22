@@ -48,7 +48,7 @@ export const InputSandbox = () => {
     <CustomStyle>
       <Wrapper>
         <Box>
-          <Provider formElement={{ label_direction: 'vertical' }}>
+          <Provider formElement={{ labelDirection: 'vertical' }}>
             <Flex.Vertical>
               <Input value="Plain" />
               <Input value="Search" type="search" />
@@ -106,7 +106,7 @@ export const InputSandbox = () => {
         </Box>
         <Box>
           🚀
-          <Provider formElement={{ label_direction: 'vertical' }}>
+          <Provider formElement={{ labelDirection: 'vertical' }}>
             <Form.Handler>
               <FieldBlock label="Long label labwl Adipiscing mauris dis proin nec Condimentum egestas class blandit netus non a suscipit id urna:">
                 <Flex.Vertical>
@@ -126,7 +126,7 @@ export const InputSandbox = () => {
         <Box>
           <Provider
             formElement={{
-              label_direction: 'vertical',
+              labelDirection: 'vertical',
             }}
           >
             <FieldBlock label="Vertical label:">
@@ -146,7 +146,7 @@ export const InputSandbox = () => {
           </FieldBlock>
         </Box>
         <Box>
-          <Provider formElement={{ label_direction: 'vertical' }}>
+          <Provider formElement={{ labelDirection: 'vertical' }}>
             <FieldBlock label="Legend:">
               <Flex.Vertical>
                 <Input label="Vertical 1:" />
@@ -160,7 +160,7 @@ export const InputSandbox = () => {
             label="Vertical label:"
             value="Stretch me ..."
             stretch
-            label_direction="vertical"
+            labelDirection="vertical"
           />
         </Box>
         <Box>

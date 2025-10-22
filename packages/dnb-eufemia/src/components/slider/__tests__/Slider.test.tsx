@@ -41,7 +41,7 @@ describe('Slider component', () => {
     const props: SliderAllProps = {
       id: 'slider',
       label: 'Label',
-      label_direction: 'vertical',
+      labelDirection: 'vertical',
       value: 70,
       number_format: { currency: true, decimals: 0 },
       on_change: jest.fn(),
@@ -948,7 +948,7 @@ describe('Slider component', () => {
 
     it('should inherit formElement vertical label', () => {
       render(
-        <Provider formElement={{ label_direction: 'vertical' }}>
+        <Provider formElement={{ labelDirection: 'vertical' }}>
           <SliderWithStateUpdate label="Label" />
         </Provider>
       )
