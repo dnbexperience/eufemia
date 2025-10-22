@@ -26,12 +26,12 @@ export const RadioProperties: PropertiesTableProps = {
     type: 'React.ReactNode',
     status: 'optional',
   },
-  label_position: {
+  labelPosition: {
     doc: 'Defines the position of the `label`. Use either `left` or `right`. Defaults to `right`.',
     type: ['left', 'right'],
     status: 'optional',
   },
-  label_sr_only: {
+  labelSrOnly: {
     doc: 'Use `true` to make the label only readable by screen readers.',
     type: 'boolean',
     status: 'optional',
@@ -41,12 +41,12 @@ export const RadioProperties: PropertiesTableProps = {
     type: ['error', 'info', 'boolean'],
     status: 'optional',
   },
-  status_state: {
+  statusState: {
     doc: "Defines the state of the status. It's two statuses `[error, info]`. Defaults to `error`.",
     type: ['error', 'info'],
     status: 'optional',
   },
-  status_props: {
+  statusProps: {
     doc: 'Use an object to define additional FormStatus properties.',
     type: 'Various',
     status: 'optional',
@@ -74,7 +74,7 @@ export const RadioGroupProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
-  layout_direction: {
+  layoutDirection: {
     doc: 'Define the layout direction of the Radio buttons. Can be either `column` or `row`. Defaults to `column`.',
     type: ['column', 'row'],
     status: 'optional',
@@ -89,6 +89,7 @@ export const RadioGroupProperties: PropertiesTableProps = {
     type: ['string', 'boolean'],
     status: 'optional',
   },
+<<<<<<< HEAD
   status_state: {
     doc: "Defines the state of the status. It's two statuses `[error, info]`. Defaults to `error`.",
     type: ['error', 'info'],
@@ -96,6 +97,15 @@ export const RadioGroupProperties: PropertiesTableProps = {
   },
   status_props: {
     doc: 'Use an object to define additional FormStatus properties.',
+=======
+  statusState: {
+    doc: "defines the state of the status. It's two statuses `[error, info]`. Defaults to `error`.",
+    type: ['error', 'info'],
+    status: 'optional',
+  },
+  statusProps: {
+    doc: 'use an object to define additional FormStatus properties.',
+>>>>>>> 4d8f2d1c523 (break(Radio)!: replace `snake_case` properties with `camelCase` (#5820))
     type: 'Various',
     status: 'optional',
   },
@@ -109,6 +119,7 @@ export const RadioGroupProperties: PropertiesTableProps = {
     type: 'React.ReactNode',
     status: 'optional',
   },
+<<<<<<< HEAD
   label_direction: {
     doc: 'To define the `label` layout direction on how the next element should be placed on. Can be either `vertical` or `horizontal`. Defaults to `horizontal`.',
     type: ['vertical', 'horizontal'],
@@ -116,11 +127,24 @@ export const RadioGroupProperties: PropertiesTableProps = {
   },
   label_sr_only: {
     doc: 'Use `true` to make the label only readable by screen readers.',
+=======
+  labelDirection: {
+    doc: 'to define the `label` layout direction on how the next element should be placed on. Can be either `vertical` or `horizontal`. Defaults to `horizontal`.',
+    type: ['vertical', 'horizontal'],
+    status: 'optional',
+  },
+  labelSrOnly: {
+    doc: 'use `true` to make the label only readable by screen readers.',
+>>>>>>> 4d8f2d1c523 (break(Radio)!: replace `snake_case` properties with `camelCase` (#5820))
     type: 'boolean',
     status: 'optional',
   },
   vertical: {
+<<<<<<< HEAD
     doc: 'Will force both `direction` and `label_direction` to be **vertical** if set to `true`.',
+=======
+    doc: 'will force both `direction` and `labelDirection` to be **vertical** if set to `true`.',
+>>>>>>> 4d8f2d1c523 (break(Radio)!: replace `snake_case` properties with `camelCase` (#5820))
     type: 'boolean',
     status: 'optional',
   },
