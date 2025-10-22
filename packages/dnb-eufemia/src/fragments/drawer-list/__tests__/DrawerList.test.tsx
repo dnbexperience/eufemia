@@ -205,14 +205,14 @@ describe('DrawerList component', () => {
       keydown(40) // down
       await waitFor(() => {
         expect(on_select).toHaveBeenCalledTimes(1)
-        expect(on_select.mock.calls[0][0].active_item).toBe(0)
+        expect(on_select.mock.calls[0][0].activeItem).toBe(0)
       })
 
       keydown(40) // down
       await waitFor(() => {
         // on_select is called when navigating to disabled item
         expect(on_select).toHaveBeenCalledTimes(2)
-        expect(on_select.mock.calls[1][0].active_item).toBe(1)
+        expect(on_select.mock.calls[1][0].activeItem).toBe(1)
         expect(on_select.mock.calls[1][0].data.disabled).toBe(true)
       })
 
@@ -220,7 +220,7 @@ describe('DrawerList component', () => {
       await waitFor(() => {
         // navigates to next item
         expect(on_select).toHaveBeenCalledTimes(3)
-        expect(on_select.mock.calls[2][0].active_item).toBe(2)
+        expect(on_select.mock.calls[2][0].activeItem).toBe(2)
       })
     })
 
@@ -241,7 +241,7 @@ describe('DrawerList component', () => {
       await waitFor(() => {
         // verify item is disabled
         expect(on_select).toHaveBeenCalledTimes(2)
-        expect(on_select.mock.calls[1][0].active_item).toBe(1)
+        expect(on_select.mock.calls[1][0].activeItem).toBe(1)
         expect(on_select.mock.calls[1][0].data.disabled).toBe(true)
       })
 
@@ -548,8 +548,8 @@ describe('DrawerList component', () => {
     const notChangedItem = mockData[props.value]
     await waitFor(() => {
       expect(on_select.mock.calls[0][0].data).toStrictEqual(notChangedItem)
-      expect(on_select.mock.calls[0][0].selected_item).toBe(2)
-      expect(on_select.mock.calls[0][0].active_item).toBe(2)
+      expect(on_select.mock.calls[0][0].selectedItem).toBe(2)
+      expect(on_select.mock.calls[0][0].activeItem).toBe(2)
     })
 
     // reset props
@@ -573,8 +573,8 @@ describe('DrawerList component', () => {
     )
     keydown(40) // down
     await waitFor(() => {
-      expect(on_select.mock.calls[1][0].selected_item).toBe(undefined)
-      expect(on_select.mock.calls[1][0].active_item).toBe(3)
+      expect(on_select.mock.calls[1][0].selectedItem).toBe(undefined)
+      expect(on_select.mock.calls[1][0].activeItem).toBe(3)
 
       const selectedItem = mockData[(props.value as number) + 1]
       expect(on_select.mock.calls[1][0].data).toStrictEqual(selectedItem) // second call!
@@ -906,7 +906,7 @@ describe('DrawerList component', () => {
     // then simulate changes
     keydown(40) // down
     await waitFor(() => {
-      expect(on_select.mock.calls[0][0].active_item).toBe(0)
+      expect(on_select.mock.calls[0][0].activeItem).toBe(0)
     })
 
     keydown(13) // enter

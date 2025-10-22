@@ -270,13 +270,13 @@ export const SuffixAndStretchedStatus = () => {
   return (
     <Box>
       <Autocomplete
-        status_state="warn"
-        status_props={{ stretch: true }}
+        statusState="warn"
+        statusProps={{ stretch: true }}
         status="This is a long text to check whether status_props stretch works or not"
         label="Autocomplete with suffix and stretched status"
         data={numbers}
         size="medium"
-        show_submit_button
+        showSubmitButton
         skipPortal
         stretch
         value={1}

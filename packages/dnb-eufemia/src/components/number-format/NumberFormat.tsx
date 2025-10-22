@@ -334,7 +334,7 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
     }
 
     let currencyPosition = currency_position
-    if (currency_display === 'code' && !currencyPosition) {
+    if (currencyDisplay === 'code' && !currencyPosition) {
       currencyPosition = 'before'
     }
     const formatOptions = {
