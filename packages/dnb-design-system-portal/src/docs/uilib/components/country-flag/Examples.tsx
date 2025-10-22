@@ -110,7 +110,7 @@ export const InComponents = () => (
       />
       <Dropdown
         value="NO"
-        icon_position="left"
+        iconPosition="left"
         data={{
           NO: (
             <Dropdown.HorizontalItem>
