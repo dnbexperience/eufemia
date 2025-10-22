@@ -72,19 +72,19 @@ export const SearchBarInput = () => {
       id="portal-search"
       className={classnames(autocompleteStyle, 'portal-search')}
       mode="async"
-      show_clear_button
+      showClearButton
       noScrollAnimation
       preventSelection
-      disable_filter
+      disableFilter
       fixedPosition
       size="medium"
-      align_autocomplete="right"
+      alignAutocomplete="right"
       placeholder="Search ..."
       label="Search the Eufemia documentation"
-      label_sr_only
+      labelSrOnly
       status={status}
       portalClass={portalClassStyle}
-      drawer_class={drawerClassStyle}
+      drawerClass={drawerClassStyle}
       on_type={onTypeHandler}
       on_change={onChangeHandler}
       on_focus={onFocusHandler}
