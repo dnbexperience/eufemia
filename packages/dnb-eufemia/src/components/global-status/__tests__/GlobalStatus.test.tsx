@@ -337,7 +337,7 @@ describe('GlobalStatus component', () => {
         <Autocomplete
           id="autocomplete-3"
           status={status}
-          status_no_animation={true}
+          statusNoAnimation={true}
           on_focus={() => {
             setStatus('error-message-3')
           }}
