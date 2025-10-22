@@ -322,7 +322,7 @@ describe('ToggleButton component', () => {
 
   it('should inherit formElement vertical label', () => {
     render(
-      <Provider formElement={{ label_direction: 'vertical' }}>
+      <Provider formElement={{ labelDirection: 'vertical' }}>
         <ToggleButton label="Label" />
       </Provider>
     )
