@@ -114,7 +114,7 @@ export const ToggleButtonStatusMessages = () => (
         text="Third"
         value="third"
         status="Info message"
-        status_state="info"
+        statusState="info"
       />
     </ToggleButton.Group>
   </ComponentBox>
