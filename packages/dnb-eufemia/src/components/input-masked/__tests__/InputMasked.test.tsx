@@ -1891,7 +1891,7 @@ describe('InputMasked component as_currency', () => {
 
   it('should inherit formElement vertical label', () => {
     render(
-      <Provider formElement={{ label_direction: 'vertical' }}>
+      <Provider formElement={{ labelDirection: 'vertical' }}>
         <InputMasked label="Label" />
       </Provider>
     )
