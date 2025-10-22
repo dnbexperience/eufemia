@@ -160,7 +160,7 @@ export interface DrawerListProps {
   actionMenu?: boolean
   isPopup?: boolean
   /**
-   * Use 'right' to change the options alignment direction. Makes only sense to use in combination with `preventSelection` or `more_menu` - or if an independent width is used.
+   * Use 'right' to change the options alignment direction. Makes only sense to use in combination with `preventSelection` or `moreMenu` - or if an independent width is used.
    */
   alignDrawer?: 'left' | 'right'
   /**
