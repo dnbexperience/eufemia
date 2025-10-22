@@ -13,7 +13,6 @@ import { createSpacingClasses } from '../space/SpacingHelper'
 
 import type { IconColor } from '../Icon'
 import type { SpacingProps } from '../space/types'
-import { convertSnakeCaseProps } from '../../shared/helpers/withSnakeCaseProps'
 import LogoSvg, { DnbLogoAlt, SbankenLogoAlt } from './LogoSvg'
 
 export * from './LogoSvg'
@@ -76,7 +75,7 @@ function Logo(localProps: LogoProps) {
   const context = useContext(Context)
 
   const props = extendPropsWithContext(
-    convertSnakeCaseProps(localProps),
+    localProps,
     defaultProps,
     context.Logo
   )
