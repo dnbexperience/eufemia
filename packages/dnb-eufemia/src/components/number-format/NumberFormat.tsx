@@ -396,6 +396,8 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
       srLabel,
       element,
       className,
+
+      alwaysSelectall, // eslint-disable-line
       ..._rest
     } = props
     let rest = _rest
