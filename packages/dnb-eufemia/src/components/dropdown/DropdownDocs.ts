@@ -44,12 +44,12 @@ export const DropdownProperties = {
     type: 'React.Node',
     status: 'optional',
   },
-  icon_size: {
+  iconSize: {
     doc: 'change the size of the icon pragmatically.',
     type: 'string',
     status: 'optional',
   },
-  icon_position: {
+  iconPosition: {
     doc: 'position of the icon inside the dropdown. Set to `left` or `right`. Defaults to `right`.',
     type: ['left', 'right'],
     status: 'optional',
@@ -69,7 +69,7 @@ export const DropdownProperties = {
     type: 'boolean',
     status: 'optional',
   },
-  open_on_focus: {
+  openOnFocus: {
     doc: 'if set to `true`, the Dropdown will be opened when the users enter the trigger button with a focus action.',
     type: 'boolean',
     status: 'optional',
@@ -79,18 +79,18 @@ export const DropdownProperties = {
     type: 'boolean',
     status: 'optional',
   },
-  action_menu: {
+  actionMenu: {
     doc: 'same as `preventSelection`, but the DrawerList will be opened from the bottom of the page for mobile devices. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
-  more_menu: {
+  moreMenu: {
     doc: 'same as `preventSelection`, but the "selection area" (given title) will not be visible and the icon `more` (three dots) is used. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
-  align_dropdown: {
-    doc: 'use `right` to change the options alignment direction. Makes only sense to use in combination with `preventSelection` or `more_menu`. Defaults to `left`.',
+  alignDropdown: {
+    doc: 'use `right` to change the options alignment direction. Makes only sense to use in combination with `preventSelection` or `moreMenu`. Defaults to `left`.',
     type: ['left', 'right'],
     status: 'optional',
   },
@@ -114,12 +114,12 @@ export const DropdownProperties = {
     type: ['error', 'info', 'boolean'],
     status: 'optional',
   },
-  status_state: {
+  statusState: {
     doc: "defines the state of the status. It's two statuses `[error, info]`. Defaults to `error`.",
     type: ['error', 'info'],
     status: 'optional',
   },
-  status_props: {
+  statusProps: {
     doc: 'use an object to define additional FormStatus properties.',
     type: 'object',
     status: 'optional',
@@ -139,7 +139,7 @@ export const DropdownProperties = {
     type: ['horizontal', 'vertical'],
     status: 'optional',
   },
-  label_sr_only: {
+  labelSrOnly: {
     doc: 'use `true` to make the label only readable by screen readers.',
     type: 'boolean',
     status: 'optional',
@@ -149,7 +149,7 @@ export const DropdownProperties = {
     type: 'React.ReactNode',
     status: 'optional',
   },
-  trigger_element: {
+  triggerElement: {
     doc: 'lets you provide a custom React element as the trigger HTML element.',
     type: 'React.ReactNode',
     status: 'optional',
