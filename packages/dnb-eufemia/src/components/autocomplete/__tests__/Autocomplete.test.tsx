@@ -3107,7 +3107,7 @@ describe('Autocomplete component', () => {
 
   it('should inherit formElement vertical label', () => {
     render(
-      <Provider formElement={{ label_direction: 'vertical' }}>
+      <Provider formElement={{ labelDirection: 'vertical' }}>
         <Autocomplete label="Label" />
       </Provider>
     )

@@ -174,7 +174,7 @@ export const DatePickerProperties: PropertiesTableProps = {
     status: 'optional',
   },
   labelDirection: {
-    doc: ' Use `label_direction="vertical"` to change the label layout direction. Defaults to `horizontal`.',
+    doc: ' Use `labelDirection="vertical"` to change the label layout direction. Defaults to `horizontal`.',
     type: ['vertical', 'horizontal'],
     status: 'optional',
   },
