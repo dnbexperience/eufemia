@@ -396,6 +396,9 @@ function Selection(props: Props) {
             layout_direction={
               optionsLayout === 'horizontal' ? 'row' : 'column'
             }
+            layoutDirection={
+              optionsLayout === 'horizontal' ? 'row' : 'column'
+            }
             disabled={disabled}
             on_change={onChangeHandler}
             value={String(value ?? '')}
