@@ -73,7 +73,7 @@ export const drawerListPropTypes = {
   ]),
   fixedPosition: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   keepOpen: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  prevent_focus: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  preventFocus: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   skipKeysearch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   opened: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   data: PropTypes.oneOfType([
@@ -109,7 +109,7 @@ export const drawerListPropTypes = {
       ])
     ),
   ]),
-  raw_data: PropTypes.oneOfType([
+  rawData: PropTypes.oneOfType([
     PropTypes.array,
     PropTypes.object,
     PropTypes.func,
@@ -161,13 +161,13 @@ export const drawerListDefaultProps = {
   skipPortal: null,
   preventClose: false,
   keepOpen: false,
-  prevent_focus: false,
+  preventFocus: false,
   fixedPosition: false,
   independentWidth: false,
   skipKeysearch: false,
   opened: null,
   data: null,
-  raw_data: null,
+  rawData: null,
   ignoreEvents: null,
 
   className: null,
@@ -265,7 +265,7 @@ export function parseContentTitle(
 }
 
 export const hasObjectKeyAsValue = (data) => {
-  data = data?.raw_data || data
+  data = data?.rawData || data
   return data && typeof data === 'object' && !Array.isArray(data)
 }
 
@@ -418,8 +418,8 @@ export const getCurrentData = (item_index, data) => {
 export function prepareStartupState(
   props: DrawerListProviderProps
 ): DrawerListContextState {
-  const selected_item = null
-  const raw_data = preSelectData(
+  const selectedItem = null
+  const rawData = preSelectData(
     props.data ||
       (!React.isValidElement(props.children)
         ? (props.children as DrawerListData)
@@ -431,12 +431,12 @@ export function prepareStartupState(
   const state: DrawerListContextState = {
     opened,
     data,
-    original_data: data, // used to reset in case we reorder data etc.
-    raw_data,
+    originalData: data, // used to reset in case we reorder data etc.
+    rawData,
     direction: props.direction,
     maxHeight: props.maxHeight,
-    selected_item,
-    active_item: selected_item,
+    selectedItem,
+    activeItem: selectedItem,
     on_hide: props.on_hide,
     on_show: props.on_show,
     on_change: props.on_change,
@@ -448,12 +448,12 @@ export function prepareStartupState(
     typeof props.value !== 'undefined' &&
     props.value !== 'initval'
   ) {
-    state.selected_item = state.active_item = getCurrentIndex(
+    state.selectedItem = state.activeItem = getCurrentIndex(
       props.value,
       data
     )
   } else if (props.defaultValue !== null) {
-    state.selected_item = state.active_item = getCurrentIndex(
+    state.selectedItem = state.activeItem = getCurrentIndex(
       props.defaultValue,
       data
     )
@@ -476,7 +476,7 @@ export const prepareDerivedState = (
       state.cacheHash = state.cacheHash + Date.now()
     }
     state.data = getData(props)
-    state.original_data = getData(props)
+    state.originalData = getData(props)
   }
 
   state.skipPortal = isTrue(props.skipPortal)
@@ -495,36 +495,33 @@ export const prepareDerivedState = (
   }
 
   if (
-    state.selected_item !== props.value &&
+    state.selectedItem !== props.value &&
     (state._value !== props.value || isTrue(props.preventSelection))
   ) {
     if (props.value === 'initval') {
-      state.selected_item = null
+      state.selectedItem = null
     } else {
-      state.selected_item = getCurrentIndex(
-        props.value,
-        state.original_data
-      )
+      state.selectedItem = getCurrentIndex(props.value, state.originalData)
     }
 
     if (typeof props.on_state_update === 'function') {
       dispatchCustomElementEvent({ props }, 'on_state_update', {
-        selected_item: state.selected_item,
-        value: getSelectedItemValue(state.selected_item, state),
-        data: getEventData(state.selected_item, state.data),
+        selectedItem: state.selectedItem,
+        value: getSelectedItemValue(state.selectedItem, state),
+        data: getEventData(state.selectedItem, state.data),
       })
     }
   }
 
-  // active_item can be -1, so we check for -2
+  // activeItem can be -1, so we check for -2
   if (
     !(
-      state.active_item !== null &&
-      parseFloat(state.active_item as string) > -2
+      state.activeItem !== null &&
+      parseFloat(state.activeItem as string) > -2
     ) ||
     state._value !== props.value
   ) {
-    state.active_item = state.selected_item
+    state.activeItem = state.selectedItem
   }
 
   if (props.direction !== 'auto' && props.direction !== state.direction) {
@@ -532,11 +529,11 @@ export const prepareDerivedState = (
   }
 
   if (
-    state.selected_item !== null &&
-    parseFloat(state.selected_item as string) > -1
+    state.selectedItem !== null &&
+    parseFloat(state.selectedItem as string) > -1
   ) {
-    state.current_title = getCurrentDataTitle(
-      state.selected_item,
+    state.currentTitle = getCurrentDataTitle(
+      state.selectedItem,
       state.data
     )
   }
@@ -548,8 +545,8 @@ export const prepareDerivedState = (
   return state
 }
 
-export const getCurrentDataTitle = (selected_item, data) => {
-  const currentData = getCurrentData(selected_item, data)
+export const getCurrentDataTitle = (selectedItem, data) => {
+  const currentData = getCurrentData(selectedItem, data)
   return parseContentTitle(currentData, {
     separator: ' ',
     preferSelectedValue: true,

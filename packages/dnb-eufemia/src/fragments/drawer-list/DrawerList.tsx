@@ -160,7 +160,7 @@ export interface DrawerListProps {
   actionMenu?: boolean
   isPopup?: boolean
   /**
-   * Use 'right' to change the options alignment direction. Makes only sense to use in combination with `preventSelection` or `more_menu` - or if an independent width is used.
+   * Use 'right' to change the options alignment direction. Makes only sense to use in combination with `preventSelection` or `moreMenu` - or if an independent width is used.
    */
   alignDrawer?: 'left' | 'right'
   /**
@@ -207,7 +207,7 @@ export interface DrawerListProps {
    * If set to `true`, the DrawerList will close on outside clicks, but not on selection.
    */
   keepOpen?: boolean
-  prevent_focus?: boolean
+  preventFocus?: boolean
   /**
    * If set to `true`, search items by the first key will be ignored.
    */
@@ -343,11 +343,11 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
     // if (getPreviousSibling('dnb-number-format', event.target)) {
     //   return // stop
     // }
-    const selected_item = parseFloat(
+    const selectedItem = parseFloat(
       event.currentTarget.getAttribute('data-item')
     )
-    if (selected_item > -1) {
-      this.context.drawerList.selectItemAndClose(selected_item, {
+    if (selectedItem > -1) {
+      this.context.drawerList.selectItemAndClose(selectedItem, {
         fireSelectEvent: true,
         event,
       })
@@ -394,6 +394,7 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
       skipKeysearch: _skipKeysearch, // eslint-disable-line
       skipPortal: _skipPortal, // eslint-disable-line
       enableBodyLock: _enableBodyLock, // eslint-disable-line
+      preventFocus: _preventFocus, // eslint-disable-line
       children,
       ...attributes
     } = props
@@ -401,14 +402,14 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
     const id = this._id
 
     function noNullNumbers({
-      selected_item,
-      active_item,
+      selectedItem,
+      activeItem,
       maxHeight,
       ...rest
     }: DrawerListContextProps['drawerList']): DrawerListContextProps['drawerList'] {
       return {
-        selected_item: selected_item ?? undefined,
-        active_item: active_item ?? undefined,
+        selectedItem: selectedItem ?? undefined,
+        activeItem: activeItem ?? undefined,
         maxHeight: maxHeight ?? undefined,
         ...rest,
       }
@@ -423,8 +424,8 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
       direction,
       maxHeight,
       cacheHash,
-      selected_item,
-      active_item,
+      selectedItem,
+      activeItem,
       showFocusRing,
       closestToTop,
       closestToBottom,
@@ -498,19 +499,19 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
 
     if (
       !hidden &&
-      (parseFloat(active_item as string) > -1 ||
-        (!(parseFloat(active_item as string) > -1) &&
-          !(parseFloat(selected_item as string) > -1)))
+      (parseFloat(activeItem as string) > -1 ||
+        (!(parseFloat(activeItem as string) > -1) &&
+          !(parseFloat(selectedItem as string) > -1)))
     ) {
       ulParams['aria-activedescendant'] = `option-${id}-${
-        parseFloat(active_item as string) > -1 ? active_item : 0
+        parseFloat(activeItem as string) > -1 ? activeItem : 0
       }`
     } else if (
       !isTrue(preventSelection) &&
       !hidden &&
-      parseFloat(selected_item as string) > -1
+      parseFloat(selectedItem as string) > -1
     ) {
-      ulParams['aria-activedescendant'] = `option-${id}-${selected_item}`
+      ulParams['aria-activedescendant'] = `option-${id}-${selectedItem}`
     }
 
     if (isTrue(focusable)) {
@@ -558,8 +559,8 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
                     (dataItem.ignoreEvents && 'ignore-events'),
                   dataItem.className
                 ),
-                active: _id == active_item,
-                selected: !dataItem.ignoreEvents && _id == selected_item,
+                active: _id == activeItem,
+                selected: !dataItem.ignoreEvents && _id == selectedItem,
                 onClick: this.selectItemHandler,
                 onKeyDown: this.preventTab,
                 disabled: dataItem.disabled,
@@ -630,8 +631,8 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
                 hasGroups={hasGroups}
                 cacheHash={
                   cacheHash +
-                  active_item +
-                  selected_item +
+                  activeItem +
+                  selectedItem +
                   closestToTop +
                   closestToBottom +
                   direction +
