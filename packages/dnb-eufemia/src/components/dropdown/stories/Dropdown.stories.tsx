@@ -61,8 +61,8 @@ const RightAligned = styled.div`
 
 const direction = 'auto'
 const label = 'Label'
-const align_dropdown = 'right'
-const icon_position = 'right'
+const alignDropdown = 'right'
+const iconPosition = 'right'
 const opened = false
 
 const DropdownStory = () => {
@@ -102,8 +102,8 @@ const DropdownStory = () => {
           <Dropdown
             size="small"
             independentWidth
-            icon_position="left"
-            align_dropdown="left"
+            iconPosition="left"
+            alignDropdown="left"
             variant="tertiary"
             title="Tertiary"
             data={[
@@ -116,8 +116,8 @@ const DropdownStory = () => {
           <Dropdown
             size="small"
             independentWidth
-            // icon_position="right"
-            // align_dropdown="right"
+            // iconPosition="right"
+            // alignDropdown="right"
             variant="tertiary"
             title="Tertiary"
             data={[
@@ -132,7 +132,7 @@ const DropdownStory = () => {
       <Box>
         <RightAligned>
           <Dropdown
-            action_menu
+            actionMenu
             title="Action Menu"
             data={[
               <>
@@ -152,9 +152,9 @@ const DropdownStory = () => {
             }}
           />
           <Dropdown
-            action_menu
-            icon_position="right"
-            align_dropdown="right"
+            actionMenu
+            iconPosition="right"
+            alignDropdown="right"
             title="Action Menu"
             data={[
               <>
@@ -174,7 +174,7 @@ const DropdownStory = () => {
           <Dropdown
             size="small"
             // opened
-            more_menu
+            moreMenu
             data={[
               <Link key="item-1" href="/">
                 Go to this Link
@@ -182,12 +182,12 @@ const DropdownStory = () => {
               'Or to this one',
             ]}
             // skipPortal
-            align_dropdown="right"
+            alignDropdown="right"
           />
           <Dropdown
             size="small"
             // opened
-            more_menu
+            moreMenu
             data={[
               <Link key="item-1" href="/">
                 Go to this Link
@@ -195,7 +195,7 @@ const DropdownStory = () => {
               'Or to this one',
             ]}
             // skipPortal
-            // align_dropdown="right"
+            // alignDropdown="right"
           />
         </RightAligned>
       </Box>
@@ -215,8 +215,8 @@ const DropdownStory = () => {
             opened={opened}
             noAnimation
             direction={direction}
-            align_dropdown={align_dropdown}
-            icon_position={icon_position}
+            alignDropdown={alignDropdown}
+            iconPosition={iconPosition}
             label={label}
             data={['A', 'B']}
             right
@@ -226,8 +226,8 @@ const DropdownStory = () => {
             opened={opened}
             // noAnimation
             direction={direction}
-            align_dropdown={align_dropdown}
-            icon_position={icon_position}
+            alignDropdown={alignDropdown}
+            iconPosition={iconPosition}
             label={label}
             data={['A', 'B']}
             right
@@ -239,8 +239,8 @@ const DropdownStory = () => {
             opened={opened}
             noAnimation
             direction={direction}
-            align_dropdown={align_dropdown}
-            icon_position={icon_position}
+            alignDropdown={alignDropdown}
+            iconPosition={iconPosition}
             label={label}
             data={['A', 'B']}
             right
@@ -249,8 +249,8 @@ const DropdownStory = () => {
             opened={opened}
             noAnimation
             direction={direction}
-            align_dropdown={align_dropdown}
-            icon_position={icon_position}
+            alignDropdown={alignDropdown}
+            iconPosition={iconPosition}
             label={label}
             data={['A', 'B']}
             right
@@ -263,8 +263,8 @@ const DropdownStory = () => {
             opened={opened}
             noAnimation
             direction={direction}
-            align_dropdown={align_dropdown}
-            icon_position={icon_position}
+            alignDropdown={alignDropdown}
+            iconPosition={iconPosition}
             label={label}
             data={['A', 'B']}
             right
@@ -274,8 +274,8 @@ const DropdownStory = () => {
             opened={opened}
             noAnimation
             direction={direction}
-            align_dropdown={align_dropdown}
-            icon_position={icon_position}
+            alignDropdown={alignDropdown}
+            iconPosition={iconPosition}
             label={label}
             data={['A', 'B']}
             right
@@ -288,8 +288,8 @@ const DropdownStory = () => {
             opened={opened}
             noAnimation
             direction={direction}
-            align_dropdown={align_dropdown}
-            icon_position={icon_position}
+            alignDropdown={alignDropdown}
+            iconPosition={iconPosition}
             label={label}
             data={['A', 'B']}
             right
@@ -299,8 +299,8 @@ const DropdownStory = () => {
             opened={opened}
             // opened
             noAnimation
-            align_dropdown={align_dropdown}
-            icon_position={icon_position}
+            alignDropdown={alignDropdown}
+            iconPosition={iconPosition}
             direction={direction}
             label={label}
             data={['A', 'B']}
@@ -316,9 +316,9 @@ const DropdownStory = () => {
               label={label}
               noAnimation
               direction={direction}
-              align_dropdown={align_dropdown}
-              icon_position={icon_position}
-              more_menu={true}
+              alignDropdown={alignDropdown}
+              iconPosition={iconPosition}
+              moreMenu={true}
               data={[
                 <Link key="item-1" href="/">
                   Go to this Link
@@ -329,13 +329,13 @@ const DropdownStory = () => {
               skipPortal
             />
             <Dropdown
-              more_menu={true}
+              moreMenu={true}
               opened={opened}
               label={label}
               noAnimation
               direction={direction}
-              align_dropdown={align_dropdown}
-              icon_position={icon_position}
+              alignDropdown={alignDropdown}
+              iconPosition={iconPosition}
               data={[
                 <Link key="item-1" href="/">
                   Go to this Link
@@ -346,13 +346,13 @@ const DropdownStory = () => {
             />
             <Dropdown
               size="medium"
-              more_menu={true}
+              moreMenu={true}
               opened={opened}
               label={label}
               noAnimation
               direction={direction}
-              align_dropdown={align_dropdown}
-              icon_position={icon_position}
+              alignDropdown={alignDropdown}
+              iconPosition={iconPosition}
               data={[
                 <Link key="item-1" href="/">
                   Go to this Link
@@ -363,13 +363,13 @@ const DropdownStory = () => {
             />
             <Dropdown
               size="large"
-              more_menu
+              moreMenu
               opened={opened}
               label={label}
               noAnimation
               direction={direction}
-              align_dropdown={align_dropdown}
-              icon_position={icon_position}
+              alignDropdown={alignDropdown}
+              iconPosition={iconPosition}
               data={[
                 <Link key="item-1" href="/">
                   Go to this Link
@@ -408,13 +408,13 @@ const DropdownStory = () => {
               )
             }}
             data-attr={123}
-            icon_position="left"
+            iconPosition="left"
           />
           <Dropdown
             title="Default option"
             label="Vertical B:"
-            // align_dropdown="right"
-            icon_position="left"
+            // alignDropdown="right"
+            iconPosition="left"
             data={dropdownData}
           />
         </FormRow>
@@ -530,21 +530,21 @@ const DropdownStory = () => {
           data={dropdownData}
           id="text-dropdown-1"
           size="small"
-          icon_position="left"
+          iconPosition="left"
           bottom
           value={2}
         />
         <Dropdown
           data={dropdownData}
           size="medium"
-          icon_position="left"
+          iconPosition="left"
           bottom
           value={2}
         />
         <Dropdown
           data={dropdownData}
           size="large"
-          icon_position="left"
+          iconPosition="left"
           bottom
           value={2}
         />

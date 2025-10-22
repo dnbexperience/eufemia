@@ -157,8 +157,8 @@ export interface DrawerListProps {
    * If set to `true`, the DrawerList will then not make any permanent selection.
    */
   preventSelection?: boolean
-  action_menu?: boolean
-  is_popup?: boolean
+  actionMenu?: boolean
+  isPopup?: boolean
   /**
    * Use 'right' to change the options alignment direction. Makes only sense to use in combination with `preventSelection` or `more_menu` - or if an independent width is used.
    */
@@ -373,8 +373,8 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
       noAnimation,
       noScrollAnimation,
       preventSelection,
-      action_menu,
-      is_popup,
+      actionMenu,
+      isPopup,
       portalClass,
       listClass,
       ignoreEvents,
@@ -456,9 +456,9 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
           `dnb-drawer-list--triangle-position-${trianglePosition}`,
         alignDrawer && `dnb-drawer-list--${alignDrawer}`,
         size && `dnb-drawer-list--${size}`,
-        isTrue(action_menu) && `dnb-drawer-list--action-menu`,
-        isTrue(is_popup) && 'dnb-drawer-list--is-popup',
-        (isTrue(independentWidth) || isTrue(action_menu)) &&
+        isTrue(actionMenu) && `dnb-drawer-list--action-menu`,
+        isTrue(isPopup) && 'dnb-drawer-list--is-popup',
+        (isTrue(independentWidth) || isTrue(actionMenu)) &&
           'dnb-drawer-list--independent-width',
         isTrue(scrollable) && 'dnb-drawer-list--scroll',
         isTrue(noScrollAnimation) &&
