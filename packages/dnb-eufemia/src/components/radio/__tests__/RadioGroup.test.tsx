@@ -108,7 +108,7 @@ describe('Radio group component', () => {
 
   it('should inherit formElement vertical label', () => {
     render(
-      <Provider formElement={{ label_direction: 'vertical' }}>
+      <Provider formElement={{ labelDirection: 'vertical' }}>
         <Radio.Group label="Label" name="group" id="group">
           <Radio id="radio-1" label="Radio 1" value="first" />
           <Radio id="radio-2" label="Radio 2" value="second" checked />
@@ -178,7 +178,7 @@ describe('Radio group component', () => {
     ])
 
     rerender(
-      <Radio.Group label="Label" label_direction="vertical">
+      <Radio.Group label="Label" labelDirection="vertical">
         <Radio />
       </Radio.Group>
     )
