@@ -51,7 +51,7 @@ describe('filterValidProps', () => {
 
   it('should pick FormElement props', () => {
     type Props = FormElementProps & {
-      label_direction?: 'vertical' | 'horizontal'
+      labelDirection?: 'vertical' | 'horizontal'
       vertical?: boolean
       foo: string
       bar: boolean
@@ -59,7 +59,7 @@ describe('filterValidProps', () => {
     }
 
     const props: Props = {
-      label_direction: 'horizontal',
+      labelDirection: 'horizontal',
       vertical: true,
       foo: 'test',
       bar: false,
@@ -69,7 +69,7 @@ describe('filterValidProps', () => {
     const elementProps = pickFormElementProps(props)
 
     expect(elementProps).toEqual({
-      label_direction: 'horizontal',
+      labelDirection: 'horizontal',
       vertical: true,
     })
   })
@@ -79,7 +79,6 @@ describe('filterValidProps', () => {
 
     expect(verticalTrue).toEqual({
       labelDirection: 'vertical',
-      label_direction: 'vertical',
       vertical: true,
     })
 
@@ -87,7 +86,6 @@ describe('filterValidProps', () => {
 
     expect(verticalFalse).toEqual({
       labelDirection: undefined,
-      label_direction: undefined,
       vertical: false,
     })
   })

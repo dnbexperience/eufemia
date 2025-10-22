@@ -69,7 +69,7 @@ export const FormRowVerticalAlignedLabels = () => (
             Custom legend
           </Ingress>
         }
-        label_direction="vertical"
+        labelDirection="vertical"
       >
         <Input label="Label A" value="Input A" right="small" />
         <Input label="Label B" value="Input B" />
@@ -98,7 +98,7 @@ export const FormRowCombineVerticalAndHorizontal = () => (
     <ComponentBox>
       {() => {
         // 1. In the nested FormRow we reset the layout to not be vertical
-        // 2. So we can use a different direction ("label_direction")
+        // 2. So we can use a different direction ("labelDirection")
         return (
           <FormRow
             label={
@@ -118,7 +118,7 @@ export const FormRowCombineVerticalAndHorizontal = () => (
             <Input label="Vertical input B" top="medium" />
             <FormRow
               vertical={false}
-              label_direction="horizontal"
+              labelDirection="horizontal"
               top="medium"
             >
               <Input label="Horizontal input A" right="small" />
@@ -193,7 +193,7 @@ export const FormRowWrap = () => (
 export const FormRowLegendUsage = () => (
   <TestStyles>
     <ComponentBox>
-      <FormSet label_direction="vertical">
+      <FormSet labelDirection="vertical">
         <FormRow label="Label legend for the inputs">
           <Input
             label="Vertical label direction"
@@ -249,7 +249,7 @@ export const FormRowDifferentDirections = () => (
             <Input label="Input" placeholder="Input ..." bottom />
             <PhoneRow
               label="Phone number"
-              label_direction="vertical"
+              labelDirection="vertical"
               vertical={false}
             >
               <Dropdown
@@ -312,8 +312,8 @@ function StretchTemplate({ element: Comp, ...props }) {
       </Box>
       <Box>
         <Comp
-          label='label_direction="vertical"'
-          label_direction="vertical"
+          label='labelDirection="vertical"'
+          labelDirection="vertical"
           stretch
           {...props}
         />
@@ -325,7 +325,7 @@ function StretchTemplate({ element: Comp, ...props }) {
 export function FormRowLabelDirectionInfo() {
   return (
     <ComponentBox>
-      <FormRow label_direction="vertical">
+      <FormRow labelDirection="vertical">
         <Input label="Label" right />
         <Input label="Label" />
       </FormRow>

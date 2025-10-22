@@ -37,7 +37,7 @@ export function Sandbox() {
   return (
     <Wrapper>
       <Provider locale={locale}>
-        <FormSet label_direction="vertical">
+        <FormSet labelDirection="vertical">
           <ToggleButton.Group
             value={locale}
             on_change={({ value }) => setLocale(value)}
