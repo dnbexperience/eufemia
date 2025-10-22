@@ -393,6 +393,9 @@ function Selection(props: Props) {
           <Component.Group
             size={size}
             className={cn}
+            layout_direction={
+              optionsLayout === 'horizontal' ? 'row' : 'column'
+            }
             layoutDirection={
               optionsLayout === 'horizontal' ? 'row' : 'column'
             }
