@@ -168,12 +168,12 @@ describe('Dropdown component', () => {
     ).toBe('true')
   })
 
-  it('supports a trigger_element properly', () => {
+  it('supports a triggerElement properly', () => {
     render(
       <Dropdown
         skipPortal
         noAnimation
-        trigger_element={(props) => <button {...props}>test</button>}
+        triggerElement={(props) => <button {...props}>test</button>}
         data={mockData}
       />
     )
@@ -201,8 +201,8 @@ describe('Dropdown component', () => {
         noAnimation
         data={mockData}
         status="status text"
-        status_state="warn"
-        status_props={{ stretch: true }}
+        statusState="warn"
+        statusProps={{ stretch: true }}
       />
     )
 
@@ -447,7 +447,7 @@ describe('Dropdown component', () => {
         title={title}
         on_change={on_change}
         preventSelection={false}
-        action_menu={true}
+        actionMenu={true}
       />
     )
 
@@ -472,7 +472,7 @@ describe('Dropdown component', () => {
         title={title}
         on_change={on_change}
         preventSelection={true}
-        action_menu={false}
+        actionMenu={false}
       />
     )
 
@@ -505,7 +505,7 @@ describe('Dropdown component', () => {
         title={null}
         on_change={on_change}
         preventSelection={true}
-        action_menu={false}
+        actionMenu={false}
       />
     )
 
@@ -641,7 +641,7 @@ describe('Dropdown component', () => {
     )
   })
 
-  it('has no selected items on using more_menu', () => {
+  it('has no selected items on using moreMenu', () => {
     const title = 'custom title'
     render(
       <Dropdown
@@ -649,7 +649,7 @@ describe('Dropdown component', () => {
         value={null}
         data={mockData}
         title={title}
-        more_menu
+        moreMenu
       />
     )
 
@@ -831,8 +831,8 @@ describe('Dropdown component', () => {
     ).toBe('listbox')
   })
 
-  it('has correct "aria-haspopup" when action_menu', () => {
-    render(<Dropdown {...props} data={mockData} action_menu />)
+  it('has correct "aria-haspopup" when actionMenu', () => {
+    render(<Dropdown {...props} data={mockData} actionMenu />)
 
     expect(
       document
@@ -842,8 +842,8 @@ describe('Dropdown component', () => {
     ).toBe('true')
   })
 
-  it('has correct "aria-haspopup" when more_menu', () => {
-    render(<Dropdown {...props} data={mockData} more_menu />)
+  it('has correct "aria-haspopup" when moreMenu', () => {
+    render(<Dropdown {...props} data={mockData} moreMenu />)
 
     expect(
       document
@@ -880,14 +880,14 @@ describe('Dropdown component', () => {
     ).toBe('listbox')
   })
 
-  it('has correct "role" in options when action_menu', () => {
+  it('has correct "role" in options when actionMenu', () => {
     render(
       <Dropdown
         skipPortal
         noAnimation
         opened={true}
         data={mockData}
-        action_menu
+        actionMenu
       />
     )
 
@@ -898,14 +898,14 @@ describe('Dropdown component', () => {
     ).toBe('menu')
   })
 
-  it('has correct "role" in options when more_menu', () => {
+  it('has correct "role" in options when moreMenu', () => {
     render(
       <Dropdown
         skipPortal
         noAnimation
         opened={true}
         data={mockData}
-        more_menu
+        moreMenu
       />
     )
 
@@ -1717,7 +1717,7 @@ describe('Dropdown component', () => {
     expect(trigger).not.toHaveAttribute('aria-expanded', 'true')
   })
 
-  it('should set icon_position to right as default', () => {
+  it('should set iconPosition to right as default', () => {
     render(<Dropdown />)
 
     expect(
@@ -1725,23 +1725,23 @@ describe('Dropdown component', () => {
     ).toBeInTheDocument()
   })
 
-  it('should set icon_position to left', () => {
-    render(<Dropdown icon_position="left" />)
+  it('should set iconPosition to left', () => {
+    render(<Dropdown iconPosition="left" />)
 
     expect(
       document.querySelector('.dnb-dropdown--icon-position-left')
     ).toBeInTheDocument()
   })
 
-  it('should set icon_position to right', () => {
-    render(<Dropdown icon_position="right" />)
+  it('should set iconPosition to right', () => {
+    render(<Dropdown iconPosition="right" />)
 
     expect(
       document.querySelector('.dnb-dropdown--icon-position-right')
     ).toBeInTheDocument()
   })
 
-  it('should set align_dropdown to right as default', () => {
+  it('should set alignDropdown to right as default', () => {
     render(<Dropdown />)
 
     expect(
@@ -1749,23 +1749,23 @@ describe('Dropdown component', () => {
     ).toBeInTheDocument()
   })
 
-  it('should set align_dropdown to right', () => {
-    render(<Dropdown align_dropdown="right" />)
+  it('should set alignDropdown to right', () => {
+    render(<Dropdown alignDropdown="right" />)
 
     expect(
       document.querySelector('.dnb-drawer-list--right')
     ).toBeInTheDocument()
   })
 
-  it('should set align_dropdown to left', () => {
-    render(<Dropdown align_dropdown="left" />)
+  it('should set alignDropdown to left', () => {
+    render(<Dropdown alignDropdown="left" />)
 
     expect(
       document.querySelector('.dnb-drawer-list--left')
     ).toBeInTheDocument()
   })
 
-  it('should set align_dropdown to right as default when independentWidth', () => {
+  it('should set alignDropdown to right as default when independentWidth', () => {
     render(<Dropdown independentWidth />)
 
     expect(
@@ -1773,16 +1773,16 @@ describe('Dropdown component', () => {
     ).toBeInTheDocument()
   })
 
-  it('should set align_dropdown to right when independentWidth', () => {
-    render(<Dropdown independentWidth align_dropdown="right" />)
+  it('should set alignDropdown to right when independentWidth', () => {
+    render(<Dropdown independentWidth alignDropdown="right" />)
 
     expect(
       document.querySelector('.dnb-drawer-list--right')
     ).toBeInTheDocument()
   })
 
-  it('should set align_dropdown to left when independentWidth', () => {
-    render(<Dropdown independentWidth align_dropdown="left" />)
+  it('should set alignDropdown to left when independentWidth', () => {
+    render(<Dropdown independentWidth alignDropdown="left" />)
 
     expect(
       document.querySelector('.dnb-drawer-list--left')
@@ -2068,7 +2068,7 @@ describe('Dropdown markup', () => {
       label: 'label',
       id: 'dropdown-id',
       status: 'status',
-      status_state: 'error',
+      statusState: 'error',
       value: 2,
       opened: true,
       skipPortal: true,
