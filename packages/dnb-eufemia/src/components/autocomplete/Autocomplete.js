@@ -98,7 +98,7 @@ export default class Autocomplete extends React.PureComponent {
       PropTypes.func,
       PropTypes.node,
     ]),
-    label_direction: PropTypes.oneOf(['horizontal', 'vertical']),
+    labelDirection: PropTypes.oneOf(['horizontal', 'vertical']),
     label_sr_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     keep_value: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     keep_selection: PropTypes.oneOfType([
@@ -276,7 +276,7 @@ export default class Autocomplete extends React.PureComponent {
     trianglePosition: null,
     input_icon: 'loupe',
     label: null,
-    label_direction: null,
+    labelDirection: null,
     label_sr_only: null,
     keep_value: null,
     keep_selection: null,
@@ -1753,7 +1753,7 @@ class AutocompleteInstance extends React.PureComponent {
       title,
       placeholder,
       label,
-      label_direction,
+      labelDirection,
       label_sr_only,
       icon, // eslint-disable-line
       icon_size,
@@ -1847,7 +1847,7 @@ class AutocompleteInstance extends React.PureComponent {
         direction && `dnb-autocomplete--${direction}`,
         disabled && 'dnb-autocomplete--disabled',
         opened && 'dnb-autocomplete--opened',
-        label_direction && `dnb-autocomplete--${label_direction}`,
+        labelDirection && `dnb-autocomplete--${labelDirection}`,
         icon_position &&
           `dnb-autocomplete--icon-position-${icon_position}`,
         align_autocomplete && `dnb-autocomplete--${align_autocomplete}`,
@@ -1970,7 +1970,7 @@ class AutocompleteInstance extends React.PureComponent {
             id={id + '-label'}
             forId={id}
             text={label}
-            labelDirection={label_direction}
+            labelDirection={labelDirection}
             srOnly={label_sr_only}
             disabled={disabled}
             skeleton={skeleton}
