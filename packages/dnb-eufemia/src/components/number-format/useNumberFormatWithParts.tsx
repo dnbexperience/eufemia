@@ -1,25 +1,23 @@
 import useNumberFormat from './useNumberFormat'
 import type {
-  formatOptionParams,
-  formatValue,
-  formatReturnValue,
+  NumberFormatOptionParams,
+  NumberFormatValue,
+  NumberFormatReturnValue,
 } from './NumberUtils'
 
 type UseNumberFormatWithPartsOptions = Omit<
-  formatOptionParams,
-  | 'currency_display'
-  | 'currency_position'
-  | 'omit_currency_sign'
-  | 'clean_copy_value'
-  | 'omit_rounding'
+  NumberFormatOptionParams,
+  | 'currencyDisplay'
+  | 'currencyPosition'
+  | 'omitCurrencySign'
+  | 'cleanCopyValue'
   | 'options'
 > & {
-  currencyDisplay?: formatOptionParams['currency_display']
-  currencyPosition?: formatOptionParams['currency_position'] | 'auto'
-  omitCurrencySign?: formatOptionParams['omit_currency_sign']
-  cleanCopyValue?: formatOptionParams['clean_copy_value']
-  omitRounding?: formatOptionParams['omit_rounding']
-  options?: formatOptionParams['options']
+  currencyDisplay?: NumberFormatOptionParams['currencyDisplay']
+  currencyPosition?: NumberFormatOptionParams['currencyPosition'] | 'auto'
+  omitCurrencySign?: NumberFormatOptionParams['omitCurrencySign']
+  cleanCopyValue?: NumberFormatOptionParams['cleanCopyValue']
+  options?: NumberFormatOptionParams['options']
   forceCurrencyAfterAmount?: boolean
 }
 
@@ -36,7 +34,7 @@ export type NumberFormatParts = {
 }
 
 function useNumberFormatWithParts(
-  value: formatValue,
+  value: NumberFormatValue,
   options: UseNumberFormatWithPartsOptions = {}
 ) {
   const normalizedOptions: UseNumberFormatWithPartsOptions = {
@@ -48,21 +46,20 @@ function useNumberFormatWithParts(
     normalizedOptions.currency = false
   }
 
-  const formatOptions: formatOptionParams = {
+  const formatOptions: NumberFormatOptionParams = {
     ...normalizedOptions,
-    currency_display: normalizedOptions.currencyDisplay,
-    currency_position:
+    currencyDisplay: normalizedOptions.currencyDisplay,
+    currencyPosition:
       normalizedOptions.currencyPosition === 'auto'
         ? null
         : normalizedOptions.currencyPosition,
-    omit_currency_sign: normalizedOptions.omitCurrencySign,
-    clean_copy_value: normalizedOptions.cleanCopyValue,
-    omit_rounding: normalizedOptions.omitRounding,
+    omitCurrencySign: normalizedOptions.omitCurrencySign,
+    cleanCopyValue: normalizedOptions.cleanCopyValue,
   }
 
   const amountOnly = useNumberFormat(value, {
     ...formatOptions,
-    omit_currency_sign: true,
+    omitCurrencySign: true,
     returnAria: true,
   })
 
@@ -76,7 +73,7 @@ function useNumberFormatWithParts(
     return result
   }
 
-  const formatted = result as formatReturnValue
+  const formatted = result as NumberFormatReturnValue
 
   if (formatted.type !== 'currency') {
     return {
@@ -92,7 +89,7 @@ function useNumberFormatWithParts(
     } as NumberFormatReturnWithParts
   }
 
-  const unsignedAmount = amountOnly as formatReturnValue
+  const unsignedAmount = amountOnly as NumberFormatReturnValue
   const splitAmount = splitLeadingSign(unsignedAmount.number)
   const splitFull = splitLeadingSign(formatted.number)
   const amountWithoutSign = splitAmount.value
@@ -168,7 +165,7 @@ function useNumberFormatWithParts(
   } as NumberFormatReturnWithParts
 }
 
-type NumberFormatReturnWithParts = formatReturnValue & {
+type NumberFormatReturnWithParts = NumberFormatReturnValue & {
   parts: NumberFormatParts
 }
 
