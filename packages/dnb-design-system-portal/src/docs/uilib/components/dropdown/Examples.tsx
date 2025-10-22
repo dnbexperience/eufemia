@@ -429,8 +429,8 @@ export const DropdownMoreMenu = () => {
           on_change={({ value }) => {
             console.log('on_change', value)
           }}
-          on_select={({ active_item }) => {
-            console.log('on_select', active_item)
+          on_select={({ activeItem }) => {
+            console.log('on_select', activeItem)
           }}
         />
       </ComponentBox>
