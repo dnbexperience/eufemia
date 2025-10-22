@@ -8,7 +8,7 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe.each(['ui', 'sbanken', 'eiendom'])(
+describe.each(['ui', 'sbanken', 'eiendom', 'carnegie'])(
   'Typography for %s',
   (themeName) => {
     setupPageScreenshot({
@@ -24,6 +24,7 @@ describe.each(['ui', 'sbanken', 'eiendom'])(
     })
   }
 )
+
 describe.each(['sbanken'])('Typography mobile for %s', (themeName) => {
   setupPageScreenshot({
     themeName,
