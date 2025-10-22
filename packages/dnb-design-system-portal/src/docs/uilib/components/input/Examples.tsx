@@ -70,7 +70,7 @@ export const InputExampleWithIcon = () => (
       <Input
         label="Input with icon"
         placeholder="Input"
-        label_direction="vertical"
+        labelDirection="vertical"
         icon="check"
         bottom
       />
@@ -103,7 +103,7 @@ export const InputExampleFormStatus = () => (
     <ComponentBox>
       <Provider
         formElement={{
-          label_direction: 'vertical',
+          labelDirection: 'vertical',
         }}
       >
         <Flex.Vertical>
@@ -133,7 +133,7 @@ export const InputExampleSuffix = () => (
     <ComponentBox>
       <Input
         label={<Span className="dnb-p--lead">Fødselsnummer</Span>}
-        label_direction="vertical"
+        labelDirection="vertical"
         autocomplete="on"
         placeholder="Placeholder text"
         suffix={
@@ -152,7 +152,7 @@ export const InputExampleSuffix = () => (
 export const InputExampleStretched = () => (
   <Wrapper>
     <ComponentBox data-visual-test="input-stretch">
-      <Provider formElement={{ label_direction: 'vertical' }}>
+      <Provider formElement={{ labelDirection: 'vertical' }}>
         <FieldBlock
           label="Long label labwl Adipiscing mauris dis proin nec"
           forId="input-id"
@@ -234,7 +234,7 @@ export const InputScreenshotTests = () => {
   return (
     <Wrapper>
       <ComponentBox data-visual-test="input-align">
-        <Provider formElement={{ label_direction: 'vertical' }}>
+        <Provider formElement={{ labelDirection: 'vertical' }}>
           <FieldBlock label="Left aligned">
             <Flex.Vertical>
               <Input value="Plain" />
