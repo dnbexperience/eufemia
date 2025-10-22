@@ -134,8 +134,8 @@ export const DropdownProperties = {
     type: 'React.ReactNode',
     status: 'optional',
   },
-  label_direction: {
-    doc: 'use `label_direction="vertical"` to change the label layout direction. Defaults to `horizontal`.',
+  labelDirection: {
+    doc: 'use `labelDirection="vertical"` to change the label layout direction. Defaults to `horizontal`.',
     type: ['horizontal', 'vertical'],
     status: 'optional',
   },

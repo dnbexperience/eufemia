@@ -6,8 +6,8 @@ export const FormRowProperties: PropertiesTableProps = {
     type: 'React.ReactNode',
     status: 'optional',
   },
-  label_direction: {
-    doc: 'use `label_direction="vertical"` to change the label/legend layout direction. Defaults to `horizontal`.',
+  labelDirection: {
+    doc: 'use `labelDirection="vertical"` to change the label/legend layout direction. Defaults to `horizontal`.',
     type: ['vertical', 'horizontal'],
     status: 'optional',
   },
@@ -22,7 +22,7 @@ export const FormRowProperties: PropertiesTableProps = {
     status: 'optional',
   },
   vertical: {
-    doc: 'will force both `direction` and `label_direction` to be **vertical** if set to `true`.',
+    doc: 'will force both `direction` and `labelDirection` to be **vertical** if set to `true`.',
     type: 'boolean',
     status: 'optional',
   },

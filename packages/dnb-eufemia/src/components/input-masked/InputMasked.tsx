@@ -148,7 +148,7 @@ export interface InputMaskedProps
   value?: InputMaskedValue
   id?: string
   label?: React.ReactNode
-  label_direction?: 'horizontal' | 'vertical'
+  labelDirection?: 'horizontal' | 'vertical'
   label_sr_only?: boolean
   status?: FormStatusText
   status_state?: FormStatusState
