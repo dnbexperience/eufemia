@@ -56,8 +56,8 @@ export default class Dropdown extends React.PureComponent {
       PropTypes.node,
       PropTypes.func,
     ]),
-    icon_size: PropTypes.string,
-    icon_position: PropTypes.oneOf(['left', 'right']),
+    iconSize: PropTypes.string,
+    iconPosition: PropTypes.oneOf(['left', 'right']),
     trianglePosition: PropTypes.oneOf(['left', 'right']),
     label: PropTypes.oneOfType([
       PropTypes.string,
@@ -65,16 +65,16 @@ export default class Dropdown extends React.PureComponent {
       PropTypes.node,
     ]),
     labelDirection: PropTypes.oneOf(['horizontal', 'vertical']),
-    label_sr_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    labelSrOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     status: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool,
       PropTypes.func,
       PropTypes.node,
     ]),
-    status_state: PropTypes.string,
-    status_props: PropTypes.object,
-    status_no_animation: PropTypes.oneOfType([
+    statusState: PropTypes.string,
+    statusProps: PropTypes.object,
+    statusNoAnimation: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool,
     ]),
@@ -104,15 +104,15 @@ export default class Dropdown extends React.PureComponent {
       PropTypes.string,
       PropTypes.bool,
     ]),
-    more_menu: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    action_menu: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    moreMenu: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    actionMenu: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     independentWidth: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool,
     ]),
     size: PropTypes.oneOf(['default', 'small', 'medium', 'large']),
-    align_dropdown: PropTypes.oneOf(['left', 'right']),
-    trigger_element: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
+    alignDropdown: PropTypes.oneOf(['left', 'right']),
+    triggerElement: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
     data: PropTypes.oneOfType([
       PropTypes.oneOfType([
         PropTypes.string,
@@ -146,7 +146,7 @@ export default class Dropdown extends React.PureComponent {
       PropTypes.number,
     ]),
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    open_on_focus: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    openOnFocus: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     preventClose: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     keepOpen: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     opened: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -175,16 +175,16 @@ export default class Dropdown extends React.PureComponent {
     title: 'Option Menu',
     variant: 'secondary',
     icon: null,
-    icon_size: null,
-    icon_position: null,
+    iconSize: null,
+    iconPosition: null,
     trianglePosition: null,
     label: null,
     labelDirection: null,
-    label_sr_only: null,
+    labelSrOnly: null,
     status: null,
-    status_state: 'error',
-    status_props: null,
-    status_no_animation: null,
+    statusState: 'error',
+    statusProps: null,
+    statusNoAnimation: null,
     globalStatus: null,
     innerRef: null,
     buttonRef: null,
@@ -198,16 +198,16 @@ export default class Dropdown extends React.PureComponent {
     noAnimation: false,
     noScrollAnimation: false,
     preventSelection: false,
-    more_menu: false,
-    action_menu: false,
+    moreMenu: false,
+    actionMenu: false,
     independentWidth: false,
     size: 'default',
-    align_dropdown: null,
-    trigger_element: null,
+    alignDropdown: null,
+    triggerElement: null,
     data: null,
     defaultValue: null,
     value: 'initval',
-    open_on_focus: false,
+    openOnFocus: false,
     preventClose: false,
     keepOpen: false,
     opened: false,
@@ -229,7 +229,7 @@ export default class Dropdown extends React.PureComponent {
   render() {
     // generate ID here, so we can send it along the provider
     const id = this.props.id || makeUniqueId()
-    const { more_menu, action_menu, preventSelection, children, data } =
+    const { moreMenu, actionMenu, preventSelection, children, data } =
       this.props
 
     return (
@@ -241,8 +241,8 @@ export default class Dropdown extends React.PureComponent {
         tagName="dnb-dropdown"
         ignoreEvents={false}
         preventSelection={
-          isTrue(more_menu) ||
-          isTrue(action_menu) ||
+          isTrue(moreMenu) ||
+          isTrue(actionMenu) ||
           isTrue(preventSelection)
         }
       >
@@ -289,13 +289,13 @@ class DropdownInstance extends React.PureComponent {
   }
 
   onFocusHandler = () => {
-    if (isTrue(this.props.open_on_focus)) {
+    if (isTrue(this.props.openOnFocus)) {
       this.setVisible()
     }
   }
 
   onBlurHandler = () => {
-    if (isTrue(this.props.open_on_focus)) {
+    if (isTrue(this.props.openOnFocus)) {
       this.setHidden()
     }
   }
@@ -424,15 +424,15 @@ class DropdownInstance extends React.PureComponent {
     const {
       label,
       labelDirection,
-      label_sr_only,
-      icon_size,
+      labelSrOnly,
+      iconSize,
       size,
       fixedPosition,
       enableBodyLock,
       status,
-      status_state,
-      status_props,
-      status_no_animation,
+      statusState,
+      statusProps,
+      statusNoAnimation,
       globalStatus,
       suffix,
       scrollable,
@@ -444,9 +444,9 @@ class DropdownInstance extends React.PureComponent {
       trianglePosition,
       skipPortal,
       portalClass,
-      trigger_element: CustomTrigger,
-      more_menu,
-      action_menu,
+      triggerElement: CustomTrigger,
+      moreMenu,
+      actionMenu,
       independentWidth,
       preventSelection,
       maxHeight,
@@ -459,8 +459,9 @@ class DropdownInstance extends React.PureComponent {
 
       title: _title,
       icon: _icon, // eslint-disable-line
-      align_dropdown: _align_dropdown, // eslint-disable-line
-      icon_position: _icon_position, // eslint-disable-line
+      alignDropdown: _align_dropdown, // eslint-disable-line
+      iconPosition: _iconPosition, // eslint-disable-line
+      openOnFocus: _openOnFocus, // eslint-disable-line
       data: _data, // eslint-disable-line
       children: _children, // eslint-disable-line
       direction: _direction, // eslint-disable-line
@@ -475,21 +476,21 @@ class DropdownInstance extends React.PureComponent {
       ...attributes
     } = props
 
-    let { icon, icon_position, align_dropdown } = props
+    let { icon, iconPosition, alignDropdown } = props
 
     const handleAsMenu =
-      isTrue(action_menu) || isTrue(more_menu) || isTrue(preventSelection)
+      isTrue(actionMenu) || isTrue(moreMenu) || isTrue(preventSelection)
 
     const title = this.getTitle(_title)
-    const isPopupMenu = isTrue(more_menu) || !title
+    const isPopupMenu = isTrue(moreMenu) || !title
 
     if (isPopupMenu) {
-      icon = icon || (isTrue(more_menu) ? 'more' : 'chevron_down')
+      icon = icon || (isTrue(moreMenu) ? 'more' : 'chevron_down')
     }
-    if (isPopupMenu || isTrue(action_menu)) {
-      if (icon_position !== 'right' && align_dropdown !== 'right') {
-        icon_position = 'left'
-        align_dropdown = 'left'
+    if (isPopupMenu || isTrue(actionMenu)) {
+      if (iconPosition !== 'right' && alignDropdown !== 'right') {
+        iconPosition = 'left'
+        alignDropdown = 'left'
       }
     }
     // TODO: This is an temporary fix for now.
@@ -497,10 +498,10 @@ class DropdownInstance extends React.PureComponent {
     // calculating the position based on the dropdowns width.
     if (
       isTrue(independentWidth) &&
-      icon_position !== 'left' &&
-      !align_dropdown
+      iconPosition !== 'left' &&
+      !alignDropdown
     ) {
-      align_dropdown = 'right'
+      alignDropdown = 'right'
     }
 
     const { id, selected_item, direction, opened } =
@@ -519,15 +520,15 @@ class DropdownInstance extends React.PureComponent {
         `dnb-dropdown--${direction}`,
         opened && 'dnb-dropdown--opened',
         labelDirection && `dnb-dropdown--${labelDirection}`,
-        `dnb-dropdown--icon-position-${icon_position || 'right'}`,
+        `dnb-dropdown--icon-position-${iconPosition || 'right'}`,
         isPopupMenu && 'dnb-dropdown--is-popup',
-        isTrue(action_menu) && `dnb-dropdown--action-menu`,
-        (isTrue(independentWidth) || isTrue(action_menu)) &&
+        isTrue(actionMenu) && `dnb-dropdown--action-menu`,
+        (isTrue(independentWidth) || isTrue(actionMenu)) &&
           'dnb-dropdown--independent-width',
         size && `dnb-dropdown--${size}`,
         isTrue(stretch) && `dnb-dropdown--stretch`,
-        `dnb-dropdown--${align_dropdown || 'right'}`,
-        status && `dnb-dropdown__status--${status_state}`,
+        `dnb-dropdown--${alignDropdown || 'right'}`,
+        status && `dnb-dropdown__status--${statusState}`,
         showStatus && 'dnb-dropdown__form-status',
         'dnb-form-component',
         createSpacingClasses(props),
@@ -586,7 +587,7 @@ class DropdownInstance extends React.PureComponent {
             forId={id}
             text={label}
             labelDirection={labelDirection}
-            srOnly={label_sr_only}
+            srOnly={labelSrOnly}
             disabled={disabled}
             skeleton={skeleton}
             onClick={this.onClickHandler}
@@ -603,10 +604,10 @@ class DropdownInstance extends React.PureComponent {
             label={label}
             textId={id + '-status'} // used for "aria-describedby"
             text={status}
-            state={status_state}
-            noAnimation={status_no_animation}
+            state={statusState}
+            noAnimation={statusNoAnimation}
             skeleton={skeleton}
-            {...status_props}
+            {...statusProps}
           />
 
           <span className="dnb-dropdown__row">
@@ -640,7 +641,7 @@ class DropdownInstance extends React.PureComponent {
                           <Icon
                             icon={icon || 'chevron_down'}
                             size={
-                              icon_size ||
+                              iconSize ||
                               (size === 'large' ? 'medium' : 'default')
                             }
                           />
@@ -670,17 +671,17 @@ class DropdownInstance extends React.PureComponent {
                 noScrollAnimation={noScrollAnimation}
                 skipPortal={skipPortal}
                 preventSelection={handleAsMenu}
-                action_menu={action_menu}
+                actionMenu={actionMenu}
                 trianglePosition={
-                  trianglePosition || icon_position || 'right'
+                  trianglePosition || iconPosition || 'right'
                 }
                 keepOpen={keepOpen}
                 preventClose={preventClose}
                 independentWidth={
-                  isTrue(independentWidth) || isPopupMenu || action_menu
+                  isTrue(independentWidth) || isPopupMenu || actionMenu
                 }
-                is_popup={isPopupMenu || action_menu}
-                alignDrawer={align_dropdown || 'left'}
+                isPopup={isPopupMenu || actionMenu}
+                alignDrawer={alignDropdown || 'left'}
                 fixedPosition={fixedPosition}
                 enableBodyLock={enableBodyLock}
                 disabled={disabled}

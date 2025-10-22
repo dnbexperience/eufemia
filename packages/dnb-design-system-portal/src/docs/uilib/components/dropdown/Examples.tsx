@@ -272,7 +272,7 @@ export const DropdownIconLeft = () => (
     <ComponentBox scope={{ data }} data-visual-test="dropdown-left-icon">
       <Dropdown
         label="Label"
-        icon_position="left"
+        iconPosition="left"
         data={data}
         value={3}
         skipPortal={true}
@@ -295,8 +295,8 @@ export const DropdownActionMenu = () => (
     >
       <Dropdown
         title="ActionMenu"
-        action_menu={true}
-        align_dropdown="left"
+        actionMenu={true}
+        alignDropdown="left"
         data={() => ({
           trash: (
             <>
@@ -324,8 +324,8 @@ export const DropdownTertiary = () => (
         variant="tertiary"
         direction="bottom"
         independentWidth={true}
-        icon_position="left"
-        align_dropdown="left"
+        iconPosition="left"
+        alignDropdown="left"
         data={data}
       />
     </ComponentBox>
@@ -342,8 +342,8 @@ export const DropdownTertiaryRight = () => (
         variant="tertiary"
         direction="bottom"
         independentWidth={true}
-        icon_position="right"
-        align_dropdown="right"
+        iconPosition="right"
+        alignDropdown="right"
         data={data}
       />
     </ComponentBox>
@@ -369,7 +369,7 @@ export const DropdownMoreMenu = () => {
         data-visual-test="dropdown-more_menu"
       >
         <Dropdown
-          more_menu={true}
+          moreMenu={true}
           size="small"
           title="Choose an item"
           data={() => [
@@ -384,7 +384,7 @@ export const DropdownMoreMenu = () => {
         />
         <Dropdown
           preventSelection={true}
-          align_dropdown="right"
+          alignDropdown="right"
           size="small"
           title={null}
           aria-label="Choose an item"
@@ -401,7 +401,7 @@ export const DropdownMoreMenu = () => {
           {...visualTestProps(globalThis.IS_TEST)}
         />
         <Dropdown
-          more_menu={true}
+          moreMenu={true}
           title="Choose an item"
           data={[
             <Link href="/" key="item-1">
@@ -414,7 +414,7 @@ export const DropdownMoreMenu = () => {
         />
         <Dropdown
           preventSelection={true}
-          align_dropdown="right"
+          alignDropdown="right"
           title={null}
           aria-label="Choose an item"
           data={() => ({
@@ -444,7 +444,7 @@ export const DropdownIndependentWidthLeft = () => {
       <ComponentBox data-visual-test="dropdown-independent_width_left">
         <Dropdown
           independentWidth={true}
-          icon_position="left"
+          iconPosition="left"
           direction="top"
           title="Choose an item"
           data={() => [
@@ -467,7 +467,7 @@ export const DropdownIndependentWidthRight = () => {
       <ComponentBox data-visual-test="dropdown-independent_width_right">
         <Dropdown
           independentWidth={true}
-          icon_position="right"
+          iconPosition="right"
           direction="top"
           title="Choose an item"
           data={() => [
@@ -570,7 +570,7 @@ export const DropdownCustomEvent = () => {
 
           return (
             <Dropdown
-              action_menu
+              actionMenu
               right
               label="Label"
               title="Choose an item"
@@ -651,19 +651,19 @@ export const DropdownCustomWidth = () => (
             <CustomWidthOne
               label="Label"
               size="default"
-              icon_position="left"
+              iconPosition="left"
               data={data}
             />
             <CustomWidthTwo
               label="Label"
               size="small"
-              more_menu
+              moreMenu
               data={data}
             />
             <CustomWidthThree
               label="Label"
               size="large"
-              align_dropdown="right"
+              alignDropdown="right"
               data={data}
             />
             <CustomWidthFour
@@ -822,8 +822,8 @@ export const DropdownCustomizedLook = () => {
           return (
             <Dropdown
               data={data}
-              action_menu
-              trigger_element={(props) => (
+              actionMenu
+              triggerElement={(props) => (
                 <button {...props} style={styles.customTrigger}>
                   <Icon icon={newspaper} /> Custom trigger{' '}
                   <Icon icon={chevron_down} />
