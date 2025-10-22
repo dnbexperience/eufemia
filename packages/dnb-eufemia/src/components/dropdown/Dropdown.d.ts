@@ -76,7 +76,6 @@ export interface DropdownProps {
    * by providing a React.ref you can get the internally used button element (DOM). E.g. `buttonRef={myRef}` by using `React.createRef()` or `React.useRef()`.
    */
   buttonRef?: React.Ref;
-  actionMenu?: boolean;
   /**
    * same as `preventSelection`, but the "selection area" (given title) will not be visible and the icon `more` (three dots) is used. Defaults to `false`.
    */
