@@ -37,7 +37,7 @@ Good reasons for why we have this:
 - National identification number e.g. <code className="dnb-code"><NumberFormat nin value="18089212345" /></code>
 - Organization number e.g. <code className="dnb-code"><NumberFormat org value="123456789" /></code>
 - Compact (short) numbers e.g. <code className="dnb-code"><NumberFormat compact value="12345678" decimals={1} /></code>
-- Compact (long) currency e.g. <code className="dnb-code"><NumberFormat compact="long" currency currency_display="name" value="12345678" decimals={1} /></code>
+- Compact (long) currency e.g. <code className="dnb-code"><NumberFormat compact="long" currency currencyDisplay="name" value="12345678" decimals={1} /></code>
 
 ### Defaults
 
@@ -48,10 +48,10 @@ It uses the browser APIs `number.toLocaleString` or `Intl.NumberFormat.format` u
 
 #### Norwegian kroner
 
-When the currency format is set to `currency_display="name"`, the currency will be displayed as "kroner" instead of "Norwegian kroner".
+When the currency format is set to `currencyDisplay="name"`, the currency will be displayed as "kroner" instead of "Norwegian kroner".
 
-- Norwegian currency: <code className="dnb-code"><NumberFormat currency currency_display="name" value="1234.90" /></code>
-- Swedish currency: <code className="dnb-code"><NumberFormat currency="SEK" currency_display="name" value="1234.90" /></code>
+- Norwegian currency: <code className="dnb-code"><NumberFormat currency currencyDisplay="name" value="1234.90" /></code>
+- Swedish currency: <code className="dnb-code"><NumberFormat currency="SEK" currencyDisplay="name" value="1234.90" /></code>
 
 #### Not available
 
@@ -77,7 +77,7 @@ You can send down the `locale` as an application-wide property (Context). More i
 import Provider from '@dnb/eufemia/shared/Provider'
 
 render(
-  <Provider locale="en-GB" NumberFormat={{ currency_display: 'code' }}>
+  <Provider locale="en-GB" NumberFormat={{ currencyDisplay: 'code' }}>
     <MyApp>
       text <NumberFormat>123</NumberFormat> table etc.
     </MyApp>
@@ -158,7 +158,7 @@ The number component is style-independent, so it has no visual styles. By defaul
 
 **VoiceOver** on mobile devices (iOS) only supports numbers read out properly to a maximum of `99,999.00`. On amounts above this value, VO reads numbers digit by digit.
 
-To enhance the **Copy & Paste** experience of copying numbers into other applications (Excel), you may use the `clean_copy_value` property. It will then provide a second number without thousand separators and with a comma/dot (depending on the locale) as the decimal separator. This number is not visible but will be used when selecting and copying the whole number on the first click to the system clipboard.
+To enhance the **Copy & Paste** experience of copying numbers into other applications (Excel), you may use the `cleanCopyValue` property. It will then provide a second number, without thousand separators and to have a comma/dot (depending on the locale) as the decimal separator. This number is not visible, but will be used when selecting & copying the whole number on the first click to the system clipboard.
 
 You can enable this feature on all your NumberFormat components by using the `Provider`:
 
@@ -166,7 +166,7 @@ You can enable this feature on all your NumberFormat components by using the `Pr
 import { Provider } from '@dnb/eufemia/shared'
 
 render(
-  <Provider value={{ NumberFormat: { clean_copy_value: true } }}>
+  <Provider value={{ NumberFormat: { cleanCopyValue: true } }}>
     <YourApp />
   </Provider>
 )
