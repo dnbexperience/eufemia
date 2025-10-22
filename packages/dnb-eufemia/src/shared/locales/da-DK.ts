@@ -1,3 +1,5 @@
+import nb from './nb-NO'
+
 export default {
   'da-DK': {
     TextCounter: {
@@ -81,13 +83,13 @@ export default {
     },
     Autocomplete: {
       title: 'Skriv og vælg',
-      submit_button_title: 'Vis muligheder',
-      no_options: 'Ingen muligheder',
-      show_all: 'Vis alt',
-      show_options_sr: 'Gennemse muligheder, luk med esc-knappen',
-      aria_live_options: '%s muligheder',
-      selected_sr: 'Valgt:',
-      indicator_label: 'Henter data ...',
+      submitButtonTitle: 'Vis muligheder',
+      noOptions: 'Ingen muligheder',
+      showAll: 'Vis alt',
+      showOptionsSr: 'Gennemse muligheder, luk med esc-knappen',
+      ariaLiveOptions: '%s muligheder',
+      selectedSr: 'Valgt:',
+      indicatorLabel: 'Henter data ...',
     },
     Modal: {
       dialog_title: 'Separat vindue',
@@ -173,5 +175,5 @@ export default {
       deleteButton: 'Slet',
       fileListAriaLabel: 'uploadede filer',
     },
-  },
+  } satisfies (typeof nb)['nb-NO'],
 }
