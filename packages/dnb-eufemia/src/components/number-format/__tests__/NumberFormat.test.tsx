@@ -258,9 +258,9 @@ describe('NumberFormat component', () => {
     )
   })
 
-  it('have to match currency with currency_position="after"', () => {
+  it('have to match currency with currencyPosition="after"', () => {
     const { rerender } = render(
-      <Component value={-value} currency currency_position="after" />
+      <Component value={-value} currency currencyPosition="after" />
     )
 
     expect(document.querySelector(displaySelector).textContent).toBe(
@@ -275,7 +275,7 @@ describe('NumberFormat component', () => {
       <Component
         value={-value}
         currency
-        currency_position="after"
+        currencyPosition="after"
         locale="en-GB"
       />
     )
@@ -293,8 +293,8 @@ describe('NumberFormat component', () => {
         value={-value}
         currency
         locale="en-GB"
-        currency_position="after"
-        currency_display="code"
+        currencyPosition="after"
+        currencyDisplay="code"
       />
     )
 
@@ -307,8 +307,8 @@ describe('NumberFormat component', () => {
         value={-value}
         currency
         locale="no"
-        currency_position="before"
-        currency_display="code"
+        currencyPosition="before"
+        currencyDisplay="code"
       />
     )
 
@@ -317,9 +317,9 @@ describe('NumberFormat component', () => {
     )
   })
 
-  it('have to match currency with currency_position="before"', () => {
+  it('have to match currency with currencyPosition="before"', () => {
     const { rerender } = render(
-      <Component value={-value} currency currency_position="before" />
+      <Component value={-value} currency currencyPosition="before" />
     )
 
     expect(document.querySelector(displaySelector).textContent).toBe(
@@ -334,7 +334,7 @@ describe('NumberFormat component', () => {
       <Component
         value={-value}
         currency
-        currency_position="before"
+        currencyPosition="before"
         locale="en-GB"
       />
     )
@@ -351,7 +351,7 @@ describe('NumberFormat component', () => {
       <Component
         value={-value}
         currency
-        currency_position="before"
+        currencyPosition="before"
         locale="en-GB"
       />
     )
@@ -364,8 +364,8 @@ describe('NumberFormat component', () => {
       <Component
         value={-value}
         currency
-        currency_position="after"
-        currency_display="code"
+        currencyPosition="after"
+        currencyDisplay="code"
         locale="no"
       />
     )
@@ -597,8 +597,8 @@ describe('NumberFormat component', () => {
     ).toBe('')
   })
 
-  it('will not render selection element when copy_selection="false"', () => {
-    render(<Component value={-value} currency copy_selection={false} />)
+  it('will not render selection element when copySelection="false"', () => {
+    render(<Component value={-value} currency copySelection={false} />)
 
     expect(
       document.querySelector('.dnb-number-format__selection')
@@ -1232,30 +1232,30 @@ describe('NumberFormat component', () => {
       )
     })
 
-    it('when currency and currency_position', () => {
+    it('when currency and currencyPosition', () => {
       const { rerender } = render(
-        <Component value={''} currency currency_position="after" />
+        <Component value={''} currency currencyPosition="after" />
       )
       expect(document.querySelector(displaySelector).textContent).toBe(
         '- kr'
       )
 
       rerender(
-        <Component value={null} currency currency_position="after" />
+        <Component value={null} currency currencyPosition="after" />
       )
       expect(document.querySelector(displaySelector).textContent).toBe(
         '- kr'
       )
 
       rerender(
-        <Component value={undefined} currency currency_position="after" />
+        <Component value={undefined} currency currencyPosition="after" />
       )
       expect(document.querySelector(displaySelector).textContent).toBe(
         '- kr'
       )
 
       rerender(
-        <Component currency currency_position="after">
+        <Component currency currencyPosition="after">
           {''}
         </Component>
       )
@@ -1264,7 +1264,7 @@ describe('NumberFormat component', () => {
       )
 
       rerender(
-        <Component currency currency_position="after">
+        <Component currency currencyPosition="after">
           {null}
         </Component>
       )
@@ -1273,7 +1273,7 @@ describe('NumberFormat component', () => {
       )
 
       rerender(
-        <Component currency currency_position="after">
+        <Component currency currencyPosition="after">
           {undefined}
         </Component>
       )
@@ -1282,28 +1282,28 @@ describe('NumberFormat component', () => {
       )
     })
 
-    it('when currency and currency_display', () => {
+    it('when currency and currencyDisplay', () => {
       const { rerender } = render(
-        <Component value={''} currency currency_display="code" />
+        <Component value={''} currency currencyDisplay="code" />
       )
       expect(document.querySelector(displaySelector).textContent).toBe(
         'NOK -'
       )
 
-      rerender(<Component value={null} currency currency_display="code" />)
-      expect(document.querySelector(displaySelector).textContent).toBe(
-        'NOK -'
-      )
-
-      rerender(
-        <Component value={undefined} currency currency_display="code" />
-      )
+      rerender(<Component value={null} currency currencyDisplay="code" />)
       expect(document.querySelector(displaySelector).textContent).toBe(
         'NOK -'
       )
 
       rerender(
-        <Component currency currency_display="code">
+        <Component value={undefined} currency currencyDisplay="code" />
+      )
+      expect(document.querySelector(displaySelector).textContent).toBe(
+        'NOK -'
+      )
+
+      rerender(
+        <Component currency currencyDisplay="code">
           {''}
         </Component>
       )
@@ -1312,7 +1312,7 @@ describe('NumberFormat component', () => {
       )
 
       rerender(
-        <Component currency currency_display="code">
+        <Component currency currencyDisplay="code">
           {null}
         </Component>
       )
@@ -1321,7 +1321,7 @@ describe('NumberFormat component', () => {
       )
 
       rerender(
-        <Component currency currency_display="code">
+        <Component currency currencyDisplay="code">
           {undefined}
         </Component>
       )
@@ -1509,14 +1509,14 @@ describe('NumberFormat compact', () => {
     ).toBe('-12,35 millioner kroner')
   })
 
-  it('have to match currency based compact number with custom currency_display', () => {
+  it('have to match currency based compact number with custom currencyDisplay', () => {
     render(
       <Component
         compact="long"
         currency
         value={-value}
         decimals={3}
-        currency_display="name"
+        currencyDisplay="name"
       />
     )
     expect(document.querySelector(displaySelector).textContent).toBe(
@@ -1527,9 +1527,9 @@ describe('NumberFormat compact', () => {
     ).toBe('-12,346 millioner kroner')
   })
 
-  it('have to hide currency code on falsy currency_display', () => {
+  it('have to hide currency code on falsy currencyDisplay', () => {
     const { rerender } = render(
-      <Component currency currency_display={false} value={-1234} />
+      <Component currency currencyDisplay={false} value={-1234} />
     )
 
     expect(document.querySelector(displaySelector).textContent).toBe(
@@ -1539,7 +1539,7 @@ describe('NumberFormat compact', () => {
       document.querySelector(ariaSelector).getAttribute('data-text')
     ).toBe('-1234,00 kroner')
 
-    rerender(<Component currency currency_display="" value={-1234567} />)
+    rerender(<Component currency currencyDisplay="" value={-1234567} />)
 
     expect(document.querySelector(displaySelector).textContent).toBe(
       '-1 234 567,00'
@@ -1703,7 +1703,7 @@ describe('NumberFormat component with provider', () => {
     render(
       <Provider
         locale="en-GB"
-        NumberFormat={{ currency: true, currency_display: 'name' }}
+        NumberFormat={{ currency: true, currencyDisplay: 'name' }}
       >
         <Component value={value} />
       </Provider>
