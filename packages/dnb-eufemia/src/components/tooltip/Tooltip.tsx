@@ -6,9 +6,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import classnames from 'classnames'
 import Context from '../../shared/Context'
-import type { ContextProps } from '../../shared/Context'
 import { validateDOMAttributes } from '../../shared/component-helper'
-import { convertSnakeCaseProps } from '../../shared/helpers/withSnakeCaseProps'
 import useId from '../../shared/helpers/useId'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import TooltipWithEvents from './TooltipWithEvents'
@@ -19,12 +17,20 @@ import {
   injectTooltipSemantic,
 } from './TooltipHelpers'
 import { TooltipAllProps } from './types'
-import { TooltipContext } from './TooltipContext'
-import { getRefElement } from '../Popover'
 
 function Tooltip(localProps: TooltipAllProps) {
-  const context = useContext(Context)
-  const props = resolveProps(localProps, context)
+  const context = React.useContext(Context)
+
+  const inherited = getPropsFromTooltipProp(localProps)
+
+  // use only the props from context, who are available here anyway
+  const props = {
+    ...defaultProps,
+    ...localProps,
+    ...inherited,
+    ...context.getTranslation(localProps)['Tooltip'],
+    ...context.Tooltip,
+  }
   const {
     targetElement,
     targetSelector,
@@ -77,29 +83,6 @@ function Tooltip(localProps: TooltipAllProps) {
       </TooltipWithEvents>
     </TooltipContext.Provider>
   )
-}
-
-function resolveProps(
-  localProps: TooltipAllProps,
-  context: ContextProps
-): TooltipAllProps {
-  const inherited = getPropsFromTooltipProp(localProps)
-  const translation = (context.getTranslation?.(
-    localProps as Record<string, unknown>
-  ) || {}) as Record<string, unknown>
-  const tooltipTranslation = (translation['Tooltip'] || {}) as Record<
-    string,
-    unknown
-  >
-
-  // Use only the props from context that are relevant for Tooltip
-  return convertSnakeCaseProps({
-    ...defaultProps,
-    ...localProps,
-    ...inherited,
-    ...tooltipTranslation,
-    ...context.Tooltip,
-  })
 }
 
 function useTooltipTarget(
