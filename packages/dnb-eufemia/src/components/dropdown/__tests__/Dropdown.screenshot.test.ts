@@ -83,7 +83,7 @@ describe.each(['ui', 'sbanken'])('Dropdown for %s', (themeName) => {
   it('have to match the dropdown as action menu', async () => {
     const screenshot = await makeScreenshot({
       selector:
-        '[data-visual-test="dropdown-actionMenu"] .dnb-dropdown__inner',
+        '[data-visual-test="dropdown-action_menu"] .dnb-dropdown__inner',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -159,10 +159,10 @@ describe.each(['ui', 'sbanken'])('Dropdown for %s', (themeName) => {
 
   it('have to match the dropdown action menu with custom items', async () => {
     const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="dropdown-actionMenu-custom"]',
+      selector: '[data-visual-test="dropdown-action_menu-custom"]',
       simulate: 'click',
       simulateSelector:
-        '[data-visual-test="dropdown-actionMenu-custom"] .dnb-dropdown__trigger',
+        '[data-visual-test="dropdown-action_menu-custom"] .dnb-dropdown__trigger',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -244,10 +244,10 @@ describe.each(['ui', 'sbanken'])('Dropdown for %s', (themeName) => {
 
   it('have to match the dropdown action menu in mobile view', async () => {
     const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="dropdown-actionMenu-custom"]',
+      selector: '[data-visual-test="dropdown-action_menu-custom"]',
       simulate: 'click',
       simulateSelector:
-        '[data-visual-test="dropdown-actionMenu-custom"] .dnb-dropdown__trigger',
+        '[data-visual-test="dropdown-action_menu-custom"] .dnb-dropdown__trigger',
       simulateAfter: { keypress: 'Escape' },
       waitBeforeSimulate: 100,
       style: {
