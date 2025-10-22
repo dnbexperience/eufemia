@@ -107,8 +107,8 @@ export const NumberFormatSandbox = () => {
                 clean
                 decimals={2}
                 // locale={'nb-NO'}
-                currency_position="after"
-                // currency_display="name"
+                currencyPosition="after"
+                // currencyDisplay="name"
                 // options={{
                 //   // minimumSignificantDigits: 1,
                 //   // maximumSignificantDigits: 6,
