@@ -1239,7 +1239,7 @@ describe('Autocomplete component', () => {
     expect(inputElement.value).toBe('')
   })
 
-  it('will invalidate selected_item when selectedKey changes', () => {
+  it('will invalidate selectedItem when selectedKey changes', () => {
     const mockData = [
       { selectedKey: 'a', content: 'AA c' },
       { selectedKey: 'b', content: 'BB cc zethx' },
@@ -1270,7 +1270,7 @@ describe('Autocomplete component', () => {
       />
     )
 
-    // 1. Make first a selected_item change
+    // 1. Make first a selectedItem change
     rerender(
       <Autocomplete
         {...mockProps}
