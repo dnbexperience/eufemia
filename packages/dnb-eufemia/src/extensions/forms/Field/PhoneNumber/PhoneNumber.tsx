@@ -508,7 +508,7 @@ function PhoneNumber(props: Props = {}) {
           placeholder={countryCodePlaceholder}
           labelDirection="vertical"
           label={countryCodeLabel ?? defaultCountryCodeLabel}
-          label_sr_only={labelSrOnly}
+          labelSrOnly={labelSrOnly}
           data={dataRef.current}
           value={countryCodeRef.current}
           status={hasError ? 'error' : undefined}
@@ -518,8 +518,8 @@ function PhoneNumber(props: Props = {}) {
           on_change={handleCountryCodeChange}
           on_type={onTypeHandler}
           independentWidth
-          search_numbers
-          keep_selection
+          searchNumbers
+          keepSelection
           selectall
           autoComplete="tel-country-code"
           noAnimation={props.noAnimation}
