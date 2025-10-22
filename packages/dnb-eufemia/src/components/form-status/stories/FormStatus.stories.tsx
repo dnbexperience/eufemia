@@ -124,7 +124,7 @@ export const FormStatusSandbox = () => {
       </Box>
       <Box>
         <FormSet
-          label_direction="vertical"
+          labelDirection="vertical"
           prevent_submit
           on_submit={(event) => {
             console.log('onSubmit', event)
@@ -164,7 +164,7 @@ export const ToggleAnimation = () => {
     <Wrapper>
       <Box>
         <FormSet
-          label_direction="vertical"
+          labelDirection="vertical"
           prevent_submit
           on_submit={(event) => {
             setShowError((v) => !v)
