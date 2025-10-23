@@ -1,16 +1,4 @@
 import { PropertiesTableProps } from '../../shared/types'
-import { toSnakeCase } from '../../shared/component-helper'
-
-const transformPropertyNamesWithSnakeCase = (
-  properties: PropertiesTableProps
-) => {
-  return Object.fromEntries(
-    Object.entries(properties).map(([key, value]) => [
-      key !== key.toLowerCase() ? `${key} / ${toSnakeCase(key)}` : key,
-      value,
-    ])
-  )
-}
 
 export const ModalProperties: PropertiesTableProps = {
   id: {
@@ -180,9 +168,6 @@ export const ModalProperties: PropertiesTableProps = {
   },
 }
 
-export const ModalPropertiesWithSnakeCase: PropertiesTableProps =
-  transformPropertyNamesWithSnakeCase(ModalProperties)
-
 export const ModalEvents: PropertiesTableProps = {
   onOpen: {
     doc: 'This event gets triggered once the modal shows up. Returns the modal id: `{ id }`.',
@@ -195,11 +180,8 @@ export const ModalEvents: PropertiesTableProps = {
     status: 'optional',
   },
   onClosePrevent: {
-    doc: 'This event gets triggered once the user tries to close the modal, but `prevent_close` is set to **true**. Returns a callback `close` you can call to trigger the close mechanism. More details below. Returns the modal id: `{ id, event, close: Method, triggeredBy }`.',
+    doc: 'This event gets triggered once the user tries to close the modal, but `preventClose` is set to **true**. Returns a callback `close` you can call to trigger the close mechanism. More details below. Returns the modal id: `{ id, event, close: Method, triggeredBy }`.',
     type: 'function',
     status: 'optional',
   },
 }
-
-export const ModalEventsWithSnakeCase: PropertiesTableProps =
-  transformPropertyNamesWithSnakeCase(ModalEvents)
