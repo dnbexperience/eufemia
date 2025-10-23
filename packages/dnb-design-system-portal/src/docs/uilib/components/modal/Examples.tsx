@@ -44,7 +44,7 @@ export const ModalExampleStateOnly = () => (
               omitTriggerButton
               openState={modalIsActive}
               labelledBy="custom-triggerer"
-              on_close={() => setModalState(false)}
+              onClose={() => setModalState(false)}
             >
               <ExampleCard>
                 <P>This Modal was opened by a custom trigger button.</P>
