@@ -70,7 +70,7 @@ describe('useTranslation without an ID', () => {
   it('should extend translation', () => {
     const extendedLocale = {
       DatePicker: {
-        maskPlaceholder: 'Custom placeholder',
+        my_key: 'Custom placeholder',
       },
     }
 
@@ -89,7 +89,7 @@ describe('useTranslation without an ID', () => {
     const extendedLocale = {
       'nb-NO': {
         DatePicker: {
-          maskPlaceholder: 'Custom placeholder',
+          my_key: 'Custom placeholder',
         },
       },
     }
