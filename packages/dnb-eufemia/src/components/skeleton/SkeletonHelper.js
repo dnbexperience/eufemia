@@ -16,7 +16,7 @@ export const skeletonDOMAttributes = (
   if (isTrue(skeleton) || (skeleton !== false && context?.skeleton)) {
     params.disabled = true
     params['aria-disabled'] = true
-    params['aria-label'] = context?.translation?.Skeleton?.aria_busy
+    params['aria-label'] = context?.translation?.Skeleton?.ariaBusy
   }
 
   return params
