@@ -126,8 +126,8 @@ export default {
       loadButtonText: 'Show more content',
     },
     StepIndicator: {
-      overview_title: 'Steps Overview',
-      step_title: 'Step %step of %count:',
+      overviewTitle: 'Steps Overview',
+      stepTitle: 'Step %step of %count:',
     },
     Slider: {
       addTitle: 'Increase (%s)',

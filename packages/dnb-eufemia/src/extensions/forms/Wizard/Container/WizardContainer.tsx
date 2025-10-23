@@ -449,9 +449,9 @@ function WizardContainer(props: Props) {
   }, [setActiveIndex])
 
   const handleChange = useCallback(
-    ({ current_step }) => {
+    ({ currentStep }) => {
       setActiveIndex(
-        current_step,
+        currentStep,
         mode === 'loose' ? { skipErrorCheck: true } : undefined
       )
     },
