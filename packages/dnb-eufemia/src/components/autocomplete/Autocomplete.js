@@ -1917,6 +1917,12 @@ class AutocompleteInstance extends React.PureComponent {
       )
     }
 
+    const {
+      innerRef: _innerRef, //eslint-disable-line
+      iconPosition: _iconPosition, //eslint-disable-line
+      ...customInputParams
+    } = inputParams
+
     let submitButton = false
     const triggerParams = {
       id: id + '-submit-button',
@@ -2000,7 +2006,7 @@ class AutocompleteInstance extends React.PureComponent {
           <span className="dnb-autocomplete__row">
             <span {...shellParams}>
               {CustomInput ? (
-                <CustomInput {...inputParams} />
+                <CustomInput {...customInputParams} />
               ) : (
                 <Input
                   icon={
