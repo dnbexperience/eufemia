@@ -22,7 +22,7 @@ function EditButton(props: Props) {
   const {
     className,
     variant = 'tertiary',
-    icon_position = 'left',
+    iconPosition = 'left',
     icon,
     toStep,
     children = translations.text,
@@ -41,7 +41,7 @@ function EditButton(props: Props) {
       <Button
         className={classnames('dnb-forms-edit-button', className)}
         variant={variant}
-        icon_position={icon_position}
+        iconPosition={iconPosition}
         icon={edit || icon}
         on_click={handleClick}
         {...omitSpacingProps(rest)}

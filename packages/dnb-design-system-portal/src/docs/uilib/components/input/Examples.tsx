@@ -76,9 +76,9 @@ export const InputExampleWithIcon = () => (
       />
       <Input
         label="Input with icon"
-        label_sr_only
+        labelSrOnly
         placeholder="Input with a placeholder"
-        icon_position="right"
+        iconPosition="right"
         icon="check"
         align="right"
       />
@@ -162,7 +162,7 @@ export const InputExampleStretched = () => (
             value="I stretch ..."
             stretch
             status="Status message"
-            status_state="warn"
+            statusState="warn"
           />
         </FieldBlock>
       </Provider>
@@ -178,7 +178,7 @@ export const InputExampleNumbers = () => (
         autocomplete="on"
         placeholder="Placeholder text"
         status="Numbers are using DNB Mono (monospace)"
-        status_state="info"
+        statusState="info"
         value="1234567890"
         on_change={({ value }) => {
           console.log('on_change', value)
@@ -247,21 +247,21 @@ export const InputScreenshotTests = () => {
               />
               <Input
                 placeholder="Placeholder Eu pretium sit magnis suscipit cursus dis proin rutrum elementum"
-                icon_position="right"
+                iconPosition="right"
                 icon="calendar"
               />
               <Input size="medium" value="Value" icon="calendar" />
               <Input
                 size="medium"
                 placeholder="Placeholder"
-                icon_position="right"
+                iconPosition="right"
                 icon="calendar"
               />
               <Input size="large" value="Value" icon="calendar" />
               <Input
                 size="large"
                 placeholder="Placeholder"
-                icon_position="right"
+                iconPosition="right"
                 icon="calendar"
               />
             </Flex.Vertical>
@@ -289,7 +289,7 @@ export const InputScreenshotTests = () => {
               />
               <Input
                 placeholder="Placeholder Eu pretium sit magnis suscipit cursus dis proin rutrum elementum"
-                icon_position="right"
+                iconPosition="right"
                 icon="calendar"
                 align="right"
               />
@@ -302,7 +302,7 @@ export const InputScreenshotTests = () => {
               <Input
                 size="medium"
                 placeholder="Placeholder"
-                icon_position="right"
+                iconPosition="right"
                 icon="calendar"
                 align="right"
               />
@@ -315,7 +315,7 @@ export const InputScreenshotTests = () => {
               <Input
                 size="large"
                 placeholder="Placeholder"
-                icon_position="right"
+                iconPosition="right"
                 icon="calendar"
                 align="right"
               />
