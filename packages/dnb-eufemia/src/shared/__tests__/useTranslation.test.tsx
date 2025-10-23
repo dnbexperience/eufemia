@@ -203,8 +203,8 @@ describe('useTranslation without an ID', () => {
       const { result } = renderHook(useTranslation)
 
       expect(result.current.formatMessage).toBeInstanceOf(Function)
-      expect(result.current.formatMessage('Modal.close_title')).toBe(
-        nbNO['nb-NO'].Modal.close_title
+      expect(result.current.formatMessage('Modal.closeTitle')).toBe(
+        nbNO['nb-NO'].Modal.closeTitle
       )
     })
 
@@ -215,15 +215,15 @@ describe('useTranslation without an ID', () => {
         ),
       })
 
-      expect(result.current.formatMessage('Modal.close_title')).toBe(
-        enGB['en-GB'].Modal.close_title
+      expect(result.current.formatMessage('Modal.closeTitle')).toBe(
+        enGB['en-GB'].Modal.closeTitle
       )
     })
 
     it('should return translation when switching locale', () => {
       const MockComponent = () => {
         const { formatMessage } = useTranslation()
-        return <>{formatMessage('Modal.close_title')}</>
+        return <>{formatMessage('Modal.closeTitle')}</>
       }
 
       const { rerender } = render(
@@ -232,7 +232,7 @@ describe('useTranslation without an ID', () => {
         </Provider>
       )
       expect(document.body.textContent).toBe(
-        nbNO['nb-NO'].Modal.close_title
+        nbNO['nb-NO'].Modal.closeTitle
       )
 
       rerender(
@@ -241,7 +241,7 @@ describe('useTranslation without an ID', () => {
         </Provider>
       )
       expect(document.body.textContent).toBe(
-        enGB['en-GB'].Modal.close_title
+        enGB['en-GB'].Modal.closeTitle
       )
     })
 
@@ -405,11 +405,11 @@ describe('useTranslation with an ID', () => {
 
   describe('useTranslation', () => {
     const nbNO = {
-      'Modal.close_title': 'Steng',
+      'Modal.closeTitle': 'Steng',
       'other.string': given_nbNO,
     }
     const enGB = {
-      'Modal.close_title': 'Close',
+      'Modal.closeTitle': 'Close',
       'other.string': given_enGB,
     }
     const nbNO_nested = {
@@ -811,13 +811,13 @@ describe('useTranslation with an ID', () => {
 
   it('should return translation with an identifier', () => {
     const { result } = renderHook(
-      () => useTranslation('Modal.close_title'),
+      () => useTranslation('Modal.closeTitle'),
       {
         wrapper: ({ children }) => <Provider>{children}</Provider>,
       }
     )
 
-    expect(result.current).toEqual(nbNO['nb-NO'].Modal.close_title)
+    expect(result.current).toEqual(nbNO['nb-NO'].Modal.closeTitle)
   })
 
   it('should fallback to en-GB when en-US is requested but not available', () => {

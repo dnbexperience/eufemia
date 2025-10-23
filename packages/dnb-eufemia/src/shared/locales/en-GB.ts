@@ -91,8 +91,8 @@ export default {
       indicatorLabel: 'Getting data ...',
     },
     Modal: {
-      dialog_title: 'Dialog Window',
-      close_title: 'Close',
+      dialogTitle: 'Dialog Window',
+      closeTitle: 'Close',
     },
     Dialog: {
       declineText: 'Cancel',

@@ -92,8 +92,8 @@ export default {
       indicatorLabel: 'Henter data ...',
     },
     Modal: {
-      dialog_title: 'Separat vindue',
-      close_title: 'Luk',
+      dialogTitle: 'Separat vindue',
+      closeTitle: 'Luk',
     },
     Dialog: {
       declineText: 'Annuller',
