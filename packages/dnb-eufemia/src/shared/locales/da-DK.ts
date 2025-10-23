@@ -123,8 +123,8 @@ export default {
       loadButtonText: 'Vis mere indhold',
     },
     Skeleton: {
-      aria_busy: 'Behandler data ...',
-      aria_ready: 'Klar til at interagere',
+      ariaBusy: 'Behandler data ...',
+      ariaReady: 'Klar til at interagere',
     },
     StepIndicator: {
       overviewTitle: 'Trinoverblik',

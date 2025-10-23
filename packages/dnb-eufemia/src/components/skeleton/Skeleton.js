@@ -27,14 +27,14 @@ export default class Skeleton extends React.PureComponent {
 
   static propTypes = {
     show: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    noAnimation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     figure: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.func,
       PropTypes.node,
     ]),
-    aria_busy: PropTypes.string,
-    aria_ready: PropTypes.string,
+    ariaBusy: PropTypes.string,
+    ariaReady: PropTypes.string,
     element: PropTypes.node,
 
     ...spacingPropTypes,
@@ -50,10 +50,10 @@ export default class Skeleton extends React.PureComponent {
   static defaultProps = {
     show: null,
     skeleton: null, // only to make sure we process extendPropsWithContextInClassComponent
-    no_animation: null,
+    noAnimation: null,
     figure: null,
-    aria_busy: null,
-    aria_ready: null,
+    ariaBusy: null,
+    ariaReady: null,
     element: null,
     className: null,
     children: null,
@@ -80,7 +80,7 @@ export default class Skeleton extends React.PureComponent {
       Skeleton.defaultProps,
       {
         skeleton: context.Skeleton || context.skeleton,
-        no_animation: context.skeleton_no_animation,
+        noAnimation: context.skeletonNoAnimation,
       },
       context.getTranslation(props).Skeleton
     )
@@ -90,14 +90,14 @@ export default class Skeleton extends React.PureComponent {
     // this is only to make a better screen reader ux
     clearTimeout(this._ariaLiveUpdateTimeout)
     this._ariaLiveUpdateTimeout = setTimeout(() => {
-      const { aria_busy, aria_ready } = this.getProps()
+      const { ariaBusy, ariaReady } = this.getProps()
 
       let newString = null
 
       if (isTrue(this.props.show)) {
-        newString = aria_busy
+        newString = ariaBusy
       } else {
-        newString = aria_ready
+        newString = ariaReady
       }
 
       if (newString) {
@@ -119,11 +119,11 @@ export default class Skeleton extends React.PureComponent {
 
     const {
       show,
-      no_animation,
+      noAnimation,
       figure,
       skeleton,
-      aria_busy,
-      aria_ready, // eslint-disable-line
+      ariaBusy,
+      ariaReady, // eslint-disable-line
       className,
       children,
 
@@ -141,13 +141,13 @@ export default class Skeleton extends React.PureComponent {
       className: classnames(
         figure ? 'dnb-skeleton__figure' : 'dnb-skeleton__root',
         isTrue(showSkeleton) && 'dnb-skeleton',
-        isTrue(no_animation) && 'dnb-skeleton--no-animation',
+        isTrue(noAnimation) && 'dnb-skeleton--no-animation',
         createSpacingClasses(props),
         className
       ),
       // role: 'status',// is not needed as for now
       'aria-busy': showSkeleton,
-      'aria-label': showSkeleton ? aria_busy : undefined,
+      'aria-label': showSkeleton ? ariaBusy : undefined,
       lang: this.context.locale || LOCALE,
       ...attributes,
     }
@@ -169,7 +169,7 @@ export default class Skeleton extends React.PureComponent {
         ) : (
           <Provider
             skeleton={showSkeleton}
-            skeleton_no_animation={no_animation}
+            skeletonNoAnimation={noAnimation}
           >
             {children}
           </Provider>
