@@ -48,7 +48,7 @@ const LargeTableWithInteractiveElements = (props) => {
     return <Checkbox label="Select row" labelSrOnly />
   }
   const TdInput = () => {
-    return <Input label="Label" label_sr_only size={4} />
+    return <Input label="Label" labelSrOnly size={4} />
   }
 
   const Row = ({ nr }) => {

@@ -107,7 +107,7 @@ export function AriaLiveAdditions() {
               text="Add more content"
               variant="secondary"
               icon="add"
-              icon_position="left"
+              iconPosition="left"
               on_click={() => {
                 update('/content', (content) => {
                   const c = content.length + 1
@@ -120,7 +120,7 @@ export function AriaLiveAdditions() {
               text="Remove content"
               variant="tertiary"
               icon="subtract"
-              icon_position="left"
+              iconPosition="left"
               on_click={() => {
                 update('/content', (content) => {
                   content.pop()

@@ -634,17 +634,17 @@ describe('GlobalStatus component', () => {
   it('should generate itemId form React Element', async () => {
     const StatusComponent = ({
       children,
-      inner_ref,
+      innerRef,
     }: {
       children?: any
-      inner_ref?: any
+      innerRef?: any
     }) => {
       return children
     }
 
     const StatusAsComponent = React.forwardRef(
       (props: { children: React.ReactNode }, ref) => {
-        return <StatusComponent {...props} inner_ref={ref} />
+        return <StatusComponent {...props} innerRef={ref} />
       }
     )
 
