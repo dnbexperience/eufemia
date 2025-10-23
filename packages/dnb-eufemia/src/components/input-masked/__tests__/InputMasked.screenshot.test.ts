@@ -26,18 +26,18 @@ describe.each(['ui', 'sbanken'])('Input for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match currency_mask', async () => {
+  it('have to match currencyMask', async () => {
     const screenshot = await makeScreenshot({
       // style,
-      selector: '[data-visual-test="input-masked-currency_mask"]',
+      selector: '[data-visual-test="input-masked-currencyMask"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match number_mask', async () => {
+  it('have to match numberMask', async () => {
     const screenshot = await makeScreenshot({
       // style,
-      selector: '[data-visual-test="input-masked-number_mask"]',
+      selector: '[data-visual-test="input-masked-numberMask"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
