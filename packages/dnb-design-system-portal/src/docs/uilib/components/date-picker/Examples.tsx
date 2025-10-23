@@ -33,49 +33,49 @@ export const DatePickerRange = () => (
       endDate="2019-05-17"
       range
       showInput
-      onChange={({ start_date, end_date }) => {
-        console.log('onChange', start_date, end_date)
+      onChange={({ startDate, endDate }) => {
+        console.log('onChange', startDate, endDate)
       }}
-      onSubmit={({ start_date, end_date }) => {
-        console.log('onSubmit', start_date, end_date)
+      onSubmit={({ startDate, endDate }) => {
+        console.log('onSubmit', startDate, endDate)
       }}
-      onCancel={({ start_date, end_date }) => {
-        console.log('onCancel', start_date, end_date)
+      onCancel={({ startDate, endDate }) => {
+        console.log('onCancel', startDate, endDate)
       }}
       onBlur={({
-        start_date,
-        end_date,
+        startDate,
+        endDate,
         partialStartDate,
         partialEndDate,
       }) => {
         console.log('onBlurPartial', partialStartDate, partialEndDate)
-        console.log('onBlurComplete', start_date, end_date)
+        console.log('onBlurComplete', startDate, endDate)
       }}
       shortcuts={[
         {
           title: 'Set date period',
-          start_date: '1969-07-15',
-          end_date: '1969-08-15',
+          startDate: '1969-07-15',
+          endDate: '1969-08-15',
         },
         {
           title: 'Today',
-          start_date: new Date(),
+          startDate: new Date(),
         },
         {
           title: 'This week',
-          start_date: startOfWeek(new Date()),
-          end_date: lastDayOfWeek(new Date()),
+          startDate: startOfWeek(new Date()),
+          endDate: lastDayOfWeek(new Date()),
         },
         {
           close_on_select: true,
           title: 'This month',
-          start_date: startOfMonth(new Date()),
-          end_date: lastDayOfMonth(new Date()),
+          startDate: startOfMonth(new Date()),
+          endDate: lastDayOfMonth(new Date()),
         },
         {
           title: 'Relative +3 days',
-          start_date: ({ start_date }) => start_date || new Date(),
-          end_date: ({ end_date }) => addDays(end_date || new Date(), 3),
+          startDate: ({ startDate }) => startDate || new Date(),
+          endDate: ({ endDate }) => addDays(endDate || new Date(), 3),
         },
       ]}
     />
@@ -115,8 +115,8 @@ export const DatePickerTrigger = () => (
       onShow={({ date }) => {
         console.log('onShow', date)
       }}
-      onBlur={({ start_date, end_date }) => {
-        console.log('onBlur', start_date, end_date)
+      onBlur={({ startDate, endDate }) => {
+        console.log('onBlur', startDate, endDate)
       }}
     />
   </ComponentBox>
@@ -254,14 +254,14 @@ export const DatePickerDateFnsRange = () => (
       shortcuts={[
         {
           title: 'Set date period',
-          start_date: '1969-07-15',
-          end_date: '1969-07-15',
+          startDate: '1969-07-15',
+          endDate: '1969-07-15',
           close_on_select: true, // will close the picker
         },
         {
           title: 'This month',
-          start_date: startOfMonth(new Date()),
-          end_date: lastDayOfMonth(new Date()),
+          startDate: startOfMonth(new Date()),
+          endDate: lastDayOfMonth(new Date()),
         },
       ]}
     />
