@@ -967,8 +967,8 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
       {label && <legend className="dnb-sr-only">{label}</legend>}
       <Input
         id={`${id}__input`}
-        input_state={disabled ? 'disabled' : focusState}
-        input_element={
+        inputState={disabled ? 'disabled' : focusState}
+        inputElement={
           inputElement && typeof inputElement !== 'string'
             ? typeof inputElement === 'function'
               ? inputElement(props)
@@ -979,9 +979,9 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
         skeleton={skeleton}
         size={size}
         status={!opened ? status : null}
-        status_state={statusState}
+        statusState={statusState}
         {...statusProps}
-        submit_element={
+        submitElement={
           <SubmitElement
             id={id}
             disabled={disabled}
@@ -994,7 +994,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
             title={title}
             size={size}
             status={status}
-            status_state={statusState}
+            statusState={statusState}
             type="button"
             icon="calendar"
             variant="secondary"

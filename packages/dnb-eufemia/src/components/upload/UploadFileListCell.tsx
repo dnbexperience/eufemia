@@ -181,7 +181,7 @@ const UploadFileListCell = ({
         <Button
           icon={TrashIcon}
           variant="tertiary"
-          icon_position="left"
+          iconPosition="left"
           disabled={isLoading}
           {...deleteButtonProps}
           onClick={onDeleteHandler}

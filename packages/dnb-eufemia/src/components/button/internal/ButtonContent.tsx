@@ -7,9 +7,9 @@ import type { IconIcon, IconSize } from '../../icon/Icon'
 type ButtonContentProps = {
   title?: React.ReactNode
   content?: React.ReactNode
-  custom_content?: React.ReactNode
+  customContent?: React.ReactNode
   icon?: IconIcon | React.ReactNode | ((...args: any[]) => any)
-  icon_size?: IconSize | string | number
+  iconSize?: IconSize | string | number
   bounding?: boolean
   skeleton?: boolean
   isIconOnly?: boolean
@@ -19,9 +19,9 @@ type ButtonContentProps = {
 export default function ButtonContent({
   title = null,
   content = null,
-  custom_content = null,
+  customContent = null,
   icon = null,
-  icon_size = 'default',
+  iconSize = 'default',
   bounding = null,
   skeleton = null,
   isIconOnly = null,
@@ -33,9 +33,9 @@ export default function ButtonContent({
         <span key="button-bounding" className="dnb-button__bounding" />
       )}
 
-      {custom_content && (
+      {customContent && (
         <React.Fragment key="button-custom-content">
-          {custom_content}
+          {customContent}
         </React.Fragment>
       )}
 
@@ -74,7 +74,7 @@ export default function ButtonContent({
             key="button-icon"
             className="dnb-button__icon"
             icon={icon as IconIcon}
-            size={icon_size as IconSize}
+            size={iconSize as IconSize}
             aria-hidden={isIconOnly && !title ? null : true}
             skeleton={skeleton}
           />
