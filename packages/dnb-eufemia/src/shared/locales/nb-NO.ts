@@ -121,8 +121,8 @@ export default {
       loadButtonText: 'Vis mer innhold',
     },
     Skeleton: {
-      aria_busy: 'Behandler data ...',
-      aria_ready: 'Klar til å samhandle',
+      ariaBusy: 'Behandler data ...',
+      ariaReady: 'Klar til å samhandle',
     },
     StepIndicator: {
       overviewTitle: 'Stegoversikt',
