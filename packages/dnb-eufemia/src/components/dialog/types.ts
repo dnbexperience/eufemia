@@ -1,17 +1,14 @@
-import { ToCamelCasePartial } from '../../shared/helpers/withCamelCaseProps'
 import { ModalPropTypes } from '../modal/Modal'
 import { IconIcon } from '../Icon'
 import { DialogActionProps } from './parts/DialogAction'
 import { ReactChildType } from '../modal/types'
 import React from 'react'
 
-export interface DialogProps extends ToCamelCasePartial<ModalPropTypes> {
+export interface DialogProps extends ModalPropTypes {
   /**
    * The dialog title. Displays on the very top of the content.
    */
   title?: React.ReactNode
-  // redefining trigger property here, since ToCamelCasePartial messes up the extended trigger, causing type errors.
-  trigger?: ReactChildType
 }
 
 export interface DialogContentProps

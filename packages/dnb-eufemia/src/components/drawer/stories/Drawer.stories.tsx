@@ -42,17 +42,17 @@ export const DrawerSandbox = () => (
         // openState="opened"
         // fullscreen
         containerPlacement="right"
-        // align_content="right"
-        // align_content="center"
+        // alignContent="right"
+        // alignContent="center"
         // drawer_offset={}
         title="Original title"
         // title={<span className="dnb-sr-only">Test</span>}
-        // min_width="20vw"
-        // max_width="40vw"
-        // overlay_class="overlay_class"
-        // content_class="content_class"
+        // minWidth="20vw"
+        // maxWidth="40vw"
+        // overlayClass="overlayClass"
+        // contentClass="contentClass"
         // className="inner_class"
-        // header_content={
+        // headerContent={
         //   <>
         //     <P bottom>This is a lorem ipsum dolor</P>
         //     <Button bottom size="large">
@@ -199,8 +199,8 @@ export const DrawerSandbox = () => (
         // title={<span className="dnb-sr-only">Test</span>}
         // minWidth="20vw"
         // maxWidth="40vw"
-        // overlayClass="overlay_class"
-        // contentClass="content_class"
+        // overlayClass="overlayClass"
+        // contentClass="contentClass"
         // className="inner_class"
       >
         <Drawer.Body styleType="pistachio">
