@@ -279,10 +279,10 @@ const InputWithError = () => {
 
 const ModalExample = () => (
   <Modal
-    trigger_attributes={{ text: 'Open Modal' }}
+    triggerAttributes={{ text: 'Open Modal' }}
     title="Modal Title"
     // width="80vw"
-    on_open={() => {
+    onOpen={() => {
       setTimeout(() => {
         const status = GlobalStatus.Update({
           id: 'modal',
