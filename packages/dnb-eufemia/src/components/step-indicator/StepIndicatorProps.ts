@@ -4,8 +4,8 @@ export const stepIndicatorDefaultProps: Omit<StepIndicatorProps, 'mode'> =
   {
     data: [] as StepIndicatorData,
     skeleton: false,
-    current_step: 0,
-    hide_numbers: false,
-    no_animation: false,
+    currentStep: 0,
+    hideNumbers: false,
+    noAnimation: false,
     expandedInitially: false,
   }

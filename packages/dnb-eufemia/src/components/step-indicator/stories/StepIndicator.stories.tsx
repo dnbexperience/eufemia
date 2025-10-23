@@ -23,8 +23,8 @@ export function RenderDuringSSR() {
     },
     {
       title: 'Bestill eller erstatt ' + count,
-      on_click: ({ current_step }) =>
-        console.log('current_step:', current_step),
+      on_click: ({ currentStep }) =>
+        console.log('currentStep:', currentStep),
       status:
         'Du må velge bestill nytt kort eller erstatt kort for å kunne fullføre bestillingen din.',
     },
@@ -42,13 +42,13 @@ export function RenderDuringSSR() {
           // mode="strict"
           mode="loose"
           data={data}
-          // current_step={0}
-          current_step={1}
+          // currentStep={0}
+          currentStep={1}
           on_click={() => {
             console.log('')
           }}
-          on_change={({ current_step }) => {
-            console.log('on_change', current_step)
+          on_change={({ currentStep }) => {
+            console.log('on_change', currentStep)
           }}
         />
       </Provider>
@@ -71,7 +71,7 @@ const data = [
     // on_click: ({ currentStep }) => console.log('on_click', currentStep),
     status:
       'Du må velge bestill nytt kort eller erstatt kort for å kunne fullføre bestillingen din.',
-    // status_state: 'warn',
+    // statusState: 'warn',
     // on_click: ({ currentStep }) => console.log('on_click', currentStep),
   },
   {
@@ -80,7 +80,7 @@ const data = [
     // on_click: ({ currentStep }) => console.log('on_click', currentStep),
     // disabled: true,
     // inactive: true,
-    // is_current: true,
+    // isCurrent: true,
   },
   {
     title:
@@ -97,9 +97,9 @@ const InteractiveDemo = () => {
       <Space stretch>
         <StepIndicator
           mode="loose"
-          current_step={step}
-          on_change={({ current_step }) => {
-            setStep(current_step)
+          currentStep={step}
+          on_change={({ currentStep }) => {
+            setStep(currentStep)
           }}
           data={[
             // 'a',
@@ -132,14 +132,14 @@ const InteractiveDemo = () => {
 
 export const StepIndicatorSandbox = () => {
   const [count, increment] = React.useState(0)
-  const [current_step, setCurrentStep] = React.useState(1)
+  const [currentStep, setCurrentStep] = React.useState(1)
   return (
     <Wrapper>
       <Box>
         <InteractiveDemo />
       </Box>
       <Box>
-        <Code>{JSON.stringify({ count, current_step })}</Code>
+        <Code>{JSON.stringify({ count, currentStep })}</Code>
         <Button
           onClick={() => {
             increment((i) => i + 1)
@@ -166,11 +166,11 @@ export const StepIndicatorSandbox = () => {
         <StepIndicator
           // skeleton
           top="large"
-          // hide_numbers
+          // hideNumbers
           // mode="static"
           // mode="strict"
           mode="loose"
-          current_step={current_step}
+          currentStep={currentStep}
           on_change={({ currentStep }) => {
             console.log('on_change', currentStep)
             setCurrentStep(currentStep)
@@ -185,7 +185,7 @@ export const StepIndicatorSandbox = () => {
           top="large"
           // mode="static"
           mode="strict"
-          current_step={current_step}
+          currentStep={currentStep}
           on_change={({ currentStep }) => {
             console.log('on_change', currentStep)
             setCurrentStep(currentStep)
@@ -214,10 +214,10 @@ const stepIndicatorListData = [
 ]
 
 export const CurrentStepPropChange = () => {
-  const [current_step, setCurrentStep] = React.useState(1)
+  const [currentStep, setCurrentStep] = React.useState(1)
 
   function stepOn() {
-    if (current_step === stepIndicatorListData.length - 1) {
+    if (currentStep === stepIndicatorListData.length - 1) {
       return setCurrentStep(0)
     }
 
@@ -233,7 +233,7 @@ export const CurrentStepPropChange = () => {
       </Box>
       <Box>
         <StepIndicator
-          current_step={current_step}
+          currentStep={currentStep}
           mode="loose"
           data={stepIndicatorListData}
         />
@@ -257,7 +257,7 @@ export const OnlyOneCurrent = () => {
             },
             {
               title: 'Step C',
-              is_current: true,
+              isCurrent: true,
             },
           ]}
         />
@@ -276,7 +276,7 @@ export const EventTests = () => {
     },
     {
       title: 'Step C',
-      is_current: true,
+      isCurrent: true,
       on_click: (event) => {
         console.log('Item Click', event)
       },
@@ -300,7 +300,7 @@ export const EventTests = () => {
 }
 
 export const TitleTests = () => {
-  const [current_step, setCurrentStep] = React.useState(0)
+  const [currentStep, setCurrentStep] = React.useState(0)
 
   const data: StepIndicatorDataItem[] = [
     {
@@ -318,11 +318,11 @@ export const TitleTests = () => {
     <>
       <Box>
         <StepIndicator
-          overview_title="Custom Overview Title"
-          step_title="Custom Step Title"
+          overviewTitle="Custom Overview Title"
+          stepTitle="Custom Step Title"
           top="large"
           mode="loose"
-          current_step={current_step}
+          currentStep={currentStep}
           data={data}
           on_click={({ currentStep }) => setCurrentStep(currentStep)}
         />
