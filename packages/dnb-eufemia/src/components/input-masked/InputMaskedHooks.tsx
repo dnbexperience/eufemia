@@ -54,19 +54,19 @@ export const useFilteredProps = () => {
 
   const {
     mask, // eslint-disable-line
-    number_mask, // eslint-disable-line
-    currency_mask, // eslint-disable-line
-    number_format, // eslint-disable-line
-    mask_options, // eslint-disable-line
-    as_currency, // eslint-disable-line
-    as_number, // eslint-disable-line
-    as_percent, // eslint-disable-line
+    numberMask, // eslint-disable-line
+    currencyMask, // eslint-disable-line
+    numberFormat, // eslint-disable-line
+    maskOptions, // eslint-disable-line
+    asCurrency, // eslint-disable-line
+    asNumber, // eslint-disable-line
+    asPercent, // eslint-disable-line
     locale, // eslint-disable-line
-    show_mask, // eslint-disable-line
-    show_guide, // eslint-disable-line
+    showMask, // eslint-disable-line
+    showGuide, // eslint-disable-line
     pipe, // eslint-disable-line
-    keep_char_positions, // eslint-disable-line
-    placeholder_char, // eslint-disable-line
+    keepCharPositions, // eslint-disable-line
+    placeholderChar, // eslint-disable-line
 
     // Get rest of possible attributes
     ...attributes
@@ -180,20 +180,20 @@ export const useMaskParams = () => {
   const { props } = React.useContext(InputMaskedContext)
 
   const {
-    keep_char_positions,
-    show_guide,
-    show_mask,
-    placeholder_char,
+    keepCharPositions,
+    showGuide,
+    showMask,
+    placeholderChar,
     placeholder,
   } = props
 
   const mask = useMask()
   const maskParams = useNumberMaskParams() || {}
 
-  maskParams.showMask = !placeholder && isTrue(show_mask)
+  maskParams.showMask = !placeholder && isTrue(showMask)
 
   // Revalidated placeholder char to a zero width space
-  maskParams.placeholderChar = placeholder_char
+  maskParams.placeholderChar = placeholderChar
   if (typeof mask?.placeholderChar !== 'undefined') {
     maskParams.placeholderChar = mask.placeholderChar
   }
@@ -205,8 +205,8 @@ export const useMaskParams = () => {
     maskParams.showMask = mask.showMask
   }
 
-  maskParams.showGuide = isTrue(show_guide)
-  maskParams.keepCharPositions = isTrue(keep_char_positions)
+  maskParams.showGuide = isTrue(showGuide)
+  maskParams.keepCharPositions = isTrue(keepCharPositions)
 
   return maskParams
 }
@@ -218,21 +218,21 @@ export const useMaskParams = () => {
  */
 export const useInputElement = () => {
   const { props } = React.useContext(InputMaskedContext)
-  const { pipe, inner_ref } = props
+  const { pipe, innerRef } = props
 
   const mask = useMask()
   const { showMask, showGuide, placeholderChar, keepCharPositions } =
     useMaskParams()
 
-  const isFn = typeof inner_ref === 'function'
+  const isFn = typeof innerRef === 'function'
   const refHook = React.useRef<HTMLInputElement>(null)
-  const ref = (!isFn && inner_ref) || refHook
+  const ref = (!isFn && innerRef) || refHook
 
   useLayoutEffect(() => {
     if (isFn) {
-      inner_ref?.(ref.current)
+      innerRef?.(ref.current)
     }
-  }, [inner_ref, isFn, ref])
+  }, [innerRef, isFn, ref])
 
   // Create the actual input element
   const inputElementRef = React.useRef<JSX.Element>(
@@ -546,40 +546,40 @@ const useNumberMaskParams = () => {
   const locale = useTranslation()
 
   if (!isRequestingNumberMask(props)) {
-    return { ...(fromJSON(props.mask_options) as Record<string, unknown>) }
+    return { ...(fromJSON(props.maskOptions) as Record<string, unknown>) }
   }
 
-  let { number_mask, currency_mask, mask_options } = props
-  const { as_number, as_percent, as_currency, value } = props
+  let { numberMask, currencyMask, maskOptions } = props
+  const { asNumber, asPercent, asCurrency, value } = props
 
-  mask_options = fromJSON(mask_options) as any
-  number_mask = isTrue(number_mask) ? {} : (fromJSON(number_mask) as any)
-  currency_mask = isTrue(currency_mask)
+  maskOptions = fromJSON(maskOptions) as any
+  numberMask = isTrue(numberMask) ? {} : (fromJSON(numberMask) as any)
+  currencyMask = isTrue(currencyMask)
     ? {}
-    : (fromJSON(currency_mask, {
-        currency: currency_mask,
+    : (fromJSON(currencyMask, {
+        currency: currencyMask,
       }) as any)
-  if (!currency_mask?.currency) {
-    delete currency_mask.currency
+  if (!currencyMask?.currency) {
+    delete currencyMask.currency
   }
 
   if (isRequestingLocaleSupport(props)) {
     const thousandsSeparatorSymbol = handleThousandsSeparator(locale)
     const decimalSymbol = handleDecimalSeparator(locale)
 
-    if (isTrue(as_number) || isTrue(as_percent)) {
-      number_mask = extendPropsWithContext(number_mask, null, {
+    if (isTrue(asNumber) || isTrue(asPercent)) {
+      numberMask = extendPropsWithContext(numberMask, null, {
         decimalSymbol,
         thousandsSeparatorSymbol,
       })
-    } else if (as_currency) {
-      currency_mask = extendPropsWithContext(currency_mask, null, {
+    } else if (asCurrency) {
+      currencyMask = extendPropsWithContext(currencyMask, null, {
         decimalSymbol,
         thousandsSeparatorSymbol,
         currency: (getCurrencySymbol as any)(
           locale,
-          typeof as_currency === 'string' ? as_currency : null,
-          currency_mask?.currencyDisplay,
+          typeof asCurrency === 'string' ? asCurrency : null,
+          currencyMask?.currencyDisplay,
           value
         ),
       })
@@ -588,19 +588,19 @@ const useNumberMaskParams = () => {
 
   let maskParams = null
 
-  if (number_mask) {
+  if (numberMask) {
     maskParams = handleNumberMask({
-      mask_options,
-      number_mask,
+      maskOptions,
+      numberMask,
     })
 
-    if (isTrue(as_percent)) {
+    if (isTrue(asPercent)) {
       maskParams = handlePercentMask({ props, locale, maskParams })
     }
-  } else if (currency_mask) {
+  } else if (currencyMask) {
     maskParams = handleCurrencyMask({
-      mask_options,
-      currency_mask,
+      maskOptions,
+      currencyMask,
     })
   }
 
