@@ -184,7 +184,7 @@ const InfoCard = (localProps: InfoCardAllProps) => {
             top="small"
             on_click={onClose}
             icon="close"
-            icon_position="left"
+            iconPosition="left"
             text={closeButtonText}
             {...closeButtonAttributes}
           />
