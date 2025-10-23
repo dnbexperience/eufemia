@@ -58,7 +58,7 @@ export type StepIndicatorProviderProps = Omit<
   'mode' | 'data'
 > & {
   /**
-   * <em>(required)</em> defines the data/steps showing up in a JavaScript Array or JSON format like `[{title,is_current}]`. See parameters and the example above.
+   * <em>(required)</em> defines the data/steps showing up in a JavaScript Array or JSON format like `[{title,isCurrent}]`. See parameters and the example above.
    */
   data?: StepIndicatorData
   /**
@@ -104,19 +104,19 @@ export function StepIndicatorProvider(props: StepIndicatorProviderProps) {
 
   const getActiveStepFromProps = useCallback(() => {
     if (typeof data[0] === 'string') {
-      return props.current_step
+      return props.currentStep
     }
 
     const dataWithItems = data as StepIndicatorDataItem[]
 
     const itemWithCurrentStep = dataWithItems.find(
-      (item) => item.is_current
+      (item) => item.isCurrent
     )
-    // Is current on data item has precedence(?) over current_step prop
+    // Is current on data item has precedence(?) over currentStep prop
     return itemWithCurrentStep
       ? dataWithItems.indexOf(itemWithCurrentStep)
-      : props.current_step
-  }, [data, props.current_step])
+      : props.currentStep
+  }, [data, props.currentStep])
 
   const countSteps = data.length
   const activeStepRef = useRef<number>(getActiveStepFromProps())
@@ -163,7 +163,7 @@ export function StepIndicatorProvider(props: StepIndicatorProviderProps) {
         listOfReachedSteps,
         data,
         countSteps,
-        stepsLabel: updateStepTitle(globalContext.step_title),
+        stepsLabel: updateStepTitle(globalContext.stepTitle),
       },
       // Functions
       {
@@ -189,14 +189,14 @@ export function StepIndicatorProvider(props: StepIndicatorProviderProps) {
 
   const contextValue = makeContextValue() as StepIndicatorContextValues
 
-  // Keeps the activeStep state updated with changes to the current_step and data props
+  // Keeps the activeStep state updated with changes to the currentStep and data props
   useEffect(() => {
     const currentStepFromProps = getActiveStepFromProps()
 
     if (currentStepFromProps !== activeStepRef.current) {
       setActiveStep(currentStepFromProps)
     }
-  }, [props.current_step, data, getActiveStepFromProps, setActiveStep])
+  }, [props.currentStep, data, getActiveStepFromProps, setActiveStep])
 
   // Keeps the listOfReachedSteps state up to date with the activeStep state
   const activeStep = activeStepRef.current
@@ -207,7 +207,7 @@ export function StepIndicatorProvider(props: StepIndicatorProviderProps) {
   }, [activeStep, listOfReachedSteps])
 
   if (typeof window !== 'undefined' && window['IS_TEST']) {
-    contextValue['no_animation'] = true
+    contextValue['noAnimation'] = true
   }
 
   // Filter out unwanted HTML attributes
