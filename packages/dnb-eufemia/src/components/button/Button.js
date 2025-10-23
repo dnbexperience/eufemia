@@ -75,11 +75,6 @@ export default class Button extends React.PureComponent {
         ? this.props.innerRef(this._ref.current)
         : (this.props.innerRef.current = this._ref.current)
     }
-    if (this.props.innerRef) {
-      typeof this.props.innerRef === 'function'
-        ? this.props.innerRef(this._ref.current)
-        : (this.props.innerRef.current = this._ref.current)
-    }
   }
 
   getOnClickHandler = (src) => (event) => {
@@ -355,7 +350,6 @@ Button.propTypes = {
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   innerRef: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   className: PropTypes.string,
-  innerRef: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   children: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.func,
@@ -398,7 +392,6 @@ Button.defaultProps = {
   statusProps: null,
   statusNoAnimation: null,
   globalStatus: null,
-  innerRef: null,
 
   className: null,
   innerRef: null,
