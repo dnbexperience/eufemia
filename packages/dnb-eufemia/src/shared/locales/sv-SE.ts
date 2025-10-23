@@ -126,8 +126,8 @@ export default {
       aria_ready: 'Klar att interagera',
     },
     StepIndicator: {
-      overview_title: 'Stegöversikt',
-      step_title: 'Steg %step av %count',
+      overviewTitle: 'Stegöversikt',
+      stepTitle: 'Steg %step av %count',
     },
     Slider: {
       addTitle: 'Öka (%s)',
