@@ -59,7 +59,7 @@ describe('StepIndicator in general', () => {
       <>
         <StepIndicator
           top="large"
-          current_step={1}
+          currentStep={1}
           mode="loose"
           data={stepIndicatorListData}
         />
@@ -78,7 +78,7 @@ describe('StepIndicator in general', () => {
       <StepIndicator
         top="large"
         mode="static"
-        current_step={1}
+        currentStep={1}
         data={stepIndicatorListData}
       />
     )
@@ -95,7 +95,7 @@ describe('StepIndicator in general', () => {
       <>
         <StepIndicator
           top="large"
-          current_step={1}
+          currentStep={1}
           mode="loose"
           data={stepIndicatorListData}
           aria-labelledby="element"
@@ -113,7 +113,7 @@ describe('StepIndicator in general', () => {
       <StepIndicator
         top="large"
         mode="static"
-        current_step={1}
+        currentStep={1}
         data={stepIndicatorListData}
         aria-labelledby="element"
       />
@@ -182,7 +182,7 @@ describe('StepIndicator redesign', () => {
         <StepIndicator
           mode="loose"
           data={stepIndicatorListData}
-          hide_numbers
+          hideNumbers
           expandedInitially
         />
       </>
@@ -229,7 +229,7 @@ describe('StepIndicator in loose mode', () => {
   const renderComponent = (props = null) => {
     return render(
       <StepIndicator
-        current_step={1}
+        currentStep={1}
         mode="loose"
         data={stepIndicatorListData}
         expandedInitially
@@ -248,7 +248,7 @@ describe('StepIndicator in loose mode', () => {
   it('should keep the current step on re-render', () => {
     const { rerender } = render(
       <StepIndicator
-        current_step={1}
+        currentStep={1}
         mode="loose"
         data={stepIndicatorListData}
         expandedInitially
@@ -267,7 +267,7 @@ describe('StepIndicator in loose mode', () => {
 
     rerender(
       <StepIndicator
-        current_step={1}
+        currentStep={1}
         mode="loose"
         data={stepIndicatorListData}
       />
@@ -325,7 +325,7 @@ describe('StepIndicator in loose mode', () => {
 
   it('should have only one "current" at a time', () => {
     renderComponent({
-      current_step: null,
+      currentStep: null,
       data: [
         {
           title: 'Step A',
@@ -335,7 +335,7 @@ describe('StepIndicator in loose mode', () => {
         },
         {
           title: 'Step C',
-          is_current: true,
+          isCurrent: true,
         },
       ],
     })
@@ -368,7 +368,7 @@ describe('StepIndicator in loose mode', () => {
     ).toBeInTheDocument()
   })
 
-  it('should react on is_current data prop change', () => {
+  it('should react on isCurrent data prop change', () => {
     const TestComp = (props) => {
       return <StepIndicator mode="loose" expandedInitially {...props} />
     }
@@ -382,7 +382,7 @@ describe('StepIndicator in loose mode', () => {
       },
       {
         title: 'Step C',
-        is_current: true,
+        isCurrent: true,
       },
     ]
 
@@ -399,7 +399,7 @@ describe('StepIndicator in loose mode', () => {
       },
       {
         title: 'Step B',
-        is_current: true,
+        isCurrent: true,
       },
       {
         title: 'Step C',
@@ -414,11 +414,11 @@ describe('StepIndicator in loose mode', () => {
     ).toContain('2.Step BSteg 2 av 3')
   })
 
-  it('should react on current_step prop change', () => {
+  it('should react on currentStep prop change', () => {
     const TestComp = ({ ...props }) => {
       return (
         <StepIndicator
-          current_step={1}
+          currentStep={1}
           mode="loose"
           data={stepIndicatorListData}
           expandedInitially
@@ -429,7 +429,7 @@ describe('StepIndicator in loose mode', () => {
 
     const { rerender } = render(<TestComp />)
 
-    rerender(<TestComp current_step={2} />)
+    rerender(<TestComp currentStep={2} />)
 
     expect(
       document.querySelector('li.dnb-step-indicator__item--current')
@@ -440,7 +440,7 @@ describe('StepIndicator in loose mode', () => {
   it('should render button when no Sidebar was found', () => {
     const { rerender } = render(
       <StepIndicator
-        current_step={1}
+        currentStep={1}
         mode="loose"
         data={stepIndicatorListData}
       />
@@ -458,7 +458,7 @@ describe('StepIndicator in loose mode', () => {
 
     rerender(
       <StepIndicator
-        current_step={1}
+        currentStep={1}
         mode="loose"
         data={stepIndicatorListData}
       />
@@ -472,9 +472,9 @@ describe('StepIndicator in loose mode', () => {
     ).toContain('Step B')
   })
 
-  it('should have no current if current_step is not given', () => {
+  it('should have no current if currentStep is not given', () => {
     renderComponent({
-      current_step: null,
+      currentStep: null,
     })
 
     expect(
@@ -492,7 +492,7 @@ describe('StepIndicator in strict mode', () => {
   const renderComponent = (props = null) => {
     return render(
       <StepIndicator
-        current_step={1}
+        currentStep={1}
         mode="strict"
         data={stepIndicatorListData}
         expandedInitially
@@ -564,7 +564,7 @@ describe('StepIndicator in static mode', () => {
   const renderComponent = (props = null) => {
     return render(
       <StepIndicator
-        current_step={1}
+        currentStep={1}
         mode="static"
         data={stepIndicatorListData}
         expandedInitially
@@ -605,7 +605,7 @@ describe('StepIndicator ARIA', () => {
   it('should validate with ARIA rules', async () => {
     const Comp = render(
       <StepIndicator
-        current_step={1}
+        currentStep={1}
         mode="loose"
         data={stepIndicatorListData}
       />
@@ -618,7 +618,7 @@ describe('StepIndicator ARIA', () => {
       <StepIndicator
         mode="loose"
         data={stepIndicatorListData}
-        overview_title="Custom Overview Title"
+        overviewTitle="Custom Overview Title"
       />
     )
 
@@ -635,7 +635,7 @@ describe('StepIndicator ARIA', () => {
     expect(triggerDiv).toBeInTheDocument()
   })
 
-  it('should have default aria-label when overview_title is not provided', () => {
+  it('should have default aria-label when overviewTitle is not provided', () => {
     render(<StepIndicator mode="loose" data={stepIndicatorListData} />)
 
     // The aria-label is on the section element that contains the trigger
