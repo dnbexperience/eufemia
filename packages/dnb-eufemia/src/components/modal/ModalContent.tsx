@@ -97,14 +97,14 @@ export default class ModalContent extends React.PureComponent<
   componentDidMount() {
     const {
       id = null,
-      no_animation = false,
-      animation_duration = null,
+      noAnimation = false,
+      animationDuration = null,
     } = this.props
 
     const timeoutDuration: number =
-      typeof animation_duration === 'string'
-        ? parseFloat(animation_duration)
-        : animation_duration
+      typeof animationDuration === 'string'
+        ? parseFloat(animationDuration)
+        : animationDuration
 
     // Add it to the index at first
     // we use it later with getListOfModalRoots
@@ -117,11 +117,11 @@ export default class ModalContent extends React.PureComponent<
     this.setFocus()
     this.setAndroidFocusHelper()
 
-    dispatchCustomElementEvent(this, 'on_open', {
+    dispatchCustomElementEvent(this, 'onOpen', {
       id,
     })
 
-    if (isTrue(no_animation) || process.env.NODE_ENV === 'test') {
+    if (isTrue(noAnimation) || process.env.NODE_ENV === 'test') {
       this.lockBody() // forces browser to re-paint
     } else {
       this._lockTimeout = setTimeout(this.lockBody, timeoutDuration * 1.2) // a little over --modal-animation-duration
@@ -142,11 +142,8 @@ export default class ModalContent extends React.PureComponent<
       return true
     }
 
-    const { open_state } = this.props
-    if (
-      typeof open_state === 'boolean' ||
-      typeof open_state === 'string'
-    ) {
+    const { openState } = this.props
+    if (typeof openState === 'boolean' || typeof openState === 'string') {
       if (process.env.NODE_ENV !== 'test') {
         const delay = Date.now() - this._mounted
         return delay > 30 // E.g. ReactStrict mode will cause a short delay.
@@ -167,7 +164,7 @@ export default class ModalContent extends React.PureComponent<
       // If contentRef is not available, use the modal root element
       const contentElement =
         this._contentRef.current ||
-        document.querySelector(`#${this.props.content_id}`)
+        document.querySelector(`#${this.props.contentId}`)
       const parentElements = getParents(contentElement)
 
       this._ii = new InteractionInvalidation()
@@ -180,8 +177,8 @@ export default class ModalContent extends React.PureComponent<
           '#eufemia-portal-root *',
 
           // The same as above, but when no portal is used
-          `#${this.props.content_id}`,
-          `#${this.props.content_id} *`,
+          `#${this.props.contentId}`,
+          `#${this.props.contentId} *`,
 
           // Allow bypassing invalidation from outside
           '.dnb-modal--bypass_invalidation',
@@ -235,7 +232,7 @@ export default class ModalContent extends React.PureComponent<
 
     if (this.wasOpenedManually()) {
       const id = this.props.id
-      dispatchCustomElementEvent(this, 'on_close', {
+      dispatchCustomElementEvent(this, 'onClose', {
         id,
         event: this._triggeredByEvent,
         triggeredBy: this._triggeredBy || 'unmount',
@@ -259,11 +256,11 @@ export default class ModalContent extends React.PureComponent<
   }
 
   _androidFocusHelper = () => {
-    const { animation_duration = null } = this.props
+    const { animationDuration = null } = this.props
     const timeoutDuration: number =
-      typeof animation_duration === 'string'
-        ? parseFloat(animation_duration)
-        : animation_duration
+      typeof animationDuration === 'string'
+        ? parseFloat(animationDuration)
+        : animationDuration
 
     clearTimeout(this._androidFocusTimeout)
     this._androidFocusTimeout = setTimeout(() => {
@@ -282,15 +279,15 @@ export default class ModalContent extends React.PureComponent<
 
   setFocus() {
     const {
-      focus_selector = null,
-      no_animation = null,
-      animation_duration = null,
+      focusSelector = null,
+      noAnimation = null,
+      animationDuration = null,
     } = this.props
     const elem = this._contentRef.current
     const timeoutDuration: number =
-      typeof animation_duration === 'string'
-        ? parseFloat(animation_duration)
-        : animation_duration
+      typeof animationDuration === 'string'
+        ? parseFloat(animationDuration)
+        : animationDuration
 
     if (elem) {
       // Prevent focus if more than 2 seconds have passed
@@ -330,8 +327,8 @@ export default class ModalContent extends React.PureComponent<
             }
 
             // Try to use the "first-focus" method first
-            if (typeof focus_selector === 'string') {
-              focusElement = elem.querySelector(focus_selector)
+            if (typeof focusSelector === 'string') {
+              focusElement = elem.querySelector(focusSelector)
             }
 
             if (focusElement !== document.activeElement) {
@@ -341,7 +338,7 @@ export default class ModalContent extends React.PureComponent<
             warn(e)
           }
         },
-        isTrue(no_animation) ? 0 : timeoutDuration || 0
+        isTrue(noAnimation) ? 0 : timeoutDuration || 0
       ) // with this delay, the user can press esc without an focus action first
     }
   }
@@ -444,28 +441,28 @@ export default class ModalContent extends React.PureComponent<
     const {
       hide,
       title,
-      labelled_by,
+      labelledBy,
       id: _id, // eslint-disable-line
-      close_title = 'Lukk',
-      dialog_title = 'Vindu',
-      hide_close_button = false,
-      close_button_attributes,
-      no_animation = false,
-      no_animation_on_mobile = false,
+      closeTitle = 'Lukk',
+      dialogTitle = 'Vindu',
+      hideCloseButton = false,
+      closeButtonAttributes,
+      noAnimation = false,
+      noAnimationOnMobile = false,
       fullscreen = 'auto',
-      container_placement = 'right',
-      vertical_alignment = 'center',
+      containerPlacement = 'right',
+      verticalAlignment = 'center',
       close,
-      content_class,
-      overlay_class,
-      content_id,
+      contentClass,
+      overlayClass,
+      contentId,
       children, // eslint-disable-line
       dialog_role = null,
       ...rest
     } = this.props
     const { color } = this.state
 
-    const contentId = content_id || makeUniqueId('modal-')
+    const usedContentId = contentId || makeUniqueId('modal-')
 
     const useDialogRole = !(IS_MAC || IS_SAFARI || IS_IOS)
     let role = dialog_role || 'dialog'
@@ -492,31 +489,31 @@ export default class ModalContent extends React.PureComponent<
        */
       'aria-labelledby': combineLabelledBy(
         this.props,
-        title ? contentId + '-title' : null,
-        labelled_by
+        title ? usedContentId + '-title' : null,
+        labelledBy
       ),
       'aria-describedby': combineDescribedBy(
         this.props,
-        contentId + '-content'
+        usedContentId + '-content'
       ),
 
       /**
-       * If no labelled_by and no title is given,
-       * set a fallback "dialog_title"
+       * If no labelledBy and no title is given,
+       * set a fallback "dialogTitle"
        */
-      'aria-label': !title && !labelled_by ? dialog_title : undefined,
+      'aria-label': !title && !labelledBy ? dialogTitle : undefined,
 
       className: classnames(
         'dnb-modal__content',
         isTrue(fullscreen)
           ? 'dnb-modal__content--fullscreen'
           : fullscreen === 'auto' && 'dnb-modal__content--auto-fullscreen',
-        container_placement
-          ? `dnb-modal__content--${container_placement || 'right'}`
+        containerPlacement
+          ? `dnb-modal__content--${containerPlacement || 'right'}`
           : null,
-        `dnb-modal__vertical-alignment--${vertical_alignment}`,
+        `dnb-modal__vertical-alignment--${verticalAlignment}`,
         getThemeClasses(this.context?.theme),
-        content_class
+        contentClass
       ),
       onMouseDown: this.onContentMouseDownHandler,
       onClick: this.onContentClickHandler,
@@ -532,9 +529,9 @@ export default class ModalContent extends React.PureComponent<
         value={{
           id: this.props.id,
           title,
-          hide_close_button,
-          close_button_attributes,
-          close_title,
+          hideCloseButton,
+          closeButtonAttributes,
+          closeTitle,
           hide,
           setBackgroundColor: this.setBackgroundColor,
           onCloseClickHandler: this.onCloseClickHandler,
@@ -542,12 +539,12 @@ export default class ModalContent extends React.PureComponent<
           onKeyDownHandler: this.onKeyDownHandler,
           contentRef: this._contentRef,
           scrollRef: this._scrollRef,
-          contentId,
+          contentId: usedContentId,
           close,
         }}
       >
         <div
-          id={contentId}
+          id={usedContentId}
           /** Sets the color on scroll overflow (at the bottom) */
           style={
             (color
@@ -563,10 +560,10 @@ export default class ModalContent extends React.PureComponent<
           className={classnames(
             'dnb-modal__overlay',
             hide && 'dnb-modal__overlay--hide',
-            isTrue(no_animation) && 'dnb-modal__overlay--no-animation',
-            isTrue(no_animation_on_mobile) &&
+            isTrue(noAnimation) && 'dnb-modal__overlay--no-animation',
+            isTrue(noAnimationOnMobile) &&
               'dnb-modal__overlay--no-animation-on-mobile',
-            overlay_class
+            overlayClass
           )}
           aria-hidden={true}
         />

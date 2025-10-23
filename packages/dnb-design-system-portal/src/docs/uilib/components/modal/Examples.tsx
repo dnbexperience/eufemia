@@ -41,9 +41,9 @@ export const ModalExampleStateOnly = () => (
             />
             <Modal
               title="Modal Title"
-              omit_trigger_button
-              open_state={modalIsActive}
-              labelled_by="custom-triggerer"
+              omitTriggerButton
+              openState={modalIsActive}
+              labelledBy="custom-triggerer"
               on_close={() => setModalState(false)}
             >
               <ExampleCard>
@@ -64,9 +64,9 @@ export const ModalExampleCloseByHandler = () => (
     <Modal
       title="Auto close"
       triggerAttributes={{ text: 'Click me' }}
-      align_content="center"
-      max_width="40rem"
-      close_modal={(close) => {
+      alignContent="center"
+      maxWidth="40rem"
+      closeModal={(close) => {
         const timeout = setTimeout(close, 3e3)
         return () => clearTimeout(timeout)
       }}
@@ -99,7 +99,7 @@ export const ModalExampleTriggerProps = () => (
 export const ModalExampleOnClosePrevent = () => (
   <ComponentBox hidePreview>
     <Modal
-      prevent_close={true}
+      preventClose={true}
       onClosePrevent={({ triggeredBy, close /* id, event */ }) => {
         switch (triggeredBy) {
           case 'keyboard':
