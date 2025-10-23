@@ -28,10 +28,6 @@ import CloseButton from './parts/CloseButton'
 import ModalRoot from './ModalRoot'
 import { ParagraphContext } from '../../elements/typography/P'
 import type { SpacingProps } from '../../shared/types'
-import {
-  classWithCamelCaseProps,
-  ToCamelCasePartial,
-} from '../../shared/helpers/withCamelCaseProps'
 import type { ButtonProps } from '../button/Button'
 
 export const ANIMATION_DURATION = 300
@@ -46,10 +42,7 @@ export type ModalPropTypes = ModalProps &
   SpacingProps &
   Omit<ScrollViewAllProps, 'children'>
 
-class Modal extends React.PureComponent<
-  ModalPropTypes & ToCamelCasePartial<ModalPropTypes>,
-  ModalState
-> {
+class Modal extends React.PureComponent<ModalPropTypes, ModalState> {
   static contextType = Context
 
   context!: ContextProps
@@ -59,10 +52,10 @@ class Modal extends React.PureComponent<
   static Content = ModalInner
 
   static getContent(props) {
-    if (typeof props.modal_content === 'string') {
-      return props.modal_content
-    } else if (typeof props.modal_content === 'function') {
-      return props.modal_content(props)
+    if (typeof props.modalContent === 'string') {
+      return props.modalContent
+    } else if (typeof props.modalContent === 'function') {
+      return props.modalContent(props)
     }
     return processChildren(props)
   }
@@ -84,87 +77,87 @@ class Modal extends React.PureComponent<
     hide: false,
     modalActive: false,
     preventAutoFocus: true,
-    animation_duration: ANIMATION_DURATION,
-    no_animation: false,
+    animationDuration: ANIMATION_DURATION,
+    noAnimation: false,
   }
 
   static defaultProps = {
     id: null,
-    focus_selector: null,
-    labelled_by: null,
+    focusSelector: null,
+    labelledBy: null,
     title: null,
     disabled: null,
     spacing: true,
-    open_delay: null,
-    content_id: null,
-    dialog_title: 'Vindu',
-    close_title: 'Lukk', // Close Modal Window
-    hide_close_button: false,
-    close_button_attributes: null,
-    prevent_close: false,
-    prevent_core_style: false,
-    animation_duration: ANIMATION_DURATION,
-    no_animation: false,
-    no_animation_on_mobile: false,
+    openDelay: null,
+    contentId: null,
+    dialogTitle: 'Vindu',
+    closeTitle: 'Lukk', // Close Modal Window
+    hideCloseButton: false,
+    closeButtonAttributes: null,
+    preventClose: false,
+    preventCoreStyle: false,
+    animationDuration: ANIMATION_DURATION,
+    noAnimation: false,
+    noAnimationOnMobile: false,
     fullscreen: 'auto',
-    min_width: null,
-    max_width: null,
-    align_content: 'left',
-    container_placement: null,
-    vertical_alignment: null,
-    open_state: null,
-    direct_dom_return: false,
-    root_id: 'root',
-    omit_trigger_button: false,
+    minWidth: null,
+    maxWidth: null,
+    alignContent: 'left',
+    containerPlacement: null,
+    verticalAlignment: null,
+    openState: null,
+    directDomReturn: false,
+    rootId: 'root',
+    omitTriggerButton: false,
 
     className: null,
     children: null,
 
-    on_open: null,
-    on_close: null,
-    on_close_prevent: null,
-    open_modal: null,
-    close_modal: null,
+    onOpen: null,
+    onClose: null,
+    onClosePrevent: null,
+    openModal: null,
+    closeModal: null,
 
     trigger: null,
-    trigger_attributes: null,
+    triggerAttributes: null,
 
-    overlay_class: null,
-    content_class: null,
+    overlayClass: null,
+    contentClass: null,
 
-    modal_content: null,
-    header_content: null,
-    bar_content: null,
+    modalContent: null,
+    headerContent: null,
+    barContent: null,
   }
 
   static getDerivedStateFromProps(props, state) {
     if (typeof window !== 'undefined' && window['IS_TEST']) {
-      state.animation_duration = 0
-      state.no_animation = true
+      state.animationDuration = 0
+      state.noAnimation = true
     } else {
-      state.animation_duration = props.animation_duration
-      state.no_animation = props.no_animation
+      state.animationDuration = props.animationDuration
+      state.noAnimation = props.noAnimation
     }
 
-    if (props.open_state !== state._open_state) {
-      switch (props.open_state) {
+    if (props.openState !== state._openState) {
+      switch (props.openState) {
         case 'opened':
         case true:
           state.hide = false
-          if (isTrue(state.no_animation)) {
+          if (isTrue(state.noAnimation)) {
             state.modalActive = true
           }
           break
         case 'closed':
         case false:
           state.hide = true
-          if (isTrue(state.no_animation)) {
+          if (isTrue(state.noAnimation)) {
             state.modalActive = false
           }
           break
       }
     }
-    state._open_state = props.open_state
+    state._openState = props.openState
 
     return state
   }
@@ -209,15 +202,15 @@ class Modal extends React.PureComponent<
 
   openBasedOnStateUpdate() {
     const { hide } = this.state
-    const { open_state } = this.props
+    const { openState } = this.props
 
     if (!this.activeElement && typeof document !== 'undefined') {
       this.activeElement = document.activeElement
     }
 
-    if (!hide && (open_state === 'opened' || open_state === true)) {
+    if (!hide && (openState === 'opened' || openState === true)) {
       this.toggleOpenClose(null, true)
-    } else if (hide && (open_state === 'closed' || open_state === false)) {
+    } else if (hide && (openState === 'closed' || openState === false)) {
       this.toggleOpenClose(null, false)
     }
   }
@@ -229,13 +222,13 @@ class Modal extends React.PureComponent<
 
     const toggleNow = () => {
       const {
-        animation_duration = ANIMATION_DURATION,
-        no_animation = false,
+        animationDuration = ANIMATION_DURATION,
+        noAnimation = false,
       } = this.state
       const timeoutDuration =
-        typeof animation_duration === 'string'
-          ? parseFloat(animation_duration)
-          : animation_duration
+        typeof animationDuration === 'string'
+          ? parseFloat(animationDuration)
+          : animationDuration
 
       const modalActive =
         typeof showModal === 'boolean'
@@ -257,7 +250,7 @@ class Modal extends React.PureComponent<
         )
       }
 
-      if (modalActive === false && !isTrue(no_animation)) {
+      if (modalActive === false && !isTrue(noAnimation)) {
         this.setState({
           hide: true,
         })
@@ -269,13 +262,11 @@ class Modal extends React.PureComponent<
     }
 
     const waitBeforeOpen = () => {
-      const { open_delay } = this.props
-      const { no_animation } = this.state
+      const { openDelay } = this.props
+      const { noAnimation } = this.state
       const delay =
-        typeof open_delay === 'string'
-          ? parseFloat(open_delay)
-          : open_delay
-      if (delay > 0 && !isTrue(no_animation)) {
+        typeof openDelay === 'string' ? parseFloat(openDelay) : openDelay
+      if (delay > 0 && !isTrue(noAnimation)) {
         this._openTimeout = setTimeout(toggleNow, delay) // custom delay
       } else {
         toggleNow()
@@ -285,9 +276,9 @@ class Modal extends React.PureComponent<
     clearTimeout(this._closeTimeout)
     clearTimeout(this._openTimeout)
 
-    const { open_modal } = this.props
-    if (typeof open_modal === 'function') {
-      const fn = open_modal(waitBeforeOpen, this)
+    const { openModal } = this.props
+    if (typeof openModal === 'function') {
+      const fn = openModal(waitBeforeOpen, this)
       if (fn) {
         this._onUnmount.push(fn)
       }
@@ -297,13 +288,12 @@ class Modal extends React.PureComponent<
   }
 
   handleSideEffects = () => {
-    const { modalActive, preventAutoFocus, animation_duration } =
-      this.state
-    const { close_modal, open_state } = this.props
+    const { modalActive, preventAutoFocus, animationDuration } = this.state
+    const { closeModal, openState } = this.props
 
     if (modalActive) {
-      if (typeof close_modal === 'function') {
-        const fn = close_modal(() => {
+      if (typeof closeModal === 'function') {
+        const fn = closeModal(() => {
           this.toggleOpenClose(null, false)
         }, this)
         if (fn) {
@@ -323,7 +313,7 @@ class Modal extends React.PureComponent<
               elem?.removeAttribute('data-autofocus')
               resolve()
             },
-            parseFloat(String(animation_duration)) / 3
+            parseFloat(String(animationDuration)) / 3
           )
         })
       }
@@ -332,9 +322,9 @@ class Modal extends React.PureComponent<
         focus(this._triggerRef.current)
       }
 
-      // because the open_state was set to opened, we force
+      // because the openState was set to opened, we force
       if (
-        (open_state === 'opened' || open_state === true) &&
+        (openState === 'opened' || openState === true) &&
         this.activeElement instanceof HTMLElement
       ) {
         try {
@@ -366,11 +356,11 @@ class Modal extends React.PureComponent<
   ) => {
     this.modalContentCloseRef.current?.(event, { triggeredBy })
 
-    const { prevent_close = false } = this.props
+    const { preventClose = false } = this.props
 
-    if (isTrue(prevent_close)) {
+    if (isTrue(preventClose)) {
       const id = this._id
-      dispatchCustomElementEvent(this, 'on_close_prevent', {
+      dispatchCustomElementEvent(this, 'onClosePrevent', {
         id,
         event,
         triggeredBy,
@@ -436,8 +426,8 @@ class Modal extends React.PureComponent<
     const visualTestsPropsOverride =
       typeof window !== 'undefined' && window['IS_TEST']
         ? {
-            animation_duration: 0,
-            no_animation: true,
+            animationDuration: 0,
+            noAnimation: true,
           }
         : {}
 
@@ -451,27 +441,27 @@ class Modal extends React.PureComponent<
     )
 
     const {
-      root_id = 'root',
-      content_id = null,
+      rootId = 'root',
+      contentId = null,
       disabled = null,
-      labelled_by = null,
-      focus_selector = null,
-      header_content = null,
-      bar_content = null,
-      bypass_invalidation_selectors = null,
-      vertical_alignment = 'center',
+      labelledBy = null,
+      focusSelector = null,
+      headerContent = null,
+      barContent = null,
+      bypassInvalidationSelectors = null,
+      verticalAlignment = 'center',
 
       id, // eslint-disable-line
-      open_delay, // eslint-disable-line
+      openDelay, // eslint-disable-line
 
-      omit_trigger_button = false,
+      omitTriggerButton = false,
       trigger = null,
-      trigger_attributes = null,
+      triggerAttributes = null,
       ...rest
     } = props
 
     const { hide, modalActive } = this.state
-    const modal_content = Modal.getContent(
+    const modalContent = Modal.getContent(
       typeof this.props.children === 'function'
         ? Object.freeze({
             ...this.props,
@@ -481,24 +471,24 @@ class Modal extends React.PureComponent<
     )
 
     const render = (suffixProps) => {
-      const triggerAttributes = {
+      const usedTriggerAttributes = {
         hidden: false,
         variant: 'secondary',
         icon_position: 'left',
-        ...trigger_attributes,
+        ...triggerAttributes,
       } as ButtonProps
 
       if (isTrue(disabled)) {
-        triggerAttributes.disabled = true
+        usedTriggerAttributes.disabled = true
       }
 
-      if (triggerAttributes.id) {
-        this._id = triggerAttributes.id
+      if (usedTriggerAttributes.id) {
+        this._id = usedTriggerAttributes.id
       }
 
       let fallbackTitle: string
-      if (triggerAttributes.title) {
-        fallbackTitle = triggerAttributes.title
+      if (usedTriggerAttributes.title) {
+        fallbackTitle = usedTriggerAttributes.title
       }
       // in case the modal is used in suffix and no title is given
       // suffixProps.label is also available, so we could use that too
@@ -507,22 +497,21 @@ class Modal extends React.PureComponent<
       }
 
       const headerTitle = rest.title || fallbackTitle
+      const title = (
+        !usedTriggerAttributes?.text && headerTitle
+          ? headerTitle || fallbackTitle
+          : null
+      ) as string
 
       const TriggerButton = trigger
         ? (trigger as React.FC)
         : HelpButtonInstance
 
-      const title = (
-        !triggerAttributes.text && headerTitle
-          ? headerTitle || fallbackTitle
-          : null
-      ) as string
-
       return (
         <>
-          {TriggerButton && !isTrue(omit_trigger_button) && (
+          {TriggerButton && !isTrue(omitTriggerButton) && (
             <TriggerButton
-              {...triggerAttributes}
+              {...usedTriggerAttributes}
               id={this._id}
               title={title}
               onClick={this.toggleOpenClose}
@@ -530,27 +519,25 @@ class Modal extends React.PureComponent<
               className={classnames(
                 'dnb-modal__trigger',
                 createSpacingClasses(rest as SpacingProps),
-                triggerAttributes.className
+                usedTriggerAttributes.className
               )}
             />
           )}
 
-          {modalActive && modal_content && (
+          {modalActive && modalContent && (
             <ParagraphContext.Provider value={{ isNested: false }}>
               <ModalRoot
                 {...rest}
                 id={this._id}
-                root_id={root_id}
-                content_id={content_id || `dnb-modal-${this._id}`}
-                labelled_by={labelled_by}
-                focus_selector={focus_selector}
-                modal_content={modal_content}
-                header_content={header_content}
-                vertical_alignment={vertical_alignment}
-                bar_content={bar_content}
-                bypass_invalidation_selectors={
-                  bypass_invalidation_selectors
-                }
+                rootId={rootId}
+                contentId={contentId || `dnb-modal-${this._id}`}
+                labelledBy={labelledBy}
+                focusSelector={focusSelector}
+                modalContent={modalContent}
+                headerContent={headerContent}
+                verticalAlignment={verticalAlignment}
+                barContent={barContent}
+                bypassInvalidationSelectors={bypassInvalidationSelectors}
                 close={this.close}
                 hide={hide}
                 title={headerTitle}
@@ -568,4 +555,4 @@ class Modal extends React.PureComponent<
 
 export { CloseButton, Modal as OriginalComponent }
 
-export default classWithCamelCaseProps(Modal)
+export default Modal
