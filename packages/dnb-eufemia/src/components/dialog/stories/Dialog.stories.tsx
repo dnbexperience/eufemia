@@ -250,7 +250,7 @@ export const DialogSandbox = () => (
         />
       </Dialog>
       <Dialog
-        // trigger_attributes={{
+        // triggerAttributes={{
         //   'aria-label': 'My Label'
         // }}
         spacing={false}
@@ -296,7 +296,7 @@ export const DialogSandbox = () => (
       <Dialog
         title="Title 1"
         triggerAttributes={{ text: 'Modal in modal' }}
-        // open_state="opened"
+        // openState="opened"
         style={{
           minHeight: '25rem',
         }}
@@ -480,13 +480,13 @@ const dropdownData = [
 ]
 
 const ModalCloseExample = () => {
-  const [open_state, setOpenState] = React.useState(null)
+  const [openState, setOpenState] = React.useState(null)
   const [count, setCount] = React.useState(0)
 
   React.useEffect(() => {
     let timeout
 
-    if (open_state === 'opened') {
+    if (openState === 'opened') {
       timeout = setTimeout(() => {
         console.log('count:', count)
         setCount(count + 1)
@@ -507,16 +507,16 @@ const ModalCloseExample = () => {
           text: 'Open Modal and auto close',
         }}
         title="Modal Title"
-        openState={open_state}
+        openState={openState}
         openModal={(open) => {
           const timeout = setTimeout(open, 3e3)
           return () => clearTimeout(timeout)
         }}
-        // hide_close_button
+        // hideCloseButton
         closeModal={(close) => {
           let timeout
 
-          if (open_state !== 'opened') {
+          if (openState !== 'opened') {
             console.log('Modal was opened')
             timeout = setTimeout(close, 3e3)
           }
@@ -727,7 +727,7 @@ function ModalWithScrollableBox() {
       {/* <ScrollView /> */}
       <Dialog
       // fullscreen={true}
-      // open_state="opened"
+      // openState="opened"
       >
         <SimScrollView />
       </Dialog>
