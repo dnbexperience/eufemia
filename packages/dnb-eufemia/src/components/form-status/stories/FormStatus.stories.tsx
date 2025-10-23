@@ -61,7 +61,7 @@ export const FormStatusSandbox = () => {
         <Input
           label="Input with custom status:"
           status={<CustomStatus />}
-          status_state="info"
+          statusState="info"
           value="Input value"
         />
       </Box>
@@ -78,7 +78,7 @@ export const FormStatusSandbox = () => {
           value="4"
           size={3}
           status="Adipiscing etiam laoreet et egestas dis massa quis dapibus nam diam est non curae ad hac dictumst"
-          status_state="warn"
+          statusState="warn"
         />
       </Box>
       <Box>
@@ -272,7 +272,7 @@ export const SuffixAndStretchedStatus = () => {
       <Autocomplete
         statusState="warn"
         statusProps={{ stretch: true }}
-        status="This is a long text to check whether status_props stretch works or not"
+        status="This is a long text to check whether statusProps stretch works or not"
         label="Autocomplete with suffix and stretched status"
         data={numbers}
         size="medium"

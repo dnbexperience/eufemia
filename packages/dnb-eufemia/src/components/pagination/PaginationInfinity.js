@@ -359,7 +359,7 @@ export default class InfinityScroller extends React.PureComponent {
                   }
                   icon="arrow_up"
                   text={loadButtonText ?? loadButton?.text}
-                  icon_position={loadButton?.iconPosition}
+                  iconPosition={loadButton?.iconPosition}
                   on_click={(event) =>
                     this.getNewContent(pageNumber - 1, {
                       position: 'before',
@@ -392,7 +392,7 @@ export default class InfinityScroller extends React.PureComponent {
                       : fallbackElement
                   }
                   text={loadButtonText ?? loadButton?.text}
-                  icon_position={loadButton?.iconPosition}
+                  iconPosition={loadButton?.iconPosition}
                   icon="arrow_down"
                   on_click={(event) =>
                     this.getNewContent(pageNumber + 1, {
@@ -542,14 +542,14 @@ export class InfinityLoadButton extends React.PureComponent {
     icon: PropTypes.string.isRequired,
     on_click: PropTypes.func.isRequired,
     text: PropTypes.string,
-    icon_position: PropTypes.string,
+    iconPosition: PropTypes.string,
   }
   static defaultProps = {
     element: 'div',
     pressed_element: null,
     icon: 'arrow_down',
     text: null,
-    icon_position: 'left',
+    iconPosition: 'left',
   }
   state = { isPressed: false }
   onClickHandler = (e) => {
@@ -559,7 +559,7 @@ export class InfinityLoadButton extends React.PureComponent {
     }
   }
   render() {
-    const { element, icon, text, icon_position } = this.props
+    const { element, icon, text, iconPosition } = this.props
     const Element = element
     const ElementChild = isTrElement(Element) ? 'td' : 'div'
 
@@ -571,7 +571,7 @@ export class InfinityLoadButton extends React.PureComponent {
           <Button
             size="medium"
             icon={icon}
-            icon_position={icon_position}
+            iconPosition={iconPosition}
             text={
               text || this.context.translation.Pagination.loadButtonText
             }

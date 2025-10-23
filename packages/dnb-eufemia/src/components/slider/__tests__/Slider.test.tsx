@@ -44,7 +44,7 @@ describe('Slider component', () => {
       label: 'Label',
       labelDirection: 'vertical',
       value: 70,
-      number_format: { currency: true, decimals: 0 },
+      numberFormat: { currency: true, decimals: 0 },
       on_change: jest.fn(),
     }
 

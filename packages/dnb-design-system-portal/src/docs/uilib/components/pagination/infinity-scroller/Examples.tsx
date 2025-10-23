@@ -278,7 +278,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
             <Button
               size="small"
               icon="reset"
-              icon_position="left"
+              iconPosition="left"
               variant="secondary"
               on_click={() => {
                 clearTimeout(serverDelayTimeout) // stop the server delay simulation
