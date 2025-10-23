@@ -91,8 +91,8 @@ export default {
       indicatorLabel: 'Hämtar data ...',
     },
     Modal: {
-      dialog_title: 'Separat Fönster',
-      close_title: 'Stäng',
+      dialogTitle: 'Separat Fönster',
+      closeTitle: 'Stäng',
     },
     Dialog: {
       declineText: 'Avbryt',
