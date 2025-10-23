@@ -1184,13 +1184,13 @@ describe('Field.Date', () => {
           },
           {
             title: 'Second week of October',
-            start_date: '2024-10-07',
-            end_date: '2024-10-13',
+            startDate: '2024-10-07',
+            endDate: '2024-10-13',
           },
           {
             title: 'Whole month of October',
-            start_date: '2024-10-01',
-            end_date: '2024-10-31',
+            startDate: '2024-10-01',
+            endDate: '2024-10-31',
           },
         ]}
       />
