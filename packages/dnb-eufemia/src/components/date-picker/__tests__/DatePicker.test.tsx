@@ -1751,7 +1751,7 @@ describe('DatePicker component', () => {
       })
       expect(monthElem).toHaveValue('01')
       expect(onType).toHaveBeenCalledTimes(typeIndex + 1)
-      expect(onType.mock.calls[typeIndex][0][`isValid_${type}Date`]).toBe(
+      expect(onType.mock.calls[typeIndex][0][`isValid${type}Date`]).toBe(
         false
       )
       expect(onType.mock.calls[typeIndex][0][`${type}Date`]).toBe(
