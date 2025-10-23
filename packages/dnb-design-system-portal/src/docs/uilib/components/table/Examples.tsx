@@ -746,7 +746,7 @@ export const Accordion = () => (
           return <Checkbox label="Select row" labelSrOnly />
         }
         const TdInput = () => {
-          return <Input label="Label" label_sr_only size={4} />
+          return <Input label="Label" labelSrOnly size={4} />
         }
         const Content = ({ shareId }) => {
           const ref = React.useRef()
@@ -777,9 +777,9 @@ export const Accordion = () => (
                 top
                 variant="tertiary"
                 icon={copyIcon}
-                icon_position="left"
+                iconPosition="left"
                 on_click={shareHandler}
-                inner_ref={ref}
+                innerRef={ref}
               >
                 Copy link to this row
               </Button>
@@ -865,7 +865,7 @@ export const AccordionMixed = () => (
           return <Checkbox label="Select row" labelSrOnly />
         }
         const TdInput = () => {
-          return <Input label="Label" label_sr_only size={4} />
+          return <Input label="Label" labelSrOnly size={4} />
         }
         const Content = ({ shareId }) => {
           const ref = React.useRef()
@@ -896,9 +896,9 @@ export const AccordionMixed = () => (
                 top
                 variant="tertiary"
                 icon={copyIcon}
-                icon_position="left"
+                iconPosition="left"
                 on_click={shareHandler}
-                inner_ref={ref}
+                innerRef={ref}
               >
                 Copy link to this row
               </Button>
@@ -1076,7 +1076,7 @@ export const Navigation = () => (
           return <Checkbox label="Select row" labelSrOnly />
         }
         const TdInput = () => {
-          return <Input label="Label" label_sr_only size={4} />
+          return <Input label="Label" labelSrOnly size={4} />
         }
 
         const Row = ({ nr }) => {
@@ -1149,7 +1149,7 @@ export const NavigationMixed = () => (
           return <Checkbox label="Select row" labelSrOnly />
         }
         const TdInput = () => {
-          return <Input label="Label" label_sr_only size={4} />
+          return <Input label="Label" labelSrOnly size={4} />
         }
 
         return (
@@ -1730,7 +1730,7 @@ export const ResponsiveInCard = () => (
                   <Button
                     variant="tertiary"
                     icon={stopIcon}
-                    icon_position="left"
+                    iconPosition="left"
                   >
                     Avvis signering
                   </Button>
@@ -1904,7 +1904,7 @@ export const TableInAccordionTable = () => (
           return <Checkbox label="Select row" labelSrOnly />
         }
         const TdInput = () => {
-          return <Input label="Label" label_sr_only size={4} />
+          return <Input label="Label" labelSrOnly size={4} />
         }
         const Row = ({ nr }) => {
           const shareId = id + '-' + nr

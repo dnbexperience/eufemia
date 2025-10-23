@@ -12,16 +12,16 @@ import { IS_IOS } from '../../shared/helpers'
 import { safeSetSelection } from './text-mask/createTextMaskInputElement'
 
 const enableLocaleSupportWhen = [
-  'as_number',
-  'as_percent',
-  'as_currency',
+  'asNumber',
+  'asPercent',
+  'asCurrency',
 ] as const
 const enableNumberMaskWhen = [
-  'as_number',
-  'as_percent',
-  'as_currency',
-  'number_mask',
-  'currency_mask',
+  'asNumber',
+  'asPercent',
+  'asCurrency',
+  'numberMask',
+  'currencyMask',
 ] as const
 
 export const invisibleSpace = '\u200B'
@@ -132,13 +132,13 @@ export const correctNumberValue = ({
   }
 
   /**
-   * This only runs IF "number_format" is set – we do not use it else
+   * This only runs IF "numberFormat" is set – we do not use it else
    */
-  if (props.number_format) {
+  if (props.numberFormat) {
     const options = {
       locale,
       decimals: 0,
-      ...props.number_format,
+      ...props.numberFormat,
     }
     if (shouldHaveDecimals) {
       options.decimals = maskParams.decimalLimit
@@ -349,21 +349,21 @@ export const handlePercentMask = ({
  *
  * @param {object} param0 object with properties
  * @property {object} context Eufemia context
- * @property {object} mask_options Component property for change the mask parameters
- * @property {object} currency_mask Component property for change the currency parameters
- * @returns Object maskParams
+ * @property {object} maskOptions Component property for change the mask parameters
+ * @property {object} currencyMask Component property for change the currency parameters
+ * @returns object maskParams
  */
 export const handleCurrencyMask = ({
-  mask_options,
-  currency_mask,
+  maskOptions,
+  currencyMask,
 }: {
-  mask_options: Record<string, any>
-  currency_mask: string | Record<string, any>
+  maskOptions: Record<string, any>
+  currencyMask: string | Record<string, any>
 }): InputMaskParams => {
   const givenParams =
-    typeof currency_mask === 'string'
-      ? { ...mask_options, ...({ 0: String(currency_mask) } as any) }
-      : { ...mask_options, ...(currency_mask as Record<string, any>) }
+    typeof currencyMask === 'string'
+      ? { ...maskOptions, ...({ 0: String(currencyMask) } as any) }
+      : { ...maskOptions, ...(currencyMask as Record<string, any>) }
   const paramsWithDefaults: InputMaskParams = {
     showMask: true,
     placeholderChar: null,
@@ -374,8 +374,8 @@ export const handleCurrencyMask = ({
   }
 
   const currencyLabel =
-    typeof currency_mask === 'string'
-      ? currency_mask
+    typeof currencyMask === 'string'
+      ? currencyMask
       : typeof givenParams.currency === 'string'
       ? givenParams.currency
       : 'kr'
@@ -411,21 +411,21 @@ export const handleCurrencyMask = ({
  *
  * @param {object} param0 object with properties
  * @property {object} context Eufemia context
- * @property {object} mask_options Component property for change the mask parameters
- * @property {object} number_mask Component property for change the number parameters
- * @returns Object maskParams
+ * @property {object} maskOptions Component property for change the mask parameters
+ * @property {object} numberMask Component property for change the number parameters
+ * @returns object maskParams
  */
 export const handleNumberMask = ({
-  mask_options,
-  number_mask,
+  maskOptions,
+  numberMask,
 }: {
-  mask_options: Record<string, any>
-  number_mask: Record<string, any>
+  maskOptions: Record<string, any>
+  numberMask: Record<string, any>
 }): InputMaskParams => {
   const maskParams: InputMaskParams = {
     decimalSymbol: ',',
-    ...mask_options,
-    ...number_mask,
+    ...maskOptions,
+    ...numberMask,
   }
 
   if (typeof maskParams.allowDecimal === 'undefined') {
