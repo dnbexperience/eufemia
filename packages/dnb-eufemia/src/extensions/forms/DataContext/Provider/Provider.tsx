@@ -8,13 +8,13 @@ import React, {
 } from 'react'
 import pointer, { JsonObject } from '../../utils/json-pointer'
 import {
-  Ajv,
-  ajvErrorsToFormErrors,
   FormError,
   isZodSchema,
   createZodValidator,
   zodErrorsToFormErrors,
 } from '../../utils'
+import { ajvErrorsToFormErrors } from '../../utils/ajvErrors'
+import type { Ajv } from '../../utils/ajv'
 import {
   GlobalErrorMessagesWithPaths,
   SubmitState,

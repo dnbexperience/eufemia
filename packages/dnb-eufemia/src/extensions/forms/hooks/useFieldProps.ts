@@ -10,14 +10,14 @@ import React, {
 import pointer from '../utils/json-pointer'
 import type { ValidateFunction } from 'ajv/dist/2020.js'
 import {
-  ajvErrorsToOneFormError,
   errorChanged,
-  extendErrorMessagesWithTranslationMessages,
   FormError,
   isZodSchema,
   createZodValidator,
   zodErrorsToOneFormError,
 } from '../utils'
+import { ajvErrorsToOneFormError } from '../utils/ajvErrors'
+import { extendErrorMessagesWithTranslationMessages } from '../utils/errors'
 import * as z from 'zod'
 import {
   FieldPropsGeneric,
