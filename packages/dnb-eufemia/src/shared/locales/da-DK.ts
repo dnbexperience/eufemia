@@ -127,8 +127,8 @@ export default {
       aria_ready: 'Klar til at interagere',
     },
     StepIndicator: {
-      overview_title: 'Trinoverblik',
-      step_title: 'Trin %step af %count:',
+      overviewTitle: 'Trinoverblik',
+      stepTitle: 'Trin %step af %count:',
     },
     Slider: {
       addTitle: 'Forøg (%s)',
