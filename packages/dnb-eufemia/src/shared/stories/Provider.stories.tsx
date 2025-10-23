@@ -32,9 +32,9 @@ export const ProviderSandbox = () => {
             <DatePicker
               left
               opened
-              show_submit_button
-              show_cancel_button
-              show_reset_button
+              showSubmitButton
+              showCancelButton
+              showResetButton
             />
           </Section>
         </Provider>
