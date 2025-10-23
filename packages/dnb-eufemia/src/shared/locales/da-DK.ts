@@ -114,8 +114,8 @@ export default {
       aria_role: 'Hjælp-knap',
     },
     Input: {
-      submit_button_title: 'Indsend',
-      clear_button_title: 'Nulstil',
+      submitButtonTitle: 'Indsend',
+      clearButtonTitle: 'Nulstil',
     },
     Pagination: {
       buttonTitle: 'Side %s',
