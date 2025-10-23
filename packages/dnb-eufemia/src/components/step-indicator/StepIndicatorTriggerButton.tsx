@@ -127,7 +127,7 @@ function StepIndicatorTriggerButton({
             wrap
             variant="tertiary"
             icon={chevron_down}
-            icon_position="right"
+            iconPosition="right"
           >
             {(typeof item === 'string' ? item : item && item.title) || ''}
           </Button>

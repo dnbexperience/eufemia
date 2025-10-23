@@ -31,7 +31,7 @@ The InputMasked component uses the basic [Input](/uilib/components/input) compon
 
 This component uses the basic [Input](/uilib/components/input) but with a set of options and features.
 
-You will either create your own mask, or use one of the provided ones. There are also masks which change based on different [locales](/uilib/components/input-masked/info?fullscreen#mask-based-on-locale) (`as_currency` or `as_number`).
+You will either create your own mask, or use one of the provided once. There are also masks which change based on different [locales](/uilib/components/input-masked/info?fullscreen#mask-based-on-locale) (`asCurrency` or `asNumber`).
 
 ### Accessibility
 
@@ -55,16 +55,16 @@ The InputMasked component supports masks based on a given locale. The locale wil
 
 As of now, you can enable these masks by giving:
 
-- `as_currency="EUR"`
-- `as_number={true}`
+- `asCurrency="EUR"`
+- `asNumber={true}`
 
-You can still send in custom mask parameters to `currency_mask={{ ... }}` or `number_mask={{ ... }}`. But you can also make use of `mask_options={{ ... }}` and just send in your extra options in there.
+You can still send in custom mask parameters to `currencyMask={{ ... }}` or `numberMask={{ ... }}`. But you can also make use of `maskOptions={{ ... }}` and just send in your extra options in there.
 
 More details in the [examples above](/uilib/components/input-masked/demos).
 
 #### Clean number values
 
-If you use `as_currency` or `as_number` you have to always send in a clean number without any mask (`value="1234.50"`):
+If you use `asCurrency` or `asNumber` you have to always send in a clean number without any mask (`value="1234.50"`):
 
 <InputMaskedInfoCleanNumberValues />
 
@@ -74,12 +74,12 @@ You can also receive a clean number value you can use and send back in again:
 
 #### Decimals
 
-- `number_mask` will default to no decimals
-- `currency_mask` will default to no decimals
-- `as_number` will default to no decimals
-- `as_currency` will default to 2 decimals
+- `numberMask` will default to no decimals
+- `currencyMask` will default to no decimals
+- `asNumber` will default to no decimals
+- `asCurrency` will default to 2 decimals
 
-You can change the number of decimals by sending in options to the `currency_mask`, `number_mask`, or `mask_options` (see example above).
+You can change the number of decimals by sending in options to the `currencyMask`, `numberMask`, or `maskOptions` (see example above).
 
 This example here also shows how to affect every InputMasked component in your application, by setting these options on the [Eufemia Provider](/uilib/usage/customisation/provider).
 

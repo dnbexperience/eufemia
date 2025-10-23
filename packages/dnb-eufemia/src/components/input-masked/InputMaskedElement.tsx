@@ -27,7 +27,7 @@ export default function InputMaskedElement(): JSX.Element {
     <Input
       {...htmlAttributes}
       {...events}
-      input_element={inputElement}
+      inputElement={inputElement}
       value={localValue}
       className={classnames('dnb-input-masked', className)}
     />
