@@ -2149,7 +2149,7 @@ describe('DatePicker component', () => {
   it('has to return all additional attributes the event return', () => {
     const my_event = jest.fn()
     const params = { 'data-attr': 'value' }
-    render(<DatePicker on_show={my_event} {...params} />)
+    render(<DatePicker onShow={my_event} {...params} />)
     fireEvent.click(document.querySelector('button'))
     expect(my_event.mock.calls.length).toBe(1)
     expect(my_event.mock.calls[0][0].attributes).toMatchObject(params)
