@@ -466,7 +466,7 @@ class Modal extends React.PureComponent<ModalPropTypes, ModalState> {
       const usedTriggerAttributes = {
         hidden: false,
         variant: 'secondary',
-        icon_position: 'left',
+        iconPosition: 'left',
         ...triggerAttributes,
       } as ButtonProps
 

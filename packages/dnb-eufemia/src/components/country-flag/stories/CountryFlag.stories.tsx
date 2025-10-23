@@ -26,26 +26,26 @@ export function CountryFlags() {
       />
       <Button
         icon={<CountryFlag iso="NO" />}
-        icon_position="left"
+        iconPosition="left"
         text="Button"
         variant="secondary"
       />
       <Button
         icon={<CountryFlag iso="NO" />}
-        icon_size="medium"
-        icon_position="left"
+        iconSize="medium"
+        iconPosition="left"
         size="large"
         text="Button"
         variant="secondary"
       />
       <Input
         icon={<CountryFlag iso="NO" />}
-        icon_position="left"
+        iconPosition="left"
         placeholder="Write something"
       />
       <Input
         icon={<CountryFlag iso="NO" />}
-        icon_position="left"
+        iconPosition="left"
         size="large"
         placeholder="Write something"
       />
