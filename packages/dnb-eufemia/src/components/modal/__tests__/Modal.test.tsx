@@ -119,7 +119,7 @@ describe('Modal component', () => {
     )
   })
 
-  it('should bypass elements defined in bypass_invalidation_selectors', () => {
+  it('should bypass elements defined in bypassInvalidationSelectors', () => {
     render(
       <>
         <button className="bypass-me">button</button>

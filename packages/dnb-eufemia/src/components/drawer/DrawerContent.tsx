@@ -33,12 +33,15 @@ export default function DrawerContent({
   fullscreen = 'auto',
   noAnimation = false,
   noAnimationOnMobile = false,
-  minWidth: minWidth = null,
-  maxWidth: maxWidth = null,
+  minWidth: minWidthProp = null,
+  maxWidth: maxWidthProp = null,
   ...rest
 }: DrawerContentProps): JSX.Element {
   const context = useContext(ModalContext)
-  const { minWidth, maxWidth } = checkMinMaxWidth(minWidth, maxWidth)
+  const { minWidth, maxWidth } = checkMinMaxWidth(
+    minWidthProp,
+    maxWidthProp
+  )
   const content =
     modalContent ||
     getContent(

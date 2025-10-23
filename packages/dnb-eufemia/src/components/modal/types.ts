@@ -145,12 +145,12 @@ export interface ModalProps extends ModalRootProps {
   /**
    * To get the inner content Element, pass in your own React ref
    */
-  content_ref?: React.RefObject<HTMLElement>
+  contentRef?: React.RefObject<HTMLElement>
 
   /**
    * To get the scroll Element, pass in your own React ref
    */
-  scroll_ref?: React.RefObject<HTMLElement>
+  scrollRef?: React.RefObject<HTMLElement>
 }
 
 export interface ModalContentProps {
@@ -229,7 +229,7 @@ export interface ModalContentProps {
   /**
    * Disable clicking the background overlay to close the modal
    */
-  prevent_overlay_close?: boolean
+  preventOverlayClose?: boolean
 
   /**
    * If set to `true`, no open/close animation will be shown. Defaults to false.
@@ -284,7 +284,7 @@ export interface ModalContentProps {
   /**
    * Define an array with HTML class selectors (`['.element-selector']`) which should not get invalidated when the modal opens/closes. Use this in order to let some parts of your site still be accessible by screen readers.
    */
-  bypass_invalidation_selectors?: Array<string>
+  bypassInvalidationSelectors?: Array<string>
 
   /**
    * For internal usage
@@ -310,9 +310,9 @@ export interface ModalContentProps {
   /**
    * Internal
    */
-  dialog_role?: 'dialog' | 'alertdialog' | 'region'
-  content_ref?: React.RefObject<HTMLElement>
-  scroll_ref?: React.RefObject<HTMLElement>
+  dialogRole?: 'dialog' | 'alertdialog' | 'region'
+  contentRef?: React.RefObject<HTMLElement>
+  scrollRef?: React.RefObject<HTMLElement>
   openState?: ModalOpenState
   modalContentCloseRef?: React.MutableRefObject<any>
 }

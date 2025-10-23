@@ -33,8 +33,8 @@ export default function DialogContent({
   fullscreen,
   noAnimation = false,
   noAnimationOnMobile = false,
-  minWidth: minWidth = null,
-  maxWidth: maxWidth = null,
+  minWidth: minWidthProp = null,
+  maxWidth: maxWidthProp = null,
   variant = 'information',
   confirmType = 'info',
   icon = null,
@@ -48,7 +48,10 @@ export default function DialogContent({
   ...rest
 }: DialogContentProps): JSX.Element {
   const context = useContext(ModalContext)
-  const { minWidth, maxWidth } = checkMinMaxWidth(minWidth, maxWidth)
+  const { minWidth, maxWidth } = checkMinMaxWidth(
+    minWidthProp,
+    maxWidthProp
+  )
   const content =
     modalContent ||
     getContent(

@@ -77,8 +77,8 @@ export default class ModalContent extends React.PureComponent<
 
   constructor(props: ModalContentProps) {
     super(props)
-    this._contentRef = this.props.content_ref || React.createRef()
-    this._scrollRef = this.props.scroll_ref || React.createRef()
+    this._contentRef = this.props.contentRef || React.createRef()
+    this._scrollRef = this.props.scrollRef || React.createRef()
     this._overlayClickRef = React.createRef()
     if (this.props.modalContentCloseRef) {
       this.props.modalContentCloseRef.current = this.setModalContentState
@@ -184,7 +184,7 @@ export default class ModalContent extends React.PureComponent<
           '.dnb-modal--bypass_invalidation',
           '.dnb-modal--bypass_invalidation_deep *',
 
-          ...(this.props?.bypass_invalidation_selectors || []),
+          ...(this.props?.bypassInvalidationSelectors || []),
         ].filter(Boolean)
       )
       this._ii.activate()
@@ -383,9 +383,9 @@ export default class ModalContent extends React.PureComponent<
     }
     this._overlayClickRef.current = null
 
-    const { prevent_overlay_close } = this.props
+    const { preventOverlayClose } = this.props
 
-    if (!isTrue(prevent_overlay_close)) {
+    if (!isTrue(preventOverlayClose)) {
       this.closeModalContent(event, {
         triggeredBy: 'overlay',
         ifIsLatest: false,
@@ -457,7 +457,7 @@ export default class ModalContent extends React.PureComponent<
       overlayClass,
       contentId,
       children, // eslint-disable-line
-      dialog_role = null,
+      dialogRole = null,
       ...rest
     } = this.props
     const { color } = this.state
@@ -465,7 +465,7 @@ export default class ModalContent extends React.PureComponent<
     const usedContentId = contentId || makeUniqueId('modal-')
 
     const useDialogRole = !(IS_MAC || IS_SAFARI || IS_IOS)
-    let role = dialog_role || 'dialog'
+    let role = dialogRole || 'dialog'
     if (!useDialogRole && role === 'dialog') {
       role = 'region'
     }

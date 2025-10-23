@@ -72,7 +72,7 @@ const createTestProps = (): ModalContentProps => {
     id: 'test-modal',
     noAnimation: true,
     children: <DialogContent>Test content</DialogContent>,
-    content_ref: contentRef,
+    contentRef: contentRef,
   }
 }
 
@@ -280,7 +280,7 @@ describe('ModalContent Focus Logic', () => {
       const customElement = document.createElement('input')
       customElement.id = 'custom-focus'
       customElement.focus = mockFocus
-      props.content_ref.current.appendChild(customElement)
+      props.contentRef.current.appendChild(customElement)
 
       // Trigger children change
       rerender(

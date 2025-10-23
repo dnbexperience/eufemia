@@ -440,7 +440,7 @@ class Modal extends React.PureComponent<ModalPropTypes, ModalState> {
       focusSelector = null,
       headerContent = null,
       barContent = null,
-      bypass_invalidation_selectors = null,
+      bypassInvalidationSelectors = null,
       verticalAlignment = 'center',
 
       id, // eslint-disable-line
@@ -525,7 +525,7 @@ class Modal extends React.PureComponent<ModalPropTypes, ModalState> {
               headerContent={headerContent}
               verticalAlignment={verticalAlignment}
               barContent={barContent}
-              bypass_invalidation_selectors={bypass_invalidation_selectors}
+              bypassInvalidationSelectors={bypassInvalidationSelectors}
               close={this.close}
               hide={hide}
               title={rest.title || fallbackTitle}
