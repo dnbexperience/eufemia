@@ -29,7 +29,7 @@ import { pickSpacingProps } from '../../../../components/flex/utils'
 import { ButtonProps, ButtonSize } from '../../../../components/Button'
 import { clamp } from '../../../../components/slider/SliderHelpers'
 import DataContext from '../../DataContext/Context'
-import * as z from 'zod'
+import * as z from 'zod/v4'
 
 export type Props = FieldProps<number, undefined | number> & {
   innerRef?: React.RefObject<HTMLInputElement>

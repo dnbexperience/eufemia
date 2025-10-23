@@ -1,4 +1,4 @@
-import * as z from 'zod'
+import * as z from 'zod/v4'
 import { FormError } from './FormError'
 
 export type ZodSchema = z.ZodTypeAny

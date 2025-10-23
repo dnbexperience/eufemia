@@ -7,7 +7,7 @@ import React, {
 } from 'react'
 import classnames from 'classnames'
 import { Input, Textarea } from '../../../../components'
-import * as z from 'zod'
+import * as z from 'zod/v4'
 import { InputProps } from '../../../../components/input/Input'
 import InputMasked, {
   InputMaskedProps,

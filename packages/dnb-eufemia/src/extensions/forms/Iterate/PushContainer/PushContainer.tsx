@@ -9,7 +9,7 @@ import React, {
 import classnames from 'classnames'
 import Isolation, { IsolationProps } from '../../Form/Isolation'
 import { extractZodSubSchema } from '../../Form/Isolation/extractZodSubSchema'
-import * as z from 'zod'
+import * as z from 'zod/v4'
 import { isZodSchema } from '../../utils/zod'
 import pointer from '../../utils/json-pointer'
 import useHandleStatus from '../../Form/Isolation/useHandleStatus'

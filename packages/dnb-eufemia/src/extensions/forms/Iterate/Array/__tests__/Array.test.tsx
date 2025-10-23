@@ -14,7 +14,7 @@ import {
   ValueBlock,
   Wizard,
 } from '../../..'
-import * as z from 'zod'
+import * as z from 'zod/v4'
 import { ContextState, FilterData } from '../../../DataContext'
 
 import nbNO from '../../../constants/locales/nb-NO'

@@ -13,7 +13,7 @@ export { default as FieldBlock } from './FieldBlock'
 export { default as ValueBlock } from './ValueBlock'
 
 // Re-export Zod so consumers can `import { z } from '@dnb/eufemia/extensions/forms'`
-export * as z from 'zod'
+export * as z from 'zod/v4'
 
 // Types
 export type { SectionProps } from './Form/Section'

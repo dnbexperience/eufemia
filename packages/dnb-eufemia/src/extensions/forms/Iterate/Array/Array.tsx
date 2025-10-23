@@ -7,7 +7,7 @@ import React, {
   useContext,
   useCallback,
 } from 'react'
-import * as z from 'zod'
+import * as z from 'zod/v4'
 import classnames from 'classnames'
 import pointer from '../../utils/json-pointer'
 import { useFieldProps } from '../../hooks'

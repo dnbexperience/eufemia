@@ -18,7 +18,7 @@ import {
 } from '../utils'
 import { ajvErrorsToOneFormError } from '../utils/ajvErrors'
 import { extendErrorMessagesWithTranslationMessages } from '../utils/errors'
-import * as z from 'zod'
+import * as z from 'zod/v4'
 import {
   FieldPropsGeneric,
   ProvideAdditionalEventArgs,

@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useMemo } from 'react'
-import * as z from 'zod'
+import * as z from 'zod/v4'
 import { DatePicker } from '../../../../components'
 import { useFieldProps } from '../../hooks'
 import type { FieldProps, ValidatorDisableable, Schema } from '../../types'
