@@ -70,9 +70,9 @@ const createTestProps = (): ModalContentProps => {
 
   return {
     id: 'test-modal',
-    no_animation: true,
+    noAnimation: true,
     children: <DialogContent>Test content</DialogContent>,
-    content_ref: contentRef,
+    contentRef: contentRef,
   }
 }
 
@@ -270,21 +270,21 @@ describe('ModalContent Focus Logic', () => {
   })
 
   describe('Integration with existing functionality', () => {
-    it('should work with focus_selector prop', () => {
+    it('should work with focusSelector prop', () => {
       const props = createTestProps()
       const { rerender } = render(
-        <ModalContent {...props} focus_selector="#custom-focus" />
+        <ModalContent {...props} focusSelector="#custom-focus" />
       )
 
       // Add custom focus element to the mock
       const customElement = document.createElement('input')
       customElement.id = 'custom-focus'
       customElement.focus = mockFocus
-      props.content_ref.current.appendChild(customElement)
+      props.contentRef.current.appendChild(customElement)
 
       // Trigger children change
       rerender(
-        <ModalContent {...props} focus_selector="#custom-focus">
+        <ModalContent {...props} focusSelector="#custom-focus">
           <DialogContent>Updated content</DialogContent>
         </ModalContent>
       )
@@ -293,15 +293,15 @@ describe('ModalContent Focus Logic', () => {
       expect(mockFocus).toHaveBeenCalledWith({ preventScroll: true })
     })
 
-    it('should work with animation_duration prop', () => {
+    it('should work with animationDuration prop', () => {
       const props = createTestProps()
       const { rerender } = render(
-        <ModalContent {...props} animation_duration="100" />
+        <ModalContent {...props} animationDuration="100" />
       )
 
       // Trigger children change
       rerender(
-        <ModalContent {...props} animation_duration="100">
+        <ModalContent {...props} animationDuration="100">
           <DialogContent>Updated content</DialogContent>
         </ModalContent>
       )
