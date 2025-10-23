@@ -52,8 +52,8 @@ export default class PrimaryComponent extends React.PureComponent {
     ...primaryPropTypes,
     ...secondaryPropTypes,
     ...ClassComponent.propTypes,
-    secondary_foo: secondaryPropTypes.secondary,
-    secondary_spacing: PropTypes.shape(secondaryPropTypes),
+    secondaryFoo: secondaryPropTypes.secondary,
+    secondarySpacing: PropTypes.shape(secondaryPropTypes),
 
     children: PropTypes.node,
   }
@@ -80,8 +80,8 @@ export default class PrimaryComponent extends React.PureComponent {
       this.props.number,
       this.props.spacing,
       this.props.top,
-      this.props.secondary_foo,
-      this.props.secondary_spacing,
+      this.props.secondaryFoo,
+      this.props.secondarySpacing,
       this.props.children,
     ]
   }
@@ -98,8 +98,8 @@ Element.propTypes = {
   top: primaryPropTypes.top,
   ...primaryPropTypes,
   ...secondaryPropTypes,
-  secondary_foo: secondaryPropTypes.secondary,
-  secondary_spacing: PropTypes.shape(secondaryPropTypes),
+  secondaryFoo: secondaryPropTypes.secondary,
+  secondarySpacing: PropTypes.shape(secondaryPropTypes),
 
   children: PropTypes.node,
 }
