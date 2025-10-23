@@ -12,7 +12,7 @@ export class AutoSize extends React.Component<AutoSizeProps, any> {
 export type SkeletonContextProps = ContextProps & {
   translation?: {
     Skeleton?: {
-      aria_busy: string;
+      ariaBusy: string;
     };
   };
 };
@@ -25,7 +25,7 @@ export declare const createSkeletonClass: (
 export type skeletonDOMAttributesContext = {
   translation?: {
     Skeleton: {
-      aria_busy: string;
+      ariaBusy: string;
     };
   };
 };
