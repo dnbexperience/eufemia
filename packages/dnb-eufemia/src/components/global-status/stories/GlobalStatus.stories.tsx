@@ -197,7 +197,7 @@ export const GlobalStatuseSandbox = () => (
     </Box>
     <Box>
       <Button
-        inner_ref={scrollto_element}
+        innerRef={scrollto_element}
         text="Scroll To"
         on_click={() => {
           GlobalStatus.Update({
@@ -249,7 +249,7 @@ const InputWithError = () => {
               setErrorMessage1(value.length >= 3)
             }}
             right="small"
-            // status_no_animation
+            // statusNoAnimation
           />
           <Input
             placeholder="Enter #2 ..."
@@ -258,7 +258,7 @@ const InputWithError = () => {
               setErrorMessage2(value.length >= 3)
             }}
             right="small"
-            // status_no_animation
+            // statusNoAnimation
           />
           <Provider formElement={{ labelDirection: 'vertical' }}>
             <Flex.Vertical>
@@ -268,14 +268,14 @@ const InputWithError = () => {
                   setErrorMessage3(checked)
                 }}
                 bottom="small"
-                // status_no_animation
+                // statusNoAnimation
               />
               <Switch
                 status={haveAnErrorMessage4 ? 'Error Message #4' : null}
                 onChange={({ checked }) => {
                   setErrorMessage4(checked)
                 }}
-                // status_no_animation
+                // statusNoAnimation
               />
             </Flex.Vertical>
           </Provider>

@@ -86,7 +86,7 @@ export const DrawerSandbox = () => (
           <Button
             variant="tertiary"
             icon="chevron_left"
-            icon_position="left"
+            iconPosition="left"
             wrap
           >
             Tilbake ipsum Praesent rutrum
