@@ -19,7 +19,7 @@ export interface SkeletonProps
   /**
    * Use `true` to disable the animation.
    */
-  no_animation?: boolean;
+  noAnimation?: boolean;
   /**
    * Define a figure to use, like `article`. The wrapped content will be hidden while the skeleton figure is shown.
    */
@@ -27,11 +27,11 @@ export interface SkeletonProps
   /**
    * Is used for screen reader text translation, defined in the translation files. You can set a custom text if needed.
    */
-  aria_busy?: string;
+  ariaBusy?: string;
   /**
    * Is used for screen reader text translation, defined in the translation files. You can set a custom text if needed.
    */
-  aria_ready?: string;
+  ariaReady?: string;
   /**
    * Set any HTML element type you have to use. A couple of aria attributes will be set on this element while active. Defaults to `div`.
    */
