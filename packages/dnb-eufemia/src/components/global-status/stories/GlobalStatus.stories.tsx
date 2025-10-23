@@ -74,7 +74,7 @@ export const ComponentAsLabel = () => {
         />
         <DatePicker
           label={<LabelComponent />}
-          show_input
+          showInput
           status={status ? status + '4' : undefined}
         />
       </Provider>
@@ -121,7 +121,7 @@ export const CustomGlobalStatusMessage = () => {
         />
         <DatePicker
           label={<LabelComponent />}
-          show_input
+          showInput
           status={showStatus ? 'DatePicker status' : ''}
           globalStatus={{
             message: showStatus ? 'DatePicker global status' : '',
