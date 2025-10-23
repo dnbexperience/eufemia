@@ -12,8 +12,8 @@ import DatePickerContext from './DatePickerContext'
 export type DatePickerShortcut = {
   title?: string
   date?: string | Date | ((...args: unknown[]) => Date)
-  start_date?: string | Date | ((...args: unknown[]) => Date)
-  end_date?: string | Date | ((...args: unknown[]) => Date)
+  startDate?: string | Date | ((...args: unknown[]) => Date)
+  endDate?: string | Date | ((...args: unknown[]) => Date)
   close_on_select?: boolean
 }
 
@@ -39,8 +39,8 @@ function DatePickerAddon(props: DatePickerAddonProps) {
   const currentDates = useMemo(
     () => ({
       date: startDate,
-      start_date: startDate,
-      end_date: endDate,
+      startDate: startDate,
+      endDate: endDate,
     }),
     [startDate, endDate]
   )
@@ -74,21 +74,21 @@ function DatePickerAddon(props: DatePickerAddonProps) {
       shortcut: DatePickerShortcut
       event: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>
     }) => {
-      const start_date = shortcut.date || shortcut.start_date
-      const end_date = shortcut.end_date
+      const startDate = shortcut.date || shortcut.startDate
+      const endDate = shortcut.endDate
 
       const startDate =
-        typeof start_date === 'function'
-          ? start_date(currentDates)
-          : start_date
-          ? convertStringToDate(start_date)
+        typeof startDate === 'function'
+          ? startDate(currentDates)
+          : startDate
+          ? convertStringToDate(startDate)
           : null
 
       const endDate =
-        typeof end_date === 'function'
-          ? end_date(currentDates)
-          : end_date
-          ? convertStringToDate(end_date)
+        typeof endDate === 'function'
+          ? endDate(currentDates)
+          : endDate
+          ? convertStringToDate(endDate)
           : null
 
       callOnChange({
