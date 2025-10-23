@@ -38,13 +38,13 @@ function StepIndicatorTriggerButton({
   const {
     stepsLabel,
     activeStep,
-    overview_title,
+    overviewTitle,
     openState,
     closeHandler,
     openHandler,
     skeleton,
     filterAttributes,
-    no_animation,
+    noAnimation,
   } = contextWithoutData
 
   const item = data[activeStep || 0]
@@ -103,9 +103,9 @@ function StepIndicatorTriggerButton({
         large: [true, true, !openState, !openState],
       }}
       outset={isNested ? true : undefined}
-      aria-label={overview_title}
+      aria-label={overviewTitle}
     >
-      <HeightAnimation animate={!no_animation}>
+      <HeightAnimation animate={!noAnimation}>
         <div {...(triggerParams as React.HTMLProps<HTMLDivElement>)}>
           <FormLabel
             aria-describedby={id}
