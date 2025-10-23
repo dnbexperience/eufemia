@@ -235,7 +235,7 @@ export const DrawerCustomTriggerExample = () => (
         variant: 'primary',
         size: 'large',
         icon: 'loupe',
-        icon_position: 'left',
+        iconPosition: 'left',
       }}
     >
       <Drawer.Body spacing>

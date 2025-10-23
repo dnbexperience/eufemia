@@ -25,7 +25,7 @@ export default class CloseButton extends React.PureComponent<CloseButtonProps> {
   static defaultProps = {
     closeTitle: null,
     size: 'default',
-    icon_position: 'left',
+    iconPosition: 'left',
     className: null,
   }
 
@@ -34,7 +34,7 @@ export default class CloseButton extends React.PureComponent<CloseButtonProps> {
     const {
       closeTitle = null,
       size = 'default',
-      icon_position = 'left',
+      iconPosition = 'left',
       className = null,
       ...button_props
     } = extendPropsWithContextInClassComponent(
@@ -50,7 +50,7 @@ export default class CloseButton extends React.PureComponent<CloseButtonProps> {
         icon="close"
         text={closeTitle}
         size={size}
-        icon_position={icon_position}
+        iconPosition={iconPosition}
         className={classnames('dnb-modal__close-button', className)}
         {...button_props}
       />

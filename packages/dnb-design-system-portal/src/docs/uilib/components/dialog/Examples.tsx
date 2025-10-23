@@ -287,7 +287,7 @@ export const DialogConfirmCookies = () => (
           variant="tertiary"
           text="Administrer"
           icon={edit}
-          icon_position="left"
+          iconPosition="left"
           on_click={({ close }) => {
             close()
           }}
@@ -387,7 +387,7 @@ export const DialogConfirmScrollableContent = () => {
                 <Button
                   variant="tertiary"
                   text="Administrer"
-                  icon_position="left"
+                  iconPosition="left"
                   on_click={({ close }) => {
                     close()
                   }}
