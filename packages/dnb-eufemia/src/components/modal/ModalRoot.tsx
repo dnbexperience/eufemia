@@ -15,11 +15,8 @@ export interface ModalRootProps extends ModalContentProps {
    * The id used internal in the modal/drawer root element. Defaults to `root`, so the element id will be `dnb-modal-root`.
    */
   id?: string
-  /**
-   * The id used internal in the modal/drawer root element. Defaults to `root`, so the element id will be `dnb-modal-root`.
-   */
-  root_id?: string
-  direct_dom_return?: boolean
+  rootId?: string
+  directDomReturn?: boolean
 
   /**
    * The content which will appear when triggering the modal/drawer.
@@ -42,24 +39,22 @@ export default class ModalRoot extends React.PureComponent<
   static contextType = SharedContext
   static defaultProps = {
     id: null,
-    root_id: null,
-    direct_dom_return: false,
+    rootId: null,
+    directDomReturn: false,
     children: null,
   }
 
   render() {
-    const { children, direct_dom_return, ...props } = this.props
+    const { children, directDomReturn, ...props } = this.props
 
-    if (direct_dom_return) {
+    if (directDomReturn) {
       return <ModalContent {...props}>{children}</ModalContent>
     }
 
     return (
       <PortalRoot>
         <div
-          id={
-            this.props.root_id ? `dnb-modal-${this.props.root_id}` : null
-          }
+          id={this.props.rootId ? `dnb-modal-${this.props.rootId}` : null}
           className="dnb-modal-root__inner"
         >
           <ModalContent {...props}>{children}</ModalContent>
