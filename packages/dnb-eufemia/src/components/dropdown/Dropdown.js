@@ -621,7 +621,7 @@ class DropdownInstance extends React.PureComponent {
                   icon={false} // only to suppress the warning about the icon when tertiary variant is used
                   size={size === 'default' ? 'medium' : size}
                   innerRef={this._refButton}
-                  custom_content={
+                  customContent={
                     <>
                       {!isPopupMenu && (
                         <span className="dnb-dropdown__text dnb-button__text">

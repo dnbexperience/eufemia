@@ -231,7 +231,7 @@ export const SpaceVisibleWhenVisualTestElements = () => (
                   left="x-small"
                   top={v}
                   size="small"
-                  custom_content={<MagicBox />}
+                  customContent={<MagicBox />}
                 />
               ))}
             </CustomStyle>

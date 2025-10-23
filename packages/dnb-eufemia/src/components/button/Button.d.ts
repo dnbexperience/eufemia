@@ -87,11 +87,11 @@ export type ButtonProps = {
   /**
    * Position of icon inside the button. Set to `left` or `right`. Tertiary button variant also supports `top`. Defaults to `right` if not set.
    */
-  icon_position?: ButtonIconPositionAll;
+  iconPosition?: ButtonIconPositionAll;
   /**
    * Define icon width and height. Defaults to 16px.
    */
-  icon_size?: IconSize;
+  iconSize?: IconSize;
   /**
    * Provide a string or a React Element to be shown as the tooltip content.
    */
@@ -103,12 +103,12 @@ export type ButtonProps = {
   /**
    * Defines the state of the status. Currently there are two statuses `[error, info]`. Defaults to `error`.
    */
-  status_state?: FormStatusState;
+  statusState?: FormStatusState;
   /**
    * Use an object to define additional FormStatus properties.
    */
-  status_props?: FormStatusProps;
-  status_no_animation?: boolean;
+  statusProps?: FormStatusProps;
+  statusNoAnimation?: boolean;
   /**
    * The [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status).
    */
@@ -133,7 +133,7 @@ export type ButtonProps = {
   /**
    * If you need to inject completely custom markup (React Element) into the button component. You have then to handle alignment and styling by yourself.
    */
-  custom_content?: React.ReactNode;
+  customContent?: React.ReactNode;
   /**
    * If set to `true` the button text will wrap in to new lines if the overflow point is reached. Defaults to `false`.
    */
@@ -151,7 +151,7 @@ export type ButtonProps = {
    */
   skeleton?: ButtonSkeleton;
   disabled?: boolean;
-  inner_ref?: React.Ref;
+  innerRef?: React.Ref;
   className?: string;
   class?: string;
   innerRef?: any;
