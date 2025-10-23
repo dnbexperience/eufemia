@@ -125,8 +125,8 @@ export default {
       aria_ready: 'Klar til å samhandle',
     },
     StepIndicator: {
-      overview_title: 'Stegoversikt',
-      step_title: 'Steg %step av %count:',
+      overviewTitle: 'Stegoversikt',
+      stepTitle: 'Steg %step av %count:',
     },
     Slider: {
       addTitle: 'Øk (%s)',
