@@ -35,7 +35,7 @@ function OpenButton(props: Props) {
       className={classnames('dnb-forms-iterate__open-button', className)}
       variant="secondary"
       icon={add}
-      icon_position="left"
+      iconPosition="left"
       on_click={handleClick}
       {...restProps}
     >

@@ -99,7 +99,7 @@ export default function CancelButton(props: Props) {
     variant: 'tertiary',
     className: classnames('dnb-forms-iterate__cancel-button', className),
     icon: close,
-    icon_position: 'left',
+    iconPosition: 'left',
     text: cancelButton,
     ...rest,
   }

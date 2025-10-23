@@ -118,7 +118,7 @@ export const FormStatusCustom = () => (
         <Input
           label="Input with custom status"
           status={<CustomStatus />}
-          status_state="info"
+          statusState="info"
           value="Input value"
         />
       )

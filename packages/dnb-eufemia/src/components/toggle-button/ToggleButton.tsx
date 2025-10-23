@@ -312,8 +312,8 @@ class ToggleButton extends React.PureComponent<ToggleButtonProps> {
             text: text || children,
             title,
             icon,
-            icon_size: iconSize,
-            icon_position: iconPosition,
+            iconSize: iconSize,
+            iconPosition: iconPosition,
             [`aria-${
               role === 'radio' || role === 'checkbox'
                 ? 'checked'
@@ -408,7 +408,7 @@ class ToggleButton extends React.PureComponent<ToggleButtonProps> {
                   <Button
                     variant="secondary"
                     className="dnb-toggle-button__button"
-                    custom_content={
+                    customContent={
                       usedLeftComponent && (
                         <span className="dnb-toggle-button__component">
                           {usedLeftComponent}

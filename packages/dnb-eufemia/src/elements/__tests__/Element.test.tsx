@@ -112,8 +112,8 @@ describe('Element', () => {
     ])
   })
 
-  it('does not have inner_ref null inside default props', () => {
-    expect(defaultProps['inner_ref']).toBe(undefined)
+  it('does not have innerRef null inside default props', () => {
+    expect(defaultProps['innerRef']).toBe(undefined)
   })
 
   it('should validate with ARIA rules as a Element element', async () => {

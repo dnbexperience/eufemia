@@ -29,7 +29,7 @@ export default function EditButton(props: Props) {
     <Button
       variant="tertiary"
       icon={edit}
-      icon_position="left"
+      iconPosition="left"
       on_click={editHandler}
       {...props}
     >
