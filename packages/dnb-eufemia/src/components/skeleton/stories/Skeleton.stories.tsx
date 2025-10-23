@@ -145,7 +145,7 @@ export const SkeletonSandbox = () => {
             <Box>
               <DatePicker label="Date" />
               <br />
-              <DatePicker label="Date with input" show_input />
+              <DatePicker label="Date with input" showInput />
             </Box>
 
             <Box>
