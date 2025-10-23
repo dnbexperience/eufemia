@@ -43,11 +43,11 @@ export type DateProps = Omit<
   showInput?: DatePickerProps['showInput']
 
   /**
-   * If set to `true`, a cancel button will be shown. You can change the default text by using `cancel_button_text="Avbryt"` Defaults to `true`. If the `range` prop is `true`, then the cancel button is shown.
+   * If set to `true`, a cancel button will be shown. You can change the default text by using `cancelButtonText="Avbryt"` Defaults to `true`. If the `range` prop is `true`, then the cancel button is shown.
    */
   showCancelButton?: DatePickerProps['showCancelButton']
   /**
-   * If set to `true`, a reset button will be shown. You can change the default text by using `reset_button_text="Tilbakestill"` Defaults to `true`.
+   * If set to `true`, a reset button will be shown. You can change the default text by using `resetButtonText="Tilbakestill"` Defaults to `true`.
    */
   showResetButton?: DatePickerProps['showResetButton']
   onBlurValidator?: ValidatorDisableable<string>
@@ -187,8 +187,8 @@ function DateComponent(props: DateProps) {
   const fromInput = useCallback(
     ({
       date,
-      start_date,
-      end_date,
+      startDate,
+      endDate,
       invalidDate,
       invalidStartDate,
       invalidEndDate,
@@ -200,7 +200,7 @@ function DateComponent(props: DateProps) {
         invalidEndDate,
       })
 
-      return props.range ? `${start_date}|${end_date}` : date
+      return props.range ? `${startDate}|${endDate}` : date
     },
     [props.range, setInvalidDates]
   )
@@ -271,15 +271,15 @@ function DateComponent(props: DateProps) {
   }, [handleFocus, handleError])
   const onType = useCallback(
     (event: DatePickerEvent<React.ChangeEvent<HTMLInputElement>>) => {
-      const { date, start_date, end_date, ...rest } = event
+      const { date, startDate, endDate, ...rest } = event
 
       if (props.range) {
-        const parsedStartDate = parseISO(start_date)
-        const parsedEndDate = parseISO(end_date)
+        const parsedStartDate = parseISO(startDate)
+        const parsedEndDate = parseISO(endDate)
         if (isValid(parsedStartDate) || isValid(parsedEndDate)) {
           handleChange({
-            ...(isValid(parsedStartDate) && { start_date }),
-            ...(isValid(parsedEndDate) && { end_date }),
+            ...(isValid(parsedStartDate) && { startDate }),
+            ...(isValid(parsedEndDate) && { endDate }),
             ...rest,
           })
         }

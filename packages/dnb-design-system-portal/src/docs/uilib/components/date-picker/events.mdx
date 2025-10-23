@@ -17,16 +17,75 @@ All additional HTML attributes will be returned as well.
 ```js
 {
   date: null | 'date as `returnFormat` | `yyyy-MM-dd` ', /* Available if `range` is `false` */
-  start_date: null | 'date as `returnFormat` | `yyyy-MM-dd`', /* Available if `range` is `true` */
-  end_date: null | 'date as `returnFormat` | `yyyy-MM-dd`', /* Available if `range` is `true` */
+  startDate: null | 'date as `returnFormat` | `yyyy-MM-dd`', /* Available if `range` is `true` */
+  endDate: null | 'date as `returnFormat` | `yyyy-MM-dd`', /* Available if `range` is `true` */
   invalidDate: null | 'date as `returnFormat` | `yyyy-MM-dd`', /* Available if `range` is `false` */
   invalidStartDate: null | 'date as `returnFormat` | ´yyyy-MM-dd`', /* Available if `range` is `true` */
   invalidEndDate: null | 'date as `returnFormat` | `yyyy-MM-dd`', /* Available if `range` is `true` */
   partialDate:  null | 'date as `returnFormat` | `yyyy-MM-dd`'  /* Available if `range` is `false` */
   partialStartDate:  null | 'date as `returnFormat` | `yyyy-MM-dd`' /* Available if `range` is `true` */
   partialEndDate: null | 'date as `returnFormat` | `yyyy-MM-dd`' /* Available if `range` is `true` */
-  days_between: number,
+  daysBetween: number,
   attributes: { attributes },
   event: null | { native event }
 }
 ```
+
+### Validation during input changes
+
+In order to validate dates during typing, you can make use of `isValid` or `isValidStartDate` and `isValidEndDate`. Because the user can change a date in the input field, and the `onType` event will then return a falsy `isValid`.
+
+Additional event return object properties:
+
+```js
+{
+  isValid: boolean, /* Available if `range` is `false` */
+  isValidStartDate: boolean, /* Available if `range` is `true` */
+  isValidEndDate: boolean, /* Available if `range` is `true` */
+}
+```
+
+### Min & Max date
+
+If `minDate` or `maxDate` is given, the return object also contains info about if the `startDate` or `endDate` is in between the given limits. The reason is that the user can still enter an invalid date in the input.
+
+```js
+{
+  isValidStartDate: boolean,
+  isValidEndDate: boolean,
+  ...
+}
+```
+
+### Manipulate the days in the calendar view
+
+The callback event `onDaysRender` gives you the possibility to manipulate the "day" object, before it gets rendered. This callback will be called many times. Both on the first render, and on every user interaction, like hover and selection, etc. This means you have to ensure a performant date calculation.
+
+Please use [date-fns](https://date-fns.org) to make the calculations.
+
+<VisibleWhenNotVisualTest>
+  <DatePickerDateFnsRangeIsWeekend />
+</VisibleWhenNotVisualTest>
+
+The `dayObject` object contains:
+
+```js
+[
+    {
+      date: Date,// Vanilla JavaScript Date object
+      className: // define your custom css classes
+      isInactive: boolean,// shows it as disabled only
+      isDisabled: boolean,// shows it as disabled and with a strikethrough
+      isPreview: boolean,// date is between startDate (exclusive) and hoverDate (inclusive)
+      isSelectable: boolean,// if not last and next month and not disabled – handles z-index
+      isStartDate: boolean,// date selected is start date
+      isEndDate: boolean,// date selected is end date
+      isToday: boolean,
+      isWithinSelection: boolean,// date is between selection range
+      isNextMonth: boolean,// used for selection and inactive calculation
+      isLastMonth: boolean,// used for selection and inactive calculation
+    },
+    ...
+]
+```
+>>>>>>> dbdb4078e0 (break(DatePicker)!: replace `snake_case` properties with `camelCase` (#5836))
