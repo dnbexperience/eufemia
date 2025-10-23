@@ -39,7 +39,7 @@ export default function PortalToolsMenu({
         ),
         size: 'default',
         icon: 'more',
-        icon_size: 'medium',
+        iconSize: 'medium',
         skeleton: false,
         left: 'x-small',
         tooltip: (

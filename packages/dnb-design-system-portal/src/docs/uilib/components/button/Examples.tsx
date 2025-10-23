@@ -108,7 +108,7 @@ export const ButtonPrimaryWithIcon = () => (
 
 export const ButtonPrimaryWithIconLeft = () => (
   <ComponentBox>
-    <Button icon_position="left" icon="chevron_left">
+    <Button iconPosition="left" icon="chevron_left">
       Primary button with icon on left
     </Button>
   </ComponentBox>
@@ -119,14 +119,14 @@ export const ButtonTertiary = () => (
     <Button
       variant="tertiary"
       text="Tertiary button with icon on left"
-      icon_position="left"
+      iconPosition="left"
       icon="chevron_left"
       data-visual-test="button-tertiary"
     />
     <Button
       variant="tertiary"
       text={<span>Text inside additional span</span>}
-      icon_position="left"
+      iconPosition="left"
       icon="chevron_left"
       left
     />
@@ -137,13 +137,13 @@ export const ButtonTertiaryTop = () => (
   <ComponentBox data-visual-test="button-tertiary-top">
     <Button
       variant="tertiary"
-      icon_position="top"
+      iconPosition="top"
       icon="close"
       text="Button text"
     />
     <Button
       variant="tertiary"
-      icon_position="top"
+      iconPosition="top"
       icon="close"
       text="Large button"
       size="large"
@@ -155,9 +155,9 @@ export const ButtonCustomContent = () => (
   <ComponentBox data-visual-test="button-custom-content">
     <Button
       icon="close"
-      icon_position="right"
+      iconPosition="right"
       text="Button with custom content"
-      custom_content={<IconPrimary icon="check" right="small" />}
+      customContent={<IconPrimary icon="check" right="small" />}
     />
   </ComponentBox>
 )
@@ -169,7 +169,7 @@ export const ButtonTertiaryWrap = () => (
       variant="tertiary"
       text="A long text where wrap is enabled magnis rutrum netus neque ridiculus euismod sit dictum laoreet libero"
       icon="chevron_left"
-      icon_position="left"
+      iconPosition="left"
     />
   </ComponentBox>
 )
@@ -179,7 +179,7 @@ export const ButtonAnchor = () => (
     <Button
       text="Primary with href"
       href="/uilib/components/button/demos"
-      icon_position="right"
+      iconPosition="right"
       icon="chevron_right"
       on_click={({ event }) => {
         event.preventDefault()
@@ -221,7 +221,7 @@ export const ButtonSignalLarge = () => (
       text="Large Signal Button"
       icon={<Bell />}
       size="large"
-      icon_size="medium"
+      iconSize="medium"
     />
   </ComponentBox>
 )
@@ -407,7 +407,7 @@ export const TertiaryButtonSizes = () => {
           console.log('on_click')
         }}
         icon="bell"
-        icon_position="top"
+        iconPosition="top"
         variant="tertiary"
         left
       />
@@ -495,7 +495,7 @@ export const TertiaryButtonAlignment = () => {
       <Button
         text="left"
         variant="tertiary"
-        icon_position="left"
+        iconPosition="left"
         icon="chevron_left"
       />
       <br />
@@ -503,36 +503,36 @@ export const TertiaryButtonAlignment = () => {
         text="right medium"
         variant="tertiary"
         icon="chevron_right"
-        icon_size="medium"
+        iconSize="medium"
       />
       <Button
         text="left medium"
         variant="tertiary"
-        icon_position="left"
+        iconPosition="left"
         icon="chevron_left"
-        icon_size="medium"
+        iconSize="medium"
       />
       <br />
       <Button
         text="right large"
         variant="tertiary"
         icon="chevron_right"
-        icon_size="large"
+        iconSize="large"
       />
       <Button
         text="left large"
         variant="tertiary"
-        icon_position="left"
+        iconPosition="left"
         icon="chevron_left"
-        icon_size="large"
+        iconSize="large"
       />
       <br />
       <Button variant="tertiary" icon="chevron_right" />
-      <Button variant="tertiary" icon="chevron_right" icon_size="medium" />
+      <Button variant="tertiary" icon="chevron_right" iconSize="medium" />
       <Button
         variant="tertiary"
         icon="chevron_right"
-        icon_size="large"
+        iconSize="large"
       />{' '}
       <span className="dnb-p">text</span>
     </ComponentBox>
@@ -556,7 +556,7 @@ export const ButtonHasDarkBackground = () => (
         <Button
           data-visual-test="button-tertiary-on-dark"
           variant="tertiary"
-          icon_position="left"
+          iconPosition="left"
           icon="chevron_left"
         >
           Tertiary button
