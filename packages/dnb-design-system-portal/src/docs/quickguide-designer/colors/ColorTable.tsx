@@ -46,57 +46,57 @@ const dataEiendom = [
 const dataCarnegie = [
   // Primary
   {
-    name: '--color-ocean-green',
+    name: '--ca-color-ocean-green',
     type: 'Primary',
     brandName: 'Ocean Green',
     figmaName: 'Primary/Ocean Green',
   },
   {
-    name: '--color-burgundy-red',
+    name: '--ca-color-burgundy-red',
     type: 'Primary',
     brandName: 'Burgundy Red',
     figmaName: 'Primary/Burgundy Red',
   },
   // Secondary
   {
-    name: '--color-noir-green',
+    name: '--ca-color-noir-green',
     type: 'Secondary',
     brandName: 'Noir Green',
     figmaName: 'Secondary/Noir Green',
   },
   {
-    name: '--color-sea-green',
+    name: '--ca-color-sea-green',
     type: 'Secondary',
     brandName: 'Sea Green',
     figmaName: 'Secondary/Sea Green',
   },
   {
-    name: '--color-noir-red',
+    name: '--ca-color-noir-red',
     type: 'Secondary',
     brandName: 'Noir Red',
     figmaName: 'Secondary/Noir Red',
   },
   {
-    name: '--color-sober-red',
+    name: '--ca-color-sober-red',
     type: 'Secondary',
     brandName: 'Sober Red',
     figmaName: 'Secondary/Sober Red',
   },
   {
-    name: '--color-classic-beige',
+    name: '--ca-color-classic-beige',
     type: 'Secondary',
     brandName: 'Classic Beige',
     figmaName: 'Secondary/Classic Beige',
   },
   // Tertiary
   {
-    name: '--color-pale-green',
+    name: '--ca-color-pale-green',
     type: 'Tertiary',
     brandName: 'Pale Green',
     figmaName: 'Tertiary/Pale Green',
   },
   {
-    name: '--color-pale-red',
+    name: '--ca-color-pale-red',
     type: 'Tertiary',
     brandName: 'Pale Red',
     figmaName: 'Tertiary/Pale Red',

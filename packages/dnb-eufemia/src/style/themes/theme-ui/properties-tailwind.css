@@ -95,6 +95,16 @@
   --color-emerald-green-50: #89aaac;
   --color-emerald-green-25: #c4d4d6;
   --color-emerald-green-10: #e8eeef;
+  --font-ca-heading: 'ArizonaFlare', var(--font-family-default);
+  --color-ca-ocean-green: #00343e;
+  --color-ca-burgundy-red: #5c0022;
+  --color-ca-noir-green: #001114;
+  --color-ca-sea-green: #007272;
+  --color-ca-noir-red: #24000d;
+  --color-ca-sober-red: #8e4049;
+  --color-ca-classic-beige: #f6eae4;
+  --color-ca-pale-green: #ccf0e7;
+  --color-ca-pale-red: #ffdedb;
   --font-default: 'DNB', sans-serif;
   --font-heading: var(--font-family-default);
   --font-monospace: 'DNBMono', 'Menlo', 'Consolas', 'Roboto Mono';

@@ -5,25 +5,24 @@
 
 .eufemia-theme__carnegie,
 :root {
-  // Use DNB default for body text (from theme-ui), but override headings
-  --font-family-heading: 'ArizonaFlare', var(--font-family-default);
+  // Brand-prefixed typography
+  --ca-font-family-heading: 'ArizonaFlare', var(--font-family-default);
 
-  // Primary colours (Carnegie)
-  --color-ocean-green: #00343e; // Ocean Green
-  --color-burgundy-red: #5c0022; // Burgundy Red
+  // Use DNB default for body text (from theme-ui), but override headings via mapping
+  // (see theme-mapping.scss)
 
-  // Override primary accent used across components to Ocean Green
-  // Many components reference --color-sea-green as primary action color.
-  --color-sea-green: var(--color-ocean-green);
+  // Primary colours (Carnegie) - brand-prefixed
+  --ca-color-ocean-green: #00343e; // Ocean Green
+  --ca-color-burgundy-red: #5c0022; // Burgundy Red
 
   // Secondary colours
-  --color-noir-green: #001114; // Noir Green
-  // Keep existing --color-sea-green value accessible via ocean green override above.
-  --color-noir-red: #24000d; // Noir Red
-  --color-sober-red: #8e4049; // Sober Red
-  --color-classic-beige: #f6eae4; // Classic Beige
+  --ca-color-noir-green: #001114; // Noir Green
+  --ca-color-sea-green: #007272; // Sea Green (secondary)
+  --ca-color-noir-red: #24000d; // Noir Red
+  --ca-color-sober-red: #8e4049; // Sober Red
+  --ca-color-classic-beige: #f6eae4; // Classic Beige
 
   // Tertiary colours
-  --color-pale-green: #ccf0e7; // Pale Green
-  --color-pale-red: #ffdedb; // Pale Red
+  --ca-color-pale-green: #ccf0e7; // Pale Green
+  --ca-color-pale-red: #ffdedb; // Pale Red
 }

@@ -103,7 +103,7 @@ export const LogoCarnegieDefaultExample = () => (
     <Logo
       height="96"
       svg={CarnegieDefault}
-      color="var(--color-burgundy-red)"
+      color="var(--ca-color-burgundy-red)"
     />
   </ComponentBox>
 )

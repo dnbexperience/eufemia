@@ -306,7 +306,8 @@ describe('convertVariablesToTailwindFormat', () => {
 describe('SUPPORTED_BRANDS', () => {
   it('should contain expected brands', () => {
     expect(SUPPORTED_BRANDS).toContain('sb')
-    expect(SUPPORTED_BRANDS).toHaveLength(1)
+    expect(SUPPORTED_BRANDS).toContain('ca')
+    expect(SUPPORTED_BRANDS).toHaveLength(2)
   })
 })
 
