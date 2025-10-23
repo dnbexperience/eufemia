@@ -78,7 +78,7 @@ export const DialogConfirm = () => (
             variant="tertiary"
             text="Administrer"
             icon={edit}
-            icon_position="left"
+            iconPosition="left"
             on_click={({ close }) => {
               close()
             }}

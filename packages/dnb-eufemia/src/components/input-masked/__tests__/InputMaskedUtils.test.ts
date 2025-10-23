@@ -41,9 +41,9 @@ describe('correctNumberValue', () => {
     expect(result).toBe('123')
   })
 
-  it('should format the value according to number_format options', () => {
+  it('should format the value according to numberFormat options', () => {
     const result = correctNumberValue({
-      props: { value: '1234.5678', number_format: { locale: 'en-US' } },
+      props: { value: '1234.5678', numberFormat: { locale: 'en-US' } },
       locale: 'en-US',
       maskParams: { decimalSymbol: '.', decimalLimit: 2 },
     })
@@ -125,11 +125,11 @@ describe('isRequestingLocaleSupport', () => {
   })
 
   it('should return true when props include at least one enableNumberMaskWhen key', () => {
-    expect(isRequestingLocaleSupport({ as_number: true })).toBe(true)
-    expect(isRequestingLocaleSupport({ as_percent: true })).toBe(true)
-    expect(isRequestingLocaleSupport({ as_currency: true })).toBe(true)
-    expect(isRequestingLocaleSupport({ number_mask: true })).toBe(false)
-    expect(isRequestingLocaleSupport({ currency_mask: true })).toBe(false)
+    expect(isRequestingLocaleSupport({ asNumber: true })).toBe(true)
+    expect(isRequestingLocaleSupport({ asPercent: true })).toBe(true)
+    expect(isRequestingLocaleSupport({ asCurrency: true })).toBe(true)
+    expect(isRequestingLocaleSupport({ numberMask: true })).toBe(false)
+    expect(isRequestingLocaleSupport({ currencyMask: true })).toBe(false)
   })
 })
 
@@ -148,11 +148,11 @@ describe('isRequestingNumberMask', () => {
   })
 
   it('should return true when props include at least one enableNumberMaskWhen key', () => {
-    expect(isRequestingNumberMask({ as_number: true })).toBe(true)
-    expect(isRequestingNumberMask({ as_percent: true })).toBe(true)
-    expect(isRequestingNumberMask({ as_currency: true })).toBe(true)
-    expect(isRequestingNumberMask({ number_mask: true })).toBe(true)
-    expect(isRequestingNumberMask({ currency_mask: true })).toBe(true)
+    expect(isRequestingNumberMask({ asNumber: true })).toBe(true)
+    expect(isRequestingNumberMask({ asPercent: true })).toBe(true)
+    expect(isRequestingNumberMask({ asCurrency: true })).toBe(true)
+    expect(isRequestingNumberMask({ numberMask: true })).toBe(true)
+    expect(isRequestingNumberMask({ currencyMask: true })).toBe(true)
   })
 })
 
@@ -373,8 +373,8 @@ describe('handlePercentMask', () => {
 describe('handleCurrencyMask', () => {
   it('should return the default maskParams when no options are provided', () => {
     const result = handleCurrencyMask({
-      mask_options: {},
-      currency_mask: {},
+      maskOptions: {},
+      currencyMask: {},
     })
     expect(result).toEqual({
       showMask: true,
@@ -388,11 +388,11 @@ describe('handleCurrencyMask', () => {
 
   it('should override the default maskParams with provided options', () => {
     const result = handleCurrencyMask({
-      mask_options: {
+      maskOptions: {
         showMask: false,
         decimalLimit: 3,
       },
-      currency_mask: {
+      currencyMask: {
         currency: 'USD',
       },
     })
@@ -407,10 +407,10 @@ describe('handleCurrencyMask', () => {
     })
   })
 
-  it('should use the provided currency_mask string as the suffix', () => {
+  it('should use the provided currencyMask string as the suffix', () => {
     const result = handleCurrencyMask({
-      mask_options: {},
-      currency_mask: '€',
+      maskOptions: {},
+      currencyMask: '€',
     })
     expect(result).toEqual({
       '0': '€',
@@ -423,10 +423,10 @@ describe('handleCurrencyMask', () => {
     })
   })
 
-  it('should use "kr" as the default suffix when no currency_mask is provided', () => {
+  it('should use "kr" as the default suffix when no currencyMask is provided', () => {
     const result = handleCurrencyMask({
-      mask_options: {},
-      currency_mask: {},
+      maskOptions: {},
+      currencyMask: {},
     })
     expect(result).toEqual({
       showMask: true,
@@ -441,12 +441,12 @@ describe('handleCurrencyMask', () => {
 
 describe('handleNumberMask', () => {
   it('should return the correct maskParams object', () => {
-    const mask_options = {
+    const maskOptions = {
       prefix: '$',
       suffix: ' USD',
       decimalLimit: 2,
     }
-    const number_mask = {
+    const numberMask = {
       allowDecimal: true,
     }
 
@@ -458,16 +458,16 @@ describe('handleNumberMask', () => {
       allowDecimal: true,
     }
 
-    const result = handleNumberMask({ mask_options, number_mask })
+    const result = handleNumberMask({ maskOptions, numberMask })
 
     expect(result).toEqual(expected)
   })
 
   it('should set allowDecimal to true if decimalLimit is greater than 0 and allowDecimal is not defined', () => {
-    const mask_options = {
+    const maskOptions = {
       decimalLimit: 2,
     }
-    const number_mask = {}
+    const numberMask = {}
 
     const expected = {
       decimalSymbol: ',',
@@ -475,16 +475,16 @@ describe('handleNumberMask', () => {
       allowDecimal: true,
     }
 
-    const result = handleNumberMask({ mask_options, number_mask })
+    const result = handleNumberMask({ maskOptions, numberMask })
 
     expect(result).toEqual(expected)
   })
 
   it('should set allowDecimal to false if decimalLimit is 0 and allowDecimal is not defined', () => {
-    const mask_options = {
+    const maskOptions = {
       decimalLimit: 0,
     }
-    const number_mask = {}
+    const numberMask = {}
 
     const expected = {
       decimalSymbol: ',',
@@ -492,7 +492,7 @@ describe('handleNumberMask', () => {
       allowDecimal: false,
     }
 
-    const result = handleNumberMask({ mask_options, number_mask })
+    const result = handleNumberMask({ maskOptions, numberMask })
 
     expect(result).toEqual(expected)
   })
