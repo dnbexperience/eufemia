@@ -208,7 +208,7 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
             skeleton={skeleton}
             variant="tertiary"
             icon="chevron_left"
-            icon_position="left"
+            iconPosition="left"
             text={prevTitle}
             on_click={setPrevPage}
             title={prevIsDisabled ? null : prevTitle}
@@ -220,7 +220,7 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
             skeleton={skeleton}
             variant="tertiary"
             icon="chevron_right"
-            icon_position="right"
+            iconPosition="right"
             text={nextTitle}
             on_click={setNextPage}
             title={nextIsDisabled ? null : nextTitle}
