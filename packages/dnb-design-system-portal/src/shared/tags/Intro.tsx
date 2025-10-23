@@ -69,7 +69,7 @@ export const IntroFooter = ({ href = undefined, text = undefined }) => (
       variant="secondary"
       text="Cancel"
       icon="close"
-      icon_position="left"
+      iconPosition="left"
       element={Link}
     />
   </Space>

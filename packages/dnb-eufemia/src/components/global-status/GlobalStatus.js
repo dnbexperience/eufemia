@@ -665,7 +665,7 @@ export default class GlobalStatus extends React.PureComponent {
                   icon="close"
                   on_click={this.closeHandler}
                   size="medium"
-                  icon_position="left"
+                  iconPosition="left"
                 />
               )}
             </div>

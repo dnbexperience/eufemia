@@ -25,7 +25,7 @@ export interface FormRowProps
   /**
    * use `true` to make the label only readable by screen readers.
    */
-  label_sr_only?: boolean;
+  labelSrOnly?: boolean;
   label_id?: string;
   /**
    * if you need to style the "legend", then you can either send in a custom Component, like `label={ <H2> }`, or define your styling class with the `label_class` property.

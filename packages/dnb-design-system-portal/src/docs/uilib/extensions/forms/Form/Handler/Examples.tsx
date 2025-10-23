@@ -167,7 +167,7 @@ export const AsyncChangeAndValidation = () => {
                     text="Stop async operations"
                     variant="tertiary"
                     icon={stopIcon}
-                    icon_position="left"
+                    iconPosition="left"
                     disabled={false}
                     onClick={cancelRequest}
                   />

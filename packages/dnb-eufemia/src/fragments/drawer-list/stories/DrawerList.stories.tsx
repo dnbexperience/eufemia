@@ -53,7 +53,7 @@ const MagicOpen = (props) => {
         on_focus={() => setOpened(true)}
         placeholder="Search for items ..."
         icon="chevron_down"
-        inner_ref={ref}
+        innerRef={ref}
       />
       <Drawer
         wrapperElement={ref.current}
