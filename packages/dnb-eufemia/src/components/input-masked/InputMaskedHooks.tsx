@@ -18,7 +18,7 @@ import {
 import { safeSetSelection } from './text-mask/createTextMaskInputElement'
 import { isNumber } from './text-mask/utilities'
 
-import TextMask from './TextMask'
+import TextMask from './MaskitoTextMask'
 import createNumberMask from './addons/createNumberMask'
 import InputMaskedContext from './InputMaskedContext'
 

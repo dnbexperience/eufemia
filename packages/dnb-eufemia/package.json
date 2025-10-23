@@ -109,6 +109,8 @@
   "typings": "./index.d.ts",
   "dependencies": {
     "@babel/runtime": "7.26.10",
+    "@maskito/core": "4.0.0",
+    "@maskito/react": "4.0.0",
     "@navikt/fnrvalidator": "2.1.5",
     "@ungap/structured-clone": "1.2.0",
     "ajv": "8.17.1",
