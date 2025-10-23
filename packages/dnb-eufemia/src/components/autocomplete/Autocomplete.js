@@ -1959,8 +1959,8 @@ class AutocompleteInstance extends React.PureComponent {
       onChange: this.onInputChangeHandler,
       onFocus: this.onInputFocusHandler,
       onBlur: this.onBlurHandler,
-      icon_position: iconPosition,
-      inner_ref: inputRef,
+      iconPosition: iconPosition,
+      innerRef: inputRef,
       disabled,
       skeleton,
       ...attributes,
@@ -2008,13 +2008,13 @@ class AutocompleteInstance extends React.PureComponent {
       submitButton = (
         <SubmitButton
           icon={submitButtonIcon}
-          icon_size={iconSize || (size === 'large' ? 'medium' : 'default')}
+          iconSize={iconSize || (size === 'large' ? 'medium' : 'default')}
           variant="secondary"
           size={size === 'default' ? 'medium' : size}
           type="button"
           status={status}
-          status_state={statusState}
-          status_props={statusProps}
+          statusState={statusState}
+          statusProps={statusProps}
           {...triggerParams}
         />
       )
@@ -2084,14 +2084,14 @@ class AutocompleteInstance extends React.PureComponent {
                       inputIcon
                     )
                   }
-                  icon_size={
+                  iconSize={
                     iconSize || (size === 'large' ? 'medium' : 'default')
                   }
                   size={size}
                   status={status ? statusState : null}
-                  status_state={statusState}
+                  statusState={statusState}
                   type={null}
-                  inner_element={
+                  innerElement={
                     currentDataItem?.suffixValue && (
                       // eslint-disable-next-line jsx-a11y/click-events-have-key-events
                       <span
@@ -2104,8 +2104,8 @@ class AutocompleteInstance extends React.PureComponent {
                       </span>
                     )
                   }
-                  submit_element={submitButton}
-                  input_state={
+                  submitElement={submitButton}
+                  inputState={
                     this.state.skipFocusDuringChange ? 'focus' : undefined
                   } // because of the short blur / focus during select
                   clear={isTrue(showClearButton)}
