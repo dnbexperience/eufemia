@@ -1,16 +1,4 @@
 import { PropertiesTableProps } from '../../shared/types'
-import { toSnakeCase } from '../../shared/component-helper'
-
-const transformPropertyNamesWithSnakeCase = (
-  properties: PropertiesTableProps
-) => {
-  return Object.fromEntries(
-    Object.entries(properties).map(([key, value]) => [
-      key !== key.toLowerCase() ? `${key} / ${toSnakeCase(key)}` : key,
-      value,
-    ])
-  )
-}
 
 export const ModalProperties: PropertiesTableProps = {
   id: {
@@ -180,9 +168,6 @@ export const ModalProperties: PropertiesTableProps = {
   },
 }
 
-export const ModalPropertiesWithSnakeCase: PropertiesTableProps =
-  transformPropertyNamesWithSnakeCase(ModalProperties)
-
 export const ModalEvents: PropertiesTableProps = {
   onOpen: {
     doc: 'This event gets triggered once the modal shows up. Returns the modal id: `{ id }`.',
@@ -200,6 +185,3 @@ export const ModalEvents: PropertiesTableProps = {
     status: 'optional',
   },
 }
-
-export const ModalEventsWithSnakeCase: PropertiesTableProps =
-  transformPropertyNamesWithSnakeCase(ModalEvents)
