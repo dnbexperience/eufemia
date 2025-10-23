@@ -112,8 +112,8 @@ export default {
       aria_role: 'Hjelp-knapp',
     },
     Input: {
-      submit_button_title: 'Send',
-      clear_button_title: 'Nullstill',
+      submitButtonTitle: 'Send',
+      clearButtonTitle: 'Nullstill',
     },
     Pagination: {
       buttonTitle: 'Side %s',

@@ -134,7 +134,7 @@ export default function PopoverCloseButton({
         title={title}
         content={content}
         icon={icon}
-        icon_size={resolvedIconSize}
+        iconSize={resolvedIconSize}
         skeleton={isTrue(skeleton)}
         isIconOnly={isIconOnly}
         iconElement={iconElement}

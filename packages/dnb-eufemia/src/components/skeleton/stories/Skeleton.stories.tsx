@@ -179,7 +179,7 @@ export const SkeletonSandbox = () => {
                   label="Input"
                   size="large"
                   placeholder="Placeholder"
-                  icon_position="right"
+                  iconPosition="right"
                   icon="calendar"
                   align="right"
                 />
@@ -287,7 +287,7 @@ export const SkeletonSandbox = () => {
                   label="Input"
                   size="large"
                   placeholder="Placeholder"
-                  icon_position="right"
+                  iconPosition="right"
                   icon="calendar"
                   align="right"
                 />

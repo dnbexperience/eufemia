@@ -12,7 +12,7 @@ import { extendPropsWithContext } from '../../shared/component-helper'
 
 const defaultProps = {
   variant: 'secondary',
-  icon_position: 'left',
+  iconPosition: 'left',
 }
 
 export type HelpButtonProps = {

@@ -42,7 +42,7 @@ describe('FormStatus component', () => {
   })
 
   it('should have correct icon label', () => {
-    render(<Input status="Error message" status_state="error" />)
+    render(<Input status="Error message" statusState="error" />)
     expect(
       document.querySelector('[role="presentation"]')
     ).toHaveAttribute('data-testid', 'ErrorIcon icon')
@@ -63,7 +63,7 @@ describe('FormStatus component', () => {
     rerender(
       <Input
         status="status message"
-        status_props={{ text: 'change width to 35rem' }}
+        statusProps={{ text: 'change width to 35rem' }}
         style={{ width: '35rem' }}
       />
     )
@@ -75,7 +75,7 @@ describe('FormStatus component', () => {
     rerender(
       <Input
         status="status message"
-        status_props={{ text: 'change width to 40rem' }}
+        statusProps={{ text: 'change width to 40rem' }}
         style={{ width: '40rem' }}
       />
     )
@@ -87,7 +87,7 @@ describe('FormStatus component', () => {
     rerender(
       <Input
         status="status message"
-        status_props={{ text: 'change width to 10rem' }}
+        statusProps={{ text: 'change width to 10rem' }}
         style={{ width: '10rem' }}
       />
     )
@@ -114,7 +114,7 @@ describe('FormStatus component', () => {
     render(
       <Input
         status="status message"
-        status_props={{
+        statusProps={{
           variant: 'outlined',
         }}
       />

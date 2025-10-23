@@ -172,7 +172,7 @@ export default function SidebarLayout({
           top: 'large',
           text: 'Portal Tools',
           icon: 'chevron_right',
-          icon_position: 'right',
+          iconPosition: 'right',
         }}
         tooltipPosition="bottom"
         hideWhenMediaLarge

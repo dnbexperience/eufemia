@@ -56,7 +56,7 @@ export interface InputProps
   /**
    * Use `true` to make the label only readable by screen readers.
    */
-  label_sr_only?: boolean;
+  labelSrOnly?: boolean;
   /**
    * Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.
    */
@@ -68,16 +68,16 @@ export interface InputProps
   /**
    * Defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`.
    */
-  status_state?: FormStatusState;
+  statusState?: FormStatusState;
   /**
    * Use an object to define additional FormStatus properties.
    */
-  status_props?: FormStatusProps;
-  status_no_animation?: boolean;
+  statusProps?: FormStatusProps;
+  statusNoAnimation?: boolean;
   /**
    * Defines a custom visual state of the input. Use it only if you have to simulate a custom state. Currently are three statuses `virgin` , `focus` and `dirty`. Defaults to `null`.
    */
-  input_state?: string;
+  inputState?: string;
   /**
    * Defaults to `off`. Set to `on` or any of [allowed `attributes`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-autocomplete). Keep in mind, 1. you may have to define a `name`, 2. have the input as a descendant of a `<form>` element, 3. and have a submit button inside the form.
    */
@@ -85,8 +85,8 @@ export interface InputProps
   /**
    * Title attribute for the search/submit button. Only relevant when `type="search"`.
    */
-  submit_button_title?: string;
-  clear_button_title?: string;
+  submitButtonTitle?: string;
+  clearButtonTitle?: string;
   /**
    * The placeholder which shows up once the input value is empty.
    */
@@ -98,7 +98,7 @@ export interface InputProps
   /**
    * Set to `true` in case the `placeholder` has to be kept during focus. By default, the placeholder disappears on focus.
    */
-  keep_placeholder?: boolean;
+  keepPlaceholder?: boolean;
   /**
    * Text describing the content of the input more than the label. you can also send in a React component, so it gets wrapped inside the Input component.
    */
@@ -123,15 +123,15 @@ export interface InputProps
   /**
    * In case we have to set a custom input class.
    */
-  input_class?: string;
+  inputClass?: string;
   /**
-   * Provide the Input element with any attributes by using an Object `input_attributes={{size:'2'}}` or a JSON Object `input_attributes='{"size":"2"}'`. **NB:** Keep in mind, that also every not listed component property will be sent along and set as an Input element attribute.
+   * Provide the Input element with any attributes by using an Object `inputAttributes={{size:'2'}}` or a JSON Object `inputAttributes='{"size":"2"}'`. **NB:** Keep in mind, that also every not listed component property will be sent along and set as an Input element attribute.
    */
-  input_attributes?: InputInputAttributes;
+  inputAttributes?: InputInputAttributes;
   /**
-   * By providing a new component we can change the internally used element. Also supports a string only, like `input_element="input"`.
+   * By providing a new component we can change the internally used element. Also supports a string only, like `inputElement="input"`.
    */
-  input_element?: InputInputElement;
+  inputElement?: InputInputElement;
   /**
    * Icon to show before or after the input / placeholder. Can be either a string defining a primary icon or a Component using an SVG icon of either 16px or 24px.
    */
@@ -139,27 +139,27 @@ export interface InputProps
   /**
    * The icon size of the icon shows. Defaults to `medium`.
    */
-  icon_size?: IconSize;
+  iconSize?: IconSize;
   /**
    * Defines the position of icon inside the input. Set to `left` or `right`. Defaults to `left` if not set.
    */
-  icon_position?: ButtonIconPosition;
+  iconPosition?: ButtonIconPosition;
   /**
-   * By providing a React.ref we can get the internally used input element (DOM). E.g. `inner_ref={myRef}` by using `React.createRef()` or `React.useRef()`.
+   * By providing a React.ref we can get the internally used input element (DOM). E.g. `innerRef={myRef}` by using `React.createRef()` or `React.useRef()`.
    */
-  inner_ref?: React.Ref;
+  innerRef?: React.Ref;
   readOnly?: boolean;
   /**
    * By providing a new component to be rendered inside the "shell" – we can add a freely customizable internal element. Used by the Autocomplete component.
    */
-  inner_element?: React.ReactNode;
+  innerElement?: React.ReactNode;
   /**
    * Accepts a React element which will show up like the "submit button" would do on `type="search"`.
    */
-  submit_element?: InputSubmitElement;
-  submit_button_variant?: ButtonVariant;
-  submit_button_icon?: InputSubmitButtonIcon;
-  submit_button_status?: string;
+  submitElement?: InputSubmitElement;
+  submitButtonVariant?: ButtonVariant;
+  submitButtonIcon?: InputSubmitButtonIcon;
+  submitButtonStatus?: string;
   className?: string;
   children?: InputChildren;
   on_change?: (...args: any[]) => any;
@@ -197,7 +197,7 @@ export interface SubmitButtonProps
   /**
    * The icon size of the icon shows. Defaults to `medium`.
    */
-  icon_size?: IconSize;
+  iconSize?: IconSize;
   /**
    * Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.
    */
@@ -209,11 +209,11 @@ export interface SubmitButtonProps
   /**
    * Defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`.
    */
-  status_state?: FormStatusState;
+  statusState?: FormStatusState;
   /**
    * Use an object to define additional FormStatus properties.
    */
-  status_props?: FormStatusProps;
+  statusProps?: FormStatusProps;
   className?: string;
   on_submit?: (...args: any[]) => any;
   on_submit_focus?: (...args: any[]) => any;

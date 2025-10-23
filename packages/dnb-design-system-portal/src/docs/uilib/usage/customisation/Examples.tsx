@@ -12,7 +12,7 @@ export const LargeButtonsAndIconsExample = () => (
       icon="chevron_right_medium"
       size="large"
     />
-    <Button icon="chevron_right" icon_size="medium" size="large" />
+    <Button icon="chevron_right" iconSize="medium" size="large" />
   </ComponentBox>
 )
 
