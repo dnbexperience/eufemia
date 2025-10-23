@@ -113,8 +113,8 @@ export default {
       aria_role: 'Help button',
     },
     Skeleton: {
-      aria_busy: 'In progress ...',
-      aria_ready: 'Ready to interact',
+      ariaBusy: 'In progress ...',
+      ariaReady: 'Ready to interact',
     },
     Input: {
       submitButtonTitle: 'Submit button',
