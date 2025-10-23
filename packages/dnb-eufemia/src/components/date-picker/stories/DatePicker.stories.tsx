@@ -334,7 +334,6 @@ export const DatePickerSandbox = () => (
       <DatePicker
         label="Show month only:"
         date="2019-02-05"
-        // hideNavigationButtons={true}
         onlyMonth={true}
       />
     </Box>

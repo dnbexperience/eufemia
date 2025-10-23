@@ -29,7 +29,7 @@ import AlignmentHelper from '../../shared/AlignmentHelper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import { skeletonDOMAttributes } from '../skeleton/SkeletonHelper'
 
-import Context, { Locale } from '../../shared/Context'
+import Context from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus, {
@@ -541,7 +541,6 @@ type DatePickerDeprecatedProps = {
 }
 
 export type DatePickerAllProps = DatePickerProps &
-  DatePickerDeprecatedProps &
   SpacingProps &
   Omit<
     React.HTMLProps<HTMLElement>,
