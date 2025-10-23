@@ -66,7 +66,7 @@ describe('Input component', () => {
 
     function MockComponent() {
       ref = React.useRef()
-      return <Input {...props} inner_ref={ref} />
+      return <Input {...props} innerRef={ref} />
     }
 
     render(<MockComponent />)
@@ -83,7 +83,7 @@ describe('Input component', () => {
       ref.current = elem
     }
 
-    render(<Input {...props} inner_ref={refFn} />)
+    render(<Input {...props} innerRef={refFn} />)
 
     expect(ref.current instanceof HTMLInputElement).toBe(true)
     expect(ref.current.id).toBe(props.id)
@@ -378,13 +378,13 @@ describe('Input component', () => {
     expect(document.querySelector('input').getAttribute('size')).toBe('2')
   })
 
-  it('has correct size attribute (chars length) on input by using input_attributes', () => {
-    render(<Input input_attributes={{ size: 2 }} />)
+  it('has correct size attribute (chars length) on input by using inputAttributes', () => {
+    render(<Input inputAttributes={{ size: 2 }} />)
     expect(document.querySelector('input').getAttribute('size')).toBe('2')
   })
 
-  it('has correct size attribute (chars length) on input by using input_attributes and a JSON object', () => {
-    render(<Input input_attributes='{"size": "2"}' />)
+  it('has correct size attribute (chars length) on input by using inputAttributes and a JSON object', () => {
+    render(<Input inputAttributes='{"size": "2"}' />)
     expect(document.querySelector('input').getAttribute('size')).toBe('2')
   })
 
@@ -410,7 +410,7 @@ describe('Input component', () => {
   })
 
   it('has to have a status value as defined in the prop', () => {
-    render(<Input {...props} status="status" status_state="error" />)
+    render(<Input {...props} status="status" statusState="error" />)
     expect(
       document.querySelector('.dnb-form-status__text').textContent
     ).toBe('status')
@@ -421,8 +421,8 @@ describe('Input component', () => {
       <Input
         value="value"
         status="status text"
-        status_state="warn"
-        status_props={{ stretch: true }}
+        statusState="warn"
+        statusProps={{ stretch: true }}
       />
     )
 
@@ -692,7 +692,7 @@ describe('Input with clear button', () => {
       document.querySelector('.dnb-input--icon-position-right')
     ).not.toBeInTheDocument()
 
-    rerender(<Input clear={true} icon="bell" icon_position="right" />)
+    rerender(<Input clear={true} icon="bell" iconPosition="right" />)
 
     expect(
       document.querySelector('.dnb-input--icon-position-right')
@@ -708,7 +708,7 @@ describe('Input with clear button', () => {
 
   it('should warn about clear button and right icon position', () => {
     global.console.log = jest.fn()
-    render(<Input clear={true} icon="bell" icon_position="right" />)
+    render(<Input clear={true} icon="bell" iconPosition="right" />)
     expect(
       document.querySelector('.dnb-input--clear')
     ).not.toBeInTheDocument()
@@ -718,13 +718,13 @@ describe('Input with clear button', () => {
     expect(global.console.log).toHaveBeenCalledTimes(1)
     expect(global.console.log).toHaveBeenCalledWith(
       expect.stringContaining('Eufemia'),
-      `You cannot have a clear button and icon_position="right"`
+      `You cannot have a clear button and iconPosition="right"`
     )
   })
 
-  it('should render inner_element', () => {
+  it('should render innerElement', () => {
     const CustomComponent = () => <div>custom element</div>
-    render(<Input inner_element={<CustomComponent />} icon="bell" />)
+    render(<Input innerElement={<CustomComponent />} icon="bell" />)
 
     expect(
       document

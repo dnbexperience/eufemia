@@ -86,53 +86,53 @@ export interface InputMaskedProps
   /**
    * Set to `true` to enable the default numbers formatting – or give an `object` containing the number mask properties. More details below. Can be a JSON string as well, containing the number mask properties. Is disabled by default.
    */
-  number_mask?: InputMaskedNumberMask
+  numberMask?: InputMaskedNumberMask
   /**
-   * Set to `true` or set the _valuta_ (currency_mask="kr") to enable a custom currency mask – or give an `object` containing the number mask properties. More details below. Can be a JSON string as well, containing the number mask properties. Is disabled by default. Defaults to `kr`.
+   * Set to `true` or set the _valuta_ (currencyMask="kr") to enable a custom currency mask – or give an `object` containing the number mask properties. More details below. Can be a JSON string as well, containing the number mask properties. Is disabled by default. Defaults to `kr`.
    */
-  currency_mask?: InputMaskedCurrencyMask
+  currencyMask?: InputMaskedCurrencyMask
   /**
-   * Use it to manipulate internal masks. You can use it instead of e.g. `number_mask` or `currency_mask`. All options are listed below.
+   * Use it to manipulate internal masks. You can use it instead of e.g. `numberMask` or `currencyMask`. All options are listed below.
    */
-  mask_options?: InputMaskedMaskOptions
+  maskOptions?: InputMaskedMaskOptions
   /**
    * Use an object with [NumberFormat](/uilib/components/number-format/properties).
    */
-  number_format?: NumberFormatProps
+  numberFormat?: NumberFormatProps
   /**
-   * Define the locale to be used in the `as_number` or `as_currency` masked. It will be inherited from the [Eufemia Provider](/uilib/usage/customisation/provider) if not given. Defaults to `nb-NO`.
+   * Define the locale to be used in the `asNumber` or `asCurrency` masked. It will be inherited from the [Eufemia Provider](/uilib/usage/customisation/provider) if not given. Defaults to `nb-NO`.
    */
   locale?: InternalLocale
   /**
    * Set to `true` to use `NOK` or give it a currency code e.g. `USD` to automatically set a currency mask based on the given or inherited locale.
    */
-  as_currency?: InputMaskedAsCurrency
+  asCurrency?: InputMaskedAsCurrency
   /**
    * Set to `true` to automatically set a number mask based on the given or inherited locale.
    */
-  as_number?: boolean
+  asNumber?: boolean
   /**
    * Set to `true` to automatically set a number mask with a percentage sign based on the given or inherited locale.
    */
-  as_percent?: boolean
+  asPercent?: boolean
   /**
    * Show mask when input is empty and has no focus. Defaults to `false`.
    */
-  show_mask?: boolean
+  showMask?: boolean
   /**
    * When `false` is given, it doesn't print out placeholder characters and only adds mask characters when the user reaches them as they're typing. Defaults to `true`.
    */
-  show_guide?: boolean
+  showGuide?: boolean
   pipe?: Pipe
   /**
    * When `true`, adding or deleting characters will not affect the positions of existing characters. Defaults to `false`.
    */
-  keep_char_positions?: boolean
+  keepCharPositions?: boolean
   /**
    * The placeholder character represents the fillable spot in the mask (e.g. `_`). Defaults to invisible space.
    */
-  placeholder_char?: string
-  inner_ref?: InputProps['inner_ref']
+  placeholderChar?: string
+  innerRef?: InputProps['innerRef']
   on_change?: (payload: { value: string } & Record<string, any>) => unknown
   on_submit?: (payload: { value: string } & Record<string, any>) => unknown
   on_focus?: (payload: { value: string } & Record<string, any>) => unknown
@@ -149,37 +149,37 @@ export interface InputMaskedProps
   id?: string
   label?: React.ReactNode
   labelDirection?: 'horizontal' | 'vertical'
-  label_sr_only?: boolean
+  labelSrOnly?: boolean
   status?: FormStatusText
-  status_state?: FormStatusState
-  status_props?: FormStatusProps
-  status_no_animation?: boolean
-  input_state?: string
+  statusState?: FormStatusState
+  statusProps?: FormStatusProps
+  statusNoAnimation?: boolean
+  inputState?: string
   globalStatus?: GlobalStatusConfigObject
   autocomplete?: string
-  submit_button_title?: string
-  clear_button_title?: string
+  submitButtonTitle?: string
+  clearButtonTitle?: string
   placeholder?: React.ReactNode
   clear?: boolean
-  keep_placeholder?: boolean
+  keepPlaceholder?: boolean
   suffix?: InputMaskedSuffix
   align?: InputMaskedAlign
   selectall?: boolean
   stretch?: boolean
   disabled?: boolean
   skeleton?: SkeletonShow
-  input_class?: string
-  input_attributes?: InputInputAttributes
-  input_element?: InputInputElement
+  inputClass?: string
+  inputAttributes?: InputInputAttributes
+  inputElement?: InputInputElement
   icon?: IconIcon
-  icon_size?: IconSize
-  icon_position?: ButtonIconPosition
+  iconSize?: IconSize
+  iconPosition?: ButtonIconPosition
   readOnly?: boolean
-  inner_element?: React.ReactNode
-  submit_element?: InputMaskedSubmitElement
-  submit_button_variant?: ButtonVariant
-  submit_button_icon?: InputMaskedSubmitButtonIcon
-  submit_button_status?: string
+  innerElement?: React.ReactNode
+  submitElement?: InputMaskedSubmitElement
+  submitButtonVariant?: ButtonVariant
+  submitButtonIcon?: InputMaskedSubmitButtonIcon
+  submitButtonStatus?: string
   className?: string
   children?: InputMaskedChildren
   on_state_update?: (...args: unknown[]) => unknown
@@ -195,7 +195,7 @@ function InputMasked(props: InputMaskedProps) {
   if (props?.mask) {
     const alias = context?.InputMasked
     for (const key in alias) {
-      if (/^as[_A-Z]|number_mask|currency_mask/.test(key)) {
+      if (/^as[_A-Z]|numberMask|currencyMask/.test(key)) {
         delete alias[key]
       }
     }
@@ -222,20 +222,20 @@ const defaultProps = {
   ...Input.defaultProps,
 
   mask: null,
-  number_mask: null,
-  currency_mask: null,
-  mask_options: null,
-  number_format: null,
-  as_currency: null,
-  as_number: null,
-  as_percent: null,
+  numberMask: null,
+  currencyMask: null,
+  maskOptions: null,
+  numberFormat: null,
+  asCurrency: null,
+  asNumber: null,
+  asPercent: null,
   locale: null,
-  show_mask: false,
-  show_guide: true,
+  showMask: false,
+  showGuide: true,
   pipe: null,
-  keep_char_positions: false,
-  placeholder_char: null,
-  inner_ref: null,
+  keepCharPositions: false,
+  placeholderChar: null,
+  innerRef: null,
 
   on_change: null,
   on_submit: null,

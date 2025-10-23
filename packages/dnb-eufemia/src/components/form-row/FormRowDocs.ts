@@ -11,7 +11,7 @@ export const FormRowProperties: PropertiesTableProps = {
     type: ['vertical', 'horizontal'],
     status: 'optional',
   },
-  label_sr_only: {
+  labelSrOnly: {
     doc: 'use `true` to make the label only readable by screen readers.',
     type: 'boolean',
     status: 'optional',
