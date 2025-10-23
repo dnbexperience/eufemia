@@ -79,7 +79,7 @@ const UploadFileInput = ({
           id={`${sharedId}-input`}
           className="dnb-upload__file-input-button"
           icon={FolderIcon}
-          icon_position="left"
+          iconPosition="left"
           variant="secondary"
           wrap
           disabled={disabled}

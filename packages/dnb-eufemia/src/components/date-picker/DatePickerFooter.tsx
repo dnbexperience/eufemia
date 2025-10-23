@@ -136,7 +136,7 @@ function DatePickerFooter({
           <Button
             text={resetButtonText || resetButtonTextTranslation}
             icon="reset"
-            icon_position="left"
+            iconPosition="left"
             variant="tertiary"
             onClick={onResetHandler}
             data-testid="reset"
@@ -148,7 +148,7 @@ function DatePickerFooter({
           <Button
             text={cancelButtonText || cancelButtonTextTranslation}
             icon="close"
-            icon_position="left"
+            iconPosition="left"
             variant="tertiary"
             onClick={onCancelHandler}
             data-testid="cancel"

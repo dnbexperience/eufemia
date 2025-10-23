@@ -16,7 +16,7 @@ export const InputProperties: PropertiesTableProps = {
     type: 'React.Node',
     status: 'optional',
   },
-  label_sr_only: {
+  labelSrOnly: {
     doc: 'Use `true` to make the label only readable by screen readers.',
     type: 'boolean',
     status: 'optional',
@@ -31,12 +31,12 @@ export const InputProperties: PropertiesTableProps = {
     type: ['error', 'info', 'boolean'],
     status: 'optional',
   },
-  status_state: {
+  statusState: {
     doc: 'Defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`.',
     type: ['error', 'info'],
     status: 'optional',
   },
-  status_props: {
+  statusProps: {
     doc: 'Use an object to define additional FormStatus properties.',
     type: 'object',
     status: 'optional',
@@ -56,22 +56,22 @@ export const InputProperties: PropertiesTableProps = {
     type: ['string', 'React.Node'],
     status: 'optional',
   },
-  icon_position: {
+  iconPosition: {
     doc: 'Defines the position of icon inside the input. Set to `left` or `right`. Defaults to `left` if not set.',
     type: 'string',
     status: 'optional',
   },
-  icon_size: {
+  iconSize: {
     doc: 'The icon size of the icon shows. Defaults to `medium`.',
     type: 'string',
     status: 'optional',
   },
-  keep_placeholder: {
+  keepPlaceholder: {
     doc: 'Set to `true` in case the `placeholder` has to be kept during focus. By default, the placeholder disappears on focus.',
     type: 'boolean',
     status: 'optional',
   },
-  input_class: {
+  inputClass: {
     doc: 'In case we have to set a custom input class.',
     type: 'string',
     status: 'optional',
@@ -86,7 +86,7 @@ export const InputProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
-  submit_button_title: {
+  submitButtonTitle: {
     doc: 'Title attribute for the search/submit button. Only relevant when `type="search"`.',
     type: 'string',
     status: 'optional',
@@ -121,32 +121,32 @@ export const InputProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  input_attributes: {
-    doc: 'Provide the Input element with any attributes by using an Object `input_attributes={{size:\'2\'}}` or a JSON Object `input_attributes=\'{"size":"2"}\'`. **NB:** Keep in mind, that also every not listed component property will be sent along and set as an Input element attribute.',
+  inputAttributes: {
+    doc: 'Provide the Input element with any attributes by using an Object `inputAttributes={{size:\'2\'}}` or a JSON Object `inputAttributes=\'{"size":"2"}\'`. **NB:** Keep in mind, that also every not listed component property will be sent along and set as an Input element attribute.',
     type: 'object',
     status: 'optional',
   },
-  input_state: {
+  inputState: {
     doc: 'Defines a custom visual state of the input. Use it only if you have to simulate a custom state. Currently are three statuses `virgin` , `focus` and `dirty`. Defaults to `null`.',
     type: 'string',
     status: 'optional',
   },
-  submit_element: {
+  submitElement: {
     doc: 'Accepts a React element which will show up like the "submit button" would do on `type="search"`.',
     type: ['string', 'React.Element'],
     status: 'optional',
   },
-  inner_ref: {
-    doc: 'By providing a React.ref we can get the internally used input element (DOM). E.g. `inner_ref={myRef}` by using `React.createRef()` or `React.useRef()`.',
+  innerRef: {
+    doc: 'By providing a React.ref we can get the internally used input element (DOM). E.g. `innerRef={myRef}` by using `React.createRef()` or `React.useRef()`.',
     type: 'React.RefObject',
     status: 'optional',
   },
-  input_element: {
-    doc: 'By providing a new component we can change the internally used element. Also supports a string only, like `input_element="input"`.',
+  inputElement: {
+    doc: 'By providing a new component we can change the internally used element. Also supports a string only, like `inputElement="input"`.',
     type: ['string', 'React.Element'],
     status: 'internal',
   },
-  inner_element: {
+  innerElement: {
     doc: 'By providing a new component to be rendered inside the "shell" – we can add a freely customizable internal element. Used by the Autocomplete component.',
     type: ['string', 'React.Element'],
     status: 'internal',

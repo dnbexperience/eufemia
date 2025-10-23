@@ -523,7 +523,7 @@ const ContentTr = ({
             <Button
               variant="secondary"
               icon={shopping_cart}
-              icon_position="left"
+              iconPosition="left"
               on_click={buttonClickHandler}
             >
               Taco
@@ -843,11 +843,7 @@ export const InCard = () => {
       <Tr>
         <Td colSpan={isLarge ? 4 : 2} aria-label={header.title}>
           <Flex.Horizontal justify={align}>
-            <Button
-              variant="tertiary"
-              icon={stopIcon}
-              icon_position="left"
-            >
+            <Button variant="tertiary" icon={stopIcon} iconPosition="left">
               Avvis signering
             </Button>
             <Button variant="secondary" icon={composeIcon}>
@@ -1431,7 +1427,7 @@ export function Accodion() {
       return <Checkbox label="Select row" labelSrOnly />
     }
     const TdInput = () => {
-      return <Input label="Label" label_sr_only size={4} />
+      return <Input label="Label" labelSrOnly size={4} />
     }
     const Content = ({ shareId }) => {
       const ref = React.useRef()
@@ -1460,9 +1456,9 @@ export function Accodion() {
             top
             variant="tertiary"
             // icon={copyIcon}
-            icon_position="left"
+            iconPosition="left"
             on_click={shareHandler}
-            inner_ref={ref}
+            innerRef={ref}
           >
             Copy link to this row
           </Button>
