@@ -18,7 +18,7 @@ export default function EditButton() {
       variant="tertiary"
       className="dnb-forms-iterate__edit-button"
       icon={edit}
-      icon_position="left"
+      iconPosition="left"
       on_click={editHandler}
     >
       {editButton}

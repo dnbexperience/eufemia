@@ -173,7 +173,7 @@ const Tag = (
           ? getIcon(variant === 'addable' ? addIconTitle : removeIconTitle)
           : icon
       }
-      icon_position={addIcon ? 'right' : 'left'}
+      iconPosition={addIcon ? 'right' : 'left'}
       className={tagClassNames}
       on_click={onClick}
       text={content}

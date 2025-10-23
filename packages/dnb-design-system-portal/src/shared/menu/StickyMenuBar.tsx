@@ -91,7 +91,7 @@ export default function StickyMenuBar({
             on_click={toggleMenu}
             id="toggle-sidebar-menu"
             size="default"
-            icon_size="default"
+            iconSize="default"
             aria-haspopup={true}
             aria-controls="portal-sidebar-menu"
             aria-expanded={isOpen}
@@ -106,7 +106,7 @@ export default function StickyMenuBar({
             id="github-button"
             href="https://github.com/dnbexperience/eufemia/"
             size="default"
-            icon_size="medium"
+            iconSize="medium"
             target="_blank"
             icon={GithubLogo}
             title="Navigates to Eufemia's GitHub repository"
@@ -116,7 +116,7 @@ export default function StickyMenuBar({
             id="figma-button"
             href="https://www.figma.com/design/cdtwQD8IJ7pTeE45U148r1/%F0%9F%92%BB-Eufemia---Web"
             size="default"
-            icon_size="medium"
+            iconSize="medium"
             target="_blank"
             icon={FigmaLogo}
             title="Navigates to Eufemia's Figma file"
@@ -136,7 +136,7 @@ function HomeButton(props: ButtonProps) {
       title="Eufemia main sections"
       href="/"
       icon="chevron_left"
-      icon_position="left"
+      iconPosition="left"
       element={Link}
       {...props}
     />

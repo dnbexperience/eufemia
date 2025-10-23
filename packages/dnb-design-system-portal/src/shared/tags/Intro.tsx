@@ -74,7 +74,7 @@ export const IntroFooter = ({ href, text }: IntroFooterProps) => (
       variant="secondary"
       text="Cancel"
       icon="close"
-      icon_position="left"
+      iconPosition="left"
       element={Link}
     />
   </Space>

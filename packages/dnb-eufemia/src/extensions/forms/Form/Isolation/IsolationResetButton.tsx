@@ -68,7 +68,7 @@ export default function IsolationResetButton(props: Props) {
     text: textContent,
     variant: textContent ? 'tertiary' : 'secondary',
     icon: reset,
-    icon_position: 'left',
+    iconPosition: 'left',
     disabled:
       typeof hasContentChanged === 'boolean' ? !hasContentChanged : false,
     ...buttonProps,
