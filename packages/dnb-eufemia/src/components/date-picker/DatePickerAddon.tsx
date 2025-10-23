@@ -74,21 +74,21 @@ function DatePickerAddon(props: DatePickerAddonProps) {
       shortcut: DatePickerShortcut
       event: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>
     }) => {
-      const startDate = shortcut.date || shortcut.startDate
-      const endDate = shortcut.endDate
+      const usedStartDate = shortcut.date || shortcut.startDate
+      const usedEndDate = shortcut.endDate
 
       const startDate =
-        typeof startDate === 'function'
-          ? startDate(currentDates)
-          : startDate
-          ? convertStringToDate(startDate)
+        typeof usedStartDate === 'function'
+          ? usedStartDate(currentDates)
+          : usedStartDate
+          ? convertStringToDate(usedStartDate)
           : null
 
       const endDate =
-        typeof endDate === 'function'
-          ? endDate(currentDates)
-          : endDate
-          ? convertStringToDate(endDate)
+        typeof usedEndDate === 'function'
+          ? usedEndDate(currentDates)
+          : usedEndDate
+          ? convertStringToDate(usedEndDate)
           : null
 
       callOnChange({
