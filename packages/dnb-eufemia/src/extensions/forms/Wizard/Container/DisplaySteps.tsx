@@ -48,7 +48,7 @@ export function DisplaySteps({
     <div className="dnb-forms-wizard-layout__indicator">
       <StepIndicator
         bottom
-        current_step={activeIndexRef.current}
+        currentStep={activeIndexRef.current}
         data={Array.from(stepsRef.current.values()).map(
           ({ stringifiedTitle, title, inactive, status, statusState }) =>
             ({
