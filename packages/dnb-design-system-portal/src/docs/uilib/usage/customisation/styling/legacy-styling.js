@@ -82,7 +82,7 @@ const LegacyCodeStyling = () => (
         variant="secondary"
         text="I'm looking good"
         icon="add"
-        icon_position="left"
+        iconPosition="left"
       />
       <br />
       <br />

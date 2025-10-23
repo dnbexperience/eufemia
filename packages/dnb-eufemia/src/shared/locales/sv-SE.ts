@@ -110,8 +110,8 @@ export default {
       aria_role: 'Hjälp-knapp',
     },
     Input: {
-      submit_button_title: 'Skicka',
-      clear_button_title: 'Återställ',
+      submitButtonTitle: 'Skicka',
+      clearButtonTitle: 'Återställ',
     },
     Pagination: {
       buttonTitle: 'Sida %s',
