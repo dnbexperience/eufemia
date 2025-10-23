@@ -56,13 +56,13 @@ export type ReturnObject<E> = InvalidDates &
   PartialDates & {
     event?: E
     attributes?: Record<string, unknown>
-    days_between?: number
+    daysBetween?: number
     date?: string | null
-    start_date?: string | null
-    end_date?: string | null
-    is_valid?: boolean
-    is_valid_start_date?: boolean
-    is_valid_end_date?: boolean
+    startDate?: string | null
+    endDate?: string | null
+    isValid?: boolean
+    isValidStartDate?: boolean
+    isValidEndDate?: boolean
   }
 
 function DatePickerProvider(props: DatePickerProviderProps) {
@@ -156,15 +156,15 @@ function DatePickerProvider(props: DatePickerProviderProps) {
       if (range) {
         return {
           ...returnObject,
-          days_between:
+          daysBetween:
             startDateIsValid && endDateIsValid
               ? differenceInCalendarDays(endDate, startDate)
               : null,
-          start_date: startDateIsValid
+          startDate: startDateIsValid
             ? format(startDate, returnFormat)
             : null,
-          end_date: endDateIsValid ? format(endDate, returnFormat) : null,
-          is_valid_start_date:
+          endDate: endDateIsValid ? format(endDate, returnFormat) : null,
+          isValidStartDate:
             // Range order: start date must not be after end date
             (startDateIsValid &&
               endDateIsValid &&
@@ -174,7 +174,7 @@ function DatePickerProvider(props: DatePickerProviderProps) {
               isDisabled(startDate, dates.minDate, dates.maxDate))
               ? false
               : startDateIsValid,
-          is_valid_end_date:
+          isValidEndDate:
             // Range order: end date must not be before start date
             (startDateIsValid &&
               endDateIsValid &&
@@ -199,7 +199,7 @@ function DatePickerProvider(props: DatePickerProviderProps) {
         // to keep the naming logic the same as with date and invalidDate when not in range mode
         partialStartDate,
         invalidDate: invalidStartDate,
-        is_valid:
+        isValid:
           hasMinOrMaxDates &&
           startDateIsValid &&
           isDisabled(startDate, dates.minDate, dates.maxDate)
