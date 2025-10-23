@@ -273,7 +273,7 @@ export function AllStretchComponents() {
       <StretchTemplate element={Input} />
       <StretchTemplate element={Textarea} />
       <StretchTemplate element={Autocomplete} />
-      <StretchTemplate element={DatePicker} show_input />
+      <StretchTemplate element={DatePicker} showInput />
       <StretchTemplate element={Dropdown} />
       <StretchTemplate element={Slider} />
     </div>

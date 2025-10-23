@@ -13,7 +13,7 @@ import React, {
 } from 'react'
 
 // date-fns
-import { isValid, parseISO } from 'date-fns'
+import { isValid as isValidFn, parseISO } from 'date-fns'
 
 import classnames from 'classnames'
 import TextMask, { TextMaskProps } from '../input-masked/TextMask'
@@ -76,7 +76,7 @@ export type DatePickerInputProps = Omit<
    */
   statusProps?: FormStatusProps
   /**
-   * Gives you the possibility to use a plain/vanilla `<input />` HTML element by defining it as a string `input_element="input"`, a React element, or a render function `input_element={(internalProps) => (<Return />)}`. Can also be used in circumstances where the `react-text-mask` not should be used, e.g. in testing environments. Defaults to custom masked input.
+   * Gives you the possibility to use a plain/vanilla `<input />` HTML element by defining it as a string `inputElement="input"`, a React element, or a render function `inputElement={(internalProps) => (<Return />)}`. Can also be used in circumstances where the `react-text-mask` not should be used, e.g. in testing environments. Defaults to custom masked input.
    */
   inputElement?: InputInputElement
   /**
@@ -179,7 +179,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
   const translation = useTranslation().DatePicker
   const { locale } = useContext(Context)
 
-  const hasHadValidDate = isValid(startDate) || isValid(endDate)
+  const hasHadValidDate = isValidFn(startDate) || isValidFn(endDate)
 
   const modeDate = useMemo(
     () => ({
@@ -248,7 +248,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
       mode: DatePickerEventAttributes['mode']
     ) => {
       const date = mode === 'end' ? endDate : startDate
-      if (isValid(date)) {
+      if (isValidFn(date)) {
         event.preventDefault()
         const valueToCopy = formatDate(date, { locale })
         event.clipboardData.setData('text/plain', valueToCopy)
@@ -361,20 +361,20 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
         | React.KeyboardEvent<HTMLInputElement>
     }) => {
       const state = {}
-      if (typeof startDate !== 'undefined' && isValid(startDate)) {
+      if (typeof startDate !== 'undefined' && isValidFn(startDate)) {
         state['startDate'] = startDate
       }
       if (!isRange) {
         endDate = startDate
       }
-      if (typeof endDate !== 'undefined' && isValid(endDate)) {
+      if (typeof endDate !== 'undefined' && isValidFn(endDate)) {
         state['endDate'] = endDate
       }
 
       updateDates(state, (dates) => {
         if (
-          (typeof startDate !== 'undefined' && isValid(startDate)) ||
-          (typeof endDate !== 'undefined' && isValid(endDate))
+          (typeof startDate !== 'undefined' && isValidFn(startDate)) ||
+          (typeof endDate !== 'undefined' && isValidFn(endDate))
         ) {
           callOnChangeHandler({
             event,
@@ -421,13 +421,13 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
       const parsedStartDate = parseISO(startDate)
       const parsedEndDate = parseISO(endDate)
 
-      const isStartDateValid = isValid(parsedStartDate)
-      const isEndDateValid = isValid(parsedEndDate)
+      const isStartDateValid = isValidFn(parsedStartDate)
+      const isEndDateValid = isValidFn(parsedEndDate)
 
       const {
-        is_valid,
-        is_valid_start_date,
-        is_valid_end_date,
+        isValid,
+        isValidStartDate,
+        isValidEndDate,
         ...returnObject
       } = getReturnObject({
         startDate: isStartDateValid ? parsedStartDate : null,
@@ -439,17 +439,16 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
 
       // Re-assigns dates to the typed date, instead of `null` from getReturnObject, if dates are invalid
       const typedDates = {
-        ...(!isRange && is_valid === false && { date: startDate }),
+        ...(!isRange && isValid === false && { date: startDate }),
         ...(isRange &&
-          is_valid_start_date === false && { start_date: startDate }),
-        ...(isRange &&
-          is_valid_end_date === false && { end_date: endDate }),
+          isValidStartDate === false && { startDate: startDate }),
+        ...(isRange && isValidEndDate === false && { endDate: endDate }),
       }
 
       onType?.({
-        is_valid,
-        is_valid_start_date,
-        is_valid_end_date,
+        isValid,
+        isValidStartDate,
+        isValidEndDate,
         ...returnObject,
         ...typedDates,
       })
@@ -503,7 +502,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
         !/[^0-9]/.test(String(day)) &&
         !/[^0-9]/.test(String(month)) &&
         !/[^0-9]/.test(String(year)) &&
-        isValid(date) &&
+        isValidFn(date) &&
         date.getDate() === parseFloat(String(day)) &&
         date.getMonth() + 1 === parseFloat(String(month)) &&
         date.getFullYear() === parseFloat(String(year))
@@ -776,7 +775,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
             }
           }
 
-          // this makes it possible to use a vanilla <input /> like: input_element="input"
+          // this makes it possible to use a vanilla <input /> like: inputElement="input"
           const DateField =
             inputElement && React.isValidElement(inputElement)
               ? inputElement.type
