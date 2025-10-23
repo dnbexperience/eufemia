@@ -1687,6 +1687,10 @@ describe('DatePicker component', () => {
   })
 
   it('has valid on_type and onChange event calls', () => {
+    function capitalizeFirstLetter(val) {
+      return String(val).charAt(0).toUpperCase() + String(val).slice(1)
+    }
+
     const onType = jest.fn()
     const onChange = jest.fn()
 
@@ -1751,9 +1755,12 @@ describe('DatePicker component', () => {
       })
       expect(monthElem).toHaveValue('01')
       expect(onType).toHaveBeenCalledTimes(typeIndex + 1)
-      expect(onType.mock.calls[typeIndex][0][`isValid${type}Date`]).toBe(
-        false
-      )
+
+      expect(
+        onType.mock.calls[typeIndex][0][
+          `isValid${capitalizeFirstLetter(type)}Date`
+        ]
+      ).toBe(false)
       expect(onType.mock.calls[typeIndex][0][`${type}Date`]).toBe(
         'yyyy-01-03'
       )
