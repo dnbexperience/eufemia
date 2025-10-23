@@ -32,7 +32,7 @@ export type Props = FieldProps<string, undefined | string> & {
   innerRef?: React.RefObject<HTMLInputElement | HTMLTextAreaElement>
   width?: FieldBlockWidth
   size?: InputProps['size'] | TextareaProps['size']
-  keepPlaceholder?: InputProps['keep_placeholder']
+  keepPlaceholder?: InputProps['keepPlaceholder']
 
   // - Validation
   minLength?: number
@@ -47,7 +47,7 @@ export type Props = FieldProps<string, undefined | string> & {
   mask?: InputMaskedProps['mask']
   leftIcon?: string
   rightIcon?: string
-  submitElement?: InputProps['submit_element']
+  submitElement?: InputProps['submitElement']
   capitalize?: boolean
   trim?: boolean
 
@@ -272,7 +272,7 @@ function StringComponent(props: Props) {
     disabled,
     ...htmlAttributes,
     stretch: Boolean(width),
-    inner_ref: innerRef,
+    innerRef: innerRef,
     status: hasError ? 'error' : undefined,
     value: transformInstantly(value?.toString() ?? ''),
   }
@@ -292,9 +292,9 @@ function StringComponent(props: Props) {
     align,
     selectall,
     icon: leftIcon ?? rightIcon,
-    icon_position: rightIcon && !leftIcon ? 'right' : undefined,
-    submit_element: submitElement,
-    keep_placeholder: keepPlaceholder,
+    iconPosition: rightIcon && !leftIcon ? 'right' : undefined,
+    submitElement: submitElement,
+    keepPlaceholder: keepPlaceholder,
   }
 
   const fieldBlockProps: FieldBlockProps = {
