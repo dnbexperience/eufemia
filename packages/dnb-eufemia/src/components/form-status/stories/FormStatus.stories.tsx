@@ -139,7 +139,7 @@ export const FormStatusSandbox = () => {
             }
           >
             <DatePicker
-              show_input
+              showInput
               right="small"
               bottom="small"
               status="Long text with status vitae tortor metus nulla nunc habitasse adipiscing purus porttitor viverra"
@@ -180,7 +180,7 @@ export const ToggleAnimation = () => {
             }
           >
             <DatePicker
-              show_input
+              showInput
               right="small"
               status={
                 showError &&
