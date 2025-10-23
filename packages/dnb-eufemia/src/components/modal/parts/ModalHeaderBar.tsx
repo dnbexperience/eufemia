@@ -102,10 +102,10 @@ export default class ModalHeaderBar extends React.PureComponent<
     } = this.props
     const { showShadow } = this.state
     const {
-      hide_close_button = false,
-      close_button_attributes,
+      hideCloseButton = false,
+      closeButtonAttributes,
       onCloseClickHandler,
-      close_title,
+      closeTitle,
     } = this.context
 
     return (
@@ -123,12 +123,12 @@ export default class ModalHeaderBar extends React.PureComponent<
           {children as React.ReactNode}
         </div>
 
-        {!isTrue(hide_close_button) && (
+        {!isTrue(hideCloseButton) && (
           <div className="dnb-modal__header__bar__close">
             <CloseButton
               on_click={onCloseClickHandler}
-              close_title={close_title}
-              {...close_button_attributes}
+              closeTitle={closeTitle}
+              {...closeButtonAttributes}
             />
           </div>
         )}

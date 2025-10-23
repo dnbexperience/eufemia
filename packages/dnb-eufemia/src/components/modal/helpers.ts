@@ -63,10 +63,10 @@ export function removeFromIndex(elem) {
 }
 
 export function getContent(props) {
-  if (typeof props.modal_content === 'string') {
-    return props.modal_content
-  } else if (typeof props.modal_content === 'function') {
-    return props.modal_content(props)
+  if (typeof props.modalContent === 'string') {
+    return props.modalContent
+  } else if (typeof props.modalContent === 'function') {
+    return props.modalContent(props)
   }
   return processChildren(props)
 }
