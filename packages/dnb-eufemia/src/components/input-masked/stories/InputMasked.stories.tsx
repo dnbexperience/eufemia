@@ -25,7 +25,7 @@ export default {
 }
 
 export function TypeNumber() {
-  return <InputMasked label="Number:" as_currency value="12" />
+  return <InputMasked label="Number:" asCurrency value="12" />
 }
 
 export function NoProps() {
@@ -87,12 +87,12 @@ function BasicNumberMask() {
 
   return (
     <InputMasked
-      label="number_mask"
+      label="numberMask"
       // selectall
       value={floatVal}
       // placeholder="En placeholder"
-      number_mask
-      mask_options={{ disallowLeadingZeroes: true, allowNegative: false }}
+      numberMask
+      maskOptions={{ disallowLeadingZeroes: true, allowNegative: false }}
       suffix={<Pre>{JSON.stringify(floatVal)}</Pre>}
       on_change={({ numberValue }) => {
         setState(numberValue)
@@ -106,17 +106,17 @@ function BasicCurrencyMask() {
 
   return (
     <InputMasked
-      label="currency_mask"
+      label="currencyMask"
       // selectall
       value={floatVal}
       // placeholder="En placeholder"
-      currency_mask={{
+      currencyMask={{
         currency: 'NOK',
         prefix: 'Prefix ',
         // allowDecimal: false,
         allowNegative: false,
       }}
-      // mask_options={{ disallowLeadingZeroes: true }}
+      // maskOptions={{ disallowLeadingZeroes: true }}
       suffix={<Pre>{JSON.stringify(floatVal)}</Pre>}
       on_change={({ numberValue }) => {
         setState(numberValue)
@@ -133,8 +133,8 @@ function CurrencyInput() {
     <InputMasked
       label="as_currency"
       value={floatVal}
-      as_currency="NOK"
-      // mask_options={{ disallowLeadingZeroes: true }}
+      asCurrency="NOK"
+      // maskOptions={{ disallowLeadingZeroes: true }}
       suffix={<Pre>{JSON.stringify(floatVal)}</Pre>}
       on_change={({ numberValue }) => {
         setState(numberValue)
@@ -151,8 +151,8 @@ function NumberInput() {
       <InputMasked
         label="as_number"
         value={floatVal}
-        as_number
-        mask_options={{ allowDecimal: true, decimalLimit: null }}
+        asNumber
+        maskOptions={{ allowDecimal: true, decimalLimit: null }}
         suffix={<Pre>{JSON.stringify(floatVal)}</Pre>}
         on_change={({ value }) => {
           setState(value)
@@ -169,9 +169,9 @@ function PercentInput() {
     <InputMasked
       label="as_percent"
       value={floatVal}
-      as_percent
-      mask_options={{ allowDecimal: true, disallowLeadingZeroes: true }}
-      // number_mask={{ allowDecimal: true, decimalLimit: 1 }}
+      asPercent
+      maskOptions={{ allowDecimal: true, disallowLeadingZeroes: true }}
+      // numberMask={{ allowDecimal: true, decimalLimit: 1 }}
       suffix={<Pre>{JSON.stringify(floatVal)}</Pre>}
       on_change={({ numberValue }) => {
         setState(numberValue)
@@ -189,7 +189,7 @@ function EmailMask() {
       // type="email"
       placeholder="@."
       autocomplete="on"
-      keep_placeholder
+      keepPlaceholder
       mask={emailMask}
       right
       bottom
@@ -200,9 +200,9 @@ function EmailMask() {
 function ShowMask() {
   return (
     <InputMasked
-      label="show_mask"
-      show_mask
-      number_mask={{
+      label="showMask"
+      showMask
+      numberMask={{
         suffix: ' kr',
         allowDecimal: true,
       }}
@@ -344,7 +344,7 @@ export function DisallowLeadingZerosMask() {
     <Flex.Vertical>
       <InputMasked
         value={-100123}
-        currency_mask={{
+        currencyMask={{
           // allowDecimal: true,
           disallowLeadingZeroes: true, //
         }}
