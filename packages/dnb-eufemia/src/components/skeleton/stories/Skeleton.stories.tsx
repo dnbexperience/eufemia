@@ -62,7 +62,7 @@ export const SkeletonSandbox = () => {
     >
       <Skeleton
         show={showSkeleton}
-        // no_animation
+        // noAnimation
         // show
         // figure={() => <SkeletonArticle rows={2} />}
       >
