@@ -37,8 +37,8 @@ export interface PrimaryComponentProps {
    * Text \`secondary\`.
    */
   secondary?: PrimaryComponentSecondary;
-  secondary_foo?: PrimaryComponentSecondaryFoo;
-  secondary_spacing?: PrimaryComponentSecondarySpacing;
+  secondaryFoo?: PrimaryComponentSecondaryFoo;
+  secondarySpacing?: PrimaryComponentSecondarySpacing;
   /**
    * Text \`spacing\` or \`children\`.
    */
