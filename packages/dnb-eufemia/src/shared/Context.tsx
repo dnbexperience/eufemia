@@ -260,7 +260,7 @@ export function prepareContext<Props>(
   /**
    * With "destructFlatTranslation" we add support for flat translations, defined like:
    * {
-   *    "Modal.close_title": "Lukk",
+   *    "Modal.closeTitle": "Lukk",
    * }
    */
   const translation = destructFlatTranslation(
