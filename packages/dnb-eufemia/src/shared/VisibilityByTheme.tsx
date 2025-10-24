@@ -64,6 +64,9 @@ export default function VisibilityByTheme({
 
 VisibilityByTheme.Name = function ThemeName() {
   const theme = useTheme()
+  if (theme?.isCarnegie) {
+    return 'Carnegie'
+  }
   if (theme.isEiendom) {
     return 'Eiendom'
   }

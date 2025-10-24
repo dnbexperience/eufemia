@@ -118,20 +118,43 @@ const myTranslations = {
   'nb-NO': { 'custom.string': 'Min egendefinerte streng' },
   'en-GB': { 'custom.string': 'My custom string' },
 }
-
-// For TypeScript support
-type Tr<T> = TranslationProps<T[keyof T]>
-const Tr = (props: Tr<typeof myTranslations>) => <Translation {...props} />
+type TranslationType = (typeof myTranslations)[keyof typeof myTranslations]
 
 render(
   <Form.Handler translations={myTranslations}>
     <Form.MainHeading>
-      <Translation id="custom.string" />
+      <Translation<TranslationType> id="custom.string" />
     </Form.MainHeading>
 
     <Form.SubHeading>
-      <Tr id={(t) => t.custom.string} />
+      <Translation<TranslationType> id={(t) => t.custom.string} />
     </Form.SubHeading>
+  </Form.Handler>,
+)
+```
+
+### Formatting markers inside `<Translation />`
+
+`<Translation />` automatically applies simple formatting markers in strings (using the shared `renderWithFormatting`):
+
+- `{br}` inserts a line break
+- `**bold**`, `_italic_`, `` `code` ``
+- links `[label](https://…)` and bare URLs `https://…`
+
+```tsx
+import { Translation } from '@dnb/eufemia/shared'
+
+const translations = {
+  'en-GB': {
+    info: 'Use **bold** and _italic_ with a {br}line-break.',
+  },
+}
+
+render(
+  <Form.Handler translations={translations} locale="en-GB">
+    <p>
+      <Translation id={(t: any) => t.info} />
+    </p>
   </Form.Handler>,
 )
 ```
@@ -152,11 +175,12 @@ const myTranslations = {
     'custom.string': 'My custom string',
   },
 }
+type TranslationType = (typeof myTranslations)[keyof typeof myTranslations]
 
 render(
   <Provider translations={myTranslations}>
     <Heading>
-      <Translation id="custom.string" />
+      <Translation<TranslationType> id={(t) => t.custom.string} />
     </Heading>
 
     <Form.Handler>

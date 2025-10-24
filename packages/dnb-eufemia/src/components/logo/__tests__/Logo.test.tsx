@@ -5,7 +5,7 @@
 
 import React from 'react'
 import { loadScss } from '../../../core/jest/jestSetup'
-import Logo, { LogoProps } from '../Logo'
+import Logo, { CarnegieDefault, LogoProps } from '../Logo'
 import { render } from '@testing-library/react'
 import Provider from '../../../shared/Provider'
 import Theme from '../../../shared/Theme'
@@ -67,11 +67,11 @@ describe('Logo component', () => {
   it('should have Sbanken title inside SVG', () => {
     render(<Logo brand="sbanken" />)
     expect(document.querySelector('title').textContent).toBe(
-      'Sbanken - et konsept fra DNB logo'
+      'Sbanken - et konsept fra DNB'
     )
     expect(
       document.querySelector('.sbanken-logo').getAttribute('alt')
-    ).toBe('Sbanken - et konsept fra DNB logo')
+    ).toBe('Sbanken - et konsept fra DNB')
   })
 
   it('should set correct Sbanken brand SVG in compact variant', () => {
@@ -178,6 +178,64 @@ describe('Logo component', () => {
       'alt',
       'title',
     ])
+  })
+
+  it('should render a custom SVG and support height and color', () => {
+    const CustomSvg = (props: React.SVGProps<SVGSVGElement>) => (
+      <svg viewBox="0 0 10 10" {...props}>
+        <circle cx="5" cy="5" r="5" />
+      </svg>
+    )
+
+    render(<Logo svg={CustomSvg} height="48" color="tomato" />)
+
+    const svg = document.querySelector('svg')
+    expect(svg).toBeInTheDocument()
+    expect(svg).toHaveAttribute('height', '48')
+    expect(svg).toHaveAttribute('color', 'tomato')
+
+    expect(document.querySelector('.dnb-logo')).toBeInTheDocument()
+  })
+
+  it('should render alt/title given in custom SVG', () => {
+    const CustomSvg = ({
+      alt,
+      ...props
+    }: React.SVGProps<SVGSVGElement> & { alt: React.ReactNode }) => (
+      <svg viewBox="0 0 10 10" {...props}>
+        <title>{alt}</title>
+        <circle cx="5" cy="5" r="5" />
+      </svg>
+    )
+    CustomSvg.alt = 'Custom SVG'
+
+    render(<Logo svg={CustomSvg} />)
+
+    const svg = document.querySelector('svg')
+    expect(svg.querySelector('title')).toHaveTextContent('Custom SVG')
+  })
+
+  it('should render a custom SVG when provided as an element', () => {
+    const CustomSvg = (props: React.SVGProps<SVGSVGElement>) => (
+      <svg viewBox="0 0 10 10" {...props}>
+        <rect width="10" height="10" />
+      </svg>
+    )
+
+    render(<Logo svg={<CustomSvg />} width="24" />)
+
+    const svg = document.querySelector('svg')
+    expect(svg).toBeInTheDocument()
+    expect(svg).toHaveAttribute('width', '24')
+  })
+
+  it('should export Carnegie logo', () => {
+    render(<Logo svg={CarnegieDefault} height="24" />)
+
+    const svg = document.querySelector('svg')
+    expect(svg).toHaveAttribute('height', '24')
+    expect(svg).toBeInTheDocument()
+    expect(svg.querySelector('title')).toHaveTextContent('DNB Carnegie')
   })
 })
 

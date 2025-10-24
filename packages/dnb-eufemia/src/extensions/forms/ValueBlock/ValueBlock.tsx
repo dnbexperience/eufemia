@@ -18,6 +18,7 @@ import DataContext from '../DataContext/Context'
 import { Path, ValueProps } from '../types'
 import { pickSpacingProps } from '../../../components/flex/utils'
 import IterateItemContext from '../Iterate/IterateItemContext'
+import { replaceItemNo } from '../Iterate/ItemNo'
 import { convertJsxToString } from '../../../shared/component-helper'
 import VisibilityContext from '../Form/Visibility/VisibilityContext'
 import Visibility from '../Form/Visibility/Visibility'
@@ -99,15 +100,13 @@ function ValueBlock(localProps: Props) {
 
     let label = labelProp
 
-    const canRenderToString = React.isValidElement(labelProp)
-      ? typeof labelProp.type === 'string' // Not just a span or div
-      : true
-    if (iterateIndex !== undefined && canRenderToString) {
-      label = convertJsxToString(labelProp).replace(
-        '{itemNo}',
-        String(iterateIndex + 1)
-      )
+    if (iterateIndex !== undefined) {
+      label = replaceItemNo(labelProp, iterateIndex)
     }
+
+    const canRenderToString = React.isValidElement(label)
+      ? typeof (label as any).type === 'string' // Not a custom component
+      : true
 
     return canRenderToString
       ? transformLabel(label, transformLabelParameters)

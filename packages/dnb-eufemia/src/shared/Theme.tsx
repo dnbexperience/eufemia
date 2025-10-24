@@ -10,7 +10,7 @@ import Provider from './Provider'
 import { DynamicElement } from './types'
 import { extendPropsWithContext } from './component-helper'
 
-export type ThemeNames = 'ui' | 'eiendom' | 'sbanken'
+export type ThemeNames = 'ui' | 'eiendom' | 'sbanken' | 'carnegie'
 export type ThemeVariants = string
 export type ThemeSizes = 'basis'
 export type PropMapping = string

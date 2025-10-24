@@ -142,6 +142,7 @@ const plugins = [
         ui: { name: 'DNB' }, // universal identity
         eiendom: { name: 'DNB Eiendom' },
         sbanken: { name: 'Sbanken (WIP)' },
+        carnegie: { name: 'Carnegie (WIP)' },
       },
       filesGlobs:
         enableBuildStyleScope() || enablePortalStyleScope()
@@ -184,6 +185,7 @@ const plugins = [
       omitScrollBehavior: true, // Ensure smooth scrolling with CSS `scroll-behavior: smooth;` is working
     },
   },
+  'gatsby-plugin-eufemia-llm-metadata',
 ].filter(Boolean)
 
 if (currentBranch === 'release') {

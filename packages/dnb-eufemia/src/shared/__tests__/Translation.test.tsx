@@ -1,9 +1,6 @@
 import React from 'react'
 import { render } from '@testing-library/react'
-import Translation, {
-  TranslationProps,
-  mergeTranslations,
-} from '../Translation'
+import Translation, { mergeTranslations } from '../Translation'
 
 import Context from '../Context'
 import Provider from '../Provider'
@@ -149,15 +146,11 @@ describe('Translation', () => {
       'nb-NO': { my: { string: 'streng {foo}' } },
       'en-GB': { my: { string: 'string {foo}' } },
     }
-    type Translation = (typeof translations)[keyof typeof translations]
-
-    const MyTranslation = (props: TranslationProps<Translation>) => (
-      <Translation {...props} />
-    )
+    type TranslationType = (typeof translations)[keyof typeof translations]
 
     const { rerender } = render(
       <Provider translations={translations}>
-        <MyTranslation id={(t) => t.my.string} foo="bar" />
+        <Translation<TranslationType> id={(t) => t.my.string} foo="bar" />
       </Provider>
     )
 
@@ -165,11 +158,87 @@ describe('Translation', () => {
 
     rerender(
       <Provider locale="en-GB" translations={translations}>
-        <MyTranslation id={(t) => t.my.string} foo={() => 'baz'} />
+        <Translation<TranslationType>
+          id={(t) => t.my.string}
+          foo={() => 'baz'}
+        />
       </Provider>
     )
 
     expect(document.body.textContent).toBe('string baz')
+  })
+
+  it('should support withTypes factory to keep types', () => {
+    const translations = {
+      'nb-NO': { my: { string: 'streng {foo}' } },
+      'en-GB': { my: { string: 'string {foo}' } },
+    }
+    type T = (typeof translations)[keyof typeof translations]
+    const TComp = Translation.withTypes<T>()
+
+    const { rerender } = render(
+      <Provider translations={translations}>
+        <TComp id={(t) => t.my.string} foo="bar" />
+      </Provider>
+    )
+
+    expect(document.body.textContent).toBe('streng bar')
+
+    rerender(
+      <Provider locale="en-GB" translations={translations}>
+        <TComp id={(t) => t.my.string} foo={() => 'baz'} />
+      </Provider>
+    )
+
+    expect(document.body.textContent).toBe('string baz')
+  })
+
+  it('should render with formatting (br, strong, em, code, link)', () => {
+    const translations = {
+      'nb-NO': {
+        my: {
+          msg: '**Bold** and _Italic_ with `code`, link to [Site](https://example.com){br}next line',
+        },
+      },
+    }
+
+    type TranslationType = (typeof translations)[keyof typeof translations]
+
+    const { container } = render(
+      <Provider translations={translations}>
+        <output>
+          <Translation<TranslationType> id={(t) => t.my.msg} />
+        </output>
+      </Provider>
+    )
+
+    expect(container.querySelector('output')).toMatchInlineSnapshot(`
+      <output>
+        <strong>
+          Bold
+        </strong>
+         and 
+        <em>
+          Italic
+        </em>
+         with 
+        <code
+          class="dnb-code"
+        >
+          code
+        </code>
+        , link to 
+        <a
+          class="dnb-anchor dnb-anchor--was-node dnb-a"
+          href="https://example.com"
+          rel="noopener noreferrer"
+        >
+          Site
+        </a>
+        <br />
+        next line
+      </output>
+    `)
   })
 })
 

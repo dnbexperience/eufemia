@@ -1,6 +1,6 @@
 ---
 title: 'Getting Started'
-description: 'The quick intro is meant to give developers a first guide through all the elementary parts of Eufemia.'
+description: 'A fast path to using Eufemia in your app. Install, import styles, render your first component, and explore theming and customization.'
 icon: 'getting_started'
 order: 2
 ---
@@ -10,26 +10,61 @@ import { Button, Section } from '@dnb/eufemia/src'
 
 # Getting Started
 
-There are several ways to get started depending on what you want to do.
+Welcome to Eufemia — DNB's design system for building accessible, consistent digital experiences. Pick the guided intro or jump straight into the quick start below.
 
-Do you want to...
+## Start Here
 
-- simply use the HTML Elements right away?
-- customize the core DNB brand style and behavior?
-- use the basis and create theme on top?
-- make changes to the overall `ui-lib`?
-- change contents of the Eufemia Design System Portal (website)?
-
-## So, how do I get started?
-
-You can [follow an intro](/uilib/intro), guiding you through all the elementary parts of Eufemia.
-
-<Section style_type="mint-green" spacing align="center">
+<Section backgroundColor="mint-green" innerSpace>
   <Button href="/uilib/intro" size="large" text="Quick Intro" />
 </Section>
 
+## Quick Start
+
+1. Install the library (React and React DOM are required):
+
+```bash
+npm i @dnb/eufemia react react-dom
+# or
+yarn add @dnb/eufemia react react-dom
+# or
+pnpm add @dnb/eufemia react react-dom
+```
+
+2. Import the CSS once in your app entry (theme included):
+
+```js
+import '@dnb/eufemia/style'
+```
+
+3. Render your first component:
+
+```tsx
+import { Button } from '@dnb/eufemia'
+
+export default function App() {
+  return (
+    <Button text="Hello Eufemia" onClick={() => console.log('clicked')} />
+  )
+}
+```
+
+Learn more about importing CSS in [Importing Styles](/uilib/usage/customisation/styling/consume-styles/).
+
+## Choose Your Path
+
+- [First steps and basics](/uilib/usage/first-steps/the-basics)
+- [Use components](/uilib/components)
+- [Use HTML elements](/uilib/elements)
+- [Styling and CSS setup](/uilib/usage/customisation/styling)
+- [Layout](/uilib/usage/layout)
+- [Theming and brand customization](/uilib/usage/customisation/theming)
+- [Internationalization (i18n)](/uilib/usage/customisation/localization)
+- [Helpers and tools](/uilib/helpers/tools)
+- [Contribution guide](/contribute)
+- [Forms, validation and schema](/uilib/extensions/forms)
+
 ## Code Editor Extensions
 
-You may be interested to install an [Eufemia code editor extension](/uilib/helpers/tools/#code-editor-extensions).
+Boost your workflow with the [Eufemia VS Code extension](/uilib/helpers/tools/#code-editor-extensions) (spacing, typography and more).
 
 <WelcomeAdvice />

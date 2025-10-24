@@ -3,6 +3,7 @@ import { axeComponent } from '../../../../core/jest/jestSetup'
 import { render, fireEvent } from '@testing-library/react'
 import ValueBlock from '../ValueBlock'
 import { Field, Form, Iterate, Value } from '../..'
+import { renderWithFormatting } from '../../../../shared'
 import userEvent from '@testing-library/user-event'
 
 describe('ValueBlock', () => {
@@ -88,6 +89,39 @@ describe('ValueBlock', () => {
     const element = document.querySelector('.dnb-form-label')
     expect(element).toHaveClass('dnb-sr-only')
     expect(element).toHaveTextContent('Label')
+  })
+
+  it('replaces {itemNo} inside formatted JSX labels', () => {
+    const label = 'Item no. `{itemNo}` – **ready**'
+
+    render(
+      <Iterate.Array value={['foo']}>
+        <ValueBlock label={renderWithFormatting(label)} showEmpty />
+      </Iterate.Array>
+    )
+
+    expect(
+      document.querySelector('.dnb-forms-value-block__label__content')
+        .textContent
+    ).toContain('Item no. 1 – ready')
+    expect(
+      document.querySelector('.dnb-forms-value-block__label__content')
+    ).toMatchInlineSnapshot(`
+      <span
+        class="dnb-forms-value-block__label__content"
+      >
+        Item no. 
+        <code
+          class="dnb-code"
+        >
+          1
+        </code>
+         – 
+        <strong>
+          ready
+        </strong>
+      </span>
+    `)
   })
 
   it('should put children in a wrapper element "__content"', () => {

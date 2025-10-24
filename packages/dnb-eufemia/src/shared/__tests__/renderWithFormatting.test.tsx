@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react'
 import renderWithFormatting from '../renderWithFormatting'
 import useTranslation from '../useTranslation'
 import Provider from '../Provider'
-import { Form } from '../../extensions/forms'
+import { Field, Form } from '../../extensions/forms'
 
 const renderNode = (node: React.ReactNode) =>
   render(<output>{node}</output>)
@@ -18,7 +18,7 @@ describe('renderWithFormatting', () => {
     const { container } = renderNode(
       renderWithFormatting('Line A{br}Line B{br}Line C')
     )
-    const brs = container.querySelectorAll('br')
+    const brs = document.querySelectorAll('br')
     expect(brs.length).toBe(2)
     expect(container.textContent).toBe('Line ALine BLine C')
   })
@@ -27,7 +27,7 @@ describe('renderWithFormatting', () => {
     const { container } = renderNode(
       renderWithFormatting('A~B~C', { br: '~' })
     )
-    expect(container.querySelectorAll('br').length).toBe(2)
+    expect(document.querySelectorAll('br').length).toBe(2)
     expect(container.textContent).toBe('ABC')
   })
 
@@ -47,9 +47,9 @@ describe('renderWithFormatting', () => {
     const { container } = renderNode(
       renderWithFormatting('**Bold** then _italic_{br}next line')
     )
-    expect(container.querySelectorAll('strong').length).toBe(1)
-    expect(container.querySelectorAll('em').length).toBe(1)
-    expect(container.querySelectorAll('br').length).toBe(1)
+    expect(document.querySelectorAll('strong').length).toBe(1)
+    expect(document.querySelectorAll('em').length).toBe(1)
+    expect(document.querySelectorAll('br').length).toBe(1)
     expect(container.textContent).toBe('Bold then italicnext line')
   })
 
@@ -70,14 +70,14 @@ describe('renderWithFormatting', () => {
   it('accepts array input with strings and nodes', () => {
     const nodes = renderWithFormatting(['A', '{br}', 'B'])
     const { container } = renderNode(nodes)
-    expect(container.querySelectorAll('br').length).toBe(1)
+    expect(document.querySelectorAll('br').length).toBe(1)
     expect(container.textContent).toBe('AB')
   })
 
   it('parses markdown-like links', () => {
     const text = 'Go to [DNB](https://www.dnb.no) today'
-    const { container } = renderNode(renderWithFormatting(text))
-    const a = container.querySelector('a') as HTMLAnchorElement
+    renderNode(renderWithFormatting(text))
+    const a = document.querySelector('a') as HTMLAnchorElement
     expect(a).toBeTruthy()
     expect(a.textContent).toBe('DNB')
     expect(a.getAttribute('href')).toBe('https://www.dnb.no')
@@ -85,8 +85,8 @@ describe('renderWithFormatting', () => {
 
   it('supports formatting inside link labels', () => {
     const text = 'Click [**here**](https://example.com)'
-    const { container } = renderNode(renderWithFormatting(text))
-    const a = container.querySelector('a') as HTMLAnchorElement
+    renderNode(renderWithFormatting(text))
+    const a = document.querySelector('a') as HTMLAnchorElement
     expect(a).toBeTruthy()
     expect(a.querySelector('strong')?.textContent).toBe('here')
     expect(a.getAttribute('href')).toBe('https://example.com')
@@ -94,29 +94,94 @@ describe('renderWithFormatting', () => {
 
   it('supports URLs https:// without label', () => {
     const text = 'Go to https://example.com now'
-    const { container } = renderNode(renderWithFormatting(text))
-    const a = container.querySelector('a') as HTMLAnchorElement
+    renderNode(renderWithFormatting(text))
+    const a = document.querySelector('a') as HTMLAnchorElement
     expect(a).toBeTruthy()
     expect(a.textContent).toBe('https://example.com')
     expect(a.getAttribute('href')).toBe('https://example.com')
   })
 
+  it('returns fragment with key="renderWithFormatting"', () => {
+    const node = renderWithFormatting('`Test`')
+    expect(React.isValidElement(node)).toBe(true)
+    expect((node as React.ReactElement).key).toBe('renderWithFormatting')
+  })
+
+  it('does not produce React key warnings for generated fragments', () => {
+    const spy = jest.spyOn(console, 'error').mockImplementation()
+
+    const text = [
+      'A{br}B{br}C ',
+      '**b1** **b2** ',
+      '_i1_ _i2_ ',
+      '[x](https://x.example) [y](https://y.example) ',
+      '`c1` `c2` ',
+      'https://a.example https://b.example',
+    ].join('')
+
+    renderNode(renderWithFormatting(text))
+
+    const keyWarnings = spy.mock.calls.filter((args) =>
+      args.some(
+        (a) => typeof a === 'string' && a.includes('unique "key" prop')
+      )
+    )
+    expect(keyWarnings.length).toBe(0)
+
+    spy.mockRestore()
+  })
+
   it('formats inline code using backticks', () => {
     const text = 'Use `const x = 1` inline'
-    const { container } = renderNode(renderWithFormatting(text))
-    expect(container.querySelector('code')).toBeTruthy()
-    expect(container.querySelector('code').textContent).toBe('const x = 1')
+    renderNode(renderWithFormatting(text))
+    expect(document.querySelector('code')).toBeTruthy()
+    expect(document.querySelector('code').textContent).toBe('const x = 1')
   })
 
   it('does not format tokens inside inline code', () => {
     const text = 'This is `**not bold** and _not italic_` example'
-    const { container } = renderNode(renderWithFormatting(text))
-    expect(container.querySelector('code')).toBeTruthy()
-    expect(container.querySelector('code').textContent).toBe(
+    renderNode(renderWithFormatting(text))
+    expect(document.querySelector('code')).toBeTruthy()
+    expect(document.querySelector('code').textContent).toBe(
       '**not bold** and _not italic_'
     )
-    expect(container.querySelector('strong')).toBeNull()
-    expect(container.querySelector('em')).toBeNull()
+    expect(document.querySelector('strong')).toBeNull()
+    expect(document.querySelector('em')).toBeNull()
+  })
+
+  it('can be used in Eufemia Forms Field labels', () => {
+    render(
+      <Field.String
+        label={renderWithFormatting(
+          'A label with `code` and a **bold** text and a link: [DNB](https://www.dnb.no)'
+        )}
+      />
+    )
+
+    expect(
+      document.querySelector('.dnb-forms-field-block__label__content')
+        .innerHTML
+    ).toMatchInlineSnapshot(
+      `"A label with <code class="dnb-code">code</code> and a <strong>bold</strong> text and a link: <a class="dnb-anchor dnb-anchor--was-node dnb-a" href="https://www.dnb.no" rel="noopener noreferrer">DNB</a>"`
+    )
+  })
+
+  it('does not format when markers are not closed', () => {
+    const cases = [
+      'Start **bold only',
+      'Some _italic only',
+      'Backtick `code only',
+      'Broken [link](example.com',
+    ]
+
+    cases.forEach((text) => {
+      const { container } = renderNode(renderWithFormatting(text))
+      expect(container.querySelector('strong')).toBeNull()
+      expect(container.querySelector('em')).toBeNull()
+      expect(container.querySelector('code')).toBeNull()
+      expect(container.querySelector('a')).toBeNull()
+      expect(container.textContent).toBe(text)
+    })
   })
 
   it('useTranslation with shared Provider and renderWithFormatting', () => {
@@ -134,22 +199,49 @@ describe('renderWithFormatting', () => {
       return <>{renderWithFormatting(t.Info.formatted)}</>
     }
 
-    const { container } = render(
+    render(
       <Provider translations={translations} locale="en-GB">
         <Comp />
       </Provider>
     )
 
-    expect(container.querySelectorAll('strong').length).toBe(1)
-    expect(container.querySelectorAll('em').length).toBe(1)
-    expect(container.querySelectorAll('br').length).toBe(1)
-    expect(container.querySelectorAll('code').length).toBe(1)
-    expect(container.querySelector('a').getAttribute('href')).toBe(
+    expect(document.querySelectorAll('strong').length).toBe(1)
+    expect(document.querySelectorAll('em').length).toBe(1)
+    expect(document.querySelectorAll('br').length).toBe(1)
+    expect(document.querySelectorAll('code').length).toBe(1)
+    expect(document.querySelector('a').getAttribute('href')).toBe(
       'https://www.dnb.no'
     )
-    expect(container.innerHTML).toMatchInlineSnapshot(
-      `"Use <strong>bold</strong> and <em>italic</em> with a <br>line-break and <code class="dnb-code">code</code> and a <a class="dnb-anchor dnb-anchor--was-node dnb-a" href="https://www.dnb.no" rel="noopener noreferrer">link</a>"`
-    )
+    expect(document.body).toMatchInlineSnapshot(`
+      <body>
+        <div>
+          Use 
+          <strong>
+            bold
+          </strong>
+           and 
+          <em>
+            italic
+          </em>
+           with a 
+          <br />
+          line-break and 
+          <code
+            class="dnb-code"
+          >
+            code
+          </code>
+           and a 
+          <a
+            class="dnb-anchor dnb-anchor--was-node dnb-a"
+            href="https://www.dnb.no"
+            rel="noopener noreferrer"
+          >
+            link
+          </a>
+        </div>
+      </body>
+    `)
   })
 
   it('Form.useTranslation with Form.Handler and renderWithFormatting', () => {
@@ -167,23 +259,48 @@ describe('renderWithFormatting', () => {
       return <>{renderWithFormatting(t.Field.info)}</>
     }
 
-    const { container } = render(
+    render(
       <Form.Handler translations={translations} locale="en-GB">
         <Comp />
       </Form.Handler>
     )
 
-    expect(container.querySelectorAll('strong').length).toBe(1)
-    expect(container.querySelectorAll('em').length).toBe(1)
-    expect(container.querySelectorAll('br').length).toBe(1)
-    expect(container.querySelectorAll('code').length).toBe(1)
-    expect(container.querySelector('a').getAttribute('href')).toBe(
+    expect(document.querySelectorAll('strong').length).toBe(1)
+    expect(document.querySelectorAll('em').length).toBe(1)
+    expect(document.querySelectorAll('br').length).toBe(1)
+    expect(document.querySelectorAll('code').length).toBe(1)
+    expect(document.querySelector('a').getAttribute('href')).toBe(
       'https://example.com'
     )
-    expect(
-      container.querySelector('form').innerHTML
-    ).toMatchInlineSnapshot(
-      `"Fill out the <strong>form</strong> and <em>submit</em> <br>when <code class="dnb-code">ready</code> with a <a class="dnb-anchor dnb-anchor--was-node dnb-a" href="https://example.com" rel="noopener noreferrer">link</a>"`
-    )
+    expect(document.querySelector('form')).toMatchInlineSnapshot(`
+      <form
+        class="dnb-space dnb-forms-form"
+      >
+        Fill out the 
+        <strong>
+          form
+        </strong>
+         and 
+        <em>
+          submit
+        </em>
+         
+        <br />
+        when 
+        <code
+          class="dnb-code"
+        >
+          ready
+        </code>
+         with a 
+        <a
+          class="dnb-anchor dnb-anchor--was-node dnb-a"
+          href="https://example.com"
+          rel="noopener noreferrer"
+        >
+          link
+        </a>
+      </form>
+    `)
   })
 })

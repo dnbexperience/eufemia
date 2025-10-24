@@ -1,24 +1,25 @@
-import TableEiendom from 'Docs/quickguide-designer/colors/table-eiendom.mdx'
-import TableSbanken from 'Docs/quickguide-designer/colors/table-sbanken.mdx'
-import TableUi from 'Docs/quickguide-designer/colors/table-ui.mdx'
-import { Space } from '@dnb/eufemia/src'
+import TableEiendom from './table-eiendom.mdx'
+import TableSbanken from './table-sbanken.mdx'
+import TableUi from './table-ui.mdx'
+import TableCarnegie from './table-carnegie.mdx'
 import ChangeStyleTheme from '../../../core/ChangeStyleTheme'
 
-<Space top bottom>
-  Change the brand in order to see the related tables:
-  <ChangeStyleTheme label="Change the brand:" />
-</Space>
+<ChangeStyleTheme label="Change the brand in order to see the related tables:" />
 
 <div data-visual-test="color-table">
 <VisibilityByTheme visible="eiendom">
   <TableEiendom />
 </VisibilityByTheme>
 
-<VisibilityByTheme hidden="sbanken">
-  <TableUi />
-</VisibilityByTheme>
-
 <VisibilityByTheme visible="sbanken">
   <TableSbanken />
+</VisibilityByTheme>
+
+<VisibilityByTheme visible="carnegie">
+  <TableCarnegie />
+</VisibilityByTheme>
+
+<VisibilityByTheme hidden="sbanken">
+  <TableUi />
 </VisibilityByTheme>
 </div>

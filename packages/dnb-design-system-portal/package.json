@@ -85,6 +85,7 @@
     "gatsby-plugin-babel-react-live": "1.4.4",
     "gatsby-plugin-catch-links": "5.14.0",
     "gatsby-plugin-emotion": "8.14.0",
+    "gatsby-plugin-eufemia-llm-metadata": "workspace:*",
     "gatsby-plugin-eufemia-theme-handler": "1.8.0",
     "gatsby-plugin-gatsby-cloud": "5.14.0",
     "gatsby-plugin-manifest": "5.14.0",
