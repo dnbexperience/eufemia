@@ -7,7 +7,6 @@ import React, { createContext, useContext } from 'react'
 import classnames from 'classnames'
 import Typography, { TypographySize, TypographyProps } from './Typography'
 
-/** @deprecated use TypographySize instead */
 export type PSize = TypographySize
 
 export type PProps = TypographyProps<HTMLParagraphElement>
