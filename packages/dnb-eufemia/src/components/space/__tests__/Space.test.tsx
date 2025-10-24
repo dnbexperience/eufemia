@@ -92,7 +92,7 @@ describe('Space component', () => {
   })
 
   it('should have collapse CSS class', () => {
-    render(<Space top="large" no_collapse={true} />)
+    render(<Space top="large" noCollapse={true} />)
     expect(
       document.querySelector('.dnb-space--no-collapse')
     ).toBeInTheDocument()
