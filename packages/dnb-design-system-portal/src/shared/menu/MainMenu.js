@@ -93,7 +93,7 @@ function MainMenu() {
         <>
           <div className={contentWrapperStyle}>
             <figure className={logoFigureStyle}>
-              <Logo right size="48" color="white" />
+              <Logo right height="48" color="white" />
               <figcaption>
                 <VisuallyHidden>DNB</VisuallyHidden>
                 Eufemia
