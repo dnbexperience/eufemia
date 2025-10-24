@@ -33,6 +33,10 @@ type HProps = SpacingProps &
      * Default: xx-large
      */
     size?: HSize | 'auto'
+    /**
+     * Sets the maximum width based on character count. This will limit the text width to approximately the specified number of characters.
+     */
+    proseMaxWidth?: number
   } & ElementProps
 
 export type SharedHProps = Omit<HProps, 'as'>
@@ -42,6 +46,7 @@ const H = ({
   is,
   level,
   size,
+  proseMaxWidth,
   className,
   ...props
 }: HProps) => {
@@ -57,6 +62,10 @@ const H = ({
     size ||
     'xx-large'
 
+  const style = proseMaxWidth
+    ? { maxWidth: `${proseMaxWidth}ch` }
+    : undefined
+
   return (
     <E
       as={as || is}
@@ -65,6 +74,7 @@ const H = ({
         className
       )}
       {...props}
+      style={{ ...style, ...props.style }}
     />
   )
 }

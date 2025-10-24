@@ -60,6 +60,10 @@ export type TypographyProps<
      * Sets the font style
      */
     slant?: TypographySlant
+    /**
+     * Sets the maximum width based on character count. This will limit the text width to approximately the specified number of characters.
+     */
+    proseMaxWidth?: number
   }
 
 type TypographyInternalProps = {
@@ -76,12 +80,18 @@ const Typography = ({
   weight,
   decoration,
   slant,
+  proseMaxWidth,
   ...props
 }: TypographyProps & TypographyInternalProps) => {
+  const style = proseMaxWidth
+    ? { maxWidth: `${proseMaxWidth}ch` }
+    : undefined
+
   return (
     <E
       as={element}
       {...props}
+      style={{ ...props.style, ...style }}
       className={classnames(
         className,
         size && `dnb-t__size--${size}`,

@@ -8,6 +8,7 @@ import styled from '@emotion/styled'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import Anchor from '@dnb/eufemia/src/components/Anchor'
 import P from '@dnb/eufemia/src/elements/P'
+import { Flex } from '@dnb/eufemia/src'
 
 const Case = styled.span`
   display: block;
@@ -75,11 +76,11 @@ export function ParagraphLineHeightModifiers() {
 export function ParagraphAdditionalModifiers() {
   return (
     <ComponentBox hideCode data-visual-test="paragraph-modifiers-other">
-      <div>
+      <article>
         <P weight="bold">Bold weight paragraph</P>
         <P decoration="underline">Underline paragraph</P>
         <P slant="italic">Italic paragraph</P>
-      </div>
+      </article>
     </ComponentBox>
   )
 }
@@ -147,7 +148,7 @@ export function ParagraphSmall() {
       hideCode
       data-visual-test="paragraph-small"
     >
-      <div>
+      <article>
         <P size="small">
           <Case>Here is a small paragraph text</Case>
           <Case>
@@ -198,7 +199,28 @@ export function ParagraphSmall() {
             with a new line.
           </Case>
         </P>
-      </div>
+      </article>
+    </ComponentBox>
+  )
+}
+
+export function ParagraphProseMaxWidth() {
+  return (
+    <ComponentBox hideCode data-visual-test="paragraph-prose-max-width">
+      <Flex.Stack>
+        <P>
+          This is a regular paragraph without any width constraints. It
+          will extend to the full width of its container.
+        </P>
+        <P proseMaxWidth={60}>
+          This paragraph uses proseMaxWidth={60} to limit its width to
+          approximately 60 characters.
+        </P>
+        <P proseMaxWidth={40}>
+          This paragraph uses proseMaxWidth={40} for an even narrower
+          reading width.
+        </P>
+      </Flex.Stack>
     </ComponentBox>
   )
 }

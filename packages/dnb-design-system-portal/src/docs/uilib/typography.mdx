@@ -50,7 +50,20 @@ For readable paragraphs and inline help text, keep line length constrained to a 
 - Use `var(--prose-max-width)` as the canonical token for maximum text width. Default is `60ch`.
 - Base styles and some components expose `var(--prose-max-width)`, which maps to `var(--prose-max-width)`.
 
-Example:
+### Using `proseMaxWidth` property (max width in characters)
+
+Prose refers to written text in its natural form, particularly paragraphs and other continuous writing. Typography components like `H2`, `H3`, `P` etc. support the `proseMaxWidth` property to limit text width based on character count:
+
+```tsx
+<H2 proseMaxWidth={80}>
+  This heading will be limited to approximately 80 characters wide
+</H2>
+<P proseMaxWidth={60}>
+  This paragraph will be limited to approximately 60 characters wide
+</P>
+```
+
+CSS example:
 
 ```css
 .prose {

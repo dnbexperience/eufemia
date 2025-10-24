@@ -169,4 +169,95 @@ describe('P element', () => {
       ])
     })
   })
+
+  describe('proseMaxWidth', () => {
+    it('applies proseMaxWidth style when provided', () => {
+      render(<P proseMaxWidth={60}>Test paragraph</P>)
+      const element = document.querySelector('.dnb-p') as HTMLElement
+
+      expect(element.style.maxWidth).toBe('60ch')
+    })
+
+    it('does not apply proseMaxWidth style when not provided', () => {
+      render(<P>Test paragraph</P>)
+      const element = document.querySelector('.dnb-p') as HTMLElement
+
+      expect(element.style.maxWidth).toBe('')
+    })
+
+    it('merges proseMaxWidth with existing styles', () => {
+      render(
+        <P proseMaxWidth={80} style={{ color: 'blue' }}>
+          Test paragraph
+        </P>
+      )
+      const element = document.querySelector('.dnb-p') as HTMLElement
+
+      expect(element.style.maxWidth).toBe('80ch')
+      expect(element.style.color).toBe('blue')
+    })
+
+    it('works with different character widths', () => {
+      render(<P proseMaxWidth={40}>Short paragraph</P>)
+      const element = document.querySelector('.dnb-p') as HTMLElement
+
+      expect(element.style.maxWidth).toBe('40ch')
+    })
+
+    it('works with size and proseMaxWidth together', () => {
+      render(
+        <P size="large" proseMaxWidth={100}>
+          Large paragraph with width limit
+        </P>
+      )
+      const element = document.querySelector('.dnb-p') as HTMLElement
+
+      expect(Array.from(element.classList)).toEqual([
+        'dnb-p',
+        'dnb-t__line-height--large',
+        'dnb-t__size--large',
+      ])
+      expect(element.style.maxWidth).toBe('100ch')
+    })
+
+    it('works with weight and proseMaxWidth together', () => {
+      render(
+        <P weight="bold" proseMaxWidth={50}>
+          Bold paragraph with width limit
+        </P>
+      )
+      const element = document.querySelector('.dnb-p') as HTMLElement
+
+      expect(Array.from(element.classList)).toEqual([
+        'dnb-p',
+        'dnb-t__weight--bold',
+      ])
+      expect(element.style.maxWidth).toBe('50ch')
+    })
+
+    it('works with all typography props and proseMaxWidth', () => {
+      render(
+        <P
+          size="medium"
+          weight="medium"
+          align="center"
+          family="monospace"
+          proseMaxWidth={70}
+        >
+          Styled paragraph with width limit
+        </P>
+      )
+      const element = document.querySelector('.dnb-p') as HTMLElement
+
+      expect(Array.from(element.classList)).toEqual([
+        'dnb-p',
+        'dnb-t__line-height--medium',
+        'dnb-t__size--medium',
+        'dnb-t__align--center',
+        'dnb-t__family--monospace',
+        'dnb-t__weight--medium',
+      ])
+      expect(element.style.maxWidth).toBe('70ch')
+    })
+  })
 })
