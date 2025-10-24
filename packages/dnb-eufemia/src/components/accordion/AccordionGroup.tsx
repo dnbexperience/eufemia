@@ -67,6 +67,7 @@ const AccordionGroup = (props: AccordionGroupProps) => {
     iconSize, // eslint-disable-line
     disabled, // eslint-disable-line
     group, // eslint-disable-line
+    iconPosition, // eslint-disable-line
     onInit, // eslint-disable-line
     className,
 

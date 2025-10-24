@@ -398,6 +398,7 @@ export default class Input extends React.PureComponent {
       on_submit, //eslint-disable-line
       inputElement: _input_element, //eslint-disable-line
       innerRef: _innerRef, //eslint-disable-line
+      inputState: _inputState, //eslint-disable-line
 
       ...attributes
     } = props
