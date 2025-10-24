@@ -242,7 +242,7 @@ const InfoCard = (localProps: InfoCardAllProps) => {
             <P
               className="dnb-info-card__title"
               size="small"
-              modifier="medium"
+              weight="medium"
               bottom="x-small"
             >
               {title}
