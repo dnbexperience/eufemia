@@ -3,7 +3,7 @@ export interface GlobalStatusControllerProps
   extends React.HTMLProps<HTMLElement> {
   id?: string;
   statusId?: string;
-  remove_on_unmount?: boolean;
+  removeOnUnmount?: boolean;
 }
 export default class GlobalStatusController extends React.Component<
   GlobalStatusControllerProps,
