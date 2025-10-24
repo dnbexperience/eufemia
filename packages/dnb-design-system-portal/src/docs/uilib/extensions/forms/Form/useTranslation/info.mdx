@@ -142,19 +142,19 @@ render(
 - links `[label](https://…)` and bare URLs `https://…`
 
 ```tsx
+import { Form } from '@dnb/eufemia/extensions/forms'
 import { Translation } from '@dnb/eufemia/shared'
 
-const translations = {
+const myTranslations = {
   'en-GB': {
     info: 'Use **bold** and _italic_ with a {br}line-break.',
   },
 }
+type TranslationType = (typeof myTranslations)[keyof typeof myTranslations]
 
 render(
-  <Form.Handler translations={translations} locale="en-GB">
-    <p>
-      <Translation id={(t: any) => t.info} />
-    </p>
+  <Form.Handler translations={myTranslations} locale="en-GB">
+    <Translation<TranslationType> id={(t) => t.info} />
   </Form.Handler>,
 )
 ```
