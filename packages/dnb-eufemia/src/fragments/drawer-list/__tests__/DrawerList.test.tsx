@@ -19,6 +19,9 @@ import DrawerList, {
   DrawerListGroupTitles,
 } from '../DrawerList'
 import DrawerListProvider from '../DrawerListProvider'
+import DrawerListContext, {
+  DrawerListContextProps,
+} from '../DrawerListContext'
 import { IsolatedStyleScope } from '../../../shared'
 
 import {
@@ -380,6 +383,108 @@ describe('DrawerList component', () => {
     })
     await waitFor(() => {
       expect(getFocusedItemIndex()).toBe(0)
+    })
+  })
+
+  it('focused item remembered when reopening', async () => {
+    const contextRef: React.MutableRefObject<DrawerListContextProps> =
+      React.createRef()
+
+    const ContextConsumer = () => {
+      contextRef.current = React.useContext(DrawerListContext)
+      return null
+    }
+
+    render(
+      <DrawerListProvider opened no_animation data={mockData}>
+        <ContextConsumer />
+        <DrawerList no_animation />
+      </DrawerListProvider>
+    )
+
+    expect(
+      document.querySelector('ul.dnb-drawer-list__options')
+    ).toBeInTheDocument()
+    expect(getFocusedItemIndex()).toBe(-1)
+
+    // focus the second item
+    keydown(40) // down
+    keydown(40) // down
+
+    await waitFor(() => {
+      expect(getFocusedItemIndex()).toBe(1)
+    })
+
+    // close the list
+    contextRef.current.drawerList.setHidden()
+
+    await waitFor(() => {
+      expect(
+        document.querySelector('ul.dnb-drawer-list__options')
+      ).not.toBeInTheDocument()
+    })
+
+    // open the list again
+    contextRef.current.drawerList.setVisible()
+
+    await waitFor(() => {
+      expect(
+        document.querySelector('ul.dnb-drawer-list__options')
+      ).toBeInTheDocument()
+
+      expect(getFocusedItemIndex()).toBe(1)
+    })
+  })
+
+  it('focused item set to selected item when opening', async () => {
+    const contextRef: React.MutableRefObject<DrawerListContextProps> =
+      React.createRef()
+
+    const ContextConsumer = () => {
+      contextRef.current = React.useContext(DrawerListContext)
+      return null
+    }
+
+    render(
+      <DrawerListProvider opened no_animation value={1} data={mockData}>
+        <ContextConsumer />
+        <DrawerList no_animation />
+      </DrawerListProvider>
+    )
+
+    expect(
+      document.querySelector('ul.dnb-drawer-list__options')
+    ).toBeInTheDocument()
+    expect(getFocusedItemIndex()).toBe(1)
+    expect(getSelectedItemIndex()).toBe(1)
+
+    // focus the second item
+    keydown(40) // down
+
+    await waitFor(() => {
+      expect(getFocusedItemIndex()).toBe(2)
+      expect(getSelectedItemIndex()).toBe(1)
+    })
+
+    // close the list
+    contextRef.current.drawerList.setHidden()
+
+    await waitFor(() => {
+      expect(
+        document.querySelector('ul.dnb-drawer-list__options')
+      ).not.toBeInTheDocument()
+    })
+
+    // open the list again
+    contextRef.current.drawerList.setVisible()
+
+    await waitFor(() => {
+      expect(
+        document.querySelector('ul.dnb-drawer-list__options')
+      ).toBeInTheDocument()
+
+      expect(getFocusedItemIndex()).toBe(1)
+      expect(getSelectedItemIndex()).toBe(1)
     })
   })
 

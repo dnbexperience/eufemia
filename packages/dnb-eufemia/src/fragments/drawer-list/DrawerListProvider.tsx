@@ -649,7 +649,7 @@ export default class DrawerListProvider extends React.PureComponent<
    * @param {number} active_item The item to set as active
    * @param {object} param1
    * @property {boolean} fireSelectEvent Whether the onSelect event should get emitted
-   * @property {boolean} scrollTo Whether the list should scroll to the new active item nor not
+   * @property {boolean} scrollTo Whether the list should animate the scroll to the new active item or not
    * @property {event} event The event object to forward to the emitted events
    */
   setActiveItemAndScrollToIt = (
@@ -1211,20 +1211,19 @@ export default class DrawerListProvider extends React.PureComponent<
       }
 
       const { selected_item, active_item } = this.state
+      const newActiveItem =
+        parseFloat(selected_item as string) > -1
+          ? selected_item
+          : active_item
       dispatchCustomElementEvent(this.state, 'on_show', {
         ...args,
-        data: getEventData(
-          parseFloat(selected_item as string) > -1
-            ? selected_item
-            : active_item,
-          this.state.data
-        ),
+        data: getEventData(newActiveItem, this.state.data),
         attributes: this.attributes,
         ulElement: this._refUl.current,
       })
 
       this.setActiveItemAndScrollToIt(
-        parseFloat(active_item as string) > -1 ? active_item : -1,
+        parseFloat(newActiveItem as string) > -1 ? newActiveItem : -1,
         { scrollTo: false }
       )
     }
