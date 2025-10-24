@@ -49,7 +49,7 @@ export const SpaceProperties: PropertiesTableProps = {
     type: ['object', 'string', 'number', 'boolean'],
     status: 'optional',
   },
-  no_collapse: {
+  noCollapse: {
     doc: "If set to `true`, then a wrapper with `display: flow-root;` is used. This way you avoid **Margin Collapsing**. Defaults to `false`. _Note:_ You can't use `inline={true}` in combination.",
     type: 'boolean',
     status: 'optional',

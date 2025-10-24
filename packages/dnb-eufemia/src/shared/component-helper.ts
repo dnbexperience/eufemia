@@ -79,8 +79,8 @@ export const validateDOMAttributes = (props, params) => {
   if (typeof params.left !== 'undefined') {
     delete params.left
   }
-  if (typeof params.no_collapse !== 'undefined') {
-    delete params.no_collapse
+  if (typeof params.noCollapse !== 'undefined') {
+    delete params.noCollapse
   }
   if (typeof params.innerSpace !== 'undefined') {
     delete params.innerSpace
