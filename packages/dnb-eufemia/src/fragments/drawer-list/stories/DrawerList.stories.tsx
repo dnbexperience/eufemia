@@ -50,7 +50,7 @@ const MagicOpen = (props) => {
   return (
     <>
       <Input
-        on_focus={() => setOpened(true)}
+        onFocus={() => setOpened(true)}
         placeholder="Search for items ..."
         icon="chevron_down"
         innerRef={ref}
@@ -58,13 +58,13 @@ const MagicOpen = (props) => {
       <Drawer
         wrapperElement={ref.current}
         opened={opened}
-        on_select={(e) => {
-          console.log('on_select', e)
+        onSelect={(e) => {
+          console.log('onSelect', e)
         }}
-        on_change={(e) => {
-          console.log('on_change', e)
+        onChange={(e) => {
+          console.log('onChange', e)
         }}
-        on_hide={() => setOpened(false)}
+        onHide={() => setOpened(false)}
         {...props}
       >
         <DrawerList>
@@ -108,7 +108,7 @@ const DrawerListWithState = (props) => {
         keepOpen
         data={['A', 'B', 'C']}
         opened={opened}
-        on_hide={() => setOpened(false)}
+        onHide={() => setOpened(false)}
         wrapperElement="#ToggleButton"
         {...props}
       />

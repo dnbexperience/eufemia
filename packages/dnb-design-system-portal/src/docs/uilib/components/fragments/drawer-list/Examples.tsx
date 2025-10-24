@@ -36,7 +36,7 @@ export const DrawerListExampleInteractive = () => (
                 skipPortal
                 data={data}
                 opened={opened}
-                on_hide={() => setOpened(false)}
+                onHide={() => setOpened(false)}
                 {...props}
               />
             </Relative>
@@ -114,11 +114,11 @@ export const DrawerListExampleDefault = () => (
         trianglePosition="left"
         data={data}
         value={3}
-        on_change={({ data: selectedDataItem }) => {
-          console.log('on_change', selectedDataItem)
+        onChange={({ data: selectedDataItem }) => {
+          console.log('onChange', selectedDataItem)
         }}
-        on_show={() => {
-          console.log('on_show')
+        onShow={() => {
+          console.log('onShow')
         }}
         observerElement=".dnb-live-preview" // prevents direction to change when scrolling in this example
       />
@@ -262,7 +262,7 @@ export const DrawerListExampleSingleItem = () => (
               'Or press on me',
               <CustomComponent key="custom" />,
             ]}
-            on_change={({ value }) => {
+            onChange={({ value }) => {
               console.log('More menu:', value)
             }}
             suffix={
