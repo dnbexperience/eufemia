@@ -742,6 +742,82 @@ Docs: [FormRow](/uilib/layout/form-row/), [FormSet](/uilib/layout/form-set/)
 
 Docs: [Eufemia Forms](/uilib/extensions/forms/)
 
+### Ajv no longer shipped by default
+
+**Breaking Change**: Ajv is no longer included as a dependency in Eufemia Forms v11. This reduces bundle size for applications that don't use JSON Schema validation.
+
+**Migration Required**: If you use JSON Schema validation with Ajv, you must:
+
+**Update your imports and usage**:
+
+Before (v10):
+
+```tsx
+import { Form, Field, JSONSchema } from '@dnb/eufemia/extensions/forms'
+
+const schema: JSONSchema = {
+  type: 'object',
+  properties: {
+    myField: { type: 'string', minLength: 3 },
+  },
+  required: ['myField'],
+}
+
+function MyApp() {
+  return (
+    <Form.Handler schema={schema}>
+      <Field.String path="/myField" label="Label" />
+    </Form.Handler>
+  )
+}
+```
+
+After (v11):
+
+```tsx
+import {
+  Form,
+  Field,
+  JSONSchema,
+  makeAjvInstance,
+} from '@dnb/eufemia/extensions/forms'
+
+const ajvInstance = makeAjvInstance()
+const schema: JSONSchema = {
+  type: 'object',
+  properties: {
+    myField: { type: 'string', minLength: 3 },
+  },
+  required: ['myField'],
+}
+
+function MyApp() {
+  return (
+    <Form.Handler schema={schema} ajvInstance={ajvInstance}>
+      <Field.String path="/myField" label="Label" />
+    </Form.Handler>
+  )
+}
+```
+
+**Alternative**: Consider using Zod schemas instead, which provide better TypeScript integration and are included by default:
+
+```tsx
+import { Form, Field, z } from '@dnb/eufemia/extensions/forms'
+
+const schema = z.object({
+  myField: z.string().min(3),
+})
+
+function MyApp() {
+  return (
+    <Form.Handler schema={schema}>
+      <Field.String path="/myField" label="Label" />
+    </Form.Handler>
+  )
+}
+```
+
 ### InputPassword moved to Field.Password
 
 The `InputPassword` component has been moved to `Field.Password`, and is now a part of Eufemia Forms. Change your import statement from `import InputPassword from '@dnb/eufemia/components/input/InputPassword'` to `import { Field } from '@dnb/eufemia/extensions/forms'`.
