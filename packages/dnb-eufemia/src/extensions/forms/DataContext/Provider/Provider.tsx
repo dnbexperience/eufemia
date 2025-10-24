@@ -8,14 +8,13 @@ import React, {
 } from 'react'
 import pointer, { JsonObject } from '../../utils/json-pointer'
 import {
-  Ajv,
-  makeAjvInstance,
-  ajvErrorsToFormErrors,
   FormError,
   isZodSchema,
   createZodValidator,
   zodErrorsToFormErrors,
 } from '../../utils'
+import { ajvErrorsToFormErrors } from '../../utils/ajvErrors'
+import type { Ajv } from '../../utils/ajv'
 import {
   GlobalErrorMessagesWithPaths,
   SubmitState,
@@ -271,15 +270,12 @@ export default function Provider<Data extends JsonObject>(
 
   // - Ajv (lazy initialization)
   const ajvRef = useRef<Ajv>()
-  const getAjvInstance = useCallback(
-    (instance = ajvInstance) => {
-      if (!ajvRef.current) {
-        ajvRef.current = makeAjvInstance(instance)
-      }
-      return ajvRef.current
-    },
-    [ajvInstance]
-  )
+  const getAjvInstance = useCallback(() => {
+    if (!ajvRef.current) {
+      ajvRef.current = ajvInstance
+    }
+    return ajvRef.current
+  }, [ajvInstance])
 
   // Warn if JSON Schema is provided but no custom ajvInstance prop was passed
   useEffect(() => {
