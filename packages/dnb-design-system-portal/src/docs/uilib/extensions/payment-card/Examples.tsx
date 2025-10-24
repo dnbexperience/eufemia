@@ -56,16 +56,16 @@ export function PaymentCardAllCardsExample() {
 
         return (
           <>
-            {demoCards.map((product_code) => {
-              const cardData = getCardData(product_code)
+            {demoCards.map((productCode) => {
+              const cardData = getCardData(productCode)
               return (
-                <article key={product_code}>
+                <article key={productCode}>
                   <H4>
-                    {cardData.cardDesign.name} ({product_code})
+                    {cardData.cardDesign.name} ({productCode})
                   </H4>
                   <PaymentCard
-                    product_code={product_code}
-                    card_number="••••••••••••1337"
+                    productCode={productCode}
+                    cardNumber="••••••••••••1337"
                   />
                 </article>
               )
@@ -82,7 +82,7 @@ export const PaymentCardBasicExample = () => (
     scope={{ PaymentCard }}
     data-visual-test="payment-card-basic"
   >
-    <PaymentCard product_code="VL4" card_number="••••••••••••1337" />
+    <PaymentCard productCode="VL4" cardNumber="••••••••••••1337" />
   </ComponentBox>
 )
 
@@ -102,9 +102,9 @@ export const PaymentCardCustomExample = () => (
       }
       return (
         <PaymentCard
-          product_code="UNDEFINED"
-          raw_data={customData}
-          card_number="••••••••••••1337"
+          productCode="UNDEFINED"
+          rawData={customData}
+          cardNumber="••••••••••••1337"
         />
       )
     }}
@@ -117,9 +117,9 @@ export const PaymentCardStatusExample = () => (
     data-visual-test="payment-card-status"
   >
     <PaymentCard
-      product_code="VX5"
-      card_status="blocked"
-      card_number="••••••••••••1337"
+      productCode="VX5"
+      cardStatus="blocked"
+      cardNumber="••••••••••••1337"
     />
   </ComponentBox>
 )
@@ -131,23 +131,23 @@ export const PaymentCardCompactExample = () => (
   >
     <PaymentCard
       variant="compact"
-      product_code="BK1"
-      card_number="••••••••••••1337"
+      productCode="BK1"
+      cardNumber="••••••••••••1337"
     />
     <PaymentCard
       variant="compact"
-      product_code="VP5"
-      card_number="••••••••••••1337"
+      productCode="VP5"
+      cardNumber="••••••••••••1337"
     />
     <PaymentCard
       variant="compact"
-      product_code="052"
-      card_number="••••••••••••1337"
+      productCode="052"
+      cardNumber="••••••••••••1337"
     />
     <PaymentCard
       variant="compact"
-      product_code="101"
-      card_number="••••••••••••1337"
+      productCode="101"
+      cardNumber="••••••••••••1337"
     />
   </ComponentBox>
 )
