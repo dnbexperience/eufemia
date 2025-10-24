@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`InfoCard InfoCard scss has to match style dependencies css 1`] = `
 "/*
@@ -49,7 +49,7 @@ exports[`InfoCard InfoCard scss has to match style dependencies css 1`] = `
   margin-top: 0.1875rem;
 }
 .dnb-info-card:not(.dnb-info-card--stretch), .dnb-info-card__content {
-  max-width: var(--text-block-max-width);
+  max-width: var(--prose-max-width);
 }
 .dnb-info-card--centered .dnb-info-card__content {
   margin-top: 0;

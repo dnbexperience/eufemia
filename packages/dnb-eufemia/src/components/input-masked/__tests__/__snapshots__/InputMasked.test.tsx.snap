@@ -276,7 +276,7 @@ html[data-visual-test] .dnb-tooltip--hide {
   border-radius: var(--form-status-radius);
 }
 .dnb-form-status__text {
-  max-width: var(--text-block-max-width);
+  max-width: var(--prose-max-width);
   padding: 0.625rem 1rem;
   cursor: text;
   color: inherit;
@@ -868,7 +868,7 @@ legend.dnb-form-label {
   border-radius: var(--form-status-radius);
 }
 .dnb-form-status__text {
-  max-width: var(--text-block-max-width);
+  max-width: var(--prose-max-width);
   padding: 0.625rem 1rem;
   cursor: text;
   color: inherit;
