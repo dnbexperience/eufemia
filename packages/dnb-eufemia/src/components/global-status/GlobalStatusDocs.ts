@@ -142,8 +142,8 @@ export const GlobalStatusControllerProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
-  remove_on_unmount: {
-    doc: 'set to `true` if you want that the component `<GlobalStatus.Add remove_on_unmount={true} ... />` should automatically remove the stacked status from the target **GlobalStatus** on component unmount. Defaults to `false`.',
+  removeOnUnmount: {
+    doc: 'set to `true` if you want that the component `<GlobalStatus.Add removeOnUnmount={true} ... />` should automatically remove the stacked status from the target **GlobalStatus** on component unmount. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
