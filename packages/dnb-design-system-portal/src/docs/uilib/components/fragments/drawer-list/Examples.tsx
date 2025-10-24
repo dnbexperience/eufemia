@@ -20,12 +20,11 @@ export const DrawerListExampleInteractive = () => (
       {() => {
         const DrawerListWithState = (props) => {
           const [opened, setOpened] = React.useState(false)
-          const Relative = styled.span`
-            position: relative;
-          `
+
           return (
-            <Relative>
+            <>
               <ToggleButton
+                id="state-toggle-button"
                 text="Toggle"
                 checked={opened}
                 icon={`chevron_${opened ? 'up' : 'down'}`}
@@ -33,13 +32,14 @@ export const DrawerListExampleInteractive = () => (
                 on_change={({ checked }) => setOpened(checked)}
               />
               <DrawerList
+                wrapper_element="#state-toggle-button"
                 skip_portal
                 data={data}
                 opened={opened}
                 on_hide={() => setOpened(false)}
                 {...props}
               />
-            </Relative>
+            </>
           )
         }
 
