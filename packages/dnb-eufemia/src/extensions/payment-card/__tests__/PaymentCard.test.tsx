@@ -22,12 +22,12 @@ const nb = nbNO['nb-NO'].PaymentCard
 const en = enGB['en-GB'].PaymentCard
 
 const defaultProps: PaymentCardProps = {
-  product_code: 'NK1',
-  card_number: '************1337',
-  card_status: 'active',
+  productCode: 'NK1',
+  cardNumber: '************1337',
+  cardStatus: 'active',
   variant: 'normal',
   digits: 'digits',
-  raw_data: null,
+  rawData: null,
   id: 'id',
   locale: 'nb-NO',
   skeleton: 'skeleton',
@@ -64,32 +64,32 @@ describe('PaymentCard', () => {
 
   describe('English locale', () => {
     it('has correct expired status', () => {
-      render(<PaymentCard {...englishProps} card_status="expired" />)
+      render(<PaymentCard {...englishProps} cardStatus="expired" />)
 
       expect(screen.queryByText(en.text_expired)).toBeInTheDocument()
     })
 
     it('has correct not_active status', () => {
-      render(<PaymentCard {...englishProps} card_status="not_active" />)
+      render(<PaymentCard {...englishProps} cardStatus="not_active" />)
 
       expect(screen.queryByText(en.text_not_active)).toBeInTheDocument()
     })
 
     it('has correct renewed status', () => {
-      render(<PaymentCard {...englishProps} card_status="renewed" />)
+      render(<PaymentCard {...englishProps} cardStatus="renewed" />)
 
       expect(screen.queryByText(en.text_renewed)).toBeInTheDocument()
     })
 
     it('has correct replaced status', () => {
-      render(<PaymentCard {...englishProps} card_status="replaced" />)
+      render(<PaymentCard {...englishProps} cardStatus="replaced" />)
 
       expect(screen.queryByText(en.text_replaced)).toBeInTheDocument()
     })
 
     it('has correct order_in_process status', () => {
       render(
-        <PaymentCard {...englishProps} card_status="order_in_process" />
+        <PaymentCard {...englishProps} cardStatus="order_in_process" />
       )
 
       expect(
@@ -98,13 +98,13 @@ describe('PaymentCard', () => {
     })
 
     it('has correct blocked status', () => {
-      render(<PaymentCard {...englishProps} card_status="blocked" />)
+      render(<PaymentCard {...englishProps} cardStatus="blocked" />)
 
       expect(screen.queryByText(en.text_blocked)).toBeInTheDocument()
     })
 
     it('has correct unknown status', () => {
-      render(<PaymentCard {...englishProps} card_status="unknown" />)
+      render(<PaymentCard {...englishProps} cardStatus="unknown" />)
 
       expect(screen.queryByText(en.text_unknown)).toBeInTheDocument()
     })
@@ -112,32 +112,32 @@ describe('PaymentCard', () => {
 
   describe('Norwegian locale', () => {
     it('has correct expired status', () => {
-      render(<PaymentCard {...defaultProps} card_status="expired" />)
+      render(<PaymentCard {...defaultProps} cardStatus="expired" />)
 
       expect(screen.queryByText(nb.text_expired)).toBeInTheDocument()
     })
 
     it('has correct not_active status', () => {
-      render(<PaymentCard {...defaultProps} card_status="not_active" />)
+      render(<PaymentCard {...defaultProps} cardStatus="not_active" />)
 
       expect(screen.queryByText(nb.text_not_active)).toBeInTheDocument()
     })
 
     it('has correct renewed status', () => {
-      render(<PaymentCard {...defaultProps} card_status="renewed" />)
+      render(<PaymentCard {...defaultProps} cardStatus="renewed" />)
 
       expect(screen.queryByText(nb.text_renewed)).toBeInTheDocument()
     })
 
     it('has correct replaced status', () => {
-      render(<PaymentCard {...defaultProps} card_status="replaced" />)
+      render(<PaymentCard {...defaultProps} cardStatus="replaced" />)
 
       expect(screen.queryByText(nb.text_replaced)).toBeInTheDocument()
     })
 
     it('has correct order_in_process status', () => {
       render(
-        <PaymentCard {...defaultProps} card_status="order_in_process" />
+        <PaymentCard {...defaultProps} cardStatus="order_in_process" />
       )
 
       expect(
@@ -146,19 +146,19 @@ describe('PaymentCard', () => {
     })
 
     it('has correct blocked status', () => {
-      render(<PaymentCard {...defaultProps} card_status="blocked" />)
+      render(<PaymentCard {...defaultProps} cardStatus="blocked" />)
 
       expect(screen.queryByText(nb.text_blocked)).toBeInTheDocument()
     })
 
     it('has correct unknown status', () => {
-      render(<PaymentCard {...defaultProps} card_status="unknown" />)
+      render(<PaymentCard {...defaultProps} cardStatus="unknown" />)
 
       expect(screen.queryByText(nb.text_unknown)).toBeInTheDocument()
     })
   })
 
-  it('reacts raw_data with correct rendering', () => {
+  it('reacts rawData with correct rendering', () => {
     const customData = {
       productCode: 'UNDEFINED',
       productName: 'DNB Custom Card',
@@ -171,10 +171,10 @@ describe('PaymentCard', () => {
 
     render(
       <PaymentCard
-        product_code="UNDEFINED"
-        raw_data={customData}
+        productCode="UNDEFINED"
+        rawData={customData}
         variant="compact"
-        card_number="************1337"
+        cardNumber="************1337"
       />
     )
 
@@ -199,7 +199,7 @@ describe('PaymentCard', () => {
   })
 
   it('has correct card type text (credit)', () => {
-    render(<PaymentCard {...englishProps} product_code="043" />)
+    render(<PaymentCard {...englishProps} productCode="043" />)
 
     expect(screen.queryByText('Credit')).toBeInTheDocument()
   })
@@ -282,7 +282,7 @@ describe('PaymentCard translations', () => {
           },
         }}
       >
-        <PaymentCard {...defaultProps} card_status="expired" />
+        <PaymentCard {...defaultProps} cardStatus="expired" />
       </Provider>
     )
 
@@ -299,7 +299,7 @@ describe('PaymentCard translations', () => {
           },
         }}
       >
-        <PaymentCard {...defaultProps} card_status="blocked" />
+        <PaymentCard {...defaultProps} cardStatus="blocked" />
       </Provider>
     )
 
@@ -316,7 +316,7 @@ describe('PaymentCard translations', () => {
           },
         }}
       >
-        <PaymentCard {...defaultProps} card_status="not_active" />
+        <PaymentCard {...defaultProps} cardStatus="not_active" />
       </Provider>
     )
 
@@ -333,7 +333,7 @@ describe('PaymentCard translations', () => {
           },
         }}
       >
-        <PaymentCard {...defaultProps} card_status="order_in_process" />
+        <PaymentCard {...defaultProps} cardStatus="order_in_process" />
       </Provider>
     )
 
@@ -350,7 +350,7 @@ describe('PaymentCard translations', () => {
           },
         }}
       >
-        <PaymentCard {...defaultProps} card_status="renewed" />
+        <PaymentCard {...defaultProps} cardStatus="renewed" />
       </Provider>
     )
 
@@ -367,7 +367,7 @@ describe('PaymentCard translations', () => {
           },
         }}
       >
-        <PaymentCard {...defaultProps} card_status="replaced" />
+        <PaymentCard {...defaultProps} cardStatus="replaced" />
       </Provider>
     )
 
@@ -384,7 +384,7 @@ describe('PaymentCard translations', () => {
           },
         }}
       >
-        <PaymentCard {...defaultProps} card_status="unknown" />
+        <PaymentCard {...defaultProps} cardStatus="unknown" />
       </Provider>
     )
 
@@ -401,7 +401,7 @@ describe('PaymentCard translations', () => {
           },
         }}
       >
-        <PaymentCard {...defaultProps} card_status="new" />
+        <PaymentCard {...defaultProps} cardStatus="new" />
       </Provider>
     )
 
@@ -418,7 +418,7 @@ describe('PaymentCard translations', () => {
           },
         }}
       >
-        <PaymentCard {...defaultProps} card_status="new_order" />
+        <PaymentCard {...defaultProps} cardStatus="new_order" />
       </Provider>
     )
 
