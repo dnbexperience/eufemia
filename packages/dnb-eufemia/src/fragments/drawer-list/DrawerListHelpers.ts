@@ -127,14 +127,14 @@ export const drawerListPropTypes = {
     PropTypes.array,
   ]),
 
-  on_show: PropTypes.func,
-  on_hide: PropTypes.func,
-  handle_dismiss_focus: PropTypes.func,
-  on_change: PropTypes.func,
-  on_pre_change: PropTypes.func,
-  on_resize: PropTypes.func,
-  on_select: PropTypes.func,
-  on_state_update: PropTypes.func,
+  onShow: PropTypes.func,
+  onHide: PropTypes.func,
+  handleDismissFocus: PropTypes.func,
+  onChange: PropTypes.func,
+  onPreChange: PropTypes.func,
+  onResize: PropTypes.func,
+  onSelect: PropTypes.func,
+  onStateUpdate: PropTypes.func,
 }
 
 export const drawerListDefaultProps = {
@@ -173,14 +173,14 @@ export const drawerListDefaultProps = {
   className: null,
   children: null,
 
-  on_show: null,
-  on_hide: null,
-  handle_dismiss_focus: null,
-  on_change: null,
-  on_pre_change: null,
-  on_resize: null,
-  on_select: null,
-  on_state_update: null,
+  onShow: null,
+  onHide: null,
+  handleDismissFocus: null,
+  onChange: null,
+  onPreChange: null,
+  onResize: null,
+  onSelect: null,
+  onStateUpdate: null,
   optionsRender: null,
 }
 
@@ -437,10 +437,10 @@ export function prepareStartupState(
     maxHeight: props.maxHeight,
     selectedItem,
     activeItem: selectedItem,
-    on_hide: props.on_hide,
-    on_show: props.on_show,
-    on_change: props.on_change,
-    on_select: props.on_select,
+    onHide: props.onHide,
+    onShow: props.onShow,
+    onChange: props.onChange,
+    onSelect: props.onSelect,
   }
 
   if (
@@ -504,8 +504,8 @@ export const prepareDerivedState = (
       state.selectedItem = getCurrentIndex(props.value, state.originalData)
     }
 
-    if (typeof props.on_state_update === 'function') {
-      dispatchCustomElementEvent({ props }, 'on_state_update', {
+    if (typeof props.onStateUpdate === 'function') {
+      dispatchCustomElementEvent({ props }, 'onStateUpdate', {
         selectedItem: state.selectedItem,
         value: getSelectedItemValue(state.selectedItem, state),
         data: getEventData(state.selectedItem, state.data),

@@ -144,11 +144,11 @@ const DropdownStory = () => {
                 Download
               </>,
             ]}
-            on_hide={(e) => {
-              console.log('on_hide', e)
+            onHide={(e) => {
+              console.log('onHide', e)
             }}
-            on_select={(e) => {
-              console.log('on_select', e)
+            onSelect={(e) => {
+              console.log('onSelect', e)
             }}
           />
           <Dropdown
@@ -400,9 +400,9 @@ const DropdownStory = () => {
             }}
             right
             status="Status message"
-            on_change={({ attributes }) => {
+            onChange={({ attributes }) => {
               console.log(
-                'on_change',
+                'onChange',
                 // event.currentTarget.dataset,
                 attributes
               )
@@ -430,9 +430,6 @@ const DropdownStory = () => {
           onSubmit={(event) => {
             console.log('onSubmit', event)
           }}
-          on_submit={(event) => {
-            console.log('on_submit', event)
-          }}
           prevent_submit
         >
           <select name="x" id="y">
@@ -443,14 +440,14 @@ const DropdownStory = () => {
             label="Label:"
             data={data}
             value={value}
-            on_state_update={(event) => {
-              console.log('on_state_update', event)
+            onStateUpdate={(event) => {
+              console.log('onStateUpdate', event)
             }}
-            on_change={({ data }) => {
-              console.log('on_change', data)
+            onChange={({ data }) => {
+              console.log('onChange', data)
             }}
-            on_select={({ data }) => {
-              console.log('on_select', data)
+            onSelect={({ data }) => {
+              console.log('onSelect', data)
             }}
           />
           <Button
@@ -491,11 +488,11 @@ const DropdownStory = () => {
           labelDirection="vertical"
           title={<>Custom title {'🔥'}</>}
           data={dropdownData}
-          on_change={({ data }) => {
-            console.log('on_change', data)
+          onChange={({ data }) => {
+            console.log('onChange', data)
           }}
-          on_select={({ data }) => {
-            console.log('on_select', data)
+          onSelect={({ data }) => {
+            console.log('onSelect', data)
           }}
           status="Status message"
           // value={3}
@@ -742,7 +739,7 @@ function CurrencySelector({
       value={itemIndex}
       title={strings.currencyBlankLabel}
       // eslint-disable-next-line camelcase
-      on_change={({ data: { selectedValue }, event }) => {
+      onChange={({ data: { selectedValue }, event }) => {
         console.log('event', event)
         if (event && typeof event.persist === 'function') {
           event.persist()
@@ -783,7 +780,7 @@ function DropdownStatesSync() {
           // value={0}
           defaultValue={0}
           title="Dropdown 1"
-          on_change={handleOnChange}
+          onChange={handleOnChange}
         />
         {/* <Dropdown
         top
@@ -791,7 +788,7 @@ function DropdownStatesSync() {
         // value={1}
         defaultValue={1}
         title="Dropdown 2"
-        on_change={handleOnChange}
+        onChange={handleOnChange}
       /> */}
       </Flex.Vertical>
     </Provider>
@@ -896,7 +893,7 @@ function UpdateDataExample() {
         preventSelection
         enableBodyLock
         data={choiceData}
-        on_change={({ data }) => {
+        onChange={({ data }) => {
           console.log('data', data)
           if (data) {
             setChoiceData(
@@ -971,8 +968,8 @@ export function UpdateData() {
         top="10rem"
         data={filtersToShow}
         title={'Velg filter:'}
-        on_change={onFilterChange}
-        on_show={onShow}
+        onChange={onFilterChange}
+        onShow={onShow}
         value={value}
         size="large"
         direction="top"
@@ -982,8 +979,8 @@ export function UpdateData() {
         top="10rem"
         data={filtersToShow}
         title={'Velg filter:'}
-        on_change={onFilterChange}
-        on_show={onShow}
+        onChange={onFilterChange}
+        onShow={onShow}
         value={value}
         size="large"
         preventClose={preventClose}

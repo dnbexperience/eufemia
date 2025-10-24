@@ -101,7 +101,7 @@ export function UpdateEachOther() {
         label="selectedA"
         data={selectedAccountsA}
         value={indexA}
-        on_change={({ data: account }) => {
+        onChange={({ data: account }) => {
           setSelectedA(account?.selectedKey)
           setSelectedAccountsB(
             accounts.filter(({ selectedKey }) => {
@@ -115,7 +115,7 @@ export function UpdateEachOther() {
         label="selectedB"
         data={selectedAccountsB}
         value={indexB}
-        on_change={({ data: account }) => {
+        onChange={({ data: account }) => {
           setSelectedB(account?.selectedKey)
           setSelectedAccountsA(
             accounts.filter(({ selectedKey }) => {
@@ -133,14 +133,14 @@ export function onBlur() {
     <Autocomplete
       left
       data={['AAA', 'BBB', 'CCC']}
-      // on_change={({ data }) => {
-      //   console.log('on_change', data)
+      // onChange={({ data }) => {
+      //   console.log('onChange', data)
       // }}
-      on_focus={({ value }) => {
-        console.log('on_focus', value)
+      onFocus={({ value }) => {
+        console.log('onFocus', value)
       }}
-      on_blur={({ value }) => {
-        console.log('on_blur', value)
+      onBlur={({ value }) => {
+        console.log('onBlur', value)
       }}
     />
   )
@@ -196,7 +196,7 @@ const AutocompleteWithState = () => {
       placeholder="Search ..."
       // label="Search"
       // labelSrOnly={true}
-      on_type={({
+      onType={({
         value,
         showIndicator,
         hideIndicator,
@@ -241,17 +241,17 @@ export const AutocompleteSandbox = () => {
           keepValueAndSelection
           showClearButton
           // preventSelection
-          // on_change={({ data }) => {
-          //   console.log('on_change', data)
+          // onChange={({ data }) => {
+          //   console.log('onChange', data)
           // }}
-          // on_show={({ event, data }) => {
-          //   console.log('on_show', event, data)
+          // onShow={({ event, data }) => {
+          //   console.log('onShow', event, data)
           // }}
-          // on_focus={({ event, data }) => {
-          //   console.log('on_focus', event, data)
+          // onFocus={({ event, data }) => {
+          //   console.log('onFocus', event, data)
           // }}
-          // on_blur={({ event, data }) => {
-          //   console.log('on_blur', event, data)
+          // onBlur={({ event, data }) => {
+          //   console.log('onBlur', event, data)
           // }}
         />
       </Box>
@@ -264,7 +264,7 @@ export const AutocompleteSandbox = () => {
           // inputIcon="bell"
           // submitButtonIcon="bell"
           submitElement={<SubmitButton icon="bell" />}
-          on_change={({ data }) => {
+          onChange={({ data }) => {
             console.log('on_change', data)
           }}
         >
@@ -335,11 +335,11 @@ export const AutocompleteSandbox = () => {
             // }
           ]}
           // iconPosition="left"
-          // on_select={(e) => {
-          //   console.log('on_select ???', e)
+          // onSelect={(e) => {
+          //   console.log('onSelect ???', e)
           // }}
-          on_change={(e) => {
-            console.log('on_change', e)
+          onChange={(e) => {
+            console.log('onChange', e)
           }}
           optionsRender={({
             Items,
@@ -367,11 +367,11 @@ export const AutocompleteSandbox = () => {
             c: 'CCC',
           }}
           // iconPosition="left"
-          // on_select={(e) => {
-          //   console.log('on_select ???', e)
+          // onSelect={(e) => {
+          //   console.log('onSelect ???', e)
           // }}
-          on_change={(e) => {
-            console.log('on_change', e)
+          onChange={(e) => {
+            console.log('onChange', e)
           }}
         />
       </Box>
@@ -383,7 +383,7 @@ export const AutocompleteSandbox = () => {
           preventSelection
           disableFilter
           data={topMovies}
-          on_type={({
+          onType={({
             // value,
             dataList,
             showIndicator,
@@ -412,10 +412,10 @@ export const AutocompleteSandbox = () => {
           // label="Search"
           // labelSrOnly={true}
           keepValue
-          on_type={({ value /* updateData, ... */ }) => {
-            console.log('on_type', value)
+          onType={({ value /* updateData, ... */ }) => {
+            console.log('onType', value)
           }}
-          on_focus={({
+          onFocus={({
             dataList,
             updateData,
             showIndicatorItem,
@@ -441,11 +441,11 @@ export const AutocompleteSandbox = () => {
           // preventClose
           // noAnimation
           inputValue="d"
-          on_select={(e) => {
-            console.log('on_select', e)
+          onSelect={(e) => {
+            console.log('onSelect', e)
           }}
-          on_change={(e) => {
-            console.log('on_change', e)
+          onChange={(e) => {
+            console.log('onChange', e)
           }}
           data={testData}
         />
@@ -468,19 +468,19 @@ export const AutocompleteSandbox = () => {
             b: 'BB',
           }}
           // iconPosition="left"
-          on_select={(e) => {
-            console.log('on_select', e)
+          onSelect={(e) => {
+            console.log('onSelect', e)
           }}
-          on_change={(e) => {
-            console.log('on_change', e)
+          onChange={(e) => {
+            console.log('onChange', e)
           }}
         />
         <Autocomplete
-          on_select={(e) => {
-            console.log('on_select', e)
+          onSelect={(e) => {
+            console.log('onSelect', e)
           }}
-          on_change={(e) => {
-            console.log('on_change', e)
+          onChange={(e) => {
+            console.log('onChange', e)
           }}
         >
           {{
@@ -826,7 +826,7 @@ function UpdateDataExample() {
         title="Choose an item"
         // preventSelection
         data={choiceData}
-        on_change={({
+        onChange={({
           data,
           setInputValue,
           // , updateData
@@ -996,19 +996,19 @@ export const AsyncSearchExample = () => {
           <Li>Type "A" and select the option available</Li>
           <Li>Type "B" and select the option available</Li>
         </Ol>
-        <P>on_change should also be firing when selecting "B".</P>
+        <P>onChange should also be firing when selecting "B".</P>
         <Autocomplete
           top
           mode="async"
-          on_type={onTypeHandler}
+          onType={onTypeHandler}
           noScrollAnimation={true}
           placeholder="Search ..."
-          on_change={({ data }) => {
-            console.log('on_change', data)
+          onChange={({ data }) => {
+            console.log('onChange', data)
             setOnChangeValue(data?.content)
           }}
         />
-        <P top>Value from on_change: {onChangeValue || '–'}</P>
+        <P top>Value from onChange: {onChangeValue || '–'}</P>
       </Space>
     </Section>
   )
