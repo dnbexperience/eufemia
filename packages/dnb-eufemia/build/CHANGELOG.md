@@ -3,6 +3,28 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.87.0](https://github.com/dnbexperience/eufemia/compare/v10.86.0...v10.87.0) (2025-10-24)
+
+
+### :bug: Bug Fixes
+
+* **Form.Iterate:** preserve JSX when replacing `{itemNo}` in labels ([#5725](https://github.com/dnbexperience/eufemia/issues/5725)) ([eb388b2](https://github.com/dnbexperience/eufemia/commit/eb388b26662b221ea87bf1dac60a6bb3144bd31b))
+* **renderWithFormatting:** enhance performance ([#5742](https://github.com/dnbexperience/eufemia/issues/5742)) ([6d52a07](https://github.com/dnbexperience/eufemia/commit/6d52a075e09d8d7b9278e67ace1764b2d8714ed7)), closes [#5744](https://github.com/dnbexperience/eufemia/issues/5744)
+
+
+### :memo: Documentation
+
+* generate per-page metadata.json + llms.txt ([#5825](https://github.com/dnbexperience/eufemia/issues/5825)) ([cc42ad2](https://github.com/dnbexperience/eufemia/commit/cc42ad2530b114b32186b1bb393410e427d94a05))
+* rewrite Getting Started ([#5816](https://github.com/dnbexperience/eufemia/issues/5816)) ([654216c](https://github.com/dnbexperience/eufemia/commit/654216c540defe1625e56bebba3cc6dc9497d9c5))
+
+
+### :sparkles: Features
+
+* add support for DNB Carnegie ([#5817](https://github.com/dnbexperience/eufemia/issues/5817)) ([a2ad34a](https://github.com/dnbexperience/eufemia/commit/a2ad34a5405d27df670141d0e6d59e68bff9a046))
+* **Logo:** add `svg` property for providing a custom (imported) logo ([#5783](https://github.com/dnbexperience/eufemia/issues/5783)) ([8cc170f](https://github.com/dnbexperience/eufemia/commit/8cc170ff71360c1bc0661c3eddbc8d7c03c83c18))
+* **Translation:** add support for formatted text (simple markdown like) by using `renderWithFormatting` ([#5744](https://github.com/dnbexperience/eufemia/issues/5744)) ([4e19327](https://github.com/dnbexperience/eufemia/commit/4e19327f14e83e6684a39bef1faa76b394a93d41)), closes [#5727](https://github.com/dnbexperience/eufemia/issues/5727)
+* **Translation:** enhance support for typing via generic `<Translation<SupportedTypes> id={(t) => t.my.string} />` ([#5727](https://github.com/dnbexperience/eufemia/issues/5727)) ([44e872f](https://github.com/dnbexperience/eufemia/commit/44e872f4337cdde97833e41ea3ab02b9e1e71fa3))
+
 ## [10.86.0](https://github.com/dnbexperience/eufemia/compare/v10.85.1...v10.86.0) (2025-10-17)
 
 
