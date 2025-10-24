@@ -60,7 +60,7 @@ type IntroFooterProps = {
 }
 
 export const IntroFooter = ({ href, text }: IntroFooterProps) => (
-  <Space top no_collapse className={footerStyle}>
+  <Space top noCollapse className={footerStyle}>
     <Global
       styles={css`
         .dnb-app-content {
