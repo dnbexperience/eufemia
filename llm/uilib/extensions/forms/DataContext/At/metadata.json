@@ -1,0 +1,56 @@
+{
+  "id": "uilib/extensions/forms/DataContext/At",
+  "name": "At",
+  "description": "`DataContext.At` makes it possible to dig into a data set to set a pointer as the root for sub components, as well as iterate array-data.",
+  "group": "extensions",
+  "slug": "/uilib/extensions/forms/DataContext/At/",
+  "props": [
+    {
+      "name": "children",
+      "doc": "Features with given path as root for the DataContext.",
+      "type": "React.ReactNode",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "path",
+      "doc": "JSON Pointer path to where in the outer DataContext source to point at.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "iterate",
+      "doc": "True to iterate elements at given path based on the source data, including the index in the outer path, instead of just rendering children once.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    }
+  ],
+  "events": [],
+  "related": [],
+  "checksum": "2e9b14e7af402ad2c64a18ada128243a8efcc9940c1b683b7704492e5f35b152",
+  "source": {
+    "repo": "https://github.com/dnbexperience/eufemia",
+    "file": "packages/dnb-eufemia/src/extensions/forms/DataContext/At/At.tsx",
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.87.0/packages/dnb-eufemia/src/extensions/forms/DataContext/At/At.tsx"
+  },
+  "sources": {
+    "entry": {
+      "local": "src/docs/uilib/extensions/forms/DataContext/At.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/DataContext/At/"
+    },
+    "props": {
+      "local": "src/docs/uilib/extensions/forms/DataContext/At/properties.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/DataContext/At/properties/"
+    },
+    "events": null,
+    "demos": {
+      "local": "src/docs/uilib/extensions/forms/DataContext/At/demos.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/DataContext/At/demos/"
+    }
+  },
+  "version": "10.87.0",
+  "generatedAt": "2025-10-24T08:41:53.578Z",
+  "schemaVersion": 1
+}

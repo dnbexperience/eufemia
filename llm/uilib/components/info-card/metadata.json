@@ -1,0 +1,167 @@
+{
+  "id": "uilib/components/info-card",
+  "name": "InfoCard",
+  "description": "The InfoCard is used to give the user more information than we can give in a message box. It can also be used as to give useful tips.",
+  "group": "components",
+  "slug": "/uilib/components/info-card/",
+  "props": [
+    {
+      "name": "text",
+      "doc": "The text content of the InfoCard, displayed/rendered in a paragraph. To fully customize the content, see `children` property.",
+      "type": "React.ReactNode",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "title",
+      "doc": "The title of the InfoCard.",
+      "type": "React.ReactNode",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "centered",
+      "doc": "Centers the content. Defaults to `false`.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "dropShadow",
+      "doc": "Sets the drop shadow of the info card. Defaults to `true`.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "stretch",
+      "doc": "Stretch the card to fill the container.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "className",
+      "doc": "Custom className for the component root.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "icon",
+      "doc": "Custom icon. Defaults to the `lightbulb` icon.",
+      "type": "React.ReactNode",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "imgProps",
+      "doc": "[Image properties](/uilib/elements/image) applied to the `img` element if the component is used to display an image.",
+      "type": "ImgProps",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "alt",
+      "doc": "Used in combination with `src` to provide an alt attribute for the image element.",
+      "type": "React.ReactNode",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "src",
+      "doc": "Specifies the path to the image.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "skeleton",
+      "doc": "If set to `true`, an overlaying skeleton with animation will be shown. Defaults to `false`.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "closeButtonText",
+      "doc": "The close button text.",
+      "type": "React.ReactNode",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "closeButtonAttributes",
+      "doc": "define any valid Eufemia [Button properties](/uilib/components/button/properties) or HTML attribute inside an object.",
+      "type": "ButtonProps",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "acceptButtonText",
+      "doc": "The accept button text.",
+      "type": "React.ReactNode",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "acceptButtonAttributes",
+      "doc": "define any valid Eufemia [Button properties](/uilib/components/button/properties) or HTML attribute inside an object.",
+      "type": "ButtonProps",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "children",
+      "doc": "Can be used to add custom content, which is displayed/rendered between the `text` property and buttons.",
+      "type": "React.ReactNode",
+      "status": "optional",
+      "defaultValue": null
+    }
+  ],
+  "events": [
+    {
+      "name": "onAccept",
+      "doc": "will be called when user clicks the accept button.",
+      "type": "function",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "onClose",
+      "doc": "will be called when user clicks the close button.",
+      "type": "function",
+      "status": "optional",
+      "defaultValue": null
+    }
+  ],
+  "related": [
+    "Space"
+  ],
+  "checksum": "c11806e61d6ac4fab831e0820990e1c670efab0d57fdbd7a9dd67e65b8ac3f7b",
+  "source": {
+    "repo": "https://github.com/dnbexperience/eufemia",
+    "file": "packages/dnb-eufemia/src/components/info-card/InfoCard.tsx",
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.87.0/packages/dnb-eufemia/src/components/info-card/InfoCard.tsx"
+  },
+  "sources": {
+    "entry": {
+      "local": "src/docs/uilib/components/info-card.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/info-card/"
+    },
+    "props": {
+      "local": "src/docs/uilib/components/info-card/properties.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/info-card/properties/"
+    },
+    "events": {
+      "local": "src/docs/uilib/components/info-card/events.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/info-card/events/"
+    },
+    "demos": {
+      "local": "src/docs/uilib/components/info-card/demos.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/info-card/demos/"
+    }
+  },
+  "version": "10.87.0",
+  "generatedAt": "2025-10-24T08:41:53.175Z",
+  "schemaVersion": 1
+}

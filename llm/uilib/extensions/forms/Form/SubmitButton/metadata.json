@@ -1,0 +1,52 @@
+{
+  "id": "uilib/extensions/forms/Form/SubmitButton",
+  "name": "SubmitButton",
+  "description": "`Form.SubmitButton` connects to the `Form.Handler` to submit the active state of the internal DataContext, triggering `onSubmit`.",
+  "group": "extensions",
+  "slug": "/uilib/extensions/forms/Form/SubmitButton/",
+  "props": [
+    {
+      "name": "variant",
+      "doc": "Use `send` to show the send icon.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "showIndicator",
+      "doc": "Show the submit indicator.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    }
+  ],
+  "events": [],
+  "related": [
+    "Button",
+    "Space"
+  ],
+  "checksum": "2ff3f44161d4380478c1bdc1c61b29eb8168ab67d62315ff0cc10231ef1cd2ab",
+  "source": {
+    "repo": "https://github.com/dnbexperience/eufemia",
+    "file": "packages/dnb-eufemia/src/extensions/forms/Form/SubmitButton/SubmitButton.tsx",
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.87.0/packages/dnb-eufemia/src/extensions/forms/Form/SubmitButton/SubmitButton.tsx"
+  },
+  "sources": {
+    "entry": {
+      "local": "src/docs/uilib/extensions/forms/Form/SubmitButton.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/Form/SubmitButton/"
+    },
+    "props": {
+      "local": "src/docs/uilib/extensions/forms/Form/SubmitButton/properties.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/Form/SubmitButton/properties/"
+    },
+    "events": null,
+    "demos": {
+      "local": "src/docs/uilib/extensions/forms/Form/SubmitButton/demos.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/Form/SubmitButton/demos/"
+    }
+  },
+  "version": "10.87.0",
+  "generatedAt": "2025-10-24T08:41:53.721Z",
+  "schemaVersion": 1
+}

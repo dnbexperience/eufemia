@@ -1,0 +1,177 @@
+{
+  "id": "uilib/components/breadcrumb",
+  "name": "Breadcrumb",
+  "description": "The Breadcrumb component is a bar for navigation showing current web path.",
+  "group": "components",
+  "slug": "/uilib/components/breadcrumb/",
+  "props": [
+    {
+      "name": "text",
+      "doc": "Text displaying inside Breadcrumb item.",
+      "type": "React.ReactNode",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "variant",
+      "doc": "Defaults to 'responsive' or 'single' depending on content. Options: `responsive` | `single` | `multiple` | `collapse` .",
+      "type": [
+        "responsive",
+        "single",
+        "multiple",
+        "collapse"
+      ],
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "icon",
+      "doc": "Override icon displaying on the left side (Not recommended). Default: `chevron_left`.",
+      "type": "React.ReactNode",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "href",
+      "doc": "For variant `single`, set `href` for button click. Can be used instead of event/property `onClick`.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "skeleton",
+      "doc": "If set to `true`, an overlaying skeleton with animation will be shown.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "data",
+      "doc": "List of pages to render as breadcrumbitems. Each object in data can include all properties from [BreadcrumbItem properties](/uilib/components/breadcrumb/properties#breadcrumbitem-properties).",
+      "type": "Array<BreadcrumbItemProps>",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "children",
+      "doc": "Content of the component. Can be used instead of property `data`, by adding Breadcrumbitem children `<Breadcrumb.Item {...props} />`.",
+      "type": "React.ReactNode",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "navText",
+      "doc": "Every `<nav>` on a page needs an unique aria-label text.",
+      "type": "React.ReactNode",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "goBackText",
+      "doc": "Override with a custom 'Back' text for variant `single` (Not recommended).",
+      "type": "React.ReactNode",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "homeText",
+      "doc": "Override with a custom 'Home' text (Not recommended)",
+      "type": "React.ReactNode",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "backToText",
+      "doc": "Override with a custom 'Back to...' text (Not recommended).",
+      "type": "React.ReactNode",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "styleType",
+      "doc": "Use one of the Section component style types (style_type). Defaults to `transparent`.",
+      "type": "Various",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "collapsedStyleType",
+      "doc": "Use one of the Section component variants. Defaults to `info`.",
+      "type": [
+        "error",
+        "info",
+        "warning",
+        "success"
+      ],
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "className",
+      "doc": "Custom className for the component root.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "isCollapsed",
+      "doc": "For variant `collapse`, override isCollapsed for the collapsed content by updating this value using the provided property `onClick`.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "spacing",
+      "doc": "Include spacing properties from [Section](/uilib/components/section/properties) in breadcrumb. If only `true` is given, the spacing will be `small`. Defaults to `false`.",
+      "type": "Various",
+      "status": "optional",
+      "defaultValue": null
+    }
+  ],
+  "events": [
+    {
+      "name": "onClick",
+      "doc": "will be called by user click interaction.",
+      "type": "function",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "onToggle",
+      "doc": "Will be called when breadcrumb expands or collapses.",
+      "type": "function",
+      "status": "optional",
+      "defaultValue": null
+    }
+  ],
+  "related": [
+    "Space"
+  ],
+  "checksum": "01eac12d0010a91532bf89e6d9d42cb38473513de392d01f05cbecf5c76428cf",
+  "source": {
+    "repo": "https://github.com/dnbexperience/eufemia",
+    "file": "packages/dnb-eufemia/src/components/breadcrumb/Breadcrumb.tsx",
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.87.0/packages/dnb-eufemia/src/components/breadcrumb/Breadcrumb.tsx"
+  },
+  "sources": {
+    "entry": {
+      "local": "src/docs/uilib/components/breadcrumb.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/breadcrumb/"
+    },
+    "props": {
+      "local": "src/docs/uilib/components/breadcrumb/properties.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/breadcrumb/properties/"
+    },
+    "events": {
+      "local": "src/docs/uilib/components/breadcrumb/events.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/breadcrumb/events/"
+    },
+    "demos": {
+      "local": "src/docs/uilib/components/breadcrumb/demos.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/breadcrumb/demos/"
+    }
+  },
+  "version": "10.87.0",
+  "generatedAt": "2025-10-24T08:41:53.020Z",
+  "schemaVersion": 1
+}

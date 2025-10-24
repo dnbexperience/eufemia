@@ -1,0 +1,145 @@
+{
+  "id": "uilib/components/anchor",
+  "name": "Anchor (Text Link)",
+  "description": "The Anchor, also known as \"Link\" is used to navigate from one page to the next HTML page.",
+  "group": "components",
+  "slug": "/uilib/components/anchor/",
+  "props": [
+    {
+      "name": "element",
+      "doc": "Define what HTML or React element should be used (e.g. `element={Link}`). Defaults to semantic `a` element.",
+      "type": "React.Element",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "href",
+      "doc": "Relative or absolute url.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "to",
+      "doc": "Use this prop only if you are using a router Link component as the `element` that uses the `to` property to declare the navigation url.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "target",
+      "doc": "Defines the opening method. Use `_blank` to open a new browser window/tab.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "targetBlankTitle",
+      "doc": "The title shown as a tooltip when target is set to `_blank`.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "tooltip",
+      "doc": "Provide a string or a React Element to be shown as the tooltip content.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "icon",
+      "doc": "[Primary Icons](/icons/primary) can be set as a string (e.g. icon=\"chevron_right\"), other icons should be set as React elements.",
+      "type": "React.Node",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "iconPosition",
+      "doc": "`left` (default) or `right`. Places icon to the left or to the right of the text.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "noAnimation",
+      "doc": "Removes animations if set to `true`. Defaults to `false`.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "noHover",
+      "doc": "Removes hover effects if set to `true`. Defaults to `false`.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "noStyle",
+      "doc": "Removes styling if set to `true`. Defaults to `false`.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "noUnderline",
+      "doc": "Removes underline if set to `true`. Defaults to `false`.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "noIcon",
+      "doc": "Removes icons if set to `true`. Defaults to `false`.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "noLaunchIcon",
+      "doc": "Removes launch icon if set to `true`. Defaults to `false`.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "skeleton",
+      "doc": "If set to `true`, an overlaying skeleton with animation will be shown.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    }
+  ],
+  "events": [],
+  "related": [
+    "Space"
+  ],
+  "checksum": "d482fff2a0cce1a30b57933726ff0b5649be2611e9b42d70cadcf3d4afa1fd69",
+  "source": {
+    "repo": "https://github.com/dnbexperience/eufemia",
+    "file": "packages/dnb-eufemia/src/components/anchor/index.ts",
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.87.0/packages/dnb-eufemia/src/components/anchor/index.ts"
+  },
+  "sources": {
+    "entry": {
+      "local": "src/docs/uilib/components/anchor.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/anchor/"
+    },
+    "props": {
+      "local": "src/docs/uilib/components/anchor/properties.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/anchor/properties/"
+    },
+    "events": {
+      "local": "src/docs/uilib/components/anchor/events.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/anchor/events/"
+    },
+    "demos": {
+      "local": "src/docs/uilib/components/anchor/demos.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/anchor/demos/"
+    }
+  },
+  "version": "10.87.0",
+  "generatedAt": "2025-10-24T08:41:52.958Z",
+  "schemaVersion": 1
+}

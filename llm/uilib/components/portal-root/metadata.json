@@ -1,0 +1,52 @@
+{
+  "id": "uilib/components/portal-root",
+  "name": "PortalRoot",
+  "description": "PortalRoot is a React component that helps you make React Portals.",
+  "group": "components",
+  "slug": "/uilib/components/portal-root/",
+  "props": [
+    {
+      "name": "innerRef",
+      "doc": "The ref of the element that will be used.",
+      "type": [
+        "React.Ref<HTMLElement>",
+        "React.MutableRefObject<HTMLElement>"
+      ],
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "children",
+      "doc": "The content that will be placed in a React Portal.",
+      "type": "ReactNode",
+      "status": "required",
+      "defaultValue": null
+    }
+  ],
+  "events": [],
+  "related": [],
+  "checksum": "f8cc21925df50ae4a1beb040e4f8b8e94336fb2d8e1b91f4befc31e1c69141f2",
+  "source": {
+    "repo": "https://github.com/dnbexperience/eufemia",
+    "file": "packages/dnb-eufemia/src/components/portal-root/PortalRoot.tsx",
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.87.0/packages/dnb-eufemia/src/components/portal-root/PortalRoot.tsx"
+  },
+  "sources": {
+    "entry": {
+      "local": "src/docs/uilib/components/portal-root.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/portal-root/"
+    },
+    "props": {
+      "local": "src/docs/uilib/components/portal-root/properties.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/portal-root/properties/"
+    },
+    "events": null,
+    "demos": {
+      "local": "src/docs/uilib/components/portal-root/demos.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/portal-root/demos/"
+    }
+  },
+  "version": "10.87.0",
+  "generatedAt": "2025-10-24T08:41:53.277Z",
+  "schemaVersion": 1
+}

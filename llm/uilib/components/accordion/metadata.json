@@ -1,0 +1,262 @@
+{
+  "id": "uilib/components/accordion",
+  "name": "Accordion",
+  "description": "The Accordion component is a combination of an accessible button (header area) and a content container.",
+  "group": "components",
+  "slug": "/uilib/components/accordion/",
+  "props": [
+    {
+      "name": "id",
+      "doc": "A unique `id` that will be used on the button element. If you use `remember_state`, an id is required.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "title",
+      "doc": "A title as a string or React element. It will be used as the button text.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "expanded",
+      "doc": "If set to `true` the accordion will be expanded as its initial state.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "expanded_ssr",
+      "doc": "If set to `true` the accordion will be expanded during SSR. Can be potentially useful for SEO, although it will disturb client hydration, where React expects the same state. But that's mainly a technical aspect to consider.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "remember_state",
+      "doc": "If set to `true`, it will remember a changed state initiated by the user. It requires a unique `id`. It will store the state in the local storage.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "flush_remembered_state",
+      "doc": "If set to `true`, the saved (remembered) state will be removed and the initial component state will be used and set.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "no_animation",
+      "doc": "If set to `true`, the open and close animation will be omitted.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "variant",
+      "doc": "Defines the used styling. `Outlined`, `filled`, or `plain` (no styling). Defaults to `outlined`.",
+      "type": [
+        "outlined",
+        "filled",
+        "plain"
+      ],
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "icon",
+      "doc": "Will replace the `chevron` icon. The icon will still rotate (by CSS). You can use an object to use two different icons, one for the closed state and one for the expanded state `{ closed, expanded }`.",
+      "type": "React.ReactNode",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "icon_position",
+      "doc": "Will set the placement of the icon. Defaults to `left`.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "icon_size",
+      "doc": "Define a different icon size. Defaults to `medium` (1.5rem).",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "left_component",
+      "doc": "Will add a React element on the left side of the `title`, inside `AccordionHeaderContainer`.",
+      "type": "React.ReactNode",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "prerender",
+      "doc": "If set to `true` the content will be present, even the accordion is not expanded. Can be useful for assistive technology or SEO.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "prevent_rerender",
+      "doc": "If set to `true` the accordion component will not re-render its content – can be useful for components you don't have control of storing the temporary state during an interaction.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "prevent_rerender_conditional",
+      "doc": "Use this prop together with `prevent_rerender` – and if it is set to `true`, the accordion component will re-render if the children are a new React element and do not match the previous one anymore.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "single_container",
+      "doc": "If set to `true`, a group of accordions will be wrapped to a sidebar looking menu for medium and larger screens.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "element",
+      "doc": "Gives you the option to replace the used `button` element. Provide a React element, including a string (HTML element). Defaults to a `div` with all the needed accessibility features included.",
+      "type": "React.ReactNode",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "heading",
+      "doc": "If set to `true`, level 2 (h2) will be used. You can provide your own HTML heading (`h3`), or provide a `heading_level` property.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "heading_level",
+      "doc": "If `heading` is set to `true`, you can provide a numeric value to define a different heading level. Defaults to `2`.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "disabled",
+      "doc": "If set to `true`, the accordion button will be disabled (dimmed).",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "skeleton",
+      "doc": "If set to `true`, an overlaying skeleton with animation will be shown.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "contentRef",
+      "doc": "Send along a custom React Ref for `.dnb-accordion__content`.",
+      "type": "function",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "collapseAllHandleRef",
+      "doc": "Ref handle to collapse all expanded accordions. Send in a ref and use `.current()` to collapse all accordions. Default: `undefined`.",
+      "type": "React.MutableRefObject<() => void>",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "space",
+      "doc": "Spacing properties like `top` or `bottom` are supported.",
+      "type": [
+        "string",
+        "object"
+      ],
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "group",
+      "doc": "Define a unique id, it will be used to 'group' several accordions into one.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "allow_close_all",
+      "doc": "If set to `true`, the group of accordions will allow all to close.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "expandBehaviour",
+      "doc": "Use `expandBehavior` instead.",
+      "type": [
+        "single",
+        "multiple"
+      ],
+      "status": "deprecated",
+      "defaultValue": null
+    },
+    {
+      "name": "expandBehavior",
+      "doc": "Determines how many accordions can be expanded at once. Defaults to `single`.",
+      "type": [
+        "single",
+        "multiple"
+      ],
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "expanded_id",
+      "doc": "Define an `id` of a nested accordion that will get expanded.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    }
+  ],
+  "events": [
+    {
+      "name": "on_change",
+      "doc": "Will be called by user click interaction. Returns an object with a boolean state `expanded` inside `{ expanded, id, event, ...event }`.",
+      "type": "function",
+      "status": "optional",
+      "defaultValue": null
+    }
+  ],
+  "related": [],
+  "checksum": "d50f39f6797d31e682858e10c2071d744c1cfd373bc6e1f2b2e347737c149705",
+  "source": {
+    "repo": "https://github.com/dnbexperience/eufemia",
+    "file": "packages/dnb-eufemia/src/components/accordion/Accordion.tsx",
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.87.0/packages/dnb-eufemia/src/components/accordion/Accordion.tsx"
+  },
+  "sources": {
+    "entry": {
+      "local": "src/docs/uilib/components/accordion.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/accordion/"
+    },
+    "props": {
+      "local": "src/docs/uilib/components/accordion/properties.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/accordion/properties/"
+    },
+    "events": {
+      "local": "src/docs/uilib/components/accordion/events.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/accordion/events/"
+    },
+    "demos": {
+      "local": "src/docs/uilib/components/accordion/demos.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/accordion/demos/"
+    }
+  },
+  "version": "10.87.0",
+  "generatedAt": "2025-10-24T08:41:52.944Z",
+  "schemaVersion": 1
+}

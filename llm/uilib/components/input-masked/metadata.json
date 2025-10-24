@@ -1,0 +1,320 @@
+{
+  "id": "uilib/components/input-masked",
+  "name": "InputMasked",
+  "description": "The InputMasked component uses the basic input component, but with some additional masking functionality.",
+  "group": "components",
+  "slug": "/uilib/components/input-masked/",
+  "props": [
+    {
+      "name": "prefix",
+      "doc": "What to display before the amount. Defaults to an empty string.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "suffix",
+      "doc": "Text describing the content of the input more than the label. you can also send in a React component, so it gets wrapped inside the Input component.",
+      "type": "React.ReactNode",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "includeThousandsSeparator",
+      "doc": "Whether or not to separate thousands. Defaults to `true`.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "thousandsSeparatorSymbol",
+      "doc": "Character with which to separate thousands. Defaults to `' '`.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "allowDecimal",
+      "doc": "Whether or not to allow the user to enter a fraction with the amount. Defaults to `false`.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "decimalSymbol",
+      "doc": "Character that will act as a decimal point. Defaults to `','`.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "decimalLimit",
+      "doc": "How many digits to allow after the decimal. Defaults to `2`.",
+      "type": "number",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "integerLimit",
+      "doc": "Limit the length of the integer number. Defaults to `null` for unlimited.",
+      "type": "number",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "requireDecimal",
+      "doc": "Whether or not to always include a decimal point and placeholder for decimal digits after the integer. Defaults to `false`.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "allowNegative",
+      "doc": "Whether or not to allow negative numbers. Defaults to `true`.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "disallowLeadingZeroes",
+      "doc": "Whether or not to allow leading zeroes during typing. *A leading zero is any 0 digit that comes before the first nonzero digit in a number string in positional notation* - [wikipedia](https://en.wikipedia.org/wiki/Leading_zero). Defaults to `false`.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "as_number",
+      "doc": "Set to `true` to automatically set a number mask based on the given or inherited locale.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "as_percent",
+      "doc": "Set to `true` to automatically set a number mask with a percentage sign based on the given or inherited locale.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "as_currency",
+      "doc": "Set to `true` to use `NOK` or give it a currency code e.g. `USD` to automatically set a currency mask based on the given or inherited locale.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "mask_options",
+      "doc": "Use it to manipulate internal masks. You can use it instead of e.g. `number_mask` or `currency_mask`. All options are listed below.",
+      "type": "object",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "number_mask",
+      "doc": "Set to `true` to enable the default numbers formatting – or give an `object` containing the number mask properties. More details below. Can be a JSON string as well, containing the number mask properties. Is disabled by default.",
+      "type": [
+        "boolean",
+        "object"
+      ],
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "currency_mask",
+      "doc": "Set to `true` or set the _valuta_ (currency_mask=\"kr\") to enable a custom currency mask – or give an `object` containing the number mask properties. More details below. Can be a JSON string as well, containing the number mask properties. Is disabled by default. Defaults to `kr`.",
+      "type": [
+        "boolean",
+        "object"
+      ],
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "number_format",
+      "doc": "Use an object with [NumberFormat](/uilib/components/number-format/properties).",
+      "type": "object",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "locale",
+      "doc": "Define the locale to be used in the `as_number` or `as_currency` masked. It will be inherited from the [Eufemia Provider](/uilib/usage/customisation/provider) if not given. Defaults to `nb-NO`.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "mask",
+      "doc": "Each RegExp item in the array defines what the mask should be for each subsequent character in the input. The array length sets the inputs size/character limit.",
+      "type": "array",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "show_mask",
+      "doc": "Show mask when input is empty and has no focus. Defaults to `false`.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "show_guide",
+      "doc": "When `false` is given, it doesn't print out placeholder characters and only adds mask characters when the user reaches them as they're typing. Defaults to `true`.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "placeholder_char",
+      "doc": "The placeholder character represents the fillable spot in the mask (e.g. `_`). Defaults to invisible space.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "keep_char_positions",
+      "doc": "When `true`, adding or deleting characters will not affect the positions of existing characters. Defaults to `false`.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "id",
+      "doc": "(string) Defines input id. This id is also used to map the input value to the correct property on the objects used for `values` and `onChange` parameters.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "label",
+      "doc": "`legend` element describing the group of inputs inside the components.",
+      "type": "React.ReactNode",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "placeholderCharacter",
+      "doc": "Sets the placeholder character used for the input.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "labelDirection",
+      "doc": "Use to change the label layout direction. Defaults to `horizontal`.",
+      "type": [
+        "horizontal",
+        "vertical"
+      ],
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "inputs",
+      "doc": "array of [MultiInputMaskInput](/uilib/components/input-masked/properties/#multiinputmask-inputs-properties) that defines the inputs in the component. The id's defined here is used to map input value to correct property in `values` parameters used in `onChange`.",
+      "type": "array",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "values",
+      "doc": "values used for the inputs in the component. Expects an object with keys matching the id's defined in `inputs`.",
+      "type": "object",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "delimiter",
+      "doc": "character that separates the input inputs.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "stretch",
+      "doc": "use `true` in order to stretch the input to the available space. Defaults to `false`.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "status",
+      "doc": "text with a status message. The style defaults to an error message. You can use true to only get the status color, without a message.`.",
+      "type": "React.ReactNode",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "statusState",
+      "doc": "defines the state of the status. It's two statuses [error, info]. Defaults to error.",
+      "type": [
+        "error",
+        "info"
+      ],
+      "status": "optional",
+      "defaultValue": null
+    }
+  ],
+  "events": [
+    {
+      "name": "on_change",
+      "doc": "will be called on value changes made by the user. Returns an object with the value as a string and the native event: `{ value, numberValue, cleanedValue, event }`.",
+      "type": "function",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "onChange",
+      "doc": "runs when an input value changes. Has an object parameter with keys matching the id's defined in `inputs`, and values of string. E.g: `{month: string, year: string}`.",
+      "type": "function",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "onFocus",
+      "doc": "runs when an input gains focus. Has an object parameter with keys matching the id's defined in `inputs`, and values of string. E.g: `{month: string, year: string}`.",
+      "type": "function",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "onBlur",
+      "doc": "runs when an input lose focus. Has an object parameter with keys matching the id's defined in `inputs`, and values of string. E.g: `{month: string, year: string}`.",
+      "type": "function",
+      "status": "optional",
+      "defaultValue": null
+    }
+  ],
+  "related": [
+    "Input",
+    "Space"
+  ],
+  "checksum": "3b97c30af63204ce73f9c7ce089edab36bf1565f25a4e3d3417bdcff5b2c8a46",
+  "source": {
+    "repo": "https://github.com/dnbexperience/eufemia",
+    "file": "packages/dnb-eufemia/src/components/input-masked/InputMasked.tsx",
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.87.0/packages/dnb-eufemia/src/components/input-masked/InputMasked.tsx"
+  },
+  "sources": {
+    "entry": {
+      "local": "src/docs/uilib/components/input-masked.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/input-masked/"
+    },
+    "props": {
+      "local": "src/docs/uilib/components/input-masked/properties.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/input-masked/properties/"
+    },
+    "events": {
+      "local": "src/docs/uilib/components/input-masked/events.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/input-masked/events/"
+    },
+    "demos": {
+      "local": "src/docs/uilib/components/input-masked/demos.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/input-masked/demos/"
+    }
+  },
+  "version": "10.87.0",
+  "generatedAt": "2025-10-24T08:41:53.189Z",
+  "schemaVersion": 1
+}

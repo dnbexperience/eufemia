@@ -1,0 +1,67 @@
+{
+  "id": "uilib/extensions/forms/Form/SubmitConfirmation",
+  "name": "SubmitConfirmation",
+  "description": "`Form.SubmitConfirmation` can be used to prevent the `Form.Handler` from submitting, and makes it possible to show a confirmation dialog in different scenarios.",
+  "group": "extensions",
+  "slug": "/uilib/extensions/forms/Form/SubmitConfirmation/",
+  "props": [
+    {
+      "name": "preventSubmitWhen",
+      "doc": "Use this function to prevent the original `onSubmit` from being called. It receives an object as the first parameter. Read more about the parameters in the info section. It should return a boolean value that determines whether the confirmation routine (submit prevention) should be active or not. It defaults to be active by default.",
+      "type": "function",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "renderWithState",
+      "doc": "This function is called whenever the submit confirmation state changes. It receives an object as the first parameter. Read more about the parameters in the info section. The function is expected to return a React Element to render.",
+      "type": "function",
+      "status": "optional",
+      "defaultValue": null
+    }
+  ],
+  "events": [
+    {
+      "name": "onSubmitResult",
+      "doc": "This function is called whenever the `onSubmit` event returns a result. It receives an object as the first parameter, including the `submitState`. Read more about the parameters in the info section.",
+      "type": "function",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "onStateChange",
+      "doc": "This function is called whenever the submit confirmation state changes. It takes an object as the first parameter. Read more about the parameters in the info section.",
+      "type": "function",
+      "status": "optional",
+      "defaultValue": null
+    }
+  ],
+  "related": [],
+  "checksum": "b1739729b5f2e12bd4a05ca570059691a2414b8240785ae2d518090a6986dfd4",
+  "source": {
+    "repo": "https://github.com/dnbexperience/eufemia",
+    "file": "packages/dnb-eufemia/src/extensions/forms/Form/SubmitConfirmation/SubmitConfirmation.tsx",
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.87.0/packages/dnb-eufemia/src/extensions/forms/Form/SubmitConfirmation/SubmitConfirmation.tsx"
+  },
+  "sources": {
+    "entry": {
+      "local": "src/docs/uilib/extensions/forms/Form/SubmitConfirmation.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/Form/SubmitConfirmation/"
+    },
+    "props": {
+      "local": "src/docs/uilib/extensions/forms/Form/SubmitConfirmation/properties.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/Form/SubmitConfirmation/properties/"
+    },
+    "events": {
+      "local": "src/docs/uilib/extensions/forms/Form/SubmitConfirmation/events.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/Form/SubmitConfirmation/events/"
+    },
+    "demos": {
+      "local": "src/docs/uilib/extensions/forms/Form/SubmitConfirmation/demos.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/Form/SubmitConfirmation/demos/"
+    }
+  },
+  "version": "10.87.0",
+  "generatedAt": "2025-10-24T08:41:53.725Z",
+  "schemaVersion": 1
+}

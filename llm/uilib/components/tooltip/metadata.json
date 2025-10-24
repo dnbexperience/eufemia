@@ -1,0 +1,149 @@
+{
+  "id": "uilib/components/tooltip",
+  "name": "Tooltip",
+  "description": "The Tooltip component is primarily meant to enhance the UX for various and additional information.",
+  "group": "components",
+  "slug": "/uilib/components/tooltip/",
+  "props": [
+    {
+      "name": "children",
+      "doc": "Provide a string or a React Element to be shown as the tooltip content.",
+      "type": "React.Node",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "active",
+      "doc": "Controls visibility. When provided, Tooltip is controlled and ignores DOM events (hover/focus/touch). `true` keeps it visible; `false` keeps it hidden.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "position",
+      "doc": "defines the offset position to the target element the arrow appears. Can be `top`, `right`, `left` and `bottom`. Defaults to `top`.",
+      "type": [
+        "top",
+        "right",
+        "left",
+        "bottom"
+      ],
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "align",
+      "doc": "defines the offset alignment to the target element the arrow appears. Can be `center`, `right` and `left`. Defaults to `center`.",
+      "type": [
+        "center",
+        "right",
+        "left"
+      ],
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "arrow",
+      "doc": "defines the direction where the arrow appears. Can be `center`, `top`, `right`, `bottom` and `left`. Defaults to `center`.",
+      "type": [
+        "center",
+        "top",
+        "right",
+        "bottom",
+        "left"
+      ],
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "skipPortal",
+      "doc": "set to `true` to disable the React Portal behavior. Defaults to `false`.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "showDelay",
+      "doc": "define the delay until the tooltip should show up after the initial hover / active state.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "hideDelay",
+      "doc": "define the delay until the tooltip should disappear up after initial visibility.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "size",
+      "doc": "defines the spacing size of the tooltip. Can be `large` or `basis`. Defaults to `basis`.",
+      "type": [
+        "large",
+        "basis"
+      ],
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "targetElement",
+      "doc": "provide an element directly as a React Node or a React Ref that will be wrapped and rendered.",
+      "type": [
+        "React.Node",
+        "React.RefObject"
+      ],
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "targetSelector",
+      "doc": "specify a vanilla HTML selector by a string as the target element.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "noAnimation",
+      "doc": "set to `true` if no fade-in animation should be used.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "fixedPosition",
+      "doc": "If set to `true`, the Tooltip will be fixed in its scroll position by using CSS `position: fixed;`. Defaults to `false`.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    }
+  ],
+  "events": [],
+  "related": [
+    "Space"
+  ],
+  "checksum": "aa06a206f70b88f2ac8aba6faee3c0c4c5620fb679d18c33b789bb3056208508",
+  "source": {
+    "repo": "https://github.com/dnbexperience/eufemia",
+    "file": "packages/dnb-eufemia/src/components/tooltip/Tooltip.tsx",
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.87.0/packages/dnb-eufemia/src/components/tooltip/Tooltip.tsx"
+  },
+  "sources": {
+    "entry": {
+      "local": "src/docs/uilib/components/tooltip.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/tooltip/"
+    },
+    "props": {
+      "local": "src/docs/uilib/components/tooltip/properties.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/tooltip/properties/"
+    },
+    "events": null,
+    "demos": {
+      "local": "src/docs/uilib/components/tooltip/demos.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/tooltip/demos/"
+    }
+  },
+  "version": "10.87.0",
+  "generatedAt": "2025-10-24T08:41:53.514Z",
+  "schemaVersion": 1
+}

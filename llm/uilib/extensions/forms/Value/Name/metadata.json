@@ -1,0 +1,34 @@
+{
+  "id": "uilib/extensions/forms/Value/Name",
+  "name": "Name",
+  "description": "`Value.Name` is a wrapper component for displaying string values, with user experience tailored for personal, like first and last name and company names.",
+  "group": "extensions",
+  "slug": "/uilib/extensions/forms/Value/Name/",
+  "props": [],
+  "events": [],
+  "related": [],
+  "checksum": "090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40",
+  "source": {
+    "repo": "https://github.com/dnbexperience/eufemia",
+    "file": "packages/dnb-eufemia/src/extensions/forms/Value/Name/Name.tsx",
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.87.0/packages/dnb-eufemia/src/extensions/forms/Value/Name/Name.tsx"
+  },
+  "sources": {
+    "entry": {
+      "local": "src/docs/uilib/extensions/forms/Value/Name.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/Value/Name/"
+    },
+    "props": {
+      "local": "src/docs/uilib/extensions/forms/Value/Name/properties.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/Value/Name/properties/"
+    },
+    "events": null,
+    "demos": {
+      "local": "src/docs/uilib/extensions/forms/Value/Name/demos.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/Value/Name/demos/"
+    }
+  },
+  "version": "10.87.0",
+  "generatedAt": "2025-10-24T08:41:53.890Z",
+  "schemaVersion": 1
+}

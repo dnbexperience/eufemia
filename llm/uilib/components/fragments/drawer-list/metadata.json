@@ -1,0 +1,33 @@
+{
+  "id": "uilib/components/fragments/drawer-list",
+  "name": "Drawer List",
+  "description": "The DrawerList component is a fragment inside other components.",
+  "group": "components",
+  "slug": "/uilib/components/fragments/drawer-list/",
+  "props": [],
+  "events": [],
+  "related": [],
+  "checksum": "090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40",
+  "source": null,
+  "sources": {
+    "entry": {
+      "local": "src/docs/uilib/components/fragments/drawer-list.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/fragments/drawer-list/"
+    },
+    "props": {
+      "local": "src/docs/uilib/components/fragments/drawer-list/properties.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/fragments/drawer-list/properties/"
+    },
+    "events": {
+      "local": "src/docs/uilib/components/fragments/drawer-list/events.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/fragments/drawer-list/events/"
+    },
+    "demos": {
+      "local": "src/docs/uilib/components/fragments/drawer-list/demos.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/fragments/drawer-list/demos/"
+    }
+  },
+  "version": "10.87.0",
+  "generatedAt": "2025-10-24T08:41:53.125Z",
+  "schemaVersion": 1
+}

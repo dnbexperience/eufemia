@@ -1,0 +1,33 @@
+{
+  "id": "uilib/extensions/forms/base-fields/Boolean",
+  "name": "Boolean",
+  "description": "`Field.Boolean` is the base component for receiving user input where the target data is of type `boolean`.",
+  "group": "extensions",
+  "slug": "/uilib/extensions/forms/base-fields/Boolean/",
+  "props": [],
+  "events": [],
+  "related": [],
+  "checksum": "090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40",
+  "source": null,
+  "sources": {
+    "entry": {
+      "local": "src/docs/uilib/extensions/forms/base-fields/Boolean.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/base-fields/Boolean/"
+    },
+    "props": {
+      "local": "src/docs/uilib/extensions/forms/base-fields/Boolean/properties.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/base-fields/Boolean/properties/"
+    },
+    "events": {
+      "local": "src/docs/uilib/extensions/forms/base-fields/Boolean/events.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/base-fields/Boolean/events/"
+    },
+    "demos": {
+      "local": "src/docs/uilib/extensions/forms/base-fields/Boolean/demos.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/base-fields/Boolean/demos/"
+    }
+  },
+  "version": "10.87.0",
+  "generatedAt": "2025-10-24T08:41:54.012Z",
+  "schemaVersion": 1
+}

@@ -1,0 +1,142 @@
+{
+  "id": "uilib/extensions/forms/Value/Provider",
+  "name": "Provider",
+  "description": "The `Value.Provider` lets you pass generic properties to all nested Value.* components.",
+  "group": "extensions",
+  "slug": "/uilib/extensions/forms/Value/Provider/",
+  "props": [
+    {
+      "name": "value",
+      "doc": "Value for the value component. Will take precedence over the path value given in the data context.",
+      "type": "{valueType}",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "defaultValue",
+      "doc": "Default value for the value component. Will not take precedence over the path value given in the data context.",
+      "type": "{valueType}",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "label",
+      "doc": "Field label to show above the displayed value.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "labelSrOnly",
+      "doc": "Use `true` to make the label only readable by screen readers.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "help",
+      "doc": "Provide help content for the field using `title` and `content` as a string or React.Node. Additionally, you can set `open` to `true` to display the inline help, set the `breakout` property to `false` to disable the breakout of the inline help content, or use `renderAs` set to `dialog` to render the content in a [Dialog](/uilib/components/dialog/) (recommended for larger amounts of content).",
+      "type": "object",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "transformLabel",
+      "doc": "Transforms the label before it gets displayed. Receives the label as the first parameter. The second parameter is a object containing the `convertJsxToString` function.",
+      "type": "function",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "inheritLabel",
+      "doc": "Use `true` to inherit the label from a visible (rendered) field with the same path.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "inheritVisibility",
+      "doc": "Use `true` to inherit the visibility from a field with the same path. You can find more info in the [Value section](/uilib/extensions/forms/Value/#inherit-visibility-from-fields-based-on-path).",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "showEmpty",
+      "doc": "Shows the value even if it is empty.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "placeholder",
+      "doc": "Text showing in place of the value if no value is given.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "path",
+      "doc": "JSON Pointer for where the data for this input is located in the source dataset.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "inline",
+      "doc": "For showing the value inline (not as a block element).",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "maxWidth",
+      "doc": "Use `auto` for no max-width (use browser default), `small`, `medium` or `large` for predefined standard max widths. Defaults to `large`.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "transformIn",
+      "doc": "Transforms the `value` before its displayed in the value component.",
+      "type": "function",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "children",
+      "doc": "Contents.",
+      "type": "React.Node",
+      "status": "required",
+      "defaultValue": null
+    }
+  ],
+  "events": [],
+  "related": [
+    "Space"
+  ],
+  "checksum": "129cc2109ee321662ac86a69142cce84a795acd249731d1f62dc7c21102bddd5",
+  "source": {
+    "repo": "https://github.com/dnbexperience/eufemia",
+    "file": "packages/dnb-eufemia/src/extensions/forms/Value/Provider/index.ts",
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.87.0/packages/dnb-eufemia/src/extensions/forms/Value/Provider/index.ts"
+  },
+  "sources": {
+    "entry": {
+      "local": "src/docs/uilib/extensions/forms/Value/Provider.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/Value/Provider/"
+    },
+    "props": {
+      "local": "src/docs/uilib/extensions/forms/Value/Provider/properties.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/Value/Provider/properties/"
+    },
+    "events": null,
+    "demos": {
+      "local": "src/docs/uilib/extensions/forms/Value/Provider/demos.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/Value/Provider/demos/"
+    }
+  },
+  "version": "10.87.0",
+  "generatedAt": "2025-10-24T08:41:53.916Z",
+  "schemaVersion": 1
+}

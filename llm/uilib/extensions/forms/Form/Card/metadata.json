@@ -1,0 +1,116 @@
+{
+  "id": "uilib/extensions/forms/Form/Card",
+  "name": "Card",
+  "description": "`Form.Card` is a wrapper for the Card component to make it easier to use inside a form.",
+  "group": "extensions",
+  "slug": "/uilib/extensions/forms/Form/Card/",
+  "props": [
+    {
+      "name": "outset",
+      "doc": "Whether or not to break out (using negative margins) on larger screens. Same as `outset` in [Card](/uilib/components/card/properties). But defaults to `true`",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "stack",
+      "doc": "True to stack the sub components with space between. The `spacing` will default to `medium`. Same as `stack` in [Card](/uilib/components/card/properties). But defaults to `true`",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "direction",
+      "doc": "Defaults to `vertical`.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "alignSelf",
+      "doc": "Defaults to `stretch`.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "title",
+      "doc": "Define a title that appears on top of the Card.",
+      "type": "React.Node",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "responsive",
+      "doc": "Define if the card should behave responsive. Defaults to `true`.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "filled",
+      "doc": "Define if the Card should get the same background color as the outline border.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "outline",
+      "doc": "Define the outline color. Defaults to `var(--card-outline-color)`.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "backgroundColor",
+      "doc": "Define the background color. Defaults to `var(--card-background-color)`.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "element",
+      "doc": "Define the type of element. Defaults to `section`.",
+      "type": "React.Element",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "children",
+      "doc": "Contents.",
+      "type": "React.Node",
+      "status": "required",
+      "defaultValue": null
+    }
+  ],
+  "events": [],
+  "related": [
+    "Flex.Container",
+    "Flex.Item",
+    "Space"
+  ],
+  "checksum": "de213c2f66793b1c522b9c85f73e98b917e361ad3e58973f1f1fa22ffa34396c",
+  "source": {
+    "repo": "https://github.com/dnbexperience/eufemia",
+    "file": "packages/dnb-eufemia/src/extensions/forms/Form/Card/Card.tsx",
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.87.0/packages/dnb-eufemia/src/extensions/forms/Form/Card/Card.tsx"
+  },
+  "sources": {
+    "entry": {
+      "local": "src/docs/uilib/extensions/forms/Form/Card.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/Form/Card/"
+    },
+    "props": {
+      "local": "src/docs/uilib/extensions/forms/Form/Card/properties.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/Form/Card/properties/"
+    },
+    "events": null,
+    "demos": {
+      "local": "src/docs/uilib/extensions/forms/Form/Card/demos.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/Form/Card/demos/"
+    }
+  },
+  "version": "10.87.0",
+  "generatedAt": "2025-10-24T08:41:53.605Z",
+  "schemaVersion": 1
+}

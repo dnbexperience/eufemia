@@ -1,0 +1,106 @@
+{
+  "id": "uilib/components/badge",
+  "name": "Badge",
+  "description": "The Badge component allows the user to focus on new or unread content or notifications.",
+  "group": "components",
+  "slug": "/uilib/components/badge/",
+  "props": [
+    {
+      "name": "content",
+      "doc": "Content of the component.",
+      "type": [
+        "string",
+        "number",
+        "React.ReactNode"
+      ],
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "children",
+      "doc": "Content to display the badge on top of.",
+      "type": "React.ReactNode",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "vertical",
+      "doc": "Vertical positioning of the component. Options: `bottom` | `top`.",
+      "type": [
+        "top",
+        "bottom"
+      ],
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "horizontal",
+      "doc": "Horizontal positioning of the component. Options: `left` | `right`.",
+      "type": [
+        "left",
+        "right"
+      ],
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "className",
+      "doc": "Custom className for the component.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "skeleton",
+      "doc": "Applies loading skeleton.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "variant",
+      "doc": "defines the visual appearance of the badge. There are two main variants `notification` and `information`. The default variant is `information`.",
+      "type": [
+        "information",
+        "notification"
+      ],
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "label",
+      "doc": "The label description of the badge. Only required when passing a number as the badge content.",
+      "type": "React.ReactNode",
+      "status": "optional",
+      "defaultValue": null
+    }
+  ],
+  "events": [],
+  "related": [
+    "Space"
+  ],
+  "checksum": "96b8ddd7c62984065678177d4831bedbcf41120e07964a78093f1d5bb88e9eac",
+  "source": {
+    "repo": "https://github.com/dnbexperience/eufemia",
+    "file": "packages/dnb-eufemia/src/components/badge/Badge.tsx",
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.87.0/packages/dnb-eufemia/src/components/badge/Badge.tsx"
+  },
+  "sources": {
+    "entry": {
+      "local": "src/docs/uilib/components/badge.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/badge/"
+    },
+    "props": {
+      "local": "src/docs/uilib/components/badge/properties.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/badge/properties/"
+    },
+    "events": null,
+    "demos": {
+      "local": "src/docs/uilib/components/badge/demos.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/badge/demos/"
+    }
+  },
+  "version": "10.87.0",
+  "generatedAt": "2025-10-24T08:41:53.010Z",
+  "schemaVersion": 1
+}

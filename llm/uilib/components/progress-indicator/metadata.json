@@ -1,0 +1,179 @@
+{
+  "id": "uilib/components/progress-indicator",
+  "name": "ProgressIndicator",
+  "description": "The ProgressIndicator component is a waiting loader / spinner to show while other content is in progression.",
+  "group": "components",
+  "slug": "/uilib/components/progress-indicator/",
+  "props": [
+    {
+      "name": "no_animation",
+      "doc": "use `noAnimation`.",
+      "type": " boolean",
+      "status": "deprecated",
+      "defaultValue": null
+    },
+    {
+      "name": "label_direction",
+      "doc": "use `labelDirection`.",
+      "type": "string",
+      "status": "deprecated",
+      "defaultValue": null
+    },
+    {
+      "name": "show_label",
+      "doc": "use `showDefaultLabel`.",
+      "type": "boolean",
+      "status": "deprecated",
+      "defaultValue": null
+    },
+    {
+      "name": "progress",
+      "doc": "A number between 0-100, if not supplied a continuous loading-type animation will be used.",
+      "type": [
+        "string",
+        "number"
+      ],
+      "status": "optional",
+      "defaultValue": "undefined"
+    },
+    {
+      "name": "visible",
+      "doc": "Defines the visibility of the progress. Toggling the `visible` property to `false` will force a fade-out animation.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": "true"
+    },
+    {
+      "name": "type",
+      "doc": "Defines the type.",
+      "type": [
+        "'circular'",
+        "'linear'",
+        "'countdown'"
+      ],
+      "status": "optional",
+      "defaultValue": "'circular'"
+    },
+    {
+      "name": "noAnimation",
+      "doc": "Disables the fade-in and fade-out animation.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": "false"
+    },
+    {
+      "name": "size",
+      "doc": "Defines the size.",
+      "type": [
+        "'default'",
+        "'small'",
+        "'medium'",
+        "'large'",
+        "'huge'",
+        "string"
+      ],
+      "status": "optional",
+      "defaultValue": "'default'"
+    },
+    {
+      "name": "label",
+      "doc": "Content of a custom label. (Overrides `indicator_label` and `showDefaultLabel`)",
+      "type": "React.ReactNode",
+      "status": "optional",
+      "defaultValue": "undefined"
+    },
+    {
+      "name": "children",
+      "doc": "Same as `label` prop (`label` prop has priority)",
+      "type": "React.ReactNode",
+      "status": "optional",
+      "defaultValue": "undefined"
+    },
+    {
+      "name": "labelDirection",
+      "doc": "Sets the position of the label. `'inside'` only works with `type='circular'.",
+      "type": [
+        "'horizontal'",
+        "'vertical'",
+        "'inside'"
+      ],
+      "status": "optional",
+      "defaultValue": "'horizontal'"
+    },
+    {
+      "name": "showDefaultLabel",
+      "doc": "If set to `true` a default label (from text locales) will be shown.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": "false"
+    },
+    {
+      "name": "indicator_label",
+      "doc": "Use this to override the default label from text locales.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": "undefined"
+    },
+    {
+      "name": "title",
+      "doc": "Used to set title and aria-label. Defaults to the value of progress property, formatted as a percent.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": "undefined"
+    },
+    {
+      "name": "customCircleWidth",
+      "doc": "Send in custom css width for circle progress line. (`undefined` defaults to one eighth of the size).",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": "undefined"
+    }
+  ],
+  "events": [
+    {
+      "name": "on_complete",
+      "doc": "use `onComplete`.",
+      "type": "function",
+      "status": "deprecated",
+      "defaultValue": null
+    },
+    {
+      "name": "onComplete",
+      "doc": "Will be called once it's no longer `visible`.",
+      "type": "function",
+      "status": "optional",
+      "defaultValue": "undefined"
+    }
+  ],
+  "related": [
+    "Space",
+    "customColors"
+  ],
+  "checksum": "2d2c76f388a1ef17b3d184dd1787e9f546d397e74a42637a1cdeb4df23b270c4",
+  "source": {
+    "repo": "https://github.com/dnbexperience/eufemia",
+    "file": "packages/dnb-eufemia/src/components/progress-indicator/ProgressIndicator.tsx",
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.87.0/packages/dnb-eufemia/src/components/progress-indicator/ProgressIndicator.tsx"
+  },
+  "sources": {
+    "entry": {
+      "local": "src/docs/uilib/components/progress-indicator.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/progress-indicator/"
+    },
+    "props": {
+      "local": "src/docs/uilib/components/progress-indicator/properties.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/progress-indicator/properties/"
+    },
+    "events": {
+      "local": "src/docs/uilib/components/progress-indicator/events.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/progress-indicator/events/"
+    },
+    "demos": {
+      "local": "src/docs/uilib/components/progress-indicator/demos.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/progress-indicator/demos/"
+    }
+  },
+  "version": "10.87.0",
+  "generatedAt": "2025-10-24T08:41:53.288Z",
+  "schemaVersion": 1
+}

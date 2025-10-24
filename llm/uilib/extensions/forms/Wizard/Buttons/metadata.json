@@ -1,0 +1,36 @@
+{
+  "id": "uilib/extensions/forms/Wizard/Buttons",
+  "name": "Buttons",
+  "description": "`Wizard.Buttons` is a combination of PreviousButton and NextButton for navigating between steps/pages.",
+  "group": "extensions",
+  "slug": "/uilib/extensions/forms/Wizard/Buttons/",
+  "props": [],
+  "events": [],
+  "related": [
+    "Form.ButtonRow"
+  ],
+  "checksum": "4ea56087d0680bf07da056cf40e953588811b3ff8876526853e7bcc84fb35e61",
+  "source": {
+    "repo": "https://github.com/dnbexperience/eufemia",
+    "file": "packages/dnb-eufemia/src/extensions/forms/Wizard/Buttons/Buttons.tsx",
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.87.0/packages/dnb-eufemia/src/extensions/forms/Wizard/Buttons/Buttons.tsx"
+  },
+  "sources": {
+    "entry": {
+      "local": "src/docs/uilib/extensions/forms/Wizard/Buttons.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/Wizard/Buttons/"
+    },
+    "props": {
+      "local": "src/docs/uilib/extensions/forms/Wizard/Buttons/properties.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/Wizard/Buttons/properties/"
+    },
+    "events": null,
+    "demos": {
+      "local": "src/docs/uilib/extensions/forms/Wizard/Buttons/demos.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/Wizard/Buttons/demos/"
+    }
+  },
+  "version": "10.87.0",
+  "generatedAt": "2025-10-24T08:41:53.975Z",
+  "schemaVersion": 1
+}

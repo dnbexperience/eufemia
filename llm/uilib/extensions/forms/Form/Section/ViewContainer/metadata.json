@@ -1,0 +1,62 @@
+{
+  "id": "uilib/extensions/forms/Form/Section/ViewContainer",
+  "name": "ViewContainer",
+  "description": "`Form.Section.ViewContainer` enables users to toggle (with animation) the content of each item between the view and edit container.",
+  "group": "extensions",
+  "slug": "/uilib/extensions/forms/Form/Section/ViewContainer/",
+  "props": [
+    {
+      "name": "title",
+      "doc": "The title of the container.",
+      "type": "React.Node",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "variant",
+      "doc": "Defines the variant of the container. Can be `outline`, `filled` or `basic`. Defaults to `outline`.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    }
+  ],
+  "events": [
+    {
+      "name": "onEdit",
+      "doc": "Callback for the edit button.",
+      "type": "Function",
+      "status": "optional",
+      "defaultValue": null
+    }
+  ],
+  "related": [
+    "FlexVertical"
+  ],
+  "checksum": "e0615561d9cc3acdce1ca23ab011b156b2007d5ee88cc7a3c3c32365a1b59785",
+  "source": {
+    "repo": "https://github.com/dnbexperience/eufemia",
+    "file": "packages/dnb-eufemia/src/extensions/forms/Form/Section/ViewContainer/ViewContainer.tsx",
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.87.0/packages/dnb-eufemia/src/extensions/forms/Form/Section/ViewContainer/ViewContainer.tsx"
+  },
+  "sources": {
+    "entry": {
+      "local": "src/docs/uilib/extensions/forms/Form/Section/ViewContainer.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/Form/Section/ViewContainer/"
+    },
+    "props": {
+      "local": "src/docs/uilib/extensions/forms/Form/Section/ViewContainer/properties.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/Form/Section/ViewContainer/properties/"
+    },
+    "events": {
+      "local": "src/docs/uilib/extensions/forms/Form/Section/ViewContainer/events.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/Form/Section/ViewContainer/events/"
+    },
+    "demos": {
+      "local": "src/docs/uilib/extensions/forms/Form/Section/ViewContainer/demos.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/Form/Section/ViewContainer/demos/"
+    }
+  },
+  "version": "10.87.0",
+  "generatedAt": "2025-10-24T08:41:53.692Z",
+  "schemaVersion": 1
+}

@@ -1,0 +1,63 @@
+{
+  "id": "uilib/components/skip-content",
+  "name": "SkipContent",
+  "description": "SkipContent gives users – using their keyboard for navigation – the option to skip over content which contains a large amount of interactive elements.",
+  "group": "components",
+  "slug": "/uilib/components/skip-content/",
+  "props": [
+    {
+      "name": "selector",
+      "doc": "Define an existing HTML element selector to focus when the inner button got pressed.",
+      "type": "string",
+      "status": "required",
+      "defaultValue": null
+    },
+    {
+      "name": "text",
+      "doc": "Define a clear message describing the choices the users has.",
+      "type": "React.ReactNode",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "children",
+      "doc": "Define a clear message describing the choices the users has.",
+      "type": "React.ReactNode",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "focusDelay",
+      "doc": "Defines the delay after the enter key has been pressed.",
+      "type": "number",
+      "status": "optional",
+      "defaultValue": null
+    }
+  ],
+  "events": [],
+  "related": [],
+  "checksum": "c28dbcebe287bcfa224e85823aebc98dcf587c1de37a22a1b3331c003c71a726",
+  "source": {
+    "repo": "https://github.com/dnbexperience/eufemia",
+    "file": "packages/dnb-eufemia/src/components/skip-content/SkipContent.tsx",
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.87.0/packages/dnb-eufemia/src/components/skip-content/SkipContent.tsx"
+  },
+  "sources": {
+    "entry": {
+      "local": "src/docs/uilib/components/skip-content.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/skip-content/"
+    },
+    "props": {
+      "local": "src/docs/uilib/components/skip-content/properties.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/skip-content/properties/"
+    },
+    "events": null,
+    "demos": {
+      "local": "src/docs/uilib/components/skip-content/demos.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/skip-content/demos/"
+    }
+  },
+  "version": "10.87.0",
+  "generatedAt": "2025-10-24T08:41:53.312Z",
+  "schemaVersion": 1
+}

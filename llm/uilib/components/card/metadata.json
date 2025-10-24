@@ -1,0 +1,116 @@
+{
+  "id": "uilib/components/card",
+  "name": "Card",
+  "description": "`Card` is a block section element showing the white box with rounded gray borders, adding spacing automatically.",
+  "group": "components",
+  "slug": "/uilib/components/card/",
+  "props": [
+    {
+      "name": "outset",
+      "doc": "Whether or not to break out (using negative margins) on larger screens. Defaults to `false`.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "stack",
+      "doc": "True to stack the sub components with space between. The `spacing` will default to `medium`. Defaults to `false`.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "direction",
+      "doc": "Defaults to `vertical`.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "alignSelf",
+      "doc": "Defaults to `stretch`.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "title",
+      "doc": "Define a title that appears on top of the Card.",
+      "type": "React.Node",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "responsive",
+      "doc": "Define if the card should behave responsive. Defaults to `true`.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "filled",
+      "doc": "Define if the Card should get the same background color as the outline border.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "outline",
+      "doc": "Define the outline color. Defaults to `var(--card-outline-color)`.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "backgroundColor",
+      "doc": "Define the background color. Defaults to `var(--card-background-color)`.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "element",
+      "doc": "Define the type of element. Defaults to `section`.",
+      "type": "React.Element",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "children",
+      "doc": "Contents.",
+      "type": "React.Node",
+      "status": "required",
+      "defaultValue": null
+    }
+  ],
+  "events": [],
+  "related": [
+    "Flex.Container",
+    "Flex.Item",
+    "Space"
+  ],
+  "checksum": "2aca58ca5c967db38fd0478f29281034bb2009efe8bcc35e44e04b888e0fff62",
+  "source": {
+    "repo": "https://github.com/dnbexperience/eufemia",
+    "file": "packages/dnb-eufemia/src/components/card/Card.tsx",
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.87.0/packages/dnb-eufemia/src/components/card/Card.tsx"
+  },
+  "sources": {
+    "entry": {
+      "local": "src/docs/uilib/components/card.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/card/"
+    },
+    "props": {
+      "local": "src/docs/uilib/components/card/properties.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/card/properties/"
+    },
+    "events": null,
+    "demos": {
+      "local": "src/docs/uilib/components/card/demos.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/card/demos/"
+    }
+  },
+  "version": "10.87.0",
+  "generatedAt": "2025-10-24T08:41:53.037Z",
+  "schemaVersion": 1
+}

@@ -1,0 +1,30 @@
+{
+  "id": "uilib/layout/flex/item",
+  "name": "Flex Item",
+  "description": "`Flex.Item` is a building block for flexbox based layout of contents and components.",
+  "group": "layout",
+  "slug": "/uilib/layout/flex/item/",
+  "props": [],
+  "events": [],
+  "related": [],
+  "checksum": "090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40",
+  "source": null,
+  "sources": {
+    "entry": {
+      "local": "src/docs/uilib/layout/flex/item.mdx",
+      "public": "https://eufemia.dnb.no/uilib/layout/flex/item/"
+    },
+    "props": {
+      "local": "src/docs/uilib/layout/flex/item/properties.mdx",
+      "public": "https://eufemia.dnb.no/uilib/layout/flex/item/properties/"
+    },
+    "events": null,
+    "demos": {
+      "local": "src/docs/uilib/layout/flex/item/demos.mdx",
+      "public": "https://eufemia.dnb.no/uilib/layout/flex/item/demos/"
+    }
+  },
+  "version": "10.87.0",
+  "generatedAt": "2025-10-24T08:41:54.117Z",
+  "schemaVersion": 1
+}

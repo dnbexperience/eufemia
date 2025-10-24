@@ -1,0 +1,30 @@
+{
+  "id": "uilib/layout/form-row/provider",
+  "name": "Provider",
+  "description": null,
+  "group": "layout",
+  "slug": "/uilib/layout/form-row/provider/",
+  "props": [],
+  "events": [],
+  "related": [],
+  "checksum": "090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40",
+  "source": null,
+  "sources": {
+    "entry": {
+      "local": "src/docs/uilib/layout/form-row/provider.mdx",
+      "public": "https://eufemia.dnb.no/uilib/layout/form-row/provider/"
+    },
+    "props": {
+      "local": "src/docs/uilib/layout/form-row/properties.mdx",
+      "public": "https://eufemia.dnb.no/uilib/layout/form-row/provider/properties/"
+    },
+    "events": null,
+    "demos": {
+      "local": "src/docs/uilib/layout/form-row/demos.mdx",
+      "public": "https://eufemia.dnb.no/uilib/layout/form-row/provider/demos/"
+    }
+  },
+  "version": "10.87.0",
+  "generatedAt": "2025-10-24T08:41:54.121Z",
+  "schemaVersion": 1
+}

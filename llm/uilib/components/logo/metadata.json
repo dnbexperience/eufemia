@@ -1,0 +1,103 @@
+{
+  "id": "uilib/components/logo",
+  "name": "Logo",
+  "description": "A ready to use DNB logo in SVG format.",
+  "group": "components",
+  "slug": "/uilib/components/logo/",
+  "props": [
+    {
+      "name": "svg",
+      "doc": "Provide a custom SVG to render instead of the built-in logos. Accepts a React SVG component or element. Width, height and color props still apply.",
+      "type": [
+        "React.Component",
+        "React.Element"
+      ],
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "brand",
+      "doc": "Define which brands logo to show. `ui` (DNB) or `sbanken`. Defaults to `ui`.",
+      "type": [
+        "\"ui\"",
+        "\"sbanken\""
+      ],
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "variant",
+      "doc": "Define the logo variant, if there is more than one variant of a brands logo. Currently the only option other than default is `compact` and `compactHorizontal` variant of the Sbanken logo. Defaults to `default`.",
+      "type": [
+        "\"default\"",
+        "\"compact\"",
+        "\"compactHorizontal\""
+      ],
+      "status": "deprecated",
+      "defaultValue": null
+    },
+    {
+      "name": "color",
+      "doc": "Define the color of the logo.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "inheritColor",
+      "doc": "Set to `true` if you do not want to inherit the color by `currentColor`. Defaults to `false`.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "inheritSize",
+      "doc": "Set to `true` if you want to inherit the size of the parent. Defaults to `false`.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "width",
+      "doc": "Define the width of the logo.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "height",
+      "doc": "Define the height of the logo.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    }
+  ],
+  "events": [],
+  "related": [
+    "Space"
+  ],
+  "checksum": "eb1b6ea259c466ee407bea6354abde05bec00bb56cc54f747d1083196a1e8694",
+  "source": {
+    "repo": "https://github.com/dnbexperience/eufemia",
+    "file": "packages/dnb-eufemia/src/components/logo/Logo.tsx",
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.87.0/packages/dnb-eufemia/src/components/logo/Logo.tsx"
+  },
+  "sources": {
+    "entry": {
+      "local": "src/docs/uilib/components/logo.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/logo/"
+    },
+    "props": {
+      "local": "src/docs/uilib/components/logo/properties.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/logo/properties/"
+    },
+    "events": null,
+    "demos": {
+      "local": "src/docs/uilib/components/logo/demos.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/logo/demos/"
+    }
+  },
+  "version": "10.87.0",
+  "generatedAt": "2025-10-24T08:41:53.225Z",
+  "schemaVersion": 1
+}

@@ -1,0 +1,24 @@
+{
+  "id": "uilib/extensions/forms/Form/Handler/parts/async-state-return-example",
+  "name": "Async-State-Return-Example",
+  "description": null,
+  "group": "extensions",
+  "slug": "/uilib/extensions/forms/Form/Handler/parts/async-state-return-example/",
+  "props": [],
+  "events": [],
+  "related": [],
+  "checksum": "090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40",
+  "source": null,
+  "sources": {
+    "entry": {
+      "local": "src/docs/uilib/extensions/forms/Form/Handler/parts/async-state-return-example.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/Form/Handler/parts/async-state-return-example/"
+    },
+    "props": null,
+    "events": null,
+    "demos": null
+  },
+  "version": "10.87.0",
+  "generatedAt": "2025-10-24T08:41:53.608Z",
+  "schemaVersion": 1
+}

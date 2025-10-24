@@ -1,0 +1,31 @@
+{
+  "id": "uilib/extensions/forms/Form",
+  "name": "Form",
+  "description": "`Form` provides the main forms-helpers including data provider and event handling.",
+  "group": "extensions",
+  "slug": "/uilib/extensions/forms/Form/",
+  "props": [],
+  "events": [],
+  "related": [],
+  "checksum": "090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40",
+  "source": {
+    "repo": "https://github.com/dnbexperience/eufemia",
+    "file": "packages/dnb-eufemia/src/extensions/forms/Form/index.ts",
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.87.0/packages/dnb-eufemia/src/extensions/forms/Form/index.ts"
+  },
+  "sources": {
+    "entry": {
+      "local": "src/docs/uilib/extensions/forms/Form.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/Form/"
+    },
+    "props": null,
+    "events": null,
+    "demos": {
+      "local": "src/docs/uilib/extensions/forms/Form/demos.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/Form/demos/"
+    }
+  },
+  "version": "10.87.0",
+  "generatedAt": "2025-10-24T08:41:53.755Z",
+  "schemaVersion": 1
+}
