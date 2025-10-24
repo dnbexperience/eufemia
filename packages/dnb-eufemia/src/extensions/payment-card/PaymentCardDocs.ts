@@ -1,22 +1,22 @@
 import { PropertiesTableProps } from '../../shared/types'
 
 export const PaymentCardProperties: PropertiesTableProps = {
-  product_code: {
+  productCode: {
     doc: 'if product code matches one of the codes in the list the card will get that design, if no match is found Default design will be used.',
     type: 'string',
     status: 'required',
   },
-  card_number: {
+  cardNumber: {
     doc: 'masked card number.',
     type: 'string',
     status: 'required',
   },
-  raw_data: {
+  rawData: {
     doc: 'useful if you want to create custom cards. See Card data properties.',
     type: 'Various',
     status: 'optional',
   },
-  card_status: {
+  cardStatus: {
     doc: 'use one of these: `active`, `not_active`, `new_order`, `new`, `blocked`, `expired`, `renewed`, `replaced`, `order_in_process`, `unknown`. Defaults to `active`.',
     type: [
       'active',
