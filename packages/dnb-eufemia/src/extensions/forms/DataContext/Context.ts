@@ -1,5 +1,6 @@
 import React from 'react'
-import { Ajv, FormError, JsonObject } from '../utils'
+import { FormError, JsonObject } from '../utils'
+import { Ajv } from '../utils/ajv'
 import {
   GlobalErrorMessagesWithPaths,
   SubmitState,
