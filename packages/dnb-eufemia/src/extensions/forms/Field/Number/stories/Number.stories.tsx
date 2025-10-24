@@ -9,8 +9,8 @@ export default {
 export const Number = () => {
   return (
     <Flex.Stack>
-      <Field.Number label="Label" bottom width="stretch" value={5} />
-      <Field.Number
+      <Field.Number />
+      {/* <Field.Number
         label="Label"
         showStepControls
         value={5}
@@ -39,7 +39,7 @@ export const Number = () => {
         // validateInitially
         disabled
       />
-      <Field.Number showStepControls width="stretch" value={1} />
+      <Field.Number showStepControls width="stretch" value={1} /> */}
     </Flex.Stack>
   )
 }
