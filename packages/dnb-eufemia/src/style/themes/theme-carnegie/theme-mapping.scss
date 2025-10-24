@@ -1,0 +1,16 @@
+/**
+ * Carnegie UI Theme
+ * Overrides css variables from the ui theme
+ */
+
+// WIP: Remove this import as soon as we have a mapping for all existing properties
+@import '../theme-ui/properties.scss';
+
+.eufemia-theme__carnegie,
+:root {
+  // Ensure Carnegie headings use ArizonaFlare, even after UI variables are imported
+  --font-family-heading: var(--ca-font-family-heading);
+
+  // Override primary action color token to Ocean Green (Carnegie)
+  --color-sea-green: var(--ca-color-ocean-green);
+}

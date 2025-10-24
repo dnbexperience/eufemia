@@ -1,0 +1,62 @@
+/*
+ * Typography
+ *
+ * The font-family properties are defined in the properties.scss file, like:
+ * --font-family-default:
+ *
+ */
+
+// Ensure default DNB fonts are available
+@import '../theme-ui/fonts.scss';
+
+// Font usage
+.dnb-typo-regular {
+  font-family: var(--font-family-default);
+  font-weight: normal;
+  font-style: normal;
+}
+
+.dnb-typo-medium {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-medium);
+  font-style: normal;
+}
+
+.dnb-typo-bold {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-bold);
+  font-style: normal;
+}
+
+// Carnegie heading fonts
+$carnegie-fonts-path: '../../../../assets/fonts/carnegie';
+
+// Regular
+@font-face {
+  font-family: ArizonaFlare;
+  src: url('#{$carnegie-fonts-path}/ArizonaFlare-Regular.woff2')
+    format('woff2');
+  font-weight: normal; // should match --font-weight-regular
+  font-style: normal;
+  font-display: fallback;
+}
+
+// Medium
+@font-face {
+  font-family: ArizonaFlare;
+  src: url('#{$carnegie-fonts-path}/ArizonaFlare-Medium.woff2')
+    format('woff2');
+  font-weight: 500; // should match --font-weight-medium
+  font-style: normal;
+  font-display: fallback;
+}
+
+// Bold
+@font-face {
+  font-family: ArizonaFlare;
+  src: url('#{$carnegie-fonts-path}/ArizonaFlare-Bold.woff2')
+    format('woff2');
+  font-weight: 700; // should match --font-weight-bold
+  font-style: normal;
+  font-display: fallback;
+}

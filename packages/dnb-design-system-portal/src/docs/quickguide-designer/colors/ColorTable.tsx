@@ -1,6 +1,7 @@
 import propertiesSbanken from '@dnb/eufemia/src/style/themes/theme-sbanken/properties'
 import propertiesUi from '@dnb/eufemia/src/style/themes/theme-ui/properties'
 import propertiesEiendom from '@dnb/eufemia/src/style/themes/theme-eiendom/properties'
+import propertiesCarnegie from '@dnb/eufemia/src/style/themes/theme-carnegie/properties'
 
 import { ThemeNames } from '@dnb/eufemia/shared'
 import { basicComponents } from '../../../shared/tags'
@@ -39,6 +40,66 @@ const dataEiendom = [
     type: 'Eiendom',
     brandName: 'Mint green 12%',
     figmaName: 'Mint green 12%',
+  },
+]
+
+const dataCarnegie = [
+  // Primary
+  {
+    name: '--ca-color-ocean-green',
+    type: 'Primary',
+    brandName: 'Ocean Green',
+    figmaName: 'Primary/Ocean Green',
+  },
+  {
+    name: '--ca-color-burgundy-red',
+    type: 'Primary',
+    brandName: 'Burgundy Red',
+    figmaName: 'Primary/Burgundy Red',
+  },
+  // Secondary
+  {
+    name: '--ca-color-noir-green',
+    type: 'Secondary',
+    brandName: 'Noir Green',
+    figmaName: 'Secondary/Noir Green',
+  },
+  {
+    name: '--ca-color-sea-green',
+    type: 'Secondary',
+    brandName: 'Sea Green',
+    figmaName: 'Secondary/Sea Green',
+  },
+  {
+    name: '--ca-color-noir-red',
+    type: 'Secondary',
+    brandName: 'Noir Red',
+    figmaName: 'Secondary/Noir Red',
+  },
+  {
+    name: '--ca-color-sober-red',
+    type: 'Secondary',
+    brandName: 'Sober Red',
+    figmaName: 'Secondary/Sober Red',
+  },
+  {
+    name: '--ca-color-classic-beige',
+    type: 'Secondary',
+    brandName: 'Classic Beige',
+    figmaName: 'Secondary/Classic Beige',
+  },
+  // Tertiary
+  {
+    name: '--ca-color-pale-green',
+    type: 'Tertiary',
+    brandName: 'Pale Green',
+    figmaName: 'Tertiary/Pale Green',
+  },
+  {
+    name: '--ca-color-pale-red',
+    type: 'Tertiary',
+    brandName: 'Pale Red',
+    figmaName: 'Tertiary/Pale Red',
   },
 ]
 
@@ -500,6 +561,7 @@ const dataUi = [
 
 const themes = {
   eiendom: { data: dataEiendom, properties: propertiesEiendom },
+  carnegie: { data: dataCarnegie, properties: propertiesCarnegie },
   sbanken: { data: dataSbanken, properties: propertiesSbanken },
   ui: { data: dataUi, properties: propertiesUi },
 }

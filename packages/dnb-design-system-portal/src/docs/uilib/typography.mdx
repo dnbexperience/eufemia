@@ -45,7 +45,11 @@ You don't need to define the `font-family` ever, but rather use CSS Custom Prope
 
 ## Font Face
 
-The DNB default Font Family is `DNB`. This font, together with it's weights is loaded and imported with `@font-face` in `/style/themes/theme-ui/ui-theme-fonts.scss`. The font family is included in the library package.
+The default DNB font family is `DNB`, loaded via `@font-face` in `@dnb/eufemia/src/style/themes/theme-ui/fonts.scss`.
+
+- Sbanken uses its own fonts, declared and loaded in `@dnb/eufemia/src/style/themes/theme-sbanken/fonts.scss` and applied via Sbanken-specific properties.
+- Carnegie uses the `ArizonaFlare` font family, declared and loaded in `@dnb/eufemia/src/style/themes/theme-carnegie/fonts.scss`, and applied through the Carnegie theme’s typography variables.
+- Eiendom uses the default DNB font family.
 
 ## Spacing and margin collapsing
 

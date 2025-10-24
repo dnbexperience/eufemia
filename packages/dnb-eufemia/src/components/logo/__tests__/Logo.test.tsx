@@ -5,7 +5,7 @@
 
 import React from 'react'
 import { loadScss } from '../../../core/jest/jestSetup'
-import Logo, { LogoProps } from '../Logo'
+import Logo, { CarnegieDefault, LogoProps } from '../Logo'
 import { render } from '@testing-library/react'
 import Provider from '../../../shared/Provider'
 import Theme from '../../../shared/Theme'
@@ -227,6 +227,15 @@ describe('Logo component', () => {
     const svg = document.querySelector('svg')
     expect(svg).toBeInTheDocument()
     expect(svg).toHaveAttribute('width', '24')
+  })
+
+  it('should export Carnegie logo', () => {
+    render(<Logo svg={CarnegieDefault} height="24" />)
+
+    const svg = document.querySelector('svg')
+    expect(svg).toHaveAttribute('height', '24')
+    expect(svg).toBeInTheDocument()
+    expect(svg.querySelector('title')).toHaveTextContent('DNB Carnegie')
   })
 })
 

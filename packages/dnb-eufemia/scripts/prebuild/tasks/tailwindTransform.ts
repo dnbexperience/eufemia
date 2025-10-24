@@ -157,7 +157,7 @@ export const convertVariablesToTailwindFormat = (
 /**
  * Supported brand prefixes for CSS variable transformation
  */
-export const SUPPORTED_BRANDS: readonly string[] = ['sb'] as const
+export const SUPPORTED_BRANDS: readonly string[] = ['sb', 'ca'] as const
 
 /**
  * Tailwind CSS theme namespaces that can be transformed

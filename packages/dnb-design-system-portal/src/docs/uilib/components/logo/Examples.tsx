@@ -11,6 +11,7 @@ import {
   DnbDefault,
   SbankenCompact,
   SbankenDefault,
+  CarnegieDefault,
 } from '@dnb/eufemia/src/components/Logo'
 import ChangeStyleTheme from '../../../../core/ChangeStyleTheme'
 
@@ -55,13 +56,22 @@ export const LogoCompactVariantExample = () => (
 
 export const LogoChangeExample = () => (
   <ComponentBox
-    scope={{ ChangeStyleTheme, useTheme, DnbDefault, SbankenDefault }}
+    scope={{
+      ChangeStyleTheme,
+      useTheme,
+      DnbDefault,
+      SbankenDefault,
+      CarnegieDefault,
+    }}
   >
     {() => {
       function getLogoSvg(themeName) {
         switch (themeName) {
           case 'sbanken':
             return SbankenDefault
+
+          case 'carnegie':
+            return CarnegieDefault
 
           default:
             return DnbDefault
@@ -83,5 +93,17 @@ export const LogoChangeExample = () => (
 
       return <MyApp />
     }}
+  </ComponentBox>
+)
+export const LogoCarnegieDefaultExample = () => (
+  <ComponentBox
+    scope={{ CarnegieDefault }}
+    data-visual-test="logo-carnegie"
+  >
+    <Logo
+      height="96"
+      svg={CarnegieDefault}
+      color="var(--ca-color-burgundy-red)"
+    />
   </ComponentBox>
 )

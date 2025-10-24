@@ -2,8 +2,8 @@ import { PropertiesTableProps } from '../shared/types'
 
 export const ThemeProperties: PropertiesTableProps = {
   name: {
-    doc: 'The name of a branding theme. Can be `ui` (universal identity), `eiendom` or `sbanken`.',
-    type: ['ui', 'eiendom', 'sbanken'],
+    doc: 'The name of a branding theme. Can be `ui` (universal identity), `eiendom`, `sbanken` or `carnegie`.',
+    type: ['ui', 'eiendom', 'sbanken', 'carnegie'],
     status: 'optional',
   },
   size: {

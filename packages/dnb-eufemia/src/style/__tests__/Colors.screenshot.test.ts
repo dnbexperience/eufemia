@@ -8,17 +8,20 @@ import {
   setupPageScreenshot,
 } from '../../core/jest/jestSetupScreenshots'
 
-describe.each(['ui', 'sbanken', 'eiendom'])('Colors %s', (themeName) => {
-  setupPageScreenshot({
-    themeName,
-    url: '/quickguide-designer/colors/',
-  })
-
-  it('have to all colors', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="color-table"]',
-      addWrapper: false,
+describe.each(['ui', 'sbanken', 'eiendom', 'carnegie'])(
+  'Colors %s',
+  (themeName) => {
+    setupPageScreenshot({
+      themeName,
+      url: '/uilib/usage/customisation/colors/',
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-})
+
+    it('have to all colors', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="color-table"]',
+        addWrapper: false,
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+  }
+)

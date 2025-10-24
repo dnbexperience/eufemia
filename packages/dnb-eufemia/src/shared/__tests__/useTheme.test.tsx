@@ -37,6 +37,7 @@ describe('useTheme', () => {
       isEiendom: false,
       isSbanken: true,
       isUi: false,
+      isCarnegie: false,
     })
   })
 
@@ -49,6 +50,7 @@ describe('useTheme', () => {
       isEiendom: false,
       isSbanken: false,
       isUi: false,
+      isCarnegie: false,
     })
   })
 })
