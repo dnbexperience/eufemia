@@ -55,7 +55,7 @@ Intro.propTypes = {
 }
 
 export const IntroFooter = ({ href = undefined, text = undefined }) => (
-  <Space top no_collapse className={footerStyle}>
+  <Space top noCollapse className={footerStyle}>
     <Global
       styles={css`
         .dnb-app-content {
