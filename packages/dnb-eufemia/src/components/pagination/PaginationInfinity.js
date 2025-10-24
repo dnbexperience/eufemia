@@ -209,7 +209,7 @@ export default class InfinityScroller extends React.PureComponent {
           // load several pages at once
           for (let i = 0; i < parallelLoadCount; ++i) {
             newPageNo = pageNumber + 1 + i
-            // wait on updating our own state, so we can show the indicator (pressed_element) until we get new children back
+            // wait on updating our own state, so we can show the indicator (pressedElement) until we get new children back
             this.context.pagination.onPageUpdate(() => {
               this.context.pagination.setState({
                 upperPage: newPageNo,
@@ -226,14 +226,14 @@ export default class InfinityScroller extends React.PureComponent {
       <InfinityLoadButton
         icon="arrow_up"
         element={fallbackElement}
-        pressed_element={
+        pressedElement={
           <PaginationIndicator
             indicatorElement={indicatorElement || fallbackElement}
           />
         }
         on_click={() => {
           const newPageNo = lowerPage - 1
-          // wait on updating our own state, so we can show the indicator (pressed_element) until we get new children back
+          // wait on updating our own state, so we can show the indicator (pressedElement) until we get new children back
           this.context.pagination.onPageUpdate(() => {
             this.context.pagination.setState({
               lowerPage: newPageNo,
@@ -535,7 +535,7 @@ export class InfinityLoadButton extends React.PureComponent {
       PropTypes.func,
       PropTypes.string,
     ]),
-    pressed_element: PropTypes.oneOfType([
+    pressedElement: PropTypes.oneOfType([
       PropTypes.object,
       PropTypes.node,
       PropTypes.func,
@@ -547,7 +547,7 @@ export class InfinityLoadButton extends React.PureComponent {
   }
   static defaultProps = {
     element: 'div',
-    pressed_element: null,
+    pressedElement: null,
     icon: 'arrow_down',
     text: null,
     iconPosition: 'left',
@@ -565,7 +565,7 @@ export class InfinityLoadButton extends React.PureComponent {
     const ElementChild = isTrElement(Element) ? 'td' : 'div'
 
     return this.state.isPressed ? (
-      this.props.pressed_element
+      this.props.pressedElement
     ) : (
       <Element>
         <ElementChild className="dnb-pagination__loadbar">
