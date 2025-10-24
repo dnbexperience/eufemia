@@ -43,37 +43,37 @@ export const PaymentCards = () => (
     <Box>
       <PaymentCard
         locale="en-GB"
-        product_code="DNB"
-        card_number="••••••••••••1337"
-        card_status="expired"
+        productCode="DNB"
+        cardNumber="••••••••••••1337"
+        cardStatus="expired"
         variant="compact"
       />
     </Box>
     <Box>
       <PaymentCard
         variant="compact"
-        product_code="VG1"
-        card_number="••••••••••••1337"
+        productCode="VG1"
+        cardNumber="••••••••••••1337"
       />
     </Box>
     <Box>
       <PaymentCard
-        product_code="UNDEFINED"
-        raw_data={customData}
+        productCode="UNDEFINED"
+        rawData={customData}
         variant="compact"
-        card_number="••••••••••••1337"
+        cardNumber="••••••••••••1337"
       />
     </Box>
     <Box>
-      {cards.map((product_code) => {
-        const cardData = getCardData(product_code)
+      {cards.map((productCode) => {
+        const cardData = getCardData(productCode)
         return (
-          <div key={product_code}>
+          <div key={productCode}>
             <H3>
-              {cardData.cardDesign.name}({product_code})
+              {cardData.cardDesign.name}({productCode})
             </H3>
             <div
-              key={product_code}
+              key={productCode}
               style={{
                 display: 'flex',
                 flexWrap: 'wrap',
@@ -81,13 +81,13 @@ export const PaymentCards = () => (
               }}
             >
               <PaymentCard
-                product_code={product_code}
-                card_number="••••••••••••1337"
+                productCode={productCode}
+                cardNumber="••••••••••••1337"
               />
               {/* <PaymentCard
                 variant="compact"
-                product_code={product_code}
-                card_number="••••••••••••1337"
+                productCode={productCode}
+                cardNumber="••••••••••••1337"
               /> */}
             </div>
           </div>
