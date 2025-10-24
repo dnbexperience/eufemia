@@ -913,40 +913,6 @@ sub {
 .dnb-p strong {
   font-weight: var(--font-weight-medium);
 }
-.dnb-p--medium {
-  font-weight: var(--font-weight-medium);
-}
-.dnb-p--bold {
-  font-weight: var(--font-weight-bold);
-}
-.dnb-p__size--xx-large {
-  font-size: var(--font-size-xx-large);
-  line-height: var(--line-height-xx-large);
-}
-.dnb-p__size--x-large {
-  font-size: var(--font-size-x-large);
-  line-height: var(--line-height-x-large);
-}
-.dnb-p__size--large {
-  font-size: var(--font-size-large);
-  line-height: var(--line-height-large);
-}
-.dnb-p__size--basis {
-  font-size: var(--font-size-basis);
-  line-height: var(--line-height-basis);
-}
-.dnb-p__size--medium {
-  font-size: var(--font-size-medium);
-  line-height: var(--line-height-medium);
-}
-.dnb-p--small, .dnb-p__size--small {
-  font-size: var(--font-size-small);
-  line-height: var(--line-height-small);
-}
-.dnb-p--x-small, .dnb-p__size--x-small {
-  font-size: var(--font-size-x-small);
-  line-height: var(--line-height-x-small);
-}
 .dnb-p > small {
   font-size: var(--font-size-small);
   line-height: var(--line-height-small);
