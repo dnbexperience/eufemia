@@ -90,15 +90,15 @@ export interface PaymentCardProps
   /**
    * if product code matches one of the codes in the list the card will get that design, if no match is found Default design will be used.
    */
-  product_code: string;
+  productCode: string;
   /**
    * masked card number.
    */
-  card_number: string;
+  cardNumber: string;
   /**
    * use one of these: `active`, `not_active`, `new_order`, `new`, `blocked`, `expired`, `renewed`, `replaced`, `order_in_process`, `unknown`. Defaults to `active`.
    */
-  card_status?: PaymentCardCardStatus;
+  cardStatus?: PaymentCardCardStatus;
   /**
    * defines the appearance. Use one of these: `normal` or `compact`. Defaults to `normal`.
    */
@@ -110,7 +110,7 @@ export interface PaymentCardProps
   /**
    * useful if you want to create custom cards. See Card data properties.
    */
-  raw_data?: PaymentCardRawData;
+  rawData?: PaymentCardRawData;
   id?: string;
   /**
    * use `nb-NO` or `en-GB`. Defaults to the Eufemia provider.
@@ -134,7 +134,7 @@ export default class PaymentCard extends React.Component<
 type CardDataReturn = Omit<PaymentCardRawData, 'cardDesign'> & {
   cardDesign: CardDesign;
 };
-export const getCardData = (product_code: string): CardDataReturn => null;
+export const getCardData = (productCode: string): CardDataReturn => null;
 export const formatCardNumber = (
   cardNumber: string,
   digits?: number
