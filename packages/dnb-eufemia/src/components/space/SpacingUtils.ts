@@ -218,7 +218,7 @@ export const createSpacingClasses = (
           ]
         }
       }
-    } else if (direction === 'no_collapse') {
+    } else if (direction === 'noCollapse') {
       acc.push('dnb-space--no-collapse')
       if (elementName && isInline(elementName)) {
         acc.push('dnb-space--inline')
