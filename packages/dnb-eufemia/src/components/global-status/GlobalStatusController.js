@@ -47,7 +47,7 @@ class GlobalStatusController extends React.PureComponent {
   static propTypes = {
     id: PropTypes.string, // Provider id
     statusId: PropTypes.string, // Status Item id
-    remove_on_unmount: PropTypes.oneOfType([
+    removeOnUnmount: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool,
     ]),
@@ -55,7 +55,7 @@ class GlobalStatusController extends React.PureComponent {
   static defaultProps = {
     id: 'main',
     statusId: null,
-    remove_on_unmount: false,
+    removeOnUnmount: false,
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -96,7 +96,7 @@ class GlobalStatusController extends React.PureComponent {
   }
 
   componentWillUnmount() {
-    if (this.state.provider && isTrue(this.props.remove_on_unmount)) {
+    if (this.state.provider && isTrue(this.props.removeOnUnmount)) {
       this.state.provider.remove(this.state.statusId)
       /**
        * For now, do not unbind, because of re-render issues
