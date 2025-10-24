@@ -50,9 +50,9 @@ export default class PaymentCard extends React.PureComponent {
   static contextType = Context
 
   static propTypes = {
-    product_code: PropTypes.string.isRequired,
-    card_number: PropTypes.string.isRequired,
-    card_status: PropTypes.oneOf([
+    productCode: PropTypes.string.isRequired,
+    cardNumber: PropTypes.string.isRequired,
+    cardStatus: PropTypes.oneOf([
       'active',
       'blocked',
       'expired',
@@ -66,7 +66,7 @@ export default class PaymentCard extends React.PureComponent {
     ]),
     variant: PropTypes.oneOf(['normal', 'compact']),
     digits: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    raw_data: PropTypes.shape({
+    rawData: PropTypes.shape({
       productCode: PropTypes.string.isRequired,
       productName: PropTypes.string.isRequired,
       displayName: PropTypes.string.isRequired,
@@ -93,11 +93,11 @@ export default class PaymentCard extends React.PureComponent {
   static defaultProps = {
     digits: 8,
     locale: null,
-    card_status: 'active',
+    cardStatus: 'active',
     variant: 'normal',
 
     id: null,
-    raw_data: null,
+    rawData: null,
 
     skeleton: false,
     className: null,
@@ -116,13 +116,13 @@ export default class PaymentCard extends React.PureComponent {
     )
 
     const {
-      product_code,
-      card_number,
-      card_status,
+      productCode,
+      cardNumber,
+      cardStatus,
       variant,
       digits,
       id,
-      raw_data,
+      rawData,
       locale,
       skeleton,
       className,
@@ -131,7 +131,7 @@ export default class PaymentCard extends React.PureComponent {
       ...attributes
     } = props
 
-    const cardData = raw_data || getCardData(product_code)
+    const cardData = rawData || getCardData(productCode)
 
     const params = {
       className: classnames(
@@ -169,9 +169,9 @@ export default class PaymentCard extends React.PureComponent {
                   skeleton={isTrue(skeleton)}
                   compact={variant === 'compact'}
                   data={cardData}
-                  cardStatus={card_status}
+                  cardStatus={cardStatus}
                   cardNumber={formatCardNumber(
-                    card_number,
+                    cardNumber,
                     parseFloat(digits)
                   )}
                   translations={translations}
