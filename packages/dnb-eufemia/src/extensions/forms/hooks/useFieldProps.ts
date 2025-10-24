@@ -10,15 +10,14 @@ import React, {
 import pointer from '../utils/json-pointer'
 import type { ValidateFunction } from 'ajv/dist/2020.js'
 import {
-  ajvErrorsToOneFormError,
   errorChanged,
-  extendErrorMessagesWithTranslationMessages,
   FormError,
   isZodSchema,
   createZodValidator,
   zodErrorsToOneFormError,
-  makeAjvInstance,
 } from '../utils'
+import { ajvErrorsToOneFormError } from '../utils/ajvErrors'
+import { extendErrorMessagesWithTranslationMessages } from '../utils/errors'
 import * as z from 'zod'
 import {
   FieldPropsGeneric,
@@ -608,9 +607,9 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   }, [onBlurValidator])
 
   const getAjvInstance = useCallback(() => {
-    return hasDataContext
-      ? getAjvInstanceDataContext?.()
-      : makeAjvInstance()
+    if (hasDataContext) {
+      return getAjvInstanceDataContext?.()
+    }
   }, [hasDataContext, getAjvInstanceDataContext])
 
   const schemaValidatorRef = useRef<
