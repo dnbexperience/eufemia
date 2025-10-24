@@ -580,7 +580,7 @@ export const FourDirections = () => (
 
 export const ProviderExample = () => (
   <ComponentBox hidePreview>
-    <Provider space={{ no_collapse: true }}>
+    <Provider space={{ noCollapse: true }}>
       <Space>I do not collapse</Space>
       <Space>I do not collapse</Space>
     </Provider>

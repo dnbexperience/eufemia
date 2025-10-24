@@ -49,7 +49,7 @@ export type SpaceProps = {
    * If set to `true`, then a wrapper with `display: flow-root;` is used. This way you avoid **Margin Collapsing**. Defaults to `false`. _Note:_ You can't use `inline={true}` in combination.
    * Default: false
    */
-  no_collapse?: boolean
+  noCollapse?: boolean
 
   /**
    * If set to `true`, then the space element will be 100% in width.
@@ -92,7 +92,7 @@ export default function Space(localProps: SpaceAllProps) {
   const {
     element = 'div',
     inline,
-    no_collapse,
+    noCollapse,
     top,
     right,
     bottom,
@@ -131,7 +131,7 @@ export default function Space(localProps: SpaceAllProps) {
   return (
     <Element
       element={element}
-      no_collapse={no_collapse}
+      noCollapse={noCollapse}
       innerRef={innerRef}
       style={styleObj}
       {...params}
@@ -145,7 +145,7 @@ Space._supportsSpacingProps = true
 
 function Element({
   element,
-  no_collapse,
+  noCollapse,
   children,
   innerRef,
   ...props
@@ -166,7 +166,7 @@ function Element({
     </ElementDynamic>
   )
 
-  if (isTrue(no_collapse)) {
+  if (isTrue(noCollapse)) {
     const R =
       ElementDynamic === 'span' || isInline(element as string)
         ? 'span'

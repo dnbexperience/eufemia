@@ -53,7 +53,7 @@ export const SpaceSandbox = () => (
     <Box>
       <Provider
         space={{
-          no_collapse: true,
+          noCollapse: true,
         }}
       >
         <Collapsing bottom="small">
@@ -65,7 +65,7 @@ export const SpaceSandbox = () => (
       </Provider>
     </Box>
     <Box>
-      <Collapsing bottom="small" no_collapse={true}>
+      <Collapsing bottom="small" noCollapse={true}>
         <div>
           I have <code className="dnb-code">bottom="small"</code>
         </div>
