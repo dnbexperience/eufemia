@@ -43,6 +43,21 @@ You don't need to define the `font-family` ever, but rather use CSS Custom Prope
 
 <TypographyVariants />
 
+## Line length
+
+For readable paragraphs and inline help text, keep line length constrained to a comfortable character count.
+
+- Use `var(--prose-max-width)` as the canonical token for maximum text width. Default is `60ch`.
+- Base styles and some components expose `var(--prose-max-width)`, which maps to `var(--prose-max-width)`.
+
+Example:
+
+```css
+.prose {
+  max-width: var(--prose-max-width); /* 60ch by default */
+}
+```
+
 ## Font Face
 
 The default DNB font family is `DNB`, loaded via `@font-face` in `@dnb/eufemia/src/style/themes/theme-ui/fonts.scss`.

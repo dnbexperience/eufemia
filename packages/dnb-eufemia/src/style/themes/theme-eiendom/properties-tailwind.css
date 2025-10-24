@@ -91,7 +91,7 @@
   --shadow-sb-large: 0 5px 20px rgba(38 35 66 / 20%);
   --shadow-sb-hover: 0 20px 40px rgba(38 35 66 / 20%);
   --ease-sb-default: cubic-bezier(0.42, 0, 0, 1);
-  --text-block-max-width: 60ch;
+  --prose-max-width: 60ch;
   --color-emerald-green-50: #89aaac;
   --color-emerald-green-25: #c4d4d6;
   --color-emerald-green-10: #e8eeef;
