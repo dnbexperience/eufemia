@@ -588,6 +588,7 @@ export default class GlobalStatus extends React.PureComponent {
       icon,
       iconSize,
       children, // eslint-disable-line
+      removeOnUnmount, //eslint-disable-line
 
       ...attributes
     } = props
