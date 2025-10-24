@@ -45,6 +45,8 @@ function StepIndicatorTriggerButton({
     skeleton,
     filterAttributes,
     noAnimation,
+    stepTitle, // eslint-disable-line
+    ...contextWithoutDataRest
   } = contextWithoutData
 
   const item = data[activeStep || 0]
@@ -52,7 +54,7 @@ function StepIndicatorTriggerButton({
   const id = useId()
 
   const triggerParams = {
-    ...contextWithoutData,
+    ...contextWithoutDataRest,
     className: classnames(
       'dnb-step-indicator__trigger',
       createSkeletonClass('font', skeleton)
@@ -85,7 +87,7 @@ function StepIndicatorTriggerButton({
   skeletonDOMAttributes(triggerParams, skeleton)
 
   // also used for code markup simulation
-  validateDOMAttributes(contextWithoutData, triggerParams)
+  validateDOMAttributes(contextWithoutDataRest, triggerParams)
 
   return (
     <Section
