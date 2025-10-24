@@ -107,7 +107,7 @@ export const FormRowCombineVerticalAndHorizontal = () => (
                 className="dnb-h--large"
                 top={false}
                 bottom="large"
-                no_collapse={true}
+                noCollapse={true}
               >
                 Custom vertical legend
               </Space>
