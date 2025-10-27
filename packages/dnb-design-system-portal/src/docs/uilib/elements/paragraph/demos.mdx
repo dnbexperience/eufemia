@@ -10,12 +10,13 @@ import {
   ParagraphLineHeightModifiers,
   ParagraphAdditionalModifiers,
   ParagraphProseMaxWidth,
+  ParagraphProseMaxWidthProvider,
   ParagraphDefault,
   ParagraphSmall,
   ParagraphAdditional,
   ParagraphRegressionTests,
 } from 'Docs/uilib/elements/paragraph/Examples'
-
+ 
 ## Demos
 
 ### Paragraphs modifiers
@@ -65,6 +66,12 @@ Although bold, italic and underline are not a standard part of the Eufemia desig
 The `proseMaxWidth` prop allows you to limit the width of paragraph text based on character count, creating optimal reading line lengths:
 
 <ParagraphProseMaxWidth />
+
+#### Using Typography.Provider
+
+Use `Typography.Provider` to apply `proseMaxWidth` to multiple paragraphs at once:
+
+<ParagraphProseMaxWidthProvider />
 
 ### Children tag styling
 

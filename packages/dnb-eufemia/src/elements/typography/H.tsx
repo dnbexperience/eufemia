@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import React, { useContext } from 'react'
 import classnames from 'classnames'
 import { SpacingProps } from '../../components/space/types'
 import E, { ElementProps } from '../Element'
@@ -13,6 +13,7 @@ import {
   getHeadingSize,
 } from '../../components/heading/HeadingHelpers'
 import { useTheme } from '../../shared'
+import { TypographyContext } from './Typography'
 
 export type HSize = HeadingSize
 
@@ -46,7 +47,7 @@ const H = ({
   is,
   level,
   size,
-  proseMaxWidth,
+  proseMaxWidth: proseMaxWidthProp,
   className,
   ...props
 }: HProps) => {
@@ -61,6 +62,12 @@ const H = ({
     (size === 'auto' && getHeadingSize(theme?.name)[numSiz]) ||
     size ||
     'xx-large'
+
+  const { proseMaxWidth: proseMaxWidthContext } =
+    useContext(TypographyContext)
+
+  // Use prop value if provided, otherwise fall back to context
+  const proseMaxWidth = proseMaxWidthProp ?? proseMaxWidthContext
 
   const style = proseMaxWidth
     ? { maxWidth: `${proseMaxWidth}ch` }

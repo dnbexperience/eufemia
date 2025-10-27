@@ -6,6 +6,7 @@
 import React from 'react'
 import { axeComponent } from '../../../core/jest/jestSetup'
 import Typography, { TypographyProps } from '../Typography'
+import P from '../P'
 import { render } from '@testing-library/react'
 
 const props: TypographyProps = {
@@ -139,6 +140,121 @@ describe('Typography element', () => {
 
       expect(element.tagName).toBe('SPAN')
       expect(element.style.maxWidth).toBe('50ch')
+    })
+  })
+
+  describe('Typography.Provider', () => {
+    it('applies proseMaxWidth from Provider to Typography children', () => {
+      render(
+        <Typography.Provider proseMaxWidth={80}>
+          <Typography>Text with context width</Typography>
+        </Typography.Provider>
+      )
+      const element = document.querySelector('.dnb-p') as HTMLElement
+
+      expect(element.style.maxWidth).toBe('80ch')
+    })
+
+    it('uses prop value over Provider value when both are provided', () => {
+      render(
+        <Typography.Provider proseMaxWidth={80}>
+          <Typography proseMaxWidth={120}>
+            Text with explicit width
+          </Typography>
+        </Typography.Provider>
+      )
+      const element = document.querySelector('.dnb-p') as HTMLElement
+
+      expect(element.style.maxWidth).toBe('120ch')
+    })
+
+    it('applies to multiple Typography children', () => {
+      render(
+        <Typography.Provider proseMaxWidth={70}>
+          <Typography>First paragraph</Typography>
+          <Typography>Second paragraph</Typography>
+        </Typography.Provider>
+      )
+      const elements = document.querySelectorAll(
+        '.dnb-p'
+      ) as NodeListOf<HTMLElement>
+
+      expect(elements.length).toBe(2)
+      elements.forEach((element) => {
+        expect(element.style.maxWidth).toBe('70ch')
+      })
+    })
+
+    it('supports nested Providers with different values', () => {
+      render(
+        <Typography.Provider proseMaxWidth={80}>
+          <Typography>Outer paragraph</Typography>
+          <Typography.Provider proseMaxWidth={60}>
+            <Typography>Inner paragraph</Typography>
+          </Typography.Provider>
+        </Typography.Provider>
+      )
+
+      const outerElement = document.querySelectorAll(
+        '.dnb-p'
+      )[0] as HTMLElement
+      const innerElement = document.querySelectorAll(
+        '.dnb-p'
+      )[1] as HTMLElement
+
+      expect(outerElement.style.maxWidth).toBe('80ch')
+      expect(innerElement.style.maxWidth).toBe('60ch')
+    })
+
+    it('inner Provider overrides outer Provider', () => {
+      render(
+        <Typography.Provider proseMaxWidth={100}>
+          <Typography>Outer paragraph</Typography>
+          <Typography.Provider proseMaxWidth={50}>
+            <Typography>Inner paragraph</Typography>
+          </Typography.Provider>
+        </Typography.Provider>
+      )
+
+      const outerElement = document.querySelectorAll(
+        '.dnb-p'
+      )[0] as HTMLElement
+      const innerElement = document.querySelectorAll(
+        '.dnb-p'
+      )[1] as HTMLElement
+
+      expect(outerElement.style.maxWidth).toBe('100ch')
+      expect(innerElement.style.maxWidth).toBe('50ch')
+    })
+
+    it('works with mixed Typography and P components', () => {
+      render(
+        <Typography.Provider proseMaxWidth={75}>
+          <Typography>Typography component</Typography>
+          <P>Paragraph component</P>
+        </Typography.Provider>
+      )
+
+      const typographyElement = document.querySelectorAll(
+        '.dnb-p'
+      )[0] as HTMLElement
+      const pElement = document.querySelectorAll(
+        '.dnb-p'
+      )[1] as HTMLElement
+
+      expect(typographyElement.style.maxWidth).toBe('75ch')
+      expect(pElement.style.maxWidth).toBe('75ch')
+    })
+
+    it('does not apply maxWidth when Provider value is undefined', () => {
+      render(
+        <Typography.Provider>
+          <Typography>No width limit</Typography>
+        </Typography.Provider>
+      )
+      const element = document.querySelector('.dnb-p') as HTMLElement
+
+      expect(element.style.maxWidth).toBe('')
     })
   })
 })

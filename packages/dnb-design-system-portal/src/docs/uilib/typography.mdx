@@ -63,6 +63,20 @@ Prose refers to written text in its natural form, particularly paragraphs and ot
 </P>
 ```
 
+### Using `Typography.Provider`
+
+Use `Typography.Provider` to apply `proseMaxWidth` to multiple typography components at once:
+
+```tsx
+<Typography.Provider proseMaxWidth={60}>
+  <P>This paragraph will be limited to approximately 60 characters wide</P>
+  <P>
+    This paragraph will also be limited to approximately 60 characters wide
+  </P>
+  <H2 proseMaxWidth={80}>This heading overrides with its own value</H2>
+</Typography.Provider>
+```
+
 CSS example:
 
 ```css
