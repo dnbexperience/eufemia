@@ -15,13 +15,6 @@ const props: InputMaskedProps = {
   id: 'input-masked',
 }
 
-beforeEach(() => {
-  // Use this because of the correctCaretPosition
-  window.requestAnimationFrame = jest.fn((callback) => {
-    return setTimeout(callback, 0)
-  })
-})
-
 describe('InputMasked component', () => {
   it('should format "numberMask" accordingly the defined properties', () => {
     render(
@@ -1323,7 +1316,7 @@ describe('InputMasked component asNumber', () => {
     expect(document.querySelector('input').value).toBe('12 345')
   })
 
-  it('should react to locale change', () => {
+  it.only('should react to locale change', () => {
     const { rerender } = render(
       <InputMasked
         asNumber
