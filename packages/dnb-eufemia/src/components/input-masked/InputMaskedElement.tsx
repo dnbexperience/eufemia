@@ -11,7 +11,7 @@ import {
   useEventMapping,
   useFilteredProps,
   useLocalValue,
-} from './InputMaskedHooks'
+} from './hooks'
 
 export default function InputMaskedElement(): JSX.Element {
   const inputElement = useInputElement()
