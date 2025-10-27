@@ -351,7 +351,7 @@ export const handlePercentMask = ({
  * @property {object} context Eufemia context
  * @property {object} maskOptions Component property for change the mask parameters
  * @property {object} currencyMask Component property for change the currency parameters
- * @returns object maskParams
+ * @returns Object maskParams
  */
 export const handleCurrencyMask = ({
   maskOptions,
@@ -413,7 +413,7 @@ export const handleCurrencyMask = ({
  * @property {object} context Eufemia context
  * @property {object} maskOptions Component property for change the mask parameters
  * @property {object} numberMask Component property for change the number parameters
- * @returns object maskParams
+ * @returns Object maskParams
  */
 export const handleNumberMask = ({
   maskOptions,
