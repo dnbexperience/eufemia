@@ -315,7 +315,7 @@ function MultiInputMaskInput<T extends string>({
         showMask={true}
         keepCharPositions={false} // so we can overwrite next value, if it already exists
         aria-label={label}
-        ref={getInputRef}
+        inputRef={getInputRef()}
         onKeyDown={onKeyDown}
         onBlur={onBlur}
         onFocus={({ target, ...event }) => {

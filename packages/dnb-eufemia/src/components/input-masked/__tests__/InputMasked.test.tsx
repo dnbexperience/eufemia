@@ -1316,7 +1316,7 @@ describe('InputMasked component asNumber', () => {
     expect(document.querySelector('input').value).toBe('12 345')
   })
 
-  it.only('should react to locale change', () => {
+  it('should react to locale change', () => {
     const { rerender } = render(
       <InputMasked
         asNumber
