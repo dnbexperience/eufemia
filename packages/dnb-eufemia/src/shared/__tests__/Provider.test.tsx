@@ -524,7 +524,7 @@ describe('Provider', () => {
         document
           .querySelector('.dnb-button')
           .getAttribute('aria-roledescription')
-      ).toBe(en.HelpButton.aria_role)
+      ).toBe(en.HelpButton.ariaRole)
 
       // GlobalError
       expect(
@@ -564,7 +564,7 @@ describe('Provider', () => {
         document
           .querySelector('.dnb-button')
           .getAttribute('aria-roledescription')
-      ).toBe(en.HelpButton.aria_role)
+      ).toBe(en.HelpButton.ariaRole)
 
       // GlobalError
       expect(
