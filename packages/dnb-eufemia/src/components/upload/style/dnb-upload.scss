@@ -136,10 +136,12 @@
     &__text-container {
       display: flex;
       flex-direction: column;
-      justify-content: flex-start;
 
       &--loading {
         font-size: var(--font-size-basis);
+      }
+      .dnb-button {
+        justify-content: flex-start;
       }
     }
   }
