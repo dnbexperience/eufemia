@@ -14,13 +14,7 @@ import { useNumberMaskParams } from './useNumberMaskParams'
 export const useMaskParams = () => {
   const { props } = React.useContext(InputMaskedContext)
 
-  const {
-    keepCharPositions,
-    showGuide,
-    showMask,
-    placeholderChar,
-    placeholder,
-  } = props
+  const { showMask, placeholderChar, placeholder } = props
 
   const mask = useMask()
   const maskParams = useNumberMaskParams() || {}
@@ -39,9 +33,6 @@ export const useMaskParams = () => {
   if (typeof mask?.showMask !== 'undefined') {
     maskParams.showMask = mask.showMask
   }
-
-  maskParams.showGuide = isTrue(showGuide)
-  maskParams.keepCharPositions = isTrue(keepCharPositions)
 
   return maskParams
 }

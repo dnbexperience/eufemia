@@ -10,10 +10,6 @@ import { Provider } from '@dnb/eufemia/src/shared'
 import { Flex, InputMasked } from '@dnb/eufemia/src'
 import { MultiInputMask } from '@dnb/eufemia/src/components/input-masked'
 
-// https://github.com/text-mask/text-mask
-// How to use masks: https://github.com/text-mask/text-mask/blob/master/componentDocumentation.md#readme
-// import createNumberMask from '@dnb/eufemia/src/components/input-masked/addons/createNumberMask'
-
 export const InputMaskedExampleNumberLocale = () => (
   <Wrapper>
     <ComponentBox data-visual-test="input-masked-number">
@@ -126,7 +122,6 @@ export const InputMaskedExampleCustomNumberMask = () => (
           suffix: ' kr',
           allowDecimal: true,
         }}
-        placeholderChar={null}
         on_change={({ numberValue }) => {
           console.log(numberValue)
         }}
@@ -196,8 +191,6 @@ export const InputMaskedExampleCustomMask = () => (
           /\\d/,
         ]}
         showMask
-        placeholderChar="_"
-        keepCharPositions
         on_change={({ numberValue }) => {
           console.log(numberValue)
         }}

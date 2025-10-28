@@ -257,8 +257,6 @@ $ pnpm add @dnb/eufemia@11
 - Replace `as_number` with `asNumber`.
 - Replace `as_percent` with `asPercent`.
 - Replace `show_mask` with `showMask`.
-- Replace `show_guide` with `showGuide`.
-- Replace `keep_char_positions` with `keepCharPositions`.
 - Replace `placeholder_char` with `placeholderChar`.
 - Replace `inner_ref` with `innerRef`.
 - Replace `label_sr_only` with `labelSrOnly`.
@@ -279,6 +277,20 @@ $ pnpm add @dnb/eufemia@11
 - Replace `submit_button_variant` with `submitButtonVariant`.
 - Replace `submit_button_icon` with `submitButtonIcon`.
 - Replace `submit_button_status` with `submitButtonStatus`.
+
+#### Deprecations and removals
+
+- `show_guide` has been removed in v11. If you need to communicate an expected format, pass an example using the regular `placeholder` prop (e.g. `placeholder="00 00 00"`) or provide helper text next to the field.
+- `keep_char_positions` has been removed in v11.
+- `pipe` has been removed in v11.
+- `MaskFunction` (function-based masks) has been removed in v11. Maskito only supports array masks (`Array<string | RegExp>`) and RegExp masks. Convert any custom mask functions to array-based masks.
+- The `{ mask: ... }` object form for masks has been removed in v11. Use array masks directly instead of wrapping them in an object.
+- The addon helpers `createNumberMask` and `emailMask` have been removed in v11. The following imports no longer work and should be deleted or replaced:
+
+  ```tsx
+  import createNumberMask from '@dnb/eufemia/components/input-masked/addons/createNumberMask'
+  import emailMask from '@dnb/eufemia/components/input-masked/addons/emailMask'
+  ```
 
 ### [MultiInputMask](/uilib/components/input-masked/)
 

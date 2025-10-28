@@ -7,8 +7,8 @@
 import { useContext, useMemo } from 'react'
 import InputMaskedContext from '../InputMaskedContext'
 import { isRequestingNumberMask } from '../InputMaskedUtils'
-import createNumberMask from '../addons/createNumberMask'
 import { useNumberMaskParams } from './useNumberMaskParams'
+import type { MaskParams } from '../text-mask/types'
 
 export const useNumberMask = () => {
   const mP = useNumberMaskParams()
@@ -16,9 +16,7 @@ export const useNumberMask = () => {
 
   // Memoize mask creation based on relevant maskParams properties
   const mask = useMemo(() => {
-    const m = createNumberMask(mP)
-    m.maskParams = mP
-    return m
+    return createNumberMask(mP)
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
@@ -41,4 +39,14 @@ export const useNumberMask = () => {
   }
 
   return mask
+}
+
+export function createNumberMask(maskParams: MaskParams = {}) {
+  const numberMask = function () {
+    return []
+  }
+  numberMask.instanceOf = 'createNumberMask'
+  numberMask.maskParams = maskParams
+
+  return numberMask
 }

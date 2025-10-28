@@ -9,7 +9,7 @@ import {
 } from '../number-format/NumberUtils'
 import { warn } from '../../shared/component-helper'
 import { IS_IOS } from '../../shared/helpers'
-import { safeSetSelection } from './text-mask/createTextMaskInputElement'
+import { safeSetSelection } from './text-mask/safeSetSelection'
 
 const enableLocaleSupportWhen = [
   'asNumber',

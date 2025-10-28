@@ -19,29 +19,14 @@ import {
 } from '@maskito/kit'
 import InputModeNumber from './text-mask/InputModeNumber'
 import { isNil } from './text-mask/utilities'
-import type { Mask, MaskFunction, Pipe } from './text-mask/types'
-import type { NumberMaskFunction } from './addons/createNumberMask'
-
-// Type for mask parameters
-export type MaskParams = {
-  decimalSymbol?: string
-  thousandsSeparatorSymbol?: string
-  allowDecimal?: boolean
-  decimalLimit?: number
-  integerLimit?: number
-  allowNegative?: boolean
-  prefix?: string
-  suffix?: string
-  disallowLeadingZeroes?: boolean
-  min?: number
-  max?: number
-}
+import { MaskParams } from './text-mask/types'
+import { createNumberMask } from './hooks/useNumberMask'
 
 export type TextMaskMask =
-  | Mask
-  | MaskFunction
-  | boolean
-  | { mask?: Mask | MaskFunction; pipe?: Pipe }
+  | RegExp
+  | Array<RegExp | string>
+  | false
+  | typeof createNumberMask
 export type TextMaskInputElement = React.ReactElement
 export type TextMaskValue = string | number
 export interface TextMaskProps
@@ -51,11 +36,8 @@ export interface TextMaskProps
     React.MutableRefObject<HTMLInputElement | null>
   inputElement?: TextMaskInputElement
   onChange?: React.ChangeEventHandler<HTMLInputElement>
-  guide?: boolean
   value?: TextMaskValue
-  pipe?: Pipe
   placeholderChar?: string
-  keepCharPositions?: boolean
   showMask?: boolean
 }
 
@@ -65,12 +47,9 @@ export default function TextMask(props: TextMaskProps): JSX.Element {
     inputRef,
     mask: rawMask,
     // Unused by Maskito but kept for API compatibility
-    guide, // eslint-disable-line @typescript-eslint/no-unused-vars
-    pipe, // eslint-disable-line @typescript-eslint/no-unused-vars
     placeholderChar,
-    keepCharPositions, // eslint-disable-line @typescript-eslint/no-unused-vars
-    value, // eslint-disable-line @typescript-eslint/no-unused-vars
-    showMask, // eslint-disable-line @typescript-eslint/no-unused-vars
+    value,
+    showMask,
     ...rest
   } = props
 
@@ -82,9 +61,7 @@ export default function TextMask(props: TextMaskProps): JSX.Element {
   // Extract maskParams for dependency tracking
   const maskParams =
     typeof rawMask === 'function' && 'maskParams' in rawMask
-      ? ((rawMask as NumberMaskFunction).maskParams as
-          | MaskParams
-          | undefined)
+      ? (rawMask.maskParams as MaskParams | undefined)
       : undefined
 
   const options = useMemo<MaskitoOptions | null>(() => {
@@ -96,12 +73,15 @@ export default function TextMask(props: TextMaskProps): JSX.Element {
       rawMask.instanceOf === 'createNumberMask' &&
       rawMask.maskParams
     ) {
-      const mp = (rawMask as NumberMaskFunction).maskParams as MaskParams
+      const mp = rawMask.maskParams as MaskParams
       return createMaskitoNumberOptions(mp)
     }
 
     const mask = normalizeMask(rawMask, placeholderChar)
-    if (!mask) return null
+    if (!mask) {
+      return null
+    }
+
     return { mask }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -197,7 +177,7 @@ export default function TextMask(props: TextMaskProps): JSX.Element {
     // For numeric masks, strip existing prefix/suffix before transforming
     let cleanValue = String(valueToTransform)
     if (typeof rawMask === 'function' && 'maskParams' in rawMask) {
-      const mp = (rawMask as NumberMaskFunction).maskParams as MaskParams
+      const mp = rawMask.maskParams as MaskParams
       const prefix = mp.prefix ?? ''
       const suffix = mp.suffix ?? ''
 
@@ -231,6 +211,23 @@ export default function TextMask(props: TextMaskProps): JSX.Element {
   // Compute initial defaultValue for immediate render (before Maskito attaches)
   const defaultValue = useMemo(() => {
     const raw = typeof value === 'string' ? value : undefined
+
+    // Handle empty value with showMask for numeric masks
+    if (!raw && showMask) {
+      // Check if this is a numeric mask with prefix/suffix
+      if (typeof rawMask === 'function' && 'maskParams' in rawMask) {
+        const mp = rawMask.maskParams as MaskParams
+        const prefix = mp.prefix ?? ''
+        const suffix = mp.suffix ?? ''
+
+        // Return prefix + suffix if showMask is true
+        if (prefix || suffix) {
+          return prefix + suffix
+        }
+      }
+      return undefined
+    }
+
     if (!raw) {
       return undefined
     }
@@ -249,7 +246,7 @@ export default function TextMask(props: TextMaskProps): JSX.Element {
     // Maskito needs just the numeric value without any existing prefix/suffix
     let cleanValue = raw
     if (typeof rawMask === 'function' && 'maskParams' in rawMask) {
-      const mp = (rawMask as NumberMaskFunction).maskParams as MaskParams
+      const mp = rawMask.maskParams as MaskParams
       const prefix = mp.prefix ?? ''
       const suffix = mp.suffix ?? ''
 
@@ -278,7 +275,7 @@ export default function TextMask(props: TextMaskProps): JSX.Element {
       options
     )
     return formatted
-  }, [options, value, rawMask])
+  }, [options, value, rawMask, showMask])
 
   return inputElement ? (
     cloneElement(inputElement, {
@@ -297,7 +294,7 @@ function normalizeMask(
 ): MaskitoMask | null {
   const pc = isNil(placeholderChar) ? '_' : placeholderChar
 
-  // Handle combined object shape { mask, pipe }
+  // Handle combined object shape { mask }
   if (
     maskProp &&
     typeof maskProp === 'object' &&
@@ -323,27 +320,27 @@ function normalizeMask(
   }
 
   // Function form: adapt text-mask signature to Maskito
-  if (typeof maskProp === 'function') {
-    const fn = maskProp as MaskFunction
-    return (elementState) => {
-      try {
-        const result = fn(elementState.value, {
-          // Text-mask typically passes 0 on initialization
-          currentCaretPosition: 0,
-          previousConformedValue: undefined,
-          placeholderChar: pc,
-        })
-        if (result === false) {
-          return [/^.*$/]
-        }
-        const arr = Array.isArray(result) ? result : []
-        // Remove text-mask caret traps '[]'
-        return (arr as Array<string | RegExp>).filter((t) => t !== '[]')
-      } catch (e) {
-        return [/^.*$/]
-      }
-    }
-  }
+  // if (typeof maskProp === 'function') {
+  //   const fn = maskProp as MaskFunction
+  //   return (elementState) => {
+  //     try {
+  //       const result = fn(elementState.value, {
+  //         // Text-mask typically passes 0 on initialization
+  //         currentCaretPosition: 0,
+  //         previousConformedValue: undefined,
+  //         placeholderChar: pc,
+  //       })
+  //       if (result === false) {
+  //         return [/^.*$/]
+  //       }
+  //       const arr = Array.isArray(result) ? result : []
+  //       // Remove text-mask caret traps '[]'
+  //       return (arr as Array<string | RegExp>).filter((t) => t !== '[]')
+  //     } catch (e) {
+  //       return [/^.*$/]
+  //     }
+  //   }
+  // }
 
   // Fallback — permissive mask
   return /^.*$/
@@ -367,9 +364,9 @@ function createMaskitoNumberOptions(mp: {
   const suffix = mp.suffix ?? ''
   const allowNegative = mp.allowNegative !== false
   const min = allowNegative ? Number.MIN_SAFE_INTEGER : 0
-  // If allowDecimal is true but decimalLimit is not specified, use a default of 10
+  // If allowDecimal is true but decimalLimit is not specified, use a default of 2
   // Otherwise use decimalLimit if specified, or 0 if decimals are not allowed
-  const defaultDecimalLimit = mp.allowDecimal === true ? 10 : 0
+  const defaultDecimalLimit = mp.allowDecimal === true ? 2 : 0
   const maximumFractionDigits = Math.max(
     0,
     Number(mp.decimalLimit ?? defaultDecimalLimit)
@@ -389,6 +386,7 @@ function createMaskitoNumberOptions(mp: {
     prefix,
     postfix: postfixToUse,
     decimalPseudoSeparators: ['.', ',', '·'],
+    minusSign: '-', // Define "-" (U+002D) because Maskito uses "−" (U+2212) by default, and would replace "-" (U+002D) with it.
   })
 
   const caretGuard = maskitoCaretGuard((value) => {
@@ -685,10 +683,7 @@ TextMask.defaultProps = {
   inputElement: null,
   inputRef: null,
   onChange: null,
-  guide: null,
   value: null,
-  pipe: null,
   placeholderChar: null,
-  keepCharPositions: null,
   showMask: null,
 }

@@ -311,9 +311,7 @@ function MultiInputMaskInput<T extends string>({
         mask={mask}
         value={value ?? ''}
         placeholderChar={placeholderCharacter}
-        guide={true}
         showMask={true}
-        keepCharPositions={false} // so we can overwrite next value, if it already exists
         aria-label={label}
         inputRef={getInputRef()}
         onKeyDown={onKeyDown}
