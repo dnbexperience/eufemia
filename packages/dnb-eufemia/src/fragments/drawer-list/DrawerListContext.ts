@@ -30,6 +30,8 @@ export type DrawerListContextState = Omit<
   _value?: any
   /** used internally to have a backup to look up what we got in the first place (array vs object) */
   raw_data?: DrawerListDataAll
+  /** the id of the current active-descendant for screen readers */
+  ariaActiveDescendant?: string
 }
 
 export type DrawerListContextProps = ContextProps & {

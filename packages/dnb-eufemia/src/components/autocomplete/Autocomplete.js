@@ -20,7 +20,7 @@ import {
   combineDescribedBy,
   convertJsxToString,
   escapeRegexChars,
-  getPreviousSibling,
+  getClosestParent,
   keycode,
 } from '../../shared/component-helper'
 import {
@@ -359,7 +359,7 @@ export default class Autocomplete extends React.PureComponent {
         prevent_focus
         skip_keysearch
       >
-        <AutocompleteInstance id={this._id} {...this.props} />
+        <AutocompleteInstance {...this.props} id={this._id} />
       </DrawerListProvider>
     )
   }
@@ -445,8 +445,6 @@ class AutocompleteInstance extends React.PureComponent {
 
   constructor(props, context) {
     super(props)
-
-    this._id = props.id || makeUniqueId()
 
     this.attributes = {}
     this.state = this.state || {}
@@ -1020,8 +1018,8 @@ class AutocompleteInstance extends React.PureComponent {
     this.__preventFiringBlurEvent = Boolean(
       event.key === 'enter' ||
         (event?.currentTarget
-          ? getPreviousSibling('dnb-drawer-list', event.currentTarget) ||
-            getPreviousSibling(
+          ? getClosestParent('dnb-drawer-list', event.currentTarget) ||
+            getClosestParent(
               'dnb-input__submit-button__button',
               event.currentTarget
             )
@@ -1829,12 +1827,11 @@ class AutocompleteInstance extends React.PureComponent {
       ...attributes
     } = props
 
-    const id = this._id
     const showStatus = getStatusState(status)
 
     const { inputValue, visibleIndicator } = this.state
 
-    const { hidden, selected_item, active_item, direction, opened } =
+    const { id, hidden, selected_item, direction, opened } =
       this.context.drawerList
 
     const isExpanded = Boolean(opened) && this.hasValidData()
@@ -1912,18 +1909,8 @@ class AutocompleteInstance extends React.PureComponent {
 
     // Handling of activedescendant – required by NVDA
     if (isExpanded) {
-      if (parseFloat(active_item) > -1) {
-        inputParams[
-          'aria-activedescendant'
-        ] = `option-${id}-${active_item}`
-      } else if (
-        !isTrue(prevent_selection) &&
-        parseFloat(selected_item) > -1
-      ) {
-        inputParams[
-          'aria-activedescendant'
-        ] = `option-${id}-${selected_item}`
-      }
+      inputParams['aria-activedescendant'] =
+        this.context.drawerList.ariaActiveDescendant
     }
 
     if (showStatus || suffix) {

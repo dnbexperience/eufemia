@@ -9,6 +9,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {
   isTrue,
+  makeUniqueId,
   dispatchCustomElementEvent,
   convertJsxToString,
 } from '../../shared/component-helper'
@@ -428,6 +429,25 @@ export const getCurrentData = (item_index, data) => {
   return data
 }
 
+function getFirstItemFromData(data: DrawerListInternalData): number {
+  let firstItemIndex = data.length > 0 ? 0 : null
+  let firstGroupIndex = -1
+
+  data.forEach((item, index) => {
+    if ((item.groupIndex ?? undefined) > -1) {
+      if (firstGroupIndex === -1 || item.groupIndex < firstGroupIndex) {
+        firstGroupIndex = item.groupIndex
+        firstItemIndex = index
+      }
+      if (item.groupIndex === 0) {
+        return
+      }
+    }
+  })
+
+  return firstItemIndex
+}
+
 export function prepareStartupState(
   props: DrawerListProviderProps
 ): DrawerListContextState {
@@ -442,6 +462,7 @@ export function prepareStartupState(
   const opened = props.opened !== null ? isTrue(props.opened) : null
 
   const state: DrawerListContextState = {
+    id: props.id || makeUniqueId(),
     opened,
     data,
     original_data: data, // used to reset in case we reorder data etc.
@@ -538,6 +559,24 @@ export const prepareDerivedState = (
     state._value !== props.value
   ) {
     state.active_item = state.selected_item
+  }
+
+  // set aria-activedescendant for screenreaders
+  if (
+    isNaN(parseFloat(state.active_item as string)) ||
+    parseFloat(state.active_item as string) === -1 ||
+    getCurrentData(parseFloat(state.active_item as string), state.data) ===
+      null
+  ) {
+    // no valid active item
+    // but screenreaders require an active item, so we point them to the first item
+    const firstItem = getFirstItemFromData(state.data)
+    state.ariaActiveDescendant =
+      firstItem === null ? '' : `option-${state.id}-${firstItem}`
+
+    state.active_item = -1
+  } else {
+    state.ariaActiveDescendant = `option-${state.id}-${state.active_item}`
   }
 
   if (props.direction !== 'auto' && props.direction !== state.direction) {
