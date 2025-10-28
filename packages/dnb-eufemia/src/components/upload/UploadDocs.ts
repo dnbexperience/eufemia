@@ -98,7 +98,7 @@ export const UploadEvents: PropertiesTableProps = {
     status: 'optional',
   },
   onFileClick: {
-    doc: 'Will be called once a file gets clicked on by the user. Access the clicked file with `{ fileItem }`.',
+    doc: 'Will be called once a file gets clicked on by the user. Access the clicked file with `{ fileItem }`. When providing this prop, the file will be rendered as a button instead of an anchor or plain text.',
     type: 'function',
     status: 'optional',
   },
