@@ -99,7 +99,7 @@ export default {
       confirmText: 'Godkänn',
     },
     CopyOnClick: {
-      clipboard_copy: 'Kopierad',
+      clipboardCopy: 'Kopierad',
     },
     NumberFormat: {
       clipboard_copy: 'Kopierad',
