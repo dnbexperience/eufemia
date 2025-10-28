@@ -73,7 +73,7 @@ export function verifyFiles(
 
       return validateFileSize(
         file.size,
-        acceptedFileTypeObj.fileMaxSize !== undefined
+        acceptedFileTypeObj?.fileMaxSize !== undefined
           ? acceptedFileTypeObj.fileMaxSize
           : fileMaxSize
       )

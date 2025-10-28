@@ -943,6 +943,84 @@ describe('Upload', () => {
     expect(screen.queryByText(nb.errorUnsupportedFile)).toBeInTheDocument()
   })
 
+  it('will return error when dropping a file with extension that is not accepted when acceptedFileTypes is an array of objects', async () => {
+    const id = 'not-supported-extension'
+
+    renderHook(useUpload, { initialProps: id })
+
+    render(
+      <Upload
+        {...defaultProps}
+        id={id}
+        acceptedFileTypes={[
+          {
+            fileType: 'jpg',
+            fileMaxSize: 0,
+          },
+          {
+            fileType: 'doc',
+            fileMaxSize: false,
+          },
+          {
+            fileType: 'svg',
+          },
+        ]}
+      />
+    )
+
+    const getRootElement = () => document.querySelector('.dnb-upload')
+
+    const element = getRootElement()
+    const file1 = createMockFile('fileName-1.png', 100, 'image/png')
+
+    await waitFor(() =>
+      fireEvent.drop(element, {
+        dataTransfer: { files: [file1] },
+      })
+    )
+
+    expect(screen.queryByText(nb.errorUnsupportedFile)).toBeInTheDocument()
+  })
+
+  it('will return error when dropping a file without extension when acceptedFileTypes is an array of objects', async () => {
+    const id = 'no-extension'
+
+    renderHook(useUpload, { initialProps: id })
+
+    render(
+      <Upload
+        {...defaultProps}
+        id={id}
+        acceptedFileTypes={[
+          {
+            fileType: 'jpg',
+            fileMaxSize: 0,
+          },
+          {
+            fileType: 'doc',
+            fileMaxSize: false,
+          },
+          {
+            fileType: 'svg',
+          },
+        ]}
+      />
+    )
+
+    const getRootElement = () => document.querySelector('.dnb-upload')
+
+    const element = getRootElement()
+    const file1 = createMockFile('fileName-1', 100, '')
+
+    await waitFor(() =>
+      fireEvent.drop(element, {
+        dataTransfer: { files: [file1] },
+      })
+    )
+
+    expect(screen.queryByText(nb.errorUnsupportedFile)).toBeInTheDocument()
+  })
+
   it('will return error when dropping a file without extension', async () => {
     const id = 'no-extension'
 
