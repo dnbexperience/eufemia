@@ -847,6 +847,9 @@ button .dnb-form-status__text {
 .dnb-upload__file-cell__text-container--loading {
   font-size: var(--font-size-basis);
 }
+.dnb-upload__file-cell__text-container .dnb-button {
+  justify-content: flex-start;
+}
 .dnb-upload__text.dnb-p {
   color: var(--upload-text--secondary);
 }
