@@ -5,7 +5,7 @@
 
 import React, { useEffect } from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
-import { Upload, Dialog, Button } from '../..'
+import { Upload, Dialog, Button, ToggleButton } from '../..'
 
 function createMockFile(name: string, size: number, type: string) {
   const file = new File([], name, { type })
@@ -271,4 +271,48 @@ export const UploadCompact = () => {
       />
     </Wrapper>
   )
+}
+
+export const setFiles = () => {
+  const ChildComponent = () => {
+    const { files, setFiles } = Upload.useUpload('upload-files')
+
+    return (
+      <>
+        <Button
+          onClick={() => {
+            setFiles([])
+          }}
+        >
+          Clear upload
+        </Button>
+        <Upload
+          id="upload-files"
+          acceptedFileTypes={['pdf']}
+          filesAmountLimit={5}
+          fileMaxSize={4.5}
+          text={false}
+          title={false}
+          variant="compact"
+        />
+        <ToggleButton
+          top="small"
+          disabled={files.length < 1}
+          on_change={({ checked }) =>
+            setFiles(
+              files.map((fileItem) => {
+                return {
+                  ...fileItem,
+                }
+              })
+            )
+          }
+        >
+          Files is loading toggle
+        </ToggleButton>
+      </>
+    )
+  }
+
+  return <ChildComponent />
 }
