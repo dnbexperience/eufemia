@@ -944,7 +944,7 @@ describe('Upload', () => {
   })
 
   it('will return error when dropping a file with extension that is not accepted when acceptedFileTypes is an array of objects', async () => {
-    const id = 'not-supported-extension'
+    const id = 'not-supported-extension-array-of-objects'
 
     renderHook(useUpload, { initialProps: id })
 
@@ -983,7 +983,7 @@ describe('Upload', () => {
   })
 
   it('will return error when dropping a file without extension when acceptedFileTypes is an array of objects', async () => {
-    const id = 'no-extension'
+    const id = 'no-extension-array-of-objects'
 
     renderHook(useUpload, { initialProps: id })
 
