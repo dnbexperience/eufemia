@@ -16,19 +16,19 @@ const defaultProps: MultiInputMaskProps<'day' | 'month' | 'year'> = {
     {
       id: 'day',
       label: 'the day',
-      placeholderCharacter: 'd',
+      placeholder: 'dd',
       mask: [/[0-9]/, /[0-9]/],
     },
     {
       id: 'month',
       label: 'the month',
-      placeholderCharacter: 'm',
+      placeholder: 'mm',
       mask: [/[0-9]/, /[0-9]/],
     },
     {
       id: 'year',
       label: 'the year',
-      placeholderCharacter: 'y',
+      placeholder: 'yyyy',
       mask: [/[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/],
     },
   ],
@@ -235,19 +235,19 @@ describe('MultiInputMask', () => {
         id: 'first',
         label: 'first',
         mask: [/f/],
-        placeholderCharacter: 'f',
+        placeholder: 'f',
       },
       {
         id: 'second',
         label: 'second',
         mask: [/s/],
-        placeholderCharacter: 's',
+        placeholder: 's',
       },
       {
         id: 'third',
         label: 'third',
         mask: [/t/],
-        placeholderCharacter: 't',
+        placeholder: 't',
       },
     ]
 
@@ -289,17 +289,16 @@ describe('MultiInputMask', () => {
     expect(onChangeParamKeys[2]).toEqual(inputs[2].id)
   })
 
-  it('should show placeholder character', () => {
+  it('should show placeholder text', () => {
     render(<MultiInputMask {...defaultProps} />)
 
     const [first, second, third] = Array.from(
       document.querySelectorAll('.dnb-multi-input-mask__input')
-      // _valueTracker is whats controlling the placeholder, no idea where this property comes form though, can't find it when searching for it
-    ) as (HTMLInputElement & { _valueTracker: Record<string, any> })[]
+    ) as HTMLInputElement[]
 
-    expect(first?._valueTracker.getValue()).toBe('dd')
-    expect(second?._valueTracker.getValue()).toBe('mm')
-    expect(third?._valueTracker.getValue()).toBe('yyyy')
+    expect(first).toHaveAttribute('placeholder', 'dd')
+    expect(second).toHaveAttribute('placeholder', 'mm')
+    expect(third).toHaveAttribute('placeholder', 'yyyy')
   })
 
   it('inputs should only allow values defined by mask', async () => {
@@ -307,19 +306,19 @@ describe('MultiInputMask', () => {
       {
         id: 'numbers',
         label: 'just numbers',
-        placeholderCharacter: 'n',
+        placeholder: 'nn',
         mask: [/[0-9]/, /[0-9]/],
       },
       {
         id: 'letters',
         label: 'just letters',
-        placeholderCharacter: 'l',
+        placeholder: 'll',
         mask: [/[a-zA-Z]/, /[a-zA-Z]/],
       },
       {
         id: 'mix',
         label: 'numbers and letters',
-        placeholderCharacter: 'm',
+        placeholder: 'nnmm',
         mask: [/[0-9]/, /[0-9]/, /[a-zA-Z]/, /[a-zA-Z]/],
       },
     ]
@@ -390,19 +389,19 @@ describe('MultiInputMask', () => {
       {
         id: 'short',
         label: 'long',
-        placeholderCharacter: 's',
+        placeholder: 'ss',
         mask: [/[0-9]/, /[0-9]/],
       },
       {
         id: 'medium',
         label: 'long',
-        placeholderCharacter: 'm',
+        placeholder: 'mmmm',
         mask: [/[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/],
       },
       {
         id: 'long',
         label: 'long',
-        placeholderCharacter: 'l',
+        placeholder: 'llllll',
         mask: [/[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/],
       },
     ]
@@ -804,19 +803,19 @@ describe('MultiInputMask', () => {
             {
               id: 'first',
               label: 'the first',
-              placeholderCharacter: '0',
+              placeholder: '00',
               mask: [/[0-9]/, /[0-9]/],
             },
             {
               id: 'second',
               label: 'the second',
-              placeholderCharacter: '0',
+              placeholder: '00',
               mask: [/[0-9]/, /[0-9]/],
             },
             {
               id: 'third',
               label: 'the third',
-              placeholderCharacter: '0',
+              placeholder: '00',
               mask: [/[0-9]/, /[0-9]/],
             },
           ]}

@@ -205,7 +205,13 @@ function MultiInputMask<T extends string>({
       return
     }
 
-    const firstInput = inputRefs.current[0].current
+    const byRef = inputRefs.current[0]?.current
+    const byId = document.getElementById(
+      `${id}-${inputs[0]?.id}`
+    ) as HTMLInputElement | null
+    const firstInput = byRef || byId
+
+    if (!firstInput) return
 
     firstInput.focus()
     firstInput.setSelectionRange(0, 0)

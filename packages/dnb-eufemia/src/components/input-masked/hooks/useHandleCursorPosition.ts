@@ -1,25 +1,21 @@
-import { MutableRefObject, useEffect, useRef } from 'react'
+import { MutableRefObject } from 'react'
 
 function useHandleCursorPosition(
   inputRefs: MutableRefObject<HTMLInputElement>[],
   keysToHandle?: RegExp | { [inputId: string]: RegExp[] }
 ) {
-  const inputList = useRef(refsToInputList(inputRefs))
-
-  // To keep the refs.current in synch with component of use, or else it wont be possible to navigate to the next input, without triggering a re-render first.
-  useEffect(() => {
-    inputList.current = refsToInputList(inputRefs)
-  }, [inputRefs])
-
   function onKeyDown(event: React.KeyboardEvent) {
-    const inputs = inputList.current
+    // Always compute a fresh list to avoid stale refs
+    const inputs = refsToInputList(inputRefs)
     const input = event.target as HTMLInputElement
 
     const pressedKey = event.key
 
-    const hasPressedKeysToHandle =
-      getKeysToHandle({ keysToHandle, input })?.test(pressedKey) ||
-      /(ArrowRight|ArrowLeft|Backspace)/.test(pressedKey)
+    const allowedByMask = getKeysToHandle({ keysToHandle, input })?.test(
+      pressedKey
+    )
+    const isNavKey = /(ArrowRight|ArrowLeft|Backspace)/.test(pressedKey)
+    const hasPressedKeysToHandle = allowedByMask || isNavKey
 
     const hasSelection = hasSelectedValue(input)
 
@@ -28,18 +24,36 @@ function useHandleCursorPosition(
     const initialSelectionStart = input.selectionStart
 
     window.requestAnimationFrame(() => {
+      // Recompute in case refs changed between frames
+      const latestInputs = refsToInputList(inputRefs)
+      if (!latestInputs.length) return
+
       if (!hasPressedKeysToHandle || hasSelection) {
         return // stop here
       }
 
       const caretPosition = getCaretPosition(input)
 
+      // Auto-advance on data entry when the current input becomes full
+      // Use the pre-keydown selectionStart to infer that the key press will fill the field
+      if (!isNavKey && allowedByMask) {
+        const size = Number((input as any).size ?? 0)
+        if (
+          size > 0 &&
+          initialSelectionStart != null &&
+          initialSelectionStart >= size - 1 &&
+          inputPosition !== 'last'
+        ) {
+          return goToInput('next', input, latestInputs)
+        }
+      }
+
       if (
         caretPosition === 'last' &&
         inputPosition !== 'last' &&
         !(initialSelectionStart === 1 && pressedKey === 'ArrowRight')
       ) {
-        return goToInput('next', input, inputs)
+        return goToInput('next', input, latestInputs)
       }
 
       if (
@@ -50,7 +64,7 @@ function useHandleCursorPosition(
           (pressedKey === 'ArrowLeft' || pressedKey === 'Backspace')
         )
       ) {
-        return goToInput('previous', input, inputs)
+        return goToInput('previous', input, latestInputs)
       }
     })
   }
@@ -60,7 +74,14 @@ function useHandleCursorPosition(
 
 // Helpers
 function refsToInputList(inputRefs: MutableRefObject<HTMLInputElement>[]) {
-  return inputRefs.map((ref) => ref.current).filter(Boolean)
+  const byRefs = inputRefs.map((ref) => ref.current).filter(Boolean)
+  if (byRefs.length) return byRefs as HTMLInputElement[]
+  // Fallback to DOM query if refs are not ready
+  return Array.from(
+    document.querySelectorAll<HTMLInputElement>(
+      '.dnb-multi-input-mask__input'
+    )
+  )
 }
 
 type GetKeysToHandleParams = {
@@ -84,7 +105,8 @@ function getKeysToHandle({ keysToHandle, input }: GetKeysToHandleParams) {
       ? input.selectionStart
       : undefined
 
-  if (!selection) {
+  // Important: selection can be 0 which is a valid index
+  if (selection === undefined || selection === null) {
     return undefined
   }
 
@@ -112,7 +134,8 @@ function getInputPosition(
 }
 
 function getSelectionPositions(input: HTMLInputElement) {
-  return { start: 0, end: Number(input.size) }
+  const end = Number((input as any).size ?? (input as any).maxLength ?? input.value?.length ?? 0)
+  return { start: 0, end }
 }
 
 function hasSelectedValue(input: HTMLInputElement) {
@@ -141,7 +164,7 @@ function goToInput(
   input: HTMLInputElement,
   inputs: HTMLInputElement[]
 ) {
-  const currentInputIndex = inputs.indexOf(input)
+  const currentInputIndex = inputs.findIndex((el) => el?.id === input.id)
 
   const siblingIndex =
     to === 'next'
@@ -151,6 +174,9 @@ function goToInput(
       : 0
 
   const siblingInput = inputs[siblingIndex]
+  if (!siblingInput) {
+    return
+  }
 
   const { start, end } = getSelectionPositions(siblingInput)
 
