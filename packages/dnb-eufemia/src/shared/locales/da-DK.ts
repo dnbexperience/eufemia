@@ -100,7 +100,7 @@ export default {
       confirmText: 'Godkend',
     },
     CopyOnClick: {
-      clipboard_copy: 'Kopieret',
+      clipboardCopy: 'Kopieret',
     },
     NumberFormat: {
       clipboardCopy: 'Kopieret',
