@@ -17,7 +17,7 @@ export const CopyOnClickProperties: PropertiesTableProps = {
     status: 'optional',
   },
   tooltipContent: {
-    doc: 'The message shown in the tooltip when the content is copied. Defaults to the translation `CopyOnClick.clipboard_copy`.',
+    doc: 'The message shown in the tooltip when the content is copied. Defaults to the translation `CopyOnClick.clipboardCopy`.',
     type: 'React.Node',
     status: 'optional',
   },
