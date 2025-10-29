@@ -17,6 +17,10 @@ import { isValid as isValidFn, parseISO } from 'date-fns'
 
 import classnames from 'classnames'
 import TextMask, { TextMaskProps } from '../input-masked/TextMask'
+import MultiInputMask, {
+  type MultiInputMaskInput as MInputs,
+  type MultiInputMaskValue as MValues,
+} from '../input-masked/MultiInputMask'
 import Button from '../button/Button'
 import Input, { SubmitButton } from '../input/Input'
 import type { InputInputElement, InputSize } from '../Input'
@@ -241,6 +245,68 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
         return acc
       }, [])
   }, [maskOrder, separatorRegExp])
+
+  // Build ordered parts from maskOrder (e.g., ['dd','mm','yyyy'])
+  const orderedParts = useMemo(() => {
+    return maskOrder
+      .split(separatorRegExp)
+      .filter(Boolean)
+      .map((p) => (p.toLowerCase().startsWith('d') ? 'day' : p.toLowerCase().startsWith('m') ? 'month' : 'year')) as Array<'day' | 'month' | 'year'>
+  }, [maskOrder, separatorRegExp])
+
+  const delimiter = useMemo(() => {
+    const s = maskOrder.match(separatorRegExp)
+    return s && s.length > 0 ? s[0] : undefined
+  }, [maskOrder, separatorRegExp])
+
+  function buildInputs(mode: 'start' | 'end'): MInputs<'day' | 'month' | 'year'>[] {
+    const phChars = (translation as any).placeholderCharacters || {
+      day: 'd',
+      month: 'm',
+      year: 'y',
+    }
+    const byPart = (part: 'day' | 'month' | 'year') => {
+      const len = part === 'year' ? 4 : 2
+      const placeholder = String(phChars[part] || (part === 'year' ? 'y' : part[0])).repeat(len)
+      const labelBase = translation[part]
+      const label = isRange ? `${translation[mode]} ${labelBase}` : labelBase
+      const cls = `dnb-date-picker__input--${part}`
+      const mask = new Array(len).fill(/[0-9]/)
+      return {
+        id: part,
+        label,
+        placeholder,
+        mask,
+        className: cls,
+        inputMode: 'numeric' as any,
+        onPaste: pasteHandler,
+        onCopy: (e: any) => copyHandler(e, mode),
+      }
+    }
+    return orderedParts.map((p) => byPart(p as any))
+  }
+
+  function getValues(mode: 'start' | 'end'): MValues<'day' | 'month' | 'year'> {
+    return {
+      day: String(dateRefs.current[`${mode}Day`] || ''),
+      month: String(dateRefs.current[`${mode}Month`] || ''),
+      year: String(dateRefs.current[`${mode}Year`] || ''),
+    }
+  }
+
+  function onMultiChange(mode: 'start' | 'end', vals: MValues<'day' | 'month' | 'year'>) {
+    const prev = getValues(mode)
+    let changed: 'day' | 'month' | 'year' | null = null
+    if (vals.day !== prev.day) changed = 'day'
+    if (vals.month !== prev.month) changed = 'month'
+    if (vals.year !== prev.year) changed = 'year'
+    if (!changed) return
+
+    const Type = changed === 'day' ? 'Day' : changed === 'month' ? 'Month' : 'Year'
+    const value = vals[changed]
+    const synthetic = { persist: () => null, target: { value } } as any
+    setDate(synthetic, mode, Type as any)
+  }
 
   const copyHandler = useCallback(
     (
@@ -914,30 +980,62 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
   )
 
   const renderInputElement = useCallback(
-    (
-      element: React.HTMLProps<HTMLInputElement> &
-        DatePickerEventAttributes
-    ) => {
-      refList.current = []
-      const startDateList = generateDateList(element, 'start')
-      const endDateList = generateDateList(element, 'end')
-
+    (_element: React.HTMLProps<HTMLInputElement> & DatePickerEventAttributes) => {
       return (
-        <span
-          id={`${id}-input`}
-          className="dnb-date-picker__input__wrapper"
-        >
-          {startDateList}
+        <span id={`${id}-input`} className="dnb-date-picker__input__wrapper">
+          <MultiInputMask
+            id={`${id}-start`}
+            inputs={buildInputs('start')}
+            values={getValues('start')}
+            delimiter={delimiter}
+            onChange={(v) => onMultiChange('start', v)}
+            onFocus={() => {
+              focusMode.current = 'start'
+              setFocusState('focus')
+              onFocus?.({
+                ...getReturnObject({ event: null, ...partialDatesRef.current }),
+              } as any)
+            }}
+            onBlur={() => {
+              focusMode.current = null
+              setFocusState('blur')
+              onBlur?.({
+                ...getReturnObject({ event: null, ...partialDatesRef.current }),
+              } as any)
+            }}
+          />
           {isRange && (
             <span className="dnb-date-picker--separator" aria-hidden>
               {' – '}
             </span>
           )}
-          {isRange && endDateList}
+          {isRange && (
+            <MultiInputMask
+              id={`${id}-end`}
+              inputs={buildInputs('end')}
+              values={getValues('end')}
+              delimiter={delimiter}
+              onChange={(v) => onMultiChange('end', v)}
+              onFocus={() => {
+                focusMode.current = 'end'
+                setFocusState('focus')
+                onFocus?.({
+                  ...getReturnObject({ event: null, ...partialDatesRef.current }),
+                } as any)
+              }}
+              onBlur={() => {
+                focusMode.current = null
+                setFocusState('blur')
+                onBlur?.({
+                  ...getReturnObject({ event: null, ...partialDatesRef.current }),
+                } as any)
+              }}
+            />
+          )}
         </span>
       )
     },
-    [id, isRange, generateDateList]
+    [id, isRange, delimiter, translation, maskOrder]
   )
 
   const ariaLabel = useMemo(

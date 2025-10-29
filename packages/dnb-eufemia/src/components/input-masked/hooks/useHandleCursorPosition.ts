@@ -6,6 +6,10 @@ function useHandleCursorPosition(
 ) {
   // Track a virtual caret for empty inputs to preserve Arrow navigation semantics
   const virtualCaretRef = useRef(new WeakMap<HTMLInputElement, number>())
+  // Track if typing in a field started from empty, to decide when to auto-advance
+  const typingStateRef = useRef(
+    new WeakMap<HTMLInputElement, { startedEmpty: boolean }>()
+  )
 
   function onKeyDown(event: React.KeyboardEvent) {
     // Always compute a fresh list to avoid stale refs
@@ -39,11 +43,14 @@ function useHandleCursorPosition(
 
       const size = Number((input as any).size ?? 0)
 
-      // Handle Backspace on empty inputs: move to previous only if it contains content
-      if (pressedKey === 'Backspace' && (input.value ?? '').length === 0) {
+      // Determine logical typed length (ignoring ghost placeholder padding)
+      const typedLen = getTypedLength(input)
+
+      // Handle Backspace on empty inputs: always jump to previous field and place caret at its end
+      if (pressedKey === 'Backspace' && typedLen === 0) {
         const idx = latestInputs.findIndex((el) => el?.id === input.id)
         const prev = idx > 0 ? latestInputs[idx - 1] : undefined
-        if (prev && (prev.value ?? '').length > 0) {
+        if (prev) {
           return goToInput('previous', input, latestInputs)
         }
         return
@@ -90,15 +97,31 @@ function useHandleCursorPosition(
       }
 
       // Auto-advance on data entry when the current input becomes full
-      // Use the pre-keydown selectionStart to infer that the key press will fill the field
+      // Infer based on typed length after this keystroke, and only if typing began from empty
       if (!isNavKey && allowedByMask) {
+        const currentTyped = getTypedLength(input)
+        if (!typingStateRef.current.has(input)) {
+          typingStateRef.current.set(input, {
+            startedEmpty: currentTyped === 0,
+          })
+        }
+        const { startedEmpty } = typingStateRef.current.get(input)!
+        const nextTyped = Math.min(size || 0, currentTyped + 1)
         if (
           size > 0 &&
-          initialSelectionStart != null &&
-          initialSelectionStart >= size - 1 &&
-          inputPosition !== 'last'
+          nextTyped >= size &&
+          inputPosition !== 'last' &&
+          startedEmpty
         ) {
           return goToInput('next', input, latestInputs)
+        }
+
+        // If typing at the visual end (e.g., dd|), keep caret at end after masking
+        if ((initialSelectionStart ?? 0) === size) {
+          window.requestAnimationFrame(() => {
+            const { end } = getSelectionPositions(input)
+            input.setSelectionRange(end, end)
+          })
         }
       }
 
@@ -136,6 +159,20 @@ function refsToInputList(inputRefs: MutableRefObject<HTMLInputElement>[]) {
       '.dnb-multi-input-mask__input'
     )
   )
+}
+
+function getTypedLength(input: HTMLInputElement) {
+  const val = input.value || ''
+  const ph = input.placeholder || ''
+  const size = Number((input as any).size ?? 0)
+  if (!size) return val.length
+  // If placeholder length matches size, compute number of leading chars not equal to placeholder char
+  if (ph && ph.length === size && val.length === size) {
+    let i = 0
+    while (i < size && val[i] !== ph[i]) i++
+    return i
+  }
+  return val.length
 }
 
 type GetKeysToHandleParams = {

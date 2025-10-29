@@ -293,6 +293,7 @@ function MultiInputMaskInput<T extends string>({
   ...attributes
 }: MultiInputMaskInputProps<T>) {
   const shouldHighlight = !disabled && /\w+/.test(value)
+  const { className: extClassName, ...restAttributes } = attributes as any
 
   // Prepare ghost placeholder and enhancer (optional)
   const placeholderText = String((attributes as any).placeholder || '')
@@ -352,7 +353,8 @@ function MultiInputMaskInput<T extends string>({
         className={classnames(
           'dnb-input__input',
           'dnb-multi-input-mask__input',
-          shouldHighlight && 'dnb-multi-input-mask__input--highlight'
+          shouldHighlight && 'dnb-multi-input-mask__input--highlight',
+          extClassName
         )}
         disabled={disabled}
         size={mask.length}
@@ -377,7 +379,7 @@ function MultiInputMaskInput<T extends string>({
         onChange={(event) => {
           onChange(inputId, event.target.value)
         }}
-        {...attributes}
+        {...restAttributes}
       />
       {delimiter && (
         <span

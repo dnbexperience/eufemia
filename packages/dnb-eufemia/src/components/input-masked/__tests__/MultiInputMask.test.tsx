@@ -512,6 +512,7 @@ describe('MultiInputMask', () => {
 
     await userEvent.keyboard('12')
 
+    // After entering two chars, caret is at end
     expect(second.selectionStart).toBe(2)
     expect(second.selectionEnd).toBe(2)
     expect(document.activeElement).toBe(third)
@@ -542,14 +543,14 @@ describe('MultiInputMask', () => {
       '{Backspace}{Backspace}{Backspace}{Backspace}{Backspace}'
     )
 
-    expect(second.selectionStart).toBe(2)
-    expect(second.selectionEnd).toBe(2)
+    expect(second.selectionStart).toBe(1)
+    expect(second.selectionEnd).toBe(1)
     expect(document.activeElement).toBe(second)
 
     await userEvent.keyboard('{Backspace}{Backspace}{Backspace}')
 
-    expect(first.selectionStart).toBe(2)
-    expect(first.selectionEnd).toBe(2)
+    expect(first.selectionStart).toBe(0)
+    expect(first.selectionEnd).toBe(0)
     expect(document.activeElement).toBe(first)
   })
 
@@ -590,6 +591,54 @@ describe('MultiInputMask', () => {
     await userEvent.keyboard('{ArrowRight>3}{ArrowRight}')
 
     expect(document.activeElement).toBe(third)
+  })
+
+  it('does not jump to next input on first typed char at end', async () => {
+    render(<MultiInputMask {...defaultProps} />)
+
+    const [day, month] = Array.from(
+      document.querySelectorAll('.dnb-multi-input-mask__input')
+    ) as HTMLInputElement[]
+
+    // Place caret at end of first input
+    fireEvent.focus(day)
+    day.setSelectionRange(2, 2)
+
+    await userEvent.keyboard('1')
+
+    // Still in day, caret at end
+    expect(document.activeElement).toBe(day)
+    expect(day.selectionStart).toBe(2)
+    expect(day.selectionEnd).toBe(2)
+
+    // After second char, it should jump
+    await userEvent.keyboard('2')
+    expect(document.activeElement).toBe(month)
+    expect(month.selectionStart).toBe(0)
+    expect(month.selectionEnd).toBe(0)
+  })
+
+  it('Backspace on empty field jumps to previous with caret at end', async () => {
+    render(<MultiInputMask {...defaultProps} />)
+
+    const [day, month] = Array.from(
+      document.querySelectorAll('.dnb-multi-input-mask__input')
+    ) as HTMLInputElement[]
+
+    // Focus the month field while it is empty
+    fireEvent.focus(month)
+    month.setSelectionRange(0, 0)
+
+    expect(document.activeElement).toBe(month)
+    expect(month.selectionStart).toBe(0)
+    expect(month.selectionEnd).toBe(0)
+
+    // Press Backspace on empty month -> should jump to day with caret at end
+    await userEvent.keyboard('{Backspace}')
+
+    expect(document.activeElement).toBe(day)
+    expect(day.selectionStart).toBe(2)
+    expect(day.selectionEnd).toBe(2)
   })
 
   it('should set cursor at the start or end of the input when value is selected', async () => {
