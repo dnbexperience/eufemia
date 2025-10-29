@@ -55,7 +55,7 @@ export default function HelpButtonInstance(localProps: ButtonProps) {
   if (isHelpButton) {
     if (!params['aria-roledescription']) {
       params['aria-roledescription'] =
-        context.getTranslation(props).HelpButton.aria_role
+        context.getTranslation(props).HelpButton.ariaRole
     }
   }
 

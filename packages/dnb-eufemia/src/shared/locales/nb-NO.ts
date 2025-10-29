@@ -109,7 +109,7 @@ export default {
     },
     HelpButton: {
       title: 'Hjelpetekst',
-      aria_role: 'Hjelp-knapp',
+      ariaRole: 'Hjelp-knapp',
     },
     Input: {
       submitButtonTitle: 'Send',
