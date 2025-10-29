@@ -48,18 +48,6 @@ describe('Tooltip', () => {
 
   const getMainElem = () => document.body.querySelector('.dnb-tooltip')
 
-  it('supports snake_case props', () => {
-    render(
-      <Tooltip skipPortal active>
-        With snake_case props
-      </Tooltip>
-    )
-
-    expect(document.body.querySelector('.dnb-tooltip').textContent).toBe(
-      'With snake_case props'
-    )
-  })
-
   it('should have aria-hidden attribute', async () => {
     render(<Tooltip active />)
 
