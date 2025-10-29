@@ -147,9 +147,9 @@ type TimeLineIconProps = Pick<
 > & { translations: TimeLineIconAltTranslations }
 
 type TimeLineIconAltTranslations = {
-  alt_label_completed: string
-  alt_label_current: string
-  alt_label_upcoming: string
+  altLabelCompleted: string
+  altLabelCurrent: string
+  altLabelUpcoming: string
 }
 
 const TimelineItemIcon = ({
@@ -159,7 +159,7 @@ const TimelineItemIcon = ({
   skeleton,
   translations,
 }: TimeLineIconProps) => {
-  const { alt_label_completed, alt_label_current, alt_label_upcoming } =
+  const { altLabelCompleted, altLabelCurrent, altLabelUpcoming } =
     translations
 
   const icons: Record<TimeLineItemStates, IconIcon> = {
@@ -169,9 +169,9 @@ const TimelineItemIcon = ({
   }
 
   const labels: Record<TimeLineItemStates, string> = {
-    completed: alt_label_completed,
-    current: alt_label_current,
-    upcoming: alt_label_upcoming,
+    completed: altLabelCompleted,
+    current: altLabelCurrent,
+    upcoming: altLabelUpcoming,
   }
 
   const currentIcon = icon || icons[state]
