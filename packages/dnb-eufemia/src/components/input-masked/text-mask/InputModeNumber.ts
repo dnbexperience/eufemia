@@ -91,7 +91,16 @@ export default class InputModeNumber {
 
     this._type = this.inputElement.type
 
+    // If input already is type number, do nothing
     if (this._type === 'number') {
+      return // stop here
+    }
+
+    // If a specific inputmode is provided, we should not toggle type.
+    // Consumers can enforce the desired soft keyboard via inputmode.
+    const hasInputModeAttr = this.inputElement.hasAttribute('inputmode')
+    const inputModeValue = this.inputElement.getAttribute('inputmode')
+    if (hasInputModeAttr && inputModeValue) {
       return // stop here
     }
 

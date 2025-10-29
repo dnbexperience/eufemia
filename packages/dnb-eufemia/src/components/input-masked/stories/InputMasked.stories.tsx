@@ -5,7 +5,6 @@
 
 import React, { useState } from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
-import emailMask from '../addons/emailMask'
 import { InputMasked, FormSet, ToggleButton } from '../..'
 import { Flex, Hr } from '../../..'
 import styled from '@emotion/styled'
@@ -176,23 +175,6 @@ function PercentInput() {
       on_change={({ numberValue }) => {
         setState(numberValue)
       }}
-    />
-  )
-}
-
-function EmailMask() {
-  return (
-    <InputMasked
-      label="emailMask"
-      // DOMException: Failed to execute 'setSelectionRange' on 'HTMLInputElement'
-      // The input element's type ('email') does not support selection.
-      // type="email"
-      placeholder="@."
-      autocomplete="on"
-      keepPlaceholder
-      mask={emailMask}
-      right
-      bottom
     />
   )
 }
