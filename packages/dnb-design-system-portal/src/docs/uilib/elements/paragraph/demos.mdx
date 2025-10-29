@@ -9,12 +9,14 @@ import {
   ParagraphFamilyModifiers,
   ParagraphLineHeightModifiers,
   ParagraphAdditionalModifiers,
+  ParagraphProseMaxWidth,
+  ParagraphProseMaxWidthProvider,
   ParagraphDefault,
   ParagraphSmall,
   ParagraphAdditional,
   ParagraphRegressionTests,
 } from 'Docs/uilib/elements/paragraph/Examples'
-
+ 
 ## Demos
 
 ### Paragraphs modifiers
@@ -58,6 +60,18 @@ Line-height will be set automatically based on the `size` properties, but can al
 Although bold, italic and underline are not a standard part of the Eufemia design system for typography (in particular, "medium" should be used instead of "bold"), we still include them as an option for convenience. And there are also cases where an accessibility case can be made for their use.
 
 <ParagraphAdditionalModifiers />
+
+#### Prose max width
+
+The `proseMaxWidth` prop allows you to limit the width of paragraph text based on character count, creating optimal reading line lengths:
+
+<ParagraphProseMaxWidth />
+
+#### Using Typography.Provider
+
+Use `Typography.Provider` to apply `proseMaxWidth` to multiple paragraphs at once:
+
+<ParagraphProseMaxWidthProvider />
 
 ### Children tag styling
 

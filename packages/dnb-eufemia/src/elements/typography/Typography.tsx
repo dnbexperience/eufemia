@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import React, { createContext, useContext } from 'react'
 import classnames from 'classnames'
 import { SpacingProps } from '../../components/space/types'
 import type { DynamicElement } from '../../shared/types'
@@ -23,6 +23,22 @@ export type TypographyFamily = 'basis' | 'heading' | 'monospace'
 export type TypographyWeight = 'regular' | 'medium' | 'bold'
 export type TypographyDecoration = 'underline'
 export type TypographySlant = 'italic'
+
+export type TypographyContextType = {
+  proseMaxWidth?: number
+}
+
+export const TypographyContext = createContext<TypographyContextType>({
+  proseMaxWidth: undefined,
+})
+
+export type TypographyProviderProps = {
+  /**
+   * Sets the maximum width based on character count for all Typography children. This will limit the text width to approximately the specified number of characters.
+   */
+  proseMaxWidth?: number
+  children: React.ReactNode
+}
 
 export type TypographyProps<
   ElementType extends HTMLElement = HTMLElement,
@@ -60,6 +76,10 @@ export type TypographyProps<
      * Sets the font style
      */
     slant?: TypographySlant
+    /**
+     * Sets the maximum width based on character count. This will limit the text width to approximately the specified number of characters.
+     */
+    proseMaxWidth?: number
   }
 
 type TypographyInternalProps = {
@@ -76,12 +96,24 @@ const Typography = ({
   weight,
   decoration,
   slant,
+  proseMaxWidth: proseMaxWidthProp,
   ...props
 }: TypographyProps & TypographyInternalProps) => {
+  const { proseMaxWidth: proseMaxWidthContext } =
+    useContext(TypographyContext)
+
+  // Use prop value if provided, otherwise fall back to context
+  const proseMaxWidth = proseMaxWidthProp ?? proseMaxWidthContext
+
+  const style = proseMaxWidth
+    ? { maxWidth: `${proseMaxWidth}ch` }
+    : undefined
+
   return (
     <E
       as={element}
       {...props}
+      style={{ ...props.style, ...style }}
       className={classnames(
         className,
         size && `dnb-t__size--${size}`,
@@ -96,6 +128,19 @@ const Typography = ({
   )
 }
 
+const Provider = ({
+  children,
+  proseMaxWidth,
+}: TypographyProviderProps) => {
+  return (
+    <TypographyContext.Provider value={{ proseMaxWidth }}>
+      {children}
+    </TypographyContext.Provider>
+  )
+}
+
 Typography._supportsSpacingProps = true
+Typography.Provider = Provider
 
 export default Typography
+export { Provider }

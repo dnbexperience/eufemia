@@ -111,7 +111,7 @@ exports[`PaymentCard scss has to match style dependencies css 1`] = `
   --sb-shadow-large: 0 5px 20px rgba(38 35 66 / 20%);
   --sb-shadow-hover: 0 20px 40px rgba(38 35 66 / 20%);
   --sb-easing-default: cubic-bezier(0.42, 0, 0, 1);
-  --sb-text-block-max-width: 60ch;
+  --prose-max-width: 60ch;
 }
 
 .dnb-payment-card {

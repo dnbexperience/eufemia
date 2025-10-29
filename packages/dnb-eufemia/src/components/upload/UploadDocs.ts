@@ -2,7 +2,7 @@ import { PropertiesTableProps } from '../../shared/types'
 
 export const UploadProperties: PropertiesTableProps = {
   id: {
-    doc: 'Unique id used with the useUpload hook to manage the files. Needed when wanting to connect with the useUpload hook.',
+    doc: 'Unique id used together with the `useUpload` hook to manage the files. Needed when wanting to connect with the `useUpload` hook.',
     type: ['string', 'Function', 'Object', 'React.Context'],
     status: 'optional',
   },
@@ -98,7 +98,7 @@ export const UploadEvents: PropertiesTableProps = {
     status: 'optional',
   },
   onFileClick: {
-    doc: 'Will be called once a file gets clicked on by the user. Access the clicked file with `{ fileItem }`.',
+    doc: 'Will be called once a file gets clicked on by the user. Access the clicked file with `{ fileItem }`. When providing this prop, the file will be rendered as a button instead of an anchor or plain text.',
     type: 'function',
     status: 'optional',
   },

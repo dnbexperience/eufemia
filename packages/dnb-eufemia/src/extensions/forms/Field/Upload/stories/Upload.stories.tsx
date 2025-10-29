@@ -422,3 +422,28 @@ export const DisabledProperty = () => {
     </Form.Handler>
   )
 }
+
+export const AcceptedFilesTypesProperty = () => {
+  return (
+    <Form.Handler onSubmit={async (form) => console.log(form)}>
+      <Flex.Stack>
+        <Field.Upload
+          acceptedFileTypes={[
+            {
+              fileType: 'jpg',
+              fileMaxSize: 0,
+            },
+            {
+              fileType: 'doc',
+              fileMaxSize: false,
+            },
+            {
+              fileType: 'svg',
+            },
+          ]}
+        />
+        <Tools.Log />
+      </Flex.Stack>
+    </Form.Handler>
+  )
+}

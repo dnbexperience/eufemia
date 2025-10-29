@@ -581,6 +581,71 @@ describe('Upload', () => {
     ).not.toHaveAttribute('disabled')
   })
 
+  it('will remove files amount warning when resetting files', async () => {
+    const id = 'filesAmountLimitResetFiles'
+
+    const { result } = renderHook(useUpload, { initialProps: id })
+
+    const MockComponent = () => {
+      const { clearFiles } = useUpload(id)
+
+      return (
+        <div>
+          <button
+            id="reset"
+            onClick={() => {
+              clearFiles()
+            }}
+          >
+            Reset files
+          </button>
+        </div>
+      )
+    }
+
+    render(<Upload {...defaultProps} id={id} filesAmountLimit={1} />)
+    render(<MockComponent />)
+
+    const getRootElement = () => document.querySelector('.dnb-upload')
+
+    const element = getRootElement()
+    const file1 = createMockFile('fileName-1.png', 100, 'image/png')
+    const file2 = createMockFile('fileName-2.png', 100, 'image/png')
+
+    await waitFor(() =>
+      fireEvent.drop(element, {
+        dataTransfer: { files: [file1, file2] },
+      })
+    )
+
+    await waitFor(() =>
+      fireEvent.drop(element, {
+        dataTransfer: { files: [file2, file2] },
+      })
+    )
+
+    expect(result.current.files.length).toBe(1)
+    expect(result.current.files).toEqual([
+      { file: file1, id: expect.any(String), exists: false },
+    ])
+    expect(
+      screen.queryByText(nb.errorAmountLimit.replace('%amount', '1'))
+    ).toBeInTheDocument()
+    expect(result.current.internalFiles.length).toBe(3)
+
+    fireEvent.click(document.querySelector('button#reset'))
+
+    await waitFor(() => {
+      expect(
+        element.querySelector(
+          '.dnb-upload__file-input-area .dnb-form-status'
+        )
+      ).not.toBeInTheDocument()
+    })
+    expect(result.current.files.length).toBe(0)
+    expect(result.current.files).toEqual([])
+  })
+
   it('will hide upload button when filesAmountLimit is met', async () => {
     const id = 'filesAmountLimitIsMet'
 
@@ -933,6 +998,84 @@ describe('Upload', () => {
 
     const element = getRootElement()
     const file1 = createMockFile('fileName-1.png', 100, 'image/png')
+
+    await waitFor(() =>
+      fireEvent.drop(element, {
+        dataTransfer: { files: [file1] },
+      })
+    )
+
+    expect(screen.queryByText(nb.errorUnsupportedFile)).toBeInTheDocument()
+  })
+
+  it('will return error when dropping a file with extension that is not accepted when acceptedFileTypes is an array of objects', async () => {
+    const id = 'not-supported-extension-array-of-objects'
+
+    renderHook(useUpload, { initialProps: id })
+
+    render(
+      <Upload
+        {...defaultProps}
+        id={id}
+        acceptedFileTypes={[
+          {
+            fileType: 'jpg',
+            fileMaxSize: 0,
+          },
+          {
+            fileType: 'doc',
+            fileMaxSize: false,
+          },
+          {
+            fileType: 'svg',
+          },
+        ]}
+      />
+    )
+
+    const getRootElement = () => document.querySelector('.dnb-upload')
+
+    const element = getRootElement()
+    const file1 = createMockFile('fileName-1.png', 100, 'image/png')
+
+    await waitFor(() =>
+      fireEvent.drop(element, {
+        dataTransfer: { files: [file1] },
+      })
+    )
+
+    expect(screen.queryByText(nb.errorUnsupportedFile)).toBeInTheDocument()
+  })
+
+  it('will return error when dropping a file without extension when acceptedFileTypes is an array of objects', async () => {
+    const id = 'no-extension-array-of-objects'
+
+    renderHook(useUpload, { initialProps: id })
+
+    render(
+      <Upload
+        {...defaultProps}
+        id={id}
+        acceptedFileTypes={[
+          {
+            fileType: 'jpg',
+            fileMaxSize: 0,
+          },
+          {
+            fileType: 'doc',
+            fileMaxSize: false,
+          },
+          {
+            fileType: 'svg',
+          },
+        ]}
+      />
+    )
+
+    const getRootElement = () => document.querySelector('.dnb-upload')
+
+    const element = getRootElement()
+    const file1 = createMockFile('fileName-1', 100, '')
 
     await waitFor(() =>
       fireEvent.drop(element, {
@@ -1551,58 +1694,6 @@ describe('Upload', () => {
       expect(
         screen.queryByText(`error message ${fileMaxSize}`)
       ).not.toBeInTheDocument()
-    })
-
-    it('sets both files and internal files when using setFiles', async () => {
-      const id = 'reset-set-files'
-
-      const { result } = renderHook(useUpload, { initialProps: id })
-
-      const MockComponent = () => {
-        const { setFiles } = useUpload(id)
-
-        return (
-          <>
-            <button
-              onClick={() => {
-                setFiles([])
-              }}
-            >
-              reset
-            </button>
-            <Upload {...defaultProps} id={id} />
-          </>
-        )
-      }
-
-      render(<MockComponent />)
-
-      const getRootElement = () => document.querySelector('.dnb-upload')
-
-      const element = getRootElement()
-      const file1 = createMockFile('fileName-1.png', 100, 'image/png')
-
-      await waitFor(() =>
-        fireEvent.drop(element, {
-          dataTransfer: { files: [file1] },
-        })
-      )
-
-      expect(
-        document.querySelectorAll('.dnb-upload__file-cell').length
-      ).toBe(1)
-
-      expect(result.current.files.length).toBe(1)
-      expect(result.current.internalFiles.length).toBe(1)
-
-      const clearButton = document.querySelectorAll('button')[0]
-
-      await waitFor(() => fireEvent.click(clearButton))
-
-      expect(result.current.files.length).toBe(0)
-      expect(result.current.files).toEqual([])
-      expect(result.current.internalFiles.length).toBe(0)
-      expect(result.current.internalFiles).toEqual([])
     })
 
     it('can set custom error messages with setFiles', async () => {

@@ -356,7 +356,7 @@ html[data-visual-test] .dnb-tooltip--hide {
   border-radius: var(--form-status-radius);
 }
 .dnb-form-status__text {
-  max-width: var(--text-block-max-width);
+  max-width: var(--prose-max-width);
   padding: 0.625rem 1rem;
   cursor: text;
   color: inherit;
@@ -681,7 +681,7 @@ button.dnb-button::-moz-focus-inner {
   border-radius: var(--form-status-radius);
 }
 .dnb-form-status__text {
-  max-width: var(--text-block-max-width);
+  max-width: var(--prose-max-width);
   padding: 0.625rem 1rem;
   cursor: text;
   color: inherit;
@@ -846,6 +846,9 @@ button .dnb-form-status__text {
 }
 .dnb-upload__file-cell__text-container--loading {
   font-size: var(--font-size-basis);
+}
+.dnb-upload__file-cell__text-container .dnb-button {
+  justify-content: flex-start;
 }
 .dnb-upload__text.dnb-p {
   color: var(--upload-text--secondary);

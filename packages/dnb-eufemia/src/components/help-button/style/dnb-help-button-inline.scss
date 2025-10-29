@@ -98,7 +98,7 @@
     --rounded-corner--value: calc(var(--card-outline-width) + 0.5rem);
 
     .dnb-p {
-      max-width: var(--text-block-max-width); // to enhance readability;
+      max-width: var(--prose-max-width); // to enhance readability;
 
       transition: transform 400ms var(--easing-default) 40ms;
       transform: translate3d(0, -0.5rem, 0);

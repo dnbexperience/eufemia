@@ -186,7 +186,7 @@ fieldset.dnb-forms-field-block {
 
     .dnb-form-status__shell {
       margin-top: 0.5rem; // set margin-top on shell, so we can animate the height
-      max-width: var(--text-block-max-width); // to enhance readability
+      max-width: var(--prose-max-width); // to enhance readability
     }
 
     @include allBelow(xx-small) {

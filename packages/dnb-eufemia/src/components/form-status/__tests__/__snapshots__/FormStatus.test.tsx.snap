@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`FormStatus scss has to match style dependencies css 1`] = `
 "/*
@@ -28,7 +28,7 @@ exports[`FormStatus scss has to match style dependencies css 1`] = `
   border-radius: var(--form-status-radius);
 }
 .dnb-form-status__text {
-  max-width: var(--text-block-max-width);
+  max-width: var(--prose-max-width);
   padding: 0.625rem 1rem;
   cursor: text;
   color: inherit;

@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import React, { useContext } from 'react'
 import classnames from 'classnames'
 import { SpacingProps } from '../../components/space/types'
 import E, { ElementProps } from '../Element'
@@ -13,6 +13,7 @@ import {
   getHeadingSize,
 } from '../../components/heading/HeadingHelpers'
 import { useTheme } from '../../shared'
+import { TypographyContext } from './Typography'
 
 export type HSize = HeadingSize
 
@@ -33,6 +34,10 @@ type HProps = SpacingProps &
      * Default: xx-large
      */
     size?: HSize | 'auto'
+    /**
+     * Sets the maximum width based on character count. This will limit the text width to approximately the specified number of characters.
+     */
+    proseMaxWidth?: number
   } & ElementProps
 
 export type SharedHProps = Omit<HProps, 'as'>
@@ -42,6 +47,7 @@ const H = ({
   is,
   level,
   size,
+  proseMaxWidth: proseMaxWidthProp,
   className,
   ...props
 }: HProps) => {
@@ -57,6 +63,16 @@ const H = ({
     size ||
     'xx-large'
 
+  const { proseMaxWidth: proseMaxWidthContext } =
+    useContext(TypographyContext)
+
+  // Use prop value if provided, otherwise fall back to context
+  const proseMaxWidth = proseMaxWidthProp ?? proseMaxWidthContext
+
+  const style = proseMaxWidth
+    ? { maxWidth: `${proseMaxWidth}ch` }
+    : undefined
+
   return (
     <E
       as={as || is}
@@ -65,6 +81,7 @@ const H = ({
         className
       )}
       {...props}
+      style={{ ...style, ...props.style }}
     />
   )
 }

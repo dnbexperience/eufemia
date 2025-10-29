@@ -1,4 +1,4 @@
-import { act, render } from '@testing-library/react'
+import { act, fireEvent, render } from '@testing-library/react'
 import useUpload from './../useUpload'
 import React, { useEffect } from 'react'
 import { createMockFile } from './testHelpers'
@@ -26,13 +26,29 @@ describe('useUpload', () => {
     expect(validationFunction).toHaveBeenCalledWith([])
   })
 
-  it('return the updateFiles function', () => {
+  it('return the setFiles function', () => {
     const validationFunction = jest.fn()
 
     const MockComponents = () => {
       const { setFiles } = useUpload('id')
 
       validationFunction(setFiles)
+
+      return <div />
+    }
+
+    render(<MockComponents />)
+
+    expect(validationFunction).toHaveBeenCalledWith(expect.any(Function))
+  })
+
+  it('return the clearFiles function', () => {
+    const validationFunction = jest.fn()
+
+    const MockComponents = () => {
+      const { clearFiles } = useUpload('id')
+
+      validationFunction(clearFiles)
 
       return <div />
     }
@@ -114,5 +130,48 @@ describe('useUpload', () => {
     act(() => {
       expect(validationFunction).toHaveBeenCalledWith([mockFile])
     })
+  })
+
+  it('use the shared state to reset files', () => {
+    const mockFile = {
+      file: createMockFile('fileName.png', 100, 'image/png'),
+    }
+    const id = 'unique-id-3'
+
+    const MockComponents = () => {
+      const { setFiles, clearFiles } = useUpload(id)
+
+      useEffect(() => setFiles([mockFile]), [])
+
+      return (
+        <div>
+          <button
+            id="reset"
+            onClick={() => {
+              clearFiles()
+            }}
+          >
+            Reset files
+          </button>
+        </div>
+      )
+    }
+
+    render(<MockComponents />)
+
+    const sharedState = createSharedState<{
+      files?: Array<UploadFile>
+    }>(id)
+    const sharedStateFiles = sharedState.get().files
+    const sharedStateInternalFiles = sharedState.get().files
+    expect(sharedStateFiles).toEqual([mockFile])
+    expect(sharedStateInternalFiles).toEqual([mockFile])
+
+    fireEvent.click(document.querySelector('button#reset'))
+
+    const updatedSharedStateFiles = sharedState.get().files
+    const updatedSharedStateInternalFiles = sharedState.get().files
+    expect(updatedSharedStateFiles).toEqual([])
+    expect(updatedSharedStateInternalFiles).toEqual([])
   })
 })

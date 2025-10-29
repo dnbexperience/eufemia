@@ -8,6 +8,23 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
+describe('Heading', () => {
+  setupPageScreenshot({
+    url: '/uilib/elements/heading',
+  })
+
+  it('matches prose max width', async () => {
+    const screenshot = await makeScreenshot({
+      style: {
+        'padding-bottom': '1rem',
+        'padding-left': '1rem',
+      },
+      selector: '[data-visual-test="heading-prose-max-width"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+})
+
 describe.each(['ui', 'sbanken', 'eiendom', 'carnegie'])(
   'Heading for %s',
   (themeName) => {

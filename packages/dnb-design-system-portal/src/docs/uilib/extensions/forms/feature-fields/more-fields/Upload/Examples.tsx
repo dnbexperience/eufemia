@@ -3,6 +3,7 @@ import ComponentBox from '../../../../../../../shared/tags/ComponentBox'
 import {
   Field,
   Form,
+  FormError,
   Tools,
   Value,
 } from '@dnb/eufemia/src/extensions/forms'
@@ -381,6 +382,71 @@ export const WithFileItemOptions = () => {
         }
 
         return <MyForm />
+      }}
+    </ComponentBox>
+  )
+}
+
+export const WithFileSizeValidation = () => {
+  return (
+    <ComponentBox scope={{ FormError }}>
+      {() => {
+        const MAX_SIZE = 500 * 1024 // 500 KB
+        const MIN_SIZE = 50 * 1024 // 50 KB
+
+        const myTranslation = {
+          'nb-NO': {
+            errorFileTooSmall: 'Filen er for liten.',
+            errorFileTooLarge: 'Filen er for stor.',
+          },
+          'en-GB': {
+            errorFileTooSmall: 'File is too small.',
+            errorFileTooLarge: 'File is too large.',
+          },
+        }
+
+        function MyField() {
+          const tr = Form.useTranslation()
+
+          const fileHandler = (newFiles: UploadValue) => {
+            return newFiles.map((item) => {
+              console.log('item:', item)
+
+              if (item.file.size < MIN_SIZE) {
+                item.errorMessage = tr['errorFileTooSmall']
+              }
+              if (item.file.size > MAX_SIZE) {
+                item.errorMessage = tr['errorFileTooLarge']
+              }
+
+              return item
+            })
+          }
+
+          return (
+            <Field.Upload
+              label="Label"
+              labelDescription="This is a Field"
+              path="/myField"
+              acceptedFileTypes={['PNG']}
+              fileMaxSize={false}
+              fileHandler={fileHandler}
+            />
+          )
+        }
+
+        return (
+          <Form.Handler
+            translations={myTranslation}
+            onSubmit={(data) => console.log('onSubmit', data)}
+          >
+            <Form.Card>
+              <MyField />
+            </Form.Card>
+
+            <Form.SubmitButton />
+          </Form.Handler>
+        )
       }}
     </ComponentBox>
   )

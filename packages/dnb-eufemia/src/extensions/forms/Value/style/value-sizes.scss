@@ -1,6 +1,6 @@
 :root {
   --forms-value-width--small: 30ch;
   --forms-value-width--medium: 40ch;
-  --forms-value-width--large: var(--text-block-max-width);
-  --forms-value-label-max-width--large: var(--text-block-max-width);
+  --forms-value-width--large: var(--prose-max-width);
+  --forms-value-label-max-width--large: var(--prose-max-width);
 }

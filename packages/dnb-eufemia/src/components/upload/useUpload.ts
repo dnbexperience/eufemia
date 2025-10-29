@@ -5,6 +5,7 @@ import type { UploadFile, UploadFileNative, UploadProps } from './types'
 export type useUploadReturn = {
   files: Array<UploadFile>
   setFiles: (files: Array<UploadFile | UploadFileNative>) => void
+  clearFiles: () => void
   internalFiles: Array<UploadFile>
   setInternalFiles: (files: Array<UploadFile>) => void
   getExistingFile: (
@@ -22,13 +23,19 @@ function useUpload(id: UploadProps['id']): useUploadReturn {
     internalFiles?: Array<UploadFile>
   }>(id)
 
+  const clearFiles = useCallback(() => {
+    extend({
+      files: [],
+      internalFiles: [],
+    })
+  }, [extend])
+
   const setFiles = useCallback(
     (files: Array<UploadFile>) => {
       const newFiles = files?.filter((file) => file?.file instanceof File)
       extend({
         files: newFiles,
       })
-      setInternalFiles(newFiles)
     },
     [extend]
   )
@@ -58,6 +65,7 @@ function useUpload(id: UploadProps['id']): useUploadReturn {
   return {
     files,
     setFiles,
+    clearFiles,
     internalFiles,
     setInternalFiles,
     getExistingFile,

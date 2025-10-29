@@ -129,12 +129,16 @@ export const UploadFilesAmountMessage = () => (
   >
     {() => {
       const Component = () => {
-        const { setFiles } = Upload.useUpload(
+        const { setInternalFiles, setFiles } = Upload.useUpload(
           'upload-files-amount-message',
         )
 
         React.useEffect(() => {
           setFiles([
+            { file: createMockFile('fileName1.png', 123, 'image/png') },
+            { file: createMockFile('fileName2.png', 321, 'image/png') },
+          ])
+          setInternalFiles([
             {
               file: createMockFile('fileName1.png', 123, 'image/png'),
               id: '1',
@@ -169,10 +173,16 @@ export const UploadFilesAmountLimit = () => (
   >
     {() => {
       const Component = () => {
-        const { setFiles } = Upload.useUpload('upload-files-amount-limit')
+        const { setInternalFiles, setFiles } = Upload.useUpload(
+          'upload-files-amount-limit',
+        )
 
         React.useEffect(() => {
           setFiles([
+            { file: createMockFile('fileName1.png', 123, 'image/png') },
+            { file: createMockFile('fileName2.png', 321, 'image/png') },
+          ])
+          setInternalFiles([
             {
               file: createMockFile('fileName1.png', 123, 'image/png'),
               id: '1',
@@ -505,6 +515,49 @@ export const UploadOnFileClick = () => (
             id="upload-on-file-click"
             onFileClick={mockAsyncFileFetching}
           />
+        )
+      }
+
+      return <Component />
+    }}
+  </ComponentBox>
+)
+
+export const UploadClearFiles = () => (
+  <ComponentBox scope={{ createMockFile, createRequest }}>
+    {() => {
+      const Component = () => {
+        const { setFiles, clearFiles } = Upload.useUpload(
+          'upload-clear-files',
+        )
+
+        React.useEffect(() => {
+          setFiles([
+            {
+              file: createMockFile('1501870.jpg', 123, 'image/png'),
+              id: '1',
+            },
+            {
+              file: createMockFile(
+                'file-name-that-is-very-long-and-has-letters.png',
+                123,
+                'image/png',
+              ),
+              id: '2',
+            },
+          ])
+        }, [setFiles])
+
+        return (
+          <>
+            <Upload
+              acceptedFileTypes={['jpg', 'png']}
+              id="upload-clear-files"
+            />
+            <Button top="small" onClick={() => clearFiles()}>
+              Clear files
+            </Button>
+          </>
         )
       }
 
