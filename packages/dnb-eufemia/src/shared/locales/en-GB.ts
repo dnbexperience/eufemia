@@ -7,9 +7,9 @@ export default {
       characterExceeded: '%count characters over the limit of %max.',
     },
     TimelineItem: {
-      alt_label_completed: 'Completed',
-      alt_label_current: 'Current',
-      alt_label_upcoming: 'Upcoming',
+      altLabelCompleted: 'Completed',
+      altLabelCurrent: 'Current',
+      altLabelUpcoming: 'Upcoming',
     },
     Breadcrumb: {
       navText: 'Page hierarchy',
