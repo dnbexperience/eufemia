@@ -10,26 +10,22 @@ import {
   LogoInheritColorExample,
   LogoCompactVariantExample,
   LogoCarnegieDefaultExample,
+  LogoEiendomDefaultExample,
 } from 'Docs/uilib/components/logo/Examples'
 
 ## Demos
 
-### Logo that changes based on theme
-
-You can import the SVGs for each brand like this:
-
-```jsx
-import {
-  DnbDefault,
-  SbankenDefault,
-  CarnegieDefault,
-  EiendomDefault,
-} from '@dnb/eufemia/components/Logo'
-```
-
 <LogoChangeExample />
 
-<VisibilityByTheme hidden="carnegie">
+<VisibilityByTheme visible="carnegie">
+  ### Carnegie Logo
+  <LogoCarnegieDefaultExample />
+</VisibilityByTheme>
+
+<VisibilityByTheme visible="eiendom">
+  ### Eiendom Logo
+  <LogoEiendomDefaultExample />
+</VisibilityByTheme>
 
 ### Logo with dynamic height
 
@@ -53,8 +49,6 @@ The color will be set based on the parent, inherited `color` by using `currentCo
 
 <LogoInheritColorExample />
 
-</VisibilityByTheme>
-
 <VisibilityByTheme visible="sbanken">
 
 ### Logo with compact variant
@@ -67,8 +61,4 @@ import { SbankenCompact } from '@dnb/eufemia/components/Logo'
 
 <LogoCompactVariantExample />
 
-</VisibilityByTheme>
-
-<VisibilityByTheme visible="carnegie">
-  <LogoCarnegieDefaultExample />
 </VisibilityByTheme>
