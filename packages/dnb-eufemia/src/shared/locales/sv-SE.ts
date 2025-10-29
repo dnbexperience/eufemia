@@ -102,8 +102,8 @@ export default {
       clipboard_copy: 'Kopierad',
     },
     NumberFormat: {
-      clipboard_copy: 'Kopierad',
-      not_available: 'Inte tillgänglig',
+      clipboardCopy: 'Kopierad',
+      notAvailable: 'Inte tillgänglig',
     },
     HelpButton: {
       title: 'Hjälptext',

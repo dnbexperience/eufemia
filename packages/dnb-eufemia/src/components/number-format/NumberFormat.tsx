@@ -182,7 +182,7 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
   showCopyTooltip = (message) => {
     const translations = this.context.getTranslation?.(this.props)
       ?.NumberFormat
-    const label = message || translations?.clipboard_copy
+    const label = message || translations?.clipboardCopy
 
     if (!label) {
       return
@@ -203,7 +203,7 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
 
   shortcutHandler = () => {
     const label = this.context.getTranslation(this.props)?.NumberFormat
-      .clipboard_copy
+      .clipboardCopy
     this.showCopyTooltip(label)
   }
 
@@ -367,7 +367,7 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
       invalidAriaText:
         locale && locale !== this.context.locale
           ? null
-          : translations?.not_available,
+          : translations?.notAvailable,
     }
 
     // use only the props from context, who are available here anyway
