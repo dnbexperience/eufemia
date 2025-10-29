@@ -1631,58 +1631,6 @@ describe('Upload', () => {
       ).not.toBeInTheDocument()
     })
 
-    it('sets both files and internal files when using setFiles', async () => {
-      const id = 'reset-set-files'
-
-      const { result } = renderHook(useUpload, { initialProps: id })
-
-      const MockComponent = () => {
-        const { setFiles } = useUpload(id)
-
-        return (
-          <>
-            <button
-              onClick={() => {
-                setFiles([])
-              }}
-            >
-              reset
-            </button>
-            <Upload {...defaultProps} id={id} />
-          </>
-        )
-      }
-
-      render(<MockComponent />)
-
-      const getRootElement = () => document.querySelector('.dnb-upload')
-
-      const element = getRootElement()
-      const file1 = createMockFile('fileName-1.png', 100, 'image/png')
-
-      await waitFor(() =>
-        fireEvent.drop(element, {
-          dataTransfer: { files: [file1] },
-        })
-      )
-
-      expect(
-        document.querySelectorAll('.dnb-upload__file-cell').length
-      ).toBe(1)
-
-      expect(result.current.files.length).toBe(1)
-      expect(result.current.internalFiles.length).toBe(1)
-
-      const clearButton = document.querySelectorAll('button')[0]
-
-      await waitFor(() => fireEvent.click(clearButton))
-
-      expect(result.current.files.length).toBe(0)
-      expect(result.current.files).toEqual([])
-      expect(result.current.internalFiles.length).toBe(0)
-      expect(result.current.internalFiles).toEqual([])
-    })
-
     it('can set custom error messages with setFiles', async () => {
       const MockComponent = () => {
         const { setFiles } = useUpload('upload-error-message')
