@@ -6,7 +6,6 @@
 import React, { useEffect } from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 import { Upload, Dialog, Button, ToggleButton } from '../..'
-import { reset } from '../../../icons'
 
 function createMockFile(name: string, size: number, type: string) {
   const file = new File([], name, { type })
