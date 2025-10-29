@@ -238,7 +238,7 @@ describe('Portals', () => {
   it('have correct theme classes in tooltip', () => {
     render(
       <Theme name="eiendom" variant="soft" element={false}>
-        <Tooltip open no_animation />
+        <Tooltip open noAnimation />
       </Theme>
     )
 
