@@ -7,9 +7,9 @@ export default {
       characterExceeded: '%count tecken över gränsen på %max.',
     },
     TimelineItem: {
-      alt_label_completed: 'Utförd',
-      alt_label_current: 'Nuvarande',
-      alt_label_upcoming: 'Kommande',
+      altLabelCompleted: 'Utförd',
+      altLabelCurrent: 'Nuvarande',
+      altLabelUpcoming: 'Kommande',
     },
     Breadcrumb: {
       navText: 'Sidstruktur',
