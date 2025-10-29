@@ -24,7 +24,7 @@ export type TooltipProps = {
   skipPortal?: boolean
   noAnimation?: boolean
   showDelay?: number
-  hideDelay: number
+  hideDelay?: number
   targetSelector?: string
   targetElement?:
     | React.ReactNode
