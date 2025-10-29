@@ -587,14 +587,14 @@ describe('Upload', () => {
     const { result } = renderHook(useUpload, { initialProps: id })
 
     const MockComponent = () => {
-      const { resetFiles } = useUpload(id)
+      const { clearFiles } = useUpload(id)
 
       return (
         <div>
           <button
             id="reset"
             onClick={() => {
-              resetFiles()
+              clearFiles()
             }}
           >
             Reset files

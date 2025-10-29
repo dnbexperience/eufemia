@@ -6,6 +6,7 @@
 import React, { useEffect } from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 import { Upload, Dialog, Button, ToggleButton } from '../..'
+import { reset } from '../../../icons'
 
 function createMockFile(name: string, size: number, type: string) {
   const file = new File([], name, { type })
@@ -204,7 +205,7 @@ export const UploadInAModal = () => {
 }
 
 export const UploadReset = () => {
-  const { setFiles } = Upload.useUpload('reset-files')
+  const { setFiles, clearFiles } = Upload.useUpload('reset-files')
 
   useEffect(() => {
     setFiles([
@@ -218,7 +219,7 @@ export const UploadReset = () => {
       <Box>
         <Button
           onClick={() => {
-            setFiles([])
+            clearFiles()
           }}
         >
           Clear upload

@@ -42,13 +42,13 @@ describe('useUpload', () => {
     expect(validationFunction).toHaveBeenCalledWith(expect.any(Function))
   })
 
-  it('return the resetFiles function', () => {
+  it('return the clearFiles function', () => {
     const validationFunction = jest.fn()
 
     const MockComponents = () => {
-      const { resetFiles } = useUpload('id')
+      const { clearFiles } = useUpload('id')
 
-      validationFunction(resetFiles)
+      validationFunction(clearFiles)
 
       return <div />
     }
@@ -139,7 +139,7 @@ describe('useUpload', () => {
     const id = 'unique-id-3'
 
     const MockComponents = () => {
-      const { setFiles, resetFiles } = useUpload(id)
+      const { setFiles, clearFiles } = useUpload(id)
 
       useEffect(() => setFiles([mockFile]), [])
 
@@ -148,7 +148,7 @@ describe('useUpload', () => {
           <button
             id="reset"
             onClick={() => {
-              resetFiles()
+              clearFiles()
             }}
           >
             Reset files
