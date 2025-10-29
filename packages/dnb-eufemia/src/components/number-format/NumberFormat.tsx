@@ -241,7 +241,7 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
     showSelectionNotice({
       value: this.cleanedValue,
       label: this.context.getTranslation(this.props)?.NumberFormat
-        ?.clipboard_copy,
+        ?.clipboardCopy,
     }).run(this._ref.current)
   }
 
@@ -402,7 +402,7 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
       invalidAriaText:
         locale && locale !== this.context.locale
           ? null
-          : translations?.not_available,
+          : translations?.notAvailable,
     }
 
     // use only the props from context, who are available here anyway
