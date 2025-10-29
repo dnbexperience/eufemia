@@ -3,6 +3,27 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.88.0](https://github.com/dnbexperience/eufemia/compare/v10.87.0...v10.88.0) (2025-10-29)
+
+
+### :memo: Documentation
+
+* **Field.Upload:** add example of how to validate custom file sizes ([#5856](https://github.com/dnbexperience/eufemia/issues/5856)) ([2622d1b](https://github.com/dnbexperience/eufemia/commit/2622d1b3539234941daff453e1fa184b6ae1ef11))
+* **Upload:** button is rendered when `onFileClick` ([#5859](https://github.com/dnbexperience/eufemia/issues/5859)) ([3a97516](https://github.com/dnbexperience/eufemia/commit/3a975162494919bb04c5218bffc0fa87aba90043))
+
+
+### :bug: Bug Fixes
+
+* **Upload:** error message when `acceptedFileTypes` is `AcceptedFileType[]` ([#5861](https://github.com/dnbexperience/eufemia/issues/5861)) ([ae09090](https://github.com/dnbexperience/eufemia/commit/ae090905c2ed9e15af471cde4a98a18bba9debbc))
+* **Upload:** left align button when `onFileClick` ([#5860](https://github.com/dnbexperience/eufemia/issues/5860)) ([00b2b15](https://github.com/dnbexperience/eufemia/commit/00b2b154223cf4c1d1885ca72adbbb1cce9c2e1b))
+* **Upload:** should not call `setInternalFiles` on `setFiles` ([#5873](https://github.com/dnbexperience/eufemia/issues/5873)) ([fd1e388](https://github.com/dnbexperience/eufemia/commit/fd1e3885ec4ba5a21f17c90e877a8ceed95bcc6d))
+
+
+### :sparkles: Features
+
+* **Typography:** introduce `--prose-max-width` for CSS and `proseMaxWidth` for Headings and the P paragraph element ([#5857](https://github.com/dnbexperience/eufemia/issues/5857)) ([1bd08ad](https://github.com/dnbexperience/eufemia/commit/1bd08ad7f5da2f270ec79ab6efccc2a3b01b939a))
+* **Upload:** add `clearFiles` to clear files of Upload component ([#5864](https://github.com/dnbexperience/eufemia/issues/5864)) ([8d83ff2](https://github.com/dnbexperience/eufemia/commit/8d83ff2b728a6bb5cbe6f232b50b5ebe7d2b9fd7))
+
 ## [10.87.0](https://github.com/dnbexperience/eufemia/compare/v10.86.0...v10.87.0) (2025-10-24)
 
 
