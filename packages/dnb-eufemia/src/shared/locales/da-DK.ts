@@ -8,9 +8,9 @@ export default {
       characterExceeded: '%count tegn over grænsen på %max.',
     },
     TimelineItem: {
-      alt_label_completed: 'Udført',
-      alt_label_current: 'Nuværende',
-      alt_label_upcoming: 'Kommende',
+      altLabelCompleted: 'Udført',
+      altLabelCurrent: 'Nuværende',
+      altLabelUpcoming: 'Kommende',
     },
     Breadcrumb: {
       navText: 'Sidehierarki',
