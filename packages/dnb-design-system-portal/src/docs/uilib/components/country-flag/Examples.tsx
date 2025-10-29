@@ -50,7 +50,7 @@ export const Forms = () => (
         const iso = String(value)
         return (
           <FieldBlock label={label}>
-            <CountryFlag iso={iso} size="medium" />
+            <CountryFlag iso={iso} size="large" />
           </FieldBlock>
         )
       }
