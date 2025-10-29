@@ -1,4 +1,3 @@
-import { IncludeSnakeCase } from '../../shared/helpers/withSnakeCaseProps'
 import type { SpacingProps } from '../../shared/types'
 
 export type TooltipPosition = 'top' | 'right' | 'bottom' | 'left'
@@ -14,7 +13,7 @@ export type TooltipAlign = null | 'center' | 'right' | 'left'
 
 export type TooltipSize = 'basis' | 'large'
 
-export type TooltipProps = IncludeSnakeCase<{
+export type TooltipProps = {
   id?: string
   size?: TooltipSize
   active?: boolean
@@ -32,7 +31,7 @@ export type TooltipProps = IncludeSnakeCase<{
   skipPortal?: boolean
   noAnimation?: boolean
   showDelay?: number
-  hideDelay: number
+  hideDelay?: number
   /**
    * Optional className added to the Tooltip portal root element.
    * Has effect only when not using skipPortal.
@@ -57,7 +56,7 @@ export type TooltipProps = IncludeSnakeCase<{
    * @default true
    */
   keepInDOM?: boolean
-}>
+}
 
 export type TooltipAllProps = TooltipProps &
   SpacingProps &
