@@ -1,7 +1,8 @@
-import React, { MutableRefObject, useRef } from 'react'
+import React, { MutableRefObject, useCallback, useMemo, useRef } from 'react'
 import Input from '../Input'
 import type { InputProps } from '../Input'
 import TextMask from './TextMask'
+import type { MaskitoOptions } from '@maskito/core'
 import useHandleCursorPosition from './hooks/useHandleCursorPosition'
 import classnames from 'classnames'
 import FormLabel from '../FormLabel'
@@ -293,6 +294,56 @@ function MultiInputMaskInput<T extends string>({
 }: MultiInputMaskInputProps<T>) {
   const shouldHighlight = !disabled && /\w+/.test(value)
 
+  // Prepare ghost placeholder and enhancer (optional)
+  const placeholderText = String((attributes as any).placeholder || '')
+  const ghost = useMemo(() => {
+    if (!placeholderText) return ''
+    // Avoid using a ghost that equals an allowed literal char (prevents change events)
+    if (
+      placeholderText.length === 1 &&
+      mask[0] instanceof RegExp &&
+      (mask[0] as RegExp).test(placeholderText[0])
+    ) {
+      return ''
+    }
+    if (placeholderText.length >= mask.length) return placeholderText
+    const ch = placeholderText[0]
+    return ch ? ch.repeat(mask.length) : ''
+  }, [placeholderText, mask])
+
+  const stripValue = useCallback(
+    (display: string) => {
+      // Extract only characters matching per-position mask
+      const chars = Array.from(display)
+      const out: string[] = []
+      for (let i = 0; i < Math.min(chars.length, mask.length); i++) {
+        const c = chars[i]
+        const m = mask[i]
+        if (m instanceof RegExp && m.test(c)) {
+          out.push(c)
+        }
+      }
+      return out.join('')
+    },
+    [mask]
+  )
+
+  const optionsEnhancer = useCallback(
+    (opts: MaskitoOptions | null): MaskitoOptions | null => {
+      if (!opts || !ghost) return opts
+      const post = (elementState: { value: string; selection: readonly [number, number] }) => {
+        const v = elementState.value || ''
+        const padded = (v + ghost.slice(v.length)).slice(0, mask.length)
+        return { ...elementState, value: padded }
+      }
+      return {
+        ...opts,
+        postprocessors: [...(opts.postprocessors || []), post],
+      }
+    },
+    [ghost, mask.length]
+  )
+
   return (
     <>
       <TextMask
@@ -308,6 +359,9 @@ function MultiInputMaskInput<T extends string>({
         mask={mask}
         value={value ?? ''}
         showMask={true}
+        optionsEnhancer={optionsEnhancer}
+        ghostPlaceholder={ghost || undefined}
+        stripValue={stripValue}
         aria-label={label}
         inputRef={getInputRef()}
         onKeyDown={onKeyDown}

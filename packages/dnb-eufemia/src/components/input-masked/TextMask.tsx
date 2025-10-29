@@ -37,6 +37,12 @@ export interface TextMaskProps
   onChange?: React.ChangeEventHandler<HTMLInputElement>
   value?: TextMaskValue
   showMask?: boolean
+  // Advanced: allow parent to enhance Maskito options without TextMask importing extras
+  optionsEnhancer?: (opts: MaskitoOptions | null) => MaskitoOptions | null
+  // Optional: display-time ghost placeholder string for regex masks
+  ghostPlaceholder?: string
+  // Optional: strip display value (e.g., remove ghost chars) before bubbling
+  stripValue?: (displayValue: string) => string
 }
 
 export default function TextMask(props: TextMaskProps): JSX.Element {
@@ -46,6 +52,9 @@ export default function TextMask(props: TextMaskProps): JSX.Element {
     mask: rawMask,
     value,
     showMask,
+    optionsEnhancer,
+    ghostPlaceholder,
+    stripValue,
     ...rest
   } = props
 
@@ -91,7 +100,13 @@ export default function TextMask(props: TextMaskProps): JSX.Element {
     maskParams?.decimalLimit,
   ])
 
-  const maskitoRef = useMaskito({ options })
+  const enhancedOptions = useMemo<MaskitoOptions | null>(() => {
+    return typeof optionsEnhancer === 'function'
+      ? optionsEnhancer(options)
+      : options
+  }, [options, optionsEnhancer])
+
+  const maskitoRef = useMaskito({ options: enhancedOptions })
 
   const setRefs = useCallback(
     (el: HTMLInputElement | null) => {
@@ -118,7 +133,7 @@ export default function TextMask(props: TextMaskProps): JSX.Element {
     const baseProps: Record<string, unknown> = { ...rest }
     // Conform controlled value before render so React renders formatted value
     if (
-      options &&
+      enhancedOptions &&
       typeof baseProps.value === 'string' &&
       baseProps.value != null
     ) {
@@ -126,14 +141,14 @@ export default function TextMask(props: TextMaskProps): JSX.Element {
       const sel: readonly [number, number] = [raw.length, raw.length]
       const { value: formatted } = maskitoTransform(
         { value: raw, selection: sel },
-        options
+        enhancedOptions
       )
       baseProps.value = formatted
     }
 
     baseProps.onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       // Conform programmatic value changes (e.g. tests firing change directly)
-      if (localRef.current && options) {
+      if (localRef.current && enhancedOptions) {
         const element = localRef.current
         const selection: readonly [number, number] = [
           element.selectionStart ?? 0,
@@ -143,21 +158,26 @@ export default function TextMask(props: TextMaskProps): JSX.Element {
           value: e.target.value,
           selection,
         }
-        const validated = maskitoTransform(elementState, options)
+        const validated = maskitoTransform(elementState, enhancedOptions)
         maskitoUpdateElement(element, validated)
       }
       // Call original handler if given
       if (typeof rest.onChange === 'function') {
-        rest.onChange(e)
+        if (typeof stripValue === 'function') {
+          const v = stripValue(e.target.value)
+          rest.onChange({ target: { value: v } } as any)
+        } else {
+          rest.onChange(e)
+        }
       }
     }
 
     return baseProps
-  }, [rest, options])
+  }, [rest, enhancedOptions])
 
   // Conform initial value on mount/options change
   useEffect(() => {
-    if (!localRef.current || !options) {
+    if (!localRef.current || !enhancedOptions) {
       return
     }
 
@@ -197,11 +217,11 @@ export default function TextMask(props: TextMaskProps): JSX.Element {
     ]
     const validated = maskitoTransform(
       { value: cleanValue, selection },
-      options
+      enhancedOptions
     )
 
     maskitoUpdateElement(el, validated)
-  }, [options, value, rawMask])
+  }, [enhancedOptions, value, rawMask])
 
   // Compute initial defaultValue for immediate render (before Maskito attaches)
   const defaultValue = useMemo(() => {
@@ -209,6 +229,9 @@ export default function TextMask(props: TextMaskProps): JSX.Element {
 
     // Handle empty value with showMask for numeric masks
     if (!raw && showMask) {
+      if (ghostPlaceholder) {
+        return ghostPlaceholder
+      }
       // Check if this is a numeric mask with prefix/suffix
       if (typeof rawMask === 'function' && 'maskParams' in rawMask) {
         const mp = rawMask.maskParams as MaskParams
@@ -270,7 +293,7 @@ export default function TextMask(props: TextMaskProps): JSX.Element {
       options
     )
     return formatted
-  }, [options, value, rawMask, showMask])
+  }, [enhancedOptions, value, rawMask, showMask, ghostPlaceholder])
 
   return inputElement ? (
     cloneElement(inputElement, {

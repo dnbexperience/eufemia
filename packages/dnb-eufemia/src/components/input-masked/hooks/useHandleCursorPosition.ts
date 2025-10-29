@@ -1,9 +1,12 @@
-import { MutableRefObject } from 'react'
+import { MutableRefObject, useRef } from 'react'
 
 function useHandleCursorPosition(
   inputRefs: MutableRefObject<HTMLInputElement>[],
   keysToHandle?: RegExp | { [inputId: string]: RegExp[] }
 ) {
+  // Track a virtual caret for empty inputs to preserve Arrow navigation semantics
+  const virtualCaretRef = useRef(new WeakMap<HTMLInputElement, number>())
+
   function onKeyDown(event: React.KeyboardEvent) {
     // Always compute a fresh list to avoid stale refs
     const inputs = refsToInputList(inputRefs)
@@ -34,10 +37,61 @@ function useHandleCursorPosition(
 
       const caretPosition = getCaretPosition(input)
 
+      const size = Number((input as any).size ?? 0)
+
+      // Handle Backspace on empty inputs: move to previous only if it contains content
+      if (pressedKey === 'Backspace' && (input.value ?? '').length === 0) {
+        const idx = latestInputs.findIndex((el) => el?.id === input.id)
+        const prev = idx > 0 ? latestInputs[idx - 1] : undefined
+        if (prev && (prev.value ?? '').length > 0) {
+          return goToInput('previous', input, latestInputs)
+        }
+        return
+      }
+
+      // Handle Arrow navigation for empty values using a virtual caret
+      if (size > 0 && (input.value ?? '').length === 0) {
+        const map = virtualCaretRef.current
+        const currentPos = map.get(input) ?? 0
+        if (pressedKey === 'ArrowRight') {
+          if (currentPos === 0) {
+            // Simulate jump to end on first ArrowRight (as with visual mask)
+            map.set(input, size)
+            return
+          } else if (currentPos < size) {
+            map.set(input, currentPos + 1)
+            return
+          } else if (inputPosition !== 'last') {
+            map.set(input, 0)
+            return goToInput('next', input, latestInputs)
+          }
+        } else if (pressedKey === 'ArrowLeft') {
+          if (currentPos > 0) {
+            map.set(input, currentPos - 1)
+          } else if (inputPosition !== 'first') {
+            return goToInput('previous', input, latestInputs)
+          }
+          return
+        }
+      }
+
+      // Arrow navigation based on pre-keydown caret position
+      if (pressedKey === 'ArrowRight') {
+        const nextPos = Math.min((initialSelectionStart ?? 0) + 1, size)
+        if (nextPos >= size && inputPosition !== 'last') {
+          return goToInput('next', input, latestInputs)
+        }
+      }
+      if (pressedKey === 'ArrowLeft') {
+        const prevPos = Math.max((initialSelectionStart ?? 0) - 1, 0)
+        if (prevPos <= 0 && inputPosition !== 'first') {
+          return goToInput('previous', input, latestInputs)
+        }
+      }
+
       // Auto-advance on data entry when the current input becomes full
       // Use the pre-keydown selectionStart to infer that the key press will fill the field
       if (!isNavKey && allowedByMask) {
-        const size = Number((input as any).size ?? 0)
         if (
           size > 0 &&
           initialSelectionStart != null &&
