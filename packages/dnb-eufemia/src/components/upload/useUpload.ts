@@ -28,7 +28,6 @@ function useUpload(id: UploadProps['id']): useUploadReturn {
       extend({
         files: newFiles,
       })
-      setInternalFiles(newFiles)
     },
     [extend]
   )
