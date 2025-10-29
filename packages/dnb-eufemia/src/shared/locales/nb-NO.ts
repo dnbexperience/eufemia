@@ -98,7 +98,7 @@ export default {
       confirmText: 'Godta',
     },
     CopyOnClick: {
-      clipboard_copy: 'Kopiert',
+      clipboardCopy: 'Kopiert',
     },
     NumberFormat: {
       clipboardCopy: 'Kopiert',
