@@ -45,8 +45,6 @@ export default defineConfig([
       }
     }
   }),
-  // ES modules
-  makeModuleConfig(`${outDirBase}/es`, { format: 'esm'}),
   // CommonJS modules
   makeModuleConfig(`${outDirBase}/cjs`, { format: 'cjs'}, {
     outputOptions: {

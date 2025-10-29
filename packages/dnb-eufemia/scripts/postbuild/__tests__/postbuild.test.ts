@@ -15,7 +15,7 @@ import { getCommittedFiles } from '../../tools/cliTools'
 const makeStagePathException = (stage) => (stage === '/esm' ? '' : stage)
 
 describe('type definitions', () => {
-  const buildStages = ['/es', '/esm', '/cjs']
+  const buildStages = ['/esm', '/cjs']
 
   it.each(buildStages)('has d.ts index file on stage %s', (stage) => {
     stage = makeStagePathException(stage)
@@ -93,7 +93,7 @@ describe('type definitions', () => {
 })
 
 describe('babel build', () => {
-  const buildStages = ['/es', '/esm', '/cjs']
+  const buildStages = ['/esm', '/cjs']
 
   it('should not contain any .cjs or .mjs files', () => {
     const buildDir = path.resolve(packpath.self(), 'build')
@@ -245,47 +245,6 @@ describe('babel build', () => {
           }
         }
         break
-
-      case '/es':
-        {
-          {
-            const content = fs.readFileSync(
-              path.resolve(packpath.self(), `build${stage}/index.js`),
-              'utf-8'
-            )
-            const [_, expectedVariable] = /(\w+)\s*as\s+default/.exec(
-              content
-            )
-            expect(content).toMatch(
-              RegExp(`${expectedVariable}\\s*=\\s*\\{\\}`)
-            )
-          }
-
-          {
-            const content = fs.readFileSync(
-              path.resolve(
-                packpath.self(),
-                `build${stage}/components/input/Input.js`
-              ),
-              'utf-8'
-            )
-            expect(content).toMatch(/Input as default/g)
-            expect(content).not.toContain('core-js/modules/es')
-          }
-
-          {
-            const content = fs.readFileSync(
-              path.resolve(
-                packpath.self(),
-                `build${stage}/components/breadcrumb/Breadcrumb.js`
-              ),
-              'utf-8'
-            )
-            expect(content).toContain('Breadcrumb_default as default')
-            expect(content).not.toContain('core-js/modules/es')
-          }
-        }
-        break
     }
 
     stage = makeStagePathException(stage)
@@ -369,7 +328,7 @@ describe('tsdown build', () => {
 })
 
 describe('style build', () => {
-  const buildStages = ['', '/es', '/cjs']
+  const buildStages = ['', '/cjs']
 
   it.each(buildStages)('has created a package on stage "%s"', (stage) => {
     {

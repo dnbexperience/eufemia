@@ -286,7 +286,51 @@
     "UX"
   ],
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "exports": {
+      "./cjs/package.json": "./cjs/package.json",
+      "./cjs/style/*": "./cjs/style/*",
+      "./cjs/*.d.ts": "./cjs/*.d.ts",
+      "./cjs/*.scss": "./cjs/*.scss",
+      "./cjs/*.cjs": {
+        "types": "./cjs/*.d.ts",
+        "default": "./cjs/*.cjs"
+      },
+      "./cjs/*.txt": "./cjs/*.txt",
+      "./cjs/*.css": "./cjs/*.css",
+      "./cjs/*.js": {
+        "types": "./cjs/*.d.ts",
+        "default": "./cjs/*.js"
+      },
+      "./cjs/*": {
+        "types": "./cjs/*.d.ts",
+        "default": "./cjs/*.js"
+      },
+      "./style/*": "./style/*",
+      "./package.json": "./package.json",
+      "./*.d.ts": "./*.d.ts",
+      "./*.scss": "./*.scss",
+      "./*.cjs": {
+        "import": "./*.cjs",
+        "require": "./cjs/*.cjs",
+        "types": "./*.d.ts",
+        "default": "./*.cjs"
+      },
+      "./*.txt": "./*.txt",
+      "./*.css": "./*.css",
+      "./*.js": {
+        "import": "./*.js",
+        "require": "./cjs/*.js",
+        "types": "./*.d.ts",
+        "default": "./*.js"
+      },
+      "./*": {
+        "import": "./*.js",
+        "require": "./cjs/*.js",
+        "types": "./*.d.ts",
+        "default": "./*.js"
+      }
+    }
   },
   "release": {
     "branches": [
