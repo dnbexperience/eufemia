@@ -381,7 +381,7 @@ export const format = (
     if (value === 'invalid') {
       aria =
         invalidAriaText ||
-        locales[locale]?.NumberFormat.not_available ||
+        locales[locale]?.NumberFormat.notAvailable ||
         'N/A'
     }
 
