@@ -2,7 +2,7 @@ import { PropertiesTableProps } from '../../shared/types'
 
 export const UploadProperties: PropertiesTableProps = {
   id: {
-    doc: 'Unique id used with the useUpload hook to manage the files. Needed when wanting to connect with the useUpload hook.',
+    doc: 'Unique id used together with the `useUpload` hook to manage the files. Needed when wanting to connect with the `useUpload` hook.',
     type: ['string', 'Function', 'Object', 'React.Context'],
     status: 'optional',
   },

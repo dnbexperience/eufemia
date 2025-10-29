@@ -581,6 +581,71 @@ describe('Upload', () => {
     ).not.toHaveAttribute('disabled')
   })
 
+  it('will remove files amount warning when resetting files', async () => {
+    const id = 'filesAmountLimitResetFiles'
+
+    const { result } = renderHook(useUpload, { initialProps: id })
+
+    const MockComponent = () => {
+      const { clearFiles } = useUpload(id)
+
+      return (
+        <div>
+          <button
+            id="reset"
+            onClick={() => {
+              clearFiles()
+            }}
+          >
+            Reset files
+          </button>
+        </div>
+      )
+    }
+
+    render(<Upload {...defaultProps} id={id} filesAmountLimit={1} />)
+    render(<MockComponent />)
+
+    const getRootElement = () => document.querySelector('.dnb-upload')
+
+    const element = getRootElement()
+    const file1 = createMockFile('fileName-1.png', 100, 'image/png')
+    const file2 = createMockFile('fileName-2.png', 100, 'image/png')
+
+    await waitFor(() =>
+      fireEvent.drop(element, {
+        dataTransfer: { files: [file1, file2] },
+      })
+    )
+
+    await waitFor(() =>
+      fireEvent.drop(element, {
+        dataTransfer: { files: [file2, file2] },
+      })
+    )
+
+    expect(result.current.files.length).toBe(1)
+    expect(result.current.files).toEqual([
+      { file: file1, id: expect.any(String), exists: false },
+    ])
+    expect(
+      screen.queryByText(nb.errorAmountLimit.replace('%amount', '1'))
+    ).toBeInTheDocument()
+    expect(result.current.internalFiles.length).toBe(3)
+
+    fireEvent.click(document.querySelector('button#reset'))
+
+    await waitFor(() => {
+      expect(
+        element.querySelector(
+          '.dnb-upload__file-input-area .dnb-form-status'
+        )
+      ).not.toBeInTheDocument()
+    })
+    expect(result.current.files.length).toBe(0)
+    expect(result.current.files).toEqual([])
+  })
+
   it('will hide upload button when filesAmountLimit is met', async () => {
     const id = 'filesAmountLimitIsMet'
 

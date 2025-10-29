@@ -523,6 +523,49 @@ export const UploadOnFileClick = () => (
   </ComponentBox>
 )
 
+export const UploadClearFiles = () => (
+  <ComponentBox scope={{ createMockFile, createRequest }}>
+    {() => {
+      const Component = () => {
+        const { setFiles, clearFiles } = Upload.useUpload(
+          'upload-clear-files',
+        )
+
+        React.useEffect(() => {
+          setFiles([
+            {
+              file: createMockFile('1501870.jpg', 123, 'image/png'),
+              id: '1',
+            },
+            {
+              file: createMockFile(
+                'file-name-that-is-very-long-and-has-letters.png',
+                123,
+                'image/png',
+              ),
+              id: '2',
+            },
+          ])
+        }, [setFiles])
+
+        return (
+          <>
+            <Upload
+              acceptedFileTypes={['jpg', 'png']}
+              id="upload-clear-files"
+            />
+            <Button top="small" onClick={() => clearFiles()}>
+              Clear files
+            </Button>
+          </>
+        )
+      }
+
+      return <Component />
+    }}
+  </ComponentBox>
+)
+
 export const UploadFileEmptySize = () => (
   <ComponentBox
     scope={{ createMockFile, createRequest }}
