@@ -107,7 +107,7 @@ export default {
     },
     HelpButton: {
       title: 'Hjälptext',
-      aria_role: 'Hjälp-knapp',
+      ariaRole: 'Hjälp-knapp',
     },
     Input: {
       submitButtonTitle: 'Skicka knapp',
