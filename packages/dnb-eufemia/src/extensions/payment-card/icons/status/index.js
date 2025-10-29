@@ -10,21 +10,21 @@ import {
   confetti_medium as Confetti,
   stop_medium as Stop,
   reset_medium as Reset,
-} from "../../../../icons";
+} from '../../../../icons'
 
 const statusIconMap = {
-  renewed: {Icon: Reset, className: "icon--fill"},
-  replaced: {Icon: Refresh, className: "icon--fill"},
-  new: {Icon: Confetti, className: "icon--fill"},
-  expired: {Icon: Expired, className: "icon--stroke"},
-  not_active: {Icon: Stop, className: "icon--stroke"},
-  blocked: {Icon: Blocked, className: "icon--stroke"},
-  new_order: {Icon: Cart, className: "icon--stroke"},
-  order_in_process: {Icon: Envelope, className: "icon--stroke"},
-  unknown: {Icon: QuestionMark, className: "icon--stroke"},
-};
+  renewed: { Icon: Reset, className: 'icon--fill' },
+  replaced: { Icon: Refresh, className: 'icon--fill' },
+  new: { Icon: Confetti, className: 'icon--fill' },
+  expired: { Icon: Expired, className: 'icon--stroke' },
+  notActive: { Icon: Stop, className: 'icon--stroke' },
+  blocked: { Icon: Blocked, className: 'icon--stroke' },
+  newOrder: { Icon: Cart, className: 'icon--stroke' },
+  orderInProcess: { Icon: Envelope, className: 'icon--stroke' },
+  unknown: { Icon: QuestionMark, className: 'icon--stroke' },
+}
 
 export const StatusIcon = ({ status }) => {
-  const {Icon, className} = statusIconMap[status] || {};
-  return Icon ? <Icon className={className}/> : null;
-};
+  const { Icon, className } = statusIconMap[status] || {}
+  return Icon ? <Icon className={className} /> : null
+}
