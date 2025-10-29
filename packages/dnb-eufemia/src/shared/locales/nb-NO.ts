@@ -101,8 +101,8 @@ export default {
       clipboard_copy: 'Kopiert',
     },
     NumberFormat: {
-      clipboard_copy: 'Kopiert',
-      not_available: 'Ikke tilgjengelig',
+      clipboardCopy: 'Kopiert',
+      notAvailable: 'Ikke tilgjengelig',
     },
     HelpButton: {
       title: 'Hjelpetekst',
