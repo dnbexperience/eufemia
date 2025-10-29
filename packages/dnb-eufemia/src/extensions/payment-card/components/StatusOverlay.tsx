@@ -4,15 +4,15 @@ import { StatusIcon } from '../icons'
 import P from '../../../elements/P'
 
 export interface Translations {
-  text_blocked: string
-  text_expired: string
-  text_not_active: string
-  text_new_order: string
-  text_order_in_process: string
-  text_replaced: string
-  text_renewed: string
-  text_new: string
-  text_unknown: string
+  textBlocked: string
+  textExpired: string
+  textNotActive: string
+  textNewOrder: string
+  textOrderInProcess: string
+  textReplaced: string
+  textRenewed: string
+  textNew: string
+  textUnknown: string
 }
 
 interface StatusOverlayProps {
@@ -27,15 +27,15 @@ const StatusOverlay: React.FC<StatusOverlayProps> = ({
   cardDesign,
 }) => {
   const cardStatusMap: Record<string, string> = {
-    not_active: translations.text_not_active,
-    new_order: translations.text_new_order,
-    order_in_process: translations.text_order_in_process,
-    renewed: translations.text_renewed,
-    replaced: translations.text_replaced,
-    blocked: translations.text_blocked,
-    expired: translations.text_expired,
-    new: translations.text_new,
-    unknown: translations.text_unknown,
+    not_active: translations.textNotActive,
+    new_order: translations.textNewOrder,
+    order_in_process: translations.textOrderInProcess,
+    renewed: translations.textRenewed,
+    replaced: translations.textReplaced,
+    blocked: translations.textBlocked,
+    expired: translations.textExpired,
+    new: translations.textNew,
+    unknown: translations.textUnknown,
   }
 
   const cardStatusOverlayThemeMap: Record<string, string> = {
