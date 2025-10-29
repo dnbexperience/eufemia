@@ -69,8 +69,8 @@ describe('PaymentCard', () => {
       expect(screen.queryByText(en.textExpired)).toBeInTheDocument()
     })
 
-    it('has correct not_active status', () => {
-      render(<PaymentCard {...englishProps} cardStatus="not_active" />)
+    it('has correct notActive status', () => {
+      render(<PaymentCard {...englishProps} cardStatus="notActive" />)
 
       expect(screen.queryByText(en.textNotActive)).toBeInTheDocument()
     })
@@ -87,10 +87,8 @@ describe('PaymentCard', () => {
       expect(screen.queryByText(en.textReplaced)).toBeInTheDocument()
     })
 
-    it('has correct order_in_process status', () => {
-      render(
-        <PaymentCard {...englishProps} cardStatus="order_in_process" />
-      )
+    it('has correct orderInProcess status', () => {
+      render(<PaymentCard {...englishProps} cardStatus="orderInProcess" />)
 
       expect(screen.queryByText(en.textOrderInProcess)).toBeInTheDocument()
     })
@@ -115,8 +113,8 @@ describe('PaymentCard', () => {
       expect(screen.queryByText(nb.textExpired)).toBeInTheDocument()
     })
 
-    it('has correct not_active status', () => {
-      render(<PaymentCard {...defaultProps} cardStatus="not_active" />)
+    it('has correct notActive status', () => {
+      render(<PaymentCard {...defaultProps} cardStatus="notActive" />)
 
       expect(screen.queryByText(nb.textNotActive)).toBeInTheDocument()
     })
@@ -133,10 +131,8 @@ describe('PaymentCard', () => {
       expect(screen.queryByText(nb.textReplaced)).toBeInTheDocument()
     })
 
-    it('has correct order_in_process status', () => {
-      render(
-        <PaymentCard {...defaultProps} cardStatus="order_in_process" />
-      )
+    it('has correct orderInProcess status', () => {
+      render(<PaymentCard {...defaultProps} cardStatus="orderInProcess" />)
 
       expect(screen.queryByText(nb.textOrderInProcess)).toBeInTheDocument()
     })
@@ -312,7 +308,7 @@ describe('PaymentCard translations', () => {
           },
         }}
       >
-        <PaymentCard {...defaultProps} cardStatus="not_active" />
+        <PaymentCard {...defaultProps} cardStatus="notActive" />
       </Provider>
     )
 
@@ -329,7 +325,7 @@ describe('PaymentCard translations', () => {
           },
         }}
       >
-        <PaymentCard {...defaultProps} cardStatus="order_in_process" />
+        <PaymentCard {...defaultProps} cardStatus="orderInProcess" />
       </Provider>
     )
 
@@ -414,7 +410,7 @@ describe('PaymentCard translations', () => {
           },
         }}
       >
-        <PaymentCard {...defaultProps} cardStatus="new_order" />
+        <PaymentCard {...defaultProps} cardStatus="newOrder" />
       </Provider>
     )
 
