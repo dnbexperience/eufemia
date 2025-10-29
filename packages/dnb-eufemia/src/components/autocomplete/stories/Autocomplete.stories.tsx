@@ -989,7 +989,7 @@ export const AsyncSearchExample = () => {
     )
   }
   return (
-    <Section spacing>
+    <Section innerSpace>
       <Space left>
         <P>In this demo/recreation:</P>
         <Ol>

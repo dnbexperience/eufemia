@@ -150,14 +150,14 @@ export const TabsExampleLeftAligned = () => (
     <ComponentBox data-visual-test="tabs-section-styles">
       <Tabs tabsStyle="info" contentStyle="info">
         <Tabs.Content title="First" key="first">
-          <Section spacing top bottom style_type="white">
+          <Section innerSpace top bottom style_type="white">
             <H2 top={0} bottom>
               First
             </H2>
           </Section>
         </Tabs.Content>
         <Tabs.Content title="Second" key="second">
-          <Section spacing top bottom style_type="white">
+          <Section innerSpace top bottom style_type="white">
             <H2 top={0} bottom>
               Second
             </H2>

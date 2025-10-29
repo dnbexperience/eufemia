@@ -96,7 +96,7 @@ export const TranslationSandbox = () => (
             title="Modal Title"
             //  openState="opened"
           >
-            <Dialog.Body spacing style_type="mint-green">
+            <Dialog.Body innerSpace style_type="mint-green">
               <P>This is the modal text.</P>
             </Dialog.Body>
           </Dialog>

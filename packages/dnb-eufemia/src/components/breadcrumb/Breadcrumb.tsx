@@ -11,7 +11,6 @@ import classnames from 'classnames'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import Section, {
-  SectionSpacing,
   SectionStyleTypes,
   SectionVariants,
 } from '../section/Section'
@@ -19,7 +18,11 @@ import Button from '../button/Button'
 
 // Shared
 import Context from '../../shared/Context'
-import type { SpacingProps } from '../../shared/types'
+import type {
+  SpaceTypeAll,
+  SpaceTypeMedia,
+  SpacingProps,
+} from '../../shared/types'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 
 // Internal
@@ -121,10 +124,10 @@ export type BreadcrumbProps = {
   collapsedStyleType?: SectionVariants
 
   /**
-   * Include spacing properties from the Section component in breadcrumb. If only `true` is given, the spacing will be `small`.
+   * Include spacing properties in breadcrumb. If only `true` is given, the spacing will be `small`.
    * Default: false
    */
-  spacing?: SectionSpacing
+  spacing?: SpaceTypeAll | SpaceTypeMedia
 
   /**
    * Will disable the height animation
