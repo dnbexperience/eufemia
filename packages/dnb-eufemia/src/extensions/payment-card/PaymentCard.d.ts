@@ -8,7 +8,7 @@ export type PaymentCardCardStatus =
   | 'blocked'
   | 'expired'
   | 'notActive'
-  | 'new_order'
+  | 'newOrder'
   | 'new'
   | 'orderInProcess'
   | 'renewed'
@@ -96,7 +96,7 @@ export interface PaymentCardProps
    */
   cardNumber: string;
   /**
-   * use one of these: `active`, `notActive`, `new_order`, `new`, `blocked`, `expired`, `renewed`, `replaced`, `orderInProcess`, `unknown`. Defaults to `active`.
+   * use one of these: `active`, `notActive`, `newOrder`, `new`, `blocked`, `expired`, `renewed`, `replaced`, `orderInProcess`, `unknown`. Defaults to `active`.
    */
   cardStatus?: PaymentCardCardStatus;
   /**

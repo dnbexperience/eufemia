@@ -73,7 +73,7 @@ const StatusOverlay: React.FC<StatusOverlayProps> = ({
 export const isCardBlocked = (cardStatus: string): boolean => {
   const cardStatusMap: Record<string, boolean> = {
     notActive: true,
-    new_order: false,
+    newOrder: false,
     orderInProcess: false,
     renewed: false,
     replaced: false,

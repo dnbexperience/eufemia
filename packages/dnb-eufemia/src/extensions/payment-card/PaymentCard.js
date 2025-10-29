@@ -57,7 +57,7 @@ export default class PaymentCard extends React.PureComponent {
       'blocked',
       'expired',
       'notActive',
-      'new_order',
+      'newOrder',
       'new',
       'orderInProcess',
       'renewed',

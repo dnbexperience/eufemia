@@ -16,7 +16,7 @@ const statusIconMap = {
   expired: { Icon: Expired, className: 'icon--stroke' },
   notActive: { Icon: Expired, className: 'icon--stroke' },
   blocked: { Icon: Blocked, className: 'icon--stroke' },
-  new_order: { Icon: Cart, className: 'icon--stroke' },
+  newOrder: { Icon: Cart, className: 'icon--stroke' },
   orderInProcess: { Icon: Envelope, className: 'icon--stroke' },
   unknown: { Icon: QuestionMark, className: 'icon--stroke' },
 }

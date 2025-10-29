@@ -410,7 +410,7 @@ describe('PaymentCard translations', () => {
           },
         }}
       >
-        <PaymentCard {...defaultProps} cardStatus="new_order" />
+        <PaymentCard {...defaultProps} cardStatus="newOrder" />
       </Provider>
     )
 
