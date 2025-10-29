@@ -35,15 +35,15 @@ export { Designs, ProductType, CardType, BankAxeptType }
 export { formatCardNumber }
 
 const translationDefaultPropsProps = {
-  text_blocked: null,
-  text_expired: null,
-  text_not_active: null,
-  text_new_order: null,
-  text_order_in_process: null,
-  text_replaced: null,
-  text_renewed: null,
-  text_new: null,
-  text_unknown: null,
+  textBlocked: null,
+  textExpired: null,
+  textNotActive: null,
+  textNewOrder: null,
+  textOrderInProcess: null,
+  textReplaced: null,
+  textRenewed: null,
+  textNew: null,
+  textUnknown: null,
 }
 
 export default class PaymentCard extends React.PureComponent {
