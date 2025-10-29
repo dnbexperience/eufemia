@@ -136,7 +136,7 @@ describe('NumberFormat component', () => {
 
     expect(
       document.querySelector(ariaSelector).getAttribute('data-text')
-    ).toBe(en.not_available)
+    ).toBe(en.notAvailable)
 
     log.mockRestore()
   })
@@ -1748,7 +1748,7 @@ describe('NumberFormat copy tooltip', () => {
     expect(tooltip).toHaveClass('dnb-tooltip--active')
     expect(
       document.querySelector('.dnb-tooltip__content')?.textContent
-    ).toContain(en.clipboard_copy)
+    ).toContain(en.clipboardCopy)
 
     jest.advanceTimersByTime(COPY_TOOLTIP_TIMEOUT)
 
