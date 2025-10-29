@@ -2,7 +2,6 @@ import React from 'react'
 
 import type { SuffixChildren } from '../../shared/helpers/Suffix'
 import type { formatOptionParams } from '../number-format/NumberUtils'
-import { IncludeSnakeCase } from '../../shared/helpers/withSnakeCaseProps'
 import type { SpacingProps } from '../../shared/types'
 import type { SkeletonShow } from '../Skeleton'
 import type { GlobalStatusConfigObject } from '../GlobalStatus'
@@ -23,7 +22,7 @@ export type SliderExtensions = Record<
   { instance: React.ElementType; [key: string]: unknown }
 >
 
-export type SliderProps = IncludeSnakeCase<{
+export type SliderProps = {
   /** prepends the Form Label component. If no ID is provided, a random ID is created. */
   label?: React.ReactNode
 
@@ -71,7 +70,7 @@ export type SliderProps = IncludeSnakeCase<{
   step?: number
 
   /** makes it possible to display overlays with other functionality such as a marker on the slider marking a given value. */
-  extensions: SliderExtensions
+  extensions?: SliderExtensions
 
   /** show the slider vertically. Defaults to `false`. */
   vertical?: boolean
@@ -86,10 +85,10 @@ export type SliderProps = IncludeSnakeCase<{
   numberFormat?: NumberFormatTypes
 
   /** use `true` to show a tooltip on `mouseOver`, `touchStart` and `focus`, showing the current number (if `numberFormat` is given) or the raw value. Defaults to `null`. */
-  tooltip: boolean
+  tooltip?: boolean
 
   /** use `true` to always show the tooltip, in addition to the `tooltip` property.  */
-  alwaysShowTooltip: boolean
+  alwaysShowTooltip?: boolean
 
   /** removes the helper buttons. Defaults to `false`. */
   hideButtons?: boolean
@@ -114,7 +113,7 @@ export type SliderProps = IncludeSnakeCase<{
   onDragEnd?: (props: { event: MouseEvent | TouchEvent }) => void
 
   children?: React.ReactChild
-}>
+}
 
 export type SliderAllProps = SliderProps &
   SpacingProps &
