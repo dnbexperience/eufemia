@@ -12,6 +12,7 @@ import {
   SbankenCompact,
   SbankenDefault,
   CarnegieDefault,
+  EiendomDefault,
 } from '@dnb/eufemia/src/components/Logo'
 import ChangeStyleTheme from '../../../../core/ChangeStyleTheme'
 
@@ -62,6 +63,7 @@ export const LogoChangeExample = () => (
       DnbDefault,
       SbankenDefault,
       CarnegieDefault,
+      EiendomDefault,
     }}
   >
     {() => {
@@ -72,6 +74,9 @@ export const LogoChangeExample = () => (
 
           case 'carnegie':
             return CarnegieDefault
+
+          case 'eiendom':
+            return EiendomDefault
 
           default:
             return DnbDefault
@@ -95,6 +100,7 @@ export const LogoChangeExample = () => (
     }}
   </ComponentBox>
 )
+
 export const LogoCarnegieDefaultExample = () => (
   <ComponentBox
     scope={{ CarnegieDefault }}
