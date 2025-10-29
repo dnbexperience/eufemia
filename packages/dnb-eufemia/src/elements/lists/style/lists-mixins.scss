@@ -154,7 +154,7 @@
       // We cannot use gap: 0.5rem because of our wrapper "__item"
       display: flex;
       flex-wrap: wrap;
-      max-width: var(--text-block-max-width); // to enhance readability
+      max-width: var(--prose-max-width); // to enhance readability
       width: 100%;
 
       & dt {

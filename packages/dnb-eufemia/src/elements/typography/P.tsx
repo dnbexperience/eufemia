@@ -5,7 +5,11 @@
 
 import React, { createContext, useContext } from 'react'
 import classnames from 'classnames'
-import Typography, { TypographySize, TypographyProps } from './Typography'
+import Typography, {
+  TypographySize,
+  TypographyProps,
+  TypographyContext,
+} from './Typography'
 
 /** @deprecated use TypographySize instead */
 export type PSize = TypographySize
@@ -35,10 +39,16 @@ function P(props: PProps) {
     remainingModifiers,
     element = 'p',
     className,
+    proseMaxWidth: proseMaxWidthProp,
     ...rest
   } = handleDeprecatedProps(props)
 
   const paragraphContext = useContext(ParagraphContext)
+  const { proseMaxWidth: proseMaxWidthContext } =
+    useContext(TypographyContext)
+
+  // Use prop value if provided, otherwise fall back to context
+  const proseMaxWidth = proseMaxWidthProp ?? proseMaxWidthContext
 
   const deprecatedModifierString = remainingModifiers.reduce(
     (acc, cur) => {
@@ -61,6 +71,7 @@ function P(props: PProps) {
           deprecatedModifierString,
           className
         )}
+        proseMaxWidth={proseMaxWidth}
         {...rest}
       />
     </ParagraphContext.Provider>

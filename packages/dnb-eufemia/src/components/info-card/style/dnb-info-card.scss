@@ -49,7 +49,7 @@
 
   &:not(&--stretch),
   &__content {
-    max-width: var(--text-block-max-width);
+    max-width: var(--prose-max-width);
   }
 
   &--centered &__content {

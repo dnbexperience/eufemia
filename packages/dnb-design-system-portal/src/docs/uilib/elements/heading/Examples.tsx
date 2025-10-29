@@ -69,6 +69,23 @@ export const HeadingModifiersExample = () => (
   </ComponentBox>
 )
 
+export const HeadingProseMaxWidthExample = () => (
+  <ComponentBox data-visual-test="heading-prose-max-width">
+    <H2>
+      This is a regular heading without any width constraints. It will
+      extend to the full width of its container.
+    </H2>
+    <H2 proseMaxWidth={40}>
+      This heading uses proseMaxWidth={40} to limit its width to
+      approximately 40 characters.
+    </H2>
+    <H2 proseMaxWidth={20}>
+      This heading uses proseMaxWidth={20} for an even narrower reading
+      width.
+    </H2>
+  </ComponentBox>
+)
+
 export const HeadingMarginCollapsingExample = () => (
   <ComponentBox>
     <H1 size="small" top bottom="small">
@@ -79,6 +96,7 @@ export const HeadingMarginCollapsingExample = () => (
     </P>
   </ComponentBox>
 )
+
 export const HeadingRegressionTest = () => {
   const Spacer = styled.div`
     overflow: auto; // prevent margin collapse

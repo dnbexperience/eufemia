@@ -43,6 +43,48 @@ You don't need to define the `font-family` ever, but rather use CSS Custom Prope
 
 <TypographyVariants />
 
+## Line length
+
+For readable paragraphs and inline help text, keep line length constrained to a comfortable character count.
+
+- Use `var(--prose-max-width)` as the canonical token for maximum text width. Default is `60ch`.
+- Base styles and some components expose `var(--prose-max-width)`, which maps to `var(--prose-max-width)`.
+
+### Using `proseMaxWidth` property (max width in characters)
+
+Prose refers to written text in its natural form, particularly paragraphs and other continuous writing. Typography components like `H2`, `H3`, `P` etc. support the `proseMaxWidth` property to limit text width based on character count:
+
+```tsx
+<H2 proseMaxWidth={80}>
+  This heading will be limited to approximately 80 characters wide
+</H2>
+<P proseMaxWidth={60}>
+  This paragraph will be limited to approximately 60 characters wide
+</P>
+```
+
+### Using `Typography.Provider`
+
+Use `Typography.Provider` to apply `proseMaxWidth` to multiple typography components at once:
+
+```tsx
+<Typography.Provider proseMaxWidth={60}>
+  <P>This paragraph will be limited to approximately 60 characters wide</P>
+  <P>
+    This paragraph will also be limited to approximately 60 characters wide
+  </P>
+  <H2 proseMaxWidth={80}>This heading overrides with its own value</H2>
+</Typography.Provider>
+```
+
+CSS example:
+
+```css
+.prose {
+  max-width: var(--prose-max-width); /* 60ch by default */
+}
+```
+
 ## Font Face
 
 The default DNB font family is `DNB`, loaded via `@font-face` in `@dnb/eufemia/src/style/themes/theme-ui/fonts.scss`.

@@ -284,7 +284,7 @@ html[data-visual-test] .dnb-tooltip--hide {
   border-radius: var(--form-status-radius);
 }
 .dnb-form-status__text {
-  max-width: var(--text-block-max-width);
+  max-width: var(--prose-max-width);
   padding: 0.625rem 1rem;
   cursor: text;
   color: inherit;
@@ -676,7 +676,7 @@ button.dnb-button::-moz-focus-inner {
   --rounded-corner--value: calc(var(--card-outline-width) + 0.5rem);
 }
 .dnb-help-button__content .dnb-section .dnb-p {
-  max-width: var(--text-block-max-width);
+  max-width: var(--prose-max-width);
   transition: transform 400ms var(--easing-default) 40ms;
   transform: translate3d(0, -0.5rem, 0);
 }

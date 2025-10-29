@@ -8,6 +8,19 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
+describe('Paragraph', () => {
+  setupPageScreenshot({
+    url: '/uilib/elements/paragraph',
+  })
+
+  it('matches prose max width', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="paragraph-prose-max-width"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+})
+
 describe.each(['ui', 'sbanken'])('Paragraph for %s', (themeName) => {
   setupPageScreenshot({
     themeName,

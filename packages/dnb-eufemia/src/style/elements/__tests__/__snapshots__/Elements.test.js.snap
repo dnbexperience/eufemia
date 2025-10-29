@@ -549,7 +549,7 @@ del .dnb-code {
     --dd-max-width: calc(60% - 1rem);
     display: flex;
     flex-wrap: wrap;
-    max-width: var(--text-block-max-width);
+    max-width: var(--prose-max-width);
     width: 100%;
   }
   .dnb-dl__layout--horizontal dt {

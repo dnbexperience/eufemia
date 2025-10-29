@@ -44,6 +44,17 @@ Should be able to use the most common used screen readers like VoiceOver (Apple 
 
 Good keyboard support is crucial to make web application accessible on for assistive technologies. So - [think landmark and semantics first](!/uilib/usage/accessibility#landmark--and-semantics-example). This includes also [typography](!/uilib/usage/best-practices/for-typography#think-semantics-first) and best practices for [images and illustrations](!/uilib/usage/accessibility/screenreader).
 
+## Typography accessibility
+
+Typography plays a crucial role in accessibility. Beyond semantic markup, consider:
+
+- **Line length**: Use the `proseMaxWidth` prop on typography components to maintain optimal reading line lengths
+- **Font scaling**: Ensure text remains readable at 200% zoom
+- **Contrast**: Maintain sufficient color contrast between text and background
+- **Spacing**: Use consistent spacing that works with assistive technologies
+
+Read more about [typography best practices](!/uilib/usage/best-practices/for-typography#line-length-and-readability) for accessibility.
+
 ## **200%** in `font-size` \{#font-size\}
 
 The [WCAG 2.1](https://www.w3.org/TR/WCAG21/) document is describing it clearly:
