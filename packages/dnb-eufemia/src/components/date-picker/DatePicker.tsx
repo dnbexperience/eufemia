@@ -54,7 +54,6 @@ import { CalendarDay, DatePickerCalendarProps } from './DatePickerCalendar'
 import { DatePickerContextValues, DateType } from './DatePickerContext'
 import { DatePickerDates } from './hooks/useDates'
 import { useTranslation } from '../../shared'
-import { convertSnakeCaseProps } from '../../shared/helpers/withSnakeCaseProps'
 import DatePickerPortal from './DatePickerPortal'
 import {
   FormatDateOptions,
@@ -396,7 +395,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
     hideNavigation,
     opened: openedProp,
     endDate: endDateProp,
-  } = convertSnakeCaseProps(props) // convertSnakeCaseProps - can be removed in v11
+  } = props
 
   const [opened, setOpened] = useState<boolean>(openedProp)
   const [hidden, setHidden] = useState(!opened)
@@ -594,9 +593,9 @@ function DatePicker(externalProps: DatePickerAllProps) {
     props,
     defaultProps,
     { skeleton: context?.skeleton },
-    convertSnakeCaseProps(context.getTranslation(props).DatePicker), // convertSnakeCaseProps - can be removed in v11
+    context.getTranslation(props).DatePicker, // convertSnakeCaseProps - can be removed in v11
     pickFormElementProps(context?.FormRow), // Deprecated – can be removed in v11
-    convertSnakeCaseProps(pickFormElementProps(context?.formElement)), // Deprecated – can be removed in v11
+    pickFormElementProps(context?.formElement), // Deprecated – can be removed in v11
     context.DatePicker
   )
 
