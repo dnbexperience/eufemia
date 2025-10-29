@@ -1,4 +1,9 @@
-import React, { MutableRefObject, useCallback, useMemo, useRef } from 'react'
+import React, {
+  MutableRefObject,
+  useCallback,
+  useMemo,
+  useRef,
+} from 'react'
 import Input from '../Input'
 import type { InputProps } from '../Input'
 import TextMask from './TextMask'
@@ -11,6 +16,7 @@ import { createSpacingClasses } from '../space/SpacingHelper'
 import { FormStatusState, FormStatusText } from '../FormStatus'
 import { useMultiInputValue } from './hooks/useMultiInputValues'
 import useId from '../../shared/helpers/useId'
+import { IS_ANDROID } from '../../shared/helpers'
 
 export type MultiInputMaskInput<T extends string> = {
   /**
@@ -332,7 +338,10 @@ function MultiInputMaskInput<T extends string>({
   const optionsEnhancer = useCallback(
     (opts: MaskitoOptions | null): MaskitoOptions | null => {
       if (!opts || !ghost) return opts
-      const post = (elementState: { value: string; selection: readonly [number, number] }) => {
+      const post = (elementState: {
+        value: string
+        selection: readonly [number, number]
+      }) => {
         const v = elementState.value || ''
         const padded = (v + ghost.slice(v.length)).slice(0, mask.length)
         return { ...elementState, value: padded }
@@ -367,15 +376,56 @@ function MultiInputMaskInput<T extends string>({
         aria-label={label}
         inputRef={getInputRef()}
         onKeyDown={onKeyDown}
+        onInput={(event) => {
+          const target = event.currentTarget as HTMLInputElement
+          // Add support for "backspace" on Android virtual keyboard
+          if (
+            IS_ANDROID &&
+            (event as any).nativeEvent?.inputType ===
+              'deleteContentBackward' &&
+            target.selectionStart === 0 &&
+            target.selectionEnd === 0
+          ) {
+            onKeyDown({
+              ...(event as any),
+              key: 'Backspace',
+              target,
+            } as any)
+          }
+        }}
         onBlur={onBlur}
         onFocus={({ target, ...event }) => {
           target.focus()
-          target.select()
+          // When input is empty on focus, always place caret at the start (position 0)
+          // Use same deferred approach as on iOS focus handling for reliability
+          window.requestAnimationFrame(() => {
+            const defer = (ms: number) =>
+              setTimeout(() => {
+                try {
+                  // Treat ghost-only value as empty using stripValue
+                  const typedLen = stripValue(target.value || '').length
+                  if (typedLen === 0) {
+                    target.setSelectionRange(0, 0)
+                  }
+                } catch {}
+              }, ms)
+
+            let isiOS = false
+            try {
+              // Lazy import to avoid circular deps in tests
+              // eslint-disable-next-line @typescript-eslint/no-var-requires
+              const helpers = require('../../shared/helpers')
+              isiOS = !!helpers?.IS_IOS
+            } catch {}
+
+            defer(isiOS ? 10 : 1)
+          })
 
           if (onFocus) {
             onFocus({ target, ...event })
           }
         }}
+        onMouseUp={undefined}
         onChange={(event) => {
           onChange(inputId, event.target.value)
         }}

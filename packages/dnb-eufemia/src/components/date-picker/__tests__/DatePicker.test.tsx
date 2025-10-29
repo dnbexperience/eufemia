@@ -373,9 +373,20 @@ describe('DatePicker component', () => {
       endDay,
       endMonth,
       endYear,
-    ]: Array<HTMLInputElement> = Array.from(
-      document.querySelectorAll('input.dnb-input__input')
-    )
+    ]: Array<HTMLInputElement> = [
+      document.querySelector('input.dnb-date-picker__input--day'),
+      document.querySelector('input.dnb-date-picker__input--month'),
+      document.querySelector('input.dnb-date-picker__input--year'),
+      ...Array.from(
+        document.querySelectorAll('input.dnb-date-picker__input--day')
+      ).slice(1),
+      ...Array.from(
+        document.querySelectorAll('input.dnb-date-picker__input--month')
+      ).slice(1),
+      ...Array.from(
+        document.querySelectorAll('input.dnb-date-picker__input--year')
+      ).slice(1),
+    ] as any
 
     expect(startDay.value).toBe('01')
     expect(startMonth.value).toBe('05')
@@ -3099,7 +3110,7 @@ describe('DatePicker component', () => {
     render(<DatePicker showInput={true} />)
 
     const input = document.querySelector(
-      '.dnb-date-picker__input'
+      '.dnb-date-picker__input--day'
     ) as HTMLInputElement
 
     expect(input.selectionStart).toBe(2)
@@ -3115,7 +3126,7 @@ describe('DatePicker component', () => {
     render(<DatePicker showInput={true} date="2023-10-01" />)
 
     const input = document.querySelector(
-      '.dnb-date-picker__input'
+      '.dnb-date-picker__input--day'
     ) as HTMLInputElement
 
     expect(input.selectionStart).toBe(2)

@@ -1,4 +1,5 @@
 import { MutableRefObject, useRef } from 'react'
+import { IS_IOS } from '../../../shared/helpers'
 
 function useHandleCursorPosition(
   inputRefs: MutableRefObject<HTMLInputElement>[],
@@ -31,105 +32,190 @@ function useHandleCursorPosition(
     const initialSelectionStart = input.selectionStart
 
     window.requestAnimationFrame(() => {
-      // Recompute in case refs changed between frames
-      const latestInputs = refsToInputList(inputRefs)
-      if (!latestInputs.length) return
+      const run = () => {
+        // Recompute in case refs changed between frames
+        const latestInputs = refsToInputList(inputRefs)
+        if (!latestInputs.length) return
 
-      if (!hasPressedKeysToHandle || hasSelection) {
-        return // stop here
-      }
+        if (!hasPressedKeysToHandle || hasSelection) {
+          return // stop here
+        }
 
-      const caretPosition = getCaretPosition(input)
+        const caretPosition = getCaretPosition(input)
 
-      const size = Number((input as any).size ?? 0)
+        const size = Number((input as any).size ?? 0)
 
-      // Determine logical typed length (ignoring ghost placeholder padding)
-      const typedLen = getTypedLength(input)
+        // Determine logical typed length (ignoring ghost placeholder padding)
+        const typedLen = getTypedLength(input)
 
-      // Handle Backspace on empty inputs: always jump to previous field and place caret at its end
+        // Handle Backspace on empty inputs: always jump to previous field and place caret at its end
       if (pressedKey === 'Backspace' && typedLen === 0) {
         const idx = latestInputs.findIndex((el) => el?.id === input.id)
         const prev = idx > 0 ? latestInputs[idx - 1] : undefined
         if (prev) {
+          // Ensure virtual caret reflects end position for effectively empty prev
+          const end = getSelectionPositions(prev).end
+          const vmap = virtualCaretRef.current
+          try {
+            if (getTypedLength(prev) === 0) {
+              vmap.set(prev, end)
+            }
+          } catch {}
           return goToInput('previous', input, latestInputs)
         }
         return
       }
 
-      // Handle Arrow navigation for empty values using a virtual caret
-      if (size > 0 && (input.value ?? '').length === 0) {
-        const map = virtualCaretRef.current
-        const currentPos = map.get(input) ?? 0
-        if (pressedKey === 'ArrowRight') {
-          if (currentPos === 0) {
-            // Simulate jump to end on first ArrowRight (as with visual mask)
-            map.set(input, size)
+        // Handle Arrow navigation for empty values using a virtual caret
+      if (size > 0 && getTypedLength(input) === 0) {
+          const map = virtualCaretRef.current
+          const currentPos = map.get(input) ?? 0
+          if (pressedKey === 'ArrowRight') {
+            if (currentPos === 0) {
+              // Simulate jump to end on first ArrowRight (as with visual mask)
+              map.set(input, size)
+              return
+            } else if (currentPos < size) {
+              map.set(input, currentPos + 1)
+              return
+            } else if (inputPosition !== 'last') {
+              map.set(input, 0)
+              return goToInput('next', input, latestInputs)
+            }
+          } else if (pressedKey === 'ArrowLeft') {
+            if (currentPos > 0) {
+              map.set(input, currentPos - 1)
+            } else if (inputPosition !== 'first') {
+              return goToInput('previous', input, latestInputs)
+            }
             return
-          } else if (currentPos < size) {
-            map.set(input, currentPos + 1)
-            return
-          } else if (inputPosition !== 'last') {
-            map.set(input, 0)
-            return goToInput('next', input, latestInputs)
           }
-        } else if (pressedKey === 'ArrowLeft') {
-          if (currentPos > 0) {
-            map.set(input, currentPos - 1)
-          } else if (inputPosition !== 'first') {
-            return goToInput('previous', input, latestInputs)
-          }
-          return
         }
-      }
 
-      // Arrow navigation based on pre-keydown caret position
+        // Arrow navigation based on pre-keydown caret position
       if (pressedKey === 'ArrowRight') {
         const nextPos = Math.min((initialSelectionStart ?? 0) + 1, size)
         if (nextPos >= size && inputPosition !== 'last') {
+          const idx = latestInputs.findIndex((el) => el?.id === input.id)
+          const next = idx >= 0 ? latestInputs[idx + 1] : undefined
+          if (next) {
+            // Set virtual caret to start for effectively empty next
+            const vmap = virtualCaretRef.current
+            try {
+              if (getTypedLength(next) === 0) {
+                vmap.set(next, 0)
+              }
+            } catch {}
+          }
           return goToInput('next', input, latestInputs)
         }
       }
       if (pressedKey === 'ArrowLeft') {
         const prevPos = Math.max((initialSelectionStart ?? 0) - 1, 0)
         if (prevPos <= 0 && inputPosition !== 'first') {
+          const idx = latestInputs.findIndex((el) => el?.id === input.id)
+          const prev = idx > 0 ? latestInputs[idx - 1] : undefined
+          if (prev) {
+            const end = getSelectionPositions(prev).end
+            const vmap = virtualCaretRef.current
+            try {
+              if (getTypedLength(prev) === 0) {
+                vmap.set(prev, end)
+              }
+            } catch {}
+          }
           return goToInput('previous', input, latestInputs)
         }
       }
 
-      // Auto-advance on data entry when the current input becomes full
-      // Infer based on typed length after this keystroke, and only if typing began from empty
-      if (!isNavKey && allowedByMask) {
-        const currentTyped = getTypedLength(input)
-        if (!typingStateRef.current.has(input)) {
-          typingStateRef.current.set(input, {
-            startedEmpty: currentTyped === 0,
-          })
-        }
-        const { startedEmpty } = typingStateRef.current.get(input)!
-        const nextTyped = Math.min(size || 0, currentTyped + 1)
-        if (
-          size > 0 &&
-          nextTyped >= size &&
-          inputPosition !== 'last' &&
-          startedEmpty
-        ) {
-          return goToInput('next', input, latestInputs)
-        }
+        // Auto-advance on data entry when the current input becomes full
+        // Two scenarios:
+        // 1) Typing began from empty and this keystroke fills the field (legacy auto-advance)
+        // 2) Field is already full and caret is at the visual end; carry the typed digit to next field
+        if (!isNavKey && allowedByMask) {
+          const currentTyped = getTypedLength(input)
+          if (!typingStateRef.current.has(input)) {
+            typingStateRef.current.set(input, {
+              startedEmpty: currentTyped === 0,
+            })
+          }
+          const { startedEmpty } = typingStateRef.current.get(input)!
+          const nextTyped = Math.min(size || 0, currentTyped + 1)
+          const atVisualEnd = (initialSelectionStart ?? 0) === size
+          const willAdvanceFromEmpty =
+            size > 0 &&
+            nextTyped >= size &&
+            inputPosition !== 'last' &&
+            startedEmpty
+          const willCarryFromFull =
+            size > 0 &&
+            currentTyped >= size &&
+            atVisualEnd &&
+            inputPosition !== 'last'
 
-        // If typing at the visual end (e.g., dd|), keep caret at end after masking
-        if ((initialSelectionStart ?? 0) === size) {
-          window.requestAnimationFrame(() => {
-            const { end } = getSelectionPositions(input)
-            input.setSelectionRange(end, end)
-          })
+          if (willAdvanceFromEmpty || willCarryFromFull) {
+            const idx = latestInputs.findIndex((el) => el?.id === input.id)
+            const nextInput = latestInputs[idx + 1]
+            if (
+              willCarryFromFull &&
+              nextInput &&
+              shouldAcceptInNext(pressedKey, nextInput, keysToHandle)
+            ) {
+              const doCarry = () => {
+                enforceIOSNumericKeyboard(nextInput, input as HTMLInputElement)
+                // Trigger InputModeNumber pre-focus routine (was bound to 'mouseenter')
+                if (IS_IOS) {
+                  try {
+                    nextInput.dispatchEvent(new Event('mouseenter'))
+                  } catch {}
+                }
+                nextInput.focus()
+                nextInput.setSelectionRange(0, 0)
+                // Insert the pressed key and dispatch an input event so React/Maskito flows update state
+                nextInput.value = String(pressedKey)
+                nextInput.dispatchEvent(
+                  new Event('input', { bubbles: true })
+                )
+                // Place caret at position 1 in next field
+                window.requestAnimationFrame(() => {
+                  nextInput.setSelectionRange(1, 1)
+                })
+              }
+              if (IS_IOS) {
+                setTimeout(doCarry, 20)
+              } else {
+                doCarry()
+              }
+              return
+            }
+            // Default for willAdvanceFromEmpty: move focus to next with caret at start
+            return goToInput('next', input, latestInputs)
+          }
+
+          // If typing at the visual end (e.g., dd|), keep caret at end after masking
+          if ((initialSelectionStart ?? 0) === size) {
+            window.requestAnimationFrame(() => {
+              const { end } = getSelectionPositions(input)
+              input.setSelectionRange(end, end)
+            })
+          }
         }
-      }
 
       if (
         caretPosition === 'last' &&
         inputPosition !== 'last' &&
         !(initialSelectionStart === 1 && pressedKey === 'ArrowRight')
       ) {
+        const idx = latestInputs.findIndex((el) => el?.id === input.id)
+        const next = idx >= 0 ? latestInputs[idx + 1] : undefined
+        if (next) {
+          const vmap = virtualCaretRef.current
+          try {
+            if (getTypedLength(next) === 0) {
+              vmap.set(next, 0)
+            }
+          } catch {}
+        }
         return goToInput('next', input, latestInputs)
       }
 
@@ -141,7 +227,26 @@ function useHandleCursorPosition(
           (pressedKey === 'ArrowLeft' || pressedKey === 'Backspace')
         )
       ) {
+        const idx = latestInputs.findIndex((el) => el?.id === input.id)
+        const prev = idx > 0 ? latestInputs[idx - 1] : undefined
+        if (prev) {
+          const end = getSelectionPositions(prev).end
+          const vmap = virtualCaretRef.current
+          try {
+            if (getTypedLength(prev) === 0) {
+              vmap.set(prev, end)
+            }
+          } catch {}
+        }
         return goToInput('previous', input, latestInputs)
+      }
+        // end run
+      }
+
+      if (IS_IOS) {
+        setTimeout(run, 20)
+      } else {
+        run()
       }
     })
   }
@@ -173,6 +278,22 @@ function getTypedLength(input: HTMLInputElement) {
     return i
   }
   return val.length
+}
+
+function shouldAcceptInNext(
+  key: string,
+  nextInput: HTMLInputElement,
+  keysToHandle?: RegExp | { [inputId: string]: RegExp[] }
+) {
+  if (!key || key.length !== 1) return false
+  if (!keysToHandle) return true
+  if (keysToHandle instanceof RegExp) {
+    return keysToHandle.test(key)
+  }
+  const masks = keysToHandle[nextInput.dataset.maskId]
+  if (!masks || masks.length === 0) return true
+  const first = masks[0]
+  return first instanceof RegExp ? first.test(key) : true
 }
 
 type GetKeysToHandleParams = {
@@ -225,7 +346,12 @@ function getInputPosition(
 }
 
 function getSelectionPositions(input: HTMLInputElement) {
-  const end = Number((input as any).size ?? (input as any).maxLength ?? input.value?.length ?? 0)
+  const end = Number(
+    (input as any).size ??
+      (input as any).maxLength ??
+      input.value?.length ??
+      0
+  )
   return { start: 0, end }
 }
 
@@ -271,15 +397,60 @@ function goToInput(
 
   const { start, end } = getSelectionPositions(siblingInput)
 
-  siblingInput.focus()
+  const doFocus = () => {
+    enforceIOSNumericKeyboard(siblingInput, input)
+    // Trigger InputModeNumber pre-focus routine (was bound to 'mouseenter')
+    if (IS_IOS) {
+      try {
+        siblingInput.dispatchEvent(new Event('mouseenter'))
+      } catch {}
+    }
+    siblingInput.focus()
 
-  if (to === 'next') {
-    return siblingInput.setSelectionRange(start, start)
+    if (to === 'next') {
+      siblingInput.setSelectionRange(start, start)
+      // If effectively empty, reset virtual caret to start for consistency
+      try {
+        if (getTypedLength(siblingInput) === 0) {
+          // Store a zero position for empty ghosted inputs
+          // Use a module-level map via a symbol on the function to avoid circular import
+          ;(goToInput as any)._vmap ||= new WeakMap<HTMLInputElement, number>()
+          ;(goToInput as any)._vmap.set(siblingInput, 0)
+        }
+      } catch {}
+      return
+    }
+
+    if (to === 'previous') {
+      siblingInput.setSelectionRange(end, end)
+      // If effectively empty, set virtual caret to end to reflect visual caret
+      try {
+        if (getTypedLength(siblingInput) === 0) {
+          ;(goToInput as any)._vmap ||= new WeakMap<HTMLInputElement, number>()
+          ;(goToInput as any)._vmap.set(siblingInput, end)
+        }
+      } catch {}
+      return
+    }
   }
 
-  if (to === 'previous') {
-    return siblingInput.setSelectionRange(end, end)
+  if (IS_IOS) {
+    setTimeout(doFocus, 20)
+  } else {
+    doFocus()
   }
+}
+
+function enforceIOSNumericKeyboard(
+  target: HTMLInputElement,
+  source?: HTMLInputElement
+) {
+  try {
+    const im = source?.getAttribute('inputmode') || target.getAttribute('inputmode')
+    if (im && !target.getAttribute('inputmode')) {
+      target.setAttribute('inputmode', im)
+    }
+  } catch {}
 }
 
 export default useHandleCursorPosition
