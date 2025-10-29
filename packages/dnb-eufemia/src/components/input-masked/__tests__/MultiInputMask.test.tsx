@@ -803,11 +803,7 @@ describe('MultiInputMask', () => {
   })
 
   it('iOS: focus places caret at start (no select all)', async () => {
-    const originalIOS = Object.getOwnPropertyDescriptor(helpers, 'IS_IOS')
-    Object.defineProperty(helpers, 'IS_IOS', {
-      get: () => true,
-      configurable: true,
-    })
+    const spy = jest.spyOn(helpers, 'isiOS').mockReturnValue(true)
 
     try {
       render(<MultiInputMask {...defaultProps} />)
@@ -824,18 +820,12 @@ describe('MultiInputMask', () => {
       expect(day.selectionStart).toBe(0)
       expect(day.selectionEnd).toBe(0)
     } finally {
-      if (originalIOS) {
-        Object.defineProperty(helpers, 'IS_IOS', originalIOS)
-      }
+      spy.mockRestore()
     }
   })
 
   it('iOS: next input keeps numeric keyboard (inputmode="numeric")', async () => {
-    const originalIOS = Object.getOwnPropertyDescriptor(helpers, 'IS_IOS')
-    Object.defineProperty(helpers, 'IS_IOS', {
-      get: () => true,
-      configurable: true,
-    })
+    const spy = jest.spyOn(helpers, 'isiOS').mockReturnValue(true)
 
     try {
       render(<MultiInputMask {...defaultProps} inputMode="numeric" />)
@@ -852,21 +842,14 @@ describe('MultiInputMask', () => {
 
       expect(month.getAttribute('inputmode')).toBe('numeric')
     } finally {
-      if (originalIOS) {
-        Object.defineProperty(helpers, 'IS_IOS', originalIOS)
-      }
+      spy.mockRestore()
     }
   })
 
   it('Android: deleteContentBackward triggers Backspace navigation', async () => {
-    const originalAndroid = Object.getOwnPropertyDescriptor(
-      helpers,
-      'IS_ANDROID'
-    )
-    Object.defineProperty(helpers, 'IS_ANDROID', {
-      get: () => true,
-      configurable: true,
-    })
+    const spyAndroid = jest
+      .spyOn(helpers, 'isAndroid')
+      .mockReturnValue(true)
 
     try {
       render(<MultiInputMask {...defaultProps} />)
@@ -893,9 +876,7 @@ describe('MultiInputMask', () => {
       expect(day.selectionStart).toBe(2)
       expect(day.selectionEnd).toBe(2)
     } finally {
-      if (originalAndroid) {
-        Object.defineProperty(helpers, 'IS_ANDROID', originalAndroid)
-      }
+      spyAndroid.mockRestore()
     }
   })
 

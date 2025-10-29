@@ -49,25 +49,25 @@ function useHandleCursorPosition(
         const typedLen = getTypedLength(input)
 
         // Handle Backspace on empty inputs: always jump to previous field and place caret at its end
-      if (pressedKey === 'Backspace' && typedLen === 0) {
-        const idx = latestInputs.findIndex((el) => el?.id === input.id)
-        const prev = idx > 0 ? latestInputs[idx - 1] : undefined
-        if (prev) {
-          // Ensure virtual caret reflects end position for effectively empty prev
-          const end = getSelectionPositions(prev).end
-          const vmap = virtualCaretRef.current
-          try {
-            if (getTypedLength(prev) === 0) {
-              vmap.set(prev, end)
-            }
-          } catch {}
-          return goToInput('previous', input, latestInputs)
+        if (pressedKey === 'Backspace' && typedLen === 0) {
+          const idx = latestInputs.findIndex((el) => el?.id === input.id)
+          const prev = idx > 0 ? latestInputs[idx - 1] : undefined
+          if (prev) {
+            // Ensure virtual caret reflects end position for effectively empty prev
+            const end = getSelectionPositions(prev).end
+            const vmap = virtualCaretRef.current
+            try {
+              if (getTypedLength(prev) === 0) {
+                vmap.set(prev, end)
+              }
+            } catch {}
+            return goToInput('previous', input, latestInputs)
+          }
+          return
         }
-        return
-      }
 
         // Handle Arrow navigation for empty values using a virtual caret
-      if (size > 0 && getTypedLength(input) === 0) {
+        if (size > 0 && getTypedLength(input) === 0) {
           const map = virtualCaretRef.current
           const currentPos = map.get(input) ?? 0
           if (pressedKey === 'ArrowRight') {
@@ -93,40 +93,40 @@ function useHandleCursorPosition(
         }
 
         // Arrow navigation based on pre-keydown caret position
-      if (pressedKey === 'ArrowRight') {
-        const nextPos = Math.min((initialSelectionStart ?? 0) + 1, size)
-        if (nextPos >= size && inputPosition !== 'last') {
-          const idx = latestInputs.findIndex((el) => el?.id === input.id)
-          const next = idx >= 0 ? latestInputs[idx + 1] : undefined
-          if (next) {
-            // Set virtual caret to start for effectively empty next
-            const vmap = virtualCaretRef.current
-            try {
-              if (getTypedLength(next) === 0) {
-                vmap.set(next, 0)
-              }
-            } catch {}
+        if (pressedKey === 'ArrowRight') {
+          const nextPos = Math.min((initialSelectionStart ?? 0) + 1, size)
+          if (nextPos >= size && inputPosition !== 'last') {
+            const idx = latestInputs.findIndex((el) => el?.id === input.id)
+            const next = idx >= 0 ? latestInputs[idx + 1] : undefined
+            if (next) {
+              // Set virtual caret to start for effectively empty next
+              const vmap = virtualCaretRef.current
+              try {
+                if (getTypedLength(next) === 0) {
+                  vmap.set(next, 0)
+                }
+              } catch {}
+            }
+            return goToInput('next', input, latestInputs)
           }
-          return goToInput('next', input, latestInputs)
         }
-      }
-      if (pressedKey === 'ArrowLeft') {
-        const prevPos = Math.max((initialSelectionStart ?? 0) - 1, 0)
-        if (prevPos <= 0 && inputPosition !== 'first') {
-          const idx = latestInputs.findIndex((el) => el?.id === input.id)
-          const prev = idx > 0 ? latestInputs[idx - 1] : undefined
-          if (prev) {
-            const end = getSelectionPositions(prev).end
-            const vmap = virtualCaretRef.current
-            try {
-              if (getTypedLength(prev) === 0) {
-                vmap.set(prev, end)
-              }
-            } catch {}
+        if (pressedKey === 'ArrowLeft') {
+          const prevPos = Math.max((initialSelectionStart ?? 0) - 1, 0)
+          if (prevPos <= 0 && inputPosition !== 'first') {
+            const idx = latestInputs.findIndex((el) => el?.id === input.id)
+            const prev = idx > 0 ? latestInputs[idx - 1] : undefined
+            if (prev) {
+              const end = getSelectionPositions(prev).end
+              const vmap = virtualCaretRef.current
+              try {
+                if (getTypedLength(prev) === 0) {
+                  vmap.set(prev, end)
+                }
+              } catch {}
+            }
+            return goToInput('previous', input, latestInputs)
           }
-          return goToInput('previous', input, latestInputs)
         }
-      }
 
         // Auto-advance on data entry when the current input becomes full
         // Two scenarios:
@@ -162,7 +162,10 @@ function useHandleCursorPosition(
               shouldAcceptInNext(pressedKey, nextInput, keysToHandle)
             ) {
               const doCarry = () => {
-                enforceIOSNumericKeyboard(nextInput, input as HTMLInputElement)
+                enforceIOSNumericKeyboard(
+                  nextInput,
+                  input as HTMLInputElement
+                )
                 // Trigger InputModeNumber pre-focus routine (was bound to 'mouseenter')
                 if (IS_IOS) {
                   try {
@@ -201,45 +204,45 @@ function useHandleCursorPosition(
           }
         }
 
-      if (
-        caretPosition === 'last' &&
-        inputPosition !== 'last' &&
-        !(initialSelectionStart === 1 && pressedKey === 'ArrowRight')
-      ) {
-        const idx = latestInputs.findIndex((el) => el?.id === input.id)
-        const next = idx >= 0 ? latestInputs[idx + 1] : undefined
-        if (next) {
-          const vmap = virtualCaretRef.current
-          try {
-            if (getTypedLength(next) === 0) {
-              vmap.set(next, 0)
-            }
-          } catch {}
+        if (
+          caretPosition === 'last' &&
+          inputPosition !== 'last' &&
+          !(initialSelectionStart === 1 && pressedKey === 'ArrowRight')
+        ) {
+          const idx = latestInputs.findIndex((el) => el?.id === input.id)
+          const next = idx >= 0 ? latestInputs[idx + 1] : undefined
+          if (next) {
+            const vmap = virtualCaretRef.current
+            try {
+              if (getTypedLength(next) === 0) {
+                vmap.set(next, 0)
+              }
+            } catch {}
+          }
+          return goToInput('next', input, latestInputs)
         }
-        return goToInput('next', input, latestInputs)
-      }
 
-      if (
-        caretPosition === 'first' &&
-        inputPosition !== 'first' &&
-        !(
-          initialSelectionStart === 1 &&
-          (pressedKey === 'ArrowLeft' || pressedKey === 'Backspace')
-        )
-      ) {
-        const idx = latestInputs.findIndex((el) => el?.id === input.id)
-        const prev = idx > 0 ? latestInputs[idx - 1] : undefined
-        if (prev) {
-          const end = getSelectionPositions(prev).end
-          const vmap = virtualCaretRef.current
-          try {
-            if (getTypedLength(prev) === 0) {
-              vmap.set(prev, end)
-            }
-          } catch {}
+        if (
+          caretPosition === 'first' &&
+          inputPosition !== 'first' &&
+          !(
+            initialSelectionStart === 1 &&
+            (pressedKey === 'ArrowLeft' || pressedKey === 'Backspace')
+          )
+        ) {
+          const idx = latestInputs.findIndex((el) => el?.id === input.id)
+          const prev = idx > 0 ? latestInputs[idx - 1] : undefined
+          if (prev) {
+            const end = getSelectionPositions(prev).end
+            const vmap = virtualCaretRef.current
+            try {
+              if (getTypedLength(prev) === 0) {
+                vmap.set(prev, end)
+              }
+            } catch {}
+          }
+          return goToInput('previous', input, latestInputs)
         }
-        return goToInput('previous', input, latestInputs)
-      }
         // end run
       }
 
@@ -414,7 +417,10 @@ function goToInput(
         if (getTypedLength(siblingInput) === 0) {
           // Store a zero position for empty ghosted inputs
           // Use a module-level map via a symbol on the function to avoid circular import
-          ;(goToInput as any)._vmap ||= new WeakMap<HTMLInputElement, number>()
+          ;(goToInput as any)._vmap ||= new WeakMap<
+            HTMLInputElement,
+            number
+          >()
           ;(goToInput as any)._vmap.set(siblingInput, 0)
         }
       } catch {}
@@ -426,7 +432,10 @@ function goToInput(
       // If effectively empty, set virtual caret to end to reflect visual caret
       try {
         if (getTypedLength(siblingInput) === 0) {
-          ;(goToInput as any)._vmap ||= new WeakMap<HTMLInputElement, number>()
+          ;(goToInput as any)._vmap ||= new WeakMap<
+            HTMLInputElement,
+            number
+          >()
           ;(goToInput as any)._vmap.set(siblingInput, end)
         }
       } catch {}
@@ -446,7 +455,8 @@ function enforceIOSNumericKeyboard(
   source?: HTMLInputElement
 ) {
   try {
-    const im = source?.getAttribute('inputmode') || target.getAttribute('inputmode')
+    const im =
+      source?.getAttribute('inputmode') || target.getAttribute('inputmode')
     if (im && !target.getAttribute('inputmode')) {
       target.setAttribute('inputmode', im)
     }

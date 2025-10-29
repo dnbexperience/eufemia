@@ -16,7 +16,7 @@ import { createSpacingClasses } from '../space/SpacingHelper'
 import { FormStatusState, FormStatusText } from '../FormStatus'
 import { useMultiInputValue } from './hooks/useMultiInputValues'
 import useId from '../../shared/helpers/useId'
-import { IS_ANDROID } from '../../shared/helpers'
+import { isiOS, isAndroid } from '../../shared/helpers'
 
 export type MultiInputMaskInput<T extends string> = {
   /**
@@ -136,7 +136,7 @@ function MultiInputMask<T extends string>({
     getKeysToHandle()
   )
 
-  const WrapperElement = label ? 'fieldset' : 'div'
+  const WrapperElement: 'fieldset' | 'div' = label ? 'fieldset' : 'div'
 
   return (
     <WrapperElement
@@ -218,7 +218,9 @@ function MultiInputMask<T extends string>({
     ) as HTMLInputElement | null
     const firstInput = byRef || byId
 
-    if (!firstInput) return
+    if (!firstInput) {
+      return
+    }
 
     firstInput.focus()
     firstInput.setSelectionRange(0, 0)
@@ -299,17 +301,18 @@ function MultiInputMaskInput<T extends string>({
   ...attributes
 }: MultiInputMaskInputProps<T>) {
   const shouldHighlight = !disabled && /\w+/.test(value)
-  const { className: extClassName, ...restAttributes } = attributes as any
+  const attrProps = attributes as React.HTMLProps<HTMLInputElement>
+  const extClassName = attrProps.className
 
   // Prepare ghost placeholder and enhancer (optional)
-  const placeholderText = String((attributes as any).placeholder || '')
+  const placeholderText = String(attrProps.placeholder || '')
   const ghost = useMemo(() => {
     if (!placeholderText) return ''
     // Avoid using a ghost that equals an allowed literal char (prevents change events)
     if (
       placeholderText.length === 1 &&
       mask[0] instanceof RegExp &&
-      (mask[0] as RegExp).test(placeholderText[0])
+      mask[0].test(placeholderText[0])
     ) {
       return ''
     }
@@ -376,25 +379,28 @@ function MultiInputMaskInput<T extends string>({
         aria-label={label}
         inputRef={getInputRef()}
         onKeyDown={onKeyDown}
-        onInput={(event) => {
-          const target = event.currentTarget as HTMLInputElement
+        onInput={(event: React.FormEvent<HTMLInputElement>) => {
+          const target = event.currentTarget
           // Add support for "backspace" on Android virtual keyboard
+          const nativeEvt = event.nativeEvent as unknown as {
+            inputType?: string
+          }
+          const inputType = nativeEvt?.inputType
           if (
-            IS_ANDROID &&
-            (event as any).nativeEvent?.inputType ===
-              'deleteContentBackward' &&
+            isAndroid() &&
+            inputType === 'deleteContentBackward' &&
             target.selectionStart === 0 &&
             target.selectionEnd === 0
           ) {
-            onKeyDown({
-              ...(event as any),
+            const synthetic = {
               key: 'Backspace',
               target,
-            } as any)
+            } as unknown as React.KeyboardEvent<HTMLInputElement>
+            onKeyDown(synthetic)
           }
         }}
         onBlur={onBlur}
-        onFocus={({ target, ...event }) => {
+        onFocus={({ target }) => {
           target.focus()
           // When input is empty on focus, always place caret at the start (position 0)
           // Use same deferred approach as on iOS focus handling for reliability
@@ -407,29 +413,23 @@ function MultiInputMaskInput<T extends string>({
                   if (typedLen === 0) {
                     target.setSelectionRange(0, 0)
                   }
-                } catch {}
+                } catch (e) {
+                  // Ignore selection errors in unusual environments
+                }
               }, ms)
 
-            let isiOS = false
-            try {
-              // Lazy import to avoid circular deps in tests
-              // eslint-disable-next-line @typescript-eslint/no-var-requires
-              const helpers = require('../../shared/helpers')
-              isiOS = !!helpers?.IS_IOS
-            } catch {}
-
-            defer(isiOS ? 10 : 1)
+            defer(isiOS() ? 10 : 1)
           })
 
           if (onFocus) {
-            onFocus({ target, ...event })
+            onFocus()
           }
         }}
         onMouseUp={undefined}
-        onChange={(event) => {
+        onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
           onChange(inputId, event.target.value)
         }}
-        {...restAttributes}
+        {...attrProps}
       />
       {delimiter && (
         <span
