@@ -37,7 +37,7 @@ const CopyOnClick = ({
   }, [])
 
   const {
-    CopyOnClick: { clipboard_copy },
+    CopyOnClick: { clipboardCopy },
   } = useTranslation()
 
   const copy = useCallback(async (str: string) => {
@@ -83,7 +83,7 @@ const CopyOnClick = ({
   const params = {
     onClick: disabled ? undefined : onClickHandler,
   }
-  const message = tooltipContent ?? clipboard_copy
+  const message = tooltipContent ?? clipboardCopy
 
   return (
     <Span
