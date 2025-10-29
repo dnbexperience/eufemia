@@ -241,7 +241,7 @@ describe('Portals', () => {
         <button id="tooltip-target">Target</button>
         <Tooltip
           open
-          no_animation
+          noAnimation
           targetSelector="#tooltip-target"
           portalRootClass="eufemia-theme eufemia-theme__eiendom eufemia-theme__eiendom--soft"
         />
