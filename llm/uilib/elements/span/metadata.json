@@ -90,17 +90,24 @@
       "type": "'italic'",
       "status": "optional",
       "defaultValue": null
+    },
+    {
+      "name": "proseMaxWidth",
+      "doc": "Sets the maximum width based on character count. This will limit the text width to approximately the specified number of characters.",
+      "type": "number",
+      "status": "optional",
+      "defaultValue": null
     }
   ],
   "events": [],
   "related": [
     "Space"
   ],
-  "checksum": "489a294acd964abe7cbe40b2c63fc2f483fab3d4a4640051c428917995e146a1",
+  "checksum": "e8ab4037b24c7bb2d44c982066947e7eb4e64d8c7aded188d1b21a91c2d2a601",
   "source": {
     "repo": "https://github.com/dnbexperience/eufemia",
     "file": "packages/dnb-eufemia/src/elements/span/Span.tsx",
-    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.87.0/packages/dnb-eufemia/src/elements/span/Span.tsx"
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.88.0/packages/dnb-eufemia/src/elements/span/Span.tsx"
   },
   "sources": {
     "entry": {
@@ -117,7 +124,7 @@
       "public": "https://eufemia.dnb.no/uilib/elements/span/demos/"
     }
   },
-  "version": "10.87.0",
-  "generatedAt": "2025-10-24T08:41:53.567Z",
+  "version": "10.88.0",
+  "generatedAt": "2025-10-29T11:07:21.735Z",
   "schemaVersion": 1
 }

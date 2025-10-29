@@ -103,7 +103,7 @@
   "events": [
     {
       "name": "onFileClick",
-      "doc": "Will be called once a file gets clicked on by the user. Access the clicked file with `{ fileItem }`.",
+      "doc": "Will be called once a file gets clicked on by the user. Access the clicked file with `{ fileItem }`. When providing this prop, the file will be rendered as a button instead of an anchor or plain text.",
       "type": "function",
       "status": "optional",
       "defaultValue": null
@@ -112,11 +112,11 @@
   "related": [
     "Space"
   ],
-  "checksum": "c7b90fc285eff62b71a25c3a067f48d631318f6ef6ad439c5170df3aca186587",
+  "checksum": "a2b702170b8d052ba16538ab0b4f764d95196ddcf36327c047af27811d9d648b",
   "source": {
     "repo": "https://github.com/dnbexperience/eufemia",
     "file": "packages/dnb-eufemia/src/extensions/forms/Value/Upload/Upload.tsx",
-    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.87.0/packages/dnb-eufemia/src/extensions/forms/Value/Upload/Upload.tsx"
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.88.0/packages/dnb-eufemia/src/extensions/forms/Value/Upload/Upload.tsx"
   },
   "sources": {
     "entry": {
@@ -136,7 +136,7 @@
       "public": "https://eufemia.dnb.no/uilib/extensions/forms/Value/Upload/demos/"
     }
   },
-  "version": "10.87.0",
-  "generatedAt": "2025-10-24T08:41:53.962Z",
+  "version": "10.88.0",
+  "generatedAt": "2025-10-29T11:07:22.173Z",
   "schemaVersion": 1
 }

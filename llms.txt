@@ -3,8 +3,8 @@
 > DNB’s Eufemia design system. This file points LLMs to machine-readable docs and clean Markdown copies.
 
 Index (JSON): https://eufemia.dnb.no/llm/index.json
-Version: 10.87.0
-GeneratedAt: 2025-10-24T08:41:54.201Z
+Version: 10.88.0
+GeneratedAt: 2025-10-29T11:07:22.384Z
 
 ## Components
 
@@ -116,7 +116,7 @@ GeneratedAt: 2025-10-24T08:41:54.201Z
 - [Heading](https://eufemia.dnb.no/uilib/components/heading/): The Heading component is a helper to create automated semantic headings within a boundary of some rules.
   - Metadata: https://eufemia.dnb.no/llm/uilib/components/heading/metadata.json
   - Docs: https://eufemia.dnb.no/uilib/components/heading/
-  - Checksum: 3941310d352adff22ccc2cda756139191553cc07bdfbb5d38c40dcf27fdd18b8
+  - Checksum: f1cac96466ee88ede936931f0016af7740cd1f400933cb4715a19d143ea279d0
 
 - [HeightAnimation](https://eufemia.dnb.no/uilib/components/height-animation/): HeightAnimation is a helper component to animate from 0 to height:auto powered by CSS.
   - Metadata: https://eufemia.dnb.no/llm/uilib/components/height-animation/metadata.json
@@ -153,7 +153,7 @@ GeneratedAt: 2025-10-24T08:41:54.201Z
   - Docs: https://eufemia.dnb.no/uilib/components/list-format/
   - Checksum: f41dfce91b360439c159054424e8c746da943de487366e3f9f41abf83e0c59eb
 
-- [Logo](https://eufemia.dnb.no/uilib/components/logo/): A ready to use DNB logo in SVG format.
+- [Logo](https://eufemia.dnb.no/uilib/components/logo/): A ready to use Logo component with the needed SVGs.
   - Metadata: https://eufemia.dnb.no/llm/uilib/components/logo/metadata.json
   - Docs: https://eufemia.dnb.no/uilib/components/logo/
   - Checksum: eb1b6ea259c466ee407bea6354abde05bec00bb56cc54f747d1083196a1e8694
@@ -251,7 +251,7 @@ GeneratedAt: 2025-10-24T08:41:54.201Z
 - [Upload](https://eufemia.dnb.no/uilib/components/upload/): The Upload component should be used in scenarios where the user has to upload files. Files can be uploaded by clicking button. You also have the opportunity to add descriptive texts below the title where you could put max file size, allowed file formats etc.
   - Metadata: https://eufemia.dnb.no/llm/uilib/components/upload/metadata.json
   - Docs: https://eufemia.dnb.no/uilib/components/upload/
-  - Checksum: 732d1edb16b3eb6986b85ef0a07769f395d2e33b4f3514f0047c4eb096169947
+  - Checksum: 1745a713a3c6c504e6c10dd2a9f690068bfe2d18555ac6d472ee17a05e81643e
 
 - [VisuallyHidden](https://eufemia.dnb.no/uilib/components/visually-hidden/): VisuallyHidden has all the styles necessary to hide it from visual clients, but keep it for screen readers.
   - Metadata: https://eufemia.dnb.no/llm/uilib/components/visually-hidden/metadata.json
@@ -438,7 +438,7 @@ GeneratedAt: 2025-10-24T08:41:54.201Z
 - [Upload](https://eufemia.dnb.no/uilib/extensions/forms/Value/Upload/): `Value.Upload` is a value component for displaying a list of files.
   - Metadata: https://eufemia.dnb.no/llm/uilib/extensions/forms/Value/Upload/metadata.json
   - Docs: https://eufemia.dnb.no/uilib/extensions/forms/Value/Upload/
-  - Checksum: c7b90fc285eff62b71a25c3a067f48d631318f6ef6ad439c5170df3aca186587
+  - Checksum: a2b702170b8d052ba16538ab0b4f764d95196ddcf36327c047af27811d9d648b
 
 - [Value](https://eufemia.dnb.no/uilib/extensions/forms/Value/): `Value` components can be used to summarize any kind of data.
   - Metadata: https://eufemia.dnb.no/llm/uilib/extensions/forms/Value/metadata.json
@@ -480,7 +480,7 @@ GeneratedAt: 2025-10-24T08:41:54.201Z
 - [Span](https://eufemia.dnb.no/uilib/elements/span/): Spans are inline-elements, used to define parts of text content.
   - Metadata: https://eufemia.dnb.no/llm/uilib/elements/span/metadata.json
   - Docs: https://eufemia.dnb.no/uilib/elements/span/
-  - Checksum: 489a294acd964abe7cbe40b2c63fc2f483fab3d4a4640051c428917995e146a1
+  - Checksum: e8ab4037b24c7bb2d44c982066947e7eb4e64d8c7aded188d1b21a91c2d2a601
 
 ## Other
 

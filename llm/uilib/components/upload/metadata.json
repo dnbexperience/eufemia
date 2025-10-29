@@ -31,7 +31,7 @@
     },
     {
       "name": "id",
-      "doc": "Unique id used with the useUpload hook to manage the files. Needed when wanting to connect with the useUpload hook.",
+      "doc": "Unique id used together with the `useUpload` hook to manage the files. Needed when wanting to connect with the `useUpload` hook.",
       "type": [
         "string",
         "Function",
@@ -177,7 +177,7 @@
     },
     {
       "name": "onFileClick",
-      "doc": "Will be called once a file gets clicked on by the user. Access the clicked file with `{ fileItem }`.",
+      "doc": "Will be called once a file gets clicked on by the user. Access the clicked file with `{ fileItem }`. When providing this prop, the file will be rendered as a button instead of an anchor or plain text.",
       "type": "function",
       "status": "optional",
       "defaultValue": null
@@ -186,11 +186,11 @@
   "related": [
     "Space"
   ],
-  "checksum": "732d1edb16b3eb6986b85ef0a07769f395d2e33b4f3514f0047c4eb096169947",
+  "checksum": "1745a713a3c6c504e6c10dd2a9f690068bfe2d18555ac6d472ee17a05e81643e",
   "source": {
     "repo": "https://github.com/dnbexperience/eufemia",
     "file": "packages/dnb-eufemia/src/components/upload/Upload.tsx",
-    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.87.0/packages/dnb-eufemia/src/components/upload/Upload.tsx"
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.88.0/packages/dnb-eufemia/src/components/upload/Upload.tsx"
   },
   "sources": {
     "entry": {
@@ -210,7 +210,7 @@
       "public": "https://eufemia.dnb.no/uilib/components/upload/demos/"
     }
   },
-  "version": "10.87.0",
-  "generatedAt": "2025-10-24T08:41:53.521Z",
+  "version": "10.88.0",
+  "generatedAt": "2025-10-29T11:07:21.687Z",
   "schemaVersion": 1
 }

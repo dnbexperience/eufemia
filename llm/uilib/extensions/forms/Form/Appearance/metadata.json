@@ -19,7 +19,7 @@
   "source": {
     "repo": "https://github.com/dnbexperience/eufemia",
     "file": "packages/dnb-eufemia/src/extensions/forms/Form/Appearance/Appearance.tsx",
-    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.87.0/packages/dnb-eufemia/src/extensions/forms/Form/Appearance/Appearance.tsx"
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.88.0/packages/dnb-eufemia/src/extensions/forms/Form/Appearance/Appearance.tsx"
   },
   "sources": {
     "entry": {
@@ -36,7 +36,7 @@
       "public": "https://eufemia.dnb.no/uilib/extensions/forms/Form/Appearance/demos/"
     }
   },
-  "version": "10.87.0",
-  "generatedAt": "2025-10-24T08:41:53.591Z",
+  "version": "10.88.0",
+  "generatedAt": "2025-10-29T11:07:21.776Z",
   "schemaVersion": 1
 }
