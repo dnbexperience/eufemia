@@ -19,15 +19,14 @@ const SbankenLogoSVG = (props: React.SVGProps<SVGSVGElement>) => (
     <defs>
       <clipPath id="clip0_3960_3790">
         <rect
-            width="93.75"
-            height="31.1747"
-            fill={props.fill}
-            transform="translate(0 2.875)"
+          width="93.75"
+          height="31.1747"
+          fill={props.fill}
+          transform="translate(0 2.875)"
         />
       </clipPath>
     </defs>
   </svg>
 )
-
 
 export default SbankenLogoSVG
