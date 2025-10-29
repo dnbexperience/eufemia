@@ -132,7 +132,7 @@ describe('NumberFormat component', () => {
 
     expect(
       document.querySelector(ariaSelector).getAttribute('data-text')
-    ).toBe(en.not_available)
+    ).toBe(en.notAvailable)
 
     log.mockRestore()
   })
