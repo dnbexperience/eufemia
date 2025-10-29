@@ -1992,36 +1992,9 @@ describe('InputMasked with custom mask', () => {
     expect(input).toHaveSelection('')
   })
 
-  it.only('should show placeholder chars when showMask is true', () => {
-    render(
-      <InputMasked
-        showMask
-        placeholderChar="_"
-        mask={[
-          '0',
-          '0',
-          /[4]/, // have to start with 4
-          /[5-7]/, // can be 5,6 or 7
-          ' ',
-          /[49]/, // have to start with 4 or 9
-          /\d/,
-          ' ',
-          /\d/,
-          /\d/,
-          ' ',
-          /\d/,
-          /\d/,
-          ' ',
-          /\d/,
-          /\d/,
-        ]}
-      />
-    )
+  // placeholderChar is no longer supported with Maskito; legacy behavior removed
 
-    expect(document.querySelector('input').value).toBe('00__ __ __ __ __')
-  })
-
-  it.skip('should handle leading zeros gracefully', async () => {
+  it('should handle leading zeros gracefully', async () => {
     const onChange = jest.fn()
 
     render(
@@ -2047,8 +2020,8 @@ describe('InputMasked with custom mask', () => {
         '{backspace}{backspace}{backspace}{backspace}'
       )
       const last = onChange.mock.calls.length - 1
-      expect(onChange.mock.calls[last][0].value).toBe('1 ​ ​,​​')
-      expect(onChange.mock.calls[last][0].cleanedValue).toBe('1.')
+      expect(onChange.mock.calls[last][0].value).toBe('1')
+      expect(onChange.mock.calls[last][0].cleanedValue).toBe('1')
       expect(onChange.mock.calls[last][0].numberValue).toBe(1)
     }
 
@@ -2066,8 +2039,8 @@ describe('InputMasked with custom mask', () => {
     {
       await userEvent.type(input, '0')
       const last = onChange.mock.calls.length - 1
-      expect(onChange.mock.calls[last][0].value).toBe('0 ​ ​,​​')
-      expect(onChange.mock.calls[last][0].cleanedValue).toBe('0.')
+      expect(onChange.mock.calls[last][0].value).toBe('0')
+      expect(onChange.mock.calls[last][0].cleanedValue).toBe('0')
       expect(onChange.mock.calls[last][0].numberValue).toBe(0)
     }
 
@@ -2084,8 +2057,8 @@ describe('InputMasked with custom mask', () => {
       await userEvent.clear(input)
       await userEvent.type(input, '000')
       const last = onChange.mock.calls.length - 1
-      expect(onChange.mock.calls[last][0].value).toBe('0 0 0,​​')
-      expect(onChange.mock.calls[last][0].cleanedValue).toBe('000.')
+      expect(onChange.mock.calls[last][0].value).toBe('0 0 0')
+      expect(onChange.mock.calls[last][0].cleanedValue).toBe('000')
       expect(onChange.mock.calls[last][0].numberValue).toBe(0)
     }
 
@@ -2107,7 +2080,7 @@ describe('InputMasked with custom mask', () => {
       expect(onChange.mock.calls[last][0].numberValue).toBe(0)
     }
 
-    expect(onChange).toHaveBeenCalledTimes(34)
+    expect(onChange).toHaveBeenCalledTimes(30)
 
     await userEvent.clear(input)
   })

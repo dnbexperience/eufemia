@@ -21,7 +21,6 @@ export const useFilteredProps = () => {
     asPercent, // eslint-disable-line
     locale, // eslint-disable-line
     showMask, // eslint-disable-line
-    placeholderChar, // eslint-disable-line
 
     // Get get rest of possible attributes
     ...attributes

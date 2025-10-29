@@ -24,10 +24,6 @@ export type MultiInputMaskInput<T extends string> = {
    * Each RegExp item in the array defines what the mask should be for each subsequent character in the input. The length sets the size of the input, so an array of two items would produce an input of two characters
    */
   mask: RegExp[]
-  /**
-   * Sets the placeholder character used for the input.
-   */
-  placeholderCharacter: string
 } & Omit<React.HTMLProps<HTMLInputElement>, 'onChange' | 'ref'>
 
 export type MultiInputMaskValue<T extends string> = {
@@ -267,14 +263,10 @@ type MultiInputMaskInputProps<T extends string> =
     label: MultiInputMaskInput<T>['label']
     value: string
     mask: MultiInputMaskInput<T>['mask']
-    placeholderCharacter: MultiInputMaskInput<T>['placeholderCharacter']
     delimiter?: MultiInputMaskProps<T>['delimiter']
     disabled: boolean
     onKeyDown: (event: React.KeyboardEvent<HTMLInputElement>) => void
-    onChange: (
-      id: string,
-      placeholderCharacter: MultiInputMaskInput<T>['placeholderCharacter']
-    ) => void
+    onChange: (id: string, value: string) => void
     getInputRef: () => MutableRefObject<HTMLInputElement>
   }
 
@@ -284,7 +276,6 @@ function MultiInputMaskInput<T extends string>({
   label,
   value,
   mask,
-  placeholderCharacter,
   delimiter,
   disabled,
   getInputRef,
@@ -310,7 +301,6 @@ function MultiInputMaskInput<T extends string>({
         size={mask.length}
         mask={mask}
         value={value ?? ''}
-        placeholderChar={placeholderCharacter}
         showMask={true}
         aria-label={label}
         inputRef={getInputRef()}
@@ -325,10 +315,7 @@ function MultiInputMaskInput<T extends string>({
           }
         }}
         onChange={(event) => {
-          onChange(
-            inputId,
-            removePlaceholder(event.target.value, placeholderCharacter)
-          )
+          onChange(inputId, event.target.value)
         }}
         {...attributes}
       />
@@ -345,10 +332,6 @@ function MultiInputMaskInput<T extends string>({
       )}
     </>
   )
-}
-
-function removePlaceholder(value: string, placeholder: string) {
-  return value.replace(RegExp(placeholder, 'gm'), '')
 }
 
 export default MultiInputMask

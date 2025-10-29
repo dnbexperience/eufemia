@@ -51,11 +51,6 @@ export const inputMaskedProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  placeholderChar: {
-    doc: 'The placeholder character represents the fillable spot in the mask (e.g. `_`). Defaults to invisible space.',
-    type: 'string',
-    status: 'optional',
-  },
   '[Space](/uilib/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],

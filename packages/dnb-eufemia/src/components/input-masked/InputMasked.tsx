@@ -108,7 +108,6 @@ export interface InputMaskedProps
   /**
    * The placeholder character represents the fillable spot in the mask (e.g. `_`). Defaults to invisible space.
    */
-  placeholderChar?: string
   innerRef?: InputProps['innerRef']
   on_change?: (payload: { value: string } & Record<string, any>) => unknown
   on_submit?: (payload: { value: string } & Record<string, any>) => unknown
@@ -208,7 +207,6 @@ const defaultProps = {
   asPercent: null,
   locale: null,
   showMask: false,
-  placeholderChar: null,
   innerRef: null,
 
   on_change: null,

@@ -18,7 +18,6 @@ import {
   maskitoNumberOptionsGenerator,
 } from '@maskito/kit'
 import InputModeNumber from './text-mask/InputModeNumber'
-import { isNil } from './text-mask/utilities'
 import { MaskParams } from './text-mask/types'
 import { createNumberMask } from './hooks/useNumberMask'
 
@@ -37,7 +36,6 @@ export interface TextMaskProps
   inputElement?: TextMaskInputElement
   onChange?: React.ChangeEventHandler<HTMLInputElement>
   value?: TextMaskValue
-  placeholderChar?: string
   showMask?: boolean
 }
 
@@ -46,8 +44,6 @@ export default function TextMask(props: TextMaskProps): JSX.Element {
     inputElement,
     inputRef,
     mask: rawMask,
-    // Unused by Maskito but kept for API compatibility
-    placeholderChar,
     value,
     showMask,
     ...rest
@@ -77,7 +73,7 @@ export default function TextMask(props: TextMaskProps): JSX.Element {
       return createMaskitoNumberOptions(mp)
     }
 
-    const mask = normalizeMask(rawMask, placeholderChar)
+    const mask = normalizeMask(rawMask)
     if (!mask) {
       return null
     }
@@ -87,7 +83,6 @@ export default function TextMask(props: TextMaskProps): JSX.Element {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     rawMask,
-    placeholderChar,
 
     // Include all properties that affect mask behavior
     maskParams?.thousandsSeparatorSymbol,
@@ -288,12 +283,7 @@ export default function TextMask(props: TextMaskProps): JSX.Element {
   )
 }
 
-function normalizeMask(
-  maskProp: TextMaskMask,
-  placeholderChar?: string | null
-): MaskitoMask | null {
-  const pc = isNil(placeholderChar) ? '_' : placeholderChar
-
+function normalizeMask(maskProp: TextMaskMask): MaskitoMask | null {
   // Handle combined object shape { mask }
   if (
     maskProp &&
@@ -301,7 +291,7 @@ function normalizeMask(
     'mask' in maskProp &&
     !Array.isArray(maskProp)
   ) {
-    return normalizeMask((maskProp as { mask?: TextMaskMask }).mask, pc)
+    return normalizeMask((maskProp as { mask?: TextMaskMask }).mask)
   }
 
   // Support disabling mask with false

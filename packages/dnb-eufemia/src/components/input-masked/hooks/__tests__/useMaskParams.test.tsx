@@ -30,17 +30,6 @@ describe('useMaskParams', () => {
     expect(result.current.showMask).toBe(true)
   })
 
-  it('should set placeholderChar to invisible space when null', () => {
-    const wrapper = createWrapper({
-      placeholderChar: null,
-      asNumber: true,
-      locale: 'nb-NO',
-    })
-    const { result } = renderHook(() => useMaskParams(), { wrapper })
-
-    expect(result.current.placeholderChar).toBe('\u200B')
-  })
-
   it('should hide mask when placeholder is set', () => {
     const wrapper = createWrapper({
       showMask: true,

@@ -70,9 +70,6 @@ export function Sandbox() {
             <PercentInput />
           </Box>
           <Box>
-            <EmailMask />
-          </Box>
-          <Box>
             <ShowMask />
           </Box>
         </FormSet>

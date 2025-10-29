@@ -5,13 +5,9 @@
  */
 
 import React, { useCallback } from 'react'
-import classnames from 'classnames'
 import InputMaskedContext from '../InputMaskedContext'
 import TextMask from '../TextMask'
-import {
-  invisibleSpace,
-  getSoftKeyboardAttributes,
-} from '../InputMaskedUtils'
+import { getSoftKeyboardAttributes } from '../InputMaskedUtils'
 import { useMask } from './useMask'
 import { useMaskParams } from './useMaskParams'
 import { createNumberMask } from './useNumberMask'
@@ -25,7 +21,7 @@ export const useInputElement = () => {
   const { innerRef } = props
 
   const mask = useMask()
-  const { showMask, placeholderChar } = useMaskParams()
+  const { showMask } = useMaskParams()
 
   const isFn = typeof innerRef === 'function'
   const refHook = React.useRef<HTMLInputElement>(null)
@@ -56,19 +52,11 @@ export const useInputElement = () => {
           inputElement={inputElementRef.current}
           mask={mask || createNumberMask()}
           showMask={showMask}
-          placeholderChar={placeholderChar}
           {...(getSoftKeyboardAttributes(mask) || {})}
           {...params}
-          className={classnames(
-            params.className,
-            showMask &&
-              placeholderChar &&
-              placeholderChar !== invisibleSpace &&
-              'dnb-input-masked--guide' // will use --font-family-monospace
-          )}
         />
       )
     },
-    [mask, placeholderChar, ref, showMask]
+    [mask, ref, showMask]
   )
 }
