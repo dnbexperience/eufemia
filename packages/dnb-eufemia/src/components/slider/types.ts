@@ -70,7 +70,7 @@ export type SliderProps = {
   step?: number
 
   /** makes it possible to display overlays with other functionality such as a marker on the slider marking a given value. */
-  extensions: SliderExtensions
+  extensions?: SliderExtensions
 
   /** show the slider vertically. Defaults to `false`. */
   vertical?: boolean
@@ -85,10 +85,10 @@ export type SliderProps = {
   numberFormat?: NumberFormatTypes
 
   /** use `true` to show a tooltip on `mouseOver`, `touchStart` and `focus`, showing the current number (if `numberFormat` is given) or the raw value. Defaults to `null`. */
-  tooltip: boolean
+  tooltip?: boolean
 
   /** use `true` to always show the tooltip, in addition to the `tooltip` property.  */
-  alwaysShowTooltip: boolean
+  alwaysShowTooltip?: boolean
 
   /** removes the helper buttons. Defaults to `false`. */
   hideButtons?: boolean
