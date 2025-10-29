@@ -3,7 +3,8 @@ import { IS_IOS } from '../../../shared/helpers'
 
 function useHandleCursorPosition(
   inputRefs: MutableRefObject<HTMLInputElement>[],
-  keysToHandle?: RegExp | { [inputId: string]: RegExp[] }
+  keysToHandle?: RegExp | { [inputId: string]: RegExp[] },
+  scopeRootRef?: MutableRefObject<HTMLElement | null>
 ) {
   // Track a virtual caret for empty inputs to preserve Arrow navigation semantics
   const virtualCaretRef = useRef(new WeakMap<HTMLInputElement, number>())
@@ -14,7 +15,11 @@ function useHandleCursorPosition(
 
   function onKeyDown(event: React.KeyboardEvent) {
     // Always compute a fresh list to avoid stale refs
-    const inputs = refsToInputList(inputRefs)
+    const inputs = refsToInputList({
+      inputRefs,
+      input: event.target as HTMLInputElement,
+      scopeRoot: scopeRootRef?.current,
+    })
     const input = event.target as HTMLInputElement
 
     const pressedKey = event.key
@@ -34,7 +39,11 @@ function useHandleCursorPosition(
     window.requestAnimationFrame(() => {
       const run = () => {
         // Recompute in case refs changed between frames
-        const latestInputs = refsToInputList(inputRefs)
+        const latestInputs = refsToInputList({
+          inputRefs,
+          input,
+          scopeRoot: scopeRootRef?.current,
+        })
         if (!latestInputs.length) return
 
         if (!hasPressedKeysToHandle || hasSelection) {
@@ -258,15 +267,31 @@ function useHandleCursorPosition(
 }
 
 // Helpers
-function refsToInputList(inputRefs: MutableRefObject<HTMLInputElement>[]) {
+type RefsToListArgs = {
+  inputRefs: MutableRefObject<HTMLInputElement>[]
+  input?: HTMLInputElement
+  scopeRoot?: HTMLElement | null
+}
+
+function refsToInputList({ inputRefs, input, scopeRoot }: RefsToListArgs) {
   const byRefs = inputRefs.map((ref) => ref.current).filter(Boolean)
   if (byRefs.length) return byRefs as HTMLInputElement[]
-  // Fallback to DOM query if refs are not ready
-  return Array.from(
-    document.querySelectorAll<HTMLInputElement>(
-      '.dnb-multi-input-mask__input'
+
+  // Prefer a provided scope root (component wrapper) if available
+  const root: HTMLElement | null =
+    scopeRoot ||
+    input?.closest?.('.dnb-multi-input-mask__fieldset') ||
+    null
+  if (root) {
+    return Array.from(
+      root.querySelectorAll<HTMLInputElement>(
+        '.dnb-multi-input-mask__input'
+      )
     )
-  )
+  }
+
+  // Final fallback: only use the current input (avoid cross-component jumps)
+  return input ? [input] : []
 }
 
 function getTypedLength(input: HTMLInputElement) {

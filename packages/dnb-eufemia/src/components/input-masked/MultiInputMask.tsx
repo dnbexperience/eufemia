@@ -130,16 +130,21 @@ function MultiInputMask<T extends string>({
 
   const inputRefs = useRef<Array<MutableRefObject<HTMLInputElement>>>([])
   const areInputsInFocus = useRef<boolean>(false)
+  const fieldsetRef = useRef<HTMLElement | null>(null)
 
   const { onKeyDown } = useHandleCursorPosition(
     inputRefs.current,
-    getKeysToHandle()
+    getKeysToHandle(),
+    fieldsetRef
   )
 
   const WrapperElement: 'fieldset' | 'div' = label ? 'fieldset' : 'div'
 
   return (
     <WrapperElement
+      ref={(el: HTMLFieldSetElement | HTMLDivElement | null) => {
+        fieldsetRef.current = el as HTMLElement | null
+      }}
       className={classnames(
         'dnb-multi-input-mask__fieldset',
         labelDirection === 'horizontal' &&
