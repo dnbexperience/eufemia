@@ -485,7 +485,7 @@ export const AmountAndCurrency = () => (
                 currency
                 locale="en-NO"
                 value={-1358}
-                currency_display="symbol"
+                currencyDisplay="symbol"
               />
             </Td>
             <Td>
@@ -528,7 +528,7 @@ export const AmountAndCurrency = () => (
                 currency="EUR"
                 locale="en-NO"
                 value={-1358}
-                currency_display="narrowSymbol"
+                currencyDisplay="narrowSymbol"
               />
             </Td>
             <Td>
@@ -571,7 +571,7 @@ export const AmountAndCurrency = () => (
                 currency
                 locale="en-NO"
                 value={-1358}
-                currency_display="name"
+                currencyDisplay="name"
               />
             </Td>
             <Td>
@@ -614,7 +614,7 @@ export const AmountAndCurrency = () => (
                 currency
                 locale="en-NO"
                 value={-1358}
-                currency_display="code"
+                currencyDisplay="code"
               />
             </Td>
             <Td>

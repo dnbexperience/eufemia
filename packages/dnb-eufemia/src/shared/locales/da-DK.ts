@@ -103,8 +103,8 @@ export default {
       clipboard_copy: 'Kopieret',
     },
     NumberFormat: {
-      clipboard_copy: 'Kopieret',
-      not_available: 'Ikke tilgængelig',
+      clipboardCopy: 'Kopieret',
+      notAvailable: 'Ikke tilgængelig',
     },
     Stat: {
       rating: '%value af %max',
