@@ -192,9 +192,9 @@ export const CreateComposedFieldComponent = () => {
                     label="Birth year"
                     labelDirection="vertical"
                     value={parseFloat(String(value))}
-                    on_change={handleBirthYearChange}
-                    on_drag_start={handleFocus}
-                    on_drag_end={handleBlur}
+                    onChange={handleBirthYearChange}
+                    onDragStart={handleFocus}
+                    onDragEnd={handleBlur}
                     status={hasError}
                     tooltip
                   />
