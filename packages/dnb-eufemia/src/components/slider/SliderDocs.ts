@@ -4,7 +4,7 @@ export const SliderProperties: PropertiesTableProps = {
   value: {
     doc: 'The `value` of the slider as a number or an array. If an array with numbers is provided, each number will represent a thumb button (the `+` and `-` button will be hidden on multiple thumbs).',
     type: ['number', 'Array<number>'],
-    status: 'required',
+    status: 'optional',
   },
   min: {
     doc: 'The minimum value. Can be a negative number as well. Defaults to `0`.',
