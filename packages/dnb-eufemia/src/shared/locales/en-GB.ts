@@ -107,7 +107,7 @@ export default {
     },
     HelpButton: {
       title: 'Help text',
-      aria_role: 'Help button',
+      ariaRole: 'Help button',
     },
     Skeleton: {
       ariaBusy: 'In progress ...',

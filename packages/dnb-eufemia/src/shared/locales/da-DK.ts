@@ -108,7 +108,7 @@ export default {
     },
     HelpButton: {
       title: 'Hjælpetekst',
-      aria_role: 'Hjælp-knap',
+      ariaRole: 'Hjælp-knap',
     },
     Input: {
       submitButtonTitle: 'Send ind knap',
