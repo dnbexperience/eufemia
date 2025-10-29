@@ -2,7 +2,6 @@ import React from 'react'
 
 import type { SuffixChildren } from '../../shared/helpers/Suffix'
 import type { formatOptionParams } from '../number-format/NumberUtils'
-import { IncludeSnakeCase } from '../../shared/helpers/withSnakeCaseProps'
 import type { SpacingProps } from '../../shared/types'
 import type { SkeletonShow } from '../Skeleton'
 import type { GlobalStatusConfigObject } from '../GlobalStatus'
@@ -23,7 +22,7 @@ export type SliderExtensions = Record<
   { instance: React.ElementType; [key: string]: unknown }
 >
 
-export type SliderProps = IncludeSnakeCase<{
+export type SliderProps = {
   /** prepends the Form Label component. If no ID is provided, a random ID is created. */
   label?: React.ReactNode
 
@@ -114,7 +113,7 @@ export type SliderProps = IncludeSnakeCase<{
   onDragEnd?: (props: { event: MouseEvent | TouchEvent }) => void
 
   children?: React.ReactChild
-}>
+}
 
 export type SliderAllProps = SliderProps &
   SpacingProps &
