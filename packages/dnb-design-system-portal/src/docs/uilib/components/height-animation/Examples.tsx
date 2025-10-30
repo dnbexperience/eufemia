@@ -49,7 +49,7 @@ export function HeightAnimationDefault() {
 
               <Section style_type="lavender" top>
                 <HeightAnimation open={openState}>
-                  <Section spacing style_type="lavender">
+                  <Section innerSpace style_type="lavender">
                     <P space={0}>Your content</P>
                   </Section>
                   {contentState && <P space={0}>More content</P>}
@@ -145,7 +145,7 @@ export function HeightAnimationKeepInDOM() {
                   keepInDOM={true}
                   duration={1000}
                 >
-                  <Section spacing style_type="lavender">
+                  <Section innerSpace style_type="lavender">
                     <P space={0}>Your content</P>
                   </Section>
                   {contentState && <P space={0}>More content</P>}

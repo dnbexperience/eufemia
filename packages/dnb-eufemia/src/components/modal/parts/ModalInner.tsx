@@ -7,9 +7,9 @@ import React from 'react'
 import Section from '../../section/Section'
 import ModalContext from '../ModalContext'
 import classnames from 'classnames'
-import { SectionProps } from '../../Section'
+import { SectionAllProps } from '../../Section'
 
-export type ModalInnerProps = SectionProps
+export type ModalInnerProps = SectionAllProps
 
 export default class ModalInner extends React.PureComponent<
   ModalInnerProps & React.HTMLProps<HTMLElement>

@@ -63,7 +63,7 @@ export function SectionLayout() {
             medium: true,
             large: { top: '1rem', bottom: 'large' },
           }}
-          // spacing="medium"
+          // innerSpace="medium"
           textColor={{
             small: 'white',
           }}
@@ -89,7 +89,7 @@ export function SectionLayout() {
         {/* WIP */}
         {/* <Hr fullscreen responsive /> */}
 
-        <Section spacing="medium">
+        <Section innerSpace="medium">
           <Heading size="large">Heading</Heading>
           <P>
             Etiam suscipit risus eu sagittis lacinia. Donec volutpat,
