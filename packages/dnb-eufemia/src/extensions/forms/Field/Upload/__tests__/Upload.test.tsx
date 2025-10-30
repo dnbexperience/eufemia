@@ -2176,4 +2176,20 @@ describe('Field.Upload', () => {
       expect(await axeComponent(result)).toHaveNoViolations()
     })
   })
+
+    describe('Test typing', () => {
+    it('how should transformOut be typed in strict mode?', async () => {
+      function transformOut(upload?: UploadValue) {
+        return upload?.map((file) => ({
+          ...file,
+          id: file.id,
+          fileName: file.file?.name,
+          errorMessage: file?.errorMessage,
+        }))
+      }
+      const result = render(<Field.Upload transformOut={transformOut} required />)
+
+      expect(await axeComponent(result)).toHaveNoViolations()
+    })
+  })
 })
