@@ -32,15 +32,15 @@ import { DrawerListHorizontalItem, DrawerListItem } from './DrawerListItem'
 import type { DrawerListItemProps } from './DrawerListItem'
 
 const propsToFilterOut = {
-  on_show: null,
-  on_hide: null,
-  handle_dismiss_focus: null,
-  on_change: null,
-  on_pre_change: null,
-  on_resize: null,
-  on_select: null,
-  on_state_update: null,
-  on_key_down: null,
+  onShow: null,
+  onHide: null,
+  handleDismissFocus: null,
+  onChange: null,
+  onPreChange: null,
+  onResize: null,
+  onSelect: null,
+  onStateUpdate: null,
+  onKeyDown: null,
   optionsRender: null,
   wrapperElement: null,
 }
@@ -236,14 +236,14 @@ export interface DrawerListProps {
    * Set a HTML element, either as a selector or a DOM element. Can be used to send in an element which will be used to make the direction calculation on.
    */
   observerElement?: string | React.ReactNode
-  on_show?: (...args: any[]) => any
-  on_hide?: (...args: any[]) => any
-  handle_dismiss_focus?: (...args: any[]) => any
-  on_change?: (...args: any[]) => any
-  on_pre_change?: (...args: any[]) => any
-  on_resize?: (...args: any[]) => any
-  on_select?: (...args: any[]) => any
-  on_state_update?: (...args: any[]) => any
+  onShow?: (...args: any[]) => any
+  onHide?: (...args: any[]) => any
+  handleDismissFocus?: (...args: any[]) => any
+  onChange?: (...args: any[]) => any
+  onPreChange?: (...args: any[]) => any
+  onResize?: (...args: any[]) => any
+  onSelect?: (...args: any[]) => any
+  onStateUpdate?: (...args: any[]) => any
 }
 
 // Internal data structures
@@ -261,7 +261,15 @@ export type DrawerListAllProps = DrawerListProps &
   SpacingProps &
   Omit<
     React.HTMLProps<HTMLElement>,
-    'ref' | 'size' | 'label' | 'placeholder' | 'data' | 'children'
+    | 'ref'
+    | 'size'
+    | 'label'
+    | 'placeholder'
+    | 'data'
+    | 'children'
+    | 'onChange'
+    | 'onSelect'
+    | 'onResize'
   >
 function DrawerList(props: DrawerListAllProps) {
   const drawerListContext = useContext(DrawerListContext)
