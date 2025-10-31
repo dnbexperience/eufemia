@@ -93,17 +93,17 @@ export type ReceiveAdditionalEventArgs<
   /**
    * Returns the value of the given path.
    */
-  getValueByPath: GetValueByPath<Value>
+  getValueByPath?: GetValueByPath<Value>
 
   /**
    * Returns the value of the given path or the source value.
    */
-  getSourceValue: GetValueByPath<Value>
+  getSourceValue?: GetValueByPath<Value>
 
   /**
    * Used internally to connect a field event listener to a path.
    */
-  setFieldEventListener: (
+  setFieldEventListener?: (
     path: Path,
     type: EventListenerCall['type'],
     callback: EventListenerCall['callback']
@@ -112,22 +112,17 @@ export type ReceiveAdditionalEventArgs<
   /**
    * Returns the validators from the { exportValidators } object.
    */
-  validators: Record<string, Validator<Value>> | undefined
+  validators?: Record<string, Validator<Value>> | undefined
 
   /**
    * The props passed to the Field component.
    */
-  props: UseFieldProps<Value>
+  props?: UseFieldProps<Value>
 
   /**
    * The internal data context.
    */
-  dataContext: ContextState
-} & {
-  /** @deprecated use the error messages from the { errorMessages } object instead. */
-  pattern?: string
-  /** @deprecated use the error messages from the { errorMessages } object instead. */
-  required?: string
+  dataContext?: ContextState
 }
 
 export type ValidatorDisableable<Value> = Validator<Value> | false
