@@ -594,6 +594,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
     defaultProps,
     { skeleton: context?.skeleton },
     context.getTranslation(props).DatePicker,
+    pickFormElementProps(context?.formElement),
     context.DatePicker
   )
 
