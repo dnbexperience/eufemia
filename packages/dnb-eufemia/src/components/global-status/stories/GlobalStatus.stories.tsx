@@ -658,3 +658,61 @@ export function GlobalStatusSelector() {
     setPickerState(value)
   }
 }
+
+export function DelayedInteractions() {
+  const FormField1 = () => {
+    const [status, setStatus] = React.useState(null)
+    return (
+      <Switch
+        id="switch-1"
+        status={status}
+        statusNoAnimation={true}
+        onChange={({ checked }) => {
+          setStatus(checked ? 'error-message-1' : null)
+        }}
+      />
+    )
+  }
+
+  const FormField2 = () => {
+    const [status, setStatus] = React.useState(null)
+    return (
+      <Switch
+        id="switch-2"
+        status={status}
+        statusNoAnimation={true}
+        onChange={({ checked }) => {
+          setStatus(checked ? 'error-message-2' : null)
+        }}
+      />
+    )
+  }
+
+  const FormField3 = () => {
+    const [status, setStatus] = React.useState(null)
+    return (
+      <Autocomplete
+        id="autocomplete-3"
+        status={status}
+        statusNoAnimation={true}
+        on_focus={() => {
+          setStatus('error-message-3')
+        }}
+        on_blur={() => {
+          setStatus(null)
+        }}
+      />
+    )
+  }
+
+  return (
+    <Section spacing>
+      <GlobalStatus id="my-form" autoscroll={false} />
+      <Form.Handler globalStatusId="my-form">
+        <FormField1 />
+        <FormField2 />
+        <FormField3 />
+      </Form.Handler>
+    </Section>
+  )
+}
