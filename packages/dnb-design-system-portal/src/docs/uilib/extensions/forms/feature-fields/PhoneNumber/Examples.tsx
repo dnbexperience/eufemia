@@ -42,7 +42,7 @@ export const Label = () => {
   return (
     <ComponentBox>
       <Field.PhoneNumber
-        label="Label text"
+        numberLabel="Label text"
         onChange={(value, { countryCode, phoneNumber, iso }) =>
           console.log('onChange', value, { countryCode, phoneNumber, iso })
         }
@@ -55,7 +55,7 @@ export const LabelAndValue = () => {
   return (
     <ComponentBox data-visual-test="phone-number-label">
       <Field.PhoneNumber
-        label="Label text"
+        numberLabel="Label text"
         value="+47 98765432"
         onChange={(value, { countryCode, phoneNumber, iso }) =>
           console.log('onChange', value, { countryCode, phoneNumber, iso })
@@ -87,7 +87,7 @@ export const Disabled = () => {
     <ComponentBox>
       <Field.PhoneNumber
         value="+47 12345678"
-        label="Label text"
+        numberLabel="Label text"
         onChange={(value, { countryCode, phoneNumber, iso }) =>
           console.log('onChange', value, { countryCode, phoneNumber, iso })
         }
@@ -102,7 +102,7 @@ export const WithError = () => {
     <ComponentBox data-visual-test="phone-number-error">
       <Field.PhoneNumber
         value="007"
-        label="Label text"
+        numberLabel="Label text"
         onChange={(value, { countryCode, phoneNumber, iso }) =>
           console.log('onChange', value, { countryCode, phoneNumber, iso })
         }
@@ -117,7 +117,7 @@ export const ValidationRequired = () => {
     <ComponentBox>
       <Field.PhoneNumber
         value="+47 888"
-        label="Label text"
+        numberLabel="Label text"
         onChange={(value, { countryCode, phoneNumber, iso }) =>
           console.log('onChange', value, { countryCode, phoneNumber, iso })
         }
@@ -132,7 +132,7 @@ export const ValidationPattern = () => {
     <ComponentBox>
       <Field.PhoneNumber
         value="+41 123"
-        label="Label text"
+        numberLabel="Label text"
         onChange={(value, { countryCode, phoneNumber, iso }) =>
           console.log('onChange', value, { countryCode, phoneNumber, iso })
         }
@@ -146,7 +146,7 @@ export const WithFilter = () => {
   return (
     <ComponentBox>
       <Field.PhoneNumber
-        label="Label text"
+        numberLabel="Label text"
         onChange={(value, { countryCode, phoneNumber, iso }) =>
           console.log('onChange', value, { countryCode, phoneNumber, iso })
         }
@@ -159,7 +159,7 @@ export const WithFilter = () => {
 export const LongLabel = () => {
   return (
     <ComponentBox data-visual-test="phone-number-long-label">
-      <Field.PhoneNumber label="Telefon/mobilnummer with long label" />
+      <Field.PhoneNumber numberLabel="Telefon/mobilnummer with long label" />
     </ComponentBox>
   )
 }
@@ -190,19 +190,19 @@ export const Width = () => {
     <ComponentBox data-visual-test="phone-number-width">
       <Form.Card>
         <Field.String width="stretch" />
-        <Field.PhoneNumber label="default" />
-        <Field.PhoneNumber width="large" label="large" />
-        <Field.PhoneNumber width="stretch" label="stretch" />
-        <Field.PhoneNumber omitCountryCodeField label="default" />
+        <Field.PhoneNumber numberLabel="default" />
+        <Field.PhoneNumber width="large" numberLabel="large" />
+        <Field.PhoneNumber width="stretch" numberLabel="stretch" />
+        <Field.PhoneNumber omitCountryCodeField numberLabel="default" />
         <Field.PhoneNumber
           omitCountryCodeField
           width="large"
-          label="large"
+          numberLabel="large"
         />
         <Field.PhoneNumber
           omitCountryCodeField
           width="stretch"
-          label="stretch"
+          numberLabel="stretch"
         />
       </Form.Card>
     </ComponentBox>
@@ -243,13 +243,26 @@ export const TransformInAndOut = () => {
                 path="/myField"
                 transformOut={transformOut}
                 transformIn={transformIn}
-                label="Transform in and out"
+                numberLabel="Transform in and out"
               />
               <Tools.Log />
             </Form.Card>
           </Form.Handler>
         )
       }}
+    </ComponentBox>
+  )
+}
+
+export const WithFieldBlockLabel = () => {
+  return (
+    <ComponentBox>
+      <Field.PhoneNumber
+        label="Additional Label that will stretch all the way down here"
+        labelDescription="And a label description that will stretch all the way down here"
+        numberLabel={false}
+        countryCodeLabel={false}
+      />
     </ComponentBox>
   )
 }

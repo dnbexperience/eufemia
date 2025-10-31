@@ -41,7 +41,12 @@ export const PhoneNumberProperties: PropertiesTableProps = {
   },
   countryCodeLabel: {
     doc: 'Label to show above / before the country code field.',
-    type: 'string',
+    type: 'ReactNode',
+    status: 'optional',
+  },
+  numberLabel: {
+    doc: 'Label to show above / before the number field. Defaults to the translated label from `PhoneNumber.label`.',
+    type: 'ReactNode',
     status: 'optional',
   },
   numberMask: {
@@ -56,8 +61,13 @@ export const PhoneNumberProperties: PropertiesTableProps = {
   },
   label: {
     ...FieldProperties.label,
-    doc: 'Field label to show above / before the phone number input field.',
+    doc: 'Label to show on the FieldBlock (wrapper around the phone number fields). Use `numberLabel` to customize the label for the number input field.',
   },
+  labelDescription: {
+    ...FieldProperties.labelDescription,
+    doc: 'Description text shown below the label on the FieldBlock (wrapper around the phone number fields).',
+  },
+  labelSrOnly: FieldProperties.labelSrOnly,
   size: stringProperties.size,
   '[Space](/uilib/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
