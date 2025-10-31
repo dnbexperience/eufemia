@@ -38,16 +38,13 @@ export type AdditionalArgs = {
 
 export type Props = Omit<
   FieldPropsWithExtraValue<string, AdditionalArgs, undefined | string>,
-  | 'layout'
-  | 'layoutOptions'
-  | 'labelSize'
-  | 'labelDescription'
-  | 'labelDescriptionInline'
+  'layout' | 'layoutOptions' | 'labelSize' | 'labelDescriptionInline'
 > & {
   countryCodeFieldClassName?: string
   numberFieldClassName?: string
   countryCodePlaceholder?: string
-  countryCodeLabel?: string
+  countryCodeLabel?: React.ReactNode | false
+  numberLabel?: React.ReactNode | false
   numberMask?: InputMaskedProps['mask']
   pattern?: StringFieldProps['pattern']
   width?: 'large' | 'stretch'
@@ -253,7 +250,9 @@ function PhoneNumber(props: Props = {}) {
     countryCodePlaceholder,
     placeholder,
     countryCodeLabel,
-    label = defaultLabel,
+    label,
+    labelDescription,
+    numberLabel,
     labelSrOnly,
     numberMask,
     countries: ccFilter = 'Prioritized',
@@ -486,7 +485,9 @@ function PhoneNumber(props: Props = {}) {
     id,
     className: classnames('dnb-forms-field-phone-number', className),
     width,
-    label: undefined,
+    label,
+    labelDescription,
+    labelSrOnly,
     help: undefined,
     ...pickSpacingProps(props),
   }
@@ -502,8 +503,12 @@ function PhoneNumber(props: Props = {}) {
           mode="async"
           placeholder={countryCodePlaceholder}
           label_direction="vertical"
-          label={countryCodeLabel ?? defaultCountryCodeLabel}
-          label_sr_only={labelSrOnly}
+          label={
+            countryCodeLabel === false
+              ? defaultCountryCodeLabel
+              : countryCodeLabel ?? defaultCountryCodeLabel
+          }
+          label_sr_only={countryCodeLabel === false ? true : undefined}
           data={dataRef.current}
           value={countryCodeRef.current}
           status={hasError ? 'error' : undefined}
@@ -530,8 +535,12 @@ function PhoneNumber(props: Props = {}) {
         autoComplete="tel-national"
         emptyValue={emptyValue}
         layout="vertical"
-        label={label}
-        labelSrOnly={labelSrOnly}
+        label={
+          numberLabel === false
+            ? defaultLabel
+            : numberLabel ?? defaultLabel
+        }
+        labelSrOnly={numberLabel === false ? true : undefined}
         placeholder={
           placeholder ?? (isDefault ? defaultPlaceholder : undefined)
         }
