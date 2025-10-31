@@ -913,9 +913,6 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   additionalArgsRef.current.props = props
   const additionalArgs = useMemo(() => {
     const args: ReceiveAdditionalEventArgs<Value> = {
-      /** Deprecated – can be removed in v11 */
-      ...combinedErrorMessages,
-
       errorMessages: combinedErrorMessages,
       ...additionalArgsRef.current,
       connectWithPath: (path) => {
