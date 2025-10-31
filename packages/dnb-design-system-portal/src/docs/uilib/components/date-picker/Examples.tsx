@@ -65,7 +65,7 @@ export const DatePickerRange = () => (
           endDate: lastDayOfWeek(new Date()),
         },
         {
-          close_on_select: true,
+          closeOnSelect: true,
           title: 'This month',
           startDate: startOfMonth(new Date()),
           endDate: lastDayOfMonth(new Date()),
@@ -102,7 +102,6 @@ export const DatePickerWithInput = () => (
 )
 
 export const DatePickerTrigger = () => (
-<<<<<<< HEAD
   <ComponentBox data-visual-test="date-picker-trigger-default">
     <DatePicker
       label="DatePicker"
@@ -114,31 +113,11 @@ export const DatePickerTrigger = () => (
       onShow={({ date }) => {
         console.log('onShow', date)
       }}
-      onBlur={({ start_date, end_date }) => {
-        console.log('onBlur', start_date, end_date)
+      onBlur={({ startDate, endDate }) => {
+        console.log('onBlur', startDate, endDate)
       }}
     />
   </ComponentBox>
-=======
-  <Wrapper>
-    <ComponentBox data-visual-test="date-picker-trigger-default">
-      <DatePicker
-        label="DatePicker"
-        date="2019-05-05"
-        returnFormat="dd-MM-yyyy"
-        onChange={({ date }) => {
-          console.log('onChange', date)
-        }}
-        onShow={({ date }) => {
-          console.log('onShow', date)
-        }}
-        onBlur={({ startDate, endDate }) => {
-          console.log('onBlur', startDate, endDate)
-        }}
-      />
-    </ComponentBox>
-  </Wrapper>
->>>>>>> dbdb4078e0 (break(DatePicker)!: replace `snake_case` properties with `camelCase` (#5836))
 )
 
 export const DatePickerHiddenNav = () => (
@@ -275,7 +254,7 @@ export const DatePickerDateFnsRange = () => (
           title: 'Set date period',
           startDate: '1969-07-15',
           endDate: '1969-07-15',
-          close_on_select: true, // will close the picker
+          closeOnSelect: true, // will close the picker
         },
         {
           title: 'This month',
