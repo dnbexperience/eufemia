@@ -31,7 +31,7 @@ export class GlobalStatusProviderItem {
   forceRerender(
     globalStatus,
     props,
-    { buffer_delay = 0, isEmpty = false } = {}
+    { bufferDelay = 0, isEmpty = false } = {}
   ) {
     const run = () => {
       this._onUpdateEvents.forEach((event) => {
@@ -41,9 +41,9 @@ export class GlobalStatusProviderItem {
       })
     }
 
-    if (buffer_delay > 0) {
+    if (bufferDelay > 0) {
       clearTimeout(this._bufferDelayId)
-      this._bufferDelayId = setTimeout(run, buffer_delay) // delay the sum & rerender, in case we change the state in the same frame
+      this._bufferDelayId = setTimeout(run, bufferDelay) // delay the sum & rerender, in case we change the state in the same frame
     } else {
       run()
     }
@@ -60,8 +60,8 @@ export class GlobalStatusProviderItem {
     const newProps = { ...props }
 
     // make sure we have a status id
-    if (!newProps.status_id) {
-      newProps.status_id = makeUniqueId()
+    if (!newProps.statusId) {
+      newProps.statusId = makeUniqueId()
     }
 
     // also, set show to true
@@ -77,7 +77,7 @@ export class GlobalStatusProviderItem {
 
     // replace the props if exists
     const stackIndex = this.stack.findIndex(
-      (cur) => cur.status_id === newProps.status_id
+      (cur) => cur.statusId === newProps.statusId
     )
     if (stackIndex > -1) {
       this.stack[stackIndex] = newProps
@@ -90,29 +90,27 @@ export class GlobalStatusProviderItem {
 
     if (!opts?.preventRerender) {
       this.forceRerender(globalStatus, props, {
-        buffer_delay: props?.buffer_delay > -1 ? props.buffer_delay : 0,
+        bufferDelay: props?.bufferDelay > -1 ? props.bufferDelay : 0,
       })
     }
 
     return globalStatus
   }
 
-  get(status_id) {
-    return this.stack.find((cur) => cur.status_id === status_id)
+  get(statusId) {
+    return this.stack.find((cur) => cur.statusId === statusId)
   }
 
-  update(status_id, newProps, opts = {}) {
-    const item = this.get(status_id)
+  update(statusId, newProps, opts = {}) {
+    const item = this.get(statusId)
     if (!item) {
       this.add(newProps, { preventRerender: true })
     } else {
       this.stack = this.stack.map((cur, i, arr) => {
-        if (
-          status_id ? cur.status_id === status_id : i === arr.length - 1
-        ) {
-          // if (!status_id) {
+        if (statusId ? cur.statusId === statusId : i === arr.length - 1) {
+          // if (!statusId) {
           //   // newProps = { ...newProps }
-          //   delete newProps.status_id
+          //   delete newProps.statusId
           // }
           return { ...cur, ...newProps }
         }
@@ -121,40 +119,39 @@ export class GlobalStatusProviderItem {
       })
     }
 
-    this.restack(status_id)
+    this.restack(statusId)
 
     const globalStatus = GlobalStatusProvider.combineMessages(this.stack)
 
     if (!opts?.preventRerender) {
       this.forceRerender(globalStatus, null, {
-        buffer_delay:
-          newProps?.buffer_delay > -1 ? newProps.buffer_delay : 1,
+        bufferDelay: newProps?.bufferDelay > -1 ? newProps.bufferDelay : 1,
       })
     }
   }
 
-  restack(status_id) {
-    const item = this.get(status_id)
+  restack(statusId) {
+    const item = this.get(statusId)
 
     // re-stack,so the new one is the latest
     if (item) {
       this.stack = this.stack.filter((cur) => {
-        return cur.status_id !== status_id
+        return cur.statusId !== statusId
       })
       this.stack.push(item)
     }
   }
 
-  remove(status_id, opts = {}) {
-    if (status_id) {
+  remove(statusId, opts = {}) {
+    if (statusId) {
       this.stack = this.stack.filter((cur) => {
-        return cur.status_id !== status_id
+        return cur.statusId !== statusId
       })
       const globalStatus = GlobalStatusProvider.combineMessages(this.stack)
 
       if (!opts?.preventRerender) {
         this.forceRerender(globalStatus, null, {
-          buffer_delay: opts?.buffer_delay > -1 ? opts.buffer_delay : 1,
+          bufferDelay: opts?.bufferDelay > -1 ? opts.bufferDelay : 1,
         })
       }
     }
@@ -247,19 +244,19 @@ class GlobalStatusProvider {
     }
   }
 
-  static prepareItemWithStatusId(item, status_id = null) {
+  static prepareItemWithStatusId(item, statusId = null) {
     if (typeof item === 'string') {
       item = { text: item }
     }
 
-    if (!item.item_id) {
-      if (status_id && status_id !== 'status-main') {
-        item.item_id = status_id
+    if (!item.itemId) {
+      if (statusId && statusId !== 'status-main') {
+        item.itemId = statusId
       } else {
         if (item?.text) {
-          item.item_id = slugify(convertJsxToString(item.text))
+          item.itemId = slugify(convertJsxToString(item.text))
         } else {
-          item.item_id = slugify(item)
+          item.itemId = slugify(item)
         }
       }
     }
@@ -293,7 +290,7 @@ class GlobalStatusProvider {
           item = GlobalStatusProvider.prepareItemWithStatusId(item)
 
           const foundAtIndex = _acc.findIndex(
-            ({ item_id }) => item_id === item.item_id
+            ({ itemId }) => itemId === item.itemId
           )
           if (foundAtIndex > -1) {
             _acc[foundAtIndex] = item

@@ -38,3 +38,14 @@ export const GlobalErrorSandbox = () => (
     </Wrapper>
   </Bg>
 )
+
+export const GlobalErrorExample = () => (
+  <Wrapper>
+    <GlobalError
+      statusCode="404"
+      title="title"
+      text="text"
+      aria-label="Label"
+    />
+  </Wrapper>
+)

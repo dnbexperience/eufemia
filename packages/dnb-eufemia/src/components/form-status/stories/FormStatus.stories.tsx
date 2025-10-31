@@ -61,7 +61,7 @@ export const FormStatusSandbox = () => {
         <Input
           label="Input with custom status:"
           status={<CustomStatus />}
-          status_state="info"
+          statusState="info"
           value="Input value"
         />
       </Box>
@@ -78,7 +78,7 @@ export const FormStatusSandbox = () => {
           value="4"
           size={3}
           status="Adipiscing etiam laoreet et egestas dis massa quis dapibus nam diam est non curae ad hac dictumst"
-          status_state="warn"
+          statusState="warn"
         />
       </Box>
       <Box>
@@ -90,7 +90,7 @@ export const FormStatusSandbox = () => {
           platea rutrum eu condimentum erat risus lacinia viverra magnis
           lobortis nibh mollis suspendisse
         </FormStatus>
-        <FormStatus state="info" size="large" stretch icon_size="small">
+        <FormStatus state="info" size="large" stretch iconSize="small">
           Long info text Ipsum habitant enim ullamcorper elit sit elementum
           platea rutrum eu condimentum erat risus lacinia viverra magnis
           lobortis nibh mollis suspendisse
@@ -124,7 +124,7 @@ export const FormStatusSandbox = () => {
       </Box>
       <Box>
         <FormSet
-          label_direction="vertical"
+          labelDirection="vertical"
           prevent_submit
           on_submit={(event) => {
             console.log('onSubmit', event)
@@ -139,7 +139,7 @@ export const FormStatusSandbox = () => {
             }
           >
             <DatePicker
-              show_input
+              showInput
               right="small"
               bottom="small"
               status="Long text with status vitae tortor metus nulla nunc habitasse adipiscing purus porttitor viverra"
@@ -164,7 +164,7 @@ export const ToggleAnimation = () => {
     <Wrapper>
       <Box>
         <FormSet
-          label_direction="vertical"
+          labelDirection="vertical"
           prevent_submit
           on_submit={(event) => {
             setShowError((v) => !v)
@@ -180,7 +180,7 @@ export const ToggleAnimation = () => {
             }
           >
             <DatePicker
-              show_input
+              showInput
               right="small"
               status={
                 showError &&
@@ -230,8 +230,8 @@ export const SuffixAndStretchedStatus = () => {
 
   const numbers: DrawerListDataArray = [
     {
-      selected_value: `Brukskonto (${ban})`,
-      suffix_value: (
+      selectedValue: `Brukskonto (${ban})`,
+      suffixValue: (
         <NumberFormat lang="nb" currency srLabel="Total:">
           {12345678}
         </NumberFormat>
@@ -239,8 +239,8 @@ export const SuffixAndStretchedStatus = () => {
       content: ['Brukskonto', ban],
     },
     {
-      selected_value: `BSU (${ban})`,
-      suffix_value: (
+      selectedValue: `BSU (${ban})`,
+      suffixValue: (
         <NumberFormat currency srLabel="Total:">
           {2223}
         </NumberFormat>
@@ -248,8 +248,8 @@ export const SuffixAndStretchedStatus = () => {
       content: ['BSU', ban],
     },
     {
-      selected_value: `Sparekonto (${ban})`,
-      suffix_value: (
+      selectedValue: `Sparekonto (${ban})`,
+      suffixValue: (
         <NumberFormat currency srLabel="Total:">
           {876555.5}
         </NumberFormat>
@@ -257,8 +257,8 @@ export const SuffixAndStretchedStatus = () => {
       content: ['Sparekonto', ban],
     },
     {
-      selected_value: `Brukskonto (${ban})`,
-      suffix_value: (
+      selectedValue: `Brukskonto (${ban})`,
+      suffixValue: (
         <NumberFormat currency srLabel="Total:">
           {34999.2}
         </NumberFormat>
@@ -270,14 +270,14 @@ export const SuffixAndStretchedStatus = () => {
   return (
     <Box>
       <Autocomplete
-        status_state="warn"
-        status_props={{ stretch: true }}
-        status="This is a long text to check whether status_props stretch works or not"
+        statusState="warn"
+        statusProps={{ stretch: true }}
+        status="This is a long text to check whether statusProps stretch works or not"
         label="Autocomplete with suffix and stretched status"
         data={numbers}
         size="medium"
-        show_submit_button
-        skip_portal
+        showSubmitButton
+        skipPortal
         stretch
         value={1}
       />

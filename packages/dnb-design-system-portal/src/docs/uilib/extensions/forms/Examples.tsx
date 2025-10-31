@@ -190,11 +190,11 @@ export const CreateComposedFieldComponent = () => {
                     max={new Date().getFullYear()}
                     step={1}
                     label="Birth year"
-                    label_direction="vertical"
+                    labelDirection="vertical"
                     value={parseFloat(String(value))}
-                    on_change={handleBirthYearChange}
-                    on_drag_start={handleFocus}
-                    on_drag_end={handleBlur}
+                    onChange={handleBirthYearChange}
+                    onDragStart={handleFocus}
+                    onDragEnd={handleBlur}
                     status={hasError}
                     tooltip
                   />
@@ -432,7 +432,7 @@ export const UsingWizard = () => {
         function MyForm() {
           // Routers like "react-router" are supported as well
           Wizard.useQueryLocator('my-wizard')
-          const { summaryTitle } = Form.useLocale().Step
+          const { summaryTitle } = Form.useTranslation().Step
 
           return (
             <Form.Handler

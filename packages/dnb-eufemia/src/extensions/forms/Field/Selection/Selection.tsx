@@ -134,32 +134,6 @@ export type Props = FieldProps<IOption['value']> & {
 }
 
 const validDrawerListProps = [
-  // DrawerList Properties
-  'default_value',
-  'triangle_position',
-  'label_direction',
-  'prevent_selection',
-  'prevent_close',
-  'keep_open',
-  'independent_width',
-  'fixed_position',
-  'enable_body_lock',
-  'skip_keysearch',
-  'ignore_events',
-  'align_drawer',
-  'list_class',
-  'portal_class',
-  'no_scroll_animation',
-  'no_animation',
-  'skip_portal',
-  'min_height',
-  'max_height',
-  'page_offset',
-  'observer_element',
-  'cache_hash',
-  'wrapper_element',
-  'options_render',
-
   // DrawerList Events
   'on_pre_change',
   'on_change',
@@ -171,43 +145,6 @@ const validDrawerListProps = [
 >
 
 const validAutocompleteProps = [
-  // Autocomplete Properties
-  'align_autocomplete',
-  'aria_live_options',
-  'disable_filter',
-  'disable_highlighting',
-  'disable_reorder',
-  'drawer_class',
-  'icon_position',
-  'icon_size',
-  'indicator_label',
-  'input_element',
-  'input_icon',
-  'input_ref',
-  'input_value',
-  'keep_selection',
-  'keep_value',
-  'keep_value_and_selection',
-  'label_direction',
-  'label_sr_only',
-  'no_options',
-  'open_on_focus',
-  'prevent_selection',
-  'search_in_word_index',
-  'search_numbers',
-  'selected_sr',
-  'show_all',
-  'show_clear_button',
-  'show_options_sr',
-  'show_submit_button',
-  'skip_portal',
-  'status_props',
-  'status_state',
-  'submit_button_icon',
-  'submit_button_title',
-  'submit_element',
-  'triangle_position',
-
   // Autocomplete Events
   'on_type',
   'on_focus',
@@ -233,23 +170,6 @@ export const listOfValidAutocompleteProps = [
 ]
 
 const validDropdownProps = [
-  // From DropdownProperties
-  'icon_size',
-  'icon_position',
-  'triangle_position',
-  'open_on_focus',
-  'prevent_selection',
-  'action_menu',
-  'more_menu',
-  'align_dropdown',
-  'independent_width',
-  'skip_portal',
-  'status_state',
-  'status_props',
-  'label_direction',
-  'label_sr_only',
-  'trigger_element',
-
   // From DropdownEvents
   'on_change',
   'on_select',
@@ -423,7 +343,7 @@ function Selection(props: Props) {
           <Component.Group
             size={size}
             className={cn}
-            layout_direction={
+            layoutDirection={
               optionsLayout === 'horizontal' ? 'row' : 'column'
             }
             disabled={disabled}
@@ -447,8 +367,8 @@ function Selection(props: Props) {
 
       const sharedProps: AutocompleteAllProps & DropdownAllProps = {
         id,
-        list_class: 'dnb-forms-field-selection__list',
-        portal_class: 'dnb-forms-field-selection__portal',
+        listClass: 'dnb-forms-field-selection__list',
+        portalClass: 'dnb-forms-field-selection__portal',
         title: placeholder,
         value: String(value ?? ''),
         status:
@@ -638,7 +558,7 @@ export function makeOptions<T = DrawerListProps['data']>(
       const props = child.props as OptionFieldProps
       const title = props.title ?? props.children ?? <em>Untitled</em>
       const content = props.text ? [title, props.text] : title
-      const selected_value = transformSelection
+      const selectedValue = transformSelection
         ? transformSelection(props)
         : undefined
       const selectedKey = String(props.value ?? '')
@@ -649,7 +569,7 @@ export function makeOptions<T = DrawerListProps['data']>(
 
       return {
         selectedKey,
-        selected_value,
+        selectedValue,
         content,
         disabled,
         style,
@@ -676,7 +596,7 @@ function renderDropdownItems(
       return {
         selectedKey: value,
         content: (text ? [title, text] : title) || <em>Untitled</em>,
-        selected_value: transformSelection
+        selectedValue: transformSelection
           ? transformSelection(props)
           : undefined,
         disabled,

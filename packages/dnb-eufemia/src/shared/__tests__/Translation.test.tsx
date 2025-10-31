@@ -14,11 +14,11 @@ const expected_nbNO = 'foo (bar av max)'
 
 describe('flatten translations', () => {
   const nbNO = {
-    'Modal.close_title': 'Steng',
+    'Modal.closeTitle': 'Steng',
     'other.string': given_nbNO,
   }
   const enGB = {
-    'Modal.close_title': 'Close',
+    'Modal.closeTitle': 'Close',
     'other.string': given_enGB,
   }
   const translations = {
@@ -106,11 +106,11 @@ describe('context.getTranslation', () => {
 
   it('should react on new lang prop and return other.string', () => {
     const nbNO = {
-      'Modal.close_title': 'Steng',
+      'Modal.closeTitle': 'Steng',
       'HelpButton.other.string': given_nbNO,
     }
     const enGB = {
-      'Modal.close_title': 'Close',
+      'Modal.closeTitle': 'Close',
       'HelpButton.other.string': given_enGB,
     }
     const translations = {
@@ -308,20 +308,20 @@ describe('mergeTranslations', () => {
   it('should merge translations given flatten translations', () => {
     const nbNO = {
       'nb-NO': {
-        'Modal.close_title': 'Steng',
+        'Modal.closeTitle': 'Steng',
         'HelpButton.other.string': given_nbNO,
       },
     }
     const enGB = {
       'en-GB': {
-        'Modal.close_title': 'Close',
+        'Modal.closeTitle': 'Close',
         'HelpButton.other.string': given_enGB,
       },
     }
     const enGB_expected = {
       'en-GB': {
         foo: 'bar',
-        'Modal.close_title': 'Close',
+        'Modal.closeTitle': 'Close',
         'HelpButton.other.string': 'use this string here {foo}',
       },
     }
@@ -332,11 +332,11 @@ describe('mergeTranslations', () => {
       'en-GB': {
         foo: 'bar',
         'HelpButton.other.string': 'use this string here {foo}',
-        'Modal.close_title': 'Close',
+        'Modal.closeTitle': 'Close',
       },
       'nb-NO': {
         'HelpButton.other.string': '{foo} ({bar} av {max})',
-        'Modal.close_title': 'Steng',
+        'Modal.closeTitle': 'Steng',
       },
     })
   })

@@ -24,15 +24,8 @@ describe('Logo component', () => {
     )
   })
 
-  it('should set correct class when size="inherit" is set', () => {
-    render(<Logo size="inherit" />)
-    expect(document.querySelector('.dnb-logo')).toHaveClass(
-      'dnb-logo--inherit-size'
-    )
-  })
-
-  it('should set height when size is number', () => {
-    render(<Logo size="48" />)
+  it('should set height when height is set', () => {
+    render(<Logo height="48" />)
     expect(document.querySelector('.dnb-logo svg')).toHaveAttribute(
       'height',
       '48'

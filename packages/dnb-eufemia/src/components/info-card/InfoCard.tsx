@@ -184,7 +184,7 @@ const InfoCard = (localProps: InfoCardAllProps) => {
             top="small"
             on_click={onClose}
             icon="close"
-            icon_position="left"
+            iconPosition="left"
             text={closeButtonText}
             {...closeButtonAttributes}
           />
@@ -242,7 +242,7 @@ const InfoCard = (localProps: InfoCardAllProps) => {
             <P
               className="dnb-info-card__title"
               size="small"
-              modifier="medium"
+              weight="medium"
               bottom="x-small"
             >
               {title}

@@ -335,7 +335,7 @@ describe('Field.DateOfBirth', () => {
 
       await userEvent.click(monthInput)
 
-      // Search by numeric month (uses search_content: [title, nr, value])
+      // Search by numeric month (uses searchContent: [title, nr, value])
       await userEvent.type(monthInput, '12')
 
       await waitFor(() => {

@@ -78,7 +78,7 @@ export const DialogConfirm = () => (
             variant="tertiary"
             text="Administrer"
             icon={edit}
-            icon_position="left"
+            iconPosition="left"
             on_click={({ close }) => {
               close()
             }}
@@ -238,7 +238,7 @@ export const DialogSandbox = () => (
         alignContent="centered"
         hideCloseButton
         triggerAttributes={{ text: 'Show' }}
-        // prevent_close
+        // preventClose
         maxWidth="12rem"
       >
         <ProgressIndicator
@@ -250,7 +250,7 @@ export const DialogSandbox = () => (
         />
       </Dialog>
       <Dialog
-        // trigger_attributes={{
+        // triggerAttributes={{
         //   'aria-label': 'My Label'
         // }}
         spacing={false}
@@ -258,7 +258,7 @@ export const DialogSandbox = () => (
         alignContent="centered"
         hideCloseButton
         triggerAttributes={{ icon: 'bell' }}
-        // prevent_close
+        // preventClose
         maxWidth="12rem"
       >
         <ProgressIndicator
@@ -296,7 +296,7 @@ export const DialogSandbox = () => (
       <Dialog
         title="Title 1"
         triggerAttributes={{ text: 'Modal in modal' }}
-        // open_state="opened"
+        // openState="opened"
         style={{
           minHeight: '25rem',
         }}
@@ -415,7 +415,7 @@ class ModalRerenderExample extends React.PureComponent {
 
 const dropdownData = [
   {
-    selected_value: 'Brukskonto - Kari Nordmann',
+    selectedValue: 'Brukskonto - Kari Nordmann',
     content: <>Brukskonto - Kari Nordmann</>,
   },
   {
@@ -459,7 +459,7 @@ const dropdownData = [
     ],
   },
   {
-    selected_value:
+    selectedValue:
       'Feriekonto - Kari Nordmann med et kjempelangt etternavnsen',
     content: [
       <NumberFormat key={15349648901} ban>
@@ -469,7 +469,7 @@ const dropdownData = [
     ],
   },
   {
-    selected_value: <>Custom selected {'🔥'}</>,
+    selectedValue: <>Custom selected {'🔥'}</>,
     content: [
       <NumberFormat key={15349648901} ban>
         15349648901
@@ -480,13 +480,13 @@ const dropdownData = [
 ]
 
 const ModalCloseExample = () => {
-  const [open_state, setOpenState] = React.useState(null)
+  const [openState, setOpenState] = React.useState(null)
   const [count, setCount] = React.useState(0)
 
   React.useEffect(() => {
     let timeout
 
-    if (open_state === 'opened') {
+    if (openState === 'opened') {
       timeout = setTimeout(() => {
         console.log('count:', count)
         setCount(count + 1)
@@ -507,16 +507,16 @@ const ModalCloseExample = () => {
           text: 'Open Modal and auto close',
         }}
         title="Modal Title"
-        openState={open_state}
+        openState={openState}
         openModal={(open) => {
           const timeout = setTimeout(open, 3e3)
           return () => clearTimeout(timeout)
         }}
-        // hide_close_button
+        // hideCloseButton
         closeModal={(close) => {
           let timeout
 
-          if (open_state !== 'opened') {
+          if (openState !== 'opened') {
             console.log('Modal was opened')
             timeout = setTimeout(close, 3e3)
           }
@@ -596,7 +596,7 @@ function FillContent() {
         label="Dropdown"
         data={dropdownData}
         right
-        skip_portal
+        skipPortal
         // direction="top"
       />
       montes tempus tortor mi aptent enim cursus venenatis cras ornare nisl
@@ -727,7 +727,7 @@ function ModalWithScrollableBox() {
       {/* <ScrollView /> */}
       <Dialog
       // fullscreen={true}
-      // open_state="opened"
+      // openState="opened"
       >
         <SimScrollView />
       </Dialog>

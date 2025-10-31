@@ -16,7 +16,7 @@ import nbNO from './translation/nb.json'
 import enGB from './translation/en.json'
 
 const nbNOx = {
-  'Modal.close_title': 'StengX',
+  'Modal.closeTitle': 'StengX',
   'other.string': '{foo} ({bar} X {max})',
 }
 
@@ -53,7 +53,7 @@ const ChangeLocale = () => {
     <Dropdown
       value={locale}
       data={{ 'en-GB': 'English', 'nb-NO': 'Norsk' }}
-      on_change={({ data: { selected_key: locale } }) => {
+      on_change={({ data: { selectedKey: locale } }) => {
         setLocale(locale)
       }}
     />
@@ -94,7 +94,7 @@ export const TranslationSandbox = () => (
 
           <Dialog
             title="Modal Title"
-            //  open_state="opened"
+            //  openState="opened"
           >
             <Dialog.Body spacing style_type="mint-green">
               <P>This is the modal text.</P>

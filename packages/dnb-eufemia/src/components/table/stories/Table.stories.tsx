@@ -523,7 +523,7 @@ const ContentTr = ({
             <Button
               variant="secondary"
               icon={shopping_cart}
-              icon_position="left"
+              iconPosition="left"
               on_click={buttonClickHandler}
             >
               Taco
@@ -603,45 +603,6 @@ const HeaderSortButton = ({ children }) => {
       text={children}
       title="Sort table column"
     />
-  )
-}
-
-export const TableDeprecatedAccordionProp = () => {
-  const [skeleton, setSkeleton] = React.useState(false)
-  return (
-    <main aria-label="main area">
-      <h1 className="dnb-sr-only">Table with accordion row</h1>
-      <ToggleButton
-        // size="small"
-        on_change={() => {
-          setSkeleton((s) => !s)
-        }}
-      >
-        Toggle Skeleton
-      </ToggleButton>
-
-      <Table.ScrollView top>
-        <Table
-          accordion
-          skeleton={skeleton}
-          outline
-          border
-          size="large"
-          sticky
-          // lang="no"
-        >
-          <TableContent />
-        </Table>
-      </Table.ScrollView>
-
-      <Global
-        styles={css`
-          html {
-            overflow: scroll;
-          }
-        `}
-      />
-    </main>
   )
 }
 
@@ -882,11 +843,7 @@ export const InCard = () => {
       <Tr>
         <Td colSpan={isLarge ? 4 : 2} aria-label={header.title}>
           <Flex.Horizontal justify={align}>
-            <Button
-              variant="tertiary"
-              icon={stopIcon}
-              icon_position="left"
-            >
+            <Button variant="tertiary" icon={stopIcon} iconPosition="left">
               Avvis signering
             </Button>
             <Button variant="secondary" icon={composeIcon}>
@@ -1467,10 +1424,10 @@ export function Overflow() {
 export function Accodion() {
   const AccordionTable = ({ id, showCheckbox = false, ...props }) => {
     const TdCheckbox = () => {
-      return <Checkbox label="Select row" label_sr_only />
+      return <Checkbox label="Select row" labelSrOnly />
     }
     const TdInput = () => {
-      return <Input label="Label" label_sr_only size={4} />
+      return <Input label="Label" labelSrOnly size={4} />
     }
     const Content = ({ shareId }) => {
       const ref = React.useRef()
@@ -1499,9 +1456,9 @@ export function Accodion() {
             top
             variant="tertiary"
             // icon={copyIcon}
-            icon_position="left"
+            iconPosition="left"
             on_click={shareHandler}
-            inner_ref={ref}
+            innerRef={ref}
           >
             Copy link to this row
           </Button>

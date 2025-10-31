@@ -50,17 +50,17 @@ export const TabsSandbox = () => {
         <TabsInGrid />
       </Box>
       <Box>
-        <Tabs tabs_style="mint-green" content_style="black-3">
+        <Tabs tabsStyle="mint-green" contentStyle="black-3">
           <Tabs.Content title="First" key="first">
             <div>hello1</div>
           </Tabs.Content>
         </Tabs>
         <Tabs
-          tabs_style="mint-green"
-          content_style="black-3"
+          tabsStyle="mint-green"
+          contentStyle="black-3"
           data={[{ title: 'First', key: 1, content: <div>hello1</div> }]}
         />
-        <Tabs tabs_style="mint-green" content_style="black-3">
+        <Tabs tabsStyle="mint-green" contentStyle="black-3">
           <Tabs.Content title="First" key="first">
             <div>hello1</div>
           </Tabs.Content>
@@ -81,8 +81,8 @@ export const TabsSandbox = () => {
         <Tabs
           bottom
           prerender
-          content_style="black-3"
-          content_spacing={false}
+          contentStyle="black-3"
+          contentSpacing={false}
         >
           <Tabs.Content title="Tab 1" key="first">
             <>
@@ -110,7 +110,7 @@ export const TabsSandbox = () => {
         <TabsAndRerender />
       </Box>
       <Box>
-        <Tabs prevent_rerender data={tabsData}>
+        <Tabs preventRerender data={tabsData}>
           {{
             first: (
               <>
@@ -147,7 +147,7 @@ export const TabsSandbox = () => {
       </Box>
       <Box>
         <Tabs
-          selected_key="second"
+          selectedKey="second"
           data={{
             first: { title: 'First', content: () => <H2>First</H2> },
             second: { title: 'Second', content: () => <H2>Second</H2> },
@@ -155,7 +155,7 @@ export const TabsSandbox = () => {
         />
       </Box>
       <Box>
-        <Tabs tabs_style="mint-green">
+        <Tabs tabsStyle="mint-green">
           <Tabs.Content title="First" key="first">
             <H2>First</H2>
           </Tabs.Content>
@@ -228,8 +228,8 @@ const tabsData = [
 
 const TabsAndRerender = () => (
   <Tabs
-    tabs_style="mint-green"
-    prevent_rerender
+    tabsStyle="mint-green"
+    preventRerender
     content={manyTabsContent}
     data={manyTabs}
   />
@@ -288,8 +288,8 @@ const TabsInGrid = () => (
   <TabGridStyle>
     <TabGridWrapperStyle>
       <Tabs
-        // tabs_style="mint-green"
-        prevent_rerender
+        // tabsStyle="mint-green"
+        preventRerender
         content={manyTabsContent}
         data={manyTabs}
       />
@@ -312,8 +312,8 @@ const TabsContentUsage = () => {
             key: 'two',
           },
         ]}
-        selected_key={value}
-        on_change={({ key }) => {
+        selectedKey={value}
+        onChange={({ key }) => {
           setValue(key)
         }}
       />
@@ -328,7 +328,7 @@ const TabsContentUsage = () => {
         size="small"
         variant="secondary"
         text="one"
-        on_click={() => {
+        onClick={() => {
           setValue('one')
         }}
       />
@@ -336,7 +336,7 @@ const TabsContentUsage = () => {
         size="small"
         variant="secondary"
         text="two"
-        on_click={() => {
+        onClick={() => {
           setValue('two')
         }}
       />
@@ -397,8 +397,8 @@ export function TabsAndFlex() {
         <RightArea>
           <Tabs
             left
-            no_border
-            selected_key="5"
+            noBorder
+            selectedKey="5"
             id="unique-tabs-row"
             data={data}
           />
@@ -408,9 +408,9 @@ export function TabsAndFlex() {
       <MaxWidthWrapper>
         <Tabs
           top
-          no_border
-          nav_button_edge
-          selected_key="5"
+          noBorder
+          navButtonEdge
+          selectedKey="5"
           id="unique-tabs-edge"
           data={data}
         />
@@ -418,9 +418,9 @@ export function TabsAndFlex() {
 
       <Tabs
         top
-        no_border
+        noBorder
         id="right-aligned"
-        selected_key="2"
+        selectedKey="2"
         align="right"
         label="Some Tabs label"
         data={data.slice(0, 3)}

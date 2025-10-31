@@ -42,17 +42,17 @@ export const DrawerSandbox = () => (
         // openState="opened"
         // fullscreen
         containerPlacement="right"
-        // align_content="right"
-        // align_content="center"
+        // alignContent="right"
+        // alignContent="center"
         // drawer_offset={}
         title="Original title"
         // title={<span className="dnb-sr-only">Test</span>}
-        // min_width="20vw"
-        // max_width="40vw"
-        // overlay_class="overlay_class"
-        // content_class="content_class"
-        // class="inner_class"
-        // header_content={
+        // minWidth="20vw"
+        // maxWidth="40vw"
+        // overlayClass="overlayClass"
+        // contentClass="contentClass"
+        // className="inner_class"
+        // headerContent={
         //   <>
         //     <P bottom>This is a lorem ipsum dolor</P>
         //     <Button bottom size="large">
@@ -86,7 +86,7 @@ export const DrawerSandbox = () => (
           <Button
             variant="tertiary"
             icon="chevron_left"
-            icon_position="left"
+            iconPosition="left"
             wrap
           >
             Tilbake ipsum Praesent rutrum
@@ -199,9 +199,9 @@ export const DrawerSandbox = () => (
         // title={<span className="dnb-sr-only">Test</span>}
         // minWidth="20vw"
         // maxWidth="40vw"
-        // overlayClass="overlay_class"
-        // contentClass="content_class"
-        // class="inner_class"
+        // overlayClass="overlayClass"
+        // contentClass="contentClass"
+        // className="inner_class"
       >
         <Drawer.Body styleType="pistachio">
           Drawer.Body
@@ -225,11 +225,11 @@ function FillContent() {
       consectetur massa lobortis diam netus congue a nibh dolor faucibus
       vivamus taciti neque accumsan urna varius dis egestas
       <Dropdown
-        label_direction="vertical"
+        labelDirection="vertical"
         label="Dropdown"
         data={dropdownData}
         right
-        skip_portal
+        skipPortal
         // direction="top"
       />
       montes tempus tortor mi aptent enim cursus venenatis cras ornare nisl
@@ -274,7 +274,7 @@ function FillContent() {
       nostra leo cum consequat sit ridiculus ad inceptos cras facilisis
       pretium natoque libero nulla interdum pellentesque viverra turpis
       <Dropdown
-        label_direction="vertical"
+        labelDirection="vertical"
         label="Dropdown"
         data={dropdownData}
         right
@@ -346,7 +346,7 @@ function FillContent() {
       inceptos volutpat phasellus ornare nisi tortor lobortis ligula
       ultricies ante proin
       <Dropdown
-        label_direction="vertical"
+        labelDirection="vertical"
         label="Dropdown"
         data={dropdownData}
         right
@@ -377,7 +377,7 @@ export const DrawerContentParts = () => (
 
 const dropdownData = [
   {
-    selected_value: 'Brukskonto - Kari Nordmann',
+    selectedValue: 'Brukskonto - Kari Nordmann',
     content: <>Brukskonto - Kari Nordmann</>,
   },
   {
@@ -421,7 +421,7 @@ const dropdownData = [
     ],
   },
   {
-    selected_value:
+    selectedValue:
       'Feriekonto - Kari Nordmann med et kjempelangt etternavnsen',
     content: [
       <NumberFormat key={15349648901} ban>
@@ -431,7 +431,7 @@ const dropdownData = [
     ],
   },
   {
-    selected_value: <>Custom selected {'🔥'}</>,
+    selectedValue: <>Custom selected {'🔥'}</>,
     content: [
       <NumberFormat key={15349648901} ban>
         15349648901

@@ -18,6 +18,4 @@ const Pluss = (props: React.SVGProps<SVGSVGElement>) => (
   </svg>
 )
 
-
-
 export default Pluss

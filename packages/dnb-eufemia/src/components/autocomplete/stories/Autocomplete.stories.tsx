@@ -41,15 +41,15 @@ const numbers = [
 export const SearchNumbers = () => {
   return (
     <Autocomplete
-      // input_value="123"
-      input_value="201"
-      // input_value="100 222 4"
+      // inputValue="123"
+      inputValue="201"
+      // inputValue="100 222 4"
       opened
-      no_animation
+      noAnimation
       label="Label:"
       data={numbers}
-      search_numbers
-      // search_in_word_index={1}
+      searchNumbers
+      // searchInWordIndex={1}
     />
   )
 }
@@ -64,7 +64,7 @@ export const SearchNumbersNonAlphaNumericChars = () => {
         ['Åge Ørn Ærlig', '12345678901'],
         ["Andrè O'Neill", '12345678901'],
       ]}
-      search_numbers
+      searchNumbers
     />
   )
 }
@@ -148,29 +148,29 @@ export function onBlur() {
 
 export const SearchWithWrappers = () => {
   const topMovies = [
-    { content: 'item aa', search_content: ['AA c'] },
-    { content: 'item bb', search_content: ['BB cc zethx'] },
-    { content: 'item cc', search_content: ['CC', 'cc'] },
-    { content: 'item cc second', search_content: ['CC', 'cc', 'more'] },
-    { content: 'item dd', search_content: ['DD', 'dd'] },
-    { content: 'item ee', search_content: ['EE', 'ee'] },
+    { content: 'item aa', searchContent: ['AA c'] },
+    { content: 'item bb', searchContent: ['BB cc zethx'] },
+    { content: 'item cc', searchContent: ['CC', 'cc'] },
+    { content: 'item cc second', searchContent: ['CC', 'cc', 'more'] },
+    { content: 'item dd', searchContent: ['DD', 'dd'] },
+    { content: 'item ee', searchContent: ['EE', 'ee'] },
   ]
   // const topMovies = ['AA c', 'BB cc zethx', { content: ['CC', 'cc'] }]
   return (
     <>
       <Autocomplete
-        // input_value="123"
-        input_value="cc bb more"
-        // input_value="cc bb zethx"
-        // input_value="the aa red"
-        // input_value="red the"
-        // input_value="100 222 4"
+        // inputValue="123"
+        inputValue="cc bb more"
+        // inputValue="cc bb zethx"
+        // inputValue="the aa red"
+        // inputValue="red the"
+        // inputValue="100 222 4"
         opened
-        no_animation
+        noAnimation
         label="Label:"
         data={topMovies}
-        // disable_highlighting
-        // search_in_word_index={1}
+        // disableHighlighting
+        // searchInWordIndex={1}
       />
     </>
   )
@@ -191,11 +191,11 @@ const AutocompleteWithState = () => {
   return (
     <Autocomplete
       mode="async" // prevents showing no options message og typing
-      no_scroll_animation
-      // prevent_selection
+      noScrollAnimation
+      // preventSelection
       placeholder="Search ..."
       // label="Search"
-      // label_sr_only={true}
+      // labelSrOnly={true}
       on_type={({
         value,
         showIndicator,
@@ -235,12 +235,12 @@ export const AutocompleteSandbox = () => {
         <Autocomplete
           label="Keep value"
           data={topMovies}
-          input_value="does not exist"
-          // keep_value
-          // disable_filter
-          keep_value_and_selection
-          show_clear_button
-          // prevent_selection
+          inputValue="does not exist"
+          // keepValue
+          // disableFilter
+          keepValueAndSelection
+          showClearButton
+          // preventSelection
           // on_change={({ data }) => {
           //   console.log('on_change', data)
           // }}
@@ -258,12 +258,12 @@ export const AutocompleteSandbox = () => {
       <Box>
         <Autocomplete
           label="Label:"
-          show_submit_button={true}
-          show_clear_button
+          showSubmitButton={true}
+          showClearButton
           // icon="bell"
-          // input_icon="bell"
-          // submit_button_icon="bell"
-          submit_element={<SubmitButton icon="bell" />}
+          // inputIcon="bell"
+          // submitButtonIcon="bell"
+          submitElement={<SubmitButton icon="bell" />}
           on_change={({ data }) => {
             console.log('on_change', data)
           }}
@@ -277,11 +277,11 @@ export const AutocompleteSandbox = () => {
       <Box>
         <CustomStyle>
           <Autocomplete
-            drawer_class="drawer_class"
+            drawerClass="drawerClass"
             size="small"
             value="A"
             data={['A']}
-            icon_position="right"
+            iconPosition="right"
           />
           <Autocomplete
             status="feil"
@@ -296,13 +296,13 @@ export const AutocompleteSandbox = () => {
       <Box>
         <Autocomplete
           // opened
-          // prevent_close
-          // no_animation
-          // input_value="foo bar th"
-          // input_value="bb th x"
-          input_value="co pr ti"
-          show_clear_button
-          show_submit_button
+          // preventClose
+          // noAnimation
+          // inputValue="foo bar th"
+          // inputValue="bb th x"
+          inputValue="co pr ti"
+          showClearButton
+          showSubmitButton
           // value="b"
           data={[
             {
@@ -334,14 +334,14 @@ export const AutocompleteSandbox = () => {
             //   ]
             // }
           ]}
-          // icon_position="left"
+          // iconPosition="left"
           // on_select={(e) => {
           //   console.log('on_select ???', e)
           // }}
           on_change={(e) => {
             console.log('on_change', e)
           }}
-          options_render={({
+          optionsRender={({
             Items,
             // , Item
           }) => (
@@ -354,19 +354,19 @@ export const AutocompleteSandbox = () => {
         />
         <Autocomplete
           // opened
-          // prevent_close
-          // no_animation
-          // input_value="foo bar th"
-          input_value="bb c"
+          // preventClose
+          // noAnimation
+          // inputValue="foo bar th"
+          inputValue="bb c"
           // value={2}
-          show_submit_button
+          showSubmitButton
           // value="b"
           data={{
             a: 'A1 A2 C',
             b: 'BB cC zethTHx',
             c: 'CCC',
           }}
-          // icon_position="left"
+          // iconPosition="left"
           // on_select={(e) => {
           //   console.log('on_select ???', e)
           // }}
@@ -379,9 +379,9 @@ export const AutocompleteSandbox = () => {
         <Autocomplete
           mode="async" // prevents showing no options message og typing
           label="No selection / no filter"
-          // label_sr_only={true}
-          prevent_selection
-          disable_filter
+          // labelSrOnly={true}
+          preventSelection
+          disableFilter
           data={topMovies}
           on_type={({
             // value,
@@ -405,13 +405,13 @@ export const AutocompleteSandbox = () => {
               return () => clearTimeout(timeout)
             })
           }}
-          no_scroll_animation={true}
+          noScrollAnimation={true}
         />
         <Autocomplete
           mode="async"
           // label="Search"
-          // label_sr_only={true}
-          keep_value
+          // labelSrOnly={true}
+          keepValue
           on_type={({ value /* updateData, ... */ }) => {
             console.log('on_type', value)
           }}
@@ -429,18 +429,18 @@ export const AutocompleteSandbox = () => {
               }, 100)
             }
           }}
-          no_scroll_animation={true}
+          noScrollAnimation={true}
         />
         <AutocompleteWithState />
       </Box>
       <Box>
         <Autocomplete
-          input_icon={null}
+          inputIcon={null}
           title="Type to find ..."
           // opened
-          // prevent_close
-          // no_animation
-          input_value="d"
+          // preventClose
+          // noAnimation
+          inputValue="d"
           on_select={(e) => {
             console.log('on_select', e)
           }}
@@ -451,11 +451,11 @@ export const AutocompleteSandbox = () => {
         />
         <Autocomplete
           // opened
-          // prevent_close
-          no_animation
-          // prevent_selection
-          // input_value="the g er"
-          input_value="episode a I"
+          // preventClose
+          noAnimation
+          // preventSelection
+          // inputValue="the g er"
+          inputValue="episode a I"
           mode="async"
           label="Top 100 movies"
           data={topMovies}
@@ -467,7 +467,7 @@ export const AutocompleteSandbox = () => {
             a: 'AA',
             b: 'BB',
           }}
-          // icon_position="left"
+          // iconPosition="left"
           on_select={(e) => {
             console.log('on_select', e)
           }}
@@ -516,7 +516,7 @@ const testData = [
     content: 'B',
   },
   {
-    selected_value: 99999999,
+    selectedValue: 99999999,
     content: [
       <NumberFormat phone key={99999999}>
         99999999
@@ -525,7 +525,7 @@ const testData = [
     ],
   },
   {
-    selected_value: 99999999,
+    selectedValue: 99999999,
     content: [
       <NumberFormat phone key={99999999}>
         99999999
@@ -537,7 +537,7 @@ const testData = [
     content: 'E',
   },
   {
-    selected_value: 'Find me by keypress',
+    selectedValue: 'Find me by keypress',
     content: ['F', 'F', 'F', 'F'],
   },
   {
@@ -550,7 +550,7 @@ const testData = [
 
 const autocompleteData = [
   {
-    selected_value: 'Brukskonto - Kari Nordmann',
+    selectedValue: 'Brukskonto - Kari Nordmann',
     content: (
       <>
         {/* <Checkbox checked aria-hidden />  */}
@@ -567,7 +567,7 @@ const autocompleteData = [
     ],
   },
   {
-    selected_value:
+    selectedValue:
       'Feriekonto - Kari Nordmann med et kjempelangt etternavnsen',
     content: [
       <NumberFormat key={99999999} phone>
@@ -577,7 +577,7 @@ const autocompleteData = [
     ],
   },
   {
-    selected_value: <>Custom selected {'🔥'}</>,
+    selectedValue: <>Custom selected {'🔥'}</>,
     content: [
       <NumberFormat key={99999999} phone>
         99999999
@@ -588,7 +588,7 @@ const autocompleteData = [
 ]
 const autocompleteDataScrollable = [
   {
-    selected_value: 'AAA',
+    selectedValue: 'AAA',
     content: 'AA',
   },
   {
@@ -600,7 +600,7 @@ const autocompleteDataScrollable = [
     ],
   },
   {
-    selected_value: 'CCC',
+    selectedValue: 'CCC',
     content: [
       <NumberFormat key={99999999} phone>
         99999999
@@ -609,7 +609,7 @@ const autocompleteDataScrollable = [
     ],
   },
   {
-    selected_value: 'DDD',
+    selectedValue: 'DDD',
     content: [
       <NumberFormat key={99999999} phone>
         99999999
@@ -667,7 +667,7 @@ const topMovies = [
         />
       </>
     ),
-    // search_content: ['aa', 're', 1234],
+    // searchContent: ['aa', 're', 1234],
     year: 1994,
   },
   { content: 'The Godfather', year: 1972 },
@@ -782,10 +782,10 @@ const topMovies = [
 ]
 
 const initialData = [
-  { selected_value: '1', content: '1' },
-  { selected_value: '2', content: '2' },
-  { selected_value: '3', content: '3' },
-  { selected_value: '4', content: '4' },
+  { selectedValue: '1', content: '1' },
+  { selectedValue: '2', content: '2' },
+  { selectedValue: '3', content: '3' },
+  { selectedValue: '4', content: '4' },
 ]
 
 function UpdateDataExample() {
@@ -798,19 +798,19 @@ function UpdateDataExample() {
         Selected data:{' '}
         {selectedData.map((item) => (
           <Button
-            key={item.selected_value}
+            key={item.selectedValue}
             size="small"
             on_click={() => {
               const updatedSelectedData = selectedData.filter(
-                (data) => item.selected_value !== data.selected_value
+                (data) => item.selectedValue !== data.selectedValue
               )
               setSelectedData(updatedSelectedData)
               setChoiceData(
                 initialData.filter(
                   (data) =>
                     updatedSelectedData.findIndex(
-                      ({ selected_value: updatedValue }) =>
-                        updatedValue === data?.selected_value
+                      ({ selectedValue: updatedValue }) =>
+                        updatedValue === data?.selectedValue
                     ) === -1
                 )
               )
@@ -822,9 +822,9 @@ function UpdateDataExample() {
       </pre>
 
       <Autocomplete
-        prevent_selection
+        preventSelection
         title="Choose an item"
-        // prevent_selection
+        // preventSelection
         data={choiceData}
         on_change={({
           data,
@@ -834,7 +834,7 @@ function UpdateDataExample() {
           // update our choices
           setChoiceData(
             choiceData.filter(
-              (item) => item.selected_value !== data.selected_value
+              (item) => item.selectedValue !== data.selectedValue
             )
           )
 
@@ -844,8 +844,7 @@ function UpdateDataExample() {
           // only update selected data if they do not exists in the list
           if (
             selectedData.findIndex(
-              ({ selected_value }) =>
-                selected_value === data.selected_value
+              ({ selectedValue }) => selectedValue === data.selectedValue
             ) === -1
           ) {
             setSelectedData([...selectedData, data])
@@ -874,8 +873,8 @@ export function DataSuffix() {
   const ban = format(21001234567, { ban: true, locale }) as string
   const numbers: DrawerListDataArray = [
     {
-      selected_value: `Brukskonto (${ban})`,
-      suffix_value: (
+      selectedValue: `Brukskonto (${ban})`,
+      suffixValue: (
         <NumberFormat lang="nb" currency srLabel="Total:">
           {12345678}
         </NumberFormat>
@@ -883,8 +882,8 @@ export function DataSuffix() {
       content: ['Brukskonto', ban],
     },
     {
-      selected_value: `BSU (${ban})`,
-      suffix_value: (
+      selectedValue: `BSU (${ban})`,
+      suffixValue: (
         <NumberFormat currency srLabel="Total:">
           {2223}
         </NumberFormat>
@@ -892,8 +891,8 @@ export function DataSuffix() {
       content: ['BSU', ban],
     },
     {
-      selected_value: `Sparekonto (${ban})`,
-      suffix_value: (
+      selectedValue: `Sparekonto (${ban})`,
+      suffixValue: (
         <NumberFormat currency srLabel="Total:">
           {876555.5}
         </NumberFormat>
@@ -901,8 +900,8 @@ export function DataSuffix() {
       content: ['Sparekonto', ban],
     },
     {
-      selected_value: `Brukskonto (${ban})`,
-      suffix_value: (
+      selectedValue: `Brukskonto (${ban})`,
+      suffixValue: (
         <NumberFormat currency srLabel="Total:">
           {34999.2}
         </NumberFormat>
@@ -913,16 +912,16 @@ export function DataSuffix() {
 
   return (
     <WideStyle>
-      <Provider formElement={{ label_direction: 'vertical' }}>
+      <Provider formElement={{ labelDirection: 'vertical' }}>
         <Autocomplete
           lang="nb"
           value={0}
           data={numbers}
           size="medium"
-          input_icon={null}
-          show_submit_button
+          inputIcon={null}
+          showSubmitButton
           label="From account"
-          label_direction="vertical"
+          labelDirection="vertical"
         />
       </Provider>
     </WideStyle>
@@ -934,10 +933,10 @@ export const GlobalStatusExample = () => {
     <>
       <GlobalStatus id="my-id" />
       <Autocomplete
-        no_animation
+        noAnimation
         label="Label:"
         data={numbers}
-        search_numbers
+        searchNumbers
         globalStatus={{ id: 'my-id', message: 'my message' }}
         status="Message"
       />
@@ -1002,7 +1001,7 @@ export const AsyncSearchExample = () => {
           top
           mode="async"
           on_type={onTypeHandler}
-          no_scroll_animation={true}
+          noScrollAnimation={true}
           placeholder="Search ..."
           on_change={({ data }) => {
             console.log('on_change', data)
@@ -1022,7 +1021,7 @@ export const EmptyDataExample = () => {
 export const OpenOnFocusEmptyDataExample = () => {
   return (
     <>
-      <Autocomplete open_on_focus />
+      <Autocomplete openOnFocus />
       <Input />
     </>
   )

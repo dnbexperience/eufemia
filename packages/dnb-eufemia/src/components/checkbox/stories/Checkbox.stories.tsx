@@ -92,12 +92,12 @@ export const CheckboxSandbox = () => (
       </Box>
       <Box>
         <p className="dnb-p">
-          Text:{' onchange:'}
+          Text:{' onChange:'}
           <Checkbox
             label="Checked"
             checked
-            on_change={({ checked }) => {
-              console.log('on_change', checked)
+            onChange={({ checked }) => {
+              console.log('onChange', checked)
             }}
           />
         </p>
@@ -111,8 +111,8 @@ export const CheckboxSandbox = () => (
           <Checkbox
             id="checkbox-2"
             label="Unchecked"
-            on_change={({ checked }) => {
-              console.log('on_change', checked)
+            onChange={({ checked }) => {
+              console.log('onChange', checked)
             }}
           />
         </CustomRow>
@@ -136,20 +136,20 @@ export const CheckboxSandbox = () => (
         <Checkbox
           // label="Unchecked status error:"
           label="Unchecked:"
-          label_position="left"
+          labelPosition="left"
           // status="Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
           status="Potenti viverra facilisi blandit sodales lorem est fusce"
-          status_state="info"
+          statusState="info"
         />
       </Box>
       <Box>
         <Checkbox
           // label="Unchecked status error:"
           label="Unchecked:"
-          label_position="right"
+          labelPosition="right"
           // status="Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
           status="Potenti viverra facilisi blandit sodales lorem est fusce"
-          status_state="info"
+          statusState="info"
         />
       </Box>
       <Box>
@@ -274,7 +274,7 @@ function ControlledVsUncontrolled() {
         checked={checked}
         indeterminate={indeterminate}
         id="checkbox1"
-        on_change={({ checked }) => {
+        onChange={({ checked }) => {
           setChecked(checked)
         }}
       />

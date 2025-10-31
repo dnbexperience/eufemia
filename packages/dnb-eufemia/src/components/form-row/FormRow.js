@@ -32,8 +32,8 @@ export const formRowPropTypes = {
     PropTypes.func,
     PropTypes.node,
   ]),
-  label_direction: PropTypes.oneOf(['vertical', 'horizontal']),
-  label_sr_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  labelDirection: PropTypes.oneOf(['vertical', 'horizontal']),
+  labelSrOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   label_id: PropTypes.string,
   label_class: PropTypes.string,
   no_label: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -68,8 +68,8 @@ export const formRowPropTypes = {
 export const formRowDefaultProps = {
   id: null,
   label: null,
-  label_direction: null,
-  label_sr_only: null,
+  labelDirection: null,
+  labelSrOnly: null,
   label_id: null,
   label_class: null,
   no_label: false,
@@ -142,8 +142,8 @@ export default class FormRow extends React.PureComponent {
     )
 
     const {
-      label_direction,
-      label_sr_only,
+      labelDirection,
+      labelSrOnly,
       label_id,
       label_class,
       no_fieldset,
@@ -190,9 +190,9 @@ export default class FormRow extends React.PureComponent {
         'dnb-form-row',
         (isTrue(vertical) || direction) &&
           `dnb-form-row--${isTrue(vertical) ? 'vertical' : direction}`,
-        (isTrue(vertical) || label_direction) &&
+        (isTrue(vertical) || labelDirection) &&
           `dnb-form-row--${
-            isTrue(vertical) ? 'vertical' : label_direction
+            isTrue(vertical) ? 'vertical' : labelDirection
           }-label`, // <-- has label
         centered && 'dnb-form-row--centered',
         isNested && 'dnb-form-row--nested',
@@ -219,7 +219,7 @@ export default class FormRow extends React.PureComponent {
       globalStatus,
       direction,
       vertical,
-      label_direction: isTrue(vertical) ? 'vertical' : label_direction,
+      labelDirection: isTrue(vertical) ? 'vertical' : labelDirection,
       responsive,
       disabled,
       skeleton,
@@ -256,8 +256,8 @@ export default class FormRow extends React.PureComponent {
                 forId={useFieldset ? null : id} // we don't use forId, because we don't have a single element to target to
                 text={label}
                 element={useFieldset ? 'legend' : 'label'}
-                labelDirection={label_direction}
-                srOnly={label_sr_only}
+                labelDirection={labelDirection}
+                srOnly={labelSrOnly}
                 disabled={disabled}
                 skeleton={skeleton}
               />

@@ -62,7 +62,7 @@ export const SkeletonSandbox = () => {
     >
       <Skeleton
         show={showSkeleton}
-        // no_animation
+        // noAnimation
         // show
         // figure={() => <SkeletonArticle rows={2} />}
       >
@@ -71,7 +71,7 @@ export const SkeletonSandbox = () => {
             <Box>
               <Skeleton.Exclude>
                 <Accordion
-                  remember_state
+                  rememberState
                   id="single-accordion"
                   variant="outlined"
                   title="Accordion title"
@@ -80,9 +80,9 @@ export const SkeletonSandbox = () => {
                 </Accordion>
                 <Accordion.Provider
                   top
-                  remember_state
+                  rememberState
                   icon="bell"
-                  icon_position="right"
+                  iconPosition="right"
                   variant="outlined"
                 >
                   <Accordion
@@ -138,14 +138,14 @@ export const SkeletonSandbox = () => {
                 // disabled
                 left
               />
-              <Input top label_direction="vertical" label="Input" />
-              <Textarea top label_direction="vertical" label="Textarea" />
+              <Input top labelDirection="vertical" label="Input" />
+              <Textarea top labelDirection="vertical" label="Textarea" />
             </Box>
 
             <Box>
               <DatePicker label="Date" />
               <br />
-              <DatePicker label="Date with input" show_input />
+              <DatePicker label="Date with input" showInput />
             </Box>
 
             <Box>
@@ -179,7 +179,7 @@ export const SkeletonSandbox = () => {
                   label="Input"
                   size="large"
                   placeholder="Placeholder"
-                  icon_position="right"
+                  iconPosition="right"
                   icon="calendar"
                   align="right"
                 />
@@ -287,7 +287,7 @@ export const SkeletonSandbox = () => {
                   label="Input"
                   size="large"
                   placeholder="Placeholder"
-                  icon_position="right"
+                  iconPosition="right"
                   icon="calendar"
                   align="right"
                 />

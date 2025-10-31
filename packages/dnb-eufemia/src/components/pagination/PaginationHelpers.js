@@ -13,7 +13,7 @@ import ProgressIndicator from '../progress-indicator/ProgressIndicator'
 export class PaginationIndicator extends React.PureComponent {
   static contextType = Context
   static propTypes = {
-    indicator_element: PropTypes.oneOfType([
+    indicatorElement: PropTypes.oneOfType([
       PropTypes.object,
       PropTypes.node,
       PropTypes.func,
@@ -21,11 +21,11 @@ export class PaginationIndicator extends React.PureComponent {
     ]),
   }
   static defaultProps = {
-    indicator_element: 'div',
+    indicatorElement: 'div',
   }
   render() {
-    const { indicator_element } = this.props
-    const Element = preparePageElement(indicator_element)
+    const { indicatorElement } = this.props
+    const Element = preparePageElement(indicatorElement)
     const ElementChild = isTrElement(Element) ? 'td' : 'div'
 
     return (
@@ -35,7 +35,7 @@ export class PaginationIndicator extends React.PureComponent {
             <ProgressIndicator />
             {
               this.context.getTranslation(this.props).Pagination
-                .is_loading_text
+                .isLoadingText
             }
           </div>
         </ElementChild>

@@ -105,18 +105,18 @@ export const AccordionSandbox = () => {
       <Box>
         <Accordion
           expanded
-          remember_state
+          rememberState
           id="single-accordion"
           title="Accordion title"
           icon="bell"
-          icon_position="right"
+          iconPosition="right"
         >
-          remember_state Accordion content
+          rememberState Accordion content
         </Accordion>
       </Box>
 
       <Box>
-        <Accordion.Group expanded allow_close_all>
+        <Accordion.Group expanded allowCloseAll>
           <Accordion expanded={false}>
             <Accordion.Header>Accordion title 1</Accordion.Header>
             <Accordion.Content top="x-large">
@@ -170,7 +170,7 @@ export const AccordionSandbox = () => {
       <Box>
         <Accordion
           group="unique-id"
-          left_component={<IconPrimary icon="bell" />}
+          leftComponent={<IconPrimary icon="bell" />}
         >
           <Accordion.Header>Accordion title</Accordion.Header>
           <Accordion.Content>
@@ -214,15 +214,15 @@ function AccordionWithContainer() {
         Increment {count}
       </Button>
       <Accordion.Group
-        no_animation
+        noAnimation
         variant="outlined"
         // prerender
-        // prevent_rerender
-        // prevent_rerender_conditional
-        single_container
-        remember_state
-        flush_remembered_state={flushCache}
-        // allow_close_all
+        // preventRerender
+        // preventRerenderConditional
+        singleContainer
+        rememberState
+        flushRememberedState={flushCache}
+        // allowCloseAll
         id="group-id"
       >
         <Accordion
@@ -234,7 +234,7 @@ function AccordionWithContainer() {
           // element="h2"
           // heading
           // heading={Heading}
-          // heading_level="3"
+          // headingLevel="3"
         >
           <Accordion.Header title="Title2" description="Description2">
             {/* Title 3 string */}
@@ -277,7 +277,7 @@ function AccordionWithContainer() {
         </Accordion>
         <Accordion
           bottom
-          icon_position="right"
+          iconPosition="right"
           id="remembered-state-2"
           // top="x-large"
         >
@@ -329,7 +329,7 @@ function AccordionWithContainer() {
           </Accordion.Content>
         </Accordion>
         <Accordion
-          icon_position="right"
+          iconPosition="right"
           id="remembered-state-3"
           // top="x-large"
         >
@@ -384,7 +384,7 @@ function ChangingContent({ changeHeight, children }) {
     <>
       <ToggleButton
         checked={contentSize}
-        on_change={() => {
+        onChange={() => {
           changeContentSize((s) => !s)
         }}
         bottom

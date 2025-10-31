@@ -30,14 +30,14 @@ import locales from '../../../shared/locales/nb-NO'
 const nbNO = locales['nb-NO'].DrawerList
 mockImplementationForDirectionObserver()
 
-// use no_animation so we don't need to wait
+// use noAnimation so we don't need to wait
 const mockProps: DrawerListAllProps = {}
 
 const props: DrawerListAllProps = {
   id: 'drawer-list-id',
   value: 2,
   opened: true,
-  no_animation: true,
+  noAnimation: true,
 }
 
 const mockData: DrawerListDataArray = [
@@ -71,8 +71,8 @@ describe('DrawerList component', () => {
     ).toBeInTheDocument()
   })
 
-  it('should skip portal when skip_portal is set', () => {
-    render(<DrawerList {...props} data={mockData} skip_portal />)
+  it('should skip portal when skipPortal is set', () => {
+    render(<DrawerList {...props} data={mockData} skipPortal />)
     expect(
       document.querySelector('.dnb-drawer-list--opened')
     ).toBeInTheDocument()
@@ -83,7 +83,7 @@ describe('DrawerList component', () => {
     ).toBeNull()
   })
 
-  it('should not skip portal when skip_portal is not set', () => {
+  it('should not skip portal when skipPortal is not set', () => {
     render(<DrawerList {...props} data={mockData} />)
     expect(
       document
@@ -113,7 +113,7 @@ describe('DrawerList component', () => {
   describe('with disabled option', () => {
     const disabledOptionProps = {
       opened: true,
-      no_animation: true,
+      noAnimation: true,
       data: [
         { content: 'item 1' },
         { disabled: true, content: 'item 2' },
@@ -137,14 +137,14 @@ describe('DrawerList component', () => {
       keydown(40) // down
       await waitFor(() => {
         expect(on_select).toHaveBeenCalledTimes(1)
-        expect(on_select.mock.calls[0][0].active_item).toBe(0)
+        expect(on_select.mock.calls[0][0].activeItem).toBe(0)
       })
 
       keydown(40) // down
       await waitFor(() => {
         // on_select is called when navigating to disabled item
         expect(on_select).toHaveBeenCalledTimes(2)
-        expect(on_select.mock.calls[1][0].active_item).toBe(1)
+        expect(on_select.mock.calls[1][0].activeItem).toBe(1)
         expect(on_select.mock.calls[1][0].data.disabled).toBe(true)
       })
 
@@ -152,7 +152,7 @@ describe('DrawerList component', () => {
       await waitFor(() => {
         // navigates to next item
         expect(on_select).toHaveBeenCalledTimes(3)
-        expect(on_select.mock.calls[2][0].active_item).toBe(2)
+        expect(on_select.mock.calls[2][0].activeItem).toBe(2)
       })
     })
 
@@ -173,7 +173,7 @@ describe('DrawerList component', () => {
       await waitFor(() => {
         // verify item is disabled
         expect(on_select).toHaveBeenCalledTimes(2)
-        expect(on_select.mock.calls[1][0].active_item).toBe(1)
+        expect(on_select.mock.calls[1][0].activeItem).toBe(1)
         expect(on_select.mock.calls[1][0].data.disabled).toBe(true)
       })
 
@@ -195,13 +195,13 @@ describe('DrawerList component', () => {
     })
   })
 
-  it('handles default_value correctly on forcing re-render', () => {
+  it('handles defaultValue correctly on forcing re-render', () => {
     const { rerender } = render(
       <DrawerList
         opened
-        no_animation
+        noAnimation
         data={mockData}
-        default_value={props.value}
+        defaultValue={props.value}
         {...mockProps}
       />
     )
@@ -218,9 +218,9 @@ describe('DrawerList component', () => {
     rerender(
       <DrawerList
         opened
-        no_animation
+        noAnimation
         data={mockData}
-        default_value={props.value}
+        defaultValue={props.value}
         {...mockProps}
         title={title}
       />
@@ -231,9 +231,9 @@ describe('DrawerList component', () => {
     rerender(
       <DrawerList
         opened
-        no_animation
+        noAnimation
         data={mockData}
-        default_value={props.value}
+        defaultValue={props.value}
         {...mockProps}
         title={title}
         value={(props.value as number) + 1}
@@ -310,8 +310,8 @@ describe('DrawerList component', () => {
     const notChangedItem = mockData[props.value]
     await waitFor(() => {
       expect(on_select.mock.calls[0][0].data).toStrictEqual(notChangedItem)
-      expect(on_select.mock.calls[0][0].selected_item).toBe(2)
-      expect(on_select.mock.calls[0][0].active_item).toBe(2)
+      expect(on_select.mock.calls[0][0].selectedItem).toBe(2)
+      expect(on_select.mock.calls[0][0].activeItem).toBe(2)
     })
 
     // reset props
@@ -335,8 +335,8 @@ describe('DrawerList component', () => {
     )
     keydown(40) // down
     await waitFor(() => {
-      expect(on_select.mock.calls[1][0].selected_item).toBe(undefined)
-      expect(on_select.mock.calls[1][0].active_item).toBe(3)
+      expect(on_select.mock.calls[1][0].selectedItem).toBe(undefined)
+      expect(on_select.mock.calls[1][0].activeItem).toBe(3)
 
       const selectedItem = mockData[(props.value as number) + 1]
       expect(on_select.mock.calls[1][0].data).toStrictEqual(selectedItem) // second call!
@@ -379,9 +379,9 @@ describe('DrawerList component', () => {
     )
   })
 
-  it('will lock body scroll when enable_body_lock is true', () => {
+  it('will lock body scroll when enableBodyLock is true', () => {
     const MockComponent = (p) => (
-      <DrawerList {...props} data={mockData} enable_body_lock {...p} />
+      <DrawerList {...props} data={mockData} enableBodyLock {...p} />
     )
 
     const { rerender } = render(<MockComponent opened={false} />)
@@ -557,7 +557,7 @@ describe('DrawerList component', () => {
     render(
       <DrawerList
         opened
-        no_animation
+        noAnimation
         on_change={on_change}
         on_select={on_select}
         data={() => ({ a: 'A', b: 'B', c: 'C' })}
@@ -568,7 +568,7 @@ describe('DrawerList component', () => {
     // then simulate changes
     keydown(40) // down
     await waitFor(() => {
-      expect(on_select.mock.calls[0][0].active_item).toBe(0)
+      expect(on_select.mock.calls[0][0].activeItem).toBe(0)
     })
 
     keydown(13) // enter
@@ -587,18 +587,18 @@ describe('DrawerList component', () => {
   it('should update and correctly set selected item on data prop change', () => {
     const data: Record<string, DrawerListData> = {
       first: [
-        { selected_key: 'key_1', content: 'Content 1' },
-        { selected_key: 'key_2', content: 'Content 2' },
-        { selected_key: 'key_3', content: 'Content 3' },
+        { selectedKey: 'key_1', content: 'Content 1' },
+        { selectedKey: 'key_2', content: 'Content 2' },
+        { selectedKey: 'key_3', content: 'Content 3' },
       ],
       second: [
-        { selected_key: 'key_4', content: 'Content 4' },
-        { selected_key: 'key_5', content: 'Content 5' },
+        { selectedKey: 'key_4', content: 'Content 4' },
+        { selectedKey: 'key_5', content: 'Content 5' },
       ],
       third: [
-        { selected_key: 'key_6', content: 'Content 6' },
-        { selected_key: 'key_7', content: 'Content 7' },
-        { selected_key: 'key_8', content: 'Content 8' },
+        { selectedKey: 'key_6', content: 'Content 6' },
+        { selectedKey: 'key_7', content: 'Content 7' },
+        { selectedKey: 'key_8', content: 'Content 8' },
       ],
     }
 
@@ -608,9 +608,9 @@ describe('DrawerList component', () => {
     const { rerender } = render(
       <DrawerList
         opened
-        no_animation
+        noAnimation
         data={data.first}
-        value={data.first[0].selected_key}
+        value={data.first[0].selectedKey}
         {...mockProps}
       />
     )
@@ -620,9 +620,9 @@ describe('DrawerList component', () => {
     rerender(
       <DrawerList
         opened
-        no_animation
+        noAnimation
         data={data.second}
-        value={data.second[1].selected_key}
+        value={data.second[1].selectedKey}
         {...mockProps}
       />
     )
@@ -632,9 +632,9 @@ describe('DrawerList component', () => {
     rerender(
       <DrawerList
         opened
-        no_animation
+        noAnimation
         data={data.third}
-        value={data.third[2].selected_key}
+        value={data.third[2].selectedKey}
         {...mockProps}
       />
     )
@@ -666,8 +666,8 @@ describe('DrawerList component', () => {
   })
 
   describe('height calculation', () => {
-    it('has given max-height when max_height is set', () => {
-      render(<DrawerList {...props} data={mockData} max_height={10} />)
+    it('has given max-height when maxHeight is set', () => {
+      render(<DrawerList {...props} data={mockData} maxHeight={10} />)
 
       expect(
         document
@@ -833,7 +833,7 @@ describe('DrawerList component', () => {
       render(
         <DrawerList
           opened={true}
-          no_animation={true}
+          noAnimation={true}
           data={dataProp}
           groups={groupsProp}
         />
@@ -887,7 +887,7 @@ describe('DrawerList component', () => {
       render(
         <DrawerList
           opened={true}
-          no_animation={true}
+          noAnimation={true}
           data={dataProp}
           groups={[undefined, undefined, 'Third']}
         />
@@ -921,7 +921,7 @@ describe('DrawerList component', () => {
       render(
         <DrawerList
           opened={true}
-          no_animation={true}
+          noAnimation={true}
           data={[...dataProp, { content: 'Item without groupIndex' }]}
           groups={groupsProp}
         />
@@ -954,7 +954,7 @@ describe('DrawerList markup', () => {
       direction: 'bottom',
       value: 2,
       opened: true,
-      no_animation: true,
+      noAnimation: true,
       size: 'default',
     }
 
@@ -973,14 +973,14 @@ describe('DrawerList markup', () => {
 })
 
 describe('DrawerList portal', () => {
-  it('will set correct width when independent_width is set', async () => {
+  it('will set correct width when independentWidth is set', async () => {
     const style = {
       getPropertyValue: () => 20,
     } as undefined
 
     jest.spyOn(window, 'getComputedStyle').mockImplementation(() => style)
 
-    const { rerender } = render(<DrawerList opened no_animation />)
+    const { rerender } = render(<DrawerList opened noAnimation />)
 
     const styleElement = document.querySelector(
       '.dnb-drawer-list__portal__style'
@@ -992,7 +992,7 @@ describe('DrawerList portal', () => {
       )
     })
 
-    rerender(<DrawerList opened no_animation independent_width />)
+    rerender(<DrawerList opened noAnimation independentWidth />)
 
     expect(styleElement.getAttribute('style')).toBe(
       'width: 320px; --drawer-list-width: 20rem; top: 0px; left: 0px;'
@@ -1004,7 +1004,7 @@ describe('DrawerList portal', () => {
     )
   })
 
-  it('will set correct width when independent_width is set and isolated style scope is used', async () => {
+  it('will set correct width when independentWidth is set and isolated style scope is used', async () => {
     const style = {
       getPropertyValue: () => 20,
     } as undefined
@@ -1013,7 +1013,7 @@ describe('DrawerList portal', () => {
 
     const { rerender } = render(
       <IsolatedStyleScope>
-        <DrawerList opened no_animation />
+        <DrawerList opened noAnimation />
       </IsolatedStyleScope>
     )
 
@@ -1029,7 +1029,7 @@ describe('DrawerList portal', () => {
 
     rerender(
       <IsolatedStyleScope>
-        <DrawerList opened no_animation independent_width />
+        <DrawerList opened noAnimation independentWidth />
       </IsolatedStyleScope>
     )
 

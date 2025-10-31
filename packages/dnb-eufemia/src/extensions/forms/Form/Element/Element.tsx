@@ -82,7 +82,7 @@ export default function FormElement(props: Props) {
             id={`${id}-form-status-${key}`}
             className="dnb-forms-form__status-message"
             show={Boolean(value)}
-            no_animation={false}
+            noAnimation={false}
             shellSpace={{ top: 'small' }}
           >
             {String(value?.['message'] || value || '')}

@@ -34,9 +34,9 @@ import * as z from 'zod'
 export type Props = FieldProps<number, undefined | number> & {
   innerRef?: React.RefObject<HTMLInputElement>
   inputClassName?: string
-  currency?: InputMaskedProps['as_currency']
+  currency?: InputMaskedProps['asCurrency']
   currencyDisplay?: 'code' | 'symbol' | 'narrowSymbol' | 'name'
-  percent?: InputMaskedProps['as_percent']
+  percent?: InputMaskedProps['asPercent']
   mask?: InputMaskedProps['mask']
   step?: number
   startWith?: number
@@ -453,7 +453,7 @@ function NumberComponent(props: Props) {
     typeof suffixProp === 'function' ? suffixProp(value) : suffixProp
 
   const maskProps: Partial<InputMaskedProps> = useMemo(() => {
-    const mask_options = {
+    const maskOptions = {
       prefix,
       suffix,
       decimalLimit,
@@ -463,9 +463,9 @@ function NumberComponent(props: Props) {
 
     if (currency) {
       return {
-        as_currency: currency,
-        mask_options,
-        currency_mask: {
+        asCurrency: currency,
+        maskOptions,
+        currencyMask: {
           currencyDisplay,
           decimalLimit,
         },
@@ -474,16 +474,16 @@ function NumberComponent(props: Props) {
 
     if (percent) {
       return {
-        as_percent: percent,
-        mask_options,
+        asPercent: percent,
+        maskOptions,
       }
     }
 
     // Custom mask based on props
     return {
       mask,
-      as_number: mask ? undefined : true,
-      number_mask: mask ? undefined : mask_options,
+      asNumber: mask ? undefined : true,
+      numberMask: mask ? undefined : maskOptions,
     }
   }, [
     currency,
@@ -508,7 +508,7 @@ function NumberComponent(props: Props) {
   const inputProps: InputProps = {
     id,
     name,
-    inner_ref: innerRef,
+    innerRef: innerRef,
     autoComplete,
     className: classnames(
       'dnb-forms-field-number__input',

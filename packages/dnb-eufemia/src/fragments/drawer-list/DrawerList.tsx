@@ -41,11 +41,9 @@ const propsToFilterOut = {
   on_select: null,
   on_state_update: null,
   on_key_down: null,
-  options_render: null,
-  wrapper_element: null,
+  optionsRender: null,
+  wrapperElement: null,
 }
-/** @deprecated use `DrawerListDataArrayItem` */
-export type DrawerListDataObjectUnion = DrawerListDataArrayItem
 
 export type DrawerListContent =
   | string
@@ -55,20 +53,19 @@ export type DrawerListContent =
 export type DrawerListDataArrayObjectStrict = {
   /** index of group supplied in the `groups` prop */
   groupIndex?: number
-  selected_value?: string | React.ReactNode
+  selectedValue?: string | React.ReactNode
   selectedKey?: string | number
-  selected_key?: string | number
-  suffix_value?: string | React.ReactNode
+  suffixValue?: string | React.ReactNode
   content: DrawerListContent
   disabled?: boolean
   /** used by Autocomplete for additional search hits */
-  search_content?: string | React.ReactNode | string[]
+  searchContent?: string | React.ReactNode | string[]
   /** style prop of the html list item */
   style?: React.CSSProperties
   /** classname added to the html list item */
-  class_name?: string
-  /** set to true to disable mouse events selected style. Keyboard can still select @deprecated */
-  ignore_events?: boolean
+  className?: string
+  /** set to true to disable mouse events selected style. Keyboard can still select. */
+  ignoreEvents?: boolean
   /** internal use only */
   render?: (children: React.ReactNode, id: string) => React.ReactNode
 }
@@ -120,13 +117,13 @@ export interface DrawerListProps {
   _id?: string
   role?: string
   /**
-   * Set a `cache_hash` as a string to enable internal memorizing of the list to enhance rerendering performance. Components like Autocomplete are using this because of the huge data changes due to search and reorder.
+   * Set a `cacheHash` as a string to enable internal memorizing of the list to enhance rerendering performance. Components like Autocomplete are using this because of the huge data changes due to search and reorder.
    */
-  cache_hash?: string
+  cacheHash?: string
   /**
    * Position of the arrow icon/triangle inside the drawer-list. Set to 'left' or 'right'. Defaults to 'left' if not set.
    */
-  triangle_position?: string
+  trianglePosition?: string
   /**
    * Defines if the options list should be scrollable (the `max-height` is set by default to `50vh`).
    */
@@ -143,41 +140,41 @@ export interface DrawerListProps {
   /**
    * Defines the minimum height (in `rem`) of the options list.
    */
-  min_height?: string | number
+  minHeight?: string | number
   /**
    * Defines the maximum height (in `rem`) of the options list.
    */
-  max_height?: string | number
+  maxHeight?: string | number
   /**
    * To disable appear/disappear (show/hide) animation.
    */
-  no_animation?: boolean
+  noAnimation?: boolean
   /**
    * To disable scrolling animation.
    */
-  no_scroll_animation?: boolean
+  noScrollAnimation?: boolean
   /**
    * If set to `true`, the DrawerList will then not make any permanent selection.
    */
-  prevent_selection?: boolean
-  action_menu?: boolean
-  is_popup?: boolean
+  preventSelection?: boolean
+  actionMenu?: boolean
+  isPopup?: boolean
   /**
-   * Use 'right' to change the options alignment direction. Makes only sense to use in combination with `prevent_selection` or `more_menu` - or if an independent width is used.
+   * Use 'right' to change the options alignment direction. Makes only sense to use in combination with `preventSelection` or `moreMenu` - or if an independent width is used.
    */
-  align_drawer?: 'left' | 'right'
+  alignDrawer?: 'left' | 'right'
   /**
-   * Has to be a function, returning the items again. See [example](/uilib/components/fragments/drawer-list#example-usage-of-options_render). This can be used to add additional options above the actual rendered list.
+   * Has to be a function, returning the items again. See [example](/uilib/components/fragments/drawer-list#example-usage-of-optionsRender). This can be used to add additional options above the actual rendered list.
    */
-  options_render?: DrawerListOptionsRender
+  optionsRender?: DrawerListOptionsRender
   /**
-   * Has to be an HTML Element, ideally a mother element, used to calculate sizes and distances. Also used for the 'click outside' detection. Clicking on the `wrapper_element` will not trigger an outside click.
+   * Has to be an HTML Element, ideally a mother element, used to calculate sizes and distances. Also used for the 'click outside' detection. Clicking on the `wrapperElement` will not trigger an outside click.
    */
-  wrapper_element?: string | HTMLElement
+  wrapperElement?: string | HTMLElement
   /**
    * Define a startup value or handle a re-render without handling the state during the re-render by yourself. Defaults to null.
    */
-  default_value?: DrawerListValue
+  defaultValue?: DrawerListValue
   /**
    * Define a preselected `data` entry. In order of priority, `value` can be set to: object key (if `data` is an object), `selectedKey` prop (if `data` is an array), array index (if no `selectedKey`) or content (if `value` is a non-integer string).
    */
@@ -185,36 +182,36 @@ export interface DrawerListProps {
   /**
    * To disable the React Portal behavior.
    */
-  skip_portal?: boolean
+  skipPortal?: boolean
   /**
    * Define an HTML class that will be set on the DOM portal beside `dnb-drawer-list__portal__style`. Can be useful to handle e.g. a custom `z-index` in relation to a header.
    */
-  portal_class?: string
+  portalClass?: string
   /**
    * Define an HTML class that will be set on the list, beside `dnb-drawer-list__list`.
    */
-  list_class?: string
+  listClass?: string
   /**
    * If set to `true`, the DrawerList will not close on any events.
    */
-  prevent_close?: boolean
+  preventClose?: boolean
   /**
    * If set to `true`, the DrawerList will handle its width and position independently of the parent/mother element.
    */
-  independent_width?: boolean
+  independentWidth?: boolean
   /**
    * If set to `true`, the DrawerList will be fixed in its scroll position by using CSS `position: fixed;`.
    */
-  fixed_position?: boolean
+  fixedPosition?: boolean
   /**
    * If set to `true`, the DrawerList will close on outside clicks, but not on selection.
    */
-  keep_open?: boolean
-  prevent_focus?: boolean
+  keepOpen?: boolean
+  preventFocus?: boolean
   /**
    * If set to `true`, search items by the first key will be ignored.
    */
-  skip_keysearch?: boolean
+  skipKeysearch?: boolean
   opened?: boolean
   data?: DrawerListData
   groups?: DrawerListGroupTitles
@@ -222,7 +219,7 @@ export interface DrawerListProps {
   /**
    * If set to `true`, all keyboard and mouse events will be ignored.
    */
-  ignore_events?: boolean
+  ignoreEvents?: boolean
   className?: string
   /** Accepts the same values as the `data` prop. Will be ignored if `data` is used. Can also accept a single child for custom rendering. */
   children?: DrawerListData | React.ReactElement
@@ -230,15 +227,15 @@ export interface DrawerListProps {
   /**
    * If set to `true`, the HTML body will get locked from scrolling when the Dropdown is open.
    */
-  enable_body_lock?: boolean
+  enableBodyLock?: boolean
   /**
    * Defines the available scrollable height. If scrolling should not change the height of the drawer-list, then set it to `0` (useful if the DrawerList is used in fixed positions on contrast to a scrollable page content).
    */
-  page_offset?: string | number
+  pageOffset?: string | number
   /**
    * Set a HTML element, either as a selector or a DOM element. Can be used to send in an element which will be used to make the direction calculation on.
    */
-  observer_element?: string | React.ReactNode
+  observerElement?: string | React.ReactNode
   on_show?: (...args: any[]) => any
   on_hide?: (...args: any[]) => any
   handle_dismiss_focus?: (...args: any[]) => any
@@ -321,7 +318,7 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
     )
 
     this.context.drawerList.setState({
-      triangle_position: this.props.triangle_position,
+      trianglePosition: this.props.trianglePosition,
     })
   }
   preventTab = (e) => {
@@ -346,11 +343,11 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
     // if (getPreviousSibling('dnb-number-format', event.target)) {
     //   return // stop
     // }
-    const selected_item = parseFloat(
+    const selectedItem = parseFloat(
       event.currentTarget.getAttribute('data-item')
     )
-    if (selected_item > -1) {
-      this.context.drawerList.selectItemAndClose(selected_item, {
+    if (selectedItem > -1) {
+      this.context.drawerList.selectItemAndClose(selectedItem, {
         fireSelectEvent: true,
         event,
       })
@@ -367,31 +364,37 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
     )
     const {
       role,
-      align_drawer,
-      fixed_position,
-      independent_width,
+      alignDrawer,
+      fixedPosition,
+      independentWidth,
       scrollable,
       focusable,
       size,
-      no_animation,
-      no_scroll_animation,
-      prevent_selection,
-      action_menu,
-      is_popup,
-      portal_class,
-      list_class,
-      ignore_events,
-      options_render,
+      noAnimation,
+      noScrollAnimation,
+      preventSelection,
+      actionMenu,
+      isPopup,
+      portalClass,
+      listClass,
+      ignoreEvents,
+      optionsRender,
       className,
-      cache_hash: _cache_hash, // eslint-disable-line
-      wrapper_element: _wrapper_element, // eslint-disable-line
-      triangle_position: _triangle_position, // eslint-disable-line
+      cacheHash: _cacheHash, // eslint-disable-line
+      wrapperElement: _wrapperElement, // eslint-disable-line
+      trianglePosition: _trianglePosition, // eslint-disable-line
       direction: _direction, // eslint-disable-line
-      max_height: _max_height, // eslint-disable-line
+      maxHeight: _maxHeight, // eslint-disable-line
       id: _id, // eslint-disable-line
       data: _data, // eslint-disable-line
       opened: _opened, // eslint-disable-line
       value: _value, // eslint-disable-line
+      keepOpen: _keepOpen, // eslint-disable-line
+      preventClose: _preventClose, // eslint-disable-line
+      skipKeysearch: _skipKeysearch, // eslint-disable-line
+      skipPortal: _skipPortal, // eslint-disable-line
+      enableBodyLock: _enableBodyLock, // eslint-disable-line
+      preventFocus: _preventFocus, // eslint-disable-line
       children,
       ...attributes
     } = props
@@ -399,15 +402,15 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
     const id = this._id
 
     function noNullNumbers({
-      selected_item,
-      active_item,
-      max_height,
+      selectedItem,
+      activeItem,
+      maxHeight,
       ...rest
     }: DrawerListContextProps['drawerList']): DrawerListContextProps['drawerList'] {
       return {
-        selected_item: selected_item ?? undefined,
-        active_item: active_item ?? undefined,
-        max_height: max_height ?? undefined,
+        selectedItem: selectedItem ?? undefined,
+        activeItem: activeItem ?? undefined,
+        maxHeight: maxHeight ?? undefined,
         ...rest,
       }
     }
@@ -417,12 +420,12 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
       groups,
       opened,
       hidden,
-      triangle_position,
+      trianglePosition,
       direction,
-      max_height,
-      cache_hash,
-      selected_item,
-      active_item,
+      maxHeight,
+      cacheHash,
+      selectedItem,
+      activeItem,
       showFocusRing,
       closestToTop,
       closestToBottom,
@@ -450,16 +453,16 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
         opened && 'dnb-drawer-list--opened',
         hidden && 'dnb-drawer-list--hidden',
         `dnb-drawer-list--${direction}`,
-        triangle_position &&
-          `dnb-drawer-list--triangle-position-${triangle_position}`,
-        align_drawer && `dnb-drawer-list--${align_drawer}`,
+        trianglePosition &&
+          `dnb-drawer-list--triangle-position-${trianglePosition}`,
+        alignDrawer && `dnb-drawer-list--${alignDrawer}`,
         size && `dnb-drawer-list--${size}`,
-        isTrue(action_menu) && `dnb-drawer-list--action-menu`,
-        isTrue(is_popup) && 'dnb-drawer-list--is-popup',
-        (isTrue(independent_width) || isTrue(action_menu)) &&
+        isTrue(actionMenu) && `dnb-drawer-list--action-menu`,
+        isTrue(isPopup) && 'dnb-drawer-list--is-popup',
+        (isTrue(independentWidth) || isTrue(actionMenu)) &&
           'dnb-drawer-list--independent-width',
         isTrue(scrollable) && 'dnb-drawer-list--scroll',
-        isTrue(no_scroll_animation) &&
+        isTrue(noScrollAnimation) &&
           'dnb-drawer-list--no-scroll-animation',
         createSpacingClasses(props),
         className
@@ -476,8 +479,8 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
       // hidden: hidden !== false,
       className: classnames(
         'dnb-drawer-list__list',
-        isTrue(no_animation) && 'dnb-drawer-list__list--no-animation',
-        list_class
+        isTrue(noAnimation) && 'dnb-drawer-list__list--no-animation',
+        listClass
       ),
     }
 
@@ -489,26 +492,26 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
       tabIndex: -1,
       style: {
         maxHeight:
-          parseFloat(max_height as string) > 0 ? `${max_height}rem` : null,
+          parseFloat(maxHeight as string) > 0 ? `${maxHeight}rem` : null,
       },
       ref: _refUl,
     }
 
     if (
       !hidden &&
-      (parseFloat(active_item as string) > -1 ||
-        (!(parseFloat(active_item as string) > -1) &&
-          !(parseFloat(selected_item as string) > -1)))
+      (parseFloat(activeItem as string) > -1 ||
+        (!(parseFloat(activeItem as string) > -1) &&
+          !(parseFloat(selectedItem as string) > -1)))
     ) {
       ulParams['aria-activedescendant'] = `option-${id}-${
-        parseFloat(active_item as string) > -1 ? active_item : 0
+        parseFloat(activeItem as string) > -1 ? activeItem : 0
       }`
     } else if (
-      !isTrue(prevent_selection) &&
+      !isTrue(preventSelection) &&
       !hidden &&
-      parseFloat(selected_item as string) > -1
+      parseFloat(selectedItem as string) > -1
     ) {
-      ulParams['aria-activedescendant'] = `option-${id}-${selected_item}`
+      ulParams['aria-activedescendant'] = `option-${id}-${selectedItem}`
     }
 
     if (isTrue(focusable)) {
@@ -526,7 +529,7 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
       validateDOMAttributes(null, attributes)
     )
 
-    const ignoreEvents = isTrue(ignore_events)
+    const ignoreEventsBoolean = isTrue(ignoreEvents)
 
     const GroupItems = () =>
       renderData
@@ -552,18 +555,18 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
                   tagId === closestToBottom && 'closest-to-bottom',
                   i === 0 && 'first-of-type', // because of the triangle element
                   i === data.length - 1 && 'last-of-type', // because of the triangle element
-                  ignoreEvents ||
-                    (dataItem.ignore_events && 'ignore-events'),
-                  dataItem.class_name
+                  ignoreEventsBoolean ||
+                    (dataItem.ignoreEvents && 'ignore-events'),
+                  dataItem.className
                 ),
-                active: _id == active_item,
-                selected: !dataItem.ignore_events && _id == selected_item,
+                active: _id == activeItem,
+                selected: !dataItem.ignoreEvents && _id == selectedItem,
                 onClick: this.selectItemHandler,
                 onKeyDown: this.preventTab,
                 disabled: dataItem.disabled,
                 style: dataItem.style,
               }
-              if (ignoreEvents) {
+              if (ignoreEventsBoolean) {
                 liParams.active = null
                 liParams.selected = null
                 liParams.onClick = null
@@ -581,8 +584,8 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
               )
             })
           const ItemsRendered = () =>
-            typeof options_render === 'function' ? (
-              options_render({ data, Items, Item: DrawerList.Item })
+            typeof optionsRender === 'function' ? (
+              optionsRender({ data, Items, Item: DrawerList.Item })
             ) : (
               <Items />
             )
@@ -626,14 +629,14 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
             <>
               <DrawerList.Options
                 hasGroups={hasGroups}
-                cache_hash={
-                  cache_hash +
-                  active_item +
-                  selected_item +
+                cacheHash={
+                  cacheHash +
+                  activeItem +
+                  selectedItem +
                   closestToTop +
                   closestToBottom +
                   direction +
-                  max_height
+                  maxHeight
                 }
                 {...ulParams}
                 showFocusRing={showFocusRing}
@@ -673,10 +676,10 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
           id={this._id}
           rootRef={_refRoot}
           opened={hidden === false}
-          include_owner_width={align_drawer === 'right'}
-          independent_width={isTrue(independent_width)}
-          fixed_position={isTrue(fixed_position)}
-          className={getThemeClasses(this.context?.theme, portal_class)}
+          includeOwnerWidth={alignDrawer === 'right'}
+          independentWidth={isTrue(independentWidth)}
+          fixedPosition={isTrue(fixedPosition)}
+          className={getThemeClasses(this.context?.theme, portalClass)}
           skipPortal={skipPortal}
         >
           {mainList}
@@ -741,7 +744,7 @@ function makeRenderData(
 export type DrawerListOptionsProps = React.HTMLProps<HTMLUListElement> & {
   children: React.ReactNode
   triangleRef?: React.ForwardedRef<HTMLLIElement | HTMLSpanElement>
-  cache_hash?: string
+  cacheHash?: string
   showFocusRing?: boolean
   hasGroups?: boolean
 }
@@ -756,7 +759,7 @@ DrawerList.Options = React.memo(
         children,
         className,
         triangleRef,
-        cache_hash, // eslint-disable-line
+        cacheHash, // eslint-disable-line
         showFocusRing = false,
         hasGroups = false,
         ...rest
@@ -787,10 +790,10 @@ DrawerList.Options = React.memo(
     }
   ),
   (prevProps, nextProps) => {
-    if (!prevProps.cache_hash) {
+    if (!prevProps.cacheHash) {
       return null
     }
-    return prevProps.cache_hash === nextProps.cache_hash
+    return prevProps.cacheHash === nextProps.cacheHash
   }
 )
 

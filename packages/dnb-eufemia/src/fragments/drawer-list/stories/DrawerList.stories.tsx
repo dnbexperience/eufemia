@@ -53,10 +53,10 @@ const MagicOpen = (props) => {
         on_focus={() => setOpened(true)}
         placeholder="Search for items ..."
         icon="chevron_down"
-        inner_ref={ref}
+        innerRef={ref}
       />
       <Drawer
-        wrapper_element={ref.current}
+        wrapperElement={ref.current}
         opened={opened}
         // data={['A', 'B']}
         on_select={(e) => {
@@ -108,15 +108,15 @@ const DrawerListWithState = (props) => {
         text="Toggle"
         checked={opened}
         icon={'chevron_' + (opened ? 'up' : 'down')}
-        icon_position="left"
+        iconPosition="left"
         on_change={({ checked }) => setOpened(checked)}
       />
       <DrawerList
-        keep_open
+        keepOpen
         data={['A', 'B', 'C']}
         opened={opened}
         on_hide={() => setOpened(false)}
-        wrapper_element="#ToggleButton"
+        wrapperElement="#ToggleButton"
         {...props}
       />
     </>
@@ -127,7 +127,7 @@ const DrawerStory = () => {
   return (
     <Wrapper>
       <Box>
-        <Drawer opened no_animation prevent_close>
+        <Drawer opened noAnimation preventClose>
           Empty
         </Drawer>
       </Box>

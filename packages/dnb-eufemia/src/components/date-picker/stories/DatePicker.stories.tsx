@@ -151,13 +151,13 @@ export const DatePickerSandbox = () => (
         shortcuts={JSON.stringify([
           {
             title: 'Set cake',
-            start_date: '1981-01-15',
-            end_date: '1981-02-15',
+            startDate: '1981-01-15',
+            endDate: '1981-02-15',
           },
           {
             title: 'This stake',
-            start_date: startOfMonth(new Date()),
-            end_date: lastDayOfMonth(new Date()),
+            startDate: startOfMonth(new Date()),
+            endDate: lastDayOfMonth(new Date()),
           },
         ])}
         // addonElement={ToggleButtons}
@@ -259,13 +259,13 @@ export const DatePickerSandbox = () => (
               shortcuts={[
                 {
                   title: 'Set date period',
-                  start_date: '1981-01-15',
-                  end_date: '1981-02-15',
+                  startDate: '1981-01-15',
+                  endDate: '1981-02-15',
                 },
                 {
                   title: 'This month',
-                  start_date: startOfMonth(new Date()),
-                  end_date: lastDayOfMonth(new Date()),
+                  startDate: startOfMonth(new Date()),
+                  endDate: lastDayOfMonth(new Date()),
                 },
               ]}
             />
@@ -334,7 +334,6 @@ export const DatePickerSandbox = () => (
       <DatePicker
         label="Show month only:"
         date="2019-02-05"
-        // hideNavigationButtons={true}
         onlyMonth={true}
       />
     </Box>
@@ -426,10 +425,10 @@ const CustomDate = () => {
         showInput
         startDate={startDate}
         endDate={endDate}
-        onChange={({ date, start_date, end_date, ...rest }) => {
-          console.log('onChange', date, start_date, end_date, rest)
-          setStartDate(start_date)
-          setEndDate(end_date)
+        onChange={({ date, startDate, endDate, ...rest }) => {
+          console.log('onChange', date, startDate, endDate, rest)
+          setStartDate(startDate)
+          setEndDate(endDate)
         }}
         // returnFormat="yyyy-MM-dd"
         status={errorStatus}
@@ -494,10 +493,10 @@ const CustomDate = () => {
 //         showInput
 //         startDate={startDate}
 //         endDate={endDate}
-//         onChange={({ start_date, end_date }) => {
-//           console.log('on_change', start_date, end_date)
-//           setStartDate(start_date)
-//           setEndDate(end_date)
+//         onChange={({ startDate, endDate }) => {
+//           console.log('on_change', startDate, endDate)
+//           setStartDate(startDate)
+//           setEndDate(endDate)
 //         }}
 //         // returnFormat="yyyy-MM-dd"
 //         status={errorStatus}

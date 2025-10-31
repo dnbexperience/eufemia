@@ -48,7 +48,7 @@ export const InputSandbox = () => {
     <CustomStyle>
       <Wrapper>
         <Box>
-          <Provider formElement={{ label_direction: 'vertical' }}>
+          <Provider formElement={{ labelDirection: 'vertical' }}>
             <Flex.Vertical>
               <Input value="Plain" />
               <Input value="Search" type="search" />
@@ -61,7 +61,7 @@ export const InputSandbox = () => {
               />
               <Input
                 placeholder="Placeholder Eu pretium sit magnis suscipit cursus dis proin rutrum elementum"
-                icon_position="right"
+                iconPosition="right"
                 icon="calendar"
                 align="right"
               />
@@ -74,7 +74,7 @@ export const InputSandbox = () => {
               <Input
                 size="medium"
                 placeholder="Placeholder"
-                icon_position="right"
+                iconPosition="right"
                 icon="calendar"
                 align="right"
               />
@@ -87,7 +87,7 @@ export const InputSandbox = () => {
               <Input
                 size="large"
                 placeholder="Placeholder"
-                icon_position="right"
+                iconPosition="right"
                 icon="calendar"
                 align="right"
               />
@@ -106,12 +106,12 @@ export const InputSandbox = () => {
         </Box>
         <Box>
           🚀
-          <Provider formElement={{ label_direction: 'vertical' }}>
+          <Provider formElement={{ labelDirection: 'vertical' }}>
             <Form.Handler>
               <FieldBlock label="Long label labwl Adipiscing mauris dis proin nec Condimentum egestas class blandit netus non a suscipit id urna:">
                 <Flex.Vertical>
                   <Input
-                    inner_ref={myRef}
+                    innerRef={myRef}
                     label="Input A:"
                     placeholder="Placeholder text"
                   />
@@ -126,7 +126,7 @@ export const InputSandbox = () => {
         <Box>
           <Provider
             formElement={{
-              label_direction: 'vertical',
+              labelDirection: 'vertical',
             }}
           >
             <FieldBlock label="Vertical label:">
@@ -146,7 +146,7 @@ export const InputSandbox = () => {
           </FieldBlock>
         </Box>
         <Box>
-          <Provider formElement={{ label_direction: 'vertical' }}>
+          <Provider formElement={{ labelDirection: 'vertical' }}>
             <FieldBlock label="Legend:">
               <Flex.Vertical>
                 <Input label="Vertical 1:" />
@@ -160,7 +160,7 @@ export const InputSandbox = () => {
             label="Vertical label:"
             value="Stretch me ..."
             stretch
-            label_direction="vertical"
+            labelDirection="vertical"
           />
         </Box>
         <Box>
@@ -209,7 +209,7 @@ export const InputSandbox = () => {
             type="search"
             align="right"
             stretch
-            submit_button_title="Custom search button title"
+            submitButtonTitle="Custom search button title"
             placeholder="Large input clear button with right aligned text"
           />
         </Box>
@@ -219,7 +219,7 @@ export const InputSandbox = () => {
             status="Error"
             label="Disabled search:"
             type="search"
-            submit_button_title="Custom search button title"
+            submitButtonTitle="Custom search button title"
             placeholder="Search text placeholder"
           />
         </Box>
@@ -260,7 +260,7 @@ export const InputSandbox = () => {
               /\d/,
               /\d/,
             ]}
-            show_mask={true}
+            showMask={true}
           />
         </Box>
         <Box>
@@ -295,7 +295,7 @@ export const InputSandbox = () => {
           clear
             label="Small Input"
             size="small"
-            icon_size="small"
+            iconSize="small"
             bottom="small"
           />
         </Box>
@@ -415,7 +415,7 @@ export function InputClearButton() {
           clear
           label="Small Input"
           size="small"
-          icon_size="small"
+          iconSize="small"
           bottom="small"
         />
       </Box>

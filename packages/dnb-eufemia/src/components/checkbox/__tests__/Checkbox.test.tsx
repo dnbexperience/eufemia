@@ -305,7 +305,7 @@ describe('Checkbox component', () => {
   it('should inherit formElement vertical label', () => {
     render(
       <Provider
-        formElement={{ label_direction: 'vertical', disabled: true }}
+        formElement={{ labelDirection: 'vertical', disabled: true }}
       >
         <Checkbox label="Label" />
       </Provider>

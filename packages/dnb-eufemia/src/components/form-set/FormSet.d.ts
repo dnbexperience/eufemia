@@ -35,8 +35,8 @@ export interface FormSetProps
   prevent_submit?: boolean;
   id?: string;
   label?: React.ReactNode;
-  label_direction?: FormLabelLabelDirection;
-  label_sr_only?: boolean;
+  labelDirection?: FormLabelLabelDirection;
+  labelSrOnly?: boolean;
   label_id?: string;
   label_class?: string;
   no_label?: boolean;

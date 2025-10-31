@@ -61,8 +61,8 @@ const RightAligned = styled.div`
 
 const direction = 'auto'
 const label = 'Label'
-const align_dropdown = 'right'
-const icon_position = 'right'
+const alignDropdown = 'right'
+const iconPosition = 'right'
 const opened = false
 
 const DropdownStory = () => {
@@ -101,9 +101,9 @@ const DropdownStory = () => {
         <RightAligned>
           <Dropdown
             size="small"
-            independent_width
-            icon_position="left"
-            align_dropdown="left"
+            independentWidth
+            iconPosition="left"
+            alignDropdown="left"
             variant="tertiary"
             title="Tertiary"
             data={[
@@ -115,9 +115,9 @@ const DropdownStory = () => {
           />
           <Dropdown
             size="small"
-            independent_width
-            // icon_position="right"
-            // align_dropdown="right"
+            independentWidth
+            // iconPosition="right"
+            // alignDropdown="right"
             variant="tertiary"
             title="Tertiary"
             data={[
@@ -132,7 +132,7 @@ const DropdownStory = () => {
       <Box>
         <RightAligned>
           <Dropdown
-            action_menu
+            actionMenu
             title="Action Menu"
             data={[
               <>
@@ -152,9 +152,9 @@ const DropdownStory = () => {
             }}
           />
           <Dropdown
-            action_menu
-            icon_position="right"
-            align_dropdown="right"
+            actionMenu
+            iconPosition="right"
+            alignDropdown="right"
             title="Action Menu"
             data={[
               <>
@@ -174,28 +174,28 @@ const DropdownStory = () => {
           <Dropdown
             size="small"
             // opened
-            more_menu
+            moreMenu
             data={[
               <Link key="item-1" href="/">
                 Go to this Link
               </Link>,
               'Or to this one',
             ]}
-            // skip_portal
-            align_dropdown="right"
+            // skipPortal
+            alignDropdown="right"
           />
           <Dropdown
             size="small"
             // opened
-            more_menu
+            moreMenu
             data={[
               <Link key="item-1" href="/">
                 Go to this Link
               </Link>,
               'Or to this one',
             ]}
-            // skip_portal
-            // align_dropdown="right"
+            // skipPortal
+            // alignDropdown="right"
           />
         </RightAligned>
       </Box>
@@ -211,12 +211,12 @@ const DropdownStory = () => {
         <Box>
           <Dropdown
             size="small"
-            skip_portal
+            skipPortal
             opened={opened}
-            no_animation
+            noAnimation
             direction={direction}
-            align_dropdown={align_dropdown}
-            icon_position={icon_position}
+            alignDropdown={alignDropdown}
+            iconPosition={iconPosition}
             label={label}
             data={['A', 'B']}
             right
@@ -224,10 +224,10 @@ const DropdownStory = () => {
           <Dropdown
             size="small"
             opened={opened}
-            // no_animation
+            // noAnimation
             direction={direction}
-            align_dropdown={align_dropdown}
-            icon_position={icon_position}
+            alignDropdown={alignDropdown}
+            iconPosition={iconPosition}
             label={label}
             data={['A', 'B']}
             right
@@ -235,22 +235,22 @@ const DropdownStory = () => {
         </Box>
         <Box top={opened ? 'x-large x-large' : 0}>
           <Dropdown
-            skip_portal
+            skipPortal
             opened={opened}
-            no_animation
+            noAnimation
             direction={direction}
-            align_dropdown={align_dropdown}
-            icon_position={icon_position}
+            alignDropdown={alignDropdown}
+            iconPosition={iconPosition}
             label={label}
             data={['A', 'B']}
             right
           />
           <Dropdown
             opened={opened}
-            no_animation
+            noAnimation
             direction={direction}
-            align_dropdown={align_dropdown}
-            icon_position={icon_position}
+            alignDropdown={alignDropdown}
+            iconPosition={iconPosition}
             label={label}
             data={['A', 'B']}
             right
@@ -259,12 +259,12 @@ const DropdownStory = () => {
         <Box top={opened ? 'x-large x-large' : 0}>
           <Dropdown
             size="medium"
-            skip_portal
+            skipPortal
             opened={opened}
-            no_animation
+            noAnimation
             direction={direction}
-            align_dropdown={align_dropdown}
-            icon_position={icon_position}
+            alignDropdown={alignDropdown}
+            iconPosition={iconPosition}
             label={label}
             data={['A', 'B']}
             right
@@ -272,10 +272,10 @@ const DropdownStory = () => {
           <Dropdown
             size="medium"
             opened={opened}
-            no_animation
+            noAnimation
             direction={direction}
-            align_dropdown={align_dropdown}
-            icon_position={icon_position}
+            alignDropdown={alignDropdown}
+            iconPosition={iconPosition}
             label={label}
             data={['A', 'B']}
             right
@@ -284,12 +284,12 @@ const DropdownStory = () => {
         <Box top={opened ? 'x-large x-large' : 0}>
           <Dropdown
             size="large"
-            skip_portal
+            skipPortal
             opened={opened}
-            no_animation
+            noAnimation
             direction={direction}
-            align_dropdown={align_dropdown}
-            icon_position={icon_position}
+            alignDropdown={alignDropdown}
+            iconPosition={iconPosition}
             label={label}
             data={['A', 'B']}
             right
@@ -298,9 +298,9 @@ const DropdownStory = () => {
             size="large"
             opened={opened}
             // opened
-            no_animation
-            align_dropdown={align_dropdown}
-            icon_position={icon_position}
+            noAnimation
+            alignDropdown={alignDropdown}
+            iconPosition={iconPosition}
             direction={direction}
             label={label}
             data={['A', 'B']}
@@ -314,11 +314,11 @@ const DropdownStory = () => {
               opened={opened}
               // opened
               label={label}
-              no_animation
+              noAnimation
               direction={direction}
-              align_dropdown={align_dropdown}
-              icon_position={icon_position}
-              more_menu={true}
+              alignDropdown={alignDropdown}
+              iconPosition={iconPosition}
+              moreMenu={true}
               data={[
                 <Link key="item-1" href="/">
                   Go to this Link
@@ -326,16 +326,16 @@ const DropdownStory = () => {
                 'Or to this one',
               ]}
               right="x-large x-large"
-              skip_portal
+              skipPortal
             />
             <Dropdown
-              more_menu={true}
+              moreMenu={true}
               opened={opened}
               label={label}
-              no_animation
+              noAnimation
               direction={direction}
-              align_dropdown={align_dropdown}
-              icon_position={icon_position}
+              alignDropdown={alignDropdown}
+              iconPosition={iconPosition}
               data={[
                 <Link key="item-1" href="/">
                   Go to this Link
@@ -346,13 +346,13 @@ const DropdownStory = () => {
             />
             <Dropdown
               size="medium"
-              more_menu={true}
+              moreMenu={true}
               opened={opened}
               label={label}
-              no_animation
+              noAnimation
               direction={direction}
-              align_dropdown={align_dropdown}
-              icon_position={icon_position}
+              alignDropdown={alignDropdown}
+              iconPosition={iconPosition}
               data={[
                 <Link key="item-1" href="/">
                   Go to this Link
@@ -363,13 +363,13 @@ const DropdownStory = () => {
             />
             <Dropdown
               size="large"
-              more_menu
+              moreMenu
               opened={opened}
               label={label}
-              no_animation
+              noAnimation
               direction={direction}
-              align_dropdown={align_dropdown}
-              icon_position={icon_position}
+              alignDropdown={alignDropdown}
+              iconPosition={iconPosition}
               data={[
                 <Link key="item-1" href="/">
                   Go to this Link
@@ -389,8 +389,8 @@ const DropdownStory = () => {
       </Box>
       <Box>
         <FormRow
-          label="Vertical label_direction:"
-          label_direction="vertical"
+          label="Vertical labelDirection:"
+          labelDirection="vertical"
         >
           <Dropdown
             label="Vertical A (function):"
@@ -408,13 +408,13 @@ const DropdownStory = () => {
               )
             }}
             data-attr={123}
-            icon_position="left"
+            iconPosition="left"
           />
           <Dropdown
             title="Default option"
             label="Vertical B:"
-            // align_dropdown="right"
-            icon_position="left"
+            // alignDropdown="right"
+            iconPosition="left"
             data={dropdownData}
           />
         </FormRow>
@@ -458,7 +458,7 @@ const DropdownStory = () => {
             onClick={() => {
               const id = Math.random()
               dropdownData.unshift({
-                selected_value: `I'm New ${id}`,
+                selectedValue: `I'm New ${id}`,
                 content: `New content ${id}`,
               })
               // setData(dropdownData)
@@ -488,7 +488,7 @@ const DropdownStory = () => {
       <Box>
         <Dropdown
           label="Label vertical:"
-          label_direction="vertical"
+          labelDirection="vertical"
           title={<>Custom title {'🔥'}</>}
           data={dropdownData}
           on_change={({ data }) => {
@@ -507,7 +507,7 @@ const DropdownStory = () => {
         </p>
       </Box>
       <Box>
-        <Provider formElement={{ label_direction: 'vertical' }}>
+        <Provider formElement={{ labelDirection: 'vertical' }}>
           <Dropdown label="Vertical:" data={dropdownData} />
         </Provider>
       </Box>
@@ -518,7 +518,7 @@ const DropdownStory = () => {
           // direction="top"
           data={dropdownDataScrollable}
           value={4}
-          no_scroll_animation={true}
+          noScrollAnimation={true}
           status="Message to the user"
           right
         />
@@ -530,21 +530,21 @@ const DropdownStory = () => {
           data={dropdownData}
           id="text-dropdown-1"
           size="small"
-          icon_position="left"
+          iconPosition="left"
           bottom
           value={2}
         />
         <Dropdown
           data={dropdownData}
           size="medium"
-          icon_position="left"
+          iconPosition="left"
           bottom
           value={2}
         />
         <Dropdown
           data={dropdownData}
           size="large"
-          icon_position="left"
+          iconPosition="left"
           bottom
           value={2}
         />
@@ -632,7 +632,7 @@ export const DropdownSandbox = () => (
 
 let dropdownData: DrawerListDataArray = [
   {
-    selected_value: 'Brukskonto - Kari Nordmann',
+    selectedValue: 'Brukskonto - Kari Nordmann',
     content: (
       <>
         {/* <Checkbox checked aria-hidden />  */}
@@ -651,7 +651,7 @@ let dropdownData: DrawerListDataArray = [
     ],
   },
   {
-    selected_value:
+    selectedValue:
       'Feriekonto - Kari Nordmann med et kjempelangt etternavnsen',
     content: [
       <NumberFormat key={11345678962} ban>
@@ -661,7 +661,7 @@ let dropdownData: DrawerListDataArray = [
     ],
   },
   {
-    selected_value: (
+    selectedValue: (
       <React.Fragment key="cs-1">Custom selected {'🔥'}</React.Fragment>
     ),
     content: [
@@ -674,7 +674,7 @@ let dropdownData: DrawerListDataArray = [
 ]
 const dropdownDataScrollable = [
   {
-    selected_value: 'AA',
+    selectedValue: 'AA',
     content: 'A',
   },
   {
@@ -686,7 +686,7 @@ const dropdownDataScrollable = [
     ],
   },
   {
-    selected_value: 'CC',
+    selectedValue: 'CC',
     content: [
       <NumberFormat key={11345678962} ban>
         11345678962
@@ -695,7 +695,7 @@ const dropdownDataScrollable = [
     ],
   },
   {
-    selected_value: 'DD',
+    selectedValue: 'DD',
     content: [
       <NumberFormat key={15349648901} ban>
         15349648901
@@ -742,15 +742,15 @@ function CurrencySelector({
       value={itemIndex}
       title={strings.currencyBlankLabel}
       // eslint-disable-next-line camelcase
-      on_change={({ data: { selected_value }, event }) => {
+      on_change={({ data: { selectedValue }, event }) => {
         console.log('event', event)
         if (event && typeof event.persist === 'function') {
           event.persist()
         }
-        onChange(selected_value)
+        onChange(selectedValue)
       }}
       data={currencies.map((currency) => ({
-        selected_value: currency,
+        selectedValue: currency,
         content: (
           <>
             {currency} <Flag />
@@ -775,13 +775,13 @@ function DropdownStatesSync() {
   }
 
   return (
-    <Provider formElement={{ label_direction: 'vertical' }}>
+    <Provider formElement={{ labelDirection: 'vertical' }}>
       <Flex.Vertical>
         <>{JSON.stringify(state)}</>
         <Dropdown
           data={dropdownDataScrollable}
           // value={0}
-          default_value={0}
+          defaultValue={0}
           title="Dropdown 1"
           on_change={handleOnChange}
         />
@@ -789,7 +789,7 @@ function DropdownStatesSync() {
         top
         data={dropdownDataScrollable}
         // value={1}
-        default_value={1}
+        defaultValue={1}
         title="Dropdown 2"
         on_change={handleOnChange}
       /> */}
@@ -850,10 +850,10 @@ const strings = {
 }
 
 const initialData = [
-  { selected_value: '1', content: '1' },
-  { selected_value: '2', content: '2' },
-  { selected_value: '3', content: '3' },
-  { selected_value: '4', content: '4' },
+  { selectedValue: '1', content: '1' },
+  { selectedValue: '2', content: '2' },
+  { selectedValue: '3', content: '3' },
+  { selectedValue: '4', content: '4' },
 ]
 
 function UpdateDataExample() {
@@ -871,15 +871,15 @@ function UpdateDataExample() {
               size="small"
               on_click={() => {
                 const updatedSelectedData = selectedData.filter(
-                  (data) => item?.selected_value !== data?.selected_value
+                  (data) => item?.selectedValue !== data?.selectedValue
                 )
                 setSelectedData(updatedSelectedData)
                 setChoiceData(
                   initialData.filter(
                     (data) =>
                       updatedSelectedData.findIndex(
-                        ({ selected_value: updatedValue }) =>
-                          updatedValue === data?.selected_value
+                        ({ selectedValue: updatedValue }) =>
+                          updatedValue === data?.selectedValue
                       ) === -1
                   )
                 )
@@ -893,23 +893,20 @@ function UpdateDataExample() {
 
       <Dropdown
         title="Choose an item"
-        prevent_selection
-        enable_body_lock
+        preventSelection
+        enableBodyLock
         data={choiceData}
         on_change={({ data }) => {
           console.log('data', data)
           if (data) {
             setChoiceData(
               choiceData.filter((item) => {
-                return (
-                  data && item?.selected_value !== data?.selected_value
-                )
+                return data && item?.selectedValue !== data?.selectedValue
               })
             )
             if (
               selectedData.findIndex(
-                ({ selected_value }) =>
-                  selected_value === data.selected_value
+                ({ selectedValue }) => selectedValue === data.selectedValue
               ) === -1
             ) {
               setSelectedData([...selectedData, data])
@@ -923,22 +920,22 @@ function UpdateDataExample() {
 
 const filter1ToShow = [
   {
-    selected_key: 'key_1',
+    selectedKey: 'key_1',
     content: 'item_1',
   },
   {
-    selected_key: 'key_2',
+    selectedKey: 'key_2',
     content: 'item_2',
   },
 ]
 
 const filter2ToShow = [
   {
-    selected_key: 'key_3',
+    selectedKey: 'key_3',
     content: 'item_3',
   },
   {
-    selected_key: 'key_4',
+    selectedKey: 'key_4',
     content: 'item_4',
   },
 ]
@@ -951,7 +948,7 @@ export function UpdateData() {
 
   const onFilterChange = ({ value, data }) => {
     setValue(value)
-    if (data?.selected_key === 'key_1' || data?.selected_key === 'key_2') {
+    if (data?.selectedKey === 'key_1' || data?.selectedKey === 'key_2') {
       setFiltersToShow(filter2ToShow)
       setValue(null)
       setTimeout(() => {
@@ -979,7 +976,7 @@ export function UpdateData() {
         value={value}
         size="large"
         direction="top"
-        prevent_close={preventClose}
+        preventClose={preventClose}
       />
       <Dropdown
         top="10rem"
@@ -989,7 +986,7 @@ export function UpdateData() {
         on_show={onShow}
         value={value}
         size="large"
-        prevent_close={preventClose}
+        preventClose={preventClose}
       />
     </>
   )
@@ -1012,7 +1009,7 @@ export const GlobalStatusExample = () => {
 export const TypesExample = () => {
   interface MyInterface {
     content: string
-    selected_key: string
+    selectedKey: string
   }
 
   const myData: MyInterface[] = []
@@ -1065,8 +1062,8 @@ export function Title() {
       <Dropdown
         data={[
           {
-            selected_key: 'test',
-            selected_value: <>my value</>,
+            selectedKey: 'test',
+            selectedValue: <>my value</>,
             content: 'test',
           },
         ]}
@@ -1076,8 +1073,8 @@ export function Title() {
       <Dropdown
         data={[
           {
-            selected_key: 'test',
-            selected_value: <P>my value</P>,
+            selectedKey: 'test',
+            selectedValue: <P>my value</P>,
             content: 'test',
           },
         ]}
@@ -1087,8 +1084,8 @@ export function Title() {
       <Dropdown
         data={[
           {
-            selected_key: 'test',
-            selected_value: (
+            selectedKey: 'test',
+            selectedValue: (
               <>
                 <Icon icon={bank} />
                 Banking
@@ -1103,8 +1100,8 @@ export function Title() {
       <Dropdown
         data={[
           {
-            selected_key: 'test',
-            selected_value: <Icon icon={bank} />,
+            selectedKey: 'test',
+            selectedValue: <Icon icon={bank} />,
             content: 'test',
           },
         ]}
@@ -1114,8 +1111,8 @@ export function Title() {
       <Dropdown
         data={[
           {
-            selected_key: 'test',
-            selected_value: <NumberFormat>11345678962</NumberFormat>,
+            selectedKey: 'test',
+            selectedValue: <NumberFormat>11345678962</NumberFormat>,
             content: 'test',
           },
         ]}
@@ -1128,14 +1125,14 @@ export function Title() {
 export const DropdownIndependentWidth = () => (
   <Wrapper>
     <Dropdown
-      independent_width
+      independentWidth
       size="default"
       title="sadsadasd sad asdasdas das dasdas d"
       data={dropdownData}
     />
-    <Dropdown independent_width size="default" data={dropdownData} />
+    <Dropdown independentWidth size="default" data={dropdownData} />
     <Dropdown
-      independent_width
+      independentWidth
       size="default"
       title="s"
       data={dropdownData}
