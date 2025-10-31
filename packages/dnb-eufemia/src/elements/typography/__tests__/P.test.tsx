@@ -259,5 +259,12 @@ describe('P element', () => {
       ])
       expect(element.style.maxWidth).toBe('70ch')
     })
+
+    it('applies proseMaxWidth="auto" as 60ch', () => {
+      render(<P proseMaxWidth="auto">Test paragraph</P>)
+      const element = document.querySelector('.dnb-p') as HTMLElement
+
+      expect(element.style.maxWidth).toBe('60ch')
+    })
   })
 })

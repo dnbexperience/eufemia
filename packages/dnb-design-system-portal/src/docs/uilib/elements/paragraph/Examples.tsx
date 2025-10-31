@@ -221,6 +221,9 @@ export function ParagraphProseMaxWidth() {
           This paragraph uses proseMaxWidth={40} for an even narrower
           reading width.
         </P>
+        <P proseMaxWidth="auto">
+          This paragraph uses proseMaxWidth="auto".
+        </P>
       </Flex.Stack>
     </ComponentBox>
   )
