@@ -8,13 +8,12 @@ import { convertStringToDate } from './DatePickerCalc'
 import Button from '../button/Button'
 import DatePickerContext from './DatePickerContext'
 
-// TODO: convert shortcut properties to camelCase, constitutes a breaking change - could be included in v11
 export type DatePickerShortcut = {
   title?: string
   date?: string | Date | ((...args: unknown[]) => Date)
   startDate?: string | Date | ((...args: unknown[]) => Date)
   endDate?: string | Date | ((...args: unknown[]) => Date)
-  close_on_select?: boolean
+  closeOnSelect?: boolean
 }
 
 export type DatePickerAddonProps = React.HTMLProps<HTMLElement> & {
@@ -97,7 +96,7 @@ function DatePickerAddon(props: DatePickerAddonProps) {
         event,
       })
 
-      if (shortcut.close_on_select) {
+      if (shortcut.closeOnSelect) {
         hidePicker({ ...event, focusOnHide: true })
       }
     },
