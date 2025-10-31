@@ -40,6 +40,7 @@ export function SliderProvider(localProps: SliderAllProps) {
     localProps,
     defaultProps,
     { skeleton: context?.skeleton },
+    pickFormElementProps(context?.formElement),
     context?.getTranslation(localProps).Slider,
     context?.Slider
   )
