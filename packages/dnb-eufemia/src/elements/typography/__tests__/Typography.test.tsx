@@ -141,6 +141,24 @@ describe('Typography element', () => {
       expect(element.tagName).toBe('SPAN')
       expect(element.style.maxWidth).toBe('50ch')
     })
+
+    it('applies proseMaxWidth="auto" as 60ch', () => {
+      render(<Typography proseMaxWidth="auto">Test text</Typography>)
+      const element = document.querySelector('.dnb-p') as HTMLElement
+
+      expect(element.style.maxWidth).toBe('60ch')
+    })
+
+    it('works with proseMaxWidth="auto" from Provider', () => {
+      render(
+        <Typography.Provider proseMaxWidth="auto">
+          <Typography>Text with auto width</Typography>
+        </Typography.Provider>
+      )
+      const element = document.querySelector('.dnb-p') as HTMLElement
+
+      expect(element.style.maxWidth).toBe('60ch')
+    })
   })
 
   describe('Typography.Provider', () => {
