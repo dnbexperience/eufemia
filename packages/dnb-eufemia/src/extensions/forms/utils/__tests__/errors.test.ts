@@ -104,17 +104,6 @@ describe('extendErrorMessagesWithTranslationMessages', () => {
       'NumberField.errorExclusiveMinimum': 'Below exclusive minimum',
       'NumberField.errorExclusiveMaximum': 'Above exclusive maximum',
       'NumberField.errorMultipleOf': 'Not a multiple of',
-
-      /** @deprecated – can be removed in v11 */
-      required: 'Field is required',
-      pattern: 'Pattern is incorrect',
-      minLength: 'Too short',
-      maxLength: 'Too long',
-      minimum: 'Below minimum',
-      maximum: 'Above maximum',
-      exclusiveMinimum: 'Below exclusive minimum',
-      exclusiveMaximum: 'Above exclusive maximum',
-      multipleOf: 'Not a multiple of',
     })
 
     expect(mockMessages).toEqual({})
