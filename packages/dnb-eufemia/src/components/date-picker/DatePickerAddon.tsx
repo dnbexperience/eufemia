@@ -13,7 +13,7 @@ export type DatePickerShortcut = {
   date?: string | Date | ((...args: unknown[]) => Date)
   startDate?: string | Date | ((...args: unknown[]) => Date)
   endDate?: string | Date | ((...args: unknown[]) => Date)
-  close_on_select?: boolean
+  closeOnSelect?: boolean
 }
 
 export type DatePickerAddonProps = React.HTMLProps<HTMLElement> & {
@@ -96,7 +96,7 @@ function DatePickerAddon(props: DatePickerAddonProps) {
         event,
       })
 
-      if (shortcut.close_on_select) {
+      if (shortcut.closeOnSelect) {
         hidePicker({ ...event, focusOnHide: true })
       }
     },
