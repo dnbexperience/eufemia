@@ -67,7 +67,7 @@ export const DatePickerRange = () => (
           endDate: lastDayOfWeek(new Date()),
         },
         {
-          close_on_select: true,
+          closeOnSelect: true,
           title: 'This month',
           startDate: startOfMonth(new Date()),
           endDate: lastDayOfMonth(new Date()),
@@ -256,7 +256,7 @@ export const DatePickerDateFnsRange = () => (
           title: 'Set date period',
           startDate: '1969-07-15',
           endDate: '1969-07-15',
-          close_on_select: true, // will close the picker
+          closeOnSelect: true, // will close the picker
         },
         {
           title: 'This month',
