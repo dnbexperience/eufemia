@@ -18,33 +18,14 @@ import type {
 import Space from '../space/Space'
 import { getColor } from '../../shared/helpers'
 
-export type SectionVariants = 'error' | 'info' | 'warning' | 'success'
-
-export type SectionStyleTypes =
+export type SectionVariants =
+  | 'error'
+  | 'info'
+  | 'warning'
+  | 'success'
   | 'divider'
-  | 'white'
-  | 'transparent'
 
-  /** @deprecated in v11 use "variant" or "backgroundColor" prop instead */
-  | 'lavender'
-  /** @deprecated in v11 use "variant" or "backgroundColor" prop instead */
-  | 'pistachio'
-  /** @deprecated in v11 use "variant" or "backgroundColor" prop instead */
-  | 'emerald-green'
-  /** @deprecated in v11 use "variant" or "backgroundColor" prop instead */
-  | 'sea-green'
-  /** @deprecated in v11 use "variant" or "backgroundColor" prop instead */
-  | 'fire-red'
-  /** @deprecated in v11 use "variant" or "backgroundColor" prop instead */
-  | 'fire-red-8'
-  /** @deprecated in v11 use "variant" or "backgroundColor" prop instead */
-  | 'sand-yellow'
-  /** @deprecated in v11 use "variant" or "backgroundColor" prop instead */
-  | 'black-3'
-  /** @deprecated in v11 use "variant" or "backgroundColor" prop instead */
-  | 'mint-green'
-  /** @deprecated in v11 use "variant" or "backgroundColor" prop instead */
-  | 'mint-green-12'
+export type SectionStyleTypes = 'divider' | 'white' | 'transparent'
 
 export type SectionSpacing =
   | boolean
@@ -63,7 +44,7 @@ export type RoundedCorner = boolean | [boolean, boolean, boolean, boolean]
 
 export type SectionProps = {
   /**
-   * Defines the semantic purpose and subsequently the style of the visual helper. Will take precedence over the style_type prop
+   * Defines the semantic purpose and subsequently the style of the visual helper.
    */
   variant?: SectionVariants | string
 
@@ -73,7 +54,7 @@ export type SectionProps = {
   breakout?: boolean | ResponsiveProp<boolean>
 
   /**
-   * Define if the Card should break out negatively on larger screens. You cannot use `breakout` and `outset` together.
+   * Define if the Section should break out negatively on larger screens. You cannot use `breakout` and `outset` together.
    * Defaults to `false`
    */
   outset?: boolean | ResponsiveProp<boolean>
@@ -122,10 +103,11 @@ export type SectionProps = {
    * @deprecated in v11 use "innerSpace" prop instead
    */
   spacing?: SectionSpacing | ResponsiveProp<SectionSpacing>
+
   /**
-   * @deprecated in v11 use "background" prop instead
+   * @deprecated in v11 use "innerRef" prop instead
    */
-  style_type?: SectionStyleTypes | string
+  inner_ref?: React.RefObject<HTMLElement>
 }
 
 export type SectionAllProps = SectionProps &
@@ -178,7 +160,7 @@ export function SectionParams(
     children,
 
     spacing,
-    style_type,
+    inner_ref,
 
     ...attributes
   } = props
@@ -190,7 +172,7 @@ export function SectionParams(
     ...attributes,
     className: classnames(
       'dnb-section',
-      `dnb-section--${variant ? variant : style_type || 'default'}`,
+      `dnb-section--${variant ? variant : 'default'}`,
       spacing &&
         `dnb-section--spacing-${isTrue(spacing) ? 'large' : spacing}`,
       className

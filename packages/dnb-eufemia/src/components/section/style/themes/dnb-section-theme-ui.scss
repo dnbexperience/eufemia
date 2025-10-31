@@ -32,70 +32,22 @@
     --background-color: transparent;
   }
 
-  /** deprecated: default should be white in v11 */
-  &--mint-green-12,
+  &--white,
   &--default {
-    --text-color: var(--text-color--value, var(--color-black-80));
-    --background-color: var(
-      --background-color--value,
-      var(--color-mint-green-12)
-    );
-  }
-
-  &--white {
     --text-color: var(--color-black-80);
     --background-color: var(--color-white);
   }
 
-  /** deprecated */
-  &--mint-green {
-    --text-color: var(--color-black-80);
-    --background-color: var(--color-mint-green);
-  }
-
-  /** deprecated */
-  &--lavender {
-    --text-color: var(--color-black-80);
-    --background-color: var(--color-lavender);
-  }
-
-  &--sand-yellow,/** deprecated */
   &--warning {
     --text-color: var(--color-black-80);
     --background-color: var(--color-sand-yellow);
   }
 
-  &--pistachio,/** deprecated */
   &--info {
     --text-color: var(--color-black-80);
     --background-color: var(--color-pistachio);
   }
 
-  /** deprecated */
-  &--black-3 {
-    --text-color: var(--color-black-80);
-    --background-color: var(--color-black-3);
-  }
-
-  /** deprecated */
-  &--emerald-green {
-    --text-color: var(--color-mint-green);
-    --background-color: var(--color-emerald-green);
-  }
-
-  /** deprecated */
-  &--sea-green {
-    --text-color: var(--color-white);
-    --background-color: var(--color-sea-green);
-  }
-
-  /** deprecated */
-  &--fire-red {
-    --text-color: var(--color-white);
-    --background-color: var(--color-fire-red);
-  }
-
-  &--fire-red-8,/** deprecated */
   &--error {
     --text-color: var(--color-black-80);
     --background-color: var(--color-fire-red-8);
@@ -107,40 +59,7 @@
   }
 
   // Contrast styles
-  &--fire-red .dnb-anchor,/** deprecated */
-  &--emerald-green .dnb-anchor,/** deprecated */
-  &--sea-green .dnb-anchor,/** deprecated */
   &--success .dnb-anchor {
     @include useAnchorContrastStyle();
-  }
-
-  &--fire-red .dnb-button--tertiary,/** deprecated */
-  &--emerald-green .dnb-button--tertiary,/** deprecated */
-  &--sea-green .dnb-button--tertiary /** deprecated */ {
-    --text-color: var(--color-white);
-
-    &:hover {
-      --text-color: var(--color-white);
-    }
-
-    &:hover .dnb-button__text::after {
-      --text-color: var(--color-white) !important;
-    }
-
-    &:focus {
-      --text-color: var(--color-white);
-
-      &::before {
-        @include focusRing(null, var(--color-white));
-      }
-    }
-  }
-
-  // contrast color
-  &--fire-red,/** deprecated */
-  &--mint-green /** deprecated */ {
-    ::selection {
-      background-color: var(--color-white);
-    }
   }
 }

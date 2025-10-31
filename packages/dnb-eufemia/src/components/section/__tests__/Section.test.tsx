@@ -10,19 +10,19 @@ import Section, { SectionAllProps } from '../Section'
 import Provider from '../../../shared/Provider'
 
 const props: SectionAllProps = {
-  style_type: 'mint-green-12',
+  backgroundColor: 'mint-green-12',
 }
 
 describe('Section component', () => {
   it('should have correct styles', () => {
-    render(<Section style_type="divider" />)
+    render(<Section variant="divider" />)
     expect(
       document.querySelector('section.dnb-section').classList
     ).toContain('dnb-section--divider')
   })
 
-  it('should support "variant" props and takes precedence over "style_type"', () => {
-    const { rerender } = render(<Section variant="warning">text</Section>)
+  it('should support "variant" prop', () => {
+    render(<Section variant="warning">text</Section>)
 
     const element = document.querySelector('section.dnb-section')
 
@@ -30,18 +30,6 @@ describe('Section component', () => {
       'dnb-space',
       'dnb-section',
       'dnb-section--warning',
-    ])
-
-    rerender(
-      <Section variant="info" style_type="divider">
-        text
-      </Section>
-    )
-
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-space',
-      'dnb-section',
-      'dnb-section--info',
     ])
   })
 
@@ -71,13 +59,6 @@ describe('Section component', () => {
     expect(element.getAttribute('aria-label')).toBe('Aria Label')
   })
 
-  it('should support any string in style_type', () => {
-    render(<Section style_type="custom" />)
-    expect(
-      document.querySelector('section.dnb-section').classList
-    ).toContain('dnb-section--custom')
-  })
-
   it('should support spacing props', () => {
     render(<Section top="medium">text</Section>)
 
@@ -93,7 +74,7 @@ describe('Section component', () => {
 
   it('will use props from Provider', () => {
     render(
-      <Provider Section={{ style_type: 'divider' }}>
+      <Provider Section={{ variant: 'divider' }}>
         <Section />
       </Provider>
     )

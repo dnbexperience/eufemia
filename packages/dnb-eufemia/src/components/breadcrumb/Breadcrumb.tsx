@@ -109,7 +109,7 @@ export type BreadcrumbProps = {
   isCollapsed?: boolean
 
   /**
-   * Use one of the Section component style types (style_type)
+   * Use one of the Section component style types (styleType)
    * Default: transparent
    */
   styleType?: SectionStyleTypes
@@ -252,7 +252,7 @@ const Breadcrumb = (localProps: BreadcrumbProps & SpacingProps) => {
     >
       <Section
         className="dnb-breadcrumb__bar"
-        style_type={styleType || 'transparent'}
+        backgroundColor={styleType || 'transparent'}
         innerSpace={innerSpace}
       >
         {currentVariant === 'single' ? (

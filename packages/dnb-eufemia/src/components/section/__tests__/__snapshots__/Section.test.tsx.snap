@@ -189,13 +189,6 @@ exports[`Section scss have to match default theme snapshot 1`] = `
 .dnb-section {
   --background-color: var(--color-white);
   --outline-color--value: var(--color-black-8);
-  /** deprecated: default should be white in v11 */
-  /** deprecated */
-  /** deprecated */
-  /** deprecated */
-  /** deprecated */
-  /** deprecated */
-  /** deprecated */
 }
 .dnb-section--divider {
   --text-color: var(--color-black-80);
@@ -213,50 +206,19 @@ exports[`Section scss have to match default theme snapshot 1`] = `
 .dnb-section--transparent {
   --background-color: transparent;
 }
-.dnb-section--mint-green-12, .dnb-section--default {
-  --text-color: var(--text-color--value, var(--color-black-80));
-  --background-color: var(
-    --background-color--value,
-    var(--color-mint-green-12)
-  );
-}
-.dnb-section--white {
+.dnb-section--white, .dnb-section--default {
   --text-color: var(--color-black-80);
   --background-color: var(--color-white);
 }
-.dnb-section--mint-green {
-  --text-color: var(--color-black-80);
-  --background-color: var(--color-mint-green);
-}
-.dnb-section--lavender {
-  --text-color: var(--color-black-80);
-  --background-color: var(--color-lavender);
-}
-.dnb-section--sand-yellow, .dnb-section--warning {
+.dnb-section--warning {
   --text-color: var(--color-black-80);
   --background-color: var(--color-sand-yellow);
 }
-.dnb-section--pistachio, .dnb-section--info {
+.dnb-section--info {
   --text-color: var(--color-black-80);
   --background-color: var(--color-pistachio);
 }
-.dnb-section--black-3 {
-  --text-color: var(--color-black-80);
-  --background-color: var(--color-black-3);
-}
-.dnb-section--emerald-green {
-  --text-color: var(--color-mint-green);
-  --background-color: var(--color-emerald-green);
-}
-.dnb-section--sea-green {
-  --text-color: var(--color-white);
-  --background-color: var(--color-sea-green);
-}
-.dnb-section--fire-red {
-  --text-color: var(--color-white);
-  --background-color: var(--color-fire-red);
-}
-.dnb-section--fire-red-8, .dnb-section--error {
+.dnb-section--error {
   --text-color: var(--color-black-80);
   --background-color: var(--color-fire-red-8);
 }
@@ -264,28 +226,28 @@ exports[`Section scss have to match default theme snapshot 1`] = `
   --text-color: var(--color-white);
   --background-color: var(--color-success-green);
 }
-.dnb-section--fire-red .dnb-anchor, .dnb-section--emerald-green .dnb-anchor, .dnb-section--sea-green .dnb-anchor, .dnb-section--success .dnb-anchor {
+.dnb-section--success .dnb-anchor {
   color: var(--color-white);
 }
-.dnb-section--fire-red .dnb-anchor:hover:where(:not(.dnb-anchor--no-hover)), .dnb-section--emerald-green .dnb-anchor:hover:where(:not(.dnb-anchor--no-hover)), .dnb-section--sea-green .dnb-anchor:hover:where(:not(.dnb-anchor--no-hover)), .dnb-section--success .dnb-anchor:hover:where(:not(.dnb-anchor--no-hover)) {
+.dnb-section--success .dnb-anchor:hover:where(:not(.dnb-anchor--no-hover)) {
   color: var(--anchor-color--contrast);
   box-shadow: inset 100vw 100vw 0 0 var(--color-white), calc(var(--anchor-background-gutter-left, 0.125rem) * -1) 0 0 0 var(--color-white), var(--anchor-background-gutter-right, 0.125rem) 0 0 0 var(--color-white);
 }
-.dnb-section--fire-red .dnb-anchor:hover:not(.dnb-anchor--no-hover), .dnb-section--emerald-green .dnb-anchor:hover:not(.dnb-anchor--no-hover), .dnb-section--sea-green .dnb-anchor:hover:not(.dnb-anchor--no-hover), .dnb-section--success .dnb-anchor:hover:not(.dnb-anchor--no-hover) {
+.dnb-section--success .dnb-anchor:hover:not(.dnb-anchor--no-hover) {
   /* stylelint-disable-next-line scss/operator-no-unspaced */
 }
 @supports not (selector(*:where(*))) {
-  .dnb-section--fire-red .dnb-anchor:hover:not(.dnb-anchor--no-hover), .dnb-section--emerald-green .dnb-anchor:hover:not(.dnb-anchor--no-hover), .dnb-section--sea-green .dnb-anchor:hover:not(.dnb-anchor--no-hover), .dnb-section--success .dnb-anchor:hover:not(.dnb-anchor--no-hover) {
+  .dnb-section--success .dnb-anchor:hover:not(.dnb-anchor--no-hover) {
     color: var(--anchor-color--contrast);
     box-shadow: inset 100vw 100vw 0 0 var(--color-white), calc(var(--anchor-background-gutter-left, 0.125rem) * -1) 0 0 0 var(--color-white), var(--anchor-background-gutter-right, 0.125rem) 0 0 0 var(--color-white);
   }
 }
-.dnb-section--fire-red .dnb-anchor:active, .dnb-section--emerald-green .dnb-anchor:active, .dnb-section--sea-green .dnb-anchor:active, .dnb-section--success .dnb-anchor:active {
+.dnb-section--success .dnb-anchor:active {
   color: var(--color-white);
   background-color: transparent;
   box-shadow: inset 100vw 100vw 0 0 transparent, calc(var(--anchor-background-gutter-left, 0.125rem) * -1) 0 0 0 transparent, var(--anchor-background-gutter-right, 0.125rem) 0 0 0 transparent;
 }
-.dnb-section--fire-red .dnb-anchor:focus-visible, .dnb-section--emerald-green .dnb-anchor:focus-visible, .dnb-section--sea-green .dnb-anchor:focus-visible, .dnb-section--success .dnb-anchor:focus-visible {
+.dnb-section--success .dnb-anchor:focus-visible {
   color: var(--color-white);
   background-color: transparent;
   outline: none;
@@ -293,29 +255,5 @@ exports[`Section scss have to match default theme snapshot 1`] = `
   --border-width: var(--focus-ring-width);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
-}
-.dnb-section--fire-red .dnb-button--tertiary, .dnb-section--emerald-green .dnb-button--tertiary, .dnb-section--sea-green .dnb-button--tertiary {
-  --text-color: var(--color-white);
-}
-.dnb-section--fire-red .dnb-button--tertiary:hover, .dnb-section--emerald-green .dnb-button--tertiary:hover, .dnb-section--sea-green .dnb-button--tertiary:hover {
-  --text-color: var(--color-white);
-}
-.dnb-section--fire-red .dnb-button--tertiary:hover .dnb-button__text::after, .dnb-section--emerald-green .dnb-button--tertiary:hover .dnb-button__text::after, .dnb-section--sea-green .dnb-button--tertiary:hover .dnb-button__text::after {
-  --text-color: var(--color-white) !important;
-}
-.dnb-section--fire-red .dnb-button--tertiary:focus, .dnb-section--emerald-green .dnb-button--tertiary:focus, .dnb-section--sea-green .dnb-button--tertiary:focus {
-  --text-color: var(--color-white);
-}
-.dnb-section--fire-red .dnb-button--tertiary:focus::before, .dnb-section--emerald-green .dnb-button--tertiary:focus::before, .dnb-section--sea-green .dnb-button--tertiary:focus::before {
-  outline: none;
-}
-html[data-whatinput=keyboard] .dnb-section--fire-red .dnb-button--tertiary:focus::before, html[data-whatinput=keyboard] .dnb-section--emerald-green .dnb-button--tertiary:focus::before, html[data-whatinput=keyboard] .dnb-section--sea-green .dnb-button--tertiary:focus::before {
-  --border-color: var(--color-white);
-  --border-width: var(--focus-ring-width);
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
-}
-.dnb-section--fire-red ::selection, .dnb-section--mint-green ::selection {
-  background-color: var(--color-white);
 }"
 `;
