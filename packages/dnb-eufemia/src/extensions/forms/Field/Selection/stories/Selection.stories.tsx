@@ -26,14 +26,9 @@ export function Selection() {
         variant="radio"
         layout="horizontal"
         optionsLayout="horizontal"
-        // error={new Error('This is what is wrong...')}
         onChange={(value) => console.log('onChange', value)}
       >
-        <Field.Option
-          value="foo"
-          title="Foo!"
-          // error={new Error('This is what is wrong...')}
-        />
+        <Field.Option value="foo" title="Foo!" />
         <Field.Option value="bar" title="Baar!" />
       </Field.Selection>
 
@@ -45,14 +40,9 @@ export function Selection() {
         layout="horizontal"
         optionsLayout="horizontal"
         value="foo"
-        // error={new Error('This is what is wrong...')}
         onChange={(value) => console.log('onChange', value)}
       >
-        <Field.Option
-          value="foo"
-          title="Foo!"
-          // error={new Error('This is what is wrong...')}
-        />
+        <Field.Option value="foo" title="Foo!" />
         <Field.Option value="bar" title="Baar!" />
       </Field.Selection>
     </Form.Card>
@@ -90,7 +80,6 @@ export function HelpButton() {
       <Field.Selection
         label="Label"
         variant="button"
-        // variant="radio"
         help={{
           title: 'Title',
           content: 'Content',
@@ -123,10 +112,8 @@ export function NestingWithLogic() {
       <Form.Card>
         <Field.Selection
           variant="radio"
-          // variant="button"
           label="Make a selection"
           path="/mySelection"
-          // defaultValue="showAdditionalOption"
           defaultValue="showInput"
         >
           <Field.Option value="nothing" title="Nothing" />

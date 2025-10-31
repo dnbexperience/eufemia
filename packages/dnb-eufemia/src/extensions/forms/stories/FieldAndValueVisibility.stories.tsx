@@ -26,10 +26,7 @@ export const ValueVisibility = () => {
   const [count, increment] = React.useReducer((state) => state + 1, 1)
 
   return (
-    <Form.Handler
-    // onChange={(data) => console.log('onChange', data)}
-    // onSubmit={(data) => console.log('onSubmit', data)}
-    >
+    <Form.Handler>
       <LogVisibleData />
       <Form.Card>
         <button type="button" onClick={increment}>
@@ -80,10 +77,7 @@ export const ValueVisibility = () => {
 export const ValueVisibilityInWizard = () => {
   const [count, increment] = React.useReducer((state) => state + 1, 1)
   return (
-    <Form.Handler
-    // onChange={(data) => console.log('onChange', data)}
-    // onSubmit={(data) => console.log('onSubmit', data)}
-    >
+    <Form.Handler>
       <LogVisibleData />
       <Flex.Stack>
         <Wizard.Container mode="loose">

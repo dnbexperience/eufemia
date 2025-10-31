@@ -219,11 +219,7 @@ const transformOut = (internal?: UploadValue) => {
 
 export function TransformInAndOut() {
   return (
-    <Form.Handler
-    // defaultData={{
-    //   documents: defaultValue,
-    // }}
-    >
+    <Form.Handler>
       <Flex.Stack>
         <Field.Upload
           path="/documents"

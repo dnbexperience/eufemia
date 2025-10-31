@@ -38,7 +38,6 @@ export function PhoneNumber() {
         <Field.PhoneNumber
           required
           onChangeValidator={onChangeValidator}
-          // pattern="^\+41 [1]\d{2}$"
           validateInitially
           path="/phone"
           onBlur={console.log}

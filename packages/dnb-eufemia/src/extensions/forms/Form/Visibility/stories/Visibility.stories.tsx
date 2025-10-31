@@ -498,11 +498,6 @@ export function VisibilityInIterate() {
   return (
     <Form.Handler
       defaultData={{
-        // pushContainerItems: [
-        //   {
-        //     goHide: undefined,
-        //   },
-        // ],
         myArray: [
           {
             goHide: undefined,
@@ -519,7 +514,6 @@ export function VisibilityInIterate() {
       <Iterate.PushContainer
         top
         path="/myArray"
-        // isolatedData={{ goHide: true }}
         defaultData={{ goHide: undefined }}
       >
         {/* <Field.String itemPath="/iExist" label="My path is /iExist" /> */}

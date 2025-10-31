@@ -58,7 +58,6 @@ const MagicOpen = (props) => {
       <Drawer
         wrapperElement={ref.current}
         opened={opened}
-        // data={['A', 'B']}
         on_select={(e) => {
           // does not fire!
           console.log('on_select', e)
@@ -96,11 +95,7 @@ const MagicOpen = (props) => {
 
 const DrawerListWithState = (props) => {
   const [opened, setOpened] = React.useState(false)
-  // React.useState(() => {
-  //   setInterval(() => {
-  //     setOpened(o => !o)
-  //   }, 1e3)
-  // }, [])
+
   return (
     <>
       <ToggleButton

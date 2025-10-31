@@ -126,7 +126,6 @@ export function Address() {
 
   return (
     <Form.Handler
-      // defaultData={{ postalCode: '144', city: '' }}
       onSubmit={async (data) => {
         await new Promise((resolve) => setTimeout(resolve, 3000))
         console.log('onSubmit', data)
@@ -136,7 +135,6 @@ export function Address() {
         <Field.SelectCountry
           path="/countryCode"
           defaultValue="NO"
-          // defaultValue="SE"
           filterCountries={({ iso }) =>
             isSupportedCountryCode(iso, address_supportedCountryCodes)
           }

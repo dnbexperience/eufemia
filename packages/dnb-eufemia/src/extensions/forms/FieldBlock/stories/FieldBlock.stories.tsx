@@ -11,16 +11,7 @@ export default {
 
 export function FieldBlockLabel() {
   const fromInput = useCallback(({ value }) => value, [])
-  // const fromInput = useCallback((external: unknown) => {
-  //   if (
-  //     typeof external === 'object' &&
-  //     external !== null &&
-  //     'value' in external
-  //   ) {
-  //     return external.value
-  //   }
-  //   return ''
-  // }, [])
+
   const { value, handleChange, handleFocus, handleBlur } = useFieldProps({
     value: 'foo',
     fromInput,
@@ -71,7 +62,6 @@ export function CompositionErrors() {
   const firstError = 'First error'
   const firstWarning = 'First warning'
   const firstInfo = 'First info'
-  // const secondError = 'Second error'
   const secondWarning = 'Second warning'
   const secondInfo = 'Second info'
 
@@ -80,7 +70,6 @@ export function CompositionErrors() {
       <Field.String
         label="FieldBlock label"
         width="medium"
-        // error={new Error(blockError)}
         warning={blockWarning}
         info={blockInfo}
         required
@@ -91,7 +80,6 @@ export function CompositionErrors() {
           id="unique"
           label="FieldBlock label"
           width="large"
-          // error={animatedState}
           error={new Error(blockError)}
           warning={blockWarning}
           info={blockInfo}
@@ -99,21 +87,16 @@ export function CompositionErrors() {
         >
           <Field.String
             label="First field"
-            // width="stretch"
             error={new Error(firstError)}
             warning={firstWarning}
             info={firstInfo}
             required
-            // validateInitially
           />
           <Field.Number
             label="Second field"
-            // width="stretch"
-            // error={new Error(secondError)}
             warning={secondWarning}
             info={secondInfo}
             required
-            // validateInitially
           />
         </FieldBlock>
       </Form.Handler>
@@ -126,7 +109,6 @@ export const WithInlineHelp = () => {
     <Flex.Stack>
       <Form.MainHeading
         help={{
-          // open: true,
           renderAs: 'dialog',
           title: 'Hva betyr kredittopplysninger?',
           content:
@@ -453,7 +435,6 @@ export function LabelSrOnly() {
         <Field.PostalCodeAndCity
           postalCode={{ label: 'label', labelSrOnly: true }}
           city={{ label: 'label', labelSrOnly: true }}
-          // labelSrOnly
         />
         <Field.SelectCountry label="label" labelSrOnly />
         <Field.BankAccountNumber label="label" labelSrOnly />
