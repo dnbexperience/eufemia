@@ -183,12 +183,6 @@ describe('Field.NationalIdentityNumber', () => {
             expect.stringContaining('{minLength}'),
           'StringField.errorMaxLength':
             expect.stringContaining('{maxLength}'),
-
-          // For backward compatibility – can be removed in v11
-          maxLength: expect.stringContaining('{maxLength}'),
-          minLength: expect.stringContaining('{minLength}'),
-          pattern: expect.stringContaining('fødselsnummer'),
-          required: expect.stringContaining('fødselsnummer'),
         }),
       })
     )
