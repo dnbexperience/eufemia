@@ -182,9 +182,6 @@ function DatePickerProvider(props: DatePickerProviderProps) {
         ...returnObject,
         date: startDateIsValid ? format(startDate, returnFormat) : null,
         partialDate: partialStartDate,
-        // Can be removed in v11, in favor to partialDate,
-        // to keep the naming logic the same as with date and invalidDate when not in range mode
-        partialStartDate,
         invalidDate: invalidStartDate,
         isValid:
           hasMinOrMaxDates &&
