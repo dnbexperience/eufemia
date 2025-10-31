@@ -33,17 +33,7 @@ const CustomStyle = styled.div`
 
 const myRef = React.createRef<HTMLInputElement>()
 
-// export default {
-//   title: 'Components'
-// }
-
 export const InputSandbox = () => {
-  // React.useEffect(() => {
-  //   console.log('myRef', myRef.current)
-  //   // console.log('myRef', Input, myRef.current)
-  //   // myRef.current.focus()
-  // })
-
   return (
     <CustomStyle>
       <Wrapper>
@@ -241,7 +231,6 @@ export const InputSandbox = () => {
           <InputMasked
             label="Masked:"
             autocomplete="off"
-            // value="1000000"
             mask={[
               '+',
               /[4]/, // have to start with 4
@@ -266,9 +255,7 @@ export const InputSandbox = () => {
         <Box>
           <form
             onSubmit={(event) => {
-              // console.log('onSubmit', event)
               event.preventDefault()
-              // event.persist()
             }}
           >
             <InputUpdate />
@@ -479,8 +466,6 @@ export function ControlledInput() {
   const onChangeHandler = ({ value }) => {
     value = value.replace(/[^0-9]/g, '')
     setValue(value)
-    // return format(value)
-    // return false
   }
 
   const onChangeHandlerHtml = (e: React.ChangeEvent<HTMLInputElement>) => {

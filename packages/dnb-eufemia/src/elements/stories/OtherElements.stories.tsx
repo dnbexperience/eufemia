@@ -17,7 +17,6 @@ import {
 } from '../../components'
 import { H1, H2, P, Hr, Link, Span, Div, Img } from '..'
 import { Provider } from '../../shared'
-// import Link from '../../../elements/Link'
 
 export default {
   title: 'Eufemia/Elements/Other',
@@ -239,7 +238,6 @@ export const Textarea = () => (
             className="dnb-textarea"
             id="volutpat"
             disabled
-            // readOnly
             cols={33}
             defaultValue="Nec litora inceptos vestibulum id interdum donec gravida nostra
             lacinia bibendum hendrerit porttitor volutpat nam duis nisl
@@ -253,14 +251,7 @@ export const Textarea = () => (
 )
 
 export const ElementsAndSkeleton = () => {
-  // React.useEffect(() => {
-  //   console.log('myRef', myRef.current)
-  //   // console.log('myRef', Input, myRef.current)
-  //   // myRef.current.focus()
-  // })
-
   const [showSkeleton, setSkeletonState] = React.useState(false)
-  // console.log('showSkeleton', showSkeleton)
 
   return (
     <Box>
@@ -273,12 +264,7 @@ export const ElementsAndSkeleton = () => {
           Toggle Skeleton
         </ToggleButton>
       </Skeleton.Exclude>
-      <Skeleton
-        show={showSkeleton}
-        // no_animation
-        // show
-        // figure={() => <SkeletonArticle rows={2} />}
-      >
+      <Skeleton show={showSkeleton}>
         <Hr top="large" bottom />
         <Span>span span</Span>
         <Hr top bottom />

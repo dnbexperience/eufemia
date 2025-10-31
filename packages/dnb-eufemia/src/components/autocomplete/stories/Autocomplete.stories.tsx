@@ -41,15 +41,12 @@ const numbers = [
 export const SearchNumbers = () => {
   return (
     <Autocomplete
-      // inputValue="123"
       inputValue="201"
-      // inputValue="100 222 4"
       opened
       noAnimation
       label="Label:"
       data={numbers}
       searchNumbers
-      // searchInWordIndex={1}
     />
   )
 }
@@ -133,9 +130,6 @@ export function onBlur() {
     <Autocomplete
       left
       data={['AAA', 'BBB', 'CCC']}
-      // on_change={({ data }) => {
-      //   console.log('on_change', data)
-      // }}
       on_focus={({ value }) => {
         console.log('on_focus', value)
       }}
@@ -155,22 +149,15 @@ export const SearchWithWrappers = () => {
     { content: 'item dd', searchContent: ['DD', 'dd'] },
     { content: 'item ee', searchContent: ['EE', 'ee'] },
   ]
-  // const topMovies = ['AA c', 'BB cc zethx', { content: ['CC', 'cc'] }]
+
   return (
     <>
       <Autocomplete
-        // inputValue="123"
         inputValue="cc bb more"
-        // inputValue="cc bb zethx"
-        // inputValue="the aa red"
-        // inputValue="red the"
-        // inputValue="100 222 4"
         opened
         noAnimation
         label="Label:"
         data={topMovies}
-        // disableHighlighting
-        // searchInWordIndex={1}
       />
     </>
   )
@@ -192,10 +179,7 @@ const AutocompleteWithState = () => {
     <Autocomplete
       mode="async" // prevents showing no options message og typing
       noScrollAnimation
-      // preventSelection
       placeholder="Search ..."
-      // label="Search"
-      // labelSrOnly={true}
       on_type={({
         value,
         showIndicator,
@@ -208,14 +192,11 @@ const AutocompleteWithState = () => {
         setResults(topMovies)
         debounce(
           ({ value, results }) => {
-            // 1. simulate server delay
             const timeout = setTimeout(() => {
               console.log('value 2', value, results)
               updateData(results)
               hideIndicator()
             }, 600)
-
-            // 2. if it gets debounced, we cancel this timeout
             return () => clearTimeout(timeout)
           },
           { value, results },
@@ -227,8 +208,6 @@ const AutocompleteWithState = () => {
 }
 
 export const AutocompleteSandbox = () => {
-  // const [data, setData] = useState(autocompleteData)
-  // const [value, setSelectedItem] = useState(0)
   return (
     <Wrapper>
       <Box>
@@ -236,23 +215,8 @@ export const AutocompleteSandbox = () => {
           label="Keep value"
           data={topMovies}
           inputValue="does not exist"
-          // keepValue
-          // disableFilter
           keepValueAndSelection
           showClearButton
-          // preventSelection
-          // on_change={({ data }) => {
-          //   console.log('on_change', data)
-          // }}
-          // on_show={({ event, data }) => {
-          //   console.log('on_show', event, data)
-          // }}
-          // on_focus={({ event, data }) => {
-          //   console.log('on_focus', event, data)
-          // }}
-          // on_blur={({ event, data }) => {
-          //   console.log('on_blur', event, data)
-          // }}
         />
       </Box>
       <Box>
@@ -260,9 +224,6 @@ export const AutocompleteSandbox = () => {
           label="Label:"
           showSubmitButton={true}
           showClearButton
-          // icon="bell"
-          // inputIcon="bell"
-          // submitButtonIcon="bell"
           submitElement={<SubmitButton icon="bell" />}
           on_change={({ data }) => {
             console.log('on_change', data)
@@ -295,15 +256,9 @@ export const AutocompleteSandbox = () => {
       </Box>
       <Box>
         <Autocomplete
-          // opened
-          // preventClose
-          // noAnimation
-          // inputValue="foo bar th"
-          // inputValue="bb th x"
           inputValue="co pr ti"
           showClearButton
           showSubmitButton
-          // value="b"
           data={[
             {
               content: [
@@ -323,28 +278,11 @@ export const AutocompleteSandbox = () => {
             },
             'More',
             'Comp X',
-            // {
-            //   content: [
-            //     'Other Content',
-            //     [
-            //       <Anchor key="a" href="/" >
-            //         ComponentX PropertiesX
-            //       </Anchor>
-            //     ]
-            //   ]
-            // }
           ]}
-          // iconPosition="left"
-          // on_select={(e) => {
-          //   console.log('on_select ???', e)
-          // }}
           on_change={(e) => {
             console.log('on_change', e)
           }}
-          optionsRender={({
-            Items,
-            // , Item
-          }) => (
+          optionsRender={({ Items }) => (
             <>
               <Items />
               {/* <Item selected>123</Item> */}
@@ -353,23 +291,13 @@ export const AutocompleteSandbox = () => {
           )}
         />
         <Autocomplete
-          // opened
-          // preventClose
-          // noAnimation
-          // inputValue="foo bar th"
           inputValue="bb c"
-          // value={2}
           showSubmitButton
-          // value="b"
           data={{
             a: 'A1 A2 C',
             b: 'BB cC zethTHx',
             c: 'CCC',
           }}
-          // iconPosition="left"
-          // on_select={(e) => {
-          //   console.log('on_select ???', e)
-          // }}
           on_change={(e) => {
             console.log('on_change', e)
           }}
@@ -379,12 +307,10 @@ export const AutocompleteSandbox = () => {
         <Autocomplete
           mode="async" // prevents showing no options message og typing
           label="No selection / no filter"
-          // labelSrOnly={true}
           preventSelection
           disableFilter
           data={topMovies}
           on_type={({
-            // value,
             dataList,
             showIndicator,
             hideIndicator,
@@ -394,14 +320,10 @@ export const AutocompleteSandbox = () => {
             console.log('dataList', dataList)
             showIndicator()
             debounce(() => {
-              // 1. simulate server delay
               const timeout = setTimeout(() => {
-                // updateData(['topMovies'])
                 updateData(topMovies)
                 hideIndicator()
               }, 600)
-
-              // 2. if it gets debounced, we cancel this timeout
               return () => clearTimeout(timeout)
             })
           }}
@@ -409,8 +331,6 @@ export const AutocompleteSandbox = () => {
         />
         <Autocomplete
           mode="async"
-          // label="Search"
-          // labelSrOnly={true}
           keepValue
           on_type={({ value /* updateData, ... */ }) => {
             console.log('on_type', value)
@@ -437,9 +357,6 @@ export const AutocompleteSandbox = () => {
         <Autocomplete
           inputIcon={null}
           title="Type to find ..."
-          // opened
-          // preventClose
-          // noAnimation
           inputValue="d"
           on_select={(e) => {
             console.log('on_select', e)
@@ -450,11 +367,7 @@ export const AutocompleteSandbox = () => {
           data={testData}
         />
         <Autocomplete
-          // opened
-          // preventClose
           noAnimation
-          // preventSelection
-          // inputValue="the g er"
           inputValue="episode a I"
           mode="async"
           label="Top 100 movies"
@@ -467,7 +380,6 @@ export const AutocompleteSandbox = () => {
             a: 'AA',
             b: 'BB',
           }}
-          // iconPosition="left"
           on_select={(e) => {
             console.log('on_select', e)
           }}
@@ -551,12 +463,7 @@ const testData = [
 const autocompleteData = [
   {
     selectedValue: 'Brukskonto - Kari Nordmann',
-    content: (
-      <>
-        {/* <Checkbox checked aria-hidden />  */}
-        Brukskonto - Kari Nordmann
-      </>
-    ),
+    content: <>Brukskonto - Kari Nordmann</>,
   },
   {
     content: [
@@ -641,11 +548,6 @@ const autocompleteDataScrollable = [
 
 const topMovies = [
   {
-    // content: [
-    //   <IconPrimary icon="bell" />,
-    //   <span className="custom-selector">The Shawshank Redemption</span>,
-    //   <span className="custom-selector">xx</span>,
-    // ],
     content: (
       <>
         <IconPrimary icon="bell" />
@@ -660,14 +562,9 @@ const topMovies = [
           value={1234}
           style={{ color: 'var(--color-black-55)' }}
         />
-        <NumberFormat
-          currency
-          value={1234}
-          // className="dnb-typo-bold"
-        />
+        <NumberFormat currency value={1234} />
       </>
     ),
-    // searchContent: ['aa', 're', 1234],
     year: 1994,
   },
   { content: 'The Godfather', year: 1972 },
@@ -824,24 +721,13 @@ function UpdateDataExample() {
       <Autocomplete
         preventSelection
         title="Choose an item"
-        // preventSelection
         data={choiceData}
-        on_change={({
-          data,
-          setInputValue,
-          // , updateData
-        }) => {
-          // update our choices
+        on_change={({ data, setInputValue }) => {
           setChoiceData(
             choiceData.filter(
               (item) => item.selectedValue !== data.selectedValue
             )
           )
-
-          // we could have used updateData
-          // updateData(newData)
-
-          // only update selected data if they do not exists in the list
           if (
             selectedData.findIndex(
               ({ selectedValue }) => selectedValue === data.selectedValue
@@ -849,8 +735,6 @@ function UpdateDataExample() {
           ) {
             setSelectedData([...selectedData, data])
           }
-
-          // only to reset keyboard input values
           setInputValue(null)
         }}
       />
@@ -974,14 +858,10 @@ export const AsyncSearchExample = () => {
         } else {
           newData = [...dataA, ...dataB]
         }
-        // simulate server delay
         const timeout = setTimeout(() => {
-          // update the drawerList
           updateData(newData)
           hideIndicator()
         }, 600)
-
-        // cancel invocation method
         return () => clearTimeout(timeout)
       },
       { value },

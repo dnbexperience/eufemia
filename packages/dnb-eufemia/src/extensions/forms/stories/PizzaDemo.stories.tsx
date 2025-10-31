@@ -19,9 +19,7 @@ type MyDataSet = {
 }
 
 export function PizzaDemo() {
-  const { data } = Form.useData<MyDataSet>('pizza-demo', {
-    // flavour: 'pepperoni',
-  })
+  const { data } = Form.useData<MyDataSet>('pizza-demo', {})
   const { summaryTitle } = Form.useTranslation().Step
 
   return (

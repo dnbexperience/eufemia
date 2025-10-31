@@ -43,7 +43,6 @@ for (let i = 1; i <= 300; i++) {
 export const InfinitySandbox = () => {
   const props = {
     currentPage: 3,
-    // pageCount: 30,
   }
 
   const action = ({ pageNumber, setContent }) => {
@@ -132,7 +131,6 @@ export const PaginationSandbox = () => (
     <Box>
       <Pagination pageCount={2}>
         {({ pageNumber, setContent }) => {
-          // simulate server communication delay
           const timeout = setTimeout(
             () => {
               setContent(pageNumber, <LargePage>{pageNumber}</LargePage>)
@@ -206,8 +204,6 @@ export const PaginationSandbox = () => (
         <Pagination
           mode="infinity"
           startupCount={2}
-          // parallelLoadCount={1}
-          // pageCount={10} // the last one we fill with "End"
           minWaitTime={0}
           on_load={({ pageNumber, setContent, endInfinity }) => {
             console.log('on_load: ', pageNumber)
@@ -236,17 +232,11 @@ const HeightLimit = styled.div`
   background-color: var(--color-white);
   border: 4px solid blue;
 `
-
-// eslint-disable-next-line
 const PaginationWithState = ({ children, ...props }) => {
   const [currentPage, setCurrentPage] = React.useState(1)
-
-  // create our Pagination instance
   const [{ Pagination: PaginationInstance, setContent, resetContent }] =
     React.useState(createPagination)
   setContent(currentPage, children(currentPage))
-
-  // will reset the pagination
   if (currentPage == 30) {
     setTimeout(() => {
       resetContent()
@@ -262,10 +252,6 @@ const PaginationWithState = ({ children, ...props }) => {
       on_change={({ pageNumber }) => {
         console.log('PaginationWithState on_change:', pageNumber)
         setCurrentPage(pageNumber)
-
-        // setTimeout(() => {
-        //   setContent(pageNumber, children(pageNumber))
-        // }, Math.ceil(Math.random() * 1e3))
       }}
     >
       {/* {({ pageNumber, setContent }) => {
@@ -276,8 +262,6 @@ const PaginationWithState = ({ children, ...props }) => {
     </PaginationInstance>
   )
 }
-
-// eslint-disable-next-line
 const InfinityPagination = ({ children, ...props }) => {
   return (
     <Pagination
