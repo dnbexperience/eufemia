@@ -8,8 +8,6 @@ export default {
 
 const LogVisibleData = () => {
   const { data, reduceToVisibleFields } = Form.useData()
-
-  // Use useEffect to ensure we get the latest data
   React.useEffect(() => {
     console.log(
       'visibleData',

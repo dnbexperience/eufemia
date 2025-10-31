@@ -529,7 +529,6 @@ export function VisibilityInIterate() {
         defined paths (which makes sense). */}
         {/* <Form.Visibility
           visibleWhen={{
-            // path: '/goHide',
             itemPath: '/goHide',
             hasValue: (val) => {
               console.log(

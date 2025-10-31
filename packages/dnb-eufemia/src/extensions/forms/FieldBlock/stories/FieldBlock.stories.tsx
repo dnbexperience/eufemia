@@ -272,18 +272,10 @@ export function Types() {
       handleFocus,
       handleBlur,
       htmlAttributes,
-      // We get an error which seems to be due
-      // to missing ProvideAdditionalEventArgs
     } = useFieldProps(props)
 
     return (
-      <FieldBlock<string>
-        forId={id}
-        id={id}
-        // We get a `unknown is not assignable to string` type error
-        error={error}
-        space="medium"
-      >
+      <FieldBlock<string> forId={id} id={id} error={error} space="medium">
         <input
           id={id}
           value={value}

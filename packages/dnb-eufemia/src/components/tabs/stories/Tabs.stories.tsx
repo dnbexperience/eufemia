@@ -117,7 +117,6 @@ export const TabsSandbox = () => {
                 Change me 1: {value}{' '}
                 <Input
                   label="Change state"
-                  // value={value}
                   on_change={({ value }) => setValue(value)}
                 />
               </>
@@ -127,7 +126,6 @@ export const TabsSandbox = () => {
                 Change me 2: {value}{' '}
                 <Input
                   label="Change state"
-                  // value={value}
                   on_change={({ value }) => setValue(value)}
                 />
               </>
@@ -269,16 +267,8 @@ const manyTabs = [
   { title: 'Pensjon fra arbeidsgiver', key: 'second', selected: true },
   { title: 'Planlegg pensjon', key: 'third' },
   { title: 'Rammelån', key: 'fourth' },
-  // { title: 'First', key: 'first' },
-  // { title: 'Second', key: 'second' },
-  // { title: 'Third', key: 'third', disabled: true },
-  // { title: 'Fourth', key: 'fourth', selected: true },
   { title: 'Fifth', key: 'fifth' },
   { title: 'Sixth', key: 'sixth' },
-  // { title: 'Seventh', key: 'seventh' },
-  // { title: 'Eighth', key: 'eighth' },
-  // { title: 'Ninth', key: 'ninth' },
-  // { title: 'Tenth', key: 'tenth' }
 ]
 const manyTabsContent = manyTabs.reduce((acc, { title, key }) => {
   acc[key] = title
@@ -287,12 +277,7 @@ const manyTabsContent = manyTabs.reduce((acc, { title, key }) => {
 const TabsInGrid = () => (
   <TabGridStyle>
     <TabGridWrapperStyle>
-      <Tabs
-        // tabsStyle="mint-green"
-        preventRerender
-        content={manyTabsContent}
-        data={manyTabs}
-      />
+      <Tabs preventRerender content={manyTabsContent} data={manyTabs} />
     </TabGridWrapperStyle>
   </TabGridStyle>
 )
@@ -351,13 +336,6 @@ const data = [
   { title: '4th item', key: '4' },
   { title: '5th item', key: '5' },
   { title: '6th item', key: '6' },
-  // { title: '7th item', key: '7' },
-  // { title: '8th item', key: '8' },
-  // { title: '9th item', key: '9' },
-  // { title: '10th item', key: '10' },
-  // { title: '11th item', key: '11' },
-  // { title: '12th item', key: '12' },
-  // { title: '13th item', key: '13' },
 ]
 
 const FlexWrapper = styled.div`

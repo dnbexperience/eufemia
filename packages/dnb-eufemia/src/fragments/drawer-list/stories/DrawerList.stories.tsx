@@ -59,11 +59,9 @@ const MagicOpen = (props) => {
         wrapperElement={ref.current}
         opened={opened}
         on_select={(e) => {
-          // does not fire!
           console.log('on_select', e)
         }}
         on_change={(e) => {
-          // does not fire!
           console.log('on_change', e)
         }}
         on_hide={() => setOpened(false)}

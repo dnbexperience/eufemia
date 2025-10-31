@@ -18,7 +18,6 @@ const makeRequest = async (value) => {
 }
 
 const onChangeValidator = async (value) => {
-  // Delay the response
   const isValid = await makeRequest(value)
   if (!isValid) {
     return new FormError('Field.errorRequired')
