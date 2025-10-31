@@ -42,7 +42,7 @@ export const SectionProperties: PropertiesTableProps = {
     status: 'optional',
   },
   textColor: {
-    doc: "Define a custom text color to compliment the backgroundColor. Use a Eufemia color. Supports also media query breakpoints like `{ small: 'black-80' }`.",
+    doc: "Define a custom text color to compliment the `backgroundColor`. Use a Eufemia color. Supports also media query breakpoints like `{ small: 'black-80' }`.",
     type: 'string',
     status: 'optional',
   },
