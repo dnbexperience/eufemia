@@ -886,7 +886,7 @@ describe('DatePicker component', () => {
         onChange={onChange}
         shortcuts={[
           { title: 'Set date', date: '2020-05-23' },
-          { title: 'Set date', close_on_select: true, date: '2020-04-23' },
+          { title: 'Set date', closeOnSelect: true, date: '2020-04-23' },
         ]}
       />
     )
@@ -908,7 +908,7 @@ describe('DatePicker component', () => {
     )
     expect(onChange).toHaveBeenCalledTimes(1)
 
-    // Now, test "close_on_select"
+    // Now, test "closeOnSelect"
     fireEvent.click(
       document
         .querySelector('div.dnb-date-picker__addon')
