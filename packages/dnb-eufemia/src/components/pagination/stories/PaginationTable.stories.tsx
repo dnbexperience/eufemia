@@ -218,7 +218,9 @@ const InfinityPagination = ({
                 element = element.nextElementSibling
                 setHeight({ element, expanded: !item.expanded })
                 element.focus() // for better ally we set the focus to the new content
-              } catch (e) {}
+              } catch (e) {
+                console.log(e)
+              }
             },
           })
         }

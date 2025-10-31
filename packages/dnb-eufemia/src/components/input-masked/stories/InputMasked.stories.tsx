@@ -335,10 +335,9 @@ export function DisallowLeadingZerosMask() {
         currencyMask={{
           disallowLeadingZeroes: true, //
         }}
-        onChange={({ value, numberValue }) => {}}
       />
 
-      <Field.Currency disallowLeadingZeroes onChange={(value) => {}} />
+      <Field.Currency disallowLeadingZeroes />
     </Flex.Vertical>
   )
 }
