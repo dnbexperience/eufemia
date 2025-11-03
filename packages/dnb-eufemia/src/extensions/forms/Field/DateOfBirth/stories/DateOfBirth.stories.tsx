@@ -34,6 +34,8 @@ export const DateOfBirth = () => {
       <Form.Card space>
         <Field.DateOfBirth
           path="/myField"
+          labelDescription="Please enter your date of birth"
+          labelDescriptionInline
           transformOut={transformOut}
           transformIn={transformIn}
         />

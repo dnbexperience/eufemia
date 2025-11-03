@@ -36,11 +36,7 @@ type EventValues = {
 
 export type Props = Omit<
   FieldPropsWithExtraValue<string, AdditionalArgs, undefined | string>,
-  | 'layout'
-  | 'layoutOptions'
-  | 'labelSize'
-  | 'labelDescription'
-  | 'labelDescriptionInline'
+  'layout' | 'layoutOptions'
 > & {
   validate?: boolean
   dateFormat?: string
@@ -161,6 +157,9 @@ function DateOfBirth(props: Props) {
     label: labelProp,
     width = 'large',
     help,
+    labelDescription,
+    labelDescriptionInline,
+    labelSize,
     error,
     disabled,
     htmlAttributes,
@@ -332,6 +331,8 @@ function DateOfBirth(props: Props) {
   const compositionFieldProps: CompositionFieldProps = {
     error,
     label: labelProp ?? label,
+    labelDescription,
+    labelDescriptionInline,
     space,
   }
 

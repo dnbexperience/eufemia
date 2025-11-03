@@ -14,6 +14,12 @@ describe('Field.DateOfBirth', () => {
     expect(screen.queryByText(nb.DateOfBirth.label)).toBeInTheDocument()
   })
 
+  it('should support labelDescription', () => {
+    const labelDesc = 'This is a description'
+    render(<Field.DateOfBirth labelDescription={labelDesc} />)
+    expect(screen.queryByText(labelDesc)).toBeInTheDocument()
+  })
+
   describe('onChange', () => {
     it('should return correct value onChange event', async () => {
       const onChange = jest.fn()
