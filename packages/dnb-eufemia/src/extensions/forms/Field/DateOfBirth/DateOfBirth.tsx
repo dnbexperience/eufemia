@@ -36,7 +36,7 @@ type EventValues = {
 
 export type Props = Omit<
   FieldPropsWithExtraValue<string, AdditionalArgs, undefined | string>,
-  'layout' | 'layoutOptions'
+  'layout' | 'layoutOptions' | 'labelSize'
 > & {
   validate?: boolean
   dateFormat?: string
@@ -159,7 +159,6 @@ function DateOfBirth(props: Props) {
     help,
     labelDescription,
     labelDescriptionInline,
-    labelSize,
     error,
     disabled,
     htmlAttributes,
