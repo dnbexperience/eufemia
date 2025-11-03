@@ -907,6 +907,51 @@ describe('Field.Date', () => {
     expect(cancelButton).toHaveAttribute('data-testid', 'cancel')
   })
 
+  it('will reset the picker on reset click', async () => {
+    const onReset = jest.fn()
+
+    render(
+      <Form.Handler>
+        <Field.Date showInput onReset={onReset} />
+      </Form.Handler>
+    )
+
+    const dayInput = document.querySelector('.dnb-date-picker__input')
+    await userEvent.click(dayInput)
+    await userEvent.keyboard('01102024')
+
+    fireEvent.click(
+      document.querySelector('button.dnb-input__submit-button__button')
+    )
+
+    expect(document.querySelector('.dnb-date-picker')).toHaveClass(
+      'dnb-date-picker--opened'
+    )
+
+    const resetButton = document.querySelector(
+      'button[data-testid="reset"]'
+    )
+
+    await userEvent.click(resetButton)
+
+    expect(onReset).toHaveBeenCalledTimes(1)
+    expect(onReset).toHaveBeenCalledWith(
+      expect.objectContaining({ date: '2024-10-01' })
+    )
+
+    expect(document.querySelector('.dnb-date-picker')).not.toHaveClass(
+      'dnb-date-picker--opened'
+    )
+
+    const [day, month, year]: Array<HTMLInputElement> = Array.from(
+      document.querySelectorAll('.dnb-date-picker__input')
+    )
+
+    expect(day.value).toBe('dd')
+    expect(month.value).toBe('mm')
+    expect(year.value).toBe('åååå')
+  })
+
   it('should be able to hide and show submit, cancel and reset buttons', async () => {
     const { rerender } = render(
       <Field.Date showSubmitButton showCancelButton showResetButton />
