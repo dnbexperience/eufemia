@@ -456,11 +456,31 @@ For more context, see this [PR](https://github.com/dnbexperience/eufemia/pull/27
 
 ### [Logo](/uilib/components/logo/)
 
+- Remove `brand` prop. Import and use the desired SVG component directly (e.g., `DnbDefault`, `SbankenDefault`, `SbankenCompact`, `SbankenHorizontal`, `CarnegieDefault`, `EiendomDefault`).
+- Remove `variant` prop. Instead, import the specific variant directly (e.g., `SbankenCompact` instead of `brand="sbanken" variant="compact"`).
 - Remove `size`. Replace it with `height` if it contains a numeric value, and with `inheritSize` where `size='inherit'`.
 - Remove the following properties: `alt` and `ratio`.
 - Replace `inherit_color` with `inheritColor`.
 - Change `width` from number to string.
 - Change `height` from number to string.
+
+**Migration Example**:
+
+Before (v10):
+
+```tsx
+import { Logo } from '@dnb/eufemia'
+
+render(<Logo brand="sbanken" variant="compact" />)
+```
+
+After (v11):
+
+```tsx
+import { Logo, SbankenCompact } from '@dnb/eufemia/components/Logo'
+
+render(<Logo svg={SbankenCompact} />)
+```
 
 ### [Icon](/uilib/components/icon/)
 
