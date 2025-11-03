@@ -12,12 +12,17 @@ import {
 } from '@dnb/eufemia/src/icons'
 import {
   Avatar,
+  Badge,
+  CountryFlag,
   Icon,
   IconPrimary,
   Logo,
-  CountryFlag,
-  Badge,
 } from '@dnb/eufemia/src'
+import {
+  DnbDefault,
+  SbankenCompact,
+} from '@dnb/eufemia/src/components/Logo'
+import { ThemeProps } from '@dnb/eufemia/src/shared/Theme'
 
 export const AvatarSizeDefault = () => (
   <ComponentBox hideCode data-visual-test="avatar-size-default">
@@ -135,11 +140,25 @@ export const AvatarChildIcon = () => (
   </ComponentBox>
 )
 
+function getLogoSvg(theme: ThemeProps) {
+  switch (theme?.name) {
+    case 'sbanken':
+      return SbankenCompact
+
+    default:
+      return DnbDefault
+  }
+}
+
 export const AvatarDNBLogo = () => (
-  <ComponentBox hideCode data-visual-test="avatar-children-logo">
+  <ComponentBox
+    hideCode
+    data-visual-test="avatar-children-logo"
+    scope={{ getLogoSvg }}
+  >
     <Avatar.Group label="Logos">
       <Avatar>
-        <Logo inheritColor />
+        <Logo inheritColor svg={getLogoSvg} />
       </Avatar>
     </Avatar.Group>
   </ComponentBox>
