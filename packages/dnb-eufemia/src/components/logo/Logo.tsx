@@ -10,23 +10,27 @@ import {
   extendPropsWithContext,
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
+import { DnbDefault, DnbLogoAlt } from './LogoSvg'
+import type { UseThemeReturn } from '../../shared/useTheme'
 
 import type { IconColor } from '../Icon'
 import type { SpacingProps } from '../space/types'
-import LogoSvg, { DnbLogoAlt, SbankenLogoAlt } from './LogoSvg'
 
+// Re-export SVG components and alt texts for convenience
 export * from './LogoSvg'
 
 export type LogoWidth = string
 export type LogoHeight = string
-export type LogoVariant = 'default' | 'compact' | 'compactHorizontal'
-export type CustomLogoSvg =
+export type LogoSvgComponent =
   | React.ComponentType<
       React.SVGProps<SVGSVGElement> & { alt?: React.ReactNode }
     >
   | React.ReactElement<
       React.SVGProps<SVGSVGElement> & { alt?: React.ReactNode }
     >
+export type CustomLogoSvg =
+  | LogoSvgComponent
+  | ((theme: UseThemeReturn) => LogoSvgComponent)
 
 export type LogoProps = {
   /**
@@ -42,15 +46,6 @@ export type LogoProps = {
    */
   color?: IconColor
   /**
-   * Define which brands logo to show. `ui` (DNB) or `sbanken`. Defaults to `ui`.
-   */
-  brand?: string
-  /**
-   * Define the logo variant, if there is more than one variant of a brands logo. Currently the only option other than default is a `compact` variant of the Sbanken logo. Defaults to `default`.
-   * @deprecated Will be removed in eufemia v11. Use the `svg` prop to provide a custom logo instead.
-   */
-  variant?: LogoVariant
-  /**
    * Set to `true` if you do not want to inherit the color by `currentColor`. Defaults to `false`.
    */
   inheritColor?: boolean
@@ -60,14 +55,13 @@ export type LogoProps = {
   inheritSize?: boolean
   /**
    * Provide a custom SVG to render instead of the built-in logos.
-   * Can be a React component (receives standard SVG props) or a React element.
+   * Can be a React component (receives standard SVG props), a React element, or a function that receives the theme and returns a SVG component.
    */
   svg?: CustomLogoSvg
 } & SpacingProps &
   Omit<React.HTMLProps<HTMLElement>, 'ref' | 'size'>
 
-const defaultProps: LogoProps = {
-  variant: 'default',
+const defaultProps: Partial<LogoProps> = {
   inheritSize: false,
 }
 
@@ -84,12 +78,10 @@ function Logo(localProps: LogoProps) {
     width,
     inheritSize,
     height,
-    brand: brandProp,
-    variant,
     color,
     inheritColor,
     className: classNameProp,
-    svg,
+    svg: svgProp = DnbDefault as CustomLogoSvg, // Default to DNB logo if no svg provided
     ...rest
   } = props
 
@@ -98,68 +90,108 @@ function Logo(localProps: LogoProps) {
     if (brandProp) {
       return brandProp === 'ui' ? 'dnb' : brandProp
     }
-
-    if (context?.theme) {
-      switch (context.theme.name) {
-        case 'ui':
-        case 'eiendom':
-          return 'dnb'
-      }
-
-      return context.theme.name
+    const { name, size } = context.theme
+    return {
+      name,
+      size,
+      isUi: name === 'ui',
+      isSbanken: name === 'sbanken',
+      isEiendom: name === 'eiendom',
+      isCarnegie: name === 'carnegie',
     }
+  }, [context?.theme])
 
-    return 'dnb'
-  }, [brandProp, context?.theme])
-
-  // @deprecated Can remove this in v11
-  const logoType = useMemo(() => {
-    if (brand === 'sbanken') {
-      if (variant === 'compact') {
-        return 'sbankenCompact'
-      } else if (variant === 'compactHorizontal') {
-        return 'sbankenHorizontal'
-      } else {
-        return 'sbankenDefault'
-      }
+  const svg = useMemo(() => {
+    if (theme && typeof svgProp === 'function' && svgProp.length === 1) {
+      return (svgProp as (theme: UseThemeReturn) => LogoSvgComponent)(
+        theme
+      )
     }
+    return svgProp as LogoSvgComponent
+  }, [svgProp, theme])
 
-    return 'dnb'
-  }, [brand, variant])
+  // const svg2 = useMemo(() => {
+  //   if (typeof svgProp === 'function') {
+  //     type SvgFactory = (t: UseThemeReturn) => unknown
+  //     const fn = svgProp as SvgFactory & {
+  //       displayName?: string
+  //       prototype?: { isReactComponent?: unknown }
+  //     }
+
+  //     // If it looks like a React component (PascalCase or react component prototype), don't call it
+  //     const fnName = fn.displayName || fn.name || ''
+  //     const looksLikeComponent =
+  //       !!fn.prototype?.isReactComponent ||
+  //       (fnName && fnName[0] === fnName[0]?.toUpperCase())
+
+  //     if (looksLikeComponent) {
+  //       return svgProp as LogoSvgComponent
+  //     }
+
+  //     if (theme) {
+  //       try {
+  //         const maybeEl = (fn as (t: UseThemeReturn) => unknown)(theme)
+  //         if (React.isValidElement(maybeEl) && maybeEl.type === 'svg') {
+  //           return maybeEl
+  //         }
+  //       } catch {
+  //         // ignore and fall through to treat as component
+  //       }
+  //     }
+
+  //     return svgProp as LogoSvgComponent
+  //   }
+
+  //   return svgProp
+  // }, [svgProp, theme])
 
   // Alt text for the logo does not need to be translated. DNB alt will be the same in English.
   const altText = useMemo(() => {
-    const alt = (svg as any)?.['alt']
-    if (alt) return alt as string
-    return logoType === 'dnb' ? DnbLogoAlt : SbankenLogoAlt
-  }, [logoType, svg])
+    const alt = svg?.['alt']
+    if (alt) {
+      return alt as string
+    }
+    return DnbLogoAlt
+  }, [svg])
 
   const sharedClasses = classnames(
     classNameProp,
     createSpacingClasses(props)
   )
-  const className = useMemo(() => {
-    if (logoType === 'dnb') {
-      return classnames(
-        'dnb-logo',
-        sharedClasses,
-        (parseFloat(width) > 0 || parseFloat(height) > 0) &&
-          'dnb-logo--has-size',
-        inheritSize && 'dnb-logo--inherit-size',
-        inheritColor && 'dnb-logo--inherit-color'
-      )
+
+  const detectedBrand = useMemo(() => {
+    // Determine brand based on svg component/element name
+    let name: string | undefined
+
+    if (React.isValidElement(svg)) {
+      const el = svg as React.ReactElement & {
+        type?: { displayName?: string; name?: string }
+      }
+      name = el.type?.displayName || el.type?.name
+    } else if (typeof svg === 'function') {
+      name = svg.displayName || svg.name
     }
+
+    const n = (name || '').toLowerCase()
+    if (n.includes('sbanken')) {
+      return 'sbanken'
+    }
+
+    return 'dnb'
+  }, [svg])
+
+  const className = useMemo(() => {
+    const base = `${detectedBrand}-logo`
     return classnames(
-      `${brand}-logo`,
+      base,
       sharedClasses,
       (parseFloat(width) > 0 || parseFloat(height) > 0) &&
-        `${brand}-logo--has-size`,
-      inheritSize && `${brand}-logo--inherit-size`,
-      inheritColor && `${brand}-logo--inherit-color`
+        `${base}--has-size`,
+      inheritSize && `${base}--inherit-size`,
+      inheritColor && `${base}--inherit-color`
     )
   }, [
-    logoType,
-    brand,
+    detectedBrand,
     sharedClasses,
     width,
     height,
@@ -175,39 +207,48 @@ function Logo(localProps: LogoProps) {
     ...rest,
   }
 
-  const svgParams = {
-    width,
-    height,
-    color,
-    alt: altText,
-  }
+  const svgParams = useMemo(() => {
+    return {
+      width,
+      height,
+      color,
+      alt: altText,
+    }
+  }, [altText, color, height, width])
 
   const remainingDOMProps = validateDOMAttributes(props, rootParams)
 
   return (
     <span {...remainingDOMProps}>
-      {svg ? (
-        renderCustomSvg(svg, svgParams)
-      ) : (
-        <LogoSvg logoType={logoType} svgParams={svgParams} />
-      )}
+      {renderCustomSvg(svg, svgParams, theme)}
     </span>
   )
 }
 
 function renderCustomSvg(
-  svg:
+  SvgComponent:
     | React.ComponentType<React.SVGProps<SVGSVGElement>>
     | React.ReactElement<React.SVGProps<SVGSVGElement>>,
-  svgParams: React.SVGProps<SVGSVGElement> & { alt: string }
+  svgParams: React.SVGProps<SVGSVGElement> & { alt: string },
+  theme: UseThemeReturn
 ) {
-  if (React.isValidElement(svg)) {
-    return React.cloneElement(svg, { ...svgParams, ...svg.props })
+  if (React.isValidElement(SvgComponent)) {
+    const allowedProps: Record<string, unknown> = {}
+    if (theme) {
+      for (const key in SvgComponent.props) {
+        if (!(key in theme)) {
+          allowedProps[key] = SvgComponent.props[key]
+        }
+      }
+    }
+
+    return React.createElement(SvgComponent.type, {
+      ...allowedProps,
+      ...svgParams,
+    })
   }
 
-  const SvgComponent = svg as React.ComponentType<
-    React.SVGProps<SVGSVGElement>
-  >
   return <SvgComponent {...svgParams} />
 }
+
 export default Logo
