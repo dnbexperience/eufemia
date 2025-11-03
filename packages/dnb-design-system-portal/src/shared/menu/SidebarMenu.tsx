@@ -222,7 +222,7 @@ const ThemeBadge = ({ theme, ...props }: { theme: ThemeNames }) => {
       ui: 'DNB',
       sbanken: 'Sbanken',
       eiendom: 'Eiendom',
-      carnegie: 'Carnegie',
+      carnegie: 'DNB Carnegie',
     }[theme]
   const themeTitleTitle =
     theme && `This component is ready for use with the ${themeTitle} theme`
