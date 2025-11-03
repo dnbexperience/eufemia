@@ -86,7 +86,7 @@ export default function PortalToolsMenu({
           </Space>
           <P size="small" top="x-small">
             Read more about{' '}
-            <Anchor href="/contribute/style-guides/theming/">
+            <Anchor href="/uilib/usage/customisation/theming/">
               theming
             </Anchor>
           </P>
