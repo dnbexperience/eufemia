@@ -111,8 +111,8 @@ describe('H element', () => {
       expect(element.style.maxWidth).toBe('100ch')
     })
 
-    it('applies proseMaxWidth="auto" as 60ch', () => {
-      render(<H proseMaxWidth="auto">Test heading</H>)
+    it('applies proseMaxWidth as 60ch when true', () => {
+      render(<H proseMaxWidth>Test heading</H>)
       const element = document.querySelector(
         '.dnb-h--xx-large'
       ) as HTMLElement
