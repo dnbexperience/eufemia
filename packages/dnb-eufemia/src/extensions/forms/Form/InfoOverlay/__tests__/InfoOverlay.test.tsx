@@ -454,7 +454,7 @@ describe('Form.InfoOverlay', () => {
     ).toBe('false')
   })
 
-  it('should not bleed content property to the form', () => {
+  it('should not bleed content property to data', () => {
     const formId = 'bleeed'
     let outerContext = null
 
