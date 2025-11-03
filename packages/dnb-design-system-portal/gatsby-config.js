@@ -142,7 +142,7 @@ const plugins = [
         ui: { name: 'DNB' }, // universal identity
         eiendom: { name: 'DNB Eiendom' },
         sbanken: { name: 'Sbanken (WIP)' },
-        carnegie: { name: 'Carnegie (WIP)' },
+        carnegie: { name: 'DNB Carnegie (WIP)' },
       },
       filesGlobs:
         enableBuildStyleScope() || enablePortalStyleScope()
