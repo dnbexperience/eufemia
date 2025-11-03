@@ -16,3 +16,39 @@ A ready-to-use Logo component with the needed SVGs.
 
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/logo)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/logo)
+
+### Logo that changes based on theme
+
+You can import the SVGs for each brand like this:
+
+```jsx
+import {
+  DnbDefault,
+  SbankenDefault,
+  SbankenCompact,
+  CarnegieDefault,
+  EiendomDefault,
+} from '@dnb/eufemia/components/Logo'
+```
+
+You can then create your helper function to get the right SVG based on the current theme:
+
+```tsx
+import type { ThemeProps } from '@dnb/eufemia/shared/Theme'
+
+function getLogoSvg(theme: ThemeProps) {
+  switch (theme?.name) {
+    case 'sbanken':
+      return SbankenDefault
+
+    case 'carnegie':
+      return CarnegieDefault
+
+    case 'eiendom':
+      return EiendomDefault
+
+    default:
+      return DnbDefault
+  }
+}
+```
