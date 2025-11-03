@@ -18,7 +18,7 @@ export const stringProperties: PropertiesTableProps = {
     status: 'optional',
   },
   capitalize: {
-    doc: 'When set to true, it will capitalize the first letter of every word, transforming the rest to lowercase.',
+    doc: 'When set to true, it will capitalize the first letter of every word, transforming the rest to lower case.',
     type: 'boolean',
     status: 'optional',
   },
