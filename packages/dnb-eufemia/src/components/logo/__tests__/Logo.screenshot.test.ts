@@ -65,6 +65,17 @@ describe.each(['carnegie'])('Logo for %s', (themeName) => {
   })
 })
 
+describe.each(['eiendom'])('Logo for %s', (themeName) => {
+  setupPageScreenshot({ themeName, url: '/uilib/components/logo/demos' })
+
+  it('have to match the default variant', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="logo-eiendom"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+})
+
 describe('png image', () => {
   it('have to match image snapshot', async () => {
     const image = await loadImage(
