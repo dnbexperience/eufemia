@@ -260,8 +260,6 @@ export const WithFieldBlockLabel = () => {
       <Field.PhoneNumber
         label="Additional Label that will stretch all the way down here"
         labelDescription="And a label description that will stretch all the way down here"
-        numberLabel={false}
-        countryCodeLabel={false}
       />
     </ComponentBox>
   )
