@@ -907,18 +907,32 @@ describe('Field.Date', () => {
     expect(cancelButton).toHaveAttribute('data-testid', 'cancel')
   })
 
-  it('will reset the picker on reset click', async () => {
+  it('will reset the value and the picker on reset click', async () => {
     const onReset = jest.fn()
+    let dataContext = null
 
     render(
       <Form.Handler>
-        <Field.Date showInput onReset={onReset} />
+        <Field.Date path="/date" showInput onReset={onReset} />
+        <DataContext.Consumer>
+          {(context) => {
+            dataContext = context
+            return null
+          }}
+        </DataContext.Consumer>
       </Form.Handler>
     )
 
     const dayInput = document.querySelector('.dnb-date-picker__input')
     await userEvent.click(dayInput)
     await userEvent.keyboard('01102024')
+
+    expect(dataContext.fieldDisplayValueRef.current).toEqual({
+      '/date': {
+        type: 'field',
+        value: '01.10.2024',
+      },
+    })
 
     fireEvent.click(
       document.querySelector('button.dnb-input__submit-button__button')
@@ -950,6 +964,13 @@ describe('Field.Date', () => {
     expect(day.value).toBe('dd')
     expect(month.value).toBe('mm')
     expect(year.value).toBe('åååå')
+
+    expect(dataContext.fieldDisplayValueRef.current).toEqual({
+      '/date': {
+        type: 'field',
+        value: undefined,
+      },
+    })
   })
 
   it('should be able to hide and show submit, cancel and reset buttons', async () => {
