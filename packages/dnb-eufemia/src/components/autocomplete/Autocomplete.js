@@ -989,7 +989,7 @@ class AutocompleteInstance extends React.PureComponent {
       // Mark focus first so updateData (triggered in on_focus) can act on it
       this.setState({ hasFocus: true, hasBlur: false })
 
-      dispatchCustomElementEvent(this, 'on_focus', {
+      dispatchCustomElementEvent(this, 'onFocus', {
         event,
         ...this.getEventObjects('onFocus'),
       })
