@@ -84,6 +84,12 @@ export default function PortalToolsMenu({
           <Space top>
             <ChangeStyleTheme />
           </Space>
+          <P size="small" top="x-small">
+            Read more about{' '}
+            <Anchor href="/contribute/style-guides/theming/">
+              theming
+            </Anchor>
+          </P>
         </Space>
 
         {theme.name === 'sbanken' && (
