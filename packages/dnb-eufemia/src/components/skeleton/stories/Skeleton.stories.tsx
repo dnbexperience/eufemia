@@ -26,8 +26,6 @@ import {
 } from '../..'
 import { H1, H2, P, Ol, Li, Ul, Dl, Dt, Dd, Anchor } from '../../..'
 import Provider from '../../../shared/Provider'
-
-// import SkeletonArticle from '../../skeleton/figures/Article'
 import { Article as SkeletonArticle } from '../figures'
 
 export default {
@@ -46,26 +44,11 @@ const WidthLimit = styled(FormRow)`
 `
 
 export const SkeletonSandbox = () => {
-  // React.useEffect(() => {
-  //   console.log('myRef', myRef.current)
-  //   // console.log('myRef', Input, myRef.current)
-  //   // myRef.current.focus()
-  // })
-
   const [showSkeleton, setSkeletonState] = React.useState(true)
-  // console.log('showSkeleton', showSkeleton)
 
   return (
-    <Provider
-    // skeleton={showSkeleton}
-    // formElement={{ skeleton: showSkeleton }}
-    >
-      <Skeleton
-        show={showSkeleton}
-        // noAnimation
-        // show
-        // figure={() => <SkeletonArticle rows={2} />}
-      >
+    <Provider>
+      <Skeleton show={showSkeleton}>
         <CustomStyle>
           <Wrapper>
             <Box>
@@ -116,28 +99,11 @@ export const SkeletonSandbox = () => {
               <Button variant="tertiary" icon="bell">
                 Button
               </Button>
-              <Slider
-                label="Vertical slider:"
-                vertical={false}
-                // disabled
-                top
-              />
+              <Slider label="Vertical slider:" vertical={false} top />
               <Modal top>123</Modal>
-              <Checkbox
-                label="Checkbox:"
-                // disabled
-                left
-              />
-              <Switch
-                label="Switch:"
-                // disabled
-                left
-              />
-              <Radio
-                label="Radio:"
-                // disabled
-                left
-              />
+              <Checkbox label="Checkbox:" left />
+              <Switch label="Switch:" left />
+              <Radio label="Radio:" left />
               <Input top labelDirection="vertical" label="Input" />
               <Textarea top labelDirection="vertical" label="Textarea" />
             </Box>
