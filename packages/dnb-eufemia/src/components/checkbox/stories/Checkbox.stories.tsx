@@ -134,20 +134,16 @@ export const CheckboxSandbox = () => (
       </Box>
       <Box>
         <Checkbox
-          // label="Unchecked status error:"
           label="Unchecked:"
           labelPosition="left"
-          // status="Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
           status="Potenti viverra facilisi blandit sodales lorem est fusce"
           statusState="info"
         />
       </Box>
       <Box>
         <Checkbox
-          // label="Unchecked status error:"
           label="Unchecked:"
           labelPosition="right"
-          // status="Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
           status="Potenti viverra facilisi blandit sodales lorem est fusce"
           statusState="info"
         />
