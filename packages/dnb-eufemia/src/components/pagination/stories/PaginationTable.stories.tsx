@@ -46,8 +46,6 @@ const InfinityPaginationTable = ({ tableItems, ...props }) => {
   const startupPage = 3 // what we start with
   const perPageCount = 10 // how many items per page
   const maxPagesCount = Math.floor(tableItems?.length / perPageCount)
-
-  // create our Pagination instance
   const [
     { Pagination, setContent, resetContent, resetInfinity, endInfinity },
   ] = React.useState(createPagination)
@@ -56,11 +54,8 @@ const InfinityPaginationTable = ({ tableItems, ...props }) => {
   const [cacheHash, forceRerender] = React.useState(null) // eslint-disable-line
 
   React.useEffect(() => {
-    // Could also be set as "startupPage" in <Pagination startupPage={startupPage} ...>
     setLocalPage(startupPage)
   }, [])
-
-  // ascending / descending
   tableItems = reorderDirection(tableItems, orderDirection)
 
   const onToggleExpanded = (
@@ -70,21 +65,12 @@ const InfinityPaginationTable = ({ tableItems, ...props }) => {
     const index = tableItems.findIndex(({ ssn }) => ssn === _ssn)
     if (index > -1) {
       const item = tableItems[index]
-
-      // update only the current item
       tableItems[index] = {
         ...item,
         expanded: !item.expanded,
       }
-
-      // define what page should update
-      // used to update the page inside the Pagination Component
       setLocalPage(pageNumber)
-
-      // force re-render of this component
       forceRerender(new Date().getTime())
-
-      // set new height
       if (element) {
         setHeight({ element, expanded: !item.expanded })
       }
@@ -92,14 +78,11 @@ const InfinityPaginationTable = ({ tableItems, ...props }) => {
       setTimeout(onExpanded, 10)
     }
   }
-  // set the startup height
   const onMounted = (items) => {
     items.forEach(({ element: { current: element }, expanded }) =>
       setHeight({ element, expanded, animation: false })
     )
   }
-
-  // This limits the items to perPageCount
   const content = (
     <InfinityPagination
       items={tableItems}
@@ -117,14 +100,10 @@ const InfinityPaginationTable = ({ tableItems, ...props }) => {
 
   const action = ({ pageNumber }) => {
     console.log('on_change: with page', pageNumber)
-
-    // simulate server delay
     clearTimeout(serverDelayTimeout)
     serverDelayTimeout = setTimeout(
       () => {
         if (pageNumber === currentPage) {
-          // once we set current page, we force a re-render, and sync of data
-          // but only if we are on the same page
           forceRerender(new Date().getTime())
         } else {
           setLocalPage(pageNumber)
@@ -149,11 +128,7 @@ const InfinityPaginationTable = ({ tableItems, ...props }) => {
 
                 resetInfinity()
                 resetContent()
-
-                // re-render our component to get back the default state
                 setOrderDirection('asc')
-
-                // re-render our component to get back the default state
                 forceRerender(new Date().getTime())
               }}
             >
@@ -172,7 +147,6 @@ const InfinityPaginationTable = ({ tableItems, ...props }) => {
               text="Sortable"
               title="Sort table row"
               on_click={() => {
-                // 1. empty
                 resetContent()
 
                 setOrderDirection((o) => (o === 'asc' ? 'desc' : 'asc'))
@@ -239,23 +213,19 @@ const InfinityPagination = ({
           let element = e.currentTarget
           onToggleExpanded(item, {
             pageNumber: currentPage,
-            // element,
             onExpanded: () => {
               try {
-                // rather find the next tr
                 element = element.nextElementSibling
                 setHeight({ element, expanded: !item.expanded })
                 element.focus() // for better ally we set the focus to the new content
               } catch (e) {
-                //
+                console.log(e)
               }
             },
           })
         }
       },
     }
-
-    // we do this only to have a working useEffect, so we can call onMounted
     const trRef = React.createRef<HTMLTableRowElement>()
     mountedItems.push({ ...item, element: trRef })
 
@@ -403,17 +373,12 @@ const setHeight = ({
     typeof window !== 'undefined' &&
     window.requestAnimationFrame
   ) {
-    // get tr element
     if (String(element.nodeName).toLowerCase() === 'td') {
       element = element.parentElement
     }
-
-    // get the new height
     const newHeight = expanded
       ? window.getComputedStyle(element)['max-height'] // maxHeight
       : element.scrollHeight
-
-    // make the animation
     window.requestAnimationFrame(() => {
       if (animation) {
         element.style.height = '1px'
@@ -431,8 +396,6 @@ const reorderDirection = (items, dir) =>
     const b = parseFloat(B)
     return (dir === 'asc' ? a > b : a < b) ? 1 : -1
   })
-
-// Page layout
 const Wrapper = styled(Section)`
   width: 100%;
   background: var(--color-white);
