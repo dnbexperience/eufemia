@@ -46,10 +46,7 @@ export const TooltipSandbox = () => {
         </Tooltip>
       </Box>
       <Box>
-        <Tooltip
-          // hideDelay={1e3}
-          targetElement={<Button right>Top</Button>}
-        >
+        <Tooltip targetElement={<Button right>Top</Button>}>
           Tooltip 1
         </Tooltip>
         <Tooltip position="bottom" targetElement={<Button>Bottom</Button>}>
@@ -60,19 +57,13 @@ export const TooltipSandbox = () => {
         <Button>Clickable</Button>
         <br />
         <StyledTooltip
-          // id="button1"
           position="top"
-          // target="#button1"
-          // active
           targetElement={<Button right>Bottom 1</Button>}
         >
           Tooltip 1
         </StyledTooltip>
         <StyledTooltip
-          // id="button2"
           position="bottom"
-          // target="#button2"
-          // active
           targetElement={<Button>Bottom 2</Button>}
         >
           Tooltip 2
@@ -83,11 +74,7 @@ export const TooltipSandbox = () => {
           on_click={(e) => {
             console.log(e)
           }}
-          // aria-describedby="customId"
-          tooltip={
-            // 'Tooltip for this Button 1a'
-            <Tooltip>Tooltip for this Button 1b</Tooltip>
-          }
+          tooltip={<Tooltip>Tooltip for this Button 1b</Tooltip>}
         >
           Button with Tooltip 1
         </Button>
@@ -96,7 +83,6 @@ export const TooltipSandbox = () => {
             console.log(e)
           }}
           tooltip={
-            // 'Tooltip for this Button 2a'
             <Tooltip position="bottom">Tooltip for this Button 2b</Tooltip>
           }
         >

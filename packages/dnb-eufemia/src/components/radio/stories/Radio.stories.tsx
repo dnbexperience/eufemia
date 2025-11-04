@@ -25,17 +25,12 @@ export default {
 export const RadioButtonSandbox = () => (
   <Wrapper>
     <Box>
-      <Radio.Group
-        label="With suffixes:"
-        // labelPosition="left"
-        suffix="And a group suffix"
-      >
+      <Radio.Group label="With suffixes:" suffix="And a group suffix">
         <Radio label="First" value="first" />
         <Radio
           label="Second"
           value="second"
           status="Error message"
-          // suffix="Suffix message"
           suffix={
             <HelpButton title="Modal Title">Modal content</HelpButton>
           }
@@ -119,37 +114,26 @@ export const RadioButtonSandbox = () => (
       </FormRow>
       <FormRow label="Long Group name Vitae dapibus eros viverra torquent euismod at dignissim vel mattis:">
         <Radio.Group
-          // label="Group:"
-          // label="Long Group name Vitae dapibus eros viverra torquent euismod at dignissim vel mattis:"
           on_change={({ value }) => {
             console.log('on_change', value)
           }}
           value="first"
           status="Error message"
-          // disabled
-          // name="MyGroup" // The Group Name
         >
           <Radio label="First" value="first" />
           <Radio label="Second" value="second" />
-          <Radio
-            label="Third"
-            value="third"
-            // checked
-          />
+          <Radio label="Third" value="third" />
         </Radio.Group>
       </FormRow>
     </Box>
     <Box>
       <FormRow label="Long Group name Vitae dapibus eros viverra torquent euismod at dignissim vel mattis:">
         <Radio.Group
-          // direction="vertical"
           label="Group label:"
           on_change={({ value }) => {
             console.log('on_change', value)
           }}
           status="Error message"
-          // disabled
-          // name="First" // Custom Group Name
         >
           <Radio label="First" value="first" />
           <Radio
@@ -180,7 +164,6 @@ export const RadioButtonSandbox = () => (
         label="Vertical group with error:"
         layoutDirection="column"
         labelDirection="vertical"
-        // vertical={true}
         status="Error message Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
       >
         <Radio label="First" value="first" />
@@ -249,7 +232,6 @@ const RadioGroupsWithStatus = () => {
       <Provider formElement={{ labelDirection: 'vertical' }}>
         <Radio.Group
           label="Group A label:"
-          // labelDirection="vertical"
           value={currentValueForGroupA}
           on_change={({ value }) => {
             console.log('on_change A', value)
@@ -262,7 +244,6 @@ const RadioGroupsWithStatus = () => {
         </Radio.Group>
         <Radio.Group
           label="Group B label:"
-          // labelDirection="vertical"
           value={currentValueForGroupB}
           on_change={({ value }) => {
             console.log('on_change B', value)

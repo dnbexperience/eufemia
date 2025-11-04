@@ -145,14 +145,6 @@ export function ErrorMessages() {
           required
           value="abc"
           minLength={4}
-          // pattern="[0-9]"
-          // onChangeValidator={() => {
-          //   return new FormError('OrganizationNumber.errorRequired')
-          // }}
-          // errorMessages={{
-          //   'OrganizationNumber.errorRequired':
-          //     'Display me, instead of the default message',
-          // }}
         />
       </Flex.Stack>
     </Form.Handler>
