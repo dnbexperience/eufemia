@@ -9,10 +9,7 @@ import styled from '@emotion/styled'
 import { H3, P } from '../../..'
 import Provider from '../../../shared/Provider'
 import NumberFormat from '../../NumberFormat'
-// import Dropdown from '../../Dropdown'
 import ToggleButton from '../../ToggleButton'
-
-// import { format } from '../../NumberFormat'
 import Context from '../../../shared/Context'
 
 export default {
@@ -31,11 +28,7 @@ const CustomStyle = styled.div`
 `
 
 const ChangeLocale = () => {
-  const {
-    setLocale,
-    // setCurrentLocale,// to update only the current context
-    locale,
-  } = React.useContext(Context)
+  const { setLocale, locale } = React.useContext(Context)
 
   return (
     <ToggleButton.Group
@@ -58,31 +51,16 @@ const ChangeLocale = () => {
       </ToggleButton>
     </ToggleButton.Group>
   )
-
-  // return (
-  // <Dropdown
-  // value={locale}
-  // data={{ 'en-GB': 'English', 'nb-NO': 'Norsk' }}
-  // on_change={({ data: { selectedKey: locale } }) => {
-  // setLocale(locale)
-  // }}
-  // />
-  // )
 }
 
 const Prefix = styled.b`
   color: red;
 `
 
-// new Intl.NumberFormat('nb-NO', { minimumFractionDigits: 4, maximumFractionDigits: 4, style: 'currency', currency: 'NOK' }).format(-12345)
-
 export const NumberFormatSandbox = () => {
   return (
     <CustomStyle>
-      <Provider
-        // locale="nb-NO"
-        locale="en-GB"
-      >
+      <Provider locale="en-GB">
         <Wrapper>
           <Box>
             <Provider
@@ -97,28 +75,15 @@ export const NumberFormatSandbox = () => {
                 currency
                 clean
                 decimals={2}
-                // locale={'nb-NO'}
                 currencyPosition="after"
-                // currencyDisplay="name"
-                // options={{
-                //   // minimumSignificantDigits: 1,
-                //   // maximumSignificantDigits: 6,
-                //   // minimumIntegerDigits: 0
-                //   minimumFractionDigits: 1,
-                //   maximumFractionDigits: 1
-                //   // maximumFractionDigits: 1
-                // }}
               />
               <br />
               <NumberFormat
                 prefix={<Prefix className="custom">S</Prefix>}
                 suffix="E"
-                // value={'-12 623,988'}
-                // value={'-12.623,988'}
                 value={'-12,623.988'}
                 decimals={3}
                 clean
-                // currency
               />
             </Provider>
           </Box>
@@ -131,9 +96,7 @@ export const NumberFormatSandbox = () => {
             </Provider>
           </Box>
           <Box>
-            <Provider
-            //  locale="en-GB"
-            >
+            <Provider>
               <ChangeLocale />
               <br />
               <NumberFormat value="-1234" decimals="2" />
