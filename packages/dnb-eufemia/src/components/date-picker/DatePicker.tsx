@@ -51,7 +51,6 @@ import { DatePickerContextValues, DateType } from './DatePickerContext'
 import { DatePickerDates } from './hooks/useDates'
 import { useTranslation } from '../../shared'
 import Popover from '../popover/Popover'
-import DatePickerPortal from './DatePickerPortal'
 import {
   FormatDateOptions,
   formatDate,
@@ -551,9 +550,8 @@ function DatePicker(externalProps: DatePickerAllProps) {
     props,
     defaultProps,
     { skeleton: context?.skeleton },
-    context.getTranslation(props).DatePicker, // convertSnakeCaseProps - can be removed in v11
-    pickFormElementProps(context?.FormRow), // Deprecated – can be removed in v11
-    pickFormElementProps(context?.formElement), // Deprecated – can be removed in v11
+    context.getTranslation(props).DatePicker,
+    pickFormElementProps(context?.formElement),
     context.DatePicker
   )
 
