@@ -678,8 +678,8 @@ export const GlobalStatusExample = () => (
       ]}
       show={true}
       autoscroll={false}
-      no_animation={true}
-      omit_set_focus={true}
+      noAnimation={true}
+      omitSetFocus={true}
       id="demo-1"
     />
   </Wrapper>

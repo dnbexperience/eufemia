@@ -146,16 +146,9 @@ function Checkbox(localProps: CheckboxProps) {
       {
         skeleton: context?.Checkbox,
       },
-      // Deprecated – can be removed in v11
-      pickFormElementProps(context?.FormRow),
       pickFormElementProps(context?.formElement)
     )
-  }, [
-    context.Checkbox,
-    context?.FormRow,
-    context?.formElement,
-    localProps,
-  ])
+  }, [context.Checkbox, context?.formElement, localProps])
 
   const props = extractPropsFromContext()
 

@@ -94,8 +94,6 @@ export default class Button extends React.PureComponent {
       this.props,
       Button.defaultProps,
       { skeleton: this.context?.skeleton },
-      // Deprecated – can be removed in v11
-      pickFormElementProps(this.context?.FormRow),
       pickFormElementProps(this.context?.formElement),
       this.context.Button
     )
