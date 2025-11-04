@@ -48,11 +48,6 @@ const SmallWidth = styled(Input)`
     text-align: center;
   }
 `
-// const CustomStatuSandbox = () => (
-//   <>
-//     My info <Link href="/">with a link</Link> and more text
-//   </>
-// )
 
 export const FormStatusSandbox = () => {
   return (
@@ -107,11 +102,7 @@ export const FormStatusSandbox = () => {
         </FormStatus>
       </Box>
       <Box>
-        <Input
-          label="Input label:"
-          // style={{ width: '200px' }}
-          status={<CustomStatus />}
-        >
+        <Input label="Input label:" status={<CustomStatus />}>
           Value
         </Input>
       </Box>
@@ -200,7 +191,6 @@ export const ToggleAnimation = () => {
             value="Input value"
             suffix={<HelpButton>test</HelpButton>}
             right
-            // size="small"
           />
           <ToggleButton top on_change={toggleStatus}>
             Toggle
