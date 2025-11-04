@@ -17,7 +17,6 @@ export function Date() {
   return (
     <Field.Date
       required
-      // validateInitially
       value={state}
       onBlur={console.log}
       onFocus={console.log}

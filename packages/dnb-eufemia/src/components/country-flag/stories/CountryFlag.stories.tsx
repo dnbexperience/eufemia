@@ -10,8 +10,6 @@ import CountryFlag from '../CountryFlag'
 export default {
   title: 'Eufemia/Components/CountryFlag',
 }
-
-// Import the flag icons styles
 import '../style/dnb-country-flag-icons.scss'
 import { H1, H2, H3, P } from '../../../elements'
 

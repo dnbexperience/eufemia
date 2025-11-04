@@ -12,7 +12,6 @@ import {
   ToggleButton,
   Accordion,
   Button,
-  // Input,
   IconPrimary,
   Heading,
 } from '../..'
@@ -28,35 +27,6 @@ const TestStyles = styled.div`
     background-color: turquoise;
   }
 `
-
-// Accordion.Group.Store('group-id').saveState(true, 'remembered-state-2')
-// const getState = Accordion.Group.Store('group-id').getState(
-//   'remembered-state-2'
-// )
-// console.log('getState', getState)
-// /**
-//  * "getState" returns
-//  * - true if it is saved as expanded
-//  * - false if it is saved as not expanded
-//  * - null if it is not saved
-//  */
-
-// const getData = Accordion.Group.Store('group-id').getData()?.id
-// console.log('getData', getData)
-// /**
-//  * "getData" returns
-//  * - object with the "id" that is saved
-//  * - null if it is not saved
-//  */
-
-// console.log(
-//   'single-accordion',
-//   Accordion.Store('single-accordion').getData()?.expanded
-// )
-// console.log(
-//   'single-accordion',
-//   Accordion.Store('single-accordion').getState()
-// )
 
 const DidRender = ({ message }) => {
   React.useEffect(() => {
@@ -216,13 +186,9 @@ function AccordionWithContainer() {
       <Accordion.Group
         noAnimation
         variant="outlined"
-        // prerender
-        // preventRerender
-        // preventRerenderConditional
         singleContainer
         rememberState
         flushRememberedState={flushCache}
-        // allowCloseAll
         id="group-id"
       >
         <Accordion
@@ -231,20 +197,14 @@ function AccordionWithContainer() {
           title="Title1"
           description="Description1"
           expanded={true}
-          // element="h2"
-          // heading
-          // heading={Heading}
-          // headingLevel="3"
         >
           <Accordion.Header title="Title2" description="Description2">
-            {/* Title 3 string */}
             <Accordion.Header.Title key="title">
               Title 3
             </Accordion.Header.Title>
             <Accordion.Header.Description>
               Description 3
             </Accordion.Header.Description>
-            {/* <Accordion.Header.Icon key="icon" /> */}
           </Accordion.Header>
           <Accordion.Content
             left="xx-large"
@@ -275,12 +235,7 @@ function AccordionWithContainer() {
             </Button>
           </Accordion.Content>
         </Accordion>
-        <Accordion
-          bottom
-          iconPosition="right"
-          id="remembered-state-2"
-          // top="x-large"
-        >
+        <Accordion bottom iconPosition="right" id="remembered-state-2">
           <Accordion.Header>
             <Accordion.Header.Container>
               <IconPrimary icon="bell" />
@@ -328,11 +283,7 @@ function AccordionWithContainer() {
             </Button>
           </Accordion.Content>
         </Accordion>
-        <Accordion
-          iconPosition="right"
-          id="remembered-state-3"
-          // top="x-large"
-        >
+        <Accordion iconPosition="right" id="remembered-state-3">
           <Accordion.Header>
             <Accordion.Header.Container>
               <IconPrimary icon="bell" />
