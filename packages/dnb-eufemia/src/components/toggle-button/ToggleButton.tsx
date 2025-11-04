@@ -222,8 +222,6 @@ class ToggleButton extends React.PureComponent<ToggleButtonProps> {
             ToggleButton.defaultProps,
             contextProps,
             context.translation.ToggleButton,
-            // Deprecated – can be removed in v11
-            pickFormElementProps(context.FormRow),
             pickFormElementProps(context.formElement),
             context.ToggleButton
           )
