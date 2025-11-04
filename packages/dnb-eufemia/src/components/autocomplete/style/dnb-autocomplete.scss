@@ -236,9 +236,6 @@
   &--vertical#{&}--stretch &__inner {
     width: 100%;
   }
-  .dnb-form-row--horizontal &--stretch {
-    width: 100%;
-  }
 
   label + &[class*='__form-status'] {
     vertical-align: top;

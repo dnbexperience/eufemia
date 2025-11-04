@@ -133,8 +133,6 @@ class ToggleButtonGroup extends React.PureComponent<ToggleButtonGroupProps> {
       this.props,
       ToggleButtonGroup.defaultProps,
       this.context.getTranslation(this.props).ToggleButton,
-      // Deprecated – can be removed in v11
-      pickFormElementProps(this.context?.FormRow),
       pickFormElementProps(this.context?.formElement),
       this.context.ToggleButtonGroup
     )

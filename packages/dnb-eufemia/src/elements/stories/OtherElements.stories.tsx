@@ -23,10 +23,6 @@ export default {
 }
 
 const CustomStyles = styled.div`
-  .dnb-form-row {
-    background-color: rgba(200, 0, 200, 0.15);
-  }
-
   ul,
   ol,
   dl {
@@ -52,12 +48,6 @@ const CustomStyles = styled.div`
 
   p {
     background-color: rgba(0, 0, 0, 0.15);
-  }
-  ${
-    '' /* .dnb-form-row + p,
-  textarea + p {
-    margin-top: 1rem;
-  } */
   }
 `
 
