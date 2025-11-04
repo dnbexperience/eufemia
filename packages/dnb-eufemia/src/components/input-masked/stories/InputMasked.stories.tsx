@@ -113,7 +113,6 @@ function BasicCurrencyMask() {
       currencyMask={{
         currency: 'NOK',
         prefix: 'Prefix ',
-        // allowDecimal: false,
         allowNegative: false,
       }}
       // maskOptions={{ disallowLeadingZeroes: true }}
@@ -184,9 +183,6 @@ function EmailMask() {
   return (
     <InputMasked
       label="emailMask"
-      // DOMException: Failed to execute 'setSelectionRange' on 'HTMLInputElement'
-      // The input element's type ('email') does not support selection.
-      // type="email"
       placeholder="@."
       autocomplete="on"
       keepPlaceholder
@@ -345,20 +341,11 @@ export function DisallowLeadingZerosMask() {
       <InputMasked
         value={-100123}
         currencyMask={{
-          // allowDecimal: true,
           disallowLeadingZeroes: true, //
-        }}
-        onChange={({ value, numberValue }) => {
-          // console.log('onChange', value, numberValue)
         }}
       />
 
-      <Field.Currency
-        disallowLeadingZeroes
-        onChange={(value) => {
-          // console.log('onChange', value)
-        }}
-      />
+      <Field.Currency disallowLeadingZeroes />
     </Flex.Vertical>
   )
 }
