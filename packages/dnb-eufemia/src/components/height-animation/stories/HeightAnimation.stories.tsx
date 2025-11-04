@@ -97,8 +97,6 @@ export function HeightAnimationKeepInDOM() {
       setOpenState(checked)
     }
 
-    // console.log('contentState', contentState)
-
     return (
       <>
         <ToggleButton
@@ -120,11 +118,7 @@ export function HeightAnimationKeepInDOM() {
         </ToggleButton>
 
         <StyledSection style_type="lavender" top>
-          <HeightAnimation
-            open={openState}
-            // keepInDOM={true}
-            duration={1000}
-          >
+          <HeightAnimation open={openState} duration={1000}>
             <Section spacing style_type="lavender">
               <P space={0}>Your content</P>
             </Section>

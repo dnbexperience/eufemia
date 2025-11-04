@@ -37,12 +37,9 @@ export function RenderDuringSSR() {
     <>
       <Provider StepIndicator={{ data }}>
         <StepIndicator
-          // skeleton
           id="main"
-          // mode="strict"
           mode="loose"
           data={data}
-          // currentStep={0}
           currentStep={1}
           on_click={() => {
             console.log('')
@@ -65,27 +62,17 @@ export function RenderDuringSSR() {
 
 const data = [
   {
-    // title: 'First',
     title: <>Bestill eller erstatt</>,
-    // 'Second Sapien vivamus convallis fermentum euismod quam platea tellus nullam mollis',
-    // on_click: ({ currentStep }) => console.log('on_click', currentStep),
     status:
       'Du må velge bestill nytt kort eller erstatt kort for å kunne fullføre bestillingen din.',
-    // statusState: 'warn',
-    // on_click: ({ currentStep }) => console.log('on_click', currentStep),
   },
   {
     title:
       'Second Sapien vivamus convallis fermentum euismod quam platea tellus nullam mollis',
-    // on_click: ({ currentStep }) => console.log('on_click', currentStep),
-    // disabled: true,
-    // inactive: true,
-    // isCurrent: true,
   },
   {
     title:
       'Third Sapien vivamus convallis fermentum euismod quam platea tellus nullam mollis',
-    // on_click: ({ currentStep }) => console.log('on_click', currentStep),
   },
 ]
 
@@ -102,9 +89,6 @@ const InteractiveDemo = () => {
             setStep(currentStep)
           }}
           data={[
-            // 'a',
-            // 'b',
-            // 'c',
             'Cum odio si bolig bla et ta',
             'Auctor tortor vestibulum placerat bibendum sociis aliquam nunc sed venenatis massa eget duis',
             'Bibendum sociis',
@@ -164,32 +148,24 @@ export const StepIndicatorSandbox = () => {
         <br />
 
         <StepIndicator
-          // skeleton
           top="large"
-          // hideNumbers
-          // mode="static"
-          // mode="strict"
           mode="loose"
           currentStep={currentStep}
           on_change={({ currentStep }) => {
             console.log('on_change', currentStep)
             setCurrentStep(currentStep)
-            // console.log('on_change', currentStep)
           }}
           data={data}
         />
       </Box>
       <Box>
         <StepIndicator
-          // skeleton
           top="large"
-          // mode="static"
           mode="strict"
           currentStep={currentStep}
           on_change={({ currentStep }) => {
             console.log('on_change', currentStep)
             setCurrentStep(currentStep)
-            // console.log('on_change', currentStep)
           }}
           data={data}
         />

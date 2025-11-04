@@ -135,16 +135,9 @@ export function AdvancedForm() {
             label="Field A (onBlurValidator)"
             path="/fieldA"
             onBlurValidator={firstValidator}
-            // onChangeValidator={firstValidator}
-            // validateContinuously
-            // validateInitially
-            // validateUnchanged
           />
 
-          <Field.Composition
-            // info="Info at the bottom"
-            width="large"
-          >
+          <Field.Composition width="large">
             <Field.String
               label="Field B with a long label (onBlurValidator) x"
               width="medium"
@@ -156,8 +149,6 @@ export function AdvancedForm() {
               width="stretch"
               path="/fieldC"
               onChangeValidator={thirdValidator}
-              // validateInitially
-              // required
             />
           </Field.Composition>
 
@@ -222,12 +213,10 @@ const onSubmit = async function (data) {
 
   await request(1000) // Simulate a request
 
-  // return new Error('My error')
   return {
     error: Error('My error'),
     warning: 'Message',
     info: 'Info',
-    // status: 'pending',
   } as const
 }
 
@@ -238,7 +227,6 @@ const onFormChange = debounceAsync(async function (data) {
   await request(500) // Simulate a request
   console.log('onFormChange done')
 
-  // return new Error('My error')
   return { warning: 'Warning message' }
 }, 500)
 
@@ -249,7 +237,6 @@ const onFieldChange = debounceAsync(async function (value) {
   await request(500) // Simulate a request
   console.log('onFieldChange done', value)
 
-  // return new Error('My error')
   return { info: value || null, success: 'saved' } as const
 }, 500)
 
@@ -350,16 +337,6 @@ export function GlobalStatusStory() {
 }
 
 export function UseValidation() {
-  // const { setFieldStatus } = Form.useValidation('my-form')
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     setFieldStatus('/myField', { error: new Error('Error message') })
-  //   }, 100)
-  //   setTimeout(() => {
-  //     setFieldStatus('/myField', undefined)
-  //   }, 1400)
-  // }, [setFieldStatus])
-
   return (
     <Form.Handler
       id="my-form"
@@ -394,7 +371,6 @@ function UseValidationComponent() {
     }, 1400)
     setTimeout(() => {
       setFieldStatus('/myField', { info: 'TEst' })
-      // setFieldStatus('/myField', { error: new Error('New message') })
     }, 2400)
   }, [setFieldStatus])
 

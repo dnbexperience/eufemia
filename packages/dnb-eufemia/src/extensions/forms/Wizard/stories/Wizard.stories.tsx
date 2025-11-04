@@ -4,12 +4,6 @@ import { Button } from '../../../../components'
 import Field, { Form, Wizard } from '../../Forms'
 import { createRequest } from '../../Form/Handler/stories/FormHandler.stories'
 import { debounceAsync } from '../../../../shared/helpers'
-// import { BrowserRouter, useSearchParams } from 'react-router-dom'
-// import {
-//   navigate,
-//   useLocation,
-//   Router as ReachRouter,
-// } from '@reach/router'
 
 export default {
   title: 'Eufemia/Extensions/Forms/WizardContainer',
@@ -28,18 +22,10 @@ export const Basic = () => {
       <Wizard.Container
         onStepChange={onStepChange}
         mode="loose"
-        // validationMode="bypassOnNavigation"
-        // keepInDOM
-        // expandedInitially
         initialActiveIndex={2}
       >
         <Wizard.Step title="Step 1">
-          <Field.String
-            label="Step 1"
-            path="/step1"
-            required
-            // validateInitially
-          />
+          <Field.String label="Step 1" path="/step1" required />
           <Wizard.Buttons />
         </Wizard.Step>
 
@@ -254,8 +240,6 @@ function RouterWizardContainer() {
   }
 
   Wizard.useQueryLocator('wizard-with-router')
-  // Wizard.useReactRouter('wizard-with-router', { useSearchParams })
-  // Wizard.useReachRouter('wizard-with-router', { useLocation, navigate })
 
   return (
     <Form.Handler>
@@ -270,15 +254,6 @@ function RouterWizardContainer() {
 export function WithRouter() {
   return <RouterWizardContainer />
 }
-// export function WithRouter() {
-//   return (
-//     <BrowserRouter>
-//       <ReachRouter>
-//         <RouterWizardContainer default />
-//       </ReachRouter>
-//     </BrowserRouter>
-//   )
-// }
 
 export function WizardWithVisibilityAndSchema() {
   function Step1() {
