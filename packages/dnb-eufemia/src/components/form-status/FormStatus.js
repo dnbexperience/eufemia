@@ -182,7 +182,6 @@ export default class FormStatus extends React.PureComponent {
     this._globalStatus = GlobalStatusProvider.init(
       props?.globalStatus?.id ||
         context?.FormStatus?.globalStatus?.id ||
-        context?.FormRow?.globalStatus?.id || // Deprecated – can be removed in v11
         context?.formElement?.globalStatus?.id ||
         'main',
       (provider) => {
@@ -307,8 +306,6 @@ export default class FormStatus extends React.PureComponent {
       this.props,
       FormStatus.defaultProps,
       { skeleton: context?.skeleton },
-      // Deprecated – can be removed in v11
-      pickFormElementProps(context?.FormRow),
       pickFormElementProps(context?.formElement),
       context?.FormStatus
     )
