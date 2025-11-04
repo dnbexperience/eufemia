@@ -240,10 +240,6 @@ export default class Input extends React.PureComponent {
 
     this._id =
       props.id ||
-      // Deprecated – can be removed in v11
-      (context.FormRow &&
-        typeof context.FormRow.useId === 'function' &&
-        context.FormRow.useId()) ||
       (context.formElement &&
         typeof context.formElement.useId === 'function' &&
         context.formElement.useId()) ||
@@ -350,8 +346,6 @@ export default class Input extends React.PureComponent {
       Input.defaultProps,
       { skeleton: this.context?.skeleton },
       this.context.getTranslation(this.props).Input,
-      // Deprecated – can be removed in v11
-      pickFormElementProps(this.context?.FormRow),
       pickFormElementProps(this.context?.formElement),
       this.context.Input
     )

@@ -1,8 +1,8 @@
 import React from 'react'
 import Section from '../../Section'
 import Timeline from '../Timeline'
-import FormRow from '../../FormRow'
 import Input from '../../Input'
+import Flex from '../../Flex'
 
 export default {
   title: 'Eufemia/Components/Timeline',
@@ -24,7 +24,7 @@ export const TimelineTest = () => {
             infoMessage="Additional information about this step if needed."
             state="current"
             subtitle={
-              <FormRow top vertical>
+              <Flex.Vertical top>
                 <Input
                   value={value}
                   on_change={({ value }) => {
@@ -32,22 +32,22 @@ export const TimelineTest = () => {
                   }}
                   label="Should be able to change next subtitle input value from here"
                 />
-              </FormRow>
+              </Flex.Vertical>
             }
           />
           <Timeline.Item
             title="Upcoming event"
             state="upcoming"
             subtitle={
-              <FormRow top vertical>
+              <Flex.Vertical top>
                 <Input value={value} label="Should work" />
-              </FormRow>
+              </Flex.Vertical>
             }
           />
         </Timeline>
       </Section>
 
-      <FormRow top left vertical>
+      <Flex.Vertical top left>
         <Input
           value={value}
           on_change={({ value }) => {
@@ -55,7 +55,7 @@ export const TimelineTest = () => {
           }}
           label="Works"
         />
-      </FormRow>
+      </Flex.Vertical>
     </>
   )
 }
