@@ -136,11 +136,6 @@ export const PaginationProperties: PropertiesTableProps = {
     type: 'Various',
     status: 'optional',
   },
-  loadButtonText: {
-    doc: 'Used during infinity mode. If `useLoadButton` is set to `true`, then a button is show on the bottom. If the `startupPage` is higher than 1. Defaults to `Vis mer innhold`.',
-    type: 'string',
-    status: 'optional',
-  },
   loadButton: {
     doc: 'Used to set load button text and icon alignment. Accepts a function returning a ReactNode too, so you can replace the button with your own component.',
     type: 'Various',
