@@ -19,12 +19,7 @@ const colors = [
 
 export const GridLayout = () => {
   return (
-    <Grid.Container
-      // columns={12}
-      // columns={{ small: 4, medium: false }}
-      rowGap
-      columnGap
-    >
+    <Grid.Container rowGap columnGap>
       <Grid.Item
         span={{
           small: 'full',
