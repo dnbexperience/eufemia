@@ -31,7 +31,6 @@ export const ButtonSandbox = () => (
         <Button
           right
           bottom
-          // icon="chevron_left" iconPosition="left"
         >
           <IconPrimary>chevron_left</IconPrimary>
           Text <b>Bold</b>
@@ -260,7 +259,6 @@ export const ButtonSandbox = () => (
         size="default"
         status="Hello"
         disabled
-        // left
       />
     </Box>
     <Box>
