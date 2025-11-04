@@ -94,14 +94,10 @@ export const FormRowSandbox = () => (
           }
           vertical
           top="medium"
-          // no_fieldset
         >
           <Input label="Vertical input A" />
           <Input label="Vertical input B" top="medium" />
           <FormRow
-            // label="Horizontal legend:"
-            // direction="horizontal"
-
             vertical={false}
             labelDirection="horizontal"
             top="medium"
@@ -115,7 +111,3 @@ export const FormRowSandbox = () => (
     </Wrapper>
   </Center>
 )
-
-// export const FormRowStretch = () => {
-//   return <AllStretchComponents />
-// }
