@@ -122,12 +122,7 @@ export const HeadingSandbox = () => {
               <Heading group="C" decrease debug={warn}>
                 Heading #4
               </Heading>
-              <Heading
-                // level={1}
-                debug={warn}
-              >
-                Heading #1
-              </Heading>
+              <Heading debug={warn}>Heading #1</Heading>
               <Heading level={2} debug={warn}>
                 Heading #1
               </Heading>
@@ -339,64 +334,7 @@ export const HeadingSandbox = () => {
   )
 }
 
-// const StateUpdate = () => {
-//   const [level, setLevel] = React.useState(1)
-//   const [foo, setFoo] = React.useState('bar')
-
-//   React.useEffect(() => {
-//     const tA = setTimeout(() => {
-//       setLevel(3)
-//       setFoo('x')
-//     }, 1e3)
-//     const tB = setTimeout(() => {
-//       setFoo('b')
-//     }, 2e3)
-//     const tC = setTimeout(() => {
-//       setFoo('c')
-//     }, 3e3)
-//     return () => {
-//       clearTimeout(tA)
-//       clearTimeout(tB)
-//       clearTimeout(tC)
-//     }
-//   }, [])
-
-//   return (
-//     <Heading.Level debug reset>
-//       <Heading level={level}>Heading #1</Heading>
-//       <Heading increase>Heading #2 {foo}</Heading>
-//     </Heading.Level>
-//   )
-// }
-
-// const StateUpdateKeepLevel = () => {
-//   // const [level, setLevel] = React.useState(1)
-//   const [foo, setFoo] = React.useState(1)
-//   const [skipCorrection, setskipCorrection] = React.useState(false)
-
-//   React.useEffect(() => {
-//     const tA = setTimeout(() => {
-//       setskipCorrection(true)
-//       setFoo(3)
-//     }, 500)
-
-//     return () => {
-//       clearTimeout(tA)
-//     }
-//   }, [])
-
-//   return (
-//     <>
-//       {/* <Heading debug>Heading #1</Heading> */}
-//       <Heading debug level={foo} skipCorrection={skipCorrection}>
-//         Heading #2
-//       </Heading>
-//     </>
-//   )
-// }
-
 function App() {
-  // const [showHeading3, setShowHeading3] = React.useState(false)
   const [showHeading3, setShowHeading3] = React.useState(false)
   const [showHeading4, setShowHeading4] = React.useState(false)
 
@@ -405,12 +343,7 @@ function App() {
   })
 
   return (
-    <Heading.Level
-      group="A"
-      debug
-      debugCounter
-      // reset={1}
-    >
+    <Heading.Level group="A" debug debugCounter>
       <Button text="Reset" size="small" onClick={() => resetLevels(1)} />
 
       <Heading>h1</Heading>
