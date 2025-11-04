@@ -20,8 +20,6 @@ import {
   Space,
   Code,
   Grid,
-  FormSet,
-  FormRow,
 } from '@dnb/eufemia/src'
 import {
   TestElement,
@@ -315,19 +313,6 @@ export const ResponsiveGridContainer = () => {
     </ComponentBox>
   )
 }
-
-// Deprecated – can be removed in v11
-export const FormSetAlternativeBefore = () => (
-  <ComponentBox>
-    <FormSet labelDirection="vertical">
-      <H2 top={0}>Heading</H2>
-      <FormRow label={<span className="dnb-h--medium">Legend</span>}>
-        <Input label="Label A" right />
-        <Input label="Label B" />
-      </FormRow>
-    </FormSet>
-  </ComponentBox>
-)
 
 export const FormSetAlternativeAfter = () => (
   <ComponentBox>
