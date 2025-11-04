@@ -7,13 +7,15 @@ import React from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 import styled from '@emotion/styled'
 
-import { Checkbox, Button, FormLabel, FormRow, GlobalStatus } from '../..'
+import { Checkbox, Button, FormLabel, GlobalStatus, Flex } from '../..'
 
 export default {
   title: 'Eufemia/Components/Checkbox',
 }
 
-const CustomRow = styled(FormRow)`
+const CustomRow = styled((props) => (
+  <Flex.Horizontal align="baseline" {...props} />
+))`
   > .dnb-form-label {
     color: blue;
   }
@@ -77,9 +79,9 @@ export const CheckboxSandbox = () => (
       </Box>
 
       <Box>
-        <FormRow disabled label="Without forId (select me)">
+        <Flex.Horizontal align="baseline">
           <Checkbox label="Checkbox" />
-        </FormRow>
+        </Flex.Horizontal>
       </Box>
       <Box>
         <Checkbox label="Checkbox" />
