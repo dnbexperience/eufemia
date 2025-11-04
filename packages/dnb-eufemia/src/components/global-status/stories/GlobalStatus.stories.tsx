@@ -119,13 +119,8 @@ export const CustomGlobalStatusMessage = () => {
         />
         <DatePicker
           label={<Component />}
-<<<<<<< HEAD
-          show_input
-          status={showStatus ? 'DatePicker status' : ''}
-=======
           showInput
-          status={showStatus ? 'Datepicekr status' : ''}
->>>>>>> dbdb4078e0 (break(DatePicker)!: replace `snake_case` properties with `camelCase` (#5836))
+          status={showStatus ? 'DatePicker status' : ''}
           globalStatus={{
             message: showStatus ? 'DatePicker global status' : '',
           }}
@@ -672,20 +667,78 @@ export const GlobalStatusExample = () => (
       items={[
         {
           text: 'List item',
-          status_anchor_url: '/uilib/components/global-status',
-          status_anchor_label: 'eksempel',
+          statusAnchorUrl: '/uilib/components/global-status',
+          statusAnchorLabel: 'eksempel',
         },
         {
           text: 'List item2',
-          status_anchor_url: '/uilib/components/global-status',
-          status_anchor_label: 'eksempel',
+          statusAnchorUrl: '/uilib/components/global-status',
+          statusAnchorLabel: 'eksempel',
         },
       ]}
       show={true}
       autoscroll={false}
-      no_animation={true}
-      omit_set_focus={true}
+      noAnimation={true}
+      omitSetFocus={true}
       id="demo-1"
     />
   </Wrapper>
 )
+
+export function DelayedInteractions() {
+  const FormField1 = () => {
+    const [status, setStatus] = React.useState(null)
+    return (
+      <Switch
+        id="switch-1"
+        status={status}
+        statusNoAnimation={true}
+        onChange={({ checked }) => {
+          setStatus(checked ? 'error-message-1' : null)
+        }}
+      />
+    )
+  }
+
+  const FormField2 = () => {
+    const [status, setStatus] = React.useState(null)
+    return (
+      <Switch
+        id="switch-2"
+        status={status}
+        statusNoAnimation={true}
+        onChange={({ checked }) => {
+          setStatus(checked ? 'error-message-2' : null)
+        }}
+      />
+    )
+  }
+
+  const FormField3 = () => {
+    const [status, setStatus] = React.useState(null)
+    return (
+      <Autocomplete
+        id="autocomplete-3"
+        status={status}
+        statusNoAnimation={true}
+        on_focus={() => {
+          setStatus('error-message-3')
+        }}
+        on_blur={() => {
+          setStatus(null)
+        }}
+      />
+    )
+  }
+
+  return (
+    <Section spacing>
+      <GlobalStatus id="my-form" autoscroll={false} />
+      <Form.Handler globalStatusId="my-form">
+        <FormField1 />
+        <FormField2 />
+        <FormField3 />
+      </Form.Handler>
+    </Section>
+  )
+}
