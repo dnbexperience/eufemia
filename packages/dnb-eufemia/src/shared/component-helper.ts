@@ -132,45 +132,6 @@ export const validateDOMAttributes = (props, params) => {
   return params
 }
 
-/** @deprecated Can be removed in v11 */
-export const extendGracefully = (...objects) => {
-  let first = {}
-  const keepRef = objects[0]
-
-  if (keepRef === true || keepRef === false) {
-    // remove settings value
-    objects.shift()
-
-    if (keepRef) {
-      // by extracting the first, we keep the same main object reference
-      first = objects.shift()
-    }
-  }
-
-  return objects.reduce((acc1, object) => {
-    if (object) {
-      acc1 = Object.assign(
-        acc1,
-        Object.entries(object).reduce((acc2, [key, value]) => {
-          if (value !== null) {
-            // go recursively
-            if (typeof value === 'object') {
-              value = extendGracefully(acc1[key] || {}, value)
-              if (Object.keys(value).length > 0) {
-                acc2[key] = value
-              }
-            } else {
-              acc2[key] = value
-            }
-          }
-          return acc2
-        }, {})
-      )
-    }
-    return acc1
-  }, first)
-}
-
 export function isObject(item) {
   return item && typeof item === 'object' && !Array.isArray(item)
 }
