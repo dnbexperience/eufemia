@@ -29,8 +29,6 @@ import Drawer from './drawer/Drawer'
 import Dropdown from './dropdown/Dropdown'
 import Flex from './flex/Flex'
 import FormLabel from './form-label/FormLabel'
-import FormRow from './form-row/FormRow'
-import FormSet from './form-set/FormSet'
 import FormStatus from './form-status/FormStatus'
 import GlobalError from './global-error/GlobalError'
 import GlobalStatus from './global-status/GlobalStatus'
@@ -89,8 +87,6 @@ export {
   Dropdown,
   Flex,
   FormLabel,
-  FormRow,
-  FormSet,
   FormStatus,
   GlobalError,
   GlobalStatus,
@@ -150,8 +146,6 @@ export const getComponents = () => {
     Dropdown,
     Flex,
     FormLabel,
-    FormRow,
-    FormSet,
     FormStatus,
     GlobalError,
     GlobalStatus,

@@ -473,9 +473,6 @@
       width: 100%;
     }
   }
-  .dnb-form-row--horizontal &--stretch {
-    width: 100%;
-  }
 
   &:not(&--vertical)[class*='__status'] {
     align-items: flex-start;
