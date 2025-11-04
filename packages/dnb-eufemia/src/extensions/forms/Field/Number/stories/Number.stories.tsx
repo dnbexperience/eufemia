@@ -36,7 +36,6 @@ export const Number = () => {
         minimum={10}
         step={5}
         required
-        // validateInitially
         disabled
       />
       <Field.Number showStepControls width="stretch" value={1} />
@@ -49,7 +48,6 @@ export const WithFreshValidator = () => {
     useCallback((num, { connectWithPath }) => {
       const { getValue } = connectWithPath('/refValue')
       const amount = getValue()
-      // console.log('amount', amount, amount >= num)
       if (amount >= num) {
         return new Error(`The amount should be greater than ${amount}`)
       }
@@ -70,12 +68,8 @@ export const WithFreshValidator = () => {
 
         <Field.Number
           label="Num"
-          // onBlurValidator={validator}
           onChangeValidator={validator}
           defaultValue={2}
-          // validateInitially
-          // validateContinuously
-          // validateUnchanged
           path="/myNumberWithOnChangeValidator"
         />
 
@@ -151,12 +145,7 @@ export const ConditionalInfo = () => {
           }
           path="/maximum"
           required
-          // defaultValue={4}
           info={conditionalInfo}
-          // warning={conditionalInfo}
-          // error={conditionalInfo}
-          // validateInitially
-          // validateUnchanged
         />
         <Field.Number
           label="Amount"
@@ -168,9 +157,7 @@ export const ConditionalInfo = () => {
               return new Error('You done messed up, A-a-ron!')
             }
           }}
-          // defaultValue={5}
           onBlurValidator={onBlurValidator}
-          // validateInitially
         />
       </Form.Card>
 
