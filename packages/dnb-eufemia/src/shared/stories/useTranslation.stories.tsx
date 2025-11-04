@@ -57,30 +57,6 @@ const tr = {
 const LocaleComponents = () => {
   const translations = useTranslation(tr)
 
-  // const translations = useTranslation({
-  //   'nb-NO': {
-  //     Autocomplete: {
-  //       title: 'Autocomplete',
-  //     },
-  //     Breadcrumb: {
-  //       navText: 'Breadcrumb',
-  //     },
-  //   },
-  //   'en-GB': {
-  //     Autocomplete: {
-  //       title: 'Autocomplete2',
-  //     },
-  //     Breadcrumb: {
-  //       navText: 'Breadcrumb2',
-  //     },
-  //   },
-  // })
-
-  // console.log(
-  //   'Only autocomplete and Breadcrumb translations here',
-  //   translations
-  // )
-
   return (
     <>
       <P>{translations.Autocomplete.title}</P>

@@ -230,15 +230,11 @@ export const DialogSandbox = () => (
 
     <Box>
       <Dialog
-        // triggerAttributes={{
-        //   'aria-label': 'My Label'
-        // }}
         spacing={false}
         fullscreen={false}
         alignContent="centered"
         hideCloseButton
         triggerAttributes={{ text: 'Show' }}
-        // preventClose
         maxWidth="12rem"
       >
         <ProgressIndicator
@@ -250,15 +246,11 @@ export const DialogSandbox = () => (
         />
       </Dialog>
       <Dialog
-        // triggerAttributes={{
-        //   'aria-label': 'My Label'
-        // }}
         spacing={false}
         fullscreen={false}
         alignContent="centered"
         hideCloseButton
         triggerAttributes={{ icon: 'bell' }}
-        // preventClose
         maxWidth="12rem"
       >
         <ProgressIndicator
@@ -272,12 +264,7 @@ export const DialogSandbox = () => (
     </Box>
 
     <Box>
-      <Dialog
-        title="Dialog Title"
-        // fullscreen
-        // openState="opened"
-        // noAnimation
-      >
+      <Dialog title="Dialog Title">
         <Dialog.Body spacing styleType="mint-green">
           <P>This is the modal text.</P>
         </Dialog.Body>
@@ -296,7 +283,6 @@ export const DialogSandbox = () => (
       <Dialog
         title="Title 1"
         triggerAttributes={{ text: 'Modal in modal' }}
-        // openState="opened"
         style={{
           minHeight: '25rem',
         }}
@@ -512,7 +498,6 @@ const ModalCloseExample = () => {
           const timeout = setTimeout(open, 3e3)
           return () => clearTimeout(timeout)
         }}
-        // hideCloseButton
         closeModal={(close) => {
           let timeout
 
@@ -528,7 +513,6 @@ const ModalCloseExample = () => {
         }}
         onClose={(e) => {
           console.log('on_close', e)
-          // clearTimeout(timeoutId)
           setOpenState('closed')
         }}
       >
@@ -563,7 +547,6 @@ const ModalTriggerExample = () => {
           id="custom-triggerer"
           text="Custom trigger Button"
           on_click={(e) => {
-            // console.log('on_click', e)
             return (
               <Dialog
                 title="Modal Title"
@@ -592,13 +575,7 @@ function FillContent() {
       This is the modal text. Triggered by a tertiary button. Hac eleifend
       consectetur massa lobortis diam netus congue a nibh dolor faucibus
       vivamus taciti neque accumsan urna varius dis egestas
-      <Dropdown
-        label="Dropdown"
-        data={dropdownData}
-        right
-        skipPortal
-        // direction="top"
-      />
+      <Dropdown label="Dropdown" data={dropdownData} right skipPortal />
       montes tempus tortor mi aptent enim cursus venenatis cras ornare nisl
       pretium tincidunt et imperdiet sapien luctus vel volutpat risus dui
       himenaeos nec est turpis ridiculus posuere sollicitudin nostra
@@ -640,12 +617,7 @@ function FillContent() {
       quisque tellus consectetur fringilla curae praesent nullam vulputate
       nostra leo cum consequat sit ridiculus ad inceptos cras facilisis
       pretium natoque libero nulla interdum pellentesque viverra turpis
-      <Dropdown
-        label="Dropdown"
-        data={dropdownData}
-        right
-        // direction="top"
-      />
+      <Dropdown label="Dropdown" data={dropdownData} right />
       vestibulum maecenas molestie dolor morbi vehicula ultrices diam quis
       velit etiam dictum feugiat sed lacinia placerat euismod magna sapien
       luctus eget tempus rutrum faucibus et suspendisse aliquam felis
@@ -711,12 +683,7 @@ function FillContent() {
       dolor fusce nostra orci turpis velit fames a porttitor quis mi rutrum
       inceptos volutpat phasellus ornare nisi tortor lobortis ligula
       ultricies ante proin
-      <Dropdown
-        label="Dropdown"
-        data={dropdownData}
-        right
-        // direction="top"
-      />
+      <Dropdown label="Dropdown" data={dropdownData} right />
     </>
   )
 }
@@ -725,10 +692,7 @@ function ModalWithScrollableBox() {
   return (
     <>
       {/* <ScrollView /> */}
-      <Dialog
-      // fullscreen={true}
-      // openState="opened"
-      >
+      <Dialog>
         <SimScrollView />
       </Dialog>
     </>
@@ -740,7 +704,6 @@ function SimScrollView() {
     <div
       style={{
         width: '100%',
-        // height: '100vh',
         height: '20rem',
         display: 'flex',
         alignItems: 'center',
@@ -752,7 +715,6 @@ function SimScrollView() {
         style={{
           width: '50%',
           height: '50%',
-          // overflowY: 'auto',
           maxHeight: '12rem',
         }}
       >
