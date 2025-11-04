@@ -13,8 +13,6 @@ import {
   Dropdown,
   Button,
   FormLabel,
-  FormSet,
-  FormRow,
   NumberFormat,
   Drawer,
   GlobalStatus,
@@ -378,9 +376,10 @@ const DropdownStory = () => {
         <DropdownStatesSync />
       </Box>
       <Box>
-        <FormRow
-          label="Vertical labelDirection:"
-          labelDirection="vertical"
+        <Provider
+          formElement={{
+            label_direction: 'vertical',
+          }}
         >
           <Dropdown
             label="Vertical A (function):"
@@ -402,23 +401,23 @@ const DropdownStory = () => {
             iconPosition="left"
             data={dropdownData}
           />
-        </FormRow>
+        </Provider>
       </Box>
       <Box>
-        <FormRow label="Vertical only:" vertical>
+        <Provider
+          formElement={{
+            label_direction: 'vertical',
+          }}
+        >
           <Dropdown label="Vertical A:" data={dropdownData} />
           <Dropdown label="Vertical B:" data={dropdownData} top="small" />
-        </FormRow>
+        </Provider>
       </Box>
       <Box>
-        <FormSet
+        <Form.Handler
           onSubmit={(event) => {
             console.log('onSubmit', event)
           }}
-          on_submit={(event) => {
-            console.log('on_submit', event)
-          }}
-          prevent_submit
         >
           <select name="x" id="y">
             <option value="a">A</option>
@@ -466,7 +465,7 @@ const DropdownStory = () => {
               setSelectedItem(random(0, dropdownData.length - 1))
             }}
           />
-        </FormSet>
+        </Form.Handler>
       </Box>
       <Box>
         <Dropdown

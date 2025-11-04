@@ -5,16 +5,9 @@
 
 import React from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
-import {
-  Radio,
-  FormRow,
-  FormLabel,
-  Button,
-  HelpButton,
-  GlobalStatus,
-} from '../..'
+import { Radio, FormLabel, Button, HelpButton, GlobalStatus } from '../..'
 
-import { H2 } from '../../..'
+import { Flex } from '../../..'
 import { Provider } from '../../../shared'
 import { Form } from '../../../extensions/forms'
 
@@ -39,7 +32,7 @@ export const RadioButtonSandbox = () => (
       </Radio.Group>
     </Box>
     <Box>
-      <FormRow label="Legend:">
+      <Flex.Horizontal align="baseline">
         <Radio.Group label="Group A label:" suffix="Suffix 123">
           <Radio label="first" value="first" />
           <Radio suffix="Suffix 123" label="second" value="second" />
@@ -58,7 +51,7 @@ export const RadioButtonSandbox = () => (
           <Radio label="third-3" value="third-3" />
           <Radio label="third-4" value="third-4" />
         </Radio.Group>
-      </FormRow>
+      </Flex.Horizontal>
     </Box>
     <Box>
       <RadioGroupsWithStatus />
@@ -109,10 +102,7 @@ export const RadioButtonSandbox = () => (
       </p>
     </Box>
     <Box>
-      <FormRow no_label>
-        <H2>A h2 in a FormRow without a label</H2>
-      </FormRow>
-      <FormRow label="Long Group name Vitae dapibus eros viverra torquent euismod at dignissim vel mattis:">
+      <Flex.Horizontal align="baseline">
         <Radio.Group
           on_change={({ value }) => {
             console.log('on_change', value)
@@ -124,10 +114,10 @@ export const RadioButtonSandbox = () => (
           <Radio label="Second" value="second" />
           <Radio label="Third" value="third" />
         </Radio.Group>
-      </FormRow>
+      </Flex.Horizontal>
     </Box>
     <Box>
-      <FormRow label="Long Group name Vitae dapibus eros viverra torquent euismod at dignissim vel mattis:">
+      <Flex.Horizontal align="baseline">
         <Radio.Group
           label="Group label:"
           on_change={({ value }) => {
@@ -150,7 +140,7 @@ export const RadioButtonSandbox = () => (
             statusState="info"
           />
         </Radio.Group>
-      </FormRow>
+      </Flex.Horizontal>
     </Box>
     <Box>
       <Radio.Group label="Vertical group:" layoutDirection="column">
@@ -173,7 +163,7 @@ export const RadioButtonSandbox = () => (
     </Box>
     <Box>
       <Provider formElement={{ labelDirection: 'vertical' }}>
-        <Radio.Group label="Vertical with FormRow:">
+        <Radio.Group label="Vertical with Provider:">
           <Radio label="First" value="first" />
           <Radio label="Second" value="second" />
           <Radio label="Third" value="third" checked />
