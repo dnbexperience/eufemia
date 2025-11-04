@@ -24,12 +24,6 @@ export function Basic() {
   return (
     <Form.Handler
       id="ChildrenWithAge"
-      // defaultData={{
-      //   hasChildren: true,
-      // }}
-      // onChange={(data) => {
-      //   console.log('onChange', data.children.length)
-      // }}
       onSubmit={(data, { reduceToVisibleFields }) => {
         console.log('Raw', data)
         console.log('Reduced', reduceToVisibleFields(data))

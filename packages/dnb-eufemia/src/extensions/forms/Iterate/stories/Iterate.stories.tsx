@@ -61,12 +61,7 @@ const MyEditItemForm = () => {
   return (
     <Field.Composition>
       <Field.Name.First itemPath="/firstName" width="medium" />
-      <Field.Name.Last
-        itemPath="/lastName"
-        width="medium"
-        required
-        // validateInitially
-      />
+      <Field.Name.Last itemPath="/lastName" width="medium" required />
     </Field.Composition>
   )
 }
@@ -114,14 +109,7 @@ export const ViewAndEditContainer = () => {
     <>
       <Form.Handler
         data={{
-          accounts: [
-            // {
-            //   firstName: 'Tony',
-            // },
-            // {
-            //   firstName: 'Maria',
-            // },
-          ],
+          accounts: [],
         }}
         onSubmit={(data) => console.log('onSubmit', data)}
         onSubmitRequest={() => console.log('onSubmitRequest')}
@@ -191,7 +179,6 @@ export const InitialOpen = () => {
             <Iterate.Array
               limit={2}
               path="/countries"
-              // defaultValue={['NO']}
               defaultValue={[null]}
               onChangeValidator={(arrayValue) => {
                 const findFirstDuplication = (arr) =>
@@ -356,11 +343,7 @@ export const DisplayDividerWhenUsingContainer = () => (
 
 export function IterateRequired() {
   return (
-    <Form.Handler
-    // data={{
-    //   items: ['foo', 'bar'],
-    // }}
-    >
+    <Form.Handler>
       <Iterate.Array path="/items" required>
         <Field.String itemPath="/" />
       </Iterate.Array>
@@ -419,14 +402,6 @@ export function IterateInIterate() {
     <Form.Handler
       required
       onSubmit={(data) => console.log('onSubmit', data)}
-      // defaultData={{
-      //   persons: [
-      //     {
-      //       name: 'Tony',
-      //       citizenships: ['NO', 'SE'],
-      //     },
-      //   ],
-      // }}
     >
       <Flex.Stack>
         <Iterate.PushContainer

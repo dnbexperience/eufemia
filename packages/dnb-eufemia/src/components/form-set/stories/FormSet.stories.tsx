@@ -52,10 +52,7 @@ export const FormSetSandbox = () => {
               </FormRow>
             </Box>
             <Box>
-              <FormRow
-                // disabled={disabled}
-                label="Button:"
-              >
+              <FormRow label="Button:">
                 <Button text="Button" />
               </FormRow>
             </Box>
@@ -83,7 +80,6 @@ export const FormSetSandbox = () => {
             <Box>
               <FormRow label="Long Group name Vitae dapibus eros viverra torquent euismod at dignissim vel mattis:">
                 <Radio.Group
-                  // label="Group label:"
                   on_change={({ value }) => {
                     console.log('on_change', value)
                   }}

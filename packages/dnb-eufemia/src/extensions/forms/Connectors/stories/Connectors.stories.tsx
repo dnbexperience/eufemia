@@ -8,11 +8,9 @@ export default {
 }
 
 export function PostalCode() {
-  // 1. Create a context with the config
   const { withConfig } = Connectors.createContext({
     fetchConfig: {
       url: (value, { countryCode }) => {
-        // Visit: https://cors-anywhere.herokuapp.com/corsdemo to enable this service
         return `https://cors-anywhere.herokuapp.com/https://api.bring.com/address/api/${countryCode}/postal-codes/${value}`
       },
       headers: {
@@ -25,16 +23,9 @@ export function PostalCode() {
   type Response = {
     postal_codes: { postal_code: string; city: string }[]
   }
-
-  // 2. Use the context to create the onChangeValidator ...
   const onChangeValidator = withConfig(
     Connectors.Bring.postalCode.validator,
     {
-      // preResponseResolver: ({ value }) => {
-      //   if (!value) {
-      //     return { postal_codes: [] }
-      //   }
-      // },
       responseResolver: (response: Response) => {
         const { postal_code, city } = response?.postal_codes?.[0] || {}
         return {
@@ -44,28 +35,12 @@ export function PostalCode() {
       },
     }
   )
-
-  // ... and an onChange function
   const onChange = withConfig(Connectors.Bring.postalCode.autofill, {
     cityPath: '/city',
-    // preResponseResolver: ({ value }) => {
-    //   if (!value) {
-    //     return { postal_codes: [] }
-    //   }
-    // },
-    // responseResolver: (response: Response) => {
-    //   const { postal_code, city } = response?.postal_codes?.[0] || {}
-
-    //   return {
-    //     matcher: (value) => value === postal_code,
-    //     payload: { city },
-    //   }
-    // },
   })
 
   return (
     <Form.Handler
-      // defaultData={{ postalCode: '144', city: '' }}
       onSubmit={async (data) => {
         await new Promise((resolve) => setTimeout(resolve, 3000))
         console.log('onSubmit', data)
@@ -75,7 +50,6 @@ export function PostalCode() {
         <Field.SelectCountry
           path="/countryCode"
           defaultValue="NO"
-          // defaultValue="SE"
           filterCountries={({ iso }) =>
             isSupportedCountryCode(iso, postalCode_supportedCountryCodes)
           }
@@ -100,11 +74,9 @@ export function PostalCode() {
 }
 
 export function Address() {
-  // 1. Create a context with the config
   const { withConfig } = Connectors.createContext({
     fetchConfig: {
       url: (value, { countryCode }) => {
-        // Visit: https://cors-anywhere.herokuapp.com/corsdemo to enable this service
         return `https://cors-anywhere.herokuapp.com/https://api.bring.com/address/api/${countryCode}/addresses/suggestions?q=${value}`
       },
       headers: {
@@ -113,8 +85,6 @@ export function Address() {
       },
     },
   })
-
-  // 2. Use the context to create the element we use instead of the default one
   const addressSuggestionsElement = withConfig(
     Connectors.Bring.address.suggestionsElement,
     {
@@ -126,7 +96,6 @@ export function Address() {
 
   return (
     <Form.Handler
-      // defaultData={{ postalCode: '144', city: '' }}
       onSubmit={async (data) => {
         await new Promise((resolve) => setTimeout(resolve, 3000))
         console.log('onSubmit', data)
@@ -136,7 +105,6 @@ export function Address() {
         <Field.SelectCountry
           path="/countryCode"
           defaultValue="NO"
-          // defaultValue="SE"
           filterCountries={({ iso }) =>
             isSupportedCountryCode(iso, address_supportedCountryCodes)
           }
