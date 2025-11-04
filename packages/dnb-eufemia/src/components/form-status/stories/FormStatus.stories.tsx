@@ -3,22 +3,14 @@
  *
  */
 
-import React, { useState } from 'react'
+import React from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 import styled from '@emotion/styled'
 
 import {
   FormStatus,
   Input,
-  FormSet,
-  FormRow,
-  DatePicker,
   Switch,
-  Button,
-  ToggleButton,
-  Space,
-  Dialog,
-  HelpButton,
   GlobalStatus,
   Autocomplete,
   NumberFormat,
@@ -112,90 +104,6 @@ export const FormStatusSandbox = () => {
           label="Switch label"
           status="Long text with status vitae tortor metus nulla nunc habitasse adipiscing purus porttitor viverra"
         />
-      </Box>
-      <Box>
-        <FormSet
-          labelDirection="vertical"
-          prevent_submit
-          on_submit={(event) => {
-            console.log('onSubmit', event)
-          }}
-        >
-          <FormRow
-            top="small"
-            label={
-              <Space element="span" className="dnb-h--large">
-                Legend:
-              </Space>
-            }
-          >
-            <DatePicker
-              showInput
-              right="small"
-              bottom="small"
-              status="Long text with status vitae tortor metus nulla nunc habitasse adipiscing purus porttitor viverra"
-            />
-            <Dialog right="small">Modal Content</Dialog>
-            <Button text="Submit" type="submit" />
-          </FormRow>
-        </FormSet>
-      </Box>
-    </Wrapper>
-  )
-}
-
-export const ToggleAnimation = () => {
-  const [status, setStatus] = React.useState(null)
-  const toggleStatus = () => {
-    setStatus((s) => (!s ? 'You have to fill in this field' : null))
-  }
-  const [showError, setShowError] = useState(false)
-
-  return (
-    <Wrapper>
-      <Box>
-        <FormSet
-          labelDirection="vertical"
-          prevent_submit
-          on_submit={(event) => {
-            setShowError((v) => !v)
-            console.log('onSubmit', event)
-          }}
-        >
-          <FormRow
-            top="small"
-            label={
-              <Space element="span" className="dnb-h--large">
-                Legend:
-              </Space>
-            }
-          >
-            <DatePicker
-              showInput
-              right="small"
-              status={
-                showError &&
-                'Long text with status vitae tortor metus nulla nunc habitasse adipiscing purus porttitor viverra'
-              }
-              suffix={<HelpButton>Modal Content</HelpButton>}
-            />
-            <Button text="Submit" type="submit" top="small" />
-          </FormRow>
-        </FormSet>
-      </Box>
-      <Box>
-        <FormRow vertical={false}>
-          <Input
-            label="Input with status:"
-            status={status}
-            value="Input value"
-            suffix={<HelpButton>test</HelpButton>}
-            right
-          />
-          <ToggleButton top on_change={toggleStatus}>
-            Toggle
-          </ToggleButton>
-        </FormRow>
       </Box>
     </Wrapper>
   )

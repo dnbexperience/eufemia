@@ -40,28 +40,8 @@ export function SliderProvider(localProps: SliderAllProps) {
     localProps,
     defaultProps,
     { skeleton: context?.skeleton },
+    pickFormElementProps(context?.formElement),
     context?.getTranslation(localProps).Slider,
-    // Deprecated – can be removed in v11
-    pickFormElementProps(
-      context?.FormRow,
-
-      /**
-       * Exclude some props
-       */
-      {
-        vertical: null,
-      }
-    ),
-    pickFormElementProps(
-      context?.formElement,
-
-      /**
-       * Exclude some props
-       */
-      {
-        vertical: null,
-      }
-    ),
     context?.Slider
   )
 
