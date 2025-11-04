@@ -123,11 +123,6 @@ export type ReceiveAdditionalEventArgs<
    * The internal data context.
    */
   dataContext: ContextState
-} & {
-  /** @deprecated use the error messages from the { errorMessages } object instead. */
-  pattern?: string
-  /** @deprecated use the error messages from the { errorMessages } object instead. */
-  required?: string
 }
 
 export type ValidatorDisableable<Value> = Validator<Value> | false
@@ -163,51 +158,11 @@ export type InternalErrorMessages = Record<
   string
 >
 export type DefaultErrorMessages = Partial<InternalErrorMessages> &
-  Partial<DotNotationErrorMessages> &
-  Partial<DeprecatedErrorMessages>
+  Partial<DotNotationErrorMessages>
 
 export type VariousErrorMessages =
   | DefaultErrorMessages
   | ErrorMessagesWithLocaleSupport
-
-export type DeprecatedErrorMessages = {
-  /**
-   * @deprecated Use translation keys as the message instead of this parameter (e.g. Field.errorRequired)
-   */
-  required?: string
-  /**
-   * @deprecated Use translation keys as the message instead of this parameter (e.g. Field.errorPattern)
-   */
-  pattern?: string
-  /**
-   * @deprecated use StringField.errorMinLength instead
-   */
-  minLength?: string
-  /**
-   * @deprecated use StringField.errorMaxLength instead
-   */
-  maxLength?: string
-  /**
-   * @deprecated use NumberField.errorMinimum instead
-   */
-  minimum?: string
-  /**
-   * @deprecated use NumberField.errorMaximum instead
-   */
-  maximum?: string
-  /**
-   * @deprecated use NumberField.errorExclusiveMinimum instead
-   */
-  exclusiveMinimum?: string
-  /**
-   * @deprecated use NumberField.errorExclusiveMaximum instead
-   */
-  exclusiveMaximum?: string
-  /**
-   * @deprecated use NumberField.errorMultipleOf instead
-   */
-  multipleOf?: string
-}
 
 export interface DataValueReadProps<Value = unknown> {
   /** JSON Pointer for where the data for this field is located in the source dataset */
