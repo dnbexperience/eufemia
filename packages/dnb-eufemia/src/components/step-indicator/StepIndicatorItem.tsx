@@ -323,12 +323,6 @@ export function StepItemButton({
 export type StepItemWrapperProps = React.HTMLProps<HTMLElement> & {
   /** Content inside the step button */
   children?: React.ReactNode
-  /** @deprecated can only change the render of content inside the button */
-  number?: number
-  /** @deprecated can only hide numbers in main component */
-  hideNumbers?: boolean
-  /** @deprecated can only change the render of content inside the button */
-  status?: string | React.ReactNode
 }
 
 export function StepItemWrapper({ children }: StepItemWrapperProps) {
