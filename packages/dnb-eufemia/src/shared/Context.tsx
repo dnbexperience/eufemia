@@ -32,7 +32,6 @@ import type { DrawerProps } from '../components/drawer/types'
 import type { DialogProps } from '../components/dialog/types'
 import type { TooltipProps } from '../components/tooltip/types'
 import type { SectionProps } from '../components/section/Section'
-import type { FormRowProps } from '../components/form-row/FormRowHelpers'
 import type { UploadProps } from '../components/upload/types'
 import type { SkeletonProps, SkeletonShow } from '../components/Skeleton'
 import type { HelpButtonProps } from '../components/HelpButton'
@@ -103,11 +102,6 @@ export type ContextComponents = {
   // -- TODO: Not converted yet --
   NumberFormat?: Record<string, unknown>
   Pagination?: Record<string, unknown>
-
-  /**
-   * @deprecated – can be removed in v11
-   */
-  FormRow?: FormRowProps
 
   // Common props
   formElement?: FormElementProps

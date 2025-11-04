@@ -9,7 +9,6 @@ import ComponentBox from '../../../../shared/tags/ComponentBox'
 import {
   ProgressIndicator,
   Button,
-  FormRow,
   Dialog,
   Flex,
   IconPrimary,
@@ -247,7 +246,7 @@ export const ProgressIndicatorLinearRandomExample = () => (
       const ChangeValue = () => {
         const [value, setValue] = React.useState(50)
         return (
-          <FormRow centered>
+          <Flex.Horizontal align="center">
             <ProgressIndicator
               type="linear"
               progress={value}
@@ -261,7 +260,7 @@ export const ProgressIndicatorLinearRandomExample = () => (
             >
               Change
             </Button>
-          </FormRow>
+          </Flex.Horizontal>
         )
       }
 

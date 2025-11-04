@@ -60,7 +60,6 @@ export default function FormLabel(localProps: FormLabelAllProps) {
     localProps,
     null,
     { skeleton: context?.skeleton },
-    pickFormElementProps(context?.FormRow), // Deprecated – can be removed in v11
     pickFormElementProps(context?.formElement),
     context?.FormLabel
   )
