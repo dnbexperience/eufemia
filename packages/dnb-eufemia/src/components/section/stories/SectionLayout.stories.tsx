@@ -1,28 +1,12 @@
 import React from 'react'
 import { Global } from '@emotion/react'
 import styled from '@emotion/styled'
-// import { Wrapper, Box } from 'storybook-utils/helpers'
 import { Section, Flex } from '../..'
 import { Heading, P } from '../../..'
 
 export default {
   title: 'Eufemia/Components/SectionLayout',
 }
-
-// Section = ({ children, variant, ...rest }) => {
-//   return (
-//     <Section
-//       // style_type="white"
-//       variant={variant}
-//       // responsive
-//       {...rest}
-//     >
-//       <Flex.Stack top bottom>
-//         {children}
-//       </Flex.Stack>
-//     </Section>
-//   )
-// }
 
 function PageWrapper({ children }) {
   const PageWrapperStyles = styled(Flex.Stack)`
@@ -63,7 +47,6 @@ export function SectionLayout() {
             medium: true,
             large: { top: '1rem', bottom: 'large' },
           }}
-          // spacing="medium"
           textColor={{
             small: 'white',
           }}

@@ -38,14 +38,7 @@ export default {
 
 export const StickyBasicTable = () => {
   return (
-    <Table
-      // top="5rem"
-      // skeleton // toggle
-      border
-      outline
-      sticky="css-position"
-      // stickyOffset="2.5rem" // height of header
-    >
+    <Table border outline sticky="css-position">
       <caption className="dnb-sr-only">A Table Caption</caption>
       <thead>
         <Tr>
@@ -144,12 +137,7 @@ export const ContainerTable = () => {
       </TableContainer.Head>
 
       <TableContainer.Body>
-        <Table
-          fixed
-          border
-          sticky
-          // stickyOffset="2.5rem"
-        >
+        <Table fixed border sticky>
           <caption className="dnb-sr-only">Table One</caption>
           <thead>
             <Tr noWrap>
@@ -204,12 +192,7 @@ export const ContainerTable = () => {
           </tbody>
         </Table>
 
-        <Table
-          fixed
-          border
-          sticky
-          // stickyOffset="2.5rem"
-        >
+        <Table fixed border sticky>
           <caption className="dnb-sr-only">Table Two</caption>
           <thead>
             <Tr noWrap>
@@ -468,7 +451,6 @@ const ContentTr = ({
     <Tr
       expanded={expanded}
       disabled={disabled}
-      // noAnimation
       onClick={trClickHandler}
       onOpened={trOpenHandler}
       onClosed={trCloseHandler}
@@ -512,9 +494,7 @@ const ContentTr = ({
         <span>some content</span>
       </Td>
 
-      <Td.AccordionContent
-      // noAnimation
-      >
+      <Td.AccordionContent>
         <Dl>
           <dt>Favorittfarge</dt>
           <dd>Grønn</dd>
@@ -558,11 +538,7 @@ const TableContent = () => {
       {/* <caption>A Table Caption</caption> */}
       <thead>
         <Tr>
-          <Th
-            // colSpan={2}
-            sortable
-            active
-          >
+          <Th sortable active>
             <HeaderSortButton>Fond</HeaderSortButton>
           </Th>
           <Th sortable reversed>
@@ -584,11 +560,7 @@ const TableContent = () => {
       </thead>
 
       <tbody>
-        <ContentTr
-        // variant="even"
-        // disabled
-        // expanded
-        />
+        <ContentTr />
 
         {manyRows}
       </tbody>
@@ -612,7 +584,6 @@ export const TableAccordionMode = () => {
     <main aria-label="main area">
       <h1 className="dnb-sr-only">Table with accordion row</h1>
       <ToggleButton
-        // size="small"
         on_change={() => {
           setSkeleton((s) => !s)
         }}
@@ -628,7 +599,6 @@ export const TableAccordionMode = () => {
           border
           size="large"
           sticky
-          // lang="no"
         >
           <TableContent />
         </Table>
@@ -651,7 +621,6 @@ export const TableNavigationMode = () => {
     <main aria-label="main area">
       <h1 className="dnb-sr-only">Table with accordion row</h1>
       <ToggleButton
-        // size="small"
         on_change={() => {
           setSkeleton((s) => !s)
         }}
@@ -667,7 +636,6 @@ export const TableNavigationMode = () => {
           border
           size="large"
           sticky
-          // lang="no"
         >
           <TableContent />
         </Table>
@@ -725,7 +693,6 @@ export function TableSort() {
         setRowData(mockData)
         break
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sortState.column1.direction])
 
   React.useEffect(() => {
@@ -743,7 +710,6 @@ export function TableSort() {
         setRowData(mockData)
         break
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sortState.column2.direction])
 
   return (
@@ -1342,12 +1308,7 @@ const tableData = [
 
 export function Overflow() {
   return (
-    <div
-    // style={{
-    //   padding: '2rem',
-    //   minHeight: '100vh',
-    // }}
-    >
+    <div>
       {/* <h1
         style={{
           color: '#007272',
@@ -1363,21 +1324,11 @@ export function Overflow() {
         top="6rem"
         style={{
           maxHeight: '400px',
-          // backgroundColor: '#ffffff',
           borderRadius: '8px',
           boxShadow: '0 2px 8px rgba(0, 0, 0, 0.5)',
         }}
       >
-        <Table
-          fixed
-          border
-          outline
-          mode="accordion"
-
-          // style={{
-          //   '--table-border-color': '#d6d6d6',
-          // }}
-        >
+        <Table fixed border outline mode="accordion">
           {/* <caption
             style={{
               color: '#707070',
@@ -1401,12 +1352,7 @@ export function Overflow() {
           </thead>
           <tbody>
             {tableData.map((item) => (
-              <Tr
-                key={item.id}
-                // style={{
-                //   borderBottom: '1px solid #e5e5e5',
-                // }}
-              >
+              <Tr key={item.id}>
                 <Td>{item.fact}</Td>
                 <Td>{item.category}</Td>
                 <Td>{item.location}</Td>
@@ -1431,11 +1377,9 @@ export function Accodion() {
     }
     const Content = ({ shareId }) => {
       const ref = React.useRef()
-      // const { copy, CopyTooltip } = useCopyWithNotice()
       const shareHandler = () => {
         const url = new URL(location.href)
         url.hash = '#' + shareId
-        // copy(url.toString())
       }
       return (
         <>
@@ -1455,7 +1399,6 @@ export function Accodion() {
           <Button
             top
             variant="tertiary"
-            // icon={copyIcon}
             iconPosition="left"
             on_click={shareHandler}
             innerRef={ref}

@@ -54,7 +54,6 @@ const ProgressIndicatorCircular = () => {
   })
   return (
     <ProgressIndicator
-      // progress={88}
       size="large"
       visible={visible}
       onComplete={() => {

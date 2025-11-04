@@ -125,7 +125,6 @@ export const CustomCollapsedBreadcrumb = () => {
         isCollapsed={collapsed}
         onClick={() => {
           console.log('Collapsing')
-          // ... doing other stuff
           setCollapsed(!collapsed)
         }}
         variant="collapse"

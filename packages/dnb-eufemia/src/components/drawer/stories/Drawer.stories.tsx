@@ -37,51 +37,7 @@ export const DrawerSandbox = () => (
 
     <Box>
       {/* <Button variant="tertiary" text="Button" /> */}
-      <Drawer
-        // noAnimation
-        // openState="opened"
-        // fullscreen
-        containerPlacement="right"
-        // alignContent="right"
-        // alignContent="center"
-        // drawer_offset={}
-        title="Original title"
-        // title={<span className="dnb-sr-only">Test</span>}
-        // minWidth="20vw"
-        // maxWidth="40vw"
-        // overlayClass="overlayClass"
-        // contentClass="contentClass"
-        // className="inner_class"
-        // headerContent={
-        //   <>
-        //     <P bottom>This is a lorem ipsum dolor</P>
-        //     <Button bottom size="large">
-        //       Lorem ipsum
-        //     </Button>
-        //     <Button bottom size="large" variant="secondary">
-        //       Dolor sit
-        //     </Button>
-        //     <FormStatus state="info">
-        //       This is a lorem ipsum dolor
-        //     </FormStatus>
-        //     <Tabs
-        //       id="unique-linked-id"
-        //       data={[
-        //         {
-        //           title: 'One',
-        //           key: 'one',
-        //         },
-        //         {
-        //           title: 'Two',
-        //           key: 'two',
-        //         },
-        //       ]}
-        //     >
-        //       content
-        //     </Tabs>
-        //   </>
-        // }
-      >
+      <Drawer containerPlacement="right" title="Original title">
         <Drawer.Navigation>
           <Button
             variant="tertiary"
@@ -185,23 +141,10 @@ export const DrawerSandbox = () => (
     <Box>
       {/* <Button variant="tertiary" text="Button" /> */}
       <Drawer
-        // noAnimation
-        // openState="opened"
         triggerAttributes={{
           text: 'Drawer in Drawer',
           title: 'Tertiary test',
         }}
-
-        // fullscreen
-        // containerPlacement="left"
-        // alignContent="right"
-        // alignContent="center"
-        // title={<span className="dnb-sr-only">Test</span>}
-        // minWidth="20vw"
-        // maxWidth="40vw"
-        // overlayClass="overlayClass"
-        // contentClass="contentClass"
-        // className="inner_class"
       >
         <Drawer.Body styleType="pistachio">
           Drawer.Body
@@ -230,7 +173,6 @@ function FillContent() {
         data={dropdownData}
         right
         skipPortal
-        // direction="top"
       />
       montes tempus tortor mi aptent enim cursus venenatis cras ornare nisl
       pretium tincidunt et imperdiet sapien luctus vel volutpat risus dui
@@ -278,7 +220,6 @@ function FillContent() {
         label="Dropdown"
         data={dropdownData}
         right
-        // direction="top"
       />
       vestibulum maecenas molestie dolor morbi vehicula ultrices diam quis
       velit etiam dictum feugiat sed lacinia placerat euismod magna sapien
@@ -350,7 +291,6 @@ function FillContent() {
         label="Dropdown"
         data={dropdownData}
         right
-        // direction="top"
       />
     </P>
   )
@@ -535,7 +475,6 @@ const LargeListOfTrs = (): Array<React.ReactNode> => {
   const list: Array<React.ReactNode> = []
 
   for (let i = 0, l = 10000; i < l; ++i) {
-    // for (let i = 0, l = 4; i < l; ++i) {
     list.push(
       <tr key={i}>
         <td>Row {i} Column 1</td>

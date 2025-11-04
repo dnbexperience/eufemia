@@ -88,10 +88,6 @@ export function NegativeValues() {
         label="Label with some text"
         labelDirection="vertical"
         multiThumbBehavior="push"
-        // multiThumbBehavior="omit"
-        // vertical
-        // reverse
-        // step={10}
         value={value}
         min={-40}
         max={100}
@@ -120,9 +116,6 @@ export function MultiButtons() {
           label="Label with some text"
           labelDirection="vertical"
           multiThumbBehavior="push"
-          // multiThumbBehavior="omit"
-          // vertical
-          // reverse
           value={value}
           min={100}
           max={1000}
@@ -131,7 +124,6 @@ export function MultiButtons() {
           numberFormat={(value) => format(value, { currency: 'USD' })}
           tooltip
           onChange={({ value, number }) => {
-            // console.log('onChange:', value, number)
             setValue(value as Array<number>)
           }}
         />
@@ -149,7 +141,6 @@ export function MultiButtons() {
           step={10}
           stretch
           vertical
-          // reverse
           numberFormat={{
             decimals: 2,
             currency: 'EUR',
@@ -157,7 +148,6 @@ export function MultiButtons() {
           }}
           tooltip
           onChange={({ value, number }) => {
-            // console.log('onChange:', value, number)
             setValueSecond(value as number)
           }}
         />
@@ -177,15 +167,12 @@ const SliderStory = () => {
       <Box>
         Text
         <Slider
-          // hideButtons
           label="Label:"
           suffix="123"
-          // min={'50'}
           max={100}
           value={value}
           step={0.05}
           numberFormat={{ currency: true }}
-          // reverse
           onChange={({ value, number, rawValue }) => {
             console.log('onChange:', { value, number, rawValue })
             setValue(value as number)
