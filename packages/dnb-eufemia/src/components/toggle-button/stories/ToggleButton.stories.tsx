@@ -158,7 +158,6 @@ export const ToggleButtonSandbox = () => (
           label="Label:"
           variant="checkbox"
           iconPosition="right"
-          // icon="bell"
           icon="chevron_right"
           text="Toggle Button"
           value="I'm alone"
@@ -176,7 +175,6 @@ export const ToggleButtonSandbox = () => (
           label="Label"
           variant="radio"
           iconPosition="right"
-          // icon="bell"
           icon="chevron_right"
           text="Toggle Button"
           value="I'm alone"
@@ -278,7 +276,6 @@ export const ToggleButtonSandbox = () => (
         label="Vertical group with error:"
         layoutDirection="column"
         labelDirection="vertical"
-        // vertical={true}
         status="Error message Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
       >
         <ToggleButton text="First" value="first" />

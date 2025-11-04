@@ -193,8 +193,6 @@ const defaultValue = [
 ] satisfies DocumentMetadata[] as unknown as UploadValue
 
 const filesCache = new Map<string, File>()
-
-// To the Field (from e.g. defaultValue)
 const transformIn = (external?: DocumentMetadata[]) => {
   return (
     external?.map(({ id, fileName }) => {
@@ -204,8 +202,6 @@ const transformIn = (external?: DocumentMetadata[]) => {
     }) || []
   )
 }
-
-// From the Field (internal value) to the data context or event parameter
 const transformOut = (internal?: UploadValue) => {
   return (
     internal?.map(({ id, file }) => {
@@ -220,11 +216,7 @@ const transformOut = (internal?: UploadValue) => {
 
 export function TransformInAndOut() {
   return (
-    <Form.Handler
-    // defaultData={{
-    //   documents: defaultValue,
-    // }}
-    >
+    <Form.Handler>
       <Flex.Stack>
         <Field.Upload
           path="/documents"

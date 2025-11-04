@@ -116,8 +116,6 @@ const DropdownStory = () => {
           <Dropdown
             size="small"
             independentWidth
-            // iconPosition="right"
-            // alignDropdown="right"
             variant="tertiary"
             title="Tertiary"
             data={[
@@ -173,7 +171,6 @@ const DropdownStory = () => {
         <RightAligned>
           <Dropdown
             size="small"
-            // opened
             moreMenu
             data={[
               <Link key="item-1" href="/">
@@ -181,12 +178,10 @@ const DropdownStory = () => {
               </Link>,
               'Or to this one',
             ]}
-            // skipPortal
             alignDropdown="right"
           />
           <Dropdown
             size="small"
-            // opened
             moreMenu
             data={[
               <Link key="item-1" href="/">
@@ -194,8 +189,6 @@ const DropdownStory = () => {
               </Link>,
               'Or to this one',
             ]}
-            // skipPortal
-            // alignDropdown="right"
           />
         </RightAligned>
       </Box>
@@ -224,7 +217,6 @@ const DropdownStory = () => {
           <Dropdown
             size="small"
             opened={opened}
-            // noAnimation
             direction={direction}
             alignDropdown={alignDropdown}
             iconPosition={iconPosition}
@@ -297,7 +289,6 @@ const DropdownStory = () => {
           <Dropdown
             size="large"
             opened={opened}
-            // opened
             noAnimation
             alignDropdown={alignDropdown}
             iconPosition={iconPosition}
@@ -312,7 +303,6 @@ const DropdownStory = () => {
             <Dropdown
               size="small"
               opened={opened}
-              // opened
               label={label}
               noAnimation
               direction={direction}
@@ -401,11 +391,7 @@ const DropdownStory = () => {
             right
             status="Status message"
             on_change={({ attributes }) => {
-              console.log(
-                'on_change',
-                // event.currentTarget.dataset,
-                attributes
-              )
+              console.log('on_change', attributes)
             }}
             data-attr={123}
             iconPosition="left"
@@ -413,7 +399,6 @@ const DropdownStory = () => {
           <Dropdown
             title="Default option"
             label="Vertical B:"
-            // alignDropdown="right"
             iconPosition="left"
             data={dropdownData}
           />
@@ -461,7 +446,6 @@ const DropdownStory = () => {
                 selectedValue: `I'm New ${id}`,
                 content: `New content ${id}`,
               })
-              // setData(dropdownData)
               setData([...dropdownData])
             }}
           />
@@ -471,7 +455,6 @@ const DropdownStory = () => {
             onClick={() => {
               dropdownData = dropdownData.slice(1)
               setData(dropdownData)
-              // setData([...dropdownData])
             }}
           />
           <Button
@@ -498,8 +481,6 @@ const DropdownStory = () => {
             console.log('on_select', data)
           }}
           status="Status message"
-          // value={3}
-          // disabled
         />
         <p className="dnb-p">
           Eros semper blandit tellus mollis primis quisque platea
@@ -515,7 +496,6 @@ const DropdownStory = () => {
         <span className="dnb-p">Eros semper</span>
         <Dropdown
           label="Label:"
-          // direction="top"
           data={dropdownDataScrollable}
           value={4}
           noScrollAnimation={true}
@@ -726,8 +706,6 @@ const dropdownDataScrollable = [
 ]
 
 const Flag = () => <>COUNTRY FLAG</> // These <> are Fragments, like React.Fragment
-
-// This component populates the dropdown and handles the reset if, and only if, the value is undefined
 function CurrencySelector({
   currencies,
   onChange,
@@ -741,7 +719,6 @@ function CurrencySelector({
       {...props}
       value={itemIndex}
       title={strings.currencyBlankLabel}
-      // eslint-disable-next-line camelcase
       on_change={({ data: { selectedValue }, event }) => {
         console.log('event', event)
         if (event && typeof event.persist === 'function') {
@@ -780,7 +757,6 @@ function DropdownStatesSync() {
         <>{JSON.stringify(state)}</>
         <Dropdown
           data={dropdownDataScrollable}
-          // value={0}
           defaultValue={0}
           title="Dropdown 1"
           on_change={handleOnChange}
@@ -788,7 +764,6 @@ function DropdownStatesSync() {
         {/* <Dropdown
         top
         data={dropdownDataScrollable}
-        // value={1}
         defaultValue={1}
         title="Dropdown 2"
         on_change={handleOnChange}
@@ -799,8 +774,6 @@ function DropdownStatesSync() {
 }
 
 function CurrencyDropdown() {
-  // You can regard this as part of a state object that we eventually push to the backend iot conduct a Request for Quote in a Foreign Exchange (FX) transaction
-  // The string reps of the currencies are pulled from an API that provides valid currency pairs for specific FX instruments
   const [ccyPair, setCcyPair] = React.useState({
     base: 'EUR',
     terms: 'SEK',
@@ -809,8 +782,6 @@ function CurrencyDropdown() {
   React.useEffect(() => {
     console.log('ccyPair:', ccyPair)
   }, [ccyPair])
-
-  // Whenever a user selects a new base currency, the termscurrency select should be forced to reset.
   const handleBaseCurrencyChange = (base) =>
     setCcyPair((prev) => ({ ...prev, base, terms: undefined }))
   const handleTermsCurrencyChange = (terms) =>
@@ -839,8 +810,6 @@ function CurrencyDropdown() {
     </>
   )
 }
-
-// Mock currency data somewhat simplified
 const baseCurrencies = ['EUR', 'USD']
 
 const termsCurrencies = ['SEK', 'NOK']
@@ -942,7 +911,6 @@ const filter2ToShow = [
 
 export function UpdateData() {
   const [value, setValue] = React.useState(null)
-  // const [count, increment] = React.useState(1)
   const [filtersToShow, setFiltersToShow] = React.useState(filter1ToShow)
   const [preventClose, setPreventClose] = React.useState(true)
 
