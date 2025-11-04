@@ -161,10 +161,6 @@ export interface PaginationProps
    */
   isLoadingText?: string;
   /**
-   * Used during infinity mode. If `useLoadButton` is set to `true`, then a button is show on the bottom. If the `startupPage` is higher than 1. Defaults to `Vis mer innhold`.
-   */
-  loadButtonText?: string;
-  /**
    * Used to set load button text and icon alignment. Accepts a function returning a ReactNode too, so you can replace the button with your own component.
    */
   loadButton?: LoadButtonProps;
@@ -337,11 +333,6 @@ interface PaginationInstanceProps extends SpacingProps {
    * Shown until new content is inserted in to the page. Defaults to `Laster nytt innhold`.
    */
   isLoadingText?: string;
-  /**
-   * Used during infinity mode. If `useLoadButton` is set to true, then a button is show on the bottom. If the `startupPage` is higher than 1. Defaults to `Vis mer innhold`.
-   * @deprecated use `loadButtonProps.text` instead
-   */
-  loadButtonText?: string;
   /**
    * Used to set loadButton text and icon alignment. Accepts a function returning a ReactNode too, so you can replace the button with your own component.
    */
@@ -520,11 +511,6 @@ interface InfinityMarkerProps extends SpacingProps {
    * Shown until new content is inserted in to the page. Defaults to `Laster nytt innhold`.
    */
   isLoadingText?: string;
-  /**
-   * Used during infinity mode. If `useLoadButton` is set to true, then a button is show on the bottom. If the `startupPage` is higher than 1. Defaults to `Vis mer innhold`.
-   * @deprecated use `loadButtonProps.text` instead
-   */
-  loadButtonText?: string;
   /**
    * Used to set loadButton text and icon alignment. Accepts a function returning a ReactNode too, so you can replace the button with your own component.
    */
