@@ -13,36 +13,17 @@ export function Isolation() {
       onChange={async (data) => {
         await new Promise((resolve) => setTimeout(resolve, 1000))
         console.log('Regular onChange:', data)
-        // return {
-        //   info: 'Info message',
-        // }
       }}
       defaultData={{
         regular: 'Regular',
-        // isolated: 'Isolated',
       }}
     >
       <Flex.Stack>
         <Form.Isolation
-          // onChange={async (data) => {
-          //   await new Promise((resolve) => setTimeout(resolve, 1000))
-          //   // console.log('Isolated onChange:', data)
-          //   // return {
-          //   //   info: 'Info message',
-          //   // }
-          // }}
           onCommit={(data) => console.log('onCommit:', data)}
-          // defaultData={{
-          //   isolated: 'Isolated',
-          // }}
         >
           <Flex.Stack>
-            <Field.String
-              label="Isolated"
-              path="/isolated"
-              required
-              // validateInitially
-            />
+            <Field.String label="Isolated" path="/isolated" required />
 
             <Flex.Horizontal>
               <Form.SubmitButton text="Commit" />
@@ -69,10 +50,6 @@ export function IsolationInsideSection() {
           regular: 'Outer regular value',
         },
       }}
-      // onChange={async (data) => {
-      //   console.log('Outer onChange:', data)
-      //   await new Promise((resolve) => setTimeout(resolve, 10))
-      // }}
     >
       <Form.Section path="/mySection">
         <Flex.Stack>
@@ -80,10 +57,6 @@ export function IsolationInsideSection() {
             defaultData={{
               isolated: 'The real initial "isolated" value',
             }}
-            // onPathChange={async (path, value) => {
-            //   console.log('Isolated onChange:', path, value)
-            //   await new Promise((resolve) => setTimeout(resolve, 10))
-            // }}
             onCommit={(data) => console.log('onCommit:', data)}
           >
             <Flex.Stack>
@@ -109,7 +82,6 @@ export function IsolationInsideSection() {
 export const TransformOnCommit = () => {
   return (
     <Form.Handler
-      // onChange={console.log}
       defaultData={{
         contactPersons: [{ title: 'Hanne', value: 'hanne' }],
         mySelection: 'other',
@@ -183,12 +155,7 @@ export function preventUncommittedChanges() {
           defaultData={{ isolated: 'Isolated' }}
         >
           <Flex.Stack>
-            <Field.String
-              label="Isolated"
-              path="/isolated"
-              required
-              // validateInitially
-            />
+            <Field.String label="Isolated" path="/isolated" required />
 
             <Flex.Horizontal>
               <Form.Isolation.CommitButton />

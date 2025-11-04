@@ -10,16 +10,8 @@ export function SelectCountryValue() {
   return (
     <Form.Handler>
       <Flex.Stack>
-        <Field.SelectCountry
-          path="/myCountry"
-          value="NO"
-          // defaultValue="NO"
-        />
-        <Value.SelectCountry
-          // label="Custom Label"
-          path="/myCountry"
-          // defaultValue="NO"
-        />
+        <Field.SelectCountry path="/myCountry" value="NO" />
+        <Value.SelectCountry path="/myCountry" />
       </Flex.Stack>
     </Form.Handler>
   )
