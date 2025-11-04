@@ -222,7 +222,7 @@ export const ToggleButtonSandbox = () => (
     </Box>
     <Box>
       <Flex.Vertical>
-        <H2>A h2 in a FormRow without a label</H2>
+        <H2>A h2 in a Flex.Vertical, where there's no label</H2>
         <FieldBlock label="Long Group name with on_change dapibus eros viverra torquent euismod at dignissim vel mattis:">
           <ToggleButton.Group
             on_change={({ value, values, event }) => {
