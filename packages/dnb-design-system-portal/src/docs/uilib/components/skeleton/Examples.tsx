@@ -46,7 +46,7 @@ export const SkeletonToggleExample = () => (
             <P top bottom>
               Paragraph Non habitasse ut nisi dictum laoreet ridiculus dui.
             </P>
-            <Input label_direction="vertical" label="Input" />
+            <Input labelDirection="vertical" label="Input" />
             <Skeleton.Exclude>
               <ToggleButton
                 checked={state}
@@ -107,10 +107,10 @@ export const SkeletonFiguresExample = () => (
 export const SkeletonVisibleWhenVisualTests = () => {
   return (
     <>
-      <Skeleton show no_animation>
+      <Skeleton show noAnimation>
         <AllComponentsHorizontalTestCase data-visual-test="skeleton-all-horizontal" />
       </Skeleton>
-      <Skeleton show no_animation>
+      <Skeleton show noAnimation>
         <AllComponentsVerticalLabelsTestCase data-visual-test="skeleton-all-vertical" />
       </Skeleton>
     </>

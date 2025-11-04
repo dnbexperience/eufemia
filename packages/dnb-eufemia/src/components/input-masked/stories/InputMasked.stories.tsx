@@ -6,14 +6,14 @@
 import React, { useState } from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 import emailMask from '../addons/emailMask'
-import { InputMasked, FormSet, ToggleButton } from '../..'
+import { InputMasked, ToggleButton } from '../..'
 import { Flex, Hr } from '../../..'
 import styled from '@emotion/styled'
 import { Provider } from '../../../shared'
 import { MultiInputMask } from '../'
 import type { MultiInputMaskValue } from '../'
 import { InternalLocale } from '../../../shared/Context'
-import { Field } from '../../../extensions/forms'
+import { Field, Form } from '../../../extensions/forms'
 
 const Pre = styled.pre`
   margin-top: 0;
@@ -25,7 +25,7 @@ export default {
 }
 
 export function TypeNumber() {
-  return <InputMasked label="Number:" as_currency value="12" />
+  return <InputMasked label="Number:" asCurrency value="12" />
 }
 
 export function NoProps() {
@@ -36,8 +36,13 @@ export function Sandbox() {
   const [locale, setLocale] = React.useState<InternalLocale>('nb-NO')
   return (
     <Wrapper>
-      <Provider locale={locale}>
-        <FormSet label_direction="vertical">
+      <Provider
+        locale={locale}
+        formElement={{
+          label_direction: 'vertical',
+        }}
+      >
+        <Form.Handler>
           <ToggleButton.Group
             value={locale}
             on_change={({ value }) => setLocale(value)}
@@ -76,7 +81,7 @@ export function Sandbox() {
           <Box>
             <ShowMask />
           </Box>
-        </FormSet>
+        </Form.Handler>
       </Provider>
     </Wrapper>
   )
@@ -87,12 +92,10 @@ function BasicNumberMask() {
 
   return (
     <InputMasked
-      label="number_mask"
-      // selectall
+      label="numberMask"
       value={floatval}
-      // placeholder="En placeholder"
-      number_mask
-      mask_options={{ disallowLeadingZeroes: true, allowNegative: false }}
+      numberMask
+      maskOptions={{ disallowLeadingZeroes: true, allowNegative: false }}
       suffix={<Pre>{JSON.stringify(floatval)}</Pre>}
       on_change={({ numberValue }) => {
         setState(numberValue)
@@ -106,17 +109,13 @@ function BasicCurrencyMask() {
 
   return (
     <InputMasked
-      label="currency_mask"
-      // selectall
+      label="currencyMask"
       value={floatval}
-      // placeholder="En placeholder"
-      currency_mask={{
+      currencyMask={{
         currency: 'NOK',
         prefix: 'Prefix ',
-        // allowDecimal: false,
         allowNegative: false,
       }}
-      // mask_options={{ disallowLeadingZeroes: true }}
       suffix={<Pre>{JSON.stringify(floatval)}</Pre>}
       on_change={({ numberValue }) => {
         setState(numberValue)
@@ -127,14 +126,12 @@ function BasicCurrencyMask() {
 
 function CurrencyInput() {
   const [floatval, setState] = React.useState(1234.556)
-  // const [floatval, setState] = React.useState(0.01)
 
   return (
     <InputMasked
-      label="as_currency"
+      label="asCurrency"
       value={floatval}
-      as_currency="NOK"
-      // mask_options={{ disallowLeadingZeroes: true }}
+      asCurrency="NOK"
       suffix={<Pre>{JSON.stringify(floatval)}</Pre>}
       on_change={({ numberValue }) => {
         setState(numberValue)
@@ -149,10 +146,10 @@ function NumberInput() {
   return (
     <>
       <InputMasked
-        label="as_number"
+        label="asNumber"
         value={floatval}
-        as_number
-        mask_options={{ allowDecimal: true, decimalLimit: null }}
+        asNumber
+        maskOptions={{ allowDecimal: true, decimalLimit: null }}
         suffix={<Pre>{JSON.stringify(floatval)}</Pre>}
         on_change={({ numberValue }) => {
           setState(numberValue)
@@ -167,11 +164,10 @@ function PercentInput() {
 
   return (
     <InputMasked
-      label="as_percent"
+      label="asPercent"
       value={floatval}
-      as_percent
-      mask_options={{ allowDecimal: true, disallowLeadingZeroes: true }}
-      // number_mask={{ allowDecimal: true, decimalLimit: 1 }}
+      asPercent
+      maskOptions={{ allowDecimal: true, disallowLeadingZeroes: true }}
       suffix={<Pre>{JSON.stringify(floatval)}</Pre>}
       on_change={({ numberValue }) => {
         setState(numberValue)
@@ -184,12 +180,9 @@ function EmailMask() {
   return (
     <InputMasked
       label="emailMask"
-      // DOMException: Failed to execute 'setSelectionRange' on 'HTMLInputElement'
-      // The input element's type ('email') does not support selection.
-      // type="email"
       placeholder="@."
       autocomplete="on"
-      keep_placeholder
+      keepPlaceholder
       mask={emailMask}
       right
       bottom
@@ -200,9 +193,9 @@ function EmailMask() {
 function ShowMask() {
   return (
     <InputMasked
-      label="show_mask"
-      show_mask
-      number_mask={{
+      label="showMask"
+      showMask
+      numberMask={{
         suffix: ' kr',
         allowDecimal: true,
       }}
@@ -344,21 +337,12 @@ export function DisallowLeadingZerosMask() {
     <Flex.Vertical>
       <InputMasked
         value={-100123}
-        currency_mask={{
-          // allowDecimal: true,
+        currencyMask={{
           disallowLeadingZeroes: true, //
-        }}
-        onChange={({ value, numberValue }) => {
-          // console.log('onChange', value, numberValue)
         }}
       />
 
-      <Field.Currency
-        disallowLeadingZeroes
-        onChange={(value) => {
-          // console.log('onChange', value)
-        }}
-      />
+      <Field.Currency disallowLeadingZeroes />
     </Flex.Vertical>
   )
 }

@@ -1,43 +1,43 @@
 import { PropertiesTableProps } from '../../shared/types'
 
 export const inputMaskedProperties: PropertiesTableProps = {
-  as_number: {
+  asNumber: {
     doc: 'Set to `true` to automatically set a number mask based on the given or inherited locale.',
     type: 'boolean',
     status: 'optional',
   },
-  as_percent: {
+  asPercent: {
     doc: 'Set to `true` to automatically set a number mask with a percentage sign based on the given or inherited locale.',
     type: 'boolean',
     status: 'optional',
   },
-  as_currency: {
+  asCurrency: {
     doc: 'Set to `true` to use `NOK` or give it a currency code e.g. `USD` to automatically set a currency mask based on the given or inherited locale.',
     type: 'boolean',
     status: 'optional',
   },
-  mask_options: {
-    doc: 'Use it to manipulate internal masks. You can use it instead of e.g. `number_mask` or `currency_mask`. All options are listed below.',
+  maskOptions: {
+    doc: 'Use it to manipulate internal masks. You can use it instead of e.g. `numberMask` or `currencyMask`. All options are listed below.',
     type: 'object',
     status: 'optional',
   },
-  number_mask: {
+  numberMask: {
     doc: 'Set to `true` to enable the default numbers formatting – or give an `object` containing the number mask properties. More details below. Can be a JSON string as well, containing the number mask properties. Is disabled by default.',
     type: ['boolean', 'object'],
     status: 'optional',
   },
-  currency_mask: {
-    doc: 'Set to `true` or set the _valuta_ (currency_mask="kr") to enable a custom currency mask – or give an `object` containing the number mask properties. More details below. Can be a JSON string as well, containing the number mask properties. Is disabled by default. Defaults to `kr`.',
+  currencyMask: {
+    doc: 'Set to `true` or set the _valuta_ (currencyMask="kr") to enable a custom currency mask – or give an `object` containing the number mask properties. More details below. Can be a JSON string as well, containing the number mask properties. Is disabled by default. Defaults to `kr`.',
     type: ['boolean', 'object'],
     status: 'optional',
   },
-  number_format: {
+  numberFormat: {
     doc: 'Use an object with [NumberFormat](/uilib/components/number-format/properties).',
     type: 'object',
     status: 'optional',
   },
   locale: {
-    doc: 'Define the locale to be used in the `as_number` or `as_currency` masked. It will be inherited from the [Eufemia Provider](/uilib/usage/customisation/provider) if not given. Defaults to `nb-NO`.',
+    doc: 'Define the locale to be used in the `asNumber` or `asCurrency` masked. It will be inherited from the [Eufemia Provider](/uilib/usage/customisation/provider) if not given. Defaults to `nb-NO`.',
     type: 'string',
     status: 'optional',
   },
@@ -46,22 +46,22 @@ export const inputMaskedProperties: PropertiesTableProps = {
     type: ['RegExp', 'function'],
     status: 'optional',
   },
-  show_mask: {
+  showMask: {
     doc: 'Show mask when input is empty and has no focus. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
-  show_guide: {
+  showGuide: {
     doc: "When `false` is given, it doesn't print out placeholder characters and only adds mask characters when the user reaches them as they're typing. Defaults to `true`.",
     type: 'boolean',
     status: 'optional',
   },
-  placeholder_char: {
+  placeholderChar: {
     doc: 'The placeholder character represents the fillable spot in the mask (e.g. `_`). Defaults to invisible space.',
     type: 'string',
     status: 'optional',
   },
-  keep_char_positions: {
+  keepCharPositions: {
     doc: 'When `true`, adding or deleting characters will not affect the positions of existing characters. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',

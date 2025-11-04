@@ -18,7 +18,6 @@ const makeRequest = async (value) => {
 }
 
 const onChangeValidator = async (value) => {
-  // Delay the response
   const isValid = await makeRequest(value)
   if (!isValid) {
     return new FormError('Field.errorRequired')
@@ -38,7 +37,6 @@ export function PhoneNumber() {
         <Field.PhoneNumber
           required
           onChangeValidator={onChangeValidator}
-          // pattern="^\+41 [1]\d{2}$"
           validateInitially
           path="/phone"
           onBlur={console.log}

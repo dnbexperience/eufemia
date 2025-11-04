@@ -5,7 +5,7 @@
 
 import React, { useState } from 'react'
 import { Box, Wrapper } from 'storybook-utils/helpers'
-import { Button, Skeleton, ToggleButton } from '../../'
+import { Skeleton, ToggleButton } from '../../'
 import Breadcrumb from '../Breadcrumb'
 import { Provider } from '../../../shared'
 import { BreadcrumbItemProps } from '../BreadcrumbItem'
@@ -125,7 +125,6 @@ export const CustomCollapsedBreadcrumb = () => {
         isCollapsed={collapsed}
         onClick={() => {
           console.log('Collapsing')
-          // ... doing other stuff
           setCollapsed(!collapsed)
         }}
         variant="collapse"
@@ -170,27 +169,6 @@ export const SupportsChildrenAsNull = () => {
           {null}
           {null}
           {null}
-        </Breadcrumb>
-      </Box>
-    </Wrapper>
-  )
-}
-
-// TODO – can be removed in v11 when we deprecate passing down props to dnb-breadcrumb__item__span
-export const BreadcrumbItemWithButtonPropsButNotInteractive = () => {
-  const props = {
-    ...Button.defaultProps,
-    text: 'Page',
-    href: null,
-    onClick: null,
-    'data-testid': 'my-testid',
-  }
-  return (
-    <Wrapper>
-      <Box>
-        <Breadcrumb data={[props, props, props]} />
-        <Breadcrumb>
-          <Breadcrumb.Item {...props} />
         </Breadcrumb>
       </Box>
     </Wrapper>

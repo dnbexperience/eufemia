@@ -49,11 +49,11 @@ function useCopyWithNotice() {
     ({ target }) => {
       return (
         <Tooltip active={active} targetElement={target}>
-          {NumberFormat.clipboard_copy}
+          {NumberFormat.clipboardCopy}
         </Tooltip>
       )
     },
-    [NumberFormat.clipboard_copy, active],
+    [NumberFormat.clipboardCopy, active],
   )
 
   const copy = useCallback((str: string) => {
@@ -737,10 +737,10 @@ export const Accordion = () => (
     {() => {
       const AccordionTable = ({ id, showCheckbox = false, ...props }) => {
         const TdCheckbox = () => {
-          return <Checkbox label="Select row" label_sr_only />
+          return <Checkbox label="Select row" labelSrOnly />
         }
         const TdInput = () => {
-          return <Input label="Label" label_sr_only size={4} />
+          return <Input label="Label" labelSrOnly size={4} />
         }
         const Content = ({ shareId }) => {
           const ref = React.useRef()
@@ -771,9 +771,9 @@ export const Accordion = () => (
                 top
                 variant="tertiary"
                 icon={copyIcon}
-                icon_position="left"
+                iconPosition="left"
                 on_click={shareHandler}
-                inner_ref={ref}
+                innerRef={ref}
               >
                 Copy link to this row
               </Button>
@@ -856,10 +856,10 @@ export const AccordionMixed = () => (
     {() => {
       const AccordionTable = ({ id, showCheckbox = false, ...props }) => {
         const TdCheckbox = () => {
-          return <Checkbox label="Select row" label_sr_only />
+          return <Checkbox label="Select row" labelSrOnly />
         }
         const TdInput = () => {
-          return <Input label="Label" label_sr_only size={4} />
+          return <Input label="Label" labelSrOnly size={4} />
         }
         const Content = ({ shareId }) => {
           const ref = React.useRef()
@@ -890,9 +890,9 @@ export const AccordionMixed = () => (
                 top
                 variant="tertiary"
                 icon={copyIcon}
-                icon_position="left"
+                iconPosition="left"
                 on_click={shareHandler}
-                inner_ref={ref}
+                innerRef={ref}
               >
                 Copy link to this row
               </Button>
@@ -1067,10 +1067,10 @@ export const Navigation = () => (
     {() => {
       const NavigationTable = ({ id, showCheckbox = false, ...props }) => {
         const TdCheckbox = () => {
-          return <Checkbox label="Select row" label_sr_only />
+          return <Checkbox label="Select row" labelSrOnly />
         }
         const TdInput = () => {
-          return <Input label="Label" label_sr_only size={4} />
+          return <Input label="Label" labelSrOnly size={4} />
         }
 
         const Row = ({ nr }) => {
@@ -1140,10 +1140,10 @@ export const NavigationMixed = () => (
     {() => {
       const NavigationTable = ({ id, showCheckbox = false, ...props }) => {
         const TdCheckbox = () => {
-          return <Checkbox label="Select row" label_sr_only />
+          return <Checkbox label="Select row" labelSrOnly />
         }
         const TdInput = () => {
-          return <Input label="Label" label_sr_only size={4} />
+          return <Input label="Label" labelSrOnly size={4} />
         }
 
         return (
@@ -1395,8 +1395,8 @@ export function PaginationTable() {
 
           return (
             <Pagination
-              page_count={data.length / amountPerPage}
-              current_page={currentPage}
+              pageCount={data.length / amountPerPage}
+              currentPage={currentPage}
               on_change={({ pageNumber }) => {
                 setCurrentPage(pageNumber)
               }}
@@ -1724,7 +1724,7 @@ export const ResponsiveInCard = () => (
                   <Button
                     variant="tertiary"
                     icon={stopIcon}
-                    icon_position="left"
+                    iconPosition="left"
                   >
                     Avvis signering
                   </Button>
@@ -1784,10 +1784,10 @@ export const TableInAccordionTable = () => (
     {() => {
       const AccordionTable = ({ id, showCheckbox = false, ...props }) => {
         const TdCheckbox = () => {
-          return <Checkbox label="Select row" label_sr_only />
+          return <Checkbox label="Select row" labelSrOnly />
         }
         const TdInput = () => {
-          return <Input label="Label" label_sr_only size={4} />
+          return <Input label="Label" labelSrOnly size={4} />
         }
         const Row = ({ nr }) => {
           const shareId = id + '-' + nr

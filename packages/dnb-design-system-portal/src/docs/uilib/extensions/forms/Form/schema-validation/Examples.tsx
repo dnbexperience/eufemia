@@ -190,7 +190,7 @@ export const DependantListSchema = () => {
 
             <Iterate.PushButton
               icon="add"
-              icon_position="left"
+              iconPosition="left"
               text="Add account"
               path="/accounts"
               pushValue={{}}

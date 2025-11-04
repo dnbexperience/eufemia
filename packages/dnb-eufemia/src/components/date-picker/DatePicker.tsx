@@ -29,7 +29,7 @@ import AlignmentHelper from '../../shared/AlignmentHelper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import { skeletonDOMAttributes } from '../skeleton/SkeletonHelper'
 
-import Context, { Locale } from '../../shared/Context'
+import Context from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus, {
@@ -54,7 +54,6 @@ import { CalendarDay, DatePickerCalendarProps } from './DatePickerCalendar'
 import { DatePickerContextValues, DateType } from './DatePickerContext'
 import { DatePickerDates } from './hooks/useDates'
 import { useTranslation } from '../../shared'
-import { convertSnakeCaseProps } from '../../shared/helpers/withSnakeCaseProps'
 import DatePickerPortal from './DatePickerPortal'
 import {
   FormatDateOptions,
@@ -339,223 +338,8 @@ export type DatePickerProps = {
    */
   onBlur?: (event: DatePickerEvent<React.FocusEvent<HTMLElement>>) => void
 }
-// Can be removed in v11
-type DatePickerDeprecatedProps = {
-  /**
-   * @deprecated use `startDate` instead.
-   */
-  start_date?: DateType
-  /**
-   * @deprecated use `endDate` instead.
-   */
-  end_date?: DateType
-  /**
-   * @deprecated use `startMonth` instead.
-   */
-  start_month?: DateType
-  /**
-   * @deprecated use `endMonth` instead.
-   */
-  end_month?: DateType
-  /**
-   * @deprecated use `minDate` instead.
-   */
-  min_date?: DateType
-  /**
-   * @deprecated use `maxDate` instead.
-   */
-  max_date?: DateType
-  /**
-   * @deprecated use `Field.Date` instead, for {@link https://eufemia.dnb.no/uilib/extensions/forms/feature-fields/Date/#date-limit-validation | built in validation}.
-   * It's not good UX, or best practice to automatically change the user input. This often leads to confusion, as what they typed in, magically changes for seemingly no reason. It's better to inform them about the error and let them correct it themselves.
-   *
-   * Deprecated – can be removed in v11
-   */
-  correctInvalidDate?: boolean
-  /**
-   * @deprecated use `Field.Date` instead, for {@link https://eufemia.dnb.no/uilib/extensions/forms/feature-fields/Date/#date-limit-validation | built in validation}.
-   * It's not good UX, or best practice to automatically change the user input. This often leads to confusion, as what they typed in, magically changes for seemingly no reason. It's better to inform them about the error and let them correct it themselves.
-   *
-   * Deprecated – can be removed in v11
-   */
-  correct_invalid_date?: boolean
-  /**
-   * @deprecated use `maskOrder` instead.
-   */
-  mask_order?: string
-  /**
-   * @deprecated use `maskPlaceholder` instead.
-   */
-  mask_placeholder?: string
-  /**
-   * @deprecated use `dateFormat` instead.
-   */
-  date_format?: string
-  /**
-   * @deprecated use `returnFormat` instead.
-   */
-  return_format?: string
-  /**
-   * @deprecated use `hideNavigation` instead.
-   */
-  hide_navigation?: boolean
-  /**
-   * @deprecated does not do anything.
-   */
-  hideNavigationButtons?: boolean
-  /**
-   * @deprecated does not do anything.
-   */
-  hide_navigation_buttons?: boolean
-  /**
-   * @deprecated use `hideDays` instead.
-   */
-  hide_days?: boolean
-  /**
-   * @deprecated use `onlyMonth` instead.
-   */
-  only_month?: boolean
-  /**
-   * @deprecated use `hideLastWeek` instead.
-   */
-  hide_last_week?: boolean
-  /**
-   * @deprecated use `disableAutofocus` instead.
-   */
-  disable_autofocus?: boolean
-  /**
-   * @deprecated use `enableKeyboardNav` instead.
-   */
-  enable_keyboard_nav?: boolean
-  /**
-   * @deprecated use `showInput` instead.
-   */
-  show_input?: boolean
-  /**
-   * @deprecated use `showSubmitButton` instead.
-   */
-  show_submit_button?: boolean
-  /**
-   * @deprecated use `showCancelButton` instead.
-   */
-  show_cancel_button?: boolean
-  /**
-   * @deprecated
-   */
-  show_reset_button?: boolean
-  /**
-   * @deprecated use `submitButtonText` instead.
-   */
-  submit_button_text?: string
-  /**
-   * @deprecated use `cancelButtonText` instead.
-   */
-  cancel_button_text?: string
-  /**
-   * @deprecated use `resetButtonText` instead.
-   */
-  reset_button_text?: string
-  /**
-   * @deprecated use `resetDate` instead.
-   */
-  reset_date?: boolean
-  /**
-   * @deprecated use `firstDay` instead.
-   */
-  first_day?: string
-  /**
-   * @deprecated set locale with `Provider` instead.
-   */
-  locale?: Locale
-  /**
-   * @deprecated use `labelDirection` instead.
-   */
-  label_direction?: 'vertical' | 'horizontal'
-  /**
-   * @deprecated use `labelSrOnly` instead.
-   */
-  label_sr_only?: boolean
-  /**
-   * @deprecated use `inputElement` instead.
-   */
-  input_element?: InputInputElement
-  /**
-   * @deprecated use `addonElement` instead.
-   */
-  addon_element?: React.ReactNode
-  /**
-   * @deprecated use `statusState` instead.
-   */
-  status_state?: FormStatusState
-  /**
-   * @deprecated use `statusProps` instead.
-   */
-  status_props?: FormStatusProps
-  /**
-   * @deprecated use `statusNoAnimation` instead.
-   */
-  status_no_animation?: boolean
-  /**
-   * @deprecated use `preventClose` instead.
-   */
-  prevent_close?: boolean
-  /**
-   * @deprecated use `no_animation` instead.
-   */
-  no_animation?: boolean
-  /**
-   * @deprecated use `alignPicker` instead.
-   */
-  align_picker?: 'auto' | 'left' | 'right'
-  /**
-   * @deprecated use `onDaysRender` instead.
-   */
-  on_days_render?: (
-    days: Array<CalendarDay>,
-    nr?: DatePickerCalendarProps['nr']
-  ) => void
-  /**
-   * @deprecated use `onChange` instead.
-   */
-  on_change?: (
-    event: DatePickerEvent<React.ChangeEvent<HTMLInputElement>>
-  ) => void
-  /**
-   * @deprecated use `onType` instead.
-   */
-  on_type?: (
-    event: DatePickerEvent<React.ChangeEvent<HTMLInputElement>>
-  ) => void
-  /**
-   * @deprecated use `onShow` instead.
-   */
-  on_show?: (event: DatePickerEvent<DisplayPickerEvent>) => void
-  /**
-   * @deprecated use `onHide` instead.
-   */
-  on_hide?: (event: DatePickerEvent<DisplayPickerEvent>) => void
-  /**
-   * @deprecated use `onSubmit` instead.
-   */
-  on_submit?: (
-    event: DatePickerEvent<React.MouseEvent<HTMLButtonElement>>
-  ) => void
-  /**
-   * @deprecated use `onCancel` instead.
-   */
-  on_cancel?: (
-    event: DatePickerEvent<React.MouseEvent<HTMLButtonElement>>
-  ) => void
-  /**
-   * @deprecated use `onReset` instead.
-   */
-  on_reset?: (
-    event: DatePickerEvent<React.MouseEvent<HTMLButtonElement>>
-  ) => void
-}
 
 export type DatePickerAllProps = DatePickerProps &
-  DatePickerDeprecatedProps &
   SpacingProps &
   Omit<
     React.HTMLProps<HTMLElement>,
@@ -609,11 +393,9 @@ function DatePicker(externalProps: DatePickerAllProps) {
     range,
     hideDays,
     hideNavigation,
-    // Deprecated – can be removed in v11
-    correctInvalidDate,
     opened: openedProp,
     endDate: endDateProp,
-  } = convertSnakeCaseProps(props) // convertSnakeCaseProps - can be removed in v11
+  } = props
 
   const [opened, setOpened] = useState<boolean>(openedProp)
   const [hidden, setHidden] = useState(!opened)
@@ -635,12 +417,6 @@ function DatePicker(externalProps: DatePickerAllProps) {
   const calendarContainerRef = useRef<HTMLDivElement>()
 
   const translation = useTranslation().DatePicker
-
-  if (correctInvalidDate) {
-    warn(
-      `Use 'Field.Date' instead, for built in validation (https://eufemia.dnb.no/uilib/extensions/forms/feature-fields/Date/#date-limit-validation).`
-    )
-  }
 
   if (endDateProp && !range) {
     warn(
@@ -817,9 +593,8 @@ function DatePicker(externalProps: DatePickerAllProps) {
     props,
     defaultProps,
     { skeleton: context?.skeleton },
-    convertSnakeCaseProps(context.getTranslation(props).DatePicker), // convertSnakeCaseProps - can be removed in v11
-    pickFormElementProps(context?.FormRow), // Deprecated – can be removed in v11
-    convertSnakeCaseProps(pickFormElementProps(context?.formElement)), // Deprecated – can be removed in v11
+    context.getTranslation(props).DatePicker,
+    pickFormElementProps(context?.formElement),
     context.DatePicker
   )
 
@@ -980,11 +755,11 @@ function DatePicker(externalProps: DatePickerAllProps) {
             id={id + '-form-status'}
             globalStatus={globalStatus}
             label={String(label)}
-            text_id={id + '-status'} // used for "aria-describedby"
-            width_selector={id + '-shell'}
+            textId={id + '-status'} // used for "aria-describedby"
+            widthSelector={id + '-shell'}
             text={status}
             state={statusState}
-            no_animation={statusNoAnimation}
+            noAnimation={statusNoAnimation}
             skeleton={skeleton}
             {...statusProps}
           />
@@ -1097,7 +872,6 @@ const NonAttributes = [
   'returnFormat',
   'dateFormat',
   'hideDays',
-  'correctInvalidDate',
   'opened',
   'direction',
   'range',

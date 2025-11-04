@@ -2250,7 +2250,9 @@ describe('Field.Number', () => {
         }
       }
 
-      render(<Field.Number validateContinuously validator={validator} />)
+      render(
+        <Field.Number validateContinuously onChangeValidator={validator} />
+      )
       const input = document.querySelector('input')
 
       // Type a value that exceeds the validator limit

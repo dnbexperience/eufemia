@@ -31,7 +31,6 @@ export const ButtonSandbox = () => (
         <Button
           right
           bottom
-          // icon="chevron_left" icon_position="left"
         >
           <IconPrimary>chevron_left</IconPrimary>
           Text <b>Bold</b>
@@ -99,7 +98,7 @@ export const ButtonSandbox = () => (
       </WrappedButton>
       <WrappedButton
         icon="chevron_left"
-        icon_position="left"
+        iconPosition="left"
         right
         bottom
         variant="secondary"
@@ -120,7 +119,7 @@ export const ButtonSandbox = () => (
       </WrappedButton>
       <WrappedButton
         icon="chevron_left"
-        icon_position="left"
+        iconPosition="left"
         right
         bottom
         variant="tertiary"
@@ -146,47 +145,47 @@ export const ButtonSandbox = () => (
       <Button
         text="Button text"
         variant="tertiary"
-        icon_position="left"
+        iconPosition="left"
         icon="chevron_left"
       />
       <Button
         text={<span>Button text in span</span>}
         variant="tertiary"
-        icon_position="left"
+        iconPosition="left"
         icon="chevron_left"
       />
       <Button text="Button text" variant="tertiary" icon="chevron_right" />
       <Button
         text="Button text"
         variant="tertiary"
-        icon_position="left"
+        iconPosition="left"
         icon="chevron_left"
       />
       <Button text="Button text" variant="tertiary" icon="chevron_right" />
       <Button
         text="Button text"
         variant="tertiary"
-        icon_position="left"
+        iconPosition="left"
         icon="chevron_left"
-        icon_size="medium"
+        iconSize="medium"
       />
       <Button
         text="Button text"
         variant="tertiary"
         icon="chevron_right"
-        icon_size="medium"
+        iconSize="medium"
       />
       <Button
         text="Button text"
         variant="tertiary"
         icon="chevron_right"
-        icon_size="large"
+        iconSize="large"
       />
       <Button
         text="Button text"
         variant="tertiary"
         icon="chevron_right"
-        icon_size="medium"
+        iconSize="medium"
         disabled
       />
       <span className="dnb-p">text</span>
@@ -244,10 +243,10 @@ export const ButtonSandbox = () => (
         right
         disabled
       />
-      <Button icon="chevron_right" icon_size="medium" size="default" />
+      <Button icon="chevron_right" iconSize="medium" size="default" />
       <Button
         icon="chevron_right"
-        icon_size="medium"
+        iconSize="medium"
         size="default"
         status="error"
         left
@@ -256,11 +255,10 @@ export const ButtonSandbox = () => (
     <Box>
       <Button
         icon="chevron_right"
-        icon_size="medium"
+        iconSize="medium"
         size="default"
         status="Hello"
         disabled
-        // left
       />
     </Box>
     <Box>
@@ -273,7 +271,7 @@ export const ButtonSandbox = () => (
       <Button
         variant="tertiary"
         text="Button text"
-        icon_position="top"
+        iconPosition="top"
         icon="add"
       />
 
@@ -281,7 +279,7 @@ export const ButtonSandbox = () => (
         variant="tertiary"
         text="Button text"
         icon="add"
-        icon_position="left"
+        iconPosition="left"
       />
     </Box>
     <Box>

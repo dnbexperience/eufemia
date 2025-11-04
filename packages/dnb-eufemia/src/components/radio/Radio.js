@@ -48,8 +48,8 @@ export default class Radio extends React.PureComponent {
       PropTypes.func,
       PropTypes.node,
     ]),
-    label_sr_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    label_position: PropTypes.oneOf(['left', 'right']),
+    labelSrOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    labelPosition: PropTypes.oneOf(['left', 'right']),
     checked: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     id: PropTypes.string,
@@ -62,9 +62,9 @@ export default class Radio extends React.PureComponent {
       PropTypes.func,
       PropTypes.node,
     ]),
-    status_state: PropTypes.string,
-    status_props: PropTypes.object,
-    status_no_animation: PropTypes.oneOfType([
+    statusState: PropTypes.string,
+    statusProps: PropTypes.object,
+    statusNoAnimation: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool,
     ]),
@@ -94,8 +94,8 @@ export default class Radio extends React.PureComponent {
 
   static defaultProps = {
     label: null,
-    label_sr_only: null,
-    label_position: null,
+    labelSrOnly: null,
+    labelPosition: null,
     checked: null,
     disabled: null,
     id: null,
@@ -103,9 +103,9 @@ export default class Radio extends React.PureComponent {
     element: 'input',
     group: null,
     status: null,
-    status_state: 'error',
-    status_props: null,
-    status_no_animation: null,
+    statusState: 'error',
+    statusProps: null,
+    statusNoAnimation: null,
     globalStatus: null,
     suffix: null,
     value: '',
@@ -281,23 +281,21 @@ export default class Radio extends React.PureComponent {
             Radio.defaultProps,
             contextProps,
             { skeleton: context?.skeleton },
-            // Deprecated – can be removed in v11
-            pickFormElementProps(context.FormRow),
             pickFormElementProps(context.formElement),
             context.Radio
           )
 
           const {
             status,
-            status_state,
-            status_props,
-            status_no_animation,
+            statusState,
+            statusProps,
+            statusNoAnimation,
             globalStatus,
             suffix,
             element,
             label,
-            label_sr_only,
-            label_position,
+            labelSrOnly,
+            labelPosition,
             size,
             readOnly,
             skeleton,
@@ -338,10 +336,10 @@ export default class Radio extends React.PureComponent {
           const mainParams = {
             className: classnames(
               'dnb-radio',
-              status && `dnb-radio__status--${status_state}`,
+              status && `dnb-radio__status--${statusState}`,
               size && `dnb-radio--${size}`,
               label &&
-                `dnb-radio--label-position-${label_position || 'right'}`,
+                `dnb-radio--label-position-${labelPosition || 'right'}`,
               createSpacingClasses(props),
               className
             ),
@@ -382,7 +380,7 @@ export default class Radio extends React.PureComponent {
               text={label}
               disabled={disabled}
               skeleton={skeleton}
-              srOnly={label_sr_only}
+              srOnly={labelSrOnly}
             />
           )
 
@@ -391,7 +389,7 @@ export default class Radio extends React.PureComponent {
           return (
             <span {...mainParams}>
               <span className="dnb-radio__order">
-                {label_position === 'left' && labelComp}
+                {labelPosition === 'left' && labelComp}
 
                 <span className="dnb-radio__inner">
                   <AlignmentHelper />
@@ -401,13 +399,13 @@ export default class Radio extends React.PureComponent {
                     id={id + '-form-status'}
                     globalStatus={globalStatus}
                     label={label}
-                    text_id={id + '-status'} // used for "aria-describedby"
-                    width_selector={id + ', ' + id + '-label'}
+                    textId={id + '-status'} // used for "aria-describedby"
+                    widthSelector={id + ', ' + id + '-label'}
                     text={status}
-                    state={status_state}
-                    no_animation={status_no_animation}
+                    state={statusState}
+                    noAnimation={statusNoAnimation}
                     skeleton={skeleton}
-                    {...status_props}
+                    {...statusProps}
                   />
 
                   <span className="dnb-radio__row">
@@ -455,7 +453,7 @@ export default class Radio extends React.PureComponent {
                       />
                     </span>
 
-                    {label_position !== 'left' && labelComp}
+                    {labelPosition !== 'left' && labelComp}
 
                     {suffix && (
                       <Suffix

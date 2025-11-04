@@ -39,7 +39,7 @@ export default function PortalToolsMenu({
         ),
         size: 'default',
         icon: 'more',
-        icon_size: 'medium',
+        iconSize: 'medium',
         skeleton: false,
         left: 'x-small',
         tooltip: (
@@ -84,6 +84,12 @@ export default function PortalToolsMenu({
           <Space top>
             <ChangeStyleTheme />
           </Space>
+          <P size="small" top="x-small">
+            Read more about{' '}
+            <Anchor href="/uilib/usage/customisation/theming/">
+              theming
+            </Anchor>
+          </P>
         </Space>
 
         {theme.name === 'sbanken' && (

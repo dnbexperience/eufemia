@@ -552,12 +552,6 @@ html[data-whatinput=mouse] .dnb-button--reset:not([disabled]):focus, html[data-w
   cursor: not-allowed;
   outline: none;
 }
-.dnb-form-row--vertical .dnb-form-row__content > .dnb-button {
-  align-self: flex-start;
-}
-.dnb-form-row--horizontal .dnb-form-row__content .dnb-button__text {
-  white-space: nowrap;
-}
 .dnb-button + .dnb-form-status {
   margin-top: 0.5rem;
 }
@@ -1269,9 +1263,6 @@ html:not([data-whatintent=touch]) .dnb-input--clear.dnb-input__submit-element .d
   width: auto;
 }
 .dnb-input--vertical.dnb-input--stretch .dnb-input__inner {
-  width: 100%;
-}
-.dnb-form-row--horizontal .dnb-input--stretch {
   width: 100%;
 }
 .dnb-input__icon {

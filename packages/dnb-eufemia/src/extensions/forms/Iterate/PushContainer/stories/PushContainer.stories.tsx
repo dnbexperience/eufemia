@@ -90,9 +90,6 @@ function NewPersonDetails() {
 
 function PushContainerContent() {
   const { data, update } = Form.useData<{ selectedPerson: string }>()
-
-  // Clear the PushContainer data when the selected person is "other",
-  // so the fields do not inherit existing data.
   useLayoutEffect(() => {
     if (data.selectedPerson === 'other') {
       update('/pushContainerItems/0', {})

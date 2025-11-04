@@ -5,16 +5,9 @@
 
 import React from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
-import {
-  Radio,
-  FormRow,
-  FormLabel,
-  Button,
-  HelpButton,
-  GlobalStatus,
-} from '../..'
+import { Radio, FormLabel, Button, HelpButton, GlobalStatus } from '../..'
 
-import { H2 } from '../../..'
+import { Flex } from '../../..'
 import { Provider } from '../../../shared'
 import { Form } from '../../../extensions/forms'
 
@@ -25,17 +18,12 @@ export default {
 export const RadioButtonSandbox = () => (
   <Wrapper>
     <Box>
-      <Radio.Group
-        label="With suffixes:"
-        // label_position="left"
-        suffix="And a group suffix"
-      >
+      <Radio.Group label="With suffixes:" suffix="And a group suffix">
         <Radio label="First" value="first" />
         <Radio
           label="Second"
           value="second"
           status="Error message"
-          // suffix="Suffix message"
           suffix={
             <HelpButton title="Modal Title">Modal content</HelpButton>
           }
@@ -44,7 +32,7 @@ export const RadioButtonSandbox = () => (
       </Radio.Group>
     </Box>
     <Box>
-      <FormRow label="Legend:">
+      <Flex.Horizontal align="baseline">
         <Radio.Group label="Group A label:" suffix="Suffix 123">
           <Radio label="first" value="first" />
           <Radio suffix="Suffix 123" label="second" value="second" />
@@ -63,7 +51,7 @@ export const RadioButtonSandbox = () => (
           <Radio label="third-3" value="third-3" />
           <Radio label="third-4" value="third-4" />
         </Radio.Group>
-      </FormRow>
+      </Flex.Horizontal>
     </Box>
     <Box>
       <RadioGroupsWithStatus />
@@ -114,42 +102,28 @@ export const RadioButtonSandbox = () => (
       </p>
     </Box>
     <Box>
-      <FormRow no_label>
-        <H2>A h2 in a FormRow without a label</H2>
-      </FormRow>
-      <FormRow label="Long Group name Vitae dapibus eros viverra torquent euismod at dignissim vel mattis:">
+      <Flex.Horizontal align="baseline">
         <Radio.Group
-          // label="Group:"
-          // label="Long Group name Vitae dapibus eros viverra torquent euismod at dignissim vel mattis:"
           on_change={({ value }) => {
             console.log('on_change', value)
           }}
           value="first"
           status="Error message"
-          // disabled
-          // name="MyGroup" // The Group Name
         >
           <Radio label="First" value="first" />
           <Radio label="Second" value="second" />
-          <Radio
-            label="Third"
-            value="third"
-            // checked
-          />
+          <Radio label="Third" value="third" />
         </Radio.Group>
-      </FormRow>
+      </Flex.Horizontal>
     </Box>
     <Box>
-      <FormRow label="Long Group name Vitae dapibus eros viverra torquent euismod at dignissim vel mattis:">
+      <Flex.Horizontal align="baseline">
         <Radio.Group
-          // direction="vertical"
           label="Group label:"
           on_change={({ value }) => {
             console.log('on_change', value)
           }}
           status="Error message"
-          // disabled
-          // name="First" // Custom Group Name
         >
           <Radio label="First" value="first" />
           <Radio
@@ -163,13 +137,13 @@ export const RadioButtonSandbox = () => (
             value="third"
             checked
             status="Info message"
-            status_state="info"
+            statusState="info"
           />
         </Radio.Group>
-      </FormRow>
+      </Flex.Horizontal>
     </Box>
     <Box>
-      <Radio.Group label="Vertical group:" layout_direction="column">
+      <Radio.Group label="Vertical group:" layoutDirection="column">
         <Radio label="First" value="first" />
         <Radio label="Second" value="second" />
         <Radio label="Third" value="third" />
@@ -178,9 +152,8 @@ export const RadioButtonSandbox = () => (
     <Box>
       <Radio.Group
         label="Vertical group with error:"
-        layout_direction="column"
-        label_direction="vertical"
-        // vertical={true}
+        layoutDirection="column"
+        labelDirection="vertical"
         status="Error message Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
       >
         <Radio label="First" value="first" />
@@ -189,8 +162,8 @@ export const RadioButtonSandbox = () => (
       </Radio.Group>
     </Box>
     <Box>
-      <Provider formElement={{ label_direction: 'vertical' }}>
-        <Radio.Group label="Vertical with FormRow:">
+      <Provider formElement={{ labelDirection: 'vertical' }}>
+        <Radio.Group label="Vertical with Provider:">
           <Radio label="First" value="first" />
           <Radio label="Second" value="second" />
           <Radio label="Third" value="third" checked />
@@ -198,7 +171,7 @@ export const RadioButtonSandbox = () => (
       </Provider>
     </Box>
     <Box>
-      <Radio.Group label="Vertical label:" label_direction="vertical">
+      <Radio.Group label="Vertical label:" labelDirection="vertical">
         <Radio label="First" value="first" />
         <Radio label="Second" value="second" />
         <Radio label="Third" value="third" checked />
@@ -207,8 +180,8 @@ export const RadioButtonSandbox = () => (
     <Box>
       <Radio.Group
         label="Group with error:"
-        label_direction="vertical"
-        label_position="left" // for every radio button
+        labelDirection="vertical"
+        labelPosition="left" // for every radio button
         status="Error message left position Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
       >
         <Radio label="First" value="first" />
@@ -246,10 +219,9 @@ const RadioGroupsWithStatus = () => {
 
   return (
     <Form.Handler>
-      <Provider formElement={{ label_direction: 'vertical' }}>
+      <Provider formElement={{ labelDirection: 'vertical' }}>
         <Radio.Group
           label="Group A label:"
-          // label_direction="vertical"
           value={currentValueForGroupA}
           on_change={({ value }) => {
             console.log('on_change A', value)
@@ -262,7 +234,6 @@ const RadioGroupsWithStatus = () => {
         </Radio.Group>
         <Radio.Group
           label="Group B label:"
-          // label_direction="vertical"
           value={currentValueForGroupB}
           on_change={({ value }) => {
             console.log('on_change B', value)

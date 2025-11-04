@@ -111,7 +111,7 @@ function PushButton(props: Props) {
       className={classnames('dnb-forms-iterate-push-button', className)}
       variant="secondary"
       icon={add}
-      icon_position="left"
+      iconPosition="left"
       on_click={handleClick}
       {...buttonProps}
     >

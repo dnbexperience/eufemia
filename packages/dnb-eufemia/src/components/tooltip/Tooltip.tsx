@@ -20,7 +20,6 @@ import {
   injectTooltipSemantic,
 } from './TooltipHelpers'
 import { TooltipAllProps } from './types'
-import { convertSnakeCaseProps } from '../../shared/helpers/withSnakeCaseProps'
 
 function Tooltip(localProps: TooltipAllProps) {
   const context = React.useContext(Context)
@@ -28,13 +27,13 @@ function Tooltip(localProps: TooltipAllProps) {
   const inherited = getPropsFromTooltipProp(localProps)
 
   // use only the props from context, who are available here anyway
-  const props = convertSnakeCaseProps({
+  const props = {
     ...defaultProps,
     ...localProps,
     ...inherited,
     ...context.getTranslation(localProps)['Tooltip'],
     ...context.Tooltip,
-  })
+  }
 
   const {
     targetElement,

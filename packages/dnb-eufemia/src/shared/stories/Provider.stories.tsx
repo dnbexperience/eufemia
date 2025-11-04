@@ -32,9 +32,9 @@ export const ProviderSandbox = () => {
             <DatePicker
               left
               opened
-              show_submit_button
-              show_cancel_button
-              show_reset_button
+              showSubmitButton
+              showCancelButton
+              showResetButton
             />
           </Section>
         </Provider>
@@ -67,7 +67,7 @@ const ChangeLocale = () => {
         left
         value={locale}
         data={{ 'en-GB': 'English', 'nb-NO': 'Norsk', 'sv-SE': 'Svenska' }}
-        on_change={({ data: { selected_key: locale } }) => {
+        on_change={({ data: { selectedKey: locale } }) => {
           setLocale(locale)
         }}
       />

@@ -35,38 +35,38 @@ export { Designs, ProductType, CardType, BankAxeptType }
 export { formatCardNumber }
 
 const translationDefaultPropsProps = {
-  text_blocked: null,
-  text_expired: null,
-  text_not_active: null,
-  text_new_order: null,
-  text_order_in_process: null,
-  text_replaced: null,
-  text_renewed: null,
-  text_new: null,
-  text_unknown: null,
+  textBlocked: null,
+  textExpired: null,
+  textNotActive: null,
+  textNewOrder: null,
+  textOrderInProcess: null,
+  textReplaced: null,
+  textRenewed: null,
+  textNew: null,
+  textUnknown: null,
 }
 
 export default class PaymentCard extends React.PureComponent {
   static contextType = Context
 
   static propTypes = {
-    product_code: PropTypes.string.isRequired,
-    card_number: PropTypes.string.isRequired,
-    card_status: PropTypes.oneOf([
+    productCode: PropTypes.string.isRequired,
+    cardNumber: PropTypes.string.isRequired,
+    cardStatus: PropTypes.oneOf([
       'active',
       'blocked',
       'expired',
-      'not_active',
-      'new_order',
+      'notActive',
+      'newOrder',
       'new',
-      'order_in_process',
+      'orderInProcess',
       'renewed',
       'replaced',
       'unknown',
     ]),
     variant: PropTypes.oneOf(['normal', 'compact']),
     digits: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    raw_data: cardDataPropTypes,
+    rawData: cardDataPropTypes,
     id: PropTypes.string,
     locale: PropTypes.string,
 
@@ -85,11 +85,11 @@ export default class PaymentCard extends React.PureComponent {
   static defaultProps = {
     digits: 8,
     locale: null,
-    card_status: 'active',
+    cardStatus: 'active',
     variant: 'normal',
 
     id: null,
-    raw_data: null,
+    rawData: null,
 
     skeleton: false,
     className: null,
@@ -108,13 +108,13 @@ export default class PaymentCard extends React.PureComponent {
     )
 
     const {
-      product_code,
-      card_number,
-      card_status,
+      productCode,
+      cardNumber,
+      cardStatus,
       variant,
       digits,
       id,
-      raw_data,
+      rawData,
       locale,
       skeleton,
       className,
@@ -123,7 +123,7 @@ export default class PaymentCard extends React.PureComponent {
       ...attributes
     } = props
 
-    const cardData = raw_data || getCardData(product_code)
+    const cardData = rawData || getCardData(productCode)
 
     const params = {
       className: classnames(
@@ -161,9 +161,9 @@ export default class PaymentCard extends React.PureComponent {
                   skeleton={isTrue(skeleton)}
                   compact={variant === 'compact'}
                   data={cardData}
-                  cardStatus={card_status}
+                  cardStatus={cardStatus}
                   cardNumber={formatCardNumber(
-                    card_number,
+                    cardNumber,
                     parseFloat(digits)
                   )}
                   translations={translations}

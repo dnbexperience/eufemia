@@ -19,16 +19,10 @@ import {
   Space,
   Radio,
 } from '../..'
-import {
-  Flex,
-  H2,
-  // P,
-  Link,
-} from '../../..'
+import { Flex, H2, Link } from '../../..'
 import { Provider } from '../../../shared'
 import { FieldBlock, Form } from '../../../extensions/forms'
 import type { GlobalStatusState } from '../GlobalStatus'
-// import { GlobalStatusProvider } from '../../global-status/GlobalStatusContext'
 
 export default {
   title: 'Eufemia/Components/GlobalStatus',
@@ -47,7 +41,7 @@ export const ComponentAsLabel = () => {
 
       <Provider
         formElement={{
-          label_direction: 'vertical',
+          labelDirection: 'vertical',
           globalStatus: { id: 'test' },
         }}
       >
@@ -74,7 +68,7 @@ export const ComponentAsLabel = () => {
         />
         <DatePicker
           label={<Component />}
-          show_input
+          showInput
           status={status ? status + '4' : undefined}
         />
       </Provider>
@@ -95,7 +89,7 @@ export const CustomGlobalStatusMessage = () => {
 
       <Provider
         formElement={{
-          label_direction: 'vertical',
+          labelDirection: 'vertical',
           globalStatus: { id: 'test-test', message: 'Hva skjer nå' },
         }}
       >
@@ -125,7 +119,7 @@ export const CustomGlobalStatusMessage = () => {
         />
         <DatePicker
           label={<Component />}
-          show_input
+          showInput
           status={showStatus ? 'Datepicekr status' : ''}
           globalStatus={{
             message: showStatus ? 'Datepicker global status' : '',
@@ -146,20 +140,7 @@ const CustomStatus = () => (
 export const GlobalStatuseSandbox = () => (
   <Wrapper>
     <GlobalStatus />
-    <GlobalStatus
-      // title="Custom Title"
-      // text="Failure text"
-      // items={[
-      //   {
-      //     text: 'List item',
-      //     status_anchor_url: '/uilib/components/global-status'
-      //   }
-      // ]}
-      // show={true}
-      // no_animation={true}
-      // autoscroll={false}
-      id="demo-1"
-    />
+    <GlobalStatus id="demo-1" />
     <Box>
       <UpdateDemo />
     </Box>
@@ -181,7 +162,7 @@ export const GlobalStatuseSandbox = () => (
     <Box>
       <GlobalStatus
         show
-        no_animation
+        noAnimation
         autoscroll={false}
         state="info"
         title="Custom Title"
@@ -192,12 +173,11 @@ export const GlobalStatuseSandbox = () => (
     </Box>
     <Box>
       <Button
-        inner_ref={scrollto_element}
+        innerRef={scrollto_element}
         text="Scroll To"
         on_click={() => {
           GlobalStatus.Update({
             id: 'demo-1',
-            // id: 'custom-status',
             text: 'This is aDui consectetur viverra aenean vestibulum ac tristique sem ligula condimentum',
           })
         }}
@@ -244,7 +224,6 @@ const InputWithError = () => {
               setErrorMessage1(value.length >= 3)
             }}
             right="small"
-            // status_no_animation
           />
           <Input
             placeholder="Enter #2 ..."
@@ -253,24 +232,21 @@ const InputWithError = () => {
               setErrorMessage2(value.length >= 3)
             }}
             right="small"
-            // status_no_animation
           />
-          <Provider formElement={{ label_direction: 'vertical' }}>
+          <Provider formElement={{ labelDirection: 'vertical' }}>
             <Flex.Vertical>
               <Switch
                 status={haveAnErrorMessage3 ? 'Error Message #3' : null}
-                on_change={({ checked }) => {
+                onChange={({ checked }) => {
                   setErrorMessage3(checked)
                 }}
                 bottom="small"
-                // status_no_animation
               />
               <Switch
                 status={haveAnErrorMessage4 ? 'Error Message #4' : null}
-                on_change={({ checked }) => {
+                onChange={({ checked }) => {
                   setErrorMessage4(checked)
                 }}
-                // status_no_animation
               />
             </Flex.Vertical>
           </Provider>
@@ -283,10 +259,9 @@ const InputWithError = () => {
 
 const ModalExample = () => (
   <Modal
-    trigger_attributes={{ text: 'Open Modal' }}
+    triggerAttributes={{ text: 'Open Modal' }}
     title="Modal Title"
-    // width="80vw"
-    on_open={() => {
+    onOpen={() => {
       setTimeout(() => {
         const status = GlobalStatus.Update({
           id: 'modal',
@@ -295,32 +270,16 @@ const ModalExample = () => (
         setTimeout(() => {
           status.remove()
         }, 2e3)
-        // const status = new GlobalStatus.Add({
-        //   status_id: 'custom-id-1',
-        //   text: 'Second Text',
-        //   item: 'Second Item'
-        // })
-        // new GlobalStatus.Remove({
-        //   status_id: 'custom-id-1'
-        // })
       }, 1)
     }}
   >
     <div className="dnb-core-style">
       <GlobalStatus
         id="modal"
-        // title={'Title 1'}
-        // demo
-        // show
-        // no_animation
-        // autoclose={false}
         autoscroll={false}
-        // id="default-1"
-        // delay={300}
         on_close={(props) => {
           console.log('on_close', props)
         }}
-        // items={['123']}
       >
         Default Text
       </GlobalStatus>
@@ -334,9 +293,6 @@ export const SimulateSteps = () => {
     <>
       <GlobalStatus
         id="custom-status"
-        // autoscroll={false}
-        // show={count === 1}
-        // autoclose={false}
         on_open={() => {
           console.log('on_open')
         }}
@@ -363,93 +319,34 @@ export const SimulateSteps = () => {
         <>
           <GlobalStatus.Add
             id="custom-status"
-            status_id="custom-id-1"
+            statusId="custom-id-1"
             title="New title"
             text="First long info text ..."
             item="Item from status #1"
-            on_close={({ status_id }) => {
-              console.log('on_close 1', status_id)
+            on_close={({ statusId }) => {
+              console.log('on_close 1', statusId)
             }}
           />
           <GlobalStatus.Add
             id="custom-status"
-            status_id="custom-id-2"
+            statusId="custom-id-2"
             text="Second long info text ..."
             item="Item from status #2"
-            on_close={({ status_id }) => {
-              console.log('on_close 2', status_id)
+            on_close={({ statusId }) => {
+              console.log('on_close 2', statusId)
             }}
           />
         </>
       )}
       {count === 2 && (
-        <GlobalStatus.Remove id="custom-status" status_id="custom-id-2" />
+        <GlobalStatus.Remove id="custom-status" statusId="custom-id-2" />
       )}
       {count === 3 && (
-        <GlobalStatus.Remove id="custom-status" status_id="custom-id-1" />
+        <GlobalStatus.Remove id="custom-status" statusId="custom-id-1" />
       )}
     </>
   )
 }
-
-// const UpdateGlobalStatus = () => {
-//   const [count, setCount] = React.useState(0)
-//
-//     setTimeout(() => {
-//       setCount(1)
-//     }, 1e3)
-//     setTimeout(() => {
-//       setCount(2)
-//     }, 2e3)
-//     setTimeout(() => {
-//       setCount(3)
-//     }, 3e3)
-//   }, [])
-//
-//   return (
-//     <>
-//       {count === 1 && (
-//         <>
-//           <GlobalStatus.Add
-//             key="a"
-//             title="Title 2"
-//             item="List item 2"
-//             persist_unmount={false}
-//           >
-//             Sem 2 montes dictum suscipit eget aliquam a ante curabitur diam
-//           </GlobalStatus.Add>
-//           <GlobalStatus.Add
-//             key="b"
-//             title="Title 3"
-//             item="List item 3"
-//           />
-//           <GlobalStatus.Add
-//             key="c"
-//             title="Title 4"
-//             item="List item 4"
-//           />
-//         </>
-//       )}
-//       {(count === 2 || count === 3) && (
-//         <>
-//           <GlobalStatus.Add
-//             key="e"
-//             // title="Title 5"
-//             item="List item 5"
-//             status_id="123"
-//           />
-//           <GlobalStatus.Add key="f" item="List item 5" id="other-id" />
-//         </>
-//       )}
-//       {count === 3 && (
-//         <>
-//           <GlobalStatus.Remove key="z" status_id="123" />
-//           {/* <GlobalStatus.Remove key="z" status_id="123" id="other-id" /> */}
-//         </>
-//       )}
-//     </>
-//   )
-// }
 
 const NestedSections = () => (
   <Section spacing>
@@ -458,64 +355,51 @@ const NestedSections = () => (
       Content 2
       <GlobalStatus
         id="default-1"
-        // title={'Title 1'}
-        // demo
         show
-        no_animation
-        // autoclose={false}
+        noAnimation
         autoscroll={false}
-        // delay={300}
         on_close={(props) => {
           console.log('on_close', props)
         }}
         items={[
-          { id: 1, text: 'Error message', status_anchor_url: '#link' },
-          { id: 2, text: 'Error message', status_anchor_url: '#link' },
-          { id: 3, text: 'Error message', status_anchor_url: '#link' },
-          { id: 4, text: 'Error message', status_anchor_url: '#link' },
+          { id: 1, text: 'Error message', statusAnchorUrl: '#link' },
+          { id: 2, text: 'Error message', statusAnchorUrl: '#link' },
+          { id: 3, text: 'Error message', statusAnchorUrl: '#link' },
+          { id: 4, text: 'Error message', statusAnchorUrl: '#link' },
         ]}
       >
         Default Text
       </GlobalStatus>
       {/* <GlobalStatus.Add
         id="default-1"
-        status_id="custom-id-1"
+        statusId="custom-id-1"
         text="Second Text"
-        items={[{ text: 'Second Item 2', status_anchor_url: '#link' }]}
-        // item="Second Item"
-        // status_anchor_url="http://"
+        items={[{ text: 'Second Item 2', statusAnchorUrl: '#link' }]}
       /> */}
       {/* <GlobalStatus.Add
         id="default-1"
-        status_id="custom-id-2"
-        items={[{ text: 'Item 3', status_anchor_url: '#link' }]}
-        // item="Second Item"
-        // status_anchor_url="http://"
+        statusId="custom-id-2"
+        items={[{ text: 'Item 3', statusAnchorUrl: '#link' }]}
       /> */}
       {/* <GlobalStatus.Add
       id="default-1"
-      status_id="custom-id-2"
+      statusId="custom-id-2"
       text="Third Text"
       item="Third Item"
     />
     <GlobalStatus.Add
       id="default-1"
-      status_id="custom-id-2"
+      statusId="custom-id-2"
       text="Third Text bøø"
-      item={{ text: 'Third Item bøø', status_anchor_url: '/' }}
+      item={{ text: 'Third Item bøø', statusAnchorUrl: '/' }}
     /> */}
-      {/* <GlobalStatus.Remove status_id="custom-id-1" /> */}
-      {/* <GlobalStatus.Remove status_id="custom-id-2" /> */}
+      {/* <GlobalStatus.Remove statusId="custom-id-1" /> */}
+      {/* <GlobalStatus.Remove statusId="custom-id-2" /> */}
     </Section>
   </Section>
 )
-
-// const items = ['Status text 1', 'Status text 2']
 const DemoAnimation = () => {
   const [showDemo, toggleShowDemo] = React.useState(false)
-  // setTimeout(() => {
-  //   // toggleShowDemo(true)
-  // }, 30)
   return (
     <>
       <ToggleButton
@@ -529,13 +413,8 @@ const DemoAnimation = () => {
         title="Demo Animation"
         text="Long info nisl tempus hendrerit tortor dapibus nascetur taciti porta risus cursus fusce platea enim curabitur proin nibh ut luctus magnis metus"
         items={['Status text 1', 'Status text 2']}
-        // items={['Status text 1', 'Status text 2']}
-        // items={items}
-        // demo={showDemo}
         show={showDemo}
         autoscroll={false}
-        // no_animation={true}
-        // delay={0}
         id="demo-3"
       />
     </>
@@ -577,9 +456,7 @@ const UpdateDemoStatus = () => {
         title="Custom Title"
         text="Failure text"
         id="demo-2"
-        // no_animation
-        // omit_set_focus
-        omit_set_focus_on_update
+        omitSetFocusOnUpdate
       />
       <Input
         top
@@ -615,8 +492,6 @@ const UpdateDemoTools = () => {
     isVisible,
     setVisibility,
   } = React.useContext(Context)
-
-  // Only to demonstrate the usage of an interceptor situation
   const inst = React.useRef(null)
   React.useEffect(() => {
     if (!inst.current) {
@@ -624,7 +499,7 @@ const UpdateDemoTools = () => {
         id: 'demo-2',
         title: 'New Title',
         text: 'New Text',
-        status_id: 'custom-item',
+        statusId: 'custom-item',
         show: true,
       })
 
@@ -686,8 +561,8 @@ export const AsFigmaGlobalStatus = () => {
           title="Kortet vil bli sendt til adresse: Osloveien 68b, 1234 Oslo"
           show={true}
           autoscroll={false}
-          no_animation={true}
-          omit_set_focus={true}
+          noAnimation={true}
+          omitSetFocus={true}
           id="demo-1"
         />
       </Box>
@@ -696,8 +571,8 @@ export const AsFigmaGlobalStatus = () => {
           title="Custom Title"
           show={true}
           autoscroll={false}
-          no_animation={true}
-          omit_set_focus={true}
+          noAnimation={true}
+          omitSetFocus={true}
           id="demo-1"
         />
       </Box>
@@ -716,8 +591,8 @@ export const AsFigmaGlobalStatus = () => {
           ]}
           show={true}
           autoscroll={false}
-          no_animation={true}
-          omit_set_focus={true}
+          noAnimation={true}
+          omitSetFocus={true}
           id="demo-1"
         />
       </Box>
@@ -728,14 +603,14 @@ export const AsFigmaGlobalStatus = () => {
           items={[
             {
               text: 'List item',
-              status_anchor_url: '/uilib/components/global-status',
-              status_anchor_label: 'eksempel',
+              statusAnchorUrl: '/uilib/components/global-status',
+              statusAnchorLabel: 'eksempel',
             },
           ]}
           show={true}
           autoscroll={false}
-          no_animation={true}
-          omit_set_focus={true}
+          noAnimation={true}
+          omitSetFocus={true}
           id="demo-1"
         />
       </Box>
@@ -782,4 +657,62 @@ export function GlobalStatusSelector() {
 
     setPickerState(value)
   }
+}
+
+export function DelayedInteractions() {
+  const FormField1 = () => {
+    const [status, setStatus] = React.useState(null)
+    return (
+      <Switch
+        id="switch-1"
+        status={status}
+        statusNoAnimation={true}
+        onChange={({ checked }) => {
+          setStatus(checked ? 'error-message-1' : null)
+        }}
+      />
+    )
+  }
+
+  const FormField2 = () => {
+    const [status, setStatus] = React.useState(null)
+    return (
+      <Switch
+        id="switch-2"
+        status={status}
+        statusNoAnimation={true}
+        onChange={({ checked }) => {
+          setStatus(checked ? 'error-message-2' : null)
+        }}
+      />
+    )
+  }
+
+  const FormField3 = () => {
+    const [status, setStatus] = React.useState(null)
+    return (
+      <Autocomplete
+        id="autocomplete-3"
+        status={status}
+        statusNoAnimation={true}
+        on_focus={() => {
+          setStatus('error-message-3')
+        }}
+        on_blur={() => {
+          setStatus(null)
+        }}
+      />
+    )
+  }
+
+  return (
+    <Section spacing>
+      <GlobalStatus id="my-form" autoscroll={false} />
+      <Form.Handler globalStatusId="my-form">
+        <FormField1 />
+        <FormField2 />
+        <FormField3 />
+      </Form.Handler>
+    </Section>
+  )
 }

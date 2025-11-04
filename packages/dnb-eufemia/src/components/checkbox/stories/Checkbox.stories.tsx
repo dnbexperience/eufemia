@@ -7,13 +7,15 @@ import React from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 import styled from '@emotion/styled'
 
-import { Checkbox, Button, FormLabel, FormRow, GlobalStatus } from '../..'
+import { Checkbox, Button, FormLabel, GlobalStatus, Flex } from '../..'
 
 export default {
   title: 'Eufemia/Components/Checkbox',
 }
 
-const CustomRow = styled(FormRow)`
+const CustomRow = styled((props) => (
+  <Flex.Horizontal align="baseline" {...props} />
+))`
   > .dnb-form-label {
     color: blue;
   }
@@ -77,9 +79,9 @@ export const CheckboxSandbox = () => (
       </Box>
 
       <Box>
-        <FormRow disabled label="Without forId (select me)">
+        <Flex.Horizontal align="baseline">
           <Checkbox label="Checkbox" />
-        </FormRow>
+        </Flex.Horizontal>
       </Box>
       <Box>
         <Checkbox label="Checkbox" />
@@ -92,12 +94,12 @@ export const CheckboxSandbox = () => (
       </Box>
       <Box>
         <p className="dnb-p">
-          Text:{' onchange:'}
+          Text:{' onChange:'}
           <Checkbox
             label="Checked"
             checked
-            on_change={({ checked }) => {
-              console.log('on_change', checked)
+            onChange={({ checked }) => {
+              console.log('onChange', checked)
             }}
           />
         </p>
@@ -111,8 +113,8 @@ export const CheckboxSandbox = () => (
           <Checkbox
             id="checkbox-2"
             label="Unchecked"
-            on_change={({ checked }) => {
-              console.log('on_change', checked)
+            onChange={({ checked }) => {
+              console.log('onChange', checked)
             }}
           />
         </CustomRow>
@@ -134,22 +136,18 @@ export const CheckboxSandbox = () => (
       </Box>
       <Box>
         <Checkbox
-          // label="Unchecked status error:"
           label="Unchecked:"
-          label_position="left"
-          // status="Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
+          labelPosition="left"
           status="Potenti viverra facilisi blandit sodales lorem est fusce"
-          status_state="info"
+          statusState="info"
         />
       </Box>
       <Box>
         <Checkbox
-          // label="Unchecked status error:"
           label="Unchecked:"
-          label_position="right"
-          // status="Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
+          labelPosition="right"
           status="Potenti viverra facilisi blandit sodales lorem est fusce"
-          status_state="info"
+          statusState="info"
         />
       </Box>
       <Box>
@@ -274,7 +272,7 @@ function ControlledVsUncontrolled() {
         checked={checked}
         indeterminate={indeterminate}
         id="checkbox1"
-        on_change={({ checked }) => {
+        onChange={({ checked }) => {
           setChecked(checked)
         }}
       />

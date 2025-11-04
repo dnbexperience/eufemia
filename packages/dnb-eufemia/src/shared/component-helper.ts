@@ -66,11 +66,14 @@ export const validateDOMAttributes = (props, params) => {
   if (typeof params.left !== 'undefined') {
     delete params.left
   }
-  if (typeof params.no_collapse !== 'undefined') {
-    delete params.no_collapse
+  if (typeof params.noCollapse !== 'undefined') {
+    delete params.noCollapse
   }
   if (typeof params.innerSpace !== 'undefined') {
     delete params.innerSpace
+  }
+  if (typeof params.labelDirection !== 'undefined') {
+    delete params.labelDirection
   }
 
   // in case disabled is a string, it's enabled, send it in as a true (this is for web components support)
@@ -114,45 +117,6 @@ export const validateDOMAttributes = (props, params) => {
   }
 
   return params
-}
-
-/** @deprecated Can be removed in v11 */
-export const extendGracefully = (...objects) => {
-  let first = {}
-  const keepRef = objects[0]
-
-  if (keepRef === true || keepRef === false) {
-    // remove settings value
-    objects.shift()
-
-    if (keepRef) {
-      // by extracting the first, we keep the same main object reference
-      first = objects.shift()
-    }
-  }
-
-  return objects.reduce((acc1, object) => {
-    if (object) {
-      acc1 = Object.assign(
-        acc1,
-        Object.entries(object).reduce((acc2, [key, value]) => {
-          if (value !== null) {
-            // go recursively
-            if (typeof value === 'object') {
-              value = extendGracefully(acc1[key] || {}, value)
-              if (Object.keys(value).length > 0) {
-                acc2[key] = value
-              }
-            } else {
-              acc2[key] = value
-            }
-          }
-          return acc2
-        }, {})
-      )
-    }
-    return acc1
-  }, first)
 }
 
 export function isObject(item) {

@@ -268,7 +268,6 @@ function PhoneNumber(props: Props = {}) {
     help,
     required,
     validateInitially,
-    continuousValidation,
     validateContinuously,
     validateUnchanged,
     omitCountryCodeField,
@@ -501,9 +500,9 @@ function PhoneNumber(props: Props = {}) {
           )}
           mode="async"
           placeholder={countryCodePlaceholder}
-          label_direction="vertical"
+          labelDirection="vertical"
           label={countryCodeLabel ?? defaultCountryCodeLabel}
-          label_sr_only={labelSrOnly}
+          labelSrOnly={labelSrOnly}
           data={dataRef.current}
           value={countryCodeRef.current}
           status={hasError ? 'error' : undefined}
@@ -512,12 +511,12 @@ function PhoneNumber(props: Props = {}) {
           on_blur={handleOnBlur}
           on_change={handleCountryCodeChange}
           on_type={onTypeHandler}
-          independent_width
-          search_numbers
-          keep_selection
+          independentWidth
+          searchNumbers
+          keepSelection
           selectall
           autoComplete="tel-country-code"
-          no_animation={props.noAnimation}
+          noAnimation={props.noAnimation}
           size={size}
         />
       )}
@@ -552,7 +551,7 @@ function PhoneNumber(props: Props = {}) {
         required={required}
         errorMessages={errorMessages}
         validateInitially={validateInitially}
-        validateContinuously={continuousValidation || validateContinuously}
+        validateContinuously={validateContinuously}
         validateUnchanged={validateUnchanged}
         inputMode="tel"
         size={size}
@@ -566,8 +565,8 @@ function makeObject(country: CountryType, lang: string) {
   const code = formatCountryCode(country.cdc)
   return {
     selectedKey: code,
-    selected_value: `${country.iso} (${code})`,
-    search_content: [code, name],
+    selectedValue: `${country.iso} (${code})`,
+    searchContent: [code, name],
     content: [name, code],
     country,
   }

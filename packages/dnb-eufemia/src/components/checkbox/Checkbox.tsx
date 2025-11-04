@@ -129,26 +129,7 @@ export type CheckboxProps = {
   Omit<
     React.HTMLProps<HTMLInputElement>,
     'ref' | 'label' | 'size' | 'onChange' | 'onClick'
-  > &
-  DeprecatedCheckboxProps
-
-// deprecated, can be removed in v11
-type DeprecatedCheckboxProps = {
-  /** @deprecated use the `label` prop instead */
-  children?: React.ReactNode
-  /**  @deprecated use `onChange` */
-  on_change?: (args: OnChangeParams) => void
-  /**  @deprecated use `labelPosition` */
-  label_position?: CheckboxLabelPosition
-  /**  @deprecated use `labelSrOnly` */
-  label_sr_only?: boolean
-  /**  @deprecated use `statusState` */
-  status_state?: FormStatusState
-  /**  @deprecated use `statusProps` */
-  status_props?: FormStatusProps
-  /**  @deprecated use `statusNoAnimation` */
-  status_no_animation?: boolean
-}
+  >
 
 const defaultProps: CheckboxProps = {
   statusState: 'error',
@@ -165,16 +146,9 @@ function Checkbox(localProps: CheckboxProps) {
       {
         skeleton: context?.Checkbox,
       },
-      // Deprecated – can be removed in v11
-      pickFormElementProps(context?.FormRow),
       pickFormElementProps(context?.formElement)
     )
-  }, [
-    context.Checkbox,
-    context?.FormRow,
-    context?.formElement,
-    localProps,
-  ])
+  }, [context.Checkbox, context?.formElement, localProps])
 
   const props = extractPropsFromContext()
 
@@ -368,11 +342,11 @@ function Checkbox(localProps: CheckboxProps) {
       id={id + '-form-status'}
       globalStatus={globalStatus}
       label={label}
-      text_id={id + '-status'} // used for "aria-describedby"
-      width_selector={id + ', ' + id + '-label'}
+      textId={id + '-status'} // used for "aria-describedby"
+      widthSelector={id + ', ' + id + '-label'}
       text={status}
       state={statusState}
-      no_animation={statusNoAnimation}
+      noAnimation={statusNoAnimation}
       skeleton={skeleton}
       {...statusProps}
     />
