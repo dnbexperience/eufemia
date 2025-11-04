@@ -92,7 +92,6 @@ const paginationPropTypes = {
   nextTitle: PropTypes.string,
   morePages: PropTypes.string,
   isLoadingText: PropTypes.string,
-  loadButtonText: PropTypes.string,
   loadButton: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
   barSpace: spacingPropTypes.space,
 
@@ -128,7 +127,6 @@ const paginationDefaultProps = {
   nextTitle: null,
   morePages: null,
   isLoadingText: null,
-  loadButtonText: null,
   loadButton: null,
   barSpace: null,
   startupCount: 1,
@@ -215,7 +213,6 @@ class PaginationInstance extends React.PureComponent {
       nextTitle: _nextTitle, // eslint-disable-line
       morePages: _morePages, // eslint-disable-line
       isLoadingText: _isLoadingText, // eslint-disable-line
-      loadButtonText: _loadButtonText, // eslint-disable-line
       loadButton: _loadButton, // eslint-disable-line
       indicatorElement: _indicatorElement, // eslint-disable-line
       placeMarkerBeforeContent: _placeMarkerBeforeContent, // eslint-disable-line
