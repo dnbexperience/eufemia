@@ -417,8 +417,6 @@ export interface UseFieldProps<
   // - Validation
   required?: boolean
   schema?: Schema<Value> | ((props: UseFieldProps<Value>) => Schema<Value>)
-  /** @deprecated Use `onChangeValidator` instead */
-  validator?: Validator<Value>
   onChangeValidator?: Validator<Value>
   onBlurValidator?: Validator<Value>
   exportValidators?: Record<string, Validator<Value>>
