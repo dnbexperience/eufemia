@@ -281,7 +281,6 @@ export default class InfinityScroller extends React.PureComponent {
       fallbackElement,
       markerElement,
       indicatorElement,
-      loadButtonText,
       loadButton,
     } = this.context.pagination
 
@@ -358,7 +357,7 @@ export default class InfinityScroller extends React.PureComponent {
                       : fallbackElement
                   }
                   icon="arrow_up"
-                  text={loadButtonText ?? loadButton?.text}
+                  text={loadButton?.text}
                   iconPosition={loadButton?.iconPosition}
                   on_click={(event) =>
                     this.getNewContent(pageNumber - 1, {
@@ -391,7 +390,7 @@ export default class InfinityScroller extends React.PureComponent {
                       ? loadButton
                       : fallbackElement
                   }
-                  text={loadButtonText ?? loadButton?.text}
+                  text={loadButton?.text}
                   iconPosition={loadButton?.iconPosition}
                   icon="arrow_down"
                   on_click={(event) =>
