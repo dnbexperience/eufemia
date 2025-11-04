@@ -88,9 +88,7 @@ function BasicNumberMask() {
   return (
     <InputMasked
       label="numberMask"
-      // selectall
       value={floatval}
-      // placeholder="En placeholder"
       numberMask
       maskOptions={{ disallowLeadingZeroes: true, allowNegative: false }}
       suffix={<Pre>{JSON.stringify(floatval)}</Pre>}
@@ -107,16 +105,12 @@ function BasicCurrencyMask() {
   return (
     <InputMasked
       label="currencyMask"
-      // selectall
       value={floatval}
-      // placeholder="En placeholder"
       currencyMask={{
         currency: 'NOK',
         prefix: 'Prefix ',
-        // allowDecimal: false,
         allowNegative: false,
       }}
-      // maskOptions={{ disallowLeadingZeroes: true }}
       suffix={<Pre>{JSON.stringify(floatval)}</Pre>}
       on_change={({ numberValue }) => {
         setState(numberValue)
@@ -127,14 +121,12 @@ function BasicCurrencyMask() {
 
 function CurrencyInput() {
   const [floatval, setState] = React.useState(1234.556)
-  // const [floatval, setState] = React.useState(0.01)
 
   return (
     <InputMasked
       label="asCurrency"
       value={floatval}
       asCurrency="NOK"
-      // maskOptions={{ disallowLeadingZeroes: true }}
       suffix={<Pre>{JSON.stringify(floatval)}</Pre>}
       on_change={({ numberValue }) => {
         setState(numberValue)
@@ -171,7 +163,6 @@ function PercentInput() {
       value={floatval}
       asPercent
       maskOptions={{ allowDecimal: true, disallowLeadingZeroes: true }}
-      // numberMask={{ allowDecimal: true, decimalLimit: 1 }}
       suffix={<Pre>{JSON.stringify(floatval)}</Pre>}
       on_change={({ numberValue }) => {
         setState(numberValue)
@@ -184,9 +175,6 @@ function EmailMask() {
   return (
     <InputMasked
       label="emailMask"
-      // DOMException: Failed to execute 'setSelectionRange' on 'HTMLInputElement'
-      // The input element's type ('email') does not support selection.
-      // type="email"
       placeholder="@."
       autocomplete="on"
       keepPlaceholder
@@ -345,20 +333,11 @@ export function DisallowLeadingZerosMask() {
       <InputMasked
         value={-100123}
         currencyMask={{
-          // allowDecimal: true,
           disallowLeadingZeroes: true, //
-        }}
-        onChange={({ value, numberValue }) => {
-          // console.log('onChange', value, numberValue)
         }}
       />
 
-      <Field.Currency
-        disallowLeadingZeroes
-        onChange={(value) => {
-          // console.log('onChange', value)
-        }}
-      />
+      <Field.Currency disallowLeadingZeroes />
     </Flex.Vertical>
   )
 }
