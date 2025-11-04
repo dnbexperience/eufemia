@@ -231,15 +231,6 @@ export const dispatchCustomElementEvent = (
         ret = r
       }
     }
-
-    // call (in future deprecated) event snake case naming events
-    eventName = toSnakeCase(eventName)
-    if (typeof props[eventName] === 'function') {
-      const r = props[eventName].apply(src, [eventObject])
-      if (typeof r !== 'undefined') {
-        ret = r
-      }
-    }
   }
 
   return ret
