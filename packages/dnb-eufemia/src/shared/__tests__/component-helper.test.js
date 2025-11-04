@@ -8,7 +8,6 @@ import { render, screen } from '@testing-library/react'
 
 import {
   isTrue,
-  extendGracefully,
   extendDeep,
   defineNavigator,
   validateDOMAttributes,
@@ -361,51 +360,6 @@ describe('"processChildren" should', () => {
     const props = { children }
     const res = processChildren(props)
     expect(res).toMatch(children.join(''))
-  })
-})
-
-/** @deprecated Can be removed in v11 */
-describe('"extendGracefully" should', () => {
-  it('keep the object reference', () => {
-    const object1 = { key: null }
-    const object2 = { key: 'value' }
-    expect(extendGracefully(true, object1, object2)).toBe(object1)
-    expect(extendGracefully(true, object2, object1)).toBe(object2)
-    expect(extendGracefully(false, object2, object1)).not.toBe(object2)
-  })
-  it('extend an object and have correct object shape', () => {
-    expect(extendGracefully({ key: null }, { key: 'value' })).toEqual({
-      key: 'value',
-    })
-    expect(extendGracefully({ key: 'value' }, { key: null })).toEqual({
-      key: 'value',
-    })
-  })
-  it('extend an object recursively and have correct object shape', () => {
-    expect(
-      extendGracefully(
-        { key1: { key2: null } },
-        { key1: { key2: 'value' } }
-      )
-    ).toEqual({
-      key1: { key2: 'value' },
-    })
-    expect(
-      extendGracefully(
-        { key1: { key2: 'value' } },
-        { key1: { key2: null } }
-      )
-    ).toEqual({
-      key1: { key2: 'value' },
-    })
-    expect(
-      extendGracefully(
-        { key1: { key2: 'value' } },
-        { key1: { key2: null, foo: 'bar' } }
-      )
-    ).toEqual({
-      key1: { key2: 'value', foo: 'bar' },
-    })
   })
 })
 
