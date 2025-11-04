@@ -1464,7 +1464,6 @@ describe('Field.String', () => {
       })
 
       it('should provide error message to the onBlurValidator', async () => {
-        let collectDeprecatedMessage = null
         let collectCustomMessage = null
         const customMessage = 'Your custom error message'
 
@@ -1474,7 +1473,6 @@ describe('Field.String', () => {
               'MyCustom.message': customMessage,
             }}
             onBlurValidator={(value, { errorMessages }) => {
-              collectDeprecatedMessage = errorMessages.required
               collectCustomMessage = errorMessages['MyCustom.message']
               return new FormError('MyCustom.message')
             }}
@@ -1489,7 +1487,6 @@ describe('Field.String', () => {
         })
 
         expect(collectCustomMessage).toBe(customMessage)
-        expect(collectDeprecatedMessage).toBe(nb.Field.errorRequired)
       })
 
       it('should update required error message when changing locale in Provider', async () => {
