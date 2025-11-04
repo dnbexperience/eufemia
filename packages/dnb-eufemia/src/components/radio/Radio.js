@@ -281,8 +281,6 @@ export default class Radio extends React.PureComponent {
             Radio.defaultProps,
             contextProps,
             { skeleton: context?.skeleton },
-            // Deprecated – can be removed in v11
-            pickFormElementProps(context.FormRow),
             pickFormElementProps(context.formElement),
             context.Radio
           )
