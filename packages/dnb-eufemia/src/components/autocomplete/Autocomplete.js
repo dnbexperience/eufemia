@@ -1804,8 +1804,6 @@ class AutocompleteInstance extends React.PureComponent {
       this.props,
       Autocomplete.defaultProps,
       this.context.getTranslation(this.props).Autocomplete,
-      // Deprecated – can be removed in v11
-      pickFormElementProps(this.context?.FormRow),
       pickFormElementProps(this.context?.formElement),
       this.context.Autocomplete
     ))
