@@ -457,3 +457,17 @@ export const ProviderLocaleExample = () => {
     </Provider>
   )
 }
+
+export function Test() {
+  return (
+    <DatePicker
+      label="Date Picker 1:"
+      showInput
+      // tabIndex={-1}
+      // stretch
+      range
+      onBlur={console.log}
+      // onFocus={console.log}
+    />
+  )
+}
