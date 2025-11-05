@@ -128,7 +128,7 @@ export const AutocompleteProperties = {
   },
   showAll: {
     doc: 'Text that lets a user unravel all the available options. Defaults to `Vis alt`.',
-    type: 'boolean',
+    type: 'React.Node',
     status: 'optional',
   },
   indicatorLabel: {
