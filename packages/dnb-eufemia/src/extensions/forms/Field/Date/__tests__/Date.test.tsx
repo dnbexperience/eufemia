@@ -933,10 +933,17 @@ describe('Field.Date', () => {
         value: '01.10.2024',
       },
     })
+    expect(dataContext.fieldDisplayValueRef.current).toEqual({
+      '/date': {
+        type: 'field',
+        value: '01.10.2024',
+      },
+    })
 
-    fireEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+    const openButton = document.querySelector(
+      'button.dnb-input__submit-button__button'
     )
+    await userEvent.click(openButton)
 
     expect(document.querySelector('.dnb-date-picker')).toHaveClass(
       'dnb-date-picker--opened'
@@ -945,12 +952,16 @@ describe('Field.Date', () => {
     const resetButton = document.querySelector(
       'button[data-testid="reset"]'
     )
-
     await userEvent.click(resetButton)
 
     expect(onReset).toHaveBeenCalledTimes(1)
     expect(onReset).toHaveBeenCalledWith(
-      expect.objectContaining({ date: '2024-10-01' })
+      expect.objectContaining({
+        date: undefined,
+        is_valid: false,
+        start_date: undefined,
+        end_date: undefined,
+      })
     )
 
     expect(document.querySelector('.dnb-date-picker')).not.toHaveClass(
@@ -965,6 +976,9 @@ describe('Field.Date', () => {
     expect(month.value).toBe('mm')
     expect(year.value).toBe('åååå')
 
+    expect(dataContext.internalDataRef.current).toEqual({
+      '/date': undefined,
+    })
     expect(dataContext.fieldDisplayValueRef.current).toEqual({
       '/date': {
         type: 'field',

@@ -60,6 +60,11 @@ export const DateProperties: PropertiesTableProps = {
     doc: `${size.doc} Consider rather setting field sizes with [Form.Appearance](/uilib/extensions/forms/Form/Appearance/).`,
   },
   ...datePickerProperties,
+  onType: {
+    doc: 'Event handler that is called when the user types in the input field. The first parameter is a string, the second parameter is an object containing { date, start_date, end_date, is_valid, event }.',
+    type: 'function',
+    status: 'optional',
+  },
   onBlurValidator: {
     doc: 'Custom validator function that is triggered when the user leaves a field (e.g., blurring a text input or closing a dropdown). The function can be either asynchronous or synchronous. The first parameter is the value, and the second parameter returns an object containing { errorMessages, connectWithPath, validators }. Defaults to validating invalid dates, and dates against `minDate` and `maxDate`, using `dateValidator`. Can be disabled using `false`.',
     type: 'function',

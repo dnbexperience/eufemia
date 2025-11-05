@@ -1,5 +1,5 @@
 import React from 'react'
-import { Field, Form, Value } from '../../..'
+import { Field, Form, Tools, Value } from '../../..'
 import FormHandler from '../../../Form/Handler/Handler'
 import { Card, DatePicker, Dropdown } from '../../../../../components'
 import Context from '../../../../../shared/Context'
@@ -133,8 +133,15 @@ export function Reset() {
             console.log('onReset', props)
           }}
         />
+        <Tools.Log />
       </FormHandler>
-      <DatePicker showInput showResetButton />
+      <DatePicker
+        showInput
+        showResetButton
+        onReset={(props) => {
+          console.log('onReset', props)
+        }}
+      />
     </>
   )
 }

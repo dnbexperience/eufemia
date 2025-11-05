@@ -245,18 +245,32 @@ function DateComponent(props: DateProps) {
 
   const datePickerProps = pickDatePickerProps(rest)
   const handleReset = useCallback(
-    (event) => {
-      handleChange(event)
-      onReset?.(event)
+    (
+      event: DatePickerEvent<
+        React.MouseEvent<HTMLButtonElement, MouseEvent>
+      >
+    ) => {
+      const reset = {
+        date: undefined,
+        start_date: undefined,
+        end_date: undefined,
+        is_valid: false,
+      }
+      handleChange(reset)
+      setDisplayValue(undefined)
+      onReset?.({
+        ...event,
+        ...reset,
+      })
     },
-    [handleChange, onReset]
+    [handleChange, onReset, setDisplayValue]
   )
   const onFocus = useCallback(() => {
     handleFocus()
     handleError()
   }, [handleFocus, handleError])
   const onType = useCallback(
-    (event) => {
+    (event: DatePickerEvent<React.ChangeEvent<HTMLInputElement>>) => {
       const { date, start_date, end_date, ...rest } = event
 
       if (props.range) {
@@ -302,7 +316,7 @@ function DateComponent(props: DateProps) {
 
   useMemo(() => {
     if ((path || itemPath) && value) {
-      setDisplayValue(formatDate(value, { locale }), undefined)
+      setDisplayValue(formatDate(value, { locale }))
     }
   }, [itemPath, locale, path, setDisplayValue, value])
 
