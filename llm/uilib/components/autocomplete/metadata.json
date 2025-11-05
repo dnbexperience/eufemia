@@ -189,7 +189,7 @@
     {
       "name": "show_all",
       "doc": "Text that lets a user unravel all the available options. Defaults to `Vis alt`.",
-      "type": "boolean",
+      "type": "React.Node",
       "status": "optional",
       "defaultValue": null
     },
@@ -416,11 +416,11 @@
     "DrawerList",
     "Space"
   ],
-  "checksum": "97080009cac434a6dc5476191621f457d6b8dc15fa7d5239ed0a9e577e2865b9",
+  "checksum": "3277dd3d089cc4a01277a2e124bbc509ebfbfcf703c1312c20b7f5b70e24576e",
   "source": {
     "repo": "https://github.com/dnbexperience/eufemia",
     "file": "packages/dnb-eufemia/src/components/autocomplete/Autocomplete.js",
-    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.88.0/packages/dnb-eufemia/src/components/autocomplete/Autocomplete.js"
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.89.0/packages/dnb-eufemia/src/components/autocomplete/Autocomplete.js"
   },
   "sources": {
     "entry": {
@@ -440,7 +440,7 @@
       "public": "https://eufemia.dnb.no/uilib/components/autocomplete/demos/"
     }
   },
-  "version": "10.88.0",
-  "generatedAt": "2025-10-29T11:07:21.252Z",
+  "version": "10.89.0",
+  "generatedAt": "2025-11-05T14:40:26.124Z",
   "schemaVersion": 1
 }

@@ -3,8 +3,8 @@
 > DNB’s Eufemia design system. This file points LLMs to machine-readable docs and clean Markdown copies.
 
 Index (JSON): https://eufemia.dnb.no/llm/index.json
-Version: 10.88.0
-GeneratedAt: 2025-10-29T11:07:22.384Z
+Version: 10.89.0
+GeneratedAt: 2025-11-05T14:40:27.331Z
 
 ## Components
 
@@ -26,7 +26,7 @@ GeneratedAt: 2025-10-29T11:07:22.384Z
 - [Autocomplete](https://eufemia.dnb.no/uilib/components/autocomplete/): The Autocomplete component, also know as a ComboBox, completes / suggests values during typing.
   - Metadata: https://eufemia.dnb.no/llm/uilib/components/autocomplete/metadata.json
   - Docs: https://eufemia.dnb.no/uilib/components/autocomplete/
-  - Checksum: 97080009cac434a6dc5476191621f457d6b8dc15fa7d5239ed0a9e577e2865b9
+  - Checksum: 3277dd3d089cc4a01277a2e124bbc509ebfbfcf703c1312c20b7f5b70e24576e
 
 - [Avatar](https://eufemia.dnb.no/uilib/components/avatar/): The Avatar component are identifiers that makes people and companies more scannable.
   - Metadata: https://eufemia.dnb.no/llm/uilib/components/avatar/metadata.json
@@ -116,7 +116,7 @@ GeneratedAt: 2025-10-29T11:07:22.384Z
 - [Heading](https://eufemia.dnb.no/uilib/components/heading/): The Heading component is a helper to create automated semantic headings within a boundary of some rules.
   - Metadata: https://eufemia.dnb.no/llm/uilib/components/heading/metadata.json
   - Docs: https://eufemia.dnb.no/uilib/components/heading/
-  - Checksum: f1cac96466ee88ede936931f0016af7740cd1f400933cb4715a19d143ea279d0
+  - Checksum: 95dc45d70dc36925cb2d926b134242ce20d74d818fdaacc2e774471daf6d0adf
 
 - [HeightAnimation](https://eufemia.dnb.no/uilib/components/height-animation/): HeightAnimation is a helper component to animate from 0 to height:auto powered by CSS.
   - Metadata: https://eufemia.dnb.no/llm/uilib/components/height-animation/metadata.json
@@ -480,7 +480,7 @@ GeneratedAt: 2025-10-29T11:07:22.384Z
 - [Span](https://eufemia.dnb.no/uilib/elements/span/): Spans are inline-elements, used to define parts of text content.
   - Metadata: https://eufemia.dnb.no/llm/uilib/elements/span/metadata.json
   - Docs: https://eufemia.dnb.no/uilib/elements/span/
-  - Checksum: e8ab4037b24c7bb2d44c982066947e7eb4e64d8c7aded188d1b21a91c2d2a601
+  - Checksum: 828c3331ae2468d0cc6ee251b99376f45cba60b3681b8338b9fb37f5dd98eb38
 
 ## Other
 

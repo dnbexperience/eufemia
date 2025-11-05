@@ -42,7 +42,7 @@
   "source": {
     "repo": "https://github.com/dnbexperience/eufemia",
     "file": "packages/dnb-eufemia/src/extensions/forms/Form/SubmitIndicator/SubmitIndicator.tsx",
-    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.88.0/packages/dnb-eufemia/src/extensions/forms/Form/SubmitIndicator/SubmitIndicator.tsx"
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.89.0/packages/dnb-eufemia/src/extensions/forms/Form/SubmitIndicator/SubmitIndicator.tsx"
   },
   "sources": {
     "entry": {
@@ -59,7 +59,7 @@
       "public": "https://eufemia.dnb.no/uilib/extensions/forms/Form/SubmitIndicator/demos/"
     }
   },
-  "version": "10.88.0",
-  "generatedAt": "2025-10-29T11:07:21.923Z",
+  "version": "10.89.0",
+  "generatedAt": "2025-11-05T14:40:26.880Z",
   "schemaVersion": 1
 }

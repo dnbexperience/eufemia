@@ -125,8 +125,11 @@
     },
     {
       "name": "proseMaxWidth",
-      "doc": "Sets the maximum width based on character count. This will limit the text width to approximately the specified number of characters.",
-      "type": "number",
+      "doc": "Sets the maximum width based on character count. This will limit the text width to approximately the specified number of characters. Use `true` for a default value of 60ch.",
+      "type": [
+        "number",
+        "boolean"
+      ],
       "status": "optional",
       "defaultValue": null
     }
@@ -135,11 +138,11 @@
   "related": [
     "Space"
   ],
-  "checksum": "f1cac96466ee88ede936931f0016af7740cd1f400933cb4715a19d143ea279d0",
+  "checksum": "95dc45d70dc36925cb2d926b134242ce20d74d818fdaacc2e774471daf6d0adf",
   "source": {
     "repo": "https://github.com/dnbexperience/eufemia",
     "file": "packages/dnb-eufemia/src/components/heading/Heading.tsx",
-    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.88.0/packages/dnb-eufemia/src/components/heading/Heading.tsx"
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.89.0/packages/dnb-eufemia/src/components/heading/Heading.tsx"
   },
   "sources": {
     "entry": {
@@ -156,7 +159,7 @@
       "public": "https://eufemia.dnb.no/uilib/components/heading/demos/"
     }
   },
-  "version": "10.88.0",
-  "generatedAt": "2025-10-29T11:07:21.418Z",
+  "version": "10.89.0",
+  "generatedAt": "2025-11-05T14:40:26.283Z",
   "schemaVersion": 1
 }

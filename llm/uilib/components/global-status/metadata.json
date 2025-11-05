@@ -226,7 +226,7 @@
   "source": {
     "repo": "https://github.com/dnbexperience/eufemia",
     "file": "packages/dnb-eufemia/src/components/global-status/GlobalStatus.js",
-    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.88.0/packages/dnb-eufemia/src/components/global-status/GlobalStatus.js"
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.89.0/packages/dnb-eufemia/src/components/global-status/GlobalStatus.js"
   },
   "sources": {
     "entry": {
@@ -246,7 +246,7 @@
       "public": "https://eufemia.dnb.no/uilib/components/global-status/demos/"
     }
   },
-  "version": "10.88.0",
-  "generatedAt": "2025-10-29T11:07:21.412Z",
+  "version": "10.89.0",
+  "generatedAt": "2025-11-05T14:40:26.277Z",
   "schemaVersion": 1
 }
