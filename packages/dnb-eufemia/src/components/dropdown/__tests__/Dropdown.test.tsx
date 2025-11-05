@@ -1298,7 +1298,7 @@ describe('Dropdown component', () => {
     ).toBe(title)
   })
 
-  it('should support title as `React.Node`', () => {
+  it('should support title as `React.ReactNode`', () => {
     const TitleAsChildren = ({ children }) => {
       return <span id="title-as-children">{children}</span>
     }
