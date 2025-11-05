@@ -5,6 +5,7 @@ import DataContext from '../../DataContext/Context'
 import {
   SharedStateId,
   useSharedState,
+  createReferenceKey,
 } from '../../../../shared/helpers/useSharedState'
 import useMounted from '../../../../shared/helpers/useMounted'
 import setContent, { InfoOverlayContent } from './setContent'
@@ -67,7 +68,7 @@ function InfoOverlay(props: Props) {
 
   const { data } = useSharedState<{
     content?: InfoOverlayContent
-  }>(id)
+  }>(id ? createReferenceKey(id, 'info-overlay') : undefined)
   const { content = contentProp } = data || {}
 
   const translations = useTranslation()

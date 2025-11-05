@@ -879,7 +879,7 @@ html[data-visual-test] .dnb-progress-indicator__bar-transition {
 }
 .dnb-pagination__bar__wrapper {
   display: flex;
-  flex-flow: column-reverse wrap;
+  flex-flow: column wrap;
   row-gap: 0.5rem;
 }
 @media screen and (min-width: 72.00625em) {

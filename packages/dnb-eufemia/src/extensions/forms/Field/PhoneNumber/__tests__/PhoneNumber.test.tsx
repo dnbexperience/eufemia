@@ -93,23 +93,223 @@ describe('Field.PhoneNumber', () => {
     expect(labelElement()).not.toHaveAttribute('disabled')
   })
 
-  it('should set correct class when labelSrOnly is true', () => {
-    render(<Field.PhoneNumber labelSrOnly />)
+  it('should set correct class when labelSrOnly is true on FieldBlock', () => {
+    render(<Field.PhoneNumber label="Phone Number Field" labelSrOnly />)
 
-    const element = document.querySelectorAll('.dnb-form-label')
+    const fieldBlock = document.querySelector(
+      '.dnb-forms-field-phone-number'
+    ) as HTMLElement
+    const legend = fieldBlock.querySelector('legend')
+    expect(legend).toBeInTheDocument()
+    expect(legend).toHaveClass('dnb-sr-only')
+    expect(legend).not.toHaveClass('dnb-form-label--interactive')
 
-    expect(element[0]).toHaveClass('dnb-sr-only')
-    expect(element[0]).not.toHaveClass('dnb-form-label--interactive')
+    // Individual field labels should not have sr-only class
+    const countryCodeField = document.querySelector(
+      '.dnb-forms-field-phone-number__country-code'
+    )
+    const countryCodeLabel = countryCodeField.querySelector('label')
+    expect(countryCodeLabel).not.toHaveClass('dnb-sr-only')
 
-    expect(element[1]).toHaveClass('dnb-sr-only')
-    expect(element[1]).not.toHaveClass('dnb-form-label--interactive')
+    const numberField = document.querySelector(
+      '.dnb-forms-field-phone-number__number'
+    )
+    const numberFieldLabel = numberField.querySelector('label')
+    expect(numberFieldLabel).not.toHaveClass('dnb-sr-only')
   })
 
-  it('should have default label', () => {
+  it('should not have label on FieldBlock by default', () => {
     render(<Field.PhoneNumber />)
 
-    const label = document.querySelector('.dnb-forms-field-phone-number')
-    expect(label).toHaveTextContent(nbNO.PhoneNumber.label)
+    const fieldBlock = document.querySelector(
+      '.dnb-forms-field-phone-number'
+    ) as HTMLElement
+    // CompositionField always renders as fieldset when asFieldset is true
+    expect(fieldBlock.tagName).toBe('FIELDSET')
+    // But when label is undefined, there should be no legend
+    const legend = fieldBlock.querySelector('legend')
+    expect(legend).not.toBeInTheDocument()
+  })
+
+  it('should forward label prop to FieldBlock', () => {
+    render(<Field.PhoneNumber label="Custom Phone Number" />)
+
+    const fieldBlock = document.querySelector(
+      '.dnb-forms-field-phone-number'
+    ) as HTMLElement
+    // When label is provided, it should render as fieldset with legend
+    expect(fieldBlock.tagName).toBe('FIELDSET')
+    const legend = fieldBlock.querySelector('legend')
+    expect(legend).toBeInTheDocument()
+    expect(legend).toHaveTextContent('Custom Phone Number')
+  })
+
+  it('should use numberLabel for number field with defaultLabel as default', () => {
+    render(<Field.PhoneNumber />)
+
+    const numberField = document.querySelector(
+      '.dnb-forms-field-phone-number__number'
+    )
+    const numberFieldLabel = numberField.querySelector('label')
+    expect(numberFieldLabel).toHaveTextContent(nbNO.PhoneNumber.label)
+  })
+
+  it('should use custom numberLabel for number field', () => {
+    render(<Field.PhoneNumber numberLabel="Phone Number Input" />)
+
+    const numberField = document.querySelector(
+      '.dnb-forms-field-phone-number__number'
+    )
+    const numberFieldLabel = numberField.querySelector('label')
+    expect(numberFieldLabel).toHaveTextContent('Phone Number Input')
+  })
+
+  it('should hide number label with sr-only when numberLabel is false', () => {
+    render(<Field.PhoneNumber numberLabel={false} />)
+
+    const numberField = document.querySelector(
+      '.dnb-forms-field-phone-number__number'
+    )
+    const numberFieldLabel = numberField.querySelector('label')
+    expect(numberFieldLabel).toBeInTheDocument()
+    expect(numberFieldLabel).toHaveClass('dnb-sr-only')
+    expect(numberFieldLabel).toHaveTextContent(nbNO.PhoneNumber.label)
+  })
+
+  it('should hide country code label with sr-only when countryCodeLabel is false', () => {
+    render(<Field.PhoneNumber countryCodeLabel={false} />)
+
+    const countryCodeField = document.querySelector(
+      '.dnb-forms-field-phone-number__country-code'
+    )
+    const countryCodeLabel = countryCodeField.querySelector('label')
+    expect(countryCodeLabel).toBeInTheDocument()
+    expect(countryCodeLabel).toHaveClass('dnb-sr-only')
+    expect(countryCodeLabel).toHaveTextContent(
+      nbNO.PhoneNumber.countryCodeLabel
+    )
+  })
+
+  it('should use label on FieldBlock and numberLabel on number field independently', () => {
+    render(
+      <Field.PhoneNumber
+        label="Phone Number Field"
+        numberLabel="Number Input"
+      />
+    )
+
+    const fieldBlock = document.querySelector(
+      '.dnb-forms-field-phone-number'
+    ) as HTMLElement
+    // When label is provided, it should render as fieldset with legend
+    expect(fieldBlock.tagName).toBe('FIELDSET')
+    const legend = fieldBlock.querySelector('legend')
+    expect(legend).toBeInTheDocument()
+    expect(legend).toHaveTextContent('Phone Number Field')
+
+    const numberField = document.querySelector(
+      '.dnb-forms-field-phone-number__number'
+    )
+    const numberFieldLabel = numberField.querySelector('label')
+    expect(numberFieldLabel).toHaveTextContent('Number Input')
+  })
+
+  it('should support ReactNode for numberLabel', () => {
+    render(
+      <Field.PhoneNumber
+        numberLabel={
+          <span>
+            Phone <strong>Number</strong>
+          </span>
+        }
+      />
+    )
+
+    const numberField = document.querySelector(
+      '.dnb-forms-field-phone-number__number'
+    )
+    const numberFieldLabel = numberField.querySelector('label')
+    expect(numberFieldLabel).toHaveTextContent('Phone Number')
+    expect(numberFieldLabel.querySelector('strong')).toHaveTextContent(
+      'Number'
+    )
+  })
+
+  it('should forward labelDescription prop to FieldBlock', () => {
+    render(
+      <Field.PhoneNumber
+        label="Phone Number Field"
+        labelDescription="This is a label description"
+      />
+    )
+
+    const fieldBlock = document.querySelector(
+      '.dnb-forms-field-phone-number'
+    ) as HTMLElement
+    const legend = fieldBlock.querySelector('legend')
+    expect(legend).toBeInTheDocument()
+    expect(legend).toHaveTextContent('Phone Number Field')
+
+    const labelDescription = fieldBlock.querySelector(
+      '.dnb-forms-field-block__label__description'
+    )
+    expect(labelDescription).toBeInTheDocument()
+    expect(labelDescription).toHaveTextContent(
+      'This is a label description'
+    )
+  })
+
+  it('should support labelDescription with numberLabel and countryCodeLabel set to false', () => {
+    render(
+      <Field.PhoneNumber
+        label="Phone Number Field"
+        labelDescription="Additional label description that will stretch all the way down here"
+        numberLabel={false}
+        countryCodeLabel={false}
+      />
+    )
+
+    const fieldBlock = document.querySelector(
+      '.dnb-forms-field-phone-number'
+    ) as HTMLElement
+    const legend = fieldBlock.querySelector('legend')
+    expect(legend).toBeInTheDocument()
+    expect(legend).toHaveTextContent('Phone Number Field')
+
+    const labelDescription = fieldBlock.querySelector(
+      '.dnb-forms-field-block__label__description'
+    )
+    expect(labelDescription).toBeInTheDocument()
+    expect(labelDescription).toHaveTextContent(
+      'Additional label description that will stretch all the way down here'
+    )
+
+    // Verify individual field labels are hidden with sr-only (not removed)
+    const countryCodeField = document.querySelector(
+      '.dnb-forms-field-phone-number__country-code'
+    )
+    const countryCodeLabel = countryCodeField.querySelector('label')
+    expect(countryCodeLabel).toBeInTheDocument()
+    expect(countryCodeLabel).toHaveClass('dnb-sr-only')
+
+    const numberField = document.querySelector(
+      '.dnb-forms-field-phone-number__number'
+    )
+    const numberFieldLabel = numberField.querySelector('label')
+    expect(numberFieldLabel).toBeInTheDocument()
+    expect(numberFieldLabel).toHaveClass('dnb-sr-only')
+  })
+
+  it('should forward labelSrOnly prop to FieldBlock', () => {
+    render(<Field.PhoneNumber label="Phone Number Field" labelSrOnly />)
+
+    const fieldBlock = document.querySelector(
+      '.dnb-forms-field-phone-number'
+    ) as HTMLElement
+    const legend = fieldBlock.querySelector('legend')
+    expect(legend).toBeInTheDocument()
+    expect(legend).toHaveClass('dnb-sr-only')
+    expect(legend).toHaveTextContent('Phone Number Field')
   })
 
   it('should add (optional) text to the number label if required={false}', () => {

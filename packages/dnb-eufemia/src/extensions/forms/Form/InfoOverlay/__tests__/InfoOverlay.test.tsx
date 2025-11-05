@@ -453,4 +453,38 @@ describe('Form.InfoOverlay', () => {
       screen.getByText('fallback content').getAttribute('aria-hidden')
     ).toBe('false')
   })
+
+  it('should not bleed content property to data', () => {
+    const formId = 'bleeed'
+    let outerContext = null
+
+    const MyForm = () => {
+      outerContext = Form.useData(formId)
+      return (
+        <Form.Handler id={formId}>
+          <Form.InfoOverlay>fallback content</Form.InfoOverlay>
+        </Form.Handler>
+      )
+    }
+    render(<MyForm />)
+
+    expect(outerContext.data).toEqual(undefined)
+
+    act(() => {
+      Form.InfoOverlay.setContent(formId, <>info content</>)
+    })
+    expect(outerContext.data).toEqual(undefined)
+    act(() => {
+      Form.InfoOverlay.setContent(formId, 'success')
+    })
+    expect(outerContext.data).toEqual(undefined)
+    act(() => {
+      Form.InfoOverlay.setContent(formId, 'error')
+    })
+    expect(outerContext.data).toEqual(undefined)
+    act(() => {
+      Form.InfoOverlay.setContent(formId, undefined)
+    })
+    expect(outerContext.data).toEqual(undefined)
+  })
 })

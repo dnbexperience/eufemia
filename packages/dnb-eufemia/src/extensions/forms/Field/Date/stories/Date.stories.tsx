@@ -1,7 +1,7 @@
 import React from 'react'
-import { Field, Form, Value } from '../../..'
+import { Field, Form, Tools, Value } from '../../..'
 import FormHandler from '../../../Form/Handler/Handler'
-import { Card, Dropdown } from '../../../../../components'
+import { Card, DatePicker, Dropdown } from '../../../../../components'
 import Context from '../../../../../shared/Context'
 
 export default {
@@ -120,5 +120,28 @@ export function DateRangeRequired() {
         <Form.SubmitButton text="Happy coding!" />
       </Card>
     </FormHandler>
+  )
+}
+
+export function Reset() {
+  return (
+    <>
+      <FormHandler>
+        <Field.Date
+          path="/reset"
+          onReset={(props) => {
+            console.log('onReset', props)
+          }}
+        />
+        <Tools.Log />
+      </FormHandler>
+      <DatePicker
+        showInput
+        showResetButton
+        onReset={(props) => {
+          console.log('onReset', props)
+        }}
+      />
+    </>
   )
 }

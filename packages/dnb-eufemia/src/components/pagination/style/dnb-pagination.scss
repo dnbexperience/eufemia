@@ -45,7 +45,7 @@
 
   &__bar__wrapper {
     display: flex;
-    flex-flow: column-reverse wrap; // because of screen readers
+    flex-flow: column wrap;
     row-gap: 0.5rem;
   }
 

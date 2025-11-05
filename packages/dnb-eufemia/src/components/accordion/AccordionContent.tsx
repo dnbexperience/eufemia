@@ -9,7 +9,7 @@ import {
   warn,
   validateDOMAttributes,
   processChildren,
-  getPreviousSibling,
+  getClosestParent,
 } from '../../shared/component-helper'
 import { useMediaQuery } from '../../shared'
 import AccordionContext, {
@@ -61,7 +61,7 @@ export default function AccordionContent(props: AccordionContentProps) {
         try {
           contentElem.style.height = ''
 
-          const containerElement = getPreviousSibling(
+          const containerElement = getClosestParent(
             'dnb-accordion-group--single-container',
             contentElem
           ) as HTMLElement

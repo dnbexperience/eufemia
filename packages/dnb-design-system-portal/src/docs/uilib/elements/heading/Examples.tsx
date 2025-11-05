@@ -83,6 +83,9 @@ export const HeadingProseMaxWidthExample = () => (
       This heading uses proseMaxWidth={20} for an even narrower reading
       width.
     </H2>
+    <H2 proseMaxWidth>
+      This heading uses proseMaxWidth with its default value.
+    </H2>
   </ComponentBox>
 )
 

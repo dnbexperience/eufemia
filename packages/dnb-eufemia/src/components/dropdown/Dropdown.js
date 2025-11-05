@@ -265,8 +265,6 @@ class DropdownInstance extends React.PureComponent {
   constructor(props) {
     super(props)
 
-    this._id = props.id || makeUniqueId()
-
     this.attributes = {}
     this.state = this.state || {}
 
@@ -480,7 +478,6 @@ class DropdownInstance extends React.PureComponent {
     } = props
 
     let { icon, icon_position, align_dropdown } = props
-    const id = this._id
 
     const handleAsMenu =
       isTrue(action_menu) || isTrue(more_menu) || isTrue(prevent_selection)
@@ -508,7 +505,8 @@ class DropdownInstance extends React.PureComponent {
       align_dropdown = 'right'
     }
 
-    const { selected_item, direction, opened } = this.context.drawerList
+    const { id, selected_item, direction, opened } =
+      this.context.drawerList
     const showStatus = getStatusState(status)
 
     // make it possible to grab the rest attributes and return it with all events
