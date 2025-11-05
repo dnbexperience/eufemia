@@ -6,7 +6,10 @@
 import React from 'react'
 import { axeComponent, loadScss, wait } from '../../../core/jest/jestSetup'
 import * as helpers from '../../../shared/helpers'
-import Autocomplete, { AutocompleteAllProps } from '../Autocomplete'
+import Autocomplete, {
+  AutocompleteAllProps,
+  AutocompleteProps,
+} from '../Autocomplete'
 import { SubmitButton } from '../../input/Input'
 import { format } from '../../number-format/NumberUtils'
 import userEvent from '@testing-library/user-event'
@@ -3918,6 +3921,69 @@ describe('Autocomplete markup', () => {
     const result = render(
       <Autocomplete {...snapshotProps} data={mockData} />
     )
+
+    expect(await axeComponent(result)).toHaveNoViolations()
+  })
+})
+
+describe.only('Autocomplete type', () => {
+  it('support all its properties', async () => {
+    const allProps: Required<AutocompleteProps> = {
+      disableReorder: false,
+      inputRef: null,
+      showAll: true,
+      ariaLiveOptions: 'yes',
+      indicatorLabel: 'Loading options',
+      showOptionsSr: 'true',
+      selectedSr: 'You have selected',
+      selectall: true,
+      submitButtonTitle: 'Submit your selection',
+      labelSrOnly: false,
+      statusNoAnimation: false,
+      submitButtonIcon: null,
+      inputIcon: null,
+      alignAutocomplete: 'left',
+      globalStatus: {},
+      drawerClass: 'drawer-class',
+      inputValue: '2',
+      label: 'Country Selection',
+      labelDirection: 'vertical',
+      placeholder: 'Search for a country...',
+      title: 'Select your country',
+      status: 'Please select your country',
+      statusState: 'info',
+      statusProps: { stretch: true },
+      disabled: false,
+      skeleton: false,
+      stretch: true,
+      keepValue: true,
+      keepSelection: false,
+      keepValueAndSelection: false,
+      showSubmitButton: true,
+      showClearButton: true,
+      searchNumbers: false,
+      searchInWordIndex: 0,
+      disableFilter: false,
+      disableHighlighting: false,
+      openOnFocus: true,
+      mode: 'sync',
+      icon: 'flag',
+      iconPosition: 'left',
+      iconSize: 'medium',
+      suffix: 'suffix',
+      submitElement: null,
+      inputElement: null,
+      noOptions: true,
+      on_type: ({ value }) => {
+        console.log('User typed:', value)
+      },
+      on_focus: ({ value }) => console.log('Input focused:', value),
+      on_select: ({ value }) => console.log('Input selected:', value),
+      on_state_update: ({ value }) =>
+        console.log('Input state updated:', value),
+      on_blur: ({ value }) => console.log('Input blurred:', value),
+    }
+    const result = render(<Autocomplete {...allProps} data={mockData} />)
 
     expect(await axeComponent(result)).toHaveNoViolations()
   })
