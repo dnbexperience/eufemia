@@ -10,7 +10,7 @@ function PhoneNumber(props: Props) {
   const translations = useTranslation().PhoneNumber
 
   const label =
-    props.label ?? (props.inline ? undefined : translations.label)
+    props.label ?? (props.inline ? undefined : translations.numberLabel)
 
   const toInput = useCallback((value) => {
     if (isValueEmpty(value)) {
