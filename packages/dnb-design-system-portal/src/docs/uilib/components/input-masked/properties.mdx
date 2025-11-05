@@ -37,54 +37,6 @@ Defaults to Norwegian number format.
 
 <PropertiesTable props={inputMaskedMaskOptionsProperties} />
 
-### Custom number mask usage
-
-The number mask is included and can be set with the `numberMask` property.
-
-```jsx
-
-// 1. Use the desired configurations
-const numberMask = {
-  prefix: '',
-  suffix: ',- kr'
-}
-
-// 2. Then pass 'numberMask' to the InputMasked component as the numberMask
-<InputMasked numberMask={numberMask} ... />
-```
-
-But in case you have to create the mask by yourself, you can do so:
-
-```jsx
-import createNumberMask from '@dnb/eufemia/components/input-masked/addons/createNumberMask'
-
-// 1. Create the 'numberMask' with your desired configurations
-const numberMask = createNumberMask({
-  prefix: '',
-  suffix: ',- kr'
-})
-
-// 2. Then pass 'numberMask' to the InputMasked component as the mask
-<InputMasked mask={numberMask} ... />
-```
-
-## Email mask
-
-```jsx
-import emailMask from '@dnb/eufemia/components/input-masked/addons/emailMask'
-
-render(
-  <InputMasked
-    label="Email:"
-    mask={emailMask}
-    placeholder="@."
-    keepPlaceholder={true}
-  />,
-)
-```
-
-Read more about other addons [on the open-source project](https://github.com/text-mask/text-mask)
-
 ## Multi-input mask
 
 <PropertiesTable props={multiInputMaskedProperties} />
