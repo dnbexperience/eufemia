@@ -43,7 +43,7 @@ export const SectionProperties: PropertiesTableProps = {
   },
   children: {
     doc: 'All the fields and values inside the section.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'optional',
   },
 }

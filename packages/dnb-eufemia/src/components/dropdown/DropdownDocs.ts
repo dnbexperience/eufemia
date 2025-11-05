@@ -41,7 +41,7 @@ export const DropdownProperties = {
   },
   icon: {
     doc: 'icon to be included in the dropdown.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   iconSize: {
