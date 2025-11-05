@@ -31,7 +31,7 @@ describe('Value.PhoneNumber', () => {
       <Form.Handler
         translations={{
           'nb-NO': {
-            PhoneNumber: { label: 'Custom' },
+            PhoneNumber: { numberLabel: 'Custom' },
           },
         }}
       >

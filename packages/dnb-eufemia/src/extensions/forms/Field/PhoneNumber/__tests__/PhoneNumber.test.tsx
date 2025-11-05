@@ -151,7 +151,9 @@ describe('Field.PhoneNumber', () => {
       '.dnb-forms-field-phone-number__number'
     )
     const numberFieldLabel = numberField.querySelector('label')
-    expect(numberFieldLabel).toHaveTextContent(nbNO.PhoneNumber.label)
+    expect(numberFieldLabel).toHaveTextContent(
+      nbNO.PhoneNumber.numberLabel
+    )
   })
 
   it('should use custom numberLabel for number field', () => {
@@ -173,7 +175,9 @@ describe('Field.PhoneNumber', () => {
     const numberFieldLabel = numberField.querySelector('label')
     expect(numberFieldLabel).toBeInTheDocument()
     expect(numberFieldLabel).toHaveClass('dnb-sr-only')
-    expect(numberFieldLabel).toHaveTextContent(nbNO.PhoneNumber.label)
+    expect(numberFieldLabel).toHaveTextContent(
+      nbNO.PhoneNumber.numberLabel
+    )
   })
 
   it('should hide country code label with sr-only when countryCodeLabel is false', () => {
@@ -330,12 +334,14 @@ describe('Field.PhoneNumber', () => {
       `${nbNO.Field.optionalLabelSuffix}`
     )
     expect(numberElement.querySelector('label')).toHaveTextContent(
-      `${nbNO.PhoneNumber.label} ${nbNO.Field.optionalLabelSuffix}`
+      `${nbNO.PhoneNumber.numberLabel} ${nbNO.Field.optionalLabelSuffix}`
     )
 
     // Use "textContent" to check against non-breaking space
     expect(numberElement.querySelector('label').textContent).toBe(
-      `${nbNO.PhoneNumber.label}${' '}${nbNO.Field.optionalLabelSuffix}`
+      `${nbNO.PhoneNumber.numberLabel}${' '}${
+        nbNO.Field.optionalLabelSuffix
+      }`
     )
   })
 
