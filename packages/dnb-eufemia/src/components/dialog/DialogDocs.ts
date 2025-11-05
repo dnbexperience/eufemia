@@ -38,17 +38,17 @@ export const DialogProperties: PropertiesTableProps = {
   },
   navContent: {
     doc: 'The content which will appear in the navigation, above the header, and side-by-side the close button.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   headerContent: {
     doc: 'The content which will appear in the header of the dialog.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   modalContent: {
     doc: 'The content which will appear when triggering the dialog.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   description: {
@@ -73,7 +73,7 @@ export const DialogProperties: PropertiesTableProps = {
   },
   icon: {
     doc: 'An icon to display at the top of the component. Should be of size medium, so make sure you import the `_medium` version of the Eufemia icon.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   confirmType: {
