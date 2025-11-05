@@ -297,9 +297,6 @@ $ pnpm add @dnb/eufemia@11
 - Replace `as_number` with `asNumber`.
 - Replace `as_percent` with `asPercent`.
 - Replace `show_mask` with `showMask`.
-- Replace `show_guide` with `showGuide`.
-- Replace `keep_char_positions` with `keepCharPositions`.
-- Replace `placeholder_char` with `placeholderChar`.
 - Replace `inner_ref` with `innerRef`.
 - Replace `label_sr_only` with `labelSrOnly`.
 - Replace `status_state` with `statusState`.
@@ -330,11 +327,27 @@ $ pnpm add @dnb/eufemia@11
 - Replace `on_submit_blur` with `onSubmitBlur`.
 - Replace `on_state_update` with `onStateUpdate`.
 
+#### Deprecations and removals
+
+- `show_guide` has been removed. If you need to communicate an expected format, pass an example using the regular `placeholder` prop (e.g. `placeholder="00 00 00"`) or provide helper text next to the field.
+- `keep_char_positions` has been removed.
+- `placeholder_char` has been removed.
+- `pipe` has been removed.
+- `MaskFunction` (function-based masks) has been removed. Maskito only supports array masks (`Array<string | RegExp>`) and RegExp masks. Convert any custom mask functions to array-based masks.
+- The `{ mask: ... }` object form for masks has been removed. Use array masks directly instead of wrapping them in an object.
+- The addon helpers `createNumberMask` and `emailMask` have been removed. The following imports no longer work and should be deleted or replaced:
+
+  ```tsx
+  import createNumberMask from '@dnb/eufemia/components/input-masked/addons/createNumberMask'
+  import emailMask from '@dnb/eufemia/components/input-masked/addons/emailMask'
+  ```
+
 ### [MultiInputMask](/uilib/components/input-masked/)
 
 #### Properties
 
 - Replace `label_direction` with `labelDirection`.
+- Replace `placeholderCharacter` with `placeholder` and defined the whole placeholder, not just one character (e.g `d` to `dd`).
 
 ### [FormLabel](/uilib/components/form-label/)
 
@@ -782,6 +795,8 @@ render(<Logo svg={SbankenCompact} />)
 
 #### Properties
 
+- The `onBlur` and `onFocus` events fire now only once per user interaction, not on every internal input blur.
+- Find `partialDate`, `partialStartDate` and `partialEndDate` and remove it.
 - Find `correctInvalidDate` / `correct_invalid_date` and remove it. You may rather use [Field.Date](/uilib/extensions/forms/feature-fields/Date/) from Eufemia Forms when using `minDate` and `maxDate`, as this has built in validation. Reason for removing this is because we believe it's not good UX, or best practice to automatically change the user input. This often leads to confusion, as what they typed in, magically changes for seemingly no reason. We believe it's better to inform them about the error and let them correct it themselves.
 - Replace `start_date` with `startDate`.
 - Replace `end_date` with `endDate`.

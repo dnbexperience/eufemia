@@ -31,25 +31,11 @@ import type {
   InputChildren,
   InputProps,
 } from '../Input'
-import type { Pipe, Mask, MaskFunction } from './text-mask/types'
 import type { NumberFormatProps } from '../NumberFormat'
 import type { SkeletonShow } from '../Skeleton'
 import type { SpacingProps } from '../space/types'
 
-type LooseMaskPair = {
-  mask: (...args: unknown[]) => unknown
-  pipe?: (...args: unknown[]) => unknown
-}
-
-export type InputMaskedMask =
-  | Array<RegExp | string>
-  | ((
-      value: string,
-      options: Record<string, unknown>
-    ) => Array<RegExp | string>)
-  | boolean
-  | { mask: Mask | MaskFunction; pipe?: Pipe }
-  | LooseMaskPair
+export type InputMaskedMask = RegExp | Array<RegExp | string> | false
 export type InputMaskedNumberMask =
   | string
   | boolean
@@ -131,18 +117,8 @@ export interface InputMaskedProps
    */
   showMask?: boolean
   /**
-   * When `false` is given, it doesn't print out placeholder characters and only adds mask characters when the user reaches them as they're typing. Defaults to `true`.
-   */
-  showGuide?: boolean
-  pipe?: Pipe
-  /**
-   * When `true`, adding or deleting characters will not affect the positions of existing characters. Defaults to `false`.
-   */
-  keepCharPositions?: boolean
-  /**
    * The placeholder character represents the fillable spot in the mask (e.g. `_`). Defaults to invisible space.
    */
-  placeholderChar?: string
   innerRef?: InputProps['innerRef']
   onSubmit?: InputMaskedEventHandler
   onFocus?: InputMaskedEventHandler
@@ -234,10 +210,6 @@ const defaultProps = {
   asPercent: null,
   locale: null,
   showMask: false,
-  showGuide: true,
-  pipe: null,
-  keepCharPositions: false,
-  placeholderChar: null,
   innerRef: null,
   onChange: null,
   onSubmit: null,

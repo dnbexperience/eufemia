@@ -4,7 +4,6 @@
  */
 
 import React, {
-  MutableRefObject,
   useCallback,
   useContext,
   useMemo,
@@ -16,16 +15,14 @@ import React, {
 import { isValid as isValidFn, parseISO } from 'date-fns'
 
 import classnames from 'classnames'
-import TextMask, { TextMaskProps } from '../input-masked/TextMask'
+import MultiInputMask, {
+  type MultiInputMaskInput as MInputs,
+  type MultiInputMaskValue as MValues,
+} from '../input-masked/MultiInputMask'
 import Button from '../button/Button'
 import Input, { SubmitButton } from '../input/Input'
 import type { InputInputElement, InputSize } from '../Input'
-import {
-  warn,
-  validateDOMAttributes,
-  toCapitalized,
-} from '../../shared/component-helper'
-import { IS_ANDROID, IS_IOS } from '../../shared/helpers'
+import { warn, validateDOMAttributes } from '../../shared/component-helper'
 import { convertStringToDate } from './DatePickerCalc'
 import DatePickerContext from './DatePickerContext'
 
@@ -38,7 +35,6 @@ import type { SkeletonShow } from '../Skeleton'
 import { ReturnObject } from './DatePickerProvider'
 import { DatePickerEventAttributes, DatePickerProps } from './DatePicker'
 import { Context, useTranslation } from '../../shared'
-import usePartialDates from './hooks/usePartialDates'
 import useInputDates, { DatePickerInputDates } from './hooks/useInputDates'
 import { formatDate } from '../date-format/DateFormatUtils'
 
@@ -154,8 +150,6 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
   } = props
   const [focusState, setFocusState] = useState<string>('virgin')
 
-  const { partialDatesRef, setPartialDates } = usePartialDates()
-
   const invalidDatesRef = useRef<InvalidDates>({
     invalidStartDate: null,
     invalidEndDate: null,
@@ -189,17 +183,6 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
     [startDate, endDate]
   )
 
-  const inputRefs = useRef<
-    Record<string, MutableRefObject<HTMLInputElement>>
-  >({
-    startDayRef: { current: undefined },
-    startMonthRef: { current: undefined },
-    startYearRef: { current: undefined },
-    endDayRef: { current: undefined },
-    endMonthRef: { current: undefined },
-    endYearRef: { current: undefined },
-  })
-
   const dateRefs = useRef<DatePickerInputDates>({
     startDay: '',
     startMonth: '',
@@ -212,35 +195,52 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
   // Keep dateRefs in sync with inputDates on re-render
   syncDateRefs(dateRefs, inputDates)
 
+  // Snapshot of last mask values to detect changed field reliably
+  const lastMaskValuesRef = useRef<{
+    start: { day: string; month: string; year: string }
+    end: { day: string; month: string; year: string }
+  }>({
+    start: { day: '', month: '', year: '' },
+    end: { day: '', month: '', year: '' },
+  })
+
   const temporaryDates = useRef<Record<string, Date>>({
     startDate: undefined,
     endDate: undefined,
   })
 
-  const refList = useRef<Array<MutableRefObject<HTMLInputElement>>>()
-
   const focusMode = useRef<string>()
 
-  const maskList = useMemo(() => {
-    const separators = maskOrder.match(separatorRegExp)
-
+  // Build ordered parts from maskOrder (e.g., ['dd','mm','yyyy'])
+  const orderedParts = useMemo(() => {
     return maskOrder
       .split(separatorRegExp)
-      .reduce<Array<string>>((acc, cur) => {
-        if (!cur) {
-          return acc
-        }
-
-        acc.push(cur)
-
-        if (separators.length > 0) {
-          // makes sure that separators are added at the correct places and removed from array when added
-          acc.push(separators.shift())
-        }
-
-        return acc
-      }, [])
+      .filter(Boolean)
+      .map((p) =>
+        p.toLowerCase().startsWith('d')
+          ? 'day'
+          : p.toLowerCase().startsWith('m')
+          ? 'month'
+          : 'year'
+      ) as Array<'day' | 'month' | 'year'>
   }, [maskOrder, separatorRegExp])
+
+  // Extract delimiter from maskPlaceholder to align with visual format shown to user
+  const delimiter = useMemo(() => {
+    // Match common separator characters directly
+    return maskPlaceholder.match(/[./-]/)?.[0]
+  }, [maskPlaceholder])
+
+  const getValues = useCallback(
+    (mode: 'start' | 'end'): MValues<'day' | 'month' | 'year'> => {
+      return {
+        day: String(dateRefs.current[`${mode}Day`] || ''),
+        month: String(dateRefs.current[`${mode}Month`] || ''),
+        year: String(dateRefs.current[`${mode}Year`] || ''),
+      }
+    },
+    []
+  )
 
   const copyHandler = useCallback(
     (
@@ -306,15 +306,66 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
           focusMode.current === 'start' ? 'startDate' : 'endDate'
 
         if (date) {
+          // Update provider dates
           updateDates({
             [mode]: date,
+          })
+
+          // Also update input fields so values reflect immediately
+          const mm = String(date.getMonth() + 1).padStart(2, '0')
+          const dd = String(date.getDate()).padStart(2, '0')
+          const yyyy = String(date.getFullYear()).padStart(4, '0')
+          const m = focusMode.current === 'start' ? 'start' : 'end'
+
+          dateRefs.current[`${m}Day`] = dd
+          dateRefs.current[`${m}Month`] = mm
+          dateRefs.current[`${m}Year`] = yyyy
+          updateInputDates({
+            [`${m}Day`]: dd,
+            [`${m}Month`]: mm,
+            [`${m}Year`]: yyyy,
           })
         }
       } catch (error: unknown) {
         warn(error)
       }
     },
-    [updateDates]
+    [updateDates, updateInputDates]
+  )
+
+  const buildInputs = useCallback(
+    (mode: 'start' | 'end'): MInputs<'day' | 'month' | 'year'>[] => {
+      const phChars = translation.placeholderCharacters || {
+        day: 'd',
+        month: 'm',
+        year: 'y',
+      }
+      const byPart = (part: 'day' | 'month' | 'year') => {
+        const len = part === 'year' ? 4 : 2
+        const placeholder = String(
+          phChars[part] || (part === 'year' ? 'y' : part[0])
+        ).repeat(len)
+        const labelBase = translation[part]
+        const label = isRange
+          ? `${translation[mode]} ${labelBase}`
+          : labelBase
+        const cls = `dnb-date-picker__input dnb-date-picker__input--${part}`
+        const mask = new Array(len).fill(/[0-9]/)
+        return {
+          id: part,
+          label,
+          placeholder,
+          mask,
+          className: cls,
+          inputMode: 'numeric' as const,
+          onPaste: pasteHandler,
+          onCopy: (e: React.ClipboardEvent<HTMLInputElement>) =>
+            copyHandler(e, mode),
+        }
+      }
+      return orderedParts.map((p) => byPart(p))
+    },
+    [isRange, orderedParts, pasteHandler, copyHandler, translation]
   )
 
   const callOnChangeAsInvalid = useCallback(
@@ -411,13 +462,6 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
       // Get the typed dates, so we can ...
       const { startDate, endDate } = getDates()
 
-      // Get the partial dates, so we can know if something was typed or not in an optional date field
-      setPartialDates({
-        partialStartDate: startDate,
-        // Only set endDate if in range mode
-        ...(isRange && { partialEndDate: endDate }),
-      })
-
       const parsedStartDate = parseISO(startDate)
       const parsedEndDate = parseISO(endDate)
 
@@ -433,7 +477,6 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
         startDate: isStartDateValid ? parsedStartDate : null,
         endDate: isEndDateValid ? parsedEndDate : null,
         event,
-        ...partialDatesRef.current,
         ...invalidDatesRef.current,
       })
 
@@ -453,14 +496,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
         ...typedDates,
       })
     },
-    [
-      setPartialDates,
-      isRange,
-      getReturnObject,
-      partialDatesRef,
-      onType,
-      inputDates,
-    ]
+    [isRange, getReturnObject, onType, inputDates]
   )
 
   const setDate = useCallback(
@@ -471,8 +507,9 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
     ) => {
       event.persist() // since we have later a state update and afterwards the callback
 
-      const value = (event.target as HTMLInputElement).value
+      const value = event.target.value
 
+      // console.log('setDate', mode, type, value)
       dateRefs.current[`${mode}${type}`] = value
 
       if (modeDate[`${mode}Date`]) {
@@ -498,19 +535,29 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
         parseFloat(String(day))
       )
 
+      const [yStr, mStr, dStr] = [
+        String(dateRefs.current[`${mode}Year`] || ''),
+        String(dateRefs.current[`${mode}Month`] || ''),
+        String(dateRefs.current[`${mode}Day`] || ''),
+      ]
+
+      const fullyTyped =
+        /^\d{4}$/.test(yStr) &&
+        /^\d{2}$/.test(mStr) &&
+        /^\d{2}$/.test(dStr)
+
+      const y = Number(yStr)
+      const m = Number(mStr)
+      const d = Number(dStr)
+      const dt = new Date(y, m - 1, d)
+
       const isValidDate =
-        !/[^0-9]/.test(String(day)) &&
-        !/[^0-9]/.test(String(month)) &&
-        !/[^0-9]/.test(String(year)) &&
-        isValidFn(date) &&
-        date.getDate() === parseFloat(String(day)) &&
-        date.getMonth() + 1 === parseFloat(String(month)) &&
-        date.getFullYear() === parseFloat(String(year))
+        fullyTyped &&
+        dt.getFullYear() === y &&
+        dt.getMonth() + 1 === m &&
+        dt.getDate() === d
 
-      const dateString = `${year}-${month}-${day}`
-
-      isDateFullyFilledOutRef.current =
-        /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(dateString)
+      isDateFullyFilledOutRef.current = fullyTyped
 
       // update the date
       if (isValidDate) {
@@ -531,6 +578,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
         })
         updateInputDates({ [`${mode}${type}`]: value })
 
+        const dateString = `${y}-${m}-${d}`
         invalidDatesRef.current = {
           ...invalidDatesRef.current,
           ...(mode === 'start'
@@ -558,388 +606,154 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
     ]
   )
 
-  const dateSetters = useMemo(
-    () => ({
-      set_startDay: (event: React.ChangeEvent<HTMLInputElement>) => {
-        setDate(event, 'start', 'Day')
-      },
-
-      set_startMonth: (event: React.ChangeEvent<HTMLInputElement>) => {
-        setDate(event, 'start', 'Month')
-      },
-
-      set_startYear: (event: React.ChangeEvent<HTMLInputElement>) => {
-        setDate(event, 'start', 'Year')
-      },
-
-      set_endDay: (event: React.ChangeEvent<HTMLInputElement>) => {
-        setDate(event, 'end', 'Day')
-      },
-
-      set_endMonth: (event: React.ChangeEvent<HTMLInputElement>) => {
-        setDate(event, 'end', 'Month')
-      },
-
-      set_endYear: (event: React.ChangeEvent<HTMLInputElement>) => {
-        setDate(event, 'end', 'Year')
-      },
-    }),
-    [setDate]
-  )
-
-  const onFocusHandler = useCallback(
-    (event: React.FocusEvent<HTMLInputElement>) => {
-      setFocusState('focus')
-
-      onFocus?.({
-        ...event,
-        ...getReturnObject({ event }),
-      })
-
-      if (isNaN(parseFloat(event.target.value))) {
-        setCursorPosition(event.target)
+  const onMultiChange = useCallback(
+    (mode: 'start' | 'end', values: MValues<'day' | 'month' | 'year'>) => {
+      // Use the current controlled values to detect the changed part.
+      // This ensures we detect changes correctly after a prop-driven rerender.
+      const prev = getValues(mode)
+      let changed: 'day' | 'month' | 'year' | null = null
+      if (values.day !== prev.day) {
+        changed = 'day'
       }
-    },
-    [getReturnObject, onFocus]
-  )
-
-  const onBlurHandler = useCallback(
-    (event: React.FocusEvent<HTMLInputElement>) => {
-      focusMode.current = null
-      setFocusState('blur')
-
-      onBlur?.({
-        ...event,
-        ...getReturnObject({ event, ...partialDatesRef.current }),
-      })
-    },
-    [onBlur, getReturnObject, partialDatesRef]
-  )
-
-  const onKeyDownHandler = useCallback(
-    async (event: React.KeyboardEvent<HTMLInputElement>) => {
-      const keyCode = event.key
-      const target = event.target as HTMLInputElement
-
-      if (target.selectionStart !== target.selectionEnd) {
-        setCursorPosition(target)
+      if (values.month !== prev.month) {
+        changed = 'month'
+      }
+      if (values.year !== prev.year) {
+        changed = 'year'
+      }
+      if (!changed) {
+        return // stop here
       }
 
-      // The rest is for value entry
+      // Sync refs with full values before computing validity
+      dateRefs.current[`${mode}Day`] = values.day
+      dateRefs.current[`${mode}Month`] = values.month
+      dateRefs.current[`${mode}Year`] = values.year
+      lastMaskValuesRef.current[mode] = {
+        day: values.day,
+        month: values.month,
+        year: values.year,
+      }
 
-      const size = parseFloat(target.getAttribute('size'))
-      const firstSelectionStart = target.selectionStart
-      const firstSelectionEnd = target.selectionEnd
+      const Type =
+        changed === 'day' ? 'Day' : changed === 'month' ? 'Month' : 'Year'
+      const synthetic = {
+        persist: () => null,
+        target: { value: values[changed] },
+      } as React.ChangeEvent<HTMLInputElement>
+      setDate(synthetic, mode, Type)
+    },
+    [setDate, getValues]
+  )
 
-      // To get the correct position afterwards.
-      // Use 10ms in order to make it work on iOS Safari
-      await wait(IS_IOS ? 10 : 1)
+  const onMultiChangeStart = useCallback(
+    (values: MValues<'day' | 'month' | 'year'>) => {
+      onMultiChange('start', values)
+    },
+    [onMultiChange]
+  )
 
-      const secondSelectionStart = target.selectionStart
+  const onMultiChangeEnd = useCallback(
+    (values: MValues<'day' | 'month' | 'year'>) => {
+      onMultiChange('end', values)
+    },
+    [onMultiChange]
+  )
 
-      // Always false (since the old keycode function set number keys to undefined) but needed to not break tests
-      const isValid = /[0-9]/g.test(keyCode)
-      const refListArray = refList.current
+  const scopeRef = useRef<HTMLSpanElement>(null)
 
-      const index = refListArray.findIndex(
-        ({ current }) => current === target
-      )
-
-      const isLastChar = secondSelectionStart === size
-      const isFirstChar = firstSelectionStart === size
-
-      const isMovingForward =
-        keyCode !== 'ArrowLeft' &&
-        keyCode !== 'Backspace' &&
-        isValid &&
-        isLastChar
-
-      const isExplicitForward =
-        (keyCode === 'ArrowRight' || keyCode === 'Enter') && isFirstChar
-
-      const hasNextField = index < refListArray.length - 1
-
-      if (hasNextField && (isMovingForward || isExplicitForward)) {
-        // stop in case there is no next input element
-        if (!refListArray[index + 1].current) {
-          return // stop here
-        }
-        const nextSibling = refListArray[index + 1]?.current
-
-        if (nextSibling) {
-          setCursorPosition(nextSibling, 0, { withoutDelay: true })
-        }
-
-        // When the cursor is at the end of the input
-        // and the user types a number, we want to set the value on the next input.
-        if (
-          parseFloat(keyCode) <= 9 &&
-          firstSelectionStart === target.size
-        ) {
-          const name = toCapitalized(
-            nextSibling
-              .getAttribute('class')
-              .match(/__input--(day|month|year)($|\s)/)[1]
-          )
-          const mode = nextSibling
-            .getAttribute('id')
-            .match(/-(start|end)-(day|month|year)/)[1]
-
-          dateSetters[`set_${mode}${name}`]({
-            persist: () => null,
-            ...event,
-            target: {
-              value: keyCode + nextSibling.value.slice(1),
-            },
-          })
-
-          setCursorPosition(nextSibling, 1)
-        }
-      } else if (index > 0 && firstSelectionStart === firstSelectionEnd) {
-        const isMovingBackward =
-          keyCode === 'ArrowLeft' && firstSelectionStart === 0
-        const isPressingBackspace =
-          keyCode === 'Backspace' && firstSelectionStart <= 1
-
-        if (isMovingBackward || isPressingBackspace) {
-          const prevSibling = refListArray[index - 1]?.current
-          if (prevSibling) {
-            const endPos = prevSibling.value.length
-            setCursorPosition(prevSibling, endPos, {
-              withoutDelay: true,
+  const renderInputElement = useCallback(() => {
+    return (
+      <span
+        id={`${id}-input`}
+        className="dnb-date-picker__input__wrapper"
+        ref={scopeRef}
+      >
+        <MultiInputMask
+          id={`${id}-start`}
+          omitInputShellClass
+          size={size}
+          inputs={buildInputs('start')}
+          values={getValues('start')}
+          delimiter={delimiter}
+          disabled={disabled || skeleton}
+          onChange={onMultiChangeStart}
+          scopeRef={scopeRef}
+          onFocus={() => {
+            focusMode.current = 'start'
+            setFocusState('focus')
+            onFocus?.({
+              ...getReturnObject({
+                event: null,
+              }),
             })
-          }
-        }
-      }
-    },
-    [dateSetters]
-  )
-
-  const onInputHandler = useCallback(
-    (event) => {
-      const target = event.currentTarget
-
-      // Add support for "backspace" on Android virtual keyboard
-      if (
-        IS_ANDROID &&
-        event.nativeEvent.inputType === 'deleteContentBackward' &&
-        target.selectionStart === 0 &&
-        target.selectionEnd === 0
-      ) {
-        onKeyDownHandler({
-          ...event,
-          key: 'Backspace',
-        })
-      }
-    },
-    [onKeyDownHandler]
-  )
-
-  const getPlaceholderChar = useCallback(
-    (value: string) => {
-      const index = maskOrder.indexOf(value)
-      return maskPlaceholder[index]
-    },
-    [maskOrder, maskPlaceholder]
-  )
-
-  // TODO: Replace with MultiInputMask
-  const generateDateList = useCallback(
-    (
-      element: Omit<React.HTMLProps<HTMLInputElement>, 'size'> &
-        DatePickerEventAttributes,
-      mode: 'start' | 'end'
-    ) => {
-      return maskList.map((value, i) => {
-        const state = value.slice(0, 1)
-        const placeholderChar = getPlaceholderChar(value)
-        const { day, month, year } = translation
-        const isRangeLabel = isRange ? `${translation[mode]} ` : ''
-
-        if (!separatorRegExp.test(value)) {
-          if (!inputElement) {
-            element = {
-              ...element,
-              onInput: onInputHandler,
-              onKeyDown: onKeyDownHandler,
-              onFocus: (e) => {
-                focusMode.current = mode
-                onFocusHandler(e)
-              },
-              onBlur: onBlurHandler,
-              onPaste: pasteHandler,
-              onCopy: (event) => {
-                copyHandler(event, mode)
-              },
-              placeholderChar,
-            }
-          }
-
-          // this makes it possible to use a vanilla <input /> like: inputElement="input"
-          const DateField =
-            inputElement && React.isValidElement(inputElement)
-              ? inputElement.type
-              : InputElement
-
-          const inputSizeClassName =
-            size && `dnb-date-picker__input--${size}`
-
-          switch (state) {
-            case 'd':
-              refList.current.push(inputRefs.current[`${mode}DayRef`])
-
-              return (
-                <React.Fragment key={'dd' + i}>
-                  <DateField
-                    {...element}
-                    id={`${id}-${mode}-day`}
-                    key={'di' + i}
-                    className={classnames(
-                      element.className,
-                      'dnb-date-picker__input',
-                      'dnb-date-picker__input--day',
-                      inputSizeClassName
-                    )}
-                    size={2}
-                    mask={[/[0-9]/, /[0-9]/]}
-                    inputRef={inputRefs.current[`${mode}DayRef`]}
-                    onChange={dateSetters[`set_${mode}Day`]}
-                    value={inputDates[`${mode}Day`] || ''}
-                    aria-labelledby={`${id}-${mode}-day-label`}
-                  />
-                  <label
-                    key={'dl' + i}
-                    hidden
-                    id={`${id}-${mode}-day-label`}
-                    htmlFor={`${id}-${mode}-day`}
-                  >
-                    {isRangeLabel + day}
-                  </label>
-                </React.Fragment>
-              )
-            case 'm':
-              refList.current.push(inputRefs.current[`${mode}MonthRef`])
-
-              return (
-                <React.Fragment key={'mm' + i}>
-                  <DateField
-                    {...element}
-                    id={`${id}-${mode}-month`}
-                    key={'mi' + i}
-                    className={classnames(
-                      element.className,
-                      'dnb-date-picker__input',
-                      'dnb-date-picker__input--month',
-                      inputSizeClassName
-                    )}
-                    size={2}
-                    mask={[/[0-9]/, /[0-9]/]}
-                    inputRef={inputRefs.current[`${mode}MonthRef`]}
-                    onChange={dateSetters[`set_${mode}Month`]}
-                    value={inputDates[`${mode}Month`] || ''}
-                    aria-labelledby={`${id}-${mode}-month-label`}
-                  />
-                  <label
-                    key={'ml' + i}
-                    hidden
-                    id={`${id}-${mode}-month-label`}
-                    htmlFor={`${id}-${mode}-month`}
-                  >
-                    {isRangeLabel + month}
-                  </label>
-                </React.Fragment>
-              )
-            case 'y':
-              refList.current.push(inputRefs.current[`${mode}YearRef`])
-
-              return (
-                <React.Fragment key={'yy' + i}>
-                  <DateField
-                    {...element}
-                    id={`${id}-${mode}-year`}
-                    key={'yi' + i}
-                    className={classnames(
-                      element.className,
-                      'dnb-date-picker__input',
-                      'dnb-date-picker__input--year',
-                      inputSizeClassName
-                    )}
-                    size={4}
-                    mask={[/[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/]}
-                    inputRef={inputRefs.current[`${mode}YearRef`]}
-                    onChange={dateSetters[`set_${mode}Year`]}
-                    value={inputDates[`${mode}Year`] || ''}
-                    aria-labelledby={`${id}-${mode}-year-label`}
-                  />
-                  <label
-                    key={'yl' + i}
-                    hidden
-                    id={`${id}-${mode}-year-label`}
-                    htmlFor={`${id}-${mode}-year`}
-                  >
-                    {isRangeLabel + year}
-                  </label>
-                </React.Fragment>
-              )
-          }
-        }
-        return (
-          <span
-            key={'s' + i}
-            className="dnb-date-picker--separator"
-            aria-hidden
-          >
-            {placeholderChar}
+          }}
+          onBlur={() => {
+            focusMode.current = null
+            setFocusState('blur')
+            onBlur?.({
+              ...getReturnObject({
+                event: null,
+              }),
+            })
+          }}
+          {...attributes}
+        />
+        {isRange && (
+          <span className="dnb-date-picker--separator" aria-hidden>
+            {' – '}
           </span>
-        )
-      })
-    },
-    [
-      maskList,
-      getPlaceholderChar,
-      translation,
-      isRange,
-      separatorRegExp,
-      inputElement,
-      size,
-      onInputHandler,
-      onKeyDownHandler,
-      onBlurHandler,
-      pasteHandler,
-      onFocusHandler,
-      copyHandler,
-      id,
-      dateSetters,
-      inputDates,
-    ]
-  )
-
-  const renderInputElement = useCallback(
-    (
-      element: React.HTMLProps<HTMLInputElement> &
-        DatePickerEventAttributes
-    ) => {
-      refList.current = []
-      const startDateList = generateDateList(element, 'start')
-      const endDateList = generateDateList(element, 'end')
-
-      return (
-        <span
-          id={`${id}-input`}
-          className="dnb-date-picker__input__wrapper"
-        >
-          {startDateList}
-          {isRange && (
-            <span className="dnb-date-picker--separator" aria-hidden>
-              {' – '}
-            </span>
-          )}
-          {isRange && endDateList}
-        </span>
-      )
-    },
-    [id, isRange, generateDateList]
-  )
+        )}
+        {isRange && (
+          <MultiInputMask
+            id={`${id}-end`}
+            omitInputShellClass
+            size={size}
+            inputs={buildInputs('end')}
+            values={getValues('end')}
+            delimiter={delimiter}
+            disabled={disabled || skeleton}
+            onChange={onMultiChangeEnd}
+            scopeRef={scopeRef}
+            onFocus={() => {
+              focusMode.current = 'end'
+              setFocusState('focus')
+              onFocus?.({
+                ...getReturnObject({
+                  event: null,
+                }),
+              })
+            }}
+            onBlur={() => {
+              focusMode.current = null
+              setFocusState('blur')
+              onBlur?.({
+                ...getReturnObject({
+                  event: null,
+                }),
+              })
+            }}
+            {...attributes}
+          />
+        )}
+      </span>
+    )
+  }, [
+    id,
+    size,
+    buildInputs,
+    getValues,
+    delimiter,
+    disabled,
+    skeleton,
+    attributes,
+    isRange,
+    onFocus,
+    onBlur,
+    getReturnObject,
+    onMultiChangeStart,
+    onMultiChangeEnd,
+  ])
 
   const ariaLabel = useMemo(
     () =>
@@ -1014,46 +828,6 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
 
 export default DatePickerInput
 
-function setCursorPosition(
-  target: HTMLInputElement,
-  position = 0,
-  options?: { withoutDelay?: boolean }
-) {
-  target.focus()
-
-  const select = () => {
-    target.setSelectionRange(position, position)
-  }
-
-  // Delay for correct iOS Safari appearance
-  if (!options?.withoutDelay && process.env.NODE_ENV !== 'test') {
-    setTimeout(select, 0)
-  } else {
-    select()
-  }
-}
-
-function InputElement({ className, value, ...props }: TextMaskProps) {
-  return (
-    <TextMask
-      guide={true}
-      inputMode="numeric"
-      showMask={true}
-      keepCharPositions={false} // so we can overwrite next value, if it already exists
-      autoComplete="off"
-      autoCapitalize="none"
-      spellCheck={false}
-      autoCorrect="off"
-      className={classnames(
-        className,
-        /\d+/.test(String(value)) && 'dnb-date-picker__input--highlight'
-      )}
-      value={value}
-      {...props}
-    />
-  )
-}
-
 function syncDateRefs(
   dateRefs: React.MutableRefObject<DatePickerInputDates>,
   inputDates: DatePickerInputDates
@@ -1067,6 +841,3 @@ function syncDateRefs(
     }
   }
 }
-
-const wait = (duration: number) =>
-  new Promise((r) => setTimeout(r, duration))

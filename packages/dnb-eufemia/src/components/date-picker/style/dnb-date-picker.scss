@@ -99,83 +99,33 @@
   &__input,
   .dnb-input__input#{&}__input,
   .dnb-core-style &__input {
-    display: inline-block;
-    width: auto;
+    --input-padding--small: 0.05rem;
+    --input-padding--medium: 0.05rem;
+    --input-padding--large: 0.05rem;
 
-    margin: 0;
     padding: 0 0.125rem;
-
-    // reset vertical alignment
-    transform: translateY(0);
-
-    outline: none;
-
-    font-family: var(--font-family-monospace);
-    text-align: center;
-    border: none;
-    background: transparent;
-
-    overflow: visible;
-    white-space: nowrap;
 
     // Chrome fix
     @include IS_CHROME() {
-      margin: 0 -4px;
-    }
-
-    // Edge fix
-    @include IS_EDGE() {
-      margin: 0 -5px;
+      margin-right: -4px;
     }
 
     // Safari Mobile fix
     @include IS_SAFARI_MOBILE() {
-      &:not(*:root) {
-        margin: 0;
+      // Avoid artifact (moving the value 1px) when focusing the input
+      text-indent: -1px; // The width of the cursor
+    }
+    &:last-of-type {
+      @include IS_SAFARI_MOBILE() {
+        // Avoid artifact (moving the value 1px) when focusing the input
+        width: calc(100% + 1px);
       }
-
-      // Avoid artifact (moving the value 2px) when focusing the input
-      text-indent: -2px; // The width of the cursor
     }
 
     // Safari Desktop fix
     @include IS_SAFARI_DESKTOP() {
       &:not(*:root) {
-        margin: 0 -4px;
-      }
-      &:first-of-type:not(*:root) {
-        margin-left: 0.8rem;
-      }
-      // stylelint-disable-next-line
-      &:last-of-type:not(*:root) {
-        margin-right: 2.2rem;
-      }
-    }
-
-    &--small {
-      &#{&}--has-submit-element &__input {
-        padding-right: 0.125rem;
-      }
-      &:last-of-type:not(*:root) {
-        margin-right: 2.2rem;
-      }
-    }
-
-    &--medium {
-      &#{&}--has-submit-element &__input {
-        padding-right: 0.125rem;
-      }
-      &:last-of-type:not(*:root) {
-        margin-right: 3.2rem;
-      }
-    }
-
-    &--large {
-      &#{&}--has-submit-element &__input {
-        padding-right: 0.125rem;
-      }
-      &:last-of-type:not(*:root) {
-        margin-right: 4rem;
+        margin-right: -10px;
       }
     }
 
@@ -187,12 +137,24 @@
 
   .dnb-input__input#{&}__input:first-of-type,
   &__input:first-of-type {
-    margin-left: 0.8rem;
+    margin-left: 0.2rem;
   }
-  .dnb-input__input#{&}__input:last-of-type,
-  &__input:last-of-type {
-    margin-right: 2.2rem;
+  .dnb-multi-input-mask__fieldset:last-of-type &__input:last-of-type {
+    --input-padding--small: 0.25rem;
+    --input-padding--medium: 0.333rem;
+    --input-padding--large: 0.5rem;
+
+    margin-right: 2rem; // space for the button
   }
+  &--medium
+    .dnb-multi-input-mask__fieldset:first-of-type
+    .dnb-input__input#{&}__input:first-of-type,
+  &--large
+    .dnb-multi-input-mask__fieldset:first-of-type
+    .dnb-input__input#{&}__input:first-of-type {
+    margin-left: 0.5rem;
+  }
+
   .dnb-input__shell {
     display: none;
   }

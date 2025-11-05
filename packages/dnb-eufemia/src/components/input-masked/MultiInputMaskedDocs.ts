@@ -82,8 +82,8 @@ export const multiInputMaskedInputsProperties: PropertiesTableProps = {
     type: 'array',
     status: 'optional',
   },
-  placeholderCharacter: {
-    doc: 'Sets the placeholder character used for the input.',
+  placeholder: {
+    doc: 'Sets the placeholder text shown in the input.',
     type: 'string',
     status: 'optional',
   },

@@ -8,17 +8,10 @@ exports[`DatePicker scss should match default theme snapshot 1`] = `
 /*
  * Utilities
  */
-.dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-date-picker__input {
-  color: var(--color-black-55);
-}
-.dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-date-picker__input ~ .dnb-date-picker--separator {
-  color: var(--color-black-55);
-}
-.dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-date-picker__input--highlight:not([disabled]) {
-  color: var(--color-black);
-}
-.dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-date-picker__input--highlight:not([disabled]) ~ .dnb-date-picker--separator {
-  color: var(--color-black);
+.dnb-date-picker__container {
+  box-shadow: var(--shadow-sharp);
+  border-radius: 0.25rem;
+  background-color: var(--color-white);
 }
 .dnb-date-picker__addon::after, .dnb-date-picker__calendar::after {
   background-color: var(--color-black-8);
@@ -3654,84 +3647,34 @@ html[data-whatinput=keyboard] .dnb-date-picker__container table.dnb-no-focus:foc
 }
 .dnb-date-picker__input,
 .dnb-date-picker .dnb-input__input.dnb-date-picker__input, .dnb-core-style .dnb-date-picker__input {
-  display: inline-block;
-  width: auto;
-  margin: 0;
+  --input-padding--small: 0.05rem;
+  --input-padding--medium: 0.05rem;
+  --input-padding--large: 0.05rem;
   padding: 0 0.125rem;
-  transform: translateY(0);
-  outline: none;
-  font-family: var(--font-family-monospace);
-  text-align: center;
-  border: none;
-  background: transparent;
-  overflow: visible;
-  white-space: nowrap;
 }
 @supports (-webkit-appearance: none) and (not (overflow: -webkit-marquee)) and (not (-ms-ime-align: auto)) and (not (-moz-appearance: none)) {
   .dnb-date-picker__input,
   .dnb-date-picker .dnb-input__input.dnb-date-picker__input, .dnb-core-style .dnb-date-picker__input {
-    margin: 0 -4px;
-  }
-}
-@supports (-ms-ime-align: auto) {
-  .dnb-date-picker__input,
-  .dnb-date-picker .dnb-input__input.dnb-date-picker__input, .dnb-core-style .dnb-date-picker__input {
-    margin: 0 -5px;
+    margin-right: -4px;
   }
 }
 @supports (-webkit-touch-callout: none) {
   .dnb-date-picker__input,
   .dnb-date-picker .dnb-input__input.dnb-date-picker__input, .dnb-core-style .dnb-date-picker__input {
-    text-indent: -2px;
+    text-indent: -1px;
   }
-  .dnb-date-picker__input:not(*:root),
-  .dnb-date-picker .dnb-input__input.dnb-date-picker__input:not(*:root), .dnb-core-style .dnb-date-picker__input:not(*:root) {
-    margin: 0;
+}
+@supports (-webkit-touch-callout: none) {
+  .dnb-date-picker__input:last-of-type,
+  .dnb-date-picker .dnb-input__input.dnb-date-picker__input:last-of-type, .dnb-core-style .dnb-date-picker__input:last-of-type {
+    width: calc(100% + 1px);
   }
 }
 @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
   .dnb-date-picker__input:not(*:root),
   .dnb-date-picker .dnb-input__input.dnb-date-picker__input:not(*:root), .dnb-core-style .dnb-date-picker__input:not(*:root) {
-    margin: 0 -4px;
+    margin-right: -10px;
   }
-  .dnb-date-picker__input:first-of-type:not(*:root),
-  .dnb-date-picker .dnb-input__input.dnb-date-picker__input:first-of-type:not(*:root), .dnb-core-style .dnb-date-picker__input:first-of-type:not(*:root) {
-    margin-left: 0.8rem;
-  }
-  .dnb-date-picker__input:last-of-type:not(*:root),
-  .dnb-date-picker .dnb-input__input.dnb-date-picker__input:last-of-type:not(*:root), .dnb-core-style .dnb-date-picker__input:last-of-type:not(*:root) {
-    margin-right: 2.2rem;
-  }
-}
-.dnb-date-picker__input--small.dnb-date-picker__input--small, .dnb-date-picker__input--small .dnb-date-picker .dnb-input__input.dnb-date-picker__input--small, .dnb-core-style .dnb-date-picker__input--small--has-submit-element .dnb-date-picker__input--small__input,
-.dnb-date-picker .dnb-input__input.dnb-date-picker__input--small.dnb-date-picker__input--small,
-.dnb-date-picker .dnb-input__input.dnb-date-picker__input--small .dnb-date-picker .dnb-input__input.dnb-date-picker__input--small,
-.dnb-core-style .dnb-date-picker__input--small--has-submit-element .dnb-date-picker .dnb-input__input.dnb-date-picker__input--small__input, .dnb-core-style .dnb-date-picker__input--small.dnb-date-picker__input--small, .dnb-core-style .dnb-date-picker__input--small .dnb-date-picker .dnb-input__input.dnb-date-picker__input--small, .dnb-core-style .dnb-date-picker__input--small--has-submit-element .dnb-core-style .dnb-date-picker__input--small__input {
-  padding-right: 0.125rem;
-}
-.dnb-date-picker__input--small:last-of-type:not(*:root),
-.dnb-date-picker .dnb-input__input.dnb-date-picker__input--small:last-of-type:not(*:root), .dnb-core-style .dnb-date-picker__input--small:last-of-type:not(*:root) {
-  margin-right: 2.2rem;
-}
-.dnb-date-picker__input--medium.dnb-date-picker__input--medium, .dnb-date-picker__input--medium .dnb-date-picker .dnb-input__input.dnb-date-picker__input--medium, .dnb-core-style .dnb-date-picker__input--medium--has-submit-element .dnb-date-picker__input--medium__input,
-.dnb-date-picker .dnb-input__input.dnb-date-picker__input--medium.dnb-date-picker__input--medium,
-.dnb-date-picker .dnb-input__input.dnb-date-picker__input--medium .dnb-date-picker .dnb-input__input.dnb-date-picker__input--medium,
-.dnb-core-style .dnb-date-picker__input--medium--has-submit-element .dnb-date-picker .dnb-input__input.dnb-date-picker__input--medium__input, .dnb-core-style .dnb-date-picker__input--medium.dnb-date-picker__input--medium, .dnb-core-style .dnb-date-picker__input--medium .dnb-date-picker .dnb-input__input.dnb-date-picker__input--medium, .dnb-core-style .dnb-date-picker__input--medium--has-submit-element .dnb-core-style .dnb-date-picker__input--medium__input {
-  padding-right: 0.125rem;
-}
-.dnb-date-picker__input--medium:last-of-type:not(*:root),
-.dnb-date-picker .dnb-input__input.dnb-date-picker__input--medium:last-of-type:not(*:root), .dnb-core-style .dnb-date-picker__input--medium:last-of-type:not(*:root) {
-  margin-right: 3.2rem;
-}
-.dnb-date-picker__input--large.dnb-date-picker__input--large, .dnb-date-picker__input--large .dnb-date-picker .dnb-input__input.dnb-date-picker__input--large, .dnb-core-style .dnb-date-picker__input--large--has-submit-element .dnb-date-picker__input--large__input,
-.dnb-date-picker .dnb-input__input.dnb-date-picker__input--large.dnb-date-picker__input--large,
-.dnb-date-picker .dnb-input__input.dnb-date-picker__input--large .dnb-date-picker .dnb-input__input.dnb-date-picker__input--large,
-.dnb-core-style .dnb-date-picker__input--large--has-submit-element .dnb-date-picker .dnb-input__input.dnb-date-picker__input--large__input, .dnb-core-style .dnb-date-picker__input--large.dnb-date-picker__input--large, .dnb-core-style .dnb-date-picker__input--large .dnb-date-picker .dnb-input__input.dnb-date-picker__input--large, .dnb-core-style .dnb-date-picker__input--large--has-submit-element .dnb-core-style .dnb-date-picker__input--large__input {
-  padding-right: 0.125rem;
-}
-.dnb-date-picker__input--large:last-of-type:not(*:root),
-.dnb-date-picker .dnb-input__input.dnb-date-picker__input--large:last-of-type:not(*:root), .dnb-core-style .dnb-date-picker__input--large:last-of-type:not(*:root) {
-  margin-right: 4rem;
 }
 .dnb-date-picker__input--label-alignment-right,
 .dnb-date-picker .dnb-input__input.dnb-date-picker__input--label-alignment-right, .dnb-core-style .dnb-date-picker__input--label-alignment-right {
@@ -3739,10 +3682,16 @@ html[data-whatinput=keyboard] .dnb-date-picker__container table.dnb-no-focus:foc
   width: fit-content;
 }
 .dnb-date-picker .dnb-input__input.dnb-date-picker__input:first-of-type, .dnb-date-picker__input:first-of-type {
-  margin-left: 0.8rem;
+  margin-left: 0.2rem;
 }
-.dnb-date-picker .dnb-input__input.dnb-date-picker__input:last-of-type, .dnb-date-picker__input:last-of-type {
-  margin-right: 2.2rem;
+.dnb-multi-input-mask__fieldset:last-of-type .dnb-date-picker__input:last-of-type {
+  --input-padding--small: 0.25rem;
+  --input-padding--medium: 0.333rem;
+  --input-padding--large: 0.5rem;
+  margin-right: 2rem;
+}
+.dnb-date-picker--medium .dnb-multi-input-mask__fieldset:first-of-type .dnb-input__input.dnb-date-picker__input:first-of-type, .dnb-date-picker--large .dnb-multi-input-mask__fieldset:first-of-type .dnb-input__input.dnb-date-picker__input:first-of-type {
+  margin-left: 0.5rem;
 }
 .dnb-date-picker .dnb-input__shell {
   display: none;

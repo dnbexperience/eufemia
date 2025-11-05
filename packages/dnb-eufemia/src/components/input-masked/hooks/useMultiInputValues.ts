@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useCallback, useReducer } from 'react'
 import {
   MultiInputMaskProps,
   MultiInputMaskValue,
@@ -7,34 +7,55 @@ import {
 type UseMultiInputValues<T extends string> = {
   inputs: MultiInputMaskProps<T>['inputs']
   defaultValues?: MultiInputMaskProps<T>['values']
-  callback?: (values: MultiInputMaskProps<T>['values']) => void
 }
 
 export function useMultiInputValue<T extends string>({
   inputs,
   defaultValues,
-  callback,
 }: UseMultiInputValues<T>) {
-  const [values, setValues] = useState<MultiInputMaskValue<T>>(
-    defaultValues ? defaultValues : createDefaultValues()
+  const valuesRef = useRef<MultiInputMaskValue<T>>(
+    defaultValues ? defaultValues : createDefaultValues(inputs)
   )
+  // Use reducer to force re-renders when values change
+  const [, forceUpdate] = useReducer(() => ({}), {})
+  const prevDefaultValuesRef = useRef(defaultValues)
 
-  function createDefaultValues() {
-    return inputs.reduce((values, input) => {
-      values[input.id] = ''
-
-      return values
-    }, {} as MultiInputMaskValue<T>)
-  }
-
-  function onChange(id: string, value: string) {
-    const updatedValues = { ...values, [id]: value }
-
-    setValues(updatedValues)
-    if (callback) {
-      callback(updatedValues)
+  // Sync with prop changes (for controlled component behavior)
+  // Only update if values actually changed to avoid unnecessary renders
+  useEffect(() => {
+    if (defaultValues && defaultValues !== prevDefaultValuesRef.current) {
+      // Check if any values actually changed
+      const prev = prevDefaultValuesRef.current
+      const hasChanges =
+        !prev ||
+        Object.keys(defaultValues).some(
+          (key) => prev[key as T] !== defaultValues[key as T]
+        )
+      if (hasChanges) {
+        valuesRef.current = defaultValues
+        forceUpdate()
+      }
+      prevDefaultValuesRef.current = defaultValues
     }
-  }
+  }, [defaultValues])
 
-  return [values, onChange] as const
+  const onChange = useCallback((updatedValues: MultiInputMaskValue<T>) => {
+    valuesRef.current = updatedValues
+
+    // Force re-render to update the component
+    forceUpdate()
+  }, [])
+
+  // Return ref value for current state, but use forceUpdate for re-renders
+  return [valuesRef.current, onChange] as const
+}
+
+function createDefaultValues(
+  inputs: MultiInputMaskProps<string>['inputs']
+) {
+  return inputs.reduce((values, input) => {
+    values[input.id] = ''
+
+    return values
+  }, {} as MultiInputMaskValue<string>)
 }
