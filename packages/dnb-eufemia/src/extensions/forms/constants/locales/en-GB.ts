@@ -209,7 +209,7 @@ export default {
         'Invalid date of birth. Enter todays date or earlier.',
     },
     PhoneNumber: {
-      label: 'Mobile number',
+      numberLabel: 'Mobile number',
       countryCodeLabel: 'Country code',
       errorRequired:
         'Mobile number must be filled in. If you don’t have a mobile number, you can enter another phone number.',
