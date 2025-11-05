@@ -3,7 +3,7 @@ import { PropertiesTableProps } from '../../../../shared/types'
 export const StepProperties: PropertiesTableProps = {
   title: {
     doc: 'An unique title of the step.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'required',
   },
   inactive: {
@@ -33,7 +33,7 @@ export const StepProperties: PropertiesTableProps = {
   },
   children: {
     doc: 'Contents.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'required',
   },
   '[Flex.Container](/uilib/layout/flex/container/properties)': {

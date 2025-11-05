@@ -69,7 +69,7 @@ export const ArrayProperties: PropertiesTableProps = {
   },
   placeholder: {
     doc: 'Will be shown if the value or data context value is empty.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   emptyValue: {
@@ -86,7 +86,7 @@ export const ArrayProperties: PropertiesTableProps = {
   validateInitially: DataValueWritePropsProperties.validateInitially,
   validateContinuously: DataValueWritePropsProperties.validateContinuously,
   children: {
-    doc: 'React.Node or a function so you can get the current value as the first function parameter, and the index as the second parameter as well as the array of internal items as the third parameter.',
+    doc: 'React.ReactNode or a function so you can get the current value as the first function parameter, and the index as the second parameter as well as the array of internal items as the third parameter.',
     type: ['React.ReactNode', 'function'],
     status: 'optional',
   },

@@ -9,7 +9,7 @@ export const OptionProperties: PropertiesTableProps = {
   },
   title: {
     doc: 'Title for the option. Overrides `children`.',
-    type: ['string', 'React.Node'],
+    type: ['string', 'React.ReactNode'],
     status: 'optional',
   },
   groupIndex: {
@@ -19,7 +19,7 @@ export const OptionProperties: PropertiesTableProps = {
   },
   text: {
     doc: 'Secondary text.',
-    type: ['string', 'React.Node'],
+    type: ['string', 'React.ReactNode'],
     status: 'optional',
   },
   disabled: {
@@ -30,7 +30,7 @@ export const OptionProperties: PropertiesTableProps = {
   help: FieldProperties.help,
   children: {
     doc: 'Optional way to provide `title`. Will be ignored if `title` is used.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'optional',
   },
 }
