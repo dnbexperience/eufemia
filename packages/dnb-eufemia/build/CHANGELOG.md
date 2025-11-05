@@ -3,6 +3,30 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.89.0](https://github.com/dnbexperience/eufemia/compare/v10.88.0...v10.89.0) (2025-11-05)
+
+
+### :memo: Documentation
+
+* **Autocomplete:** correct type of `showAll` to be React.Node ([#5914](https://github.com/dnbexperience/eufemia/issues/5914)) ([a26101c](https://github.com/dnbexperience/eufemia/commit/a26101cd10559d3b8665af194a69845527eb17b8))
+
+
+### :sparkles: Features
+
+* **Field.PhoneNumber:** add `numberLabel` and forward `label` to the field block (legend/fieldset) ([#5888](https://github.com/dnbexperience/eufemia/issues/5888)) ([ec2a11a](https://github.com/dnbexperience/eufemia/commit/ec2a11a5a5c74b4ec663158321bcccd606625496))
+* **Logo:** add DNB Eiendom ([#5881](https://github.com/dnbexperience/eufemia/issues/5881)) ([1689f37](https://github.com/dnbexperience/eufemia/commit/1689f3710f90de46d015d8a78833b5d9bcaa1db6))
+* **Pagination:** swap navigation buttons with page number buttons ([#5916](https://github.com/dnbexperience/eufemia/issues/5916)) ([1be0b6d](https://github.com/dnbexperience/eufemia/commit/1be0b6d998727a1d0bd6048576440ab0c3c27efe))
+* **Typography:** add support for `proseMaxWidth` (for default width) to P and H2 etc. ([#5885](https://github.com/dnbexperience/eufemia/issues/5885)) ([ea5cf6b](https://github.com/dnbexperience/eufemia/commit/ea5cf6b550f6ab1ad900f591c4bfa77b10691797)), closes [#5857](https://github.com/dnbexperience/eufemia/issues/5857)
+
+
+### :bug: Bug Fixes
+
+* **Dropdown, Autocomplete:** keyboard navigation fixes ([#5444](https://github.com/dnbexperience/eufemia/issues/5444)) ([96b6e3a](https://github.com/dnbexperience/eufemia/commit/96b6e3ab04e6dde8b50446876b5f61a841e0397d))
+* **Field.DateOfBirth:** support `labelDescription` ([#5893](https://github.com/dnbexperience/eufemia/issues/5893)) ([2f53eff](https://github.com/dnbexperience/eufemia/commit/2f53eff29cb4ca467251d413b342be99c2b28aaf))
+* **Field.Date:** should reset value when pressing reset button ([#5898](https://github.com/dnbexperience/eufemia/issues/5898)) ([b8a2ba2](https://github.com/dnbexperience/eufemia/commit/b8a2ba279415a725457cd449e350f6fdc806cf47))
+* **InfoOverlay:** should not bleed `content` property to data ([#5897](https://github.com/dnbexperience/eufemia/issues/5897)) ([e39e9ae](https://github.com/dnbexperience/eufemia/commit/e39e9aeafecfb9d7a54745d4d5249b1c62f3bd3f))
+* **Modal:** should only render one `title` text content at the time ([#5917](https://github.com/dnbexperience/eufemia/issues/5917)) ([51a02af](https://github.com/dnbexperience/eufemia/commit/51a02af2a373c3e844f6b9b3b72c241e4b67124a))
+
 ## [10.88.0](https://github.com/dnbexperience/eufemia/compare/v10.87.0...v10.88.0) (2025-10-29)
 
 
