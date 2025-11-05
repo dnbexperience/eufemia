@@ -12,7 +12,7 @@ export const SelectionProperties: PropertiesTableProps = {
     status: 'optional',
   },
   transformSelection: {
-    doc: 'Transform the displayed selection for Dropdown and Autocomplete variant. Use it to display a different value than the one in the data set. The first parameter is the props of the Option component or data item. You can return a React.Node that will be displayed in the selection.',
+    doc: 'Transform the displayed selection for Dropdown and Autocomplete variant. Use it to display a different value than the one in the data set. The first parameter is the props of the Option component or data item. You can return a React.ReactNode that will be displayed in the selection.',
     type: 'function',
     status: 'optional',
   },
@@ -58,7 +58,7 @@ export const SelectionProperties: PropertiesTableProps = {
   },
   children: {
     doc: 'For providing [Field.Option](/uilib/extensions/forms/base-fields/Option/) components, and other children.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'optional',
   },
 }
