@@ -51,21 +51,6 @@ export const inputMaskedProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  showGuide: {
-    doc: "When `false` is given, it doesn't print out placeholder characters and only adds mask characters when the user reaches them as they're typing. Defaults to `true`.",
-    type: 'boolean',
-    status: 'optional',
-  },
-  placeholderChar: {
-    doc: 'The placeholder character represents the fillable spot in the mask (e.g. `_`). Defaults to invisible space.',
-    type: 'string',
-    status: 'optional',
-  },
-  keepCharPositions: {
-    doc: 'When `true`, adding or deleting characters will not affect the positions of existing characters. Defaults to `false`.',
-    type: 'boolean',
-    status: 'optional',
-  },
   '[Space](/uilib/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],

@@ -9,7 +9,7 @@ import {
 } from '../number-format/NumberUtils'
 import { warn } from '../../shared/component-helper'
 import { IS_IOS } from '../../shared/helpers'
-import { safeSetSelection } from './text-mask/createTextMaskInputElement'
+import { safeSetSelection } from './text-mask/safeSetSelection'
 
 const enableLocaleSupportWhen = [
   'asNumber',
@@ -24,7 +24,6 @@ const enableNumberMaskWhen = [
   'currencyMask',
 ] as const
 
-export const invisibleSpace = '\u200B'
 // Local minus class pattern, matches multiple minus-like characters
 // Used instead of importing NUMBER_MINUS to keep types local
 const NUMBER_MINUS = '-|−|‐|‒|–|—|―'
@@ -73,7 +72,6 @@ export const isRequestingNumberMask = (
  */
 export type InputMaskParams = {
   showMask?: boolean
-  placeholderChar?: string | null
   allowDecimal?: boolean
   decimalLimit?: number
   decimalSymbol?: string
@@ -232,7 +230,6 @@ export const correctCaretPosition = (
     current?: {
       suffix?: string
       prefix?: string
-      placeholderChar?: string
     }
   },
   props: { mask?: Array<RegExp | { test?: (char: string) => boolean }> }
@@ -261,10 +258,9 @@ export const correctCaretPosition = (
 
           // If there is a placeholder,
           // and the user clicks after the suffix
-          // we want the position to be "before" the placeholderChar
           if (
-            maskParams.placeholderChar !== invisibleSpace &&
-            element.value.length - 1 === String(suffix + prefix).length
+            element.value.length - 1 ===
+            String(suffix + prefix).length
           ) {
             pos = pos - 1
           }
@@ -277,11 +273,6 @@ export const correctCaretPosition = (
           }
         }
 
-        const char = element.value.slice(pos - 1, pos)
-        if (char === invisibleSpace) {
-          pos = suffixStart - 1
-        }
-
         if (!isNaN(parseFloat(String(pos)))) {
           safeSetSelection(element, pos)
         }
@@ -291,12 +282,7 @@ export const correctCaretPosition = (
         for (let l = chars.length, i = l - 1; i >= 0; i--) {
           const char = chars[i]
           const mask = props.mask[i]
-          if (
-            char &&
-            char !== invisibleSpace &&
-            mask instanceof RegExp &&
-            mask.test(char)
-          ) {
+          if (char && mask instanceof RegExp && mask.test(char)) {
             for (let n = i + 1; n < l; n++) {
               const mask = props.mask[n]
               if (mask?.test?.(char)) {
@@ -366,7 +352,6 @@ export const handleCurrencyMask = ({
       : { ...maskOptions, ...(currencyMask as Record<string, any>) }
   const paramsWithDefaults: InputMaskParams = {
     showMask: true,
-    placeholderChar: null,
     allowDecimal: true,
     decimalLimit: 2,
     decimalSymbol: ',',

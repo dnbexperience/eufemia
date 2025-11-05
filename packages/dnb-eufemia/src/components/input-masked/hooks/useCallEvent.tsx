@@ -12,7 +12,7 @@ import {
   keycode,
   dispatchCustomElementEvent,
 } from '../../../shared/component-helper'
-import { safeSetSelection } from '../text-mask/createTextMaskInputElement'
+import { safeSetSelection } from '../text-mask/safeSetSelection'
 import { isNumber } from '../text-mask/utilities'
 import InputMaskedContext from '../InputMaskedContext'
 import { correctCaretPosition } from '../InputMaskedUtils'

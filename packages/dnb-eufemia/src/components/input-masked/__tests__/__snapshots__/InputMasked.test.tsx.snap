@@ -1331,9 +1331,6 @@ html[data-visual-test] .dnb-input__input {
 /*
  * Utilities
  */
-.dnb-input-masked--guide {
-  font-family: var(--font-family-monospace);
-}
 .dnb-input-masked input::placeholder {
   color: inherit;
 }
@@ -1376,7 +1373,6 @@ html[data-visual-test] .dnb-input__input {
   transform: translateY(0);
   outline: none;
   font-family: var(--font-family-monospace);
-  text-align: center;
   border: none;
   background: transparent;
   overflow: visible;

@@ -133,6 +133,11 @@ export interface InputProps
    */
   inputElement?: InputInputElement;
   /**
+   * If set to `true`, the Input's internal "__shell" and "__border" class element will be omitted.
+   * For internal use only.
+   */
+  omitInputShellClass?: boolean;
+  /**
    * Icon to show before or after the input / placeholder. Can be either a string defining a primary icon or a Component using an SVG icon of either 16px or 24px.
    */
   icon?: IconIcon;
