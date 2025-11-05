@@ -12,7 +12,7 @@ import {
   warn,
   isTrue,
   dispatchCustomElementEvent,
-  getPreviousSibling,
+  getClosestParent,
 } from '../../shared/component-helper'
 import Context from '../../shared/Context'
 import Button from '../button/Button'
@@ -488,7 +488,7 @@ class InteractionMarker extends React.PureComponent {
     let height = 0
 
     try {
-      const sibling = getPreviousSibling('dnb-table', this._ref.current)
+      const sibling = getClosestParent('dnb-table', this._ref.current)
       height = parseFloat(
         window.getComputedStyle(sibling.querySelector('tbody')).height
       )

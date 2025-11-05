@@ -4,13 +4,13 @@ export type TargetSelector = string
 export type RootElement = Element
 
 /**
- * getPreviousSibling traverses down the DOM tree until it finds the wanted element
+ * getClosestParent returns the first element that matches the `selector` starting with the given `element` and traversing up through its parent.
  *
- * @param  {string} selector CSS selector name (HTML class name or selector or tag name with upper case chars, like BUTTON)
+ * @param  {string} selector CSS class or tag name (tag name with upper case chars, like "BUTTON")
  * @param  {Element} element The element to begin with
- * @return {Element} Found element
+ * @return {Element} Found element or `null`
  */
-export const getPreviousSibling = (
+export const getClosestParent = (
   selector: TargetSelector,
   element: RootElement
 ): Element | null => {
@@ -30,11 +30,9 @@ export const getPreviousSibling = (
       return element?.classList.contains(className)
     }
 
-    if (contains(element)) {
-      return element
+    while (element && !contains(element)) {
+      element = element?.parentElement
     }
-
-    while ((element = element?.parentElement) && !contains(element));
   } catch (e) {
     warn(e)
   }
