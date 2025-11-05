@@ -3,7 +3,7 @@ import { PropertiesTableProps } from '../../shared/types'
 export const HelpButtonProperties: PropertiesTableProps = {
   children: {
     doc: 'the content to show.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   title: {

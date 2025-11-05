@@ -18,7 +18,7 @@ export const AutocompleteProperties = {
   },
   title: {
     doc: 'Give a title to let the user know what they have to do. Defaults to `Skriv og få alternativer`.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   disableFilter: {
@@ -73,7 +73,7 @@ export const AutocompleteProperties = {
   },
   icon: {
     doc: 'To be included in the autocomplete input.',
-    type: ['string', 'React.Node'],
+    type: ['string', 'React.ReactNode'],
     status: 'optional',
   },
   iconSize: {
@@ -88,7 +88,7 @@ export const AutocompleteProperties = {
   },
   inputIcon: {
     doc: 'Same as `icon`.',
-    type: ['string', 'React.Node'],
+    type: ['string', 'React.ReactNode'],
     status: 'optional',
   },
   trianglePosition: {
@@ -118,22 +118,22 @@ export const AutocompleteProperties = {
   },
   noOptions: {
     doc: 'Text show in the "no options" item. If set to `false`, the list will not be rendered when there are no options available. Defaults to `Ingen alternativer`.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   ariaLiveOptions: {
     doc: 'Text read out by screen readers. This way users with screen readers know how many options they got during typing. Defaults to `%s alternativer`.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   showAll: {
     doc: 'Text that lets a user unravel all the available options. Defaults to `Vis alt`.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   indicatorLabel: {
     doc: 'Text show on indicator "options" item. Defaults to `Henter data ...`.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   showOptionsSr: {
@@ -153,7 +153,7 @@ export const AutocompleteProperties = {
   },
   submitButtonTitle: {
     doc: 'Title on submit button. Defaults to `Vis alternativer`.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   submitButtonIcon: {
@@ -163,7 +163,7 @@ export const AutocompleteProperties = {
   },
   submitElement: {
     doc: 'Replace the dropdown / submit button with a custom React element. Defaults to the input SubmitButton `import { SubmitButton } from &#39;@dnb/eufemia/components/input/Input&#39;`.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   opened: {
@@ -208,12 +208,12 @@ export const AutocompleteProperties = {
   },
   label: {
     doc: 'Prepends the Form Label component. If no ID is provided, a random ID is created.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   labelDirection: {
     doc: 'Use `labelDirection="vertical"` to change the label layout direction. Defaults to `horizontal`.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   labelSrOnly: {
@@ -223,7 +223,7 @@ export const AutocompleteProperties = {
   },
   suffix: {
     doc: 'Text describing the content of the Autocomplete more than the label. You can also send in a React component, so it gets wrapped inside the Autocomplete component.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   skeleton: {
