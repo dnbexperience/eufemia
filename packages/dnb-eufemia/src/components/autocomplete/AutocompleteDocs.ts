@@ -188,7 +188,7 @@ export const AutocompleteProperties = {
   },
   status: {
     doc: 'Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.',
-    type: ['error', 'info', 'boolean'],
+    type: ['React.ReactNode', 'boolean'],
     status: 'optional',
   },
   statusState: {
