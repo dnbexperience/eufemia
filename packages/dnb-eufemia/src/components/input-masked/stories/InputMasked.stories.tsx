@@ -5,7 +5,6 @@
 
 import React, { useState } from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
-import emailMask from '../addons/emailMask'
 import { InputMasked, ToggleButton } from '../..'
 import { Flex, Hr } from '../../..'
 import styled from '@emotion/styled'
@@ -74,9 +73,6 @@ export function Sandbox() {
           </Box>
           <Box>
             <PercentInput />
-          </Box>
-          <Box>
-            <EmailMask />
           </Box>
           <Box>
             <ShowMask />
@@ -184,20 +180,6 @@ function PercentInput() {
   )
 }
 
-function EmailMask() {
-  return (
-    <InputMasked
-      label="emailMask"
-      placeholder="@."
-      autocomplete="on"
-      keepPlaceholder
-      mask={emailMask}
-      right
-      bottom
-    />
-  )
-}
-
 function ShowMask() {
   return (
     <InputMasked
@@ -247,19 +229,19 @@ function MultiInputMaskDate() {
         {
           id: 'day',
           label: 'dagen',
-          placeholderCharacter: 'd',
+          placeholder: 'dd',
           mask: [/[0-9]/, /[0-9]/],
         },
         {
           id: 'month',
           label: 'måneden',
-          placeholderCharacter: 'm',
+          placeholder: 'mm',
           mask: [/[0-9]/, /[0-9]/],
         },
         {
           id: 'year',
           label: 'året',
-          placeholderCharacter: 'å',
+          placeholder: 'åååå',
           mask: [/[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/],
         },
       ]}
@@ -288,19 +270,19 @@ function MultiInputMaskMix() {
         {
           id: 'numbers',
           label: 'just numbers',
-          placeholderCharacter: 'n',
+          placeholder: 'nn',
           mask: [/[0-9]/, /[0-9]/],
         },
         {
           id: 'letters',
           label: 'just letters',
-          placeholderCharacter: 'l',
+          placeholder: 'll',
           mask: [/[a-zA-Z]/, /[a-zA-Z]/],
         },
         {
           id: 'mix',
           label: 'numbers and letters',
-          placeholderCharacter: 'm',
+          placeholder: 'nnll',
           mask: [/[0-9]/, /[0-9]/, /[a-zA-Z]/, /[a-zA-Z]/],
         },
       ]}
@@ -319,7 +301,7 @@ function MultiInputMaskStatuses() {
           {
             id: 'error',
             label: 'error',
-            placeholderCharacter: 'e',
+            placeholder: 'ee',
             mask: [/[0-9]/, /[0-9]/],
           },
         ]}
@@ -331,7 +313,7 @@ function MultiInputMaskStatuses() {
           {
             id: 'disabled',
             label: 'disabled',
-            placeholderCharacter: 'd',
+            placeholder: 'dd',
             mask: [/[0-9]/, /[0-9]/],
           },
         ]}

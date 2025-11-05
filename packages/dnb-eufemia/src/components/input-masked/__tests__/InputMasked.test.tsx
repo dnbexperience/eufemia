@@ -16,13 +16,6 @@ const props: InputMaskedProps = {
   id: 'input-masked',
 }
 
-beforeEach(() => {
-  // Use this because of the correctCaretPosition
-  window.requestAnimationFrame = jest.fn((callback) => {
-    return setTimeout(callback, 0)
-  })
-})
-
 describe('InputMasked component', () => {
   it('should format "numberMask" accordingly the defined properties', () => {
     render(
@@ -86,26 +79,26 @@ describe('InputMasked component', () => {
         value={initValue}
         numberMask={{
           prefix: 'NOK ',
-          suffix: ',- kr',
+          suffix: ' kr',
           allowDecimal: true,
         }}
         onChange={onChange}
       />
     )
 
-    expect(document.querySelector('input').value).toBe('NOK 1 234,5,- kr')
+    expect(document.querySelector('input').value).toBe('NOK 1 234,5 kr')
 
     fireEvent.change(document.querySelector('input'), {
       target: { value: newValue },
     })
 
     expect(document.querySelector('input').value).toBe(
-      'NOK 1 234 567 890,,- kr'
+      'NOK 123 456 789,0 kr'
     )
 
     expect(
       onChange.mock.calls[onChange.mock.calls.length - 1][0].value
-    ).toBe('NOK 123 456 789,0,- kr')
+    ).toBe('NOK 123 456 789,0 kr')
     expect(
       onChange.mock.calls[onChange.mock.calls.length - 1][0].numberValue
     ).toBe(123456789)
@@ -245,7 +238,7 @@ describe('InputMasked component', () => {
     })
 
     expect(onChange.mock.calls[0][0].numberValue).toBe(-0)
-    expect(document.querySelector('input').value).toBe('-​')
+    expect(document.querySelector('input').value).toBe('-')
 
     fireEvent.change(document.querySelector('input'), {
       target: { value: '-0' },
@@ -298,7 +291,7 @@ describe('InputMasked component', () => {
       <InputMasked
         value="11020312345"
         onKeyDown={onKeyDown}
-        mask={() => [
+        mask={[
           /[0-9]/,
           /\d/,
           /\d/,
@@ -335,7 +328,7 @@ describe('InputMasked component', () => {
       <InputMasked
         value="11020312345"
         onKeyDown={onKeyDown}
-        mask={() => [
+        mask={[
           /[0-9]/,
           /\d/,
           /\d/,
@@ -371,7 +364,7 @@ describe('InputMasked component', () => {
       <Provider value={{ InputMasked: { value: '00020300000' } }}>
         <InputMasked
           value="11020312345"
-          mask={() => [
+          mask={[
             /[0-9]/,
             /\d/,
             /\d/,
@@ -405,10 +398,7 @@ describe('InputMasked component', () => {
           },
         }}
       >
-        <InputMasked
-          value="123"
-          mask={() => [/\d/, ' ', /\d/, ' ', /\d/]}
-        />
+        <InputMasked value="123" mask={[/\d/, ' ', /\d/, ' ', /\d/]} />
       </Provider>
     )
 
@@ -454,48 +444,62 @@ describe('InputMasked component', () => {
       />
     )
 
-    const setSelectionRange = jest.fn()
-    const focus = ({ value }) => {
-      fireEvent.focus(document.querySelector('input'), {
+    {
+      const input = document.querySelector('input') as HTMLInputElement
+      const spy = jest.spyOn(input, 'setSelectionRange')
+
+      // Place caret inside the suffix to trigger correction
+      const value1 = '1 234,5 kr'
+      input.value = value1
+      const suffixStart1 = value1.indexOf(' kr')
+
+      fireEvent.focus(input, {
         target: {
-          value,
-          selectionStart: value.indexOf('kr'), // set it where the mask starts
-          selectionEnd: value.indexOf('kr'), // set it where the mask starts
-          setSelectionRange,
+          value: value1,
+          selectionStart: suffixStart1 + 1, // inside suffix
+          selectionEnd: suffixStart1 + 1,
         },
       })
+
+      // Allow caret correction to run
+      await wait(16)
+
+      expect(spy).toHaveBeenCalled()
+      expect(spy).toHaveBeenLastCalledWith(suffixStart1, suffixStart1)
+
+      // With prefix and suffix
+      render(
+        <InputMasked
+          showMask
+          numberMask={{
+            prefix: 'Prefix ',
+            suffix: ' kr',
+            allowDecimal: true,
+          }}
+        />
+      )
     }
 
-    focus({ value: '​ kr' })
-    expect(document.querySelector('input').value).toBe(
-      '​ kr' // includes a hidden space: invisibleSpace
-    )
+    {
+      const input = document.querySelector('input') as HTMLInputElement
+      const spy = jest.spyOn(input, 'setSelectionRange')
+      const value2 = 'Prefix 1 234,5 kr'
+      input.value = value2
+      const suffixStart2 = value2.indexOf(' kr')
 
-    await wait(2) // because of the delayed requestAnimationFrame
+      fireEvent.focus(input, {
+        target: {
+          value: value2,
+          selectionStart: suffixStart2 + 1,
+          selectionEnd: suffixStart2 + 1,
+        },
+      })
 
-    expect(setSelectionRange).toHaveBeenCalledTimes(1)
-    expect(setSelectionRange).toHaveBeenCalledWith(0, 0)
+      await wait(16)
 
-    render(
-      <InputMasked
-        showMask
-        numberMask={{
-          prefix: 'Prefix ',
-          suffix: ' kr',
-          allowDecimal: true,
-        }}
-      />
-    )
-
-    focus({ value: 'Prefix​  kr' })
-    expect(document.querySelector('input').value).toBe(
-      'Prefix​  kr' // includes a hidden space: invisibleSpace
-    )
-
-    await wait(2) // because of the delayed requestAnimationFrame
-
-    expect(setSelectionRange).toHaveBeenCalledTimes(2)
-    expect(setSelectionRange).toHaveBeenCalledWith(8, 8)
+      expect(spy).toHaveBeenCalled()
+      expect(spy).toHaveBeenLastCalledWith(suffixStart2, suffixStart2)
+    }
   })
 
   it('should move caret position on delete key', () => {
@@ -529,9 +533,7 @@ describe('InputMasked component', () => {
 
     const element = document.querySelector('input')
 
-    expect(element.value).toBe(
-      'NOK 123 456 kr' // includes a hidden space: invisibleSpace
-    )
+    expect(element.value).toBe('NOK 123 456 kr')
 
     const selectionPosition = 7
     const value = element.value
@@ -1419,6 +1421,18 @@ describe('InputMasked component asCurrency', () => {
     expect(document.querySelector('input').value).toBe('12 345,6 kr')
   })
 
+  it('should render "kr" when showMask is true and no value is given', () => {
+    render(<InputMasked showMask asCurrency />)
+
+    expect(document.querySelector('input')).toHaveValue(' kr')
+  })
+
+  it('should render "NOK" when showMask is true and currencyMask="NOK"', () => {
+    render(<InputMasked showMask currencyMask="NOK" />)
+
+    expect(document.querySelector('input')).toHaveValue(' NOK')
+  })
+
   it('should merge "maskOptions" properties', () => {
     render(
       <InputMasked
@@ -1565,7 +1579,8 @@ describe('InputMasked component asCurrency', () => {
 
     expect(document.querySelector('input').value).toBe('12,345.67 NOK')
 
-    const newValue = 'NOK 123 456 789.678 kr'
+    // Provide a raw numeric value; mask handles locale-specific formatting
+    const newValue = '123456789.678'
     fireEvent.change(document.querySelector('input'), {
       target: { value: newValue },
     })
@@ -1919,75 +1934,26 @@ describe('InputMasked with custom mask', () => {
 
     const element = document.querySelector('input')
 
-    const preventDefault = jest.fn()
+    await userEvent.tab()
 
-    fireEvent.focus(element, {
-      target: {
-        selectionStart: 6,
-      },
-      preventDefault,
-    })
+    expect(element).toHaveFocus()
+    expect(element.selectionStart).toBe(0)
+    expect(element.selectionEnd).toBe(2)
+    expect(element).toHaveSelection('12')
 
-    element.setSelectionRange = jest.fn()
+    await userEvent.keyboard('12')
 
-    await waitFor(() => {
-      expect(element.setSelectionRange).toHaveBeenCalledTimes(1)
-      expect(element.setSelectionRange).toHaveBeenNthCalledWith(1, 4, 4)
-    })
-  })
+    expect(element).toHaveValue('12')
+    expect(element.selectionStart).toBe(2)
+    expect(element.selectionEnd).toBe(2)
+    expect(element).toHaveSelection('')
 
-  it('should set correct cursor position on mouseDown', async () => {
-    render(
-      <InputMasked value={12} mask={[/\d/, /\d/, '–', '–', /\d/, /\d/]} />
-    )
+    await userEvent.keyboard('34')
 
-    const input = document.querySelector('input')
-
-    const preventDefault = jest.fn()
-
-    fireEvent.focus(input)
-    fireEvent.mouseDown(input, {
-      target: {
-        selectionStart: 6,
-      },
-      preventDefault,
-    })
-
-    input.setSelectionRange = jest.fn()
-
-    await waitFor(() => {
-      expect(input.setSelectionRange).toHaveBeenCalledTimes(2)
-      expect(input.setSelectionRange).toHaveBeenNthCalledWith(2, 4, 4)
-
-      expect(input.value).toBe('12––​​')
-    })
-  })
-
-  it('should set correct cursor position on mouseUp', async () => {
-    render(
-      <InputMasked value={12} mask={[/\d/, /\d/, '–', '–', /\d/, /\d/]} />
-    )
-
-    const input = document.querySelector('input')
-
-    const preventDefault = jest.fn()
-
-    fireEvent.focus(input)
-    fireEvent.mouseUp(input, {
-      target: {
-        selectionStart: 6,
-      },
-      preventDefault,
-    })
-
-    input.setSelectionRange = jest.fn()
-
-    await waitFor(() => {
-      expect(input.setSelectionRange).toHaveBeenCalledTimes(2)
-      expect(input.setSelectionRange).toHaveBeenNthCalledWith(2, 4, 4)
-
-      expect(input.value).toBe('12––​​')
-    })
+    expect(element).toHaveValue('12––34')
+    expect(element.selectionStart).toBe(6)
+    expect(element.selectionEnd).toBe(6)
+    expect(element).toHaveSelection('')
   })
 
   it('should set target.runCorrectCaretPosition on focus event', () => {
@@ -2009,48 +1975,25 @@ describe('InputMasked with custom mask', () => {
 
     const input = document.querySelector('input')
 
-    {
-      expect(document.body).toHaveFocus()
+    expect(document.body).toHaveFocus()
 
-      await userEvent.tab()
+    await userEvent.tab()
 
-      expect(input).toHaveFocus()
-      expect(input).toHaveValue('1 ​')
+    expect(input).toHaveFocus()
+    expect(input).toHaveValue('1')
+    expect(input.selectionStart).toBe(0)
+    expect(input.selectionEnd).toBe(1)
+    expect(input).toHaveSelection('1')
 
-      await userEvent.keyboard('{ArrowRight}2') // Remove selection
+    await userEvent.keyboard('{ArrowRight}2') // Remove selection
 
-      expect(input).toHaveValue('1 2')
-    }
+    expect(input).toHaveValue('1 2')
+    expect(input.selectionStart).toBe(3)
+    expect(input.selectionEnd).toBe(3)
+    expect(input).toHaveSelection('')
   })
 
-  it('should show placeholder chars when showMask is true', () => {
-    render(
-      <InputMasked
-        showMask
-        placeholderChar="_"
-        mask={[
-          '0',
-          '0',
-          /[4]/, // have to start with 4
-          /[5-7]/, // can be 5,6 or 7
-          ' ',
-          /[49]/, // have to start with 4 or 9
-          /\d/,
-          ' ',
-          /\d/,
-          /\d/,
-          ' ',
-          /\d/,
-          /\d/,
-          ' ',
-          /\d/,
-          /\d/,
-        ]}
-      />
-    )
-
-    expect(document.querySelector('input').value).toBe('00__ __ __ __ __')
-  })
+  // placeholderChar is no longer supported with Maskito; legacy behavior removed
 
   it('should handle leading zeros gracefully', async () => {
     const onChange = jest.fn()
@@ -2078,8 +2021,8 @@ describe('InputMasked with custom mask', () => {
         '{backspace}{backspace}{backspace}{backspace}'
       )
       const last = onChange.mock.calls.length - 1
-      expect(onChange.mock.calls[last][0].value).toBe('1 ​ ​,​​')
-      expect(onChange.mock.calls[last][0].cleanedValue).toBe('1.')
+      expect(onChange.mock.calls[last][0].value).toBe('1')
+      expect(onChange.mock.calls[last][0].cleanedValue).toBe('1')
       expect(onChange.mock.calls[last][0].numberValue).toBe(1)
     }
 
@@ -2097,8 +2040,8 @@ describe('InputMasked with custom mask', () => {
     {
       await userEvent.type(input, '0')
       const last = onChange.mock.calls.length - 1
-      expect(onChange.mock.calls[last][0].value).toBe('0 ​ ​,​​')
-      expect(onChange.mock.calls[last][0].cleanedValue).toBe('0.')
+      expect(onChange.mock.calls[last][0].value).toBe('0')
+      expect(onChange.mock.calls[last][0].cleanedValue).toBe('0')
       expect(onChange.mock.calls[last][0].numberValue).toBe(0)
     }
 
@@ -2115,8 +2058,8 @@ describe('InputMasked with custom mask', () => {
       await userEvent.clear(input)
       await userEvent.type(input, '000')
       const last = onChange.mock.calls.length - 1
-      expect(onChange.mock.calls[last][0].value).toBe('0 0 0,​​')
-      expect(onChange.mock.calls[last][0].cleanedValue).toBe('000.')
+      expect(onChange.mock.calls[last][0].value).toBe('0 0 0')
+      expect(onChange.mock.calls[last][0].cleanedValue).toBe('000')
       expect(onChange.mock.calls[last][0].numberValue).toBe(0)
     }
 
@@ -2138,7 +2081,7 @@ describe('InputMasked with custom mask', () => {
       expect(onChange.mock.calls[last][0].numberValue).toBe(0)
     }
 
-    expect(onChange).toHaveBeenCalledTimes(34)
+    expect(onChange).toHaveBeenCalledTimes(30)
 
     await userEvent.clear(input)
   })

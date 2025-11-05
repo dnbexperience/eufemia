@@ -40,13 +40,7 @@ export const DatePickerRange = () => (
       onCancel={({ startDate, endDate }) => {
         console.log('onCancel', startDate, endDate)
       }}
-      onBlur={({
-        startDate,
-        endDate,
-        partialStartDate,
-        partialEndDate,
-      }) => {
-        console.log('onBlurPartial', partialStartDate, partialEndDate)
+      onBlur={({ startDate, endDate }) => {
         console.log('onBlurComplete', startDate, endDate)
       }}
       shortcuts={[

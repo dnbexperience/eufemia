@@ -78,16 +78,13 @@ describe('Field.Number', () => {
     })
 
     it('renders custom mask given as a function with 4 digits', () => {
-      const mask = jest.fn(() => {
-        return Array(4).fill(/\d/)
-      })
+      const mask = Array(4).fill(/\d/)
 
       render(<Field.Number mask={mask} value={1234} />)
 
       expect(mask).toHaveBeenCalledTimes(1)
       expect(mask).toHaveBeenCalledWith('1234', {
         currentCaretPosition: 0,
-        placeholderChar: '​',
         previousConformedValue: undefined,
       })
       expect(document.querySelector('input')).toHaveValue('1234')
