@@ -109,7 +109,7 @@ describe('Field.PhoneNumber', () => {
     render(<Field.PhoneNumber />)
 
     const label = document.querySelector('.dnb-forms-field-phone-number')
-    expect(label).toHaveTextContent(nbNO.PhoneNumber.label)
+    expect(label).toHaveTextContent(nbNO.PhoneNumber.numberLabel)
   })
 
   it('should add (optional) text to the number label if required={false}', () => {
@@ -130,12 +130,14 @@ describe('Field.PhoneNumber', () => {
       `${nbNO.Field.optionalLabelSuffix}`
     )
     expect(numberElement.querySelector('label')).toHaveTextContent(
-      `${nbNO.PhoneNumber.label} ${nbNO.Field.optionalLabelSuffix}`
+      `${nbNO.PhoneNumber.numberLabel} ${nbNO.Field.optionalLabelSuffix}`
     )
 
     // Use "textContent" to check against non-breaking space
     expect(numberElement.querySelector('label').textContent).toBe(
-      `${nbNO.PhoneNumber.label}${' '}${nbNO.Field.optionalLabelSuffix}`
+      `${nbNO.PhoneNumber.numberLabel}${' '}${
+        nbNO.Field.optionalLabelSuffix
+      }`
     )
   })
 
