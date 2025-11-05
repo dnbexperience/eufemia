@@ -96,7 +96,7 @@ type EventValues = {
 function PhoneNumber(props: Props = {}) {
   const sharedContext = useContext(SharedContext)
   const {
-    label: defaultLabel,
+    numberLabel: defaultLabel,
     countryCodeLabel: defaultCountryCodeLabel,
     errorRequired,
   } = useTranslation().PhoneNumber
