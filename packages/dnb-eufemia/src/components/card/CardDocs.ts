@@ -23,7 +23,7 @@ export const CardProperties: PropertiesTableProps = {
   },
   title: {
     doc: 'Define a title that appears on top of the Card.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   responsive: {
@@ -53,7 +53,7 @@ export const CardProperties: PropertiesTableProps = {
   },
   children: {
     doc: 'Contents.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'required',
   },
   '[Flex.Container](/uilib/layout/flex/container/properties)': {

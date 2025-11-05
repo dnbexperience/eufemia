@@ -13,7 +13,7 @@ export const inputProperties: PropertiesTableProps = {
   },
   label: {
     doc: 'Prepends the Form Label component. If no ID is provided, a random ID is created.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   labelSrOnly: {
@@ -53,7 +53,7 @@ export const inputProperties: PropertiesTableProps = {
   },
   icon: {
     doc: 'Icon to show before or after the input / placeholder. Can be either a string defining a primary icon or a Component using an SVG icon of either 16px or 24px.',
-    type: ['string', 'React.Node'],
+    type: ['string', 'React.ReactNode'],
     status: 'optional',
   },
   iconPosition: {
@@ -93,7 +93,7 @@ export const inputProperties: PropertiesTableProps = {
   },
   suffix: {
     doc: 'Text describing the content of the input more than the label. you can also send in a React component, so it gets wrapped inside the Input component.',
-    type: ['string', 'React.Node'],
+    type: ['string', 'React.ReactNode'],
     status: 'optional',
   },
   size: {

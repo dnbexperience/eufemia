@@ -99,15 +99,15 @@ The following is an overview of all the types that the `data` property accepts. 
 ```ts
 // The visual content that is shown in one DrawerList item.
 // An array can be used to define multiple lines.
-type CONTENT = string | React.Node | (string | React.Node)[]
+type CONTENT = string | React.ReactNode | (string | React.ReactNode)[]
 
 // An array item
 type ARRAY_OBJECT = {
   content: CONTENT
   disabled?: boolean
   selectedKey?: string | number
-  selectedValue?: string | React.Node
-  suffixValue?: string | React.Node
+  selectedValue?: string | React.ReactNode
+  suffixValue?: string | React.ReactNode
   style?: React.CSSProperties
 }
 
