@@ -33,7 +33,7 @@ export const AnchorProperties: PropertiesTableProps = {
   },
   icon: {
     doc: '[Primary Icons](/icons/primary) can be set as a string (e.g. icon="chevron_right"), other icons should be set as React elements.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   iconPosition: {

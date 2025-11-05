@@ -75,7 +75,7 @@ export type HeadingProps = {
   group?: string
 
   /**
-   * <em>(required)</em> a heading, can be text or React.Node.
+   * <em>(required)</em> a heading, can be text or React.ReactNode.
    */
   text?: React.ReactNode
 

@@ -13,17 +13,17 @@ export const CopyOnClickProperties: PropertiesTableProps = {
   },
   copyContent: {
     doc: 'Contents to copy. Used when the copied value should differ from the visually shown value(`children`).',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   tooltipContent: {
     doc: 'The message shown in the tooltip when the content is copied. Defaults to the translation `CopyOnClick.clipboardCopy`.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   children: {
     doc: 'Contents.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'required',
   },
 }

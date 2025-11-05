@@ -3,12 +3,12 @@ import { PropertiesTableProps } from '../../../../shared/types'
 export const EditContainerProperties: PropertiesTableProps = {
   title: {
     doc: 'The title of the container.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   titleWhenNew: {
     doc: 'The title for a new item.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   variant: {
@@ -18,7 +18,7 @@ export const EditContainerProperties: PropertiesTableProps = {
   },
   toolbar: {
     doc: 'An alternative toolbar to be shown in the container.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   toolbarVariant: {
