@@ -110,5 +110,14 @@ describe('H element', () => {
       expect(element.classList.contains('dnb-h--x-large')).toBe(true)
       expect(element.style.maxWidth).toBe('100ch')
     })
+
+    it('applies proseMaxWidth as 60ch when true', () => {
+      render(<H proseMaxWidth>Test heading</H>)
+      const element = document.querySelector(
+        '.dnb-h--xx-large'
+      ) as HTMLElement
+
+      expect(element.style.maxWidth).toBe('60ch')
+    })
   })
 })
