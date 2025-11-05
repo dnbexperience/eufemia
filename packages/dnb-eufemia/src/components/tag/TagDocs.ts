@@ -21,7 +21,7 @@ export const TagProperties: PropertiesTableProps = {
   },
   icon: {
     doc: 'To be included in the tag. Primary Icons can be set as a string (e.g. icon="chevron_right"), other icons should be set as React elements. Note, we recommend not to use icons with clickable tags.',
-    type: ['string', 'React.Node'],
+    type: ['string', 'React.ReactNode'],
     status: 'optional',
   },
   hasLabel: {

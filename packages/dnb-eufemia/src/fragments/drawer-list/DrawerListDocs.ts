@@ -189,7 +189,7 @@ export const DrawerListEvents = {
 export const DrawerListItem = {
   content: {
     doc: 'Visual content in the list item',
-    type: ['string', 'React.node', '(string | React.Node)[]'],
+    type: ['string', 'React.node', '(string | React.ReactNode)[]'],
     status: 'optional',
   },
   disabled: {
@@ -209,7 +209,7 @@ export const DrawerListItem = {
   },
   selectedValue: {
     doc: 'Replaces the standard value output for selected item. Only used in some implementations (Dropdown, Autocomplete).',
-    type: ['string', 'React.Node'],
+    type: ['string', 'React.ReactNode'],
     status: 'optional',
   },
   suffixValue: {

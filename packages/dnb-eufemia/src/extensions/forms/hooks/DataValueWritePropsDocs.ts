@@ -18,12 +18,12 @@ export const DataValueWritePropsProperties: PropertiesTableProps = {
   },
   info: {
     doc: "Info message shown below / after the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => 'Your message', { showInitially: true })`",
-    type: ['React.Node', 'Array<React.Node>', 'function'],
+    type: ['React.ReactNode', 'Array<React.ReactNode>', 'function'],
     status: 'optional',
   },
   warning: {
     doc: "Warning message shown below / after the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => 'Your message', { showInitially: true })`",
-    type: ['React.Node', 'Array<React.Node>', 'function'],
+    type: ['React.ReactNode', 'Array<React.ReactNode>', 'function'],
     status: 'optional',
   },
   error: {
@@ -48,7 +48,7 @@ export const DataValueWritePropsProperties: PropertiesTableProps = {
   },
   labelSuffix: {
     doc: 'Will append an additional text to the label, like "(optional)". When using `inheritLabel`, the suffix will not be inherited. NB: The visual appearance of the `labelSuffix` may change in the future.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   schema: {
