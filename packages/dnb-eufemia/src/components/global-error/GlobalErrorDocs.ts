@@ -48,7 +48,7 @@ export const GlobalErrorProperties: PropertiesTableProps = {
   },
   children: {
     doc: 'To display additional related content, like useful links etc.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   '[Space](/uilib/layout/space/properties)': {
