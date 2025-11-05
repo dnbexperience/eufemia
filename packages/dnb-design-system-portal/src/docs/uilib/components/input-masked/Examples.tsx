@@ -9,10 +9,6 @@ import styled from '@emotion/styled'
 import { Provider } from '@dnb/eufemia/src/shared'
 import { Flex, InputMasked } from '@dnb/eufemia/src'
 
-// https://github.com/text-mask/text-mask
-// How to use masks: https://github.com/text-mask/text-mask/blob/master/componentDocumentation.md#readme
-// import createNumberMask from '@dnb/eufemia/src/components/input-masked/addons/createNumberMask'
-
 export const InputMaskedExampleNumberLocale = () => (
   <Wrapper>
     <ComponentBox data-visual-test="input-masked-number">
@@ -125,7 +121,6 @@ export const InputMaskedExampleCustomNumberMask = () => (
           suffix: ' kr',
           allowDecimal: true,
         }}
-        placeholderChar={null}
         onChange={({ numberValue }) => {
           console.log(numberValue)
         }}
@@ -163,40 +158,6 @@ export const InputMaskedExamplePrefix = () => (
         }}
         stretch={true}
         placeholder="Enter a number"
-        onChange={({ numberValue }) => {
-          console.log(numberValue)
-        }}
-      />
-    </ComponentBox>
-  </Wrapper>
-)
-
-export const InputMaskedExampleCustomMask = () => (
-  <Wrapper>
-    <ComponentBox data-visual-test="input-masked-custom-mask">
-      <InputMasked
-        label="Custom mask"
-        mask={[
-          '0',
-          '0',
-          /[4]/, // have to start with 4
-          /[5-7]/, // can be 5,6 or 7
-          ' ',
-          /[49]/, // have to start with 4 or 9
-          /\\d/,
-          ' ',
-          /\\d/,
-          /\\d/,
-          ' ',
-          /\\d/,
-          /\\d/,
-          ' ',
-          /\\d/,
-          /\\d/,
-        ]}
-        showMask
-        placeholderChar="_"
-        keepCharPositions
         onChange={({ numberValue }) => {
           console.log(numberValue)
         }}

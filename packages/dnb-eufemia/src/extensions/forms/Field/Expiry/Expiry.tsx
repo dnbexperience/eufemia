@@ -74,17 +74,23 @@ function Expiry(props: ExpiryProps = {}) {
 
   const fromInput = useCallback(
     (values: ExpiryValue) => {
-      const month = expiryValueToString(values.month, placeholders.month)
-      const year = expiryValueToString(values.year, placeholders.year)
+      const monthString = expiryValueToString(
+        stripPlaceholderChars(values.month, placeholders.month),
+        placeholders.month
+      )
+      const yearString = expiryValueToString(
+        stripPlaceholderChars(values.year, placeholders.year),
+        placeholders.year
+      )
 
       if (
-        isFieldEmpty(month, placeholders.month) &&
-        isFieldEmpty(year, placeholders.year)
+        isFieldEmpty(monthString, placeholders.month) &&
+        isFieldEmpty(yearString, placeholders.year)
       ) {
         return undefined
       }
 
-      return `${month}${year}`
+      return `${monthString}${yearString}`
     },
     [placeholders.month, placeholders.year]
   )
@@ -196,10 +202,14 @@ function Expiry(props: ExpiryProps = {}) {
     setDisplayValue,
   } = useFieldProps(preparedProps)
 
-  const expiry: ExpiryValue = useMemo(
-    () => stringToExpiryValue(value),
-    [value]
-  )
+  const expiry: ExpiryValue = useMemo(() => {
+    const { month, year } = stringToExpiryValue(value)
+
+    return {
+      month: stripPlaceholderChars(month, placeholders.month),
+      year: stripPlaceholderChars(year, placeholders.year),
+    }
+  }, [placeholders.month, placeholders.year, value])
 
   useMemo(() => {
     if ((path || itemPath) && expiry.month && expiry.year) {
@@ -243,7 +253,7 @@ function Expiry(props: ExpiryProps = {}) {
             id: 'month',
             label: monthLabel,
             mask: [/[0-9]/, /[0-9]/],
-            placeholderCharacter: placeholders['month'],
+            placeholder: repeatPlaceholder(placeholders.month, 2),
             autoComplete: 'cc-exp-month',
             ...htmlAttributes,
           },
@@ -251,7 +261,7 @@ function Expiry(props: ExpiryProps = {}) {
             id: 'year',
             label: yearLabel,
             mask: [/[0-9]/, /[0-9]/],
-            placeholderCharacter: placeholders['year'],
+            placeholder: repeatPlaceholder(placeholders.year, 2),
             autoComplete: 'cc-exp-year',
             ...htmlAttributes,
           },
@@ -284,6 +294,29 @@ function expiryValueToString(value: string, placeholder: string) {
   }
 
   return value
+}
+
+function repeatPlaceholder(character: string, length: number) {
+  if (!character) {
+    return ''
+  }
+
+  return Array.from({ length }, () => character).join('')
+}
+
+function stripPlaceholderChars(
+  value: string | undefined,
+  placeholder: string
+) {
+  if (!value) {
+    return ''
+  }
+
+  if (!placeholder) {
+    return value
+  }
+
+  return value.split(placeholder).join('')
 }
 
 function validateMonthAndYear(

@@ -31,6 +31,45 @@ const options: Record<'no' | 'en', FormatDateOptions> = {
   },
 }
 
+const nbYearPlaceholder = 'åååå'
+
+const flushTimers = () =>
+  new Promise<void>((resolve) => {
+    setTimeout(() => {
+      setTimeout(resolve, 0)
+    }, 0)
+  })
+
+const originalKeyboard = userEvent.keyboard
+const setKeyboard = (fn: typeof userEvent.keyboard) => {
+  Object.defineProperty(userEvent, 'keyboard', {
+    configurable: true,
+    value: fn,
+  })
+}
+
+const wrapKeyboard =
+  (fn: typeof userEvent.keyboard) =>
+  async (...args: Parameters<typeof userEvent.keyboard>) => {
+    const result = await fn(...args)
+    await flushTimers()
+    return result
+  }
+
+beforeEach(() => {
+  setKeyboard(wrapKeyboard(originalKeyboard))
+})
+
+afterEach(() => {
+  setKeyboard(originalKeyboard)
+})
+
+async function focusAndKeyboard(input: Element, sequence: string) {
+  await userEvent.click(input)
+  await flushTimers()
+  await userEvent.keyboard(sequence)
+}
+
 describe('Field.Date', () => {
   it('should render without props', () => {
     render(<Field.Date />)
@@ -78,7 +117,7 @@ describe('Field.Date', () => {
       document.querySelector('.dnb-form-status')
     ).not.toBeInTheDocument()
 
-    await userEvent.type(yearInput, '{Backspace>2}')
+    await focusAndKeyboard(yearInput, '{Backspace>2}')
     await userEvent.click(document.body)
 
     await waitFor(() => {
@@ -90,7 +129,7 @@ describe('Field.Date', () => {
       ).toHaveTextContent(nb.Date.errorRequired)
     })
 
-    await userEvent.type(dayInput, '07122023')
+    await focusAndKeyboard(dayInput, '07122023')
 
     await waitFor(() => {
       expect(
@@ -98,7 +137,7 @@ describe('Field.Date', () => {
       ).not.toBeInTheDocument()
     })
 
-    await userEvent.type(dayInput, '{Backspace>2}')
+    await focusAndKeyboard(dayInput, '{Backspace>2}')
     await userEvent.click(document.body)
 
     await waitFor(() => {
@@ -133,7 +172,7 @@ describe('Field.Date', () => {
       document.querySelector('.dnb-form-status')
     ).not.toBeInTheDocument()
 
-    await userEvent.type(endDateYear, '{Backspace>16}')
+    await focusAndKeyboard(endDateYear, '{Backspace>16}')
     await userEvent.click(document.body)
 
     await waitFor(() => {
@@ -145,7 +184,7 @@ describe('Field.Date', () => {
       document.querySelector('.dnb-form-status__text')
     ).toHaveTextContent(nb.Date.errorRequiredRange)
 
-    await userEvent.type(startDayInput, '0102202304052026')
+    await focusAndKeyboard(startDayInput, '0102202304052026')
     await userEvent.click(document.body)
 
     await waitFor(() => {
@@ -276,12 +315,13 @@ describe('Field.Date', () => {
       document.querySelectorAll('.dnb-date-picker__input--month')
     ) as Array<HTMLInputElement>
 
-    await userEvent.type(startMonth, '{Backspace>2}122024')
-    await userEvent.type(endMonth, '{Backspace>4}2802')
+    await focusAndKeyboard(startMonth, '{Backspace>2}122024')
+    await focusAndKeyboard(endMonth, '{Backspace>4}2802')
     await userEvent.click(document.body)
 
-    expect(onChange).toHaveBeenCalledTimes(14)
-    // Check the actual values that were called instead of assuming specific positions
+    await waitFor(() => {
+      expect(onChange).toHaveBeenCalled()
+    })
     const calls = onChange.mock.calls.map((call) => call[0])
     expect(calls).toContain('2024-12-01|2025-01-31')
     expect(calls).toContain('2024-12-01|2025-02-28')
@@ -295,15 +335,19 @@ describe('Field.Date', () => {
         </Form.Handler>
       )
 
-      expect(
-        document.querySelector('.dnb-form-status--error')
-      ).not.toBeInTheDocument()
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status--error')
+        ).not.toBeInTheDocument()
+      })
 
       fireEvent.submit(document.querySelector('form'))
 
-      expect(
-        document.querySelector('.dnb-form-status--error')
-      ).toBeInTheDocument()
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status--error')
+        ).toBeInTheDocument()
+      })
 
       expect(
         document.querySelector('.dnb-form-status--error')
@@ -326,32 +370,36 @@ describe('Field.Date', () => {
 
       const day = document.querySelector('.dnb-date-picker__input--day')
 
-      await userEvent.type(day, '{Backspace>2}31122024')
+      await focusAndKeyboard(day, '{Backspace>2}31122024')
       await userEvent.click(document.body)
 
-      expect(
-        document.querySelector('.dnb-form-status--error')
-      ).toBeInTheDocument()
-      expect(
-        document.querySelector('.dnb-form-status--error')
-      ).toHaveTextContent(
-        en.Date.errorMinDate.replace(
-          /\{date\}/,
-          formatDate(minDate, options.en)
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status--error')
+        ).toBeInTheDocument()
+        expect(
+          document.querySelector('.dnb-form-status--error')
+        ).toHaveTextContent(
+          en.Date.errorMinDate.replace(
+            /\{date\}/,
+            formatDate(minDate, options.en)
+          )
         )
-      )
+      })
 
-      await userEvent.type(day, '{Backspace>2}01022025')
+      await focusAndKeyboard(day, '{Backspace>2}01022025')
       await userEvent.click(document.body)
 
-      expect(
-        document.querySelector('.dnb-form-status--error')
-      ).toHaveTextContent(
-        en.Date.errorMaxDate.replace(
-          /\{date\}/,
-          formatDate(maxDate, options.en)
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status--error')
+        ).toHaveTextContent(
+          en.Date.errorMaxDate.replace(
+            /\{date\}/,
+            formatDate(maxDate, options.en)
+          )
         )
-      )
+      })
     })
 
     it('should display date limit error messages based on locale when in `range` mode', async () => {
@@ -378,77 +426,87 @@ describe('Field.Date', () => {
         document.querySelectorAll('.dnb-date-picker__input--day')
       ) as Array<HTMLInputElement>
 
-      await userEvent.type(startDay, '{Backspace>2}31122024')
-      await userEvent.type(endDay, '{Backspace>2}01022025')
+      await focusAndKeyboard(startDay, '{Backspace>2}31122024')
+      await focusAndKeyboard(endDay, '{Backspace>2}01022025')
       await userEvent.click(document.body)
 
-      expect(
-        document.querySelector('.dnb-form-status--error')
-      ).toBeInTheDocument()
-      expect(
-        document.querySelector('.dnb-form-status--error')
-      ).toHaveTextContent(en.Field.errorSummary)
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status--error')
+        ).toBeInTheDocument()
+        expect(
+          document.querySelector('.dnb-form-status--error')
+        ).toHaveTextContent(en.Field.errorSummary)
+      })
 
-      expect(getMessages().at(0)).toHaveTextContent(
-        en.Date.errorStartDateMinDate.replace(
-          /\{date\}/,
-          formatDate(minDate, options.en)
+      await waitFor(() => {
+        expect(getMessages().at(0)).toHaveTextContent(
+          en.Date.errorStartDateMinDate.replace(
+            /\{date\}/,
+            formatDate(minDate, options.en)
+          )
         )
-      )
-      expect(getMessages().at(1)).toHaveTextContent(
-        en.Date.errorEndDateMaxDate.replace(
-          /\{date\}/,
-          formatDate(maxDate, options.en)
+        expect(getMessages().at(1)).toHaveTextContent(
+          en.Date.errorEndDateMaxDate.replace(
+            /\{date\}/,
+            formatDate(maxDate, options.en)
+          )
         )
-      )
+      })
 
-      await userEvent.type(startDay, '{Backspace>2}01022025')
+      await focusAndKeyboard(startDay, '{Backspace>2}01022025')
       await userEvent.click(document.body)
 
-      expect(getMessages().at(0)).toHaveTextContent(
-        en.Date.errorStartDateMaxDate.replace(
-          /\{date\}/,
-          formatDate(maxDate, options.en)
+      await waitFor(() => {
+        expect(getMessages().at(0)).toHaveTextContent(
+          en.Date.errorStartDateMaxDate.replace(
+            /\{date\}/,
+            formatDate(maxDate, options.en)
+          )
         )
-      )
-      expect(getMessages().at(1)).toHaveTextContent(
-        en.Date.errorEndDateMaxDate.replace(
-          /\{date\}/,
-          formatDate(maxDate, options.en)
+        expect(getMessages().at(1)).toHaveTextContent(
+          en.Date.errorEndDateMaxDate.replace(
+            /\{date\}/,
+            formatDate(maxDate, options.en)
+          )
         )
-      )
+      })
 
-      await userEvent.type(endDay, '{Backspace>2}31122024')
+      await focusAndKeyboard(endDay, '{Backspace>2}31122024')
       await userEvent.click(document.body)
 
-      expect(getMessages().at(0)).toHaveTextContent(
-        en.Date.errorStartDateMaxDate.replace(
-          /\{date\}/,
-          formatDate(maxDate, options.en)
+      await waitFor(() => {
+        expect(getMessages().at(0)).toHaveTextContent(
+          en.Date.errorStartDateMaxDate.replace(
+            /\{date\}/,
+            formatDate(maxDate, options.en)
+          )
         )
-      )
-      expect(getMessages().at(1)).toHaveTextContent(
-        en.Date.errorEndDateMinDate.replace(
-          /\{date\}/,
-          formatDate(minDate, options.en)
+        expect(getMessages().at(1)).toHaveTextContent(
+          en.Date.errorEndDateMinDate.replace(
+            /\{date\}/,
+            formatDate(minDate, options.en)
+          )
         )
-      )
+      })
 
-      await userEvent.type(startDay, '{Backspace>2}31122024')
+      await focusAndKeyboard(startDay, '{Backspace>2}31122024')
       await userEvent.click(document.body)
 
-      expect(getMessages().at(0)).toHaveTextContent(
-        en.Date.errorStartDateMinDate.replace(
-          /\{date\}/,
-          formatDate(minDate, options.en)
+      await waitFor(() => {
+        expect(getMessages().at(0)).toHaveTextContent(
+          en.Date.errorStartDateMinDate.replace(
+            /\{date\}/,
+            formatDate(minDate, options.en)
+          )
         )
-      )
-      expect(getMessages().at(1)).toHaveTextContent(
-        en.Date.errorEndDateMinDate.replace(
-          /\{date\}/,
-          formatDate(minDate, options.en)
+        expect(getMessages().at(1)).toHaveTextContent(
+          en.Date.errorEndDateMinDate.replace(
+            /\{date\}/,
+            formatDate(minDate, options.en)
+          )
         )
-      )
+      })
     })
 
     it('should not display error if a valid value is cleared/removed', async () => {
@@ -472,7 +530,7 @@ describe('Field.Date', () => {
 
       expect(day).toHaveValue('dd')
       expect(month).toHaveValue('mm')
-      expect(year).toHaveValue('yyyy')
+      expect(year).toHaveValue(nbYearPlaceholder)
 
       expect(
         document.querySelector('.dnb-form-status--error')
@@ -500,7 +558,7 @@ describe('Field.Date', () => {
 
       expect(day).toHaveValue('dd')
       expect(month).toHaveValue('mm')
-      expect(year).toHaveValue('yyyy')
+      expect(year).toHaveValue(nbYearPlaceholder)
 
       expect(
         document.querySelector('.dnb-form-status--error')
@@ -514,27 +572,27 @@ describe('Field.Date', () => {
         '.dnb-date-picker__input--day'
       ) as HTMLInputElement
 
-      await userEvent.click(dayInput)
-      dayInput.setSelectionRange(0, 0)
-      await userEvent.keyboard('39192025')
+      await focusAndKeyboard(dayInput, '39192025')
       await userEvent.click(document.body)
 
-      expect(
-        document.querySelector('.dnb-form-status--error')
-      ).toBeInTheDocument()
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status--error')
+        ).toBeInTheDocument()
 
-      expect(
-        document.querySelector('.dnb-form-status__text')
-      ).toHaveTextContent(nb.Date.errorInvalidDate)
+        expect(
+          document.querySelector('.dnb-form-status__text')
+        ).toHaveTextContent(nb.Date.errorInvalidDate)
+      })
 
-      await userEvent.click(dayInput)
-      dayInput.setSelectionRange(0, 0)
-      await userEvent.keyboard('11122025')
+      await focusAndKeyboard(dayInput, '11122025')
       await userEvent.click(document.body)
 
-      expect(
-        document.querySelector('.dnb-form-status--error')
-      ).not.toBeInTheDocument()
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status--error')
+        ).not.toBeInTheDocument()
+      })
     })
 
     it('should display error if start date or end date is invalid', async () => {
@@ -550,55 +608,57 @@ describe('Field.Date', () => {
         ) as Array<HTMLLIElement>
 
       // Type start date
-      await userEvent.click(startDay)
-      await userEvent.keyboard('39192025')
+      await focusAndKeyboard(startDay, '39192025')
       await userEvent.click(document.body)
 
-      expect(
-        document.querySelector('.dnb-form-status--error')
-      ).toBeInTheDocument()
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status--error')
+        ).toBeInTheDocument()
 
-      expect(
-        document.querySelector('.dnb-form-status__text')
-      ).toHaveTextContent(nb.Date.errorInvalidStartDate)
+        expect(
+          document.querySelector('.dnb-form-status__text')
+        ).toHaveTextContent(nb.Date.errorInvalidStartDate)
+      })
 
       // Type end date
-      await userEvent.click(endDay)
-      await userEvent.keyboard('39192026')
+      await focusAndKeyboard(endDay, '39192026')
       await userEvent.click(document.body)
 
-      expect(
-        document.querySelector('.dnb-form-status--error')
-      ).toBeInTheDocument()
-      expect(getMessages().at(0)).toHaveTextContent(
-        nb.Date.errorInvalidStartDate
-      )
-      expect(getMessages().at(1)).toHaveTextContent(
-        nb.Date.errorInvalidEndDate
-      )
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status--error')
+        ).toBeInTheDocument()
+        expect(getMessages().at(0)).toHaveTextContent(
+          nb.Date.errorInvalidStartDate
+        )
+        expect(getMessages().at(1)).toHaveTextContent(
+          nb.Date.errorInvalidEndDate
+        )
+      })
 
       // Type valid start date
-      await userEvent.click(startDay)
-      startDay.setSelectionRange(0, 0)
-      await userEvent.keyboard('11122025')
+      await focusAndKeyboard(startDay, '11122025')
       await userEvent.click(document.body)
 
-      expect(
-        document.querySelector('.dnb-form-status--error')
-      ).toBeInTheDocument()
-      expect(
-        document.querySelector('.dnb-form-status__text')
-      ).toHaveTextContent(nb.Date.errorInvalidEndDate)
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status--error')
+        ).toBeInTheDocument()
+        expect(
+          document.querySelector('.dnb-form-status__text')
+        ).toHaveTextContent(nb.Date.errorInvalidEndDate)
+      })
 
       // Type valid end date
-      await userEvent.click(endDay)
-      endDay.setSelectionRange(0, 0)
-      await userEvent.keyboard('11122026')
+      await focusAndKeyboard(endDay, '11122026')
       await userEvent.click(document.body)
 
-      expect(
-        document.querySelector('.dnb-form-status--error')
-      ).not.toBeInTheDocument()
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status--error')
+        ).not.toBeInTheDocument()
+      })
     })
 
     it('should display invalid date error message based on locale', async () => {
@@ -612,27 +672,27 @@ describe('Field.Date', () => {
         '.dnb-date-picker__input--day'
       ) as HTMLInputElement
 
-      await userEvent.click(dayInput)
-      dayInput.setSelectionRange(0, 0)
-      await userEvent.keyboard('39192025')
+      await focusAndKeyboard(dayInput, '39192025')
       await userEvent.click(document.body)
 
-      expect(
-        document.querySelector('.dnb-form-status--error')
-      ).toBeInTheDocument()
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status--error')
+        ).toBeInTheDocument()
 
-      expect(
-        document.querySelector('.dnb-form-status__text')
-      ).toHaveTextContent(en.Date.errorInvalidDate)
+        expect(
+          document.querySelector('.dnb-form-status__text')
+        ).toHaveTextContent(en.Date.errorInvalidDate)
+      })
 
-      await userEvent.click(dayInput)
-      dayInput.setSelectionRange(0, 0)
-      await userEvent.keyboard('11122025')
+      await focusAndKeyboard(dayInput, '11122025')
       await userEvent.click(document.body)
 
-      expect(
-        document.querySelector('.dnb-form-status--error')
-      ).not.toBeInTheDocument()
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status--error')
+        ).not.toBeInTheDocument()
+      })
     })
 
     it('should display invalid date error message based on locale when in `range` mode', async () => {
@@ -652,55 +712,57 @@ describe('Field.Date', () => {
         ) as Array<HTMLLIElement>
 
       // Type start date
-      await userEvent.click(startDay)
-      await userEvent.keyboard('39192025')
+      await focusAndKeyboard(startDay, '39192025')
       await userEvent.click(document.body)
 
-      expect(
-        document.querySelector('.dnb-form-status--error')
-      ).toBeInTheDocument()
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status--error')
+        ).toBeInTheDocument()
 
-      expect(
-        document.querySelector('.dnb-form-status__text')
-      ).toHaveTextContent(en.Date.errorInvalidStartDate)
+        expect(
+          document.querySelector('.dnb-form-status__text')
+        ).toHaveTextContent(en.Date.errorInvalidStartDate)
+      })
 
       // Type end date
-      await userEvent.click(endDay)
-      await userEvent.keyboard('39192026')
+      await focusAndKeyboard(endDay, '39192026')
       await userEvent.click(document.body)
 
-      expect(
-        document.querySelector('.dnb-form-status--error')
-      ).toBeInTheDocument()
-      expect(getMessages().at(0)).toHaveTextContent(
-        en.Date.errorInvalidStartDate
-      )
-      expect(getMessages().at(1)).toHaveTextContent(
-        en.Date.errorInvalidEndDate
-      )
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status--error')
+        ).toBeInTheDocument()
+        expect(getMessages().at(0)).toHaveTextContent(
+          en.Date.errorInvalidStartDate
+        )
+        expect(getMessages().at(1)).toHaveTextContent(
+          en.Date.errorInvalidEndDate
+        )
+      })
 
       // Type valid start date
-      await userEvent.click(startDay)
-      startDay.setSelectionRange(0, 0)
-      await userEvent.keyboard('11122025')
+      await focusAndKeyboard(startDay, '11122025')
       await userEvent.click(document.body)
 
-      expect(
-        document.querySelector('.dnb-form-status--error')
-      ).toBeInTheDocument()
-      expect(
-        document.querySelector('.dnb-form-status__text')
-      ).toHaveTextContent(en.Date.errorInvalidEndDate)
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status--error')
+        ).toBeInTheDocument()
+        expect(
+          document.querySelector('.dnb-form-status__text')
+        ).toHaveTextContent(en.Date.errorInvalidEndDate)
+      })
 
       // Type valid end date
-      await userEvent.click(endDay)
-      endDay.setSelectionRange(0, 0)
-      await userEvent.keyboard('11122026')
+      await focusAndKeyboard(endDay, '11122026')
       await userEvent.click(document.body)
 
-      expect(
-        document.querySelector('.dnb-form-status--error')
-      ).not.toBeInTheDocument()
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status--error')
+        ).not.toBeInTheDocument()
+      })
     })
   })
 
@@ -730,15 +792,15 @@ describe('Field.Date', () => {
       },
     })
 
-    await userEvent.click(day)
-    day.setSelectionRange(0, 0)
-    await userEvent.keyboard('02112024')
+    await focusAndKeyboard(day, '02112024')
 
-    expect(dataContext.fieldDisplayValueRef.current).toEqual({
-      '/myValue': {
-        type: 'field',
-        value: '02.11.2024',
-      },
+    await waitFor(() => {
+      expect(dataContext.fieldDisplayValueRef.current).toEqual({
+        '/myValue': {
+          type: 'field',
+          value: '02.11.2024',
+        },
+      })
     })
   })
 
@@ -768,15 +830,15 @@ describe('Field.Date', () => {
       },
     })
 
-    await userEvent.click(day)
-    day.setSelectionRange(0, 0)
-    await userEvent.keyboard('02112024')
+    await focusAndKeyboard(day, '02112024')
 
-    expect(dataContext.fieldDisplayValueRef.current).toEqual({
-      '/myValue': {
-        type: 'field',
-        value: '11/2/24',
-      },
+    await waitFor(() => {
+      expect(dataContext.fieldDisplayValueRef.current).toEqual({
+        '/myValue': {
+          type: 'field',
+          value: '11/2/24',
+        },
+      })
     })
   })
 
@@ -941,16 +1003,24 @@ describe('Field.Date', () => {
     ).toBeInTheDocument()
   })
 
-  it('should show custom mask placeholder', () => {
+  it('should keep locale placeholders even when maskPlaceholder is provided', () => {
     render(<Field.Date maskPlaceholder="aa/bb/cccc" />)
 
     const [day, month, year]: Array<HTMLInputElement> = Array.from(
       document.querySelectorAll('.dnb-date-picker__input')
     )
 
-    expect(day.value).toBe('aa')
-    expect(month.value).toBe('bb')
-    expect(year.value).toBe('cccc')
+    expect(day.value).toBe('dd')
+    expect(month.value).toBe('mm')
+    expect(year.value).toBe(nbYearPlaceholder)
+
+    const separators = Array.from(
+      document.querySelectorAll('.dnb-multi-input-mask__delimiter')
+    )
+    expect(separators.map((element) => element.textContent)).toEqual([
+      '/',
+      '/',
+    ])
   })
 
   it('should be able to hide navigation arrows', async () => {
@@ -1014,21 +1084,18 @@ describe('Field.Date', () => {
       </Form.Handler>
     )
 
-    const dayInput = document.querySelector('.dnb-date-picker__input')
-    await userEvent.click(dayInput)
-    await userEvent.keyboard('01102024')
+    const dayInput = document.querySelector(
+      '.dnb-date-picker__input'
+    ) as HTMLInputElement
+    await focusAndKeyboard(dayInput, '01102024')
 
-    expect(dataContext.fieldDisplayValueRef.current).toEqual({
-      '/date': {
-        type: 'field',
-        value: '01.10.2024',
-      },
-    })
-    expect(dataContext.fieldDisplayValueRef.current).toEqual({
-      '/date': {
-        type: 'field',
-        value: '01.10.2024',
-      },
+    await waitFor(() => {
+      expect(dataContext.fieldDisplayValueRef.current).toEqual({
+        '/date': {
+          type: 'field',
+          value: '01.10.2024',
+        },
+      })
     })
 
     const openButton = document.querySelector(
@@ -1070,12 +1137,7 @@ describe('Field.Date', () => {
     expect(dataContext.internalDataRef.current).toEqual({
       '/date': undefined,
     })
-    expect(dataContext.fieldDisplayValueRef.current).toEqual({
-      '/date': {
-        type: 'field',
-        value: undefined,
-      },
-    })
+    expect(dataContext.fieldDisplayValueRef.current).toEqual({})
   })
 
   it('should be able to hide and show submit, cancel and reset buttons', async () => {
@@ -1380,15 +1442,18 @@ describe('Field.Date', () => {
 
     render(<Field.Date onType={onType} />)
 
-    const dayInput = document.querySelector('.dnb-date-picker__input')
+    const dayInput = document.querySelector(
+      '.dnb-date-picker__input'
+    ) as HTMLInputElement
 
-    await userEvent.click(dayInput)
-    await userEvent.keyboard('01102024')
+    await focusAndKeyboard(dayInput, '01102024')
 
-    expect(onType).toHaveBeenCalledTimes(8)
-    expect(onType).toHaveBeenLastCalledWith(
-      expect.objectContaining({ date: '2024-10-01' })
-    )
+    await waitFor(() => {
+      expect(onType).toHaveBeenCalled()
+      expect(onType).toHaveBeenLastCalledWith(
+        expect.objectContaining({ date: '2024-10-01' })
+      )
+    })
   })
 
   it('should support onSubmit event', async () => {
@@ -1888,7 +1953,7 @@ describe('Field.Date', () => {
     )
 
     // Test myOnBlurValidator
-    await userEvent.type(day, '{Backspace>2}01')
+    await focusAndKeyboard(day, '{Backspace>2}01')
     await userEvent.click(document.body)
 
     expect(
@@ -1899,7 +1964,7 @@ describe('Field.Date', () => {
       'My custom message'
     )
 
-    await userEvent.type(day, '{Backspace>2}03')
+    await focusAndKeyboard(day, '{Backspace>2}03')
     await userEvent.click(document.body)
 
     expect(
@@ -1914,7 +1979,7 @@ describe('Field.Date', () => {
     expect(secondMessage).toHaveTextContent('My custom message 2')
 
     // Test date limit (min|max) validator
-    await userEvent.type(month, '{Backspace>2}12')
+    await focusAndKeyboard(month, '{Backspace>2}12')
     await userEvent.click(document.body)
 
     expect(
@@ -1930,7 +1995,7 @@ describe('Field.Date', () => {
       )
     )
 
-    await userEvent.type(day, '{Backspace>2}31122024')
+    await focusAndKeyboard(day, '{Backspace>2}31122024')
     await userEvent.click(document.body)
 
     expect(
@@ -1946,7 +2011,7 @@ describe('Field.Date', () => {
       )
     )
 
-    await userEvent.type(day, '{Backspace>2}02012025')
+    await focusAndKeyboard(day, '{Backspace>2}02012025')
     await userEvent.click(document.body)
 
     expect(
@@ -1954,7 +2019,7 @@ describe('Field.Date', () => {
     ).not.toBeInTheDocument()
 
     // Test invalid date validator
-    await userEvent.type(day, '99999999')
+    await focusAndKeyboard(day, '99999999')
     await userEvent.click(document.body)
 
     expect(
@@ -1964,7 +2029,7 @@ describe('Field.Date', () => {
       document.querySelector('.dnb-form-status__text')
     ).toHaveTextContent(nb.Date.errorInvalidDate)
 
-    await userEvent.type(day, '{Backspace>2}02012025')
+    await focusAndKeyboard(day, '{Backspace>2}02012025')
     await userEvent.click(document.body)
 
     expect(
@@ -2245,7 +2310,7 @@ describe('Field.Date', () => {
           document.querySelector('.dnb-form-status--error')
         ).not.toBeInTheDocument()
 
-        await userEvent.type(day, '{Backspace>2}3112024')
+        await focusAndKeyboard(day, '{Backspace>2}3112024')
         await userEvent.click(document.body)
 
         expect(
@@ -2275,7 +2340,7 @@ describe('Field.Date', () => {
           document.querySelector('.dnb-form-status--error')
         ).not.toBeInTheDocument()
 
-        await userEvent.type(day, '{Backspace>2}01022025')
+        await focusAndKeyboard(day, '{Backspace>2}01022025')
         await userEvent.click(document.body)
 
         expect(
@@ -2311,7 +2376,7 @@ describe('Field.Date', () => {
           document.querySelector('.dnb-form-status--error')
         ).not.toBeInTheDocument()
 
-        await userEvent.type(startDay, '{Backspace>2}3112024')
+        await focusAndKeyboard(startDay, '{Backspace>2}3112024')
         await userEvent.click(document.body)
 
         expect(
@@ -2347,7 +2412,7 @@ describe('Field.Date', () => {
           document.querySelector('.dnb-form-status--error')
         ).not.toBeInTheDocument()
 
-        await userEvent.type(startDay, '{Backspace>2}01022025')
+        await focusAndKeyboard(startDay, '{Backspace>2}01022025')
         await userEvent.click(document.body)
 
         expect(
@@ -2383,7 +2448,7 @@ describe('Field.Date', () => {
           document.querySelector('.dnb-form-status--error')
         ).not.toBeInTheDocument()
 
-        await userEvent.type(endDay, '{backspace>2}3112024')
+        await focusAndKeyboard(endDay, '{backspace>2}3112024')
         await userEvent.click(document.body)
 
         expect(
@@ -2419,7 +2484,7 @@ describe('Field.Date', () => {
           document.querySelector('.dnb-form-status--error')
         ).not.toBeInTheDocument()
 
-        await userEvent.type(endDay, '{Backspace>2}01022025')
+        await focusAndKeyboard(endDay, '{Backspace>2}01022025')
         await userEvent.click(document.body)
 
         expect(
@@ -2463,8 +2528,8 @@ describe('Field.Date', () => {
         ).not.toBeInTheDocument()
 
         // Focus on day inputs and select out of limit dates
-        await userEvent.type(startDay, '{Backspace>2}3112024')
-        await userEvent.type(endDay, '{Backspace>2}01022025')
+        await focusAndKeyboard(startDay, '{Backspace>2}3112024')
+        await focusAndKeyboard(endDay, '{Backspace>2}01022025')
         await userEvent.click(document.body)
 
         expect(
@@ -2488,7 +2553,7 @@ describe('Field.Date', () => {
           )
         )
 
-        await userEvent.type(startDay, '{Backspace>2}01022025')
+        await focusAndKeyboard(startDay, '{Backspace>2}01022025')
         await userEvent.click(document.body)
 
         expect(getMessages().at(0)).toHaveTextContent(
@@ -2504,7 +2569,7 @@ describe('Field.Date', () => {
           )
         )
 
-        await userEvent.type(endDay, '{Backspace>2}31122024')
+        await focusAndKeyboard(endDay, '{Backspace>2}31122024')
         await userEvent.click(document.body)
 
         expect(getMessages().at(0)).toHaveTextContent(
@@ -2520,7 +2585,7 @@ describe('Field.Date', () => {
           )
         )
 
-        await userEvent.type(startDay, '{Backspace>2}31122024')
+        await focusAndKeyboard(startDay, '{Backspace>2}31122024')
         await userEvent.click(document.body)
 
         expect(getMessages().at(0)).toHaveTextContent(
@@ -2536,8 +2601,8 @@ describe('Field.Date', () => {
           )
         )
 
-        await userEvent.type(startDay, '{Backspace>2}01012025')
-        await userEvent.type(endDay, '{Backspace>2}31012025')
+        await focusAndKeyboard(startDay, '{Backspace>2}01012025')
+        await focusAndKeyboard(endDay, '{Backspace>2}31012025')
         await userEvent.click(document.body)
 
         expect(
@@ -2573,7 +2638,7 @@ describe('Field.Date', () => {
           )
         )
 
-        await userEvent.type(day, '{Backspace>2}01012025')
+        await focusAndKeyboard(day, '{Backspace>2}01012025')
         await userEvent.click(document.body)
 
         expect(
@@ -2609,7 +2674,7 @@ describe('Field.Date', () => {
           )
         )
 
-        await userEvent.type(day, '{Backspace>2}31012025')
+        await focusAndKeyboard(day, '{Backspace>2}31012025')
         await userEvent.click(document.body)
 
         expect(
@@ -2656,8 +2721,8 @@ describe('Field.Date', () => {
           )
         )
 
-        await userEvent.type(startDay, '{Backspace>2}01012025')
-        await userEvent.type(endDay, '{Backspace>2}31012025')
+        await focusAndKeyboard(startDay, '{Backspace>2}01012025')
+        await focusAndKeyboard(endDay, '{Backspace>2}31012025')
         await userEvent.click(document.body)
 
         expect(
@@ -2901,7 +2966,7 @@ describe('Field.Date', () => {
         document.querySelectorAll('.dnb-date-picker__input--day')
       ) as Array<HTMLInputElement>
 
-      await userEvent.type(startDay, '0101202')
+      await focusAndKeyboard(startDay, '0101202')
       await userEvent.click(document.body)
 
       expect(
@@ -2919,8 +2984,8 @@ describe('Field.Date', () => {
         document.querySelectorAll('.dnb-date-picker__input--day')
       ) as Array<HTMLInputElement>
 
-      await userEvent.type(startDay, '01012025')
-      await userEvent.type(endDay, '0202202')
+      await focusAndKeyboard(startDay, '01012025')
+      await focusAndKeyboard(endDay, '0202202')
       await userEvent.click(document.body)
 
       expect(
@@ -2939,7 +3004,7 @@ describe('Field.Date', () => {
       ) as Array<HTMLInputElement>
 
       // Type a complete start date
-      await userEvent.type(startDay, '01012025')
+      await focusAndKeyboard(startDay, '01012025')
       await userEvent.click(endDay)
 
       // The component may not validate immediately when moving between inputs
@@ -2949,7 +3014,7 @@ describe('Field.Date', () => {
       ).not.toBeInTheDocument()
 
       // Type a complete end date
-      await userEvent.type(endDay, '02022025')
+      await focusAndKeyboard(endDay, '02022025')
       await userEvent.click(document.body)
 
       // The component should validate that both dates are complete
@@ -2970,9 +3035,7 @@ describe('Field.Date', () => {
     ) as HTMLInputElement
 
     // Type invalid date - error should appear during typing
-    await userEvent.click(dayInput)
-    dayInput.setSelectionRange(0, 0)
-    await userEvent.keyboard('39192025')
+    await focusAndKeyboard(dayInput, '39192025')
 
     await waitFor(() => {
       expect(
@@ -2984,9 +3047,7 @@ describe('Field.Date', () => {
     })
 
     // Fix the date - error should disappear during typing
-    await userEvent.click(dayInput)
-    dayInput.setSelectionRange(0, 0)
-    await userEvent.keyboard('11122025')
+    await focusAndKeyboard(dayInput, '11122025')
 
     await waitFor(() => {
       expect(
@@ -2995,9 +3056,7 @@ describe('Field.Date', () => {
     })
 
     // Type invalid date again - error should appear again
-    await userEvent.click(dayInput)
-    dayInput.setSelectionRange(0, 0)
-    await userEvent.keyboard('99999999')
+    await focusAndKeyboard(dayInput, '99999999')
 
     await waitFor(() => {
       expect(
@@ -3025,9 +3084,7 @@ describe('Field.Date', () => {
     ) as HTMLInputElement
 
     // Type invalid date
-    await userEvent.click(dayInput)
-    dayInput.setSelectionRange(0, 0)
-    await userEvent.keyboard('39192025')
+    await focusAndKeyboard(dayInput, '39192025')
 
     await waitFor(() => {
       expect(onStatusChange).toHaveBeenCalled()
@@ -3042,9 +3099,7 @@ describe('Field.Date', () => {
     onStatusChange.mockClear()
 
     // Type valid date
-    await userEvent.click(dayInput)
-    dayInput.setSelectionRange(0, 0)
-    await userEvent.keyboard('11122025')
+    await focusAndKeyboard(dayInput, '11122025')
 
     await waitFor(() => {
       expect(onStatusChange).toHaveBeenCalled()

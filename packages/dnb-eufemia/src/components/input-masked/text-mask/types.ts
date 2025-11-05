@@ -1,16 +1,4 @@
-export type MaskChar = string | RegExp
-export type Mask = MaskChar[]
-
-export type MaskFunctionConfig = {
-  currentCaretPosition?: number | null
-  previousConformedValue?: string
-  placeholderChar?: string
-}
-
-export type MaskFunction = (
-  rawValue: string,
-  config: MaskFunctionConfig
-) => Mask | false
+export type Mask = Array<string | RegExp>
 
 export type ConformToMaskConfig = {
   guide?: boolean
@@ -23,24 +11,20 @@ export type ConformToMaskConfig = {
 
 export type ConformToMaskResult = {
   conformedValue: string
-  meta: { someCharsRejected: boolean }
+  meta: {
+    someCharsRejected: boolean
+  }
 }
 
-export type PipeResult = {
-  value: string
-  indexesOfPipedChars?: number[]
-  rejected?: boolean
-}
-
-export type Pipe = (
-  conformedValue: string,
-  args: { rawValue: string } & ConformToMaskConfig
-) => PipeResult | string | false
+export type MaskFunction = (
+  rawValue: string,
+  config?: ConformToMaskConfig
+) => Mask
 
 export type CaretAdjustmentArgs = {
-  previousConformedValue: string
-  previousPlaceholder: string
-  currentCaretPosition: number
+  previousConformedValue?: string
+  previousPlaceholder?: string
+  currentCaretPosition?: number
   conformedValue: string
   rawValue: string
   placeholderChar: string
@@ -48,4 +32,18 @@ export type CaretAdjustmentArgs = {
   indexesOfPipedChars?: number[]
   caretTrapIndexes?: number[]
   keepCharPositions?: boolean
+}
+
+export type MaskParams = {
+  decimalSymbol?: string
+  thousandsSeparatorSymbol?: string
+  allowDecimal?: boolean
+  decimalLimit?: number
+  integerLimit?: number
+  allowNegative?: boolean
+  prefix?: string
+  suffix?: string
+  disallowLeadingZeroes?: boolean
+  min?: number
+  max?: number
 }

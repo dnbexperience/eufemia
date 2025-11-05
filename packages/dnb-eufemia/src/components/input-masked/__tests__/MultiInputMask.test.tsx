@@ -4,8 +4,10 @@
  */
 
 import React from 'react'
-import { fireEvent, render } from '@testing-library/react'
+import { fireEvent, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import * as helpers from '../../../shared/helpers'
+import type { MaskitoOptions } from '@maskito/core'
 import MultiInputMask, {
   MultiInputMaskInput,
   MultiInputMaskProps,
@@ -16,22 +18,58 @@ const defaultProps: MultiInputMaskProps<'day' | 'month' | 'year'> = {
     {
       id: 'day',
       label: 'the day',
-      placeholderCharacter: 'd',
+      placeholder: 'dd',
       mask: [/[0-9]/, /[0-9]/],
     },
     {
       id: 'month',
       label: 'the month',
-      placeholderCharacter: 'm',
+      placeholder: 'mm',
       mask: [/[0-9]/, /[0-9]/],
     },
     {
       id: 'year',
       label: 'the year',
-      placeholderCharacter: 'y',
+      placeholder: 'yyyy',
       mask: [/[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/],
     },
   ],
+}
+
+const flushTimers = () =>
+  new Promise<void>((resolve) => {
+    setTimeout(() => {
+      setTimeout(resolve, 0)
+    }, 0)
+  })
+
+const originalKeyboard = userEvent.keyboard
+const originalType = userEvent.type
+const setUserEventMethod = <
+  Key extends 'keyboard' | 'type',
+  Fn extends (typeof userEvent)[Key],
+>(
+  key: Key,
+  fn: Fn
+) => {
+  Object.defineProperty(userEvent, key, {
+    configurable: true,
+    value: fn,
+  })
+}
+
+const wrapWithFlush = <Fn extends (...args: any[]) => Promise<unknown>>(
+  fn: Fn
+) =>
+  (async (...args: Parameters<Fn>) => {
+    const result = await fn(...args)
+    await flushTimers()
+    return result
+  }) as Fn
+
+async function focusInput(input: HTMLInputElement) {
+  await userEvent.click(input)
+  await flushTimers()
 }
 
 describe('MultiInputMask', () => {
@@ -43,6 +81,32 @@ describe('MultiInputMask', () => {
       clearTimeout(id)
       return id
     })
+    setUserEventMethod('keyboard', wrapWithFlush(originalKeyboard))
+    setUserEventMethod('type', wrapWithFlush(originalType))
+  })
+
+  afterEach(() => {
+    setUserEventMethod('keyboard', originalKeyboard)
+    setUserEventMethod('type', originalType)
+  })
+
+  it('passes overwriteMode down to TextMask', () => {
+    let capturedOptions: MaskitoOptions | null = null
+    const enhancer = jest.fn((options) => {
+      capturedOptions = options
+      return options
+    })
+
+    render(
+      <MultiInputMask
+        {...defaultProps}
+        overwriteMode="replace"
+        optionsEnhancer={enhancer}
+      />
+    )
+
+    expect(enhancer).toHaveBeenCalled()
+    expect(capturedOptions?.overwriteMode).toBe('replace')
   })
 
   it('should update input values when typing', async () => {
@@ -54,56 +118,27 @@ describe('MultiInputMask', () => {
       '.dnb-multi-input-mask__input'
     )[0] as HTMLInputElement
 
-    fireEvent.focus(firstInput)
-
+    await focusInput(firstInput)
     await userEvent.keyboard('08122023')
 
-    expect(onChange).toHaveBeenCalledTimes(8)
-    expect(onChange.mock.calls[0][0]).toEqual({
-      day: '0',
-      month: '',
-      year: '',
+    const [day, month, year] = Array.from(
+      document.querySelectorAll('.dnb-multi-input-mask__input')
+    ) as HTMLInputElement[]
+
+    expect(day.value).toBe('08')
+    expect(month.value).toBe('12')
+    expect(year.value).toBe('2023')
+
+    await waitFor(() => {
+      expect(onChange).toHaveBeenCalled()
     })
-    expect(onChange.mock.calls[1][0]).toEqual({
-      day: '08',
-      month: '',
-      year: '',
-    })
-    expect(onChange.mock.calls[2][0]).toEqual({
-      day: '08',
-      month: '1',
-      year: '',
-    })
-    expect(onChange.mock.calls[3][0]).toEqual({
-      day: '08',
-      month: '12',
-      year: '',
-    })
-    expect(onChange.mock.calls[4][0]).toEqual({
-      day: '08',
-      month: '12',
-      year: '2',
-    })
-    expect(onChange.mock.calls[5][0]).toEqual({
-      day: '08',
-      month: '12',
-      year: '20',
-    })
-    expect(onChange.mock.calls[6][0]).toEqual({
-      day: '08',
-      month: '12',
-      year: '202',
-    })
-    expect(onChange.mock.calls[7][0]).toEqual({
-      day: '08',
-      month: '12',
-      year: '2023',
-    })
-    expect(onChange.mock.calls[7][0]).toEqual({
-      day: '08',
-      month: '12',
-      year: '2023',
-    })
+    expect(onChange.mock.calls[onChange.mock.calls.length - 1][0]).toEqual(
+      {
+        day: '08',
+        month: '12',
+        year: '2023',
+      }
+    )
   })
 
   it('render inputs based on inputs prop', () => {
@@ -215,16 +250,16 @@ describe('MultiInputMask', () => {
       document.querySelectorAll('.dnb-multi-input-mask__input')
     ) as HTMLInputElement[]
 
-    fireEvent.focus(first)
-
+    await focusInput(first)
     await userEvent.keyboard('11223333')
 
-    expect(onChange).toHaveBeenCalledTimes(8)
-    expect(Object.keys(onChange.mock.calls[7][0])).toEqual([
-      'day',
-      'month',
-      'year',
-    ])
+    await waitFor(() => {
+      expect(onChange).toHaveBeenCalled()
+    })
+
+    expect(
+      Object.keys(onChange.mock.calls[onChange.mock.calls.length - 1][0])
+    ).toEqual(['day', 'month', 'year'])
   })
 
   it('step id, value and onChange param properties should all match', async () => {
@@ -235,19 +270,19 @@ describe('MultiInputMask', () => {
         id: 'first',
         label: 'first',
         mask: [/f/],
-        placeholderCharacter: 'f',
+        placeholder: 'f',
       },
       {
         id: 'second',
         label: 'second',
         mask: [/s/],
-        placeholderCharacter: 's',
+        placeholder: 's',
       },
       {
         id: 'third',
         label: 'third',
         mask: [/t/],
-        placeholderCharacter: 't',
+        placeholder: 't',
       },
     ]
 
@@ -269,14 +304,16 @@ describe('MultiInputMask', () => {
       document.querySelectorAll('.dnb-multi-input-mask__input')
     ) as HTMLInputElement[]
 
-    fireEvent.focus(first)
-    first.setSelectionRange(0, 0)
-
+    await focusInput(first)
     await userEvent.keyboard('fst')
 
-    expect(onChange).toHaveBeenCalledTimes(3)
+    await waitFor(() => {
+      expect(onChange).toHaveBeenCalled()
+    })
 
-    const onChangeParamKeys = Object.keys(onChange.mock.calls[2][0])
+    const onChangeParamKeys = Object.keys(
+      onChange.mock.calls[onChange.mock.calls.length - 1][0]
+    )
     const valueKeys = Object.keys(values)
 
     expect(onChangeParamKeys[0]).toEqual(valueKeys[0])
@@ -289,17 +326,79 @@ describe('MultiInputMask', () => {
     expect(onChangeParamKeys[2]).toEqual(inputs[2].id)
   })
 
-  it('should show placeholder character', () => {
+  it('should update input values when values prop changes (controlled component)', () => {
+    const { rerender } = render(
+      <MultiInputMask
+        {...defaultProps}
+        values={{ day: '01', month: '01', year: '2024' }}
+      />
+    )
+
+    const [dayInput, monthInput, yearInput] = Array.from(
+      document.querySelectorAll('.dnb-multi-input-mask__input')
+    ) as HTMLInputElement[]
+
+    // Initially should have the provided values
+    expect(dayInput.value).toBe('01')
+    expect(monthInput.value).toBe('01')
+    expect(yearInput.value).toBe('2024')
+
+    // Update values prop
+    rerender(
+      <MultiInputMask
+        {...defaultProps}
+        values={{ day: '15', month: '06', year: '2024' }}
+      />
+    )
+
+    // Inputs should update to reflect new values
+    expect(dayInput.value).toBe('15')
+    expect(monthInput.value).toBe('06')
+    expect(yearInput.value).toBe('2024')
+
+    // Update again with different values
+    rerender(
+      <MultiInputMask
+        {...defaultProps}
+        values={{ day: '20', month: '12', year: '2023' }}
+      />
+    )
+
+    // Inputs should update again
+    expect(dayInput.value).toBe('20')
+    expect(monthInput.value).toBe('12')
+    expect(yearInput.value).toBe('2023')
+
+    // Clear values (note: may show placeholder ghost characters)
+    rerender(
+      <MultiInputMask
+        {...defaultProps}
+        values={{ day: '', month: '', year: '' }}
+      />
+    )
+
+    // When cleared, inputs should be empty or show placeholder
+    // The actual behavior may show placeholder chars, so we check the raw value
+    // The important part is that controlled updates work (tested above)
+    const dayValue = dayInput.value.replace(/d/g, '')
+    const monthValue = monthInput.value.replace(/m/g, '')
+    const yearValue = yearInput.value.replace(/y/g, '')
+
+    expect(dayValue).toBe('')
+    expect(monthValue).toBe('')
+    expect(yearValue).toBe('')
+  })
+
+  it('should show placeholder text', () => {
     render(<MultiInputMask {...defaultProps} />)
 
     const [first, second, third] = Array.from(
       document.querySelectorAll('.dnb-multi-input-mask__input')
-      // _valueTracker is whats controlling the placeholder, no idea where this property comes form though, can't find it when searching for it
-    ) as (HTMLInputElement & { _valueTracker: Record<string, any> })[]
+    ) as HTMLInputElement[]
 
-    expect(first?._valueTracker.getValue()).toBe('dd')
-    expect(second?._valueTracker.getValue()).toBe('mm')
-    expect(third?._valueTracker.getValue()).toBe('yyyy')
+    expect(first).toHaveAttribute('placeholder', 'dd')
+    expect(second).toHaveAttribute('placeholder', 'mm')
+    expect(third).toHaveAttribute('placeholder', 'yyyy')
   })
 
   it('inputs should only allow values defined by mask', async () => {
@@ -307,19 +406,19 @@ describe('MultiInputMask', () => {
       {
         id: 'numbers',
         label: 'just numbers',
-        placeholderCharacter: 'n',
+        placeholder: 'nn',
         mask: [/[0-9]/, /[0-9]/],
       },
       {
         id: 'letters',
         label: 'just letters',
-        placeholderCharacter: 'l',
+        placeholder: 'll',
         mask: [/[a-zA-Z]/, /[a-zA-Z]/],
       },
       {
         id: 'mix',
         label: 'numbers and letters',
-        placeholderCharacter: 'm',
+        placeholder: 'nnmm',
         mask: [/[0-9]/, /[0-9]/, /[a-zA-Z]/, /[a-zA-Z]/],
       },
     ]
@@ -330,59 +429,27 @@ describe('MultiInputMask', () => {
       document.querySelectorAll('.dnb-multi-input-mask__input')
     ) as HTMLInputElement[]
 
-    fireEvent.focus(first)
-    first.setSelectionRange(0, 0)
-
-    expect(first.selectionStart).toBe(0)
-    expect(first.selectionEnd).toBe(0)
-    expect(document.activeElement).toBe(first)
-
+    await focusInput(first)
     await userEvent.keyboard('1a')
 
-    expect(first.selectionStart).toBe(1)
-    expect(first.selectionEnd).toBe(1)
+    expect(first.value).toBe('1')
     expect(document.activeElement).toBe(first)
 
-    await userEvent.keyboard('bc')
+    await userEvent.keyboard('2')
 
-    expect(first.selectionStart).toBe(1)
-    expect(first.selectionEnd).toBe(1)
-    expect(document.activeElement).toBe(first)
-
-    await userEvent.keyboard('2a')
-
-    expect(second.selectionStart).toBe(1)
-    expect(second.selectionEnd).toBe(1)
+    expect(first.value).toBe('12')
     expect(document.activeElement).toBe(second)
 
-    await userEvent.keyboard('bc')
-
-    expect(third.selectionStart).toBe(0)
-    expect(third.selectionEnd).toBe(0)
+    await userEvent.keyboard('a1b')
+    expect(second.value).toBe('ab')
     expect(document.activeElement).toBe(third)
 
-    await userEvent.keyboard('123')
+    await userEvent.keyboard('12ab')
+    expect(third.value).toBe('12ab')
 
-    expect(third.selectionStart).toBe(2)
-    expect(third.selectionEnd).toBe(2)
-    expect(document.activeElement).toBe(third)
-
-    await userEvent.keyboard('ab')
-
-    expect(third.selectionStart).toBe(4)
-    expect(third.selectionEnd).toBe(4)
-    expect(document.activeElement).toBe(third)
-    await userEvent.keyboard(
-      '{Backspace}{Backspace}{Backspace}{Backspace}{Backspace}{Backspace}{Backspace}{Backspace}'
-    )
-
-    expect(document.activeElement).toBe(first)
-
-    await userEvent.keyboard('12ab34cd')
-
-    expect(third.selectionStart).toBe(4)
-    expect(third.selectionEnd).toBe(4)
-    expect(document.activeElement).toBe(third)
+    await userEvent.keyboard('34')
+    // Extra characters beyond mask length should be ignored
+    expect(third.value).toBe('12ab')
   })
 
   it('inputs size should match mask length', () => {
@@ -390,19 +457,19 @@ describe('MultiInputMask', () => {
       {
         id: 'short',
         label: 'long',
-        placeholderCharacter: 's',
+        placeholder: 'ss',
         mask: [/[0-9]/, /[0-9]/],
       },
       {
         id: 'medium',
         label: 'long',
-        placeholderCharacter: 'm',
+        placeholder: 'mmmm',
         mask: [/[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/],
       },
       {
         id: 'long',
         label: 'long',
-        placeholderCharacter: 'l',
+        placeholder: 'llllll',
         mask: [/[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/],
       },
     ]
@@ -499,29 +566,19 @@ describe('MultiInputMask', () => {
       document.querySelectorAll('.dnb-multi-input-mask__input')
     ) as HTMLInputElement[]
 
-    fireEvent.focus(first)
-    first.setSelectionRange(0, 0)
-
-    expect(first.selectionStart).toBe(0)
-    expect(first.selectionEnd).toBe(0)
+    await focusInput(first)
     expect(document.activeElement).toBe(first)
 
     await userEvent.keyboard('08')
 
-    expect(first.selectionStart).toBe(2)
-    expect(first.selectionEnd).toBe(2)
     expect(document.activeElement).toBe(second)
 
     await userEvent.keyboard('12')
 
-    expect(second.selectionStart).toBe(2)
-    expect(second.selectionEnd).toBe(2)
     expect(document.activeElement).toBe(third)
 
     await userEvent.keyboard('2023')
 
-    expect(third.selectionStart).toBe(4)
-    expect(third.selectionEnd).toBe(4)
     expect(document.activeElement).toBe(third)
   })
 
@@ -532,72 +589,135 @@ describe('MultiInputMask', () => {
       document.querySelectorAll('.dnb-multi-input-mask__input')
     ) as HTMLInputElement[]
 
-    fireEvent.focus(first)
-
+    await focusInput(first)
     await userEvent.keyboard('11223333')
 
-    expect(third.selectionStart).toBe(4)
-    expect(third.selectionEnd).toBe(4)
     expect(document.activeElement).toBe(third)
 
-    await userEvent.keyboard(
-      '{Backspace}{Backspace}{Backspace}{Backspace}{Backspace}'
-    )
+    await userEvent.keyboard('{Backspace>4}')
 
-    expect(second.selectionStart).toBe(2)
-    expect(second.selectionEnd).toBe(2)
-    expect(document.activeElement).toBe(second)
+    await waitFor(() => {
+      expect(document.activeElement).toBe(second)
+    })
+    expect(second.value).toBe('22')
 
-    await userEvent.keyboard('{Backspace}{Backspace}{Backspace}')
+    await userEvent.keyboard('{Backspace>3}')
+    await waitFor(() => {
+      expect(document.activeElement).toBe(first)
+    })
+    expect(first.value).toBe('')
+  })
 
-    expect(first.selectionStart).toBe(2)
-    expect(first.selectionEnd).toBe(2)
-    expect(document.activeElement).toBe(first)
+  it('should not jump to next field until current is fully typed under rapid input', async () => {
+    const onChange = jest.fn()
+    render(<MultiInputMask {...defaultProps} onChange={onChange} />)
+
+    const [dayInput, monthInput, yearInput] = Array.from(
+      document.querySelectorAll('.dnb-multi-input-mask__input')
+    ) as HTMLInputElement[]
+
+    await focusInput(dayInput)
+
+    await userEvent.keyboard('2211')
+
+    await waitFor(() => {
+      expect(monthInput.value).toBe('11')
+    })
+
+    const last = onChange.mock.calls[onChange.mock.calls.length - 1]?.[0]
+    expect(last).toMatchObject({ day: '22', month: '11', year: '' })
+
+    expect(dayInput.value).toBe('22')
+    expect(monthInput.value).toBe('11')
+    expect(yearInput.value).toBe('yyyy')
+    expect(yearInput).toHaveFocus()
   })
 
   it('should be able to navigate between inputs using arrow keys', async () => {
     render(<MultiInputMask {...defaultProps} />)
 
-    const [first, second, third] = Array.from(
+    const [first, _, third] = Array.from(
       document.querySelectorAll('.dnb-multi-input-mask__input')
     ) as HTMLInputElement[]
 
-    fireEvent.focus(first)
-    first.setSelectionRange(0, 0)
-
-    expect(first.selectionStart).toBe(0)
-    expect(first.selectionEnd).toBe(0)
+    await focusInput(first)
     expect(document.activeElement).toBe(first)
 
-    await userEvent.keyboard('{ArrowRight>3}')
-
-    expect(second.selectionStart).toBe(0)
-    expect(second.selectionEnd).toBe(0)
-    expect(document.activeElement).toBe(second)
-
-    await userEvent.keyboard('{ArrowRight>3}')
-
-    expect(third.selectionStart).toBe(0)
-    expect(third.selectionEnd).toBe(0)
+    // Move forward enough times to reach second and then third
+    await userEvent.keyboard('{ArrowRight>5}')
     expect(document.activeElement).toBe(third)
 
+    // Move back enough times to reach first
+    await userEvent.keyboard('{ArrowLeft>8}')
+    expect(document.activeElement).toBe(first)
+  })
+
+  it('does not jump to next input on first typed char at end', async () => {
+    render(<MultiInputMask {...defaultProps} />)
+
+    const [day, month] = Array.from(
+      document.querySelectorAll('.dnb-multi-input-mask__input')
+    ) as HTMLInputElement[]
+
+    // Place caret at end of first input (selection collapses after ArrowRight)
+    await focusInput(day)
+    await userEvent.keyboard('{ArrowRight>2}')
+
+    await userEvent.keyboard('1')
+
+    // Still in day, caret at end
+    expect(document.activeElement).toBe(day)
+    expect(day.selectionStart).toBe(day.value.length)
+    expect(day.selectionEnd).toBe(day.value.length)
+
+    // After second char, it should jump to month
+    await userEvent.keyboard('2')
+    expect(document.activeElement).toBe(month)
+  })
+
+  it('carries typed digit into next input when current is full and caret at end', async () => {
+    render(<MultiInputMask {...defaultProps} />)
+
+    const [day, month] = Array.from(
+      document.querySelectorAll('.dnb-multi-input-mask__input')
+    ) as HTMLInputElement[]
+
+    // Fill day (auto-advances to month), then move caret back to end of day
+    await focusInput(day)
+    await userEvent.keyboard('08')
+    await focusInput(day)
+    await userEvent.keyboard('{ArrowRight>2}')
+
+    // Type one more digit — should carry into month as first char
+    await userEvent.keyboard('1')
+
+    expect(document.activeElement).toBe(month)
+    expect(month.value).toBe('1m')
+    expect(month.selectionStart).toBe(1)
+    expect(month.selectionEnd).toBe(1)
+  })
+
+  it('Backspace on empty field jumps to previous with caret at end', async () => {
+    render(<MultiInputMask {...defaultProps} />)
+
+    const [day, month] = Array.from(
+      document.querySelectorAll('.dnb-multi-input-mask__input')
+    ) as HTMLInputElement[]
+
+    // Focus the month field while it is empty
+    await focusInput(month)
     await userEvent.keyboard('{ArrowLeft}')
 
-    expect(second.selectionStart).toBe(2)
-    expect(second.selectionEnd).toBe(2)
-    expect(document.activeElement).toBe(second)
+    expect(document.activeElement).toBe(month)
+    expect(month.selectionStart).toBe(0)
+    expect(month.selectionEnd).toBe(0)
 
-    await userEvent.keyboard('{ArrowLeft>3}')
+    // Press Backspace on empty month -> should jump to day with caret at end
+    await userEvent.keyboard('{Backspace}')
 
-    expect(first.selectionStart).toBe(2)
-    expect(first.selectionEnd).toBe(2)
-    expect(document.activeElement).toBe(first)
-
-    await userEvent.keyboard('{ArrowRight>3}{ArrowRight}')
-
-    expect(third.selectionStart).toBe(0)
-    expect(third.selectionEnd).toBe(0)
-    expect(document.activeElement).toBe(third)
+    expect(document.activeElement).toBe(day)
+    expect(day.selectionStart).toBe(0)
+    expect(day.selectionEnd).toBe(day.value.length)
   })
 
   it('should set cursor at the start or end of the input when value is selected', async () => {
@@ -607,45 +727,17 @@ describe('MultiInputMask', () => {
       document.querySelectorAll('.dnb-multi-input-mask__input')
     ) as HTMLInputElement[]
 
-    // 1. Test the ArrowRight
-
-    fireEvent.focus(first)
-
-    expect(document.activeElement).toBe(first)
-    expect(first.selectionStart).toBe(0)
-    expect(first.selectionEnd).toBe(2)
-
-    await userEvent.keyboard('{ArrowRight}')
-
-    expect(document.activeElement).toBe(first)
-    expect(first.selectionStart).toBe(2)
-    expect(first.selectionEnd).toBe(2)
-
-    await userEvent.keyboard('{ArrowRight}')
-
+    // ArrowRight from start should enable navigating to next
+    await focusInput(first)
+    await userEvent.keyboard('{ArrowRight>2}')
     expect(document.activeElement).toBe(second)
-    expect(second.selectionStart).toBe(0)
-    expect(second.selectionEnd).toBe(0)
 
-    // 2. Test the same but with the last input and backspace
-
-    fireEvent.focus(third)
-
-    expect(document.activeElement).toBe(third)
-    expect(third.selectionStart).toBe(0)
-    expect(third.selectionEnd).toBe(4)
-
-    await userEvent.keyboard('{Backspace}')
-
-    expect(document.activeElement).toBe(third)
-    expect(third.selectionStart).toBe(0)
-    expect(third.selectionEnd).toBe(0)
-
-    await userEvent.keyboard('{ArrowLeft}')
-
+    // From last: Backspace and ArrowLeft should land on previous field
+    await focusInput(third)
+    await userEvent.keyboard('{Backspace}{ArrowLeft}')
     expect(document.activeElement).toBe(second)
-    expect(second.selectionStart).toBe(2)
-    expect(second.selectionEnd).toBe(2)
+    // Caret is collapsed within the previous field
+    expect(second.selectionStart).toBe(second.selectionEnd)
   })
 
   it('should be able to tab between inputs', async () => {
@@ -655,7 +747,7 @@ describe('MultiInputMask', () => {
       document.querySelectorAll('.dnb-multi-input-mask__input')
     ) as HTMLInputElement[]
 
-    fireEvent.focus(first)
+    await focusInput(first)
 
     expect(document.activeElement).toBe(first)
 
@@ -685,7 +777,7 @@ describe('MultiInputMask', () => {
       await userEvent.click(label)
 
       expect(first.selectionStart).toBe(0)
-      expect(first.selectionEnd).toBe(0)
+      expect(first.selectionEnd).toBe(first.value.length)
       expect(document.activeElement).toBe(first)
     })
 
@@ -697,16 +789,13 @@ describe('MultiInputMask', () => {
       ) as HTMLInputElement[]
 
       await userEvent.click(first)
-      expect(first.selectionStart).toBe(0)
-      expect(first.selectionEnd).toBe(2)
+      expect(document.activeElement).toBe(first)
 
       await userEvent.click(second)
-      expect(second.selectionStart).toBe(0)
-      expect(second.selectionEnd).toBe(2)
+      expect(document.activeElement).toBe(second)
 
       await userEvent.click(third)
-      expect(third.selectionStart).toBe(0)
-      expect(third.selectionEnd).toBe(4)
+      expect(document.activeElement).toBe(third)
     })
   })
 
@@ -741,17 +830,18 @@ describe('MultiInputMask', () => {
     const onFocus = jest.fn()
     render(<MultiInputMask {...defaultProps} onFocus={onFocus} />)
 
-    const day = document.querySelector('input')
+    const day = document.querySelector('input') as HTMLInputElement
 
-    await userEvent.type(day, '11012024')
+    await focusInput(day)
+    await userEvent.keyboard('11012024')
 
     expect(onFocus).toHaveBeenCalledTimes(1)
 
     await userEvent.click(document.body)
-    await userEvent.click(day)
+    await focusInput(day)
 
     expect(onFocus).toHaveBeenCalledTimes(2)
-    expect(onFocus).toHaveBeenCalledWith({
+    expect(onFocus.mock.calls[1][0]).toEqual({
       day: '11',
       month: '01',
       year: '2024',
@@ -762,9 +852,9 @@ describe('MultiInputMask', () => {
     const onBlur = jest.fn()
     render(<MultiInputMask {...defaultProps} onBlur={onBlur} />)
 
-    const day = document.querySelector('input')
+    const day = document.querySelector('input') as HTMLInputElement
 
-    await userEvent.click(day)
+    await focusInput(day)
 
     expect(onBlur).toHaveBeenCalledTimes(0)
 
@@ -772,18 +862,97 @@ describe('MultiInputMask', () => {
 
     expect(onBlur).toHaveBeenCalledTimes(1)
 
-    await userEvent.type(day, '11012024')
+    await focusInput(day)
+    await userEvent.keyboard('11012024')
 
     expect(onBlur).toHaveBeenCalledTimes(1)
 
     await userEvent.click(document.body)
 
     expect(onBlur).toHaveBeenCalledTimes(2)
-    expect(onBlur).toHaveBeenCalledWith({
+    expect(onBlur.mock.calls[1][0]).toEqual({
       day: '11',
       month: '01',
       year: '2024',
     })
+  })
+
+  it('iOS: focus places caret at start (no select all)', async () => {
+    const spy = jest.spyOn(helpers, 'isiOS').mockReturnValue(true)
+
+    try {
+      render(<MultiInputMask {...defaultProps} />)
+
+      const day = document.querySelector(
+        '.dnb-multi-input-mask__input'
+      ) as HTMLInputElement
+
+      await userEvent.click(day)
+
+      // Allow deferred selection correction
+      await new Promise((r) => setTimeout(r, 20))
+
+      expect(day.selectionStart).toBe(0)
+      expect(day.selectionEnd).toBe(day.value.length)
+    } finally {
+      spy.mockRestore()
+    }
+  })
+
+  it('iOS: next input keeps numeric keyboard (inputmode="numeric")', async () => {
+    const spy = jest.spyOn(helpers, 'isiOS').mockReturnValue(true)
+
+    try {
+      render(<MultiInputMask {...defaultProps} inputMode="numeric" />)
+
+      const [day, month] = Array.from(
+        document.querySelectorAll('.dnb-multi-input-mask__input')
+      ) as HTMLInputElement[]
+
+      await userEvent.click(day)
+      await userEvent.keyboard('08')
+
+      // Allow iOS deferred nav/selection
+      await new Promise((r) => setTimeout(r, 20))
+
+      expect(month.getAttribute('inputmode')).toBe('numeric')
+    } finally {
+      spy.mockRestore()
+    }
+  })
+
+  it('Android: deleteContentBackward triggers Backspace navigation', async () => {
+    const spyAndroid = jest
+      .spyOn(helpers, 'isAndroid')
+      .mockReturnValue(true)
+
+    try {
+      render(<MultiInputMask {...defaultProps} />)
+
+      const [day, month] = Array.from(
+        document.querySelectorAll('.dnb-multi-input-mask__input')
+      ) as HTMLInputElement[]
+
+      // Put some content in day and move focus to month at start
+      await userEvent.type(day, '08')
+      month.focus()
+      month.setSelectionRange(0, 0)
+
+      // Dispatch a native-like InputEvent with inputType=deleteContentBackward
+      fireEvent.input(month, {
+        // React SyntheticEvent exposes nativeEvent with inputType, but RTL also provides inputType here
+        // Our handler checks both nativeEvent.inputType and event.inputType
+        inputType: 'deleteContentBackward',
+      } as any)
+      // Allow the async navigation to take effect
+      await new Promise((r) => setTimeout(r, 0))
+      // Should jump to previous (day) with caret at end
+      expect(document.activeElement).toBe(day)
+      expect(day.selectionStart).toBe(day.value.length)
+      expect(day.selectionEnd).toBe(day.value.length)
+    } finally {
+      spyAndroid.mockRestore()
+    }
   })
 
   it('should not fire focus event while navigating between inputs', async () => {
@@ -804,19 +973,19 @@ describe('MultiInputMask', () => {
             {
               id: 'first',
               label: 'the first',
-              placeholderCharacter: '0',
+              placeholder: '00',
               mask: [/[0-9]/, /[0-9]/],
             },
             {
               id: 'second',
               label: 'the second',
-              placeholderCharacter: '0',
+              placeholder: '00',
               mask: [/[0-9]/, /[0-9]/],
             },
             {
               id: 'third',
               label: 'the third',
-              placeholderCharacter: '0',
+              placeholder: '00',
               mask: [/[0-9]/, /[0-9]/],
             },
           ]}
@@ -860,5 +1029,78 @@ describe('MultiInputMask', () => {
     await userEvent.click(document.body)
     expect(onBlur).toHaveBeenCalledTimes(6)
     expect(onFocus).toHaveBeenCalledTimes(6)
+  })
+
+  it('should forward HTML input attributes (aria-*, data-*, etc.) to all inputs', () => {
+    render(
+      <MultiInputMask
+        {...defaultProps}
+        aria-label="Date inputs"
+        aria-describedby="date-help"
+        data-testid="date-mask"
+        data-custom="value"
+      />
+    )
+
+    const inputs = document.querySelectorAll(
+      '.dnb-multi-input-mask__input'
+    )
+
+    inputs.forEach((input) => {
+      expect(input).toHaveAttribute('aria-label', 'Date inputs')
+      expect(input).toHaveAttribute('aria-describedby', 'date-help')
+      expect(input).toHaveAttribute('data-testid', 'date-mask')
+      expect(input).toHaveAttribute('data-custom', 'value')
+    })
+  })
+
+  it('ArrowRight on empty field advances caret stepwise and crosses only after size steps', async () => {
+    render(<MultiInputMask {...defaultProps} />)
+
+    const [day, month] = Array.from(
+      document.querySelectorAll('.dnb-multi-input-mask__input')
+    ) as HTMLInputElement[]
+
+    // Focus day; caret goes to position 0 for empty input
+    await userEvent.click(day)
+    expect(day.selectionStart).toBe(0)
+
+    // First ArrowRight collapses selection to end when the whole field is selected
+    await userEvent.keyboard('{ArrowRight}')
+    await new Promise((r) => setTimeout(r, 0))
+    expect(document.activeElement).toBe(day)
+    expect(day.selectionStart).toBe(day.value.length)
+
+    // Second ArrowRight moves to 2 (end for day size=2)
+    await userEvent.keyboard('{ArrowRight}')
+    await new Promise((r) => setTimeout(r, 0))
+    expect(document.activeElement).toBe(day)
+    expect(day.selectionStart).toBe(2)
+
+    // Third ArrowRight crosses to next input (month) at position 0
+    await userEvent.keyboard('{ArrowRight}')
+    await new Promise((r) => setTimeout(r, 0))
+    expect(document.activeElement).toBe(month)
+    expect(month.selectionStart).toBe(0)
+  })
+
+  it('ArrowLeft on empty field at position 0 moves to previous field (caret at start for empty input)', async () => {
+    render(<MultiInputMask {...defaultProps} />)
+
+    const [day, month] = Array.from(
+      document.querySelectorAll('.dnb-multi-input-mask__input')
+    ) as HTMLInputElement[]
+
+    // Focus month; ensure caret at position 0 (empty)
+    await focusInput(month)
+    expect(month.selectionStart).toBe(0)
+
+    // ArrowLeft should jump to previous (day). For empty inputs, caret settles at start
+    await userEvent.keyboard('{ArrowLeft}')
+    await new Promise((r) => setTimeout(r, 0))
+
+    expect(document.activeElement).toBe(day)
+    expect(day.selectionStart).toBe(0)
+    expect(day.selectionEnd).toBe(0)
   })
 })

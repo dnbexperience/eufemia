@@ -46,23 +46,18 @@ export const inputMaskedProperties: PropertiesTableProps = {
     type: ['RegExp', 'function'],
     status: 'optional',
   },
+  allowOverflow: {
+    doc: 'Allow users to keep typing after the defined mask has been filled. Extra characters will be appended without masking.',
+    type: 'boolean',
+    status: 'optional',
+  },
+  overwriteMode: {
+    doc: 'Control how overwriting characters is handled; `shift` (default) moves to the next slot while `replace` stays on the current slot.',
+    type: ['string', 'function'],
+    status: 'optional',
+  },
   showMask: {
     doc: 'Show mask when input is empty and has no focus. Defaults to `false`.',
-    type: 'boolean',
-    status: 'optional',
-  },
-  showGuide: {
-    doc: "When `false` is given, it doesn't print out placeholder characters and only adds mask characters when the user reaches them as they're typing. Defaults to `true`.",
-    type: 'boolean',
-    status: 'optional',
-  },
-  placeholderChar: {
-    doc: 'The placeholder character represents the fillable spot in the mask (e.g. `_`). Defaults to invisible space.',
-    type: 'string',
-    status: 'optional',
-  },
-  keepCharPositions: {
-    doc: 'When `true`, adding or deleting characters will not affect the positions of existing characters. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },

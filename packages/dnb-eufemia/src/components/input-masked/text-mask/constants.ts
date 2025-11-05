@@ -1,2 +1,2 @@
-export const placeholderChar = '_'
+export const placeholderChar = '\u2000'
 export const strFunction = 'function'

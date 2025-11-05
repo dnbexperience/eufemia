@@ -1,66 +1,152 @@
-import { RefObject, useEffect, useRef } from 'react'
+import { RefObject, useCallback } from 'react'
 
+/**
+ * A hook to handle cursor position and navigation between multiple masked input fields.
+ */
 function useHandleCursorPosition(
-  inputRefs: RefObject<HTMLInputElement>[],
-  keysToHandle?: RegExp | { [inputId: string]: RegExp[] }
+  keysToHandle?: RegExp | { [inputId: string]: RegExp[] },
+  scopeRootRef?: RefObject<HTMLElement | null>
 ) {
-  const inputList = useRef(refsToInputList(inputRefs))
+  const scheduleCaretCheck = useCallback((cb: () => void) => {
+    if (
+      typeof window !== 'undefined' &&
+      typeof window.requestAnimationFrame === 'function'
+    ) {
+      window.requestAnimationFrame(() => {
+        setTimeout(cb, 0)
+      })
+      return
+    }
+    setTimeout(cb, 0)
+  }, [])
 
-  // To keep the refs.current in synch with component of use, or else it wont be possible to navigate to the next input, without triggering a re-render first.
-  useEffect(() => {
-    inputList.current = refsToInputList(inputRefs)
-  }, [inputRefs])
+  const onKeyDown = useCallback(
+    (event: React.KeyboardEvent<HTMLInputElement>) => {
+      const input = event.target as HTMLInputElement
+      const key = event.key
 
-  function onKeyDown(event: React.KeyboardEvent) {
-    const inputs = inputList.current
-    const input = event.target as HTMLInputElement
+      const size = getInputVisualSize(input)
+      const placeholder = input.placeholder || ''
+      const typedLen = getTypedLengthBasic(
+        input.value || '',
+        placeholder,
+        size
+      )
+      const selStart = input.selectionStart ?? 0
+      const selEnd = input.selectionEnd ?? selStart
+      const hasSelection = selStart !== selEnd
+      const atStart = selStart === 0 && selEnd === 0
+      const atEnd = selStart === size && selEnd === size
 
-    const pressedKey = event.key
+      const allInputs = listAllInputs(scopeRootRef?.current || undefined)
+      const index = allInputs.findIndex((el) => el === input)
+      const prev = index > 0 ? allInputs[index - 1] : undefined
+      const next = index >= 0 ? allInputs[index + 1] : undefined
 
-    const hasPressedKeysToHandle =
-      getKeysToHandle({ keysToHandle, input })?.test(pressedKey) ||
-      /(ArrowRight|ArrowLeft|Backspace)/.test(pressedKey)
-
-    const hasSelection = hasSelectedValue(input)
-
-    const inputPosition = !hasSelection && getInputPosition(input, inputs)
-
-    const initialSelectionStart = input.selectionStart
-
-    window.requestAnimationFrame(() => {
-      if (!hasPressedKeysToHandle || hasSelection) {
-        return // stop here
+      // Backspace behavior
+      if (key === 'Backspace') {
+        if (typedLen === 0 && prev) {
+          event.preventDefault()
+          focusInput(prev, 'end')
+        }
+        return
       }
 
-      const caretPosition = getCaretPosition(input)
-
-      if (
-        caretPosition === 'last' &&
-        inputPosition !== 'last' &&
-        !(initialSelectionStart === 1 && pressedKey === 'ArrowRight')
-      ) {
-        return goToInput('next', input, inputs)
+      // Arrow navigation
+      if (key === 'ArrowRight') {
+        if (hasSelection) {
+          // Collapse to end of selection on first ArrowRight
+          try {
+            input.setSelectionRange(selEnd, selEnd)
+          } catch {
+            // ignore
+          }
+          event.preventDefault()
+          return
+        }
+        if (atEnd && next) {
+          event.preventDefault()
+          focusInput(next, 'start')
+        }
+        return
+      }
+      if (key === 'ArrowLeft') {
+        if (hasSelection) {
+          // Collapse to start of selection on first ArrowLeft
+          try {
+            input.setSelectionRange(selStart, selStart)
+          } catch {
+            // ignore
+          }
+          event.preventDefault()
+          return
+        }
+        if (atStart && prev) {
+          event.preventDefault()
+          focusInput(prev, 'end')
+        }
+        return
       }
 
-      if (
-        caretPosition === 'first' &&
-        inputPosition !== 'first' &&
-        !(
-          initialSelectionStart === 1 &&
-          (pressedKey === 'ArrowLeft' || pressedKey === 'Backspace')
-        )
-      ) {
-        return goToInput('previous', input, inputs)
+      const allowMask = () => {
+        if (!keysToHandle) {
+          return true
+        }
+        const reg = getKeysToHandle({ keysToHandle, input })
+        return reg ? reg.test(key) : true
       }
-    })
-  }
+
+      // Auto-advance when filled and caret is at the end
+      if (key.length === 1 && allowMask()) {
+        // Defer until value updates, then check typed length
+        scheduleCaretCheck(() => {
+          const current = document.activeElement as HTMLInputElement | null
+          const el = current && current.id === input.id ? current : input
+          const len = getTypedLengthBasic(
+            el.value || '',
+            el.placeholder || '',
+            size
+          )
+          const selStartNow = el.selectionStart ?? 0
+          const selEndNow = el.selectionEnd ?? selStartNow
+          const atEndNow = selStartNow === size && selEndNow === size
+          if (len >= size && next && atEndNow) {
+            focusInput(next, 'start')
+          }
+        })
+      }
+    },
+    [keysToHandle, scopeRootRef, scheduleCaretCheck]
+  )
 
   return { onKeyDown }
 }
 
-// Helpers
-function refsToInputList(inputRefs: RefObject<HTMLInputElement>[]) {
-  return inputRefs.map((ref) => ref.current).filter(Boolean)
+function listAllInputs(scope?: HTMLElement): HTMLInputElement[] {
+  try {
+    const root: Document | HTMLElement = scope || document
+    return Array.from(
+      root.querySelectorAll<HTMLInputElement>(
+        '.dnb-multi-input-mask__input'
+      )
+    )
+  } catch {
+    return []
+  }
+}
+
+function getTypedLengthBasic(
+  value: string,
+  placeholder: string,
+  size: number
+) {
+  if (!size) return value.length
+  const n = Math.min(size, value.length)
+  let count = 0
+  for (let i = 0; i < n; i++) {
+    if (!placeholder || placeholder[i] !== value[i]) count++
+  }
+  return count
 }
 
 type GetKeysToHandleParams = {
@@ -84,7 +170,8 @@ function getKeysToHandle({ keysToHandle, input }: GetKeysToHandleParams) {
       ? input.selectionStart
       : undefined
 
-  if (!selection) {
+  // Important: selection can be 0 which is a valid index
+  if (selection === undefined || selection === null) {
     return undefined
   }
 
@@ -93,76 +180,24 @@ function getKeysToHandle({ keysToHandle, input }: GetKeysToHandleParams) {
   return masks[maskIndex]
 }
 
-function getInputPosition(
-  input: HTMLInputElement,
-  inputs: HTMLInputElement[]
-) {
-  const firstInput = inputs[0]
-  const lastInput = inputs[inputs.length - 1]
-
-  if (input === firstInput) {
-    return 'first'
+function focusInput(el: HTMLInputElement, _where: 'start' | 'end') {
+  try {
+    // Only move focus; selection is handled uniformly in component onFocus (select-all)
+    el.focus()
+  } catch {
+    // ignore
   }
-
-  if (input === lastInput) {
-    return 'last'
-  }
-
-  return 'non-initial'
 }
 
-function getSelectionPositions(input: HTMLInputElement) {
-  return { start: 0, end: Number(input.size) }
-}
-
-function hasSelectedValue(input: HTMLInputElement) {
-  return input.selectionEnd > input.selectionStart
-}
-
-function getCaretPosition(input: HTMLInputElement) {
-  const { start, end } = getSelectionPositions(input)
-
-  const selectionStart = input.selectionStart
-  const selectionEnd = input.selectionEnd
-
-  if (selectionStart === start && selectionEnd === start) {
-    return 'first'
+// Local helpers
+function getInputVisualSize(input: HTMLInputElement): number {
+  if (typeof input.size === 'number' && input.size > 0) {
+    return input.size
   }
-
-  if (selectionStart === end && selectionEnd === end) {
-    return 'last'
+  if (typeof input.maxLength === 'number' && input.maxLength > 0) {
+    return input.maxLength
   }
-
-  return 'non-initial'
-}
-
-function goToInput(
-  to: 'next' | 'previous',
-  input: HTMLInputElement,
-  inputs: HTMLInputElement[]
-) {
-  const currentInputIndex = inputs.indexOf(input)
-
-  const siblingIndex =
-    to === 'next'
-      ? currentInputIndex + 1
-      : to === 'previous'
-      ? currentInputIndex - 1
-      : 0
-
-  const siblingInput = inputs[siblingIndex]
-
-  const { start, end } = getSelectionPositions(siblingInput)
-
-  siblingInput.focus()
-
-  if (to === 'next') {
-    return siblingInput.setSelectionRange(start, start)
-  }
-
-  if (to === 'previous') {
-    return siblingInput.setSelectionRange(end, end)
-  }
+  return input.value ? input.value.length : 0
 }
 
 export default useHandleCursorPosition

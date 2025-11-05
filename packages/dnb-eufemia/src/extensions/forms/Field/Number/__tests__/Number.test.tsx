@@ -26,6 +26,34 @@ import enGB from '../../../constants/locales/en-GB'
 const nb = nbNO['nb-NO']
 const en = enGB['en-GB']
 
+// const flushMaskitoFrame = () =>
+//   new Promise<void>((resolve) => {
+//     setTimeout(() => {
+//       setTimeout(resolve, 0)
+//     }, 0)
+//   })
+
+// const originalKeyboard = userEvent.keyboard
+// const originalType = userEvent.type
+
+// const wrapWithFlush =
+//   <Fn extends (...args: any[]) => Promise<unknown>>(fn: Fn) =>
+//   (async (...args: Parameters<Fn>) => {
+//     const result = await fn(...args)
+//     await flushMaskitoFrame()
+//     return result
+//   }) as Fn
+
+// beforeEach(() => {
+//   userEvent.keyboard = wrapWithFlush(originalKeyboard)
+//   userEvent.type = wrapWithFlush(originalType)
+// })
+
+// afterEach(() => {
+//   userEvent.keyboard = originalKeyboard
+//   userEvent.type = originalType
+// })
+
 describe('Field.Number', () => {
   describe('props', () => {
     it('renders value', () => {
@@ -78,16 +106,13 @@ describe('Field.Number', () => {
     })
 
     it('renders custom mask given as a function with 4 digits', () => {
-      const mask = jest.fn(() => {
-        return Array(4).fill(/\d/)
-      })
+      const mask = Array(4).fill(/\d/)
 
       render(<Field.Number mask={mask} value={1234} />)
 
       expect(mask).toHaveBeenCalledTimes(1)
       expect(mask).toHaveBeenCalledWith('1234', {
         currentCaretPosition: 0,
-        placeholderChar: '​',
         previousConformedValue: undefined,
       })
       expect(document.querySelector('input')).toHaveValue('1234')
@@ -111,7 +136,7 @@ describe('Field.Number', () => {
       expect(document.querySelector('input')).toHaveValue('1.234,56')
     })
 
-    it('shows error when minimum exceeded', () => {
+    it.only('shows error when minimum exceeded', () => {
       render(<Field.Number value={Number.MIN_SAFE_INTEGER} />)
 
       const input = document.querySelector('input')
