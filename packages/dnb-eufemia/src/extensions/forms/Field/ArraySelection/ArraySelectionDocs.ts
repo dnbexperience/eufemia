@@ -15,7 +15,7 @@ export const arraySelectionProperties: PropertiesTableProps = {
   },
   children: {
     doc: 'For providing `<Field.Option>` components.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   size: {
