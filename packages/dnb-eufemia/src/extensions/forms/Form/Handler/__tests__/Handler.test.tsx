@@ -1084,8 +1084,8 @@ describe('Form.Handler', () => {
 
   it('should support translations prop', () => {
     const translations = {
-      'nb-NO': { PhoneNumber: { label: 'Egendefinert' } },
-      'en-GB': { PhoneNumber: { label: 'Custom' } },
+      'nb-NO': { PhoneNumber: { numberLabel: 'Egendefinert' } },
+      'en-GB': { PhoneNumber: { numberLabel: 'Custom' } },
     }
     const { rerender } = render(
       <Form.Handler locale="en-GB" translations={translations}>
@@ -1099,7 +1099,7 @@ describe('Form.Handler', () => {
 
     expect(countryCode).toHaveTextContent(en.PhoneNumber.countryCodeLabel)
     expect(phoneNumber).toHaveTextContent(
-      translations['en-GB'].PhoneNumber.label
+      translations['en-GB'].PhoneNumber.numberLabel
     )
 
     rerender(
@@ -1110,7 +1110,7 @@ describe('Form.Handler', () => {
 
     expect(countryCode).toHaveTextContent(nb.PhoneNumber.countryCodeLabel)
     expect(phoneNumber).toHaveTextContent(
-      translations['nb-NO'].PhoneNumber.label
+      translations['nb-NO'].PhoneNumber.numberLabel
     )
   })
 
