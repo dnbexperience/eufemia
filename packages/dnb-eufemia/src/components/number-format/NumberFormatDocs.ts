@@ -74,12 +74,12 @@ export const NumberFormatProperties: PropertiesTableProps = {
   },
   prefix: {
     doc: 'Add a string or React component before the number, including white space.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   suffix: {
     doc: 'Appends a string or React component after the number, including white space.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   srLabel: {
@@ -139,7 +139,7 @@ export const NumberFormatProperties: PropertiesTableProps = {
   },
   tooltip: {
     doc: 'Provide a string or a React Element to be shown as the tooltip content.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   '[Space](/uilib/layout/space/properties)': {
