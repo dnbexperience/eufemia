@@ -8,7 +8,7 @@ export const ElementPropertiesWithoutSkeleton: PropertiesTableProps = {
   },
   children: {
     doc: 'Contents.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   '[Space](/uilib/layout/space/properties)': {

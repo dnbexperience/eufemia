@@ -48,7 +48,7 @@ export const WizardContainerProperties: PropertiesTableProps = {
   },
   children: {
     doc: 'Contents (Step components).',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'required',
   },
   '[Space](/uilib/layout/space/properties)': {

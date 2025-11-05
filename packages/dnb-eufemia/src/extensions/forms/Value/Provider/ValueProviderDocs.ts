@@ -5,7 +5,7 @@ export const ValueProviderProperties: PropertiesTableProps = {
   ...ValueProperties,
   children: {
     doc: 'Contents.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'required',
   },
 }
