@@ -592,6 +592,42 @@ describe('Modal component', () => {
     expect(document.querySelector('h1').textContent).toBe('custom heading')
   })
 
+  it('will render modal focus helper if a custom header is given', () => {
+    render(
+      <Modal no_animation={true} title="modal title">
+        <Modal.Header>
+          <div>
+            <h1>custom title</h1>
+          </div>
+        </Modal.Header>
+      </Modal>
+    )
+    fireEvent.click(document.querySelector('button'))
+
+    expect(
+      document.querySelector('.dnb-modal__focus-helper').textContent
+    ).toBe('modal title')
+    expect(
+      document.querySelector('.dnb-modal__title')
+    ).not.toBeInTheDocument()
+  })
+
+  it('will not render modal focus helper if a header is given', () => {
+    render(
+      <Modal no_animation={true}>
+        <Modal.Header title="my title" />
+      </Modal>
+    )
+    fireEvent.click(document.querySelector('button'))
+
+    expect(document.querySelector('.dnb-modal__title').textContent).toBe(
+      'my title'
+    )
+    expect(
+      document.querySelector('.dnb-modal__focus-helper')
+    ).not.toBeInTheDocument()
+  })
+
   it('will provide custom bar, header and content if given', () => {
     render(
       <Modal no_animation={true} direct_dom_return>
