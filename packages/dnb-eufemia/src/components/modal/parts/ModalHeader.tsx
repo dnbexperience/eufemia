@@ -75,15 +75,7 @@ export default class ModalHeader extends React.PureComponent<
         }
         {...sectionProps}
       >
-        <div
-          aria-hidden
-          tabIndex={-1}
-          className="dnb-modal__focus-helper dnb-sr-only"
-        >
-          {/* Used to set focus when no close button is present */}
-          {usedTitle}
-        </div>
-        {showTitle && (
+        {showTitle ? (
           <h1
             className={classnames(
               'dnb-modal__title', // for tests
@@ -95,6 +87,15 @@ export default class ModalHeader extends React.PureComponent<
           >
             {usedTitle}
           </h1>
+        ) : (
+          <div
+            aria-hidden
+            tabIndex={-1}
+            className="dnb-modal__focus-helper dnb-sr-only"
+          >
+            {/* Used to set focus when no close button is present */}
+            {usedTitle}
+          </div>
         )}
         <div>{children as React.ReactNode}</div>
       </Section>
