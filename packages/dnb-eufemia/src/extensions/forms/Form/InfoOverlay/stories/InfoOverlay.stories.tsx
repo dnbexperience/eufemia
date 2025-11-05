@@ -78,6 +78,7 @@ export function Content() {
   Form.InfoOverlay.setContent(formId, 'error')
 
   const { data } = Form.useData(formId)
+  console.log('data', data)
 
   return (
     <>
