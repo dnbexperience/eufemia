@@ -6,10 +6,6 @@
 @import '../../../style/core/utilities.scss';
 
 .dnb-input-masked {
-  &--guide {
-    font-family: var(--font-family-monospace);
-  }
-
   // Used on iOS when faking the inputMode to be type of number during focus – this fix avoids a flickering
   input::placeholder {
     color: inherit;
@@ -54,7 +50,6 @@
   outline: none;
 
   font-family: var(--font-family-monospace);
-  text-align: center;
   border: none;
   background: transparent;
 

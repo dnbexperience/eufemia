@@ -6,20 +6,10 @@
 @import '../../../../style/core/utilities.scss';
 
 .dnb-date-picker {
-  &:not(#{&}__status--error) &__input {
-    color: var(--color-black-55);
-
-    & ~ .dnb-date-picker--separator {
-      color: var(--color-black-55);
-    }
-
-    &--highlight:not([disabled]) {
-      color: var(--color-black);
-
-      & ~ .dnb-date-picker--separator {
-        color: var(--color-black);
-      }
-    }
+  &__container {
+    @include sharpDropShadow();
+    border-radius: 0.25rem;
+    background-color: var(--color-white);
   }
 
   &__addon,
