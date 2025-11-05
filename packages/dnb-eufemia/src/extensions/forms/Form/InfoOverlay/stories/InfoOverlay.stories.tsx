@@ -1,4 +1,4 @@
-import { Field, Form, Wizard } from '../../..'
+import { Field, Form, Tools, Wizard } from '../../..'
 import { Button } from '../../../../../components'
 
 export default {
@@ -11,7 +11,8 @@ export function BothStatuses() {
     <>
       <Form.Handler
         id={formId}
-        onSubmit={async () => {
+        onSubmit={async (data) => {
+          console.log('data', data)
           await new Promise((r) => setTimeout(r, 1000)) // Simulate a request
 
           Form.InfoOverlay.setContent(formId, 'success')
@@ -19,7 +20,7 @@ export function BothStatuses() {
       >
         <Form.InfoOverlay>
           <Form.Card>
-            <Field.Email />
+            <Field.Email path="/email" />
             <Form.ButtonRow>
               <Form.SubmitButton variant="send" />
               <Button
@@ -33,6 +34,7 @@ export function BothStatuses() {
             </Form.ButtonRow>
           </Form.Card>
         </Form.InfoOverlay>
+        <Tools.Log />
       </Form.Handler>
       <br />
       ----- Content ----
@@ -66,6 +68,24 @@ export function WithAWizard() {
           </Wizard.Step>
         </Wizard.Container>
       </Form.InfoOverlay>
+      <Tools.Log />
     </Form.Handler>
+  )
+}
+
+export function Content() {
+  const formId = 'form'
+  Form.InfoOverlay.setContent(formId, 'error')
+
+  const { data } = Form.useData(formId)
+  console.log('data', data)
+
+  return (
+    <>
+      <Form.Handler id={formId}>
+        <Form.InfoOverlay>children</Form.InfoOverlay>
+        <Tools.Log />
+      </Form.Handler>
+    </>
   )
 }
