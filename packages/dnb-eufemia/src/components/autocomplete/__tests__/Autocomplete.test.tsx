@@ -3926,7 +3926,7 @@ describe('Autocomplete markup', () => {
   })
 })
 
-describe.only('Autocomplete type', () => {
+describe('Autocomplete type', () => {
   it('support all its properties', async () => {
     const allProps: Required<AutocompleteProps> = {
       disableReorder: false,
