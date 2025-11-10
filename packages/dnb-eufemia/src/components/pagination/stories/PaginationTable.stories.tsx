@@ -99,7 +99,7 @@ const InfinityPaginationTable = ({ tableItems, ...props }) => {
   React.useEffect(() => () => clearTimeout(serverDelayTimeout))
 
   const action = ({ pageNumber }) => {
-    console.log('on_change: with page', pageNumber)
+    console.log('onChange: with page', pageNumber)
     clearTimeout(serverDelayTimeout)
     serverDelayTimeout = setTimeout(
       () => {
@@ -167,8 +167,8 @@ const InfinityPaginationTable = ({ tableItems, ...props }) => {
           currentPage={currentPage}
           pageCount={maxPagesCount}
           {...props}
-          on_startup={action}
-          on_change={action}
+          onStartup={action}
+          onChange={action}
         />
       </tbody>
     </StyledTable>
