@@ -84,26 +84,26 @@ describe('Textarea component', () => {
     expect(document.querySelector('textarea').value).toBe('')
   })
 
-  it('events gets emitted correctly: "on_change" and "on_key_down"', async () => {
+  it('events gets emitted correctly: "onChange" and "onKeyDown"', async () => {
     const initValue = 'init value'
     const newValue = 'new value'
 
-    const on_change = jest.fn()
-    const on_key_down = jest.fn() // additional native event test
+    const onChange = jest.fn()
+    const onKeyDown = jest.fn() // additional native event test
 
     render(
       <Textarea
         {...props}
         value={initValue}
-        on_change={on_change}
-        on_key_down={on_key_down} // additional native event test
+        onChange={onChange}
+        onKeyDown={onKeyDown} // additional native event test
       />
     )
 
     expect(document.querySelector('textarea').value).toBe(initValue)
     userEvent.type(document.querySelector('textarea'), newValue)
     await waitFor(() => {
-      expect(on_change.mock.calls.length).toBe(9)
+      expect(onChange.mock.calls.length).toBe(9)
       expect(document.querySelector('textarea').value).toBe(
         initValue + newValue
       )
@@ -115,8 +115,8 @@ describe('Textarea component', () => {
       key: 'Space',
     })
     await waitFor(() => {
-      expect(on_key_down.mock.calls.length).toBe(10)
-      expect(on_key_down.mock.calls[0][0].rows).toBe(1)
+      expect(onKeyDown.mock.calls.length).toBe(10)
+      expect(onKeyDown.mock.calls[0][0].rows).toBe(1)
     })
   })
 
