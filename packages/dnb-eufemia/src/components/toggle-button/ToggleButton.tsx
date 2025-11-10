@@ -558,7 +558,6 @@ export interface ToggleButtonProps
   onChange?: (...args: any[]) => any
   onStateUpdate?: (...args: any[]) => any
   // Additional properties that are used in tests and stories
-  onChange?: (...args: any[]) => any
   top?: SpaceType
   right?: SpaceType
   bottom?: SpaceType
