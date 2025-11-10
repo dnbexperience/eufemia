@@ -298,7 +298,7 @@ export const setFiles = () => {
         <ToggleButton
           top="small"
           disabled={files.length < 1}
-          on_change={({ checked }) =>
+          onChange={({ checked }) =>
             setFiles(
               files.map((fileItem) => {
                 return {
