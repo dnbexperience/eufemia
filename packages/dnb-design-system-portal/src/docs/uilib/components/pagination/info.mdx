@@ -70,7 +70,7 @@ render(
 
 #### Pagination method #3
 
-Using the `on_change` event together with `setContent`.
+Using the `onChange` event together with `setContent`.
 
 ```jsx
 import { Pagination } from '@dnb/eufemia/components'
@@ -78,7 +78,7 @@ import { Pagination } from '@dnb/eufemia/components'
 render(
   <Pagination
     pageCount={2}
-    on_change={({ pageNumber, setContent }) => {
+    onChange={({ pageNumber, setContent }) => {
       setContent(pageNumber, ReactComponent)
     }}
   />
