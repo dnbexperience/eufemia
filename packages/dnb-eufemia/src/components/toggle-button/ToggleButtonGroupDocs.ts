@@ -84,7 +84,7 @@ export const ToggleButtonGroupProperties: PropertiesTableProps = {
 }
 
 export const ToggleButtonGroupEvents: PropertiesTableProps = {
-  on_change: {
+  onChange: {
     doc: 'Will be called once a ToggleButton button changes the state. Returns an object `{ value, values, event }`. <br /><br /> **NB**: `values` is only available if `multiselect` is used / true.',
     type: 'function',
     status: 'optional',
