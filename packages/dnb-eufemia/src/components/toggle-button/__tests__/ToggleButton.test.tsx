@@ -98,23 +98,12 @@ describe('ToggleButton component', () => {
 
   it('has "onChange" event which will trigger on a button click', () => {
     const my_event = jest.fn()
-    const myEvent = jest.fn()
-    render(
-      <ToggleButton
-        onChange={my_event}
-        onChange={myEvent}
-        checked={false}
-      />
-    )
+    render(<ToggleButton onChange={my_event} checked={false} />)
 
     // first click
     fireEvent.click(document.querySelector('button'))
     expect(my_event).toHaveBeenCalled()
     expect(my_event.mock.calls[0][0].checked).toBe(true)
-
-    expect(myEvent.mock.calls.length).toBe(1)
-    expect(myEvent.mock.calls[0][0]).toHaveProperty('checked')
-    expect(myEvent.mock.calls[0][0].checked).toBe(true)
 
     // second click
     fireEvent.click(document.querySelector('button'))
