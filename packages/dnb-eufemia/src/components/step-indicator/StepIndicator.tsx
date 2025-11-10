@@ -33,7 +33,7 @@ export type StepIndicatorDataItem = Pick<
   | 'disabled'
   | 'status'
   | 'statusState'
-  | 'on_click'
+  | 'onClick'
 >
 export type StepIndicatorData = string | string[] | StepIndicatorDataItem[]
 
@@ -45,7 +45,7 @@ export type StepIndicatorMouseEvent = {
 
 export type StepIndicatorProps = Omit<
   React.HTMLProps<HTMLAnchorElement>,
-  'ref' | 'data'
+  'ref' | 'data' | 'onChange' | 'onClick'
 > &
   SpacingProps & {
     /**
@@ -80,7 +80,7 @@ export type StepIndicatorProps = Omit<
     /**
      * Will be called once the user clicks on the current or another step. Will be emitted on every click. Returns an object `{ event, item, currentStep, currentStep }`.
      */
-    on_click?: ({
+    onClick?: ({
       event,
       item,
       currentStep,
@@ -88,7 +88,7 @@ export type StepIndicatorProps = Omit<
     /**
      * Will be called once the user visits actively a new step. Will be emitted only once. Returns an object `{ event, item, currentStep, currentStep }`.
      */
-    on_change?: ({
+    onChange?: ({
       event,
       item,
       currentStep,
