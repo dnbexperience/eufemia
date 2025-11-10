@@ -12,7 +12,7 @@ export const StepIndicatorProperties: PropertiesTableProps = {
     status: 'required',
   },
   currentStep: {
-    doc: 'Defines the initial step starting from 0. Also defines the furthest step visited when `mode="strict"`. Will update to the new step if changed (but will not trigger the `on_change` event). Defaults to `0`.',
+    doc: 'Defines the initial step starting from 0. Also defines the furthest step visited when `mode="strict"`. Will update to the new step if changed (but will not trigger the `onChange` event). Defaults to `0`.',
     type: 'number',
     status: 'optional',
   },
@@ -69,12 +69,12 @@ export const StepIndicatorProperties: PropertiesTableProps = {
 }
 
 export const StepIndicatorEvents: PropertiesTableProps = {
-  on_click: {
-    doc: 'Will be called when the user clicks on any clickable step in the list. Is called right before `on_change`. Receives parameter `{ event, item, currentStep, currentStep }`.',
+  onClick: {
+    doc: 'Will be called when the user clicks on any clickable step in the list. Is called right before `onChange`. Receives parameter `{ event, item, currentStep, currentStep }`.',
     type: 'function',
     status: 'optional',
   },
-  on_change: {
+  onChange: {
     doc: 'Will be called when the user changes step by clicking in the steps list (changing the `currentStep` prop does not trigger the event). Receives parameter `{ event, item, currentStep, currentStep }`.',
     type: 'function',
     status: 'optional',
@@ -115,8 +115,8 @@ export const StepIndicatorStepProperties: PropertiesTableProps = {
 }
 
 export const StepIndicatorStepEvents: PropertiesTableProps = {
-  on_click: {
-    doc: "Called when user clicks the step. Is called right before the main component's `on_click`. Receives parameter `{ event, item, currentStep, currentStep }`",
+  onClick: {
+    doc: "Called when user clicks the step. Is called right before the main component's `onClick`. Receives parameter `{ event, item, currentStep, currentStep }`",
     type: 'function',
     status: 'optional',
   },
