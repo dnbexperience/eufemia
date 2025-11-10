@@ -110,11 +110,11 @@ export default class Textarea extends React.PureComponent {
     textareaElement: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
     children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 
-    on_change: PropTypes.func,
-    on_focus: PropTypes.func,
-    on_blur: PropTypes.func,
-    on_key_down: PropTypes.func,
-    on_state_update: PropTypes.func,
+    onChange: PropTypes.func,
+    onFocus: PropTypes.func,
+    onBlur: PropTypes.func,
+    onKeyDown: PropTypes.func,
+    onStateUpdate: PropTypes.func,
   }
 
   static defaultProps = {
@@ -151,11 +151,11 @@ export default class Textarea extends React.PureComponent {
     textareaElement: null,
     children: null,
 
-    on_change: null,
-    on_focus: null,
-    on_blur: null,
-    on_key_down: null,
-    on_state_update: null,
+    onChange: null,
+    onFocus: null,
+    onBlur: null,
+    onKeyDown: null,
+    onStateUpdate: null,
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -167,9 +167,9 @@ export default class Textarea extends React.PureComponent {
     ) {
       if (
         value !== state.value &&
-        typeof props.on_state_update === 'function'
+        typeof props.onStateUpdate === 'function'
       ) {
-        dispatchCustomElementEvent({ props }, 'on_state_update', { value })
+        dispatchCustomElementEvent({ props }, 'onStateUpdate', { value })
       }
       state.value = value
     }
@@ -274,7 +274,7 @@ export default class Textarea extends React.PureComponent {
       value,
       textareaState: 'focus',
     })
-    dispatchCustomElementEvent(this, 'on_focus', { value, event })
+    dispatchCustomElementEvent(this, 'onFocus', { value, event })
   }
   onBlurHandler = (event) => {
     const { value } = event.target
@@ -282,7 +282,7 @@ export default class Textarea extends React.PureComponent {
       value,
       textareaState: Textarea.hasValue(value) ? 'dirty' : 'initial',
     })
-    dispatchCustomElementEvent(this, 'on_blur', { value, event })
+    dispatchCustomElementEvent(this, 'onBlur', { value, event })
   }
   onChangeHandler = (event) => {
     const { value } = event.target
@@ -296,7 +296,7 @@ export default class Textarea extends React.PureComponent {
 
     const rows = this.getRows(value)
 
-    const ret = dispatchCustomElementEvent(this, 'on_change', {
+    const ret = dispatchCustomElementEvent(this, 'onChange', {
       value,
       rows,
       event,
@@ -311,7 +311,7 @@ export default class Textarea extends React.PureComponent {
   onKeyDownHandler = (event) => {
     const rows = this.getRows()
     const { value } = event.target
-    dispatchCustomElementEvent(this, 'on_key_down', {
+    dispatchCustomElementEvent(this, 'onKeyDown', {
       value,
       rows,
       event,
