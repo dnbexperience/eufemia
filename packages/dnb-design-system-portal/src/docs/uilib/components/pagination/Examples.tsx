@@ -35,8 +35,8 @@ export const PaginationExampleDefault = () => (
     <Pagination
       pageCount={888}
       currentPage={4}
-      on_change={({ pageNumber }) => {
-        console.log('on_change:', pageNumber)
+      onChange={({ pageNumber }) => {
+        console.log('onChange:', pageNumber)
       }}
     >
       <P>Current Page Content</P>
@@ -49,8 +49,8 @@ export const PaginationExampleWithHorizontalLayout = () => (
     <Pagination
       pageCount={888}
       currentPage={4}
-      on_change={({ pageNumber }) => {
-        console.log('on_change:', pageNumber)
+      onChange={({ pageNumber }) => {
+        console.log('onChange:', pageNumber)
       }}
       paginationBarLayout="horizontal"
     >
@@ -64,8 +64,8 @@ export const PaginationExampleWithCallback = () => (
     <Pagination
       pageCount={5}
       startupPage={3}
-      on_change={({ pageNumber }) => {
-        console.log('on_change:', pageNumber)
+      onChange={({ pageNumber }) => {
+        console.log('onChange:', pageNumber)
       }}
     >
       {({ pageNumber }) => <P>Page {pageNumber}</P>}
@@ -171,7 +171,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
   React.useEffect(() => () => clearTimeout(serverDelayTimeout))
 
   const action = ({ pageNumber }) => {
-    console.log('on_change: with page', pageNumber)
+    console.log('onChange: with page', pageNumber)
 
     // simulate server delay
     clearTimeout(serverDelayTimeout)
@@ -249,8 +249,8 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
           currentPage={currentPage}
           pageCount={maxPagesCount}
           {...props}
-          on_startup={action}
-          on_change={action}
+          onStartup={action}
+          onChange={action}
         />
       </tbody>
     </StyledTable>
