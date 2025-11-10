@@ -79,7 +79,7 @@ export const TextareaSandbox = () => (
         autoresize={true}
         autoresizeMaxRows={4}
         placeholder="Placeholder"
-        on_key_down={({ rows, event }) => {
+        onKeyDown={({ rows, event }) => {
           if (rows >= 4 && event.key === 'Enter') {
             event.preventDefault()
           }
@@ -137,14 +137,14 @@ export const TextareaSandbox = () => (
         value="Nec litora inceptos vestibulum id interdum donec gravida
               nostra lacinia bibendum hendrerit porttitor volutpat nam duis
               nisl scelerisque sapien erat"
-        on_change={({ value }) => {
-          console.log('on_change', value)
+        onChange={({ value }) => {
+          console.log('onChange', value)
         }}
-        on_focus={() => {
-          console.log('on_focus')
+        onFocus={() => {
+          console.log('onFocus')
         }}
-        on_blur={() => {
-          console.log('on_blur')
+        onBlur={() => {
+          console.log('onBlur')
         }}
       />
       <p className="dnb-p">I have still to be on the grid!</p>
