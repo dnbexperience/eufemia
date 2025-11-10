@@ -105,11 +105,11 @@ export interface GlobalStatusProps
    * The text appears as the status content. Besides plain text, you can send in a React component as well. Defaults to `null`.
    */
   children?: GlobalStatusChildren;
-  on_adjust?: (...args: any[]) => any;
-  on_open?: (...args: any[]) => any;
-  on_show?: (...args: any[]) => any;
-  on_close?: (...args: any[]) => any;
-  on_hide?: (...args: any[]) => any;
+  onAdjust?: (...args: any[]) => any;
+  onOpen?: (...args: any[]) => any;
+  onShow?: (...args: any[]) => any;
+  onClose?: (...args: any[]) => any;
+  onHide?: (...args: any[]) => any;
 }
 export type GlobalStatusStatusId = string;
 export type GlobalStatusAddProps = {
@@ -131,7 +131,7 @@ export type GlobalStatusAddProps = {
    * The items (list items) appear as a part of the status content. you can both use an JSON array, or a vanilla array with a string or an object content. See **Item Object** example below.
    */
   items?: GlobalStatusItem[];
-  on_close: ({ statusId }: { statusId: GlobalStatusStatusId }) => void;
+  onClose: ({ statusId }: { statusId: GlobalStatusStatusId }) => void;
 };
 export type GlobalStatusUpdateProps = {
   /**
@@ -172,9 +172,9 @@ export type GlobalStatusInterceptorProps = {
   item?: GlobalStatusItem;
 };
 export type GlobalStatusInterceptorUpdateEvents = {
-  on_show?: () => void;
-  on_hide?: () => void;
-  on_close?: () => void;
+  onShow?: () => void;
+  onHide?: () => void;
+  onClose?: () => void;
   /**
    * Set to `true` or `false` to manually make the global status visible. Defaults to `true`.
    */
