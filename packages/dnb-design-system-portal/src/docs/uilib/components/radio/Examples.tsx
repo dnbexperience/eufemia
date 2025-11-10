@@ -13,8 +13,8 @@ export const RadioExampleDefault = () => (
   <ComponentBox data-visual-test="radio-group">
     <Radio.Group
       label="Radio Group"
-      on_change={({ value }) => {
-        console.log('on_change', value)
+      onChange={({ value }) => {
+        console.log('onChange', value)
       }}
       value="first"
     >
@@ -30,8 +30,8 @@ export const RadioExampleVerticalGroup = () => (
     <Radio.Group
       label="Vertical Group"
       layoutDirection="column"
-      on_change={({ value }) => {
-        console.log('on_change', value)
+      onChange={({ value }) => {
+        console.log('onChange', value)
       }}
     >
       <Radio label="First" value="first" />
@@ -47,8 +47,8 @@ export const RadioExampleLabelAbove = () => (
       vertical
       label="Vertical Group"
       layoutDirection="column"
-      on_change={({ value }) => {
-        console.log('on_change', value)
+      onChange={({ value }) => {
+        console.log('onChange', value)
       }}
     >
       <Radio label="First" value="first" />
@@ -63,8 +63,8 @@ export const RadioExampleGroupStatus = () => (
     <Radio.Group
       label="Radio Group with status"
       layoutDirection="column"
-      on_change={({ value }) => {
-        console.log('on_change', value)
+      onChange={({ value }) => {
+        console.log('onChange', value)
       }}
     >
       <Radio label="First" value="first" status="error" />
@@ -91,8 +91,8 @@ export const RadioExampleWithoutGroup = () => (
         value="first"
         label="First"
         group="MyRadioGroup"
-        on_change={({ value, checked }) => {
-          console.log('on_change', value, checked)
+        onChange={({ value, checked }) => {
+          console.log('onChange', value, checked)
         }}
         right
       />
@@ -100,8 +100,8 @@ export const RadioExampleWithoutGroup = () => (
         value="second"
         label="Second"
         group="MyRadioGroup"
-        on_change={({ value, checked }) => {
-          console.log('on_change', value, checked)
+        onChange={({ value, checked }) => {
+          console.log('onChange', value, checked)
         }}
         right
       />
@@ -110,8 +110,8 @@ export const RadioExampleWithoutGroup = () => (
         value="third"
         label="Third"
         group="MyRadioGroup"
-        on_change={({ value, checked }) => {
-          console.log('on_change', value, checked)
+        onChange={({ value, checked }) => {
+          console.log('onChange', value, checked)
         }}
         right
       />
@@ -171,7 +171,7 @@ export function RadioVisibleWhenVisualTests() {
         <Radio
           label="Checked Radio"
           checked
-          on_change={({ checked }) => console.log(checked)}
+          onChange={({ checked }) => console.log(checked)}
         />
       </ComponentBox>
     </>

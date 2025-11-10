@@ -62,8 +62,8 @@ export const RadioButtonSandbox = () => (
         <Radio
           id="alone"
           value="I'm alone"
-          on_change={({ value, checked }) => {
-            console.log('on_change', value, checked)
+          onChange={({ value, checked }) => {
+            console.log('onChange', value, checked)
           }}
         />
       </p>
@@ -76,8 +76,8 @@ export const RadioButtonSandbox = () => (
             value="first"
             label="First"
             group="MyRadioGroup"
-            on_change={({ group, value }) => {
-              console.log('on_change', group, value)
+            onChange={({ group, value }) => {
+              console.log('onChange', group, value)
             }}
           />
           <Radio
@@ -85,8 +85,8 @@ export const RadioButtonSandbox = () => (
             value="second"
             label="Second"
             group="MyRadioGroup"
-            on_change={({ group, value }) => {
-              console.log('on_change', group, value)
+            onChange={({ group, value }) => {
+              console.log('onChange', group, value)
             }}
           />
           <Radio
@@ -94,8 +94,8 @@ export const RadioButtonSandbox = () => (
             value="third"
             label="Third"
             group="MyRadioGroup"
-            on_change={({ group, value }) => {
-              console.log('on_change', group, value)
+            onChange={({ group, value }) => {
+              console.log('onChange', group, value)
             }}
           />
         </span>
@@ -104,8 +104,8 @@ export const RadioButtonSandbox = () => (
     <Box>
       <Flex.Horizontal align="baseline">
         <Radio.Group
-          on_change={({ value }) => {
-            console.log('on_change', value)
+          onChange={({ value }) => {
+            console.log('onChange', value)
           }}
           value="first"
           status="Error message"
@@ -120,8 +120,8 @@ export const RadioButtonSandbox = () => (
       <Flex.Horizontal align="baseline">
         <Radio.Group
           label="Group label:"
-          on_change={({ value }) => {
-            console.log('on_change', value)
+          onChange={({ value }) => {
+            console.log('onChange', value)
           }}
           status="Error message"
         >
@@ -223,8 +223,8 @@ const RadioGroupsWithStatus = () => {
         <Radio.Group
           label="Group A label:"
           value={currentValueForGroupA}
-          on_change={({ value }) => {
-            console.log('on_change A', value)
+          onChange={({ value }) => {
+            console.log('onChange A', value)
             setValueForGroupA(value)
           }}
         >
@@ -235,8 +235,8 @@ const RadioGroupsWithStatus = () => {
         <Radio.Group
           label="Group B label:"
           value={currentValueForGroupB}
-          on_change={({ value }) => {
-            console.log('on_change B', value)
+          onChange={({ value }) => {
+            console.log('onChange B', value)
           }}
         >
           <Radio label="First" value="first" />
