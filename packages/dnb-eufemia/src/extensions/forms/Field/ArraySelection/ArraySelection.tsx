@@ -245,7 +245,7 @@ export function useCheckboxOrToggleOptions({
           }
           suffix={suffix}
           role="checkbox"
-          on_change={handleSelect}
+          onChange={handleSelect}
           {...htmlAttributes}
           {...rest}
         />

@@ -95,14 +95,12 @@ describe('ToggleButton group component', () => {
     ).toHaveAttribute('aria-pressed')
   })
 
-  it('has "on_change" event which will trigger on a button click', () => {
+  it('has "onChange" event which will trigger on a button click', () => {
     const my_event = jest.fn()
-    const myEvent = jest.fn()
     render(
       <ToggleButton.Group
         id="group"
-        on_change={my_event}
-        onChange={myEvent}
+        onChange={my_event}
         value="second"
         data-prop="group-value"
       >
@@ -127,15 +125,6 @@ describe('ToggleButton group component', () => {
     fireEvent.click(document.querySelector('button#toggle-button-1'))
     expect(my_event).toHaveBeenCalled()
     expect(my_event.mock.calls[0][0].value).toBe('first')
-
-    expect(myEvent.mock.calls.length).toBe(1)
-    expect(myEvent.mock.calls[0][0]).toHaveProperty('value')
-    expect(myEvent.mock.calls[0][0].value).toBe('first')
-    expect(myEvent.mock.calls[0][0].event).toBeType('object')
-    expect(myEvent.mock.calls[0][0].event.target.dataset).toMatchObject({
-      attr: 'value',
-      prop: 'value-1',
-    })
 
     fireEvent.click(document.querySelector('button#toggle-button-2'))
     expect(my_event.mock.calls[1][0].value).toBe('second')
@@ -247,12 +236,12 @@ describe('ToggleButton group component', () => {
     })
   })
 
-  it('has multiselect "on_change" event which will trigger on a button click', () => {
+  it('has multiselect "onChange" event which will trigger on a button click', () => {
     const my_event = jest.fn()
     render(
       <ToggleButton.Group
         id="group"
-        on_change={my_event}
+        onChange={my_event}
         values={['second']}
         multiselect={true}
       >

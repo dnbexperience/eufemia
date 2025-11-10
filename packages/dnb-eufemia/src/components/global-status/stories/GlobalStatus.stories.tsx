@@ -47,7 +47,7 @@ export const ComponentAsLabel = () => {
       >
         <ToggleButton
           bottom
-          on_change={() => setStatus((s) => (!s ? 'min status' : null))}
+          onChange={() => setStatus((s) => (!s ? 'min status' : null))}
         >
           set status
         </ToggleButton>
@@ -89,7 +89,7 @@ export const CustomGlobalStatusMessage = () => {
           globalStatus: { id: 'test-test', message: 'Hva skjer nå' },
         }}
       >
-        <ToggleButton bottom on_change={() => setShowStatus((s) => !s)}>
+        <ToggleButton bottom onChange={() => setShowStatus((s) => !s)}>
           set status
         </ToggleButton>
 
@@ -402,7 +402,7 @@ const DemoAnimation = () => {
         text={showDemo ? 'Stop Demo' : 'Show animation Demo'}
         checked={showDemo}
         variant="checkbox"
-        on_change={({ checked }) => toggleShowDemo(checked)}
+        onChange={({ checked }) => toggleShowDemo(checked)}
         bottom="small"
       />
       <GlobalStatus
@@ -530,7 +530,7 @@ const UpdateDemoTools = () => {
         variant="checkbox"
         right
         checked={isVisible}
-        on_change={({ checked }) => {
+        onChange={({ checked }) => {
           setVisibility(checked ? true : 'auto')
         }}
       />
