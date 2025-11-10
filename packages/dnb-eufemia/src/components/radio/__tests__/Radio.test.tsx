@@ -34,12 +34,12 @@ describe('Radio component', () => {
     expect(document.querySelector('input').value).toBe(value)
   })
 
-  it('has "on_change" event which will trigger on a input change', () => {
+  it('has "onChange" event which will trigger on a input change', () => {
     const my_event = jest.fn()
     const myEvent = jest.fn()
     render(
       <Radio
-        on_change={my_event}
+        onChange={my_event}
         onChange={myEvent}
         checked={false}
         group={null}
@@ -62,7 +62,7 @@ describe('Radio component', () => {
         <>
           <Radio
             checked={checked}
-            on_change={({ checked }) => setChecked(checked)}
+            onChange={({ checked }) => setChecked(checked)}
           />
           <button id="set-state" onClick={() => setChecked(true)} />
           <button
