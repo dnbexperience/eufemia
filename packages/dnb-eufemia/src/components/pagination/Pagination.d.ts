@@ -173,10 +173,10 @@ export interface PaginationProps
    * the given content can be either a function or a React node, depending on your needs. A function contains several helper functions. More details down below and have a look at the examples in the demos section.
    */
   children?: PaginationChildren;
-  on_change?: (...args: any[]) => any;
-  on_startup?: (...args: any[]) => any;
-  on_load?: (...args: any[]) => any;
-  on_end?: (...args: any[]) => any;
+  onChange?: (...args: any[]) => any;
+  onStartup?: (...args: any[]) => any;
+  onLoad?: (...args: any[]) => any;
+  onEnd?: (...args: any[]) => any;
 }
 export default class Pagination extends React.Component<
   PaginationProps,
@@ -348,19 +348,19 @@ interface PaginationInstanceProps extends SpacingProps {
   /**
    * Will be called for every page change, regardless if the mode is `mode="infinity"` or not. Returns an object with number of useful properties and methods. See below for more details.
    */
-  on_change?: (...args: any[]) => any;
+  onChange?: (...args: any[]) => any;
   /**
    * Only on "infinity" mode. Will be called once the component is ready for interaction. Returns an object with number of useful properties and methods. See below for more details. "NB:" Will be called again as soon as we reset the content by calling `resetContent()`.
    */
-  on_startup?: (...args: any[]) => any;
+  onStartup?: (...args: any[]) => any;
   /**
    * Only on "infinity" mode. Will be called on every page interaction, also on the very first interaction. Returns an object with number of useful properties and methods. See below for more details.
    */
-  on_load?: (...args: any[]) => any;
+  onLoad?: (...args: any[]) => any;
   /**
    * Only on "infinity" mode. Will be called once `pageCount` is reached or `endInfinity` was called.
    */
-  on_end?: (...args: any[]) => any;
+  onEnd?: (...args: any[]) => any;
 }
 declare class PaginationInstance extends React.Component<
   PaginationInstanceProps,
@@ -527,19 +527,19 @@ interface InfinityMarkerProps extends SpacingProps {
   /**
    * Will be called for every page change, regardless if the mode is `mode="infinity"` or not. Returns an object with number of useful properties and methods. See below for more details.
    */
-  on_change?: (...args: any[]) => any;
+  onChange?: (...args: any[]) => any;
   /**
    * Only on "infinity" mode. Will be called once the component is ready for interaction. Returns an object with number of useful properties and methods. See below for more details. "NB:" Will be called again as soon as we reset the content by calling `resetContent()`.
    */
-  on_startup?: (...args: any[]) => any;
+  onStartup?: (...args: any[]) => any;
   /**
    * Only on "infinity" mode. Will be called on every page interaction, also on the very first interaction. Returns an object with number of useful properties and methods. See below for more details.
    */
-  on_load?: (...args: any[]) => any;
+  onLoad?: (...args: any[]) => any;
   /**
    * Only on "infinity" mode. Will be called once `pageCount` is reached or `endInfinity` was called.
    */
-  on_end?: (...args: any[]) => any;
+  onEnd?: (...args: any[]) => any;
 }
 export class InfinityMarker extends React.Component<
   InfinityMarkerProps,

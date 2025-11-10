@@ -159,22 +159,22 @@ export const PaginationProperties: PropertiesTableProps = {
 }
 
 export const PaginationEvents: PropertiesTableProps = {
-  on_change: {
+  onChange: {
     doc: 'will be called for every page change, regardless if the mode is `mode="infinity"` or not. Returns an object with number of useful properties and methods. See below for more details.',
     type: 'function',
     status: 'optional',
   },
-  on_startup: {
+  onStartup: {
     doc: 'Only on **infinity** mode. Will be called once the component is ready for interaction. Returns an object with number of useful properties and methods. See below for more details. **NB:** Will be called again as soon as we reset the content by calling `resetContent()`.',
     type: 'function',
     status: 'optional',
   },
-  on_load: {
+  onLoad: {
     doc: 'Only on **infinity** mode. Will be called on every page interaction, also on the very first interaction. Returns an object with number of useful properties and methods. See below for more details.',
     type: 'function',
     status: 'optional',
   },
-  on_end: {
+  onEnd: {
     doc: 'Only on **infinity** mode. Will be called once `pageCount` is reached or `endInfinity` was called.',
     type: 'function',
     status: 'optional',
