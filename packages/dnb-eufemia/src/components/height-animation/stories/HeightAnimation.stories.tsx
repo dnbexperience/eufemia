@@ -24,7 +24,7 @@ export const HeightAnimationSandbox = () => {
     <>
       <ToggleButton
         checked={openState}
-        on_change={({ checked }) => {
+        onChange={({ checked }) => {
           setOpenState(checked)
         }}
         right
@@ -35,7 +35,7 @@ export const HeightAnimationSandbox = () => {
       <ToggleButton
         disabled={!isOpen}
         checked={contentState}
-        on_change={({ checked }) => {
+        onChange={({ checked }) => {
           setContentState(checked)
         }}
         right
@@ -99,17 +99,13 @@ export function HeightAnimationKeepInDOM() {
 
     return (
       <>
-        <ToggleButton
-          checked={openState}
-          on_change={onChangeHandler}
-          right
-        >
+        <ToggleButton checked={openState} onChange={onChangeHandler} right>
           Open/close
         </ToggleButton>
         <ToggleButton
           checked={contentState || !openState}
           disabled={!openState}
-          on_change={({ checked }) => {
+          onChange={({ checked }) => {
             setContentState(checked)
           }}
           space={{ top: true, bottom: true }}

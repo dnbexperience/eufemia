@@ -303,7 +303,6 @@ describe('GlobalStatus component', () => {
   })
 
   // TODO: Enable this test before releasing v11
-
   it.skip('should handle delayed interactions', async () => {
     const FormField1 = () => {
       const [status, setStatus] = React.useState(null)
@@ -361,14 +360,23 @@ describe('GlobalStatus component', () => {
       </>
     )
 
-    await wait(1)
-    fireEvent.click(document.querySelector('input#switch-1'))
+    const getInput = (selector: string) =>
+      document.querySelector(selector) as HTMLInputElement
+    const clickInput = (selector: string) =>
+      fireEvent.click(getInput(selector))
+    const focusInput = (selector: string) =>
+      fireEvent.focus(getInput(selector))
+    const blurInput = (selector: string) =>
+      fireEvent.blur(getInput(selector))
 
     await wait(1)
-    fireEvent.click(document.querySelector('input#switch-2'))
+    clickInput('input#switch-1')
 
     await wait(1)
-    fireEvent.focus(document.querySelector('input#autocomplete-3'))
+    clickInput('input#switch-2')
+
+    await wait(1)
+    focusInput('input#autocomplete-3')
 
     // FormStatus content
     expect(
@@ -400,13 +408,13 @@ describe('GlobalStatus component', () => {
     ).toBe('error-message-3')
 
     await wait(1)
-    fireEvent.click(document.querySelector('input#switch-1'))
+    clickInput('input#switch-1')
 
     await wait(1)
-    fireEvent.click(document.querySelector('input#switch-2'))
+    clickInput('input#switch-2')
 
     await wait(1)
-    fireEvent.blur(document.querySelector('input#autocomplete-3'))
+    blurInput('input#autocomplete-3')
 
     expect(
       document.querySelector('.dnb-form-status__text')

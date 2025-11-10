@@ -584,7 +584,7 @@ export const TableAccordionMode = () => {
     <main aria-label="main area">
       <h1 className="dnb-sr-only">Table with accordion row</h1>
       <ToggleButton
-        on_change={() => {
+        onChange={() => {
           setSkeleton((s) => !s)
         }}
       >
@@ -621,7 +621,7 @@ export const TableNavigationMode = () => {
     <main aria-label="main area">
       <h1 className="dnb-sr-only">Table with accordion row</h1>
       <ToggleButton
-        on_change={() => {
+        onChange={() => {
           setSkeleton((s) => !s)
         }}
       >

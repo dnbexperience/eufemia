@@ -53,7 +53,7 @@ const ChangeLocale = () => {
         label="Choose:"
         variant="radio"
         value={locale}
-        on_change={({ value: locale }) => {
+        onChange={({ value: locale }) => {
           setLocale(locale)
           update({ locale })
         }}
