@@ -54,6 +54,8 @@ $ pnpm add @dnb/eufemia@11
 
 ### [Autocomplete](/uilib/components/autocomplete/)
 
+#### Properties
+
 - Replace `selected_key` with `selectedKey`.
 - Replace `default_value` with `defaultValue`.
 - Replace `prevent_selection` with `preventSelection`.
@@ -134,6 +136,8 @@ $ pnpm add @dnb/eufemia@11
 
 ### [Dropdown](/uilib/components/dropdown/)
 
+#### Properties
+
 - Replace `selected_key` with `selectedKey`.
 - Replace `default_value` with `defaultValue`.
 - Replace `prevent_selection` with `preventSelection`.
@@ -182,6 +186,8 @@ $ pnpm add @dnb/eufemia@11
 
 ### [DrawerList](/uilib/components/fragments/drawer-list/)
 
+#### Properties
+
 - Replace type `DrawerListDataObjectUnion` with `DrawerListDataArrayItem`.
 - Replace type `DrawerListDataObject` with `DrawerListDataArrayObject`.
 - Replace `import { ItemContent } from '@dnb/eufemia/fragments/drawer-list/DrawerList'` with `import { ItemContent } from '@dnb/eufemia/fragments/drawer-list/DrawerListItem'`.
@@ -224,10 +230,15 @@ $ pnpm add @dnb/eufemia@11
 ### [Anchor](/uilib/components/anchor/)
 
 - When using icons in an Anchor (text link), use the `icon` property instead of inlining it.
+
+#### Properties
+
 - Find and remove `scrollToHashHandler`. Smooth hash scrolling is now supported by all major browsers.
 - Replace `inner_ref` with `innerRef`.
 
 ### [Input](/uilib/components/input/)
+
+#### Properties
 
 - Replace `label_direction` with `labelDirection`.
 - Replace `label_sr_only` with `labelSrOnly`.
@@ -250,6 +261,11 @@ $ pnpm add @dnb/eufemia@11
 - Replace `submit_button_icon` with `submitButtonIcon`.
 - Replace `submit_button_status` with `submitButtonStatus`.
 
+#### Translations
+
+- Replace `Input.submit_button_title` with `Input.submitButtonTitle`.
+- Replace `Input.clear_button_title` with `Input.clearButtonTitle`.
+
 #### SubmitButton (do we need to document this, I don't see any docs of this, but it's exposed/exported)
 
 - Replace `icon_size` with `iconSize`.
@@ -257,6 +273,8 @@ $ pnpm add @dnb/eufemia@11
 - Replace `status_props` with `statusProps`.
 
 ### [InputMasked](/uilib/components/input-masked/)
+
+#### Properties
 
 - Replace `label_direction` with `labelDirection`.
 - Replace `number_mask` with `numberMask`.
@@ -292,14 +310,20 @@ $ pnpm add @dnb/eufemia@11
 
 ### [MultiInputMask](/uilib/components/input-masked/)
 
+#### Properties
+
 - Replace `label_direction` with `labelDirection`.
 
 ### [FormLabel](/uilib/components/form-label/)
+
+#### Properties
 
 - Replace `for_id` with `forId`.
 - Replace `sr_only` with `srOnly`.
 
 ### [Radio](/uilib/components/radio/)
+
+#### Properties
 
 - Replace `label_sr_only` with `labelSrOnly`.
 - Replace `label_position` with `labelPosition`.
@@ -310,6 +334,8 @@ $ pnpm add @dnb/eufemia@11
 
 ### [Radio.Group](/uilib/components/radio/)
 
+#### Properties
+
 - Replace `label_direction` with `labelDirection`.
 - Replace `label_sr_only` with `labelSrOnly`.
 - Replace `label_position` with `labelPosition`.
@@ -319,6 +345,8 @@ $ pnpm add @dnb/eufemia@11
 - Replace `layout_direction` with `layoutDirection`.
 
 ### [Textarea](/uilib/components/textarea/)
+
+#### Properties
 
 - Replace `label_direction` with `labelDirection`.
 - Replace `label_sr_only` with `labelSrOnly`.
@@ -333,6 +361,8 @@ $ pnpm add @dnb/eufemia@11
 - Replace `textarea_element` with `textareaElement`.
 
 ### [Accordion](/uilib/components/accordion/)
+
+#### Properties
 
 - Replace `expandBehaviour` with `expandBehavior`.
 - Replace `on_state_update` with `onStateUpdate`.
@@ -351,22 +381,25 @@ $ pnpm add @dnb/eufemia@11
 
 ### [Accordion.Group](/uilib/components/accordion/)
 
+#### Properties
+
 - Replace `allow_close_all` with `allowCloseAll`.
 - Replace `expanded_id` with `expandedId`.
 
 ### [Accordion.Provider](/uilib/components/accordion/)
 
+#### Properties
+
 - Replace `expanded_id` with `expandedId`.
 
 ### [Tag](/uilib/components/tag/)
+
+#### Events
 
 - Replace `onDelete` with `onClick`, and add `variant="removable"`.
 
 ### [P](/uilib/elements/paragraph/)
 
-- Replace `medium={true}` with `weight='medium'`.
-- Replace `bold={true}` with `weight='bold'`.
-- Replace `modifier` with appropriate `weight` and/or `size`.
 - Replace class `.dnb-p--medium` with `.dnb-t__weight--medium`
 - Replace class `.dnb-p--bold` with `.dnb-t__weight--bold`
 - Replace class `.dnb-p__size--xx-large` with `.dnb-t__size--xx-large` and `.dnb-t__line-height--xx-large`
@@ -377,7 +410,15 @@ $ pnpm add @dnb/eufemia@11
 - Replace class `.dnb-p--small` or `.dnb-p__size--small` with `.dnb-t__size--small` and `.dnb-t__line-height--small`
 - Replace class `.dnb-p--x-small` or `.dnb-p__size--x-small` with `.dnb-t__size--x-small` and `.dnb-t__line-height--x-small`
 
+#### Properties
+
+- Replace `medium={true}` with `weight='medium'`.
+- Replace `bold={true}` with `weight='bold'`.
+- Replace `modifier` with appropriate `weight` and/or `size`.
+
 ### [Definition lists](/uilib/elements/lists/#definition-lists)
+
+#### Properties
 
 - Replace `direction` in `<Dl>` with `layout`.
 
@@ -393,22 +434,32 @@ For more context, see this [PR](https://github.com/dnbexperience/eufemia/pull/27
 
 ### [ProgressIndicator](/uilib/components/progress-indicator/)
 
+#### Properties
+
 - Replace `no_animation` with `noAnimation`.
 - Replace `indicator_label` with `indicatorLabel`.
-- Replace translation `ProgressIndicator.indicator_label` with `ProgressInidicator.indicatorLabel`.
 - Replace `label_direction` with `labelDirection`.
 - Replace `show_label` with `showDefaultLabel`.
 - Replace `on_complete` with `onComplete`.
 - Replace `class` with `className`.
 - Replace `children` with `label`.
 
+#### Translations
+
+- Replace translation `ProgressIndicator.indicator_label` with `ProgressInidicator.indicatorLabel`.
+
 ### [PaymentCard](/uilib/extensions/payment-card/)
 
-- Remove translation `PaymentCard.text_card_number` as it's not supported anymore.
+#### Properties
+
 - Replace `product_code` with `productCode`.
 - Replace `card_number` with `cardNumber`.
 - Replace `card_status` with `cardStatus`.
 - Replace `raw_data` with `rawData`.
+
+#### Translations
+
+- Remove translation `PaymentCard.text_card_number` as it's not supported anymore.
 
 #### `cardStatus` property
 
@@ -430,14 +481,20 @@ For more context, see this [PR](https://github.com/dnbexperience/eufemia/pull/27
 
 ### Divider ([Horizontal Rule](/uilib/elements/horizontal-rule/))
 
+#### Properties
+
 - Remove `light` and `medium` as they are not supported anymore.
 - Replace `fullscreen` with `breakout`.
 
 ### [Card](/uilib/components/card/)
 
+#### Properties
+
 - Remove `spacing` property.
 
 ### [Checkbox](/uilib/components/checkbox/)
+
+#### Properties
 
 - Replace `label_position` with `labelPosition`.
 - Replace `label_sr_only` with `labelSrOnly`.
@@ -449,6 +506,8 @@ For more context, see this [PR](https://github.com/dnbexperience/eufemia/pull/27
 
 ### [Switch](/uilib/components/switch/)
 
+#### Properties
+
 - Replace `label_position` with `labelPosition`.
 - Replace `label_sr_only` with `labelSrOnly`.
 - Replace `status_state` with `statusState`.
@@ -459,6 +518,8 @@ For more context, see this [PR](https://github.com/dnbexperience/eufemia/pull/27
 - Replace `status_no_animation` with `statusNoAnimation`.
 
 ### [Logo](/uilib/components/logo/)
+
+#### Properties
 
 - Remove `brand` prop. Import and use the desired SVG component directly (e.g., `DnbDefault`, `SbankenDefault`, `SbankenCompact`, `SbankenHorizontal`, `CarnegieDefault`, `EiendomDefault`).
 - Remove `variant` prop. Instead, import the specific variant directly (e.g., `SbankenCompact` instead of `brand="sbanken" variant="compact"`).
@@ -488,9 +549,13 @@ render(<Logo svg={SbankenCompact} />)
 
 ### [Icon](/uilib/components/icon/)
 
+#### Properties
+
 - Replace `inherit_color` with `inheritColor`.
 
 ### [Button](/uilib/components/button/)
+
+#### Properties
 
 - Replace `icon_position` with `iconPosition`.
 - Replace `icon_size` with `iconSize`.
@@ -501,6 +566,8 @@ render(<Logo svg={SbankenCompact} />)
 - Replace `inner_ref` with `innerRef`.
 
 ### [Modal](/uilib/components/modal/), [Dialog](/uilib/components/dialog/) and [Drawer](/uilib/components/drawer/)
+
+#### Properties
 
 - Replace `class` with `className`.
 - Replace `focus_selector` with `focusSelector`.
@@ -542,16 +609,27 @@ render(<Logo svg={SbankenCompact} />)
 - Replace `scroll_ref` with `scrollRef`.
 - Replace `prevent_overlay_close` with `preventOverlayClose`.
 
+#### Translations
+
+- Replace `Modal.dialog_title` with `Modal.dialogTitle`.
+- Replace `Modal.close_title` with `Modal.closeTitle`.
+
 ### [Heading](/uilib/components/heading/)
+
+#### Properties
 
 - Replace `debug_counter` with debugCounter`.
 - Replace `skip_correction` with skipCorrection`.
 
 ### [Table](/uilib/components/table/)
 
+#### Properties
+
 - Replace `accordion` with `mode="accordion"`.
 
 ### [FormStatus](/uilib/components/form-status/)
+
+#### Properties
 
 - Replace `no_animation` with `noAnimation`.
 - Replace `icon_size` with `iconSize`.
@@ -561,13 +639,20 @@ render(<Logo svg={SbankenCompact} />)
 
 ### [Skeleton](/uilib/components/skeleton/)
 
+#### Properties
+
 - Replace `no_animation` with `noAnimation`.
 - Replace `aria_busy` with `ariaBusy`.
 - Replace `aria_ready` with `ariaReady`.
+
+#### Translations
+
 - Replace translation `Skeleton.aria_busy` with `Skeleton.ariaBusy`.
 - Replace translation `Skeleton.aria_ready` with `Skeleton.ariaReady`.
 
 ### [Tabs](/uilib/components/tabs/)
+
+#### Properties
 
 - Replace `selected_key` with `selectedKey`.
 - Replace `content_style` with `contentStyle`.
@@ -585,6 +670,8 @@ render(<Logo svg={SbankenCompact} />)
 - Replace `no_border` with `noBorder`.
 
 ### [Pagination](/uilib/components/pagination/)
+
+#### Properties
 
 - Replace `place_maker_before_content` with `placeMarkerBeforeContent`.
 - Replace `startup_page` with `startupPage`.
@@ -628,6 +715,8 @@ render(<Logo svg={SbankenCompact} />)
 - Replace `TimelineItem.alt_label_upoming` with `TimelineItem.altLabelUpcoming`.
 
 ### [DatePicker](/uilib/components/date-picker/)
+
+#### Properties
 
 - Find `correctInvalidDate` / `correct_invalid_date` and remove it. You may rather use [Field.Date](/uilib/extensions/forms/feature-fields/Date/) from Eufemia Forms when using `minDate` and `maxDate`, as this has built in validation. Reason for removing this is because we believe it's not good UX, or best practice to automatically change the user input. This often leads to confusion, as what they typed in, magically changes for seemingly no reason. We believe it's better to inform them about the error and let them correct it themselves.
 - Replace `start_date` with `startDate`.
@@ -681,6 +770,8 @@ render(<Logo svg={SbankenCompact} />)
 
 ### [NumberFormat](/uilib/components/number-format/)
 
+#### Properties
+
 - Replace `omit_rounding` with `rounding="omit"`.
 - Replace `currency_display` with `currencyDisplay`.
 - Replace `currency_position` with `currencyPosition`.
@@ -696,11 +787,14 @@ render(<Logo svg={SbankenCompact} />)
 ### [StepIndicator](/uilib/components/step-indicator/)
 
 - Major redesign of component. There is now only one variant (instead of two).
+- Remove `StepIndicatorRenderCallback` type. Not needed anymore.
+
+#### Properties
+
 - Remove `on_item_render`. No longer has any other function than each step's `title` property.
 - Remove step item `on_render`. No longer has any other function than the `title` property.
 - Remove `sidebarId`. No longer has any sidebar. If an id is needed, use the `id` property.
 - Remove `step_title_extended`. Only `step_title` is needed.
-- Remove `StepIndicatorRenderCallback` type. Not needed anymore.
 - Replace `is_current` with `isCurrent`.
 - Replace `status_state` with `statusState`.
 - Replace `current_step` with `currentStep`.
@@ -710,6 +804,11 @@ render(<Logo svg={SbankenCompact} />)
 - Replace `hide_numbers` with `hideNumbers`.
 - Replace `status_state` with `statusState`.
 - Replace `no_animation` with `noAnimation`.
+
+#### Translations
+
+- Replace `StepIndicator.overview_title` with `StepIndicator.overviewTitle`.
+- Replace `StepIndicator.step_title` with `StepIndicator.stepTitle`.
 
 #### StepItemWrapperProps
 
@@ -723,11 +822,18 @@ render(<Logo svg={SbankenCompact} />)
 
 ### [GlobalError](/uilib/components/global-error/)
 
+#### Properties
+
 - Replace `status` with `statusCode`.
 - Replace `code` with `errorMessageCode`.
+
+#### Translations
+
 - Replace translation `GlobalError.code` with `GlobalError.errorMessageCode`.
 
 ### [ToggleButton](/uilib/components/toggle-button/)
+
+#### Properties
 
 - Replace `icon_position` with `iconPosition`.
 - Replace `icon_size` with `iconSize`.
@@ -737,6 +843,8 @@ render(<Logo svg={SbankenCompact} />)
 - Replace `left_component` with `leftComponent`.
 
 ### [ToggleButton.Group](/uilib/components/toggle-button/)
+
+#### Properties
 
 - Replace `status_state` with `statusState`.
 - Replace `status_props` with `statusProps`.
@@ -754,19 +862,22 @@ render(<Logo svg={SbankenCompact} />)
 - Replace `no_animation` with `noAnimation`.
 - Replace `hide_close_button` with `hideCloseButton`.
 - Replace `close_text` with `closeText`.
-- Replace translation `GlobalStatus.close_text` with `GlobalStatus.closeText`.
 - Replace `default_title` with `defaultTitle`.
-- Replace translation `GlobalStatus.default_title` with `GlobalStatus.defaultTitle`.
 - Replace `status_anchor_text` with `statusAnchorText`.
 - Replace `omit_set_focus` with `omitSetFocus`.
 - Replace `omit_set_focus_on_update` with `omitSetFocusOnUpdate`.
 - Replace `status_id` with `statusId`.
 - Replace `status_anchor_url` with `statusAnchorUrl`.
-- Replace `status_anchor_text` with `statusAnchorText`.
 - Replace `status_anchor_label` with `statusAnchorLabel`.
 - Replace `status_id` with `statusId`.
 - Replace `buffer_delay` with `bufferDelay`.
 - Replace `on_close`'s `status_id` with `statusId`.
+
+#### Translations
+
+- Replace translation `GlobalStatus.close_text` with `GlobalStatus.closeText`.
+- Replace translation `GlobalStatus.default_title` with `GlobalStatus.defaultTitle`.
+- Replace translation `GlobalStatus.status_anchor_text` with `GlobalStatus.statusAnchorText`.
 
 #### GlobalStatusController
 
@@ -799,9 +910,13 @@ render(<Logo svg={SbankenCompact} />)
 
 ### [Space](/uilib/layout/space/)
 
+#### Properties
+
 - Replace `no_collapse` with `noCollapse`.
 
 ### [Flex](/uilib/layout/flex/)
+
+#### Properties
 
 - Replace `spacing` with `gap` on all Flex components.
 - `rowGap` no longer accepts value `true`. Replace `true` with `undefined` or remove the property to get the same behavior.
@@ -821,6 +936,8 @@ For more information on how to replace these, see [FormSet/FormRow deprecation](
 ## Helpers
 
 ### [Component helpers](/uilib/helpers/)
+
+#### Properties
 
 - Remove `extendGracefully`, it no longer exists.
 
@@ -986,6 +1103,8 @@ See also: [Form error messages](/uilib/extensions/forms/Form/error-messages/), [
 
 ### Every `Field.*` component
 
+#### Properties
+
 - Replace `continuousValidation` with `validateContinuously`.
 - Replace `validator` with `onChangeValidator`.
 
@@ -993,9 +1112,13 @@ Docs: [All Fields](/uilib/extensions/forms/all-fields/)
 
 ### [Field.PhoneNumber](/uilib/extensions/forms/feature-fields/PhoneNumber/)
 
+#### Translations
+
 - Replace `PhoneNumber.label` translation string with `PhoneNumber.numberLabel`.
 
 ### [Field.PostalCodeAndCity](/uilib/extensions/forms/feature-fields/PostalCodeAndCity/)
+
+#### Properties
 
 - Replace `country` with `countryCode`.
 
@@ -1010,22 +1133,33 @@ Docs: [All Fields](/uilib/extensions/forms/all-fields/)
 
 ### [Field.Password](/uilib/extensions/forms/feature-fields/more-fields/Password/)
 
+#### Properties
+
+- Replace property `show_password` with translation `Password.ariaLabelShow`.
+- Replace property `hide_password` with translation `Password.ariaLabelHide`.
+
+#### Events
+
 - Replace `on_show_password` with `onShowPassword`.
 - Replace `on_hide_password` with `onHidePassword`.
-- Replace `show_password` with translation `Password.ariaLabelShow`.
-- Replace `hide_password` with translation `Password.ariaLabelHide`.
 
 ### [Iterate.PushContainer](/uilib/extensions/forms/Iterate/PushContainer/)
+
+#### Properties
 
 - Replace `requireCommit` with `preventUncommittedChanges`.
 
 ### [Wizard.Container](/uilib/extensions/forms/Wizard/Container/)
+
+#### Properties
 
 - Remove `variant`. No longer has any variants.
 - Remove `scrollTopOnStepChange`, as it's now enabled by default. You can disable it with `omitScrollManagement`.
 - Remove `sidebarId`. No longer has any sidebar. If an id is needed, use the `id` property.
 
 ### [Wizard.Step](/uilib/extensions/forms/Wizard/Step/)
+
+#### Properties
 
 - Replace `active` with `include`.
 - Replace `activeWhen` with `includeWhen`.
