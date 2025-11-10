@@ -3,7 +3,7 @@ import { ButtonProperties } from '../button/ButtonDocs'
 
 export const ToggleButtonProperties: PropertiesTableProps = {
   value: {
-    doc: 'Defines the `value` as a string. Use it to get the value during the `on_change` event listener callback in the **ToggleButtonGroup**.',
+    doc: 'Defines the `value` as a string. Use it to get the value during the `onChange` event listener callback in the **ToggleButtonGroup**.',
     type: 'string',
     status: 'required',
   },
@@ -82,7 +82,7 @@ export const ToggleButtonProperties: PropertiesTableProps = {
 }
 
 export const ToggleButtonEvents: PropertiesTableProps = {
-  on_change: {
+  onChange: {
     doc: 'will be called on state changes made by the user. Returns a boolean and string `{ checked, value, event }`.',
     type: 'function',
     status: 'optional',
