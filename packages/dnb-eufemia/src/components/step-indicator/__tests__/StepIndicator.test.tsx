@@ -293,9 +293,9 @@ describe('StepIndicator in loose mode', () => {
   })
 
   it('has correct state after change', () => {
-    const on_change = jest.fn()
+    const onChange = jest.fn()
     renderComponent({
-      on_change,
+      onChange,
     })
     const items = document.querySelectorAll('li.dnb-step-indicator__item')
 
@@ -309,9 +309,9 @@ describe('StepIndicator in loose mode', () => {
 
     fireEvent.click(items[0].querySelector('button'))
 
-    expect(on_change).toHaveBeenCalledTimes(1)
-    expect(on_change.mock.calls[0][0].currentStep).toBe(0)
-    expect(typeof on_change.mock.calls[0][0].event.preventDefault).toBe(
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange.mock.calls[0][0].currentStep).toBe(0)
+    expect(typeof onChange.mock.calls[0][0].event.preventDefault).toBe(
       'function'
     )
 
@@ -527,9 +527,9 @@ describe('StepIndicator in strict mode', () => {
   })
 
   it('has correct state after change', () => {
-    const on_change = jest.fn()
+    const onChange = jest.fn()
     renderComponent({
-      on_change,
+      onChange,
     })
     const items = document.querySelectorAll('li.dnb-step-indicator__item')
 
@@ -549,7 +549,7 @@ describe('StepIndicator in strict mode', () => {
         .click()
     })
 
-    expect(on_change).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenCalledTimes(1)
     expect(items[0].classList).toContain(
       'dnb-step-indicator__item--current'
     )
