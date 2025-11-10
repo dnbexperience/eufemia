@@ -89,11 +89,11 @@ export default class GlobalStatus extends React.PureComponent {
       PropTypes.node,
     ]),
 
-    on_adjust: PropTypes.func,
-    on_open: PropTypes.func,
-    on_show: PropTypes.func,
-    on_close: PropTypes.func,
-    on_hide: PropTypes.func,
+    onAdjust: PropTypes.func,
+    onOpen: PropTypes.func,
+    onShow: PropTypes.func,
+    onClose: PropTypes.func,
+    onHide: PropTypes.func,
   }
 
   static defaultProps = {
@@ -121,11 +121,11 @@ export default class GlobalStatus extends React.PureComponent {
     className: null,
     children: null,
 
-    on_adjust: null,
-    on_open: null,
-    on_show: null,
-    on_close: null,
-    on_hide: null,
+    onAdjust: null,
+    onOpen: null,
+    onShow: null,
+    onClose: null,
+    onHide: null,
   }
 
   static getIcon({ state, icon, iconSize }) {
@@ -194,9 +194,9 @@ export default class GlobalStatus extends React.PureComponent {
     }
 
     this.provider.onUpdate((globalStatus) => {
-      // we need the on_close later during the close process
+      // we need the onClose later during the close process
       // so we set this here, because it gets removed from the stack
-      if (globalStatus.on_close) {
+      if (globalStatus.onClose) {
         this._globalStatus = globalStatus
       }
 
@@ -334,7 +334,7 @@ export default class GlobalStatus extends React.PureComponent {
 
     dispatchCustomElementEvent(
       this._globalStatus,
-      'on_hide',
+      'onHide',
       this._globalStatus
     )
   }
@@ -505,7 +505,7 @@ export default class GlobalStatus extends React.PureComponent {
 
         dispatchCustomElementEvent(
           this._globalStatus,
-          'on_open',
+          'onOpen',
           this._globalStatus
         )
         break
@@ -517,7 +517,7 @@ export default class GlobalStatus extends React.PureComponent {
 
         dispatchCustomElementEvent(
           this._globalStatus,
-          'on_adjust',
+          'onAdjust',
           this._globalStatus
         )
         break
@@ -525,7 +525,7 @@ export default class GlobalStatus extends React.PureComponent {
       case 'closed':
         dispatchCustomElementEvent(
           this._globalStatus,
-          'on_close',
+          'onClose',
           this._globalStatus
         )
 
@@ -537,7 +537,7 @@ export default class GlobalStatus extends React.PureComponent {
     if (isOpened) {
       dispatchCustomElementEvent(
         this._globalStatus,
-        'on_show',
+        'onShow',
         this._globalStatus
       )
     }
