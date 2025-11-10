@@ -96,12 +96,12 @@ describe('ToggleButton component', () => {
     ).toBe('false')
   })
 
-  it('has "on_change" event which will trigger on a button click', () => {
+  it('has "onChange" event which will trigger on a button click', () => {
     const my_event = jest.fn()
     const myEvent = jest.fn()
     render(
       <ToggleButton
-        on_change={my_event}
+        onChange={my_event}
         onChange={myEvent}
         checked={false}
       />
@@ -131,7 +131,7 @@ describe('ToggleButton component', () => {
           <ToggleButton
             {...props}
             checked={checked}
-            on_change={({ checked }) => setChecked(checked)}
+            onChange={({ checked }) => setChecked(checked)}
           />
           <button id="set-state" onClick={() => setChecked(true)} />
           <button
@@ -298,7 +298,7 @@ describe('ToggleButton component', () => {
 
   it('should support enter key', () => {
     const onChange = jest.fn()
-    render(<ToggleButton on_change={onChange} />)
+    render(<ToggleButton onChange={onChange} />)
 
     const element = document.querySelector('button')
 

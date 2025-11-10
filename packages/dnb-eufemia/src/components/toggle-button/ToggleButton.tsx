@@ -72,8 +72,8 @@ class ToggleButton extends React.PureComponent<ToggleButtonProps> {
     className: null,
     children: null,
 
-    on_change: null,
-    on_state_update: null,
+    onChange: null,
+    onStateUpdate: null,
   }
 
   static parseChecked = (state) => /true|on/.test(String(state))
@@ -87,7 +87,7 @@ class ToggleButton extends React.PureComponent<ToggleButtonProps> {
     state._listenForPropChanges = true
 
     if (state.checked !== state.__checked) {
-      dispatchCustomElementEvent({ props }, 'on_state_update', {
+      dispatchCustomElementEvent({ props }, 'onStateUpdate', {
         checked: state.checked,
       })
     }
@@ -198,7 +198,7 @@ class ToggleButton extends React.PureComponent<ToggleButtonProps> {
         event,
       })
     }
-    dispatchCustomElementEvent(this, 'on_change', {
+    dispatchCustomElementEvent(this, 'onChange', {
       checked,
       value,
       event,
@@ -254,8 +254,8 @@ class ToggleButton extends React.PureComponent<ToggleButtonProps> {
             // group: _group, // eslint-disable-line
             checked: _checked, // eslint-disable-line
             children,
-            on_change, // eslint-disable-line
-            on_state_update, // eslint-disable-line
+            onChange, // eslint-disable-line
+            onStateUpdate, // eslint-disable-line
 
             ...rest
           } = props
@@ -532,7 +532,7 @@ export interface ToggleButtonProps
    */
   tooltip?: ButtonTooltip
   /**
-   * Defines the `value` as a string. Use it to get the value during the `on_change` event listener callback in the **ToggleButtonGroup**.
+   * Defines the `value` as a string. Use it to get the value during the `onChange` event listener callback in the **ToggleButtonGroup**.
    */
   value?: ToggleButtonValue
   /**
@@ -555,8 +555,8 @@ export interface ToggleButtonProps
   readOnly?: boolean
   className?: string
   children?: ToggleButtonChildren
-  on_change?: (...args: any[]) => any
-  on_state_update?: (...args: any[]) => any
+  onChange?: (...args: any[]) => any
+  onStateUpdate?: (...args: any[]) => any
   // Additional properties that are used in tests and stories
   onChange?: (...args: any[]) => any
   top?: SpaceType
