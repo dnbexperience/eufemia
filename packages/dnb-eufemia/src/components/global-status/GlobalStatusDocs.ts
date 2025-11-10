@@ -37,7 +37,7 @@ export const GlobalStatusProperties: PropertiesTableProps = {
     status: 'optional',
   },
   iconSize: {
-    doc: 'the icon size of the title icon shows. Defaults to `medium`.',
+    doc: 'The icon size of the title icon shows. Defaults to `medium`.',
     type: 'string',
     status: 'optional',
   },
@@ -165,27 +165,27 @@ export const GlobalStatusConfigurationObjectProperties: PropertiesTableProps =
 
 export const GlobalStatusEvents: PropertiesTableProps = {
   onOpen: {
-    doc: 'gets triggered the first time the GlobalStatus appears on the screen. In other words, it has to have been hidden before. Returns `{ id, statusId, ...properties }`.',
+    doc: 'Gets triggered the first time the GlobalStatus appears on the screen. In other words, it has to have been hidden before. Returns `{ id, statusId, ...properties }`.',
     type: 'function',
     status: 'optional',
   },
   onShow: {
-    doc: 'Gets triggered for the first time and for every new content update the GlobalStatus gets. Returns `{ id, status_id, ...properties }`.',
+    doc: 'Gets triggered for the first time and for every new content update the GlobalStatus gets. Returns `{ id, statusId, ...properties }`.',
     type: 'function',
     status: 'optional',
   },
   onClose: {
-    doc: 'Gets triggered once the GlobalStatus disappears from the screen. Works only if `no_animation` is not `true`. Returns `{ id, status_id, ...properties }`.',
+    doc: 'Gets triggered once the GlobalStatus disappears from the screen. Works only if `noAnimation` is not `true`. Returns `{ id, statusId, ...properties }`.',
     type: 'function',
     status: 'optional',
   },
   onHide: {
-    doc: 'Gets triggered once the GlobalStatus is getting closed/hidden by the user. Returns `{ id, status_id, ...properties }`.',
+    doc: 'Gets triggered once the GlobalStatus is getting closed/hidden by the user. Returns `{ id, statusId, ...properties }`.',
     type: 'function',
     status: 'optional',
   },
   onAdjust: {
-    doc: 'Gets triggered once the GlobalStatus is getting new content by the user. Returns `{ id, status_id, ...properties }`.',
+    doc: 'Gets triggered once the GlobalStatus is getting new content by the user. Returns `{ id, statusId, ...properties }`.',
     type: 'function',
     status: 'optional',
   },
