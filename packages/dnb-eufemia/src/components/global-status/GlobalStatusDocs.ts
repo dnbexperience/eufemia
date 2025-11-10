@@ -164,27 +164,27 @@ export const GlobalStatusConfigurationObjectProperties: PropertiesTableProps =
   }
 
 export const GlobalStatusEvents: PropertiesTableProps = {
-  on_open: {
+  onOpen: {
     doc: 'gets triggered the first time the GlobalStatus appears on the screen. In other words, it has to have been hidden before. Returns `{ id, statusId, ...properties }`.',
     type: 'function',
     status: 'optional',
   },
-  on_show: {
+  onShow: {
     doc: 'gets triggered for the first time and for every new content update the GlobalStatus gets. Returns `{ id, statusId, ...properties }`.',
     type: 'function',
     status: 'optional',
   },
-  on_close: {
+  onClose: {
     doc: 'gets triggered once the GlobalStatus disappears from the screen. Works only if `noAnimation` is not `true`. Returns `{ id, statusId, ...properties }`.',
     type: 'function',
     status: 'optional',
   },
-  on_hide: {
+  onHide: {
     doc: 'gets triggered once the GlobalStatus is getting closed/hidden by the user. Returns `{ id, statusId, ...properties }`.',
     type: 'function',
     status: 'optional',
   },
-  on_adjust: {
+  onAdjust: {
     doc: 'gets triggered once the GlobalStatus is getting new content by the user. Returns `{ id, statusId, ...properties }`.',
     type: 'function',
     status: 'optional',
