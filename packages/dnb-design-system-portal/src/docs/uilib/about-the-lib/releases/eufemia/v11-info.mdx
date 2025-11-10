@@ -786,6 +786,8 @@ render(<Logo svg={SbankenCompact} />)
 
 ### [StepIndicator](/uilib/components/step-indicator/)
 
+#### Properties
+
 - Major redesign of component. There is now only one variant (instead of two).
 - Remove `StepIndicatorRenderCallback` type. Not needed anymore.
 
@@ -809,6 +811,12 @@ render(<Logo svg={SbankenCompact} />)
 
 - Replace `StepIndicator.overview_title` with `StepIndicator.overviewTitle`.
 - Replace `StepIndicator.step_title` with `StepIndicator.stepTitle`.
+
+#### Events
+
+- Replace `on_change` with `onChange`.
+- Replace `on_click` with `onClick`.
+- Replace `data.on_click` with `data.onClick` for StepIndicatorItem.
 
 #### StepItemWrapperProps
 
