@@ -94,7 +94,7 @@ export const FormStatusAnimation = () => (
               value="Input value"
               right
             />
-            <ToggleButton top on_change={toggleStatus}>
+            <ToggleButton top onChange={toggleStatus}>
               Toggle
             </ToggleButton>
           </Provider>
