@@ -18,14 +18,14 @@ export const RowsCols = () => (
         cols="20"
         value="Textarea value\nNewline"
         spellCheck={false}
-        on_change={({ value }) => {
-          console.log('on_change', value)
+        onChange={({ value }) => {
+          console.log('onChange', value)
         }}
-        on_focus={() => {
-          console.log('on_focus')
+        onFocus={() => {
+          console.log('onFocus')
         }}
-        on_blur={() => {
-          console.log('on_blur')
+        onBlur={() => {
+          console.log('onBlur')
         }}
       />
     </ComponentBox>
@@ -91,7 +91,7 @@ export const Autoresize = () => (
         autoresize={true}
         autoresizeMaxRows={4}
         placeholder="Placeholder"
-        on_key_down={({ rows, event }) => {
+        onKeyDown={({ rows, event }) => {
           if (rows >= 4 && event.key === 'Enter') {
             event.preventDefault()
           }
