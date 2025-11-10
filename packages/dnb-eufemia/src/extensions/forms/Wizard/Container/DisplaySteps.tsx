@@ -61,7 +61,7 @@ export function DisplaySteps({
         mode={mode}
         noAnimation={noAnimation}
         expandedInitially={expandedInitially}
-        on_change={handleChange}
+        onChange={handleChange}
         outset={outset}
         status={status}
         statusState={statusState}

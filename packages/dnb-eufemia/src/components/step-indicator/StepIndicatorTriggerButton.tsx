@@ -60,7 +60,7 @@ function StepIndicatorTriggerButton({
       createSkeletonClass('font', skeleton)
     ),
     'aria-live': 'polite',
-  } as React.HTMLProps<HTMLElement>
+  } as Omit<React.HTMLProps<HTMLElement>, 'onChange' | 'onClick'>
 
   const buttonParams = {
     ...rest,
