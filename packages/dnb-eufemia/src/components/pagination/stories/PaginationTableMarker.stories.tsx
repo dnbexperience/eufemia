@@ -144,8 +144,8 @@ const InfinityPaginationTable = ({ tableItems, ...props }) => {
           startupPage={startupPage}
           startupCount={2}
           currentPage={currentPage} // Mandatory
-          on_load={({ pageNumber }) => {
-            console.log('on_load: with page', pageNumber)
+          onLoad={({ pageNumber }) => {
+            console.log('onLoad: with page', pageNumber)
 
             if (pageNumber > tableItems.length / perPageCount) {
               endInfinity()
@@ -159,14 +159,14 @@ const InfinityPaginationTable = ({ tableItems, ...props }) => {
               ) // simulate random delay
             }
           }}
-          on_startup={({ pageNumber }) => {
-            console.log('on_startup: with page', pageNumber)
+          onStartup={({ pageNumber }) => {
+            console.log('onStartup: with page', pageNumber)
           }}
-          on_change={({ pageNumber }) => {
-            console.log('on_change: with page', pageNumber)
+          onChange={({ pageNumber }) => {
+            console.log('onChange: with page', pageNumber)
           }}
-          on_end={({ pageNumber }) => {
-            console.log('on_end: with page', pageNumber)
+          onEnd={({ pageNumber }) => {
+            console.log('onEnd: with page', pageNumber)
           }}
         >
           <InfinityPagination
