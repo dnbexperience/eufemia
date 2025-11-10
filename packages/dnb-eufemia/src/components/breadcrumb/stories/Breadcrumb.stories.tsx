@@ -47,7 +47,7 @@ export const Multiple = () => {
       <Skeleton>
         <ToggleButton
           bottom
-          on_change={() => {
+          onChange={() => {
             setRemoveLast((s) => !s)
           }}
         >
