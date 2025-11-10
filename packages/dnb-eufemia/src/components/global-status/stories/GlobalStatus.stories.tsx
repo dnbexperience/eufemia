@@ -189,8 +189,8 @@ export const GlobalStatuseSandbox = () => (
       {true && (
         <GlobalStatus.Add
           title="New title"
-          on_close={(props) => {
-            console.log('on_close', props)
+          onClose={(props) => {
+            console.log('onClose', props)
           }}
         >
           Long info text Ipsum habitant enim ullamcorper elit sit elementum
@@ -277,8 +277,8 @@ const ModalExample = () => (
       <GlobalStatus
         id="modal"
         autoscroll={false}
-        on_close={(props) => {
-          console.log('on_close', props)
+        onClose={(props) => {
+          console.log('onClose', props)
         }}
       >
         Default Text
@@ -293,15 +293,15 @@ export const SimulateSteps = () => {
     <>
       <GlobalStatus
         id="custom-status"
-        on_open={() => {
-          console.log('on_open')
+        onOpen={() => {
+          console.log('onOpen')
         }}
-        on_close={() => {
-          console.log('on_close')
+        onClose={() => {
+          console.log('onClose')
           toggleUpdateStatus(0)
         }}
-        on_hide={() => {
-          console.log('on_hide')
+        onHide={() => {
+          console.log('onHide')
           toggleUpdateStatus(0)
         }}
       />
@@ -323,8 +323,8 @@ export const SimulateSteps = () => {
             title="New title"
             text="First long info text ..."
             item="Item from status #1"
-            on_close={({ statusId }) => {
-              console.log('on_close 1', statusId)
+            onClose={({ statusId }) => {
+              console.log('onClose 1', statusId)
             }}
           />
           <GlobalStatus.Add
@@ -332,8 +332,8 @@ export const SimulateSteps = () => {
             statusId="custom-id-2"
             text="Second long info text ..."
             item="Item from status #2"
-            on_close={({ statusId }) => {
-              console.log('on_close 2', statusId)
+            onClose={({ statusId }) => {
+              console.log('onClose 2', statusId)
             }}
           />
         </>
@@ -358,8 +358,8 @@ const NestedSections = () => (
         show
         noAnimation
         autoscroll={false}
-        on_close={(props) => {
-          console.log('on_close', props)
+        onClose={(props) => {
+          console.log('onClose', props)
         }}
         items={[
           { id: 1, text: 'Error message', statusAnchorUrl: '#link' },
@@ -504,18 +504,18 @@ const UpdateDemoTools = () => {
       })
 
       inst.current.update({
-        on_show: () => {
-          console.log('on_show')
+        onShow: () => {
+          console.log('onShow')
           if (!isVisible) {
             setVisibility(true)
           }
         },
-        on_hide: () => {
-          console.log('on_hide')
+        onHide: () => {
+          console.log('onHide')
           setVisibility('auto')
         },
-        on_close: () => {
-          console.log('on_close')
+        onClose: () => {
+          console.log('onClose')
           setVisibility('auto')
         },
       })
@@ -684,6 +684,29 @@ export const GlobalStatusExample = () => (
     />
   </Wrapper>
 )
+
+export function GlobalStatusEvents() {
+  return (
+    <GlobalStatus
+      id="test"
+      onAdjust={() => {
+        console.log('onAdjust')
+      }}
+      onOpen={() => {
+        console.log('onOpen')
+      }}
+      onShow={() => {
+        console.log('onShow')
+      }}
+      onHide={() => {
+        console.log('onHide')
+      }}
+      onClose={() => {
+        console.log('onClose')
+      }}
+    />
+  )
+}
 
 export function DelayedInteractions() {
   const FormField1 = () => {
