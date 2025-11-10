@@ -166,15 +166,15 @@ export default class InfinityScroller extends React.PureComponent {
         }
 
         if (callOnEnd) {
-          createEvent('on_end')
+          createEvent('onEnd')
         } else {
           if (callStartupEvent) {
-            createEvent('on_startup')
+            createEvent('onStartup')
           } else {
-            createEvent('on_change')
+            createEvent('onChange')
           }
 
-          createEvent('on_load')
+          createEvent('onLoad')
         }
       },
       { pageNumber, callStartupEvent, preventWaitForDelay }
