@@ -30,7 +30,7 @@ export const DrawerListExampleInteractive = () => (
                 checked={opened}
                 icon={`chevron_${opened ? 'up' : 'down'}`}
                 iconPosition="left"
-                on_change={({ checked }) => setOpened(checked)}
+                onChange={({ checked }) => setOpened(checked)}
               />
               <DrawerList
                 skipPortal

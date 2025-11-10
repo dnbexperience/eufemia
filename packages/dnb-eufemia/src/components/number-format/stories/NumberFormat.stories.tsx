@@ -33,7 +33,7 @@ const ChangeLocale = () => {
   return (
     <ToggleButton.Group
       value={locale}
-      on_change={({ value }) => {
+      onChange={({ value }) => {
         setLocale(value)
       }}
     >

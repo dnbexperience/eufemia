@@ -88,7 +88,7 @@ export const ImageSkeletonExample = () => (
             <Skeleton.Exclude>
               <ToggleButton
                 checked={state}
-                on_change={({ checked }) => setState(checked)}
+                onChange={({ checked }) => setState(checked)}
                 top="large"
               >
                 Toggle
