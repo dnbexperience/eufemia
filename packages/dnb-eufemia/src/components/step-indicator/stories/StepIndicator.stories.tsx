@@ -23,7 +23,7 @@ export function RenderDuringSSR() {
     },
     {
       title: 'Bestill eller erstatt ' + count,
-      on_click: ({ currentStep }) =>
+      onClick: ({ currentStep }) =>
         console.log('currentStep:', currentStep),
       status:
         'Du må velge bestill nytt kort eller erstatt kort for å kunne fullføre bestillingen din.',
@@ -41,17 +41,17 @@ export function RenderDuringSSR() {
           mode="loose"
           data={data}
           currentStep={1}
-          on_click={() => {
+          onClick={() => {
             console.log('')
           }}
-          on_change={({ currentStep }) => {
-            console.log('on_change', currentStep)
+          onChange={({ currentStep }) => {
+            console.log('onChange', currentStep)
           }}
         />
       </Provider>
       <Button
         top
-        on_click={() => {
+        onClick={() => {
           increment((c) => c + 1)
         }}
         text="increment"
@@ -85,7 +85,7 @@ const InteractiveDemo = () => {
         <StepIndicator
           mode="loose"
           currentStep={step}
-          on_change={({ currentStep }) => {
+          onChange={({ currentStep }) => {
             setStep(currentStep)
           }}
           data={[
@@ -98,7 +98,7 @@ const InteractiveDemo = () => {
 
         <Button
           variant="secondary"
-          on_click={() => {
+          onClick={() => {
             setStep((step) => {
               if (step >= 2) {
                 step = -1
@@ -151,8 +151,8 @@ export const StepIndicatorSandbox = () => {
           top="large"
           mode="loose"
           currentStep={currentStep}
-          on_change={({ currentStep }) => {
-            console.log('on_change', currentStep)
+          onChange={({ currentStep }) => {
+            console.log('onChange', currentStep)
             setCurrentStep(currentStep)
           }}
           data={data}
@@ -163,8 +163,8 @@ export const StepIndicatorSandbox = () => {
           top="large"
           mode="strict"
           currentStep={currentStep}
-          on_change={({ currentStep }) => {
-            console.log('on_change', currentStep)
+          onChange={({ currentStep }) => {
+            console.log('onChange', currentStep)
             setCurrentStep(currentStep)
           }}
           data={data}
@@ -253,7 +253,7 @@ export const EventTests = () => {
     {
       title: 'Step C',
       isCurrent: true,
-      on_click: (event) => {
+      onClick: (event) => {
         console.log('Item Click', event)
       },
     },
@@ -263,10 +263,10 @@ export const EventTests = () => {
     <Wrapper>
       <Box>
         <StepIndicator
-          on_click={(event) => {
+          onClick={(event) => {
             console.log('Stepinidcator Click', event)
           }}
-          on_change={(event) => console.log('On Change', event)}
+          onChange={(event) => console.log('On Change', event)}
           mode="loose"
           data={data}
         />
@@ -300,7 +300,7 @@ export const TitleTests = () => {
           mode="loose"
           currentStep={currentStep}
           data={data}
-          on_click={({ currentStep }) => setCurrentStep(currentStep)}
+          onClick={({ currentStep }) => setCurrentStep(currentStep)}
         />
       </Box>
     </>
