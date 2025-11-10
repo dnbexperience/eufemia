@@ -117,11 +117,11 @@ export interface TextareaProps
   className?: string;
   textareaElement?: TextareaTextareaElement;
   children?: TextareaChildren;
-  on_change?: (...args: any[]) => any;
-  on_focus?: (...args: any[]) => any;
-  on_blur?: (...args: any[]) => any;
-  on_key_down?: (...args: any[]) => any;
-  on_state_update?: (...args: any[]) => any;
+  onChange?: (...args: any[]) => any;
+  onFocus?: (...args: any[]) => any;
+  onBlur?: (...args: any[]) => any;
+  onKeyDown?: (...args: any[]) => any;
+  onStateUpdate?: (...args: any[]) => any;
 }
 export default class Textarea extends React.Component<TextareaProps, any> {
   static defaultProps: object;
