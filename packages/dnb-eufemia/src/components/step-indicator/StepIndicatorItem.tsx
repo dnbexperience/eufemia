@@ -25,7 +25,7 @@ import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 export type StepIndicatorStatusState = 'warn' | 'info' | 'error'
 export type StepIndicatorItemProps = Omit<
   React.HTMLProps<HTMLElement>,
-  'title' | 'data'
+  'title' | 'data' | 'onClick'
 > & {
   title: string | React.ReactNode
   /**
@@ -54,11 +54,7 @@ export type StepIndicatorItemProps = Omit<
   /**
    * Will be called once the user clicks on the current or another step. Will be emitted on every click. Returns an object `{ event, item, currentStep }`.
    */
-  on_click?: ({
-    event,
-    item,
-    currentStep,
-  }: StepIndicatorMouseEvent) => void
+  onClick?: ({ event, item, currentStep }: StepIndicatorMouseEvent) => void
   currentItemNum: number
 }
 
@@ -101,13 +97,13 @@ function StepIndicatorItem({
           props,
           onClickHandler,
         },
-        'on_click',
+        'onClick',
         params
       )
 
       const onClickGlobal = dispatchCustomElementEvent(
         context,
-        'on_click',
+        'onClick',
         params
       )
 
@@ -117,7 +113,7 @@ function StepIndicatorItem({
 
       if (context.activeStep !== currentItemNum) {
         context.setActiveStep(currentItemNum)
-        dispatchCustomElementEvent(context, 'on_change', params)
+        dispatchCustomElementEvent(context, 'onChange', params)
       }
     },
     [context, props]
@@ -144,7 +140,7 @@ function StepIndicatorItem({
     status,
     statusState = 'warn',
 
-    on_click, // eslint-disable-line
+    onClick, // eslint-disable-line
   } = props
 
   const hasPassedAndIsCurrent =
