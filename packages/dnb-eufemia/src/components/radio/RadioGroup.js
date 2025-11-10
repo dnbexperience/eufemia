@@ -87,7 +87,7 @@ export default class RadioGroup extends React.PureComponent {
       PropTypes.node,
     ]),
 
-    on_change: PropTypes.func,
+    onChange: PropTypes.func,
   }
 
   static defaultProps = {
@@ -115,7 +115,7 @@ export default class RadioGroup extends React.PureComponent {
     className: null,
     children: null,
 
-    on_change: null,
+    onChange: null,
   }
 
   static parseChecked = (state) => /true|on/.test(String(state))
@@ -146,7 +146,7 @@ export default class RadioGroup extends React.PureComponent {
 
   onChangeHandler = ({ value, event }) => {
     this.setState({ value, _listenForPropChanges: false })
-    dispatchCustomElementEvent(this, 'on_change', {
+    dispatchCustomElementEvent(this, 'onChange', {
       value,
       event,
     })
@@ -183,7 +183,7 @@ export default class RadioGroup extends React.PureComponent {
       name: _name, // eslint-disable-line
       value: _value, // eslint-disable-line
       children, // eslint-disable-line
-      on_change, // eslint-disable-line
+      onChange, // eslint-disable-line
 
       ...rest
     } = props

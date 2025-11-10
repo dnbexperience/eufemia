@@ -34,22 +34,11 @@ describe('Radio component', () => {
     expect(document.querySelector('input').value).toBe(value)
   })
 
-  it('has "on_change" event which will trigger on a input change', () => {
+  it('has "onChange" event which will trigger on a input change', () => {
     const my_event = jest.fn()
-    const myEvent = jest.fn()
-    render(
-      <Radio
-        on_change={my_event}
-        onChange={myEvent}
-        checked={false}
-        group={null}
-      />
-    )
+    render(<Radio onChange={my_event} checked={false} group={null} />)
     fireEvent.click(document.querySelector('input'))
     expect(my_event.mock.calls.length).toBe(1)
-    expect(myEvent.mock.calls.length).toBe(1)
-    expect(myEvent.mock.calls[0][0]).toHaveProperty('checked')
-    expect(myEvent.mock.calls[0][0].checked).toBe(true)
     expect(my_event.mock.calls[0][0].checked).toBe(true)
   })
 
@@ -62,7 +51,7 @@ describe('Radio component', () => {
         <>
           <Radio
             checked={checked}
-            on_change={({ checked }) => setChecked(checked)}
+            onChange={({ checked }) => setChecked(checked)}
           />
           <button id="set-state" onClick={() => setChecked(true)} />
           <button
