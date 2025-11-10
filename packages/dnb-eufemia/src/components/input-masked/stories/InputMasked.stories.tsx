@@ -45,7 +45,7 @@ export function Sandbox() {
         <Form.Handler>
           <ToggleButton.Group
             value={locale}
-            on_change={({ value }) => setLocale(value)}
+            onChange={({ value }) => setLocale(value)}
             right
             label="Choose locale"
           >
