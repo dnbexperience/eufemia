@@ -50,7 +50,7 @@ export interface RadioGroupProps
   attributes?: RadioGroupAttributes;
   className?: string;
   children?: RadioGroupChildren;
-  on_change?: (...args: any[]) => any;
+  onChange?: (...args: any[]) => any;
 }
 export default class RadioGroup extends React.Component<
   RadioGroupProps,
