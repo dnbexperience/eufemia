@@ -69,7 +69,7 @@ export interface RadioProps
   globalStatus?: GlobalStatusConfigObject;
   suffix?: RadioSuffix;
   /**
-   * Defines the `value` as a string. Use it to get the value during the `on_change` event listener callback in the **RadioGroup**.
+   * Defines the `value` as a string. Use it to get the value during the `onChange` event listener callback in the **RadioGroup**.
    */
   value?: string;
   attributes?: RadioAttributes;
@@ -77,8 +77,8 @@ export interface RadioProps
   readOnly?: boolean;
   className?: string;
   children?: RadioChildren;
-  on_change?: (...args: any[]) => any;
-  on_state_update?: (...args: any[]) => any;
+  onChange?: (...args: any[]) => any;
+  onStateUpdate?: (...args: any[]) => any;
   /**
    * By providing a React.ref we can get the internally used input element (DOM). E.g. `innerRef={myRef}` by using `React.createRef()` or `React.useRef()`.
    */
