@@ -2,7 +2,7 @@ import { PropertiesTableProps } from '../../shared/types'
 
 export const RadioProperties: PropertiesTableProps = {
   value: {
-    doc: 'defines the `value` as a string. Use it to get the value during the `on_change` event listener callback in the **RadioGroup**.',
+    doc: 'defines the `value` as a string. Use it to get the value during the `onChange` event listener callback in the **RadioGroup**.',
     type: 'string',
     status: 'required',
   },
@@ -127,7 +127,7 @@ export const RadioGroupProperties: PropertiesTableProps = {
 }
 
 export const RadioEvents: PropertiesTableProps = {
-  on_change: {
+  onChange: {
     doc: 'will be called on state changes made by the user. Returns an object `{ checked, value, event }`.',
     type: 'function',
     status: 'optional',
@@ -135,7 +135,7 @@ export const RadioEvents: PropertiesTableProps = {
 }
 
 export const RadioGroupEvents: PropertiesTableProps = {
-  on_change: {
+  onChange: {
     doc: 'will be called once a Radio button changes the state. Returns an object `{ value, event }`.',
     type: 'function',
     status: 'optional',
