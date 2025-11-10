@@ -61,7 +61,7 @@ class ToggleButtonGroup extends React.PureComponent<ToggleButtonGroupProps> {
     className: null,
     children: null,
 
-    on_change: null,
+    onChange: null,
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -120,7 +120,7 @@ class ToggleButtonGroup extends React.PureComponent<ToggleButtonGroupProps> {
       _listenForPropChanges: false,
     })
 
-    dispatchCustomElementEvent(this, 'on_change', {
+    dispatchCustomElementEvent(this, 'onChange', {
       value,
       values,
       event,
@@ -162,7 +162,7 @@ class ToggleButtonGroup extends React.PureComponent<ToggleButtonGroupProps> {
       value: _value, // eslint-disable-line
       values: _values, // eslint-disable-line
       children, // eslint-disable-line
-      on_change, // eslint-disable-line
+      onChange, // eslint-disable-line
 
       ...rest
     } = props
@@ -380,7 +380,7 @@ export interface ToggleButtonGroupProps
    */
   suffix?: ToggleButtonGroupSuffix
   /**
-   * Defines the `value` as a string. Use it to get the value during the `on_change` event listener callback in the **ToggleButtonGroup**.
+   * Defines the `value` as a string. Use it to get the value during the `onChange` event listener callback in the **ToggleButtonGroup**.
    */
   value?: ToggleButtonGroupValue
   /**
@@ -392,15 +392,15 @@ export interface ToggleButtonGroupProps
    */
   layoutDirection?: ToggleButtonGroupLayoutDirection
   /**
-   * Defines the `values` as a string. Use it to get the values during the `on_change` event listener callback in the **ToggleButtonGroup**.
+   * Defines the `values` as a string. Use it to get the values during the `onChange` event listener callback in the **ToggleButtonGroup**.
    */
   values?: ToggleButtonGroupValues
   attributes?: ToggleButtonGroupAttributes
   readOnly?: boolean
   className?: string
   children?: ToggleButtonGroupChildren
-  on_change?: (...args: any[]) => any
-  on_state_update?: (...args: any[]) => any
+  onChange?: (...args: any[]) => any
+  onStateUpdate?: (...args: any[]) => any
   // Additional properties that are used in tests and stories
   onChange?: (...args: any[]) => any
   top?: SpaceType

@@ -322,7 +322,7 @@ export const GlobalStatusUpdate = () => (
               variant="checkbox"
               right
               checked={isVisible}
-              on_change={({ checked }) => {
+              onChange={({ checked }) => {
                 setVisibility(checked)
               }}
             />
