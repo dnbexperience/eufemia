@@ -123,14 +123,14 @@ describe('GlobalStatus component', () => {
           statusId="status-update-1"
           text="will be overwritten"
           item={{ text: 'item#2' }}
-          on_close={jest.fn()}
+          onClose={jest.fn()}
         />
         <GlobalStatus.Add
           id="custom-status-update"
           statusId="status-update-1"
           text={newText}
           item={{ text: 'item#3' }}
-          on_close={jest.fn()}
+          onClose={jest.fn()}
         />
       </>
     )
@@ -168,7 +168,7 @@ describe('GlobalStatus component', () => {
         statusId="status-update-1"
         text={startupText}
         items={startupItems}
-        on_close={jest.fn()}
+        onClose={jest.fn()}
       />
     )
 
@@ -187,7 +187,7 @@ describe('GlobalStatus component', () => {
         statusId="status-update-1"
         text={newText}
         items={newItems}
-        on_close={jest.fn()}
+        onClose={jest.fn()}
       />
     )
 
@@ -229,7 +229,7 @@ describe('GlobalStatus component', () => {
         statusId="status-remove-1"
         text={startupText}
         items={startupItems}
-        on_close={jest.fn()}
+        onClose={jest.fn()}
       />
     )
 
@@ -251,7 +251,7 @@ describe('GlobalStatus component', () => {
         statusId="status-remove-2"
         text={newText}
         items={newItems}
-        on_close={jest.fn()}
+        onClose={jest.fn()}
       />
     )
 
@@ -504,8 +504,8 @@ describe('GlobalStatus component', () => {
   })
 
   it('should close when esc key is pressed', async () => {
-    const on_close = jest.fn()
-    const on_hide = jest.fn()
+    const onClose = jest.fn()
+    const onHide = jest.fn()
 
     const ToggleStatus = () => {
       const [status, setStatus] = React.useState(null)
@@ -527,8 +527,8 @@ describe('GlobalStatus component', () => {
         <GlobalStatus
           id="esc-test"
           autoscroll={false}
-          on_hide={on_hide}
-          on_close={on_close}
+          onHide={onHide}
+          onClose={onClose}
         />
         <ToggleStatus />
       </>
@@ -539,16 +539,16 @@ describe('GlobalStatus component', () => {
 
     await refresh()
 
-    expect(on_close).toHaveBeenCalledTimes(0)
+    expect(onClose).toHaveBeenCalledTimes(0)
 
     // Close with key
     keydown(27) // esc
 
-    expect(on_hide).toHaveBeenCalledTimes(1)
+    expect(onHide).toHaveBeenCalledTimes(1)
 
     simulateAnimationEnd()
 
-    expect(on_close).toHaveBeenCalledTimes(1)
+    expect(onClose).toHaveBeenCalledTimes(1)
   })
 
   it('should close when escape key name is pressed', async () => {
@@ -576,8 +576,8 @@ describe('GlobalStatus component', () => {
         <GlobalStatus
           id="escape-name-test"
           autoscroll={false}
-          on_hide={on_hide}
-          on_close={on_close}
+          onHide={on_hide}
+          onClose={on_close}
         />
         <ToggleStatus />
       </>
@@ -775,18 +775,18 @@ describe('GlobalStatus component', () => {
   })
 
   it('should have a working auto close', () => {
-    const on_open = jest.fn()
-    const on_close = jest.fn()
-    const on_hide = jest.fn()
+    const onOpen = jest.fn()
+    const onClose = jest.fn()
+    const onHide = jest.fn()
 
     render(
       <GlobalStatus
         autoclose={true}
         autoscroll={false}
         id="custom-status-autoclose"
-        on_open={on_open}
-        on_close={on_close}
-        on_hide={on_hide}
+        onOpen={onOpen}
+        onClose={onClose}
+        onHide={onHide}
       />
     )
 
@@ -795,13 +795,13 @@ describe('GlobalStatus component', () => {
         id="custom-status-autoclose"
         statusId="status-autoclose-1"
         text="text only"
-        on_close={jest.fn()}
+        onClose={jest.fn()}
       />
     )
 
     simulateAnimationEnd()
 
-    expect(on_open.mock.calls.length).toBe(1)
+    expect(onOpen.mock.calls.length).toBe(1)
 
     expect(
       document.querySelector('div.dnb-global-status__message')
@@ -816,7 +816,7 @@ describe('GlobalStatus component', () => {
         statusId="status-autoclose-2"
         text="text only"
         items={['foo']}
-        on_close={jest.fn()}
+        onClose={jest.fn()}
       />
     )
 
@@ -834,7 +834,7 @@ describe('GlobalStatus component', () => {
 
     simulateAnimationEnd()
 
-    expect(on_close.mock.calls.length).toBe(0)
+    expect(onClose.mock.calls.length).toBe(0)
 
     render(
       <GlobalStatus.Remove
@@ -846,8 +846,8 @@ describe('GlobalStatus component', () => {
 
     simulateAnimationEnd()
 
-    expect(on_close.mock.calls.length).toBe(1)
-    expect(on_hide.mock.calls.length).toBe(0)
+    expect(onClose.mock.calls.length).toBe(1)
+    expect(onHide.mock.calls.length).toBe(0)
 
     expect(
       document.querySelector('div.dnb-global-status__message')
@@ -858,7 +858,7 @@ describe('GlobalStatus component', () => {
         id="custom-status-autoclose"
         statusId="status-autoclose-1"
         items={['foo']}
-        on_close={jest.fn()}
+        onClose={jest.fn()}
         text="text"
       />
     )
@@ -867,7 +867,7 @@ describe('GlobalStatus component', () => {
       document.querySelector('button.dnb-global-status__close-button')
     )
 
-    expect(on_hide.mock.calls.length).toBe(1)
+    expect(onHide.mock.calls.length).toBe(1)
   })
 
   it('should take account to the show prop', () => {
@@ -907,7 +907,7 @@ describe('GlobalStatus component', () => {
         id="custom-status-show"
         statusId="status-show-1"
         text="text only"
-        on_close={jest.fn()}
+        onClose={jest.fn()}
       />
     )
 
