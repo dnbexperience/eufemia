@@ -147,7 +147,7 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
     })
     updatePageContent(currentPageInternal)
 
-    dispatchCustomElementEvent(props, 'on_change', {
+    dispatchCustomElementEvent(props, 'onChange', {
       pageNumber: currentPageInternal,
       ...props,
       event,
