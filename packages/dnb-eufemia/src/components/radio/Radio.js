@@ -88,8 +88,8 @@ export default class Radio extends React.PureComponent {
     className: PropTypes.string,
     children: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
 
-    on_change: PropTypes.func,
-    on_state_update: PropTypes.func,
+    onChange: PropTypes.func,
+    onStateUpdate: PropTypes.func,
   }
 
   static defaultProps = {
@@ -116,8 +116,8 @@ export default class Radio extends React.PureComponent {
     className: null,
     children: null,
 
-    on_change: null,
-    on_state_update: null,
+    onChange: null,
+    onStateUpdate: null,
 
     innerRef: null,
   }
@@ -135,7 +135,7 @@ export default class Radio extends React.PureComponent {
     state._listenForPropChanges = true
 
     if (state.checked !== state.__checked) {
-      dispatchCustomElementEvent({ props }, 'on_state_update', {
+      dispatchCustomElementEvent({ props }, 'onStateUpdate', {
         checked: state.checked,
       })
     }
@@ -251,7 +251,7 @@ export default class Radio extends React.PureComponent {
         event,
       })
     }
-    dispatchCustomElementEvent(this, 'on_change', {
+    dispatchCustomElementEvent(this, 'onChange', {
       group,
       checked,
       value,
@@ -306,8 +306,8 @@ export default class Radio extends React.PureComponent {
             checked: _checked, // eslint-disable-line
             disabled: _disabled, // eslint-disable-line
             children, // eslint-disable-line
-            on_change, // eslint-disable-line
-            on_state_update, // eslint-disable-line
+            onChange, // eslint-disable-line
+            onStateUpdate, // eslint-disable-line
             innerRef, // eslint-disable-line
 
             ...rest
