@@ -135,8 +135,8 @@ export const GlobalStatusAddRemoveItems = () => (
             <GlobalStatus
               id="custom-status"
               autoscroll={false}
-              on_close={() => toggleUpdateStatus(0)}
-              on_hide={() => toggleUpdateStatus(0)}
+              onClose={() => toggleUpdateStatus(0)}
+              onHide={() => toggleUpdateStatus(0)}
             />
             <Button
               text={`Show step #${count}`}
@@ -156,8 +156,8 @@ export const GlobalStatusAddRemoveItems = () => (
                   title="New title"
                   text="First long info text ..."
                   item="Item from status #1"
-                  on_close={({ statusId }) => {
-                    console.log('on_close 1', statusId)
+                  onClose={({ statusId }) => {
+                    console.log('onClose 1', statusId)
                   }}
                 />
                 <GlobalStatus.Add
@@ -165,8 +165,8 @@ export const GlobalStatusAddRemoveItems = () => (
                   statusId="custom-id-2"
                   text="Second long info text ..."
                   item="Item from status #2"
-                  on_close={({ statusId }) => {
-                    console.log('on_close 2', statusId)
+                  onClose={({ statusId }) => {
+                    console.log('onClose 2', statusId)
                   }}
                 />
               </>
@@ -292,18 +292,18 @@ export const GlobalStatusUpdate = () => (
             })
 
             inst.current.update({
-              on_show: () => {
-                console.log('on_show')
+              onShow: () => {
+                console.log('onShow')
                 if (!isVisible) {
                   setVisibility(true)
                 }
               },
-              on_hide: () => {
-                console.log('on_hide')
+              onHide: () => {
+                console.log('onHide')
                 setVisibility(false)
               },
-              on_close: () => {
-                console.log('on_close')
+              onClose: () => {
+                console.log('onClose')
                 setVisibility(false)
               },
             })
@@ -408,8 +408,8 @@ export const GlobalStatusInfoExampleManipulate2 = () => (
       title="New title"
       text="First long info text ..."
       item="Item from status #1"
-      on_close={({ statusId }) => {
-        console.log('on_close', statusId)
+      onClose={({ statusId }) => {
+        console.log('onClose', statusId)
       }}
     />
     {/* 3. and remove it again */}
@@ -428,8 +428,8 @@ export const GlobalStatusInfoExampleManipulate3 = () => (
       title="New title"
       text="First long info text ..."
       item="Item from status #1"
-      on_close={({ statusId }) => {
-        console.log('on_close', statusId)
+      onClose={({ statusId }) => {
+        console.log('onClose', statusId)
       }}
     />
     {/* 3. and remove it again */}
@@ -447,8 +447,8 @@ export const GlobalStatusExampleControllers = () => (
       statusId="status-1"
       item="Item #1"
       text="New Text"
-      on_close={({ statusId }) => {
-        console.log('on_close', statusId)
+      onClose={({ statusId }) => {
+        console.log('onClose', statusId)
       }}
     />
     <GlobalStatus.Add
@@ -457,8 +457,8 @@ export const GlobalStatusExampleControllers = () => (
       item="Item #2"
       text="New Text"
       title="New Title"
-      on_close={({ statusId }) => {
-        console.log('on_close', statusId)
+      onClose={({ statusId }) => {
+        console.log('onClose', statusId)
       }}
     />
     <GlobalStatus.Add
@@ -466,8 +466,8 @@ export const GlobalStatusExampleControllers = () => (
       statusId="status-3"
       item="Item #3"
       text="Text #3"
-      on_close={({ statusId }) => {
-        console.log('on_close', statusId)
+      onClose={({ statusId }) => {
+        console.log('onClose', statusId)
       }}
     />
     {/* or update the status.*/}
