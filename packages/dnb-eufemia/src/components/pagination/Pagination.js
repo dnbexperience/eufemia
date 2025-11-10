@@ -100,10 +100,10 @@ const paginationPropTypes = {
   className: PropTypes.string,
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 
-  on_change: PropTypes.func,
-  on_startup: PropTypes.func,
-  on_load: PropTypes.func,
-  on_end: PropTypes.func,
+  onChange: PropTypes.func,
+  onStartup: PropTypes.func,
+  onLoad: PropTypes.func,
+  onEnd: PropTypes.func,
 }
 
 const paginationDefaultProps = {
@@ -139,10 +139,10 @@ const paginationDefaultProps = {
   className: null,
   children: null,
 
-  on_change: null,
-  on_startup: null,
-  on_load: null,
-  on_end: null,
+  onChange: null,
+  onStartup: null,
+  onLoad: null,
+  onEnd: null,
 }
 
 export default class Pagination extends React.PureComponent {
