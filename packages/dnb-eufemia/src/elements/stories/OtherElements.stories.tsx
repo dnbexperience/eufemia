@@ -249,7 +249,7 @@ export const ElementsAndSkeleton = () => {
         <ToggleButton
           skeleton={false}
           checked={showSkeleton}
-          on_change={() => setSkeletonState((s) => !s)}
+          onChange={() => setSkeletonState((s) => !s)}
         >
           Toggle Skeleton
         </ToggleButton>
