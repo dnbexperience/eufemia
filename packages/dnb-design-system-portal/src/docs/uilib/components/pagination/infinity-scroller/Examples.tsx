@@ -59,7 +59,7 @@ export const PaginationExampleInfinityLoadButton = () => (
         useLoadButton
         startupPage={5}
         minWaitTime={0}
-        on_load={({ pageNumber, setContent }) => {
+        onLoad={({ pageNumber, setContent }) => {
           // simulate server communication delay
           const timeout = setTimeout(
             () => {
@@ -86,7 +86,7 @@ export const PaginationExampleInfinityIndicator = () => (
         startupPage={3}
         pageCount={10}
         minWaitTime={0}
-        on_load={({ pageNumber, setContent }) => {
+        onLoad={({ pageNumber, setContent }) => {
           // simulate server communication delay
           const timeout = setTimeout(
             () => {
@@ -97,7 +97,7 @@ export const PaginationExampleInfinityIndicator = () => (
 
           return () => clearTimeout(timeout)
         }}
-        on_end={({ pageNumber, setContent }) => {
+        onEnd={({ pageNumber, setContent }) => {
           setContent(
             pageNumber,
             <LargePage color="lightgreen">End</LargePage>
@@ -115,7 +115,7 @@ export const PaginationExampleInfinityUnknown = () => (
         mode="infinity"
         parallelLoadCount={2}
         minWaitTime={0}
-        on_load={({ pageNumber, setContent, endInfinity }) => {
+        onLoad={({ pageNumber, setContent, endInfinity }) => {
           // simulate server communication delay
           const timeout = setTimeout(
             () => {
@@ -130,7 +130,7 @@ export const PaginationExampleInfinityUnknown = () => (
 
           return () => clearTimeout(timeout)
         }}
-        on_end={({ pageNumber, setContent }) => {
+        onEnd={({ pageNumber, setContent }) => {
           setContent(
             pageNumber,
             <LargePage color="lightgreen">End</LargePage>
@@ -251,7 +251,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
   React.useEffect(() => () => clearTimeout(serverDelayTimeout))
 
   const action = ({ pageNumber }) => {
-    console.log('on_change: with page', pageNumber)
+    console.log('onChange: with page', pageNumber)
 
     // simulate server delay
     clearTimeout(serverDelayTimeout)
