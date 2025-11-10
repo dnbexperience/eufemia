@@ -590,6 +590,12 @@ export default class GlobalStatus extends React.PureComponent {
       children, // eslint-disable-line
       removeOnUnmount, //eslint-disable-line
 
+      onAdjust, // eslint-disable-line
+      onOpen, // eslint-disable-line
+      onShow, // eslint-disable-line
+      onClose, // eslint-disable-line
+      onHide, // eslint-disable-line
+
       ...attributes
     } = props
 

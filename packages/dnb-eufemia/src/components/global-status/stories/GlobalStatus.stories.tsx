@@ -659,6 +659,29 @@ export function GlobalStatusSelector() {
   }
 }
 
+export function GlobalStatusEvents() {
+  return (
+    <GlobalStatus
+      id="test"
+      onAdjust={() => {
+        console.log('onAdjust')
+      }}
+      onOpen={() => {
+        console.log('onOpen')
+      }}
+      onShow={() => {
+        console.log('onShow')
+      }}
+      onHide={() => {
+        console.log('onHide')
+      }}
+      onClose={() => {
+        console.log('onClose')
+      }}
+    />
+  )
+}
+
 export function DelayedInteractions() {
   const FormField1 = () => {
     const [status, setStatus] = React.useState(null)
