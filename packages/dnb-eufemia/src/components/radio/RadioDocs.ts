@@ -2,7 +2,7 @@ import { PropertiesTableProps } from '../../shared/types'
 
 export const RadioProperties: PropertiesTableProps = {
   value: {
-    doc: 'Defines the `value` as a string. Use it to get the value during the `on_change` event listener callback in the **RadioGroup**.',
+    doc: 'Defines the `value` as a string. Use it to get the value during the `onChange` event listener callback in the **RadioGroup**.',
     type: 'string',
     status: 'required',
   },
@@ -89,23 +89,13 @@ export const RadioGroupProperties: PropertiesTableProps = {
     type: ['string', 'boolean'],
     status: 'optional',
   },
-<<<<<<< HEAD
-  status_state: {
+  statusState: {
     doc: "Defines the state of the status. It's two statuses `[error, info]`. Defaults to `error`.",
     type: ['error', 'info'],
     status: 'optional',
   },
-  status_props: {
-    doc: 'Use an object to define additional FormStatus properties.',
-=======
-  statusState: {
-    doc: "defines the state of the status. It's two statuses `[error, info]`. Defaults to `error`.",
-    type: ['error', 'info'],
-    status: 'optional',
-  },
   statusProps: {
-    doc: 'use an object to define additional FormStatus properties.',
->>>>>>> 4d8f2d1c523 (break(Radio)!: replace `snake_case` properties with `camelCase` (#5820))
+    doc: 'Use an object to define additional FormStatus properties.',
     type: 'Various',
     status: 'optional',
   },
@@ -119,39 +109,25 @@ export const RadioGroupProperties: PropertiesTableProps = {
     type: 'React.ReactNode',
     status: 'optional',
   },
-<<<<<<< HEAD
-  label_direction: {
+  labelDirection: {
     doc: 'To define the `label` layout direction on how the next element should be placed on. Can be either `vertical` or `horizontal`. Defaults to `horizontal`.',
     type: ['vertical', 'horizontal'],
     status: 'optional',
   },
-  label_sr_only: {
-    doc: 'Use `true` to make the label only readable by screen readers.',
-=======
-  labelDirection: {
-    doc: 'to define the `label` layout direction on how the next element should be placed on. Can be either `vertical` or `horizontal`. Defaults to `horizontal`.',
-    type: ['vertical', 'horizontal'],
-    status: 'optional',
-  },
   labelSrOnly: {
-    doc: 'use `true` to make the label only readable by screen readers.',
->>>>>>> 4d8f2d1c523 (break(Radio)!: replace `snake_case` properties with `camelCase` (#5820))
+    doc: 'Use `true` to make the label only readable by screen readers.',
     type: 'boolean',
     status: 'optional',
   },
   vertical: {
-<<<<<<< HEAD
-    doc: 'Will force both `direction` and `label_direction` to be **vertical** if set to `true`.',
-=======
-    doc: 'will force both `direction` and `labelDirection` to be **vertical** if set to `true`.',
->>>>>>> 4d8f2d1c523 (break(Radio)!: replace `snake_case` properties with `camelCase` (#5820))
+    doc: 'Will force both `direction` and `labelDirection` to be **vertical** if set to `true`.',
     type: 'boolean',
     status: 'optional',
   },
 }
 
 export const RadioEvents: PropertiesTableProps = {
-  on_change: {
+  onChange: {
     doc: 'Will be called on state changes made by the user. Returns an object `{ checked, value, event }`.',
     type: 'function',
     status: 'optional',
@@ -159,7 +135,7 @@ export const RadioEvents: PropertiesTableProps = {
 }
 
 export const RadioGroupEvents: PropertiesTableProps = {
-  on_change: {
+  onChange: {
     doc: 'Will be called once a Radio button changes the state. Returns an object `{ value, event }`.',
     type: 'function',
     status: 'optional',
