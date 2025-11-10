@@ -32,7 +32,7 @@ function ToggleButtonGroup() {
     <>
       <ToggleButton.Group
         multiselect
-        on_change={({ values }) => {
+        onChange={({ values }) => {
           console.log('values', values)
         }}
       >
@@ -41,21 +41,21 @@ function ToggleButtonGroup() {
           variant="checkbox"
           text="Item 1"
           value="item_1"
-          on_change={() => setButton1((s) => !s)}
+          onChange={() => setButton1((s) => !s)}
         />
         <ToggleButton
           checked={button2}
           variant="checkbox"
           text="Item 2"
           value="item_2"
-          on_change={() => setButton2((s) => !s)}
+          onChange={() => setButton2((s) => !s)}
         />
         <ToggleButton
           checked={button3}
           variant="checkbox"
           text="Item 3"
           value="item_3"
-          on_change={() => setButton3((s) => !s)}
+          onChange={() => setButton3((s) => !s)}
         />
       </ToggleButton.Group>
 
@@ -161,8 +161,8 @@ export const ToggleButtonSandbox = () => (
           icon="chevron_right"
           text="Toggle Button"
           value="I'm alone"
-          on_change={({ value, checked }) => {
-            console.log('on_change', value, checked)
+          onChange={({ value, checked }) => {
+            console.log('onChange', value, checked)
           }}
         />
       </p>
@@ -178,8 +178,8 @@ export const ToggleButtonSandbox = () => (
           icon="chevron_right"
           text="Toggle Button"
           value="I'm alone"
-          on_change={({ value, checked }) => {
-            console.log('on_change', value, checked)
+          onChange={({ value, checked }) => {
+            console.log('onChange', value, checked)
           }}
         />
       </p>
@@ -197,24 +197,24 @@ export const ToggleButtonSandbox = () => (
           <ToggleButton
             value="first"
             text="First"
-            on_change={({ group, value }) => {
-              console.log('on_change', group, value)
+            onChange={({ group, value }) => {
+              console.log('onChange', group, value)
             }}
           />
           <ToggleButton
             checked
             value="second"
             text="Second"
-            on_change={({ group, value }) => {
-              console.log('on_change', group, value)
+            onChange={({ group, value }) => {
+              console.log('onChange', group, value)
             }}
           />
           <ToggleButton
             checked
             value="third"
             text="Third"
-            on_change={({ group, value }) => {
-              console.log('on_change', group, value)
+            onChange={({ group, value }) => {
+              console.log('onChange', group, value)
             }}
           />
         </span>
@@ -223,10 +223,10 @@ export const ToggleButtonSandbox = () => (
     <Box>
       <Flex.Vertical>
         <H2>A h2 in a Flex.Vertical, where there's no label</H2>
-        <FieldBlock label="Long Group name with on_change dapibus eros viverra torquent euismod at dignissim vel mattis:">
+        <FieldBlock label="Long Group name with onChange dapibus eros viverra torquent euismod at dignissim vel mattis:">
           <ToggleButton.Group
-            on_change={({ value, values, event }) => {
-              console.log('on_change', value, values, event)
+            onChange={({ value, values, event }) => {
+              console.log('onChange', value, values, event)
             }}
             status="Error message"
             multiselect={true}
@@ -244,8 +244,8 @@ export const ToggleButtonSandbox = () => (
     <Box>
       <FieldBlock label="Long Group name Vitae dapibus eros viverra torquent euismod at dignissim vel mattis:">
         <ToggleButton.Group
-          on_change={({ value }) => {
-            console.log('on_change', value)
+          onChange={({ value }) => {
+            console.log('onChange', value)
           }}
         >
           <ToggleButton text="First" value="first" />
@@ -392,8 +392,8 @@ export function MultiselectRerender() {
         value={'second'}
         multiselect={true}
         values={values}
-        on_change={({ values }) => {
-          console.log('on_change', values)
+        onChange={({ values }) => {
+          console.log('onChange', values)
           setValues(values)
         }}
       >
