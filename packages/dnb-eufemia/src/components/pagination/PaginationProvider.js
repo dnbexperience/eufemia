@@ -84,7 +84,7 @@ export default class PaginationProvider extends React.PureComponent {
         state.currentPageInternal
       // We do not fall back to 1 here,
       // because the first render cycle in the users component may have:
-      // props.currentPage: null – that means, we fall back only in the on_startup / on_change callbacks
+      // props.currentPage: null – that means, we fall back only in the onStartup / onChange callbacks
     }
 
     state.parallelLoadCount = parseFloat(props.parallelLoadCount) || 1
@@ -289,7 +289,7 @@ export default class PaginationProvider extends React.PureComponent {
       },
       () => {
         const pageNumber = this.state.currentPageInternal + 1
-        dispatchCustomElementEvent(this, 'on_end', {
+        dispatchCustomElementEvent(this, 'onEnd', {
           pageNumber,
           ...this,
         })
