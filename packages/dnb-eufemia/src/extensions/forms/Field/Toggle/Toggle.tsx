@@ -215,7 +215,7 @@ function Toggle(props: Props) {
             status={hasError ? 'error' : undefined}
             value={value ? 'true' : 'false'}
             size={size}
-            on_change={handleCheckboxChange}
+            onChange={handleCheckboxChange}
             role="checkbox"
             {...htmlAttributes}
           />
@@ -301,7 +301,7 @@ function Toggle(props: Props) {
             status={hasError ? 'error' : undefined}
             value={value ? 'true' : 'false'}
             size={size}
-            on_change={handleCheckboxChange}
+            onChange={handleCheckboxChange}
             role="checkbox"
             {...htmlAttributes}
           />
