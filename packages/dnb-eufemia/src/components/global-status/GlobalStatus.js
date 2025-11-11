@@ -671,7 +671,7 @@ export default class GlobalStatus extends React.PureComponent {
                   variant={state === 'success' ? 'secondary' : 'tertiary'}
                   className="dnb-global-status__close-button"
                   icon="close"
-                  on_click={this.closeHandler}
+                  onClick={this.closeHandler}
                   size="medium"
                   iconPosition="left"
                 />

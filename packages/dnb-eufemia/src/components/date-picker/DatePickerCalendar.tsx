@@ -621,7 +621,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
                         aria-disabled={handleAsDisabled}
                         aria-label={title}
                         {...paramsButton}
-                        on_click={
+                        onClick={
                           handleAsDisabled
                             ? undefined
                             : ({ event }) =>
