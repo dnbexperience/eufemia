@@ -183,7 +183,7 @@ function SubtractButton() {
         '%s',
         humanNumber.aria || String(value)
       )}
-      on_click={onSubtractClickHandler}
+      onClick={onSubtractClickHandler}
       disabled={disabled}
       skeleton={skeleton}
       {...subtractParams}
@@ -218,7 +218,7 @@ function AddButton() {
         '%s',
         humanNumber.aria || String(value)
       )}
-      on_click={onAddClickHandler}
+      onClick={onAddClickHandler}
       disabled={disabled}
       skeleton={skeleton}
       {...addParams}

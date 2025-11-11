@@ -42,8 +42,8 @@ Requires React and ReactDOM to be loaded. Supports `ES5`.
     const MyButton = React.createElement(window.dnbLib.Button, {
       text: 'My Button',
       icon: 'chevron_right',
-      on_click: (params) => {
-        console.log('on_click', params)
+      onClick: (params) => {
+        console.log('onClick', params)
       },
     })
     const root = createRoot(document.getElementById('app'))
@@ -96,8 +96,8 @@ Because `importmap` is still not supported by the majority of browsers, we use a
       {
         text: 'My Button',
         icon: 'chevron_right',
-        on_click: (params) => {
-          console.log('on_click', params)
+        onClick: (params) => {
+          console.log('onClick', params)
         }
       }
     )
