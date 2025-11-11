@@ -22,7 +22,7 @@ export default function EditButton() {
       variant="tertiary"
       icon={edit}
       iconPosition="left"
-      on_click={editHandler}
+      onClick={editHandler}
     >
       {translation.editButton}
     </Button>

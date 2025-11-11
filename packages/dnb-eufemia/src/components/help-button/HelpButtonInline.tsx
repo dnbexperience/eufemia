@@ -127,7 +127,7 @@ export default function HelpButtonInline(props: HelpButtonInlineProps) {
         aria-controls={`${controlId}-content`}
         aria-expanded={isOpen}
         aria-label={title}
-        on_click={onClickHandler}
+        onClick={onClickHandler}
         onKeyDown={onKeyDownHandler}
         innerRef={buttonRef}
       />

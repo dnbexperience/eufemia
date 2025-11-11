@@ -79,13 +79,13 @@ export const DialogConfirm = () => (
             text="Administrer"
             icon={edit}
             iconPosition="left"
-            on_click={({ close }) => {
+            onClick={({ close }) => {
               close()
             }}
           />
           <Button
             text="Jeg godtar"
-            on_click={({ close }) => {
+            onClick={({ close }) => {
               close()
             }}
           />
@@ -486,7 +486,7 @@ const ModalCloseExample = () => {
     <>
       <Button
         text="Set opened state"
-        on_click={() => setOpenState('opened')}
+        onClick={() => setOpenState('opened')}
       />
       <Dialog
         triggerAttributes={{
@@ -540,13 +540,13 @@ const ModalTriggerExample = () => {
         <Button
           variant="secondary"
           text="Count"
-          on_click={() => setCount(count + 1)}
+          onClick={() => setCount(count + 1)}
         />
 
         <Button
           id="custom-triggerer"
           text="Custom trigger Button"
-          on_click={(e) => {
+          onClick={(e) => {
             return (
               <Dialog
                 title="Modal Title"
@@ -744,7 +744,7 @@ function CloseWithAnimation() {
     >
       <Button
         text="Close from inside modal"
-        on_click={() => setModalOpen(false)}
+        onClick={() => setModalOpen(false)}
       />
     </Dialog>
   )

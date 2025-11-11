@@ -347,7 +347,7 @@ const ModalCloseExample = () => {
     <>
       <Button
         text="Set opened state"
-        on_click={() => setOpenState('opened')}
+        onClick={() => setOpenState('opened')}
       />
       <Modal
         triggerAttributes={{ text: 'Open Modal and auto close' }}
@@ -399,13 +399,13 @@ const ModalTriggerExample = () => {
         <Button
           variant="secondary"
           text="Count"
-          on_click={() => setCount(count + 1)}
+          onClick={() => setCount(count + 1)}
         />
 
         <Button
           id="custom-triggerer"
           text="Custom trigger Button"
-          on_click={() => {
+          onClick={() => {
             return (
               <Modal
                 title="Modal Title"
@@ -599,7 +599,7 @@ function CloseWithAnimation() {
     >
       <Button
         text="Close from inside modal"
-        on_click={() => setModalOpen(false)}
+        onClick={() => setModalOpen(false)}
       />
     </Modal>
   )
@@ -608,7 +608,7 @@ function CloseWithAnimation() {
 function CloseByCallback() {
   return (
     <Modal triggerAttributes={{ text: 'CloseByCallback' }} hideCloseButton>
-      {({ close }) => <Button text="Close by callback" on_click={close} />}
+      {({ close }) => <Button text="Close by callback" onClick={close} />}
     </Modal>
   )
 }

@@ -4,7 +4,7 @@ import { DrawerListDataArrayObject } from './DrawerList'
 
 export type DrawerListItemProps = Omit<
   React.HTMLProps<HTMLLIElement>,
-  'children'
+  'children' | 'onClick'
 > & {
   children: ItemContentChildren
   active?: boolean
@@ -14,7 +14,7 @@ export type DrawerListItemProps = Omit<
    * Define a preselected `data` entry. In order of priority, `value` can be set to: object key (if `data` is an object), `selectedKey` prop (if `data` is an array), array index (if no `selectedKey`) or content (if `value` is a non-integer string).
    */
   value?: string
-  on_click?: ({
+  onClick?: ({
     selected,
     value,
   }: {
@@ -31,11 +31,11 @@ export const DrawerListItem = forwardRef(function DrawerListItem(
   ref: React.ForwardedRef<HTMLLIElement>
 ) {
   const {
+    onClick,
     role = 'option', // eslint-disable-line
     hash = '', // eslint-disable-line
     children, // eslint-disable-line
     className = null, // eslint-disable-line
-    on_click = null, // eslint-disable-line
     selected, // eslint-disable-line
     active = null, // eslint-disable-line
     value = null, // eslint-disable-line
@@ -55,22 +55,33 @@ export const DrawerListItem = forwardRef(function DrawerListItem(
     disabled,
     'aria-selected': !!selected,
     'aria-disabled': disabled,
+    onClick: () =>
+      onClick({
+        selected,
+        value,
+        ...rest,
+      }),
   }
+
   if (active) {
     params['aria-current'] = true
   }
 
-  if (on_click && !rest.onClick) {
-    rest.onClick = () =>
-      on_click({
-        selected,
-        value,
-        ...rest,
-      })
-  }
-
   return (
-    <li {...params} {...rest} ref={ref} key={'li' + hash}>
+    // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions
+    <li
+      {...params}
+      {...rest}
+      ref={ref}
+      key={'li' + hash}
+      onClick={() =>
+        onClick({
+          selected,
+          value,
+          ...rest,
+        })
+      }
+    >
       <span className="dnb-drawer-list__option__inner">
         <ItemContent hash={hash}>{children}</ItemContent>
       </span>

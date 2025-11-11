@@ -1325,12 +1325,12 @@ describe('Modal component', () => {
           <Button
             id="count-trigger"
             text="Count"
-            on_click={() => setCount(count + 1)}
+            onClick={() => setCount(count + 1)}
           />
 
           <Button
             id="modal-trigger"
-            on_click={() => {
+            onClick={() => {
               return (
                 <Modal
                   {...props}
@@ -1395,12 +1395,12 @@ describe('Modal component', () => {
           <Button
             id="count-trigger"
             text="Count"
-            on_click={() => setCount(count + 1)}
+            onClick={() => setCount(count + 1)}
           />
 
           <Button
             id="modal-trigger"
-            on_click={() => {
+            onClick={() => {
               return (
                 <OriginalComponent
                   title="Modal Title"
@@ -1491,7 +1491,7 @@ describe('Modal component', () => {
             <Button
               className="close-button"
               text="Close from inside modal"
-              on_click={() => setModalOpen(false)}
+              onClick={() => setModalOpen(false)}
             />
           </DialogContent>
         </Modal>
@@ -1757,7 +1757,7 @@ describe('Modal component', () => {
         <Modal noAnimation onClose={onClose} hideCloseButton>
           {({ close }) => {
             return (
-              <Button id="close-button" text="close" on_click={close} />
+              <Button id="close-button" text="close" onClick={close} />
             )
           }}
         </Modal>

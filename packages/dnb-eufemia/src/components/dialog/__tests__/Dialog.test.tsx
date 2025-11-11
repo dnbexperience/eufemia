@@ -91,7 +91,7 @@ describe('Dialog', () => {
         hideCloseButton
       >
         {({ close }) => (
-          <Button id="close-me" text="close" on_click={close} />
+          <Button id="close-me" text="close" onClick={close} />
         )}
       </Dialog>
     )
@@ -495,7 +495,7 @@ describe('Dialog', () => {
         hideCloseButton
       >
         {({ close }) => (
-          <Button id="close-button" text="close" on_click={close} />
+          <Button id="close-button" text="close" onClick={close} />
         )}
       </Dialog>
     )
