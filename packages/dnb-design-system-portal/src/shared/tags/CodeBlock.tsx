@@ -257,7 +257,7 @@ class LiveCode extends React.PureComponent<LiveCodeProps, LiveCodeProps> {
               {this.props.hideCode && (
                 <Button
                   className="toggle-button"
-                  on_click={this.toggleCode}
+                  onClick={this.toggleCode}
                   variant="secondary"
                   text="Code"
                   title="Toggle Code Snippet"
@@ -268,7 +268,7 @@ class LiveCode extends React.PureComponent<LiveCodeProps, LiveCodeProps> {
               {this.props.hidePreview && (
                 <Button
                   className="toggle-button"
-                  on_click={this.togglePreview}
+                  onClick={this.togglePreview}
                   variant="secondary"
                   text="Preview"
                   title="Toggle Preview"

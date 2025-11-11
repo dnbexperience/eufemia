@@ -78,7 +78,7 @@ export default class Button extends React.PureComponent {
   }
 
   getOnClickHandler = (src) => (event) => {
-    const afterContent = dispatchCustomElementEvent(src, 'on_click', {
+    const afterContent = dispatchCustomElementEvent(src, 'onClick', {
       event,
     })
     if (afterContent && React.isValidElement(afterContent)) {
@@ -220,7 +220,7 @@ export default class Button extends React.PureComponent {
       ...attributes,
     }
 
-    if (props.on_click || props.onClick) {
+    if (props.onClick) {
       params.onClick = this.getOnClickHandler(props)
     }
 
@@ -361,7 +361,7 @@ Button.propTypes = {
 
   ...spacingPropTypes,
 
-  on_click: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+  onClick: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
 }
 
 Button.defaultProps = {
@@ -396,7 +396,6 @@ Button.defaultProps = {
   children: null,
   element: null,
 
-  on_click: null,
   onClick: null,
 }
 

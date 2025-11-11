@@ -129,7 +129,7 @@ export const ButtonProperties: PropertiesTableProps = {
 }
 
 export const ButtonEvents: PropertiesTableProps = {
-  on_click: {
+  onClick: {
     doc: 'Will be called on a click event. Returns an object with the native event: `{ event }`.',
     type: 'function',
     status: 'optional',
