@@ -34,6 +34,7 @@ beforeAll(() => {
 beforeEach(() => {
   document.body.removeAttribute('style')
   document.documentElement.removeAttribute('style')
+  // @deprecated – dnb-modal-root is deprecated, use the class ".dnb-modal-root__inner" instead
   document.getElementById('dnb-modal-root')?.remove()
   window.__modalStack = undefined
 })
