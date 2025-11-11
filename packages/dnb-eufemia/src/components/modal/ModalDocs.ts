@@ -19,7 +19,7 @@ export const ModalProperties: PropertiesTableProps = {
     status: 'optional',
   },
   rootId: {
-    doc: '**Deprecated:** This prop is deprecated. Please use [PortalRoot](/uilib/components/portal-root) component instead for controlling where portal content appears in the DOM. The id used internal in the modal root element. Defaults to `root`, so the element id will be `dnb-modal-root`.',
+    doc: 'Defaults to `root`, so the element id will be `dnb-modal-root`.',
     type: 'string',
     status: 'deprecated',
   },

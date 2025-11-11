@@ -18,12 +18,6 @@ html[data-dnb-modal-active] {
   -webkit-user-select: none; // Safari / Touch fix
 }
 
-#dnb-modal-root {
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-
 .dnb-modal {
   &__content {
     position: fixed;

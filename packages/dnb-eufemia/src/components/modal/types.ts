@@ -176,7 +176,6 @@ export interface ModalContentProps {
   id?: string
 
   /**
-   * @deprecated This prop is deprecated. Please use PortalRoot component instead for controlling where portal content appears in the DOM.
    * The id used internal in the modal/drawer root element. Defaults to `root`, so the element id will be `dnb-modal-root`.
    */
   root_id?: string

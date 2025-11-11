@@ -20,7 +20,6 @@ beforeAll(() => {
 beforeEach(() => {
   document.body.removeAttribute('style')
   document.documentElement.removeAttribute('style')
-  // @deprecated – dnb-modal-root is deprecated, use the class ".dnb-modal-root__inner" instead
   document.getElementById('dnb-modal-root')?.remove()
   window.__modalStack = undefined
 })
@@ -620,6 +619,75 @@ describe('Drawer aria', () => {
       <Drawer {...props} openState={true} title="title" />
     )
     expect(await axeComponent(Comp)).toHaveNoViolations()
+  })
+})
+
+describe('Drawer rootId', () => {
+  it('should create modal root element with custom rootId', () => {
+    render(
+      <Drawer {...props} rootId="custom-drawer-root">
+        <button>button</button>
+      </Drawer>
+    )
+
+    fireEvent.click(document.querySelector('button.dnb-modal__trigger'))
+
+    const customRootElement = document.getElementById(
+      'dnb-modal-custom-drawer-root'
+    )
+    expect(customRootElement).toBeInTheDocument()
+    expect(customRootElement).toHaveClass('dnb-modal-root__inner')
+
+    // Default root should not exist
+    expect(document.getElementById('dnb-modal-root')).toBeNull()
+  })
+
+  it('should use default rootId when not provided', () => {
+    render(
+      <Drawer {...props}>
+        <button>button</button>
+      </Drawer>
+    )
+
+    fireEvent.click(document.querySelector('button.dnb-modal__trigger'))
+
+    // Default rootId is 'root', so it should create dnb-modal-root
+    const defaultRootElement = document.getElementById('dnb-modal-root')
+    expect(defaultRootElement).toBeInTheDocument()
+    expect(defaultRootElement).toHaveClass('dnb-modal-root__inner')
+  })
+
+  it('should create multiple drawers with different rootId', () => {
+    render(
+      <>
+        <Drawer {...props} id="drawer1" rootId="drawer-root1">
+          <h1>title</h1>
+          <button>button</button>
+        </Drawer>
+        <Drawer {...props} id="drawer2" rootId="drawer-root2">
+          <h1>title</h1>
+          <button>button</button>
+        </Drawer>
+      </>
+    )
+
+    // Open first drawer
+    const triggers = document.querySelectorAll('button.dnb-modal__trigger')
+    fireEvent.click(triggers[0])
+
+    const root1Element = document.getElementById('dnb-modal-drawer-root1')
+    expect(root1Element).toBeInTheDocument()
+
+    // Close first drawer
+    fireEvent.click(
+      document.querySelector('button.dnb-modal__close-button')
+    )
+
+    // Open second drawer
+    fireEvent.click(triggers[1])
+
+    const root2Element = document.getElementById('dnb-modal-drawer-root2')
+    expect(root2Element).toBeInTheDocument()
   })
 })
 

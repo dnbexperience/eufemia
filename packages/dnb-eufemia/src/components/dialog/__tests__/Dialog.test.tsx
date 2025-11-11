@@ -20,7 +20,6 @@ beforeAll(() => {
 beforeEach(() => {
   document.body.removeAttribute('style')
   document.documentElement.removeAttribute('style')
-  // @deprecated – dnb-modal-root is deprecated, use the class ".dnb-modal-root__inner" instead
   document.getElementById('dnb-modal-root')?.remove()
   window.__modalStack = undefined
 })
@@ -595,6 +594,73 @@ describe('Dialog', () => {
 
     // Verify that focus is NOT on the submit button
     expect(document.activeElement).not.toBe(submitButton)
+  })
+})
+
+describe('Dialog rootId', () => {
+  it('should create modal root element with custom rootId', () => {
+    render(
+      <Dialog {...props} rootId="custom-dialog-root">
+        <button>button</button>
+      </Dialog>
+    )
+
+    fireEvent.click(document.querySelector('button.dnb-modal__trigger'))
+
+    const customRootElement = document.getElementById(
+      'dnb-modal-custom-dialog-root'
+    )
+    expect(customRootElement).toBeInTheDocument()
+    expect(customRootElement).toHaveClass('dnb-modal-root__inner')
+
+    // Default root should not exist
+    expect(document.getElementById('dnb-modal-root')).toBeNull()
+  })
+
+  it('should use default rootId when not provided', () => {
+    render(
+      <Dialog {...props}>
+        <button>button</button>
+      </Dialog>
+    )
+
+    fireEvent.click(document.querySelector('button.dnb-modal__trigger'))
+
+    // Default rootId is 'root', so it should create dnb-modal-root
+    const defaultRootElement = document.getElementById('dnb-modal-root')
+    expect(defaultRootElement).toBeInTheDocument()
+    expect(defaultRootElement).toHaveClass('dnb-modal-root__inner')
+  })
+
+  it('should create multiple dialogs with different rootId', () => {
+    render(
+      <>
+        <Dialog {...props} id="dialog1" rootId="dialog-root1">
+          <button>button</button>
+        </Dialog>
+        <Dialog {...props} id="dialog2" rootId="dialog-root2">
+          <button>button</button>
+        </Dialog>
+      </>
+    )
+
+    // Open first dialog
+    const triggers = document.querySelectorAll('button.dnb-modal__trigger')
+    fireEvent.click(triggers[0])
+
+    const root1Element = document.getElementById('dnb-modal-dialog-root1')
+    expect(root1Element).toBeInTheDocument()
+
+    // Close first dialog
+    fireEvent.click(
+      document.querySelector('button.dnb-modal__close-button')
+    )
+
+    // Open second dialog
+    fireEvent.click(triggers[1])
+
+    const root2Element = document.getElementById('dnb-modal-dialog-root2')
+    expect(root2Element).toBeInTheDocument()
   })
 })
 
