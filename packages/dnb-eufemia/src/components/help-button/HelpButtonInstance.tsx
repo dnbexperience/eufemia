@@ -28,7 +28,7 @@ export default function HelpButtonInstance(localProps: ButtonProps) {
     context.HelpButton
   )
 
-  const { size, icon, on_click, className, ...rest } = props
+  const { size, icon, onClick, className, ...rest } = props
 
   const params = {
     className: classnames(
@@ -77,5 +77,5 @@ export default function HelpButtonInstance(localProps: ButtonProps) {
     params.title = null
   }
 
-  return <Button on_click={on_click} {...params} />
+  return <Button onClick={onClick} {...params} />
 }

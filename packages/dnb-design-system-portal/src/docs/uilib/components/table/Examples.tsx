@@ -123,7 +123,7 @@ export const VariantBasic = () => (
                     <Th.SortButton
                       text="Sortable Active"
                       title="Sort table column"
-                      on_click={sortHandler.column1}
+                      onClick={sortHandler.column1}
                     />
                   </Th>
                   <Th
@@ -135,7 +135,7 @@ export const VariantBasic = () => (
                     <Th.SortButton
                       text="Sortable"
                       title="Sort table column"
-                      on_click={sortHandler.column2}
+                      onClick={sortHandler.column2}
                     />
                   </Th>
                 </Tr>
@@ -778,7 +778,7 @@ export const Accordion = () => (
                 variant="tertiary"
                 icon={copyIcon}
                 iconPosition="left"
-                on_click={shareHandler}
+                onClick={shareHandler}
                 innerRef={ref}
               >
                 Copy link to this row
@@ -897,7 +897,7 @@ export const AccordionMixed = () => (
                 variant="tertiary"
                 icon={copyIcon}
                 iconPosition="left"
-                on_click={shareHandler}
+                onClick={shareHandler}
                 innerRef={ref}
               >
                 Copy link to this row

@@ -58,7 +58,7 @@ export type ButtonElement =
       ReactRouterLink & React.RefAttributes<HTMLAnchorElement>
     >
   | React.ReactNode;
-export type ButtonOnClick = string | ((...args: any[]) => any);
+export type ButtonOnClick = (...args: any[]) => any;
 export type ButtonProps = {
   /**
    * The content of the button can be a string or a React Element.
@@ -160,10 +160,13 @@ export type ButtonProps = {
    * Only meant to be used for special use cases. Defaults to `button` or `a` depending if href is set or not.
    */
   element?: ButtonElement;
-  on_click?: ButtonOnClick;
+  onClick?: ButtonOnClick;
 } & Partial<
   DataAttributeTypes &
-    Partial<React.HTMLAttributes<HTMLButtonElement | HTMLAnchorElement>>
+    Omit<
+      Partial<React.HTMLAttributes<HTMLButtonElement | HTMLAnchorElement>>,
+      'onClick'
+    >
 > &
   SpacingProps;
 export default class Button extends React.Component<ButtonProps, any> {

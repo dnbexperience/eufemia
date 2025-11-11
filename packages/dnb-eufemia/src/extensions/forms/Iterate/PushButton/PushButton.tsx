@@ -112,7 +112,7 @@ function PushButton(props: Props) {
       variant="secondary"
       icon={add}
       iconPosition="left"
-      on_click={handleClick}
+      onClick={handleClick}
       {...buttonProps}
     >
       {content}

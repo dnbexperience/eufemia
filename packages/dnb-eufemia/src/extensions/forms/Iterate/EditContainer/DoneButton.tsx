@@ -62,7 +62,7 @@ export default function DoneButton(props: Props) {
       className={classnames('dnb-forms-iterate__done-button', className)}
       icon={check}
       iconPosition="left"
-      on_click={doneHandler}
+      onClick={doneHandler}
       {...restProps}
     >
       {doneButton}
