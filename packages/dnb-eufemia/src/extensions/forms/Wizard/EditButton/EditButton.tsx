@@ -43,7 +43,7 @@ function EditButton(props: Props) {
         variant={variant}
         iconPosition={iconPosition}
         icon={edit || icon}
-        on_click={handleClick}
+        onClick={handleClick}
         {...omitSpacingProps(rest)}
       >
         {children}
