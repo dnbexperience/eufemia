@@ -363,7 +363,7 @@ function Selection(props: Props) {
               optionsLayout === 'horizontal' ? 'row' : 'column'
             }
             disabled={disabled}
-            on_change={onChangeHandler}
+            onChange={onChangeHandler}
             value={String(value ?? '')}
           >
             {items}
