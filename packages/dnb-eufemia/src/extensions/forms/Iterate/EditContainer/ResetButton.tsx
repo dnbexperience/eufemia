@@ -74,7 +74,7 @@ export default function ResetButton(props: Props) {
       ) : (
         <Button
           {...triggerAttributes}
-          on_click={handleClick}
+          onClick={handleClick}
           {...buttonProps}
         >
           {resetButton}
