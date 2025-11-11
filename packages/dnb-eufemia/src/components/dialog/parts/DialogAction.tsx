@@ -97,8 +97,8 @@ const DialogAction = ({
           child,
           {
             ...child.props,
-            on_click: (event) => {
-              dispatchCustomElementEvent(child.props, 'on_click', {
+            onClick: (event) => {
+              dispatchCustomElementEvent(child.props, 'onClick', {
                 event,
                 close,
               })

@@ -84,7 +84,7 @@ export function WithoutFormHandler() {
 
           return (
             <Button
-              on_click={increment}
+              onClick={increment}
               text={`Increment ${data.count}`}
               variant="secondary"
             />

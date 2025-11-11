@@ -277,24 +277,24 @@ function ControlledVsUncontrolled() {
         }}
       />
       <br />
-      <Button on_click={() => setChecked(true)} text="Set checkbox true" />
+      <Button onClick={() => setChecked(true)} text="Set checkbox true" />
       <Button
-        on_click={() => setChecked(undefined)}
+        onClick={() => setChecked(undefined)}
         text="Reset undefined"
       />
-      <Button on_click={() => setChecked(null)} text="Reset null" />
-      <Button on_click={() => setRandom(Math.random())} text="Rerender" />
+      <Button onClick={() => setChecked(null)} text="Reset null" />
+      <Button onClick={() => setRandom(Math.random())} text="Rerender" />
       <br />
       <Button
-        on_click={() => setIndeterminate(true)}
+        onClick={() => setIndeterminate(true)}
         text="set indeterminate"
       />
       <Button
-        on_click={() => setIndeterminate(undefined)}
+        onClick={() => setIndeterminate(undefined)}
         text="set indeterminate undefined"
       />
       <Button
-        on_click={() => setIndeterminate(null)}
+        onClick={() => setIndeterminate(null)}
         text="set indeterminate null"
       />
       <br />
