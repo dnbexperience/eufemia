@@ -199,7 +199,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
               icon="reset"
               iconPosition="left"
               variant="secondary"
-              on_click={() => {
+              onClick={() => {
                 clearTimeout(serverDelayTimeout) // stop the server delay simulation
 
                 resetInfinity()
@@ -226,7 +226,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
               icon="arrow-down"
               text="Sortable"
               title="Sort table row"
-              on_click={() => {
+              onClick={() => {
                 // 1. empty
                 resetContent()
 

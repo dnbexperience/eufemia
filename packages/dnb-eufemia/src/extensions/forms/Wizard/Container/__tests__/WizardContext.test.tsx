@@ -51,9 +51,9 @@ describe('Wizard.Context', () => {
             <output>{title}</output>
             <Button
               className="dnb-forms-previous-button"
-              on_click={previous}
+              onClick={previous}
             />
-            <Button className="dnb-forms-next-button" on_click={next} />
+            <Button className="dnb-forms-next-button" onClick={next} />
           </Wizard.Step>
         )
       }
@@ -110,9 +110,9 @@ describe('Wizard.Context', () => {
             <output>{title}</output>
             <Button
               className="dnb-forms-previous-button"
-              on_click={previous}
+              onClick={previous}
             />
-            <Button className="dnb-forms-next-button" on_click={next} />
+            <Button className="dnb-forms-next-button" onClick={next} />
           </Wizard.Step>
         )
       }
@@ -171,9 +171,9 @@ describe('Wizard.Context', () => {
             <output>{title}</output>
             <Button
               className="dnb-forms-previous-button"
-              on_click={previous}
+              onClick={previous}
             />
-            <Button className="dnb-forms-next-button" on_click={next} />
+            <Button className="dnb-forms-next-button" onClick={next} />
           </Wizard.Step>
         )
       }

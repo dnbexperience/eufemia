@@ -11,7 +11,7 @@ export const BasicButtonsExample = () => (
 
 export const EventsExample = () => (
   <ComponentBox>
-    <Button text="Button" on_click={() => console.log('click')} />
+    <Button text="Button" onClick={() => console.log('click')} />
   </ComponentBox>
 )
 

@@ -153,7 +153,7 @@ const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
             href={href}
             icon={iconToUse}
             iconPosition="left"
-            on_click={onClick}
+            onClick={onClick}
             text={currentText}
             skeleton={skeleton}
             {...props}
