@@ -122,7 +122,7 @@ export default function TabBar({
                 <Tabs />
                 {wasFullscreen ? (
                   <Button
-                    on_click={quitFullscreen}
+                    onClick={quitFullscreen}
                     href={quitFullscreenPath}
                     element={Link}
                     variant="secondary"
@@ -132,7 +132,7 @@ export default function TabBar({
                   />
                 ) : (
                   <Button
-                    on_click={openFullscreen}
+                    onClick={openFullscreen}
                     href={fullscreenPath}
                     element={Link}
                     variant="secondary"

@@ -163,14 +163,12 @@ describe('Button component', () => {
     ])
   })
 
-  it('has "on_click" event which will trigger on a click', () => {
+  it('has "onClick" event which will trigger on a click', () => {
     const my_event = jest.fn()
-    const myEvent = jest.fn()
-    render(<Button on_click={my_event} onClick={myEvent} />)
+    render(<Button onClick={my_event} />)
     const button = document.querySelector('button')
     fireEvent.click(button)
     expect(my_event.mock.calls.length).toBe(1)
-    expect(myEvent.mock.calls.length).toBe(1)
   })
 
   it('has set innerRef if ref was given', () => {
@@ -360,21 +358,19 @@ describe('Button component', () => {
   })
 
   it('will only have attached event listener if one is given', () => {
-    const on_click = jest.fn()
-    const { rerender } = render(
-      <Button text="Button" on_click={on_click} />
-    )
+    const onClick = jest.fn()
+    const { rerender } = render(<Button text="Button" onClick={onClick} />)
 
     type Button = HTMLButtonElement & { onClickHandler: ButtonOnClick }
 
     const button = document.querySelector('button') as Button
 
-    button.onClickHandler = on_click
+    button.onClickHandler = onClick
 
     fireEvent.click(button)
     fireEvent.click(button)
 
-    expect(on_click).toHaveBeenCalledTimes(2)
+    expect(onClick).toHaveBeenCalledTimes(2)
     expect(button.onClickHandler).toHaveBeenCalledTimes(2)
 
     rerender(<Button text="Button" onClick={undefined} />)
@@ -382,7 +378,7 @@ describe('Button component', () => {
     fireEvent.click(button)
 
     // still 2
-    expect(on_click).toHaveBeenCalledTimes(2)
+    expect(onClick).toHaveBeenCalledTimes(2)
     expect(button.onClickHandler).toHaveBeenCalledTimes(2)
   })
 

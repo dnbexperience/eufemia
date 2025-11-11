@@ -116,7 +116,7 @@ export default function CancelButton(props: Props) {
   }
 
   return (
-    <Button {...triggerAttributes} on_click={cancelHandler} {...rest} />
+    <Button {...triggerAttributes} onClick={cancelHandler} {...rest} />
   )
 }
 

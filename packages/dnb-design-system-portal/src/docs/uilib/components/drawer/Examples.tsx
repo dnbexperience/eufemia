@@ -254,7 +254,7 @@ export const DrawerCallbackExample = () => (
     >
       {({ close }) => (
         <>
-          <Button text="Close by callback" on_click={close} />
+          <Button text="Close by callback" onClick={close} />
         </>
       )}
     </Drawer>
