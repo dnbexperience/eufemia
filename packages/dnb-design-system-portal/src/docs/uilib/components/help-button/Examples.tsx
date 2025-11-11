@@ -30,8 +30,8 @@ export const HelpButtonSizesExample = () => (
     <HelpButton
       size="small"
       left
-      on_click={() => {
-        console.log('on_click')
+      onClick={() => {
+        console.log('onClick')
       }}
     >
       Text

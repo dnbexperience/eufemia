@@ -837,7 +837,7 @@ function UpdateDataExample() {
             <Button
               key={i}
               size="small"
-              on_click={() => {
+              onClick={() => {
                 const updatedSelectedData = selectedData.filter(
                   (data) => item?.selectedValue !== data?.selectedValue
                 )

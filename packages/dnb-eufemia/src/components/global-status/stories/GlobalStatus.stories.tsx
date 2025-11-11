@@ -175,7 +175,7 @@ export const GlobalStatuseSandbox = () => (
       <Button
         innerRef={scrollto_element}
         text="Scroll To"
-        on_click={() => {
+        onClick={() => {
           GlobalStatus.Update({
             id: 'demo-1',
             text: 'This is aDui consectetur viverra aenean vestibulum ac tristique sem ligula condimentum',
@@ -307,7 +307,7 @@ export const SimulateSteps = () => {
       />
       <Button
         text={`Step #${count}`}
-        on_click={() => {
+        onClick={() => {
           toggleUpdateStatus(count + 1)
           if (count > 2) {
             toggleUpdateStatus(0)
@@ -543,7 +543,7 @@ const UpdateDemoTools = () => {
         variant="tertiary"
         icon="reset"
         disabled={!(errorA || errorB)}
-        on_click={() => {
+        onClick={() => {
           setErrorA(null)
           setErrorB(null)
         }}

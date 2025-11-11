@@ -295,7 +295,7 @@ describe('"validateDOMAttributes" should', () => {
 
   it('function props should not be returned as long as they don\'t are "onClick"', () => {
     const props = {
-      on_click: () => {},
+      onClick: () => {},
     }
     const params = {
       onChange: () => {},
