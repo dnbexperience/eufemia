@@ -149,7 +149,7 @@ export function PageLayoutExample() {
                   icon={minimizedSidebar ? 'arrow_right' : 'arrow_left'}
                   space="x-small"
                   variant="secondary"
-                  on_click={clickHandler}
+                  onClick={clickHandler}
                 />
               ),
             }

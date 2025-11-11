@@ -75,5 +75,5 @@ export default function CancelButton({
     )
   }
 
-  return <Button {...triggerAttributes} on_click={cancelHandler} />
+  return <Button {...triggerAttributes} onClick={cancelHandler} />
 }

@@ -102,7 +102,7 @@ const InfinityPaginationTable = ({ tableItems, ...props }) => {
               icon="reset"
               iconPosition="left"
               variant="secondary"
-              on_click={() => {
+              onClick={() => {
                 resetHandler()
                 setOrderDirection('asc')
                 forceRerender(new Date().getTime())
@@ -122,7 +122,7 @@ const InfinityPaginationTable = ({ tableItems, ...props }) => {
               icon="arrow-down"
               text="Sortable"
               title="Sort table row"
-              on_click={() => {
+              onClick={() => {
                 resetHandler()
 
                 setOrderDirection((o) => (o === 'asc' ? 'desc' : 'asc'))
