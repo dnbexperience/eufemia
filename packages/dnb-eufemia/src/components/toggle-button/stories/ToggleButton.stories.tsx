@@ -369,19 +369,19 @@ export function MultiselectRerender() {
       <Button
         variant="secondary"
         text="Select all"
-        on_click={selectAll}
+        onClick={selectAll}
         right
       />
       <Button
         variant="secondary"
         text="Deselect"
-        on_click={deselectAll}
+        onClick={deselectAll}
         right
       />
       <Button
         variant="secondary"
         text={'Increment ' + count}
-        on_click={() => increment((s) => s + 1)}
+        onClick={() => increment((s) => s + 1)}
         right
       />
       <br />
