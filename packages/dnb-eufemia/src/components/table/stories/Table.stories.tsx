@@ -304,7 +304,7 @@ export const BasicTable = () => {
               active={sortState.column1.active}
             >
               <Th.SortButton
-                on_click={sortHandler.column1}
+                onClick={sortHandler.column1}
                 text="Column 1"
                 title="Sort table column"
               />
@@ -315,7 +315,7 @@ export const BasicTable = () => {
               active={sortState.column2.active}
             >
               <Th.SortButton
-                on_click={sortHandler.column2}
+                onClick={sortHandler.column2}
                 text="Column 2"
                 title="Sort table column"
               />
@@ -327,7 +327,7 @@ export const BasicTable = () => {
               active={sortState.column3.active}
             >
               <Th.SortButton
-                on_click={sortHandler.column3}
+                onClick={sortHandler.column3}
                 text="Column 3"
                 title="Sort table column"
               />
@@ -504,7 +504,7 @@ const ContentTr = ({
               variant="secondary"
               icon={shopping_cart}
               iconPosition="left"
-              on_click={buttonClickHandler}
+              onClick={buttonClickHandler}
             >
               Taco
             </Button>
@@ -1400,7 +1400,7 @@ export function Accodion() {
             top
             variant="tertiary"
             iconPosition="left"
-            on_click={shareHandler}
+            onClick={shareHandler}
             innerRef={ref}
           >
             Copy link to this row

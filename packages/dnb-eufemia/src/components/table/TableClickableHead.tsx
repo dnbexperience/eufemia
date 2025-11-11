@@ -168,7 +168,7 @@ export function TableClickableButtonTd(props: {
           {...(trIsOpen != null
             ? { 'aria-expanded': Boolean(trIsOpen) }
             : {})}
-          on_click={(event) => onClick(event, true)}
+          onClick={(event) => onClick(event, true)}
         />
       </span>
     </Td>

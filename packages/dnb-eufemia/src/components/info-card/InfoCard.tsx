@@ -171,7 +171,7 @@ const InfoCard = (localProps: InfoCardAllProps) => {
             className="dnb-info-card__buttons__accept-button"
             variant="secondary"
             right={centered ? 'zero' : 'small'}
-            on_click={onAccept}
+            onClick={onAccept}
             text={acceptButtonText}
             {...acceptButtonAttributes}
           />
@@ -182,7 +182,7 @@ const InfoCard = (localProps: InfoCardAllProps) => {
             className="dnb-info-card__buttons__close-button"
             variant="tertiary"
             top="small"
-            on_click={onClose}
+            onClick={onClose}
             icon="close"
             iconPosition="left"
             text={closeButtonText}
