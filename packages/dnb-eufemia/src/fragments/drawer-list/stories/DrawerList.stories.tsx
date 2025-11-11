@@ -76,7 +76,7 @@ const MagicOpen = (props) => {
                   {...props}
                   selected={value === selected}
                   value={value}
-                  on_click={({ value }) => {
+                  onClick={({ value }) => {
                     setSelected(value)
                   }}
                 >
