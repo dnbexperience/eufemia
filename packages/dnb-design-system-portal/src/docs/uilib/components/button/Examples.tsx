@@ -13,8 +13,8 @@ export const ButtonPrimary = () => (
   <ComponentBox>
     <Button
       text="Primary button with text only"
-      on_click={() => {
-        console.log('on_click')
+      onClick={() => {
+        console.log('onClick')
       }}
       data-visual-test="button-primary"
     />
@@ -181,7 +181,7 @@ export const ButtonAnchor = () => (
       href="/uilib/components/button/demos"
       iconPosition="right"
       icon="chevron_right"
-      on_click={({ event }) => {
+      onClick={({ event }) => {
         event.preventDefault()
       }}
       right
@@ -305,30 +305,30 @@ export const PrimaryButtonSizes = () => {
     <ComponentBox scope={{ Bell }} hideCode>
       <Button
         text="Default button"
-        on_click={() => {
-          console.log('on_click')
+        onClick={() => {
+          console.log('onClick')
         }}
       />
       <Button
         text="Large button"
-        on_click={() => {
-          console.log('on_click')
+        onClick={() => {
+          console.log('onClick')
         }}
         size="large"
         left
       />
       <Button
         text="Default button icon"
-        on_click={() => {
-          console.log('on_click')
+        onClick={() => {
+          console.log('onClick')
         }}
         icon="chevron_right"
         left
       />
       <Button
         text="Large button icon"
-        on_click={() => {
-          console.log('on_click')
+        onClick={() => {
+          console.log('onClick')
         }}
         size="large"
         icon="chevron_right"
@@ -343,15 +343,15 @@ export const SecondaryButtonSizes = () => {
     <ComponentBox scope={{ Bell }} hideCode>
       <Button
         text="Default button"
-        on_click={() => {
-          console.log('on_click')
+        onClick={() => {
+          console.log('onClick')
         }}
         variant="secondary"
       />
       <Button
         text="Large button"
-        on_click={() => {
-          console.log('on_click')
+        onClick={() => {
+          console.log('onClick')
         }}
         size="large"
         variant="secondary"
@@ -359,8 +359,8 @@ export const SecondaryButtonSizes = () => {
       />
       <Button
         text="Default button icon"
-        on_click={() => {
-          console.log('on_click')
+        onClick={() => {
+          console.log('onClick')
         }}
         icon="chevron_right"
         variant="secondary"
@@ -368,8 +368,8 @@ export const SecondaryButtonSizes = () => {
       />
       <Button
         text="Large button icon"
-        on_click={() => {
-          console.log('on_click')
+        onClick={() => {
+          console.log('onClick')
         }}
         size="large"
         icon="chevron_right"
@@ -385,16 +385,16 @@ export const TertiaryButtonSizes = () => {
     <ComponentBox scope={{ Bell }} hideCode>
       <Button
         text="Default button"
-        on_click={() => {
-          console.log('on_click')
+        onClick={() => {
+          console.log('onClick')
         }}
         icon="chevron_right"
         variant="tertiary"
       />
       <Button
         text="Button large"
-        on_click={() => {
-          console.log('on_click')
+        onClick={() => {
+          console.log('onClick')
         }}
         icon="chevron_right"
         variant="tertiary"
@@ -403,8 +403,8 @@ export const TertiaryButtonSizes = () => {
       />
       <Button
         text="Button text"
-        on_click={() => {
-          console.log('on_click')
+        onClick={() => {
+          console.log('onClick')
         }}
         icon="bell"
         iconPosition="top"
@@ -420,15 +420,15 @@ export const SignalButtonSizes = () => {
     <ComponentBox scope={{ Bell }} hideCode>
       <Button
         text="Default button"
-        on_click={() => {
-          console.log('on_click')
+        onClick={() => {
+          console.log('onClick')
         }}
         variant="signal"
       />
       <Button
         text="Large button"
-        on_click={() => {
-          console.log('on_click')
+        onClick={() => {
+          console.log('onClick')
         }}
         size="large"
         variant="signal"
@@ -436,8 +436,8 @@ export const SignalButtonSizes = () => {
       />
       <Button
         text="Default button icon"
-        on_click={() => {
-          console.log('on_click')
+        onClick={() => {
+          console.log('onClick')
         }}
         icon="chevron_right"
         variant="signal"
@@ -445,8 +445,8 @@ export const SignalButtonSizes = () => {
       />
       <Button
         text="Large button icon"
-        on_click={() => {
-          console.log('on_click')
+        onClick={() => {
+          console.log('onClick')
         }}
         size="large"
         icon="chevron_right"

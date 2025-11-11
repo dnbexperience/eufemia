@@ -126,7 +126,7 @@ export default class ModalHeaderBar extends React.PureComponent<
         {!isTrue(hideCloseButton) && (
           <div className="dnb-modal__header__bar__close">
             <CloseButton
-              on_click={onCloseClickHandler}
+              onClick={onCloseClickHandler}
               closeTitle={closeTitle}
               {...closeButtonAttributes}
             />
