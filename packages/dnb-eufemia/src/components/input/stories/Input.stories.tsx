@@ -262,9 +262,6 @@ export const InputSandbox = () => {
             <Button
               text="Submit"
               type="submit"
-              on_click={(event) => {
-                console.log('on_click', event)
-              }}
               onClick={(event) => {
                 console.log('onClick', event)
               }}
@@ -380,7 +377,7 @@ const CustomInput = () => {
       />
       <Button
         text="Reset"
-        on_click={() => {
+        onClick={() => {
           setValue('123')
         }}
       />

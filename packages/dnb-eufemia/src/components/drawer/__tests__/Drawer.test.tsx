@@ -93,7 +93,7 @@ describe('Drawer', () => {
         {({ close }) => (
           <>
             <h1>title</h1>
-            <Button id="close-me" text="close" on_click={close} />
+            <Button id="close-me" text="close" onClick={close} />
           </>
         )}
       </Drawer>
@@ -122,7 +122,7 @@ describe('Drawer', () => {
             <Drawer.Navigation>Drawer.Navigation</Drawer.Navigation>
             <Drawer.Header>
               <h1>Drawer.Header</h1>
-              <Button id="close-me" on_click={close} />
+              <Button id="close-me" onClick={close} />
             </Drawer.Header>
             <Drawer.Body>Drawer.Body</Drawer.Body>
           </>
@@ -498,7 +498,7 @@ describe('Drawer', () => {
         hideCloseButton
       >
         {({ close }) => (
-          <Button id="close-button" text="close" on_click={close} />
+          <Button id="close-button" text="close" onClick={close} />
         )}
       </Drawer>
     )

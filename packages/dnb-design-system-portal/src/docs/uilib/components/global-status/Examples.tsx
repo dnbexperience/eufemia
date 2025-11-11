@@ -140,7 +140,7 @@ export const GlobalStatusAddRemoveItems = () => (
             />
             <Button
               text={`Show step #${count}`}
-              on_click={() => {
+              onClick={() => {
                 toggleUpdateStatus(count + 1)
                 if (count >= 3) {
                   toggleUpdateStatus(0)
@@ -195,7 +195,7 @@ export const GlobalStatusScrolling = () => (
   <ComponentBox hideCode>
     <Button
       text="Scroll to main GlobalStatus"
-      on_click={() => {
+      onClick={() => {
         GlobalStatus.Update({
           id: 'main-status',
           text: 'Dui consectetur viverra aenean vestibulum ac tristique sem ligula condimentum',
@@ -331,7 +331,7 @@ export const GlobalStatusUpdate = () => (
               variant="tertiary"
               icon="reset"
               disabled={!(errorA || errorB)}
-              on_click={() => {
+              onClick={() => {
                 setErrorA(null)
                 setErrorB(null)
               }}

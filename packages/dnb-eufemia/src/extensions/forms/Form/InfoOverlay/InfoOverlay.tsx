@@ -129,7 +129,7 @@ function InfoOverlay(props: Props) {
           <P>{description ?? tr.description}</P>
           <Button
             href={buttonClickHandler ? undefined : buttonHref ?? '/'}
-            on_click={buttonClickHandler}
+            onClick={buttonClickHandler}
           >
             {buttonText ?? tr.buttonText}
           </Button>
