@@ -343,9 +343,7 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
     // if (getPreviousSibling('dnb-number-format', event.target)) {
     //   return // stop
     // }
-    const selectedItem = parseFloat(
-      event.currentTarget.getAttribute('data-item')
-    )
+    const selectedItem = parseFloat(event['data-item'])
     if (selectedItem > -1) {
       this.context.drawerList.selectItemAndClose(selectedItem, {
         fireSelectEvent: true,

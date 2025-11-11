@@ -175,7 +175,7 @@ const Tag = (
       }
       iconPosition={addIcon ? 'right' : 'left'}
       className={tagClassNames}
-      on_click={onClick}
+      onClick={onClick}
       text={content}
       skeleton={skeleton}
       onKeyUp={

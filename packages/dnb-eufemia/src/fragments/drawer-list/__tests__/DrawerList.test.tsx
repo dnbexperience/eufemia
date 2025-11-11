@@ -773,8 +773,8 @@ describe('DrawerList component', () => {
               key="A"
               selected={false}
               value="A"
-              on_click={() => {
-                console.log('on_click')
+              onClick={() => {
+                console.log('onClick')
               }}
             >
               Content
