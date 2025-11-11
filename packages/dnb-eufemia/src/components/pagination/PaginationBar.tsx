@@ -210,7 +210,7 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
             icon="chevron_left"
             iconPosition="left"
             text={prevTitle}
-            on_click={setPrevPage}
+            onClick={setPrevPage}
             title={prevIsDisabled ? null : prevTitle}
           />
 
@@ -222,7 +222,7 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
             icon="chevron_right"
             iconPosition="right"
             text={nextTitle}
-            on_click={setNextPage}
+            onClick={setNextPage}
             title={nextIsDisabled ? null : nextTitle}
           />
         </div>
@@ -244,7 +244,7 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
               aria-current={
                 pageNumber === currentPageInternal ? 'page' : null
               }
-              on_click={(event) => clickHandler({ pageNumber, event })}
+              onClick={(event) => clickHandler({ pageNumber, event })}
             />
           ))}
 
@@ -289,7 +289,7 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
                     aria-current={
                       pageNumber === currentPageInternal ? 'page' : null
                     }
-                    on_click={(event) =>
+                    onClick={(event) =>
                       clickHandler({ pageNumber, event })
                     }
                   />

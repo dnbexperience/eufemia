@@ -95,7 +95,7 @@ export default function IsolationResetButton(props: Props) {
       ) : (
         <Button
           {...triggerAttributes}
-          on_click={handleClick}
+          onClick={handleClick}
           {...buttonProps}
         >
           {resetButton}

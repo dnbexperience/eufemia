@@ -30,7 +30,7 @@ export default function EditButton(props: Props) {
       variant="tertiary"
       icon={edit}
       iconPosition="left"
-      on_click={editHandler}
+      onClick={editHandler}
       {...props}
     >
       {translation.editButton}

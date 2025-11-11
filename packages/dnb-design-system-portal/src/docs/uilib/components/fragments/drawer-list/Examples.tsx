@@ -166,8 +166,8 @@ export const DrawerListExampleInlineStyling = () => (
             key="A"
             selected={false}
             value="A"
-            on_click={() => {
-              console.log('on_click')
+            onClick={() => {
+              console.log('onClick')
             }}
           >
             Item 1
@@ -297,7 +297,7 @@ export const DrawerListExampleMarkup = () => (
                     key={i}
                     selected={value === selected}
                     value={value}
-                    on_click={({ value }) => setSelected(value)}
+                    onClick={({ value }) => setSelected(value)}
                     {...props}
                   >
                     {value}

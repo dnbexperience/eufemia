@@ -234,7 +234,7 @@ export const DialogConfirmLoggedOut = () => {
               <Button
                 id="custom-triggerer"
                 text="Manually trigger"
-                on_click={() => setOpen(true)}
+                onClick={() => setOpen(true)}
               />
               <Dialog
                 variant="confirmation"
@@ -290,13 +290,13 @@ export const DialogConfirmCookies = () => (
           text="Administrer"
           icon={edit}
           iconPosition="left"
-          on_click={({ close }) => {
+          onClick={({ close }) => {
             close()
           }}
         />
         <Button
           text="Jeg godtar"
-          on_click={({ close }) => {
+          onClick={({ close }) => {
             close()
           }}
         />
@@ -390,13 +390,13 @@ export const DialogConfirmScrollableContent = () => {
                   variant="tertiary"
                   text="Administrer"
                   iconPosition="left"
-                  on_click={({ close }) => {
+                  onClick={({ close }) => {
                     close()
                   }}
                 />
                 <Button
                   text="Jeg godtar alle"
-                  on_click={({ close }) => {
+                  onClick={({ close }) => {
                     close()
                   }}
                 />

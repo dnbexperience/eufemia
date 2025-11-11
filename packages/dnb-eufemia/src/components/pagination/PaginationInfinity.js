@@ -230,7 +230,7 @@ export default class InfinityScroller extends React.PureComponent {
             indicatorElement={indicatorElement || fallbackElement}
           />
         }
-        on_click={() => {
+        onClick={() => {
           const newPageNo = lowerPage - 1
           // wait on updating our own state, so we can show the indicator (pressedElement) until we get new children back
           this.context.pagination.onPageUpdate(() => {
@@ -359,7 +359,7 @@ export default class InfinityScroller extends React.PureComponent {
                   icon="arrow_up"
                   text={loadButton?.text}
                   iconPosition={loadButton?.iconPosition}
-                  on_click={(event) =>
+                  onClick={(event) =>
                     this.getNewContent(pageNumber - 1, {
                       position: 'before',
                       skipObserver: true,
@@ -393,7 +393,7 @@ export default class InfinityScroller extends React.PureComponent {
                   text={loadButton?.text}
                   iconPosition={loadButton?.iconPosition}
                   icon="arrow_down"
-                  on_click={(event) =>
+                  onClick={(event) =>
                     this.getNewContent(pageNumber + 1, {
                       position: 'after',
                       skipObserver: true,
@@ -539,7 +539,7 @@ export class InfinityLoadButton extends React.PureComponent {
       PropTypes.func,
     ]),
     icon: PropTypes.string.isRequired,
-    on_click: PropTypes.func.isRequired,
+    onClick: PropTypes.func.isRequired,
     text: PropTypes.string,
     iconPosition: PropTypes.string,
   }
@@ -553,8 +553,8 @@ export class InfinityLoadButton extends React.PureComponent {
   state = { isPressed: false }
   onClickHandler = (e) => {
     this.setState({ isPressed: true })
-    if (typeof this.props.on_click === 'function') {
-      this.props.on_click(e)
+    if (typeof this.props.onClick === 'function') {
+      this.props.onClick(e)
     }
   }
   render() {
@@ -575,7 +575,7 @@ export class InfinityLoadButton extends React.PureComponent {
               text || this.context.translation.Pagination.loadButtonText
             }
             variant="secondary"
-            on_click={this.onClickHandler}
+            onClick={this.onClickHandler}
           />
         </ElementChild>
       </Element>

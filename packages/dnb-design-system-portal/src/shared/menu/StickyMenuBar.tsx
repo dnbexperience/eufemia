@@ -88,7 +88,7 @@ export default function StickyMenuBar({
           <SearchBarInput />
           <Button
             icon={isOpen ? closeIcon : hamburgerIcon}
-            on_click={toggleMenu}
+            onClick={toggleMenu}
             id="toggle-sidebar-menu"
             size="default"
             iconSize="default"

@@ -179,7 +179,7 @@ function AccordionWithContainer() {
         left
         size="small"
         variant="signal"
-        on_click={() => setCount((s) => s + 1)}
+        onClick={() => setCount((s) => s + 1)}
       >
         Increment {count}
       </Button>
@@ -229,7 +229,7 @@ function AccordionWithContainer() {
               left
               size="small"
               variant="signal"
-              on_click={() => setCount((s) => s + 1)}
+              onClick={() => setCount((s) => s + 1)}
             >
               Increment {count}
             </Button>
@@ -251,7 +251,7 @@ function AccordionWithContainer() {
           >
             <DidRender message="two" />
             <Button
-              on_click={() => {
+              onClick={() => {
                 flushCacheNow(!flushCache)
                 setTimeout(() => {
                   flushCacheNow(flushCache)
@@ -277,7 +277,7 @@ function AccordionWithContainer() {
               left
               size="small"
               variant="signal"
-              on_click={() => setCount((s) => s + 1)}
+              onClick={() => setCount((s) => s + 1)}
             >
               Increment {count}
             </Button>
@@ -315,7 +315,7 @@ function AccordionWithContainer() {
               left
               size="small"
               variant="signal"
-              on_click={() => setCount((s) => s + 1)}
+              onClick={() => setCount((s) => s + 1)}
             >
               Increment {count}
             </Button>

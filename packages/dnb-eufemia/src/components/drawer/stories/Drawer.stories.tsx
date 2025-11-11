@@ -387,7 +387,7 @@ function CloseByCallback() {
       triggerAttributes={{ text: 'CloseByCallback' }}
       hideCloseButton
     >
-      {({ close }) => <Button text="Close by callback" on_click={close} />}
+      {({ close }) => <Button text="Close by callback" onClick={close} />}
     </Drawer>
   )
 }

@@ -244,7 +244,7 @@ const RadioGroupsWithStatus = () => {
           <Radio label="Third" value="third" />
         </Radio.Group>
         <Button
-          on_click={() => {
+          onClick={() => {
             setValueForGroupB(
               shuffleArray(['first', 'second', 'third'])[0]
             )
