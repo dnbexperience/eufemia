@@ -84,7 +84,7 @@ export const StepIndicatorLoose = () => (
 
               <Button
                 variant="secondary"
-                on_click={() => {
+                onClick={() => {
                   setStep((step) => {
                     if (step >= 2) {
                       step = -1
