@@ -472,6 +472,14 @@ class DropdownInstance extends React.PureComponent {
       buttonRef, // eslint-disable-line
       innerRef, // eslint-disable-line
 
+      onShow: _onShow, // eslint-disable-line
+      onHide: _onHide, // eslint-disable-line
+      onChange: _onChange, // eslint-disable-line
+      onSelect: _onSelect, // eslint-disable-line
+      onStateUpdate: _onStateUpdate, // eslint-disable-line
+      onShowFocus: _onShowFocus, // eslint-disable-line
+      onHideFocus: _onHideFocus, // eslint-disable-line
+
       ...attributes
     } = props
 
@@ -507,7 +515,6 @@ class DropdownInstance extends React.PureComponent {
     const { selectedItem, direction, opened } = this.context.drawerList
     const showStatus = getStatusState(status)
 
-    // make it possible to grab the rest attributes and return it with all events
     Object.assign(
       this.context.drawerList.attributes,
       validateDOMAttributes(null, attributes)

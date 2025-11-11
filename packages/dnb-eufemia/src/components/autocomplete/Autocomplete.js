@@ -1810,6 +1810,15 @@ class AutocompleteInstance extends React.PureComponent {
       ariaLiveOptions, // eslint-disable-line
       disableHighlighting, // eslint-disable-line
 
+      onShow: _onShow, // eslint-disable-line
+      onType: _onType, // eslint-disable-line
+      onFocus: _onFocus, // eslint-disable-line
+      onBlur: _onBlur, // eslint-disable-line
+      onHide: _onHide, // eslint-disable-line
+      onChange: _onChange, // eslint-disable-line
+      onSelect: _onSelect, // eslint-disable-line
+      onStateUpdate: _onStateUpdate, // eslint-disable-line
+
       ...attributes
     } = props
 
@@ -1823,12 +1832,6 @@ class AutocompleteInstance extends React.PureComponent {
 
     const isExpanded = Boolean(opened) && this.hasValidData()
 
-    // In case a developer is using onBlur
-    // it would blur uncontrolled – so we relay on "onBlur".
-    // But the "onBlur" will still function, now just as expected.
-    delete attributes.onBlur
-
-    // make it possible to grab the rest attributes and return it with all events
     this.attributes = validateDOMAttributes(null, attributes)
     Object.assign(this.context.drawerList.attributes, this.attributes)
 

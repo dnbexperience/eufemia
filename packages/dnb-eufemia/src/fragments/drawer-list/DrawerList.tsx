@@ -404,6 +404,17 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
       enableBodyLock: _enableBodyLock, // eslint-disable-line
       preventFocus: _preventFocus, // eslint-disable-line
       children,
+
+      onShow: _onShow,
+      onHide: _onHide,
+      handleDismissFocus: _handleDismissFocus,
+      onChange: _onChange,
+      onPreChange: _onPreChange,
+      onResize: _onResize,
+      onSelect: _onSelect,
+      onStateUpdate: _onStateUpdate,
+      onKeyDown: _onKeyDown,
+
       ...attributes
     } = props
 
@@ -531,7 +542,6 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
     validateDOMAttributes(null, listParams)
     validateDOMAttributes(null, ulParams)
 
-    // make it possible to grab the rest attributes and return it with all events
     Object.assign(
       this.context.drawerList.attributes,
       validateDOMAttributes(null, attributes)
