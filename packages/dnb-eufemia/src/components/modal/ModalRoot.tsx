@@ -15,6 +15,9 @@ export interface ModalRootProps extends ModalContentProps {
    * The id used internal in the modal/drawer root element. Defaults to `root`, so the element id will be `dnb-modal-root`.
    */
   id?: string
+  /**
+   * The id used internal in the modal/drawer root element. Defaults to `root`, so the element id will be `dnb-modal-root`.
+   */
   root_id?: string
   direct_dom_return?: boolean
 
