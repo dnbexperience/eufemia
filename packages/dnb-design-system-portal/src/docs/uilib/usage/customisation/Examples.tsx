@@ -37,9 +37,9 @@ export const ExtendedExample = () => (
             variant="secondary"
             icon={hamburgerIcon}
             size="default"
-            on_click={myHandler}
+            onClick={myHandler}
           />
-          <Button variant="secondary" size="default" on_click={myHandler}>
+          <Button variant="secondary" size="default" onClick={myHandler}>
             <Icon icon={hamburgerIcon} />
           </Button>
         </Wrapper>

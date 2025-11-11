@@ -37,7 +37,7 @@ export const ModalExampleStateOnly = () => (
             <Button
               id="custom-triggerer"
               text="Custom trigger Button"
-              on_click={() => setModalState((s) => !s)}
+              onClick={() => setModalState((s) => !s)}
             />
             <Modal
               title="Modal Title"
