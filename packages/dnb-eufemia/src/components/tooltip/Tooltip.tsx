@@ -52,6 +52,7 @@ function Tooltip(localProps: TooltipAllProps) {
     align, // eslint-disable-line
     portalRootClass, // eslint-disable-line
     omitDescribedBy, // eslint-disable-line
+    contentRef, // eslint-disable-line
     ...params
   } = props
 

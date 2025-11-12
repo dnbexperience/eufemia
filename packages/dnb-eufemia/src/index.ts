@@ -94,6 +94,7 @@ import ToggleButton from './components/toggle-button/ToggleButton'
 import Tooltip from './components/tooltip/Tooltip'
 import Upload from './components/upload/Upload'
 import VisuallyHidden from './components/visually-hidden/VisuallyHidden'
+import WordDefinition from './components/word-definition/WordDefinition'
 
 // define / export all the available components
 export {
@@ -181,6 +182,7 @@ export {
   Tooltip,
   Upload,
   VisuallyHidden,
+  WordDefinition,
 }
 
 export default {}

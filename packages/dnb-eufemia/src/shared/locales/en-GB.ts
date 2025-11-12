@@ -177,5 +177,10 @@ export default {
       deleteButton: 'Delete',
       fileListAriaLabel: 'uploaded files',
     },
+    WordDefinition: {
+      closeButtonTitle: 'Close definition',
+      openTriggerTitle: 'Click to open definition',
+      closeTriggerTitle: 'Click to close definition',
+    },
   } satisfies (typeof nb)['nb-NO'],
 }

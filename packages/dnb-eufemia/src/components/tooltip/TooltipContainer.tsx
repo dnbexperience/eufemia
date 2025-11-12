@@ -35,6 +35,8 @@ export default function TooltipContainer(
     fixedPosition,
     noAnimation,
     skipPortal,
+    omitDescribedBy,
+    contentRef,
     children,
     targetElement: target,
   } = props
@@ -58,10 +60,12 @@ export default function TooltipContainer(
   const [wasActive, makeActive] = useState(false)
   const [renewStyles, forceRerender] = useState(getBodySize)
 
-  const elementRef = useRef<HTMLSpanElement>(null)
   const offset = useRef(16)
   const debounceTimeout = useRef<NodeJS.Timeout>()
   const resizeObserver = useRef<ResizeObserver>(null)
+  const tmpRef = useRef<HTMLSpanElement>(null)
+  const elementRef =
+    contentRef && 'current' in contentRef ? contentRef : tmpRef
 
   const clearTimers = () => {
     clearTimeout(debounceTimeout.current)
@@ -306,6 +310,7 @@ export default function TooltipContainer(
   }, [
     align,
     arrow,
+    elementRef,
     fixedPosition,
     hideDelay,
     isActive,
@@ -336,17 +341,23 @@ export default function TooltipContainer(
     e.stopPropagation()
   }, [])
 
+  const events = isControlled
+    ? {}
+    : {
+        onMouseEnter: handleMouseEnter,
+        onMouseLeave: handleMouseLeave,
+        onMouseMove: handlePropagation,
+        onMouseDown: handlePropagation,
+        onTouchStart: handlePropagation,
+      }
+
   return (
     <span
       role="tooltip"
-      aria-hidden={target ? true : undefined} // make sure SR does not find it in the DOM, because we use "aria-describedby" for that
+      aria-hidden={omitDescribedBy ? undefined : target ? true : undefined} // make sure SR does not find it in the DOM, because we use "aria-describedby" for that
       ref={elementRef}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      onMouseMove={handlePropagation}
-      onMouseDown={handlePropagation}
-      onTouchStart={handlePropagation}
       {...attributes}
+      {...events}
       className={classnames(
         attributes?.className,
         isTrue(noAnimation) && 'dnb-tooltip--no-animation',

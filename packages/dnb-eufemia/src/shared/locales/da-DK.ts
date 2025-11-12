@@ -175,5 +175,10 @@ export default {
       deleteButton: 'Slet',
       fileListAriaLabel: 'uploadede filer',
     },
+    WordDefinition: {
+      closeButtonTitle: 'Luk ordforklaring',
+      openTriggerTitle: 'Klik for at åbne ordforklaring',
+      closeTriggerTitle: 'Klik for at lukke ordforklaring',
+    },
   },
 }
