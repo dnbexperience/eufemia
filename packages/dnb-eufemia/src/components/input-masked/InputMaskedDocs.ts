@@ -79,7 +79,7 @@ export const inputMaskedProperties: PropertiesTableProps = {
 }
 
 export const inputMaskedEvents: PropertiesTableProps = {
-  on_change: {
+  onChange: {
     doc: 'Will be called on value changes made by the user. Returns an object with the value as a string and the native event: `{ value, numberValue, cleanedValue, event }`.',
     type: 'function',
     status: 'optional',

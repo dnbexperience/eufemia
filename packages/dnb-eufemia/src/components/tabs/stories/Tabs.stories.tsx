@@ -73,7 +73,7 @@ export const TabsSandbox = () => {
         <Input
           label="Change state"
           value={value}
-          on_change={({ value }) => setValue(value)}
+          onChange={({ value }) => setValue(value)}
         />
 
         <pre>I am changing!: {value}</pre>
@@ -90,7 +90,7 @@ export const TabsSandbox = () => {
               <Input
                 label="Change state"
                 value={value}
-                on_change={({ value }) => setValue(value)}
+                onChange={({ value }) => setValue(value)}
               />
             </>
           </Tabs.Content>
@@ -100,7 +100,7 @@ export const TabsSandbox = () => {
               <Input
                 label="Change state"
                 value={value}
-                on_change={({ value }) => setValue(value)}
+                onChange={({ value }) => setValue(value)}
               />
             </>
           </Tabs.Content>
@@ -117,7 +117,7 @@ export const TabsSandbox = () => {
                 Change me 1: {value}{' '}
                 <Input
                   label="Change state"
-                  on_change={({ value }) => setValue(value)}
+                  onChange={({ value }) => setValue(value)}
                 />
               </>
             ),
@@ -126,7 +126,7 @@ export const TabsSandbox = () => {
                 Change me 2: {value}{' '}
                 <Input
                   label="Change state"
-                  on_change={({ value }) => setValue(value)}
+                  onChange={({ value }) => setValue(value)}
                 />
               </>
             ),
