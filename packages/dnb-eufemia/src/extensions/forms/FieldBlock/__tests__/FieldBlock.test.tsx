@@ -387,7 +387,7 @@ describe('FieldBlock', () => {
 
       return (
         <FieldBlock label="Label" forId="unique">
-          <Input id="unique" value={value} on_change={handleChange} />
+          <Input id="unique" value={value} onChange={handleChange} />
         </FieldBlock>
       )
     }
