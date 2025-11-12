@@ -68,9 +68,9 @@ export const CreateBasicFieldComponent = () => {
               <Input
                 id={id}
                 value={value}
-                on_change={handleChange}
-                on_focus={handleFocus}
-                on_blur={handleBlur}
+                onChange={handleChange}
+                onFocus={handleFocus}
+                onBlur={handleBlur}
               />
             </FieldBlock>
           )
