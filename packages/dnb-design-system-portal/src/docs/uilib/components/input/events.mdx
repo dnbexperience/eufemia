@@ -11,7 +11,7 @@ import { InputEvents } from '@dnb/eufemia/src/components/input/InputDocs'
 
 ### Manipulate the input value during typing
 
-You have two possibilities to manipulate the value while a user is typing. Either you handle the value with your own state, or you return a modified value in the `on_change` event listener:
+You have two possibilities to manipulate the value while a user is typing. Either you handle the value with your own state, or you return a modified value in the `onChange` event listener:
 
 ```jsx
 import { format } from '@dnb/eufemia/components/number-format/NumberUtils'
@@ -21,13 +21,13 @@ function Component() {
     return format(value)
   }
 
-  return <Input on_change={onChangeHandler} />
+  return <Input onChange={onChangeHandler} />
 }
 ```
 
 ### Prevent setting a new value
 
-You can use e.g. `event.preventDefault()` during `on_key_down`, or return false during `on_change`. They are not 100% the same user experience, but can both be useful in different use cases.
+You can use e.g. `event.preventDefault()` during `onKeyDown`, or return false during `onChange`. They are not 100% the same user experience, but can both be useful in different use cases.
 
 ```jsx
 function Component() {
@@ -38,8 +38,6 @@ function Component() {
     return false
   }
 
-  return (
-    <Input on_key_down={onKeyDownHandler} on_change={onChangeHandler} />
-  )
+  return <Input onKeyDown={onKeyDownHandler} onChange={onChangeHandler} />
 }
 ```

@@ -22,9 +22,9 @@ export function FieldBlockLabel() {
       <Input
         id="unique"
         value={value}
-        on_change={handleChange}
-        on_focus={handleFocus}
-        on_blur={handleBlur}
+        onChange={handleChange}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
       />
     </FieldBlock>
   )
