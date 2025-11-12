@@ -180,5 +180,10 @@ export default {
       openTriggerTitle: 'Klik for at åbne',
       closeTriggerTitle: 'Klik for at lukke',
     },
+    WordDefinition: {
+      closeButtonTitle: 'Luk ordforklaring',
+      openTriggerTitle: 'Klik for at åbne ordforklaring',
+      closeTriggerTitle: 'Klik for at lukke ordforklaring',
+    },
   },
 }

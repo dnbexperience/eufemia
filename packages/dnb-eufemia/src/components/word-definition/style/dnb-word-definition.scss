@@ -1,0 +1,25 @@
+/**
+ * Styles for WordDefinition
+ */
+
+@import '../../../style/core/utilities.scss';
+
+.dnb-word-definition {
+  --inner-space: 0.5rem;
+
+  &__trigger {
+    text-decoration: underline;
+    text-decoration-style: dotted;
+    text-decoration-color: var(--anchor-color);
+    text-decoration-thickness: 2.5px;
+    text-underline-offset: 0.3125em;
+
+    &:not(:hover) {
+      color: inherit;
+    }
+  }
+
+  .dnb-popover__title strong::first-letter {
+    text-transform: uppercase;
+  }
+}

@@ -68,6 +68,7 @@ import ToggleButton from './toggle-button/ToggleButton'
 import Tooltip from './tooltip/Tooltip'
 import Upload from './upload/Upload'
 import VisuallyHidden from './visually-hidden/VisuallyHidden'
+import WordDefinition from './word-definition/WordDefinition'
 
 // define / export all the available components
 export {
@@ -129,6 +130,7 @@ export {
   Tooltip,
   Upload,
   VisuallyHidden,
+  WordDefinition,
 }
 
 export const getComponents = () => {
@@ -191,5 +193,6 @@ export const getComponents = () => {
     Tooltip,
     Upload,
     VisuallyHidden,
+    WordDefinition,
   }
 }

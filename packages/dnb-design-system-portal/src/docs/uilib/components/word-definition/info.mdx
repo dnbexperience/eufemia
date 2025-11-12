@@ -1,0 +1,30 @@
+---
+showTabs: true
+---
+
+## Import
+
+```tsx
+import { WordDefinition } from '@dnb/eufemia'
+```
+
+## Description
+
+WordDefinition shows a short term definition using the Popover/Tooltip stack and an anchor-like trigger. It opens on click and can be focused by Tab and toggled with Enter/Space.
+
+## Relevant links
+
+- Source code: https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/word-definition
+- Docs code: https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/word-definition
+
+## Accessibility
+
+To ensure that the WordDefinition component is accessible, it uses semantic HTML elements and appropriate ARIA attributes.
+
+- The content is fully selectable.
+- Clicking outside the tooltip or pressing Escape closes the tooltip.
+- The trigger element is visually styled as a link but behaves as a button.
+- It is focusable and usable with keyboard navigation.
+- The trigger announces that it can be activated to reveal more information, while the “word” (its children) is read first by screen readers.
+- When the tooltip opens, it receives focus and the screen reader announces the tooltip content.
+- The close button appears last in the tab order so keyboard users can easily reach it after reading the tooltip content.
