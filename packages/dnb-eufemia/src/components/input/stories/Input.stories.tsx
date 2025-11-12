@@ -158,8 +158,8 @@ export const InputSandbox = () => {
           <Input
             selectall
             label="Label:"
-            on_change={(event) => {
-              console.log('on_change', event)
+            onChange={(event) => {
+              console.log('onChange', event)
             }}
           >
             Input ...
@@ -347,11 +347,11 @@ const InputUpdate = () => {
   return (
     <Input
       label="Label:"
-      on_change={({ value }) => {
-        console.log('on_change', value)
+      onChange={({ value }) => {
+        console.log('onChange', value)
       }}
-      on_submit={({ value }) => {
-        console.log('on_submit', value)
+      onSubmit={({ value }) => {
+        console.log('onSubmit', value)
       }}
       value={initValue}
     />
@@ -364,12 +364,12 @@ const CustomInput = () => {
     <>
       <Input
         value={value}
-        on_change={({ value }) => {
-          console.log('on_change', value)
+        onChange={({ value }) => {
+          console.log('onChange', value)
           setValue(value)
         }}
-        on_state_update={({ value }) => {
-          console.warn('on_state_update', value)
+        onStateUpdate={({ value }) => {
+          console.warn('onStateUpdate', value)
           setValue(value)
         }}
         right
@@ -483,8 +483,8 @@ export function ControlledInput() {
         top
         left
         right
-        on_change={onChangeHandler}
-        on_key_down={onKeyDownHandler}
+        onChange={onChangeHandler}
+        onKeyDown={onKeyDownHandler}
         value={format(value).toString()}
         selectall
       />
@@ -516,14 +516,14 @@ export const OnSubmitTypeSearch = () => {
         <Input
           label="type: search"
           type="search"
-          on_submit={({ value }) => {
-            console.log('on_submit:', value)
+          onSubmit={({ value }) => {
+            console.log('onSubmit:', value)
           }}
-          on_submit_focus={({ value }) => {
-            console.log('on_submit_focus:', value)
+          onSubmitFocus={({ value }) => {
+            console.log('onSubmitFocus:', value)
           }}
-          on_submit_blur={({ value }) => {
-            console.log('on_submit_blur:', value)
+          onSubmitBlur={({ value }) => {
+            console.log('onSubmitBlur:', value)
           }}
         />
       </Box>
