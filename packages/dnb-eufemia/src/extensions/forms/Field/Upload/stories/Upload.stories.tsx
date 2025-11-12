@@ -1,11 +1,34 @@
 import { Field, Form, Tools, Value } from '../../..'
 import { Flex } from '../../../../../components'
 import { UploadFileNative } from '../../../../../components/Upload'
-import { createRequest } from '../../../Form/Handler/stories/FormHandler.stories'
 import { UploadValue } from '../Upload'
 
 export default {
   title: 'Eufemia/Extensions/Forms/Upload',
+}
+
+const createRequest = () => {
+  let timeout: NodeJS.Timeout | null
+  let resolvePromise: ((value?: unknown) => void) | undefined
+
+  const fn = (
+    t: number
+  ): Promise<{ hasError: boolean; cancel?: boolean }> => {
+    return new Promise((resolve) => {
+      resolvePromise = resolve
+      timeout = setTimeout(() => {
+        resolve({ hasError: false })
+      }, t)
+    })
+  }
+
+  fn.cancel = () => {
+    resolvePromise?.({ hasError: true })
+    clearTimeout(timeout)
+    timeout = null
+  }
+
+  return fn
 }
 
 function createMockFile(name: string, size: number, type: string) {
