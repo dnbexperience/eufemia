@@ -194,7 +194,7 @@ export default class Radio extends React.PureComponent {
         }
       }
     }
-    dispatchCustomElementEvent(this, 'on_key_down', { event })
+    dispatchCustomElementEvent(this, 'onKeyDown', { event })
   }
 
   onChangeHandler = (_event) => {
