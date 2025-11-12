@@ -26,6 +26,11 @@ export type TooltipProps = IncludeSnakeCase<{
   noAnimation?: boolean
   showDelay?: number
   hideDelay: number
+  /**
+   * Optional className added to the Tooltip portal root element.
+   * Has effect only when not using skipPortal.
+   */
+  portalRootClass?: string
   targetSelector?: string
   targetElement?:
     | React.ReactNode
@@ -35,6 +40,10 @@ export type TooltipProps = IncludeSnakeCase<{
   className?: string
   children?: React.ReactNode
   style?: React.CSSProperties
+  /**
+   * Whether to omit the aria-describedby attribute.
+   */
+  omitDescribedBy?: boolean
 }>
 
 export type TooltipAllProps = TooltipProps &

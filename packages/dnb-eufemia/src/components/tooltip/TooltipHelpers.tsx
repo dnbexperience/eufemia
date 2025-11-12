@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import React, { useEffect } from 'react'
 import classnames from 'classnames'
 import { combineDescribedBy } from '../../shared/component-helper'
 
@@ -47,9 +47,15 @@ export function getTargetElement(target: HTMLElement) {
 
 export function useHandleAria(
   targetElement: HTMLElement,
-  internalId: string
+  {
+    internalId,
+    omitDescribedBy,
+  }: { internalId: string; omitDescribedBy?: boolean }
 ) {
-  React.useEffect(() => {
+  useEffect(() => {
+    if (omitDescribedBy) {
+      return // do nothing
+    }
     try {
       // const elem = getTargetElement(getRefElement(targetElement))
       const existing = {
@@ -62,7 +68,7 @@ export function useHandleAria(
     } catch (e) {
       //
     }
-  }, [targetElement, internalId])
+  }, [targetElement, internalId, omitDescribedBy])
 }
 
 export function getPropsFromTooltipProp(localProps) {

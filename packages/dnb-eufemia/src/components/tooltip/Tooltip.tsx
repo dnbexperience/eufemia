@@ -3,13 +3,12 @@
  *
  */
 
-import React from 'react'
+import React, { useContext, useEffect, useReducer, useRef } from 'react'
 import classnames from 'classnames'
 import Context from '../../shared/Context'
-import {
-  makeUniqueId,
-  validateDOMAttributes,
-} from '../../shared/component-helper'
+import { validateDOMAttributes } from '../../shared/component-helper'
+import { convertSnakeCaseProps } from '../../shared/helpers/withSnakeCaseProps'
+import useId from '../../shared/helpers/useId'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import TooltipWithEvents from './TooltipWithEvents'
 import {
@@ -20,10 +19,9 @@ import {
   injectTooltipSemantic,
 } from './TooltipHelpers'
 import { TooltipAllProps } from './types'
-import { convertSnakeCaseProps } from '../../shared/helpers/withSnakeCaseProps'
 
 function Tooltip(localProps: TooltipAllProps) {
-  const context = React.useContext(Context)
+  const context = useContext(Context)
 
   const inherited = getPropsFromTooltipProp(localProps)
 
@@ -40,7 +38,7 @@ function Tooltip(localProps: TooltipAllProps) {
     targetElement,
     targetSelector,
     className,
-    id, // eslint-disable-line
+    id,
     tooltip, // eslint-disable-line
     size,
     fixedPosition, // eslint-disable-line
@@ -52,21 +50,29 @@ function Tooltip(localProps: TooltipAllProps) {
     position, // eslint-disable-line
     arrow, // eslint-disable-line
     align, // eslint-disable-line
+    portalRootClass, // eslint-disable-line
+    omitDescribedBy, // eslint-disable-line
     ...params
   } = props
 
   const target = targetElement || targetSelector
 
-  const [element, setElement] = React.useState<
-    HTMLElement | React.ReactElement
-  >()
-  const [internalId] = React.useState(() => props.id || makeUniqueId()) // cause we need an id anyway
+  const [, forceUpdate] = useReducer(() => ({}), {})
+  const elementRef = useRef<HTMLElement>()
+  const internalId = useId(id)
   props.internalId = internalId
 
-  React.useEffect(() => {
-    const element = getTargetElement(getRefElement(target))
-    setElement(element)
+  useEffect(() => {
+    const firstTimeRender = !elementRef.current
+    elementRef.current = getTargetElement(getRefElement(target))
+    if (firstTimeRender) {
+      forceUpdate()
+    }
   }, [target])
+
+  if (target && !elementRef.current) {
+    return null
+  }
 
   const classes = classnames(
     'dnb-tooltip',
@@ -83,12 +89,12 @@ function Tooltip(localProps: TooltipAllProps) {
   // also used for code markup simulation
   validateDOMAttributes(localProps, attributes)
 
-  if (target && !element) {
-    return null
-  }
-
   return (
-    <TooltipWithEvents target={element} attributes={attributes} {...props}>
+    <TooltipWithEvents
+      target={elementRef.current}
+      attributes={attributes}
+      {...props}
+    >
       {props.children}
     </TooltipWithEvents>
   )

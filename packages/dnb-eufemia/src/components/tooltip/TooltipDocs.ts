@@ -26,8 +26,18 @@ export const TooltipProperties: PropertiesTableProps = {
     type: ['center', 'top', 'right', 'bottom', 'left'],
     status: 'optional',
   },
+  portalRootClass: {
+    doc: 'CSS class name applied to the portal root element. Used to style or identify the portal container.',
+    type: 'string',
+    status: 'optional',
+  },
   skipPortal: {
     doc: 'set to `true` to disable the React Portal behavior. Defaults to `false`.',
+    type: 'boolean',
+    status: 'optional',
+  },
+  omitDescribedBy: {
+    doc: 'set to `true` to omit the `aria-describedby` attribute on the target element. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
