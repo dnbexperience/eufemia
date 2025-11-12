@@ -2,11 +2,34 @@ import React, { useCallback } from 'react'
 import { P } from '../../../../elements'
 import { Button } from '../../../../components'
 import Field, { Form, Wizard } from '../../Forms'
-import { createRequest } from '../../Form/Handler/stories/FormHandler.stories'
 import { debounceAsync } from '../../../../shared/helpers'
 
 export default {
   title: 'Eufemia/Extensions/Forms/WizardContainer',
+}
+
+const createRequest = () => {
+  let timeout: NodeJS.Timeout | null
+  let resolvePromise: ((value?: unknown) => void) | undefined
+
+  const fn = (
+    t: number
+  ): Promise<{ hasError: boolean; cancel?: boolean }> => {
+    return new Promise((resolve) => {
+      resolvePromise = resolve
+      timeout = setTimeout(() => {
+        resolve({ hasError: false })
+      }, t)
+    })
+  }
+
+  fn.cancel = () => {
+    resolvePromise?.({ hasError: true })
+    clearTimeout(timeout)
+    timeout = null
+  }
+
+  return fn
 }
 
 export const Basic = () => {
