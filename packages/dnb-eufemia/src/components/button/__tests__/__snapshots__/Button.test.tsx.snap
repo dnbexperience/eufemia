@@ -871,6 +871,8 @@ html:not([data-whatintent=touch]) .dnb-button--primary:focus-visible:not([disabl
   --button-secondary-color--active: var(--sb-color-red);
   --button-secondary-background--hover: var(--sb-color-magenta-light-3);
   --button-secondary-border--default: var(--sb-color-red);
+  --button-tertiary-color: var(--sb-color-red);
+  --button-tertiary-border: var(--sb-color-red);
 }
 .dnb-button--tertiary {
   --button-tertiary-focus-overflow--icon-top: 0;
