@@ -27,7 +27,7 @@ export const TimelineTest = () => {
               <Flex.Vertical top>
                 <Input
                   value={value}
-                  on_change={({ value }) => {
+                  onChange={({ value }) => {
                     setValue(value)
                   }}
                   label="Should be able to change next subtitle input value from here"
@@ -50,7 +50,7 @@ export const TimelineTest = () => {
       <Flex.Vertical top left>
         <Input
           value={value}
-          on_change={({ value }) => {
+          onChange={({ value }) => {
             setValue(value)
           }}
           label="Works"

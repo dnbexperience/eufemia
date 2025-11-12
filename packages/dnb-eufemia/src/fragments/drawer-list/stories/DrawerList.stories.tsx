@@ -50,7 +50,7 @@ const MagicOpen = (props) => {
   return (
     <>
       <Input
-        on_focus={() => setOpened(true)}
+        onFocus={() => setOpened(true)}
         placeholder="Search for items ..."
         icon="chevron_down"
         innerRef={ref}
