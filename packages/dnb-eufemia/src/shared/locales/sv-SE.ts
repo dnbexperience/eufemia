@@ -176,5 +176,10 @@ export default {
       deleteButton: 'Radera',
       fileListAriaLabel: 'uppladdade filer',
     },
+    WordDefinition: {
+      closeButtonTitle: 'Stäng ordförklaring',
+      openTriggerTitle: 'Klicka för att öppna ordförklaring',
+      closeTriggerTitle: 'Klicka för att stänga ordförklaring',
+    },
   } satisfies (typeof nb)['nb-NO'],
 }

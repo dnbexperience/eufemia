@@ -24,6 +24,7 @@ import CopyOnClick from './copy-on-click/CopyOnClick'
 import CountryFlag from './country-flag/CountryFlag'
 import DateFormat from './date-format/DateFormat'
 import DatePicker from './date-picker/DatePicker'
+import WordDefinition from './word-definition/WordDefinition'
 import Dialog from './dialog/Dialog'
 import Drawer from './drawer/Drawer'
 import Dropdown from './dropdown/Dropdown'
@@ -84,6 +85,7 @@ export {
   CountryFlag,
   DateFormat,
   DatePicker,
+  WordDefinition,
   Dialog,
   Drawer,
   Dropdown,
@@ -145,6 +147,7 @@ export const getComponents = () => {
     CountryFlag,
     DateFormat,
     DatePicker,
+    WordDefinition,
     Dialog,
     Drawer,
     Dropdown,
