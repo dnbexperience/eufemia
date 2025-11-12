@@ -74,11 +74,11 @@ describe('InputMasked component', () => {
     expect(ref.current.tagName).toBe('INPUT')
   })
 
-  it('event "on_change" gets emitted with correct value #1', async () => {
+  it('event "onChange" gets emitted with correct value #1', async () => {
     const initValue = 'NOK 1234,5 kr'
     const newValue = 'NOK 123456789,0 kr'
 
-    const on_change = jest.fn()
+    const onChange = jest.fn()
 
     render(
       <InputMasked
@@ -88,7 +88,7 @@ describe('InputMasked component', () => {
           suffix: ',- kr',
           allowDecimal: true,
         }}
-        on_change={on_change}
+        onChange={onChange}
       />
     )
 
@@ -103,23 +103,23 @@ describe('InputMasked component', () => {
     )
 
     expect(
-      on_change.mock.calls[on_change.mock.calls.length - 1][0].value
+      onChange.mock.calls[onChange.mock.calls.length - 1][0].value
     ).toBe('NOK 123 456 789,0,- kr')
     expect(
-      on_change.mock.calls[on_change.mock.calls.length - 1][0].numberValue
+      onChange.mock.calls[onChange.mock.calls.length - 1][0].numberValue
     ).toBe(123456789)
   })
 
-  it('event "on_change" gets emitted with correct value #2', async () => {
+  it('event "onChange" gets emitted with correct value #2', async () => {
     const newValue = 'NOK 123456789,678 kr'
 
-    const on_change = jest.fn()
+    const onChange = jest.fn()
 
     render(
       <InputMasked
         value="12345.678"
         numberMask={{ allowDecimal: true }}
-        on_change={on_change}
+        onChange={onChange}
       />
     )
 
@@ -131,19 +131,19 @@ describe('InputMasked component', () => {
 
     expect(document.querySelector('input').value).toBe('123 456 789,67')
 
-    expect(on_change).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenCalledTimes(1)
     expect(
-      on_change.mock.calls[on_change.mock.calls.length - 1][0].value
+      onChange.mock.calls[onChange.mock.calls.length - 1][0].value
     ).toBe('123 456 789,67')
     expect(
-      on_change.mock.calls[on_change.mock.calls.length - 1][0].numberValue
+      onChange.mock.calls[onChange.mock.calls.length - 1][0].numberValue
     ).toBe(123456789.67)
   })
 
-  it('event "on_change" gets emitted with correct value #3', async () => {
+  it('event "onChange" gets emitted with correct value #3', async () => {
     const newValue = 'NOK 123456789,678 kr'
 
-    const on_change = jest.fn()
+    const onChange = jest.fn()
 
     render(
       <InputMasked
@@ -153,7 +153,7 @@ describe('InputMasked component', () => {
           decimalSymbol: ',',
           allowDecimal: true,
         }}
-        on_change={on_change}
+        onChange={onChange}
       />
     )
 
@@ -166,10 +166,10 @@ describe('InputMasked component', () => {
     expect(document.querySelector('input').value).toBe('123 456 789,67')
 
     expect(
-      on_change.mock.calls[on_change.mock.calls.length - 1][0].value
+      onChange.mock.calls[onChange.mock.calls.length - 1][0].value
     ).toBe('123 456 789,67')
     expect(
-      on_change.mock.calls[on_change.mock.calls.length - 1][0].numberValue
+      onChange.mock.calls[onChange.mock.calls.length - 1][0].numberValue
     ).toBe(123456789.67)
   })
 
@@ -191,7 +191,7 @@ describe('InputMasked component', () => {
             suffix,
             allowDecimal: true,
           }}
-          on_change={(...params) => {
+          onChange={(...params) => {
             const { numberValue } = params[0]
             setValue(numberValue)
             onChange(...params)
@@ -226,7 +226,7 @@ describe('InputMasked component', () => {
           numberMask={{
             allowDecimal: true,
           }}
-          on_change={(...params) => {
+          onChange={(...params) => {
             const { numberValue } = params[0]
             setValue(numberValue)
             onChange(...params)
@@ -563,7 +563,7 @@ describe('InputMasked component', () => {
         <InputMasked
           value={controlledValue}
           numberMask={{ integerLimit: 4 }}
-          on_change={handleChange}
+          onChange={handleChange}
         />
       )
     }
@@ -1007,7 +1007,7 @@ describe('InputMasked component with currencyMask', () => {
         <InputMasked
           value={value}
           currencyMask
-          on_change={({ numberValue }) => {
+          onChange={({ numberValue }) => {
             setValue(numberValue)
           }}
         />
@@ -1039,7 +1039,7 @@ describe('InputMasked component with currencyMask', () => {
           {...props}
           value={floatval}
           currencyMask="NOK"
-          on_change={({ numberValue }) => {
+          onChange={({ numberValue }) => {
             setState(numberValue)
           }}
         />
@@ -1210,17 +1210,17 @@ describe('InputMasked component asNumber', () => {
     expect(document.querySelector('input').value).toBe('12 345,6')
   })
 
-  it('event "on_change" gets emitted with correct value', async () => {
+  it('event "onChange" gets emitted with correct value', async () => {
     const newValue = 'NOK 123456789,678 kr'
 
-    const on_change = jest.fn()
+    const onChange = jest.fn()
 
     render(
       <InputMasked
         value="12345.678"
         asNumber
         maskOptions={{ decimalLimit: 1 }}
-        on_change={on_change}
+        onChange={onChange}
       />
     )
 
@@ -1233,10 +1233,10 @@ describe('InputMasked component asNumber', () => {
     expect(document.querySelector('input').value).toBe('123 456 789,6')
 
     expect(
-      on_change.mock.calls[on_change.mock.calls.length - 1][0].value
+      onChange.mock.calls[onChange.mock.calls.length - 1][0].value
     ).toBe('123 456 789,6')
     expect(
-      on_change.mock.calls[on_change.mock.calls.length - 1][0].numberValue
+      onChange.mock.calls[onChange.mock.calls.length - 1][0].numberValue
     ).toBe(123456789.6)
   })
 
@@ -1482,7 +1482,7 @@ describe('InputMasked component asCurrency', () => {
           value={controlledValue}
           asCurrency
           currencyMask={{ integerLimit: 4, decimalLimit: 3 }}
-          on_change={handleChange}
+          onChange={handleChange}
         />
       )
     }
@@ -1503,13 +1503,13 @@ describe('InputMasked component asCurrency', () => {
     expect(onChange).toHaveBeenCalledTimes(2)
   })
 
-  it('event "on_change" gets emitted with correct value', async () => {
+  it('event "onChange" gets emitted with correct value', async () => {
     const newValue = 'NOK 123456789,678 kr'
 
-    const on_change = jest.fn()
+    const onChange = jest.fn()
 
     const { rerender } = render(
-      <InputMasked value="12345.678" asCurrency on_change={on_change} />
+      <InputMasked value="12345.678" asCurrency onChange={onChange} />
     )
 
     expect(document.querySelector('input').value).toBe('12 345,67 kr')
@@ -1521,17 +1521,17 @@ describe('InputMasked component asCurrency', () => {
     expect(document.querySelector('input').value).toBe('123 456 789,67 kr')
 
     expect(
-      on_change.mock.calls[on_change.mock.calls.length - 1][0].value
+      onChange.mock.calls[onChange.mock.calls.length - 1][0].value
     ).toBe('123 456 789,67 kr')
     expect(
-      on_change.mock.calls[on_change.mock.calls.length - 1][0].numberValue
+      onChange.mock.calls[onChange.mock.calls.length - 1][0].numberValue
     ).toBe(123456789.67)
 
     rerender(
       <InputMasked
         value="12345.678"
         asCurrency
-        on_change={on_change}
+        onChange={onChange}
         maskOptions={{ decimalLimit: 1 }}
       />
     )
@@ -1543,22 +1543,22 @@ describe('InputMasked component asCurrency', () => {
     expect(document.querySelector('input').value).toBe('123 456 789,6 kr')
 
     expect(
-      on_change.mock.calls[on_change.mock.calls.length - 1][0].value
+      onChange.mock.calls[onChange.mock.calls.length - 1][0].value
     ).toBe('123 456 789,6 kr')
     expect(
-      on_change.mock.calls[on_change.mock.calls.length - 1][0].numberValue
+      onChange.mock.calls[onChange.mock.calls.length - 1][0].numberValue
     ).toBe(123456789.6)
   })
 
-  it('event "on_change" gets emitted with correct value with en locale', async () => {
-    const on_change = jest.fn()
+  it('event "onChange" gets emitted with correct value with en locale', async () => {
+    const onChange = jest.fn()
 
     render(
       <InputMasked
         locale="en"
         value="12345.678"
         asCurrency
-        on_change={on_change}
+        onChange={onChange}
       />
     )
 
@@ -1574,10 +1574,10 @@ describe('InputMasked component asCurrency', () => {
     )
 
     expect(
-      on_change.mock.calls[on_change.mock.calls.length - 1][0].value
+      onChange.mock.calls[onChange.mock.calls.length - 1][0].value
     ).toBe('123,456,789.67 NOK')
     expect(
-      on_change.mock.calls[on_change.mock.calls.length - 1][0].numberValue
+      onChange.mock.calls[onChange.mock.calls.length - 1][0].numberValue
     ).toBe(123456789.67)
   })
 
@@ -2057,7 +2057,7 @@ describe('InputMasked with custom mask', () => {
     render(
       <InputMasked
         mask={[/\d/, ' ', /\d/, ' ', /\d/, ',', /\d/, /\d/]}
-        on_change={onChange}
+        onChange={onChange}
       />
     )
 
