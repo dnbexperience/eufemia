@@ -122,7 +122,7 @@ export const SliderExampleHorizontalSync = () => (
                 align="center"
                 selectall
                 value={String(value)}
-                on_change={({ value }) => setValue(value)}
+                onChange={({ value }) => setValue(value)}
               />
             </VerticalWrapper>
           </>
