@@ -200,9 +200,9 @@ describe('Tooltip', () => {
     const Tooltip = (props: TooltipAllProps = {}) => (
       <OriginalTooltip
         id="tooltip"
+        targetElement={<button>Button</button>}
         {...defaultProps}
         {...props}
-        targetElement={<button>Button</button>}
       />
     )
 
@@ -264,6 +264,37 @@ describe('Tooltip', () => {
         expect(getMainElem().classList).not.toContain(
           'dnb-tooltip--active'
         )
+      })
+    })
+
+    describe('portalRootClass', () => {
+      it('should apply portalRootClass to the portal root element', () => {
+        render(<Tooltip active portalRootClass="custom-portal-class" />)
+
+        const portalRoot = document.querySelector(
+          '.dnb-tooltip__portal.custom-portal-class'
+        )
+        expect(portalRoot).toBeInTheDocument()
+      })
+
+      it('should not affect styling when not provided', () => {
+        render(<Tooltip active />)
+
+        const portalRoot = document.querySelector('.dnb-tooltip__portal')
+        expect(portalRoot.classList.length).toBe(1) // Only has 'dnb-tooltip__portal'
+      })
+
+      it('should work with multiple class names', () => {
+        render(
+          <Tooltip active portalRootClass="class-one class-two custom" />
+        )
+
+        const portalRoot = document.querySelector(
+          '.dnb-tooltip__portal.class-one'
+        )
+        expect(portalRoot).toBeInTheDocument()
+        expect(portalRoot.classList).toContain('class-two')
+        expect(portalRoot.classList).toContain('custom')
       })
     })
 
@@ -359,20 +390,15 @@ describe('Tooltip', () => {
       }> = []
 
       const spy = jest
-        .spyOn(HTMLElement.prototype as any, 'addEventListener')
+        .spyOn(HTMLElement.prototype, 'addEventListener')
         .mockImplementation(function (
           this: EventTarget,
           type: string,
-          listener: any,
-          options?: any
+          listener: EventListenerOrEventListenerObject,
+          options?: boolean | AddEventListenerOptions
         ) {
           calls.push({ self: this, type })
-          return originalAdd.call(
-            this as any,
-            type,
-            listener,
-            options as any
-          )
+          return originalAdd.call(this, type, listener, options)
         })
 
       try {
@@ -432,6 +458,80 @@ describe('Tooltip', () => {
       await wait(1)
       expect(getMainElem().classList).not.toContain('dnb-tooltip--active')
       expect(getMainElem().classList).not.toContain('dnb-tooltip--hide')
+    })
+
+    describe('omitDescribedBy', () => {
+      it('should set aria-describedby on target element by default', () => {
+        render(
+          <Tooltip active showDelay={0}>
+            Tooltip content
+          </Tooltip>
+        )
+
+        const buttonElem = document.querySelector('button')
+        const ariaDescribedBy = buttonElem.getAttribute('aria-describedby')
+
+        expect(ariaDescribedBy).toBeTruthy()
+        expect(ariaDescribedBy).toContain('tooltip')
+      })
+
+      it('should not set aria-describedby when omitDescribedBy is true', () => {
+        render(
+          <Tooltip active showDelay={0} omitDescribedBy>
+            Tooltip content
+          </Tooltip>
+        )
+
+        const buttonElem = document.querySelector('button')
+        const ariaDescribedBy = buttonElem.getAttribute('aria-describedby')
+
+        expect(ariaDescribedBy).toBeNull()
+      })
+
+      it('should not set aria-describedby when omitDescribedBy is true with targetSelector', () => {
+        render(
+          <>
+            <button id="test-button">Button</button>
+            <OriginalTooltip
+              {...defaultProps}
+              active
+              showDelay={0}
+              omitDescribedBy
+              targetSelector="#test-button"
+            >
+              Tooltip content
+            </OriginalTooltip>
+          </>
+        )
+
+        const buttonElem = document.querySelector('#test-button')
+        const ariaDescribedBy = buttonElem.getAttribute('aria-describedby')
+
+        expect(ariaDescribedBy).toBeNull()
+      })
+
+      it('should preserve existing aria-describedby when omitDescribedBy is true', () => {
+        const buttonWithAria = (
+          <button aria-describedby="existing-id">Button</button>
+        )
+
+        render(
+          <Tooltip
+            active
+            showDelay={0}
+            omitDescribedBy
+            targetElement={buttonWithAria}
+          >
+            Tooltip content
+          </Tooltip>
+        )
+
+        const buttonElem = document.querySelector('button')
+        const ariaDescribedBy =
+          buttonElem?.getAttribute('aria-describedby')
+
+        expect(ariaDescribedBy).toBe('existing-id')
+      })
     })
   })
 

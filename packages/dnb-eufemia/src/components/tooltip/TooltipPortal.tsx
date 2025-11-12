@@ -52,6 +52,7 @@ function TooltipPortal(
     keepInDOM,
     noAnimation,
     children,
+    portalRootClass,
   } = props
 
   const modalContext = useContext(ModalContext)
@@ -136,6 +137,7 @@ function TooltipPortal(
         <div
           className={classnames(
             'dnb-tooltip__portal',
+            portalRootClass,
             theme && getThemeClasses(theme),
             modalContext?.id && 'dnb-tooltip--inside-modal'
           )}

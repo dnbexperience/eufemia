@@ -3,11 +3,12 @@
  *
  */
 
-import React, { useCallback, useRef, useState } from 'react'
+import React, { useCallback, useContext, useRef, useState } from 'react'
 import { isTrue } from '../../shared/component-helper'
 import { getOffsetLeft, getOffsetTop } from '../../shared/helpers'
 import classnames from 'classnames'
 import { TooltipProps } from './types'
+import { TooltipContext } from './TooltipContext'
 
 // SSR warning fix: https://gist.github.com/gaearon/e7d97cdf38a2907924ea12e4ebdf3c85
 const useLayoutEffect =
@@ -16,7 +17,6 @@ const useLayoutEffect =
 type TooltipContainerProps = {
   targetElement: HTMLElement
   style?: React.CSSProperties
-  useHover?: boolean
   internalId?: string
   attributes?: Record<string, unknown> & { style: React.CSSProperties }
 }
@@ -35,11 +35,11 @@ export default function TooltipContainer(
     fixedPosition,
     noAnimation,
     skipPortal,
-    useHover,
     children,
     targetElement: target,
   } = props
 
+  const { isControlled } = useContext(TooltipContext)
   const [style, setStyle] = useState(null)
   const [arrowStyle, setArrowStyle] = useState(null)
   const [hover, setHover] = useState(false)
@@ -114,10 +114,9 @@ export default function TooltipContainer(
        */
       if (wasActive) {
         clearTimers()
-        debounceTimeout.current = setTimeout(
-          () => setStyle(null),
-          hideDelay
-        )
+        debounceTimeout.current = setTimeout(() => {
+          setStyle(null)
+        }, hideDelay + 200)
       }
       return // stop here
     }
@@ -257,23 +256,24 @@ export default function TooltipContainer(
     wasActive,
   ])
 
-  const handleMouseEnter = () => {
-    if (isTrue(active) && useHover !== false) {
+  const handleMouseEnter = useCallback(() => {
+    if (!isControlled) {
       setHover(true)
     }
-  }
+  }, [isControlled])
 
-  const handleMouseLeave = () => {
-    if (useHover !== false) {
+  const handleMouseLeave = useCallback(() => {
+    if (!isControlled) {
       setHover(false)
     }
-  }
+  }, [isControlled])
 
   /**
    * By stopping propagation, we allow the user to select text when Tooltip is used in the Slider component
    */
-  const handlePropagation = (e: React.SyntheticEvent) =>
+  const handlePropagation = useCallback((e: React.SyntheticEvent) => {
     e.stopPropagation()
+  }, [])
 
   return (
     <span

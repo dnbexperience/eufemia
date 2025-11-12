@@ -22,6 +22,7 @@ import {
   useHandleAria,
 } from './TooltipHelpers'
 import TooltipPortal from './TooltipPortal'
+import { TooltipContext } from './TooltipContext'
 import { TooltipProps } from './types'
 
 type TooltipWithEventsProps = {
@@ -40,11 +41,12 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
     showDelay,
     hideDelay,
     internalId,
+    omitDescribedBy,
   } = restProps
 
   const [isActive, setIsActive] = useState(active)
   const [isNotSemanticElement, setIsNotSemanticElement] = useState(false)
-  const [isMounted, setIsMounted] = useState(!target)
+  const [, forceUpdate] = useState(!target)
   const [isControlled] = useState(() => typeof active === 'boolean')
 
   const delayTimeout = useRef<NodeJS.Timeout>()
@@ -149,7 +151,9 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
 
   const removeEvents = useCallback(
     (element: HTMLElement) => {
-      if (!element) return
+      if (!element) {
+        return // stop here
+      }
       try {
         element.removeEventListener('focus', onFocus)
         element.removeEventListener('blur', onMouseLeave)
@@ -200,16 +204,25 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
       return cloneElement(target, {
         ref: cloneRef,
         ...params,
-        'aria-describedby': combineDescribedBy(target.props, internalId),
+        'aria-describedby': combineDescribedBy(
+          target.props['aria-describedby'],
+          omitDescribedBy ? null : internalId
+        ),
       })
     } else {
       cloneRef.current = target
     }
 
     return null
-  }, [internalId, isNotSemanticElement, props.className, target])
+  }, [
+    internalId,
+    isNotSemanticElement,
+    omitDescribedBy,
+    props.className,
+    target,
+  ])
 
-  useHandleAria(targetRef.current, internalId)
+  useHandleAria(targetRef.current, { internalId, omitDescribedBy })
 
   useLayoutEffect(() => {
     targetRef.current = getRefElement(cloneRef)
@@ -217,7 +230,6 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
 
   useLayoutEffect(() => {
     if (targetRef.current) {
-      setIsMounted(true)
       if (!isControlled) {
         addEvents(targetRef.current)
       }
@@ -228,6 +240,12 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
       removeEvents(targetRef.current)
     }
   }, [addEvents, isControlled, removeEvents])
+
+  useLayoutEffect(() => {
+    if (targetRef.current) {
+      forceUpdate(active)
+    }
+  }, [active])
 
   useEffect(() => {
     if (isControlled) {
@@ -241,30 +259,21 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
     }
   }, [isActive, handleSemanticElement])
 
+  const Element = skipPortal ? TooltipContainer : TooltipPortal
+
   return (
-    <>
-      {isMounted &&
-        (skipPortal ? (
-          <TooltipContainer
-            {...restProps}
-            active={isActive}
-            targetElement={targetRef.current}
-          >
-            {children}
-          </TooltipContainer>
-        ) : (
-          <TooltipPortal
-            {...restProps}
-            active={isActive}
-            targetElement={targetRef.current}
-            keepInDOM // because of useHandleAria
-          >
-            {children}
-          </TooltipPortal>
-        ))}
+    <TooltipContext.Provider value={{ isControlled, omitDescribedBy }}>
+      <Element
+        {...restProps}
+        active={isActive}
+        targetElement={targetRef.current}
+        keepInDOM={skipPortal ? undefined : true} // because of useHandleAria
+      >
+        {children}
+      </Element>
 
       {componentWrapper}
-    </>
+    </TooltipContext.Provider>
   )
 }
 
