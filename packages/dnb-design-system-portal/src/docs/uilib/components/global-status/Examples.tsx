@@ -111,7 +111,7 @@ export const GlobalStatusCoupling = () => (
             placeholder="Write less than 5 chars and dismiss the focus to show the GlobalStatus ..."
             stretch
             status={errorMessage}
-            on_blur={({ value }) => {
+            onBlur={({ value }) => {
               setErrorMessage(
                 value.length <= 4 ? 'With a message shown' : null,
               )
@@ -251,7 +251,7 @@ export const GlobalStatusUpdate = () => (
               placeholder="Placeholder A"
               status={errorA}
               globalStatus={{ id: 'demo-2' }}
-              on_change={({ value }) => {
+              onChange={({ value }) => {
                 setErrorA(value)
               }}
             />
@@ -261,7 +261,7 @@ export const GlobalStatusUpdate = () => (
               placeholder="Placeholder B"
               status={errorB}
               globalStatus={{ id: 'demo-2' }}
-              on_change={({ value }) => {
+              onChange={({ value }) => {
                 setErrorB(value)
               }}
             />
