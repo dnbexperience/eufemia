@@ -394,13 +394,17 @@ export default class Input extends React.PureComponent {
       inputState: _inputState, //eslint-disable-line
 
       onSubmit, //eslint-disable-line
-      onSubmitFocus, //eslint-disable-line
-      onSubmitBlur, //eslint-disable-line
       onStateUpdate, //eslint-disable-line
       onClear, //eslint-disable-line
 
-      ...attributes
+      ...inputSubmitButtonAttributes
     } = props
+
+    const {
+      onSubmitBlur, //eslint-disable-line
+      onSubmitFocus, //eslint-disable-line
+      ...attributes
+    } = inputSubmitButtonAttributes
 
     let { value, focusState, inputState } = this.state
 
@@ -602,7 +606,7 @@ export default class Input extends React.PureComponent {
                   submitElement
                 ) : (
                   <InputSubmitButton
-                    {...attributes}
+                    {...inputSubmitButtonAttributes}
                     id={id + '-submit-button'}
                     value={hasValue ? value : ''}
                     icon={submitButtonIcon}
@@ -724,6 +728,10 @@ class InputSubmitButton extends React.PureComponent {
       statusState,
       statusProps,
       className,
+
+      onSubmitBlur, //eslint-disable-line
+      onSubmitFocus, //eslint-disable-line
+
       ...rest
     } = this.props
 
