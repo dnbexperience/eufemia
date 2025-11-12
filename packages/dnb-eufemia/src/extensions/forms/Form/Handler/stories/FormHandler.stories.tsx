@@ -10,13 +10,13 @@ export default {
 let requestTimeoutOffset = 1000
 const debug = console.log
 
-type CreateRequestReturn = Promise<{ hasError: boolean; cancel?: boolean }>
-
-export const createRequest = () => {
+const createRequest = () => {
   let timeout: NodeJS.Timeout | null
   let resolvePromise: ((value?: unknown) => void) | undefined
 
-  const fn = (t: number): CreateRequestReturn => {
+  const fn = (
+    t: number
+  ): Promise<{ hasError: boolean; cancel?: boolean }> => {
     return new Promise((resolve) => {
       resolvePromise = resolve
       timeout = setTimeout(() => {
