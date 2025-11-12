@@ -104,6 +104,8 @@
     background-color: transparent;
 
     @include hover() {
+      color: var(--color-sea-green);
+
       // underline
       .dnb-button__text::after {
         color: var(--color-emerald-green);
@@ -111,12 +113,18 @@
     }
 
     @include active() {
+      color: var(--color-sea-green);
+
       // underline
       .dnb-button__text::after {
         html[data-whatintent='touch'] & {
           color: var(--color-emerald-green);
         }
       }
+    }
+
+    @include focus-visible() {
+      color: var(--color-sea-green);
     }
 
     &.dnb-button--icon-position-top {
@@ -132,6 +140,11 @@
 
     &[disabled] {
       color: var(--color-sea-green-30);
+    }
+  }
+  &:not([disabled])#{&}--tertiary#{&}__status {
+    &--error {
+      color: var(--color-fire-red);
     }
   }
 

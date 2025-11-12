@@ -367,3 +367,18 @@ export const TypeScriptElement = () => {
   > = null // This is "simulating" { Link } from 'react-router-dom'
   return <Button element={ReactRouterDomLink} />
 }
+
+export const TertiaryError = () => {
+  return (
+    <>
+      <Button variant="primary" status="Error" text="Button" />
+      <Button variant="secondary" status="Error" text="Button" />
+      <Button
+        variant="tertiary"
+        icon="chevron_right"
+        status="Error"
+        text="Button"
+      />
+    </>
+  )
+}
