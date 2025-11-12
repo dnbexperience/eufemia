@@ -80,12 +80,12 @@ export const useCallEvent = ({
     // Also remove leading zeroes when the input is blurred.
     if (
       maskParams?.disallowLeadingZeroes &&
-      (name === 'onInput' || name === 'on_blur')
+      (name === 'onInput' || name === 'onBlur')
     ) {
       const isNegative = new RegExp(`^${NUMBER_MINUS}`, 'g').test(value)
       if (
         (isNegative ? selStart > 1 : selStart > 0) ||
-        name === 'on_blur'
+        name === 'onBlur'
       ) {
         const onlyNumber = value.replace(
           new RegExp(`[^\\d${maskParams.decimalSymbol}]`, 'g'),
@@ -211,7 +211,7 @@ export const useCallEvent = ({
       numberValue === 0 && String(num).charAt(0) !== '0' ? '' : num
 
     switch (name) {
-      case 'on_focus':
+      case 'onFocus':
       case 'on_key_down':
       case 'on_mouse_down':
       case 'on_mouse_up':
@@ -230,7 +230,7 @@ export const useCallEvent = ({
       cleanedValue,
     })
 
-    if (name === 'on_change') {
+    if (name === 'onChange') {
       setLocalValue(value)
     }
 

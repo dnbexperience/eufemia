@@ -162,15 +162,15 @@ export interface InputProps
   submitButtonStatus?: string;
   className?: string;
   children?: InputChildren;
-  on_change?: (...args: any[]) => any;
-  on_key_down?: (...args: any[]) => any;
-  on_submit?: (...args: any[]) => any;
-  on_focus?: (...args: any[]) => any;
-  on_blur?: (...args: any[]) => any;
-  on_submit_focus?: (...args: any[]) => any;
-  on_submit_blur?: (...args: any[]) => any;
-  on_state_update?: (...args: any[]) => any;
-  on_clear?: (...args: any[]) => any;
+  onChange?: (...args: any[]) => any;
+  onKeyDown?: (...args: any[]) => any;
+  onSubmit?: (...args: any[]) => any;
+  onFocus?: (...args: any[]) => any;
+  onBlur?: (...args: any[]) => any;
+  onSubmitFocus?: (...args: any[]) => any;
+  onSubmitBlur?: (...args: any[]) => any;
+  onStateUpdate?: (...args: any[]) => any;
+  onClear?: (...args: any[]) => any;
 }
 export default class Input extends React.Component<InputProps, any> {
   static defaultProps: object;
@@ -215,9 +215,9 @@ export interface SubmitButtonProps
    */
   statusProps?: FormStatusProps;
   className?: string;
-  on_submit?: (...args: any[]) => any;
-  on_submit_focus?: (...args: any[]) => any;
-  on_submit_blur?: (...args: any[]) => any;
+  onSubmit?: (...args: any[]) => any;
+  onSubmitFocus?: (...args: any[]) => any;
+  onSubmitBlur?: (...args: any[]) => any;
 }
 export class SubmitButton extends React.Component<SubmitButtonProps, any> {
   static defaultProps: object;
