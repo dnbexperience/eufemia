@@ -24,7 +24,7 @@ export const InputMaskedExampleNumberLocale = () => (
             asNumber
             maskOptions={{ allowNegative: false }}
             value="1234.50"
-            on_change={({ numberValue }) => {
+            onChange={({ numberValue }) => {
               console.log(numberValue)
             }}
           />
@@ -33,7 +33,7 @@ export const InputMaskedExampleNumberLocale = () => (
             asNumber
             numberMask={{ decimalLimit: 2 }}
             value="1234.016"
-            on_change={({ numberValue }) => {
+            onChange={({ numberValue }) => {
               console.log(numberValue)
             }}
           />
@@ -42,7 +42,7 @@ export const InputMaskedExampleNumberLocale = () => (
             asPercent
             numberMask={{ decimalLimit: 1 }}
             value="1234.016"
-            on_change={({ numberValue }) => {
+            onChange={({ numberValue }) => {
               console.log(numberValue)
             }}
           />
@@ -61,7 +61,7 @@ export const InputMaskedExampleCurrencyLocale = () => (
             label="Currency"
             asCurrency="EUR"
             value="1234.50"
-            on_change={({ numberValue }) => {
+            onChange={({ numberValue }) => {
               console.log(numberValue)
             }}
           />
@@ -77,7 +77,7 @@ export const InputMaskedExampleCurrencyLocale = () => (
               label="Currency"
               asCurrency="USD"
               value="1234.567"
-              on_change={({ numberValue }) => {
+              onChange={({ numberValue }) => {
                 console.log(numberValue)
               }}
             />
@@ -97,7 +97,7 @@ export const InputMaskedExampleCurrencyMask = () => (
             label="Left aligned (default)"
             showMask
             currencyMask="kr"
-            on_change={({ numberValue }) => {
+            onChange={({ numberValue }) => {
               console.log(numberValue)
             }}
           />
@@ -106,7 +106,7 @@ export const InputMaskedExampleCurrencyMask = () => (
             showMask
             currencyMask={{ currency: 'NOK' }}
             align="right"
-            on_change={({ numberValue }) => {
+            onChange={({ numberValue }) => {
               console.log(numberValue)
             }}
           />
@@ -127,7 +127,7 @@ export const InputMaskedExampleCustomNumberMask = () => (
           allowDecimal: true,
         }}
         placeholderChar={null}
-        on_change={({ numberValue }) => {
+        onChange={({ numberValue }) => {
           console.log(numberValue)
         }}
       />
@@ -146,7 +146,7 @@ export const InputMaskedExampleNumberMask = () => (
           allowDecimal: false,
         }}
         suffix="kr"
-        on_change={({ numberValue }) => {
+        onChange={({ numberValue }) => {
           console.log(numberValue)
         }}
       />
@@ -164,7 +164,7 @@ export const InputMaskedExamplePrefix = () => (
         }}
         stretch={true}
         placeholder="Enter a number"
-        on_change={({ numberValue }) => {
+        onChange={({ numberValue }) => {
           console.log(numberValue)
         }}
       />
@@ -198,7 +198,7 @@ export const InputMaskedExampleCustomMask = () => (
         showMask
         placeholderChar="_"
         keepCharPositions
-        on_change={({ numberValue }) => {
+        onChange={({ numberValue }) => {
           console.log(numberValue)
         }}
       />
@@ -240,7 +240,7 @@ export const InputMaskedInfoCleanNumberValues2 = () => (
       <InputMasked
         asCurrency="EUR"
         value="1234.50"
-        on_change={({ numberValue }) => {
+        onChange={({ numberValue }) => {
           console.log(numberValue) // type of float
         }}
       />
