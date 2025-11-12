@@ -1481,5 +1481,43 @@ describe('Form.useData', () => {
         interactive: 'I am visible',
       })
     })
+
+    it('should set data to be defaultData when no data is provided', () => {
+      let collectData = null
+
+      const MockComponent = () => {
+        const { data } = Form.useData()
+        collectData = data
+        return null
+      }
+
+      render(
+        <Form.Handler defaultData={{ foo: 'bar' }}>
+          <Field.String path="/foo" />
+          <MockComponent />
+        </Form.Handler>
+      )
+
+      expect(collectData).toEqual({ foo: 'bar' })
+    })
+
+    it('should not override data when providing defaultData', () => {
+      let collectData = null
+
+      const MockComponent = () => {
+        const { data } = Form.useData()
+        collectData = data
+        return null
+      }
+
+      render(
+        <Form.Handler data={{ foo: 'bar' }} defaultData={{ foo: 'foo' }}>
+          <Field.String path="/foo" />
+          <MockComponent />
+        </Form.Handler>
+      )
+
+      expect(collectData).toEqual({ foo: 'bar' })
+    })
   })
 })
