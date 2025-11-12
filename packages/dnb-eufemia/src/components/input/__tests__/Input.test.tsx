@@ -110,7 +110,7 @@ describe('Input component', () => {
       return (
         <Input
           value={String(format(value))}
-          on_change={({ value }) => {
+          onChange={({ value }) => {
             setValue(value)
           }}
         />
@@ -131,10 +131,10 @@ describe('Input component', () => {
     expect(document.querySelector('input').value).toBe(format(newValue))
   })
 
-  it('value can be manipulated during on_change', () => {
+  it('value can be manipulated during onChange', () => {
     render(
       <Input
-        on_change={({ value }) => {
+        onChange={({ value }) => {
           return String(value).toUpperCase()
         }}
       />
@@ -148,10 +148,10 @@ describe('Input component', () => {
     expect(document.querySelector('input').value).toBe('NEW VALUE')
   })
 
-  it('value will not change when returning false on_change', () => {
+  it('value will not change when returning false onChange', () => {
     render(
       <Input
-        on_change={() => {
+        onChange={() => {
           return false
         }}
       />
@@ -165,19 +165,19 @@ describe('Input component', () => {
     expect(document.querySelector('input').value).toBe('')
   })
 
-  it('events gets emitted correctly: "on_change" and "onKeyDown"', () => {
+  it('events gets emitted correctly: "onChange" and "onKeyDown"', () => {
     const initValue = 'init value'
     const newValue = 'new value'
     const emptyValue = null // gets emitted also on values as null
 
-    const on_change = jest.fn()
+    const onChange = jest.fn()
     const onKeyDown = jest.fn() // additional native event test
 
     render(
       <Input
         {...props}
         value={initValue}
-        on_change={on_change}
+        onChange={onChange}
         onKeyDown={onKeyDown} // additional native event test
       />
     )
@@ -187,13 +187,13 @@ describe('Input component', () => {
     fireEvent.change(document.querySelector('input'), {
       target: { value: newValue },
     })
-    expect(on_change.mock.calls.length).toBe(1)
+    expect(onChange.mock.calls.length).toBe(1)
     expect(document.querySelector('input').value).toBe(newValue)
 
     fireEvent.change(document.querySelector('input'), {
       target: { value: emptyValue },
     })
-    expect(on_change.mock.calls.length).toBe(2)
+    expect(onChange.mock.calls.length).toBe(2)
     expect(document.querySelector('input').value).toBe('')
 
     // additional native event test
@@ -501,14 +501,14 @@ describe('Input component', () => {
     expect(input).toHaveValue('foo bar')
   })
 
-  it('should call on_submit event handler on enter key press', () => {
-    const on_submit = jest.fn()
+  it('should call onSubmit event handler on enter key press', () => {
+    const onSubmit = jest.fn()
     render(
       <Input
         id="input-id"
         value="value"
         type="search"
-        on_submit={on_submit}
+        onSubmit={onSubmit}
       />
     )
 
@@ -518,18 +518,18 @@ describe('Input component', () => {
       key: 'Enter',
       keyCode: 13, // enter
     })
-    expect(on_submit).toHaveBeenCalledTimes(1)
-    expect(on_submit.mock.calls[0][0].value).toBe('value')
+    expect(onSubmit).toHaveBeenCalledTimes(1)
+    expect(onSubmit.mock.calls[0][0].value).toBe('value')
   })
 
-  it('should call on_submit event handler on submit button click', () => {
-    const on_submit = jest.fn()
+  it('should call onSubmit event handler on submit button click', () => {
+    const onSubmit = jest.fn()
     render(
       <Input
         id="input-id"
         value="value"
         type="search"
-        on_submit={on_submit}
+        onSubmit={onSubmit}
       />
     )
 
@@ -538,18 +538,18 @@ describe('Input component', () => {
     const submitButton = document.querySelector('.dnb-button')
     fireEvent.click(submitButton)
 
-    expect(on_submit).toHaveBeenCalledTimes(1)
-    expect(on_submit.mock.calls[0][0].value).toBe('value')
+    expect(onSubmit).toHaveBeenCalledTimes(1)
+    expect(onSubmit.mock.calls[0][0].value).toBe('value')
   })
 
-  it('should call on_submit_focus event handler on submit button focus', () => {
-    const on_submit_focus = jest.fn()
+  it('should call onSubmitFocus event handler on submit button focus', () => {
+    const onSubmitFocus = jest.fn()
     render(
       <Input
         id="input-id"
         value="value"
         type="search"
-        on_submit_focus={on_submit_focus}
+        onSubmitFocus={onSubmitFocus}
       />
     )
 
@@ -558,18 +558,18 @@ describe('Input component', () => {
     const submitButton = document.querySelector('.dnb-button')
     fireEvent.focus(submitButton)
 
-    expect(on_submit_focus).toHaveBeenCalledTimes(1)
-    expect(on_submit_focus.mock.calls[0][0].value).toBe('value')
+    expect(onSubmitFocus).toHaveBeenCalledTimes(1)
+    expect(onSubmitFocus.mock.calls[0][0].value).toBe('value')
   })
 
-  it('should call on_submit_blur event handler on submit button blur', () => {
-    const on_submit_blur = jest.fn()
+  it('should call onSubmitBlur event handler on submit button blur', () => {
+    const onSubmitBlur = jest.fn()
     render(
       <Input
         id="input-id"
         value="value"
         type="search"
-        on_submit_blur={on_submit_blur}
+        onSubmitBlur={onSubmitBlur}
       />
     )
 
@@ -578,8 +578,8 @@ describe('Input component', () => {
     const submitButton = document.querySelector('.dnb-button')
     fireEvent.blur(submitButton)
 
-    expect(on_submit_blur).toHaveBeenCalledTimes(1)
-    expect(on_submit_blur.mock.calls[0][0].value).toBe('value')
+    expect(onSubmitBlur).toHaveBeenCalledTimes(1)
+    expect(onSubmitBlur.mock.calls[0][0].value).toBe('value')
   })
 })
 
@@ -746,22 +746,22 @@ describe('Input with clear button', () => {
     ).toBeInTheDocument()
   })
 
-  it('should emit on_clear event on clear button click', () => {
-    const on_clear = jest.fn()
-    const on_change = jest.fn()
+  it('should emit onClear event on clear button click', () => {
+    const onClear = jest.fn()
+    const onChange = jest.fn()
 
     render(
-      <Input value="123" clear on_clear={on_clear} on_change={on_change} />
+      <Input value="123" clear onClear={onClear} onChange={onChange} />
     )
 
     fireEvent.click(document.querySelector('.dnb-input__clear-button'))
 
-    expect(on_clear).toHaveBeenCalledTimes(1)
-    expect(on_clear).toHaveBeenCalledWith(
+    expect(onClear).toHaveBeenCalledTimes(1)
+    expect(onClear).toHaveBeenCalledWith(
       expect.objectContaining({ value: '', previousValue: '123' })
     )
-    expect(on_change).toHaveBeenCalledTimes(1)
-    expect(on_change).toHaveBeenCalledWith(
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenCalledWith(
       expect.objectContaining({ value: '' })
     )
   })

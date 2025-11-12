@@ -37,10 +37,10 @@ export const InputExampleSearch = () => (
         label="Search"
         type="search"
         placeholder="Search text placeholder"
-        on_change={({ value }) => {
-          console.log('on_change', value)
+        onChange={({ value }) => {
+          console.log('onChange', value)
         }}
-        on_submit={({ value }) => {
+        onSubmit={({ value }) => {
           console.log('Submit:', value)
         }}
       />
@@ -56,8 +56,8 @@ export const InputExampleMedium = () => (
         type="search"
         stretch={true}
         value="Medium search value"
-        on_change={({ value }) => {
-          console.log('on_change', value)
+        onChange={({ value }) => {
+          console.log('onChange', value)
         }}
       />
     </ComponentBox>
@@ -141,8 +141,8 @@ export const InputExampleSuffix = () => (
             Some content
           </HelpButton>
         }
-        on_change={({ value }) => {
-          console.log('on_change', value)
+        onChange={({ value }) => {
+          console.log('onChange', value)
         }}
       />
     </ComponentBox>
@@ -180,8 +180,8 @@ export const InputExampleNumbers = () => (
         status="Numbers are using DNB Mono (monospace)"
         statusState="info"
         value="1234567890"
-        on_change={({ value }) => {
-          console.log('on_change', value)
+        onChange={({ value }) => {
+          console.log('onChange', value)
           return String(value).toUpperCase()
         }}
       />
@@ -204,11 +204,11 @@ export const InputExampleSubmit = () => (
             type="search"
             value="Input ..."
             selectall={true}
-            on_submit={(event) => {
-              console.log('Input.on_submit', event)
+            onSubmit={(event) => {
+              console.log('Input.onSubmit', event)
             }}
-            on_change={({ value }) => {
-              console.log('on_change:', value)
+            onChange={({ value }) => {
+              console.log('onChange:', value)
             }}
           />
           <Form.SubmitButton />

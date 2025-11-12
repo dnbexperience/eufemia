@@ -216,7 +216,7 @@ const InputWithError = () => {
           <Input
             placeholder="Enter #1 ..."
             status={haveAnErrorMessage1 ? 'Error Message #1' : null}
-            on_change={({ value }) => {
+            onChange={({ value }) => {
               setErrorMessage1(value.length >= 3)
             }}
             right="small"
@@ -224,7 +224,7 @@ const InputWithError = () => {
           <Input
             placeholder="Enter #2 ..."
             status={haveAnErrorMessage2 ? 'Error Message #2' : null}
-            on_change={({ value }) => {
+            onChange={({ value }) => {
               setErrorMessage2(value.length >= 3)
             }}
             right="small"
@@ -461,7 +461,7 @@ const UpdateDemoStatus = () => {
         placeholder="Placeholder A"
         status={errorA}
         globalStatus={{ id: 'demo-2' }}
-        on_change={({ value }) => {
+        onChange={({ value }) => {
           setErrorA(value)
         }}
       />
@@ -471,7 +471,7 @@ const UpdateDemoStatus = () => {
         placeholder="Placeholder B"
         status={errorB}
         globalStatus={{ id: 'demo-2' }}
-        on_change={({ value }) => {
+        onChange={({ value }) => {
           setErrorB(value)
         }}
       />
