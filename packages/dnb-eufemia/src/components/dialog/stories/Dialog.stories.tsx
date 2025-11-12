@@ -28,7 +28,7 @@ import {
   cookie_medium,
   exclamation_triangle_medium as WarningIcon,
 } from '../../../icons'
-import { Form } from '../../../extensions/forms'
+import { Field, Form } from '../../../extensions/forms'
 
 export default {
   title: 'Eufemia/Components/Dialog',
@@ -839,5 +839,28 @@ export function WithStrictMode() {
         </Button>
       </Dialog>
     </React.StrictMode>
+  )
+}
+
+export const FormInDialog = () => {
+  return (
+    <Box>
+      <Dialog
+        variant="confirmation"
+        declineText="Lukk"
+        title="Dokumentet åpnes med BankID"
+        triggerAttributes={{
+          variant: 'primary',
+          text: 'Åpne med BankID',
+          icon_position: 'right',
+        }}
+        minWidth="50rem"
+        alignContent="center"
+      >
+        <p>hei</p>
+
+        <Field.String label="Ditt mobilnummer" />
+      </Dialog>
+    </Box>
   )
 }
