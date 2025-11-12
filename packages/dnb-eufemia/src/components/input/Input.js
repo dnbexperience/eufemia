@@ -119,15 +119,15 @@ export const inputPropTypes = {
   className: PropTypes.string,
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 
-  on_change: PropTypes.func,
-  on_key_down: PropTypes.func,
-  on_submit: PropTypes.func,
-  on_focus: PropTypes.func,
-  on_blur: PropTypes.func,
-  on_submit_focus: PropTypes.func,
-  on_submit_blur: PropTypes.func,
-  on_state_update: PropTypes.func,
-  on_clear: PropTypes.func,
+  onChange: PropTypes.func,
+  onKeyDown: PropTypes.func,
+  onSubmit: PropTypes.func,
+  onFocus: PropTypes.func,
+  onBlur: PropTypes.func,
+  onSubmitFocus: PropTypes.func,
+  onSubmitBlur: PropTypes.func,
+  onStateUpdate: PropTypes.func,
+  onClear: PropTypes.func,
 }
 
 export default class Input extends React.PureComponent {
@@ -182,15 +182,15 @@ export default class Input extends React.PureComponent {
     className: null,
     children: null,
 
-    on_change: null,
-    on_key_down: null,
-    on_submit: null,
-    on_focus: null,
-    on_blur: null,
-    on_submit_focus: null,
-    on_submit_blur: null,
-    on_state_update: null,
-    on_clear: null,
+    onChange: null,
+    onKeyDown: null,
+    onSubmit: null,
+    onFocus: null,
+    onBlur: null,
+    onSubmitFocus: null,
+    onSubmitBlur: null,
+    onStateUpdate: null,
+    onClear: null,
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -202,9 +202,9 @@ export default class Input extends React.PureComponent {
     ) {
       if (
         value !== state.value &&
-        typeof props.on_state_update === 'function'
+        typeof props.onStateUpdate === 'function'
       ) {
-        dispatchCustomElementEvent({ props }, 'on_state_update', { value })
+        dispatchCustomElementEvent({ props }, 'onStateUpdate', { value })
       }
       state.value = value
     }
@@ -276,7 +276,7 @@ export default class Input extends React.PureComponent {
       inputState: 'focus',
     })
 
-    dispatchCustomElementEvent(this, 'on_focus', { value, event })
+    dispatchCustomElementEvent(this, 'onFocus', { value, event })
 
     if (isTrue(this.props.selectall) && this._ref.current) {
       clearTimeout(this._selectallTimeout)
@@ -291,7 +291,7 @@ export default class Input extends React.PureComponent {
   }
   onBlurHandler = (event) => {
     const { value } = event.target
-    const result = dispatchCustomElementEvent(this, 'on_blur', {
+    const result = dispatchCustomElementEvent(this, 'onBlur', {
       value,
       event,
     })
@@ -306,7 +306,7 @@ export default class Input extends React.PureComponent {
   }
   onChangeHandler = (event) => {
     const { value } = event.target
-    const result = dispatchCustomElementEvent(this, 'on_change', {
+    const result = dispatchCustomElementEvent(this, 'onChange', {
       value,
       event,
     })
@@ -322,17 +322,17 @@ export default class Input extends React.PureComponent {
   }
   onKeyDownHandler = (event) => {
     const value = event.target.value
-    dispatchCustomElementEvent(this, 'on_key_down', { value, event })
+    dispatchCustomElementEvent(this, 'onKeyDown', { value, event })
     if (event.key === 'Enter') {
-      dispatchCustomElementEvent(this, 'on_submit', { value, event })
+      dispatchCustomElementEvent(this, 'onSubmit', { value, event })
     }
   }
   clearValue = (event) => {
     const previousValue = this.state.value
     const value = ''
     this.setState({ value })
-    dispatchCustomElementEvent(this, 'on_change', { value, event })
-    dispatchCustomElementEvent(this, 'on_clear', {
+    dispatchCustomElementEvent(this, 'onChange', { value, event })
+    dispatchCustomElementEvent(this, 'onClear', {
       value,
       previousValue,
       event,
@@ -389,13 +389,22 @@ export default class Input extends React.PureComponent {
       children, //eslint-disable-line
       value: _value, //eslint-disable-line
       selectall, //eslint-disable-line
-      on_submit, //eslint-disable-line
       inputElement: _input_element, //eslint-disable-line
       innerRef: _innerRef, //eslint-disable-line
       inputState: _inputState, //eslint-disable-line
 
-      ...attributes
+      onSubmit, //eslint-disable-line
+      onStateUpdate, //eslint-disable-line
+      onClear, //eslint-disable-line
+
+      ...inputSubmitButtonAttributes
     } = props
+
+    const {
+      onSubmitBlur, //eslint-disable-line
+      onSubmitFocus, //eslint-disable-line
+      ...attributes
+    } = inputSubmitButtonAttributes
 
     let { value, focusState, inputState } = this.state
 
@@ -597,7 +606,7 @@ export default class Input extends React.PureComponent {
                   submitElement
                 ) : (
                   <InputSubmitButton
-                    {...attributes}
+                    {...inputSubmitButtonAttributes}
                     id={id + '-submit-button'}
                     value={hasValue ? value : ''}
                     icon={submitButtonIcon}
@@ -616,7 +625,7 @@ export default class Input extends React.PureComponent {
                     disabled={isTrue(disabled)}
                     skeleton={isTrue(skeleton)}
                     size={size}
-                    on_submit={on_submit}
+                    onSubmit={onSubmit}
                     {...statusProps}
                   />
                 )}
@@ -662,9 +671,9 @@ class InputSubmitButton extends React.PureComponent {
     statusProps: PropTypes.object,
     className: PropTypes.string,
 
-    on_submit: PropTypes.func,
-    on_submit_focus: PropTypes.func,
-    on_submit_blur: PropTypes.func,
+    onSubmit: PropTypes.func,
+    onSubmitFocus: PropTypes.func,
+    onSubmitBlur: PropTypes.func,
   }
 
   static defaultProps = {
@@ -681,9 +690,9 @@ class InputSubmitButton extends React.PureComponent {
     statusProps: null,
     className: null,
 
-    on_submit: null,
-    on_submit_focus: null,
-    on_submit_blur: null,
+    onSubmit: null,
+    onSubmitFocus: null,
+    onSubmitBlur: null,
   }
 
   state = { focusState: 'virgin' }
@@ -693,18 +702,18 @@ class InputSubmitButton extends React.PureComponent {
     this.setState({
       focusState: 'focus',
     })
-    dispatchCustomElementEvent(this, 'on_submit_focus', { value, event })
+    dispatchCustomElementEvent(this, 'onSubmitFocus', { value, event })
   }
   onSubmitBlurHandler = (event) => {
     const value = this.props.value
     this.setState({
       focusState: 'dirty',
     })
-    dispatchCustomElementEvent(this, 'on_submit_blur', { value, event })
+    dispatchCustomElementEvent(this, 'onSubmitBlur', { value, event })
   }
   onSubmitHandler = (event) => {
     const value = this.props.value
-    dispatchCustomElementEvent(this, 'on_submit', { value, event })
+    dispatchCustomElementEvent(this, 'onSubmit', { value, event })
   }
   render() {
     const {
@@ -719,6 +728,10 @@ class InputSubmitButton extends React.PureComponent {
       statusState,
       statusProps,
       className,
+
+      onSubmitBlur, //eslint-disable-line
+      onSubmitFocus, //eslint-disable-line
+
       ...rest
     } = this.props
 
