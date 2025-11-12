@@ -79,7 +79,15 @@ export type InputMaskedEventHandler = (
 export interface InputMaskedProps
   extends Omit<
       React.HTMLProps<HTMLInputElement>,
-      'ref' | 'placeholder' | 'label' | 'children' | 'onChange' | 'size'
+      | 'ref'
+      | 'placeholder'
+      | 'label'
+      | 'children'
+      | 'onChange'
+      | 'onFocus'
+      | 'onBlur'
+      | 'onSubmit'
+      | 'size'
     >,
     SpacingProps {
   /**
@@ -136,12 +144,12 @@ export interface InputMaskedProps
    */
   placeholderChar?: string
   innerRef?: InputProps['innerRef']
-  on_change?: InputMaskedEventHandler
-  on_submit?: InputMaskedEventHandler
-  on_focus?: InputMaskedEventHandler
-  on_blur?: InputMaskedEventHandler
-  on_submit_focus?: InputMaskedEventHandler
-  on_submit_blur?: InputMaskedEventHandler
+  onSubmit?: InputMaskedEventHandler
+  onFocus?: InputMaskedEventHandler
+  onBlur?: InputMaskedEventHandler
+  onChange?: InputMaskedEventHandler
+  onSubmitFocus?: InputMaskedEventHandler
+  onSubmitBlur?: InputMaskedEventHandler
   type?: string
   size?: InputSize
   value?: InputMaskedValue
@@ -181,10 +189,7 @@ export interface InputMaskedProps
   submitButtonStatus?: string
   className?: string
   children?: InputMaskedChildren
-  on_state_update?: (...args: unknown[]) => unknown
-  onChange?:
-    | React.ChangeEventHandler<HTMLInputElement>
-    | InputMaskedEventHandler
+  onStateUpdate?: (...args: unknown[]) => unknown
 }
 
 function InputMasked(props: InputMaskedProps) {
@@ -219,7 +224,6 @@ function InputMasked(props: InputMaskedProps) {
 
 const defaultProps = {
   ...Input.defaultProps,
-
   mask: null,
   numberMask: null,
   currencyMask: null,
@@ -235,13 +239,12 @@ const defaultProps = {
   keepCharPositions: false,
   placeholderChar: null,
   innerRef: null,
-
-  on_change: null,
-  on_submit: null,
-  on_focus: null,
-  on_blur: null,
-  on_submit_focus: null,
-  on_submit_blur: null,
+  onChange: null,
+  onSubmit: null,
+  onFocus: null,
+  onBlur: null,
+  onSubmitFocus: null,
+  onSubmitBlur: null,
 }
 
 export default InputMasked
