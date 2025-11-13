@@ -32,12 +32,10 @@
     position: relative; // because of the close button
     cursor: text;
 
-    min-height: 4.5rem;
-
     display: flex;
     align-items: center;
 
-    padding: 1rem 5rem 1rem 2.5rem;
+    padding: 1.5rem 5rem 0.25rem 2.5rem;
     font-size: var(--font-size-basis);
 
     .dnb-p,
@@ -55,7 +53,7 @@
       display: flex;
       flex-direction: column;
 
-      padding: 0.5rem 0 2.5rem 2.5rem;
+      padding: 0.5rem 0 0.5rem 2.5rem;
       // stylelint-disable-next-line no-descending-specificity
       .dnb-p,
       .dnb-spacing & .dnb-p,
