@@ -1846,7 +1846,7 @@ describe('DatePicker component', () => {
     expect(onChange.mock.calls[4][0].isValid).toBe(true)
   })
 
-  it('has valid on_type and onChange event calls', () => {
+  it('has valid onType and onChange event calls', () => {
     function capitalizeFirstLetter(val) {
       return String(val).charAt(0).toUpperCase() + String(val).slice(1)
     }
@@ -2098,9 +2098,9 @@ describe('DatePicker component', () => {
 
   it('resets date correctly between interactions', () => {
     let outerState
-    const on_change = jest.fn(({ date }) => (outerState = date))
+    const onChange = jest.fn(({ date }) => (outerState = date))
     const { rerender } = render(
-      <DatePicker onChange={on_change} showInput date="2019-02-01" />
+      <DatePicker onChange={onChange} showInput date="2019-02-01" />
     )
 
     function changeState() {
@@ -2113,7 +2113,7 @@ describe('DatePicker component', () => {
       })
       // Siulate prop update, like a state update would do
       rerender(
-        <DatePicker onChange={on_change} showInput date={outerState} />
+        <DatePicker onChange={onChange} showInput date={outerState} />
       )
 
       expect(
@@ -2126,7 +2126,7 @@ describe('DatePicker component', () => {
 
       // 2. change the date by prop
       rerender(
-        <DatePicker onChange={on_change} showInput date="2019-02-01" />
+        <DatePicker onChange={onChange} showInput date="2019-02-01" />
       )
 
       expect(
@@ -2139,10 +2139,10 @@ describe('DatePicker component', () => {
     }
 
     changeState()
-    expect(on_change).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenCalledTimes(1)
 
     changeState()
-    expect(on_change).toHaveBeenCalledTimes(2)
+    expect(onChange).toHaveBeenCalledTimes(2)
   })
 
   it('should reset on setting value to null', () => {

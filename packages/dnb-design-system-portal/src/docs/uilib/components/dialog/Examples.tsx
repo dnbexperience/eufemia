@@ -93,8 +93,8 @@ export const DialogExampleDelayClose = () => (
       focusSelector=".dnb-input__input:first-of-type"
       preventClose
       hideCloseButton
-      onOpen={(e) => console.log('on_open', e)}
-      onClose={(e) => console.log('on_close', e)}
+      onOpen={(e) => console.log('onOpen', e)}
+      onClose={(e) => console.log('onClose', e)}
       onClosePrevent={({ close, triggeredBy }) => {
         console.log('triggeredBy', triggeredBy)
         const timeout = setTimeout(close, 500)
