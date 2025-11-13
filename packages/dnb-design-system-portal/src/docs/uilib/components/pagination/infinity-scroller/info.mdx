@@ -95,7 +95,7 @@ React.useEffect(() => {
 render(
   <InfinityScroller
     setContentHandler={(fn) => (setContent = fn)}
-    on_change={({ pageNumber }) => {
+    onChange={({ pageNumber }) => {
       setLocalPage(pageNumber)
     }}
   />,
