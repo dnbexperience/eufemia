@@ -200,7 +200,7 @@ function DatePickerProvider(props: DatePickerProviderProps) {
   const callOnChangeHandler = useCallback(
     <E,>(event: E & DatePickerDates) => {
       /**
-       * Prevent on_change to be fired twice if date not has actually changed
+       * Prevent onChange to be fired twice if date not has actually changed
        */
       if (
         lastEventCallCache &&
