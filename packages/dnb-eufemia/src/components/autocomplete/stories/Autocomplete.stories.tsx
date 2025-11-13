@@ -231,7 +231,7 @@ export const AutocompleteSandbox = () => {
           showClearButton
           submitElement={<SubmitButton icon="bell" />}
           onChange={({ data }) => {
-            console.log('on_change', data)
+            console.log('onChange', data)
           }}
         >
           {() => topMovies}
