@@ -105,8 +105,8 @@ export interface DropdownProps {
    * Text describing the content of the Dropdown more than the label. You can also send in a React component, so it gets wrapped inside the Dropdown component.
    */
   suffix?: DrawerListSuffix;
-  on_show_focus?: (...args: any[]) => any;
-  on_hide_focus?: (...args: any[]) => any;
+  onShowFocus?: (...args: any[]) => any;
+  onHideFocus?: (...args: any[]) => any;
 }
 export type DropdownAllProps = DropdownProps &
   DrawerListProps &
@@ -120,6 +120,10 @@ export type DropdownAllProps = DropdownProps &
     | 'placeholder'
     | 'data'
     | 'children'
+    | 'onChange'
+    | 'onFocus'
+    | 'onSelect'
+    | 'onResize'
   >;
 export default class Dropdown extends React.Component<
   DropdownAllProps,
