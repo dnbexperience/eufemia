@@ -333,7 +333,7 @@ export default class DrawerListProvider extends React.PureComponent<
       scrollable,
       minHeight,
       maxHeight,
-      on_resize,
+      onResize,
       pageOffset,
       observerElement,
       direction: directionProp,
@@ -452,8 +452,8 @@ export default class DrawerListProvider extends React.PureComponent<
         })
 
         // call the event, if set
-        if (on_resize) {
-          dispatchCustomElementEvent(this.state, 'on_resize', {
+        if (onResize) {
+          dispatchCustomElementEvent(this.state, 'onResize', {
             direction,
             maxHeight,
           })
@@ -627,7 +627,7 @@ export default class DrawerListProvider extends React.PureComponent<
 
             if (!isTrue(this.props.preventFocus) && liElement) {
               liElement.focus()
-              dispatchCustomElementEvent(this, 'on_show_focus', {
+              dispatchCustomElementEvent(this, 'onShowFocus', {
                 element: liElement,
               })
             }
@@ -665,7 +665,7 @@ export default class DrawerListProvider extends React.PureComponent<
           this._refUl.current?.focus({ preventScroll: true })
         }
 
-        dispatchCustomElementEvent(this, 'on_show_focus', {
+        dispatchCustomElementEvent(this, 'onShowFocus', {
           element: this._refUl.current,
         })
       } else if (parseFloat(activeItem) > -1) {
@@ -673,7 +673,7 @@ export default class DrawerListProvider extends React.PureComponent<
 
         if (fireSelectEvent) {
           const attributes = this.attributes
-          const ret = dispatchCustomElementEvent(this.state, 'on_select', {
+          const ret = dispatchCustomElementEvent(this.state, 'onSelect', {
             activeItem,
             value: getSelectedItemValue(selectedItem, this.state),
             data: getEventData(activeItem, this.state.data),
@@ -766,7 +766,7 @@ export default class DrawerListProvider extends React.PureComponent<
       this.setMetaKey(e)
     }
 
-    dispatchCustomElementEvent(this.state, 'on_key_down', {
+    dispatchCustomElementEvent(this.state, 'onKeyDown', {
       event: e,
       key,
     })
@@ -1013,7 +1013,7 @@ export default class DrawerListProvider extends React.PureComponent<
         })
 
         this._refUl.current.focus({ preventScroll: true })
-        dispatchCustomElementEvent(this.state, 'handle_dismiss_focus')
+        dispatchCustomElementEvent(this.state, 'handleDismissFocus')
       }
     } else if (activeItem > -1 && activeItem !== this.state.activeItem) {
       this.setState({
@@ -1250,7 +1250,7 @@ export default class DrawerListProvider extends React.PureComponent<
     clearTimeout(this._hideTimeout)
 
     const { selectedItem, activeItem } = this.state
-    const res = dispatchCustomElementEvent(this.state, 'on_hide', {
+    const res = dispatchCustomElementEvent(this.state, 'onHide', {
       ...args,
       data: getEventData(
         parseFloat(selectedItem as string) > -1
@@ -1403,11 +1403,7 @@ export default class DrawerListProvider extends React.PureComponent<
       return false
     }
 
-    const res = dispatchCustomElementEvent(
-      this.state,
-      'on_pre_change',
-      attr
-    )
+    const res = dispatchCustomElementEvent(this.state, 'onPreChange', attr)
 
     if (res === false) {
       return res // stop here
@@ -1431,10 +1427,10 @@ export default class DrawerListProvider extends React.PureComponent<
       itemToSelect !== this.state.selectedItem
     const onSelectionIsComplete = () => {
       if (doCallOnChange) {
-        dispatchCustomElementEvent(this.state, 'on_change', attr)
+        dispatchCustomElementEvent(this.state, 'onChange', attr)
       }
       if (fireSelectEvent) {
-        dispatchCustomElementEvent(this.state, 'on_select', {
+        dispatchCustomElementEvent(this.state, 'onSelect', {
           ...attr,
           activeItem: itemToSelect,
         })

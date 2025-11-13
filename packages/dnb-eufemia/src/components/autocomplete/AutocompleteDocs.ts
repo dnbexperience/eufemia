@@ -254,37 +254,37 @@ export const AutocompleteProperties = {
 } satisfies PropertiesTableProps
 
 export const AutocompleteEvents = {
-  on_type: {
+  onType: {
     doc: 'Will be called for every key change the users makes. Returns an object with the input `value` inside `{ value, event, attributes }` including [these methods](/uilib/components/autocomplete/events#dynamically-change-data)',
     type: 'function',
     status: 'optional',
   },
-  on_focus: {
+  onFocus: {
     doc: 'Will be called on user generated focus action. Returns an object with the input `value` inside `{ value, event, attributes }` including [these methods](/uilib/components/autocomplete/events#dynamically-change-data).',
     type: 'function',
     status: 'optional',
   },
-  on_blur: {
+  onBlur: {
     doc: 'Will be called on user generated blur action. Returns an object with the input `value` inside `{ value, event, attributes }` including [these methods](/uilib/components/autocomplete/events#dynamically-change-data).',
     type: 'function',
     status: 'optional',
   },
-  on_change: {
+  onChange: {
     doc: 'Will be called on state changes made by the user. Returns an object with the new selected `data` item `{ data, event, attributes, value }` including [these methods](/uilib/components/autocomplete/events#dynamically-change-data).',
     type: 'function',
     status: 'optional',
   },
-  on_select: {
+  onSelect: {
     doc: 'Will be called once the users focuses or selects an item by a click or keyboard navigation. Returns an object with the new selected `data` item `{ data, event, attributes, value, activeItem }` including [these methods](/uilib/components/autocomplete/events#dynamically-change-data). The "activeItem" property is the currently selected item by keyboard navigation',
     type: 'function',
     status: 'optional',
   },
-  on_show: {
+  onShow: {
     doc: 'Will be called once the user presses the autocomplete. Returns the data item `{ data, attributes }`.',
     type: 'function',
     status: 'optional',
   },
-  on_hide: {
+  onHide: {
     doc: 'Will be called once the user presses the autocomplete again, or clicks somewhere else. Returns the data item `{ data, attributes }`.',
     type: 'function',
     status: 'optional',

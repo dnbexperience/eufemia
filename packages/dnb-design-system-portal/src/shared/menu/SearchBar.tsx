@@ -85,9 +85,9 @@ export const SearchBarInput = () => {
       status={status}
       portalClass={portalClassStyle}
       drawerClass={drawerClassStyle}
-      on_type={onTypeHandler}
-      on_change={onChangeHandler}
-      on_focus={onFocusHandler}
+      onType={onTypeHandler}
+      onChange={onChangeHandler}
+      onFocus={onFocusHandler}
       pageOffset={0} // drawer-list property
       optionsRender={({ Items, data }) => {
         return (
