@@ -103,7 +103,7 @@ export function UpdateEachOther() {
         label="selectedA"
         data={selectedAccountsA}
         value={indexA}
-        on_change={({ data: account }) => {
+        onChange={({ data: account }) => {
           setSelectedA(account?.selectedKey)
           setSelectedAccountsB(
             accounts.filter(({ selectedKey }) => {
@@ -117,7 +117,7 @@ export function UpdateEachOther() {
         label="selectedB"
         data={selectedAccountsB}
         value={indexB}
-        on_change={({ data: account }) => {
+        onChange={({ data: account }) => {
           setSelectedB(account?.selectedKey)
           setSelectedAccountsA(
             accounts.filter(({ selectedKey }) => {
@@ -135,11 +135,11 @@ export function onBlur() {
     <Autocomplete
       left
       data={['AAA', 'BBB', 'CCC']}
-      on_focus={({ value }) => {
-        console.log('on_focus', value)
+      onFocus={({ value }) => {
+        console.log('onFocus', value)
       }}
-      on_blur={({ value }) => {
-        console.log('on_blur', value)
+      onBlur={({ value }) => {
+        console.log('onBlur', value)
       }}
     />
   )
@@ -185,7 +185,7 @@ const AutocompleteWithState = () => {
       mode="async" // prevents showing no options message og typing
       noScrollAnimation
       placeholder="Search ..."
-      on_type={({
+      onType={({
         value,
         showIndicator,
         hideIndicator,
@@ -230,7 +230,7 @@ export const AutocompleteSandbox = () => {
           showSubmitButton={true}
           showClearButton
           submitElement={<SubmitButton icon="bell" />}
-          on_change={({ data }) => {
+          onChange={({ data }) => {
             console.log('on_change', data)
           }}
         >
@@ -284,8 +284,8 @@ export const AutocompleteSandbox = () => {
             'More',
             'Comp X',
           ]}
-          on_change={(e) => {
-            console.log('on_change', e)
+          onChange={(e) => {
+            console.log('onChange', e)
           }}
           optionsRender={({ Items }) => (
             <>
@@ -303,8 +303,8 @@ export const AutocompleteSandbox = () => {
             b: 'BB cC zethTHx',
             c: 'CCC',
           }}
-          on_change={(e) => {
-            console.log('on_change', e)
+          onChange={(e) => {
+            console.log('onChange', e)
           }}
         />
       </Box>
@@ -315,7 +315,7 @@ export const AutocompleteSandbox = () => {
           preventSelection
           disableFilter
           data={topMovies}
-          on_type={({
+          onType={({
             dataList,
             showIndicator,
             hideIndicator,
@@ -337,10 +337,10 @@ export const AutocompleteSandbox = () => {
         <Autocomplete
           mode="async"
           keepValue
-          on_type={({ value /* updateData, ... */ }) => {
-            console.log('on_type', value)
+          onType={({ value /* updateData, ... */ }) => {
+            console.log('onType', value)
           }}
-          on_focus={({
+          onFocus={({
             dataList,
             updateData,
             showIndicatorItem,
@@ -363,11 +363,11 @@ export const AutocompleteSandbox = () => {
           inputIcon={null}
           title="Type to find ..."
           inputValue="d"
-          on_select={(e) => {
-            console.log('on_select', e)
+          onSelect={(e) => {
+            console.log('onSelect', e)
           }}
-          on_change={(e) => {
-            console.log('on_change', e)
+          onChange={(e) => {
+            console.log('onChange', e)
           }}
           data={testData}
         />
@@ -385,19 +385,19 @@ export const AutocompleteSandbox = () => {
             a: 'AA',
             b: 'BB',
           }}
-          on_select={(e) => {
-            console.log('on_select', e)
+          onSelect={(e) => {
+            console.log('onSelect', e)
           }}
-          on_change={(e) => {
-            console.log('on_change', e)
+          onChange={(e) => {
+            console.log('onChange', e)
           }}
         />
         <Autocomplete
-          on_select={(e) => {
-            console.log('on_select', e)
+          onSelect={(e) => {
+            console.log('onSelect', e)
           }}
-          on_change={(e) => {
-            console.log('on_change', e)
+          onChange={(e) => {
+            console.log('onChange', e)
           }}
         >
           {{
@@ -727,7 +727,7 @@ function UpdateDataExample() {
         preventSelection
         title="Choose an item"
         data={choiceData}
-        on_change={({ data, setInputValue }) => {
+        onChange={({ data, setInputValue }) => {
           setChoiceData(
             choiceData.filter(
               (item) => item.selectedValue !== data.selectedValue
@@ -881,19 +881,19 @@ export const AsyncSearchExample = () => {
           <Li>Type "A" and select the option available</Li>
           <Li>Type "B" and select the option available</Li>
         </Ol>
-        <P>on_change should also be firing when selecting "B".</P>
+        <P>onChange should also be firing when selecting "B".</P>
         <Autocomplete
           top
           mode="async"
-          on_type={onTypeHandler}
+          onType={onTypeHandler}
           noScrollAnimation={true}
           placeholder="Search ..."
-          on_change={({ data }) => {
-            console.log('on_change', data)
+          onChange={({ data }) => {
+            console.log('onChange', data)
             setOnChangeValue(data?.content)
           }}
         />
-        <P top>Value from on_change: {onChangeValue || '–'}</P>
+        <P top>Value from onChange: {onChangeValue || '–'}</P>
       </Space>
     </Section>
   )
@@ -968,7 +968,6 @@ export const Memo = () => {
         value={value}
         data={['Up', 'Right', 'Down', 'Left']}
         onChange={(e) => {
-          // @ts-expect-error - onChange event structure differs from actual on_change prop
           setValue(e.value)
         }}
         inputIcon={getInputIcon(value)}
