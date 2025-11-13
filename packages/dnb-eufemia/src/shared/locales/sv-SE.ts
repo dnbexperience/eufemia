@@ -177,9 +177,13 @@ export default {
       fileListAriaLabel: 'uppladdade filer',
     },
     WordDefinition: {
-      closeButtonTitle: 'Stäng ordförklaring',
       openTriggerTitle: 'Klicka för att öppna ordförklaring',
       closeTriggerTitle: 'Klicka för att stänga ordförklaring',
+    },
+    Popover: {
+      closeButtonTitle: 'Stäng',
+      openTriggerTitle: 'Klicka för att öppna',
+      closeTriggerTitle: 'Klicka för att stänga',
     },
   } satisfies (typeof nb)['nb-NO'],
 }

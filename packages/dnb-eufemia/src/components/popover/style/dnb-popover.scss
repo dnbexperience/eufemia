@@ -1,0 +1,67 @@
+@import '../../../style/core/utilities.scss';
+
+.dnb-popover {
+  --inner-space: 0.5rem;
+
+  &__content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+
+    padding: calc(var(--inner-space) * 2) 0 calc(var(--inner-space) * 3);
+    max-width: calc(var(--prose-max-width) - 64px);
+
+    color: var(--popover-text-color);
+    text-align: left;
+  }
+
+  &__title {
+    display: flex;
+    padding-right: 2rem; // space for close button
+
+    strong {
+      font-weight: var(--font-weight-medium);
+
+      // &::first-letter {
+      //   text-transform: uppercase;
+      // }
+    }
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    &:not(:first-child) {
+      margin-top: var(--inner-space);
+    }
+
+    // .dnb-flex-container:first-child {
+    //   margin-top: 0;
+    // }
+  }
+
+  &__portal {
+    .dnb-tooltip {
+      --tooltip-color: var(--popover-text-color);
+      --tooltip-background-color: var(--popover-background-color);
+      --tooltip-border-color: var(--popover-border-color);
+
+      border: var(--popover-border-color);
+      @include sharpDropShadow();
+    }
+  }
+
+  &__close.dnb-button {
+    position: absolute;
+    top: var(--inner-space);
+    right: var(--inner-space);
+    color: inherit;
+
+    &:hover,
+    &:focus-visible {
+      opacity: 0.7;
+    }
+  }
+}

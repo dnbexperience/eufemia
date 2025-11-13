@@ -176,9 +176,13 @@ export default {
       fileListAriaLabel: 'opplastede filer',
     },
     WordDefinition: {
-      closeButtonTitle: 'Lukk ordforklaring',
       openTriggerTitle: 'Klikk for å åpne ordforklaring',
       closeTriggerTitle: 'Klikk for å lukke ordforklaring',
+    },
+    Popover: {
+      closeButtonTitle: 'Lukk',
+      openTriggerTitle: 'Klikk for å åpne',
+      closeTriggerTitle: 'Klikk for å lukke',
     },
   },
 }

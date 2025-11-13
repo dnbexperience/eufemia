@@ -178,9 +178,13 @@ export default {
       fileListAriaLabel: 'uploaded files',
     },
     WordDefinition: {
-      closeButtonTitle: 'Close definition',
       openTriggerTitle: 'Click to open definition',
       closeTriggerTitle: 'Click to close definition',
+    },
+    Popover: {
+      closeButtonTitle: 'Close',
+      openTriggerTitle: 'Click to open',
+      closeTriggerTitle: 'Click to close',
     },
   } satisfies (typeof nb)['nb-NO'],
 }

@@ -1,0 +1,27 @@
+---
+showTabs: true
+---
+
+## Import
+
+```tsx
+import { Popover } from '@dnb/eufemia'
+```
+
+## Description
+
+Popover is a controlled variant of Tooltip that opens on click instead of hover. You supply the trigger (render function or element) or point the popover to an existing DOM node via `targetElement`/`targetSelector`. All Tooltip props such as `position`, `align`, `arrow`, and portal settings are forwarded, making Popover useful whenever you need richer interactive content anchored to a control. You can optionally add a heading via the `title` prop, which reuses the WordDefinition typography.
+
+## Relevant links
+
+- Source code: https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/popover
+- Docs code: https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/popover
+
+## Accessibility
+
+- When you render a trigger via the provided render props, it receives ARIA attributes such as `aria-controls`, `aria-expanded`, and `aria-describedby` alongside keyboard handlers.
+- Focus moves into the popover body once it opens (similar to WordDefinition), and it returns to the trigger when the popover closes.
+- Set `hideCloseButton` if you want to remove the built-in close button and handle dismissal yourself (use the provided `close` helper when rendering custom content).
+- Focus moves inside the popover content when it opens and returns to the trigger when it closes.
+- The popover can be dismissed with Escape, by clicking outside, or by using the close button.
+- Custom triggers receive the necessary ARIA attributes (`aria-controls`, `aria-expanded`, `aria-describedby`) and keyboard handlers so long as you spread the provided props.
