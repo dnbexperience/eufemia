@@ -33,4 +33,4 @@ export declare const skeletonDOMAttributes: (
   params: React.HTMLProps<HTMLElement>,
   skeleton: SkeletonShow,
   context?: SkeletonContextProps
-) => void;
+) => React.HTMLProps<HTMLElement>;
