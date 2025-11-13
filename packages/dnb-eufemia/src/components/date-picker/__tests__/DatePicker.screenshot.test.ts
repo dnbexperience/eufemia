@@ -84,6 +84,36 @@ describe('DatePicker', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('have to match calendar view when aligning picker auto', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="date-picker-align-picker-auto"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match calendar view when aligning picker right', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="date-picker-align-picker-right"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match calendar view when aligning picker auto with input', async () => {
+    const screenshot = await makeScreenshot({
+      selector:
+        '[data-visual-test="date-picker-align-picker-auto-with-input"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match calendar view when aligning picker right with input', async () => {
+    const screenshot = await makeScreenshot({
+      selector:
+        '[data-visual-test="date-picker-align-picker-right-with-input"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match calendar view with year navigation', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="date-picker-year-navigation"]',
