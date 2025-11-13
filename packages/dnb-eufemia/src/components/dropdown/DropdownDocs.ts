@@ -1,22 +1,22 @@
 import { PropertiesTableProps } from '../../shared/types'
 
 export const DropdownEvents = {
-  on_change: {
+  onChange: {
     doc: 'will be called on state changes made by the user. Returns an object with the new selected `data` item `{ data, event, attributes, value }`.',
     type: 'function',
     status: 'optional',
   },
-  on_select: {
+  onSelect: {
     doc: 'will be called once the user focuses or selects an item by a click or keyboard navigation. Returns an object with the new selected `data` item `{ data, event, attributes, value, activeItem }`. The **activeItem** property is the currently selected item by keyboard navigation.',
     type: 'function',
     status: 'optional',
   },
-  on_show: {
+  onShow: {
     doc: 'will be called once the user presses the dropdown. Returns the data item `{ data, attributes }`.',
     type: 'function',
     status: 'optional',
   },
-  on_hide: {
+  onHide: {
     doc: 'will be called once the user presses the dropdown again, or clicks somewhere else. Returns the data item `{ data, attributes }`.',
     type: 'function',
     status: 'optional',
