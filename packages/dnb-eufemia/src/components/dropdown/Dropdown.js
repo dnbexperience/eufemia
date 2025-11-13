@@ -163,11 +163,11 @@ export default class Dropdown extends React.PureComponent {
       PropTypes.array,
     ]),
 
-    on_show: PropTypes.func,
-    on_hide: PropTypes.func,
-    on_change: PropTypes.func,
-    on_select: PropTypes.func,
-    on_state_update: PropTypes.func,
+    onShow: PropTypes.func,
+    onHide: PropTypes.func,
+    onChange: PropTypes.func,
+    onSelect: PropTypes.func,
+    onStateUpdate: PropTypes.func,
   }
 
   static defaultProps = {
@@ -218,12 +218,12 @@ export default class Dropdown extends React.PureComponent {
     className: null,
     children: null,
 
-    on_show: null,
-    on_hide: null,
+    onShow: null,
+    onHide: null,
 
-    on_change: null,
-    on_select: null,
-    on_state_update: null,
+    onChange: null,
+    onSelect: null,
+    onStateUpdate: null,
   }
 
   render() {
@@ -345,7 +345,7 @@ class DropdownInstance extends React.PureComponent {
 
   onHideHandler = (args = {}) => {
     const attributes = this.attributes || {}
-    const res = dispatchCustomElementEvent(this, 'on_hide', {
+    const res = dispatchCustomElementEvent(this, 'onHide', {
       ...args,
       attributes,
     })
@@ -366,7 +366,7 @@ class DropdownInstance extends React.PureComponent {
           if (args.preventHideFocus !== true) {
             element.focus({ preventScroll: true })
           }
-          dispatchCustomElementEvent(this, 'on_hide_focus', { element })
+          dispatchCustomElementEvent(this, 'onHideFocus', { element })
         }
       } catch (e) {
         // do noting
@@ -377,7 +377,7 @@ class DropdownInstance extends React.PureComponent {
   onSelectHandler = (args) => {
     if (parseFloat(args.activeItem) > -1) {
       const attributes = this.attributes || {}
-      dispatchCustomElementEvent(this, 'on_select', {
+      dispatchCustomElementEvent(this, 'onSelect', {
         ...args,
         attributes,
       })
@@ -386,7 +386,7 @@ class DropdownInstance extends React.PureComponent {
 
   onChangeHandler = (args) => {
     const attributes = this.attributes || {}
-    dispatchCustomElementEvent(this, 'on_change', {
+    dispatchCustomElementEvent(this, 'onChange', {
       ...args,
       attributes,
     })
@@ -471,6 +471,14 @@ class DropdownInstance extends React.PureComponent {
       buttonRef, // eslint-disable-line
       innerRef, // eslint-disable-line
 
+      onShow: _onShow, // eslint-disable-line
+      onHide: _onHide, // eslint-disable-line
+      onChange: _onChange, // eslint-disable-line
+      onSelect: _onSelect, // eslint-disable-line
+      onStateUpdate: _onStateUpdate, // eslint-disable-line
+      onShowFocus: _onShowFocus, // eslint-disable-line
+      onHideFocus: _onHideFocus, // eslint-disable-line
+
       ...attributes
     } = props
 
@@ -505,7 +513,6 @@ class DropdownInstance extends React.PureComponent {
     const { id, selectedItem, direction, opened } = this.context.drawerList
     const showStatus = getStatusState(status)
 
-    // make it possible to grab the rest attributes and return it with all events
     Object.assign(
       this.context.drawerList.attributes,
       validateDOMAttributes(null, attributes)
@@ -685,9 +692,9 @@ class DropdownInstance extends React.PureComponent {
                 maxHeight={maxHeight}
                 direction={direction}
                 size={size}
-                on_change={this.onChangeHandler}
-                on_select={this.onSelectHandler}
-                on_hide={this.onHideHandler}
+                onChange={this.onChangeHandler}
+                onSelect={this.onSelectHandler}
+                onHide={this.onHideHandler}
               />
             </span>
 
