@@ -236,14 +236,14 @@ export default class Autocomplete extends React.PureComponent {
       PropTypes.array,
     ]),
 
-    on_show: PropTypes.func,
-    on_type: PropTypes.func,
-    on_focus: PropTypes.func,
-    on_blur: PropTypes.func,
-    on_hide: PropTypes.func,
-    on_change: PropTypes.func,
-    on_select: PropTypes.func,
-    on_state_update: PropTypes.func,
+    onShow: PropTypes.func,
+    onType: PropTypes.func,
+    onFocus: PropTypes.func,
+    onBlur: PropTypes.func,
+    onHide: PropTypes.func,
+    onChange: PropTypes.func,
+    onSelect: PropTypes.func,
+    onStateUpdate: PropTypes.func,
     onClear: PropTypes.func,
   }
 
@@ -318,14 +318,14 @@ export default class Autocomplete extends React.PureComponent {
     className: null,
     children: null,
 
-    on_show: null,
-    on_hide: null,
-    on_type: null,
-    on_focus: null,
-    on_blur: null,
-    on_change: null,
-    on_select: null,
-    on_state_update: null,
+    onShow: null,
+    onHide: null,
+    onType: null,
+    onFocus: null,
+    onBlur: null,
+    onChange: null,
+    onSelect: null,
+    onStateUpdate: null,
     inputElement: null,
   }
 
@@ -556,10 +556,10 @@ class AutocompleteInstance extends React.PureComponent {
       _listenForPropChanges: false,
     })
 
-    dispatchCustomElementEvent(this, 'on_type', {
+    dispatchCustomElementEvent(this, 'onType', {
       value,
       event,
-      ...this.getEventObjects('on_type'),
+      ...this.getEventObjects('onType'),
     })
 
     value = String(value).trim()
@@ -989,9 +989,9 @@ class AutocompleteInstance extends React.PureComponent {
       // Mark focus first so updateData (triggered in on_focus) can act on it
       this.setState({ hasFocus: true, hasBlur: false })
 
-      dispatchCustomElementEvent(this, 'on_focus', {
+      dispatchCustomElementEvent(this, 'onFocus', {
         event,
-        ...this.getEventObjects('on_focus'),
+        ...this.getEventObjects('onFocus'),
       })
     }
   }
@@ -1079,9 +1079,9 @@ class AutocompleteInstance extends React.PureComponent {
       this.setHidden()
     }
 
-    dispatchCustomElementEvent(this, 'on_blur', {
+    dispatchCustomElementEvent(this, 'onBlur', {
       event,
-      ...this.getEventObjects('on_blur'),
+      ...this.getEventObjects('onBlur'),
     })
   }
 
@@ -1297,8 +1297,8 @@ class AutocompleteInstance extends React.PureComponent {
       },
       () => {
         if (hasHadValue) {
-          dispatchCustomElementEvent(this, 'on_change', {
-            ...this.getEventObjects('on_change'),
+          dispatchCustomElementEvent(this, 'onChange', {
+            ...this.getEventObjects('onChange'),
           })
         }
       }
@@ -1580,9 +1580,9 @@ class AutocompleteInstance extends React.PureComponent {
   }
 
   onHideHandler = (args = {}) => {
-    const res = dispatchCustomElementEvent(this, 'on_hide', {
+    const res = dispatchCustomElementEvent(this, 'onHide', {
       ...args,
-      ...this.getEventObjects('on_hide'),
+      ...this.getEventObjects('onHide'),
     })
 
     if (res !== false) {
@@ -1615,9 +1615,9 @@ class AutocompleteInstance extends React.PureComponent {
 
   onSelectHandler = (args) => {
     if (parseFloat(args.activeItem) > -1) {
-      dispatchCustomElementEvent(this, 'on_select', {
+      dispatchCustomElementEvent(this, 'onSelect', {
         ...args,
-        ...this.getEventObjects('on_select'),
+        ...this.getEventObjects('onSelect'),
       })
     }
   }
@@ -1678,9 +1678,9 @@ class AutocompleteInstance extends React.PureComponent {
       delete args.data.render
     }
 
-    dispatchCustomElementEvent(this, 'on_change', {
+    dispatchCustomElementEvent(this, 'onChange', {
       ...args,
-      ...this.getEventObjects('on_change'),
+      ...this.getEventObjects('onChange'),
     })
   }
 
@@ -1811,6 +1811,15 @@ class AutocompleteInstance extends React.PureComponent {
       disableHighlighting, // eslint-disable-line
       onClear, // eslint-disable-line
 
+      onShow: _onShow, // eslint-disable-line
+      onType: _onType, // eslint-disable-line
+      onFocus: _onFocus, // eslint-disable-line
+      onBlur: _onBlur, // eslint-disable-line
+      onHide: _onHide, // eslint-disable-line
+      onChange: _onChange, // eslint-disable-line
+      onSelect: _onSelect, // eslint-disable-line
+      onStateUpdate: _onStateUpdate, // eslint-disable-line
+
       ...attributes
     } = props
 
@@ -1818,17 +1827,11 @@ class AutocompleteInstance extends React.PureComponent {
 
     const { inputValue, visibleIndicator } = this.state
 
-    const { id, hidden, selectedItem, activeItem, direction, opened } =
+    const { id, hidden, selectedItem, direction, opened } =
       this.context.drawerList
 
     const isExpanded = Boolean(opened) && this.hasValidData()
 
-    // In case a developer is using onBlur
-    // it would blur uncontrolled – so we relay on "on_blur".
-    // But the "onBlur" will still function, now just as expected.
-    delete attributes.onBlur
-
-    // make it possible to grab the rest attributes and return it with all events
     this.attributes = validateDOMAttributes(null, attributes)
     Object.assign(this.context.drawerList.attributes, this.attributes)
 
@@ -2078,11 +2081,11 @@ class AutocompleteInstance extends React.PureComponent {
                 direction={direction}
                 size={size}
                 optionsRender={optionsRender}
-                on_change={this.onChangeHandler}
-                on_select={this.onSelectHandler}
-                on_hide={this.onHideHandler}
-                on_pre_change={this.onPreChangeHandler}
-                on_key_down={this.reserveActivityHandler}
+                onChange={this.onChangeHandler}
+                onSelect={this.onSelectHandler}
+                onHide={this.onHideHandler}
+                onPreChange={this.onPreChangeHandler}
+                onKeyDown={this.reserveActivityHandler}
                 onMouseDown={this.reserveActivityHandler}
                 independentWidth={independentWidth}
               />

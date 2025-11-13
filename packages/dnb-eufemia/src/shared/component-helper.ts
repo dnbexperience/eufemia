@@ -29,7 +29,24 @@ init()
 whatInput.specificKeys([9])
 defineNavigator()
 
-export const validateDOMAttributes = (props, params) => {
+/** @private */
+const startsWithCamelCaseRegex = /(^[a-z]{1,}[A-Z]{1})/
+/** @private */
+const notOnlyAZOrHyphenRegex = /[^a-z-]/i
+
+/**
+ * @deprecated stop using this function as it only removes things that should be handled in the component any documented prop should be explicitly removed, and props should not have default value `null`
+ * @description Removes invalid DOM attributes from `params`.
+ * @param props properties from `props.attributes` are added to `params`
+ * @param params object with DOM attributes
+ * @returns `params` cleaned from invalid DOM attributes
+ */
+export const validateDOMAttributes = (
+  /** `null` or an object with property `attributes` that is merged with `params` */
+  props: Record<string, any>,
+  /** object with DOM attributes */
+  params: Record<string, any>
+) => {
   // if there is an "attributes" prop, prepare these
   // mostly used for prop example usage
   if (props && props.attributes) {
@@ -98,8 +115,9 @@ export const validateDOMAttributes = (props, params) => {
       if (
         // is React
         typeof params[i] === 'function' &&
-        // only React Style props, like onClick are allowed
-        !/(^[a-z]{1,}[A-Z]{1})/.test(i)
+        // only React Style props, like "onClick" are allowed
+        // (starts with lowercase letters followed by at least on uppercase letter)
+        !startsWithCamelCaseRegex.test(i)
       ) {
         delete params[i]
 
@@ -107,8 +125,9 @@ export const validateDOMAttributes = (props, params) => {
       } else if (
         // we don't want NULL values
         params[i] === null ||
-        // we don't want
-        /[^a-z-]/i.test(i)
+        // we don't want if there are any characters except "a-z", "A-Z" or "-"
+        // Removes things like "on_change"
+        notOnlyAZOrHyphenRegex.test(i)
         // (typeof params[i] !== 'string' && /[^a-z-]/i.test(i))
       ) {
         delete params[i]
