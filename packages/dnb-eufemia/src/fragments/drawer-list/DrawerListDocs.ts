@@ -159,27 +159,27 @@ export const DrawerListProperties = {
 } satisfies PropertiesTableProps
 
 export const DrawerListEvents = {
-  on_pre_change: {
-    doc: 'Will be called before `on_change`, this way you can return false to prevent selection and to prevent `on_change` execution.',
+  onPreChange: {
+    doc: 'Will be called before `onChange`, this way you can return false to prevent selection and to prevent `onChange` execution.',
     type: 'function',
     status: 'optional',
   },
-  on_change: {
+  onChange: {
     doc: 'Will be called on state changes made by the user.',
     type: 'function',
     status: 'optional',
   },
-  on_select: {
+  onSelect: {
     doc: 'Will be called once the user focuses or selects an item by a click or keyboard navigation.',
     type: 'function',
     status: 'optional',
   },
-  on_show: {
+  onShow: {
     doc: 'Will be called once the user presses the drawer-list.',
     type: 'function',
     status: 'optional',
   },
-  on_hide: {
+  onHide: {
     doc: 'Will be called once the user presses the drawer-list again, or clicks somewhere else.',
     type: 'function',
     status: 'optional',

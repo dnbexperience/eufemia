@@ -106,8 +106,8 @@ export const AutocompleteWithCustomTitle = () => (
         showClearButton={true}
         label="Label"
         placeholder="Custom placeholder ..."
-        on_change={({ data }) => {
-          console.log('on_change', data)
+        onChange={({ data }) => {
+          console.log('onChange', data)
         }}
       />
     </ComponentBox>
@@ -176,7 +176,7 @@ export const AutocompleteDynamicallyUpdatedData = () => (
         return (
           <Autocomplete
             mode="async"
-            on_type={onTypeHandler}
+            onType={onTypeHandler}
             noScrollAnimation={true}
             placeholder="Search ..."
           />
@@ -208,10 +208,10 @@ export const AutocompleteFirstFocusUpdate = () => (
             mode="async"
             noScrollAnimation={true}
             preventSelection={true}
-            on_type={({ value /* updateData, ... */ }) => {
-              console.log('on_type', value)
+            onType={({ value /* updateData, ... */ }) => {
+              console.log('onType', value)
             }}
-            on_focus={onFocusHandler}
+            onFocus={onFocusHandler}
           />
         )
       }}
@@ -229,8 +229,8 @@ export const AutocompleteToggleExample = () => (
         label="Label"
         value={10}
         showSubmitButton={true}
-        on_change={({ data }) => {
-          console.log('on_change', data)
+        onChange={({ data }) => {
+          console.log('onChange', data)
         }}
       >
         {() => topMovies}
@@ -249,8 +249,8 @@ export const AutocompletePredefinedInput = () => (
         label="Label"
         inputValue="the pa ther"
         noAnimation
-        on_change={({ data }) => {
-          console.log('on_change', data)
+        onChange={({ data }) => {
+          console.log('onChange', data)
         }}
       >
         {() => topMovies}
