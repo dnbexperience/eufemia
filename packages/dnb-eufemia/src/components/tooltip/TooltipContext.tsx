@@ -1,14 +1,19 @@
 import React from 'react'
+import type { TooltipProps } from './types'
 
 export type TooltipContextProps = {
   /**
+   * The props of the Tooltip component.
+   */
+  props: TooltipProps
+  /**
    * Whether the tooltip is controlled from outside.
    */
-  isControlled?: boolean
+  isControlled: boolean
   /**
-   * Whether to omit the aria-describedby attribute.
+   * The internal ID used for aria-describedby.
    */
-  omitDescribedBy?: boolean
+  internalId: string
 }
 
 export const TooltipContext =

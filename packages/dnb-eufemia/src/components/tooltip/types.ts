@@ -22,7 +22,7 @@ export type TooltipProps = IncludeSnakeCase<{
   arrow?: TooltipArrow
   align?: TooltipAlign
   fixedPosition?: boolean
-  contentRef?: React.RefObject<HTMLSpanElement>
+  contentRef?: React.MutableRefObject<HTMLSpanElement>
   skipPortal?: boolean
   noAnimation?: boolean
   showDelay?: number

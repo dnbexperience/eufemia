@@ -7,6 +7,7 @@ import React, {
   cloneElement,
   isValidElement,
   useCallback,
+  useContext,
   useEffect,
   useLayoutEffect,
   useMemo,
@@ -22,17 +23,16 @@ import {
   useHandleAria,
 } from './TooltipHelpers'
 import TooltipPortal from './TooltipPortal'
-import { TooltipContext } from './TooltipContext'
 import { TooltipProps } from './types'
+import { TooltipContext } from './TooltipContext'
 
 type TooltipWithEventsProps = {
-  target: HTMLElement
-  active: boolean
-  internalId: string
+  target: TooltipProps['targetElement']
+  attributes?: React.HTMLAttributes<HTMLElement>
 }
 
 function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
-  const { children, ...restProps } = props
+  const { children, attributes, ...restProps } = props
   const {
     active,
     target,
@@ -40,14 +40,15 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
     noAnimation,
     showDelay,
     hideDelay,
-    internalId,
     omitDescribedBy,
   } = restProps
 
+  const { internalId, isControlled } = useContext(TooltipContext)
+
   const [isActive, setIsActive] = useState(active)
   const [isNotSemanticElement, setIsNotSemanticElement] = useState(false)
-  const [, forceUpdate] = useState(!target)
-  const [isControlled] = useState(() => typeof active === 'boolean')
+  const [targetElementNode, setTargetElementNode] =
+    useState<HTMLElement | null>(null)
 
   const delayTimeout = useRef<NodeJS.Timeout>()
   const cloneRef = useRef<HTMLElement>()
@@ -192,7 +193,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
   }, [internalId])
 
   /**
-   * Here we get our "target" / "targetSelector"
+   * Get our "target"
    */
   const componentWrapper = useMemo(() => {
     // we could also check against && target.props && !target.props.tooltip
@@ -209,10 +210,9 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
           omitDescribedBy ? null : internalId
         ),
       })
-    } else {
-      cloneRef.current = target
     }
 
+    cloneRef.current = target as HTMLElement
     return null
   }, [
     internalId,
@@ -222,30 +222,45 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
     target,
   ])
 
-  useHandleAria(targetRef.current, { internalId, omitDescribedBy })
+  useHandleAria(targetElementNode)
 
-  useLayoutEffect(() => {
-    targetRef.current = getRefElement(cloneRef)
-  }, [target])
-
-  useLayoutEffect(() => {
-    if (targetRef.current) {
-      if (!isControlled) {
-        addEvents(targetRef.current)
+  const updateTargetElement = useCallback(
+    (element: HTMLElement | null) => {
+      if (targetRef.current === element) {
+        return
       }
+      targetRef.current = element
+      setTargetElementNode(element)
+    },
+    []
+  )
+
+  useLayoutEffect(() => {
+    if (!target) {
+      updateTargetElement(null)
+      return
+    }
+
+    if (isValidElement(target)) {
+      updateTargetElement(getRefElement(cloneRef))
+      return
+    }
+
+    updateTargetElement(getRefElement(target as HTMLElement))
+  }, [target, updateTargetElement])
+
+  useLayoutEffect(() => {
+    if (targetElementNode && !isControlled) {
+      addEvents(targetElementNode)
     }
 
     return () => {
       clearTimers()
-      removeEvents(targetRef.current)
+      if (targetElementNode) {
+        removeEvents(targetElementNode)
+      }
     }
-  }, [addEvents, isControlled, removeEvents])
-
-  useLayoutEffect(() => {
-    if (targetRef.current) {
-      forceUpdate(active)
-    }
-  }, [active])
+  }, [addEvents, isControlled, removeEvents, targetElementNode])
 
   useEffect(() => {
     if (isControlled) {
@@ -262,18 +277,19 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
   const Element = skipPortal ? TooltipContainer : TooltipPortal
 
   return (
-    <TooltipContext.Provider value={{ isControlled, omitDescribedBy }}>
+    <>
       <Element
         {...restProps}
         active={isActive}
-        targetElement={targetRef.current}
+        attributes={attributes}
+        targetElement={targetElementNode}
         keepInDOM={skipPortal ? undefined : true} // because of useHandleAria
       >
         {children}
       </Element>
 
       {componentWrapper}
-    </TooltipContext.Provider>
+    </>
   )
 }
 

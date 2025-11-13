@@ -56,82 +56,19 @@ function TooltipPortal(
   } = props
 
   const modalContext = useContext(ModalContext)
-  const [isActive, setIsActive] = useState(active)
   const [id] = useState(() => makeUniqueId())
-  const isInDOM = useRef(false)
-
   const theme = useTheme()
 
-  const makeTooltip = useCallback(() => {
-    if (!tooltipPortal[id]) {
-      tooltipPortal[id] = {
-        count: 0,
-      }
-    }
-  }, [id])
+  const { isActive: portalActive, shouldRenderPortal } =
+    useTooltipPortalLifecycle({
+      id,
+      active,
+      hideDelay,
+      keepInDOM,
+      noAnimation,
+    })
 
-  const clearTimers = useCallback(() => {
-    clearTimeout(tooltipPortal[id]?.delayTimeout)
-    clearTimeout(tooltipPortal[id]?.hiddenTimeout)
-  }, [id])
-
-  const isMountedRef = useMounted()
-
-  useEffect(() => {
-    if (active) {
-      clearTimers()
-      makeTooltip()
-      setIsActive(true)
-
-      isInDOM.current = true
-
-      if (!isMountedRef.current) {
-        tooltipPortal[id].count++
-      }
-    } else if (!active && isMountedRef.current) {
-      const delayRender = () => {
-        setIsActive(false)
-      }
-
-      const delayHidden = () => {
-        isInDOM.current = false
-      }
-
-      if (noAnimation || globalThis.IS_TEST) {
-        delayRender()
-        delayHidden()
-      } else if (tooltipPortal[id]) {
-        const delay = parseFloat(String(hideDelay))
-        tooltipPortal[id].delayTimeout = setTimeout(delayRender, delay)
-        tooltipPortal[id].hiddenTimeout = setTimeout(
-          delayHidden,
-          delay + 300
-        )
-      }
-    }
-
-    return clearTimers
-  }, [
-    active,
-    clearTimers,
-    hideDelay,
-    id,
-    isMountedRef,
-    makeTooltip,
-    noAnimation,
-  ])
-
-  useMountEffect(() => {
-    /**
-     * Because of "aria-describedby" on the target element,
-     * the Tooltip should exist in the DOM
-     */
-    if (keepInDOM) {
-      makeTooltip()
-    }
-  })
-
-  if (isInDOM.current || keepInDOM) {
+  if (shouldRenderPortal) {
     return (
       <PortalRoot>
         <div
@@ -145,7 +82,7 @@ function TooltipPortal(
           <TooltipContainer
             {...props}
             targetElement={targetElement}
-            active={isActive}
+            active={portalActive}
           >
             {children}
           </TooltipContainer>
@@ -158,3 +95,100 @@ function TooltipPortal(
 }
 
 export default TooltipPortal
+
+type TooltipPortalLifecycleProps = {
+  id: string
+  active: boolean
+  hideDelay: number
+  keepInDOM?: boolean
+  noAnimation?: boolean
+}
+
+function useTooltipPortalLifecycle({
+  id,
+  active,
+  hideDelay,
+  keepInDOM,
+  noAnimation,
+}: TooltipPortalLifecycleProps) {
+  const [isActive, setIsActive] = useState(active)
+  const isMountedRef = useMounted()
+  const isInDOM = useRef(false)
+
+  const ensurePortalEntry = useCallback(() => {
+    if (!tooltipPortal[id]) {
+      tooltipPortal[id] = {
+        count: 0,
+      }
+    }
+    return tooltipPortal[id]
+  }, [id])
+
+  const clearTimers = useCallback(() => {
+    const entry = tooltipPortal[id]
+    if (entry) {
+      clearTimeout(entry.delayTimeout)
+      clearTimeout(entry.hiddenTimeout)
+    }
+  }, [id])
+
+  useEffect(() => {
+    const entry = ensurePortalEntry()
+
+    if (active) {
+      clearTimers()
+      setIsActive(true)
+      isInDOM.current = true
+
+      if (!isMountedRef.current) {
+        entry.count++
+      }
+
+      return () => {
+        clearTimers()
+      }
+    }
+
+    if (!isMountedRef.current) {
+      return () => {
+        clearTimers()
+      }
+    }
+
+    const delayRender = () => setIsActive(false)
+    const delayHidden = () => {
+      isInDOM.current = false
+    }
+
+    if (noAnimation || globalThis.IS_TEST) {
+      delayRender()
+      delayHidden()
+      return () => {
+        clearTimers()
+      }
+    }
+
+    const delay = parseFloat(String(hideDelay))
+    entry.delayTimeout = setTimeout(delayRender, delay)
+    entry.hiddenTimeout = setTimeout(delayHidden, delay + 300)
+
+    return () => {
+      clearTimers()
+    }
+  }, [
+    active,
+    clearTimers,
+    ensurePortalEntry,
+    hideDelay,
+    isMountedRef,
+    noAnimation,
+  ])
+
+  useMountEffect(() => {
+    if (keepInDOM) {
+      ensurePortalEntry()
+    }
+  })
+
+  return { isActive, shouldRenderPortal: isInDOM.current || keepInDOM }
+}

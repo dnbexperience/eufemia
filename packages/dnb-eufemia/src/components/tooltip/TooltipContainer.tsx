@@ -17,15 +17,13 @@ const useLayoutEffect =
 type TooltipContainerProps = {
   targetElement: HTMLElement
   style?: React.CSSProperties
-  internalId?: string
-  attributes?: Record<string, unknown> & { style: React.CSSProperties }
+  attributes?: React.HTMLAttributes<HTMLElement>
 }
 
 export default function TooltipContainer(
   props: TooltipProps & TooltipContainerProps
 ) {
   const {
-    internalId,
     active,
     attributes,
     arrow,
@@ -41,7 +39,7 @@ export default function TooltipContainer(
     targetElement: target,
   } = props
 
-  const { isControlled } = useContext(TooltipContext)
+  const { isControlled, internalId } = useContext(TooltipContext)
   const [style, setStyle] = useState(null)
   const [arrowStyle, setArrowStyle] = useState(null)
   const [hover, setHover] = useState(false)

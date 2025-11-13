@@ -3,9 +3,11 @@
  *
  */
 
-import React, { useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 import classnames from 'classnames'
 import { combineDescribedBy } from '../../shared/component-helper'
+import { TooltipContext } from './TooltipContext'
+import type { TooltipProps } from './types'
 
 export function injectTooltipSemantic(params) {
   params.tabIndex = '0'
@@ -31,7 +33,6 @@ export const defaultProps = {
   hideDelay: 500,
   targetSelector: null,
   targetElement: null,
-
   className: null,
   children: null,
   tooltip: null,
@@ -45,15 +46,14 @@ export function getTargetElement(target: HTMLElement) {
   }
 }
 
-export function useHandleAria(
-  targetElement: HTMLElement,
-  {
+export function useHandleAria(targetElement?: HTMLElement | null) {
+  const {
     internalId,
-    omitDescribedBy,
-  }: { internalId: string; omitDescribedBy?: boolean }
-) {
+    props: { omitDescribedBy },
+  } = useContext(TooltipContext)
+
   useEffect(() => {
-    if (omitDescribedBy) {
+    if (omitDescribedBy || !targetElement) {
       return // do nothing
     }
     try {
@@ -79,7 +79,7 @@ export function getPropsFromTooltipProp(localProps) {
     : null
 }
 
-export function getRefElement(target: React.RefObject<HTMLElement>) {
+export function getRefElement(target: TooltipProps['targetElement']) {
   const unknownTarget = target as unknown as React.RefObject<{
     _ref: React.RefObject<HTMLElement>
   }>

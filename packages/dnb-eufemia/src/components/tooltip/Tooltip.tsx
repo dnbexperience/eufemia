@@ -3,9 +3,10 @@
  *
  */
 
-import React, { useContext, useEffect, useReducer, useRef } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import classnames from 'classnames'
 import Context from '../../shared/Context'
+import type { ContextProps } from '../../shared/Context'
 import { validateDOMAttributes } from '../../shared/component-helper'
 import { convertSnakeCaseProps } from '../../shared/helpers/withSnakeCaseProps'
 import useId from '../../shared/helpers/useId'
@@ -19,28 +20,19 @@ import {
   injectTooltipSemantic,
 } from './TooltipHelpers'
 import { TooltipAllProps } from './types'
+import { TooltipContext } from './TooltipContext'
 
 function Tooltip(localProps: TooltipAllProps) {
   const context = useContext(Context)
-
-  const inherited = getPropsFromTooltipProp(localProps)
-
-  // use only the props from context, who are available here anyway
-  const props = convertSnakeCaseProps({
-    ...defaultProps,
-    ...localProps,
-    ...inherited,
-    ...context.getTranslation(localProps)['Tooltip'],
-    ...context.Tooltip,
-  })
-
+  const props = resolveProps(localProps, context)
   const {
     targetElement,
     targetSelector,
     className,
     id,
-    tooltip, // eslint-disable-line
     size,
+    children,
+    tooltip, // eslint-disable-line
     fixedPosition, // eslint-disable-line
     skipPortal, // eslint-disable-line
     noAnimation, // eslint-disable-line
@@ -53,52 +45,106 @@ function Tooltip(localProps: TooltipAllProps) {
     portalRootClass, // eslint-disable-line
     omitDescribedBy, // eslint-disable-line
     contentRef, // eslint-disable-line
-    ...params
+    ...attributeProps
   } = props
 
-  const target = targetElement || targetSelector
-
-  const [, forceUpdate] = useReducer(() => ({}), {})
-  const elementRef = useRef<HTMLElement>()
+  const targetSource = targetElement || targetSelector
+  const target = useTooltipTarget(targetElement, targetSelector)
   const internalId = useId(id)
-  props.internalId = internalId
+  const [isControlled] = useState(() => typeof active === 'boolean')
 
-  useEffect(() => {
-    const firstTimeRender = !elementRef.current
-    elementRef.current = getTargetElement(getRefElement(target))
-    if (firstTimeRender) {
-      forceUpdate()
-    }
-  }, [target])
-
-  if (target && !elementRef.current) {
+  if (targetSource && !target) {
     return null
   }
 
-  const classes = classnames(
-    'dnb-tooltip',
-    size === 'large' && 'dnb-tooltip--large',
-    createSpacingClasses(props),
-    className
-  )
-
-  const attributes = {
-    className: classes,
-    ...params,
-  }
+  const classes = buildClassNames(size, className, props)
+  const attributes = createAttributes(classes, attributeProps)
 
   // also used for code markup simulation
   validateDOMAttributes(localProps, attributes)
 
   return (
-    <TooltipWithEvents
-      target={elementRef.current}
-      attributes={attributes}
-      {...props}
-    >
-      {props.children}
-    </TooltipWithEvents>
+    <TooltipContext.Provider value={{ isControlled, internalId, props }}>
+      <TooltipWithEvents
+        target={target}
+        attributes={attributes}
+        {...props}
+      >
+        {children}
+      </TooltipWithEvents>
+    </TooltipContext.Provider>
   )
+}
+
+function resolveProps(
+  localProps: TooltipAllProps,
+  context: ContextProps
+): TooltipAllProps {
+  const inherited = getPropsFromTooltipProp(localProps)
+  const translation = (context.getTranslation?.(
+    localProps as Record<string, unknown>
+  ) || {}) as Record<string, unknown>
+  const tooltipTranslation = (translation['Tooltip'] || {}) as Record<
+    string,
+    unknown
+  >
+
+  // Use only the props from context that are relevant for Tooltip
+  return convertSnakeCaseProps({
+    ...defaultProps,
+    ...localProps,
+    ...inherited,
+    ...tooltipTranslation,
+    ...context.Tooltip,
+  })
+}
+
+function useTooltipTarget(
+  targetElement: TooltipAllProps['targetElement'],
+  targetSelector: TooltipAllProps['targetSelector']
+) {
+  const [target, setTarget] = useState<
+    TooltipAllProps['targetElement'] | HTMLElement | null
+  >(null)
+  const source = targetElement || targetSelector
+
+  useEffect(() => {
+    if (!source) {
+      setTarget(null)
+      return
+    }
+
+    const resolved =
+      getTargetElement(getRefElement(source)) ||
+      (typeof source === 'string' ? null : source)
+
+    setTarget(resolved as HTMLElement | React.ReactElement | null)
+  }, [source])
+
+  return target
+}
+
+function buildClassNames(
+  size: TooltipAllProps['size'],
+  className: TooltipAllProps['className'],
+  props: TooltipAllProps
+) {
+  return classnames(
+    'dnb-tooltip',
+    size === 'large' && 'dnb-tooltip--large',
+    createSpacingClasses(props),
+    className
+  )
+}
+
+function createAttributes(
+  className: string,
+  attributeProps: Record<string, unknown>
+): React.HTMLAttributes<HTMLElement> {
+  return {
+    className,
+    ...attributeProps,
+  }
 }
 
 export { injectTooltipSemantic }

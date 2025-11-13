@@ -735,9 +735,14 @@ describe('Tooltip', () => {
 
       try {
         render(
-          <TooltipContext.Provider value={{ isControlled: false }}>
+          <TooltipContext.Provider
+            value={{
+              isControlled: false,
+              internalId: 'tooltip-gutter',
+              props: {},
+            }}
+          >
             <TooltipContainer
-              internalId="tooltip-gutter"
               active
               hideDelay={0}
               targetElement={target}
@@ -756,9 +761,9 @@ describe('Tooltip', () => {
         )
 
         await waitFor(() =>
-          expect(
-            document.querySelector('.dnb-tooltip')?.style.left
-          ).toBe('20px')
+          expect(document.querySelector('.dnb-tooltip')).toHaveStyle(
+            'left: 20px;'
+          )
         )
 
         await act(async () => {
@@ -767,9 +772,9 @@ describe('Tooltip', () => {
         })
 
         await waitFor(() =>
-          expect(
-            document.querySelector('.dnb-tooltip')?.style.left
-          ).toBe('16px')
+          expect(document.querySelector('.dnb-tooltip')).toHaveStyle(
+            'left: 16px;'
+          )
         )
       } finally {
         setInnerWidth(originalInnerWidth)
