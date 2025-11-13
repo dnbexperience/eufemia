@@ -1,6 +1,6 @@
 ## Dynamically change data
 
-You can manipulate the used data dynamically, either by changing the `data` property or during user events like `on_type` or `on_focus`. The following properties and methods are there to use:
+You can manipulate the used data dynamically, either by changing the `data` property or during user events like `onType` or `onFocus`. The following properties and methods are there to use:
 
 ### Methods
 
@@ -30,14 +30,14 @@ You can manipulate the used data dynamically, either by changing the `data` prop
 
 ```jsx
 <Autocomplete
-  on_focus={({ updateData, showIndicator }) => {
+  onFocus={({ updateData, showIndicator }) => {
     showIndicator()
     setTimeout(() => {
       updateData(topMovies)
     }, 1e3)
   }}
-  on_type={({ value /* updateData, ... */ }) => {
-    console.log('on_type', value)
+  onType={({ value /* updateData, ... */ }) => {
+    console.log('onType', value)
   }}
 />
 ```
