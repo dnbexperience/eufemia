@@ -213,14 +213,14 @@ describe('Dropdown component', () => {
   })
 
   it('will stay open when keepOpen and a selection is made', () => {
-    const on_change = jest.fn()
+    const onChange = jest.fn()
     render(
       <Dropdown
         skipPortal
         noAnimation
         opened={true}
         keepOpen={true}
-        on_change={on_change}
+        onChange={onChange}
         data={mockData}
       />
     )
@@ -234,7 +234,7 @@ describe('Dropdown component', () => {
     keydown(40) // down
     keydown(32) // space
 
-    expect(on_change).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenCalledTimes(1)
     expect(
       document.querySelector('.dnb-drawer-list__option--selected')
     ).toBeInTheDocument()
@@ -251,15 +251,15 @@ describe('Dropdown component', () => {
   })
 
   it('will stay open when preventClose is given, regardless', async () => {
-    const on_change = jest.fn()
-    const on_hide = jest.fn()
+    const onChange = jest.fn()
+    const onHide = jest.fn()
     render(
       <Dropdown
         preventClose={true}
         skipPortal
         noAnimation
-        on_change={on_change}
-        on_hide={on_hide}
+        onChange={onChange}
+        onHide={onHide}
         data={mockData}
       />
     )
@@ -273,7 +273,7 @@ describe('Dropdown component', () => {
     keydown(40) // down
     keydown(32) // space
 
-    expect(on_change).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenCalledTimes(1)
     expect(
       document.querySelector('.dnb-drawer-list__option--selected')
     ).toBeInTheDocument()
@@ -288,13 +288,13 @@ describe('Dropdown component', () => {
       'dnb-dropdown--opened'
     )
 
-    expect(on_hide).toHaveBeenCalledTimes(0)
+    expect(onHide).toHaveBeenCalledTimes(0)
   })
 
-  it('has valid on_select callback', () => {
-    const on_select = jest.fn()
+  it('has valid onSelect callback', () => {
+    const onSelect = jest.fn()
 
-    render(<Dropdown {...props} data={mockData} on_select={on_select} />)
+    render(<Dropdown {...props} data={mockData} onSelect={onSelect} />)
 
     // then simulate changes
     keydown(32) // space
@@ -306,12 +306,12 @@ describe('Dropdown component', () => {
     ).toBe(1)
 
     const notChangedItem = mockData[(props.value as number) + 1]
-    expect(on_select.mock.calls[0][0].data).toStrictEqual(notChangedItem)
+    expect(onSelect.mock.calls[0][0].data).toStrictEqual(notChangedItem)
 
     keydown(40) // down
 
     const selectedItem = mockData[(props.value as number) + 2]
-    expect(on_select.mock.calls[1][0].data).toStrictEqual(selectedItem) // second call!
+    expect(onSelect.mock.calls[1][0].data).toStrictEqual(selectedItem) // second call!
   })
 
   it('will select correct item on given numeric selectedKey', () => {
@@ -383,7 +383,7 @@ describe('Dropdown component', () => {
   })
 
   it('has no selected items on using preventSelection', async () => {
-    const on_change = jest.fn()
+    const onChange = jest.fn()
     const title = 'custom title'
 
     const { rerender } = render(
@@ -392,7 +392,7 @@ describe('Dropdown component', () => {
         value={null}
         data={mockData}
         title={title}
-        on_change={on_change}
+        onChange={onChange}
         preventSelection
       />
     )
@@ -422,7 +422,7 @@ describe('Dropdown component', () => {
         value={null}
         data={mockData}
         title={title}
-        on_change={on_change}
+        onChange={onChange}
         preventSelection={false}
       />
     )
@@ -446,7 +446,7 @@ describe('Dropdown component', () => {
         value={null}
         data={mockData}
         title={title}
-        on_change={on_change}
+        onChange={onChange}
         preventSelection={false}
         actionMenu={true}
       />
@@ -471,7 +471,7 @@ describe('Dropdown component', () => {
         value={null}
         data={mockData}
         title={title}
-        on_change={on_change}
+        onChange={onChange}
         preventSelection={true}
         actionMenu={false}
       />
@@ -484,7 +484,7 @@ describe('Dropdown component', () => {
         .getAttribute('data-testid')
     ).toBe('chevron down icon')
 
-    const event = on_change.mock.calls[0][0]
+    const event = onChange.mock.calls[0][0]
     const selectedItem = mockData[event.value]
     expect(event.value).toBe(1)
     expect(event.selectedItem).toBe(1)
@@ -504,7 +504,7 @@ describe('Dropdown component', () => {
         value={null}
         data={mockData}
         title={null}
-        on_change={on_change}
+        onChange={onChange}
         preventSelection={true}
         actionMenu={false}
       />
@@ -564,10 +564,10 @@ describe('Dropdown component', () => {
       { selectedKey: 'id-456', content: '456 value' },
     ]
 
-    const on_change = jest.fn()
+    const onChange = jest.fn()
 
     const { rerender } = render(
-      <Dropdown noAnimation data={mockData} on_change={on_change} />
+      <Dropdown noAnimation data={mockData} onChange={onChange} />
     )
 
     // open first
@@ -586,13 +586,13 @@ describe('Dropdown component', () => {
     expect(document.querySelector('.dnb-dropdown__text').textContent).toBe(
       'A value'
     )
-    expect(on_change.mock.calls[0][0].data.selectedKey).toBe('a')
+    expect(onChange.mock.calls[0][0].data.selectedKey).toBe('a')
 
     rerender(
       <Dropdown
         noAnimation
         data={mockData}
-        on_change={on_change}
+        onChange={onChange}
         value="b"
       />
     )
@@ -606,13 +606,13 @@ describe('Dropdown component', () => {
     expect(document.querySelector('.dnb-dropdown__text').textContent).toBe(
       'C value'
     )
-    expect(on_change.mock.calls[1][0].data.selectedKey).toBe('c')
+    expect(onChange.mock.calls[1][0].data.selectedKey).toBe('c')
 
     rerender(
       <Dropdown
         noAnimation
         data={mockData}
-        on_change={on_change}
+        onChange={onChange}
         value="id-123"
       />
     )
@@ -626,13 +626,13 @@ describe('Dropdown component', () => {
     expect(document.querySelector('.dnb-dropdown__text').textContent).toBe(
       '456 value'
     )
-    expect(on_change.mock.calls[2][0].data.selectedKey).toBe('id-456')
+    expect(onChange.mock.calls[2][0].data.selectedKey).toBe('id-456')
 
     rerender(
       <Dropdown
         noAnimation
         data={mockData}
-        on_change={on_change}
+        onChange={onChange}
         value={123}
       />
     )
@@ -684,17 +684,17 @@ describe('Dropdown component', () => {
     ).toBeInTheDocument()
   })
 
-  it('has valid on_change callback', () => {
+  it('has valid onChange callback', () => {
     let selectedItem
-    const on_change = jest.fn()
-    const on_select = jest.fn()
+    const onChange = jest.fn()
+    const onSelect = jest.fn()
 
     render(
       <Dropdown
         {...props}
         data={mockData}
-        on_change={on_change}
-        on_select={on_select}
+        onChange={onChange}
+        onSelect={onSelect}
       />
     )
     // open first
@@ -704,16 +704,16 @@ describe('Dropdown component', () => {
     keydown(40) // down
 
     selectedItem = mockData[(props.value as number) + 1]
-    expect(on_select.mock.calls[0][0].data).toStrictEqual(selectedItem)
+    expect(onSelect.mock.calls[0][0].data).toStrictEqual(selectedItem)
 
     keydown(32) // space
 
     selectedItem = mockData[(props.value as number) + 1]
-    expect(on_change).toHaveBeenCalledTimes(1)
-    expect(on_select).toHaveBeenCalledTimes(2)
-    expect(on_change.mock.calls[0][0].data).toStrictEqual(selectedItem)
-    expect(on_select.mock.calls[1][0].data).toStrictEqual(selectedItem)
-    expect(on_change).toHaveBeenCalledWith({
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onSelect).toHaveBeenCalledTimes(2)
+    expect(onChange.mock.calls[0][0].data).toStrictEqual(selectedItem)
+    expect(onSelect.mock.calls[1][0].data).toStrictEqual(selectedItem)
+    expect(onChange).toHaveBeenCalledWith({
       attributes: {},
       isTrusted: false,
       data: selectedItem,
@@ -730,20 +730,20 @@ describe('Dropdown component', () => {
     keydown(13) // enter
 
     selectedItem = mockData[(props.value as number) + 2]
-    expect(on_change.mock.calls[1][0].data).toStrictEqual(selectedItem) // second call!
-    expect(on_select.mock.calls[3][0].data).toStrictEqual(selectedItem) // second call!
-    expect(on_change).toHaveBeenCalledTimes(2)
-    expect(on_select).toHaveBeenCalledTimes(4)
+    expect(onChange.mock.calls[1][0].data).toStrictEqual(selectedItem) // second call!
+    expect(onSelect.mock.calls[3][0].data).toStrictEqual(selectedItem) // second call!
+    expect(onChange).toHaveBeenCalledTimes(2)
+    expect(onSelect).toHaveBeenCalledTimes(4)
   })
 
-  it('has valid on_change callback if object was given', () => {
-    const on_change = jest.fn()
+  it('has valid onChange callback if object was given', () => {
+    const onChange = jest.fn()
 
     render(
       <Dropdown
         {...props}
         data={{ 'en-GB': 'English', 'nb-NO': 'Norsk' }}
-        on_change={on_change}
+        onChange={onChange}
       />
     )
 
@@ -751,7 +751,7 @@ describe('Dropdown component', () => {
     keydown(40) // down
     keydown(32) // space
 
-    expect(on_change).toHaveBeenCalledWith({
+    expect(onChange).toHaveBeenCalledWith({
       attributes: {},
       isTrusted: false,
       data: {
@@ -770,7 +770,7 @@ describe('Dropdown component', () => {
     keydown(40) // down
     keydown(32) // space
 
-    expect(on_change).toHaveBeenLastCalledWith({
+    expect(onChange).toHaveBeenLastCalledWith({
       attributes: {},
       isTrusted: false,
       data: {
@@ -784,7 +784,7 @@ describe('Dropdown component', () => {
       value: 'nb-NO',
     })
 
-    expect(on_change).toHaveBeenCalledTimes(2)
+    expect(onChange).toHaveBeenCalledTimes(2)
   })
 
   it('has correct "aria-expanded"', () => {
@@ -961,14 +961,14 @@ describe('Dropdown component', () => {
   })
 
   it('has to return all additional attributes the event return', () => {
-    const on_show = jest.fn()
-    const on_hide = jest.fn()
+    const onShow = jest.fn()
+    const onHide = jest.fn()
     const params = { 'data-attr': 'value' }
     render(
       <Dropdown
         noAnimation
-        on_show={on_show}
-        on_hide={on_hide}
+        onShow={onShow}
+        onHide={onHide}
         {...params}
         data={mockData}
       />
@@ -976,9 +976,9 @@ describe('Dropdown component', () => {
 
     open()
 
-    expect(on_show.mock.calls.length).toBe(1)
-    expect(on_show.mock.calls[0][0].attributes).toMatchObject(params)
-    expect(on_show).toHaveBeenCalledWith({
+    expect(onShow.mock.calls.length).toBe(1)
+    expect(onShow.mock.calls[0][0].attributes).toMatchObject(params)
+    expect(onShow).toHaveBeenCalledWith({
       attributes: params,
       data: null,
       ulElement: null,
@@ -987,32 +987,32 @@ describe('Dropdown component', () => {
     // close
     dispatchKeyDown(27) // esc
 
-    expect(on_hide.mock.calls.length).toBe(1)
-    expect(on_hide.mock.calls[0][0].attributes).toMatchObject(params)
-    expect(on_hide).toHaveBeenCalledWith({
+    expect(onHide.mock.calls.length).toBe(1)
+    expect(onHide.mock.calls[0][0].attributes).toMatchObject(params)
+    expect(onHide).toHaveBeenCalledWith({
       isTrusted: false,
       attributes: params,
       data: null,
       event: new KeyboardEvent('keydown', {}),
     })
 
-    expect(on_show).toHaveBeenCalledTimes(1)
-    expect(on_hide).toHaveBeenCalledTimes(1)
+    expect(onShow).toHaveBeenCalledTimes(1)
+    expect(onHide).toHaveBeenCalledTimes(1)
   })
 
   it('has to set correct focus during open and close', async () => {
-    const on_show = jest.fn()
-    const on_hide = jest.fn()
-    const on_show_focus = jest.fn()
-    const on_hide_focus = jest.fn()
+    const onShow = jest.fn()
+    const onHide = jest.fn()
+    const onShowFocus = jest.fn()
+    const onHideFocus = jest.fn()
 
     render(
       <Dropdown
         noAnimation
-        on_show={on_show}
-        on_hide={on_hide}
-        on_show_focus={on_show_focus}
-        on_hide_focus={on_hide_focus}
+        onShow={onShow}
+        onHide={onHide}
+        onShowFocus={onShowFocus}
+        onHideFocus={onHideFocus}
         data={mockData}
       />
     )
@@ -1020,15 +1020,15 @@ describe('Dropdown component', () => {
     // 1. open the dropdown
     open()
 
-    expect(on_show).toHaveBeenCalledTimes(1)
-    expect(on_show).toHaveBeenCalledWith({
+    expect(onShow).toHaveBeenCalledTimes(1)
+    expect(onShow).toHaveBeenCalledWith({
       attributes: {},
       data: null,
       ulElement: null,
     })
 
-    expect(on_show_focus).toHaveBeenCalledTimes(1)
-    expect(on_show_focus.mock.calls[0][0].element).toBe(
+    expect(onShowFocus).toHaveBeenCalledTimes(1)
+    expect(onShowFocus.mock.calls[0][0].element).toBe(
       document.activeElement
     )
 
@@ -1038,23 +1038,23 @@ describe('Dropdown component', () => {
     // delay because we want to wait to have the DOM focus to be called
     await wait(1)
 
-    expect(on_hide).toHaveBeenCalledTimes(1)
-    expect(on_hide).toHaveBeenCalledWith({
+    expect(onHide).toHaveBeenCalledTimes(1)
+    expect(onHide).toHaveBeenCalledWith({
       attributes: {},
       isTrusted: false,
       event: new KeyboardEvent('keydown', {}),
       data: null,
     })
-    expect(on_hide_focus).toHaveBeenCalledTimes(1)
-    expect(on_hide_focus.mock.calls[0][0].element).toBe(
+    expect(onHideFocus).toHaveBeenCalledTimes(1)
+    expect(onHideFocus.mock.calls[0][0].element).toBe(
       document.querySelector('.dnb-button')
     )
   })
 
-  it('will prevent close if false gets returned from on_hide event', () => {
+  it('will prevent close if false gets returned from onHide event', () => {
     let preventClose = false
-    const on_hide = jest.fn(() => !preventClose)
-    render(<Dropdown noAnimation on_hide={on_hide} data={mockData} />)
+    const onHide = jest.fn(() => !preventClose)
+    render(<Dropdown noAnimation onHide={onHide} data={mockData} />)
 
     // first open
     open()
@@ -1068,7 +1068,7 @@ describe('Dropdown component', () => {
       dispatchKeyDown(27) // esc
     })
 
-    expect(on_hide.mock.calls.length).toBe(1)
+    expect(onHide.mock.calls.length).toBe(1)
 
     expect(
       document.querySelector('.dnb-dropdown').classList
@@ -1088,7 +1088,7 @@ describe('Dropdown component', () => {
       dispatchKeyDown(27) // esc
     })
 
-    expect(on_hide.mock.calls.length).toBe(2)
+    expect(onHide.mock.calls.length).toBe(2)
 
     // we are still open
     expect(document.querySelector('.dnb-dropdown').classList).toContain(

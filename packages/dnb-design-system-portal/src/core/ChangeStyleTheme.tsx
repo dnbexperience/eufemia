@@ -25,7 +25,7 @@ export default function ChangeStyleTheme({ label = null, ...rest } = {}) {
       value={name}
       data={date}
       label={label}
-      on_change={({ data: { value } }) => {
+      onChange={({ data: { value } }) => {
         update({ skeleton: true })
         setTheme({ name: value }, () => {
           update({ skeleton: false })
