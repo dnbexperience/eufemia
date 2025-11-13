@@ -271,10 +271,10 @@ export interface AutocompleteProps {
    * Define a custom class for the internal drawer-list. This makes it possible more easily customize the drawer-list style with styled-components and the `css` style method. Defaults to `null`.
    */
   drawerClass?: string;
-  on_type?: (event: AutocompleteTypeEvent) => void;
-  on_focus?: (event: AutocompleteFocusEvent) => void;
-  on_blur?: (event: AutocompleteBlurEvent) => void;
-  on_select?: (event: AutocompleteSelectEvent) => void;
+  onType?: (event: AutocompleteTypeEvent) => void;
+  onFocus?: (event: AutocompleteFocusEvent) => void;
+  onBlur?: (event: AutocompleteBlurEvent) => void;
+  onSelect?: (event: AutocompleteSelectEvent) => void;
   onClear?: (event: AutocompleteClearEvent) => void;
 }
 export type AutocompleteAllProps = AutocompleteProps &
@@ -289,6 +289,11 @@ export type AutocompleteAllProps = AutocompleteProps &
     | 'placeholder'
     | 'data'
     | 'children'
+    | 'onChange'
+    | 'onFocus'
+    | 'onSelect'
+    | 'onResize'
+    | 'onBlur'
   >;
 export default class Autocomplete extends React.Component<
   AutocompleteAllProps,
