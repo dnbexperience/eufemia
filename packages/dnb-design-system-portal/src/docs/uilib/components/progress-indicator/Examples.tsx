@@ -163,7 +163,7 @@ export const ProgressIndicatorCircularRandomOnCompleteExample = () => (
             size="large"
             visible={visible}
             onComplete={() => {
-              console.log('on_complete_circular')
+              console.log('onCompleteCircular')
             }}
           />
         )
@@ -312,7 +312,7 @@ export const ProgressIndicatorLinearRandomOnCompleteExample = () => (
             size="large"
             visible={visible}
             onComplete={() => {
-              console.log('on_complete_linear')
+              console.log('onCompleteLinear')
             }}
           />
         )
