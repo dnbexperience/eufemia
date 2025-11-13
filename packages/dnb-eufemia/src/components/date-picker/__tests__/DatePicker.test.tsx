@@ -1938,7 +1938,7 @@ describe('DatePicker component', () => {
     expect(onChange.mock.calls[4][0].isValid).toBe(true)
   })
 
-  it('should report both is_valid_start_date and is_valid_end_date as false when start date is after end date in range mode', () => {
+  it('should report both isValidStartDate and isValidEndDate as false when start date is after end date in range mode', () => {
     const onChange = jest.fn()
 
     render(
@@ -1959,11 +1959,11 @@ describe('DatePicker component', () => {
     })
 
     expect(onChange).toHaveBeenCalledTimes(1)
-    expect(onChange.mock.calls[0][0].start_date).toBe('2019-03-15')
-    expect(onChange.mock.calls[0][0].end_date).toBe('2019-02-15')
-    expect(onChange.mock.calls[0][0].days_between).toBeLessThan(0)
-    expect(onChange.mock.calls[0][0].is_valid_start_date).toBe(false)
-    expect(onChange.mock.calls[0][0].is_valid_end_date).toBe(false)
+    expect(onChange.mock.calls[0][0].startDate).toBe('2019-03-15')
+    expect(onChange.mock.calls[0][0].endDate).toBe('2019-02-15')
+    expect(onChange.mock.calls[0][0].daysBetween).toBeLessThan(0)
+    expect(onChange.mock.calls[0][0].isValidStartDate).toBe(false)
+    expect(onChange.mock.calls[0][0].isValidEndDate).toBe(false)
   })
 
   it('should not report range order error when end date is cleared in range mode', () => {
@@ -1988,11 +1988,11 @@ describe('DatePicker component', () => {
     })
 
     expect(onChange).toHaveBeenCalledTimes(1)
-    expect(onChange.mock.calls[0][0].is_valid_start_date).toBe(true)
-    expect(onChange.mock.calls[0][0].is_valid_end_date).toBe(false)
+    expect(onChange.mock.calls[0][0].isValidStartDate).toBe(true)
+    expect(onChange.mock.calls[0][0].isValidEndDate).toBe(false)
   })
 
-  it('has valid on_type and onChange event calls', () => {
+  it('has valid onType and onChange event calls', () => {
     function capitalizeFirstLetter(val) {
       return String(val).charAt(0).toUpperCase() + String(val).slice(1)
     }
@@ -2244,9 +2244,9 @@ describe('DatePicker component', () => {
 
   it('resets date correctly between interactions', () => {
     let outerState
-    const on_change = jest.fn(({ date }) => (outerState = date))
+    const onChange = jest.fn(({ date }) => (outerState = date))
     const { rerender } = render(
-      <DatePicker onChange={on_change} showInput date="2019-02-01" />
+      <DatePicker onChange={onChange} showInput date="2019-02-01" />
     )
 
     function changeState() {
@@ -2259,7 +2259,7 @@ describe('DatePicker component', () => {
       })
       // Siulate prop update, like a state update would do
       rerender(
-        <DatePicker onChange={on_change} showInput date={outerState} />
+        <DatePicker onChange={onChange} showInput date={outerState} />
       )
 
       expect(
@@ -2272,7 +2272,7 @@ describe('DatePicker component', () => {
 
       // 2. change the date by prop
       rerender(
-        <DatePicker onChange={on_change} showInput date="2019-02-01" />
+        <DatePicker onChange={onChange} showInput date="2019-02-01" />
       )
 
       expect(
@@ -2285,10 +2285,10 @@ describe('DatePicker component', () => {
     }
 
     changeState()
-    expect(on_change).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenCalledTimes(1)
 
     changeState()
-    expect(on_change).toHaveBeenCalledTimes(2)
+    expect(onChange).toHaveBeenCalledTimes(2)
   })
 
   it('should reset on setting value to null', () => {
