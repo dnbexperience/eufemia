@@ -5,11 +5,13 @@
 
 import React from 'react'
 import { axeComponent, loadScss, wait } from '../../../core/jest/jestSetup'
-import { fireEvent, render } from '@testing-library/react'
+import { act, fireEvent, render, waitFor } from '@testing-library/react'
 import OriginalTooltip from '../Tooltip'
 import Anchor from '../../anchor/Anchor'
 import NumberFormat from '../../number-format/NumberFormat'
 import { TooltipAllProps } from '../types'
+import TooltipContainer from '../TooltipContainer'
+import { TooltipContext } from '../TooltipContext'
 
 global.ResizeObserver = class {
   constructor() {
@@ -593,6 +595,187 @@ describe('Tooltip', () => {
       expect(
         document.body.querySelector('#' + id).parentElement.classList
       ).toContain('dnb-tooltip--active')
+    })
+  })
+
+  describe('positioning and viewport gutter', () => {
+    const widthAttr = 'data-tooltip-test-width'
+    const heightAttr = 'data-tooltip-test-height'
+    const originalOffsetWidth = Object.getOwnPropertyDescriptor(
+      HTMLElement.prototype,
+      'offsetWidth'
+    )
+    const originalOffsetHeight = Object.getOwnPropertyDescriptor(
+      HTMLElement.prototype,
+      'offsetHeight'
+    )
+
+    const getAttrValue = (
+      element: HTMLElement,
+      attr: string
+    ): number | null => {
+      const value =
+        typeof element.getAttribute === 'function'
+          ? element.getAttribute(attr)
+          : null
+      if (!value) {
+        return null
+      }
+      const parsed = parseFloat(value)
+      return Number.isNaN(parsed) ? null : parsed
+    }
+
+    beforeAll(() => {
+      Object.defineProperty(HTMLElement.prototype, 'offsetWidth', {
+        configurable: true,
+        get(this: HTMLElement) {
+          const attrValue = getAttrValue(this, widthAttr)
+          if (attrValue !== null) {
+            return attrValue
+          }
+          return originalOffsetWidth?.get
+            ? originalOffsetWidth.get.call(this)
+            : 0
+        },
+      })
+
+      Object.defineProperty(HTMLElement.prototype, 'offsetHeight', {
+        configurable: true,
+        get(this: HTMLElement) {
+          const attrValue = getAttrValue(this, heightAttr)
+          if (attrValue !== null) {
+            return attrValue
+          }
+          return originalOffsetHeight?.get
+            ? originalOffsetHeight.get.call(this)
+            : 0
+        },
+      })
+    })
+
+    afterAll(() => {
+      if (originalOffsetWidth) {
+        Object.defineProperty(
+          HTMLElement.prototype,
+          'offsetWidth',
+          originalOffsetWidth
+        )
+      }
+      if (originalOffsetHeight) {
+        Object.defineProperty(
+          HTMLElement.prototype,
+          'offsetHeight',
+          originalOffsetHeight
+        )
+      }
+    })
+
+    it('repositions tooltip to maintain viewport gutter on resize', async () => {
+      const originalInnerWidth = window.innerWidth
+      const setInnerWidth = (value: number) =>
+        Object.defineProperty(window, 'innerWidth', {
+          configurable: true,
+          value,
+        })
+      setInnerWidth(500)
+
+      const target = document.createElement('button')
+      document.body.appendChild(target)
+      const originalBodyRect = document.body.getBoundingClientRect.bind(
+        document.body
+      )
+      document.body.getBoundingClientRect = () => ({
+        width: window.innerWidth,
+        height: 0,
+        top: 0,
+        left: 0,
+        right: window.innerWidth,
+        bottom: 0,
+        x: 0,
+        y: 0,
+        toJSON() {
+          return ''
+        },
+      })
+
+      const rect = {
+        width: 80,
+        height: 20,
+        top: 30,
+        left: 40,
+      }
+      target.getBoundingClientRect = () => ({
+        width: rect.width,
+        height: rect.height,
+        top: rect.top,
+        left: rect.left,
+        right: rect.left + rect.width,
+        bottom: rect.top + rect.height,
+        x: rect.left,
+        y: rect.top,
+        toJSON() {
+          return ''
+        },
+      })
+      Object.defineProperty(target, 'offsetWidth', {
+        configurable: true,
+        value: rect.width,
+      })
+      Object.defineProperty(target, 'offsetHeight', {
+        configurable: true,
+        value: rect.height,
+      })
+
+      const attributes = {
+        className: 'dnb-tooltip',
+        style: {},
+        [widthAttr]: '120',
+        [heightAttr]: '40',
+      } as const
+
+      try {
+        render(
+          <TooltipContext.Provider value={{ isControlled: false }}>
+            <TooltipContainer
+              internalId="tooltip-gutter"
+              active
+              hideDelay={0}
+              targetElement={target}
+              position="bottom"
+              arrow="center"
+              align="center"
+              attributes={
+                attributes as unknown as Record<string, unknown> & {
+                  style: React.CSSProperties
+                }
+              }
+            >
+              Tooltip content
+            </TooltipContainer>
+          </TooltipContext.Provider>
+        )
+
+        await waitFor(() =>
+          expect(
+            document.querySelector('.dnb-tooltip')?.style.left
+          ).toBe('20px')
+        )
+
+        await act(async () => {
+          setInnerWidth(120)
+          window.dispatchEvent(new Event('resize'))
+        })
+
+        await waitFor(() =>
+          expect(
+            document.querySelector('.dnb-tooltip')?.style.left
+          ).toBe('16px')
+        )
+      } finally {
+        setInnerWidth(originalInnerWidth)
+        document.body.getBoundingClientRect = originalBodyRect
+        document.body.removeChild(target)
+      }
     })
   })
 

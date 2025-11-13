@@ -67,6 +67,10 @@ export default function TooltipContainer(
     clearTimeout(debounceTimeout.current)
   }
 
+  const handleViewportResize = useCallback(() => {
+    forceRerender(getBodySize())
+  }, [getBodySize])
+
   const addPositionObserver = useCallback(() => {
     if (resizeObserver.current || typeof document === 'undefined') {
       return // stop here
@@ -107,6 +111,16 @@ export default function TooltipContainer(
   const offsetTop = useRef(0)
 
   useLayoutEffect(() => {
+    if (typeof window === 'undefined') {
+      return
+    }
+    window.addEventListener('resize', handleViewportResize)
+    return () => {
+      window.removeEventListener('resize', handleViewportResize)
+    }
+  }, [handleViewportResize])
+
+  useLayoutEffect(() => {
     if (!isActive && renewStyles) {
       /**
        * This "resets" the position between elements,
@@ -130,8 +144,6 @@ export default function TooltipContainer(
     ) {
       return // stop here
     }
-
-    let alignOffset = 0
 
     const elementWidth = element.offsetWidth
     const elementHeight = element.offsetHeight
@@ -158,86 +170,135 @@ export default function TooltipContainer(
     const widthBased = scrollX + rect.left
     const left = widthBased - offsetLeft.current
 
-    const style = { ...props.style }
-    const arrowStyle = { top: null, left: null }
+    const style: React.CSSProperties = { ...props.style }
+    const arrowStyle: React.CSSProperties = { top: null, left: null }
 
-    if (align === 'left') {
-      alignOffset = -targetBodySize.width / 2
-    } else if (align === 'right') {
-      alignOffset = targetBodySize.width / 2
+    const centerX = left + targetBodySize.width / 2
+    const anchorY = top + targetBodySize.height / 2
+    const isVerticalPlacement = position === 'top' || position === 'bottom'
+    const alignOffset =
+      align === 'left'
+        ? -targetBodySize.width / 2
+        : align === 'right'
+        ? targetBodySize.width / 2
+        : 0
+    const anchorX = centerX + (isVerticalPlacement ? alignOffset : 0)
+
+    const placements = {
+      left: () => ({
+        left: left - elementWidth - offset.current,
+        top: anchorY - elementHeight / 2,
+      }),
+      right: () => ({
+        left: left + targetBodySize.width + offset.current,
+        top: anchorY - elementHeight / 2,
+      }),
+      top: () => ({
+        left: anchorX - elementWidth / 2,
+        top: top - elementHeight - offset.current,
+      }),
+      bottom: () => ({
+        left: anchorX - elementWidth / 2,
+        top: top + targetBodySize.height + offset.current,
+      }),
     }
 
-    const topHorizontal =
-      top + targetBodySize.height / 2 - elementHeight / 2
-    const leftVertical =
-      left - elementWidth / 2 + targetBodySize.width / 2 + alignOffset
+    const resolvePlacement = placements[position] || placements.top
+    let { left: nextLeft, top: nextTop } = resolvePlacement()
 
-    const stylesFromPosition = {
-      left: () => {
-        style.top = topHorizontal
-        style.left = left - elementWidth - offset.current
-      },
-      right: () => {
-        style.top = topHorizontal
-        style.left = left + targetBodySize.width + offset.current
-      },
-      top: () => {
-        style.left = leftVertical
-        style.top = top - elementHeight - offset.current
-      },
-      bottom: () => {
-        style.left = leftVertical
-        style.top = top + targetBodySize.height + offset.current
-      },
+    const arrowPositions = {
+      left: () => ({
+        left: centerX - offset.current + alignOffset,
+      }),
+      right: () => ({
+        left: centerX - elementWidth + offset.current + alignOffset,
+      }),
+      top: () => ({
+        top: anchorY - offset.current,
+      }),
+      bottom: () => ({
+        top: anchorY - elementHeight + offset.current,
+      }),
     }
 
-    const stylesFromArrow = {
-      left: () => {
-        style.left =
-          left + targetBodySize.width / 2 - offset.current + alignOffset
-      },
-      right: () => {
-        style.left =
-          left -
-          elementWidth +
-          targetBodySize.width / 2 +
-          offset.current +
-          alignOffset
-      },
-      top: () => {
-        style.top = top + targetBodySize.height / 2 - offset.current
-      },
-      bottom: () => {
-        style.top =
-          top + targetBodySize.height / 2 - elementHeight + offset.current
-      },
-    }
-
-    stylesFromPosition[position]?.()
-    stylesFromArrow[arrow]?.()
-
-    const rightOffset =
-      parseFloat(String(style.left)) + elementWidth - window.innerWidth
-    if (rightOffset > 0) {
-      style.left = window.innerWidth - elementWidth
-    }
-    if (parseFloat(String(style.left)) < 0) {
-      style.left = 0
-      if (position === 'top' || position === 'bottom') {
-        const arrowWidth = 16 // 1rem
-        const arrowStyleBasisWidth = left - arrowWidth / 2
-        if (align === 'left') {
-          arrowStyle.left = arrowStyleBasisWidth
-        } else if (align === 'right') {
-          arrowStyle.left = arrowStyleBasisWidth + targetBodySize.width
-        } else {
-          arrowStyle.left = arrowStyleBasisWidth + targetBodySize.width / 2
-        }
+    const arrowOverride =
+      arrowPositions[arrow as keyof typeof arrowPositions]
+    if (arrowOverride) {
+      const overrides = arrowOverride()
+      if ('left' in overrides) {
+        nextLeft = overrides.left
+      }
+      if ('top' in overrides) {
+        nextTop = overrides.top
       }
     }
-    if (parseFloat(String(style.top)) < 0) {
-      style.top = 0
+
+    const edgeSpacing = 8 // Keep a little background behind the arrow when hugging edges
+    const arrowHugsEdge =
+      isVerticalPlacement && (arrow === 'left' || arrow === 'right')
+    if (arrowHugsEdge) {
+      nextLeft += arrow === 'left' ? -edgeSpacing : edgeSpacing
+    }
+
+    const lacksLayout =
+      !elementWidth &&
+      !elementHeight &&
+      !targetBodySize.width &&
+      !targetBodySize.height
+
+    if (lacksLayout) {
+      // jsdom / SSR environments frequently report zero metrics – keep inline styles stable until we get real measurements
+      if (typeof style.left === 'undefined') {
+        style.left = 0
+      }
+      if (typeof style.top === 'undefined') {
+        style.top = 0
+      }
+      setStyle(style)
+      setArrowStyle(arrowStyle)
+      return
+    }
+
+    const computedStyle =
+      typeof window !== 'undefined' && element
+        ? window.getComputedStyle(element)
+        : null
+    const marginLeft = computedStyle
+      ? parseFloat(computedStyle.marginLeft) || 0
+      : 0
+    const marginRight = computedStyle
+      ? parseFloat(computedStyle.marginRight) || 0
+      : 0
+
+    const viewportMargin = 16
+    const elementWidthWithMargins = elementWidth + marginRight
+    const rightBoundary = window.innerWidth - viewportMargin
+
+    let actualLeft = nextLeft
+    const actualRight = actualLeft + elementWidthWithMargins
+
+    if (actualRight > rightBoundary) {
+      const allowedLeft = rightBoundary - elementWidthWithMargins
+      actualLeft = Math.max(viewportMargin, allowedLeft)
+    }
+
+    if (actualLeft < viewportMargin) {
+      actualLeft = viewportMargin
+    }
+
+    const constrainedLeft = actualLeft - marginLeft
+
+    const constrainedTop = Math.max(0, nextTop)
+    if (constrainedTop !== nextTop) {
       arrowStyle.top = 0
+    }
+
+    style.left = constrainedLeft
+    style.top = constrainedTop
+
+    if (isVerticalPlacement) {
+      const arrowWidth = 16 // 1rem
+      arrowStyle.left = anchorX - actualLeft - arrowWidth / 2
     }
 
     setStyle(style)

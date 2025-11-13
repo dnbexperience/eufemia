@@ -26,6 +26,9 @@
   justify-content: center;
   align-items: center;
 
+  // To prevent getting on the edge of the screen.
+  // Use px values to ensure content does not get squeezed when font-size increases.
+  margin: 0 16px;
   padding: 0 1rem;
   color: var(--tooltip-color);
 

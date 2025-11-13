@@ -146,6 +146,7 @@ p > .dnb-icon {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin: 0 16px;
   padding: 0 1rem;
   color: var(--tooltip-color);
   text-align: center;
