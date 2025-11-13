@@ -209,7 +209,7 @@ describe('Checkbox component', () => {
     expect(checkbox.checked).toBe(true)
   })
 
-  it('has "on_change" event which will trigger on a input change', () => {
+  it('has "onChange" event which will trigger on a input change', () => {
     const myEvent = jest.fn()
     render(<Checkbox onChange={myEvent} checked={false} />)
     screen.getByRole('checkbox').click()
