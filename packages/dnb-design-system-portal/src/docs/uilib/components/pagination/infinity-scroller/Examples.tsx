@@ -329,8 +329,8 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
           currentPage={currentPage}
           pageCount={maxPagesCount}
           {...props}
-          on_startup={action}
-          on_change={action}
+          onStartup={action}
+          onChange={action}
         />
       </tbody>
     </StyledTable>
