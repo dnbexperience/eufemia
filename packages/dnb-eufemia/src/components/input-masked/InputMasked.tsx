@@ -114,6 +114,10 @@ export interface InputMaskedProps
    */
   showMask?: boolean
   /**
+   * Allow users to keep typing after the provided mask has been filled. Extra characters will be appended unmasked.
+   */
+  allowOverflow?: boolean
+  /**
    * The placeholder character represents the fillable spot in the mask (e.g. `_`). Defaults to invisible space.
    */
   innerRef?: InputProps['innerRef']
@@ -212,6 +216,7 @@ const defaultProps = {
   asPercent: null,
   locale: null,
   showMask: false,
+  allowOverflow: false,
   innerRef: null,
 
   onChange: null,

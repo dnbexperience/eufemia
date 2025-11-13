@@ -18,7 +18,7 @@ const useLayoutEffect =
 
 export const useInputElement = () => {
   const { props } = React.useContext(InputMaskedContext)
-  const { innerRef } = props
+  const { innerRef, allowOverflow } = props
 
   const mask = useMask()
   const { showMask } = useMaskParams()
@@ -52,11 +52,12 @@ export const useInputElement = () => {
           inputElement={inputElementRef.current}
           mask={mask || createNumberMask()}
           showMask={showMask}
+          allowOverflow={allowOverflow}
           {...(getSoftKeyboardAttributes(mask) || {})}
           {...params}
         />
       )
     },
-    [mask, ref, showMask]
+    [allowOverflow, mask, ref, showMask]
   )
 }
