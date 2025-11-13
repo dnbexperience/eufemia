@@ -206,8 +206,8 @@ export const DropdownNoValue = () => (
             data={data}
             label="Label"
             title="Please select a value"
-            on_change={({ data }) => {
-              console.log('on_change', data)
+            onChange={({ data }) => {
+              console.log('onChange', data)
             }}
           />
         )
@@ -276,11 +276,11 @@ export const DropdownIconLeft = () => (
         data={data}
         value={3}
         skipPortal={true}
-        on_change={({ data: selectedDataItem }) => {
-          console.log('on_change', selectedDataItem)
+        onChange={({ data: selectedDataItem }) => {
+          console.log('onChange', selectedDataItem)
         }}
-        on_show={() => {
-          console.log('on_show')
+        onShow={() => {
+          console.log('onShow')
         }}
       />
     </ComponentBox>
@@ -311,7 +311,7 @@ export const DropdownActionMenu = () => (
             </>
           ),
         })}
-        on_change={({ value }) => console.log('action:', value)}
+        onChange={({ value }) => console.log('action:', value)}
       />
     </ComponentBox>
   </Wrapper>
@@ -426,11 +426,11 @@ export const DropdownMoreMenu = () => {
             second: 'Or press on me',
             third: <>Custom component</>,
           })}
-          on_change={({ value }) => {
-            console.log('on_change', value)
+          onChange={({ value }) => {
+            console.log('onChange', value)
           }}
-          on_select={({ activeItem }) => {
-            console.log('on_select', activeItem)
+          onSelect={({ activeItem }) => {
+            console.log('onSelect', activeItem)
           }}
         />
       </ComponentBox>
@@ -583,7 +583,7 @@ export const DropdownCustomEvent = () => {
                 second: 'Or press on me',
                 third: <CustomComponent key="item-2" />,
               })}
-              on_change={({ value }) => {
+              onChange={({ value }) => {
                 console.log('More menu:', value)
               }}
               suffix={
