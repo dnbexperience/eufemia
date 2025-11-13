@@ -400,26 +400,18 @@ describe('"isTrue" should', () => {
 })
 
 describe('"dispatchCustomElementEvent" should', () => {
-  it('emit snake case and camel case events', () => {
-    const my_event = jest.fn()
+  it('emit camel case events', () => {
     const myEvent = jest.fn()
     const instance = {
       props: {
-        my_event,
         myEvent,
       },
     }
 
     const eventObject = {}
 
-    dispatchCustomElementEvent(instance, 'my_event', eventObject)
-    expect(my_event).toHaveBeenCalledTimes(1)
-    expect(myEvent).toHaveBeenCalledTimes(1)
-
-    // dispatchCustomElementEvent(instance, 'my_event', eventObject)
     dispatchCustomElementEvent(instance, 'myEvent', eventObject)
-    expect(my_event).toHaveBeenCalledTimes(2)
-    expect(myEvent).toHaveBeenCalledTimes(2)
+    expect(myEvent).toHaveBeenCalledTimes(1)
   })
 
   it('emit an event and return its event properties, including custom properties', () => {
