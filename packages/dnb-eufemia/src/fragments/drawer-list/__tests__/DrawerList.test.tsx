@@ -142,7 +142,7 @@ describe('DrawerList component', () => {
 
       keydown(40) // down
       await waitFor(() => {
-        // on_select is called when navigating to disabled item
+        // onSelect is called when navigating to disabled item
         expect(onSelect).toHaveBeenCalledTimes(2)
         expect(onSelect.mock.calls[1][0].activeItem).toBe(1)
         expect(onSelect.mock.calls[1][0].data.disabled).toBe(true)
