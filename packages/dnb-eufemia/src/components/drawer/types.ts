@@ -1,4 +1,3 @@
-import { ToCamelCasePartial } from '../../shared/helpers/withCamelCaseProps'
 import { ScrollViewAllProps } from '../../fragments/ScrollView'
 import { ModalPropTypes } from '../modal/Modal'
 import { ReactChildType } from '../modal/types'
@@ -13,7 +12,7 @@ export type DrawerProps = {
    * The drawer title. Displays on the very top of the content.
    */
   title?: React.ReactNode
-} & ToCamelCasePartial<ModalPropTypes>
+} & ModalPropTypes
 
 export type DrawerContentProps = {
   /**
