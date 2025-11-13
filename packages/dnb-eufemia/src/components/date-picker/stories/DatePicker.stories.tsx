@@ -20,7 +20,6 @@ import {
   Section,
   GlobalStatus,
   Flex,
-  Dialog,
   Drawer,
 } from '../..'
 import { FieldBlock } from '../../../extensions/forms'
