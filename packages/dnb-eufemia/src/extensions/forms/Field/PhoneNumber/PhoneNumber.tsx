@@ -513,10 +513,10 @@ function PhoneNumber(props: Props = {}) {
           value={countryCodeRef.current}
           status={hasError ? 'error' : undefined}
           disabled={disabled}
-          on_focus={handleCountryCodeFocus}
-          on_blur={handleOnBlur}
-          on_change={handleCountryCodeChange}
-          on_type={onTypeHandler}
+          onFocus={handleCountryCodeFocus}
+          onBlur={handleOnBlur}
+          onChange={handleCountryCodeChange}
+          onType={onTypeHandler}
           independentWidth
           searchNumbers
           keepSelection
