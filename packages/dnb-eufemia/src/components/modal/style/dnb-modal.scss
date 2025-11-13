@@ -16,6 +16,12 @@ html[data-dnb-modal-active] {
 
   /* stylelint-disable-next-line */
   -webkit-user-select: none; // Safari / Touch fix
+
+  // Preventing scrolling of the content behind a modal on iOS devices, particularly Safari.
+  body {
+    overflow: hidden;
+    position: fixed;
+  }
 }
 
 .dnb-modal {

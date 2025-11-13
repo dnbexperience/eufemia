@@ -798,6 +798,10 @@ html[data-dnb-modal-active] {
   /* stylelint-disable-next-line */
   -webkit-user-select: none;
 }
+html[data-dnb-modal-active] body {
+  overflow: hidden;
+  position: fixed;
+}
 
 .dnb-modal {
   /* stylelint-disable-next-line */
