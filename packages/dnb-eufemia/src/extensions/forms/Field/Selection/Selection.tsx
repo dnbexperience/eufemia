@@ -28,30 +28,12 @@ import {
   DrawerListDataArrayObjectStrict,
   DrawerListProps,
 } from '../../../../fragments/DrawerList'
-import {
-  AssertNoMissing,
-  convertCamelCasePropsToSnakeCase,
-  KeysWithUnderscore,
-  ToCamelCase,
-} from '../../../../shared/helpers/withCamelCaseProps'
 import useDataValue from '../../hooks/useDataValue'
 import { FormError } from '../../utils'
 import type { RadioProps } from '../../../../components/Radio'
 import type { ToggleButtonProps } from '../../../../components/ToggleButton'
 import type { RadioGroupProps } from '../../../../components/radio/RadioGroup'
 import type { ToggleButtonGroupProps } from '../../../../components/toggle-button/ToggleButtonGroup'
-import {
-  DrawerListProperties,
-  DrawerListEvents,
-} from '../../../../fragments/drawer-list/DrawerListDocs'
-import {
-  AutocompleteEvents,
-  AutocompleteProperties,
-} from '../../../../components/autocomplete/AutocompleteDocs'
-import {
-  DropdownProperties,
-  DropdownEvents,
-} from '../../../../components/dropdown/DropdownDocs'
 
 type IOption = {
   title: string | React.ReactNode
@@ -111,12 +93,12 @@ export type Props = FieldProps<IOption['value']> & {
   /**
    * Autocomplete specific props
    */
-  autocompleteProps?: ToCamelCase<AutocompleteAllProps>
+  autocompleteProps?: AutocompleteAllProps
 
   /**
    * Dropdown specific props
    */
-  dropdownProps?: ToCamelCase<DropdownAllProps>
+  dropdownProps?: DropdownAllProps
 
   /**
    * The size of the component.
@@ -132,62 +114,6 @@ export type Props = FieldProps<IOption['value']> & {
    */
   children?: React.ReactNode
 }
-
-const validDrawerListProps = [
-  // DrawerList Events
-  'on_pre_change',
-  'on_change',
-  'on_select',
-  'on_show',
-  'on_hide',
-] as const satisfies ReadonlyArray<
-  KeysWithUnderscore<typeof DrawerListProperties & typeof DrawerListEvents>
->
-
-const validAutocompleteProps = [
-  // Autocomplete Events
-  'on_type',
-  'on_focus',
-  'on_blur',
-  'on_change',
-  'on_select',
-  'on_show',
-  'on_hide',
-] as const satisfies ReadonlyArray<
-  KeysWithUnderscore<
-    typeof AutocompleteProperties & typeof AutocompleteEvents
-  >
->
-export const listOfValidAutocompleteProps = [
-  ...(validAutocompleteProps satisfies AssertNoMissing<
-    typeof validAutocompleteProps,
-    typeof AutocompleteProperties & typeof AutocompleteEvents
-  >),
-  ...(validDrawerListProps satisfies AssertNoMissing<
-    typeof validDrawerListProps,
-    typeof DrawerListProperties & typeof DrawerListEvents
-  >),
-]
-
-const validDropdownProps = [
-  // From DropdownEvents
-  'on_change',
-  'on_select',
-  'on_show',
-  'on_hide',
-] as const satisfies ReadonlyArray<
-  KeysWithUnderscore<typeof DropdownProperties & typeof DropdownEvents>
->
-export const listOfValidDropdownProps = [
-  ...(validDropdownProps satisfies AssertNoMissing<
-    typeof validDropdownProps,
-    typeof DropdownProperties & typeof DropdownEvents
-  >),
-  ...(validDrawerListProps satisfies AssertNoMissing<
-    typeof validDrawerListProps,
-    typeof DrawerListProperties & typeof DrawerListEvents
-  >),
-]
 
 function Selection(props: Props) {
   const clearValue = useMemo(() => `clear-option-${makeUniqueId()}`, [])
@@ -378,9 +304,9 @@ function Selection(props: Props) {
         data,
         groups,
         size,
-        on_change: handleDrawerListChange,
-        on_show: handleShow,
-        on_hide: handleHide,
+        onChange: handleDrawerListChange,
+        onShow: handleShow,
+        onHide: handleHide,
         stretch: true,
       }
 
@@ -393,16 +319,11 @@ function Selection(props: Props) {
           {variant === 'autocomplete' ? (
             <Autocomplete
               {...sharedProps}
-              {...(autocompleteProps
-                ? (convertCamelCasePropsToSnakeCase(
-                    Object.freeze(autocompleteProps),
-                    listOfValidAutocompleteProps
-                  ) as AutocompleteAllProps)
-                : null)}
+              {...autocompleteProps}
               value={
                 autocompleteProps?.preventSelection ? undefined : value
               }
-              on_type={onTypeAutocompleteHandler}
+              onType={onTypeAutocompleteHandler}
               data={
                 !props.data &&
                 !props.dataPath &&
@@ -413,15 +334,7 @@ function Selection(props: Props) {
               selectall
             />
           ) : (
-            <Dropdown
-              {...sharedProps}
-              {...(dropdownProps
-                ? (convertCamelCasePropsToSnakeCase(
-                    dropdownProps,
-                    listOfValidDropdownProps
-                  ) as DropdownAllProps)
-                : null)}
-            />
+            <Dropdown {...sharedProps} {...dropdownProps} />
           )}
         </FieldBlock>
       )
