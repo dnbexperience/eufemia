@@ -718,10 +718,10 @@ export function DelayedInteractions() {
         id="autocomplete-3"
         status={status}
         statusNoAnimation={true}
-        on_focus={() => {
+        onFocus={() => {
           setStatus('error-message-3')
         }}
-        on_blur={() => {
+        onBlur={() => {
           setStatus(null)
         }}
       />

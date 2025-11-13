@@ -129,42 +129,42 @@ describe('DrawerList component', () => {
       expect(options[1].getAttribute('aria-disabled')).toEqual('true')
     })
 
-    it('sends on_select events', async () => {
-      const on_select = jest.fn()
+    it('sends onSelect events', async () => {
+      const onSelect = jest.fn()
 
-      render(<DrawerList {...disabledOptionProps} on_select={on_select} />)
+      render(<DrawerList {...disabledOptionProps} onSelect={onSelect} />)
 
       keydown(40) // down
       await waitFor(() => {
-        expect(on_select).toHaveBeenCalledTimes(1)
-        expect(on_select.mock.calls[0][0].activeItem).toBe(0)
+        expect(onSelect).toHaveBeenCalledTimes(1)
+        expect(onSelect.mock.calls[0][0].activeItem).toBe(0)
       })
 
       keydown(40) // down
       await waitFor(() => {
         // on_select is called when navigating to disabled item
-        expect(on_select).toHaveBeenCalledTimes(2)
-        expect(on_select.mock.calls[1][0].activeItem).toBe(1)
-        expect(on_select.mock.calls[1][0].data.disabled).toBe(true)
+        expect(onSelect).toHaveBeenCalledTimes(2)
+        expect(onSelect.mock.calls[1][0].activeItem).toBe(1)
+        expect(onSelect.mock.calls[1][0].data.disabled).toBe(true)
       })
 
       keydown(40) // down
       await waitFor(() => {
         // navigates to next item
-        expect(on_select).toHaveBeenCalledTimes(3)
-        expect(on_select.mock.calls[2][0].activeItem).toBe(2)
+        expect(onSelect).toHaveBeenCalledTimes(3)
+        expect(onSelect.mock.calls[2][0].activeItem).toBe(2)
       })
     })
 
     it('cannot be clicked', async () => {
-      const on_change = jest.fn()
-      const on_select = jest.fn()
+      const onChange = jest.fn()
+      const onSelect = jest.fn()
 
       render(
         <DrawerList
           {...disabledOptionProps}
-          on_change={on_change}
-          on_select={on_select}
+          onChange={onChange}
+          onSelect={onSelect}
         />
       )
 
@@ -172,25 +172,25 @@ describe('DrawerList component', () => {
       keydown(40) // down
       await waitFor(() => {
         // verify item is disabled
-        expect(on_select).toHaveBeenCalledTimes(2)
-        expect(on_select.mock.calls[1][0].activeItem).toBe(1)
-        expect(on_select.mock.calls[1][0].data.disabled).toBe(true)
+        expect(onSelect).toHaveBeenCalledTimes(2)
+        expect(onSelect.mock.calls[1][0].activeItem).toBe(1)
+        expect(onSelect.mock.calls[1][0].data.disabled).toBe(true)
       })
 
       keydown(13) // enter
       await waitFor(() => {
-        // on_change and on_select is not called when attempting to chose a disabled item
-        expect(on_change).toHaveBeenCalledTimes(0)
-        expect(on_select).toHaveBeenCalledTimes(2)
+        // onChange and onSelect is not called when attempting to chose a disabled item
+        expect(onChange).toHaveBeenCalledTimes(0)
+        expect(onSelect).toHaveBeenCalledTimes(2)
       })
 
       await fireEvent.click(
         document.querySelectorAll('.dnb-drawer-list__option')[1]
       )
       await waitFor(() => {
-        // on_change and on_select is not called when attempting to click a disabled item
-        expect(on_change).toHaveBeenCalledTimes(0)
-        expect(on_select).toHaveBeenCalledTimes(2)
+        // onChange and onSelect is not called when attempting to click a disabled item
+        expect(onChange).toHaveBeenCalledTimes(0)
+        expect(onSelect).toHaveBeenCalledTimes(2)
       })
     })
   })
@@ -293,14 +293,14 @@ describe('DrawerList component', () => {
     })
   })
 
-  it('has valid on_select callback', async () => {
-    const on_select = jest.fn()
+  it('has valid onSelect callback', async () => {
+    const onSelect = jest.fn()
 
     const { rerender } = render(
       <DrawerList
         {...props}
         data={Object.freeze(mockData) as DrawerListDataArray}
-        on_select={on_select}
+        onSelect={onSelect}
       />
     )
 
@@ -309,9 +309,9 @@ describe('DrawerList component', () => {
 
     const notChangedItem = mockData[props.value]
     await waitFor(() => {
-      expect(on_select.mock.calls[0][0].data).toStrictEqual(notChangedItem)
-      expect(on_select.mock.calls[0][0].selectedItem).toBe(2)
-      expect(on_select.mock.calls[0][0].activeItem).toBe(2)
+      expect(onSelect.mock.calls[0][0].data).toStrictEqual(notChangedItem)
+      expect(onSelect.mock.calls[0][0].selectedItem).toBe(2)
+      expect(onSelect.mock.calls[0][0].activeItem).toBe(2)
     })
 
     // reset props
@@ -319,7 +319,7 @@ describe('DrawerList component', () => {
       <DrawerList
         {...props}
         data={Object.freeze(mockData) as DrawerListDataArray}
-        on_select={on_select}
+        onSelect={onSelect}
         opened={null}
       />
     )
@@ -329,17 +329,17 @@ describe('DrawerList component', () => {
       <DrawerList
         {...props}
         data={Object.freeze(mockData) as DrawerListDataArray}
-        on_select={on_select}
+        onSelect={onSelect}
         opened={true}
       />
     )
     keydown(40) // down
     await waitFor(() => {
-      expect(on_select.mock.calls[1][0].selectedItem).toBe(undefined)
-      expect(on_select.mock.calls[1][0].activeItem).toBe(3)
+      expect(onSelect.mock.calls[1][0].selectedItem).toBe(undefined)
+      expect(onSelect.mock.calls[1][0].activeItem).toBe(3)
 
       const selectedItem = mockData[(props.value as number) + 1]
-      expect(on_select.mock.calls[1][0].data).toStrictEqual(selectedItem) // second call!
+      expect(onSelect.mock.calls[1][0].data).toStrictEqual(selectedItem) // second call!
     })
   })
 
@@ -399,16 +399,16 @@ describe('DrawerList component', () => {
     expect(document.body.getAttribute('style')).toBe('')
   })
 
-  it('has valid on_change callback', async () => {
-    const on_change = jest.fn()
-    const on_select = jest.fn()
+  it('has valid onChange callback', async () => {
+    const onChange = jest.fn()
+    const onSelect = jest.fn()
 
     const { rerender } = render(
       <DrawerList
         {...props}
         data={mockData}
-        on_change={on_change}
-        on_select={on_select}
+        onChange={onChange}
+        onSelect={onSelect}
       />
     )
 
@@ -418,16 +418,16 @@ describe('DrawerList component', () => {
 
     await waitFor(() => {
       const selectedItem = mockData[(props.value as number) + 1]
-      expect(on_change.mock.calls[0][0].data).toStrictEqual(selectedItem)
-      expect(on_select.mock.calls[1][0].data).toStrictEqual(selectedItem)
+      expect(onChange.mock.calls[0][0].data).toStrictEqual(selectedItem)
+      expect(onSelect.mock.calls[1][0].data).toStrictEqual(selectedItem)
     })
 
     rerender(
       <DrawerList
         {...props}
         data={mockData}
-        on_change={on_change}
-        on_select={on_select}
+        onChange={onChange}
+        onSelect={onSelect}
         opened={null}
       />
     )
@@ -437,8 +437,8 @@ describe('DrawerList component', () => {
       <DrawerList
         {...props}
         data={mockData}
-        on_change={on_change}
-        on_select={on_select}
+        onChange={onChange}
+        onSelect={onSelect}
         opened={true}
       />
     )
@@ -449,20 +449,20 @@ describe('DrawerList component', () => {
 
     await waitFor(() => {
       const selectedItem = mockData[(props.value as number) + 2]
-      expect(on_change.mock.calls[1][0].data).toStrictEqual(selectedItem) // second call!
-      expect(on_select.mock.calls[3][0].data).toStrictEqual(selectedItem) // second call!
+      expect(onChange.mock.calls[1][0].data).toStrictEqual(selectedItem) // second call!
+      expect(onSelect.mock.calls[3][0].data).toStrictEqual(selectedItem) // second call!
     })
   })
 
-  it('does not fire on_change when selecting the selected item', async () => {
-    const on_change = jest.fn()
+  it('does not fire onChange when selecting the selected item', async () => {
+    const onChange = jest.fn()
 
     render(
       <DrawerList
         {...props}
         value={0}
         data={mockData}
-        on_change={on_change}
+        onChange={onChange}
       />
     )
 
@@ -472,7 +472,7 @@ describe('DrawerList component', () => {
     keydown(32) // space
 
     await waitFor(() => {
-      expect(on_change).toHaveBeenCalledTimes(0)
+      expect(onChange).toHaveBeenCalledTimes(0)
     })
   })
 
@@ -496,10 +496,10 @@ describe('DrawerList component', () => {
     ).toBeInTheDocument()
   })
 
-  it('will call on_hide after "esc" key', async () => {
-    const on_hide = jest.fn()
+  it('will call onHide after "esc" key', async () => {
+    const onHide = jest.fn()
 
-    render(<DrawerList {...props} data={mockData} on_hide={on_hide} />)
+    render(<DrawerList {...props} data={mockData} onHide={onHide} />)
 
     expect(
       Array.from(document.querySelector('span.dnb-drawer-list').classList)
@@ -514,7 +514,7 @@ describe('DrawerList component', () => {
     ])
 
     keydown(27) // esc
-    expect(on_hide.mock.calls.length).toBe(1)
+    expect(onHide.mock.calls.length).toBe(1)
 
     await waitFor(() => {
       expect(
@@ -551,15 +551,15 @@ describe('DrawerList component', () => {
   })
 
   it('has correct value on data given as an object', async () => {
-    const on_change = jest.fn()
-    const on_select = jest.fn()
+    const onChange = jest.fn()
+    const onSelect = jest.fn()
 
     render(
       <DrawerList
         opened
         noAnimation
-        on_change={on_change}
-        on_select={on_select}
+        onChange={onChange}
+        onSelect={onSelect}
         data={() => ({ a: 'A', b: 'B', c: 'C' })}
         {...mockProps}
       />
@@ -568,19 +568,19 @@ describe('DrawerList component', () => {
     // then simulate changes
     keydown(40) // down
     await waitFor(() => {
-      expect(on_select.mock.calls[0][0].activeItem).toBe(0)
+      expect(onSelect.mock.calls[0][0].activeItem).toBe(0)
     })
 
     keydown(13) // enter
     await waitFor(() => {
-      expect(on_change.mock.calls[0][0].value).toBe('a')
+      expect(onChange.mock.calls[0][0].value).toBe('a')
     })
 
     // then open again
     keydown(32) // space
     await waitFor(() => {
-      expect(on_change).toHaveBeenCalledTimes(1)
-      expect(on_select).toHaveBeenCalledTimes(2)
+      expect(onChange).toHaveBeenCalledTimes(1)
+      expect(onSelect).toHaveBeenCalledTimes(2)
     })
   })
 
@@ -643,26 +643,26 @@ describe('DrawerList component', () => {
   })
 
   it('has to return all additional attributes the event return', () => {
-    const on_show = jest.fn()
-    const on_hide = jest.fn()
+    const onShow = jest.fn()
+    const onHide = jest.fn()
     const params = { 'data-attr': 'value' }
 
     render(
       <DrawerList
         {...props}
-        on_show={on_show}
-        on_hide={on_hide}
+        onShow={onShow}
+        onHide={onHide}
         {...params}
         data={mockData}
       />
     )
 
-    expect(on_show.mock.calls.length).toBe(1)
-    expect(on_show.mock.calls[0][0].attributes).toMatchObject(params)
+    expect(onShow.mock.calls.length).toBe(1)
+    expect(onShow.mock.calls[0][0].attributes).toMatchObject(params)
 
     keydown(27) // esc
-    expect(on_hide.mock.calls.length).toBe(1)
-    expect(on_hide.mock.calls[0][0].attributes).toMatchObject(params)
+    expect(onHide.mock.calls.length).toBe(1)
+    expect(onHide.mock.calls[0][0].attributes).toMatchObject(params)
   })
 
   describe('height calculation', () => {
