@@ -37,10 +37,20 @@ export default function DatePickerPortal({
         getPosition(
           targetElementRef.current,
           calendarContainerRef.current,
-          triangleRef.current,
           alignment
         )
       )
+      if (
+        targetElementRef.current &&
+        calendarContainerRef.current &&
+        triangleRef.current
+      ) {
+        setTriangle(
+          targetElementRef.current,
+          calendarContainerRef.current,
+          triangleRef.current
+        )
+      }
     }
   }, [alignment, targetElementRef])
 
@@ -49,16 +59,25 @@ export default function DatePickerPortal({
       if (
         targetElementRef.current &&
         calendarContainerRef.current &&
-        calendarContainerRef.current &&
         triangleRef.current
       ) {
         setPosition(
           getPosition(
             targetElementRef.current,
             calendarContainerRef.current,
-            triangleRef.current,
             alignment
           )
+        )
+      }
+      if (
+        targetElementRef.current &&
+        calendarContainerRef.current &&
+        triangleRef.current
+      ) {
+        setTriangle(
+          targetElementRef.current,
+          calendarContainerRef.current,
+          triangleRef.current
         )
       }
     }, 200)
@@ -97,7 +116,6 @@ export default function DatePickerPortal({
 function getPosition(
   targetElement: HTMLElement,
   portalElement: HTMLElement,
-  triangleElement: HTMLElement,
   alignment: DatePickerPortalProps['alignment']
 ) {
   const parentRect = targetElement?.getBoundingClientRect()
@@ -116,6 +134,35 @@ function getPosition(
   }
 
   const portalRect = portalElement?.getBoundingClientRect()
+  const shellRect = targetElement
+    .querySelector('.dnb-input__shell')
+    .getBoundingClientRect()
+
+  const openAbove = shouldOpenAbove(parentRect, portalRect)
+
+  const top = openAbove
+    ? parentRect.top - portalRect.height + scrollY - parentRect.height
+    : parentRect.top + scrollY
+
+  const alignRight = shouldAlignRight(parentRect, portalRect, shellRect)
+
+  const left = !alignRight
+    ? parentRect.left + scrollX
+    : scrollX + parentRect.left - portalRect.width + parentRect.width
+
+  return {
+    left: `${left}px`,
+    top: `${top}px`,
+  }
+}
+
+function setTriangle(
+  targetElement: HTMLElement,
+  portalElement: HTMLElement,
+  triangleElement: HTMLElement
+) {
+  const parentRect = targetElement?.getBoundingClientRect()
+  const portalRect = portalElement?.getBoundingClientRect()
   const triangleRect = triangleElement?.getBoundingClientRect()
   const shellRect = targetElement
     .querySelector('.dnb-input__shell')
@@ -128,31 +175,29 @@ function getPosition(
     '.dnb-input__submit-button'
   )
 
-  const inputIsLargerThanPortal = shellRect.width > portalRect.width
+  const openAbove = shouldOpenAbove(parentRect, portalRect)
+  setTriangleDirection(triangleElement, openAbove)
 
-  // Open the content portal above the child if there is not enough space to the bottom,
-  // but if there also isn't enough space at the top, open to the bottom.
-  const openAbove =
-    parentRect.top + parentRect.height + portalRect.height >
-      (window.document.documentElement || window.document.body)
-        .clientHeight && parentRect.top - portalRect.height > 0
+  const alignRight = shouldAlignRight(parentRect, portalRect, shellRect)
+  if (alignRight) {
+    setTrianglePosition(
+      triangleElement,
+      portalRect.width - buttonRect?.width / 2 - triangleRect.width / 2
+    )
+  } else {
+    let distance = buttonRect?.width / 4
+    if (showInput) {
+      distance =
+        shellRect.width - buttonRect?.width / 2 - triangleRect.width / 2
+    }
+    setTrianglePosition(triangleElement, distance)
+  }
+}
 
-  const top = openAbove
-    ? parentRect.top - portalRect.height + scrollY - parentRect.height
-    : parentRect.top + scrollY
-
-  // Open the content portal to the left if there is not enough space at the right,
-  // but if there also isn't enough space at the right, open to the left.
-  const alignRight =
-    inputIsLargerThanPortal ||
-    (parentRect.left + portalRect.width >
-      (window.document.documentElement || window.document.body)
-        .clientWidth &&
-      parentRect.left - portalRect.width > 0)
-
-  const left = !alignRight
-    ? parentRect.left + scrollX
-    : scrollX + parentRect.left - portalRect.width + parentRect.width
+function setTriangleDirection(
+  triangleElement: HTMLElement,
+  openAbove: boolean
+) {
   if (openAbove) {
     triangleElement.classList.remove('dnb-date-picker__triangle')
     triangleElement.classList.add('dnb-date-picker__triangle--bottom')
@@ -160,27 +205,38 @@ function getPosition(
     triangleElement.classList.remove('dnb-date-picker__triangle--bottom')
     triangleElement.classList.add('dnb-date-picker__triangle')
   }
+}
 
-  // Set triangle position
+function setTrianglePosition(
+  triangleElement: HTMLElement,
+  distance: number
+) {
+  triangleElement.style.marginRight = '0px'
+  triangleElement.style.marginLeft = `${distance / 16}rem`
+}
 
-  if (alignRight) {
-    const distance =
-      portalRect.width - buttonRect?.width / 2 - triangleRect.width / 2
+function shouldOpenAbove(parentRect: DOMRect, portalRect: DOMRect) {
+  // Open the content portal above the child if there is not enough space to the bottom,
+  // but if there also isn't enough space at the top, open to the bottom.
+  return (
+    parentRect.top + parentRect.height + portalRect.height >
+      (window.document.documentElement || window.document.body)
+        .clientHeight && parentRect.top - portalRect.height > 0
+  )
+}
 
-    triangleElement.style.marginRight = '0px'
-    triangleElement.style.marginLeft = `${distance / 16}rem`
-  } else {
-    let distance = buttonRect?.width / 4
-    if (showInput) {
-      distance =
-        shellRect.width - buttonRect?.width / 2 - triangleRect.width / 2
-    }
-    triangleElement.style.marginRight = '0px'
-    triangleElement.style.marginLeft = `${distance / 16}rem`
-  }
-
-  return {
-    left: `${left}px`,
-    top: `${top}px`,
-  }
+function shouldAlignRight(
+  parentRect: DOMRect,
+  portalRect: DOMRect,
+  shellRect: DOMRect
+) {
+  // Open the content portal to the left if there is not enough space at the right,
+  // but if there also isn't enough space at the right, open to the left.
+  return (
+    shellRect.width > portalRect.width ||
+    (parentRect.left + portalRect.width >
+      (window.document.documentElement || window.document.body)
+        .clientWidth &&
+      parentRect.left - portalRect.width > 0)
+  )
 }
