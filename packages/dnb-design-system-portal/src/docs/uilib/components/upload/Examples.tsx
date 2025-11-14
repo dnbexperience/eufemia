@@ -720,7 +720,13 @@ export const UploadRemoveDeleteButton = () => (
             onChange={({ files }) =>
               setFiles(
                 files.map((fileItem) => {
-                  return { ...fileItem, removeDeleteButton: true }
+                  return {
+                    ...fileItem,
+                    removeDeleteButton: true,
+                    deleteButtonProps: {
+                      tooltip: `Do you want to remove ${fileItem.file.name} file?`,
+                    },
+                  }
                 }),
               )
             }
