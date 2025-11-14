@@ -1452,6 +1452,36 @@ describe('Upload', () => {
       ).not.toBeInTheDocument()
     })
 
+    it('renders the delete button with additional props', () => {
+      const text = 'my delete text'
+      const files = [
+        {
+          file: createMockFile('fileName.png', 100, 'image/png'),
+          deleteButtonProps: { text },
+        },
+      ]
+
+      const id = 'random-id-delete-button-attributes'
+
+      render(<Upload {...defaultProps} id={id} />)
+
+      const MockComponent = () => {
+        const { setFiles } = useUpload(id)
+
+        useEffect(() => setFiles(files), [])
+
+        return <div />
+      }
+
+      render(<MockComponent />)
+
+      expect(
+        screen.queryByRole('button', {
+          name: text,
+        })
+      ).toBeInTheDocument()
+    })
+
     it('shows the file description when provided', async () => {
       const myDescription = 'my description'
       const files = [
