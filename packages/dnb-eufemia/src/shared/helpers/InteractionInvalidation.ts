@@ -17,6 +17,12 @@ export type InteractionInvalidationOptions = {
   tabIndex?: boolean
 }
 
+/**
+ * Helper class to invalidate interactions (tabbing and screen readers)
+ *
+ * NB: In a couple of years, we can start using the inert attribute instead.
+ * @see https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/inert
+ */
 export class InteractionInvalidation {
   bypassElements: Array<TargetElement>
   bypassSelectors: Array<TargetSelector>

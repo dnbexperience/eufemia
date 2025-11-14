@@ -136,6 +136,8 @@ function PortalRoot(props: PortalRootProps = {}): JSX.Element {
       uniqueKey={false} // ensure that the scope is used on every portal root
     >
       <div
+        role="dialog"
+        aria-modal="true"
         className={classnames('dnb-core-style', className)}
         style={{ ...scopeStyle, ...style }}
         {...rest}
