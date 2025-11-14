@@ -140,4 +140,16 @@ describe('ViewContainer', () => {
 
     expect(document.querySelectorAll('button')).toHaveLength(0)
   })
+
+  it('should hide default toolbar when section is not editable', () => {
+    render(
+      <SectionContainerContext.Provider
+        value={{ containerMode: 'view', editable: false }}
+      >
+        <ViewContainer>content</ViewContainer>
+      </SectionContainerContext.Provider>
+    )
+
+    expect(document.querySelector('button')).not.toBeInTheDocument()
+  })
 })

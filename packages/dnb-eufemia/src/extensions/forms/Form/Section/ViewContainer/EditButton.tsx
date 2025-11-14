@@ -8,7 +8,7 @@ import { edit } from '../../../../../icons'
 export default function EditButton() {
   const sectionContainerContext = useContext(SectionContainerContext)
   const { onEdit } = useContext(ToolbarContext) || {}
-  const { switchContainerMode } = sectionContainerContext || {}
+  const { switchContainerMode, editable } = sectionContainerContext || {}
 
   const translation = useTranslation().SectionViewContainer
 
@@ -16,6 +16,10 @@ export default function EditButton() {
     switchContainerMode?.('edit')
     onEdit?.()
   }, [onEdit, switchContainerMode])
+
+  if (editable === false) {
+    return null
+  }
 
   return (
     <Button

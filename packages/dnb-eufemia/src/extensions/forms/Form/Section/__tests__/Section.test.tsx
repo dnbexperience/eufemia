@@ -206,6 +206,25 @@ describe('Form.Section', () => {
     `)
   })
 
+  it('should stay in view mode when editable is false', () => {
+    render(
+      <Form.Section editable={false}>
+        <Form.Section.ViewContainer>
+          View content
+        </Form.Section.ViewContainer>
+        <Form.Section.EditContainer>
+          Edit content
+        </Form.Section.EditContainer>
+      </Form.Section>
+    )
+
+    const viewBlock = document.querySelector(
+      '.dnb-forms-section-view-block'
+    )
+    expect(viewBlock).toBeInTheDocument()
+    expect(viewBlock?.querySelector('button')).not.toBeInTheDocument()
+  })
+
   describe('onChange', () => {
     it('should call onChange without path', () => {
       const onChange = jest.fn()

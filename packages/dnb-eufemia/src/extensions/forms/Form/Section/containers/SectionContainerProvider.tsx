@@ -5,30 +5,48 @@ import { ContainerMode } from './SectionContainer'
 export type Props = {
   validateInitially?: boolean
   containerMode?: ContainerMode
+  editable?: boolean
   children: React.ReactNode
 }
 
 function SectionContainerProvider(props: Props) {
   const [, forceUpdate] = useReducer(() => ({}), {})
 
-  const { validateInitially, containerMode, children } = props
+  const {
+    validateInitially,
+    containerMode,
+    editable = true,
+    children,
+  } = props
 
   const containerModeRef = useRef<ContainerMode>(
-    containerMode === 'auto' ? 'view' : containerMode
+    editable === false
+      ? 'view'
+      : containerMode === 'auto'
+      ? 'view'
+      : containerMode
   )
 
-  const switchContainerMode = useCallback((mode: ContainerMode) => {
-    containerModeRef.current = mode
-    forceUpdate()
-  }, [])
+  const switchContainerMode = useCallback(
+    (mode: ContainerMode) => {
+      if (!editable) {
+        return
+      }
+      containerModeRef.current = mode
+      forceUpdate()
+    },
+    [editable]
+  )
 
   return (
     <SectionContainerContext.Provider
       value={{
         validateInitially,
-        containerMode: containerModeRef.current,
-        initialContainerMode: containerMode,
+        containerMode:
+          editable === false ? 'view' : containerModeRef.current,
+        initialContainerMode: editable === false ? 'view' : containerMode,
         switchContainerMode,
+        editable,
       }}
     >
       {children}

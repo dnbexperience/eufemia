@@ -36,4 +36,16 @@ describe('EditButton', () => {
     expect(switchContainerMode).toHaveBeenCalledTimes(1)
     expect(switchContainerMode).toHaveBeenCalledWith('edit')
   })
+
+  it('does not render when editing is disabled', () => {
+    render(
+      <SectionContainerContext.Provider value={{ editable: false }}>
+        <Toolbar>
+          <EditButton />
+        </Toolbar>
+      </SectionContainerContext.Provider>
+    )
+
+    expect(document.querySelector('button')).not.toBeInTheDocument()
+  })
 })
