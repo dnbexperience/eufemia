@@ -334,8 +334,12 @@ class DropdownInstance extends React.PureComponent {
 
         break
 
+      case 'escape':
       case 'esc':
         this.setHidden()
+        e.preventDefault()
+        e.stopPropagation() // To make Modal/Dialog/Drawer not close as well
+        e.stopImmediatePropagation?.() // To make Modal/Dialog/Drawer not close as well
         break
 
       case 'home':

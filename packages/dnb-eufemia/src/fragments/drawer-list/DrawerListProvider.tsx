@@ -880,10 +880,13 @@ export default class DrawerListProvider extends React.PureComponent<
         }
         break
 
+      case 'escape':
       case 'esc':
         {
           this.setHidden({ event: e })
           e.preventDefault()
+          e.stopPropagation() // To make Modal/Dialog/Drawer not close as well
+          e.stopImmediatePropagation?.() // To make Modal/Dialog/Drawer not close as well
         }
         break
 
@@ -1129,8 +1132,8 @@ export default class DrawerListProvider extends React.PureComponent<
     )
 
     if (typeof document !== 'undefined') {
-      document.addEventListener('keydown', this.onKeyDownHandler)
-      document.addEventListener('keyup', this.onKeyUpHandler)
+      document.addEventListener('keydown', this.onKeyDownHandler, true)
+      document.addEventListener('keyup', this.onKeyUpHandler, true)
     }
   }
 
@@ -1139,8 +1142,8 @@ export default class DrawerListProvider extends React.PureComponent<
       this.outsideClick.remove()
     }
     if (typeof document !== 'undefined') {
-      document.removeEventListener('keydown', this.onKeyDownHandler)
-      document.removeEventListener('keyup', this.onKeyUpHandler)
+      document.removeEventListener('keydown', this.onKeyDownHandler, true)
+      document.removeEventListener('keyup', this.onKeyUpHandler, true)
     }
   }
 

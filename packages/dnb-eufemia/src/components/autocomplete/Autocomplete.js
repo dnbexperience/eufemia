@@ -945,11 +945,14 @@ class AutocompleteInstance extends React.PureComponent {
 
         break
 
+      case 'escape':
       case 'esc':
         this.setState({
           showAllNextTime: true,
           _listenForPropChanges: false,
         })
+        e.preventDefault()
+        e.stopPropagation() // To make Modal/Dialog/Drawer not close as well
 
         break
 

@@ -301,6 +301,7 @@ export default class GlobalStatus extends React.PureComponent {
 
   onKeyDownHandler = (e) => {
     switch (keycode(e)) {
+      case 'escape':
       case 'esc':
         e.preventDefault()
         this.closeHandler()
