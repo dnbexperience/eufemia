@@ -5168,6 +5168,44 @@ describe('DataContext.Provider', () => {
       expect(second).toHaveTextContent('Bar (recommended)')
       expect(third).toHaveTextContent('Baz')
     })
+
+    it('should override GlobalStatus title when providing errorSummaryTitle translation', async () => {
+      jest.spyOn(window, 'scrollTo').mockImplementation()
+      const myTranslation = 'Custom translation for global status'
+      render(
+        <>
+          <GlobalStatus id="my-status" />
+          <DataContext.Provider
+            globalStatusId="my-status"
+            translations={{
+              'nb-NO': {
+                Field: {
+                  errorSummaryTitle: myTranslation,
+                },
+              },
+            }}
+          >
+            <Field.String path="/myField" required minLength={5} />
+            <Form.SubmitButton />
+          </DataContext.Provider>
+        </>
+      )
+
+      const input = document.querySelector('input')
+      const submitButton = document.querySelector('button')
+
+      // Invoke the error
+      await userEvent.type(input, 'x{Backspace}')
+      fireEvent.blur(input)
+
+      fireEvent.click(submitButton)
+
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-global-status__title')
+        ).toHaveTextContent(myTranslation)
+      })
+    })
   })
 
   describe('required', () => {
