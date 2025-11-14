@@ -117,6 +117,18 @@ function getPosition(
 
   const portalRect = portalElement?.getBoundingClientRect()
   const triangleRect = triangleElement?.getBoundingClientRect()
+  const shellRect = targetElement
+    .querySelector('.dnb-input__shell')
+    .getBoundingClientRect()
+  const buttonRect = targetElement
+    .querySelector('.dnb-input__submit-element')
+    ?.getBoundingClientRect()
+
+  const showInput = targetElement.querySelector(
+    '.dnb-input__submit-button'
+  )
+
+  const inputIsLargerThanPortal = shellRect.width > portalRect.width
 
   // Open the content portal above the child if there is not enough space to the bottom,
   // but if there also isn't enough space at the top, open to the bottom.
@@ -132,9 +144,11 @@ function getPosition(
   // Open the content portal to the left if there is not enough space at the right,
   // but if there also isn't enough space at the right, open to the left.
   const alignRight =
-    parentRect.left + portalRect.width >
+    inputIsLargerThanPortal ||
+    (parentRect.left + portalRect.width >
       (window.document.documentElement || window.document.body)
-        .clientWidth && parentRect.left - portalRect.width > 0
+        .clientWidth &&
+      parentRect.left - portalRect.width > 0)
 
   const left = !alignRight
     ? parentRect.left + scrollX
@@ -148,28 +162,18 @@ function getPosition(
   }
 
   // Set triangle position
-  const shellWidth = targetElement
-    .querySelector('.dnb-input__shell')
-    .getBoundingClientRect().width
-
-  const buttonWidth = targetElement
-    .querySelector('.dnb-input__submit-element')
-    ?.getBoundingClientRect()?.width
-
-  const showInput = targetElement.querySelector(
-    '.dnb-input__submit-button'
-  )
 
   if (alignRight) {
     const distance =
-      portalRect.width - buttonWidth / 2 - triangleRect.width / 2
+      portalRect.width - buttonRect?.width / 2 - triangleRect.width / 2
 
     triangleElement.style.marginRight = '0px'
     triangleElement.style.marginLeft = `${distance / 16}rem`
   } else {
-    let distance = buttonWidth / 4
+    let distance = buttonRect?.width / 4
     if (showInput) {
-      distance = shellWidth - buttonWidth / 2 - triangleRect.width / 2
+      distance =
+        shellRect.width - buttonRect?.width / 2 - triangleRect.width / 2
     }
     triangleElement.style.marginRight = '0px'
     triangleElement.style.marginLeft = `${distance / 16}rem`

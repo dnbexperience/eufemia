@@ -631,7 +631,10 @@ export const DatePickerPositioningTest = () => {
 
   return (
     <Scrollable>
-      <DatePicker alignPicker="auto" />
+      <Field.Date alignPicker="auto" width="large" />
+      <Field.Date alignPicker="auto" width="small" />
+      <Field.Date alignPicker="auto" width="medium" />
+      <Field.Date alignPicker="auto" width="stretch" />
     </Scrollable>
   )
 }
