@@ -2617,7 +2617,7 @@ describe('DataContext.Provider', () => {
           const myTitle = 'Custom title for global status'
           render(
             <>
-              <GlobalStatus id="my-status" text={myTitle} />
+              <GlobalStatus id="my-status" title={myTitle} />
               <DataContext.Provider globalStatusId="my-status">
                 <Field.String path="/myField" required minLength={5} />
                 <Form.SubmitButton />
