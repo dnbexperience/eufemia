@@ -20,11 +20,7 @@ const Wrapper = styled.div`
   [data-visual-test='date-picker-only-month'] .dnb-date-picker__container,
   [data-visual-test='date-picker-align-picker-right']
     .dnb-date-picker__container,
-  [data-visual-test='date-picker-align-picker-auto']
-    .dnb-date-picker__container,
   [data-visual-test='date-picker-align-picker-right-with-input']
-    .dnb-date-picker__container,
-  [data-visual-test='date-picker-align-picker-auto-with-input']
     .dnb-date-picker__container,
   [data-visual-test='date-picker-year-navigation']
     .dnb-date-picker__container {
@@ -35,10 +31,7 @@ const Wrapper = styled.div`
   [data-visual-test='date-picker-calendar'] .dnb-date-picker,
   [data-visual-test='date-picker-only-month'] .dnb-date-picker,
   [data-visual-test='date-picker-align-picker-right'] .dnb-date-picker,
-  [data-visual-test='date-picker-align-picker-auto'] .dnb-date-picker,
   [data-visual-test='date-picker-align-picker-right-with-input']
-    .dnb-date-picker,
-  [data-visual-test='date-picker-align-picker-auto-with-input']
     .dnb-date-picker,
   [data-visual-test='date-picker-year-navigation'] .dnb-date-picker {
     margin-left: 1rem;
@@ -400,40 +393,11 @@ export const DatePickerYearNavigation = () => (
   </ComponentBox>
 )
 
-export const DatePickerAlignPickerAuto = () => (
-  <Wrapper>
-    <ComponentBox data-visual-test="date-picker-align-picker-auto">
-      <DatePicker
-        alignPicker="auto"
-        opened
-        skipPortal
-        preventClose
-        disableAutofocus
-      />
-    </ComponentBox>
-  </Wrapper>
-)
-
 export const DatePickerAlignPickerRight = () => (
   <Wrapper>
     <ComponentBox data-visual-test="date-picker-align-picker-right">
       <DatePicker
         alignPicker="right"
-        opened
-        skipPortal
-        preventClose
-        disableAutofocus
-      />
-    </ComponentBox>
-  </Wrapper>
-)
-
-export const DatePickerAlignPickerAutoWithInput = () => (
-  <Wrapper>
-    <ComponentBox data-visual-test="date-picker-align-picker-auto-with-input">
-      <DatePicker
-        showInput
-        alignPicker="auto"
         opened
         skipPortal
         preventClose
