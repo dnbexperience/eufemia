@@ -3927,6 +3927,9 @@ html[data-whatinput=keyboard] .dnb-date-picker__container table.dnb-no-focus:foc
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
+.dnb-date-picker__container:not(.dnb-date-picker__container--show-footer) .dnb-date-picker__calendar::after {
+  content: none;
+}
 .dnb-date-picker__input,
 .dnb-date-picker .dnb-input__input.dnb-date-picker__input, .dnb-core-style .dnb-date-picker__input {
   display: inline-block;
@@ -4055,9 +4058,6 @@ html[data-whatinput=keyboard] .dnb-date-picker__container table.dnb-no-focus:foc
   bottom: 0;
   width: calc(100% - 2rem);
   height: 1px;
-}
-.dnb-date-picker:not(.dnb-date-picker--show-footer) .dnb-date-picker__calendar::after {
-  content: none;
 }
 .dnb-date-picker__header {
   min-height: 2.5rem;

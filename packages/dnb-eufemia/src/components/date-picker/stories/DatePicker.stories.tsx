@@ -20,6 +20,7 @@ import {
   Section,
   GlobalStatus,
   Flex,
+  Drawer,
 } from '../..'
 import { FieldBlock } from '../../../extensions/forms'
 
@@ -589,5 +590,17 @@ export const ProviderLocaleExample = () => {
         showSubmitButton
       />
     </Provider>
+  )
+}
+
+export const DatePickerPositioning = () => {
+  return (
+    <Drawer fullscreen>
+      <DatePicker label="DatePicker" alignPicker="left" />
+      <DatePicker label="DatePicker" alignPicker="right" />
+      <br />
+      <DatePicker label="DatePicker" showInput alignPicker="left" />
+      <DatePicker label="DatePicker" showInput alignPicker="right" />
+    </Drawer>
   )
 }

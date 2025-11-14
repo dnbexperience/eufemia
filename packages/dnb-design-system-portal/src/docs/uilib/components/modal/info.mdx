@@ -72,20 +72,9 @@ Modal dialogs appear on top of the main content changing the _mode_ of the syste
 
 While it is possible to nest a Modal within another Modal, you as a developer have to ensure the Browsers back-button (alongside the URL path), does take care of the nested Modal situation. Because a user should still be able to use the back button as expected and return to the last visited "page".
 
-## Root Element
+## Root Element (React Portal)
 
-**NB:** If the wrapper is not set manually, a wrapper is inserted automatically as a child node to the body or the `<IsolatedStyleScope scopeHash="your-scope" />` element.
-
-To make sure the HTML structure is decoupled from all the page content, you can optionally define a wrapper div like `<div class="dnb-modal-root" />`.
-
-Just place this as a sibling of your app root HTML element. This ensures that we always can stack the modal content above the App Content.
-
-```html
-<body>
-  <div id="app" />
-  <div id="dnb-modal-root" />
-</body>
-```
+The Modal component uses [PortalRoot](/uilib/components/portal-root) internally to render its content. See the [PortalRoot documentation](/uilib/components/portal-root) for information on how to control where the portal content appears in the DOM.
 
 ### Z-index
 

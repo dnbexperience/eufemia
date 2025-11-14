@@ -799,12 +799,6 @@ html[data-dnb-modal-active] {
   -webkit-user-select: none;
 }
 
-#dnb-modal-root {
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-
 .dnb-modal {
   /* stylelint-disable-next-line */
 }

@@ -38,7 +38,7 @@ test.describe('Page Scroll', () => {
 
     const anchorElement = (
       await page.locator('main .dnb-ul li a').all()
-    ).at(7)
+    ).at(8)
     await anchorElement?.click()
 
     expect(page.url()).toContain(
