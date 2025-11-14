@@ -2,10 +2,9 @@
  * Web WordDefinition Component
  */
 
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 import classnames from 'classnames'
-import Tooltip from '../tooltip/Tooltip'
-import Button from '../button/Button'
+import Popover from '../popover/Popover'
 import useId from '../../shared/helpers/useId'
 import useTranslation from '../../shared/useTranslation'
 import type { SpacingProps } from '../../shared/types'
@@ -45,24 +44,25 @@ export default function WordDefinition({
   ...rest
 }: WordDefinitionAllProps) {
   const [active, setActive] = useState(false)
-  const triggerRef = useRef<HTMLButtonElement>()
-  const contentRef = useRef<HTMLSpanElement>()
+  const triggerRef = useRef<HTMLSpanElement | null>(null)
   const id = useId()
-  const tr = useTranslation().WordDefinition || {}
-  const title = active ? tr.closeTriggerTitle : tr.openTriggerTitle
+  const { WordDefinition: tr = {} } = useTranslation()
+  const title =
+    (active ? tr.closeTriggerTitle : tr.openTriggerTitle) ||
+    (active ? 'Close description' : 'Open description')
 
-  const toggle = useCallback(
-    (next?: boolean) => {
-      setActive((prev) => (typeof next === 'boolean' ? next : !prev))
-      if (active && !next) {
+  const toggle = useCallback((next?: boolean) => {
+    setActive((prev) => {
+      const value = typeof next === 'boolean' ? next : !prev
+      if (prev && !value) {
         triggerRef.current?.focus()
       }
-    },
-    [active]
-  )
+      return value
+    })
+  }, [])
 
   const onClick = useCallback(
-    (e: React.MouseEvent<HTMLButtonElement>) => {
+    (e: React.MouseEvent<HTMLSpanElement>) => {
       e.preventDefault()
       toggle()
     },
@@ -70,7 +70,7 @@ export default function WordDefinition({
   )
 
   const onKeyDown = useCallback(
-    (e: React.KeyboardEvent<HTMLButtonElement> & KeyboardEvent) => {
+    (e: React.KeyboardEvent<HTMLSpanElement> & KeyboardEvent) => {
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault()
         toggle()
@@ -82,60 +82,6 @@ export default function WordDefinition({
     },
     [toggle]
   )
-
-  useEffect(() => {
-    if (active) {
-      const leaveEventHandler = (e: MouseEvent | KeyboardEvent) => {
-        if (!(e.target instanceof Node)) {
-          return
-        }
-        const clickedInsideContent =
-          !!contentRef.current && contentRef.current.contains(e.target)
-        const clickedOnTrigger =
-          !!triggerRef.current && triggerRef.current.contains(e.target)
-
-        if (!clickedInsideContent && !clickedOnTrigger) {
-          toggle(false)
-        }
-      }
-      const currentContentRef = contentRef.current
-      const timeout = setTimeout(() => {
-        const contentElem = contentRef.current?.querySelector(
-          // '.dnb-tooltip__content'
-          '.dnb-word-definition__content'
-        ) as HTMLElement
-
-        // contentElem.setAttribute('tabindex', '-1')
-        // contentElem.classList.add('dnb-no-focus')
-
-        contentElem?.focus({
-          preventScroll: true,
-        })
-        contentRef.current?.addEventListener('keydown', onKeyDown)
-        document.documentElement.addEventListener(
-          'mousedown',
-          leaveEventHandler
-        )
-        document.documentElement.addEventListener(
-          'keyup',
-          leaveEventHandler
-        )
-      }, 10) // Wait until the Tooltip is rendered
-
-      return () => {
-        clearTimeout(timeout)
-        currentContentRef?.removeEventListener('keydown', onKeyDown)
-        document.documentElement.removeEventListener(
-          'mousedown',
-          leaveEventHandler
-        )
-        document.documentElement.removeEventListener(
-          'keyup',
-          leaveEventHandler
-        )
-      }
-    }
-  }, [active, onKeyDown, toggle])
 
   const spacingClasses = createSpacingClasses(rest)
   const triggerProps = removeSpaceProps(rest)
@@ -167,36 +113,22 @@ export default function WordDefinition({
         {title}
       </span>
 
-      <Tooltip
+      <Popover
         id={id}
-        contentRef={contentRef}
         targetElement={triggerRef}
-        active={active}
+        open={active}
+        onOpenChange={toggle}
         showDelay={0}
         hideDelay={0}
         position={position}
         className="dnb-word-definition"
         portalRootClass="dnb-word-definition__portal"
         omitDescribedBy
+        closeOnOutsideClick
+        title={children}
       >
-        <span
-          className="dnb-word-definition__content dnb-no-focus"
-          tabIndex={-1}
-        >
-          <span className="dnb-word-definition__title">
-            <strong className="dnb-h--basis">{children}</strong>
-          </span>
-          <span className="dnb-word-definition__text">{content}</span>
-        </span>
-
-        <Button
-          variant="tertiary"
-          icon="close"
-          title={tr.closeButtonTitle || 'Close'}
-          className="dnb-word-definition__close"
-          on_click={() => toggle(false)}
-        />
-      </Tooltip>
+        {content}
+      </Popover>
     </>
   )
 }

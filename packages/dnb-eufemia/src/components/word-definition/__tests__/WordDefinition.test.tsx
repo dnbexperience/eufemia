@@ -62,12 +62,10 @@ describe('WordDefinition', () => {
     await userEvent.click(trigger)
 
     await waitFor(() => {
-      const textElem = document.querySelector('.dnb-word-definition__text')
+      const textElem = document.querySelector('.dnb-popover__body')
       expect(textElem.textContent).toBe(definition)
     })
-    const tooltipText = document.querySelector(
-      '.dnb-word-definition__text'
-    )
+    const tooltipText = document.querySelector('.dnb-popover__body')
     expect(tooltipText.textContent).toBe(definition)
     expect(tooltipText).toBeVisible()
     expect(trigger).toHaveAttribute('aria-expanded', 'true')
@@ -79,14 +77,10 @@ describe('WordDefinition', () => {
       document.getElementById(trigger.getAttribute('aria-describedby'))
     ).toHaveTextContent(translations.closeTriggerTitle)
 
-    const headerTerm = document.querySelector(
-      '.dnb-word-definition__title strong'
-    )
+    const headerTerm = document.querySelector('.dnb-popover__title strong')
     expect(headerTerm.textContent).toBe(term)
 
-    const closeButton = document.querySelector(
-      '.dnb-word-definition__close'
-    )
+    const closeButton = document.querySelector('.dnb-popover__close')
     expect(closeButton).toBeInTheDocument()
   })
 
@@ -112,9 +106,7 @@ describe('WordDefinition', () => {
 
     await userEvent.click(trigger)
     await waitFor(() => {
-      const content = document.querySelector(
-        '.dnb-word-definition__content'
-      )
+      const content = document.querySelector('.dnb-popover__content')
       expect(content.classList.contains('dnb-no-focus')).toBe(true)
       expect(content.getAttribute('tabindex')).toBe('-1')
     })
@@ -136,7 +128,7 @@ describe('WordDefinition', () => {
 
     await userEvent.click(trigger)
     await waitFor(() => {
-      const textElem = document.querySelector('.dnb-word-definition__text')
+      const textElem = document.querySelector('.dnb-popover__body')
       expect(textElem?.textContent).toBe(definition)
       expect(trigger).toHaveAttribute('aria-expanded', 'true')
     })
@@ -159,12 +151,8 @@ describe('WordDefinition', () => {
     await userEvent.click(trigger)
     await waitFor(() => {
       const tooltip = document.querySelector('.dnb-word-definition')
-      const content = tooltip.querySelector(
-        '.dnb-word-definition__content'
-      )
-      const closeButton = tooltip.querySelector(
-        '.dnb-word-definition__close'
-      )
+      const content = tooltip.querySelector('.dnb-popover__content')
+      const closeButton = tooltip.querySelector('.dnb-popover__close')
       expect(closeButton.previousElementSibling).toBe(content)
     })
   })
@@ -175,12 +163,12 @@ describe('WordDefinition', () => {
 
     await userEvent.click(trigger)
     await waitFor(() => {
-      const textElem = document.querySelector('.dnb-word-definition__text')
+      const textElem = document.querySelector('.dnb-popover__body')
       expect(textElem.textContent).toBe(definition)
     })
     await wait(120) // wait for the focus timeout inside the component
 
-    const content = document.querySelector('.dnb-word-definition__content')
+    const content = document.querySelector('.dnb-popover__content')
     expect(document.activeElement).toBe(content)
 
     fireEvent.keyDown(content, { key: 'Escape' })
@@ -196,7 +184,7 @@ describe('WordDefinition', () => {
 
     await userEvent.click(trigger)
     await waitFor(() => {
-      const textElem = document.querySelector('.dnb-word-definition__text')
+      const textElem = document.querySelector('.dnb-popover__body')
       expect(textElem.textContent).toBe(definition)
     })
     await wait(120)
@@ -217,13 +205,11 @@ describe('WordDefinition', () => {
 
     await userEvent.click(trigger)
     await waitFor(() => {
-      const textElem = document.querySelector('.dnb-word-definition__text')
+      const textElem = document.querySelector('.dnb-popover__body')
       expect(textElem.textContent).toBe(definition)
     })
 
-    const closeButton = document.querySelector(
-      '.dnb-word-definition__close'
-    )
+    const closeButton = document.querySelector('.dnb-popover__close')
     fireEvent.click(closeButton)
 
     await waitFor(() =>
@@ -238,7 +224,7 @@ describe('WordDefinition', () => {
 
     await userEvent.click(trigger)
     await waitFor(() => {
-      const textElem = document.querySelector('.dnb-word-definition__text')
+      const textElem = document.querySelector('.dnb-popover__body')
       expect(textElem.textContent).toBe(definition)
     })
     await wait(120)
@@ -259,13 +245,11 @@ describe('WordDefinition', () => {
 
     fireEvent.keyDown(trigger, { key: ' ' })
     await waitFor(() => {
-      const textElem = document.querySelector('.dnb-word-definition__text')
+      const textElem = document.querySelector('.dnb-popover__body')
       expect(textElem.textContent).toBe(definition)
     })
 
-    const closeButton = document.querySelector(
-      '.dnb-word-definition__close'
-    )
+    const closeButton = document.querySelector('.dnb-popover__close')
     fireEvent.click(closeButton)
 
     await waitFor(() =>

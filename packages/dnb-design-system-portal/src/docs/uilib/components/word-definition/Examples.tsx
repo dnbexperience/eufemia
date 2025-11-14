@@ -9,8 +9,8 @@ export function WordDefinitionExampleBasic() {
         A text with{' '}
         <WordDefinition content="Unusual words are words that are not commonly used or that many people might not know the meaning of.">
           unusual words
-        </WordDefinition>
-        .
+        </WordDefinition>{' '}
+        lorem ipsum dolor sit amet, consectetur adipiscing elit.
       </P>
     </ComponentBox>
   )

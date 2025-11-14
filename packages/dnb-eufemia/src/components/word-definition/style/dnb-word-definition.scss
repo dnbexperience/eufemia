@@ -18,49 +18,8 @@
 
   &__portal {
     .dnb-tooltip {
-      // Override default Tooltip styles
-      --tooltip-color: var(--text-color);
-      --tooltip-background-color: var(--background-color);
-      --tooltip-border-color: var(--border);
-
-      border: var(--border);
-
       // Make shadow a bit sharper
       @include sharpDropShadow();
-    }
-  }
-
-  &__content {
-    display: flex;
-    flex-direction: column;
-
-    padding: calc(var(--inner-space) * 2) 0 calc(var(--inner-space) * 3);
-    max-width: calc(var(--prose-max-width) - 64px);
-  }
-  &__title {
-    display: flex;
-
-    strong {
-      font-weight: var(--font-weight-medium);
-
-      &::first-letter {
-        text-transform: uppercase;
-      }
-    }
-  }
-  &__text {
-    display: flex;
-    margin-top: var(--inner-space);
-    text-align: left;
-  }
-  &__close.dnb-button {
-    position: absolute;
-    top: var(--inner-space);
-    right: var(--inner-space);
-    color: inherit;
-
-    &:hover {
-      opacity: 0.6;
     }
   }
 }
