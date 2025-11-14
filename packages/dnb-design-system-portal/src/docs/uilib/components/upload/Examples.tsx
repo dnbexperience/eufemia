@@ -708,7 +708,7 @@ export const UploadRemoveDeleteButton = () => (
             {
               file: createMockFile('321.jpg', 0, 'image/png'),
               id: '4',
-              deleteButtonAttributes: { tooltip: 'Button tooltip' },
+              deleteButtonProps: { tooltip: 'Button tooltip' },
             },
           ])
         }, [setFiles])

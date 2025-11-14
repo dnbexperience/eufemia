@@ -134,7 +134,7 @@ export type UploadFile = {
   errorMessage?: React.ReactNode
   description?: React.ReactNode
   removeDeleteButton?: boolean
-  deleteButtonAttributes?: ButtonProps
+  deleteButtonProps?: ButtonProps
 }
 
 export type UploadFileNative = Omit<UploadFile, 'id' | 'exists'> &

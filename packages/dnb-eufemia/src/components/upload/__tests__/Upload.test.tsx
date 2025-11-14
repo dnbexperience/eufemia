@@ -1457,7 +1457,7 @@ describe('Upload', () => {
       const files = [
         {
           file: createMockFile('fileName.png', 100, 'image/png'),
-          deleteButtonAttributes: { text },
+          deleteButtonProps: { text },
         },
       ]
 
