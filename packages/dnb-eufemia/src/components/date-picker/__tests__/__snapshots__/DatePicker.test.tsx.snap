@@ -3902,7 +3902,7 @@ button .dnb-form-status__text {
 .dnb-date-picker__container--large {
   top: 3rem;
 }
-.dnb-date-picker__container--show-input {
+.dnb-date-picker__container--show-input, .dnb-date-picker__container--auto {
   left: 0;
 }
 .dnb-date-picker__container--right {
@@ -4073,6 +4073,13 @@ html[data-whatinput=keyboard] .dnb-date-picker__container table.dnb-no-focus:foc
 .dnb-date-picker__calendar {
   position: relative;
   padding: 1rem;
+}
+.dnb-date-picker__calendar::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  width: calc(100% - 2rem);
+  height: 1px;
 }
 .dnb-date-picker__header {
   min-height: 2.5rem;
