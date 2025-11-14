@@ -919,8 +919,6 @@ function DatePicker(externalProps: DatePickerAllProps) {
       label &&
         labelAlignment === 'right' &&
         'dnb-date-picker__input--label-alignment-right',
-      (range || showSubmitButton || showCancelButton || showResetButton) &&
-        'dnb-date-picker--show-footer',
       alignPicker && `dnb-date-picker--${alignPicker}`,
       stretch && `dnb-date-picker--stretch`,
       'dnb-form-component',
@@ -938,7 +936,9 @@ function DatePicker(externalProps: DatePickerAllProps) {
     hidden && 'dnb-date-picker__container--hidden',
     showInput && 'dnb-date-picker__container--show-input',
     alignPicker && `dnb-date-picker__container--${alignPicker}`,
-    size && `dnb-date-picker--${size}`
+    size && `dnb-date-picker--${size}`,
+    (range || showSubmitButton || showCancelButton || showResetButton) &&
+      'dnb-date-picker__container--show-footer'
   )
 
   const remainingDOMProps = validateDOMAttributes(props, attributes)
