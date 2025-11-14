@@ -871,6 +871,8 @@ html:not([data-whatintent=touch]) .dnb-button--primary:focus-visible:not([disabl
   --button-secondary-color--active: var(--sb-color-red);
   --button-secondary-background--hover: var(--sb-color-magenta-light-3);
   --button-secondary-border--default: var(--sb-color-red);
+  --button-tertiary-color: var(--sb-color-red);
+  --button-tertiary-border: var(--sb-color-red);
 }
 .dnb-button--tertiary {
   --button-tertiary-focus-overflow--icon-top: 0;
@@ -1354,14 +1356,26 @@ html:not([data-whatintent=touch]) .dnb-button--secondary:not(.dnb-button--has-te
 html:not([data-whatintent=touch]) .dnb-button--tertiary:hover[disabled] {
   cursor: not-allowed;
 }
+html:not([data-whatintent=touch]) .dnb-button--tertiary:hover:not([disabled]) {
+  color: var(--color-sea-green);
+}
 html:not([data-whatintent=touch]) .dnb-button--tertiary:hover:not([disabled]) .dnb-button__text::after {
   color: var(--color-emerald-green);
 }
 .dnb-button--tertiary:active[disabled], html:not([data-whatintent=touch]) .dnb-button--tertiary:active[disabled] {
   cursor: not-allowed;
 }
+.dnb-button--tertiary:active:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--tertiary:active:not([disabled]) {
+  color: var(--color-sea-green);
+}
 html[data-whatintent=touch] .dnb-button--tertiary:active:not([disabled]) .dnb-button__text::after, html[data-whatintent=touch] html:not([data-whatintent=touch]) .dnb-button--tertiary:active:not([disabled]) .dnb-button__text::after {
   color: var(--color-emerald-green);
+}
+html:not([data-whatintent=touch]) .dnb-button--tertiary:focus-visible[disabled] {
+  cursor: not-allowed;
+}
+html:not([data-whatintent=touch]) .dnb-button--tertiary:focus-visible:not([disabled]) {
+  color: var(--color-sea-green);
 }
 .dnb-button--tertiary.dnb-button--icon-position-top .dnb-button__text {
   font-size: var(--font-size-x-small);
@@ -1371,6 +1385,9 @@ html[data-whatintent=touch] .dnb-button--tertiary:active:not([disabled]) .dnb-bu
 }
 .dnb-button--tertiary[disabled] {
   color: var(--color-sea-green-30);
+}
+.dnb-button:not([disabled]).dnb-button--tertiary.dnb-button__status--error {
+  color: var(--color-fire-red);
 }
 .dnb-button--signal {
   color: var(--color-ocean-green);

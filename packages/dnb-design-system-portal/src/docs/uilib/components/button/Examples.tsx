@@ -69,6 +69,14 @@ export const ButtonErrorState = () => (
       data-visual-test="button-error-secondary"
     />
     <Button
+      text="Tertiary button error"
+      icon="chevron_right"
+      variant="tertiary"
+      status="error"
+      left
+      data-visual-test="button-error-tertiary"
+    />
+    <Button
       title="Primary icon button error"
       variant="primary"
       icon={question}

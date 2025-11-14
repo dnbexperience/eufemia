@@ -216,6 +216,32 @@ describe.each(['ui', 'sbanken', 'eiendom'])(
           expect(screenshot).toMatchImageSnapshot()
         })
       })
+
+      describe('tertiary', () => {
+        it('have to match focus state', async () => {
+          const screenshot = await makeScreenshot({
+            selector: '[data-visual-test="button-error-tertiary"]',
+            simulate: 'focus',
+          })
+          expect(screenshot).toMatchImageSnapshot()
+        })
+
+        it('have to match hover state', async () => {
+          const screenshot = await makeScreenshot({
+            selector: '[data-visual-test="button-error-tertiary"]',
+            simulate: 'hover',
+          })
+          expect(screenshot).toMatchImageSnapshot()
+        })
+
+        it('have to match active state', async () => {
+          const screenshot = await makeScreenshot({
+            selector: '[data-visual-test="button-error-tertiary"]',
+            simulate: 'active',
+          })
+          expect(screenshot).toMatchImageSnapshot()
+        })
+      })
     })
 
     describe('icon', () => {
