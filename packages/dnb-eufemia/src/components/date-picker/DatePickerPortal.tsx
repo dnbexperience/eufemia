@@ -30,7 +30,6 @@ export default function DatePickerPortal({
     if (
       targetElementRef.current &&
       calendarContainerRef.current &&
-      calendarContainerRef.current &&
       triangleRef.current
     ) {
       setPosition(
@@ -40,17 +39,11 @@ export default function DatePickerPortal({
           alignment
         )
       )
-      if (
-        targetElementRef.current &&
-        calendarContainerRef.current &&
+      setTriangle(
+        targetElementRef.current,
+        calendarContainerRef.current,
         triangleRef.current
-      ) {
-        setTriangle(
-          targetElementRef.current,
-          calendarContainerRef.current,
-          triangleRef.current
-        )
-      }
+      )
     }
   }, [alignment, targetElementRef])
 
@@ -68,12 +61,6 @@ export default function DatePickerPortal({
             alignment
           )
         )
-      }
-      if (
-        targetElementRef.current &&
-        calendarContainerRef.current &&
-        triangleRef.current
-      ) {
         setTriangle(
           targetElementRef.current,
           calendarContainerRef.current,
