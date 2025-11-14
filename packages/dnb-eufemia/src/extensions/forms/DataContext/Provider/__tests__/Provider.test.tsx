@@ -2612,7 +2612,7 @@ describe('DataContext.Provider', () => {
           })
         })
 
-        it('override GlobalStatus title when providing one', async () => {
+        it('should override GlobalStatus title when providing one', async () => {
           jest.spyOn(window, 'scrollTo').mockImplementation()
           const myTitle = 'Custom title for global status'
           render(
