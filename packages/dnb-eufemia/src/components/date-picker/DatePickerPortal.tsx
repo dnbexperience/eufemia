@@ -2,6 +2,7 @@ import React, {
   useCallback,
   useEffect,
   useLayoutEffect,
+  useMemo,
   useState,
 } from 'react'
 import { DatePickerProps } from './DatePicker'
@@ -24,88 +25,89 @@ export default function DatePickerPortal({
   triangleRef,
   children,
 }: DatePickerPortalProps) {
-  const [position, setPosition] = useState({})
+  const [position, setPosition] = useState<React.CSSProperties>({})
 
-  useLayoutEffect(() => {
+  const updatePosition = useCallback(() => {
     if (
-      targetElementRef.current &&
-      calendarContainerRef.current &&
-      triangleRef.current
+      targetElementRef?.current &&
+      calendarContainerRef?.current &&
+      triangleRef?.current
     ) {
       setPosition(
-        getPosition(
+        calculatePortalPosition(
           targetElementRef.current,
           calendarContainerRef.current,
           alignment
         )
       )
-      setTriangle(
+      updateTriangleIndicator(
         targetElementRef.current,
         calendarContainerRef.current,
         triangleRef.current
       )
     }
-  }, [alignment, targetElementRef])
+  }, [alignment, targetElementRef, calendarContainerRef, triangleRef])
 
-  const setPositionDebounce = useCallback(() => {
-    const debounced = debounce(() => {
-      if (
-        targetElementRef.current &&
-        calendarContainerRef.current &&
-        triangleRef.current
-      ) {
-        setPosition(
-          getPosition(
-            targetElementRef.current,
-            calendarContainerRef.current,
-            alignment
-          )
-        )
-        setTriangle(
-          targetElementRef.current,
-          calendarContainerRef.current,
-          triangleRef.current
-        )
-      }
-    }, 200)
+  useLayoutEffect(() => {
+    updatePosition()
+  }, [updatePosition])
 
-    debounced()
-  }, [alignment, targetElementRef])
+  const setPositionDebounce = useMemo(
+    () => debounce(updatePosition, 10),
+    [updatePosition]
+  )
 
   useEffect(() => {
     if (!skipPortal) {
-      window.addEventListener('resize', setPositionDebounce)
-      window.addEventListener('scroll', setPositionDebounce)
+      const scrollView = document.querySelector('.dnb-scroll-view')
+      const isInScrollView = scrollView?.contains(
+        document.querySelector('.dnb-date-picker')
+      )
+      if (isInScrollView) {
+        scrollView.addEventListener('resize', setPositionDebounce)
+        scrollView.addEventListener('scroll', setPositionDebounce)
+      } else {
+        window.addEventListener('resize', setPositionDebounce)
+        window.addEventListener('scroll', setPositionDebounce)
+      }
     }
 
     return () => {
       if (!skipPortal) {
-        window.removeEventListener('resize', setPositionDebounce)
-        window.removeEventListener('scroll', setPositionDebounce)
+        const scrollView = document.querySelector('.dnb-scroll-view')
+        const isInScrollView = scrollView?.contains(
+          document.querySelector('.dnb-date-picker')
+        )
+        if (isInScrollView) {
+          scrollView.removeEventListener('resize', setPositionDebounce)
+          scrollView.removeEventListener('scroll', setPositionDebounce)
+        } else {
+          window.removeEventListener('resize', setPositionDebounce)
+          window.removeEventListener('scroll', setPositionDebounce)
+        }
       }
     }
   }, [setPositionDebounce, skipPortal])
 
-  return (
-    position &&
-    (!skipPortal ? (
-      <PortalRoot>
-        <div className="dnb-date-picker__portal" style={position}>
-          {children}
-        </div>
-      </PortalRoot>
-    ) : (
-      children
-    ))
+  if (!position) return null
+
+  return !skipPortal ? (
+    <PortalRoot>
+      <div className="dnb-date-picker__portal" style={position}>
+        {children}
+      </div>
+    </PortalRoot>
+  ) : (
+    <>{children}</>
   )
 }
 
-function getPosition(
+function calculatePortalPosition(
   targetElement: HTMLElement,
   portalElement: HTMLElement,
   alignment: DatePickerPortalProps['alignment']
-) {
-  const parentRect = targetElement?.getBoundingClientRect()
+): React.CSSProperties {
+  const parentRect = targetElement.getBoundingClientRect()
   const scrollY = window.scrollY
   const scrollX = window.scrollX
 
@@ -120,22 +122,21 @@ function getPosition(
     }
   }
 
-  const portalRect = portalElement?.getBoundingClientRect()
-  const shellRect = targetElement
-    .querySelector('.dnb-input__shell')
-    .getBoundingClientRect()
+  const portalRect = portalElement.getBoundingClientRect()
+  const shellElement = targetElement.querySelector('.dnb-input__shell')
+  if (!shellElement) return {}
+
+  const shellRect = shellElement.getBoundingClientRect()
 
   const openAbove = shouldOpenAbove(parentRect, portalRect)
-
   const top = openAbove
     ? parentRect.top - portalRect.height + scrollY - parentRect.height
     : parentRect.top + scrollY
 
   const alignRight = shouldAlignRight(parentRect, portalRect, shellRect)
-
-  const left = !alignRight
-    ? parentRect.left + scrollX
-    : scrollX + parentRect.left - portalRect.width + parentRect.width
+  const left = alignRight
+    ? scrollX + parentRect.left - portalRect.width + parentRect.width
+    : parentRect.left + scrollX
 
   return {
     left: `${left}px`,
@@ -143,58 +144,58 @@ function getPosition(
   }
 }
 
-function setTriangle(
+function updateTriangleIndicator(
   targetElement: HTMLElement,
   portalElement: HTMLElement,
   triangleElement: HTMLElement
 ) {
-  const parentRect = targetElement?.getBoundingClientRect()
-  const portalRect = portalElement?.getBoundingClientRect()
-  const triangleRect = triangleElement?.getBoundingClientRect()
-  const shellRect = targetElement
-    .querySelector('.dnb-input__shell')
-    .getBoundingClientRect()
-  const buttonRect = targetElement
-    .querySelector('.dnb-input__submit-element')
-    ?.getBoundingClientRect()
+  const parentRect = targetElement.getBoundingClientRect()
+  const portalRect = portalElement.getBoundingClientRect()
+  const triangleRect = triangleElement.getBoundingClientRect()
 
+  const shellElement = targetElement.querySelector('.dnb-input__shell')
+  const buttonElement = targetElement.querySelector(
+    '.dnb-input__submit-element'
+  )
   const showInput = targetElement.querySelector(
     '.dnb-input__submit-button'
   )
 
+  if (!shellElement || !buttonElement) return
+
+  const shellRect = shellElement.getBoundingClientRect()
+  const buttonRect = buttonElement.getBoundingClientRect()
+
   const openAbove = shouldOpenAbove(parentRect, portalRect)
-  setTriangleDirection(triangleElement, openAbove)
+  applyTriangleDirection(triangleElement, openAbove)
 
   const alignRight = shouldAlignRight(parentRect, portalRect, shellRect)
+
+  let distance: number
   if (alignRight) {
-    setTrianglePosition(
-      triangleElement,
-      portalRect.width - buttonRect?.width / 2 - triangleRect.width / 2
-    )
+    distance =
+      portalRect.width - buttonRect.width / 2 - triangleRect.width / 2
   } else {
-    let distance = buttonRect?.width / 4
-    if (showInput) {
-      distance =
-        shellRect.width - buttonRect?.width / 2 - triangleRect.width / 2
-    }
-    setTrianglePosition(triangleElement, distance)
+    distance = showInput
+      ? shellRect.width - buttonRect.width / 2 - triangleRect.width / 2
+      : buttonRect.width / 4
   }
+
+  applyTriangleOffset(triangleElement, distance)
 }
 
-function setTriangleDirection(
+function applyTriangleDirection(
   triangleElement: HTMLElement,
   openAbove: boolean
 ) {
-  if (openAbove) {
-    triangleElement.classList.remove('dnb-date-picker__triangle')
-    triangleElement.classList.add('dnb-date-picker__triangle--bottom')
-  } else {
-    triangleElement.classList.remove('dnb-date-picker__triangle--bottom')
-    triangleElement.classList.add('dnb-date-picker__triangle')
-  }
+  triangleElement.classList.toggle('dnb-date-picker__triangle', !openAbove)
+  triangleElement.classList.toggle(
+    'dnb-date-picker__triangle--bottom',
+    openAbove
+  )
 }
 
-function setTrianglePosition(
+function applyTriangleOffset(
   triangleElement: HTMLElement,
   distance: number
 ) {
@@ -202,13 +203,19 @@ function setTrianglePosition(
   triangleElement.style.marginLeft = `${distance / 16}rem`
 }
 
-function shouldOpenAbove(parentRect: DOMRect, portalRect: DOMRect) {
-  // Open the content portal above the child if there is not enough space to the bottom,
-  // but if there also isn't enough space at the top, open to the bottom.
+function shouldOpenAbove(
+  parentRect: DOMRect,
+  portalRect: DOMRect
+): boolean {
+  const clientHeight = (
+    document.querySelector('.dnb-scroll-view') ||
+    window.document.documentElement ||
+    window.document.body
+  ).clientHeight
+
   return (
     parentRect.top + parentRect.height + portalRect.height >
-      (window.document.documentElement || window.document.body)
-        .clientHeight && parentRect.top - portalRect.height > 0
+      clientHeight && parentRect.top - portalRect.height > 0
   )
 }
 
@@ -216,14 +223,15 @@ function shouldAlignRight(
   parentRect: DOMRect,
   portalRect: DOMRect,
   shellRect: DOMRect
-) {
-  // Open the content portal to the left if there is not enough space at the right,
-  // but if there also isn't enough space at the right, open to the left.
+): boolean {
+  const clientWidth = (
+    document.querySelector('.dnb-scroll-view') ||
+    window.document.documentElement ||
+    window.document.body
+  ).clientWidth
   return (
     shellRect.width > portalRect.width ||
-    (parentRect.left + portalRect.width >
-      (window.document.documentElement || window.document.body)
-        .clientWidth &&
+    (parentRect.left + portalRect.width > clientWidth &&
       parentRect.left - portalRect.width > 0)
   )
 }

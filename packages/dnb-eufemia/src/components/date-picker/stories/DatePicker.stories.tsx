@@ -678,6 +678,17 @@ export const DatePickerPositioningTestInDialog = () => {
             required
             value="2023-04-01"
           />
+          <p>Test</p>
+          <p>Test</p>
+          <p>Test</p>
+          <p>Test</p>
+          <p>Test</p>
+          <Field.Date
+            label="Field.Date required"
+            alignPicker="auto"
+            required
+            value="2023-04-01"
+          />
         </Scrollable>
       </Dialog>
     </Form.Handler>
@@ -772,14 +783,14 @@ export const DatePickerPositioningTestOpened = () => {
       <p>Text text text text text</p>
       <p>Text text text text text</p>
       <p>Text text text text text</p>
-      <p>Text text text text text</p>
-      <p>Text text text text text</p>
-      <p>Text text text text text</p>
-      <p>Text text text text text</p>
-      <p>Text text text text text</p>
-      <p>Text text text text text</p>
-      <p>Text text text text text</p>
       <DatePicker opened alignPicker="auto" />
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
     </>
   )
 }
