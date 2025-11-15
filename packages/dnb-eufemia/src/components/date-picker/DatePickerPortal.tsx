@@ -48,10 +48,6 @@ export default function DatePickerPortal({
     }
   }, [alignment, targetElementRef, calendarContainerRef, triangleRef])
 
-  useLayoutEffect(() => {
-    updatePosition()
-  }, [updatePosition])
-
   const setPositionDebounce = useMemo(
     () => debounce(updatePosition, 10),
     [updatePosition]
@@ -59,6 +55,8 @@ export default function DatePickerPortal({
 
   useEffect(() => {
     if (!skipPortal) {
+      updatePosition()
+
       const scrollView = document.querySelector('.dnb-scroll-view')
       const isInScrollView = scrollView?.contains(
         document.querySelector('.dnb-date-picker')
@@ -87,7 +85,7 @@ export default function DatePickerPortal({
         }
       }
     }
-  }, [setPositionDebounce, skipPortal])
+  }, [setPositionDebounce, skipPortal, updatePosition])
 
   if (!position) return null
 
