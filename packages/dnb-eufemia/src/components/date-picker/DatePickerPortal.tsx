@@ -1,10 +1,4 @@
-import React, {
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useMemo,
-  useState,
-} from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { DatePickerProps } from './DatePicker'
 import PortalRoot from '../PortalRoot'
 import { debounce } from '../../shared/helpers'
