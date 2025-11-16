@@ -269,7 +269,7 @@ export type DatePickerProps = {
   noAnimation?: boolean
   direction?: 'auto' | 'top' | 'bottom'
   /**
-   * Use `right` to change the calendar alignment direction. Defaults to `left`.
+   * Use `right` to change the calendar alignment direction.  Use `auto` to change the alignment based on the available space in the current viewport, does not work with `skipPortal`. Defaults to `left`.
    */
   alignPicker?: 'auto' | 'left' | 'right'
   /**
@@ -705,7 +705,13 @@ function DatePicker(externalProps: DatePickerAllProps) {
 
   const setTrianglePosition = useCallback(() => {
     const triangleWidth = 16
-    if (showInput && triangleRef.current && innerRef.current) {
+    if (
+      showInput &&
+      // if alignPicker is set to auto, let DatePickerPortal handle it
+      alignPicker !== 'auto' &&
+      triangleRef.current &&
+      innerRef.current
+    ) {
       try {
         const shellWidth = innerRef.current
           .querySelector('.dnb-input__shell')
@@ -1020,6 +1026,8 @@ function DatePicker(externalProps: DatePickerAllProps) {
                   alignment={alignPicker}
                   skipPortal={skipPortal}
                   targetElementRef={innerRef}
+                  calendarContainerRef={calendarContainerRef}
+                  triangleRef={triangleRef}
                 >
                   <span
                     className={containerClassNames}

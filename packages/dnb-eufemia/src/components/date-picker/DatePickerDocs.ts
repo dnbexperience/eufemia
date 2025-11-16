@@ -129,7 +129,7 @@ export const DatePickerProperties: PropertiesTableProps = {
     status: 'optional',
   },
   alignPicker: {
-    doc: 'Use `right` to change the calendar alignment direction. Defaults to `left`.',
+    doc: 'Use `right` to change the calendar alignment direction. Use `auto` to change the alignment based on the available space in the current viewport, does not work with `skipPortal`. Defaults to `left`.',
     type: 'string',
     status: 'optional',
   },

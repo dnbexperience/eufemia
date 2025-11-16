@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import styled from '@emotion/styled'
 import addDays from 'date-fns/addDays'
@@ -37,6 +37,28 @@ const Wrapper = styled.div`
     margin-left: 1rem;
   }
 `
+
+const Root = styled.div`
+  display: inline-block;
+  margin: 90vh 90vw;
+`
+
+function Scrollable({ children }: { children: React.ReactNode }) {
+  const scrollRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    setTimeout(() => {
+      if (scrollRef.current) {
+        scrollRef.current.scrollIntoView({
+          block: 'center',
+          inline: 'center',
+        })
+      }
+    }, 0)
+  }, [])
+
+  return <Root ref={scrollRef}>{children}</Root>
+}
 
 export const DatePickerRange = () => (
   <ComponentBox
@@ -443,4 +465,16 @@ export const DatePickerOnlyMonthOpen = () => (
       <DatePicker date="2025-05-20" onlyMonth opened skipPortal />
     </ComponentBox>
   </Wrapper>
+)
+
+export const DatePickerPositioningScoll = () => (
+  <ComponentBox
+    scope={{ Scrollable }}
+    hideCode
+    data-visual-test="date-picker-positioning-scroll"
+  >
+    <Scrollable>
+      <DatePicker alignPicker="auto" opened />
+    </Scrollable>
+  </ComponentBox>
 )

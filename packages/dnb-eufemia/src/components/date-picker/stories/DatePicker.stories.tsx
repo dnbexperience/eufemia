@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 import styled from '@emotion/styled'
 
@@ -21,8 +21,9 @@ import {
   GlobalStatus,
   Flex,
   Drawer,
+  Dialog,
 } from '../..'
-import { FieldBlock } from '../../../extensions/forms'
+import { Field, FieldBlock, Form } from '../../../extensions/forms'
 
 export default {
   title: 'Eufemia/Components/DatePicker',
@@ -602,5 +603,233 @@ export const DatePickerPositioning = () => {
       <DatePicker label="DatePicker" showInput alignPicker="left" />
       <DatePicker label="DatePicker" showInput alignPicker="right" />
     </Drawer>
+  )
+}
+
+export const DatePickerPositioningTest = () => {
+  const Root = styled.div`
+    display: inline-block;
+    margin: 150vh 150vw;
+  `
+
+  function Scrollable({ children }: { children: React.ReactNode }) {
+    const scrollRef = useRef<HTMLDivElement>(null)
+
+    useEffect(() => {
+      setTimeout(() => {
+        if (scrollRef.current) {
+          scrollRef.current.scrollIntoView({
+            block: 'center',
+            inline: 'center',
+          })
+        }
+      }, 0)
+    }, [])
+
+    return <Root ref={scrollRef}>{children}</Root>
+  }
+
+  return (
+    <Scrollable>
+      <DatePicker alignPicker="auto" />
+      <Field.Date alignPicker="auto" width="large" />
+      <Field.Date alignPicker="auto" width="small" />
+      <Field.Date alignPicker="auto" width="medium" />
+      <Field.Date alignPicker="auto" width="stretch" />
+    </Scrollable>
+  )
+}
+
+export const DatePickerPositioningTestInNestedModals = () => {
+  const Root = styled.div`
+    display: inline-block;
+    margin: 150vh 150vw;
+  `
+
+  function Scrollable({ children }: { children: React.ReactNode }) {
+    const scrollRef = useRef<HTMLDivElement>(null)
+
+    useEffect(() => {
+      setTimeout(() => {
+        if (scrollRef.current) {
+          scrollRef.current.scrollIntoView({
+            block: 'center',
+            inline: 'center',
+          })
+        }
+      }, 0)
+    }, [])
+
+    return <Root ref={scrollRef}>{children}</Root>
+  }
+
+  return (
+    <Drawer>
+      <DatePicker alignPicker="auto" />
+      <Dialog>
+        <Scrollable>
+          <DatePicker alignPicker="auto" />
+          <Field.Date alignPicker="auto" width="large" />
+          <Field.Date alignPicker="auto" width="small" />
+          <Field.Date alignPicker="auto" width="medium" />
+          <Field.Date alignPicker="auto" width="stretch" />
+        </Scrollable>
+      </Dialog>
+    </Drawer>
+  )
+}
+
+export const DatePickerPositioningTestInDialog = () => {
+  const Root = styled.div`
+    display: inline-block;
+    margin: 150vh 150vw;
+  `
+
+  function Scrollable({ children }: { children: React.ReactNode }) {
+    const scrollRef = useRef<HTMLDivElement>(null)
+
+    useEffect(() => {
+      setTimeout(() => {
+        if (scrollRef.current) {
+          scrollRef.current.scrollIntoView({
+            block: 'center',
+            inline: 'center',
+          })
+        }
+      }, 0)
+    }, [])
+
+    return <Root ref={scrollRef}>{children}</Root>
+  }
+
+  return (
+    <Form.Handler>
+      <Dialog
+        title="Drawer title"
+        triggerAttributes={{
+          text: 'Open drawer',
+        }}
+      >
+        <Scrollable>
+          <Field.Date
+            label="Field.Date required"
+            alignPicker="auto"
+            required
+            value="2023-04-01"
+          />
+          <p>Test</p>
+          <p>Test</p>
+          <p>Test</p>
+          <p>Test</p>
+          <p>Test</p>
+          <Field.Date
+            label="Field.Date required"
+            alignPicker="auto"
+            required
+            value="2023-04-01"
+          />
+        </Scrollable>
+      </Dialog>
+    </Form.Handler>
+  )
+}
+
+export const DatePickerPositioningTestOpened = () => {
+  return (
+    <>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p> <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p> <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p> <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p> <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p> <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p> <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <DatePicker opened alignPicker="auto" />
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+      <p>Text text text text text</p>
+    </>
   )
 }

@@ -113,3 +113,66 @@ describe('DatePicker', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 })
+
+describe.each(['ui'])('DatePicker auto aligning %s', (themeName) => {
+  const pageViewport = { width: 400, height: 400 }
+  const style = { width: '784px', height: '784px' }
+  setupPageScreenshot({
+    themeName,
+    url: '/uilib/components/date-picker/visual-tests',
+    pageViewport,
+    fullscreen: true,
+  })
+
+  it('have to match when date picker is placed top left in the viewport', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="date-picker-positioning-scroll"]',
+      pageViewport,
+      style,
+      executeBeforeScreenshot: () => {
+        document.documentElement.scrollTop = 900
+        document.documentElement.scrollLeft = 700
+      },
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match when date picker is placed top right in the viewport', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="date-picker-positioning-scroll"]',
+      pageViewport,
+      style,
+      executeBeforeScreenshot: () => {
+        document.documentElement.scrollTop = 900
+        document.documentElement.scrollLeft = 35
+      },
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match when date picker is placed bottom left in the viewport', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="date-picker-positioning-scroll"]',
+      pageViewport,
+      style,
+      executeBeforeScreenshot: () => {
+        document.documentElement.scrollTop = 50
+        document.documentElement.scrollLeft = 700
+      },
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match when date picker is placed bottom right in the viewport', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="date-picker-positioning-scroll"]',
+      pageViewport,
+      style,
+      executeBeforeScreenshot: () => {
+        document.documentElement.scrollTop = 50
+        document.documentElement.scrollLeft = 50
+      },
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+})
