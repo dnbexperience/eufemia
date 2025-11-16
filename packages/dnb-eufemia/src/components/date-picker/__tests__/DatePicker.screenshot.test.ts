@@ -129,9 +129,11 @@ describe.each(['ui'])('DatePicker auto aligning %s', (themeName) => {
       selector: '[data-visual-test="date-picker-positioning-scroll"]',
       pageViewport,
       style,
-      executeBeforeScreenshot: () => {
+      waitAfterSimulate: 300, // Wait for animations and positioning to settle
+      executeBeforeScreenshot: async () => {
         document.documentElement.scrollTop = 900
         document.documentElement.scrollLeft = 700
+        await new Promise((resolve) => setTimeout(resolve, 100)) // Let scroll settle
       },
     })
     expect(screenshot).toMatchImageSnapshot()
@@ -142,9 +144,11 @@ describe.each(['ui'])('DatePicker auto aligning %s', (themeName) => {
       selector: '[data-visual-test="date-picker-positioning-scroll"]',
       pageViewport,
       style,
-      executeBeforeScreenshot: () => {
+      waitAfterSimulate: 300,
+      executeBeforeScreenshot: async () => {
         document.documentElement.scrollTop = 900
         document.documentElement.scrollLeft = 35
+        await new Promise((resolve) => setTimeout(resolve, 100))
       },
     })
     expect(screenshot).toMatchImageSnapshot()
@@ -155,9 +159,11 @@ describe.each(['ui'])('DatePicker auto aligning %s', (themeName) => {
       selector: '[data-visual-test="date-picker-positioning-scroll"]',
       pageViewport,
       style,
-      executeBeforeScreenshot: () => {
+      waitAfterSimulate: 300,
+      executeBeforeScreenshot: async () => {
         document.documentElement.scrollTop = 50
         document.documentElement.scrollLeft = 700
+        await new Promise((resolve) => setTimeout(resolve, 100))
       },
     })
     expect(screenshot).toMatchImageSnapshot()
@@ -168,9 +174,11 @@ describe.each(['ui'])('DatePicker auto aligning %s', (themeName) => {
       selector: '[data-visual-test="date-picker-positioning-scroll"]',
       pageViewport,
       style,
-      executeBeforeScreenshot: () => {
+      waitAfterSimulate: 300,
+      executeBeforeScreenshot: async () => {
         document.documentElement.scrollTop = 50
         document.documentElement.scrollLeft = 50
+        await new Promise((resolve) => setTimeout(resolve, 100))
       },
     })
     expect(screenshot).toMatchImageSnapshot()
