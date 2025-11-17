@@ -129,7 +129,6 @@ describe.each(['ui'])('DatePicker auto aligning %s', (themeName) => {
       selector: '[data-visual-test="date-picker-positioning-scroll"]',
       pageViewport,
       style,
-      waitAfterSimulate: 300, // Wait for animations and positioning to settle
       executeBeforeScreenshot: async () => {
         document.documentElement.scrollTop = 900
         document.documentElement.scrollLeft = 700
@@ -144,7 +143,7 @@ describe.each(['ui'])('DatePicker auto aligning %s', (themeName) => {
       selector: '[data-visual-test="date-picker-positioning-scroll"]',
       pageViewport,
       style,
-      waitAfterSimulate: 300,
+
       executeBeforeScreenshot: async () => {
         document.documentElement.scrollTop = 900
         document.documentElement.scrollLeft = 35
@@ -159,7 +158,7 @@ describe.each(['ui'])('DatePicker auto aligning %s', (themeName) => {
       selector: '[data-visual-test="date-picker-positioning-scroll"]',
       pageViewport,
       style,
-      waitAfterSimulate: 300,
+
       executeBeforeScreenshot: async () => {
         document.documentElement.scrollTop = 50
         document.documentElement.scrollLeft = 700
@@ -174,7 +173,7 @@ describe.each(['ui'])('DatePicker auto aligning %s', (themeName) => {
       selector: '[data-visual-test="date-picker-positioning-scroll"]',
       pageViewport,
       style,
-      waitAfterSimulate: 300,
+
       executeBeforeScreenshot: async () => {
         document.documentElement.scrollTop = 50
         document.documentElement.scrollLeft = 50
