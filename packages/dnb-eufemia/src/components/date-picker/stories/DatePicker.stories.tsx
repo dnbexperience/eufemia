@@ -606,29 +606,26 @@ export const DatePickerPositioning = () => {
   )
 }
 
-export const DatePickerPositioningTest = () => {
+function Scrollable({ children }: { children: React.ReactNode }) {
   const Root = styled.div`
     display: inline-block;
     margin: 150vh 150vw;
   `
+  const scrollRef = useRef<HTMLDivElement>(null)
 
-  function Scrollable({ children }: { children: React.ReactNode }) {
-    const scrollRef = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollIntoView({
+        block: 'center',
+        inline: 'center',
+      })
+    }
+  }, [])
 
-    useEffect(() => {
-      setTimeout(() => {
-        if (scrollRef.current) {
-          scrollRef.current.scrollIntoView({
-            block: 'center',
-            inline: 'center',
-          })
-        }
-      }, 0)
-    }, [])
+  return <Root ref={scrollRef}>{children}</Root>
+}
 
-    return <Root ref={scrollRef}>{children}</Root>
-  }
-
+export const DatePickerPositioningTest = () => {
   return (
     <Scrollable>
       <DatePicker alignPicker="auto" />
@@ -641,28 +638,6 @@ export const DatePickerPositioningTest = () => {
 }
 
 export const DatePickerPositioningTestInNestedModals = () => {
-  const Root = styled.div`
-    display: inline-block;
-    margin: 150vh 150vw;
-  `
-
-  function Scrollable({ children }: { children: React.ReactNode }) {
-    const scrollRef = useRef<HTMLDivElement>(null)
-
-    useEffect(() => {
-      setTimeout(() => {
-        if (scrollRef.current) {
-          scrollRef.current.scrollIntoView({
-            block: 'center',
-            inline: 'center',
-          })
-        }
-      }, 0)
-    }, [])
-
-    return <Root ref={scrollRef}>{children}</Root>
-  }
-
   return (
     <Drawer>
       <DatePicker alignPicker="auto" />
@@ -680,28 +655,6 @@ export const DatePickerPositioningTestInNestedModals = () => {
 }
 
 export const DatePickerPositioningTestInDialog = () => {
-  const Root = styled.div`
-    display: inline-block;
-    margin: 150vh 150vw;
-  `
-
-  function Scrollable({ children }: { children: React.ReactNode }) {
-    const scrollRef = useRef<HTMLDivElement>(null)
-
-    useEffect(() => {
-      setTimeout(() => {
-        if (scrollRef.current) {
-          scrollRef.current.scrollIntoView({
-            block: 'center',
-            inline: 'center',
-          })
-        }
-      }, 0)
-    }, [])
-
-    return <Root ref={scrollRef}>{children}</Root>
-  }
-
   return (
     <Form.Handler>
       <Dialog
