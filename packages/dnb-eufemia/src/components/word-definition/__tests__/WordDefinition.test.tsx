@@ -35,7 +35,7 @@ describe('WordDefinition', () => {
 
     const tooltip = document.querySelector('.dnb-word-definition')
     expect(tooltip).not.toBeNull()
-    expect(tooltip.classList.contains('dnb-tooltip--active')).toBe(false)
+    expect(tooltip.classList.contains('dnb-popover--active')).toBe(false)
   })
 
   it('links aria attributes to the tooltip and description elements', () => {
@@ -45,7 +45,7 @@ describe('WordDefinition', () => {
     const controlsId = trigger.getAttribute('aria-controls')
     expect(controlsId).toBeTruthy()
     const tooltipElement = document.getElementById(controlsId)
-    expect(tooltipElement.classList.contains('dnb-tooltip__content')).toBe(
+    expect(tooltipElement.classList.contains('dnb-popover__content')).toBe(
       true
     )
 
@@ -139,7 +139,7 @@ describe('WordDefinition', () => {
       expect(trigger).toHaveAttribute('aria-expanded', 'false')
     )
     const activeTooltip = document.querySelector(
-      '.dnb-word-definition.dnb-tooltip--active'
+      '.dnb-word-definition.dnb-popover--active'
     )
     expect(activeTooltip).toBeNull()
   })
@@ -196,7 +196,7 @@ describe('WordDefinition', () => {
     )
 
     const tooltip = document.querySelector('.dnb-word-definition')
-    expect(tooltip.classList.contains('dnb-tooltip--active')).toBe(false)
+    expect(tooltip.classList.contains('dnb-popover--active')).toBe(false)
   })
 
   it('closes tooltip when the close button is clicked', async () => {

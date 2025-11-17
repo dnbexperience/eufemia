@@ -36,16 +36,16 @@ describe('Popover', () => {
       expect(trigger).toHaveAttribute('aria-expanded', 'true')
     )
 
-    const tooltip = document.querySelector('.dnb-tooltip')
-    expect(tooltip).toHaveClass('dnb-tooltip--active')
-    expect(tooltip?.textContent).toContain(contentText)
+    const popoverElement = document.querySelector('.dnb-popover')
+    expect(popoverElement).toHaveClass('dnb-popover--active')
+    expect(popoverElement?.textContent).toContain(contentText)
 
     fireEvent.mouseDown(document.documentElement)
 
     await waitFor(() =>
       expect(trigger).toHaveAttribute('aria-expanded', 'false')
     )
-    expect(tooltip).not.toHaveClass('dnb-tooltip--active')
+    expect(popoverElement).not.toHaveClass('dnb-popover--active')
   })
 
   it('renders optional title and focuses content when opened', async () => {
@@ -110,12 +110,12 @@ describe('Popover', () => {
     await waitFor(() =>
       expect(
         document.querySelector(
-          '.dnb-tooltip button[type="button"]:last-of-type'
+          '.dnb-popover button[type="button"]:last-of-type'
         )
       ).toBeInTheDocument()
     )
     const customClose = document.querySelector(
-      '.dnb-tooltip button[type="button"]:last-of-type'
+      '.dnb-popover button[type="button"]:last-of-type'
     ) as Element
     await userEvent.click(customClose)
 
@@ -176,7 +176,7 @@ describe('Popover', () => {
 
     const focusTrap = await waitFor(() =>
       document.querySelector(
-        '.dnb-tooltip .dnb-sr-only button, .dnb-tooltip button.dnb-sr-only'
+        '.dnb-popover .dnb-sr-only button, .dnb-popover button.dnb-sr-only'
       )
     )
 
@@ -243,6 +243,58 @@ describe('Popover', () => {
       expect(
         document.querySelector('.dnb-popover__portal .dnb-popover')
       ).not.toBeNull()
+    )
+  })
+
+  it('applies tooltip semantics and aria-hidden to the overlay element', async () => {
+    renderWithTrigger()
+
+    const trigger = document.querySelector('button[aria-controls]')
+    await userEvent.click(trigger)
+
+    const popover = await waitFor(() =>
+      document.querySelector('.dnb-popover')
+    )
+    expect(popover).toHaveAttribute('role', 'tooltip')
+    expect(popover).toHaveAttribute('aria-hidden', 'true')
+  })
+
+  it('omits aria-hidden when omitDescribedBy is true', async () => {
+    renderWithTrigger({ omitDescribedBy: true })
+
+    const trigger = document.querySelector('button[aria-controls]')
+    await userEvent.click(trigger)
+
+    const popover = await waitFor(() =>
+      document.querySelector('.dnb-popover')
+    )
+    expect(popover).not.toHaveAttribute('aria-hidden')
+  })
+
+  it('respects skipPortal by rendering inline', async () => {
+    renderWithTrigger({ skipPortal: true })
+
+    const trigger = document.querySelector('button[aria-controls]')
+    await userEvent.click(trigger)
+
+    await waitFor(() =>
+      expect(document.querySelector('.dnb-popover')).toBeInTheDocument()
+    )
+    expect(
+      document.querySelector('.dnb-popover__portal')
+    ).not.toBeInTheDocument()
+  })
+
+  it('applies custom portalRootClass to the wrapper', async () => {
+    renderWithTrigger({ portalRootClass: 'custom-popover-root' })
+
+    const trigger = document.querySelector('button[aria-controls]')
+    await userEvent.click(trigger)
+
+    await waitFor(() =>
+      expect(
+        document.querySelector('.dnb-popover__portal.custom-popover-root')
+      ).toBeInTheDocument()
     )
   })
 

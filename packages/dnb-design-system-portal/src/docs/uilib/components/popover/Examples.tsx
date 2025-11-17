@@ -73,3 +73,21 @@ export function PopoverExampleOpened() {
     </ComponentBox>
   )
 }
+
+export function PopoverExampleDarkTheme() {
+  return (
+    <ComponentBox data-visual-test="popover-dark">
+      <Popover
+        theme="dark"
+        position="top"
+        trigger={({ ref, ...triggerProps }) => (
+          <Button text="Dark surface" innerRef={ref} {...triggerProps} />
+        )}
+        title="Dark popover"
+      >
+        Use `theme=\"dark\"` whenever the popover should visually blend
+        with Tooltip surfaces or sit on dark backdrops.
+      </Popover>
+    </ComponentBox>
+  )
+}

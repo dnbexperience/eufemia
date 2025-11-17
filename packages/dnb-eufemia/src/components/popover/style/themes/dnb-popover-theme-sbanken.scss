@@ -1,5 +1,12 @@
 .dnb-popover {
-  --popover-text-color: var(--sb-color-black);
-  --popover-background-color: var(--sb-color-white);
-  --popover-border-color: 1px solid var(--sb-color-gray-light);
+  &--theme-light {
+    --popover-text-color: var(--sb-color-black);
+    --popover-background-color: var(--sb-color-white);
+    --popover-border-color: 1px solid var(--sb-color-gray-light);
+  }
+  &--theme-dark {
+    --popover-color: var(--sb-color-white);
+    --popover-background-color: var(--sb-color-gray-dark-3);
+    --popover-border-color: 1px solid var(--sb-color-gray-dark-3);
+  }
 }

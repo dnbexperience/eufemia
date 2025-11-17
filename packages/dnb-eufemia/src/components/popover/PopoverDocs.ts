@@ -22,6 +22,11 @@ export const PopoverProperties: PropertiesTableProps = {
     type: 'React.ReactNode',
     status: 'optional',
   },
+  theme: {
+    doc: 'Sets the surface style. Use `dark` to match Tooltip’s dark background or when placing the popover on dark surfaces (default is `light`).',
+    type: "'light' | 'dark'",
+    status: 'optional',
+  },
   showCloseButton: {
     doc: 'Toggle rendering of the built-in close button that appears inside the popover.',
     type: 'boolean',

@@ -10,7 +10,7 @@ import { Popover } from '@dnb/eufemia'
 
 ## Description
 
-Popover is a controlled variant of Tooltip that opens on click instead of hover. You supply the trigger (render function or element) or point the popover to an existing DOM node via `targetElement`/`targetSelector`. All Tooltip props such as `position`, `align`, `arrow`, and portal settings are forwarded, making Popover useful whenever you need richer interactive content anchored to a control. You can optionally add a heading via the `title` prop, which reuses the WordDefinition typography.
+Popover renders its own floating surface anchored to a trigger element (render function or React node) or any DOM node via `targetElement` / `targetSelector`. It manages positioning and portals internally—without relying on Tooltip—so you can safely use it alongside or even inside tooltips. Configure it with familiar props such as `position`, `align`, `arrow`, and portal settings, add an optional heading via `title`, and choose between `'light'` (default) or `'dark'` surfaces using the `theme` prop when you need it to match Tooltip’s dark background.
 
 ## Relevant links
 
