@@ -764,10 +764,10 @@ button.dnb-button::-moz-focus-inner {
 .dnb-global-status__title {
   position: relative;
   cursor: text;
-  min-height: 4.5rem;
+  min-height: 2.5rem;
   display: flex;
   align-items: center;
-  padding: 1rem 5rem 1rem 2.5rem;
+  padding: 1.5rem 5rem 0.5rem 2.5rem;
   font-size: var(--font-size-basis);
 }
 .dnb-global-status__title .dnb-p, .dnb-spacing .dnb-global-status__title .dnb-p, .dnb-spacing .dnb-global-status__title .dnb-p:not([class*=dnb-space]) {
@@ -780,7 +780,7 @@ button.dnb-button::-moz-focus-inner {
 .dnb-global-status__message__content {
   display: flex;
   flex-direction: column;
-  padding: 0.5rem 0 2.5rem 2.5rem;
+  padding: 1rem 0 0.5rem 2.5rem;
 }
 .dnb-global-status__message__content .dnb-p, .dnb-spacing .dnb-global-status__message__content .dnb-p, .dnb-spacing .dnb-global-status__message__content .dnb-p:not([class*=dnb-space]) {
   display: inline-block;
@@ -807,7 +807,6 @@ button.dnb-button::-moz-focus-inner {
 }
 .dnb-global-status__content .dnb-ul, .dnb-spacing .dnb-global-status__content .dnb-ul, .dnb-spacing .dnb-global-status__content .dnb-ul:not([class*=dnb-space]) {
   margin: 0;
-  margin-top: 0.5rem;
   padding-left: 1rem;
 }
 .dnb-global-status__content .dnb-ul .dnb-anchor:last-of-type, .dnb-spacing .dnb-global-status__content .dnb-ul .dnb-anchor:last-of-type, .dnb-spacing .dnb-global-status__content .dnb-ul:not([class*=dnb-space]) .dnb-anchor:last-of-type {
