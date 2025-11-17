@@ -170,7 +170,6 @@ function applyTriangleDirection(
   triangleElement: HTMLElement,
   openAbove: boolean
 ) {
-  triangleElement.classList.toggle('dnb-date-picker__triangle', !openAbove)
   triangleElement.classList.toggle(
     'dnb-date-picker__triangle--bottom',
     openAbove
