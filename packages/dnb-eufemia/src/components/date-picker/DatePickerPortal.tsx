@@ -53,13 +53,9 @@ export default function DatePickerPortal({
 
       const scrollView = getLastScrollView()
       const isInScrollView = scrollView?.querySelector('.dnb-date-picker')
-      if (isInScrollView) {
-        scrollView.addEventListener('resize', setPositionDebounce)
-        scrollView.addEventListener('scroll', setPositionDebounce)
-      } else {
-        window.addEventListener('resize', setPositionDebounce)
-        window.addEventListener('scroll', setPositionDebounce)
-      }
+      const view = isInScrollView ? scrollView : window
+      view.addEventListener('resize', setPositionDebounce)
+      view.addEventListener('scroll', setPositionDebounce)
     }
 
     return () => {
@@ -68,13 +64,9 @@ export default function DatePickerPortal({
         const isInScrollView = scrollView?.contains(
           document.querySelector('.dnb-date-picker')
         )
-        if (isInScrollView) {
-          scrollView.removeEventListener('resize', setPositionDebounce)
-          scrollView.removeEventListener('scroll', setPositionDebounce)
-        } else {
-          window.removeEventListener('resize', setPositionDebounce)
-          window.removeEventListener('scroll', setPositionDebounce)
-        }
+        const view = isInScrollView ? scrollView : window
+        view.removeEventListener('resize', setPositionDebounce)
+        view.removeEventListener('scroll', setPositionDebounce)
       }
     }
   }, [setPositionDebounce, skipPortal, updatePosition])
