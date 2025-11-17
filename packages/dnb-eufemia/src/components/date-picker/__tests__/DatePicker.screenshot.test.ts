@@ -147,7 +147,7 @@ describe.each(['ui'])('DatePicker auto aligning %s', (themeName) => {
       executeBeforeScreenshot: async () => {
         document.documentElement.scrollTop = 900
         document.documentElement.scrollLeft = 35
-        await new Promise((resolve) => setTimeout(resolve, 100))
+        await new Promise((resolve) => setTimeout(resolve, 100)) // Let scroll settle
       },
     })
     expect(screenshot).toMatchImageSnapshot()
@@ -162,7 +162,7 @@ describe.each(['ui'])('DatePicker auto aligning %s', (themeName) => {
       executeBeforeScreenshot: async () => {
         document.documentElement.scrollTop = 50
         document.documentElement.scrollLeft = 700
-        await new Promise((resolve) => setTimeout(resolve, 100))
+        await new Promise((resolve) => setTimeout(resolve, 100)) // Let scroll settle
       },
     })
     expect(screenshot).toMatchImageSnapshot()
@@ -177,7 +177,7 @@ describe.each(['ui'])('DatePicker auto aligning %s', (themeName) => {
       executeBeforeScreenshot: async () => {
         document.documentElement.scrollTop = 50
         document.documentElement.scrollLeft = 50
-        await new Promise((resolve) => setTimeout(resolve, 100))
+        await new Promise((resolve) => setTimeout(resolve, 100)) // Let scroll settle
       },
     })
     expect(screenshot).toMatchImageSnapshot()
