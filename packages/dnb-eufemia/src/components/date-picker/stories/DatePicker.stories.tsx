@@ -22,8 +22,11 @@ import {
   Flex,
   Drawer,
   Dialog,
+  Table,
+  Checkbox,
 } from '../..'
 import { Field, FieldBlock, Form } from '../../../extensions/forms'
+import { Tr, Td, Th } from '../../../elements'
 
 export default {
   title: 'Eufemia/Components/DatePicker',
@@ -784,5 +787,110 @@ export const DatePickerPositioningTestOpened = () => {
       <p>Text text text text text</p>
       <p>Text text text text text</p>
     </>
+  )
+}
+
+export function DatePickerPositioningTestTable() {
+  const AccordionTable = ({ id, showCheckbox = false, ...props }) => {
+    const TdCheckbox = () => {
+      return <Checkbox label="Select row" label_sr_only />
+    }
+    const TdInput = () => {
+      return <Field.Date alignPicker="auto" />
+    }
+    const Content = ({ shareId }) => {
+      const ref = React.useRef()
+      // const { copy, CopyTooltip } = useCopyWithNotice()
+      const shareHandler = () => {
+        const url = new URL(location.href)
+        url.hash = '#' + shareId
+        // copy(url.toString())
+      }
+      return (
+        <>
+          <Button top icon="bell" variant="secondary">
+            Ring the bell
+          </Button>
+
+          {/* <Section top spacing>
+            <Dl>
+              <Dt>Favorittfarge</Dt>
+              <Dd>Grønn</Dd>
+              <Dt>Favorittmat</Dt>
+              <Dd>Taco</Dd>
+            </Dl>
+          </Section> */}
+
+          <Button
+            top
+            variant="tertiary"
+            // icon={copyIcon}
+            icon_position="left"
+            on_click={shareHandler}
+            inner_ref={ref}
+          >
+            Copy link to this row
+          </Button>
+
+          {/* <CopyTooltip target={ref.current} /> */}
+        </>
+      )
+    }
+    const Row = ({ nr }) => {
+      const shareId = id + '-' + nr
+      return (
+        <Tr id={shareId}>
+          <Td>{showCheckbox ? <TdCheckbox /> : 'Row ' + nr}</Td>
+          <Td>Row {nr}</Td>
+          <Td spacing="horizontal">
+            <TdInput />
+          </Td>
+          <Td align="right">Row {nr}</Td>
+
+          <Td.AccordionContent>
+            <Content shareId={shareId} />
+          </Td.AccordionContent>
+        </Tr>
+      )
+    }
+    return (
+      <Table mode="accordion" id={id} {...props}>
+        <caption className="dnb-sr-only">A Table Caption</caption>
+
+        <thead>
+          <Tr>
+            <Th>Column A</Th>
+            <Th>Column B</Th>
+            <Th>Column C</Th>
+            <Th align="right">Column D</Th>
+          </Tr>
+        </thead>
+
+        <tbody>
+          <Row nr="1" />
+          <Row nr="2" />
+          <Row nr="3" />
+          <Row nr="4" />
+          <Row nr="5" />
+          <Row nr="6" />
+          <Row nr="7" />
+          <Row nr="8" />
+          <Row nr="9" />
+          <Row nr="10" />
+          <Row nr="11" />
+          <Row nr="12" />
+        </tbody>
+      </Table>
+    )
+  }
+
+  return (
+    <Table.ScrollView>
+      <AccordionTable
+        id="accordion-table-1"
+        showCheckbox
+        accordionChevronPlacement="end"
+      />
+    </Table.ScrollView>
   )
 }

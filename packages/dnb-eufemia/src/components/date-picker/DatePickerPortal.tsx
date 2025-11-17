@@ -188,13 +188,50 @@ function shouldOpenAbove(
   parentRect: DOMRect,
   portalRect: DOMRect
 ): boolean {
+  const scrollView = getLastScrollView()
+
+  // If inside scroll view, try scroll view dimensions first
+  if (scrollView) {
+    const scrollViewHeight = scrollView.clientHeight
+    const spaceBelow =
+      scrollViewHeight - (parentRect.top + parentRect.height)
+    const spaceAbove = parentRect.top
+
+    // Portal fits below in scroll view
+    if (spaceBelow >= portalRect.height) {
+      return false
+    }
+
+    // Portal fits above in scroll view
+    if (spaceAbove >= portalRect.height) {
+      return true
+    }
+
+    // Portal doesn't fit in scroll view - fallback to window positioning
+    const windowHeight = window.document.documentElement.clientHeight
+    const windowSpaceBelow =
+      windowHeight - (parentRect.top + parentRect.height)
+    const windowSpaceAbove = parentRect.top
+
+    // Portal fits below in window
+    if (windowSpaceBelow >= portalRect.height) {
+      return false
+    }
+
+    // Portal fits above in window
+    if (windowSpaceAbove >= portalRect.height) {
+      return true
+    }
+
+    // Choose side with more space in window
+    return windowSpaceAbove > windowSpaceBelow
+  }
+
+  // Not in scroll view - use window dimensions
   const clientHeight = (
-    getLastScrollView() ||
-    window.document.documentElement ||
-    window.document.body
+    window.document.documentElement || window.document.body
   ).clientHeight
 
-  // Calculate available space above and below
   const spaceAbove = parentRect.top
   const spaceBelow = clientHeight - (parentRect.top + parentRect.height)
 
@@ -220,16 +257,54 @@ function shouldAlignRight(
   portalRect: DOMRect,
   shellRect: DOMRect
 ): boolean {
-  const clientWidth = (
-    getLastScrollView() ||
-    window.document.documentElement ||
-    window.document.body
-  ).clientWidth
-
   // If shell is wider than portal, align right
   if (shellRect.width > portalRect.width) {
     return true
   }
+
+  const scrollView = getLastScrollView()
+
+  // If inside scroll view, try scroll view dimensions first
+  if (scrollView) {
+    const scrollViewWidth = scrollView.clientWidth
+
+    // Portal fits on the left in scroll view
+    if (parentRect.left + portalRect.width <= scrollViewWidth) {
+      return false
+    }
+
+    const spaceOnLeft = parentRect.left
+
+    // Portal fits on the right in scroll view
+    if (spaceOnLeft >= portalRect.width) {
+      return true
+    }
+
+    // Portal doesn't fit in scroll view - fallback to window positioning
+    const windowWidth = window.document.documentElement.clientWidth
+    const windowSpaceOnRight =
+      windowWidth - (parentRect.left + parentRect.width)
+
+    // Portal fits on the left in window
+    if (parentRect.left + portalRect.width <= windowWidth) {
+      return false
+    }
+
+    const windowSpaceOnLeft = parentRect.left
+
+    // Portal fits on the right in window
+    if (windowSpaceOnLeft >= portalRect.width) {
+      return true
+    }
+
+    // Choose side with more space in window
+    return windowSpaceOnLeft > windowSpaceOnRight
+  }
+
+  // Not in scroll view - use window dimensions
+  const clientWidth = (
+    window.document.documentElement || window.document.body
+  ).clientWidth
 
   // Calculate available space on both sides
   const spaceOnLeft = parentRect.left
@@ -249,9 +324,10 @@ function shouldAlignRight(
   return spaceOnLeft > spaceOnRight
 }
 
-function getLastScrollView(): Element {
+function getLastScrollView(): Element | null {
   // If there are nested scroll views, we use the last one (most likely the one in the viewport)
   const allElements = document.querySelectorAll('.dnb-scroll-view')
-  const lastElement = allElements[allElements.length - 1]
-  return lastElement
+  return allElements.length > 0
+    ? allElements[allElements.length - 1]
+    : null
 }
