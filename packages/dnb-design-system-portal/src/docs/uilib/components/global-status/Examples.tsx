@@ -24,12 +24,7 @@ export const GlobalInfoOverlayError = () => (
       text="Failure text"
       items={[
         {
-          text: 'List item #1',
-          status_anchor_url: '/uilib/components/global-status',
-          status_anchor_label: 'eksempel',
-        },
-        {
-          text: 'List item #2',
+          text: 'List item',
           status_anchor_url: '/uilib/components/global-status',
           status_anchor_label: 'eksempel',
         },
