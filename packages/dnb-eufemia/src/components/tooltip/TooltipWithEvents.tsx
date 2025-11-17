@@ -14,15 +14,15 @@ import React, {
   useRef,
   useState,
 } from 'react'
+import classnames from 'classnames'
 import { combineDescribedBy, warn } from '../../shared/component-helper'
-import TooltipContainer from './TooltipContainer'
 import {
   getRefElement,
   injectTooltipSemantic,
   isTouch,
   useHandleAria,
 } from './TooltipHelpers'
-import TooltipPortal from './TooltipPortal'
+import Popover from '../popover/Popover'
 import { TooltipProps } from './types'
 import { TooltipContext } from './TooltipContext'
 
@@ -41,6 +41,13 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
     showDelay,
     hideDelay,
     omitDescribedBy,
+    arrow,
+    position,
+    align,
+    fixedPosition,
+    portalRootClass,
+    contentRef,
+    size,
   } = restProps
 
   const { internalId, isControlled } = useContext(TooltipContext)
@@ -49,8 +56,10 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
   const [isNotSemanticElement, setIsNotSemanticElement] = useState(false)
   const [targetElementNode, setTargetElementNode] =
     useState<HTMLElement | null>(null)
+  const [isOverlayHovered, setOverlayHovered] = useState(false)
 
   const delayTimeout = useRef<NodeJS.Timeout>()
+  const overlayDelayTimeout = useRef<NodeJS.Timeout>()
   const cloneRef = useRef<HTMLElement>()
   const targetRef = useRef<HTMLElement>()
 
@@ -274,19 +283,75 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
     }
   }, [isActive, handleSemanticElement])
 
-  const Element = skipPortal ? TooltipContainer : TooltipPortal
+  const clearOverlayTimers = () => {
+    clearTimeout(overlayDelayTimeout.current)
+  }
+
+  useEffect(() => clearOverlayTimers, [])
+
+  const handleOverlayMouseEnter = useCallback(() => {
+    clearOverlayTimers()
+    if (!isControlled) {
+      setOverlayHovered(true)
+    }
+  }, [isControlled])
+
+  const handleOverlayMouseLeave = useCallback(() => {
+    if (isControlled) {
+      return
+    }
+    const run = () => setOverlayHovered(false)
+    clearOverlayTimers()
+    if (skipPortal) {
+      overlayDelayTimeout.current = setTimeout(
+        run,
+        parseFloat(String(hideDelay)) || 1
+      )
+    } else {
+      run()
+    }
+  }, [hideDelay, isControlled, skipPortal])
+
+  const overlayActive = isActive || isOverlayHovered
+
+  const { className: attributeClassName, ...restAttributes } =
+    attributes || {}
 
   return (
     <>
-      <Element
-        {...restProps}
-        active={isActive}
-        attributes={attributes}
-        targetElement={targetElementNode}
-        keepInDOM={skipPortal ? undefined : true} // because of useHandleAria
+      <Popover
+        baseClassName="dnb-tooltip"
+        className={classnames(
+          attributeClassName,
+          'dnb-tooltip',
+          size && `dnb-tooltip--${size}`
+        )}
+        theme="dark"
+        {...(restAttributes as React.HTMLAttributes<HTMLElement>)}
+        id={internalId}
+        open={overlayActive}
+        targetElement={targetElementNode || undefined}
+        hideDelay={hideDelay}
+        skipPortal={skipPortal}
+        noAnimation={noAnimation}
+        arrow={arrow}
+        position={position}
+        align={align}
+        fixedPosition={fixedPosition}
+        portalRootClass={portalRootClass}
+        omitDescribedBy={omitDescribedBy}
+        contentRef={contentRef}
+        focusOnOpen={false}
+        restoreFocus={false}
+        closeOnOutsideClick={false}
+        showCloseButton={false}
+        hideCloseButton
+        disableFocusTrap
+        onMouseEnter={handleOverlayMouseEnter}
+        onMouseLeave={handleOverlayMouseLeave}
       >
         {children}
-      </Element>
+      </Popover>
 
       {componentWrapper}
     </>

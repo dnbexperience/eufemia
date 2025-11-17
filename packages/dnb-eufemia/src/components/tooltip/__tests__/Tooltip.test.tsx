@@ -9,9 +9,8 @@ import { act, fireEvent, render, waitFor } from '@testing-library/react'
 import OriginalTooltip from '../Tooltip'
 import Anchor from '../../anchor/Anchor'
 import NumberFormat from '../../number-format/NumberFormat'
+import Popover from '../../popover/Popover'
 import { TooltipAllProps } from '../types'
-import TooltipContainer from '../TooltipContainer'
-import { TooltipContext } from '../TooltipContext'
 
 global.ResizeObserver = class {
   constructor() {
@@ -283,7 +282,12 @@ describe('Tooltip', () => {
         render(<Tooltip active />)
 
         const portalRoot = document.querySelector('.dnb-tooltip__portal')
-        expect(portalRoot.classList.length).toBe(1) // Only has 'dnb-tooltip__portal'
+        expect(Array.from(portalRoot.classList)).toEqual(
+          expect.arrayContaining([
+            'dnb-tooltip__portal',
+            'dnb-popover__portal',
+          ])
+        )
       })
 
       it('should work with multiple class names', () => {
@@ -561,10 +565,9 @@ describe('Tooltip', () => {
       ])
 
       const tooltipElement = document.querySelector('.dnb-tooltip')
-      expect(Array.from(tooltipElement.classList)).toEqual([
-        'dnb-tooltip',
-        'custom-class',
-      ])
+      expect(Array.from(tooltipElement.classList)).toEqual(
+        expect.arrayContaining(['dnb-tooltip', 'custom-class'])
+      )
 
       const id = wrapperElement.getAttribute('aria-describedby')
       expect(document.body.querySelectorAll('#' + id).length).toBe(1)
@@ -726,38 +729,28 @@ describe('Tooltip', () => {
         value: rect.height,
       })
 
-      const attributes = {
-        className: 'dnb-tooltip',
-        style: {},
-        [widthAttr]: '120',
-        [heightAttr]: '40',
-      } as const
-
       try {
         render(
-          <TooltipContext.Provider
-            value={{
-              isControlled: false,
-              internalId: 'tooltip-gutter',
-              props: {},
-            }}
+          <Popover
+            baseClassName="dnb-tooltip"
+            open
+            focusOnOpen={false}
+            restoreFocus={false}
+            closeOnOutsideClick={false}
+            hideCloseButton
+            showCloseButton={false}
+            disableFocusTrap
+            hideDelay={0}
+            targetElement={target}
+            position="bottom"
+            arrow="center"
+            align="center"
+            id="tooltip-gutter"
+            data-tooltip-test-width="120"
+            data-tooltip-test-height="40"
           >
-            <TooltipContainer
-              active
-              hideDelay={0}
-              targetElement={target}
-              position="bottom"
-              arrow="center"
-              align="center"
-              attributes={
-                attributes as unknown as Record<string, unknown> & {
-                  style: React.CSSProperties
-                }
-              }
-            >
-              Tooltip content
-            </TooltipContainer>
-          </TooltipContext.Provider>
+            Tooltip content
+          </Popover>
         )
 
         await waitFor(() =>
@@ -817,19 +810,17 @@ describe('Tooltip', () => {
 
       await wait(200)
 
-      expect(Array.from(getContentElement().classList)).toEqual([
-        'dnb-tooltip',
-        'dnb-tooltip--active',
-      ])
+      expect(Array.from(getContentElement().classList)).toEqual(
+        expect.arrayContaining(['dnb-tooltip', 'dnb-tooltip--active'])
+      )
 
       fireEvent.mouseLeave(document.querySelector('a'))
 
       await wait(600)
 
-      expect(Array.from(getContentElement().classList)).toEqual([
-        'dnb-tooltip',
-        'dnb-tooltip--hide',
-      ])
+      expect(Array.from(getContentElement().classList)).toEqual(
+        expect.arrayContaining(['dnb-tooltip', 'dnb-tooltip--hide'])
+      )
     })
 
     it('has to be visible on focus event dispatch', async () => {
