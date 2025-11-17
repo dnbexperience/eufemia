@@ -643,16 +643,18 @@ export const DatePickerPositioningTest = () => {
 export const DatePickerPositioningTestInNestedModals = () => {
   return (
     <Drawer>
-      <DatePicker alignPicker="auto" />
-      <Dialog>
-        <Scrollable>
-          <DatePicker alignPicker="auto" />
-          <Field.Date alignPicker="auto" width="large" />
-          <Field.Date alignPicker="auto" width="small" />
-          <Field.Date alignPicker="auto" width="medium" />
-          <Field.Date alignPicker="auto" width="stretch" />
-        </Scrollable>
-      </Dialog>
+      <Scrollable>
+        <DatePicker alignPicker="auto" />
+        <Dialog>
+          <Scrollable>
+            <DatePicker alignPicker="auto" />
+            <Field.Date alignPicker="auto" width="large" />
+            <Field.Date alignPicker="auto" width="small" />
+            <Field.Date alignPicker="auto" width="medium" />
+            <Field.Date alignPicker="auto" width="stretch" />
+          </Scrollable>
+        </Dialog>
+      </Scrollable>
     </Drawer>
   )
 }
@@ -800,26 +802,15 @@ export function DatePickerPositioningTestTable() {
     }
     const Content = ({ shareId }) => {
       const ref = React.useRef()
-      // const { copy, CopyTooltip } = useCopyWithNotice()
       const shareHandler = () => {
         const url = new URL(location.href)
         url.hash = '#' + shareId
-        // copy(url.toString())
       }
       return (
         <>
           <Button top icon="bell" variant="secondary">
             Ring the bell
           </Button>
-
-          {/* <Section top spacing>
-            <Dl>
-              <Dt>Favorittfarge</Dt>
-              <Dd>Grønn</Dd>
-              <Dt>Favorittmat</Dt>
-              <Dd>Taco</Dd>
-            </Dl>
-          </Section> */}
 
           <Button
             top

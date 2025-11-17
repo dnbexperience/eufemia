@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { DatePickerProps } from './DatePicker'
 import PortalRoot from '../PortalRoot'
 import { debounce } from '../../shared/helpers'
+import { getClosestScrollViewElement } from '../../shared/component-helper'
 
 type DatePickerPortalProps = React.HTMLProps<HTMLDivElement> & {
   skipPortal?: DatePickerProps['skipPortal']
@@ -51,20 +52,28 @@ export default function DatePickerPortal({
     if (!skipPortal) {
       updatePosition()
 
-      const scrollView = getLastScrollView()
-      const isInScrollView = scrollView?.querySelector('.dnb-date-picker')
-      const view = isInScrollView ? scrollView : window
+      const scrollView = getScrollView(targetElementRef.current)
+      const view =
+        scrollView &&
+        !scrollView.classList.contains('dnb-table__scroll-view') &&
+        scrollView.clientHeight <=
+          window.document.documentElement.clientHeight
+          ? scrollView
+          : window
       view.addEventListener('resize', setPositionDebounce)
       view.addEventListener('scroll', setPositionDebounce)
     }
 
     return () => {
       if (!skipPortal) {
-        const scrollView = getLastScrollView()
-        const isInScrollView = scrollView?.contains(
-          document.querySelector('.dnb-date-picker')
-        )
-        const view = isInScrollView ? scrollView : window
+        const scrollView = getScrollView(targetElementRef.current)
+        const view =
+          scrollView &&
+          !scrollView.classList.contains('dnb-table__scroll-view') &&
+          scrollView.clientHeight <=
+            window.document.documentElement.clientHeight
+            ? scrollView
+            : window
         view.removeEventListener('resize', setPositionDebounce)
         view.removeEventListener('scroll', setPositionDebounce)
       }
@@ -110,12 +119,17 @@ function calculatePortalPosition(
 
   const shellRect = shellElement.getBoundingClientRect()
 
-  const openAbove = shouldOpenAbove(parentRect, portalRect)
+  const openAbove = shouldOpenAbove(parentRect, portalRect, targetElement)
   const top = openAbove
     ? parentRect.top - portalRect.height + scrollY - parentRect.height
     : parentRect.top + scrollY
 
-  const alignRight = shouldAlignRight(parentRect, portalRect, shellRect)
+  const alignRight = shouldAlignRight(
+    parentRect,
+    portalRect,
+    shellRect,
+    targetElement
+  )
   const left = alignRight
     ? scrollX + parentRect.left - portalRect.width + parentRect.width
     : parentRect.left + scrollX
@@ -148,10 +162,15 @@ function updateTriangleIndicator(
   const shellRect = shellElement.getBoundingClientRect()
   const buttonRect = buttonElement.getBoundingClientRect()
 
-  const openAbove = shouldOpenAbove(parentRect, portalRect)
+  const openAbove = shouldOpenAbove(parentRect, portalRect, targetElement)
   applyTriangleDirection(triangleElement, openAbove)
 
-  const alignRight = shouldAlignRight(parentRect, portalRect, shellRect)
+  const alignRight = shouldAlignRight(
+    parentRect,
+    portalRect,
+    shellRect,
+    targetElement
+  )
 
   let distance: number
   if (alignRight) {
@@ -186,13 +205,38 @@ function applyTriangleOffset(
 
 function shouldOpenAbove(
   parentRect: DOMRect,
-  portalRect: DOMRect
+  portalRect: DOMRect,
+  targetElement: HTMLElement
 ): boolean {
-  const scrollView = getLastScrollView()
+  const scrollView = getScrollView(targetElement)
+  const windowHeight = (
+    window.document.documentElement || window.document.body
+  ).clientHeight
 
-  // If inside scroll view, try scroll view dimensions first
+  // If inside scroll view, check if we should use scroll view or window dimensions
   if (scrollView) {
     const scrollViewHeight = scrollView.clientHeight
+
+    // If scroll view is larger than or equal to window, use window dimensions instead
+    if (scrollViewHeight >= windowHeight) {
+      const spaceAbove = parentRect.top
+      const spaceBelow =
+        windowHeight - (parentRect.top + parentRect.height)
+
+      // Portal fits below in window
+      if (spaceBelow >= portalRect.height) {
+        return false
+      }
+
+      // Portal fits above in window
+      if (spaceAbove >= portalRect.height) {
+        return true
+      }
+      // Choose side with more space in window
+      return spaceAbove > spaceBelow
+    }
+
+    // Use scroll view dimensions when scroll view is smaller than window
     const spaceBelow =
       scrollViewHeight - (parentRect.top + parentRect.height)
     const spaceAbove = parentRect.top
@@ -208,7 +252,6 @@ function shouldOpenAbove(
     }
 
     // Portal doesn't fit in scroll view - fallback to window positioning
-    const windowHeight = window.document.documentElement.clientHeight
     const windowSpaceBelow =
       windowHeight - (parentRect.top + parentRect.height)
     const windowSpaceAbove = parentRect.top
@@ -255,19 +298,44 @@ function shouldOpenAbove(
 function shouldAlignRight(
   parentRect: DOMRect,
   portalRect: DOMRect,
-  shellRect: DOMRect
+  shellRect: DOMRect,
+  targetElement: HTMLElement
 ): boolean {
   // If shell is wider than portal, align right
   if (shellRect.width > portalRect.width) {
     return true
   }
 
-  const scrollView = getLastScrollView()
+  const scrollView = getScrollView(targetElement)
+  const windowWidth = (
+    window.document.documentElement || window.document.body
+  ).clientWidth
 
-  // If inside scroll view, try scroll view dimensions first
+  // If inside scroll view, check if we should use scroll view or window dimensions
   if (scrollView) {
     const scrollViewWidth = scrollView.clientWidth
 
+    // If scroll view is larger than or equal to window, use window dimensions instead
+    if (scrollViewWidth >= windowWidth) {
+      const spaceOnLeft = parentRect.left
+      const spaceOnRight =
+        windowWidth - (parentRect.left + parentRect.width)
+
+      // Portal fits on the left in window
+      if (parentRect.left + portalRect.width <= windowWidth) {
+        return false
+      }
+
+      // Portal fits on the right in window
+      if (spaceOnLeft >= portalRect.width) {
+        return true
+      }
+
+      // Choose side with more space in window
+      return spaceOnLeft > spaceOnRight
+    }
+
+    // Use scroll view dimensions when scroll view is smaller than window
     // Portal fits on the left in scroll view
     if (parentRect.left + portalRect.width <= scrollViewWidth) {
       return false
@@ -281,7 +349,6 @@ function shouldAlignRight(
     }
 
     // Portal doesn't fit in scroll view - fallback to window positioning
-    const windowWidth = window.document.documentElement.clientWidth
     const windowSpaceOnRight =
       windowWidth - (parentRect.left + parentRect.width)
 
@@ -324,10 +391,6 @@ function shouldAlignRight(
   return spaceOnLeft > spaceOnRight
 }
 
-function getLastScrollView(): Element | null {
-  // If there are nested scroll views, we use the last one (most likely the one in the viewport)
-  const allElements = document.querySelectorAll('.dnb-scroll-view')
-  return allElements.length > 0
-    ? allElements[allElements.length - 1]
-    : null
+function getScrollView(element: Element): Element | null {
+  return getClosestScrollViewElement(element)
 }
