@@ -5,6 +5,7 @@ import { Dialog } from '../../'
 import Popover from '../Popover'
 import Provider from '../../../shared/Provider'
 import defaultLocales from '../../../shared/locales'
+import { wait } from '../../../core/jest/jestSetup'
 
 const contentText = 'Popover content'
 
@@ -231,6 +232,54 @@ describe('Popover', () => {
       trigger.getAttribute('aria-describedby') as string
     )
     expect(srDesc).toHaveTextContent('Show details')
+  })
+
+  it('waits for showDelay before activating the popover', async () => {
+    renderWithTrigger({ showDelay: 60 })
+
+    const trigger = document.querySelector('button[aria-controls]')
+    await userEvent.click(trigger)
+
+    const popoverElement = document.querySelector(
+      '.dnb-popover'
+    ) as Element
+
+    expect(popoverElement).not.toHaveClass('dnb-popover--active')
+
+    await wait(40)
+    expect(popoverElement).not.toHaveClass('dnb-popover--active')
+
+    await wait(40)
+    await waitFor(() =>
+      expect(popoverElement).toHaveClass('dnb-popover--active')
+    )
+  })
+
+  it('respects hideDelay before deactivating the popover', async () => {
+    renderWithTrigger({ hideDelay: 60 })
+
+    const trigger = document.querySelector('button[aria-controls]')
+    await userEvent.click(trigger)
+
+    const popoverElement = document.querySelector(
+      '.dnb-popover'
+    ) as Element
+
+    await waitFor(() =>
+      expect(popoverElement).toHaveClass('dnb-popover--active')
+    )
+
+    fireEvent.mouseDown(document.documentElement)
+
+    expect(popoverElement).toHaveClass('dnb-popover--active')
+
+    await wait(40)
+    expect(popoverElement).toHaveClass('dnb-popover--active')
+
+    await wait(40)
+    await waitFor(() =>
+      expect(popoverElement).not.toHaveClass('dnb-popover--active')
+    )
   })
 
   it('renders popover content inside the dedicated portal root', async () => {

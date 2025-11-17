@@ -47,13 +47,13 @@ export const PopoverProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  onOpenChange: {
-    doc: 'Called whenever the open state changes (both controlled and uncontrolled).',
-    type: '(open: boolean) => void',
-    status: 'optional',
-  },
   focusOnOpen: {
     doc: 'If true, focus is moved into the popover content when it opens.',
+    type: 'boolean',
+    status: 'optional',
+  },
+  restoreFocus: {
+    doc: 'Moves focus back to the trigger element once the popover closes (defaults to true).',
     type: 'boolean',
     status: 'optional',
   },
@@ -62,9 +62,32 @@ export const PopoverProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  showDelay: {
+    doc: 'Delay (ms) before the popover becomes active. Useful for hover-triggered popovers.',
+    type: 'number',
+    status: 'optional',
+  },
+  hideDelay: {
+    doc: 'Delay (ms) before the popover starts hiding. Defaults to 0.',
+    type: 'number',
+    status: 'optional',
+  },
+  closeButtonProps: {
+    doc: 'Customize the built-in close button (icon, title, variant, etc.).',
+    type: 'Partial<ButtonProps>',
+    status: 'optional',
+  },
   '[Tooltip props](/uilib/components/tooltip/properties)': {
     doc: 'Supports every property from Tooltip (e.g. `position`, `arrow`, `align`, `portalRootClass`).',
     type: 'TooltipProps',
+    status: 'optional',
+  },
+}
+
+export const PopoverEventProps: PropertiesTableProps = {
+  onOpenChange: {
+    doc: 'Called whenever the open state changes (both controlled and uncontrolled).',
+    type: '(open: boolean) => void',
     status: 'optional',
   },
 }

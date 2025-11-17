@@ -2,7 +2,13 @@
  * Web Popover Component
  */
 
-import React, { useCallback, useContext, useEffect, useRef, useState } from 'react'
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
 import classnames from 'classnames'
 import { makeUniqueId } from '../../shared/component-helper'
 import useMountEffect from '../../shared/helpers/useMountEffect'
@@ -14,8 +20,10 @@ import ModalContext from '../modal/ModalContext'
 import PopoverContainer from './PopoverContainer'
 
 type PopoverPortalProps = {
+  baseClassNames?: string[]
   targetElement?: HTMLElement | null
   active: boolean
+  showDelay: number
   hideDelay: number
   keepInDOM?: boolean
   noAnimation?: boolean
@@ -49,8 +57,10 @@ if (typeof globalThis !== 'undefined') {
 
 function PopoverPortal(props: PopoverPortalProps) {
   const {
+    baseClassNames = ['dnb-popover'],
     active,
     targetElement,
+    showDelay,
     hideDelay,
     keepInDOM,
     noAnimation,
@@ -86,15 +96,18 @@ function PopoverPortal(props: PopoverPortalProps) {
     <PortalRoot>
       <div
         className={classnames(
-          'dnb-popover__portal',
+          baseClassNames.map((base) => `${base}__portal`),
           portalRootClass,
           theme && getThemeClasses(theme),
-          modalContext?.id && 'dnb-popover--inside-modal'
+          modalContext?.id &&
+            baseClassNames.map((base) => `${base}--inside-modal`)
         )}
       >
         <PopoverContainer
+          baseClassNames={baseClassNames}
           active={portalActive}
           targetElement={targetElement || null}
+          showDelay={showDelay}
           hideDelay={hideDelay}
           noAnimation={noAnimation}
           arrow={arrow}

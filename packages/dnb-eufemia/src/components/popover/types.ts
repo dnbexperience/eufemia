@@ -14,8 +14,6 @@ export type PopoverArrow =
 
 export type PopoverAlign = null | 'center' | 'right' | 'left'
 
-export type PopoverSize = 'basis' | 'large'
-
 export type PopoverTargetElement =
   | React.ReactNode
   | React.MutableRefObject<unknown>
@@ -23,7 +21,6 @@ export type PopoverTargetElement =
 
 type PopoverPropsBase = IncludeSnakeCase<{
   id?: string
-  size?: PopoverSize
   position?: PopoverPosition
   arrow?: PopoverArrow
   align?: PopoverAlign

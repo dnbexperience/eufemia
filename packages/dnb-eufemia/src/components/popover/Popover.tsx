@@ -55,6 +55,7 @@ type TriggerAttributes = React.HTMLAttributes<HTMLElement> & {
 export type PopoverProps = PopoverOverlayProps & {
   children?: PopoverRenderable<PopoverContentRenderProps>
   content?: PopoverRenderable<PopoverContentRenderProps>
+  title?: React.ReactNode
   trigger?: PopoverRenderable<PopoverTriggerRenderProps>
   triggerAttributes?: TriggerAttributes
   triggerClassName?: string
@@ -67,12 +68,26 @@ export type PopoverProps = PopoverOverlayProps & {
   showCloseButton?: boolean
   hideCloseButton?: boolean
   closeButtonProps?: Partial<ButtonProps>
+  /**
+   * Additional class name(s) for the popover content element.
+   * @private For internal use only.
+   */
   contentClassName?: string
-  title?: React.ReactNode
+  /**
+   * Optional secondary base class name used to mirror Popover BEM classes.
+   * @private For internal use only.
+   */
+  baseClassName?: string
   /**
    * Visual theme for the popover surface.
+   * @private For internal use only.
    */
   theme?: 'light' | 'dark'
+  /**
+   * Disable rendering of the focus-trap button used to return focus to the trigger.
+   * @private For internal use only.
+   */
+  disableFocusTrap?: boolean
 }
 
 export default function Popover(props: PopoverProps) {
@@ -95,11 +110,13 @@ export default function Popover(props: PopoverProps) {
     closeButtonProps,
     contentClassName,
     className,
+    baseClassName,
     theme = 'light',
+    disableFocusTrap = false,
     targetElement: externalTargetElement,
     targetSelector,
     portalRootClass,
-    showDelay: _showDelay,
+    showDelay: showDelayProp,
     hideDelay: hideDelayProp,
     contentRef: externalContentRef,
     align = null,
@@ -107,13 +124,19 @@ export default function Popover(props: PopoverProps) {
     skipPortal = false,
     noAnimation = false,
     fixedPosition = false,
-    size,
     id: idProp,
     omitDescribedBy,
     ...restAttributes
   } = props
 
   const spacingClasses = createSpacingClasses(props)
+  const baseClassNames = useMemo(() => {
+    const names = ['dnb-popover']
+    if (baseClassName && baseClassName !== 'dnb-popover') {
+      names.push(baseClassName)
+    }
+    return names
+  }, [baseClassName])
   const tr = useTranslation().Popover
 
   const { isOpen, setOpenState } = usePopoverOpenState({
@@ -129,10 +152,16 @@ export default function Popover(props: PopoverProps) {
   const tooltipId = useId(idProp)
   const descriptionId = `${tooltipId}-description`
 
+  const showDelay = showDelayProp ?? 0
   const hideDelay = hideDelayProp ?? 0
 
+  const hasExplicitTargetElement = Object.prototype.hasOwnProperty.call(
+    props,
+    'targetElement'
+  )
+
   const shouldRenderTrigger =
-    !externalTargetElement && typeof targetSelector !== 'string'
+    !hasExplicitTargetElement && typeof targetSelector !== 'string'
 
   const getCurrentTriggerElement = useCallback(() => {
     if (shouldRenderTrigger) {
@@ -160,8 +189,9 @@ export default function Popover(props: PopoverProps) {
     return null
   }, [externalTargetElement, shouldRenderTrigger, targetSelector])
 
-  const [targetElement, setTargetElement] =
-    useState<HTMLElement | null>(null)
+  const [targetElement, setTargetElement] = useState<HTMLElement | null>(
+    null
+  )
 
   useEffect(() => {
     setTargetElement(getCurrentTriggerElement())
@@ -424,7 +454,6 @@ export default function Popover(props: PopoverProps) {
 
   const closeButton = !hideCloseButton && showCloseButton && (
     <Button
-      type="button"
       variant={closeButtonProps?.variant ?? 'tertiary'}
       icon={closeButtonProps?.icon ?? 'close'}
       {...closeButtonProps}
@@ -444,10 +473,10 @@ export default function Popover(props: PopoverProps) {
   )
 
   const popoverClassName = classnames(
-    'dnb-popover',
-    size === 'large' && 'dnb-popover--large',
-    spacingClasses,
-    theme && `dnb-popover--theme-${theme}`,
+    baseClassNames,
+    theme &&
+      baseClassNames.map((name) => `${name}--theme-${theme}`),
+    ...spacingClasses,
     className
   )
 
@@ -472,19 +501,19 @@ export default function Popover(props: PopoverProps) {
         {...{ onKeyDown: handleContentKeyDown }}
       >
         {title && (
-          <span className="dnb-popover__title">
+          <span className={'dnb-popover__title'}>
             <strong className="dnb-h--basis">{title}</strong>
           </span>
         )}
-        <span className="dnb-popover__body">{userContent}</span>
+        <span className={'dnb-popover__body'}>{userContent}</span>
       </span>
       {closeButton}
 
-      {/* When screen reader focus reaches this button,
-      close the popover and set focus back to the trigger. */}
-      <button className="dnb-sr-only" onFocus={close}>
-        Focus trap
-      </button>
+      {!disableFocusTrap && (
+        <button className="dnb-sr-only" onFocus={close}>
+          Focus trap
+        </button>
+      )}
     </>
   )
 
@@ -502,7 +531,9 @@ export default function Popover(props: PopoverProps) {
       )}
       {skipPortal ? (
         <PopoverContainer
+          baseClassNames={baseClassNames}
           active={isOpen}
+          showDelay={showDelay}
           attributes={popoverAttributes}
           targetElement={targetElement}
           hideDelay={hideDelay}
@@ -519,8 +550,10 @@ export default function Popover(props: PopoverProps) {
         </PopoverContainer>
       ) : (
         <PopoverPortal
+          baseClassNames={baseClassNames}
           active={isOpen}
           targetElement={targetElement}
+          showDelay={showDelay}
           hideDelay={hideDelay}
           keepInDOM
           noAnimation={noAnimation}

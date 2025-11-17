@@ -2,21 +2,19 @@
  * Web Popover Component
  */
 
-import React, { useCallback, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import classnames from 'classnames'
 import { isTrue } from '../../shared/component-helper'
 import { getOffsetLeft, getOffsetTop } from '../../shared/helpers'
-import type {
-  PopoverAlign,
-  PopoverArrow,
-  PopoverPosition,
-} from './types'
+import type { PopoverAlign, PopoverArrow, PopoverPosition } from './types'
 
 const useLayoutEffect =
   typeof window === 'undefined' ? React.useEffect : React.useLayoutEffect
 
 type PopoverContainerProps = {
+  baseClassNames?: string[]
   active?: boolean
+  showDelay?: number
   attributes?: React.HTMLAttributes<HTMLElement>
   arrow?: PopoverArrow
   position?: PopoverPosition
@@ -33,7 +31,9 @@ type PopoverContainerProps = {
 
 function PopoverContainer(props: PopoverContainerProps) {
   const {
+    baseClassNames = ['dnb-popover'],
     active,
+    showDelay = 0,
     attributes,
     arrow,
     position = 'bottom',
@@ -52,8 +52,10 @@ function PopoverContainer(props: PopoverContainerProps) {
   const [arrowStyle, setArrowStyle] = useState<React.CSSProperties | null>(
     null
   )
-  const [wasActive, setWasActive] = useState(false)
-  const isActive = isTrue(active)
+  const [wasActive, setWasActive] = useState(isTrue(active))
+  const [delayedActive, setDelayedActive] = useState(isTrue(active))
+  const showDelayTimeout = useRef<NodeJS.Timeout>()
+  const isActive = isTrue(delayedActive)
 
   const offset = useRef(16)
   const debounceTimeout = useRef<NodeJS.Timeout>()
@@ -65,6 +67,41 @@ function PopoverContainer(props: PopoverContainerProps) {
   const clearTimers = () => {
     clearTimeout(debounceTimeout.current)
   }
+
+  const clearShowDelay = () => {
+    clearTimeout(showDelayTimeout.current)
+  }
+
+  useEffect(() => clearShowDelay, [])
+
+  useEffect(() => {
+    if (isTrue(active)) {
+      const run = () => {
+        setDelayedActive(true)
+        setWasActive(true)
+      }
+
+      if (noAnimation || globalThis.IS_TEST) {
+        clearShowDelay()
+        run()
+        return
+      }
+
+      const delay = Math.max(0, parseFloat(String(showDelay)) || 0)
+      if (delay === 0) {
+        clearShowDelay()
+        run()
+        return
+      }
+
+      clearShowDelay()
+      showDelayTimeout.current = setTimeout(run, delay)
+      return
+    }
+
+    clearShowDelay()
+    setDelayedActive(false)
+  }, [active, noAnimation, showDelay])
 
   const getBodySize = useCallback(() => {
     if (!isActive || typeof document === 'undefined') {
@@ -323,27 +360,40 @@ function PopoverContainer(props: PopoverContainerProps) {
   return (
     <span
       role="tooltip"
-      aria-hidden={omitDescribedBy ? undefined : targetElement ? true : undefined}
+      aria-hidden={
+        omitDescribedBy ? undefined : targetElement ? true : undefined
+      }
       ref={elementRef}
       {...attributes}
-      onMouseMove={handlePropagation}
-      onMouseDown={handlePropagation}
-      onTouchStart={handlePropagation}
+      {...{
+        onMouseMove: handlePropagation,
+        onMouseDown: handlePropagation,
+        onTouchStart: handlePropagation,
+      }}
       className={classnames(
         attributes?.className,
-        isTrue(noAnimation) && 'dnb-popover--no-animation',
-        isTrue(fixedPosition) && 'dnb-popover--fixed',
-        isActive && 'dnb-popover--active',
-        !isActive && wasActive && 'dnb-popover--hide'
+        isTrue(noAnimation) &&
+          baseClassNames.map((base) => `${base}--no-animation`),
+        isTrue(fixedPosition) &&
+          baseClassNames.map((base) => `${base}--fixed`),
+        isActive &&
+          baseClassNames.map((base) => `${base}--active`),
+        !isActive &&
+          wasActive &&
+          baseClassNames.map((base) => `${base}--hide`)
       )}
       style={{ ...style, ...attributes?.style }}
     >
       {arrow && (
         <span
           className={classnames(
-            'dnb-popover__arrow',
-            `dnb-popover__arrow__arrow--${arrow}`,
-            `dnb-popover__arrow__position--${position}`
+            baseClassNames.map((base) => `${base}__arrow`),
+            baseClassNames.map(
+              (base) => `${base}__arrow__arrow--${arrow}`
+            ),
+            baseClassNames.map(
+              (base) => `${base}__arrow__position--${position}`
+            )
           )}
           style={{ ...arrowStyle }}
         />

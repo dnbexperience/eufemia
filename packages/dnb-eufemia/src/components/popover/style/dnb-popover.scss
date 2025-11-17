@@ -1,7 +1,7 @@
 @import '../../../style/core/utilities.scss';
 
 :root {
-  --popover-z-index: 3100;
+  --popover-z-index: 1000;
 }
 
 .dnb-popover {
@@ -9,30 +9,24 @@
   --popover-border-radius: 1rem;
 
   position: absolute;
-  z-index: 1000;
+  z-index: var(--popover-z-index);
   .dnb-popover--inside-modal & {
-    z-index: var(--popover-z-index);
+    z-index: calc(var(--modal-z-index) + var(--popover-z-index));
   }
 
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: stretch;
 
+  // To prevent getting on the edge of the screen.
+  // Use px values to ensure content does not get squeezed when font-size increases.
   margin: 0 16px;
   padding: 0 1rem;
   color: var(--popover-text-color);
-  text-align: left;
 
   background-color: var(--popover-background-color);
   border-radius: var(--popover-border-radius);
   border: var(--popover-border-color);
 
   @include sharpDropShadow();
-
-  &--large {
-    padding: 0.25rem 1rem;
-  }
 
   opacity: 0;
   visibility: hidden;
