@@ -1,0 +1,92 @@
+---
+title: 'Animation Principles'
+---
+
+# Animation Principles
+
+## Introduction
+
+Animations play a crucial role in enhancing user experience by providing engaging and intuitive interactions. The Eufemia Animation Principles serve as a guide to ensure consistency and effectiveness in animation design across DNB applications.
+
+## Purpose
+
+The Eufemia Animation Principles aim to:
+
+1. Establish consistency in animation experiences.
+1. Offer insights into the rationale behind animations.
+1. Assist designers and developers in creating user-centric animations.
+1. Improve the overall user experience, including accessibility considerations.
+
+Animations serve multiple purposes in our user interfaces, ranging from guiding users' attention to providing feedback on interactions. They play a significant role in enhancing the overall user experience by making interfaces more intuitive and engaging.
+
+## Micro-Interactions
+
+Micro-interactions are subtle yet impactful animations that respond to user actions, providing feedback and enhancing usability. These interactions focus on specific user tasks and contribute to a seamless and intuitive user experience.
+
+Therefore, these animation principles will focus on so called "micro" interactions. Still, they are animations.
+
+> Micro-interactions are contained product moments that revolve around a single use case — they have one main task (Dan Saffer)
+
+Micro-interactions appeal to a users desire to see the result of their action. This is how users can better understand the essential functions of the application. So, they will:
+
+- Enhance user control and understanding.
+- Provide immediate feedback on user actions.
+- Communicate changes or outcomes effectively.
+
+## Creating User-Centric Animations
+
+Animations ask the user for attention. They may delight the user and create a moment that is engaging. But not necessarily in a positive way. People will always experience animations differently. And therefore its more over important to keep animations in a DNB wide consistency.
+
+The users desire to use an app is often proportional to the design of the app. And so will animations contribute or deprive the enhanced experience.
+
+Animations can give users feelings and a certain state of mind. Therefore we should make them with care and follow the the best practices written in these principles.
+
+In certain situations, animations can help users understand the flow or hierarchy of an interface. Here, subtle animations move elements smoothly, providing users with a seamless experience without overwhelming them with aggressive movements.
+
+## Do's and don'ts
+
+Animations in DNB applications should:
+
+- Help the user understanding the content.
+- Help to focus on the underlying action.
+- Give the user a feeling of control.
+- Be almost not noticeable.
+- Be rather too short than too long.
+- Use a slow-fast-slow easing.
+
+Animations should not:
+
+- Ask for attention by itself.
+- Exist to make the application look cool or feel impressive.
+- Happen off-content.
+- Start by its own.
+- Use a spring or bounce easing.
+- Make the user wait for it to finish.
+
+## Consistency in the experience of animations
+
+To achieve a consistent experience of animations, we should reuse given tools and follow the guide-lines.
+
+To give the user the experience of something sliding in, it does not need to animate from the very start to the very end. It often is enough to just show the last part of the animation.
+
+### Examples
+
+Good examples of Eufemia components using micro-interactions are:
+
+- [Accordion](/uilib/components/accordion) with its open and close animation.
+- [Table](o/uilib/components/table/#table-with-accordion) with its parallax animation.
+- [Areadcrumb](/uilib/components/breadcrumb/#always-be-collapsed-variantcollapse) with its collapse and expand animation.
+- [Dialog](/uilib/components/dialog) and [Drawer](/uilib/components/drawer) with its open and close animation.
+- [TextCounter](/uilib/components/fragments/text-counter) with its error message appearance.
+
+### Helpers to use in code
+
+Timing and easing matters.
+
+- Try `300ms` to `500ms` in timing.
+- Use the [HeightAnimation](/uilib/components/height-animation/) component.
+- Reuse the existing easing functions `var(--easing-default)` in your CSS code when creating a custom animation:
+
+```css
+transition: height 400ms var(--easing-default);
+```
