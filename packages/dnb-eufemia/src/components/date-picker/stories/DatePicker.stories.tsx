@@ -780,7 +780,7 @@ export const DatePickerPositioningTestOpened = () => {
       <p>Text text text text text</p>
       <p>Text text text text text</p>
       <p>Text text text text text</p>
-      <DatePicker alignPicker="auto" />
+      <DatePicker alignPicker="auto" opened />
       <p>Text text text text text</p>
       <p>Text text text text text</p>
       <p>Text text text text text</p>

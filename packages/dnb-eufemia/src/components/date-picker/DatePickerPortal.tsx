@@ -30,14 +30,14 @@ export default function DatePickerPortal({
     ) {
       setPosition(
         calculatePortalPosition(
-          targetElementRef.current,
+          targetElementRef.current.querySelector('.dnb-input'),
           calendarContainerRef.current,
           alignment
         )
       )
       if (alignment === 'auto') {
         updateTriangleIndicator(
-          targetElementRef.current,
+          targetElementRef.current.querySelector('.dnb-input'),
           calendarContainerRef.current,
           triangleRef.current
         )
