@@ -35,11 +35,13 @@ export default function DatePickerPortal({
           alignment
         )
       )
-      updateTriangleIndicator(
-        targetElementRef.current,
-        calendarContainerRef.current,
-        triangleRef.current
-      )
+      if (alignment === 'auto') {
+        updateTriangleIndicator(
+          targetElementRef.current,
+          calendarContainerRef.current,
+          triangleRef.current
+        )
+      }
     }
   }, [alignment, targetElementRef, calendarContainerRef, triangleRef])
 
@@ -212,7 +214,6 @@ function shouldOpenAbove(
   const windowHeight = (
     window.document.documentElement || window.document.body
   ).clientHeight
-
   // If inside scroll view, check if we should use scroll view or window dimensions
   if (scrollView) {
     const scrollViewHeight = scrollView.clientHeight
