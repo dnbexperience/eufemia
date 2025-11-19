@@ -461,7 +461,7 @@ describe('HelpButtonInline', () => {
     ).not.toBeInTheDocument()
   })
 
-  it('should render tooltip', () => {
+  it('should render tooltip', async () => {
     render(
       <>
         <HelpButtonInline
@@ -472,11 +472,18 @@ describe('HelpButtonInline', () => {
       </>
     )
     expect(document.querySelectorAll('.dnb-help-button')).toHaveLength(1)
-    expect(
-      document
-        .querySelector('.dnb-help-button')
-        .getAttribute('aria-describedby')
-    ).toBe(document.querySelector('.dnb-tooltip__content').id)
+
+    const button = document.querySelector('.dnb-help-button')
+    const ariaDescribedBy = button.getAttribute('aria-describedby')
+    expect(ariaDescribedBy).toBeTruthy()
+
+    const tooltipContent = await waitFor(() => {
+      const tooltip = document.querySelector(`#${ariaDescribedBy}`)
+      expect(tooltip).toBeInTheDocument()
+      return tooltip
+    })
+
+    expect(ariaDescribedBy).toBe(tooltipContent.id)
   })
 })
 

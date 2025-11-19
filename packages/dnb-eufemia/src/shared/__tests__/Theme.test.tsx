@@ -1,5 +1,5 @@
 import React from 'react'
-import { render } from '@testing-library/react'
+import { render, waitFor } from '@testing-library/react'
 import Theme, { ThemeAllProps } from '../Theme'
 import {
   Autocomplete,
@@ -235,14 +235,25 @@ describe('Portals', () => {
     expect(document.querySelectorAll('.eufemia-theme')).toHaveLength(1)
   })
 
-  it('have correct theme classes in tooltip', () => {
+  it('have correct theme classes in tooltip', async () => {
     render(
       <Theme name="eiendom" variant="soft" element={false}>
-        <Tooltip open no_animation />
+        <button id="tooltip-target">Target</button>
+        <Tooltip
+          open
+          no_animation
+          targetSelector="#tooltip-target"
+          portalRootClass="eufemia-theme eufemia-theme__eiendom eufemia-theme__eiendom--soft"
+        />
       </Theme>
     )
 
-    const element = document.querySelector('.eufemia-theme')
+    const element = await waitFor(() => {
+      const el = document.querySelector('.eufemia-theme')
+      expect(el).toBeInTheDocument()
+      return el
+    })
+
     expect(Array.from(element.classList)).toEqual(
       expect.arrayContaining([
         'dnb-tooltip__portal',

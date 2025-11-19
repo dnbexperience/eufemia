@@ -26,8 +26,23 @@ export const TooltipProperties: PropertiesTableProps = {
     type: ['center', 'top', 'right', 'bottom', 'left'],
     status: 'optional',
   },
+  portalRootClass: {
+    doc: 'CSS class name applied to the portal root element. Used to style or identify the portal container.',
+    type: 'string',
+    status: 'optional',
+  },
   skipPortal: {
-    doc: 'set to `true` to disable the React Portal behavior. Defaults to `false`.',
+    doc: 'Skip rendering the tooltip in a React Portal. When `true`, the tooltip renders inline in the DOM tree instead of being portaled to document.body. Useful for cases where you need the tooltip to be part of the same DOM hierarchy for styling or event handling. Defaults to `false`.',
+    type: 'boolean',
+    status: 'optional',
+  },
+  keepInDOM: {
+    doc: 'Keep the tooltip portal mounted in the DOM even when closed. When `true`, the tooltip remains in the DOM when inactive, which is useful for maintaining `aria-describedby` references for accessibility, ensuring screen readers can always find the associated element, and preventing layout shifts when the tooltip appears/disappears. Defaults to `true` for Tooltip (unlike Popover which defaults to `false`).',
+    type: 'boolean',
+    status: 'optional',
+  },
+  omitDescribedBy: {
+    doc: 'set to `true` to omit the `aria-describedby` attribute on the target element. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },

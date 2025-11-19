@@ -5,10 +5,11 @@
 
 import React from 'react'
 import { axeComponent, loadScss, wait } from '../../../core/jest/jestSetup'
-import { fireEvent, render } from '@testing-library/react'
+import { act, fireEvent, render, waitFor } from '@testing-library/react'
 import OriginalTooltip from '../Tooltip'
 import Anchor from '../../anchor/Anchor'
 import NumberFormat from '../../number-format/NumberFormat'
+import Popover from '../../popover/Popover'
 import { TooltipAllProps } from '../types'
 
 global.ResizeObserver = class {
@@ -200,9 +201,9 @@ describe('Tooltip', () => {
     const Tooltip = (props: TooltipAllProps = {}) => (
       <OriginalTooltip
         id="tooltip"
+        targetElement={<button>Button</button>}
         {...defaultProps}
         {...props}
-        targetElement={<button>Button</button>}
       />
     )
 
@@ -235,7 +236,7 @@ describe('Tooltip', () => {
       })
 
       it('will not have aria-hidden', () => {
-        render(<OriginalTooltip skipPortal active />)
+        render(<Tooltip skipPortal active />)
 
         expect(getMainElem()).not.toHaveAttribute('aria-hidden')
       })
@@ -264,6 +265,127 @@ describe('Tooltip', () => {
         expect(getMainElem().classList).not.toContain(
           'dnb-tooltip--active'
         )
+      })
+    })
+
+    describe('keepInDOM', () => {
+      it('should keep tooltip in DOM when keepInDOM is true and tooltip is active', async () => {
+        const { rerender } = render(<Tooltip active />)
+
+        // Tooltip should be in DOM when active
+        const tooltipElement = await waitFor(
+          () => document.querySelector('.dnb-tooltip'),
+          { timeout: 3000 }
+        )
+        expect(tooltipElement).toBeInTheDocument()
+
+        // Deactivate the tooltip
+        rerender(<Tooltip active={false} />)
+
+        // Tooltip should still be in DOM when keepInDOM is true
+        await wait(100)
+        expect(document.querySelector('.dnb-tooltip')).toBeInTheDocument()
+      })
+
+      it('should unmount tooltip when keepInDOM is false and tooltip becomes inactive', async () => {
+        const { rerender } = render(<Tooltip keepInDOM={false} active />)
+
+        // Tooltip should be in DOM when active
+        await waitFor(() => document.querySelector('.dnb-tooltip'), {
+          timeout: 3000,
+        })
+
+        // Deactivate the tooltip
+        rerender(<Tooltip keepInDOM={false} active={false} />)
+
+        // Wait for hide delay + animation delay
+        await wait(500)
+
+        // Tooltip should not be in DOM when inactive and keepInDOM is false
+        await waitFor(() => {
+          expect(
+            document.querySelector('.dnb-tooltip')
+          ).not.toBeInTheDocument()
+        })
+      })
+
+      it('should keep inline tooltip when keepInDOM is true and skipPortal is true', async () => {
+        const { rerender } = render(<Tooltip skipPortal={true} active />)
+
+        const tooltipElement = await waitFor(
+          () => document.querySelector('.dnb-tooltip'),
+          { timeout: 3000 }
+        )
+        expect(tooltipElement).toBeInTheDocument()
+
+        // Deactivate the tooltip
+        rerender(<Tooltip skipPortal={true} active={false} />)
+
+        // Tooltip should still be in DOM when keepInDOM is true
+        expect(document.querySelector('.dnb-tooltip')).toBeInTheDocument()
+
+        // Portal should not exist when skipPortal is true
+        expect(
+          document.body.querySelector('.dnb-tooltip__portal')
+        ).not.toBeInTheDocument()
+      })
+
+      it('should unmount inline tooltip when keepInDOM is false and skipPortal is true', async () => {
+        const { rerender } = render(
+          <Tooltip keepInDOM={false} skipPortal={true} active />
+        )
+
+        await waitFor(() => document.querySelector('.dnb-tooltip'), {
+          timeout: 3000,
+        })
+
+        // Deactivate the tooltip
+        rerender(
+          <Tooltip keepInDOM={false} skipPortal={true} active={false} />
+        )
+
+        // Tooltip should not be in DOM when inactive and keepInDOM is false
+        await waitFor(() => {
+          expect(
+            document.querySelector('.dnb-tooltip')
+          ).not.toBeInTheDocument()
+        })
+      })
+    })
+
+    describe('portalRootClass', () => {
+      it('should apply portalRootClass to the portal root element', () => {
+        render(<Tooltip active portalRootClass="custom-portal-class" />)
+
+        const portalRoot = document.querySelector(
+          '.dnb-tooltip__portal.custom-portal-class'
+        )
+        expect(portalRoot).toBeInTheDocument()
+      })
+
+      it('should not affect styling when not provided', () => {
+        render(<Tooltip active />)
+
+        const portalRoot = document.querySelector('.dnb-tooltip__portal')
+        expect(Array.from(portalRoot.classList)).toEqual(
+          expect.arrayContaining([
+            'dnb-tooltip__portal',
+            'dnb-popover__portal',
+          ])
+        )
+      })
+
+      it('should work with multiple class names', () => {
+        render(
+          <Tooltip active portalRootClass="class-one class-two custom" />
+        )
+
+        const portalRoot = document.querySelector(
+          '.dnb-tooltip__portal.class-one'
+        )
+        expect(portalRoot).toBeInTheDocument()
+        expect(portalRoot.classList).toContain('class-two')
+        expect(portalRoot.classList).toContain('custom')
       })
     })
 
@@ -359,20 +481,15 @@ describe('Tooltip', () => {
       }> = []
 
       const spy = jest
-        .spyOn(HTMLElement.prototype as any, 'addEventListener')
+        .spyOn(HTMLElement.prototype, 'addEventListener')
         .mockImplementation(function (
           this: EventTarget,
           type: string,
-          listener: any,
-          options?: any
+          listener: EventListenerOrEventListenerObject,
+          options?: boolean | AddEventListenerOptions
         ) {
           calls.push({ self: this, type })
-          return originalAdd.call(
-            this as any,
-            type,
-            listener,
-            options as any
-          )
+          return originalAdd.call(this, type, listener, options)
         })
 
       try {
@@ -433,6 +550,80 @@ describe('Tooltip', () => {
       expect(getMainElem().classList).not.toContain('dnb-tooltip--active')
       expect(getMainElem().classList).not.toContain('dnb-tooltip--hide')
     })
+
+    describe('omitDescribedBy', () => {
+      it('should set aria-describedby on target element by default', () => {
+        render(
+          <Tooltip active showDelay={0}>
+            Tooltip content
+          </Tooltip>
+        )
+
+        const buttonElem = document.querySelector('button')
+        const ariaDescribedBy = buttonElem.getAttribute('aria-describedby')
+
+        expect(ariaDescribedBy).toBeTruthy()
+        expect(ariaDescribedBy).toContain('tooltip')
+      })
+
+      it('should not set aria-describedby when omitDescribedBy is true', () => {
+        render(
+          <Tooltip active showDelay={0} omitDescribedBy>
+            Tooltip content
+          </Tooltip>
+        )
+
+        const buttonElem = document.querySelector('button')
+        const ariaDescribedBy = buttonElem.getAttribute('aria-describedby')
+
+        expect(ariaDescribedBy).toBeNull()
+      })
+
+      it('should not set aria-describedby when omitDescribedBy is true with targetSelector', () => {
+        render(
+          <>
+            <button id="test-button">Button</button>
+            <OriginalTooltip
+              {...defaultProps}
+              active
+              showDelay={0}
+              omitDescribedBy
+              targetSelector="#test-button"
+            >
+              Tooltip content
+            </OriginalTooltip>
+          </>
+        )
+
+        const buttonElem = document.querySelector('#test-button')
+        const ariaDescribedBy = buttonElem.getAttribute('aria-describedby')
+
+        expect(ariaDescribedBy).toBeNull()
+      })
+
+      it('should preserve existing aria-describedby when omitDescribedBy is true', () => {
+        const buttonWithAria = (
+          <button aria-describedby="existing-id">Button</button>
+        )
+
+        render(
+          <Tooltip
+            active
+            showDelay={0}
+            omitDescribedBy
+            targetElement={buttonWithAria}
+          >
+            Tooltip content
+          </Tooltip>
+        )
+
+        const buttonElem = document.querySelector('button')
+        const ariaDescribedBy =
+          buttonElem?.getAttribute('aria-describedby')
+
+        expect(ariaDescribedBy).toBe('existing-id')
+      })
+    })
   })
 
   describe('NumberFormat with tooltip', () => {
@@ -459,10 +650,9 @@ describe('Tooltip', () => {
       ])
 
       const tooltipElement = document.querySelector('.dnb-tooltip')
-      expect(Array.from(tooltipElement.classList)).toEqual([
-        'dnb-tooltip',
-        'custom-class',
-      ])
+      expect(Array.from(tooltipElement.classList)).toEqual(
+        expect.arrayContaining(['dnb-tooltip', 'custom-class'])
+      )
 
       const id = wrapperElement.getAttribute('aria-describedby')
       expect(document.body.querySelectorAll('#' + id).length).toBe(1)
@@ -493,6 +683,182 @@ describe('Tooltip', () => {
       expect(
         document.body.querySelector('#' + id).parentElement.classList
       ).toContain('dnb-tooltip--active')
+    })
+  })
+
+  describe('positioning and viewport gutter', () => {
+    const widthAttr = 'data-tooltip-test-width'
+    const heightAttr = 'data-tooltip-test-height'
+    const originalOffsetWidth = Object.getOwnPropertyDescriptor(
+      HTMLElement.prototype,
+      'offsetWidth'
+    )
+    const originalOffsetHeight = Object.getOwnPropertyDescriptor(
+      HTMLElement.prototype,
+      'offsetHeight'
+    )
+
+    const getAttrValue = (
+      element: HTMLElement,
+      attr: string
+    ): number | null => {
+      const value =
+        typeof element.getAttribute === 'function'
+          ? element.getAttribute(attr)
+          : null
+      if (!value) {
+        return null
+      }
+      const parsed = parseFloat(value)
+      return Number.isNaN(parsed) ? null : parsed
+    }
+
+    beforeAll(() => {
+      Object.defineProperty(HTMLElement.prototype, 'offsetWidth', {
+        configurable: true,
+        get(this: HTMLElement) {
+          const attrValue = getAttrValue(this, widthAttr)
+          if (attrValue !== null) {
+            return attrValue
+          }
+          return originalOffsetWidth?.get
+            ? originalOffsetWidth.get.call(this)
+            : 0
+        },
+      })
+
+      Object.defineProperty(HTMLElement.prototype, 'offsetHeight', {
+        configurable: true,
+        get(this: HTMLElement) {
+          const attrValue = getAttrValue(this, heightAttr)
+          if (attrValue !== null) {
+            return attrValue
+          }
+          return originalOffsetHeight?.get
+            ? originalOffsetHeight.get.call(this)
+            : 0
+        },
+      })
+    })
+
+    afterAll(() => {
+      if (originalOffsetWidth) {
+        Object.defineProperty(
+          HTMLElement.prototype,
+          'offsetWidth',
+          originalOffsetWidth
+        )
+      }
+      if (originalOffsetHeight) {
+        Object.defineProperty(
+          HTMLElement.prototype,
+          'offsetHeight',
+          originalOffsetHeight
+        )
+      }
+    })
+
+    it('repositions tooltip to maintain viewport gutter on resize', async () => {
+      const originalInnerWidth = window.innerWidth
+      const setInnerWidth = (value: number) =>
+        Object.defineProperty(window, 'innerWidth', {
+          configurable: true,
+          value,
+        })
+      setInnerWidth(500)
+
+      const target = document.createElement('button')
+      document.body.appendChild(target)
+      const originalBodyRect = document.body.getBoundingClientRect.bind(
+        document.body
+      )
+      document.body.getBoundingClientRect = () => ({
+        width: window.innerWidth,
+        height: 0,
+        top: 0,
+        left: 0,
+        right: window.innerWidth,
+        bottom: 0,
+        x: 0,
+        y: 0,
+        toJSON() {
+          return ''
+        },
+      })
+
+      const rect = {
+        width: 80,
+        height: 20,
+        top: 30,
+        left: 40,
+      }
+      target.getBoundingClientRect = () => ({
+        width: rect.width,
+        height: rect.height,
+        top: rect.top,
+        left: rect.left,
+        right: rect.left + rect.width,
+        bottom: rect.top + rect.height,
+        x: rect.left,
+        y: rect.top,
+        toJSON() {
+          return ''
+        },
+      })
+      Object.defineProperty(target, 'offsetWidth', {
+        configurable: true,
+        value: rect.width,
+      })
+      Object.defineProperty(target, 'offsetHeight', {
+        configurable: true,
+        value: rect.height,
+      })
+
+      try {
+        render(
+          <Popover
+            baseClassName="dnb-tooltip"
+            open
+            focusOnOpen={false}
+            restoreFocus={false}
+            closeOnOutsideClick={false}
+            hideCloseButton
+            showCloseButton={false}
+            disableFocusTrap
+            hideDelay={0}
+            targetElement={target}
+            position="bottom"
+            arrowPosition="center"
+            alignOnTarget="center"
+            id="tooltip-gutter"
+            data-tooltip-test-width="120"
+            data-tooltip-test-height="40"
+          >
+            Tooltip content
+          </Popover>
+        )
+
+        await waitFor(() =>
+          expect(document.querySelector('.dnb-tooltip')).toHaveStyle(
+            'left: 20px;'
+          )
+        )
+
+        await act(async () => {
+          setInnerWidth(120)
+          window.dispatchEvent(new Event('resize'))
+        })
+
+        await waitFor(() =>
+          expect(document.querySelector('.dnb-tooltip')).toHaveStyle(
+            'left: 16px;'
+          )
+        )
+      } finally {
+        setInnerWidth(originalInnerWidth)
+        document.body.getBoundingClientRect = originalBodyRect
+        document.body.removeChild(target)
+      }
     })
   })
 
@@ -529,19 +895,17 @@ describe('Tooltip', () => {
 
       await wait(200)
 
-      expect(Array.from(getContentElement().classList)).toEqual([
-        'dnb-tooltip',
-        'dnb-tooltip--active',
-      ])
+      expect(Array.from(getContentElement().classList)).toEqual(
+        expect.arrayContaining(['dnb-tooltip', 'dnb-tooltip--active'])
+      )
 
       fireEvent.mouseLeave(document.querySelector('a'))
 
       await wait(600)
 
-      expect(Array.from(getContentElement().classList)).toEqual([
-        'dnb-tooltip',
-        'dnb-tooltip--hide',
-      ])
+      expect(Array.from(getContentElement().classList)).toEqual(
+        expect.arrayContaining(['dnb-tooltip', 'dnb-tooltip--hide'])
+      )
     })
 
     it('has to be visible on focus event dispatch', async () => {

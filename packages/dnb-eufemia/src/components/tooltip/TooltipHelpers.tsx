@@ -3,9 +3,10 @@
  *
  */
 
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
 import classnames from 'classnames'
 import { combineDescribedBy } from '../../shared/component-helper'
+import { TooltipContext } from './TooltipContext'
 
 export function injectTooltipSemantic(params) {
   params.tabIndex = '0'
@@ -31,7 +32,6 @@ export const defaultProps = {
   hideDelay: 500,
   targetSelector: null,
   targetElement: null,
-
   className: null,
   children: null,
   tooltip: null,
@@ -45,13 +45,17 @@ export function getTargetElement(target: HTMLElement) {
   }
 }
 
-export function useHandleAria(
-  targetElement: HTMLElement,
-  internalId: string
-) {
-  React.useEffect(() => {
+export function useHandleAria(targetElement?: HTMLElement | null) {
+  const {
+    internalId,
+    props: { omitDescribedBy },
+  } = useContext(TooltipContext)
+
+  useEffect(() => {
+    if (omitDescribedBy || !targetElement) {
+      return // do nothing
+    }
     try {
-      // const elem = getTargetElement(getRefElement(targetElement))
       const existing = {
         'aria-describedby': targetElement.getAttribute('aria-describedby'),
       }
@@ -62,7 +66,7 @@ export function useHandleAria(
     } catch (e) {
       //
     }
-  }, [targetElement, internalId])
+  }, [targetElement, internalId, omitDescribedBy])
 }
 
 export function getPropsFromTooltipProp(localProps) {
@@ -71,27 +75,6 @@ export function getPropsFromTooltipProp(localProps) {
       ? localProps.tooltip.props
       : { children: localProps.tooltip }
     : null
-}
-
-export function getRefElement(target: React.RefObject<HTMLElement>) {
-  const unknownTarget = target as unknown as React.RefObject<{
-    _ref: React.RefObject<HTMLElement>
-  }>
-  let element = target as HTMLElement | React.RefObject<HTMLElement>
-
-  // "_ref" is set inside e.g. the Button component (among many others)
-  if (unknownTarget?.current?._ref) {
-    element = getRefElement(unknownTarget.current._ref)
-  }
-
-  if (
-    element &&
-    Object.prototype.hasOwnProperty.call(element, 'current')
-  ) {
-    element = (element as React.RefObject<HTMLElement>).current
-  }
-
-  return element as HTMLElement
 }
 
 export const isTouch = (type: string) => {
