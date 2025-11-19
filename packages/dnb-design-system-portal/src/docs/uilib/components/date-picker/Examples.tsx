@@ -5,7 +5,6 @@
 
 import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
-import styled from '@emotion/styled'
 import addDays from 'date-fns/addDays'
 import startOfMonth from 'date-fns/startOfMonth'
 import lastDayOfMonth from 'date-fns/lastDayOfMonth'
@@ -13,32 +12,8 @@ import startOfWeek from 'date-fns/startOfWeek'
 import lastDayOfWeek from 'date-fns/lastDayOfWeek'
 import isWeekend from 'date-fns/isWeekend'
 import isSameDay from 'date-fns/isSameDay'
-import { DatePicker, Flex, HelpButton } from '@dnb/eufemia/src'
-import { Provider } from '@dnb/eufemia/src/shared'
+import { DatePicker, HelpButton } from '@dnb/eufemia/src'
 import { getOsloDate } from '@dnb/eufemia/src/components/date-format/DateFormatUtils'
-
-const Wrapper = styled.div`
-  [data-visual-test='date-picker-calendar'] .dnb-date-picker__container,
-  [data-visual-test='date-picker-only-month'] .dnb-date-picker__container,
-  [data-visual-test='date-picker-align-picker-right']
-    .dnb-date-picker__container,
-  [data-visual-test='date-picker-align-picker-right-with-input']
-    .dnb-date-picker__container,
-  [data-visual-test='date-picker-year-navigation']
-    .dnb-date-picker__container {
-    display: block;
-    position: relative;
-    top: 0;
-  }
-  [data-visual-test='date-picker-calendar'] .dnb-date-picker,
-  [data-visual-test='date-picker-only-month'] .dnb-date-picker,
-  [data-visual-test='date-picker-align-picker-right'] .dnb-date-picker,
-  [data-visual-test='date-picker-align-picker-right-with-input']
-    .dnb-date-picker,
-  [data-visual-test='date-picker-year-navigation'] .dnb-date-picker {
-    margin-left: 1rem;
-  }
-`
 
 export const DatePickerRange = () => (
   <ComponentBox
@@ -54,8 +29,8 @@ export const DatePickerRange = () => (
       label="DatePicker"
       startDate="2019-04-01"
       endDate="2019-05-17"
-      range={true}
-      showInput={true}
+      range
+      showInput
       onChange={({ start_date, end_date }) => {
         console.log('onChange', start_date, end_date)
       }}
@@ -110,9 +85,9 @@ export const DatePickerWithInput = () => (
     <DatePicker
       label="DatePicker"
       date={new Date()}
-      showInput={true}
-      showCancelButton={true}
-      showResetButton={true}
+      showInput
+      showCancelButton
+      showResetButton
       onChange={({ date }) => {
         console.log('onChange', date)
       }}
@@ -127,24 +102,22 @@ export const DatePickerWithInput = () => (
 )
 
 export const DatePickerTrigger = () => (
-  <Wrapper>
-    <ComponentBox data-visual-test="date-picker-trigger-default">
-      <DatePicker
-        label="DatePicker"
-        date="2019-05-05"
-        returnFormat="dd-MM-yyyy"
-        onChange={({ date }) => {
-          console.log('onChange', date)
-        }}
-        onShow={({ date }) => {
-          console.log('onShow', date)
-        }}
-        onBlur={({ start_date, end_date }) => {
-          console.log('onBlur', start_date, end_date)
-        }}
-      />
-    </ComponentBox>
-  </Wrapper>
+  <ComponentBox data-visual-test="date-picker-trigger-default">
+    <DatePicker
+      label="DatePicker"
+      date="2019-05-05"
+      returnFormat="dd-MM-yyyy"
+      onChange={({ date }) => {
+        console.log('onChange', date)
+      }}
+      onShow={({ date }) => {
+        console.log('onShow', date)
+      }}
+      onBlur={({ start_date, end_date }) => {
+        console.log('onBlur', start_date, end_date)
+      }}
+    />
+  </ComponentBox>
 )
 
 export const DatePickerHiddenNav = () => (
@@ -156,8 +129,8 @@ export const DatePickerHiddenNav = () => (
       maxDate="2022/05/17"
       dateFormat="yyyy/MM/dd"
       returnFormat="dd/MM/yyyy"
-      hideNavigation={true}
-      hideDays={true}
+      hideNavigation
+      hideDays
       onChange={({ date }) => {
         console.log('onChange', date)
       }}
@@ -177,7 +150,7 @@ export const DatePickerMonthOnly = () => (
       label="DatePicker"
       date="05/02/2019"
       dateFormat="MM/dd/yyyy"
-      onlyMonth={true}
+      onlyMonth
     />
   </ComponentBox>
 )
@@ -187,7 +160,7 @@ export const DatePickerStatusMessage = () => (
     <DatePicker
       label="DatePicker"
       date={new Date()}
-      showInput={true}
+      showInput
       status="Please select a valid date"
       statusState="info"
     />
@@ -206,43 +179,36 @@ export const DatePickerSuffix = () => (
 )
 
 export const DatePickerLinked = () => (
-  <Wrapper>
-    <ComponentBox data-visual-test="date-picker-input">
-      <DatePicker label="DatePicker" range link showInput />
-    </ComponentBox>
-  </Wrapper>
+  <ComponentBox data-visual-test="date-picker-input">
+    <DatePicker label="DatePicker" range link showInput />
+  </ComponentBox>
 )
 
 export const DatePickerNoInputStatus = () => (
-  <Wrapper>
-    <ComponentBox data-visual-test="date-picker-trigger-error">
-      <DatePicker
-        label="DatePicker"
-        date="2019-05-05"
-        hideNavigation={true}
-        status="Please select a valid date"
-      />
-    </ComponentBox>
-  </Wrapper>
+  <ComponentBox data-visual-test="date-picker-trigger-error">
+    <DatePicker
+      label="DatePicker"
+      date="2019-05-05"
+      hideNavigation
+      status="Please select a valid date"
+    />
+  </ComponentBox>
 )
 
 export const DatePickerErrorMessage = () => (
-  <Wrapper>
-    <ComponentBox data-visual-test="date-picker-input-error">
-      <DatePicker
-        label="DatePicker"
-        date="2019-05-05"
-        showInput={true}
-        showSubmitButton={true}
-        stretch={true}
-        status={
-          <span>
-            Status message with <b>HTML</b> inside
-          </span>
-        }
-      />
-    </ComponentBox>
-  </Wrapper>
+  <ComponentBox data-visual-test="date-picker-input-error">
+    <DatePicker
+      label="DatePicker"
+      date="2019-05-05"
+      showInput
+      showSubmitButton
+      status={
+        <span>
+          Status message with <b>HTML</b> inside
+        </span>
+      }
+    />
+  </ComponentBox>
 )
 
 export const DatePickerErrorStatus = () => (
@@ -250,78 +216,17 @@ export const DatePickerErrorStatus = () => (
     <DatePicker
       label="DatePicker"
       date={new Date()}
-      hideNavigation={true}
+      hideNavigation
       status="error"
     />
   </ComponentBox>
 )
 
-export const DatePickerCalendar = () => (
-  <Wrapper>
-    <ComponentBox data-visual-test="date-picker-calendar">
-      <DatePicker
-        opened={true}
-        preventClose={true}
-        disableAutofocus={true}
-        range={true}
-        startDate="2019-05-05"
-        endDate="2019-06-05"
-        skipPortal
-      />
-    </ComponentBox>
-  </Wrapper>
+export const DatePickerCalendarInline = () => (
+  <ComponentBox data-visual-test="date-picker-calendar" background="white">
+    <DatePicker inline range startDate="2019-05-05" endDate="2019-06-05" />
+  </ComponentBox>
 )
-
-export const DatePickerScreenshotTestSizes = () => {
-  return (
-    <Wrapper>
-      <ComponentBox data-visual-test="date-picker-sizes">
-        <Provider formElement={{ labelDirection: 'vertical' }}>
-          <Flex.Vertical>
-            <DatePicker
-              label="DatePicker"
-              date={new Date('2022/06/10')}
-              showInput={true}
-            />
-            <DatePicker
-              size="small"
-              label="DatePicker"
-              date={new Date('2022/06/10')}
-              showInput={true}
-            />
-            <DatePicker
-              size="medium"
-              label="DatePicker"
-              date={new Date('2022/06/10')}
-              showInput={true}
-            />
-            <DatePicker
-              size="large"
-              label="DatePicker"
-              date={new Date('2022/06/10')}
-              showInput={true}
-            />
-          </Flex.Vertical>
-        </Provider>
-      </ComponentBox>
-    </Wrapper>
-  )
-}
-
-export const DatePickerScreenshotTestDisabled = () => {
-  return (
-    <Wrapper>
-      <ComponentBox data-visual-test="date-picker-disabled">
-        <Provider formElement={{ labelDirection: 'vertical' }}>
-          <Flex.Vertical>
-            <DatePicker disabled />
-            <DatePicker showInput={true} disabled />
-          </Flex.Vertical>
-        </Provider>
-      </ComponentBox>
-    </Wrapper>
-  )
-}
 
 export const DatePickerDateFns = () => (
   <ComponentBox scope={{ addDays }} hidePreview hideToolbar>
@@ -411,56 +316,4 @@ export const DatePickerYearNavigation = () => (
   <ComponentBox>
     <DatePicker showInput yearNavigation />
   </ComponentBox>
-)
-
-export const DatePickerAlignPickerRight = () => (
-  <Wrapper>
-    <ComponentBox data-visual-test="date-picker-align-picker-right">
-      <DatePicker
-        alignPicker="right"
-        opened
-        skipPortal
-        preventClose
-        disableAutofocus
-      />
-    </ComponentBox>
-  </Wrapper>
-)
-
-export const DatePickerAlignPickerRightWithInput = () => (
-  <Wrapper>
-    <ComponentBox data-visual-test="date-picker-align-picker-right-with-input">
-      <DatePicker
-        showInput
-        alignPicker="right"
-        opened
-        skipPortal
-        preventClose
-        disableAutofocus
-      />
-    </ComponentBox>
-  </Wrapper>
-)
-
-export const DatePickerYearNavigationOpen = () => (
-  <Wrapper>
-    <ComponentBox data-visual-test="date-picker-year-navigation">
-      <DatePicker
-        date="2025-05-12"
-        yearNavigation
-        opened
-        skipPortal
-        preventClose
-        disableAutofocus
-      />
-    </ComponentBox>
-  </Wrapper>
-)
-
-export const DatePickerOnlyMonthOpen = () => (
-  <Wrapper>
-    <ComponentBox data-visual-test="date-picker-only-month">
-      <DatePicker date="2025-05-20" onlyMonth opened skipPortal />
-    </ComponentBox>
-  </Wrapper>
 )

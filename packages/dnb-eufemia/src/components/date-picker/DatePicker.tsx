@@ -8,7 +8,6 @@ import React, {
   useCallback,
   useContext,
   useEffect,
-  useLayoutEffect,
   useMemo,
   useRef,
   useState,
@@ -17,13 +16,10 @@ import React, {
 import classnames from 'classnames'
 import {
   warn,
-  makeUniqueId,
   extendPropsWithContext,
-  detectOutsideClick,
   getStatusState,
   combineDescribedBy,
   validateDOMAttributes,
-  DetectOutsideClickClass,
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import { createSpacingClasses } from '../space/SpacingHelper'
@@ -55,12 +51,13 @@ import { DatePickerContextValues, DateType } from './DatePickerContext'
 import { DatePickerDates } from './hooks/useDates'
 import { useTranslation } from '../../shared'
 import { convertSnakeCaseProps } from '../../shared/helpers/withSnakeCaseProps'
-import DatePickerPortal from './DatePickerPortal'
+import Popover from '../popover/Popover'
 import {
   FormatDateOptions,
   formatDate,
   formatDateRange,
 } from '../date-format/DateFormatUtils'
+import useId from '../../shared/helpers/useId'
 
 export type DatePickerEventAttributes = {
   day?: string
@@ -159,6 +156,10 @@ export type DatePickerProps = {
    * If the input fields with the mask should be visible. Defaults to `false`.
    */
   showInput?: boolean
+  /**
+   * If set to `true`, renders the calendar inline without a button or input. The calendar is always visible and not wrapped in a Popover. Defaults to `false`.
+   */
+  inline?: boolean
   /**
    * If set to `true`, a submit button will be shown. You can change the default text by using `submitButtonText="Ok"`. Defaults to `false`. If the `range` prop is `true`, then the submit button is shown.
    */
@@ -579,6 +580,7 @@ const defaultProps: DatePickerProps = {
   disableAutofocus: false,
   enableKeyboardNav: false,
   showInput: false,
+  inline: false,
   resetDate: true,
   range: false,
   link: false,
@@ -603,6 +605,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
     onReset,
     noAnimation,
     showInput,
+    inline,
     alignPicker,
     showSubmitButton,
     showCancelButton,
@@ -615,26 +618,29 @@ function DatePicker(externalProps: DatePickerAllProps) {
     endDate: endDateProp,
   } = convertSnakeCaseProps(props) // convertSnakeCaseProps - can be removed in v11
 
-  const [opened, setOpened] = useState<boolean>(openedProp)
-  const [hidden, setHidden] = useState(!opened)
+  const [opened, setOpened] = useState<boolean>(inline ? true : openedProp)
+  const [hidden, setHidden] = useState(inline ? false : !opened)
   const [dates, setDates] = useState<
     Pick<DatePickerDates, 'startDate' | 'endDate'>
   >({})
 
   const context = useContext(Context)
   const blurDelay = 201 // some ms more than "dropdownSlideDown 200ms"
-  const id = props.id || makeUniqueId()
+  const id = useId(props.id)
 
   const innerRef = useRef<HTMLSpanElement>()
-  const triangleRef = useRef<HTMLSpanElement>()
   const submitButtonRef = useRef<HTMLButtonElement>()
   const getReturnObject =
     useRef<DatePickerContextValues['getReturnObject']>()
   const hideTimeout = useRef<NodeJS.Timeout>()
-  const outsideClick = useRef<DetectOutsideClickClass>()
-  const calendarContainerRef = useRef<HTMLDivElement>()
+  const calendarContainerRef = useRef<HTMLSpanElement>(null)
 
   const translation = useTranslation().DatePicker
+
+  const focusCalendarTable = useCallback(
+    () => calendarContainerRef.current?.querySelector('table'),
+    []
+  )
 
   if (correctInvalidDate) {
     warn(
@@ -647,12 +653,6 @@ function DatePicker(externalProps: DatePickerAllProps) {
       `The DatePicker got a "endDate". You have to set range={true} as well!.`
     )
   }
-
-  const removeOutsideClickHandler = useCallback(() => {
-    if (outsideClick.current) {
-      outsideClick.current.remove()
-    }
-  }, [])
 
   const hidePicker = useCallback(
     (args?: DisplayPickerEvent) => {
@@ -684,49 +684,9 @@ function DatePicker(externalProps: DatePickerAllProps) {
         },
         noAnimation ? 1 : blurDelay
       ) // wait until animation is over
-
-      removeOutsideClickHandler()
     },
-    [noAnimation, preventClose, onHide, removeOutsideClickHandler]
+    [noAnimation, preventClose, onHide]
   )
-
-  const setOutsideClickHandler = useCallback(() => {
-    outsideClick.current = detectOutsideClick(
-      // Sending in portalRef, instead of portalRef.current,
-      // as that would lead to the ignoreElement being null/undefined,
-      // since the portal has not been rendered yet,
-      // causing the calendar to close when clicking on the calendar itself
-      [innerRef.current, calendarContainerRef],
-      ({ event }: { event: MouseEvent | KeyboardEvent }) => {
-        hidePicker({ ...event, focusOnHide: event?.['code'] })
-      }
-    )
-  }, [hidePicker])
-
-  const setTrianglePosition = useCallback(() => {
-    const triangleWidth = 16
-    if (showInput && triangleRef.current && innerRef.current) {
-      try {
-        const shellWidth = innerRef.current
-          .querySelector('.dnb-input__shell')
-          .getBoundingClientRect().width
-
-        const buttonWidth = innerRef.current
-          .querySelector('.dnb-input__submit-button__button')
-          .getBoundingClientRect().width
-
-        if (alignPicker === 'right') {
-          const distance = buttonWidth / 2 - triangleWidth / 2
-          triangleRef.current.style.marginRight = `${distance / 16}rem`
-        } else {
-          const distance = shellWidth - buttonWidth / 2 - triangleWidth / 2
-          triangleRef.current.style.marginLeft = `${distance / 16}rem`
-        }
-      } catch (e) {
-        warn(e)
-      }
-    }
-  }, [showInput, alignPicker])
 
   const showPicker = useCallback(
     (event?: DisplayPickerEvent) => {
@@ -738,25 +698,16 @@ function DatePicker(externalProps: DatePickerAllProps) {
       setHidden(false)
 
       onShow?.({ ...getReturnObject.current(event) })
-
-      setOutsideClickHandler()
     },
-    [setOutsideClickHandler, onShow]
+    [onShow]
   )
 
-  // Make sure the triangle is positioned correctly after calendar is mounted
-  useLayoutEffect(() => {
-    if (!hidden) {
-      setTrianglePosition()
-    }
-  }, [hidden, setTrianglePosition])
-
-  // React to opened prop changes
+  // React to opened prop changes (only when not inline)
   useEffect(() => {
-    if (openedProp) {
+    if (openedProp && !inline) {
       showPicker()
     }
-  }, [openedProp, showPicker])
+  }, [openedProp, showPicker, inline])
 
   const onPickerChange = useCallback(
     ({
@@ -777,12 +728,18 @@ function DatePicker(externalProps: DatePickerAllProps) {
 
   const onSubmitHandler = useCallback(
     (event: React.MouseEvent<HTMLButtonElement>) => {
-      hidePicker(event)
-      onSubmit?.({
-        ...getReturnObject.current({ event }),
-      })
+      if (opened) {
+        // If picker is open, close it and call onSubmit
+        hidePicker(event)
+        onSubmit?.({
+          ...getReturnObject.current({ event }),
+        })
+      } else {
+        // If picker is closed, open it (don't call onSubmit)
+        showPicker(event)
+      }
     },
-    [hidePicker, onSubmit]
+    [opened, hidePicker, showPicker, onSubmit]
   )
 
   const onCancelHandler = useCallback(
@@ -916,6 +873,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
       opened && 'dnb-date-picker--opened',
       hidden && 'dnb-date-picker--hidden',
       showInput && 'dnb-date-picker--show-input',
+      inline && 'dnb-date-picker--inline',
       label &&
         labelAlignment === 'right' &&
         'dnb-date-picker__input--label-alignment-right',
@@ -937,7 +895,10 @@ function DatePicker(externalProps: DatePickerAllProps) {
     showInput && 'dnb-date-picker__container--show-input',
     alignPicker && `dnb-date-picker__container--${alignPicker}`,
     size && `dnb-date-picker--${size}`,
-    (range || showSubmitButton || showCancelButton || showResetButton) &&
+    ((inline ? false : range) ||
+      showSubmitButton ||
+      showCancelButton ||
+      showResetButton) &&
       'dnb-date-picker__container--show-footer'
   )
 
@@ -990,45 +951,101 @@ function DatePicker(externalProps: DatePickerAllProps) {
           />
 
           <span className="dnb-date-picker__row">
-            <span className="dnb-date-picker__shell" id={`${id}-shell`}>
-              <DatePickerInput
-                id={id}
-                title={title}
-                disabled={disabled}
-                stretch={stretch}
-                skeleton={skeleton}
-                maskOrder={maskOrder}
-                maskPlaceholder={maskPlaceholder}
-                isRange={range}
-                showInput={showInput}
-                selectedDateTitle={selectedDateTitle}
-                inputElement={inputElement}
-                opened={opened}
-                hidden={hidden}
-                size={size}
-                status={status ? 'error' : null}
-                statusState={statusState}
-                lang={context.locale}
-                {...attributes}
-                submitAttributes={remainingSubmitProps}
-                onSubmit={togglePicker}
-                {...statusProps}
-              />
+            {inline ? (
+              <span
+                className={containerClassNames}
+                ref={calendarContainerRef}
+              >
+                <DatePickerRange
+                  id={id}
+                  firstDayOfWeek={firstDay}
+                  resetDate={resetDate}
+                  isRange={range}
+                  isLink={link}
+                  isSync={sync}
+                  hideDays={hideDays}
+                  hideNavigation={hideNavigation}
+                  onlyMonth={onlyMonth}
+                  hideNextMonthWeek={hideLastWeek}
+                  onPickerChange={onPickerChange}
+                  locale={context.locale}
+                />
+                {(addonElement || shortcuts) && (
+                  <DatePickerAddon
+                    renderElement={addonElement}
+                    shortcuts={shortcuts}
+                  />
+                )}
+                <DatePickerFooter
+                  isRange={inline ? false : range}
+                  onSubmit={onSubmitHandler}
+                  onCancel={onCancelHandler}
+                  onReset={onResetHandler}
+                  submitButtonText={submitButtonText}
+                  cancelButtonText={cancelButtonText}
+                  resetButtonText={resetButtonText}
+                />
+              </span>
+            ) : (
+              <span className="dnb-date-picker__shell" id={`${id}-shell`}>
+                <DatePickerInput
+                  id={id}
+                  title={title}
+                  disabled={disabled}
+                  stretch={stretch}
+                  skeleton={skeleton}
+                  maskOrder={maskOrder}
+                  maskPlaceholder={maskPlaceholder}
+                  isRange={range}
+                  showInput={showInput}
+                  selectedDateTitle={selectedDateTitle}
+                  inputElement={inputElement}
+                  opened={opened}
+                  hidden={hidden}
+                  size={size}
+                  status={status ? 'error' : null}
+                  statusState={statusState}
+                  lang={context.locale}
+                  {...attributes}
+                  submitAttributes={remainingSubmitProps}
+                  onSubmit={togglePicker}
+                  {...statusProps}
+                />
 
-              {!hidden && (
-                <DatePickerPortal
-                  alignment={alignPicker}
+                <Popover
+                  open={opened}
+                  targetElement={{
+                    verticalRef: submitButtonRef,
+                    horizontalRef: innerRef,
+                  }}
+                  noAnimation={noAnimation}
                   skipPortal={skipPortal}
-                  targetElementRef={innerRef}
+                  keepInDOM={!hidden}
+                  focusOnOpen={!disableAutofocus}
+                  focusOnOpenElement={focusCalendarTable}
+                  alignOnTarget={
+                    alignPicker === 'right' ? 'right' : 'left'
+                  }
+                  horizontalOffset={showInput ? 8 : -8}
+                  placement={
+                    props.direction === 'auto' ? 'bottom' : props.direction
+                  }
+                  onOpenChange={(isOpen) => !isOpen && hidePicker()}
+                  showCloseButton={false}
+                  hideOutline
+                  triggerOffset={0}
+                  noInnerSpace
+                  noMaxWidth
+                  portalRootClass="dnb-date-picker__portal"
+                  arrowPosition={
+                    alignPicker === 'right' ? 'right' : 'left'
+                  }
+                  arrowPositionSelector={`#${id}`}
                 >
                   <span
                     className={containerClassNames}
                     ref={calendarContainerRef}
                   >
-                    <span
-                      className="dnb-date-picker__triangle"
-                      ref={triangleRef}
-                    />
                     <DatePickerRange
                       id={id}
                       firstDayOfWeek={firstDay}
@@ -1040,7 +1057,6 @@ function DatePicker(externalProps: DatePickerAllProps) {
                       hideNavigation={hideNavigation}
                       onlyMonth={onlyMonth}
                       hideNextMonthWeek={hideLastWeek}
-                      noAutoFocus={disableAutofocus}
                       onPickerChange={onPickerChange}
                       locale={context.locale}
                     />
@@ -1051,7 +1067,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
                       />
                     )}
                     <DatePickerFooter
-                      isRange={range}
+                      isRange={inline ? false : range}
                       onSubmit={onSubmitHandler}
                       onCancel={onCancelHandler}
                       onReset={onResetHandler}
@@ -1060,9 +1076,9 @@ function DatePicker(externalProps: DatePickerAllProps) {
                       resetButtonText={resetButtonText}
                     />
                   </span>
-                </DatePickerPortal>
-              )}
-            </span>
+                </Popover>
+              </span>
+            )}
             {suffix && (
               <Suffix
                 className="dnb-date-picker__suffix"
@@ -1102,6 +1118,7 @@ const NonAttributes = [
   'direction',
   'range',
   'showInput',
+  'inline',
   'noAnimation',
   'onDaysRender',
   'onShow',

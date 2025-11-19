@@ -1418,12 +1418,14 @@ describe('Field.Date', () => {
 
     await userEvent.click(screen.getByLabelText('Åpne datovelger'))
 
-    // dnb-date-picker__container is a direct descendant of dnb-date-picker__shell when portal is skipped
-    expect(
-      document.querySelector(
-        '.dnb-date-picker__shell > .dnb-date-picker__container'
-      )
-    ).toBeInTheDocument()
+    // dnb-date-picker__container is within dnb-date-picker__shell when portal is skipped (wrapped by Popover span)
+    await waitFor(() => {
+      expect(
+        document.querySelector(
+          '.dnb-date-picker__shell .dnb-date-picker__container'
+        )
+      ).toBeInTheDocument()
+    })
     expect(
       document.body.querySelector('.dnb-date-picker__portal')
     ).not.toBeInTheDocument()
