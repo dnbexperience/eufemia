@@ -13,7 +13,12 @@ import {
 } from '../../../../shared/helpers/withCamelCaseProps'
 
 export type Props = Omit<ValueProps<number>, 'defaultValue'> &
-  IncludeCamelCase<NumberFormatProps> &
+  IncludeCamelCase<
+    Omit<
+      NumberFormatProps,
+      'space' | 'innerSpace' | 'top' | 'bottom' | 'left' | 'right'
+    >
+  > &
   Partial<{
     defaultValue?: number | string
     minimum?: number
