@@ -11,12 +11,13 @@ import {
   IncludeCamelCase,
   convertCamelCasePropsToSnakeCase,
 } from '../../../../shared/helpers/withCamelCaseProps'
+import { SpacingProps } from '../../../../shared/types'
 
 export type Props = Omit<ValueProps<number>, 'defaultValue'> &
   IncludeCamelCase<
     Omit<
       NumberFormatProps,
-      'space' | 'innerSpace' | 'top' | 'bottom' | 'left' | 'right'
+      keyof SpacingProps
       // spacing props is handled by ValueBlock
     >
   > &
