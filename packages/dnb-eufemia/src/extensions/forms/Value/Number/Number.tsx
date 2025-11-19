@@ -17,6 +17,7 @@ export type Props = Omit<ValueProps<number>, 'defaultValue'> &
     Omit<
       NumberFormatProps,
       'space' | 'innerSpace' | 'top' | 'bottom' | 'left' | 'right'
+      // spacing props is handled by ValueBlock
     >
   > &
   Partial<{
