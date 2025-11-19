@@ -341,7 +341,9 @@ const dropdownData = [
 ]
 
 const ModalCloseExample = () => {
-  const [open_state, setOpenState] = React.useState(null)
+  const [open_state, setOpenState] = React.useState<
+    false | 'opened' | 'closed'
+  >(false)
   const [count, setCount] = React.useState(0)
 
   React.useEffect(() => {

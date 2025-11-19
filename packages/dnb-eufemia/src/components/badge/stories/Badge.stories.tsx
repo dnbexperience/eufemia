@@ -6,7 +6,7 @@
 import React from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 
-import Badge from '../Badge'
+import Badge, { BadgeProps } from '../Badge'
 import Avatar from '../../avatar/Avatar'
 import { Tabs } from '../../lib'
 
@@ -109,11 +109,11 @@ export const BadgeSandbox = () => (
   </Wrapper>
 )
 
-const Template = (props) => {
+const Template = (props: BadgeProps) => {
   return <Badge label="meaningless label" {...props} />
 }
 
-const TemplateAvatar = (props) => {
+const TemplateAvatar = (props: BadgeProps) => {
   return (
     <Badge label="meaningless label" {...props}>
       <Avatar.Group label="meaningless label">
@@ -125,7 +125,7 @@ const TemplateAvatar = (props) => {
   )
 }
 
-const TemplateText = (props) => {
+const TemplateText = (props: BadgeProps) => {
   return (
     <>
       This is a text with multiple{' '}
