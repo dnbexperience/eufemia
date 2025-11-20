@@ -152,6 +152,10 @@
     --button-secondary-color--active: var(--sb-color-red);
     --button-secondary-background--hover: var(--sb-color-magenta-light-3);
     --button-secondary-border--default: var(--sb-color-red);
+
+    // tertiary
+    --button-tertiary-color: var(--sb-color-red);
+    --button-tertiary-border: var(--sb-color-red);
   }
 
   &--tertiary {

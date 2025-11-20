@@ -783,3 +783,29 @@ export function GlobalStatusSelector() {
     setPickerState(value)
   }
 }
+
+export const GlobalStatusExample = () => (
+  <Wrapper>
+    <GlobalStatus
+      title="Custom Title"
+      text="Failure text"
+      items={[
+        {
+          text: 'List item',
+          status_anchor_url: '/uilib/components/global-status',
+          status_anchor_label: 'eksempel',
+        },
+        {
+          text: 'List item2',
+          status_anchor_url: '/uilib/components/global-status',
+          status_anchor_label: 'eksempel',
+        },
+      ]}
+      show={true}
+      autoscroll={false}
+      no_animation={true}
+      omit_set_focus={true}
+      id="demo-1"
+    />
+  </Wrapper>
+)

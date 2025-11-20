@@ -140,4 +140,9 @@ export const FileItemProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  deleteButtonProps: {
+    doc: 'define any valid Eufemia [Button properties](/uilib/components/button/properties) or HTML attribute inside an object.',
+    type: 'ButtonProps',
+    status: 'optional',
+  },
 }

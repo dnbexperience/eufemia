@@ -104,6 +104,7 @@ const UploadFileListCell = ({
     isLoading,
     description,
     removeDeleteButton,
+    deleteButtonProps,
   } = uploadFile
   const hasWarning = errorMessage != null
 
@@ -180,9 +181,10 @@ const UploadFileListCell = ({
         <Button
           icon={TrashIcon}
           variant="tertiary"
-          onClick={onDeleteHandler}
           icon_position="left"
           disabled={isLoading}
+          {...deleteButtonProps}
+          onClick={onDeleteHandler}
         >
           {deleteButtonText}
         </Button>

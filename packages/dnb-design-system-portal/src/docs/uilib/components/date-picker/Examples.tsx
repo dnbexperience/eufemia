@@ -18,6 +18,10 @@ import { Provider } from '@dnb/eufemia/src/shared'
 const Wrapper = styled.div`
   [data-visual-test='date-picker-calendar'] .dnb-date-picker__container,
   [data-visual-test='date-picker-only-month'] .dnb-date-picker__container,
+  [data-visual-test='date-picker-align-picker-right']
+    .dnb-date-picker__container,
+  [data-visual-test='date-picker-align-picker-right-with-input']
+    .dnb-date-picker__container,
   [data-visual-test='date-picker-year-navigation']
     .dnb-date-picker__container {
     display: block;
@@ -26,6 +30,9 @@ const Wrapper = styled.div`
   }
   [data-visual-test='date-picker-calendar'] .dnb-date-picker,
   [data-visual-test='date-picker-only-month'] .dnb-date-picker,
+  [data-visual-test='date-picker-align-picker-right'] .dnb-date-picker,
+  [data-visual-test='date-picker-align-picker-right-with-input']
+    .dnb-date-picker,
   [data-visual-test='date-picker-year-navigation'] .dnb-date-picker {
     margin-left: 1rem;
   }
@@ -384,6 +391,35 @@ export const DatePickerYearNavigation = () => (
   <ComponentBox>
     <DatePicker showInput yearNavigation />
   </ComponentBox>
+)
+
+export const DatePickerAlignPickerRight = () => (
+  <Wrapper>
+    <ComponentBox data-visual-test="date-picker-align-picker-right">
+      <DatePicker
+        alignPicker="right"
+        opened
+        skipPortal
+        preventClose
+        disableAutofocus
+      />
+    </ComponentBox>
+  </Wrapper>
+)
+
+export const DatePickerAlignPickerRightWithInput = () => (
+  <Wrapper>
+    <ComponentBox data-visual-test="date-picker-align-picker-right-with-input">
+      <DatePicker
+        showInput
+        alignPicker="right"
+        opened
+        skipPortal
+        preventClose
+        disableAutofocus
+      />
+    </ComponentBox>
+  </Wrapper>
 )
 
 export const DatePickerYearNavigationOpen = () => (

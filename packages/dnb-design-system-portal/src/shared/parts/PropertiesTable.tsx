@@ -85,12 +85,14 @@ export default function PropertiesTable({
   valueType = 'string',
   camelCase,
   omit,
+  pick,
   showDefaultValue = false,
 }: {
   props: PropertiesTableProps
   valueType?: unknown
   camelCase?: boolean
   omit?: string[]
+  pick?: string[]
   showDefaultValue: boolean
 }) {
   const keys = Object.keys(props || {})
@@ -99,6 +101,9 @@ export default function PropertiesTable({
       return null
     }
     const { type, defaultValue, doc, status } = props
+    if (pick && !pick.includes(key)) {
+      return null
+    }
     if (omit && omit.includes(key)) {
       return null
     }

@@ -20,6 +20,25 @@ Inside `./packages/dnb-eufemia` you will find the directory `/src/components` or
 
 Run an environment with either `yarn dev` (for Storybook) or `yarn start` (for Eufemia Portal). Make sure you follow the [Code guide](/contribute/style-guides/coding) under development.
 
+## How a component should be structured
+
+A component should be structured as follows:
+
+```tsx
+import type { ComponentProps } from './types.ts'
+export type * from './types.ts'
+
+function MyComponent(props: ComponentProps) {
+  return helperFunction(<button text="My Component" />)
+}
+
+export function helperFunction(children: React.ReactNode) {
+  return children
+}
+
+export default MyComponent
+```
+
 ## Styling, CSS and SCSS of components
 
 Each component has two or three SCSS files.

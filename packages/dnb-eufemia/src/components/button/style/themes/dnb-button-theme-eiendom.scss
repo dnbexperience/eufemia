@@ -65,6 +65,18 @@
 .dnb-button--tertiary {
   color: var(--color-emerald-green);
 
+  @include hover() {
+    color: var(--color-emerald-green);
+  }
+
+  @include active() {
+    color: var(--color-emerald-green);
+  }
+
+  @include focus-visible() {
+    color: var(--color-emerald-green);
+  }
+
   &[disabled] {
     color: var(--color-black-55);
   }

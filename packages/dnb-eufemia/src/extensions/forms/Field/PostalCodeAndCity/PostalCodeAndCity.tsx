@@ -8,11 +8,17 @@ import { CountryCode, Path } from '../../types'
 import useTranslation from '../../hooks/useTranslation'
 import useDataValue from '../../hooks/useDataValue'
 import { COUNTRY as defaultCountry } from '../../../../shared/defaults'
-import { HelpProps } from '../../../../components/help-button/HelpButtonInline'
+import { SpacingProps } from '../../../../shared/types'
 
 export type Props = Pick<
   FieldBlockProps,
-  'error' | 'warning' | 'info' | 'width' | 'className'
+  | 'error'
+  | 'warning'
+  | 'info'
+  | 'width'
+  | 'className'
+  | 'help'
+  | keyof SpacingProps
 > &
   Partial<Record<'postalCode' | 'city', StringFieldProps>> & {
     /**
@@ -33,7 +39,6 @@ export type Props = Pick<
      * Default: `NO`
      */
     countryCode?: CountryCode
-    help?: HelpProps
   } & Pick<StringFieldProps, 'size'>
 
 function PostalCodeAndCity(props: Props) {

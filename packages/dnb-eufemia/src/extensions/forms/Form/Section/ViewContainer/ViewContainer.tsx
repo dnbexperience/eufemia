@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useContext, useMemo } from 'react'
 import classnames from 'classnames'
 import { convertJsxToString } from '../../../../../shared/component-helper'
 import { Flex } from '../../../../../components'
@@ -9,6 +9,7 @@ import SectionContainer, {
   SectionContainerProps,
 } from '../containers/SectionContainer'
 import EditButton from './EditButton'
+import SectionContainerContext from '../containers/SectionContainerContext'
 
 export type Props = {
   title?: React.ReactNode
@@ -20,10 +21,13 @@ export type AllProps = Props & SectionContainerProps & FlexContainerProps
 function ViewContainer(props: AllProps) {
   const { children, className, title, onEdit, ...restProps } = props || {}
   const ariaLabel = useMemo(() => convertJsxToString(title), [title])
+  const { disableEditing } = useContext(SectionContainerContext) || {}
 
   const hasToolbar = React.Children.toArray(children).some((child) => {
     return child?.['type'] === Toolbar
   })
+
+  const showDefaultToolbar = !disableEditing && !hasToolbar
 
   return (
     <SectionContainer
@@ -35,11 +39,11 @@ function ViewContainer(props: AllProps) {
       <Flex.Stack>
         {title && <Lead size="basis">{title}</Lead>}
         {children}
-        {hasToolbar ? null : (
+        {showDefaultToolbar ? (
           <Toolbar onEdit={onEdit}>
             <EditButton />
           </Toolbar>
-        )}
+        ) : null}
       </Flex.Stack>
     </SectionContainer>
   )
