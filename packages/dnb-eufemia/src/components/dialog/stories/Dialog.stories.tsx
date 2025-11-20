@@ -841,3 +841,28 @@ export function WithStrictMode() {
     </React.StrictMode>
   )
 }
+
+export function OpenStateInReactV19() {
+  // This story demonstrated a controlled openState in React 19, which was not working properly before.
+  const [isOpen, setIsOpen] = useState(false)
+
+  const handleClose = () => {
+    setIsOpen(false)
+  }
+
+  return (
+    <>
+      openState: {isOpen.toString()}
+      <Dialog
+        triggerAttributes={{ text: 'Open dialog' }}
+        openState={isOpen}
+        onOpen={() => {
+          setIsOpen(true)
+        }}
+        onClose={handleClose}
+      >
+        Dialog
+      </Dialog>
+    </>
+  )
+}

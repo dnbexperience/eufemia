@@ -194,6 +194,10 @@ class Modal extends React.PureComponent<
   }
 
   componentDidUpdate(prevProps) {
+    // Don't interfere if modal is currently transitioning
+    if (this.isInTransition) {
+      return
+    }
     if (prevProps !== this.props) {
       this.openBasedOnStateUpdate()
     }
