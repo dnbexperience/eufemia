@@ -1553,6 +1553,55 @@ describe('Modal component', () => {
     ).not.toBeInTheDocument()
   })
 
+  it('should close on esc when used with external state', async () => {
+    const ModalTriggerMock = () => {
+      const [modalOpen, setModalOpen] = React.useState(false)
+
+      return (
+        <>
+          <Modal
+            open_state={modalOpen}
+            on_open={() => {
+              setModalOpen(true)
+            }}
+            on_close={() => {
+              setModalOpen(false)
+            }}
+            omit_trigger_button
+          >
+            Modal Content
+          </Modal>
+          <Button
+            className="open-button"
+            text="Open from outside modal"
+            on_click={() => setModalOpen(true)}
+          />
+        </>
+      )
+    }
+
+    render(<ModalTriggerMock />)
+
+    expect(
+      document.querySelector('div.dnb-modal-root__inner')
+    ).not.toBeInTheDocument()
+
+    fireEvent.click(document.querySelector('button.open-button'))
+
+    await waitFor(() => {
+      expect(
+        document.querySelector('div.dnb-modal-root__inner')
+      ).toBeInTheDocument()
+    })
+
+    await userEvent.keyboard('{esc}')
+    await waitFor(() => {
+      expect(
+        document.querySelector('div.dnb-modal-root__inner')
+      ).not.toBeInTheDocument()
+    })
+  })
+
   it('has to have the correct aria-describedby', () => {
     render(<Modal {...props} open_state={true} />)
     expect(
