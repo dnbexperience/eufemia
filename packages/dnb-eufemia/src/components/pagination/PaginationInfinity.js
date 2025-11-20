@@ -7,7 +7,6 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import ReactDOM from 'react-dom'
 import {
   warn,
   isTrue,
@@ -597,15 +596,18 @@ class ScrollToElement extends React.PureComponent {
   static defaultProps = {
     page_element: null,
   }
+
+  constructor(props) {
+    super(props)
+    this._elementRef = React.createRef()
+  }
+
   componentDidMount() {
-    // we use "findDOMNode" here, because we have situations, where we don't know about what the input element is,
-    // we also don't want to wrap them because of markup collisions
-    // therefor we use "findDOMNode" here
-    // so we can scroll to that page
-    // eslint-disable-next-line
-    const elem = ReactDOM.findDOMNode(this)
+    // Use ref instead of findDOMNode for React v19 compatibility
+    const elem = this._elementRef.current
     this.scrollToPage(elem)
   }
+
   scrollToPage(element) {
     if (element && typeof element.scrollIntoView === 'function') {
       element.scrollIntoView({
@@ -614,10 +616,17 @@ class ScrollToElement extends React.PureComponent {
       })
     }
   }
+
   render() {
     const { page_element, ...props } = this.props
     const Element = preparePageElement(page_element || React.Fragment)
-    return <Element {...props} />
+
+    // If Element is React.Fragment, we need to wrap it in a div to attach the ref
+    if (Element === React.Fragment) {
+      return <div ref={this._elementRef} {...props} />
+    }
+
+    return <Element ref={this._elementRef} {...props} />
   }
 }
 
