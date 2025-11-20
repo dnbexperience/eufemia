@@ -5,7 +5,7 @@ import { ContainerMode } from './SectionContainer'
 export type Props = {
   validateInitially?: boolean
   containerMode?: ContainerMode
-  editable?: boolean
+  disableEditing?: boolean
   children: React.ReactNode
 }
 
@@ -15,12 +15,12 @@ function SectionContainerProvider(props: Props) {
   const {
     validateInitially,
     containerMode,
-    editable = true,
+    disableEditing = false,
     children,
   } = props
 
   const containerModeRef = useRef<ContainerMode>(
-    editable === false
+    disableEditing === true
       ? 'view'
       : containerMode === 'auto'
       ? 'view'
@@ -29,13 +29,13 @@ function SectionContainerProvider(props: Props) {
 
   const switchContainerMode = useCallback(
     (mode: ContainerMode) => {
-      if (!editable) {
+      if (disableEditing) {
         return
       }
       containerModeRef.current = mode
       forceUpdate()
     },
-    [editable]
+    [disableEditing]
   )
 
   return (
@@ -43,10 +43,11 @@ function SectionContainerProvider(props: Props) {
       value={{
         validateInitially,
         containerMode:
-          editable === false ? 'view' : containerModeRef.current,
-        initialContainerMode: editable === false ? 'view' : containerMode,
+          disableEditing === true ? 'view' : containerModeRef.current,
+        initialContainerMode:
+          disableEditing === true ? 'view' : containerMode,
         switchContainerMode,
-        editable,
+        disableEditing,
       }}
     >
       {children}

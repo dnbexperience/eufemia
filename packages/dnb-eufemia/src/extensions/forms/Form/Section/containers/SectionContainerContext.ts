@@ -6,7 +6,7 @@ export interface SectionContainerContextState {
   containerMode?: ContainerMode
   initialContainerMode?: ContainerMode
   switchContainerMode?: (mode: ContainerMode) => void
-  editable?: boolean
+  disableEditing?: boolean
 }
 
 const SectionContainerContext = React.createContext<

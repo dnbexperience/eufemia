@@ -41,8 +41,8 @@ export const SectionProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
-  editable: {
-    doc: 'If set to `false`, the section will stay in view mode and hide the edit toolbar.',
+  disableEditing: {
+    doc: 'If set to `true`, the section will stay in view mode and hide the edit toolbar.',
     type: 'boolean',
     status: 'optional',
   },

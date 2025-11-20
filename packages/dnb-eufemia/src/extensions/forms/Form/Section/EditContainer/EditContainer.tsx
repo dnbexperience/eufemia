@@ -31,13 +31,13 @@ function EditContainer(props: AllProps) {
     initialContainerMode,
     validateInitially,
     switchContainerMode,
-    editable,
+    disableEditing,
   } = useContext(SectionContainerContext) || {}
   const omitFocusManagementRef = useRef(false)
 
   const onPathError = useCallback(
     (path: Path, error: Error) => {
-      if (!editable) {
+      if (disableEditing) {
         return
       }
       if (
@@ -49,7 +49,12 @@ function EditContainer(props: AllProps) {
         switchContainerMode?.('edit')
       }
     },
-    [containerMode, editable, initialContainerMode, switchContainerMode]
+    [
+      containerMode,
+      disableEditing,
+      initialContainerMode,
+      switchContainerMode,
+    ]
   )
 
   const hasToolbar = React.Children.toArray(children).some((child) => {

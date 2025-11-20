@@ -206,9 +206,9 @@ describe('Form.Section', () => {
     `)
   })
 
-  it('should stay in view mode when editable is false', () => {
+  it('should stay in view mode when disableEditing is true', () => {
     render(
-      <Form.Section editable={false}>
+      <Form.Section disableEditing={true}>
         <Form.Section.ViewContainer>
           View content
         </Form.Section.ViewContainer>

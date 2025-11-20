@@ -21,13 +21,13 @@ export type AllProps = Props & SectionContainerProps & FlexContainerProps
 function ViewContainer(props: AllProps) {
   const { children, className, title, onEdit, ...restProps } = props || {}
   const ariaLabel = useMemo(() => convertJsxToString(title), [title])
-  const { editable } = useContext(SectionContainerContext) || {}
+  const { disableEditing } = useContext(SectionContainerContext) || {}
 
   const hasToolbar = React.Children.toArray(children).some((child) => {
     return child?.['type'] === Toolbar
   })
 
-  const showDefaultToolbar = editable !== false && !hasToolbar
+  const showDefaultToolbar = !disableEditing && !hasToolbar
 
   return (
     <SectionContainer

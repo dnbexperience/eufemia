@@ -51,11 +51,11 @@ export type SectionProps<
    */
   containerMode?: ContainerMode
   /**
-   * Enables editing for the section.
-   * When set to `false`, the section will stay in view mode even if an EditContainer is provided.
-   * Defaults to `true`.
+   * Disables editing for the section.
+   * When set to `true`, the section will stay in view mode even if an EditContainer is provided.
+   * Defaults to `false`.
    */
-  editable?: boolean
+  disableEditing?: boolean
 
   /**
    * Only for internal use and undocumented for now.
@@ -85,7 +85,7 @@ function SectionComponent<overwriteProps = OverwritePropsDefaults>(
     defaultData,
     validateInitially,
     containerMode = 'auto',
-    editable = true,
+    disableEditing = false,
     onChange,
     errorPrioritization = ['contextSchema'],
     children,
@@ -134,7 +134,7 @@ function SectionComponent<overwriteProps = OverwritePropsDefaults>(
       <SectionContainerProvider
         validateInitially={validateInitially}
         containerMode={containerMode}
-        editable={editable}
+        disableEditing={disableEditing}
       >
         <FieldPropsProvider
           overwriteProps={{

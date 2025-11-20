@@ -39,7 +39,7 @@ describe('EditButton', () => {
 
   it('does not render when editing is disabled', () => {
     render(
-      <SectionContainerContext.Provider value={{ editable: false }}>
+      <SectionContainerContext.Provider value={{ disableEditing: true }}>
         <Toolbar>
           <EditButton />
         </Toolbar>
