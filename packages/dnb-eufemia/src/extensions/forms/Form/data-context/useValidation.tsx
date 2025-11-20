@@ -23,18 +23,21 @@ export default function useValidation(
     UseDataReturn & SharedAttachments<unknown>
   >(createReferenceKey(id, 'attachments'))
 
-  const fallback = useCallback(() => false, [])
+  const fallbackFn = useCallback(() => false, [])
+  const fallbackNoOp = useCallback(() => {}, [])
 
   // If no id is provided, use the context version
   const context = useContext(DataContext)
   const hasErrors =
-    data?.hasErrors || (!id && context?.hasErrors) || fallback
+    data?.hasErrors || (!id && context?.hasErrors) || fallbackFn
   const hasFieldError =
-    data?.hasFieldError || (!id && context?.hasFieldError) || fallback
+    data?.hasFieldError || (!id && context?.hasFieldError) || fallbackFn
 
   // Error handling
   const setSubmitState =
-    data?.setSubmitState || (!id && context?.setSubmitState) || fallback
+    data?.setSubmitState ||
+    (!id && context?.setSubmitState) ||
+    fallbackNoOp
   const setFormError = useCallback(
     (error: Error) => {
       setSubmitState?.({ error })
