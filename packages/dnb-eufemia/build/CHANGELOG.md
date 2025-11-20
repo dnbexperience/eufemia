@@ -3,6 +3,31 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.90.0](https://github.com/dnbexperience/eufemia/compare/v10.89.0...v10.90.0) (2025-11-20)
+
+
+### :memo: Documentation
+
+* **Contribution Guide:** add "How to structure components" ([#5922](https://github.com/dnbexperience/eufemia/issues/5922)) ([6187d04](https://github.com/dnbexperience/eufemia/commit/6187d0493e6381246f3ce62fa4fd943e6bbbd8f4))
+
+
+### :bug: Bug Fixes
+
+* **Button:** styling of error state in `variant="tertiary"` ([#5935](https://github.com/dnbexperience/eufemia/issues/5935)) ([443f4d3](https://github.com/dnbexperience/eufemia/commit/443f4d32a6cc29e6cf448b6dabac33c2cfd77273))
+* **DatePicker:** only render border when there's a footer ([#5949](https://github.com/dnbexperience/eufemia/issues/5949)) ([8883874](https://github.com/dnbexperience/eufemia/commit/8883874b8b5060f39a333690d291e95c5fa610ee))
+* **Dialog, Drawer and Modal:** correct usage and documentation about `rootId` and `root_id` ([#5933](https://github.com/dnbexperience/eufemia/issues/5933)) ([a54997f](https://github.com/dnbexperience/eufemia/commit/a54997fcf5e2909d38356017c77ab64752c59ca8))
+* **Field.PostalCodeAndCity:** TypeScript issues for spacing properties ([#5956](https://github.com/dnbexperience/eufemia/issues/5956)) ([7979d29](https://github.com/dnbexperience/eufemia/commit/7979d29a07daad1123fdb5f802577f4a1374f354))
+* **Pagination:** remove usage of findDOMNode ([#5960](https://github.com/dnbexperience/eufemia/issues/5960)) ([b2d1467](https://github.com/dnbexperience/eufemia/commit/b2d14674ede3d6d66796cbbc0148ba48fc6cfc4a))
+* **Value.Number:** TypeScript issues for spacing props ([#5954](https://github.com/dnbexperience/eufemia/issues/5954)) ([2657a36](https://github.com/dnbexperience/eufemia/commit/2657a36dc4325ed997804797f473de587d515879))
+
+
+### :sparkles: Features
+
+* **Forms:** add `disableEditing` to Form.Section ([#5945](https://github.com/dnbexperience/eufemia/issues/5945)) ([df61abc](https://github.com/dnbexperience/eufemia/commit/df61abcc4735020821b5c55391e16c9c5923f4b7))
+* **GlobalStatus:** redesign spacing ([#5946](https://github.com/dnbexperience/eufemia/issues/5946)) ([e08fe7e](https://github.com/dnbexperience/eufemia/commit/e08fe7ed37fcfafdc651290f80399fdd59f1c5dd))
+* **PortalRoot:** allow custom portal root placement with `id`, `beforeSelector`, `insideSelector` and `PortalRoot.Provider` ([#5923](https://github.com/dnbexperience/eufemia/issues/5923)) ([9dd9e66](https://github.com/dnbexperience/eufemia/commit/9dd9e66661018a50956ba28e668ab6fb1d02aa66))
+* **Upload:** add `deleteButtonProps` to `FileItem` ([#5952](https://github.com/dnbexperience/eufemia/issues/5952)) ([88144a3](https://github.com/dnbexperience/eufemia/commit/88144a33ec90ce3ec84c0be860dcca10d1ed454d))
+
 ## [10.89.0](https://github.com/dnbexperience/eufemia/compare/v10.88.0...v10.89.0) (2025-11-05)
 
 
