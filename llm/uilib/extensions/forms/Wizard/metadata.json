@@ -11,7 +11,7 @@
   "source": {
     "repo": "https://github.com/dnbexperience/eufemia",
     "file": "packages/dnb-eufemia/src/extensions/forms/Wizard/index.ts",
-    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.89.0/packages/dnb-eufemia/src/extensions/forms/Wizard/index.ts"
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.90.0/packages/dnb-eufemia/src/extensions/forms/Wizard/index.ts"
   },
   "sources": {
     "entry": {
@@ -28,7 +28,7 @@
       "public": "https://eufemia.dnb.no/uilib/extensions/forms/Wizard/demos/"
     }
   },
-  "version": "10.89.0",
-  "generatedAt": "2025-11-05T14:40:27.150Z",
+  "version": "10.90.0",
+  "generatedAt": "2025-11-20T10:10:05.364Z",
   "schemaVersion": 1
 }

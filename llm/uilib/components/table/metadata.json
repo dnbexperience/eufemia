@@ -208,7 +208,7 @@
   "source": {
     "repo": "https://github.com/dnbexperience/eufemia",
     "file": "packages/dnb-eufemia/src/components/table/Table.tsx",
-    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.89.0/packages/dnb-eufemia/src/components/table/Table.tsx"
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.90.0/packages/dnb-eufemia/src/components/table/Table.tsx"
   },
   "sources": {
     "entry": {
@@ -228,7 +228,7 @@
       "public": "https://eufemia.dnb.no/uilib/components/table/demos/"
     }
   },
-  "version": "10.89.0",
-  "generatedAt": "2025-11-05T14:40:26.610Z",
+  "version": "10.90.0",
+  "generatedAt": "2025-11-20T10:10:04.659Z",
   "schemaVersion": 1
 }

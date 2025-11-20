@@ -11,7 +11,7 @@
   "source": {
     "repo": "https://github.com/dnbexperience/eufemia",
     "file": "packages/dnb-eufemia/src/extensions/forms/Iterate/ItemNo/ItemNo.tsx",
-    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.89.0/packages/dnb-eufemia/src/extensions/forms/Iterate/ItemNo/ItemNo.tsx"
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.90.0/packages/dnb-eufemia/src/extensions/forms/Iterate/ItemNo/ItemNo.tsx"
   },
   "sources": {
     "entry": {
@@ -25,7 +25,7 @@
       "public": "https://eufemia.dnb.no/uilib/extensions/forms/Iterate/ItemNo/demos/"
     }
   },
-  "version": "10.89.0",
-  "generatedAt": "2025-11-05T14:40:26.936Z",
+  "version": "10.90.0",
+  "generatedAt": "2025-11-20T10:10:05.019Z",
   "schemaVersion": 1
 }

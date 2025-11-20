@@ -16,6 +16,27 @@
       "defaultValue": null
     },
     {
+      "name": "id",
+      "doc": "The id attribute for the portal root element.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "insideSelector",
+      "doc": "CSS selector for a container to place the portal root inside. The portal element is inserted as the first child of the matched element.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "beforeSelector",
+      "doc": "CSS selector for a target element; the portal root will be inserted directly before the first matched element.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
       "name": "children",
       "doc": "The content that will be placed in a React Portal.",
       "type": "ReactNode",
@@ -25,11 +46,11 @@
   ],
   "events": [],
   "related": [],
-  "checksum": "f8cc21925df50ae4a1beb040e4f8b8e94336fb2d8e1b91f4befc31e1c69141f2",
+  "checksum": "ce93bddda25ea929c5a3d4e2262ce0f31b7147bd276729b1fc80f52eb36af81b",
   "source": {
     "repo": "https://github.com/dnbexperience/eufemia",
     "file": "packages/dnb-eufemia/src/components/portal-root/PortalRoot.tsx",
-    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.89.0/packages/dnb-eufemia/src/components/portal-root/PortalRoot.tsx"
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.90.0/packages/dnb-eufemia/src/components/portal-root/PortalRoot.tsx"
   },
   "sources": {
     "entry": {
@@ -46,7 +67,7 @@
       "public": "https://eufemia.dnb.no/uilib/components/portal-root/demos/"
     }
   },
-  "version": "10.89.0",
-  "generatedAt": "2025-11-05T14:40:26.407Z",
+  "version": "10.90.0",
+  "generatedAt": "2025-11-20T10:10:04.566Z",
   "schemaVersion": 1
 }

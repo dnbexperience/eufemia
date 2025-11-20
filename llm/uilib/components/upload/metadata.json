@@ -77,6 +77,13 @@
       "defaultValue": null
     },
     {
+      "name": "deleteButtonProps",
+      "doc": "define any valid Eufemia [Button properties](/uilib/components/button/properties) or HTML attribute inside an object.",
+      "type": "ButtonProps",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
       "name": "children",
       "doc": "Content to display below the `title` and `text`. Can be used to add custom content.",
       "type": "React.ReactNode",
@@ -186,11 +193,11 @@
   "related": [
     "Space"
   ],
-  "checksum": "1745a713a3c6c504e6c10dd2a9f690068bfe2d18555ac6d472ee17a05e81643e",
+  "checksum": "2caff1388a40febff9efa9eb75e23847c26c3667ef92a8b85e61b05221d05fcd",
   "source": {
     "repo": "https://github.com/dnbexperience/eufemia",
     "file": "packages/dnb-eufemia/src/components/upload/Upload.tsx",
-    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.89.0/packages/dnb-eufemia/src/components/upload/Upload.tsx"
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.90.0/packages/dnb-eufemia/src/components/upload/Upload.tsx"
   },
   "sources": {
     "entry": {
@@ -210,7 +217,7 @@
       "public": "https://eufemia.dnb.no/uilib/components/upload/demos/"
     }
   },
-  "version": "10.89.0",
-  "generatedAt": "2025-11-05T14:40:26.664Z",
+  "version": "10.90.0",
+  "generatedAt": "2025-11-20T10:10:04.720Z",
   "schemaVersion": 1
 }

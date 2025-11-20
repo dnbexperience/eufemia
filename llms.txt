@@ -3,8 +3,8 @@
 > DNB’s Eufemia design system. This file points LLMs to machine-readable docs and clean Markdown copies.
 
 Index (JSON): https://eufemia.dnb.no/llm/index.json
-Version: 10.89.0
-GeneratedAt: 2025-11-05T14:40:27.331Z
+Version: 10.90.0
+GeneratedAt: 2025-11-20T10:10:05.562Z
 
 ## Components
 
@@ -166,7 +166,7 @@ GeneratedAt: 2025-11-05T14:40:27.331Z
 - [PortalRoot](https://eufemia.dnb.no/uilib/components/portal-root/): PortalRoot is a React component that helps you make React Portals.
   - Metadata: https://eufemia.dnb.no/llm/uilib/components/portal-root/metadata.json
   - Docs: https://eufemia.dnb.no/uilib/components/portal-root/
-  - Checksum: f8cc21925df50ae4a1beb040e4f8b8e94336fb2d8e1b91f4befc31e1c69141f2
+  - Checksum: ce93bddda25ea929c5a3d4e2262ce0f31b7147bd276729b1fc80f52eb36af81b
 
 - [ProgressIndicator](https://eufemia.dnb.no/uilib/components/progress-indicator/): The ProgressIndicator component is a waiting loader / spinner to show while other content is in progression.
   - Metadata: https://eufemia.dnb.no/llm/uilib/components/progress-indicator/metadata.json
@@ -251,7 +251,7 @@ GeneratedAt: 2025-11-05T14:40:27.331Z
 - [Upload](https://eufemia.dnb.no/uilib/components/upload/): The Upload component should be used in scenarios where the user has to upload files. Files can be uploaded by clicking button. You also have the opportunity to add descriptive texts below the title where you could put max file size, allowed file formats etc.
   - Metadata: https://eufemia.dnb.no/llm/uilib/components/upload/metadata.json
   - Docs: https://eufemia.dnb.no/uilib/components/upload/
-  - Checksum: 1745a713a3c6c504e6c10dd2a9f690068bfe2d18555ac6d472ee17a05e81643e
+  - Checksum: 2caff1388a40febff9efa9eb75e23847c26c3667ef92a8b85e61b05221d05fcd
 
 - [VisuallyHidden](https://eufemia.dnb.no/uilib/components/visually-hidden/): VisuallyHidden has all the styles necessary to hide it from visual clients, but keep it for screen readers.
   - Metadata: https://eufemia.dnb.no/llm/uilib/components/visually-hidden/metadata.json
@@ -323,7 +323,7 @@ GeneratedAt: 2025-11-05T14:40:27.331Z
 - [Section](https://eufemia.dnb.no/uilib/extensions/forms/Form/Section/): `Form.Section` lets you compose blocks of fields and values to be reused in different contexts.
   - Metadata: https://eufemia.dnb.no/llm/uilib/extensions/forms/Form/Section/metadata.json
   - Docs: https://eufemia.dnb.no/uilib/extensions/forms/Form/Section/
-  - Checksum: aa5051ea556ea4d6f75208601fd45d3636d7aff31f4633923e59f19685e56409
+  - Checksum: 099ef374b9d9013ce937de4571a9c4b5566eec861dbef9eff707fa2915eef1d2
 
 - [SubHeading](https://eufemia.dnb.no/uilib/extensions/forms/Form/SubHeading/): `Form.SubHeading` is a standardized sub heading for sections, ensuring default layout, spacing etc.
   - Metadata: https://eufemia.dnb.no/llm/uilib/extensions/forms/Form/SubHeading/metadata.json

@@ -88,7 +88,7 @@
   "source": {
     "repo": "https://github.com/dnbexperience/eufemia",
     "file": "packages/dnb-eufemia/src/components/icon/Icon.tsx",
-    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.89.0/packages/dnb-eufemia/src/components/icon/Icon.tsx"
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.90.0/packages/dnb-eufemia/src/components/icon/Icon.tsx"
   },
   "sources": {
     "entry": {
@@ -105,7 +105,7 @@
       "public": "https://eufemia.dnb.no/uilib/components/icon/demos/"
     }
   },
-  "version": "10.89.0",
-  "generatedAt": "2025-11-05T14:40:26.302Z",
+  "version": "10.90.0",
+  "generatedAt": "2025-11-20T10:10:04.445Z",
   "schemaVersion": 1
 }

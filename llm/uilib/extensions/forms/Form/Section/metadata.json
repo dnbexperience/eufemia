@@ -62,6 +62,13 @@
       "defaultValue": null
     },
     {
+      "name": "disableEditing",
+      "doc": "If set to `true`, the section will stay in view mode and hide the edit toolbar.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
       "name": "children",
       "doc": "All the fields and values inside the section.",
       "type": "React.Node",
@@ -79,11 +86,11 @@
     }
   ],
   "related": [],
-  "checksum": "aa5051ea556ea4d6f75208601fd45d3636d7aff31f4633923e59f19685e56409",
+  "checksum": "099ef374b9d9013ce937de4571a9c4b5566eec861dbef9eff707fa2915eef1d2",
   "source": {
     "repo": "https://github.com/dnbexperience/eufemia",
     "file": "packages/dnb-eufemia/src/extensions/forms/Form/Section/Section.tsx",
-    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.89.0/packages/dnb-eufemia/src/extensions/forms/Form/Section/Section.tsx"
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.90.0/packages/dnb-eufemia/src/extensions/forms/Form/Section/Section.tsx"
   },
   "sources": {
     "entry": {
@@ -103,7 +110,7 @@
       "public": "https://eufemia.dnb.no/uilib/extensions/forms/Form/Section/demos/"
     }
   },
-  "version": "10.89.0",
-  "generatedAt": "2025-11-05T14:40:26.843Z",
+  "version": "10.90.0",
+  "generatedAt": "2025-11-20T10:10:04.927Z",
   "schemaVersion": 1
 }
