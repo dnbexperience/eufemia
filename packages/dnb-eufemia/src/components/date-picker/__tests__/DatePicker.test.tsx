@@ -1375,6 +1375,18 @@ describe('DatePicker component', () => {
     await test(year)
   })
 
+  it('forces replace overwrite mode for inline inputs', () => {
+    const optionsEnhancer = jest.fn((options) => options)
+    render(<DatePicker showInput {...({ optionsEnhancer } as any)} />)
+
+    expect(optionsEnhancer).toHaveBeenCalled()
+    expect(
+      optionsEnhancer.mock.calls.every(
+        ([options]) => options?.overwriteMode === 'replace'
+      )
+    ).toBe(true)
+  })
+
   it('omits input shell class when omitInputShellClass is true', () => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error - Testing deprecated omitInputShellClass prop

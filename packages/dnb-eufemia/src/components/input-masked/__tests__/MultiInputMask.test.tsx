@@ -7,6 +7,7 @@ import React from 'react'
 import { fireEvent, render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as helpers from '../../../shared/helpers'
+import type { MaskitoOptions } from '@maskito/core'
 import MultiInputMask, {
   MultiInputMaskInput,
   MultiInputMaskProps,
@@ -44,6 +45,25 @@ describe('MultiInputMask', () => {
       clearTimeout(id)
       return id
     })
+  })
+
+  it('passes overwriteMode down to TextMask', () => {
+    let capturedOptions: MaskitoOptions | null = null
+    const enhancer = jest.fn((options) => {
+      capturedOptions = options
+      return options
+    })
+
+    render(
+      <MultiInputMask
+        {...defaultProps}
+        overwriteMode="replace"
+        optionsEnhancer={enhancer}
+      />
+    )
+
+    expect(enhancer).toHaveBeenCalled()
+    expect(capturedOptions?.overwriteMode).toBe('replace')
   })
 
   it('should update input values when typing', async () => {
@@ -1116,5 +1136,4 @@ describe('MultiInputMask', () => {
     expect(day.selectionStart).toBe(0)
     expect(day.selectionEnd).toBe(0)
   })
-
 })

@@ -7,6 +7,7 @@ import React from 'react'
 import { loadScss, wait } from '../../../core/jest/jestSetup'
 import { render, fireEvent, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import type { MaskitoOptions } from '@maskito/core'
 import InputMasked, { InputMaskedProps } from '../InputMasked'
 import Provider from '../../../shared/Provider'
 import * as helpers from '../../../shared/helpers'
@@ -65,6 +66,25 @@ describe('InputMasked component', () => {
     expect(ref.current instanceof HTMLInputElement).toBe(true)
     expect(ref.current.id).toBe(props.id)
     expect(ref.current.tagName).toBe('INPUT')
+  })
+
+  it('forwards overwriteMode to Maskito options', () => {
+    let capturedOptions: MaskitoOptions | null = null
+    const enhancer = (options: MaskitoOptions | null) => {
+      capturedOptions = options
+      return options
+    }
+
+    render(
+      <InputMasked
+        mask={[/\d/, /\d/]}
+        value="12"
+        overwriteMode="replace"
+        optionsEnhancer={enhancer}
+      />
+    )
+
+    expect(capturedOptions?.overwriteMode).toBe('replace')
   })
 
   it('event "onChange" gets emitted with correct value #1', async () => {

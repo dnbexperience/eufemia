@@ -57,6 +57,11 @@ export type MultiInputMaskProps<T extends string> = {
    */
   values?: MultiInputMaskValue<T>
   /**
+   * Controls how Maskito handles typing over existing characters.
+   * `shift` (default) moves to the next slot, while `replace` keeps the caret in place while overwriting.
+   */
+  overwriteMode?: MaskitoOptions['overwriteMode']
+  /**
    * Defines the delimiter used to separate the inputs inside the component.
    */
   delimiter?: string
@@ -129,6 +134,7 @@ function MultiInputMask<T extends string>(props: MultiInputMaskProps<T>) {
     suffix,
     onBlur,
     onFocus,
+    overwriteMode,
     ...rest
   } = props
 
@@ -453,6 +459,7 @@ function MultiInputMaskInput<T extends string>({
         showMask={true}
         optionsEnhancer={optionsEnhancer}
         ghostPlaceholder={ghost || undefined}
+        overwriteMode="replace"
         stripValue={stripValue}
         aria-label={label}
         inputRef={inputRefObj}

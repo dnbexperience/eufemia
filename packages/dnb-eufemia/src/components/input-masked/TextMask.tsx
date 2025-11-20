@@ -45,6 +45,7 @@ export interface TextMaskProps
   // Optional: strip display value (e.g., remove ghost chars) before bubbling
   stripValue?: (displayValue: string) => string
   allowOverflow?: boolean
+  overwriteMode?: MaskitoOptions['overwriteMode']
 }
 
 export default function TextMask(props: TextMaskProps): JSX.Element {
@@ -58,6 +59,7 @@ export default function TextMask(props: TextMaskProps): JSX.Element {
     ghostPlaceholder,
     stripValue,
     allowOverflow,
+    overwriteMode,
     ...rest
   } = props
 
@@ -94,12 +96,16 @@ export default function TextMask(props: TextMaskProps): JSX.Element {
       ? withOverflowSupport(mask)
       : mask
 
-    return { mask: overflowAwareMask }
+    return {
+      mask: overflowAwareMask,
+      ...(overwriteMode != null ? { overwriteMode } : {}),
+    }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     rawMask,
     allowOverflow,
+    overwriteMode,
 
     // Include all properties that affect mask behavior
     maskParams?.thousandsSeparatorSymbol,

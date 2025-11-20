@@ -51,6 +51,11 @@ export const inputMaskedProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  overwriteMode: {
+    doc: 'Control how overwriting characters is handled; `shift` (default) moves to the next slot while `replace` stays on the current slot.',
+    type: ['string', 'function'],
+    status: 'optional',
+  },
   showMask: {
     doc: 'Show mask when input is empty and has no focus. Defaults to `false`.',
     type: 'boolean',
