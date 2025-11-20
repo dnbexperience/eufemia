@@ -11,9 +11,16 @@ import {
   IncludeCamelCase,
   convertCamelCasePropsToSnakeCase,
 } from '../../../../shared/helpers/withCamelCaseProps'
+import { SpacingProps } from '../../../../shared/types'
 
 export type Props = Omit<ValueProps<number>, 'defaultValue'> &
-  IncludeCamelCase<NumberFormatProps> &
+  IncludeCamelCase<
+    Omit<
+      NumberFormatProps,
+      keyof SpacingProps
+      // spacing props is handled by ValueBlock
+    >
+  > &
   Partial<{
     defaultValue?: number | string
     minimum?: number
