@@ -101,10 +101,13 @@ export type NumberFormatProps = {
   // Additional props used in stories
   style?: React.CSSProperties
   lang?: string
-} & SpacingProps
+}
 export type NumberFormatAllProps = NumberFormatProps &
-  Omit<React.HTMLProps<HTMLElement>, 'prefix' | 'label' | 'placeholder'> &
-  any
+  Omit<
+    React.HTMLProps<HTMLElement>,
+    'prefix' | 'label' | 'placeholder' | 'children'
+  > &
+  SpacingProps
 
 export default class NumberFormat extends React.PureComponent<NumberFormatAllProps> {
   static contextType = Context
