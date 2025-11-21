@@ -339,11 +339,7 @@ export default class Tabs extends React.PureComponent<TabsProps> {
 
   static getData(props) {
     const addReactElement = (list, reactElem, reactElemIndex) => {
-      if (
-        reactElem &&
-        reactElem.props &&
-        reactElem.props.displayName === 'CustomContent' // we use this solution, as Component.displayName
-      ) {
+      if (reactElem && reactElem.type === CustomContent) {
         // tabs data from main prop
         const dataProps =
           (props.children &&
