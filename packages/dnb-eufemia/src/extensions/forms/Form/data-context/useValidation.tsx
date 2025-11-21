@@ -24,6 +24,7 @@ export default function useValidation(
   >(createReferenceKey(id, 'attachments'))
 
   const fallbackFn = useCallback(() => false, [])
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   const fallbackNoOp = useCallback(() => {}, [])
 
   // If no id is provided, use the context version
