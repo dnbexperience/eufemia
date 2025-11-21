@@ -28,7 +28,6 @@ import Suffix from '../../shared/helpers/Suffix'
 import useId from '../../shared/helpers/useId'
 import type { SpacingProps } from '../space/types'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
-import { convertSnakeCaseProps } from '../../shared/helpers/withSnakeCaseProps'
 
 import type {
   FormStatusProps,
@@ -140,7 +139,7 @@ function Checkbox(localProps: CheckboxProps) {
 
   const extractPropsFromContext = useCallback(() => {
     return extendPropsWithContext(
-      convertSnakeCaseProps(localProps),
+      localProps,
       defaultProps,
       context.Checkbox,
       {
