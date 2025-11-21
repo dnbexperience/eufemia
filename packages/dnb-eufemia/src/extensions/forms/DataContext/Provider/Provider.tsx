@@ -36,6 +36,7 @@ import type { IsolationProviderProps } from '../../Form/Isolation/Isolation'
 import { debounce, warn } from '../../../../shared/helpers'
 import FieldPropsProvider from '../../Field/Provider'
 import useUpdateEffect from '../../../../shared/helpers/useUpdateEffect'
+import GlobalStatusProvider from '../../../../components/global-status/GlobalStatusProvider'
 import { isAsync } from '../../../../shared/helpers/isAsync'
 import {
   SharedStateId,
@@ -62,7 +63,6 @@ import DataContext, {
  * So its a question of time, when we will remove this polyfill
  */
 import structuredClone from '@ungap/structured-clone'
-import GlobalStatusProvider from '../../../../components/global-status/GlobalStatusProvider'
 
 // SSR warning fix: https://gist.github.com/gaearon/e7d97cdf38a2907924ea12e4ebdf3c85
 const useLayoutEffect =
