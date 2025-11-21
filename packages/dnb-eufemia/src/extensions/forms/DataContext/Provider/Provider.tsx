@@ -1585,7 +1585,9 @@ export default function Provider<Data extends JsonObject>(
     sharedDataContext.set(contextValue)
   }
 
-  const globalStatus = GlobalStatusProvider.init(globalStatusId)
+  const globalStatus = globalStatusId
+    ? GlobalStatusProvider.init(globalStatusId)
+    : null
 
   return (
     <DataContext.Provider value={contextValue}>
