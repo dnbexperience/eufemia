@@ -172,7 +172,7 @@ describe('PortalRoot', () => {
               data-scope-hash="auto"
             >
               <div
-                class="dnb-core-style"
+                class="dnb-core-style eufemia-portal-root"
               >
                 <div
                   data-testid="portal-content"
@@ -409,28 +409,28 @@ describe('PortalRoot', () => {
 
       // Snapshot test of the entire body to verify structure
       expect(document.body).toMatchInlineSnapshot(`
-          <body>
+        <body>
+          <div
+            id="eufemia-portal-root"
+            role="presentation"
+          >
             <div
-              id="eufemia-portal-root"
-              role="presentation"
+              class="eufemia-scope--default"
+              data-scope-hash="auto"
             >
               <div
-                class="eufemia-scope--default"
-                data-scope-hash="auto"
+                class="dnb-core-style eufemia-portal-root"
               >
                 <div
-                  class="dnb-core-style"
+                  data-testid="portal-content"
                 >
-                  <div
-                    data-testid="portal-content"
-                  >
-                    Portal Content
-                  </div>
+                  Portal Content
                 </div>
               </div>
             </div>
-            <div />
-          </body>
+          </div>
+          <div />
+        </body>
       `)
     })
 
@@ -486,7 +486,7 @@ describe('PortalRoot', () => {
               data-scope-hash="custom-scope"
             >
               <div
-                class="dnb-core-style"
+                class="dnb-core-style eufemia-portal-root"
               >
                 <div
                   data-testid="portal-content"
@@ -630,7 +630,7 @@ describe('PortalRoot', () => {
                 data-scope-hash="custom-scope"
               >
                 <div
-                  class="dnb-core-style"
+                  class="dnb-core-style eufemia-portal-root"
                 >
                   <div
                     data-testid="portal-content"
