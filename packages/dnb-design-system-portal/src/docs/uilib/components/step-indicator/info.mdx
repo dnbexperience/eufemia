@@ -58,12 +58,3 @@ const steps = [
 ```
 
 More details about modifying steps in the [properties panel](/uilib/components/step-indicator/properties#steps-parameters).
-
-## Redesign in version 10.72.0
-
-The StepIndicator has been majorly redesigned. In general it should still work with the same code. But any customization to the style or selection of elements could cause issues.
-
-- The sidebar has been removed. The component still exists to avoid breaking changes, but it will just add an invisible div.
-- Removing the sidebar means the list of steps is not visible initially. Since this was always the case on small screens, it hopefully won't cause many issues.
-- The new property `expandedInitially` allows you to start with the list of steps visible.
-- The `sidebar_id` property no longer adds anything as we no longer have a sidebar. But if you need an id for other purposes, use the `id` property.
