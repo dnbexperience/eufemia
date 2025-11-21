@@ -62,6 +62,7 @@ import DataContext, {
  * So its a question of time, when we will remove this polyfill
  */
 import structuredClone from '@ungap/structured-clone'
+import GlobalStatusProvider from '../../../../components/global-status/GlobalStatusProvider'
 
 // SSR warning fix: https://gist.github.com/gaearon/e7d97cdf38a2907924ea12e4ebdf3c85
 const useLayoutEffect =
@@ -1584,6 +1585,8 @@ export default function Provider<Data extends JsonObject>(
     sharedDataContext.set(contextValue)
   }
 
+  const globalStatus = GlobalStatusProvider.init(globalStatusId)
+
   return (
     <DataContext.Provider value={contextValue}>
       <FieldPropsProvider
@@ -1592,7 +1595,9 @@ export default function Provider<Data extends JsonObject>(
             ? {
                 globalStatus: {
                   id: globalStatusId,
-                  title: translation.errorSummaryTitle,
+                  title:
+                    globalStatus?.stack[0]?.title ??
+                    translation.errorSummaryTitle,
                   show: Boolean(showAllErrorsRef.current),
                 },
               }
