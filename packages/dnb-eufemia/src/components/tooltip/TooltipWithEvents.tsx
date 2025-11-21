@@ -9,18 +9,13 @@ import React, {
   useCallback,
   useContext,
   useEffect,
-  useLayoutEffect,
   useMemo,
   useRef,
   useState,
 } from 'react'
 import classnames from 'classnames'
 import { combineDescribedBy, warn } from '../../shared/component-helper'
-import {
-  injectTooltipSemantic,
-  isTouch,
-  useHandleAria,
-} from './TooltipHelpers'
+import { injectTooltipSemantic, isTouch } from './TooltipHelpers'
 import Popover, { getRefElement } from '../popover/Popover'
 import { TooltipProps } from './types'
 import { TooltipContext } from './TooltipContext'
@@ -54,14 +49,11 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
 
   const [isActive, setIsActive] = useState(active)
   const [isNotSemanticElement, setIsNotSemanticElement] = useState(false)
-  const [targetElementNode, setTargetElementNode] =
-    useState<HTMLElement | null>(null)
   const [isOverlayHovered, setOverlayHovered] = useState(false)
 
   const delayTimeout = useRef<NodeJS.Timeout>()
   const overlayDelayTimeout = useRef<NodeJS.Timeout>()
   const cloneRef = useRef<HTMLElement>()
-  const targetRef = useRef<HTMLElement>()
 
   const clearTimers = () => {
     clearTimeout(delayTimeout.current)
@@ -231,45 +223,47 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
     target,
   ])
 
-  useHandleAria(targetElementNode)
-
-  const updateTargetElement = useCallback(
-    (element: HTMLElement | null) => {
-      if (targetRef.current === element) {
-        return
-      }
-      targetRef.current = element
-      setTargetElementNode(element)
-    },
-    []
-  )
-
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (!target) {
-      updateTargetElement(null)
-      return
+      return () => clearTimers()
     }
 
-    if (isValidElement(target)) {
-      updateTargetElement(getRefElement(cloneRef))
-      return
+    const element = getRefElement(cloneRef)
+
+    if (!element || isControlled) {
+      return () => clearTimers()
     }
 
-    updateTargetElement(getRefElement(target as HTMLElement))
-  }, [target, updateTargetElement])
-
-  useLayoutEffect(() => {
-    if (targetElementNode && !isControlled) {
-      addEvents(targetElementNode)
-    }
+    addEvents(element)
 
     return () => {
       clearTimers()
-      if (targetElementNode) {
-        removeEvents(targetElementNode)
-      }
+      removeEvents(element)
     }
-  }, [addEvents, isControlled, removeEvents, targetElementNode])
+  }, [addEvents, removeEvents, isControlled, target])
+
+  useEffect(() => {
+    if (!target || omitDescribedBy) {
+      return
+    }
+
+    const targetElement = getRefElement(cloneRef)
+    if (!targetElement) {
+      return
+    }
+
+    try {
+      const existing = {
+        'aria-describedby': targetElement.getAttribute('aria-describedby'),
+      }
+      targetElement.setAttribute(
+        'aria-describedby',
+        combineDescribedBy(existing, internalId)
+      )
+    } catch (error) {
+      warn(error)
+    }
+  }, [internalId, omitDescribedBy, target])
 
   useEffect(() => {
     if (isControlled) {
@@ -330,7 +324,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
         {...(restAttributes as React.HTMLAttributes<HTMLElement>)}
         id={internalId}
         open={overlayActive}
-        targetElement={targetElementNode || undefined}
+        targetElement={cloneRef}
         hideDelay={hideDelay}
         skipPortal={skipPortal}
         keepInDOM={keepInDOM}
