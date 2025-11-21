@@ -75,6 +75,7 @@ import Logo from './components/logo/Logo'
 import Modal from './components/modal/Modal'
 import NumberFormat from './components/number-format/NumberFormat'
 import Pagination from './components/pagination/Pagination'
+import Popover from './components/popover/Popover'
 import PortalRoot from './components/portal-root/PortalRoot'
 import ProgressIndicator from './components/progress-indicator/ProgressIndicator'
 import Radio from './components/radio/Radio'
@@ -162,6 +163,7 @@ export {
   Modal,
   NumberFormat,
   Pagination,
+  Popover,
   PortalRoot,
   ProgressIndicator,
   Radio,

@@ -48,6 +48,7 @@ import Logo from './logo/Logo'
 import Modal from './modal/Modal'
 import NumberFormat from './number-format/NumberFormat'
 import Pagination from './pagination/Pagination'
+import Popover from './popover/Popover'
 import PortalRoot from './portal-root/PortalRoot'
 import ProgressIndicator from './progress-indicator/ProgressIndicator'
 import Radio from './radio/Radio'
@@ -108,6 +109,7 @@ export {
   Modal,
   NumberFormat,
   Pagination,
+  Popover,
   PortalRoot,
   ProgressIndicator,
   Radio,
@@ -169,6 +171,7 @@ export const getComponents = () => {
     Modal,
     NumberFormat,
     Pagination,
+    Popover,
     PortalRoot,
     ProgressIndicator,
     Radio,

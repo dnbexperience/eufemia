@@ -1,0 +1,213 @@
+@import '../../../style/core/utilities.scss';
+
+:root {
+  --popover-z-index: 1000;
+}
+
+.dnb-popover {
+  --inner-space: 0.5rem;
+  --popover-border-radius: 0.25rem;
+
+  position: absolute;
+  z-index: var(--popover-z-index);
+  .dnb-popover--inside-modal & {
+    z-index: calc(var(--modal-z-index) + var(--popover-z-index));
+  }
+
+  display: flex;
+
+  padding: 0 calc(var(--inner-space) * 2);
+
+  &--no-inner-space {
+    padding: 0;
+  }
+
+  color: var(--popover-text-color);
+
+  background-color: var(--popover-background-color);
+  border-radius: var(--popover-border-radius);
+
+  @include sharpDropShadow();
+
+  &--show-outline#{&}::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: var(--popover-border-radius);
+    box-shadow: 0 0 0 1px var(--popover-outline-color);
+  }
+
+  opacity: 0;
+  visibility: hidden;
+
+  transition: opacity 200ms var(--easing-default);
+
+  &--active {
+    visibility: visible;
+    animation: show-popover 200ms var(--easing-default) forwards;
+  }
+
+  html[data-visual-test] &--active,
+  &--active#{&}--no-animation {
+    animation: show-popover 1ms var(--easing-default) forwards;
+  }
+
+  &--hide {
+    visibility: visible;
+    animation: hide-popover 200ms var(--easing-default) forwards;
+  }
+  &--hide#{&}--no-animation {
+    animation: hide-popover 1ms linear forwards;
+  }
+
+  &--fixed {
+    position: fixed;
+  }
+
+  html[data-visual-test] &--hide {
+    animation: hide-popover 1ms linear 1s forwards;
+  }
+
+  &__portal {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
+
+  &__content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+
+    max-width: calc(var(--prose-max-width) - 64px);
+    padding: calc(var(--inner-space) * 2) 0 calc(var(--inner-space) * 3);
+  }
+  &--no-max-width &__content {
+    max-width: none;
+  }
+  &--no-inner-space &__content {
+    padding: 0;
+  }
+
+  &__portal & {
+    // To prevent getting on the edge of the screen.
+    // Use px values to ensure content does not get squeezed when font-size increases.
+    margin: 0 16px;
+  }
+
+  &__title {
+    display: flex;
+    padding-right: 2rem; // space for close button
+
+    strong,
+    .dnb-core-style & strong {
+      font-weight: var(--font-weight-medium);
+      color: inherit;
+    }
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    &:not(:first-child) {
+      margin-top: var(--inner-space);
+    }
+  }
+
+  &__arrow {
+    position: absolute;
+    pointer-events: none;
+
+    margin: 0;
+
+    width: 1rem;
+    height: 0.5rem;
+
+    overflow: hidden;
+
+    &::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+
+      width: 1rem;
+      height: 1rem;
+      background-color: var(--popover-background-color);
+
+      border: none;
+
+      transform: translateY(70%) rotate(45deg);
+    }
+
+    .dnb-popover--show-outline &::before {
+      box-shadow: 0 0 0 1px var(--popover-outline-color);
+    }
+
+    &__position--bottom {
+      top: -0.5rem;
+    }
+
+    &__position--top {
+      bottom: -0.5rem;
+      transform: rotate(180deg);
+    }
+
+    &__position--left {
+      right: -0.75rem;
+      margin-right: 3px;
+      transform: rotate(90deg);
+    }
+
+    &__position--right {
+      left: -0.75rem;
+      margin-left: 3px;
+      transform: rotate(270deg);
+    }
+
+    &__arrow--left {
+      align-self: flex-start;
+    }
+
+    &__arrow--right {
+      align-self: flex-end;
+    }
+  }
+
+  &__close.dnb-button {
+    position: absolute;
+    top: var(--inner-space);
+    right: var(--inner-space);
+    color: inherit;
+
+    &:hover,
+    &:focus-visible {
+      opacity: 0.7;
+    }
+  }
+}
+
+@keyframes show-popover {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes hide-popover {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
