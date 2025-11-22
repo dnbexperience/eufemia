@@ -28,6 +28,7 @@ import {
   DrawerListGroupTitles,
 } from '../../../fragments/drawer-list'
 import { Provider } from '../../../shared'
+import Dialog from '../../dialog/Dialog'
 import locales from '../../../shared/locales/nb-NO'
 
 const nbNO = locales['nb-NO'].DrawerList
@@ -106,6 +107,37 @@ describe('Autocomplete component', () => {
     const input = document.querySelector('input')
 
     expect(input).toHaveAttribute('autocomplete', 'language')
+  })
+
+  it('keeps dialog open when Escape is pressed inside the autocomplete input', async () => {
+    render(
+      <Dialog noAnimation openState title="Dialog">
+        <Autocomplete {...mockProps} opened data={mockData} no_animation />
+      </Dialog>
+    )
+
+    const input = document.querySelector('input') as HTMLInputElement
+    input.focus()
+
+    await userEvent.keyboard('{Escape}')
+
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-drawer-list__options')
+      ).not.toBeInTheDocument()
+    })
+
+    expect(document.documentElement).toHaveAttribute(
+      'data-dnb-modal-active'
+    )
+
+    await userEvent.keyboard('{Escape}')
+
+    expect(document.documentElement).not.toHaveAttribute(
+      'data-dnb-modal-active'
+    )
+
+    document.body.removeAttribute('style')
   })
 
   it('has correct options after filter', () => {
