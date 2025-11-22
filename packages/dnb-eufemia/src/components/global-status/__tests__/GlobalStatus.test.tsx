@@ -545,6 +545,53 @@ describe('GlobalStatus component', () => {
     expect(on_close).toHaveBeenCalledTimes(1)
   })
 
+  it('have to close when escape key name is pressed', async () => {
+    const on_close = jest.fn()
+    const on_hide = jest.fn()
+
+    const ToggleStatus = () => {
+      const [status, setStatus] = React.useState(null)
+
+      return (
+        <Switch
+          id="switch-escape-key"
+          status={status}
+          status_no_animation={true}
+          globalStatus={{ id: 'escape-name-test' }}
+          on_change={({ checked }) => {
+            setStatus(checked ? 'error-message' : null)
+          }}
+        />
+      )
+    }
+
+    render(
+      <>
+        <GlobalStatus
+          id="escape-name-test"
+          autoscroll={false}
+          on_hide={on_hide}
+          on_close={on_close}
+        />
+        <ToggleStatus />
+      </>
+    )
+
+    fireEvent.click(document.querySelector('input#switch-escape-key'))
+
+    await refresh()
+
+    expect(on_close).toHaveBeenCalledTimes(0)
+
+    keydownWithKeyName('Escape')
+
+    expect(on_hide).toHaveBeenCalledTimes(1)
+
+    simulateAnimationEnd()
+
+    expect(on_close).toHaveBeenCalledTimes(1)
+  })
+
   it('have to have height of auto value', async () => {
     const ToggleStatus = () => {
       const [status, setStatus] = React.useState(null)
@@ -632,21 +679,10 @@ describe('GlobalStatus component', () => {
   })
 
   it('should generate item_id form React Element', async () => {
-    const StatusComponent = ({
-      children,
-      inner_ref,
-    }: {
-      children?: any
-      inner_ref?: any
-    }) => {
-      return children
-    }
-
-    const StatusAsComponent = React.forwardRef(
-      (props: { children: React.ReactNode }, ref) => {
-        return <StatusComponent {...props} inner_ref={ref} />
-      }
-    )
+    const StatusAsComponent = React.forwardRef<
+      HTMLSpanElement,
+      React.PropsWithChildren<unknown>
+    >(({ children }, ref) => <span ref={ref}>{children}</span>)
 
     render(<GlobalStatus autoscroll={false} id="custom-status-element" />)
 
@@ -675,6 +711,7 @@ describe('GlobalStatus component', () => {
         status_anchor_url: true,
       },
     })
+
     await waitFor(() => {
       expect(
         document.querySelector('div.dnb-global-status__message')
@@ -979,5 +1016,16 @@ const keydown = (keyCode) => {
     {
       keyCode,
     }
+  )
+}
+
+const keydownWithKeyName = (key: string) => {
+  const eventInit = { key }
+
+  document.dispatchEvent(new KeyboardEvent('keydown', eventInit))
+
+  fireEvent.keyDown(
+    document.querySelector('.dnb-global-status__wrapper'),
+    eventInit
   )
 }

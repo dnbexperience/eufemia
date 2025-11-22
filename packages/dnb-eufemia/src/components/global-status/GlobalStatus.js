@@ -301,6 +301,7 @@ export default class GlobalStatus extends React.PureComponent {
 
   onKeyDownHandler = (e) => {
     switch (keycode(e)) {
+      case 'escape':
       case 'esc':
         e.preventDefault()
         this.closeHandler()
@@ -673,12 +674,7 @@ export default class GlobalStatus extends React.PureComponent {
             </div>
             {hasContent && (
               <div className="dnb-global-status__message">
-                <div
-                  className={classnames(
-                    'dnb-global-status__message__content',
-                    !renderedItems && 'dnb-space__bottom--small'
-                  )}
-                >
+                <div className="dnb-global-status__message__content">
                   {typeof contentToRender === 'string' ? (
                     <p className="dnb-p">{contentToRender}</p>
                   ) : (
