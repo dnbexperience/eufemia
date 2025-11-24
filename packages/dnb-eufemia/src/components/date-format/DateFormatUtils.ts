@@ -431,3 +431,17 @@ export function isValidDuration(durationString: string): boolean {
     seconds !== undefined
   )
 }
+
+export function getOsloDateISO(date: Date = new Date()): string {
+  const OSLO_TIMEZONE = 'Europe/Oslo'
+
+  // en-CA matches the ISO date format yyyy-MM-dd
+  const osloDateFormatter = new Intl.DateTimeFormat('en-CA', {
+    timeZone: OSLO_TIMEZONE,
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  })
+
+  return osloDateFormatter.format(date)
+}
