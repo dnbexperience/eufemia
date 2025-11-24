@@ -851,7 +851,11 @@ export function OpenStateInReactV19() {
   }
 
   return (
+<<<<<<< Updated upstream
     <>
+=======
+    <React.StrictMode>
+>>>>>>> Stashed changes
       openState: {isOpen.toString()}
       <Dialog
         triggerAttributes={{ text: 'Open dialog' }}
@@ -863,6 +867,10 @@ export function OpenStateInReactV19() {
       >
         Dialog
       </Dialog>
+<<<<<<< Updated upstream
     </>
+=======
+    </React.StrictMode>
+>>>>>>> Stashed changes
   )
 }
