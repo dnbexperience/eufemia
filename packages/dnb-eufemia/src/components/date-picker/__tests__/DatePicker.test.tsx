@@ -4,15 +4,17 @@
  */
 
 import React, { StrictMode, useState } from 'react'
-import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
+import { fireEvent, render, waitFor, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import * as helpers from '../../../shared/helpers'
+import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
+import {
+  addDays,
+  addMonths,
+  getDaysInMonth,
+  isWeekend,
+  isSameDay,
+} from 'date-fns'
 import DatePicker, { DatePickerAllProps } from '../DatePicker'
-
-jest.setTimeout(30e3)
-
-import { addDays, addMonths, getDaysInMonth, isWeekend } from 'date-fns'
-
 import {
   toRange,
   dayOffset,
@@ -21,12 +23,15 @@ import {
   getCalendar,
   makeDayObject,
 } from '../DatePickerCalc'
-import { fireEvent, render, waitFor, screen } from '@testing-library/react'
+import Input from '../../Input'
+import Button from '../../Button'
 import { Provider } from '../../../shared'
-import Input from '../../input/Input'
 import svSE from '../../../shared/locales/sv-SE'
 import daDK from '../../../shared/locales/da-DK'
-import Button from '../../Button'
+import * as helpers from '../../../shared/helpers'
+import { getOsloDate } from '../../date-format/DateFormatUtils'
+
+jest.setTimeout(30e3)
 
 describe('DatePicker component', () => {
   it('renders with props as an object', () => {
@@ -731,6 +736,46 @@ describe('DatePicker component', () => {
     expect(singleLabel).toBe('lørdag 12. januar 2019')
     expect(singleButton).toHaveAttribute('disabled')
     expect(singleTd.classList).toContain(customClassName)
+  })
+
+  it('will render the result of "onDaysRender" using getOsloDate', () => {
+    const osloDate = getOsloDate()
+
+    const onDaysRender = jest.fn((days) => {
+      return days.map((dayObject) => {
+        dayObject.isToday = isSameDay(dayObject.date, osloDate)
+        return dayObject
+      })
+    })
+
+    render(
+      <DatePicker
+        noAnimation
+        showInput
+        date={osloDate}
+        onDaysRender={onDaysRender}
+      />
+    )
+
+    fireEvent.click(
+      document.querySelector('button.dnb-input__submit-button__button')
+    )
+
+    expect(
+      document.querySelector('.dnb-date-picker').getAttribute('class')
+    ).toContain('dnb-date-picker--opened')
+
+    expect(onDaysRender).toHaveBeenCalledTimes(1)
+
+    const tds = document.querySelectorAll('td.dnb-date-picker__day--today')
+    expect(tds).toHaveLength(1)
+
+    const todayTd = Array.from(tds).at(0)
+    expect(todayTd).toBeTruthy()
+    expect(todayTd.classList).toContain('dnb-date-picker__day--today')
+
+    const todayButton = todayTd.querySelector('button')
+    expect(todayButton.textContent).toBe(String(osloDate.getDate()))
   })
 
   it('has to work with shortcuts', () => {
