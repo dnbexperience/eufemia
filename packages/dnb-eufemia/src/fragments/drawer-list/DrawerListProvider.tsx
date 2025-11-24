@@ -886,7 +886,6 @@ export default class DrawerListProvider extends React.PureComponent<
           this.setHidden({ event: e })
           e.preventDefault()
           e.stopPropagation() // To make Modal/Dialog/Drawer not close as well
-          e.stopImmediatePropagation?.() // To make Modal/Dialog/Drawer not close as well
         }
         break
 
