@@ -202,17 +202,13 @@ describe('Field.Upload', () => {
       const file1 = createMockFile('fileName-1.png', 100, 'image/png')
       const file2 = createMockFile('fileName-2.png', 100, 'image/png')
 
-      await waitFor(() =>
-        fireEvent.drop(element, {
-          dataTransfer: { files: [file1, file2] },
-        })
-      )
+      fireEvent.drop(element, {
+        dataTransfer: { files: [file1, file2] },
+      })
 
-      await waitFor(() =>
-        fireEvent.drop(element, {
-          dataTransfer: { files: [file2, file2] },
-        })
-      )
+      fireEvent.drop(element, {
+        dataTransfer: { files: [file2, file2] },
+      })
 
       fireEvent.submit(document.querySelector('form'))
 
@@ -261,11 +257,9 @@ describe('Field.Upload', () => {
         'image/png'
       )
 
-      await waitFor(() =>
-        fireEvent.drop(element, {
-          dataTransfer: { files: [file1, file2] },
-        })
-      )
+      fireEvent.drop(element, {
+        dataTransfer: { files: [file1, file2] },
+      })
 
       expect(onChangeContext).toHaveBeenCalledTimes(1)
       expect(onChangeContext).toHaveBeenLastCalledWith(
@@ -364,13 +358,11 @@ describe('Field.Upload', () => {
       const element = getRootElement()
       const file1 = createMockFile('fileName-1.png', 100, 'image/png')
 
-      await waitFor(() =>
-        fireEvent.drop(element, {
-          dataTransfer: {
-            files: [file1],
-          },
-        })
-      )
+      fireEvent.drop(element, {
+        dataTransfer: {
+          files: [file1],
+        },
+      })
 
       expect(onChange).toHaveBeenCalledTimes(1)
       expect(onChange).toHaveBeenLastCalledWith(
@@ -410,13 +402,11 @@ describe('Field.Upload', () => {
       expect(onChange).toHaveBeenCalledTimes(2)
       expect(onSubmit).toHaveBeenCalledTimes(0)
 
-      await waitFor(() =>
-        fireEvent.drop(element, {
-          dataTransfer: {
-            files: [file1],
-          },
-        })
-      )
+      fireEvent.drop(element, {
+        dataTransfer: {
+          files: [file1],
+        },
+      })
       fireEvent.submit(document.querySelector('form'))
 
       expect(onChange).toHaveBeenCalledTimes(3)
@@ -477,13 +467,11 @@ describe('Field.Upload', () => {
         'image/png'
       )
 
-      await waitFor(() =>
-        fireEvent.drop(element, {
-          dataTransfer: {
-            files: [file1],
-          },
-        })
-      )
+      fireEvent.drop(element, {
+        dataTransfer: {
+          files: [file1],
+        },
+      })
 
       expect(onChange).toHaveBeenCalledTimes(1)
       expect(onChange).toHaveBeenLastCalledWith(
@@ -546,13 +534,11 @@ describe('Field.Upload', () => {
 
       const file2 = createMockFile('fileName-1.png', 100, 'image/png')
 
-      await waitFor(() =>
-        fireEvent.drop(element, {
-          dataTransfer: {
-            files: [file2],
-          },
-        })
-      )
+      fireEvent.drop(element, {
+        dataTransfer: {
+          files: [file2],
+        },
+      })
       fireEvent.submit(document.querySelector('form'))
 
       expect(onChange).toHaveBeenCalledTimes(3)
@@ -618,13 +604,11 @@ describe('Field.Upload', () => {
       const element = getRootElement()
       const file1 = createMockFile('fileName-1.png', 100, 'image/png')
 
-      await waitFor(() =>
-        fireEvent.drop(element, {
-          dataTransfer: {
-            files: [file1],
-          },
-        })
-      )
+      fireEvent.drop(element, {
+        dataTransfer: {
+          files: [file1],
+        },
+      })
 
       expect(onChange).toHaveBeenCalledTimes(1)
       expect(onChange).toHaveBeenLastCalledWith(
@@ -669,13 +653,11 @@ describe('Field.Upload', () => {
       expect(onChange).toHaveBeenCalledTimes(2)
       expect(onSubmit).toHaveBeenCalledTimes(0)
 
-      await waitFor(() =>
-        fireEvent.drop(element, {
-          dataTransfer: {
-            files: [file1],
-          },
-        })
-      )
+      fireEvent.drop(element, {
+        dataTransfer: {
+          files: [file1],
+        },
+      })
       await userEvent.click(submitButton)
 
       expect(onChange).toHaveBeenCalledTimes(3)
@@ -744,13 +726,11 @@ describe('Field.Upload', () => {
         'image/png'
       )
 
-      await waitFor(() =>
-        fireEvent.drop(element, {
-          dataTransfer: {
-            files: [file1],
-          },
-        })
-      )
+      fireEvent.drop(element, {
+        dataTransfer: {
+          files: [file1],
+        },
+      })
 
       expect(onChange).toHaveBeenCalledTimes(1)
       expect(onChange).toHaveBeenLastCalledWith(
@@ -815,13 +795,11 @@ describe('Field.Upload', () => {
 
       const file2 = createMockFile('fileName-1.png', 100, 'image/png')
 
-      await waitFor(() =>
-        fireEvent.drop(element, {
-          dataTransfer: {
-            files: [file2],
-          },
-        })
-      )
+      fireEvent.drop(element, {
+        dataTransfer: {
+          files: [file2],
+        },
+      })
       await userEvent.click(submitButton)
 
       expect(onChange).toHaveBeenCalledTimes(3)
@@ -900,13 +878,11 @@ describe('Field.Upload', () => {
       const element = getRootElement()
       const file = createMockFile('fileName-1.png', 100, 'image/png')
 
-      await waitFor(() =>
-        fireEvent.drop(element, {
-          dataTransfer: {
-            files: [file],
-          },
-        })
-      )
+      fireEvent.drop(element, {
+        dataTransfer: {
+          files: [file],
+        },
+      })
 
       expect(output()).toHaveTextContent('Step 1')
       expect(dataContext.internalDataRef.current.files[0].file).toBe(file)
@@ -946,13 +922,11 @@ describe('Field.Upload', () => {
       const element = getRootElement()
       const file = createMockFile('fileName-1.png', 100, 'image/png')
 
-      await waitFor(() =>
-        fireEvent.drop(element, {
-          dataTransfer: {
-            files: [file],
-          },
-        })
-      )
+      fireEvent.drop(element, {
+        dataTransfer: {
+          files: [file],
+        },
+      })
 
       expect(output()).toHaveTextContent('Step 1')
 
@@ -1000,25 +974,21 @@ describe('Field.Upload', () => {
 
       const element = getRootElement()
 
-      await waitFor(() =>
-        fireEvent.drop(element, {
-          dataTransfer: {
-            files: [fileValid],
-          },
-        })
-      )
+      fireEvent.drop(element, {
+        dataTransfer: {
+          files: [fileValid],
+        },
+      })
 
       expect(
         document.querySelector('.dnb-form-status')
       ).not.toBeInTheDocument()
 
-      await waitFor(() =>
-        fireEvent.drop(element, {
-          dataTransfer: {
-            files: [fileInValid],
-          },
-        })
-      )
+      fireEvent.drop(element, {
+        dataTransfer: {
+          files: [fileInValid],
+        },
+      })
 
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
         'File name is too long'
@@ -1038,13 +1008,11 @@ describe('Field.Upload', () => {
 
       const element = getRootElement()
 
-      await waitFor(() =>
-        fireEvent.drop(element, {
-          dataTransfer: {
-            files: [file],
-          },
-        })
-      )
+      fireEvent.drop(element, {
+        dataTransfer: {
+          files: [file],
+        },
+      })
       expect(
         document.querySelectorAll('.dnb-upload__file-cell').length
       ).toBe(0)
@@ -1063,13 +1031,11 @@ describe('Field.Upload', () => {
 
       const element = getRootElement()
 
-      await waitFor(() =>
-        fireEvent.drop(element, {
-          dataTransfer: {
-            files: [file],
-          },
-        })
-      )
+      fireEvent.drop(element, {
+        dataTransfer: {
+          files: [file],
+        },
+      })
       expect(
         document.querySelectorAll('.dnb-upload__file-cell').length
       ).toBe(0)
@@ -1088,13 +1054,11 @@ describe('Field.Upload', () => {
 
       const element = getRootElement()
 
-      await waitFor(() =>
-        fireEvent.drop(element, {
-          dataTransfer: {
-            files: [file],
-          },
-        })
-      )
+      fireEvent.drop(element, {
+        dataTransfer: {
+          files: [file],
+        },
+      })
       expect(
         document.querySelectorAll('.dnb-upload__file-cell').length
       ).toBe(1)
@@ -1113,13 +1077,11 @@ describe('Field.Upload', () => {
 
       const element = getRootElement()
 
-      await waitFor(() =>
-        fireEvent.drop(element, {
-          dataTransfer: {
-            files: [file],
-          },
-        })
-      )
+      fireEvent.drop(element, {
+        dataTransfer: {
+          files: [file],
+        },
+      })
       expect(
         document.querySelectorAll('.dnb-upload__file-cell').length
       ).toBe(1)
@@ -1138,13 +1100,11 @@ describe('Field.Upload', () => {
 
       const element = getRootElement()
 
-      await waitFor(() =>
-        fireEvent.drop(element, {
-          dataTransfer: {
-            files: [file],
-          },
-        })
-      )
+      fireEvent.drop(element, {
+        dataTransfer: {
+          files: [file],
+        },
+      })
       expect(
         document.querySelectorAll('.dnb-upload__file-cell').length
       ).toBe(1)
@@ -1163,13 +1123,11 @@ describe('Field.Upload', () => {
 
       const element = getRootElement()
 
-      await waitFor(() =>
-        fireEvent.drop(element, {
-          dataTransfer: {
-            files: [file],
-          },
-        })
-      )
+      fireEvent.drop(element, {
+        dataTransfer: {
+          files: [file],
+        },
+      })
       expect(
         document.querySelectorAll('.dnb-upload__file-cell').length
       ).toBe(1)
@@ -1202,13 +1160,11 @@ describe('Field.Upload', () => {
 
       const element = getRootElement()
 
-      await waitFor(() =>
-        fireEvent.drop(element, {
-          dataTransfer: {
-            files: [file],
-          },
-        })
-      )
+      fireEvent.drop(element, {
+        dataTransfer: {
+          files: [file],
+        },
+      })
 
       await waitFor(() => {
         // Wait for since it's processed asynchronously
@@ -1245,13 +1201,11 @@ describe('Field.Upload', () => {
 
       const element = getRootElement()
 
-      await waitFor(() =>
-        fireEvent.drop(element, {
-          dataTransfer: {
-            files: [file],
-          },
-        })
-      )
+      fireEvent.drop(element, {
+        dataTransfer: {
+          files: [file],
+        },
+      })
 
       await waitFor(() => {
         // Wait for since it's processed asynchronously
@@ -1548,14 +1502,11 @@ describe('Field.Upload', () => {
 
       const element = getRootElement()
 
-      await waitFor(() => {
-        // upload the first file
-        fireEvent.drop(element, {
-          dataTransfer: {
-            files: filesFirstUpload,
-          },
-        })
-      })
+    // upload the first file
+    fireEvent.drop(element, {
+      dataTransfer: {
+        files: filesFirstUpload,
+      },
 
       await waitFor(() => {
         expect(
@@ -1563,14 +1514,11 @@ describe('Field.Upload', () => {
         ).toBe(1)
       })
 
-      await waitFor(() => {
-        // upload the second file
-        fireEvent.drop(element, {
-          dataTransfer: {
-            files: filesSecondUpload,
-          },
-        })
-      })
+    // upload the second file
+    fireEvent.drop(element, {
+      dataTransfer: {
+        files: filesSecondUpload,
+      },
 
       await waitFor(() => {
         expect(
@@ -1578,14 +1526,11 @@ describe('Field.Upload', () => {
         ).toBe(2)
       })
 
-      await waitFor(() => {
-        // delete the first file
-        fireEvent.click(
-          document
-            .querySelectorAll('.dnb-upload__file-cell')[0]
-            .querySelector('button')
-        )
-      })
+    // delete the first file
+    fireEvent.click(
+      document
+        .querySelectorAll('.dnb-upload__file-cell')[0]
+        .querySelector('button')
 
       await waitFor(() => {
         expect(
@@ -1669,13 +1614,11 @@ describe('Field.Upload', () => {
 
     const element = getRootElement()
 
-    await waitFor(() =>
-      fireEvent.drop(element, {
-        dataTransfer: {
-          files: [successFile, failFile],
-        },
-      })
-    )
+    fireEvent.drop(element, {
+      dataTransfer: {
+        files: [successFile, failFile],
+      },
+    })
 
     await waitFor(() => {
       expect(asyncFileHandlerFn).toHaveBeenCalledTimes(1)
@@ -1701,13 +1644,11 @@ describe('Field.Upload', () => {
 
     const element = getRootElement()
 
-    await waitFor(() =>
-      fireEvent.drop(element, {
-        dataTransfer: {
-          files: [file],
-        },
-      })
-    )
+    fireEvent.drop(element, {
+      dataTransfer: {
+        files: [file],
+      },
+    })
 
     expect(
       document.querySelectorAll('.dnb-upload__file-cell').length
@@ -1783,13 +1724,11 @@ describe('Field.Upload', () => {
 
     const element = getRootElement()
 
-    await waitFor(() =>
-      fireEvent.drop(element, {
-        dataTransfer: {
-          files: [newFile],
-        },
-      })
-    )
+    fireEvent.drop(element, {
+      dataTransfer: {
+        files: [newFile],
+      },
+    })
 
     // it should allow uploading two files with the same file name, as they are not identical files
     await waitFor(() => {
@@ -1798,14 +1737,11 @@ describe('Field.Upload', () => {
       ).toBe(2)
     })
 
-    await waitFor(() => {
-      // delete the second file
-      fireEvent.click(
-        document
-          .querySelectorAll('.dnb-upload__file-cell')[1]
-          .querySelector('button')
-      )
-    })
+    // delete the second file
+    fireEvent.click(
+    document
+      .querySelectorAll('.dnb-upload__file-cell')[1]
+      .querySelector('button')
 
     await waitFor(() => {
       expect(
@@ -1813,14 +1749,11 @@ describe('Field.Upload', () => {
       ).toBe(1)
     })
 
-    await waitFor(() => {
-      // delete the first file
-      fireEvent.click(
-        document
-          .querySelectorAll('.dnb-upload__file-cell')[0]
-          .querySelector('button')
-      )
-    })
+    // delete the first file
+    fireEvent.click(
+    document
+      .querySelectorAll('.dnb-upload__file-cell')[0]
+      .querySelector('button')
 
     await waitFor(() => {
       expect(
@@ -1877,14 +1810,11 @@ describe('Field.Upload', () => {
       document.querySelectorAll('.dnb-upload__file-cell').length
     ).toBe(1)
 
-    await waitFor(() => {
-      // delete the file
-      fireEvent.click(
-        document
-          .querySelectorAll('.dnb-upload__file-cell')[0]
-          .querySelector('button')
-      )
-    })
+    // delete the file
+    fireEvent.click(
+    document
+      .querySelectorAll('.dnb-upload__file-cell')[0]
+      .querySelector('button')
 
     await waitFor(() => {
       expect(
@@ -2034,13 +1964,10 @@ describe('Field.Upload', () => {
       })
 
       const file = createMockFile('secondFile.png', 100, 'image/png')
-      await waitFor(() => {
-        fireEvent.drop(document.querySelector('input'), {
-          dataTransfer: {
-            files: [file],
-          },
-        })
-      })
+    fireEvent.drop(document.querySelector('input'), {
+      dataTransfer: {
+        files: [file],
+      },
 
       expect(
         document.querySelectorAll('.dnb-upload__file-cell').length
@@ -2085,13 +2012,10 @@ describe('Field.Upload', () => {
       })
 
       const file = createMockFile('secondFile.png', 100, 'image/png')
-      await waitFor(() => {
-        fireEvent.drop(document.querySelector('input'), {
-          dataTransfer: {
-            files: [file],
-          },
-        })
-      })
+    fireEvent.drop(document.querySelector('input'), {
+      dataTransfer: {
+        files: [file],
+      },
 
       expect(
         document.querySelectorAll('.dnb-upload__file-cell').length
@@ -2146,13 +2070,10 @@ describe('Field.Upload', () => {
         'application/pdf',
         1743671810162
       )
-      await waitFor(() => {
-        fireEvent.drop(document.querySelector('input'), {
-          dataTransfer: {
-            files: [file],
-          },
-        })
-      })
+    fireEvent.drop(document.querySelector('input'), {
+      dataTransfer: {
+        files: [file],
+      },
 
       expect(
         document.querySelectorAll('.dnb-upload__file-cell').length

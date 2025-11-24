@@ -80,13 +80,11 @@ describe('Value.Upload', () => {
 
     const element = document.querySelector('.dnb-upload')
 
-    await waitFor(() =>
-      fireEvent.drop(element, {
-        dataTransfer: {
-          files: [file],
-        },
-      })
-    )
+    fireEvent.drop(element, {
+      dataTransfer: {
+        files: [file],
+      },
+    })
 
     expect(
       document.querySelector(

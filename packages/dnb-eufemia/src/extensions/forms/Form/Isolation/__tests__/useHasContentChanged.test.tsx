@@ -126,13 +126,11 @@ describe('useHasContentChanged', () => {
 
     await userEvent.click(deleteButton)
 
-    await waitFor(() =>
-      fireEvent.drop(document.querySelector('.dnb-upload'), {
-        dataTransfer: {
-          files: [createMockFile('fileName2.jpg', 0, 'image/jpeg')],
-        },
-      })
-    )
+    fireEvent.drop(document.querySelector('.dnb-upload'), {
+      dataTransfer: {
+        files: [createMockFile('fileName2.jpg', 0, 'image/jpeg')],
+      },
+    })
 
     expect(hasContentChanged).toBe(true)
   })
