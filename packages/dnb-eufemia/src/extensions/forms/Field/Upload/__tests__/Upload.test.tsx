@@ -1502,11 +1502,12 @@ describe('Field.Upload', () => {
 
       const element = getRootElement()
 
-    // upload the first file
-    fireEvent.drop(element, {
-      dataTransfer: {
-        files: filesFirstUpload,
-      },
+      // upload the first file
+      fireEvent.drop(element, {
+        dataTransfer: {
+          files: filesFirstUpload,
+        },
+      })
 
       await waitFor(() => {
         expect(
@@ -1514,11 +1515,12 @@ describe('Field.Upload', () => {
         ).toBe(1)
       })
 
-    // upload the second file
-    fireEvent.drop(element, {
-      dataTransfer: {
-        files: filesSecondUpload,
-      },
+      // upload the second file
+      fireEvent.drop(element, {
+        dataTransfer: {
+          files: filesSecondUpload,
+        },
+      })
 
       await waitFor(() => {
         expect(
@@ -1526,11 +1528,12 @@ describe('Field.Upload', () => {
         ).toBe(2)
       })
 
-    // delete the first file
-    fireEvent.click(
-      document
-        .querySelectorAll('.dnb-upload__file-cell')[0]
-        .querySelector('button')
+      // delete the first file
+      fireEvent.click(
+        document
+          .querySelectorAll('.dnb-upload__file-cell')[0]
+          .querySelector('button')
+      )
 
       await waitFor(() => {
         expect(
@@ -1739,9 +1742,10 @@ describe('Field.Upload', () => {
 
     // delete the second file
     fireEvent.click(
-    document
-      .querySelectorAll('.dnb-upload__file-cell')[1]
-      .querySelector('button')
+      document
+        .querySelectorAll('.dnb-upload__file-cell')[1]
+        .querySelector('button')
+    )
 
     await waitFor(() => {
       expect(
@@ -1751,9 +1755,10 @@ describe('Field.Upload', () => {
 
     // delete the first file
     fireEvent.click(
-    document
-      .querySelectorAll('.dnb-upload__file-cell')[0]
-      .querySelector('button')
+      document
+        .querySelectorAll('.dnb-upload__file-cell')[0]
+        .querySelector('button')
+    )
 
     await waitFor(() => {
       expect(
@@ -1812,9 +1817,10 @@ describe('Field.Upload', () => {
 
     // delete the file
     fireEvent.click(
-    document
-      .querySelectorAll('.dnb-upload__file-cell')[0]
-      .querySelector('button')
+      document
+        .querySelectorAll('.dnb-upload__file-cell')[0]
+        .querySelector('button')
+    )
 
     await waitFor(() => {
       expect(
@@ -1964,10 +1970,11 @@ describe('Field.Upload', () => {
       })
 
       const file = createMockFile('secondFile.png', 100, 'image/png')
-    fireEvent.drop(document.querySelector('input'), {
-      dataTransfer: {
-        files: [file],
-      },
+      fireEvent.drop(document.querySelector('input'), {
+        dataTransfer: {
+          files: [file],
+        },
+      })
 
       expect(
         document.querySelectorAll('.dnb-upload__file-cell').length
@@ -2012,10 +2019,11 @@ describe('Field.Upload', () => {
       })
 
       const file = createMockFile('secondFile.png', 100, 'image/png')
-    fireEvent.drop(document.querySelector('input'), {
-      dataTransfer: {
-        files: [file],
-      },
+      fireEvent.drop(document.querySelector('input'), {
+        dataTransfer: {
+          files: [file],
+        },
+      })
 
       expect(
         document.querySelectorAll('.dnb-upload__file-cell').length
@@ -2070,10 +2078,11 @@ describe('Field.Upload', () => {
         'application/pdf',
         1743671810162
       )
-    fireEvent.drop(document.querySelector('input'), {
-      dataTransfer: {
-        files: [file],
-      },
+      fireEvent.drop(document.querySelector('input'), {
+        dataTransfer: {
+          files: [file],
+        },
+      })
 
       expect(
         document.querySelectorAll('.dnb-upload__file-cell').length
