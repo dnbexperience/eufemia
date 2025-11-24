@@ -95,7 +95,8 @@ export function getRelativeTime(
     numeric: 'always',
     style: 'long',
   },
-  dateStyle?: Intl.DateTimeFormatOptions['dateStyle']
+  dateStyle?: Intl.DateTimeFormatOptions['dateStyle'],
+  now?: Date | (() => Date)
 ) {
   // Map dateStyle to RelativeTimeFormat style for consistent styling
   // short -> narrow (most abbreviated), medium -> short (medium abbreviation), long -> long (full words)
@@ -114,9 +115,14 @@ export function getRelativeTime(
     relativeTimeOptions
   )
 
-  const now = new Date()
+  const nowDate =
+    now instanceof Date
+      ? now
+      : typeof now === 'function'
+      ? now()
+      : new Date()
 
-  const msDateDifference = date.getTime() - now.getTime()
+  const msDateDifference = date.getTime() - nowDate.getTime()
   const timeUnit = getTimeUnit(msDateDifference)
 
   const timeUnitDifference = Math.round(
@@ -133,9 +139,15 @@ export function getRelativeTime(
  */
 export function getRelativeTimeNextUpdateMs(
   date: Date,
-  now = new Date()
+  now: Date | (() => Date) = new Date()
 ): number {
-  const diff = date.getTime() - now.getTime()
+  const nowDate =
+    now instanceof Date
+      ? now
+      : typeof now === 'function'
+      ? now()
+      : new Date()
+  const diff = date.getTime() - nowDate.getTime()
   if (!Number.isFinite(diff)) {
     return 1000
   }

@@ -25,6 +25,22 @@ describe('DateFormatUtils', () => {
       // Default locale uses a short date style like day.month.year
       expect(formatDate(d)).toMatch(/\d{2}[./]\d{2}[./]\d{4}/)
     })
+
+    it('formats dates using Intl.DateTimeFormat', () => {
+      const spy = jest.spyOn(Intl, 'DateTimeFormat')
+
+      formatDate('2024-10-05', {
+        locale: 'en-GB',
+        options: { dateStyle: 'short' },
+      })
+
+      expect(spy).toHaveBeenCalledWith(
+        'en-GB',
+        expect.objectContaining({ dateStyle: 'short' })
+      )
+
+      spy.mockRestore()
+    })
   })
 
   describe('formatDateRange', () => {
@@ -69,6 +85,51 @@ describe('DateFormatUtils', () => {
       })
       expect(res).toMatch(/in|minute|hour|second/)
     })
+
+    it('uses custom now Date for relative time calculation', () => {
+      const referenceDate = new Date('2024-10-05T12:00:00.000Z')
+      const past = new Date('2024-10-05T11:00:00.000Z')
+      const res = getRelativeTime(
+        past,
+        'en',
+        {
+          numeric: 'always',
+          style: 'long',
+        },
+        undefined,
+        referenceDate
+      )
+      expect(res).toMatch(/hour|minute|second/)
+      expect(res).toMatch(/ago|since/)
+    })
+
+    it('uses custom now function for relative time calculation', () => {
+      const referenceDate = new Date('2024-10-05T12:00:00.000Z')
+      const past = new Date('2024-10-05T11:00:00.000Z')
+      const nowFn = () => referenceDate
+      const res = getRelativeTime(
+        past,
+        'en',
+        {
+          numeric: 'always',
+          style: 'long',
+        },
+        undefined,
+        nowFn
+      )
+      expect(res).toMatch(/hour|minute|second/)
+      expect(res).toMatch(/ago|since/)
+    })
+
+    it('defaults to current time when now is not provided', () => {
+      const past = new Date('2024-10-05T11:00:00.000Z')
+      const res = getRelativeTime(past, 'en', {
+        numeric: 'always',
+        style: 'long',
+      })
+      expect(typeof res).toBe('string')
+      expect(res).toMatch(/hour|minute|second/)
+    })
   })
 
   describe('getRelativeTimeNextUpdateMs', () => {
@@ -85,6 +146,21 @@ describe('DateFormatUtils', () => {
       const date = new Date(now.getTime() + 60 * 60 * 1000) // +1h
       const ms = getRelativeTimeNextUpdateMs(date, now)
       expect(ms).toBeGreaterThan(1000)
+    })
+
+    it('accepts now as a function', () => {
+      const now = new Date('2024-10-05T12:00:00.000Z')
+      const nowFn = () => now
+      const date = new Date(now.getTime() + 5_500) // 5.5s in future
+      const ms = getRelativeTimeNextUpdateMs(date, nowFn)
+      expect(ms).toBeGreaterThanOrEqual(500)
+      expect(ms).toBeLessThan(2000)
+    })
+
+    it('defaults to current time when now is not provided', () => {
+      const date = new Date(Date.now() + 5_500) // 5.5s in future
+      const ms = getRelativeTimeNextUpdateMs(date)
+      expect(ms).toBeGreaterThanOrEqual(500)
     })
   })
 

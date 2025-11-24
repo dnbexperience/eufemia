@@ -16,6 +16,11 @@ export const DateFormatProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  now: {
+    doc: 'A function that returns a Date object to use as the reference point for relative time calculations. If not provided, the current time is used.',
+    type: 'function',
+    status: 'optional',
+  },
   locale: {
     doc: "A string in [Intl.DateTimeFormat locale](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl#locales_argument) format. Duration formatting supports all locales using the browser's built-in internationalization. Defaults to `nb-NO`.",
     type: 'string',
