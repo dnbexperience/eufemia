@@ -334,6 +334,7 @@ class DropdownInstance extends React.PureComponent {
 
         break
 
+      case 'escape':
       case 'esc':
         this.setHidden()
         break

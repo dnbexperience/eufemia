@@ -21,6 +21,7 @@ import { bank } from '../../../icons'
 import Icon from '../../Icon'
 import NumberFormat from '../../NumberFormat'
 import { CountryFlag } from '../../lib'
+import Dialog from '../../dialog/Dialog'
 
 import locales from '../../../shared/locales/nb-NO'
 
@@ -1094,6 +1095,32 @@ describe('Dropdown component', () => {
     // we are still open
     expect(document.querySelector('.dnb-dropdown').classList).toContain(
       'dnb-dropdown--opened'
+    )
+  })
+
+  it('keeps dialog open when Escape is pressed inside the dropdown', async () => {
+    render(
+      <Dialog noAnimation openState title="Dialog">
+        <Dropdown data={mockData} skip_portal no_animation opened />
+      </Dialog>
+    )
+
+    const options = document.querySelector(
+      '.dnb-drawer-list__options'
+    ) as HTMLElement
+    expect(options).toBeInTheDocument()
+
+    await userEvent.keyboard('{Escape}')
+
+    expect(options).not.toBeInTheDocument()
+    expect(document.documentElement).toHaveAttribute(
+      'data-dnb-modal-active'
+    )
+
+    await userEvent.keyboard('{Escape}')
+
+    expect(document.documentElement).not.toHaveAttribute(
+      'data-dnb-modal-active'
     )
   })
 
