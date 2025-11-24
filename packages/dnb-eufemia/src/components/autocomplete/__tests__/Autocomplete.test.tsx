@@ -3387,7 +3387,7 @@ describe('Autocomplete component', () => {
       )
     })
 
-    it('should include custom input value and not emit on input enter key', () => {
+    it('should include custom input value and not emit on input enter key', async () => {
       const on_blur = jest.fn()
       const onBlur = jest.fn()
 
@@ -3427,6 +3427,7 @@ describe('Autocomplete component', () => {
       expect(onBlur).toHaveBeenCalledTimes(0)
       expect(on_blur).toHaveBeenCalledTimes(0)
 
+      await wait(1) // wait for reserveActivityHandler to stop blocking blur events
       fireEvent.blur(inputElement())
 
       expect(onBlur).toHaveBeenCalledTimes(1)

@@ -12,6 +12,7 @@ import {
   fireEvent,
   waitFor,
 } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import DrawerList, {
   DrawerListAllProps,
   DrawerListDataArray,
@@ -23,12 +24,11 @@ import DrawerListContext, {
   DrawerListContextProps,
 } from '../DrawerListContext'
 import { IsolatedStyleScope } from '../../../shared'
-
+import Dialog from '../../../components/dialog/Dialog'
 import {
   mockImplementationForDirectionObserver,
   testDirectionObserver,
 } from './DrawerListTestMocks'
-
 import locales from '../../../shared/locales/nb-NO'
 
 const nbNO = locales['nb-NO'].DrawerList
@@ -133,6 +133,49 @@ describe('DrawerList component', () => {
     expect(
       document.querySelector('.dnb-drawer-list--opened')
     ).toBeInTheDocument()
+  })
+
+  it('keeps dialog open when Escape is pressed inside the drawer list', async () => {
+    render(
+      <Dialog noAnimation openState title="Dialog">
+        <DrawerList
+          {...props}
+          opened
+          skip_portal
+          no_animation
+          data={mockData}
+        />
+      </Dialog>
+    )
+
+    expect(
+      document.querySelector('.dnb-drawer-list--opened')
+    ).toBeInTheDocument()
+
+    const options = document.querySelector(
+      '.dnb-drawer-list__options'
+    ) as HTMLElement
+    expect(options).toBeInTheDocument()
+
+    await userEvent.keyboard('{Escape}')
+
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-drawer-list__options')
+      ).not.toBeInTheDocument()
+    })
+
+    expect(document.documentElement).toHaveAttribute(
+      'data-dnb-modal-active'
+    )
+
+    await userEvent.keyboard('{Escape}')
+
+    expect(document.documentElement).not.toHaveAttribute(
+      'data-dnb-modal-active'
+    )
+
+    document.body.removeAttribute('style')
   })
 
   describe('with disabled option', () => {
