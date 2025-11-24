@@ -97,6 +97,9 @@ export default function Popover(props: PopoverProps) {
   const contentWrapperRef = useRef<HTMLSpanElement>(null)
   const previousTargetElementRef =
     useRef<PopoverResolvedTargetElement>(null)
+  // Track touch interactions so we can distinguish taps from scrolls.
+  const touchStartTargetRef = useRef<EventTarget | null>(null)
+  const touchMovedRef = useRef(false)
 
   const tooltipId = useId(idProp)
   const descriptionId = `${tooltipId}-description`
@@ -241,7 +244,7 @@ export default function Popover(props: PopoverProps) {
 
   useEffect(() => {
     if (!focusOnOpen || !isOpen) {
-      return undefined
+      return // stop here
     }
 
     const timers: Array<ReturnType<typeof setTimeout>> = []
@@ -276,19 +279,23 @@ export default function Popover(props: PopoverProps) {
   }, [focusOnOpen, isOpen, resolveFocusTarget])
 
   const handleDocumentInteraction = useCallback(
-    (event: MouseEvent | TouchEvent | KeyboardEvent) => {
+    (
+      event: MouseEvent | TouchEvent | KeyboardEvent,
+      overrideTarget?: EventTarget | null
+    ) => {
       if (!closeOnOutsideClick) {
         return
       }
-      if (!(event.target instanceof Node)) {
+      const target = overrideTarget ?? event.target
+      if (!(target instanceof Node)) {
         return
       }
 
       const insideContent =
-        !!tooltipRef.current && tooltipRef.current.contains(event.target)
+        !!tooltipRef.current && tooltipRef.current.contains(target)
       const triggerElement = getCurrentTriggerElement()
       const insideTrigger =
-        !!triggerElement && triggerElement.contains(event.target as Node)
+        !!triggerElement && triggerElement.contains(target as Node)
 
       if (!insideContent && !insideTrigger) {
         toggle(false)
@@ -297,10 +304,35 @@ export default function Popover(props: PopoverProps) {
     [closeOnOutsideClick, getCurrentTriggerElement, toggle]
   )
 
+  const handleDocumentTouchStart = useCallback((event: TouchEvent) => {
+    touchMovedRef.current = false
+    touchStartTargetRef.current = event.target
+  }, [])
+
+  const handleDocumentTouchMove = useCallback(() => {
+    touchMovedRef.current = true
+  }, [])
+
+  const handleDocumentTouchEnd = useCallback(
+    (event: TouchEvent) => {
+      const target = touchStartTargetRef.current
+      const moved = touchMovedRef.current
+      touchMovedRef.current = false
+      touchStartTargetRef.current = null
+
+      if (moved) {
+        return // stop here
+      }
+
+      handleDocumentInteraction(event, target)
+    },
+    [handleDocumentInteraction]
+  )
+
   const handleDocumentKeyDown = useCallback(
     (event: KeyboardEvent) => {
       if (event.defaultPrevented) {
-        return
+        return // stop here
       }
       if (event.key === 'Escape') {
         // Check both event.target and document.activeElement to handle different event propagation scenarios
@@ -323,7 +355,7 @@ export default function Popover(props: PopoverProps) {
 
   useEffect(() => {
     if (!isOpen) {
-      return undefined
+      return // stop here
     }
 
     document.documentElement.addEventListener(
@@ -332,7 +364,17 @@ export default function Popover(props: PopoverProps) {
     )
     document.documentElement.addEventListener(
       'touchstart',
-      handleDocumentInteraction,
+      handleDocumentTouchStart,
+      { passive: true }
+    )
+    document.documentElement.addEventListener(
+      'touchmove',
+      handleDocumentTouchMove,
+      { passive: true }
+    )
+    document.documentElement.addEventListener(
+      'touchend',
+      handleDocumentTouchEnd,
       { passive: true }
     )
     document.documentElement.addEventListener(
@@ -349,7 +391,15 @@ export default function Popover(props: PopoverProps) {
       )
       document.documentElement.removeEventListener(
         'touchstart',
-        handleDocumentInteraction
+        handleDocumentTouchStart
+      )
+      document.documentElement.removeEventListener(
+        'touchmove',
+        handleDocumentTouchMove
+      )
+      document.documentElement.removeEventListener(
+        'touchend',
+        handleDocumentTouchEnd
       )
       document.documentElement.removeEventListener(
         'keyup',
@@ -357,7 +407,14 @@ export default function Popover(props: PopoverProps) {
       )
       document.removeEventListener('keydown', handleDocumentKeyDown, true)
     }
-  }, [handleDocumentInteraction, handleDocumentKeyDown, isOpen])
+  }, [
+    handleDocumentInteraction,
+    handleDocumentKeyDown,
+    handleDocumentTouchEnd,
+    handleDocumentTouchMove,
+    handleDocumentTouchStart,
+    isOpen,
+  ])
 
   const handleTriggerKeyDown = useCallback(
     (
@@ -366,7 +423,7 @@ export default function Popover(props: PopoverProps) {
     ) => {
       userHandler?.(event)
       if (event.defaultPrevented) {
-        return
+        return // stop here
       }
       if (event.key === 'Enter' || event.key === ' ') {
         event.preventDefault()

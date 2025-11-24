@@ -228,6 +228,28 @@ describe('Popover', () => {
     )
   })
 
+  it('stays open when touch scrolls outside before ending', async () => {
+    renderWithTrigger()
+
+    const trigger = document.querySelector('button[aria-controls]')
+    await userEvent.click(trigger)
+
+    fireEvent.touchStart(document.body)
+    fireEvent.touchMove(document.body)
+    fireEvent.touchEnd(document.body)
+
+    await waitFor(() =>
+      expect(trigger).toHaveAttribute('aria-expanded', 'true')
+    )
+
+    fireEvent.touchStart(document.body)
+    fireEvent.touchEnd(document.body)
+
+    await waitFor(() =>
+      expect(trigger).toHaveAttribute('aria-expanded', 'false')
+    )
+  })
+
   it('places the default close button after the popover content', async () => {
     renderWithTrigger()
 
