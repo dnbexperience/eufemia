@@ -540,17 +540,13 @@ describe('Upload', () => {
     const file1 = createMockFile('fileName-1.png', 100, 'image/png')
     const file2 = createMockFile('fileName-2.png', 100, 'image/png')
 
-    await waitFor(() =>
-      fireEvent.drop(element, {
-        dataTransfer: { files: [file1, file2] },
-      })
-    )
+    fireEvent.drop(element, {
+      dataTransfer: { files: [file1, file2] },
+    })
 
-    await waitFor(() =>
-      fireEvent.drop(element, {
-        dataTransfer: { files: [file2, file2] },
-      })
-    )
+    fireEvent.drop(element, {
+      dataTransfer: { files: [file2, file2] },
+    })
 
     const [firstItem] = Array.from(element.querySelectorAll('li'))
     const deleteButton = firstItem.querySelector('button')
@@ -566,13 +562,11 @@ describe('Upload', () => {
 
     fireEvent.click(deleteButton)
 
-    await waitFor(() => {
-      expect(
-        element.querySelector(
-          '.dnb-upload__file-input-area .dnb-form-status'
-        )
-      ).not.toBeInTheDocument()
-    })
+    expect(
+      element.querySelector(
+        '.dnb-upload__file-input-area .dnb-form-status'
+      )
+    ).not.toBeInTheDocument()
 
     expect(
       screen.queryByRole('button', {
@@ -612,17 +606,13 @@ describe('Upload', () => {
     const file1 = createMockFile('fileName-1.png', 100, 'image/png')
     const file2 = createMockFile('fileName-2.png', 100, 'image/png')
 
-    await waitFor(() =>
-      fireEvent.drop(element, {
-        dataTransfer: { files: [file1, file2] },
-      })
-    )
+    fireEvent.drop(element, {
+      dataTransfer: { files: [file1, file2] },
+    })
 
-    await waitFor(() =>
-      fireEvent.drop(element, {
-        dataTransfer: { files: [file2, file2] },
-      })
-    )
+    fireEvent.drop(element, {
+      dataTransfer: { files: [file2, file2] },
+    })
 
     expect(result.current.files.length).toBe(1)
     expect(result.current.files).toEqual([
@@ -662,11 +652,9 @@ describe('Upload', () => {
       document.querySelector('.dnb-upload__file-input-button')
     ).toBeInTheDocument()
 
-    await waitFor(() =>
-      fireEvent.drop(element, {
-        dataTransfer: { files: [file1] },
-      })
-    )
+    fireEvent.drop(element, {
+      dataTransfer: { files: [file1] },
+    })
 
     expect(
       document.querySelector('.dnb-upload__file-input-button')
@@ -699,11 +687,9 @@ describe('Upload', () => {
       document.querySelector('.dnb-upload__file-input-button')
     ).toBeInTheDocument()
 
-    await waitFor(() =>
-      fireEvent.drop(element, {
-        dataTransfer: { files: [file1, file2] },
-      })
-    )
+    fireEvent.drop(element, {
+      dataTransfer: { files: [file1, file2] },
+    })
 
     expect(
       document.querySelector('.dnb-upload__file-input-button')
@@ -732,17 +718,13 @@ describe('Upload', () => {
     const file1 = createMockFile('fileName-1.png', 100, 'image/png')
     const file2 = createMockFile('fileName-2.png', 100, 'image/png')
 
-    await waitFor(() =>
-      fireEvent.drop(element, {
-        dataTransfer: { files: [file1] },
-      })
-    )
+    fireEvent.drop(element, {
+      dataTransfer: { files: [file1] },
+    })
 
-    await waitFor(() =>
-      fireEvent.drop(element, {
-        dataTransfer: { files: [file1, file2] },
-      })
-    )
+    fireEvent.drop(element, {
+      dataTransfer: { files: [file1, file2] },
+    })
 
     expect(result.current.files.length).toBe(2)
     expect(result.current.files).toEqual([
@@ -780,17 +762,13 @@ describe('Upload', () => {
       1743671810161
     )
 
-    await waitFor(() =>
-      fireEvent.drop(element, {
-        dataTransfer: { files: [file1] },
-      })
-    )
+    fireEvent.drop(element, {
+      dataTransfer: { files: [file1] },
+    })
 
-    await waitFor(() =>
-      fireEvent.drop(element, {
-        dataTransfer: { files: [file1, file2] },
-      })
-    )
+    fireEvent.drop(element, {
+      dataTransfer: { files: [file1, file2] },
+    })
 
     expect(result.current.files.length).toBe(2)
     expect(result.current.files).toEqual([
@@ -818,17 +796,13 @@ describe('Upload', () => {
     const file1 = createMockFile('fileName-1.png', 100, 'image/png')
     const file2 = createMockFile('fileName-2.png', 100, 'image/png')
 
-    await waitFor(() =>
-      fireEvent.drop(element, {
-        dataTransfer: { files: [file1] },
-      })
-    )
+    fireEvent.drop(element, {
+      dataTransfer: { files: [file1] },
+    })
 
-    await waitFor(() =>
-      fireEvent.drop(element, {
-        dataTransfer: { files: [file1, file2] },
-      })
-    )
+    fireEvent.drop(element, {
+      dataTransfer: { files: [file1, file2] },
+    })
 
     expect(result.current.files.length).toBe(2)
     expect(result.current.files).toEqual([
@@ -856,17 +830,13 @@ describe('Upload', () => {
     const file1 = createMockFile('fileName-1.png', undefined, 'image/png')
     const file2 = createMockFile('fileName-2.png', undefined, 'image/png')
 
-    await waitFor(() =>
-      fireEvent.drop(element, {
-        dataTransfer: { files: [file1] },
-      })
-    )
+    fireEvent.drop(element, {
+      dataTransfer: { files: [file1] },
+    })
 
-    await waitFor(() =>
-      fireEvent.drop(element, {
-        dataTransfer: { files: [file1, file2] },
-      })
-    )
+    fireEvent.drop(element, {
+      dataTransfer: { files: [file1, file2] },
+    })
 
     expect(result.current.files.length).toBe(2)
     expect(result.current.files).toEqual([
@@ -894,17 +864,13 @@ describe('Upload', () => {
     const file1 = createMockFile('fileName-1.png', 100, 'image/png')
     const file2 = createMockFile('fileName-2.png', 100, 'image/png')
 
-    await waitFor(() =>
-      fireEvent.drop(element, {
-        dataTransfer: { files: [file1] },
-      })
-    )
+    fireEvent.drop(element, {
+      dataTransfer: { files: [file1] },
+    })
 
-    await waitFor(() =>
-      fireEvent.drop(element, {
-        dataTransfer: { files: [file1, file2] },
-      })
-    )
+    fireEvent.drop(element, {
+      dataTransfer: { files: [file1, file2] },
+    })
 
     expect(
       element.querySelectorAll('.dnb-upload__file-cell--highlight')
@@ -929,17 +895,13 @@ describe('Upload', () => {
     const file1 = createMockFile('fileName-1.png', 100, 'image/png')
     const file2 = createMockFile('fileName-2.png', 100, 'image/png')
 
-    await waitFor(() =>
-      fireEvent.drop(element, {
-        dataTransfer: { files: [file1] },
-      })
-    )
+    fireEvent.drop(element, {
+      dataTransfer: { files: [file1] },
+    })
 
-    await waitFor(() =>
-      fireEvent.drop(element, {
-        dataTransfer: { files: [file1, file2] },
-      })
-    )
+    fireEvent.drop(element, {
+      dataTransfer: { files: [file1, file2] },
+    })
 
     expect(result.current.files.length).toBe(3)
     expect(result.current.files).toEqual([
@@ -968,17 +930,13 @@ describe('Upload', () => {
     const file1 = createMockFile('fileName-1.png', 100, 'image/png')
     const file2 = createMockFile('fileName-2.png', 100, 'image/png')
 
-    await waitFor(() =>
-      fireEvent.drop(element, {
-        dataTransfer: { files: [file1] },
-      })
-    )
+    fireEvent.drop(element, {
+      dataTransfer: { files: [file1] },
+    })
 
-    await waitFor(() =>
-      fireEvent.drop(element, {
-        dataTransfer: { files: [file1, file2] },
-      })
-    )
+    fireEvent.drop(element, {
+      dataTransfer: { files: [file1, file2] },
+    })
 
     expect(
       element.querySelector('.dnb-upload__file-cell--highlight')
@@ -999,11 +957,9 @@ describe('Upload', () => {
     const element = getRootElement()
     const file1 = createMockFile('fileName-1.png', 100, 'image/png')
 
-    await waitFor(() =>
-      fireEvent.drop(element, {
-        dataTransfer: { files: [file1] },
-      })
-    )
+    fireEvent.drop(element, {
+      dataTransfer: { files: [file1] },
+    })
 
     expect(screen.queryByText(nb.errorUnsupportedFile)).toBeInTheDocument()
   })
@@ -1038,11 +994,9 @@ describe('Upload', () => {
     const element = getRootElement()
     const file1 = createMockFile('fileName-1.png', 100, 'image/png')
 
-    await waitFor(() =>
-      fireEvent.drop(element, {
-        dataTransfer: { files: [file1] },
-      })
-    )
+    fireEvent.drop(element, {
+      dataTransfer: { files: [file1] },
+    })
 
     expect(screen.queryByText(nb.errorUnsupportedFile)).toBeInTheDocument()
   })
@@ -1077,11 +1031,9 @@ describe('Upload', () => {
     const element = getRootElement()
     const file1 = createMockFile('fileName-1', 100, '')
 
-    await waitFor(() =>
-      fireEvent.drop(element, {
-        dataTransfer: { files: [file1] },
-      })
-    )
+    fireEvent.drop(element, {
+      dataTransfer: { files: [file1] },
+    })
 
     expect(screen.queryByText(nb.errorUnsupportedFile)).toBeInTheDocument()
   })
@@ -1100,11 +1052,9 @@ describe('Upload', () => {
     const element = getRootElement()
     const file1 = createMockFile('fileName-1', 100, '')
 
-    await waitFor(() =>
-      fireEvent.drop(element, {
-        dataTransfer: { files: [file1] },
-      })
-    )
+    fireEvent.drop(element, {
+      dataTransfer: { files: [file1] },
+    })
 
     expect(screen.queryByText(nb.errorUnsupportedFile)).toBeInTheDocument()
   })
@@ -1147,11 +1097,9 @@ describe('Upload', () => {
         '.dnb-upload__file-input'
       )
 
-      await waitFor(() =>
-        fireEvent.change(inputElement, {
-          target: { files: [file] },
-        })
-      )
+      fireEvent.change(inputElement, {
+        target: { files: [file] },
+      })
 
       const MockComponent = () => {
         const { files } = useUpload(id)
@@ -1686,11 +1634,9 @@ describe('Upload', () => {
         '.dnb-upload__file-input'
       )
 
-      await waitFor(() =>
-        fireEvent.change(inputElement, {
-          target: { files: [file1] },
-        })
-      )
+      fireEvent.change(inputElement, {
+        target: { files: [file1] },
+      })
 
       expect(
         screen.queryByText(`error message ${fileMaxSize}`)
@@ -1715,11 +1661,9 @@ describe('Upload', () => {
         '.dnb-upload__file-input'
       )
 
-      await waitFor(() =>
-        fireEvent.change(inputElement, {
-          target: { files: [file1] },
-        })
-      )
+      fireEvent.change(inputElement, {
+        target: { files: [file1] },
+      })
 
       expect(
         screen.queryByText(`error message ${fileMaxSize}`)
@@ -1759,11 +1703,9 @@ describe('Upload', () => {
 
       const file = createMockFile('fileName-1.png', 100, 'image/png')
 
-      await waitFor(() =>
-        fireEvent.change(inputElement, {
-          target: { files: [file] },
-        })
-      )
+      fireEvent.change(inputElement, {
+        target: { files: [file] },
+      })
 
       expect(
         screen.queryByText(`file length is more than 5`)
@@ -1783,11 +1725,9 @@ describe('Upload', () => {
       const inputElement = document.querySelector(
         '.dnb-upload__file-input'
       )
-      await waitFor(() =>
-        fireEvent.change(inputElement, {
-          target: { files },
-        })
-      )
+      fireEvent.change(inputElement, {
+        target: { files },
+      })
 
       expect(
         document.querySelectorAll('.dnb-upload__file-cell').length
@@ -1813,11 +1753,9 @@ describe('Upload', () => {
       const inputElement = document.querySelector(
         '.dnb-upload__file-input'
       )
-      await waitFor(() =>
-        fireEvent.change(inputElement, {
-          target: { files },
-        })
-      )
+      fireEvent.change(inputElement, {
+        target: { files },
+      })
 
       expect(
         document.querySelectorAll('.dnb-upload__file-cell').length
@@ -1846,11 +1784,9 @@ describe('Upload', () => {
       const element = getRootElement()
       const file1 = createMockFile('fileName-1.png', 100, 'image/png')
 
-      await waitFor(() =>
-        fireEvent.drop(element, {
-          dataTransfer: { files: [file1] },
-        })
-      )
+      fireEvent.drop(element, {
+        dataTransfer: { files: [file1] },
+      })
 
       expect(result.current.files.length).toBe(0)
       expect(result.current.files).toEqual([])
@@ -1869,11 +1805,9 @@ describe('Upload', () => {
       const element = getRootElement()
       const file1 = createMockFile('fileName-1.png', 100, 'image/png')
 
-      await waitFor(() =>
-        fireEvent.drop(element, {
-          dataTransfer: { files: [file1] },
-        })
-      )
+      fireEvent.drop(element, {
+        dataTransfer: { files: [file1] },
+      })
 
       expect(result.current.files.length).toBe(0)
       expect(result.current.files).toEqual([])
@@ -1893,11 +1827,9 @@ describe('Upload', () => {
       )
       const file1 = createMockFile('fileName-1.png', 100, 'image/png')
 
-      await waitFor(() =>
-        fireEvent.change(inputElement, {
-          target: { files: [file1] },
-        })
-      )
+      fireEvent.change(inputElement, {
+        target: { files: [file1] },
+      })
 
       expect(onChange).toHaveBeenCalledTimes(1)
       expect(onChange).toHaveBeenCalledWith({
@@ -1908,7 +1840,7 @@ describe('Upload', () => {
         name: nb.deleteButton,
       })
 
-      await waitFor(() => fireEvent.click(deleteButton))
+      fireEvent.click(deleteButton)
 
       expect(onChange).toHaveBeenCalledTimes(2)
       expect(onChange).toHaveBeenCalledWith({ files: [] })
@@ -1928,17 +1860,15 @@ describe('Upload', () => {
 
       const file1 = createMockFile('fileName-1.png', 100, 'image/png')
 
-      await waitFor(() =>
-        fireEvent.change(inputElement, {
-          target: { files: [file1] },
-        })
-      )
+      fireEvent.change(inputElement, {
+        target: { files: [file1] },
+      })
 
       const fileButton = document.querySelector(
         '.dnb-upload__file-cell button'
       )
 
-      await waitFor(() => fireEvent.click(fileButton))
+      fireEvent.click(fileButton)
 
       expect(onFileClick).toHaveBeenCalledTimes(1)
       expect(onFileClick).toHaveBeenCalledWith({
@@ -1966,11 +1896,9 @@ describe('Upload', () => {
       const file1 = createMockFile('fileName-1.png', 100, 'image/png')
       const file2 = createMockFile('fileName-2.png', 200, 'image/png')
 
-      await waitFor(() =>
-        fireEvent.change(inputElement, {
-          target: { files: [file1, file2] },
-        })
-      )
+      fireEvent.change(inputElement, {
+        target: { files: [file1, file2] },
+      })
 
       const fileButton = document.querySelector(
         '.dnb-upload__file-cell button'
@@ -2035,17 +1963,15 @@ describe('Upload', () => {
       )
       const file1 = createMockFile('fileName-1.png', 100, 'image/png')
 
-      await waitFor(() =>
-        fireEvent.change(inputElement, {
-          target: { files: [file1] },
-        })
-      )
+      fireEvent.change(inputElement, {
+        target: { files: [file1] },
+      })
 
       const deleteButton = screen.queryByRole('button', {
         name: nb.deleteButton,
       })
 
-      await waitFor(() => fireEvent.click(deleteButton))
+      fireEvent.click(deleteButton)
 
       expect(onFileDelete).toHaveBeenCalledTimes(1)
       expect(onFileDelete).toHaveBeenCalledWith({
@@ -2068,11 +1994,9 @@ describe('Upload', () => {
       )
       const file1 = createMockFile('fileName-1.png', 100, 'image/png')
 
-      await waitFor(() =>
-        fireEvent.change(inputElement, {
-          target: { files: [file1] },
-        })
-      )
+      fireEvent.change(inputElement, {
+        target: { files: [file1] },
+      })
 
       const deleteButton = screen.queryByRole('button', {
         name: nb.deleteButton,
@@ -2101,17 +2025,15 @@ describe('Upload', () => {
       )
       const file1 = createMockFile('fileName-1.png', 100, 'image/png')
 
-      await waitFor(() =>
-        fireEvent.change(inputElement, {
-          target: { files: [file1] },
-        })
-      )
+      fireEvent.change(inputElement, {
+        target: { files: [file1] },
+      })
 
       const deleteButton = screen.queryByRole('button', {
         name: nb.deleteButton,
       })
 
-      await waitFor(() => fireEvent.click(deleteButton))
+      fireEvent.click(deleteButton)
 
       await waitFor(() => {
         expect(onFileDelete).toHaveBeenCalledTimes(1)
@@ -2142,17 +2064,15 @@ describe('Upload', () => {
       )
       const file1 = createMockFile('fileName-1.png', 100, 'image/png')
 
-      await waitFor(() =>
-        fireEvent.change(inputElement, {
-          target: { files: [file1] },
-        })
-      )
+      fireEvent.change(inputElement, {
+        target: { files: [file1] },
+      })
 
       const deleteButton = screen.queryByRole('button', {
         name: nb.deleteButton,
       })
 
-      await waitFor(() => fireEvent.click(deleteButton))
+      fireEvent.click(deleteButton)
 
       await waitFor(() => {
         expect(onFileDelete).toHaveBeenCalledTimes(1)
@@ -2183,17 +2103,19 @@ describe('Upload', () => {
       )
       const file1 = createMockFile('fileName-1.png', 100, 'image/png')
 
-      await waitFor(() =>
+      await waitFor(() => {
         fireEvent.change(inputElement, {
           target: { files: [file1] },
         })
-      )
+      })
 
       const deleteButton = screen.queryByRole('button', {
         name: nb.deleteButton,
       })
 
-      await waitFor(() => fireEvent.click(deleteButton))
+      await waitFor(() => {
+        fireEvent.click(deleteButton)
+      })
 
       expect(
         screen.queryByText('My remove file message error')
