@@ -398,6 +398,7 @@ export default class ModalContent extends React.PureComponent<
 
   onKeyDownHandler = (event) => {
     switch (keycode(event)) {
+      case 'escape':
       case 'esc': {
         const mostCurrent = getModalRoot(-1)
 
