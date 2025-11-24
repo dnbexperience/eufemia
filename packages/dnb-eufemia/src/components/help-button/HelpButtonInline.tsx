@@ -95,7 +95,6 @@ export default function HelpButtonInline(props: HelpButtonInlineProps) {
             if (isOpen) {
               event.preventDefault()
               event.stopPropagation() // To make Modal/Dialog/Drawer not close as well
-              event.nativeEvent.stopImmediatePropagation?.() // To make Modal/Dialog/Drawer not close as well
               window.requestAnimationFrame(() => {
                 toggleOpen()
               })
