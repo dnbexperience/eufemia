@@ -94,6 +94,7 @@ export default function HelpButtonInline(props: HelpButtonInlineProps) {
           case 'Escape':
             if (isOpen) {
               event.preventDefault()
+              event.stopPropagation() // To make Modal/Dialog/Drawer not close as well
               window.requestAnimationFrame(() => {
                 toggleOpen()
               })
@@ -219,9 +220,10 @@ export function HelpButtonInlineContent(
           case 'Space':
           case 'Escape':
             event.preventDefault()
+            event.stopPropagation() // To make Modal/Dialog/Drawer not close as well
             window.requestAnimationFrame(() => {
               onClose()
-              buttonRef.current?.focus()
+              buttonRef?.current?.focus()
             })
             break
         }

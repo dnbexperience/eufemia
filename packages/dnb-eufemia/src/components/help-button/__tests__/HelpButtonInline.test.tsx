@@ -5,6 +5,7 @@ import { makeUniqueId } from '../../../shared/component-helper'
 import HelpButtonInline, {
   HelpButtonInlineContent,
 } from '../HelpButtonInline'
+import Dialog from '../../dialog/Dialog'
 
 describe('HelpButtonInline', () => {
   let uniqueId = null
@@ -116,6 +117,69 @@ describe('HelpButtonInline', () => {
         'dnb-help-button__inline--open'
       )
     })
+  })
+
+  it('keeps dialog open when Escape is pressed inside the inline help', async () => {
+    render(
+      <Dialog noAnimation openState title="Dialog">
+        <HelpButtonInline
+          focusWhenOpen
+          help={{
+            title: 'Help title',
+            content: 'Help content',
+            open: true,
+          }}
+        />
+      </Dialog>
+    )
+
+    expect(
+      document.querySelector('.dnb-modal__content')
+    ).toBeInTheDocument()
+    await waitFor(() => {
+      expect(document.documentElement).toHaveAttribute(
+        'data-dnb-modal-active'
+      )
+    })
+
+    const section = document.querySelector(
+      '.dnb-help-button__content .dnb-section'
+    ) as HTMLElement
+    expect(section).toBeInTheDocument()
+
+    section.focus()
+    await waitFor(() => {
+      expect(section).toHaveFocus()
+    })
+
+    await userEvent.keyboard('{Escape}')
+
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-help-button__content')
+      ).not.toBeInTheDocument()
+    })
+
+    await waitFor(() => {
+      expect(document.documentElement).toHaveAttribute(
+        'data-dnb-modal-active'
+      )
+    })
+
+    const closeButton = document.querySelector(
+      'button.dnb-modal__close-button'
+    ) as HTMLButtonElement
+    closeButton.focus()
+
+    await userEvent.keyboard('{Escape}')
+
+    await waitFor(() => {
+      expect(document.documentElement).not.toHaveAttribute(
+        'data-dnb-modal-active'
+      )
+    })
+
+    document.body.removeAttribute('style')
   })
 
   describe('focusWhenOpen', () => {
