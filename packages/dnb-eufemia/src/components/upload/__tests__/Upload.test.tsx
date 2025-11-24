@@ -2113,7 +2113,9 @@ describe('Upload', () => {
         name: nb.deleteButton,
       })
 
-      fireEvent.click(deleteButton)
+      await waitFor(() => {
+        fireEvent.click(deleteButton)
+      })
 
       expect(
         screen.queryByText('My remove file message error')
