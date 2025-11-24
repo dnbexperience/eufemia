@@ -235,6 +235,11 @@ export default {
       placeholder: 'Select country',
       errorRequired: 'You must select a country from the list.',
     },
+    SelectTimeZone: {
+      label: 'Time zone',
+      placeholder: 'Select time zone',
+      errorRequired: 'You must select a time zone from the list.',
+    },
     SelectCurrency: {
       label: 'Currency',
       placeholder: 'Select currency',

@@ -1,0 +1,27 @@
+---
+showTabs: true
+---
+
+import TranslationsTable from 'dnb-design-system-portal/src/shared/parts/TranslationsTable'
+import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
+import { FieldProperties } from '@dnb/eufemia/src/extensions/forms/Field/FieldDocs'
+import { SelectTimeZoneProperties } from '@dnb/eufemia/src/extensions/forms/Field/SelectTimeZone/SelectTimeZoneDocs'
+
+### Field-specific properties
+
+<PropertiesTable props={SelectTimeZoneProperties} />
+
+### General properties
+
+<PropertiesTable props={FieldProperties} />
+
+## Translations
+
+<TranslationsTable localeKey={['SelectTimeZone', 'Field']} />
+
+## List of available time zones
+
+[Link to the code of the available time zones](https://github.com/dnbexperience/eufemia/blob/main/packages/dnb-eufemia/src/extensions/forms/constants/timezones.ts).
+
+NOTE: This list does not say anything about the order in which they will appear in component `Field.SelectTimeZone`. And is only meant to easily find which time zones that's supported and available to use.
+

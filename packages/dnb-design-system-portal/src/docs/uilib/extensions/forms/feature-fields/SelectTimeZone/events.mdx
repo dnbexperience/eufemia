@@ -1,0 +1,29 @@
+---
+showTabs: true
+---
+
+import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
+import { SelectTimeZoneGeneralEvents } from '@dnb/eufemia/src/extensions/forms/Field/SelectTimeZone/SelectTimeZoneDocs'
+
+## Events
+
+<PropertiesTable props={SelectTimeZoneGeneralEvents} />
+
+### Details about argument values
+
+The event handlers has two arguments. The first one is a `string` containing the IANA time zone identifier of the selected time zone, e.g. `Europe/Oslo`, and the second argument is an object with the properties `timezone` and `i18n`.
+
+```jsx
+(
+  value?: string, // e.g. "Europe/Oslo"
+  additionalArgs?: {
+    timezone: string, // e.g. "Europe/Oslo"
+    i18n: {
+      en: string, // e.g. "Oslo"
+      nb: string // e.g. "Oslo"
+    },
+    name: string, // e.g. "Oslo"
+  }
+) => void
+```
+

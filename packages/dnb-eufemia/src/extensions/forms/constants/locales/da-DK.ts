@@ -233,6 +233,11 @@ export default {
       placeholder: 'Vælg et land',
       errorRequired: 'Du skal vælge et land fra listen.',
     },
+    SelectTimeZone: {
+      label: 'Tidszone',
+      placeholder: 'Vælg en tidszone',
+      errorRequired: 'Du skal vælge en tidszone fra listen.',
+    },
     SelectCurrency: {
       label: 'Valuta',
       placeholder: 'Vælg en valuta',

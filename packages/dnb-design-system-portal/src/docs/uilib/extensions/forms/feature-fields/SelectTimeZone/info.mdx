@@ -1,0 +1,77 @@
+---
+showTabs: true
+---
+
+## Import
+
+```tsx
+import { Field } from '@dnb/eufemia/extensions/forms'
+render(<Field.SelectTimeZone />)
+```
+
+## Description
+
+`Field.SelectTimeZone` is a wrapper component for [Field.Selection](/uilib/extensions/forms/base-fields/Selection), with options built in for selecting a time zone.
+[The list of available time zones to select](/uilib/extensions/forms/feature-fields/SelectTimeZone/properties/#list-of-available-time-zones) is carefully curated to meet the demands we know today.
+When selecting a time zone, the value returned is the selected time zone's IANA time zone identifier (e.g., `Europe/Oslo` for Oslo, Norway).
+
+There is a corresponding [Value.SelectTimeZone](/uilib/extensions/forms/Value/SelectTimeZone) component.
+
+## Relevant links
+
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Field/SelectTimeZone)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/extensions/forms/feature-fields/SelectTimeZone)
+
+## Support for locales like `sv-SE` and `da-DK`
+
+In addition to the default support for `nb-NO` and `en-GB`, you can also use the `sv-SE` and `da-DK` locales to display time zone names in Swedish or Danish.
+
+Learn more about [importing additional locales](/uilib/usage/customisation/localization/#eufemia-forms).
+
+### Prioritize time zone listing
+
+Time zones are sorted in alphabetically order, with the following prioritized time zones on top of the list:
+
+- Europe/Oslo
+- Europe/Stockholm
+- Europe/Copenhagen
+- Europe/Helsinki
+
+### TransformIn and TransformOut
+
+You can use the `transformIn` and `transformOut` to transform the value before it gets displayed in the field and before it gets sent to the form context. The second parameter is the timezone object. You may have a look at the demo below to see how it works.
+
+```tsx
+import type { TimeZoneType } from '@dnb/eufemia/extensions/forms/Field/SelectTimeZone'
+
+// From the Field (internal value) to the data context or event parameter
+const transformOut = (internal: string, timezone: TimeZoneType) => {
+  if (internal) {
+    return `${timezone.name} (${internal})`
+  }
+}
+
+// To the Field (from e.g. defaultValue)
+const transformIn = (external: unknown) => {
+  return String(external).match(/\((.*)\)/)?.[1] || 'Europe/Oslo'
+}
+```
+
+### onFocus, onBlur, onChange
+
+These events have an additional parameter with the timezone object.
+
+```tsx
+const onFocus = (value, timezone) => {}
+```
+
+### The timezone object
+
+```ts
+{
+  timezone: 'Europe/Oslo',
+  name: 'Oslo',
+  i18n: { en: 'Oslo', nb: 'Oslo' },
+}
+```
+
