@@ -177,10 +177,12 @@ class Modal extends React.PureComponent<
   }
 
   componentDidMount() {
+    console.log('Modal mounted')
     this.openBasedOnStateUpdate()
   }
 
   componentWillUnmount() {
+    console.log('Modal unmounted')
     clearTimeout(this._openTimeout)
     clearTimeout(this._closeTimeout)
 
@@ -194,11 +196,13 @@ class Modal extends React.PureComponent<
   }
 
   componentDidUpdate(prevProps) {
+    console.log(prevProps)
+    console.log(this.props)
     // Don't interfere if modal is currently transitioning, added to fix an issue with rapid state changes in React v19.
     // Could be considered to be removed in the future, when Eufemia is using React v19.
-    if (this.isInTransition) {
-      return
-    }
+    // if (this.isInTransition) {
+    //   return
+    // }
     if (prevProps !== this.props) {
       this.openBasedOnStateUpdate()
     }
