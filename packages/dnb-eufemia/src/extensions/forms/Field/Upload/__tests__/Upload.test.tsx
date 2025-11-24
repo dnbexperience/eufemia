@@ -974,21 +974,25 @@ describe('Field.Upload', () => {
 
       const element = getRootElement()
 
-      fireEvent.drop(element, {
-        dataTransfer: {
-          files: [fileValid],
-        },
-      })
+      await waitFor(() =>
+        fireEvent.drop(element, {
+          dataTransfer: {
+            files: [fileValid],
+          },
+        })
+      )
 
       expect(
         document.querySelector('.dnb-form-status')
       ).not.toBeInTheDocument()
 
-      fireEvent.drop(element, {
-        dataTransfer: {
-          files: [fileInValid],
-        },
-      })
+      await waitFor(() =>
+        fireEvent.drop(element, {
+          dataTransfer: {
+            files: [fileInValid],
+          },
+        })
+      )
 
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
         'File name is too long'
@@ -1008,11 +1012,14 @@ describe('Field.Upload', () => {
 
       const element = getRootElement()
 
-      fireEvent.drop(element, {
-        dataTransfer: {
-          files: [file],
-        },
-      })
+      await waitFor(() =>
+        fireEvent.drop(element, {
+          dataTransfer: {
+            files: [file],
+          },
+        })
+      )
+
       expect(
         document.querySelectorAll('.dnb-upload__file-cell').length
       ).toBe(0)
@@ -1031,11 +1038,14 @@ describe('Field.Upload', () => {
 
       const element = getRootElement()
 
-      fireEvent.drop(element, {
-        dataTransfer: {
-          files: [file],
-        },
+      await waitFor(() => {
+        fireEvent.drop(element, {
+          dataTransfer: {
+            files: [file],
+          },
+        })
       })
+
       expect(
         document.querySelectorAll('.dnb-upload__file-cell').length
       ).toBe(0)
@@ -1647,11 +1657,13 @@ describe('Field.Upload', () => {
 
     const element = getRootElement()
 
-    fireEvent.drop(element, {
-      dataTransfer: {
-        files: [file],
-      },
-    })
+    await waitFor(() =>
+      fireEvent.drop(element, {
+        dataTransfer: {
+          files: [file],
+        },
+      })
+    )
 
     expect(
       document.querySelectorAll('.dnb-upload__file-cell').length

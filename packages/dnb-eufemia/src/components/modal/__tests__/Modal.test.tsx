@@ -566,7 +566,7 @@ describe('Modal component', () => {
     )
 
     // open
-    fireEvent.click(document.querySelector('button'))
+    await waitFor(() => fireEvent.click(document.querySelector('button')))
 
     expect(helpers.warn).toHaveBeenCalledTimes(1)
     expect(helpers.warn).toHaveBeenCalledWith(
