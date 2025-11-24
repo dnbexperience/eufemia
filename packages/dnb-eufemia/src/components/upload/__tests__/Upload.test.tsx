@@ -40,9 +40,9 @@ describe('Upload', () => {
     render(<Upload {...defaultProps} />)
 
     const button = document.querySelector('button')
-    expect(button.classList).toContain('dnb-button--secondary')
-    expect(button.classList).toContain('dnb-button--icon-position-left')
-    expect(button.textContent).toBe(nb.buttonText)
+    expect(button).toHaveClass('dnb-button--secondary')
+    expect(button).toHaveClass('dnb-button--icon-position-left')
+    expect(button).toHaveTextContent(nb.buttonText)
   })
 
   it('renders custom button icon using buttonProps', () => {

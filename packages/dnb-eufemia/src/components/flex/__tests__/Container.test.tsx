@@ -34,7 +34,7 @@ describe('Flex.Container', () => {
     )
     const element = document.querySelector('.dnb-flex-container ')
 
-    expect(element.classList).toContain('dnb-space__top--large')
+    expect(element).toHaveClass('dnb-space__top--large')
 
     rerender(
       <Flex.Container top="x-large">
@@ -42,7 +42,7 @@ describe('Flex.Container', () => {
       </Flex.Container>
     )
 
-    expect(element.classList).toContain('dnb-space__top--x-large')
+    expect(element).toHaveClass('dnb-space__top--x-large')
   })
 
   it('should have wrap enabled by default', () => {

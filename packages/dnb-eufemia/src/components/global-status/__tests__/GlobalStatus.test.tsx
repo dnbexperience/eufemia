@@ -192,8 +192,8 @@ describe('GlobalStatus component', () => {
     )
 
     const newUlItems = document.querySelectorAll('ul.dnb-ul li')
-    expect(newUlItems[0].textContent).toBe('Item3')
-    expect(newUlItems[1].textContent).toBe('Item4')
+    expect(newUlItems[0]).toHaveTextContent('Item3')
+    expect(newUlItems[1]).toHaveTextContent('Item4')
     expect(
       document.querySelectorAll(
         'div.dnb-global-status__message p.dnb-p'
@@ -221,7 +221,7 @@ describe('GlobalStatus component', () => {
 
     render(<GlobalStatus autoscroll={false} id="custom-status-remove" />)
 
-    expect(document.querySelector('.dnb-global-status').innerHTML).toBe('')
+    expect(document.querySelector('.dnb-global-status')).toBeEmptyDOMElement()
 
     render(
       <GlobalStatus.Add

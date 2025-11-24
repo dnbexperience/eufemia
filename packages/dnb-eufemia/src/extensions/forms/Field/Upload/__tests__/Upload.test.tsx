@@ -23,9 +23,10 @@ describe('Field.Upload', () => {
   it('should render with defaults', () => {
     render(<Field.Upload />)
 
-    const [title, text] = Array.from(document.querySelectorAll('p'))
-    expect(title).toHaveTextContent(nbShared.Upload.title)
-    expect(text).toHaveTextContent(nbShared.Upload.text)
+    const title = screen.getByText(nbShared.Upload.title)
+    const text = screen.getByText(nbShared.Upload.text)
+    expect(title).toBeInTheDocument()
+    expect(text).toBeInTheDocument()
 
     const [firstDt, secondDt] = Array.from(
       document.querySelectorAll('dl dt')

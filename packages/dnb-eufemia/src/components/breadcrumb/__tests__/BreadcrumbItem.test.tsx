@@ -28,7 +28,7 @@ describe('BreadcrumbItem', () => {
 
     expect(document.querySelector('li')).toBeInTheDocument()
     expect(document.querySelector('a')).toBeDefined()
-    expect(document.querySelector('a').getAttribute('href')).toBe('/url')
+    expect(document.querySelector('a')).toHaveAttribute('href', '/url')
   })
 
   it('renders breadcrumb item as a button', () => {
