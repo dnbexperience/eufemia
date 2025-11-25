@@ -3,8 +3,8 @@
 > DNB’s Eufemia design system. This file points LLMs to machine-readable docs and clean Markdown copies.
 
 Index (JSON): https://eufemia.dnb.no/llm/index.json
-Version: 10.90.0
-GeneratedAt: 2025-11-20T10:10:05.562Z
+Version: 10.90.1
+GeneratedAt: 2025-11-25T10:28:58.494Z
 
 ## Components
 
@@ -73,7 +73,7 @@ GeneratedAt: 2025-11-20T10:10:05.562Z
   - Docs: https://eufemia.dnb.no/uilib/components/date-format/
   - Checksum: 21ee20901c5fdcb63f7b3c1f0b430b0b63e3c6dbcce5a161cdfdfd671ffd415f
 
-- [DatePicker](https://eufemia.dnb.no/uilib/components/date-picker/): The DatePicker component should be used whenever there is to enter a single date or a date period.
+- [DatePicker](https://eufemia.dnb.no/uilib/components/date-picker/): The DatePicker component should be used whenever the user is to enter a single date or a date period.
   - Metadata: https://eufemia.dnb.no/llm/uilib/components/date-picker/metadata.json
   - Docs: https://eufemia.dnb.no/uilib/components/date-picker/
   - Checksum: a5f94909d4e985a092ffa2d0578bd8d019ce4e76be176b3813e7f974678505c0

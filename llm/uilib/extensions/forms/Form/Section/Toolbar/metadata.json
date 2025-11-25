@@ -35,7 +35,7 @@
   "source": {
     "repo": "https://github.com/dnbexperience/eufemia",
     "file": "packages/dnb-eufemia/src/extensions/forms/Form/Section/Toolbar/Toolbar.tsx",
-    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.90.0/packages/dnb-eufemia/src/extensions/forms/Form/Section/Toolbar/Toolbar.tsx"
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.90.1/packages/dnb-eufemia/src/extensions/forms/Form/Section/Toolbar/Toolbar.tsx"
   },
   "sources": {
     "entry": {
@@ -55,7 +55,7 @@
       "public": "https://eufemia.dnb.no/uilib/extensions/forms/Form/Section/Toolbar/demos/"
     }
   },
-  "version": "10.90.0",
-  "generatedAt": "2025-11-20T10:10:04.917Z",
+  "version": "10.90.1",
+  "generatedAt": "2025-11-25T10:28:57.822Z",
   "schemaVersion": 1
 }
