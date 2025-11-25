@@ -5,6 +5,8 @@
 
 import React from 'react'
 import { axeComponent } from '../../../core/jest/jestSetup'
+import Dialog from '../../../components/dialog/Dialog'
+import Drawer from '../../../components/drawer/Drawer'
 import P, { PProps } from '../P'
 import { render } from '@testing-library/react'
 
@@ -43,6 +45,74 @@ describe('P element', () => {
 
     const element = document.querySelector('.dnb-p > .dnb-p')
     expect(element.tagName).toBe('STRONG')
+  })
+
+  describe('paragraphs inside Dialog', () => {
+    it('renders as a paragraph inside Dialog even when the Dialog is wrapped by another paragraph', () => {
+      render(
+        <P>
+          <Dialog noAnimation openState title="Dialog title">
+            <P>Dialog paragraph</P>
+          </Dialog>
+        </P>
+      )
+
+      const dialogParagraph = document.querySelector(
+        '.dnb-dialog__content .dnb-p'
+      )
+      expect(dialogParagraph.tagName).toBe('P')
+    })
+
+    it('still renders nested paragraphs inside Dialog as spans', () => {
+      render(
+        <P>
+          <Dialog noAnimation openState title="Dialog title">
+            <P>
+              <P>Inner Paragraph</P>
+            </P>
+          </Dialog>
+        </P>
+      )
+
+      const nestedParagraph = document.querySelector(
+        '.dnb-dialog__content .dnb-p .dnb-p'
+      )
+      expect(nestedParagraph.tagName).toBe('SPAN')
+    })
+  })
+
+  describe('paragraphs inside Drawer', () => {
+    it('renders as a paragraph inside Drawer even when the Drawer is wrapped by another paragraph', () => {
+      render(
+        <P>
+          <Drawer noAnimation openState title="Drawer title">
+            <P>Drawer paragraph</P>
+          </Drawer>
+        </P>
+      )
+
+      const drawerParagraph = document.querySelector(
+        '.dnb-drawer__content .dnb-p'
+      )
+      expect(drawerParagraph.tagName).toBe('P')
+    })
+
+    it('still renders nested paragraphs inside Drawer as spans', () => {
+      render(
+        <P>
+          <Drawer noAnimation openState title="Drawer title">
+            <P>
+              <P>Inner Paragraph</P>
+            </P>
+          </Drawer>
+        </P>
+      )
+
+      const nestedParagraph = document.querySelector(
+        '.dnb-drawer__content .dnb-p .dnb-p'
+      )
+      expect(nestedParagraph.tagName).toBe('SPAN')
+    })
   })
 
   it('can set className', () => {
