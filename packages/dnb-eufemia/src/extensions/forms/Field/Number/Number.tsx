@@ -117,7 +117,10 @@ function NumberComponent(props: Props) {
               return
             }
             // Default JavaScript safe integer limits
-            if (val < defaultMinimum) {
+            if (
+              (p.minimum === undefined || p.minimum < defaultMinimum) &&
+              val < defaultMinimum
+            ) {
               ctx.addIssue({
                 code: 'too_small',
                 minimum: defaultMinimum,
@@ -132,7 +135,10 @@ function NumberComponent(props: Props) {
               })
             }
 
-            if (val > defaultMaximum) {
+            if (
+              (p.maximum === undefined || p.maximum > defaultMaximum) &&
+              val > defaultMaximum
+            ) {
               ctx.addIssue({
                 code: 'too_big',
                 maximum: defaultMaximum,
