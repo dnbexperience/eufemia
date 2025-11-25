@@ -595,6 +595,9 @@ function splitValue(value: string) {
 }
 
 function joinValue(array: Array<string>) {
+  if (array.some((value) => value === undefined)) {
+    return undefined
+  }
   return array.filter(Boolean).join(' ')
 }
 
