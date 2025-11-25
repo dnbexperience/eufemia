@@ -36,6 +36,7 @@ import type { IsolationProviderProps } from '../../Form/Isolation/Isolation'
 import { debounce, warn } from '../../../../shared/helpers'
 import FieldPropsProvider from '../../Field/Provider'
 import useUpdateEffect from '../../../../shared/helpers/useUpdateEffect'
+import GlobalStatusProvider from '../../../../components/global-status/GlobalStatusProvider'
 import { isAsync } from '../../../../shared/helpers/isAsync'
 import {
   SharedStateId,
@@ -1584,20 +1585,22 @@ export default function Provider<Data extends JsonObject>(
     sharedDataContext.set(contextValue)
   }
 
+  const show = Boolean(showAllErrorsRef.current)
+  const formStatusConfig = useMemo(() => {
+    const status = show ? GlobalStatusProvider.get(globalStatusId) : null
+    return {
+      globalStatus: {
+        show,
+        id: globalStatusId,
+        title: status?.stack[0]?.title ?? translation.errorSummaryTitle,
+      },
+    }
+  }, [globalStatusId, show, translation.errorSummaryTitle])
+
   return (
     <DataContext.Provider value={contextValue}>
       <FieldPropsProvider
-        FormStatus={
-          globalStatusId
-            ? {
-                globalStatus: {
-                  id: globalStatusId,
-                  title: translation.errorSummaryTitle,
-                  show: Boolean(showAllErrorsRef.current),
-                },
-              }
-            : undefined
-        }
+        FormStatus={formStatusConfig}
         formElement={disabled ? { disabled: true } : undefined}
         locale={locale ? locale : undefined}
         translations={translations ? translations : undefined}

@@ -795,8 +795,9 @@ button.dnb-button::-moz-focus-inner {
 
 html[data-dnb-modal-active] {
   user-select: none;
-  /* stylelint-disable-next-line */
-  -webkit-user-select: none;
+}
+html[data-dnb-modal-active] .eufemia-portal-root {
+  user-select: text;
 }
 
 .dnb-modal {
@@ -813,9 +814,6 @@ html[data-dnb-modal-active] {
   max-width: 100vw;
   width: 100%;
   height: 100%;
-  user-select: none;
-  /* stylelint-disable-next-line */
-  -webkit-user-select: none;
 }
 @media screen and (max-width: 40em) {
   .dnb-modal__content--auto-fullscreen {

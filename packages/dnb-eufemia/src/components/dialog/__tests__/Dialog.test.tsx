@@ -558,6 +558,7 @@ describe('Dialog', () => {
           }}
         >
           <Dialog
+            noAnimation
             openState={isOpen}
             onClose={() => setIsOpen(false)}
             title="Test Dialog"

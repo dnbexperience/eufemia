@@ -945,6 +945,7 @@ class AutocompleteInstance extends React.PureComponent {
 
         break
 
+      case 'escape':
       case 'esc':
         this.setState({
           showAllNextTime: true,

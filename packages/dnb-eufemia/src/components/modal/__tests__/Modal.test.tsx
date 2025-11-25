@@ -1553,6 +1553,41 @@ describe('Modal component', () => {
     ).not.toBeInTheDocument()
   })
 
+  it('should close on esc when used with external state', async () => {
+    const ModalTriggerMock = () => {
+      const [modalOpen, setModalOpen] = React.useState(true)
+
+      return (
+        <Modal
+          open_state={modalOpen}
+          on_open={() => {
+            setModalOpen(true)
+          }}
+          on_close={() => {
+            setModalOpen(false)
+          }}
+          omit_trigger_button
+        >
+          Modal Content
+        </Modal>
+      )
+    }
+
+    render(<ModalTriggerMock />)
+
+    await waitFor(() => {
+      expect(
+        document.querySelector('div.dnb-modal-root__inner')
+      ).toBeInTheDocument()
+    })
+    await userEvent.keyboard('{esc}')
+    await waitFor(() => {
+      expect(
+        document.querySelector('div.dnb-modal-root__inner')
+      ).not.toBeInTheDocument()
+    })
+  })
+
   it('has to have the correct aria-describedby', () => {
     render(<Modal {...props} open_state={true} />)
     expect(

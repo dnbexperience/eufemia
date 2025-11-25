@@ -4,7 +4,6 @@ import {
   render,
   renderHook,
   screen,
-  waitFor,
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Field, Form } from '../../..'
@@ -126,13 +125,11 @@ describe('useHasContentChanged', () => {
 
     await userEvent.click(deleteButton)
 
-    await waitFor(() =>
-      fireEvent.drop(document.querySelector('.dnb-upload'), {
-        dataTransfer: {
-          files: [createMockFile('fileName2.jpg', 0, 'image/jpeg')],
-        },
-      })
-    )
+    fireEvent.drop(document.querySelector('.dnb-upload'), {
+      dataTransfer: {
+        files: [createMockFile('fileName2.jpg', 0, 'image/jpeg')],
+      },
+    })
 
     expect(hasContentChanged).toBe(true)
   })

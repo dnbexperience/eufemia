@@ -7,7 +7,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "dependencies": {
-    "@dnb/eufemia": "workspace:*",
+    "@dnb/eufemia": "workspace:*"
+  },
+  "peerDependencies": {
     "@emotion/react": "11.9.3",
     "@emotion/styled": "11.9.3",
     "classnames": "2.3.1",

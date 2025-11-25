@@ -136,7 +136,11 @@ function PortalRoot(props: PortalRootProps = {}): JSX.Element {
       uniqueKey={false} // ensure that the scope is used on every portal root
     >
       <div
-        className={classnames('dnb-core-style', className)}
+        className={classnames(
+          'dnb-core-style',
+          'eufemia-portal-root',
+          className
+        )}
         style={{ ...scopeStyle, ...style }}
         {...rest}
       >

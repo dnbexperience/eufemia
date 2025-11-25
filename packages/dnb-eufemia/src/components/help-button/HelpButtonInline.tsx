@@ -30,6 +30,10 @@ export type HelpProps = {
   breakout?: boolean
   /** Only for the "inline" variant */
   outset?: boolean
+  /**
+   * If set to `true`, no open/close animation will be shown when renderAs="dialog". Defaults to `false`.
+   */
+  noAnimation?: boolean
 }
 
 export type HelpButtonInlineProps = HelpButtonProps & {
@@ -94,6 +98,7 @@ export default function HelpButtonInline(props: HelpButtonInlineProps) {
           case 'Escape':
             if (isOpen) {
               event.preventDefault()
+              event.stopPropagation() // To make Modal/Dialog/Drawer not close as well
               window.requestAnimationFrame(() => {
                 toggleOpen()
               })
@@ -185,6 +190,7 @@ export function HelpButtonInlineContent(
     title,
     content,
     renderAs,
+    noAnimation,
     breakout: breakoutProp = true,
     outset: outsetProp = true,
   } = helpProp || {}
@@ -219,9 +225,10 @@ export function HelpButtonInlineContent(
           case 'Space':
           case 'Escape':
             event.preventDefault()
+            event.stopPropagation() // To make Modal/Dialog/Drawer not close as well
             window.requestAnimationFrame(() => {
               onClose()
-              buttonRef.current?.focus()
+              buttonRef?.current?.focus()
             })
             break
         }
@@ -237,6 +244,7 @@ export function HelpButtonInlineContent(
         omitTriggerButton
         openState={isOpen ?? open}
         onClose={onClose}
+        noAnimation={noAnimation}
       >
         {content}
         {children}

@@ -1,5 +1,5 @@
 import React from 'react'
-import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import UploadFileInput from '../UploadFileInput'
 import { createMockFile } from './testHelpers'
 import { UploadContextProps } from '../types'
@@ -118,11 +118,9 @@ describe('UploadFileInput', () => {
 
     const inputElement = document.querySelector('.dnb-upload__file-input')
 
-    await waitFor(() =>
-      fireEvent.change(inputElement, {
-        target: { files: [file] },
-      })
-    )
+    fireEvent.change(inputElement, {
+      target: { files: [file] },
+    })
 
     expect(onInputUpload).toHaveBeenCalledWith([{ file }])
   })
@@ -147,15 +145,13 @@ describe('UploadFileInput', () => {
 
     expect(inputElement.value).toBe('mock-value')
 
-    await waitFor(() => fireEvent.click(inputElement))
+    fireEvent.click(inputElement)
 
     expect(inputElement.value).toBe(null)
 
-    await waitFor(() =>
-      fireEvent.change(inputElement, {
-        target: { files: [file] },
-      })
-    )
+    fireEvent.change(inputElement, {
+      target: { files: [file] },
+    })
     expect(onInputUpload).toHaveBeenCalledWith([{ file }])
   })
 
@@ -199,11 +195,9 @@ describe('UploadFileInput', () => {
 
     const inputElement = document.querySelector('.dnb-upload__file-input')
 
-    await waitFor(() =>
-      fireEvent.change(inputElement, {
-        target: { files: [file1, file2] },
-      })
-    )
+    fireEvent.change(inputElement, {
+      target: { files: [file1, file2] },
+    })
 
     expect(onInputUpload).toHaveBeenCalledWith([
       { file: file1 },
