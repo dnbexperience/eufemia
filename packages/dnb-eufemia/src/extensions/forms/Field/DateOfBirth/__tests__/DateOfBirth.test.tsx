@@ -39,7 +39,7 @@ describe('Field.DateOfBirth', () => {
       await userEvent.click(document.querySelector('[role="option"]'))
       await userEvent.type(yearInput, '2023')
 
-      expect(onChange).toHaveBeenCalledTimes(5)
+      expect(onChange).toHaveBeenCalledTimes(4)
       expect(onChange).toHaveBeenLastCalledWith(
         '2023-12-24',
         expect.objectContaining({
@@ -72,7 +72,7 @@ describe('Field.DateOfBirth', () => {
       await userEvent.click(document.querySelector('[role="option"]'))
       await userEvent.type(yearInput, '2023')
 
-      expect(onChange).toHaveBeenCalledTimes(5)
+      expect(onChange).toHaveBeenCalledTimes(4)
       expect(onChange).toHaveBeenLastCalledWith(
         { dob: '2023-12-24' },
         expect.anything()
@@ -167,7 +167,7 @@ describe('Field.DateOfBirth', () => {
       await userEvent.type(yearInput, '2023')
 
       // Check that transformOut was called with the correct values
-      expect(transformOut).toHaveBeenCalledTimes(17)
+      expect(transformOut).toHaveBeenCalledTimes(15)
       expect(transformOut).toHaveBeenLastCalledWith('2023-12-24', {
         year: '2023',
         month: '12',
@@ -207,7 +207,7 @@ describe('Field.DateOfBirth', () => {
       await userEvent.type(yearInput, '2023')
 
       await waitFor(() => {
-        expect(onChange).toHaveBeenCalledTimes(5)
+        expect(onChange).toHaveBeenCalledTimes(4)
       })
 
       expect(onChange).toHaveBeenLastCalledWith(
@@ -238,7 +238,7 @@ describe('Field.DateOfBirth', () => {
       await userEvent.type(yearInput, '2023')
 
       await waitFor(() => {
-        expect(onChange).toHaveBeenCalledTimes(5)
+        expect(onChange).toHaveBeenCalledTimes(4)
       })
 
       expect(onChange).toHaveBeenLastCalledWith(
@@ -269,7 +269,7 @@ describe('Field.DateOfBirth', () => {
       await userEvent.type(yearInput, '2023')
 
       await waitFor(() => {
-        expect(onChange).toHaveBeenCalledTimes(5)
+        expect(onChange).toHaveBeenCalledTimes(4)
       })
 
       expect(onChange).toHaveBeenLastCalledWith(
@@ -280,7 +280,7 @@ describe('Field.DateOfBirth', () => {
       )
     })
 
-    it('should return correct value onChange event', async () => {
+    it('should return undefined onChange event when removing inputted data', async () => {
       const onChange = jest.fn()
 
       render(<Field.DateOfBirth onChange={onChange} />)
