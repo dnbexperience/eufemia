@@ -1,5 +1,10 @@
 import React from 'react'
-import { render, renderHook, waitFor } from '@testing-library/react'
+import {
+  fireEvent,
+  render,
+  renderHook,
+  waitFor,
+} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import useValueProps from '../useValueProps'
 import Provider from '../../DataContext/Provider'
@@ -466,7 +471,7 @@ describe('useValueProps', () => {
         expect(valueElementAfter).toBeInTheDocument()
       }
 
-      await userEvent.click(document.querySelector('button'))
+      fireEvent.click(document.querySelector('button'))
 
       {
         const [valueElementBefore, valueElementAfter] = Array.from(
@@ -482,7 +487,7 @@ describe('useValueProps', () => {
         })
       }
 
-      await userEvent.click(document.querySelector('button'))
+      fireEvent.click(document.querySelector('button'))
 
       await waitFor(() => {
         const [valueElementBefore, valueElementAfter] = Array.from(
@@ -534,7 +539,7 @@ describe('useValueProps', () => {
         expect(valueElementAfter).toBeInTheDocument()
       }
 
-      await userEvent.click(document.querySelector('button'))
+      fireEvent.click(document.querySelector('button'))
 
       {
         const [valueElementBefore, valueElementAfter] = Array.from(
@@ -550,7 +555,7 @@ describe('useValueProps', () => {
         })
       }
 
-      await userEvent.click(document.querySelector('button'))
+      fireEvent.click(document.querySelector('button'))
 
       await waitFor(() => {
         const [valueElementBefore, valueElementAfter] = Array.from(
