@@ -57,7 +57,7 @@ function Expiry(props: ExpiryProps = {}) {
         isFieldEmpty(month, placeholders.month) &&
         isFieldEmpty(year, placeholders.year)
       ) {
-        return ''
+        return undefined
       }
 
       return `${month}${year}`
@@ -100,7 +100,7 @@ function Expiry(props: ExpiryProps = {}) {
           isFieldEmpty(monthString, placeholders.month) &&
           isFieldEmpty(yearString, placeholders.year)
         ) {
-          return ''
+          return undefined
         }
 
         return `${monthString}${yearString}`

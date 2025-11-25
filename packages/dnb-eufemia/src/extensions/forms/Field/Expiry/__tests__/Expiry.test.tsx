@@ -237,19 +237,20 @@ describe('Field.Expiry', () => {
     await userEvent.click(yearInput)
     await userEvent.keyboard('{Backspace>2}')
     expect(yearInput.value).toBe('åå')
+    expect(monthInput.value).toBe('mm')
 
     // Check that transformOut was called with empty values when both are removed
-    expect(transformOut).toHaveBeenLastCalledWith('', {
-      year: '',
-      month: '',
+    expect(transformOut).toHaveBeenLastCalledWith(undefined, {
+      year: false,
+      month: false,
     })
 
     // Check that onChange was called with the transformed data
     expect(onChange).toHaveBeenLastCalledWith(
       {
         myField: {
-          year: '',
-          month: '',
+          year: false,
+          month: false,
         },
       },
       expect.anything()
@@ -298,8 +299,9 @@ describe('Field.Expiry', () => {
     // Remove year value completely
     await userEvent.keyboard('{Backspace>2}')
     expect(yearInput.value).toBe('åå')
+    expect(monthInput.value).toBe('mm')
     expect(onChange).toHaveBeenCalledTimes(2)
-    expect(onChange).toHaveBeenLastCalledWith('', expect.anything())
+    expect(onChange).toHaveBeenLastCalledWith(undefined, expect.anything())
 
     // Blur to trigger validation
     await userEvent.click(document.body)
