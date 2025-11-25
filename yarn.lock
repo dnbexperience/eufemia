@@ -34843,8 +34843,6 @@ __metadata:
 "storybook-utils@workspace:*, storybook-utils@workspace:tools/storybook-utils":
   version: 0.0.0-use.local
   resolution: "storybook-utils@workspace:tools/storybook-utils"
-  dependencies:
-    "@dnb/eufemia": "workspace:*"
   peerDependencies:
     "@emotion/react": 11.9.3
     "@emotion/styled": 11.9.3
