@@ -350,6 +350,7 @@ describe('Form.SubmitConfirmation', () => {
                 <Dialog
                   title="Title"
                   variant="confirmation"
+                  noAnimation
                   {...connectWithDialog}
                 />
               )
@@ -449,6 +450,7 @@ describe('Form.SubmitConfirmation', () => {
                 <Dialog
                   title="Title"
                   variant="confirmation"
+                  noAnimation
                   {...connectWithDialog}
                 />
               )
@@ -520,6 +522,7 @@ describe('Form.SubmitConfirmation', () => {
                 <Dialog
                   title="Title"
                   variant="confirmation"
+                  noAnimation
                   {...connectWithDialog}
                 />
               </>

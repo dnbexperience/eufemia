@@ -195,6 +195,11 @@ class Modal extends React.PureComponent<
   }
 
   componentDidUpdate(prevProps) {
+    // Don't interfere if modal is currently transitioning, added to fix an issue with rapid state changes in React v19.
+    // Could be considered to be removed in the future, when Eufemia is using React v19.
+    if (this.isInTransition) {
+      return
+    }
     if (prevProps !== this.props) {
       this.openBasedOnStateUpdate()
     }

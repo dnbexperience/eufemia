@@ -30,6 +30,10 @@ export type HelpProps = {
   breakout?: boolean
   /** Only for the "inline" variant */
   outset?: boolean
+  /**
+   * If set to `true`, no open/close animation will be shown when renderAs="dialog". Defaults to `false`.
+   */
+  noAnimation?: boolean
 }
 
 export type HelpButtonInlineProps = HelpButtonProps & {
@@ -186,6 +190,7 @@ export function HelpButtonInlineContent(
     title,
     content,
     renderAs,
+    noAnimation,
     breakout: breakoutProp = true,
     outset: outsetProp = true,
   } = helpProp || {}
@@ -239,6 +244,7 @@ export function HelpButtonInlineContent(
         omitTriggerButton
         openState={isOpen ?? open}
         onClose={onClose}
+        noAnimation={noAnimation}
       >
         {content}
         {children}

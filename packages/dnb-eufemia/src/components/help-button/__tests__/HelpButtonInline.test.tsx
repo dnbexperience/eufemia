@@ -446,7 +446,11 @@ describe('HelpButtonInline', () => {
   it('should render dialog when renderAs is "dialog"', async () => {
     render(
       <HelpButtonInline
-        help={{ renderAs: 'dialog', title: 'Dialog Title' }}
+        help={{
+          renderAs: 'dialog',
+          title: 'Dialog Title',
+          noAnimation: true,
+        }}
       />
     )
 
