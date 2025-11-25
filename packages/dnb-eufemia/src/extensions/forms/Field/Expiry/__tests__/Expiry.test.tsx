@@ -85,7 +85,7 @@ describe('Field.Expiry', () => {
     expect(onChange).toHaveBeenLastCalledWith('1235', expect.anything())
   })
 
-  it('should return month and year values as undefined when no value', async () => {
+  it('should return month and year values as undefined when removing value', async () => {
     const onChange = jest.fn()
 
     render(<Field.Expiry onChange={onChange} />)
@@ -100,7 +100,7 @@ describe('Field.Expiry', () => {
     const yearInput = document.querySelectorAll('input')[1]
 
     await userEvent.keyboard('1235')
-    await userEvent.keyboard('{Backspace>4}')
+    await userEvent.keyboard('{Backspace>5}')
 
     expect(monthInput.value).toBe('mm')
     expect(yearInput.value).toBe('åå')
