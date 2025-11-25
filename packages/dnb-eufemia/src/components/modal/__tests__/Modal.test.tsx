@@ -1558,20 +1558,18 @@ describe('Modal component', () => {
       const [modalOpen, setModalOpen] = React.useState(true)
 
       return (
-        <>
-          <Modal
-            open_state={modalOpen}
-            on_open={() => {
-              setModalOpen(true)
-            }}
-            on_close={() => {
-              setModalOpen(false)
-            }}
-            omit_trigger_button
-          >
-            Modal Content
-          </Modal>
-        </>
+        <Modal
+          open_state={modalOpen}
+          on_open={() => {
+            setModalOpen(true)
+          }}
+          on_close={() => {
+            setModalOpen(false)
+          }}
+          omit_trigger_button
+        >
+          Modal Content
+        </Modal>
       )
     }
 
