@@ -2175,6 +2175,53 @@ describe('Field.Number', () => {
       })
     })
 
+    it('should show minimum error when entering value less than MIN_SAFE_INTEGER (e.g. -9007199254740992)', async () => {
+      const minimum = 10
+      render(<Field.Number minimum={minimum} />)
+      const input = document.querySelector('input')
+
+      await userEvent.type(input, '-9007199254740992')
+
+      await waitFor(() => {
+        const statusElement = document.querySelector('.dnb-form-status')
+        expect(statusElement).toBeInTheDocument()
+
+        // Check that the message contains the Norwegian text and the formatted number
+        const alertText = statusElement.textContent
+        const expectedText = nb.NumberField.errorMinimum.replace(
+          '{minimum}',
+          String(format(minimum, { locale: 'nb-NO' }))
+        )
+        // Use regex to handle both regular and non-breaking spaces
+        const expectedRegex = expectedText.replace(/\s/g, '\\s')
+        expect(alertText).toMatch(new RegExp(expectedRegex))
+      })
+    })
+
+    it('should show minimum error when entering value less than MIN_SAFE_INTEGER (e.g. -9007199254740992) when providing minimum', async () => {
+      // eslint-disable-next-line @typescript-eslint/no-loss-of-precision
+      const minimum = -9007199254740993
+      render(<Field.Number minimum={minimum} />)
+      const input = document.querySelector('input')
+
+      await userEvent.type(input, '-9007199254740992')
+
+      await waitFor(() => {
+        const statusElement = document.querySelector('.dnb-form-status')
+        expect(statusElement).toBeInTheDocument()
+
+        // Check that the message contains the Norwegian text and the formatted number
+        const alertText = statusElement.textContent
+        const expectedText = nb.NumberField.errorMinimum.replace(
+          '{minimum}',
+          String(format(Number.MIN_SAFE_INTEGER, { locale: 'nb-NO' }))
+        )
+        // Use regex to handle both regular and non-breaking spaces
+        const expectedRegex = expectedText.replace(/\s/g, '\\s')
+        expect(alertText).toMatch(new RegExp(expectedRegex))
+      })
+    })
+
     it('should set validateContinuously to true when numberValue exceeds MAX_SAFE_INTEGER', () => {
       const TestComponent = () => {
         const [value, setValue] = React.useState(undefined)
@@ -2330,7 +2377,7 @@ describe('Field.Number', () => {
     })
 
     it('should show error on blur when maximum safe integer is exceeded (default behavior)', async () => {
-      render(<Field.Number maximum={Number.MAX_SAFE_INTEGER} />)
+      render(<Field.Number />)
       const input = document.querySelector('input')
 
       // Type a value that exceeds MAX_SAFE_INTEGER
@@ -2346,6 +2393,55 @@ describe('Field.Number', () => {
         const expectedText = nb.NumberField.errorMaximum.replace(
           '{maximum}',
           String(format(Number.MAX_SAFE_INTEGER, { locale: 'nb-NO' }))
+        )
+        // Use regex to handle both regular and non-breaking spaces
+        const expectedRegex = expectedText.replace(/\s/g, '\\s')
+        expect(alertText).toMatch(new RegExp(expectedRegex))
+      })
+    })
+
+    it('should show error on blur when maximum safe integer is exceeded (default behavior) when providing maximum', async () => {
+      render(<Field.Number maximum={9007199254740992} />)
+      const input = document.querySelector('input')
+
+      // Type a value that exceeds MAX_SAFE_INTEGER
+      await userEvent.type(input, '9007199254740993') // MAX_SAFE_INTEGER + 1
+
+      // Error should appear during typing because it exceeds safe integer range
+      await waitFor(() => {
+        const statusElement = document.querySelector('.dnb-form-status')
+        expect(statusElement).toBeInTheDocument()
+
+        // Check that the message contains the Norwegian text and the formatted number
+        const alertText = statusElement.textContent
+        const expectedText = nb.NumberField.errorMaximum.replace(
+          '{maximum}',
+          String(format(Number.MAX_SAFE_INTEGER, { locale: 'nb-NO' }))
+        )
+        // Use regex to handle both regular and non-breaking spaces
+        const expectedRegex = expectedText.replace(/\s/g, '\\s')
+        expect(alertText).toMatch(new RegExp(expectedRegex))
+      })
+    })
+
+    it('should show maximum error on blur when maximum safe integer is exceeded (default behavior)', async () => {
+      const maximum = 10
+      render(<Field.Number maximum={maximum} />)
+      const input = document.querySelector('input')
+
+      // Type a value that exceeds MAX_SAFE_INTEGER
+      await userEvent.type(input, '9007199254740992') // MAX_SAFE_INTEGER + 1
+
+      // Error should appear during typing because it exceeds safe integer range
+      await waitFor(() => {
+        const statusElement = document.querySelector('.dnb-form-status')
+        expect(statusElement).toBeInTheDocument()
+
+        // Check that the message contains the Norwegian text and the formatted number
+        const alertText = statusElement.textContent
+        const expectedText = nb.NumberField.errorMaximum.replace(
+          '{maximum}',
+          String(format(maximum, { locale: 'nb-NO' }))
         )
         // Use regex to handle both regular and non-breaking spaces
         const expectedRegex = expectedText.replace(/\s/g, '\\s')
