@@ -85,6 +85,29 @@ describe('Field.Expiry', () => {
     expect(onChange).toHaveBeenLastCalledWith('1235', expect.anything())
   })
 
+  it('should return month and year values as undefined when no value', async () => {
+    const onChange = jest.fn()
+
+    render(<Field.Expiry onChange={onChange} />)
+
+    const input = document.querySelector('input')
+
+    act(() => {
+      input.focus()
+    })
+
+    const monthInput = document.querySelectorAll('input')[0]
+    const yearInput = document.querySelectorAll('input')[1]
+
+    await userEvent.keyboard('1235')
+    await userEvent.keyboard('{Backspace>4}')
+
+    expect(monthInput.value).toBe('mm')
+    expect(yearInput.value).toBe('åå')
+
+    expect(onChange).toHaveBeenLastCalledWith(undefined, expect.anything())
+  })
+
   it('should have autofill attributes', () => {
     render(<Field.Expiry />)
 
