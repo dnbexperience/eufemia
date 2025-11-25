@@ -167,6 +167,7 @@ export const ExampleExample = () => (
         <React.StrictMode>
           openState: {isOpen.toString()}
           <Dialog
+            id="unique-dialog-id"
             triggerAttributes={{ text: 'Open dialog' }}
             openState={isOpen}
             onOpen={() => {
