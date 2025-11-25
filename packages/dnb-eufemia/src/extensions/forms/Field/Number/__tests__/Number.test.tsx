@@ -2199,6 +2199,7 @@ describe('Field.Number', () => {
     })
 
     it('should show minimum error when entering value less than MIN_SAFE_INTEGER (e.g. -9007199254740992) when providing minimum', async () => {
+      // eslint-disable-next-line @typescript-eslint/no-loss-of-precision
       const minimum = -9007199254740993
       render(<Field.Number minimum={minimum} />)
       const input = document.querySelector('input')
