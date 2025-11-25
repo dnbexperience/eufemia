@@ -26,6 +26,7 @@ import ModalHeaderBar from './parts/ModalHeaderBar'
 import { ScrollViewAllProps } from '../../fragments/scroll-view/ScrollView'
 import CloseButton from './parts/CloseButton'
 import ModalRoot from './ModalRoot'
+import { ParagraphContext } from '../../elements/typography/P'
 import type { SpacingProps } from '../../shared/types'
 import {
   classWithCamelCaseProps,
@@ -527,23 +528,27 @@ class Modal extends React.PureComponent<
           )}
 
           {modalActive && modal_content && (
-            <ModalRoot
-              {...rest}
-              id={this._id}
-              root_id={root_id}
-              content_id={content_id || `dnb-modal-${this._id}`}
-              labelled_by={labelled_by}
-              focus_selector={focus_selector}
-              modal_content={modal_content}
-              header_content={header_content}
-              vertical_alignment={vertical_alignment}
-              bar_content={bar_content}
-              bypass_invalidation_selectors={bypass_invalidation_selectors}
-              close={this.close}
-              hide={hide}
-              title={rest.title || fallbackTitle}
-              modalContentCloseRef={this.modalContentCloseRef}
-            />
+            <ParagraphContext.Provider value={{ isNested: false }}>
+              <ModalRoot
+                {...rest}
+                id={this._id}
+                root_id={root_id}
+                content_id={content_id || `dnb-modal-${this._id}`}
+                labelled_by={labelled_by}
+                focus_selector={focus_selector}
+                modal_content={modal_content}
+                header_content={header_content}
+                vertical_alignment={vertical_alignment}
+                bar_content={bar_content}
+                bypass_invalidation_selectors={
+                  bypass_invalidation_selectors
+                }
+                close={this.close}
+                hide={hide}
+                title={rest.title || fallbackTitle}
+                modalContentCloseRef={this.modalContentCloseRef}
+              />
+            </ParagraphContext.Provider>
           )}
         </>
       )
