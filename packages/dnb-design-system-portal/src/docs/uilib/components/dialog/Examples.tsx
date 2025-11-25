@@ -154,34 +154,40 @@ export const FullDialogExample = () => (
   </ComponentBox>
 )
 
-export const ExampleExample = () => (
-  <ComponentBox>
-    {() => {
-      const [isOpen, setIsOpen] = useState(false)
+export const ExampleExample = () => {
+  return (
+    <ComponentBox>
+      {() => {
+        const DemoComponent = () => {
+          const [isOpen, setIsOpen] = useState(false)
 
-      const handleClose = () => {
-        setIsOpen(false)
-      }
+          const handleClose = () => {
+            setIsOpen(false)
+          }
 
-      return (
-        <React.StrictMode>
-          openState: {isOpen.toString()}
-          <Dialog
-            id="unique-dialog-id"
-            triggerAttributes={{ text: 'Open dialog' }}
-            openState={isOpen}
-            onOpen={() => {
-              setIsOpen(true)
-            }}
-            onClose={handleClose}
-          >
-            Dialog
-          </Dialog>
-        </React.StrictMode>
-      )
-    }}
-  </ComponentBox>
-)
+          return (
+            <React.StrictMode>
+              openState: {isOpen.toString()}
+              <Dialog
+                id="unique-dialog-id"
+                triggerAttributes={{ text: 'Open dialog' }}
+                openState={isOpen}
+                onOpen={() => {
+                  setIsOpen(true)
+                }}
+                onClose={handleClose}
+              >
+                Dialog
+              </Dialog>
+            </React.StrictMode>
+          )
+        }
+
+        return <DemoComponent />
+      }}
+    </ComponentBox>
+  )
+}
 
 export const DialogExampleProgressIndicator = () => (
   <ComponentBox data-visual-test="dialog-progress-indicator">
