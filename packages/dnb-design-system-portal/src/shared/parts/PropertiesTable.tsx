@@ -12,7 +12,7 @@ const components = {
 }
 
 const StyledTable = styled(Table)`
-  td:not(.description) {
+  td:not(.description):not(.type) {
     white-space: nowrap;
   }
 `
@@ -118,7 +118,7 @@ export default function PropertiesTable({
             {camelCase ? toCamelCase(key) : key}
           </FormattedCode>
         </Td>
-        <Td>
+        <Td className="type">
           {(Array.isArray(type) ? type : [type])
             .map((t) => {
               if (typeof t === 'string') {
