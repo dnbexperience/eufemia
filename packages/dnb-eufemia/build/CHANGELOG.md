@@ -3,6 +3,28 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.90.1](https://github.com/dnbexperience/eufemia/compare/v10.90.0...v10.90.1) (2025-11-25)
+
+
+### :memo: Documentation
+
+* **Tailwind:** update usage for alignment utilities ([#5953](https://github.com/dnbexperience/eufemia/issues/5953)) ([a13e91f](https://github.com/dnbexperience/eufemia/commit/a13e91f01e2e7214c7ce908283653c792fefe36c))
+
+
+### :bug: Bug Fixes
+
+* **Autocomplete:** prevent closing Modal/Dialog/Drawer when escape key is pressed ([#5975](https://github.com/dnbexperience/eufemia/issues/5975)) ([4fa6948](https://github.com/dnbexperience/eufemia/commit/4fa694807ec998eca8af9c13f5c1e2f99fa58c7d)), closes [#5974](https://github.com/dnbexperience/eufemia/issues/5974)
+* **DrawerList:** prevent closing Modal/Dialog/Drawer when escape key is pressed ([#5974](https://github.com/dnbexperience/eufemia/issues/5974)) ([e015e94](https://github.com/dnbexperience/eufemia/commit/e015e94956256fc6c60d028f99bb9bd261185dd8))
+* **Dropdown:** prevent closing Modal/Dialog/Drawer when escape key is pressed ([#5973](https://github.com/dnbexperience/eufemia/issues/5973)) ([d688c5e](https://github.com/dnbexperience/eufemia/commit/d688c5e341ff6dbbaa189382e18674358f0c0f51)), closes [#5974](https://github.com/dnbexperience/eufemia/issues/5974)
+* **Field.Number:** only display default max/min errors when no exceeding maximum/minimum errors exist ([#5987](https://github.com/dnbexperience/eufemia/issues/5987)) ([8a2e122](https://github.com/dnbexperience/eufemia/commit/8a2e1220950dde0af52ea0cd4200687815f4a0f3))
+* **GlobalStatus:** `title` should override title in Eufemia Forms ([#5950](https://github.com/dnbexperience/eufemia/issues/5950)) ([21fa3d5](https://github.com/dnbexperience/eufemia/commit/21fa3d53774bd560018365563a08bd4a1e22a8cf))
+* **GlobalStatus:** add escape case alongside esc case ([#5976](https://github.com/dnbexperience/eufemia/issues/5976)) ([30f6639](https://github.com/dnbexperience/eufemia/commit/30f663951b9a22fa39008ff2b79e8588d4845fbc))
+* **HelpButtonInline:** prevent closing Modal/Dialog/Drawer when escape key is pressed ([#5972](https://github.com/dnbexperience/eufemia/issues/5972)) ([44cbe4b](https://github.com/dnbexperience/eufemia/commit/44cbe4bc2af6e787fa77b236a9db534146eba144))
+* **Modal:** ensure the user can always select text ([#5967](https://github.com/dnbexperience/eufemia/issues/5967)) ([575f817](https://github.com/dnbexperience/eufemia/commit/575f8172c572c4046d717be803055541e4c996e9))
+* **Modal:** ensure using `open_state` works with React v19 ([#5959](https://github.com/dnbexperience/eufemia/issues/5959)) ([3828bd0](https://github.com/dnbexperience/eufemia/commit/3828bd0d749d5ca5639d825f7e87b203fb28ebea))
+* **P:** reset nesting inside Dialog, Drawer and Modal (render p instead of span) ([#5985](https://github.com/dnbexperience/eufemia/issues/5985)) ([dca9b47](https://github.com/dnbexperience/eufemia/commit/dca9b47986a99124db1e755f55eeb495a5f9fc1b))
+* **Tabs:** Tabs.Content in React v19 ([#5962](https://github.com/dnbexperience/eufemia/issues/5962)) ([82d2b24](https://github.com/dnbexperience/eufemia/commit/82d2b248352be20e968ee8816e211d4eb117d82c))
+
 ## [10.90.0](https://github.com/dnbexperience/eufemia/compare/v10.89.0...v10.90.0) (2025-11-20)
 
 
