@@ -279,6 +279,35 @@ describe('Field.DateOfBirth', () => {
         })
       )
     })
+
+    it('should return correct value onChange event', async () => {
+      const onChange = jest.fn()
+
+      render(<Field.DateOfBirth onChange={onChange} />)
+
+      const dayInput = document.querySelectorAll('input')[0]
+      const monthInput = document.querySelectorAll('input')[1]
+      const yearInput = document.querySelectorAll('input')[2]
+
+      await userEvent.type(dayInput, '24')
+      await userEvent.type(monthInput, '12')
+      await waitFor(() => {
+        const option = document.querySelector('[role="option"]')
+        expect(option).toBeInTheDocument()
+      })
+      await userEvent.click(document.querySelector('[role="option"]'))
+      await userEvent.type(yearInput, '2023')
+
+      await userEvent.type(yearInput, '{Backspace>4}')
+      await userEvent.type(monthInput, '{Backspace>1}')
+      await userEvent.type(dayInput, '{Backspace>2}')
+
+      expect(dayInput.value).toBe('')
+      expect(monthInput.value).toBe('')
+      expect(yearInput.value).toBe('')
+
+      expect(onChange).toHaveBeenLastCalledWith(undefined)
+    })
   })
 
   describe('Day', () => {
