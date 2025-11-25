@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import React, { useState } from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import {
   trash_medium,
@@ -149,6 +149,34 @@ export const FullDialogExample = () => (
             </FormStatus>
           </Dialog>
         </>
+      )
+    }}
+  </ComponentBox>
+)
+
+export const ExampleExample = () => (
+  <ComponentBox>
+    {() => {
+      const [isOpen, setIsOpen] = useState(false)
+
+      const handleClose = () => {
+        setIsOpen(false)
+      }
+
+      return (
+        <React.StrictMode>
+          openState: {isOpen.toString()}
+          <Dialog
+            triggerAttributes={{ text: 'Open dialog' }}
+            openState={isOpen}
+            onOpen={() => {
+              setIsOpen(true)
+            }}
+            onClose={handleClose}
+          >
+            Dialog
+          </Dialog>
+        </React.StrictMode>
       )
     }}
   </ComponentBox>
