@@ -245,9 +245,9 @@ function isFieldEmpty(value: string, placeholder: string) {
 
 function stringToExpiryValue(value: string) {
   const month =
-    (typeof value === 'string' && value?.substring(0, 2)) || undefined
+    typeof value === 'string' ? value?.substring(0, 2) : undefined
   const year =
-    (typeof value === 'string' && value?.substring(2, 4)) || undefined
+    typeof value === 'string' ? value?.substring(2, 4) : undefined
 
   return { month, year }
 }
