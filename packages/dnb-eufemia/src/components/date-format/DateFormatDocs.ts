@@ -16,7 +16,7 @@ export const DateFormatProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  now: {
+  relativeTimeReference: {
     doc: 'A function that returns a Date object to use as the reference point for relative time calculations. If not provided, the current time is used.',
     type: 'function',
     status: 'optional',

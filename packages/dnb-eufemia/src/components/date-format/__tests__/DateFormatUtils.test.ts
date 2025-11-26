@@ -86,7 +86,7 @@ describe('DateFormatUtils', () => {
       expect(res).toMatch(/in|minute|hour|second/)
     })
 
-    it('uses custom now Date for relative time calculation', () => {
+    it('uses custom relativeTimeReference Date for relative time calculation', () => {
       const referenceDate = new Date('2024-10-05T12:00:00.000Z')
       const past = new Date('2024-10-05T11:00:00.000Z')
       const res = getRelativeTime(
@@ -103,10 +103,10 @@ describe('DateFormatUtils', () => {
       expect(res).toMatch(/ago|since/)
     })
 
-    it('uses custom now function for relative time calculation', () => {
+    it('uses custom relativeTimeReference function for relative time calculation', () => {
       const referenceDate = new Date('2024-10-05T12:00:00.000Z')
       const past = new Date('2024-10-05T11:00:00.000Z')
-      const nowFn = () => referenceDate
+      const relativeTimeReferenceFn = () => referenceDate
       const res = getRelativeTime(
         past,
         'en',
@@ -115,13 +115,13 @@ describe('DateFormatUtils', () => {
           style: 'long',
         },
         undefined,
-        nowFn
+        relativeTimeReferenceFn
       )
       expect(res).toMatch(/hour|minute|second/)
       expect(res).toMatch(/ago|since/)
     })
 
-    it('defaults to current time when now is not provided', () => {
+    it('defaults to current time when relativeTimeReference is not provided', () => {
       const past = new Date('2024-10-05T11:00:00.000Z')
       const res = getRelativeTime(past, 'en', {
         numeric: 'always',
@@ -134,30 +134,32 @@ describe('DateFormatUtils', () => {
 
   describe('getRelativeTimeNextUpdateMs', () => {
     it('returns minimum threshold for seconds granularity', () => {
-      const now = new Date('2024-10-05T12:00:00.000Z')
-      const date = new Date(now.getTime() + 5_500) // 5.5s in future
-      const ms = getRelativeTimeNextUpdateMs(date, now)
+      const relativeTimeReference = new Date('2024-10-05T12:00:00.000Z')
+      const date = new Date(relativeTimeReference.getTime() + 5_500) // 5.5s in future
+      const ms = getRelativeTimeNextUpdateMs(date, relativeTimeReference)
       expect(ms).toBeGreaterThanOrEqual(500)
       expect(ms).toBeLessThan(2000)
     })
 
     it('returns a sane delay for larger units', () => {
-      const now = new Date('2024-10-05T12:00:00.000Z')
-      const date = new Date(now.getTime() + 60 * 60 * 1000) // +1h
-      const ms = getRelativeTimeNextUpdateMs(date, now)
+      const relativeTimeReference = new Date('2024-10-05T12:00:00.000Z')
+      const date = new Date(
+        relativeTimeReference.getTime() + 60 * 60 * 1000
+      ) // +1h
+      const ms = getRelativeTimeNextUpdateMs(date, relativeTimeReference)
       expect(ms).toBeGreaterThan(1000)
     })
 
-    it('accepts now as a function', () => {
-      const now = new Date('2024-10-05T12:00:00.000Z')
-      const nowFn = () => now
-      const date = new Date(now.getTime() + 5_500) // 5.5s in future
-      const ms = getRelativeTimeNextUpdateMs(date, nowFn)
+    it('accepts relativeTimeReference as a function', () => {
+      const relativeTimeReference = new Date('2024-10-05T12:00:00.000Z')
+      const relativeTimeReferenceFn = () => relativeTimeReference
+      const date = new Date(relativeTimeReference.getTime() + 5_500) // 5.5s in future
+      const ms = getRelativeTimeNextUpdateMs(date, relativeTimeReferenceFn)
       expect(ms).toBeGreaterThanOrEqual(500)
       expect(ms).toBeLessThan(2000)
     })
 
-    it('defaults to current time when now is not provided', () => {
+    it('defaults to current time when relativeTimeReference is not provided', () => {
       const date = new Date(Date.now() + 5_500) // 5.5s in future
       const ms = getRelativeTimeNextUpdateMs(date)
       expect(ms).toBeGreaterThanOrEqual(500)

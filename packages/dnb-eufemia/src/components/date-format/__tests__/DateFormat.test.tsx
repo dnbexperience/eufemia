@@ -657,8 +657,8 @@ describe('DateFormat', () => {
       expect(setTimeout).not.toHaveBeenCalled()
     })
 
-    describe('now', () => {
-      it('should use custom now function for relative time calculations', () => {
+    describe('relativeTimeReference', () => {
+      it('should use custom relativeTimeReference function for relative time calculations', () => {
         const referenceDate = new Date('2025-01-15T14:30:00Z')
         const pastDate = new Date('2025-01-15T12:30:00Z') // 2 hours before reference
 
@@ -666,7 +666,7 @@ describe('DateFormat', () => {
           <DateFormat
             value={pastDate}
             relativeTime
-            now={() => referenceDate}
+            relativeTimeReference={() => referenceDate}
           />
         )
 
@@ -684,7 +684,7 @@ describe('DateFormat', () => {
           <DateFormat
             value={pastDate}
             relativeTime
-            now={() => referenceDate1}
+            relativeTimeReference={() => referenceDate1}
           />
         )
 
@@ -695,7 +695,7 @@ describe('DateFormat', () => {
           <DateFormat
             value={pastDate}
             relativeTime
-            now={() => referenceDate2}
+            relativeTimeReference={() => referenceDate2}
           />
         )
 
@@ -703,7 +703,7 @@ describe('DateFormat', () => {
         expect(dateFormat).toHaveTextContent(/1.*t|1.*time|1.*hour/)
       })
 
-      it('should use current time when now prop is not provided', () => {
+      it('should use current time when relativeTimeReference prop is not provided', () => {
         const pastDate = new Date(Date.now() - 2 * 60 * 60 * 1000) // 2 hours ago
 
         render(<DateFormat value={pastDate} relativeTime />)
@@ -713,15 +713,21 @@ describe('DateFormat', () => {
         expect(dateFormat).toHaveTextContent(/siden|ago/)
       })
 
-      it('should call now function for each update calculation', () => {
+      it('should call relativeTimeReference function for each update calculation', () => {
         const referenceDate = new Date('2025-01-15T14:30:00Z')
         const pastDate = new Date('2025-01-15T12:30:00Z')
-        const nowFn = jest.fn(() => referenceDate)
+        const relativeTimeReferenceFn = jest.fn(() => referenceDate)
 
-        render(<DateFormat value={pastDate} relativeTime now={nowFn} />)
+        render(
+          <DateFormat
+            value={pastDate}
+            relativeTime
+            relativeTimeReference={relativeTimeReferenceFn}
+          />
+        )
 
-        // The now function should be called for initial render and updates
-        expect(nowFn).toHaveBeenCalled()
+        // The relativeTimeReference function should be called for initial render and updates
+        expect(relativeTimeReferenceFn).toHaveBeenCalled()
       })
 
       it('should handle future dates with custom now function', () => {
@@ -732,7 +738,7 @@ describe('DateFormat', () => {
           <DateFormat
             value={futureDate}
             relativeTime
-            now={() => referenceDate}
+            relativeTimeReference={() => referenceDate}
           />
         )
 
