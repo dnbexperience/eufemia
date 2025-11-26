@@ -80,7 +80,6 @@ describe('Value.Currency', () => {
         <Value.Currency
           value={-12345.6789}
           currency
-          currencyPosition="before"
           currencyDisplay="code"
         />
       )
@@ -95,7 +94,6 @@ describe('Value.Currency', () => {
         <Value.Currency
           value={-12345.6789}
           currency
-          currencyPosition="before"
           currencyDisplay="code"
         />
       )
@@ -127,6 +125,19 @@ describe('Value.Currency', () => {
           .querySelector('.dnb-number-format .dnb-sr-only')
           .getAttribute('data-text')
       ).toBe('-12,345.68 kroner')
+    })
+
+    it('hides the currency sign when currencyDisplay is false', () => {
+      render(
+        <Value.Currency value={1234.5} currency currencyDisplay={false} />
+      )
+
+      expect(
+        document.querySelector('.dnb-forms-value-number')
+      ).toHaveTextContent('1 234,50')
+      expect(
+        document.querySelector('.dnb-forms-value-number')
+      ).not.toHaveTextContent('kr')
     })
   })
 })
