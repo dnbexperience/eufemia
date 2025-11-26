@@ -105,7 +105,10 @@ describe('Field.Expiry', () => {
     expect(monthInput.value).toBe('mm')
     expect(yearInput.value).toBe('åå')
 
-    expect(onChange).toHaveBeenLastCalledWith(undefined, expect.anything())
+    expect(onChange).toHaveBeenLastCalledWith(undefined, {
+      year: undefined,
+      month: undefined,
+    })
   })
 
   it('should have autofill attributes', () => {
@@ -241,16 +244,16 @@ describe('Field.Expiry', () => {
 
     // Check that transformOut was called with empty values when both are removed
     expect(transformOut).toHaveBeenLastCalledWith(undefined, {
-      year: false,
-      month: false,
+      year: undefined,
+      month: undefined,
     })
 
     // Check that onChange was called with the transformed data
     expect(onChange).toHaveBeenLastCalledWith(
       {
         myField: {
-          year: false,
-          month: false,
+          year: undefined,
+          month: undefined,
         },
       },
       expect.anything()
