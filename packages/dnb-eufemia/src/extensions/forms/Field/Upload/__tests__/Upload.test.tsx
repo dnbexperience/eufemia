@@ -594,7 +594,7 @@ describe('Field.Upload', () => {
 
       expect(onChange).toHaveBeenCalledTimes(2)
       expect(onChange).toHaveBeenLastCalledWith(
-        { myFiles: [] },
+        { myFiles: undefined },
         expect.anything()
       )
 
@@ -854,7 +854,7 @@ describe('Field.Upload', () => {
       expect(onChange).toHaveBeenCalledTimes(2)
       expect(onChange).toHaveBeenLastCalledWith(
         {
-          myFiles: [],
+          myFiles: undefined,
         },
         expect.anything()
       )
