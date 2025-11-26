@@ -86,9 +86,14 @@ describe('Field.Expiry', () => {
   })
 
   it('should return month and year values as undefined when removing value', async () => {
+    const onChangeContext = jest.fn()
     const onChange = jest.fn()
 
-    render(<Field.Expiry onChange={onChange} />)
+    render(
+      <Form.Handler onChange={onChangeContext}>
+        <Field.Expiry path="/myField" onChange={onChange} />
+      </Form.Handler>
+    )
 
     const input = document.querySelector('input')
 
@@ -109,6 +114,12 @@ describe('Field.Expiry', () => {
       year: undefined,
       month: undefined,
     })
+    expect(onChangeContext).toHaveBeenLastCalledWith(
+      {
+        myField: undefined,
+      },
+      expect.anything()
+    )
   })
 
   it('should have autofill attributes', () => {
