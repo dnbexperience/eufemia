@@ -36,6 +36,7 @@ import {
   showSelectionNotice,
   runIOSSelectionFix,
 } from './NumberUtils'
+import { SpacingProps } from '../space/types'
 
 // TypeScript types
 export type NumberFormatValue = number | string
@@ -100,16 +101,13 @@ export type NumberFormatProps = {
   // Additional props used in stories
   style?: React.CSSProperties
   lang?: string
-  // Spacing props
-  space?: any
-  top?: any
-  right?: any
-  bottom?: any
-  left?: any
 }
 export type NumberFormatAllProps = NumberFormatProps &
-  Omit<React.HTMLProps<HTMLElement>, 'prefix' | 'label' | 'placeholder'> &
-  any
+  Omit<
+    React.HTMLProps<HTMLElement>,
+    'prefix' | 'label' | 'placeholder' | 'children'
+  > &
+  SpacingProps
 
 export default class NumberFormat extends React.PureComponent<NumberFormatAllProps> {
   static contextType = Context
