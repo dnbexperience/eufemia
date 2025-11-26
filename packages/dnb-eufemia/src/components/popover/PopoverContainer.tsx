@@ -68,7 +68,7 @@ function PopoverContainer(props: PopoverContainerProps) {
     contentRef,
     children,
     targetElement,
-    triggerOffset: triggerOffsetProp = 16,
+    triggerOffset: triggerOffsetProp = 0,
     autoAlignMode = 'initial',
   } = props
 

@@ -696,7 +696,7 @@ describe('Popover', () => {
     }
   })
 
-  it('uses default triggerOffset of 16 when not provided', async () => {
+  it('uses default triggerOffset of 0 when not provided', async () => {
     const { element: targetElement, rect } = createTargetElement({
       top: 90,
       height: 32,
@@ -714,7 +714,7 @@ describe('Popover', () => {
         ) as HTMLElement | null
         expect(popoverElement).toBeInTheDocument()
 
-        const expectedTop = rect.top + rect.height + 16
+        const expectedTop = rect.top + rect.height
         expect(parseFloat(popoverElement.style.top || 'NaN')).toBe(
           expectedTop
         )
@@ -1547,7 +1547,7 @@ describe('Popover', () => {
         const popover = document.querySelector(
           '.dnb-popover'
         ) as HTMLElement
-        expect(popover?.style.top).toBe('136px')
+        expect(popover?.style.top).toBe('120px')
       })
 
       rect = createRect({ left: 60, top: 140, width: 100, height: 40 })
@@ -1559,7 +1559,7 @@ describe('Popover', () => {
         const popover = document.querySelector(
           '.dnb-popover'
         ) as HTMLElement
-        expect(popover?.style.top).toBe('196px')
+        expect(popover?.style.top).toBe('180px')
       })
 
       targetElement.remove()
