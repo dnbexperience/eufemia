@@ -120,11 +120,13 @@ export default function WordDefinition({
         onOpenChange={toggle}
         showDelay={0}
         hideDelay={0}
+        triggerOffset={8}
         position={position}
         className="dnb-word-definition"
         portalRootClass="dnb-word-definition__portal"
         omitDescribedBy
         closeOnOutsideClick
+        hideArrow
         keepInDOM
         title={children}
       >
