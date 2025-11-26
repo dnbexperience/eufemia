@@ -13,6 +13,7 @@ import type {
   PopoverResolvedTargetElement,
   PopoverTargetElementObject,
 } from './types'
+import { getClosestScrollViewElement } from '../../shared/component-helper'
 
 const useLayoutEffect =
   typeof window === 'undefined' ? React.useEffect : React.useLayoutEffect
@@ -101,6 +102,7 @@ function PopoverContainer(props: PopoverContainerProps) {
   const tmpRef = useRef<HTMLSpanElement>(null)
   const elementRef =
     contentRef && 'current' in contentRef ? contentRef : tmpRef
+  const scrollViewElementRef = useRef<Element | null>(null)
 
   const autoAlignInitialUsedRef = useRef(false)
   const prevIsActiveRef = useRef(false)
@@ -302,6 +304,12 @@ function PopoverContainer(props: PopoverContainerProps) {
     const effectiveVerticalTarget =
       verticalTarget ?? horizontalTarget ?? null
 
+    const primaryTarget =
+      effectiveHorizontalTarget ?? effectiveVerticalTarget ?? null
+    scrollViewElementRef.current = primaryTarget
+      ? getClosestScrollViewElement(primaryTarget)
+      : null
+
     if (
       !effectiveHorizontalTarget?.getBoundingClientRect ||
       !effectiveVerticalTarget?.getBoundingClientRect
@@ -314,6 +322,12 @@ function PopoverContainer(props: PopoverContainerProps) {
     const horizontalRect =
       effectiveHorizontalTarget.getBoundingClientRect()
     const verticalRect = effectiveVerticalTarget.getBoundingClientRect()
+    const scrollViewElement = scrollViewElementRef.current
+    const scrollViewRect =
+      scrollViewElement &&
+      typeof scrollViewElement.getBoundingClientRect === 'function'
+        ? scrollViewElement.getBoundingClientRect()
+        : null
     const horizontalTargetSize = {
       width: horizontalRect.width || effectiveHorizontalTarget.offsetWidth,
       height:
@@ -567,6 +581,19 @@ function PopoverContainer(props: PopoverContainerProps) {
       nextLeft += arrowPosition === 'left' ? -edgeSpacing : edgeSpacing
     }
 
+    const clampTopWithinScrollView = (value: number) => {
+      if (!scrollViewRect) {
+        return value
+      }
+      const minTop = scrollViewRect.top
+      const maxTop = scrollViewRect.bottom - elementHeight
+      if (maxTop < minTop) {
+        return minTop
+      }
+      return Math.min(Math.max(value, minTop), maxTop)
+    }
+    nextTop = clampTopWithinScrollView(nextTop)
+
     const lacksLayout =
       !elementWidth &&
       !elementHeight &&
@@ -621,15 +648,20 @@ function PopoverContainer(props: PopoverContainerProps) {
     if (isVerticalPlacement) {
       const arrowWidth = 16
       const arrowBoundary = 8
-      const minLeft = 0
       const maxLeft = Math.max(0, elementWidth - arrowWidth)
       const arrowLeft = anchorX - actualLeft - arrowWidth / 2
 
-      let nextArrowLeft = Math.min(maxLeft, Math.max(minLeft, arrowLeft))
-      if (arrowLeft < minLeft) {
-        nextArrowLeft = Math.min(maxLeft, arrowBoundary)
-      } else if (arrowLeft > maxLeft) {
-        nextArrowLeft = Math.max(minLeft, maxLeft - arrowBoundary)
+      const arrowMin = Math.min(maxLeft, arrowBoundary)
+      const arrowMax = Math.max(
+        arrowMin,
+        Math.max(0, maxLeft - arrowBoundary)
+      )
+
+      let nextArrowLeft = arrowLeft
+      if (nextArrowLeft < arrowMin) {
+        nextArrowLeft = arrowMin
+      } else if (nextArrowLeft > arrowMax) {
+        nextArrowLeft = arrowMax
       }
 
       arrowStyle.left = nextArrowLeft

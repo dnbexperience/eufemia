@@ -1205,6 +1205,59 @@ describe('Popover', () => {
       targetElement.remove()
     })
 
+    it('clamps the arrow away from the viewport edge when space is limited', async () => {
+      const targetElement = document.createElement('div')
+      document.body.appendChild(targetElement)
+
+      const windowWidthDescriptor = Object.getOwnPropertyDescriptor(
+        window,
+        'innerWidth'
+      )
+      Object.defineProperty(window, 'innerWidth', {
+        configurable: true,
+        value: 320,
+      })
+
+      Object.defineProperty(targetElement, 'offsetWidth', {
+        configurable: true,
+        value: 24,
+      })
+      Object.defineProperty(targetElement, 'offsetHeight', {
+        configurable: true,
+        value: 40,
+      })
+
+      assignRect(
+        targetElement,
+        createRect({ left: 10, top: 120, width: 24, height: 40 })
+      )
+
+      setElementSize(220, 120)
+
+      render(
+        <Popover
+          open
+          noAnimation
+          position="bottom"
+          targetElement={targetElement}
+        >
+          Clamped arrow
+        </Popover>
+      )
+
+      await waitFor(() => {
+        const arrow = document.querySelector(
+          '.dnb-popover__arrow'
+        ) as HTMLElement
+        expect(arrow?.style.left).toBe('8px')
+      })
+
+      if (windowWidthDescriptor) {
+        Object.defineProperty(window, 'innerWidth', windowWidthDescriptor)
+      }
+      targetElement.remove()
+    })
+
     it('flips to top placement when there is limited space below', async () => {
       const targetElement = document.createElement('div')
       document.body.appendChild(targetElement)
@@ -1360,6 +1413,62 @@ describe('Popover', () => {
       await waitFor(() =>
         expect(
           document.querySelector('.dnb-popover__arrow__position--top')
+        ).toBeInTheDocument()
+      )
+
+      if (windowHeightDescriptor) {
+        Object.defineProperty(
+          window,
+          'innerHeight',
+          windowHeightDescriptor
+        )
+      }
+      targetElement.remove()
+    })
+
+    it('chooses the bottom placement when both vertical placements overflow but there is more space below', async () => {
+      const targetElement = document.createElement('div')
+      document.body.appendChild(targetElement)
+
+      const windowHeightDescriptor = Object.getOwnPropertyDescriptor(
+        window,
+        'innerHeight'
+      )
+      Object.defineProperty(window, 'innerHeight', {
+        configurable: true,
+        value: 160,
+      })
+
+      Object.defineProperty(targetElement, 'offsetWidth', {
+        configurable: true,
+        value: 120,
+      })
+      Object.defineProperty(targetElement, 'offsetHeight', {
+        configurable: true,
+        value: 40,
+      })
+
+      assignRect(
+        targetElement,
+        createRect({ left: 40, top: 20, width: 120, height: 40 })
+      )
+
+      setElementSize(220, 200)
+
+      render(
+        <Popover
+          open
+          noAnimation
+          position="top"
+          targetElement={targetElement}
+        >
+          Overflow prefer bottom
+        </Popover>
+      )
+
+      await waitFor(() =>
+        expect(
+          document.querySelector('.dnb-popover__arrow__position--bottom')
         ).toBeInTheDocument()
       )
 
