@@ -320,7 +320,7 @@ describe('Form.SubmitConfirmation', () => {
       })
 
       let currentState: ConfirmParams['confirmationState'] = 'idle'
-      let stateHistory: ConfirmParams['confirmationState'][] = []
+      const stateHistory: ConfirmParams['confirmationState'][] = []
 
       render(
         <Form.Handler onSubmit={onSubmit}>
