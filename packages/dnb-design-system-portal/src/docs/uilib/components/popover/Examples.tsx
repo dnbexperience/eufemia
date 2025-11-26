@@ -43,7 +43,7 @@ export function PopoverExampleWithoutCloseButton() {
               This popover hides the default close button. You can still
               close it programmatically by calling the provided helpers.
             </P>
-            <Button text="Dismiss" onClick={close} />
+            <Button text="Dismiss" variant="secondary" onClick={close} />
           </Flex.Stack>
         )}
       />

@@ -5,8 +5,8 @@
 }
 
 .dnb-popover {
-  --inner-space: 0.5rem;
-  --popover-border-radius: 0.25rem;
+  --inner-space: 0.75rem;
+  --popover-border-radius: 0.5rem;
 
   position: absolute;
   z-index: var(--popover-z-index);
@@ -27,7 +27,7 @@
   background-color: var(--popover-background-color);
   border-radius: var(--popover-border-radius);
 
-  @include sharpDropShadow();
+  @include defaultDropShadow();
 
   &--show-outline#{&}::before {
     content: '';
@@ -50,7 +50,7 @@
 
   html[data-visual-test] &--active,
   &--active#{&}--no-animation {
-    animation: show-popover 1ms var(--easing-default) forwards;
+    animation-duration: 0ms;
   }
 
   &--hide {
@@ -82,7 +82,7 @@
     flex-direction: column;
 
     max-width: calc(var(--prose-max-width) - 64px);
-    padding: calc(var(--inner-space) * 2) 0 calc(var(--inner-space) * 3);
+    padding: calc(var(--inner-space) * 2) 0 calc(var(--inner-space) * 2);
   }
   &--no-max-width &__content {
     max-width: none;
@@ -114,7 +114,7 @@
     align-items: flex-start;
 
     &:not(:first-child) {
-      margin-top: var(--inner-space);
+      margin-top: var(--spacing-x-small);
     }
   }
 
@@ -125,7 +125,7 @@
     margin: 0;
 
     width: 1rem;
-    height: 0.5rem;
+    height: 1rem;
 
     overflow: hidden;
 
@@ -149,11 +149,11 @@
     }
 
     &__position--bottom {
-      top: -0.5rem;
+      top: -1rem;
     }
 
     &__position--top {
-      bottom: -0.5rem;
+      bottom: -1rem;
       transform: rotate(180deg);
     }
 
@@ -194,20 +194,24 @@
 @keyframes show-popover {
   from {
     opacity: 0;
+    transform: translateY(-8px);
   }
 
   to {
     opacity: 1;
+    transform: translateY(0);
   }
 }
 
 @keyframes hide-popover {
   from {
     opacity: 1;
+    transform: translateY(0);
   }
 
   to {
     opacity: 0;
     visibility: hidden;
+    transform: translateY(-8px);
   }
 }
