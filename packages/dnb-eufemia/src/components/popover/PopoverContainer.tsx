@@ -657,11 +657,25 @@ function PopoverContainer(props: PopoverContainerProps) {
         Math.max(0, maxLeft - arrowBoundary)
       )
 
+      let arrowClampMin = arrowMin
+      let arrowClampMax = arrowMax
+
+      if (scrollViewRect) {
+        const scrollMin = scrollViewRect.left - actualLeft
+        const scrollMax = scrollViewRect.right - actualLeft - arrowWidth
+        arrowClampMin = Math.max(arrowClampMin, scrollMin)
+        arrowClampMax = Math.min(arrowClampMax, scrollMax)
+      }
+
+      if (arrowClampMax < arrowClampMin) {
+        arrowClampMax = arrowClampMin
+      }
+
       let nextArrowLeft = arrowLeft
-      if (nextArrowLeft < arrowMin) {
-        nextArrowLeft = arrowMin
-      } else if (nextArrowLeft > arrowMax) {
-        nextArrowLeft = arrowMax
+      if (nextArrowLeft < arrowClampMin) {
+        nextArrowLeft = arrowClampMin
+      } else if (nextArrowLeft > arrowClampMax) {
+        nextArrowLeft = arrowClampMax
       }
 
       arrowStyle.left = nextArrowLeft

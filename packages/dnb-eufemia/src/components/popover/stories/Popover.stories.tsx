@@ -54,12 +54,12 @@ export const InDialog = {
   render: () => (
     <Dialog openState>
       <div
-        style={{
-          // width: '62rem',
-          width: '60rem',
-          height: '20rem',
-          padding: '2rem',
-        }}
+        style={
+          {
+            // width: '60rem',
+            // height: '20rem',
+          }
+        }
       >
         Excepteur in in do officia cupidatat. Tempor excepteur nostrud
         veniam proident occaecat amet. Sit aliqua amet reprehenderit qui

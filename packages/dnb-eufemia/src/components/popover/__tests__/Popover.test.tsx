@@ -1205,6 +1205,144 @@ describe('Popover', () => {
       targetElement.remove()
     })
 
+    it('keeps the arrow at the dialog left edge while scrolling a dialog to the left', async () => {
+      const scrollViewElement = document.createElement('div')
+      scrollViewElement.className = 'dnb-scroll-view'
+      document.body.appendChild(scrollViewElement)
+
+      const targetElement = document.createElement('div')
+      scrollViewElement.appendChild(targetElement)
+
+      const scrollViewRect = createRect({
+        left: 64,
+        top: 80,
+        width: 120,
+        height: 200,
+      })
+      Object.defineProperty(scrollViewElement, 'getBoundingClientRect', {
+        configurable: true,
+        value: () => scrollViewRect,
+      })
+
+      const targetRect = createRect({
+        left: 68,
+        top: 120,
+        width: 8,
+        height: 40,
+      })
+      assignRect(targetElement, targetRect)
+      Object.defineProperty(targetElement, 'offsetWidth', {
+        configurable: true,
+        value: targetRect.width,
+      })
+      Object.defineProperty(targetElement, 'offsetHeight', {
+        configurable: true,
+        value: targetRect.height,
+      })
+
+      setElementSize(220, 140)
+
+      render(
+        <Popover
+          open
+          noAnimation
+          position="bottom"
+          targetElement={targetElement}
+        >
+          Scroll guard left
+        </Popover>
+      )
+
+      await waitFor(() => {
+        const popover = document.querySelector(
+          '.dnb-popover'
+        ) as HTMLElement
+        const arrow = document.querySelector(
+          '.dnb-popover__arrow'
+        ) as HTMLElement
+        const popoverLeft = parseFloat(popover.style.left || '0')
+        const expectedArrowLeft = scrollViewRect.left - popoverLeft
+
+        expect(parseFloat(arrow?.style.left || '0')).toBeCloseTo(
+          expectedArrowLeft,
+          1
+        )
+      })
+
+      targetElement.remove()
+      scrollViewElement.remove()
+    })
+
+    it('keeps the arrow at the dialog right edge while scrolling a dialog to the right', async () => {
+      const scrollViewElement = document.createElement('div')
+      scrollViewElement.className = 'dnb-scroll-view'
+      document.body.appendChild(scrollViewElement)
+
+      const targetElement = document.createElement('div')
+      scrollViewElement.appendChild(targetElement)
+
+      const scrollViewRect = createRect({
+        left: 40,
+        top: 100,
+        width: 140,
+        height: 200,
+      })
+      Object.defineProperty(scrollViewElement, 'getBoundingClientRect', {
+        configurable: true,
+        value: () => scrollViewRect,
+      })
+
+      const arrowWidth = 16
+      const targetRect = createRect({
+        left: 170,
+        top: 130,
+        width: 8,
+        height: 40,
+      })
+      assignRect(targetElement, targetRect)
+      Object.defineProperty(targetElement, 'offsetWidth', {
+        configurable: true,
+        value: targetRect.width,
+      })
+      Object.defineProperty(targetElement, 'offsetHeight', {
+        configurable: true,
+        value: targetRect.height,
+      })
+
+      setElementSize(220, 140)
+
+      render(
+        <Popover
+          open
+          noAnimation
+          position="bottom"
+          targetElement={targetElement}
+        >
+          Scroll guard right
+        </Popover>
+      )
+
+      await waitFor(() => {
+        const popover = document.querySelector(
+          '.dnb-popover'
+        ) as HTMLElement
+        const arrow = document.querySelector(
+          '.dnb-popover__arrow'
+        ) as HTMLElement
+        const popoverLeft = parseFloat(popover.style.left || '0')
+        const expectedArrowLeft =
+          scrollViewRect.right - popoverLeft - arrowWidth
+
+        expect(parseFloat(arrow?.style.left || '0')).toBeCloseTo(
+          expectedArrowLeft,
+          1
+        )
+      })
+
+      targetElement.remove()
+      scrollViewElement.remove()
+    })
+
     it('clamps the arrow away from the viewport edge when space is limited', async () => {
       const targetElement = document.createElement('div')
       document.body.appendChild(targetElement)
