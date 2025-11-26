@@ -2103,10 +2103,8 @@ describe('Upload', () => {
       )
       const file1 = createMockFile('fileName-1.png', 100, 'image/png')
 
-      await waitFor(() => {
-        fireEvent.change(inputElement, {
-          target: { files: [file1] },
-        })
+      fireEvent.change(inputElement, {
+        target: { files: [file1] },
       })
 
       const deleteButton = screen.queryByRole('button', {
