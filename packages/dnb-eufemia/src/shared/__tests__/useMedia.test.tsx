@@ -403,12 +403,12 @@ describe('useMedia', () => {
       act(() => {
         setMedia({ width: MEDIUM })
       })
-      await waitFor(() => expect(getContent()).toEqual(disabledState))
+      expect(getContent()).toEqual(disabledState)
 
       act(() => {
         setMedia({ width: LARGE })
       })
-      await waitFor(() => expect(getContent()).toEqual(disabledState))
+      expect(getContent()).toEqual(disabledState)
 
       rerender(<MockComponent disabled={false} key="reset-me" />)
 
