@@ -105,6 +105,7 @@ function PopoverContainer(props: PopoverContainerProps) {
   const elementRef =
     contentRef && 'current' in contentRef ? contentRef : tmpRef
   const scrollViewElementRef = useRef<Element | null>(null)
+  const resolvedTargetRef = useRef<Element | null>(null)
 
   const autoAlignInitialUsedRef = useRef(false)
   const prevIsActiveRef = useRef(false)
@@ -258,7 +259,29 @@ function PopoverContainer(props: PopoverContainerProps) {
       return
     }
 
-    const handleScroll = () => {
+    const handleScroll = (event: Event) => {
+      const targetNode = event.target
+      const scrollViewElement = scrollViewElementRef.current
+      const resolvedTarget =
+        resolvedTargetRef.current as HTMLElement | null
+
+      if (
+        scrollViewElement &&
+        resolvedTarget &&
+        typeof resolvedTarget.getBoundingClientRect === 'function' &&
+        scrollViewElement.contains(targetNode as Node)
+      ) {
+        const scrollRect = scrollViewElement.getBoundingClientRect()
+        const targetRect = resolvedTarget.getBoundingClientRect()
+        const isVisible =
+          targetRect.bottom >= scrollRect.top &&
+          targetRect.top <= scrollRect.bottom
+
+        if (!isVisible) {
+          return
+        }
+      }
+
       requestRecalculation()
     }
 
@@ -311,6 +334,7 @@ function PopoverContainer(props: PopoverContainerProps) {
     scrollViewElementRef.current = primaryTarget
       ? getClosestScrollViewElement(primaryTarget)
       : null
+    resolvedTargetRef.current = primaryTarget
 
     if (
       !effectiveHorizontalTarget?.getBoundingClientRect ||
@@ -587,8 +611,8 @@ function PopoverContainer(props: PopoverContainerProps) {
       if (!scrollViewRect) {
         return value
       }
-      const minTop = scrollViewRect.top
-      const maxTop = scrollViewRect.bottom - elementHeight
+      const minTop = scrollViewRect.top + scrollYOffset
+      const maxTop = scrollViewRect.bottom + scrollYOffset - elementHeight
       if (maxTop < minTop) {
         return minTop
       }
@@ -663,8 +687,9 @@ function PopoverContainer(props: PopoverContainerProps) {
       let arrowClampMax = arrowMax
 
       if (scrollViewRect) {
-        const scrollMin = scrollViewRect.left - actualLeft
-        const scrollMax = scrollViewRect.right - actualLeft - arrowWidth
+        const scrollMin = scrollViewRect.left + scrollX - actualLeft
+        const scrollMax =
+          scrollViewRect.right + scrollX - actualLeft - arrowWidth
         arrowClampMin = Math.max(arrowClampMin, scrollMin)
         arrowClampMax = Math.min(arrowClampMax, scrollMax)
       }
