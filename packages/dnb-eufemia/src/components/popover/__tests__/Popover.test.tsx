@@ -1317,6 +1317,62 @@ describe('Popover', () => {
       targetElement.remove()
     })
 
+    it('chooses the side with more space when both vertical placements overflow', async () => {
+      const targetElement = document.createElement('div')
+      document.body.appendChild(targetElement)
+
+      const windowHeightDescriptor = Object.getOwnPropertyDescriptor(
+        window,
+        'innerHeight'
+      )
+      Object.defineProperty(window, 'innerHeight', {
+        configurable: true,
+        value: 320,
+      })
+
+      Object.defineProperty(targetElement, 'offsetWidth', {
+        configurable: true,
+        value: 120,
+      })
+      Object.defineProperty(targetElement, 'offsetHeight', {
+        configurable: true,
+        value: 40,
+      })
+
+      assignRect(
+        targetElement,
+        createRect({ left: 40, top: 160, width: 120, height: 40 })
+      )
+
+      setElementSize(220, 200)
+
+      render(
+        <Popover
+          open
+          noAnimation
+          position="bottom"
+          targetElement={targetElement}
+        >
+          Large content
+        </Popover>
+      )
+
+      await waitFor(() =>
+        expect(
+          document.querySelector('.dnb-popover__arrow__position--top')
+        ).toBeInTheDocument()
+      )
+
+      if (windowHeightDescriptor) {
+        Object.defineProperty(
+          window,
+          'innerHeight',
+          windowHeightDescriptor
+        )
+      }
+      targetElement.remove()
+    })
+
     it('never flips when autoAlignMode is "never"', async () => {
       const targetElement = document.createElement('div')
       document.body.appendChild(targetElement)
@@ -1512,7 +1568,7 @@ describe('Popover', () => {
       targetElement.remove()
     })
 
-    it('allows negative top when rendered above the viewport', async () => {
+    it('prefers bottom when the top placement overflows but bottom has more space', async () => {
       const targetElement = document.createElement('div')
       document.body.appendChild(targetElement)
 
@@ -1556,7 +1612,10 @@ describe('Popover', () => {
         const popover = document.querySelector(
           '.dnb-popover'
         ) as HTMLElement
-        expect(parseFloat(popover?.style.top || '0')).toBeLessThan(0)
+        expect(
+          document.querySelector('.dnb-popover__arrow__position--bottom')
+        ).toBeInTheDocument()
+        expect(popover?.style.top).toBe('60px')
       })
 
       if (windowHeightDescriptor) {
@@ -1572,6 +1631,15 @@ describe('Popover', () => {
     it('repositions when the document scrolls', async () => {
       const targetElement = document.createElement('div')
       document.body.appendChild(targetElement)
+
+      const windowHeightDescriptor = Object.getOwnPropertyDescriptor(
+        window,
+        'innerHeight'
+      )
+      Object.defineProperty(window, 'innerHeight', {
+        configurable: true,
+        value: 640,
+      })
 
       Object.defineProperty(targetElement, 'offsetWidth', {
         configurable: true,
@@ -1617,6 +1685,13 @@ describe('Popover', () => {
         expect(popover?.style.top).toBe('180px')
       })
 
+      if (windowHeightDescriptor) {
+        Object.defineProperty(
+          window,
+          'innerHeight',
+          windowHeightDescriptor
+        )
+      }
       targetElement.remove()
     })
   })

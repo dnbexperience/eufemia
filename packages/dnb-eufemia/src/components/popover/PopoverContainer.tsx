@@ -464,6 +464,8 @@ function PopoverContainer(props: PopoverContainerProps) {
       return resolver()
     }
 
+    const topPlacement = getPlacement('top')
+    const bottomPlacement = getPlacement('bottom')
     let { left: nextLeft, top: nextTop } = getPlacement(placementKey)
 
     const initialAutoAlignAllowed =
@@ -488,19 +490,31 @@ function PopoverContainer(props: PopoverContainerProps) {
       const viewportBottomEdge =
         scrollYOffset + window.innerHeight - viewportMargin
 
-      if (
-        placementKey === 'bottom' &&
-        nextTop + elementHeight > viewportBottomEdge
-      ) {
-        const topPlacement = getPlacement('top')
-        if (topPlacement.top >= viewportTopEdge) {
+      const fitsTop = topPlacement.top >= viewportTopEdge
+      const fitsBottom =
+        bottomPlacement.top + elementHeight <= viewportBottomEdge
+
+      const spaceAbove = topPlacement.top - viewportTopEdge
+      const spaceBelow =
+        viewportBottomEdge - (bottomPlacement.top + elementHeight)
+      const preferTopSide = spaceAbove >= spaceBelow
+
+      if (placementKey === 'bottom' && !fitsBottom) {
+        if (fitsTop) {
+          placementKey = 'top'
+          nextLeft = topPlacement.left
+          nextTop = topPlacement.top
+        } else if (preferTopSide) {
           placementKey = 'top'
           nextLeft = topPlacement.left
           nextTop = topPlacement.top
         }
-      } else if (placementKey === 'top' && nextTop < viewportTopEdge) {
-        const bottomPlacement = getPlacement('bottom')
-        if (bottomPlacement.top + elementHeight <= viewportBottomEdge) {
+      } else if (placementKey === 'top' && !fitsTop) {
+        if (fitsBottom) {
+          placementKey = 'bottom'
+          nextLeft = bottomPlacement.left
+          nextTop = bottomPlacement.top
+        } else if (!preferTopSide) {
           placementKey = 'bottom'
           nextLeft = bottomPlacement.left
           nextTop = bottomPlacement.top
