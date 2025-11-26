@@ -46,6 +46,7 @@ type PopoverPortalProps = {
   contentRef?: React.MutableRefObject<HTMLSpanElement>
   triggerOffset?: number
   autoAlignMode?: PopoverAutoAlignMode
+  hideArrow?: boolean
 }
 
 type PopoverPortalEntry = {
@@ -87,6 +88,7 @@ function PopoverPortal(props: PopoverPortalProps) {
     contentRef,
     triggerOffset,
     autoAlignMode,
+    hideArrow,
   } = props
 
   const [id] = useState(() => makeUniqueId())
@@ -136,6 +138,7 @@ function PopoverPortal(props: PopoverPortalProps) {
           contentRef={contentRef}
           triggerOffset={triggerOffset}
           autoAlignMode={autoAlignMode}
+          hideArrow={hideArrow}
         >
           {children}
         </PopoverContainer>

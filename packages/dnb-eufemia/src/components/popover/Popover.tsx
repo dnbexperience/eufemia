@@ -69,6 +69,7 @@ export default function Popover(props: PopoverProps) {
     autoAlignMode = 'initial',
     arrowPosition = 'center',
     arrowPositionSelector,
+    hideArrow = false,
     skipPortal = false,
     noAnimation = false,
     fixedPosition = false,
@@ -672,6 +673,7 @@ export default function Popover(props: PopoverProps) {
           omitDescribedBy={omitDescribedBy}
           contentRef={contentRef}
           triggerOffset={triggerOffset}
+          hideArrow={hideArrow}
         >
           {overlayContent}
         </PopoverContainer>
@@ -696,6 +698,7 @@ export default function Popover(props: PopoverProps) {
           attributes={popoverAttributes}
           contentRef={contentRef}
           triggerOffset={triggerOffset}
+          hideArrow={hideArrow}
         >
           {overlayContent}
         </PopoverPortal>

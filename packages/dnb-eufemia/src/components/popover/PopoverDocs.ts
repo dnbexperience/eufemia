@@ -76,6 +76,12 @@ export const PopoverProperties: PropertiesTableProps = {
     type: ['null', "'center' | 'top' | 'right' | 'bottom' | 'left'"],
     status: 'optional',
   },
+  hideArrow: {
+    doc: 'Hide the arrow element from the popover. When `true`, the arrow will not be rendered regardless of the `arrowPosition` prop.',
+    type: 'boolean',
+    defaultValue: 'false',
+    status: 'optional',
+  },
   arrowPositionSelector: {
     doc: 'CSS selector that points to the element the arrow should align with. When the popover points vertically it aligns horizontally, and vice versa for horizontal placements.',
     type: 'string',

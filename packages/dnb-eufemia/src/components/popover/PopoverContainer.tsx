@@ -39,6 +39,7 @@ type PopoverContainerProps = {
   triggerOffset?: number
   keepInDOM?: boolean
   autoAlignMode?: PopoverAutoAlignMode
+  hideArrow?: boolean
 }
 
 const isResolvedTargetRefsObject = (
@@ -71,6 +72,7 @@ function PopoverContainer(props: PopoverContainerProps) {
     targetElement,
     triggerOffset: triggerOffsetProp = 0,
     autoAlignMode = 'initial',
+    hideArrow = false,
   } = props
 
   const [style, setStyle] = useState<React.CSSProperties | null>(null)
@@ -755,7 +757,7 @@ function PopoverContainer(props: PopoverContainerProps) {
       )}
       style={{ ...style, ...attributes?.style }}
     >
-      {arrowPosition && (
+      {arrowPosition && !hideArrow && (
         <span
           className={classnames(
             baseClassNames.map((base) => `${base}__arrow`),

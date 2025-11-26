@@ -69,6 +69,12 @@ type PopoverPropsBase = {
    * CSS selector used to pick the element that controls arrow alignment.
    */
   arrowPositionSelector?: string
+  /**
+   * Hide the arrow element from the popover.
+   * When `true`, the arrow will not be rendered regardless of the `arrowPosition` prop.
+   * @default false
+   */
+  hideArrow?: boolean
   alignOnTarget?: PopoverAlign
   /**
    * Horizontal offset in pixels to adjust the popover position.

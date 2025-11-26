@@ -215,6 +215,49 @@ describe('Popover', () => {
     )
   })
 
+  it('hides the arrow when hideArrow is true', async () => {
+    renderWithTrigger({ hideArrow: true })
+
+    const trigger = document.querySelector('button[aria-controls]')
+    await userEvent.click(trigger)
+
+    await waitFor(() =>
+      expect(document.querySelector('.dnb-popover')).toBeInTheDocument()
+    )
+
+    expect(
+      document.querySelector('.dnb-popover__arrow')
+    ).not.toBeInTheDocument()
+  })
+
+  it('hides the arrow when hideArrow is true even if arrowPosition is set', async () => {
+    renderWithTrigger({ hideArrow: true, arrowPosition: 'center' })
+
+    const trigger = document.querySelector('button[aria-controls]')
+    await userEvent.click(trigger)
+
+    await waitFor(() =>
+      expect(document.querySelector('.dnb-popover')).toBeInTheDocument()
+    )
+
+    expect(
+      document.querySelector('.dnb-popover__arrow')
+    ).not.toBeInTheDocument()
+  })
+
+  it('renders the arrow by default when hideArrow is false', async () => {
+    renderWithTrigger({ hideArrow: false })
+
+    const trigger = document.querySelector('button[aria-controls]')
+    await userEvent.click(trigger)
+
+    await waitFor(() =>
+      expect(
+        document.querySelector('.dnb-popover__arrow')
+      ).toBeInTheDocument()
+    )
+  })
+
   it('closes when keyup happens outside the popover', async () => {
     renderWithTrigger()
 
