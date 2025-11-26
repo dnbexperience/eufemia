@@ -276,21 +276,76 @@ describe('Popover', () => {
     ) as HTMLButtonElement
     await userEvent.click(trigger)
 
-    const focusTrap = await waitFor(
-      () =>
-        document.querySelector(
-          '.dnb-popover .dnb-sr-only button, .dnb-popover button.dnb-sr-only'
-        ) as HTMLButtonElement
-    )
+    // Wait for popover to be rendered
+    await waitFor(() => {
+      expect(document.querySelector('.dnb-popover')).toBeInTheDocument()
+    })
 
-    fireEvent.focus(focusTrap)
+    // Get all focus trap buttons - the last one is at the bottom
+    const focusTrapButtons = document.querySelectorAll(
+      '.dnb-popover .dnb-sr-only button, .dnb-popover button.dnb-sr-only'
+    ) as NodeListOf<HTMLButtonElement>
+
+    expect(focusTrapButtons.length).toBeGreaterThanOrEqual(1)
+
+    // Get the bottom focus trap button (last one)
+    const bottomFocusTrap = focusTrapButtons[focusTrapButtons.length - 1]
+
+    // Verify the bottom focus trap button has sr-only class and aria-hidden attribute
+    expect(bottomFocusTrap).toHaveClass('dnb-sr-only')
+    expect(bottomFocusTrap).toHaveAttribute('aria-hidden', 'true')
+
+    // Actually focus the button to trigger the onFocus handler
+    fireEvent.focus(bottomFocusTrap)
 
     await waitFor(() =>
       expect(trigger).toHaveAttribute('aria-expanded', 'false')
     )
 
-    // Verify trigger can receive focus (it should be the active element after manual focus)
-    expect(document.activeElement).toBe(trigger)
+    // Wait for focus to be restored to the trigger
+    await waitFor(() => {
+      expect(document.activeElement).toBe(trigger)
+    })
+  })
+
+  it('closes when the top focus-trap button receives focus (Shift+Tab from first element) and returns focus to the trigger', async () => {
+    renderWithTrigger()
+
+    const trigger = document.querySelector(
+      'button[aria-controls]'
+    ) as HTMLButtonElement
+    await userEvent.click(trigger)
+
+    // Wait for popover to be rendered
+    await waitFor(() => {
+      expect(document.querySelector('.dnb-popover')).toBeInTheDocument()
+    })
+
+    // Get all focus trap buttons - the first one is at the top
+    const focusTrapButtons = document.querySelectorAll(
+      '.dnb-popover .dnb-sr-only button, .dnb-popover button.dnb-sr-only'
+    ) as NodeListOf<HTMLButtonElement>
+
+    expect(focusTrapButtons.length).toBeGreaterThanOrEqual(2)
+
+    // Get the top focus trap button (first one)
+    const topFocusTrap = focusTrapButtons[0]
+
+    // Verify the top focus trap button has sr-only class and aria-hidden attribute
+    expect(topFocusTrap).toHaveClass('dnb-sr-only')
+    expect(topFocusTrap).toHaveAttribute('aria-hidden', 'true')
+
+    // Simulate Shift+Tab from the first element by focusing the top trap
+    fireEvent.focus(topFocusTrap)
+
+    await waitFor(() =>
+      expect(trigger).toHaveAttribute('aria-expanded', 'false')
+    )
+
+    // Wait for focus to be restored to the trigger
+    await waitFor(() => {
+      expect(document.activeElement).toBe(trigger)
+    })
   })
 
   it('provides default trigger aria attributes', () => {
