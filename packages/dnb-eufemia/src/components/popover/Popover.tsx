@@ -97,8 +97,8 @@ export default function Popover(props: PopoverProps) {
   const contentWrapperRef = useRef<HTMLSpanElement>(null)
   const previousTargetElementRef =
     useRef<PopoverResolvedTargetElement>(null)
-  // Track touch interactions so we can distinguish taps from scrolls.
-  const touchStartTargetRef = useRef<EventTarget | null>(null)
+  const focusRestoreAnimationRef = useRef<number>(null)
+  const touchStartTargetRef = useRef<EventTarget>(null)
   const touchMovedRef = useRef(false)
 
   const tooltipId = useId(idProp)
@@ -208,8 +208,27 @@ export default function Popover(props: PopoverProps) {
       return
     }
     const element = getCurrentTriggerElement()
-    element?.focus({ preventScroll: true })
+    if (!element) {
+      return
+    }
+
+    if (focusRestoreAnimationRef.current !== null) {
+      cancelAnimationFrame(focusRestoreAnimationRef.current)
+    }
+
+    focusRestoreAnimationRef.current = requestAnimationFrame(() => {
+      element.focus({ preventScroll: true })
+      focusRestoreAnimationRef.current = null
+    })
   }, [getCurrentTriggerElement, restoreFocus])
+
+  useEffect(() => {
+    return () => {
+      if (focusRestoreAnimationRef.current !== null) {
+        cancelAnimationFrame(focusRestoreAnimationRef.current)
+      }
+    }
+  }, [])
 
   const close = useCallback(() => {
     setOpenState(false)
