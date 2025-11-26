@@ -281,9 +281,14 @@ describe('Field.DateOfBirth', () => {
     })
 
     it('should return undefined onChange event when removing inputted data', async () => {
+      const onChangeContext = jest.fn()
       const onChange = jest.fn()
 
-      render(<Field.DateOfBirth onChange={onChange} />)
+      render(
+        <Form.Handler onChange={onChangeContext}>
+          <Field.DateOfBirth path="/myField" onChange={onChange} />{' '}
+        </Form.Handler>
+      )
 
       const dayInput = document.querySelectorAll('input')[0]
       const monthInput = document.querySelectorAll('input')[1]
@@ -307,6 +312,12 @@ describe('Field.DateOfBirth', () => {
       expect(yearInput.value).toBe('')
 
       expect(onChange).toHaveBeenLastCalledWith(undefined)
+      expect(onChangeContext).toHaveBeenLastCalledWith(
+        {
+          myField: undefined,
+        },
+        expect.anything()
+      )
     })
   })
 
