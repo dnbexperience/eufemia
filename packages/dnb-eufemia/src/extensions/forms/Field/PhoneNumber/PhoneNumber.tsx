@@ -344,10 +344,12 @@ function PhoneNumber(props: Props = {}) {
   const callOnChange = useCallback(
     (data: EventValues) => {
       const eventValues = prepareEventValues(data)
-      handleChange(
-        joinValue([eventValues.countryCode, eventValues.phoneNumber]),
-        eventValues
-      )
+      const value =
+        eventValues.phoneNumber === undefined
+          ? undefined
+          : joinValue([eventValues.countryCode, eventValues.phoneNumber])
+
+      handleChange(value, eventValues)
     },
     [prepareEventValues, handleChange]
   )
@@ -595,9 +597,6 @@ function splitValue(value: string) {
 }
 
 function joinValue(array: Array<string>) {
-  if (array.some((value) => value === undefined)) {
-    return undefined
-  }
   return array.filter(Boolean).join(' ')
 }
 
