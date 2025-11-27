@@ -21,10 +21,14 @@ WordDefinition shows a short term definition using the Popover/Tooltip stack and
 
 To ensure that the WordDefinition component is accessible, it uses semantic HTML elements and appropriate ARIA attributes.
 
-- The content is fully selectable.
-- Clicking outside the tooltip or pressing Escape closes the tooltip.
-- The trigger element is visually styled as a link but behaves as a button.
-- It is focusable and usable with keyboard navigation.
-- The trigger announces that it can be activated to reveal more information, while the “word” (its children) is read first by screen readers.
-- When the tooltip opens, it receives focus and the screen reader announces the tooltip content.
-- The close button appears last in the tab order so keyboard users can easily reach it after reading the tooltip content.
+- All content inside the WordDefinition can be selected when it is open.
+- Clicking anywhere outside the WordDefinition, or pressing Escape, closes it.
+- The trigger looks like an [Anchor](/uilib/components/anchor) but is actually a semantic button.
+- It is fully focusable and works with keyboard navigation.
+- The trigger is aligned to the left side of the word for better readability (not centered).
+- Screen readers read the word (its children) first and then announce that the trigger can be activated to show more information.
+- When the WordDefinition opens, it receives focus and the screen reader announces its content.
+- When it closes, focus returns to the trigger so keyboard users keep their place in the document.
+- The close button is placed last in the tab order, making it easy for keyboard users to reach after reading the content.
+- It also closes automatically when focus moves outside the WordDefinition or when the Escape key is pressed.
+- The trigger shows the hover style of an [Anchor](/uilib/components/anchor) when open.

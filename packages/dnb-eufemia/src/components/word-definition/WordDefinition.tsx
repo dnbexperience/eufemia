@@ -47,9 +47,7 @@ export default function WordDefinition({
   const triggerRef = useRef<HTMLSpanElement | null>(null)
   const id = useId()
   const { WordDefinition: tr = {} } = useTranslation()
-  const title =
-    (active ? tr.closeTriggerTitle : tr.openTriggerTitle) ||
-    (active ? 'Close description' : 'Open description')
+  const title = active ? tr.closeTriggerTitle : tr.openTriggerTitle
 
   const toggle = useCallback((next?: boolean) => {
     setActive((prev) => {
@@ -95,6 +93,7 @@ export default function WordDefinition({
         className={classnames(
           'dnb-word-definition__trigger',
           'dnb-anchor',
+          active && 'dnb-anchor--hover',
           className,
           spacingClasses
         )}
@@ -120,8 +119,11 @@ export default function WordDefinition({
         onOpenChange={toggle}
         showDelay={0}
         hideDelay={0}
-        triggerOffset={8}
+        triggerOffset={4}
         placement={placement}
+        arrowPosition="left"
+        alignOnTarget="left"
+        arrowEdgeOffset={0}
         className="dnb-word-definition"
         portalRootClass="dnb-word-definition__portal"
         omitDescribedBy
