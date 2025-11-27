@@ -16,7 +16,7 @@ export const WordDefinitionProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
-  position: {
+  placement: {
     doc: 'Tooltip placement relative to the trigger.',
     type: ['top', 'right', 'bottom', 'left'],
     status: 'optional',

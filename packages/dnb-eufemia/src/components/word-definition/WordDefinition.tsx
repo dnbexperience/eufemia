@@ -27,9 +27,9 @@ export type WordDefinitionProps = {
    */
   className?: string
   /**
-   * Tooltip position relative to the trigger.
+   * Tooltip placement relative to the trigger.
    */
-  position?: 'top' | 'right' | 'bottom' | 'left'
+  placement?: 'top' | 'right' | 'bottom' | 'left'
 }
 
 type WordDefinitionAllProps = WordDefinitionProps &
@@ -40,7 +40,7 @@ export default function WordDefinition({
   children,
   content,
   className,
-  position = 'bottom',
+  placement = 'bottom',
   ...rest
 }: WordDefinitionAllProps) {
   const [active, setActive] = useState(false)
@@ -121,7 +121,7 @@ export default function WordDefinition({
         showDelay={0}
         hideDelay={0}
         triggerOffset={8}
-        position={position}
+        placement={placement}
         className="dnb-word-definition"
         portalRootClass="dnb-word-definition__portal"
         omitDescribedBy
