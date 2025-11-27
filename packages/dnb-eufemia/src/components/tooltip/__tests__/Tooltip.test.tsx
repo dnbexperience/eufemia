@@ -827,7 +827,7 @@ describe('Tooltip', () => {
             disableFocusTrap
             hideDelay={0}
             targetElement={target}
-            position="bottom"
+            placement="bottom"
             arrowPosition="center"
             alignOnTarget="center"
             id="tooltip-gutter"

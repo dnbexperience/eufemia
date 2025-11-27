@@ -330,7 +330,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
         keepInDOM={keepInDOM}
         noAnimation={noAnimation}
         arrowPosition={arrow}
-        position={position}
+        placement={position}
         alignOnTarget={align}
         fixedPosition={fixedPosition}
         portalRootClass={portalRootClass}
