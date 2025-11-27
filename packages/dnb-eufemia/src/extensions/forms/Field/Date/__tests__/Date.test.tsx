@@ -2626,6 +2626,140 @@ describe('Field.Date', () => {
     })
   })
 
+  describe('popover alignment', () => {
+    it('should align popover to right when width is large and showInput is true', async () => {
+      let capturedAlignPicker: string | undefined
+
+      const DatePickerModule = await import(
+        '../../../../../components/date-picker/DatePicker'
+      )
+
+      jest
+        .spyOn(DatePickerModule, 'default')
+        .mockImplementation((props) => {
+          capturedAlignPicker = props.alignPicker
+          // Return a simple div to avoid rendering the full DatePicker
+          return React.createElement('div', {
+            'data-testid': 'date-picker-mock',
+          })
+        })
+
+      render(
+        <Field.Date
+          label="Date"
+          width="large"
+          showInput
+          value="2023-01-16"
+        />
+      )
+
+      // Verify alignPicker is 'right' when width is large and showInput is true
+      // When the change is present: alignPicker should be 'right'
+      // When reverted: alignPicker should be undefined
+      expect(capturedAlignPicker).toBe('right')
+
+      jest.restoreAllMocks()
+    })
+
+    it('should align popover to right when width is stretch and showInput is true', async () => {
+      let capturedAlignPicker: string | undefined
+
+      const DatePickerModule = await import(
+        '../../../../../components/date-picker/DatePicker'
+      )
+
+      jest
+        .spyOn(DatePickerModule, 'default')
+        .mockImplementation((props) => {
+          capturedAlignPicker = props.alignPicker
+          // Return a simple div to avoid rendering the full DatePicker
+          return React.createElement('div', {
+            'data-testid': 'date-picker-mock',
+          })
+        })
+
+      render(
+        <Field.Date
+          label="Date"
+          width="stretch"
+          showInput
+          value="2023-01-16"
+        />
+      )
+
+      // Verify alignPicker is 'right' when width is stretch and showInput is true
+      // When the change is present: alignPicker should be 'right'
+      // When reverted: alignPicker should be undefined
+      expect(capturedAlignPicker).toBe('right')
+
+      jest.restoreAllMocks()
+    })
+
+    it('should not align popover to right when width is large but showInput is false', async () => {
+      let capturedAlignPicker: string | undefined
+
+      const DatePickerModule = await import(
+        '../../../../../components/date-picker/DatePicker'
+      )
+
+      jest
+        .spyOn(DatePickerModule, 'default')
+        .mockImplementation((props) => {
+          capturedAlignPicker = props.alignPicker
+          // Return a simple div to avoid rendering the full DatePicker
+          return React.createElement('div', {
+            'data-testid': 'date-picker-mock',
+          })
+        })
+
+      render(
+        <Field.Date
+          label="Date"
+          width="large"
+          showInput={false}
+          value="2023-01-16"
+        />
+      )
+
+      // Verify alignPicker is undefined when showInput is false
+      expect(capturedAlignPicker).toBeUndefined()
+
+      jest.restoreAllMocks()
+    })
+
+    it('should not align popover to right when width is small and showInput is true', async () => {
+      let capturedAlignPicker: string | undefined
+
+      const DatePickerModule = await import(
+        '../../../../../components/date-picker/DatePicker'
+      )
+
+      jest
+        .spyOn(DatePickerModule, 'default')
+        .mockImplementation((props) => {
+          capturedAlignPicker = props.alignPicker
+          // Return a simple div to avoid rendering the full DatePicker
+          return React.createElement('div', {
+            'data-testid': 'date-picker-mock',
+          })
+        })
+
+      render(
+        <Field.Date
+          label="Date"
+          width="small"
+          showInput
+          value="2023-01-16"
+        />
+      )
+
+      // Verify alignPicker is undefined when width is small
+      expect(capturedAlignPicker).toBeUndefined()
+
+      jest.restoreAllMocks()
+    })
+  })
+
   describe('required', () => {
     it('should show required error when not completing the date', async () => {
       render(<Field.Date required />)

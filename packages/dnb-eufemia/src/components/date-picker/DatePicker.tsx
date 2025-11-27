@@ -1024,7 +1024,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
                   focusOnOpen={!disableAutofocus}
                   focusOnOpenElement={focusCalendarTable}
                   alignOnTarget={
-                    alignPicker === 'right' ? 'right' : 'left'
+                    alignPicker === 'right' || stretch ? 'right' : 'left'
                   }
                   horizontalOffset={showInput ? 8 : -8}
                   placement={
@@ -1034,6 +1034,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
                   showCloseButton={false}
                   hideOutline
                   triggerOffset={0}
+                  arrowEdgeOffset={4}
                   noInnerSpace
                   noMaxWidth
                   portalRootClass="dnb-date-picker__portal"

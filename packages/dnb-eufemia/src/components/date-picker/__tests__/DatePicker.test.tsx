@@ -3205,6 +3205,72 @@ describe('DatePicker component', () => {
     ])
   })
 
+  it('should align popover to right when stretch prop is true', async () => {
+    let capturedAlignOnTarget: string | undefined
+
+    const PopoverModule = await import('../../popover/Popover')
+
+    jest.spyOn(PopoverModule, 'default').mockImplementation((props) => {
+      capturedAlignOnTarget = props.alignOnTarget
+      // Return a simple div to avoid infinite loops
+      return React.createElement('div', {
+        className: 'dnb-popover--active',
+        'data-testid': 'popover-mock',
+      })
+    })
+
+    render(<DatePicker stretch showInput date="2023-01-16" />)
+
+    const trigger = getDatePickerTriggerButton()
+    await userEvent.click(trigger)
+
+    await waitFor(() => {
+      const popover = document.querySelector(
+        '[data-testid="popover-mock"]'
+      )
+      expect(popover).toBeInTheDocument()
+    })
+
+    // Verify alignOnTarget is 'right' when stretch is true
+    // When the change is present: alignPicker === 'right' || stretch ? 'right' : 'left'
+    // When reverted: alignPicker === 'right' ? 'right' : 'left'
+    expect(capturedAlignOnTarget).toBe('right')
+
+    jest.restoreAllMocks()
+  })
+
+  it('should align popover to left when stretch prop is false', async () => {
+    let capturedAlignOnTarget: string | undefined
+
+    const PopoverModule = await import('../../popover/Popover')
+
+    jest.spyOn(PopoverModule, 'default').mockImplementation((props) => {
+      capturedAlignOnTarget = props.alignOnTarget
+      // Return a simple div to avoid infinite loops
+      return React.createElement('div', {
+        className: 'dnb-popover--active',
+        'data-testid': 'popover-mock',
+      })
+    })
+
+    render(<DatePicker showInput date="2023-01-16" />)
+
+    const trigger = getDatePickerTriggerButton()
+    await userEvent.click(trigger)
+
+    await waitFor(() => {
+      const popover = document.querySelector(
+        '[data-testid="popover-mock"]'
+      )
+      expect(popover).toBeInTheDocument()
+    })
+
+    // Verify alignOnTarget is 'left' when stretch is false
+    expect(capturedAlignOnTarget).toBe('left')
+
+    jest.restoreAllMocks()
+  })
+
   it('should inherit formElement vertical label', () => {
     render(
       <Provider formElement={{ labelDirection: 'vertical' }}>

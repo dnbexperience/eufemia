@@ -335,6 +335,11 @@ function DateComponent(props: DateProps) {
         date={value}
         disabled={disabled}
         showInput={showInput}
+        alignPicker={
+          showInput && (width === 'large' || width === 'stretch')
+            ? 'right'
+            : undefined
+        }
         showCancelButton={showCancelButton}
         showResetButton={showResetButton}
         stretch={width !== undefined}
