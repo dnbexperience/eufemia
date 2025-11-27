@@ -564,7 +564,8 @@ function PopoverContainer(props: PopoverContainerProps) {
 
     const arrowPositions = {
       left: () => ({
-        left: centerX - offset.current + alignOffset + horizontalOffset,
+        left:
+          centerX - offset.current + alignOffset + horizontalOffset - 16,
       }),
       right: () => ({
         left:
@@ -572,13 +573,14 @@ function PopoverContainer(props: PopoverContainerProps) {
           elementWidth +
           offset.current +
           alignOffset +
-          horizontalOffset,
+          horizontalOffset +
+          16,
       }),
       top: () => ({
-        top: anchorY - offset.current,
+        top: anchorY - offset.current - 16,
       }),
       bottom: () => ({
-        top: anchorY - elementHeight + offset.current,
+        top: anchorY - elementHeight + offset.current + 16,
       }),
     }
 
@@ -671,6 +673,8 @@ function PopoverContainer(props: PopoverContainerProps) {
     }
     computedStyle.top = nextTop
 
+    const actualTop = nextTop
+
     if (isVerticalPlacement) {
       const arrowWidth = 16
       const arrowBoundary = 8
@@ -706,6 +710,41 @@ function PopoverContainer(props: PopoverContainerProps) {
       }
 
       arrowStyle.left = nextArrowLeft
+    } else {
+      const arrowHeight = 16
+      const arrowBoundary = 8
+      const maxTop = Math.max(0, elementHeight - arrowHeight)
+      const arrowTop = anchorY - actualTop - arrowHeight / 2
+
+      const arrowMin = Math.min(maxTop, arrowBoundary)
+      const arrowMax = Math.max(
+        arrowMin,
+        Math.max(0, maxTop - arrowBoundary)
+      )
+
+      let arrowClampMin = arrowMin
+      let arrowClampMax = arrowMax
+
+      if (scrollViewRect) {
+        const scrollMin = scrollViewRect.top + scrollYOffset - actualTop
+        const scrollMax =
+          scrollViewRect.bottom + scrollYOffset - actualTop - arrowHeight
+        arrowClampMin = Math.max(arrowClampMin, scrollMin)
+        arrowClampMax = Math.min(arrowClampMax, scrollMax)
+      }
+
+      if (arrowClampMax < arrowClampMin) {
+        arrowClampMax = arrowClampMin
+      }
+
+      let nextArrowTop = arrowTop
+      if (nextArrowTop < arrowClampMin) {
+        nextArrowTop = arrowClampMin
+      } else if (nextArrowTop > arrowClampMax) {
+        nextArrowTop = arrowClampMax
+      }
+
+      arrowStyle.top = nextArrowTop
     }
 
     if (resolvedPlacement !== placementKey) {

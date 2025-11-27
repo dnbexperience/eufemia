@@ -158,14 +158,12 @@
     }
 
     &__placement--left {
-      right: -0.75rem;
-      margin-right: 3px;
+      right: -1rem;
       transform: rotate(90deg);
     }
 
     &__placement--right {
-      left: -0.75rem;
-      margin-left: 3px;
+      left: -1rem;
       transform: rotate(270deg);
     }
 

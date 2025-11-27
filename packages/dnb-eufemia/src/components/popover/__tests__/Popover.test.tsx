@@ -1125,6 +1125,47 @@ describe('Popover', () => {
       })
     })
 
+    it('centers the arrow vertically when pointing right', async () => {
+      const targetElement = document.createElement('div')
+      document.body.appendChild(targetElement)
+
+      Object.defineProperty(targetElement, 'offsetWidth', {
+        configurable: true,
+        value: 80,
+      })
+      Object.defineProperty(targetElement, 'offsetHeight', {
+        configurable: true,
+        value: 32,
+      })
+
+      assignRect(
+        targetElement,
+        createRect({ left: 120, top: 120, width: 80, height: 32 })
+      )
+
+      setElementSize(150, 120)
+
+      render(
+        <Popover
+          open
+          noAnimation
+          position="right"
+          targetElement={targetElement}
+        >
+          Center arrow
+        </Popover>
+      )
+
+      await waitFor(() => {
+        const arrow = document.querySelector(
+          '.dnb-popover__arrow'
+        ) as HTMLElement
+        expect(arrow?.style.top).toBe('52px')
+      })
+
+      targetElement.remove()
+    })
+
     describe('targetElement refs', () => {
       it('positions the popover using horizontal and vertical refs', async () => {
         const horizontalElement = document.createElement('div')
@@ -2749,5 +2790,321 @@ describe('Popover', () => {
 
       targetElement.remove()
     })
+  })
+
+  it('should position arrow correctly when position="right" and arrowPosition="top"', async () => {
+    // Mock ResizeObserver
+    global.ResizeObserver = class ResizeObserver {
+      observe() {
+        return null
+      }
+      unobserve() {
+        return null
+      }
+      disconnect() {
+        return null
+      }
+    }
+
+    // Mock getComputedStyle
+    const originalGetComputedStyle = window.getComputedStyle
+    window.getComputedStyle = jest.fn().mockReturnValue({
+      marginLeft: '0px',
+      marginRight: '0px',
+      marginTop: '0px',
+      marginBottom: '0px',
+    })
+
+    // Mock offsetParent for popover content
+    Object.defineProperty(HTMLElement.prototype, 'offsetParent', {
+      configurable: true,
+      get: function () {
+        if (this.classList.contains('dnb-popover__content')) {
+          return document.body
+        }
+        return null
+      },
+    })
+
+    // Mock getBoundingClientRect
+    const originalGetBoundingClientRect =
+      HTMLElement.prototype.getBoundingClientRect
+    jest
+      .spyOn(HTMLElement.prototype, 'getBoundingClientRect')
+      .mockImplementation(function (this: HTMLElement) {
+        if (
+          this.classList.contains('target-element') ||
+          this.classList.contains('dnb-popover__trigger')
+        ) {
+          return {
+            top: 100,
+            left: 100,
+            width: 100,
+            height: 100,
+            bottom: 200,
+            right: 200,
+            x: 100,
+            y: 100,
+            toJSON: () => null,
+          } as DOMRect
+        }
+        if (this.classList.contains('dnb-popover__content')) {
+          return {
+            top: 0,
+            left: 0,
+            width: 200,
+            height: 200,
+            bottom: 200,
+            right: 200,
+            x: 0,
+            y: 0,
+            toJSON: () => null,
+          } as DOMRect
+        }
+        return {
+          top: 0,
+          left: 0,
+          width: 1024,
+          height: 768,
+          bottom: 768,
+          right: 1024,
+          x: 0,
+          y: 0,
+          toJSON: () => null,
+        } as DOMRect
+      })
+
+    // Mock offsetWidth/offsetHeight
+    const originalOffsetWidth = Object.getOwnPropertyDescriptor(
+      HTMLElement.prototype,
+      'offsetWidth'
+    )
+    const originalOffsetHeight = Object.getOwnPropertyDescriptor(
+      HTMLElement.prototype,
+      'offsetHeight'
+    )
+
+    Object.defineProperty(HTMLElement.prototype, 'offsetWidth', {
+      configurable: true,
+      get: function () {
+        if (this.classList.contains('dnb-popover__content')) return 200
+        if (this.classList.contains('target-element')) return 100
+        return 0
+      },
+    })
+    Object.defineProperty(HTMLElement.prototype, 'offsetHeight', {
+      configurable: true,
+      get: function () {
+        if (this.classList.contains('dnb-popover__content')) return 200
+        if (this.classList.contains('target-element')) return 100
+        return 0
+      },
+    })
+
+    render(
+      <Popover
+        open={true}
+        position="right"
+        arrowPosition="top"
+        trigger={<button className="target-element">Target</button>}
+        content="Popover Content"
+        noAnimation={false}
+        showDelay={0}
+        hideDelay={0}
+      />
+    )
+
+    // Wait for positioning effect
+    await act(async () => {
+      await new Promise((resolve) => setTimeout(resolve, 200))
+    })
+
+    const popoverElement = document.querySelector(
+      '.dnb-popover'
+    ) as HTMLElement
+    expect(popoverElement).toBeInTheDocument()
+
+    const style = popoverElement.style
+    const top = parseFloat(style.top)
+
+    // Expected: 134 (150 - 16)
+    expect(top).toBe(134)
+
+    // Cleanup
+    window.getComputedStyle = originalGetComputedStyle
+    HTMLElement.prototype.getBoundingClientRect =
+      originalGetBoundingClientRect
+    if (originalOffsetWidth)
+      Object.defineProperty(
+        HTMLElement.prototype,
+        'offsetWidth',
+        originalOffsetWidth
+      )
+    if (originalOffsetHeight)
+      Object.defineProperty(
+        HTMLElement.prototype,
+        'offsetHeight',
+        originalOffsetHeight
+      )
+  })
+
+  it('should position arrow correctly when position="right" and arrowPosition="bottom"', async () => {
+    // Mock ResizeObserver
+    global.ResizeObserver = class ResizeObserver {
+      observe() {
+        return null
+      }
+      unobserve() {
+        return null
+      }
+      disconnect() {
+        return null
+      }
+    }
+
+    // Mock getComputedStyle
+    const originalGetComputedStyle = window.getComputedStyle
+    window.getComputedStyle = jest.fn().mockReturnValue({
+      marginLeft: '0px',
+      marginRight: '0px',
+      marginTop: '0px',
+      marginBottom: '0px',
+    })
+
+    // Mock offsetParent for popover content
+    Object.defineProperty(HTMLElement.prototype, 'offsetParent', {
+      configurable: true,
+      get: function () {
+        if (this.classList.contains('dnb-popover__content')) {
+          return document.body
+        }
+        return null
+      },
+    })
+
+    // Mock getBoundingClientRect
+    const originalGetBoundingClientRect =
+      HTMLElement.prototype.getBoundingClientRect
+    jest
+      .spyOn(HTMLElement.prototype, 'getBoundingClientRect')
+      .mockImplementation(function (this: HTMLElement) {
+        if (
+          this.classList.contains('target-element') ||
+          this.classList.contains('dnb-popover__trigger')
+        ) {
+          return {
+            top: 100,
+            left: 100,
+            width: 100,
+            height: 100,
+            bottom: 200,
+            right: 200,
+            x: 100,
+            y: 100,
+            toJSON: () => null,
+          } as DOMRect
+        }
+        if (this.classList.contains('dnb-popover__content')) {
+          return {
+            top: 0,
+            left: 0,
+            width: 200,
+            height: 200,
+            bottom: 200,
+            right: 200,
+            x: 0,
+            y: 0,
+            toJSON: () => null,
+          } as DOMRect
+        }
+        return {
+          top: 0,
+          left: 0,
+          width: 1024,
+          height: 768,
+          bottom: 768,
+          right: 1024,
+          x: 0,
+          y: 0,
+          toJSON: () => null,
+        } as DOMRect
+      })
+
+    // Mock offsetWidth/offsetHeight
+    const originalOffsetWidth = Object.getOwnPropertyDescriptor(
+      HTMLElement.prototype,
+      'offsetWidth'
+    )
+    const originalOffsetHeight = Object.getOwnPropertyDescriptor(
+      HTMLElement.prototype,
+      'offsetHeight'
+    )
+
+    Object.defineProperty(HTMLElement.prototype, 'offsetWidth', {
+      configurable: true,
+      get: function () {
+        if (this.classList.contains('dnb-popover__content')) return 200
+        if (this.classList.contains('target-element')) return 100
+        return 0
+      },
+    })
+    Object.defineProperty(HTMLElement.prototype, 'offsetHeight', {
+      configurable: true,
+      get: function () {
+        if (
+          this.classList.contains('dnb-popover__content') ||
+          this.classList.contains('dnb-popover')
+        )
+          return 200
+        if (this.classList.contains('target-element')) return 100
+        return 0
+      },
+    })
+
+    render(
+      <Popover
+        open={true}
+        position="right"
+        arrowPosition="bottom"
+        trigger={<button className="target-element">Target</button>}
+        content="Popover Content"
+        noAnimation={false}
+        showDelay={0}
+        hideDelay={0}
+      />
+    )
+
+    // Wait for positioning effect
+    await act(async () => {
+      await new Promise((resolve) => setTimeout(resolve, 200))
+    })
+
+    const popoverElement = document.querySelector(
+      '.dnb-popover'
+    ) as HTMLElement
+    expect(popoverElement).toBeInTheDocument()
+
+    const style = popoverElement.style
+    const top = parseFloat(style.top)
+
+    // Expected: 150 (center) - 200 (height) + 16 (offset) = -34
+    expect(top).toBe(-34)
+
+    // Cleanup
+    window.getComputedStyle = originalGetComputedStyle
+    HTMLElement.prototype.getBoundingClientRect =
+      originalGetBoundingClientRect
+    if (originalOffsetWidth)
+      Object.defineProperty(
+        HTMLElement.prototype,
+        'offsetWidth',
+        originalOffsetWidth
+      )
+    if (originalOffsetHeight)
+      Object.defineProperty(
+        HTMLElement.prototype,
+        'offsetHeight',
+        originalOffsetHeight
+      )
   })
 })
