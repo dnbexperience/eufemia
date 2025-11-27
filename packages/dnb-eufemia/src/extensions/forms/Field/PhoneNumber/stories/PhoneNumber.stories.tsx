@@ -113,3 +113,22 @@ export function TransformOut() {
     </Form.Handler>
   )
 }
+
+export function Basic() {
+  return (
+    <Form.Handler>
+      <Field.PhoneNumber
+        path="/phoneNumber"
+        onChange={(value, { countryCode, phoneNumber, iso }) =>
+          console.log('onChange', value, {
+            countryCode,
+            phoneNumber,
+            iso,
+          })
+        }
+      />
+
+      <Tools.Log top />
+    </Form.Handler>
+  )
+}

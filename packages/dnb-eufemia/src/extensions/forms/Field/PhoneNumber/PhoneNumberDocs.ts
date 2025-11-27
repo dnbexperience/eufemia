@@ -78,7 +78,7 @@ export const PhoneNumberProperties: PropertiesTableProps = {
 
 export const PhoneNumberSpecificEvents: PropertiesTableProps = {
   onChange: {
-    doc: 'Callback on phone number and country code change.',
+    doc: 'Callback on phone number and country code change. The combined value is only set when there is a phone number.',
     type: '(value?: string, additionalArgs?: { countryCode?: string, phoneNumber?: string, iso?: string }) => void',
     status: 'optional',
   },
