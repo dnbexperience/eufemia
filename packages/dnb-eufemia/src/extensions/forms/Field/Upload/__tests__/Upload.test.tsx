@@ -232,6 +232,80 @@ describe('Field.Upload', () => {
       )
     })
 
+    it('should return undefined value when no files are present', async () => {
+      const onChangeContext = jest.fn()
+      const onChangeField = jest.fn()
+
+      render(
+        <Form.Handler onChange={onChangeContext}>
+          <Field.Upload path="/myFiles" onChange={onChangeField} />
+        </Form.Handler>
+      )
+
+      const getRootElement = () => document.querySelector('.dnb-upload')
+
+      const element = getRootElement()
+
+      const file1 = createMockFile('fileName-1.png', 100, 'image/png')
+
+      fireEvent.drop(element, {
+        dataTransfer: { files: [file1] },
+      })
+
+      expect(onChangeContext).toHaveBeenCalledTimes(1)
+      expect(onChangeContext).toHaveBeenLastCalledWith(
+        {
+          myFiles: [
+            {
+              file: file1,
+              exists: false,
+              id: expect.anything(),
+              name: 'fileName-1.png',
+            },
+          ],
+        },
+        expect.anything()
+      )
+      expect(onChangeField).toHaveBeenCalledTimes(1)
+      expect(onChangeField).toHaveBeenLastCalledWith(
+        [
+          {
+            file: file1,
+            exists: false,
+            id: expect.anything(),
+            name: 'fileName-1.png',
+          },
+        ],
+        expect.anything()
+      )
+
+      // delete the file
+      fireEvent.click(
+        document
+          .querySelectorAll('.dnb-upload__file-cell')[0]
+          .querySelector('button')
+      )
+
+      await waitFor(() => {
+        expect(
+          document.querySelectorAll('.dnb-upload__file-cell').length
+        ).toBe(0)
+      })
+
+      expect(onChangeContext).toHaveBeenCalledTimes(2)
+      expect(onChangeContext).toHaveBeenLastCalledWith(
+        {
+          myFiles: undefined,
+        },
+        expect.anything()
+      )
+      expect(onChangeField).toHaveBeenCalledTimes(2)
+      expect(onChangeField).toHaveBeenLastCalledWith(
+        undefined,
+        expect.anything()
+      )
+    })
+
     it('should prevent submit when error in one file is present', async () => {
       const onChangeContext = jest.fn()
       const onChangeField = jest.fn()
@@ -520,7 +594,7 @@ describe('Field.Upload', () => {
 
       expect(onChange).toHaveBeenCalledTimes(2)
       expect(onChange).toHaveBeenLastCalledWith(
-        { myFiles: [] },
+        { myFiles: undefined },
         expect.anything()
       )
 
@@ -780,7 +854,7 @@ describe('Field.Upload', () => {
       expect(onChange).toHaveBeenCalledTimes(2)
       expect(onChange).toHaveBeenLastCalledWith(
         {
-          myFiles: [],
+          myFiles: undefined,
         },
         expect.anything()
       )
