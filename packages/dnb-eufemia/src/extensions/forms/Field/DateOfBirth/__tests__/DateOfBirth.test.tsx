@@ -39,7 +39,7 @@ describe('Field.DateOfBirth', () => {
       await userEvent.click(document.querySelector('[role="option"]'))
       await userEvent.type(yearInput, '2023')
 
-      expect(onChange).toHaveBeenCalledTimes(5)
+      expect(onChange).toHaveBeenCalledTimes(4)
       expect(onChange).toHaveBeenLastCalledWith(
         '2023-12-24',
         expect.objectContaining({
@@ -72,7 +72,7 @@ describe('Field.DateOfBirth', () => {
       await userEvent.click(document.querySelector('[role="option"]'))
       await userEvent.type(yearInput, '2023')
 
-      expect(onChange).toHaveBeenCalledTimes(5)
+      expect(onChange).toHaveBeenCalledTimes(4)
       expect(onChange).toHaveBeenLastCalledWith(
         { dob: '2023-12-24' },
         expect.anything()
@@ -167,7 +167,7 @@ describe('Field.DateOfBirth', () => {
       await userEvent.type(yearInput, '2023')
 
       // Check that transformOut was called with the correct values
-      expect(transformOut).toHaveBeenCalledTimes(17)
+      expect(transformOut).toHaveBeenCalledTimes(15)
       expect(transformOut).toHaveBeenLastCalledWith('2023-12-24', {
         year: '2023',
         month: '12',
@@ -207,7 +207,7 @@ describe('Field.DateOfBirth', () => {
       await userEvent.type(yearInput, '2023')
 
       await waitFor(() => {
-        expect(onChange).toHaveBeenCalledTimes(5)
+        expect(onChange).toHaveBeenCalledTimes(4)
       })
 
       expect(onChange).toHaveBeenLastCalledWith(
@@ -238,7 +238,7 @@ describe('Field.DateOfBirth', () => {
       await userEvent.type(yearInput, '2023')
 
       await waitFor(() => {
-        expect(onChange).toHaveBeenCalledTimes(5)
+        expect(onChange).toHaveBeenCalledTimes(4)
       })
 
       expect(onChange).toHaveBeenLastCalledWith(
@@ -269,7 +269,7 @@ describe('Field.DateOfBirth', () => {
       await userEvent.type(yearInput, '2023')
 
       await waitFor(() => {
-        expect(onChange).toHaveBeenCalledTimes(5)
+        expect(onChange).toHaveBeenCalledTimes(4)
       })
 
       expect(onChange).toHaveBeenLastCalledWith(
@@ -277,6 +277,46 @@ describe('Field.DateOfBirth', () => {
         expect.objectContaining({
           day: '24',
         })
+      )
+    })
+
+    it('should return undefined onChange event when removing inputted data', async () => {
+      const onChangeContext = jest.fn()
+      const onChange = jest.fn()
+
+      render(
+        <Form.Handler onChange={onChangeContext}>
+          <Field.DateOfBirth path="/myField" onChange={onChange} />{' '}
+        </Form.Handler>
+      )
+
+      const dayInput = document.querySelectorAll('input')[0]
+      const monthInput = document.querySelectorAll('input')[1]
+      const yearInput = document.querySelectorAll('input')[2]
+
+      await userEvent.type(dayInput, '24')
+      await userEvent.type(monthInput, '12')
+      await waitFor(() => {
+        const option = document.querySelector('[role="option"]')
+        expect(option).toBeInTheDocument()
+      })
+      await userEvent.click(document.querySelector('[role="option"]'))
+      await userEvent.type(yearInput, '2023')
+
+      await userEvent.type(yearInput, '{Backspace>4}')
+      await userEvent.type(monthInput, '{Backspace>1}')
+      await userEvent.type(dayInput, '{Backspace>2}')
+
+      expect(dayInput.value).toBe('')
+      expect(monthInput.value).toBe('')
+      expect(yearInput.value).toBe('')
+
+      expect(onChange).toHaveBeenLastCalledWith(undefined)
+      expect(onChangeContext).toHaveBeenLastCalledWith(
+        {
+          myField: undefined,
+        },
+        expect.anything()
       )
     })
   })
