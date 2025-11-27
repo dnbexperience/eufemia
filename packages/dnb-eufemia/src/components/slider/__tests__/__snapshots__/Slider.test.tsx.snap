@@ -128,6 +128,7 @@ p > .dnb-icon {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  min-width: auto;
   text-align: center;
   border-radius: var(--tooltip-border-radius);
   box-shadow: var(--shadow-default);
@@ -142,6 +143,14 @@ p > .dnb-icon {
   min-width: 2rem;
   min-height: 1.5rem;
   padding: 0 1rem;
+}
+.dnb-tooltip .dnb-popover__arrow__placement--right {
+  left: -13px;
+  top: auto !important;
+}
+.dnb-tooltip .dnb-popover__arrow__placement--left {
+  right: -13px;
+  top: auto !important;
 }
 
 /*
@@ -495,6 +504,7 @@ button.dnb-button::-moz-focus-inner {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  min-width: auto;
   text-align: center;
   border-radius: var(--tooltip-border-radius);
   box-shadow: var(--shadow-default);
@@ -509,6 +519,14 @@ button.dnb-button::-moz-focus-inner {
   min-width: 2rem;
   min-height: 1.5rem;
   padding: 0 1rem;
+}
+.dnb-tooltip .dnb-popover__arrow__placement--right {
+  left: -13px;
+  top: auto !important;
+}
+.dnb-tooltip .dnb-popover__arrow__placement--left {
+  right: -13px;
+  top: auto !important;
 }
 
 /*
