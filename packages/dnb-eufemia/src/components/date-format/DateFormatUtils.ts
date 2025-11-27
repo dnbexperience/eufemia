@@ -432,7 +432,7 @@ export function isValidDuration(durationString: string): boolean {
   )
 }
 
-export function getOsloDateISO(date: Date = new Date()): string {
+export function getOsloDate(date: Date = new Date()): Date {
   const OSLO_TIMEZONE = 'Europe/Oslo'
 
   // en-CA matches the ISO date format yyyy-MM-dd
@@ -443,5 +443,7 @@ export function getOsloDateISO(date: Date = new Date()): string {
     day: '2-digit',
   })
 
-  return osloDateFormatter.format(date)
+  const osloDateString = osloDateFormatter.format(date)
+  // Parse the ISO date string and create a UTC Date object with midnight
+  return new Date(osloDateString + 'T00:00:00.000Z')
 }
