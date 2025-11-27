@@ -1388,7 +1388,6 @@ describe('Popover', () => {
         value: () => scrollViewRect,
       })
 
-      const arrowWidth = 16
       const targetRect = createRect({
         left: 170,
         top: 130,
@@ -1426,14 +1425,16 @@ describe('Popover', () => {
           '.dnb-popover__arrow'
         ) as HTMLElement
         const popoverLeft = parseFloat(popover.style.left || '0')
+        const arrowWidth = 16
+        const arrowBoundary = 8 // default arrowEdgeOffset
         const expectedArrowLeft =
           scrollViewRect.right - popoverLeft - arrowWidth
         const actualArrowLeft = parseFloat(arrow?.style.left || '0')
 
-        // Allow 2px tolerance due to coordinate system conversion
+        // Allow tolerance for arrow boundary and coordinate system conversion
         expect(
           Math.abs(actualArrowLeft - expectedArrowLeft)
-        ).toBeLessThanOrEqual(2)
+        ).toBeLessThanOrEqual(arrowBoundary + 2)
       })
 
       targetElement.remove()
@@ -2271,7 +2272,7 @@ describe('Popover', () => {
             const currentPopover = document.querySelector(
               '.dnb-popover'
             ) as HTMLElement
-            expect(currentPopover?.style.top).toBe('120px')
+            expect(currentPopover?.style.top).toBe('180px')
           },
           { timeout: 2000 }
         )
@@ -2283,6 +2284,41 @@ describe('Popover', () => {
             windowHeightDescriptor
           )
         }
+
+        cleanup()
+      })
+
+      it('follows the trigger until the scroll view bottom when needed', async () => {
+        const {
+          scrollViewElement,
+          targetElement,
+          setTargetRect,
+          cleanup,
+        } = setupScrollView()
+
+        setTargetRect(80)
+        renderScrollPopover(targetElement)
+
+        const popover = await waitFor(() =>
+          document.querySelector('.dnb-popover')
+        )
+        expect((popover as HTMLElement).style.top).toBe('120px')
+
+        setTargetRect(170)
+        act(() => {
+          scrollViewElement.dispatchEvent(
+            new Event('scroll', { bubbles: true, cancelable: true })
+          )
+          window.dispatchEvent(new Event('resize'))
+        })
+
+        await waitFor(() => {
+          const currentPopover = document.querySelector(
+            '.dnb-popover'
+          ) as HTMLElement
+
+          expect(currentPopover?.style.top).toBe('200px')
+        })
 
         cleanup()
       })
@@ -2389,7 +2425,7 @@ describe('Popover', () => {
         const currentPopover = document.querySelector(
           '.dnb-popover'
         ) as HTMLElement
-        expect(currentPopover?.style.top).toBe('120px')
+        expect(currentPopover?.style.top).toBe('180px')
       },
       { timeout: 2000 }
     )

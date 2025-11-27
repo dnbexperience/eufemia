@@ -609,8 +609,8 @@ function PopoverContainer(props: PopoverContainerProps) {
       if (!scrollViewRect) {
         return value
       }
-      const minTop = scrollViewRect.top + scrollYOffset
-      const maxTop = scrollViewRect.bottom + scrollYOffset - elementHeight
+      const minTop = scrollViewRect.top + scrollYOffset - elementHeight
+      const maxTop = scrollViewRect.bottom + scrollYOffset
       if (maxTop < minTop) {
         return minTop
       }
