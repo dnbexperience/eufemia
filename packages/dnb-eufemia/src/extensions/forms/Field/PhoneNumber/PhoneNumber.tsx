@@ -344,12 +344,12 @@ function PhoneNumber(props: Props = {}) {
   const callOnChange = useCallback(
     (data: EventValues) => {
       const eventValues = prepareEventValues(data)
-      const value =
-        eventValues.phoneNumber === undefined
-          ? undefined
-          : joinValue([eventValues.countryCode, eventValues.phoneNumber])
-
-      handleChange(value, eventValues)
+      handleChange(
+        toEvent(
+          joinValue([eventValues.countryCode, eventValues.phoneNumber])
+        ),
+        eventValues
+      )
     },
     [prepareEventValues, handleChange]
   )
