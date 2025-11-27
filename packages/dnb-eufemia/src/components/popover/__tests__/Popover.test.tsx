@@ -1149,7 +1149,7 @@ describe('Popover', () => {
         <Popover
           open
           noAnimation
-          position="right"
+          placement="right"
           targetElement={targetElement}
         >
           Center arrow
@@ -2792,7 +2792,7 @@ describe('Popover', () => {
     })
   })
 
-  it('should position arrow correctly when position="right" and arrowPosition="top"', async () => {
+  it('should position arrow correctly when placement="right" and arrowPosition="top"', async () => {
     // Mock ResizeObserver
     global.ResizeObserver = class ResizeObserver {
       observe() {
@@ -2904,7 +2904,7 @@ describe('Popover', () => {
     render(
       <Popover
         open={true}
-        position="right"
+        placement="right"
         arrowPosition="top"
         trigger={<button className="target-element">Target</button>}
         content="Popover Content"
@@ -2948,7 +2948,7 @@ describe('Popover', () => {
       )
   })
 
-  it('should position arrow correctly when position="right" and arrowPosition="bottom"', async () => {
+  it('should position arrow correctly when placement="right" and arrowPosition="bottom"', async () => {
     // Mock ResizeObserver
     global.ResizeObserver = class ResizeObserver {
       observe() {
@@ -3064,7 +3064,7 @@ describe('Popover', () => {
     render(
       <Popover
         open={true}
-        position="right"
+        placement="right"
         arrowPosition="bottom"
         trigger={<button className="target-element">Target</button>}
         content="Popover Content"
