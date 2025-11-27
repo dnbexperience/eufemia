@@ -536,27 +536,16 @@ function PopoverContainer(props: PopoverContainerProps) {
       const fitsBottom =
         bottomPlacement.top + elementHeight <= viewportBottomEdge
 
-      const spaceAbove = topPlacement.top - viewportTopEdge
-      const spaceBelow =
-        viewportBottomEdge - (bottomPlacement.top + elementHeight)
-      const preferTopSide = spaceAbove >= spaceBelow
-
-      if (placementKey === 'bottom' && !fitsBottom) {
-        if (fitsTop) {
-          placementKey = 'top'
-          nextLeft = topPlacement.left
-          nextTop = topPlacement.top
-        } else if (preferTopSide) {
-          placementKey = 'top'
-          nextLeft = topPlacement.left
-          nextTop = topPlacement.top
-        }
+      if (placementKey === 'bottom' && !fitsBottom && fitsTop) {
+        placementKey = 'top'
+        nextLeft = topPlacement.left
+        nextTop = topPlacement.top
       } else if (placementKey === 'top' && !fitsTop) {
         if (fitsBottom) {
           placementKey = 'bottom'
           nextLeft = bottomPlacement.left
           nextTop = bottomPlacement.top
-        } else if (!preferTopSide) {
+        } else {
           placementKey = 'bottom'
           nextLeft = bottomPlacement.left
           nextTop = bottomPlacement.top
@@ -564,6 +553,8 @@ function PopoverContainer(props: PopoverContainerProps) {
       }
     }
 
+    const isVerticalPlacement =
+      placementKey === 'top' || placementKey === 'bottom'
     const arrowOffset = arrowEdgeOffset ?? 16
     const arrowPositions = {
       left: () => ({
@@ -607,8 +598,6 @@ function PopoverContainer(props: PopoverContainerProps) {
     }
 
     const edgeSpacing = arrowEdgeOffset ?? 8
-    const isVerticalPlacement =
-      placementKey === 'top' || placementKey === 'bottom'
     const arrowHugsEdge =
       isVerticalPlacement &&
       (arrowPosition === 'left' || arrowPosition === 'right')

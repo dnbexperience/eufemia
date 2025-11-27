@@ -663,7 +663,9 @@ describe('Popover', () => {
     await waitFor(() =>
       expect(trigger).toHaveAttribute('aria-expanded', 'false')
     )
-    expect(document.activeElement).toBe(trigger)
+    await waitFor(() => {
+      expect(document.activeElement).toBe(trigger)
+    })
   })
 
   it('closes when clicking outside the popover', async () => {
@@ -1603,7 +1605,7 @@ describe('Popover', () => {
       targetElement.remove()
     })
 
-    it('chooses the side with more space when both vertical placements overflow', async () => {
+    it('chooses bottom placement when both vertical placements overflow to avoid top cropping', async () => {
       const targetElement = document.createElement('div')
       document.body.appendChild(targetElement)
 
@@ -1645,7 +1647,7 @@ describe('Popover', () => {
 
       await waitFor(() =>
         expect(
-          document.querySelector('.dnb-popover__arrow__placement--top')
+          document.querySelector('.dnb-popover__arrow__placement--bottom')
         ).toBeInTheDocument()
       )
 
