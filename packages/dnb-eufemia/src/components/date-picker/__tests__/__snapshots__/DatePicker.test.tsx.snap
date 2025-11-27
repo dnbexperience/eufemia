@@ -3864,6 +3864,9 @@ button .dnb-form-status__text {
   border: 1px solid var(--color-black-border);
   background-color: var(--color-white);
 }
+.dnb-date-picker__container {
+  width: min-content;
+}
 .dnb-date-picker__container table {
   position: relative;
   z-index: 1;
