@@ -3088,6 +3088,52 @@ describe('useFieldProps', () => {
     expect(result.current.value).toBe(first)
   })
 
+  it('should not call onChange when value is not changed', async () => {
+    const onChange = jest.fn(async () => null)
+
+    const { result } = renderHook((props) => useFieldProps(props), {
+      initialProps: {
+        path: '/foo',
+        value: 'my-value',
+      },
+      wrapper: (props) => <Provider {...props} onChange={onChange} />,
+    })
+
+    await act(async () => {
+      result.current.handleChange('my-value')
+    })
+
+    expect(onChange).toHaveBeenCalledTimes(0)
+  })
+
+  it('should call onChange regardless of value is changed or not when executeOnChangeRegardlessOfUnchangedValue is true', async () => {
+    const onChange = jest.fn(async () => null)
+
+    const { result } = renderHook(
+      (props) =>
+        useFieldProps(props, {
+          executeOnChangeRegardlessOfUnchangedValue: true,
+        }),
+      {
+        initialProps: {
+          path: '/foo',
+          value: 'my-value',
+        },
+        wrapper: (props) => <Provider {...props} onChange={onChange} />,
+      }
+    )
+
+    await act(async () => {
+      result.current.handleChange('my-value')
+    })
+
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenLastCalledWith(
+      { foo: 'my-value' },
+      expect.anything()
+    )
+  })
+
   it('should call async context onChange regardless of error when executeOnChangeRegardlessOfError is true', async () => {
     const onChange = jest.fn(async () => null)
 

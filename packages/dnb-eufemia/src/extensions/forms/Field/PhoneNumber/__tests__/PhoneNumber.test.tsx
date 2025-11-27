@@ -1152,8 +1152,8 @@ describe('Field.PhoneNumber', () => {
     fireEvent.change(codeElement, { target: { value: '+41' } })
     fireEvent.click(firstItemElement())
 
-    expect(onChange).toHaveBeenCalledTimes(0)
-    expect(formHandlerOnChange).toHaveBeenCalledTimes(0)
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(formHandlerOnChange).toHaveBeenCalledTimes(1)
 
     expect(onCountryCodeChange).toHaveBeenLastCalledWith('+41')
     expect(codeElement.value).toEqual('CH (+41)')
