@@ -22,6 +22,8 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  min-width: auto;
+
   text-align: center;
 
   border-radius: var(--tooltip-border-radius);
@@ -31,10 +33,23 @@
     padding: 0.25rem 1rem;
   }
 
-  .dnb-popover__content {
-    min-width: 2rem;
-    min-height: 1.5rem;
+  .dnb-popover {
+    &__content {
+      min-width: 2rem;
+      min-height: 1.5rem;
 
-    padding: 0 1rem;
+      padding: 0 1rem;
+    }
+
+    &__arrow__placement {
+      &--right {
+        left: -13px;
+        top: auto !important;
+      }
+      &--left {
+        right: -13px;
+        top: auto !important;
+      }
+    }
   }
 }

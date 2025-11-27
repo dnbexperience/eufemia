@@ -325,6 +325,8 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
         id={internalId}
         open={overlayActive}
         targetElement={cloneRef}
+        triggerOffset={16}
+        arrowEdgeOffset={4}
         hideDelay={hideDelay}
         skipPortal={skipPortal}
         keepInDOM={keepInDOM}

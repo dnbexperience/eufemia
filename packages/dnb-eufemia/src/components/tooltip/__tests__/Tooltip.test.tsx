@@ -144,7 +144,7 @@ describe('Tooltip', () => {
     ).toEqual(
       expect.arrayContaining([
         'dnb-tooltip__arrow__arrow--center',
-        'dnb-tooltip__arrow__position--right',
+        'dnb-tooltip__arrow__placement--right',
       ])
     )
   })
@@ -161,7 +161,7 @@ describe('Tooltip', () => {
     ).toEqual(
       expect.arrayContaining([
         'dnb-tooltip__arrow__arrow--right',
-        'dnb-tooltip__arrow__position--top',
+        'dnb-tooltip__arrow__placement--top',
       ])
     )
   })
@@ -827,6 +827,8 @@ describe('Tooltip', () => {
             disableFocusTrap
             hideDelay={0}
             targetElement={target}
+            triggerOffset={16}
+            arrowEdgeOffset={4}
             placement="bottom"
             arrowPosition="center"
             alignOnTarget="center"
