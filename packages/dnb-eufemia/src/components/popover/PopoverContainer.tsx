@@ -9,7 +9,7 @@ import type {
   PopoverAlign,
   PopoverArrow,
   PopoverAutoAlignMode,
-  PopoverPosition,
+  PopoverPlacement,
   PopoverResolvedTargetElement,
   PopoverTargetElementObject,
 } from './types'
@@ -24,7 +24,7 @@ type PopoverContainerProps = {
   showDelay?: number
   attributes?: React.HTMLAttributes<HTMLElement>
   arrowPosition?: PopoverArrow
-  position?: PopoverPosition
+  placement?: PopoverPlacement
   alignOnTarget?: PopoverAlign
   horizontalOffset?: number
   arrowPositionSelector?: string
@@ -57,7 +57,7 @@ function PopoverContainer(props: PopoverContainerProps) {
     showDelay = 0,
     attributes,
     arrowPosition,
-    position = 'bottom',
+    placement = 'bottom',
     alignOnTarget,
     horizontalOffset = 0,
     arrowPositionSelector,
@@ -79,8 +79,8 @@ function PopoverContainer(props: PopoverContainerProps) {
   const [arrowStyle, setArrowStyle] = useState<React.CSSProperties | null>(
     null
   )
-  const [resolvedPosition, setResolvedPosition] =
-    useState<PopoverPosition>(position)
+  const [resolvedPlacement, setResolvedPlacement] =
+    useState<PopoverPlacement>(placement)
   const [wasActive, setWasActive] = useState(active)
   const [delayedActive, setDelayedActive] = useState(false)
   const showDelayTimeout = useRef<NodeJS.Timeout>()
@@ -239,8 +239,8 @@ function PopoverContainer(props: PopoverContainerProps) {
   const offsetTop = useRef(0)
 
   useEffect(() => {
-    setResolvedPosition(position)
-  }, [position])
+    setResolvedPlacement(placement)
+  }, [placement])
 
   useLayoutEffect(() => {
     if (typeof window === 'undefined') {
@@ -403,9 +403,9 @@ function PopoverContainer(props: PopoverContainerProps) {
     const viewportMargin = 16
     const shouldReuseResolved =
       autoAlignMode === 'initial' && autoAlignInitialUsedRef.current
-    let placementKey: PopoverPosition = shouldReuseResolved
-      ? resolvedPosition
-      : position
+    let placementKey: PopoverPlacement = shouldReuseResolved
+      ? resolvedPlacement
+      : placement
 
     const centerX = left + targetBodySize.width / 2
     let anchorY = top + targetBodySize.height / 2
@@ -499,7 +499,7 @@ function PopoverContainer(props: PopoverContainerProps) {
       }),
     }
 
-    const getPlacement = (key: PopoverPosition) => {
+    const getPlacement = (key: PopoverPlacement) => {
       const resolver = placements[key] || placements.bottom
       return resolver()
     }
@@ -708,8 +708,8 @@ function PopoverContainer(props: PopoverContainerProps) {
       arrowStyle.left = nextArrowLeft
     }
 
-    if (resolvedPosition !== placementKey) {
-      setResolvedPosition(placementKey)
+    if (resolvedPlacement !== placementKey) {
+      setResolvedPlacement(placementKey)
     }
 
     setStyle(computedStyle)
@@ -724,13 +724,13 @@ function PopoverContainer(props: PopoverContainerProps) {
     hideDelay,
     isActive,
     triggerOffsetProp,
-    position,
+    placement,
     renewStyles,
     skipPortal,
     targetElement,
     wasActive,
     arrowPositionSelector,
-    resolvedPosition,
+    resolvedPlacement,
   ])
 
   const handlePropagation = useCallback((event: React.SyntheticEvent) => {
@@ -790,7 +790,7 @@ function PopoverContainer(props: PopoverContainerProps) {
               (base) => `${base}__arrow__arrow--${arrowPosition}`
             ),
             baseClassNames.map(
-              (base) => `${base}__arrow__position--${resolvedPosition}`
+              (base) => `${base}__arrow__placement--${resolvedPlacement}`
             )
           )}
           style={{ ...arrowStyle }}

@@ -1107,7 +1107,7 @@ describe('Popover', () => {
           <Popover
             open
             noAnimation
-            position="right"
+            placement="right"
             targetElement={targetElement}
             arrowPositionSelector=".alignment-hook"
             content="Aligned popover"
@@ -1238,7 +1238,7 @@ describe('Popover', () => {
         <Popover
           open
           noAnimation
-          position="bottom"
+          placement="bottom"
           targetElement={targetElement}
         >
           Edge case
@@ -1299,7 +1299,7 @@ describe('Popover', () => {
         <Popover
           open
           noAnimation
-          position="bottom"
+          placement="bottom"
           targetElement={targetElement}
         >
           Scroll guard left
@@ -1368,7 +1368,7 @@ describe('Popover', () => {
         <Popover
           open
           noAnimation
-          position="bottom"
+          placement="bottom"
           targetElement={targetElement}
         >
           Scroll guard right
@@ -1430,7 +1430,7 @@ describe('Popover', () => {
         <Popover
           open
           noAnimation
-          position="bottom"
+          placement="bottom"
           targetElement={targetElement}
         >
           Clamped arrow
@@ -1483,7 +1483,7 @@ describe('Popover', () => {
         <Popover
           open
           noAnimation
-          position="bottom"
+          placement="bottom"
           targetElement={targetElement}
         >
           Auto flip
@@ -1492,7 +1492,7 @@ describe('Popover', () => {
 
       await waitFor(() =>
         expect(
-          document.querySelector('.dnb-popover__arrow__position--top')
+          document.querySelector('.dnb-popover__arrow__placement--top')
         ).toBeInTheDocument()
       )
 
@@ -1539,7 +1539,7 @@ describe('Popover', () => {
         <Popover
           open
           noAnimation
-          position="top"
+          placement="top"
           targetElement={targetElement}
         >
           Auto flip
@@ -1548,7 +1548,7 @@ describe('Popover', () => {
 
       await waitFor(() =>
         expect(
-          document.querySelector('.dnb-popover__arrow__position--bottom')
+          document.querySelector('.dnb-popover__arrow__placement--bottom')
         ).toBeInTheDocument()
       )
 
@@ -1595,7 +1595,7 @@ describe('Popover', () => {
         <Popover
           open
           noAnimation
-          position="bottom"
+          placement="bottom"
           targetElement={targetElement}
         >
           Large content
@@ -1604,7 +1604,7 @@ describe('Popover', () => {
 
       await waitFor(() =>
         expect(
-          document.querySelector('.dnb-popover__arrow__position--top')
+          document.querySelector('.dnb-popover__arrow__placement--top')
         ).toBeInTheDocument()
       )
 
@@ -1651,7 +1651,7 @@ describe('Popover', () => {
         <Popover
           open
           noAnimation
-          position="top"
+          placement="top"
           targetElement={targetElement}
         >
           Overflow prefer bottom
@@ -1660,7 +1660,7 @@ describe('Popover', () => {
 
       await waitFor(() =>
         expect(
-          document.querySelector('.dnb-popover__arrow__position--bottom')
+          document.querySelector('.dnb-popover__arrow__placement--bottom')
         ).toBeInTheDocument()
       )
 
@@ -1707,7 +1707,7 @@ describe('Popover', () => {
         <Popover
           open
           noAnimation
-          position="bottom"
+          placement="bottom"
           targetElement={targetElement}
           autoAlignMode="never"
         >
@@ -1717,7 +1717,7 @@ describe('Popover', () => {
 
       await waitFor(() =>
         expect(
-          document.querySelector('.dnb-popover__arrow__position--bottom')
+          document.querySelector('.dnb-popover__arrow__placement--bottom')
         ).toBeInTheDocument()
       )
 
@@ -1764,7 +1764,7 @@ describe('Popover', () => {
         <Popover
           open
           noAnimation
-          position="bottom"
+          placement="bottom"
           targetElement={targetElement}
           autoAlignMode="initial"
         >
@@ -1774,7 +1774,7 @@ describe('Popover', () => {
 
       await waitFor(() =>
         expect(
-          document.querySelector('.dnb-popover__arrow__position--top')
+          document.querySelector('.dnb-popover__arrow__placement--top')
         ).toBeInTheDocument()
       )
 
@@ -1786,7 +1786,7 @@ describe('Popover', () => {
 
       await waitFor(() =>
         expect(
-          document.querySelector('.dnb-popover__arrow__position--top')
+          document.querySelector('.dnb-popover__arrow__placement--top')
         ).toBeInTheDocument()
       )
 
@@ -1833,7 +1833,7 @@ describe('Popover', () => {
         <Popover
           open
           noAnimation
-          position="bottom"
+          placement="bottom"
           targetElement={targetElement}
           autoAlignMode="scroll"
         >
@@ -1843,7 +1843,7 @@ describe('Popover', () => {
 
       await waitFor(() =>
         expect(
-          document.querySelector('.dnb-popover__arrow__position--top')
+          document.querySelector('.dnb-popover__arrow__placement--top')
         ).toBeInTheDocument()
       )
 
@@ -1855,7 +1855,7 @@ describe('Popover', () => {
 
       await waitFor(() =>
         expect(
-          document.querySelector('.dnb-popover__arrow__position--bottom')
+          document.querySelector('.dnb-popover__arrow__placement--bottom')
         ).toBeInTheDocument()
       )
 
@@ -1902,7 +1902,7 @@ describe('Popover', () => {
         <Popover
           open
           noAnimation
-          position="top"
+          placement="top"
           targetElement={targetElement}
         >
           Above viewport
@@ -1914,7 +1914,7 @@ describe('Popover', () => {
           '.dnb-popover'
         ) as HTMLElement
         expect(
-          document.querySelector('.dnb-popover__arrow__position--bottom')
+          document.querySelector('.dnb-popover__arrow__placement--bottom')
         ).toBeInTheDocument()
         expect(popover?.style.top).toBe('60px')
       })
@@ -1960,7 +1960,7 @@ describe('Popover', () => {
         <Popover
           open
           noAnimation
-          position="bottom"
+          placement="bottom"
           targetElement={targetElement}
         >
           Scrollable
@@ -2128,7 +2128,7 @@ describe('Popover', () => {
           <Popover
             open
             noAnimation
-            position="bottom"
+            placement="bottom"
             targetElement={targetElement}
           >
             Scrollable
@@ -2297,7 +2297,7 @@ describe('Popover', () => {
       <Popover
         open
         noAnimation
-        position="bottom"
+        placement="bottom"
         targetElement={targetElement}
       >
         Scrollable

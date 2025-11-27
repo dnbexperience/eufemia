@@ -148,22 +148,22 @@
       box-shadow: 0 0 0 1px var(--popover-outline-color);
     }
 
-    &__position--bottom {
+    &__placement--bottom {
       top: -1rem;
     }
 
-    &__position--top {
+    &__placement--top {
       bottom: -1rem;
       transform: rotate(180deg);
     }
 
-    &__position--left {
+    &__placement--left {
       right: -0.75rem;
       margin-right: 3px;
       transform: rotate(90deg);
     }
 
-    &__position--right {
+    &__placement--right {
       left: -0.75rem;
       margin-left: 3px;
       transform: rotate(270deg);

@@ -31,7 +31,7 @@ type PopoverPortalProps = {
   arrowPosition?: React.ComponentProps<
     typeof PopoverContainer
   >['arrowPosition']
-  position?: React.ComponentProps<typeof PopoverContainer>['position']
+  placement?: React.ComponentProps<typeof PopoverContainer>['placement']
   alignOnTarget?: React.ComponentProps<
     typeof PopoverContainer
   >['alignOnTarget']
@@ -79,7 +79,7 @@ function PopoverPortal(props: PopoverPortalProps) {
     children,
     attributes,
     arrowPosition,
-    position,
+    placement,
     alignOnTarget,
     horizontalOffset,
     arrowPositionSelector,
@@ -128,7 +128,7 @@ function PopoverPortal(props: PopoverPortalProps) {
           keepInDOM={keepInDOM}
           noAnimation={noAnimation}
           arrowPosition={arrowPosition}
-          position={position}
+          placement={placement}
           alignOnTarget={alignOnTarget}
           horizontalOffset={horizontalOffset}
           arrowPositionSelector={arrowPositionSelector}

@@ -37,7 +37,7 @@ export default function Popover(props: PopoverProps) {
     triggerAttributes,
     triggerClassName,
     title,
-    position = 'bottom',
+    placement = 'bottom',
     open: controlledOpenProp,
     openInitially: openInitiallyProp = false,
     onOpenChange,
@@ -664,7 +664,7 @@ export default function Popover(props: PopoverProps) {
           autoAlignMode={autoAlignMode}
           noAnimation={noAnimation}
           arrowPosition={arrowPosition}
-          position={position}
+          placement={placement}
           alignOnTarget={alignOnTarget}
           horizontalOffset={horizontalOffset}
           arrowPositionSelector={arrowPositionSelector}
@@ -689,7 +689,7 @@ export default function Popover(props: PopoverProps) {
           noAnimation={noAnimation}
           portalRootClass={portalRootClass}
           arrowPosition={arrowPosition}
-          position={position}
+          placement={placement}
           alignOnTarget={alignOnTarget}
           horizontalOffset={horizontalOffset}
           arrowPositionSelector={arrowPositionSelector}

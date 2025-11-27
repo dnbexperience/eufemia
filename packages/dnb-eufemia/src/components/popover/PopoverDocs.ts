@@ -55,7 +55,7 @@ export const PopoverProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  position: {
+  placement: {
     doc: 'Preferred placement of the popover relative to the trigger.',
     type: "'top' | 'right' | 'bottom' | 'left'",
     status: 'optional',
@@ -66,7 +66,7 @@ export const PopoverProperties: PropertiesTableProps = {
     status: 'optional',
   },
   horizontalOffset: {
-    doc: 'Horizontal offset in pixels to adjust the popover position. Positive values move the popover to the right, negative values move it to the left. Useful for fine-tuning alignment when the default positioning needs adjustment.',
+    doc: 'Horizontal offset in pixels to adjust the popover placement. Positive values move the popover to the right, negative values move it to the left. Useful for fine-tuning alignment when the default placement needs adjustment.',
     type: 'number',
     defaultValue: '0',
     status: 'optional',
@@ -189,7 +189,7 @@ export const PopoverProperties: PropertiesTableProps = {
     status: 'optional',
   },
   autoAlignMode: {
-    doc: 'Control when the popover automatically flips its position to fit within the viewport. `"initial"` (default): Flip position only on initial open when there\'s limited space. `"scroll"`: Flip position on initial open and during scroll events. `"never"`: Never automatically flip position, always use the specified `position` prop.',
+    doc: 'Control when the popover automatically flips its placement to fit within the viewport. `"initial"` (default): Flip placement only on initial open when there\'s limited space. `"scroll"`: Flip placement on initial open and during scroll events. `"never"`: Never automatically flip placement, always use the specified `placement` prop.',
     type: ['initial', 'scroll', 'never'],
     defaultValue: 'initial',
     status: 'optional',

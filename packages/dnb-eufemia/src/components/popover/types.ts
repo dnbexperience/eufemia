@@ -1,7 +1,7 @@
 import type React from 'react'
 import type { ButtonProps } from '../button/Button'
 
-export type PopoverPosition = 'top' | 'right' | 'bottom' | 'left'
+export type PopoverPlacement = 'top' | 'right' | 'bottom' | 'left'
 
 export type PopoverArrow =
   | null
@@ -63,7 +63,7 @@ export type TriggerAttributes = React.HTMLAttributes<HTMLElement> & {
 
 type PopoverPropsBase = {
   id?: string
-  position?: PopoverPosition
+  placement?: PopoverPlacement
   arrowPosition?: PopoverArrow
   /**
    * CSS selector used to pick the element that controls arrow alignment.
@@ -77,7 +77,7 @@ type PopoverPropsBase = {
   hideArrow?: boolean
   alignOnTarget?: PopoverAlign
   /**
-   * Horizontal offset in pixels to adjust the popover position.
+   * Horizontal offset in pixels to adjust the popover placement.
    * Positive values move the popover to the right, negative values move it to the left.
    * @default 0
    */
@@ -102,10 +102,10 @@ type PopoverPropsBase = {
   style?: React.CSSProperties
   omitDescribedBy?: boolean
   /**
-   * Control when the popover automatically flips its position to fit within the viewport.
-   * - `"initial"` (default): Flip position only on initial open when there's limited space.
-   * - `"scroll"`: Flip position on initial open and during scroll events.
-   * - `"never"`: Never automatically flip position, always use the specified `position` prop.
+   * Control when the popover automatically flips its placement to fit within the viewport.
+   * - `"initial"` (default): Flip placement only on initial open when there's limited space.
+   * - `"scroll"`: Flip placement on initial open and during scroll events.
+   * - `"never"`: Never automatically flip placement, always use the specified `placement` prop.
    * @default "initial"
    */
   autoAlignMode?: PopoverAutoAlignMode
@@ -227,10 +227,10 @@ export type PopoverProps = PopoverOverlayProps & {
    */
   keepInDOM?: boolean
   /**
-   * Control when the popover automatically flips its position to fit within the viewport.
-   * - `"initial"` (default): Flip position only on initial open when there's limited space.
-   * - `"scroll"`: Flip position on initial open and during scroll events.
-   * - `"never"`: Never automatically flip position, always use the specified `position` prop.
+   * Control when the popover automatically flips its placement to fit within the viewport.
+   * - `"initial"` (default): Flip placement only on initial open when there's limited space.
+   * - `"scroll"`: Flip placement on initial open and during scroll events.
+   * - `"never"`: Never automatically flip placement, always use the specified `placement` prop.
    * @default "initial"
    */
   autoAlignMode?: PopoverAutoAlignMode
