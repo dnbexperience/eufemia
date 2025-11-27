@@ -82,6 +82,13 @@ type PopoverPropsBase = {
    * @default 0
    */
   horizontalOffset?: number
+  /**
+   * Offset in pixels from the edge when the arrow is positioned at the edge.
+   * When set, this value replaces the default edge spacing (8px) and arrow boundary (8px).
+   * Useful for components like Tooltip that need the arrow closer to the edge.
+   * @default undefined (uses default 8px)
+   */
+  arrowEdgeOffset?: number
   fixedPosition?: boolean
   contentRef?: React.MutableRefObject<HTMLSpanElement>
   /**

@@ -73,6 +73,7 @@ export default function Popover(props: PopoverProps) {
     skipPortal = false,
     noAnimation = false,
     fixedPosition = false,
+    arrowEdgeOffset,
     id: idProp,
     omitDescribedBy,
     ...restAttributes
@@ -674,6 +675,7 @@ export default function Popover(props: PopoverProps) {
           contentRef={contentRef}
           triggerOffset={triggerOffset}
           hideArrow={hideArrow}
+          arrowEdgeOffset={arrowEdgeOffset}
         >
           {overlayContent}
         </PopoverContainer>
@@ -699,6 +701,7 @@ export default function Popover(props: PopoverProps) {
           contentRef={contentRef}
           triggerOffset={triggerOffset}
           hideArrow={hideArrow}
+          arrowEdgeOffset={arrowEdgeOffset}
         >
           {overlayContent}
         </PopoverPortal>

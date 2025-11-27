@@ -40,6 +40,7 @@ type PopoverContainerProps = {
   keepInDOM?: boolean
   autoAlignMode?: PopoverAutoAlignMode
   hideArrow?: boolean
+  arrowEdgeOffset?: number
 }
 
 const isResolvedTargetRefsObject = (
@@ -73,6 +74,7 @@ function PopoverContainer(props: PopoverContainerProps) {
     triggerOffset: triggerOffsetProp = 0,
     autoAlignMode = 'initial',
     hideArrow = false,
+    arrowEdgeOffset,
   } = props
 
   const [style, setStyle] = useState<React.CSSProperties | null>(null)
@@ -562,10 +564,15 @@ function PopoverContainer(props: PopoverContainerProps) {
       }
     }
 
+    const arrowOffset = arrowEdgeOffset ?? 16
     const arrowPositions = {
       left: () => ({
         left:
-          centerX - offset.current + alignOffset + horizontalOffset - 16,
+          centerX -
+          offset.current +
+          alignOffset +
+          horizontalOffset -
+          arrowOffset,
       }),
       right: () => ({
         left:
@@ -574,13 +581,13 @@ function PopoverContainer(props: PopoverContainerProps) {
           offset.current +
           alignOffset +
           horizontalOffset +
-          16,
+          arrowOffset,
       }),
       top: () => ({
-        top: anchorY - offset.current - 16,
+        top: anchorY - offset.current - arrowOffset,
       }),
       bottom: () => ({
-        top: anchorY - elementHeight + offset.current + 16,
+        top: anchorY - elementHeight + offset.current + arrowOffset,
       }),
     }
 
@@ -599,7 +606,7 @@ function PopoverContainer(props: PopoverContainerProps) {
       nextLeft += horizontalOffset
     }
 
-    const edgeSpacing = 8
+    const edgeSpacing = arrowEdgeOffset ?? 8
     const isVerticalPlacement =
       placementKey === 'top' || placementKey === 'bottom'
     const arrowHugsEdge =
@@ -677,7 +684,7 @@ function PopoverContainer(props: PopoverContainerProps) {
 
     if (isVerticalPlacement) {
       const arrowWidth = 16
-      const arrowBoundary = 8
+      const arrowBoundary = arrowEdgeOffset ?? 8
       const maxLeft = Math.max(0, elementWidth - arrowWidth)
       const arrowLeft = anchorX - actualLeft - arrowWidth / 2
 
@@ -712,7 +719,7 @@ function PopoverContainer(props: PopoverContainerProps) {
       arrowStyle.left = nextArrowLeft
     } else {
       const arrowHeight = 16
-      const arrowBoundary = 8
+      const arrowBoundary = arrowEdgeOffset ?? 8
       const maxTop = Math.max(0, elementHeight - arrowHeight)
       const arrowTop = anchorY - actualTop - arrowHeight / 2
 
@@ -758,6 +765,7 @@ function PopoverContainer(props: PopoverContainerProps) {
     autoAlignMode,
     arrowPosition,
     horizontalOffset,
+    arrowEdgeOffset,
     elementRef,
     fixedPosition,
     hideDelay,
