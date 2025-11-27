@@ -1,6 +1,7 @@
 import {
   formatDate,
   formatDateRange,
+  getOsloDate,
   getRelativeTime,
   getRelativeTimeNextUpdateMs,
   parseDuration,
@@ -183,6 +184,34 @@ describe('DateFormatUtils', () => {
       expect(isValidDuration('P')).toBe(false)
       expect(isValidDuration('PT')).toBe(false)
       expect(isValidDuration('INVALID')).toBe(false)
+    })
+  })
+
+  describe('getOsloDate', () => {
+    let previousTZ: string | undefined
+
+    beforeEach(() => {
+      previousTZ = process.env.TZ
+    })
+
+    afterEach(() => {
+      process.env.TZ = previousTZ
+    })
+
+    it('returns Oslo date as UTC Date object with midnight when runtime is ahead of Oslo', () => {
+      process.env.TZ = 'Pacific/Auckland'
+      const date = new Date('2025-11-25T22:00:00.000Z') // 26th in Auckland, still 25th in Oslo
+      const result = getOsloDate(date)
+      expect(result).toBeInstanceOf(Date)
+      expect(result.toISOString()).toBe('2025-11-25T00:00:00.000Z')
+    })
+
+    it('returns Oslo date as UTC Date object with midnight when runtime is behind Oslo', () => {
+      process.env.TZ = 'America/New_York'
+      const date = new Date('2025-11-25T02:00:00.000Z') // 24th in NYC, 25th in Oslo
+      const result = getOsloDate(date)
+      expect(result).toBeInstanceOf(Date)
+      expect(result.toISOString()).toBe('2025-11-25T00:00:00.000Z')
     })
   })
 })

@@ -57,6 +57,17 @@ import { formatDate } from '@dnb/eufemia/components/date-format/DateFormatUtils'
 formatDate('2023-01-01')
 ```
 
+### `getOsloDate` helper
+
+When you need a UTC Date object with midnight that always reflects the current day in `Europe/Oslo`, pull in the helper directly:
+
+```ts
+import { getOsloDate } from '@dnb/eufemia/components/date-format/DateFormatUtils'
+getOsloDate() // -> e.g. Date object representing "2025-11-24T00:00:00.000Z" regardless of the runtime timezone
+```
+
+This is helpful when you are comparing "today" against backend data or applying Oslo-specific highlighting without rendering the `DateFormat` component.
+
 #### Parameters
 
 | Name      | Type                         | Default                  | Description                                                                                                                                                       |

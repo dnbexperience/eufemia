@@ -431,3 +431,19 @@ export function isValidDuration(durationString: string): boolean {
     seconds !== undefined
   )
 }
+
+export function getOsloDate(date: Date = new Date()): Date {
+  const OSLO_TIMEZONE = 'Europe/Oslo'
+
+  // en-CA matches the ISO date format yyyy-MM-dd
+  const osloDateFormatter = new Intl.DateTimeFormat('en-CA', {
+    timeZone: OSLO_TIMEZONE,
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  })
+
+  const osloDateString = osloDateFormatter.format(date)
+  // Parse the ISO date string and create a UTC Date object with midnight
+  return new Date(osloDateString + 'T00:00:00.000Z')
+}
