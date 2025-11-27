@@ -136,7 +136,7 @@ const ABSENT_VALUE_FORMAT = '–'
  * @returns a formatted number as a string or as an object if "returnAria" is true
  */
 export const format = (
-  value: string | number,
+  value,
   {
     locale = null, // can be "auto"
     clean = false,
