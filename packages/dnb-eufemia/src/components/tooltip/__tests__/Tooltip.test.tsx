@@ -821,7 +821,7 @@ describe('Tooltip', () => {
             open
             focusOnOpen={false}
             restoreFocus={false}
-            closeOnOutsideClick={false}
+            preventClose={false}
             hideCloseButton
             showCloseButton={false}
             disableFocusTrap
