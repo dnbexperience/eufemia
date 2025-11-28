@@ -127,7 +127,6 @@ export default function TermDefinition({
         className="dnb-term-definition"
         portalRootClass="dnb-term-definition__portal"
         omitDescribedBy
-        closeOnOutsideClick
         hideArrow
         keepInDOM
         title={children}
