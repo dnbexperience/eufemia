@@ -176,5 +176,10 @@ export default {
       deleteButton: 'Radera',
       fileListAriaLabel: 'uppladdade filer',
     },
+    Popover: {
+      closeButtonTitle: 'Stäng',
+      openTriggerTitle: 'Klicka för att öppna',
+      closeTriggerTitle: 'Klicka för att stänga',
+    },
   } satisfies (typeof nb)['nb-NO'],
 }

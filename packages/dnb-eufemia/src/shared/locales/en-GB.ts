@@ -177,5 +177,10 @@ export default {
       deleteButton: 'Delete',
       fileListAriaLabel: 'uploaded files',
     },
+    Popover: {
+      closeButtonTitle: 'Close',
+      openTriggerTitle: 'Click to open',
+      closeTriggerTitle: 'Click to close',
+    },
   } satisfies (typeof nb)['nb-NO'],
 }

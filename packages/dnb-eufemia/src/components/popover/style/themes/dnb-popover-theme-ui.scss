@@ -1,0 +1,12 @@
+.dnb-popover {
+  &--theme-light {
+    --popover-text-color: var(--color-black-80);
+    --popover-background-color: var(--color-white);
+    --popover-outline-color: var(--color-black-8);
+  }
+  &--theme-dark {
+    --popover-text-color: var(--color-white);
+    --popover-background-color: var(--color-black-80);
+    --popover-outline-color: rgb(0 0 0 / 10%);
+  }
+}
