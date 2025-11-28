@@ -137,7 +137,7 @@
   "source": {
     "repo": "https://github.com/dnbexperience/eufemia",
     "file": "packages/dnb-eufemia/src/components/checkbox/Checkbox.tsx",
-    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.90.1/packages/dnb-eufemia/src/components/checkbox/Checkbox.tsx"
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.91.0/packages/dnb-eufemia/src/components/checkbox/Checkbox.tsx"
   },
   "sources": {
     "entry": {
@@ -157,7 +157,7 @@
       "public": "https://eufemia.dnb.no/uilib/components/checkbox/demos/"
     }
   },
-  "version": "10.90.1",
-  "generatedAt": "2025-11-25T10:28:57.224Z",
+  "version": "10.91.0",
+  "generatedAt": "2025-11-28T14:03:55.943Z",
   "schemaVersion": 1
 }

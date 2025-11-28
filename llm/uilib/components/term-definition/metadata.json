@@ -1,0 +1,63 @@
+{
+  "id": "uilib/components/term-definition",
+  "name": "TermDefinition",
+  "description": "TermDefinition renders a compact, inline explanation for a word or phrase with an anchor-style trigger button.",
+  "group": "components",
+  "slug": "/uilib/components/term-definition/",
+  "props": [
+    {
+      "name": "children",
+      "doc": "Term shown as the trigger. Typically a short word or phrase.",
+      "type": "React.ReactNode",
+      "status": "required",
+      "defaultValue": null
+    },
+    {
+      "name": "content",
+      "doc": "Definition text that will be displayed inside.",
+      "type": "React.ReactNode",
+      "status": "required",
+      "defaultValue": null
+    },
+    {
+      "name": "placement",
+      "doc": "Defines the preferred popover placement relative to the trigger.",
+      "type": [
+        "top",
+        "right",
+        "bottom",
+        "left"
+      ],
+      "status": "optional",
+      "defaultValue": "bottom"
+    }
+  ],
+  "events": [],
+  "related": [
+    "Space"
+  ],
+  "checksum": "c3883537566ca26ef6e6c5bc57ca01fec32f7976e878058b78c78b98d8d18f39",
+  "source": {
+    "repo": "https://github.com/dnbexperience/eufemia",
+    "file": "packages/dnb-eufemia/src/components/term-definition/TermDefinition.tsx",
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.91.0/packages/dnb-eufemia/src/components/term-definition/TermDefinition.tsx"
+  },
+  "sources": {
+    "entry": {
+      "local": "src/docs/uilib/components/term-definition.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/term-definition/"
+    },
+    "props": {
+      "local": "src/docs/uilib/components/term-definition/properties.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/term-definition/properties/"
+    },
+    "events": null,
+    "demos": {
+      "local": "src/docs/uilib/components/term-definition/demos.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/term-definition/demos/"
+    }
+  },
+  "version": "10.91.0",
+  "generatedAt": "2025-11-28T14:03:56.337Z",
+  "schemaVersion": 1
+}

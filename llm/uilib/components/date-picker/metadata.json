@@ -114,6 +114,13 @@
       "defaultValue": null
     },
     {
+      "name": "inline",
+      "doc": "If set to `true`, renders the calendar inline without a button or input. The calendar is always visible and not wrapped in a Popover. Defaults to `false`.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
       "name": "maskOrder",
       "doc": "To define the order of the masked placeholder input fields. Defaults to `dd/mm/yyyy`.",
       "type": "string",
@@ -438,11 +445,11 @@
   "related": [
     "Space"
   ],
-  "checksum": "a5f94909d4e985a092ffa2d0578bd8d019ce4e76be176b3813e7f974678505c0",
+  "checksum": "9bd5516cc7df2426b4ab2d9823b9ec269a336784e3d12bf54ad557954e94e205",
   "source": {
     "repo": "https://github.com/dnbexperience/eufemia",
     "file": "packages/dnb-eufemia/src/components/date-picker/DatePicker.tsx",
-    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.90.1/packages/dnb-eufemia/src/components/date-picker/DatePicker.tsx"
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.91.0/packages/dnb-eufemia/src/components/date-picker/DatePicker.tsx"
   },
   "sources": {
     "entry": {
@@ -462,7 +469,7 @@
       "public": "https://eufemia.dnb.no/uilib/components/date-picker/demos/"
     }
   },
-  "version": "10.90.1",
-  "generatedAt": "2025-11-25T10:28:57.259Z",
+  "version": "10.91.0",
+  "generatedAt": "2025-11-28T14:03:55.987Z",
   "schemaVersion": 1
 }

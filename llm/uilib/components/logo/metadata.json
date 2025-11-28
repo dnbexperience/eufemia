@@ -17,10 +17,10 @@
     },
     {
       "name": "brand",
-      "doc": "Define which brands logo to show. `ui` (DNB) or `sbanken`. Defaults to `ui`.",
+      "doc": "Define which brands logo to show. Defaults to `dnb`.",
       "type": [
-        "\"ui\"",
-        "\"sbanken\""
+        "dnb",
+        "sbanken"
       ],
       "status": "optional",
       "defaultValue": null
@@ -76,11 +76,11 @@
   "related": [
     "Space"
   ],
-  "checksum": "eb1b6ea259c466ee407bea6354abde05bec00bb56cc54f747d1083196a1e8694",
+  "checksum": "5d8de453b10e806c4692f770d034f69d976fa3529d33d271c5b321d6f13283f6",
   "source": {
     "repo": "https://github.com/dnbexperience/eufemia",
     "file": "packages/dnb-eufemia/src/components/logo/Logo.tsx",
-    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.90.1/packages/dnb-eufemia/src/components/logo/Logo.tsx"
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.91.0/packages/dnb-eufemia/src/components/logo/Logo.tsx"
   },
   "sources": {
     "entry": {
@@ -97,7 +97,7 @@
       "public": "https://eufemia.dnb.no/uilib/components/logo/demos/"
     }
   },
-  "version": "10.90.1",
-  "generatedAt": "2025-11-25T10:28:57.420Z",
+  "version": "10.91.0",
+  "generatedAt": "2025-11-28T14:03:56.152Z",
   "schemaVersion": 1
 }

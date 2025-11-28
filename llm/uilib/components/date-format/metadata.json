@@ -35,6 +35,13 @@
       "defaultValue": null
     },
     {
+      "name": "relativeTimeReference",
+      "doc": "A function that returns a Date object to use as the reference point for relative time calculations. If not provided, the current time is used.",
+      "type": "function",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
       "name": "locale",
       "doc": "A string in [Intl.DateTimeFormat locale](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl#locales_argument) format. Duration formatting supports all locales using the browser's built-in internationalization. Defaults to `nb-NO`.",
       "type": "string",
@@ -53,11 +60,11 @@
   "related": [
     "Space"
   ],
-  "checksum": "21ee20901c5fdcb63f7b3c1f0b430b0b63e3c6dbcce5a161cdfdfd671ffd415f",
+  "checksum": "3a17b0c3f601463268e5fbcdcbc35464940d526e523992d872a604a7835462af",
   "source": {
     "repo": "https://github.com/dnbexperience/eufemia",
     "file": "packages/dnb-eufemia/src/components/date-format/DateFormat.tsx",
-    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.90.1/packages/dnb-eufemia/src/components/date-format/DateFormat.tsx"
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.91.0/packages/dnb-eufemia/src/components/date-format/DateFormat.tsx"
   },
   "sources": {
     "entry": {
@@ -74,7 +81,7 @@
       "public": "https://eufemia.dnb.no/uilib/components/date-format/demos/"
     }
   },
-  "version": "10.90.1",
-  "generatedAt": "2025-11-25T10:28:57.244Z",
+  "version": "10.91.0",
+  "generatedAt": "2025-11-28T14:03:55.972Z",
   "schemaVersion": 1
 }

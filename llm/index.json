@@ -260,6 +260,10 @@
     "path": "public/llm/uilib/components/pagination/metadata.json"
   },
   {
+    "slug": "/uilib/components/popover/",
+    "path": "public/llm/uilib/components/popover/metadata.json"
+  },
+  {
     "slug": "/uilib/components/portal-root/",
     "path": "public/llm/uilib/components/portal-root/metadata.json"
   },
@@ -314,6 +318,10 @@
   {
     "slug": "/uilib/components/tag/",
     "path": "public/llm/uilib/components/tag/metadata.json"
+  },
+  {
+    "slug": "/uilib/components/term-definition/",
+    "path": "public/llm/uilib/components/term-definition/metadata.json"
   },
   {
     "slug": "/uilib/components/textarea/",

@@ -108,7 +108,7 @@
   "source": {
     "repo": "https://github.com/dnbexperience/eufemia",
     "file": "packages/dnb-eufemia/src/extensions/forms/Wizard/Container/index.ts",
-    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.90.1/packages/dnb-eufemia/src/extensions/forms/Wizard/Container/index.ts"
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.91.0/packages/dnb-eufemia/src/extensions/forms/Wizard/Container/index.ts"
   },
   "sources": {
     "entry": {
@@ -128,7 +128,7 @@
       "public": "https://eufemia.dnb.no/uilib/extensions/forms/Wizard/Container/demos/"
     }
   },
-  "version": "10.90.1",
-  "generatedAt": "2025-11-25T10:28:58.290Z",
+  "version": "10.91.0",
+  "generatedAt": "2025-11-28T14:03:56.950Z",
   "schemaVersion": 1
 }

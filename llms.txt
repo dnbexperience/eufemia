@@ -3,8 +3,8 @@
 > DNB’s Eufemia design system. This file points LLMs to machine-readable docs and clean Markdown copies.
 
 Index (JSON): https://eufemia.dnb.no/llm/index.json
-Version: 10.90.1
-GeneratedAt: 2025-11-25T10:28:58.494Z
+Version: 10.91.0
+GeneratedAt: 2025-11-28T14:03:57.200Z
 
 ## Components
 
@@ -26,7 +26,7 @@ GeneratedAt: 2025-11-25T10:28:58.494Z
 - [Autocomplete](https://eufemia.dnb.no/uilib/components/autocomplete/): The Autocomplete component, also know as a ComboBox, completes / suggests values during typing.
   - Metadata: https://eufemia.dnb.no/llm/uilib/components/autocomplete/metadata.json
   - Docs: https://eufemia.dnb.no/uilib/components/autocomplete/
-  - Checksum: 3277dd3d089cc4a01277a2e124bbc509ebfbfcf703c1312c20b7f5b70e24576e
+  - Checksum: 234f1713e34f0eda0f2b8e6239ed711479d3971aff39e4f9f8dec6dc38e89873
 
 - [Avatar](https://eufemia.dnb.no/uilib/components/avatar/): The Avatar component are identifiers that makes people and companies more scannable.
   - Metadata: https://eufemia.dnb.no/llm/uilib/components/avatar/metadata.json
@@ -71,12 +71,12 @@ GeneratedAt: 2025-11-25T10:28:58.494Z
 - [DateFormat](https://eufemia.dnb.no/uilib/components/date-format/): A ready to use DNB date formatter.
   - Metadata: https://eufemia.dnb.no/llm/uilib/components/date-format/metadata.json
   - Docs: https://eufemia.dnb.no/uilib/components/date-format/
-  - Checksum: 21ee20901c5fdcb63f7b3c1f0b430b0b63e3c6dbcce5a161cdfdfd671ffd415f
+  - Checksum: 3a17b0c3f601463268e5fbcdcbc35464940d526e523992d872a604a7835462af
 
 - [DatePicker](https://eufemia.dnb.no/uilib/components/date-picker/): The DatePicker component should be used whenever the user is to enter a single date or a date period.
   - Metadata: https://eufemia.dnb.no/llm/uilib/components/date-picker/metadata.json
   - Docs: https://eufemia.dnb.no/uilib/components/date-picker/
-  - Checksum: a5f94909d4e985a092ffa2d0578bd8d019ce4e76be176b3813e7f974678505c0
+  - Checksum: 9bd5516cc7df2426b4ab2d9823b9ec269a336784e3d12bf54ad557954e94e205
 
 - [Dialog](https://eufemia.dnb.no/uilib/components/dialog/): The Dialog component is a Modal variation that appears at the center of the screen.
   - Metadata: https://eufemia.dnb.no/llm/uilib/components/dialog/metadata.json
@@ -156,12 +156,17 @@ GeneratedAt: 2025-11-25T10:28:58.494Z
 - [Logo](https://eufemia.dnb.no/uilib/components/logo/): A ready to use Logo component with the needed SVGs.
   - Metadata: https://eufemia.dnb.no/llm/uilib/components/logo/metadata.json
   - Docs: https://eufemia.dnb.no/uilib/components/logo/
-  - Checksum: eb1b6ea259c466ee407bea6354abde05bec00bb56cc54f747d1083196a1e8694
+  - Checksum: 5d8de453b10e806c4692f770d034f69d976fa3529d33d271c5b321d6f13283f6
 
 - [Pagination](https://eufemia.dnb.no/uilib/components/pagination/): The Pagination component supports both classical pagination and infinity scrolling.
   - Metadata: https://eufemia.dnb.no/llm/uilib/components/pagination/metadata.json
   - Docs: https://eufemia.dnb.no/uilib/components/pagination/
   - Checksum: fc856cd04be9e4af4c00456547a0aaea0c464728edb42d89f26d79d90acb30cf
+
+- [Popover](https://eufemia.dnb.no/uilib/components/popover/): Popover renders its own floating surface anchored to a trigger element.
+  - Metadata: https://eufemia.dnb.no/llm/uilib/components/popover/metadata.json
+  - Docs: https://eufemia.dnb.no/uilib/components/popover/
+  - Checksum: 9a160476142dfe09c3a288977de7b3f2c79334369f3d9881d27b30c46a484612
 
 - [PortalRoot](https://eufemia.dnb.no/uilib/components/portal-root/): PortalRoot is a React component that helps you make React Portals.
   - Metadata: https://eufemia.dnb.no/llm/uilib/components/portal-root/metadata.json
@@ -228,6 +233,11 @@ GeneratedAt: 2025-11-25T10:28:58.494Z
   - Docs: https://eufemia.dnb.no/uilib/components/tag/
   - Checksum: f2edb7786c14441935c358a8a0eed20f37015e39067e29132d040ed3b368a28e
 
+- [TermDefinition](https://eufemia.dnb.no/uilib/components/term-definition/): TermDefinition renders a compact, inline explanation for a word or phrase with an anchor-style trigger button.
+  - Metadata: https://eufemia.dnb.no/llm/uilib/components/term-definition/metadata.json
+  - Docs: https://eufemia.dnb.no/uilib/components/term-definition/
+  - Checksum: c3883537566ca26ef6e6c5bc57ca01fec32f7976e878058b78c78b98d8d18f39
+
 - [Textarea](https://eufemia.dnb.no/uilib/components/textarea/): The Textarea component has to be used as a multi-line text input control with an unlimited number of characters possible.
   - Metadata: https://eufemia.dnb.no/llm/uilib/components/textarea/metadata.json
   - Docs: https://eufemia.dnb.no/uilib/components/textarea/
@@ -246,7 +256,7 @@ GeneratedAt: 2025-11-25T10:28:58.494Z
 - [Tooltip](https://eufemia.dnb.no/uilib/components/tooltip/): The Tooltip component is primarily meant to enhance the UX for various and additional information.
   - Metadata: https://eufemia.dnb.no/llm/uilib/components/tooltip/metadata.json
   - Docs: https://eufemia.dnb.no/uilib/components/tooltip/
-  - Checksum: aa06a206f70b88f2ac8aba6faee3c0c4c5620fb679d18c33b789bb3056208508
+  - Checksum: eaf62399330010145119a81e973ff954410e63c569ac3d2439d110a77a7de0fe
 
 - [Upload](https://eufemia.dnb.no/uilib/components/upload/): The Upload component should be used in scenarios where the user has to upload files. Files can be uploaded by clicking button. You also have the opportunity to add descriptive texts below the title where you could put max file size, allowed file formats etc.
   - Metadata: https://eufemia.dnb.no/llm/uilib/components/upload/metadata.json
@@ -1451,7 +1461,7 @@ GeneratedAt: 2025-11-25T10:28:58.494Z
   - Docs: https://eufemia.dnb.no/uilib/layout/spacing/
   - Checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 
-- [Layout](https://eufemia.dnb.no/uilib/layout/): To make it easier to build application layout and form-views in line with defined design sketches, there are a number of components for layout.
+- [Layout](https://eufemia.dnb.no/uilib/layout/): To make it easier to build application layouts and form views in line with defined design sketches, there are a number of components for layout.
   - Metadata: https://eufemia.dnb.no/llm/uilib/layout/metadata.json
   - Docs: https://eufemia.dnb.no/uilib/layout/
   - Checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40

@@ -1,0 +1,354 @@
+{
+  "id": "uilib/components/popover",
+  "name": "Popover",
+  "description": "Popover renders its own floating surface anchored to a trigger element.",
+  "group": "components",
+  "slug": "/uilib/components/popover/",
+  "props": [
+    {
+      "name": "children",
+      "doc": "Alternative content prop. Accepts nodes or a render function that receives the same helpers as `content`.",
+      "type": [
+        "React.ReactNode",
+        "({ close, open, toggle, id }) => React.ReactNode"
+      ],
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "content",
+      "doc": "Content rendered inside the popover. Can also be a render function that receives helpers such as `close`.",
+      "type": [
+        "React.ReactNode",
+        "({ close, open, toggle, id }) => React.ReactNode"
+      ],
+      "status": "required",
+      "defaultValue": null
+    },
+    {
+      "name": "title",
+      "doc": "Optional heading shown above the body content. Matches the typography used in TermDefinition.",
+      "type": "React.ReactNode",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "trigger",
+      "doc": "Custom trigger element or render function. Required unless you point Popover at an existing element using `targetElement` / `targetSelector`.",
+      "type": [
+        "React.ReactNode",
+        "({ active, ref, toggle, open, close }) => React.ReactNode"
+      ],
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "triggerAttributes",
+      "doc": "Extra HTML attributes passed to the default trigger wrapper (e.g. aria-*).",
+      "type": "React.HTMLAttributes<HTMLElement>",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "triggerClassName",
+      "doc": "Class name merged with the default trigger wrapper.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "triggerOffset",
+      "doc": "Spacing in pixels between the trigger element and the popover surface.",
+      "type": "number",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "horizontalOffset",
+      "doc": "Horizontal offset in pixels to adjust the popover placement. Positive values move the popover to the right, negative values move it to the left. Useful for fine-tuning alignment when the default placement needs adjustment.",
+      "type": "number",
+      "status": "optional",
+      "defaultValue": "0"
+    },
+    {
+      "name": "arrowEdgeOffset",
+      "doc": "Offset in pixels from the edge when the arrow is positioned at the edge. When set, this value replaces the default edge spacing (8px) and arrow boundary (8px). Useful for components like Tooltip that need the arrow closer to the edge.",
+      "type": "number",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "openInitially",
+      "doc": "Whether the popover should be open by default when uncontrolled.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "open",
+      "doc": "Controls the open state when provided. Use together with `onOpenChange`.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "placement",
+      "doc": "Preferred placement of the popover relative to the trigger.",
+      "type": [
+        "top",
+        "right",
+        "bottom",
+        "left"
+      ],
+      "status": "optional",
+      "defaultValue": "bottom"
+    },
+    {
+      "name": "alignOnTarget",
+      "doc": "Adjust horizontal alignment of the popover body when `placement` is `top`/`bottom`; ignored for other placements.",
+      "type": [
+        "left",
+        "center",
+        "right",
+        "null"
+      ],
+      "status": "optional",
+      "defaultValue": "center"
+    },
+    {
+      "name": "arrowPosition",
+      "doc": "Align the arrow along the axis of the selected `placement` (e.g., left/right for `placement=\"right\"`).",
+      "type": [
+        "center",
+        "top",
+        "right",
+        "bottom",
+        "left"
+      ],
+      "status": "optional",
+      "defaultValue": "center"
+    },
+    {
+      "name": "arrowPositionSelector",
+      "doc": "CSS selector that points to the element the arrow should align with. When the popover points vertically it aligns horizontally, and vice versa for horizontal placements.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "hideArrow",
+      "doc": "Hide the arrow element from the popover. When `true`, the arrow will not be rendered regardless of the `arrowPosition` prop.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": "false"
+    },
+    {
+      "name": "theme",
+      "doc": "Sets the surface style.",
+      "type": [
+        "light",
+        "dark"
+      ],
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "contentClassName",
+      "doc": "Additional class name(s) merged into the popover content wrapper.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "baseClassName",
+      "doc": "Overrides the default BEM root block. Useful when mirroring Popover styles.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "hideOutline",
+      "doc": "Removes the outline/border that normally surrounds the popover surface.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "hideCloseButton",
+      "doc": "Removes the built-in close button.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "disableFocusTrap",
+      "doc": "Stops rendering the focus-trap button used to return focus to the trigger.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "focusOnOpen",
+      "doc": "If true, focus is moved into the popover content when it opens.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "focusOnOpenElement",
+      "doc": "Provide a specific element (or function returning one) to receive focus when the popover opens.",
+      "type": "HTMLElement | () => HTMLElement",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "restoreFocus",
+      "doc": "Moves focus back to the trigger element once the popover closes (defaults to true).",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "preventClose",
+      "doc": "Prevent closing the popover when interacting outside of it or pressing Escape. Useful when the popover needs to stay open while other parts of the page are interacted with.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "showDelay",
+      "doc": "Delay (ms) before the popover becomes active. Useful for hover-triggered popovers.",
+      "type": "number",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "hideDelay",
+      "doc": "Delay (ms) before the popover starts hiding. Defaults to 0.",
+      "type": "number",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "noInnerSpace",
+      "doc": "Remove the default padding inside the popover by setting `--inner-space: 0` on the surface.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "closeButtonProps",
+      "doc": "Customize the built-in close button (icon, title, variant, etc.).",
+      "type": "Partial<ButtonProps>",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "skipPortal",
+      "doc": "Render inline instead of inside the shared Popover portal.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "portalRootClass",
+      "doc": "Extra className applied to the portal wrapper (only when not using `skipPortal`).",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "keepInDOM",
+      "doc": "Keep the portal mounted in the DOM even when the popover is closed. Useful when the content should preserve its state.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": "false"
+    },
+    {
+      "name": "noAnimation",
+      "doc": "Disable show/hide animations.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "fixedPosition",
+      "doc": "Use fixed positioning so the popover follows the viewport instead of the page scroll.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "autoAlignMode",
+      "doc": "Control when the popover automatically flips its placement to fit within the viewport. `initial` (default): Flip placement only on initial open when there's limited space. `scroll`: Flip placement on initial open and during scroll events. `never`: Never automatically flip placement, always use the specified `placement` property.",
+      "type": [
+        "initial",
+        "scroll",
+        "never"
+      ],
+      "status": "optional",
+      "defaultValue": "initial"
+    },
+    {
+      "name": "targetElement",
+      "doc": "Existing DOM element (or ref) used instead of a rendered trigger. Provide `{ horizontalRef, verticalRef }` when horizontal and vertical anchors differ.",
+      "type": [
+        "HTMLElement",
+        "React.MutableRefObject<HTMLElement>",
+        "{ horizontalRef?: HTMLElement | React.MutableRefObject<HTMLElement>; verticalRef?: HTMLElement | React.MutableRefObject<HTMLElement> }"
+      ],
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "targetSelector",
+      "doc": "CSS selector pointing to an element in the document to use as the trigger target.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "contentRef",
+      "doc": "Ref forwarded to the popover content element.",
+      "type": "React.MutableRefObject<HTMLSpanElement>",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "omitDescribedBy",
+      "doc": "Skips adding aria-describedBy on the trigger when you handle accessibility yourself.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    }
+  ],
+  "events": [],
+  "related": [],
+  "checksum": "9a160476142dfe09c3a288977de7b3f2c79334369f3d9881d27b30c46a484612",
+  "source": {
+    "repo": "https://github.com/dnbexperience/eufemia",
+    "file": "packages/dnb-eufemia/src/components/popover/Popover.tsx",
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.91.0/packages/dnb-eufemia/src/components/popover/Popover.tsx"
+  },
+  "sources": {
+    "entry": {
+      "local": "src/docs/uilib/components/popover.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/popover/"
+    },
+    "props": {
+      "local": "src/docs/uilib/components/popover/properties.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/popover/properties/"
+    },
+    "events": {
+      "local": "src/docs/uilib/components/popover/events.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/popover/events/"
+    },
+    "demos": {
+      "local": "src/docs/uilib/components/popover/demos.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/popover/demos/"
+    }
+  },
+  "version": "10.91.0",
+  "generatedAt": "2025-11-28T14:03:56.229Z",
+  "schemaVersion": 1
+}

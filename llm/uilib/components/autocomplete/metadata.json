@@ -410,17 +410,24 @@
       "type": "function",
       "status": "optional",
       "defaultValue": null
+    },
+    {
+      "name": "onClear",
+      "doc": "Will be called on a clear button click. Returns `{ value, previousValue, event }`.",
+      "type": "function",
+      "status": "optional",
+      "defaultValue": null
     }
   ],
   "related": [
     "DrawerList",
     "Space"
   ],
-  "checksum": "3277dd3d089cc4a01277a2e124bbc509ebfbfcf703c1312c20b7f5b70e24576e",
+  "checksum": "234f1713e34f0eda0f2b8e6239ed711479d3971aff39e4f9f8dec6dc38e89873",
   "source": {
     "repo": "https://github.com/dnbexperience/eufemia",
     "file": "packages/dnb-eufemia/src/components/autocomplete/Autocomplete.js",
-    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.90.1/packages/dnb-eufemia/src/components/autocomplete/Autocomplete.js"
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.91.0/packages/dnb-eufemia/src/components/autocomplete/Autocomplete.js"
   },
   "sources": {
     "entry": {
@@ -440,7 +447,7 @@
       "public": "https://eufemia.dnb.no/uilib/components/autocomplete/demos/"
     }
   },
-  "version": "10.90.1",
-  "generatedAt": "2025-11-25T10:28:57.163Z",
+  "version": "10.91.0",
+  "generatedAt": "2025-11-28T14:03:55.882Z",
   "schemaVersion": 1
 }
