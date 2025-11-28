@@ -191,13 +191,7 @@ export type PopoverProps = PopoverOverlayProps & {
    */
   preventClose?: boolean
   /**
-   * Toggle rendering of the built-in close button that appears inside the popover.
-   * @default true
-   */
-  showCloseButton?: boolean
-  /**
    * Convenience prop to remove the built-in close button.
-   * Takes precedence over `showCloseButton` when set to true.
    * @default false
    */
   hideCloseButton?: boolean

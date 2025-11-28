@@ -45,7 +45,6 @@ export default function Popover(props: PopoverProps) {
     focusOnOpenElement,
     restoreFocus = true,
     preventClose = false,
-    showCloseButton = true,
     hideCloseButton = false,
     closeButtonProps,
     contentClassName,
@@ -567,7 +566,7 @@ export default function Popover(props: PopoverProps) {
     return source
   }, [children, content, contentContext])
 
-  const closeButton = !hideCloseButton && showCloseButton && (
+  const closeButton = !hideCloseButton && (
     <Button
       variant={closeButtonProps?.variant ?? 'tertiary'}
       icon={closeButtonProps?.icon ?? 'close'}

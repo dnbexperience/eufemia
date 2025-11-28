@@ -116,13 +116,8 @@ export const PopoverProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  showCloseButton: {
-    doc: 'Toggle rendering of the built-in close button that appears inside the popover.',
-    type: 'boolean',
-    status: 'optional',
-  },
   hideCloseButton: {
-    doc: 'Convenience prop to remove the built-in close button (takes precedence over `showCloseButton`).',
+    doc: 'Removes the built-in close button.',
     type: 'boolean',
     status: 'optional',
   },

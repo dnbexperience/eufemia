@@ -391,7 +391,7 @@ describe('Popover', () => {
   it('supports custom trigger renderer and manual close button', async () => {
     render(
       <Popover
-        showCloseButton={false}
+        hideCloseButton
         trigger={({ ref, ...rest }) => (
           <button type="button" ref={ref} {...rest}>
             Open info
