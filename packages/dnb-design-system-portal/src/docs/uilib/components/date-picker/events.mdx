@@ -2,7 +2,6 @@
 showTabs: true
 ---
 
-import { DatePickerDateFnsRangeIsWeekend } from 'Docs/uilib/components/date-picker/Examples'
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
 import { DatePickerEvents } from '@dnb/eufemia/src/components/date-picker/DatePickerDocs'
 
@@ -30,62 +29,4 @@ All additional HTML attributes will be returned as well.
   attributes: { attributes },
   event: null | { native event }
 }
-```
-
-### Validation during input changes
-
-In order to validate dates during typing, you can make use of `is_valid` or `is_valid_start_date` and `is_valid_end_date`. Because the user can change a date in the input field, and the `on_type` event will then return a falsy `is_valid`.
-
-Additional event return object properties:
-
-```js
-{
-  is_valid: boolean, /* Available if `range` is `false` */
-  is_valid_start_date: boolean, /* Available if `range` is `true` */
-  is_valid_end_date: boolean, /* Available if `range` is `true` */
-}
-```
-
-### Min & Max date
-
-If `min_date` or `max_date` is given, the return object also contains info about if the `start_date` or `end_date` is in between the given limits. The reason is that the user can still enter an invalid date in the input.
-
-```js
-{
-  is_valid_start_date: boolean,
-  is_valid_end_date: boolean,
-  ...
-}
-```
-
-### Manipulate the days in the calendar view
-
-The callback event `on_days_render` gives you the possibility to manipulate the "day" object, before it gets rendered. This callback will be called many times. Both on the first render, and on every user interaction, like hover and selection, etc. This means you have to ensure a performant date calculation.
-
-Please use [date-fns](https://date-fns.org) to make the calculations.
-
-<VisibleWhenNotVisualTest>
-  <DatePickerDateFnsRangeIsWeekend />
-</VisibleWhenNotVisualTest>
-
-The `dayObject` object contains:
-
-```js
-[
-    {
-      date: Date,// Vanilla JavaScript Date object
-      className: // define your custom css classes
-      isInactive: boolean,// shows it as disabled only
-      isDisabled: boolean,// shows it as disabled and with a strikethrough
-      isPreview: boolean,// date is between startDate (exclusive) and hoverDate (inclusive)
-      isSelectable: boolean,// if not last and next month and not disabled – handles z-index
-      isStartDate: boolean,// date selected is start date
-      isEndDate: boolean,// date selected is end date
-      isToday: boolean,
-      isWithinSelection: boolean,// date is between selection range
-      isNextMonth: boolean,// used for selection and inactive calculation
-      isLastMonth: boolean,// used for selection and inactive calculation
-    },
-    ...
-]
 ```
