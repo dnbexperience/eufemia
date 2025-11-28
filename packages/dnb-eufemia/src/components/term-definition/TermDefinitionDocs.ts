@@ -7,18 +7,14 @@ export const TermDefinitionProperties: PropertiesTableProps = {
     status: 'required',
   },
   content: {
-    doc: 'Definition text that will be displayed inside the tooltip.',
+    doc: 'Definition text that will be displayed inside.',
     type: 'React.ReactNode',
     status: 'required',
   },
-  className: {
-    doc: 'Custom className applied to the trigger span.',
-    type: 'string',
-    status: 'optional',
-  },
   placement: {
-    doc: 'Tooltip placement relative to the trigger.',
+    doc: 'Defines the preferred popover placement relative to the trigger.',
     type: ['top', 'right', 'bottom', 'left'],
+    defaultValue: 'bottom',
     status: 'optional',
   },
   '[Space](/uilib/layout/space/properties)': {
