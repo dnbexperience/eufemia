@@ -182,7 +182,7 @@ export default {
       openTriggerTitle: 'Click to open',
       closeTriggerTitle: 'Click to close',
     },
-    WordDefinition: {
+    TermDefinition: {
       closeButtonTitle: 'Close definition',
       openTriggerTitle: 'Click to open definition',
       closeTriggerTitle: 'Click to close definition',

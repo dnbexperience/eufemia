@@ -1,6 +1,6 @@
 import { PropertiesTableProps } from '../../shared/types'
 
-export const WordDefinitionProperties: PropertiesTableProps = {
+export const TermDefinitionProperties: PropertiesTableProps = {
   children: {
     doc: 'Term shown as the trigger. Typically a short word or phrase.',
     type: 'React.ReactNode',

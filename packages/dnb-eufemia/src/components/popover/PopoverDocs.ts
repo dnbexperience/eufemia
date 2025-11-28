@@ -18,7 +18,7 @@ export const PopoverProperties: PropertiesTableProps = {
     status: 'required',
   },
   title: {
-    doc: 'Optional heading shown above the body content. Matches the typography used in WordDefinition.',
+    doc: 'Optional heading shown above the body content. Matches the typography used in TermDefinition.',
     type: 'React.ReactNode',
     status: 'optional',
   },

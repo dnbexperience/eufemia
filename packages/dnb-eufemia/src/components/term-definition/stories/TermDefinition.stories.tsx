@@ -1,10 +1,10 @@
 import React from 'react'
-import WordDefinition from '../WordDefinition'
-import '../style/dnb-word-definition.scss'
+import TermDefinition from '../TermDefinition'
+import '../style/dnb-term-definition.scss'
 import { P } from '../../../elements'
 
 export default {
-  title: 'Eufemia/Components/WordDefinition',
+  title: 'Eufemia/Components/TermDefinition',
 }
 
 export const Basic = {
@@ -18,9 +18,9 @@ export const Basic = {
       amet aliquip duis eiusmod sint. Do do mollit deserunt ipsum aliquip
       adipisicing labore aliqua do. Non irure ullamco do minim esse ex
       magna minim quis excepteur cupidatat do aliqua.{' '}
-      <WordDefinition content="Unusual words are words that are not commonly used or that many people might not know the meaning of.">
+      <TermDefinition content="Unusual words are words that are not commonly used or that many people might not know the meaning of.">
         unusual words
-      </WordDefinition>{' '}
+      </TermDefinition>{' '}
       non anim mollit amet culpa ipsum ullamco irure excepteur officia
       veniam. Et occaecat aliquip incididunt velit pariatur in.{' '}
       <button>B</button> Id est laboris consequat Lorem tempor. Cupidatat

@@ -8,15 +8,15 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe.each(['ui', 'sbanken'])('WordDefinition for %s', (themeName) => {
+describe.each(['ui', 'sbanken'])('TermDefinition for %s', (themeName) => {
   setupPageScreenshot({
-    url: '/uilib/components/word-definition/demos',
+    url: '/uilib/components/term-definition/demos',
     themeName,
   })
 
   it('matches the basic style', async () => {
     const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="word-definition-basic"]',
+      selector: '[data-visual-test="term-definition-basic"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -28,15 +28,15 @@ describe.each(['ui', 'sbanken'])('WordDefinition for %s', (themeName) => {
       },
       simulate: 'click',
       simulateSelector:
-        '[data-visual-test="word-definition-basic"] .dnb-word-definition__trigger',
-      selector: '[data-visual-test="word-definition-basic"]',
+        '[data-visual-test="term-definition-basic"] .dnb-term-definition__trigger',
+      selector: '[data-visual-test="term-definition-basic"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
   it('matches various typography styles', async () => {
     const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="word-definition-typography"]',
+      selector: '[data-visual-test="term-definition-typography"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })

@@ -180,7 +180,7 @@ export default {
       openTriggerTitle: 'Klikk for å åpne',
       closeTriggerTitle: 'Klikk for å lukke',
     },
-    WordDefinition: {
+    TermDefinition: {
       closeButtonTitle: 'Lukk ordforklaring',
       openTriggerTitle: 'Klikk for å åpne ordforklaring',
       closeTriggerTitle: 'Klikk for å lukke ordforklaring',

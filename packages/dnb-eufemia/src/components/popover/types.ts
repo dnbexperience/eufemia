@@ -130,7 +130,7 @@ export type PopoverProps = PopoverOverlayProps & {
   content?: PopoverRenderable<PopoverContentRenderProps>
   /**
    * Optional heading shown above the body content.
-   * Matches the typography style used in WordDefinition component.
+   * Matches the typography style used in TermDefinition component.
    */
   title?: React.ReactNode
   /**

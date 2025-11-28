@@ -1,5 +1,5 @@
 /**
- * Web WordDefinition Component
+ * Web TermDefinition Component
  */
 
 import React, { useCallback, useRef, useState } from 'react'
@@ -13,7 +13,7 @@ import {
   removeSpaceProps,
 } from '../space/SpacingHelper'
 
-export type WordDefinitionProps = {
+export type TermDefinitionProps = {
   /**
    * The term shown as the anchor trigger.
    */
@@ -32,21 +32,21 @@ export type WordDefinitionProps = {
   placement?: 'top' | 'right' | 'bottom' | 'left'
 }
 
-type WordDefinitionAllProps = WordDefinitionProps &
+type TermDefinitionAllProps = TermDefinitionProps &
   SpacingProps &
   React.HTMLAttributes<HTMLSpanElement>
 
-export default function WordDefinition({
+export default function TermDefinition({
   children,
   content,
   className,
   placement = 'bottom',
   ...rest
-}: WordDefinitionAllProps) {
+}: TermDefinitionAllProps) {
   const [active, setActive] = useState(false)
   const triggerRef = useRef<HTMLSpanElement | null>(null)
   const id = useId()
-  const { WordDefinition: tr = {} } = useTranslation()
+  const { TermDefinition: tr = {} } = useTranslation()
   const title = active ? tr.closeTriggerTitle : tr.openTriggerTitle
 
   const toggle = useCallback((next?: boolean) => {
@@ -91,7 +91,7 @@ export default function WordDefinition({
         tabIndex={0}
         ref={triggerRef}
         className={classnames(
-          'dnb-word-definition__trigger',
+          'dnb-term-definition__trigger',
           'dnb-anchor',
           active && 'dnb-anchor--hover',
           className,
@@ -124,8 +124,8 @@ export default function WordDefinition({
         arrowPosition="left"
         alignOnTarget="left"
         arrowEdgeOffset={0}
-        className="dnb-word-definition"
-        portalRootClass="dnb-word-definition__portal"
+        className="dnb-term-definition"
+        portalRootClass="dnb-term-definition__portal"
         omitDescribedBy
         closeOnOutsideClick
         hideArrow

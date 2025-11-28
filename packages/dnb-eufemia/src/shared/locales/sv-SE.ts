@@ -181,7 +181,7 @@ export default {
       openTriggerTitle: 'Klicka för att öppna',
       closeTriggerTitle: 'Klicka för att stänga',
     },
-    WordDefinition: {
+    TermDefinition: {
       closeButtonTitle: 'Stäng ordförklaring',
       openTriggerTitle: 'Klicka för att öppna ordförklaring',
       closeTriggerTitle: 'Klicka för att stänga ordförklaring',

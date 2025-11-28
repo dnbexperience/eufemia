@@ -1,23 +1,23 @@
 /**
- * Component Test: WordDefinition
+ * Component Test: TermDefinition
  */
 
 import React from 'react'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import WordDefinition from '../WordDefinition'
+import TermDefinition from '../TermDefinition'
 import defaultLocales from '../../../shared/locales'
 import { wait } from '../../../core/jest/jestSetup'
 
 const term = 'unusual words'
 const definition =
   'Unusual words are words that are not commonly used or that many people might not know the meaning of.'
-const translations = defaultLocales['nb-NO'].WordDefinition
+const translations = defaultLocales['nb-NO'].TermDefinition
 
-describe('WordDefinition', () => {
+describe('TermDefinition', () => {
   it('renders trigger with closed state by default', () => {
-    render(<WordDefinition content={definition}>{term}</WordDefinition>)
-    const trigger = document.querySelector('.dnb-word-definition__trigger')
+    render(<TermDefinition content={definition}>{term}</TermDefinition>)
+    const trigger = document.querySelector('.dnb-term-definition__trigger')
 
     expect(trigger.tagName).toBe('SPAN')
     expect(trigger).toHaveAttribute('role', 'button')
@@ -33,14 +33,14 @@ describe('WordDefinition', () => {
     expect(description).toHaveTextContent(translations.openTriggerTitle)
     expect(description).toHaveAttribute('aria-hidden', 'true')
 
-    const tooltip = document.querySelector('.dnb-word-definition')
+    const tooltip = document.querySelector('.dnb-term-definition')
     expect(tooltip).not.toBeNull()
     expect(tooltip.classList.contains('dnb-tooltip--active')).toBe(false)
   })
 
   it('links aria attributes to the tooltip and description elements', () => {
-    render(<WordDefinition content={definition}>{term}</WordDefinition>)
-    const trigger = document.querySelector('.dnb-word-definition__trigger')
+    render(<TermDefinition content={definition}>{term}</TermDefinition>)
+    const trigger = document.querySelector('.dnb-term-definition__trigger')
 
     const controlsId = trigger.getAttribute('aria-controls')
     expect(controlsId).toBeTruthy()
@@ -56,8 +56,8 @@ describe('WordDefinition', () => {
   })
 
   it('opens tooltip on click and shows translated content', async () => {
-    render(<WordDefinition content={definition}>{term}</WordDefinition>)
-    const trigger = document.querySelector('.dnb-word-definition__trigger')
+    render(<TermDefinition content={definition}>{term}</TermDefinition>)
+    const trigger = document.querySelector('.dnb-term-definition__trigger')
 
     await userEvent.click(trigger)
 
@@ -84,25 +84,25 @@ describe('WordDefinition', () => {
     expect(closeButton).toBeInTheDocument()
   })
 
-  it('renders tooltip content inside the word-definition portal root', async () => {
-    render(<WordDefinition content={definition}>{term}</WordDefinition>)
-    const trigger = document.querySelector('.dnb-word-definition__trigger')
+  it('renders tooltip content inside the term-definition portal root', async () => {
+    render(<TermDefinition content={definition}>{term}</TermDefinition>)
+    const trigger = document.querySelector('.dnb-term-definition__trigger')
 
     await userEvent.click(trigger)
     await waitFor(() => {
       const portalRoot = document.querySelector(
-        '.dnb-word-definition__portal'
+        '.dnb-term-definition__portal'
       )
       expect(portalRoot).not.toBeNull()
       expect(
-        portalRoot.querySelector('.dnb-word-definition')
+        portalRoot.querySelector('.dnb-term-definition')
       ).not.toBeNull()
     })
   })
 
   it('keeps tooltip content unfocusable via class and tabIndex', async () => {
-    render(<WordDefinition content={definition}>{term}</WordDefinition>)
-    const trigger = document.querySelector('.dnb-word-definition__trigger')
+    render(<TermDefinition content={definition}>{term}</TermDefinition>)
+    const trigger = document.querySelector('.dnb-term-definition__trigger')
 
     await userEvent.click(trigger)
     await waitFor(() => {
@@ -114,17 +114,17 @@ describe('WordDefinition', () => {
 
   it('applies spacing utility classes when spacing props are used', () => {
     render(
-      <WordDefinition content={definition} top="large">
+      <TermDefinition content={definition} top="large">
         {term}
-      </WordDefinition>
+      </TermDefinition>
     )
-    const trigger = document.querySelector('.dnb-word-definition__trigger')
+    const trigger = document.querySelector('.dnb-term-definition__trigger')
     expect(trigger.classList.contains('dnb-space__top--large')).toBe(true)
   })
 
   it('toggles open and closed state by pressing the trigger', async () => {
-    render(<WordDefinition content={definition}>{term}</WordDefinition>)
-    const trigger = document.querySelector('.dnb-word-definition__trigger')
+    render(<TermDefinition content={definition}>{term}</TermDefinition>)
+    const trigger = document.querySelector('.dnb-term-definition__trigger')
 
     await userEvent.click(trigger)
     await waitFor(() => {
@@ -139,18 +139,18 @@ describe('WordDefinition', () => {
       expect(trigger).toHaveAttribute('aria-expanded', 'false')
     )
     const activeTooltip = document.querySelector(
-      '.dnb-word-definition.dnb-tooltip--active'
+      '.dnb-term-definition.dnb-tooltip--active'
     )
     expect(activeTooltip).toBeNull()
   })
 
   it('renders close button after the tooltip content', async () => {
-    render(<WordDefinition content={definition}>{term}</WordDefinition>)
-    const trigger = document.querySelector('.dnb-word-definition__trigger')
+    render(<TermDefinition content={definition}>{term}</TermDefinition>)
+    const trigger = document.querySelector('.dnb-term-definition__trigger')
 
     await userEvent.click(trigger)
     await waitFor(() => {
-      const tooltip = document.querySelector('.dnb-word-definition')
+      const tooltip = document.querySelector('.dnb-term-definition')
       const content = tooltip.querySelector('.dnb-popover__content')
       const closeButton = tooltip.querySelector('.dnb-popover__close')
       expect(closeButton.previousElementSibling).toBe(content)
@@ -158,8 +158,8 @@ describe('WordDefinition', () => {
   })
 
   it('moves focus into tooltip when opened and back on escape', async () => {
-    render(<WordDefinition content={definition}>{term}</WordDefinition>)
-    const trigger = document.querySelector('.dnb-word-definition__trigger')
+    render(<TermDefinition content={definition}>{term}</TermDefinition>)
+    const trigger = document.querySelector('.dnb-term-definition__trigger')
 
     await userEvent.click(trigger)
     await waitFor(() => {
@@ -179,8 +179,8 @@ describe('WordDefinition', () => {
   })
 
   it('closes tooltip when clicking outside', async () => {
-    render(<WordDefinition content={definition}>{term}</WordDefinition>)
-    const trigger = document.querySelector('.dnb-word-definition__trigger')
+    render(<TermDefinition content={definition}>{term}</TermDefinition>)
+    const trigger = document.querySelector('.dnb-term-definition__trigger')
 
     await userEvent.click(trigger)
     await waitFor(() => {
@@ -195,13 +195,13 @@ describe('WordDefinition', () => {
       expect(trigger).toHaveAttribute('aria-expanded', 'false')
     )
 
-    const tooltip = document.querySelector('.dnb-word-definition')
+    const tooltip = document.querySelector('.dnb-term-definition')
     expect(tooltip.classList.contains('dnb-tooltip--active')).toBe(false)
   })
 
   it('closes tooltip when the close button is clicked', async () => {
-    render(<WordDefinition content={definition}>{term}</WordDefinition>)
-    const trigger = document.querySelector('.dnb-word-definition__trigger')
+    render(<TermDefinition content={definition}>{term}</TermDefinition>)
+    const trigger = document.querySelector('.dnb-term-definition__trigger')
 
     await userEvent.click(trigger)
     await waitFor(() => {
@@ -219,8 +219,8 @@ describe('WordDefinition', () => {
   })
 
   it('closes tooltip when a keyup happens outside the tooltip content', async () => {
-    render(<WordDefinition content={definition}>{term}</WordDefinition>)
-    const trigger = document.querySelector('.dnb-word-definition__trigger')
+    render(<TermDefinition content={definition}>{term}</TermDefinition>)
+    const trigger = document.querySelector('.dnb-term-definition__trigger')
 
     await userEvent.click(trigger)
     await waitFor(() => {
@@ -240,8 +240,8 @@ describe('WordDefinition', () => {
   })
 
   it('supports keyboard activation and close button interaction', async () => {
-    render(<WordDefinition content={definition}>{term}</WordDefinition>)
-    const trigger = document.querySelector('.dnb-word-definition__trigger')
+    render(<TermDefinition content={definition}>{term}</TermDefinition>)
+    const trigger = document.querySelector('.dnb-term-definition__trigger')
 
     fireEvent.keyDown(trigger, { key: ' ' })
     await waitFor(() => {

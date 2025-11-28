@@ -1,0 +1,34 @@
+---
+showTabs: true
+---
+
+## Import
+
+```tsx
+import { TermDefinition } from '@dnb/eufemia'
+```
+
+## Description
+
+TermDefinition shows a short term definition using the Popover/Tooltip stack and an anchor-like trigger. It opens on click and can be focused by Tab and toggled with Enter/Space.
+
+## Relevant links
+
+- Source code: https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/term-definition
+- Docs code: https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/term-definition
+
+## Accessibility
+
+To ensure that the TermDefinition component is accessible, it uses semantic HTML elements and appropriate ARIA attributes.
+
+- All content inside the TermDefinition can be selected when it is open.
+- Clicking anywhere outside the TermDefinition, or pressing Escape, closes it.
+- The trigger looks like an [Anchor](/uilib/components/anchor) but is actually a semantic button.
+- It is fully focusable and works with keyboard navigation.
+- The trigger is aligned to the left side of the word for better readability (not centered).
+- Screen readers read the word (its children) first and then announce that the trigger can be activated to show more information.
+- When the TermDefinition opens, it receives focus and the screen reader announces its content.
+- When it closes, focus returns to the trigger so keyboard users keep their place in the document.
+- The close button is placed last in the tab order, making it easy for keyboard users to reach after reading the content.
+- It also closes automatically when focus moves outside the TermDefinition or when the Escape key is pressed.
+- The trigger shows the hover style of an [Anchor](/uilib/components/anchor) when open.
