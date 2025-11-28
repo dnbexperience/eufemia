@@ -65,6 +65,11 @@ export const DatePickerProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  inline: {
+    doc: 'If set to `true`, renders the calendar inline without a button or input. The calendar is always visible and not wrapped in a Popover. Defaults to `false`.',
+    type: 'boolean',
+    status: 'optional',
+  },
   maskOrder: {
     doc: 'To define the order of the masked placeholder input fields. Defaults to `dd/mm/yyyy`.',
     type: 'string',

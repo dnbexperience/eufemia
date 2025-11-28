@@ -373,13 +373,28 @@ export const handleCurrencyMask = ({
     ...givenParams,
   }
 
-  const suffix =
+  const currencyLabel =
     typeof currency_mask === 'string'
       ? currency_mask
       : typeof givenParams.currency === 'string'
       ? givenParams.currency
       : 'kr'
-  paramsWithDefaults.suffix = ` ${suffix}`
+  const hasCurrencyLabel =
+    typeof currencyLabel === 'string' && currencyLabel
+  const shouldShowCurrencyLabel =
+    hasCurrencyLabel && givenParams.currencyDisplay !== false
+  const shouldShowCurrencyBeforeAmount =
+    givenParams.currencyDisplay === 'code' && shouldShowCurrencyLabel
+
+  if (shouldShowCurrencyBeforeAmount) {
+    paramsWithDefaults.prefix = `${currencyLabel} `
+    paramsWithDefaults.suffix = ''
+  } else if (shouldShowCurrencyLabel) {
+    paramsWithDefaults.suffix = ` ${currencyLabel}`
+  } else {
+    paramsWithDefaults.prefix = ''
+    paramsWithDefaults.suffix = ''
+  }
 
   if (
     typeof givenParams?.allowDecimal === 'undefined' &&

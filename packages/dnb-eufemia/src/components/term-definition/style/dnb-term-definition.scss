@@ -1,0 +1,27 @@
+/**
+ * Styles for TermDefinition
+ */
+
+.dnb-term-definition {
+  --inner-space: 0.5rem;
+
+  &__trigger {
+    &:not(:hover) {
+      color: inherit;
+    }
+
+    &:not(:focus-visible):not(:active):not(:hover):not(
+        .dnb-anchor--hover
+      ) {
+      text-decoration: underline;
+      text-decoration-style: dotted;
+      text-decoration-color: var(--anchor-color);
+      text-decoration-thickness: 2.5px;
+      text-underline-offset: 0.3125em;
+    }
+  }
+
+  .dnb-popover__title strong::first-letter {
+    text-transform: uppercase;
+  }
+}

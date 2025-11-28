@@ -1,16 +1,14 @@
 import React, { useContext } from 'react'
 import { fireEvent, render, waitFor, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+import { axeComponent, wait } from '../../../../../core/jest/jestSetup'
+import { makeUniqueId } from '../../../../../shared/component-helper'
 import { DataContext, Field, Form, Iterate, Wizard } from '../../..'
 import { BYTES_IN_A_MEGA_BYTE } from '../../../../../components/upload/UploadVerify'
 import { createMockFile } from '../../../../../components/upload/__tests__/testHelpers'
-import { axeComponent } from '../../../../../core/jest/jestSetup'
-
 import nbNOForms from '../../../constants/locales/nb-NO'
 import nbNOShared from '../../../../../shared/locales/nb-NO'
-import userEvent from '@testing-library/user-event'
 import { UploadFileNative, UploadValue } from '../Upload'
-import { wait } from '../../../../../core/jest/jestSetup'
-import { makeUniqueId } from '../../../../../shared/component-helper'
 
 const nbForms = nbNOForms['nb-NO']
 const nbShared = nbNOShared['nb-NO']
@@ -230,6 +228,80 @@ describe('Field.Upload', () => {
             },
           ],
         },
+        expect.anything()
+      )
+    })
+
+    it('should return undefined value when no files are present', async () => {
+      const onChangeContext = jest.fn()
+      const onChangeField = jest.fn()
+
+      render(
+        <Form.Handler onChange={onChangeContext}>
+          <Field.Upload path="/myFiles" onChange={onChangeField} />
+        </Form.Handler>
+      )
+
+      const getRootElement = () => document.querySelector('.dnb-upload')
+
+      const element = getRootElement()
+
+      const file1 = createMockFile('fileName-1.png', 100, 'image/png')
+
+      fireEvent.drop(element, {
+        dataTransfer: { files: [file1] },
+      })
+
+      expect(onChangeContext).toHaveBeenCalledTimes(1)
+      expect(onChangeContext).toHaveBeenLastCalledWith(
+        {
+          myFiles: [
+            {
+              file: file1,
+              exists: false,
+              id: expect.anything(),
+              name: 'fileName-1.png',
+            },
+          ],
+        },
+        expect.anything()
+      )
+      expect(onChangeField).toHaveBeenCalledTimes(1)
+      expect(onChangeField).toHaveBeenLastCalledWith(
+        [
+          {
+            file: file1,
+            exists: false,
+            id: expect.anything(),
+            name: 'fileName-1.png',
+          },
+        ],
+        expect.anything()
+      )
+
+      // delete the file
+      fireEvent.click(
+        document
+          .querySelectorAll('.dnb-upload__file-cell')[0]
+          .querySelector('button')
+      )
+
+      await waitFor(() => {
+        expect(
+          document.querySelectorAll('.dnb-upload__file-cell').length
+        ).toBe(0)
+      })
+
+      expect(onChangeContext).toHaveBeenCalledTimes(2)
+      expect(onChangeContext).toHaveBeenLastCalledWith(
+        {
+          myFiles: undefined,
+        },
+        expect.anything()
+      )
+      expect(onChangeField).toHaveBeenCalledTimes(2)
+      expect(onChangeField).toHaveBeenLastCalledWith(
+        undefined,
         expect.anything()
       )
     })
@@ -522,7 +594,7 @@ describe('Field.Upload', () => {
 
       expect(onChange).toHaveBeenCalledTimes(2)
       expect(onChange).toHaveBeenLastCalledWith(
-        { myFiles: [] },
+        { myFiles: undefined },
         expect.anything()
       )
 
@@ -782,7 +854,7 @@ describe('Field.Upload', () => {
       expect(onChange).toHaveBeenCalledTimes(2)
       expect(onChange).toHaveBeenLastCalledWith(
         {
-          myFiles: [],
+          myFiles: undefined,
         },
         expect.anything()
       )
@@ -974,29 +1046,27 @@ describe('Field.Upload', () => {
 
       const element = getRootElement()
 
-      await waitFor(() =>
-        fireEvent.drop(element, {
-          dataTransfer: {
-            files: [fileValid],
-          },
-        })
-      )
+      fireEvent.drop(element, {
+        dataTransfer: {
+          files: [fileValid],
+        },
+      })
 
       expect(
         document.querySelector('.dnb-form-status')
       ).not.toBeInTheDocument()
 
-      await waitFor(() =>
-        fireEvent.drop(element, {
-          dataTransfer: {
-            files: [fileInValid],
-          },
-        })
-      )
+      fireEvent.drop(element, {
+        dataTransfer: {
+          files: [fileInValid],
+        },
+      })
 
-      expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        'File name is too long'
-      )
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toHaveTextContent('File name is too long')
+      })
     })
 
     it('should handle undefined from fileHandler', async () => {
@@ -1012,17 +1082,16 @@ describe('Field.Upload', () => {
 
       const element = getRootElement()
 
-      await waitFor(() =>
-        fireEvent.drop(element, {
-          dataTransfer: {
-            files: [file],
-          },
-        })
-      )
-
-      expect(
-        document.querySelectorAll('.dnb-upload__file-cell').length
-      ).toBe(0)
+      fireEvent.drop(element, {
+        dataTransfer: {
+          files: [file],
+        },
+      })
+      await waitFor(() => {
+        expect(
+          document.querySelectorAll('.dnb-upload__file-cell').length
+        ).toBe(0)
+      })
     })
 
     it('should handle list of undefined files from fileHandler', async () => {
@@ -1038,17 +1107,16 @@ describe('Field.Upload', () => {
 
       const element = getRootElement()
 
-      await waitFor(() => {
-        fireEvent.drop(element, {
-          dataTransfer: {
-            files: [file],
-          },
-        })
+      fireEvent.drop(element, {
+        dataTransfer: {
+          files: [file],
+        },
       })
-
-      expect(
-        document.querySelectorAll('.dnb-upload__file-cell').length
-      ).toBe(0)
+      await waitFor(() => {
+        expect(
+          document.querySelectorAll('.dnb-upload__file-cell').length
+        ).toBe(0)
+      })
     })
 
     it('should handle file without file extension from fileHandler', async () => {
@@ -1244,12 +1312,13 @@ describe('Field.Upload', () => {
         document.querySelector('.dnb-progress-indicator')
       ).not.toBeInTheDocument()
 
+      fireEvent.drop(element, {
+        dataTransfer: {
+          files: [file],
+        },
+      })
+
       await waitFor(() => {
-        fireEvent.drop(element, {
-          dataTransfer: {
-            files: [file],
-          },
-        })
         expect(
           screen.getByText(nbShared.Upload.loadingText)
         ).toBeInTheDocument()
@@ -1318,12 +1387,13 @@ describe('Field.Upload', () => {
 
       const element = getRootElement()
 
+      fireEvent.drop(element, {
+        dataTransfer: {
+          files: [newFile1, newFile2],
+        },
+      })
+
       await waitFor(() => {
-        fireEvent.drop(element, {
-          dataTransfer: {
-            files: [newFile1, newFile2],
-          },
-        })
         expect(
           document.querySelectorAll('.dnb-upload__file-cell').length
         ).toBe(3)
@@ -1359,13 +1429,13 @@ describe('Field.Upload', () => {
 
       const element = getRootElement()
 
-      await waitFor(() => {
-        fireEvent.drop(element, {
-          dataTransfer: {
-            files: [newFile1],
-          },
-        })
+      fireEvent.drop(element, {
+        dataTransfer: {
+          files: [newFile1],
+        },
+      })
 
+      await waitFor(() => {
         expect(asyncFileHandlerFn).not.toHaveBeenCalled()
 
         expect(
@@ -1427,31 +1497,31 @@ describe('Field.Upload', () => {
 
       const element = getRootElement()
 
+      fireEvent.drop(element, {
+        dataTransfer: {
+          files: [files[0]],
+        },
+      })
+
+      fireEvent.drop(element, {
+        dataTransfer: {
+          files: [files[1], files[3], files[4]],
+        },
+      })
+
+      fireEvent.drop(element, {
+        dataTransfer: {
+          files: [files[2]],
+        },
+      })
+
+      fireEvent.drop(element, {
+        dataTransfer: {
+          files: [files[5]],
+        },
+      })
+
       await waitFor(() => {
-        fireEvent.drop(element, {
-          dataTransfer: {
-            files: [files[0]],
-          },
-        })
-
-        fireEvent.drop(element, {
-          dataTransfer: {
-            files: [files[1], files[3], files[4]],
-          },
-        })
-
-        fireEvent.drop(element, {
-          dataTransfer: {
-            files: [files[2]],
-          },
-        })
-
-        fireEvent.drop(element, {
-          dataTransfer: {
-            files: [files[5]],
-          },
-        })
-
         expect(
           document.querySelectorAll('.dnb-upload__file-cell').length
         ).toBe(6)
@@ -1582,12 +1652,13 @@ describe('Field.Upload', () => {
 
       const element = getRootElement()
 
+      fireEvent.drop(element, {
+        dataTransfer: {
+          files: [file],
+        },
+      })
+
       await waitFor(() => {
-        fireEvent.drop(element, {
-          dataTransfer: {
-            files: [file],
-          },
-        })
         expect(
           document.querySelectorAll('.dnb-upload__file-cell').length
         ).toBe(1)
@@ -1657,17 +1728,17 @@ describe('Field.Upload', () => {
 
     const element = getRootElement()
 
-    await waitFor(() =>
-      fireEvent.drop(element, {
-        dataTransfer: {
-          files: [file],
-        },
-      })
-    )
+    fireEvent.drop(element, {
+      dataTransfer: {
+        files: [file],
+      },
+    })
 
-    expect(
-      document.querySelectorAll('.dnb-upload__file-cell').length
-    ).toBe(1)
+    await waitFor(() => {
+      expect(
+        document.querySelectorAll('.dnb-upload__file-cell').length
+      ).toBe(1)
+    })
 
     let dataContext = null
 
@@ -1685,14 +1756,17 @@ describe('Field.Upload', () => {
       </Form.Handler>
     )
 
-    expect(dataContext.internalDataRef.current.myFiles).toEqual([
-      {
-        exists: false,
-        file: new File([], 'fileName.png'),
-        id: expect.any(String),
-        name: 'fileName.png',
-      },
-    ])
+    await waitFor(() => {
+      expect(dataContext?.internalDataRef?.current?.myFiles).toEqual([
+        {
+          exists: false,
+          file: new File([], 'fileName.png'),
+          id: expect.any(String),
+          name: 'fileName.png',
+        },
+      ])
+    })
+
     const [title] = Array.from(document.querySelectorAll('p'))
     expect(title).toHaveTextContent(nbShared.Upload.title)
     expect(

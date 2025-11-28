@@ -1,7 +1,7 @@
 import { inputProperties } from '../../../../components/input/InputDocs'
 import { PropertiesTableProps } from '../../../../shared/types'
 
-export const numberProperties: PropertiesTableProps = {
+export const NumberProperties: PropertiesTableProps = {
   decimalLimit: {
     doc: 'Max number of decimals. Values with more decimals will be rounded. Defaults to `12`.',
     type: 'number',

@@ -258,6 +258,7 @@ export default class Autocomplete extends React.PureComponent {
     on_change: PropTypes.func,
     on_select: PropTypes.func,
     on_state_update: PropTypes.func,
+    onClear: PropTypes.func,
   }
 
   static defaultProps = {
@@ -1824,6 +1825,7 @@ class AutocompleteInstance extends React.PureComponent {
       show_all, // eslint-disable-line
       aria_live_options, // eslint-disable-line
       disable_highlighting, // eslint-disable-line
+      onClear, // eslint-disable-line
 
       ...attributes
     } = props
@@ -2044,6 +2046,7 @@ class AutocompleteInstance extends React.PureComponent {
                     this.state.skipFocusDuringChange ? 'focus' : undefined
                   } // because of the short blur / focus during select
                   clear={isTrue(show_clear_button)}
+                  on_clear={onClear}
                   ref={this._refInput}
                   {...inputParams}
                   {...status_props}

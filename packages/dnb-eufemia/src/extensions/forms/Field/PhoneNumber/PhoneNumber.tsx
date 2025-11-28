@@ -277,7 +277,9 @@ function PhoneNumber(props: Props = {}) {
     onCountryCodeChange,
     onNumberChange,
     filterCountries,
-  } = useFieldProps(preparedProps)
+  } = useFieldProps(preparedProps, {
+    executeOnChangeRegardlessOfUnchangedValue: true,
+  })
 
   useEffect(() => {
     if (path || itemPath) {
@@ -344,8 +346,11 @@ function PhoneNumber(props: Props = {}) {
   const callOnChange = useCallback(
     (data: EventValues) => {
       const eventValues = prepareEventValues(data)
+
       handleChange(
-        joinValue([eventValues.countryCode, eventValues.phoneNumber]),
+        toEvent(
+          joinValue([eventValues.countryCode, eventValues.phoneNumber])
+        ),
         eventValues
       )
     },

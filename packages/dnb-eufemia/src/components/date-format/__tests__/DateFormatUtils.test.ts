@@ -1,6 +1,7 @@
 import {
   formatDate,
   formatDateRange,
+  getOsloDate,
   getRelativeTime,
   getRelativeTimeNextUpdateMs,
   parseDuration,
@@ -23,6 +24,22 @@ describe('DateFormatUtils', () => {
       const d = new Date('2024-10-06T00:00:00.000Z')
       // Default locale uses a short date style like day.month.year
       expect(formatDate(d)).toMatch(/\d{2}[./]\d{2}[./]\d{4}/)
+    })
+
+    it('formats dates using Intl.DateTimeFormat', () => {
+      const spy = jest.spyOn(Intl, 'DateTimeFormat')
+
+      formatDate('2024-10-05', {
+        locale: 'en-GB',
+        options: { dateStyle: 'short' },
+      })
+
+      expect(spy).toHaveBeenCalledWith(
+        'en-GB',
+        expect.objectContaining({ dateStyle: 'short' })
+      )
+
+      spy.mockRestore()
     })
   })
 
@@ -68,22 +85,84 @@ describe('DateFormatUtils', () => {
       })
       expect(res).toMatch(/in|minute|hour|second/)
     })
+
+    it('uses custom relativeTimeReference Date for relative time calculation', () => {
+      const referenceDate = new Date('2024-10-05T12:00:00.000Z')
+      const past = new Date('2024-10-05T11:00:00.000Z')
+      const res = getRelativeTime(
+        past,
+        'en',
+        {
+          numeric: 'always',
+          style: 'long',
+        },
+        undefined,
+        referenceDate
+      )
+      expect(res).toMatch(/hour|minute|second/)
+      expect(res).toMatch(/ago|since/)
+    })
+
+    it('uses custom relativeTimeReference function for relative time calculation', () => {
+      const referenceDate = new Date('2024-10-05T12:00:00.000Z')
+      const past = new Date('2024-10-05T11:00:00.000Z')
+      const relativeTimeReferenceFn = () => referenceDate
+      const res = getRelativeTime(
+        past,
+        'en',
+        {
+          numeric: 'always',
+          style: 'long',
+        },
+        undefined,
+        relativeTimeReferenceFn
+      )
+      expect(res).toMatch(/hour|minute|second/)
+      expect(res).toMatch(/ago|since/)
+    })
+
+    it('defaults to current time when relativeTimeReference is not provided', () => {
+      const past = new Date('2024-10-05T11:00:00.000Z')
+      const res = getRelativeTime(past, 'en', {
+        numeric: 'always',
+        style: 'long',
+      })
+      expect(typeof res).toBe('string')
+      expect(res).toMatch(/hour|minute|second/)
+    })
   })
 
   describe('getRelativeTimeNextUpdateMs', () => {
     it('returns minimum threshold for seconds granularity', () => {
-      const now = new Date('2024-10-05T12:00:00.000Z')
-      const date = new Date(now.getTime() + 5_500) // 5.5s in future
-      const ms = getRelativeTimeNextUpdateMs(date, now)
+      const relativeTimeReference = new Date('2024-10-05T12:00:00.000Z')
+      const date = new Date(relativeTimeReference.getTime() + 5_500) // 5.5s in future
+      const ms = getRelativeTimeNextUpdateMs(date, relativeTimeReference)
       expect(ms).toBeGreaterThanOrEqual(500)
       expect(ms).toBeLessThan(2000)
     })
 
     it('returns a sane delay for larger units', () => {
-      const now = new Date('2024-10-05T12:00:00.000Z')
-      const date = new Date(now.getTime() + 60 * 60 * 1000) // +1h
-      const ms = getRelativeTimeNextUpdateMs(date, now)
+      const relativeTimeReference = new Date('2024-10-05T12:00:00.000Z')
+      const date = new Date(
+        relativeTimeReference.getTime() + 60 * 60 * 1000
+      ) // +1h
+      const ms = getRelativeTimeNextUpdateMs(date, relativeTimeReference)
       expect(ms).toBeGreaterThan(1000)
+    })
+
+    it('accepts relativeTimeReference as a function', () => {
+      const relativeTimeReference = new Date('2024-10-05T12:00:00.000Z')
+      const relativeTimeReferenceFn = () => relativeTimeReference
+      const date = new Date(relativeTimeReference.getTime() + 5_500) // 5.5s in future
+      const ms = getRelativeTimeNextUpdateMs(date, relativeTimeReferenceFn)
+      expect(ms).toBeGreaterThanOrEqual(500)
+      expect(ms).toBeLessThan(2000)
+    })
+
+    it('defaults to current time when relativeTimeReference is not provided', () => {
+      const date = new Date(Date.now() + 5_500) // 5.5s in future
+      const ms = getRelativeTimeNextUpdateMs(date)
+      expect(ms).toBeGreaterThanOrEqual(500)
     })
   })
 
@@ -183,6 +262,34 @@ describe('DateFormatUtils', () => {
       expect(isValidDuration('P')).toBe(false)
       expect(isValidDuration('PT')).toBe(false)
       expect(isValidDuration('INVALID')).toBe(false)
+    })
+  })
+
+  describe('getOsloDate', () => {
+    let previousTZ: string | undefined
+
+    beforeEach(() => {
+      previousTZ = process.env.TZ
+    })
+
+    afterEach(() => {
+      process.env.TZ = previousTZ
+    })
+
+    it('returns Oslo date as UTC Date object with midnight when runtime is ahead of Oslo', () => {
+      process.env.TZ = 'Pacific/Auckland'
+      const date = new Date('2025-11-25T22:00:00.000Z') // 26th in Auckland, still 25th in Oslo
+      const result = getOsloDate(date)
+      expect(result).toBeInstanceOf(Date)
+      expect(result.toISOString()).toBe('2025-11-25T00:00:00.000Z')
+    })
+
+    it('returns Oslo date as UTC Date object with midnight when runtime is behind Oslo', () => {
+      process.env.TZ = 'America/New_York'
+      const date = new Date('2025-11-25T02:00:00.000Z') // 24th in NYC, 25th in Oslo
+      const result = getOsloDate(date)
+      expect(result).toBeInstanceOf(Date)
+      expect(result.toISOString()).toBe('2025-11-25T00:00:00.000Z')
     })
   })
 })

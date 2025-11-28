@@ -48,6 +48,7 @@ import Logo from './logo/Logo'
 import Modal from './modal/Modal'
 import NumberFormat from './number-format/NumberFormat'
 import Pagination from './pagination/Pagination'
+import Popover from './popover/Popover'
 import PortalRoot from './portal-root/PortalRoot'
 import ProgressIndicator from './progress-indicator/ProgressIndicator'
 import Radio from './radio/Radio'
@@ -67,6 +68,7 @@ import ToggleButton from './toggle-button/ToggleButton'
 import Tooltip from './tooltip/Tooltip'
 import Upload from './upload/Upload'
 import VisuallyHidden from './visually-hidden/VisuallyHidden'
+import TermDefinition from './term-definition/TermDefinition'
 
 // define / export all the available components
 export {
@@ -108,6 +110,7 @@ export {
   Modal,
   NumberFormat,
   Pagination,
+  Popover,
   PortalRoot,
   ProgressIndicator,
   Radio,
@@ -127,4 +130,5 @@ export {
   Tooltip,
   Upload,
   VisuallyHidden,
+  TermDefinition,
 }

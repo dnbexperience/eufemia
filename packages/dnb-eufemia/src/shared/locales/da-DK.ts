@@ -175,5 +175,15 @@ export default {
       deleteButton: 'Slet',
       fileListAriaLabel: 'uploadede filer',
     },
+    Popover: {
+      closeButtonTitle: 'Luk',
+      openTriggerTitle: 'Klik for at åbne',
+      closeTriggerTitle: 'Klik for at lukke',
+    },
+    TermDefinition: {
+      closeButtonTitle: 'Luk ordforklaring',
+      openTriggerTitle: 'Klik for at åbne ordforklaring',
+      closeTriggerTitle: 'Klik for at lukke ordforklaring',
+    },
   },
 }

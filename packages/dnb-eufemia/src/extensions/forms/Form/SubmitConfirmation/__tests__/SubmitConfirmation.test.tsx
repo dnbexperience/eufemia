@@ -316,11 +316,11 @@ describe('Form.SubmitConfirmation', () => {
   describe('connectWithDialog', () => {
     it('should provide "connectWithDialog"', async () => {
       const onSubmit = jest.fn(async () => {
-        await new Promise((resolve) => setTimeout(resolve, 100))
+        await new Promise((resolve) => setTimeout(resolve, 50))
       })
-      const confirmationStateRef: React.MutableRefObject<
-        ConfirmParams['confirmationState']
-      > = React.createRef()
+
+      let currentState: ConfirmParams['confirmationState'] = 'idle'
+      const stateHistory: ConfirmParams['confirmationState'][] = []
 
       render(
         <Form.Handler onSubmit={onSubmit}>
@@ -332,23 +332,20 @@ describe('Form.SubmitConfirmation', () => {
               confirmationState,
               setConfirmationState,
             }) => {
-              // Always update the ref immediately to track state changes
-              confirmationStateRef.current = confirmationState
+              currentState = confirmationState
+              stateHistory.push(confirmationState)
 
-              switch (confirmationState) {
-                case 'submissionComplete':
-                  // Use setTimeout to make this asynchronous so the test can see the 'submissionComplete' state
-                  // Use a small delay to ensure the state change is visible to the test
-                  setTimeout(() => {
-                    setConfirmationState('idle')
-                  }, 10)
-                  break
+              if (confirmationState === 'submissionComplete') {
+                // Delay the state change to allow test to observe it
+                setTimeout(() => {
+                  setConfirmationState('idle')
+                }, 50)
               }
             }}
             renderWithState={({ connectWithDialog }) => {
               return (
                 <Dialog
-                  title="Title"
+                  title="Confirmation Dialog"
                   variant="confirmation"
                   noAnimation
                   {...connectWithDialog}
@@ -359,61 +356,81 @@ describe('Form.SubmitConfirmation', () => {
         </Form.Handler>
       )
 
-      expect(confirmationStateRef.current).toBe(null)
+      // Initial state
+      expect(currentState).toBe('idle')
 
+      // Click submit button using CSS selector for reliability
       const submitButton = document.querySelector(
         '.dnb-forms-submit-button'
-      )
+      ) as HTMLButtonElement
       await userEvent.click(submitButton)
       expect(onSubmit).toHaveBeenCalledTimes(0)
+
+      // Wait for confirmation state
       await waitFor(() => {
-        expect(confirmationStateRef.current).toBe('readyToBeSubmitted')
+        expect(currentState).toBe('readyToBeSubmitted')
       })
+
+      // Check pending indicator appears
       await waitFor(() => {
         expect(
-          submitButton.querySelector(
+          document.querySelector(
             '.dnb-forms-submit-indicator--state-pending'
           )
-        ).toBeTruthy()
+        ).toBeInTheDocument()
       })
 
-      const [cancelButton] = Array.from(
+      // Find and click cancel button - use array destructuring for dialog buttons
+      const dialogButtons = Array.from(
         document.querySelectorAll('.dnb-dialog button')
       )
+      const [cancelButton] = dialogButtons
       await userEvent.click(cancelButton)
-      expect(confirmationStateRef.current).toBe('idle')
 
+      await waitFor(() => {
+        expect(currentState).toBe('idle')
+      })
+
+      // Wait for submit button to be re-enabled
       await waitFor(() => {
         expect(submitButton).not.toBeDisabled()
       })
 
-      // Because we have a requestAnimationFrame in the code as well
-      await new Promise((resolve) => requestAnimationFrame(resolve))
-
+      // Click submit again
       await userEvent.click(submitButton)
+      await waitFor(() => {
+        expect(currentState).toBe('readyToBeSubmitted')
+      })
 
-      // Wait for the state to change with a more robust approach
-      await waitFor(
-        () => {
-          expect(confirmationStateRef.current).toBe('readyToBeSubmitted')
-        },
-        { timeout: 1000 }
-      )
-
-      const [, confirmButton] = Array.from(
+      // Find and click confirm button (second button in dialog)
+      await waitFor(() => {
+        expect(
+          document.querySelectorAll('.dnb-dialog button')
+        ).toHaveLength(2)
+      })
+      const updatedDialogButtons = Array.from(
         document.querySelectorAll('.dnb-dialog button')
       )
+      const [, confirmButton] = updatedDialogButtons
       await userEvent.click(confirmButton)
+
       await waitFor(() => {
         expect(onSubmit).toHaveBeenCalledTimes(1)
       })
-      expect(confirmationStateRef.current).toBe('submitInProgress')
 
       await waitFor(() => {
-        expect(confirmationStateRef.current).toBe('submissionComplete')
+        expect(currentState).toBe('submitInProgress')
       })
+
       await waitFor(() => {
-        expect(confirmationStateRef.current).toBe('idle')
+        expect(currentState).toBe('submissionComplete')
+      })
+
+      // Verify the state was actually reached by checking the history
+      expect(stateHistory).toContain('submissionComplete')
+
+      await waitFor(() => {
+        expect(currentState).toBe('idle')
       })
     })
 

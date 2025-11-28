@@ -997,19 +997,19 @@ describe('NumberFormat component', () => {
         <Component value={''} currency currency_display="code" />
       )
       expect(document.querySelector(displaySelector).textContent).toBe(
-        '- NOK'
+        'NOK -'
       )
 
       rerender(<Component value={null} currency currency_display="code" />)
       expect(document.querySelector(displaySelector).textContent).toBe(
-        '- NOK'
+        'NOK -'
       )
 
       rerender(
         <Component value={undefined} currency currency_display="code" />
       )
       expect(document.querySelector(displaySelector).textContent).toBe(
-        '- NOK'
+        'NOK -'
       )
 
       rerender(
@@ -1018,7 +1018,7 @@ describe('NumberFormat component', () => {
         </Component>
       )
       expect(document.querySelector(displaySelector).textContent).toBe(
-        '- NOK'
+        'NOK -'
       )
 
       rerender(
@@ -1027,7 +1027,7 @@ describe('NumberFormat component', () => {
         </Component>
       )
       expect(document.querySelector(displaySelector).textContent).toBe(
-        '- NOK'
+        'NOK -'
       )
 
       rerender(
@@ -1036,7 +1036,7 @@ describe('NumberFormat component', () => {
         </Component>
       )
       expect(document.querySelector(displaySelector).textContent).toBe(
-        '- NOK'
+        'NOK -'
       )
     })
 

@@ -175,5 +175,15 @@ export default {
       deleteButton: 'Slett',
       fileListAriaLabel: 'opplastede filer',
     },
+    Popover: {
+      closeButtonTitle: 'Lukk',
+      openTriggerTitle: 'Klikk for å åpne',
+      closeTriggerTitle: 'Klikk for å lukke',
+    },
+    TermDefinition: {
+      closeButtonTitle: 'Lukk ordforklaring',
+      openTriggerTitle: 'Klikk for å åpne ordforklaring',
+      closeTriggerTitle: 'Klikk for å lukke ordforklaring',
+    },
   },
 }

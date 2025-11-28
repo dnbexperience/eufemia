@@ -35,7 +35,7 @@ export type Props = FieldProps<number, undefined | number> & {
   innerRef?: React.RefObject<HTMLInputElement>
   inputClassName?: string
   currency?: InputMaskedProps['as_currency']
-  currencyDisplay?: 'code' | 'symbol' | 'narrowSymbol' | 'name'
+  currencyDisplay?: 'code' | 'symbol' | 'narrowSymbol' | 'name' | false
   percent?: InputMaskedProps['as_percent']
   mask?: InputMaskedProps['mask']
   step?: number

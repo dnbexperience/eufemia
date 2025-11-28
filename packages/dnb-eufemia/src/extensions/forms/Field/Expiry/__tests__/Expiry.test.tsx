@@ -85,6 +85,43 @@ describe('Field.Expiry', () => {
     expect(onChange).toHaveBeenLastCalledWith('1235', expect.anything())
   })
 
+  it('should return month and year values as undefined when removing value', async () => {
+    const onChangeContext = jest.fn()
+    const onChange = jest.fn()
+
+    render(
+      <Form.Handler onChange={onChangeContext}>
+        <Field.Expiry path="/myField" onChange={onChange} />
+      </Form.Handler>
+    )
+
+    const input = document.querySelector('input')
+
+    act(() => {
+      input.focus()
+    })
+
+    const monthInput = document.querySelectorAll('input')[0]
+    const yearInput = document.querySelectorAll('input')[1]
+
+    await userEvent.keyboard('1235')
+    await userEvent.keyboard('{Backspace>5}')
+
+    expect(monthInput.value).toBe('mm')
+    expect(yearInput.value).toBe('åå')
+
+    expect(onChange).toHaveBeenLastCalledWith(undefined, {
+      year: undefined,
+      month: undefined,
+    })
+    expect(onChangeContext).toHaveBeenLastCalledWith(
+      {
+        myField: undefined,
+      },
+      expect.anything()
+    )
+  })
+
   it('should have autofill attributes', () => {
     render(<Field.Expiry />)
 
@@ -214,19 +251,20 @@ describe('Field.Expiry', () => {
     await userEvent.click(yearInput)
     await userEvent.keyboard('{Backspace>2}')
     expect(yearInput.value).toBe('åå')
+    expect(monthInput.value).toBe('mm')
 
     // Check that transformOut was called with empty values when both are removed
-    expect(transformOut).toHaveBeenLastCalledWith('', {
-      year: '',
-      month: '',
+    expect(transformOut).toHaveBeenLastCalledWith(undefined, {
+      year: undefined,
+      month: undefined,
     })
 
     // Check that onChange was called with the transformed data
     expect(onChange).toHaveBeenLastCalledWith(
       {
         myField: {
-          year: '',
-          month: '',
+          year: undefined,
+          month: undefined,
         },
       },
       expect.anything()
@@ -275,8 +313,9 @@ describe('Field.Expiry', () => {
     // Remove year value completely
     await userEvent.keyboard('{Backspace>2}')
     expect(yearInput.value).toBe('åå')
+    expect(monthInput.value).toBe('mm')
     expect(onChange).toHaveBeenCalledTimes(2)
-    expect(onChange).toHaveBeenLastCalledWith('', expect.anything())
+    expect(onChange).toHaveBeenLastCalledWith(undefined, expect.anything())
 
     // Blur to trigger validation
     await userEvent.click(document.body)

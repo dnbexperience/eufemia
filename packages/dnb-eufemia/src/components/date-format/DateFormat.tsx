@@ -35,6 +35,7 @@ type DateFormatProps = SpacingProps & {
   locale?: InternalLocale
   dateStyle?: Intl.DateTimeFormatOptions['dateStyle']
   relativeTime?: boolean
+  relativeTimeReference?: () => Date
   skeleton?: SkeletonShow
   className?: string
   id?: string
@@ -55,6 +56,7 @@ function DateFormat(props: DateFormatProps) {
     dateStyle = 'long',
     skeleton,
     relativeTime = false,
+    relativeTimeReference,
   } = props
 
   const locale = localeProp || context.locale
@@ -145,7 +147,13 @@ function DateFormat(props: DateFormatProps) {
   // Auto-updating relative time with minimal CPU: schedule updates only when the label changes next
   const [label, setLabel] = useState(() => {
     return relativeTime && date
-      ? getRelativeTime(date, locale, undefined, dateStyle)
+      ? getRelativeTime(
+          date,
+          locale,
+          undefined,
+          dateStyle,
+          relativeTimeReference
+        )
       : undefined
   })
 
@@ -157,21 +165,38 @@ function DateFormat(props: DateFormatProps) {
     let timeoutId: NodeJS.Timeout
 
     const scheduleNextUpdate = () => {
-      const delay = getRelativeTimeNextUpdateMs(date)
+      const delay = getRelativeTimeNextUpdateMs(
+        date,
+        relativeTimeReference
+      )
       timeoutId = setTimeout(() => {
-        const next = getRelativeTime(date, locale, undefined, dateStyle)
+        const next = getRelativeTime(
+          date,
+          locale,
+          undefined,
+          dateStyle,
+          relativeTimeReference
+        )
         setLabel((prev) => (prev !== next ? next : prev))
         scheduleNextUpdate()
       }, delay)
     }
 
-    setLabel(getRelativeTime(date, locale, undefined, dateStyle))
+    setLabel(
+      getRelativeTime(
+        date,
+        locale,
+        undefined,
+        dateStyle,
+        relativeTimeReference
+      )
+    )
     scheduleNextUpdate()
 
     return () => {
       clearTimeout(timeoutId)
     }
-  }, [date, locale, relativeTime, dateStyle])
+  }, [date, locale, relativeTime, dateStyle, relativeTimeReference])
 
   // Check if we have a valid date (not invalid Date object)
   const hasValidDate = date && !isNaN(date.getTime())

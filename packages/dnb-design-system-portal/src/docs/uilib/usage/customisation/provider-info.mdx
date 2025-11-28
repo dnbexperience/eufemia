@@ -20,7 +20,7 @@ render(
 )
 ```
 
-**NB:** If you use TypeScript, you may rather use the `value` property to spread the component properties along:
+You can also use the `value` property to define the component properties:
 
 ```jsx
 <Provider
@@ -31,6 +31,29 @@ render(
   ...
   <Button>Large button</Button>
 </Provider>
+```
+
+## Using useSharedContext hook
+
+If you want to pass custom values besides the built-in ones, the `useSharedContext` hook provides a type-safe way to access context values from the Provider.
+
+```tsx
+import Provider, { useSharedContext } from '@dnb/eufemia/shared'
+
+type MyData = { myValue: string }
+
+function MyComponent() {
+  const { myValue } = useSharedContext<MyData>()
+  return <>{myValue}</>
+}
+
+function App() {
+  return (
+    <Provider value={{ myValue: 'Hello, World!' }}>
+      <MyComponent />
+    </Provider>
+  )
+}
 ```
 
 ## Changing locale or currency

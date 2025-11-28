@@ -113,6 +113,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   localProps: Props & FieldPropsGeneric<Value, EmptyValue>,
   {
     executeOnChangeRegardlessOfError = false,
+    executeOnChangeRegardlessOfUnchangedValue = false,
     updateContextDataInSync = false,
     omitMultiplePathWarning = false,
     forceUpdateWhenContextDataIsSet = false,
@@ -1848,7 +1849,8 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const updateValue = useCallback(
     async (newValue: Value) => {
       const currentValue = valueRef.current
-      if (newValue === currentValue) {
+      const valueIsUnchanged = newValue === currentValue
+      if (!executeOnChangeRegardlessOfUnchangedValue && valueIsUnchanged) {
         // Avoid triggering a change if the value was not actually changed. This may be caused by rendering components
         // calling onChange even if the actual value did not change.
         return
@@ -1916,6 +1918,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       handleChangeIterateContext,
       makeIteratePath,
       handleError,
+      executeOnChangeRegardlessOfUnchangedValue,
     ]
   )
 
@@ -1945,8 +1948,9 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     ) => {
       const currentValue = valueRef.current
       const fromInput = transformers.current.fromInput(argFromInput)
+      const valueIsUnchanged = fromInput === currentValue
 
-      if (fromInput === currentValue) {
+      if (!executeOnChangeRegardlessOfUnchangedValue && valueIsUnchanged) {
         // Avoid triggering a change if the value was not actually changed. This may be caused by rendering components
         // calling onChange even if the actual value did not change.
         return

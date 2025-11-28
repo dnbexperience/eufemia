@@ -137,6 +137,9 @@ export function ParagraphDefault() {
             Text <sub>1</sub>
           </b>{' '}
         </Case>
+        <Case>
+          <abbr title="Bolig Sparing for Ungdom">BSU</abbr>
+        </Case>
       </P>
     </ComponentBox>
   )

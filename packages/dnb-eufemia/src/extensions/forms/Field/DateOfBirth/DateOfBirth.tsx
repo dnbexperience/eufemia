@@ -448,7 +448,7 @@ function joinValue(
 ) {
   const [year, month, day] = array
   if (!year || !month || !day) {
-    return ''
+    return undefined
   }
 
   return dateFormat

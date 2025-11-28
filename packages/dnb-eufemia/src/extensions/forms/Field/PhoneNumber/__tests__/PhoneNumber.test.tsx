@@ -1120,15 +1120,19 @@ describe('Field.PhoneNumber', () => {
   })
 
   it('should handle events correctly', async () => {
+    const formHandlerOnChange = jest.fn()
     const onChange = jest.fn()
     const onCountryCodeChange = jest.fn()
 
     render(
-      <Field.PhoneNumber
-        onChange={onChange}
-        onCountryCodeChange={onCountryCodeChange}
-        noAnimation
-      />
+      <Form.Handler onChange={formHandlerOnChange}>
+        <Field.PhoneNumber
+          path="/myField"
+          onChange={onChange}
+          onCountryCodeChange={onCountryCodeChange}
+          noAnimation
+        />
+      </Form.Handler>
     )
 
     const codeElement: HTMLInputElement = document.querySelector(
@@ -1149,6 +1153,7 @@ describe('Field.PhoneNumber', () => {
     fireEvent.click(firstItemElement())
 
     expect(onChange).toHaveBeenCalledTimes(1)
+    expect(formHandlerOnChange).toHaveBeenCalledTimes(1)
 
     expect(onCountryCodeChange).toHaveBeenLastCalledWith('+41')
     expect(codeElement.value).toEqual('CH (+41)')
@@ -1163,8 +1168,32 @@ describe('Field.PhoneNumber', () => {
         phoneNumber: '456',
       })
     )
+    expect(formHandlerOnChange).toHaveBeenLastCalledWith(
+      {
+        myField: '+41 456',
+      },
+      expect.anything()
+    )
     expect(codeElement.value).toEqual('CH (+41)')
     expect(phoneElement.value).toEqual('456​​​​​​​​​')
+
+    await userEvent.keyboard('{Backspace>3}')
+
+    expect(onChange).toHaveBeenLastCalledWith(
+      undefined,
+      expect.objectContaining({
+        countryCode: '+41',
+        phoneNumber: undefined,
+      })
+    )
+    expect(formHandlerOnChange).toHaveBeenLastCalledWith(
+      {
+        myField: undefined,
+      },
+      expect.anything()
+    )
+    expect(codeElement.value).toEqual('CH (+41)')
+    expect(phoneElement.value).toEqual('')
   })
 
   it('should support spacing props', () => {

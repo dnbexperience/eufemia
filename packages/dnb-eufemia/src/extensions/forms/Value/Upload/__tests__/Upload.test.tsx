@@ -80,19 +80,19 @@ describe('Value.Upload', () => {
 
     const element = document.querySelector('.dnb-upload')
 
-    await waitFor(() =>
-      fireEvent.drop(element, {
-        dataTransfer: {
-          files: [file],
-        },
-      })
-    )
+    fireEvent.drop(element, {
+      dataTransfer: {
+        files: [file],
+      },
+    })
 
-    expect(
-      document.querySelector(
-        '.dnb-forms-value-upload .dnb-forms-value-block__content'
-      )
-    ).toHaveTextContent('fileName.png')
+    await waitFor(() => {
+      expect(
+        document.querySelector(
+          '.dnb-forms-value-upload .dnb-forms-value-block__content'
+        )
+      ).toHaveTextContent('fileName.png')
+    })
 
     let dataContext = null
 

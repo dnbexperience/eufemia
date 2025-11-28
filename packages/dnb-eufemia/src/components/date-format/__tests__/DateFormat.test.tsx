@@ -657,6 +657,97 @@ describe('DateFormat', () => {
       expect(setTimeout).not.toHaveBeenCalled()
     })
 
+    describe('relativeTimeReference', () => {
+      it('should use custom relativeTimeReference function for relative time calculations', () => {
+        const referenceDate = new Date('2025-01-15T14:30:00Z')
+        const pastDate = new Date('2025-01-15T12:30:00Z') // 2 hours before reference
+
+        render(
+          <DateFormat
+            value={pastDate}
+            relativeTime
+            relativeTimeReference={() => referenceDate}
+          />
+        )
+
+        const dateFormat = document.querySelector('.dnb-date-format')
+        // Should show "2 hours ago" relative to the reference date
+        expect(dateFormat).toHaveTextContent(/2.*t|2.*timer|2.*hours/)
+      })
+
+      it('should update relative time when now function changes', () => {
+        const pastDate = new Date('2025-01-15T12:30:00Z')
+        const referenceDate1 = new Date('2025-01-15T14:30:00Z') // 2 hours after pastDate
+        const referenceDate2 = new Date('2025-01-15T13:30:00Z') // 1 hour after pastDate
+
+        const { rerender } = render(
+          <DateFormat
+            value={pastDate}
+            relativeTime
+            relativeTimeReference={() => referenceDate1}
+          />
+        )
+
+        let dateFormat = document.querySelector('.dnb-date-format')
+        expect(dateFormat).toHaveTextContent(/2.*t|2.*timer|2.*hours/)
+
+        rerender(
+          <DateFormat
+            value={pastDate}
+            relativeTime
+            relativeTimeReference={() => referenceDate2}
+          />
+        )
+
+        dateFormat = document.querySelector('.dnb-date-format')
+        expect(dateFormat).toHaveTextContent(/1.*t|1.*time|1.*hour/)
+      })
+
+      it('should use current time when relativeTimeReference prop is not provided', () => {
+        const pastDate = new Date(Date.now() - 2 * 60 * 60 * 1000) // 2 hours ago
+
+        render(<DateFormat value={pastDate} relativeTime />)
+
+        const dateFormat = document.querySelector('.dnb-date-format')
+        // Should show relative time based on current time
+        expect(dateFormat).toHaveTextContent(/siden|ago/)
+      })
+
+      it('should call relativeTimeReference function for each update calculation', () => {
+        const referenceDate = new Date('2025-01-15T14:30:00Z')
+        const pastDate = new Date('2025-01-15T12:30:00Z')
+        const relativeTimeReferenceFn = jest.fn(() => referenceDate)
+
+        render(
+          <DateFormat
+            value={pastDate}
+            relativeTime
+            relativeTimeReference={relativeTimeReferenceFn}
+          />
+        )
+
+        // The relativeTimeReference function should be called for initial render and updates
+        expect(relativeTimeReferenceFn).toHaveBeenCalled()
+      })
+
+      it('should handle future dates with custom now function', () => {
+        const referenceDate = new Date('2025-01-15T14:30:00Z')
+        const futureDate = new Date('2025-01-15T16:30:00Z') // 2 hours after reference
+
+        render(
+          <DateFormat
+            value={futureDate}
+            relativeTime
+            relativeTimeReference={() => referenceDate}
+          />
+        )
+
+        const dateFormat = document.querySelector('.dnb-date-format')
+        // Should show "in 2 hours" or similar
+        expect(dateFormat).toHaveTextContent(/om|fra nå|from now|in/)
+      })
+    })
+
     describe('spacing', () => {
       it('should support spacing props', () => {
         const pastDate = new Date('2025-01-15T13:30:00Z') // 1 hour before reference

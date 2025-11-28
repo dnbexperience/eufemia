@@ -22,12 +22,6 @@
     }
   }
 
-  &__container {
-    @include sharpDropShadow();
-    border-radius: 0.25rem;
-    background-color: var(--color-white);
-  }
-
   &__addon,
   &__calendar {
     // border
@@ -181,13 +175,6 @@
         background-color: inherit;
       }
     }
-  }
-
-  &__triangle::before {
-    border: none;
-    background-color: var(--color-white);
-
-    @include sharpDropShadow();
   }
 
   &__status--error:not(#{&}--opened)

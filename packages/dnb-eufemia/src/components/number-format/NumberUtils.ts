@@ -5,7 +5,12 @@
  *
  */
 
-import { LOCALE, CURRENCY, CURRENCY_DISPLAY } from '../../shared/defaults'
+import {
+  LOCALE,
+  CURRENCY,
+  CURRENCY_DISPLAY,
+  CURRENCY_FALLBACK_DISPLAY,
+} from '../../shared/defaults'
 import {
   warn,
   isTrue,
@@ -128,7 +133,7 @@ const ABSENT_VALUE_FORMAT = '–'
  * @property {string} currency_position - can be "before" or "after"
  * @property {string} omit_currency_sign - hides currency sign if true is given
  * @property {number} decimals - defines how many decimals should be added
- * @property {boolean} omit_rounding - @deprecated Use `rounding: "omit"` instead.
+ * @property {boolean} omit_rounding - deprecated Use `rounding: "omit"` instead.
  * @property {string} rounding - if `omit`, the decimal will NOT be rounded. If `half-even`, the value will be rounded to the nearest even number. If set to `half-up`, the fractional part is 0.5 or greater, the number is rounded up. If the fractional part is less than 0.5, the number is rounded down. Defaults to `half-up`.
  * @property {object} options - accepts all number.toLocaleString API options
  * @property {boolean} returnAria - if true, this function returns an object that includes an aria property with a special aria formatting
@@ -157,7 +162,7 @@ export const format = (
     options = null,
     returnAria = false,
     invalidAriaText = null,
-  } = {}
+  }: formatOptionParams = {}
 ) => {
   value = isAbsent(value) ? ABSENT_VALUE_FORMAT : value
 
@@ -1103,10 +1108,10 @@ export function getFallbackCurrencyDisplay(
 ) {
   // If currencyDisplay is not defined and locale is "no", use narrowSymbol
   if (!currencyDisplay && (!locale || /(no|nb|nn)$/i.test(locale))) {
-    currencyDisplay = 'narrowSymbol'
+    currencyDisplay = CURRENCY_DISPLAY
   }
 
-  return currencyDisplay || CURRENCY_DISPLAY // code, name, symbol
+  return currencyDisplay || CURRENCY_FALLBACK_DISPLAY // code, name, symbol
 }
 
 /**
