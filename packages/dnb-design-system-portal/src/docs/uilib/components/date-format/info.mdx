@@ -48,6 +48,10 @@ The following formats are supported as date values for conversion:
 - `dd/MM/yyyy`
 - `Date` object
 
+### Relative time reference
+
+When using `relativeTime`, you can provide a `now` prop (as a function) to define the reference point for relative time calculations. This is useful for testing or when you need a specific reference time. If not provided, the current time is used.
+
 ### `formatDate` helper function
 
 If you really need a formatted date string without rendering the component, you can import the utility directly:
