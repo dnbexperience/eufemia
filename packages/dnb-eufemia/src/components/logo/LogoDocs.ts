@@ -7,8 +7,8 @@ export const LogoProperties: PropertiesTableProps = {
     status: 'optional',
   },
   brand: {
-    doc: 'Define which brands logo to show. `ui` (DNB) or `sbanken`. Defaults to `ui`.',
-    type: ['"ui"', '"sbanken"'],
+    doc: 'Define which brands logo to show. Defaults to `dnb`.',
+    type: ['dnb', 'sbanken'],
     status: 'optional',
   },
   variant: {
