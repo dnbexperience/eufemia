@@ -22,10 +22,22 @@ export type TooltipProps = IncludeSnakeCase<{
   arrow?: TooltipArrow
   align?: TooltipAlign
   fixedPosition?: boolean
+  contentRef?: React.MutableRefObject<HTMLSpanElement>
+  /**
+   * Skip rendering the tooltip in a React Portal.
+   * When `true`, the tooltip renders inline in the DOM tree instead of being portaled to document.body.
+   * Useful for cases where you need the tooltip to be part of the same DOM hierarchy for styling or event handling.
+   * @default false
+   */
   skipPortal?: boolean
   noAnimation?: boolean
   showDelay?: number
   hideDelay: number
+  /**
+   * Optional className added to the Tooltip portal root element.
+   * Has effect only when not using skipPortal.
+   */
+  portalRootClass?: string
   targetSelector?: string
   targetElement?:
     | React.ReactNode
@@ -35,6 +47,16 @@ export type TooltipProps = IncludeSnakeCase<{
   className?: string
   children?: React.ReactNode
   style?: React.CSSProperties
+  /**
+   * Whether to omit the aria-describedby attribute.
+   */
+  omitDescribedBy?: boolean
+  /**
+   * Keep the tooltip portal mounted in the DOM even when closed.
+   * Useful for maintaining aria-describedby references for accessibility.
+   * @default true
+   */
+  keepInDOM?: boolean
 }>
 
 export type TooltipAllProps = TooltipProps &
