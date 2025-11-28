@@ -289,4 +289,9 @@ export const AutocompleteEvents = {
     type: 'function',
     status: 'optional',
   },
+  onClear: {
+    doc: 'Will be called on a clear button click. Returns `{ value, previousValue, event }`.',
+    type: 'function',
+    status: 'optional',
+  },
 } satisfies PropertiesTableProps

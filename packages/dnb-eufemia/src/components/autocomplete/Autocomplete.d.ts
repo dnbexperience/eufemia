@@ -40,6 +40,20 @@ type AutocompleteInputElement =
   | ((...args: any[]) => any)
   | React.ReactNode;
 type AutocompleteSearchInWordIndex = string | number;
+export type AutocompleteClearEvent = {
+  /**
+   * The new value after clearing (empty string).
+   */
+  value: string;
+  /**
+   * The previous value before clearing.
+   */
+  previousValue: string;
+  /**
+   * The original event that triggered the clear action.
+   */
+  event: React.SyntheticEvent | Event;
+};
 export interface AutocompleteProps {
   /**
    * If set to `async`, it prevents showing the "no options" message during typing / filtering. Defaults to `sync`.
@@ -220,6 +234,10 @@ export interface AutocompleteProps {
   on_blur?: (...args: any[]) => any;
   on_select?: (...args: any[]) => any;
   on_state_update?: (...args: any[]) => any;
+  /**
+   * Will be called on a clear button click. Returns `{ value, previousValue, event }`.
+   */
+  onClear?: (event: AutocompleteClearEvent) => void;
 }
 export type AutocompleteAllProps = AutocompleteProps &
   DrawerListProps &

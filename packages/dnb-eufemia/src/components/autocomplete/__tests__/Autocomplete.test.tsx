@@ -3258,6 +3258,43 @@ describe('Autocomplete component', () => {
     }
   })
 
+  it('should emit onClear event on clear button click', async () => {
+    const onClear = jest.fn()
+
+    render(
+      <Autocomplete
+        show_clear_button
+        data={mockData}
+        onClear={onClear}
+        {...mockProps}
+      />
+    )
+
+    const inputElement = document.querySelector(
+      '.dnb-input__input'
+    ) as HTMLInputElement
+    const clearElement = document.querySelector('.dnb-input__clear-button')
+
+    // Type some text
+    await userEvent.type(inputElement, 'test value')
+
+    expect(inputElement.value).toBe('test value')
+    expect(onClear).toHaveBeenCalledTimes(0)
+
+    // Click clear button
+    fireEvent.click(clearElement)
+
+    expect(inputElement.value).toBe('')
+    expect(onClear).toHaveBeenCalledTimes(1)
+    expect(onClear).toHaveBeenCalledWith(
+      expect.objectContaining({
+        value: '',
+        previousValue: 'test value',
+        event: expect.any(Object),
+      })
+    )
+  })
+
   it('should support "preventSelection"', async () => {
     render(<Autocomplete data={mockData} prevent_selection />)
 
@@ -3267,6 +3304,10 @@ describe('Autocomplete component', () => {
     expect(input).toHaveValue('aa')
 
     {
+      await waitFor(() => {
+        const options = document.querySelectorAll('[role="option"]')
+        expect(options.length).toBeGreaterThan(0)
+      })
       const options = document.querySelectorAll('[role="option"]')
       expect(options[0]).toHaveTextContent('AA c')
       expect(options[1]).toHaveTextContent('Vis alt')
