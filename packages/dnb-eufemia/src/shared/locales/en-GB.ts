@@ -182,5 +182,10 @@ export default {
       openTriggerTitle: 'Click to open',
       closeTriggerTitle: 'Click to close',
     },
+    TermDefinition: {
+      closeButtonTitle: 'Close definition',
+      openTriggerTitle: 'Click to open definition',
+      closeTriggerTitle: 'Click to close definition',
+    },
   } satisfies (typeof nb)['nb-NO'],
 }

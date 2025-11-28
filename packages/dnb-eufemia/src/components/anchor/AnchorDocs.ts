@@ -77,7 +77,7 @@ export const AnchorProperties: PropertiesTableProps = {
     status: 'optional',
   },
   '[Space](/uilib/layout/space/properties)': {
-    doc: 'Spacing properties like `top` or `bottom` are supported.',
+    doc: 'Spacing properties like `left` or `right` are supported.',
     type: ['string', 'object'],
     status: 'optional',
   },
