@@ -1031,7 +1031,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
                     props.direction === 'auto' ? 'bottom' : props.direction
                   }
                   onOpenChange={(isOpen) => !isOpen && hidePicker()}
-                  showCloseButton={false}
+                  hideCloseButton
                   hideOutline
                   preventClose={preventClose}
                   triggerOffset={0}
