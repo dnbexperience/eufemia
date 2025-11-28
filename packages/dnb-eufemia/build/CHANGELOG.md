@@ -3,6 +3,38 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.91.0](https://github.com/dnbexperience/eufemia/compare/v10.90.1...v10.91.0) (2025-11-28)
+
+
+### :memo: Documentation
+
+* **DatePicker:** add example how to define "today" highlighting ([#5983](https://github.com/dnbexperience/eufemia/issues/5983)) ([fac4567](https://github.com/dnbexperience/eufemia/commit/fac45674a8098021a04f46b3d2bccd9f9be3c74f)), closes [#5982](https://github.com/dnbexperience/eufemia/issues/5982)
+* **Form.clearData:** display in side menu ([#5997](https://github.com/dnbexperience/eufemia/issues/5997)) ([f83bf3a](https://github.com/dnbexperience/eufemia/commit/f83bf3a3fad334b986d5c7348b4ce0a1ac2a4966))
+
+
+### :bug: Bug Fixes
+
+* **Autocomplete:** add `onClear` event ([#6004](https://github.com/dnbexperience/eufemia/issues/6004)) ([6df5aad](https://github.com/dnbexperience/eufemia/commit/6df5aad3dec80d3fdb15c8fa5033c1f2ddbeebe1))
+* **Currency formatting:** place currency sign before value when `currencyDisplay` is `code` ([#6002](https://github.com/dnbexperience/eufemia/issues/6002)) ([9867ecb](https://github.com/dnbexperience/eufemia/commit/9867ecb69cd6a6ab8fea73ddb5b2f547478c3996))
+* **Field.DateOfBirth:** `onChange` should return `undefined` after removing input ([#5991](https://github.com/dnbexperience/eufemia/issues/5991)) ([75f01cd](https://github.com/dnbexperience/eufemia/commit/75f01cdf528ce3ba84389949bc8ac4b2134a389f))
+* **Field.Expiry:** `onChange` should return `undefined` after removing input ([#5992](https://github.com/dnbexperience/eufemia/issues/5992)) ([4d803e7](https://github.com/dnbexperience/eufemia/commit/4d803e7d98070030cdeff9df26133a388cafba7a))
+* **Field.PhoneNumber:** should set `undefined` in Form.Handler when phoneNumber is not set ([#5993](https://github.com/dnbexperience/eufemia/issues/5993)) ([e63fef0](https://github.com/dnbexperience/eufemia/commit/e63fef0f13d17284a8f380caedee75fb288ff9e9))
+* **Field.Upload:** `onChange` should return `undefined` after removing input ([#5998](https://github.com/dnbexperience/eufemia/issues/5998)) ([79ee68f](https://github.com/dnbexperience/eufemia/commit/79ee68f86835630292b1304ec690825c7cdede68))
+* **Logo:** ensure support of `ui` as the brand value ([#6005](https://github.com/dnbexperience/eufemia/issues/6005)) ([b3de26f](https://github.com/dnbexperience/eufemia/commit/b3de26f6e55342165c986d0de78fdf43beea3a35))
+
+
+### :sparkles: Features
+
+* **DateFormat:** add `getOsloDate` ([#5982](https://github.com/dnbexperience/eufemia/issues/5982)) ([f7205cb](https://github.com/dnbexperience/eufemia/commit/f7205cbb31fcb87d9cc2753d8c85194f78e2e32f))
+* **DateFormat:** add `relativeTimeReference` property to handle relative time reference ([#5971](https://github.com/dnbexperience/eufemia/issues/5971)) ([47dd1ec](https://github.com/dnbexperience/eufemia/commit/47dd1ec99d34218f177786007abe9acb2cb2ad1a))
+* **DatePicker:** auto align position if needed (implement Popover) ([#5969](https://github.com/dnbexperience/eufemia/issues/5969)) ([52022fd](https://github.com/dnbexperience/eufemia/commit/52022fd31f909724007c00001b3e1c7defa765b6))
+* **NumberFormat:** TypeScript improvements for spacing props ([#5955](https://github.com/dnbexperience/eufemia/issues/5955)) ([97734bb](https://github.com/dnbexperience/eufemia/commit/97734bbd08918ce19f2ff79641d4d12d6bae84fc))
+* **Paragraph:** add `abbr` example ([#5996](https://github.com/dnbexperience/eufemia/issues/5996)) ([b5b391a](https://github.com/dnbexperience/eufemia/commit/b5b391aea4157d0a5b7932842a86ea52d81919e7))
+* **Popover:** add new component (for internal use only) ([#5966](https://github.com/dnbexperience/eufemia/issues/5966)) ([11ed174](https://github.com/dnbexperience/eufemia/commit/11ed1748a12a80bef0300ba8595ab3ab293e61b9))
+* **TermDefinition:** add new component ([#5970](https://github.com/dnbexperience/eufemia/issues/5970)) ([1089136](https://github.com/dnbexperience/eufemia/commit/108913642fc0c622299ab1bcd6dc78c416a7e443))
+* **Tooltip:** implement Popover ([#5968](https://github.com/dnbexperience/eufemia/issues/5968)) ([bbe7e72](https://github.com/dnbexperience/eufemia/commit/bbe7e7281c4613c9edfaae4e753b69fc06a35a5c)), closes [#5966](https://github.com/dnbexperience/eufemia/issues/5966)
+* **useSharedContext:** add hook for easier typing and usage ([#5965](https://github.com/dnbexperience/eufemia/issues/5965)) ([1817ea6](https://github.com/dnbexperience/eufemia/commit/1817ea6aa935c41512b7d0a8c3a61669d658effe))
+
 ## [10.90.1](https://github.com/dnbexperience/eufemia/compare/v10.90.0...v10.90.1) (2025-11-25)
 
 
