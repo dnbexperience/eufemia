@@ -5,7 +5,12 @@
  *
  */
 
-import { LOCALE, CURRENCY, CURRENCY_DISPLAY } from '../../shared/defaults'
+import {
+  LOCALE,
+  CURRENCY,
+  CURRENCY_DISPLAY,
+  CURRENCY_FALLBACK_DISPLAY,
+} from '../../shared/defaults'
 import {
   warn,
   isTrue,
@@ -1103,10 +1108,10 @@ export function getFallbackCurrencyDisplay(
 ) {
   // If currencyDisplay is not defined and locale is "no", use narrowSymbol
   if (!currencyDisplay && (!locale || /(no|nb|nn)$/i.test(locale))) {
-    currencyDisplay = 'narrowSymbol'
+    currencyDisplay = CURRENCY_DISPLAY
   }
 
-  return currencyDisplay || CURRENCY_DISPLAY // code, name, symbol
+  return currencyDisplay || CURRENCY_FALLBACK_DISPLAY // code, name, symbol
 }
 
 /**

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Field } from '../../..'
+import { Field, Value } from '../../..'
 
 export default {
   title: 'Eufemia/Extensions/Forms/Currency',
@@ -7,10 +7,20 @@ export default {
 
 export function Currency() {
   return (
-    <Field.Currency
-      label="Amount"
-      currencyDisplay="name"
-      onChange={(value) => console.log('onChange', value)}
-    />
+    <>
+      <Field.Currency
+        label="Amount"
+        value={1234.56}
+        // currency="USD"
+        // currencyDisplay="code"
+      />
+      <Value.Currency
+        label="Amount"
+        value={1234.56}
+        showEmpty
+        // currency="USD"
+        // currencyDisplay="code"
+      />
+    </>
   )
 }

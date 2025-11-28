@@ -250,6 +250,39 @@ describe('Field.Currency', () => {
       expect(input).toHaveValue('1 234 svenske kroner')
     })
 
+    it('should place currency code before the amount', () => {
+      const { rerender } = render(
+        <Provider locale="en-GB">
+          <Field.Currency value={1234} currencyDisplay="code" />
+        </Provider>
+      )
+
+      const input = document.querySelector('input')
+
+      expect(input).toHaveValue('NOK 1,234')
+
+      rerender(
+        <Provider>
+          <Field.Currency
+            value={1234}
+            currency="EUR"
+            currencyDisplay="code"
+          />
+        </Provider>
+      )
+
+      expect(input).toHaveValue('EUR 1 234')
+    })
+
+    it('should hide the currency sign when currencyDisplay is false', () => {
+      render(<Field.Currency value={1234} currencyDisplay={false} />)
+
+      const input = document.querySelector('input')
+
+      expect(input).toHaveValue('1 234')
+      expect(input).not.toHaveValue('kr')
+    })
+
     it('should support dynamic suffix and cursor position correction', async () => {
       render(<Field.Currency currencyDisplay="name" />)
 
