@@ -582,7 +582,14 @@ function PopoverContainer(props: PopoverContainerProps) {
       }),
     }
 
+    const shouldOverrideHorizontal =
+      isVerticalPlacement &&
+      (arrowPosition === 'left' || arrowPosition === 'right')
+    const shouldOverrideVertical =
+      !isVerticalPlacement &&
+      (arrowPosition === 'top' || arrowPosition === 'bottom')
     const arrowOverride =
+      (shouldOverrideHorizontal || shouldOverrideVertical) &&
       arrowPositions[arrowPosition as keyof typeof arrowPositions]
     if (arrowOverride) {
       const overrides = arrowOverride()

@@ -3397,4 +3397,183 @@ describe('Popover', () => {
         originalOffsetHeight
       )
   })
+
+  it('does not adjust vertical offset when placement="right" and arrowPosition="left"', async () => {
+    // Mock ResizeObserver
+    global.ResizeObserver = class ResizeObserver {
+      observe() {
+        return null
+      }
+      unobserve() {
+        return null
+      }
+      disconnect() {
+        return null
+      }
+    }
+
+    // Mock getComputedStyle
+    const originalGetComputedStyle = window.getComputedStyle
+    window.getComputedStyle = jest.fn().mockReturnValue({
+      marginLeft: '0px',
+      marginRight: '0px',
+      marginTop: '0px',
+      marginBottom: '0px',
+    })
+
+    // Mock offsetParent for popover content
+    Object.defineProperty(HTMLElement.prototype, 'offsetParent', {
+      configurable: true,
+      get: function () {
+        if (this.classList.contains('dnb-popover__content')) {
+          return document.body
+        }
+        return null
+      },
+    })
+
+    // Mock getBoundingClientRect
+    const originalGetBoundingClientRect =
+      HTMLElement.prototype.getBoundingClientRect
+    jest
+      .spyOn(HTMLElement.prototype, 'getBoundingClientRect')
+      .mockImplementation(function (this: HTMLElement) {
+        if (
+          this.classList.contains('target-element') ||
+          this.classList.contains('dnb-popover__trigger')
+        ) {
+          return {
+            top: 100,
+            left: 100,
+            width: 100,
+            height: 100,
+            bottom: 200,
+            right: 200,
+            x: 100,
+            y: 100,
+            toJSON: () => null,
+          } as DOMRect
+        }
+        if (this.classList.contains('dnb-popover__content')) {
+          return {
+            top: 0,
+            left: 0,
+            width: 200,
+            height: 200,
+            bottom: 200,
+            right: 200,
+            x: 0,
+            y: 0,
+            toJSON: () => null,
+          } as DOMRect
+        }
+        return {
+          top: 0,
+          left: 0,
+          width: 1024,
+          height: 768,
+          bottom: 768,
+          right: 1024,
+          x: 0,
+          y: 0,
+          toJSON: () => null,
+        } as DOMRect
+      })
+
+    // Mock offsetWidth/offsetHeight
+    const originalOffsetWidth = Object.getOwnPropertyDescriptor(
+      HTMLElement.prototype,
+      'offsetWidth'
+    )
+    const originalOffsetHeight = Object.getOwnPropertyDescriptor(
+      HTMLElement.prototype,
+      'offsetHeight'
+    )
+
+    Object.defineProperty(HTMLElement.prototype, 'offsetWidth', {
+      configurable: true,
+      get: function () {
+        if (this.classList.contains('dnb-popover__content')) return 200
+        if (this.classList.contains('target-element')) return 100
+        return 0
+      },
+    })
+    Object.defineProperty(HTMLElement.prototype, 'offsetHeight', {
+      configurable: true,
+      get: function () {
+        if (this.classList.contains('dnb-popover__content')) return 200
+        if (this.classList.contains('target-element')) return 100
+        return 0
+      },
+    })
+
+    const { unmount: unmountDefault } = render(
+      <Popover
+        open={true}
+        placement="right"
+        trigger={<button className="target-element">Target</button>}
+        content="Popover Content"
+        noAnimation={false}
+        showDelay={0}
+        hideDelay={0}
+      />
+    )
+
+    // Wait for positioning effect
+    await act(async () => {
+      await new Promise((resolve) => setTimeout(resolve, 200))
+    })
+
+    const defaultPopover = document.querySelector(
+      '.dnb-popover'
+    ) as HTMLElement
+    expect(defaultPopover).toBeInTheDocument()
+    const defaultTop = parseFloat(defaultPopover.style.top)
+    unmountDefault()
+
+    const { unmount: unmountLeft } = render(
+      <Popover
+        open={true}
+        placement="right"
+        arrowPosition="left"
+        trigger={<button className="target-element">Target</button>}
+        content="Popover Content"
+        noAnimation={false}
+        showDelay={0}
+        hideDelay={0}
+      />
+    )
+
+    await act(async () => {
+      await new Promise((resolve) => setTimeout(resolve, 200))
+    })
+
+    const leftPopover = document.querySelector(
+      '.dnb-popover'
+    ) as HTMLElement
+    expect(leftPopover).toBeInTheDocument()
+    const top = parseFloat(leftPopover.style.top)
+
+    // Expect the arrow position override to leave the vertical offset unchanged
+    expect(top).toBe(defaultTop)
+
+    unmountLeft()
+
+    // Cleanup
+    window.getComputedStyle = originalGetComputedStyle
+    HTMLElement.prototype.getBoundingClientRect =
+      originalGetBoundingClientRect
+    if (originalOffsetWidth)
+      Object.defineProperty(
+        HTMLElement.prototype,
+        'offsetWidth',
+        originalOffsetWidth
+      )
+    if (originalOffsetHeight)
+      Object.defineProperty(
+        HTMLElement.prototype,
+        'offsetHeight',
+        originalOffsetHeight
+      )
+  })
 })

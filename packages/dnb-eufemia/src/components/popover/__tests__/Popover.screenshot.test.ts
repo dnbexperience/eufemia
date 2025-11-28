@@ -249,4 +249,43 @@ describe.each(['ui'])('Popover alignment for %s', (themeName) => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
+  it('have to match placement right and arrow left', async () => {
+    const screenshot = await makeScreenshot({
+      style: {
+        'padding-right': '2rem',
+      },
+      simulate: 'click',
+      simulateSelector:
+        '[data-visual-test="popover-placement-right-arrow-left"] button',
+      selector: '[data-visual-test="popover-placement-right-arrow-left"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match placement left and arrow right', async () => {
+    const screenshot = await makeScreenshot({
+      style: {
+        'padding-left': '2rem',
+      },
+      simulate: 'click',
+      simulateSelector:
+        '[data-visual-test="popover-placement-left-arrow-right"] button',
+      selector: '[data-visual-test="popover-placement-left-arrow-right"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match placement left and arrow top', async () => {
+    const screenshot = await makeScreenshot({
+      style: {
+        'padding-left': '2rem',
+      },
+      simulate: 'click',
+      simulateSelector:
+        '[data-visual-test="popover-placement-left-arrow-top"] button',
+      selector: '[data-visual-test="popover-placement-left-arrow-top"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })

@@ -54,7 +54,7 @@ export function PopoverExampleWithoutCloseButton() {
 
 const Box = styled.div`
   display: inline-flex;
-  margin: 10rem 20rem;
+  margin: 10rem 25rem;
   background-color: blue;
 `
 
@@ -423,6 +423,72 @@ export function PopoverExamplePlacementLeftArrowBottom() {
           )}
         >
           Placement left & arrow bottom
+        </Popover>
+      </div>
+    </Box>
+  )
+}
+
+export function PopoverExamplePlacementRightArrowLeft() {
+  return (
+    <Box>
+      <div data-visual-test="popover-placement-right-arrow-left">
+        <Popover
+          placement="right"
+          arrowPosition="left"
+          trigger={({ ref, ...triggerProps }) => (
+            <Button
+              text="Placement right & arrow left"
+              innerRef={ref}
+              {...triggerProps}
+            />
+          )}
+        >
+          Placement right & arrow left
+        </Popover>
+      </div>
+    </Box>
+  )
+}
+
+export function PopoverExamplePlacementLeftArrowRight() {
+  return (
+    <Box>
+      <div data-visual-test="popover-placement-left-arrow-right">
+        <Popover
+          placement="left"
+          arrowPosition="right"
+          trigger={({ ref, ...triggerProps }) => (
+            <Button
+              text="Placement left & arrow right"
+              innerRef={ref}
+              {...triggerProps}
+            />
+          )}
+        >
+          Placement left & arrow right
+        </Popover>
+      </div>
+    </Box>
+  )
+}
+
+export function PopoverExamplePlacementLeftArrowTop() {
+  return (
+    <Box>
+      <div data-visual-test="popover-placement-left-arrow-top">
+        <Popover
+          placement="left"
+          arrowPosition="top"
+          trigger={({ ref, ...triggerProps }) => (
+            <Button
+              text="Placement left & arrow top"
+              innerRef={ref}
+              {...triggerProps}
+            />
+          )}
+        >
+          Placement left & arrow top
         </Popover>
       </div>
     </Box>
