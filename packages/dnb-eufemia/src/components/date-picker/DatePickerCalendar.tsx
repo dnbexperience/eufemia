@@ -84,7 +84,6 @@ export type DatePickerCalendarProps = Omit<
   hideDays?: boolean
   onlyMonth?: boolean
   hideNextMonthWeek?: boolean
-  noAutoFocus?: boolean
   onSelect?: (
     event: DatePickerChangeEvent<
       | React.MouseEvent<HTMLSpanElement>
@@ -125,7 +124,6 @@ const defaultProps: DatePickerCalendarProps = {
   hideDays: false,
   onlyMonth: false,
   hideNextMonthWeek: false,
-  noAutoFocus: false,
   rtl: false,
   resetDate: true,
 }
@@ -167,7 +165,6 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
     onSelect,
     onKeyDown,
     resetDate,
-    noAutoFocus,
     hideNextMonthWeek,
     onlyMonth,
   } = props
@@ -175,14 +172,6 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
   const tableRef = useRef<React.ElementRef<'table'>>()
   const days = useRef<Record<string, Array<CalendarDay>>>({})
   const cache = useRef<Record<string, CalendarDay[][]>>({})
-
-  useEffect(() => {
-    if (!noAutoFocus && nr === 0) {
-      if (tableRef.current) {
-        tableRef.current.focus({ preventScroll: true })
-      }
-    }
-  }, [noAutoFocus, nr])
 
   // Store the initial selected date on calendar render, to be used for `onCancel` in DatePickerFooter
   useEffect(() => {

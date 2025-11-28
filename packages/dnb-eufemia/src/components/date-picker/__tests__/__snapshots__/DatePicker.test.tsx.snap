@@ -3865,53 +3865,7 @@ button .dnb-form-status__text {
   background-color: var(--color-white);
 }
 .dnb-date-picker__container {
-  position: absolute;
-  display: block;
-  z-index: 3;
-  left: -1rem;
-  top: var(--date-picker-input-height);
-}
-.dnb-date-picker__container--small {
-  top: 1.5rem;
-}
-.dnb-date-picker__container--medium {
-  top: 2.5rem;
-}
-.dnb-date-picker__container--large {
-  top: 3rem;
-}
-.dnb-date-picker__container--show-input {
-  left: 0;
-}
-.dnb-date-picker__container--right {
-  left: auto;
-  right: -1rem;
-}
-.dnb-date-picker__container--show-input.dnb-date-picker__container--right {
-  left: auto;
-  right: 0;
-}
-.dnb-date-picker__container--opened {
-  z-index: 100;
-}
-.dnb-date-picker__container--opened:not(.dnb-date-picker__container--opened--no-animation) {
-  animation: date-picker-slide-down 200ms ease-out 1 forwards;
-}
-html[data-visual-test] .dnb-date-picker__container--opened, .dnb-date-picker__container--opened--no-animation {
-  animation: date-picker-slide-down 1ms ease-out 1 forwards;
-}
-.dnb-date-picker__container--hidden {
-  display: none;
-}
-.dnb-date-picker__container--closed:not(.dnb-date-picker__container--closed--no-animation) {
-  animation: date-picker-slide-up 150ms ease-out 1 forwards;
-}
-html[data-visual-test] .dnb-date-picker__container--closed, .dnb-date-picker__container--closed--no-animation {
-  animation: date-picker-slide-up 1ms ease-out 1 forwards;
-}
-.dnb-date-picker__container--right .dnb-date-picker__triangle {
-  left: auto;
-  right: 0;
+  width: min-content;
 }
 .dnb-date-picker__container table {
   position: relative;
@@ -4040,8 +3994,6 @@ html[data-whatinput=keyboard] .dnb-date-picker__container table.dnb-no-focus:foc
 .dnb-date-picker__views {
   display: flex;
   user-select: none;
-  /* stylelint-disable-next-line */
-  -webkit-user-select: none;
 }
 @media screen and (max-width: 60em) {
   .dnb-date-picker__views {
@@ -4062,6 +4014,7 @@ html[data-whatinput=keyboard] .dnb-date-picker__container table.dnb-no-focus:foc
 .dnb-date-picker__header {
   min-height: 2.5rem;
   line-height: var(--line-height-basis);
+  user-select: text;
 }
 .dnb-date-picker__addon, .dnb-date-picker__header {
   position: relative;
@@ -4246,9 +4199,7 @@ html[data-whatinput=keyboard] .dnb-date-picker__container table.dnb-no-focus:foc
   --date-picker-input-height: 2rem;
   --date-picker-day-width: 2rem;
   --date-picker-day-horizontal-spacing: 4px;
-  position: absolute;
-  left: 0;
-  z-index: calc(var(--modal-z-index) + 10);
+  --popover-z-index: calc(var(--modal-z-index) + 10);
   line-height: var(--date-picker-input-height);
 }
 
@@ -4289,11 +4240,6 @@ exports[`DatePicker scss have to match default theme snapshot 1`] = `
 }
 .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-date-picker__input--highlight:not([disabled]) ~ .dnb-date-picker--separator {
   color: var(--color-black);
-}
-.dnb-date-picker__container {
-  box-shadow: var(--shadow-sharp);
-  border-radius: 0.25rem;
-  background-color: var(--color-white);
 }
 .dnb-date-picker__addon::after, .dnb-date-picker__calendar::after {
   background-color: var(--color-black-8);
@@ -4387,11 +4333,6 @@ html:not([data-whatintent=touch]) .dnb-date-picker__day--inactive .dnb-button[di
 }
 .dnb-date-picker--opened .dnb-input .dnb-input__submit-button__button.dnb-button--secondary::after, .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-form-label:hover ~ .dnb-date-picker__inner .dnb-input:not([data-input-state=disabled]) .dnb-input__submit-button__button.dnb-button--secondary::after {
   background-color: inherit;
-}
-.dnb-date-picker__triangle::before {
-  border: none;
-  background-color: var(--color-white);
-  box-shadow: var(--shadow-sharp);
 }
 .dnb-date-picker__status--error:not(.dnb-date-picker--opened) .dnb-form-label:hover ~ .dnb-date-picker__inner .dnb-input:not([data-input-state=disabled]) .dnb-input__shell {
   --border-color: var(--color-fire-red);

@@ -3415,4 +3415,74 @@ describe('Popover', () => {
 
     cleanup()
   })
+
+  it('prefers the vertical placement with more visible viewport space when both overflow', async () => {
+    const cleanup = setupPopoverPositionMocks({
+      offsetHeight: (element) => {
+        if (
+          element.classList.contains('dnb-popover__content') ||
+          element.classList.contains('dnb-popover')
+        ) {
+          return 120
+        }
+        if (element.classList.contains('target-element')) {
+          return 40
+        }
+        return defaultOffsetHeight(element)
+      },
+      offsetWidth: (element) => {
+        if (
+          element.classList.contains('dnb-popover__content') ||
+          element.classList.contains('dnb-popover')
+        ) {
+          return 220
+        }
+        if (element.classList.contains('target-element')) {
+          return 100
+        }
+        return defaultOffsetWidth(element)
+      },
+    })
+
+    const targetElement = document.createElement('div')
+    targetElement.className = 'target-element'
+    document.body.appendChild(targetElement)
+
+    Object.defineProperty(targetElement, 'getBoundingClientRect', {
+      configurable: true,
+      value: () =>
+        createRect({
+          left: 50,
+          top: 130,
+          width: 100,
+          height: 40,
+        }),
+    })
+
+    Object.defineProperty(window, 'innerHeight', {
+      configurable: true,
+      value: 250,
+    })
+
+    render(
+      <Popover
+        open
+        noAnimation
+        placement="bottom"
+        targetElement={targetElement}
+      >
+        {contentText}
+      </Popover>
+    )
+
+    await waitFor(() => {
+      const popover = document.querySelector('.dnb-popover') as HTMLElement
+      expect(popover).toBeInTheDocument()
+
+      const top = parseFloat(popover.style.top || '0')
+      expect(top).toBeLessThan(80)
+    })
+
+    cleanup()
+  })
 })

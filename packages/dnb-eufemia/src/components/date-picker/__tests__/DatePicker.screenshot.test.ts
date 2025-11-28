@@ -9,7 +9,9 @@ import {
 } from '../../../core/jest/jestSetupScreenshots'
 
 describe('DatePicker', () => {
-  setupPageScreenshot({ url: '/uilib/components/date-picker/demos' })
+  setupPageScreenshot({
+    url: '/uilib/components/date-picker/visual-tests',
+  })
 
   it('have to match the input fields', async () => {
     const screenshot = await makeScreenshot({
@@ -21,9 +23,6 @@ describe('DatePicker', () => {
 
   it('have to match the date-picker with input in error state', async () => {
     const screenshot = await makeScreenshot({
-      style: {
-        width: '400px', // make sure our input gets an explicit width, because of mac/linux rendering differences
-      },
       selector:
         '[data-visual-test="date-picker-input-error"] .dnb-date-picker__inner',
     })
@@ -48,7 +47,7 @@ describe('DatePicker', () => {
     const screenshot = await makeScreenshot({
       selector:
         '[data-visual-test="date-picker-calendar"] .dnb-date-picker',
-      waitBeforeSimulate: 200,
+      addWrapper: false,
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -87,6 +86,7 @@ describe('DatePicker', () => {
   it('have to match calendar view when aligning picker right', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="date-picker-align-picker-right"]',
+      addWrapper: false,
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -95,6 +95,7 @@ describe('DatePicker', () => {
     const screenshot = await makeScreenshot({
       selector:
         '[data-visual-test="date-picker-align-picker-right-with-input"]',
+      addWrapper: false,
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -102,6 +103,7 @@ describe('DatePicker', () => {
   it('have to match calendar view with year navigation', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="date-picker-year-navigation"]',
+      addWrapper: false,
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -109,6 +111,7 @@ describe('DatePicker', () => {
   it('have to match month only calendar', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="date-picker-only-month"]',
+      addWrapper: false,
     })
     expect(screenshot).toMatchImageSnapshot()
   })

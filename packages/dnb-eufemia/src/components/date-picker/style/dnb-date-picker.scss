@@ -5,31 +5,6 @@
 
 @import '../../../style/core/utilities.scss';
 
-@mixin openDatePicker($state: 'animation') {
-  z-index: 100; // make sure we are over e.g. switch
-
-  &:not(#{&}--no-animation) {
-    animation: date-picker-slide-down 200ms ease-out 1 forwards;
-  }
-  html[data-visual-test] &,
-  &--no-animation {
-    animation: date-picker-slide-down 1ms ease-out 1 forwards;
-  }
-}
-@mixin closeDatePicker($state: 'animation') {
-  &:not(#{&}--no-animation) {
-    animation: date-picker-slide-up 150ms ease-out 1 forwards;
-  }
-  html[data-visual-test] &,
-  &--no-animation {
-    animation: date-picker-slide-up 1ms ease-out 1 forwards;
-  }
-}
-
-@mixin datePickerClosed() {
-  display: none;
-}
-
 .dnb-date-picker {
   --date-picker-input-height: 2rem;
   --date-picker-day-width: 2rem;
@@ -98,51 +73,7 @@
   }
 
   &__container {
-    position: absolute;
-    display: block;
-    z-index: 3;
-    left: -1rem;
-    top: var(--date-picker-input-height);
-
-    &--small {
-      top: 1.5rem; // --input-height--small;
-    }
-    &--medium {
-      top: 2.5rem; // --input-height--medium;
-    }
-    &--large {
-      top: 3rem; // --input-height--large;
-    }
-
-    &--show-input {
-      left: 0;
-    }
-
-    // alignment
-    &--right {
-      left: auto;
-      right: -1rem;
-    }
-    &--show-input#{&}--right {
-      left: auto;
-      right: 0;
-    }
-
-    &--opened {
-      @include openDatePicker();
-    }
-    &--hidden {
-      @include datePickerClosed();
-    }
-
-    &--closed {
-      @include closeDatePicker();
-    }
-
-    &--right .dnb-date-picker__triangle {
-      left: auto;
-      right: 0;
-    }
+    width: min-content;
 
     table {
       position: relative;
@@ -278,9 +209,6 @@
     display: flex;
     user-select: none;
 
-    /* stylelint-disable-next-line */
-    -webkit-user-select: none; // Safari / Touch fix
-
     // Wrap already on "medium", because "small" is too narrow in range mode
     @include allBelow(medium) {
       flex-direction: column;
@@ -304,6 +232,7 @@
   &__header {
     min-height: 2.5rem;
     line-height: var(--line-height-basis);
+    user-select: text;
   }
 
   &__addon,
@@ -522,10 +451,8 @@
     --date-picker-day-width: 2rem;
     --date-picker-day-horizontal-spacing: 4px;
 
-    position: absolute;
-    left: 0;
     // Over modal, but below tooltip
-    z-index: calc(var(--modal-z-index) + 10);
+    --popover-z-index: calc(var(--modal-z-index) + 10);
 
     line-height: var(--date-picker-input-height);
   }

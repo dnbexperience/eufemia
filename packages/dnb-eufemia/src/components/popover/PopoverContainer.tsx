@@ -540,15 +540,41 @@ function PopoverContainer(props: PopoverContainerProps) {
         placementKey = 'top'
         nextLeft = topPlacement.left
         nextTop = topPlacement.top
-      } else if (placementKey === 'top' && !fitsTop) {
-        if (fitsBottom) {
+      } else if (placementKey === 'top' && !fitsTop && fitsBottom) {
+        placementKey = 'bottom'
+        nextLeft = bottomPlacement.left
+        nextTop = bottomPlacement.top
+      } else if (!fitsTop && !fitsBottom) {
+        // If neither fits in the viewport, we pick the one with more visible area.
+        // However, we must ensure that 'top' placement doesn't go off the top of the document (negative coordinate),
+        // as that content would be unreachable.
+        const topInvalid = topPlacement.top < 0
+
+        if (topInvalid) {
           placementKey = 'bottom'
           nextLeft = bottomPlacement.left
           nextTop = bottomPlacement.top
         } else {
-          placementKey = 'bottom'
-          nextLeft = bottomPlacement.left
-          nextTop = bottomPlacement.top
+          const getVisibleHeight = (y: number) => {
+            const top = y
+            const bottom = y + elementHeight
+            const visibleTop = Math.max(top, viewportTopEdge)
+            const visibleBottom = Math.min(bottom, viewportBottomEdge)
+            return Math.max(0, visibleBottom - visibleTop)
+          }
+
+          const topVisible = getVisibleHeight(topPlacement.top)
+          const bottomVisible = getVisibleHeight(bottomPlacement.top)
+
+          if (topVisible > bottomVisible) {
+            placementKey = 'top'
+            nextLeft = topPlacement.left
+            nextTop = topPlacement.top
+          } else {
+            placementKey = 'bottom'
+            nextLeft = bottomPlacement.left
+            nextTop = bottomPlacement.top
+          }
         }
       }
     }
