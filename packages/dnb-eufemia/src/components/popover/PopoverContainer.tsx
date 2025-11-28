@@ -57,7 +57,7 @@ function PopoverContainer(props: PopoverContainerProps) {
     active,
     showDelay = 0,
     attributes,
-    arrowPosition,
+    arrowPosition = 'center',
     placement = 'bottom',
     alignOnTarget,
     horizontalOffset = 0,
@@ -825,7 +825,7 @@ function PopoverContainer(props: PopoverContainerProps) {
       )}
       style={{ ...style, ...attributes?.style }}
     >
-      {arrowPosition && !hideArrow && (
+      {!hideArrow && (
         <span
           className={classnames(
             baseClassNames.map((base) => `${base}__arrow`),

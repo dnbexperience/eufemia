@@ -45,6 +45,17 @@ export const PopoverProperties: PropertiesTableProps = {
     type: 'number',
     status: 'optional',
   },
+  horizontalOffset: {
+    doc: 'Horizontal offset in pixels to adjust the popover placement. Positive values move the popover to the right, negative values move it to the left. Useful for fine-tuning alignment when the default placement needs adjustment.',
+    type: 'number',
+    defaultValue: '0',
+    status: 'optional',
+  },
+  arrowEdgeOffset: {
+    doc: 'Offset in pixels from the edge when the arrow is positioned at the edge. When set, this value replaces the default edge spacing (8px) and arrow boundary (8px). Useful for components like Tooltip that need the arrow closer to the edge.',
+    type: 'number',
+    status: 'optional',
+  },
   openInitially: {
     doc: 'Whether the popover should be open by default when uncontrolled.',
     type: 'boolean',
@@ -57,23 +68,25 @@ export const PopoverProperties: PropertiesTableProps = {
   },
   placement: {
     doc: 'Preferred placement of the popover relative to the trigger.',
-    type: "'top' | 'right' | 'bottom' | 'left'",
+    type: ['top', 'right', 'bottom', 'left'],
+    defaultValue: 'bottom',
     status: 'optional',
   },
   alignOnTarget: {
-    doc: 'Align the popover body relative to the trigger when positioned vertically.',
-    type: "'left' | 'center' | 'right' | null",
-    status: 'optional',
-  },
-  horizontalOffset: {
-    doc: 'Horizontal offset in pixels to adjust the popover placement. Positive values move the popover to the right, negative values move it to the left. Useful for fine-tuning alignment when the default placement needs adjustment.',
-    type: 'number',
-    defaultValue: '0',
+    doc: 'Adjust horizontal alignment of the popover body when `placement` is `top`/`bottom`; ignored for other placements.',
+    type: ['left', 'center', 'right', 'null'],
+    defaultValue: 'center',
     status: 'optional',
   },
   arrowPosition: {
-    doc: 'Choose arrow alignment or hide it entirely by passing `null`.',
-    type: ['null', "'center' | 'top' | 'right' | 'bottom' | 'left'"],
+    doc: 'Align the arrow along the axis of the selected `placement` (e.g., left/right for `placement="right"`).',
+    type: ['center', 'top', 'right', 'bottom', 'left'],
+    defaultValue: 'center',
+    status: 'optional',
+  },
+  arrowPositionSelector: {
+    doc: 'CSS selector that points to the element the arrow should align with. When the popover points vertically it aligns horizontally, and vice versa for horizontal placements.',
+    type: 'string',
     status: 'optional',
   },
   hideArrow: {
@@ -82,11 +95,7 @@ export const PopoverProperties: PropertiesTableProps = {
     defaultValue: 'false',
     status: 'optional',
   },
-  arrowPositionSelector: {
-    doc: 'CSS selector that points to the element the arrow should align with. When the popover points vertically it aligns horizontally, and vice versa for horizontal placements.',
-    type: 'string',
-    status: 'optional',
-  },
+
   theme: {
     doc: 'Sets the surface style.',
     type: ['light', 'dark'],
@@ -189,7 +198,7 @@ export const PopoverProperties: PropertiesTableProps = {
     status: 'optional',
   },
   autoAlignMode: {
-    doc: 'Control when the popover automatically flips its placement to fit within the viewport. `"initial"` (default): Flip placement only on initial open when there\'s limited space. `"scroll"`: Flip placement on initial open and during scroll events. `"never"`: Never automatically flip placement, always use the specified `placement` prop.',
+    doc: "Control when the popover automatically flips its placement to fit within the viewport. `initial` (default): Flip placement only on initial open when there's limited space. `scroll`: Flip placement on initial open and during scroll events. `never`: Never automatically flip placement, always use the specified `placement` property.",
     type: ['initial', 'scroll', 'never'],
     defaultValue: 'initial',
     status: 'optional',

@@ -3,13 +3,7 @@ import type { ButtonProps } from '../button/Button'
 
 export type PopoverPlacement = 'top' | 'right' | 'bottom' | 'left'
 
-export type PopoverArrow =
-  | null
-  | 'center'
-  | 'top'
-  | 'right'
-  | 'bottom'
-  | 'left'
+export type PopoverArrow = 'center' | 'top' | 'right' | 'bottom' | 'left'
 
 export type PopoverAlign = null | 'center' | 'right' | 'left'
 
