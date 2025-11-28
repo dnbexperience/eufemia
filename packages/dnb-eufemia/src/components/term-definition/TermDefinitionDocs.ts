@@ -18,8 +18,8 @@ export const TermDefinitionProperties: PropertiesTableProps = {
     status: 'optional',
   },
   '[Space](/uilib/layout/space/properties)': {
-    doc: 'Supports spacing props such as `top`, `right`, `bottom`, `left`, or `space`.',
-    type: ['string', 'number', 'boolean', 'object'],
+    doc: 'Spacing properties like `left` or `right` are supported.',
+    type: ['string', 'object'],
     status: 'optional',
   },
 }
