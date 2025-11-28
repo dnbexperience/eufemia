@@ -1033,6 +1033,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
                   onOpenChange={(isOpen) => !isOpen && hidePicker()}
                   showCloseButton={false}
                   hideOutline
+                  preventClose={preventClose}
                   triggerOffset={0}
                   arrowEdgeOffset={4}
                   noInnerSpace

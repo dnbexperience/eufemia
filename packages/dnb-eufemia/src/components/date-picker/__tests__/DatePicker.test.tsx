@@ -23,6 +23,7 @@ import {
   getCalendar,
   makeDayObject,
 } from '../DatePickerCalc'
+import { Dialog } from '../../'
 import Input from '../../Input'
 import Button from '../../Button'
 import { Provider } from '../../../shared'
@@ -124,6 +125,105 @@ describe('DatePicker component', () => {
 
     expect(getDatePickerRoot().getAttribute('class')).not.toContain(
       'dnb-date-picker--opened'
+    )
+  })
+
+  it('stays open when clicking outside if preventClose is true', async () => {
+    render(<DatePicker {...defaultProps} preventClose />)
+
+    await userEvent.click(getDatePickerTriggerButton())
+
+    expect(
+      getDatePickerTriggerButton().getAttribute('aria-expanded')
+    ).toBe('true')
+
+    await userEvent.click(document.body)
+
+    expect(
+      getDatePickerTriggerButton().getAttribute('aria-expanded')
+    ).toBe('true')
+
+    expect(getDatePickerRoot().getAttribute('class')).toContain(
+      'dnb-date-picker--opened'
+    )
+  })
+
+  it('keeps open when Escape is pressed if preventClose is true', async () => {
+    render(<DatePicker {...defaultProps} preventClose />)
+
+    await userEvent.click(getDatePickerTriggerButton())
+
+    expect(
+      getDatePickerTriggerButton().getAttribute('aria-expanded')
+    ).toBe('true')
+
+    await userEvent.keyboard('{Escape}')
+
+    expect(
+      getDatePickerTriggerButton().getAttribute('aria-expanded')
+    ).toBe('true')
+
+    expect(getDatePickerRoot().getAttribute('class')).toContain(
+      'dnb-date-picker--opened'
+    )
+  })
+
+  it('closes when Escape is pressed', async () => {
+    render(<DatePicker {...defaultProps} />)
+
+    await userEvent.click(getDatePickerTriggerButton())
+
+    expect(
+      getDatePickerTriggerButton().getAttribute('aria-expanded')
+    ).toBe('true')
+
+    await userEvent.keyboard('{Escape}')
+
+    expect(
+      getDatePickerTriggerButton().getAttribute('aria-expanded')
+    ).toBe('false')
+
+    expect(getDatePickerRoot().getAttribute('class')).not.toContain(
+      'dnb-date-picker--opened'
+    )
+  })
+
+  it('lets the dialog close on the second Escape press', async () => {
+    render(
+      <Dialog noAnimation openState title="Dialog">
+        <DatePicker {...defaultProps} />
+      </Dialog>
+    )
+
+    await waitFor(() =>
+      expect(document.documentElement).toHaveAttribute(
+        'data-dnb-modal-active'
+      )
+    )
+
+    const trigger = getDatePickerTriggerButton()
+    await userEvent.click(trigger)
+
+    await waitFor(() =>
+      expect(trigger.getAttribute('aria-expanded')).toBe('true')
+    )
+
+    await userEvent.keyboard('{Escape}')
+
+    await waitFor(() =>
+      expect(trigger.getAttribute('aria-expanded')).toBe('false')
+    )
+
+    expect(document.documentElement).toHaveAttribute(
+      'data-dnb-modal-active'
+    )
+
+    await userEvent.keyboard('{Escape}')
+
+    await waitFor(() =>
+      expect(document.documentElement).not.toHaveAttribute(
+        'data-dnb-modal-active'
+      )
     )
   })
 
