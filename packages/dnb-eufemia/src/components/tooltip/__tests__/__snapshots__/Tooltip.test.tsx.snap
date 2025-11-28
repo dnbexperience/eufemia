@@ -36,7 +36,7 @@ exports[`Tooltip scss has to match style dependencies css 1`] = `
   z-index: calc(var(--modal-z-index) + var(--tooltip-z-index));
 }
 .dnb-tooltip--large {
-  padding: 0.25rem 1rem;
+  padding: 0.25rem 0;
 }
 .dnb-tooltip .dnb-popover__content {
   min-width: 2rem;
