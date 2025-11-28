@@ -823,7 +823,6 @@ describe('Tooltip', () => {
             restoreFocus={false}
             preventClose={false}
             hideCloseButton
-            showCloseButton={false}
             disableFocusTrap
             hideDelay={0}
             targetElement={target}
