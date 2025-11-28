@@ -119,7 +119,7 @@ function Logo(localProps: LogoProps) {
   // Attempt to get theme from context
   const brand = useMemo(() => {
     if (brandProp) {
-      return brandProp
+      return brandProp === 'ui' ? 'dnb' : brandProp
     }
 
     if (context?.theme) {
