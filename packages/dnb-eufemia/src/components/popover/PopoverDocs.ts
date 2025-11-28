@@ -137,8 +137,8 @@ export const PopoverProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  closeOnOutsideClick: {
-    doc: 'Close the popover when clicking or tabbing outside of it.',
+  preventClose: {
+    doc: 'Prevent closing the popover when interacting outside of it or pressing Escape. Useful when the popover needs to stay open while other parts of the page are interacted with.',
     type: 'boolean',
     status: 'optional',
   },

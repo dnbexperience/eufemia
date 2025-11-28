@@ -984,6 +984,258 @@ describe('Popover', () => {
     expect(popoverElement).toHaveClass('dnb-popover--no-inner-space')
   })
 
+  it('merges triggerAttributes with defaults and triggerClassName', async () => {
+    const triggerOnClick = jest.fn()
+    renderWithTrigger({
+      triggerAttributes: {
+        className: 'attr-trigger',
+        title: 'Custom trigger',
+        'data-trigger': 'trigger-attr',
+        onClick: triggerOnClick,
+      },
+      triggerClassName: 'custom-trigger',
+    })
+
+    const trigger = (await waitFor(() =>
+      document.querySelector('button[aria-controls]')
+    )) as HTMLButtonElement
+
+    await userEvent.click(trigger)
+
+    expect(trigger).toHaveClass('custom-trigger')
+    expect(trigger).toHaveClass('attr-trigger')
+    expect(trigger).toHaveAttribute('title', 'Custom trigger')
+    expect(trigger).toHaveAttribute('data-trigger', 'trigger-attr')
+    expect(triggerOnClick).toHaveBeenCalledTimes(1)
+  })
+
+  it('applies contentClassName and exposes a contentRef', async () => {
+    const contentRef = React.createRef<HTMLSpanElement>()
+    renderWithTrigger({
+      contentClassName: 'custom-content',
+      contentRef,
+      noAnimation: true,
+    })
+
+    const trigger = (await waitFor(() =>
+      document.querySelector('button[aria-controls]')
+    )) as HTMLButtonElement
+    await userEvent.click(trigger)
+
+    const popover = (await waitFor(() =>
+      document.querySelector('.dnb-popover')
+    )) as HTMLElement
+    const content = (await waitFor(() =>
+      document.querySelector('.dnb-popover__content')
+    )) as HTMLElement
+
+    expect(content).toHaveClass('custom-content')
+    expect(contentRef.current).toBe(popover)
+  })
+
+  it('applies closeButtonProps to the default close button', async () => {
+    renderWithTrigger({
+      closeButtonProps: {
+        title: 'Dismiss tooltip',
+        className: 'custom-close',
+      },
+      noAnimation: true,
+    })
+
+    const trigger = (await waitFor(() =>
+      document.querySelector('button[aria-controls]')
+    )) as HTMLButtonElement
+    await userEvent.click(trigger)
+
+    const closeButton = (await waitFor(() =>
+      document.querySelector('.dnb-popover__close')
+    )) as HTMLButtonElement
+
+    expect(closeButton).toHaveAttribute('title', 'Dismiss tooltip')
+    expect(closeButton).toHaveClass('custom-close')
+  })
+
+  describe('preventClose', () => {
+    it('ignores outside clicks when preventClose is true', async () => {
+      renderWithTrigger({ preventClose: true })
+
+      const trigger = (await waitFor(() =>
+        document.querySelector('button[aria-controls]')
+      )) as HTMLButtonElement
+      await userEvent.click(trigger)
+
+      fireEvent.mouseDown(document.documentElement)
+
+      await waitFor(() =>
+        expect(trigger).toHaveAttribute('aria-expanded', 'true')
+      )
+    })
+
+    it('keeps open when tabbing outside if preventClose is true', async () => {
+      renderWithTrigger({ preventClose: true })
+
+      const trigger = (await waitFor(() =>
+        document.querySelector('button[aria-controls]')
+      )) as HTMLButtonElement
+      await userEvent.click(trigger)
+
+      const focusTrapButtons = await waitFor(() =>
+        document.querySelectorAll('.dnb-popover button.dnb-sr-only')
+      )
+      const firstTrap = focusTrapButtons[0]
+
+      fireEvent.focus(firstTrap)
+
+      await waitFor(() =>
+        expect(trigger).toHaveAttribute('aria-expanded', 'true')
+      )
+    })
+
+    it('stays open when Escape is pressed if preventClose is true', async () => {
+      renderWithTrigger({ preventClose: true })
+
+      const trigger = (await waitFor(() =>
+        document.querySelector('button[aria-controls]')
+      )) as HTMLButtonElement
+      await userEvent.click(trigger)
+
+      const popover = (await waitFor(() =>
+        document.querySelector('.dnb-popover')
+      )) as HTMLElement
+      popover?.dispatchEvent(
+        new KeyboardEvent('keydown', {
+          key: 'Escape',
+          keyCode: 27,
+          bubbles: true,
+        })
+      )
+
+      await waitFor(() =>
+        expect(trigger).toHaveAttribute('aria-expanded', 'true')
+      )
+    })
+
+    it('keeps popover open when close button is clicked if preventClose is true', async () => {
+      renderWithTrigger({ preventClose: true })
+
+      const trigger = (await waitFor(() =>
+        document.querySelector('button[aria-controls]')
+      )) as HTMLButtonElement
+      await userEvent.click(trigger)
+
+      const closeButton = (await waitFor(() =>
+        document.querySelector('.dnb-popover__close')
+      )) as HTMLButtonElement
+      await userEvent.click(closeButton)
+
+      await waitFor(() =>
+        expect(trigger).toHaveAttribute('aria-expanded', 'true')
+      )
+    })
+  })
+
+  it('does not restore focus when restoreFocus is false', async () => {
+    renderWithTrigger({ restoreFocus: false })
+
+    const trigger = (await waitFor(() =>
+      document.querySelector('button[aria-controls]')
+    )) as HTMLButtonElement
+
+    await userEvent.click(trigger)
+    const focusSpy = jest.spyOn(trigger, 'focus')
+
+    const popover = (await waitFor(() =>
+      document.querySelector('.dnb-popover')
+    )) as HTMLElement
+    popover?.dispatchEvent(
+      new KeyboardEvent('keydown', {
+        key: 'Escape',
+        keyCode: 27,
+        bubbles: true,
+      })
+    )
+
+    await waitFor(() =>
+      expect(trigger).toHaveAttribute('aria-expanded', 'false')
+    )
+
+    expect(focusSpy).not.toHaveBeenCalled()
+    focusSpy.mockRestore()
+  })
+
+  it('adds the no-max-width class when noMaxWidth is true', async () => {
+    renderWithTrigger({ noMaxWidth: true })
+
+    const trigger = (await waitFor(() =>
+      document.querySelector('button[aria-controls]')
+    )) as HTMLButtonElement
+    await userEvent.click(trigger)
+
+    const popover = await waitFor(() =>
+      document.querySelector('.dnb-popover')
+    )
+    expect(popover).toHaveClass('dnb-popover--no-max-width')
+  })
+
+  it('skips focus trap buttons when disableFocusTrap is true', async () => {
+    renderWithTrigger({ disableFocusTrap: true })
+
+    const trigger = (await waitFor(() =>
+      document.querySelector('button[aria-controls]')
+    )) as HTMLButtonElement
+    await userEvent.click(trigger)
+
+    await waitFor(() =>
+      expect(document.querySelector('.dnb-popover')).toBeInTheDocument()
+    )
+
+    expect(
+      document.querySelectorAll('.dnb-popover button.dnb-sr-only')
+    ).toHaveLength(0)
+  })
+
+  it('applies the theme class when theme is provided', async () => {
+    renderWithTrigger({ theme: 'dark' })
+
+    const trigger = (await waitFor(() =>
+      document.querySelector('button[aria-controls]')
+    )) as HTMLButtonElement
+    await userEvent.click(trigger)
+
+    const popover = await waitFor(() =>
+      document.querySelector('.dnb-popover')
+    )
+    expect(popover).toHaveClass('dnb-popover--theme-dark')
+  })
+
+  it('merges custom className on the popover root', async () => {
+    renderWithTrigger({ className: 'custom-popover' })
+
+    const trigger = (await waitFor(() =>
+      document.querySelector('button[aria-controls]')
+    )) as HTMLButtonElement
+    await userEvent.click(trigger)
+
+    const popover = await waitFor(() =>
+      document.querySelector('.dnb-popover')
+    )
+    expect(popover).toHaveClass('custom-popover')
+  })
+
+  it('adds the fixed class when fixedPosition is true', async () => {
+    renderWithTrigger({ fixedPosition: true })
+
+    const trigger = (await waitFor(() =>
+      document.querySelector('button[aria-controls]')
+    )) as HTMLButtonElement
+    await userEvent.click(trigger)
+
+    const popover = await waitFor(() =>
+      document.querySelector('.dnb-popover')
+    )
+    expect(popover).toHaveClass('dnb-popover--fixed')
+  })
+
   describe('arrow alignment', () => {
     const originalOffsetWidth = Object.getOwnPropertyDescriptor(
       HTMLElement.prototype,

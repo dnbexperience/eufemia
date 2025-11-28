@@ -44,7 +44,7 @@ export default function Popover(props: PopoverProps) {
     focusOnOpen = true,
     focusOnOpenElement,
     restoreFocus = true,
-    closeOnOutsideClick = true,
+    preventClose = false,
     showCloseButton = true,
     hideCloseButton = false,
     closeButtonProps,
@@ -233,9 +233,12 @@ export default function Popover(props: PopoverProps) {
   }, [])
 
   const close = useCallback(() => {
+    if (preventClose) {
+      return // stop here
+    }
     setOpenState(false)
     focusTrigger()
-  }, [focusTrigger, setOpenState])
+  }, [focusTrigger, setOpenState, preventClose])
 
   const openPopover = useCallback(() => {
     setOpenState(true)
@@ -304,12 +307,12 @@ export default function Popover(props: PopoverProps) {
       event: MouseEvent | TouchEvent | KeyboardEvent,
       overrideTarget?: EventTarget | null
     ) => {
-      if (!closeOnOutsideClick) {
-        return
+      if (preventClose) {
+        return // stop here
       }
       const target = overrideTarget ?? event.target
       if (!(target instanceof Node)) {
-        return
+        return // stop here
       }
 
       const insideContent =
@@ -322,7 +325,7 @@ export default function Popover(props: PopoverProps) {
         toggle(false)
       }
     },
-    [closeOnOutsideClick, getCurrentTriggerElement, toggle]
+    [preventClose, getCurrentTriggerElement, toggle]
   )
 
   const handleDocumentTouchStart = useCallback((event: TouchEvent) => {
@@ -352,7 +355,7 @@ export default function Popover(props: PopoverProps) {
 
   const handleDocumentKeyDown = useCallback(
     (event: KeyboardEvent) => {
-      if (event.defaultPrevented) {
+      if (event.defaultPrevented || preventClose) {
         return // stop here
       }
       if (event.key === 'Escape') {
@@ -371,7 +374,7 @@ export default function Popover(props: PopoverProps) {
         }
       }
     },
-    [getCurrentTriggerElement, toggle]
+    [preventClose, getCurrentTriggerElement, toggle]
   )
 
   useEffect(() => {

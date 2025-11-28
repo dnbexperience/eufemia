@@ -192,10 +192,10 @@ export type PopoverProps = PopoverOverlayProps & {
    */
   restoreFocus?: boolean
   /**
-   * Close the popover when clicking or tabbing outside of it.
-   * @default true
+   * Prevent closing the popover when interacting outside of it or pressing Escape.
+   * Useful when you need the popover to stay open while the user interacts elsewhere in the document.
    */
-  closeOnOutsideClick?: boolean
+  preventClose?: boolean
   /**
    * Toggle rendering of the built-in close button that appears inside the popover.
    * @default true
