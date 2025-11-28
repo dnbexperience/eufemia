@@ -185,8 +185,7 @@
     // Make long pressing easier on touch devices
     user-select: none;
 
-    &:hover,
-    &:focus-visible {
+    &:hover {
       opacity: 0.7;
     }
   }
