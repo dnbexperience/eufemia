@@ -15,7 +15,7 @@ import { getCommittedFiles } from '../../tools/cliTools'
 const makeStagePathException = (stage) => (stage === '/esm' ? '' : stage)
 
 describe('type definitions', () => {
-  const buildStages = ['/es', '/esm', '/cjs']
+  const buildStages = ['/esm', '/cjs']
 
   it.each(buildStages)('has d.ts index file on stage %s', (stage) => {
     stage = makeStagePathException(stage)
@@ -93,7 +93,7 @@ describe('type definitions', () => {
 })
 
 describe('babel build', () => {
-  const buildStages = ['/es', '/esm', '/cjs']
+  const buildStages = ['/esm', '/cjs']
 
   it('should not contain any .cjs or .mjs files', () => {
     const buildDir = path.resolve(packpath.self(), 'build')
@@ -164,12 +164,10 @@ describe('babel build', () => {
               path.resolve(packpath.self(), `build${stage}/index.js`),
               'utf-8'
             )
-            expect(content).toContain(
-              'Object.defineProperty(exports, "__esModule", {'
+            expect(content).toMatch(
+              /Object\.defineProperty\(exports, ["'`]__esModule["'`], \{/
             )
-            expect(content).toContain(
-              `var _default = exports.default = {};`
-            )
+            expect(content).toContain(`exports.default =`)
 
             // Has extra cjs package
             expect(
@@ -194,7 +192,7 @@ describe('babel build', () => {
               'utf-8'
             )
             expect(content).toContain('class Input extends')
-            expect(content).toMatch(/^"use strict";/g)
+            expect(content).toMatch(/^["'`]use strict["'`];/g)
           }
 
           {
@@ -205,10 +203,8 @@ describe('babel build', () => {
               ),
               'utf-8'
             )
-            expect(content).toContain(
-              'var _default = exports.default = Breadcrumb'
-            )
-            expect(content).toMatch(/^"use strict";/g)
+            expect(content).toContain('exports.default = Breadcrumb')
+            expect(content).toMatch(/^["'`]use strict["'`];/g)
           }
         }
         break
@@ -222,7 +218,7 @@ describe('babel build', () => {
               path.resolve(packpath.self(), `build${stage}/index.js`),
               'utf-8'
             )
-            expect(content).toContain('export default {};')
+            expect(content).toContain('src_default as default')
           }
 
           {
@@ -233,11 +229,8 @@ describe('babel build', () => {
               ),
               'utf-8'
             )
-            expect(content).toContain('export default class Input extends')
+            expect(content).toContain('Input as default')
             expect(content).not.toContain('core-js/modules/es')
-            expect(content).toContain(
-              'import _extends from "@babel/runtime/helpers/esm/extends";'
-            )
           }
 
           {
@@ -248,52 +241,7 @@ describe('babel build', () => {
               ),
               'utf-8'
             )
-            expect(content).toContain('export default Breadcrumb;')
-            expect(content).toContain(
-              'import _extends from "@babel/runtime/helpers/esm/extends";'
-            )
-          }
-        }
-        break
-
-      case '/es':
-        {
-          {
-            const content = fs.readFileSync(
-              path.resolve(packpath.self(), `build${stage}/index.js`),
-              'utf-8'
-            )
-            expect(content).toContain('export default {};')
-          }
-
-          {
-            const content = fs.readFileSync(
-              path.resolve(
-                packpath.self(),
-                `build${stage}/components/input/Input.js`
-              ),
-              'utf-8'
-            )
-            expect(content).toMatch(/export default class Input extends/g)
-            expect(content).not.toContain('core-js/modules/es')
-            expect(content).toContain(
-              'import _extends from "@babel/runtime/helpers/esm/extends";'
-            )
-          }
-
-          {
-            const content = fs.readFileSync(
-              path.resolve(
-                packpath.self(),
-                `build${stage}/components/breadcrumb/Breadcrumb.js`
-              ),
-              'utf-8'
-            )
-            expect(content).toContain('export default Breadcrumb;')
-            expect(content).not.toContain('core-js/modules/es')
-            expect(content).toContain(
-              'import _extends from "@babel/runtime/helpers/esm/extends";'
-            )
+            expect(content).toContain('Breadcrumb_default as default')
           }
         }
         break
@@ -380,7 +328,7 @@ describe('tsdown build', () => {
 })
 
 describe('style build', () => {
-  const buildStages = ['', '/es', '/cjs']
+  const buildStages = ['', '/cjs']
 
   it.each(buildStages)('has created a package on stage "%s"', (stage) => {
     {
@@ -478,9 +426,15 @@ describe('style build', () => {
       )
       expect(content).toContain(`.dnb-typo-regular`)
       expect(content).toContain(`@font-face`)
-      expect(content).toContain(
-        `src: url("../../../assets/fonts/dnb/DNB-Regular.woff2") format("woff2"),`
-      )
+      if (stage === '') {
+        expect(content).toContain(
+          `src: url("../../../assets/fonts/dnb/DNB-Regular.woff2") format("woff2"),`
+        )
+      } else {
+        expect(content).toContain(
+          `src: url("../../../../assets/fonts/dnb/DNB-Regular.woff2") format("woff2"),`
+        )
+      }
       expect(content).toContain(`
 .dnb-p {
   font-size: var(--font-size-basis);
