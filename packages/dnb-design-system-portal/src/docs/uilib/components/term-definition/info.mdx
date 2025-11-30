@@ -32,3 +32,7 @@ To ensure that the TermDefinition component is accessible, it uses semantic HTML
 - The close button is placed last in the tab order, making it easy for keyboard users to reach after reading the content.
 - It also closes automatically when focus moves outside the TermDefinition or when the Escape key is pressed.
 - The trigger shows the hover style of an [Anchor](/uilib/components/anchor) when open.
+
+## Root Element (React Portal)
+
+The TermDefinition component uses [PortalRoot](/uilib/components/portal-root) internally to render its explanation content. See the [PortalRoot documentation](/uilib/components/portal-root) for information on how to control where the portal content appears in the DOM.
