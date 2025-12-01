@@ -604,3 +604,7 @@ export const DatePickerPositioning = () => {
     </Drawer>
   )
 }
+
+export function Inline() {
+  return <DatePicker inline range />
+}

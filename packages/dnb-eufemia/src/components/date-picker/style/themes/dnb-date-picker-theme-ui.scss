@@ -90,6 +90,19 @@
   &__day {
     &--today .dnb-button {
       font-weight: var(--font-weight-medium);
+
+      &::after {
+        content: '';
+
+        position: absolute;
+        bottom: 0.1875rem;
+        height: 0.2188em;
+        width: 0.2188em;
+        pointer-events: none;
+
+        border-radius: 50%;
+        background-color: currentcolor;
+      }
     }
 
     &--preview .dnb-button,
