@@ -38,7 +38,7 @@ function SummaryList(props: Props) {
     children,
     message: 'Value.SummaryList accepts only Value.* components!',
     messageInfo: props,
-    ignoreTypes: ['Visibility', 'ValueBlock'],
+    ignoreTypes: ['Visibility', 'ValueBlock', 'CompositionValue'],
   })
 
   return (
