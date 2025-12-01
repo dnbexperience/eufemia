@@ -47,6 +47,10 @@ Or use UTC constructors:
 const utcDate = new Date(Date.UTC(2025, 0, 1))
 ```
 
+### Root Element (React Portal)
+
+The DatePicker component uses [PortalRoot](/uilib/components/portal-root) internally to render its calendar. See the [PortalRoot documentation](/uilib/components/portal-root) for information on how to control where the portal content appears in the DOM.
+
 ### Manipulate the days in the calendar view
 
 The callback event `on_days_render` gives you the possibility to manipulate the "day" object, before it gets rendered. This callback will be called many times. Both on the first render, and on every user interaction, like hover and selection, etc. This means you have to ensure a performant date calculation.
