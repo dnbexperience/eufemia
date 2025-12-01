@@ -69,7 +69,7 @@ describe('PortalRoot', () => {
   it('should not create portal element when window is undefined', () => {
     // Store the original window and temporarily set it to undefined
     const tempWindow = global.window
-    global.window = undefined as any
+    global.window = undefined
 
     const { container } = render(
       <PortalRoot>

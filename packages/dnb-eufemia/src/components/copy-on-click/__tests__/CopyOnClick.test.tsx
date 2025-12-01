@@ -192,16 +192,125 @@ describe('CopyOnClick', () => {
     // Clipboard should remain unchanged
     expect(await navigator.clipboard.readText()).toBe('initial')
 
-    // Tooltip should not become active
+    // Tooltip should not become active or render
     await waitFor(() => {
-      const tooltip = document.querySelector('.dnb-tooltip')
-      expect(tooltip).toBeInTheDocument()
-      expect(Array.from(tooltip.classList)).not.toContain(
-        'dnb-tooltip--active'
-      )
+      expect(
+        document.querySelector('.dnb-tooltip')
+      ).not.toBeInTheDocument()
     })
 
     // Restore original mock
     navigator.clipboard.writeText = originalWrite
+  })
+
+  it('reuses a single aria-describedby source for identical tooltip messages', () => {
+    render(
+      <>
+        <CopyOnClick tooltipContent="Shared message">first</CopyOnClick>
+        <CopyOnClick tooltipContent="Shared message">second</CopyOnClick>
+      </>
+    )
+
+    const elements = document.querySelectorAll('.dnb-copy-on-click')
+    const firstDescribedBy = elements[0].getAttribute('aria-describedby')
+    const secondDescribedBy = elements[1].getAttribute('aria-describedby')
+
+    expect(firstDescribedBy).toBeTruthy()
+    expect(firstDescribedBy).toBe(secondDescribedBy)
+
+    const descriptions = document.querySelectorAll(`#${firstDescribedBy}`)
+    expect(descriptions).toHaveLength(1)
+    expect(descriptions[0].textContent).toBe('Shared message')
+
+    // Tooltip portals should not be rendered while inactive (keepInDOM=false)
+    expect(document.querySelector('.dnb-tooltip')).not.toBeInTheDocument()
+  })
+
+  it('only renders one tooltip portal per active CopyOnClick instance', async () => {
+    window.getSelection()?.removeAllRanges()
+
+    render(
+      <>
+        <CopyOnClick tooltipContent="Shared message">first</CopyOnClick>
+        <CopyOnClick tooltipContent="Shared message">second</CopyOnClick>
+      </>
+    )
+
+    expect(document.querySelectorAll('.dnb-popover__portal').length).toBe(
+      0
+    )
+
+    await userEvent.click(document.querySelector('.dnb-copy-on-click'))
+
+    await waitFor(() => {
+      expect(
+        document.querySelectorAll('.dnb-popover__portal').length
+      ).toBe(1)
+    })
+  })
+
+  it('creates separate tooltip portals when two unique messages are active', async () => {
+    window.getSelection()?.removeAllRanges()
+
+    render(
+      <>
+        <CopyOnClick tooltipContent="Message A">first</CopyOnClick>
+        <CopyOnClick tooltipContent="Message B">second</CopyOnClick>
+      </>
+    )
+
+    const [first, second] = Array.from(
+      document.querySelectorAll('.dnb-copy-on-click')
+    )
+
+    await userEvent.click(first as HTMLElement)
+    window.getSelection()?.removeAllRanges()
+    await userEvent.click(second as HTMLElement)
+
+    await waitFor(() => {
+      expect(
+        document.querySelectorAll('.dnb-popover__portal').length
+      ).toBe(2)
+    })
+  })
+
+  it('removes shared description nodes when unmounted', async () => {
+    const { unmount } = render(
+      <CopyOnClick tooltipContent="Shared message">only</CopyOnClick>
+    )
+
+    const describedBy = document
+      .querySelector('.dnb-copy-on-click')
+      ?.getAttribute('aria-describedby')
+    expect(describedBy).toBeTruthy()
+    expect(document.getElementById(describedBy)).toBeTruthy()
+
+    unmount()
+
+    await waitFor(() => {
+      expect(document.getElementById(describedBy)).toBeNull()
+      expect(
+        document.getElementById('dnb-copy-on-click-descriptions')
+      ).toBeNull()
+    })
+  })
+
+  it('appends user provided aria-describedby ids to the shared description', () => {
+    render(
+      <CopyOnClick
+        tooltipContent="Shared message"
+        aria-describedby="custom-id"
+      >
+        only
+      </CopyOnClick>
+    )
+
+    const element = document.querySelector('.dnb-copy-on-click')
+    const describedBy = element.getAttribute('aria-describedby')
+
+    expect(describedBy).toContain('custom-id')
+
+    const describedIds = describedBy.split(' ').filter(Boolean)
+    expect(describedIds.length).toBeGreaterThan(1)
   })
 })

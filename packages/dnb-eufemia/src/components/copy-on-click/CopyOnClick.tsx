@@ -12,10 +12,18 @@ import {
   IS_IOS,
   warn,
 } from '../../shared/helpers'
-import { convertJsxToString } from '../../shared/component-helper'
+import {
+  combineDescribedBy,
+  convertJsxToString,
+  makeUniqueId,
+} from '../../shared/component-helper'
 import { useTranslation } from '../../shared'
 import { Span } from '../../elements'
 import Tooltip from '../Tooltip'
+
+// SSR warning fix: https://gist.github.com/gaearon/e7d97cdf38a2907924ea12e4ebdf3c85
+const useLayoutEffect =
+  typeof window === 'undefined' ? React.useEffect : React.useLayoutEffect
 
 const CopyOnClick = ({
   children,
@@ -80,10 +88,22 @@ const CopyOnClick = ({
     }
   }, [children, copyContent, copy])
 
+  const { 'aria-describedby': ariaDescribedByProp, ...restProps } = props
   const params = {
     onClick: disabled ? undefined : onClickHandler,
   }
   const message = tooltipContent ?? clipboard_copy
+  const sharedDescriptionId = useCopyOnClickDescription(
+    typeof message === 'string' ? message : null
+  )
+  const ariaDescribedBy = sharedDescriptionId
+    ? combineDescribedBy(
+        ariaDescribedByProp
+          ? { 'aria-describedby': ariaDescribedByProp }
+          : null,
+        { 'aria-describedby': sharedDescriptionId }
+      )
+    : ariaDescribedByProp
 
   return (
     <Span
@@ -93,11 +113,17 @@ const CopyOnClick = ({
         className
       )}
       ref={ref}
-      {...props}
+      aria-describedby={ariaDescribedBy}
+      {...restProps}
       {...params}
     >
       {children}
-      <Tooltip active={active} targetElement={ref}>
+      <Tooltip
+        active={active}
+        targetElement={ref}
+        keepInDOM={sharedDescriptionId ? false : undefined}
+        omitDescribedBy={Boolean(sharedDescriptionId)}
+      >
         {message}
       </Tooltip>
     </Span>
@@ -105,4 +131,115 @@ const CopyOnClick = ({
 }
 
 CopyOnClick._supportsSpacingProps = true
+
+type DescriptionEntry = {
+  id: string
+  refs: number
+  element?: HTMLSpanElement | null
+}
+
+const descriptionRegistry: Map<string, DescriptionEntry> = new Map()
+const DESCRIPTIONS_CONTAINER_ID = 'dnb-copy-on-click-descriptions'
+
+function useCopyOnClickDescription(message: string | null) {
+  const descriptionId = React.useMemo(() => {
+    if (!message) {
+      return null
+    }
+    return getOrCreateEntry(message).id
+  }, [message])
+
+  useLayoutEffect(() => {
+    if (!message || !descriptionId) {
+      return undefined
+    }
+
+    const entry = getOrCreateEntry(message)
+    entry.refs += 1
+
+    if (typeof document !== 'undefined') {
+      entry.element = ensureDescriptionElement(entry, message)
+    }
+
+    return () => {
+      entry.refs -= 1
+      if (entry.refs <= 0) {
+        descriptionRegistry.delete(message)
+        removeDescriptionElement(entry)
+      }
+    }
+  }, [message, descriptionId])
+
+  return descriptionId
+}
+
+function getOrCreateEntry(message: string) {
+  let entry = descriptionRegistry.get(message)
+  if (!entry) {
+    entry = {
+      id: makeUniqueId('copy-on-click-description-'),
+      refs: 0,
+    }
+    descriptionRegistry.set(message, entry)
+  }
+  return entry
+}
+
+function ensureDescriptionElement(
+  entry: DescriptionEntry,
+  message: string
+) {
+  const doc = typeof document !== 'undefined' ? document : null
+  if (!doc) {
+    return null
+  }
+
+  const container = ensureDescriptionContainer(doc)
+  if (!container) {
+    return null
+  }
+
+  let element = doc.getElementById(entry.id) as HTMLSpanElement | null
+  if (!element) {
+    element = doc.createElement('span')
+    element.id = entry.id
+    element.className = 'dnb-sr-only'
+    container.appendChild(element)
+  } else if (element.parentElement !== container) {
+    container.appendChild(element)
+  }
+
+  element.textContent = message
+  return element
+}
+
+function ensureDescriptionContainer(doc: Document) {
+  let container = doc.getElementById(
+    DESCRIPTIONS_CONTAINER_ID
+  ) as HTMLDivElement | null
+
+  if (!container) {
+    container = doc.createElement('div')
+    container.id = DESCRIPTIONS_CONTAINER_ID
+    container.setAttribute('data-dnb-copy-on-click-descriptions', 'true')
+    doc.body.appendChild(container)
+  }
+
+  return container
+}
+
+function removeDescriptionElement(entry: DescriptionEntry) {
+  if (entry.element?.parentElement) {
+    entry.element.parentElement.removeChild(entry.element)
+  } else if (typeof document !== 'undefined') {
+    document.getElementById(entry.id)?.remove()
+  }
+
+  entry.element = null
+
+  if (typeof document !== 'undefined' && descriptionRegistry.size === 0) {
+    document.getElementById(DESCRIPTIONS_CONTAINER_ID)?.remove()
+  }
+}
+
 export default CopyOnClick
