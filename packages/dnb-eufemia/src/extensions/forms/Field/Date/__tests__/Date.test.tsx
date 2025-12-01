@@ -1135,13 +1135,10 @@ describe('Field.Date', () => {
   })
 
   it('should be able to set picker alignment', async () => {
-    const { rerender } = render(<Field.Date alignPicker="auto" />)
+    const { rerender } = render(<Field.Date alignPicker="right" />)
 
     const datePicker = document.querySelector('.dnb-date-picker')
 
-    expect(datePicker).toHaveClass('dnb-date-picker--auto')
-
-    rerender(<Field.Date alignPicker="right" />)
     expect(datePicker).toHaveClass('dnb-date-picker--right')
 
     rerender(<Field.Date alignPicker="left" />)

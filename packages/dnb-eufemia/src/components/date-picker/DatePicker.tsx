@@ -272,7 +272,7 @@ export type DatePickerProps = {
   /**
    * Use `right` to change the calendar alignment direction. Defaults to `left`.
    */
-  alignPicker?: 'auto' | 'left' | 'right'
+  alignPicker?: 'left' | 'right'
   /**
    * Sets the alignment of the label. Defaults to `left`.
    */
@@ -606,7 +606,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
     noAnimation,
     showInput,
     inline,
-    alignPicker,
+    alignPicker = 'left',
     showSubmitButton,
     showCancelButton,
     range,
