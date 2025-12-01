@@ -92,10 +92,12 @@ export const AvatarIconSize = () => (
     scope={{ Bank, BankMedium }}
     data-visual-test="avatar-children-icon-primary"
   >
-    <Avatar icon={Bank} size="small" />
-    <Avatar icon={BankMedium} />
-    <Avatar icon={BankMedium} size="large" />
-    <Avatar icon={BankMedium} size="x-large" />
+    <Avatar.Group label="Bank icons">
+      <Avatar icon={Bank} size="small" />
+      <Avatar icon={BankMedium} />
+      <Avatar icon={BankMedium} size="large" />
+      <Avatar icon={BankMedium} size="x-large" />
+    </Avatar.Group>
   </ComponentBox>
 )
 
