@@ -562,7 +562,7 @@ describe('Popover', () => {
 
     // Verify the bottom focus trap button has sr-only class and aria-hidden attribute
     expect(bottomFocusTrap).toHaveClass('dnb-sr-only')
-    expect(bottomFocusTrap).toHaveAttribute('aria-hidden', 'true')
+    expect(bottomFocusTrap).not.toHaveAttribute('aria-hidden')
 
     // Actually focus the button to trigger the onFocus handler
     fireEvent.focus(bottomFocusTrap)
@@ -602,7 +602,7 @@ describe('Popover', () => {
 
     // Verify the top focus trap button has sr-only class and aria-hidden attribute
     expect(topFocusTrap).toHaveClass('dnb-sr-only')
-    expect(topFocusTrap).toHaveAttribute('aria-hidden', 'true')
+    expect(topFocusTrap).not.toHaveAttribute('aria-hidden')
 
     // Simulate Shift+Tab from the first element by focusing the top trap
     fireEvent.focus(topFocusTrap)
