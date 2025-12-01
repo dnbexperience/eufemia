@@ -153,7 +153,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
 
   const removeEvents = useCallback(
     (element: HTMLElement) => {
-      if (!element) {
+      if (!(element instanceof HTMLElement)) {
         return // stop here
       }
       try {
@@ -179,8 +179,8 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
       const targetElement = document.querySelector(
         `*[aria-describedby*="${internalId}"]`
       )
-      if (targetElement) {
-        const role = targetElement.getAttribute('role')
+      if (targetElement instanceof HTMLElement) {
+        const role = targetElement.getAttribute?.('role')
         if (
           /div|p|span/i.test(targetElement?.tagName) &&
           (!role || role === 'text')
@@ -230,7 +230,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
 
     const element = getRefElement(cloneRef)
 
-    if (!element || isControlled) {
+    if (!(element instanceof HTMLElement) || isControlled) {
       return () => clearTimers()
     }
 
@@ -248,7 +248,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
     }
 
     const targetElement = getRefElement(cloneRef)
-    if (!targetElement) {
+    if (!(targetElement instanceof HTMLElement)) {
       return
     }
 
