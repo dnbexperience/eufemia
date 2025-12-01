@@ -3933,6 +3933,16 @@ exports[`DatePicker scss have to match default theme snapshot 1`] = `
 .dnb-date-picker__day--today .dnb-button {
   font-weight: var(--font-weight-medium);
 }
+.dnb-date-picker__day--today .dnb-button::after {
+  content: "";
+  position: absolute;
+  bottom: 0.1875rem;
+  height: 0.2188em;
+  width: 0.2188em;
+  pointer-events: none;
+  border-radius: 50%;
+  background-color: currentcolor;
+}
 .dnb-date-picker__day--preview .dnb-button, .dnb-date-picker__day--inactive .dnb-button, .dnb-date-picker__day--within-selection:not(.dnb-date-picker__day--start-date):not(.dnb-date-picker__day--end-date) .dnb-button:not(:hover) {
   background-color: transparent;
 }
