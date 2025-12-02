@@ -3,6 +3,7 @@ import { axeComponent } from '../../../../../core/jest/jestSetup'
 import { render, waitFor, screen, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Field, Form, Validator } from '../../..'
+import * as InputMaskedModule from '../../../../../components/InputMasked'
 import nbNO from '../../../constants/locales/nb-NO'
 
 const nb = nbNO['nb-NO']
@@ -14,6 +15,26 @@ describe('Field.OrganizationNumber', () => {
     const element = document.querySelector('input')
     await userEvent.type(element, '123456789')
     expect(element.value).toBe('123 456 789')
+  })
+
+  it('should allow more characters than the mask length when allowOverflow is enabled', async () => {
+    const spy = jest.spyOn(InputMaskedModule, 'default')
+    render(<Field.OrganizationNumber />)
+
+    const element = document.querySelector('input')
+    await userEvent.type(element, '123456789')
+    expect(element.value).toBe('123 456 789')
+
+    await userEvent.type(element, '0')
+    await waitFor(() => expect(element).toHaveValue('123 456 7890'))
+
+    expect(spy).toHaveBeenCalled()
+    const lastCall =
+      spy.mock.calls[spy.mock.calls.length - 1]?.[0] ?? ({} as any)
+    expect(lastCall.allowOverflow).toBe(true)
+    expect(Array.isArray(lastCall.mask)).toBe(true)
+    expect(lastCall.value).toBe('1234567890')
+    spy.mockRestore()
   })
 
   it('should have medium width', () => {
