@@ -7,6 +7,7 @@ import React from 'react'
 import { fireEvent, render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as helpers from '../../../shared/helpers'
+import type { MaskitoOptions } from '@maskito/core'
 import MultiInputMask, {
   MultiInputMaskInput,
   MultiInputMaskProps,
@@ -44,6 +45,25 @@ describe('MultiInputMask', () => {
       clearTimeout(id)
       return id
     })
+  })
+
+  it('passes overwriteMode down to TextMask', () => {
+    let capturedOptions: MaskitoOptions | null = null
+    const enhancer = jest.fn((options) => {
+      capturedOptions = options
+      return options
+    })
+
+    render(
+      <MultiInputMask
+        {...defaultProps}
+        overwriteMode="replace"
+        optionsEnhancer={enhancer}
+      />
+    )
+
+    expect(enhancer).toHaveBeenCalled()
+    expect(capturedOptions?.overwriteMode).toBe('replace')
   })
 
   it('should update input values when typing', async () => {
@@ -1064,5 +1084,56 @@ describe('MultiInputMask', () => {
       expect(input).toHaveAttribute('data-testid', 'date-mask')
       expect(input).toHaveAttribute('data-custom', 'value')
     })
+  })
+
+  it('ArrowRight on empty field advances caret stepwise and crosses only after size steps', async () => {
+    render(<MultiInputMask {...defaultProps} />)
+
+    const [day, month] = Array.from(
+      document.querySelectorAll('.dnb-multi-input-mask__input')
+    ) as HTMLInputElement[]
+
+    // Focus day; caret goes to position 0 for empty input
+    await userEvent.click(day)
+    expect(day.selectionStart).toBe(0)
+
+    // First ArrowRight should NOT jump to end; should be at 1
+    await userEvent.keyboard('{ArrowRight}')
+    await new Promise((r) => setTimeout(r, 0))
+    expect(document.activeElement).toBe(day)
+    expect(day.selectionStart).toBe(1)
+
+    // Second ArrowRight moves to 2 (end for day size=2)
+    await userEvent.keyboard('{ArrowRight}')
+    await new Promise((r) => setTimeout(r, 0))
+    expect(document.activeElement).toBe(day)
+    expect(day.selectionStart).toBe(2)
+
+    // Third ArrowRight crosses to next input (month) at position 0
+    await userEvent.keyboard('{ArrowRight}')
+    await new Promise((r) => setTimeout(r, 0))
+    expect(document.activeElement).toBe(month)
+    expect(month.selectionStart).toBe(0)
+  })
+
+  it('ArrowLeft on empty field at position 0 moves to previous field (caret at start for empty input)', async () => {
+    render(<MultiInputMask {...defaultProps} />)
+
+    const [day, month] = Array.from(
+      document.querySelectorAll('.dnb-multi-input-mask__input')
+    ) as HTMLInputElement[]
+
+    // Focus month; ensure caret at position 0 (empty)
+    await userEvent.click(month)
+    month.setSelectionRange(0, 0)
+    expect(month.selectionStart).toBe(0)
+
+    // ArrowLeft should jump to previous (day). For empty inputs, caret settles at start
+    await userEvent.keyboard('{ArrowLeft}')
+    await new Promise((r) => setTimeout(r, 0))
+
+    expect(document.activeElement).toBe(day)
+    expect(day.selectionStart).toBe(0)
+    expect(day.selectionEnd).toBe(0)
   })
 })

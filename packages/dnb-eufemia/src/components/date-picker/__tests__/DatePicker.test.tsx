@@ -836,6 +836,52 @@ describe('DatePicker component', () => {
     expect(endYear.value).toBe('åååå')
   })
 
+  it('moves focus to end day at range boundary (dd.mm.yyyy|-dd.mm.yyyy) when pressing ArrowRight from end of start year', async () => {
+    render(<DatePicker showInput range />)
+
+    const [startDay, startYear, endDay]: Array<HTMLInputElement> =
+      Array.from(document.querySelectorAll('input.dnb-input__input'))
+
+    // Fill start date to yyyy
+    await userEvent.type(startDay, '12112024')
+
+    // Ensure caret at end of startYear
+    await userEvent.click(startYear)
+    startYear.setSelectionRange(4, 4)
+    expect(startYear.selectionStart).toBe(4)
+
+    // ArrowRight should move to start of end day
+    await userEvent.keyboard('{ArrowRight}')
+
+    // Allow deferred focus change to settle
+    await new Promise((r) => setTimeout(r, 0))
+
+    expect(document.activeElement).toBe(endDay)
+    expect(endDay.selectionStart).toBe(0)
+    expect(endDay.selectionEnd).toBe(0)
+  })
+
+  it('typing fills day and month and auto-advances between fields', async () => {
+    render(<DatePicker showInput />)
+
+    const [day, month, year]: Array<HTMLInputElement> = Array.from(
+      document.querySelectorAll('input.dnb-input__input')
+    )
+
+    // Type day -> 2 digits should auto-advance to month
+    await userEvent.click(day)
+    await userEvent.keyboard('01')
+    await new Promise((r) => setTimeout(r, 0))
+    expect(document.activeElement).toBe(month)
+    expect(month.selectionStart).toBe(0)
+
+    // Type month -> 2 digits should auto-advance to year
+    await userEvent.keyboard('12')
+    await new Promise((r) => setTimeout(r, 0))
+    expect(document.activeElement).toBe(year)
+    expect(year.selectionStart).toBe(0)
+  })
+
   it('will render the result of "onDaysRender"', () => {
     const customClassName = 'dnb-date-picker__day--weekend'
     const onDaysRender = jest.fn((days) => {
@@ -1481,6 +1527,18 @@ describe('DatePicker component', () => {
     await test(day)
     await test(month)
     await test(year)
+  })
+
+  it('forces replace overwrite mode for inline inputs', () => {
+    const optionsEnhancer = jest.fn((options) => options)
+    render(<DatePicker showInput {...({ optionsEnhancer } as any)} />)
+
+    expect(optionsEnhancer).toHaveBeenCalled()
+    expect(
+      optionsEnhancer.mock.calls.every(
+        ([options]) => options?.overwriteMode === 'replace'
+      )
+    ).toBe(true)
   })
 
   it('omits input shell class when omitInputShellClass is true', () => {
@@ -3212,13 +3270,13 @@ describe('DatePicker component', () => {
     // Remove part of start year - this may trigger focus events as the date becomes invalid
     await userEvent.keyboard('{ArrowRight>4}{Backspace>6}')
     // The focus event count may increase when the date becomes invalid
-    expect(onFocus).toHaveBeenCalledTimes(7)
+    expect(onFocus).toHaveBeenCalledTimes(6)
 
     await userEvent.click(document.body)
 
     // Focus start day again
     await userEvent.click(startDayInput)
-    expect(onFocus).toHaveBeenCalledTimes(8)
+    expect(onFocus).toHaveBeenCalledTimes(7)
     expect(onFocus).toHaveBeenLastCalledWith(
       expect.objectContaining({
         startDate: null,

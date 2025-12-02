@@ -7,6 +7,7 @@ import React from 'react'
 import { loadScss, wait } from '../../../core/jest/jestSetup'
 import { render, fireEvent, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import type { MaskitoOptions } from '@maskito/core'
 import InputMasked, { InputMaskedProps } from '../InputMasked'
 import Provider from '../../../shared/Provider'
 import * as helpers from '../../../shared/helpers'
@@ -66,6 +67,25 @@ describe('InputMasked component', () => {
     expect(ref.current instanceof HTMLInputElement).toBe(true)
     expect(ref.current.id).toBe(props.id)
     expect(ref.current.tagName).toBe('INPUT')
+  })
+
+  it('forwards overwriteMode to Maskito options', () => {
+    let capturedOptions: MaskitoOptions | null = null
+    const enhancer = (options: MaskitoOptions | null) => {
+      capturedOptions = options
+      return options
+    }
+
+    render(
+      <InputMasked
+        mask={[/\d/, /\d/]}
+        value="12"
+        overwriteMode="replace"
+        optionsEnhancer={enhancer}
+      />
+    )
+
+    expect(capturedOptions?.overwriteMode).toBe('replace')
   })
 
   it('event "onChange" gets emitted with correct value #1', async () => {
@@ -405,6 +425,90 @@ describe('InputMasked component', () => {
     expect(document.querySelector('input').value).toBe('1 2 3')
   })
 
+  it('should stop accepting characters once the mask is filled by default', async () => {
+    render(<InputMasked mask={[/\d/, /\d/, /\d/, '-', /\d/, /\d/]} />)
+
+    const input = document.querySelector('input')
+
+    await userEvent.type(input, '123456789')
+
+    expect(input).toHaveValue('123-45')
+
+    input.blur()
+    fireEvent.blur(input)
+  })
+
+  it('should allow overflow characters when "allowOverflow" is set', async () => {
+    render(
+      <InputMasked
+        allowOverflow
+        mask={[/\d/, /\d/, /\d/, '-', /\d/, /\d/]}
+      />
+    )
+
+    const input = document.querySelector('input')
+
+    await userEvent.type(input, '123456789')
+
+    expect(input).toHaveValue('123-456789')
+
+    input.blur()
+    fireEvent.blur(input)
+  })
+
+  it('should allow overflow characters when the mask contains literal spaces', async () => {
+    render(
+      <InputMasked
+        allowOverflow
+        mask={[
+          /\d/,
+          /\d/,
+          /\d/,
+          ' ',
+          /\d/,
+          /\d/,
+          /\d/,
+          ' ',
+          /\d/,
+          /\d/,
+          /\d/,
+        ]}
+      />
+    )
+
+    const input = document.querySelector('input')
+
+    await userEvent.type(input, '1234567890')
+
+    expect(input).toHaveValue('123 456 7890')
+  })
+
+  it('should keep overflow characters when the value prop contains more digits than the mask', async () => {
+    const mask = [
+      /\d/,
+      /\d/,
+      /\d/,
+      ' ',
+      /\d/,
+      /\d/,
+      /\d/,
+      ' ',
+      /\d/,
+      /\d/,
+      /\d/,
+    ]
+
+    const { rerender } = render(
+      <InputMasked allowOverflow mask={mask} value="123456789" />
+    )
+
+    expect(document.querySelector('input')).toHaveValue('123 456 789')
+
+    rerender(<InputMasked allowOverflow mask={mask} value="1234567890" />)
+
+    expect(document.querySelector('input')).toHaveValue('123 456 7890')
+  })
+
   it('should show placeholder with both value null and undefined', () => {
     const { rerender } = render(
       <InputMasked placeholder="AA" value={undefined} />
@@ -453,6 +557,7 @@ describe('InputMasked component', () => {
       input.value = value1
       const suffixStart1 = value1.indexOf(' kr')
 
+      input.focus()
       fireEvent.focus(input, {
         target: {
           value: value1,
@@ -487,6 +592,7 @@ describe('InputMasked component', () => {
       input.value = value2
       const suffixStart2 = value2.indexOf(' kr')
 
+      input.focus()
       fireEvent.focus(input, {
         target: {
           value: value2,

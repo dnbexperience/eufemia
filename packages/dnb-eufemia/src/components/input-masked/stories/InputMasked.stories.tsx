@@ -180,16 +180,20 @@ function PercentInput() {
   )
 }
 
-function ShowMask() {
+export function ShowMask() {
   return (
-    <InputMasked
-      label="showMask"
-      showMask
-      numberMask={{
-        suffix: ' kr',
-        allowDecimal: true,
-      }}
-    />
+    <>
+      <InputMasked
+        label="showMask"
+        showMask
+        numberMask={{
+          suffix: ' kr',
+          allowDecimal: true,
+        }}
+      />
+      <Field.String allowOverflow mask={[/\d/, '-', /\d/, '-', /\d/]} />
+      <Field.OrganizationNumber />
+    </>
   )
 }
 

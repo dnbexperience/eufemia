@@ -766,8 +766,12 @@ describe('Input with clear button', () => {
 
     const wrapper = document.querySelector('.dnb-input')
     // Should not render shell or border elements/classes
-    expect(wrapper.querySelector('.dnb-input__shell')).not.toBeInTheDocument()
-    expect(wrapper.querySelector('.dnb-input__border')).not.toBeInTheDocument()
+    expect(
+      wrapper.querySelector('.dnb-input__shell')
+    ).not.toBeInTheDocument()
+    expect(
+      wrapper.querySelector('.dnb-input__border')
+    ).not.toBeInTheDocument()
   })
 })
 

@@ -679,6 +679,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
           disabled={disabled || skeleton}
           onChange={onMultiChangeStart}
           scopeRef={scopeRef}
+          overwriteMode="replace"
           onFocus={() => {
             focusMode.current = 'start'
             setFocusState('focus')
@@ -715,6 +716,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
             disabled={disabled || skeleton}
             onChange={onMultiChangeEnd}
             scopeRef={scopeRef}
+            overwriteMode="replace"
             onFocus={() => {
               focusMode.current = 'end'
               setFocusState('focus')

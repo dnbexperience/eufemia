@@ -34,6 +34,7 @@ import type {
 import type { NumberFormatProps } from '../NumberFormat'
 import type { SkeletonShow } from '../Skeleton'
 import type { SpacingProps } from '../space/types'
+import type { MaskitoOptions } from '@maskito/core'
 
 export type InputMaskedMask = RegExp | Array<RegExp | string> | false
 export type InputMaskedNumberMask =
@@ -62,6 +63,7 @@ export type InputMaskedChange = {
 export type InputMaskedEventHandler = (
   payload: InputMaskedChange
 ) => unknown
+export type InputMaskedOverwriteMode = MaskitoOptions['overwriteMode']
 export interface InputMaskedProps
   extends Omit<
       React.HTMLProps<HTMLInputElement>,
@@ -116,6 +118,15 @@ export interface InputMaskedProps
    * Show mask when input is empty and has no focus. Defaults to `false`.
    */
   showMask?: boolean
+  /**
+   * Allow users to keep typing after the provided mask has been filled. Extra characters will be appended unmasked.
+   */
+  allowOverflow?: boolean
+  /**
+   * Controls how overwriting characters is handled;
+   * `shift` (default) moves to the next slot, `replace` keeps the cursor in place.
+   */
+  overwriteMode?: InputMaskedOverwriteMode | null
   /**
    * The placeholder character represents the fillable spot in the mask (e.g. `_`). Defaults to invisible space.
    */
@@ -210,6 +221,8 @@ const defaultProps = {
   asPercent: null,
   locale: null,
   showMask: false,
+  allowOverflow: false,
+  overwriteMode: null,
   innerRef: null,
   onChange: null,
   onSubmit: null,
