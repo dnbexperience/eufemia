@@ -65,6 +65,7 @@ function OrganizationNumber(props: Props) {
     label: labelProp ?? label,
     errorMessages,
     mask,
+    allowOverflow: true,
     width: width ?? 'medium',
     inputMode: 'numeric',
     onChangeValidator: validate ? onChangeValidator : undefined,
