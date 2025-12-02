@@ -205,8 +205,8 @@ export const DialogSandbox = () => (
         focusSelector=".dnb-input__input:first-of-type"
         preventClose={true}
         hideCloseButton={true}
-        onOpen={(e) => console.log('on_open', e)}
-        onClose={(e) => console.log('on_close', e)}
+        onOpen={(e) => console.log('onOpen', e)}
+        onClose={(e) => console.log('onClose', e)}
         onClosePrevent={({ close, triggeredBy }) => {
           switch (triggeredBy) {
             case 'keyboard':
@@ -328,7 +328,7 @@ export const DialogSandbox = () => (
         }}
         title="Modal Title"
         onClose={(e) => {
-          console.log('on_close', e)
+          console.log('onClose', e)
         }}
       >
         <Dialog.Body spacing>
@@ -509,10 +509,10 @@ const ModalCloseExample = () => {
           return () => clearTimeout(timeout)
         }}
         onOpen={(e) => {
-          console.log('on_open', e)
+          console.log('onOpen', e)
         }}
         onClose={(e) => {
-          console.log('on_close', e)
+          console.log('onClose', e)
           setOpenState('closed')
         }}
       >

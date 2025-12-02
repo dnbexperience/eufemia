@@ -131,13 +131,6 @@ describe('Logo component', () => {
     expect(html).toBe(refHTML)
   })
 
-  it('should brand="ui" for backward compatibility', () => {
-    render(<Logo brand="ui" />)
-    expect(document.querySelector('.dnb-logo')).toBeInTheDocument()
-    expect(document.querySelector('.sbanken-logo')).not.toBeInTheDocument()
-    expect(document.querySelector('title').textContent).toBe('DNB Logo')
-  })
-
   it('should support spacing props', () => {
     render(<Logo top="2rem" />)
 

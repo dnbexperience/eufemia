@@ -85,10 +85,10 @@ function Logo(localProps: LogoProps) {
     ...rest
   } = props
 
-  // Attempt to get theme from context
-  const brand = useMemo(() => {
-    if (brandProp) {
-      return brandProp === 'ui' ? 'dnb' : brandProp
+  // If svg is a function, call it with a sanitized theme (omit DOM-irrelevant keys)
+  const theme = useMemo(() => {
+    if (!context?.theme) {
+      return null
     }
     const { name, size } = context.theme
     return {

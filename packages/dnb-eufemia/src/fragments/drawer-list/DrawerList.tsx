@@ -554,11 +554,11 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
                   i === 0 && 'first-of-type', // because of the triangle element
                   i === data.length - 1 && 'last-of-type', // because of the triangle element
                   ignoreEventsBoolean ||
-                    (ignoreEventsBoolean && 'ignore-events'),
+                    (ignore_events && 'ignore-events'),
                   class_name
                 ),
                 active: __id == activeItem,
-                selected: !ignoreEventsBoolean && __id == selectedItem,
+                selected: !ignore_events && __id == selectedItem,
                 onClick: this.selectItemHandler,
                 onKeyDown: this.preventTab,
                 disabled: disabled,

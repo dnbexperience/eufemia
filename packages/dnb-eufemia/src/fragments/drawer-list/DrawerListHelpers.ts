@@ -547,9 +547,9 @@ export const prepareDerivedState = (
 
   // set aria-activedescendant for screenreaders
   if (
-    isNaN(parseFloat(state.active_item as string)) ||
-    parseFloat(state.active_item as string) === -1 ||
-    getCurrentData(parseFloat(state.active_item as string), state.data) ===
+    isNaN(parseFloat(state.activeItem as string)) ||
+    parseFloat(state.activeItem as string) === -1 ||
+    getCurrentData(parseFloat(state.activeItem as string), state.data) ===
       null
   ) {
     // no valid active item
@@ -558,9 +558,9 @@ export const prepareDerivedState = (
     state.ariaActiveDescendant =
       firstItem === null ? '' : `option-${state.id}-${firstItem}`
 
-    state.active_item = -1
+    state.activeItem = -1
   } else {
-    state.ariaActiveDescendant = `option-${state.id}-${state.active_item}`
+    state.ariaActiveDescendant = `option-${state.id}-${state.activeItem}`
   }
 
   if (props.direction !== 'auto' && props.direction !== state.direction) {
