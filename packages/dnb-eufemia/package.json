@@ -116,6 +116,8 @@
     "classnames": "2.5.1",
     "core-js": "3.41.0",
     "date-fns": "4.1.0",
+    "latest-styles": "npm:@dnb/eufemia@latest",
+    "legacy-styles": "npm:@dnb/eufemia@10.75.1",
     "postcss-selector-parser": "7.1.0",
     "prop-types": "15.8.1",
     "what-input": "5.2.12",
