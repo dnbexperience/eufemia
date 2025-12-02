@@ -11,6 +11,7 @@ import {
   maskitoTransform,
   maskitoUpdateElement,
   type MaskitoMask,
+  type MaskitoMaskExpression,
   type MaskitoOptions,
 } from '@maskito/core'
 import {
@@ -43,6 +44,8 @@ export interface TextMaskProps
   ghostPlaceholder?: string
   // Optional: strip display value (e.g., remove ghost chars) before bubbling
   stripValue?: (displayValue: string) => string
+  allowOverflow?: boolean
+  overwriteMode?: MaskitoOptions['overwriteMode']
 }
 
 export default function TextMask(props: TextMaskProps): JSX.Element {
@@ -55,6 +58,8 @@ export default function TextMask(props: TextMaskProps): JSX.Element {
     optionsEnhancer,
     ghostPlaceholder,
     stripValue,
+    allowOverflow,
+    overwriteMode,
     ...rest
   } = props
 
@@ -87,11 +92,20 @@ export default function TextMask(props: TextMaskProps): JSX.Element {
       return null
     }
 
-    return { mask }
+    const overflowAwareMask = allowOverflow
+      ? withOverflowSupport(mask)
+      : mask
+
+    return {
+      mask: overflowAwareMask,
+      ...(overwriteMode != null ? { overwriteMode } : {}),
+    }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     rawMask,
+    allowOverflow,
+    overwriteMode,
 
     // Include all properties that affect mask behavior
     maskParams?.thousandsSeparatorSymbol,
@@ -165,7 +179,9 @@ export default function TextMask(props: TextMaskProps): JSX.Element {
       if (typeof rest.onChange === 'function') {
         if (typeof stripValue === 'function') {
           const v = stripValue(e.target.value)
-          rest.onChange({ target: { value: v } } as any)
+          rest.onChange({
+            target: { value: v },
+          } as React.ChangeEvent<HTMLInputElement>)
         } else {
           rest.onChange(e)
         }
@@ -173,7 +189,7 @@ export default function TextMask(props: TextMaskProps): JSX.Element {
     }
 
     return baseProps
-  }, [rest, enhancedOptions])
+  }, [rest, enhancedOptions, stripValue])
 
   // Conform initial value on mount/options change
   useEffect(() => {
@@ -293,7 +309,7 @@ export default function TextMask(props: TextMaskProps): JSX.Element {
       options
     )
     return formatted
-  }, [enhancedOptions, value, rawMask, showMask, ghostPlaceholder])
+  }, [value, showMask, options, rawMask, ghostPlaceholder])
 
   return inputElement ? (
     cloneElement(inputElement, {
@@ -304,6 +320,85 @@ export default function TextMask(props: TextMaskProps): JSX.Element {
   ) : (
     <input ref={setRefs} defaultValue={defaultValue} {...params} />
   )
+}
+
+function withOverflowSupport(mask: MaskitoMask): MaskitoMask {
+  if (Array.isArray(mask)) {
+    const baseMask = [...mask]
+    return (state) => appendOverflowTokens(baseMask, state?.value ?? '')
+  }
+
+  if (typeof mask === 'function') {
+    return (state) => {
+      const resolved = mask(state)
+      if (!Array.isArray(resolved)) {
+        return resolved
+      }
+      return appendOverflowTokens(resolved, state?.value ?? '')
+    }
+  }
+
+  return mask
+}
+
+const ALL_CHARACTERS = /[\s\S]/
+
+function appendOverflowTokens(
+  maskExpression: MaskitoMaskExpression,
+  currentValue: string
+): MaskitoMaskExpression {
+  if (!Array.isArray(maskExpression)) {
+    return maskExpression
+  }
+
+  const userSlots = countUserSlots(maskExpression)
+  const userInputLength = countUserInputLength(
+    currentValue,
+    maskExpression
+  )
+  const overflow = Math.max(0, userInputLength - userSlots)
+  if (overflow <= 0) {
+    return maskExpression
+  }
+
+  return maskExpression.concat(
+    Array.from({ length: overflow }, () => ALL_CHARACTERS)
+  )
+}
+
+function countUserSlots(maskExpression: MaskitoMaskExpression) {
+  if (!Array.isArray(maskExpression)) {
+    return 0
+  }
+  return maskExpression.reduce((count, token) => {
+    return count + (typeof token === 'string' ? 0 : 1)
+  }, 0)
+}
+
+function countUserInputLength(
+  value: string,
+  maskExpression: MaskitoMaskExpression
+) {
+  if (typeof value !== 'string') {
+    return value == null ? 0 : String(value).length
+  }
+  if (!Array.isArray(maskExpression) || !maskExpression.length) {
+    return value.length
+  }
+
+  let strippedValue = value
+  for (const token of maskExpression) {
+    if (typeof token === 'string' && token.length > 0) {
+      const escaped = escapeRegExp(token)
+      strippedValue = strippedValue.replace(new RegExp(escaped, 'g'), '')
+    }
+  }
+
+  return strippedValue.length
+}
+
+function escapeRegExp(input: string) {
+  return input.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 }
 
 function normalizeMask(maskProp: TextMaskMask): MaskitoMask | null {

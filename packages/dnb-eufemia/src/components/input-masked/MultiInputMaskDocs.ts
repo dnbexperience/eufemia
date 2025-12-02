@@ -1,6 +1,6 @@
 import { PropertiesTableProps } from '../../shared/types'
 
-export const multiInputMaskedEvents: PropertiesTableProps = {
+export const multiInputMaskEvents: PropertiesTableProps = {
   onChange: {
     doc: "Runs when an input value changes. Has an object parameter with keys matching the id's defined in `inputs`, and values of string. E.g: `{month: string, year: string}`.",
     type: 'function',
@@ -18,7 +18,7 @@ export const multiInputMaskedEvents: PropertiesTableProps = {
   },
 }
 
-export const multiInputMaskedProperties: PropertiesTableProps = {
+export const multiInputMaskProperties: PropertiesTableProps = {
   label: {
     doc: '`legend` element describing the group of inputs inside the components.',
     type: 'React.ReactNode',
@@ -64,9 +64,14 @@ export const multiInputMaskedProperties: PropertiesTableProps = {
     type: 'React.ReactNode',
     status: 'optional',
   },
+  overwriteMode: {
+    doc: 'Control how Maskito handles overwriting characters; `shift` moves to the next slot while `replace` keeps the caret on the current slot.',
+    type: ['string', 'function'],
+    status: 'optional',
+  },
 }
 
-export const multiInputMaskedInputsProperties: PropertiesTableProps = {
+export const multiInputMaskInputsProperties: PropertiesTableProps = {
   id: {
     doc: '(string) Defines input id. This id is also used to map the input value to the correct property on the objects used for `values` and `onChange` parameters.',
     type: 'string',

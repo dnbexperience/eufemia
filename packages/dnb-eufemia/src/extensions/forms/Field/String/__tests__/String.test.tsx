@@ -64,6 +64,17 @@ describe('Field.String', () => {
       ).toBeInTheDocument()
     })
 
+    it('allows typing beyond the provided mask length when allowOverflow is set', async () => {
+      render(
+        <Field.String allowOverflow mask={[/\d/, '-', /\d/, '-', /\d/]} />
+      )
+
+      const element = document.querySelector('input')
+      await userEvent.type(element, '123456')
+
+      expect(element).toHaveValue('1-2-3456')
+    })
+
     it('renders help', () => {
       render(
         <Field.String
