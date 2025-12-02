@@ -164,13 +164,14 @@ function UploadComponent(props: Props) {
 
   const handleChangeAsync = useCallback(
     async (files: UploadValue) => {
+      const filesArray = files || []
       // Filter out existing files
       const existingFileIds =
         filesRef.current?.map((file) => file.id) || []
-      const existingFiles = files.filter((file) =>
+      const existingFiles = filesArray.filter((file) =>
         existingFileIds.includes(file.id)
       )
-      const newFiles = files.filter(
+      const newFiles = filesArray.filter(
         (file) => !existingFileIds.includes(file.id)
       )
       const newValidFiles = newFiles.filter((file) => !file.errorMessage)

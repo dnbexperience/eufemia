@@ -1251,6 +1251,19 @@ describe('Field.Upload', () => {
           document.querySelector('.dnb-form-status')
         ).toHaveTextContent('customError')
       })
+
+      // delete the file
+      fireEvent.click(
+        document
+          .querySelectorAll('.dnb-upload__file-cell')[0]
+          .querySelector('button')
+      )
+
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).not.toBeInTheDocument()
+      })
     })
 
     it('should handle displaying success from fileHandler with async function', async () => {
