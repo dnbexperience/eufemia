@@ -8,6 +8,10 @@ import { rootElement, pageElement } from './src/core/PortalProviders'
 import { scrollToHash } from '@dnb/eufemia/src/components/Anchor'
 import ReactDOM from 'react-dom/client'
 
+import 'legacy-styles/style/dnb-ui-core.css'
+import 'legacy-styles/style/themes/theme-ui/ui-theme-components.css'
+import 'legacy-styles/style/themes/theme-ui/ui-theme-basis.css'
+
 if (typeof window !== 'undefined') {
   setIsTest(window.location)
 }

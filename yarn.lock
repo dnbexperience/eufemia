@@ -4434,7 +4434,9 @@ __metadata:
     jest-playwright-preset: "npm:4.0.0"
     jest-raw-loader: "npm:1.0.1"
     jest-tobetype: "npm:1.2.3"
+    latest-styles: "npm:@dnb/eufemia@latest"
     lebab: "npm:3.2.7"
+    legacy-styles: "npm:@dnb/eufemia@10.75.1"
     lint-staged: "npm:11.2.6"
     lockfile-lint: "npm:4.6.2"
     lodash.isequal: "npm:4.5.0"
@@ -15980,6 +15982,7 @@ __metadata:
     github-slugger: "npm:1.4.0"
     history: "npm:5.1.0"
     jest: "npm:30.0.5"
+    legacy-styles: "npm:@dnb/eufemia@10.75.1"
     lint-staged: "npm:11.2.6"
     mdast-util-to-string: "npm:^2"
     ora: "npm:5.4.1"
@@ -24525,6 +24528,36 @@ __metadata:
   languageName: node
   linkType: hard
 
+"latest-styles@npm:@dnb/eufemia@latest":
+  version: 10.91.0
+  resolution: "@dnb/eufemia@npm:10.91.0"
+  dependencies:
+    "@babel/runtime": "npm:7.26.10"
+    "@navikt/fnrvalidator": "npm:2.1.5"
+    "@ungap/structured-clone": "npm:1.2.0"
+    ajv: "npm:8.17.1"
+    ajv-errors: "npm:3.0.0"
+    classnames: "npm:2.5.1"
+    core-js: "npm:3.41.0"
+    date-fns: "npm:4.1.0"
+    postcss-selector-parser: "npm:7.1.0"
+    prop-types: "npm:15.8.1"
+    what-input: "npm:5.2.12"
+    zod: "npm:4.1.8"
+  peerDependencies:
+    "@types/react": ^17 || ^18
+    "@types/react-dom": ^17 || ^18
+    react: ^17 || ^18
+    react-dom: ^17 || ^18
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+    "@types/react-dom":
+      optional: true
+  checksum: 10/f95b217ce4eab6748c58487e067e9c1ee80eb34c47166f80e489a6d890976bc70312d5938eb7d74f3c835ec0f8e7a9b266680f94753fb0911a9ca9e3da9100a7
+  languageName: node
+  linkType: hard
+
 "latest-version@npm:^5.1.0":
   version: 5.1.0
   resolution: "latest-version@npm:5.1.0"
@@ -24592,6 +24625,34 @@ __metadata:
   bin:
     lebab: bin/index.js
   checksum: 10/c3b5d941ebb100d332d8f7eb4a77f3c211340d52450c3e1a76b021b67ba4b0cce3dff5f5f8443a803f7b87e60bdd12689551f89a3227441dc78cfd7266414ac2
+  languageName: node
+  linkType: hard
+
+"legacy-styles@npm:@dnb/eufemia@10.75.1":
+  version: 10.75.1
+  resolution: "@dnb/eufemia@npm:10.75.1"
+  dependencies:
+    "@babel/runtime": "npm:7.26.10"
+    "@navikt/fnrvalidator": "npm:2.1.5"
+    "@ungap/structured-clone": "npm:1.2.0"
+    ajv: "npm:8.17.1"
+    ajv-errors: "npm:3.0.0"
+    classnames: "npm:2.5.1"
+    core-js: "npm:3.41.0"
+    date-fns: "npm:2.25.0"
+    prop-types: "npm:15.8.1"
+    what-input: "npm:5.2.12"
+  peerDependencies:
+    "@types/react": ^17 || ^18
+    "@types/react-dom": ^17 || ^18
+    react: ^17 || ^18
+    react-dom: ^17 || ^18
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+    "@types/react-dom":
+      optional: true
+  checksum: 10/0bc499f7f7ca64cd0c732d878cd1f65b78201fdeed69a67e9b202979dc9ecdd525a65221fc1659507afa4c0685f677ffdeede500ab8d099e254d25b82499bb9f
   languageName: node
   linkType: hard
 
