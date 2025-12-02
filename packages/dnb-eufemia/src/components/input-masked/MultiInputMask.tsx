@@ -57,6 +57,11 @@ export type MultiInputMaskProps<T extends string> = {
    */
   values?: MultiInputMaskValue<T>
   /**
+   * Controls how Maskito handles typing over existing characters.
+   * `shift` (default) moves to the next slot, while `replace` keeps the caret in place while overwriting.
+   */
+  overwriteMode?: MaskitoOptions['overwriteMode']
+  /**
    * Defines the delimiter used to separate the inputs inside the component.
    */
   delimiter?: string
@@ -129,6 +134,7 @@ function MultiInputMask<T extends string>(props: MultiInputMaskProps<T>) {
     suffix,
     onBlur,
     onFocus,
+    overwriteMode,
     ...rest
   } = props
 
@@ -453,6 +459,7 @@ function MultiInputMaskInput<T extends string>({
         showMask={true}
         optionsEnhancer={optionsEnhancer}
         ghostPlaceholder={ghost || undefined}
+        overwriteMode="replace"
         stripValue={stripValue}
         aria-label={label}
         inputRef={inputRefObj}
@@ -483,26 +490,18 @@ function MultiInputMaskInput<T extends string>({
         }}
         onBlur={onBlur}
         onFocus={({ target }) => {
-          target.focus()
-          // When input is empty on focus, always place caret at the start (position 0)
-          // Use same deferred approach as on iOS focus handling for reliability
-          window.requestAnimationFrame(() => {
-            const defer = (ms: number) =>
-              setTimeout(() => {
-                try {
-                  // Treat ghost-only value as empty using stripValue
-                  const typedLen = stripValue(target.value || '').length
-                  if (typedLen === 0) {
-                    target.setSelectionRange(0, 0)
-                  }
-                } catch (e) {
-                  // Ignore selection errors in unusual environments
-                }
-              }, ms)
-
-            defer(isiOS() ? 10 : 1)
-          })
-
+          // Select the entire input on focus (with or without content)
+          try {
+            target.focus()
+            // Defer slightly to allow mask/DOM updates, then select all
+            window.requestAnimationFrame(() => {
+              const start = 0
+              const end = (target as HTMLInputElement).value.length
+              ;(target as HTMLInputElement).setSelectionRange(start, end)
+            })
+          } catch {
+            // ignore
+          }
           onInputFocus?.()
         }}
         onMouseUp={undefined}
