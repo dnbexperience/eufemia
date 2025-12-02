@@ -174,7 +174,7 @@ const DatePickerRangeMode = () => (
         return days.map((dayObject) => {
           dayObject.isToday = isSameDay(
             dayObject.date,
-            new Date('2019-06-07'),
+            new Date('2019-06-03'),
           )
           return dayObject
         })
