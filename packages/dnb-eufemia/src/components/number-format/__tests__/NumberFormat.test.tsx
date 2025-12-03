@@ -18,6 +18,7 @@ import NumberFormat, {
   NumberFormatProps,
   COPY_TOOLTIP_TIMEOUT,
 } from '../NumberFormat'
+import * as TooltipModule from '../../tooltip/Tooltip'
 import { format, formatReturnValue } from '../NumberUtils'
 import enGB from '../../../shared/locales/en-GB'
 
@@ -180,6 +181,34 @@ describe('NumberFormat component', () => {
     fireEvent.copy(document.querySelector('.dnb-number-format__selection'))
 
     expect(document.querySelector('.dnb-tooltip')).toBeInTheDocument()
+  })
+
+  it('passes triggerOffset to the copy tooltip', () => {
+    const triggerOffsets: Array<number | undefined> = []
+    const originalTooltip = TooltipModule.default
+    const spy = jest
+      .spyOn(TooltipModule, 'default')
+      .mockImplementation((props) => {
+        triggerOffsets.push(props.triggerOffset)
+        return originalTooltip(props)
+      })
+
+    try {
+      render(<Component value={-value} currency />)
+
+      expect(document.querySelector('.dnb-tooltip')).toBeNull()
+
+      fireEvent.click(
+        document.querySelector('.dnb-number-format__visible')
+      )
+      fireEvent.copy(
+        document.querySelector('.dnb-number-format__selection')
+      )
+
+      expect(triggerOffsets).toContain(8)
+    } finally {
+      spy.mockRestore()
+    }
   })
 
   it('has valid selected number', () => {

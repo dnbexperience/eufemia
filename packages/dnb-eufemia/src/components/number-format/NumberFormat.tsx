@@ -590,6 +590,7 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
             targetElement={this._ref}
             showDelay={0}
             hideDelay={0}
+            triggerOffset={8}
           >
             {this.state.copyTooltipText}
           </Tooltip>

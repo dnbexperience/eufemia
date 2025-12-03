@@ -40,6 +40,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
     align,
     fixedPosition,
     portalRootClass,
+    triggerOffset,
     contentRef,
     size,
     keepInDOM = true,
@@ -321,16 +322,15 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
           size && `dnb-tooltip--${size}`
         )}
         theme="dark"
-        {...(restAttributes as React.HTMLAttributes<HTMLElement>)}
         id={internalId}
         open={overlayActive}
         targetElement={cloneRef}
-        triggerOffset={16}
         arrowEdgeOffset={4}
         hideDelay={hideDelay}
         skipPortal={skipPortal}
         keepInDOM={keepInDOM}
         noAnimation={noAnimation}
+        triggerOffset={triggerOffset}
         arrowPosition={arrow}
         placement={position}
         alignOnTarget={align}
@@ -349,6 +349,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
         disableFocusTrap
         onMouseEnter={handleOverlayMouseEnter}
         onMouseLeave={handleOverlayMouseLeave}
+        {...(restAttributes as React.HTMLAttributes<HTMLElement>)}
       >
         {children}
       </Popover>
