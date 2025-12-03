@@ -3,7 +3,7 @@
  *
  */
 
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import classnames from 'classnames'
 import Context from '../../shared/Context'
 import { validateDOMAttributes } from '../../shared/component-helper'
