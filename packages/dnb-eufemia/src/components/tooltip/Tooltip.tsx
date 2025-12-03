@@ -16,6 +16,8 @@ import {
   getTargetElement,
   injectTooltipSemantic,
 } from './TooltipHelpers'
+import { TooltipContext } from './TooltipContext'
+import { getRefElement } from '../popover/Popover'
 import { TooltipAllProps } from './types'
 
 function Tooltip(localProps: TooltipAllProps) {
