@@ -141,8 +141,8 @@ describe('DrawerList component', () => {
         <DrawerList
           {...props}
           opened
-          skip_portal
-          no_animation
+          skipPortal
+          noAnimation
           data={mockData}
         />
       </Dialog>
