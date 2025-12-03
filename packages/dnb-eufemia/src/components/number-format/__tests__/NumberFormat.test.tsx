@@ -514,6 +514,28 @@ describe('NumberFormat component', () => {
     ).toBe('prefix 123 456 789,5 suffix')
   })
 
+  it('attaches the helper class names when prefix/suffix are elements', () => {
+    render(
+      <Component
+        prefix={<span className="custom-prefix">custom</span>}
+        suffix={<span className="custom-suffix">tail</span>}
+        value={value}
+      />
+    )
+
+    const prefixElement = document.querySelector(
+      '.dnb-number-format__prefix'
+    )
+    expect(prefixElement).toBeTruthy()
+    expect(prefixElement.classList).toContain('custom-prefix')
+
+    const suffixElement = document.querySelector(
+      '.dnb-number-format__suffix'
+    )
+    expect(suffixElement).toBeTruthy()
+    expect(suffixElement.classList).toContain('custom-suffix')
+  })
+
   it('will prefix aria-label with "srLabel" when given', () => {
     render(<Component value={-value} currency srLabel="Total:" />)
     expect(
@@ -816,6 +838,221 @@ describe('NumberFormat component', () => {
     })
 
     focusSpy.mockRestore()
+  })
+
+  it('should not call setFocus on touch devices', async () => {
+    // Simulate touch device
+    document.documentElement.setAttribute('data-whatintent', 'touch')
+
+    render(<NumberFormat selectall value={1234568} />)
+
+    const comp = document.querySelector('.dnb-number-format')
+    const number = document.querySelector('.dnb-number-format__visible')
+    const selection = document.querySelector(
+      '.dnb-number-format__selection'
+    ) as HTMLElement
+
+    // Spy on the selection element's focus method
+    const focusSpy = jest.spyOn(selection, 'focus')
+
+    await userEvent.click(number)
+
+    // Wait a bit to ensure setFocus would have been called if it was going to be
+    await waitFor(
+      () => {
+        // On touch devices, setFocus should NOT be called
+        expect(focusSpy).not.toHaveBeenCalled()
+        expect(comp).not.toHaveClass('dnb-number-format--selected')
+        expect(selection).toHaveTextContent('')
+      },
+      { timeout: 100 }
+    )
+
+    focusSpy.mockRestore()
+
+    // Clean up
+    document.documentElement.removeAttribute('data-whatintent')
+  })
+
+  it('should not call setFocus when text is already selected', async () => {
+    render(<NumberFormat selectall value={1234568} />)
+
+    const comp = document.querySelector('.dnb-number-format')
+    const number = document.querySelector('.dnb-number-format__visible')
+    const selection = document.querySelector(
+      '.dnb-number-format__selection'
+    ) as HTMLElement
+
+    // Spy on the selection element's focus method
+    const focusSpy = jest.spyOn(selection, 'focus')
+
+    // Initially, component should not be selected
+    expect(comp).not.toHaveClass('dnb-number-format--selected')
+    expect(selection).toHaveTextContent('')
+
+    // Create a selection on another element to simulate existing text selection
+    const testElement = document.createElement('div')
+    testElement.textContent = 'Some selected text'
+    document.body.appendChild(testElement)
+
+    try {
+      const range = document.createRange()
+      range.selectNodeContents(testElement)
+      const windowSelection = window.getSelection()
+      windowSelection.removeAllRanges()
+      windowSelection.addRange(range)
+
+      // Verify that hasSelectedText returns true
+      expect(windowSelection.toString().length).toBeGreaterThan(0)
+
+      await userEvent.click(number)
+
+      // When text is already selected, setFocus should NOT be called
+      // This test will fail if !hasSelectedText() check is removed from onClickHandler
+      await waitFor(() => {
+        expect(focusSpy).not.toHaveBeenCalled()
+        expect(comp).not.toHaveClass('dnb-number-format--selected')
+        expect(selection).toHaveTextContent('')
+      })
+
+      focusSpy.mockRestore()
+    } finally {
+      // Clean up
+      window.getSelection().removeAllRanges()
+      document.body.removeChild(testElement)
+    }
+  })
+
+  describe('onContextMenuHandler', () => {
+    beforeEach(() => {
+      jest.useFakeTimers()
+    })
+
+    afterEach(() => {
+      jest.runOnlyPendingTimers()
+      jest.useRealTimers()
+    })
+
+    it('should call setFocus on context menu when no text is selected', async () => {
+      render(<NumberFormat value={1234568} />)
+
+      const comp = document.querySelector('.dnb-number-format')
+      const number = document.querySelector('.dnb-number-format__visible')
+      const selection = document.querySelector(
+        '.dnb-number-format__selection'
+      ) as HTMLElement
+
+      // Spy on the selection element's focus method
+      const focusSpy = jest.spyOn(selection, 'focus')
+
+      // Initially, component should not be selected
+      expect(comp).not.toHaveClass('dnb-number-format--selected')
+      expect(selection).toHaveTextContent('')
+
+      // Trigger context menu (right-click)
+      fireEvent.contextMenu(number)
+
+      // setFocus is called after 1ms timeout
+      // Advance timers to trigger the timeout
+      jest.advanceTimersByTime(1)
+
+      // Wait for the focus to be called (it happens in setState callback)
+      await waitFor(() => {
+        expect(focusSpy).toHaveBeenCalledWith({ preventScroll: true })
+        expect(comp).toHaveClass('dnb-number-format--selected')
+      })
+
+      focusSpy.mockRestore()
+    })
+
+    it('should not call setFocus on context menu when text is already selected', async () => {
+      render(<NumberFormat value={1234568} />)
+
+      const comp = document.querySelector('.dnb-number-format')
+      const number = document.querySelector('.dnb-number-format__visible')
+      const selection = document.querySelector(
+        '.dnb-number-format__selection'
+      ) as HTMLElement
+
+      // Spy on the selection element's focus method
+      const focusSpy = jest.spyOn(selection, 'focus')
+
+      // Create a selection on another element to simulate existing text selection
+      const testElement = document.createElement('div')
+      testElement.textContent = 'Some selected text'
+      document.body.appendChild(testElement)
+
+      try {
+        const range = document.createRange()
+        range.selectNodeContents(testElement)
+        const windowSelection = window.getSelection()
+        windowSelection.removeAllRanges()
+        windowSelection.addRange(range)
+
+        // Verify that hasSelectedText returns true
+        expect(windowSelection.toString().length).toBeGreaterThan(0)
+
+        // Trigger context menu (right-click)
+        fireEvent.contextMenu(number)
+
+        // Advance timers
+        jest.advanceTimersByTime(1)
+
+        // When text is already selected, setFocus should NOT be called
+        await waitFor(() => {
+          expect(focusSpy).not.toHaveBeenCalled()
+          expect(comp).not.toHaveClass('dnb-number-format--selected')
+          expect(selection).toHaveTextContent('')
+        })
+
+        focusSpy.mockRestore()
+      } finally {
+        // Clean up
+        window.getSelection().removeAllRanges()
+        document.body.removeChild(testElement)
+      }
+    })
+
+    it('should clear existing timeout when context menu is triggered multiple times', async () => {
+      render(<NumberFormat selectall value={1234568} />)
+
+      const comp = document.querySelector('.dnb-number-format')
+      const number = document.querySelector('.dnb-number-format__visible')
+      const selection = document.querySelector(
+        '.dnb-number-format__selection'
+      ) as HTMLElement
+
+      // Spy on the selection element's focus method
+      const focusSpy = jest.spyOn(selection, 'focus')
+
+      // Trigger context menu first time
+      fireEvent.contextMenu(number)
+
+      // Advance timers partway but not enough to trigger
+      jest.advanceTimersByTime(0.5)
+
+      // Trigger context menu again - this should clear the previous timeout
+      fireEvent.contextMenu(number)
+
+      // Advance timers partway again
+      jest.advanceTimersByTime(0.5)
+
+      // Trigger context menu third time - this should clear the previous timeout
+      fireEvent.contextMenu(number)
+
+      // Now advance the full 1ms - only the last timeout should fire
+      jest.advanceTimersByTime(1)
+
+      // Wait for the state to settle
+      await waitFor(() => {
+        expect(comp).toHaveClass('dnb-number-format--selected')
+        // Only the last timeout should have fired, so focus should be called once
+        expect(focusSpy).toHaveBeenCalledTimes(1)
+        expect(focusSpy).toHaveBeenCalledWith({ preventScroll: true })
+      })
+
+      focusSpy.mockRestore()
+    })
   })
 
   describe('rounding', () => {
