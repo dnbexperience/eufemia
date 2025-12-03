@@ -112,7 +112,7 @@ describe('Autocomplete component', () => {
   it('keeps dialog open when Escape is pressed inside the autocomplete input', async () => {
     render(
       <Dialog noAnimation openState title="Dialog">
-        <Autocomplete {...mockProps} opened data={mockData} no_animation />
+        <Autocomplete {...mockProps} opened data={mockData} noAnimation />
       </Dialog>
     )
 
@@ -494,7 +494,7 @@ describe('Autocomplete component', () => {
       status: 'status text',
       suffix: 'suffix text',
       label: 'Autocomplete label',
-      no_animation: true,
+      noAnimation: true,
       skip_portal: true,
     }
 
@@ -3253,7 +3253,7 @@ describe('Autocomplete component', () => {
 
     render(
       <Autocomplete
-        show_clear_button
+        showClearButton
         data={mockData}
         onClear={onClear}
         {...mockProps}
@@ -3442,7 +3442,7 @@ describe('Autocomplete component', () => {
       )
     })
 
-    it('should include custom input value and not emit on input enter key', () => {
+    it('should include custom input value and not emit on input enter key', async () => {
       const onBlur = jest.fn()
 
       render(
