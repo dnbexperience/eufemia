@@ -131,8 +131,8 @@ describe('Logo component', () => {
     expect(html).toBe(refHTML)
   })
 
-  it('should brand="ui" for backward compatibility', () => {
-    render(<Logo brand="ui" />)
+  it('should render DNB logo by default', () => {
+    render(<Logo />)
     expect(document.querySelector('.dnb-logo')).toBeInTheDocument()
     expect(document.querySelector('.sbanken-logo')).not.toBeInTheDocument()
     expect(document.querySelector('title').textContent).toBe('DNB Logo')
