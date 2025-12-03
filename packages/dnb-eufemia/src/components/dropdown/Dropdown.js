@@ -511,7 +511,7 @@ class DropdownInstance extends React.PureComponent {
       alignDropdown = 'right'
     }
 
-    const { id, selectedItem, direction, opened } =
+    const { id: drawerListId, selectedItem, direction, opened } =
       this.context.drawerList
     const showStatus = getStatusState(status)
 

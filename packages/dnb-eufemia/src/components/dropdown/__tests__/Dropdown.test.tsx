@@ -1099,7 +1099,7 @@ describe('Dropdown component', () => {
   it('keeps dialog open when Escape is pressed inside the dropdown', async () => {
     render(
       <Dialog noAnimation openState title="Dialog">
-        <Dropdown data={mockData} skip_portal no_animation opened />
+        <Dropdown data={mockData} skipPortal noAnimation opened />
       </Dialog>
     )
 
