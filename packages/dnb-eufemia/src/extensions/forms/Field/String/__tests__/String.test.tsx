@@ -1671,16 +1671,16 @@ describe('Field.String', () => {
     expect(dataContext.fieldDisplayValueRef.current).toEqual({
       '/myValue': {
         type: 'field',
-        value: '123 kr',
+        value: '123',
       },
     })
 
-    await userEvent.type(input, '{Backspace>2}4')
+    await userEvent.type(input, '{Backspace}4')
 
     expect(dataContext.fieldDisplayValueRef.current).toEqual({
       '/myValue': {
         type: 'field',
-        value: '124 kr',
+        value: '124',
       },
     })
 
@@ -1784,24 +1784,24 @@ describe('Field.String', () => {
     expect(dataContext.fieldDisplayValueRef.current).toEqual({
       '/myArray/0/myValue': {
         type: 'field',
-        value: '123 kr',
+        value: '123',
       },
       '/myArray/1/myValue': {
         type: 'field',
-        value: '456 kr',
+        value: '456',
       },
     })
 
-    await userEvent.type(input, '{Backspace>2}4')
+    await userEvent.type(input, '{Backspace}4')
 
     expect(dataContext.fieldDisplayValueRef.current).toEqual({
       '/myArray/0/myValue': {
         type: 'field',
-        value: '124 kr',
+        value: '124',
       },
       '/myArray/1/myValue': {
         type: 'field',
-        value: '456 kr',
+        value: '456',
       },
     })
 
@@ -1813,7 +1813,7 @@ describe('Field.String', () => {
       },
       '/myArray/1/myValue': {
         type: 'field',
-        value: '456 kr',
+        value: '456',
       },
     })
   })

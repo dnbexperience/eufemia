@@ -490,15 +490,16 @@ function MultiInputMaskInput<T extends string>({
         }}
         onBlur={onBlur}
         onFocus={({ target }) => {
-          // Select the entire input on focus (with or without content)
+          // Select the entire input on focus, but only when there is content
           try {
             target.focus()
-            // Defer slightly to allow mask/DOM updates, then select all
-            window.requestAnimationFrame(() => {
-              const start = 0
-              const end = (target as HTMLInputElement).value.length
-              ;(target as HTMLInputElement).setSelectionRange(start, end)
-            })
+            if ((target as HTMLInputElement).value.length > 0) {
+              window.requestAnimationFrame(() => {
+                const start = 0
+                const end = (target as HTMLInputElement).value.length
+                ;(target as HTMLInputElement).setSelectionRange(start, end)
+              })
+            }
           } catch {
             // ignore
           }

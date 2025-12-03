@@ -5,5 +5,10 @@
     .dnb-input__shell {
       justify-content: center;
     }
+
+    .dnb-input__input {
+      // Align for Chrome and Safari
+      text-align: center;
+    }
   }
 }

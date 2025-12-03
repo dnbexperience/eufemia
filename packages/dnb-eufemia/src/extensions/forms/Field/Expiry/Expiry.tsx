@@ -74,14 +74,11 @@ function Expiry(props: ExpiryProps = {}) {
 
   const fromInput = useCallback(
     (values: ExpiryValue) => {
-      const month = expiryValueToString(values.month, placeholders.month)
-      const year = expiryValueToString(values.year, placeholders.year)
+      const month = stripPlaceholderChars(values.month, placeholders.month)
+      const year = stripPlaceholderChars(values.year, placeholders.year)
 
-      if (
-        isFieldEmpty(month, placeholders.month) &&
-        isFieldEmpty(year, placeholders.year)
-      ) {
-        return undefined
+      if (!month && !year) {
+        return ''
       }
 
       return `${month}${year}`
@@ -243,6 +240,7 @@ function Expiry(props: ExpiryProps = {}) {
             id: 'month',
             label: monthLabel,
             mask: [/[0-9]/, /[0-9]/],
+            placeholder: repeatPlaceholder(placeholders.month, 2),
             autoComplete: 'cc-exp-month',
             ...htmlAttributes,
           },
@@ -250,6 +248,7 @@ function Expiry(props: ExpiryProps = {}) {
             id: 'year',
             label: yearLabel,
             mask: [/[0-9]/, /[0-9]/],
+            placeholder: repeatPlaceholder(placeholders.year, 2),
             autoComplete: 'cc-exp-year',
             ...htmlAttributes,
           },
@@ -282,6 +281,29 @@ function expiryValueToString(value: string, placeholder: string) {
   }
 
   return value
+}
+
+function repeatPlaceholder(character: string, length: number) {
+  if (!character) {
+    return ''
+  }
+
+  return Array.from({ length }, () => character).join('')
+}
+
+function stripPlaceholderChars(
+  value: string | undefined,
+  placeholder: string
+) {
+  if (!value) {
+    return ''
+  }
+
+  if (!placeholder) {
+    return value
+  }
+
+  return value.split(placeholder).join('')
 }
 
 function validateMonthAndYear(
