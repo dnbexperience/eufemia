@@ -97,33 +97,33 @@ describe('MultiInputMask', () => {
     })
     expect(onChange.mock.calls[3][0]).toEqual({
       day: '08',
-      month: '12',
+      month: '2',
       year: '',
     })
     expect(onChange.mock.calls[4][0]).toEqual({
       day: '08',
-      month: '12',
-      year: '2',
+      month: '22',
+      year: '',
     })
     expect(onChange.mock.calls[5][0]).toEqual({
       day: '08',
-      month: '12',
-      year: '20',
+      month: '22',
+      year: '0',
     })
     expect(onChange.mock.calls[6][0]).toEqual({
       day: '08',
-      month: '12',
-      year: '202',
+      month: '22',
+      year: '2',
     })
     expect(onChange.mock.calls[7][0]).toEqual({
       day: '08',
-      month: '12',
-      year: '2023',
+      month: '22',
+      year: '23',
     })
     expect(onChange.mock.calls[7][0]).toEqual({
       day: '08',
-      month: '12',
-      year: '2023',
+      month: '22',
+      year: '23',
     })
   })
 
