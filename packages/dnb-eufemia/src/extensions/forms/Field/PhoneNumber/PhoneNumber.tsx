@@ -507,8 +507,12 @@ function PhoneNumber(props: Props = {}) {
           mode="async"
           placeholder={countryCodePlaceholder}
           labelDirection="vertical"
-          label={countryCodeLabel ?? defaultCountryCodeLabel}
-          labelSrOnly={labelSrOnly}
+          label={
+            countryCodeLabel === false
+              ? defaultCountryCodeLabel
+              : countryCodeLabel ?? defaultCountryCodeLabel
+          }
+          labelSrOnly={countryCodeLabel === false ? true : undefined}
           data={dataRef.current}
           value={countryCodeRef.current}
           status={hasError ? 'error' : undefined}
