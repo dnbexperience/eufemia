@@ -2,17 +2,22 @@
 showTabs: true
 ---
 
-import {
-  TermDefinitionExampleBasic,
-  TermDefinitionExampleLead,
-} from 'Docs/uilib/components/term-definition/Examples'
+import * as Examples from './Examples'
 
 ## Demos
 
 ### Basic
 
-<TermDefinitionExampleBasic />
+<Examples.TermDefinitionBasic />
+
+### In help text
+
+<Examples.TermDefinitionHelp />
+
+### In label
+
+<Examples.TermDefinitionLabel />
 
 <VisibleWhenVisualTest>
-  <TermDefinitionExampleLead />
+  <Examples.TermDefinitionLead />
 </VisibleWhenVisualTest>
