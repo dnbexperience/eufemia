@@ -823,16 +823,9 @@ export default class DrawerListProvider extends React.PureComponent<
         {
           e.preventDefault()
 
-          if (
-            this.state.direction === 'bottom' &&
-            this.state.activeItem === this.getFirstItem()
-          ) {
-            activeItem = -1
-          } else {
-            activeItem = this.getPrevActiveItem()
-            if (isNaN(activeItem)) {
-              activeItem = this.getLastItem()
-            }
+          activeItem = this.getPrevActiveItem()
+          if (isNaN(activeItem)) {
+            activeItem = this.getLastItem()
           }
         }
         break
@@ -841,17 +834,9 @@ export default class DrawerListProvider extends React.PureComponent<
         {
           e.preventDefault()
 
-          if (
-            this.state.direction === 'top' &&
-            this.state.activeItem === this.getLastItem()
-          ) {
-            activeItem = -1
-          } else {
-            activeItem = this.getNextActiveItem()
-
-            if (isNaN(activeItem)) {
-              activeItem = this.getFirstItem()
-            }
+          activeItem = this.getNextActiveItem()
+          if (isNaN(activeItem)) {
+            activeItem = this.getFirstItem()
           }
         }
         break
@@ -1245,8 +1230,13 @@ export default class DrawerListProvider extends React.PureComponent<
         ulElement: this._refUl.current,
       })
 
+      // When reopening, if there's a selected item, focus should be on the selected item
+      // Otherwise, use the current activeItem (for remembering focus when no selection)
+      const itemToFocus =
+        parseFloat(selectedItem as string) > -1 ? selectedItem : activeItem
+
       this.setActiveItemAndScrollToIt(
-        parseFloat(activeItem as string) > -1 ? activeItem : -1,
+        parseFloat(itemToFocus as string) > -1 ? itemToFocus : -1,
         { scrollTo: false }
       )
     }
