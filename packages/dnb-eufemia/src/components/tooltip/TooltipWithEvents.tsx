@@ -43,7 +43,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
     triggerOffset,
     contentRef,
     size,
-    keepInDOM = true,
+    keepInDOM = false,
   } = restProps
 
   const { internalId, isControlled } = useContext(TooltipContext)
@@ -55,6 +55,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
   const delayTimeout = useRef<NodeJS.Timeout>()
   const overlayDelayTimeout = useRef<NodeJS.Timeout>()
   const cloneRef = useRef<HTMLElement>()
+  const previousDescribedByIdRef = useRef<string | null>(null)
 
   const clearTimers = () => {
     clearTimeout(delayTimeout.current)
@@ -171,20 +172,33 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
     [onFocus, onMouseEnter, onMouseLeave]
   )
 
+  const overlayActive = isActive || isOverlayHovered
+
+  const fallbackDescriptionId = `${internalId}-sr`
+  const shouldUseFallbackDescription =
+    !omitDescribedBy && !keepInDOM && !overlayActive
+  const describedById = omitDescribedBy
+    ? null
+    : shouldUseFallbackDescription
+    ? fallbackDescriptionId
+    : internalId
+
   /**
    * Make the element focus-able by keyboard, if it is not a semantic element.
    * This will enable keyboard access to the tooltip by adding focus possibility
    */
   const handleSemanticElement = useCallback(() => {
+    if (!describedById) {
+      return // stop here
+    }
     try {
       const targetElement = document.querySelector(
-        `*[aria-describedby*="${internalId}"]`
+        `*[aria-describedby*="${describedById}"]`
       )
       if (targetElement instanceof HTMLElement) {
-        const role = targetElement.getAttribute?.('role')
         if (
-          /div|p|span/i.test(targetElement?.tagName) &&
-          (!role || role === 'text')
+          !targetElement.hasAttribute('role') &&
+          /div|p|span/i.test(targetElement?.tagName)
         ) {
           setIsNotSemanticElement(true)
         }
@@ -192,13 +206,12 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
     } catch (e) {
       warn(e)
     }
-  }, [internalId])
+  }, [describedById])
 
   /**
    * Get our "target"
    */
   const componentWrapper = useMemo(() => {
-    // we could also check against && target.props && !target.props.tooltip
     if (isValidElement(target)) {
       const params = isNotSemanticElement
         ? injectTooltipSemantic({ className: props.className })
@@ -209,20 +222,14 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
         ...params,
         'aria-describedby': combineDescribedBy(
           target.props['aria-describedby'],
-          omitDescribedBy ? null : internalId
+          describedById
         ),
       })
     }
 
     cloneRef.current = target as HTMLElement
     return null
-  }, [
-    internalId,
-    isNotSemanticElement,
-    omitDescribedBy,
-    props.className,
-    target,
-  ])
+  }, [describedById, isNotSemanticElement, props.className, target])
 
   useEffect(() => {
     if (!target) {
@@ -244,27 +251,58 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
   }, [addEvents, removeEvents, isControlled, target])
 
   useEffect(() => {
-    if (!target || omitDescribedBy) {
-      return
-    }
-
     const targetElement = getRefElement(cloneRef)
     if (!(targetElement instanceof HTMLElement)) {
+      previousDescribedByIdRef.current = null
       return
     }
 
-    try {
-      const existing = {
-        'aria-describedby': targetElement.getAttribute('aria-describedby'),
+    const updateAriaDescribedBy = (nextId: string | null) => {
+      const existingValues =
+        targetElement
+          .getAttribute('aria-describedby')
+          ?.split(/\s+/)
+          .map((value) => value.trim())
+          .filter(Boolean) ?? []
+
+      const withoutPrevious =
+        previousDescribedByIdRef.current !== null
+          ? existingValues.filter(
+              (value) => value !== previousDescribedByIdRef.current
+            )
+          : existingValues
+
+      let nextValues = withoutPrevious
+      if (nextId) {
+        nextValues = nextValues.filter((value) => value !== nextId)
+        nextValues = [...nextValues, nextId]
       }
-      targetElement.setAttribute(
-        'aria-describedby',
-        combineDescribedBy(existing, internalId)
-      )
-    } catch (error) {
-      warn(error)
+
+      if (nextValues.length > 0) {
+        targetElement.setAttribute(
+          'aria-describedby',
+          nextValues.join(' ')
+        )
+      } else {
+        targetElement.removeAttribute('aria-describedby')
+      }
+
+      previousDescribedByIdRef.current = nextId
     }
-  }, [internalId, omitDescribedBy, target])
+
+    if (omitDescribedBy) {
+      if (previousDescribedByIdRef.current) {
+        updateAriaDescribedBy(null)
+      }
+      return
+    }
+
+    updateAriaDescribedBy(describedById ?? null)
+
+    return () => {
+      updateAriaDescribedBy(null)
+    }
+  }, [cloneRef, describedById, omitDescribedBy, target])
 
   useEffect(() => {
     if (isControlled) {
@@ -306,8 +344,6 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
       run()
     }
   }, [hideDelay, isControlled, skipPortal])
-
-  const overlayActive = isActive || isOverlayHovered
 
   const { className: attributeClassName, ...restAttributes } =
     attributes || {}
@@ -353,6 +389,15 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
       >
         {children}
       </Popover>
+
+      {shouldUseFallbackDescription && (
+        <span
+          id={fallbackDescriptionId}
+          className="dnb-sr-only dnb-tooltip__sr-description"
+        >
+          {children}
+        </span>
+      )}
 
       {componentWrapper}
     </>

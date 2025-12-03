@@ -3061,6 +3061,38 @@ describe('Popover', () => {
       })
     })
 
+    it('creates portal root immediately when keepInDOM is true even before opening', async () => {
+      document.getElementById('eufemia-portal-root')?.remove()
+
+      renderWithTrigger({ keepInDOM: true })
+
+      await waitFor(() =>
+        expect(
+          document.body.querySelector('.dnb-popover__portal')
+        ).toBeInTheDocument()
+      )
+      const portalRoot = document.getElementById('eufemia-portal-root')
+      expect(portalRoot).toBeInTheDocument()
+
+      const trigger = document.querySelector('button[aria-controls]')
+      expect(trigger).toHaveAttribute('aria-expanded', 'false')
+    })
+
+    it('does not create portal root before opening when keepInDOM is false', () => {
+      document.getElementById('eufemia-portal-root')?.remove()
+
+      renderWithTrigger({ keepInDOM: false })
+
+      expect(
+        document.body.querySelector('.dnb-popover__portal')
+      ).not.toBeInTheDocument()
+      const portalRoot = document.getElementById('eufemia-portal-root')
+      expect(portalRoot).not.toBeInTheDocument()
+
+      const trigger = document.querySelector('button[aria-controls]')
+      expect(trigger).toHaveAttribute('aria-expanded', 'false')
+    })
+
     describe('with skipPortal', () => {
       it('unmounts the inline popover when keepInDOM is false', async () => {
         const { container } = renderWithTrigger({

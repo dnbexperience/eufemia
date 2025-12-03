@@ -208,7 +208,7 @@ describe('Tooltip', () => {
     )
 
     it('should not set style when not active', () => {
-      render(<Tooltip />)
+      render(<Tooltip keepInDOM />)
 
       expect(
         document.querySelector('.dnb-tooltip').getAttribute('style')
@@ -254,54 +254,32 @@ describe('Tooltip', () => {
         // Prevent it from hiding
         fireEvent.mouseEnter(getMainElem())
 
-        await wait(1)
+        await waitFor(() => {
+          expect(getMainElem().classList).toContain('dnb-tooltip--active')
+        })
 
         expect(getMainElem().classList).toContain('dnb-tooltip--active')
 
         fireEvent.mouseLeave(getMainElem())
 
-        await wait(1)
-
-        expect(getMainElem().classList).not.toContain(
-          'dnb-tooltip--active'
-        )
+        await waitFor(() => {
+          expect(getMainElem().classList).not.toContain(
+            'dnb-tooltip--active'
+          )
+        })
       })
     })
 
     describe('keepInDOM', () => {
-      it('should keep tooltip in DOM when keepInDOM is true and tooltip is active', async () => {
+      it('should remove tooltip from DOM when inactive by default', async () => {
         const { rerender } = render(<Tooltip active />)
 
-        // Tooltip should be in DOM when active
-        const tooltipElement = await waitFor(
-          () => document.querySelector('.dnb-tooltip'),
-          { timeout: 3000 }
-        )
-        expect(tooltipElement).toBeInTheDocument()
-
-        // Deactivate the tooltip
-        rerender(<Tooltip active={false} />)
-
-        // Tooltip should still be in DOM when keepInDOM is true
-        await wait(100)
-        expect(document.querySelector('.dnb-tooltip')).toBeInTheDocument()
-      })
-
-      it('should unmount tooltip when keepInDOM is false and tooltip becomes inactive', async () => {
-        const { rerender } = render(<Tooltip keepInDOM={false} active />)
-
-        // Tooltip should be in DOM when active
         await waitFor(() => document.querySelector('.dnb-tooltip'), {
           timeout: 3000,
         })
 
-        // Deactivate the tooltip
-        rerender(<Tooltip keepInDOM={false} active={false} />)
+        rerender(<Tooltip active={false} />)
 
-        // Wait for hide delay + animation delay
-        await wait(500)
-
-        // Tooltip should not be in DOM when inactive and keepInDOM is false
         await waitFor(() => {
           expect(
             document.querySelector('.dnb-tooltip')
@@ -309,8 +287,8 @@ describe('Tooltip', () => {
         })
       })
 
-      it('should keep inline tooltip when keepInDOM is true and skipPortal is true', async () => {
-        const { rerender } = render(<Tooltip skipPortal={true} active />)
+      it('should keep tooltip in DOM when keepInDOM is true even when inactive', async () => {
+        const { rerender } = render(<Tooltip keepInDOM active />)
 
         const tooltipElement = await waitFor(
           () => document.querySelector('.dnb-tooltip'),
@@ -318,13 +296,29 @@ describe('Tooltip', () => {
         )
         expect(tooltipElement).toBeInTheDocument()
 
-        // Deactivate the tooltip
-        rerender(<Tooltip skipPortal={true} active={false} />)
+        rerender(<Tooltip keepInDOM active={false} />)
 
-        // Tooltip should still be in DOM when keepInDOM is true
+        await waitFor(() => {
+          expect(
+            document.querySelector('.dnb-tooltip')
+          ).toBeInTheDocument()
+        })
+      })
+
+      it('should keep inline tooltip when keepInDOM is true and skipPortal is true', async () => {
+        const { rerender } = render(
+          <Tooltip keepInDOM skipPortal={true} active />
+        )
+
+        const tooltipElement = await waitFor(
+          () => document.querySelector('.dnb-tooltip'),
+          { timeout: 3000 }
+        )
+        expect(tooltipElement).toBeInTheDocument()
+
+        rerender(<Tooltip keepInDOM skipPortal={true} active={false} />)
+
         expect(document.querySelector('.dnb-tooltip')).toBeInTheDocument()
-
-        // Portal should not exist when skipPortal is true
         expect(
           document.body.querySelector('.dnb-tooltip__portal')
         ).not.toBeInTheDocument()
@@ -339,16 +333,53 @@ describe('Tooltip', () => {
           timeout: 3000,
         })
 
-        // Deactivate the tooltip
         rerender(
           <Tooltip keepInDOM={false} skipPortal={true} active={false} />
         )
 
-        // Tooltip should not be in DOM when inactive and keepInDOM is false
         await waitFor(() => {
           expect(
             document.querySelector('.dnb-tooltip')
           ).not.toBeInTheDocument()
+        })
+      })
+    })
+
+    describe('aria-describedby fallback', () => {
+      it('keeps a sr-only description in the DOM while tooltip is inactive', () => {
+        render(
+          <Tooltip showDelay={0} hideDelay={0}>
+            Tooltip content
+          </Tooltip>
+        )
+
+        const buttonElem = document.querySelector(
+          'button'
+        ) as HTMLButtonElement
+        const describedById = buttonElem.getAttribute('aria-describedby')
+
+        expect(describedById).toBeTruthy()
+        const descriptionElement = document.getElementById(
+          describedById as string
+        )
+        expect(descriptionElement).toHaveClass('dnb-sr-only')
+        expect(descriptionElement?.textContent).toBe('Tooltip content')
+      })
+
+      it('switches aria-describedby to the tooltip content when it becomes active', async () => {
+        render(<Tooltip {...defaultProps}>Tooltip content</Tooltip>)
+
+        const buttonElem = document.querySelector(
+          'button'
+        ) as HTMLButtonElement
+        fireEvent.mouseEnter(buttonElem)
+
+        await waitFor(() => {
+          const describedById =
+            buttonElem.getAttribute('aria-describedby') || ''
+          const tooltipContent = document.getElementById(describedById)
+          expect(tooltipContent).toBeInTheDocument()
+          expect(tooltipContent?.parentElement).toHaveClass('dnb-tooltip')
         })
       })
     })
@@ -419,9 +450,9 @@ describe('Tooltip', () => {
 
       fireEvent.mouseEnter(buttonElem)
 
-      await wait(100)
-
-      expect(getMainElem().classList).toContain('dnb-tooltip--active')
+      await waitFor(() => {
+        expect(getMainElem().classList).toContain('dnb-tooltip--active')
+      })
 
       fireEvent.mouseLeave(buttonElem)
       fireEvent.mouseEnter(buttonElem)
@@ -430,11 +461,11 @@ describe('Tooltip', () => {
 
       fireEvent.mouseLeave(buttonElem)
 
-      await wait(1)
-
-      const classList = getMainElem().classList
-      expect(classList).not.toContain('dnb-tooltip--active')
-      expect(classList).toContain('dnb-tooltip--hide')
+      await waitFor(() => {
+        const classList = getMainElem().classList
+        expect(classList).not.toContain('dnb-tooltip--active')
+        expect(classList).toContain('dnb-tooltip--hide')
+      })
     })
 
     it('should stay visible when mouse enters the Tooltip', async () => {
@@ -450,15 +481,17 @@ describe('Tooltip', () => {
       // Prevent it from hiding
       fireEvent.mouseEnter(getMainElem())
 
-      await wait(1)
-
-      expect(getMainElem().classList).toContain('dnb-tooltip--active')
+      await waitFor(() => {
+        expect(getMainElem().classList).toContain('dnb-tooltip--active')
+      })
 
       fireEvent.mouseLeave(getMainElem())
 
-      await wait(1)
-
-      expect(getMainElem().classList).not.toContain('dnb-tooltip--active')
+      await waitFor(() => {
+        expect(getMainElem().classList).not.toContain(
+          'dnb-tooltip--active'
+        )
+      })
     })
 
     it('should set fixed class', () => {
@@ -522,12 +555,14 @@ describe('Tooltip', () => {
 
       // DOM events should not change visibility when controlled
       fireEvent.mouseLeave(buttonElem)
-      await wait(1)
-      expect(getMainElem().classList).toContain('dnb-tooltip--active')
+      await waitFor(() => {
+        expect(getMainElem().classList).toContain('dnb-tooltip--active')
+      })
 
       fireEvent.mouseEnter(buttonElem)
-      await wait(1)
-      expect(getMainElem().classList).toContain('dnb-tooltip--active')
+      await waitFor(() => {
+        expect(getMainElem().classList).toContain('dnb-tooltip--active')
+      })
       expect(getMainElem().classList).not.toContain('dnb-tooltip--hide')
     })
 
@@ -537,18 +572,18 @@ describe('Tooltip', () => {
       const buttonElem = document.querySelector('button')
 
       // Initially not active due to controlled prop
-      expect(getMainElem().classList).not.toContain('dnb-tooltip--active')
-      expect(getMainElem().classList).not.toContain('dnb-tooltip--hide')
+      expect(document.querySelector('.dnb-tooltip')).toBeNull()
 
       // DOM events should not change visibility when controlled
       fireEvent.mouseEnter(buttonElem)
-      await wait(1)
-      expect(getMainElem().classList).not.toContain('dnb-tooltip--active')
+      await waitFor(() => {
+        expect(document.querySelector('.dnb-tooltip')).toBeNull()
+      })
 
       fireEvent.mouseLeave(buttonElem)
-      await wait(1)
-      expect(getMainElem().classList).not.toContain('dnb-tooltip--active')
-      expect(getMainElem().classList).not.toContain('dnb-tooltip--hide')
+      await waitFor(() => {
+        expect(document.querySelector('.dnb-tooltip')).toBeNull()
+      })
     })
 
     describe('omitDescribedBy', () => {
@@ -627,7 +662,7 @@ describe('Tooltip', () => {
   })
 
   describe('NumberFormat with tooltip', () => {
-    it('will get wrapped with dnb-tooltip__wrapper', () => {
+    it('will get wrapped with dnb-tooltip__wrapper', async () => {
       render(
         <NumberFormat
           tooltip={
@@ -649,7 +684,17 @@ describe('Tooltip', () => {
         'dnb-tab-focus',
       ])
 
-      const tooltipElement = document.querySelector('.dnb-tooltip')
+      fireEvent.mouseEnter(wrapperElement)
+
+      const tooltipElement = await waitFor(() => {
+        const node = document.querySelector(
+          '.dnb-tooltip'
+        ) as HTMLElement | null
+        if (!node) {
+          throw new Error('Tooltip not rendered')
+        }
+        return node
+      })
       expect(Array.from(tooltipElement.classList)).toEqual(
         expect.arrayContaining(['dnb-tooltip', 'custom-class'])
       )
@@ -673,7 +718,9 @@ describe('Tooltip', () => {
 
       fireEvent.focus(document.querySelector('.dnb-tooltip__wrapper'))
 
-      await wait(200) // because of visibility delay
+      await waitFor(() => {
+        expect(getMainElem().classList).toContain('dnb-tooltip--active')
+      })
 
       const wrapperElement = document.querySelector(
         '.dnb-tooltip__wrapper'
@@ -918,28 +965,18 @@ describe('Tooltip', () => {
         </Anchor>
       )
 
-      const getContentElement = () => {
-        const id = document
-          .querySelector('a')
-          .getAttribute('aria-describedby')
-
-        return document.body.querySelector('#' + id).parentElement
-      }
-
       fireEvent.mouseEnter(document.querySelector('a'))
 
-      await wait(200)
-
-      expect(Array.from(getContentElement().classList)).toEqual(
-        expect.arrayContaining(['dnb-tooltip', 'dnb-tooltip--active'])
+      await waitFor(() =>
+        expect(document.querySelector('.dnb-tooltip')).toHaveClass(
+          'dnb-tooltip--active'
+        )
       )
 
       fireEvent.mouseLeave(document.querySelector('a'))
 
-      await wait(600)
-
-      expect(Array.from(getContentElement().classList)).toEqual(
-        expect.arrayContaining(['dnb-tooltip', 'dnb-tooltip--hide'])
+      await waitFor(() =>
+        expect(document.querySelector('.dnb-tooltip')).toBeNull()
       )
     })
 
@@ -953,7 +990,9 @@ describe('Tooltip', () => {
       const element = document.querySelector('a')
       fireEvent.focus(element)
 
-      await wait(200) // because of visibility delay
+      await waitFor(() => {
+        expect(getMainElem().classList).toContain('dnb-tooltip--active')
+      })
 
       const id = element.getAttribute('aria-describedby')
       expect(
