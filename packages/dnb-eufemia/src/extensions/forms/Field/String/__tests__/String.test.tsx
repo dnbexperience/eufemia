@@ -76,11 +76,19 @@ describe('Field.String', () => {
       expect(
         document.querySelector('input').getAttribute('aria-describedby')
       ).toBe(document.querySelector('.dnb-help-button').id)
-      expect(
-        document
-          .querySelector('.dnb-help-button')
-          .getAttribute('aria-describedby')
-      ).toBe(document.querySelector('.dnb-tooltip__content').id)
+      {
+        const helpButton = document.querySelector('.dnb-help-button')
+        const describedById = helpButton?.getAttribute('aria-describedby')
+        expect(describedById).toBeTruthy()
+
+        const describedByElement = describedById
+          ? document.getElementById(describedById)
+          : null
+        expect(describedByElement).toBeTruthy()
+        expect(describedByElement).toHaveClass(
+          'dnb-tooltip__sr-description'
+        )
+      }
     })
 
     it('renders label once', () => {

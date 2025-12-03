@@ -338,14 +338,22 @@ describe('DateFormat', () => {
 
       const timeElem = document.querySelector('.dnb-date-format')
 
-      const id = timeElem.getAttribute('aria-describedby')
-      expect(document.body.querySelectorAll('#' + id)).toHaveLength(1)
+      const fallbackId = timeElem.getAttribute('aria-describedby')
+      expect(fallbackId).toContain('-sr')
+      const fallbackDescription = document.body.querySelector(
+        '#' + fallbackId
+      )
+      expect(fallbackDescription).toHaveClass(
+        'dnb-tooltip__sr-description'
+      )
 
       fireEvent.mouseEnter(timeElem)
       await wait(350) // until the tooltip shows
 
+      const tooltipId = timeElem.getAttribute('aria-describedby')
+      expect(tooltipId).not.toBe(fallbackId)
       const tooltipElem = document.body.querySelector(
-        '#' + id
+        '#' + tooltipId
       ).parentElement
 
       expect(Array.from(tooltipElem.classList)).toEqual(
@@ -365,15 +373,15 @@ describe('DateFormat', () => {
 
       const timeElem = document.querySelector('.dnb-date-format')
 
-      const id = timeElem.getAttribute('aria-describedby')
-      expect(document.body.querySelectorAll('#' + id)).toHaveLength(1)
+      const fallbackId = timeElem.getAttribute('aria-describedby')
+      expect(fallbackId).toContain('-sr')
 
       fireEvent.mouseEnter(timeElem)
       await wait(350) // until the tooltip shows
 
-      const tooltipElem = document.body.querySelector(
-        '#' + id
-      ).parentElement
+      const tooltipId = timeElem.getAttribute('aria-describedby')
+      expect(tooltipId).not.toBe(fallbackId)
+      const tooltipElem = document.body.querySelector('#' + tooltipId)
 
       expect(tooltipElem).toHaveTextContent('1. august 2025 kl. 14:30')
     })

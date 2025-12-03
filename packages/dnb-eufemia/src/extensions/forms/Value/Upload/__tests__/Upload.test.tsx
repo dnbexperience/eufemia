@@ -25,14 +25,25 @@ const files = [
 ]
 
 describe('Value.Upload', () => {
+  const getValueText = (element: Element) => {
+    const rawText = element?.textContent ?? ''
+    return Array.from(
+      element.querySelectorAll('.dnb-tooltip__sr-description')
+    )
+      .reduce((text, desc) => {
+        const descText = desc?.textContent ?? ''
+        return descText ? text.replace(descText, '') : text
+      }, rawText)
+      .trim()
+  }
+
   it('renders file values', () => {
     render(<Value.Upload value={files} />)
 
-    expect(
-      document.querySelector(
-        '.dnb-forms-value-upload .dnb-forms-value-block__content'
-      )
-    ).toHaveTextContent('foo.png, bar.png og baz.png')
+    const valueElement = document.querySelector(
+      '.dnb-forms-value-upload .dnb-forms-value-block__content'
+    )
+    expect(getValueText(valueElement)).toBe('foo.png, bar.png og baz.png')
   })
 
   it('does not render empty array of file values', () => {
@@ -133,11 +144,12 @@ describe('Value.Upload', () => {
       />
     )
 
-    expect(
-      document.querySelector(
-        '.dnb-forms-value-upload .dnb-forms-value-block__content'
-      )
-    ).toHaveTextContent('foo.png, bar.png eller baz.png')
+    const formattedValueElement = document.querySelector(
+      '.dnb-forms-value-upload .dnb-forms-value-block__content'
+    )
+    expect(getValueText(formattedValueElement)).toBe(
+      'foo.png, bar.png eller baz.png'
+    )
   })
 
   it('should render different variants', () => {
@@ -166,7 +178,7 @@ describe('Value.Upload', () => {
 
     expect(ol).not.toBeInTheDocument()
     expect(ul).not.toBeInTheDocument()
-    expect(valueBlock).toHaveTextContent('foo.png, bar.png og baz.png')
+    expect(getValueText(valueBlock)).toBe('foo.png, bar.png og baz.png')
   })
 
   it('should render different `listTypes`', () => {
@@ -211,11 +223,12 @@ describe('Value.Upload', () => {
 
   it('renders value and label', () => {
     render(<Value.Upload label="My selections" value={files} />)
-    expect(
-      document.querySelector(
-        '.dnb-forms-value-upload .dnb-forms-value-block__content'
-      )
-    ).toHaveTextContent('foo.png, bar.png og baz.png')
+    const valueElementWithLabel = document.querySelector(
+      '.dnb-forms-value-upload .dnb-forms-value-block__content'
+    )
+    expect(getValueText(valueElementWithLabel)).toBe(
+      'foo.png, bar.png og baz.png'
+    )
 
     expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
       'My selections'
@@ -241,11 +254,10 @@ describe('Value.Upload', () => {
       </Form.Handler>
     )
 
-    expect(
-      document.querySelector(
-        '.dnb-forms-value-upload .dnb-forms-value-block__content'
-      )
-    ).toHaveTextContent('foo.png, bar.png og baz.png')
+    const valueFromPath = document.querySelector(
+      '.dnb-forms-value-upload .dnb-forms-value-block__content'
+    )
+    expect(getValueText(valueFromPath)).toBe('foo.png, bar.png og baz.png')
   })
 
   it('formats value in different locale', () => {
@@ -255,11 +267,12 @@ describe('Value.Upload', () => {
       </Form.Handler>
     )
 
-    expect(
-      document.querySelector(
-        '.dnb-forms-value-upload .dnb-forms-value-block__content'
-      )
-    ).toHaveTextContent('foo.png, bar.png and baz.png')
+    const englishValueElement = document.querySelector(
+      '.dnb-forms-value-upload .dnb-forms-value-block__content'
+    )
+    expect(getValueText(englishValueElement)).toBe(
+      'foo.png, bar.png and baz.png'
+    )
   })
 
   describe('Icons', () => {

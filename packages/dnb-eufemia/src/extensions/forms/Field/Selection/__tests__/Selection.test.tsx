@@ -6,7 +6,6 @@ import DataContext from '../../../DataContext/Context'
 import DrawerListProvider from '../../../../../fragments/drawer-list/DrawerListProvider'
 import { makeOptions } from '../Selection'
 import { Field, Form } from '../../..'
-
 import nbNO from '../../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO']
 
@@ -1409,11 +1408,19 @@ describe('variants', () => {
       expect(
         document.querySelector('.dnb-dropdown__trigger')
       ).toHaveAttribute('aria-describedby')
-      expect(
-        document
-          .querySelector('.dnb-help-button')
-          .getAttribute('aria-describedby')
-      ).toBe(document.querySelector('.dnb-tooltip__content').id)
+      {
+        const helpButton = document.querySelector('.dnb-help-button')
+        const describedById = helpButton?.getAttribute('aria-describedby')
+        expect(describedById).toBeTruthy()
+
+        const describedByElement = describedById
+          ? document.getElementById(describedById)
+          : null
+        expect(describedByElement).toBeTruthy()
+        expect(describedByElement).toHaveClass(
+          'dnb-tooltip__sr-description'
+        )
+      }
     })
 
     describe('dropdownProps', () => {
@@ -1922,11 +1929,19 @@ describe('variants', () => {
       expect(document.querySelector('input')).toHaveAttribute(
         'aria-describedby'
       )
-      expect(
-        document
-          .querySelector('.dnb-help-button')
-          .getAttribute('aria-describedby')
-      ).toBe(document.querySelector('.dnb-tooltip__content').id)
+      {
+        const helpButton = document.querySelector('.dnb-help-button')
+        const describedById = helpButton?.getAttribute('aria-describedby')
+        expect(describedById).toBeTruthy()
+
+        const describedByElement = describedById
+          ? document.getElementById(describedById)
+          : null
+        expect(describedByElement).toBeTruthy()
+        expect(describedByElement).toHaveClass(
+          'dnb-tooltip__sr-description'
+        )
+      }
     })
 
     it('should support extra props in data (e.g. search_content)', async () => {

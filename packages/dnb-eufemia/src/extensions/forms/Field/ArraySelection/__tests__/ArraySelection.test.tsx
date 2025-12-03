@@ -10,7 +10,6 @@ import {
   makeAjvInstance,
   DataContext,
 } from '../../..'
-
 import nbNO from '../../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO']
 
@@ -76,11 +75,19 @@ describe('ArraySelection', () => {
         </Field.ArraySelection>
       )
       expect(document.querySelectorAll('.dnb-help-button')).toHaveLength(1)
-      expect(
-        document
-          .querySelector('.dnb-help-button')
-          .getAttribute('aria-describedby')
-      ).toBe(document.querySelector('.dnb-tooltip__content').id)
+      {
+        const helpButton = document.querySelector('.dnb-help-button')
+        const describedById = helpButton?.getAttribute('aria-describedby')
+        expect(describedById).toBeTruthy()
+
+        const describedByElement = describedById
+          ? document.getElementById(describedById)
+          : null
+        expect(describedByElement).toBeTruthy()
+        expect(describedByElement).toHaveClass(
+          'dnb-tooltip__sr-description'
+        )
+      }
     })
 
     it('precede option title over children', async () => {
@@ -753,11 +760,20 @@ describe('ArraySelection', () => {
         expect(document.querySelectorAll('.dnb-help-button')).toHaveLength(
           1
         )
-        expect(
-          document
-            .querySelector('.dnb-help-button')
-            .getAttribute('aria-describedby')
-        ).toBe(document.querySelector('.dnb-tooltip__content').id)
+        {
+          const helpButton = document.querySelector('.dnb-help-button')
+          const describedById =
+            helpButton?.getAttribute('aria-describedby')
+          expect(describedById).toBeTruthy()
+
+          const describedByElement = describedById
+            ? document.getElementById(describedById)
+            : null
+          expect(describedByElement).toBeTruthy()
+          expect(describedByElement).toHaveClass(
+            'dnb-tooltip__sr-description'
+          )
+        }
       })
 
       it('renders error', () => {

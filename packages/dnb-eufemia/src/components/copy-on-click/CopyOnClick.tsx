@@ -58,12 +58,30 @@ const CopyOnClick = ({
     return () => clear()
   }, [])
 
+  const sanitizeTooltipText = (value?: string) => {
+    if (!value) {
+      return ''
+    }
+
+    const srDescriptions =
+      Array.from(
+        ref.current?.querySelectorAll('.dnb-tooltip__sr-description') ?? []
+      ) ?? []
+
+    return srDescriptions
+      .reduce((text, sr) => {
+        const srText = sr?.textContent ?? ''
+        return srText ? text.replace(srText, '') : text
+      }, value)
+      .trim()
+  }
+
   const onClickHandler = useCallback(() => {
     if (!hasSelectedText()) {
       try {
         const str =
           convertJsxToString(copyContent || children) ||
-          ref.current.textContent
+          ref.current?.textContent
 
         if (str) {
           const selection = window.getSelection()
@@ -72,7 +90,7 @@ const CopyOnClick = ({
           selection.removeAllRanges()
           selection.addRange(range)
 
-          copy(str)
+          copy(sanitizeTooltipText(str))
         }
       } catch (e) {
         warn(e)

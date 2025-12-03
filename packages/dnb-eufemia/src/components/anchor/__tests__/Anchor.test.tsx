@@ -28,11 +28,17 @@ describe('Anchor element', () => {
         </Anchor>
       )
 
-      expect(document.querySelector('.dnb-tooltip')).toBeInTheDocument()
+      const tooltipDescription = document.querySelector(
+        '.dnb-tooltip__sr-description'
+      )
+      expect(tooltipDescription).toBeInTheDocument()
+      expect(tooltipDescription.textContent).toBe(nb.targetBlankTitle)
+      expect(tooltipDescription.id).toBe('unique-id-tooltip-sr')
       expect(
-        document.querySelector('#unique-id-tooltip.dnb-tooltip__content')
-          .textContent
-      ).toBe(nb.targetBlankTitle)
+        document
+          .getElementById('unique-id')
+          .getAttribute('aria-describedby')
+      ).toBe(tooltipDescription.id)
     })
 
     it('should still have tooltip with "dnb-anchor--no-icon" class', () => {
@@ -48,11 +54,17 @@ describe('Anchor element', () => {
         </Anchor>
       )
 
-      expect(document.querySelector('.dnb-tooltip')).toBeInTheDocument()
-      expect(
-        document.querySelector('#unique-id-tooltip.dnb-tooltip__content')
-          .textContent
-      ).toBe(nb.targetBlankTitle)
+      const tooltipDescription = document.querySelector(
+        '.dnb-tooltip__sr-description'
+      )
+      expect(tooltipDescription).toBeInTheDocument()
+      expect(tooltipDescription.textContent).toBe(nb.targetBlankTitle)
+      expect(tooltipDescription.id).toBe('unique-id-tooltip-sr')
+      expect(tooltipDescription.id).toBe(
+        document
+          .getElementById('unique-id')
+          .getAttribute('aria-describedby')
+      )
     })
 
     it('should still have tooltip when omitClass prop is true', () => {
@@ -68,11 +80,17 @@ describe('Anchor element', () => {
         </Anchor>
       )
 
-      expect(document.querySelector('.dnb-tooltip')).toBeInTheDocument()
+      const tooltipDescription = document.querySelector(
+        '.dnb-tooltip__sr-description'
+      )
+      expect(tooltipDescription).toBeInTheDocument()
+      expect(tooltipDescription.textContent).toBe(nb.targetBlankTitle)
+      expect(tooltipDescription.id).toBe('unique-id-tooltip-sr')
       expect(
-        document.querySelector('#unique-id-tooltip.dnb-tooltip__content')
-          .textContent
-      ).toBe(nb.targetBlankTitle)
+        document
+          .getElementById('unique-id')
+          .getAttribute('aria-describedby')
+      ).toBe(tooltipDescription.id)
     })
 
     it('has "__launch-icon" class', () => {
@@ -140,6 +158,9 @@ describe('Anchor element', () => {
       )
       expect(
         document.querySelector('.dnb-tooltip')
+      ).not.toBeInTheDocument()
+      expect(
+        document.querySelector('.dnb-tooltip__sr-description')
       ).not.toBeInTheDocument()
     })
 
@@ -283,11 +304,15 @@ describe('Anchor element', () => {
       </Anchor>
     )
 
-    expect(document.querySelector('.dnb-tooltip')).toBeInTheDocument()
-    expect(
-      document.querySelector('#unique-id-tooltip.dnb-tooltip__content')
-        .textContent
-    ).toBe('Tooltip')
+    const tooltipDescription = document.querySelector(
+      '.dnb-tooltip__sr-description'
+    )
+    expect(tooltipDescription).toBeInTheDocument()
+    expect(tooltipDescription.textContent).toBe('Tooltip')
+    expect(document.querySelector('#unique-id')).toHaveAttribute(
+      'aria-describedby',
+      tooltipDescription.id
+    )
   })
 
   it('should aria-describedby set by tooltip', () => {
@@ -300,7 +325,7 @@ describe('Anchor element', () => {
     const element = document.getElementById('unique-id')
 
     expect(element.getAttribute('aria-describedby')).toBe(
-      'unique-id-tooltip'
+      'unique-id-tooltip-sr'
     )
   })
 
