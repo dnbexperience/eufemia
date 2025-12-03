@@ -121,7 +121,6 @@ describe('Field.PhoneNumber', () => {
   it('should not have label on FieldBlock by default', () => {
     render(<Field.PhoneNumber />)
 
-<<<<<<< HEAD
     const fieldBlock = document.querySelector(
       '.dnb-forms-field-phone-number'
     ) as HTMLElement
