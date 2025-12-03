@@ -8,6 +8,7 @@ import userEvent from '@testing-library/user-event'
 import TermDefinition from '../TermDefinition'
 import defaultLocales from '../../../shared/locales'
 import { wait } from '../../../core/jest/jestSetup'
+import { Field } from '../../../extensions/forms'
 
 const term = 'unusual words'
 const definition =
@@ -256,5 +257,111 @@ describe('TermDefinition', () => {
       expect(trigger).toHaveAttribute('aria-expanded', 'false')
     )
     expect(document.activeElement).toBe(trigger)
+  })
+
+  it('should work with Field.Email label containing TermDefinition', async () => {
+    const emailDefinition =
+      'Email is a method of exchanging messages between people using electronic devices.'
+
+    render(
+      <Field.Email
+        label={
+          <>
+            Email address{' '}
+            <TermDefinition content={emailDefinition}>
+              what is email?
+            </TermDefinition>
+          </>
+        }
+      />
+    )
+
+    // Verify the field is rendered
+    const input = document.querySelector(
+      'input[autocomplete="email"]'
+    ) as HTMLInputElement
+    expect(input).toBeInTheDocument()
+    expect(input).toHaveAttribute('autocomplete', 'email')
+
+    // Verify the label contains the term definition trigger
+    const label = document.querySelector('label')
+    expect(label).toBeInTheDocument()
+
+    const termTrigger = label.querySelector(
+      '.dnb-term-definition__trigger'
+    )
+    expect(termTrigger).toBeInTheDocument()
+    expect(termTrigger).toHaveTextContent('what is email?')
+
+    // Verify the term definition can be opened
+    await userEvent.click(termTrigger)
+    await waitFor(() => {
+      const tooltipBody = document.querySelector('.dnb-popover__body')
+      expect(tooltipBody).toBeInTheDocument()
+      expect(tooltipBody.textContent).toBe(emailDefinition)
+      const tooltipContent = document.querySelector(
+        '.dnb-popover__content'
+      )
+      expect(document.activeElement).toBe(tooltipContent)
+    })
+
+    // Close the term definition
+    await userEvent.click(input)
+    await waitFor(() => {
+      expect(termTrigger).toHaveAttribute('aria-expanded', 'false')
+      expect(document.activeElement).toBe(termTrigger)
+    })
+
+    // Verify the input is still functional by focusing and typing
+    await userEvent.click(input)
+    expect(document.activeElement).toBe(input)
+
+    // Type into the input field
+    await userEvent.type(input, 'test')
+    expect(input).toHaveValue('test')
+  })
+
+  it('should open TermDefinition with keyboard without focusing the input', async () => {
+    const emailDefinition =
+      'Email is a method of exchanging messages between people using electronic devices.'
+
+    render(
+      <Field.Email
+        label={
+          <>
+            Email address{' '}
+            <TermDefinition content={emailDefinition}>
+              what is email?
+            </TermDefinition>
+          </>
+        }
+      />
+    )
+
+    const input = document.querySelector(
+      'input[autocomplete="email"]'
+    ) as HTMLInputElement
+    const label = document.querySelector('label')
+    const termTrigger = label.querySelector(
+      '.dnb-term-definition__trigger'
+    ) as HTMLElement
+
+    // Tab to the term definition trigger
+    termTrigger.focus()
+    expect(document.activeElement).toBe(termTrigger)
+
+    // Press Enter to open the term definition
+    fireEvent.keyDown(termTrigger, { key: 'Enter' })
+
+    // Verify the term definition opened
+    await waitFor(() => {
+      const tooltipBody = document.querySelector('.dnb-popover__body')
+      expect(tooltipBody).toBeInTheDocument()
+      expect(tooltipBody.textContent).toBe(emailDefinition)
+    })
+
+    // Verify the input did NOT receive focus
+    expect(document.activeElement).not.toBe(input)
+    expect(input).not.toHaveFocus()
   })
 })
