@@ -92,6 +92,18 @@ export const CheckboxError = () => {
   )
 }
 
+export const VariantCheckboxWithHelp = () => {
+  return (
+    <ComponentBox>
+      <Field.Boolean
+        variant="checkbox"
+        label="Checkbox variant"
+        help={{ title: 'Help title', content: 'Help content' }}
+      />
+    </ComponentBox>
+  )
+}
+
 export const ButtonTrue = () => {
   return (
     <ComponentBox>
@@ -398,6 +410,18 @@ export const VariantRadioWithHelp = () => {
       <Field.Boolean
         variant="radio"
         label="Radio variant"
+        help={{ title: 'Help title', content: 'Help content' }}
+      />
+    </ComponentBox>
+  )
+}
+
+export const VariantSwitchWithHelp = () => {
+  return (
+    <ComponentBox>
+      <Field.Boolean
+        variant="switch"
+        label="Switch variant"
         help={{ title: 'Help title', content: 'Help content' }}
       />
     </ComponentBox>
