@@ -488,14 +488,14 @@ describe('Autocomplete component', () => {
     }
 
     const idTestProps = {
-      data: ['A', { content: 'B', suffix_value: 'suffix B' }, 'C'],
-      show_submit_button: true,
+      data: ['A', { content: 'B', suffixValue: 'suffix B' }, 'C'],
+      showSubmitButton: true,
       value: 1,
       status: 'status text',
       suffix: 'suffix text',
       label: 'Autocomplete label',
       noAnimation: true,
-      skip_portal: true,
+      skipPortal: true,
     }
 
     it('is same when set', () => {
