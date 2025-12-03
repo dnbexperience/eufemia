@@ -56,37 +56,3 @@ If `minDate` or `maxDate` is given, the return object also contains info about i
   ...
 }
 ```
-
-### Manipulate the days in the calendar view
-
-The callback event `onDaysRender` gives you the possibility to manipulate the "day" object, before it gets rendered. This callback will be called many times. Both on the first render, and on every user interaction, like hover and selection, etc. This means you have to ensure a performant date calculation.
-
-Please use [date-fns](https://date-fns.org) to make the calculations.
-
-<VisibleWhenNotVisualTest>
-  <DatePickerDateFnsRangeIsWeekend />
-</VisibleWhenNotVisualTest>
-
-The `dayObject` object contains:
-
-```js
-[
-    {
-      date: Date,// Vanilla JavaScript Date object
-      className: // define your custom css classes
-      isInactive: boolean,// shows it as disabled only
-      isDisabled: boolean,// shows it as disabled and with a strikethrough
-      isPreview: boolean,// date is between startDate (exclusive) and hoverDate (inclusive)
-      isSelectable: boolean,// if not last and next month and not disabled – handles z-index
-      isStartDate: boolean,// date selected is start date
-      isEndDate: boolean,// date selected is end date
-      isToday: boolean,
-      isWithinSelection: boolean,// date is between selection range
-      isNextMonth: boolean,// used for selection and inactive calculation
-      isLastMonth: boolean,// used for selection and inactive calculation
-    },
-    ...
-]
-```
-
-> > > > > > > dbdb4078e0 (break(DatePicker)!: replace `snake_case` properties with `camelCase` (#5836))
