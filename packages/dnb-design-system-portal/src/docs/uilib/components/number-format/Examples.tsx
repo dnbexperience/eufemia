@@ -259,7 +259,6 @@ export const NumberLocales = () => (
 
 export const NumberSpacing = () => (
   <Style>
-    //not this
     <ComponentBox data-visual-test="number-format-spacing">
       <span>text</span> <NumberFormat value="1234" currency left right />
       <span>text</span> <NumberFormat value="5678" currency left right />
