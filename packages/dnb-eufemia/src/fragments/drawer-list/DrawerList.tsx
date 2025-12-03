@@ -534,8 +534,7 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
         .map(({ groupTitle, groupData: data, hideTitle }, j) => {
           const Items = () =>
             data.map((dataItem, i) => {
-              const { __id, disabled, style } =
-                dataItem
+              const { __id, disabled, style } = dataItem
               const hash = `option-${id}-${__id}-${i}`
               const tagId = `option-${id}-${__id}`
               const liParams = {

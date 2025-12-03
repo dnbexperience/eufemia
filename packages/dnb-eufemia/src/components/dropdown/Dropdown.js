@@ -483,7 +483,7 @@ class DropdownInstance extends React.PureComponent {
     } = props
 
     let { icon, iconPosition, alignDropdown } = props
-    const id = this._id
+    const id = this.props.id || makeUniqueId()
 
     const handleAsMenu =
       isTrue(actionMenu) || isTrue(moreMenu) || isTrue(preventSelection)
@@ -511,8 +511,7 @@ class DropdownInstance extends React.PureComponent {
       alignDropdown = 'right'
     }
 
-    const { id: drawerListId, selectedItem, direction, opened } =
-      this.context.drawerList
+    const { selectedItem, direction, opened } = this.context.drawerList
     const showStatus = getStatusState(status)
 
     Object.assign(
