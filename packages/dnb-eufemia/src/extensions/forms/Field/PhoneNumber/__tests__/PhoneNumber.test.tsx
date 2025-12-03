@@ -151,7 +151,9 @@ describe('Field.PhoneNumber', () => {
       '.dnb-forms-field-phone-number__number'
     )
     const numberFieldLabel = numberField.querySelector('label')
-    expect(numberFieldLabel).toHaveTextContent(nbNO.PhoneNumber.numberLabel)
+    expect(numberFieldLabel).toHaveTextContent(
+      nbNO.PhoneNumber.numberLabel
+    )
   })
 
   it('should use custom numberLabel for number field', () => {
@@ -173,7 +175,9 @@ describe('Field.PhoneNumber', () => {
     const numberFieldLabel = numberField.querySelector('label')
     expect(numberFieldLabel).toBeInTheDocument()
     expect(numberFieldLabel).toHaveClass('dnb-sr-only')
-    expect(numberFieldLabel).toHaveTextContent(nbNO.PhoneNumber.numberLabel)
+    expect(numberFieldLabel).toHaveTextContent(
+      nbNO.PhoneNumber.numberLabel
+    )
   })
 
   it('should hide country code label with sr-only when countryCodeLabel is false', () => {

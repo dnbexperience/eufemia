@@ -102,7 +102,6 @@ export const DatePickerWithInput = () => (
 )
 
 export const DatePickerTrigger = () => (
-<<<<<<< HEAD
   <ComponentBox data-visual-test="date-picker-trigger-default">
     <DatePicker
       label="DatePicker"
@@ -114,31 +113,11 @@ export const DatePickerTrigger = () => (
       onShow={({ date }) => {
         console.log('onShow', date)
       }}
-      onBlur={({ start_date, end_date }) => {
-        console.log('onBlur', start_date, end_date)
+      onBlur={({ startDate, endDate }) => {
+        console.log('onBlur', startDate, endDate)
       }}
     />
   </ComponentBox>
-=======
-  <Wrapper>
-    <ComponentBox data-visual-test="date-picker-trigger-default">
-      <DatePicker
-        label="DatePicker"
-        date="2019-05-05"
-        returnFormat="dd-MM-yyyy"
-        onChange={({ date }) => {
-          console.log('onChange', date)
-        }}
-        onShow={({ date }) => {
-          console.log('onShow', date)
-        }}
-        onBlur={({ startDate, endDate }) => {
-          console.log('onBlur', startDate, endDate)
-        }}
-      />
-    </ComponentBox>
-  </Wrapper>
->>>>>>> dbdb4078e0 (break(DatePicker)!: replace `snake_case` properties with `camelCase` (#5836))
 )
 
 export const DatePickerHiddenNav = () => (
