@@ -558,9 +558,9 @@ describe('GlobalStatus component', () => {
         <Switch
           id="switch-escape-key"
           status={status}
-          status_no_animation={true}
+          statusNoAnimation={true}
           globalStatus={{ id: 'escape-name-test' }}
-          on_change={({ checked }) => {
+          onChange={({ checked }) => {
             setStatus(checked ? 'error-message' : null)
           }}
         />
@@ -572,8 +572,8 @@ describe('GlobalStatus component', () => {
         <GlobalStatus
           id="escape-name-test"
           autoscroll={false}
-          on_hide={on_hide}
-          on_close={on_close}
+          onHide={on_hide}
+          onClose={on_close}
         />
         <ToggleStatus />
       </>
