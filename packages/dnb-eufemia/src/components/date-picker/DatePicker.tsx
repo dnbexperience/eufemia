@@ -51,7 +51,6 @@ import { DatePickerContextValues, DateType } from './DatePickerContext'
 import { DatePickerDates } from './hooks/useDates'
 import { useTranslation } from '../../shared'
 import Popover from '../popover/Popover'
-import DatePickerPortal from './DatePickerPortal'
 import {
   FormatDateOptions,
   formatDate,
