@@ -63,7 +63,7 @@ async function mockAsyncFileUpload__withoutPromises(
     formData.append('file', file.file, file.file.name)
 
     const request = createRequest()
-    await request(Math.floor(Math.random() * 2000) + 1000) // Simulate a request
+    await request(Math.floor(8000)) // Simulate a request
 
     try {
       const mockResponse = {
@@ -452,6 +452,19 @@ export const AcceptedFilesTypesProperty = () => {
 }
 
 export const WizardWithAsyncFileHandler = () => {
+  const validator = debounceAsync(
+    useCallback(async (value) => {
+      try {
+        const request = createRequest()
+        await request(8000) // Simulate a request
+      } catch (error) {
+        return error
+      }
+
+      return Error('Error message')
+    }, [])
+  )
+
   return (
     <Form.Handler onSubmit={async (form) => console.log(form)}>
       <Wizard.Container>
@@ -463,24 +476,14 @@ export const WizardWithAsyncFileHandler = () => {
               labelDescription="Upload multiple files at once to see the upload error message. This demo has been set up so that every other file in a batch will fail."
               fileHandler={mockAsyncFileUpload__withoutPromises}
               required
+              //onChangeValidator={validator}
             />
-            <Field.String
+            {/* <Field.String
               label="async validator works with Field.String"
               path="/field2"
               required
-              onChangeValidator={debounceAsync(
-                useCallback(async (value) => {
-                  try {
-                    const request = createRequest()
-                    await request(12000) // Simulate a request
-                  } catch (error) {
-                    return error
-                  }
-
-                  return Error('Error message')
-                }, [])
-              )}
-            />
+              onChangeValidator={validator}
+            /> */}
           </Form.Card>
 
           <Tools.Log />
