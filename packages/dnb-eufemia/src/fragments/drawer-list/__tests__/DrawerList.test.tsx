@@ -439,9 +439,9 @@ describe('DrawerList component', () => {
     }
 
     render(
-      <DrawerListProvider opened no_animation data={mockData}>
+      <DrawerListProvider opened noAnimation data={mockData}>
         <ContextConsumer />
-        <DrawerList no_animation />
+        <DrawerList noAnimation />
       </DrawerListProvider>
     )
 
@@ -489,9 +489,9 @@ describe('DrawerList component', () => {
     }
 
     render(
-      <DrawerListProvider opened no_animation value={1} data={mockData}>
+      <DrawerListProvider opened noAnimation value={1} data={mockData}>
         <ContextConsumer />
-        <DrawerList no_animation />
+        <DrawerList noAnimation />
       </DrawerListProvider>
     )
 
