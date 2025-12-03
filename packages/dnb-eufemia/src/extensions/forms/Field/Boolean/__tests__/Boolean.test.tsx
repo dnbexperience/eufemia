@@ -57,17 +57,20 @@ describe('Field.Boolean', () => {
         />
       )
       expect(document.querySelectorAll('.dnb-help-button')).toHaveLength(1)
+      const helpButton = document.querySelector(
+        '.dnb-checkbox__suffix .dnb-help-button'
+      )
+      expect(helpButton).toBeInTheDocument()
       expect(document.querySelector('input')).toHaveAttribute(
         'aria-describedby'
       )
-      expect(
-        document.querySelector('input').getAttribute('aria-describedby')
-      ).toBe(document.querySelector('.dnb-help-button').id)
-      expect(
-        document
-          .querySelector('.dnb-help-button')
-          .getAttribute('aria-describedby')
-      ).toBe(document.querySelector('.dnb-tooltip__content').id)
+      const describedby = document
+        .querySelector('input')
+        .getAttribute('aria-describedby')
+      expect(describedby).toContain(helpButton.id)
+      expect(helpButton.getAttribute('aria-describedby')).toBe(
+        document.querySelector('.dnb-tooltip__content').id
+      )
     })
 
     it('renders error', () => {
@@ -365,17 +368,20 @@ describe('Field.Boolean', () => {
         />
       )
       expect(document.querySelectorAll('.dnb-help-button')).toHaveLength(1)
+      const helpButton = document.querySelector(
+        '.dnb-switch__suffix .dnb-help-button'
+      )
+      expect(helpButton).toBeInTheDocument()
       expect(document.querySelector('input')).toHaveAttribute(
         'aria-describedby'
       )
-      expect(
-        document.querySelector('input').getAttribute('aria-describedby')
-      ).toBe(document.querySelector('.dnb-help-button').id)
-      expect(
-        document
-          .querySelector('.dnb-help-button')
-          .getAttribute('aria-describedby')
-      ).toBe(document.querySelector('.dnb-tooltip__content').id)
+      const describedby = document
+        .querySelector('input')
+        .getAttribute('aria-describedby')
+      expect(describedby).toContain(helpButton.id)
+      expect(helpButton.getAttribute('aria-describedby')).toBe(
+        document.querySelector('.dnb-tooltip__content').id
+      )
     })
 
     it('renders error', () => {

@@ -21,6 +21,7 @@ import type {
 } from '../../../../components/Checkbox'
 import type { ToggleButtonProps } from '../../../../components/ToggleButton'
 import { SwitchOnChangeParams } from '../../../../components/Switch'
+import HelpButtonInline from '../../../../components/help-button/HelpButtonInline'
 
 export type ToggleProps = {
   valueOn: unknown
@@ -55,6 +56,7 @@ function Toggle(props: Props) {
     ...props,
     errorMessages: props.errorMessages,
   }
+  const { help } = props
 
   const {
     id,
@@ -72,6 +74,12 @@ function Toggle(props: Props) {
     handleChange,
     setDisplayValue,
   } = useFieldProps(preparedProps)
+
+  const helpButton =
+    help && (variant === 'checkbox' || variant === 'switch') ? (
+      <HelpButtonInline contentId={`${id}-help`} help={help} />
+    ) : undefined
+  const hideHelpButton = Boolean(helpButton)
 
   const preventChangeRef = useRef(false)
 
@@ -121,6 +129,7 @@ function Toggle(props: Props) {
     forId: id,
     className: cn,
     disabled,
+    hideHelpButton,
     ...pickSpacingProps(props),
   }
 
@@ -162,6 +171,7 @@ function Toggle(props: Props) {
             status={hasError ? 'error' : undefined}
             onChange={handleCheckboxChange}
             onClick={handleClick}
+            suffix={helpButton}
             {...htmlAttributes}
           />
         </FieldBlock>
@@ -185,6 +195,7 @@ function Toggle(props: Props) {
             status={hasError ? 'error' : undefined}
             onChange={handleSwitchChange}
             onClick={handleClick}
+            suffix={helpButton}
             {...htmlAttributes}
           />
         </FieldBlock>
