@@ -594,7 +594,7 @@ describe('Modal component', () => {
 
   it('will render modal focus helper if a custom header is given', () => {
     render(
-      <Modal no_animation={true} title="modal title">
+      <Modal noAnimation={true} title="modal title">
         <Modal.Header>
           <div>
             <h1>custom title</h1>
@@ -614,7 +614,7 @@ describe('Modal component', () => {
 
   it('will not render modal focus helper if a header is given', () => {
     render(
-      <Modal no_animation={true}>
+      <Modal noAnimation={true}>
         <Modal.Header title="my title" />
       </Modal>
     )
@@ -1557,14 +1557,14 @@ describe('Modal component', () => {
 
       return (
         <Modal
-          open_state={modalOpen}
-          on_open={() => {
+          openState={modalOpen}
+          onOpen={() => {
             setModalOpen(true)
           }}
-          on_close={() => {
+          onClose={() => {
             setModalOpen(false)
           }}
-          omit_trigger_button
+          omitTriggerButton
         >
           Modal Content
         </Modal>
@@ -1918,10 +1918,10 @@ describe('Modal component', () => {
   })
 })
 
-describe('Modal root_id', () => {
-  it('should create modal root element with custom root_id', () => {
+describe('Modal rootId', () => {
+  it('should create modal root element with custom rootId', () => {
     render(
-      <Modal {...props} root_id="custom-root">
+      <Modal {...props} rootId="custom-root">
         <DialogContent />
       </Modal>
     )
@@ -1947,19 +1947,19 @@ describe('Modal root_id', () => {
 
     fireEvent.click(document.querySelector('button.dnb-modal__trigger'))
 
-    // Default root_id is 'root', so it should create dnb-modal-root
+    // Default rootId is 'root', so it should create dnb-modal-root
     const defaultRootElement = document.getElementById('dnb-modal-root')
     expect(defaultRootElement).toBeInTheDocument()
     expect(defaultRootElement).toHaveClass('dnb-modal-root__inner')
   })
 
-  it('should create multiple modals with different root_id', () => {
+  it('should create multiple modals with different rootId', () => {
     render(
       <>
-        <Modal {...props} id="modal1" root_id="root1">
+        <Modal {...props} id="modal1" rootId="root1">
           <DialogContent />
         </Modal>
-        <Modal {...props} id="modal2" root_id="root2">
+        <Modal {...props} id="modal2" rootId="root2">
           <DialogContent />
         </Modal>
       </>
