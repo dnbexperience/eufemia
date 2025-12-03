@@ -361,6 +361,55 @@ describe('Popover', () => {
     )
   })
 
+  it('should have a delay of more than 1ms before focusing content when opened', async () => {
+    renderWithTrigger({ focusOnOpen: true })
+
+    const trigger =
+      (document.querySelector(
+        'button[aria-controls]'
+      ) as HTMLButtonElement) ??
+      ((): never => {
+        throw new Error('Popover trigger not rendered')
+      })()
+
+    let focusTime: number | null = null
+    const originalFocus = HTMLElement.prototype.focus
+    const focusSpy = jest
+      .spyOn(HTMLElement.prototype, 'focus')
+      .mockImplementation(function (this: HTMLElement) {
+        if (
+          focusTime === null &&
+          this.classList.contains('dnb-popover__content')
+        ) {
+          focusTime = performance.now()
+        }
+        return originalFocus.call(this)
+      })
+
+    try {
+      const openTime = performance.now()
+      await userEvent.click(trigger)
+
+      const content = await waitFor(() => {
+        const contentElement = document.querySelector(
+          '.dnb-popover__content'
+        )
+        expect(contentElement).toBeInTheDocument()
+        return contentElement as HTMLElement
+      })
+
+      await waitFor(() => {
+        expect(document.activeElement).toBe(content)
+      })
+
+      expect(focusTime).not.toBeNull()
+      const delay = focusTime - openTime
+      expect(delay).toBeGreaterThan(1)
+    } finally {
+      focusSpy.mockRestore()
+    }
+  })
+
   it('calls onOpenChange when state toggles', async () => {
     const onOpenChange = jest.fn()
     renderWithTrigger({ onOpenChange })
@@ -665,26 +714,29 @@ describe('Popover', () => {
   it('waits for showDelay before activating the popover', async () => {
     const IS_TEST = globalThis.IS_TEST
     globalThis.IS_TEST = false
+    try {
+      renderWithTrigger({ showDelay: 60 })
 
-    renderWithTrigger({ showDelay: 60 })
+      const trigger = document.querySelector(
+        'button[aria-controls]'
+      ) as HTMLButtonElement
+      await userEvent.click(trigger)
 
-    const trigger = document.querySelector('button[aria-controls]')
-    await userEvent.click(trigger)
+      const popoverElement = document.querySelector('.dnb-popover')
 
-    const popoverElement = document.querySelector('.dnb-popover')
-
-    // Immediately after click, popover should not be active
-    expect(popoverElement).not.toHaveClass('dnb-popover--active')
-
-    await waitFor(() => {
+      // Immediately after click, popover should not be active
       expect(popoverElement).not.toHaveClass('dnb-popover--active')
-    })
 
-    await waitFor(() =>
-      expect(popoverElement).toHaveClass('dnb-popover--active')
-    )
+      await waitFor(() => {
+        expect(popoverElement).not.toHaveClass('dnb-popover--active')
+      })
 
-    globalThis.IS_TEST = IS_TEST
+      await waitFor(() =>
+        expect(popoverElement).toHaveClass('dnb-popover--active')
+      )
+    } finally {
+      globalThis.IS_TEST = IS_TEST
+    }
   })
 
   it('respects hideDelay before deactivating the popover', async () => {
