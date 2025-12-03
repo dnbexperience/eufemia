@@ -823,16 +823,9 @@ export default class DrawerListProvider extends React.PureComponent<
         {
           e.preventDefault()
 
-          if (
-            this.state.direction === 'bottom' &&
-            this.state.activeItem === this.getFirstItem()
-          ) {
-            activeItem = -1
-          } else {
-            activeItem = this.getPrevActiveItem()
-            if (isNaN(activeItem)) {
-              activeItem = this.getLastItem()
-            }
+          activeItem = this.getPrevActiveItem()
+          if (isNaN(activeItem)) {
+            activeItem = this.getLastItem()
           }
         }
         break
@@ -841,17 +834,9 @@ export default class DrawerListProvider extends React.PureComponent<
         {
           e.preventDefault()
 
-          if (
-            this.state.direction === 'top' &&
-            this.state.activeItem === this.getLastItem()
-          ) {
-            activeItem = -1
-          } else {
-            activeItem = this.getNextActiveItem()
-
-            if (isNaN(activeItem)) {
-              activeItem = this.getFirstItem()
-            }
+          activeItem = this.getNextActiveItem()
+          if (isNaN(activeItem)) {
+            activeItem = this.getFirstItem()
           }
         }
         break

@@ -263,6 +263,7 @@ class DropdownInstance extends React.PureComponent {
     this.attributes = {}
     this.state = this.state || {}
 
+    this._id = props.id || makeUniqueId()
     this._ref = props.innerRef || React.createRef()
     this._refWrapper = React.createRef()
     this._refButton = props.buttonRef || React.createRef()
