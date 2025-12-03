@@ -184,21 +184,6 @@ export const GlobalStatuseSandbox = () => (
         top="small"
       />
     </Box>
-    {/* <Box>
-      {false && <UpdateGlobalStatus />}
-      {true && (
-        <GlobalStatus.Add
-          title="New title"
-          onClose={(props) => {
-            console.log('onClose', props)
-          }}
-        >
-          Long info text Ipsum habitant enim ullamcorper elit sit elementum
-          platea rutrum eu condimentum erat risus lacinia viverra magnis
-          lobortis nibh mollis suspendisse
-        </GlobalStatus.Add>
-      )}
-    </Box> */}
   </Wrapper>
 )
 
@@ -370,31 +355,6 @@ const NestedSections = () => (
       >
         Default Text
       </GlobalStatus>
-      {/* <GlobalStatus.Add
-        id="default-1"
-        statusId="custom-id-1"
-        text="Second Text"
-        items={[{ text: 'Second Item 2', statusAnchorUrl: '#link' }]}
-      /> */}
-      {/* <GlobalStatus.Add
-        id="default-1"
-        statusId="custom-id-2"
-        items={[{ text: 'Item 3', statusAnchorUrl: '#link' }]}
-      /> */}
-      {/* <GlobalStatus.Add
-      id="default-1"
-      statusId="custom-id-2"
-      text="Third Text"
-      item="Third Item"
-    />
-    <GlobalStatus.Add
-      id="default-1"
-      statusId="custom-id-2"
-      text="Third Text bøø"
-      item={{ text: 'Third Item bøø', statusAnchorUrl: '/' }}
-    /> */}
-      {/* <GlobalStatus.Remove statusId="custom-id-1" /> */}
-      {/* <GlobalStatus.Remove statusId="custom-id-2" /> */}
     </Section>
   </Section>
 )
