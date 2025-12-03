@@ -71,6 +71,11 @@ export const TooltipProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
+  triggerOffset: {
+    doc: 'Adjust the pixel gap between the tooltip content and its trigger. Use positive values to place the tooltip further away (e.g., to match custom spacing). Defaults to `16`.',
+    type: 'number',
+    status: 'optional',
+  },
   noAnimation: {
     doc: 'set to `true` if no fade-in animation should be used.',
     type: 'boolean',

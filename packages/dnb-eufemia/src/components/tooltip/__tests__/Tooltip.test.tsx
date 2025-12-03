@@ -9,7 +9,7 @@ import { act, fireEvent, render, waitFor } from '@testing-library/react'
 import OriginalTooltip from '../Tooltip'
 import Anchor from '../../anchor/Anchor'
 import NumberFormat from '../../number-format/NumberFormat'
-import Popover from '../../popover/Popover'
+import Popover, * as PopoverModule from '../../popover/Popover'
 import { TooltipAllProps } from '../types'
 
 global.ResizeObserver = class {
@@ -861,6 +861,40 @@ describe('Tooltip', () => {
         document.body.removeChild(target)
       }
     })
+  })
+
+  it('passes triggerOffset down to Popover when positioning the tooltip', () => {
+    const collectedOffsets: Array<number | undefined> = []
+    const originalPopover = PopoverModule.default
+    const spy = jest
+      .spyOn(PopoverModule, 'default')
+      .mockImplementation((props) => {
+        if (
+          typeof props.className === 'string' &&
+          props.className.includes('dnb-tooltip')
+        ) {
+          collectedOffsets.push(props.triggerOffset)
+        }
+        return originalPopover(props)
+      })
+
+    try {
+      render(
+        <OriginalTooltip
+          id="tooltip-offset"
+          {...defaultProps}
+          active
+          triggerOffset={20}
+          targetElement={<button />}
+        >
+          Offset tooltip
+        </OriginalTooltip>
+      )
+
+      expect(collectedOffsets).toContain(20)
+    } finally {
+      spy.mockRestore()
+    }
   })
 
   describe('Anchor with tooltip', () => {

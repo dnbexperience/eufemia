@@ -14,7 +14,11 @@ import userEvent from '@testing-library/user-event'
 import { LOCALE } from '../../../shared/defaults'
 import { isMac } from '../../../shared/helpers'
 import Provider from '../../../shared/Provider'
-import NumberFormat, { NumberFormatProps } from '../NumberFormat'
+import NumberFormat, {
+  NumberFormatProps,
+  COPY_TOOLTIP_TIMEOUT,
+} from '../NumberFormat'
+import * as TooltipModule from '../../tooltip/Tooltip'
 import { format, formatReturnValue } from '../NumberUtils'
 import enGB from '../../../shared/locales/en-GB'
 
@@ -177,6 +181,34 @@ describe('NumberFormat component', () => {
     fireEvent.copy(document.querySelector('.dnb-number-format__selection'))
 
     expect(document.querySelector('.dnb-tooltip')).toBeInTheDocument()
+  })
+
+  it('passes triggerOffset to the copy tooltip', () => {
+    const triggerOffsets: Array<number | undefined> = []
+    const originalTooltip = TooltipModule.default
+    const spy = jest
+      .spyOn(TooltipModule, 'default')
+      .mockImplementation((props) => {
+        triggerOffsets.push(props.triggerOffset)
+        return originalTooltip(props)
+      })
+
+    try {
+      render(<Component value={-value} currency />)
+
+      expect(document.querySelector('.dnb-tooltip')).toBeNull()
+
+      fireEvent.click(
+        document.querySelector('.dnb-number-format__visible')
+      )
+      fireEvent.copy(
+        document.querySelector('.dnb-number-format__selection')
+      )
+
+      expect(triggerOffsets).toContain(8)
+    } finally {
+      spy.mockRestore()
+    }
   })
 
   it('has valid selected number', () => {
@@ -1428,5 +1460,40 @@ describe('NumberFormat scss', () => {
   it('has to match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()
+  })
+})
+
+describe('NumberFormat copy tooltip', () => {
+  beforeEach(() => {
+    jest.useFakeTimers()
+  })
+
+  afterEach(() => {
+    jest.runOnlyPendingTimers()
+    jest.useRealTimers()
+  })
+
+  it('shows the tooltip from the NumberFormat copy handler', () => {
+    const { container } = render(<Component value={1234} />)
+    const selection = container.querySelector<HTMLSpanElement>(
+      '.dnb-number-format__selection'
+    )
+
+    if (!selection) {
+      throw new Error('selection element is missing')
+    }
+
+    fireEvent.copy(selection)
+
+    const tooltip = document.querySelector('.dnb-tooltip')
+    expect(tooltip).not.toBeNull()
+    expect(tooltip).toHaveClass('dnb-tooltip--active')
+    expect(
+      document.querySelector('.dnb-tooltip__content')?.textContent
+    ).toContain(en.clipboard_copy)
+
+    jest.advanceTimersByTime(COPY_TOOLTIP_TIMEOUT)
+
+    expect(document.querySelector('.dnb-tooltip--active')).toBeNull()
   })
 })

@@ -31,11 +31,7 @@ import {
   createSkeletonClass,
 } from '../skeleton/SkeletonHelper'
 import Tooltip, { injectTooltipSemantic } from '../tooltip/Tooltip'
-import {
-  format,
-  showSelectionNotice,
-  runIOSSelectionFix,
-} from './NumberUtils'
+import { format, runIOSSelectionFix } from './NumberUtils'
 import { SpacingProps } from '../space/types'
 
 // TypeScript types
@@ -108,6 +104,8 @@ export type NumberFormatAllProps = NumberFormatProps &
     'prefix' | 'label' | 'placeholder' | 'children'
   > &
   SpacingProps
+
+export const COPY_TOOLTIP_TIMEOUT = 3000
 
 export default class NumberFormat extends React.PureComponent<NumberFormatAllProps> {
   static contextType = Context
@@ -229,7 +227,14 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
     this._selectionRef = React.createRef()
 
     this._id = props.tooltip ? props.id || makeUniqueId() : undefined
-    this.state = { selected: false, omitCurrencySign: false, hover: false }
+    this._copyTooltipTimeout = null
+    this.state = {
+      selected: false,
+      omitCurrencySign: false,
+      hover: false,
+      copyTooltipActive: false,
+      copyTooltipText: null,
+    }
   }
 
   componentDidMount() {
@@ -243,12 +248,39 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
     }
   }
 
+  clearCopyTooltipTimeout = () => {
+    if (this._copyTooltipTimeout) {
+      clearTimeout(this._copyTooltipTimeout)
+      this._copyTooltipTimeout = null
+    }
+  }
+
+  showCopyTooltip = (message) => {
+    const translations = this.context.getTranslation?.(this.props)
+      ?.NumberFormat
+    const label = message || translations?.clipboard_copy
+
+    if (!label) {
+      return
+    }
+
+    this.clearCopyTooltipTimeout()
+    this.setState(
+      { copyTooltipActive: true, copyTooltipText: label },
+      () => {
+        this._copyTooltipTimeout = setTimeout(() => {
+          this.setState({
+            copyTooltipActive: false,
+          })
+        }, COPY_TOOLTIP_TIMEOUT)
+      }
+    )
+  }
+
   shortcutHandler = () => {
-    showSelectionNotice({
-      value: this.cleanedValue,
-      label: this.context.getTranslation(this.props)?.NumberFormat
-        ?.clipboard_copy,
-    }).run(this._ref.current)
+    const label = this.context.getTranslation(this.props)?.NumberFormat
+      .clipboard_copy
+    this.showCopyTooltip(label)
   }
 
   onBlurHandler = () => {
@@ -276,6 +308,7 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
 
   componentWillUnmount() {
     this.outsideClick?.remove()
+    this.clearCopyTooltipTimeout()
   }
 
   setFocus() {
@@ -549,6 +582,18 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
             targetElement={this._ref}
             tooltip={tooltip}
           />
+        )}
+
+        {this.state.copyTooltipActive && (
+          <Tooltip
+            active={this.state.copyTooltipActive}
+            targetElement={this._ref}
+            showDelay={0}
+            hideDelay={0}
+            triggerOffset={8}
+          >
+            {this.state.copyTooltipText}
+          </Tooltip>
         )}
       </Element>
     )

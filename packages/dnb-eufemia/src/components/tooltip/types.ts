@@ -57,6 +57,12 @@ export type TooltipProps = IncludeSnakeCase<{
    * @default true
    */
   keepInDOM?: boolean
+  /**
+   * Additional spacing in pixels between the tooltip and its trigger.
+   * Maps directly to the Popover `triggerOffset`.
+   * @default 16
+   */
+  triggerOffset?: number
 }>
 
 export type TooltipAllProps = TooltipProps &
