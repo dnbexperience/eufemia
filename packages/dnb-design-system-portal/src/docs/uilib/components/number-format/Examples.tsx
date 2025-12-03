@@ -12,10 +12,6 @@ import P from '@dnb/eufemia/src/elements/P'
 import H3 from '@dnb/eufemia/src/elements/H3'
 
 const Style = styled.div`
-  *:not([data-visual-test='number-format-spacing'])
-    > span.dnb-number-format {
-    display: block;
-  }
   [data-visual-test='number-locales'] .dnb-p:last-of-type {
     padding-bottom: 1rem;
   }
@@ -26,14 +22,24 @@ export const NumberDefault = () => (
     <ComponentBox data-visual-test="number-format-default">
       <P>
         <NumberFormat value="12345" srLabel="Total:" />
+      </P>
+      <P>
         <NumberFormat>-12345678.9</NumberFormat>
+      </P>
+      <P>
         <NumberFormat prefix={<b>prefix</b>} suffix="suffix">
           -12345678.9
         </NumberFormat>
+      </P>
+      <P>
         <NumberFormat decimals={1}>-1234.54321</NumberFormat>
+      </P>
+      <P>
         <NumberFormat decimals={2} copy_selection={false}>
           -1234
         </NumberFormat>
+      </P>
+      <P>
         <NumberFormat decimals={2}>invalid</NumberFormat>
       </P>
     </ComponentBox>
@@ -45,7 +51,11 @@ export const NumberPercent = () => (
     <ComponentBox data-visual-test="number-format-percent">
       <P>
         <NumberFormat percent value="12.34" />
+      </P>
+      <P>
         <NumberFormat percent>-12.34</NumberFormat>
+      </P>
+      <P>
         <NumberFormat percent decimals={1}>
           -12.34
         </NumberFormat>
@@ -59,22 +69,32 @@ export const NumberCurrency = () => (
     <ComponentBox data-visual-test="number-format-currency">
       <P>
         <NumberFormat currency>12345</NumberFormat>
+      </P>
+      <P>
         <NumberFormat
           currency
           currency_position="before"
           value={-12345678.9}
         />
+      </P>
+      <P>
         <NumberFormat currency value={-12345678.95} decimals={0} />
+      </P>
+      <P>
         <NumberFormat
           currency
           value={-12345678.9}
           currency_display="code"
         />
+      </P>
+      <P>
         <NumberFormat
           currency
           value={-12345678.9}
           currency_display={false}
         />
+      </P>
+      <P>
         <NumberFormat currency decimals={2}>
           invalid
         </NumberFormat>
@@ -97,7 +117,11 @@ export const NumberProvider = () => (
       >
         <P>
           <NumberFormat>12345</NumberFormat>
+        </P>
+        <P>
           <NumberFormat value={-12345.123} decimals={0} />
+        </P>
+        <P>
           <NumberFormat value={-12345678.955} currency_position="before" />
         </P>
       </Provider>
@@ -112,9 +136,17 @@ export const NumberCompact = () => (
         <NumberFormat compact decimals={1}>
           1234
         </NumberFormat>
+      </P>
+      <P>
         <NumberFormat compact decimals={1} value={123456} />
+      </P>
+      <P>
         <NumberFormat compact="short" decimals={2} value={-1723967.38} />
+      </P>
+      <P>
         <NumberFormat compact="long" decimals={3} value={-1234567.9876} />
+      </P>
+      <P>
         <NumberFormat
           compact="long"
           currency
@@ -122,6 +154,8 @@ export const NumberCompact = () => (
           decimals={1}
           currency_display="name"
         />
+      </P>
+      <P>
         <NumberFormat compact value={123455678912} decimals={3} />
       </P>
     </ComponentBox>
@@ -133,10 +167,20 @@ export const NumberPhone = () => (
     <ComponentBox data-visual-test="number-format-phone">
       <P>
         <NumberFormat value="99999999" phone />
+      </P>
+      <P>
         <NumberFormat value="4799999999" phone />
+      </P>
+      <P>
         <NumberFormat value="004799999999" phone />
+      </P>
+      <P>
         <NumberFormat value="+4780022222" phone link="sms" />
+      </P>
+      <P>
         <NumberFormat value="+47116000" phone selectall={false} />
+      </P>
+      <P>
         <NumberFormat value="+4702000" phone />
       </P>
     </ComponentBox>
@@ -179,18 +223,34 @@ export const NumberLocales = () => (
       <H3>Numbers</H3>
       <P>
         <NumberFormat locale="nb-NO" value="-12345678.9" />
+      </P>
+      <P>
         <NumberFormat locale="en-GB" value="-12345678.9" />
+      </P>
+      <P>
         <NumberFormat locale="de-DE" value="-12345678.9" />
+      </P>
+      <P>
         <NumberFormat locale="de-CH" value="-12345678.9" />
+      </P>
+      <P>
         <NumberFormat locale="fr-CH" value="-12345678.9" />
       </P>
 
       <H3>Currencies</H3>
       <P>
         <NumberFormat locale="nb-NO" value="-12345.6" currency />
+      </P>
+      <P>
         <NumberFormat locale="en-GB" value="-12345.6" currency />
+      </P>
+      <P>
         <NumberFormat locale="de-DE" value="-12345.6" currency />
+      </P>
+      <P>
         <NumberFormat locale="de-CH" value="-12345.6" currency />
+      </P>
+      <P>
         <NumberFormat locale="fr-CH" value="-12345.6" currency />
       </P>
     </ComponentBox>
@@ -199,6 +259,7 @@ export const NumberLocales = () => (
 
 export const NumberSpacing = () => (
   <Style>
+    //not this
     <ComponentBox data-visual-test="number-format-spacing">
       <span>text</span> <NumberFormat value="1234" currency left right />
       <span>text</span> <NumberFormat value="5678" currency left right />
