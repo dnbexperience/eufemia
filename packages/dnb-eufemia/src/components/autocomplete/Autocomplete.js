@@ -1827,7 +1827,7 @@ class AutocompleteInstance extends React.PureComponent {
 
     const { inputValue, visibleIndicator } = this.state
 
-    const { id, hidden, selectedItem, activeItem, direction, opened } =
+    const { id, hidden, selectedItem, direction, opened } =
       this.context.drawerList
 
     const isExpanded = Boolean(opened) && this.hasValidData()
