@@ -53,7 +53,7 @@ export default function TermDefinition({
     setActive((prev) => {
       const value = typeof next === 'boolean' ? next : !prev
       if (prev && !value) {
-        triggerRef.current?.focus()
+        triggerRef.current?.focus({ preventScroll: true })
       }
       return value
     })
