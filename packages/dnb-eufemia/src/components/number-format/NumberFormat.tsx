@@ -313,7 +313,7 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
 
   setFocus() {
     this.setState({ selected: true }, () => {
-      this._selectionRef.current?.focus()
+      this._selectionRef.current?.focus({ preventScroll: true })
       this.selectAll()
 
       if (!isTrue(this.props.copy_selection)) {
