@@ -20,6 +20,7 @@ import {
   extendPropsWithContextInClassComponent,
   extendDeep,
   detectOutsideClick,
+  isTouchDevice,
 } from '../../shared/component-helper'
 import { hasSelectedText, IS_IOS } from '../../shared/helpers'
 import {
@@ -238,8 +239,6 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
   }
 
   componentDidMount() {
-    clearTimeout(this._selectAllTimeout)
-
     // NB: This hack may be removed in future iOS versions
     // in order that iOS v13 can select something on the first try, we run this add range trick
     if (IS_IOS && !hasiOSFix) {
@@ -289,10 +288,7 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
 
   onContextMenuHandler = () => {
     if (!hasSelectedText()) {
-      clearTimeout(this._selectAllTimeout)
-      this._selectAllTimeout = setTimeout(() => {
-        this.setFocus()
-      }, 1)
+      this.setFocus()
     }
   }
 
@@ -312,6 +308,9 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
   }
 
   setFocus() {
+    if (isTouchDevice()) {
+      return // stop here
+    }
     this.setState({ selected: true }, () => {
       this._selectionRef.current?.focus({ preventScroll: true })
       this.selectAll()
