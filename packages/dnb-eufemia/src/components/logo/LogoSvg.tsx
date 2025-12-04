@@ -1,4 +1,5 @@
 import React from 'react'
+import { ThemeNames } from '../../shared'
 
 // For internal use only
 export type LogoType =
@@ -9,6 +10,18 @@ export type LogoType =
   | 'sbankenHorizontal'
   | 'carnegie'
 
+export type LogoSvg =
+  | React.ComponentType<
+      React.SVGProps<SVGSVGElement> & { alt?: React.ReactNode }
+    >
+  | React.ReactElement<
+      React.SVGProps<SVGSVGElement> & { alt?: React.ReactNode }
+    >
+
+export type LogoSvgComponent = LogoSvg & {
+  alt: string
+  brand: ThemeNames
+}
 /**
  * SVG Logo alt texts
  */
@@ -27,7 +40,7 @@ const DnbPaths = () => {
   )
 }
 
-export function DnbDefault({ alt, ...props }) {
+export const DnbDefault: LogoSvgComponent = function ({ alt, ...props }) {
   return (
     <svg {...props} viewBox="0 0 116 80">
       <title>{alt}</title>
@@ -36,8 +49,12 @@ export function DnbDefault({ alt, ...props }) {
   )
 }
 DnbDefault.alt = DnbLogoAlt
+DnbDefault.brand = 'ui'
 
-export function SbankenDefault({ alt, ...props }) {
+export const SbankenDefault: LogoSvgComponent = function ({
+  alt,
+  ...props
+}) {
   return (
     <svg {...props} viewBox="0 0 1601 533">
       <title>{alt}</title>
@@ -46,8 +63,12 @@ export function SbankenDefault({ alt, ...props }) {
   )
 }
 SbankenDefault.alt = SbankenLogoAlt
+SbankenDefault.brand = 'sbanken'
 
-export function CarnegieDefault({ alt, ...props }) {
+export const CarnegieDefault: LogoSvgComponent = function ({
+  alt,
+  ...props
+}) {
   return (
     <svg {...props} viewBox="0 0 641.35 333.56">
       <title>{alt}</title>
@@ -61,8 +82,12 @@ export function CarnegieDefault({ alt, ...props }) {
   )
 }
 CarnegieDefault.alt = CarnegieLogoAlt
+CarnegieDefault.brand = 'carnegie'
 
-export function EiendomDefault({ alt, ...props }) {
+export const EiendomDefault: LogoSvgComponent = function ({
+  alt,
+  ...props
+}) {
   return (
     <svg {...props} viewBox="0 0 368 80">
       <title>{alt}</title>
@@ -78,8 +103,12 @@ export function EiendomDefault({ alt, ...props }) {
   )
 }
 EiendomDefault.alt = EiendomLogoAlt
+EiendomDefault.brand = 'eiendom'
 
-export function SbankenCompact({ alt, ...props }) {
+export const SbankenCompact: LogoSvgComponent = function ({
+  alt,
+  ...props
+}) {
   return (
     <svg {...props} viewBox="0 0 281 401">
       <title>{alt}</title>
@@ -88,8 +117,12 @@ export function SbankenCompact({ alt, ...props }) {
   )
 }
 SbankenCompact.alt = SbankenLogoAlt
+SbankenCompact.brand = 'sbanken'
 
-export function SbankenHorizontal({ alt, ...props }) {
+export const SbankenHorizontal: LogoSvgComponent = function ({
+  alt,
+  ...props
+}) {
   return (
     <svg {...props} viewBox="0 0 494 288">
       <title>{alt}</title>
@@ -98,3 +131,4 @@ export function SbankenHorizontal({ alt, ...props }) {
   )
 }
 SbankenHorizontal.alt = SbankenLogoAlt
+SbankenHorizontal.brand = 'sbanken'

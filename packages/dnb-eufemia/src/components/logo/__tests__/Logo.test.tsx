@@ -142,6 +142,7 @@ describe('Logo component', () => {
     expect(attributes).not.toContain('top')
     expect(Array.from(element.classList)).toEqual([
       'dnb-logo',
+      'dnb-logo--dnb',
       'dnb-space__top--large',
     ])
   })
@@ -151,12 +152,14 @@ describe('Logo component', () => {
 
     expect(Array.from(document.querySelector('span').classList)).toEqual([
       'dnb-logo',
+      'dnb-logo--dnb',
     ])
 
     rerender(<Logo svg={SbankenDefault} />)
 
     expect(Array.from(document.querySelector('span').classList)).toEqual([
-      'sbanken-logo',
+      'dnb-logo',
+      'dnb-logo--sbanken',
     ])
   })
 
