@@ -1027,6 +1027,72 @@ describe('Field.Upload', () => {
       ).toHaveTextContent(nbForms.Upload.errorRequired)
     })
 
+    it('should keep wizard step until upload finishes', async () => {
+      const file = createMockFile('async.png', 100, 'image/png')
+      let resolveFileHandler: ((value: UploadValue) => void) | undefined
+
+      const asyncFileHandler = jest.fn(
+        () =>
+          new Promise<UploadValue>((resolve) => {
+            resolveFileHandler = resolve
+          })
+      )
+
+      render(
+        <Form.Handler>
+          <Wizard.Container>
+            <Wizard.Step title="Step 1">
+              <output>Step 1</output>
+              <Field.Upload path="/files" fileHandler={asyncFileHandler} />
+              <Wizard.Buttons />
+            </Wizard.Step>
+
+            <Wizard.Step title="Step 2">
+              <output>Step 2</output>
+              <Wizard.Buttons />
+            </Wizard.Step>
+          </Wizard.Container>
+        </Form.Handler>
+      )
+
+      const element = getRootElement()
+
+      fireEvent.drop(element, {
+        dataTransfer: {
+          files: [file],
+        },
+      })
+
+      await waitFor(() => {
+        expect(asyncFileHandler).toHaveBeenCalledTimes(1)
+      })
+
+      await userEvent.click(nextButton())
+      expect(output()).toHaveTextContent('Step 1')
+
+      if (!resolveFileHandler) {
+        throw new Error('fileHandler was not invoked')
+      }
+
+      resolveFileHandler([
+        {
+          file,
+          id: 'server-id',
+          exists: false,
+        },
+      ])
+
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-progress-indicator')
+        ).not.toBeInTheDocument()
+      })
+
+      await userEvent.click(nextButton())
+
+      expect(output()).toHaveTextContent('Step 2')
+    })
+
     it('should handle displaying error from fileHandler with sync function', async () => {
       const fileValid = createMockFile('1.png', 100, 'image/png')
       const fileInValid = createMockFile('invalid.png', 100, 'image/png')
@@ -1632,6 +1698,59 @@ describe('Field.Upload', () => {
         expect(
           document.querySelectorAll('.dnb-upload__file-cell').length
         ).toBe(1)
+      })
+    })
+
+    it('should block form submission while async file handler is pending', async () => {
+      const file = createMockFile('fileName.png', 100, 'image/png')
+      let resolveFileHandler: ((value: UploadValue) => void) | undefined
+
+      const fileHandler = jest.fn(
+        () =>
+          new Promise<UploadValue>((resolve) => {
+            resolveFileHandler = resolve
+          })
+      )
+
+      const onSubmit = jest.fn()
+
+      render(
+        <Form.Handler onSubmit={onSubmit}>
+          <Field.Upload path="/myFiles" fileHandler={fileHandler} />
+          <Form.SubmitButton />
+        </Form.Handler>
+      )
+
+      const element = getRootElement()
+
+      fireEvent.drop(element, {
+        dataTransfer: {
+          files: [file],
+        },
+      })
+
+      await waitFor(() => {
+        expect(fileHandler).toHaveBeenCalledTimes(1)
+      })
+
+      fireEvent.submit(document.querySelector('form'))
+
+      expect(onSubmit).not.toHaveBeenCalled()
+
+      if (!resolveFileHandler) {
+        throw new Error('fileHandler was not invoked')
+      }
+
+      resolveFileHandler([
+        {
+          file,
+          id: 'server_id',
+          exists: true,
+        },
+      ])
+
+      await waitFor(() => {
+        expect(onSubmit).toHaveBeenCalledTimes(1)
       })
     })
 

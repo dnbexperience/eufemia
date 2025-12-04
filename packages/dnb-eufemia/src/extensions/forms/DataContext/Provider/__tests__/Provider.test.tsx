@@ -6161,5 +6161,37 @@ describe('DataContext.Provider', () => {
 
       expect(currentContext?.countryCode).toBe('DK')
     })
+
+    it('should treat handleAsAsync fields as async', async () => {
+      let contextValue: ContextState = null
+
+      const AsyncField = () => {
+        const dataContext = React.useContext(DataContext.Context)
+
+        React.useEffect(() => {
+          dataContext?.setFieldInternals?.('/async-field', {
+            handleAsAsync: true,
+          })
+        }, [dataContext])
+
+        return null
+      }
+
+      const Reporter = () => {
+        contextValue = React.useContext(DataContext.Context)
+        return null
+      }
+
+      render(
+        <Form.Handler>
+          <AsyncField />
+          <Reporter />
+        </Form.Handler>
+      )
+
+      await waitFor(() => {
+        expect(contextValue?.hasFieldWithAsyncValidator?.()).toBeTruthy()
+      })
+    })
   })
 })

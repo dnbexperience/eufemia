@@ -13,6 +13,7 @@ import {
   Wizard,
   makeAjvInstance,
 } from '../../..'
+import DataContext from '../../../DataContext/Context'
 import WizardContext from '../../Context'
 
 import nbNO from '../../../constants/locales/nb-NO'
@@ -2777,6 +2778,92 @@ describe('Wizard.Container', () => {
     expect(stepA).toHaveClass('dnb-step-indicator__item--current')
     expect(stepB).not.toHaveClass('dnb-step-indicator__item--current')
     expect(stepC).not.toHaveClass('dnb-step-indicator__item--current')
+  })
+
+  it('should prevent navigation when field has pending state', async () => {
+    let clearPendingState: (() => void) | null = null
+
+    const AsyncField = () => {
+      const dataContext = React.useContext(DataContext)
+      const identifier = '/async-field'
+
+      React.useEffect(() => {
+        if (!dataContext?.setFieldInternals) {
+          return
+        }
+        dataContext.setFieldInternals(identifier, {
+          handleAsAsync: true,
+        })
+      }, [dataContext])
+
+      React.useEffect(() => {
+        if (!dataContext?.setFieldEventListener) {
+          return
+        }
+
+        const onSubmitCall = async () => {
+          dataContext?.setFieldState?.(identifier, 'pending')
+        }
+
+        // Expose a way to clear pending state from outside
+        clearPendingState = () => {
+          dataContext?.setFieldState?.(identifier, undefined)
+        }
+
+        dataContext.setFieldEventListener(
+          identifier,
+          'onSubmitCall',
+          onSubmitCall
+        )
+
+        return () => {
+          dataContext.setFieldEventListener(
+            identifier,
+            'onSubmitCall',
+            onSubmitCall,
+            { remove: true }
+          )
+        }
+      }, [dataContext])
+
+      return <Field.String path={identifier} />
+    }
+
+    render(
+      <Form.Handler>
+        <Wizard.Container>
+          <Wizard.Step title="Step 1">
+            <output>Step 1</output>
+            <AsyncField />
+            <Wizard.Buttons />
+          </Wizard.Step>
+          <Wizard.Step title="Step 2">
+            <output>Step 2</output>
+            <Wizard.Buttons />
+          </Wizard.Step>
+        </Wizard.Container>
+      </Form.Handler>
+    )
+
+    // Verify we start on Step 1
+    expect(output()).toHaveTextContent('Step 1')
+
+    await userEvent.click(nextButton())
+
+    // Wait a bit to ensure async operations have completed
+    await wait(100)
+
+    expect(output()).toHaveTextContent('Step 1')
+
+    // Now clear the pending state - this should trigger the onSubmitContinueRef mechanism
+    // which will retry the submit and allow navigation
+    clearPendingState?.()
+
+    // Wait for navigation to complete after pending state is cleared
+    // The onSubmitContinueRef mechanism should retry the submit
+    await waitFor(() => {
+      expect(output()).toHaveTextContent('Step 2')
+    })
   })
 
   it('should run validation before `preventNavigation` result is evaluated', async () => {

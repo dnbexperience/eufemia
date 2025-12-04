@@ -128,10 +128,14 @@ function UploadComponent(props: Props) {
     handleFocus,
     handleBlur,
     fileHandler,
+    dataContext,
+    path,
     ...rest
   } = useFieldProps(preparedProps, {
     executeOnChangeRegardlessOfError: true,
   })
+
+  const { setFieldState, setFieldInternals } = dataContext || {}
 
   // Upload props
   const {
@@ -177,55 +181,73 @@ function UploadComponent(props: Props) {
       const newValidFiles = newFiles.filter((file) => !file.errorMessage)
 
       if (newValidFiles.length > 0) {
-        // Set loading
-        const newFilesLoading = newFiles.map((file) => ({
-          ...file,
-          isLoading: !file.errorMessage,
-        }))
-        setFiles([...filesRef.current, ...newFilesLoading])
+        const fieldIdentifier = path ?? id
+        setFieldState?.(fieldIdentifier, 'pending')
+        setFieldInternals?.(fieldIdentifier, {
+          handleAsAsync: true,
+        })
 
-        const incomingFiles = await fileHandler(newValidFiles)
+        try {
+          // Set loading
+          const newFilesLoading = newFiles.map((file) => ({
+            ...file,
+            isLoading: !file.errorMessage,
+          }))
+          setFiles([...filesRef.current, ...newFilesLoading])
 
-        if (!incomingFiles) {
-          setFiles(existingFiles)
-          handleChange(existingFiles)
-        } else {
-          // merge incoming files into existing order of newFiles.
-          incomingFiles.forEach((file) => {
-            const incomingFileObj = {
-              ...file,
-              isLoading: false,
-            }
-            const foundIndex = newFilesLoading.findIndex(
-              (newFile) => newFile.isLoading
+          const incomingFiles = await fileHandler(newValidFiles)
+
+          if (!incomingFiles) {
+            setFiles(existingFiles)
+            handleChange(existingFiles)
+          } else {
+            // merge incoming files into existing order of newFiles.
+            incomingFiles.forEach((file) => {
+              const incomingFileObj = {
+                ...file,
+                isLoading: false,
+              }
+              const foundIndex = newFilesLoading.findIndex(
+                (newFile) => newFile.isLoading
+              )
+              if (foundIndex >= 0) {
+                newFilesLoading[foundIndex] = incomingFileObj
+              } else {
+                // if there's more files incoming than there's files loading (edge case), add them to end of array.
+                newFilesLoading.push(incomingFileObj)
+              }
+            })
+
+            const indexOfFirstNewFile = filesRef.current.findIndex(
+              ({ id }) => id === newFiles[0].id
             )
-            if (foundIndex >= 0) {
-              newFilesLoading[foundIndex] = incomingFileObj
-            } else {
-              // if there's more files incoming than there's files loading (edge case), add them to end of array.
-              newFilesLoading.push(incomingFileObj)
-            }
-          })
 
-          const indexOfFirstNewFile = filesRef.current.findIndex(
-            ({ id }) => id === newFiles[0].id
-          )
-
-          const updatedFiles = [
-            ...filesRef.current.slice(0, indexOfFirstNewFile),
-            ...(incomingFiles?.filter((file) => file != null) ?? []),
-            ...filesRef.current.slice(
-              indexOfFirstNewFile + incomingFiles.length
-            ),
-          ]
-          setFiles(updatedFiles)
-          handleChange(updatedFiles)
+            const updatedFiles = [
+              ...filesRef.current.slice(0, indexOfFirstNewFile),
+              ...(incomingFiles?.filter((file) => file != null) ?? []),
+              ...filesRef.current.slice(
+                indexOfFirstNewFile + incomingFiles.length
+              ),
+            ]
+            setFiles(updatedFiles)
+            handleChange(updatedFiles)
+          }
+        } finally {
+          setFieldState?.(fieldIdentifier, undefined)
         }
       } else {
         handleChange(files)
       }
     },
-    [setFiles, fileHandler, handleChange]
+    [
+      id,
+      path,
+      fileHandler,
+      handleChange,
+      setFieldInternals,
+      setFieldState,
+      setFiles,
+    ]
   )
 
   const changeHandler = useCallback(
