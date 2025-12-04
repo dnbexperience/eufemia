@@ -71,6 +71,22 @@ describe('Checkbox component', () => {
     )
   })
 
+  it('calls focus with preventScroll when clicking', async () => {
+    render(<Checkbox {...props} />)
+
+    const checkbox = screen.getByRole('checkbox') as HTMLInputElement
+    const focusSpy = jest.spyOn(checkbox, 'focus')
+
+    await userEvent.click(checkbox)
+
+    // Wait for the focus to be called (it happens after state update)
+    await waitFor(() => {
+      expect(focusSpy).toHaveBeenCalledWith({ preventScroll: true })
+    })
+
+    focusSpy.mockRestore()
+  })
+
   it('should not change the state when calling preventDefault on the onClick event when default value is true', async () => {
     const onClick = jest.fn((event) => {
       event.preventDefault()
