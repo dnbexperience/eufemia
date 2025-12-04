@@ -176,7 +176,9 @@ describe('TermDefinition', () => {
     await waitFor(() =>
       expect(trigger).toHaveAttribute('aria-expanded', 'false')
     )
-    expect(document.activeElement).toBe(trigger)
+    await waitFor(() => {
+      expect(document.activeElement).toBe(trigger)
+    })
   })
 
   it('closes tooltip when clicking outside', async () => {
@@ -216,7 +218,9 @@ describe('TermDefinition', () => {
     await waitFor(() =>
       expect(trigger).toHaveAttribute('aria-expanded', 'false')
     )
-    expect(document.activeElement).toBe(trigger)
+    await waitFor(() => {
+      expect(document.activeElement).toBe(trigger)
+    })
   })
 
   it('closes tooltip when a keyup happens outside the tooltip content', async () => {
@@ -237,7 +241,9 @@ describe('TermDefinition', () => {
     await waitFor(() =>
       expect(trigger).toHaveAttribute('aria-expanded', 'false')
     )
-    expect(document.activeElement).toBe(trigger)
+    await waitFor(() => {
+      expect(document.activeElement).toBe(trigger)
+    })
   })
 
   it('supports keyboard activation and close button interaction', async () => {
@@ -256,7 +262,9 @@ describe('TermDefinition', () => {
     await waitFor(() =>
       expect(trigger).toHaveAttribute('aria-expanded', 'false')
     )
-    expect(document.activeElement).toBe(trigger)
+    await waitFor(() => {
+      expect(document.activeElement).toBe(trigger)
+    })
   })
 
   it('should work with Field.Email label containing TermDefinition', async () => {
