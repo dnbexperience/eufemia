@@ -39,7 +39,7 @@ describe('TermDefinition', () => {
     expect(tooltip.classList.contains('dnb-tooltip--active')).toBe(false)
   })
 
-  it('links aria attributes to the tooltip and description elements', () => {
+  it('links aria attributes and description elements', () => {
     render(<TermDefinition content={definition}>{term}</TermDefinition>)
     const trigger = document.querySelector('.dnb-term-definition__trigger')
 
@@ -56,7 +56,7 @@ describe('TermDefinition', () => {
     expect(description.classList.contains('dnb-sr-only')).toBe(true)
   })
 
-  it('opens tooltip on click and shows translated content', async () => {
+  it('opens popover on click and shows translated content', async () => {
     render(<TermDefinition content={definition}>{term}</TermDefinition>)
     const trigger = document.querySelector('.dnb-term-definition__trigger')
 
@@ -85,7 +85,7 @@ describe('TermDefinition', () => {
     expect(closeButton).toBeInTheDocument()
   })
 
-  it('renders tooltip content inside the term-definition portal root', async () => {
+  it('renders content inside the term-definition portal root', async () => {
     render(<TermDefinition content={definition}>{term}</TermDefinition>)
     const trigger = document.querySelector('.dnb-term-definition__trigger')
 
@@ -101,7 +101,7 @@ describe('TermDefinition', () => {
     })
   })
 
-  it('keeps tooltip content unfocusable via class and tabIndex', async () => {
+  it('keeps content unfocusable via class and tabIndex', async () => {
     render(<TermDefinition content={definition}>{term}</TermDefinition>)
     const trigger = document.querySelector('.dnb-term-definition__trigger')
 
@@ -145,7 +145,7 @@ describe('TermDefinition', () => {
     expect(activeTooltip).toBeNull()
   })
 
-  it('renders close button after the tooltip content', async () => {
+  it('renders close button after  content', async () => {
     render(<TermDefinition content={definition}>{term}</TermDefinition>)
     const trigger = document.querySelector('.dnb-term-definition__trigger')
 
@@ -158,7 +158,7 @@ describe('TermDefinition', () => {
     })
   })
 
-  it('moves focus into tooltip when opened and back on escape', async () => {
+  it('moves focus into popover when opened and back on escape', async () => {
     render(<TermDefinition content={definition}>{term}</TermDefinition>)
     const trigger = document.querySelector('.dnb-term-definition__trigger')
 
@@ -181,7 +181,7 @@ describe('TermDefinition', () => {
     })
   })
 
-  it('closes tooltip when clicking outside', async () => {
+  it('closes when clicking outside', async () => {
     render(<TermDefinition content={definition}>{term}</TermDefinition>)
     const trigger = document.querySelector('.dnb-term-definition__trigger')
 
@@ -202,7 +202,7 @@ describe('TermDefinition', () => {
     expect(tooltip.classList.contains('dnb-tooltip--active')).toBe(false)
   })
 
-  it('closes tooltip when the close button is clicked', async () => {
+  it('closes the popover when the close button is clicked', async () => {
     render(<TermDefinition content={definition}>{term}</TermDefinition>)
     const trigger = document.querySelector('.dnb-term-definition__trigger')
 
@@ -223,7 +223,7 @@ describe('TermDefinition', () => {
     })
   })
 
-  it('closes tooltip when a keyup happens outside the tooltip content', async () => {
+  it('closes popover when a keyup happens outside content', async () => {
     render(<TermDefinition content={definition}>{term}</TermDefinition>)
     const trigger = document.querySelector('.dnb-term-definition__trigger')
 
@@ -265,6 +265,31 @@ describe('TermDefinition', () => {
     await waitFor(() => {
       expect(document.activeElement).toBe(trigger)
     })
+  })
+
+  it('calls focus with preventScroll when closing', async () => {
+    render(<TermDefinition content={definition}>{term}</TermDefinition>)
+    const trigger = document.querySelector(
+      '.dnb-term-definition__trigger'
+    ) as HTMLElement
+
+    const focusSpy = jest.spyOn(trigger, 'focus')
+
+    await userEvent.click(trigger)
+    await waitFor(() => {
+      const textElem = document.querySelector('.dnb-popover__body')
+      expect(textElem.textContent).toBe(definition)
+    })
+
+    const closeButton = document.querySelector('.dnb-popover__close')
+    fireEvent.click(closeButton)
+
+    await waitFor(() =>
+      expect(trigger).toHaveAttribute('aria-expanded', 'false')
+    )
+
+    expect(focusSpy).toHaveBeenCalledWith({ preventScroll: true })
+    focusSpy.mockRestore()
   })
 
   it('should work with Field.Email label containing TermDefinition', async () => {
@@ -329,7 +354,7 @@ describe('TermDefinition', () => {
     expect(input).toHaveValue('test')
   })
 
-  it('should open TermDefinition with keyboard without focusing the input', async () => {
+  it('should open popover with keyboard without focusing the input', async () => {
     const emailDefinition =
       'Email is a method of exchanging messages between people using electronic devices.'
 
