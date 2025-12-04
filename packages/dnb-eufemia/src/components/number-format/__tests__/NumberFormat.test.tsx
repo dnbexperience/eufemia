@@ -9,7 +9,7 @@ import {
   loadScss,
   mockClipboard,
 } from '../../../core/jest/jestSetup'
-import { fireEvent, render } from '@testing-library/react'
+import { fireEvent, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { LOCALE } from '../../../shared/defaults'
 import { isMac } from '../../../shared/helpers'
@@ -795,6 +795,27 @@ describe('NumberFormat component', () => {
 
     expect(comp).not.toHaveClass('dnb-number-format--selected')
     expect(selection).toHaveTextContent('')
+  })
+
+  it('calls focus with preventScroll when selecting', async () => {
+    render(<NumberFormat selectall value={1234568} />)
+
+    const number = document.querySelector('.dnb-number-format__visible')
+    const selection = document.querySelector(
+      '.dnb-number-format__selection'
+    ) as HTMLElement
+
+    // Spy on the selection element's focus method
+    const focusSpy = jest.spyOn(selection, 'focus')
+
+    await userEvent.click(number)
+
+    // Wait for the focus to be called (it happens in setState callback)
+    await waitFor(() => {
+      expect(focusSpy).toHaveBeenCalledWith({ preventScroll: true })
+    })
+
+    focusSpy.mockRestore()
   })
 
   describe('rounding', () => {
