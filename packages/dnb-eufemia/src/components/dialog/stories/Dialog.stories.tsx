@@ -78,14 +78,14 @@ export const DialogConfirm = () => (
             variant="tertiary"
             text="Administrer"
             icon={edit}
-            icon_position="left"
-            on_click={({ close }) => {
+            iconPosition="left"
+            onClick={({ close }) => {
               close()
             }}
           />
           <Button
             text="Jeg godtar"
-            on_click={({ close }) => {
+            onClick={({ close }) => {
               close()
             }}
           />
@@ -230,15 +230,11 @@ export const DialogSandbox = () => (
 
     <Box>
       <Dialog
-        // triggerAttributes={{
-        //   'aria-label': 'My Label'
-        // }}
         spacing={false}
         fullscreen={false}
         alignContent="centered"
         hideCloseButton
         triggerAttributes={{ text: 'Show' }}
-        // prevent_close
         maxWidth="12rem"
       >
         <ProgressIndicator
@@ -250,15 +246,11 @@ export const DialogSandbox = () => (
         />
       </Dialog>
       <Dialog
-        // trigger_attributes={{
-        //   'aria-label': 'My Label'
-        // }}
         spacing={false}
         fullscreen={false}
         alignContent="centered"
         hideCloseButton
         triggerAttributes={{ icon: 'bell' }}
-        // prevent_close
         maxWidth="12rem"
       >
         <ProgressIndicator
@@ -272,12 +264,7 @@ export const DialogSandbox = () => (
     </Box>
 
     <Box>
-      <Dialog
-        title="Dialog Title"
-        // fullscreen
-        // openState="opened"
-        // noAnimation
-      >
+      <Dialog title="Dialog Title">
         <Dialog.Body spacing styleType="mint-green">
           <P>This is the modal text.</P>
         </Dialog.Body>
@@ -296,7 +283,6 @@ export const DialogSandbox = () => (
       <Dialog
         title="Title 1"
         triggerAttributes={{ text: 'Modal in modal' }}
-        // open_state="opened"
         style={{
           minHeight: '25rem',
         }}
@@ -415,7 +401,7 @@ class ModalRerenderExample extends React.PureComponent {
 
 const dropdownData = [
   {
-    selected_value: 'Brukskonto - Kari Nordmann',
+    selectedValue: 'Brukskonto - Kari Nordmann',
     content: <>Brukskonto - Kari Nordmann</>,
   },
   {
@@ -459,7 +445,7 @@ const dropdownData = [
     ],
   },
   {
-    selected_value:
+    selectedValue:
       'Feriekonto - Kari Nordmann med et kjempelangt etternavnsen',
     content: [
       <NumberFormat key={15349648901} ban>
@@ -469,7 +455,7 @@ const dropdownData = [
     ],
   },
   {
-    selected_value: <>Custom selected {'🔥'}</>,
+    selectedValue: <>Custom selected {'🔥'}</>,
     content: [
       <NumberFormat key={15349648901} ban>
         15349648901
@@ -480,13 +466,13 @@ const dropdownData = [
 ]
 
 const ModalCloseExample = () => {
-  const [open_state, setOpenState] = React.useState(null)
+  const [openState, setOpenState] = React.useState(null)
   const [count, setCount] = React.useState(0)
 
   React.useEffect(() => {
     let timeout
 
-    if (open_state === 'opened') {
+    if (openState === 'opened') {
       timeout = setTimeout(() => {
         console.log('count:', count)
         setCount(count + 1)
@@ -500,23 +486,22 @@ const ModalCloseExample = () => {
     <>
       <Button
         text="Set opened state"
-        on_click={() => setOpenState('opened')}
+        onClick={() => setOpenState('opened')}
       />
       <Dialog
         triggerAttributes={{
           text: 'Open Modal and auto close',
         }}
         title="Modal Title"
-        openState={open_state}
+        openState={openState}
         openModal={(open) => {
           const timeout = setTimeout(open, 3e3)
           return () => clearTimeout(timeout)
         }}
-        // hide_close_button
         closeModal={(close) => {
           let timeout
 
-          if (open_state !== 'opened') {
+          if (openState !== 'opened') {
             console.log('Modal was opened')
             timeout = setTimeout(close, 3e3)
           }
@@ -528,7 +513,6 @@ const ModalCloseExample = () => {
         }}
         onClose={(e) => {
           console.log('on_close', e)
-          // clearTimeout(timeoutId)
           setOpenState('closed')
         }}
       >
@@ -556,14 +540,13 @@ const ModalTriggerExample = () => {
         <Button
           variant="secondary"
           text="Count"
-          on_click={() => setCount(count + 1)}
+          onClick={() => setCount(count + 1)}
         />
 
         <Button
           id="custom-triggerer"
           text="Custom trigger Button"
-          on_click={(e) => {
-            // console.log('on_click', e)
+          onClick={(e) => {
             return (
               <Dialog
                 title="Modal Title"
@@ -592,13 +575,7 @@ function FillContent() {
       This is the modal text. Triggered by a tertiary button. Hac eleifend
       consectetur massa lobortis diam netus congue a nibh dolor faucibus
       vivamus taciti neque accumsan urna varius dis egestas
-      <Dropdown
-        label="Dropdown"
-        data={dropdownData}
-        right
-        skip_portal
-        // direction="top"
-      />
+      <Dropdown label="Dropdown" data={dropdownData} right skipPortal />
       montes tempus tortor mi aptent enim cursus venenatis cras ornare nisl
       pretium tincidunt et imperdiet sapien luctus vel volutpat risus dui
       himenaeos nec est turpis ridiculus posuere sollicitudin nostra
@@ -640,12 +617,7 @@ function FillContent() {
       quisque tellus consectetur fringilla curae praesent nullam vulputate
       nostra leo cum consequat sit ridiculus ad inceptos cras facilisis
       pretium natoque libero nulla interdum pellentesque viverra turpis
-      <Dropdown
-        label="Dropdown"
-        data={dropdownData}
-        right
-        // direction="top"
-      />
+      <Dropdown label="Dropdown" data={dropdownData} right />
       vestibulum maecenas molestie dolor morbi vehicula ultrices diam quis
       velit etiam dictum feugiat sed lacinia placerat euismod magna sapien
       luctus eget tempus rutrum faucibus et suspendisse aliquam felis
@@ -711,12 +683,7 @@ function FillContent() {
       dolor fusce nostra orci turpis velit fames a porttitor quis mi rutrum
       inceptos volutpat phasellus ornare nisi tortor lobortis ligula
       ultricies ante proin
-      <Dropdown
-        label="Dropdown"
-        data={dropdownData}
-        right
-        // direction="top"
-      />
+      <Dropdown label="Dropdown" data={dropdownData} right />
     </>
   )
 }
@@ -725,10 +692,7 @@ function ModalWithScrollableBox() {
   return (
     <>
       {/* <ScrollView /> */}
-      <Dialog
-      // fullscreen={true}
-      // open_state="opened"
-      >
+      <Dialog>
         <SimScrollView />
       </Dialog>
     </>
@@ -740,7 +704,6 @@ function SimScrollView() {
     <div
       style={{
         width: '100%',
-        // height: '100vh',
         height: '20rem',
         display: 'flex',
         alignItems: 'center',
@@ -752,7 +715,6 @@ function SimScrollView() {
         style={{
           width: '50%',
           height: '50%',
-          // overflowY: 'auto',
           maxHeight: '12rem',
         }}
       >
@@ -782,7 +744,7 @@ function CloseWithAnimation() {
     >
       <Button
         text="Close from inside modal"
-        on_click={() => setModalOpen(false)}
+        onClick={() => setModalOpen(false)}
       />
     </Dialog>
   )

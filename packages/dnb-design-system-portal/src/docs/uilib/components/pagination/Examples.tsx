@@ -33,10 +33,10 @@ const LargePage = styled.div`
 export const PaginationExampleDefault = () => (
   <ComponentBox data-visual-test="pagination-default">
     <Pagination
-      page_count={888}
-      current_page={4}
-      on_change={({ pageNumber }) => {
-        console.log('on_change:', pageNumber)
+      pageCount={888}
+      currentPage={4}
+      onChange={({ pageNumber }) => {
+        console.log('onChange:', pageNumber)
       }}
     >
       <P>Current Page Content</P>
@@ -47,10 +47,10 @@ export const PaginationExampleDefault = () => (
 export const PaginationExampleWithHorizontalLayout = () => (
   <ComponentBox data-visual-test="pagination-horizontal">
     <Pagination
-      page_count={888}
-      current_page={4}
-      on_change={({ pageNumber }) => {
-        console.log('on_change:', pageNumber)
+      pageCount={888}
+      currentPage={4}
+      onChange={({ pageNumber }) => {
+        console.log('onChange:', pageNumber)
       }}
       paginationBarLayout="horizontal"
     >
@@ -62,10 +62,10 @@ export const PaginationExampleWithHorizontalLayout = () => (
 export const PaginationExampleWithCallback = () => (
   <ComponentBox hideCode>
     <Pagination
-      page_count={5}
-      startup_page={3}
-      on_change={({ pageNumber }) => {
-        console.log('on_change:', pageNumber)
+      pageCount={5}
+      startupPage={3}
+      onChange={({ pageNumber }) => {
+        console.log('onChange:', pageNumber)
       }}
     >
       {({ pageNumber }) => <P>Page {pageNumber}</P>}
@@ -75,7 +75,7 @@ export const PaginationExampleWithCallback = () => (
 
 export const PaginationExampleCentered = () => (
   <ComponentBox scope={{ LargePage }}>
-    <Pagination align="center" page_count={30}>
+    <Pagination align="center" pageCount={30}>
       {({ pageNumber, setContent }) => {
         // simulate server communication delay
         const timeout = setTimeout(
@@ -111,7 +111,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
   const [cacheHash, forceRerender] = React.useState(null) // eslint-disable-line
 
   React.useEffect(() => {
-    // Could also be set as "startup_page" in <Pagination startup_page={startupPage} ...>
+    // Could also be set as "startupPage" in <Pagination startupPage={startupPage} ...>
     setLocalPage(startupPage)
   }, [])
 
@@ -171,7 +171,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
   React.useEffect(() => () => clearTimeout(serverDelayTimeout))
 
   const action = ({ pageNumber }) => {
-    console.log('on_change: with page', pageNumber)
+    console.log('onChange: with page', pageNumber)
 
     // simulate server delay
     clearTimeout(serverDelayTimeout)
@@ -197,9 +197,9 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
             <Button
               size="small"
               icon="reset"
-              icon_position="left"
+              iconPosition="left"
               variant="secondary"
-              on_click={() => {
+              onClick={() => {
                 clearTimeout(serverDelayTimeout) // stop the server delay simulation
 
                 resetInfinity()
@@ -226,7 +226,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
               icon="arrow-down"
               text="Sortable"
               title="Sort table row"
-              on_click={() => {
+              onClick={() => {
                 // 1. empty
                 resetContent()
 
@@ -239,18 +239,18 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
       <tbody>
         <Pagination
           mode="infinity"
-          // use_load_button // disables infinity scroller, but will add a button to do so
-          marker_element="tr"
-          fallback_element={({ className, ...props }) => (
+          // useLoadButton // disables infinity scroller, but will add a button to do so
+          markerElement="tr"
+          fallbackElement={({ className, ...props }) => (
             <TableRow className={className}>
               <TableData colSpan={2} {...props} />
             </TableRow>
           )} // in order to show the injected "indicator" and "load button" in the middle of the orw
-          current_page={currentPage}
-          page_count={maxPagesCount}
+          currentPage={currentPage}
+          pageCount={maxPagesCount}
           {...props}
-          on_startup={action}
-          on_change={action}
+          onStartup={action}
+          onChange={action}
         />
       </tbody>
     </StyledTable>

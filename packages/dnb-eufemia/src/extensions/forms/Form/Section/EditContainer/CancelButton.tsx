@@ -59,7 +59,7 @@ export default function CancelButton({
   const triggerAttributes: React.ComponentProps<typeof Button> = {
     variant: 'tertiary',
     icon: close,
-    icon_position: 'left',
+    iconPosition: 'left',
     text: cancelButton,
     ...buttonProps,
   }
@@ -75,5 +75,5 @@ export default function CancelButton({
     )
   }
 
-  return <Button {...triggerAttributes} on_click={cancelHandler} />
+  return <Button {...triggerAttributes} onClick={cancelHandler} />
 }

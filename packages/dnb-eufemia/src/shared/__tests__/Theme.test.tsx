@@ -200,7 +200,7 @@ describe('Portals', () => {
   it('have correct theme classes in dropdown', () => {
     render(
       <Theme name="eiendom" variant="soft" element={false}>
-        <Dropdown open no_animation data={['A', 'B']} />
+        <Dropdown open noAnimation data={['A', 'B']} />
       </Theme>
     )
 
@@ -219,7 +219,7 @@ describe('Portals', () => {
   it('have correct theme classes in autocomplete', () => {
     render(
       <Theme name="eiendom" variant="soft" element={false}>
-        <Autocomplete open no_animation data={['A', 'B']} />
+        <Autocomplete open noAnimation data={['A', 'B']} />
       </Theme>
     )
 
@@ -241,7 +241,7 @@ describe('Portals', () => {
         <button id="tooltip-target">Target</button>
         <Tooltip
           open
-          no_animation
+          noAnimation
           targetSelector="#tooltip-target"
           portalRootClass="eufemia-theme eufemia-theme__eiendom eufemia-theme__eiendom--soft"
         />

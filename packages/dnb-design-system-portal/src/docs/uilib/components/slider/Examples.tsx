@@ -27,7 +27,7 @@ export const SliderExampleDefault = () => (
 
 export const SliderExampleMultiButtons = () => (
   <ComponentBox data-visual-test="slider-multi" scope={{ format }}>
-    <Provider formElement={{ label_direction: 'vertical' }}>
+    <Provider formElement={{ labelDirection: 'vertical' }}>
       <Flex.Vertical align="stretch">
         <Slider
           min={0}
@@ -59,7 +59,7 @@ export const SliderExampleMultiButtons = () => (
 
 export const SliderExampleMultiButtonsThumbBehavior = () => (
   <ComponentBox>
-    <Provider formElement={{ label_direction: 'vertical' }}>
+    <Provider formElement={{ labelDirection: 'vertical' }}>
       <Flex.Vertical align="stretch">
         <Slider
           multiThumbBehavior="omit"
@@ -123,7 +123,7 @@ export const SliderExampleHorizontalSync = () => (
                 align="center"
                 selectall
                 value={String(value)}
-                on_change={({ value }) => setValue(value)}
+                onChange={({ value }) => setValue(value)}
               />
             </VerticalWrapper>
           </>

@@ -21,7 +21,7 @@ describe('Radio group component', () => {
         label="Label"
         name="group"
         id="group"
-        on_change={my_event}
+        onChange={my_event}
       >
         <Radio id="radio-1" label="Radio 1" value="first" />
         <Radio id="radio-2" label="Radio 2" value="second" checked />
@@ -108,7 +108,7 @@ describe('Radio group component', () => {
 
   it('should inherit formElement vertical label', () => {
     render(
-      <Provider formElement={{ label_direction: 'vertical' }}>
+      <Provider formElement={{ labelDirection: 'vertical' }}>
         <Radio.Group label="Label" name="group" id="group">
           <Radio id="radio-1" label="Radio 1" value="first" />
           <Radio id="radio-2" label="Radio 2" value="second" checked />
@@ -178,7 +178,7 @@ describe('Radio group component', () => {
     ])
 
     rerender(
-      <Radio.Group label="Label" label_direction="vertical">
+      <Radio.Group label="Label" labelDirection="vertical">
         <Radio />
       </Radio.Group>
     )
@@ -285,7 +285,7 @@ describe('Radio ARIA', () => {
         label="Label"
         name="group"
         id="group"
-        on_change={jest.fn()}
+        onChange={jest.fn()}
       >
         <Radio id="radio-1" label="Radio 1" value="first" />
         <Radio id="radio-2" label="Radio 2" value="second" checked />
@@ -304,7 +304,7 @@ describe('Radio ARIA', () => {
 
   it('should validate with ARIA rules for Radio.Group without label', async () => {
     const Comp = render(
-      <Radio.Group name="group" id="group" on_change={jest.fn()}>
+      <Radio.Group name="group" id="group" onChange={jest.fn()}>
         <Radio id="radio-1" label="Radio 1" value="first" />
         <Radio id="radio-2" label="Radio 2" value="second" checked />
       </Radio.Group>

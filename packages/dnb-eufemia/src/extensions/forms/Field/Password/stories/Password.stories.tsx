@@ -1,6 +1,5 @@
 import { Field, Form } from '../../../'
 import { Flex } from '../../../../../components'
-import InputPassword from '../../../../../components/input/InputPassword'
 import { Provider } from '../../../../../shared'
 
 export default {
@@ -11,16 +10,22 @@ export const Password = () => {
   return (
     <Form.Handler>
       <Flex.Stack>
-        <InputPassword
-          hide_password="Gjem dykk!"
-          show_password="Vis deg!"
-          on_hide_password={(e) => console.log('Gjemmer seg', e)}
-          on_show_password={(e) => console.log('Viser seg', e)}
+        <Field.Password
+          onHidePassword={(e) => console.log('Gjemmer seg', e)}
+          onShowPassword={(e) => console.log('Viser seg', e)}
         />
-        <Provider locale="nb-NO">
+        <Provider
+          locale="nb-NO"
+          translations={{
+            'nb-NO': {
+              Password: {
+                ariaLabelShow: 'Viser',
+                ariaLabelHide: 'Gjemmer',
+              },
+            },
+          }}
+        >
           <Field.Password
-            hide_password="Hiding"
-            show_password="Showing"
             size="small"
             width="small"
             onChange={(e) => console.log('onChange', e)}
@@ -28,24 +33,28 @@ export const Password = () => {
             onBlur={(e) => console.log('onFocus', e)}
             onShowPassword={(e) => console.log('show camel', e)}
             onHidePassword={(e) => console.log('hide camel', e)}
-            on_show_password={(e) => console.log('show snake', e)}
-            on_hide_password={(e) => console.log('hide snake', e)}
           />
         </Provider>
-        <Provider locale="en-GB">
+        <Provider
+          locale="en-GB"
+          translations={{
+            'en-GB': {
+              Password: {
+                ariaLabelShow: 'Showing',
+                ariaLabelHide: 'Hiding',
+              },
+            },
+          }}
+        >
           <Field.Password
             size="medium"
             width="medium"
             required
-            hide_password="Hiding"
-            show_password="Showing"
             onChange={(e) => console.log('onChange', e)}
             onFocus={(e) => console.log('onBlur', e)}
             onBlur={(e) => console.log('onFocus', e)}
             onShowPassword={(e) => console.log('show camel', e)}
             onHidePassword={(e) => console.log('hide camel', e)}
-            on_show_password={(e) => console.log('show snake', e)}
-            on_hide_password={(e) => console.log('hide snake', e)}
           />
         </Provider>
 

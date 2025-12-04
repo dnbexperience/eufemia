@@ -22,12 +22,12 @@ const nb = nbNO['nb-NO'].PaymentCard
 const en = enGB['en-GB'].PaymentCard
 
 const defaultProps: PaymentCardProps = {
-  product_code: 'NK1',
-  card_number: '************1337',
-  card_status: 'active',
+  productCode: 'NK1',
+  cardNumber: '************1337',
+  cardStatus: 'active',
   variant: 'normal',
   digits: 'digits',
-  raw_data: null,
+  rawData: null,
   id: 'id',
   locale: 'nb-NO',
   skeleton: 'skeleton',
@@ -64,101 +64,93 @@ describe('PaymentCard', () => {
 
   describe('English locale', () => {
     it('has correct expired status', () => {
-      render(<PaymentCard {...englishProps} card_status="expired" />)
+      render(<PaymentCard {...englishProps} cardStatus="expired" />)
 
-      expect(screen.queryByText(en.text_expired)).toBeInTheDocument()
+      expect(screen.queryByText(en.textExpired)).toBeInTheDocument()
     })
 
-    it('has correct not_active status', () => {
-      render(<PaymentCard {...englishProps} card_status="not_active" />)
+    it('has correct notActive status', () => {
+      render(<PaymentCard {...englishProps} cardStatus="notActive" />)
 
-      expect(screen.queryByText(en.text_not_active)).toBeInTheDocument()
+      expect(screen.queryByText(en.textNotActive)).toBeInTheDocument()
     })
 
     it('has correct renewed status', () => {
-      render(<PaymentCard {...englishProps} card_status="renewed" />)
+      render(<PaymentCard {...englishProps} cardStatus="renewed" />)
 
-      expect(screen.queryByText(en.text_renewed)).toBeInTheDocument()
+      expect(screen.queryByText(en.textRenewed)).toBeInTheDocument()
     })
 
     it('has correct replaced status', () => {
-      render(<PaymentCard {...englishProps} card_status="replaced" />)
+      render(<PaymentCard {...englishProps} cardStatus="replaced" />)
 
-      expect(screen.queryByText(en.text_replaced)).toBeInTheDocument()
+      expect(screen.queryByText(en.textReplaced)).toBeInTheDocument()
     })
 
-    it('has correct order_in_process status', () => {
-      render(
-        <PaymentCard {...englishProps} card_status="order_in_process" />
-      )
+    it('has correct orderInProcess status', () => {
+      render(<PaymentCard {...englishProps} cardStatus="orderInProcess" />)
 
-      expect(
-        screen.queryByText(en.text_order_in_process)
-      ).toBeInTheDocument()
+      expect(screen.queryByText(en.textOrderInProcess)).toBeInTheDocument()
     })
 
     it('has correct blocked status', () => {
-      render(<PaymentCard {...englishProps} card_status="blocked" />)
+      render(<PaymentCard {...englishProps} cardStatus="blocked" />)
 
-      expect(screen.queryByText(en.text_blocked)).toBeInTheDocument()
+      expect(screen.queryByText(en.textBlocked)).toBeInTheDocument()
     })
 
     it('has correct unknown status', () => {
-      render(<PaymentCard {...englishProps} card_status="unknown" />)
+      render(<PaymentCard {...englishProps} cardStatus="unknown" />)
 
-      expect(screen.queryByText(en.text_unknown)).toBeInTheDocument()
+      expect(screen.queryByText(en.textUnknown)).toBeInTheDocument()
     })
   })
 
   describe('Norwegian locale', () => {
     it('has correct expired status', () => {
-      render(<PaymentCard {...defaultProps} card_status="expired" />)
+      render(<PaymentCard {...defaultProps} cardStatus="expired" />)
 
-      expect(screen.queryByText(nb.text_expired)).toBeInTheDocument()
+      expect(screen.queryByText(nb.textExpired)).toBeInTheDocument()
     })
 
-    it('has correct not_active status', () => {
-      render(<PaymentCard {...defaultProps} card_status="not_active" />)
+    it('has correct notActive status', () => {
+      render(<PaymentCard {...defaultProps} cardStatus="notActive" />)
 
-      expect(screen.queryByText(nb.text_not_active)).toBeInTheDocument()
+      expect(screen.queryByText(nb.textNotActive)).toBeInTheDocument()
     })
 
     it('has correct renewed status', () => {
-      render(<PaymentCard {...defaultProps} card_status="renewed" />)
+      render(<PaymentCard {...defaultProps} cardStatus="renewed" />)
 
-      expect(screen.queryByText(nb.text_renewed)).toBeInTheDocument()
+      expect(screen.queryByText(nb.textRenewed)).toBeInTheDocument()
     })
 
     it('has correct replaced status', () => {
-      render(<PaymentCard {...defaultProps} card_status="replaced" />)
+      render(<PaymentCard {...defaultProps} cardStatus="replaced" />)
 
-      expect(screen.queryByText(nb.text_replaced)).toBeInTheDocument()
+      expect(screen.queryByText(nb.textReplaced)).toBeInTheDocument()
     })
 
-    it('has correct order_in_process status', () => {
-      render(
-        <PaymentCard {...defaultProps} card_status="order_in_process" />
-      )
+    it('has correct orderInProcess status', () => {
+      render(<PaymentCard {...defaultProps} cardStatus="orderInProcess" />)
 
-      expect(
-        screen.queryByText(nb.text_order_in_process)
-      ).toBeInTheDocument()
+      expect(screen.queryByText(nb.textOrderInProcess)).toBeInTheDocument()
     })
 
     it('has correct blocked status', () => {
-      render(<PaymentCard {...defaultProps} card_status="blocked" />)
+      render(<PaymentCard {...defaultProps} cardStatus="blocked" />)
 
-      expect(screen.queryByText(nb.text_blocked)).toBeInTheDocument()
+      expect(screen.queryByText(nb.textBlocked)).toBeInTheDocument()
     })
 
     it('has correct unknown status', () => {
-      render(<PaymentCard {...defaultProps} card_status="unknown" />)
+      render(<PaymentCard {...defaultProps} cardStatus="unknown" />)
 
-      expect(screen.queryByText(nb.text_unknown)).toBeInTheDocument()
+      expect(screen.queryByText(nb.textUnknown)).toBeInTheDocument()
     })
   })
 
-  it('reacts raw_data with correct rendering', () => {
+  it('reacts rawData with correct rendering', () => {
     const customData = {
       productCode: 'UNDEFINED',
       productName: 'DNB Custom Card',
@@ -171,10 +163,10 @@ describe('PaymentCard', () => {
 
     render(
       <PaymentCard
-        product_code="UNDEFINED"
-        raw_data={customData}
+        productCode="UNDEFINED"
+        rawData={customData}
         variant="compact"
-        card_number="************1337"
+        cardNumber="************1337"
       />
     )
 
@@ -199,7 +191,7 @@ describe('PaymentCard', () => {
   })
 
   it('has correct card type text (credit)', () => {
-    render(<PaymentCard {...englishProps} product_code="043" />)
+    render(<PaymentCard {...englishProps} productCode="043" />)
 
     expect(screen.queryByText('Credit')).toBeInTheDocument()
   })
@@ -272,171 +264,153 @@ describe('Helper functions', () => {
 describe('PaymentCard translations', () => {
   const customText = 'MySpecialText'
 
-  /** @deprecated – can be removed in v11 */
-  it('should not break when setting text_card_number', () => {
+  it('should override textExpired', () => {
     render(
       <Provider
         locale="nb-NO"
         translations={{
           'nb-NO': {
-            PaymentCard: { text_card_number: customText },
+            PaymentCard: { textExpired: customText },
           },
         }}
       >
-        <PaymentCard {...defaultProps} />
-      </Provider>
-    )
-
-    expect(document.querySelector('.dnb-payment-card')).toBeInTheDocument()
-  })
-
-  it('should override text_expired', () => {
-    render(
-      <Provider
-        locale="nb-NO"
-        translations={{
-          'nb-NO': {
-            PaymentCard: { text_expired: customText },
-          },
-        }}
-      >
-        <PaymentCard {...defaultProps} card_status="expired" />
+        <PaymentCard {...defaultProps} cardStatus="expired" />
       </Provider>
     )
 
     expect(screen.queryByText(customText)).toBeInTheDocument()
   })
 
-  it('should override text_blocked', () => {
+  it('should override textBlocked', () => {
     render(
       <Provider
         locale="nb-NO"
         translations={{
           'nb-NO': {
-            PaymentCard: { text_blocked: customText },
+            PaymentCard: { textBlocked: customText },
           },
         }}
       >
-        <PaymentCard {...defaultProps} card_status="blocked" />
+        <PaymentCard {...defaultProps} cardStatus="blocked" />
       </Provider>
     )
 
     expect(screen.queryByText(customText)).toBeInTheDocument()
   })
 
-  it('should override text_not_active', () => {
+  it('should override textNotActive', () => {
     render(
       <Provider
         locale="nb-NO"
         translations={{
           'nb-NO': {
-            PaymentCard: { text_not_active: customText },
+            PaymentCard: { textNotActive: customText },
           },
         }}
       >
-        <PaymentCard {...defaultProps} card_status="not_active" />
+        <PaymentCard {...defaultProps} cardStatus="notActive" />
       </Provider>
     )
 
     expect(screen.queryByText(customText)).toBeInTheDocument()
   })
 
-  it('should override text_order_in_process', () => {
+  it('should override textOrderInProcess', () => {
     render(
       <Provider
         locale="nb-NO"
         translations={{
           'nb-NO': {
-            PaymentCard: { text_order_in_process: customText },
+            PaymentCard: { textOrderInProcess: customText },
           },
         }}
       >
-        <PaymentCard {...defaultProps} card_status="order_in_process" />
+        <PaymentCard {...defaultProps} cardStatus="orderInProcess" />
       </Provider>
     )
 
     expect(screen.queryByText(customText)).toBeInTheDocument()
   })
 
-  it('should override text_renewed', () => {
+  it('should override textRenewed', () => {
     render(
       <Provider
         locale="nb-NO"
         translations={{
           'nb-NO': {
-            PaymentCard: { text_renewed: customText },
+            PaymentCard: { textRenewed: customText },
           },
         }}
       >
-        <PaymentCard {...defaultProps} card_status="renewed" />
+        <PaymentCard {...defaultProps} cardStatus="renewed" />
       </Provider>
     )
 
     expect(screen.queryByText(customText)).toBeInTheDocument()
   })
 
-  it('should override text_replaced', () => {
+  it('should override textReplaced', () => {
     render(
       <Provider
         locale="nb-NO"
         translations={{
           'nb-NO': {
-            PaymentCard: { text_replaced: customText },
+            PaymentCard: { textReplaced: customText },
           },
         }}
       >
-        <PaymentCard {...defaultProps} card_status="replaced" />
+        <PaymentCard {...defaultProps} cardStatus="replaced" />
       </Provider>
     )
 
     expect(screen.queryByText(customText)).toBeInTheDocument()
   })
 
-  it('should override text_unknown', () => {
+  it('should override textUnknown', () => {
     render(
       <Provider
         locale="nb-NO"
         translations={{
           'nb-NO': {
-            PaymentCard: { text_unknown: customText },
+            PaymentCard: { textUnknown: customText },
           },
         }}
       >
-        <PaymentCard {...defaultProps} card_status="unknown" />
+        <PaymentCard {...defaultProps} cardStatus="unknown" />
       </Provider>
     )
 
     expect(screen.queryByText(customText)).toBeInTheDocument()
   })
 
-  it('should override text_new', () => {
+  it('should override textNew', () => {
     render(
       <Provider
         locale="nb-NO"
         translations={{
           'nb-NO': {
-            PaymentCard: { text_new: customText },
+            PaymentCard: { textNew: customText },
           },
         }}
       >
-        <PaymentCard {...defaultProps} card_status="new" />
+        <PaymentCard {...defaultProps} cardStatus="new" />
       </Provider>
     )
 
     expect(screen.queryByText(customText)).toBeInTheDocument()
   })
 
-  it('should override text_new_order', () => {
+  it('should override textNewOrder', () => {
     render(
       <Provider
         locale="nb-NO"
         translations={{
           'nb-NO': {
-            PaymentCard: { text_new_order: customText },
+            PaymentCard: { textNewOrder: customText },
           },
         }}
       >
-        <PaymentCard {...defaultProps} card_status="new_order" />
+        <PaymentCard {...defaultProps} cardStatus="newOrder" />
       </Provider>
     )
 

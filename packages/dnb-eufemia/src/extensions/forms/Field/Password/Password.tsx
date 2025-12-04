@@ -9,13 +9,13 @@ import React, {
 import classnames from 'classnames'
 import SharedContext from '../../../../shared/Context'
 import StringField, { Props as StringFieldProps } from '../String'
+import useId from '../../../../shared/helpers/useId'
 
 import { InputProps, SubmitButton } from '../../../../components/Input'
 import IconView from '../../../../icons/view'
 import IconViewOff from '../../../../icons/hide'
 import IconViewMedium from '../../../../icons/view_medium'
 import IconViewOffMedium from '../../../../icons/hide_medium'
-import { convertSnakeCaseProps } from '../../../../shared/helpers/withSnakeCaseProps'
 import useTranslation from '../../hooks/useTranslation'
 
 export type PasswordVisibilityEvent =
@@ -40,22 +40,6 @@ export type PasswordProps = Omit<StringFieldProps, 'innerRef'> & {
    * ElementRef passed on to the password input element.
    */
   innerRef?: MutableRefObject<HTMLInputElement>
-  /**
-   * @deprecated in v11, use use `locales`prop on `Provider` and override `passwordShowLabel` instead.
-   */
-  show_password?: string
-  /**
-   * @deprecated in v11, use use `locales`prop on `Provider` and override `passwordHideLabel` instead.
-   */
-  hide_password?: string
-  /**
-   * @deprecated in v11, use `onShowPassword` instead.
-   */
-  on_show_password?: (event: PasswordVisibilityEvent) => void
-  /**
-   * @deprecated in v11, use `onHidePassword` instead.
-   */
-  on_hide_password?: (event: PasswordVisibilityEvent) => void
 }
 
 function Password({
@@ -66,10 +50,10 @@ function Password({
   label,
   disabled,
   size,
-  ...externalProps
+  ...props
 }: PasswordProps) {
-  // Object freeze used to prevent mutation of show_password and hide_password props. Freeze and convertToSnakeCase can be removed in v11.
-  const props = convertSnakeCaseProps(Object.freeze(externalProps))
+  const generatedId = useId()
+  const idToUse = id || generatedId
 
   const [hidden, setHidden] = useState<boolean>(true)
 
@@ -80,8 +64,7 @@ function Password({
 
   const toggleVisibility = useCallback(
     (event: React.MouseEvent<HTMLButtonElement>) => {
-      const { onShowPassword, onHidePassword } =
-        convertSnakeCaseProps(props)
+      const { onShowPassword, onHidePassword } = props
 
       const value = ref.current.value
 
@@ -100,39 +83,15 @@ function Password({
     [props]
   )
 
-  // Can be removed with v11, just used to make sure that the old show_password and hide_password are still backward compatible.
-  const getAriaLabel = useCallback(() => {
-    const ariaLabels = {
-      showPassword: translations.ariaLabelShow,
-      hidePassword: translations.ariaLabelHide,
-    }
-
-    if (externalProps.show_password) {
-      ariaLabels['showPassword'] = externalProps.show_password
-    }
-
-    if (externalProps.hide_password) {
-      ariaLabels['hidePassword'] = externalProps.hide_password
-    }
-
-    return ariaLabels
-  }, [
-    externalProps.show_password,
-    externalProps.hide_password,
-    translations,
-  ])
-
-  const ariaLabels = getAriaLabel()
-
   const ToggleVisibilityButton = useCallback(() => {
     return (
       <SubmitButton
-        id={id + '-submit-button'}
+        id={idToUse + '-submit-button'}
         type="button"
         variant="secondary"
-        aria-controls={id}
+        aria-controls={idToUse}
         aria-label={
-          hidden ? ariaLabels.showPassword : ariaLabels.hidePassword
+          hidden ? translations.ariaLabelShow : translations.ariaLabelHide
         }
         icon={
           size === 'large'
@@ -149,24 +108,23 @@ function Password({
       />
     )
   }, [
-    id,
+    idToUse,
     hidden,
     sharedContext.skeleton,
     disabled,
     size,
     toggleVisibility,
-    ariaLabels,
   ])
 
   return (
     <StringField
-      id={id}
+      id={idToUse}
       className={classnames('dnb-forms-field-password', className)}
       label={label ?? translations.label}
       type={hidden ? 'password' : 'text'}
       value={value}
       innerRef={ref}
-      aria-describedby={id + '-submit-button'}
+      aria-describedby={idToUse + '-submit-button'}
       submitElement={<ToggleVisibilityButton />}
       disabled={disabled}
       size={size}

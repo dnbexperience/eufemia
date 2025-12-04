@@ -215,7 +215,7 @@ function Toggle(props: Props) {
             status={hasError ? 'error' : undefined}
             value={value ? 'true' : 'false'}
             size={size}
-            on_change={handleCheckboxChange}
+            onChange={handleCheckboxChange}
             role="checkbox"
             {...htmlAttributes}
           />
@@ -265,7 +265,7 @@ function Toggle(props: Props) {
         >
           <Radio.Group
             value={isOn ? 'on' : isOff ? 'off' : null}
-            on_change={handleToggleChange}
+            onChange={handleToggleChange}
             status={hasError ? 'error' : undefined}
             disabled={disabled}
             size={size !== 'small' ? size : 'default'} // Radio does not support "small" size
@@ -301,7 +301,7 @@ function Toggle(props: Props) {
             status={hasError ? 'error' : undefined}
             value={value ? 'true' : 'false'}
             size={size}
-            on_change={handleCheckboxChange}
+            onChange={handleCheckboxChange}
             role="checkbox"
             {...htmlAttributes}
           />

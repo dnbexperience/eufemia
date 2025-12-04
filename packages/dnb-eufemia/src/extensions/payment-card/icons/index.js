@@ -25,10 +25,7 @@ import { StatusIcon } from './status'
 const BankLogo = ({ logoType }) =>
   logoType.cata({
     Colored: (color) => (
-      <DNB
-        fill={color}
-        className="dnb-payment-card__card__bank-logo"
-      />
+      <DNB fill={color} className="dnb-payment-card__card__bank-logo" />
     ),
     Sbanken: (color) => (
       <Sbanken

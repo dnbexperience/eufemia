@@ -72,24 +72,24 @@ export const SearchBarInput = () => {
       id="portal-search"
       className={classnames(autocompleteStyle, 'portal-search')}
       mode="async"
-      show_clear_button
-      no_scroll_animation
-      prevent_selection
-      disable_filter
-      fixed_position
+      showClearButton
+      noScrollAnimation
+      preventSelection
+      disableFilter
+      fixedPosition
       size="medium"
-      align_autocomplete="right"
+      alignAutocomplete="right"
       placeholder="Search ..."
       label="Search the Eufemia documentation"
-      label_sr_only
+      labelSrOnly
       status={status}
-      portal_class={portalClassStyle}
-      drawer_class={drawerClassStyle}
-      on_type={onTypeHandler}
-      on_change={onChangeHandler}
-      on_focus={onFocusHandler}
-      page_offset={0} // drawer-list property
-      options_render={({ Items, data }) => {
+      portalClass={portalClassStyle}
+      drawerClass={drawerClassStyle}
+      onType={onTypeHandler}
+      onChange={onChangeHandler}
+      onFocus={onFocusHandler}
+      pageOffset={0} // drawer-list property
+      optionsRender={({ Items, data }) => {
         return (
           <>
             <Items />

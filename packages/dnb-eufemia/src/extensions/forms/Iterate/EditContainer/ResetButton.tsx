@@ -56,7 +56,7 @@ export default function ResetButton(props: Props) {
     text: textContent,
     variant: textContent ? 'tertiary' : 'secondary',
     icon: reset,
-    icon_position: 'left',
+    iconPosition: 'left',
     disabled:
       typeof hasContentChanged === 'boolean' ? !hasContentChanged : false,
     ...buttonProps,
@@ -74,7 +74,7 @@ export default function ResetButton(props: Props) {
       ) : (
         <Button
           {...triggerAttributes}
-          on_click={handleClick}
+          onClick={handleClick}
           {...buttonProps}
         >
           {resetButton}

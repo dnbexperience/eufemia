@@ -26,8 +26,8 @@ export default function EditButton() {
     <Button
       variant="tertiary"
       icon={edit}
-      icon_position="left"
-      on_click={editHandler}
+      iconPosition="left"
+      onClick={editHandler}
     >
       {translation.editButton}
     </Button>
