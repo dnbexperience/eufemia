@@ -110,20 +110,6 @@ describe('Field.Toggle', () => {
         expect(
           document.querySelector('input').getAttribute('aria-describedby')
         ).toContain(document.querySelector('.dnb-help-button').id)
-        {
-          const helpButton = document.querySelector('.dnb-help-button')
-          const describedById =
-            helpButton?.getAttribute('aria-describedby')
-          expect(describedById).toBeTruthy()
-
-          const describedByElement = describedById
-            ? document.getElementById(describedById)
-            : null
-          expect(describedByElement).toBeTruthy()
-          expect(describedByElement).toHaveClass(
-            'dnb-tooltip__sr-description'
-          )
-        }
       })
 
       it('renders error', () => {
@@ -446,20 +432,6 @@ describe('Field.Toggle', () => {
             .querySelector('.dnb-toggle-button__button')
             .getAttribute('aria-describedby')
         ).toBe(document.querySelector('.dnb-help-button').id)
-        {
-          const helpButton = document.querySelector('.dnb-help-button')
-          const describedById =
-            helpButton?.getAttribute('aria-describedby')
-          expect(describedById).toBeTruthy()
-
-          const describedByElement = describedById
-            ? document.getElementById(describedById)
-            : null
-          expect(describedByElement).toBeTruthy()
-          expect(describedByElement).toHaveClass(
-            'dnb-tooltip__sr-description'
-          )
-        }
       })
 
       it('should render correct HTML', () => {
@@ -684,20 +656,6 @@ describe('Field.Toggle', () => {
         expect(
           document.querySelector('.dnb-toggle-button__button')
         ).toHaveAttribute('aria-describedby')
-        {
-          const helpButton = document.querySelector('.dnb-help-button')
-          const describedById =
-            helpButton?.getAttribute('aria-describedby')
-          expect(describedById).toBeTruthy()
-
-          const describedByElement = describedById
-            ? document.getElementById(describedById)
-            : null
-          expect(describedByElement).toBeTruthy()
-          expect(describedByElement).toHaveClass(
-            'dnb-tooltip__sr-description'
-          )
-        }
       })
 
       it('should render correct HTML', () => {
@@ -987,20 +945,6 @@ describe('Field.Toggle', () => {
         expect(
           document.querySelector('.dnb-radio__input')
         ).toHaveAttribute('aria-describedby')
-        {
-          const helpButton = document.querySelector('.dnb-help-button')
-          const describedById =
-            helpButton?.getAttribute('aria-describedby')
-          expect(describedById).toBeTruthy()
-
-          const describedByElement = describedById
-            ? document.getElementById(describedById)
-            : null
-          expect(describedByElement).toBeTruthy()
-          expect(describedByElement).toHaveClass(
-            'dnb-tooltip__sr-description'
-          )
-        }
       })
 
       it('should render correct HTML', () => {
@@ -1223,20 +1167,6 @@ describe('Field.Toggle', () => {
             .querySelector('.dnb-toggle-button__button')
             .getAttribute('aria-describedby')
         ).toBe(document.querySelector('.dnb-help-button').id)
-        {
-          const helpButton = document.querySelector('.dnb-help-button')
-          const describedById =
-            helpButton?.getAttribute('aria-describedby')
-          expect(describedById).toBeTruthy()
-
-          const describedByElement = describedById
-            ? document.getElementById(describedById)
-            : null
-          expect(describedByElement).toBeTruthy()
-          expect(describedByElement).toHaveClass(
-            'dnb-tooltip__sr-description'
-          )
-        }
       })
 
       it('should render correct HTML', () => {
@@ -1437,20 +1367,6 @@ describe('Field.Toggle', () => {
         expect(
           document.querySelector('input').getAttribute('aria-describedby')
         ).toContain(document.querySelector('.dnb-help-button').id)
-        {
-          const helpButton = document.querySelector('.dnb-help-button')
-          const describedById =
-            helpButton?.getAttribute('aria-describedby')
-          expect(describedById).toBeTruthy()
-
-          const describedByElement = describedById
-            ? document.getElementById(describedById)
-            : null
-          expect(describedByElement).toBeTruthy()
-          expect(describedByElement).toHaveClass(
-            'dnb-tooltip__sr-description'
-          )
-        }
       })
 
       it('should render correct HTML', () => {

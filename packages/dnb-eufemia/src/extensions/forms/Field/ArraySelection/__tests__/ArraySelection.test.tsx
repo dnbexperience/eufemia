@@ -75,19 +75,6 @@ describe('ArraySelection', () => {
         </Field.ArraySelection>
       )
       expect(document.querySelectorAll('.dnb-help-button')).toHaveLength(1)
-      {
-        const helpButton = document.querySelector('.dnb-help-button')
-        const describedById = helpButton?.getAttribute('aria-describedby')
-        expect(describedById).toBeTruthy()
-
-        const describedByElement = describedById
-          ? document.getElementById(describedById)
-          : null
-        expect(describedByElement).toBeTruthy()
-        expect(describedByElement).toHaveClass(
-          'dnb-tooltip__sr-description'
-        )
-      }
     })
 
     it('precede option title over children', async () => {
@@ -760,20 +747,6 @@ describe('ArraySelection', () => {
         expect(document.querySelectorAll('.dnb-help-button')).toHaveLength(
           1
         )
-        {
-          const helpButton = document.querySelector('.dnb-help-button')
-          const describedById =
-            helpButton?.getAttribute('aria-describedby')
-          expect(describedById).toBeTruthy()
-
-          const describedByElement = describedById
-            ? document.getElementById(describedById)
-            : null
-          expect(describedByElement).toBeTruthy()
-          expect(describedByElement).toHaveClass(
-            'dnb-tooltip__sr-description'
-          )
-        }
       })
 
       it('renders error', () => {

@@ -1408,19 +1408,6 @@ describe('variants', () => {
       expect(
         document.querySelector('.dnb-dropdown__trigger')
       ).toHaveAttribute('aria-describedby')
-      {
-        const helpButton = document.querySelector('.dnb-help-button')
-        const describedById = helpButton?.getAttribute('aria-describedby')
-        expect(describedById).toBeTruthy()
-
-        const describedByElement = describedById
-          ? document.getElementById(describedById)
-          : null
-        expect(describedByElement).toBeTruthy()
-        expect(describedByElement).toHaveClass(
-          'dnb-tooltip__sr-description'
-        )
-      }
     })
 
     describe('dropdownProps', () => {
@@ -1929,19 +1916,6 @@ describe('variants', () => {
       expect(document.querySelector('input')).toHaveAttribute(
         'aria-describedby'
       )
-      {
-        const helpButton = document.querySelector('.dnb-help-button')
-        const describedById = helpButton?.getAttribute('aria-describedby')
-        expect(describedById).toBeTruthy()
-
-        const describedByElement = describedById
-          ? document.getElementById(describedById)
-          : null
-        expect(describedByElement).toBeTruthy()
-        expect(describedByElement).toHaveClass(
-          'dnb-tooltip__sr-description'
-        )
-      }
     })
 
     it('should support extra props in data (e.g. search_content)', async () => {

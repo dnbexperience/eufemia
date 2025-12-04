@@ -26,15 +26,9 @@ const files = [
 
 describe('Value.Upload', () => {
   const getValueText = (element: Element) => {
-    const rawText = element?.textContent ?? ''
-    return Array.from(
-      element.querySelectorAll('.dnb-tooltip__sr-description')
-    )
-      .reduce((text, desc) => {
-        const descText = desc?.textContent ?? ''
-        return descText ? text.replace(descText, '') : text
-      }, rawText)
-      .trim()
+    // Since dnb-tooltip__sr-description no longer exists, just return the raw text
+    // Tooltip content is only in the DOM when active, so it won't interfere with value text
+    return element?.textContent?.trim() ?? ''
   }
 
   it('renders file values', () => {
