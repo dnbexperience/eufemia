@@ -283,10 +283,11 @@ describe('Slider component', () => {
         '.dnb-slider__thumb .dnb-button'
       )
 
+      // Slider uses omitDescribedBy, so sr-description should not exist
       const srDescription = document.querySelector(
         '.dnb-tooltip__sr-description'
       )
-      expect(srDescription).toHaveTextContent('70,00 €')
+      expect(srDescription).toBeNull()
 
       fireEvent.mouseEnter(thumbElem)
 
@@ -313,10 +314,11 @@ describe('Slider component', () => {
       const mainElem = document.querySelector('.dnb-slider')
       const inputElem = mainElem.querySelector('[type="range"]')
 
+      // Slider uses omitDescribedBy, so sr-description should not exist
       const srDescription = document.querySelector(
         '.dnb-tooltip__sr-description'
       )
-      expect(srDescription).toHaveTextContent('70')
+      expect(srDescription).toBeNull()
 
       fireEvent.focus(inputElem)
 
@@ -353,10 +355,11 @@ describe('Slider component', () => {
         '.dnb-slider__thumb .dnb-button'
       )
 
+      // Slider uses omitDescribedBy, so sr-description should not exist
       const srDescription = document.querySelector(
         '.dnb-tooltip__sr-description'
       )
-      expect(srDescription.textContent.trim()).toMatch(/70\s*%/)
+      expect(srDescription).toBeNull()
 
       fireEvent.mouseEnter(thumbElem)
 
@@ -386,10 +389,11 @@ describe('Slider component', () => {
         '.dnb-slider__thumb .dnb-button'
       )
 
+      // Slider uses omitDescribedBy, so sr-description should not exist
       const srDescription = document.querySelector(
         '.dnb-tooltip__sr-description'
       )
-      expect(srDescription).toHaveTextContent('70')
+      expect(srDescription).toBeNull()
 
       fireEvent.mouseEnter(thumbElem)
 
