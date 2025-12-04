@@ -37,7 +37,7 @@ export const TooltipProperties: PropertiesTableProps = {
     status: 'optional',
   },
   keepInDOM: {
-    doc: 'Keep the tooltip portal mounted in the DOM even when closed. When `true`, the tooltip remains in the DOM when inactive, which is useful for maintaining `aria-describedby` references for accessibility, ensuring screen readers can always find the associated element, and preventing layout shifts when the tooltip appears/disappears. Defaults to `true` for Tooltip (unlike Popover which defaults to `false`).',
+    doc: 'Keep the tooltip portal mounted in the DOM even when closed. When `true`, the tooltip remains in the DOM when inactive. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },

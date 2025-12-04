@@ -63,7 +63,7 @@ const CopyOnClick = ({
       try {
         const str =
           convertJsxToString(copyContent || children) ||
-          ref.current.textContent
+          ref.current?.textContent
 
         if (str) {
           const selection = window.getSelection()

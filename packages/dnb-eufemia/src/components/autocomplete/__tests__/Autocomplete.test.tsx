@@ -702,54 +702,129 @@ describe('Autocomplete component', () => {
 
     toggle()
 
-    expect(document.querySelector('.dnb-aria-live').textContent).toBe('')
-
-    // simulate changes
-    keyDownOnInput(40) // down
-
+    // Wait for autocomplete to open and AriaLive elements to be rendered
     await waitFor(() => {
-      expect(document.querySelector('.dnb-aria-live').textContent).toBe(
-        'AA c'
+      expect(
+        document.querySelector('.dnb-autocomplete--opened')
+      ).toBeInTheDocument()
+    })
+
+    // There are two AriaLive elements - find the one that's not hidden (VoiceOver active item)
+    // The VoiceOver aria-live has aria-live="assertive" and priority="high"
+    const getVoiceOverAriaLive = () => {
+      const allAriaLive = document.querySelectorAll(
+        '.dnb-aria-live[aria-live="assertive"]'
+      )
+      // When IS_MAC is true, the VoiceOver aria-live should not be hidden
+      return Array.from(allAriaLive).find(
+        (el) => !el.hasAttribute('hidden')
+      ) as HTMLElement
+    }
+
+    // Initially, AriaLive should be empty
+    await waitFor(() => {
+      const ariaLive = getVoiceOverAriaLive()
+      expect(ariaLive).toBeInTheDocument()
+      expect(ariaLive?.textContent || '').toBe('')
+    })
+
+    // simulate changes - press down arrow to select first item
+    await act(async () => {
+      keyDownOnInput(40) // down
+    })
+
+    // Wait for active_item to be set in drawerList context
+    await waitFor(() => {
+      const input = document.querySelector('.dnb-input__input')
+      expect(input).toHaveAttribute(
+        'aria-activedescendant',
+        'option-autocomplete-id-0'
       )
     })
 
-    // simulate changes
-    keyDownOnInput(40) // down
+    // Wait for component to re-render with new active_item and aria-live to update
+    // The useAriaLive hook uses setTimeout even with delay=0 in test mode
+    await waitFor(
+      () => {
+        const ariaLive = getVoiceOverAriaLive()
+        const textContent = ariaLive?.textContent?.trim() || ''
+        expect(textContent).toBe('AA c')
+      },
+      { timeout: 3000 }
+    )
 
+    // simulate changes
+    await act(async () => {
+      keyDownOnInput(40) // down
+    })
+
+    // Wait for active_item to be set in drawerList context
     await waitFor(() => {
-      expect(document.querySelector('.dnb-aria-live').textContent).toBe(
-        'BB cc zethx'
+      const input = document.querySelector('.dnb-input__input')
+      expect(input).toHaveAttribute(
+        'aria-activedescendant',
+        'option-autocomplete-id-1'
       )
     })
 
-    // simulate changes
-    keyDownOnInput(40) // down
+    // Wait for component to re-render with new active_item and aria-live to update
+    await waitFor(
+      () => {
+        const ariaLive = getVoiceOverAriaLive()
+        expect(ariaLive?.textContent).toBe('BB cc zethx')
+      },
+      { timeout: 3000 }
+    )
 
+    // simulate changes
+    await act(async () => {
+      keyDownOnInput(40) // down
+    })
+
+    // Wait for active_item to be set in drawerList context
     await waitFor(() => {
-      expect(document.querySelector('.dnb-aria-live').textContent).toBe(
-        'CCcc'
+      const input = document.querySelector('.dnb-input__input')
+      expect(input).toHaveAttribute(
+        'aria-activedescendant',
+        'option-autocomplete-id-2'
       )
     })
+
+    // Wait for component to re-render with new active_item and aria-live to update
+    await waitFor(
+      () => {
+        const ariaLive = getVoiceOverAriaLive()
+        expect(ariaLive?.textContent).toBe('CCcc')
+      },
+      { timeout: 3000 }
+    )
 
     act(() => {
       dispatchKeyDown(13) // enter
     })
 
-    await waitFor(() => {
-      expect(document.querySelector('.dnb-aria-live').textContent).toBe(
-        'Valgt: CCcc'
-      )
-    })
+    await waitFor(
+      () => {
+        const ariaLive = getVoiceOverAriaLive()
+        expect(ariaLive?.textContent).toBe('Valgt: CCcc')
+      },
+      { timeout: 2000 }
+    )
 
     // simulate changes
     toggle()
-    keyDownOnInput(38) // up
-
-    await waitFor(() => {
-      expect(document.querySelector('.dnb-aria-live').textContent).toBe(
-        'BB cc zethx'
-      )
+    act(() => {
+      keyDownOnInput(38) // up
     })
+    await wait(10)
+
+    await waitFor(
+      () => {
+        const ariaLive = getVoiceOverAriaLive()
+        expect(ariaLive?.textContent).toBe('BB cc zethx')
+      },
+      { timeout: 2000 }
+    )
 
     // eslint-disable-next-line
     Object.defineProperty(helpers, 'IS_MAC', {
@@ -757,9 +832,15 @@ describe('Autocomplete component', () => {
     })
 
     // simulate changes
-    keyDownOnInput(38) // up
+    act(() => {
+      keyDownOnInput(38) // up
+    })
 
-    expect(document.querySelector('.dnb-aria-live').textContent).toBe('')
+    // When IS_MAC is false, the VoiceOver AriaLive is hidden, so check the count one
+    const countAriaLive = Array.from(
+      document.querySelectorAll('.dnb-aria-live')
+    ).find((el) => el.hasAttribute('hidden')) as HTMLElement
+    expect(countAriaLive?.textContent || '').toBe('')
   })
 
   it('should track canRenderAria state for accessibility announcements', async () => {

@@ -107,13 +107,9 @@ describe('Field.Toggle', () => {
         expect(document.querySelector('input')).toHaveAttribute(
           'aria-describedby'
         )
-        const describedby = document
-          .querySelector('input')
-          .getAttribute('aria-describedby')
-        expect(describedby).toContain(helpButton.id)
-        expect(helpButton.getAttribute('aria-describedby')).toBe(
-          document.querySelector('.dnb-tooltip__content').id
-        )
+        expect(
+          document.querySelector('input').getAttribute('aria-describedby')
+        ).toContain(document.querySelector('.dnb-help-button').id)
       })
 
       it('renders error', () => {
@@ -436,11 +432,6 @@ describe('Field.Toggle', () => {
             .querySelector('.dnb-toggle-button__button')
             .getAttribute('aria-describedby')
         ).toBe(document.querySelector('.dnb-help-button').id)
-        expect(
-          document
-            .querySelector('.dnb-help-button')
-            .getAttribute('aria-describedby')
-        ).toBe(document.querySelector('.dnb-tooltip__content').id)
       })
 
       it('should render correct HTML', () => {
@@ -665,11 +656,6 @@ describe('Field.Toggle', () => {
         expect(
           document.querySelector('.dnb-toggle-button__button')
         ).toHaveAttribute('aria-describedby')
-        expect(
-          document
-            .querySelector('.dnb-help-button')
-            .getAttribute('aria-describedby')
-        ).toBe(document.querySelector('.dnb-tooltip__content').id)
       })
 
       it('should render correct HTML', () => {
@@ -959,11 +945,6 @@ describe('Field.Toggle', () => {
         expect(
           document.querySelector('.dnb-radio__input')
         ).toHaveAttribute('aria-describedby')
-        expect(
-          document
-            .querySelector('.dnb-help-button')
-            .getAttribute('aria-describedby')
-        ).toBe(document.querySelector('.dnb-tooltip__content').id)
       })
 
       it('should render correct HTML', () => {
@@ -1186,11 +1167,6 @@ describe('Field.Toggle', () => {
             .querySelector('.dnb-toggle-button__button')
             .getAttribute('aria-describedby')
         ).toBe(document.querySelector('.dnb-help-button').id)
-        expect(
-          document
-            .querySelector('.dnb-help-button')
-            .getAttribute('aria-describedby')
-        ).toBe(document.querySelector('.dnb-tooltip__content').id)
       })
 
       it('should render correct HTML', () => {
@@ -1388,13 +1364,9 @@ describe('Field.Toggle', () => {
         expect(document.querySelector('input')).toHaveAttribute(
           'aria-describedby'
         )
-        const describedby = document
-          .querySelector('input')
-          .getAttribute('aria-describedby')
-        expect(describedby).toContain(helpButton.id)
-        expect(helpButton.getAttribute('aria-describedby')).toBe(
-          document.querySelector('.dnb-tooltip__content').id
-        )
+        expect(
+          document.querySelector('input').getAttribute('aria-describedby')
+        ).toContain(document.querySelector('.dnb-help-button').id)
       })
 
       it('should render correct HTML', () => {

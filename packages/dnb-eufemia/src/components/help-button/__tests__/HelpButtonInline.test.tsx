@@ -474,8 +474,16 @@ describe('HelpButtonInline', () => {
     expect(document.querySelectorAll('.dnb-help-button')).toHaveLength(1)
 
     const button = document.querySelector('.dnb-help-button')
-    const ariaDescribedBy = button.getAttribute('aria-describedby')
-    expect(ariaDescribedBy).toBeTruthy()
+
+    // Tooltip only sets aria-describedby when active (hover/focus)
+    // So we need to trigger focus to activate the tooltip
+    await userEvent.hover(button)
+
+    const ariaDescribedBy = await waitFor(() => {
+      const id = button.getAttribute('aria-describedby')
+      expect(id).toBeTruthy()
+      return id
+    })
 
     const tooltipContent = await waitFor(() => {
       const tooltip = document.querySelector(`#${ariaDescribedBy}`)

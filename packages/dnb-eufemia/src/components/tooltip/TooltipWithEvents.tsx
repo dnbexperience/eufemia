@@ -15,10 +15,11 @@ import React, {
 } from 'react'
 import classnames from 'classnames'
 import { combineDescribedBy, warn } from '../../shared/component-helper'
-import { injectTooltipSemantic, isTouch } from './TooltipHelpers'
+import { isTouch } from './TooltipHelpers'
 import Popover, { getRefElement } from '../popover/Popover'
 import { TooltipProps } from './types'
 import { TooltipContext } from './TooltipContext'
+import AriaLive from '../AriaLive'
 
 type TooltipWithEventsProps = {
   target: TooltipProps['targetElement']
@@ -34,7 +35,6 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
     noAnimation,
     showDelay,
     hideDelay,
-    omitDescribedBy,
     arrow,
     position,
     align,
@@ -43,18 +43,18 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
     triggerOffset,
     contentRef,
     size,
-    keepInDOM = true,
+    keepInDOM = false,
   } = restProps
 
   const { internalId, isControlled } = useContext(TooltipContext)
 
   const [isActive, setIsActive] = useState(active)
-  const [isNotSemanticElement, setIsNotSemanticElement] = useState(false)
   const [isOverlayHovered, setOverlayHovered] = useState(false)
 
   const delayTimeout = useRef<NodeJS.Timeout>()
   const overlayDelayTimeout = useRef<NodeJS.Timeout>()
   const cloneRef = useRef<HTMLElement>()
+  const previousDescribedByIdRef = useRef<string | null>(null)
 
   const clearTimers = () => {
     clearTimeout(delayTimeout.current)
@@ -171,58 +171,28 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
     [onFocus, onMouseEnter, onMouseLeave]
   )
 
-  /**
-   * Make the element focus-able by keyboard, if it is not a semantic element.
-   * This will enable keyboard access to the tooltip by adding focus possibility
-   */
-  const handleSemanticElement = useCallback(() => {
-    try {
-      const targetElement = document.querySelector(
-        `*[aria-describedby*="${internalId}"]`
-      )
-      if (targetElement instanceof HTMLElement) {
-        const role = targetElement.getAttribute?.('role')
-        if (
-          /div|p|span/i.test(targetElement?.tagName) &&
-          (!role || role === 'text')
-        ) {
-          setIsNotSemanticElement(true)
-        }
-      }
-    } catch (e) {
-      warn(e)
-    }
-  }, [internalId])
+  const overlayActive = isActive || isOverlayHovered
+
+  // const fallbackDescriptionId = `${internalId}-sr`
+  const describedById = overlayActive ? internalId : null
 
   /**
    * Get our "target"
    */
   const componentWrapper = useMemo(() => {
-    // we could also check against && target.props && !target.props.tooltip
     if (isValidElement(target)) {
-      const params = isNotSemanticElement
-        ? injectTooltipSemantic({ className: props.className })
-        : {}
-
       return cloneElement(target, {
         ref: cloneRef,
-        ...params,
         'aria-describedby': combineDescribedBy(
           target.props['aria-describedby'],
-          omitDescribedBy ? null : internalId
+          describedById
         ),
       })
     }
 
     cloneRef.current = target as HTMLElement
     return null
-  }, [
-    internalId,
-    isNotSemanticElement,
-    omitDescribedBy,
-    props.className,
-    target,
-  ])
+  }, [describedById, target])
 
   useEffect(() => {
     if (!target) {
@@ -244,39 +214,57 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
   }, [addEvents, removeEvents, isControlled, target])
 
   useEffect(() => {
-    if (!target || omitDescribedBy) {
-      return
-    }
-
-    const targetElement = getRefElement(cloneRef)
-    if (!(targetElement instanceof HTMLElement)) {
-      return
-    }
-
-    try {
-      const existing = {
-        'aria-describedby': targetElement.getAttribute('aria-describedby'),
-      }
-      targetElement.setAttribute(
-        'aria-describedby',
-        combineDescribedBy(existing, internalId)
-      )
-    } catch (error) {
-      warn(error)
-    }
-  }, [internalId, omitDescribedBy, target])
-
-  useEffect(() => {
     if (isControlled) {
       setIsActive(active)
     }
   }, [active, isControlled])
 
   useEffect(() => {
-    if (isActive) {
-      handleSemanticElement()
+    const targetElement = getRefElement(cloneRef)
+    if (!(targetElement instanceof HTMLElement)) {
+      previousDescribedByIdRef.current = null
+      return
     }
-  }, [isActive, handleSemanticElement])
+
+    const updateAriaDescribedBy = (nextId: string | null) => {
+      const existingValues =
+        targetElement
+          .getAttribute('aria-describedby')
+          ?.split(/\s+/)
+          .map((value) => value.trim())
+          .filter(Boolean) ?? []
+
+      const withoutPrevious =
+        previousDescribedByIdRef.current !== null
+          ? existingValues.filter(
+              (value) => value !== previousDescribedByIdRef.current
+            )
+          : existingValues
+
+      let nextValues = withoutPrevious
+      if (nextId) {
+        nextValues = nextValues.filter((value) => value !== nextId)
+        nextValues = [...nextValues, nextId]
+      }
+
+      if (nextValues.length > 0) {
+        targetElement.setAttribute(
+          'aria-describedby',
+          nextValues.join(' ')
+        )
+      } else {
+        targetElement.removeAttribute('aria-describedby')
+      }
+
+      previousDescribedByIdRef.current = nextId
+    }
+
+    updateAriaDescribedBy(describedById)
+
+    return () => {
+      updateAriaDescribedBy(null)
+    }
+  }, [cloneRef, describedById, target])
 
   const clearOverlayTimers = () => {
     clearTimeout(overlayDelayTimeout.current)
@@ -307,8 +295,6 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
     }
   }, [hideDelay, isControlled, skipPortal])
 
-  const overlayActive = isActive || isOverlayHovered
-
   const { className: attributeClassName, ...restAttributes } =
     attributes || {}
 
@@ -337,7 +323,6 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
         fixedPosition={fixedPosition}
         portalRootClass={portalRootClass}
         contentClassName="dnb-tooltip__content"
-        omitDescribedBy={omitDescribedBy}
         contentRef={contentRef}
         focusOnOpen={false}
         restoreFocus={false}
@@ -353,6 +338,10 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
       >
         {children}
       </Popover>
+
+      <AriaLive element="span" priority="low">
+        {overlayActive ? children : null}
+      </AriaLive>
 
       {componentWrapper}
     </>
