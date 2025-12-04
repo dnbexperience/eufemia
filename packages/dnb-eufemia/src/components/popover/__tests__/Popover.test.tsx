@@ -1399,6 +1399,70 @@ describe('Popover', () => {
     focusSpy.mockRestore()
   })
 
+  it('calls focus with preventScroll when opening', async () => {
+    renderWithTrigger()
+
+    const trigger = (await waitFor(() =>
+      document.querySelector('button[aria-controls]')
+    )) as HTMLButtonElement
+
+    await userEvent.click(trigger)
+
+    const content = (await waitFor(() =>
+      document.querySelector('.dnb-popover__content')
+    )) as HTMLElement
+
+    // Spy on the content element's focus method
+    // Note: focus is called immediately and again after 10ms, so we spy after opening
+    // to catch at least the second call
+    const focusSpy = jest.spyOn(content, 'focus')
+
+    // Wait for the second focus call (after 10ms delay)
+    await waitFor(
+      () => {
+        expect(focusSpy).toHaveBeenCalledWith({ preventScroll: true })
+      },
+      { timeout: 100 }
+    )
+
+    focusSpy.mockRestore()
+  })
+
+  it('calls focus with preventScroll when closing', async () => {
+    renderWithTrigger()
+
+    const trigger = (await waitFor(() =>
+      document.querySelector('button[aria-controls]')
+    )) as HTMLButtonElement
+
+    const focusSpy = jest.spyOn(trigger, 'focus')
+
+    await userEvent.click(trigger)
+
+    await waitFor(() => {
+      expect(trigger).toHaveAttribute('aria-expanded', 'true')
+    })
+
+    const closeButton = (await waitFor(() =>
+      document.querySelector('.dnb-popover__close')
+    )) as HTMLButtonElement
+    fireEvent.click(closeButton)
+
+    await waitFor(() => {
+      expect(trigger).toHaveAttribute('aria-expanded', 'false')
+    })
+
+    // Wait for the requestAnimationFrame to complete
+    await waitFor(
+      () => {
+        expect(focusSpy).toHaveBeenCalledWith({ preventScroll: true })
+      },
+      { timeout: 100 }
+    )
+
+    focusSpy.mockRestore()
+  })
+
   it('adds the no-max-width class when noMaxWidth is true', async () => {
     renderWithTrigger({ noMaxWidth: true })
 
