@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, waitFor } from '@testing-library/react'
+import { render, waitFor, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { makeUniqueId } from '../../../shared/component-helper'
 import HelpButtonInline, {
@@ -484,6 +484,80 @@ describe('HelpButtonInline', () => {
     })
 
     expect(ariaDescribedBy).toBe(tooltipContent.id)
+  })
+
+  it('calls focus with preventScroll when opening', async () => {
+    render(
+      <HelpButtonInline focusWhenOpen help={{ title: 'Help title' }} />
+    )
+
+    const button = document.querySelector('button') as HTMLButtonElement
+
+    await userEvent.click(button)
+
+    // Wait for content to be rendered
+    const content = (await waitFor(() => {
+      const elem = document.querySelector(
+        '.dnb-help-button__content .dnb-section'
+      ) as HTMLElement
+      expect(elem).toBeInTheDocument()
+      return elem
+    })) as HTMLElement
+
+    // Spy on the content element's focus method
+    // The focus happens via requestAnimationFrame, so we set up the spy
+    // and then wait for it to be called
+    const focusSpy = jest.spyOn(content, 'focus')
+
+    // Wait for the focus to be called (it happens in a useEffect with requestAnimationFrame)
+    await waitFor(
+      () => {
+        expect(focusSpy).toHaveBeenCalledWith({ preventScroll: true })
+      },
+      { timeout: 200 }
+    )
+
+    focusSpy.mockRestore()
+  })
+
+  it('calls focus with preventScroll when closing', async () => {
+    render(
+      <HelpButtonInline focusWhenOpen help={{ title: 'Help title' }} />
+    )
+
+    const button = document.querySelector('button') as HTMLButtonElement
+
+    // Open the help button
+    await userEvent.click(button)
+    await waitFor(() => {
+      expect(button).toHaveClass('dnb-help-button__inline--open')
+    })
+
+    // Get the content section element (where onKeyDown is attached when focusWhenOpen is true)
+    const content = (await waitFor(() => {
+      const elem = document.querySelector(
+        '.dnb-help-button__content .dnb-section'
+      ) as HTMLElement
+      expect(elem).toBeInTheDocument()
+      return elem
+    })) as HTMLElement
+
+    // Spy on the button's focus method
+    const focusSpy = jest.spyOn(button, 'focus')
+
+    // Focus the content and press Escape (the onKeyDown handler is on the content section)
+    content.focus()
+    fireEvent.keyDown(content, { key: 'Escape' })
+
+    // Wait for the requestAnimationFrame to complete
+    await waitFor(
+      () => {
+        expect(focusSpy).toHaveBeenCalledWith({ preventScroll: true })
+      },
+      { timeout: 200 }
+    )
+
+    focusSpy.mockRestore()
   })
 })
 
