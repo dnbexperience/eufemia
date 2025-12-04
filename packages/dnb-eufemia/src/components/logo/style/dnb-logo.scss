@@ -5,8 +5,7 @@
 
 @import '../../../style/core/utilities.scss';
 
-.dnb-logo,
-.sbanken-logo {
+.dnb-logo {
   display: inline-flex;
   vertical-align: baseline;
   font-size: inherit;
@@ -28,6 +27,23 @@
 
   &--inherit-size {
     height: inherit;
+  }
+
+  &--carnegie {
+    color: var(--ca-color-burgundy-red);
+  }
+
+  &--dnb,
+  &--eiendom {
+    color: var(--color-sea-green);
+  }
+
+  &--sbanken {
+    color: var(--sb-color-text);
+  }
+
+  &--inherit-color {
+    color: currentcolor;
   }
 
   svg:not([width], [height]) {

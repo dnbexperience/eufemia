@@ -60,30 +60,37 @@ exports[`Logo scss has to match style dependencies css 1`] = `
 /*
  * Utilities
  */
-.dnb-logo,
-.sbanken-logo {
+.dnb-logo {
   display: inline-flex;
   vertical-align: baseline;
   font-size: inherit;
   line-height: var(--line-height-xx-small--em);
   height: 1em;
 }
-.dnb-logo svg,
-.sbanken-logo svg {
+.dnb-logo svg {
   fill: currentcolor;
   shape-rendering: geometricprecision;
 }
-.dnb-logo--has-size,
-.sbanken-logo--has-size {
+.dnb-logo--has-size {
   width: auto;
   height: auto;
 }
-.dnb-logo--inherit-size,
-.sbanken-logo--inherit-size {
+.dnb-logo--inherit-size {
   height: inherit;
 }
-.dnb-logo svg:not([width], [height]),
-.sbanken-logo svg:not([width], [height]) {
+.dnb-logo--carnegie {
+  color: var(--ca-color-burgundy-red);
+}
+.dnb-logo--dnb, .dnb-logo--eiendom {
+  color: var(--color-sea-green);
+}
+.dnb-logo--sbanken {
+  color: var(--sb-color-text);
+}
+.dnb-logo--inherit-color {
+  color: currentcolor;
+}
+.dnb-logo svg:not([width], [height]) {
   width: inherit;
   height: inherit;
 }"
@@ -94,11 +101,8 @@ exports[`Logo scss has to match theme css for sbanken 1`] = `
  * Logo Component
  *
  */
-.sbanken-logo {
+.dnb-logo--sbanken {
   color: var(--sb-color-text);
-}
-.sbanken-logo--inherit-color {
-  color: currentcolor;
 }"
 `;
 
@@ -107,10 +111,7 @@ exports[`Logo scss has to match theme css for ui 1`] = `
  * Logo Component
  *
  */
-.dnb-logo {
+.dnb-logo--dnb {
   color: var(--color-sea-green);
-}
-.dnb-logo--inherit-color {
-  color: currentcolor;
 }"
 `;
