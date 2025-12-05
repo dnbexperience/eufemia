@@ -316,7 +316,6 @@ export const DependentSchemaValidation = () => {
                   errorMessages={{
                     minItems: 'You must add {minItems} existing owners.',
                   }}
-                  defaultValue={[]}
                   animate
                 >
                   <Section
@@ -430,7 +429,6 @@ export const DependentSchemaValidationWithZod = () => {
                 <Form.SubHeading>Beneficial owners</Form.SubHeading>
                 <Iterate.Array
                   path="/beneficialOwners/addedExistingBeneficialOwners"
-                  defaultValue={[]}
                   animate
                 >
                   <Section
