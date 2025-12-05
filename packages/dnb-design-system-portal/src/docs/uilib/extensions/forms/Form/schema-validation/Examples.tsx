@@ -231,7 +231,7 @@ export const DependentSchemaValidation = () => {
     <ComponentBox scope={{ makeAjvInstance, Tools }}>
       {() => {
         const ajv = makeAjvInstance()
-        const counts = [0, 1, 2, 3]
+        const counts = [1, 2, 3]
         const schema = {
           type: 'object',
           properties: {
@@ -262,35 +262,65 @@ export const DependentSchemaValidation = () => {
           },
           dependentSchemas: {
             members: {
-              allOf: counts.map((count) => ({
-                if: {
-                  properties: {
-                    members: {
-                      type: 'object',
-                      properties: {
-                        numberOfMembers: { const: count },
+              allOf: [
+                // Handle count = 0: array must be empty
+                {
+                  if: {
+                    properties: {
+                      members: {
+                        type: 'object',
+                        properties: {
+                          numberOfMembers: { const: 0 },
+                        },
+                        required: ['numberOfMembers'],
                       },
-                      required: ['numberOfMembers'],
                     },
                   },
-                },
-                then: {
-                  required: ['beneficialOwners'],
-                  properties: {
-                    beneficialOwners: {
-                      type: 'object',
-                      properties: {
-                        addedExistingBeneficialOwners: {
-                          type: 'array',
-                          minItems: count,
-                          maxItems: count,
+                  then: {
+                    properties: {
+                      beneficialOwners: {
+                        type: 'object',
+                        properties: {
+                          addedExistingBeneficialOwners: {
+                            type: 'array',
+                            maxItems: 0,
+                          },
                         },
                       },
-                      required: ['addedExistingBeneficialOwners'],
                     },
                   },
                 },
-              })),
+                // Handle count = 1, 2, or 3: array must match exactly
+                ...counts.map((count) => ({
+                  if: {
+                    properties: {
+                      members: {
+                        type: 'object',
+                        properties: {
+                          numberOfMembers: { const: count },
+                        },
+                        required: ['numberOfMembers'],
+                      },
+                    },
+                  },
+                  then: {
+                    required: ['beneficialOwners'],
+                    properties: {
+                      beneficialOwners: {
+                        type: 'object',
+                        properties: {
+                          addedExistingBeneficialOwners: {
+                            type: 'array',
+                            minItems: count,
+                            maxItems: count,
+                          },
+                        },
+                        required: ['addedExistingBeneficialOwners'],
+                      },
+                    },
+                  },
+                })),
+              ],
             },
           },
         }
@@ -356,21 +386,31 @@ export const DependentSchemaValidationWithZod = () => {
   return (
     <ComponentBox scope={{ Tools, z }}>
       {() => {
+        const counts = [1, 2, 3]
         const ownerSchema = z.object({
           name: z.string().optional(),
         })
         const schema = z
           .object({
-            members: z.object({
-              numberOfMembers: z.number().int().min(0).max(3).optional(),
-            }),
-            beneficialOwners: z.object({
-              addedExistingBeneficialOwners: z.array(ownerSchema),
-            }),
+            members: z
+              .object({
+                numberOfMembers: z.number().int().optional(),
+              })
+              .optional(),
+            beneficialOwners: z
+              .object({
+                addedExistingBeneficialOwners: z
+                  .array(ownerSchema)
+                  .optional(),
+              })
+              .optional(),
           })
           .superRefine((value, ctx) => {
-            const countValue = value.members.numberOfMembers
-            if (countValue === undefined) {
+            // numberOfMembers is always required
+            if (
+              !value.members ||
+              value.members.numberOfMembers === undefined
+            ) {
               ctx.addIssue({
                 code: 'custom',
                 path: ['members', 'numberOfMembers'],
@@ -380,39 +420,122 @@ export const DependentSchemaValidationWithZod = () => {
             }
 
             const count = value.members.numberOfMembers
-            const owners =
-              value.beneficialOwners.addedExistingBeneficialOwners
-            const diff = owners.length - count
-            const path = [
-              'beneficialOwners',
-              'addedExistingBeneficialOwners',
-            ]
 
-            if (diff < 0) {
-              ctx.addIssue({
-                code: 'custom',
-                path,
-                message: 'IterateArray.errorMinItems',
-                messageValues: {
-                  minItems: count,
+            // Check if count matches one of the expected values (1, 2, or 3)
+            // This matches the AJV dependentSchemas logic with allOf and if/then
+            if (counts.includes(count)) {
+              // If count matches, beneficialOwners is required
+              if (!value.beneficialOwners) {
+                ctx.addIssue({
+                  code: 'custom',
+                  path: ['beneficialOwners'],
+                  message: 'Field.errorRequired',
+                })
+                return // stop further validation
+              }
+
+              // addedExistingBeneficialOwners is required
+              if (!value.beneficialOwners.addedExistingBeneficialOwners) {
+                ctx.addIssue({
+                  code: 'custom',
+                  path: [
+                    'beneficialOwners',
+                    'addedExistingBeneficialOwners',
+                  ],
+                  message: 'Field.errorRequired',
+                })
+                return // stop further validation
+              }
+
+              const ownersLength =
+                value.beneficialOwners.addedExistingBeneficialOwners.length
+              const path = [
+                'beneficialOwners',
+                'addedExistingBeneficialOwners',
+              ]
+
+              // Validate array length matches count exactly
+              if (ownersLength < count) {
+                ctx.addIssue({
+                  code: 'custom',
+                  path,
+                  message: 'IterateArray.errorMinItems',
+                  messageValues: {
+                    minItems: count,
+                  },
+                })
+              }
+
+              if (ownersLength > count) {
+                ctx.addIssue({
+                  code: 'custom',
+                  path,
+                  message: 'IterateArray.errorMaxItems',
+                  messageValues: {
+                    maxItems: count,
+                  },
+                })
+              }
+
+              // Validate that each owner has a name (required)
+              value.beneficialOwners.addedExistingBeneficialOwners.forEach(
+                (owner, index) => {
+                  if (!owner.name) {
+                    ctx.addIssue({
+                      code: 'custom',
+                      path: [
+                        'beneficialOwners',
+                        'addedExistingBeneficialOwners',
+                        index,
+                        'name',
+                      ],
+                      message: 'Field.errorRequired',
+                    })
+                  }
                 },
-              })
+              )
             }
 
-            if (diff > 0) {
-              ctx.addIssue({
-                code: 'custom',
-                path,
-                message: 'IterateArray.errorMaxItems',
-                messageValues: {
-                  maxItems: count,
-                },
-              })
+            // Validate array length sync for all count values (including 0)
+            if (
+              value.beneficialOwners?.addedExistingBeneficialOwners &&
+              Array.isArray(
+                value.beneficialOwners.addedExistingBeneficialOwners,
+              )
+            ) {
+              const ownersLength =
+                value.beneficialOwners.addedExistingBeneficialOwners.length
+              const path = [
+                'beneficialOwners',
+                'addedExistingBeneficialOwners',
+              ]
+
+              // If count is not in the expected range, array length must not exceed count
+              if (
+                !counts.includes(count) &&
+                count >= 0 &&
+                ownersLength > count
+              ) {
+                ctx.addIssue({
+                  code: 'custom',
+                  path,
+                  message: 'IterateArray.errorMaxItems',
+                  messageValues: {
+                    maxItems: count,
+                  },
+                })
+              }
             }
           })
-
         return (
-          <Form.Handler schema={schema}>
+          <Form.Handler
+            schema={schema}
+            defaultData={{
+              beneficialOwners: {
+                addedExistingBeneficialOwners: undefined,
+              },
+            }}
+          >
             <Flex.Stack>
               <Form.Card>
                 <Form.MainHeading>Membership</Form.MainHeading>
@@ -442,7 +565,6 @@ export const DependentSchemaValidationWithZod = () => {
                     <Field.String
                       itemPath="/name"
                       label="Owner name {itemNo}"
-                      required
                     />
                     <Iterate.RemoveButton />
                   </Section>

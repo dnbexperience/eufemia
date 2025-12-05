@@ -884,8 +884,16 @@ export default function Provider<Data extends JsonObject>(
     }) // Delay so the field validation error message are not shown
   }, [emptyData, id, onClear, setSharedData])
 
-  useMemo(() => {
+  // Use layout effect to run validation when internal data has changed,
+  // This makes it possible for Iterate.Array to set a new data value before the validation is run.
+  useLayoutEffect(() => {
+    const hasNoErrors = errorsRef.current === undefined
+
     executeAjvValidator()
+
+    if (hasNoErrors && errorsRef.current !== undefined) {
+      forceUpdate()
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [internalDataRef.current]) // run validation when internal data has changed
 

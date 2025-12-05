@@ -934,7 +934,7 @@ describe('Iterate.Array', () => {
   describe('minItems', () => {
     it('should show error with correct message', async () => {
       render(
-        <Form.Handler>
+        <Form.Handler defaultData={{ items: [] }}>
           <Iterate.Array path="/items" minItems={1} validateInitially>
             <Field.String itemPath="/" />
           </Iterate.Array>
@@ -1393,9 +1393,7 @@ describe('Iterate.Array', () => {
         render(
           <React.StrictMode>
             <Form.Handler onSubmit={onSubmit}>
-              <Iterate.Array path="/myList" defaultValue={[]}>
-                content
-              </Iterate.Array>
+              <Iterate.Array path="/myList">content</Iterate.Array>
             </Form.Handler>
           </React.StrictMode>
         )
@@ -1405,7 +1403,49 @@ describe('Iterate.Array', () => {
 
         expect(onSubmit).toHaveBeenCalledTimes(1)
         expect(onSubmit).toHaveBeenLastCalledWith(
-          { myList: [] },
+          { myList: undefined },
+          expect.anything()
+        )
+      })
+
+      it('should set undefined in the data context when not defaultValue is given', () => {
+        const onSubmit = jest.fn()
+
+        render(
+          <React.StrictMode>
+            <Form.Handler onSubmit={onSubmit}>
+              <Iterate.Array path="/myList">content</Iterate.Array>
+            </Form.Handler>
+          </React.StrictMode>
+        )
+
+        const form = document.querySelector('form')
+        fireEvent.submit(form)
+
+        expect(onSubmit).toHaveBeenCalledTimes(1)
+        expect(onSubmit).toHaveBeenLastCalledWith(
+          { myList: undefined },
+          expect.anything()
+        )
+      })
+
+      it('should respect an explicit emptyValue of undefined', () => {
+        const onSubmit = jest.fn()
+
+        render(
+          <Form.Handler onSubmit={onSubmit}>
+            <Iterate.Array path="/myList" emptyValue={undefined}>
+              <Field.String itemPath="/" />
+            </Iterate.Array>
+          </Form.Handler>
+        )
+
+        const form = document.querySelector('form')
+        fireEvent.submit(form)
+
+        expect(onSubmit).toHaveBeenCalledTimes(1)
+        expect(onSubmit).toHaveBeenLastCalledWith(
+          { myList: undefined },
           expect.anything()
         )
       })
@@ -2678,7 +2718,10 @@ describe('Iterate.Array', () => {
       }
 
       const { rerender } = render(
-        <Form.Handler ajvInstance={makeAjvInstance()}>
+        <Form.Handler
+          ajvInstance={makeAjvInstance()}
+          defaultData={{ items: [] }}
+        >
           <Iterate.Array
             path="/items"
             schema={schema}
@@ -2702,6 +2745,64 @@ describe('Iterate.Array', () => {
           <Iterate.Array
             path="/items"
             schema={schema}
+            errorMessages={errorMessages}
+            validateInitially
+          >
+            <Field.String itemPath="/" />
+          </Iterate.Array>
+        </Form.Handler>
+      )
+
+      expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+        'You cannot have more than 2 items.'
+      )
+    })
+
+    it('should show error with custom error message when "minItems" and "maxItems" is not met with global schema', async () => {
+      const schema: JSONSchema = {
+        type: 'object',
+        properties: {
+          items: {
+            type: 'array',
+            minItems: 1,
+            maxItems: 2,
+          },
+        },
+      }
+
+      const errorMessages = {
+        minItems: 'You need at least {minItems} items.',
+        maxItems: 'You cannot have more than {maxItems} items.',
+      }
+
+      const { rerender } = render(
+        <Form.Handler
+          ajvInstance={makeAjvInstance()}
+          schema={schema}
+          defaultData={{ items: [] }}
+        >
+          <Iterate.Array
+            path="/items"
+            errorMessages={errorMessages}
+            validateInitially
+          >
+            <Field.String itemPath="/" />
+          </Iterate.Array>
+        </Form.Handler>
+      )
+
+      expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+        'You need at least 1 items.'
+      )
+
+      rerender(
+        <Form.Handler
+          data={{ items: ['one', 'two', 'three'] }}
+          ajvInstance={makeAjvInstance()}
+          schema={schema}
+        >
+          <Iterate.Array
+            path="/items"
             errorMessages={errorMessages}
             validateInitially
           >

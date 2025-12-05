@@ -360,7 +360,11 @@ describe('PushButton', () => {
 
       expect(outerData).toEqual(undefined)
       expect(pushContainerData).toEqual({
-        pushContainerItems: [{}],
+        pushContainerItems: [
+          {
+            inner: undefined,
+          },
+        ],
       })
 
       await userEvent.click(
