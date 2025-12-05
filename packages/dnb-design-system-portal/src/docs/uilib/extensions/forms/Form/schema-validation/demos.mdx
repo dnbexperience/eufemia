@@ -4,6 +4,13 @@ showTabs: true
 
 import * as Examples from './Examples'
 
+- [Demos](#demos)
+  - [Schema for single field](#schema-for-single-field)
+  - [Schema for a whole data set](#schema-for-a-whole-data-set)
+  - [Schema with if-rule](#schema-with-if-rule)
+  - [Dependent list schema](#dependent-list-schema)
+  - [Dependent schema across sections](#dependent-schema-across-sections)
+
 ## Demos
 
 ### Schema for single field
@@ -18,12 +25,19 @@ import * as Examples from './Examples'
 
 <Examples.IfRuleSchema />
 
-### Dependant list schema
+### Dependent list schema
 
-<em>
-  Becoming a new customer, this form requires at least one normal account
-  to be added, unless the customer opens a BSU account, then normal
-  accounts can still be added, but is optional.
-</em>
+Becoming a new customer, this form requires at least one normal account
+to be added, unless the customer opens a BSU account, then normal
+accounts can still be added, but is optional.
 
-<Examples.DependantListSchema />
+<Examples.DependentListSchema />
+
+### Dependent schema across sections
+
+This schema validates fields across different sections based on the value of
+another field.
+
+**NB:** For schema validation to work with [Iterate.Array](/uilib/extensions/forms/Iterate/Array), the form data must contain an array (empty or populated), otherwise Ajv skips the array schema.
+
+<Examples.DependentSchemaValidation />
