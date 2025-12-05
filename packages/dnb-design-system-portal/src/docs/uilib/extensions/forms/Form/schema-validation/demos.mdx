@@ -41,3 +41,9 @@ another field.
 **NB:** For schema validation to work with [Iterate.Array](/uilib/extensions/forms/Iterate/Array), the form data must contain an array (empty or populated), otherwise Ajv skips the array schema.
 
 <Examples.DependentSchemaValidation />
+
+### Dependent schema using Zod
+
+This schema is using `Zod` for validation, and validates fields across different sections based on the value of another field.
+
+<Examples.DependentSchemaValidationWithZod />
