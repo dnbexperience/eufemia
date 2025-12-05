@@ -2364,15 +2364,15 @@ export default function useFieldProps<Value, EmptyValue, Props>(
           return // stop here, we don't want to overwrite the existing array
         }
 
-        // React.StrictMode will come with "undefined" on the second render,
-        // because "defaultValueRef.current" was removed.
-        // But because we run "useMemo" on the first render when updateContextDataInSync is true,
-        // we have still a valid value/array.
-        if (!Array.isArray(valueToStore)) {
-          return // stop here, never use a non-array value when in "updateContextDataInSync"
-        }
-
         if (Array.isArray(existingValue)) {
+          // React.StrictMode will come with "undefined" on the second render,
+          // because "defaultValueRef.current" was removed.
+          // But because we run "useMemo" on the first render when updateContextDataInSync is true,
+          // we have still a valid value/array.
+          if (!Array.isArray(valueToStore)) {
+            return // stop here, never use a non-array value when in "updateContextDataInSync"
+          }
+
           if (valueToStore.length !== existingValue.length) {
             skipEqualCheck = true // in order to update the items
           }

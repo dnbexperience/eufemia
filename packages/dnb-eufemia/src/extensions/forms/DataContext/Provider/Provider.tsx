@@ -884,8 +884,14 @@ export default function Provider<Data extends JsonObject>(
     }) // Delay so the field validation error message are not shown
   }, [emptyData, id, onClear, setSharedData])
 
-  useMemo(() => {
+  useLayoutEffect(() => {
+    const isEmpty = errorsRef.current === undefined
+
     executeAjvValidator()
+
+    if (isEmpty && errorsRef.current !== undefined) {
+      forceUpdate()
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [internalDataRef.current]) // run validation when internal data has changed
 

@@ -5122,7 +5122,7 @@ describe('Wizard.Container', () => {
             </Wizard.Step>
 
             <Wizard.Step>
-              <Iterate.Array path="/items">
+              <Iterate.Array path="/items" defaultValue={[null]}>
                 <Field.String itemPath="/" />
               </Iterate.Array>
 
