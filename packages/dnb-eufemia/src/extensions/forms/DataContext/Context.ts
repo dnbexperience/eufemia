@@ -109,6 +109,7 @@ export type FieldInternalsRefProps =
 export type FieldInternalsValue<Props = FieldInternalsRefProps> = {
   id?: Identifier
   props?: Props
+  enableAsyncMode?: boolean
 }
 export type FieldInternalsRef = Record<Path, FieldInternalsValue>
 export type ValueInternalsRef = Record<
@@ -151,6 +152,7 @@ export interface ContextState {
   hasErrors: () => boolean
   hasFieldState: (state: SubmitState) => boolean
   hasFieldError: (path: Path) => boolean
+  hasFieldWithAsyncValidator?: () => boolean
   setFieldState?: (path: Path, fieldState: SubmitState) => void
   setFieldError?: (path: Path, error: Error | FormError) => void
   setMountedFieldState: (path: Path, options: MountState) => void
