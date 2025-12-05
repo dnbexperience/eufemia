@@ -10,6 +10,7 @@ import * as Examples from './Examples'
   - [Schema with if-rule](#schema-with-if-rule)
   - [Dependent list schema](#dependent-list-schema)
   - [Dependent schema across sections](#dependent-schema-across-sections)
+  - [Dependent schema using Zod](#dependent-schema-using-zod)
 
 ## Demos
 
@@ -37,8 +38,6 @@ accounts can still be added, but is optional.
 
 This schema validates fields across different sections based on the value of
 another field.
-
-**NB:** For schema validation to work with [Iterate.Array](/uilib/extensions/forms/Iterate/Array), the form data must contain an array (empty or populated), otherwise Ajv skips the array schema.
 
 <Examples.DependentSchemaValidation />
 
