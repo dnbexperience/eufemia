@@ -2028,6 +2028,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       additionalArgs,
       asyncBehaviorIsEnabled,
       defineAsyncProcess,
+      executeOnChangeRegardlessOfUnchangedValue,
       getEventArgs,
       hasError,
       hideError,
