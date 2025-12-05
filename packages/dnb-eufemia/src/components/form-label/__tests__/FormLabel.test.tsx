@@ -400,6 +400,36 @@ describe('FormLabel component', () => {
       fireEvent.mouseLeave(button)
       expect(input).not.toHaveClass('hover')
     })
+
+    it('should remove hover class when hovering on an element with role="button" inside the label', () => {
+      render(
+        <>
+          <FormLabel forId="input">
+            <span role="button" className="dnb-term-definition__trigger">
+              TermDefinition
+            </span>
+          </FormLabel>
+          <input type="text" id="input" className="dnb-input__border" />
+        </>
+      )
+
+      const label = document.querySelector('label')
+      const input = document.querySelector('input')
+      const termDefinition = document.querySelector('[role="button"]')
+      expect(input).not.toHaveClass('hover')
+
+      fireEvent.mouseEnter(label)
+      expect(input).toHaveClass('hover')
+
+      fireEvent.mouseEnter(termDefinition)
+      expect(input).not.toHaveClass('hover')
+
+      fireEvent.mouseLeave(termDefinition)
+      expect(input).toHaveClass('hover')
+
+      fireEvent.mouseLeave(label)
+      expect(input).not.toHaveClass('hover')
+    })
   })
 })
 

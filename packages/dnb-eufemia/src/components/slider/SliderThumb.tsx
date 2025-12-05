@@ -168,6 +168,7 @@ function Thumb({ value, currentIndex }: ThumbProps) {
           active={Boolean(showTooltip || alwaysShowTooltip)}
           showDelay={1}
           hideDelay={300}
+          omitDescribedBy
         >
           {number || value}
           {

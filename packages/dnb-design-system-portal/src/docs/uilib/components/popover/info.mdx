@@ -30,3 +30,7 @@ It is used in the [Tooltip](/uilib/components/tooltip) and [DatePicker](/uilib/c
 - Focus moves inside the popover content when it opens and returns to the trigger when it closes.
 - The popover can be dismissed with Escape, by clicking outside, or by using the close button.
 - Custom triggers receive the necessary ARIA attributes (`aria-controls`, `aria-expanded`, `aria-describedby`) and keyboard handlers so long as you spread the provided props.
+
+## Root Element (React Portal)
+
+The Popover component uses [PortalRoot](/uilib/components/portal-root) internally to render its content. See the [PortalRoot documentation](/uilib/components/portal-root) for information on how to control where the portal content appears in the DOM.

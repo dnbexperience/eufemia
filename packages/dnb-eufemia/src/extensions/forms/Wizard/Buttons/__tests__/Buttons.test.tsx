@@ -1,5 +1,5 @@
 import React from 'react'
-import { render } from '@testing-library/react'
+import { render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Form, Wizard } from '../../..'
 
@@ -33,23 +33,31 @@ describe('Wizard.Buttons', () => {
 
     await userEvent.click(getButtons()[0])
 
-    expect(output()).toHaveTextContent('Step 2')
+    await waitFor(() => {
+      expect(output()).toHaveTextContent('Step 2')
+    })
     expect(getButtons()).toHaveLength(2)
 
     await userEvent.click(getButtons()[1])
 
-    expect(output()).toHaveTextContent('Step 3')
+    await waitFor(() => {
+      expect(output()).toHaveTextContent('Step 3')
+    })
     expect(getButtons()).toHaveLength(1)
     expect(getButtons()[0]).toHaveClass('dnb-forms-previous-button')
 
     await userEvent.click(getButtons()[0])
 
-    expect(output()).toHaveTextContent('Step 2')
+    await waitFor(() => {
+      expect(output()).toHaveTextContent('Step 2')
+    })
     expect(getButtons()).toHaveLength(2)
 
     await userEvent.click(getButtons()[0])
 
-    expect(output()).toHaveTextContent('Step 1')
+    await waitFor(() => {
+      expect(output()).toHaveTextContent('Step 1')
+    })
     expect(getButtons()).toHaveLength(1)
     expect(getButtons()[0]).toHaveClass('dnb-forms-next-button')
   })

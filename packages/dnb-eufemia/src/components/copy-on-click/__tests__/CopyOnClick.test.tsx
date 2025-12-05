@@ -194,11 +194,9 @@ describe('CopyOnClick', () => {
 
     // Tooltip should not become active
     await waitFor(() => {
-      const tooltip = document.querySelector('.dnb-tooltip')
-      expect(tooltip).toBeInTheDocument()
-      expect(Array.from(tooltip.classList)).not.toContain(
-        'dnb-tooltip--active'
-      )
+      expect(
+        document.querySelector('.dnb-tooltip')
+      ).not.toBeInTheDocument()
     })
 
     // Restore original mock

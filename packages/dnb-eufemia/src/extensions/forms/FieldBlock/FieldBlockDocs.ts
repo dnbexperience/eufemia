@@ -31,6 +31,11 @@ export const FieldBlockSharedProperties: PropertiesTableProps = {
     type: 'object',
     status: 'optional',
   },
+  hideHelpButton: {
+    doc: 'Set `true` when you render the inline help button outside the label (e.g. inside a checkbox suffix) so FieldBlock skips drawing the default label help button.',
+    type: 'boolean',
+    status: 'optional',
+  },
   layout: {
     doc: 'Layout for the label and input. Can be `horizontal` or `vertical`.',
     type: 'string',

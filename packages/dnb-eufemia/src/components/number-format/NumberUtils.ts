@@ -14,16 +14,9 @@ import {
 import {
   warn,
   isTrue,
-  slugify,
   escapeRegexChars,
 } from '../../shared/component-helper'
-import {
-  getOffsetTop,
-  getOffsetLeft,
-  getSelectedElement,
-  IS_MAC,
-  IS_WIN,
-} from '../../shared/helpers'
+import { IS_MAC, IS_WIN } from '../../shared/helpers'
 import locales from '../../shared/locales'
 
 // TypeScript types
@@ -997,102 +990,6 @@ export function runIOSSelectionFix() {
   } catch (e) {
     //
   }
-}
-
-/**
- * This function add a tooltip looking
- *
- * @type {object} object with property
- * @property {string} value any value
- * @property {string} label any additional label that gets added as a suffix
- * @property {number} timeout how long the tooltip should be visible (3 sec)
- * @returns {object} { run, hide, remove } call the "run" function when the effect should be shown
- */
-export function showSelectionNotice({ value, label, timeout = 3e3 }) {
-  const id = 'id-' + slugify(value)
-  if (typeof document !== 'undefined' && document.getElementById(id)) {
-    return { run: () => undefined }
-  }
-
-  let elem, content, root
-
-  try {
-    root = document.querySelector('.dnb-tooltip__portal') || document.body
-
-    // create that portal element
-    elem = document.createElement('span')
-    elem.setAttribute('id', id)
-    elem.setAttribute('class', 'dnb-tooltip')
-    elem.setAttribute('role', 'tooltip')
-
-    const arrow = document.createElement('span')
-    arrow.setAttribute(
-      'class',
-      'dnb-tooltip__arrow dnb-tooltip__arrow__position--top'
-    )
-    content = document.createElement('span')
-    content.setAttribute('class', 'dnb-tooltip__content')
-    content.setAttribute('aria-live', 'assertive')
-    elem.appendChild(arrow)
-    elem.appendChild(content)
-  } catch (e) {
-    warn(e)
-  }
-
-  return new (class SelectionFx {
-    remove() {
-      try {
-        root.removeChild(elem)
-        elem = null
-        content = null
-      } catch (e) {
-        //
-      }
-    }
-    hide() {
-      try {
-        elem.classList.add('dnb-tooltip--hide')
-      } catch (e) {
-        //
-      }
-    }
-    run(pE = getSelectedElement()) {
-      try {
-        root.appendChild(elem)
-
-        const top = getOffsetTop(pE)
-        const left = getOffsetLeft(pE)
-
-        content.innerHTML =
-          String(label) +
-          (pE instanceof HTMLElement
-            ? `<span class="dnb-sr-only">: ${
-                (
-                  (pE &&
-                    pE.querySelector('.dnb-number-format__selection')) ||
-                  pE
-                ).innerHTML
-              }</span>`
-            : '')
-
-        const width =
-          (
-            (pE && pE.querySelector('.dnb-number-format__visible')) ||
-            pE ||
-            {}
-          ).offsetWidth || 0
-
-        elem.style.top = `${top - elem.offsetHeight}px`
-        elem.style.left = `${left + width / 2 - elem.offsetWidth / 2}px`
-        elem.classList.add('dnb-tooltip--active')
-
-        setTimeout(this.hide, timeout)
-        setTimeout(this.remove, timeout + 600)
-      } catch (e) {
-        warn(e)
-      }
-    }
-  })()
 }
 
 /**

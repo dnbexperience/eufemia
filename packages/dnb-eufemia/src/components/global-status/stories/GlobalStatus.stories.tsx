@@ -126,9 +126,9 @@ export const CustomGlobalStatusMessage = () => {
         <DatePicker
           label={<Component />}
           show_input
-          status={showStatus ? 'Datepicekr status' : ''}
+          status={showStatus ? 'DatePicker status' : ''}
           globalStatus={{
-            message: showStatus ? 'Datepicker global status' : '',
+            message: showStatus ? 'DatePicker global status' : '',
           }}
         />
       </Provider>

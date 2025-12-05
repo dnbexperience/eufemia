@@ -14,7 +14,8 @@ import H3 from '@dnb/eufemia/src/elements/H3'
 const Style = styled.div`
   *:not([data-visual-test='number-format-spacing'])
     > span.dnb-number-format {
-    display: block;
+    display: flex;
+    width: max-content;
   }
   [data-visual-test='number-locales'] .dnb-p:last-of-type {
     padding-bottom: 1rem;

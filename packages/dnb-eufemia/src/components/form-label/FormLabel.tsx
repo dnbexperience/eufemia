@@ -144,7 +144,7 @@ export default function FormLabel(localProps: FormLabelAllProps) {
 
       const buttonEnter = () => {
         target.classList.add('no-hover')
-        leave()
+        target.classList.remove('hover')
       }
       const buttonLeave = () => {
         target.classList.remove('no-hover')
@@ -154,7 +154,7 @@ export default function FormLabel(localProps: FormLabelAllProps) {
       const enter = () => {
         target.classList.add('hover')
 
-        // Remove the style from interactive elements (e.g. HelpButton)
+        // Remove the style from interactive elements (e.g. HelpButton, TermDefinition)
         const button = elem.querySelector('button')
         button?.addEventListener?.('mouseenter', buttonEnter, {
           once: true,
@@ -162,12 +162,34 @@ export default function FormLabel(localProps: FormLabelAllProps) {
         button?.addEventListener?.('mouseleave', buttonLeave, {
           once: true,
         })
+
+        // Also handle elements with role="button" (e.g. TermDefinition)
+        const interactiveElements = elem.querySelectorAll(
+          '[role="button"]:not(button)'
+        )
+        interactiveElements.forEach((interactiveElem) => {
+          interactiveElem.addEventListener('mouseenter', buttonEnter, {
+            once: true,
+          })
+          interactiveElem.addEventListener('mouseleave', buttonLeave, {
+            once: true,
+          })
+        })
       }
       const leave = () => {
         target.classList.remove('hover')
 
         const button = elem.querySelector('button')
         button?.removeEventListener?.('mouseenter', buttonEnter)
+
+        // Also remove listeners from elements with role="button"
+        const interactiveElements = elem.querySelectorAll(
+          '[role="button"]:not(button)'
+        )
+        interactiveElements.forEach((interactiveElem) => {
+          interactiveElem.removeEventListener('mouseenter', buttonEnter)
+          interactiveElem.removeEventListener('mouseleave', buttonLeave)
+        })
       }
 
       elem.addEventListener('mouseenter', enter)
@@ -180,6 +202,15 @@ export default function FormLabel(localProps: FormLabelAllProps) {
 
           const button = elem.querySelector('button')
           button?.removeEventListener?.('mouseleave', buttonLeave)
+
+          // Also clean up listeners from elements with role="button"
+          const interactiveElements = elem.querySelectorAll(
+            '[role="button"]:not(button)'
+          )
+          interactiveElements.forEach((interactiveElem) => {
+            interactiveElem.removeEventListener('mouseenter', buttonEnter)
+            interactiveElem.removeEventListener('mouseleave', buttonLeave)
+          })
         }
       }
     }

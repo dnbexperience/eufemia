@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import React from 'react'
 import { format } from 'date-fns'
-import { fireEvent, render } from '@testing-library/react'
+import { fireEvent, render, waitFor } from '@testing-library/react'
 import DateFormat from '../../DateFormat'
-import { axeComponent, wait } from '../../../core/jest/jestSetup'
+import { axeComponent } from '../../../core/jest/jestSetup'
 import { Provider } from '../../../../shared'
 
 describe('DateFormat', () => {
@@ -338,14 +338,21 @@ describe('DateFormat', () => {
 
       const timeElem = document.querySelector('.dnb-date-format')
 
-      const id = timeElem.getAttribute('aria-describedby')
-      expect(document.body.querySelectorAll('#' + id)).toHaveLength(1)
+      // When tooltip is inactive, aria-describedby should not be set
+      expect(timeElem.getAttribute('aria-describedby')).toBeNull()
 
       fireEvent.mouseEnter(timeElem)
-      await wait(350) // until the tooltip shows
 
+      // Wait for tooltip to show
+      await waitFor(() => {
+        const tooltipId = timeElem.getAttribute('aria-describedby')
+        expect(tooltipId).toBeTruthy()
+      })
+
+      // When tooltip is active, aria-describedby should point to the tooltip id
+      const tooltipId = timeElem.getAttribute('aria-describedby')
       const tooltipElem = document.body.querySelector(
-        '#' + id
+        '#' + tooltipId
       ).parentElement
 
       expect(Array.from(tooltipElem.classList)).toEqual(
@@ -353,11 +360,13 @@ describe('DateFormat', () => {
       )
 
       fireEvent.mouseLeave(timeElem)
-      await wait(600) // until the tooltip hides
 
-      expect(Array.from(tooltipElem.classList)).toEqual(
-        expect.arrayContaining(['dnb-tooltip', 'dnb-tooltip--hide'])
-      )
+      // Wait for tooltip to hide
+      await waitFor(() => {
+        expect(Array.from(tooltipElem.classList)).toEqual(
+          expect.arrayContaining(['dnb-tooltip', 'dnb-tooltip--hide'])
+        )
+      })
     })
 
     it('tooltip content should match the absolute formatted date', async () => {
@@ -365,15 +374,20 @@ describe('DateFormat', () => {
 
       const timeElem = document.querySelector('.dnb-date-format')
 
-      const id = timeElem.getAttribute('aria-describedby')
-      expect(document.body.querySelectorAll('#' + id)).toHaveLength(1)
+      // When tooltip is inactive, aria-describedby should not be set
+      expect(timeElem.getAttribute('aria-describedby')).toBeNull()
 
       fireEvent.mouseEnter(timeElem)
-      await wait(350) // until the tooltip shows
 
-      const tooltipElem = document.body.querySelector(
-        '#' + id
-      ).parentElement
+      // Wait for tooltip to show
+      await waitFor(() => {
+        const tooltipId = timeElem.getAttribute('aria-describedby')
+        expect(tooltipId).toBeTruthy()
+      })
+
+      // When tooltip is active, aria-describedby should point to the tooltip id
+      const tooltipId = timeElem.getAttribute('aria-describedby')
+      const tooltipElem = document.body.querySelector('#' + tooltipId)
 
       expect(tooltipElem).toHaveTextContent('1. august 2025 kl. 14:30')
     })

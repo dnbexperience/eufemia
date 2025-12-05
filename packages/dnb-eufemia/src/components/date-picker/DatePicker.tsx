@@ -272,7 +272,7 @@ export type DatePickerProps = {
   /**
    * Use `right` to change the calendar alignment direction. Defaults to `left`.
    */
-  alignPicker?: 'auto' | 'left' | 'right'
+  alignPicker?: 'left' | 'right'
   /**
    * Sets the alignment of the label. Defaults to `left`.
    */
@@ -877,7 +877,6 @@ function DatePicker(externalProps: DatePickerAllProps) {
       label &&
         labelAlignment === 'right' &&
         'dnb-date-picker__input--label-alignment-right',
-      alignPicker && `dnb-date-picker--${alignPicker}`,
       stretch && `dnb-date-picker--stretch`,
       'dnb-form-component',
       size && `dnb-date-picker--${size}`,
@@ -893,7 +892,6 @@ function DatePicker(externalProps: DatePickerAllProps) {
     !opened && 'dnb-date-picker__container--closed',
     hidden && 'dnb-date-picker__container--hidden',
     showInput && 'dnb-date-picker__container--show-input',
-    alignPicker && `dnb-date-picker__container--${alignPicker}`,
     size && `dnb-date-picker--${size}`,
     ((inline ? false : range) ||
       showSubmitButton ||

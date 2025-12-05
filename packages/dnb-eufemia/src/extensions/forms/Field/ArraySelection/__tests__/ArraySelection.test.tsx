@@ -10,7 +10,6 @@ import {
   makeAjvInstance,
   DataContext,
 } from '../../..'
-
 import nbNO from '../../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO']
 
@@ -76,11 +75,6 @@ describe('ArraySelection', () => {
         </Field.ArraySelection>
       )
       expect(document.querySelectorAll('.dnb-help-button')).toHaveLength(1)
-      expect(
-        document
-          .querySelector('.dnb-help-button')
-          .getAttribute('aria-describedby')
-      ).toBe(document.querySelector('.dnb-tooltip__content').id)
     })
 
     it('precede option title over children', async () => {
@@ -753,11 +747,6 @@ describe('ArraySelection', () => {
         expect(document.querySelectorAll('.dnb-help-button')).toHaveLength(
           1
         )
-        expect(
-          document
-            .querySelector('.dnb-help-button')
-            .getAttribute('aria-describedby')
-        ).toBe(document.querySelector('.dnb-tooltip__content').id)
       })
 
       it('renders error', () => {

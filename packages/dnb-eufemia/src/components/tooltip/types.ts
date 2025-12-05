@@ -53,10 +53,16 @@ export type TooltipProps = IncludeSnakeCase<{
   omitDescribedBy?: boolean
   /**
    * Keep the tooltip portal mounted in the DOM even when closed.
-   * Useful for maintaining aria-describedby references for accessibility.
-   * @default true
+   * Useful if you want the tooltip markup to stay mounted to avoid layout shifts.
+   * @default false
    */
   keepInDOM?: boolean
+  /**
+   * Additional spacing in pixels between the tooltip and its trigger.
+   * Maps directly to the Popover `triggerOffset`.
+   * @default 16
+   */
+  triggerOffset?: number
 }>
 
 export type TooltipAllProps = TooltipProps &

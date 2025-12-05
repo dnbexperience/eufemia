@@ -60,3 +60,58 @@ export function BooleanReset() {
     </Form.Handler>
   )
 }
+
+export function WithHelp() {
+  return (
+    <Flex.Stack>
+      <Field.Boolean
+        variant="button"
+        label="Is this true?"
+        help={{
+          title: 'Help title',
+          content: 'Help content',
+        }}
+      />
+      <Field.Boolean
+        variant="checkbox-button"
+        label="Is this true?"
+        help={{
+          title: 'Help title',
+          content: 'Help content',
+        }}
+      />
+      <Field.Boolean
+        variant="buttons"
+        label="Is this true?"
+        help={{
+          title: 'Help title',
+          content: 'Help content',
+        }}
+      />
+      <Field.Boolean
+        variant="switch"
+        label="Is this true?"
+        help={{
+          title: 'Help title',
+          content: 'Help content',
+        }}
+      />
+      <Field.Boolean
+        variant="checkbox"
+        label="Is this true?"
+        help={{
+          title: 'Help title',
+          content: 'Help content',
+        }}
+      />
+      <Field.Boolean
+        variant="radio"
+        label="Is this true?"
+        help={{
+          title: 'Help title',
+          content: 'Help content',
+        }}
+      />
+    </Flex.Stack>
+  )
+}

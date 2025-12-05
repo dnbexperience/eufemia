@@ -134,7 +134,7 @@ export const DatePickerProperties: PropertiesTableProps = {
     status: 'optional',
   },
   alignPicker: {
-    doc: 'Use `right` to change the calendar alignment direction. Defaults to `left`.',
+    doc: 'Use `right` to change the preferred calendar alignment direction. Defaults to `left`. If the DatePicker is close to the edge of the screen, the alignment of the calendar will change automatically to fit in the viewport.',
     type: 'string',
     status: 'optional',
   },

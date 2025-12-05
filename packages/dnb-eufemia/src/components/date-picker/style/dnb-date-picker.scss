@@ -75,6 +75,11 @@
   &__container {
     width: min-content;
 
+    // Supports backwards compatibility with Nucleus and scenarios,
+    // where both unscoped and scoped styles are imported together (both position and top).
+    position: relative;
+    top: auto;
+
     table {
       position: relative;
       z-index: 1; // to make sure we show the focus ring over the header line on top

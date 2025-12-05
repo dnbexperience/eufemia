@@ -43,10 +43,9 @@ describe('DatePicker', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the calendar', async () => {
+  it('have to match the calendar in range mode', async () => {
     const screenshot = await makeScreenshot({
-      selector:
-        '[data-visual-test="date-picker-calendar"] .dnb-date-picker',
+      selector: '[data-visual-test="date-picker-calendar-range"] ',
       addWrapper: false,
     })
     expect(screenshot).toMatchImageSnapshot()

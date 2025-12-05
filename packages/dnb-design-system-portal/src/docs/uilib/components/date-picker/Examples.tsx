@@ -223,7 +223,7 @@ export const DatePickerErrorStatus = () => (
 )
 
 export const DatePickerCalendarInline = () => (
-  <ComponentBox data-visual-test="date-picker-calendar" background="white">
+  <ComponentBox background="white">
     <DatePicker inline range startDate="2019-05-05" endDate="2019-06-05" />
   </ComponentBox>
 )

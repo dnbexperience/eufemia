@@ -76,11 +76,6 @@ describe('Field.String', () => {
       expect(
         document.querySelector('input').getAttribute('aria-describedby')
       ).toBe(document.querySelector('.dnb-help-button').id)
-      expect(
-        document
-          .querySelector('.dnb-help-button')
-          .getAttribute('aria-describedby')
-      ).toBe(document.querySelector('.dnb-tooltip__content').id)
     })
 
     it('renders label once', () => {

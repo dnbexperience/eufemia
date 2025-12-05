@@ -116,6 +116,10 @@ export type SharedFieldBlockProps = {
    * Provide help content for the field.
    */
   help?: HelpProps
+  /**
+   * Hide the help button that is normally rendered beside the label.
+   */
+  hideHelpButton?: boolean
 }
 
 export type Props<Value = unknown> = SharedFieldBlockProps &
@@ -169,6 +173,7 @@ function FieldBlock<Value = unknown>(props: Props<Value>) {
     labelSize,
     labelHeight,
     help,
+    hideHelpButton,
     asFieldset,
     required,
     info,
@@ -562,14 +567,16 @@ function FieldBlock<Value = unknown>(props: Props<Value>) {
                   </span>
                 )}
 
-                {hasHelp && !hasOnlyLabelDescription && (
-                  <span className="dnb-help-button__word-joiner">
-                    <HelpButtonInline
-                      contentId={`${id}-help`}
-                      help={help}
-                    />
-                  </span>
-                )}
+                {hasHelp &&
+                  !hasOnlyLabelDescription &&
+                  !hideHelpButton && (
+                    <span className="dnb-help-button__word-joiner">
+                      <HelpButtonInline
+                        contentId={`${id}-help`}
+                        help={help}
+                      />
+                    </span>
+                  )}
 
                 {label &&
                   hasLabelDescription &&
@@ -581,7 +588,7 @@ function FieldBlock<Value = unknown>(props: Props<Value>) {
                   </span>
                 )}
 
-                {hasHelp && hasOnlyLabelDescription && (
+                {hasHelp && hasOnlyLabelDescription && !hideHelpButton && (
                   <span className="dnb-help-button__word-joiner">
                     <HelpButtonInline
                       contentId={`${id}-help`}

@@ -66,7 +66,7 @@ export const AriaLivePlayground = () => (
 
               <Field.String
                 label="Content as freetext"
-                path="/content"
+                path="/content-as-free-text"
                 multiline
               />
 

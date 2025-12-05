@@ -155,6 +155,7 @@ function WizardContainer(props: Props) {
     handleSubmitCall,
     setShowAllErrors,
     setSubmitState,
+    hasFieldState,
   } = dataContext
 
   const id = useId(idProp)
@@ -422,7 +423,10 @@ function WizardContainer(props: Props) {
             // we need to check the step status, because other steps may report an error,
             // so the user will not be able to navigate to the next step,
             // because the form contains errors. Thats why onSubmit will not be called via handleSubmitCall.
-            if (!hasInvalidStepsState(activeIndexRef.current)) {
+            if (
+              !hasInvalidStepsState(activeIndexRef.current) &&
+              !hasFieldState?.('pending')
+            ) {
               await onSubmit()
             }
           }
@@ -435,6 +439,7 @@ function WizardContainer(props: Props) {
       getStepChangeOptions,
       handleLayoutEffect,
       handleSubmitCall,
+      hasFieldState,
       hasInvalidStepsState,
       isInteractionRef,
       onStepChange,

@@ -401,6 +401,77 @@ describe('ajvErrorsToFormErrors', () => {
       '/path2': new Error('StringField.errorMaxLength'),
     })
   })
+
+  it('should keep dependent schema errors for both the root and nested path', () => {
+    const ajv = makeAjvInstance()
+    const schema = {
+      type: 'object',
+      properties: {
+        members: {
+          type: 'object',
+          properties: {
+            numberOfMembers: { type: 'integer' },
+          },
+        },
+        beneficialOwners: {
+          type: 'object',
+          properties: {
+            addedExistingBeneficialOwners: {
+              type: 'array',
+              items: { type: 'object' },
+            },
+          },
+        },
+      },
+      dependentSchemas: {
+        beneficialOwners: {
+          allOf: [
+            {
+              if: {
+                properties: {
+                  members: {
+                    type: 'object',
+                    properties: {
+                      numberOfMembers: {
+                        const: 1,
+                      },
+                    },
+                  },
+                },
+              },
+              then: {
+                properties: {
+                  beneficialOwners: {
+                    type: 'object',
+                    properties: {
+                      addedExistingBeneficialOwners: {
+                        type: 'array',
+                        minItems: 1,
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          ],
+        },
+      },
+    }
+    const validate = ajv.compile(schema)
+    validate({
+      members: { numberOfMembers: 1 },
+      beneficialOwners: { addedExistingBeneficialOwners: [] },
+    })
+
+    const formErrors = ajvErrorsToFormErrors(validate.errors)
+
+    expect(formErrors).toEqual({
+      '': new Error('must match "then" schema'),
+      '/beneficialOwners/addedExistingBeneficialOwners': new Error(
+        'IterateArray.errorMinItems'
+      ),
+    })
+  })
 })
 
 describe('getTranslationKeyFromValidationRule', () => {

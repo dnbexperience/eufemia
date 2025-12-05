@@ -33,6 +33,7 @@ export const defaultProps = {
   className: null,
   children: null,
   tooltip: null,
+  triggerOffset: 16,
 }
 
 export function getTargetElement(target: HTMLElement) {

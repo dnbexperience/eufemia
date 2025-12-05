@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test'
+import { test, expect, type Locator } from '@playwright/test'
 
 const expandAllSidebarItems = async (page) => {
   const links = page.locator('.dnb-sidebar-menu__expand-button')
@@ -8,6 +8,15 @@ const expandAllSidebarItems = async (page) => {
     await links.nth(i).click()
   }
 }
+
+const getHeadingTextWithoutSrDescription = async (locator: Locator) =>
+  locator.evaluate((element: HTMLElement) => {
+    const clone = element.cloneNode(true) as HTMLElement
+    clone
+      .querySelectorAll('.dnb-tooltip__sr-description')
+      .forEach((node) => node.remove())
+    return (clone.textContent || '').trim()
+  })
 
 test.describe('Page Lists', () => {
   test.describe('of components', () => {
@@ -24,7 +33,10 @@ test.describe('Page Lists', () => {
 
     test('should have correct title', async ({ page }) => {
       await expect(page).toHaveTitle('Components | Eufemia')
-      await expect(page.locator('h1')).toHaveText('#Components')
+      const headingText = await getHeadingTextWithoutSrDescription(
+        page.locator('h1'),
+      )
+      await expect(headingText).toBe('#Components')
       await expect(page.locator('h1')).toHaveCount(1)
     })
 
@@ -59,7 +71,10 @@ test.describe('Page Lists', () => {
 
     test('should have correct title', async ({ page }) => {
       await expect(page).toHaveTitle('Extensions | Eufemia')
-      await expect(page.locator('h1')).toHaveText('#Extensions')
+      const headingText = await getHeadingTextWithoutSrDescription(
+        page.locator('h1'),
+      )
+      await expect(headingText).toBe('#Extensions')
       await expect(page.locator('h1')).toHaveCount(1)
     })
 
@@ -90,7 +105,10 @@ test.describe('Page Lists', () => {
 
     test('should have correct title', async ({ page }) => {
       await expect(page).toHaveTitle('HTML Elements | Eufemia')
-      await expect(page.locator('h1')).toHaveText('#HTML Elements')
+      const headingText = await getHeadingTextWithoutSrDescription(
+        page.locator('h1'),
+      )
+      await expect(headingText).toBe('#HTML Elements')
       await expect(page.locator('h1')).toHaveCount(1)
     })
 

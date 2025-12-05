@@ -522,6 +522,30 @@ describe('FieldBlock', () => {
     expect(document.querySelectorAll('label')).toHaveLength(1)
   })
 
+  it('hides the label help button when requested', () => {
+    const help = { title: 'Help title', content: 'Help content' }
+
+    const { rerender } = render(
+      <FieldBlock label="Label" help={help}>
+        content
+      </FieldBlock>
+    )
+
+    expect(
+      document.querySelector('.dnb-form-label .dnb-help-button')
+    ).toBeInTheDocument()
+
+    rerender(
+      <FieldBlock label="Label" help={help} hideHelpButton>
+        content
+      </FieldBlock>
+    )
+
+    expect(
+      document.querySelector('.dnb-form-label .dnb-help-button')
+    ).not.toBeInTheDocument()
+  })
+
   it('should use fieldset/legend when "asFieldset" is given', () => {
     render(
       <FieldBlock label="Legend" asFieldset>
@@ -1428,12 +1452,16 @@ describe('FieldBlock', () => {
 
       await userEvent.type(document.querySelector('input'), '1')
 
-      expect(elements[0]).toHaveClass(
-        'dnb-forms-submit-indicator--state-pending'
-      )
-      expect(elements[1]).toHaveClass(
-        'dnb-forms-submit-indicator--state-pending'
-      )
+      await waitFor(() => {
+        expect(elements[0]).toHaveClass(
+          'dnb-forms-submit-indicator--state-pending'
+        )
+      })
+      await waitFor(() => {
+        expect(elements[1]).toHaveClass(
+          'dnb-forms-submit-indicator--state-pending'
+        )
+      })
 
       await waitFor(() => {
         expect(elements[0]).toHaveClass(

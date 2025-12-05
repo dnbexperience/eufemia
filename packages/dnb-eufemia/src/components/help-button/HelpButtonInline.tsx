@@ -228,7 +228,9 @@ export function HelpButtonInlineContent(
             event.stopPropagation() // To make Modal/Dialog/Drawer not close as well
             window.requestAnimationFrame(() => {
               onClose()
-              buttonRef?.current?.focus()
+              buttonRef?.current?.focus({
+                preventScroll: true,
+              })
             })
             break
         }

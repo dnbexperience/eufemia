@@ -108,16 +108,18 @@ export const Inline = () => {
 export const ListVariants = () => {
   return (
     <ComponentBox>
-      <Value.ArraySelection
-        value={['Foo', 'Bar', 'Baz']}
-        label="Ordered List"
-        variant="ol"
-      />
-      <Value.ArraySelection
-        value={['Foo', 'Bar', 'Baz']}
-        label="Unordered List"
-        variant="ul"
-      />
+      <Value.SummaryList>
+        <Value.ArraySelection
+          value={['Foo', 'Bar', 'Baz']}
+          label="Ordered List"
+          variant="ol"
+        />
+        <Value.ArraySelection
+          value={['Foo', 'Bar', 'Baz']}
+          label="Unordered List"
+          variant="ul"
+        />
+      </Value.SummaryList>
     </ComponentBox>
   )
 }

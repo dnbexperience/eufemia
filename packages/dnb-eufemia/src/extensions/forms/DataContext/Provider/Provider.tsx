@@ -760,14 +760,14 @@ export default function Provider<Data extends JsonObject>(
 
   const hasFieldWithAsyncValidator = useCallback(() => {
     for (const path in fieldInternalsRef.current) {
-      if (mountedFieldsRef.current.get(path)?.isMounted) {
-        const props = fieldInternalsRef.current[path]?.props
-        if (
-          isAsync(props?.onChangeValidator) ||
-          isAsync(props?.onBlurValidator)
-        ) {
-          return true
-        }
+      const fieldInternals = fieldInternalsRef.current[path] || {}
+      const { enableAsyncMode, props } = fieldInternals
+      if (
+        enableAsyncMode ||
+        isAsync(props?.onChangeValidator) ||
+        isAsync(props?.onBlurValidator)
+      ) {
+        return true
       }
     }
 
@@ -1104,7 +1104,7 @@ export default function Provider<Data extends JsonObject>(
 
       const asyncBehaviorIsEnabled =
         (skipErrorCheck
-          ? true
+          ? enableAsyncBehavior
           : // Don't enable async behavior if we have errors, but when we have a pending state
             !hasErrors() || hasFieldState('pending')) &&
         (enableAsyncBehavior || hasFieldWithAsyncValidator())
@@ -1534,6 +1534,7 @@ export default function Provider<Data extends JsonObject>(
     hasErrors,
     hasFieldError,
     hasFieldState,
+    hasFieldWithAsyncValidator,
     validateData,
     updateDataValue,
     setData,

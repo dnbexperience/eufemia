@@ -74,7 +74,7 @@ describe('ChildrenWithAge', () => {
       screen.queryAllByText(
         translationsNO.ChildrenWithAge.usesDaycare.fieldLabel
       )
-    ).toHaveLength(2)
+    ).toHaveLength(1)
     expect(
       screen.queryByText(
         translationsNO.ChildrenWithAge.hasJointResponsibility.fieldLabel

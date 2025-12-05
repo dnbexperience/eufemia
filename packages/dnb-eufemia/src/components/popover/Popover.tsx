@@ -278,10 +278,17 @@ export default function Popover(props: PopoverProps) {
         contentWrapperRef.current ||
         tooltipRef.current?.querySelector('.dnb-popover__content')
 
+      if (!(focusTarget instanceof HTMLElement)) {
+        return false
+      }
+
+      focusTarget.focus({ preventScroll: true })
+
       setTimeout(() => {
         focusTarget?.focus({ preventScroll: true })
-      }, 1) // Ensure focus happens after any potential rendering
-      return Boolean(focusTarget)
+      }, 10) // Ensure focus happens after any potential rendering
+
+      return true
     }
 
     const scheduleFocusAttempt = (delay: number, retries: number) => {
@@ -606,7 +613,7 @@ export default function Popover(props: PopoverProps) {
   const overlayContent = (
     <>
       {!disableFocusTrap && (
-        <button className="dnb-sr-only" aria-hidden onFocus={close}>
+        <button className="dnb-sr-only" onFocus={close}>
           Focus trap
         </button>
       )}
@@ -632,7 +639,7 @@ export default function Popover(props: PopoverProps) {
       {closeButton}
 
       {!disableFocusTrap && (
-        <button className="dnb-sr-only" aria-hidden onFocus={close}>
+        <button className="dnb-sr-only" onFocus={close}>
           Focus trap
         </button>
       )}

@@ -1135,17 +1135,16 @@ describe('Field.Date', () => {
   })
 
   it('should be able to set picker alignment', async () => {
-    const { rerender } = render(<Field.Date alignPicker="auto" />)
+    const { rerender } = render(<Field.Date alignPicker="right" opened />)
 
-    const datePicker = document.querySelector('.dnb-date-picker')
+    expect(
+      document.querySelector('.dnb-popover__arrow__arrow--right')
+    ).toBeInTheDocument()
 
-    expect(datePicker).toHaveClass('dnb-date-picker--auto')
-
-    rerender(<Field.Date alignPicker="right" />)
-    expect(datePicker).toHaveClass('dnb-date-picker--right')
-
-    rerender(<Field.Date alignPicker="left" />)
-    expect(datePicker).toHaveClass('dnb-date-picker--left')
+    rerender(<Field.Date alignPicker="left" opened />)
+    expect(
+      document.querySelector('.dnb-popover__arrow__arrow--left')
+    ).toBeInTheDocument()
   })
 
   it('should be able to only show the month in calendar', async () => {
