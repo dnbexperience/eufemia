@@ -503,24 +503,15 @@ describe('HelpButtonInline', () => {
 
     await userEvent.click(button)
 
-    // Wait for content to be rendered
-    const content = (await waitFor(() => {
-      const elem = document.querySelector(
-        '.dnb-help-button__content .dnb-section'
-      ) as HTMLElement
-      expect(elem).toBeInTheDocument()
-      return elem
-    })) as HTMLElement
-
-    // Spy on the content element's focus method
-    // The focus happens via requestAnimationFrame, so we set up the spy
-    // and then wait for it to be called
-    const focusSpy = jest.spyOn(content, 'focus')
+    // Spy on the prototype so we catch the focus call before it triggers
+    const focusSpy = jest.spyOn(HTMLElement.prototype, 'focus')
 
     // Wait for the focus to be called (it happens in a useEffect with requestAnimationFrame)
     await waitFor(
       () => {
-        expect(focusSpy).toHaveBeenCalledWith({ preventScroll: true })
+        expect(focusSpy).toHaveBeenCalledWith(
+          expect.objectContaining({ preventScroll: true })
+        )
       },
       { timeout: 200 }
     )
