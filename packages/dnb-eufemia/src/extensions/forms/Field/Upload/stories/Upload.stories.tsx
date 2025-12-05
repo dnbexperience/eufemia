@@ -1,9 +1,7 @@
-import { useCallback } from 'react'
 import { Field, Form, Tools, Value, Wizard } from '../../..'
 import { Flex } from '../../../../../components'
 import { UploadFileNative } from '../../../../../components/Upload'
 import { P } from '../../../../../elements'
-import { debounceAsync } from '../../../../../shared/helpers'
 import { createRequest } from '../../../Form/Handler/stories/FormHandler.stories'
 import { UploadValue } from '../Upload'
 
@@ -452,44 +450,27 @@ export const AcceptedFilesTypesProperty = () => {
 }
 
 export const WizardWithAsyncFileHandler = () => {
-  const validator = debounceAsync(
-    useCallback(async (value) => {
-      try {
-        const request = createRequest()
-        await request(8000) // Simulate a request
-      } catch (error) {
-        return error
-      }
-
-      return Error('Error message')
-    }, [])
-  )
-
   return (
     <Form.Handler onSubmit={async (form) => console.log(form)}>
       <Wizard.Container>
-        <Wizard.Step title="Step 1">
+        <Wizard.Step title="Step 2">
           <Form.Card>
             <Field.Upload
               id="async_upload_context_id"
               path="/attachments"
               labelDescription="Upload multiple files at once to see the upload error message. This demo has been set up so that every other file in a batch will fail."
               fileHandler={mockAsyncFileUpload__withoutPromises}
-              required
-              //onChangeValidator={validator}
             />
-            {/* <Field.String
-              label="async validator works with Field.String"
-              path="/field2"
-              required
-              onChangeValidator={validator}
-            /> */}
           </Form.Card>
 
           <Tools.Log />
-          <Wizard.Buttons />
+          <Form.ButtonRow>
+            <Wizard.Buttons />
+            <Form.SubmitButton variant="send" />
+          </Form.ButtonRow>
         </Wizard.Step>
-        <Wizard.Step title="Step 2">
+
+        <Wizard.Step title="Step 3">
           <Form.MainHeading>Heading</Form.MainHeading>
 
           <Form.Card>
