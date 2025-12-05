@@ -1,5 +1,5 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
-import { Flex } from '@dnb/eufemia/src'
+import { Flex, Section } from '@dnb/eufemia/src'
 import {
   Form,
   Field,
@@ -230,7 +230,7 @@ export const DependentSchemaValidation = () => {
     <ComponentBox scope={{ makeAjvInstance, Tools }}>
       {() => {
         const ajv = makeAjvInstance()
-        const counts = [1, 2, 3]
+        const counts = [0, 1, 2, 3]
         const schema = {
           type: 'object',
           properties: {
@@ -239,10 +239,9 @@ export const DependentSchemaValidation = () => {
               properties: {
                 numberOfMembers: {
                   type: 'integer',
-                  minimum: 1,
-                  maximum: 3,
                 },
               },
+              required: ['numberOfMembers'],
             },
             beneficialOwners: {
               type: 'object',
@@ -252,29 +251,30 @@ export const DependentSchemaValidation = () => {
                   items: {
                     type: 'object',
                     properties: {
-                      name: { type: 'string', minLength: 1 },
+                      name: { type: 'string' },
                     },
+                    required: ['name'],
                   },
                 },
               },
             },
           },
           dependentSchemas: {
-            beneficialOwners: {
+            members: {
               allOf: counts.map((count) => ({
                 if: {
                   properties: {
                     members: {
                       type: 'object',
                       properties: {
-                        numberOfMembers: {
-                          const: count,
-                        },
+                        numberOfMembers: { const: count },
                       },
+                      required: ['numberOfMembers'],
                     },
                   },
                 },
                 then: {
+                  required: ['beneficialOwners'],
                   properties: {
                     beneficialOwners: {
                       type: 'object',
@@ -285,6 +285,7 @@ export const DependentSchemaValidation = () => {
                           maxItems: count,
                         },
                       },
+                      required: ['addedExistingBeneficialOwners'],
                     },
                   },
                 },
@@ -302,7 +303,7 @@ export const DependentSchemaValidation = () => {
                   path="/members/numberOfMembers"
                   label="Number of members (1-3)"
                   width="small"
-                  defaultValue={0}
+                  startWith={-1}
                   showStepControls
                 />
               </Form.Card>
@@ -311,20 +312,35 @@ export const DependentSchemaValidation = () => {
                 <Form.SubHeading>Beneficial owners</Form.SubHeading>
                 <Iterate.Array
                   path="/beneficialOwners/addedExistingBeneficialOwners"
-                  // defaultValue={[]}
+                  errorMessages={{
+                    minItems: 'You must add {minItems} existing owners.',
+                  }}
+                  defaultValue={[]}
                   animate
                 >
-                  <Field.String itemPath="/name" label="Owner name" />
-                  <Iterate.RemoveButton />
+                  <Section
+                    innerSpace={{
+                      top: 'small',
+                      bottom: 'small',
+                    }}
+                    bottom
+                    backgroundColor="lavender"
+                  >
+                    <Field.String
+                      itemPath="/name"
+                      label="Owner name {itemNo}"
+                    />
+                    <Iterate.RemoveButton />
+                  </Section>
                 </Iterate.Array>
                 <Iterate.PushButton
                   path="/beneficialOwners/addedExistingBeneficialOwners"
-                  pushValue={{ name: '' }}
+                  pushValue={{}}
                   text="Add beneficiary"
                 />
               </Form.Card>
 
-              <Form.SubmitButton text="Verify" />
+              <Form.SubmitButton text="Show errors" />
 
               <Tools.Log label="Form data" />
               <Tools.Errors label="Errors" />
