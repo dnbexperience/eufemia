@@ -1,6 +1,7 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import { Flex, Section } from '@dnb/eufemia/src'
 import {
+  z,
   Form,
   Field,
   Iterate,
@@ -329,6 +330,121 @@ export const DependentSchemaValidation = () => {
                     <Field.String
                       itemPath="/name"
                       label="Owner name {itemNo}"
+                    />
+                    <Iterate.RemoveButton />
+                  </Section>
+                </Iterate.Array>
+                <Iterate.PushButton
+                  path="/beneficialOwners/addedExistingBeneficialOwners"
+                  pushValue={{}}
+                  text="Add beneficiary"
+                />
+              </Form.Card>
+
+              <Form.SubmitButton text="Show errors" />
+
+              <Tools.Log label="Form data" />
+              <Tools.Errors label="Errors" />
+            </Flex.Stack>
+          </Form.Handler>
+        )
+      }}
+    </ComponentBox>
+  )
+}
+
+export const DependentSchemaValidationWithZod = () => {
+  return (
+    <ComponentBox scope={{ Tools, z }}>
+      {() => {
+        const ownerSchema = z.object({
+          name: z.string().optional(),
+        })
+        const schema = z
+          .object({
+            members: z.object({
+              numberOfMembers: z.number().int().min(0).max(3).optional(),
+            }),
+            beneficialOwners: z.object({
+              addedExistingBeneficialOwners: z.array(ownerSchema),
+            }),
+          })
+          .superRefine((value, ctx) => {
+            const countValue = value.members.numberOfMembers
+            if (countValue === undefined) {
+              ctx.addIssue({
+                code: 'custom',
+                path: ['members', 'numberOfMembers'],
+                message: 'Field.errorRequired',
+              })
+              return // stop further validation
+            }
+
+            const count = value.members.numberOfMembers
+            const owners =
+              value.beneficialOwners.addedExistingBeneficialOwners
+            const diff = owners.length - count
+            const path = [
+              'beneficialOwners',
+              'addedExistingBeneficialOwners',
+            ]
+
+            if (diff < 0) {
+              ctx.addIssue({
+                code: 'custom',
+                path,
+                message: 'IterateArray.errorMinItems',
+                messageValues: {
+                  minItems: count,
+                },
+              })
+            }
+
+            if (diff > 0) {
+              ctx.addIssue({
+                code: 'custom',
+                path,
+                message: 'IterateArray.errorMaxItems',
+                messageValues: {
+                  maxItems: count,
+                },
+              })
+            }
+          })
+
+        return (
+          <Form.Handler schema={schema}>
+            <Flex.Stack>
+              <Form.Card>
+                <Form.MainHeading>Membership</Form.MainHeading>
+                <Field.Number
+                  path="/members/numberOfMembers"
+                  label="Number of members (1-3)"
+                  width="small"
+                  startWith={-1}
+                  showStepControls
+                />
+              </Form.Card>
+
+              <Form.Card>
+                <Form.SubHeading>Beneficial owners</Form.SubHeading>
+                <Iterate.Array
+                  path="/beneficialOwners/addedExistingBeneficialOwners"
+                  defaultValue={[]}
+                  animate
+                >
+                  <Section
+                    innerSpace={{
+                      top: 'small',
+                      bottom: 'small',
+                    }}
+                    bottom
+                    backgroundColor="lavender"
+                  >
+                    <Field.String
+                      itemPath="/name"
+                      label="Owner name {itemNo}"
+                      required
                     />
                     <Iterate.RemoveButton />
                   </Section>
