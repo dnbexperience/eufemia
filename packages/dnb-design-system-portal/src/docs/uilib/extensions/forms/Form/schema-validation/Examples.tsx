@@ -106,7 +106,7 @@ export const IfRuleSchema = () => {
   )
 }
 
-export const DependantListSchema = () => {
+export const DependentListSchema = () => {
   return (
     <ComponentBox scope={{ makeAjvInstance }}>
       {() => {
