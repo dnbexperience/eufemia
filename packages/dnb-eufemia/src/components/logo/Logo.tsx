@@ -106,41 +106,6 @@ function Logo(localProps: LogoProps) {
     return svgProp as LogoSvg
   }, [svgProp, theme])
 
-  // const svg2 = useMemo(() => {
-  //   if (typeof svgProp === 'function') {
-  //     type SvgFactory = (t: UseThemeReturn) => unknown
-  //     const fn = svgProp as SvgFactory & {
-  //       displayName?: string
-  //       prototype?: { isReactComponent?: unknown }
-  //     }
-
-  //     // If it looks like a React component (PascalCase or react component prototype), don't call it
-  //     const fnName = fn.displayName || fn.name || ''
-  //     const looksLikeComponent =
-  //       !!fn.prototype?.isReactComponent ||
-  //       (fnName && fnName[0] === fnName[0]?.toUpperCase())
-
-  //     if (looksLikeComponent) {
-  //       return svgProp as LogoSvgComponent
-  //     }
-
-  //     if (theme) {
-  //       try {
-  //         const maybeEl = (fn as (t: UseThemeReturn) => unknown)(theme)
-  //         if (React.isValidElement(maybeEl) && maybeEl.type === 'svg') {
-  //           return maybeEl
-  //         }
-  //       } catch {
-  //         // ignore and fall through to treat as component
-  //       }
-  //     }
-
-  //     return svgProp as LogoSvgComponent
-  //   }
-
-  //   return svgProp
-  // }, [svgProp, theme])
-
   // Alt text for the logo does not need to be translated. DNB alt will be the same in English.
   const altText = useMemo(() => {
     const alt = svg?.['alt']
@@ -158,31 +123,10 @@ function Logo(localProps: LogoProps) {
   const detectedBrand = useMemo(() => {
     if (Object.hasOwn(svg, 'brand')) {
       const brand = (svg as LogoSvgComponent).brand
-      return brand === 'ui' ? 'dnb' : brand
+      return brand
     }
 
-    // Determine brand based on svg component/element name
-    let name: string | undefined
-
-    if (React.isValidElement(svg)) {
-      const el = svg as React.ReactElement & {
-        type?: { displayName?: string; name?: string }
-      }
-      name = el.type?.displayName || el.type?.name
-    } else if (typeof svg === 'function') {
-      name = svg.displayName || svg.name
-    }
-
-    const n = (name || '').toLowerCase()
-    if (n.includes('sbanken')) {
-      return 'sbanken'
-    } else if (n.includes('eiendom')) {
-      return 'eiendom'
-    } else if (n.includes('carnegie')) {
-      return 'carnegie'
-    }
-
-    return theme?.name === 'ui' ? 'dnb' : theme?.name || 'dnb'
+    return theme?.name || 'ui'
   }, [svg, theme])
 
   const className = useMemo(() => {
