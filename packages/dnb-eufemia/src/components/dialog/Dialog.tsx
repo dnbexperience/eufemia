@@ -12,7 +12,10 @@ import { DialogProps, DialogContentProps } from './types'
 import classnames from 'classnames'
 import Context from '../../shared/Context'
 import DialogAction from './parts/DialogAction'
-import { extendPropsWithContext } from '../../shared/component-helper'
+import {
+  extendPropsWithContext,
+  removeUndefinedProps,
+} from '../../shared/component-helper'
 
 const defaultProps = {
   variant: 'information',
@@ -94,7 +97,7 @@ function Dialog(localProps: DialogProps & DialogContentProps) {
     currentFullscreen = variant === 'information' ? 'auto' : false
   }
 
-  const modalProps = {
+  const modalProps = removeUndefinedProps({
     title,
     id,
     focusSelector,
@@ -132,7 +135,7 @@ function Dialog(localProps: DialogProps & DialogContentProps) {
     space,
     contentRef,
     scrollRef,
-  }
+  })
 
   const dialogProps = {
     ...props,
