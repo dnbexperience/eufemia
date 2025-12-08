@@ -105,6 +105,7 @@ function ArrayComponent(props: Props) {
   const preparedProps = useMemo(() => {
     const shared = {
       schema: undefined,
+      emptyValue: undefined,
       required: false,
       validateRequired,
       ...props,
@@ -124,10 +125,6 @@ function ArrayComponent(props: Props) {
         }
         return s
       }
-    }
-
-    if (shared.schema && !shared.emptyValue) {
-      shared.emptyValue = []
     }
 
     if (countPath) {
@@ -168,7 +165,6 @@ function ArrayComponent(props: Props) {
     limit,
     error,
     withoutFlex,
-    emptyValue,
     placeholder,
     containerMode,
     animate,
@@ -232,7 +228,7 @@ function ArrayComponent(props: Props) {
   const { getNextContainerMode } = useSwitchContainerMode()
 
   const arrayItems = useMemo(() => {
-    const list = arrayValue ?? []
+    const list = Array.isArray(arrayValue) ? arrayValue : []
     const limitedList =
       typeof limit === 'number' ? list.slice(0, limit) : list
 
@@ -387,7 +383,7 @@ function ArrayComponent(props: Props) {
   }
 
   const arrayElements =
-    arrayValue === emptyValue || props?.value?.length === 0 ? (
+    total === 0 ? (
       typeof placeholder === 'string' ? (
         <Span size="small">{placeholder}</Span>
       ) : (
