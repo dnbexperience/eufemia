@@ -2250,6 +2250,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     validateInitially,
   ])
 
+  const internalData = dataContext.internalDataRef?.current
   const tmpTransValueRef = useRef<Record<Identifier, unknown>>({
     // Use an unique (per field) starting value (id) for the itemPath, so we later can check if the valueToStore is the same as the current value.
     itemPath: id,
@@ -2262,21 +2263,18 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
       let valueToStore: Value | unknown = valueProp
 
-      const data = prerenderFieldProps
-        ? dataContext.data
-        : dataContext.internalDataRef?.current
-
       const storePath = nestedIteratePath
         ? makeIteratePath(itemPath, nestedIteratePath)
         : identifier
 
       // First, look for existing data in the context
-      const hasValue = pointer.has(data, storePath) || storePath === '/'
+      const hasValue =
+        pointer.has(internalData, storePath) || storePath === '/'
       const existingValue =
         storePath === '/'
-          ? data
+          ? internalData
           : hasValue
-          ? pointer.get(data, storePath)
+          ? pointer.get(internalData, storePath)
           : undefined
 
       // If no data where found in the dataContext, look for shared data
@@ -2364,20 +2362,12 @@ export default function useFieldProps<Value, EmptyValue, Props>(
           return // stop here, we don't want to overwrite the existing array
         }
 
-        if (Array.isArray(existingValue)) {
-          // React.StrictMode will come with "undefined" on the second render,
-          // because "defaultValueRef.current" was removed.
-          // But because we run "useMemo" on the first render when updateContextDataInSync is true,
-          // we have still a valid value/array.
-          if (!Array.isArray(valueToStore)) {
-            return // stop here, never use a non-array value when in "updateContextDataInSync"
-          }
-
+        if (Array.isArray(existingValue) && Array.isArray(valueToStore)) {
           if (valueToStore.length !== existingValue.length) {
             skipEqualCheck = true // in order to update the items
           }
 
-          // Keep Iterate.Array in sync with the data context
+          // Keep Iterate.Array in sync with the data context to avoid infinite rerenders
           valueRef.current = existingValue as Value
         }
       }
@@ -2444,13 +2434,12 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       }
     },
     [
-      dataContext.data,
       dataContext.id,
-      dataContext.internalDataRef,
       emptyValue,
       hasItemPath,
       hasPath,
       identifier,
+      internalData,
       itemPath,
       iterateArrayValue,
       iterateIndex,
@@ -2460,7 +2449,6 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       updateDataValueDataContext,
       validateDataDataContext,
       valueProp,
-      prerenderFieldProps,
     ]
   )
 
