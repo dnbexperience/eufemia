@@ -18,6 +18,12 @@ import { Props as ProviderProps } from './Provider'
 import { SnapshotName } from '../Form/Snapshot'
 import { SharedStateId } from '../../../shared/helpers/useSharedState'
 
+export type SectionSchemaRegistration = {
+  id: symbol
+  path?: Path
+  schema: Schema
+}
+
 export type MountState = {
   isPreMounted?: boolean
   isMounted?: boolean
@@ -224,6 +230,10 @@ export interface ContextState {
   decoupleForm?: boolean
   hasElementRef?: React.MutableRefObject<boolean>
   restHandlerProps?: Record<string, unknown>
+  registerSectionSchema?: (
+    registration: SectionSchemaRegistration
+  ) => () => void
+  sectionSchemaPathsRef?: React.MutableRefObject<Set<Path>>
   props: ProviderProps<JsonObject>
 }
 
@@ -251,6 +261,8 @@ export const defaultContextState: ContextState = {
   hasFieldState: () => false,
   hasFieldError: () => false,
   contextErrorMessages: undefined,
+  registerSectionSchema: () => () => undefined,
+  sectionSchemaPathsRef: undefined,
   props: null,
 }
 

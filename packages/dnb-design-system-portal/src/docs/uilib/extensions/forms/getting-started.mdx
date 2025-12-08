@@ -601,7 +601,15 @@ The `pattern` property is a regular expression (RegExp) that the value of the fi
 
 ### schema
 
-The `schema` property is a schema that the value of the field must match in order to be valid. You can use either a Zod schema or a JSON Schema (Ajv) schema:
+The `schema` property is a schema that the value of the field must match in order to be valid. You can use either a Zod schema or a JSON Schema (Ajv) schema.
+
+Read more about JSON [Schema validation](/uilib/extensions/forms/Form/schema-validation/).
+
+You can set a schema on the
+
+- [Form.Handler](/uilib/extensions/forms/Form/Handler/) component to apply it globally to all fields without a specific schema.
+- [Form.Section](/uilib/extensions/forms/Form/Section/) component to apply it to all fields within that section.
+- [Field](/uilib/extensions/forms/all-fields/) components to apply it to a specific field.
 
 **Using Zod schemas**
 
@@ -637,8 +645,6 @@ render(
   </Form.Handler>,
 )
 ```
-
-Read more about JSON [Schema validation](/uilib/extensions/forms/Form/schema-validation/).
 
 ### onBlurValidator and onChangeValidator
 

@@ -8,6 +8,7 @@ import React, {
 } from 'react'
 import pointer, { JsonObject } from '../../utils/json-pointer'
 import {
+  z,
   Ajv,
   makeAjvInstance,
   ajvErrorsToFormErrors,
@@ -33,6 +34,7 @@ import {
   Schema,
 } from '../../types'
 import type { IsolationProviderProps } from '../../Form/Isolation/Isolation'
+import type { ValidateFunction, ErrorObject } from 'ajv/dist/2020.js'
 import { debounce, warn } from '../../../../shared/helpers'
 import FieldPropsProvider from '../../Field/Provider'
 import useUpdateEffect from '../../../../shared/helpers/useUpdateEffect'
@@ -45,6 +47,7 @@ import {
 } from '../../../../shared/helpers/useSharedState'
 import SharedContext, { ContextProps } from '../../../../shared/Context'
 import useTranslation from '../../hooks/useTranslation'
+import { appendPath } from '../../hooks/usePath'
 import DataContext, {
   ContextState,
   EventListenerCall,
@@ -56,6 +59,7 @@ import DataContext, {
   TransformData,
   VisibleDataHandler,
   DataPathHandlerParameters,
+  SectionSchemaRegistration,
 } from '../Context'
 
 /**
@@ -314,6 +318,73 @@ export default function Provider<Data extends JsonObject>(
     forceUpdate()
     addSetShowAllErrorsRef.current.forEach((fn) => fn?.(showAllErrors))
   }, [])
+  const executeSectionValidators = useCallback(
+    (contextErrors?: Record<Path, FormError>) => {
+      if (!sectionSchemasRef.current.size) {
+        const hasContextErrors =
+          contextErrors && Object.keys(contextErrors).length > 0
+        errorsRef.current = hasContextErrors ? contextErrors : undefined
+        return errorsRef.current
+      }
+
+      const sectionErrors: Record<Path, FormError> = {}
+
+      sectionSchemasRef.current.forEach(({ path, schema, validator }) => {
+        if (!validator) {
+          return
+        }
+
+        const normalizedPath = path || '/'
+        const sectionData =
+          normalizedPath === '/'
+            ? internalDataRef.current
+            : pointer.has(internalDataRef.current, normalizedPath)
+            ? pointer.get(internalDataRef.current, normalizedPath)
+            : undefined
+
+        const validationResult = validator(sectionData)
+        if (validationResult === true) {
+          return
+        }
+
+        let errors: Record<Path, FormError> = {}
+
+        if (isZodSchema(schema)) {
+          const issues = validator.errors as z.core.$ZodIssue[] | undefined
+          if (issues?.length) {
+            errors = zodErrorsToFormErrors(issues)
+          }
+        } else {
+          const ajvValidator = validator as ValidateFunction
+          const ajvErrors = ajvValidator.errors
+          if (ajvErrors && ajvErrors.length) {
+            errors = ajvErrorsToFormErrors(ajvErrors, sectionData)
+          }
+        }
+
+        Object.entries(errors).forEach(([errorPath, error]) => {
+          const combinedPath = appendPath(normalizedPath, errorPath)
+          sectionErrors[combinedPath] = error
+        })
+      })
+
+      const hasSectionErrors = Object.keys(sectionErrors).length > 0
+      const hasContextErrors =
+        contextErrors && Object.keys(contextErrors).length > 0
+      if (!hasSectionErrors && !hasContextErrors) {
+        errorsRef.current = undefined
+        return undefined
+      }
+
+      errorsRef.current = {
+        ...(contextErrors ?? {}),
+        ...(hasSectionErrors ? sectionErrors : {}),
+      }
+
+      return errorsRef.current
+    },
+    []
+  )
   const revealError = useCallback((path: Path, hasError: boolean) => {
     if (hasError) {
       hasVisibleErrorRef.current.set(path, hasError)
@@ -365,10 +436,23 @@ export default function Provider<Data extends JsonObject>(
   // - Validator
   type UnifiedValidator = {
     (value: unknown): boolean
-    errors?: any[]
+    errors?: (
+      | z.core.$ZodIssue
+      | ErrorObject<string, Record<string, unknown>>
+    )[]
+  }
+
+  type SectionSchemaEntry = {
+    path: Path
+    schema: Schema
+    validator: UnifiedValidator
   }
 
   const ajvValidatorRef = useRef<UnifiedValidator>()
+  const sectionSchemasRef = useRef<Map<symbol, SectionSchemaEntry>>(
+    new Map()
+  )
+  const sectionSchemaPathsRef = useRef<Set<Path>>(new Set())
 
   // Create a unified validator that works with both AJV and Zod
   const createUnifiedValidator = useCallback(
@@ -407,7 +491,8 @@ export default function Provider<Data extends JsonObject>(
   const executeAjvValidator = useCallback(() => {
     if (!ajvValidatorRef.current) {
       // No schema-based validator. Assume data is valid.
-      return
+      errorsRef.current = undefined
+      return undefined // stop here
     }
 
     const validationResult = ajvValidatorRef.current(
@@ -415,7 +500,6 @@ export default function Provider<Data extends JsonObject>(
     )
 
     if (!validationResult) {
-      // Errors found
       const errors = ajvValidatorRef.current.errors
       if (errors && Array.isArray(errors)) {
         // Check if these are Zod errors (they have a different structure)
@@ -426,30 +510,30 @@ export default function Provider<Data extends JsonObject>(
           'code' in errors[0]
         ) {
           // These are Zod errors, convert them to FormErrors
-          errorsRef.current = zodErrorsToFormErrors(errors)
+          errorsRef.current = zodErrorsToFormErrors(
+            errors as z.core.$ZodIssue[]
+          )
         } else {
           // These are AJV errors, use the existing conversion
           errorsRef.current = ajvErrorsToFormErrors(
-            errors,
+            errors as ErrorObject<string, Record<string, unknown>>[],
             internalDataRef.current
           )
         }
-      } else {
-        errorsRef.current = undefined
+        return errorsRef.current
       }
-    } else {
       errorsRef.current = undefined
-    }
-  }, [])
-  const validateData = useCallback(() => {
-    if (!ajvValidatorRef.current) {
-      // No schema-based validator. Assume data is valid.
-      return
+      return undefined // stop here
     }
 
-    executeAjvValidator()
+    errorsRef.current = undefined
+    return undefined // stop here
+  }, [])
+  const validateData = useCallback(() => {
+    const contextErrors = executeAjvValidator()
+    executeSectionValidators(contextErrors)
     forceUpdate()
-  }, [executeAjvValidator])
+  }, [executeAjvValidator, executeSectionValidators, forceUpdate])
 
   // - Error handling
   const checkFieldStateFor = useCallback(
@@ -889,13 +973,55 @@ export default function Provider<Data extends JsonObject>(
   useLayoutEffect(() => {
     const hasNoErrors = errorsRef.current === undefined
 
-    executeAjvValidator()
+    const contextErrors = executeAjvValidator()
+    executeSectionValidators(contextErrors)
 
     if (hasNoErrors && errorsRef.current !== undefined) {
       forceUpdate()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [internalDataRef.current]) // run validation when internal data has changed
+  }, [
+    internalDataRef.current,
+    executeAjvValidator,
+    executeSectionValidators,
+  ]) // run validation when internal data has changed
+
+  const registerSectionSchema = useCallback(
+    (registration: SectionSchemaRegistration) => {
+      const normalizedPath =
+        registration.path && registration.path !== '/'
+          ? registration.path
+          : '/'
+      const validator = createUnifiedValidator(registration.schema)
+
+      sectionSchemasRef.current.set(registration.id, {
+        path: normalizedPath,
+        schema: registration.schema,
+        validator,
+      })
+      sectionSchemaPathsRef.current.add(normalizedPath)
+
+      validateData()
+
+      return () => {
+        const entry = sectionSchemasRef.current.get(registration.id)
+        if (!entry) {
+          return // stop here
+        }
+
+        sectionSchemasRef.current.delete(registration.id)
+        const stillUsesPath = Array.from(
+          sectionSchemasRef.current.values()
+        ).some((item) => item.path === entry.path)
+        if (!stillUsesPath) {
+          sectionSchemaPathsRef.current.delete(entry.path)
+        }
+
+        validateData()
+      }
+    },
+    [createUnifiedValidator, validateData]
+  )
 
   const storeInSession = useMemo(() => {
     return debounce(
@@ -1553,6 +1679,7 @@ export default function Provider<Data extends JsonObject>(
     getSubmitParams,
     addOnChangeHandler,
     scrollToTop,
+    registerSectionSchema,
 
     /** State handling */
     schema,
@@ -1577,6 +1704,7 @@ export default function Provider<Data extends JsonObject>(
     isEmptyDataRef,
     fieldErrorRef,
     errorsRef,
+    sectionSchemaPathsRef,
     getAjvInstance,
     countryCode: countryCode
       ? getSourceValue<CountryCode>(countryCode)
