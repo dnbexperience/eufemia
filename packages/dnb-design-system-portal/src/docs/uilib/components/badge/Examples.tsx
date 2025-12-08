@@ -23,7 +23,7 @@ export const BadgeNotificationInline = () => (
   >
     <div>
       Text{' '}
-      <Badge content={1} label="Notifications" variant="notification" />{' '}
+      <Badge content={1234} label="Notifications" variant="notification" />{' '}
       Text
     </div>
   </ComponentBox>
@@ -34,7 +34,7 @@ export const BadgeNotificationAvatar = () => (
     hideCode
     data-visual-test="badge-variant-notification-avatar"
   >
-    <Badge content={1} label="Notifications" variant="notification">
+    <Badge content={1234} label="Notifications" variant="notification">
       <Avatar.Group label="Persons">
         <Avatar size="large">A</Avatar>
       </Avatar.Group>
@@ -93,7 +93,7 @@ export const BadgeTopLeft = () => (
 export const BadgeTopRight = () => (
   <ComponentBox hideCode data-visual-test="badge-top-right">
     <Badge
-      content={1}
+      content={1234}
       label="Notifications"
       vertical="top"
       horizontal="right"
