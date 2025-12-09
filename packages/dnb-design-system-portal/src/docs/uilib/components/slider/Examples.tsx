@@ -136,7 +136,8 @@ export const SliderExampleHorizontalSync = () => (
         height: 20rem; /* max-height works fine except in Safari */
         margin-top: 1rem;
         padding: 1rem;
-        background: dimgray;
+        background: var(--color-lavender);
+        border: 1px solid var(--color-black-20);
         .dnb-input {
           width: 4rem;
           margin-top: 1rem;

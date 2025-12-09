@@ -7,6 +7,7 @@ import React from 'react'
 import { axeComponent, loadScss, wait } from '../../../core/jest/jestSetup'
 import { fireEvent, render, act } from '@testing-library/react'
 import Slider, { SliderMarker } from '../Slider'
+import * as PopoverModule from '../../popover/Popover'
 
 import type { SliderAllProps, onChangeEventProps } from '../Slider'
 import { format } from '../../number-format/NumberUtils'
@@ -410,6 +411,37 @@ describe('Slider component', () => {
       // Tooltip should still be in the DOM (not removed) when hovering over it
       expect(tooltipElement).toBeInTheDocument()
       expect(tooltipElement.classList).toContain('dnb-tooltip')
+    })
+
+    it('updates Tooltip targetRefreshKey when the thumb value changes', () => {
+      const popoverSpy = jest.spyOn(PopoverModule, 'default')
+      render(<Slider {...props} id="tooltip-key" tooltip />)
+
+      const findTooltipPopoverCall = () =>
+        [...popoverSpy.mock.calls]
+          .map(([callProps]) => callProps)
+          .reverse()
+          .find(
+            (callProps) =>
+              callProps &&
+              Object.prototype.hasOwnProperty.call(
+                callProps,
+                'targetRefreshKey'
+              )
+          )
+
+      const initialCall = findTooltipPopoverCall()
+      expect(initialCall).toBeDefined()
+      expect(initialCall.targetRefreshKey).toBe(props.value)
+
+      popoverSpy.mockClear()
+      simulateMouseMove({ pageX: 80, width: 100, height: 10 })
+
+      const updatedCall = findTooltipPopoverCall()
+      expect(updatedCall).toBeDefined()
+      expect(updatedCall.targetRefreshKey).toBe(80)
+
+      popoverSpy.mockRestore()
     })
   })
 
