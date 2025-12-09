@@ -5,19 +5,19 @@
 
 import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
-import { Card, Logo } from '@dnb/eufemia/src'
-import { Provider } from '@dnb/eufemia/shared'
+import { Card, Logo, Flex } from '@dnb/eufemia/src'
 import {
   DnbDefault,
   SbankenCompact,
   SbankenDefault,
+  SbankenHorizontal,
   CarnegieDefault,
   EiendomDefault,
 } from '@dnb/eufemia/src/components/Logo'
-import ChangeStyleTheme from '../../../../core/ChangeStyleTheme'
+import MyThemeSelector from '../../../../core/ChangeStyleTheme'
 import type { ThemeProps } from '@dnb/eufemia/src/shared/Theme'
 
-function getLogoSvg(theme: ThemeProps) {
+function myLogoSelector(theme: ThemeProps) {
   switch (theme?.name) {
     case 'sbanken':
       return SbankenDefault
@@ -33,67 +33,102 @@ function getLogoSvg(theme: ThemeProps) {
   }
 }
 
+export const LogoAllExample = () => (
+  <ComponentBox
+    scope={{
+      DnbDefault,
+      SbankenCompact,
+      SbankenDefault,
+      SbankenHorizontal,
+      CarnegieDefault,
+      EiendomDefault,
+    }}
+    data-visual-test="logo-all"
+  >
+    <Flex.Container>
+      <Logo height="48" svg={DnbDefault} />
+      <Logo height="48" svg={CarnegieDefault} />
+      <Logo height="48" svg={EiendomDefault} />
+      <Logo height="48" svg={SbankenDefault} />
+      <Logo height="48" svg={SbankenHorizontal} />
+      <Logo height="48" svg={SbankenCompact} />
+    </Flex.Container>
+  </ComponentBox>
+)
+
 export const LogoDefaultExample = () => (
-  <ComponentBox scope={{ getLogoSvg }} data-visual-test="logo-default">
-    <Logo height="96" svg={getLogoSvg} />
+  <ComponentBox data-visual-test="logo-default">
+    <Logo height="96" />
   </ComponentBox>
 )
 
 export const LogoInheritFontSizeExample = () => (
-  <ComponentBox scope={{ getLogoSvg }} data-visual-test="logo-auto-size">
+  <ComponentBox
+    scope={{ myLogoSelector }}
+    data-visual-test="logo-auto-size"
+  >
     <span style={{ fontSize: '6rem' }}>
-      <Logo svg={getLogoSvg} />
+      <Logo svg={myLogoSelector} />
     </span>
   </ComponentBox>
 )
 
 export const LogoInheritHeightExample = () => (
   <ComponentBox
-    scope={{ getLogoSvg }}
+    scope={{ myLogoSelector }}
     data-visual-test="logo-inherit-size"
   >
     <span style={{ height: '6rem' }}>
-      <Logo inheritSize svg={getLogoSvg} />
+      <Logo inheritSize svg={myLogoSelector} />
     </span>
   </ComponentBox>
 )
 
-export const LogoInheritColorExample = () => (
-  <ComponentBox
-    scope={{ getLogoSvg }}
-    data-visual-test="logo-inherit-color"
-  >
-    <span style={{ color: 'tomato' }}>
-      <Logo height="96" inheritColor svg={getLogoSvg} />
-    </span>
-  </ComponentBox>
-)
+export const LogoColorExample = () => (
+  <ComponentBox scope={{ myLogoSelector }} data-visual-test="logo-color">
+    <Flex.Container>
+      <span style={{ color: 'tomato' }}>
+        <Logo height="96" inheritColor svg={myLogoSelector} />
+      </span>
 
-export const LogoCompactVariantExample = () => (
-  <ComponentBox
-    data-visual-test="logo-compact-variant"
-    scope={{ SbankenCompact }}
-  >
-    <Logo height="96" svg={SbankenCompact} />
+      <Logo height="96" color="hotpink" svg={myLogoSelector} />
+    </Flex.Container>
   </ComponentBox>
 )
 
 export const LogoChangeExample = () => (
   <ComponentBox
     scope={{
-      ChangeStyleTheme,
-      getLogoSvg,
+      MyThemeSelector,
+      myLogoSelector,
+      SbankenDefault,
+      EiendomDefault,
+      DnbDefault,
     }}
   >
     {() => {
+      function myLogoSelector(theme: ThemeProps) {
+        switch (theme?.name) {
+          case 'sbanken':
+            return SbankenDefault
+
+          case 'carnegie':
+            return CarnegieDefault
+
+          case 'eiendom':
+            return EiendomDefault
+
+          default:
+            return DnbDefault
+        }
+      }
+
       function MyApp() {
         return (
-          <Provider>
-            <Card stack>
-              <ChangeStyleTheme />
-              <Logo height="32" svg={getLogoSvg} />
-            </Card>
-          </Provider>
+          <Card stack>
+            <MyThemeSelector />
+            <Logo height="32" svg={myLogoSelector} />
+          </Card>
         )
       }
 
@@ -102,21 +137,11 @@ export const LogoChangeExample = () => (
   </ComponentBox>
 )
 
-export const LogoCarnegieDefaultExample = () => (
-  <ComponentBox
-    scope={{ CarnegieDefault }}
-    data-visual-test="logo-carnegie"
-  >
-    <Logo
-      height="96"
-      svg={CarnegieDefault}
-      color="var(--ca-color-burgundy-red)"
-    />
-  </ComponentBox>
-)
-
-export const LogoEiendomDefaultExample = () => (
-  <ComponentBox scope={{ EiendomDefault }} data-visual-test="logo-eiendom">
-    <Logo height="96" svg={EiendomDefault} />
+export const LogoFixedSizeExample = () => (
+  <ComponentBox data-visual-test="logo-default" scope={{ myLogoSelector }}>
+    <Flex.Container>
+      <Logo height="96" svg={myLogoSelector} />
+      <Logo width="96" svg={myLogoSelector} />
+    </Flex.Container>
   </ComponentBox>
 )

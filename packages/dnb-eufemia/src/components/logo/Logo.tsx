@@ -10,19 +10,24 @@ import {
   extendPropsWithContext,
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
-import { DnbDefault, DnbLogoAlt } from './LogoSvg'
+import { DnbDefault } from './LogoSvg'
 import type { UseThemeReturn } from '../../shared/useTheme'
 
 import type { IconColor } from '../Icon'
 import type { SpacingProps } from '../space/types'
-import type { LogoSvg, LogoSvgComponent } from './LogoSvg'
+import type { LogoSvgComponent } from './LogoSvg'
 
 // Re-export SVG components and alt texts for convenience
 export * from './LogoSvg'
 
 export type LogoWidth = string
 export type LogoHeight = string
-export type CustomLogoSvg = LogoSvg | LogoSvgComponent
+
+export type SvgComponent =
+  | React.ComponentType<React.SVGProps<SVGSVGElement>>
+  | React.ReactElement<React.SVGProps<SVGSVGElement>>
+
+export type CustomLogoSvg = LogoSvgComponent | SvgComponent
 export type Svg =
   | CustomLogoSvg
   | ((theme: UseThemeReturn) => CustomLogoSvg)
@@ -41,11 +46,11 @@ export type LogoProps = {
    */
   color?: IconColor
   /**
-   * Set to `true` if you do not want to inherit the color by `currentColor`. Defaults to `false`.
+   * Set to `true`to inherit the color with `currentColor`. Defaults to `false`.
    */
   inheritColor?: boolean
   /**
-   * Set to `true` if you want the logo to inherit the parent size
+   * Set to `true` if you want the logo to inherit the parent `height`. Defaults to `false`.
    */
   inheritSize?: boolean
   /**
@@ -103,7 +108,7 @@ function Logo(localProps: LogoProps) {
     if (theme && typeof svgProp === 'function' && svgProp.length === 1) {
       return (svgProp as (theme: UseThemeReturn) => CustomLogoSvg)(theme)
     }
-    return svgProp as LogoSvg
+    return svgProp as SvgComponent
   }, [svgProp, theme])
 
   // Alt text for the logo does not need to be translated. DNB alt will be the same in English.
@@ -112,7 +117,7 @@ function Logo(localProps: LogoProps) {
     if (alt) {
       return alt as string
     }
-    return DnbLogoAlt
+    return 'logo'
   }, [svg])
 
   const sharedClasses = classnames(

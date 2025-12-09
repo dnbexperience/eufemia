@@ -14,8 +14,11 @@
   ); // for vertical alignment, we have to have no line-height
 
   svg {
-    fill: currentcolor;
     shape-rendering: geometricprecision;
+
+    &[color] {
+      fill: currentcolor;
+    }
   }
 
   height: 1em;
@@ -29,21 +32,12 @@
     height: inherit;
   }
 
-  &--carnegie {
-    color: var(--ca-color-burgundy-red);
-  }
-
-  &--ui,
-  &--eiendom {
-    color: var(--color-sea-green);
-  }
-
-  &--sbanken {
-    color: var(--sb-color-text);
-  }
-
   &--inherit-color {
     color: currentcolor;
+
+    svg {
+      fill: currentcolor;
+    }
   }
 
   svg:not([width], [height]) {
