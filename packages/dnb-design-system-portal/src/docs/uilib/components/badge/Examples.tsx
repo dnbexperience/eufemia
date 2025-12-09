@@ -4,11 +4,7 @@
  */
 
 import ComponentBox from '../../../../shared/tags/ComponentBox'
-import {
-  email as Email,
-  confetti as Confetti,
-} from '@dnb/eufemia/src/icons'
-import { Badge, Avatar, Icon, Img } from '@dnb/eufemia/src'
+import { Badge, Avatar } from '@dnb/eufemia/src'
 
 export const BadgeNotification = () => (
   <ComponentBox hideCode data-visual-test="badge-variant-notification">
