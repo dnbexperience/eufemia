@@ -268,6 +268,14 @@ describe('Tooltip', () => {
           )
         })
       })
+
+      it('remains active when forceActive is true', async () => {
+        render(<Tooltip forceActive active={false} />)
+
+        await waitFor(() => {
+          expect(getMainElem().classList).toContain('dnb-tooltip--active')
+        })
+      })
     })
 
     describe('keepInDOM', () => {
