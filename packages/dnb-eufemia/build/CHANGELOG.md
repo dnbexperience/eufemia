@@ -3,6 +3,39 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.91.1](https://github.com/dnbexperience/eufemia/compare/v10.91.0...v10.91.1) (2025-12-09)
+
+
+### :memo: Documentation
+
+* **DatePicker:** automatically alignment of calendar using `alignPicker` ([#6017](https://github.com/dnbexperience/eufemia/issues/6017)) ([a2270b3](https://github.com/dnbexperience/eufemia/commit/a2270b30a2cab0833a604aecb95b6086173b9db0))
+* **Forms:** add example for dependent Ajv schema ([#6043](https://github.com/dnbexperience/eufemia/issues/6043)) ([e854266](https://github.com/dnbexperience/eufemia/commit/e8542661eb13436765a03ca19fd549aaac411ae3))
+* **TermDefinition:** add examples of how to use inside label and help text ([#6028](https://github.com/dnbexperience/eufemia/issues/6028)) ([b908569](https://github.com/dnbexperience/eufemia/commit/b908569146f59d728c7c92cdab56cbb7ad9829c4))
+
+
+### :bug: Bug Fixes
+
+* **Checkbox:** improve focus handling when clicking ([#6040](https://github.com/dnbexperience/eufemia/issues/6040)) ([2caad7a](https://github.com/dnbexperience/eufemia/commit/2caad7a3d1153306fbe8be76306239867845bc47))
+* **DatePicker:** ensure backwards compatibility for when used inside Nucleus ([#6024](https://github.com/dnbexperience/eufemia/issues/6024)) ([5f81914](https://github.com/dnbexperience/eufemia/commit/5f8191419103ee2b2b20522740e6d5b46b309da8))
+* **DatePicker:** improve "today" highlight styling ([#6015](https://github.com/dnbexperience/eufemia/issues/6015)) ([c7670e5](https://github.com/dnbexperience/eufemia/commit/c7670e57c3ac96af3acdb57a7003bc4a711f801a))
+* **Field.Upload:** should not display error removing file using async `fileHandler` ([#6025](https://github.com/dnbexperience/eufemia/issues/6025)) ([57418f1](https://github.com/dnbexperience/eufemia/commit/57418f166ec6893475728ed38cbc47f16049b42d))
+* **Forms:** ensure help property works in Field.Boolean when variant is `checkbox` ([#6034](https://github.com/dnbexperience/eufemia/issues/6034)) ([76be2f7](https://github.com/dnbexperience/eufemia/commit/76be2f74f9892e35a9e4e09fdf8f193cb6d4eeef))
+* **Forms:** improve async validator detection and behavior ([#6045](https://github.com/dnbexperience/eufemia/issues/6045)) ([b1ba42f](https://github.com/dnbexperience/eufemia/commit/b1ba42f6d2b8e017328c388986802e7155e29ae3)), closes [#6032](https://github.com/dnbexperience/eufemia/issues/6032)
+* **Forms:** prevent Wizard step navigation during pending validation ([#6044](https://github.com/dnbexperience/eufemia/issues/6044)) ([d713f6f](https://github.com/dnbexperience/eufemia/commit/d713f6fca118f4a72ecad3371a87ab3febec43ad)), closes [#6032](https://github.com/dnbexperience/eufemia/issues/6032) [#6045](https://github.com/dnbexperience/eufemia/issues/6045)
+* **HelpButtonInline:** improve focus handling when opening and closing ([#6038](https://github.com/dnbexperience/eufemia/issues/6038)) ([a182d0c](https://github.com/dnbexperience/eufemia/commit/a182d0c7da2987383e9bb9a515235543051a93e7)), closes [#6036](https://github.com/dnbexperience/eufemia/issues/6036)
+* **Iterate.Array:** set data context value to `undefined` when no value was given ([#6050](https://github.com/dnbexperience/eufemia/issues/6050)) ([21be4b0](https://github.com/dnbexperience/eufemia/commit/21be4b093ef3859f48b9f864f69edc9184912af5))
+* **NumberFormat:** improve focus handling when selecting ([#6039](https://github.com/dnbexperience/eufemia/issues/6039)) ([7d6fbad](https://github.com/dnbexperience/eufemia/commit/7d6fbad6df87409bea7aa10a176205c4c5ae3dbe)), closes [#6036](https://github.com/dnbexperience/eufemia/issues/6036)
+* **NumberFormat:** omit select & copy helper on touch devices ([#6041](https://github.com/dnbexperience/eufemia/issues/6041)) ([1d4e782](https://github.com/dnbexperience/eufemia/commit/1d4e782916445931b45d1ef0845942efc613bf53)), closes [#6033](https://github.com/dnbexperience/eufemia/issues/6033)
+* **NumberFormat:** show Tooltip on user copy action ([#6027](https://github.com/dnbexperience/eufemia/issues/6027)) ([16091ea](https://github.com/dnbexperience/eufemia/commit/16091ea97436fa442d49b83cb2527729366c3bc4))
+* **Popover:** make VoiceOver focus handling reliable ([#6030](https://github.com/dnbexperience/eufemia/issues/6030)) ([57a3c57](https://github.com/dnbexperience/eufemia/commit/57a3c570bc500d713d81bff0901355297e355bb8))
+* **Slider:** adjust Tooltip position when value changes ([#6060](https://github.com/dnbexperience/eufemia/issues/6060)) ([6a8bf15](https://github.com/dnbexperience/eufemia/commit/6a8bf150df5a6f1f46c93bf8e3a54fb47d247ad2)), closes [#6059](https://github.com/dnbexperience/eufemia/issues/6059)
+* **TermDefinition:** improve focus handling when closing ([#6036](https://github.com/dnbexperience/eufemia/issues/6036)) ([3f15653](https://github.com/dnbexperience/eufemia/commit/3f156534e74f407a271b49178b03d56bf8c08582))
+* **TermDefinition:** prevent hover when inside FormLabel ([#6029](https://github.com/dnbexperience/eufemia/issues/6029)) ([eb51459](https://github.com/dnbexperience/eufemia/commit/eb51459de599580e2fe684f864234fb09d712d26))
+* **Tooltip,TermDefinition,DatePicker:** improve handling of screen-reader focus when navigating out of content ([#6019](https://github.com/dnbexperience/eufemia/issues/6019)) ([71b17d5](https://github.com/dnbexperience/eufemia/commit/71b17d5bee80fac92c829cb48a80e19446595be0))
+* **Tooltip:** improve element validity check ([#6012](https://github.com/dnbexperience/eufemia/issues/6012)) ([f39dc69](https://github.com/dnbexperience/eufemia/commit/f39dc6972ae5b33fc9e304d33beb317661ded220))
+* **Tooltip:** improve performance by disabling keepInDOM ([#6026](https://github.com/dnbexperience/eufemia/issues/6026)) ([cec63e3](https://github.com/dnbexperience/eufemia/commit/cec63e377fea13b630e2a1bd0691c8771bb90ca2)), closes [#6011](https://github.com/dnbexperience/eufemia/issues/6011)
+* **Wizard:** prevent navigation when there's an ongoing async `fileHandler` in Field.Upload ([#6032](https://github.com/dnbexperience/eufemia/issues/6032)) ([381b6e2](https://github.com/dnbexperience/eufemia/commit/381b6e266cc1cd7e692d1e84f7641f4e45e884e0)), closes [#6044](https://github.com/dnbexperience/eufemia/issues/6044) [#6045](https://github.com/dnbexperience/eufemia/issues/6045)
+
 ## [10.91.0](https://github.com/dnbexperience/eufemia/compare/v10.90.1...v10.91.0) (2025-11-28)
 
 
