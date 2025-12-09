@@ -207,7 +207,7 @@
     },
     {
       "name": "alignPicker",
-      "doc": "Use `right` to change the calendar alignment direction. Defaults to `left`.",
+      "doc": "Use `right` to change the preferred calendar alignment direction. Defaults to `left`. If the DatePicker is close to the edge of the screen, the alignment of the calendar will change automatically to fit in the viewport.",
       "type": "string",
       "status": "optional",
       "defaultValue": null
@@ -445,11 +445,11 @@
   "related": [
     "Space"
   ],
-  "checksum": "9bd5516cc7df2426b4ab2d9823b9ec269a336784e3d12bf54ad557954e94e205",
+  "checksum": "fc37e69a19071565cdb1dd26d6e9e52eb38bfbea6f86d3bd54875f7b73f08551",
   "source": {
     "repo": "https://github.com/dnbexperience/eufemia",
     "file": "packages/dnb-eufemia/src/components/date-picker/DatePicker.tsx",
-    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.91.0/packages/dnb-eufemia/src/components/date-picker/DatePicker.tsx"
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.91.1/packages/dnb-eufemia/src/components/date-picker/DatePicker.tsx"
   },
   "sources": {
     "entry": {
@@ -469,7 +469,7 @@
       "public": "https://eufemia.dnb.no/uilib/components/date-picker/demos/"
     }
   },
-  "version": "10.91.0",
-  "generatedAt": "2025-11-28T14:03:55.987Z",
+  "version": "10.91.1",
+  "generatedAt": "2025-12-09T13:24:51.918Z",
   "schemaVersion": 1
 }

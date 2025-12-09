@@ -71,7 +71,7 @@
     },
     {
       "name": "keepInDOM",
-      "doc": "Keep the tooltip portal mounted in the DOM even when closed. When `true`, the tooltip remains in the DOM when inactive, which is useful for maintaining `aria-describedby` references for accessibility, ensuring screen readers can always find the associated element, and preventing layout shifts when the tooltip appears/disappears. Defaults to `true` for Tooltip (unlike Popover which defaults to `false`).",
+      "doc": "Keep the tooltip portal mounted in the DOM even when closed. When `true`, the tooltip remains in the DOM when inactive. Defaults to `false`.",
       "type": "boolean",
       "status": "optional",
       "defaultValue": null
@@ -125,6 +125,13 @@
       "defaultValue": null
     },
     {
+      "name": "triggerOffset",
+      "doc": "Adjust the pixel gap between the tooltip content and its trigger. Use positive values to place the tooltip further away (e.g., to match custom spacing). Defaults to `16`.",
+      "type": "number",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
       "name": "noAnimation",
       "doc": "set to `true` if no fade-in animation should be used.",
       "type": "boolean",
@@ -143,11 +150,11 @@
   "related": [
     "Space"
   ],
-  "checksum": "eaf62399330010145119a81e973ff954410e63c569ac3d2439d110a77a7de0fe",
+  "checksum": "fc8d93f7fb91f8b1912392df3c65e57c629133c6a59414b187d29300745e4e37",
   "source": {
     "repo": "https://github.com/dnbexperience/eufemia",
     "file": "packages/dnb-eufemia/src/components/tooltip/Tooltip.tsx",
-    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.91.0/packages/dnb-eufemia/src/components/tooltip/Tooltip.tsx"
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.91.1/packages/dnb-eufemia/src/components/tooltip/Tooltip.tsx"
   },
   "sources": {
     "entry": {
@@ -164,7 +171,7 @@
       "public": "https://eufemia.dnb.no/uilib/components/tooltip/demos/"
     }
   },
-  "version": "10.91.0",
-  "generatedAt": "2025-11-28T14:03:56.375Z",
+  "version": "10.91.1",
+  "generatedAt": "2025-12-09T13:24:52.392Z",
   "schemaVersion": 1
 }

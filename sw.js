@@ -28,11 +28,11 @@ workbox.core.clientsClaim();
 self.__precacheManifest = [
   {
     "url": "404.html",
-    "revision": "a562e6fdf55006be2a5282c160997bff"
+    "revision": "aa5e51d167e01e26dbc8a6b4aaf9f395"
   },
   {
     "url": "500.html",
-    "revision": "4dfa4249f1050928dfb8de47547fc305"
+    "revision": "155114692bcf56d2284932967979b041"
   },
   {
     "url": "google4f78509f2ca83a08.html",
@@ -44,38 +44,38 @@ self.__precacheManifest = [
   },
   {
     "url": "index.html",
-    "revision": "520cd20a7df7c6a14acc2c7bedf816e1"
+    "revision": "bc9612f10b4072f50773a2a6278f82d7"
   },
   {
-    "url": "commons.9f4485deb56e2641ff24.css"
+    "url": "commons.00124574d144243a72bd.css"
   },
   {
     "url": "framework-45cb733ac1a8ced2c1eb.js"
   },
   {
-    "url": "ui.f4ac6301caf9997f4c86.css"
+    "url": "ui.e49c784c4a00a815fa05.css"
   },
   {
-    "url": "sbanken.5b073d620cf67c309668.css"
+    "url": "sbanken.0ebae294da3895afe632.css"
   },
   {
-    "url": "eiendom.521f120189f9c80fe3f0.css"
+    "url": "eiendom.7063a6a3143c50472b70.css"
   },
   {
-    "url": "carnegie.b658547c9b1eda8717e7.css"
+    "url": "carnegie.98e6ba7f997b1404712d.css"
   },
   {
-    "url": "aaa5778d-a42700d9bd1cd4b618a8.js"
+    "url": "aaa5778d-ed7a30655acd692d1a0e.js"
   },
   {
-    "url": "app-e41dffc576d06b3eacfe.js"
+    "url": "app-197011913237b663f8a3.js"
   },
   {
     "url": "offline-plugin-app-shell-fallback/index.html",
-    "revision": "ccb171e431f0930fa6fff867f577c594"
+    "revision": "5a716fcc3f3c84f06c60f3183e1a108e"
   },
   {
-    "url": "webpack-runtime-d8a4951c83c5cd407f52.js"
+    "url": "webpack-runtime-36187a47e98d2490a70f.js"
   },
   {
     "url": "manifest.webmanifest",
@@ -189,7 +189,7 @@ const navigationRoute = new NavigationRoute(async ({ event }) => {
   // Check for resources + the app bundle
   // The latter may not exist if the SW is updating to a new version
   const resources = await idbKeyval.get(`resources:${pathname}`)
-  if (!resources || !(await caches.match(`/app-e41dffc576d06b3eacfe.js`))) {
+  if (!resources || !(await caches.match(`/app-197011913237b663f8a3.js`))) {
     return await fetch(event.request)
   }
 

@@ -151,7 +151,7 @@
   "source": {
     "repo": "https://github.com/dnbexperience/eufemia",
     "file": "packages/dnb-eufemia/src/components/breadcrumb/Breadcrumb.tsx",
-    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.91.0/packages/dnb-eufemia/src/components/breadcrumb/Breadcrumb.tsx"
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.91.1/packages/dnb-eufemia/src/components/breadcrumb/Breadcrumb.tsx"
   },
   "sources": {
     "entry": {
@@ -171,7 +171,7 @@
       "public": "https://eufemia.dnb.no/uilib/components/breadcrumb/demos/"
     }
   },
-  "version": "10.91.0",
-  "generatedAt": "2025-11-28T14:03:55.915Z",
+  "version": "10.91.1",
+  "generatedAt": "2025-12-09T13:24:51.853Z",
   "schemaVersion": 1
 }

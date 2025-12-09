@@ -3,8 +3,8 @@
 > DNB’s Eufemia design system. This file points LLMs to machine-readable docs and clean Markdown copies.
 
 Index (JSON): https://eufemia.dnb.no/llm/index.json
-Version: 10.91.0
-GeneratedAt: 2025-11-28T14:03:57.200Z
+Version: 10.91.1
+GeneratedAt: 2025-12-09T13:24:53.103Z
 
 ## Components
 
@@ -76,7 +76,7 @@ GeneratedAt: 2025-11-28T14:03:57.200Z
 - [DatePicker](https://eufemia.dnb.no/uilib/components/date-picker/): The DatePicker component should be used whenever the user is to enter a single date or a date period.
   - Metadata: https://eufemia.dnb.no/llm/uilib/components/date-picker/metadata.json
   - Docs: https://eufemia.dnb.no/uilib/components/date-picker/
-  - Checksum: 9bd5516cc7df2426b4ab2d9823b9ec269a336784e3d12bf54ad557954e94e205
+  - Checksum: fc37e69a19071565cdb1dd26d6e9e52eb38bfbea6f86d3bd54875f7b73f08551
 
 - [Dialog](https://eufemia.dnb.no/uilib/components/dialog/): The Dialog component is a Modal variation that appears at the center of the screen.
   - Metadata: https://eufemia.dnb.no/llm/uilib/components/dialog/metadata.json
@@ -166,7 +166,7 @@ GeneratedAt: 2025-11-28T14:03:57.200Z
 - [Popover](https://eufemia.dnb.no/uilib/components/popover/): Popover renders its own floating surface anchored to a trigger element.
   - Metadata: https://eufemia.dnb.no/llm/uilib/components/popover/metadata.json
   - Docs: https://eufemia.dnb.no/uilib/components/popover/
-  - Checksum: 9a160476142dfe09c3a288977de7b3f2c79334369f3d9881d27b30c46a484612
+  - Checksum: 12f46858a8165bade934d1011914c50293b989ee6578acb17d739968a8f9ab7d
 
 - [PortalRoot](https://eufemia.dnb.no/uilib/components/portal-root/): PortalRoot is a React component that helps you make React Portals.
   - Metadata: https://eufemia.dnb.no/llm/uilib/components/portal-root/metadata.json
@@ -256,7 +256,7 @@ GeneratedAt: 2025-11-28T14:03:57.200Z
 - [Tooltip](https://eufemia.dnb.no/uilib/components/tooltip/): The Tooltip component is primarily meant to enhance the UX for various and additional information.
   - Metadata: https://eufemia.dnb.no/llm/uilib/components/tooltip/metadata.json
   - Docs: https://eufemia.dnb.no/uilib/components/tooltip/
-  - Checksum: eaf62399330010145119a81e973ff954410e63c569ac3d2439d110a77a7de0fe
+  - Checksum: fc8d93f7fb91f8b1912392df3c65e57c629133c6a59414b187d29300745e4e37
 
 - [Upload](https://eufemia.dnb.no/uilib/components/upload/): The Upload component should be used in scenarios where the user has to upload files. Files can be uploaded by clicking button. You also have the opportunity to add descriptive texts below the title where you could put max file size, allowed file formats etc.
   - Metadata: https://eufemia.dnb.no/llm/uilib/components/upload/metadata.json

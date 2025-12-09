@@ -64,6 +64,31 @@
       "defaultValue": null
     },
     {
+      "name": "targetRefreshKey",
+      "doc": "Forces the popover to recalculate its layout whenever this value changes. Useful when the trigger moves but the DOM tree stays mounted.",
+      "type": "unknown",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "targetElement",
+      "doc": "Existing DOM element (or ref) used instead of a rendered trigger. Provide `{ horizontalRef, verticalRef }` when horizontal and vertical anchors differ.",
+      "type": [
+        "HTMLElement",
+        "React.MutableRefObject<HTMLElement>",
+        "{ horizontalRef?: HTMLElement | React.MutableRefObject<HTMLElement>; verticalRef?: HTMLElement | React.MutableRefObject<HTMLElement> }"
+      ],
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "targetSelector",
+      "doc": "CSS selector pointing to an element in the document to use as the trigger target.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
       "name": "horizontalOffset",
       "doc": "Horizontal offset in pixels to adjust the popover placement. Positive values move the popover to the right, negative values move it to the left. Useful for fine-tuning alignment when the default placement needs adjustment.",
       "type": "number",
@@ -290,24 +315,6 @@
       "defaultValue": "initial"
     },
     {
-      "name": "targetElement",
-      "doc": "Existing DOM element (or ref) used instead of a rendered trigger. Provide `{ horizontalRef, verticalRef }` when horizontal and vertical anchors differ.",
-      "type": [
-        "HTMLElement",
-        "React.MutableRefObject<HTMLElement>",
-        "{ horizontalRef?: HTMLElement | React.MutableRefObject<HTMLElement>; verticalRef?: HTMLElement | React.MutableRefObject<HTMLElement> }"
-      ],
-      "status": "optional",
-      "defaultValue": null
-    },
-    {
-      "name": "targetSelector",
-      "doc": "CSS selector pointing to an element in the document to use as the trigger target.",
-      "type": "string",
-      "status": "optional",
-      "defaultValue": null
-    },
-    {
       "name": "contentRef",
       "doc": "Ref forwarded to the popover content element.",
       "type": "React.MutableRefObject<HTMLSpanElement>",
@@ -324,11 +331,11 @@
   ],
   "events": [],
   "related": [],
-  "checksum": "9a160476142dfe09c3a288977de7b3f2c79334369f3d9881d27b30c46a484612",
+  "checksum": "12f46858a8165bade934d1011914c50293b989ee6578acb17d739968a8f9ab7d",
   "source": {
     "repo": "https://github.com/dnbexperience/eufemia",
     "file": "packages/dnb-eufemia/src/components/popover/Popover.tsx",
-    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.91.0/packages/dnb-eufemia/src/components/popover/Popover.tsx"
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.91.1/packages/dnb-eufemia/src/components/popover/Popover.tsx"
   },
   "sources": {
     "entry": {
@@ -348,7 +355,7 @@
       "public": "https://eufemia.dnb.no/uilib/components/popover/demos/"
     }
   },
-  "version": "10.91.0",
-  "generatedAt": "2025-11-28T14:03:56.229Z",
+  "version": "10.91.1",
+  "generatedAt": "2025-12-09T13:24:52.240Z",
   "schemaVersion": 1
 }
