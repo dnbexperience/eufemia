@@ -19,7 +19,6 @@ export const SliderExampleDefault = () => (
       value={70}
       label="Default Slider"
       numberFormat={{ currency: 'EUR' }}
-      tooltip={true}
       onChange={({ value }) => console.log('onChange:', value)}
     />
   </ComponentBox>
