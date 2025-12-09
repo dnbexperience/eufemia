@@ -41,6 +41,7 @@ type PopoverContainerProps = {
   autoAlignMode?: PopoverAutoAlignMode
   hideArrow?: boolean
   arrowEdgeOffset?: number
+  targetRefreshKey?: unknown
 }
 
 const isResolvedTargetRefsObject = (
@@ -75,6 +76,7 @@ function PopoverContainer(props: PopoverContainerProps) {
     autoAlignMode = 'initial',
     hideArrow = false,
     arrowEdgeOffset,
+    targetRefreshKey,
   } = props
 
   const [style, setStyle] = useState<React.CSSProperties | null>(null)
@@ -797,6 +799,7 @@ function PopoverContainer(props: PopoverContainerProps) {
     renewStyles,
     skipPortal,
     targetElement,
+    targetRefreshKey,
     wasActive,
     arrowPositionSelector,
     resolvedPlacement,

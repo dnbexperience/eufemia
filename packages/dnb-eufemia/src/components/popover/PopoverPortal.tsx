@@ -50,6 +50,7 @@ type PopoverPortalProps = {
   arrowEdgeOffset?: React.ComponentProps<
     typeof PopoverContainer
   >['arrowEdgeOffset']
+  targetRefreshKey?: unknown
 }
 
 type PopoverPortalEntry = {
@@ -93,6 +94,7 @@ function PopoverPortal(props: PopoverPortalProps) {
     autoAlignMode,
     hideArrow,
     arrowEdgeOffset,
+    targetRefreshKey,
   } = props
 
   const [id] = useState(() => makeUniqueId())
@@ -144,6 +146,7 @@ function PopoverPortal(props: PopoverPortalProps) {
           autoAlignMode={autoAlignMode}
           hideArrow={hideArrow}
           arrowEdgeOffset={arrowEdgeOffset}
+          targetRefreshKey={targetRefreshKey}
         >
           {children}
         </PopoverContainer>

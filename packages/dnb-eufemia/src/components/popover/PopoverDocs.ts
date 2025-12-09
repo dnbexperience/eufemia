@@ -171,6 +171,11 @@ export const PopoverProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  targetRefreshKey: {
+    doc: 'Forces the popover to recalculate its layout whenever this value changes. Useful when the trigger moves but the DOM tree stays mounted.',
+    type: 'unknown',
+    status: 'optional',
+  },
   portalRootClass: {
     doc: 'Extra className applied to the portal wrapper (only when not using `skipPortal`).',
     type: 'string',
