@@ -13,9 +13,32 @@ describe.each(['ui', 'sbanken'])('Autocomplete for %s', (themeName) => {
     themeName,
     url: '/uilib/components/autocomplete/demos',
     pageViewport: {
-      width: 1280,
       height: 1024, // The height influences this test: data-visual-test="autocomplete-drawer-search"
     },
+  })
+
+  // Run this test as one of the first because it's scroll-sensitive
+  // Browser scroll position affects the list height
+  it('have to match autocomplete with search result', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="autocomplete-drawer-search"]',
+      simulateSelector:
+        '[data-visual-test="autocomplete-drawer-search"] .dnb-autocomplete .dnb-input',
+      simulate: 'click',
+      waitAfterSimulateSelector:
+        '[data-visual-test="autocomplete-drawer-search"] .dnb-autocomplete--opened',
+      style: {
+        height: '30rem',
+      },
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+})
+
+describe.each(['ui', 'sbanken'])('Autocomplete for %s', (themeName) => {
+  setupPageScreenshot({
+    themeName,
+    url: '/uilib/components/autocomplete/demos',
   })
 
   it('have to match different sizes', async () => {
@@ -44,21 +67,6 @@ describe.each(['ui', 'sbanken'])('Autocomplete for %s', (themeName) => {
     const screenshot = await makeScreenshot({
       selector:
         '[data-visual-test="autocomplete-closed"] .dnb-autocomplete__inner',
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-
-  it('have to match autocomplete with search result', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="autocomplete-drawer-search"]',
-      simulateSelector:
-        '[data-visual-test="autocomplete-drawer-search"] .dnb-autocomplete .dnb-input',
-      simulate: 'click',
-      waitAfterSimulateSelector:
-        '[data-visual-test="autocomplete-drawer-search"] .dnb-autocomplete--opened',
-      style: {
-        height: '30rem',
-      },
     })
     expect(screenshot).toMatchImageSnapshot()
   })
