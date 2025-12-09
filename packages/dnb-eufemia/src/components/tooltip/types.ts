@@ -43,6 +43,10 @@ export type TooltipProps = IncludeSnakeCase<{
     | React.ReactNode
     | React.MutableRefObject<unknown>
     | HTMLElement
+  /**
+   * Forces the tooltip to stay open even when the hover state changes.
+   */
+  forceActive?: boolean
   tooltip?: React.ReactNode
   className?: string
   children?: React.ReactNode
