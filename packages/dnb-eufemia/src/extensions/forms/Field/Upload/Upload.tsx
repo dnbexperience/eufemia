@@ -82,6 +82,11 @@ function UploadComponent(props: Props) {
       }
 
       const hasFiles = value?.length > 0
+
+      if (required && isChanged && !hasFiles) {
+        return new FormError('Field.errorRequired')
+      }
+
       if (required && ((!isChanged && !hasFiles) || !hasFiles)) {
         return error
       }
@@ -253,9 +258,6 @@ function UploadComponent(props: Props) {
   const changeHandler = useCallback(
     ({ files }: { files: UploadValue }) => {
       const changeValue = files?.length === 0 ? undefined : files
-      // Prevents the form-status from showing up
-      handleBlur()
-      handleFocus()
 
       if (fileHandler) {
         handleChangeAsync(changeValue)

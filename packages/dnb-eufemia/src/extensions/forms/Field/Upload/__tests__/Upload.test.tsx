@@ -410,7 +410,64 @@ describe('Field.Upload', () => {
       )
     })
 
-    it('should handle "required" logic based on, if files are present', async () => {
+    it('should display "required" after removing the only present file', async () => {
+      const onChange = jest.fn((args) => args)
+      const onSubmit = jest.fn((args) => args)
+
+      render(
+        <Form.Handler onChange={onChange} onSubmit={onSubmit}>
+          <Field.Upload required path="/myFiles" />
+        </Form.Handler>
+      )
+
+      fireEvent.submit(document.querySelector('form'))
+
+      expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+        nbForms.Upload.errorRequired
+      )
+
+      const element = getRootElement()
+      const file1 = createMockFile('fileName-1.png', 100, 'image/png')
+
+      await waitFor(() =>
+        fireEvent.drop(element, {
+          dataTransfer: {
+            files: [file1],
+          },
+        })
+      )
+
+      expect(onChange).toHaveBeenCalledTimes(1)
+      expect(onChange).toHaveBeenLastCalledWith(
+        {
+          myFiles: [
+            expect.objectContaining({
+              exists: false,
+              file: file1,
+              id: expect.any(String),
+              name: 'fileName-1.png',
+            }),
+          ],
+        },
+        expect.anything()
+      )
+
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).not.toBeInTheDocument()
+
+      const deleteButton = screen.queryByRole('button', {
+        name: nbShared.Upload.deleteButton,
+      })
+
+      fireEvent.click(deleteButton)
+
+      expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+        nbForms.Upload.errorRequired
+      )
+    })
+
+    it('should handle "required" logic based on if files are present', async () => {
       const onChange = jest.fn((args) => args)
       const onSubmit = jest.fn((args) => args)
 
@@ -649,7 +706,7 @@ describe('Field.Upload', () => {
   })
 
   describe('async validation', () => {
-    it('should handle "required" logic based on, if files are present', async () => {
+    it('should handle "required" logic based on if files are present', async () => {
       const onChange = jest.fn(async (args) => args)
       const onSubmit = jest.fn(async (args) => args)
 
