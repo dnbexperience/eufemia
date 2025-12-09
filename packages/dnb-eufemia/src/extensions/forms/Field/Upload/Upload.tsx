@@ -63,22 +63,22 @@ export type Props = Omit<
     width?: 'large' | 'stretch'
   }
 
-const validateRequired = (
-  value: UploadValue,
-  { required, isChanged, error }
-) => {
-  const hasError = value?.some((file) => file.errorMessage)
-  if (hasError) {
-    return new FormError('Upload.errorInvalidFiles')
-  }
+const validateRequired = useCallback(
+  (value: UploadValue, { required, isChanged, error }) => {
+    const hasError = value?.some((file) => file.errorMessage)
+    if (hasError) {
+      return new FormError('Upload.errorInvalidFiles')
+    }
 
-  const hasFiles = value?.length > 0
-  if (required && ((!isChanged && !hasFiles) || !hasFiles)) {
-    return error
-  }
+    const hasFiles = value?.length > 0
+    if (required && ((!isChanged && !hasFiles) || !hasFiles)) {
+      return error
+    }
 
-  return undefined
-}
+    return undefined
+  },
+  []
+)
 
 function UploadComponent(props: Props) {
   const sharedTr = useSharedTranslation().Upload
