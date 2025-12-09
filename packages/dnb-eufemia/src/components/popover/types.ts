@@ -92,6 +92,10 @@ type PopoverPropsBase = {
    * @default false
    */
   skipPortal?: boolean
+  /**
+   * Forces PopoverContainer to recalculate its layout when the value changes.
+   */
+  targetRefreshKey?: unknown
   noAnimation?: boolean
   showDelay?: number
   hideDelay?: number

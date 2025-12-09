@@ -3,6 +3,7 @@ import { act, fireEvent, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Dialog } from '../../'
 import Popover from '../Popover'
+import * as PopoverContainerModule from '../PopoverContainer'
 import Provider from '../../../shared/Provider'
 import defaultLocales from '../../../shared/locales'
 import * as sharedHelpers from '../../../shared/helpers'
@@ -295,6 +296,33 @@ describe('Popover', () => {
         {contentText}
       </Popover>
     )
+
+  it('passes updated targetRefreshKey to PopoverContainer', () => {
+    const spy = jest.spyOn(PopoverContainerModule, 'default')
+    const target = createTargetElement()
+
+    const { rerender } = render(
+      <Popover open targetElement={target.element} targetRefreshKey={1}>
+        Shake
+      </Popover>
+    )
+
+    expect(spy).toHaveBeenCalled()
+    const firstCall = spy.mock.calls.pop()
+    expect(firstCall[0].targetRefreshKey).toBe(1)
+
+    rerender(
+      <Popover open targetElement={target.element} targetRefreshKey={2}>
+        Shake
+      </Popover>
+    )
+
+    expect(spy).toHaveBeenCalled()
+    const secondCall = spy.mock.calls.pop()
+    expect(secondCall[0].targetRefreshKey).toBe(2)
+
+    spy.mockRestore()
+  })
 
   it('renders provided trigger and toggles visibility', async () => {
     renderWithTrigger()

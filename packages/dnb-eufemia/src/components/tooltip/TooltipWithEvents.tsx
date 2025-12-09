@@ -24,6 +24,7 @@ import AriaLive from '../AriaLive'
 type TooltipWithEventsProps = {
   target: TooltipProps['targetElement']
   attributes?: React.HTMLAttributes<HTMLElement>
+  targetRefreshKey?: TooltipProps['targetRefreshKey']
 }
 
 function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
@@ -44,6 +45,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
     contentRef,
     size,
     keepInDOM = false,
+    targetRefreshKey,
   } = restProps
 
   const { internalId, isControlled } = useContext(TooltipContext)
@@ -317,6 +319,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
         keepInDOM={keepInDOM}
         noAnimation={noAnimation}
         triggerOffset={triggerOffset}
+        targetRefreshKey={targetRefreshKey}
         arrowPosition={arrow}
         placement={position}
         alignOnTarget={align}

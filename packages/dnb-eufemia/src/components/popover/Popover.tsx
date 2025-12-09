@@ -59,6 +59,7 @@ export default function Popover(props: PopoverProps) {
     triggerOffset,
     targetElement: externalTargetElement,
     targetSelector,
+    targetRefreshKey,
     portalRootClass,
     showDelay: showDelayProp,
     hideDelay: hideDelayProp,
@@ -685,6 +686,7 @@ export default function Popover(props: PopoverProps) {
           triggerOffset={triggerOffset}
           hideArrow={hideArrow}
           arrowEdgeOffset={arrowEdgeOffset}
+          targetRefreshKey={targetRefreshKey}
         >
           {overlayContent}
         </PopoverContainer>
@@ -711,6 +713,7 @@ export default function Popover(props: PopoverProps) {
           triggerOffset={triggerOffset}
           hideArrow={hideArrow}
           arrowEdgeOffset={arrowEdgeOffset}
+          targetRefreshKey={targetRefreshKey}
         >
           {overlayContent}
         </PopoverPortal>

@@ -63,6 +63,10 @@ export type TooltipProps = IncludeSnakeCase<{
    * @default 16
    */
   triggerOffset?: number
+  /**
+   * Forces the tooltip to re-evaluate the target position when the provided key changes.
+   */
+  targetRefreshKey?: unknown
 }>
 
 export type TooltipAllProps = TooltipProps &
