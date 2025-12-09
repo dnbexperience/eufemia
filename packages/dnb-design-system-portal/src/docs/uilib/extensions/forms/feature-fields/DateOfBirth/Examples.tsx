@@ -6,9 +6,16 @@ export const Empty = () => {
   return (
     <ComponentBox data-visual-test="date-of-birth-default">
       <Field.DateOfBirth
-        onChange={(value, { day, month, year }) =>
-          console.log('onChange', value, { day, month, year })
-        }
+        onChange={(value, additionalArgs) => {
+          {
+            const { day, month, year } = additionalArgs || {}
+            console.log('onChange', value, {
+              day,
+              month,
+              year,
+            })
+          }
+        }}
         onDayChange={(day) => console.log('onDayChange', day)}
         onMonthChange={(month) => console.log('onMonthChange', month)}
         onYearChange={(year) => console.log('onYearChange', year)}
