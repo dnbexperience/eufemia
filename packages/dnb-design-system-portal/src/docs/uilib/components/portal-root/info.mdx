@@ -19,7 +19,7 @@ It lets you render some children into a different part of the DOM.
 - It contains CSS styles and screen reader accessibility features needed for proper usage of portals.
 - It comes with support for [style isolation](/uilib/usage/customisation/styling/style-isolation/).
 - Everything inside the `PortalRoot` can later be customized and stacked on top of each other using CSS `z-index`.
-- It is used in other components, like [Tooltip](/uilib/components/tooltip) and [Dialog](/uilib/components/dialog).
+- It is used in other components, like [Tooltip](/uilib/components/tooltip), [Modal](/uilib/components/modal), [TermDefinition](/uilib/components/term-definition) and [DatePicker's calendar](/uilib/components/date-picker).
 - A wrapper is inserted automatically as a child node to the HTML `<body>` or the `<IsolatedStyleScope scopeHash="your-scope" />` element.
 - It adds `dnb-core-style` class to the portal element, so you don't need to deal with that yourself.
 - In order to remove it from the accessibility tree, it uses `role="presentation"`. That means, when your content is visible, you need to set focus to it, so screen readers can read it.

@@ -57,17 +57,16 @@ describe('Field.Boolean', () => {
         />
       )
       expect(document.querySelectorAll('.dnb-help-button')).toHaveLength(1)
+      const helpButton = document.querySelector(
+        '.dnb-checkbox__suffix .dnb-help-button'
+      )
+      expect(helpButton).toBeInTheDocument()
       expect(document.querySelector('input')).toHaveAttribute(
         'aria-describedby'
       )
       expect(
         document.querySelector('input').getAttribute('aria-describedby')
-      ).toBe(document.querySelector('.dnb-help-button').id)
-      expect(
-        document
-          .querySelector('.dnb-help-button')
-          .getAttribute('aria-describedby')
-      ).toBe(document.querySelector('.dnb-tooltip__content').id)
+      ).toContain(document.querySelector('.dnb-help-button').id)
     })
 
     it('renders error', () => {
@@ -365,17 +364,16 @@ describe('Field.Boolean', () => {
         />
       )
       expect(document.querySelectorAll('.dnb-help-button')).toHaveLength(1)
+      const helpButton = document.querySelector(
+        '.dnb-switch__suffix .dnb-help-button'
+      )
+      expect(helpButton).toBeInTheDocument()
       expect(document.querySelector('input')).toHaveAttribute(
         'aria-describedby'
       )
       expect(
         document.querySelector('input').getAttribute('aria-describedby')
-      ).toBe(document.querySelector('.dnb-help-button').id)
-      expect(
-        document
-          .querySelector('.dnb-help-button')
-          .getAttribute('aria-describedby')
-      ).toBe(document.querySelector('.dnb-tooltip__content').id)
+      ).toContain(document.querySelector('.dnb-help-button').id)
     })
 
     it('renders error', () => {
@@ -680,11 +678,6 @@ describe('Field.Boolean', () => {
           .querySelector('.dnb-toggle-button__button')
           .getAttribute('aria-describedby')
       ).toBe(document.querySelector('.dnb-help-button').id)
-      expect(
-        document
-          .querySelector('.dnb-help-button')
-          .getAttribute('aria-describedby')
-      ).toBe(document.querySelector('.dnb-tooltip__content').id)
     })
 
     it('renders error', () => {
@@ -936,11 +929,6 @@ describe('Field.Boolean', () => {
           .querySelector('.dnb-toggle-button__button')
           .getAttribute('aria-describedby')
       ).toBe(document.querySelector('.dnb-help-button').id)
-      expect(
-        document
-          .querySelector('.dnb-help-button')
-          .getAttribute('aria-describedby')
-      ).toBe(document.querySelector('.dnb-tooltip__content').id)
     })
 
     it('renders error', () => {
@@ -1111,14 +1099,13 @@ describe('Field.Boolean', () => {
         />
       )
       expect(document.querySelectorAll('.dnb-help-button')).toHaveLength(1)
-      expect(document.querySelector('button')).toHaveAttribute(
-        'aria-describedby'
+      const toggleButtons = document.querySelectorAll(
+        '.dnb-toggle-button__button'
       )
-      expect(
-        document
-          .querySelector('.dnb-help-button')
-          .getAttribute('aria-describedby')
-      ).toBe(document.querySelector('.dnb-tooltip__content').id)
+      expect(toggleButtons.length).toBeGreaterThan(0)
+      toggleButtons.forEach((button) => {
+        expect(button).toHaveAttribute('aria-describedby')
+      })
     })
 
     it('has no selected value by default', () => {
@@ -1432,14 +1419,11 @@ describe('Field.Boolean', () => {
         />
       )
       expect(document.querySelectorAll('.dnb-help-button')).toHaveLength(1)
-      expect(document.querySelector('button')).toHaveAttribute(
-        'aria-describedby'
-      )
-      expect(
-        document
-          .querySelector('.dnb-help-button')
-          .getAttribute('aria-describedby')
-      ).toBe(document.querySelector('.dnb-tooltip__content').id)
+      const radioButtons = document.querySelectorAll('.dnb-radio__input')
+      expect(radioButtons.length).toBeGreaterThan(0)
+      radioButtons.forEach((button) => {
+        expect(button).toHaveAttribute('aria-describedby')
+      })
     })
 
     it('has no selected value by default', () => {

@@ -43,6 +43,10 @@ export type TooltipProps = IncludeSnakeCase<{
     | React.ReactNode
     | React.MutableRefObject<unknown>
     | HTMLElement
+  /**
+   * Forces the tooltip to stay open even when the hover state changes.
+   */
+  forceActive?: boolean
   tooltip?: React.ReactNode
   className?: string
   children?: React.ReactNode
@@ -53,10 +57,20 @@ export type TooltipProps = IncludeSnakeCase<{
   omitDescribedBy?: boolean
   /**
    * Keep the tooltip portal mounted in the DOM even when closed.
-   * Useful for maintaining aria-describedby references for accessibility.
-   * @default true
+   * Useful if you want the tooltip markup to stay mounted to avoid layout shifts.
+   * @default false
    */
   keepInDOM?: boolean
+  /**
+   * Additional spacing in pixels between the tooltip and its trigger.
+   * Maps directly to the Popover `triggerOffset`.
+   * @default 16
+   */
+  triggerOffset?: number
+  /**
+   * Forces the tooltip to re-evaluate the target position when the provided key changes.
+   */
+  targetRefreshKey?: unknown
 }>
 
 export type TooltipAllProps = TooltipProps &

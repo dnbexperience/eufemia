@@ -322,8 +322,7 @@ describe.each(['ui', 'sbanken'])('Tooltip for %s', (themeName) => {
         padding: '3rem 0 0 2rem',
       },
       selector: '[data-visual-test="tooltip-large"]',
-      simulateSelector:
-        '[data-visual-test="tooltip-large"] .dnb-span:nth-of-type(1)',
+      simulateSelector: '[data-visual-test="tooltip-large"] .dnb-span',
       waitAfterSimulateSelector: '.dnb-tooltip--active',
       simulate: 'hover',
     })

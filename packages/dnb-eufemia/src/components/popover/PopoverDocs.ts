@@ -45,6 +45,25 @@ export const PopoverProperties: PropertiesTableProps = {
     type: 'number',
     status: 'optional',
   },
+  targetRefreshKey: {
+    doc: 'Forces the popover to recalculate its layout whenever this value changes. Useful when the trigger moves but the DOM tree stays mounted.',
+    type: 'unknown',
+    status: 'optional',
+  },
+  targetElement: {
+    doc: 'Existing DOM element (or ref) used instead of a rendered trigger. Provide `{ horizontalRef, verticalRef }` when horizontal and vertical anchors differ.',
+    type: [
+      'HTMLElement',
+      'React.MutableRefObject<HTMLElement>',
+      '{ horizontalRef?: HTMLElement | React.MutableRefObject<HTMLElement>; verticalRef?: HTMLElement | React.MutableRefObject<HTMLElement> }',
+    ],
+    status: 'optional',
+  },
+  targetSelector: {
+    doc: 'CSS selector pointing to an element in the document to use as the trigger target.',
+    type: 'string',
+    status: 'optional',
+  },
   horizontalOffset: {
     doc: 'Horizontal offset in pixels to adjust the popover placement. Positive values move the popover to the right, negative values move it to the left. Useful for fine-tuning alignment when the default placement needs adjustment.',
     type: 'number',
@@ -95,7 +114,6 @@ export const PopoverProperties: PropertiesTableProps = {
     defaultValue: 'false',
     status: 'optional',
   },
-
   theme: {
     doc: 'Sets the surface style.',
     type: ['light', 'dark'],
@@ -196,20 +214,6 @@ export const PopoverProperties: PropertiesTableProps = {
     doc: "Control when the popover automatically flips its placement to fit within the viewport. `initial` (default): Flip placement only on initial open when there's limited space. `scroll`: Flip placement on initial open and during scroll events. `never`: Never automatically flip placement, always use the specified `placement` property.",
     type: ['initial', 'scroll', 'never'],
     defaultValue: 'initial',
-    status: 'optional',
-  },
-  targetElement: {
-    doc: 'Existing DOM element (or ref) used instead of a rendered trigger. Provide `{ horizontalRef, verticalRef }` when horizontal and vertical anchors differ.',
-    type: [
-      'HTMLElement',
-      'React.MutableRefObject<HTMLElement>',
-      '{ horizontalRef?: HTMLElement | React.MutableRefObject<HTMLElement>; verticalRef?: HTMLElement | React.MutableRefObject<HTMLElement> }',
-    ],
-    status: 'optional',
-  },
-  targetSelector: {
-    doc: 'CSS selector pointing to an element in the document to use as the trigger target.',
-    type: 'string',
     status: 'optional',
   },
   contentRef: {

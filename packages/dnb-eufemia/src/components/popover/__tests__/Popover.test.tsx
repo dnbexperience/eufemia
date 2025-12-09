@@ -3,6 +3,7 @@ import { act, fireEvent, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Dialog } from '../../'
 import Popover from '../Popover'
+import * as PopoverContainerModule from '../PopoverContainer'
 import Provider from '../../../shared/Provider'
 import defaultLocales from '../../../shared/locales'
 import * as sharedHelpers from '../../../shared/helpers'
@@ -296,6 +297,33 @@ describe('Popover', () => {
       </Popover>
     )
 
+  it('passes updated targetRefreshKey to PopoverContainer', () => {
+    const spy = jest.spyOn(PopoverContainerModule, 'default')
+    const target = createTargetElement()
+
+    const { rerender } = render(
+      <Popover open targetElement={target.element} targetRefreshKey={1}>
+        Shake
+      </Popover>
+    )
+
+    expect(spy).toHaveBeenCalled()
+    const firstCall = spy.mock.calls.pop()
+    expect(firstCall[0].targetRefreshKey).toBe(1)
+
+    rerender(
+      <Popover open targetElement={target.element} targetRefreshKey={2}>
+        Shake
+      </Popover>
+    )
+
+    expect(spy).toHaveBeenCalled()
+    const secondCall = spy.mock.calls.pop()
+    expect(secondCall[0].targetRefreshKey).toBe(2)
+
+    spy.mockRestore()
+  })
+
   it('renders provided trigger and toggles visibility', async () => {
     renderWithTrigger()
 
@@ -359,6 +387,55 @@ describe('Popover', () => {
     await waitFor(() =>
       expect(document.activeElement).toBe(focusRef.current)
     )
+  })
+
+  it('should have a delay of more than 1ms before focusing content when opened', async () => {
+    renderWithTrigger({ focusOnOpen: true })
+
+    const trigger =
+      (document.querySelector(
+        'button[aria-controls]'
+      ) as HTMLButtonElement) ??
+      ((): never => {
+        throw new Error('Popover trigger not rendered')
+      })()
+
+    let focusTime: number | null = null
+    const originalFocus = HTMLElement.prototype.focus
+    const focusSpy = jest
+      .spyOn(HTMLElement.prototype, 'focus')
+      .mockImplementation(function (this: HTMLElement) {
+        if (
+          focusTime === null &&
+          this.classList.contains('dnb-popover__content')
+        ) {
+          focusTime = performance.now()
+        }
+        return originalFocus.call(this)
+      })
+
+    try {
+      const openTime = performance.now()
+      await userEvent.click(trigger)
+
+      const content = await waitFor(() => {
+        const contentElement = document.querySelector(
+          '.dnb-popover__content'
+        )
+        expect(contentElement).toBeInTheDocument()
+        return contentElement as HTMLElement
+      })
+
+      await waitFor(() => {
+        expect(document.activeElement).toBe(content)
+      })
+
+      expect(focusTime).not.toBeNull()
+      const delay = focusTime - openTime
+      expect(delay).toBeGreaterThan(1)
+    } finally {
+      focusSpy.mockRestore()
+    }
   })
 
   it('calls onOpenChange when state toggles', async () => {
@@ -562,7 +639,7 @@ describe('Popover', () => {
 
     // Verify the bottom focus trap button has sr-only class and aria-hidden attribute
     expect(bottomFocusTrap).toHaveClass('dnb-sr-only')
-    expect(bottomFocusTrap).toHaveAttribute('aria-hidden', 'true')
+    expect(bottomFocusTrap).not.toHaveAttribute('aria-hidden')
 
     // Actually focus the button to trigger the onFocus handler
     fireEvent.focus(bottomFocusTrap)
@@ -602,7 +679,7 @@ describe('Popover', () => {
 
     // Verify the top focus trap button has sr-only class and aria-hidden attribute
     expect(topFocusTrap).toHaveClass('dnb-sr-only')
-    expect(topFocusTrap).toHaveAttribute('aria-hidden', 'true')
+    expect(topFocusTrap).not.toHaveAttribute('aria-hidden')
 
     // Simulate Shift+Tab from the first element by focusing the top trap
     fireEvent.focus(topFocusTrap)
@@ -665,26 +742,29 @@ describe('Popover', () => {
   it('waits for showDelay before activating the popover', async () => {
     const IS_TEST = globalThis.IS_TEST
     globalThis.IS_TEST = false
+    try {
+      renderWithTrigger({ showDelay: 60 })
 
-    renderWithTrigger({ showDelay: 60 })
+      const trigger = document.querySelector(
+        'button[aria-controls]'
+      ) as HTMLButtonElement
+      await userEvent.click(trigger)
 
-    const trigger = document.querySelector('button[aria-controls]')
-    await userEvent.click(trigger)
+      const popoverElement = document.querySelector('.dnb-popover')
 
-    const popoverElement = document.querySelector('.dnb-popover')
-
-    // Immediately after click, popover should not be active
-    expect(popoverElement).not.toHaveClass('dnb-popover--active')
-
-    await waitFor(() => {
+      // Immediately after click, popover should not be active
       expect(popoverElement).not.toHaveClass('dnb-popover--active')
-    })
 
-    await waitFor(() =>
-      expect(popoverElement).toHaveClass('dnb-popover--active')
-    )
+      await waitFor(() => {
+        expect(popoverElement).not.toHaveClass('dnb-popover--active')
+      })
 
-    globalThis.IS_TEST = IS_TEST
+      await waitFor(() =>
+        expect(popoverElement).toHaveClass('dnb-popover--active')
+      )
+    } finally {
+      globalThis.IS_TEST = IS_TEST
+    }
   })
 
   it('respects hideDelay before deactivating the popover', async () => {
@@ -1344,6 +1424,70 @@ describe('Popover', () => {
     )
 
     expect(focusSpy).not.toHaveBeenCalled()
+    focusSpy.mockRestore()
+  })
+
+  it('calls focus with preventScroll when opening', async () => {
+    renderWithTrigger()
+
+    const trigger = (await waitFor(() =>
+      document.querySelector('button[aria-controls]')
+    )) as HTMLButtonElement
+
+    await userEvent.click(trigger)
+
+    const content = (await waitFor(() =>
+      document.querySelector('.dnb-popover__content')
+    )) as HTMLElement
+
+    // Spy on the content element's focus method
+    // Note: focus is called immediately and again after 10ms, so we spy after opening
+    // to catch at least the second call
+    const focusSpy = jest.spyOn(content, 'focus')
+
+    // Wait for the second focus call (after 10ms delay)
+    await waitFor(
+      () => {
+        expect(focusSpy).toHaveBeenCalledWith({ preventScroll: true })
+      },
+      { timeout: 100 }
+    )
+
+    focusSpy.mockRestore()
+  })
+
+  it('calls focus with preventScroll when closing', async () => {
+    renderWithTrigger()
+
+    const trigger = (await waitFor(() =>
+      document.querySelector('button[aria-controls]')
+    )) as HTMLButtonElement
+
+    const focusSpy = jest.spyOn(trigger, 'focus')
+
+    await userEvent.click(trigger)
+
+    await waitFor(() => {
+      expect(trigger).toHaveAttribute('aria-expanded', 'true')
+    })
+
+    const closeButton = (await waitFor(() =>
+      document.querySelector('.dnb-popover__close')
+    )) as HTMLButtonElement
+    fireEvent.click(closeButton)
+
+    await waitFor(() => {
+      expect(trigger).toHaveAttribute('aria-expanded', 'false')
+    })
+
+    // Wait for the requestAnimationFrame to complete
+    await waitFor(
+      () => {
+        expect(focusSpy).toHaveBeenCalledWith({ preventScroll: true })
+      },
+      { timeout: 100 }
+    )
+
     focusSpy.mockRestore()
   })
 
@@ -2943,6 +3087,38 @@ describe('Popover', () => {
           document.body.querySelector('.dnb-popover__portal')
         ).toBeInTheDocument()
       })
+    })
+
+    it('creates portal root immediately when keepInDOM is true even before opening', async () => {
+      document.getElementById('eufemia-portal-root')?.remove()
+
+      renderWithTrigger({ keepInDOM: true })
+
+      await waitFor(() =>
+        expect(
+          document.body.querySelector('.dnb-popover__portal')
+        ).toBeInTheDocument()
+      )
+      const portalRoot = document.getElementById('eufemia-portal-root')
+      expect(portalRoot).toBeInTheDocument()
+
+      const trigger = document.querySelector('button[aria-controls]')
+      expect(trigger).toHaveAttribute('aria-expanded', 'false')
+    })
+
+    it('does not create portal root before opening when keepInDOM is false', () => {
+      document.getElementById('eufemia-portal-root')?.remove()
+
+      renderWithTrigger({ keepInDOM: false })
+
+      expect(
+        document.body.querySelector('.dnb-popover__portal')
+      ).not.toBeInTheDocument()
+      const portalRoot = document.getElementById('eufemia-portal-root')
+      expect(portalRoot).not.toBeInTheDocument()
+
+      const trigger = document.querySelector('button[aria-controls]')
+      expect(trigger).toHaveAttribute('aria-expanded', 'false')
     })
 
     describe('with skipPortal', () => {

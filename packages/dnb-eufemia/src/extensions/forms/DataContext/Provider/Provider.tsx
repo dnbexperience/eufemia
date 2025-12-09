@@ -760,14 +760,14 @@ export default function Provider<Data extends JsonObject>(
 
   const hasFieldWithAsyncValidator = useCallback(() => {
     for (const path in fieldInternalsRef.current) {
-      if (mountedFieldsRef.current.get(path)?.isMounted) {
-        const props = fieldInternalsRef.current[path]?.props
-        if (
-          isAsync(props?.onChangeValidator) ||
-          isAsync(props?.onBlurValidator)
-        ) {
-          return true
-        }
+      const fieldInternals = fieldInternalsRef.current[path] || {}
+      const { enableAsyncMode, props } = fieldInternals
+      if (
+        enableAsyncMode ||
+        isAsync(props?.onChangeValidator) ||
+        isAsync(props?.onBlurValidator)
+      ) {
+        return true
       }
     }
 
@@ -884,8 +884,16 @@ export default function Provider<Data extends JsonObject>(
     }) // Delay so the field validation error message are not shown
   }, [emptyData, id, onClear, setSharedData])
 
-  useMemo(() => {
+  // Use layout effect to run validation when internal data has changed,
+  // This makes it possible for Iterate.Array to set a new data value before the validation is run.
+  useLayoutEffect(() => {
+    const hasNoErrors = errorsRef.current === undefined
+
     executeAjvValidator()
+
+    if (hasNoErrors && errorsRef.current !== undefined) {
+      forceUpdate()
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [internalDataRef.current]) // run validation when internal data has changed
 
@@ -1104,7 +1112,7 @@ export default function Provider<Data extends JsonObject>(
 
       const asyncBehaviorIsEnabled =
         (skipErrorCheck
-          ? true
+          ? enableAsyncBehavior
           : // Don't enable async behavior if we have errors, but when we have a pending state
             !hasErrors() || hasFieldState('pending')) &&
         (enableAsyncBehavior || hasFieldWithAsyncValidator())
@@ -1534,6 +1542,7 @@ export default function Provider<Data extends JsonObject>(
     hasErrors,
     hasFieldError,
     hasFieldState,
+    hasFieldWithAsyncValidator,
     validateData,
     updateDataValue,
     setData,

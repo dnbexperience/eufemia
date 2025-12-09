@@ -1,10 +1,10 @@
 import { Provider } from '@dnb/eufemia/shared'
 import { DatePicker, Flex } from '@dnb/eufemia/src'
+import { isSameDay } from 'date-fns'
 import {
   DatePickerLinked,
   DatePickerNoInputStatus,
   DatePickerErrorMessage,
-  DatePickerCalendarInline,
   DatePickerTrigger,
 } from './Examples'
 
@@ -22,7 +22,7 @@ export default function Page() {
       <DatePickerLinked />
       <DatePickerNoInputStatus />
       <DatePickerErrorMessage />
-      <DatePickerCalendarInline />
+      <DatePickerRangeMode />
       <DatePickerTrigger />
     </>
   )
@@ -113,7 +113,20 @@ const DatePickerAlignPickerRight = () => (
     style={{ width: '350px', height: '430px' }}
   >
     <Flex.Horizontal justify="flex-end" innerSpace>
-      <DatePicker alignPicker="right" opened />
+      <DatePicker
+        alignPicker="right"
+        opened
+        date="2025-05-20"
+        onDaysRender={(days) => {
+          return days.map((dayObject) => {
+            dayObject.isToday = isSameDay(
+              dayObject.date,
+              new Date('2025-05-22'),
+            )
+            return dayObject
+          })
+        }}
+      />
     </Flex.Horizontal>
   </div>
 )
@@ -124,7 +137,48 @@ const DatePickerAlignPickerRightWithInput = () => (
     style={{ width: '350px', height: '430px' }}
   >
     <Flex.Horizontal justify="flex-end" innerSpace right>
-      <DatePicker showInput alignPicker="right" opened />
+      <DatePicker
+        showInput
+        alignPicker="right"
+        opened
+        date="2025-05-20"
+        onDaysRender={(days) => {
+          return days.map((dayObject) => {
+            dayObject.isToday = isSameDay(
+              dayObject.date,
+              new Date('2025-05-22'),
+            )
+            return dayObject
+          })
+        }}
+      />
     </Flex.Horizontal>
+  </div>
+)
+
+const DatePickerRangeMode = () => (
+  <div
+    data-visual-test="date-picker-calendar-range"
+    style={{
+      display: 'inline-flex',
+      background: 'white',
+      padding: '1rem',
+    }}
+  >
+    <DatePicker
+      inline
+      range
+      startDate="2019-05-05"
+      endDate="2019-06-05"
+      onDaysRender={(days) => {
+        return days.map((dayObject) => {
+          dayObject.isToday = isSameDay(
+            dayObject.date,
+            new Date('2019-06-03'),
+          )
+          return dayObject
+        })
+      }}
+    />
   </div>
 )

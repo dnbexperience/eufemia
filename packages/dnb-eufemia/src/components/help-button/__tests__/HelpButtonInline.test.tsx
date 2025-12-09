@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, waitFor } from '@testing-library/react'
+import { render, waitFor, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { makeUniqueId } from '../../../shared/component-helper'
 import HelpButtonInline, {
@@ -474,8 +474,16 @@ describe('HelpButtonInline', () => {
     expect(document.querySelectorAll('.dnb-help-button')).toHaveLength(1)
 
     const button = document.querySelector('.dnb-help-button')
-    const ariaDescribedBy = button.getAttribute('aria-describedby')
-    expect(ariaDescribedBy).toBeTruthy()
+
+    // Tooltip only sets aria-describedby when active (hover/focus)
+    // So we need to trigger focus to activate the tooltip
+    await userEvent.hover(button)
+
+    const ariaDescribedBy = await waitFor(() => {
+      const id = button.getAttribute('aria-describedby')
+      expect(id).toBeTruthy()
+      return id
+    })
 
     const tooltipContent = await waitFor(() => {
       const tooltip = document.querySelector(`#${ariaDescribedBy}`)
@@ -484,6 +492,71 @@ describe('HelpButtonInline', () => {
     })
 
     expect(ariaDescribedBy).toBe(tooltipContent.id)
+  })
+
+  it('calls focus with preventScroll when opening', async () => {
+    render(
+      <HelpButtonInline focusWhenOpen help={{ title: 'Help title' }} />
+    )
+
+    const button = document.querySelector('button') as HTMLButtonElement
+
+    await userEvent.click(button)
+
+    // Spy on the prototype so we catch the focus call before it triggers
+    const focusSpy = jest.spyOn(HTMLElement.prototype, 'focus')
+
+    // Wait for the focus to be called (it happens in a useEffect with requestAnimationFrame)
+    await waitFor(
+      () => {
+        expect(focusSpy).toHaveBeenCalledWith(
+          expect.objectContaining({ preventScroll: true })
+        )
+      },
+      { timeout: 200 }
+    )
+
+    focusSpy.mockRestore()
+  })
+
+  it('calls focus with preventScroll when closing', async () => {
+    render(
+      <HelpButtonInline focusWhenOpen help={{ title: 'Help title' }} />
+    )
+
+    const button = document.querySelector('button') as HTMLButtonElement
+
+    // Open the help button
+    await userEvent.click(button)
+    await waitFor(() => {
+      expect(button).toHaveClass('dnb-help-button__inline--open')
+    })
+
+    // Get the content section element (where onKeyDown is attached when focusWhenOpen is true)
+    const content = (await waitFor(() => {
+      const elem = document.querySelector(
+        '.dnb-help-button__content .dnb-section'
+      ) as HTMLElement
+      expect(elem).toBeInTheDocument()
+      return elem
+    })) as HTMLElement
+
+    // Spy on the button's focus method
+    const focusSpy = jest.spyOn(button, 'focus')
+
+    // Focus the content and press Escape (the onKeyDown handler is on the content section)
+    content.focus()
+    fireEvent.keyDown(content, { key: 'Escape' })
+
+    // Wait for the requestAnimationFrame to complete
+    await waitFor(
+      () => {
+        expect(focusSpy).toHaveBeenCalledWith({ preventScroll: true })
+      },
+      { timeout: 200 }
+    )
+
+    focusSpy.mockRestore()
   })
 })
 

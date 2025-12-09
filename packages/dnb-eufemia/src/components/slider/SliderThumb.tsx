@@ -3,7 +3,6 @@ import {
   combineDescribedBy,
   combineLabelledBy,
   validateDOMAttributes,
-  warn,
 } from '../../shared/component-helper'
 import Button from '../button/Button'
 import Tooltip from '../tooltip/Tooltip'
@@ -65,27 +64,14 @@ function Thumb({ value, currentIndex }: ThumbProps) {
     [`${isVertical ? 'top' : 'left'}`]: `${percent}%`,
   } as React.CSSProperties
 
-  const { number, aria } = getFormattedNumber(value, numberFormat)
-
-  const [showTooltip, setShowTooltip] = React.useState(false)
-  const onMouseEnterHandler = () => {
-    setShowTooltip(true)
-  }
-  const onMouseLeaveHandler = () => {
-    setShowTooltip(false)
-    try {
-      elemRef.current.dispatchEvent(new Event('mouseleave'))
-    } catch (e) {
-      warn(e)
-    }
-  }
-
   const {
     onThumbMouseDownHandler,
     onThumbMouseUpHandler,
     onHelperChangeHandler,
     onHelperFocusHandler,
   } = useSliderEvents()
+
+  const { number, aria } = getFormattedNumber(value, numberFormat)
 
   const helperParams: Record<string, unknown> = {}
 
@@ -105,26 +91,9 @@ function Thumb({ value, currentIndex }: ThumbProps) {
   }
 
   const thumbParams = attributes as Record<string, unknown>
-
-  if (tooltip) {
-    thumbParams.onMouseEnter = onMouseEnterHandler
-    thumbParams.onMouseLeave = onMouseLeaveHandler
-    thumbParams.onTouchStart = onMouseEnterHandler
-    thumbParams.onTouchEnd = onMouseLeaveHandler
-    helperParams.onBlur = onMouseLeaveHandler
-    helperParams.onFocus = (event) => {
-      onHelperFocusHandler(event)
-      onMouseEnterHandler()
-      try {
-        elemRef.current.dispatchEvent(new Event('mouseenter'))
-      } catch (e) {
-        warn(e)
-      }
-    }
-  }
-  validateDOMAttributes(allProps, thumbParams) // because we send along rest attributes
-
   const elemRef = React.useRef<HTMLElement>()
+  const [forceActive, setForceActive] = React.useState(false)
+  validateDOMAttributes(allProps, thumbParams) // because we send along rest attributes
 
   return (
     <span className="dnb-slider__thumb" style={style}>
@@ -138,7 +107,11 @@ function Thumb({ value, currentIndex }: ThumbProps) {
         value={value}
         disabled={disabled}
         onChange={onHelperChangeHandler}
-        onFocus={onHelperFocusHandler}
+        onFocus={(event) => {
+          onHelperFocusHandler(event)
+          setForceActive(true)
+        }}
+        onBlur={() => setForceActive(false)}
         onMouseDown={onThumbMouseDownHandler}
         onMouseUp={onThumbMouseUpHandler}
         aria-valuemin={min}
@@ -165,9 +138,11 @@ function Thumb({ value, currentIndex }: ThumbProps) {
         <Tooltip
           key={`group-${currentIndex}`}
           targetElement={elemRef}
-          active={Boolean(showTooltip || alwaysShowTooltip)}
+          forceActive={Boolean(alwaysShowTooltip || forceActive)}
+          targetRefreshKey={value}
           showDelay={1}
           hideDelay={300}
+          omitDescribedBy
         >
           {number || value}
           {

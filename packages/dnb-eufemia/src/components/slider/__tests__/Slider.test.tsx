@@ -7,6 +7,7 @@ import React from 'react'
 import { axeComponent, loadScss, wait } from '../../../core/jest/jestSetup'
 import { fireEvent, render, act } from '@testing-library/react'
 import Slider, { SliderMarker } from '../Slider'
+import * as PopoverModule from '../../popover/Popover'
 
 import type { SliderAllProps, onChangeEventProps } from '../Slider'
 import { format } from '../../number-format/NumberUtils'
@@ -283,8 +284,11 @@ describe('Slider component', () => {
         '.dnb-slider__thumb .dnb-button'
       )
 
-      expect(getTooltipElements(0).textContent).toBe('70,00 €')
-      expect(getTooltipElements(0).classList).toContain('dnb-tooltip')
+      // Slider uses omitDescribedBy, so sr-description should not exist
+      const srDescription = document.querySelector(
+        '.dnb-tooltip__sr-description'
+      )
+      expect(srDescription).toBeNull()
 
       fireEvent.mouseEnter(thumbElem)
 
@@ -292,21 +296,17 @@ describe('Slider component', () => {
 
       await wait(100)
 
-      expect(getTooltipElements(0).classList).toContain('dnb-tooltip')
-      expect(getTooltipElements(0).classList).toContain(
-        'dnb-tooltip--active'
-      )
-
-      expect(getTooltipElements(0).textContent).toBe('80,00 €')
+      const tooltipElement = getTooltipElements(0)
+      expect(tooltipElement.classList).toContain('dnb-tooltip')
+      expect(tooltipElement.classList).toContain('dnb-tooltip--active')
+      expect(tooltipElement.textContent).toBe('80,00 €')
 
       fireEvent.mouseLeave(thumbElem)
 
       await wait(300)
 
-      expect(getTooltipElements(0).classList).toContain('dnb-tooltip')
-      expect(getTooltipElements(0).classList).toContain(
-        'dnb-tooltip--hide'
-      )
+      expect(tooltipElement.classList).toContain('dnb-tooltip')
+      expect(tooltipElement.classList).toContain('dnb-tooltip--hide')
     })
 
     it('shows Tooltip on focus', async () => {
@@ -315,8 +315,11 @@ describe('Slider component', () => {
       const mainElem = document.querySelector('.dnb-slider')
       const inputElem = mainElem.querySelector('[type="range"]')
 
-      expect(getTooltipElements(0).textContent).toBe('70')
-      expect(getTooltipElements(0).classList).toContain('dnb-tooltip')
+      // Slider uses omitDescribedBy, so sr-description should not exist
+      const srDescription = document.querySelector(
+        '.dnb-tooltip__sr-description'
+      )
+      expect(srDescription).toBeNull()
 
       fireEvent.focus(inputElem)
 
@@ -324,21 +327,17 @@ describe('Slider component', () => {
 
       await wait(100)
 
-      expect(getTooltipElements(0).classList).toContain('dnb-tooltip')
-      expect(getTooltipElements(0).classList).toContain(
-        'dnb-tooltip--active'
-      )
-
-      expect(getTooltipElements(0).textContent).toBe('80')
+      const tooltipElement = getTooltipElements(0)
+      expect(tooltipElement.classList).toContain('dnb-tooltip')
+      expect(tooltipElement.classList).toContain('dnb-tooltip--active')
+      expect(tooltipElement.textContent).toBe('80')
 
       fireEvent.blur(inputElem)
 
       await wait(300)
 
-      expect(getTooltipElements(0).classList).toContain('dnb-tooltip')
-      expect(getTooltipElements(0).classList).toContain(
-        'dnb-tooltip--hide'
-      )
+      expect(tooltipElement.classList).toContain('dnb-tooltip')
+      expect(tooltipElement.classList).toContain('dnb-tooltip--hide')
     })
 
     it('shows Tooltip on hover with custom formatting', async () => {
@@ -357,8 +356,11 @@ describe('Slider component', () => {
         '.dnb-slider__thumb .dnb-button'
       )
 
-      expect(getTooltipElements(0).textContent.trim()).toMatch(/70\s*%/)
-      expect(getTooltipElements(0).classList).toContain('dnb-tooltip')
+      // Slider uses omitDescribedBy, so sr-description should not exist
+      const srDescription = document.querySelector(
+        '.dnb-tooltip__sr-description'
+      )
+      expect(srDescription).toBeNull()
 
       fireEvent.mouseEnter(thumbElem)
 
@@ -366,21 +368,18 @@ describe('Slider component', () => {
 
       await wait(100)
 
-      expect(getTooltipElements(0).classList).toContain('dnb-tooltip')
-      expect(getTooltipElements(0).classList).toContain(
-        'dnb-tooltip--active'
-      )
+      const tooltipElement = getTooltipElements(0)
+      expect(tooltipElement.classList).toContain('dnb-tooltip')
+      expect(tooltipElement.classList).toContain('dnb-tooltip--active')
 
-      expect(getTooltipElements(0).textContent).toBe('80,5 %')
+      expect(tooltipElement.textContent).toBe('80,5 %')
 
       fireEvent.mouseLeave(thumbElem)
 
       await wait(300)
 
-      expect(getTooltipElements(0).classList).toContain('dnb-tooltip')
-      expect(getTooltipElements(0).classList).toContain(
-        'dnb-tooltip--hide'
-      )
+      expect(tooltipElement.classList).toContain('dnb-tooltip')
+      expect(tooltipElement.classList).toContain('dnb-tooltip--hide')
     })
 
     it('text can be selected without disappearing', async () => {
@@ -391,28 +390,58 @@ describe('Slider component', () => {
         '.dnb-slider__thumb .dnb-button'
       )
 
-      expect(getTooltipElements(0).classList).toContain('dnb-tooltip')
+      // Slider uses omitDescribedBy, so sr-description should not exist
+      const srDescription = document.querySelector(
+        '.dnb-tooltip__sr-description'
+      )
+      expect(srDescription).toBeNull()
 
       fireEvent.mouseEnter(thumbElem)
 
       await wait(100)
 
-      expect(getTooltipElements(0).classList).toContain('dnb-tooltip')
-      expect(getTooltipElements(0).classList).toContain(
-        'dnb-tooltip--active'
-      )
-
       fireEvent.mouseLeave(thumbElem)
 
       // Enter Tooltip, and with that, prevent it from hiding/disappearing
-      fireEvent.mouseEnter(getTooltipElements(0))
+      const tooltipElement = getTooltipElements(0)
+      fireEvent.mouseEnter(tooltipElement)
 
       await wait(300)
 
       // Tooltip should still be in the DOM (not removed) when hovering over it
-      const tooltipElement = getTooltipElements(0)
       expect(tooltipElement).toBeInTheDocument()
       expect(tooltipElement.classList).toContain('dnb-tooltip')
+    })
+
+    it('updates Tooltip targetRefreshKey when the thumb value changes', () => {
+      const popoverSpy = jest.spyOn(PopoverModule, 'default')
+      render(<Slider {...props} id="tooltip-key" tooltip />)
+
+      const findTooltipPopoverCall = () =>
+        [...popoverSpy.mock.calls]
+          .map(([callProps]) => callProps)
+          .reverse()
+          .find(
+            (callProps) =>
+              callProps &&
+              Object.prototype.hasOwnProperty.call(
+                callProps,
+                'targetRefreshKey'
+              )
+          )
+
+      const initialCall = findTooltipPopoverCall()
+      expect(initialCall).toBeDefined()
+      expect(initialCall.targetRefreshKey).toBe(props.value)
+
+      popoverSpy.mockClear()
+      simulateMouseMove({ pageX: 80, width: 100, height: 10 })
+
+      const updatedCall = findTooltipPopoverCall()
+      expect(updatedCall).toBeDefined()
+      expect(updatedCall.targetRefreshKey).toBe(80)
+
+      popoverSpy.mockRestore()
     })
   })
 

@@ -37,7 +37,7 @@ export const TooltipProperties: PropertiesTableProps = {
     status: 'optional',
   },
   keepInDOM: {
-    doc: 'Keep the tooltip portal mounted in the DOM even when closed. When `true`, the tooltip remains in the DOM when inactive, which is useful for maintaining `aria-describedby` references for accessibility, ensuring screen readers can always find the associated element, and preventing layout shifts when the tooltip appears/disappears. Defaults to `true` for Tooltip (unlike Popover which defaults to `false`).',
+    doc: 'Keep the tooltip portal mounted in the DOM even when closed. When `true`, the tooltip remains in the DOM when inactive. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
@@ -69,6 +69,11 @@ export const TooltipProperties: PropertiesTableProps = {
   targetSelector: {
     doc: 'specify a vanilla HTML selector by a string as the target element.',
     type: 'string',
+    status: 'optional',
+  },
+  triggerOffset: {
+    doc: 'Adjust the pixel gap between the tooltip content and its trigger. Use positive values to place the tooltip further away (e.g., to match custom spacing). Defaults to `16`.',
+    type: 'number',
     status: 'optional',
   },
   noAnimation: {

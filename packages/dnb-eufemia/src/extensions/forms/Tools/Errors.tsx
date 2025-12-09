@@ -3,7 +3,7 @@ import DataContext from '../DataContext/Context'
 import Log from './Log'
 import useEventListener from '../DataContext/Provider/useEventListener'
 
-function Errors() {
+function Errors({ label }: { label?: React.ReactNode }) {
   const [, forceUpdate] = useReducer(() => ({}), {})
   const { fieldErrorRef, errorsRef } = useContext(DataContext)
 
@@ -32,7 +32,7 @@ function Errors() {
     formErrors,
   }
 
-  return <Log data={data} />
+  return <Log data={data} label={label} />
 }
 
 Errors._supportsSpacingProps = true

@@ -45,6 +45,8 @@ function Tooltip(localProps: TooltipAllProps) {
     portalRootClass, // eslint-disable-line
     omitDescribedBy, // eslint-disable-line
     contentRef, // eslint-disable-line
+    triggerOffset, // eslint-disable-line
+    forceActive, // eslint-disable-line
     ...attributeProps
   } = props
 
@@ -68,6 +70,7 @@ function Tooltip(localProps: TooltipAllProps) {
       <TooltipWithEvents
         target={target}
         attributes={attributes}
+        forceActive={forceActive}
         {...props}
       >
         {children}

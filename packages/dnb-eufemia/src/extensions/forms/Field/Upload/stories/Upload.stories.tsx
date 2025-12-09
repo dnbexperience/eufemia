@@ -1,6 +1,7 @@
-import { Field, Form, Tools, Value } from '../../..'
+import { Field, Form, Tools, Value, Wizard } from '../../..'
 import { Flex } from '../../../../../components'
 import { UploadFileNative } from '../../../../../components/Upload'
+import { P } from '../../../../../elements'
 import { createRequest } from '../../../Form/Handler/stories/FormHandler.stories'
 import { UploadValue } from '../Upload'
 
@@ -60,7 +61,7 @@ async function mockAsyncFileUpload__withoutPromises(
     formData.append('file', file.file, file.file.name)
 
     const request = createRequest()
-    await request(Math.floor(Math.random() * 2000) + 1000) // Simulate a request
+    await request(Math.floor(8000)) // Simulate a request
 
     try {
       const mockResponse = {
@@ -412,6 +413,17 @@ export const AsyncEverythingWithTransform = () => {
   )
 }
 
+export const RequiredProperty = () => {
+  return (
+    <Form.Handler>
+      <Flex.Stack>
+        <Field.Upload required />
+        <Tools.Log />
+      </Flex.Stack>
+    </Form.Handler>
+  )
+}
+
 export const DisabledProperty = () => {
   return (
     <Form.Handler onSubmit={async (form) => console.log(form)}>
@@ -444,6 +456,44 @@ export const AcceptedFilesTypesProperty = () => {
         />
         <Tools.Log />
       </Flex.Stack>
+    </Form.Handler>
+  )
+}
+
+export const WizardWithAsyncFileHandler = () => {
+  return (
+    <Form.Handler onSubmit={async (form) => console.log(form)}>
+      <Wizard.Container>
+        <Wizard.Step title="Step 2">
+          <Form.Card>
+            <Field.Upload
+              id="async_upload_context_id"
+              path="/attachments"
+              labelDescription="Upload multiple files at once to see the upload error message. This demo has been set up so that every other file in a batch will fail."
+              fileHandler={mockAsyncFileUpload__withoutPromises}
+            />
+          </Form.Card>
+
+          <Tools.Log />
+          <Form.ButtonRow>
+            <Wizard.Buttons />
+            <Form.SubmitButton variant="send" />
+          </Form.ButtonRow>
+        </Wizard.Step>
+
+        <Wizard.Step title="Step 3">
+          <Form.MainHeading>Heading</Form.MainHeading>
+
+          <Form.Card>
+            <P>Contents of step 2</P>
+          </Form.Card>
+
+          <Form.ButtonRow>
+            <Wizard.Buttons />
+            <Form.SubmitButton variant="send" />
+          </Form.ButtonRow>
+        </Wizard.Step>
+      </Wizard.Container>
     </Form.Handler>
   )
 }
