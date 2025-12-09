@@ -86,6 +86,9 @@ function UploadComponent(props: Props) {
       }
 
       const hasFiles = value?.length > 0
+
+
+
       if (required && ((!isChanged && !hasFiles) || !hasFiles)) {
         return error
       }
