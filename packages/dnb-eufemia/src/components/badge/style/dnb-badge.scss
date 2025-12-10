@@ -6,24 +6,15 @@
 @import '../../../style/core/utilities.scss';
 
 .dnb-badge {
-  --badge-font-size: var(--font-size-x-small);
-  --badge-line-height: var(--line-height-x-small);
-
-  // Safari needs a correct CSS specificity
-  &,
-  .dnb-core-style & {
-    line-height: var(--badge-line-height);
-  }
-
   display: inline-flex;
-  font-weight: var(--font-weight-medium);
   flex-flow: row wrap;
   white-space: nowrap;
   justify-content: center;
   align-content: center;
   align-items: center;
 
-  font-size: var(--badge-font-size);
+  font-weight: var(--font-weight-medium);
+  font-size: var(--font-size-x-small);
 
   &__root {
     position: relative;
@@ -47,8 +38,8 @@
   }
 
   &--variant-information {
-    padding: 0.25rem 0.5rem;
-    border-radius: 0.375rem;
+    padding: 0.125rem 0.5rem;
+    border-radius: 0.5rem;
   }
 
   &--horizontal-left {

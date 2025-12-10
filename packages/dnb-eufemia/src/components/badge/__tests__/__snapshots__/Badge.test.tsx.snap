@@ -16,19 +16,14 @@ exports[`Badge scss has to match style dependencies css 1`] = `
  * Utilities
  */
 .dnb-badge {
-  --badge-font-size: var(--font-size-x-small);
-  --badge-line-height: var(--line-height-x-small);
   display: inline-flex;
-  font-weight: var(--font-weight-medium);
   flex-flow: row wrap;
   white-space: nowrap;
   justify-content: center;
   align-content: center;
   align-items: center;
-  font-size: var(--badge-font-size);
-}
-.dnb-badge, .dnb-core-style .dnb-badge {
-  line-height: var(--badge-line-height);
+  font-weight: var(--font-weight-medium);
+  font-size: var(--font-size-x-small);
 }
 .dnb-badge__root {
   position: relative;
@@ -49,8 +44,8 @@ exports[`Badge scss has to match style dependencies css 1`] = `
   border-radius: 0.75rem;
 }
 .dnb-badge--variant-information {
-  padding: 0.25rem 0.5rem;
-  border-radius: 0.375rem;
+  padding: 0.125rem 0.5rem;
+  border-radius: 0.5rem;
 }
 .dnb-badge--horizontal-left {
   left: 0;
