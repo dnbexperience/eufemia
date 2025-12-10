@@ -102,9 +102,11 @@ export const LogoChangeExample = () => (
       MyThemeSelector,
       myLogoSelector,
       SbankenDefault,
+      CarnegieDefault,
       EiendomDefault,
       DnbDefault,
     }}
+    data-visual-test="logo-theme-change"
   >
     {() => {
       function myLogoSelector(theme: ThemeProps) {
@@ -127,7 +129,7 @@ export const LogoChangeExample = () => (
         return (
           <Card stack>
             <MyThemeSelector />
-            <Logo height="32" svg={myLogoSelector} />
+            <Logo height="96" svg={myLogoSelector} />
           </Card>
         )
       }
@@ -138,7 +140,7 @@ export const LogoChangeExample = () => (
 )
 
 export const LogoFixedSizeExample = () => (
-  <ComponentBox data-visual-test="logo-default" scope={{ myLogoSelector }}>
+  <ComponentBox data-visual-test="logo-fixed" scope={{ myLogoSelector }}>
     <Flex.Container>
       <Logo height="96" svg={myLogoSelector} />
       <Logo width="96" svg={myLogoSelector} />

@@ -2,6 +2,7 @@
 
 exports[`Logo component should set correct DNB SVG 1`] = `
 <svg
+  fill="var(--color-sea-green)"
   viewBox="0 0 116 80"
 >
   <title>
@@ -21,6 +22,7 @@ exports[`Logo component should set correct DNB SVG 1`] = `
 
 exports[`Logo component should set correct Sbanken brand SVG 1`] = `
 <svg
+  fill="#18172a"
   viewBox="0 0 1601 533"
 >
   <title>
@@ -34,6 +36,7 @@ exports[`Logo component should set correct Sbanken brand SVG 1`] = `
 
 exports[`Logo component should set correct Sbanken brand SVG in compact variant 1`] = `
 <svg
+  fill="#18172a"
   viewBox="0 0 281 401"
 >
   <title>
@@ -68,8 +71,10 @@ exports[`Logo scss has to match style dependencies css 1`] = `
   height: 1em;
 }
 .dnb-logo svg {
-  fill: currentcolor;
   shape-rendering: geometricprecision;
+}
+.dnb-logo svg[color] {
+  fill: currentcolor;
 }
 .dnb-logo--has-size {
   width: auto;
@@ -78,17 +83,11 @@ exports[`Logo scss has to match style dependencies css 1`] = `
 .dnb-logo--inherit-size {
   height: inherit;
 }
-.dnb-logo--carnegie {
-  color: var(--ca-color-burgundy-red);
-}
-.dnb-logo--dnb, .dnb-logo--eiendom {
-  color: var(--color-sea-green);
-}
-.dnb-logo--sbanken {
-  color: var(--sb-color-text);
-}
 .dnb-logo--inherit-color {
   color: currentcolor;
+}
+.dnb-logo--inherit-color svg {
+  fill: currentcolor;
 }
 .dnb-logo svg:not([width], [height]) {
   width: inherit;
@@ -100,18 +99,12 @@ exports[`Logo scss has to match theme css for sbanken 1`] = `
 "/*
  * Logo Component
  *
- */
-.dnb-logo--sbanken {
-  color: var(--sb-color-text);
-}"
+ */"
 `;
 
 exports[`Logo scss has to match theme css for ui 1`] = `
 "/*
  * Logo Component
  *
- */
-.dnb-logo--dnb {
-  color: var(--color-sea-green);
-}"
+ */"
 `;
