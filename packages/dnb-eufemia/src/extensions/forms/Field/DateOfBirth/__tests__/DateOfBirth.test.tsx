@@ -20,6 +20,19 @@ describe('Field.DateOfBirth', () => {
     expect(screen.queryByText(labelDesc)).toBeInTheDocument()
   })
 
+  it('should add (optional) text to the label if required={false}', () => {
+    render(
+      <Form.Handler required>
+        <Field.DateOfBirth required={false} />
+      </Form.Handler>
+    )
+
+    const label = document.querySelector('legend')
+    expect(label).toHaveTextContent(
+      `${nb.DateOfBirth.label} ${nb.Field.optionalLabelSuffix}`
+    )
+  })
+
   describe('onChange', () => {
     it('should return correct value onChange event', async () => {
       const onChange = jest.fn()
