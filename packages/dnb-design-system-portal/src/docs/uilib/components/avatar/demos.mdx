@@ -2,31 +2,7 @@
 showTabs: true
 ---
 
-import {
-  AvatarSizeDefault,
-  AvatarSizeSmall,
-  AvatarSizeMedium,
-  AvatarSizeLarge,
-  AvatarSizeXLarge,
-  AvatarVariantDefault,
-  AvatarVariantPrimary,
-  AvatarVariantSecondary,
-  AvatarVariantTertiary,
-  AvatarIconSize,
-  AvatarIconType,
-  AvatarChildIcon,
-  AvatarDNBLogo,
-  AvatarImageDNB,
-  AvatarImageTobias,
-  AvatarImagePinnedTab,
-  AvatarImageProps,
-  GroupedAvatarsSmall,
-  GroupedAvatarsMedium,
-  GroupedAvatarsLarge,
-  GroupedAvatarsXLarge,
-  GroupedAvatarsImg,
-  AvatarCustomColors,
-} from 'Docs/uilib/components/avatar/Examples'
+import * as Examples from './Examples'
 
 ## Demos
 
@@ -40,41 +16,41 @@ See more examples below.
 
 #### default `size` is 'medium'
 
-<AvatarSizeDefault />
+<Examples.AvatarSizeDefault />
 
 #### `size` 'small'
 
-<AvatarSizeSmall />
+<Examples.AvatarSizeSmall />
 
 #### `size` 'medium'
 
-<AvatarSizeMedium />
+<Examples.AvatarSizeMedium />
 
 #### `size` 'large'
 
-<AvatarSizeLarge />
+<Examples.AvatarSizeLarge />
 
 #### `size` 'x-large'
 
-<AvatarSizeXLarge />
+<Examples.AvatarSizeXLarge />
 
 ### Setting property `variant`
 
 #### default `variant` is 'primary'
 
-<AvatarVariantDefault />
+<Examples.AvatarVariantDefault />
 
 #### `variant` 'primary'
 
-<AvatarVariantPrimary />
+<Examples.AvatarVariantPrimary />
 
 #### `variant` 'secondary'
 
-<AvatarVariantSecondary />
+<Examples.AvatarVariantSecondary />
 
 #### `variant` 'tertiary'
 
-<AvatarVariantTertiary />
+<Examples.AvatarVariantTertiary />
 
 ### Passing `icon`
 
@@ -82,7 +58,7 @@ See more examples below.
 
 An icon will automatically be given the correct size (`size="auto"`) unless the icon's `size` property is set.
 
-<AvatarIconSize />
+<Examples.AvatarIconSize />
 
 #### Accepted values
 
@@ -94,33 +70,33 @@ import {
 } from '@dnb/eufemia/src/icons'
 ```
 
-<AvatarIconType />
+<Examples.AvatarIconType />
 
 ### Passing `children`
 
-<AvatarDNBLogo />
+<Examples.AvatarDNBLogo />
 
 #### Icon as child
 
 A single `<Icon>` or `<IconPrimary>` component sent as a child will also follow the same auto sizing rules as the `icon` property.
 
-<AvatarChildIcon />
+<Examples.AvatarChildIcon />
 
 ### Passing image as `src`
 
-<AvatarImagePinnedTab />
-<AvatarImageDNB />
-<AvatarImageTobias />
-<AvatarImageProps />
+<Examples.AvatarImagePinnedTab />
+<Examples.AvatarImageDNB />
+<Examples.AvatarImageTobias />
+<Examples.AvatarImageProps />
 
 ### Grouping Avatars
 
-<GroupedAvatarsSmall />
-<GroupedAvatarsMedium />
-<GroupedAvatarsLarge />
-<GroupedAvatarsXLarge />
-<GroupedAvatarsImg />
+<Examples.GroupedAvatarsSmall />
+<Examples.GroupedAvatarsMedium />
+<Examples.GroupedAvatarsLarge />
+<Examples.GroupedAvatarsXLarge />
+<Examples.GroupedAvatarsImg />
 
 ### Customizing colors
 
-<AvatarCustomColors />
+<Examples.AvatarCustomColors />
