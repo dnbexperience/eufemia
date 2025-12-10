@@ -76,7 +76,7 @@ describe('Field.Upload', () => {
   it('should add (optional) text to the label if required={false}', () => {
     render(
       <Form.Handler required>
-        <Field.DateOfBirth required={false} />
+        <Field.Upload required={false} />
       </Form.Handler>
     )
 
