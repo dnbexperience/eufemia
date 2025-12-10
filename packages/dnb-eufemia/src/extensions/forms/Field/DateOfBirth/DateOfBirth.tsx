@@ -21,6 +21,7 @@ import type {
 } from '../../types'
 import { formatDate } from '../../../../components/date-format/DateFormatUtils'
 import { useFieldProps } from '../../hooks'
+import { useIterateItemNo } from '../../Iterate/ItemNo/useIterateItemNo'
 
 export type AdditionalArgs = {
   day: string
@@ -64,7 +65,7 @@ function DateOfBirth(props: Props) {
   } = useTranslation().DateOfBirth
   const { locale } = useContext(SharedContext)
 
-  const { dateFormat = DEFAULT_DATE_FORMAT } = props
+  const { dateFormat = DEFAULT_DATE_FORMAT, labelSuffix, required } = props
 
   const dayRef = useRef<Props['value']>(props?.emptyValue)
   const monthRef = useRef<Props['value']>(props?.emptyValue)
@@ -169,6 +170,12 @@ function DateOfBirth(props: Props) {
     setHasFocus,
     value: fieldValue,
   } = useFieldProps(preparedProps)
+
+  const labelWithItemNo = useIterateItemNo({
+    label: labelProp ?? label,
+    labelSuffix,
+    required,
+  })
 
   const prepareEventValues = useCallback(
     ({
@@ -329,7 +336,7 @@ function DateOfBirth(props: Props) {
 
   const compositionFieldProps: CompositionFieldProps = {
     error,
-    label: labelProp ?? label,
+    label: labelWithItemNo,
     labelDescription,
     labelDescriptionInline,
     space,
@@ -375,12 +382,7 @@ function DateOfBirth(props: Props) {
   )
 
   return (
-    <CompositionField
-      label={labelProp ?? label}
-      width={width}
-      help={help}
-      {...compositionFieldProps}
-    >
+    <CompositionField width={width} help={help} {...compositionFieldProps}>
       <StringField
         value={dayRef.current}
         autoComplete="bday-day"
