@@ -351,6 +351,19 @@ export type MessageTypes<Value> =
   | UseFieldProps<Value>['warning']
   | UseFieldProps<Value>['error']
 
+export type StatusMessage = React.ReactNode | Array<React.ReactNode>
+export type StatusError =
+  | string
+  | React.ReactElement
+  | Error
+  | FormError
+  | Array<string | React.ReactElement | Error | FormError>
+export type FieldStatus = {
+  info?: StatusMessage
+  warning?: StatusMessage
+  error?: StatusError
+}
+
 export type ConnectorProps<Value = unknown> = Pick<
   UseFieldProps<Value>,
   'onChange' | 'onBlurValidator'
@@ -413,6 +426,11 @@ export interface UseFieldProps<
   info?: InfoProp<Value>
   warning?: WarningProp<Value>
   error?: ErrorProp<Value>
+  /**
+   * Called when the current status (info, warning or error) changes.
+   * Provides the latest values for each status key.
+   */
+  onStatusChange?: (status: FieldStatus) => void
 
   // - Validation
   required?: boolean

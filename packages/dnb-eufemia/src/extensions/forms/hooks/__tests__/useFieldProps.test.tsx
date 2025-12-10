@@ -91,6 +91,226 @@ describe('useFieldProps', () => {
     })
   })
 
+  describe('onStatusChange', () => {
+    it('should call onStatusChange when statuses change', async () => {
+      const onStatusChange = jest.fn()
+      const initialError = new Error('initial')
+      const { rerender } = renderHook((props) => useFieldProps(props), {
+        initialProps: {
+          onStatusChange,
+          warning: 'initial warning',
+          error: initialError,
+        },
+        wrapper: Provider,
+      })
+
+      await waitFor(() => {
+        expect(onStatusChange).toHaveBeenCalledTimes(1)
+        expect(onStatusChange).toHaveBeenLastCalledWith({
+          info: undefined,
+          warning: 'initial warning',
+          error: initialError,
+        })
+      })
+
+      rerender({
+        onStatusChange,
+        warning: 'updated warning',
+        error: initialError,
+      })
+
+      await waitFor(() => {
+        expect(onStatusChange).toHaveBeenCalledTimes(2)
+        expect(onStatusChange).toHaveBeenLastCalledWith({
+          info: undefined,
+          warning: 'updated warning',
+          error: initialError,
+        })
+      })
+    })
+
+    it('calls onStatusChange when validateInitially reveals validation errors', async () => {
+      const onStatusChange = jest.fn()
+
+      renderHook(
+        () =>
+          useFieldProps({
+            onStatusChange,
+            required: true,
+            validateInitially: true,
+            emptyValue: '',
+            value: '',
+          }),
+        { wrapper: Provider }
+      )
+
+      await waitFor(() => {
+        expect(onStatusChange).toHaveBeenCalledTimes(1)
+        expect(onStatusChange).toHaveBeenCalledWith(
+          expect.objectContaining({
+            error: expect.anything(),
+          })
+        )
+      })
+    })
+
+    it('should call onStatusChange when info is set', async () => {
+      const onStatusChange = jest.fn()
+      const { rerender } = renderHook((props) => useFieldProps(props), {
+        initialProps: {
+          onStatusChange,
+          info: 'initial info',
+        },
+        wrapper: Provider,
+      })
+
+      await waitFor(() => {
+        expect(onStatusChange).toHaveBeenCalledTimes(1)
+        expect(onStatusChange).toHaveBeenLastCalledWith({
+          info: 'initial info',
+          warning: undefined,
+          error: undefined,
+        })
+      })
+
+      rerender({
+        onStatusChange,
+        info: 'updated info',
+      })
+
+      await waitFor(() => {
+        expect(onStatusChange).toHaveBeenCalledTimes(2)
+        expect(onStatusChange).toHaveBeenLastCalledWith({
+          info: 'updated info',
+          warning: undefined,
+          error: undefined,
+        })
+      })
+    })
+
+    it('should call onStatusChange when warning is set', async () => {
+      const onStatusChange = jest.fn()
+
+      renderHook(
+        () =>
+          useFieldProps({
+            onStatusChange,
+            warning: 'warning message',
+          }),
+        { wrapper: Provider }
+      )
+
+      await waitFor(() => {
+        expect(onStatusChange).toHaveBeenCalledTimes(1)
+        expect(onStatusChange).toHaveBeenCalledWith({
+          info: undefined,
+          warning: 'warning message',
+          error: undefined,
+        })
+      })
+    })
+
+    it('should call onStatusChange when error prop is set', async () => {
+      const onStatusChange = jest.fn()
+      const errorValue = new Error('some error')
+
+      renderHook(
+        () =>
+          useFieldProps({
+            onStatusChange,
+            error: errorValue,
+          }),
+        { wrapper: Provider }
+      )
+
+      await waitFor(() => {
+        expect(onStatusChange).toHaveBeenCalledTimes(1)
+        expect(onStatusChange).toHaveBeenCalledWith({
+          info: undefined,
+          warning: undefined,
+          error: errorValue,
+        })
+      })
+    })
+
+    it('should call onStatusChange when going from error to no error', async () => {
+      const onStatusChange = jest.fn()
+      const errorValue = new Error('some error')
+      const { rerender } = renderHook((props) => useFieldProps(props), {
+        initialProps: {
+          onStatusChange,
+          error: errorValue,
+        },
+        wrapper: Provider,
+      })
+
+      await waitFor(() => {
+        expect(onStatusChange).toHaveBeenCalledTimes(1)
+        expect(onStatusChange).toHaveBeenLastCalledWith({
+          info: undefined,
+          warning: undefined,
+          error: errorValue,
+        })
+      })
+
+      rerender({
+        onStatusChange,
+        error: undefined,
+      })
+
+      await waitFor(() => {
+        expect(onStatusChange).toHaveBeenCalledTimes(2)
+        expect(onStatusChange).toHaveBeenLastCalledWith({
+          info: undefined,
+          warning: undefined,
+          error: undefined,
+        })
+      })
+    })
+
+    it('should call onStatusChange when info, warning and error are set together', async () => {
+      const onStatusChange = jest.fn()
+      const errorValue = new Error('total problem')
+
+      renderHook(
+        () =>
+          useFieldProps({
+            onStatusChange,
+            info: 'Info message',
+            warning: 'Warning message',
+            error: errorValue,
+          }),
+        { wrapper: Provider }
+      )
+
+      await waitFor(() => {
+        expect(onStatusChange).toHaveBeenCalledTimes(1)
+        expect(onStatusChange).toHaveBeenCalledWith({
+          info: 'Info message',
+          warning: 'Warning message',
+          error: errorValue,
+        })
+      })
+    })
+
+    it('should not call onStatusChange when validateInitially is true but no status is visible', async () => {
+      const onStatusChange = jest.fn()
+
+      renderHook(
+        () =>
+          useFieldProps({
+            onStatusChange,
+            validateInitially: true,
+          }),
+        { wrapper: Provider }
+      )
+
+      await waitFor(() => {
+        expect(onStatusChange).toHaveBeenCalledTimes(0)
+      })
+    })
+  })
+
   describe('defaultValue', () => {
     it('should update data context with initially given "defaultValue"', () => {
       const defaultValue = 'include this'
