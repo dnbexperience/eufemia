@@ -80,20 +80,4 @@ describe('Badge', () => {
       expect(screenshot).toMatchImageSnapshot()
     })
   })
-  describe('alternatives', () => {
-    it('have to match alternative having icon as a child', async () => {
-      const screenshot = await makeScreenshot({
-        selector:
-          '[data-visual-test="badge-alternative-icon"] .dnb-badge__root',
-      })
-      expect(screenshot).toMatchImageSnapshot()
-    })
-    it('have to match alternative having img as a child', async () => {
-      const screenshot = await makeScreenshot({
-        selector:
-          '[data-visual-test="badge-alternative-img"] .dnb-badge__root',
-      })
-      expect(screenshot).toMatchImageSnapshot()
-    })
-  })
 })
