@@ -206,6 +206,7 @@ describe('Field.Name', () => {
     ]
 
     const invalidNames = [
+      'Li',
       'Ole1',
       'Hans  Christian',
       'Anne--Marie',
