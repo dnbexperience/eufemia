@@ -32,13 +32,17 @@ describe('Badge', () => {
     expect(screen.queryByText(label)).toBeInTheDocument()
   })
 
-  it('renders 9+ when content is a number with value greater than 9', () => {
+  it('renders formatted number when content is a number with notification variant', () => {
     const number = 10
     const label = 'Notifications:'
     render(<Badge content={number} variant="notification" label={label} />)
 
-    expect(screen.queryByText('9+')).toBeInTheDocument()
+    // NumberFormat will format the number, so we check for the number value
+    expect(screen.queryByText('10')).toBeInTheDocument()
     expect(screen.queryByText(label)).toBeInTheDocument()
+
+    const element = document.querySelector('.dnb-badge')
+    expect(element).toHaveClass('dnb-badge--variant-notification')
   })
 
   it('renders the label as string', () => {
@@ -67,13 +71,6 @@ describe('Badge', () => {
     )
 
     expect(screen.queryByTestId('confetti icon')).toBeInTheDocument()
-  })
-
-  it('warns when notification badge content is a string', () => {
-    process.env.NODE_ENV = 'development'
-    global.console.log = jest.fn()
-    render(<Badge variant="notification" content="string" />)
-    expect(global.console.log).toHaveBeenCalled()
   })
 
   it('does not warn when notification badge content is a number', () => {

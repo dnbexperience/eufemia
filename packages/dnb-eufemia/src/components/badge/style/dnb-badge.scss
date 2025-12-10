@@ -6,30 +6,15 @@
 @import '../../../style/core/utilities.scss';
 
 .dnb-badge {
-  --badge-font-size: var(--font-size-x-small);
-  --badge-width: 1.5rem;
-  --badge-height: 1.5rem;
-  --badge-border-radius-information: calc(var(--badge-height) / 4);
-  --badge-border-radius-notification: calc(var(--badge-height) / 2);
-  --badge-line-height: var(--line-height-x-small);
-
-  // Safari needs a correct CSS specificity
-  &,
-  .dnb-core-style & {
-    line-height: var(--badge-line-height);
-  }
-
   display: inline-flex;
-  font-weight: var(--font-weight-medium);
   flex-flow: row wrap;
   white-space: nowrap;
   justify-content: center;
   align-content: center;
   align-items: center;
 
-  width: var(--badge-width);
-  height: var(--badge-height);
-  font-size: var(--badge-font-size);
+  font-weight: var(--font-weight-medium);
+  font-size: var(--font-size-x-small);
 
   &__root {
     position: relative;
@@ -46,14 +31,15 @@
   }
 
   &--variant-notification {
-    border-radius: var(--badge-border-radius-notification);
+    padding: 0 0.25rem;
+    min-width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 0.75rem;
   }
 
   &--variant-information {
-    border-radius: var(--badge-border-radius-information);
-    min-width: var(--badge-width);
-    width: auto;
-    padding: 0 var(--spacing-xx-small);
+    padding: 0.125rem 0.5rem;
+    border-radius: 0.5rem;
   }
 
   &--horizontal-left {
