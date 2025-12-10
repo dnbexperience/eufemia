@@ -1,8 +1,8 @@
 import React from 'react'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
-import { act, render, screen } from '@testing-library/react'
+import { act, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { DataContext, Field, FieldBlock, Form } from '../../..'
+import { DataContext, Field, FieldBlock, Form, Validator } from '../../..'
 
 import nbNO from '../../../constants/locales/nb-NO'
 import enGB from '../../../constants/locales/en-GB'
@@ -324,6 +324,97 @@ describe('Field.Expiry', () => {
     // Verify final state - both inputs should be empty/placeholder
     expect(monthInput.value).toBe('mm')
     expect(yearInput.value).toBe('åå')
+  })
+
+  it('should replace the internal validator with the given one', async () => {
+    const myValidator = jest.fn(() => {
+      return new Error('My error message')
+    })
+    const onBlurValidator = jest.fn(() => {
+      return [myValidator]
+    })
+
+    render(
+      <Field.Expiry
+        value="121"
+        validateInitially
+        onBlurValidator={onBlurValidator}
+      />
+    )
+
+    await waitFor(() => {
+      expect(screen.queryByRole('alert')).toBeInTheDocument()
+      expect(screen.queryByRole('alert').textContent).toBe(
+        'My error message'
+      )
+    })
+
+    expect(myValidator).toHaveBeenCalledTimes(1)
+    expect(myValidator).toHaveBeenCalledWith('121å', expect.anything())
+    expect(onBlurValidator).toHaveBeenCalledTimes(1)
+    expect(onBlurValidator).toHaveBeenCalledWith('121å', expect.anything())
+  })
+
+  it('should support extending internal validator', async () => {
+    const decemberValidator = (value: string) => {
+      if (value?.startsWith('12')) {
+        return new Error('My error message')
+      }
+    }
+
+    const customValidator: Validator<string> = (value, { validators }) => {
+      const { expiryValidator } = validators
+
+      return [decemberValidator, expiryValidator]
+    }
+
+    const { rerender } = render(
+      <Form.Handler>
+        <Field.Expiry
+          value={'121'}
+          validateInitially
+          onBlurValidator={customValidator}
+        />
+      </Form.Handler>
+    )
+
+    await waitFor(() => {
+      expect(screen.queryByRole('alert')).toBeInTheDocument()
+      expect(screen.queryByRole('alert').textContent).toBe(
+        'My error message'
+      )
+    })
+
+    rerender(
+      <Form.Handler>
+        <Field.Expiry
+          value={'111'}
+          validateInitially
+          onBlurValidator={customValidator}
+        />
+      </Form.Handler>
+    )
+
+    await waitFor(() => {
+      expect(screen.queryByRole('alert')).toBeInTheDocument()
+      expect(screen.queryByRole('alert').textContent).toBe(
+        no.errorYear.replace(/\{year\}/, '1å')
+      )
+    })
+
+    rerender(
+      <Form.Handler>
+        <Field.Expiry
+          value={'1112'}
+          validateInitially
+          onBlurValidator={customValidator}
+        />
+      </Form.Handler>
+    )
+
+    await expect(() => {
+      expect(screen.queryByRole('alert')).toBeInTheDocument()
+    }).toNeverResolve()
   })
 
   describe('keydown', () => {

@@ -132,3 +132,27 @@ export const TransformInAndOut = () => {
     </ComponentBox>
   )
 }
+
+export const ValidationExtendValidator = () => {
+  return (
+    <ComponentBox>
+      {() => {
+        const myExpiryValidator = (value: string) => {
+          if (value?.startsWith('12')) {
+            return new Error('Expiry month cannot be december')
+          }
+        }
+
+        const myOnBlurValidator = (value: string, { validators }) => {
+          const { expiryValidator } = validators
+
+          return [myExpiryValidator, expiryValidator]
+        }
+
+        return (
+          <Field.Expiry value="1225" onBlurValidator={myOnBlurValidator} />
+        )
+      }}
+    </ComponentBox>
+  )
+}

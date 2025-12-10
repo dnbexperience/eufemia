@@ -19,3 +19,10 @@ It supports the HTML [autocomplete](https://developer.mozilla.org/en-US/docs/Web
 
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Field/Expiry)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/extensions/forms/feature-fields/Expiry)
+
+## Validators
+
+### Internal validators exposed
+
+`Field.Expiry` exposes the `expiryValidator` validator through its `onBlurValidator` property, take a look at [this demo](/uilib/extensions/forms/feature-fields/Expiry/demos/#extend-validation-with-custom-validation-function).
+The `expiryValidator` validator, validates invalid month and/or year.
