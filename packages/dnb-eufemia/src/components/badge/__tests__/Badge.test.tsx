@@ -32,6 +32,17 @@ describe('Badge', () => {
     expect(screen.queryByText(label)).toBeInTheDocument()
   })
 
+  it('supports variant content', () => {
+    render(<Badge variant="content" content="content" />)
+
+    const element = document.querySelector('.dnb-badge')
+
+    expect(Array.from(element.classList)).toEqual([
+      'dnb-badge',
+      'dnb-badge--inline',
+    ])
+  })
+
   it('renders formatted number when content is a number with notification variant', () => {
     const number = 10
     const label = 'Notifications:'
@@ -128,8 +139,8 @@ describe('Badge', () => {
     expect(attributes).toEqual(['role', 'class', 'aria-label'])
     expect(Array.from(element.classList)).toEqual([
       'dnb-badge',
-      'dnb-badge--variant-information',
       'dnb-space__top--large',
+      'dnb-badge--variant-information',
       'dnb-badge--inline',
     ])
   })
@@ -153,9 +164,9 @@ describe('Badge', () => {
 
     expect(Array.from(element.classList)).toEqual([
       'dnb-badge',
-      'dnb-badge--variant-information',
       'dnb-skeleton',
       'dnb-skeleton--shape',
+      'dnb-badge--variant-information',
       'dnb-badge--inline',
     ])
   })

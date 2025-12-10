@@ -32,8 +32,8 @@ export const BadgeProperties: PropertiesTableProps = {
     status: 'optional',
   },
   variant: {
-    doc: 'defines the visual appearance of the badge. There are two main variants `notification` and `information`. The default variant is `information`.',
-    type: ['information', 'notification'],
+    doc: 'defines the visual appearance of the badge. There are two main variants `notification` and `information`. The `content` variant is just for placement purposes, and will require you to style the `content` all by yourself. The default variant is `information`.',
+    type: ['information', 'notification', 'content'],
     status: 'optional',
   },
   label: {

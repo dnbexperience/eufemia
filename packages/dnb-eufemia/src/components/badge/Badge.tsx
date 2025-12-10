@@ -63,7 +63,7 @@ export type BadgeProps = {
    * The variant of the component.
    * Default: information.
    */
-  variant?: 'information' | 'notification'
+  variant?: 'information' | 'notification' | 'content'
 }
 
 type BadgeAndSpacingProps = BadgeProps &
@@ -154,7 +154,7 @@ function BadgeElem(
       role="status"
       className={classnames(
         'dnb-badge',
-        `dnb-badge--variant-${variant}`,
+        variant !== 'content' && `dnb-badge--variant-${variant}`,
         horizontal && `dnb-badge--horizontal-${horizontal}`,
         vertical && `dnb-badge--vertical-${vertical}`,
         isInline && 'dnb-badge--inline',
