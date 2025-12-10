@@ -73,6 +73,19 @@ describe('Field.Upload', () => {
     expect(text).toHaveTextContent('My Text')
   })
 
+  it('should add (optional) text to the label if required={false}', () => {
+    render(
+      <Form.Handler required>
+        <Field.Upload required={false} />
+      </Form.Handler>
+    )
+
+    const [label] = Array.from(document.querySelectorAll('p'))
+    expect(label).toHaveTextContent(
+      `${nbShared.Upload.title} ${nbForms.Field.optionalLabelSuffix}`
+    )
+  })
+
   it('should support onFileClick event', () => {
     const onFileClick = jest.fn()
     render(
