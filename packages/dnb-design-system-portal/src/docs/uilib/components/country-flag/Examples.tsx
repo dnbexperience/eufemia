@@ -28,6 +28,8 @@ export const AllSizes = () => (
   <ComponentBox data-visual-test="country-flag-sizes">
     <Flex.Horizontal align="center">
       <CountryFlag iso="NO" size="auto" />
+      <CountryFlag iso="NO" size="xx-small" />
+      <CountryFlag iso="NO" size="x-small" />
       <CountryFlag iso="NO" size="small" />
       <CountryFlag iso="NO" size="medium" />
       <CountryFlag iso="NO" size="large" />
