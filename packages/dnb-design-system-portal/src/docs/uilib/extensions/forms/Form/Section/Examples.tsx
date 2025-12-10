@@ -8,6 +8,7 @@ import {
   Tools,
   Value,
   makeAjvInstance,
+  z,
 } from '@dnb/eufemia/src/extensions/forms'
 
 export const WithoutDataContext = () => {
@@ -524,6 +525,50 @@ export const NestedSections = () => {
             </Form.Section>
           )
         }
+      }}
+    </ComponentBox>
+  )
+}
+
+// Helper to mark a Zod schema as required with a custom message
+const asRequired = (
+  message = 'Field.errorRequired',
+): [(value: unknown) => boolean, { message: string }] => {
+  return [(value: unknown) => value !== undefined, { message }]
+}
+
+export const SectionLevelZodSchema = () => {
+  return (
+    <ComponentBox scope={{ z, asRequired }}>
+      {() => {
+        const sectionSchema = z.object({
+          firstName: z
+            .string()
+            .min(4, 'StringField.errorMinLength')
+            .optional()
+            .refine(...asRequired('FirstName.errorRequired')),
+          lastName: z
+            .string()
+            .min(5, 'StringField.errorMinLength')
+            .optional()
+            .refine(...asRequired('LastName.errorRequired')),
+        })
+
+        return (
+          <Form.Handler>
+            <Flex.Stack>
+              <Form.Section path="/customer" schema={sectionSchema}>
+                <Field.Composition width="large">
+                  <Field.Name.First path="/firstName" label="Given name" />
+                  <Field.Name.Last path="/lastName" label="Surname" />
+                </Field.Composition>
+              </Form.Section>
+              <Form.SubmitButton />
+              <Tools.Log label="Data" />
+              <Tools.Errors label="Errors" />
+            </Flex.Stack>
+          </Form.Handler>
+        )
       }}
     </ComponentBox>
   )
