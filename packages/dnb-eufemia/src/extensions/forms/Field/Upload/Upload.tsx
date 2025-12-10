@@ -38,7 +38,6 @@ export type Props = Omit<
   | 'labelDescriptionInline'
   | 'labelSrOnly'
   | 'labelSize'
-  | 'labelSuffix'
 > &
   SpacingProps &
   Pick<
@@ -159,6 +158,7 @@ function UploadComponent(props: Props) {
 
   const labelWithItemNo = useIterateItemNo({
     label: label ?? title,
+    labelSuffix: props.labelSuffix,
     required: props.required,
   })
 

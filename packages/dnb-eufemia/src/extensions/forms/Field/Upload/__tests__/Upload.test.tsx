@@ -86,6 +86,19 @@ describe('Field.Upload', () => {
     )
   })
 
+  it('should support labelSuffix', () => {
+    render(
+      <Field.Upload
+        label="A Label"
+        required={false}
+        labelSuffix="(suffix)"
+      />
+    )
+
+    const [label] = Array.from(document.querySelectorAll('p'))
+    expect(label.textContent).toBe('A Label (suffix)')
+  })
+
   it('should support onFileClick event', () => {
     const onFileClick = jest.fn()
     render(
