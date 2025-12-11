@@ -164,9 +164,9 @@ render(
 
 ## Schema support
 
-You can also use a `schema` to define the properties of the nested fields.
+You can also use a `schema` on the [Form.Handler](/extensions/forms/Form/Handler) to define the validation rules for the fields inside the section.
 
-**Using Zod schemas**
+**Using Zod:**
 
 ```tsx
 import { Form, Field, z } from '@dnb/eufemia/extensions/forms'
@@ -179,20 +179,22 @@ const MySection = (props) => {
   )
 }
 
-const schema = z.object({
+const formSchema = z.object({
   mySection: z.object({
     phoneNumber: z.string().regex(/^[0-9]{10}$/),
   }),
 })
 
-render(
-  <Form.Handler schema={schema}>
-    <MySection path="/mySection" />
-  </Form.Handler>,
-)
+function MyForm() {
+  return (
+    <Form.Handler schema={formSchema}>
+      <MySection path="/mySection" />
+    </Form.Handler>
+  )
+}
 ```
 
-**Using JSON Schema (Ajv)**
+**Using JSON (Ajv):**
 
 ```tsx
 import {
@@ -211,7 +213,7 @@ const MySection = (props) => {
   )
 }
 
-const schema: JSONSchema = {
+const formSchema: JSONSchema = {
   type: 'object',
   properties: {
     mySection: {
@@ -227,11 +229,77 @@ const schema: JSONSchema = {
   },
 }
 
-render(
-  <Form.Handler schema={schema} ajvInstance={ajv}>
-    <MySection path="/mySection" />
-  </Form.Handler>,
-)
+function MyForm() {
+  return (
+    <Form.Handler schema={formSchema} ajvInstance={ajv}>
+      <MySection path="/mySection" />
+    </Form.Handler>
+  )
+}
+```
+
+### Section-level schema
+
+You can define a `schema` directly on the `Form.Section` component. The handler or fields will automatically collect and validate all section schemas without requiring manual merging.
+
+**Using Zod:**
+
+```tsx
+import { Form, Field, z } from '@dnb/eufemia/extensions/forms'
+
+const sectionSchema = z.object({
+  phoneNumber: z
+    .string()
+    .regex(/^[0-9]{10}$/)
+    .optional()
+    .refine((val) => val !== undefined, {
+      message: 'Field.errorRequired',
+    }),
+})
+
+function MyForm() {
+  return (
+    <Form.Handler>
+      <Form.Section path="/mySection" schema={sectionSchema}>
+        <Field.PhoneNumber path="/phoneNumber" />
+      </Form.Section>
+    </Form.Handler>
+  )
+}
+```
+
+**Using JSON (Ajv):**
+
+```tsx
+import {
+  Form,
+  Field,
+  JSONSchema,
+  makeAjvInstance,
+} from '@dnb/eufemia/extensions/forms'
+
+const sectionSchema: JSONSchema = {
+  type: 'object',
+  properties: {
+    phoneNumber: {
+      type: 'string',
+      pattern: '^[0-9]{10}$',
+    },
+  },
+  required: ['phoneNumber'],
+}
+
+const ajv = makeAjvInstance()
+
+function MyForm() {
+  return (
+    <Form.Handler ajvInstance={ajv}>
+      <Form.Section path="/mySection" schema={sectionSchema}>
+        <Field.PhoneNumber path="/phoneNumber" />
+      </Form.Section>
+    </Form.Handler>
+  )
+}
 ```
 
 ## Translations

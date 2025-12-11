@@ -232,6 +232,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     fieldDisplayValueRef,
     existingFieldsRef,
     fieldInternalsRef,
+    sectionSchemaPathsRef,
     prerenderFieldProps,
     hasContext: hasDataContext,
   } = dataContext || {}
@@ -304,6 +305,21 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       itemPath,
       omitSectionPath,
     })
+
+  const sectionSchemaPaths = sectionSchemaPathsRef?.current
+  const hasSectionSchema = Boolean(
+    sectionSchemaPaths?.size &&
+      identifier &&
+      Array.from(sectionSchemaPaths).some((sectionSchemaPath) => {
+        if (sectionSchemaPath === '/') {
+          return true
+        }
+        return (
+          identifier === sectionSchemaPath ||
+          identifier.startsWith(`${sectionSchemaPath}/`)
+        )
+      })
+  )
 
   const defaultValueRef = useRef(defaultValue)
   useLayoutEffect(() => {
@@ -1438,6 +1454,13 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     }
   }, [dataContext?.schema, errorPrioritization, identifier])
 
+  const prioritizeSectionSchema = useMemo(() => {
+    return (
+      errorPrioritization?.indexOf('sectionSchema') === 0 &&
+      hasSectionSchema
+    )
+  }, [errorPrioritization, hasSectionSchema])
+
   /**
    * Validate the current state value by provided validator instructions
    */
@@ -1476,9 +1499,11 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       }
 
       // Validate by provided schema (AJV or Zod) for this value
+      const skipLocalSchema =
+        prioritizeContextSchema || prioritizeSectionSchema
       if (
         value !== undefined &&
-        !prioritizeContextSchema &&
+        !skipLocalSchema &&
         typeof schemaValidatorRef.current === 'function'
       ) {
         const validationResult = schemaValidatorRef.current(value)
@@ -1548,6 +1573,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     hideError,
     persistErrorState,
     prioritizeContextSchema,
+    prioritizeSectionSchema,
     required,
     setFieldState,
     startOnBlurValidatorProcess,

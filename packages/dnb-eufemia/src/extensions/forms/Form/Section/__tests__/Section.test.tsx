@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import React from 'react'
 import { spyOnEufemiaWarn } from '../../../../../core/jest/jestSetup'
-import { fireEvent, render } from '@testing-library/react'
+import { fireEvent, render, waitFor } from '@testing-library/react'
 import {
   Field,
   Form,
@@ -9,12 +9,14 @@ import {
   makeAjvInstance,
   Tools,
   Value,
+  z,
 } from '../../..'
 import { SectionProps } from '../Section'
 import { Props as FieldNameProps } from '../../../Field/Name'
 import FieldPropsProvider from '../../../Field/Provider'
 import { GenerateRef as GeneratePropsRef } from '../../../Tools/ListAllProps'
 import { GenerateRef as GenerateSchemaRef } from '../../../Tools/GenerateSchema'
+import DataContext from '../../../DataContext/Context'
 
 import nbNO from '../../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO']
@@ -1001,7 +1003,8 @@ describe('Form.Section', () => {
       nb.NumberField.errorMinimum.replace('{minimum}', '30')
     )
   })
-  describe('schema', () => {
+
+  describe('Form.Handler schema', () => {
     it('should set "required" for firstName', () => {
       const schema: JSONSchema = {
         type: 'object',
@@ -1197,6 +1200,924 @@ describe('Form.Section', () => {
       expect(statusMessage).toHaveTextContent(
         nb.StringField.errorMinLength.replace('{minLength}', '30')
       )
+    })
+  })
+
+  describe('schema', () => {
+    const ErrorsTracker = ({
+      onUpdate,
+      schemaPathsTracker,
+    }: {
+      onUpdate: jest.Mock
+      schemaPathsTracker?: jest.Mock
+    }) => {
+      const { errors, sectionSchemaPathsRef } =
+        React.useContext(DataContext)
+      React.useEffect(() => {
+        onUpdate(errors)
+      }, [errors, onUpdate])
+      React.useEffect(() => {
+        if (schemaPathsTracker && sectionSchemaPathsRef?.current) {
+          schemaPathsTracker(Array.from(sectionSchemaPathsRef.current))
+        }
+      }, [sectionSchemaPathsRef, schemaPathsTracker])
+      return null
+    }
+
+    it('validates section-level JSON schema when provided', () => {
+      const sectionSchema: JSONSchema = {
+        type: 'object',
+        properties: {
+          firstName: {
+            type: 'string',
+            minLength: 3,
+          },
+        },
+        required: ['firstName'],
+      }
+
+      const onSubmitRequest = jest.fn()
+
+      render(
+        <Form.Handler
+          ajvInstance={makeAjvInstance()}
+          onSubmitRequest={onSubmitRequest}
+        >
+          <Form.Section path="/customer" schema={sectionSchema}>
+            <Field.String path="/firstName" label="Given name" />
+          </Form.Section>
+        </Form.Handler>
+      )
+
+      const input = document.querySelector('input[name="firstName"]')
+      const form = document.querySelector('form')
+
+      expect(input).not.toBeNull()
+      expect(form).not.toBeNull()
+
+      fireEvent.change(input as HTMLInputElement, {
+        target: { value: 'Jo' },
+      })
+      fireEvent.submit(form as HTMLFormElement)
+
+      expect(onSubmitRequest).toHaveBeenCalled()
+
+      const errors = onSubmitRequest.mock.calls[0][0].getErrors()
+
+      expect(
+        errors.some(({ path }) => path === '/customer/firstName')
+      ).toBe(true)
+    })
+
+    it('validates section-level Zod schema when provided', () => {
+      const sectionSchema = z.object({
+        firstName: z.string().min(3),
+      })
+
+      const onErrors = jest.fn()
+      const schemaPathsTracker = jest.fn()
+
+      render(
+        <Form.Handler>
+          <ErrorsTracker
+            onUpdate={onErrors}
+            schemaPathsTracker={schemaPathsTracker}
+          />
+          <Form.Section path="/customer" schema={sectionSchema}>
+            <Field.String path="/firstName" label="Given name" />
+          </Form.Section>
+        </Form.Handler>
+      )
+
+      expect(schemaPathsTracker).toHaveBeenCalledWith(
+        expect.arrayContaining(['/customer'])
+      )
+
+      const input = document.querySelector('input[name="firstName"]')
+      const form = document.querySelector('form')
+
+      expect(input).not.toBeNull()
+      expect(form).not.toBeNull()
+
+      fireEvent.change(input as HTMLInputElement, {
+        target: { value: 'Jo' },
+      })
+      fireEvent.submit(form as HTMLFormElement)
+
+      const lastCall =
+        onErrors.mock.calls[onErrors.mock.calls.length - 1] || []
+      const errors = lastCall[0]
+      expect(errors).toBeDefined()
+      expect(errors?.['/customer/firstName']).toBeInstanceOf(Error)
+    })
+
+    it('validates multiple Zod section schemas at the same time', () => {
+      const customerSchema = z.object({
+        firstName: z.string().min(3),
+      })
+      const addressSchema = z.object({
+        lastName: z.string().min(3),
+      })
+
+      const onErrors = jest.fn()
+      const schemaPathsTracker = jest.fn()
+
+      render(
+        <Form.Handler>
+          <ErrorsTracker
+            onUpdate={onErrors}
+            schemaPathsTracker={schemaPathsTracker}
+          />
+          <Form.Section path="/customer" schema={customerSchema}>
+            <Field.String path="/firstName" label="Given name" />
+          </Form.Section>
+          <Form.Section path="/address" schema={addressSchema}>
+            <Field.String path="/lastName" label="Surname" />
+          </Form.Section>
+        </Form.Handler>
+      )
+
+      expect(schemaPathsTracker).toHaveBeenCalledWith(
+        expect.arrayContaining(['/customer', '/address'])
+      )
+
+      const firstInput = document.querySelector(
+        'input[name="firstName"]'
+      ) as HTMLInputElement
+      const secondInput = document.querySelector(
+        'input[name="lastName"]'
+      ) as HTMLInputElement
+      const form = document.querySelector('form') as HTMLFormElement
+
+      fireEvent.change(firstInput, { target: { value: 'Jo' } })
+      fireEvent.change(secondInput, { target: { value: 'Li' } })
+      fireEvent.submit(form)
+
+      const lastCall =
+        onErrors.mock.calls[onErrors.mock.calls.length - 1] || []
+      const errors = lastCall[0]
+      expect(errors?.['/customer/firstName']).toBeInstanceOf(Error)
+      expect(errors?.['/address/lastName']).toBeInstanceOf(Error)
+    })
+
+    it('validates nested Zod section schemas', () => {
+      const parentSchema = z.object({
+        parentField: z.string().min(4),
+      })
+      const childSchema = z.object({
+        city: z.string().min(5),
+      })
+
+      const onErrors = jest.fn()
+      const schemaPathsTracker = jest.fn()
+
+      render(
+        <Form.Handler>
+          <ErrorsTracker
+            onUpdate={onErrors}
+            schemaPathsTracker={schemaPathsTracker}
+          />
+          <Form.Section path="/parent" schema={parentSchema}>
+            <Field.String path="/parentField" label="Parent field" />
+            <Form.Section path="/child" schema={childSchema}>
+              <Field.String path="/city" label="City" />
+            </Form.Section>
+          </Form.Section>
+        </Form.Handler>
+      )
+
+      expect(schemaPathsTracker).toHaveBeenCalledWith(
+        expect.arrayContaining(['/parent', '/parent/child'])
+      )
+
+      fireEvent.change(
+        document.querySelector(
+          'input[name="parentField"]'
+        ) as HTMLInputElement,
+        { target: { value: 'abc' } }
+      )
+      fireEvent.change(
+        document.querySelector('input[name="city"]') as HTMLInputElement,
+        { target: { value: 'Os' } }
+      )
+      fireEvent.submit(document.querySelector('form') as HTMLFormElement)
+
+      const lastCall =
+        onErrors.mock.calls[onErrors.mock.calls.length - 1] || []
+      const errors = lastCall[0]
+      expect(errors?.['/parent/parentField']).toBeInstanceOf(Error)
+      expect(errors?.['/parent/child/city']).toBeInstanceOf(Error)
+    })
+
+    it('validates section-level schema as a function', () => {
+      const sectionSchema = () => {
+        return z.object({
+          firstName: z.string().min(3),
+        })
+      }
+
+      const onErrors = jest.fn()
+      const schemaPathsTracker = jest.fn()
+
+      render(
+        <Form.Handler>
+          <ErrorsTracker
+            onUpdate={onErrors}
+            schemaPathsTracker={schemaPathsTracker}
+          />
+          <Form.Section path="/customer" schema={sectionSchema}>
+            <Field.String path="/firstName" label="Given name" />
+          </Form.Section>
+        </Form.Handler>
+      )
+
+      expect(schemaPathsTracker).toHaveBeenCalledWith(
+        expect.arrayContaining(['/customer'])
+      )
+
+      const input = document.querySelector('input[name="firstName"]')
+      const form = document.querySelector('form')
+
+      fireEvent.change(input as HTMLInputElement, {
+        target: { value: 'Jo' },
+      })
+      fireEvent.submit(form as HTMLFormElement)
+
+      const lastCall =
+        onErrors.mock.calls[onErrors.mock.calls.length - 1] || []
+      const errors = lastCall[0]
+      expect(errors?.['/customer/firstName']).toBeInstanceOf(Error)
+    })
+
+    it('validates section-level JSON schema as a function', () => {
+      const sectionSchema = (): JSONSchema => ({
+        type: 'object',
+        properties: {
+          firstName: {
+            type: 'string',
+            minLength: 3,
+          },
+        },
+        required: ['firstName'],
+      })
+
+      const onSubmitRequest = jest.fn()
+
+      render(
+        <Form.Handler
+          ajvInstance={makeAjvInstance()}
+          onSubmitRequest={onSubmitRequest}
+        >
+          <Form.Section path="/customer" schema={sectionSchema}>
+            <Field.String path="/firstName" label="Given name" />
+          </Form.Section>
+        </Form.Handler>
+      )
+
+      const input = document.querySelector('input[name="firstName"]')
+      const form = document.querySelector('form')
+
+      fireEvent.change(input as HTMLInputElement, {
+        target: { value: 'Jo' },
+      })
+      fireEvent.submit(form as HTMLFormElement)
+
+      expect(onSubmitRequest).toHaveBeenCalled()
+
+      const errors = onSubmitRequest.mock.calls[0][0].getErrors()
+      expect(
+        errors.some(({ path }) => path === '/customer/firstName')
+      ).toBe(true)
+    })
+
+    it('handles schema function that throws gracefully', () => {
+      const sectionSchema = () => {
+        throw new Error('Schema function error')
+      }
+
+      const onErrors = jest.fn()
+      const schemaPathsTracker = jest.fn()
+
+      render(
+        <Form.Handler>
+          <ErrorsTracker
+            onUpdate={onErrors}
+            schemaPathsTracker={schemaPathsTracker}
+          />
+          <Form.Section path="/customer" schema={sectionSchema}>
+            <Field.String path="/firstName" label="Given name" />
+          </Form.Section>
+        </Form.Handler>
+      )
+
+      const lastCall =
+        schemaPathsTracker.mock.calls[
+          schemaPathsTracker.mock.calls.length - 1
+        ]
+      expect(lastCall[0]).not.toContain('/customer')
+    })
+
+    it('validates successfully when data matches schema', () => {
+      const sectionSchema = z.object({
+        firstName: z.string().min(3),
+      })
+
+      const onErrors = jest.fn()
+      const onSubmit = jest.fn()
+
+      render(
+        <Form.Handler onSubmit={onSubmit}>
+          <ErrorsTracker onUpdate={onErrors} />
+          <Form.Section path="/customer" schema={sectionSchema}>
+            <Field.String path="/firstName" label="Given name" />
+          </Form.Section>
+          <Form.SubmitButton />
+        </Form.Handler>
+      )
+
+      const input = document.querySelector('input[name="firstName"]')
+      const form = document.querySelector('form')
+
+      fireEvent.change(input as HTMLInputElement, {
+        target: { value: 'John' },
+      })
+      fireEvent.submit(form as HTMLFormElement)
+
+      expect(onSubmit).toHaveBeenCalled()
+
+      const lastCall =
+        onErrors.mock.calls[onErrors.mock.calls.length - 1] || []
+      const contextErrors = lastCall[0]
+      expect(contextErrors?.['/customer/firstName']).toBeUndefined()
+    })
+
+    it('validates section schema without path (root level)', () => {
+      const sectionSchema = z.object({
+        firstName: z.string().min(3),
+      })
+
+      const onErrors = jest.fn()
+      const schemaPathsTracker = jest.fn()
+
+      render(
+        <Form.Handler>
+          <ErrorsTracker
+            onUpdate={onErrors}
+            schemaPathsTracker={schemaPathsTracker}
+          />
+          <Form.Section schema={sectionSchema}>
+            <Field.String path="/firstName" label="Given name" />
+          </Form.Section>
+        </Form.Handler>
+      )
+
+      expect(schemaPathsTracker).toHaveBeenCalledWith(
+        expect.arrayContaining(['/'])
+      )
+
+      const input = document.querySelector('input[name="firstName"]')
+      const form = document.querySelector('form')
+
+      fireEvent.change(input as HTMLInputElement, {
+        target: { value: 'Jo' },
+      })
+      fireEvent.submit(form as HTMLFormElement)
+
+      const lastCall =
+        onErrors.mock.calls[onErrors.mock.calls.length - 1] || []
+      const errors = lastCall[0]
+      expect(errors?.['/firstName']).toBeInstanceOf(Error)
+    })
+
+    it('accepts zod schema on Form.Section without Form.Handler', async () => {
+      const sectionSchema = z.object({
+        firstName: z
+          .string()
+          .min(4, 'StringField.errorMinLength')
+          .optional()
+          .refine((val) => val !== undefined, {
+            message: 'FirstName.errorRequired',
+          }),
+        lastName: z
+          .string()
+          .min(5, 'StringField.errorMinLength')
+          .optional()
+          .refine((val) => val !== undefined, {
+            message: 'LastName.errorRequired',
+          }),
+      })
+
+      render(
+        <Form.Section path="/customer" schema={sectionSchema}>
+          <Field.String path="/firstName" label="Given name" />
+          <Field.String path="/lastName" label="Surname" />
+        </Form.Section>
+      )
+
+      const firstInput = document.querySelector(
+        'input[name="firstName"]'
+      ) as HTMLInputElement
+
+      // Enter one character
+      fireEvent.change(firstInput, { target: { value: 'J' } })
+
+      // Remove it and blur - should show required error
+      fireEvent.change(firstInput, { target: { value: '' } })
+      fireEvent.blur(firstInput)
+
+      await waitFor(() => {
+        const statusMessage = document.querySelector('.dnb-form-status')
+        expect(statusMessage).toHaveTextContent(nb.FirstName.errorRequired)
+      })
+
+      // Enter 3 characters - should show minLength error (min is 4)
+      fireEvent.change(firstInput, { target: { value: 'Joh' } })
+      fireEvent.blur(firstInput)
+
+      await waitFor(() => {
+        const statusMessage = document.querySelector('.dnb-form-status')
+        expect(statusMessage).toHaveTextContent(
+          nb.StringField.errorMinLength.replace('{minLength}', '4')
+        )
+      })
+
+      // Enter 4 characters - should show no error
+      fireEvent.change(firstInput, { target: { value: 'John' } })
+      fireEvent.blur(firstInput)
+
+      await waitFor(() => {
+        const statusMessage = document.querySelector('.dnb-form-status')
+        expect(statusMessage).not.toBeInTheDocument()
+      })
+    })
+
+    it('validates zod schema on Form.Section with Form.Handler on submit', async () => {
+      const sectionSchema = z.object({
+        firstName: z
+          .string()
+          .min(4, 'StringField.errorMinLength')
+          .optional()
+          .refine((val) => val !== undefined, {
+            message: 'FirstName.errorRequired',
+          }),
+        lastName: z
+          .string()
+          .min(5, 'StringField.errorMinLength')
+          .optional()
+          .refine((val) => val !== undefined, {
+            message: 'LastName.errorRequired',
+          }),
+      })
+
+      render(
+        <Form.Handler>
+          <Form.Section path="/customer" schema={sectionSchema}>
+            <Field.String path="/firstName" label="Given name" />
+            <Field.String path="/lastName" label="Surname" />
+          </Form.Section>
+          <Form.SubmitButton />
+        </Form.Handler>
+      )
+
+      const firstInput = document.querySelector(
+        'input[name="firstName"]'
+      ) as HTMLInputElement
+      const lastInput = document.querySelector(
+        'input[name="lastName"]'
+      ) as HTMLInputElement
+      const form = document.querySelector('form') as HTMLFormElement
+
+      // Enter one character and submit - should show required error
+      fireEvent.change(firstInput, { target: { value: 'J' } })
+      fireEvent.change(firstInput, { target: { value: '' } })
+      fireEvent.submit(form)
+
+      await waitFor(() => {
+        const statusMessage = document.querySelector('.dnb-form-status')
+        expect(statusMessage).toHaveTextContent(nb.FirstName.errorRequired)
+      })
+
+      // Enter 3 characters and submit - should show minLength error (min is 4)
+      fireEvent.change(firstInput, { target: { value: 'Joh' } })
+      fireEvent.submit(form)
+
+      await waitFor(() => {
+        const statusMessage = document.querySelector('.dnb-form-status')
+        expect(statusMessage).toHaveTextContent(
+          nb.StringField.errorMinLength.replace('{minLength}', '4')
+        )
+      })
+
+      // Enter 4 characters and submit - should show no error
+      fireEvent.change(firstInput, { target: { value: 'John' } })
+      fireEvent.change(lastInput, { target: { value: 'Something' } })
+      fireEvent.submit(form)
+
+      await waitFor(() => {
+        const statusMessage = document.querySelector('.dnb-form-status')
+        expect(statusMessage).not.toBeInTheDocument()
+      })
+    })
+
+    it('validates nested JSON section schemas', () => {
+      const parentSchema: JSONSchema = {
+        type: 'object',
+        properties: {
+          parentField: {
+            type: 'string',
+            minLength: 4,
+          },
+        },
+      }
+      const childSchema: JSONSchema = {
+        type: 'object',
+        properties: {
+          city: {
+            type: 'string',
+            minLength: 5,
+          },
+        },
+      }
+
+      const onSubmitRequest = jest.fn()
+
+      render(
+        <Form.Handler
+          ajvInstance={makeAjvInstance()}
+          onSubmitRequest={onSubmitRequest}
+        >
+          <Form.Section path="/parent" schema={parentSchema}>
+            <Field.String path="/parentField" label="Parent field" />
+            <Form.Section path="/child" schema={childSchema}>
+              <Field.String path="/city" label="City" />
+            </Form.Section>
+          </Form.Section>
+        </Form.Handler>
+      )
+
+      fireEvent.change(
+        document.querySelector(
+          'input[name="parentField"]'
+        ) as HTMLInputElement,
+        { target: { value: 'abc' } }
+      )
+      fireEvent.change(
+        document.querySelector('input[name="city"]') as HTMLInputElement,
+        { target: { value: 'Os' } }
+      )
+      fireEvent.submit(document.querySelector('form') as HTMLFormElement)
+
+      expect(onSubmitRequest).toHaveBeenCalled()
+
+      const errors = onSubmitRequest.mock.calls[0][0].getErrors()
+      expect(
+        errors.some(({ path }) => path === '/parent/parentField')
+      ).toBe(true)
+      expect(
+        errors.some(({ path }) => path === '/parent/child/city')
+      ).toBe(true)
+    })
+
+    it('validates section schema with validateInitially', () => {
+      const sectionSchema = z.object({
+        firstName: z.string().min(3),
+      })
+
+      const onErrors = jest.fn()
+
+      render(
+        <Form.Handler>
+          <ErrorsTracker onUpdate={onErrors} />
+          <Form.Section
+            path="/customer"
+            schema={sectionSchema}
+            validateInitially
+          >
+            <Field.String path="/firstName" label="Given name" />
+          </Form.Section>
+        </Form.Handler>
+      )
+
+      // Errors should be present initially due to validateInitially
+      const lastCall =
+        onErrors.mock.calls[onErrors.mock.calls.length - 1] || []
+      const errors = lastCall[0]
+      expect(errors?.['/customer/firstName']).toBeInstanceOf(Error)
+    })
+
+    describe('errorPrioritization', () => {
+      it('prioritizes handler schema (contextSchema) over section schema when contextSchema is first', () => {
+        // Handler schema requires minLength: 5
+        const handlerSchema: JSONSchema = {
+          type: 'object',
+          properties: {
+            customer: {
+              type: 'object',
+              properties: {
+                firstName: {
+                  type: 'string',
+                  minLength: 5,
+                },
+              },
+            },
+          },
+        }
+
+        // Section schema requires minLength: 3
+        const sectionSchema: JSONSchema = {
+          type: 'object',
+          properties: {
+            firstName: {
+              type: 'string',
+              minLength: 3,
+            },
+          },
+        }
+
+        const onSubmitRequest = jest.fn()
+
+        render(
+          <Form.Handler
+            schema={handlerSchema}
+            ajvInstance={makeAjvInstance()}
+            onSubmitRequest={onSubmitRequest}
+          >
+            <Form.Section
+              path="/customer"
+              schema={sectionSchema}
+              errorPrioritization={['contextSchema', 'sectionSchema']}
+            >
+              <Field.String path="/firstName" label="Given name" />
+            </Form.Section>
+          </Form.Handler>
+        )
+
+        const input = document.querySelector('input[name="firstName"]')
+        const form = document.querySelector('form')
+
+        // Value "John" (4 chars) should fail handler schema (minLength: 5) but pass section schema (minLength: 3)
+        fireEvent.change(input as HTMLInputElement, {
+          target: { value: 'John' },
+        })
+        fireEvent.submit(form as HTMLFormElement)
+
+        expect(onSubmitRequest).toHaveBeenCalled()
+        const errors = onSubmitRequest.mock.calls[0][0].getErrors()
+        // Should have error from handler schema (minLength: 5), not section schema
+        expect(
+          errors.some(({ path }) => path === '/customer/firstName')
+        ).toBe(true)
+      })
+
+      it('prioritizes section schema over handler schema when sectionSchema is first', () => {
+        // Handler schema requires minLength: 2
+        const handlerSchema: JSONSchema = {
+          type: 'object',
+          properties: {
+            customer: {
+              type: 'object',
+              properties: {
+                firstName: {
+                  type: 'string',
+                  minLength: 2,
+                },
+              },
+            },
+          },
+        }
+
+        // Section schema requires minLength: 5
+        const sectionSchema: JSONSchema = {
+          type: 'object',
+          properties: {
+            firstName: {
+              type: 'string',
+              minLength: 5,
+            },
+          },
+        }
+
+        const onSubmitRequest = jest.fn()
+
+        render(
+          <Form.Handler
+            schema={handlerSchema}
+            ajvInstance={makeAjvInstance()}
+            onSubmitRequest={onSubmitRequest}
+          >
+            <Form.Section
+              path="/customer"
+              schema={sectionSchema}
+              errorPrioritization={['sectionSchema', 'contextSchema']}
+            >
+              <Field.String path="/firstName" label="Given name" />
+            </Form.Section>
+          </Form.Handler>
+        )
+
+        const input = document.querySelector('input[name="firstName"]')
+        const form = document.querySelector('form')
+
+        // Value "Jo" (2 chars) passes handler schema (minLength: 2) but fails section schema (minLength: 5)
+        // Section schema is prioritized, so section schema error should be shown
+        fireEvent.change(input as HTMLInputElement, {
+          target: { value: 'Jo' },
+        })
+        fireEvent.submit(form as HTMLFormElement)
+
+        expect(onSubmitRequest).toHaveBeenCalled()
+        const errors = onSubmitRequest.mock.calls[0][0].getErrors()
+        // Section schema fails (minLength: 5), so error should be present
+        // This verifies that section schema validation runs even when handler schema would pass
+        expect(
+          errors.some(({ path }) => path === '/customer/firstName')
+        ).toBe(true)
+      })
+
+      it('prioritizes handler Zod schema over section Zod schema when contextSchema is first', () => {
+        // Handler schema requires minLength: 5
+        const handlerSchema = z.object({
+          customer: z.object({
+            firstName: z.string().min(5, 'Handler schema error'),
+          }),
+        })
+
+        // Section schema requires minLength: 3
+        const sectionSchema = z.object({
+          firstName: z.string().min(3, 'Section schema error'),
+        })
+
+        const onErrors = jest.fn()
+
+        render(
+          <Form.Handler schema={handlerSchema}>
+            <ErrorsTracker onUpdate={onErrors} />
+            <Form.Section
+              path="/customer"
+              schema={sectionSchema}
+              errorPrioritization={['contextSchema', 'sectionSchema']}
+            >
+              <Field.String path="/firstName" label="Given name" />
+            </Form.Section>
+          </Form.Handler>
+        )
+
+        const input = document.querySelector('input[name="firstName"]')
+        const form = document.querySelector('form')
+
+        // Value "John" (4 chars) should fail handler schema (minLength: 5) but pass section schema (minLength: 3)
+        fireEvent.change(input as HTMLInputElement, {
+          target: { value: 'John' },
+        })
+        fireEvent.submit(form as HTMLFormElement)
+
+        const lastCall =
+          onErrors.mock.calls[onErrors.mock.calls.length - 1] || []
+        const errors = lastCall[0]
+        // Should have error from handler schema
+        expect(errors?.['/customer/firstName']).toBeInstanceOf(Error)
+      })
+
+      it('prioritizes section Zod schema over handler Zod schema when sectionSchema is first', () => {
+        // Handler schema requires minLength: 2
+        const handlerSchema = z.object({
+          customer: z.object({
+            firstName: z.string().min(2, 'Handler schema error'),
+          }),
+        })
+
+        // Section schema requires minLength: 5
+        const sectionSchema = z.object({
+          firstName: z.string().min(5, 'Section schema error'),
+        })
+
+        const onErrors = jest.fn()
+
+        render(
+          <Form.Handler schema={handlerSchema}>
+            <ErrorsTracker onUpdate={onErrors} />
+            <Form.Section
+              path="/customer"
+              schema={sectionSchema}
+              errorPrioritization={['sectionSchema', 'contextSchema']}
+            >
+              <Field.String path="/firstName" label="Given name" />
+            </Form.Section>
+          </Form.Handler>
+        )
+
+        const input = document.querySelector('input[name="firstName"]')
+        const form = document.querySelector('form')
+
+        // Value "Jo" (2 chars) passes handler schema (minLength: 2) but fails section schema (minLength: 5)
+        // Section schema is prioritized, so section schema error should be shown
+        fireEvent.change(input as HTMLInputElement, {
+          target: { value: 'Jo' },
+        })
+        fireEvent.submit(form as HTMLFormElement)
+
+        const lastCall =
+          onErrors.mock.calls[onErrors.mock.calls.length - 1] || []
+        const errors = lastCall[0]
+        // Section schema fails (minLength: 5), so error should be present
+        // This verifies that section schema validation runs even when handler schema would pass
+        expect(errors?.['/customer/firstName']).toBeInstanceOf(Error)
+      })
+
+      it('uses handler schema when only handler schema exists and contextSchema is prioritized', () => {
+        // Handler schema requires minLength: 5
+        const handlerSchema: JSONSchema = {
+          type: 'object',
+          properties: {
+            customer: {
+              type: 'object',
+              properties: {
+                firstName: {
+                  type: 'string',
+                  minLength: 5,
+                },
+              },
+            },
+          },
+        }
+
+        const onSubmitRequest = jest.fn()
+
+        render(
+          <Form.Handler
+            schema={handlerSchema}
+            ajvInstance={makeAjvInstance()}
+            onSubmitRequest={onSubmitRequest}
+          >
+            <Form.Section
+              path="/customer"
+              errorPrioritization={['contextSchema', 'sectionSchema']}
+            >
+              <Field.String path="/firstName" label="Given name" />
+            </Form.Section>
+          </Form.Handler>
+        )
+
+        const input = document.querySelector('input[name="firstName"]')
+        const form = document.querySelector('form')
+
+        fireEvent.change(input as HTMLInputElement, {
+          target: { value: 'John' },
+        })
+        fireEvent.submit(form as HTMLFormElement)
+
+        expect(onSubmitRequest).toHaveBeenCalled()
+        const errors = onSubmitRequest.mock.calls[0][0].getErrors()
+        // Should have error from handler schema
+        expect(
+          errors.some(({ path }) => path === '/customer/firstName')
+        ).toBe(true)
+      })
+
+      it('uses section schema when only section schema exists and sectionSchema is prioritized', () => {
+        // Section schema requires minLength: 3
+        const sectionSchema: JSONSchema = {
+          type: 'object',
+          properties: {
+            firstName: {
+              type: 'string',
+              minLength: 3,
+            },
+          },
+        }
+
+        const onSubmitRequest = jest.fn()
+
+        render(
+          <Form.Handler
+            ajvInstance={makeAjvInstance()}
+            onSubmitRequest={onSubmitRequest}
+          >
+            <Form.Section
+              path="/customer"
+              schema={sectionSchema}
+              errorPrioritization={['sectionSchema', 'contextSchema']}
+            >
+              <Field.String path="/firstName" label="Given name" />
+            </Form.Section>
+          </Form.Handler>
+        )
+
+        const input = document.querySelector('input[name="firstName"]')
+        const form = document.querySelector('form')
+
+        fireEvent.change(input as HTMLInputElement, {
+          target: { value: 'Jo' },
+        })
+        fireEvent.submit(form as HTMLFormElement)
+
+        expect(onSubmitRequest).toHaveBeenCalled()
+        const errors = onSubmitRequest.mock.calls[0][0].getErrors()
+        // Should have error from section schema
+        expect(
+          errors.some(({ path }) => path === '/customer/firstName')
+        ).toBe(true)
+      })
     })
   })
 
