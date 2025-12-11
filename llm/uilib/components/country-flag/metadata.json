@@ -14,7 +14,7 @@
     },
     {
       "name": "size",
-      "doc": "The size of the component. Can be `auto`, `small`, `medium`, `large` or `x-large`. Defaults to `auto` (1em).",
+      "doc": "The size of the component. Can be `auto`, `xx-small`, `x-small`, `small`, `medium`, `large` or `x-large`. Defaults to `auto` (1em).",
       "type": "string",
       "status": "optional",
       "defaultValue": null
@@ -31,11 +31,11 @@
   "related": [
     "Space"
   ],
-  "checksum": "0f5fb5472b9918204ab74961f626066719e4a2d46e5569a00944ff9f1d1c9b04",
+  "checksum": "416da9007219e80a9c76a81add62fb0f6019b971056a9361035d5307b67c74a0",
   "source": {
     "repo": "https://github.com/dnbexperience/eufemia",
     "file": "packages/dnb-eufemia/src/components/country-flag/CountryFlag.tsx",
-    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.91.1/packages/dnb-eufemia/src/components/country-flag/CountryFlag.tsx"
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.92.0/packages/dnb-eufemia/src/components/country-flag/CountryFlag.tsx"
   },
   "sources": {
     "entry": {
@@ -52,7 +52,7 @@
       "public": "https://eufemia.dnb.no/uilib/components/country-flag/demos/"
     }
   },
-  "version": "10.91.1",
-  "generatedAt": "2025-12-09T13:24:51.902Z",
+  "version": "10.92.0",
+  "generatedAt": "2025-12-11T21:14:14.275Z",
   "schemaVersion": 1
 }

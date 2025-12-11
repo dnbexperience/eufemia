@@ -80,7 +80,7 @@
   "source": {
     "repo": "https://github.com/dnbexperience/eufemia",
     "file": "packages/dnb-eufemia/src/components/form-label/FormLabel.tsx",
-    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.91.1/packages/dnb-eufemia/src/components/form-label/FormLabel.tsx"
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.92.0/packages/dnb-eufemia/src/components/form-label/FormLabel.tsx"
   },
   "sources": {
     "entry": {
@@ -97,7 +97,7 @@
       "public": "https://eufemia.dnb.no/uilib/components/form-label/demos/"
     }
   },
-  "version": "10.91.1",
-  "generatedAt": "2025-12-09T13:24:51.951Z",
+  "version": "10.92.0",
+  "generatedAt": "2025-12-11T21:14:14.325Z",
   "schemaVersion": 1
 }
