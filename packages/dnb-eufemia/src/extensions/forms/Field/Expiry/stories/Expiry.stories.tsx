@@ -1,5 +1,6 @@
-import { useState } from 'react'
-import { Field, Form, Tools } from '../../../'
+import React, { useState } from 'react'
+import { Field, Form, has, Tools } from '../../../'
+import { Button, P } from '../../../../..'
 
 export default {
   title: 'Eufemia/Extensions/Forms/Expiry',
@@ -48,5 +49,30 @@ export const ExpiryTransformers = () => {
         <Tools.Log />
       </Form.Card>
     </Form.Handler>
+  )
+}
+
+export const OnStatusChange = () => {
+  const [hasError, setHasError] = React.useState(false)
+  const [value, setValue] = React.useState(undefined)
+
+  const disableButton = !value || hasError
+
+  return (
+    <Form.Card space>
+      <Field.Expiry
+        required
+        onChange={(value) => {
+          console.log(value)
+          setValue(value)
+        }}
+        onStatusChange={({ error }) => {
+          setHasError(!!error)
+        }}
+        validateContinuously={true}
+      />
+
+      <Button disabled={disableButton}>Submit</Button>
+    </Form.Card>
   )
 }
