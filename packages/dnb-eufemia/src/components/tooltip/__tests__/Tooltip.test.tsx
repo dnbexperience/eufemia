@@ -61,16 +61,47 @@ describe('Tooltip', () => {
     )
   })
 
-  it('should have aria-hidden attribute', async () => {
+  it('should not have aria-hidden when active', async () => {
     render(<Tooltip active />)
 
-    expect(getMainElem().getAttribute('aria-hidden')).toBe('true')
+    expect(getMainElem()).not.toHaveAttribute('aria-hidden', 'true')
   })
 
   it('should have role="tooltip" attribute', async () => {
     render(<Tooltip active />)
 
     expect(getMainElem().getAttribute('role')).toBe('tooltip')
+  })
+
+  it('should have role="tooltip" even when other attributes are passed', async () => {
+    render(
+      <Tooltip
+        active
+        attributes={{
+          'data-testid': 'custom-tooltip',
+          className: 'custom',
+        }}
+      />
+    )
+
+    const tooltip = getMainElem()
+    expect(tooltip).toHaveAttribute('role', 'tooltip')
+    expect(tooltip).toHaveAttribute('data-testid', 'custom-tooltip')
+  })
+
+  it('should allow role to be overridden via attributes', async () => {
+    render(
+      <Tooltip
+        active
+        attributes={
+          { role: 'status' } as React.HTMLAttributes<HTMLElement>
+        }
+      />
+    )
+
+    const tooltip = getMainElem()
+    // Note: attributes spread after role="tooltip", so custom role takes precedence
+    expect(tooltip).toHaveAttribute('role', 'status')
   })
 
   it('should set size class', () => {
