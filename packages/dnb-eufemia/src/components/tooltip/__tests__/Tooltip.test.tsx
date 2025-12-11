@@ -226,6 +226,14 @@ describe('Tooltip', () => {
       )
     })
 
+    it('renders tooltip content from tooltip prop without children', async () => {
+      render(<Tooltip active tooltip="Tooltip prop content" />)
+
+      await waitFor(() => {
+        expect(getMainElem()).toHaveTextContent('Tooltip prop content')
+      })
+    })
+
     describe('skipPortal', () => {
       it('will skip React Portal', () => {
         render(<Tooltip skipPortal active />)
