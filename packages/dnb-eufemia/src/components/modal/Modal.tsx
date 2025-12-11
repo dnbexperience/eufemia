@@ -68,7 +68,7 @@ class Modal extends React.PureComponent<
   }
 
   _id: string
-  _triggerRef: React.RefObject<any>
+  _triggerRef: React.RefObject<HTMLElement>
   _onUnmount: Array<() => void>
   _openTimeout: NodeJS.Timeout
   _closeTimeout: NodeJS.Timeout
@@ -76,7 +76,9 @@ class Modal extends React.PureComponent<
   _tryToOpenTimeout: NodeJS.Timeout
   activeElement: Element
   isInTransition: boolean
-  modalContentCloseRef: React.RefObject<any>
+  modalContentCloseRef: React.RefObject<
+    (event: Event, options: { triggeredBy?: string }) => void
+  >
 
   state = {
     hide: false,
@@ -471,11 +473,11 @@ class Modal extends React.PureComponent<
     const { hide, modalActive } = this.state
     const modal_content = Modal.getContent(
       typeof this.props.children === 'function'
-        ? (Object.freeze({
-            ...(this.props as any),
+        ? Object.freeze({
+            ...this.props,
             close: this.close,
-          }) as any)
-        : (this.props as any)
+          })
+        : this.props
     )
 
     const render = (suffixProps) => {
@@ -504,12 +506,16 @@ class Modal extends React.PureComponent<
         fallbackTitle = this.context.translation.HelpButton.title
       }
 
+      const headerTitle = rest.title || fallbackTitle
+
       const TriggerButton = trigger
         ? (trigger as React.FC)
         : HelpButtonInstance
 
       const title = (
-        !triggerAttributes.text ? rest.title || fallbackTitle : null
+        !triggerAttributes.text && headerTitle
+          ? headerTitle || fallbackTitle
+          : null
       ) as string
 
       return (
@@ -523,7 +529,7 @@ class Modal extends React.PureComponent<
               innerRef={this._triggerRef}
               className={classnames(
                 'dnb-modal__trigger',
-                createSpacingClasses(rest as any),
+                createSpacingClasses(rest as SpacingProps),
                 triggerAttributes.className,
 
                 // @deprecated – can be removed in v11
@@ -550,7 +556,7 @@ class Modal extends React.PureComponent<
                 }
                 close={this.close}
                 hide={hide}
-                title={rest.title || fallbackTitle}
+                title={headerTitle}
                 modalContentCloseRef={this.modalContentCloseRef}
               />
             </ParagraphContext.Provider>

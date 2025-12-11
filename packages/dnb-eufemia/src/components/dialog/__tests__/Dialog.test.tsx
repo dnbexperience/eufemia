@@ -7,6 +7,7 @@ import { loadScss, axeComponent } from '../../../core/jest/jestSetup'
 import * as helpers from '../../../shared/helpers'
 import { fireEvent, render, waitFor, screen } from '@testing-library/react'
 import { Form } from '../../../extensions/forms'
+import Translation from '../../../shared/Translation'
 
 const props: DialogProps & DialogContentProps = {
   noAnimation: true,
@@ -141,6 +142,22 @@ describe('Dialog', () => {
 
     expect(document.querySelector('.dnb-dialog__title').textContent).toBe(
       contextTitle
+    )
+  })
+
+  it('accepts a <Translation> title', () => {
+    render(
+      <Provider value={{ locale: 'en-GB' }}>
+        <Dialog
+          noAnimation
+          openState
+          title={<Translation id="Modal.dialog_title" />}
+        />
+      </Provider>
+    )
+
+    expect(document.querySelector('.dnb-dialog__title').textContent).toBe(
+      'Dialog Window'
     )
   })
 
