@@ -651,6 +651,8 @@ export default function Popover(props: PopoverProps) {
     return triggerMarkup
   }
 
+  const PopoverElement = skipPortal ? PopoverContainer : PopoverPortal
+
   return (
     <>
       {triggerMarkup}
@@ -663,61 +665,33 @@ export default function Popover(props: PopoverProps) {
           {statefulTitle}
         </span>
       )}
-      {skipPortal ? (
-        <PopoverContainer
-          baseClassNames={baseClassNames}
-          active={isOpen}
-          showDelay={showDelay}
-          attributes={popoverAttributes}
-          targetElement={targetElement}
-          hideDelay={hideDelay}
-          keepInDOM={keepInDOM}
-          autoAlignMode={autoAlignMode}
-          noAnimation={noAnimation}
-          arrowPosition={arrowPosition}
-          placement={placement}
-          alignOnTarget={alignOnTarget}
-          horizontalOffset={horizontalOffset}
-          arrowPositionSelector={arrowPositionSelector}
-          fixedPosition={fixedPosition}
-          skipPortal
-          omitDescribedBy={omitDescribedBy}
-          contentRef={contentRef}
-          triggerOffset={triggerOffset}
-          hideArrow={hideArrow}
-          arrowEdgeOffset={arrowEdgeOffset}
-          targetRefreshKey={targetRefreshKey}
-        >
-          {overlayContent}
-        </PopoverContainer>
-      ) : (
-        <PopoverPortal
-          baseClassNames={baseClassNames}
-          active={isOpen}
-          targetElement={targetElement}
-          showDelay={showDelay}
-          hideDelay={hideDelay}
-          keepInDOM={keepInDOM}
-          autoAlignMode={autoAlignMode}
-          noAnimation={noAnimation}
-          portalRootClass={portalRootClass}
-          arrowPosition={arrowPosition}
-          placement={placement}
-          alignOnTarget={alignOnTarget}
-          horizontalOffset={horizontalOffset}
-          arrowPositionSelector={arrowPositionSelector}
-          fixedPosition={fixedPosition}
-          omitDescribedBy={omitDescribedBy}
-          attributes={popoverAttributes}
-          contentRef={contentRef}
-          triggerOffset={triggerOffset}
-          hideArrow={hideArrow}
-          arrowEdgeOffset={arrowEdgeOffset}
-          targetRefreshKey={targetRefreshKey}
-        >
-          {overlayContent}
-        </PopoverPortal>
-      )}
+
+      <PopoverElement
+        baseClassNames={baseClassNames}
+        active={isOpen}
+        showDelay={showDelay}
+        attributes={popoverAttributes}
+        targetElement={targetElement}
+        hideDelay={hideDelay}
+        keepInDOM={keepInDOM}
+        autoAlignMode={autoAlignMode}
+        noAnimation={noAnimation}
+        arrowPosition={arrowPosition}
+        placement={placement}
+        alignOnTarget={alignOnTarget}
+        horizontalOffset={horizontalOffset}
+        arrowPositionSelector={arrowPositionSelector}
+        fixedPosition={fixedPosition}
+        skipPortal={skipPortal}
+        {...(!skipPortal && { portalRootClass })}
+        contentRef={contentRef}
+        triggerOffset={triggerOffset}
+        hideArrow={hideArrow}
+        arrowEdgeOffset={arrowEdgeOffset}
+        targetRefreshKey={targetRefreshKey}
+      >
+        {overlayContent}
+      </PopoverElement>
     </>
   )
 }

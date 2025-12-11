@@ -61,16 +61,44 @@ describe('Tooltip', () => {
     )
   })
 
-  it('should have aria-hidden attribute', async () => {
+  it('should not have aria-hidden when active', async () => {
     render(<Tooltip active />)
 
-    expect(getMainElem().getAttribute('aria-hidden')).toBe('true')
+    expect(getMainElem()).not.toHaveAttribute('aria-hidden', 'true')
   })
 
-  it('should have role="tooltip" attribute', async () => {
+  it('should have role="tooltip" attribute when active', async () => {
     render(<Tooltip active />)
 
-    expect(getMainElem().getAttribute('role')).toBe('tooltip')
+    const tooltip = getMainElem()
+    expect(tooltip).toBeInTheDocument()
+    expect(tooltip.getAttribute('role')).toBe('tooltip')
+  })
+
+  it('should set role="tooltip" on the tooltip element, not the portal wrapper', async () => {
+    render(<Tooltip active />)
+
+    const portal = document.querySelector('.dnb-tooltip__portal')
+    const tooltip = document.querySelector('.dnb-tooltip')
+
+    expect(portal).toBeInTheDocument()
+    expect(portal).not.toHaveAttribute('role', 'tooltip')
+    expect(tooltip).toBeInTheDocument()
+    expect(tooltip.getAttribute('role')).toBe('tooltip')
+  })
+
+  it('should have role="tooltip" when tooltip becomes active', async () => {
+    const { rerender } = render(<Tooltip active={false} />)
+
+    expect(document.querySelector('.dnb-tooltip')).not.toBeInTheDocument()
+
+    rerender(<Tooltip active />)
+
+    await waitFor(() => {
+      const tooltip = getMainElem()
+      expect(tooltip).toBeInTheDocument()
+      expect(tooltip.getAttribute('role')).toBe('tooltip')
+    })
   })
 
   it('should set size class', () => {
