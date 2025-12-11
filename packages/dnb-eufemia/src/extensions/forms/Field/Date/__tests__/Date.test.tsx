@@ -2910,4 +2910,152 @@ describe('Field.Date', () => {
       expect(errorText).toContain(nb.Date.errorRequiredRange)
     })
   })
+
+  it('should validate continuously when validateContinuously is enabled', async () => {
+    render(<Field.Date validateContinuously />)
+
+    const dayInput = document.querySelector(
+      '.dnb-date-picker__input--day'
+    ) as HTMLInputElement
+
+    // Type invalid date - error should appear during typing
+    await userEvent.click(dayInput)
+    dayInput.setSelectionRange(0, 0)
+    await userEvent.keyboard('39192025')
+
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).toBeInTheDocument()
+      expect(document.querySelector('[role="alert"]')).toHaveTextContent(
+        nb.Date.errorInvalidDate
+      )
+    })
+
+    // Fix the date - error should disappear during typing
+    await userEvent.click(dayInput)
+    dayInput.setSelectionRange(0, 0)
+    await userEvent.keyboard('11122025')
+
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).not.toBeInTheDocument()
+    })
+
+    // Type invalid date again - error should appear again
+    await userEvent.click(dayInput)
+    dayInput.setSelectionRange(0, 0)
+    await userEvent.keyboard('99999999')
+
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).toBeInTheDocument()
+      expect(document.querySelector('[role="alert"]')).toHaveTextContent(
+        nb.Date.errorInvalidDate
+      )
+    })
+  })
+
+  it('should call onStatusChange when validateContinuously reveals validation errors', async () => {
+    const onStatusChange = jest.fn()
+
+    render(
+      <Field.Date
+        onStatusChange={onStatusChange}
+        validateContinuously
+        required
+      />
+    )
+
+    const dayInput = document.querySelector(
+      '.dnb-date-picker__input--day'
+    ) as HTMLInputElement
+
+    // Type invalid date
+    await userEvent.click(dayInput)
+    dayInput.setSelectionRange(0, 0)
+    await userEvent.keyboard('39192025')
+
+    await waitFor(() => {
+      expect(onStatusChange).toHaveBeenCalled()
+      expect(onStatusChange).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          error: expect.anything(),
+        })
+      )
+    })
+
+    // Clear mock to track new calls
+    onStatusChange.mockClear()
+
+    // Type valid date
+    await userEvent.click(dayInput)
+    dayInput.setSelectionRange(0, 0)
+    await userEvent.keyboard('11122025')
+
+    await waitFor(() => {
+      expect(onStatusChange).toHaveBeenCalled()
+      expect(onStatusChange).toHaveBeenLastCalledWith({
+        info: undefined,
+        warning: undefined,
+        error: undefined,
+      })
+    })
+  })
+
+  it('should call onStatusChange when error prop changes without validateContinuously', async () => {
+    const onStatusChange = jest.fn()
+    const error1 = new Error('Error 1')
+    const error2 = new Error('Error 2')
+
+    const { rerender } = render(
+      <Field.Date onStatusChange={onStatusChange} error={undefined} />
+    )
+
+    // Initially no error should be called
+    await waitFor(() => {
+      expect(onStatusChange).toHaveBeenCalledTimes(0)
+    })
+
+    // Set error prop
+    rerender(<Field.Date onStatusChange={onStatusChange} error={error1} />)
+
+    // Wait for onStatusChange to be called with error
+    await waitFor(() => {
+      expect(onStatusChange).toHaveBeenCalledTimes(1)
+      expect(onStatusChange).toHaveBeenLastCalledWith({
+        info: undefined,
+        warning: undefined,
+        error: error1,
+      })
+    })
+
+    // Change to different error
+    rerender(<Field.Date onStatusChange={onStatusChange} error={error2} />)
+
+    await waitFor(() => {
+      expect(onStatusChange).toHaveBeenCalledTimes(2)
+      expect(onStatusChange).toHaveBeenLastCalledWith({
+        info: undefined,
+        warning: undefined,
+        error: error2,
+      })
+    })
+
+    // Clear error
+    rerender(
+      <Field.Date onStatusChange={onStatusChange} error={undefined} />
+    )
+
+    await waitFor(() => {
+      expect(onStatusChange).toHaveBeenCalledTimes(3)
+      expect(onStatusChange).toHaveBeenLastCalledWith({
+        info: undefined,
+        warning: undefined,
+        error: undefined,
+      })
+    })
+  })
 })

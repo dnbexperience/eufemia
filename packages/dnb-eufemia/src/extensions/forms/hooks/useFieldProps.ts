@@ -143,7 +143,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     onBlurValidator,
     // Deprecated – can be removed in v11
     validator,
-    onChangeValidator = validator,
+    onChangeValidator: onChangeValidatorProp = validator,
     exportValidators,
     schema,
     validateInitially,
@@ -589,6 +589,17 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
   // - Context errors are from outer contexts, like validation for this field as part of the whole data set
   const contextErrorRef = useRef<Error | FormError | undefined>()
+
+  // When validateContinuously is enabled, also validate on change using onBlurValidator
+  const onChangeValidator = useMemo(() => {
+    if (onChangeValidatorProp) {
+      return onChangeValidatorProp
+    }
+    if (validateContinuously && onBlurValidator) {
+      return onBlurValidator
+    }
+    return undefined
+  }, [onChangeValidatorProp, validateContinuously, onBlurValidator])
 
   const onChangeValidatorRef = useRef(onChangeValidator)
   useUpdateEffect(() => {
@@ -1568,7 +1579,8 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         persistErrorState('weak', initiator, error)
 
         // When validateContinuously is true, reveal errors immediately after validation
-        if (validateContinuously) {
+        // But only if the value has been changed (not on initial validation)
+        if (validateContinuously && changedRef.current) {
           revealError()
         }
       }

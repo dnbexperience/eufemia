@@ -1,6 +1,7 @@
 import React from 'react'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
 import { render, waitFor, screen, fireEvent } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { Props } from '..'
 import { Field, Form, Validator } from '../../..'
 import nbNO from '../../../constants/locales/nb-NO'
@@ -328,6 +329,158 @@ describe('Field.BankAccountNumber', () => {
 
       const input = document.querySelector('input')
       expect(input).toHaveAttribute('aria-invalid', 'true')
+    })
+  })
+
+  it('should validate continuously when validateContinuously is enabled', async () => {
+    render(<Field.BankAccountNumber validateContinuously />)
+
+    const input = document.querySelector('input')
+
+    // Type invalid account number (too short) - error should appear during typing
+    await userEvent.type(input, '12345')
+
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).toBeInTheDocument()
+      expect(document.querySelector('[role="alert"]')).toHaveTextContent(
+        nb.BankAccountNumber.errorBankAccountNumberLength
+      )
+    })
+
+    // Type more digits to reach 11 - error should change to invalid checksum
+    await userEvent.type(input, '678901')
+
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).toBeInTheDocument()
+      expect(document.querySelector('[role="alert"]')).toHaveTextContent(
+        nb.BankAccountNumber.errorBankAccountNumber
+      )
+    })
+
+    // Type valid account number - error should disappear
+    await userEvent.clear(input)
+    await userEvent.type(input, '52440407897')
+
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).not.toBeInTheDocument()
+    })
+  })
+
+  it('should call onStatusChange when validateContinuously reveals validation errors', async () => {
+    const onStatusChange = jest.fn()
+
+    render(
+      <Field.BankAccountNumber
+        onStatusChange={onStatusChange}
+        validateContinuously
+        required
+      />
+    )
+
+    const input = document.querySelector('input')
+
+    // Type invalid account number
+    await userEvent.type(input, '12345')
+
+    await waitFor(() => {
+      expect(onStatusChange).toHaveBeenCalled()
+      expect(onStatusChange).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          error: expect.anything(),
+        })
+      )
+    })
+
+    // Clear mock to track new calls
+    onStatusChange.mockClear()
+
+    // Type valid account number
+    await userEvent.clear(input)
+    await userEvent.type(input, '52440407897')
+
+    await waitFor(() => {
+      expect(onStatusChange).toHaveBeenCalled()
+      expect(onStatusChange).toHaveBeenLastCalledWith({
+        info: undefined,
+        warning: undefined,
+        error: undefined,
+      })
+    })
+  })
+
+  it('should call onStatusChange when error prop changes without validateContinuously', async () => {
+    const onStatusChange = jest.fn()
+    const error1 = new Error('Error 1')
+    const error2 = new Error('Error 2')
+
+    const { rerender } = render(
+      <Field.BankAccountNumber
+        onStatusChange={onStatusChange}
+        error={undefined}
+      />
+    )
+
+    // Initially no error should be called
+    await waitFor(() => {
+      expect(onStatusChange).toHaveBeenCalledTimes(0)
+    })
+
+    // Set error prop
+    rerender(
+      <Field.BankAccountNumber
+        onStatusChange={onStatusChange}
+        error={error1}
+      />
+    )
+
+    // Wait for onStatusChange to be called with error
+    await waitFor(() => {
+      expect(onStatusChange).toHaveBeenCalledTimes(1)
+      expect(onStatusChange).toHaveBeenLastCalledWith({
+        info: undefined,
+        warning: undefined,
+        error: error1,
+      })
+    })
+
+    // Change to different error
+    rerender(
+      <Field.BankAccountNumber
+        onStatusChange={onStatusChange}
+        error={error2}
+      />
+    )
+
+    await waitFor(() => {
+      expect(onStatusChange).toHaveBeenCalledTimes(2)
+      expect(onStatusChange).toHaveBeenLastCalledWith({
+        info: undefined,
+        warning: undefined,
+        error: error2,
+      })
+    })
+
+    // Clear error
+    rerender(
+      <Field.BankAccountNumber
+        onStatusChange={onStatusChange}
+        error={undefined}
+      />
+    )
+
+    await waitFor(() => {
+      expect(onStatusChange).toHaveBeenCalledTimes(3)
+      expect(onStatusChange).toHaveBeenLastCalledWith({
+        info: undefined,
+        warning: undefined,
+        error: undefined,
+      })
     })
   })
 })

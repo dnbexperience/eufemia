@@ -319,6 +319,7 @@ describe('useFieldProps', () => {
             onStatusChange,
             required: true,
             validateContinuously: true,
+            validateInitially: true,
             emptyValue: '',
             ...props,
           }),
@@ -439,13 +440,15 @@ describe('useFieldProps', () => {
         }
       )
 
-      // Initially invalid value (empty when required) - error should be visible
-      // This ensures revealError() was called (revealErrorRef.current = true)
+      // Mark as changed to enable validation from now on
+      result.current.setChanged(true)
+
+      // Initially there should be no error
       await waitFor(() => {
-        expect(result.current.hasError).toBeTruthy()
+        expect(result.current.hasError).toBeFalsy()
       })
 
-      // Change to valid value - hideError() should be called to reset revealErrorRef
+      // Change to valid value
       rerender({ value: 'valid value' })
 
       // Wait for validation to pass and hideError to be called
@@ -455,21 +458,191 @@ describe('useFieldProps', () => {
       })
 
       // Change back to invalid value - error should appear again
-      // If hideError() wasn't called, revealErrorRef.current would still be true
-      // which shouldn't affect behavior, but we verify the state is consistent
       rerender({ value: '' })
 
-      // Error should appear again - this verifies that hideError() properly reset the state
+      // Error should appear again
       // so that subsequent errors can be revealed correctly
       await waitFor(() => {
         expect(result.current.hasError).toBeTruthy()
       })
 
-      // Change to valid again - hideError() should be called again
+      // Change to valid again
       rerender({ value: 'valid again' })
 
       await waitFor(() => {
         expect(result.current.hasError).toBeFalsy()
+      })
+    })
+
+    it('should automatically use onBlurValidator as onChangeValidator when validateContinuously is enabled', async () => {
+      const onBlurValidator = jest.fn((value: string) => {
+        if (value.length < 3) {
+          return new Error('Value must be at least 3 characters')
+        }
+        return undefined
+      })
+
+      const { result } = renderHook(
+        (props) =>
+          useFieldProps({
+            validateContinuously: true,
+            onBlurValidator,
+            emptyValue: '',
+            ...props,
+          }),
+        {
+          initialProps: { value: '' },
+        }
+      )
+
+      // Change value to invalid - onBlurValidator should be called as onChangeValidator
+      act(() => {
+        result.current.handleChange('ab')
+      })
+
+      await waitFor(() => {
+        expect(onBlurValidator).toHaveBeenCalled()
+        expect(result.current.hasError).toBeTruthy()
+        expect(result.current.error).toBeInstanceOf(Error)
+        expect(getError(result.current.error).message).toBe(
+          'Value must be at least 3 characters'
+        )
+      })
+
+      // Clear the mock to track new calls
+      onBlurValidator.mockClear()
+
+      // Change value to valid - onBlurValidator should be called again
+      act(() => {
+        result.current.handleChange('abc')
+      })
+
+      await waitFor(() => {
+        expect(onBlurValidator).toHaveBeenCalled()
+        expect(result.current.hasError).toBeFalsy()
+        expect(result.current.error).toBeUndefined()
+      })
+    })
+
+    it('should not use onBlurValidator as onChangeValidator when explicit onChangeValidator is provided', async () => {
+      const onBlurValidator = jest.fn((value: string) => {
+        return new Error('onBlurValidator error')
+      })
+
+      const onChangeValidator = jest.fn((value: string) => {
+        if (value.length < 3) {
+          return new Error('onChangeValidator error')
+        }
+        return undefined
+      })
+
+      const { result } = renderHook(
+        (props) =>
+          useFieldProps({
+            validateContinuously: true,
+            onBlurValidator,
+            onChangeValidator,
+            emptyValue: '',
+            ...props,
+          }),
+        {
+          initialProps: { value: '' },
+        }
+      )
+
+      // Change value to invalid - onChangeValidator should be called, not onBlurValidator
+      act(() => {
+        result.current.handleChange('ab')
+      })
+
+      await waitFor(() => {
+        expect(onChangeValidator).toHaveBeenCalled()
+        expect(onBlurValidator).not.toHaveBeenCalled()
+        expect(result.current.hasError).toBeTruthy()
+        expect(result.current.error).toBeInstanceOf(Error)
+        expect(getError(result.current.error).message).toBe(
+          'onChangeValidator error'
+        )
+      })
+    })
+
+    it('should not use onBlurValidator as onChangeValidator when validateContinuously is false', async () => {
+      const onBlurValidator = jest.fn((value: string) => {
+        return new Error('onBlurValidator error')
+      })
+
+      const { result } = renderHook(
+        (props) =>
+          useFieldProps({
+            validateContinuously: false,
+            onBlurValidator,
+            emptyValue: '',
+            ...props,
+          }),
+        {
+          initialProps: { value: '' },
+        }
+      )
+
+      // Change value - onBlurValidator should not be called as onChangeValidator
+      act(() => {
+        result.current.handleChange('ab')
+      })
+
+      await waitFor(() => {
+        expect(onBlurValidator).not.toHaveBeenCalled()
+        expect(result.current.hasError).toBeFalsy()
+        expect(result.current.error).toBeUndefined()
+      })
+
+      // Only when blurring should onBlurValidator be called
+      act(() => {
+        result.current.handleBlur()
+      })
+
+      await waitFor(() => {
+        expect(onBlurValidator).toHaveBeenCalled()
+        expect(result.current.hasError).toBeTruthy()
+      })
+    })
+
+    it('should not display error initially when validateContinuously and required are both enabled', async () => {
+      const { result } = renderHook(
+        (props) =>
+          useFieldProps({
+            validateContinuously: true,
+            required: true,
+            emptyValue: '',
+            ...props,
+          }),
+        {
+          initialProps: { value: '' },
+        }
+      )
+
+      // Error should nto be displayed initially when field is required and empty
+      // (validateContinuously should only validate on change, not initially)
+      expect(result.current.hasError).toBeFalsy()
+      expect(result.current.error).toBeUndefined()
+
+      // Change to valid value - still no error
+      act(() => {
+        result.current.handleChange('valid value')
+      })
+
+      await waitFor(() => {
+        expect(result.current.hasError).toBeFalsy()
+        expect(result.current.error).toBeUndefined()
+      })
+
+      // Change back to empty - error should appear on change
+      act(() => {
+        result.current.handleChange('')
+      })
+
+      await waitFor(() => {
+        expect(result.current.hasError).toBeTruthy()
+        expect(result.current.error).toBeInstanceOf(Error)
       })
     })
   })
