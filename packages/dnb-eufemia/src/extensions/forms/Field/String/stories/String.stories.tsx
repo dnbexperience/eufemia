@@ -160,18 +160,16 @@ export function ErrorMessages() {
 
 export function OnStatusChange() {
   return (
-    <Form.Handler>
-      <Field.String
-        label="Label"
-        onStatusChange={({ info, warning, error }) => {
-          console.log('Status changed:', { info, warning, error })
-        }}
-        // error={new Error('Some error')}
-        // warning="Some warning"
-        // info="Some info"
-        // validateInitially
-        required
-      />
-    </Form.Handler>
+    <Field.String
+      label="Label"
+      onStatusChange={({ info, warning, error }) => {
+        console.log('Status changed:', { info, warning, error })
+      }}
+      // error={new Error('Some error')}
+      // warning="Some warning"
+      // info="Some info"
+      // validateInitially
+      required
+    />
   )
 }

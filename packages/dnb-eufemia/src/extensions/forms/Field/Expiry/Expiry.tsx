@@ -47,11 +47,24 @@ function Expiry(props: ExpiryProps = {}) {
 
   const {
     onBlurValidator = expiryValidator,
+    onChangeValidator: onChangeValidatorProp,
     errorMessages: propErrorMessages,
     validateInitially: validateInitiallyProp,
+    validateContinuously,
     value: valueProp,
     transformIn: transformInProp,
+    onStatusChange,
   } = props
+
+  // When validateContinuously is enabled, also validate on change
+  const onChangeValidator = useMemo(() => {
+    if (onChangeValidatorProp) {
+      return onChangeValidatorProp
+    }
+    if (validateContinuously) {
+      return expiryValidator
+    }
+  }, [onChangeValidatorProp, validateContinuously, expiryValidator])
 
   const errorMessages = useMemo(
     () => ({
@@ -154,12 +167,15 @@ function Expiry(props: ExpiryProps = {}) {
     ...props,
     errorMessages,
     validateInitially,
+    validateContinuously,
     fromExternal,
     transformIn,
     fromInput,
     provideAdditionalArgs,
     validateRequired,
     onBlurValidator: onBlurValidator,
+    onChangeValidator,
+    onStatusChange,
     exportValidators: { expiryValidator },
   }
 

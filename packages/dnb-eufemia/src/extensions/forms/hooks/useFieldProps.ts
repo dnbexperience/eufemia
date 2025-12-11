@@ -1566,6 +1566,11 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     } catch (error) {
       if (isProcessActive()) {
         persistErrorState('weak', initiator, error)
+
+        // When validateContinuously is true, reveal errors immediately after validation
+        if (validateContinuously) {
+          revealError()
+        }
       }
     }
   }, [
@@ -1579,11 +1584,13 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     prioritizeContextSchema,
     prioritizeSectionSchema,
     required,
+    revealError,
     setFieldState,
     startOnBlurValidatorProcess,
     startOnChangeValidatorValidation,
     startProcess,
     validateInitially,
+    validateContinuously,
     validateUnchanged,
   ])
 
