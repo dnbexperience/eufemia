@@ -805,7 +805,19 @@ describe('Popover', () => {
     )
   })
 
-  it('applies tooltip semantics and aria-hidden to the overlay element', async () => {
+  it('allows role to be passed via attributes', async () => {
+    renderWithTrigger({ role: 'menu' })
+
+    const trigger = document.querySelector('button[aria-controls]')
+    await userEvent.click(trigger)
+
+    const popover = await waitFor(() =>
+      document.querySelector('.dnb-popover')
+    )
+    expect(popover).toHaveAttribute('role', 'menu')
+  })
+
+  it('does not set a default role on the overlay element', async () => {
     renderWithTrigger()
 
     const trigger = document.querySelector('button[aria-controls]')
@@ -814,8 +826,19 @@ describe('Popover', () => {
     const popover = await waitFor(() =>
       document.querySelector('.dnb-popover')
     )
-    expect(popover).toHaveAttribute('role', 'tooltip')
-    expect(popover).toHaveAttribute('aria-hidden', 'true')
+    expect(popover).not.toHaveAttribute('role')
+  })
+
+  it('should not have aria-hidden on the overlay element', async () => {
+    renderWithTrigger()
+
+    const trigger = document.querySelector('button[aria-controls]')
+    await userEvent.click(trigger)
+
+    const popover = await waitFor(() =>
+      document.querySelector('.dnb-popover')
+    )
+    expect(popover).not.toHaveAttribute('aria-hidden', 'true')
   })
 
   it('omits aria-hidden when omitDescribedBy is true', async () => {

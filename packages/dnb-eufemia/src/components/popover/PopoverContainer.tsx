@@ -32,7 +32,6 @@ type PopoverContainerProps = {
   fixedPosition?: boolean
   noAnimation?: boolean
   skipPortal?: boolean
-  omitDescribedBy?: boolean
   contentRef?: React.MutableRefObject<HTMLSpanElement>
   children?: React.ReactNode
   targetElement?: PopoverResolvedTargetElement
@@ -68,7 +67,6 @@ function PopoverContainer(props: PopoverContainerProps) {
     keepInDOM: keepInDOMProp,
     noAnimation,
     skipPortal,
-    omitDescribedBy,
     contentRef,
     children,
     targetElement,
@@ -811,30 +809,12 @@ function PopoverContainer(props: PopoverContainerProps) {
 
   const shouldRender = isInDOM || keepInDOMProp
 
-  const resolvedTargetRefs = isResolvedTargetRefsObject(targetElement)
-    ? targetElement
-    : null
-  const hasTargetElement =
-    Boolean(targetElement) &&
-    (!resolvedTargetRefs ||
-      Boolean(
-        resolvedTargetRefs.horizontalRef || resolvedTargetRefs.verticalRef
-      ))
-
   if (!shouldRender) {
     return null
   }
 
   return (
     <span
-      role="tooltip"
-      aria-hidden={
-        skipPortal || omitDescribedBy
-          ? undefined
-          : hasTargetElement
-          ? true
-          : undefined
-      }
       ref={elementRef}
       {...attributes}
       {...{
