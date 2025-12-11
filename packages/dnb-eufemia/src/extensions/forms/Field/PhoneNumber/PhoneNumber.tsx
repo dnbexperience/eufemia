@@ -561,7 +561,13 @@ function PhoneNumber(props: Props = {}) {
         warning={warning}
         error={error}
         disabled={disabled}
-        width={width ?? 'medium'}
+        width={
+          width === 'stretch'
+            ? 'stretch'
+            : props.omitCountryCodeField && width === 'large'
+            ? 'large'
+            : 'medium'
+        }
         help={{ ...help, breakout: false, outset: false }}
         required={required}
         errorMessages={errorMessages}
