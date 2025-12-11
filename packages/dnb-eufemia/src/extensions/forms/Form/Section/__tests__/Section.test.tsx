@@ -124,6 +124,9 @@ describe('Form.Section', () => {
             "Field.errorPattern": "Kun bokstaver og tegn som bindestrek og mellomrom er tillatt.",
             "Field.errorRequired": "Du må fylle inn fornavn.",
           },
+          "exportValidators": {
+            "nameValidator": [Function],
+          },
           "innerRef": {
             "current": <input
               autocomplete="given-name"
@@ -134,8 +137,8 @@ describe('Form.Section', () => {
             />,
           },
           "label": "Fornavn",
+          "minLength": 1,
           "path": "/firstName",
-          "pattern": "^(?=(?:.*[\\p{L}]){3,})(?!.*[-\\s]{2})(?!.*[\\.]{2})[\\p{L}][\\p{L}\\p{M}\\p{Zs}\\.-]*[\\p{L}]$",
           "trim": true,
           "width": "large",
         },
@@ -144,6 +147,9 @@ describe('Form.Section', () => {
           "errorMessages": {
             "Field.errorPattern": "Kun bokstaver og tegn som bindestrek og mellomrom er tillatt.",
             "Field.errorRequired": "Du må fylle inn etternavn.",
+          },
+          "exportValidators": {
+            "nameValidator": [Function],
           },
           "innerRef": {
             "current": <input
@@ -158,7 +164,6 @@ describe('Form.Section', () => {
           "label": "Etternavn",
           "minLength": 2,
           "path": "/lastName",
-          "pattern": "^(?=(?:.*[\\p{L}]){3,})(?!.*[-\\s]{2})(?!.*[\\.]{2})[\\p{L}][\\p{L}\\p{M}\\p{Zs}\\.-]*[\\p{L}]$",
           "required": true,
           "trim": true,
           "width": "large",
@@ -191,11 +196,10 @@ describe('Form.Section', () => {
       {
         "properties": {
           "firstName": {
-            "pattern": "^(?=(?:.*[\\p{L}]){3,})(?!.*[-\\s]{2})(?!.*[\\.]{2})[\\p{L}][\\p{L}\\p{M}\\p{Zs}\\.-]*[\\p{L}]$",
+            "minLength": 1,
             "type": "string",
           },
           "lastName": {
-            "pattern": "^(?=(?:.*[\\p{L}]){3,})(?!.*[-\\s]{2})(?!.*[\\.]{2})[\\p{L}][\\p{L}\\p{M}\\p{Zs}\\.-]*[\\p{L}]$",
             "type": "string",
           },
         },
