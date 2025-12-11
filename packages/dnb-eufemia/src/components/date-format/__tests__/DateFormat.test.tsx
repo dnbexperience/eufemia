@@ -7,6 +7,22 @@ import { axeComponent } from '../../../core/jest/jestSetup'
 import { Provider } from '../../../../shared'
 
 describe('DateFormat', () => {
+  // Suppress console.warn messages about fake timers from waitFor.
+  // Because we can't use fake timers (they cause axe tests to hang).
+  const originalWarn = console.warn
+  beforeAll(() => {
+    console.warn = (arg) => {
+      if (arg.includes('jest.useFakeTimers')) {
+        return
+      }
+      originalWarn.call(console, arg)
+    }
+  })
+
+  afterAll(() => {
+    console.warn = originalWarn
+  })
+
   describe('absolute date', () => {
     it('should format the whole date based on `dateStyle`', () => {
       const { rerender } = render(
