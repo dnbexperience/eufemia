@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { Field, Form, has, Tools } from '../../../'
-import { Button, P } from '../../../../..'
+import { Field, Form, Tools } from '../../../'
+import { Button } from '../../../../..'
 
 export default {
   title: 'Eufemia/Extensions/Forms/Expiry',
