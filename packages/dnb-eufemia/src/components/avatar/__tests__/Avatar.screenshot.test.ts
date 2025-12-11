@@ -183,5 +183,12 @@ describe.each(['ui', 'sbanken'])('Avatar for %s', (themeName) => {
       })
       expect(screenshot).toMatchImageSnapshot()
     })
+
+    it('have to match using country flag as a badge', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="avatar-country-flag-badge"]',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
   })
 })

@@ -10,7 +10,14 @@ import {
   bank as Bank,
   bank_medium as BankMedium,
 } from '@dnb/eufemia/src/icons'
-import { Avatar, Icon, IconPrimary, Logo } from '@dnb/eufemia/src'
+import {
+  Avatar,
+  Icon,
+  IconPrimary,
+  Logo,
+  CountryFlag,
+  Badge,
+} from '@dnb/eufemia/src'
 
 export const AvatarSizeDefault = () => (
   <ComponentBox hideCode data-visual-test="avatar-size-default">
@@ -289,5 +296,50 @@ export const AvatarCustomColors = () => (
         Ola Nordmann
       </Avatar>
     </Avatar.Group>
+  </ComponentBox>
+)
+
+export const AvatarCountryFlagBadge = () => (
+  <ComponentBox hideCode data-visual-test="avatar-country-flag-badge">
+    <Badge
+      content={<CountryFlag iso="NO" size="xx-small" />}
+      vertical="bottom"
+      horizontal="right"
+      variant="content"
+    >
+      <Avatar.Group label="Persons">
+        <Avatar size="small">A</Avatar>
+      </Avatar.Group>
+    </Badge>
+    <Badge
+      content={<CountryFlag iso="NO" size="x-small" />}
+      vertical="bottom"
+      horizontal="right"
+      variant="content"
+    >
+      <Avatar.Group label="Persons">
+        <Avatar size="medium">A</Avatar>
+      </Avatar.Group>
+    </Badge>
+    <Badge
+      content={<CountryFlag iso="NO" size="medium" />}
+      vertical="bottom"
+      horizontal="right"
+      variant="content"
+    >
+      <Avatar.Group label="Persons">
+        <Avatar size="large">A</Avatar>
+      </Avatar.Group>
+    </Badge>
+    <Badge
+      content={<CountryFlag iso="NO" size="large" />}
+      vertical="bottom"
+      horizontal="right"
+      variant="content"
+    >
+      <Avatar.Group label="Persons">
+        <Avatar size="x-large">A</Avatar>
+      </Avatar.Group>
+    </Badge>
   </ComponentBox>
 )
