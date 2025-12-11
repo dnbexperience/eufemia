@@ -3,6 +3,39 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.92.0](https://github.com/dnbexperience/eufemia/compare/v10.91.1...v10.92.0) (2025-12-11)
+
+
+### :memo: Documentation
+
+* **Avatar:** add example using `CountryFlag` in `Badge` of `Avatar` ([#6078](https://github.com/dnbexperience/eufemia/issues/6078)) ([f275842](https://github.com/dnbexperience/eufemia/commit/f275842ef68e8c2fd649a1b64df9ab5494cd579a))
+* **Badge:** add notification badge info ([#6067](https://github.com/dnbexperience/eufemia/issues/6067)) ([663230f](https://github.com/dnbexperience/eufemia/commit/663230f259d71da45b33d4d9218e20668fc2b6f7))
+* **Badge:** remove unused alternatives ([#6055](https://github.com/dnbexperience/eufemia/issues/6055)) ([558d72b](https://github.com/dnbexperience/eufemia/commit/558d72bf412aaffab7d2c0b010997462057a1d81))
+
+
+### :sparkles: Features
+
+* **Badge:** add variant `content` ([#6079](https://github.com/dnbexperience/eufemia/issues/6079)) ([9c4cb1f](https://github.com/dnbexperience/eufemia/commit/9c4cb1f2c247d5ea3f43c025721317db103e85c0))
+* **Badge:** align to latest UX and render numbers as given (without 9+) ([#6053](https://github.com/dnbexperience/eufemia/issues/6053)) ([ec64de1](https://github.com/dnbexperience/eufemia/commit/ec64de1ca011cae869bdf6cb5be3263ad64d16b1))
+* **CountryFlag:** add sizes `xx-small` & `x-small` ([#6071](https://github.com/dnbexperience/eufemia/issues/6071)) ([6744856](https://github.com/dnbexperience/eufemia/commit/674485670f95f91af433b3ef5262e28f1ec6359f))
+* **Field.Expiry:** export `expiryValidator` ([#6065](https://github.com/dnbexperience/eufemia/issues/6065)) ([d019ad5](https://github.com/dnbexperience/eufemia/commit/d019ad5b22e38ec451c70b66570046ea287c65cf))
+* **Field.Upload:** add `labelSuffix` property ([#6077](https://github.com/dnbexperience/eufemia/issues/6077)) ([3f0dea2](https://github.com/dnbexperience/eufemia/commit/3f0dea22fafd41310a6e7c6cf73d4faad41991c0))
+* **Form.Section:** add `schema` support ([#6068](https://github.com/dnbexperience/eufemia/issues/6068)) ([6afc552](https://github.com/dnbexperience/eufemia/commit/6afc55297a888f69dc1c7ee79472765e6cab5f34))
+* **Forms:** add `onStatusChange` event to all Field.* components ([#6076](https://github.com/dnbexperience/eufemia/issues/6076)) ([66a7a99](https://github.com/dnbexperience/eufemia/commit/66a7a990736af796e7d367f40a6f1948a2bfa17d))
+
+
+### :bug: Bug Fixes
+
+* **DatePicker:** remove incorrect aria-hidden from popover container ([#6090](https://github.com/dnbexperience/eufemia/issues/6090)) ([5dcef90](https://github.com/dnbexperience/eufemia/commit/5dcef9099527f16c5953e1ff2cc55628d37b37e4))
+* **Dialog, Drawer:** add translation support for title ([#6092](https://github.com/dnbexperience/eufemia/issues/6092)) ([eb2347e](https://github.com/dnbexperience/eufemia/commit/eb2347e19c5e8acff00dcf18935fd5e80660cd08))
+* **Field.DateOfBirth:** display optional label when `required={false}` ([#6073](https://github.com/dnbexperience/eufemia/issues/6073)) ([8479892](https://github.com/dnbexperience/eufemia/commit/8479892b7f1deb440287adb300fda2bc36ca7fdb))
+* **Field.PhoneNumber:** phone number label should overflow its field ([#6081](https://github.com/dnbexperience/eufemia/issues/6081)) ([0278ca8](https://github.com/dnbexperience/eufemia/commit/0278ca8b43a46728598555641e50a29f00f939df))
+* **Field.Upload:** display optional label when `required={false}` ([#6072](https://github.com/dnbexperience/eufemia/issues/6072)) ([eff7a46](https://github.com/dnbexperience/eufemia/commit/eff7a46f7eb0ec3087f4f2f3f21f6813a4f99c12))
+* **Forms:** automatically use `onBlurValidator` as `onChangeValidator` when `validateContinuously` is enabled ([#6087](https://github.com/dnbexperience/eufemia/issues/6087)) ([074a7cb](https://github.com/dnbexperience/eufemia/commit/074a7cba3b3eaf9dc460c1b060b184ca59a5a3b4))
+* **Forms:** improve pattern and length of Field.Name and handle validation with `onBlurValidator` ([#6082](https://github.com/dnbexperience/eufemia/issues/6082)) ([2b69d25](https://github.com/dnbexperience/eufemia/commit/2b69d25a376b812936e4f89522ccbe6bd0ad0e26))
+* **Icon:** render large icons with correct stroke width ([#6069](https://github.com/dnbexperience/eufemia/issues/6069)) ([1e9f2bf](https://github.com/dnbexperience/eufemia/commit/1e9f2bf0d125a321b007df71ff9813ce30d4d081))
+* **Tooltip:** remove flickering while positioning ([#6093](https://github.com/dnbexperience/eufemia/issues/6093)) ([39c92e5](https://github.com/dnbexperience/eufemia/commit/39c92e53e7d28b39fe88066f6693fde0e1404877))
+
 ## [10.91.1](https://github.com/dnbexperience/eufemia/compare/v10.91.0...v10.91.1) (2025-12-09)
 
 
