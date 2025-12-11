@@ -91,6 +91,389 @@ describe('useFieldProps', () => {
     })
   })
 
+  describe('onStatusChange', () => {
+    it('should call onStatusChange when statuses change', async () => {
+      const onStatusChange = jest.fn()
+      const initialError = new Error('initial')
+      const { rerender } = renderHook((props) => useFieldProps(props), {
+        initialProps: {
+          onStatusChange,
+          warning: 'initial warning',
+          error: initialError,
+        },
+        wrapper: Provider,
+      })
+
+      await waitFor(() => {
+        expect(onStatusChange).toHaveBeenCalledTimes(1)
+        expect(onStatusChange).toHaveBeenLastCalledWith({
+          info: undefined,
+          warning: 'initial warning',
+          error: initialError,
+        })
+      })
+
+      rerender({
+        onStatusChange,
+        warning: 'updated warning',
+        error: initialError,
+      })
+
+      await waitFor(() => {
+        expect(onStatusChange).toHaveBeenCalledTimes(2)
+        expect(onStatusChange).toHaveBeenLastCalledWith({
+          info: undefined,
+          warning: 'updated warning',
+          error: initialError,
+        })
+      })
+    })
+
+    it('calls onStatusChange when validateInitially reveals validation errors', async () => {
+      const onStatusChange = jest.fn()
+
+      renderHook(
+        () =>
+          useFieldProps({
+            onStatusChange,
+            required: true,
+            validateInitially: true,
+            emptyValue: '',
+            value: '',
+          }),
+        { wrapper: Provider }
+      )
+
+      await waitFor(() => {
+        expect(onStatusChange).toHaveBeenCalledTimes(1)
+        expect(onStatusChange).toHaveBeenCalledWith(
+          expect.objectContaining({
+            error: expect.anything(),
+          })
+        )
+      })
+    })
+
+    it('should call onStatusChange when info is set', async () => {
+      const onStatusChange = jest.fn()
+      const { rerender } = renderHook((props) => useFieldProps(props), {
+        initialProps: {
+          onStatusChange,
+          info: 'initial info',
+        },
+        wrapper: Provider,
+      })
+
+      await waitFor(() => {
+        expect(onStatusChange).toHaveBeenCalledTimes(1)
+        expect(onStatusChange).toHaveBeenLastCalledWith({
+          info: 'initial info',
+          warning: undefined,
+          error: undefined,
+        })
+      })
+
+      rerender({
+        onStatusChange,
+        info: 'updated info',
+      })
+
+      await waitFor(() => {
+        expect(onStatusChange).toHaveBeenCalledTimes(2)
+        expect(onStatusChange).toHaveBeenLastCalledWith({
+          info: 'updated info',
+          warning: undefined,
+          error: undefined,
+        })
+      })
+    })
+
+    it('should call onStatusChange when warning is set', async () => {
+      const onStatusChange = jest.fn()
+
+      renderHook(
+        () =>
+          useFieldProps({
+            onStatusChange,
+            warning: 'warning message',
+          }),
+        { wrapper: Provider }
+      )
+
+      await waitFor(() => {
+        expect(onStatusChange).toHaveBeenCalledTimes(1)
+        expect(onStatusChange).toHaveBeenCalledWith({
+          info: undefined,
+          warning: 'warning message',
+          error: undefined,
+        })
+      })
+    })
+
+    it('should call onStatusChange when error prop is set', async () => {
+      const onStatusChange = jest.fn()
+      const errorValue = new Error('some error')
+
+      renderHook(
+        () =>
+          useFieldProps({
+            onStatusChange,
+            error: errorValue,
+          }),
+        { wrapper: Provider }
+      )
+
+      await waitFor(() => {
+        expect(onStatusChange).toHaveBeenCalledTimes(1)
+        expect(onStatusChange).toHaveBeenCalledWith({
+          info: undefined,
+          warning: undefined,
+          error: errorValue,
+        })
+      })
+    })
+
+    it('should call onStatusChange when going from error to no error', async () => {
+      const onStatusChange = jest.fn()
+      const errorValue = new Error('some error')
+      const { rerender } = renderHook((props) => useFieldProps(props), {
+        initialProps: {
+          onStatusChange,
+          error: errorValue,
+        },
+        wrapper: Provider,
+      })
+
+      await waitFor(() => {
+        expect(onStatusChange).toHaveBeenCalledTimes(1)
+        expect(onStatusChange).toHaveBeenLastCalledWith({
+          info: undefined,
+          warning: undefined,
+          error: errorValue,
+        })
+      })
+
+      rerender({
+        onStatusChange,
+        error: undefined,
+      })
+
+      await waitFor(() => {
+        expect(onStatusChange).toHaveBeenCalledTimes(2)
+        expect(onStatusChange).toHaveBeenLastCalledWith({
+          info: undefined,
+          warning: undefined,
+          error: undefined,
+        })
+      })
+    })
+
+    it('should call onStatusChange when info, warning and error are set together', async () => {
+      const onStatusChange = jest.fn()
+      const errorValue = new Error('total problem')
+
+      renderHook(
+        () =>
+          useFieldProps({
+            onStatusChange,
+            info: 'Info message',
+            warning: 'Warning message',
+            error: errorValue,
+          }),
+        { wrapper: Provider }
+      )
+
+      await waitFor(() => {
+        expect(onStatusChange).toHaveBeenCalledTimes(1)
+        expect(onStatusChange).toHaveBeenCalledWith({
+          info: 'Info message',
+          warning: 'Warning message',
+          error: errorValue,
+        })
+      })
+    })
+
+    it('should not call onStatusChange when validateInitially is true but no status is visible', async () => {
+      const onStatusChange = jest.fn()
+
+      renderHook(
+        () =>
+          useFieldProps({
+            onStatusChange,
+            validateInitially: true,
+          }),
+        { wrapper: Provider }
+      )
+
+      await waitFor(() => {
+        expect(onStatusChange).toHaveBeenCalledTimes(0)
+      })
+    })
+
+    it('should call onStatusChange when validateContinuously reveals validation errors', async () => {
+      const onStatusChange = jest.fn()
+
+      const { rerender } = renderHook(
+        (props) =>
+          useFieldProps({
+            onStatusChange,
+            required: true,
+            validateContinuously: true,
+            emptyValue: '',
+            ...props,
+          }),
+        {
+          initialProps: { value: 'valid' },
+          wrapper: Provider,
+        }
+      )
+
+      // Initially no error should be called (valid value)
+      await waitFor(() => {
+        expect(onStatusChange).toHaveBeenCalledTimes(0)
+      })
+
+      // Change to invalid value (empty when required)
+      rerender({ value: '' })
+
+      // Wait for validation to process and error to appear
+      await waitFor(() => {
+        expect(onStatusChange).toHaveBeenCalled()
+        expect(onStatusChange).toHaveBeenLastCalledWith(
+          expect.objectContaining({
+            error: expect.anything(),
+          })
+        )
+      })
+
+      // Clear the mock to track new calls
+      onStatusChange.mockClear()
+
+      // Change back to valid value
+      rerender({ value: 'valid again' })
+
+      // Wait for error to clear
+      await waitFor(() => {
+        expect(onStatusChange).toHaveBeenCalled()
+        expect(onStatusChange).toHaveBeenLastCalledWith({
+          info: undefined,
+          warning: undefined,
+          error: undefined,
+        })
+      })
+    })
+
+    it('should call onStatusChange when error prop changes without validateContinuously', async () => {
+      const onStatusChange = jest.fn()
+      const error1 = new Error('Error 1')
+      const error2 = new Error('Error 2')
+
+      const { rerender } = renderHook(
+        (props) =>
+          useFieldProps({
+            onStatusChange,
+            ...props,
+          }),
+        {
+          initialProps: { error: undefined },
+          wrapper: Provider,
+        }
+      )
+
+      // Initially no error should be called
+      await waitFor(() => {
+        expect(onStatusChange).toHaveBeenCalledTimes(0)
+      })
+
+      // Set error prop
+      rerender({ error: error1 })
+
+      // Wait for onStatusChange to be called with error
+      await waitFor(() => {
+        expect(onStatusChange).toHaveBeenCalledTimes(1)
+        expect(onStatusChange).toHaveBeenLastCalledWith({
+          info: undefined,
+          warning: undefined,
+          error: error1,
+        })
+      })
+
+      // Change to different error
+      rerender({ error: error2 })
+
+      await waitFor(() => {
+        expect(onStatusChange).toHaveBeenCalledTimes(2)
+        expect(onStatusChange).toHaveBeenLastCalledWith({
+          info: undefined,
+          warning: undefined,
+          error: error2,
+        })
+      })
+
+      // Clear error
+      rerender({ error: undefined })
+
+      await waitFor(() => {
+        expect(onStatusChange).toHaveBeenCalledTimes(3)
+        expect(onStatusChange).toHaveBeenLastCalledWith({
+          info: undefined,
+          warning: undefined,
+          error: undefined,
+        })
+      })
+    })
+  })
+
+  describe('validateContinuously', () => {
+    it('should show and hide error when validation changes', async () => {
+      const { rerender, result } = renderHook(
+        (props) =>
+          useFieldProps({
+            required: true,
+            validateContinuously: true,
+            emptyValue: '',
+            ...props,
+          }),
+        {
+          initialProps: { value: '' },
+        }
+      )
+
+      // Initially invalid value (empty when required) - error should be visible
+      // This ensures revealError() was called (revealErrorRef.current = true)
+      await waitFor(() => {
+        expect(result.current.hasError).toBeTruthy()
+      })
+
+      // Change to valid value - hideError() should be called to reset revealErrorRef
+      rerender({ value: 'valid value' })
+
+      // Wait for validation to pass and hideError to be called
+      await waitFor(() => {
+        expect(result.current.hasError).toBeFalsy()
+        expect(result.current.error).toBeUndefined()
+      })
+
+      // Change back to invalid value - error should appear again
+      // If hideError() wasn't called, revealErrorRef.current would still be true
+      // which shouldn't affect behavior, but we verify the state is consistent
+      rerender({ value: '' })
+
+      // Error should appear again - this verifies that hideError() properly reset the state
+      // so that subsequent errors can be revealed correctly
+      await waitFor(() => {
+        expect(result.current.hasError).toBeTruthy()
+      })
+
+      // Change to valid again - hideError() should be called again
+      rerender({ value: 'valid again' })
+
+      await waitFor(() => {
+        expect(result.current.hasError).toBeFalsy()
+      })
+    })
+  })
+
   describe('defaultValue', () => {
     it('should update data context with initially given "defaultValue"', () => {
       const defaultValue = 'include this'
