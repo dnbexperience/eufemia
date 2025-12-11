@@ -10,11 +10,11 @@ import {
 
 # Accessibility of Icons
 
-By using inline SVG, we have the possibility to make graphical assets both **responsive** and **interactive**. In order to do so, use the [Icon](/uilib/components/icon) or [IconPrimary](/uilib/components/icon-primary) component. These components provide the needed runtime processing.
+By using inline SVG, we have the possibility to make graphical assets both **responsive** and **interactive**. In order to do so, use the [Icon](/uilib/components/icon) component. These components provide the needed runtime processing.
 
 ## Decorative Icons
 
-If your icons are purely **decorative**, you’ll need to manually add an **aria-hidden** (results in `aria-hidden={true}`) attribute to each of your icons so your app is "accessible".
+The Icon component uses `role="decoration"` by default, which makes it invisible to assistive technologies.
 
 <IconsDecorativeExample />
 
