@@ -86,6 +86,16 @@
     font-size: 1em;
   }
 
+  &--custom-size,
+  &--auto,
+  &--large,
+  &--x-large,
+  &--xx-large {
+    svg[width='24'] path {
+      vector-effect: non-scaling-stroke;
+    }
+  }
+
   &--auto > &--wrapper {
     display: inline-flex;
     align-items: center;

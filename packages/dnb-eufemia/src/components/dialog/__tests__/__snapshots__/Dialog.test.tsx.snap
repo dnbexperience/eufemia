@@ -98,6 +98,9 @@ exports[`Dialog scss has to match style dependencies css 1`] = `
 .dnb-icon--auto {
   font-size: 1em;
 }
+.dnb-icon--custom-size svg[width="24"] path, .dnb-icon--auto svg[width="24"] path, .dnb-icon--large svg[width="24"] path, .dnb-icon--x-large svg[width="24"] path, .dnb-icon--xx-large svg[width="24"] path {
+  vector-effect: non-scaling-stroke;
+}
 .dnb-icon--auto > .dnb-icon--wrapper {
   display: inline-flex;
   align-items: center;

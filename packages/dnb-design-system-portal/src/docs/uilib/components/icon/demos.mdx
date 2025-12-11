@@ -7,6 +7,7 @@ import {
   IconBorder,
   IconInheritSized,
   IconColors,
+  IconsSizes,
 } from 'Docs/uilib/components/icon/Examples'
 
 ## Demos
@@ -15,7 +16,9 @@ import {
 
 <IconDefault />
 
-### Icons with border. **NB:** Use it with caution. It should not be used where it can confuse users with being a clickable button.
+### Icons with border
+
+**NB:** Use it with caution. It should not be used where it can confuse users with being a clickable button.
 
 <IconBorder />
 
@@ -28,3 +31,11 @@ import {
 All of these methods will output the same color
 
 <IconColors />
+
+### Icon size variations
+
+The official supported sizes are `small` and `medium`.
+
+**NB:** If you need to use the `large`, `x-large` or `xx-large` sizes, then you should use the `*_medium` version of the icon. Ensure you import the `*_medium` version of the icon.
+
+<IconsSizes />

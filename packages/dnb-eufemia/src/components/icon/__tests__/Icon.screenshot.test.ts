@@ -60,6 +60,18 @@ describe('Icon', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
+  it('have to match icons with sizes', async () => {
+    const screenshot = await makeScreenshot({
+      style: {
+        // Flex makes the pixel height 100% correct
+        display: 'flex',
+        'align-items': 'center',
+      },
+      selector: '[data-visual-test="icon-sizes"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })
 
 // eslint-disable-next-line jest/no-identical-title
