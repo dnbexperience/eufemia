@@ -657,6 +657,7 @@ function PopoverContainer(props: PopoverContainerProps) {
       !targetBodySize.width &&
       !targetBodySize.height
 
+    // Used typical for tests or hidden elements
     if (lacksLayout) {
       if (typeof computedStyle.left === 'undefined') {
         computedStyle.left = 0
@@ -666,7 +667,7 @@ function PopoverContainer(props: PopoverContainerProps) {
       }
       setStyle(computedStyle)
       setArrowStyle(arrowStyle)
-      return
+      return // abort further calculations
     }
 
     const computedElementStyle =
@@ -808,6 +809,25 @@ function PopoverContainer(props: PopoverContainerProps) {
   }, [])
 
   const shouldRender = isInDOM || keepInDOMProp
+  const mergedStyle = {
+    ...(style || {}),
+    ...(attributes?.style || {}),
+  }
+  const hasPlacement =
+    Boolean(style) &&
+    typeof style.left !== 'undefined' &&
+    typeof style.top !== 'undefined'
+  const containerStyle: React.CSSProperties =
+    !hasPlacement &&
+    (active || isActive) &&
+    typeof mergedStyle.visibility === 'undefined'
+      ? {
+          ...mergedStyle,
+
+          // Hide until we have placement
+          visibility: 'hidden',
+        }
+      : mergedStyle
 
   if (!shouldRender) {
     return null
@@ -832,7 +852,7 @@ function PopoverContainer(props: PopoverContainerProps) {
           wasActive &&
           baseClassNames.map((base) => `${base}--hide`)
       )}
-      style={{ ...style, ...attributes?.style }}
+      style={containerStyle}
     >
       {!hideArrow && (
         <span
