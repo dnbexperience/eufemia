@@ -12,7 +12,6 @@ import {
 import * as PrimaryIconsMedium from '@dnb/eufemia/src/icons/dnb/primary_icons_medium'
 import * as SecondaryIconsMedium from '@dnb/eufemia/src/icons/dnb/secondary_icons_medium'
 import { getListOfIcons } from '../../../../shared/parts/icons/ListAllIcons'
-
 import { Icon, P, H2, IconPrimary, Button } from '@dnb/eufemia/src'
 import styled from '@emotion/styled'
 
@@ -188,6 +187,14 @@ export const IconColors = () => {
     </ComponentBox>
   )
 }
+
+export const IconsSizes = () => (
+  <ComponentBox data-visual-test="icon-sizes" scope={{ BellMedium }}>
+    <Icon icon={BellMedium} title="Beach" size="large" />
+    <Icon icon={BellMedium} title="Beach" size="x-large" />
+    <Icon icon={BellMedium} title="Beach" size="xx-large" />
+  </ComponentBox>
+)
 
 export function AllIconsTest() {
   return (

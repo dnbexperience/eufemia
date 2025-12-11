@@ -805,7 +805,19 @@ describe('Popover', () => {
     )
   })
 
-  it('applies tooltip semantics and aria-hidden to the overlay element', async () => {
+  it('allows role to be passed via attributes', async () => {
+    renderWithTrigger({ role: 'menu' })
+
+    const trigger = document.querySelector('button[aria-controls]')
+    await userEvent.click(trigger)
+
+    const popover = await waitFor(() =>
+      document.querySelector('.dnb-popover')
+    )
+    expect(popover).toHaveAttribute('role', 'menu')
+  })
+
+  it('does not set a default role on the overlay element', async () => {
     renderWithTrigger()
 
     const trigger = document.querySelector('button[aria-controls]')
@@ -814,8 +826,19 @@ describe('Popover', () => {
     const popover = await waitFor(() =>
       document.querySelector('.dnb-popover')
     )
-    expect(popover).toHaveAttribute('role', 'tooltip')
-    expect(popover).toHaveAttribute('aria-hidden', 'true')
+    expect(popover).not.toHaveAttribute('role')
+  })
+
+  it('should not have aria-hidden on the overlay element', async () => {
+    renderWithTrigger()
+
+    const trigger = document.querySelector('button[aria-controls]')
+    await userEvent.click(trigger)
+
+    const popover = await waitFor(() =>
+      document.querySelector('.dnb-popover')
+    )
+    expect(popover).not.toHaveAttribute('aria-hidden', 'true')
   })
 
   it('omits aria-hidden when omitDescribedBy is true', async () => {
@@ -3119,6 +3142,51 @@ describe('Popover', () => {
 
       const trigger = document.querySelector('button[aria-controls]')
       expect(trigger).toHaveAttribute('aria-expanded', 'false')
+    })
+
+    it('hides the popover until placement is determined', async () => {
+      const { unmount } = render(
+        <PopoverContainerModule.default
+          active
+          keepInDOM
+          targetElement={null}
+          attributes={{ className: 'test-hidden-popover' }}
+        >
+          Hidden content
+        </PopoverContainerModule.default>
+      )
+
+      await waitFor(() => {
+        const popover = document.querySelector('.test-hidden-popover')
+        expect(popover).toBeInTheDocument()
+        expect(popover.getAttribute('style')).toContain(
+          'visibility: hidden'
+        )
+      })
+
+      unmount()
+    })
+
+    it('does not set inline styles before the popover is active', async () => {
+      const { container } = renderWithTrigger({
+        keepInDOM: true,
+        noAnimation: true,
+      })
+
+      await waitFor(() =>
+        expect(document.querySelector('.dnb-popover')).toBeInTheDocument()
+      )
+
+      const popover = document.querySelector('.dnb-popover')
+      expect(popover?.getAttribute('style')).toBeNull()
+
+      const trigger = container.querySelector('button[aria-controls]')
+      await userEvent.click(trigger)
+
+      await waitFor(() => {
+        const activePopover = document.querySelector('.dnb-popover')
+        expect(activePopover?.getAttribute('style')).toBeTruthy()
+      })
     })
 
     describe('with skipPortal', () => {

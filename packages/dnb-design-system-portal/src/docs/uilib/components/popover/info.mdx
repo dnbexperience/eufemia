@@ -24,7 +24,7 @@ It is used in the [Tooltip](/uilib/components/tooltip) and [DatePicker](/uilib/c
 ## Accessibility
 
 - Focus moves into the popover body once it opens (similar to TermDefinition), and it returns to the trigger when the popover closes.
-- The Popover does by default change its alignment initially, but not reposition itself during user scroll when opened, as this can be disorienting and confusing for users.
+- The Popover does by default change its alignment initially, but not reposition itself during user scroll when opened, as this could be disorienting and confusing for users.
 - When you render a trigger via the provided render props, it receives ARIA attributes such as `aria-controls`, `aria-expanded`, and `aria-describedby` alongside keyboard handlers.
 - Set `hideCloseButton` if you want to remove the built-in close button and handle dismissal yourself (use the provided `close` helper when rendering custom content).
 - Focus moves inside the popover content when it opens and returns to the trigger when it closes.

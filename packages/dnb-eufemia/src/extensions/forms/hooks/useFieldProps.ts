@@ -34,6 +34,7 @@ import {
   MessageTypes,
   MessagePropParams,
   UseFieldProps,
+  FieldStatus,
   ErrorProp,
 } from '../types'
 import { Context as DataContext, ContextState } from '../DataContext'
@@ -135,13 +136,14 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     warning: warningProp,
     error: initialErrorProp = 'initial',
     errorMessages,
+    onStatusChange,
     onFocus,
     onBlur,
     onChange,
     onBlurValidator,
     // Deprecated – can be removed in v11
     validator,
-    onChangeValidator = validator,
+    onChangeValidator: onChangeValidatorProp = validator,
     exportValidators,
     schema,
     validateInitially,
@@ -232,6 +234,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     fieldDisplayValueRef,
     existingFieldsRef,
     fieldInternalsRef,
+    sectionSchemaPathsRef,
     prerenderFieldProps,
     hasContext: hasDataContext,
   } = dataContext || {}
@@ -304,6 +307,21 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       itemPath,
       omitSectionPath,
     })
+
+  const sectionSchemaPaths = sectionSchemaPathsRef?.current
+  const hasSectionSchema = Boolean(
+    sectionSchemaPaths?.size &&
+      identifier &&
+      Array.from(sectionSchemaPaths).some((sectionSchemaPath) => {
+        if (sectionSchemaPath === '/') {
+          return true
+        }
+        return (
+          identifier === sectionSchemaPath ||
+          identifier.startsWith(`${sectionSchemaPath}/`)
+        )
+      })
+  )
 
   const defaultValueRef = useRef(defaultValue)
   useLayoutEffect(() => {
@@ -555,8 +573,8 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     errorProp,
     true
   )
-  const warning = executeMessage<UseFieldProps['warning']>(warningProp)
-  const info = executeMessage<UseFieldProps['info']>(infoProp)
+  const warning = executeMessage<FieldStatus['warning']>(warningProp)
+  const info = executeMessage<FieldStatus['info']>(infoProp)
 
   if (revealErrorRef.current === null) {
     revealErrorRef.current = validateInitially ?? Boolean(errorProp)
@@ -571,6 +589,17 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
   // - Context errors are from outer contexts, like validation for this field as part of the whole data set
   const contextErrorRef = useRef<Error | FormError | undefined>()
+
+  // When validateContinuously is enabled, also validate on change using onBlurValidator
+  const onChangeValidator = useMemo(() => {
+    if (onChangeValidatorProp) {
+      return onChangeValidatorProp
+    }
+    if (validateContinuously && onBlurValidator) {
+      return onBlurValidator
+    }
+    return undefined
+  }, [onChangeValidatorProp, validateContinuously, onBlurValidator])
 
   const onChangeValidatorRef = useRef(onChangeValidator)
   useUpdateEffect(() => {
@@ -885,6 +914,8 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   }, [error, errorProp, initialErrorProp, prepareError])
 
   const bufferedError = getBufferedError()
+  const bufferedErrorRef = useRef<FieldStatus['error']>(bufferedError)
+  bufferedErrorRef.current = bufferedError
 
   const errorIsVisible =
     Boolean(bufferedError) ||
@@ -1438,6 +1469,13 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     }
   }, [dataContext?.schema, errorPrioritization, identifier])
 
+  const prioritizeSectionSchema = useMemo(() => {
+    return (
+      errorPrioritization?.indexOf('sectionSchema') === 0 &&
+      hasSectionSchema
+    )
+  }, [errorPrioritization, hasSectionSchema])
+
   /**
    * Validate the current state value by provided validator instructions
    */
@@ -1476,9 +1514,11 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       }
 
       // Validate by provided schema (AJV or Zod) for this value
+      const skipLocalSchema =
+        prioritizeContextSchema || prioritizeSectionSchema
       if (
         value !== undefined &&
-        !prioritizeContextSchema &&
+        !skipLocalSchema &&
         typeof schemaValidatorRef.current === 'function'
       ) {
         const validationResult = schemaValidatorRef.current(value)
@@ -1537,6 +1577,12 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     } catch (error) {
       if (isProcessActive()) {
         persistErrorState('weak', initiator, error)
+
+        // When validateContinuously is true, reveal errors immediately after validation
+        // But only if the value has been changed (not on initial validation)
+        if (validateContinuously && changedRef.current) {
+          revealError()
+        }
       }
     }
   }, [
@@ -1548,12 +1594,15 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     hideError,
     persistErrorState,
     prioritizeContextSchema,
+    prioritizeSectionSchema,
     required,
+    revealError,
     setFieldState,
     startOnBlurValidatorProcess,
     startOnChangeValidatorValidation,
     startProcess,
     validateInitially,
+    validateContinuously,
     validateUnchanged,
   ])
 
@@ -2608,14 +2657,66 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     warning,
   ])
 
-  const infoRef = useRef<UseFieldProps['info']>(info)
-  const warningRef = useRef<UseFieldProps['warning']>(warning)
+  const infoRef = useRef<FieldStatus['info']>(info)
+  const warningRef = useRef<FieldStatus['warning']>(warning)
   useMemo(() => {
     infoRef.current = info
   }, [info])
   useMemo(() => {
     warningRef.current = warning
   }, [warning])
+
+  const statusRef = useRef<{
+    warning?: UseFieldProps['warning']
+    info?: UseFieldProps['info']
+    error?: FieldStatus['error']
+    validateInitially?: boolean
+  }>(null)
+
+  useEffect(() => {
+    if (!onStatusChange) {
+      return // stop here
+    }
+
+    const status: FieldStatus = {
+      info: infoRef.current,
+      warning: warningRef.current,
+      error: bufferedErrorRef.current,
+    }
+
+    const statusVisible =
+      Boolean(status.info) ||
+      Boolean(status.warning) ||
+      (errorIsVisible && Boolean(status.error))
+
+    const previous = statusRef.current
+    const hasChanged =
+      !previous ||
+      previous.error !== status.error ||
+      previous.warning !== status.warning ||
+      previous.info !== status.info ||
+      previous.validateInitially !== validateInitially
+
+    // Call onStatusChange if status has changed AND either:
+    // 1. The new status is visible, OR
+    // 2. There was a previous status (meaning we're transitioning from visible to not visible)
+    if (hasChanged && (statusVisible || previous)) {
+      statusRef.current = {
+        warning: status.warning,
+        info: status.info,
+        error: status.error,
+        validateInitially,
+      }
+      onStatusChange(status)
+    }
+  }, [
+    onStatusChange,
+    bufferedError,
+    warning,
+    info,
+    validateInitially,
+    errorIsVisible,
+  ])
 
   const connections = useMemo(() => {
     return {

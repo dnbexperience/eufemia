@@ -18,6 +18,12 @@
     &--auto {
       --size: 1em;
     }
+    &--xx-small {
+      --size: 0.5rem;
+    }
+    &--x-small {
+      --size: 0.75rem;
+    }
     &--small {
       --size: 1rem;
     }

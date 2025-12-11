@@ -32,7 +32,6 @@ type PopoverContainerProps = {
   fixedPosition?: boolean
   noAnimation?: boolean
   skipPortal?: boolean
-  omitDescribedBy?: boolean
   contentRef?: React.MutableRefObject<HTMLSpanElement>
   children?: React.ReactNode
   targetElement?: PopoverResolvedTargetElement
@@ -68,7 +67,6 @@ function PopoverContainer(props: PopoverContainerProps) {
     keepInDOM: keepInDOMProp,
     noAnimation,
     skipPortal,
-    omitDescribedBy,
     contentRef,
     children,
     targetElement,
@@ -659,6 +657,7 @@ function PopoverContainer(props: PopoverContainerProps) {
       !targetBodySize.width &&
       !targetBodySize.height
 
+    // Used typical for tests or hidden elements
     if (lacksLayout) {
       if (typeof computedStyle.left === 'undefined') {
         computedStyle.left = 0
@@ -668,7 +667,7 @@ function PopoverContainer(props: PopoverContainerProps) {
       }
       setStyle(computedStyle)
       setArrowStyle(arrowStyle)
-      return
+      return // abort further calculations
     }
 
     const computedElementStyle =
@@ -810,16 +809,25 @@ function PopoverContainer(props: PopoverContainerProps) {
   }, [])
 
   const shouldRender = isInDOM || keepInDOMProp
+  const mergedStyle = {
+    ...(style || {}),
+    ...(attributes?.style || {}),
+  }
+  const hasPlacement =
+    Boolean(style) &&
+    typeof style.left !== 'undefined' &&
+    typeof style.top !== 'undefined'
+  const containerStyle: React.CSSProperties =
+    !hasPlacement &&
+    (active || isActive) &&
+    typeof mergedStyle.visibility === 'undefined'
+      ? {
+          ...mergedStyle,
 
-  const resolvedTargetRefs = isResolvedTargetRefsObject(targetElement)
-    ? targetElement
-    : null
-  const hasTargetElement =
-    Boolean(targetElement) &&
-    (!resolvedTargetRefs ||
-      Boolean(
-        resolvedTargetRefs.horizontalRef || resolvedTargetRefs.verticalRef
-      ))
+          // Hide until we have placement
+          visibility: 'hidden',
+        }
+      : mergedStyle
 
   if (!shouldRender) {
     return null
@@ -827,14 +835,6 @@ function PopoverContainer(props: PopoverContainerProps) {
 
   return (
     <span
-      role="tooltip"
-      aria-hidden={
-        skipPortal || omitDescribedBy
-          ? undefined
-          : hasTargetElement
-          ? true
-          : undefined
-      }
       ref={elementRef}
       {...attributes}
       {...{
@@ -852,7 +852,7 @@ function PopoverContainer(props: PopoverContainerProps) {
           wasActive &&
           baseClassNames.map((base) => `${base}--hide`)
       )}
-      style={{ ...style, ...attributes?.style }}
+      style={containerStyle}
     >
       {!hideArrow && (
         <span

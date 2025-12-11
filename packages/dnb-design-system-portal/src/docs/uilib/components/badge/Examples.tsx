@@ -4,11 +4,7 @@
  */
 
 import ComponentBox from '../../../../shared/tags/ComponentBox'
-import {
-  email as Email,
-  confetti as Confetti,
-} from '@dnb/eufemia/src/icons'
-import { Badge, Avatar, Icon, Img } from '@dnb/eufemia/src'
+import { Badge, Avatar } from '@dnb/eufemia/src'
 
 export const BadgeNotification = () => (
   <ComponentBox hideCode data-visual-test="badge-variant-notification">
@@ -23,7 +19,7 @@ export const BadgeNotificationInline = () => (
   >
     <div>
       Text{' '}
-      <Badge content={1} label="Notifications" variant="notification" />{' '}
+      <Badge content={1234} label="Notifications" variant="notification" />{' '}
       Text
     </div>
   </ComponentBox>
@@ -34,7 +30,7 @@ export const BadgeNotificationAvatar = () => (
     hideCode
     data-visual-test="badge-variant-notification-avatar"
   >
-    <Badge content={1} label="Notifications" variant="notification">
+    <Badge content={1234} label="Notifications" variant="notification">
       <Avatar.Group label="Persons">
         <Avatar size="large">A</Avatar>
       </Avatar.Group>
@@ -93,7 +89,7 @@ export const BadgeTopLeft = () => (
 export const BadgeTopRight = () => (
   <ComponentBox hideCode data-visual-test="badge-top-right">
     <Badge
-      content={1}
+      content={1234}
       label="Notifications"
       vertical="top"
       horizontal="right"
@@ -134,43 +130,6 @@ export const BadgeBottomRight = () => (
       <Avatar.Group label="Persons">
         <Avatar size="large">A</Avatar>
       </Avatar.Group>
-    </Badge>
-  </ComponentBox>
-)
-
-// ALTERNATIVES
-
-export const BadgeMailIcon = () => (
-  <ComponentBox
-    hideCode
-    scope={{ Email }}
-    data-visual-test="badge-alternative-icon"
-  >
-    <Badge
-      content={99}
-      label="Notifications"
-      variant="notification"
-      vertical="top"
-      horizontal="right"
-    >
-      <Icon icon={Email} size="x-large" />
-    </Badge>
-  </ComponentBox>
-)
-
-export const BadgeImgWithIcon = () => (
-  <ComponentBox
-    hideCode
-    scope={{ Confetti }}
-    data-visual-test="badge-alternative-img"
-  >
-    <Badge content={<Icon icon={Confetti} />}>
-      <Img
-        src="https://avatars.githubusercontent.com/u/1501870?v=4"
-        alt="Profile picture"
-        height="64"
-        width="64"
-      />
     </Badge>
   </ComponentBox>
 )

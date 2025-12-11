@@ -1450,18 +1450,17 @@ describe('FieldBlock', () => {
         )
       })
 
-      await userEvent.type(document.querySelector('input'), '1')
+      // Use fireEvent to trigger the onChange event faster than userEvent
+      fireEvent.change(document.querySelector('input'), {
+        target: { value: '1' },
+      })
 
-      await waitFor(() => {
-        expect(elements[0]).toHaveClass(
-          'dnb-forms-submit-indicator--state-pending'
-        )
-      })
-      await waitFor(() => {
-        expect(elements[1]).toHaveClass(
-          'dnb-forms-submit-indicator--state-pending'
-        )
-      })
+      expect(elements[0]).toHaveClass(
+        'dnb-forms-submit-indicator--state-pending'
+      )
+      expect(elements[1]).toHaveClass(
+        'dnb-forms-submit-indicator--state-pending'
+      )
 
       await waitFor(() => {
         expect(elements[0]).toHaveClass(

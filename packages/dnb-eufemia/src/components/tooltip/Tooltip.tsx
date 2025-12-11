@@ -73,7 +73,7 @@ function Tooltip(localProps: TooltipAllProps) {
         forceActive={forceActive}
         {...props}
       >
-        {children}
+        {tooltip || children}
       </TooltipWithEvents>
     </TooltipContext.Provider>
   )

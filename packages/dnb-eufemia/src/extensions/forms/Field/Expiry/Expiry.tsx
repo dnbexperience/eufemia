@@ -40,12 +40,28 @@ function Expiry(props: ExpiryProps = {}) {
     },
   } = useSharedTranslation()
 
+  const expiryValidator = useCallback(
+    (value: string) => validateMonthAndYear(value, placeholders),
+    [placeholders]
+  )
+
+  const {
+    onBlurValidator = expiryValidator,
+    onChangeValidator,
+    errorMessages: propErrorMessages,
+    validateInitially: validateInitiallyProp,
+    validateContinuously,
+    value: valueProp,
+    transformIn: transformInProp,
+    onStatusChange,
+  } = props
+
   const errorMessages = useMemo(
     () => ({
       'Field.errorRequired': errorRequired,
-      ...props.errorMessages,
+      ...propErrorMessages,
     }),
-    [errorRequired, props.errorMessages]
+    [errorRequired, propErrorMessages]
   )
 
   const fromInput = useCallback(
@@ -72,22 +88,17 @@ function Expiry(props: ExpiryProps = {}) {
     []
   )
 
-  const onBlurValidator = useCallback(
-    (value: string) => validateMonthAndYear(value, placeholders),
-    [placeholders]
-  )
-
   const validateInitially = useMemo(() => {
-    if (props.validateInitially) {
-      return props.validateInitially
+    if (validateInitiallyProp) {
+      return validateInitiallyProp
     }
 
-    if (props.value) {
+    if (valueProp) {
       return true
     }
 
     return undefined
-  }, [props.validateInitially, props.value])
+  }, [validateInitiallyProp, valueProp])
 
   const fromExternal = useCallback(
     (external) => {
@@ -110,11 +121,10 @@ function Expiry(props: ExpiryProps = {}) {
     [placeholders.month, placeholders.year]
   )
 
-  const customTransformIn = props.transformIn
   const transformIn = useCallback(
     (value: string) => {
-      if (customTransformIn) {
-        const external = customTransformIn(value)
+      if (transformInProp) {
+        const external = transformInProp(value)
 
         if (typeof external === 'string') {
           return external
@@ -127,7 +137,7 @@ function Expiry(props: ExpiryProps = {}) {
 
       return value
     },
-    [customTransformIn]
+    [transformInProp]
   )
 
   const provideAdditionalArgs = useCallback((value: string) => {
@@ -147,12 +157,16 @@ function Expiry(props: ExpiryProps = {}) {
     ...props,
     errorMessages,
     validateInitially,
+    validateContinuously,
     fromExternal,
     transformIn,
     fromInput,
     provideAdditionalArgs,
     validateRequired,
-    onBlurValidator,
+    onBlurValidator: onBlurValidator,
+    onChangeValidator,
+    onStatusChange,
+    exportValidators: { expiryValidator },
   }
 
   const {

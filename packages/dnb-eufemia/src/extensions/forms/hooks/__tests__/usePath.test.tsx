@@ -1,6 +1,6 @@
 import React from 'react'
 import { renderHook } from '@testing-library/react'
-import usePath from '../usePath'
+import usePath, { appendPath, cleanPath } from '../usePath'
 import { Form, Iterate } from '../../Forms'
 
 describe('usePath', () => {
@@ -155,5 +155,114 @@ describe('usePath', () => {
         `${iteratePath}/${iterateElementIndex}${itemPath}`
       )
     })
+  })
+})
+
+describe('appendPath', () => {
+  it('should concatenate base and part when both are provided', () => {
+    expect(appendPath('/section', '/field')).toBe('/section/field')
+    expect(appendPath('/section/path', '/field')).toBe(
+      '/section/path/field'
+    )
+    expect(appendPath('/section', '/field/nested')).toBe(
+      '/section/field/nested'
+    )
+  })
+
+  it('should return base when part is undefined', () => {
+    expect(appendPath('/section', undefined)).toBe('/section')
+    expect(appendPath('/section/path', undefined)).toBe('/section/path')
+  })
+
+  it('should return part when base is empty string', () => {
+    expect(appendPath('', '/field')).toBe('/field')
+    expect(appendPath('', '/field/nested')).toBe('/field/nested')
+  })
+
+  it('should normalize "/" base to empty and return part', () => {
+    expect(appendPath('/', '/field')).toBe('/field')
+    expect(appendPath('/', '/field/nested')).toBe('/field/nested')
+  })
+
+  it('should normalize "/" part to empty and return base', () => {
+    expect(appendPath('/section', '/')).toBe('/section')
+    expect(appendPath('/section/path', '/')).toBe('/section/path')
+  })
+
+  it('should return "/" when both base and part are "/"', () => {
+    expect(appendPath('/', '/')).toBe('/')
+  })
+
+  it('should return "/" when both base and part are empty or normalized to empty', () => {
+    expect(appendPath('', '')).toBe('/')
+    expect(appendPath('/', undefined)).toBe('/')
+    expect(appendPath(undefined as any, '/')).toBe('/')
+  })
+
+  it('should handle empty string base and undefined part', () => {
+    expect(appendPath('', undefined)).toBe('/')
+  })
+
+  it('should handle real-world error path scenarios', () => {
+    // Simulating the actual usage in Provider.tsx
+    expect(appendPath('/section', '/field')).toBe('/section/field')
+    expect(appendPath('/section', '/field/error')).toBe(
+      '/section/field/error'
+    )
+    expect(appendPath('/', '/field')).toBe('/field')
+    expect(appendPath('/section', '/')).toBe('/section')
+  })
+})
+
+describe('cleanPath', () => {
+  it('should remove duplicate slashes', () => {
+    expect(cleanPath('/foo///bar')).toBe('/foo/bar')
+    expect(cleanPath('//foo//bar//')).toBe('/foo/bar')
+    expect(cleanPath('/foo//bar//baz')).toBe('/foo/bar/baz')
+  })
+
+  it('should remove trailing slashes', () => {
+    expect(cleanPath('/foo/bar/')).toBe('/foo/bar')
+    expect(cleanPath('/foo/')).toBe('/foo')
+    expect(cleanPath('/foo/bar/baz///')).toBe('/foo/bar/baz')
+  })
+
+  it('should handle both duplicate and trailing slashes', () => {
+    expect(cleanPath('/foo///bar///')).toBe('/foo/bar')
+    expect(cleanPath('//foo//bar//')).toBe('/foo/bar')
+    expect(cleanPath('///foo///bar///')).toBe('/foo/bar')
+  })
+
+  it('should leave normal paths unchanged', () => {
+    expect(cleanPath('/foo/bar')).toBe('/foo/bar')
+    expect(cleanPath('/foo')).toBe('/foo')
+  })
+
+  it('should handle root path by removing trailing slashes', () => {
+    // cleanPath removes trailing slashes, so '/' becomes empty string
+    expect(cleanPath('/')).toBe('')
+    expect(cleanPath('//')).toBe('')
+    expect(cleanPath('///')).toBe('')
+  })
+
+  it('should handle single segment paths', () => {
+    expect(cleanPath('/foo')).toBe('/foo')
+    expect(cleanPath('/foo/')).toBe('/foo')
+    expect(cleanPath('//foo')).toBe('/foo')
+    expect(cleanPath('//foo//')).toBe('/foo')
+  })
+
+  it('should handle complex paths with multiple segments', () => {
+    expect(cleanPath('/section/path/field')).toBe('/section/path/field')
+    expect(cleanPath('/section//path//field')).toBe('/section/path/field')
+    expect(cleanPath('/section/path/field/')).toBe('/section/path/field')
+    expect(cleanPath('/section//path//field///')).toBe(
+      '/section/path/field'
+    )
+  })
+
+  it('should handle paths from the comment example', () => {
+    // From the comment: /foo///bar/// => /foo/bar
+    expect(cleanPath('/foo///bar///')).toBe('/foo/bar')
   })
 })

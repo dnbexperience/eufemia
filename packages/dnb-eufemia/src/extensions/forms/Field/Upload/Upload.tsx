@@ -23,6 +23,7 @@ import HelpButtonInline, {
 import { useTranslation as useSharedTranslation } from '../../../../shared'
 import { SpacingProps } from '../../../../shared/types'
 import { FormError } from '../../utils'
+import { useIterateItemNo } from '../../Iterate/ItemNo/useIterateItemNo'
 
 export type { UploadFile, UploadFileNative }
 export type UploadValue = Array<UploadFile | UploadFileNative>
@@ -37,7 +38,6 @@ export type Props = Omit<
   | 'labelDescriptionInline'
   | 'labelSrOnly'
   | 'labelSize'
-  | 'labelSuffix'
 > &
   SpacingProps &
   Pick<
@@ -155,6 +155,12 @@ function UploadComponent(props: Props) {
   } = rest
 
   const { files, setFiles } = useUpload(id)
+
+  const labelWithItemNo = useIterateItemNo({
+    label: label ?? title,
+    labelSuffix: props.labelSuffix,
+    required: props.required,
+  })
 
   const filesRef = useRef<Array<UploadFile>>()
 
@@ -299,12 +305,12 @@ function UploadComponent(props: Props) {
         title={
           help && labelDescription === false ? (
             <LabelWithHelpButton
-              label={label ?? title}
+              label={labelWithItemNo}
               id={id}
               help={help}
             />
           ) : (
-            label ?? title
+            labelWithItemNo
           )
         }
         text={

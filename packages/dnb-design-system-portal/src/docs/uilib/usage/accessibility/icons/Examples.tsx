@@ -2,22 +2,22 @@ import React from 'react'
 import ComponentBox from '../../../../../shared/tags/ComponentBox'
 import { H1, Icon, H4 } from '@dnb/eufemia/src'
 import styled from '@emotion/styled'
-import Beach from '../assets/beach'
+import { bank_medium as BankIcon } from '@dnb/eufemia/src/icons'
 
 export const IconsDecorativeExample = () => (
-  <ComponentBox scope={{ Beach }}>
-    <Icon icon={Beach} size="24" title="Beach" aria-hidden={true} />
+  <ComponentBox scope={{ BankIcon }}>
+    <Icon icon={BankIcon} size="24" title="Beach" />
   </ComponentBox>
 )
 
 export const IconsResponsiveExample = () => (
-  <ComponentBox scope={{ Beach }}>
+  <ComponentBox scope={{ BankIcon }}>
     <H1>
-      My H1 with an icon <Icon icon={Beach} title="Beach" size="auto" />
+      My H1 with an icon <Icon icon={BankIcon} title="Beach" size="auto" />
     </H1>
     <H4>
       My H4 with the same icon{' '}
-      <Icon icon={Beach} title="Beach" size="auto" />
+      <Icon icon={BankIcon} title="Beach" size="auto" />
     </H4>
   </ComponentBox>
 )
@@ -60,12 +60,6 @@ export const IconsSVGExample = () => (
               <Svg />
             </Responsive>{' '}
             - is responsive
-          </p>
-          <p>
-            <span className="dnb-icon dnb-icon--medium">
-              <Svg />
-            </span>{' '}
-            - uses <code>.dnb-icon</code>
           </p>
         </>
       )

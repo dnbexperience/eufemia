@@ -125,7 +125,7 @@ export const ModalProperties: PropertiesTableProps = {
   },
   dialogTitle: {
     doc: 'The aria label of the dialog when no labelledBy and no title is given. Defaults to `Vindu`.',
-    type: 'string',
+    type: ['string', 'React.ReactNode'],
     status: 'optional',
   },
   directDomReturn: {

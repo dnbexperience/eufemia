@@ -42,7 +42,6 @@ type PopoverPortalProps = {
     typeof PopoverContainer
   >['arrowPositionSelector']
   fixedPosition?: boolean
-  omitDescribedBy?: boolean
   contentRef?: React.MutableRefObject<HTMLSpanElement>
   triggerOffset?: number
   autoAlignMode?: PopoverAutoAlignMode
@@ -88,7 +87,6 @@ function PopoverPortal(props: PopoverPortalProps) {
     horizontalOffset,
     arrowPositionSelector,
     fixedPosition,
-    omitDescribedBy,
     contentRef,
     triggerOffset,
     autoAlignMode,
@@ -139,7 +137,6 @@ function PopoverPortal(props: PopoverPortalProps) {
           horizontalOffset={horizontalOffset}
           arrowPositionSelector={arrowPositionSelector}
           fixedPosition={fixedPosition}
-          omitDescribedBy={omitDescribedBy}
           attributes={attributes}
           contentRef={contentRef}
           triggerOffset={triggerOffset}

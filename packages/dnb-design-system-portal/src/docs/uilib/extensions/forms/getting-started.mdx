@@ -404,7 +404,7 @@ const MyForm = () => {
 
 ## Async form handling
 
-It depends on your use case if this feature is needed. But when it is, it's often a time consuming task to implement. Eufemia Forms has therefor a built-in feature that enables async form behavior.
+It depends on your use case if this feature is needed. But when it is, it's often a time consuming task to implement. Eufemia Forms has therefore a built-in feature that enables async form behavior.
 
 More details about the async form behavior can be found in the [async form behavior](/uilib/extensions/forms/getting-started/#async-form-behavior) section.
 
@@ -489,7 +489,7 @@ More info about the async change behavior in the form [Form.Handler](/uilib/exte
 
 ### Async field validation
 
-A similar indicator behavior will occur when using async functions for field validation, such as `onChangeValidator` or `onBlurValidation`, your form will exhibit async behavior. This means that the validation needs to be successfully completed before the form can be submitted.
+A similar indicator behavior will occur when using async functions for field validation, such as `onChangeValidator` or `onBlurValidation`. Your form will exhibit async behavior, which means that the validation needs to be successfully completed before the form can be submitted.
 
 ## Validation and error handling
 
@@ -601,7 +601,15 @@ The `pattern` property is a regular expression (RegExp) that the value of the fi
 
 ### schema
 
-The `schema` property is a schema that the value of the field must match in order to be valid. You can use either a Zod schema or a JSON Schema (Ajv) schema:
+The `schema` property is a schema that the value of the field must match in order to be valid. You can use either a Zod schema or a JSON Schema (Ajv) schema.
+
+Read more about JSON [Schema validation](/uilib/extensions/forms/Form/schema-validation/).
+
+You can set a schema on the
+
+- [Form.Handler](/uilib/extensions/forms/Form/Handler/) component to apply it globally to all fields without a specific schema.
+- [Form.Section](/uilib/extensions/forms/Form/Section/) component to apply it to all fields within that section.
+- [Field](/uilib/extensions/forms/all-fields/) components to apply it to a specific field.
 
 **Using Zod schemas**
 
@@ -637,8 +645,6 @@ render(
   </Form.Handler>,
 )
 ```
-
-Read more about JSON [Schema validation](/uilib/extensions/forms/Form/schema-validation/).
 
 ### onBlurValidator and onChangeValidator
 

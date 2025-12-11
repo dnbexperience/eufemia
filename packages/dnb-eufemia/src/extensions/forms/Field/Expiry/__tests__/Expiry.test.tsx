@@ -1,8 +1,8 @@
 import React from 'react'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
-import { act, render, screen } from '@testing-library/react'
+import { act, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { DataContext, Field, FieldBlock, Form } from '../../..'
+import { DataContext, Field, FieldBlock, Form, Validator } from '../../..'
 
 import nbNO from '../../../constants/locales/nb-NO'
 import enGB from '../../../constants/locales/en-GB'
@@ -326,6 +326,97 @@ describe('Field.Expiry', () => {
     expect(yearInput.value).toBe('åå')
   })
 
+  it('should replace the internal validator with the given one', async () => {
+    const myValidator = jest.fn(() => {
+      return new Error('My error message')
+    })
+    const onBlurValidator = jest.fn(() => {
+      return [myValidator]
+    })
+
+    render(
+      <Field.Expiry
+        value="121"
+        validateInitially
+        onBlurValidator={onBlurValidator}
+      />
+    )
+
+    await waitFor(() => {
+      expect(screen.queryByRole('alert')).toBeInTheDocument()
+      expect(screen.queryByRole('alert').textContent).toBe(
+        'My error message'
+      )
+    })
+
+    expect(myValidator).toHaveBeenCalledTimes(1)
+    expect(myValidator).toHaveBeenCalledWith('121å', expect.anything())
+    expect(onBlurValidator).toHaveBeenCalledTimes(1)
+    expect(onBlurValidator).toHaveBeenCalledWith('121å', expect.anything())
+  })
+
+  it('should support extending internal validator', async () => {
+    const decemberValidator = (value: string) => {
+      if (value?.startsWith('12')) {
+        return new Error('My error message')
+      }
+    }
+
+    const customValidator: Validator<string> = (value, { validators }) => {
+      const { expiryValidator } = validators
+
+      return [decemberValidator, expiryValidator]
+    }
+
+    const { rerender } = render(
+      <Form.Handler>
+        <Field.Expiry
+          value={'121'}
+          validateInitially
+          onBlurValidator={customValidator}
+        />
+      </Form.Handler>
+    )
+
+    await waitFor(() => {
+      expect(screen.queryByRole('alert')).toBeInTheDocument()
+      expect(screen.queryByRole('alert').textContent).toBe(
+        'My error message'
+      )
+    })
+
+    rerender(
+      <Form.Handler>
+        <Field.Expiry
+          value={'111'}
+          validateInitially
+          onBlurValidator={customValidator}
+        />
+      </Form.Handler>
+    )
+
+    await waitFor(() => {
+      expect(screen.queryByRole('alert')).toBeInTheDocument()
+      expect(screen.queryByRole('alert').textContent).toBe(
+        no.errorYear.replace(/\{year\}/, '1å')
+      )
+    })
+
+    rerender(
+      <Form.Handler>
+        <Field.Expiry
+          value={'1112'}
+          validateInitially
+          onBlurValidator={customValidator}
+        />
+      </Form.Handler>
+    )
+
+    await expect(() => {
+      expect(screen.queryByRole('alert')).toBeInTheDocument()
+    }).toNeverResolve()
+  })
+
   describe('keydown', () => {
     beforeEach(() => {
       window.requestAnimationFrame = jest.fn((callback) => {
@@ -558,37 +649,148 @@ describe('Field.Expiry', () => {
         document.querySelector('.dnb-form-status--error')
       ).toBeInTheDocument()
 
-      expect(screen.getByRole('alert')).toHaveTextContent(
+      expect(document.querySelector('[role="alert"]')).toHaveTextContent(
         no.errorMonth.replace(/\{month\}/, '13')
       )
 
       await userEvent.click(monthInput)
       await userEvent.keyboard('99')
       await userEvent.click(document.body)
-      expect(screen.getByRole('alert')).toHaveTextContent(
+      expect(document.querySelector('[role="alert"]')).toHaveTextContent(
         no.errorMonth.replace(/\{month\}/, '99')
       )
 
       await userEvent.click(monthInput)
       await userEvent.keyboard('0025')
       await userEvent.click(document.body)
-      expect(screen.getByRole('alert')).toHaveTextContent(
+      expect(document.querySelector('[role="alert"]')).toHaveTextContent(
         no.errorMonth.replace(/\{month\}/, '00')
       )
       await userEvent.click(monthInput)
-      await userEvent.keyboard('1')
-      await userEvent.click(document.body)
-      expect(screen.getByRole('alert')).toHaveTextContent(
-        no.errorMonth.replace(/\{month\}/, '1m')
+    })
+
+    it('should validate continuously when validateContinuously is enabled', async () => {
+      render(<Field.Expiry validateContinuously />)
+
+      const [monthInput, yearInput] = Array.from(
+        document.querySelectorAll('input')
       )
 
-      await userEvent.click(monthInput)
-      await userEvent.keyboard('09')
-      await userEvent.click(document.body)
+      await userEvent.type(yearInput, '25')
 
-      expect(
-        document.querySelector('.dnb-form-status--error')
-      ).not.toBeInTheDocument()
+      // Type invalid month - error should appear during typing
+      await userEvent.click(monthInput)
+      await userEvent.keyboard('13')
+
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status--error')
+        ).toBeInTheDocument()
+        expect(document.querySelector('[role="alert"]')).toHaveTextContent(
+          no.errorMonth.replace(/\{month\}/, '13')
+        )
+      })
+
+      // Fix the month - error should disappear during typing
+      await userEvent.keyboard('{Backspace}{Backspace}{Backspace}01')
+
+      expect(monthInput).toHaveValue('01')
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status--error')
+        ).not.toBeInTheDocument()
+      })
+
+      // Type invalid month again - error should appear again
+      await userEvent.keyboard('{Backspace}{Backspace}{Backspace}99')
+
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status--error')
+        ).toBeInTheDocument()
+        expect(document.querySelector('[role="alert"]')).toHaveTextContent(
+          no.errorMonth.replace(/\{month\}/, '99')
+        )
+      })
+    })
+
+    it('should show error initially when validateInitially is enabled', async () => {
+      // Test with invalid value
+      render(<Field.Expiry value="324" validateInitially />)
+
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status--error')
+        ).toBeInTheDocument()
+      })
+
+      const [firstMessage, secondMessage] = Array.from(
+        document.querySelectorAll('.dnb-li')
+      )
+
+      expect(firstMessage).toHaveTextContent(
+        no.errorMonth.replace(/\{month\}/g, '32')
+      )
+      expect(secondMessage).toHaveTextContent(
+        no.errorYear.replace(/\{year\}/g, '4å')
+      )
+    })
+    it('should show error initially when validateInitially is enabled but required is set', async () => {
+      // Test with required but empty
+      render(<Field.Expiry required validateInitially />)
+
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status--error')
+        ).toBeInTheDocument()
+        expect(document.querySelector('[role="alert"]')).toHaveTextContent(
+          noDate.errorRequired
+        )
+      })
+    })
+
+    it('should validate with onChangeValidator', async () => {
+      const onChangeValidator: Validator<string> = (value) => {
+        // Custom validation: reject dates before 2025
+        if (value && value.length >= 4) {
+          const year = parseInt(value.substring(2, 4), 10)
+          if (year < 25) {
+            return new Error('Expiry date must be in 2025 or later')
+          }
+        }
+        return undefined
+      }
+
+      render(
+        <Field.Expiry
+          onChangeValidator={onChangeValidator}
+          validateContinuously
+        />
+      )
+
+      const monthInput = document.querySelector('input')
+
+      // Type a date in 2024 (24) - should show error
+      await userEvent.click(monthInput)
+      await userEvent.keyboard('1224')
+
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status--error')
+        ).toBeInTheDocument()
+        expect(document.querySelector('[role="alert"]')).toHaveTextContent(
+          'Expiry date must be in 2025 or later'
+        )
+      })
+
+      // Type a date in 2025 (25) - error should disappear
+      await userEvent.keyboard('{Backspace}{Backspace}25')
+
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status--error')
+        ).not.toBeInTheDocument()
+      })
     })
 
     it('should validate year', async () => {
@@ -606,7 +808,7 @@ describe('Field.Expiry', () => {
         document.querySelector('.dnb-form-status--error')
       ).toBeInTheDocument()
 
-      expect(screen.getByRole('alert')).toHaveTextContent(
+      expect(document.querySelector('[role="alert"]')).toHaveTextContent(
         no.errorYear.replace(/\{year\}/, '2å')
       )
 
@@ -773,5 +975,105 @@ describe('Field.Expiry', () => {
 
     const input = document.querySelector('.dnb-input')
     expect(input).toHaveClass('dnb-input__status--error')
+  })
+
+  it('should call onStatusChange when validateContinuously reveals validation errors', async () => {
+    const onStatusChange = jest.fn()
+
+    render(
+      <Field.Expiry
+        onStatusChange={onStatusChange}
+        validateContinuously
+        required
+      />
+    )
+
+    const monthInput = document.querySelector('input')
+
+    // Type invalid month
+    await userEvent.click(monthInput)
+    await userEvent.keyboard('13')
+
+    await waitFor(() => {
+      expect(onStatusChange).toHaveBeenCalled()
+      expect(onStatusChange).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          error: expect.anything(),
+        })
+      )
+    })
+
+    // Clear mock to track new calls
+    onStatusChange.mockClear()
+
+    // Type valid month and year
+    await userEvent.keyboard('{Backspace}{Backspace}0125')
+
+    await waitFor(() => {
+      expect(onStatusChange).toHaveBeenCalled()
+      expect(onStatusChange).toHaveBeenLastCalledWith({
+        info: undefined,
+        warning: undefined,
+        error: undefined,
+      })
+    })
+  })
+
+  it('should call onStatusChange when error prop changes without validateContinuously', async () => {
+    const onStatusChange = jest.fn()
+    const error1 = new Error('Error 1')
+    const error2 = new Error('Error 2')
+
+    const { rerender } = render(
+      <Field.Expiry onStatusChange={onStatusChange} error={undefined} />
+    )
+
+    // Initially no error should be called
+    await waitFor(() => {
+      expect(onStatusChange).toHaveBeenCalledTimes(0)
+    })
+
+    // Set error prop
+    rerender(
+      <Field.Expiry onStatusChange={onStatusChange} error={error1} />
+    )
+
+    // Wait for onStatusChange to be called with error
+    await waitFor(() => {
+      expect(onStatusChange).toHaveBeenCalledTimes(1)
+      expect(onStatusChange).toHaveBeenLastCalledWith({
+        info: undefined,
+        warning: undefined,
+        error: error1,
+      })
+    })
+
+    // Change to different error
+    rerender(
+      <Field.Expiry onStatusChange={onStatusChange} error={error2} />
+    )
+
+    await waitFor(() => {
+      expect(onStatusChange).toHaveBeenCalledTimes(2)
+      expect(onStatusChange).toHaveBeenLastCalledWith({
+        info: undefined,
+        warning: undefined,
+        error: error2,
+      })
+    })
+
+    // Clear error
+    rerender(
+      <Field.Expiry onStatusChange={onStatusChange} error={undefined} />
+    )
+
+    await waitFor(() => {
+      expect(onStatusChange).toHaveBeenCalledTimes(3)
+      expect(onStatusChange).toHaveBeenLastCalledWith({
+        info: undefined,
+        warning: undefined,
+        error: undefined,
+      })
+    })
   })
 })

@@ -38,11 +38,74 @@ function MyForm() {
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Field/Name)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/extensions/forms/feature-fields/Name)
 
+### Sources
+
+- [Lov om personnavn (navneloven)](https://lovdata.no/dokument/NL/lov/2002-06-07-19)
+- [Krav til foretaksnavn](https://lovdata.no/lov/1985-06-21-79/§2-1)
+
 ## Characteristics
 
-- Only letters and characters such as hyphens and spaces are allowed for `Field.Name.First` and `Field.Name.Last` (except `Field.Name.Company`, which can contain characters, letters and numbers, but [must consist of at least three letters from the Norwegian alphabet](https://lovdata.no/lov/1985-06-21-79/§2-1)).
-- Trailing spaces are removed.
-- The HTML `autocomplete` attribute is set to:
-  - `name` by default.
-  - `given-name` and `family-name` for `Field.Name.First` and `Field.Name.Last`.
-  - `organization-name` for `Field.Name.Company`.
+### Allowed characters
+
+- **`Field.Name.First` and `Field.Name.Last`**: Only letters, hyphens, and spaces are allowed.
+- **`Field.Name.Company`**: Letters, numbers, punctuation marks, spaces, and dots are allowed.
+
+### Behavior
+
+- Trailing spaces are automatically removed.
+- The HTML `autocomplete` attribute is automatically set:
+  - `name` for `Field.Name`
+  - `given-name` for `Field.Name.First`
+  - `family-name` for `Field.Name.Last`
+  - `organization` for `Field.Name.Company`
+
+## Validation rules
+
+All name fields have the following validation rules:
+
+- **Minimum length**:
+  - For `Field.Name.First` and `Field.Name.Last`: Names must be at least 1 character long.
+  - For `Field.Name.Company`: Company names must be at least 3 characters long.
+- **Pattern validation**:
+  - For `Field.Name.First` and `Field.Name.Last`: Names must start and end with a letter, and cannot contain consecutive hyphens or spaces. Only letters, spaces, and hyphens are allowed.
+  - For `Field.Name.Company`: Must start and end with a letter or number, and cannot contain consecutive hyphens, spaces, or dots. Letters, numbers, punctuation marks, spaces, and dots are allowed in between.
+
+The validation happens on blur, internally using the `onBlurValidator` [property](/uilib/extensions/forms/feature-fields/Name/properties/#field-specific-properties).
+
+**Note**: The validation patterns are tailored to Norwegian name and company name requirements. If you need support for additional characters or different validation rules, you can extend the validation using the `onBlurValidator` property. See the [Validators](#validators) section below for more information.
+
+## Validators
+
+### Internal validators exposed
+
+`Field.Name` and `Field.Name.Company` expose validators through their `onBlurValidator` property:
+
+- **`nameValidator`**: Validates names for `Field.Name`, `Field.Name.First`, and `Field.Name.Last`. It checks that the name:
+
+  - Is at least 1 character long.
+  - Matches the name pattern (starts and ends with a letter, no consecutive hyphens or spaces).
+
+- **`companyValidator`**: Validates company names for `Field.Name.Company`. It checks that the company name:
+  - Is at least 3 characters long (default, can be customized via `minLength` prop).
+  - Matches the company pattern (starts and ends with a letter or number, no consecutive hyphens, spaces, or dots).
+
+You can extend the validation by providing your own `onBlurValidator` function. Access the internal validator through the `validators` parameter and combine it with your custom validation. This allows you to add additional validation rules while keeping the default validation intact.
+
+```tsx
+import { Field } from '@dnb/eufemia/extensions/forms'
+
+// Extend validation to require company names to contain "Corp"
+const myValidator = (value, { validators }) => {
+  const { companyValidator } = validators
+
+  const customValidator = (value: string) => {
+    if (value && !value.includes('Corp')) {
+      return new Error('Company name must contain "Corp"')
+    }
+  }
+
+  return [companyValidator, customValidator]
+}
+
+render(<Field.Name.Company onBlurValidator={myValidator} />)
+```

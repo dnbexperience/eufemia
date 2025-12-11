@@ -111,6 +111,23 @@ export default function usePath(props: Props = {}) {
 
 // Will remove duplicate slashes and trailing slashes
 // /foo///bar/// => /foo/bar
-function cleanPath(path: Path) {
+export function cleanPath(path: Path) {
   return path.replace(/\/+$|\/(\/)+/g, '$1')
+}
+
+// Appends a path part to a base path, normalizing '/' to empty string
+// Used for combining section paths with error paths
+export function appendPath(base: Path, part: Path | undefined): Path {
+  const normalizedBase = base && base !== '/' ? base : ''
+  const normalizedPart = part && part !== '/' ? part : ''
+  if (normalizedBase && normalizedPart) {
+    return `${normalizedBase}${normalizedPart}`
+  }
+  if (normalizedBase) {
+    return normalizedBase
+  }
+  if (normalizedPart) {
+    return normalizedPart
+  }
+  return '/'
 }

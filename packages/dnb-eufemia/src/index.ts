@@ -89,13 +89,13 @@ import Switch from './components/switch/Switch'
 import Table from './components/table/Table'
 import Tabs from './components/tabs/Tabs'
 import Tag from './components/tag/Tag'
+import TermDefinition from './components/term-definition/TermDefinition'
 import Textarea from './components/textarea/Textarea'
 import Timeline from './components/timeline/Timeline'
 import ToggleButton from './components/toggle-button/ToggleButton'
 import Tooltip from './components/tooltip/Tooltip'
 import Upload from './components/upload/Upload'
 import VisuallyHidden from './components/visually-hidden/VisuallyHidden'
-import TermDefinition from './components/term-definition/TermDefinition'
 
 // define / export all the available components
 export {
@@ -178,13 +178,13 @@ export {
   Table,
   Tabs,
   Tag,
+  TermDefinition,
   Textarea,
   Timeline,
   ToggleButton,
   Tooltip,
   Upload,
   VisuallyHidden,
-  TermDefinition,
 }
 
 export default {}

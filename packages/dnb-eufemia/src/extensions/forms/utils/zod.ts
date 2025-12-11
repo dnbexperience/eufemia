@@ -3,6 +3,9 @@ import { FormError } from './FormError'
 
 export type ZodSchema = z.ZodTypeAny
 
+// Re-export Zod so consumers can `import { z } from '@dnb/eufemia/extensions/forms'`
+export { z }
+
 // Common Zod default prefixes/messages we should NOT treat as custom
 const defaultPatterns: RegExp[] = [
   /^Too small:/, // e.g. "Too small: expected number to be >= 5"

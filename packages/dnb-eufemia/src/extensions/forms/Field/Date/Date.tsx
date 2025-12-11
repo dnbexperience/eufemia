@@ -172,17 +172,23 @@ function DateComponent(props: DateProps) {
     [props.maxDate, props.minDate, props.range, invalidDatesRef, locale]
   )
 
+  const {
+    onBlurValidator: propOnBlurValidator,
+    onChangeValidator,
+    ...restProps
+  } = props
+
   const onBlurValidator = useMemo(() => {
-    if (props.onBlurValidator === false) {
+    if (propOnBlurValidator === false) {
       return undefined
     }
 
-    if (props.onBlurValidator) {
-      return props.onBlurValidator
+    if (propOnBlurValidator) {
+      return propOnBlurValidator
     }
 
     return dateValidator
-  }, [props.onBlurValidator, dateValidator])
+  }, [propOnBlurValidator, dateValidator])
 
   const fromInput = useCallback(
     ({
@@ -206,12 +212,13 @@ function DateComponent(props: DateProps) {
   )
 
   const preparedProps = {
-    ...props,
+    ...restProps,
     errorMessages,
     schema,
     fromInput,
     validateRequired,
     onBlurValidator,
+    onChangeValidator,
     exportValidators: { dateValidator },
     invalidDatesRef,
   }

@@ -114,4 +114,9 @@ export const DataValueWritePropsEvents: PropertiesTableProps = {
     type: '(value) => void',
     status: 'optional',
   },
+  onStatusChange: {
+    doc: 'Called whenever the status messages (info, warning or error) gets visible or changes. Receives the current `{ info, warning, error }` object.',
+    type: '({ info?, warning?, error? }: FieldStatus) => void',
+    status: 'optional',
+  },
 }

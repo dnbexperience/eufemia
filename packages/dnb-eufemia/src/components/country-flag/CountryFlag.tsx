@@ -7,7 +7,14 @@ import Space, { SpaceAllProps } from '../space/Space'
 
 type CountryFlagProps = {
   iso?: string
-  size?: 'auto' | 'small' | 'medium' | 'large' | 'x-large'
+  size?:
+    | 'auto'
+    | 'xx-small'
+    | 'x-small'
+    | 'small'
+    | 'medium'
+    | 'large'
+    | 'x-large'
   shape?: 'round' | 'square'
 } & Omit<SpaceAllProps, 'size'>
 

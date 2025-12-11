@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useMemo } from 'react'
+import React, { useCallback, useContext, useMemo, useRef } from 'react'
 import SectionContext, { SectionContextState } from './SectionContext'
 import DataContext from '../../DataContext/Context'
 import Provider from '../../DataContext/Provider/Provider'
@@ -10,16 +10,20 @@ import Toolbar from './Toolbar'
 
 import type { Props as DataContextProps } from '../../DataContext/Provider'
 import type { ContainerMode } from './containers/SectionContainer'
-import type { Path, FieldProps, OnChange } from '../../types'
+import type { Path, FieldProps, OnChange, Schema } from '../../types'
 import type { JsonObject } from '../../utils/json-pointer'
 import type { SharedFieldBlockProps } from '../../FieldBlock'
+
+// SSR warning fix: https://gist.github.com/gaearon/e7d97cdf38a2907924ea12e4ebdf3c85
+const useLayoutEffect =
+  typeof window === 'undefined' ? React.useEffect : React.useLayoutEffect
 
 export type OverwritePropsDefaults = {
   [key: Path]:
     | (FieldProps & SharedFieldBlockProps)
     | OverwritePropsDefaults
 }
-export type SectionProps<
+export type SectionBaseProps<
   overwriteProps = OverwritePropsDefaults,
   Data extends JsonObject = JsonObject,
 > = {
@@ -68,6 +72,19 @@ export type SectionProps<
   'data' | 'defaultData' | 'onChange' | 'translations'
 >
 
+export type SectionProps<
+  overwriteProps = OverwritePropsDefaults,
+  Data extends JsonObject = JsonObject,
+> = SectionBaseProps<overwriteProps, Data> & {
+  /**
+   * Schema to validate the section data.
+   * Accepts AJV or Zod schemas and behaves like the schema passed to Form.Handler.
+   */
+  schema?:
+    | Schema
+    | ((props: SectionBaseProps<overwriteProps, Data>) => Schema)
+}
+
 export type LocalProps<overwriteProps = OverwritePropsDefaults> =
   SectionProps<overwriteProps> & {
     children: React.ReactNode
@@ -88,6 +105,7 @@ function SectionComponent<overwriteProps = OverwritePropsDefaults>(
     disableEditing = false,
     onChange,
     errorPrioritization = ['contextSchema'],
+    schema,
     children,
   } = props
 
@@ -95,7 +113,8 @@ function SectionComponent<overwriteProps = OverwritePropsDefaults>(
     throw new Error(`path="${path}" must start with a slash`)
   }
 
-  const { hasContext, addOnChangeHandler } = useContext(DataContext)
+  const { hasContext, addOnChangeHandler, registerSectionSchema } =
+    useContext(DataContext)
 
   const { path: nestedPath, props: nestedProps } =
     useContext(SectionContext) || {}
@@ -111,6 +130,38 @@ function SectionComponent<overwriteProps = OverwritePropsDefaults>(
       path || ''
     }`
   }, [path, nestedPath])
+  const resolvedSchema = useMemo(() => {
+    if (!schema) {
+      return // stop here
+    }
+    if (typeof schema === 'function') {
+      try {
+        return (
+          schema as (props: SectionBaseProps<overwriteProps>) => Schema
+        )(props)
+      } catch (_) {
+        return // stop here
+      }
+    }
+
+    return schema
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [schema])
+  const sectionSchemaIdRef = useRef(Symbol('Form.Section.schema'))
+
+  useLayoutEffect(() => {
+    if (!registerSectionSchema || !resolvedSchema) {
+      return // stop here
+    }
+
+    const normalizedIdentifier = identifier || '/'
+    return registerSectionSchema({
+      id: sectionSchemaIdRef.current,
+      path: normalizedIdentifier,
+      schema: resolvedSchema,
+    })
+  }, [identifier, registerSectionSchema, resolvedSchema])
   const fieldProps = required ? { required: true } : undefined
 
   if (!hasContext) {

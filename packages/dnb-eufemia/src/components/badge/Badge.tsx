@@ -14,6 +14,7 @@ import {
   extendPropsWithContext,
   validateDOMAttributes,
 } from '../../shared/component-helper'
+import NumberFormat from '../NumberFormat'
 
 export type BadgeProps = {
   /**
@@ -62,7 +63,7 @@ export type BadgeProps = {
    * The variant of the component.
    * Default: information.
    */
-  variant?: 'information' | 'notification'
+  variant?: 'information' | 'notification' | 'content'
 }
 
 type BadgeAndSpacingProps = BadgeProps &
@@ -134,15 +135,12 @@ function BadgeElem(
   const variantIsNotification = variant === 'notification'
 
   const content =
-    variantIsNotification && contentIsNum && contentProp > 9
-      ? '9+'
-      : contentProp
-
-  if (variantIsNotification && !contentIsNum) {
-    warn(
-      `Type of content should be a number: A notification badge is best suited to display content of type number.`
+    variantIsNotification && contentIsNum ? (
+      <NumberFormat>{contentProp}</NumberFormat>
+    ) : (
+      contentProp
     )
-  }
+
   if (!label && contentIsNum) {
     warn(
       `Label required: A Badge with a number as content requires a label describing the content of the badge. This is to ensure correct semantic and accessibility.`
@@ -156,7 +154,7 @@ function BadgeElem(
       role="status"
       className={classnames(
         'dnb-badge',
-        `dnb-badge--variant-${variant}`,
+        variant !== 'content' && `dnb-badge--variant-${variant}`,
         horizontal && `dnb-badge--horizontal-${horizontal}`,
         vertical && `dnb-badge--vertical-${vertical}`,
         isInline && 'dnb-badge--inline',

@@ -72,6 +72,7 @@ describe.each(['ui', 'sbanken'])('FieldBlock for %s', (themeName) => {
     const screenshot = await makeScreenshot({
       selector:
         '[data-visual-test="forms-field-block-help-button-composition-fields"]',
+      style: { width: '30rem' },
     })
     expect(screenshot).toMatchImageSnapshot()
   })

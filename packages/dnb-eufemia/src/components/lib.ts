@@ -62,13 +62,13 @@ import Switch from './switch/Switch'
 import Table from './table/Table'
 import Tabs from './tabs/Tabs'
 import Tag from './tag/Tag'
+import TermDefinition from './term-definition/TermDefinition'
 import Textarea from './textarea/Textarea'
 import Timeline from './timeline/Timeline'
 import ToggleButton from './toggle-button/ToggleButton'
 import Tooltip from './tooltip/Tooltip'
 import Upload from './upload/Upload'
 import VisuallyHidden from './visually-hidden/VisuallyHidden'
-import TermDefinition from './term-definition/TermDefinition'
 
 // define / export all the available components
 export {
@@ -124,13 +124,13 @@ export {
   Table,
   Tabs,
   Tag,
+  TermDefinition,
   Textarea,
   Timeline,
   ToggleButton,
   Tooltip,
   Upload,
   VisuallyHidden,
-  TermDefinition,
 }
 
 export const getComponents = () => {
@@ -187,12 +187,12 @@ export const getComponents = () => {
     Table,
     Tabs,
     Tag,
+    TermDefinition,
     Textarea,
     Timeline,
     ToggleButton,
     Tooltip,
     Upload,
     VisuallyHidden,
-    TermDefinition,
   }
 }
