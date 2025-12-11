@@ -341,6 +341,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
         disableFocusTrap
         onMouseEnter={handleOverlayMouseEnter}
         onMouseLeave={handleOverlayMouseLeave}
+        role="tooltip"
         {...(restAttributes as React.HTMLAttributes<HTMLElement>)}
       >
         {children}
