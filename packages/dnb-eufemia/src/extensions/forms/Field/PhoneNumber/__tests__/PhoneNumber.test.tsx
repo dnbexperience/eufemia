@@ -1213,7 +1213,7 @@ describe('Field.PhoneNumber', () => {
       'dnb-forms-field-block__composition',
       'dnb-forms-field-block__composition--horizontal',
       'dnb-forms-field-block--width-stretch',
-      'dnb-forms-field-block--content-width-large',
+      'dnb-forms-field-block--content-width-stretch',
     ])
   })
 

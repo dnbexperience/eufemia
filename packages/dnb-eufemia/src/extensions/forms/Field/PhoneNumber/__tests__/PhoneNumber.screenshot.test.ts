@@ -61,6 +61,7 @@ describe('PhoneNumber', () => {
     const screenshot = await makeScreenshot({
       url,
       selector: '[data-visual-test="phone-number-long-label"]',
+      style: { width: '25rem' },
     })
     expect(screenshot).toMatchImageSnapshot()
   })

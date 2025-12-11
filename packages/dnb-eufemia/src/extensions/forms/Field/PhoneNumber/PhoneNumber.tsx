@@ -263,7 +263,7 @@ function PhoneNumber(props: Props = {}) {
     error,
     hasError,
     disabled,
-    width = props.omitCountryCodeField ? 'medium' : 'large',
+    width,
     help,
     required,
     validateInitially,
@@ -489,7 +489,7 @@ function PhoneNumber(props: Props = {}) {
   const fieldBlockProps: FieldBlockProps = {
     id,
     className: classnames('dnb-forms-field-phone-number', className),
-    width,
+    width: 'stretch',
     label,
     labelDescription,
     labelSrOnly,
@@ -561,7 +561,13 @@ function PhoneNumber(props: Props = {}) {
         warning={warning}
         error={error}
         disabled={disabled}
-        width="stretch"
+        width={
+          width === 'stretch'
+            ? 'stretch'
+            : props.omitCountryCodeField && width === 'large'
+            ? 'large'
+            : 'medium'
+        }
         help={{ ...help, breakout: false, outset: false }}
         required={required}
         errorMessages={errorMessages}
