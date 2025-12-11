@@ -1209,4 +1209,161 @@ describe('Field.DateOfBirth', () => {
       expect(input).toHaveAttribute('aria-invalid', 'true')
     })
   })
+
+  it('should validate continuously when validateContinuously is enabled', async () => {
+    render(<Field.DateOfBirth validateContinuously />)
+
+    const inputs = document.querySelectorAll('input')
+    const dayInput = inputs[0]
+    const monthInput = inputs[1]
+    const yearInput = inputs[2]
+
+    // Type invalid date (invalid day) - error should appear during typing
+    await userEvent.type(yearInput, '2000')
+    await userEvent.type(monthInput, '12')
+    await userEvent.type(dayInput, '32')
+
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).toBeInTheDocument()
+      expect(document.querySelector('[role="alert"]')).toHaveTextContent(
+        nb.DateOfBirth.errorDateOfBirth
+      )
+    })
+
+    // Fix the day - error should disappear during typing
+    await userEvent.clear(dayInput)
+    await userEvent.type(dayInput, '31')
+
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).not.toBeInTheDocument()
+    })
+
+    // Type invalid date (future date) - error should appear again
+    await userEvent.clear(yearInput)
+    await userEvent.type(yearInput, '3000')
+
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).toBeInTheDocument()
+      expect(document.querySelector('[role="alert"]')).toHaveTextContent(
+        nb.DateOfBirth.errorDateOfBirthFuture
+      )
+    })
+  })
+
+  it('should call onStatusChange when validateContinuously reveals validation errors', async () => {
+    const onStatusChange = jest.fn()
+
+    render(
+      <Field.DateOfBirth
+        onStatusChange={onStatusChange}
+        validateContinuously
+        required
+      />
+    )
+
+    const inputs = document.querySelectorAll('input')
+    const dayInput = inputs[0]
+    const monthInput = inputs[1]
+    const yearInput = inputs[2]
+
+    // Type invalid date
+    await userEvent.type(yearInput, '2000')
+    await userEvent.type(monthInput, '12')
+    await userEvent.type(dayInput, '32')
+
+    await waitFor(() => {
+      expect(onStatusChange).toHaveBeenCalled()
+      expect(onStatusChange).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          error: expect.anything(),
+        })
+      )
+    })
+
+    // Clear mock to track new calls
+    onStatusChange.mockClear()
+
+    // Type valid date
+    await userEvent.clear(dayInput)
+    await userEvent.type(dayInput, '31')
+
+    await waitFor(() => {
+      expect(onStatusChange).toHaveBeenCalled()
+      expect(onStatusChange).toHaveBeenLastCalledWith({
+        info: undefined,
+        warning: undefined,
+        error: undefined,
+      })
+    })
+  })
+
+  it('should call onStatusChange when error prop changes without validateContinuously', async () => {
+    const onStatusChange = jest.fn()
+    const error1 = new Error('Error 1')
+    const error2 = new Error('Error 2')
+
+    const { rerender } = render(
+      <Field.DateOfBirth
+        onStatusChange={onStatusChange}
+        error={undefined}
+      />
+    )
+
+    // Initially no error should be called
+    await waitFor(() => {
+      expect(onStatusChange).toHaveBeenCalledTimes(0)
+    })
+
+    // Set error prop
+    rerender(
+      <Field.DateOfBirth onStatusChange={onStatusChange} error={error1} />
+    )
+
+    // Wait for onStatusChange to be called with error
+    await waitFor(() => {
+      expect(onStatusChange).toHaveBeenCalledTimes(1)
+      expect(onStatusChange).toHaveBeenLastCalledWith({
+        info: undefined,
+        warning: undefined,
+        error: error1,
+      })
+    })
+
+    // Change to different error
+    rerender(
+      <Field.DateOfBirth onStatusChange={onStatusChange} error={error2} />
+    )
+
+    await waitFor(() => {
+      expect(onStatusChange).toHaveBeenCalledTimes(2)
+      expect(onStatusChange).toHaveBeenLastCalledWith({
+        info: undefined,
+        warning: undefined,
+        error: error2,
+      })
+    })
+
+    // Clear error
+    rerender(
+      <Field.DateOfBirth
+        onStatusChange={onStatusChange}
+        error={undefined}
+      />
+    )
+
+    await waitFor(() => {
+      expect(onStatusChange).toHaveBeenCalledTimes(3)
+      expect(onStatusChange).toHaveBeenLastCalledWith({
+        info: undefined,
+        warning: undefined,
+        error: undefined,
+      })
+    })
+  })
 })

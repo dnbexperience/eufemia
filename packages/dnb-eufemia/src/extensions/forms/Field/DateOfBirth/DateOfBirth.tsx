@@ -112,7 +112,13 @@ function DateOfBirth(props: Props) {
     [errorDateOfBirth, errorDateOfBirthFuture, dateFormat]
   )
 
-  const { onBlurValidator: propOnBlurValidator } = props
+  const {
+    onBlurValidator: propOnBlurValidator,
+    onChangeValidator,
+    value: propValue,
+    space,
+    ...otherProps
+  } = props
 
   const onBlurValidator = useMemo(() => {
     if (propOnBlurValidator === false) {
@@ -133,14 +139,13 @@ function DateOfBirth(props: Props) {
     return dateOfBirthValidator
   }, [propOnBlurValidator, dateOfBirthValidator])
 
-  const { value: propValue, space, ...otherProps } = props
-
   const preparedProps: Props = useMemo(
     () => ({
       ...otherProps,
       value: propValue,
       errorMessages,
       onBlurValidator,
+      onChangeValidator,
       exportValidators: { dateOfBirthValidator },
       provideAdditionalArgs,
     }),
@@ -149,7 +154,9 @@ function DateOfBirth(props: Props) {
       propValue,
       errorMessages,
       onBlurValidator,
+      onChangeValidator,
       dateOfBirthValidator,
+      provideAdditionalArgs,
     ]
   )
 
