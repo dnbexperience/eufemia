@@ -1,0 +1,10 @@
+@import '../../../../../style/core/utilities.scss';
+
+.dnb-forms-field-date-of-birth {
+  &__month {
+    width: 10rem;
+    @include allBelow(small) {
+      width: 8rem;
+    }
+  }
+}
