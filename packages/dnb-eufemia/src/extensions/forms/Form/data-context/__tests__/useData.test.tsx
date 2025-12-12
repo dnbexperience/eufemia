@@ -1481,7 +1481,9 @@ describe('Form.useData', () => {
         interactive: 'I am visible',
       })
     })
+  })
 
+  describe('data and defaultData', () => {
     it('should set data to be defaultData when no data is provided', () => {
       let collectData = null
 
@@ -1518,6 +1520,56 @@ describe('Form.useData', () => {
       )
 
       expect(collectData).toEqual({ foo: 'bar' })
+    })
+
+    describe('StrictMode', () => {
+      it('should return data when id is used', () => {
+        let collectData = null
+        const formId = 'form'
+
+        const MockComponent = () => {
+          const { data } = Form.useData(formId)
+          collectData = data
+
+          return (
+            <Form.Handler data={{ foo: 'bar' }} id={formId}>
+              <Field.String path="/foo" />
+            </Form.Handler>
+          )
+        }
+
+        render(
+          <React.StrictMode>
+            <MockComponent />
+          </React.StrictMode>
+        )
+
+        expect(collectData).toEqual({ foo: 'bar' })
+      })
+
+      it.only('should set data to be defaultData when no data is provided and id is used', () => {
+        let collectData = null
+        const formId = 'form'
+
+        const MockComponent = () => {
+          const { data } = Form.useData(formId)
+          collectData = data
+
+          return (
+            <Form.Handler defaultData={{ foo: 'bar' }} id={formId}>
+              <Field.String path="/foo" />
+            </Form.Handler>
+          )
+        }
+
+        render(
+          <React.StrictMode>
+            <MockComponent />
+          </React.StrictMode>
+        )
+
+        expect(collectData).toEqual({ foo: 'bar' })
+      })
     })
   })
 })
