@@ -2,9 +2,11 @@
 
 .dnb-forms-field-date-of-birth {
   &__month {
-    width: 10rem;
-    @include allBelow(small) {
-      width: 8rem;
+    .dnb-forms-field-block__contents {
+      width: 10rem;
+      @include allBelow(small) {
+        width: 8rem;
+      }
     }
   }
 }
