@@ -435,8 +435,6 @@ export interface UseFieldProps<
   // - Validation
   required?: boolean
   schema?: Schema<Value> | ((props: UseFieldProps<Value>) => Schema<Value>)
-  /** @deprecated Use `onChangeValidator` instead */
-  validator?: Validator<Value>
   onChangeValidator?: Validator<Value>
   onBlurValidator?: Validator<Value>
   exportValidators?: Record<string, Validator<Value>>
@@ -465,13 +463,6 @@ export interface UseFieldProps<
    * the value? So the user did not introduce a new error, but it was invalid based on validation initially.
    */
   validateUnchanged?: boolean
-  /**
-   * Should validation be done while writing, not just when blurring the field?
-   */
-  /**
-   * @deprecated – Replaced with validateContinuously, continuousValidation can be removed in v11.
-   */
-  continuousValidation?: boolean
   /**
    * Should validation be done while writing, not just when blurring the field?
    */

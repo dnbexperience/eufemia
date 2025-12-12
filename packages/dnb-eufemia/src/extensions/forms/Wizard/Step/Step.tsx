@@ -34,18 +34,6 @@ export type Props = ComponentProps &
 
     /**
      * If set to `false`, the step will not be rendered.
-     * @deprecated use `include` instead
-     */
-    active?: boolean
-
-    /**
-     * Provide a `path` and a `hasValue` property with the expected value in order to enable the step. You can alternatively provide a `hasValue` function that returns a boolean. The first parameter is the value of the path.
-     * @deprecated use `includeWhen` instead
-     */
-    activeWhen?: VisibleWhen
-
-    /**
-     * If set to `false`, the step will not be rendered.
      */
 
     include?: boolean
@@ -66,20 +54,6 @@ export type Props = ComponentProps &
     prerenderFieldProps?: boolean
   }
 
-export function handleDeprecatedProps({
-  active,
-  activeWhen,
-  include,
-  includeWhen,
-  ...rest
-}: Props): Omit<Props, 'active' | 'activeWhen'> {
-  return {
-    include: include ?? active,
-    includeWhen: includeWhen ?? activeWhen,
-    ...rest,
-  }
-}
-
 function Step(props: Props): JSX.Element {
   const {
     id,
@@ -94,7 +68,7 @@ function Step(props: Props): JSX.Element {
     prerenderFieldProps,
     children,
     ...restProps
-  } = handleDeprecatedProps(props)
+  } = props
 
   const {
     check,

@@ -50,24 +50,21 @@ const MagicOpen = (props) => {
   return (
     <>
       <Input
-        on_focus={() => setOpened(true)}
+        onFocus={() => setOpened(true)}
         placeholder="Search for items ..."
         icon="chevron_down"
-        inner_ref={ref}
+        innerRef={ref}
       />
       <Drawer
-        wrapper_element={ref.current}
+        wrapperElement={ref.current}
         opened={opened}
-        // data={['A', 'B']}
-        on_select={(e) => {
-          // does not fire!
-          console.log('on_select', e)
+        onSelect={(e) => {
+          console.log('onSelect', e)
         }}
-        on_change={(e) => {
-          // does not fire!
-          console.log('on_change', e)
+        onChange={(e) => {
+          console.log('onChange', e)
         }}
-        on_hide={() => setOpened(false)}
+        onHide={() => setOpened(false)}
         {...props}
       >
         <DrawerList>
@@ -79,7 +76,7 @@ const MagicOpen = (props) => {
                   {...props}
                   selected={value === selected}
                   value={value}
-                  on_click={({ value }) => {
+                  onClick={({ value }) => {
                     setSelected(value)
                   }}
                 >
@@ -96,11 +93,7 @@ const MagicOpen = (props) => {
 
 const DrawerListWithState = (props) => {
   const [opened, setOpened] = React.useState(false)
-  // React.useState(() => {
-  //   setInterval(() => {
-  //     setOpened(o => !o)
-  //   }, 1e3)
-  // }, [])
+
   return (
     <>
       <ToggleButton
@@ -108,15 +101,15 @@ const DrawerListWithState = (props) => {
         text="Toggle"
         checked={opened}
         icon={'chevron_' + (opened ? 'up' : 'down')}
-        icon_position="left"
-        on_change={({ checked }) => setOpened(checked)}
+        iconPosition="left"
+        onChange={({ checked }) => setOpened(checked)}
       />
       <DrawerList
-        keep_open
+        keepOpen
         data={['A', 'B', 'C']}
         opened={opened}
-        on_hide={() => setOpened(false)}
-        wrapper_element="#ToggleButton"
+        onHide={() => setOpened(false)}
+        wrapperElement="#ToggleButton"
         {...props}
       />
     </>
@@ -127,7 +120,7 @@ const DrawerStory = () => {
   return (
     <Wrapper>
       <Box>
-        <Drawer opened no_animation prevent_close>
+        <Drawer opened noAnimation preventClose>
           Empty
         </Drawer>
       </Box>

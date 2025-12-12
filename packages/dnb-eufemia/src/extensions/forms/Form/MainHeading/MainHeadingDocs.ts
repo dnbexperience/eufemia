@@ -10,7 +10,7 @@ export const MainHeadingProperties: PropertiesTableProps = {
   help: FieldProperties.help,
   children: {
     doc: 'Heading text / contents.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   '[Space](/uilib/layout/space/properties)': {

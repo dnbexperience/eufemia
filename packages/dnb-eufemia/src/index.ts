@@ -56,8 +56,6 @@ import Drawer from './components/drawer/Drawer'
 import Dropdown from './components/dropdown/Dropdown'
 import Flex from './components/flex/Flex'
 import FormLabel from './components/form-label/FormLabel'
-import FormRow from './components/form-row/FormRow'
-import FormSet from './components/form-set/FormSet'
 import FormStatus from './components/form-status/FormStatus'
 import GlobalError from './components/global-error/GlobalError'
 import GlobalStatus from './components/global-status/GlobalStatus'
@@ -145,8 +143,6 @@ export {
   Dropdown,
   Flex,
   FormLabel,
-  FormRow,
-  FormSet,
   FormStatus,
   GlobalError,
   GlobalStatus,

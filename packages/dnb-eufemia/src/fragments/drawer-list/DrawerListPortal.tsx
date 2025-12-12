@@ -19,9 +19,9 @@ export type DrawerListPortalProps = {
   opened: boolean
   innerRef?: React.ForwardedRef<HTMLSpanElement>
   rootRef: React.RefObject<HTMLSpanElement>
-  include_owner_width?: boolean
-  independent_width?: boolean
-  fixed_position?: boolean
+  includeOwnerWidth?: boolean
+  independentWidth?: boolean
+  fixedPosition?: boolean
   skipPortal?: boolean
   className?: string
 }
@@ -31,9 +31,9 @@ function DrawerListPortal({
   id,
   opened,
   rootRef = { current: undefined },
-  include_owner_width,
-  independent_width,
-  fixed_position,
+  includeOwnerWidth,
+  independentWidth,
+  fixedPosition,
   skipPortal,
   className,
   children,
@@ -109,7 +109,7 @@ function DrawerListPortal({
       const ownerWidth = window.getComputedStyle(ownerElem).width
 
       // fallback for too narrow width - in case there is not width -> e.g. "--is-popup"
-      if (independent_width || parseFloat(ownerWidth) < 64) {
+      if (independentWidth || parseFloat(ownerWidth) < 64) {
         // get min-width from CSS property
         let minWidth = 0
         if (portalRef.current) {
@@ -125,18 +125,18 @@ function DrawerListPortal({
 
       // also check if root "has a custom width"
       const customWidth = rootElem.getBoundingClientRect().width
-      if (!independent_width && (customWidth || 0) >= 64) {
+      if (!independentWidth && (customWidth || 0) >= 64) {
         width = customWidth
       }
 
       // Handle positions
       const rect = rootElem.getBoundingClientRect()
-      const scrollY = fixed_position
+      const scrollY = fixedPosition
         ? 0
         : window.scrollY !== undefined
         ? window.scrollY
         : window.pageYOffset
-      const scrollX = fixed_position
+      const scrollX = fixedPosition
         ? 0
         : window.scrollX !== undefined
         ? window.scrollX
@@ -146,7 +146,7 @@ function DrawerListPortal({
       let left =
         scrollX +
         rect.left +
-        (include_owner_width ? parseFloat(ownerWidth || '0') : 0)
+        (includeOwnerWidth ? parseFloat(ownerWidth || '0') : 0)
 
       if (width > window.innerWidth) {
         width = window.innerWidth
@@ -173,9 +173,9 @@ function DrawerListPortal({
   }, [
     isMounted,
     rootRef,
-    independent_width,
-    fixed_position,
-    include_owner_width,
+    independentWidth,
+    fixedPosition,
+    includeOwnerWidth,
     portalRef,
   ])
 
@@ -227,7 +227,7 @@ function DrawerListPortal({
           <span
             className={classnames(
               'dnb-drawer-list__portal__style',
-              fixed_position && 'dnb-drawer-list__portal__style--fixed',
+              fixedPosition && 'dnb-drawer-list__portal__style--fixed',
               className
             )}
             style={style}

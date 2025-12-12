@@ -17,16 +17,42 @@ All additional HTML attributes will be returned as well.
 ```js
 {
   date: null | 'date as `returnFormat` | `yyyy-MM-dd` ', /* Available if `range` is `false` */
-  start_date: null | 'date as `returnFormat` | `yyyy-MM-dd`', /* Available if `range` is `true` */
-  end_date: null | 'date as `returnFormat` | `yyyy-MM-dd`', /* Available if `range` is `true` */
+  startDate: null | 'date as `returnFormat` | `yyyy-MM-dd`', /* Available if `range` is `true` */
+  endDate: null | 'date as `returnFormat` | `yyyy-MM-dd`', /* Available if `range` is `true` */
   invalidDate: null | 'date as `returnFormat` | `yyyy-MM-dd`', /* Available if `range` is `false` */
   invalidStartDate: null | 'date as `returnFormat` | ´yyyy-MM-dd`', /* Available if `range` is `true` */
   invalidEndDate: null | 'date as `returnFormat` | `yyyy-MM-dd`', /* Available if `range` is `true` */
   partialDate:  null | 'date as `returnFormat` | `yyyy-MM-dd`'  /* Available if `range` is `false` */
   partialStartDate:  null | 'date as `returnFormat` | `yyyy-MM-dd`' /* Available if `range` is `true` */
   partialEndDate: null | 'date as `returnFormat` | `yyyy-MM-dd`' /* Available if `range` is `true` */
-  days_between: number,
+  daysBetween: number,
   attributes: { attributes },
   event: null | { native event }
+}
+```
+
+### Validation during input changes
+
+In order to validate dates during typing, you can make use of `isValid` or `isValidStartDate` and `isValidEndDate`. Because the user can change a date in the input field, and the `onType` event will then return a falsy `isValid`.
+
+Additional event return object properties:
+
+```js
+{
+  isValid: boolean, /* Available if `range` is `false` */
+  isValidStartDate: boolean, /* Available if `range` is `true` */
+  isValidEndDate: boolean, /* Available if `range` is `true` */
+}
+```
+
+### Min & Max date
+
+If `minDate` or `maxDate` is given, the return object also contains info about if the `startDate` or `endDate` is in between the given limits. The reason is that the user can still enter an invalid date in the input.
+
+```js
+{
+  isValidStartDate: boolean,
+  isValidEndDate: boolean,
+  ...
 }
 ```

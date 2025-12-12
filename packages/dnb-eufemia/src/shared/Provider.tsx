@@ -96,12 +96,9 @@ export default function Provider<Props>(
   )
 }
 
-type MergeContext = {
-  FormRow?: Pick<ContextProps, 'FormRow'>
-}
 type MergeContextProps = {
   value: ProviderProps
-} & MergeContext
+}
 
 function mergeContextWithProps<ContextT, PropsT>(
   nestedContext: ContextT & ContextProps,
@@ -124,17 +121,6 @@ function mergeContextWithProps<ContextT, PropsT>(
     }
     mergedContext.formElement = prepareFormElementContext(
       mergedContext.formElement
-    )
-  }
-
-  // Deprecated – can be removed in v11
-  if (nestedContext?.FormRow && props.FormRow) {
-    mergedContext.FormRow = {
-      ...nestedContext.FormRow,
-      ...props.FormRow,
-    }
-    mergedContext.FormRow = prepareFormElementContext(
-      mergedContext.FormRow
     )
   }
 

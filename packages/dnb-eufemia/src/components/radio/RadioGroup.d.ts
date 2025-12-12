@@ -29,9 +29,9 @@ export interface RadioGroupProps
   extends Omit<React.HTMLProps<HTMLElement>, 'ref'>,
     SpacingProps {
   label?: React.ReactNode;
-  label_direction?: FormLabelLabelDirection;
-  label_sr_only?: boolean;
-  label_position?: RadioGroupLabelPosition;
+  labelDirection?: FormLabelLabelDirection;
+  labelSrOnly?: boolean;
+  labelPosition?: RadioGroupLabelPosition;
   title?: string;
   disabled?: boolean;
   skeleton?: SkeletonShow;
@@ -39,18 +39,18 @@ export interface RadioGroupProps
   name?: string;
   size?: RadioGroupSize;
   status?: FormStatusText;
-  status_state?: FormStatusState;
-  status_props?: FormStatusProps;
-  status_no_animation?: boolean;
+  statusState?: FormStatusState;
+  statusProps?: FormStatusProps;
+  statusNoAnimation?: boolean;
   globalStatus?: GlobalStatusConfigObject;
   suffix?: RadioGroupSuffix;
-  layout_direction?: RadioGroupLayoutDirection;
+  layoutDirection?: RadioGroupLayoutDirection;
   vertical?: boolean;
   value?: string;
   attributes?: RadioGroupAttributes;
   className?: string;
   children?: RadioGroupChildren;
-  on_change?: (...args: any[]) => any;
+  onChange?: (...args: any[]) => any;
 }
 export default class RadioGroup extends React.Component<
   RadioGroupProps,

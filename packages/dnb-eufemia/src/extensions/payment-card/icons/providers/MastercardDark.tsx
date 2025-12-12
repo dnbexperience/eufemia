@@ -278,12 +278,12 @@ const MastercardDarkSVG = (props: React.SVGProps<SVGSVGElement>) => (
           y2="9.026"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stopColor="#C8C7C7" />
-          <stop offset=".147" stopColor="#C8C7C7" />
-          <stop offset=".181" stopColor="#C8C7C7" />
-          <stop offset=".522" stopColor="#B2B1B1" />
-          <stop offset=".785" stopColor="#B2B1B1" />
-          <stop offset="1" stopColor="#C8C7C7" />
+          <stop stop-color="#C8C7C7" />
+          <stop offset=".147" stop-color="#C8C7C7" />
+          <stop offset=".181" stop-color="#C8C7C7" />
+          <stop offset=".522" stop-color="#B2B1B1" />
+          <stop offset=".785" stop-color="#B2B1B1" />
+          <stop offset="1" stop-color="#C8C7C7" />
         </linearGradient>
         <linearGradient
           id="c"
@@ -293,13 +293,13 @@ const MastercardDarkSVG = (props: React.SVGProps<SVGSVGElement>) => (
           y2="9.026"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stopColor="#514E4F" />
-          <stop offset=".078" stopColor="#656263" />
-          <stop offset=".229" stopColor="#656263" />
-          <stop offset=".285" stopColor="#656263" />
-          <stop offset=".589" stopColor="#514E4F" />
-          <stop offset=".815" stopColor="#514E4F" />
-          <stop offset="1" stopColor="#706D6E" />
+          <stop stop-color="#514E4F" />
+          <stop offset=".078" stop-color="#656263" />
+          <stop offset=".229" stop-color="#656263" />
+          <stop offset=".285" stop-color="#656263" />
+          <stop offset=".589" stop-color="#514E4F" />
+          <stop offset=".815" stop-color="#514E4F" />
+          <stop offset="1" stop-color="#706D6E" />
         </linearGradient>
         <linearGradient
           id="e"
@@ -309,18 +309,18 @@ const MastercardDarkSVG = (props: React.SVGProps<SVGSVGElement>) => (
           y2="9.026"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stopColor="#302B27" />
-          <stop offset=".246" stopColor="#302B27" />
-          <stop offset=".503" stopColor="#40423A" />
-          <stop offset=".542" stopColor="#40423A" />
-          <stop offset=".642" stopColor="#327254" />
-          <stop offset=".754" stopColor="#E9E9E9" />
-          <stop offset=".784" stopColor="#E9E9E9" />
-          <stop offset=".863" stopColor="#E9E9E9" />
-          <stop offset=".963" stopColor="#40423A" />
-          <stop offset=".979" stopColor="#40423A" />
-          <stop offset=".998" stopColor="#403034" />
-          <stop offset="1" stopColor="#403034" />
+          <stop stop-color="#302B27" />
+          <stop offset=".246" stop-color="#302B27" />
+          <stop offset=".503" stop-color="#40423A" />
+          <stop offset=".542" stop-color="#40423A" />
+          <stop offset=".642" stop-color="#327254" />
+          <stop offset=".754" stop-color="#E9E9E9" />
+          <stop offset=".784" stop-color="#E9E9E9" />
+          <stop offset=".863" stop-color="#E9E9E9" />
+          <stop offset=".963" stop-color="#40423A" />
+          <stop offset=".979" stop-color="#40423A" />
+          <stop offset=".998" stop-color="#403034" />
+          <stop offset="1" stop-color="#403034" />
         </linearGradient>
         <linearGradient
           id="i"
@@ -330,11 +330,11 @@ const MastercardDarkSVG = (props: React.SVGProps<SVGSVGElement>) => (
           y2="14.589"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stopColor="#fff" />
-          <stop offset=".178" stopColor="#fff" />
-          <stop offset=".393" stopColor="#fff" />
-          <stop offset=".536" stopColor="#231F20" />
-          <stop offset="1" stopColor="#231F20" />
+          <stop stop-color="#fff" />
+          <stop offset=".178" stop-color="#fff" />
+          <stop offset=".393" stop-color="#fff" />
+          <stop offset=".536" stop-color="#231F20" />
+          <stop offset="1" stop-color="#231F20" />
         </linearGradient>
         <linearGradient
           id="l"
@@ -344,12 +344,12 @@ const MastercardDarkSVG = (props: React.SVGProps<SVGSVGElement>) => (
           y2="26.133"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stopColor="#302B27" />
-          <stop offset=".125" stopColor="#302B27" />
-          <stop offset=".583" stopColor="#9C9A9B" />
-          <stop offset=".673" stopColor="#9C9A9B" />
-          <stop offset=".998" stopColor="#403034" />
-          <stop offset="1" stopColor="#403034" />
+          <stop stop-color="#302B27" />
+          <stop offset=".125" stop-color="#302B27" />
+          <stop offset=".583" stop-color="#9C9A9B" />
+          <stop offset=".673" stop-color="#9C9A9B" />
+          <stop offset=".998" stop-color="#403034" />
+          <stop offset="1" stop-color="#403034" />
         </linearGradient>
         <linearGradient
           id="o"
@@ -359,11 +359,11 @@ const MastercardDarkSVG = (props: React.SVGProps<SVGSVGElement>) => (
           y2="31.584"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stopColor="#fff" />
-          <stop offset=".178" stopColor="#fff" />
-          <stop offset=".342" stopColor="#fff" />
-          <stop offset=".383" stopColor="#231F20" />
-          <stop offset="1" stopColor="#231F20" />
+          <stop stop-color="#fff" />
+          <stop offset=".178" stop-color="#fff" />
+          <stop offset=".342" stop-color="#fff" />
+          <stop offset=".383" stop-color="#231F20" />
+          <stop offset="1" stop-color="#231F20" />
         </linearGradient>
         <linearGradient
           id="r"
@@ -373,43 +373,43 @@ const MastercardDarkSVG = (props: React.SVGProps<SVGSVGElement>) => (
           y2="9.026"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stopColor="#302B27" />
-          <stop offset=".056" stopColor="#302B27" />
-          <stop offset=".115" stopColor="#40423A" />
-          <stop offset=".14" stopColor="#40423A" />
-          <stop offset=".173" stopColor="#F7992E" />
-          <stop offset=".181" stopColor="#F2F47E" />
-          <stop offset=".191" stopColor="#F2F47E" />
-          <stop offset=".238" stopColor="#fff" />
-          <stop offset=".252" stopColor="#fff" />
-          <stop offset=".263" stopColor="#fff" />
-          <stop offset=".3" stopColor="#F2F47E" />
-          <stop offset=".31" stopColor="#F2F47E" />
-          <stop offset=".334" stopColor="#B4DF58" />
-          <stop offset=".359" stopColor="#C2E9CA" />
-          <stop offset=".42" stopColor="#91C7ED" />
-          <stop offset=".463" stopColor="#6D92D3" />
-          <stop offset=".483" stopColor="#6D92D3" />
-          <stop offset=".5" stopColor="#6D92D3" />
-          <stop offset=".535" stopColor="#899ED8" />
-          <stop offset=".571" stopColor="#91C3EB" />
-          <stop offset=".636" stopColor="#B5E5F9" />
-          <stop offset=".682" stopColor="#DDF4FB" />
-          <stop offset=".748" stopColor="#fff" />
-          <stop offset=".813" stopColor="#FEFCD1" />
-          <stop offset=".843" stopColor="#FAF77C" />
-          <stop offset=".872" stopColor="#F7F33E" />
-          <stop offset=".89" stopColor="#F9BC3A" />
-          <stop offset=".907" stopColor="#DE6CBD" />
-          <stop offset=".922" stopColor="#1C1E19" />
-          <stop offset=".948" stopColor="#151512" />
-          <stop offset=".961" stopColor="#F58615" />
-          <stop offset=".965" stopColor="#fff" />
-          <stop offset=".971" stopColor="#fff" />
-          <stop offset=".977" stopColor="#fff" />
-          <stop offset=".981" stopColor="#23714D" />
-          <stop offset="1" stopColor="#403034" />
-          <stop offset="1" stopColor="#403034" />
+          <stop stop-color="#302B27" />
+          <stop offset=".056" stop-color="#302B27" />
+          <stop offset=".115" stop-color="#40423A" />
+          <stop offset=".14" stop-color="#40423A" />
+          <stop offset=".173" stop-color="#F7992E" />
+          <stop offset=".181" stop-color="#F2F47E" />
+          <stop offset=".191" stop-color="#F2F47E" />
+          <stop offset=".238" stop-color="#fff" />
+          <stop offset=".252" stop-color="#fff" />
+          <stop offset=".263" stop-color="#fff" />
+          <stop offset=".3" stop-color="#F2F47E" />
+          <stop offset=".31" stop-color="#F2F47E" />
+          <stop offset=".334" stop-color="#B4DF58" />
+          <stop offset=".359" stop-color="#C2E9CA" />
+          <stop offset=".42" stop-color="#91C7ED" />
+          <stop offset=".463" stop-color="#6D92D3" />
+          <stop offset=".483" stop-color="#6D92D3" />
+          <stop offset=".5" stop-color="#6D92D3" />
+          <stop offset=".535" stop-color="#899ED8" />
+          <stop offset=".571" stop-color="#91C3EB" />
+          <stop offset=".636" stop-color="#B5E5F9" />
+          <stop offset=".682" stop-color="#DDF4FB" />
+          <stop offset=".748" stop-color="#fff" />
+          <stop offset=".813" stop-color="#FEFCD1" />
+          <stop offset=".843" stop-color="#FAF77C" />
+          <stop offset=".872" stop-color="#F7F33E" />
+          <stop offset=".89" stop-color="#F9BC3A" />
+          <stop offset=".907" stop-color="#DE6CBD" />
+          <stop offset=".922" stop-color="#1C1E19" />
+          <stop offset=".948" stop-color="#151512" />
+          <stop offset=".961" stop-color="#F58615" />
+          <stop offset=".965" stop-color="#fff" />
+          <stop offset=".971" stop-color="#fff" />
+          <stop offset=".977" stop-color="#fff" />
+          <stop offset=".981" stop-color="#23714D" />
+          <stop offset="1" stop-color="#403034" />
+          <stop offset="1" stop-color="#403034" />
         </linearGradient>
         <linearGradient
           id="s"
@@ -419,27 +419,27 @@ const MastercardDarkSVG = (props: React.SVGProps<SVGSVGElement>) => (
           y2="37.373"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stopColor="#40423A" />
-          <stop offset=".07" stopColor="#40423A" />
-          <stop offset=".096" stopColor="#4B4342" />
-          <stop offset=".109" stopColor="#4B4342" />
-          <stop offset=".148" stopColor="#4B4342" />
-          <stop offset=".318" stopColor="#F9F5F7" />
-          <stop offset=".398" stopColor="#F7F33E" />
-          <stop offset=".4" stopColor="#F7F33E" />
-          <stop offset=".425" stopColor="#F9BC3A" />
-          <stop offset=".44" stopColor="#F58615" />
-          <stop offset=".457" stopColor="#F58615" />
-          <stop offset=".478" stopColor="#5D734B" />
-          <stop offset=".487" stopColor="#5D734B" />
-          <stop offset=".496" stopColor="#5D734B" />
-          <stop offset=".517" stopColor="#DE6CBD" />
-          <stop offset=".531" stopColor="#DA36A2" />
-          <stop offset=".548" stopColor="#DE6CBD" />
-          <stop offset=".557" stopColor="#DE6CBD" />
-          <stop offset=".571" stopColor="#302B27" />
-          <stop offset=".796" stopColor="#252521" />
-          <stop offset="1" stopColor="#252521" />
+          <stop stop-color="#40423A" />
+          <stop offset=".07" stop-color="#40423A" />
+          <stop offset=".096" stop-color="#4B4342" />
+          <stop offset=".109" stop-color="#4B4342" />
+          <stop offset=".148" stop-color="#4B4342" />
+          <stop offset=".318" stop-color="#F9F5F7" />
+          <stop offset=".398" stop-color="#F7F33E" />
+          <stop offset=".4" stop-color="#F7F33E" />
+          <stop offset=".425" stop-color="#F9BC3A" />
+          <stop offset=".44" stop-color="#F58615" />
+          <stop offset=".457" stop-color="#F58615" />
+          <stop offset=".478" stop-color="#5D734B" />
+          <stop offset=".487" stop-color="#5D734B" />
+          <stop offset=".496" stop-color="#5D734B" />
+          <stop offset=".517" stop-color="#DE6CBD" />
+          <stop offset=".531" stop-color="#DA36A2" />
+          <stop offset=".548" stop-color="#DE6CBD" />
+          <stop offset=".557" stop-color="#DE6CBD" />
+          <stop offset=".571" stop-color="#302B27" />
+          <stop offset=".796" stop-color="#252521" />
+          <stop offset="1" stop-color="#252521" />
         </linearGradient>
         <linearGradient
           id="w"
@@ -449,11 +449,11 @@ const MastercardDarkSVG = (props: React.SVGProps<SVGSVGElement>) => (
           y2="38.99"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stopColor="#fff" />
-          <stop offset=".279" stopColor="#fff" />
-          <stop offset=".516" stopColor="#fff" />
-          <stop offset=".628" stopColor="#231F20" />
-          <stop offset="1" stopColor="#231F20" />
+          <stop stop-color="#fff" />
+          <stop offset=".279" stop-color="#fff" />
+          <stop offset=".516" stop-color="#fff" />
+          <stop offset=".628" stop-color="#231F20" />
+          <stop offset="1" stop-color="#231F20" />
         </linearGradient>
         <linearGradient
           id="z"
@@ -463,58 +463,58 @@ const MastercardDarkSVG = (props: React.SVGProps<SVGSVGElement>) => (
           y2="9.026"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stopColor="#1C1916" />
-          <stop offset=".01" stopColor="#1C1916" />
-          <stop offset=".027" stopColor="#594BA9" />
-          <stop offset=".046" stopColor="#9986CA" />
-          <stop offset=".05" stopColor="#AC61B6" />
-          <stop offset=".07" stopColor="#D7088C" />
-          <stop offset=".093" stopColor="#F57F25" />
-          <stop offset=".12" stopColor="#F8F12B" />
-          <stop offset=".132" stopColor="#BFE37C" />
-          <stop offset=".137" stopColor="#BFE37C" />
-          <stop offset=".142" stopColor="#BFE37C" />
-          <stop offset=".154" stopColor="#BE7876" />
-          <stop offset=".162" stopColor="#F9BC3A" />
-          <stop offset=".17" stopColor="#F9BC3A" />
-          <stop offset=".186" stopColor="#FAF77C" />
-          <stop offset=".2" stopColor="#F8F12B" />
-          <stop offset=".247" stopColor="#fff" />
-          <stop offset=".252" stopColor="#fff" />
-          <stop offset=".275" stopColor="#fff" />
-          <stop offset=".355" stopColor="#DDF4FB" />
-          <stop offset=".371" stopColor="#F9F896" />
-          <stop offset=".378" stopColor="#F9F896" />
-          <stop offset=".399" stopColor="#BEE487" />
-          <stop offset=".4" stopColor="#BEE487" />
-          <stop offset=".416" stopColor="#BEE487" />
-          <stop offset=".422" stopColor="#9FD0F1" />
-          <stop offset=".453" stopColor="#8CADE0" />
-          <stop offset=".463" stopColor="#899ED8" />
-          <stop offset=".483" stopColor="#9986CA" />
-          <stop offset=".493" stopColor="#9986CA" />
-          <stop offset=".504" stopColor="#9986CA" />
-          <stop offset=".507" stopColor="#6D92D3" />
-          <stop offset=".528" stopColor="#6D92D3" />
-          <stop offset=".574" stopColor="#91C7ED" />
-          <stop offset=".629" stopColor="#C2E9CA" />
-          <stop offset=".701" stopColor="#F2F47E" />
-          <stop offset=".768" stopColor="#fff" />
-          <stop offset=".788" stopColor="#fff" />
-          <stop offset=".8" stopColor="#fff" />
-          <stop offset=".841" stopColor="#F2F47E" />
-          <stop offset=".858" stopColor="#F2F47E" />
-          <stop offset=".871" stopColor="#F8F12B" />
-          <stop offset=".871" stopColor="#F8F12B" />
-          <stop offset=".895" stopColor="#F7992E" />
-          <stop offset=".907" stopColor="#F8A32E" />
-          <stop offset=".915" stopColor="#F8A32E" />
-          <stop offset=".915" stopColor="#F8A32E" />
-          <stop offset=".935" stopColor="#AB70BE" />
-          <stop offset=".966" stopColor="#302B27" />
-          <stop offset=".991" stopColor="#302B27" />
-          <stop offset=".998" stopColor="#302B27" />
-          <stop offset="1" stopColor="#302B27" />
+          <stop stop-color="#1C1916" />
+          <stop offset=".01" stop-color="#1C1916" />
+          <stop offset=".027" stop-color="#594BA9" />
+          <stop offset=".046" stop-color="#9986CA" />
+          <stop offset=".05" stop-color="#AC61B6" />
+          <stop offset=".07" stop-color="#D7088C" />
+          <stop offset=".093" stop-color="#F57F25" />
+          <stop offset=".12" stop-color="#F8F12B" />
+          <stop offset=".132" stop-color="#BFE37C" />
+          <stop offset=".137" stop-color="#BFE37C" />
+          <stop offset=".142" stop-color="#BFE37C" />
+          <stop offset=".154" stop-color="#BE7876" />
+          <stop offset=".162" stop-color="#F9BC3A" />
+          <stop offset=".17" stop-color="#F9BC3A" />
+          <stop offset=".186" stop-color="#FAF77C" />
+          <stop offset=".2" stop-color="#F8F12B" />
+          <stop offset=".247" stop-color="#fff" />
+          <stop offset=".252" stop-color="#fff" />
+          <stop offset=".275" stop-color="#fff" />
+          <stop offset=".355" stop-color="#DDF4FB" />
+          <stop offset=".371" stop-color="#F9F896" />
+          <stop offset=".378" stop-color="#F9F896" />
+          <stop offset=".399" stop-color="#BEE487" />
+          <stop offset=".4" stop-color="#BEE487" />
+          <stop offset=".416" stop-color="#BEE487" />
+          <stop offset=".422" stop-color="#9FD0F1" />
+          <stop offset=".453" stop-color="#8CADE0" />
+          <stop offset=".463" stop-color="#899ED8" />
+          <stop offset=".483" stop-color="#9986CA" />
+          <stop offset=".493" stop-color="#9986CA" />
+          <stop offset=".504" stop-color="#9986CA" />
+          <stop offset=".507" stop-color="#6D92D3" />
+          <stop offset=".528" stop-color="#6D92D3" />
+          <stop offset=".574" stop-color="#91C7ED" />
+          <stop offset=".629" stop-color="#C2E9CA" />
+          <stop offset=".701" stop-color="#F2F47E" />
+          <stop offset=".768" stop-color="#fff" />
+          <stop offset=".788" stop-color="#fff" />
+          <stop offset=".8" stop-color="#fff" />
+          <stop offset=".841" stop-color="#F2F47E" />
+          <stop offset=".858" stop-color="#F2F47E" />
+          <stop offset=".871" stop-color="#F8F12B" />
+          <stop offset=".871" stop-color="#F8F12B" />
+          <stop offset=".895" stop-color="#F7992E" />
+          <stop offset=".907" stop-color="#F8A32E" />
+          <stop offset=".915" stop-color="#F8A32E" />
+          <stop offset=".915" stop-color="#F8A32E" />
+          <stop offset=".935" stop-color="#AB70BE" />
+          <stop offset=".966" stop-color="#302B27" />
+          <stop offset=".991" stop-color="#302B27" />
+          <stop offset=".998" stop-color="#302B27" />
+          <stop offset="1" stop-color="#302B27" />
         </linearGradient>
         <linearGradient
           id="A"
@@ -524,15 +524,15 @@ const MastercardDarkSVG = (props: React.SVGProps<SVGSVGElement>) => (
           y2="30.906"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stopColor="#A7A5A6" />
-          <stop offset=".001" stopColor="#A7A5A6" />
-          <stop offset=".102" stopColor="#BDBCBC" />
-          <stop offset=".243" stopColor="#BBBABA" />
-          <stop offset=".43" stopColor="#C8C7C7" />
-          <stop offset=".61" stopColor="#C8C7C7" />
-          <stop offset=".707" stopColor="#A7A5A6" />
-          <stop offset=".798" stopColor="#BDBCBC" />
-          <stop offset="1" stopColor="#A7A5A6" />
+          <stop stop-color="#A7A5A6" />
+          <stop offset=".001" stop-color="#A7A5A6" />
+          <stop offset=".102" stop-color="#BDBCBC" />
+          <stop offset=".243" stop-color="#BBBABA" />
+          <stop offset=".43" stop-color="#C8C7C7" />
+          <stop offset=".61" stop-color="#C8C7C7" />
+          <stop offset=".707" stop-color="#A7A5A6" />
+          <stop offset=".798" stop-color="#BDBCBC" />
+          <stop offset="1" stop-color="#A7A5A6" />
         </linearGradient>
       </defs>
     </svg>

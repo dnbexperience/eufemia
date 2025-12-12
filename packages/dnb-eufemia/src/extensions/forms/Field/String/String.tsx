@@ -32,7 +32,7 @@ export type Props = FieldProps<string, undefined | string> & {
   innerRef?: React.RefObject<HTMLInputElement | HTMLTextAreaElement>
   width?: FieldBlockWidth
   size?: InputProps['size'] | TextareaProps['size']
-  keepPlaceholder?: InputProps['keep_placeholder']
+  keepPlaceholder?: InputProps['keepPlaceholder']
 
   // - Validation
   minLength?: number
@@ -47,13 +47,13 @@ export type Props = FieldProps<string, undefined | string> & {
   mask?: InputMaskedProps['mask']
   leftIcon?: string
   rightIcon?: string
-  submitElement?: InputProps['submit_element']
+  submitElement?: InputProps['submitElement']
   capitalize?: boolean
   trim?: boolean
 
   // - Textarea props
   rows?: TextareaProps['rows']
-  autoresizeMaxRows?: TextareaProps['autoresize_max_rows']
+  autoresizeMaxRows?: TextareaProps['autoresizeMaxRows']
   autoresize?: TextareaProps['autoresize']
   characterCounter?: Omit<TextCounterProps, 'text'> | number
 
@@ -265,14 +265,14 @@ function StringComponent(props: Props) {
     inputMode,
     className: cn,
     placeholder,
-    on_focus: handleFocus,
-    on_blur: handleBlur,
-    on_change: handleChange,
-    on_key_down: handleKeyDown,
+    onFocus: handleFocus,
+    onBlur: handleBlur,
+    onChange: handleChange,
+    onKeyDown: handleKeyDown,
     disabled,
     ...htmlAttributes,
     stretch: Boolean(width),
-    inner_ref: innerRef,
+    innerRef: innerRef,
     status: hasError ? 'error' : undefined,
     value: transformInstantly(value?.toString() ?? ''),
   }
@@ -280,7 +280,7 @@ function StringComponent(props: Props) {
   const textareaProps: TextareaProps = {
     keepPlaceholder,
     rows,
-    autoresize_max_rows: autoresizeMaxRows,
+    autoresizeMaxRows: autoresizeMaxRows,
     autoresize,
     characterCounter,
   }
@@ -292,9 +292,9 @@ function StringComponent(props: Props) {
     align,
     selectall,
     icon: leftIcon ?? rightIcon,
-    icon_position: rightIcon && !leftIcon ? 'right' : undefined,
-    submit_element: submitElement,
-    keep_placeholder: keepPlaceholder,
+    iconPosition: rightIcon && !leftIcon ? 'right' : undefined,
+    submitElement: submitElement,
+    keepPlaceholder: keepPlaceholder,
   }
 
   const fieldBlockProps: FieldBlockProps = {

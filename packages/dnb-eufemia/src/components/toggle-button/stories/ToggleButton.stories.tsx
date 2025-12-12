@@ -32,7 +32,7 @@ function ToggleButtonGroup() {
     <>
       <ToggleButton.Group
         multiselect
-        on_change={({ values }) => {
+        onChange={({ values }) => {
           console.log('values', values)
         }}
       >
@@ -41,21 +41,21 @@ function ToggleButtonGroup() {
           variant="checkbox"
           text="Item 1"
           value="item_1"
-          on_change={() => setButton1((s) => !s)}
+          onChange={() => setButton1((s) => !s)}
         />
         <ToggleButton
           checked={button2}
           variant="checkbox"
           text="Item 2"
           value="item_2"
-          on_change={() => setButton2((s) => !s)}
+          onChange={() => setButton2((s) => !s)}
         />
         <ToggleButton
           checked={button3}
           variant="checkbox"
           text="Item 3"
           value="item_3"
-          on_change={() => setButton3((s) => !s)}
+          onChange={() => setButton3((s) => !s)}
         />
       </ToggleButton.Group>
 
@@ -97,7 +97,7 @@ export const ToggleButtonSandbox = () => (
 
     <Box>
       <Provider
-        formElement={{ label_direction: 'vertical', disabled: true }}
+        formElement={{ labelDirection: 'vertical', disabled: true }}
       >
         <ToggleButton.Group>
           <ToggleButton
@@ -157,13 +157,12 @@ export const ToggleButtonSandbox = () => (
           checked
           label="Label:"
           variant="checkbox"
-          icon_position="right"
-          // icon="bell"
+          iconPosition="right"
           icon="chevron_right"
           text="Toggle Button"
           value="I'm alone"
-          on_change={({ value, checked }) => {
-            console.log('on_change', value, checked)
+          onChange={({ value, checked }) => {
+            console.log('onChange', value, checked)
           }}
         />
       </p>
@@ -175,13 +174,12 @@ export const ToggleButtonSandbox = () => (
           checked
           label="Label"
           variant="radio"
-          icon_position="right"
-          // icon="bell"
+          iconPosition="right"
           icon="chevron_right"
           text="Toggle Button"
           value="I'm alone"
-          on_change={({ value, checked }) => {
-            console.log('on_change', value, checked)
+          onChange={({ value, checked }) => {
+            console.log('onChange', value, checked)
           }}
         />
       </p>
@@ -199,24 +197,24 @@ export const ToggleButtonSandbox = () => (
           <ToggleButton
             value="first"
             text="First"
-            on_change={({ group, value }) => {
-              console.log('on_change', group, value)
+            onChange={({ group, value }) => {
+              console.log('onChange', group, value)
             }}
           />
           <ToggleButton
             checked
             value="second"
             text="Second"
-            on_change={({ group, value }) => {
-              console.log('on_change', group, value)
+            onChange={({ group, value }) => {
+              console.log('onChange', group, value)
             }}
           />
           <ToggleButton
             checked
             value="third"
             text="Third"
-            on_change={({ group, value }) => {
-              console.log('on_change', group, value)
+            onChange={({ group, value }) => {
+              console.log('onChange', group, value)
             }}
           />
         </span>
@@ -224,11 +222,11 @@ export const ToggleButtonSandbox = () => (
     </Box>
     <Box>
       <Flex.Vertical>
-        <H2>A h2 in a FormRow without a label</H2>
-        <FieldBlock label="Long Group name with on_change dapibus eros viverra torquent euismod at dignissim vel mattis:">
+        <H2>A h2 in a Flex.Vertical, where there's no label</H2>
+        <FieldBlock label="Long Group name with onChange dapibus eros viverra torquent euismod at dignissim vel mattis:">
           <ToggleButton.Group
-            on_change={({ value, values, event }) => {
-              console.log('on_change', value, values, event)
+            onChange={({ value, values, event }) => {
+              console.log('onChange', value, values, event)
             }}
             status="Error message"
             multiselect={true}
@@ -246,8 +244,8 @@ export const ToggleButtonSandbox = () => (
     <Box>
       <FieldBlock label="Long Group name Vitae dapibus eros viverra torquent euismod at dignissim vel mattis:">
         <ToggleButton.Group
-          on_change={({ value }) => {
-            console.log('on_change', value)
+          onChange={({ value }) => {
+            console.log('onChange', value)
           }}
         >
           <ToggleButton text="First" value="first" />
@@ -261,13 +259,13 @@ export const ToggleButtonSandbox = () => (
             value="third"
             checked
             status="Info message"
-            status_state="info"
+            statusState="info"
           />
         </ToggleButton.Group>
       </FieldBlock>
     </Box>
     <Box>
-      <ToggleButton.Group label="Column group:" layout_direction="column">
+      <ToggleButton.Group label="Column group:" layoutDirection="column">
         <ToggleButton text="First" value="first" />
         <ToggleButton text="Second" value="second" />
         <ToggleButton text="Third" value="third" checked />
@@ -276,9 +274,8 @@ export const ToggleButtonSandbox = () => (
     <Box>
       <ToggleButton.Group
         label="Vertical group with error:"
-        layout_direction="column"
-        label_direction="vertical"
-        // vertical={true}
+        layoutDirection="column"
+        labelDirection="vertical"
         status="Error message Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
       >
         <ToggleButton text="First" value="first" />
@@ -346,14 +343,14 @@ export const ToggleButtonSandbox = () => (
         text="Checked status message"
         variant="radio"
         status="Info message\n123"
-        status_state="info"
+        statusState="info"
       />
       <ToggleButton
         text="Checked status message"
         checked
         variant="checkbox"
         status="Error message Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
-        status_state="info"
+        statusState="info"
         top="small"
       />
     </Box>
@@ -372,19 +369,19 @@ export function MultiselectRerender() {
       <Button
         variant="secondary"
         text="Select all"
-        on_click={selectAll}
+        onClick={selectAll}
         right
       />
       <Button
         variant="secondary"
         text="Deselect"
-        on_click={deselectAll}
+        onClick={deselectAll}
         right
       />
       <Button
         variant="secondary"
         text={'Increment ' + count}
-        on_click={() => increment((s) => s + 1)}
+        onClick={() => increment((s) => s + 1)}
         right
       />
       <br />
@@ -395,8 +392,8 @@ export function MultiselectRerender() {
         value={'second'}
         multiselect={true}
         values={values}
-        on_change={({ values }) => {
-          console.log('on_change', values)
+        onChange={({ values }) => {
+          console.log('onChange', values)
           setValues(values)
         }}
       >

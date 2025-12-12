@@ -18,14 +18,14 @@ export const RowsCols = () => (
         cols="20"
         value="Textarea value\nNewline"
         spellCheck={false}
-        on_change={({ value }) => {
-          console.log('on_change', value)
+        onChange={({ value }) => {
+          console.log('onChange', value)
         }}
-        on_focus={() => {
-          console.log('on_focus')
+        onFocus={() => {
+          console.log('onFocus')
         }}
-        on_blur={() => {
-          console.log('on_blur')
+        onBlur={() => {
+          console.log('onBlur')
         }}
       />
     </ComponentBox>
@@ -45,7 +45,7 @@ export const Vertical = () => (
     <ComponentBox>
       <Textarea
         label="Vertical"
-        label_direction="vertical"
+        labelDirection="vertical"
         rows="3"
         cols="33"
         value="Textarea value with more than 3 lines\nNewline\nNewline\nNewline\nNewline"
@@ -59,7 +59,7 @@ export const CharacterCounter = () => (
     <ComponentBox data-visual-test="textarea-character-counter">
       <Textarea
         label="Count characters"
-        label_direction="vertical"
+        labelDirection="vertical"
         autoresize
         value="Textarea value\nNewline"
         status="Message to the user"
@@ -89,9 +89,9 @@ export const Autoresize = () => (
         label="Autogrow"
         rows={1}
         autoresize={true}
-        autoresize_max_rows={4}
+        autoresizeMaxRows={4}
         placeholder="Placeholder"
-        on_key_down={({ rows, event }) => {
+        onKeyDown={({ rows, event }) => {
           if (rows >= 4 && event.key === 'Enter') {
             event.preventDefault()
           }

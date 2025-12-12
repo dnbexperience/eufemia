@@ -29,7 +29,7 @@ function IsolationCommitButton(props: Props) {
       variant="secondary"
       className={classnames('dnb-forms-isolate__commit-button', className)}
       icon={check}
-      icon_position="left"
+      iconPosition="left"
       onClick={onClickHandler}
       {...rest}
     >

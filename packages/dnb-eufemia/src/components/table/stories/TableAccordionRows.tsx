@@ -183,7 +183,7 @@ const TableAccordionRows = () => {
       <ToggleButton
         bottom
         // size="small"
-        on_change={() => {
+        onChange={() => {
           setSkeleton((s) => !s)
         }}
       >
@@ -191,7 +191,7 @@ const TableAccordionRows = () => {
       </ToggleButton>
 
       <Table
-        accordion
+        mode="accordion"
         skeleton={skeleton}
         outline
         border

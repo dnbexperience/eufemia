@@ -3,7 +3,7 @@ import { PropertiesTableProps } from '../../../../shared/types'
 export const StepProperties: PropertiesTableProps = {
   title: {
     doc: 'An unique title of the step.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'required',
   },
   inactive: {
@@ -33,7 +33,7 @@ export const StepProperties: PropertiesTableProps = {
   },
   children: {
     doc: 'Contents.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'required',
   },
   '[Flex.Container](/uilib/layout/flex/container/properties)': {
@@ -45,16 +45,6 @@ export const StepProperties: PropertiesTableProps = {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
     status: 'optional',
-  },
-  active: {
-    doc: 'Deprecated, use `include`. Old docs: If set to `false`, the step will not be rendered.',
-    type: 'boolean',
-    status: 'deprecated',
-  },
-  activeWhen: {
-    doc: 'Deprecated, use `includeWhen`. Old docs: Provide a `path` and a `hasValue` property with the expected value in order to enable the step. You can alternatively provide a `hasValue` function that returns a boolean. The first parameter is the value of the path.',
-    type: 'object',
-    status: 'deprecated',
   },
 }
 

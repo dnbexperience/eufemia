@@ -161,13 +161,13 @@ function MultiInputMask<T extends string>({
           )
         }
         className={classnames('dnb-multi-input-mask', className)}
-        label_direction={labelDirection}
+        labelDirection={labelDirection}
         disabled={disabled}
         status={status}
-        status_state={statusState}
+        statusState={statusState}
         suffix={suffix}
         stretch={stretch}
-        input_element={inputs.map(({ id: inputId, ...rest }, index) => {
+        inputElement={inputs.map(({ id: inputId, ...rest }, index) => {
           return (
             <MultiInputMaskInput
               key={inputId}

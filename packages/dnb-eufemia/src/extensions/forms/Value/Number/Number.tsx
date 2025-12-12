@@ -7,20 +7,9 @@ import { omitSpacingProps } from '../../../../components/flex/utils'
 import NumberFormat, {
   NumberFormatProps,
 } from '../../../../components/NumberFormat'
-import {
-  IncludeCamelCase,
-  convertCamelCasePropsToSnakeCase,
-} from '../../../../shared/helpers/withCamelCaseProps'
-import { SpacingProps } from '../../../../shared/types'
 
 export type Props = Omit<ValueProps<number>, 'defaultValue'> &
-  IncludeCamelCase<
-    Omit<
-      NumberFormatProps,
-      keyof SpacingProps
-      // spacing props is handled by ValueBlock
-    >
-  > &
+  NumberFormatProps &
   Partial<{
     defaultValue?: number | string
     minimum?: number
@@ -36,11 +25,11 @@ function NumberValue(props: Props) {
     showEmpty,
     className,
     path, // eslint-disable-line
+    itemPath, // eslint-disable-line
+    inheritLabel, // eslint-disable-line
     ...rest
   } = useValueProps(props)
-  const numberFormatProps = convertCamelCasePropsToSnakeCase(
-    omitSpacingProps(rest)
-  )
+  const numberFormatProps = omitSpacingProps(rest)
 
   let value = valueProp
   if (value < minimum) {
