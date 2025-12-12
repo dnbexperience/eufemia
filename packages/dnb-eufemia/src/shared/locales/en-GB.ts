@@ -181,6 +181,7 @@ export default {
       closeButtonTitle: 'Close',
       openTriggerTitle: 'Click to open',
       closeTriggerTitle: 'Click to close',
+      focusTrapTitle: 'Click to return',
     },
     TermDefinition: {
       closeButtonTitle: 'Close definition',

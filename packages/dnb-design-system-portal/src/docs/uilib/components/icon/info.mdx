@@ -29,7 +29,7 @@ You will get several advantages on using it, like:
 
 ### Importing Icons
 
-In case your environment doesn't support tree-shaking, import the icons explicitly.
+In case your environment does not support tree-shaking, import the icons explicitly.
 
 ```jsx
 // Named ES import
@@ -65,7 +65,7 @@ To optimize your SVG icons to be used with Eufemia, you can follow these steps o
 
 1. Make sure your SVG icon fits in the two sizes (default of `16px` and medium of `24px`) with the correct stroke thickness of `1.5px`.
 1. **Copy** the SVG markup (in Figma, `right click` -> `Copy as` -> `Copy as SVG`).
-1. **Declutter** and remove ID attributes in the markup, so they don't appear twice in your web application DOM. In most cases, you don't need `<defs ... />` and the corresponding ids anyway.
+1. **Declutter** and remove ID attributes in the markup, so they do not appear twice in your web application DOM. In most cases, you do not need `<defs ... />` and the corresponding ids anyway.
 1. **Optimize** the SVG. Use e.g. [Online SVGOMG](https://jakearchibald.github.io/svgomg/) by using `Paste markup`.
 1. **NB:** Do not remove `viewBox`! The `viewBox` will together with some CSS ensure that the icon scales based on the root font-size.
 1. Copy again the optimized markup and paste it into your JSX component (inline) og SVG file.
@@ -99,4 +99,4 @@ render(<Icon size="medium">{CustomIcon}</Icon>)
 
 ### Primary Icon
 
-There is also the [IconPrimary](/uilib/components/icon-primary) component, which comes with all the [Primary Icons](/icons/primary) included in `@dnb/eufemia`. You don't have to import the primary icons separately.
+There is also the [IconPrimary](/uilib/components/icon-primary) component, which comes with all the [Primary Icons](/icons/primary) included in `@dnb/eufemia`. You do not have to import the primary icons separately.

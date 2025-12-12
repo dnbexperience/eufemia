@@ -1936,12 +1936,14 @@ describe('variants', () => {
       // Should be found when searching by extra search content
       const input = document.querySelector('.dnb-input__input')
       await userEvent.type(input, 'extra search value')
-      expect(
-        document.querySelectorAll('li.dnb-drawer-list__option')
-      ).toHaveLength(1)
-      expect(document.querySelector('[role="option"]')).toHaveTextContent(
-        'Foo!'
-      )
+      await waitFor(() => {
+        expect(
+          document.querySelectorAll('li.dnb-drawer-list__option')
+        ).toHaveLength(1)
+        expect(
+          document.querySelector('[role="option"]')
+        ).toHaveTextContent('Foo!')
+      })
 
       // But not found when searching by display content only (search_content takes precedence)
       await userEvent.clear(input as HTMLInputElement)
