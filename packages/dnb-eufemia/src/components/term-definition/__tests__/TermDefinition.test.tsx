@@ -24,36 +24,43 @@ describe('TermDefinition', () => {
     expect(trigger).toHaveAttribute('role', 'button')
     expect(trigger).toHaveAttribute('tabindex', '0')
     expect(trigger).toHaveAttribute('aria-expanded', 'false')
-    expect(trigger).toHaveAttribute('aria-controls')
     expect(trigger).toHaveAttribute('aria-describedby')
     expect(trigger).toHaveAttribute('title', translations.openTriggerTitle)
+    expect(trigger).not.toHaveAttribute('aria-controls')
 
     const description = document.getElementById(
       trigger.getAttribute('aria-describedby')
     )
     expect(description).toHaveTextContent(translations.openTriggerTitle)
     expect(description).toHaveAttribute('aria-hidden', 'true')
+    expect(description).toHaveClass('dnb-sr-only')
 
     const tooltip = document.querySelector('.dnb-term-definition')
-    expect(tooltip).not.toBeNull()
-    expect(tooltip.classList.contains('dnb-tooltip--active')).toBe(false)
+    expect(tooltip).toBeNull()
   })
 
-  it('links aria attributes and description elements', () => {
+  it('links aria attributes and description elements', async () => {
     render(<TermDefinition content={definition}>{term}</TermDefinition>)
     const trigger = document.querySelector('.dnb-term-definition__trigger')
-
-    const controlsId = trigger.getAttribute('aria-controls')
-    expect(controlsId).toBeTruthy()
-    const tooltipElement = document.getElementById(controlsId)
-    expect(tooltipElement.classList.contains('dnb-popover__content')).toBe(
-      true
-    )
 
     const describedById = trigger.getAttribute('aria-describedby')
     expect(describedById).toBeTruthy()
     const description = document.getElementById(describedById)
     expect(description.classList.contains('dnb-sr-only')).toBe(true)
+
+    // When closed, aria-controls should not be set
+    expect(trigger).not.toHaveAttribute('aria-controls')
+
+    // When opened, aria-controls should be set and link to the popover
+    await userEvent.click(trigger)
+    await waitFor(() => {
+      const controlsId = trigger.getAttribute('aria-controls')
+      expect(controlsId).toBeTruthy()
+      const tooltipElement = document.getElementById(controlsId)
+      expect(
+        tooltipElement.classList.contains('dnb-popover__content')
+      ).toBe(true)
+    })
   })
 
   it('opens popover on click and shows translated content', async () => {
