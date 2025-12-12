@@ -64,7 +64,7 @@ exports[`Logo scss has to match style dependencies css 1`] = `
  * Utilities
  */
 .dnb-logo {
-  display: inline-flex;
+  display: inline-block;
   vertical-align: baseline;
   font-size: inherit;
   line-height: var(--line-height-xx-small--em);
