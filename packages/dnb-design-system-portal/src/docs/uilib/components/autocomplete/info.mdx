@@ -45,9 +45,9 @@ Words found during typing are highlighted. The rules are:
 
 #### Using Components inside content
 
-It is **not** possible to wrap them inside React Components. The reason is that the Autocomplete component needs to know what data it wants to search for before your React Component has rendered. But also, the component can't update the HTML to make the bold highlighting – "after" your component has rendered.
+It is **not** possible to wrap them inside React Components. The reason is that the Autocomplete component needs to know what data it wants to search for before your React Component has rendered. But also, the component cannot update the HTML to make the bold highlighting – "after" your component has rendered.
 
-That means you can't run a component that will render as soon as it is displayed.
+That means you cannot run a component that will render as soon as it is displayed.
 
 If you need to format numbers, then do it before you send in the data content.
 

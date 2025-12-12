@@ -8,7 +8,7 @@ icon: 'helper_classes'
 
 ## Visual tests and Playwright
 
-Jest does start several works at the same time. When we simulate states on e.g. ToggleButton and Button – Playwright (v1.31.2) struggles to handle this. Some of the hover or focus tests will fail. To ensure Jest we never execute several workers as the same time, we set `--maxWorkers=1`.
+Jest starts several workers at the same time. When we simulate states on e.g., ToggleButton and Button, Playwright (v1.31.2) struggles to handle this. Some of the hover or focus tests will fail. To ensure Jest never executes several workers at the same time, we set `--maxWorkers=1`.
 
 ### Installing screenshot browser
 
