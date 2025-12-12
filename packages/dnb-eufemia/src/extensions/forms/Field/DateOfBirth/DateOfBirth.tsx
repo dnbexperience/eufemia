@@ -22,7 +22,6 @@ import type {
 import { formatDate } from '../../../../components/date-format/DateFormatUtils'
 import { useFieldProps } from '../../hooks'
 import { useIterateItemNo } from '../../Iterate/ItemNo/useIterateItemNo'
-import { useMediaQuery } from '../../../../shared'
 
 export type AdditionalArgs = {
   day: string
@@ -65,11 +64,6 @@ function DateOfBirth(props: Props) {
     yearPlaceholder,
   } = useTranslation().DateOfBirth
   const { locale } = useContext(SharedContext)
-
-  const isSmallScreen = useMediaQuery({
-    matchOnSSR: true,
-    when: { max: 'small' },
-  })
 
   const { dateFormat = DEFAULT_DATE_FORMAT, labelSuffix, required } = props
 
