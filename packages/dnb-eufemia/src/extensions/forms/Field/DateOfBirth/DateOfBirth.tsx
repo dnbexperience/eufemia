@@ -67,6 +67,7 @@ function DateOfBirth(props: Props) {
   const { locale } = useContext(SharedContext)
 
   const isSmallScreen = useMediaQuery({
+    matchOnSSR: true,
     when: { max: 'small' },
   })
 
