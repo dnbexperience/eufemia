@@ -151,7 +151,7 @@ describe('Dialog', () => {
         <Dialog
           noAnimation
           openState
-          title={<Translation id="Modal.dialog_title" />}
+          title={<Translation id="Modal.dialogTitle" />}
         />
       </Provider>
     )
