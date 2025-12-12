@@ -179,6 +179,7 @@ export default {
       closeButtonTitle: 'Luk',
       openTriggerTitle: 'Klik for at åbne',
       closeTriggerTitle: 'Klik for at lukke',
+      focusTrapTitle: 'Klik for at vende tilbage',
     },
     TermDefinition: {
       closeButtonTitle: 'Luk ordforklaring',
