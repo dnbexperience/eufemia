@@ -809,7 +809,7 @@ describe('Field.PhoneNumber', () => {
         </Form.Handler>
       )
 
-      expect(transformIn).toHaveBeenCalledTimes(1)
+      expect(transformIn).toHaveBeenCalledTimes(2)
       expect(transformIn).toHaveBeenLastCalledWith({
         countryCode: 'GB',
         phoneNumber: '9999',
@@ -826,7 +826,7 @@ describe('Field.PhoneNumber', () => {
       expect(phoneElement).toHaveValue('9999​​​​​​​​')
       expect(codeElement).toHaveValue('GB (+44)')
 
-      expect(transformIn).toHaveBeenCalledTimes(1)
+      expect(transformIn).toHaveBeenCalledTimes(2)
       expect(transformIn).toHaveBeenLastCalledWith({
         countryCode: 'GB',
         countryCodePrefix: '+44',
