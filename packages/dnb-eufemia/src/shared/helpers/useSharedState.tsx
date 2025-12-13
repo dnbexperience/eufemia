@@ -54,6 +54,7 @@ export function useSharedState<Data>(
   const hasMountedRef = useMounted()
   const waitForMountedRef = useRef(false)
   const instanceRef = useRef({})
+  const dataDuringRenderRef = useRef<Data>(undefined)
 
   const forceRerender = useCallback(() => {
     if (hasMountedRef.current) {
@@ -61,7 +62,7 @@ export function useSharedState<Data>(
     } else {
       waitForMountedRef.current = true
     }
-  }, [hasMountedRef])
+  }, [hasMountedRef, forceUpdate])
 
   const shouldSync = useCallback((fn: () => void) => {
     // Do not rerender the "same component", when the hook is used. Only other subscribers will rerender.
@@ -135,13 +136,36 @@ export function useSharedState<Data>(
     [id, sharedState, syncAttachment]
   )
 
+  const previousSharedStateRef = useRef(sharedState)
+  const hasSyncedRef = useRef(false)
+
+  const data = sharedState?.get?.() as Data
+  dataDuringRenderRef.current = data
+
   useLayoutEffect(() => {
     if (!id) {
       return
     }
 
+    if (previousSharedStateRef.current !== sharedState) {
+      previousSharedStateRef.current = sharedState
+      hasSyncedRef.current = false
+    }
+
     forceRerender['ref'] = instanceRef.current
     sharedState.subscribe(forceRerender)
+
+    // If the shared state already has data, but this hook rendered `undefined`,
+    // rerender once to sync with the existing data (StrictMode can expose this).
+    if (
+      !hasSyncedRef.current &&
+      dataDuringRenderRef.current === undefined &&
+      sharedState.data !== undefined &&
+      initialData === undefined
+    ) {
+      hasSyncedRef.current = true
+      forceUpdate()
+    }
 
     return () => {
       sharedState.unsubscribe(forceRerender)
@@ -150,7 +174,7 @@ export function useSharedState<Data>(
         sharedState.update(undefined)
       }
     }
-  }, [forceRerender, id, onChange, sharedState, weak])
+  }, [forceRerender, id, initialData, sharedState, weak])
 
   useEffect(() => {
     // Set the onChange function in case it is not set yet
@@ -161,7 +185,7 @@ export function useSharedState<Data>(
 
   return {
     get,
-    data: sharedState?.get?.() as Data,
+    data,
     hadInitialData: sharedState?.hadInitialData,
     update,
     set,
@@ -276,7 +300,7 @@ export function createSharedState<Data>(
     sharedStates.get(id).data === undefined &&
     initialData !== undefined
   ) {
-    sharedStates.get(id).data = { ...initialData }
+    sharedStates.get(id).update(initialData)
   }
 
   return sharedStates.get(id)

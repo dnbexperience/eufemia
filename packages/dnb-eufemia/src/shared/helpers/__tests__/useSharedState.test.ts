@@ -1,4 +1,5 @@
-import { renderHook, act } from '@testing-library/react'
+import React, { createContext, useRef } from 'react'
+import { renderHook, act, render } from '@testing-library/react'
 import { makeUniqueId } from '../../component-helper'
 import {
   useSharedState,
@@ -7,7 +8,6 @@ import {
   createReferenceKey,
   useWeakSharedState,
 } from '../useSharedState'
-import { createContext } from 'react'
 
 describe('useSharedState', () => {
   let identifier: SharedStateId
@@ -29,6 +29,57 @@ describe('useSharedState', () => {
       useSharedState(identifier, { test: 'initial' })
     )
     expect(result.current.data).toEqual({ test: 'existing' })
+  })
+
+  it('should read existing data when subscribing to a shared state that already has data', () => {
+    const { result: source } = renderHook(() =>
+      useSharedState(identifier, { foo: 'initial' })
+    )
+
+    act(() => {
+      source.current.set({ foo: 'bar' })
+    })
+
+    let renderCount = 0
+    const { result } = renderHook(() => {
+      renderCount++
+      return useSharedState(identifier)
+    })
+
+    // Data should be available on first render
+    expect(renderCount).toBe(1)
+    expect(result.current.data).toEqual({ foo: 'bar' })
+  })
+
+  it('should rehydrate when shared state is set before subscribe (StrictMode)', () => {
+    const payload = { foo: 'bar' }
+    const values: Array<unknown> = []
+
+    function Setter({ id }: { id: SharedStateId }) {
+      const sharedState = createSharedState(id)
+      if (sharedState.get() === undefined) {
+        sharedState.update(payload)
+      }
+      return null
+    }
+
+    function Consumer({ id }: { id: SharedStateId }) {
+      const { data } = useSharedState<{ foo: string }>(id)
+      values.push(data)
+      return React.createElement(Setter, { id })
+    }
+
+    function App() {
+      const idRef = useRef<SharedStateId>({})
+      return React.createElement(Consumer, { id: idRef.current })
+    }
+
+    render(
+      React.createElement(React.StrictMode, null, React.createElement(App))
+    )
+
+    expect(values.some((v) => v === undefined)).toBe(true)
+    expect(values.at(-1)).toEqual(payload)
   })
 
   it('should update the shared state', () => {
