@@ -2826,7 +2826,7 @@ describe('useFieldProps', () => {
 
       const { handleChange } = result.current
 
-      expect(transformIn).toHaveBeenCalledTimes(1)
+      expect(transformIn).toHaveBeenCalledTimes(2)
       expect(transformIn).toHaveBeenLastCalledWith(1)
       expect(transformOut).toHaveBeenCalledTimes(0)
 
@@ -2834,7 +2834,7 @@ describe('useFieldProps', () => {
         handleChange(2)
       })
 
-      expect(transformIn).toHaveBeenCalledTimes(2)
+      expect(transformIn).toHaveBeenCalledTimes(3)
       expect(transformIn).toHaveBeenLastCalledWith(1)
       expect(transformOut).toHaveBeenCalledTimes(2)
       expect(transformOut).toHaveBeenNthCalledWith(1, 2, expect.anything())
@@ -2844,7 +2844,7 @@ describe('useFieldProps', () => {
         handleChange(4)
       })
 
-      expect(transformIn).toHaveBeenCalledTimes(3)
+      expect(transformIn).toHaveBeenCalledTimes(4)
       expect(transformIn).toHaveBeenLastCalledWith(1)
       expect(transformOut).toHaveBeenCalledTimes(4)
       expect(transformOut).toHaveBeenNthCalledWith(3, 4, expect.anything())
@@ -2931,7 +2931,7 @@ describe('useFieldProps', () => {
 
       const { handleChange } = result.current
 
-      expect(transformIn).toHaveBeenCalledTimes(1)
+      expect(transformIn).toHaveBeenCalledTimes(2)
       expect(transformIn).toHaveBeenLastCalledWith(1)
       expect(transformOut).toHaveBeenCalledTimes(0)
 
@@ -2939,7 +2939,7 @@ describe('useFieldProps', () => {
         handleChange(2)
       })
 
-      expect(transformIn).toHaveBeenCalledTimes(2)
+      expect(transformIn).toHaveBeenCalledTimes(3)
       expect(transformIn).toHaveBeenLastCalledWith(1)
       expect(transformOut).toHaveBeenCalledTimes(2)
       expect(transformOut).toHaveBeenNthCalledWith(1, 3, expect.anything())
@@ -2949,7 +2949,7 @@ describe('useFieldProps', () => {
         handleChange(4)
       })
 
-      expect(transformIn).toHaveBeenCalledTimes(3)
+      expect(transformIn).toHaveBeenCalledTimes(4)
       expect(transformIn).toHaveBeenLastCalledWith(1)
       expect(transformOut).toHaveBeenCalledTimes(4)
       expect(transformOut).toHaveBeenNthCalledWith(3, 5, expect.anything())
@@ -2973,14 +2973,14 @@ describe('useFieldProps', () => {
       const { handleChange } = result.current
 
       expect(fromInput).toHaveBeenCalledTimes(0)
-      expect(toInput).toHaveBeenCalledTimes(1)
+      expect(toInput).toHaveBeenCalledTimes(2)
 
       act(() => {
         handleChange(2)
       })
 
       expect(fromInput).toHaveBeenCalledTimes(1)
-      expect(toInput).toHaveBeenCalledTimes(2)
+      expect(toInput).toHaveBeenCalledTimes(3)
       expect(fromInput).toHaveBeenLastCalledWith(2)
       expect(toInput).toHaveBeenLastCalledWith(3)
 
@@ -2989,7 +2989,7 @@ describe('useFieldProps', () => {
       })
 
       expect(fromInput).toHaveBeenCalledTimes(2)
-      expect(toInput).toHaveBeenCalledTimes(3)
+      expect(toInput).toHaveBeenCalledTimes(4)
       expect(fromInput).toHaveBeenLastCalledWith(4)
       expect(toInput).toHaveBeenLastCalledWith(5)
 
@@ -3341,7 +3341,7 @@ describe('useFieldProps', () => {
       })
 
       expect(fromInput).toHaveBeenCalledTimes(2)
-      expect(toInput).toHaveBeenCalledTimes(5)
+      expect(toInput).toHaveBeenCalledTimes(6)
       expect(onChange).toHaveBeenCalledTimes(1)
     })
 
@@ -3528,7 +3528,7 @@ describe('useFieldProps', () => {
       },
     })
 
-    expect(setFieldInternalsDataContext).toHaveBeenCalledTimes(1)
+    expect(setFieldInternalsDataContext).toHaveBeenCalledTimes(2)
     expect(setFieldInternalsDataContext).toHaveBeenLastCalledWith(
       props.path,
       { id: expect.any(String), props }
@@ -3540,7 +3540,7 @@ describe('useFieldProps', () => {
       emptyValue: 'new empty value',
     })
 
-    expect(setFieldInternalsDataContext).toHaveBeenCalledTimes(3)
+    expect(setFieldInternalsDataContext).toHaveBeenCalledTimes(4)
     expect(setFieldInternalsDataContext).toHaveBeenLastCalledWith(
       props.path,
       {

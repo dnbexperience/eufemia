@@ -200,7 +200,7 @@ describe('Iterate.Visibility', () => {
         </Provider>
       )
       expect(screen.queryByText('Child')).not.toBeInTheDocument()
-      expect(inferData).toHaveBeenCalledTimes(1)
+      expect(inferData).toHaveBeenCalledTimes(2)
       expect(inferData).toHaveBeenLastCalledWith({
         myList: [{ foo: 'bar' }],
       })

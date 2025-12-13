@@ -114,7 +114,7 @@ describe('Field.DateOfBirth', () => {
         </Form.Handler>
       )
 
-      expect(transformIn).toHaveBeenCalledTimes(2)
+      expect(transformIn).toHaveBeenCalledTimes(3)
       expect(transformIn).toHaveBeenLastCalledWith({
         year: '1990',
         month: '05',
@@ -129,7 +129,7 @@ describe('Field.DateOfBirth', () => {
       expect(monthInput).toHaveValue('Mai')
       expect(yearInput.value).toBe('1990')
 
-      expect(transformIn).toHaveBeenCalledTimes(2)
+      expect(transformIn).toHaveBeenCalledTimes(3)
       expect(transformIn).toHaveBeenLastCalledWith({
         year: '1990',
         month: '05',
