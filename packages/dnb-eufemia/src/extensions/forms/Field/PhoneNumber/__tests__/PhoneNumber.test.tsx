@@ -2033,6 +2033,6 @@ describe('Field.PhoneNumber', () => {
   })
 
   it('should have constant of _supportsSpacingProps=undefined', () => {
-    expect(Field.PhoneNumber._supportsSpacingProps).toBe(false)
+    expect(Field.PhoneNumber._supportsSpacingProps).toBe(undefined)
   })
 })
