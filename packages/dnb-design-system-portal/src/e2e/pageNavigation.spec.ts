@@ -43,7 +43,9 @@ test.describe('Page Navigation', () => {
       expect(heading).toContain('Button')
     })
 
-    test('should contain button demos page', async ({ page }) => {
+    test('should contain button demos page with tab name in title', async ({
+      page,
+    }) => {
       if (await isDev(page)) {
         return // stop here
       }
@@ -51,7 +53,7 @@ test.describe('Page Navigation', () => {
       await page.goto('/uilib/components/button/demos')
 
       const title = await page.title()
-      expect(title).toContain('Button | Eufemia')
+      expect(title).toContain('Button → Demos | Eufemia')
 
       const heading = await page.textContent('h2')
       expect(heading).toContain('Demos')
@@ -119,7 +121,7 @@ test.describe('Page Navigation', () => {
       expect(heading).toContain('Button')
     })
 
-    test('click on demos tab should open /uilib/components/button/demos', async ({
+    test('click on demos tab should open /uilib/components/button/demos and include tab name in title', async ({
       page,
     }) => {
       const element = (await page.locator('main nav a').all()).at(1)
@@ -132,7 +134,7 @@ test.describe('Page Navigation', () => {
       })
 
       const title = await page.title()
-      expect(title).toContain('Button | Eufemia')
+      expect(title).toContain('Button → Demos | Eufemia')
 
       const heading = await page.textContent('h2')
       expect(heading).toContain('Demos')
