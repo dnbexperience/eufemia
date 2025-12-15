@@ -5,6 +5,7 @@
 
 import React from 'react'
 import classnames from 'classnames'
+import type { TooltipAllProps } from './types'
 
 export function injectTooltipSemantic(params) {
   params.tabIndex = '0'
@@ -34,7 +35,7 @@ export const defaultProps = {
   children: null,
   tooltip: null,
   triggerOffset: 16,
-}
+} as const
 
 export function getTargetElement(target: HTMLElement) {
   if (typeof document !== 'undefined') {
@@ -44,12 +45,33 @@ export function getTargetElement(target: HTMLElement) {
   }
 }
 
-export function getPropsFromTooltipProp(localProps) {
-  return localProps.tooltip
-    ? React.isValidElement(localProps.tooltip) && localProps.tooltip.props
-      ? localProps.tooltip.props
-      : { children: localProps.tooltip }
-    : null
+export function getPropsFromTooltipProp(localProps: {
+  tooltip?: TooltipAllProps['tooltip']
+}): Partial<TooltipAllProps> | null {
+  const { tooltip } = localProps
+
+  if (!tooltip) {
+    return null
+  }
+
+  if (React.isValidElement(tooltip)) {
+    const type = tooltip.type as typeof tooltip.type & {
+      isTooltipComponent?: boolean
+    }
+
+    // If the tooltip prop is itself a <Tooltip> component,
+    // inherit its props (including its children).
+    if (type?.isTooltipComponent) {
+      return tooltip.props as Partial<TooltipAllProps>
+    }
+
+    // For all other React elements (e.g. <Translation />),
+    // treat the element itself as the tooltip content.
+  }
+
+  // Primitive values (string, number, etc.) and all other nodes
+  // become tooltip children
+  return { children: tooltip } as Partial<TooltipAllProps>
 }
 
 export const isTouch = (type: string) => {
