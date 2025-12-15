@@ -533,4 +533,8 @@ describe('Field.PostalCodeAndCity', () => {
       expect(city).toHaveAttribute('aria-invalid', 'true')
     })
   })
+
+  it('should have constant of _supportsSpacingProps=undefined', () => {
+    expect(Field.PostalCodeAndCity._supportsSpacingProps).toBe(undefined)
+  })
 })
