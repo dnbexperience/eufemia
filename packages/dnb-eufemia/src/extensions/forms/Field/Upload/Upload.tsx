@@ -225,7 +225,7 @@ function UploadComponent(props: Props) {
             })
 
             const indexOfFirstNewFile = filesRef.current.findIndex(
-              ({ id }) => id === newFiles[0].id
+              ({ id }) => id === newValidFiles[0].id
             )
 
             const updatedFiles = [
