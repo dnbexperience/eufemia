@@ -446,6 +446,7 @@ function DateOfBirth(props: Props) {
   )
 }
 
+DateOfBirth._supportsSpacingProps = false
 export default DateOfBirth
 
 function capitalizeFirstLetter(s) {
