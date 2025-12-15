@@ -609,5 +609,5 @@ function joinValue(array: Array<string>) {
   return array.filter(Boolean).join(' ')
 }
 
-PhoneNumber._supportsSpacingProps = true
+PhoneNumber._supportsSpacingProps = undefined
 export default PhoneNumber
