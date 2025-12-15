@@ -535,6 +535,6 @@ describe('Field.PostalCodeAndCity', () => {
   })
 
   it('should have constant of _supportsSpacingProps=false', () => {
-    expect(Field.PhoneNumber._supportsSpacingProps).toBe(false)
+    expect(Field.PostalCodeAndCity._supportsSpacingProps).toBe(false)
   })
 })
