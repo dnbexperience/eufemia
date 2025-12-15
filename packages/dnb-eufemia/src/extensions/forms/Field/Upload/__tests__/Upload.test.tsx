@@ -1358,6 +1358,85 @@ describe('Field.Upload', () => {
       })
     })
 
+    it('should handle displaying error from validation with fileMaxSize with async function', async () => {
+      const fileMaxSizeErrorFile = createMockFile(
+        'fileName-new-1.png',
+        2000000,
+        'image/png'
+      )
+
+      const successFile = createMockFile(
+        'successFile.png',
+        100,
+        'image/png'
+      )
+
+      let resolveFileHandler: ((value: UploadValue) => void) | undefined
+
+      const asyncFileHandler = jest.fn(
+        () =>
+          new Promise<UploadValue>((resolve) => {
+            resolveFileHandler = resolve
+          })
+      )
+
+      const asyncFileHandlerFn = jest.fn(asyncFileHandler)
+
+      render(
+        <Field.Upload fileMaxSize={1} fileHandler={asyncFileHandlerFn} />
+      )
+
+      const element = getRootElement()
+
+      fireEvent.drop(element, {
+        dataTransfer: {
+          files: [fileMaxSizeErrorFile, successFile],
+        },
+      })
+
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).toBeInTheDocument()
+
+      expect(
+        document.querySelectorAll('.dnb-upload__file-cell').length
+      ).toBe(2)
+
+      expect(
+        document.querySelector('.dnb-progress-indicator')
+      ).toBeInTheDocument()
+
+      expect(screen.queryByText('fileName-new-1.png')).toBeInTheDocument()
+      expect(screen.queryByText('successFile.png')).not.toBeInTheDocument()
+
+      resolveFileHandler([
+        {
+          file: successFile,
+          id: 'server_generated_id',
+          exists: false,
+        },
+      ])
+
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toBeInTheDocument()
+
+        expect(
+          document.querySelectorAll('.dnb-upload__file-cell').length
+        ).toBe(2)
+
+        expect(
+          document.querySelector('.dnb-progress-indicator')
+        ).not.toBeInTheDocument()
+
+        expect(
+          screen.queryByText('fileName-new-1.png')
+        ).toBeInTheDocument()
+        expect(screen.queryByText('successFile.png')).toBeInTheDocument()
+      })
+    })
+
     it('should handle displaying success from fileHandler with async function', async () => {
       const file = createMockFile('fileName-1.png', 100, 'image/png')
 
