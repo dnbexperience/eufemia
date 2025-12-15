@@ -2031,4 +2031,8 @@ describe('Field.PhoneNumber', () => {
       expect(input).toHaveAttribute('aria-invalid', 'true')
     })
   })
+
+  it('should have constant of _supportsSpacingProps="children"', () => {
+    expect(Field.PhoneNumber._supportsSpacingProps).toBe(false)
+  })
 })
