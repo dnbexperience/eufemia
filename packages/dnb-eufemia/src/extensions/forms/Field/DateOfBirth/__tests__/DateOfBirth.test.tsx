@@ -1367,7 +1367,7 @@ describe('Field.DateOfBirth', () => {
     })
   })
 
-  it('should have constant of _supportsSpacingProps="children"', () => {
+  it('should have constant of _supportsSpacingProps=false', () => {
     expect(Field.DateOfBirth._supportsSpacingProps).toBe(false)
   })
 })
