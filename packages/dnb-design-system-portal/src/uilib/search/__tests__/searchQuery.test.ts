@@ -204,6 +204,32 @@ describe('searchQuery', () => {
     ])
   })
 
+  it('should use closest sibling with title when multiple siblings exist', () => {
+    expect(
+      transformer(
+        makeNode({
+          fields: { slug: '/uilib/components/country-flag/properties' },
+          frontmatter: {},
+          headings: [{ value: 'Properties', depth: 2 }],
+          siblings: [
+            {
+              fields: { slug: '/uilib/components/country-flag' },
+              frontmatter: { title: 'CountryFlag' },
+            },
+            {
+              fields: { slug: '/uilib/components' },
+              frontmatter: { title: 'Components' },
+            },
+            {
+              fields: { slug: '/uilib' },
+              frontmatter: { title: 'UI Library' },
+            },
+          ],
+        }),
+      )[0].title,
+    ).toBe('CountryFlag → Properties')
+  })
+
   it('should have indexName', () => {
     expect(indexName).toBe('indexName')
   })
