@@ -186,4 +186,5 @@ function PostalCodeAndCity(props: Props) {
   )
 }
 
+PostalCodeAndCity._supportsSpacingProps = false
 export default PostalCodeAndCity
