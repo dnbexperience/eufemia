@@ -771,9 +771,9 @@ describe('Tooltip', () => {
       render(
         <NumberFormat
           tooltip={
-            <Tooltip {...defaultProps} className="custom-class">
+            <OriginalTooltip {...defaultProps} className="custom-class">
               Tooltip for this NumberFormat
-            </Tooltip>
+            </OriginalTooltip>
           }
         >
           5678
