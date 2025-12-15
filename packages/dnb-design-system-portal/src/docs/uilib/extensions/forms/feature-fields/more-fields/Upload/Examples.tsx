@@ -171,7 +171,7 @@ export const WithAsyncFileHandler = () => {
         ): Promise<UploadValue> {
           const updatedFiles: UploadValue = []
 
-          for (const [, file] of Object.entries(newFiles)) {
+          for (const [index, file] of Object.entries(newFiles)) {
             const formData = new FormData()
             formData.append('file', file.file, file.file.name)
 
@@ -180,7 +180,7 @@ export const WithAsyncFileHandler = () => {
 
             try {
               const mockResponse = {
-                ok: false, // Fails virus check
+                ok: (parseFloat(index) + 2) % 2 === 0, // Every other request will fail
                 json: async () => ({
                   server_generated_id:
                     file.file.name + '_' + crypto.randomUUID(),
