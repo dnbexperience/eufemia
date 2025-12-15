@@ -7,7 +7,7 @@ import React from 'react'
 import { MDXProvider } from '@mdx-js/react'
 import { graphql, useStaticQuery } from 'gatsby'
 import Layout from '../shared/parts/Layout'
-import TabBar from '../shared/tags/TabBar'
+import TabBar, { defaultTabsValue } from '../shared/tags/TabBar'
 import { Link } from '../shared/tags/Anchor'
 import tags from '../shared/tags'
 import { resetLevels } from '@dnb/eufemia/src/components/Heading'
@@ -17,8 +17,9 @@ import { Breadcrumb } from '@dnb/eufemia/src'
 const ContentWrapper = TabBar.ContentWrapper
 
 type Frontmatter = {
-  title: string
-  fullscreen: boolean
+  title?: string
+  showTabs?: boolean
+  fullscreen?: boolean
 }
 type Fields = {
   slug: string
@@ -113,10 +114,21 @@ export default function PortalLayout(props: PortalLayoutProps) {
     { ...currentFm },
   )
 
+  // For tab pages without their own title, construct a title like "ComponentName → TabName"
+  const headData = { ...fmData }
+  if (!currentFm.title && currentFm.showTabs && categoryFm.title) {
+    const tabs = fmData.tabs || defaultTabsValue
+    const currentTabKey = '/' + slug.split('/').pop()
+    const currentTab = tabs.find(({ key }) => key === currentTabKey)
+    if (currentTab?.title) {
+      headData.title = `${categoryFm.title} → ${currentTab.title}`
+    }
+  }
+
   // Ensure heading levels are reset before each page renders
   resetLevels(1)
 
-  usePortalHead(fmData)
+  usePortalHead(headData)
 
   if (!mdx?.frontmatter) {
     return <>{children}</> // looks like it was not a MDX, so we just return children
@@ -124,7 +136,7 @@ export default function PortalLayout(props: PortalLayoutProps) {
 
   // Share frontmatter in pageContext during SSR/SSG
   if (pageContext?.frontmatter) {
-    setPortalHeadData(pageContext, fmData)
+    setPortalHeadData(pageContext, headData)
   }
 
   const makeUseOfCategory = Boolean(
