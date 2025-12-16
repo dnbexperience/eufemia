@@ -4334,7 +4334,7 @@ describe('Wizard.Container', () => {
           )
         ).toHaveLength(0)
 
-        // To to Step 2
+        // Go to Step 2
         await userEvent.click(secondStep.querySelector('.dnb-anchor'))
 
         expect(output()).toHaveTextContent('Step 2')
@@ -4513,7 +4513,7 @@ describe('Wizard.Container', () => {
           )
         ).toHaveLength(0)
 
-        // To to Step 2
+        // Go to Step 2
         await userEvent.click(secondStep.querySelector('.dnb-anchor'))
 
         expect(output()).toHaveTextContent('Step 2')
