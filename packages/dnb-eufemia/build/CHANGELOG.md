@@ -3,6 +3,28 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.92.1](https://github.com/dnbexperience/eufemia/compare/v10.92.0...v10.92.1) (2025-12-16)
+
+
+### :memo: Documentation
+
+* **Field.DateOfBirth:** remove unsupported props `layout`, `layoutOptions` & `labelSize` ([#6100](https://github.com/dnbexperience/eufemia/issues/6100)) ([870f00e](https://github.com/dnbexperience/eufemia/commit/870f00e0b5c86e069ddf6e5a2bd38ac5a422567e))
+
+
+### :bug: Bug Fixes
+
+* **Button:** ensure tooltip is rendered when initially active ([#6109](https://github.com/dnbexperience/eufemia/issues/6109)) ([5403fe4](https://github.com/dnbexperience/eufemia/commit/5403fe4ba1023503fecab895c901f1501f34d596))
+* **DatePicker, TermDefinition:** add translated string to "focus trap" buttons ([#6099](https://github.com/dnbexperience/eufemia/issues/6099)) ([ffc6c10](https://github.com/dnbexperience/eufemia/commit/ffc6c1009cef63809e4ed7391fbc6b77f9f18b41))
+* **Field.DateOfBirth:** adjust sizing of month and year fields ([#6080](https://github.com/dnbexperience/eufemia/issues/6080)) ([9ff21bb](https://github.com/dnbexperience/eufemia/commit/9ff21bb4e22ab1f511c3c761be96f9916fffad91)), closes [#6064](https://github.com/dnbexperience/eufemia/issues/6064)
+* **Field.DateOfBirth:** width in horizontal layout ([#6106](https://github.com/dnbexperience/eufemia/issues/6106)) ([fc1bb0f](https://github.com/dnbexperience/eufemia/commit/fc1bb0fdd74e788ba7c7f2e9d1e21ad31d5c614a))
+* **Field.PhoneNumber:** support `labelDescriptionInline` property ([#6101](https://github.com/dnbexperience/eufemia/issues/6101)) ([3d03336](https://github.com/dnbexperience/eufemia/commit/3d03336c7d6d0416bfa6950912026b3973802bd6))
+* **Field.PhoneNumber:** width in horizontal layout ([#6105](https://github.com/dnbexperience/eufemia/issues/6105)) ([448b53a](https://github.com/dnbexperience/eufemia/commit/448b53a4f29be66d7b7905433221956974fd7c32))
+* **Field.PostalCodeAndCity:** width in horizontal layout ([#6104](https://github.com/dnbexperience/eufemia/issues/6104)) ([9b4f5cb](https://github.com/dnbexperience/eufemia/commit/9b4f5cb85c1ff416f31e47e4edf1c05b063ebf37))
+* **Field.Upload:** correctly handle `fileMaxSize` error using async `fileHandler` ([#6107](https://github.com/dnbexperience/eufemia/issues/6107)) ([afc5ffe](https://github.com/dnbexperience/eufemia/commit/afc5ffe27033bb7ccc45545a6e22452ca88f59f7))
+* **Portal:** append sub-page to page title ([#6110](https://github.com/dnbexperience/eufemia/issues/6110)) ([95f95d9](https://github.com/dnbexperience/eufemia/commit/95f95d936a8e46efcb72f5fbb298302ce14037d0))
+* **Portal:** improve search results for sub-pages ([#6111](https://github.com/dnbexperience/eufemia/issues/6111)) ([7c6ad10](https://github.com/dnbexperience/eufemia/commit/7c6ad105b39923dee37f7f7af7e369d693c43b65))
+* **TermDefinition:** improve performance by disabling keepInDOM ([#6096](https://github.com/dnbexperience/eufemia/issues/6096)) ([c0cbf78](https://github.com/dnbexperience/eufemia/commit/c0cbf789c996f39cf6501dac457b15445385c2fd))
+
 ## [10.92.0](https://github.com/dnbexperience/eufemia/compare/v10.91.1...v10.92.0) (2025-12-11)
 
 
