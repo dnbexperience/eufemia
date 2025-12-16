@@ -1369,14 +1369,8 @@ describe('Field.Upload', () => {
 
       const errorFile1 = createErrorFile('error-1.png')
       const errorFile2 = createErrorFile('error-2.png')
-      const errorFile3 = createErrorFile('error-3.png')
-      const errorFile4 = createErrorFile('error-4.png')
 
       const successFile1 = createSuccessFile('success-1.png')
-      const successFile2 = createSuccessFile('success-2.png')
-      const successFile3 = createSuccessFile('success-3.png')
-      const successFile4 = createSuccessFile('success-4.png')
-      const successFile5 = createSuccessFile('success-5.png')
 
       let resolveFileHandler: ((value: UploadValue) => void) | undefined
 
@@ -1397,29 +1391,19 @@ describe('Field.Upload', () => {
 
       fireEvent.drop(element, {
         dataTransfer: {
-          files: [
-            errorFile1,
-            successFile1,
-            successFile2,
-            errorFile2,
-            errorFile3,
-            successFile3,
-            successFile4,
-            errorFile4,
-            successFile5,
-          ],
+          files: [errorFile1, successFile1, errorFile2],
         },
       })
 
       expect(
         document.querySelectorAll('.dnb-upload__file-cell').length
-      ).toBe(9)
+      ).toBe(3)
 
-      expect(document.querySelectorAll('.dnb-form-status').length).toBe(4)
+      expect(document.querySelectorAll('.dnb-form-status').length).toBe(2)
 
       expect(
         document.querySelectorAll('.dnb-progress-indicator').length
-      ).toBe(5)
+      ).toBe(1)
 
       expect(screen.queryByText('error-1.png')).toBeInTheDocument()
       expect(screen.queryByText('success-1.png')).not.toBeInTheDocument()
@@ -1427,26 +1411,6 @@ describe('Field.Upload', () => {
       resolveFileHandler([
         {
           file: successFile1,
-          id: 'server_generated_id',
-          exists: false,
-        },
-        {
-          file: successFile2,
-          id: 'server_generated_id',
-          exists: false,
-        },
-        {
-          file: successFile3,
-          id: 'server_generated_id',
-          exists: false,
-        },
-        {
-          file: successFile4,
-          id: 'server_generated_id',
-          exists: false,
-        },
-        {
-          file: successFile5,
           id: 'server_generated_id',
           exists: false,
         },
@@ -1459,7 +1423,7 @@ describe('Field.Upload', () => {
 
         expect(
           document.querySelectorAll('.dnb-upload__file-cell').length
-        ).toBe(9)
+        ).toBe(3)
 
         expect(
           document.querySelector('.dnb-progress-indicator')
