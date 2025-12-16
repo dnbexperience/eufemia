@@ -236,7 +236,7 @@
   "source": {
     "repo": "https://github.com/dnbexperience/eufemia",
     "file": "packages/dnb-eufemia/src/components/accordion/Accordion.tsx",
-    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.92.0/packages/dnb-eufemia/src/components/accordion/Accordion.tsx"
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.92.1/packages/dnb-eufemia/src/components/accordion/Accordion.tsx"
   },
   "sources": {
     "entry": {
@@ -256,7 +256,7 @@
       "public": "https://eufemia.dnb.no/uilib/components/accordion/demos/"
     }
   },
-  "version": "10.92.0",
-  "generatedAt": "2025-12-11T21:14:14.149Z",
+  "version": "10.92.1",
+  "generatedAt": "2025-12-16T14:16:47.216Z",
   "schemaVersion": 1
 }

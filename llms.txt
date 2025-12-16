@@ -3,8 +3,8 @@
 > DNB’s Eufemia design system. This file points LLMs to machine-readable docs and clean Markdown copies.
 
 Index (JSON): https://eufemia.dnb.no/llm/index.json
-Version: 10.92.0
-GeneratedAt: 2025-12-11T21:14:15.361Z
+Version: 10.92.1
+GeneratedAt: 2025-12-16T14:16:48.364Z
 
 ## Components
 

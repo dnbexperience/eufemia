@@ -112,7 +112,7 @@
   "source": {
     "repo": "https://github.com/dnbexperience/eufemia",
     "file": "packages/dnb-eufemia/src/extensions/forms/Value/index.ts",
-    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.92.0/packages/dnb-eufemia/src/extensions/forms/Value/index.ts"
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.92.1/packages/dnb-eufemia/src/extensions/forms/Value/index.ts"
   },
   "sources": {
     "entry": {
@@ -126,7 +126,7 @@
       "public": "https://eufemia.dnb.no/uilib/extensions/forms/Value/demos/"
     }
   },
-  "version": "10.92.0",
-  "generatedAt": "2025-12-11T21:14:15.122Z",
+  "version": "10.92.1",
+  "generatedAt": "2025-12-16T14:16:48.140Z",
   "schemaVersion": 1
 }
