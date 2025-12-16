@@ -5,7 +5,7 @@
 
 import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
-import { Card, Logo, Flex } from '@dnb/eufemia/src'
+import { Card, Logo, Flex, P } from '@dnb/eufemia/src'
 import {
   DnbDefault,
   SbankenCompact,
@@ -45,14 +45,14 @@ export const LogoAllExample = () => (
     }}
     data-visual-test="logo-all"
   >
-    <Flex.Container>
+    <Flex.Vertical>
       <Logo height="48" svg={DnbDefault} />
-      <Logo height="48" svg={CarnegieDefault} />
       <Logo height="48" svg={EiendomDefault} />
+      <Logo height="48" svg={CarnegieDefault} />
       <Logo height="48" svg={SbankenDefault} />
       <Logo height="48" svg={SbankenHorizontal} />
       <Logo height="48" svg={SbankenCompact} />
-    </Flex.Container>
+    </Flex.Vertical>
   </ComponentBox>
 )
 
@@ -86,13 +86,13 @@ export const LogoInheritHeightExample = () => (
 
 export const LogoColorExample = () => (
   <ComponentBox scope={{ myLogoSelector }} data-visual-test="logo-color">
-    <Flex.Container>
+    <Flex.Vertical>
       <span style={{ color: 'tomato' }}>
         <Logo height="96" inheritColor svg={myLogoSelector} />
       </span>
 
       <Logo height="96" color="hotpink" svg={myLogoSelector} />
-    </Flex.Container>
+    </Flex.Vertical>
   </ComponentBox>
 )
 
@@ -141,9 +141,18 @@ export const LogoChangeExample = () => (
 
 export const LogoFixedSizeExample = () => (
   <ComponentBox data-visual-test="logo-fixed" scope={{ myLogoSelector }}>
-    <Flex.Container>
+    <Flex.Vertical>
       <Logo height="96" svg={myLogoSelector} />
       <Logo width="96" svg={myLogoSelector} />
-    </Flex.Container>
+    </Flex.Vertical>
+  </ComponentBox>
+)
+
+export const LogoInTextExample = () => (
+  <ComponentBox data-visual-test="logo-in-text" scope={{ myLogoSelector }}>
+    <P>
+      This logo is in the middle <Logo svg={myLogoSelector} /> of some
+      text.
+    </P>
   </ComponentBox>
 )

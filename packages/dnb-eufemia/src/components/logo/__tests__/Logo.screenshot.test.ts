@@ -72,6 +72,13 @@ describe.each(['ui', 'sbanken', 'eiendom', 'carnegie'])(
       })
       expect(screenshot).toMatchImageSnapshot()
     })
+
+    it('aligns with text', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="logo-in-text"]',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
   }
 )
 
