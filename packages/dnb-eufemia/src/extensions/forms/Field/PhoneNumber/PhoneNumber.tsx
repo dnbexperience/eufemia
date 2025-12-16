@@ -17,7 +17,9 @@ import {
 import useCountries from '../SelectCountry/useCountries'
 import StringField, { Props as StringFieldProps } from '../String'
 import { Props as FieldBlockProps } from '../../FieldBlock'
-import CompositionField from '../Composition'
+import CompositionField, {
+  Props as CompositionFieldProps,
+} from '../Composition'
 import { useFieldProps } from '../../hooks'
 import { FieldPropsWithExtraValue, Schema } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
@@ -486,7 +488,7 @@ function PhoneNumber(props: Props = {}) {
 
   const isDefault = countryCodeRef.current?.includes(defaultCountryCode)
 
-  const fieldBlockProps: FieldBlockProps = {
+  const compositionFieldProps: CompositionFieldProps = {
     id,
     className: classnames('dnb-forms-field-phone-number', className),
     width: 'stretch',
@@ -498,7 +500,7 @@ function PhoneNumber(props: Props = {}) {
   }
 
   return (
-    <CompositionField {...fieldBlockProps}>
+    <CompositionField {...compositionFieldProps}>
       {!omitCountryCodeField && (
         <Autocomplete
           className={classnames(
