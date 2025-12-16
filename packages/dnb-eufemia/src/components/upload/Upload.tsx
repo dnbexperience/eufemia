@@ -161,7 +161,7 @@ const Upload = (localProps: UploadAllProps) => {
         <UploadWrapper
           className={classnames(
             'dnb-upload',
-            `dnb-upload--${variant || 'normal'}`,
+            variant && `dnb-upload--${variant}`,
             spacingClasses,
             className
           )}
