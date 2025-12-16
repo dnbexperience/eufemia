@@ -67,7 +67,7 @@ exports[`Logo scss has to match style dependencies css 1`] = `
   display: inline-block;
   vertical-align: baseline;
   font-size: inherit;
-  line-height: var(--line-height-xx-small--em);
+  line-height: 0;
   height: 1em;
 }
 .dnb-logo svg {
