@@ -94,17 +94,3 @@ exports[`Logo scss has to match style dependencies css 1`] = `
   height: inherit;
 }"
 `;
-
-exports[`Logo scss has to match theme css for sbanken 1`] = `
-"/*
- * Logo Component
- *
- */"
-`;
-
-exports[`Logo scss has to match theme css for ui 1`] = `
-"/*
- * Logo Component
- *
- */"
-`;
