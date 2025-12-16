@@ -1359,17 +1359,24 @@ describe('Field.Upload', () => {
     })
 
     it('should handle displaying error from validation with fileMaxSize with async function', async () => {
-      const fileMaxSizeErrorFile = createMockFile(
-        'fileName-new-1.png',
-        2000000,
-        'image/png'
-      )
+      function createErrorFile(fileName: string) {
+        return createMockFile(fileName, 2000000, 'image/png')
+      }
 
-      const successFile = createMockFile(
-        'successFile.png',
-        100,
-        'image/png'
-      )
+      function createSuccessFile(fileName: string) {
+        return createMockFile(fileName, 100, 'image/png')
+      }
+
+      const errorFile1 = createErrorFile('error-1.png')
+      const errorFile2 = createErrorFile('error-2.png')
+      const errorFile3 = createErrorFile('error-3.png')
+      const errorFile4 = createErrorFile('error-4.png')
+
+      const successFile1 = createSuccessFile('success-1.png')
+      const successFile2 = createSuccessFile('success-2.png')
+      const successFile3 = createSuccessFile('success-3.png')
+      const successFile4 = createSuccessFile('success-4.png')
+      const successFile5 = createSuccessFile('success-5.png')
 
       let resolveFileHandler: ((value: UploadValue) => void) | undefined
 
@@ -1390,28 +1397,56 @@ describe('Field.Upload', () => {
 
       fireEvent.drop(element, {
         dataTransfer: {
-          files: [fileMaxSizeErrorFile, successFile],
+          files: [
+            errorFile1,
+            successFile1,
+            successFile2,
+            errorFile2,
+            errorFile3,
+            successFile3,
+            successFile4,
+            errorFile4,
+            successFile5,
+          ],
         },
       })
 
       expect(
-        document.querySelector('.dnb-form-status')
-      ).toBeInTheDocument()
-
-      expect(
         document.querySelectorAll('.dnb-upload__file-cell').length
-      ).toBe(2)
+      ).toBe(9)
+
+      expect(document.querySelectorAll('.dnb-form-status').length).toBe(4)
 
       expect(
-        document.querySelector('.dnb-progress-indicator')
-      ).toBeInTheDocument()
+        document.querySelectorAll('.dnb-progress-indicator').length
+      ).toBe(5)
 
-      expect(screen.queryByText('fileName-new-1.png')).toBeInTheDocument()
-      expect(screen.queryByText('successFile.png')).not.toBeInTheDocument()
+      expect(screen.queryByText('error-1.png')).toBeInTheDocument()
+      expect(screen.queryByText('success-1.png')).not.toBeInTheDocument()
 
       resolveFileHandler([
         {
-          file: successFile,
+          file: successFile1,
+          id: 'server_generated_id',
+          exists: false,
+        },
+        {
+          file: successFile2,
+          id: 'server_generated_id',
+          exists: false,
+        },
+        {
+          file: successFile3,
+          id: 'server_generated_id',
+          exists: false,
+        },
+        {
+          file: successFile4,
+          id: 'server_generated_id',
+          exists: false,
+        },
+        {
+          file: successFile5,
           id: 'server_generated_id',
           exists: false,
         },
@@ -1424,16 +1459,14 @@ describe('Field.Upload', () => {
 
         expect(
           document.querySelectorAll('.dnb-upload__file-cell').length
-        ).toBe(2)
+        ).toBe(9)
 
         expect(
           document.querySelector('.dnb-progress-indicator')
         ).not.toBeInTheDocument()
 
-        expect(
-          screen.queryByText('fileName-new-1.png')
-        ).toBeInTheDocument()
-        expect(screen.queryByText('successFile.png')).toBeInTheDocument()
+        expect(screen.queryByText('error-1.png')).toBeInTheDocument()
+        expect(screen.queryByText('success-1.png')).toBeInTheDocument()
       })
     })
 

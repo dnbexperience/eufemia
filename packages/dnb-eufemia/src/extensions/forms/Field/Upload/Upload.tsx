@@ -225,14 +225,14 @@ function UploadComponent(props: Props) {
             })
 
             const indexOfFirstNewFile = filesRef.current.findIndex(
-              ({ id }) => id === newValidFiles[0].id
+              ({ id }) => id === newFiles[0].id
             )
 
             const updatedFiles = [
               ...filesRef.current.slice(0, indexOfFirstNewFile),
-              ...(incomingFiles?.filter((file) => file != null) ?? []),
+              ...(newFilesLoading?.filter((file) => file != null) ?? []),
               ...filesRef.current.slice(
-                indexOfFirstNewFile + incomingFiles.length
+                indexOfFirstNewFile + newFilesLoading.length
               ),
             ]
             setFiles(updatedFiles)
