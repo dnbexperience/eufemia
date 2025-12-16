@@ -2247,7 +2247,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   }, [finalSchema, hasZodSchema])
 
   // Use "useLayoutEffect" and "externalValueDidChangeRef"
-  // to cooperate with the the data context "updateDataValueDataContext" routine further down,
+  // to cooperate with the data context "updateDataValueDataContext" routine further down,
   // which also uses useLayoutEffect.
   const externalValueDidChangeRef = useRef(false)
   useLayoutEffect(() => {

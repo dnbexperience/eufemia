@@ -27,7 +27,7 @@ completions.json
 bundle.css
 *not_in_use*
 
-# enviroment
+# environment
 .env
 .env.*
 
