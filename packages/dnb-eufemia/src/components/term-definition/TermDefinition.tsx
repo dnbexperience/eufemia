@@ -98,7 +98,7 @@ export default function TermDefinition({
           spacingClasses
         )}
         aria-expanded={active}
-        aria-controls={id}
+        aria-controls={active ? id : undefined}
         aria-describedby={`${id}-description`}
         title={title}
         onClick={onClick}
@@ -128,7 +128,6 @@ export default function TermDefinition({
         portalRootClass="dnb-term-definition__portal"
         omitDescribedBy
         hideArrow
-        keepInDOM
         title={children}
       >
         {content}

@@ -342,6 +342,7 @@ function DateOfBirth(props: Props) {
   }, [callOnBlurOrFocus])
 
   const compositionFieldProps: CompositionFieldProps = {
+    className: 'dnb-forms-field-date-of-birth',
     error,
     label: labelWithItemNo,
     labelDescription,
@@ -405,10 +406,11 @@ function DateOfBirth(props: Props) {
         htmlAttributes={htmlAttributes}
       />
       <SelectionField
+        className="dnb-forms-field-date-of-birth__month"
         value={monthRef.current}
         variant="autocomplete"
         labelDescription={monthLabel}
-        width="10rem"
+        width="stretch"
         placeholder=""
         autocompleteProps={{
           openOnFocus: true,
@@ -444,7 +446,7 @@ function DateOfBirth(props: Props) {
   )
 }
 
-DateOfBirth._supportsSpacingProps = true
+DateOfBirth._supportsSpacingProps = undefined
 export default DateOfBirth
 
 function capitalizeFirstLetter(s) {

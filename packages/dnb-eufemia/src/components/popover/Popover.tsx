@@ -615,7 +615,7 @@ export default function Popover(props: PopoverProps) {
     <>
       {!disableFocusTrap && (
         <button className="dnb-sr-only" onFocus={close}>
-          Focus trap
+          {tr.focusTrapTitle}
         </button>
       )}
 
@@ -641,7 +641,7 @@ export default function Popover(props: PopoverProps) {
 
       {!disableFocusTrap && (
         <button className="dnb-sr-only" onFocus={close}>
-          Focus trap
+          {tr.focusTrapTitle}
         </button>
       )}
     </>

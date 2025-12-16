@@ -73,7 +73,7 @@ function Tooltip(localProps: TooltipAllProps) {
         forceActive={forceActive}
         {...props}
       >
-        {tooltip || children}
+        {children}
       </TooltipWithEvents>
     </TooltipContext.Provider>
   )
@@ -149,6 +149,8 @@ function createAttributes(
     ...attributeProps,
   }
 }
+
+Tooltip.isTooltipComponent = true
 
 export { injectTooltipSemantic }
 export default Tooltip

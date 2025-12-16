@@ -38,7 +38,7 @@ export type AdditionalArgs = {
 
 export type Props = Omit<
   FieldPropsWithExtraValue<string, AdditionalArgs, undefined | string>,
-  'layout' | 'layoutOptions' | 'labelSize' | 'labelDescriptionInline'
+  'layout' | 'layoutOptions' | 'labelSize'
 > & {
   countryCodeFieldClassName?: string
   numberFieldClassName?: string
@@ -609,5 +609,5 @@ function joinValue(array: Array<string>) {
   return array.filter(Boolean).join(' ')
 }
 
-PhoneNumber._supportsSpacingProps = true
+PhoneNumber._supportsSpacingProps = undefined
 export default PhoneNumber

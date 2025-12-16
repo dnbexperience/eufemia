@@ -8,6 +8,7 @@ import * as helpers from '../../../shared/helpers'
 import { fireEvent, render, waitFor, screen } from '@testing-library/react'
 import { Form } from '../../../extensions/forms'
 import Translation from '../../../shared/Translation'
+import userEvent from '@testing-library/user-event'
 
 const props: DialogProps & DialogContentProps = {
   noAnimation: true,
@@ -157,6 +158,30 @@ describe('Dialog', () => {
     )
 
     expect(document.querySelector('.dnb-dialog__title').textContent).toBe(
+      'Dialog Window'
+    )
+  })
+
+  it('accepts a <Translation> title and renders it in the HelpButton Tooltip', async () => {
+    render(
+      <Provider value={{ locale: 'en-GB' }}>
+        <Dialog
+          noAnimation
+          openState
+          title={<Translation id="Modal.dialog_title" />}
+        />
+      </Provider>
+    )
+
+    await userEvent.hover(document.querySelector('.dnb-modal__trigger'))
+
+    await waitFor(() => {
+      expect(
+        document.body.querySelector('.dnb-tooltip')
+      ).toBeInTheDocument()
+    })
+
+    expect(document.body.querySelector('.dnb-tooltip').textContent).toBe(
       'Dialog Window'
     )
   })
