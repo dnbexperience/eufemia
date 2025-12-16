@@ -89,8 +89,12 @@ const flatten = (arr) =>
               }
             } else if (Array.isArray(siblings)) {
               const category = siblings.find(
-                ({ fields: { slug: _slug }, frontmatter: { title } }) =>
-                  slug.includes(_slug) && title,
+                (sibling) =>
+                  sibling &&
+                  sibling.fields &&
+                  sibling.frontmatter &&
+                  slug.includes(sibling.fields.slug) &&
+                  sibling.frontmatter.title,
               )
 
               let newTitle = null
