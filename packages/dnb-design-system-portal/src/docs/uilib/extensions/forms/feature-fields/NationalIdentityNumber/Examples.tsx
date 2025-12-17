@@ -1,9 +1,7 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import { createMinimumAgeValidator } from '@dnb/eufemia/src/extensions/forms/Field/NationalIdentityNumber'
 import { Field, FormError } from '@dnb/eufemia/src/extensions/forms'
-import type {
-  NationalIdentityNumberValidator,
-} from '@dnb/eufemia/src/extensions/forms/Field/NationalIdentityNumber'
+import type { NationalIdentityNumberValidator } from '@dnb/eufemia/src/extensions/forms/Field/NationalIdentityNumber'
 
 export const Empty = () => {
   return (
@@ -175,7 +173,7 @@ export const ValidationExtendValidator = () => {
         // Keep the default validator while ensuring birth month is April.
         const myValidator: NationalIdentityNumberValidator = (
           value,
-          { validators }
+          { validators },
         ) => {
           const { dnrAndFnrValidator } = validators ?? {}
 
@@ -203,7 +201,7 @@ export const ValidationExtendValidatorAdult = () => {
         // Keep the default validator while adding an age check.
         const myAdultValidator: NationalIdentityNumberValidator = (
           value,
-          { validators }
+          { validators },
         ) => {
           const { dnrAndFnrValidator } = validators ?? {}
 
@@ -231,7 +229,7 @@ export const ValidationFnrAdult = () => {
         // Keep the default validator while ensuring an FNR-based age check.
         const myFnrAdultValidator: NationalIdentityNumberValidator = (
           value,
-          { validators }
+          { validators },
         ) => {
           const { fnrValidator } = validators ?? {}
 
