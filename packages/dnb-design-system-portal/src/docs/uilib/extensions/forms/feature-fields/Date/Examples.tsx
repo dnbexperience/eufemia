@@ -131,7 +131,10 @@ export const ValidationExtendValidator = () => {
         }
 
         // Combine the shared validator with the custom date rules.
-        const myOnBlurValidator: DateValidator = (value: string, { validators }) => {
+        const myOnBlurValidator: DateValidator = (
+          value: string,
+          { validators },
+        ) => {
           const { dateValidator } = validators ?? {}
 
           return [myDateValidator, dateValidator]
