@@ -68,7 +68,7 @@ export const useFilteredProps = () => {
     keep_char_positions, // eslint-disable-line
     placeholder_char, // eslint-disable-line
 
-    // Get get rest of possible attributes
+    // Get rest of possible attributes
     ...attributes
   } = props
 
@@ -81,7 +81,7 @@ export const useFilteredProps = () => {
 /**
  * Returns locale from either component or context
  *
- * @returns string
+ * @returns String
  */
 export const useTranslation = () => {
   const { props, context } = React.useContext(InputMaskedContext)

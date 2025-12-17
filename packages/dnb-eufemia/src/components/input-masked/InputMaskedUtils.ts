@@ -33,7 +33,7 @@ const NUMBER_MINUS = '-|−|‐|‒|–|—|―'
  * Will return true if a prop needs Locale support
  *
  * @param {object} props object with given component props
- * @returns boolean
+ * @returns Boolean
  */
 export const isRequestingLocaleSupport = (
   props: Record<string, any>
@@ -48,7 +48,7 @@ export const isRequestingLocaleSupport = (
  * Will return true if a prop will enable the internal NumberMask
  *
  * @param {object} props object with given component props
- * @returns boolean
+ * @returns Boolean
  */
 export const isRequestingNumberMask = (
   props: Record<string, any>
@@ -69,7 +69,7 @@ export const isRequestingNumberMask = (
  * @property {object} context Eufemia Context
  * @property {string} locale Eufemia locale (either from component or context)
  * @property {object} maskParams predefined mask parameters
- * @returns string Value
+ * @returns String Value
  */
 export type InputMaskParams = {
   showMask?: boolean
@@ -326,7 +326,7 @@ export const correctCaretPosition = (
  * @property {object} props Component property
  * @property {string} locale Eufemia locale (either from component or context)
  * @property {object} maskParams predefined mask parameters
- * @returns object maskParams
+ * @returns Object maskParams
  */
 export const handlePercentMask = ({
   props,
@@ -351,7 +351,7 @@ export const handlePercentMask = ({
  * @property {object} context Eufemia context
  * @property {object} mask_options Component property for change the mask parameters
  * @property {object} currency_mask Component property for change the currency parameters
- * @returns object maskParams
+ * @returns Object maskParams
  */
 export const handleCurrencyMask = ({
   mask_options,
@@ -413,7 +413,7 @@ export const handleCurrencyMask = ({
  * @property {object} context Eufemia context
  * @property {object} mask_options Component property for change the mask parameters
  * @property {object} number_mask Component property for change the number parameters
- * @returns object maskParams
+ * @returns Object maskParams
  */
 export const handleNumberMask = ({
   mask_options,
@@ -476,7 +476,7 @@ export function getSoftKeyboardAttributes(
  * Returns the thousands separator character
  *
  * @param {string} locale Component or context locale
- * @returns string
+ * @returns String
  */
 export function handleThousandsSeparator(locale: string): string {
   return getThousandsSeparator(locale).replace(' ', ' ') // replace non-breaking space with a regular space
@@ -486,7 +486,7 @@ export function handleThousandsSeparator(locale: string): string {
  * Returns the decimal separator character
  *
  * @param {string} locale Component or context locale
- * @returns string
+ * @returns String
  */
 export function handleDecimalSeparator(locale: string): string {
   const decimalSymbol = getDecimalSeparator(locale)
@@ -499,7 +499,7 @@ export function handleDecimalSeparator(locale: string): string {
  *
  * @param {string} str
  * @param {*} fallback optional fallback
- * @returns parsed json
+ * @returns Parsed JSON
  */
 export function fromJSON<T = unknown>(
   str: unknown,
