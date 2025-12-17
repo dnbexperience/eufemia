@@ -67,12 +67,15 @@ export type InputMaskedSubmitElement = InputSubmitElement
 export type InputMaskedSubmitButtonIcon = InputSubmitButtonIcon
 export type InputMaskedChildren = InputChildren
 
-export type InputMaskedChangePayload = {
+export type InputMaskedChange = {
   event?: unknown
   value: string
   numberValue?: number
   cleanedValue?: string | number
 }
+export type InputMaskedEventHandler = (
+  payload: InputMaskedChange
+) => unknown
 export interface InputMaskedProps
   extends Omit<
       React.HTMLProps<HTMLInputElement>,
@@ -133,16 +136,12 @@ export interface InputMaskedProps
    */
   placeholder_char?: string
   inner_ref?: InputProps['inner_ref']
-  on_change?: (payload: { value: string } & Record<string, any>) => unknown
-  on_submit?: (payload: { value: string } & Record<string, any>) => unknown
-  on_focus?: (payload: { value: string } & Record<string, any>) => unknown
-  on_blur?: (payload: { value: string } & Record<string, any>) => unknown
-  on_submit_focus?: (
-    payload: { value: string } & Record<string, any>
-  ) => unknown
-  on_submit_blur?: (
-    payload: { value: string } & Record<string, any>
-  ) => unknown
+  on_change?: InputMaskedEventHandler
+  on_submit?: InputMaskedEventHandler
+  on_focus?: InputMaskedEventHandler
+  on_blur?: InputMaskedEventHandler
+  on_submit_focus?: InputMaskedEventHandler
+  on_submit_blur?: InputMaskedEventHandler
   type?: string
   size?: InputSize
   value?: InputMaskedValue
@@ -185,7 +184,7 @@ export interface InputMaskedProps
   on_state_update?: (...args: unknown[]) => unknown
   onChange?:
     | React.ChangeEventHandler<HTMLInputElement>
-    | ((payload: { value: string } & Record<string, any>) => unknown)
+    | InputMaskedEventHandler
 }
 
 function InputMasked(props: InputMaskedProps) {

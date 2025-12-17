@@ -49,3 +49,11 @@ export type DeepPartial<T> = T extends object
       [K in keyof T]?: DeepPartial<T[K]>
     }
   : T
+
+type IsAny<T> = 0 extends 1 & T ? true : false
+
+/**
+ * Utility to ensure a type is not `any` even when `noImplicitAny` is disabled.
+ * If `T` is `any`, the result is `never` to surface a type error.
+ */
+export type NotAny<T> = IsAny<T> extends true ? never : T
