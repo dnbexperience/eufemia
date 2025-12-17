@@ -29,3 +29,29 @@ There is a corresponding [Value.BankAccountNumber](/uilib/extensions/forms/Value
 
 `Field.BankAccountNumber` expose the `bankAccountNumberValidator` validator through its `onChangeValidator` and `onBlurValidator` property, take a look at [this demo](/uilib/extensions/forms/feature-fields/BankAccountNumber/demos/#extend-validation-with-custom-validation-function).
 The `bankAccountNumberValidator` validator, validates if the bank account number provided is a [Norwegian bank account number](https://no.wikipedia.org/wiki/Kontonummer) or not.
+
+### Extending validators
+
+Use the `validators` parameter to keep the default checks and add your own custom rule. Import `BankAccountNumberValidator` to type your `onBlurValidator` and get the typed `validators` object.
+
+```tsx
+import { Field } from '@dnb/eufemia/extensions/forms'
+import type { BankAccountNumberValidator } from '@dnb/eufemia/extensions/forms/Field/BankAccountNumber'
+
+const myValidator: BankAccountNumberValidator = (
+  value,
+  { validators },
+) => {
+  const { bankAccountNumberValidator } = validators ?? {}
+  const prefixChecker = (value: string) => {
+    if (value && value[0] !== '1') {
+      return new Error('Account number must start with 1')
+    }
+  }
+
+  // Keep the built-in validator and add a custom prefix rule.
+  return [bankAccountNumberValidator, prefixChecker]
+}
+
+render(<Field.BankAccountNumber onBlurValidator={myValidator} />)
+```
