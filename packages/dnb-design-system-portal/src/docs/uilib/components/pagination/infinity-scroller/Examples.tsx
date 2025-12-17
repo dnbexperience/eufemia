@@ -4,7 +4,6 @@
  */
 
 import React from 'react'
-import PropTypes from 'prop-types'
 import ComponentBox from '../../../../../shared/tags/ComponentBox'
 import styled from '@emotion/styled'
 
@@ -336,9 +335,6 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
       </tbody>
     </StyledTable>
   )
-}
-InfinityPaginationTable.propTypes = {
-  tableItems: PropTypes.array.isRequired,
 }
 
 const InfinityPagination = ({
