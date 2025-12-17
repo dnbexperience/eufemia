@@ -3,11 +3,11 @@ import type { SpacingProps } from '../space/types';
 export type SkeletonShow = boolean;
 export type SkeletonFigure =
   | string
-  | ((...args: any[]) => any)
+  | React.ComponentType
   | React.ReactNode;
 export type SkeletonChildren =
   | string
-  | ((...args: any[]) => any)
+  | React.ComponentType
   | React.ReactNode;
 export interface SkeletonProps
   extends Omit<React.HTMLProps<HTMLElement>, 'ref'>,
@@ -39,8 +39,11 @@ export interface SkeletonProps
   className?: string;
   children?: SkeletonChildren;
 }
-export default class Skeleton extends React.Component<SkeletonProps, any> {
-  static defaultProps: object;
+export default class Skeleton extends React.Component<
+  SkeletonProps,
+  unknown
+> {
+  static defaultProps: Partial<SkeletonProps>;
   static Exclude: ({
     children
   }: {

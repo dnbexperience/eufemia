@@ -123,9 +123,9 @@ export type DropdownAllProps = DropdownProps &
   >;
 export default class Dropdown extends React.Component<
   DropdownAllProps,
-  any
+  unknown
 > {
-  static defaultProps: object;
+  static defaultProps: Partial<DropdownAllProps>;
   static HorizontalItem: ({
     children
   }: {

@@ -8,9 +8,12 @@ export type GlobalStatusText =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
-export type GlobalStatusItem = string | ((...args: any[]) => any) | any;
+export type GlobalStatusItem =
+  | string
+  | React.ComponentType
+  | React.ReactNode;
 export type GlobalStatusState = 'error' | 'info' | 'warning' | 'success';
-export type GlobalStatusShow = 'auto' | any | any | 'true' | 'false';
+export type GlobalStatusShow = 'auto' | boolean | 'true' | 'false';
 export type GlobalStatusDelay = string | number;
 export type GlobalStatusConfigObject = {
   /**
@@ -21,7 +24,7 @@ export type GlobalStatusConfigObject = {
 };
 export type GlobalStatusChildren =
   | string
-  | ((...args: any[]) => any)
+  | React.ComponentType
   | React.ReactNode;
 export interface GlobalStatusProps
   extends Omit<React.HTMLProps<HTMLElement>, 'ref'>,
@@ -105,11 +108,11 @@ export interface GlobalStatusProps
    * the text appears as the status content. Besides plain text, you can send in a React component as well. Defaults to `null`.
    */
   children?: GlobalStatusChildren;
-  on_adjust?: (...args: any[]) => any;
-  on_open?: (...args: any[]) => any;
-  on_show?: (...args: any[]) => any;
-  on_close?: (...args: any[]) => any;
-  on_hide?: (...args: any[]) => any;
+  on_adjust?: () => void;
+  on_open?: () => void;
+  on_show?: () => void;
+  on_close?: () => void;
+  on_hide?: () => void;
 }
 export type GlobalStatusStatusId = string;
 export type GlobalStatusAddProps = {
@@ -191,9 +194,9 @@ export type GlobalStatusInterceptor = {
 };
 export default class GlobalStatus extends React.Component<
   GlobalStatusProps,
-  any
+  unknown
 > {
-  static defaultProps: object;
+  static defaultProps: Partial<GlobalStatusProps>;
   static create: (
     props: GlobalStatusInterceptorProps
   ) => GlobalStatusInterceptor;

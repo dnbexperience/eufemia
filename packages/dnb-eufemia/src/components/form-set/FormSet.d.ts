@@ -58,7 +58,10 @@ export interface FormSetProps
   children?: FormSetChildren;
   on_submit?: (...args: any[]) => any;
 }
-export default class FormSet extends React.Component<FormSetProps, any> {
-  static defaultProps: object;
+export default class FormSet extends React.Component<
+  FormSetProps,
+  unknown
+> {
+  static defaultProps: Partial<FormSetProps>;
   render(): JSX.Element;
 }

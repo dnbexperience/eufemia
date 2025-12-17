@@ -320,7 +320,7 @@ import type { GlobalStatusConfigObject } from '../GlobalStatus'
 export type ToggleButtonGroupVariant = 'default' | 'checkbox' | 'radio'
 export type ToggleButtonGroupSuffix =
   | string
-  | ((...args: any[]) => any)
+  | React.ComponentType
   | React.ReactNode
 export type ToggleButtonGroupLayoutDirection = 'column' | 'row'
 export type ToggleButtonGroupValue =
@@ -332,7 +332,7 @@ export type ToggleButtonGroupValues = string | any[]
 export type ToggleButtonGroupAttributes = string | Record<string, unknown>
 export type ToggleButtonGroupChildren =
   | string
-  | ((...args: any[]) => any)
+  | React.ComponentType
   | React.ReactNode
 
 export interface ToggleButtonGroupProps
@@ -401,10 +401,21 @@ export interface ToggleButtonGroupProps
   readOnly?: boolean
   className?: string
   children?: ToggleButtonGroupChildren
-  on_change?: (...args: any[]) => any
-  on_state_update?: (...args: any[]) => any
+  on_change?: (params: {
+    value: ToggleButtonGroupValue
+    values?: ToggleButtonGroupValues
+    event: React.ChangeEvent
+  }) => void
+  on_state_update?: (params: {
+    value: ToggleButtonGroupValue
+    values?: ToggleButtonGroupValues
+  }) => void
   // Additional properties that are used in tests and stories
-  onChange?: (...args: any[]) => any
+  onChange?: (params: {
+    value: ToggleButtonGroupValue
+    values?: ToggleButtonGroupValues
+    event: React.ChangeEvent
+  }) => void
   top?: SpaceType
   right?: SpaceType
   bottom?: SpaceType

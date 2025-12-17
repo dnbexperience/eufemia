@@ -142,9 +142,7 @@ import type {
 } from '../Section'
 
 export type ContentWrapperSelectedKey = string | number
-export type ContentWrapperChildren =
-  | React.ReactNode
-  | ((...args: any[]) => any)
+export type ContentWrapperChildren = React.ReactNode | React.ComponentType
 
 export interface ContentWrapperProps extends React.HTMLProps<HTMLElement> {
   id: string

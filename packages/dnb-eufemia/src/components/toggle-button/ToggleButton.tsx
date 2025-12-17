@@ -466,7 +466,7 @@ import type { ToggleButtonGroupProps } from './ToggleButtonGroup'
 export type ToggleButtonVariant = 'default' | 'checkbox' | 'radio'
 export type ToggleButtonSuffix =
   | string
-  | ((...args: any[]) => any)
+  | React.ComponentType
   | React.ReactNode
 export type ToggleButtonValue =
   | string
@@ -474,7 +474,7 @@ export type ToggleButtonValue =
   | Record<string, unknown>
   | any[]
 export type ToggleButtonAttributes = string | Record<string, unknown>
-export type ToggleButtonChildren = string | ((...args: any[]) => any)
+export type ToggleButtonChildren = string | React.ComponentType
 
 export interface ToggleButtonProps
   extends Omit<
@@ -557,10 +557,21 @@ export interface ToggleButtonProps
   readOnly?: boolean
   className?: string
   children?: ToggleButtonChildren
-  on_change?: (...args: any[]) => any
-  on_state_update?: (...args: any[]) => any
+  on_change?: (params: {
+    value: ToggleButtonValue
+    checked?: boolean
+    event: React.ChangeEvent
+  }) => void
+  on_state_update?: (params: {
+    value: ToggleButtonValue
+    checked?: boolean
+  }) => void
   // Additional properties that are used in tests and stories
-  onChange?: (...args: any[]) => any
+  onChange?: (params: {
+    value: ToggleButtonValue
+    checked?: boolean
+    event: React.ChangeEvent
+  }) => void
   top?: SpaceType
   right?: SpaceType
   bottom?: SpaceType

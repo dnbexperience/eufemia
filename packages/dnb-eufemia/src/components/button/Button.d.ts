@@ -28,15 +28,12 @@ export type ButtonIconPositionAll =
   | 'left'
   | 'right'
   | ButtonIconPositionTertiary;
-export type ButtonTooltip =
-  | string
-  | ((...args: any[]) => any)
-  | React.ReactNode;
-export type ButtonTo = string | any | ((...args: any[]) => any);
+export type ButtonTooltip = string | React.ComponentType | React.ReactNode;
+export type ButtonTo = string | Record<string, unknown> | (() => void);
 export type ButtonSkeleton = SkeletonShow;
 export type ButtonChildren =
   | string
-  | ((...args: any[]) => any)
+  | React.ComponentType
   | React.ReactNode;
 
 // Local type for react-router-dom link with only the necessary props. Done this way to prevent react-router-dom dependency.
@@ -166,7 +163,7 @@ export type ButtonProps = {
     Partial<React.HTMLAttributes<HTMLButtonElement | HTMLAnchorElement>>
 > &
   SpacingProps;
-export default class Button extends React.Component<ButtonProps, any> {
-  static defaultProps: object;
+export default class Button extends React.Component<ButtonProps, unknown> {
+  static defaultProps: Partial<ButtonProps>;
   render(): JSX.Element;
 }

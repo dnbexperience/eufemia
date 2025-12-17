@@ -6,7 +6,7 @@ export type AutoSizeProps = {
   className?: string;
   style?: React.CSSProperties;
 };
-export class AutoSize extends React.Component<AutoSizeProps, any> {
+export class AutoSize extends React.Component<AutoSizeProps, unknown> {
   render(): JSX.Element;
 }
 export type SkeletonContextProps = ContextProps & {

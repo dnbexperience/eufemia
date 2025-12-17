@@ -123,7 +123,10 @@ export interface TextareaProps
   on_key_down?: (...args: any[]) => any;
   on_state_update?: (...args: any[]) => any;
 }
-export default class Textarea extends React.Component<TextareaProps, any> {
-  static defaultProps: object;
+export default class Textarea extends React.Component<
+  TextareaProps,
+  unknown
+> {
+  static defaultProps: Partial<TextareaProps>;
   render(): JSX.Element;
 }

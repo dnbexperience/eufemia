@@ -13,11 +13,9 @@ import ContentWrapper from './TabsContentWrapper'
 export type CustomContentTitle =
   | Record<string, unknown>
   | React.ReactNode
-  | ((...args: any[]) => any)
+  | React.ComponentType
 
-export type CustomContentChildren =
-  | React.ReactNode
-  | ((...args: any[]) => any)
+export type CustomContentChildren = React.ReactNode | React.ComponentType
 
 export interface CustomContentProps
   extends Omit<React.HTMLProps<HTMLElement>, 'title' | 'children'>,

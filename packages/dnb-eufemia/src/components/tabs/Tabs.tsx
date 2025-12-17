@@ -49,7 +49,7 @@ import type { SkeletonShow } from '../Skeleton'
 export type TabsData =
   | string
   | {
-      title: string | React.ReactNode | ((...args: any[]) => any)
+      title: string | React.ReactNode | React.ComponentType
       key: string | number
       selected?: boolean
       disabled?: boolean
@@ -60,7 +60,7 @@ export type TabsData =
 export type TabsContent =
   | Record<string, unknown>
   | React.ReactNode
-  | ((...args: any[]) => any)
+  | React.ComponentType
 
 export type TabsTabElement = DynamicElement<
   null,
@@ -72,7 +72,7 @@ export type TabsAlign = 'left' | 'center' | 'right'
 export type TabsChildren =
   | Record<string, unknown>
   | React.ReactNode
-  | ((...args: any[]) => any)
+  | React.ComponentType
 
 export interface TabsProps
   extends Omit<
@@ -126,7 +126,7 @@ export interface TabsProps
    * If set to `true`, the navigation icons will have a straight border at their outside. This feature is meant to be used when the Tabs component goes all the way to the browser window. Defaults to `false`.
    */
   nav_button_edge?: boolean
-  onOpenTabNavigationFn?: (...args: any[]) => any
+  onOpenTabNavigationFn?: () => void
   /**
    * If set to `true`, the Tabs content will pre-render all contents. The visibility will be handled by using the `hidden` and `aria-hidden` HTML attributes. Defaults to `false`.
    */
@@ -149,11 +149,20 @@ export interface TabsProps
    * the content to render. Can be a function, returning the current tab content `(key) => ('Current tab')`, a React Component or an object with the keys and content `{key1: 'Current tab'}`.
    */
   children?: TabsChildren
-  render?: (...args: any[]) => any
-  on_change?: (...args: any[]) => any
-  on_mouse_enter?: (...args: any[]) => any
-  on_click?: (...args: any[]) => any
-  on_focus?: (...args: any[]) => any
+  render?: (key: TabsSelectedKey) => React.ReactNode
+  on_change?: (params: { selected_key: TabsSelectedKey }) => void
+  on_mouse_enter?: (params: {
+    selected_key: TabsSelectedKey
+    event: React.MouseEvent
+  }) => void
+  on_click?: (params: {
+    selected_key: TabsSelectedKey
+    event: React.MouseEvent
+  }) => void
+  on_focus?: (params: {
+    selected_key: TabsSelectedKey
+    event: React.FocusEvent
+  }) => void
 }
 
 export interface DummyProps {

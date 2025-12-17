@@ -172,8 +172,8 @@ export interface InputProps
   on_state_update?: (...args: any[]) => any;
   on_clear?: (...args: any[]) => any;
 }
-export default class Input extends React.Component<InputProps, any> {
-  static defaultProps: object;
+export default class Input extends React.Component<InputProps, unknown> {
+  static defaultProps: Partial<InputProps>;
   render(): JSX.Element;
 }
 export interface SubmitButtonProps
@@ -219,7 +219,10 @@ export interface SubmitButtonProps
   on_submit_focus?: (...args: any[]) => any;
   on_submit_blur?: (...args: any[]) => any;
 }
-export class SubmitButton extends React.Component<SubmitButtonProps, any> {
-  static defaultProps: object;
+export class SubmitButton extends React.Component<
+  SubmitButtonProps,
+  unknown
+> {
+  static defaultProps: Partial<SubmitButtonProps>;
   render(): JSX.Element;
 }

@@ -188,9 +188,9 @@ export interface PaginationProps
 }
 export default class Pagination extends React.Component<
   PaginationProps,
-  any
+  unknown
 > {
-  static defaultProps: object;
+  static defaultProps: Partial<PaginationProps>;
   render(): JSX.Element;
 }
 type PaginationInstanceStartupPage = string | number;
@@ -382,9 +382,9 @@ interface PaginationInstanceProps extends SpacingProps {
 }
 declare class PaginationInstance extends React.Component<
   PaginationInstanceProps,
-  any
+  unknown
 > {
-  static defaultProps: object;
+  static defaultProps: Partial<PaginationInstanceProps>;
   render(): JSX.Element;
 }
 type InfinityMarkerStartupPage = string | number;
@@ -571,14 +571,12 @@ interface InfinityMarkerProps extends SpacingProps {
 }
 export class InfinityMarker extends React.Component<
   InfinityMarkerProps,
-  any
+  unknown
 > {
-  static defaultProps: object;
+  static defaultProps: Partial<InfinityMarkerProps>;
   render(): JSX.Element;
 }
-type PaginationContentChildren =
-  | React.ReactNode
-  | ((...args: any[]) => any);
+type PaginationContentChildren = React.ReactNode | React.ComponentType;
 interface PaginationContentProps {
   /**
    * The given content can be either a function or a React node, depending on your needs. A function contains several helper functions. More details down below and have a look at the examples in the demos section.

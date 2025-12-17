@@ -35,8 +35,8 @@ interface PaginationProviderProps
 }
 export default class PaginationProvider extends React.Component<
   PaginationProviderProps,
-  any
+  unknown
 > {
-  static defaultProps: object;
+  static defaultProps: Partial<PaginationProviderProps>;
   render(): JSX.Element;
 }

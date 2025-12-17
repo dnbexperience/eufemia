@@ -8,7 +8,7 @@ import type { GlobalStatusConfigObject } from '../GlobalStatus';
 export type FormRowDirection = 'vertical' | 'horizontal';
 export type FormRowChildren =
   | string
-  | ((...args: any[]) => any)
+  | React.ComponentType
   | React.ReactNode;
 export interface FormRowProps
   extends Omit<React.HTMLProps<HTMLElement>, 'ref'>,
@@ -81,7 +81,10 @@ export interface FormRowProps
   className?: string;
   children?: FormRowChildren;
 }
-export default class FormRow extends React.Component<FormRowProps, any> {
-  static defaultProps: object;
+export default class FormRow extends React.Component<
+  FormRowProps,
+  unknown
+> {
+  static defaultProps: Partial<FormRowProps>;
   render(): JSX.Element;
 }

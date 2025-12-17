@@ -84,8 +84,8 @@ export interface RadioProps
    */
   innerRef?: React.Ref;
 }
-export default class Radio extends React.Component<RadioProps, any> {
-  static defaultProps: object;
+export default class Radio extends React.Component<RadioProps, unknown> {
+  static defaultProps: Partial<RadioProps>;
   static Group = RadioGroup;
   render(): JSX.Element;
 }
