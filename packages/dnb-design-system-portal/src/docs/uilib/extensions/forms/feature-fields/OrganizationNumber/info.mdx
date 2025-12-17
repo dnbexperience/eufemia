@@ -39,7 +39,10 @@ Return both the exported validator and a custom rule to extend validation safely
 import { Field } from '@dnb/eufemia/extensions/forms'
 import type { OrganizationNumberValidator } from '@dnb/eufemia/extensions/forms/Field/OrganizationNumber'
 
-const myValidator: OrganizationNumberValidator = (value, { validators }) => {
+const myValidator: OrganizationNumberValidator = (
+  value,
+  { validators },
+) => {
   const { organizationNumberValidator } = validators ?? {}
   const oddChecker = (value: string) => {
     if (value && parseInt(value.slice(-1), 10) % 2 === 0) {
