@@ -80,7 +80,7 @@ export type ValidatorWithCustomValidators<
     ReceiveAdditionalEventArgs<Value, ErrorMessages>,
     'validators'
   > & {
-    validators: FieldValidators | undefined
+    validators: FieldValidators
   }
 ) => ValidatorReturnAsync<Value>
 
@@ -127,7 +127,7 @@ export type ReceiveAdditionalEventArgs<
   /**
    * Returns the validators from the { exportValidators } object.
    */
-  validators: Record<string, Validator<Value>> | undefined
+  validators: Record<string, Validator<Value>>
 
   /**
    * The props passed to the Field component.
