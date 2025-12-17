@@ -114,7 +114,10 @@ export const ValidationExtendValidator = () => {
         }
 
         // Keep the default validator and add a custom year rule.
-        const myValidator: DateOfBirthValidator = (value, { validators }) => {
+        const myValidator: DateOfBirthValidator = (
+          value,
+          { validators },
+        ) => {
           const { dateOfBirthValidator } = validators
 
           return [dateOfBirthValidator, firstDigitIs1Validator]
