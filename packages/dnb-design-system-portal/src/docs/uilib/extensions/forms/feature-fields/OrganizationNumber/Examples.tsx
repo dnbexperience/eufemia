@@ -1,5 +1,6 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import { Field } from '@dnb/eufemia/src/extensions/forms'
+import type { OrganizationNumberValidator } from '@dnb/eufemia/src/extensions/forms/Field/OrganizationNumber'
 
 export const Empty = () => {
   return (
@@ -122,7 +123,8 @@ export const ValidationExtendValidator = () => {
           }
         }
 
-        const myValidator = (value, { validators }) => {
+        // Keep the built-in validator while requiring the first digit.
+        const myValidator: OrganizationNumberValidator = (value, { validators }) => {
           const { organizationNumberValidator } = validators
 
           return [organizationNumberValidator, firstDigitIs1Validator]

@@ -30,3 +30,26 @@ There is a corresponding [Value.OrganizationNumber](/uilib/extensions/forms/Valu
 
 `Field.OrganizationNumber` expose the `organizationNumberValidator` validator through its `onChangeValidator` and `onBlurValidator` property, take a look at [this demo](/uilib/extensions/forms/feature-fields/OrganizationNumber/demos/#extend-validation-with-custom-validation-function).
 The `organizationNumberValidator` validator, validates if the organization number provided is a [Norwegian organization number](https://www.brreg.no/om-oss/registrene-vare/om-enhetsregisteret/organisasjonsnummeret/) or not.
+
+### Extending validators
+
+Return both the exported validator and a custom rule to extend validation safely. Import `OrganizationNumberValidator` to type your validator and the `validators` object.
+
+```tsx
+import { Field } from '@dnb/eufemia/extensions/forms'
+import type { OrganizationNumberValidator } from '@dnb/eufemia/extensions/forms/Field/OrganizationNumber'
+
+const myValidator: OrganizationNumberValidator = (value, { validators }) => {
+  const { organizationNumberValidator } = validators ?? {}
+  const oddChecker = (value: string) => {
+    if (value && parseInt(value.slice(-1), 10) % 2 === 0) {
+      return new Error('Organization number must end with an odd digit')
+    }
+  }
+
+  // Reuse the built-in validator and add an odd-digit rule.
+  return [organizationNumberValidator, oddChecker]
+}
+
+render(<Field.OrganizationNumber onBlurValidator={myValidator} />)
+```
