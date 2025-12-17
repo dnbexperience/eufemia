@@ -98,7 +98,7 @@ All properties are optional and can be used as needed. These properties can be p
 
 - `exportValidators` object with your validators you want to export. More info down below.
 
-Many Field components also export a `<FieldName>Validators` type describing exactly what keys are available on `validators`. Import the type from the corresponding Field (for example `DateValidators` from `@dnb/eufemia/extensions/forms/Field/Date`) and cast the `validators` argument to it before destructuring so TypeScript can narrow the object.
+Many Field components also export a `<FieldName>Validator` type describing exactly what keys are available on `validators`. Import the type from the corresponding Field (for example `DateValidator` from `@dnb/eufemia/extensions/forms/Field/Date`) and cast the `validators` argument to it before destructuring so TypeScript can narrow the object.
 
 For more advanced use cases, you can export your custom Field validators with `exportValidators`. They are then available (as `validators` in object of the second validator parameter) to be used in the validator.
 
