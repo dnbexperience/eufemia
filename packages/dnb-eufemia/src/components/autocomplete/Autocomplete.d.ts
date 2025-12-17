@@ -254,9 +254,9 @@ export type AutocompleteAllProps = AutocompleteProps &
   >;
 export default class Autocomplete extends React.Component<
   AutocompleteAllProps,
-  any
+  unknown
 > {
-  static defaultProps: object;
+  static defaultProps: Partial<AutocompleteAllProps>;
   static HorizontalItem: ({
     children
   }: {

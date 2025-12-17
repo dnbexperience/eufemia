@@ -126,9 +126,9 @@ export interface PaymentCardProps
 }
 export default class PaymentCard extends React.Component<
   PaymentCardProps,
-  any
+  unknown
 > {
-  static defaultProps: object;
+  static defaultProps: Partial<PaymentCardProps>;
   render(): JSX.Element;
 }
 type CardDataReturn = Omit<PaymentCardRawData, 'cardDesign'> & {

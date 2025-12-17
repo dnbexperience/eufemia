@@ -99,9 +99,9 @@ export interface FormStatusProps
 }
 export default class FormStatus extends React.Component<
   FormStatusProps,
-  any
+  unknown
 > {
-  static defaultProps: object;
+  static defaultProps: Partial<FormStatusProps>;
   render(): JSX.Element;
 }
 export interface ErrorIconProps {

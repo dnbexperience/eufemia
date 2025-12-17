@@ -7,9 +7,9 @@ export interface GlobalStatusControllerProps
 }
 export default class GlobalStatusController extends React.Component<
   GlobalStatusControllerProps,
-  any
+  unknown
 > {
-  static defaultProps: object;
+  static defaultProps: Partial<GlobalStatusControllerProps>;
   render(): JSX.Element;
 }
 export interface GlobalStatusRemoveProps {
@@ -18,9 +18,9 @@ export interface GlobalStatusRemoveProps {
 }
 export class GlobalStatusRemove extends React.Component<
   GlobalStatusRemoveProps,
-  any
+  unknown
 > {
-  static defaultProps: object;
+  static defaultProps: Partial<GlobalStatusRemoveProps>;
   render(): JSX.Element;
 }
 export interface GlobalStatusInterceptorProps
@@ -29,9 +29,9 @@ export interface GlobalStatusInterceptorProps
 }
 export class GlobalStatusInterceptor extends React.Component<
   GlobalStatusInterceptorProps,
-  any
+  unknown
 > {
-  static defaultProps: object;
+  static defaultProps: Partial<GlobalStatusInterceptorProps>;
   render(): JSX.Element;
   add: (props: { status_id: string; item?: GlobalStatusItem }) => void;
 }
