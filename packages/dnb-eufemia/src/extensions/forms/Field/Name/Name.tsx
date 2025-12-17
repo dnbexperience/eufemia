@@ -11,7 +11,7 @@ export type NameValidator = ValidatorWithCustomValidators<
   }
 >
 
-export type NameCompanyValidator = ValidatorWithCustomValidators<
+export type CompanyNameValidator = ValidatorWithCustomValidators<
   string,
   {
     companyValidator: Validator<string>
