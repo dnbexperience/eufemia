@@ -93,10 +93,11 @@ You can extend the validation by providing your own `onBlurValidator` function. 
 
 ```tsx
 import { Field } from '@dnb/eufemia/extensions/forms'
+import type { NameCompanyValidator } from '@dnb/eufemia/extensions/forms/Field/Name'
 
 // Extend validation to require company names to contain "Corp"
-const myValidator = (value, { validators }) => {
-  const { companyValidator } = validators
+const myValidator: NameCompanyValidator = (value, { validators }) => {
+  const { companyValidator } = validators ?? {}
 
   const customValidator = (value: string) => {
     if (value && !value.includes('Corp')) {
@@ -104,6 +105,7 @@ const myValidator = (value, { validators }) => {
     }
   }
 
+  // Keep the built-in company validation along with the custom rule.
   return [companyValidator, customValidator]
 }
 
