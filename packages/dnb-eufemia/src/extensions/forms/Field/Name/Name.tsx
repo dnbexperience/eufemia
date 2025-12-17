@@ -1,11 +1,25 @@
 import React, { useCallback, useMemo } from 'react'
 import StringField, { Props as StringFieldProps } from '../String'
 import useTranslation from '../../hooks/useTranslation'
-import type { ValidatorDisableable } from '../../types'
+import type { Validator, ValidatorWithCustomValidators } from '../../types'
 import { FormError } from '../../utils'
 
+export type NameValidator = ValidatorWithCustomValidators<
+  string,
+  {
+    nameValidator: Validator<string>
+  }
+>
+
+export type CompanyNameValidator = ValidatorWithCustomValidators<
+  string,
+  {
+    companyValidator: Validator<string>
+  }
+>
+
 export type Props = Omit<StringFieldProps, 'onBlurValidator'> & {
-  onBlurValidator?: ValidatorDisableable<string>
+  onBlurValidator?: NameValidator | false
 }
 
 // Pattern for first and last names: must start and end with a letter (or be a single letter),
