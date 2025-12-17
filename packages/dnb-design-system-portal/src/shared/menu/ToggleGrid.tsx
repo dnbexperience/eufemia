@@ -6,14 +6,14 @@
 import React from 'react'
 import { Switch } from '@dnb/eufemia/src'
 
-function setGridVisibility(showGrid = true) {
+function setGridVisibility(visibility = true) {
   if (typeof document !== 'undefined') {
-    if (showGrid) {
+    if (visibility) {
       document.documentElement.setAttribute('show-dev-grid', 'true')
     } else {
       document.documentElement.removeAttribute('show-dev-grid')
     }
-    window.localStorage.setItem('showGrid', String(showGrid ? 1 : 0))
+    window.localStorage.setItem('showGrid', String(visibility ? 1 : 0))
   }
 }
 
