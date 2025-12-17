@@ -341,6 +341,11 @@ html[data-whatinput=keyboard] .dnb-tabs__content:focus::before {
   --border-width: var(--focus-ring-width);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
+}
+.dnb-tabs .dnb-badge {
+  position: absolute;
+  top: auto;
+  margin-left: 0.25rem;
 }"
 `;
 

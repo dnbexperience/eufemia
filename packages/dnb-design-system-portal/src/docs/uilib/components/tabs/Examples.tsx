@@ -13,7 +13,14 @@ import {
   Router as ReachRouter,
   navigate,
 } from '@reach/router'
-import { Tabs, Section, H2, P, ToggleButton } from '@dnb/eufemia/src'
+import {
+  Tabs,
+  Section,
+  H2,
+  P,
+  ToggleButton,
+  Badge,
+} from '@dnb/eufemia/src'
 
 const Router = ReachRouter as any
 
@@ -413,6 +420,39 @@ export const TabsAlignProperty = () => (
             title: 'Right',
             key: 1,
             content: <H2>Content</H2>,
+          },
+        ]}
+      />
+    </ComponentBox>
+  </Wrapper>
+)
+
+export const TabsExampleWithBadgeNotification = () => (
+  <Wrapper>
+    <ComponentBox data-visual-test="tabs-badge-notification">
+      <Tabs
+        data={[
+          {
+            title: (
+              <>
+                Transaksjoner{' '}
+                <Badge
+                  content={1}
+                  label="Transaksjoner"
+                  variant="notification"
+                  vertical="top"
+                />
+              </>
+            ),
+            key: 'one',
+          },
+          {
+            title: 'Second',
+            key: 'second',
+          },
+          {
+            title: 'Third',
+            key: 'third',
           },
         ]}
       />
