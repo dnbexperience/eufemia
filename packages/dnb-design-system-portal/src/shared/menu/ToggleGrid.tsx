@@ -6,7 +6,7 @@
 import React from 'react'
 import { Switch } from '@dnb/eufemia/src'
 
-function makeGridVisible(showGrid = true) {
+function setGridVisibility(showGrid = true) {
   if (typeof document !== 'undefined') {
     if (showGrid) {
       document.documentElement.setAttribute('show-dev-grid', 'true')
@@ -27,27 +27,29 @@ function isGridVisible() {
 export function GridActivator() {
   React.useEffect(() => {
     if (isGridVisible()) {
-      makeGridVisible()
+      setGridVisibility()
     }
   }, [])
 
   return null
 }
 
-export default function ToggleGrid(props) {
+export default function ToggleGrid(
+  props: React.HTMLAttributes<HTMLSpanElement>,
+) {
+  const handleChange = () => {
+    setGridVisibility(!isGridVisible())
+  }
+
   return (
     <span {...props}>
       <Switch
         id="switch-grid"
         label="Grid"
         checked={isGridVisible()}
-        on_change={onChangeHandler}
+        on_change={handleChange}
       />
       <GridActivator />
     </span>
   )
-
-  function onChangeHandler() {
-    makeGridVisible(!isGridVisible())
-  }
 }
