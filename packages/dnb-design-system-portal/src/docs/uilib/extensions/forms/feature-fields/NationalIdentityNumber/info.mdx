@@ -50,7 +50,10 @@ Keep the built-in validators while adding custom rules by returning them togethe
 import { Field } from '@dnb/eufemia/extensions/forms'
 import type { NationalIdentityNumberValidator } from '@dnb/eufemia/extensions/forms/Field/NationalIdentityNumber'
 
-const myValidator: NationalIdentityNumberValidator = (value, { validators }) => {
+const myValidator: NationalIdentityNumberValidator = (
+  value,
+  { validators },
+) => {
   const { dnrAndFnrValidator } = validators ?? {}
   const mustIncludeSeven = (value: string) => {
     if (value && !value.includes('7')) {
