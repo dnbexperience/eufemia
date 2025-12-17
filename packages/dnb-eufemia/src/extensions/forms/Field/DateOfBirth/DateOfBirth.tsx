@@ -17,7 +17,8 @@ import { parseISO, isValid, isAfter } from 'date-fns'
 import useTranslation from '../../hooks/useTranslation'
 import type {
   FieldPropsWithExtraValue,
-  ValidatorDisableable,
+  Validator,
+  ValidatorWithCustomValidators,
 } from '../../types'
 import { formatDate } from '../../../../components/date-format/DateFormatUtils'
 import { useFieldProps } from '../../hooks'
@@ -35,6 +36,13 @@ type EventValues = {
   year?: string
 }
 
+export type DateOfBirthValidator = ValidatorWithCustomValidators<
+  string,
+  {
+    dateOfBirthValidator: Validator<string>
+  }
+>
+
 export type Props = Omit<
   FieldPropsWithExtraValue<string, AdditionalArgs, undefined | string>,
   'layout' | 'layoutOptions' | 'labelSize'
@@ -44,7 +52,7 @@ export type Props = Omit<
   onDayChange?: (value: string | undefined) => void
   onMonthChange?: (value: string | undefined) => void
   onYearChange?: (value: string | undefined) => void
-  onBlurValidator?: ValidatorDisableable<string>
+  onBlurValidator?: DateOfBirthValidator | false
 }
 
 export const DEFAULT_DATE_FORMAT = 'yyyy-MM-dd'

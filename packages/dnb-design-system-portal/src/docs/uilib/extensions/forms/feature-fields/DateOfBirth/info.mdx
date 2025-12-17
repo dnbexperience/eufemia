@@ -28,3 +28,26 @@ It supports the HTML [autocomplete](https://developer.mozilla.org/en-US/docs/Web
 
 `Field.DateOfBirth` expose the `dateOfBirthValidator` validator through its `onChangeValidator` and `onBlurValidator` property, take a look at [this demo](/uilib/extensions/forms/feature-fields/DateOfBirth/demos/#extend-validation-with-custom-validation-function).
 The `dateOfBirthValidator` validator, validates if the date provided is a valid date or not.
+
+### Extending validators
+
+When you return the built-in validator together with custom validation logic you can introduce additional rules without losing the default checks. Import `DateOfBirthValidator` to type your validator and the `validators` object.
+
+```tsx
+import { Field } from '@dnb/eufemia/extensions/forms'
+import type { DateOfBirthValidator } from '@dnb/eufemia/extensions/forms/Field/DateOfBirth'
+
+const myValidator: DateOfBirthValidator = (value, { validators }) => {
+  const { dateOfBirthValidator } = validators ?? {}
+  const modernBirthYear = (value: string) => {
+    if (value && value.slice(0, 4) < '1900') {
+      return new Error('Birth year must be 1900 or later')
+    }
+  }
+
+  // Keep the default validator and add a minimum year requirement.
+  return [dateOfBirthValidator, modernBirthYear]
+}
+
+render(<Field.DateOfBirth onBlurValidator={myValidator} />)
+```
