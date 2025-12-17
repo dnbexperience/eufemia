@@ -1,5 +1,6 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import { Field } from '@dnb/eufemia/src/extensions/forms'
+import type { BankAccountNumberValidator } from '@dnb/eufemia/src/extensions/forms/Field/BankAccountNumber'
 
 export const Empty = () => {
   return (
@@ -122,8 +123,9 @@ export const ValidationExtendValidator = () => {
           }
         }
 
-        const myValidator = (value, { validators }) => {
-          const { bankAccountNumberValidator } = validators
+        // Keep the built-in validator and add your own checks.
+        const myValidator: BankAccountNumberValidator = (value, { validators }) => {
+          const { bankAccountNumberValidator } = validators ?? {}
 
           return [bankAccountNumberValidator, firstDigitIs1Validator]
         }
