@@ -1,5 +1,6 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import { Field, Form } from '@dnb/eufemia/src/extensions/forms'
+import type { DateValidator } from '@dnb/eufemia/src/extensions/forms/Field/Date'
 
 export const LabelAndValue = () => {
   return (
@@ -129,8 +130,12 @@ export const ValidationExtendValidator = () => {
           }
         }
 
-        const myOnBlurValidator = (value: string, { validators }) => {
-          const { dateValidator } = validators
+        // Combine the shared validator with the custom date rules.
+        const myOnBlurValidator: DateValidator = (
+          value: string,
+          { validators },
+        ) => {
+          const { dateValidator } = validators ?? {}
 
           return [myDateValidator, dateValidator]
         }

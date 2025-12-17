@@ -26,3 +26,26 @@ There is a corresponding [Value.Date](/uilib/extensions/forms/Value/Date) compon
 
 `Field.Date` exposes the `dateValidator` validator through its `onBlurValidator` property, take a look at [this demo](/uilib/extensions/forms/feature-fields/Date/demos/#extend-validation-with-custom-validation-function).
 The `dateValidator` validator, validates invalid dates, and dates against the `minDate` and `maxDate` properties.
+
+### Extending validators
+
+You can compose the shared validator with your own checks by returning it along with custom logic. Import `DateValidator` to type your validator and have `validators` typed too.
+
+```tsx
+import { Field } from '@dnb/eufemia/extensions/forms'
+import type { DateValidator } from '@dnb/eufemia/extensions/forms/Field/Date'
+
+const myValidator: DateValidator = (value, { validators }) => {
+  const { dateValidator } = validators ?? {}
+  const notToday = (value: string) => {
+    if (value === new Date().toISOString().slice(0, 10)) {
+      return new Error('Please enter another date than today')
+    }
+  }
+
+  // Keep the default validation and ban today's date.
+  return [dateValidator, notToday]
+}
+
+render(<Field.Date onBlurValidator={myValidator} />)
+```
