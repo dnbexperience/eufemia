@@ -38,7 +38,10 @@ Use the `validators` parameter to keep the default checks and add your own custo
 import { Field } from '@dnb/eufemia/extensions/forms'
 import type { BankAccountNumberValidator } from '@dnb/eufemia/extensions/forms/Field/BankAccountNumber'
 
-const myValidator: BankAccountNumberValidator = (value, { validators }) => {
+const myValidator: BankAccountNumberValidator = (
+  value,
+  { validators },
+) => {
   const { bankAccountNumberValidator } = validators ?? {}
   const prefixChecker = (value: string) => {
     if (value && value[0] !== '1') {

@@ -124,7 +124,10 @@ export const ValidationExtendValidator = () => {
         }
 
         // Keep the built-in validator and add your own checks.
-        const myValidator: BankAccountNumberValidator = (value, { validators }) => {
+        const myValidator: BankAccountNumberValidator = (
+          value,
+          { validators },
+        ) => {
           const { bankAccountNumberValidator } = validators ?? {}
 
           return [bankAccountNumberValidator, firstDigitIs1Validator]
