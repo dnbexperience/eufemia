@@ -417,7 +417,7 @@ export const format = (
  * @param {boolean} defines what rounding method to use for decimals
  * @param {boolean} clean whether the value should be cleaned or not
  * @param {object} opts immutable object
- * @returns a decimal prepared number
+ * @returns A decimal prepared number
  */
 export const formatDecimals = (value, decimals, rounding, opts = {}) => {
   decimals = parseFloat(decimals)
@@ -452,7 +452,7 @@ export const formatDecimals = (value, decimals, rounding, opts = {}) => {
  *
  * @param {number|string} value any number
  * @param {string} decimalSeparator a dot or comma
- * @returns amount of decimals
+ * @returns Amount of decimals
  */
 export const countDecimals = (value, decimalSeparator = '.') => {
   if (
@@ -585,7 +585,7 @@ function alignCurrencySymbol(output, currencyDisplay) {
  * @param {string|number} value any number
  * @param {string} aria aria formatted number
  * @param {string} locale locale as a string
- * @returns aria number
+ * @returns Aria number
  */
 const enhanceSR = (value, aria, locale) => {
   if (IS_MAC && Math.abs(parseFloat(value)) <= 99999) {
@@ -605,7 +605,7 @@ const enhanceSR = (value, aria, locale) => {
  * @param {string} locale locale as a string
  * @param {string} options formatting options based on the toLocaleString API
  * @param {string} formatter optional, a custom formatter can be given
- * @returns formatted number
+ * @returns Formatted number
  */
 export const formatNumber = (
   number,
@@ -671,7 +671,7 @@ function isAbsent(value) {
  *
  * @param {string|number} number a phone number
  * @param {string} locale locale as a string
- * @returns a formatted phone number
+ * @returns A formatted phone number
  */
 export const formatPhone = (number, locale = null) => {
   if (isAbsent(number)) {
@@ -756,7 +756,7 @@ export const formatPhone = (number, locale = null) => {
  *
  * @param {string|number} number a Bank Account Number
  * @param {string} locale locale as a string
- * @returns a formatted Bank Account Number
+ * @returns A formatted Bank Account Number
  */
 export const formatBAN = (number, locale = null) => {
   if (isAbsent(number)) {
@@ -795,7 +795,7 @@ export const formatBAN = (number, locale = null) => {
  *
  * @param {string|number} number a Organization Number
  * @param {string} locale locale as a string
- * @returns a formatted Organization Number
+ * @returns A formatted Organization Number
  */
 export const formatORG = (number, locale = null) => {
   if (isAbsent(number)) {
@@ -834,7 +834,7 @@ export const formatORG = (number, locale = null) => {
  *
  * @param {string|number} number a National Identification Number
  * @param {string} locale locale as a string
- * @returns a formatted National Identification Number
+ * @returns A formatted National Identification Number
  */
 export const formatNIN = (number, locale = null) => {
   if (isAbsent(number)) {
@@ -876,7 +876,7 @@ export const formatNIN = (number, locale = null) => {
  * https://en.wikipedia.org/wiki/Decimal_separator
  *
  * @param {string|number} num any number
- * @returns a number that contains valid number separators
+ * @returns A number that contains valid number separators
  */
 export function cleanNumber(
   num,

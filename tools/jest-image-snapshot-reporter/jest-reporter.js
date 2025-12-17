@@ -125,7 +125,7 @@ class JestReporter {
 
     const html = /* jsx */ `
     <html>
-    
+
     <head>
       <meta charset="utf-8" />
       <title>Jest Image Snapshot Report</title>
@@ -164,15 +164,15 @@ class JestReporter {
         }
       </style>
     </head>
-    
+
     <body>
       <ol class="dnb-ul">
         <li>Failed Tests: <b>${numFailedTests}</b></li>
         ${liElementHtml}
       </ol>
-    
+
     </body>
-    
+
     </html>
     `
 
