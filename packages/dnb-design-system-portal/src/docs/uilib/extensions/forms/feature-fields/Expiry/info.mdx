@@ -26,3 +26,26 @@ It supports the HTML [autocomplete](https://developer.mozilla.org/en-US/docs/Web
 
 `Field.Expiry` exposes the `expiryValidator` validator through its `onBlurValidator` property, take a look at [this demo](/uilib/extensions/forms/feature-fields/Expiry/demos/#extend-validation-with-custom-validation-function).
 The `expiryValidator` validator, validates invalid month and/or year.
+
+### Extending validators
+
+Combine the exported validator with your own rules to keep the built-in checks and add custom guards. Import `ExpiryValidator` to type your validator and the shared `validators`.
+
+```tsx
+import { Field } from '@dnb/eufemia/extensions/forms'
+import type { ExpiryValidator } from '@dnb/eufemia/extensions/forms/Field/Expiry'
+
+const myValidator: ExpiryValidator = (value, { validators }) => {
+  const { expiryValidator } = validators ?? {}
+  const monthNotZero = (value: string) => {
+    if (value && value.slice(0, 2) === '00') {
+      return new Error('Month cannot be 00')
+    }
+  }
+
+  // Return both the built-in validator and the custom month check.
+  return [expiryValidator, monthNotZero]
+}
+
+render(<Field.Expiry onBlurValidator={myValidator} />)
+```
