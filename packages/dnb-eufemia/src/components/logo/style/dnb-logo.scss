@@ -11,14 +11,6 @@
   font-size: inherit;
   line-height: 0;
 
-  svg {
-    shape-rendering: geometricprecision;
-
-    &[color] {
-      fill: currentcolor;
-    }
-  }
-
   height: 1em;
 
   &--has-size {
@@ -38,8 +30,20 @@
     }
   }
 
-  svg:not([width], [height]) {
-    width: inherit;
-    height: inherit;
+  svg {
+    shape-rendering: geometricprecision;
+
+    &[color] {
+      fill: currentcolor;
+    }
+
+    &:not([width], [height]) {
+      width: inherit;
+      height: inherit;
+    }
+
+    &:not(:root) {
+      overflow: visible;
+    }
   }
 }

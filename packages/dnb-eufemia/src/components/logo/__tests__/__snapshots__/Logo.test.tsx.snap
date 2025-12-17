@@ -70,12 +70,6 @@ exports[`Logo scss has to match style dependencies css 1`] = `
   line-height: 0;
   height: 1em;
 }
-.dnb-logo svg {
-  shape-rendering: geometricprecision;
-}
-.dnb-logo svg[color] {
-  fill: currentcolor;
-}
 .dnb-logo--has-size {
   width: auto;
   height: auto;
@@ -89,8 +83,17 @@ exports[`Logo scss has to match style dependencies css 1`] = `
 .dnb-logo--inherit-color svg {
   fill: currentcolor;
 }
+.dnb-logo svg {
+  shape-rendering: geometricprecision;
+}
+.dnb-logo svg[color] {
+  fill: currentcolor;
+}
 .dnb-logo svg:not([width], [height]) {
   width: inherit;
   height: inherit;
+}
+.dnb-logo svg:not(:root) {
+  overflow: visible;
 }"
 `;
