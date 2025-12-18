@@ -3,62 +3,75 @@ showTabs: true
 ---
 
 import {
+  LogoAllExample,
   LogoChangeExample,
   LogoInheritFontSizeExample,
   LogoInheritHeightExample,
+  LogoFixedSizeExample,
   LogoDefaultExample,
-  LogoInheritColorExample,
-  LogoCompactVariantExample,
-  LogoCarnegieDefaultExample,
-  LogoEiendomDefaultExample,
+  LogoColorExample,
+  LogoInTextExample,
 } from 'Docs/uilib/components/logo/Examples'
 
 ## Demos
 
-<LogoChangeExample />
+### Importing a logo
 
-<VisibilityByTheme visible="carnegie">
-  ### Carnegie Logo
-  <LogoCarnegieDefaultExample />
-</VisibilityByTheme>
+To use a logo, the svg must be imported and handed to the `Logo` components throught the `svg` prop.
 
-<VisibilityByTheme visible="eiendom">
-  ### Eiendom Logo
-  <LogoEiendomDefaultExample />
-</VisibilityByTheme>
+```jsx
+import {
+  DnbDefault,
+  CarnegieDefault,
+  EiendomDefault,
+  SbankenDefault,
+  SbankenHorizontal,
+  SbankenCompact,
+} from '@dnb/eufemia/components/Logo'
+```
 
-### Logo with dynamic height
+<LogoAllExample />
 
-The height will be set based on the inherited `font-size`.
-
-<LogoInheritFontSizeExample />
-
-### Logo with dynamic height
-
-The height will be set based on the parent, inherited `height`.
-
-<LogoInheritHeightExample />
-
-### Logo with fixed height
+If no svg is provided, the `DnbDefault` logo is used by default:
 
 <LogoDefaultExample />
 
-### Logo and inherit color
+### Change logo based on theme
 
-The color will be set based on the parent, inherited `color` by using `currentColor`.
+The `svg` prop can also accept a function that returns a logo svg based on the current [theme](/uilib/usage/customisation/theming/theme/) props.
 
-<LogoInheritColorExample />
-
-<VisibilityByTheme visible="sbanken">
-
-### Logo with compact variant
-
-You can import the SVG like this:
-
-```jsx
-import { SbankenCompact } from '@dnb/eufemia/components/Logo'
+```tsx
+import type { ThemeProps } from '@dnb/eufemia/shared/Theme'
 ```
 
-<LogoCompactVariantExample />
+<LogoChangeExample />
 
-</VisibilityByTheme>
+### Customization
+
+#### Default inherited height
+
+By default the logo will use the inherited `font-size` to set its height.
+
+<LogoInheritFontSizeExample />
+
+#### Alternative inherited height
+
+You can chose to let the height be set by the inherited `height` instead by setting the `inheritSize` prop.
+
+<LogoInheritHeightExample />
+
+#### Fixed height and/or width
+
+The logo's `height` and `width` can be fixed depending on your needs.
+
+<LogoFixedSizeExample />
+
+#### Color
+
+You can choose to override the default colors by either inheriting the `currentcolor`, or set it directly.
+
+<LogoColorExample />
+
+<VisibleWhenVisualTest>
+  <LogoInTextExample />
+</VisibleWhenVisualTest>

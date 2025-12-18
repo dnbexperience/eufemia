@@ -2,6 +2,7 @@
 
 exports[`Logo component should set correct DNB SVG 1`] = `
 <svg
+  fill="var(--color-sea-green)"
   viewBox="0 0 116 80"
 >
   <title>
@@ -21,6 +22,7 @@ exports[`Logo component should set correct DNB SVG 1`] = `
 
 exports[`Logo component should set correct Sbanken brand SVG 1`] = `
 <svg
+  fill="#18172a"
   viewBox="0 0 1601 533"
 >
   <title>
@@ -34,6 +36,7 @@ exports[`Logo component should set correct Sbanken brand SVG 1`] = `
 
 exports[`Logo component should set correct Sbanken brand SVG in compact variant 1`] = `
 <svg
+  fill="#18172a"
   viewBox="0 0 281 401"
 >
   <title>
@@ -60,57 +63,37 @@ exports[`Logo scss should match style dependencies css 1`] = `
 /*
  * Utilities
  */
-.dnb-logo,
-.sbanken-logo {
-  display: inline-flex;
+.dnb-logo {
+  display: inline-block;
   vertical-align: baseline;
   font-size: inherit;
-  line-height: var(--line-height-xx-small--em);
+  line-height: 0;
   height: 1em;
 }
-.dnb-logo svg,
-.sbanken-logo svg {
-  fill: currentcolor;
-  shape-rendering: geometricprecision;
-}
-.dnb-logo--has-size,
-.sbanken-logo--has-size {
+.dnb-logo--has-size {
   width: auto;
   height: auto;
 }
-.dnb-logo--inherit-size,
-.sbanken-logo--inherit-size {
+.dnb-logo--inherit-size {
   height: inherit;
-}
-.dnb-logo svg:not([width], [height]),
-.sbanken-logo svg:not([width], [height]) {
-  width: inherit;
-  height: inherit;
-}"
-`;
-
-exports[`Logo scss should match theme css for sbanken 1`] = `
-"/*
- * Logo Component
- *
- */
-.sbanken-logo {
-  color: var(--sb-color-text);
-}
-.sbanken-logo--inherit-color {
-  color: currentcolor;
-}"
-`;
-
-exports[`Logo scss should match theme css for ui 1`] = `
-"/*
- * Logo Component
- *
- */
-.dnb-logo {
-  color: var(--color-sea-green);
 }
 .dnb-logo--inherit-color {
   color: currentcolor;
+}
+.dnb-logo--inherit-color svg {
+  fill: currentcolor;
+}
+.dnb-logo svg {
+  shape-rendering: geometricprecision;
+}
+.dnb-logo svg[color] {
+  fill: currentcolor;
+}
+.dnb-logo svg:not([width], [height]) {
+  width: inherit;
+  height: inherit;
+}
+.dnb-logo svg:not(:root) {
+  overflow: visible;
 }"
 `;

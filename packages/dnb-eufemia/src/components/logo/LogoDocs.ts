@@ -12,12 +12,12 @@ export const LogoProperties: PropertiesTableProps = {
     status: 'optional',
   },
   inheritColor: {
-    doc: 'Set to `true` if you do not want to inherit the color by `currentColor`. Defaults to `false`.',
+    doc: 'Set to `true` to inherit the color with `currentColor`. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
   inheritSize: {
-    doc: 'Set to `true` if you want to inherit the size of the parent. Defaults to `false`.',
+    doc: 'Set to `true` if you want to inherit the `height` of the parent. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
