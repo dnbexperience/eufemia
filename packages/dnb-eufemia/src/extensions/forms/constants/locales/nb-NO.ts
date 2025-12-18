@@ -239,6 +239,7 @@ export default {
     },
     Password: {
       label: 'Passord',
+      errorRequired: 'Du må fylle inn et passord.',
       ariaLabelShow: 'Vis passord',
       ariaLabelHide: 'Skjul passord',
     },

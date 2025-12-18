@@ -240,6 +240,7 @@ export default {
     },
     Password: {
       label: 'Adgangskode',
+      errorRequired: 'Du skal udfylde en adgangskode.',
       ariaLabelShow: 'Vis adgangskode',
       ariaLabelHide: 'Skjul adgangskode',
     },
