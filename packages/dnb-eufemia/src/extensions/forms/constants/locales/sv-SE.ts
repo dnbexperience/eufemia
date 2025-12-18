@@ -144,6 +144,7 @@ export default {
       label: 'Utgångsdatum',
       errorMonth: '{month} är inte en giltig månad.',
       errorYear: '{year} är inte ett giltigt år.',
+      errorRequired: 'Du måste fylla i ett utgångsdatum.',
     },
     Email: {
       label: 'E-postadress',
