@@ -143,6 +143,7 @@ export default {
       label: 'Udløbsdato',
       errorMonth: '{month} er ikke en gyldig måned.',
       errorYear: '{year} er ikke et gyldigt år.',
+      errorRequired: 'Du skal udfylde en udløbsdato.',
     },
     Email: {
       label: 'E-mailadresse',

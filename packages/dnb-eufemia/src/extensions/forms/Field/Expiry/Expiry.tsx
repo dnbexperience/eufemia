@@ -38,10 +38,7 @@ export type ExpiryProps = Omit<
 }
 
 function Expiry(props: ExpiryProps = {}) {
-  const {
-    Date: { errorRequired },
-    Expiry: { label: expiryLabel },
-  } = useTranslation()
+  const { label: expiryLabel, errorRequired } = useTranslation().Expiry
 
   const {
     DatePicker: {
