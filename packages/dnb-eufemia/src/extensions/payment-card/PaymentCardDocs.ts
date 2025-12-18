@@ -2,22 +2,22 @@ import { PropertiesTableProps } from '../../shared/types'
 
 export const PaymentCardProperties: PropertiesTableProps = {
   product_code: {
-    doc: 'if product code matches one of the codes in the list the card will get that design, if no match is found Default design will be used.',
+    doc: 'If product code matches one of the codes in the list the card will get that design, if no match is found Default design will be used.',
     type: 'string',
     status: 'required',
   },
   card_number: {
-    doc: 'masked card number.',
+    doc: 'Masked card number.',
     type: 'string',
     status: 'required',
   },
   raw_data: {
-    doc: 'useful if you want to create custom cards. See Card data properties.',
+    doc: 'Useful if you want to create custom cards. See Card data properties.',
     type: 'Various',
     status: 'optional',
   },
   card_status: {
-    doc: 'use one of these: `active`, `not_active`, `new_order`, `new`, `blocked`, `expired`, `renewed`, `replaced`, `order_in_process`, `unknown`. Defaults to `active`.',
+    doc: 'Use one of these: `active`, `not_active`, `new_order`, `new`, `blocked`, `expired`, `renewed`, `replaced`, `order_in_process`, `unknown`. Defaults to `active`.',
     type: [
       'active',
       'not_active',
@@ -31,17 +31,17 @@ export const PaymentCardProperties: PropertiesTableProps = {
     status: 'optional',
   },
   variant: {
-    doc: 'defines the appearance. Use one of these: `normal` or `compact`. Defaults to `normal`.',
+    doc: 'Defines the appearance. Use one of these: `normal` or `compact`. Defaults to `normal`.',
     type: ['normal', 'compact'],
     status: 'optional',
   },
   digits: {
-    doc: 'will use 8 digits if none are specified.',
+    doc: 'Will use 8 digits if none are specified.',
     type: ['string', 'number'],
     status: 'optional',
   },
   locale: {
-    doc: 'use `nb-NO` or `en-GB`. Defaults to the Eufemia provider.',
+    doc: 'Use `nb-NO` or `en-GB`. Defaults to the Eufemia provider.',
     type: 'string',
     status: 'optional',
   },
@@ -59,22 +59,22 @@ export const PaymentCardProperties: PropertiesTableProps = {
 
 export const PaymentCardData: PropertiesTableProps = {
   productCode: {
-    doc: 'product code for the given card.',
+    doc: 'Product code for the given card.',
     type: 'string',
     status: 'required',
   },
   productName: {
-    doc: 'product name. Can be blank.',
+    doc: 'Product name. Can be blank.',
     type: 'string',
     status: 'required',
   },
   displayName: {
-    doc: 'the visible product name. Can be empty.',
+    doc: 'The visible product name. Can be empty.',
     type: 'string',
     status: 'required',
   },
   cardDesign: {
-    doc: "object that describes the style properties of the card. `import { Designs } from '@dnb/eufemia/extensions/payment-card'` (see available designs below) or a custom one can be created.",
+    doc: "Object that describes the style properties of the card. `import { Designs } from '@dnb/eufemia/extensions/payment-card'` (see available designs below) or a custom one can be created.",
     type: 'object',
     status: 'required',
   },
@@ -97,12 +97,12 @@ export const PaymentCardData: PropertiesTableProps = {
 
 export const PaymentCardDesign: PropertiesTableProps = {
   name: {
-    doc: 'string Name of design.',
+    doc: 'String Name of design.',
     type: 'string',
     status: 'required',
   },
   cardStyle: {
-    doc: 'css class. mainly to set background and color.',
+    doc: 'Css class. mainly to set background and color.',
     type: 'string',
     status: 'required',
   },

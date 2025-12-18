@@ -65,7 +65,7 @@ export const HeadingProperties: PropertiesTableProps = {
     status: 'optional',
   },
   element: {
-    doc: 'define what HTML element should be used. If you use, e.g. a `span`, then `role="heading"` and `aria-level` gets set. Defaults to semantic heading element.',
+    doc: 'Define what HTML element should be used. If you use, e.g. a `span`, then `role="heading"` and `aria-level` gets set. Defaults to semantic heading element.',
     type: ['string', 'React.Element'],
     status: 'optional',
   },

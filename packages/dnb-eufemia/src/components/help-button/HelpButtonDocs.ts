@@ -2,12 +2,12 @@ import { PropertiesTableProps } from '../../shared/types'
 
 export const HelpButtonProperties: PropertiesTableProps = {
   children: {
-    doc: 'the content to show.',
+    doc: 'The content to show.',
     type: 'React.Node',
     status: 'optional',
   },
   title: {
-    doc: 'the content title. Defaults to `Hjelpetekst` (HelpButton.title).',
+    doc: 'The content title. Defaults to `Hjelpetekst` (HelpButton.title).',
     type: 'string',
     status: 'optional',
   },
@@ -17,7 +17,7 @@ export const HelpButtonProperties: PropertiesTableProps = {
     status: 'optional',
   },
   render: {
-    doc: 'accepts a function that returns a valid React Element. See example below.',
+    doc: 'Accepts a function that returns a valid React Element. See example below.',
     type: 'function',
     status: 'optional',
   },
@@ -35,7 +35,7 @@ export const HelpButtonProperties: PropertiesTableProps = {
 
 export const HelpButtonEvents: PropertiesTableProps = {
   '[Button](/uilib/components/button/events)': {
-    doc: 'accepts all Button events.',
+    doc: 'Accepts all Button events.',
     type: 'Various',
     status: 'optional',
   },

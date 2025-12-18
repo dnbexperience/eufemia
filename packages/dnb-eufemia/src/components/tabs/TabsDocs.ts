@@ -45,17 +45,17 @@ export const TabsProperties: PropertiesTableProps = {
     status: 'optional',
   },
   '[data](/uilib/components/tabs/properties/#data-object)': {
-    doc: 'defines the data structure to load as an object.',
+    doc: 'Defines the data structure to load as an object.',
     type: 'object',
     status: 'required',
   },
   children: {
-    doc: "the content to render. Can be a function, returning the current tab content `(key) => ('Current tab')`, a React Component or an object with the keys and content `{key1: 'Current tab'}`.",
+    doc: "The content to render. Can be a function, returning the current tab content `(key) => ('Current tab')`, a React Component or an object with the keys and content `{key1: 'Current tab'}`.",
     type: ['React.ReactNode', 'object'],
     status: 'required',
   },
   content: {
-    doc: "the content to render. Can be a function, returning the current tab content `(key) => ('Current tab')`, a React Component or an object with the keys and content `{key1: 'Current tab'}`.",
+    doc: "The content to render. Can be a function, returning the current tab content `(key) => ('Current tab')`, a React Component or an object with the keys and content `{key1: 'Current tab'}`.",
     type: ['React.ReactNode', 'object'],
     status: 'required',
   },
