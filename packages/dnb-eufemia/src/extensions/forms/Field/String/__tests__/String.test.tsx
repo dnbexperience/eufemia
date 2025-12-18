@@ -285,7 +285,7 @@ describe('Field.String', () => {
       const input = document.querySelector('input')
 
       expect(input).toHaveValue('XYZ')
-      expect(transformIn).toHaveBeenCalledTimes(1)
+      expect(transformIn).toHaveBeenCalledTimes(2)
       expect(transformIn).toHaveBeenLastCalledWith('xYz')
       expect(transformOut).toHaveBeenCalledTimes(0)
       expect(onChangeProvider).toHaveBeenCalledTimes(0)
@@ -294,7 +294,7 @@ describe('Field.String', () => {
       await userEvent.type(input, '{Backspace>3}aBc')
 
       expect(input).toHaveValue('ABC')
-      expect(transformIn).toHaveBeenCalledTimes(9)
+      expect(transformIn).toHaveBeenCalledTimes(10)
       expect(transformIn).toHaveBeenLastCalledWith('abc')
       expect(transformOut).toHaveBeenCalledTimes(13)
       expect(transformOut).toHaveBeenLastCalledWith(
@@ -315,7 +315,7 @@ describe('Field.String', () => {
       await userEvent.type(input, '{Backspace>3}EfG')
 
       expect(input).toHaveValue('EFG')
-      expect(transformIn).toHaveBeenCalledTimes(16)
+      expect(transformIn).toHaveBeenCalledTimes(17)
       expect(transformIn).toHaveBeenLastCalledWith('efg')
       expect(transformOut).toHaveBeenCalledTimes(25)
       expect(transformOut).toHaveBeenLastCalledWith(

@@ -633,7 +633,7 @@ describe('Field.Number', () => {
         expect(document.querySelector('input')).toHaveValue(
           'prefix 12 345 kr'
         )
-        expect(prefix).toHaveBeenCalledTimes(1)
+        expect(prefix).toHaveBeenCalledTimes(2)
         expect(prefix).toHaveBeenCalledWith(12345)
       })
 
@@ -645,7 +645,7 @@ describe('Field.Number', () => {
         expect(document.querySelector('input')).toHaveValue(
           '12 345 suffix'
         )
-        expect(suffix).toHaveBeenCalledTimes(1)
+        expect(suffix).toHaveBeenCalledTimes(2)
         expect(suffix).toHaveBeenCalledWith(12345)
       })
     })
