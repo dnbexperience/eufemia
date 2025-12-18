@@ -232,7 +232,7 @@ function Expiry(props: ExpiryProps = {}) {
         stretch
         id={`${id}-input`}
         values={expiry}
-        status={status}
+        status={status === 'error'}
         statusState={disabled ? 'disabled' : undefined}
         disabled={disabled}
         size={size}
