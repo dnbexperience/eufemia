@@ -241,6 +241,7 @@ export default {
     },
     Password: {
       label: 'Lösenord',
+      errorRequired: 'Du måste fylla i ett lösenord.',
       ariaLabelShow: 'Visa lösenord',
       ariaLabelHide: 'Dölj lösenord',
     },

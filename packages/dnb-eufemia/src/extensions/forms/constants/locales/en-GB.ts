@@ -242,6 +242,7 @@ export default {
     },
     Password: {
       label: 'Password',
+      errorRequired: 'You must enter a password.',
       ariaLabelShow: 'Show password',
       ariaLabelHide: 'Hide password',
     },
