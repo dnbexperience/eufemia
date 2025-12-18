@@ -185,14 +185,14 @@ function InfoOverlay(props: Props) {
         {statusContent}
       </Visibility>
 
-      <Visibility
-        visible={childrenAreVisible}
+      <HeightAnimation
+        open={childrenAreVisible}
         onAnimationEnd={onAnimationEnd}
         animate
         keepInDOM
       >
         {children}
-      </Visibility>
+      </HeightAnimation>
     </div>
   )
 }
