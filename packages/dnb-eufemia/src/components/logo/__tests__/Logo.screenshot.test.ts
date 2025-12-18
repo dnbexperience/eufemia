@@ -13,6 +13,13 @@ import {
 describe.each(['ui', 'sbanken'])('Logo for %s', (themeName) => {
   setupPageScreenshot({ themeName, url: '/uilib/components/logo/demos' })
 
+  it('have to match all logos', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="logo-all"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match the default "Logo"', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="logo-default"]',
@@ -39,42 +46,41 @@ describe.each(['ui', 'sbanken'])('Logo for %s', (themeName) => {
 
   it('have to match the inherited color', async () => {
     const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="logo-inherit-color"]',
+      selector: '[data-visual-test="logo-color"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  if (themeName === 'sbanken') {
-    it('have to match the compact variant', async () => {
+  it('have to match the fixed size', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="logo-fixed"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+})
+
+describe.each(['ui', 'sbanken', 'eiendom', 'carnegie'])(
+  'Logo for %s',
+  (themeName) => {
+    setupPageScreenshot({ themeName, url: '/uilib/components/logo/demos' })
+
+    it('have to match the theme', async () => {
       const screenshot = await makeScreenshot({
-        selector: '[data-visual-test="logo-compact-variant"]',
+        selector: '[data-visual-test="logo-theme-change"]',
+        screenshotSelector:
+          '[data-visual-test="logo-theme-change"] .dnb-logo',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+
+    it('aligns with text', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="logo-in-text"]',
       })
       expect(screenshot).toMatchImageSnapshot()
     })
   }
-})
-
-describe.each(['carnegie'])('Logo for %s', (themeName) => {
-  setupPageScreenshot({ themeName, url: '/uilib/components/logo/demos' })
-
-  it('have to match the default variant', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="logo-carnegie"]',
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-})
-
-describe.each(['eiendom'])('Logo for %s', (themeName) => {
-  setupPageScreenshot({ themeName, url: '/uilib/components/logo/demos' })
-
-  it('have to match the default variant', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="logo-eiendom"]',
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-})
+)
 
 describe('png image', () => {
   it('have to match image snapshot', async () => {
