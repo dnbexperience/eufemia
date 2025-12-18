@@ -31,7 +31,7 @@ The InputMasked component uses the basic [Input](/uilib/components/input) compon
 
 This component uses the basic [Input](/uilib/components/input) but with a set of options and features.
 
-You will either create your own mask, or use one of the provided once. There are also masks which change based on different [locales](/uilib/components/input-masked/info?fullscreen#mask-based-on-locale) (`as_currency` or `as_number`).
+You will either create your own mask, or use one of the provided ones. There are also masks which change based on different [locales](/uilib/components/input-masked/info?fullscreen#mask-based-on-locale) (`as_currency` or `as_number`).
 
 ### Accessibility
 
@@ -43,7 +43,7 @@ Both entering a comma or a dot will act as a decimal separator if [decimals are 
 
 **NB:** Please do not set `inputMode="numeric"` or `inputMode="decimal"`, because devices may or may not show a minus key (`-`)!
 
-The InputMasked component does handle soft keyboards (iOS and Android) by using either `inputMode="numeric"` and `inputMode="decimal"` depending on `allowNegative` and `allowDecimal` (getSoftKeyboardAttributes).
+The InputMasked component does handle soft keyboards (iOS and Android) by using either `inputMode="numeric"` or `inputMode="decimal"` depending on `allowNegative` and `allowDecimal` (getSoftKeyboardAttributes).
 
 For iOS it additionally sets `type="number"` during focus (InputModeNumber). This way the correct numeric soft keyboard is shown.
 
