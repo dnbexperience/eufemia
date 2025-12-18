@@ -135,17 +135,17 @@ export const SliderProperties: PropertiesTableProps = {
 
 export const SliderEvents: PropertiesTableProps = {
   onChange: {
-    doc: 'will be called on state changes made by the user. The callback `value` and `rawValue` is a number `{ value, rawValue, event }`. But if the prop `numberFormat` is given, then it will return an additional `number` with the given format `{ value, number, rawValue, event }`.',
+    doc: 'Will be called on state changes made by the user. The callback `value` and `rawValue` is a number `{ value, rawValue, event }`. But if the prop `numberFormat` is given, then it will return an additional `number` with the given format `{ value, number, rawValue, event }`.',
     type: 'function',
     status: 'optional',
   },
   onDragStart: {
-    doc: 'will be called once the user stops dragging. Returns `{ event }`.',
+    doc: 'Will be called once the user stops dragging. Returns `{ event }`.',
     type: 'function',
     status: 'optional',
   },
   onDragEnd: {
-    doc: 'will be called once the user starts dragging. Returns `{ event }`.',
+    doc: 'Will be called once the user starts dragging. Returns `{ event }`.',
     type: 'function',
     status: 'optional',
   },

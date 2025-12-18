@@ -2,62 +2,62 @@ import { PropertiesTableProps } from '../../shared/types'
 
 export const FormRowProperties: PropertiesTableProps = {
   label: {
-    doc: 'use either the `label` property or provide a custom one.',
+    doc: 'Use either the `label` property or provide a custom one.',
     type: 'React.ReactNode',
     status: 'optional',
   },
   label_direction: {
-    doc: 'use `label_direction="vertical"` to change the label/legend layout direction. Defaults to `horizontal`.',
+    doc: 'Use `label_direction="vertical"` to change the label/legend layout direction. Defaults to `horizontal`.',
     type: ['vertical', 'horizontal'],
     status: 'optional',
   },
   label_sr_only: {
-    doc: 'use `true` to make the label only readable by screen readers.',
+    doc: 'Use `true` to make the label only readable by screen readers.',
     type: 'boolean',
     status: 'optional',
   },
   direction: {
-    doc: 'to define the layout direction on how the next component should be placed on. Can be either `vertical` or `horizontal`. Defaults to `horizontal`.',
+    doc: 'To define the layout direction on how the next component should be placed on. Can be either `vertical` or `horizontal`. Defaults to `horizontal`.',
     type: ['vertical', 'horizontal'],
     status: 'optional',
   },
   vertical: {
-    doc: 'will force both `direction` and `label_direction` to be **vertical** if set to `true`.',
+    doc: 'Will force both `direction` and `label_direction` to be **vertical** if set to `true`.',
     type: 'boolean',
     status: 'optional',
   },
   centered: {
-    doc: 'will center all children vertically as long as the screen does not hit a mobile width.',
+    doc: 'Will center all children vertically as long as the screen does not hit a mobile width.',
     type: 'boolean',
     status: 'optional',
   },
   wrap: {
-    doc: 'forces the content of a FormRow to wrap. Make sure you always define spacing as `right="..."` and not `left`, this way components will align left once they wrap. Defaults to `false`.',
+    doc: 'Forces the content of a FormRow to wrap. Make sure you always define spacing as `right="..."` and not `left`, this way components will align left once they wrap. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
   responsive: {
-    doc: 'to force responsiveness on form components (like [Input](/uilib/components/input) and their labels ([FormLabel](/uilib/components/form-label)), set the property to `true`. Defaults to `false`.',
+    doc: 'To force responsiveness on form components (like [Input](/uilib/components/input) and their labels ([FormLabel](/uilib/components/form-label)), set the property to `true`. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
   section_style: {
-    doc: 'to enable the visual helper `.dnb-section` class. Use a supported modifier from the [Section component](/uilib/components/section/properties). Defaults to `null`.',
+    doc: 'To enable the visual helper `.dnb-section` class. Use a supported modifier from the [Section component](/uilib/components/section/properties). Defaults to `null`.',
     type: ['divider', 'white', 'transparent'],
     status: 'optional',
   },
   section_spacing: {
-    doc: 'to modify the `spacing`. Use a supported modifier from the [Section component](/uilib/components/section/properties). Defaults to `null`.',
+    doc: 'To modify the `spacing`. Use a supported modifier from the [Section component](/uilib/components/section/properties). Defaults to `null`.',
     type: ['x-small', 'small', 'medium', 'large', 'x-large', 'xx-large'],
     status: 'optional',
   },
   no_fieldset: {
-    doc: 'if set to `true`, then the internal `legend` element will be a `label` instead, and no `<fieldset>` is used. Keep in mind, that `<legend>` and `<fieldset>` **is only used if a `label` is provided**. Defaults to `false`.',
+    doc: 'If set to `true`, then the internal `legend` element will be a `label` instead, and no `<fieldset>` is used. Keep in mind, that `<legend>` and `<fieldset>` **is only used if a `label` is provided**. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
   label_class: {
-    doc: 'if you need to style the "legend", then you can either send in a custom Component, like `label={ <H2> }`, or define your styling class with the `label_class` property.',
+    doc: 'If you need to style the "legend", then you can either send in a custom Component, like `label={ <H2> }`, or define your styling class with the `label_class` property.',
     type: 'string',
     status: 'optional',
   },
@@ -67,7 +67,7 @@ export const FormRowProperties: PropertiesTableProps = {
     status: 'optional',
   },
   disabled: {
-    doc: 'if set to `true`, every component inside will be disabled. Defaults to `false`.',
+    doc: 'If set to `true`, every component inside will be disabled. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },

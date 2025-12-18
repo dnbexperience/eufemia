@@ -75,7 +75,7 @@ export const TableProperties: PropertiesTableProps = {
 
 export const TableEventProperties: PropertiesTableProps = {
   collapseAllHandleRef: {
-    doc: 'ref handle to collapse all expanded accordion rows. Send in a ref and use `.current()` to collapse all rows.',
+    doc: 'Ref handle to collapse all expanded accordion rows. Send in a ref and use `.current()` to collapse all rows.',
     type: 'React.MutableRefObject<() => void>',
     defaultValue: 'undefined',
     status: 'optional',
@@ -93,25 +93,25 @@ export const TrProperties: PropertiesTableProps = {
     status: 'optional',
   },
   noWrap: {
-    doc: 'if set to `true`, the inherited header text will not wrap to new lines.',
+    doc: 'If set to `true`, the inherited header text will not wrap to new lines.',
     type: 'boolean',
     defaultValue: 'true',
     status: 'optional',
   },
   expanded: {
-    doc: 'use `true` to render the `<Tr>` initially as expanded.',
+    doc: 'Use `true` to render the `<Tr>` initially as expanded.',
     type: 'boolean',
     defaultValue: 'false',
     status: 'optional',
   },
   disabled: {
-    doc: 'use `true` to disable the `<Tr>` to be accessible as an interactive element.',
+    doc: 'Use `true` to disable the `<Tr>` to be accessible as an interactive element.',
     type: 'boolean',
     defaultValue: 'false',
     status: 'optional',
   },
   noAnimation: {
-    doc: 'use `true` to disable the expand/collapse animation.',
+    doc: 'Use `true` to disable the expand/collapse animation.',
     type: 'boolean',
     defaultValue: 'false',
     status: 'optional',

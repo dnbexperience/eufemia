@@ -2,27 +2,27 @@ import { PropertiesTableProps } from '../../shared/types'
 
 export const FormLabelProperties: PropertiesTableProps = {
   forId: {
-    doc: 'the same unique `id` like the linked HTML element has.',
+    doc: 'The same unique `id` like the linked HTML element has.',
     type: 'string',
     status: 'required',
   },
   text: {
-    doc: 'the `text` of the label. You can use `children` as well.',
+    doc: 'The `text` of the label. You can use `children` as well.',
     type: 'React.ReactNode',
     status: 'optional',
   },
   srOnly: {
-    doc: 'when `true`, the label will be invisible and only accessible for screen readers.',
+    doc: 'When `true`, the label will be invisible and only accessible for screen readers.',
     type: 'boolean',
     status: 'optional',
   },
   vertical: {
-    doc: 'if set to `true`, will do the same as `label_direction` when set to **vertical**.',
+    doc: 'If set to `true`, will do the same as `label_direction` when set to **vertical**.',
     type: 'boolean',
     status: 'optional',
   },
   size: {
-    doc: 'define one of the following [heading sizes](/uilib/elements/heading/): `medium` or `large`.',
+    doc: 'Define one of the following [heading sizes](/uilib/elements/heading/): `medium` or `large`.',
     type: ['medium', 'large'],
     status: 'optional',
   },
@@ -32,17 +32,17 @@ export const FormLabelProperties: PropertiesTableProps = {
     status: 'optional',
   },
   disabled: {
-    doc: 'if set to `true`, the label will behave as not interactive.',
+    doc: 'If set to `true`, the label will behave as not interactive.',
     type: 'boolean',
     status: 'optional',
   },
   element: {
-    doc: 'defines the HTML element used. Defaults to `label`.',
+    doc: 'Defines the HTML element used. Defaults to `label`.',
     type: 'React.Element',
     status: 'optional',
   },
   innerRef: {
-    doc: 'attach a React Ref to the inner label `element`.',
+    doc: 'Attach a React Ref to the inner label `element`.',
     type: 'React.Ref',
     status: 'optional',
   },

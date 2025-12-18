@@ -47,7 +47,7 @@ export const HeightAnimationProperties: PropertiesTableProps = {
     status: 'optional',
   },
   '[Space](/uilib/layout/space/properties)': {
-    doc: 'spacing properties like `top` or `bottom` are supported.',
+    doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
     status: 'optional',
   },

@@ -110,22 +110,22 @@ export const textareaProperties: PropertiesTableProps = {
 
 export const textareaEvents: PropertiesTableProps = {
   on_change: {
-    doc: 'will be called on value changes made by the user. Returns an object with a string value and the native event: `{ value, rows, event }`.',
+    doc: 'Will be called on value changes made by the user. Returns an object with a string value and the native event: `{ value, rows, event }`.',
     type: 'function',
     status: 'optional',
   },
   on_focus: {
-    doc: 'will be called on the focus set by the user. Returns `{ value, event }`.',
+    doc: 'Will be called on the focus set by the user. Returns `{ value, event }`.',
     type: 'function',
     status: 'optional',
   },
   on_blur: {
-    doc: 'will be called on blur set by the user. Returns `{ value, event }`.',
+    doc: 'Will be called on blur set by the user. Returns `{ value, event }`.',
     type: 'function',
     status: 'optional',
   },
   on_key_down: {
-    doc: 'will be called during every keystroke. Returns `{ value, rows, event }`.',
+    doc: 'Will be called during every keystroke. Returns `{ value, rows, event }`.',
     type: 'function',
     status: 'optional',
   },

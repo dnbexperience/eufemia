@@ -2,7 +2,7 @@ import { PropertiesTableProps } from '../../shared/types'
 
 export const PaginationProperties: PropertiesTableProps = {
   mode: {
-    doc: 'if set to `infinity`, then the pagination bar will be now shown and but infinity scrolling will do the content presentation. For more information, check out the [Infinity Scroller](/uilib/components/pagination/infinity-scroller). Defaults to `pagination`.',
+    doc: 'If set to `infinity`, then the pagination bar will be now shown and but infinity scrolling will do the content presentation. For more information, check out the [Infinity Scroller](/uilib/components/pagination/infinity-scroller). Defaults to `pagination`.',
     type: ['pagination', 'infinity'],
     status: 'optional',
   },
@@ -12,67 +12,67 @@ export const PaginationProperties: PropertiesTableProps = {
     status: 'optional',
   },
   children: {
-    doc: 'the given content can be either a function or a React node, depending on your needs. A function contains several helper functions. More details down below and have a look at the examples in the demos section.',
+    doc: 'The given content can be either a function or a React node, depending on your needs. A function contains several helper functions. More details down below and have a look at the examples in the demos section.',
     type: ['React.ReactNode', 'function'],
     status: 'optional',
   },
   align: {
-    doc: 'define the alignment of the pagination button bar. Can be `center`, `left` or `right`. Defaults to `left`.',
+    doc: 'Define the alignment of the pagination button bar. Can be `center`, `left` or `right`. Defaults to `left`.',
     type: ['left', 'center', 'right'],
     status: 'optional',
   },
   startup_page: {
-    doc: 'the page shown in the very beginning. If `current_page` is set, then it may not make too much sense to set this as well.',
+    doc: 'The page shown in the very beginning. If `current_page` is set, then it may not make too much sense to set this as well.',
     type: ['number', 'string'],
     status: 'optional',
   },
   current_page: {
-    doc: 'the page shown at the moment the component renders. Defaults to `1`.',
+    doc: 'The page shown at the moment the component renders. Defaults to `1`.',
     type: ['number', 'string'],
     status: 'optional',
   },
   page_count: {
-    doc: 'the total pages count. Defaults to `1`.',
+    doc: 'The total pages count. Defaults to `1`.',
     type: ['number', 'string'],
     status: 'optional',
   },
   startup_count: {
-    doc: 'defines how many `infinity` pages should be loaded / shown on the first render. Defaults to `1`.',
+    doc: 'Defines how many `infinity` pages should be loaded / shown on the first render. Defaults to `1`.',
     type: ['number', 'string'],
     status: 'optional',
   },
   parallel_load_count: {
-    doc: 'defines how many `infinity` pages should be loaded / shown once the user scrolls down. Defaults to `1`.',
+    doc: 'Defines how many `infinity` pages should be loaded / shown once the user scrolls down. Defaults to `1`.',
     type: ['number', 'string'],
     status: 'optional',
   },
   min_wait_time: {
-    doc: 'the minimum time to wait, if the infinity scroll was invoked under that time threshold. This prevents not intentional infinity scroll loop calls. Defaults to `400` milliseconds.',
+    doc: 'The minimum time to wait, if the infinity scroll was invoked under that time threshold. This prevents not intentional infinity scroll loop calls. Defaults to `400` milliseconds.',
     type: ['number', 'string'],
     status: 'optional',
   },
   place_maker_before_content: {
-    doc: 'if set to `true`, the infinity marker will be placed before the content (on top off). This could potentially have negative side effects. But it depends really on the content if this would make more sense to use instead. Defaults to `false`. This prop is deprecated and will be removed in v11, use `place_marker_before_content` instead.',
+    doc: 'If set to `true`, the infinity marker will be placed before the content (on top off). This could potentially have negative side effects. But it depends really on the content if this would make more sense to use instead. Defaults to `false`. This prop is deprecated and will be removed in v11, use `place_marker_before_content` instead.',
     type: 'boolean',
     status: 'deprecated',
   },
   place_marker_before_content: {
-    doc: 'if set to `true`, the infinity marker will be placed before the content (on top off). This could potentially have negative side effects. But it depends really on the content if this would make more sense to use instead. Defaults to `false`.',
+    doc: 'If set to `true`, the infinity marker will be placed before the content (on top off). This could potentially have negative side effects. But it depends really on the content if this would make more sense to use instead. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
   use_load_button: {
-    doc: 'if set to `true` it will disable the automated infinity scrolling, but shows a load more button at the of the content instead.',
+    doc: 'If set to `true` it will disable the automated infinity scrolling, but shows a load more button at the of the content instead.',
     type: 'boolean',
     status: 'optional',
   },
   hide_progress_indicator: {
-    doc: 'if set to `true` no indicator will be shown.',
+    doc: 'If set to `true` no indicator will be shown.',
     type: 'boolean',
     status: 'optional',
   },
   page_element: {
-    doc: 'by default a `<div>` is used. Set it to any element you have to use. Adds also a class: `dnb-pagination__page` shown.',
+    doc: 'By default a `<div>` is used. Set it to any element you have to use. Adds also a class: `dnb-pagination__page` shown.',
     type: ['string', 'object', 'React.ReactNode'],
     status: 'optional',
   },
@@ -92,22 +92,22 @@ export const PaginationProperties: PropertiesTableProps = {
     status: 'optional',
   },
   set_content_handler: {
-    doc: 'callback function to get the `setContent` handler from the current pagination instance. e.g. `set_content_handler={fn => (...)}`. Use this handler to insert content during infinity mode.',
+    doc: 'Callback function to get the `setContent` handler from the current pagination instance. e.g. `set_content_handler={fn => (...)}`. Use this handler to insert content during infinity mode.',
     type: 'function',
     status: 'optional',
   },
   reset_content_handler: {
-    doc: 'callback function to get the `resetContent` handler from the current pagination instance. e.g. `reset_content_handler={fn => (...)}`. Use this handler to reset all the content. You can set it to `true`, to programmatically reset the content.',
+    doc: 'Callback function to get the `resetContent` handler from the current pagination instance. e.g. `reset_content_handler={fn => (...)}`. Use this handler to reset all the content. You can set it to `true`, to programmatically reset the content.',
     type: 'function',
     status: 'optional',
   },
   reset_pagination_handler: {
-    doc: 'callback function to get the `resetInfinity` handler from the current pagination instance. e.g. `reset_pagination_handler={fn => (...)}`. Use this handler to reset all the internal states. You can set it to `true`, to programmatically reset the states.',
+    doc: 'Callback function to get the `resetInfinity` handler from the current pagination instance. e.g. `reset_pagination_handler={fn => (...)}`. Use this handler to reset all the internal states. You can set it to `true`, to programmatically reset the states.',
     type: 'function',
     status: 'optional',
   },
   end_infinity_handler: {
-    doc: 'callback function to get the `endInfinity` handler from the current pagination instance. e.g. `end_infinity_handler={fn => (...)}`. Use this handler to end the infinity scrolling procedure, in case the `page_count` is unknown.',
+    doc: 'Callback function to get the `endInfinity` handler from the current pagination instance. e.g. `end_infinity_handler={fn => (...)}`. Use this handler to end the infinity scrolling procedure, in case the `page_count` is unknown.',
     type: 'function',
     status: 'optional',
   },
@@ -152,7 +152,7 @@ export const PaginationProperties: PropertiesTableProps = {
     status: 'optional',
   },
   disabled: {
-    doc: 'if set to `true`, all pagination bar buttons are disabled.',
+    doc: 'If set to `true`, all pagination bar buttons are disabled.',
     type: 'boolean',
     status: 'optional',
   },
@@ -170,7 +170,7 @@ export const PaginationProperties: PropertiesTableProps = {
 
 export const PaginationEvents: PropertiesTableProps = {
   on_change: {
-    doc: 'will be called for every page change, regardless if the mode is `mode="infinity"` or not. Returns an object with number of useful properties and methods. See below for more details.',
+    doc: 'Will be called for every page change, regardless if the mode is `mode="infinity"` or not. Returns an object with number of useful properties and methods. See below for more details.',
     type: 'function',
     status: 'optional',
   },

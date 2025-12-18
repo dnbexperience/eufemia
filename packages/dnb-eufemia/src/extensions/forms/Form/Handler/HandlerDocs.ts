@@ -44,7 +44,7 @@ export const HandlerEvents: PropertiesTableProps = {
   ...ProviderEvents,
   '[DataContext.Provider](/uilib/extensions/forms/DataContext/Provider/events)':
     {
-      doc: 'events such as `onSubmit`.',
+      doc: 'Events such as `onSubmit`.',
       type: 'function',
       status: 'optional',
     },

@@ -2,7 +2,7 @@ import { PropertiesTableProps } from '../../shared/types'
 
 export const IconProperties: PropertiesTableProps = {
   icon: {
-    doc: 'a React SVG Component.',
+    doc: 'A React SVG Component.',
     type: 'React.ReactNode',
     status: 'required',
   },
@@ -12,17 +12,17 @@ export const IconProperties: PropertiesTableProps = {
     status: 'optional',
   },
   border: {
-    doc: 'use `true` to display a rounded border with an inherited color. Keep in mind that the icon will have a larger total width and height of `+0.5em`.',
+    doc: 'Use `true` to display a rounded border with an inherited color. Keep in mind that the icon will have a larger total width and height of `+0.5em`.',
     type: 'boolean',
     status: 'optional',
   },
   alt: {
-    doc: 'the alternative label (text version) of the icon. Defaults to the imported icon name.',
+    doc: 'The alternative label (text version) of the icon. Defaults to the imported icon name.',
     type: 'string',
     status: 'optional',
   },
   size: {
-    doc: 'the dimension of the icon. This will be the `viewBox` and represent `width` and `height`. Defaults to `16`. You can use `small`,`medium`, `large` or `auto`. Auto will enable that the icon size gets inherited by the parent HTML element if it provides a `font-size`.',
+    doc: 'The dimension of the icon. This will be the `viewBox` and represent `width` and `height`. Defaults to `16`. You can use `small`,`medium`, `large` or `auto`. Auto will enable that the icon size gets inherited by the parent HTML element if it provides a `font-size`.',
     type: [
       'small',
       'medium',
@@ -37,7 +37,7 @@ export const IconProperties: PropertiesTableProps = {
     status: 'optional',
   },
   color: {
-    doc: 'the color can be any valid color property, such as Hex, RGB or preferable – any CSS variable from the [colors table](/uilib/usage/customisation/colors), e.g. `var(--color-ocean-green)`. Default is no color, which means `--color-black-80`.',
+    doc: 'The color can be any valid color property, such as Hex, RGB or preferable – any CSS variable from the [colors table](/uilib/usage/customisation/colors), e.g. `var(--color-ocean-green)`. Default is no color, which means `--color-black-80`.',
     type: 'Various',
     status: 'optional',
   },
@@ -47,7 +47,7 @@ export const IconProperties: PropertiesTableProps = {
     status: 'optional',
   },
   modifier: {
-    doc: 'modifier class to define. Will result in: `dnb-icon--${modifier}`.',
+    doc: 'Modifier class to define. Will result in: `dnb-icon--${modifier}`.',
     type: 'string',
     status: 'optional',
   },
