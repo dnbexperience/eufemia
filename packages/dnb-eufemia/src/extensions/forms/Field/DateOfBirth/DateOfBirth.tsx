@@ -407,6 +407,7 @@ function DateOfBirth(props: Props) {
         value={dayRef.current}
         autoComplete="bday-day"
         labelDescription={dayLabel}
+        labelSize={labelSize}
         width="3.5rem" // Enough width for 2 digits and placeholder in large size
         inputMode="numeric"
         mask={[/[0-9]/, /[0-9]/]}
@@ -422,6 +423,7 @@ function DateOfBirth(props: Props) {
         value={monthRef.current}
         variant="autocomplete"
         labelDescription={monthLabel}
+        labelSize={labelSize}
         width="stretch"
         placeholder=""
         autocompleteProps={{
