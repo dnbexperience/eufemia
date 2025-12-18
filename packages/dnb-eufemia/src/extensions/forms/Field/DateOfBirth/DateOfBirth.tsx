@@ -45,7 +45,7 @@ export type DateOfBirthValidator = ValidatorWithCustomValidators<
 
 export type Props = Omit<
   FieldPropsWithExtraValue<string, AdditionalArgs, undefined | string>,
-  'layout' | 'layoutOptions' | 'labelSize'
+  'layout' | 'layoutOptions'
 > & {
   validate?: boolean
   dateFormat?: string
@@ -174,6 +174,7 @@ function DateOfBirth(props: Props) {
     width = 'large',
     help,
     labelSrOnly,
+    labelSize,
     labelDescription,
     labelDescriptionInline,
     error,
@@ -355,6 +356,7 @@ function DateOfBirth(props: Props) {
     error,
     label: labelWithItemNo,
     labelSrOnly,
+    labelSize,
     labelDescription,
     labelDescriptionInline,
     space,
