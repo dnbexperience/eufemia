@@ -955,6 +955,26 @@ describe('Field.Expiry', () => {
     })
   })
 
+  it('renders info', () => {
+    render(<Field.Expiry info="Info message" />)
+
+    const element = document.querySelector('.dnb-form-status')
+    expect(element).toHaveTextContent('Info message')
+
+    const input = document.querySelector('.dnb-input')
+    expect(input).not.toHaveClass('dnb-input__status--error')
+  })
+
+  it('renders warning', () => {
+    render(<Field.Expiry warning="Warning message" />)
+
+    const element = document.querySelector('.dnb-form-status')
+    expect(element).toHaveTextContent('Warning message')
+
+    const input = document.querySelector('.dnb-input')
+    expect(input).not.toHaveClass('dnb-input__status--error')
+  })
+
   it('renders error', () => {
     render(<Field.Expiry error={new Error('Error message')} />)
 
