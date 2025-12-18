@@ -5,19 +5,11 @@
 
 @import '../../../style/core/utilities.scss';
 
-.dnb-logo,
-.sbanken-logo {
-  display: inline-flex;
+.dnb-logo {
+  display: inline-block;
   vertical-align: baseline;
   font-size: inherit;
-  line-height: var(
-    --line-height-xx-small--em
-  ); // for vertical alignment, we have to have no line-height
-
-  svg {
-    fill: currentcolor;
-    shape-rendering: geometricprecision;
-  }
+  line-height: 0;
 
   height: 1em;
 
@@ -30,8 +22,28 @@
     height: inherit;
   }
 
-  svg:not([width], [height]) {
-    width: inherit;
-    height: inherit;
+  &--inherit-color {
+    color: currentcolor;
+
+    svg {
+      fill: currentcolor;
+    }
+  }
+
+  svg {
+    shape-rendering: geometricprecision;
+
+    &[color] {
+      fill: currentcolor;
+    }
+
+    &:not([width], [height]) {
+      width: inherit;
+      height: inherit;
+    }
+
+    &:not(:root) {
+      overflow: visible;
+    }
   }
 }
