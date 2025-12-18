@@ -8,6 +8,7 @@ export type Props = Pick<
   | 'labelDescription'
   | 'labelDescriptionInline'
   | 'labelSrOnly'
+  | 'labelSize'
   | 'width'
   | 'align'
   | 'contentWidth'

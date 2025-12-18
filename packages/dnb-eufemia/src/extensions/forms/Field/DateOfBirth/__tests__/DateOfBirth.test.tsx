@@ -23,6 +23,14 @@ describe('Field.DateOfBirth', () => {
     expect(element).not.toHaveClass('dnb-form-label--interactive')
   })
 
+  it('should set correct class when labelSize is set to large', () => {
+    render(<Field.DateOfBirth labelSize="large" />)
+
+    expect(document.querySelector('.dnb-form-label').classList).toContain(
+      'dnb-h--large'
+    )
+  })
+
   it('should support labelDescription', () => {
     const labelDesc = 'This is a description'
     render(<Field.DateOfBirth labelDescription={labelDesc} />)

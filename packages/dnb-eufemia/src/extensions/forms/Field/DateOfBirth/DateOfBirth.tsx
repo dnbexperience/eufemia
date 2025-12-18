@@ -45,7 +45,7 @@ export type DateOfBirthValidator = ValidatorWithCustomValidators<
 
 export type Props = Omit<
   FieldPropsWithExtraValue<string, AdditionalArgs, undefined | string>,
-  'layout' | 'layoutOptions' | 'labelSize'
+  'layout' | 'layoutOptions'
 > & {
   validate?: boolean
   dateFormat?: string
@@ -174,6 +174,7 @@ function DateOfBirth(props: Props) {
     width = 'large',
     help,
     labelSrOnly,
+    labelSize,
     labelDescription,
     labelDescriptionInline,
     error,
@@ -355,6 +356,7 @@ function DateOfBirth(props: Props) {
     error,
     label: labelWithItemNo,
     labelSrOnly,
+    labelSize,
     labelDescription,
     labelDescriptionInline,
     space,
@@ -405,6 +407,7 @@ function DateOfBirth(props: Props) {
         value={dayRef.current}
         autoComplete="bday-day"
         labelDescription={dayLabel}
+        labelSize={labelSize}
         width="3.5rem" // Enough width for 2 digits and placeholder in large size
         inputMode="numeric"
         mask={[/[0-9]/, /[0-9]/]}
@@ -420,6 +423,7 @@ function DateOfBirth(props: Props) {
         value={monthRef.current}
         variant="autocomplete"
         labelDescription={monthLabel}
+        labelSize={labelSize}
         width="stretch"
         placeholder=""
         autocompleteProps={{
