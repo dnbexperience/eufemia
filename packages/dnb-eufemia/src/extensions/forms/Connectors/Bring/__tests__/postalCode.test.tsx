@@ -52,9 +52,11 @@ describe('postalCode', () => {
       await userEvent.type(postalCodeInput, '0000')
 
       expect(postalCodeInput).toHaveValue('0000')
-      expect(
-        document.querySelector('.dnb-form-status')
-      ).toBeInTheDocument()
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toBeInTheDocument()
+      })
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
         nb.PostalCodeAndCity.invalidCode
       )
@@ -249,9 +251,11 @@ describe('postalCode', () => {
       await userEvent.type(postalCodeInput, '{Backspace}1')
 
       expect(postalCodeInput).toHaveValue('0001')
-      expect(
-        document.querySelector('.dnb-form-status')
-      ).toBeInTheDocument()
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toBeInTheDocument()
+      })
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
         unsupportedCountryCodeMessage.replace('{countryCode}', 'CH')
       )
@@ -284,9 +288,11 @@ describe('postalCode', () => {
       await userEvent.type(postalCodeInput, '{Backspace>4}1391')
 
       expect(postalCodeInput).toHaveValue('1391')
-      expect(
-        document.querySelector('.dnb-form-status')
-      ).toBeInTheDocument()
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toBeInTheDocument()
+      })
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
         unsupportedCountryCodeMessage.replace('{countryCode}', 'CH')
       )
