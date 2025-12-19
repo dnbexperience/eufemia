@@ -48,4 +48,19 @@ describe('EditButton', () => {
 
     expect(document.querySelector('button')).not.toBeInTheDocument()
   })
+
+  it('supports custom properties', () => {
+    render(
+      <Toolbar>
+        <EditButton
+          className="custom-class"
+          aria-label="Custom edit label"
+        />
+      </Toolbar>
+    )
+
+    const button = document.querySelector('button')
+    expect(button).toHaveClass('custom-class')
+    expect(button).toHaveAttribute('aria-label', 'Custom edit label')
+  })
 })
