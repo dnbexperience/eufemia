@@ -99,6 +99,12 @@ export type MultiInputMaskProps<T extends string> = {
    * Refers to the scope element that contains the input fields.
    */
   scopeRef?: MutableRefObject<HTMLElement | null>
+  /**
+   * Optional enhancer applied to Maskito options before they reach TextMask.
+   */
+  optionsEnhancer?: (
+    options: MaskitoOptions | null
+  ) => MaskitoOptions | null
 } & Omit<
   React.HTMLProps<HTMLInputElement>,
   | 'onChange'
@@ -137,6 +143,7 @@ function MultiInputMask<T extends string>(props: MultiInputMaskProps<T>) {
     onBlur,
     onFocus,
     overwriteMode = 'shift',
+    optionsEnhancer,
     ...rest
   } = props
 
@@ -297,6 +304,7 @@ function MultiInputMask<T extends string>(props: MultiInputMaskProps<T>) {
                 onKeyDown={onKeyDown}
                 onChange={onChange}
                 overwriteMode={overwriteMode}
+                optionsEnhancer={optionsEnhancer}
                 onFocus={() => {
                   if (!areInputsInFocus.current) {
                     onFocus?.(valuesRef.current)
@@ -344,6 +352,9 @@ type MultiInputMaskInputProps<T extends string> = Omit<
   onKeyDown: (event: React.KeyboardEvent<HTMLInputElement>) => void
   onChange: (id: string, value: string) => void
   overwriteMode?: MaskitoOptions['overwriteMode']
+  optionsEnhancer?: (
+    options: MaskitoOptions | null
+  ) => MaskitoOptions | null
   getInputRef: ({
     inputRef,
   }: {
@@ -367,6 +378,7 @@ function MultiInputMaskInput<T extends string>({
   onBlur,
   onFocus: onInputFocus,
   overwriteMode,
+  optionsEnhancer,
   ...attributes
 }: MultiInputMaskInputProps<T>) {
   const inputRefObj = useRef<HTMLInputElement>(null)
@@ -440,7 +452,7 @@ function MultiInputMaskInput<T extends string>({
   // Check if there's actual typed content (not just ghost placeholders)
   const shouldHighlight = !disabled && stripValue(value).length > 0
 
-  const optionsEnhancer = useCallback(
+  const ghostOptionsEnhancer = useCallback(
     (opts: MaskitoOptions | null): MaskitoOptions | null => {
       if (!opts || !ghost) {
         return opts
@@ -464,6 +476,17 @@ function MultiInputMaskInput<T extends string>({
     [ghost, mask.length]
   )
 
+  const mergedOptionsEnhancer = useCallback(
+    (opts: MaskitoOptions | null) => {
+      const withGhost = ghostOptionsEnhancer(opts)
+      if (typeof optionsEnhancer === 'function') {
+        return optionsEnhancer(withGhost)
+      }
+      return withGhost
+    },
+    [ghostOptionsEnhancer, optionsEnhancer]
+  )
+
   return (
     <>
       <TextMask
@@ -481,7 +504,7 @@ function MultiInputMaskInput<T extends string>({
         mask={mask}
         value={value}
         showMask={true}
-        optionsEnhancer={optionsEnhancer}
+        optionsEnhancer={mergedOptionsEnhancer}
         ghostPlaceholder={ghost || undefined}
         overwriteMode={overwriteMode}
         stripValue={stripValue}
