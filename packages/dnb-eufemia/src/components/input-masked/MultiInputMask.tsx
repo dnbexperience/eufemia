@@ -5,6 +5,7 @@ import React, {
   useRef,
   useEffect,
   useState,
+  useLayoutEffect,
 } from 'react'
 import Input from '../Input'
 import type { InputProps } from '../Input'
@@ -426,7 +427,7 @@ function MultiInputMaskInput<T extends string>({
   const slotValuesRef = useRef<string[]>(initialSlots)
   const lastKeydownHandledRef = useRef(false)
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const current = collectValueFromSlots(slotValuesRef.current)
     if (
       slotValuesRef.current.length !== mask.length ||
