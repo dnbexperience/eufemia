@@ -45,7 +45,7 @@ const createEvent = (
     preventDefault: jest.fn(),
     target: input,
     currentTarget: input,
-  } as unknown as React.KeyboardEvent<HTMLInputElement>)
+  }) as unknown as React.KeyboardEvent<HTMLInputElement>
 
 describe('useHandleCursorPosition', () => {
   beforeAll(() => {
