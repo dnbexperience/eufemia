@@ -202,10 +202,14 @@ function Expiry(props: ExpiryProps = {}) {
     setDisplayValue,
   } = useFieldProps(preparedProps)
 
-  const expiry: ExpiryValue = useMemo(
-    () => stringToExpiryValue(value),
-    [value]
-  )
+  const expiry: ExpiryValue = useMemo(() => {
+    const { month, year } = stringToExpiryValue(value)
+
+    return {
+      month: stripPlaceholderChars(month, placeholders.month),
+      year: stripPlaceholderChars(year, placeholders.year),
+    }
+  }, [placeholders.month, placeholders.year, value])
 
   useMemo(() => {
     if ((path || itemPath) && expiry.month && expiry.year) {
