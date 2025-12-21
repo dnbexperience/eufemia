@@ -7,6 +7,19 @@ function useHandleCursorPosition(
   keysToHandle?: RegExp | { [inputId: string]: RegExp[] },
   scopeRootRef?: MutableRefObject<HTMLElement | null>
 ) {
+  const scheduleCaretCheck = useCallback((cb: () => void) => {
+    if (
+      typeof window !== 'undefined' &&
+      typeof window.requestAnimationFrame === 'function'
+    ) {
+      window.requestAnimationFrame(() => {
+        setTimeout(cb, 0)
+      })
+      return
+    }
+    setTimeout(cb, 0)
+  }, [])
+
   const onKeyDown = useCallback(
     (event: React.KeyboardEvent<HTMLInputElement>) => {
       const input = event.target as HTMLInputElement
@@ -86,7 +99,7 @@ function useHandleCursorPosition(
       // Auto-advance when filled and caret is at the end
       if (key.length === 1 && allowMask()) {
         // Defer until value updates, then check typed length
-        setTimeout(() => {
+        scheduleCaretCheck(() => {
           const current = document.activeElement as HTMLInputElement | null
           const el = current && current.id === input.id ? current : input
           const len = getTypedLengthBasic(
@@ -100,10 +113,10 @@ function useHandleCursorPosition(
           if (len >= size && next && atEndNow) {
             focusInput(next, 'start')
           }
-        }, 0)
+        })
       }
     },
-    [keysToHandle, scopeRootRef]
+    [keysToHandle, scopeRootRef, scheduleCaretCheck]
   )
 
   return { onKeyDown }
