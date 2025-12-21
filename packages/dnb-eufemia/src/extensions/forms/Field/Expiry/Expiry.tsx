@@ -74,14 +74,23 @@ function Expiry(props: ExpiryProps = {}) {
 
   const fromInput = useCallback(
     (values: ExpiryValue) => {
-      const month = stripPlaceholderChars(values.month, placeholders.month)
-      const year = stripPlaceholderChars(values.year, placeholders.year)
+      const monthString = expiryValueToString(
+        stripPlaceholderChars(values.month, placeholders.month),
+        placeholders.month
+      )
+      const yearString = expiryValueToString(
+        stripPlaceholderChars(values.year, placeholders.year),
+        placeholders.year
+      )
 
-      if (!month && !year) {
-        return ''
+      if (
+        isFieldEmpty(monthString, placeholders.month) &&
+        isFieldEmpty(yearString, placeholders.year)
+      ) {
+        return undefined
       }
 
-      return `${month}${year}`
+      return `${monthString}${yearString}`
     },
     [placeholders.month, placeholders.year]
   )

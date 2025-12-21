@@ -400,9 +400,9 @@ function MultiInputMaskInput<T extends string>({
   }, [placeholderText, mask])
 
   const stripValue = useCallback(
-    (display: string) => {
+    (display: string | undefined) => {
       // Extract only characters matching per-position mask
-      const chars = Array.from(display)
+      const chars = Array.from(display ?? '')
       const out: string[] = []
       for (let i = 0; i < Math.min(chars.length, mask.length); i++) {
         const c = chars[i]
