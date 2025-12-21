@@ -4,6 +4,7 @@ import React, {
   useMemo,
   useRef,
   useEffect,
+  useState,
 } from 'react'
 import Input from '../Input'
 import type { InputProps } from '../Input'
@@ -134,7 +135,7 @@ function MultiInputMask<T extends string>(props: MultiInputMaskProps<T>) {
     suffix,
     onBlur,
     onFocus,
-    overwriteMode,
+    overwriteMode = 'shift',
     ...rest
   } = props
 
@@ -294,6 +295,7 @@ function MultiInputMask<T extends string>(props: MultiInputMaskProps<T>) {
                 inputMode={inputMode}
                 onKeyDown={onKeyDown}
                 onChange={onChange}
+                overwriteMode={overwriteMode}
                 onFocus={() => {
                   if (!areInputsInFocus.current) {
                     onFocus?.(valuesRef.current)
@@ -340,6 +342,7 @@ type MultiInputMaskInputProps<T extends string> = Omit<
   disabled: boolean
   onKeyDown: (event: React.KeyboardEvent<HTMLInputElement>) => void
   onChange: (id: string, value: string) => void
+  overwriteMode?: MaskitoOptions['overwriteMode']
   getInputRef: ({
     inputRef,
   }: {
@@ -362,6 +365,7 @@ function MultiInputMaskInput<T extends string>({
   onChange,
   onBlur,
   onFocus: onInputFocus,
+  overwriteMode,
   ...attributes
 }: MultiInputMaskInputProps<T>) {
   const inputRefObj = useRef<HTMLInputElement>(null)
@@ -416,6 +420,22 @@ function MultiInputMaskInput<T extends string>({
     [mask]
   )
 
+  const [initialSlots] = useState(() =>
+    createSlotsFromValue(value, mask.length)
+  )
+  const slotValuesRef = useRef<string[]>(initialSlots)
+  const lastKeydownHandledRef = useRef(false)
+
+  useEffect(() => {
+    const current = collectValueFromSlots(slotValuesRef.current)
+    if (
+      slotValuesRef.current.length !== mask.length ||
+      current !== value
+    ) {
+      slotValuesRef.current = createSlotsFromValue(value, mask.length)
+    }
+  }, [value, mask.length])
+
   // Check if there's actual typed content (not just ghost placeholders)
   const shouldHighlight = !disabled && stripValue(value).length > 0
 
@@ -428,9 +448,12 @@ function MultiInputMaskInput<T extends string>({
         value: string
         selection: readonly [number, number]
       }) => {
-        const v = elementState.value || ''
-        const padded = (v + ghost.slice(v.length)).slice(0, mask.length)
-        return { ...elementState, value: padded }
+        const composed = composeDisplayValue({
+          ghost,
+          maskLength: mask.length,
+          slots: slotValuesRef.current,
+        })
+        return { ...elementState, value: composed }
       }
       return {
         ...opts,
@@ -459,11 +482,28 @@ function MultiInputMaskInput<T extends string>({
         showMask={true}
         optionsEnhancer={optionsEnhancer}
         ghostPlaceholder={ghost || undefined}
-        overwriteMode="replace"
+        overwriteMode={overwriteMode}
         stripValue={stripValue}
         aria-label={label}
         inputRef={inputRefObj}
-        onKeyDown={onKeyDown}
+        onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>) => {
+          onKeyDown(event)
+          if (event.defaultPrevented) {
+            lastKeydownHandledRef.current = false
+            return
+          }
+          if (
+            updateSlotsFromKeyEvent({
+              event,
+              mask,
+              slotsRef: slotValuesRef,
+            })
+          ) {
+            lastKeydownHandledRef.current = true
+          } else {
+            lastKeydownHandledRef.current = false
+          }
+        }}
         onInput={(event: React.FormEvent<HTMLInputElement>) => {
           const target = event.currentTarget
           // Add support for "backspace" on Android virtual keyboard
@@ -476,17 +516,36 @@ function MultiInputMaskInput<T extends string>({
             target.selectionStart === 0 &&
             target.selectionEnd === 0
           ) {
-            type SyntheticKeyDown = Pick<
-              React.KeyboardEvent<HTMLInputElement>,
-              'key' | 'target'
-            >
+            type SyntheticKeyDown = {
+              key: string
+              target: HTMLInputElement
+              currentTarget: HTMLInputElement
+              defaultPrevented: boolean
+              preventDefault: () => void
+            }
             const synthetic: SyntheticKeyDown = {
               key: 'Backspace',
               target,
+              currentTarget: target,
+              defaultPrevented: false,
+              preventDefault() {
+                this.defaultPrevented = true
+              },
             }
-            // The hook only reads .key and .target, so this is safe
-            onKeyDown(synthetic as React.KeyboardEvent<HTMLInputElement>)
+            onKeyDown(
+              synthetic as unknown as React.KeyboardEvent<HTMLInputElement>
+            )
           }
+
+          syncSlotsOnInput({
+            handledByKeyDown: lastKeydownHandledRef.current,
+            inputType: nativeEvt?.inputType,
+            maskLength: mask.length,
+            slotsRef: slotValuesRef,
+            stripValue,
+            target,
+          })
+          lastKeydownHandledRef.current = false
         }}
         onBlur={onBlur}
         onFocus={({ target }) => {
@@ -507,7 +566,6 @@ function MultiInputMaskInput<T extends string>({
         }}
         onMouseUp={undefined}
         onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-          // console.log('event.target.value', event.target.value)
           onChange(inputId, event.target.value)
         }}
         {...restAttributes}
@@ -531,3 +589,190 @@ export default MultiInputMask
 
 MultiInputMask._formElement = true
 MultiInputMask._supportsSpacingProps = true
+
+function createSlotsFromValue(value: string, size: number) {
+  const slots = Array.from({ length: size }, () => '')
+  const chars = Array.from(value || '')
+  for (let i = 0; i < size && i < chars.length; i++) {
+    slots[i] = chars[i]
+  }
+  return slots
+}
+
+function collectValueFromSlots(slots: string[]) {
+  return slots.filter(Boolean).join('')
+}
+
+function composeDisplayValue({
+  slots,
+  ghost,
+  maskLength,
+}: {
+  slots: string[]
+  ghost: string
+  maskLength: number
+}) {
+  if (!ghost) {
+    return slots.slice(0, maskLength).join('')
+  }
+  return slots
+    .slice(0, maskLength)
+    .map((char, index) => {
+      if (char) {
+        return char
+      }
+      const ghostIndex = Math.min(index, ghost.length - 1)
+      return ghost[ghostIndex] ?? ''
+    })
+    .join('')
+}
+
+function ensureSlotArray(slots: string[], size: number) {
+  if (slots.length === size) {
+    return slots
+  }
+  if (slots.length < size) {
+    while (slots.length < size) {
+      slots.push('')
+    }
+    return slots
+  }
+  slots.length = size
+  return slots
+}
+
+function clearRange(slots: string[], start: number, end: number) {
+  if (start > end) {
+    return clearRange(slots, end, start)
+  }
+  let changed = false
+  for (let i = start; i < end && i < slots.length; i++) {
+    if (slots[i]) {
+      slots[i] = ''
+      changed = true
+    }
+  }
+  return changed
+}
+
+function clearForBackspace(slots: string[], start: number, end: number) {
+  if (start === 0 && end === 0) {
+    return false
+  }
+  if (start !== end) {
+    return clearRange(slots, start, end)
+  }
+  const index = start - 1
+  if (index < 0 || index >= slots.length) {
+    return false
+  }
+  if (!slots[index]) {
+    return false
+  }
+  slots[index] = ''
+  return true
+}
+
+function clearForDelete(
+  slots: string[],
+  start: number,
+  end: number,
+  size: number
+) {
+  if (start !== end) {
+    return clearRange(slots, start, end)
+  }
+  if (start < 0 || start >= size) {
+    return false
+  }
+  if (!slots[start]) {
+    return false
+  }
+  slots[start] = ''
+  return true
+}
+
+function insertChar(
+  slots: string[],
+  char: string,
+  start: number,
+  end: number,
+  size: number
+) {
+  if (start >= size) {
+    return false
+  }
+  if (start !== end) {
+    clearRange(slots, start, end)
+  }
+  slots[start] = char
+  return true
+}
+
+function updateSlotsFromKeyEvent({
+  event,
+  slotsRef,
+  mask,
+}: {
+  event: React.KeyboardEvent<HTMLInputElement>
+  slotsRef: React.MutableRefObject<string[]>
+  mask: RegExp[]
+}) {
+  if (event.altKey || event.metaKey || event.ctrlKey) {
+    return false
+  }
+
+  const key = event.key
+  const target = event.currentTarget
+  const start = target.selectionStart ?? 0
+  const end = target.selectionEnd ?? start
+  const slots = ensureSlotArray(slotsRef.current, mask.length)
+
+  if (key === 'Backspace') {
+    return clearForBackspace(slots, start, end)
+  }
+
+  if (key === 'Delete') {
+    return clearForDelete(slots, start, end, mask.length)
+  }
+
+  if (key.length === 1) {
+    const index = Math.min(start, mask.length - 1)
+    const token = mask[index]
+    if (!(token instanceof RegExp) || !token.test(key)) {
+      return false
+    }
+    return insertChar(slots, key, start, end, mask.length)
+  }
+
+  return false
+}
+
+function syncSlotsOnInput({
+  handledByKeyDown,
+  inputType,
+  maskLength,
+  slotsRef,
+  stripValue,
+  target,
+}: {
+  handledByKeyDown: boolean
+  inputType?: string
+  maskLength: number
+  slotsRef: React.MutableRefObject<string[]>
+  stripValue: (display: string) => string
+  target: HTMLInputElement
+}) {
+  const controlledTypes = new Set([
+    'insertText',
+    'insertReplacementText',
+    'deleteContentBackward',
+    'deleteContentForward',
+  ])
+  const type = inputType || ''
+  if (handledByKeyDown && (type === '' || controlledTypes.has(type))) {
+    return
+  }
+  const stripped = stripValue(target.value)
+  slotsRef.current = createSlotsFromValue(stripped, maskLength)
+}
