@@ -1,6 +1,9 @@
-import { Field, Form, Tools, Value, Wizard } from '../../..'
+import { Field, Form, Iterate, Tools, Value, Wizard } from '../../..'
 import { Flex } from '../../../../../components'
-import { UploadFileNative } from '../../../../../components/Upload'
+import {
+  UploadFile,
+  UploadFileNative,
+} from '../../../../../components/Upload'
 import { P } from '../../../../../elements'
 import { createRequest } from '../../../Form/Handler/stories/FormHandler.stories'
 import { UploadValue } from '../Upload'
@@ -424,13 +427,70 @@ export const RequiredProperty = () => {
   )
 }
 
-export const DisabledProperty = () => {
+export const IterateArrayUpload = () => {
+  async function mockAsyncFileUpload(
+    newFiles: UploadFile[]
+  ): Promise<any> {
+    const updatedFiles: UploadFile[] = []
+
+    for (const [index, file] of Object.entries(newFiles)) {
+      const formData = new FormData()
+      formData.append('file', file.file, file.file.name)
+
+      const request = createRequest()
+      await request(8000) // Simulate a request
+
+      try {
+        const mockResponse = {
+          ok: true,
+          json: async () => ({
+            server_generated_id:
+              file.file.name + '_' + crypto.randomUUID(),
+          }),
+        }
+
+        if (!mockResponse.ok) {
+          throw new Error('Unable to upload this file')
+        }
+
+        const data = await mockResponse.json()
+        updatedFiles.push({
+          ...file,
+          id: data.server_generated_id,
+        })
+      } catch (error) {
+        updatedFiles.push({
+          ...file,
+          errorMessage: error.message,
+        })
+      }
+    }
+
+    return updatedFiles
+  }
+
   return (
-    <Form.Handler onSubmit={async (form) => console.log(form)}>
-      <Flex.Stack>
-        <Field.Upload disabled />
-        <Tools.Log />
-      </Flex.Stack>
+    <Form.Handler
+      defaultData={{
+        listOfFiles: [
+          {
+            files: undefined,
+          },
+          {
+            files: undefined,
+          },
+        ],
+      }}
+    >
+      <Iterate.Array path="/listOfFiles">
+        <Field.Upload
+          itemPath="/files"
+          label="Required field with async fileHandler"
+          fileHandler={mockAsyncFileUpload}
+          required
+        />
+      </Iterate.Array>
+      <Tools.Log />
     </Form.Handler>
   )
 }
