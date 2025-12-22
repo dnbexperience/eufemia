@@ -196,7 +196,7 @@ describe('Field.Upload', () => {
   })
 
   it('should render predefined empty list value', () => {
-    render(<Field.Upload value={undefined} />)
+    render(<Field.Upload value={[]} />)
 
     const list = document.querySelector('ul')
     expect(list).not.toBeInTheDocument()
