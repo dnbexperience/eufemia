@@ -358,34 +358,6 @@ export const AnchorExampleHeadings = () => (
   </Wrapper>
 )
 
-export const AnchorLegacyUsage = () => {
-  return (
-    <Wrapper>
-      <ComponentBox hideCode scope={{ Example }}>
-        <Example data-visual-test="anchor-legacy-icon">
-          <Anchor href="/uilib/components/anchor">
-            Anchor with Icon <IconPrimary icon="chevron_right" />
-          </Anchor>
-        </Example>
-        <Example data-visual-test="anchor-legacy-paragraph">
-          <P>
-            text{' '}
-            <Anchor href="/uilib/components/anchor">
-              Inside a Paragraph <IconPrimary icon="bell" />
-            </Anchor>{' '}
-            text
-          </P>
-        </Example>
-        <Example data-visual-test="anchor-legacy-blank-with-icon">
-          <Anchor target="_blank" href="/uilib/components/anchor">
-            <IconPrimary icon="bell" /> Blank target with https
-          </Anchor>
-        </Example>
-      </ComponentBox>
-    </Wrapper>
-  )
-}
-
 const WidthMarkers = () => (
   <>
     {/* eslint-disable-next-line no-irregular-whitespace*/}

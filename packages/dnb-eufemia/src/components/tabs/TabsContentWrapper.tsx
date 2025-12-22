@@ -16,23 +16,20 @@ import HeightAnimation from '../height-animation/HeightAnimation'
 export default class ContentWrapper extends React.PureComponent<ContentWrapperProps> {
   static propTypes = {
     id: PropTypes.string.isRequired,
-    selected_key: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number,
-    ]),
-    content_style: PropTypes.string,
+    selectedKey: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    contentStyle: PropTypes.string,
     animate: PropTypes.bool,
-    content_spacing: PropTypes.oneOfType([
+    contentSpacing: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool,
     ]),
     children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
   }
   static defaultProps = {
-    selected_key: null,
-    content_style: null,
+    selectedKey: null,
+    contentStyle: null,
     animate: null,
-    content_spacing: true,
+    contentSpacing: true,
     children: null,
   }
 
@@ -68,10 +65,10 @@ export default class ContentWrapper extends React.PureComponent<ContentWrapperPr
     const {
       id,
       children,
-      selected_key: key,
-      content_style,
+      selectedKey: key,
+      contentStyle,
       animate,
-      content_spacing,
+      contentSpacing,
       ...rest
     } = this.props
 
@@ -101,12 +98,12 @@ export default class ContentWrapper extends React.PureComponent<ContentWrapperPr
         tabIndex="-1"
         id={`${id}-content`}
         element={
-          content_style
+          contentStyle
             ? React.forwardRef((props, ref) => {
                 return (
                   <Section
-                    spacing={content_style ? false : undefined}
-                    style_type={content_style ? content_style : undefined}
+                    spacing={contentStyle ? false : undefined}
+                    style_type={contentStyle ? contentStyle : undefined}
                     innerRef={ref}
                     {...props}
                   />
@@ -117,9 +114,9 @@ export default class ContentWrapper extends React.PureComponent<ContentWrapperPr
         className={classnames(
           'dnb-tabs__content',
           'dnb-no-focus',
-          content_spacing
+          contentSpacing
             ? `dnb-section--spacing-${
-                isTrue(content_spacing) ? 'large' : content_spacing
+                isTrue(contentSpacing) ? 'large' : contentSpacing
               }`
             : null,
           createSpacingClasses(rest)
@@ -148,9 +145,9 @@ export type ContentWrapperChildren =
 
 export interface ContentWrapperProps extends React.HTMLProps<HTMLElement> {
   id: string
-  selected_key?: ContentWrapperSelectedKey
-  content_style?: SectionStyleTypes | SectionVariants
+  selectedKey?: ContentWrapperSelectedKey
+  contentStyle?: SectionStyleTypes | SectionVariants
   animate?: boolean
-  content_spacing?: SectionSpacing
+  contentSpacing?: SectionSpacing
   children?: ContentWrapperChildren
 }

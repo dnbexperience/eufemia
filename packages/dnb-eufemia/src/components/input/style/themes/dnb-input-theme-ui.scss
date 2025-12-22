@@ -45,7 +45,7 @@
     border: none;
   }
 
-  // With status_state = "error"
+  // With statusState = "error"
   &__status--error#{&} &__shell:not(:focus-within) {
     color: var(--color-fire-red);
   }

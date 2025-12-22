@@ -56,7 +56,7 @@ function RemoveButton(props: Props) {
     text: replaceItemNo(textContent, index),
     variant: textContent ? 'tertiary' : 'secondary',
     icon: trash,
-    icon_position: 'left',
+    iconPosition: 'left',
     ...buttonProps,
   }
 
@@ -74,7 +74,7 @@ function RemoveButton(props: Props) {
   return (
     <Button
       {...triggerAttributes}
-      on_click={handleClick}
+      onClick={handleClick}
       {...buttonProps}
     />
   )

@@ -188,7 +188,7 @@ describe('Heading component', () => {
       'Heading #1'
     )
 
-    rerender(<RenderComp level={4} skip_correction={true} />)
+    rerender(<RenderComp level={4} skipCorrection={true} />)
 
     expect(document.querySelector('.dnb-heading').textContent).toBe(
       '[h4] Heading #1'
@@ -352,10 +352,10 @@ describe('Heading component', () => {
     )
   })
 
-  it('should set level if skip_correction is true', () => {
+  it('should set level if skipCorrection is true', () => {
     render(
       <React.StrictMode>
-        <Heading.Level debug={warn} skip_correction reset={1}>
+        <Heading.Level debug={warn} skipCorrection reset={1}>
           <Heading level={4}>Heading #1</Heading>
           <Heading increase>Heading #2</Heading>
         </Heading.Level>
@@ -372,7 +372,7 @@ describe('Heading component', () => {
       <React.StrictMode>
         <Heading.Level debug={warn}>
           <Heading>Heading #1</Heading>
-          <Heading.Increase skip_correction level={6}>
+          <Heading.Increase skipCorrection level={6}>
             <Heading>Heading #2</Heading>
             <Heading increase>Heading #3</Heading>
           </Heading.Increase>

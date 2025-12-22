@@ -25,7 +25,7 @@ export default function ChangeStyleTheme({ label = null, ...rest } = {}) {
       value={name}
       data={date}
       label={label}
-      on_change={({ data: { value } }) => {
+      onChange={({ data: { value } }) => {
         update({ skeleton: true })
         setTheme({ name: value }, () => {
           update({ skeleton: false })
@@ -45,7 +45,7 @@ function PropMapping({ enabled, ...props }) {
       top
       label="Toggle Color Mapping"
       checked={propMapping === 'basis' || enabled}
-      on_change={({ checked }) => {
+      onChange={({ checked }) => {
         setTheme({ propMapping: checked ? 'basis' : null })
       }}
       {...props}

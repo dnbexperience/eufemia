@@ -18,16 +18,13 @@ import {
   Checkbox,
   Radio,
   DatePicker,
-  FormRow,
   ToggleButton,
   Accordion,
   Skeleton,
   IconPrimary,
 } from '../..'
-import { H1, H2, P, Ol, Li, Ul, Dl, Dt, Dd, Anchor } from '../../..'
+import { H1, H2, P, Ol, Li, Ul, Dl, Dt, Dd, Anchor, Flex } from '../../..'
 import Provider from '../../../shared/Provider'
-
-// import SkeletonArticle from '../../skeleton/figures/Article'
 import { Article as SkeletonArticle } from '../figures'
 
 export default {
@@ -41,37 +38,22 @@ const CustomStyle = styled.div`
   }
 `
 
-const WidthLimit = styled(FormRow)`
+const WidthLimit = styled(Flex.Vertical)`
   ${'' /* width: 10rem; */}
 `
 
 export const SkeletonSandbox = () => {
-  // React.useEffect(() => {
-  //   console.log('myRef', myRef.current)
-  //   // console.log('myRef', Input, myRef.current)
-  //   // myRef.current.focus()
-  // })
-
   const [showSkeleton, setSkeletonState] = React.useState(true)
-  // console.log('showSkeleton', showSkeleton)
 
   return (
-    <Provider
-    // skeleton={showSkeleton}
-    // formElement={{ skeleton: showSkeleton }}
-    >
-      <Skeleton
-        show={showSkeleton}
-        // no_animation
-        // show
-        // figure={() => <SkeletonArticle rows={2} />}
-      >
+    <Provider>
+      <Skeleton show={showSkeleton}>
         <CustomStyle>
           <Wrapper>
             <Box>
               <Skeleton.Exclude>
                 <Accordion
-                  remember_state
+                  rememberState
                   id="single-accordion"
                   variant="outlined"
                   title="Accordion title"
@@ -80,9 +62,9 @@ export const SkeletonSandbox = () => {
                 </Accordion>
                 <Accordion.Provider
                   top
-                  remember_state
+                  rememberState
                   icon="bell"
-                  icon_position="right"
+                  iconPosition="right"
                   variant="outlined"
                 >
                   <Accordion
@@ -100,7 +82,7 @@ export const SkeletonSandbox = () => {
                 <ToggleButton
                   skeleton={false}
                   checked={showSkeleton}
-                  on_change={() => setSkeletonState((s) => !s)}
+                  onChange={() => setSkeletonState((s) => !s)}
                 >
                   Toggle Skeleton
                 </ToggleButton>
@@ -116,36 +98,19 @@ export const SkeletonSandbox = () => {
               <Button variant="tertiary" icon="bell">
                 Button
               </Button>
-              <Slider
-                label="Vertical slider:"
-                vertical={false}
-                // disabled
-                top
-              />
+              <Slider label="Vertical slider:" vertical={false} top />
               <Modal top>123</Modal>
-              <Checkbox
-                label="Checkbox:"
-                // disabled
-                left
-              />
-              <Switch
-                label="Switch:"
-                // disabled
-                left
-              />
-              <Radio
-                label="Radio:"
-                // disabled
-                left
-              />
-              <Input top label_direction="vertical" label="Input" />
-              <Textarea top label_direction="vertical" label="Textarea" />
+              <Checkbox label="Checkbox:" left />
+              <Switch label="Switch:" left />
+              <Radio label="Radio:" left />
+              <Input top labelDirection="vertical" label="Input" />
+              <Textarea top labelDirection="vertical" label="Textarea" />
             </Box>
 
             <Box>
               <DatePicker label="Date" />
               <br />
-              <DatePicker label="Date with input" show_input />
+              <DatePicker label="Date with input" showInput />
             </Box>
 
             <Box>
@@ -157,7 +122,7 @@ export const SkeletonSandbox = () => {
             </Box>
 
             <Box>
-              <WidthLimit vertical>
+              <WidthLimit>
                 {/* <div className="dnb-skeleton dnb-h--large">y</div> */}
                 <H2>H2</H2>
                 <P top>
@@ -179,7 +144,7 @@ export const SkeletonSandbox = () => {
                   label="Input"
                   size="large"
                   placeholder="Placeholder"
-                  icon_position="right"
+                  iconPosition="right"
                   icon="calendar"
                   align="right"
                 />
@@ -287,7 +252,7 @@ export const SkeletonSandbox = () => {
                   label="Input"
                   size="large"
                   placeholder="Placeholder"
-                  icon_position="right"
+                  iconPosition="right"
                   icon="calendar"
                   align="right"
                 />

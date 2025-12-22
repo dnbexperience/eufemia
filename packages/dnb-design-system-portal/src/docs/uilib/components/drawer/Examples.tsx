@@ -235,7 +235,7 @@ export const DrawerCustomTriggerExample = () => (
         variant: 'primary',
         size: 'large',
         icon: 'loupe',
-        icon_position: 'left',
+        iconPosition: 'left',
       }}
     >
       <Drawer.Body spacing>
@@ -254,7 +254,7 @@ export const DrawerCallbackExample = () => (
     >
       {({ close }) => (
         <>
-          <Button text="Close by callback" on_click={close} />
+          <Button text="Close by callback" onClick={close} />
         </>
       )}
     </Drawer>

@@ -254,23 +254,23 @@ function SelectCountry(props: Props) {
       <Autocomplete
         id={id}
         placeholder={placeholder}
-        input_icon={false}
+        inputIcon={false}
         data={dataRef.current}
         value={typeof value === 'string' ? value : null}
         disabled={disabled}
         size={size}
-        on_show={fillData}
-        on_focus={onFocusHandler}
-        on_blur={handleBlur}
-        on_change={handleCountryChange}
-        on_type={onTypeHandler}
+        onShow={fillData}
+        onFocus={onFocusHandler}
+        onBlur={handleBlur}
+        onChange={handleCountryChange}
+        onType={onTypeHandler}
         stretch
         selectall
         status={hasError ? 'error' : undefined}
-        show_submit_button
-        keep_selection
+        showSubmitButton
+        keepSelection
         autoComplete={autoComplete ?? 'country-name'}
-        no_animation={noAnimation}
+        noAnimation={noAnimation}
         {...htmlAttributes}
       />
     </FieldBlock>

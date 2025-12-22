@@ -172,7 +172,7 @@ export default function SidebarLayout({
           top: 'large',
           text: 'Portal Tools',
           icon: 'chevron_right',
-          icon_position: 'right',
+          iconPosition: 'right',
         }}
         tooltipPosition="bottom"
         hideWhenMediaLarge
@@ -222,7 +222,7 @@ const ThemeBadge = ({ theme, ...props }: { theme: ThemeNames }) => {
       ui: 'DNB',
       sbanken: 'Sbanken',
       eiendom: 'Eiendom',
-      carnegie: 'Carnegie',
+      carnegie: 'DNB Carnegie',
     }[theme]
   const themeTitleTitle =
     theme && `This component is ready for use with the ${themeTitle} theme`

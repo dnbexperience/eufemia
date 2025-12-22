@@ -20,8 +20,6 @@ import {
   Space,
   Code,
   Grid,
-  FormSet,
-  FormRow,
 } from '@dnb/eufemia/src'
 import {
   TestElement,
@@ -316,22 +314,9 @@ export const ResponsiveGridContainer = () => {
   )
 }
 
-// Deprecated – can be removed in v11
-export const FormSetAlternativeBefore = () => (
-  <ComponentBox>
-    <FormSet label_direction="vertical">
-      <H2 top={0}>Heading</H2>
-      <FormRow label={<span className="dnb-h--medium">Legend</span>}>
-        <Input label="Label A" right />
-        <Input label="Label B" />
-      </FormRow>
-    </FormSet>
-  </ComponentBox>
-)
-
 export const FormSetAlternativeAfter = () => (
   <ComponentBox>
-    <Provider formElement={{ label_direction: 'vertical' }}>
+    <Provider formElement={{ labelDirection: 'vertical' }}>
       <Form.Handler>
         <H2 top={0}>Heading</H2>
         <FieldBlock label={<span className="dnb-h--medium">Legend</span>}>
@@ -480,7 +465,11 @@ export const AllComponentsVerticalLabelsTestCase = (
     data-visual-test="form-components-alignment-vertical-labels"
     {...props}
   >
-    <Provider formElement={{ label_direction: 'vertical' }}>
+    <Provider
+      formElement={{
+        labelDirection: 'vertical',
+      }}
+    >
       <AllComponents direction="vertical" />
     </Provider>
   </div>

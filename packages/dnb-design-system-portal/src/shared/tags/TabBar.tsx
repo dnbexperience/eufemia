@@ -105,16 +105,16 @@ export default function TabBar({
   return (
     <div className="dnb-tab-bar dnb-tabs">
       {title && (
-        <AutoLinkHeader className="dnb-no-focus" level={1} skip_correction>
+        <AutoLinkHeader className="dnb-no-focus" level={1} skipCorrection>
           {title}
         </AutoLinkHeader>
       )}
       <Tabs
         id="tab-bar"
         onOpenTabNavigationFn={navigate}
-        tab_element={Link}
+        tabElement={Link}
         data={preparedTabs}
-        selected_key={selectedKey}
+        selectedKey={selectedKey}
         render={({ Wrapper, Content, TabsList, Tabs }) => {
           return (
             <Wrapper className={tabsWrapperStyle}>
@@ -122,7 +122,7 @@ export default function TabBar({
                 <Tabs />
                 {wasFullscreen ? (
                   <Button
-                    on_click={quitFullscreen}
+                    onClick={quitFullscreen}
                     href={quitFullscreenPath}
                     element={Link}
                     variant="secondary"
@@ -132,7 +132,7 @@ export default function TabBar({
                   />
                 ) : (
                   <Button
-                    on_click={openFullscreen}
+                    onClick={openFullscreen}
                     href={fullscreenPath}
                     element={Link}
                     variant="secondary"
@@ -153,5 +153,5 @@ export default function TabBar({
 }
 
 TabBar.ContentWrapper = (props) => (
-  <Tabs.ContentWrapper id="tab-bar" content_spacing={false} {...props} />
+  <Tabs.ContentWrapper id="tab-bar" contentSpacing={false} {...props} />
 )

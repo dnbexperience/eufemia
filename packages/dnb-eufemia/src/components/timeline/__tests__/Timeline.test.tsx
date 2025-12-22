@@ -287,7 +287,7 @@ describe('Timeline', () => {
                 subtitle={
                   <Input
                     value={value}
-                    on_change={({ value }) => {
+                    onChange={({ value }) => {
                       setValue(value)
                     }}
                   />

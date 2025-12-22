@@ -35,54 +35,6 @@ export function withCamelCaseProps<TBase, P>(
 }
 
 /**
- * withCamelCaseProps is a HOC for classes
- * it will return a React Component where all snake_case props gets converted to camelCase
- *
- * Use the same for TypeScript types by using: ToCamelCase
- *
- * @param Base the original function or class
- * @returns extended function or class
- */
-export function classWithCamelCaseProps<
-  TBase extends React.ComponentClass,
->(Base: TBase): typeof Base {
-  const Component: React.ComponentClass = Base
-
-  // Bug? https://github.com/microsoft/TypeScript/issues/37142
-  // @ts-ignore
-  class Derived extends Base {
-    _prevProps: Record<string, unknown>
-    _elem: React.ReactElement
-
-    componentDidMount() {
-      // ensures we do not run componentDidMount twice
-    }
-
-    render() {
-      if (this.props !== this._prevProps) {
-        this._prevProps = this.props
-        this._elem = (
-          // @ts-ignore
-          <Component {...convertCamelCasePropsToSnakeCase(this.props)} />
-        )
-      }
-
-      return this._elem
-    }
-  }
-
-  Object.defineProperty(Derived, 'name', {
-    value: Base.name,
-  })
-
-  Object.defineProperty(Derived, 'displayName', {
-    value: Base.displayName || Base.name,
-  })
-
-  return Derived
-}
-
-/**
  * Converts camel case props to snake case props.
  */
 export function convertCamelCasePropsToSnakeCase<P>(

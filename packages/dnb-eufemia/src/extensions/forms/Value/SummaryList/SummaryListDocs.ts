@@ -22,7 +22,7 @@ export const SummaryListProperties: PropertiesTableProps = {
   transformLabel,
   children: {
     doc: 'Contents.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'required',
   },
   '[Space](/uilib/layout/space/properties)': {

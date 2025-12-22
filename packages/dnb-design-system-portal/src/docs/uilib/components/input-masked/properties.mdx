@@ -22,16 +22,16 @@ The number mask is used for all kinds of number based masks, like:
 
 **Locale based masks:**
 
-- `as_number`
-- `as_currency`
-- `as_percent`
+- `asNumber`
+- `asCurrency`
+- `asPercent`
 
 **Static masks:**
 
-- `number_mask`
-- `currency_mask`
+- `numberMask`
+- `currencyMask`
 
-You can `mask_options` to manipulate the options.
+You can `maskOptions` to manipulate the options.
 
 Defaults to Norwegian number format.
 
@@ -39,7 +39,7 @@ Defaults to Norwegian number format.
 
 ### Custom number mask usage
 
-The number mask is included and can be set with the `number_mask` property.
+The number mask is included and can be set with the `numberMask` property.
 
 ```jsx
 
@@ -49,8 +49,8 @@ const numberMask = {
   suffix: ',- kr'
 }
 
-// 2. Then pass 'numberMask' to the InputMasked component as the number_mask
-<InputMasked number_mask={numberMask} ... />
+// 2. Then pass 'numberMask' to the InputMasked component as the numberMask
+<InputMasked numberMask={numberMask} ... />
 ```
 
 But in case you have to create the mask by yourself, you can do so:
@@ -78,7 +78,7 @@ render(
     label="Email:"
     mask={emailMask}
     placeholder="@."
-    keep_placeholder={true}
+    keepPlaceholder={true}
   />,
 )
 ```

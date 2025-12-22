@@ -94,7 +94,7 @@ export const FormStatusAnimation = () => (
               value="Input value"
               right
             />
-            <ToggleButton top on_change={toggleStatus}>
+            <ToggleButton top onChange={toggleStatus}>
               Toggle
             </ToggleButton>
           </Provider>
@@ -118,7 +118,7 @@ export const FormStatusCustom = () => (
         <Input
           label="Input with custom status"
           status={<CustomStatus />}
-          status_state="info"
+          statusState="info"
           value="Input value"
         />
       )
