@@ -188,6 +188,20 @@ describe('Field.Upload', () => {
     expect(list).toHaveTextContent('fileName-1.png')
   })
 
+  it('should render predefined undefined value', () => {
+    render(<Field.Upload value={undefined} />)
+
+    const list = document.querySelector('ul')
+    expect(list).not.toBeInTheDocument()
+  })
+
+  it('should render predefined empty list value', () => {
+    render(<Field.Upload value={undefined} />)
+
+    const list = document.querySelector('ul')
+    expect(list).not.toBeInTheDocument()
+  })
+
   it('should render help prop', () => {
     render(
       <Field.Upload
