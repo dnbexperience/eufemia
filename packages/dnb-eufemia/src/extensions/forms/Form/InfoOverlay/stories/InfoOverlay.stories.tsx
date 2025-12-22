@@ -1,4 +1,4 @@
-import { Field, Form, Tools, Wizard } from '../../..'
+import { Field, Form, JsonObject, Tools, Wizard } from '../../..'
 import { Button } from '../../../../../components'
 
 export default {
@@ -87,5 +87,36 @@ export function Content() {
         <Tools.Log />
       </Form.Handler>
     </>
+  )
+}
+
+export function ReduceToVisibleFieldsIssue() {
+  const formId = 'formId'
+
+  const defaultData = {
+    firstName: 'Dronning',
+    lastName: 'Eufemia',
+  }
+
+  const onSubmit = (data: JsonObject) => {
+    console.log('Submitted data:', data)
+    Form.InfoOverlay.setContent(formId, 'error')
+  }
+
+  return (
+    <Form.Handler
+      defaultData={defaultData}
+      id={formId}
+      onSubmit={async (data, { reduceToVisibleFields }) => {
+        onSubmit(reduceToVisibleFields(data))
+      }}
+    >
+      <Form.InfoOverlay>
+        <Field.Name.First bottom path="/firstName" />
+        <Field.Name.Last path="/lastName" />
+
+        <Form.SubmitButton top />
+      </Form.InfoOverlay>
+    </Form.Handler>
   )
 }

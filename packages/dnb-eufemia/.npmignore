@@ -59,7 +59,7 @@ completions.json
 .DS_Store
 *not_in_use*
 
-# enviroment
+# environment
 .env
 .env.*
 

@@ -12,7 +12,7 @@ export const UploadProperties: PropertiesTableProps = {
     status: 'optional',
   },
   variant: {
-    doc: 'defines the appearance. Use one of these: `normal` or `compact`. Defaults to `normal`.',
+    doc: 'Defines the appearance. Use one of these: `normal` or `compact`. Defaults to `normal`.',
     type: ['normal', 'compact'],
     status: 'optional',
   },
@@ -141,7 +141,7 @@ export const FileItemProperties: PropertiesTableProps = {
     status: 'optional',
   },
   deleteButtonProps: {
-    doc: 'define any valid Eufemia [Button properties](/uilib/components/button/properties) or HTML attribute inside an object.',
+    doc: 'Define any valid Eufemia [Button properties](/uilib/components/button/properties) or HTML attribute inside an object.',
     type: 'ButtonProps',
     status: 'optional',
   },

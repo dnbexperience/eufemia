@@ -43,6 +43,6 @@ Find more information about how to contribute in [Eufemia Portal - Contribute](h
 </a>
 <!-- markdownlint-enable MD033 -->
 
-## Licence
+## License
 
 Go to [LICENSE](https://github.com/dnbexperience/eufemia/blob/main/LICENSE).

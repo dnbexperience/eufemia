@@ -1,5 +1,5 @@
 import React from 'react'
-import { render } from '@testing-library/react'
+import { render, waitFor } from '@testing-library/react'
 import HeightAnimation from '../HeightAnimation'
 import HeightAnimationInstance from '../HeightAnimationInstance'
 import {
@@ -52,7 +52,7 @@ describe('HeightAnimation', () => {
     ).toHaveAttribute('style', '--delay: 1000ms;')
   })
 
-  it('should adjust height when content changes', () => {
+  it('should adjust height when content changes', async () => {
     globalThis.readjustTime = 1
 
     const { rerender } = render(
@@ -74,6 +74,12 @@ describe('HeightAnimation', () => {
     mockHeight(200)
 
     rerender(<HeightAnimation open>456</HeightAnimation>)
+
+    // Wait for the useLayoutEffect to run and the animation to start
+    // The shouldAdjust() check needs at least 1ms (readjustTime = 1) to pass
+    await waitFor(() => {
+      expect(getElement()).toHaveClass('dnb-height-animation--animating')
+    })
 
     nextAnimationFrame()
     expect(getElement()).toHaveAttribute('style', 'height: 100px;')

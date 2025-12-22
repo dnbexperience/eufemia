@@ -42,6 +42,32 @@ When it comes to supporting different countries, Eufemia Forms may prefer to int
   - validates the identification number as a D number when first digit is 4 or greater (because a D number has its first number increased by 4).
   - validates the identification number as a national identity number (fødselsnummer) when first digit is 3 or less.
 
+### Extending validators
+
+Keep the built-in validators while adding custom rules by returning them together with your own logic. Import `NationalIdentityNumberValidator` so TypeScript tracks each exported validator.
+
+```tsx
+import { Field } from '@dnb/eufemia/extensions/forms'
+import type { NationalIdentityNumberValidator } from '@dnb/eufemia/extensions/forms/Field/NationalIdentityNumber'
+
+const myValidator: NationalIdentityNumberValidator = (
+  value,
+  { validators },
+) => {
+  const { dnrAndFnrValidator } = validators ?? {}
+  const mustIncludeSeven = (value: string) => {
+    if (value && !value.includes('7')) {
+      return new Error('Identifier must contain the digit 7')
+    }
+  }
+
+  // Compose the default validator with a custom digit check.
+  return [dnrAndFnrValidator, mustIncludeSeven]
+}
+
+render(<Field.NationalIdentityNumber onBlurValidator={myValidator} />)
+```
+
 ### createMinimumAgeValidator
 
 You can create your own age validator by using the `createMinimumAgeValidator` function. It takes an age as a parameter and returns a validator function. The validator function takes a value and returns an error message if the value is not above the given age.

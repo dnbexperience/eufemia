@@ -92,18 +92,20 @@ The validation happens on blur, internally using the `onBlurValidator` [property
 You can extend the validation by providing your own `onBlurValidator` function. Access the internal validator through the `validators` parameter and combine it with your custom validation. This allows you to add additional validation rules while keeping the default validation intact.
 
 ```tsx
-import { Field } from '@dnb/eufemia/extensions/forms'
+import { Field, Validator } from '@dnb/eufemia/extensions/forms'
+import type { CompanyNameValidator } from '@dnb/eufemia/extensions/forms/Field/Name'
 
 // Extend validation to require company names to contain "Corp"
-const myValidator = (value, { validators }) => {
+const myValidator: CompanyNameValidator = (value, { validators }) => {
   const { companyValidator } = validators
 
-  const customValidator = (value: string) => {
+  const customValidator: Validator<string> = (value) => {
     if (value && !value.includes('Corp')) {
       return new Error('Company name must contain "Corp"')
     }
   }
 
+  // Keep the built-in company validation along with the custom rule.
   return [companyValidator, customValidator]
 }
 

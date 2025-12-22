@@ -34,7 +34,7 @@ export const ModalProperties: PropertiesTableProps = {
     status: 'optional',
   },
   children: {
-    doc: 'the content which will appear when triggering open the modal. If a function is given, you get a close method `() => ({ close })` in the arguments.',
+    doc: 'The content which will appear when triggering open the modal. If a function is given, you get a close method `() => ({ close })` in the arguments.',
     type: ['React.ReactNode', 'function'],
     status: 'optional',
   },
@@ -44,12 +44,12 @@ export const ModalProperties: PropertiesTableProps = {
     status: 'optional',
   },
   openState: {
-    doc: 'use this property to control the open/close state by setting either: `opened` / `closed` or `true` / `false`.',
+    doc: 'Use this property to control the open/close state by setting either: `opened` / `closed` or `true` / `false`.',
     type: ['boolean', 'opened', 'closed'],
     status: 'optional',
   },
   openDelay: {
-    doc: 'forces the modal to delay the opening. The delay is given in `ms`.',
+    doc: 'Forces the modal to delay the opening. The delay is given in `ms`.',
     type: ['number', 'string'],
     status: 'optional',
   },
@@ -59,12 +59,12 @@ export const ModalProperties: PropertiesTableProps = {
     status: 'optional',
   },
   noAnimation: {
-    doc: 'if set to `true`, no open/close animation will be shown. Defaults to `false`.',
+    doc: 'If set to `true`, no open/close animation will be shown. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
   noAnimationOnMobile: {
-    doc: 'same as `noAnimation`, but gets triggered only if the viewport width is less than `40em`. Defaults to `false`.',
+    doc: 'Same as `noAnimation`, but gets triggered only if the viewport width is less than `40em`. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
@@ -74,7 +74,7 @@ export const ModalProperties: PropertiesTableProps = {
     status: 'optional',
   },
   preventClose: {
-    doc: "if set to `true` (boolean or string), then the user can't close the modal.",
+    doc: "If set to `true` (boolean or string), then the user can't close the modal.",
     type: 'boolean',
     status: 'optional',
   },
@@ -84,12 +84,12 @@ export const ModalProperties: PropertiesTableProps = {
     status: 'optional',
   },
   openModal: {
-    doc: 'set a function to call the callback function, once the modal should open: `openModal={(open) => open()}`.',
+    doc: 'Set a function to call the callback function, once the modal should open: `openModal={(open) => open()}`.',
     type: 'function',
     status: 'optional',
   },
   closeModal: {
-    doc: 'set a function to call the callback function, once the modal should close: `closeModal={(close) => close()}`.',
+    doc: 'Set a function to call the callback function, once the modal should close: `closeModal={(close) => close()}`.',
     type: 'function',
     status: 'optional',
   },
@@ -99,27 +99,27 @@ export const ModalProperties: PropertiesTableProps = {
     status: 'optional',
   },
   overlayClass: {
-    doc: 'give the page overlay a custom class name (maps to `dnb-modal__overlay`).',
+    doc: 'Give the page overlay a custom class name (maps to `dnb-modal__overlay`).',
     type: 'string',
     status: 'optional',
   },
   contentClass: {
-    doc: 'give the content wrapper a custom class name (maps to `dnb-modal__content`).',
+    doc: 'Give the content wrapper a custom class name (maps to `dnb-modal__content`).',
     type: 'string',
     status: 'optional',
   },
   omitTriggerButton: {
-    doc: 'omits default showing trigger button.',
+    doc: 'Omits default showing trigger button.',
     type: 'boolean',
     status: 'optional',
   },
   trigger: {
-    doc: 'provide a custom trigger component. Like `trigger={<Anchor href="/" />}`. It will set the focus on it when the modal gets closed.',
+    doc: 'Provide a custom trigger component. Like `trigger={<Anchor href="/" />}`. It will set the focus on it when the modal gets closed.',
     type: ['React.ReactNode', 'function'],
     status: 'optional',
   },
   triggerAttributes: {
-    doc: 'send along with custom HTML attributes or properties to the trigger button.',
+    doc: 'Send along with custom HTML attributes or properties to the trigger button.',
     type: 'Various',
     status: 'optional',
   },
@@ -154,27 +154,27 @@ export const ModalProperties: PropertiesTableProps = {
     status: 'optional',
   },
   spacing: {
-    doc: 'if set to `false` then the modal content will be shown without any spacing. Defaults to `true`.',
+    doc: 'If set to `false` then the modal content will be shown without any spacing. Defaults to `true`.',
     type: 'boolean',
     status: 'optional',
   },
   closeTitle: {
-    doc: 'the title of the close button. Defaults to _Lukk_.',
+    doc: 'The title of the close button. Defaults to _Lukk_.',
     type: 'string',
     status: 'optional',
   },
   hideCloseButton: {
-    doc: 'if true, the close button will not be shown.',
+    doc: 'If true, the close button will not be shown.',
     type: 'boolean',
     status: 'optional',
   },
   class: {
-    doc: 'give the inner content wrapper a class name (maps to `dnb-modal__content__inner`).',
+    doc: 'Give the inner content wrapper a class name (maps to `dnb-modal__content__inner`).',
     type: 'string',
     status: 'optional',
   },
   className: {
-    doc: 'give the inner content wrapper a class name (maps to `dnb-modal__content__inner`).',
+    doc: 'Give the inner content wrapper a class name (maps to `dnb-modal__content__inner`).',
     type: 'string',
     status: 'optional',
   },

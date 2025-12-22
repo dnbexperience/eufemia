@@ -5,6 +5,7 @@ import React, {
   ElementRef,
   MutableRefObject,
   useCallback,
+  useMemo,
 } from 'react'
 import classnames from 'classnames'
 import SharedContext from '../../../../shared/Context'
@@ -77,6 +78,13 @@ function Password({
   const translations = useTranslation().Password
 
   const ref = useRef<ElementRef<'input'>>(innerRef?.current ?? null)
+
+  const errorMessages = useMemo(() => {
+    return {
+      'Field.errorRequired': translations.errorRequired,
+      ...props.errorMessages,
+    }
+  }, [translations.errorRequired, props.errorMessages])
 
   const toggleVisibility = useCallback(
     (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -171,6 +179,7 @@ function Password({
       disabled={disabled}
       size={size}
       autoComplete="current-password"
+      errorMessages={errorMessages}
       {...props}
     />
   )

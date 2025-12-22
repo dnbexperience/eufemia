@@ -54,7 +54,7 @@ function PostalCodeAndCity(props: Props) {
     country,
     countryCode = countryCodeFromProvider ?? defaultCountry,
     size,
-    ...fieldBlockProps
+    ...compositionFieldProps
   } = props
 
   const countryCodeValue = getSourceValue(country || countryCode)
@@ -122,7 +122,7 @@ function PostalCodeAndCity(props: Props) {
         'dnb-forms-field-postal-code-and-city',
         props.className
       )}
-      {...fieldBlockProps}
+      {...compositionFieldProps}
       width={width}
     >
       <StringField

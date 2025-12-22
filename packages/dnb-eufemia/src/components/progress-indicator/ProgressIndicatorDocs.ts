@@ -118,17 +118,17 @@ export const CustomColorsData: PropertiesTableProps = {
 export const ProgressIndicatorDeprecatedProperties: PropertiesTableProps =
   {
     no_animation: {
-      doc: 'use `noAnimation`.',
+      doc: 'Use `noAnimation`.',
       type: ' boolean',
       status: 'deprecated',
     },
     label_direction: {
-      doc: 'use `labelDirection`.',
+      doc: 'Use `labelDirection`.',
       type: 'string',
       status: 'deprecated',
     },
     show_label: {
-      doc: 'use `showDefaultLabel`.',
+      doc: 'Use `showDefaultLabel`.',
       type: 'boolean',
       status: 'deprecated',
     },
@@ -144,7 +144,7 @@ export const ProgressIndicatorEvents: PropertiesTableProps = {
 }
 export const ProgressIndicatorDeprecatedEvents: PropertiesTableProps = {
   on_complete: {
-    doc: 'use `onComplete`.',
+    doc: 'Use `onComplete`.',
     type: 'function',
     status: 'deprecated',
   },

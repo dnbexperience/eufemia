@@ -195,7 +195,7 @@ export default function SidebarLayout({
     try {
       // The scroll to active list item codeblock seems to only be working on smaller screen sizes i.e. tablet/phones, is this intentional?
       // As of now it only targets the window scroll, which means it's only automatically scrolling on smaller devices, since on desktop
-      // the menu has it's own internal scrollbar inside the <nav /> element
+      // the menu has its own internal scrollbar inside the <nav /> element
       const offset = scrollRef.current.getBoundingClientRect().top
       const rect = elem.getBoundingClientRect()
       const top = scrollRef.current.scrollTop + rect.top - offset

@@ -2,62 +2,62 @@ import { PropertiesTableProps } from '../../shared/types'
 
 export const RadioProperties: PropertiesTableProps = {
   value: {
-    doc: 'defines the `value` as a string. Use it to get the value during the `on_change` event listener callback in the **RadioGroup**.',
+    doc: 'Defines the `value` as a string. Use it to get the value during the `on_change` event listener callback in the **RadioGroup**.',
     type: 'string',
     status: 'required',
   },
   checked: {
-    doc: 'determine whether the radio is checked or not. Default will be `false`.',
+    doc: 'Determine whether the radio is checked or not. Default will be `false`.',
     type: 'boolean',
     status: 'optional',
   },
   group: {
-    doc: 'use a unique group identifier to define the Radio buttons that belongs together.',
+    doc: 'Use a unique group identifier to define the Radio buttons that belongs together.',
     type: 'string',
     status: 'optional',
   },
   size: {
-    doc: 'the size of the Radio button. For now there is **medium** (default) and **large**.',
+    doc: 'The size of the Radio button. For now there is **medium** (default) and **large**.',
     type: ['medium', 'large'],
     status: 'optional',
   },
   label: {
-    doc: 'use either the `label` property or provide a custom one.',
+    doc: 'Use either the `label` property or provide a custom one.',
     type: 'React.ReactNode',
     status: 'optional',
   },
   label_position: {
-    doc: 'defines the position of the `label`. Use either `left` or `right`. Defaults to `right`.',
+    doc: 'Defines the position of the `label`. Use either `left` or `right`. Defaults to `right`.',
     type: ['left', 'right'],
     status: 'optional',
   },
   label_sr_only: {
-    doc: 'use `true` to make the label only readable by screen readers.',
+    doc: 'Use `true` to make the label only readable by screen readers.',
     type: 'boolean',
     status: 'optional',
   },
   status: {
-    doc: 'text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.',
+    doc: 'Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.',
     type: ['error', 'info', 'boolean'],
     status: 'optional',
   },
   status_state: {
-    doc: "defines the state of the status. It's two statuses `[error, info]`. Defaults to `error`.",
+    doc: "Defines the state of the status. It's two statuses `[error, info]`. Defaults to `error`.",
     type: ['error', 'info'],
     status: 'optional',
   },
   status_props: {
-    doc: 'use an object to define additional FormStatus properties.',
+    doc: 'Use an object to define additional FormStatus properties.',
     type: 'Various',
     status: 'optional',
   },
   globalStatus: {
-    doc: 'the [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status).',
+    doc: 'The [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status).',
     type: 'Various',
     status: 'optional',
   },
   innerRef: {
-    doc: 'by providing a React.ref we can get the internally used input element (DOM). E.g. `innerRef={myRef}` by using `React.createRef()` or `React.useRef()`.',
+    doc: 'By providing a React.ref we can get the internally used input element (DOM). E.g. `innerRef={myRef}` by using `React.createRef()` or `React.useRef()`.',
     type: 'React.RefObject',
     status: 'optional',
   },
@@ -65,12 +65,12 @@ export const RadioProperties: PropertiesTableProps = {
 
 export const RadioGroupProperties: PropertiesTableProps = {
   value: {
-    doc: 'defines the pre-selected Radio button. The value has to match the one provided in the Radio button. Use a string value.',
+    doc: 'Defines the pre-selected Radio button. The value has to match the one provided in the Radio button. Use a string value.',
     type: 'string',
     status: 'optional',
   },
   name: {
-    doc: 'custom grouping name. Defaults to a random name.',
+    doc: 'Custom grouping name. Defaults to a random name.',
     type: 'string',
     status: 'optional',
   },
@@ -80,47 +80,47 @@ export const RadioGroupProperties: PropertiesTableProps = {
     status: 'optional',
   },
   size: {
-    doc: 'the size of the Radio button. For now there is **medium** (default) and **large**.',
+    doc: 'The size of the Radio button. For now there is **medium** (default) and **large**.',
     type: ['medium', 'large'],
     status: 'optional',
   },
   status: {
-    doc: 'uses the `form-status` component to show failure messages.',
+    doc: 'Uses the `form-status` component to show failure messages.',
     type: ['string', 'boolean'],
     status: 'optional',
   },
   status_state: {
-    doc: "defines the state of the status. It's two statuses `[error, info]`. Defaults to `error`.",
+    doc: "Defines the state of the status. It's two statuses `[error, info]`. Defaults to `error`.",
     type: ['error', 'info'],
     status: 'optional',
   },
   status_props: {
-    doc: 'use an object to define additional FormStatus properties.',
+    doc: 'Use an object to define additional FormStatus properties.',
     type: 'Various',
     status: 'optional',
   },
   globalStatus: {
-    doc: 'the [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status).',
+    doc: 'The [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status).',
     type: 'Various',
     status: 'optional',
   },
   label: {
-    doc: 'use either the `label` property or provide a custom one.',
+    doc: 'Use either the `label` property or provide a custom one.',
     type: 'React.ReactNode',
     status: 'optional',
   },
   label_direction: {
-    doc: 'to define the `label` layout direction on how the next element should be placed on. Can be either `vertical` or `horizontal`. Defaults to `horizontal`.',
+    doc: 'To define the `label` layout direction on how the next element should be placed on. Can be either `vertical` or `horizontal`. Defaults to `horizontal`.',
     type: ['vertical', 'horizontal'],
     status: 'optional',
   },
   label_sr_only: {
-    doc: 'use `true` to make the label only readable by screen readers.',
+    doc: 'Use `true` to make the label only readable by screen readers.',
     type: 'boolean',
     status: 'optional',
   },
   vertical: {
-    doc: 'will force both `direction` and `label_direction` to be **vertical** if set to `true`.',
+    doc: 'Will force both `direction` and `label_direction` to be **vertical** if set to `true`.',
     type: 'boolean',
     status: 'optional',
   },
@@ -128,7 +128,7 @@ export const RadioGroupProperties: PropertiesTableProps = {
 
 export const RadioEvents: PropertiesTableProps = {
   on_change: {
-    doc: 'will be called on state changes made by the user. Returns an object `{ checked, value, event }`.',
+    doc: 'Will be called on state changes made by the user. Returns an object `{ checked, value, event }`.',
     type: 'function',
     status: 'optional',
   },
@@ -136,7 +136,7 @@ export const RadioEvents: PropertiesTableProps = {
 
 export const RadioGroupEvents: PropertiesTableProps = {
   on_change: {
-    doc: 'will be called once a Radio button changes the state. Returns an object `{ value, event }`.',
+    doc: 'Will be called once a Radio button changes the state. Returns an object `{ value, event }`.',
     type: 'function',
     status: 'optional',
   },

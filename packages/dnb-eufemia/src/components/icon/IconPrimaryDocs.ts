@@ -7,7 +7,7 @@ export const IconPrimaryProperties: PropertiesTableProps = {
     status: 'required',
   },
   '[Icon](/uilib/components/icon/properties)': {
-    doc: 'accepts all default icon properties.',
+    doc: 'Accepts all default icon properties.',
     type: 'Various',
     status: 'optional',
   },

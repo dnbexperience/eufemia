@@ -501,10 +501,10 @@ describe('HelpButtonInline', () => {
 
     const button = document.querySelector('button') as HTMLButtonElement
 
-    await userEvent.click(button)
-
-    // Spy on the prototype so we catch the focus call before it triggers
+    // Spy on the prototype before clicking so we catch the focus call
     const focusSpy = jest.spyOn(HTMLElement.prototype, 'focus')
+
+    await userEvent.click(button)
 
     // Wait for the focus to be called (it happens in a useEffect with requestAnimationFrame)
     await waitFor(

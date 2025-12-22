@@ -1,5 +1,6 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import { Field, Form, Tools } from '@dnb/eufemia/src/extensions/forms'
+import type { ExpiryValidator } from '@dnb/eufemia/src/extensions/forms/Field/Expiry'
 
 export const Empty = () => {
   return (
@@ -143,7 +144,11 @@ export const ValidationExtendValidator = () => {
           }
         }
 
-        const myOnBlurValidator = (value: string, { validators }) => {
+        // Keep the built-in validator while banning December.
+        const myOnBlurValidator: ExpiryValidator = (
+          value: string,
+          { validators },
+        ) => {
           const { expiryValidator } = validators
 
           return [myExpiryValidator, expiryValidator]

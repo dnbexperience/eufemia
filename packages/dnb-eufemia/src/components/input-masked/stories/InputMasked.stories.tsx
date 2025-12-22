@@ -83,17 +83,17 @@ export function Sandbox() {
 }
 
 function BasicNumberMask() {
-  const [floatval, setState] = React.useState(10234.556)
+  const [floatVal, setState] = React.useState(10234.556)
 
   return (
     <InputMasked
       label="number_mask"
       // selectall
-      value={floatval}
+      value={floatVal}
       // placeholder="En placeholder"
       number_mask
       mask_options={{ disallowLeadingZeroes: true, allowNegative: false }}
-      suffix={<Pre>{JSON.stringify(floatval)}</Pre>}
+      suffix={<Pre>{JSON.stringify(floatVal)}</Pre>}
       on_change={({ numberValue }) => {
         setState(numberValue)
       }}
@@ -102,13 +102,13 @@ function BasicNumberMask() {
 }
 
 function BasicCurrencyMask() {
-  const [floatval, setState] = React.useState(1234.556)
+  const [floatVal, setState] = React.useState(1234.556)
 
   return (
     <InputMasked
       label="currency_mask"
       // selectall
-      value={floatval}
+      value={floatVal}
       // placeholder="En placeholder"
       currency_mask={{
         currency: 'NOK',
@@ -117,7 +117,7 @@ function BasicCurrencyMask() {
         allowNegative: false,
       }}
       // mask_options={{ disallowLeadingZeroes: true }}
-      suffix={<Pre>{JSON.stringify(floatval)}</Pre>}
+      suffix={<Pre>{JSON.stringify(floatVal)}</Pre>}
       on_change={({ numberValue }) => {
         setState(numberValue)
       }}
@@ -126,16 +126,16 @@ function BasicCurrencyMask() {
 }
 
 function CurrencyInput() {
-  const [floatval, setState] = React.useState(1234.556)
-  // const [floatval, setState] = React.useState(0.01)
+  const [floatVal, setState] = React.useState(1234.556)
+  // const [floatVal, setState] = React.useState(0.01)
 
   return (
     <InputMasked
       label="as_currency"
-      value={floatval}
+      value={floatVal}
       as_currency="NOK"
       // mask_options={{ disallowLeadingZeroes: true }}
-      suffix={<Pre>{JSON.stringify(floatval)}</Pre>}
+      suffix={<Pre>{JSON.stringify(floatVal)}</Pre>}
       on_change={({ numberValue }) => {
         setState(numberValue)
       }}
@@ -144,18 +144,18 @@ function CurrencyInput() {
 }
 
 function NumberInput() {
-  const [floatval, setState] = React.useState('1234.556')
+  const [floatVal, setState] = React.useState('1234.556')
 
   return (
     <>
       <InputMasked
         label="as_number"
-        value={floatval}
+        value={floatVal}
         as_number
         mask_options={{ allowDecimal: true, decimalLimit: null }}
-        suffix={<Pre>{JSON.stringify(floatval)}</Pre>}
-        on_change={({ numberValue }) => {
-          setState(numberValue)
+        suffix={<Pre>{JSON.stringify(floatVal)}</Pre>}
+        on_change={({ value }) => {
+          setState(value)
         }}
       />
     </>
@@ -163,16 +163,16 @@ function NumberInput() {
 }
 
 function PercentInput() {
-  const [floatval, setState] = React.useState(1)
+  const [floatVal, setState] = React.useState(1)
 
   return (
     <InputMasked
       label="as_percent"
-      value={floatval}
+      value={floatVal}
       as_percent
       mask_options={{ allowDecimal: true, disallowLeadingZeroes: true }}
       // number_mask={{ allowDecimal: true, decimalLimit: 1 }}
-      suffix={<Pre>{JSON.stringify(floatval)}</Pre>}
+      suffix={<Pre>{JSON.stringify(floatVal)}</Pre>}
       on_change={({ numberValue }) => {
         setState(numberValue)
       }}

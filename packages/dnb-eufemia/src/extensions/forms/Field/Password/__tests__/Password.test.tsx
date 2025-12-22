@@ -34,7 +34,7 @@ describe('Password component', () => {
     await userEvent.type(input, '{Backspace}')
     fireEvent.blur(input)
     expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-      nb.Field.errorRequired
+      nb.Password.errorRequired
     )
   })
 

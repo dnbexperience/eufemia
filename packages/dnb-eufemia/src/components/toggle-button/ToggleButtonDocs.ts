@@ -83,7 +83,7 @@ export const ToggleButtonProperties: PropertiesTableProps = {
 
 export const ToggleButtonEvents: PropertiesTableProps = {
   on_change: {
-    doc: 'will be called on state changes made by the user. Returns a boolean and string `{ checked, value, event }`.',
+    doc: 'Will be called on state changes made by the user. Returns a boolean and string `{ checked, value, event }`.',
     type: 'function',
     status: 'optional',
   },

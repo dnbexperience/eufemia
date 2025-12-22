@@ -242,7 +242,7 @@ export const AutocompleteProperties = {
     status: 'optional',
   },
   '[DrawerList](/uilib/components/fragments/drawer-list/properties)': {
-    doc: 'all DrawerList properties.',
+    doc: 'All DrawerList properties.',
     type: 'Various',
     status: 'optional',
   },

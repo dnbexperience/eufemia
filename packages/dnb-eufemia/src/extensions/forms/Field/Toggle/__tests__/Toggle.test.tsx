@@ -1520,7 +1520,7 @@ describe('Field.Toggle', () => {
         expect(checkbox).toHaveAttribute('aria-invalid', 'true')
       })
 
-      it('should should support {itemNo} in label', async () => {
+      it('should support {itemNo} in label', async () => {
         render(
           <Iterate.Array value={['foo', 'bar']}>
             <Field.Toggle

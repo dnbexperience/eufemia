@@ -7,7 +7,7 @@ import {
   waitFor,
 } from '@testing-library/react'
 import nbNO from '../../../constants/locales/nb-NO'
-import { Form } from '../../..'
+import { Field, Form } from '../../..'
 
 describe('Form.InfoOverlay', () => {
   it('should render success with correct text', () => {
@@ -486,5 +486,53 @@ describe('Form.InfoOverlay', () => {
       Form.InfoOverlay.setContent(formId, undefined)
     })
     expect(outerContext.data).toEqual(undefined)
+  })
+
+  it('should work together with onSubmit and reduceToVisibleFields', () => {
+    let submitData = null
+
+    const formId = 'bleeed'
+
+    const defaultData = {
+      firstName: 'Dronning',
+      lastName: 'Eufemia',
+    }
+
+    render(
+      <Form.Handler
+        defaultData={defaultData}
+        id={formId}
+        onSubmit={(data, { reduceToVisibleFields }) => {
+          submitData = reduceToVisibleFields(data)
+        }}
+      >
+        <Form.InfoOverlay>
+          <Field.Name.First bottom path="/firstName" />
+          <Field.Name.Last path="/lastName" />
+
+          <Form.Visibility visible={false}>
+            <Field.String path="/hiddenField" value="Hidden Field" />
+          </Form.Visibility>
+
+          <Form.SubmitButton top />
+        </Form.InfoOverlay>
+      </Form.Handler>
+    )
+
+    const form = document.querySelector('form')
+
+    fireEvent.submit(form)
+
+    expect(submitData).toEqual(defaultData)
+
+    act(() => {
+      Form.InfoOverlay.setContent(formId, 'error')
+    })
+
+    const retryButton = document.querySelectorAll('button')[1]
+
+    fireEvent.click(retryButton)
+
+    expect(submitData).toEqual(defaultData)
   })
 })

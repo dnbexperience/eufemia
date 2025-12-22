@@ -147,7 +147,7 @@ export const InputMaskedExampleNumberMask = () => (
         }}
         suffix="kr"
         on_change={({ numberValue }) => {
-          console.log(parseInt(numberValue || 0, 10))
+          console.log(numberValue)
         }}
       />
     </ComponentBox>

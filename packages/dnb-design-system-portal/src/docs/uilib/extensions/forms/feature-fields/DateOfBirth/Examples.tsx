@@ -1,6 +1,7 @@
 import { Value } from '@dnb/eufemia/src/extensions/forms'
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import { Field, Form, Tools } from '@dnb/eufemia/src/extensions/forms'
+import type { DateOfBirthValidator } from '@dnb/eufemia/src/extensions/forms/Field/DateOfBirth'
 
 export const Empty = () => {
   return (
@@ -112,7 +113,11 @@ export const ValidationExtendValidator = () => {
           }
         }
 
-        const myValidator = (value, { validators }) => {
+        // Keep the default validator and add a custom year rule.
+        const myValidator: DateOfBirthValidator = (
+          value,
+          { validators },
+        ) => {
           const { dateOfBirthValidator } = validators
 
           return [dateOfBirthValidator, firstDigitIs1Validator]

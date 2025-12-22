@@ -1,14 +1,24 @@
 import React, { useCallback, useMemo } from 'react'
 import StringField, { Props as StringFieldProps } from '../String'
 import { dnr, fnr } from '@navikt/fnrvalidator'
-import type { ValidatorDisableable } from '../../types'
+import type { Validator, ValidatorWithCustomValidators } from '../../types'
 import { FormError } from '../../utils'
 import useTranslation from '../../hooks/useTranslation'
+
+export type NationalIdentityNumberValidator =
+  ValidatorWithCustomValidators<
+    string,
+    {
+      dnrValidator: Validator<string>
+      fnrValidator: Validator<string>
+      dnrAndFnrValidator: Validator<string>
+    }
+  >
 
 export type Props = Omit<StringFieldProps, 'onBlurValidator'> & {
   omitMask?: boolean
   validate?: boolean
-  onBlurValidator?: ValidatorDisableable<string>
+  onBlurValidator?: NationalIdentityNumberValidator | false
 }
 
 function NationalIdentityNumber(props: Props) {
