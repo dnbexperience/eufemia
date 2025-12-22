@@ -246,6 +246,7 @@ describe('Tools.ListAllProps', () => {
                 inputmode="decimal"
                 name="myNumber"
                 type="text"
+                value=""
               />,
             },
             "path": "/myNumber",
@@ -322,6 +323,7 @@ describe('Tools.ListAllProps', () => {
                 inputmode="decimal"
                 name="myNumber"
                 type="text"
+                value=""
               />,
             },
             "maximum": 20,
@@ -406,6 +408,7 @@ describe('Tools.ListAllProps', () => {
                     inputmode="decimal"
                     name="myObject/nested/withNumber"
                     type="text"
+                    value=""
                   />,
                 },
                 "maximum": 20,
@@ -483,6 +486,7 @@ describe('Tools.ListAllProps', () => {
                   inputmode="decimal"
                   name="myObject/withNumber"
                   type="text"
+                  value=""
                 />,
               },
               "maximum": 20,
@@ -584,6 +588,7 @@ describe('Tools.ListAllProps', () => {
                   role="spinbutton"
                   step="1"
                   type="text"
+                  value="0suffix"
                 />,
               },
               "itemPath": "/item",
@@ -609,6 +614,7 @@ describe('Tools.ListAllProps', () => {
                   role="spinbutton"
                   step="1"
                   type="text"
+                  value="1suffix"
                 />,
               },
               "itemPath": "/item",
