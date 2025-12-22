@@ -1851,6 +1851,13 @@ describe('Field.Upload', () => {
 
       fireEvent.submit(document.querySelector('form'))
 
+      // Wait for submit button to be disabled
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-forms-submit-button')
+        ).toBeDisabled()
+      })
+
       expect(onSubmit).not.toHaveBeenCalled()
 
       if (!resolveFileHandler) {
