@@ -2237,6 +2237,104 @@ describe('Field.Upload', () => {
     expect(file2Input).toHaveTextContent('fileName-2.png')
   })
 
+  it('should support async fileHandler in Iterate.Array', async () => {
+    let resolveFileHandler1: ((value: UploadValue) => void) | undefined
+    let resolveFileHandler2: ((value: UploadValue) => void) | undefined
+
+    const file1 = createMockFile('new-file-1.png', 100, 'image/png')
+    const file2 = createMockFile('new-file-2.png', 100, 'image/png')
+
+    const asyncFileHandler1 = jest.fn(
+      () =>
+        new Promise<UploadValue>((resolve) => {
+          resolveFileHandler1 = resolve
+        })
+    )
+
+    const asyncFileHandler2 = jest.fn(
+      () =>
+        new Promise<UploadValue>((resolve) => {
+          resolveFileHandler2 = resolve
+        })
+    )
+
+    const FileHandlerWrapper = ({ id }: { id: number }) => {
+      const handler = id === 0 ? asyncFileHandler1 : asyncFileHandler2
+      return <Field.Upload itemPath="/myFiles" fileHandler={handler} />
+    }
+
+    render(
+      <Iterate.Array
+        value={[
+          {
+            myFiles: [
+              {
+                file: createMockFile(
+                  'existing-file-1.png',
+                  100,
+                  'image/png'
+                ),
+                id: '1',
+              },
+            ],
+          },
+          {
+            myFiles: [
+              {
+                file: createMockFile(
+                  'existing-file-2.png',
+                  100,
+                  'image/png'
+                ),
+                id: '2',
+              },
+            ],
+          },
+        ]}
+      >
+        {(elementValue, index) => <FileHandlerWrapper id={index} />}
+      </Iterate.Array>
+    )
+
+    expect(screen.queryByText('existing-file-1.png')).toBeInTheDocument()
+    expect(screen.queryByText('existing-file-2.png')).toBeInTheDocument()
+
+    fireEvent.drop(document.querySelectorAll('input')[0], {
+      dataTransfer: {
+        files: [file1],
+      },
+    })
+
+    fireEvent.drop(document.querySelectorAll('input')[1], {
+      dataTransfer: {
+        files: [file2],
+      },
+    })
+
+    resolveFileHandler1([
+      {
+        file: file1,
+        id: 'server-id-1',
+        exists: false,
+      },
+    ])
+
+    resolveFileHandler2([
+      {
+        file: file2,
+        id: 'server-id-2',
+        exists: false,
+      },
+    ])
+
+    expect(screen.queryByText('existing-file-1.png')).toBeInTheDocument()
+    expect(screen.queryByText('existing-file-2.png')).toBeInTheDocument()
+    await waitFor(() => {
+      expect(screen.queryByText('new-file-1.png')).toBeInTheDocument()
+      expect(screen.queryByText('new-file-2.png')).toBeInTheDocument()
+    })
+  })
+
   describe('transformIn and transformOut', () => {
     type DocumentMetadata = {
       id: string
