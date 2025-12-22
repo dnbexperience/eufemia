@@ -44,7 +44,30 @@ const defaultProps: DatePickerAllProps = {
 }
 
 const waitForMaskFrame = () =>
-  new Promise((resolve) => setTimeout(resolve, 0))
+  new Promise<void>((resolve) => {
+    setTimeout(() => {
+      setTimeout(resolve, 0)
+    }, 0)
+  })
+
+const originalKeyboard = userEvent.keyboard
+const wrapKeyboard =
+  (fn: typeof userEvent.keyboard) =>
+  async (
+    ...args: Parameters<typeof userEvent.keyboard>
+  ): Promise<ReturnType<typeof userEvent.keyboard>> => {
+    const result = await fn(...args)
+    await waitForMaskFrame()
+    return result
+  }
+
+beforeEach(() => {
+  userEvent.keyboard = wrapKeyboard(originalKeyboard)
+})
+
+afterEach(() => {
+  userEvent.keyboard = originalKeyboard
+})
 
 async function focusInput(input: HTMLInputElement) {
   await userEvent.click(input)

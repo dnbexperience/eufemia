@@ -36,7 +36,23 @@ const defaultProps: MultiInputMaskProps<'day' | 'month' | 'year'> = {
   ],
 }
 
-const flushTimers = () => new Promise((resolve) => setTimeout(resolve, 0))
+const flushTimers = () =>
+  new Promise<void>((resolve) => {
+    setTimeout(() => {
+      setTimeout(resolve, 0)
+    }, 0)
+  })
+
+const originalKeyboard = userEvent.keyboard
+const originalType = userEvent.type
+
+const wrapWithFlush =
+  <Fn extends (...args: any[]) => Promise<unknown>>(fn: Fn) =>
+  (async (...args: Parameters<Fn>) => {
+    const result = await fn(...args)
+    await flushTimers()
+    return result
+  }) as Fn
 
 async function focusInput(input: HTMLInputElement) {
   await userEvent.click(input)
@@ -52,6 +68,13 @@ describe('MultiInputMask', () => {
       clearTimeout(id)
       return id
     })
+    userEvent.keyboard = wrapWithFlush(originalKeyboard)
+    userEvent.type = wrapWithFlush(originalType)
+  })
+
+  afterEach(() => {
+    userEvent.keyboard = originalKeyboard
+    userEvent.type = originalType
   })
 
   it('passes overwriteMode down to TextMask', () => {
