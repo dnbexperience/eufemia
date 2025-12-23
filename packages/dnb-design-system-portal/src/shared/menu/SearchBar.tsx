@@ -47,11 +47,18 @@ export const SearchBarInput = () => {
     showIndicator()
   }
 
-  const onChangeHandler = ({ data, emptyData }) => {
+  const onChangeHandler = ({ data, emptyData, setHidden, event }) => {
     try {
-      navigate(`/${data.hit.slug}`.replace('//', '/'))
-      emptyData()
-      applyPageFocus('content')
+      if (!data?.hit?.slug) {
+        return
+      }
+
+      handleSearchResultNavigation({
+        event,
+        slug: data.hit.slug,
+        setHidden,
+        emptyData,
+      })
     } catch (e) {
       setStatus(e.message)
     }
@@ -111,22 +118,61 @@ const makeHitsHumanFriendly = ({ hits, setHidden }) => {
   hits.forEach((hit) => {
     const { slug, title, description, search } = hit
 
-    const content = [title, description, search].filter(Boolean)
+    const handleTitleClick = (
+      event: React.MouseEvent<HTMLAnchorElement | HTMLLinkElement>,
+    ) => {
+      event.stopPropagation()
+      if (
+        handleSearchResultNavigation({
+          event,
+          slug,
+          setHidden,
+          allowBrowserDefaultOnModified: true,
+        })
+      ) {
+        event.preventDefault()
+      }
+    }
+
+    const content = [
+      <Anchor
+        key={slug}
+        href={`/${slug}`}
+        onMouseDown={(event) => event.stopPropagation()}
+        onClick={handleTitleClick}
+      >
+        {title}
+      </Anchor>,
+      description,
+      search,
+    ].filter(Boolean)
 
     hit.headings?.forEach(({ value, slug: hash }, i) => {
+      const handleHeadingClick = (
+        event: React.MouseEvent<HTMLAnchorElement | HTMLLinkElement>,
+      ) => {
+        event.stopPropagation()
+        if (
+          handleSearchResultNavigation({
+            event,
+            slug,
+            hash,
+            setHidden,
+            allowBrowserDefaultOnModified: true,
+          })
+        ) {
+          event.preventDefault()
+        }
+      }
+
       // Because we don't want duplication
       if (value !== title) {
         content.push(
           <Anchor
             key={slug + hash + i}
             href={`/${slug}#${hash}`}
-            onClick={(e) => {
-              e.preventDefault()
-              e.stopPropagation()
-              setHidden()
-              navigate(`/${slug}#${hash}`)
-              scrollToAnimation()
-            }}
+            onMouseDown={(event) => event.stopPropagation()}
+            onClick={handleHeadingClick}
           >
             {value}
           </Anchor>,
@@ -141,6 +187,57 @@ const makeHitsHumanFriendly = ({ hits, setHidden }) => {
   })
 
   return data
+}
+
+type SearchResultNavigationArgs = {
+  event?:
+    | React.MouseEvent<HTMLElement>
+    | React.KeyboardEvent<HTMLElement>
+    | React.MouseEvent<HTMLAnchorElement | HTMLLinkElement>
+  slug: string
+  hash?: string
+  setHidden?: () => void
+  emptyData?: () => void
+  allowBrowserDefaultOnModified?: boolean
+}
+
+const handleSearchResultNavigation = ({
+  event,
+  slug,
+  hash,
+  setHidden,
+  emptyData,
+  allowBrowserDefaultOnModified = false,
+}: SearchResultNavigationArgs) => {
+  const url = `/${slug}${hash ? `#${hash}` : ''}`.replace('//', '/')
+  const modifiedClick =
+    event?.metaKey || event?.ctrlKey || event?.shiftKey || event?.altKey
+  const isMouseEvent =
+    !!event && 'button' in event && typeof event.button === 'number'
+  const isMiddleClick =
+    isMouseEvent && (event as React.MouseEvent).button !== 0
+
+  if ((modifiedClick || isMiddleClick) && allowBrowserDefaultOnModified) {
+    return false
+  }
+
+  if (modifiedClick || isMiddleClick) {
+    if (typeof window !== 'undefined') {
+      window.open(url, '_blank', 'noopener')
+    }
+    setHidden?.()
+    emptyData?.()
+    return true
+  }
+
+  event?.preventDefault?.()
+  setHidden?.()
+  emptyData?.()
+  navigate(url)
+  scrollToAnimation()
+  applyPageFocus('content')
+
+  return true
 }
 
 const SearchLogo = (props: Omit<React.SVGProps<SVGElement>, 'ref'>) => (
