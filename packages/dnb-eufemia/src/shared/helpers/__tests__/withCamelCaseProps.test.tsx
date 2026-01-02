@@ -44,10 +44,10 @@ describe('withCamelCaseProps', () => {
     expect(Component.property).toBe(Original.property)
     expect(Component.property).toBe('thing')
 
-    // @ts-ignore
+    // @ts-expect-error - Testing that invalid property doesn't exist
     expect(Original.propertyInvalid).toBeFalsy()
 
-    // @ts-ignore
+    // @ts-expect-error - Testing that invalid property doesn't exist
     expect(Component.propertyInvalid).toBeFalsy()
   })
 
@@ -219,10 +219,10 @@ describe('classWithCamelCaseProps', () => {
     expect(Component.property).toBe(Original.property)
     expect(Component.property).toBe('thing')
 
-    // @ts-ignore
+    // @ts-expect-error - Testing that invalid property doesn't exist
     expect(Original.propertyInvalid).toBeFalsy()
 
-    // @ts-ignore
+    // @ts-expect-error - Testing that invalid property doesn't exist
     expect(Component.propertyInvalid).toBeFalsy()
   })
 
@@ -332,7 +332,7 @@ describe('classWithCamelCaseProps', () => {
 
     const { rerender } = render(<Component />)
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
+    // @ts-expect-error - Testing dynamic prop injection
     rerender(<Component newProp="hello" />)
 
     expect(

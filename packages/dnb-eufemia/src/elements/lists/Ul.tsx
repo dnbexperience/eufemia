@@ -44,8 +44,6 @@ const Ul = ({ nested, inside, outside, ...props }: UlAllProps = {}) => {
   )
 }
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
 Ul._supportsSpacingProps = true
 
 export default Ul

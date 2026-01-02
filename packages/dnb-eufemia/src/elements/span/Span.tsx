@@ -13,7 +13,7 @@ const Span = React.forwardRef((props: SpanProps, ref) => (
 ))
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
+// @ts-expect-error - Adding custom property to component for spacing detection
 Span._supportsSpacingProps = true
 
 export default Span

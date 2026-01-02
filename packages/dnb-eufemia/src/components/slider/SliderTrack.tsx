@@ -27,7 +27,7 @@ export function SliderMainTrack({
   }
 
   return (
-    // @ts-ignore
+    // @ts-expect-error - trackParams may have incompatible event handler types
     <span
       id={id}
       ref={trackRef}

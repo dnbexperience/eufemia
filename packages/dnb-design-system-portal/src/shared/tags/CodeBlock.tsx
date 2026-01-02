@@ -298,7 +298,7 @@ const cleanTokens = (tokens) => {
 }
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
+// @ts-expect-error - Prism types don't include insertBefore method
 Prism.languages.insertBefore('jsx', 'template-string', {
   'styled-template-string': {
     pattern:
