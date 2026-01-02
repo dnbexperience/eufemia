@@ -460,12 +460,10 @@ describe('GlobalStatus component', () => {
 
     await refresh()
 
-    await waitFor(() => {
-      expect(scrollTo).toHaveBeenCalledTimes(1)
-      expect(scrollTo).toHaveBeenCalledWith({
-        behavior: 'smooth',
-        top: 0,
-      })
+    expect(scrollTo).toHaveBeenCalledTimes(1)
+    expect(scrollTo).toHaveBeenCalledWith({
+      behavior: 'smooth',
+      top: 0,
     })
 
     jest
@@ -488,12 +486,10 @@ describe('GlobalStatus component', () => {
     fireEvent.click(document.querySelector('input#switch'))
     await refresh()
 
-    await waitFor(() => {
-      expect(scrollTo).toHaveBeenCalledTimes(2)
-      expect(scrollTo).toHaveBeenCalledWith({
-        behavior: 'smooth',
-        top: offsetTop,
-      })
+    expect(scrollTo).toHaveBeenCalledTimes(2)
+    expect(scrollTo).toHaveBeenCalledWith({
+      behavior: 'smooth',
+      top: offsetTop,
     })
   })
 
