@@ -1,0 +1,30 @@
+[
+  {
+    "name": "Main Entry (CJS)",
+    "path": "build/cjs/index.js",
+    "limit": "5 MB",
+    "webpack": false,
+    "gzip": true
+  },
+  {
+    "name": "Main Entry (ES)",
+    "path": "build/es/index.js",
+    "limit": "5 MB",
+    "webpack": false,
+    "gzip": true
+  },
+  {
+    "name": "Components Only",
+    "path": "build/cjs/components/index.js",
+    "limit": "3 MB",
+    "webpack": false,
+    "gzip": true
+  },
+  {
+    "name": "Extensions Only",
+    "path": "build/cjs/extensions/index.js",
+    "limit": "1 MB",
+    "webpack": false,
+    "gzip": true
+  }
+]
