@@ -1,6 +1,16 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`HelpButton scss has to match style dependencies css 1`] = `
+exports[`HelpButton scss should match default theme snapshot 1`] = `
+"/*
+ * Help button theme for UI
+ *
+ */
+.dnb-help-button__content {
+  --help-button-content-background: var(--color-lavender);
+}"
+`;
+
+exports[`HelpButton scss should match style dependencies css 1`] = `
 "/*
 * Used for snapshot testing
 *
@@ -593,15 +603,5 @@ button.dnb-button::-moz-focus-inner {
 
 .dnb-help-button .dnb-button__bounding {
   transform: scale(1.5);
-}"
-`;
-
-exports[`HelpButton scss have to match default theme snapshot 1`] = `
-"/*
- * Help button theme for UI
- *
- */
-.dnb-help-button__content {
-  --help-button-content-background: var(--color-lavender);
 }"
 `;

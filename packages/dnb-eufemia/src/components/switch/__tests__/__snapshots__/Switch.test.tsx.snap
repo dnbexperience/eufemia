@@ -1,6 +1,159 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`Switch scss has to match style dependencies css 1`] = `
+exports[`Switch scss should match default theme snapshot 1`] = `
+"/*
+* Switch theme
+*
+*/
+/*
+ * Utilities
+ */
+.dnb-switch {
+  /* stylelint-disable no-descending-specificity */
+  /*
+    * When switched OFF
+    * aka when the checkbox is not :checked
+    */
+  /*
+    * When switched ON
+    * aka when the checkbox is :checked
+    */
+  /*
+    * Draw the circle / line
+    *
+    */
+  /*
+    * On disabled state
+    *
+    */
+  /*
+    * On focus state
+    *
+    */
+  /*
+    * On hover state
+    *
+    */
+  /*
+    * On active state
+    *
+    */
+  /*
+    * On error state
+    *
+    */
+  /* stylelint-enable no-descending-specificity */
+}
+.dnb-switch__background {
+  background-color: var(--color-sea-green-30);
+}
+.dnb-switch__focus {
+  transition: transform 150ms ease-out;
+  transform: rotate(0deg);
+  clip-path: polygon(50% 15%, 110% 15%, 110% -10%, -10% -10%, -10% 110%, 110% 110%, 110% 85%, 50% 85%);
+}
+.dnb-switch__input:not(:checked) ~ .dnb-switch__button {
+  background-color: var(--color-white);
+  border-color: var(--color-sea-green);
+}
+.dnb-switch__input:checked ~ .dnb-switch__button {
+  background-color: var(--color-sea-green);
+}
+.dnb-switch__input:not(:checked) ~ .dnb-switch__background::after {
+  right: 0;
+  transform: translateX(calc(var(--switch-width--medium) - 2.8rem));
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  border: 0.0625rem solid var(--color-sea-green);
+}
+.dnb-switch__input:checked ~ .dnb-switch__background::after {
+  left: 0;
+  transform: translateX(calc(var(--switch-width--medium) - 1.87rem));
+  width: 0.0625rem;
+  height: 0.5rem;
+  border-radius: 0.0625rem;
+  background-color: var(--color-sea-green);
+}
+.dnb-switch--large .dnb-switch__input:not(:checked) ~ .dnb-switch__background::after {
+  width: 0.625rem;
+  height: 0.625rem;
+  transform: translateX(calc(var(--switch-width--large) - 3.7rem));
+}
+.dnb-switch--large .dnb-switch__input:checked ~ .dnb-switch__background::after {
+  height: 0.625rem;
+  transform: translateX(calc(var(--switch-width--large) - 2.5rem));
+}
+.dnb-switch__input[disabled] ~ .dnb-switch__background {
+  background-color: var(--color-mint-green-25);
+}
+.dnb-switch__input[disabled]:checked ~ .dnb-switch__background::after {
+  background-color: var(--color-sea-green-30);
+}
+.dnb-switch__input[disabled]:not(:checked) ~ .dnb-switch__background::after {
+  border-color: var(--color-sea-green-30);
+}
+.dnb-switch__input[disabled] ~ .dnb-switch__button {
+  border-color: var(--color-sea-green-30);
+}
+.dnb-switch__input[disabled]:checked ~ .dnb-switch__button {
+  background-color: var(--color-sea-green-30);
+}
+html[data-whatinput=keyboard] .dnb-switch__input:not([disabled]):focus ~ .dnb-switch__button {
+  border: none;
+}
+html[data-whatinput=keyboard] .dnb-switch__input:not([disabled]):not(:checked):focus ~ .dnb-switch__button {
+  background-color: var(--color-mint-green-50);
+}
+.dnb-switch__input:not([disabled]):checked ~ .dnb-switch__button .dnb-switch__focus {
+  transform: rotate(180deg);
+}
+.dnb-switch__input:not([disabled]):not(:focus):not(:active):hover ~ .dnb-switch__button {
+  border-color: var(--color-sea-green);
+  background-color: var(--color-mint-green-50);
+}
+.dnb-switch__input:not([disabled]):active ~ .dnb-switch__button {
+  background-color: var(--color-mint-green-50);
+  border-color: transparent;
+}
+.dnb-switch__status--error .dnb-switch__input:not([disabled]):not(:focus):hover ~ .dnb-switch__button {
+  border-color: var(--color-fire-red);
+  background-color: var(--color-fire-red-8);
+}
+.dnb-switch__status--error .dnb-switch__input:not([disabled]):not(:focus):not(:active):not(:hover) ~ .dnb-switch__button {
+  border-color: var(--color-fire-red-8);
+}
+.dnb-switch__status--error .dnb-switch__input:not([disabled]):not(:focus):not(:active):not(:hover):checked ~ .dnb-switch__button {
+  background-color: var(--color-fire-red);
+}
+.dnb-switch__status--error .dnb-switch__input:not([disabled]):not(:focus):not(:active) ~ .dnb-switch__background {
+  background-color: var(--color-fire-red-8);
+  --border-color: var(--color-fire-red);
+  --border-width: var(--focus-ring-width);
+  box-shadow: 0 0 0 var(--border-width) var(--border-color);
+  border-color: transparent;
+}
+.dnb-switch__status--error .dnb-switch__input:not(:focus):not([disabled]):not(:active):checked ~ .dnb-switch__background::after {
+  background-color: var(--color-fire-red);
+}
+.dnb-switch__status--error .dnb-switch__input:not(:focus):not([disabled]):not(:active):not(:checked) ~ .dnb-switch__background::after {
+  border-color: var(--color-fire-red);
+}
+.dnb-switch__status--error .dnb-switch__input:not([disabled]):not(:focus):not(:active) ~ .dnb-switch__button .dnb-switch__focus {
+  --border-color: var(--color-fire-red);
+  --border-width: var(--focus-ring-width);
+  box-shadow: 0 0 0 var(--border-width) var(--border-color);
+  border-color: transparent;
+}
+.dnb-switch__status--error .dnb-switch__input:not([disabled]):not(:focus):not(:active):checked ~ .dnb-switch__button .dnb-switch__focus {
+  transform: rotate(180deg);
+}
+.dnb-switch > .dnb-form-status {
+  transform: translateY(0.1875rem);
+}"
+`;
+
+exports[`Switch scss should match style dependencies css 1`] = `
 "/*
 * Used for snapshot testing
 *
@@ -344,158 +497,5 @@ html[data-whatinput=keyboard] .dnb-switch__input:not([disabled]):focus ~ .dnb-sw
   .dnb-switch__input:checked ~ .dnb-switch__button {
     transform: translateX(calc(var(--switch-width--medium) - 1.5rem));
   }
-}"
-`;
-
-exports[`Switch scss have to match default theme snapshot 1`] = `
-"/*
-* Switch theme
-*
-*/
-/*
- * Utilities
- */
-.dnb-switch {
-  /* stylelint-disable no-descending-specificity */
-  /*
-    * When switched OFF
-    * aka when the checkbox is not :checked
-    */
-  /*
-    * When switched ON
-    * aka when the checkbox is :checked
-    */
-  /*
-    * Draw the circle / line
-    *
-    */
-  /*
-    * On disabled state
-    *
-    */
-  /*
-    * On focus state
-    *
-    */
-  /*
-    * On hover state
-    *
-    */
-  /*
-    * On active state
-    *
-    */
-  /*
-    * On error state
-    *
-    */
-  /* stylelint-enable no-descending-specificity */
-}
-.dnb-switch__background {
-  background-color: var(--color-sea-green-30);
-}
-.dnb-switch__focus {
-  transition: transform 150ms ease-out;
-  transform: rotate(0deg);
-  clip-path: polygon(50% 15%, 110% 15%, 110% -10%, -10% -10%, -10% 110%, 110% 110%, 110% 85%, 50% 85%);
-}
-.dnb-switch__input:not(:checked) ~ .dnb-switch__button {
-  background-color: var(--color-white);
-  border-color: var(--color-sea-green);
-}
-.dnb-switch__input:checked ~ .dnb-switch__button {
-  background-color: var(--color-sea-green);
-}
-.dnb-switch__input:not(:checked) ~ .dnb-switch__background::after {
-  right: 0;
-  transform: translateX(calc(var(--switch-width--medium) - 2.8rem));
-  width: 0.5rem;
-  height: 0.5rem;
-  border-radius: 50%;
-  border: 0.0625rem solid var(--color-sea-green);
-}
-.dnb-switch__input:checked ~ .dnb-switch__background::after {
-  left: 0;
-  transform: translateX(calc(var(--switch-width--medium) - 1.87rem));
-  width: 0.0625rem;
-  height: 0.5rem;
-  border-radius: 0.0625rem;
-  background-color: var(--color-sea-green);
-}
-.dnb-switch--large .dnb-switch__input:not(:checked) ~ .dnb-switch__background::after {
-  width: 0.625rem;
-  height: 0.625rem;
-  transform: translateX(calc(var(--switch-width--large) - 3.7rem));
-}
-.dnb-switch--large .dnb-switch__input:checked ~ .dnb-switch__background::after {
-  height: 0.625rem;
-  transform: translateX(calc(var(--switch-width--large) - 2.5rem));
-}
-.dnb-switch__input[disabled] ~ .dnb-switch__background {
-  background-color: var(--color-mint-green-25);
-}
-.dnb-switch__input[disabled]:checked ~ .dnb-switch__background::after {
-  background-color: var(--color-sea-green-30);
-}
-.dnb-switch__input[disabled]:not(:checked) ~ .dnb-switch__background::after {
-  border-color: var(--color-sea-green-30);
-}
-.dnb-switch__input[disabled] ~ .dnb-switch__button {
-  border-color: var(--color-sea-green-30);
-}
-.dnb-switch__input[disabled]:checked ~ .dnb-switch__button {
-  background-color: var(--color-sea-green-30);
-}
-html[data-whatinput=keyboard] .dnb-switch__input:not([disabled]):focus ~ .dnb-switch__button {
-  border: none;
-}
-html[data-whatinput=keyboard] .dnb-switch__input:not([disabled]):not(:checked):focus ~ .dnb-switch__button {
-  background-color: var(--color-mint-green-50);
-}
-.dnb-switch__input:not([disabled]):checked ~ .dnb-switch__button .dnb-switch__focus {
-  transform: rotate(180deg);
-}
-.dnb-switch__input:not([disabled]):not(:focus):not(:active):hover ~ .dnb-switch__button {
-  border-color: var(--color-sea-green);
-  background-color: var(--color-mint-green-50);
-}
-.dnb-switch__input:not([disabled]):active ~ .dnb-switch__button {
-  background-color: var(--color-mint-green-50);
-  border-color: transparent;
-}
-.dnb-switch__status--error .dnb-switch__input:not([disabled]):not(:focus):hover ~ .dnb-switch__button {
-  border-color: var(--color-fire-red);
-  background-color: var(--color-fire-red-8);
-}
-.dnb-switch__status--error .dnb-switch__input:not([disabled]):not(:focus):not(:active):not(:hover) ~ .dnb-switch__button {
-  border-color: var(--color-fire-red-8);
-}
-.dnb-switch__status--error .dnb-switch__input:not([disabled]):not(:focus):not(:active):not(:hover):checked ~ .dnb-switch__button {
-  background-color: var(--color-fire-red);
-}
-.dnb-switch__status--error .dnb-switch__input:not([disabled]):not(:focus):not(:active) ~ .dnb-switch__background {
-  background-color: var(--color-fire-red-8);
-  --border-color: var(--color-fire-red);
-  --border-width: var(--focus-ring-width);
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
-}
-.dnb-switch__status--error .dnb-switch__input:not(:focus):not([disabled]):not(:active):checked ~ .dnb-switch__background::after {
-  background-color: var(--color-fire-red);
-}
-.dnb-switch__status--error .dnb-switch__input:not(:focus):not([disabled]):not(:active):not(:checked) ~ .dnb-switch__background::after {
-  border-color: var(--color-fire-red);
-}
-.dnb-switch__status--error .dnb-switch__input:not([disabled]):not(:focus):not(:active) ~ .dnb-switch__button .dnb-switch__focus {
-  --border-color: var(--color-fire-red);
-  --border-width: var(--focus-ring-width);
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
-}
-.dnb-switch__status--error .dnb-switch__input:not([disabled]):not(:focus):not(:active):checked ~ .dnb-switch__button .dnb-switch__focus {
-  transform: rotate(180deg);
-}
-.dnb-switch > .dnb-form-status {
-  transform: translateY(0.1875rem);
 }"
 `;
