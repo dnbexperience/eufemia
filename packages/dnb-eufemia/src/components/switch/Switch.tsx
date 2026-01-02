@@ -239,7 +239,7 @@ export default function Switch(props: SwitchProps) {
         )
       }
 
-      // help firefox and safari to have an correct state after a click
+      // help firefox and safari to have a correct state after a click
       if (innerRef.current) {
         innerRef.current.focus()
       }

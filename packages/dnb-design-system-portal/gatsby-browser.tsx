@@ -59,7 +59,7 @@ export const onRouteUpdate = ({ location, prevLocation }) => {
   }
 
   // if previous location is not null
-  // which means that this was an page change/switch
+  // which means that this was a page change/switch
   //  then we apply the page content focus for accessibility
   if (prevLocation && prevLocation?.pathname !== location?.pathname) {
     applyPageFocus('content')
