@@ -6,7 +6,6 @@
  */
 
 import React from 'react'
-import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Context from '../../shared/Context'
 import {
@@ -22,10 +21,7 @@ import {
   combineLabelledBy,
   keycode,
 } from '../../shared/component-helper'
-import {
-  spacingPropTypes,
-  createSpacingClasses,
-} from '../space/SpacingHelper'
+import { createSpacingClasses } from '../space/SpacingHelper'
 import type { SpacingProps } from '../space/types'
 import {
   createSkeletonClass,
@@ -165,95 +161,6 @@ export interface DummyProps {
 
 export default class Tabs extends React.PureComponent<TabsProps> {
   static contextType = Context
-
-  static propTypes = {
-    data: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.arrayOf(
-        PropTypes.shape({
-          title: PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.node,
-            PropTypes.func,
-          ]).isRequired,
-          key: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
-            .isRequired,
-          selected: PropTypes.bool,
-          disabled: PropTypes.bool,
-          content: PropTypes.oneOfType([
-            PropTypes.object,
-            PropTypes.node,
-            PropTypes.func,
-          ]),
-        })
-      ),
-      PropTypes.objectOf(
-        PropTypes.shape({
-          title: PropTypes.string.isRequired,
-          selected: PropTypes.bool,
-          disabled: PropTypes.bool,
-          content: PropTypes.oneOfType([
-            PropTypes.object,
-            PropTypes.node,
-            PropTypes.func,
-          ]),
-        })
-      ),
-    ]),
-    content: PropTypes.oneOfType([
-      PropTypes.object,
-      PropTypes.node,
-      PropTypes.func,
-    ]),
-    content_style: PropTypes.string,
-    content_spacing: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-    ]),
-    label: PropTypes.string,
-    tab_element: PropTypes.oneOfType([
-      PropTypes.object,
-      PropTypes.node,
-      PropTypes.func,
-    ]),
-    selected_key: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number,
-    ]),
-    align: PropTypes.oneOf(['left', 'center', 'right']),
-    tabs_style: PropTypes.string,
-    tabs_spacing: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    no_border: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    breakout: PropTypes.bool,
-    nav_button_edge: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-    ]),
-    onOpenTabNavigationFn: PropTypes.func,
-    prerender: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    prevent_rerender: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-    ]),
-    scroll: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    id: PropTypes.string,
-
-    ...spacingPropTypes,
-
-    className: PropTypes.string,
-    children: PropTypes.oneOfType([
-      PropTypes.object,
-      PropTypes.node,
-      PropTypes.func,
-    ]),
-
-    render: PropTypes.func,
-    on_change: PropTypes.func,
-    on_mouse_enter: PropTypes.func,
-    on_click: PropTypes.func,
-    on_focus: PropTypes.func,
-  }
 
   static defaultProps = {
     data: null,
@@ -1361,9 +1268,6 @@ export const Dummy = ({ children }) => {
     </span>
   )
 }
-Dummy.propTypes = {
-  children: PropTypes.node.isRequired,
-}
 
 const ScrollNavButton = (props) => {
   return (
@@ -1380,9 +1284,6 @@ const ScrollNavButton = (props) => {
       )}
     />
   )
-}
-ScrollNavButton.propTypes = {
-  className: PropTypes.node.isRequired,
 }
 
 Tabs._supportsSpacingProps = true
