@@ -2,7 +2,6 @@
  * HTML Element
  *
  */
-import React from 'react'
 import P, { PProps } from './P'
 import classnames from 'classnames'
 
