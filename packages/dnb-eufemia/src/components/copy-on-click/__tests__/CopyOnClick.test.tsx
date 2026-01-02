@@ -143,7 +143,7 @@ describe('CopyOnClick', () => {
     expect(await navigator.clipboard.readText()).toBe('1 234 567,89 kr')
   })
 
-  it('should set be able to set a custom message when text has been successfully copied.', async () => {
+  it('should be able to set a custom message when text has been successfully copied', async () => {
     window.getSelection()?.removeAllRanges()
 
     const customMessage = 'My custom tooltip'

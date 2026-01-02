@@ -92,7 +92,7 @@ describe('withSnakeCaseProps', () => {
     `)
   })
 
-  it('will handle contextType', () => {
+  it('should handle contextType', () => {
     const { asFragment } = render(
       <Context.Provider value={{ contextProp: 'context value' }}>
         <Component camelCase={false} snake_case={1} />
@@ -176,7 +176,7 @@ describe('classWithSnakeCaseProps', () => {
     }
   }
 
-  it('will still expose a static property', () => {
+  it('should still expose a static property', () => {
     const Component = classWithSnakeCaseProps(Original)
 
     expect(Original.property).toBe('thing')
@@ -197,7 +197,7 @@ describe('classWithSnakeCaseProps', () => {
     expect(Component.name).toBe('Original')
   })
 
-  it('will render', () => {
+  it('should render', () => {
     const Component = classWithSnakeCaseProps(Original)
 
     const { rerender, asFragment } = render(
@@ -234,7 +234,7 @@ describe('classWithSnakeCaseProps', () => {
     `)
   })
 
-  it('will call componentDidMount once', () => {
+  it('should call componentDidMount once', () => {
     const componentDidMount = jest.fn()
 
     class CopyOfOriginal extends Original {
@@ -254,7 +254,7 @@ describe('classWithSnakeCaseProps', () => {
     expect(componentDidMount).toHaveBeenCalledTimes(1)
   })
 
-  it('will handle contextType', () => {
+  it('should handle contextType', () => {
     const Component = classWithSnakeCaseProps(Original)
 
     const { asFragment } = render(
@@ -326,7 +326,7 @@ describe('classWithSnakeCaseProps', () => {
 })
 
 describe('convertSnakeCaseProps', () => {
-  it('will convert', () => {
+  it('should convert snake_case props to camelCase', () => {
     const props = {
       foo_bar: 'value',
       snake_case: { foo_bar: 123 },
@@ -339,7 +339,7 @@ describe('convertSnakeCaseProps', () => {
     })
   })
 
-  it('will keep frozen object as frozen', () => {
+  it('should keep frozen object as frozen', () => {
     const props = Object.freeze({
       foo_bar: 'value',
       snake_case: { foo_bar: 123 },
@@ -349,7 +349,7 @@ describe('convertSnakeCaseProps', () => {
     expect(Object.isFrozen(result)).toBe(true)
   })
 
-  it('will override existing prop by default', () => {
+  it('should override existing prop by default', () => {
     const props = {
       fooBar: 'fooBarValue',
       foo_bar: 'foo_bar_value',
@@ -364,7 +364,7 @@ describe('convertSnakeCaseProps', () => {
     })
   })
 
-  it('will not override existing prop if told', () => {
+  it('should not override existing prop if told', () => {
     const props = {
       fooBar: 'fooBarValue',
       foo_bar: 'foo_bar_value',
