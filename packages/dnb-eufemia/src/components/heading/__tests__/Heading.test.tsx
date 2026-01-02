@@ -32,7 +32,7 @@ describe('Heading component', () => {
     ).toBe('color: red;')
   })
 
-  it('have to match level correction', () => {
+  it('should match level correction', () => {
     render(
       <React.StrictMode>
         <Heading level={2} debug={warn}>
@@ -80,7 +80,7 @@ describe('Heading component', () => {
     expect(elem[++i].textContent).toBe('[h2] Heading #12')
   })
 
-  it('have to match global reset', () => {
+  it('should match global reset', () => {
     render(
       <React.StrictMode>
         <Heading.Level debug={warn} reset={1}>
@@ -106,7 +106,7 @@ describe('Heading component', () => {
     expect(elem[++i].textContent).toBe('[h2] Heading #4')
   })
 
-  it('have to match context reset', () => {
+  it('should match context reset', () => {
     render(
       <React.StrictMode>
         <Heading.Level debug={warn} reset={1}>
@@ -130,7 +130,7 @@ describe('Heading component', () => {
     expect(elem[++i].textContent).toBe('[h2] Heading #5')
   })
 
-  it('have to match level correction with manual heading', () => {
+  it('should match level correction with manual heading', () => {
     render(
       <React.StrictMode>
         <Heading.Level debug={warn} reset={1}>
@@ -152,7 +152,7 @@ describe('Heading component', () => {
     expect(elem[++i].textContent).toBe('[h3] Heading #4')
   })
 
-  it('have to match after level state update', () => {
+  it('should match after level state update', () => {
     const warn = jest.fn()
 
     const RenderComp = (props) => (
@@ -197,7 +197,7 @@ describe('Heading component', () => {
     expect(warn).toHaveBeenCalledTimes(1) // 2 because of StrictMode
   })
 
-  it('have to have correct leveling after using setNextLevel', async () => {
+  it('should have correct leveling after using setNextLevel', async () => {
     const { rerender: rerenderH1, container: h1 } = render(
       <Heading debug={warn}>h1</Heading>
     )
@@ -262,7 +262,7 @@ describe('Heading component', () => {
     expect(h3.querySelector('.dnb-heading').textContent).toBe('[h3] h1')
   })
 
-  it('have to have correct leveling after using resetLevels', () => {
+  it('should have correct leveling after using resetLevels', () => {
     const { rerender, container: h2 } = render(
       <Heading debug={warn}>h2</Heading>
     )
@@ -292,7 +292,7 @@ describe('Heading component', () => {
     expect(h2.querySelector('.dnb-heading').textContent).toBe('[h2] h2')
   })
 
-  it('have to have aria role and level if set as span element', () => {
+  it('should have aria role and level if set as span element', () => {
     render(
       <Heading element="span" debug={warn} reset={1}>
         Heading #1
@@ -305,7 +305,7 @@ describe('Heading component', () => {
     expect(elem[0].getAttribute('aria-level')).toBe('1')
   })
 
-  it('have to refuse to set level below 1', () => {
+  it('should refuse to set level below 1', () => {
     render(
       <Heading debug={warn} level={0 as HeadingLevel} reset={1}>
         Heading #1
@@ -317,7 +317,7 @@ describe('Heading component', () => {
     )
   })
 
-  it('have to not warn when setting h2 by increasing Header', () => {
+  it('should not warn when setting h2 by increasing Header', () => {
     const debugWarning = jest.fn()
     render(
       <>
@@ -337,7 +337,7 @@ describe('Heading component', () => {
     expect(debugWarning).not.toHaveBeenCalled()
   })
 
-  it('have to have correct size class', () => {
+  it('should have correct size class', () => {
     render(
       <Heading debug={warn} size="x-large" reset={1}>
         Heading #1
@@ -452,7 +452,7 @@ describe('Heading component', () => {
     expect(elem[++i].textContent).toBe('[h2] h2')
   })
 
-  it('have to match default leveling', () => {
+  it('should match default leveling', () => {
     render(
       <React.StrictMode>
         <Heading.Level debug={warn} reset={1}>

@@ -16,14 +16,14 @@ describe('Circular ProgressIndicator component', () => {
   const mainLineSelector =
     'svg.dnb-progress-indicator__circular__line.dark[style]'
 
-  it('has to have a stroke-dashoffset of 44 on 50%', () => {
+  it('should have a stroke-dashoffset of 44 on 50%', () => {
     render(<ProgressIndicator {...props} type="circular" progress={50} />)
     expect(
       document.querySelector(mainLineSelector).getAttribute('style')
     ).toBe(`stroke-dashoffset: ${Math.PI * 50}%;`)
   })
 
-  it('has to have a aria-label with a 50% value', () => {
+  it('should have a aria-label with a 50% value', () => {
     render(<ProgressIndicator {...props} type="circular" progress={50} />)
     const indicator = screen.getByRole('progressbar')
     expect(indicator.getAttribute('aria-label')).toBe(
@@ -46,7 +46,7 @@ describe('Circular ProgressIndicator component', () => {
     expect(screen.queryByRole('progressbar')).toBeInTheDocument()
   })
 
-  it('has to react to a progress value of 80%', () => {
+  it('should react to a progress value of 80%', () => {
     render(<ProgressIndicator {...props} type="circular" progress={80} />)
     const indicator = screen.getByRole('progressbar')
     expect(indicator.getAttribute('aria-label')).toBe(
@@ -292,14 +292,14 @@ describe('Circular ProgressIndicator component', () => {
 describe('Linear ProgressIndicator component', () => {
   const mainLineSelector = '.dnb-progress-indicator__linear__bar'
 
-  it('has to have a transform of translateX(-50%) on 50%', () => {
+  it('should have a transform of translateX(-50%) on 50%', () => {
     render(<ProgressIndicator {...props} type="linear" progress={50} />)
     expect(
       document.querySelector(mainLineSelector).getAttribute('style')
     ).toBe('transform: translateX(-50%);')
   })
 
-  it('has to have a aria-label with a 50% value', () => {
+  it('should have a aria-label with a 50% value', () => {
     render(<ProgressIndicator {...props} type="linear" progress={50} />)
     const indicator = screen.getByRole('progressbar')
     expect(indicator.getAttribute('aria-label')).toBe(
@@ -310,7 +310,7 @@ describe('Linear ProgressIndicator component', () => {
     )
   })
 
-  it('has to have a title with a 50% value', () => {
+  it('should have a title with a 50% value', () => {
     render(<ProgressIndicator {...props} type="linear" progress={50} />)
 
     const indicator = screen.getByRole('progressbar')
@@ -332,7 +332,7 @@ describe('Linear ProgressIndicator component', () => {
     expect(screen.queryByRole('progressbar')).toBeInTheDocument()
   })
 
-  it('has to react to a progress value of 80%', () => {
+  it('should react to a progress value of 80%', () => {
     render(<ProgressIndicator {...props} type="linear" progress={80} />)
     const indicator = screen.getByRole('progressbar')
     expect(indicator.getAttribute('aria-label')).toBe(
@@ -555,12 +555,12 @@ describe('ProgressIndicator ARIA', () => {
 })
 
 describe('ProgressIndicator scss', () => {
-  it('has to match style dependencies css', () => {
+  it('should match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()
   })
 
-  it('have to match default theme snapshot', () => {
+  it('should match default theme snapshot', () => {
     const css = loadScss(
       require.resolve(
         '../style/themes/dnb-progress-indicator-theme-ui.scss'

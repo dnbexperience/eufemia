@@ -1,6 +1,29 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`Avatar scss has to match style dependencies css 1`] = `
+exports[`Avatar scss should match default theme snapshot 1`] = `
+"/*
+* Avatar theme
+*
+*/
+/*
+ * Utilities
+ */
+.dnb-avatar {
+  --color: var(--color-pistachio);
+}
+.dnb-avatar--primary {
+  --background-color: var(--color-emerald-green);
+}
+.dnb-avatar--secondary {
+  --background-color: var(--color-sea-green);
+}
+.dnb-avatar--tertiary {
+  --background-color: var(--color-mint-green);
+  --color: var(--color-emerald-green);
+}"
+`;
+
+exports[`Avatar scss should match style dependencies css 1`] = `
 "/*
 * Used for snapshot testing
 *
@@ -151,28 +174,5 @@ exports[`Avatar scss has to match style dependencies css 1`] = `
 .dnb-avatar__group--elements-left--size-x-large {
   font-size: var(--avatar-font-size-left--x-large);
   margin-left: var(--spacing-xx-small);
-}"
-`;
-
-exports[`Avatar scss have to match default theme snapshot 1`] = `
-"/*
-* Avatar theme
-*
-*/
-/*
- * Utilities
- */
-.dnb-avatar {
-  --color: var(--color-pistachio);
-}
-.dnb-avatar--primary {
-  --background-color: var(--color-emerald-green);
-}
-.dnb-avatar--secondary {
-  --background-color: var(--color-sea-green);
-}
-.dnb-avatar--tertiary {
-  --background-color: var(--color-mint-green);
-  --color: var(--color-emerald-green);
 }"
 `;

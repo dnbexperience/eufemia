@@ -155,7 +155,7 @@ describe('Icon component', () => {
 
 describe('Icon scss', () => {
   const css = loadScss(require.resolve('../style/deps.scss'))
-  it('has to match style dependencies css', () => {
+  it('should match style dependencies css', () => {
     expect(css).toMatchSnapshot()
   })
 })
