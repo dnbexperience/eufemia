@@ -45,7 +45,7 @@ exports[`Logo component should set correct Sbanken brand SVG in compact variant 
 </svg>
 `;
 
-exports[`Logo scss has to match style dependencies css 1`] = `
+exports[`Logo scss should match style dependencies css 1`] = `
 "/*
 * Used for snapshot testing
 *
@@ -89,7 +89,7 @@ exports[`Logo scss has to match style dependencies css 1`] = `
 }"
 `;
 
-exports[`Logo scss has to match theme css for sbanken 1`] = `
+exports[`Logo scss should match theme css for sbanken 1`] = `
 "/*
  * Logo Component
  *
@@ -102,7 +102,7 @@ exports[`Logo scss has to match theme css for sbanken 1`] = `
 }"
 `;
 
-exports[`Logo scss has to match theme css for ui 1`] = `
+exports[`Logo scss should match theme css for ui 1`] = `
 "/*
  * Logo Component
  *

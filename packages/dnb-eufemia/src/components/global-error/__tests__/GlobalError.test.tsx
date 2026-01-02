@@ -168,7 +168,7 @@ describe('GlobalError', () => {
     })
   })
 
-  it('has to have title and text props as defined in the prop', () => {
+  it('should have title and text props as defined in the prop', () => {
     render(<GlobalError {...props} />)
 
     expect(
@@ -274,12 +274,12 @@ describe('GlobalError', () => {
 })
 
 describe('GlobalError scss', () => {
-  it('has to match style dependencies css', () => {
+  it('should match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()
   })
 
-  it('have to match default theme snapshot', () => {
+  it('should match default theme snapshot', () => {
     const css = loadScss(
       require.resolve('../style/themes/dnb-global-error-theme-ui.scss')
     )

@@ -1,58 +1,6 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`Timeline scss has to match style dependencies css 1`] = `
-"/*
-* Used for snapshot testing
-*
-*/
-/*
- * Utilities
- */
-/*
-* Timeline component
-*
-*/
-/*
- * Utilities
- */
-.dnb-timeline {
-  display: flex;
-  flex-direction: column;
-  padding: 0;
-  list-style: none;
-}
-.dnb-timeline__item__label {
-  display: flex;
-  align-items: center;
-  padding: 0;
-  text-align: left;
-}
-.dnb-timeline__item__label__icon {
-  display: flex;
-  flex-shrink: 0;
-  align-items: center;
-  justify-content: center;
-  height: auto;
-  padding: 0;
-}
-.dnb-timeline__item__label__title {
-  cursor: text;
-}
-.dnb-timeline__item__content {
-  padding-bottom: var(--spacing-small);
-}
-.dnb-timeline__item__content__subtitle {
-  cursor: text;
-  font-size: var(--font-size-x-small);
-  font-weight: var(--font-weight-basis);
-  color: var(--color-black-55);
-}
-.dnb-timeline__item__content__info {
-  padding-top: var(--spacing-x-small);
-}"
-`;
-
-exports[`Timeline scss have to match default theme snapshot 1`] = `
+exports[`Timeline scss should match default theme snapshot 1`] = `
 "/*
 * Timeline theme
 *
@@ -154,5 +102,57 @@ exports[`Timeline scss have to match default theme snapshot 1`] = `
 }
 .dnb-timeline__item:last-child .dnb-timeline__item__content {
   border-left: none;
+}"
+`;
+
+exports[`Timeline scss should match style dependencies css 1`] = `
+"/*
+* Used for snapshot testing
+*
+*/
+/*
+ * Utilities
+ */
+/*
+* Timeline component
+*
+*/
+/*
+ * Utilities
+ */
+.dnb-timeline {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  list-style: none;
+}
+.dnb-timeline__item__label {
+  display: flex;
+  align-items: center;
+  padding: 0;
+  text-align: left;
+}
+.dnb-timeline__item__label__icon {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  height: auto;
+  padding: 0;
+}
+.dnb-timeline__item__label__title {
+  cursor: text;
+}
+.dnb-timeline__item__content {
+  padding-bottom: var(--spacing-small);
+}
+.dnb-timeline__item__content__subtitle {
+  cursor: text;
+  font-size: var(--font-size-x-small);
+  font-weight: var(--font-weight-basis);
+  color: var(--color-black-55);
+}
+.dnb-timeline__item__content__info {
+  padding-top: var(--spacing-x-small);
 }"
 `;

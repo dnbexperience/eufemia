@@ -148,7 +148,7 @@ describe('Modal component', () => {
     ).toBe('-1')
   })
 
-  it('has to have the correct title', () => {
+  it('should have the correct title', () => {
     render(
       <Modal {...props} open_state={true}>
         <Modal.Header />
@@ -1588,7 +1588,7 @@ describe('Modal component', () => {
     })
   })
 
-  it('has to have the correct aria-describedby', () => {
+  it('should have the correct aria-describedby', () => {
     render(<Modal {...props} open_state={true} />)
     expect(
       document.querySelector(
@@ -1597,7 +1597,7 @@ describe('Modal component', () => {
     ).toBeInTheDocument()
   })
 
-  it('has to have correct role and aria-modal', () => {
+  it('should have correct role and aria-modal', () => {
     let elem
 
     const { rerender } = render(<Modal {...props} open_state={true} />)
@@ -1622,7 +1622,7 @@ describe('Modal component', () => {
     })
   })
 
-  it('has to have a close button', () => {
+  it('should have a close button', () => {
     render(
       <Modal {...props}>
         <Modal.Bar />
@@ -1637,7 +1637,7 @@ describe('Modal component', () => {
     ).toBe('Lukk')
   })
 
-  it('has to have a default dialog title', () => {
+  it('should have a default dialog title', () => {
     const { rerender } = render(<Modal {...props} title={undefined} />)
     // open modal
     fireEvent.click(document.querySelector('button'))
@@ -1653,7 +1653,7 @@ describe('Modal component', () => {
     ).not.toHaveAttribute('aria-label')
   })
 
-  it('has to have aria-labelledby and aria-describedby', () => {
+  it('should have aria-labelledby and aria-describedby', () => {
     render(
       <Modal {...props}>
         <DialogContent />
@@ -1679,7 +1679,7 @@ describe('Modal component', () => {
     ).toBe('dnb-modal-modal_id-content')
   })
 
-  it('has to have no icon', () => {
+  it('should have no icon', () => {
     render(<Modal trigger_attributes={{ text: 'Open Modal' }} />)
     expect(document.querySelector('.dnb-icon')).not.toBeInTheDocument()
 
@@ -1695,7 +1695,7 @@ describe('Modal component', () => {
     expect(document.querySelector('.dnb-icon')).not.toBeInTheDocument()
   })
 
-  it('has to have an icon', () => {
+  it('should have an icon', () => {
     render(
       <Modal
         trigger_attributes={{ text: 'Open Modal', variant: 'tertiary' }}
@@ -2070,7 +2070,7 @@ describe('Modal ARIA', () => {
 })
 
 describe('Modal scss', () => {
-  it('has to match style dependencies css', () => {
+  it('should match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()
   })

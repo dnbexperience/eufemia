@@ -1,6 +1,34 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`GlobalStatus scss has to match style dependencies css 1`] = `
+exports[`GlobalStatus scss should match default theme snapshot 1`] = `
+"/*
+ * GlobalStatus theme
+ *
+ */
+/*
+ * Utilities
+ */
+.dnb-global-status__icon {
+  font-size: 1rem;
+}
+.dnb-global-status__message.dnb-section--white ::selection {
+  background-color: var(--color-mint-green);
+}
+.dnb-global-status__content .dnb-hr {
+  --hr-color: var(--color-fire-red);
+}
+.dnb-global-status--info .dnb-global-status__content .dnb-hr {
+  --hr-color: var(--color-sea-green);
+}
+.dnb-global-status--warning .dnb-global-status__content .dnb-hr {
+  --hr-color: var(--color-accent-yellow);
+}
+.dnb-global-status--success .dnb-global-status__content .dnb-hr {
+  --hr-color: var(--color-ocean-green);
+}"
+`;
+
+exports[`GlobalStatus scss should match style dependencies css 1`] = `
 "/*
 * Used for snapshot testing
 *
@@ -725,33 +753,5 @@ button.dnb-button::-moz-focus-inner {
 }
 .dnb-global-status__content .dnb-ul .dnb-anchor:last-of-type, .dnb-spacing .dnb-global-status__content .dnb-ul .dnb-anchor:last-of-type, .dnb-spacing .dnb-global-status__content .dnb-ul:not([class*=dnb-space]) .dnb-anchor:last-of-type {
   margin-left: 0.5rem;
-}"
-`;
-
-exports[`GlobalStatus scss have to match default theme snapshot 1`] = `
-"/*
- * GlobalStatus theme
- *
- */
-/*
- * Utilities
- */
-.dnb-global-status__icon {
-  font-size: 1rem;
-}
-.dnb-global-status__message.dnb-section--white ::selection {
-  background-color: var(--color-mint-green);
-}
-.dnb-global-status__content .dnb-hr {
-  --hr-color: var(--color-fire-red);
-}
-.dnb-global-status--info .dnb-global-status__content .dnb-hr {
-  --hr-color: var(--color-sea-green);
-}
-.dnb-global-status--warning .dnb-global-status__content .dnb-hr {
-  --hr-color: var(--color-accent-yellow);
-}
-.dnb-global-status--success .dnb-global-status__content .dnb-hr {
-  --hr-color: var(--color-ocean-green);
 }"
 `;

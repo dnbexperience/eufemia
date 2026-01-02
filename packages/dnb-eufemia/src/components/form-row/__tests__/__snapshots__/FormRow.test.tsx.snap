@@ -1,6 +1,13 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`FormRow scss has to match style dependencies css 1`] = `
+exports[`FormRow scss should match default theme snapshot 1`] = `
+"/*
+ * FormRow theme
+ *
+ */"
+`;
+
+exports[`FormRow scss should match style dependencies css 1`] = `
 "/*
 * Used for snapshot testing
 *
@@ -95,11 +102,4 @@ exports[`FormRow scss has to match style dependencies css 1`] = `
 .dnb-form-row__fieldset:not([class*=space__right]), .dnb-core-style .dnb-form-row__fieldset:not([class*=space__right]) {
   margin-right: 0;
 }"
-`;
-
-exports[`FormRow scss have to match default theme snapshot 1`] = `
-"/*
- * FormRow theme
- *
- */"
 `;
