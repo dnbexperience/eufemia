@@ -22,7 +22,7 @@ import {
   detectOutsideClick,
   isTouchDevice,
 } from '../../shared/component-helper'
-import { hasSelectedText, IS_IOS } from '../../shared/helpers'
+import { hasSelectedText } from '../../shared/helpers'
 import {
   spacingPropTypes,
   createSpacingClasses,
