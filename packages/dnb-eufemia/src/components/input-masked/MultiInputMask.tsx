@@ -128,6 +128,63 @@ function MultiInputMask<T extends string>({
   const inputRefs = useRef<Array<MutableRefObject<HTMLInputElement>>>([])
   const areInputsInFocus = useRef<boolean>(false)
 
+  // Event handlers
+  const onLegendClick = React.useCallback(() => {
+    if (disabled) {
+      return
+    }
+
+    const firstInput = inputRefs.current[0].current
+
+    firstInput.focus()
+    firstInput.setSelectionRange(0, 0)
+  }, [disabled])
+
+  // Utilities
+  const getInputRef = React.useCallback(
+    (ref?: { inputRef?: MutableRefObject<HTMLInputElement> }) => {
+      const inputRef = ref?.inputRef
+
+      if (inputRef && !inputRefs.current.includes(inputRef)) {
+        inputRefs.current.push(inputRef)
+      }
+
+      return inputRef
+    },
+    []
+  )
+
+  const getKeysToHandle = React.useCallback(() => {
+    const uniqueMasks = getUniqueMasks()
+
+    // Return the only one RegExp since all the inputs are using the same mask
+    if (uniqueMasks.size === 1) {
+      const pattern = uniqueMasks.values().next().value.replace(/\//g, '')
+      return new RegExp(pattern)
+    }
+
+    // If there are multiple types of masks used, then map the maps to an object based on input ids
+    // So that useHandleCursorPosition can do a per character test to see if the pressed key should be handled or not
+    return inputs.reduce(
+      (keys, { id, mask }) => {
+        keys[id] = mask
+
+        return keys
+      },
+      {} as Record<T, RegExp[]>
+    )
+  }, [inputs])
+
+  const getUniqueMasks = React.useCallback(() => {
+    const masks = new Set()
+
+    inputs.forEach((input) => {
+      input.mask.forEach((pattern) => masks.add(String(pattern)))
+    })
+
+    return masks
+  }, [inputs])
+
   const { onKeyDown } = useHandleCursorPosition(
     inputRefs.current,
     getKeysToHandle()
@@ -202,62 +259,6 @@ function MultiInputMask<T extends string>({
       />
     </WrapperElement>
   )
-
-  // Event handlers
-  function onLegendClick() {
-    if (disabled) {
-      return
-    }
-
-    const firstInput = inputRefs.current[0].current
-
-    firstInput.focus()
-    firstInput.setSelectionRange(0, 0)
-  }
-
-  // Utilities
-  function getInputRef(ref?: {
-    inputRef?: MutableRefObject<HTMLInputElement>
-  }) {
-    const inputRef = ref?.inputRef
-
-    if (inputRef && !inputRefs.current.includes(inputRef)) {
-      inputRefs.current.push(inputRef)
-    }
-
-    return inputRef
-  }
-
-  function getKeysToHandle() {
-    const uniqueMasks = getUniqueMasks()
-
-    // Return the only one RegExp since all the inputs are using the same mask
-    if (uniqueMasks.size === 1) {
-      const pattern = uniqueMasks.values().next().value.replace(/\//g, '')
-      return new RegExp(pattern)
-    }
-
-    // If there are multiple types of masks used, then map the maps to an object based on input ids
-    // So that useHandleCursorPosition can do a per character test to see if the pressed key should be handled or not
-    return inputs.reduce(
-      (keys, { id, mask }) => {
-        keys[id] = mask
-
-        return keys
-      },
-      {} as Record<T, RegExp[]>
-    )
-  }
-
-  function getUniqueMasks() {
-    const masks = new Set()
-
-    inputs.forEach((input) => {
-      input.mask.forEach((pattern) => masks.add(String(pattern)))
-    })
-
-    return masks
-  }
 }
 
 type MultiInputMaskInputProps<T extends string> =
