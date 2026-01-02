@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import classnames from 'classnames'
 import Button, { ButtonProps } from '../button/Button'
 import HeightAnimation from '../height-animation/HeightAnimation'
@@ -61,6 +61,64 @@ const SkipContent = (localProps: SkipContentAllProps) => {
   const returnSelector = selector.replace(/^(\.|#)/, '')
   const returnId = `${returnSelector}--alias`
 
+  const handleBlur = useCallback(() => {
+    setVisible(false)
+  }, [])
+
+  const handleClick = useCallback(() => {
+    setVisible(false)
+
+    // Scroll to the element at first
+    const element = document.querySelector(selector)
+    element?.scrollIntoView?.({ behavior: 'smooth' })
+    element?.classList.add('dnb-skip-content__focus')
+
+    // Delay the focus, so the UX is smoother
+    timeout.current = setTimeout(() => {
+      applyPageFocus(selector)
+
+      // Tell the linked return component, it should stay active (if it gets focused as well)
+      document
+        .querySelector(`#${returnSelector}--alias--alias`)
+        ?.classList.add('dnb-skip-content__return--active')
+    }, focusDelay)
+  }, [selector, focusDelay])
+
+  const setFocus = useCallback(() => {
+    setVisible(true)
+
+    // Wait one frame, so ref is set
+    window.requestAnimationFrame(() => {
+      const element = ref.current?.querySelector(
+        '.dnb-button'
+      ) as HTMLElement
+      element?.focus()
+    })
+
+    // Ensure the __return button stays active
+    if (ref.current?.getAttribute('class').includes('__return--active')) {
+      setKeepReturnActive(true)
+    }
+  }, [])
+
+  const handleFocus = useCallback(
+    (e: FocusEvent) => {
+      if (e.target.tagName === 'SPAN') {
+        setFocus()
+      }
+    },
+    [setFocus]
+  )
+
+  const handleKeyUp = useCallback(
+    (e: React.KeyboardEvent) => {
+      if (e.key === 'Tab') {
+        setFocus()
+      }
+    },
+    [setFocus]
+  )
+
   return (
     <span
       className={classes}
@@ -88,58 +146,6 @@ const SkipContent = (localProps: SkipContentAllProps) => {
       </>
     </span>
   )
-
-  function handleBlur() {
-    setVisible(false)
-  }
-
-  function handleClick() {
-    setVisible(false)
-
-    // Scroll to the element at first
-    const element = document.querySelector(selector)
-    element?.scrollIntoView?.({ behavior: 'smooth' })
-    element?.classList.add('dnb-skip-content__focus')
-
-    // Delay the focus, so the UX is smoother
-    timeout.current = setTimeout(() => {
-      applyPageFocus(selector)
-
-      // Tell the linked return component, it should stay active (if it gets focused as well)
-      document
-        .querySelector(`#${returnSelector}--alias--alias`)
-        ?.classList.add('dnb-skip-content__return--active')
-    }, focusDelay)
-  }
-
-  function handleFocus(e: FocusEvent) {
-    if (e.target.tagName === 'SPAN') {
-      setFocus()
-    }
-  }
-
-  function handleKeyUp(e: React.KeyboardEvent) {
-    if (e.key === 'Tab') {
-      setFocus()
-    }
-  }
-
-  function setFocus() {
-    setVisible(true)
-
-    // Wait one frame, so ref is set
-    window.requestAnimationFrame(() => {
-      const element = ref.current?.querySelector(
-        '.dnb-button'
-      ) as HTMLElement
-      element?.focus()
-    })
-
-    // Ensure the __return button stays active
-    if (ref.current?.getAttribute('class').includes('__return--active')) {
-      setKeepReturnActive(true)
-    }
-  }
 }
 
 export type SkipContentReturnProps = SkipContentAllProps
