@@ -155,8 +155,8 @@ export default function PortalLayout(props: PortalLayoutProps) {
               <Breadcrumb.Item
                 key={item.text}
                 variant={
-                  (i == 0 && 'home') ||
-                  (i == a.length - 1 && 'current') ||
+                  (i === 0 && 'home') ||
+                  (i === a.length - 1 && 'current') ||
                   null
                 }
                 element={Link}
