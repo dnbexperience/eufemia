@@ -57,6 +57,10 @@ function FlexItem(props: Props) {
     size && 'dnb-flex-item--responsive'
   )
 
+  const isValidSize = React.useCallback((size: Sizes) => {
+    return typeof size === 'number' || size === 'auto'
+  }, [])
+
   const spaceStyles = {} as React.CSSProperties
 
   if (size) {
@@ -96,10 +100,6 @@ function FlexItem(props: Props) {
       {children}
     </Space>
   )
-
-  function isValidSize(size: Sizes) {
-    return typeof size === 'number' || size === 'auto'
-  }
 }
 
 FlexItem._supportsSpacingProps = true
