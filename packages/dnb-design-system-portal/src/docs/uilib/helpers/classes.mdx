@@ -10,13 +10,13 @@ import SkipLinkExample from 'Docs/uilib/usage/accessibility/examples/skip-link-e
 
 ## CSS helper classes
 
-Reusing classes in the markup instead of using SCSS extends or _mixins_ will prevent duplication in the `@dnb/eufemia`. So also your application will have good benefits from reusing these helper classes.
+Reusing classes in the markup instead of using SCSS extends or _mixins_ will prevent duplication in `@dnb/eufemia`. This approach also benefits your application by reusing these helper classes.
 
 ## Core style
 
 `dnb-core-style`
 
-In order to be able to have the core Body Style inside a wrapper and available for all its children. The Body Style contains among others styles, the correct color, line-height, font and a CSS reset.
+Provides the core Body Style inside a wrapper, making it available for all its children. The Body Style includes the correct color, line-height, font, and a CSS reset, among other styles.
 
 <Examples.CoreStyle />
 
@@ -24,7 +24,7 @@ In order to be able to have the core Body Style inside a wrapper and available f
 
 `dnb-tab-focus`
 
-Removes default focus outline from a focusable element and adds a custom visual focus state when is focused by a tab key.
+Removes the default focus outline from a focusable element and adds a custom visual focus state when focused by a tab key.
 There is also:
 
 - `dnb-mouse-focus`
@@ -37,7 +37,7 @@ There is also:
 
 `dnb-skip-link`
 
-A default Skip Link style, for adding a link at the top of each page that goes directly to the main content area.
+A default Skip Link style for adding a link at the top of each page that goes directly to the main content area.
 
 <SkipLinkExample />
 
@@ -61,7 +61,7 @@ More details in the [Focus Section](/uilib/usage/accessibility/focus#skip-link).
 
 `dnb-spacing`
 
-Sets default spacing (using _margin_) on all HTML elements inside the container with this style. The default spacing is a `margin-bottom: 1.5rem`, but specific margins are defined for headings, lists and tables.
+Sets default spacing (using _margin_) on all HTML elements inside the container with this style. The default spacing is `margin-bottom: 1.5rem`, but specific margins are defined for headings, lists, and tables.
 
 ```html
 <article class="dnb-spacing">
@@ -87,7 +87,7 @@ NB: Browser support is not fully covered (2021).
 
 `dnb-sr-only`
 
-Visually hides an element, but is still reachable by screen readers. (_sr_ stands for _Screen Reader_)
+Visually hide an element while keeping it accessible to screen readers. (_sr_ stands for _Screen Reader_)
 
 <Examples.ScreenReaderOnly />
 
@@ -95,7 +95,7 @@ Visually hides an element, but is still reachable by screen readers. (_sr_ stand
 
 `dnb-drop-shadow`
 
-Adds a default drop shadow, `box-shadow: 0 8px 16px rgba(51, 51, 51, 0.08)`, to the component. The current shadow specification is designed to be less sharp and more blurry.
+Adds a default drop shadow (`box-shadow: 0 8px 16px rgba(51, 51, 51, 0.08)`) to the component. The current shadow specification is designed to be softer and more blurred.
 
 ### CSS properties
 
@@ -118,7 +118,7 @@ If you only want to apply parts of the property, these are available as well:
 
 `dnb-sharp-drop-shadow`
 
-Adds a smaller, but sharper drop shadow, `box-shadow: 0 1px 6px rgba(0, 0, 0, 0.16)`, to the component. Designed for hovering boxes such as dropdown or calendar.
+Adds a smaller but sharper drop shadow (`box-shadow: 0 1px 6px rgba(0, 0, 0, 0.16)`) to the component. Designed for hovering elements such as dropdowns or calendars.
 
 ### CSS properties
 
@@ -141,7 +141,7 @@ If you only want to apply parts of the property, these are available as well:
 
 `dnb-responsive-component`
 
-Makes some form components, like [Input](/uilib/components/input) react to small sized screens. But as this can have negative effects when enabled by default, you can enable this optionally using this helper class.
+Makes some form components, like [Input](/uilib/components/input), react to small-sized screens. Since this can have negative effects when enabled by default, you can enable it optionally using this helper class.
 
 ## Unstyled list
 
@@ -155,10 +155,10 @@ Removes default styling for lists. Applies to the `ul` or `ol` elements.
 
 `dnb-selection`
 
-Applies the DNB selection colors to the selected content.
+Applies the DNB selection colors to selected content.
 
-Eufemia uses custom `::selection` colors to enhance the contrast and to play well against the many green colors.
-Every HTML class that starts with the prefix `dnb-` will be effected. In some circumstances you can simply make use of the class `.dnb-selection`, which applies the styles below on `::selection`.
+Eufemia uses custom `::selection` colors to enhance contrast and work well with the many green colors.
+Every HTML class that starts with the prefix `dnb-` will be affected. In some circumstances, you can simply use the `.dnb-selection` class, which applies the styles below on `::selection`.
 
 ```scss
 background-color: var(--color-mint-green);

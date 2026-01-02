@@ -7,7 +7,7 @@ import { Hr } from '@dnb/eufemia/src'
 
 # What you should know before getting started
 
-Before you get started, there are some technical decisions you should know about - as in every project.
+Before you get started, there are some technical decisions you should know about—as with every project.
 
 **Table of Contents**
 
@@ -83,15 +83,15 @@ The two main purposes of delivering TypeScript types are:
 - Inline property documentation
 - Property validation and type safety
 
-As of now, some components are written in TypeScript (`.tsx`) and some in JavaScript and type definition files (`.d.ts`).
+As of now, some components are written in TypeScript (`.tsx`) and some in JavaScript with type definition files (`.d.ts`).
 
 #### Legacy type handling
 
 For JavaScript based components, the documentation for properties (`properties.mdx`) is kept as a Markdown Table, they get extracted, parsed, and inserted in the type definition files.
 
-You can still sync/update the documentation of these files (`d.ts`), by running: `yarn @dnb/eufemia build:types:docs` or `yarn build`.
+You can still sync/update the documentation of these files (`.d.ts`) by running: `yarn @dnb/eufemia build:types:docs` or `yarn build`.
 
-**NB:** After you have synced/updated the files, you will see that some newlines were removed. Thats a negative side-effect we have no solution at the moment.
+**NB:** After you have synced/updated the files, you will see that some newlines were removed. That's a negative side-effect for which we have no solution at the moment.
 
 #### Sharing PropTypes between components (legacy)
 
@@ -158,7 +158,7 @@ There are a couple of components doing so. You may have a look at:
 
 #### Shared Properties docs (legacy)
 
-If you have one `/properties.md` file, but e.g. two components share most or all of the properties. Like a component and a provider for that component (Accordion and AccordionProvider) – then you can define in the markdown table header name both of the components: You can then provide a second table with a more specific table for a second component.
+If you have one `/properties.md` file, but e.g., two components share most or all of the properties—like a component and a provider for that component (Accordion and AccordionProvider)—then you can define both components in the markdown table header name. You can then provide a second table with more specific properties for a second component.
 
 ```md
 #### Properties
@@ -175,7 +175,7 @@ If you have one `/properties.md` file, but e.g. two components share most or all
 
 ## About component structure
 
-Eufemia has a couple of common parts, so every component behaves consistent:
+Eufemia has a couple of common parts, so every component behaves consistently:
 
 - [Locale](/uilib/usage/customisation/localization) support.
 - [Provider](/uilib/usage/customisation/provider) support for centralized property forwarding.
@@ -215,10 +215,10 @@ As an example, we show the folder structure of component Breadcrumb. You can als
 
 There are a couple of environments for different purposes.
 
-- For developing and styling new components, you can run a [Storybook development](/contribute/first-contribution/before-started#storybook-development).
+- For developing and styling new components, you can run [Storybook development](/contribute/first-contribution/before-started#storybook-development).
 - For writing documentation and displaying the components, you can run [the portal](/contribute/first-contribution/before-started#eufemia-portal) locally.
 - After development, you can run [your tests](/contribute/first-contribution/before-started#testing).
-- If you want to see the local changes of the search results, you can run [Algolia search queries locally](/).
+- If you want to see the local changes in the search results, you can run [Algolia search queries locally](/).
 
 ### Storybook development
 
@@ -259,7 +259,7 @@ $ filter=button,/input/ yarn start # with comma
 $ filter="button /input/" yarn start # with space (needs to be quoted)
 ```
 
-And visit e.g. this page: [http://localhost:8000/uilib/components/button/](http://http://localhost:8000/uilib/components/button/)
+And visit e.g. this page: [http://localhost:8000/uilib/components/button/](http://localhost:8000/uilib/components/button/)
 
 #### Local build
 
@@ -279,7 +279,7 @@ $ yarn serve
 
 ## What happens in the build steps
 
-During the build, a lot of various things will happen. First, a prebuild before the build and afterward a postbuild.
+During the build, various things will happen. First, a prebuild step before the build, and afterward a postbuild step.
 
 ### During prebuild
 

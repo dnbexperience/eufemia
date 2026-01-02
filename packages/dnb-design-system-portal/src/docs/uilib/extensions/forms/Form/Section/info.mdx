@@ -21,14 +21,14 @@ render(<Form.Section />)
 
 ### Good to know
 
-- It allows you to easily customize and reposition nested `Form.Section` components within the data context, making it effortless to reuse the same set of fields and values in various contexts. Check out e.g. the `overwriteProps` and `path` properties for more information.
-- When defining a default value for a field or value, you can use the `defaultValue` property instead of value. It will not take precedence over the data context like value does.
+- It allows you to easily customize and reposition nested `Form.Section` components within the data context, making it effortless to reuse the same set of fields and values in various contexts. Check out the `overwriteProps` and `path` properties for more information.
+- When defining a default value for a field or value, you can use the `defaultValue` property instead of `value`. It will not take precedence over the data context like `value` does.
 - Use [Form.Visibility](/uilib/extensions/forms/Form/Visibility/) to handle logic and hide parts of your form based on the data context.
 - To provide localization for all used texts defined in the `translations` property of the section, you can create a localization easily.
 - Only imported sections with their localizations are included in the production bundle.
 - It is possible to overwrite the translations later by using the `Form.Handler` component.
 - A single section can be used without `Form.Handler`, just like any other field and value.
-- An [Form.Section.EditContainer](/uilib/extensions/forms/Form/Section/EditContainer/) and [Form.Section.ViewContainer](/uilib/extensions/forms/Form/Section/ViewContainer/) container is available to be used.
+- [Form.Section.EditContainer](/uilib/extensions/forms/Form/Section/EditContainer/) and [Form.Section.ViewContainer](/uilib/extensions/forms/Form/Section/ViewContainer/) containers are available to use.
 - Here is a [list of blocks](/uilib/extensions/forms/blocks/) ready to use.
 
 ## Usage
@@ -96,7 +96,7 @@ render(
 
 ## Optional `path` support
 
-Optionally you can define a `path` to the section component. Fields inside the section will get this path as a prefix of their own path. This makes it possible to reuse the same section component in different contexts.
+You can optionally define a `path` for the section component. Fields inside the section will use this path as a prefix for their own path. This makes it possible to reuse the same section component in different contexts.
 
 ```tsx
 import { Form, Field } from '@dnb/eufemia/extensions/forms'
@@ -126,7 +126,7 @@ render(
 
 ## Required property
 
-Optionally you can define a `required` property to the section component. Fields inside the section then be required.
+You can optionally define a `required` property for the section component. Fields inside the section will then be required.
 
 ```tsx
 render(
@@ -139,7 +139,7 @@ render(
 
 ## TypeScript support
 
-Optionally you can define what the properties of the nested fields should accept:
+You can optionally define which properties the nested fields should accept:
 
 ```tsx
 import { Form, Field, SectionProps } from '@dnb/eufemia/extensions/forms'
@@ -332,7 +332,7 @@ function ContentOfMySection() {
 }
 ```
 
-This way it is possible to "extend" or change the translations for a specific section from a `Form.handler`:
+This way it is possible to extend or change the translations for a specific section from a `Form.Handler`:
 
 ```tsx
 import { Form } from '@dnb/eufemia/extensions/forms'
@@ -354,7 +354,7 @@ export function MyForm() {
 
 ## Edit and View container
 
-The `Form.Section` supports an [Form.Section.EditContainer](/uilib/extensions/forms/Form/Section/EditContainer/) and [Form.Section.ViewContainer](/uilib/extensions/forms/Form/Section/ViewContainer/) container. The edit container should be used for data input with fields. While the view container is used to display the data in a read-only way.
+The `Form.Section` supports a [Form.Section.EditContainer](/uilib/extensions/forms/Form/Section/EditContainer/) and a [Form.Section.ViewContainer](/uilib/extensions/forms/Form/Section/ViewContainer/) container. The edit container should be used for data input with fields, while the view container is used to display the data in a read-only manner.
 
 ```tsx
 import { Form, Field } from '@dnb/eufemia/extensions/forms'
@@ -394,7 +394,7 @@ render(
 )
 ```
 
-Note: The reason `Done` and not `Save` is used in the toolbar button is because validation is done in fields. If we decouple the data entered in a section, the `Form.Handler` will not be able to validate the data on submit. This can also lead to missing data because the user can press the submit button before `Save` is pressed.
+Note: The reason `Done` is used in the toolbar button instead of `Save` is because validation is performed in fields. If we decouple the data entered in a section, the `Form.Handler` will not be able to validate the data on submit. This can also lead to missing data because the user can press the submit button before `Save` is pressed.
 
 ## Snapshot testing of a section (block)
 

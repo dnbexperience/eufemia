@@ -20,14 +20,14 @@ import { Skeleton } from '@dnb/eufemia'
 
 The Skeleton component is a visual building block that helps provide loading placeholders. It displays a non-interactive preview of the actual UI of the component, visually communicating that content is being processed.
 
-After 5 seconds an animation is shown that times out after 30 seconds.
+After 5 seconds, an animation is shown that times out after 30 seconds.
 
 ## Relevant links
 
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/skeleton)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/skeleton)
 
-## Take in consideration
+## Take into consideration
 
 It should be used carefully and not as a quick loading indicator replacement. The browser will use additional resources to render the additional state. If it is misused, such as showing a significantly different UI or being shown for just a fraction of a second, it can distract from the user experience rather than enhancing it.
 
@@ -35,17 +35,17 @@ Also, in some setups, the user may need to download almost the entire web applic
 
 ### Gatsby
 
-Gatsby as a framework makes the perfect fit to utilize a good skeleton user experience from the very first-page visit. Every page is optimized to load as fast as possible (in addition to page preloading and PWA). We can take advantage of this and show our skeleton as our initial state.
+Gatsby as a framework is the perfect fit to utilize a good skeleton user experience from the very first page visit. Every page is optimized to load as fast as possible (in addition to page preloading and PWA). We can take advantage of this and show our skeleton as our initial state.
 
 1. The skeletons will show up during the very first paint – even without JavaScript enabled.
-1. Next, our page loads the needed application bundle, so we can start an API call, getting our user data.
-1. Now our applications renders.
-1. And finally, we have the user data to display.
+1. Next, our page loads the needed application bundle, so we can start an API call to get our user data.
+1. Now our application renders.
+1. Finally, we have the user data to display.
 
 ## Accessibility
 
-- Elements and components should be still responsive to screen width and font-size.
-- Screen readers will get a mention that the loading state has finished as a aria-live update.
+- Elements and components should still be responsive to screen width and font size.
+- Screen readers will get a mention that the loading state has finished as an aria-live update.
 - Components and interactive elements are not accessible for keyboard users.
 
 ## When not to use
@@ -70,9 +70,9 @@ But you can also use the Skeleton component to show a fake article or other figu
 
 ## How it works
 
-Every Eufemia component should support a skeleton natively. But for simplification, you can use the Skeleton component as a provider, so enable the skeletons for a group of components.
+Every Eufemia component should support a skeleton natively. But for simplification, you can use the Skeleton component as a provider to enable the skeletons for a group of components.
 
-If you use the skeleton as a provider, the [Space](/uilib/layout/space) component is used as a wrapper. This wrapper also serves the underlying components to define the style type or animation. If only the defaults are used, then you can skip it by setting the element to false `element={false}`.
+If you use the skeleton as a provider, the [Space](/uilib/layout/space) component is used as a wrapper. This wrapper also helps the underlying components to define the style type or animation. If only the defaults are used, then you can skip it by setting the element to `false` with `element={false}`.
 
 But the Skeleton component also supports a set of ready-to-use figures. Use it like `figure="article"`.
 

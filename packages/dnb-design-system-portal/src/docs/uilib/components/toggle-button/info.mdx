@@ -10,7 +10,7 @@ import { ToggleButton } from '@dnb/eufemia'
 
 ## Description
 
-The ToggleButton component should be used to toggle on or off a limited number of choices.
+The ToggleButton component is used to toggle on or off a limited number of choices.
 
 ## Relevant links
 
@@ -18,16 +18,16 @@ The ToggleButton component should be used to toggle on or off a limited number o
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/toggle-button)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/toggle-button)
 
-You can use the React component `<ToggleButton.Group>` to wrap several `ToggleButton`. This makes it easier to handle the event `on_change` on a higher level - as well as several other [context related properties](/uilib/components/toggle-button/properties).
+You can use the React component `<ToggleButton.Group>` to wrap several `ToggleButton` components. This makes it easier to handle the `on_change` event at a higher level, as well as several other [context-related properties](/uilib/components/toggle-button/properties).
 
-By default the `ToggleButton.Group` is single-select, like a [Radio](/uilib/components/radio) button. But you can easily enable `multiselect` as well.
+By default, the `ToggleButton.Group` is single-select, like a [Radio](/uilib/components/radio) button. However, you can easily enable `multiselect` as well.
 
 ## How to use
 
 You can use the ToggleButton in different modes. Either as a stand-alone component or together with the `ToggleButton.Group` context.
 
-### Multi select
+### Multi-select
 
-If `multiselect` is enabled on the group, several items can be enabled/disabled by the user.
+If `multiselect` is enabled on the group, several items can be enabled or disabled by the user.
 
-You would have to decide if you want to track the state by yourself by using the `checked` property, or you want just to listen to the internal state with `on_change(({ values } => console.log(values)))`. You have then to give every item also a `value` property.
+You need to decide if you want to track the state yourself by using the `checked` property, or if you want to listen to the internal state with `on_change(({ values }) => console.log(values))`. In this case, you also need to give every item a `value` property.

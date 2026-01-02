@@ -29,21 +29,21 @@ The InputMasked component uses the basic [Input](/uilib/components/input) compon
 
 ### How it works
 
-This component uses the basic [Input](/uilib/components/input) but with a set of options and features.
+This component uses the basic [Input](/uilib/components/input) component with a set of additional options and features.
 
-You will either create your own mask, or use one of the provided ones. There are also masks which change based on different [locales](/uilib/components/input-masked/info?fullscreen#mask-based-on-locale) (`as_currency` or `as_number`).
+You can either create your own mask or use one of the provided ones. There are also masks that change based on different [locales](/uilib/components/input-masked/info?fullscreen#mask-based-on-locale) (`as_currency` or `as_number`).
 
 ### Accessibility
 
-Screen readers will read also the mask before the user is entering the content. Also, the user will hear the mask during typing. This behavior can both have positive and negative side effects on the user. But overall, it works ok.
+Screen readers will also read the mask before the user enters the content. Additionally, the user will hear the mask during typing. This behavior can have both positive and negative side effects for the user, but overall, it works well.
 
 Both entering a comma or a dot will act as a decimal separator if [decimals are enabled](/uilib/components/input-masked/#decimals) and one of the internal masks for numbers is used.
 
 #### InputMode
 
-**NB:** Please do not set `inputMode="numeric"` or `inputMode="decimal"`, because devices may or may not show a minus key (`-`)!
+**NB:** Please do not set `inputMode="numeric"` or `inputMode="decimal"` because devices may or may not show a minus key (`-`)!
 
-The InputMasked component does handle soft keyboards (iOS and Android) by using either `inputMode="numeric"` or `inputMode="decimal"` depending on `allowNegative` and `allowDecimal` (getSoftKeyboardAttributes).
+The InputMasked component handles soft keyboards (iOS and Android) by using either `inputMode="numeric"` or `inputMode="decimal"`, depending on `allowNegative` and `allowDecimal` (getSoftKeyboardAttributes).
 
 For iOS it additionally sets `type="number"` during focus (InputModeNumber). This way the correct numeric soft keyboard is shown.
 
@@ -51,20 +51,20 @@ For iOS it additionally sets `type="number"` during focus (InputModeNumber). Thi
 
 ### Mask based on locale
 
-The InputMasked component supports masks based on a given locale. The locale will be inherited from the [Eufemia Provider](/uilib/usage/customisation/provider) if not given.
+The InputMasked component supports masks based on a given locale. The locale will be inherited from the [Eufemia Provider](/uilib/usage/customisation/provider) if not specified.
 
-As of now, you can enable these masks by giving:
+You can enable these masks by setting:
 
 - `as_currency="EUR"`
 - `as_number={true}`
 
-You can still send in custom mask parameters to `currency_mask={{ ... }}` or `number_mask={{ ... }}`. But you can also make use of `mask_options={{ ... }}` and just send in your extra options in there.
+You can still provide custom mask parameters to `currency_mask={{ ... }}` or `number_mask={{ ... }}`. Alternatively, you can use `mask_options={{ ... }}` and provide your extra options there.
 
 More details in the [examples above](/uilib/components/input-masked/demos).
 
 #### Clean number values
 
-If you use `as_currency` or `as_number` you have to always send in a clean number without any mask (`value="1234.50"`):
+If you use `as_currency` or `as_number`, you must always provide a clean number without any mask (`value="1234.50"`):
 
 <InputMaskedInfoCleanNumberValues />
 
@@ -86,16 +86,16 @@ This example here also shows how to affect every InputMasked component in your a
 <InputMaskedInfoDecimalsCurrencyProvider />
 <InputMaskedInfoDecimalsNumberProvider />
 
-To remove a decimal limit, you can send in `null` and allow decimals with `allowDecimal`:
+To remove a decimal limit, you can provide `null` and allow decimals with `allowDecimal`:
 
 <InputMaskedInfoRemoveDecimalLimit />
 
 ### Mask with multiple inputs
 
-Allows for the same input functionality as in the [DatePicker](/uilib/components/date-picker), but with your own defined inputs.
-`onChange` takes an object with keys based on the step id's. e.g. `{month: string, year: string, suffix: string}`
+Provides the same input functionality as the [DatePicker](/uilib/components/date-picker), but with your own defined inputs.
+`onChange` takes an object with keys based on the step IDs, e.g., `{month: string, year: string, suffix: string}`.
 
-`import` as demonstrated below
+Import as demonstrated below:
 
 ```tsx
 import { MultiInputMask } from '@dnb/eufemia/components/input-masked'

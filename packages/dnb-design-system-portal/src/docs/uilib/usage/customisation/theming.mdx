@@ -17,17 +17,17 @@ order: 7
 
 ---
 
-Theming is an umbrella term of a wide range of different ways and needs of customization.
+Theming is an umbrella term for a wide range of different approaches and needs for customization.
 
-This section covers some of the needs we've seen in DNB productions as of now.
+This section covers some of the needs we've seen in DNB productions so far.
 
 You may also check out the section in the contribution docs on [how to maintain and create a theme](/contribute/style-guides/theming/) or [how to deal with the brand as a developer](/brand/development/).
 
 ## Integrated theming
 
-Eufemia supports theming right inside where all the style-sources lives. Having the ability to control different styles as close to the source as possible, will make it possible to carefully handle continuous improvements over time.
+Eufemia supports theming right where all the style sources live. Having the ability to control different styles as close to the source as possible will make it easier to carefully handle continuous improvements over time.
 
-Themes are independent style packages, which should not be imported in parallel. But rather either – or.
+Themes are independent style packages that should not be imported in parallel, but rather one or the other.
 
 ### Theme Component and useTheme Hook
 
@@ -37,9 +37,9 @@ Eufemia has [theming helpers](/uilib/usage/customisation/theming/theme), that le
 
 Eufemia is a design system that aims to help DNB brands unleash their power.
 
-Eufemia is a system that is built on top of brand-assets. This means, it should be possible to swap out or extend these brand-assets.
+Eufemia is built on top of brand assets. This means it should be possible to swap out or extend these brand assets.
 
-Therefore, instead of overwriting Eufemia (DNB main brand) styles inside projects, it is beneficial to create additional brand themes – directly where the source of the original brand lives.
+Therefore, instead of overwriting Eufemia (DNB main brand) styles inside projects, it is beneficial to create additional brand themes directly where the source of the original brand lives.
 
 The default DNB brand theme is called: `ui` which stands for _universal identity_.
 
@@ -48,26 +48,26 @@ The default DNB brand theme is called: `ui` which stands for _universal identity
 You can easily switch the static import of styles to a different theme:
 
 ```diff
-import '@dnb/eufemia/style/core' // or /basis, when "dnb-core-style" is used
+import '@dnb/eufemia/style/core' // or /basis when "dnb-core-style" is used
 - import '@dnb/eufemia/style/themes/ui'
 + import '@dnb/eufemia/style/themes/eiendom'
 ```
 
 Read more about [how to import styles](/uilib/usage/customisation/styling/consume-styles/#select-a-theme).
 
-How ever, giving the user the ability to switch a theme during runtime, is a very much different challenge.
+However, giving the user the ability to switch a theme during runtime is a very different challenge.
 
 The Eufemia Portal (documentation) uses [gatsby-plugin-eufemia-theme-handler](https://github.com/dnbexperience/gatsby-plugin-eufemia-theme-handler) to handle it both in development and production mode.
 
 ## WIP: Ready to use themes
 
-Right now, theres work going on to create Eufemia Themes that utilize both color and spacing and the [Spatial system](/quickguide-designer/spatial-system).
+Right now, there's work going on to create Eufemia Themes that utilize both color and spacing along with the [Spatial system](/quickguide-designer/spatial-system).
 
-The plan is to extend the documentation here later on, with how to select and use a theme inside an application.
+The plan is to extend the documentation here later with how to select and use a theme inside an application.
 
 ### Using `postcss-replace`
 
-If your applications only need new colors or other CSS properties, you could simply replace all the properties with [postcss-replace](https://www.npmjs.com/package/postcss-replace) using this config scheme:
+If your application only needs new colors or other CSS properties, you could simply replace all the properties with [postcss-replace](https://www.npmjs.com/package/postcss-replace) using this config scheme:
 
 ```js
 {

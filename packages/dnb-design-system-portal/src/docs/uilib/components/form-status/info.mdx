@@ -14,12 +14,12 @@ import { FormStatus } from '@dnb/eufemia'
 
 ## Description
 
-The FormStatus is a simple component meant for displaying the status of a form ( displaying form errors, messages etc. )
-The `FormStatus` component should be positioned relative to the form or form input to which it referring to.
+The FormStatus is a simple component meant for displaying the status of a form (displaying form errors, messages, etc.).
+The `FormStatus` component should be positioned relative to the form or form input to which it is referring.
 
 Also, the `FormStatus` is used inside of many other form components.
 
-The `FormStatus` component cooperates together with the [GlobalStatus](/uilib/components/global-status) component to summarize and have several status messages in one place.
+The `FormStatus` component cooperates with the [GlobalStatus](/uilib/components/global-status) component to summarize and display several status messages in one place.
 
 ## Relevant links
 
@@ -39,10 +39,10 @@ This will allow screen readers to find and announce the error message without to
 
 This is done automatically in all Eufemia components when the `status` property is used.
 
-Also all the [fields](/uilib/extensions/forms/all-fields/) based on the [FieldBlock](/uilib/extensions/forms/create-component/FieldBlock) do support this feature without additional work. The `FieldBlock` also supports grouped messages and showing an error, warning and info message at the same time.
+Also, all the [fields](/uilib/extensions/forms/all-fields/) based on the [FieldBlock](/uilib/extensions/forms/create-component/FieldBlock) support this feature without additional work. The `FieldBlock` also supports grouped messages and showing an error, warning, and info message at the same time.
 
 ### Width alignment
 
-In order to enhance accessibility (readability), the FormStatus will align its width to a linked component. That means, if the FormStatus is build into the Input component, it will inherit the width of the input.
+In order to enhance accessibility (readability), the FormStatus will align its width to a linked component. This means that if the FormStatus is built into the Input component, it will inherit the width of the input.
 
 The `min-width` is set to be **12rem**. Use CSS `min-width` or `max-width` to set a custom (manual) width.
