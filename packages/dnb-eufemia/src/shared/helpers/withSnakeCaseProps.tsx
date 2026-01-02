@@ -61,9 +61,7 @@ export function classWithSnakeCaseProps<
     render() {
       if (this.props !== this._prevProps) {
         this._prevProps = this.props
-        this._elem = (
-          <Component {...convertSnakeCaseProps(this.props)} />
-        )
+        this._elem = <Component {...convertSnakeCaseProps(this.props)} />
       }
 
       return this._elem
