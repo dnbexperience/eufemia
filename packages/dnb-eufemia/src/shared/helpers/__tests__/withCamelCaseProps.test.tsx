@@ -92,7 +92,7 @@ describe('withCamelCaseProps', () => {
     `)
   })
 
-  it('will handle className correctly', () => {
+  it('should handle className correctly', () => {
     type ExtraTypes = {
       className?: string
     }
@@ -127,9 +127,10 @@ describe('withCamelCaseProps', () => {
     `)
   })
 
-  it('will handle contextType', () => {
+  it('should handle contextType', () => {
     const { asFragment } = render(
       <Context.Provider value={{ contextProp: 'context value' }}>
+        )
         <Component snake_case={false} camelCase={1} />
       </Context.Provider>
     )
@@ -140,6 +141,7 @@ describe('withCamelCaseProps', () => {
 
     expect(asFragment()).toMatchInlineSnapshot(`
       <DocumentFragment>
+        )
         <div
           data-testid="content"
         >
@@ -211,7 +213,7 @@ describe('classWithCamelCaseProps', () => {
     }
   }
 
-  it('will still expose a static property', () => {
+  it('should still expose a static property', () => {
     const Component = classWithCamelCaseProps(Original)
 
     expect(Original.property).toBe('thing')
@@ -232,7 +234,7 @@ describe('classWithCamelCaseProps', () => {
     expect(Component.name).toBe('Original')
   })
 
-  it('will render', () => {
+  it('should render', () => {
     const Component = classWithCamelCaseProps(Original)
 
     const { rerender, asFragment } = render(
@@ -269,7 +271,7 @@ describe('classWithCamelCaseProps', () => {
           `)
   })
 
-  it('will call componentDidMount once', () => {
+  it('should call componentDidMount once', () => {
     const componentDidMount = jest.fn()
 
     class CopyOfOriginal extends Original {
@@ -289,7 +291,7 @@ describe('classWithCamelCaseProps', () => {
     expect(componentDidMount).toHaveBeenCalledTimes(1)
   })
 
-  it('will handle contextType', () => {
+  it('should handle contextType', () => {
     const Component = classWithCamelCaseProps(Original)
 
     const { asFragment } = render(
@@ -370,7 +372,7 @@ describe('classWithCamelCaseProps', () => {
 })
 
 describe('convertCamelCasePropsToSnakeCase', () => {
-  it('will convert', () => {
+  it('should convert camelCase props to snake_case', () => {
     const props = {
       fooBar: 'value',
       snakeCase: { fooBar: 123 },
