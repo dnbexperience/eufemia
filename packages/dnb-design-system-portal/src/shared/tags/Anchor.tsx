@@ -50,7 +50,7 @@ export default function Anchor({ href, to = null, ...rest }: AnchorProps) {
   }
 
   if (href?.startsWith('!')) {
-    href = href.substr(1)
+    href = href.substring(1)
   }
 
   const isAbsoluteUrl = href?.startsWith('http')
