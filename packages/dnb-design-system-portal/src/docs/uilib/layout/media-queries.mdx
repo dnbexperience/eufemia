@@ -15,7 +15,7 @@ import { MediaQueryLiveExample, MediaQueryUseMedia } from './Examples'
 
 # Media Queries and Breakpoints
 
-In order to make it as declarative and easy to handle media queries from JavaScript, you may be interested to [use both](/uilib/layout/media-queries/#mediaquery-component-and-react-hooks) the `MediaQuery` React component and the `useMediaQuery` React hook.
+To make media queries more declarative and easier to handle from JavaScript, you may be interested in using both the `MediaQuery` React component and the `useMediaQuery` React hook.
 
 ## Media Queries Properties Table
 
@@ -29,7 +29,7 @@ UX designers are using a 12 column system during their design processes.
 
 ### Breakpoint ranges
 
-Application in DNB do actually break only twice (`small` and `medium`). But have a HTML body max-width of `large`.
+Applications in DNB actually break only twice (`small` and `medium`), but have a HTML body max-width of `large`.
 
 | React hook | Range                             | SASS mixin                  | Columns |
 | ---------- | --------------------------------- | --------------------------- | ------- |
@@ -39,7 +39,7 @@ Application in DNB do actually break only twice (`small` and `medium`). But have
 
 Note: if you've set [custom sass breakpoints](/uilib/helpers/sass/#custom-offset) using `$breakpoints` or `$breakpoint-offset`, the sass mixins will be different.
 
-So when dealing with naming of breakpoint ranges (between breakpoints), we actually use the term "large" when a media query exceeds `medium`:
+So when dealing with the naming of breakpoint ranges (between breakpoints), we use the term "large" when a media query exceeds `medium`:
 
 <img
   width="100%"
@@ -58,7 +58,7 @@ Here is how ranges breaks down in pixels:
 
 ### UX Design and Breakpoints
 
-When dealing with breakpoints; UX often designs only for two sizes. This leads with an unknown size in between breakpoints. So check with your UXer your applications should behave for when the screen size is in between.
+When dealing with breakpoints, UX often designs only for two sizes. This leads to an unknown size between breakpoints. Check with your UX designer how your application should behave when the screen size is in between.
 
 ## MediaQuery component and React Hooks
 
@@ -72,11 +72,11 @@ Both the component and the React Hooks uses the JavaScript API [matchMedia](http
 
 ### Re-render and performance
 
-By using `matchMedia` we only render when the requested media query actually changes. So we do not need to listen to e.g. `window.addEventListener('resize', ...)` which is a performance waste, even with a debounce helper.
+By using `matchMedia`, we only render when the requested media query actually changes. This means we don't need to listen to `window.addEventListener('resize', ...)`, which is a performance waste, even with a debounce helper.
 
 ### CSS similarity
 
-It uses the same query API as CSS uses. You are able to provide your query also raw, by using e.g. `query="(min-width: 60em)"`. But your custom queries will quickly grow and mess up your application code unnecessarily.
+It uses the same query API as CSS. You can also provide your query raw by using, for example, `query="(min-width: 60em)"`. However, custom queries can quickly grow and clutter your application code unnecessarily.
 
 ### Properties
 
@@ -86,7 +86,7 @@ CamelCase properties will be converted to kebab-case.
 
 ### SSR
 
-During a SSR (Server Side Render) we do not have the clients `window.matchMedia`. In order to make the initial render to a positive match, you can set the `matchOnSSR={true}` property.
+During SSR (Server Side Render), we don't have access to the client's `window.matchMedia`. To make the initial render result in a positive match, you can set the `matchOnSSR={true}` property.
 
 ### Units
 
@@ -112,7 +112,7 @@ See the [table above](#breakpoint-ranges) for the available breakpoints and thei
 
 #### SSR (Server Side Render) usage
 
-To lower the possibility of CLS (Cumulative Layout Shift) on larger screens – you can make use of the `isSSR` property. Try to use it in combination with `isLarge`, because the negative CLS experience is most recognizable on larger screens:
+To lower the possibility of CLS (Cumulative Layout Shift) on larger screens, you can use the `isSSR` property. Try to use it in combination with `isLarge` because the negative CLS experience is most noticeable on larger screens:
 
 ```tsx
 import { useMedia } from '@dnb/eufemia/shared'
@@ -148,7 +148,7 @@ import { useMedia } from '@dnb/eufemia/shared'
 function Component() {
   const { isSmall } = useMedia({
     /**
-     * Give a initial value, that is used during SSR as well.
+     * Provide an initial value that is used during SSR as well.
      * Default: null
      */
     initialValue?: Partial<UseMediaResult>
@@ -189,7 +189,7 @@ You can log the media query by providing `useMedia({ log: true })`.
 
 ### `useMediaQuery` hook usage
 
-This React Hook is a more extended version, where you can define all sorts of Media Queries.
+This React Hook is a more extended version where you can define all sorts of media queries.
 
 ```js
 import { useMediaQuery } from '@dnb/eufemia/shared'
@@ -262,10 +262,10 @@ you can find the [properties on this page](/uilib/shared/media-query/properties)
 import { onMediaQueryChange } from '@dnb/eufemia/shared/MediaQuery'
 
 const remove = onMediaQueryChange({ min: 'medium' }, (match, event) => {
-  // callback
+  // Callback
 })
 
-// Will remove the listeners
+// Remove the listeners
 remove()
 ```
 
@@ -275,7 +275,7 @@ It is possible to change the used breakpoint types by providing them to the Eufe
 
 Both the `MediaQuery` component and the hooks `useMedia` and `useMediaQuery` will merge and use these custom breakpoints.
 
-**NB:** It should be done only temporary, because DNB should align on one set of breakpoints for best UX and consistency.
+**NB:** This should only be done temporarily, because DNB should align on one set of breakpoints for the best UX and consistency.
 
 ```jsx
 import { Provider } from '@dnb/eufemia/shared'
@@ -341,7 +341,7 @@ or like this:
 }
 ```
 
-Based of the findings of [this article](https://zellwk.com/blog/media-query-units/) and [this webkit bug](https://bugs.webkit.org/show_bug.cgi?id=156684) Eufemia recommends to use `em` units for media query usage to meet the best overall browser support. Read [more about units](/uilib/usage/best-practices/for-styling#units).
+Based on the findings of [this article](https://zellwk.com/blog/media-query-units/) and [this webkit bug](https://bugs.webkit.org/show_bug.cgi?id=156684), Eufemia recommends using `em` units for media queries to achieve the best overall browser support. Read [more about units](/uilib/usage/best-practices/for-styling#units).
 
 ## How to deal with Jest
 

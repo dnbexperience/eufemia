@@ -29,9 +29,9 @@ render(<Field.Number path="/myNumber" />)
 
 `Field.Number` only allows the user to enter numbers (negative and positive) and decimal numbers.
 
-If a number has the type of number, and cannot start with a zero, this field may be considered.
+If a number has the type of number and cannot start with a zero, this field may be considered.
 
-But for e.g. a customer number, you rather use [Field.String](/uilib/extensions/forms/base-fields/String/).
+However, for a customer number, you should rather use [Field.String](/uilib/extensions/forms/base-fields/String/).
 
 Internally, it is used by e.g. [Field.Currency](/uilib/extensions/forms/feature-fields/Currency/).
 
@@ -49,6 +49,6 @@ It can also be used with [Field.Currency](/uilib/extensions/forms/feature-fields
 
 The component does not include focusable buttons, aligning with accessibility considerations for keyboard-only users, who can utilize arrow keys for navigation, like the `incrementable` [number input](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/number).
 
-One of the reasons to make the buttons as not focusable is to avoid the keyboard-only users to tab through all the extra buttons during navigation.
+One of the reasons to make the buttons not focusable is to prevent keyboard-only users from having to tab through all the extra buttons during navigation.
 
-Due to technical constraint, the `Field.Number` component will be announced as a `stepper` field – but will get the same instructions read out by a screen reader like VoiceOver, on how to change the value.
+Due to technical constraints, the `Field.Number` component will be announced as a `stepper` field but will have the same instructions read out by a screen reader like VoiceOver on how to change the value.

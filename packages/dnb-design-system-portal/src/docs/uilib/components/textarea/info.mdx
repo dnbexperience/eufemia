@@ -12,7 +12,7 @@ import { Textarea } from '@dnb/eufemia'
 
 ## Description
 
-The Textarea component is used as a multi-line text input control with an unlimited number of characters.
+The Textarea component is a multi-line text input control with an unlimited number of characters.
 
 ## Relevant links
 
@@ -22,14 +22,14 @@ The Textarea component is used as a multi-line text input control with an unlimi
 
 ### Browser autofill styling
 
-When users insert values using autofill in their browser, the browser applies its own background and text colors. However, in contrast to the [Input](/uilib/components/input/info) component, Eufemia does overwrite the `:autofill` background color because of its weird-looking gap around the writing area when autofill is used.
+When users insert values using autofill in their browser, the browser applies its own background and text colors. However, in contrast to the [Input](/uilib/components/input/info) component, Eufemia overwrites the `:autofill` background color to avoid a visually inconsistent gap around the writing area when autofill is used.
 
 ### Accessibility
 
 Please avoid using the `maxlength` attribute whenever possible, as it is not accessible. Instead, use the `characterCounter` property.
 
-This way the user gets a visual feedback of the number of characters entered and the maximum number of characters allowed. And it will not limit the user in their workflow.
+This way, the user gets visual feedback on the number of characters entered and the maximum number of characters allowed, and it will not limit the user in their workflow.
 
-You still can still set the requirement of your desired maximum number of characters by setting the `maxLength` property in [Eufemia Forms](/uilib/extensions/forms/base-fields/String/).
+You can still set the requirement for your desired maximum number of characters by setting the `maxLength` property in [Eufemia Forms](/uilib/extensions/forms/base-fields/String/).
 
 <Examples.MaxLength />

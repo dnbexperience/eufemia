@@ -11,7 +11,7 @@ render(<Wizard.Step />)
 
 ## Description
 
-`Wizard.Step` shows child components when the surrounding [Wizard.Container](/uilib/extensions/forms/Wizard/Container/) has been navigated to this step. Wizard.Container keeps track of what is the active step, and navigating between wizard steps is done through callbacks on the `Wizard.Context`, i.e. using [navigation buttons](/uilib/extensions/forms/Wizard/Buttons/).
+`Wizard.Step` shows child components when the surrounding [Wizard.Container](/uilib/extensions/forms/Wizard/Container/) has been navigated to this step. `Wizard.Container` keeps track of the active step, and navigating between wizard steps is done through callbacks on the `Wizard.Context`, e.g., using [navigation buttons](/uilib/extensions/forms/Wizard/Buttons/).
 
 ```tsx
 import { Form, Wizard } from '@dnb/eufemia/extensions/forms'
@@ -43,7 +43,7 @@ const MyForm = () => {
 }
 ```
 
-It uses [Flex.Stack](/uilib/layout/flex/stack/) so you do not need to wrap your content additionally.
+It uses [Flex.Stack](/uilib/layout/flex/stack/), so you do not need to wrap your content additionally.
 
 ## EditButton
 

@@ -28,8 +28,8 @@ yarn workspace dnb-design-system-portal playwright install firefox
 
 #### Alternative install: skip authentication
 
-But, since Node.js and corporate proxy do not enjoy each other's company, this might
-fail with a `Error: unable to get local issuer certificate`. In that case, your only
+However, since Node.js and corporate proxies do not enjoy each other's company, this might
+fail with an `Error: unable to get local issuer certificate` error. In that case, your only
 option might be to disable all authentication for this command.
 
 ```
@@ -56,11 +56,11 @@ The CI/CD pipeline automatically detects this flag and adjusts the test behavior
 
 ## How can I make faster builds?
 
-This is only meant for "setup testing" purposes! In order to make faster local builds, you can:
+This is only meant for "setup-testing" purposes! To make faster local builds, you can:
 
-- Inside `gatsby-config.js` rename all sourcing from `/docs` to `/docs_dummy`
+- Inside `gatsby-config.js`, rename all sourcing from `/docs` to `/docs_dummy`.
 
-Run `yarn workspace dnb-design-system-portal build:visual-test`
+Run `yarn workspace dnb-design-system-portal build:visual-test`.
 
 You can also run `filter=button,input yarn start` (case sensitive) to only run specific pages.
 
@@ -77,11 +77,11 @@ LINT_STAGED=1
 
 ### Jest
 
-- jsdom [v21](https://github.com/jsdom/jsdom/releases/tag/21.0.0) changed `window`, `document`, `location`, and top properties of Window to be non-configurable. Which made it impossible to mock `window.location` in Jest. While there are workarounds, we decided to use v20 instead of the latest (`"jest-environment-jsdom/jsdom": "20.0.3",`).
+- jsdom [v21](https://github.com/jsdom/jsdom/releases/tag/21.0.0) changed `window`, `document`, `location`, and top properties of Window to be non-configurable, which made it impossible to mock `window.location` in Jest. While there are workarounds, we decided to use v20 instead of the latest (`"jest-environment-jsdom/jsdom": "20.0.3"`).
 
 ### Babel
 
-- Due to this bug: https://github.com/babel/babel/issues/11394 we add `.png,.snap` so they not get copied: `--extensions '.js,.ts,.tsx,.png,.snap'`
+- Due to this bug: https://github.com/babel/babel/issues/11394 we add `.png,.snap` so they do not get copied: `--extensions '.js,.ts,.tsx,.png,.snap'`
 
 ### Yarn PnP
 
@@ -108,7 +108,7 @@ In MDX v1 the Portal used an MDX template (`./templates/mdx.js`) with the `creat
 Instead, the "PortalLayout" is used to wrap `.mdx` pages inside the `wrapPageElement` API.
 This is due to the `JavaScript heap out of memory` error when using templates.
 
-## I get Gatsby 404 Not Found on the pages I work on
+## I get a Gatsby 404 Not Found error on the pages I work on
 
-- Try cleaning cache: `yarn workspace dnb-design-system-portal gatsby clean`
+- Try cleaning the cache: `yarn workspace dnb-design-system-portal gatsby clean`
 - Try running `yarn build` again

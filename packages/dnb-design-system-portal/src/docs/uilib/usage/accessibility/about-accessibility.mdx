@@ -13,7 +13,7 @@ On _uutilsynet.no_ you can find an easy to read [WCAG guide (Norwegian)](https:/
 
 ## Main focus
 
-You as a developer have the responsibility to have the technical knowledge about accessibility. You have to implement and use best practices to make applications accessible for every user. We're talking about all kinds of users, people who have temporary or permanent disabilities and depend on what you put into the application as code. Therefore, you have to:
+As a developer, you have the responsibility to have the technical knowledge about accessibility. You have to implement and use best practices to make applications accessible for every user. We're talking about all kinds of users—people who have temporary or permanent disabilities who depend on what you put into the application as code. Therefore, you have to:
 
 - Test **keyboard navigation** during development <Icon icon={CheckIcon} aria-hidden />
 - Test with **screen readers** during development <Icon icon={CheckIcon} aria-hidden />
@@ -36,7 +36,7 @@ Read more about [focus management and the helper tools](/uilib/usage/accessibili
 
 ## Screen reader users
 
-Should be able to use the most common used screen readers like VoiceOver (Apple devices) and NVDA or JAWS on Windows. Read more about [screen readers](/uilib/usage/accessibility/screenreader).
+Should be able to use the most commonly used screen readers like VoiceOver (Apple devices) and NVDA or JAWS on Windows. Read more about [screen readers](/uilib/usage/accessibility/screenreader).
 
 > [**4.1 Compatible:**](https://www.w3.org/TR/WCAG21/#compatible) Maximize compatibility with current and future user agents, _including assistive technologies_.
 
@@ -71,8 +71,8 @@ The `@dnb/eufemia` and its building blocks are build from ground up to support f
 
 ## 320px screen width minimum
 
-This is to ensure that users with visual limitations can sufficiently zoom the page even on a medium sized monitor. It's equivalent to 400% zoom in a 1280px viewport.
+This is to ensure that users with visual limitations can sufficiently zoom the page even on a medium-sized monitor. It's equivalent to 400% zoom in a 1280px viewport.
 
 > [**1.4.10 Reflow:**](https://www.w3.org/TR/WCAG21/#reflow) Content can be presented without loss of information or functionality, and without requiring scrolling in two dimensions for: Vertical scrolling content at a width equivalent to 320 CSS pixels.
 
-Make sure that you take in to consideration any paddings that might be added around your content. If the content you are working on will be placed inside a container with 16px padding on each side, you will need to test at 288px (320 - 16 - 16).
+Make sure that you take into consideration any paddings that might be added around your content. If the content you are working on will be placed inside a container with 16px padding on each side, you will need to test at 288px (320 - 16 - 16).

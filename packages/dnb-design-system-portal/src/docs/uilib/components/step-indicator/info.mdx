@@ -22,7 +22,7 @@ If the user should be able to navigate back and forth, use the `mode="loose"` pr
 
 The current active step is set with the `current_step` property or within the data with the `is_current` object property.
 
-**NB:** Ensure, whenever possible, to bind the `current_step` to the browsers path location. See the [example below](/uilib/components/step-indicator/#stepindicator-with-a-router) or [the example on CodeSandbox](https://codesandbox.io/s/eufemia-step-indicator-with-reach-router-mhu0bh?file=/src/App.tsx).
+**NB:** Whenever possible, ensure you bind the `current_step` to the browser's path location. See the [example below](/uilib/components/step-indicator/#stepindicator-with-a-router) or [the example on CodeSandbox](https://codesandbox.io/s/eufemia-step-indicator-with-reach-router-mhu0bh?file=/src/App.tsx).
 
 ## Modes
 
@@ -61,10 +61,10 @@ More details about modifying steps in the [properties panel](/uilib/components/s
 
 ## Redesign in version 10.72.0
 
-The StepIndicator has been majorly redesigned. In general it should still work with the same code. But any customization to the style or selection of elements could cause issues.
+The StepIndicator has been majorly redesigned. In general, it should still work with the same code. However, any customization to the style or selection of elements could cause issues.
 
-- The sidebar has been removed. The component still exists to avoid breaking changes, but it will just add an invisible div.
-- Removing the sidebar means the list of steps is not visible initially. Since this was always the case on small screens, it hopefully will not cause many issues.
+- The sidebar has been removed. The component still exists to avoid breaking changes, but it will now only add an invisible div.
+- Removing the sidebar means the list of steps is not visible initially. Since this was always the case on small screens, this should not cause many issues.
 - The new property `expandedInitially` allows you to start with the list of steps visible.
-- Custom rendering of steps using the `on_item_render` and `on_render` properties will no longer do anything of value, it will be the same as using the item's `title` property.
-- The `sidebar_id` property no longer adds anything as we no longer have a sidebar. But if you need an id for other purposes, use the `id` property.
+- Custom rendering of steps using the `on_item_render` and `on_render` properties will no longer do anything of value; it will be the same as using the item's `title` property.
+- The `sidebar_id` property no longer adds anything as we no longer have a sidebar. However, if you need an ID for other purposes, use the `id` property.

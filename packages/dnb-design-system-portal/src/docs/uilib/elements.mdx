@@ -11,7 +11,7 @@ import { UnstyledExample } from 'Docs/uilib/elements/unstyled/Examples'
 
 # HTML Elements
 
-The `@dnb/eufemia` contains styling for the most commonly used [HTML Elements](https://developer.mozilla.org/en-US/docs/Web/HTML/Element) defined by the UX team at DNB. You may also have a look at [Typography](/uilib/typography) for headings and paragraph usage.
+`@dnb/eufemia` contains styling for the most commonly used [HTML Elements](https://developer.mozilla.org/en-US/docs/Web/HTML/Element) defined by the UX team at DNB. You may also have a look at [Typography](/uilib/typography) for headings and paragraph usage.
 
 ## Elements
 
@@ -30,7 +30,7 @@ In order to apply a style, you have to define a CSS class, like:
 
 ### React JSX
 
-For those using JSX with React, you can simply use the wrapper Components. They also inherit to the [Skeleton](/uilib/components/skeleton) provider.
+When using JSX with React, you can simply use the wrapper components. They also inherit to the [Skeleton](/uilib/components/skeleton) provider.
 
 ```jsx
 import { H1, H2, P, Anchor, Link } from '@dnb/eufemia'
@@ -53,7 +53,7 @@ They work seamlessly with Styled Components (emotion) as well:
 
 ## Unstyled HTML Elements
 
-In order to use the inherited [Skeleton](/uilib/components/skeleton), there are a number of un-styled HTML elements, that do inherit and react to the Skeleton Provider.
+In order to use the inherited [Skeleton](/uilib/components/skeleton), there are a number of unstyled HTML elements that inherit from and react to the Skeleton provider.
 
 ```jsx
 import { Span, Div } from '@dnb/eufemia'
@@ -70,6 +70,6 @@ import { Span, Div } from '@dnb/eufemia'
 
 ## Missing HTML Elements
 
-Not every commonly used HTML Elements are included yet in the `@dnb/eufemia`. This decision is made by the DNB UX Team and relies on a principle to make UX design as good as possible, consistent and more thoughtful towards a broader customer target.
+Not every commonly used HTML element is included yet in `@dnb/eufemia`. This decision is made by the DNB UX Team and relies on a principle to make UX design as good as possible, consistent, and more thoughtful towards a broader customer target.
 
 - For the `select` element, use the [**Dropdown**](/uilib/components/dropdown) component.

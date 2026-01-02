@@ -19,8 +19,9 @@ import { GlobalStatus } from '@dnb/eufemia'
 
 ## Description
 
-The GlobalStatus is a complex component meant for displaying global Application notifications or a summary of a form ( displaying form errors, messages etc. ).
-By default, the `GlobalStatus` is automatically connected together with the [FormStatus](/uilib/components/form-status) component. This means, that every form component showing a status, will send the status message along to the `GlobalStatus`.
+The GlobalStatus is a complex component meant for displaying global application notifications or a summary of a form (displaying form errors, messages, etc.).
+
+By default, the `GlobalStatus` is automatically connected together with the [FormStatus](/uilib/components/form-status) component. This means that every form component showing a status will send the status message along to the `GlobalStatus`.
 
 ## Relevant links
 
@@ -33,30 +34,30 @@ By default, the `GlobalStatus` is automatically connected together with the [For
 1. Once a **FormStatus** is shown, the `main` **GlobalStatus** will show up.
 1. The page will scroll (if needed) to the dedicated **GlobalStatus**.
 1. Form components will send along both the status text and its label to show a good and accessible summary.
-1. Screen reader uses will automatically hear the whole content of the `GlobalStatus` once it shows up.
+1. Screen reader users will automatically hear the entire content of the `GlobalStatus` once it shows up.
 
-### Several Global statuses
+### Several GlobalStatus instances
 
-Normally, you only want to have **one** `GlobalStatus` inside your application. But you can have several in parallel. But make sure you give every other a new ID:
+Normally, you only want to have **one** `GlobalStatus` inside your application. But you can have several in parallel. Make sure you give every other one a new ID:
 
 <GlobalStatusInfoExample1 />
 
 ### Where to put it
 
 - The `GlobalStatus` component should be positioned right under the header. By default, it uses `main` as the ID.
-- Or as a secondary summary of errors in a submit form. Keep in mind, by default, form components like [Input](/uilib/components/input) are using the ID `main`. To make sure the build in [FormStatus](/uilib/components/form-status) is sending along the message to another `GlobalStatus`, you have to set the [`globalStatus`](/uilib/components/global-status/properties/#configuration-object), like:
+- Or as a secondary summary of errors in a submit form. Keep in mind that, by default, form components like [Input](/uilib/components/input) use the ID `main`. To make sure the built-in [FormStatus](/uilib/components/form-status) sends the message to another `GlobalStatus`, you have to set the [`globalStatus`](/uilib/components/global-status/properties/#configuration-object), like:
 
 <GlobalStatusInfoExample2 />
 
-But you can also make use of the Eufemia [Provider](/uilib/usage/customisation/provider-info) where you will be able to send along the `globalStatus` the underlying/wrapped components, like:
+But you can also make use of the Eufemia [Provider](/uilib/usage/customisation/provider-info) where you will be able to send the `globalStatus` to the underlying/wrapped components, like:
 
 <GlobalStatusInfoExample3 />
 
-### Manually updates
+### Manual updates
 
-Besides the automated connection between the error states of form components ([FormStatus](/uilib/components/form-status)), you can update messages from everywhere in your application at any time:
+Besides the automated connection between the error states of form components ([FormStatus](/uilib/components/form-status)), you can update messages from anywhere in your application at any time:
 
-**NB:** The GlobalStatus will `autoclose` by default, once all messages are removed.
+**NB:** The GlobalStatus will `autoclose` by default once all messages are removed.
 
 ### JavaScript (interceptor situation)
 

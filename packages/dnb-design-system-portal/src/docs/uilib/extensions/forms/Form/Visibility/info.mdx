@@ -11,7 +11,7 @@ render(<Form.Visibility />)
 
 ## Description
 
-The `Form.Visibility` component allows you to conditionally show or hide components based on the state of data or field validation. You can either provide the values directly via properties or let it read data from a surrounding [Form.Handler](/uilib/extensions/forms/Form/Handler). This enables dynamic visibility control based on the paths it points to.
+The `Form.Visibility` component allows you to conditionally show or hide components based on the state of data or field validation. You can either provide the values directly via properties or let it read data from a surrounding [Form.Handler](/uilib/extensions/forms/Form/Handler/). This enables dynamic visibility control based on the paths it points to.
 
 ### Iterate.Visibility
 
@@ -78,7 +78,7 @@ render(
 )
 ```
 
-To prevent visibility changes during user interactions like typing, it shows the children first when the field both has no errors and has lost focus (blurred). You can use the `validateContinuously: true` property to immediately show the children when the field has no errors.
+To prevent visibility changes during user interactions like typing, it shows the children only when the field both has no errors and has lost focus (blurred). You can use the `validateContinuously: true` property to immediately show the children when the field has no errors.
 
 ## Accessibility
 
@@ -102,7 +102,7 @@ render(
 
 ## Keep in DOM
 
-You can use the `keepInDOM` property to keep the content in the DOM, even if it's not visible or accessible. This can be useful for fields that still needs to run validation.
+You can use the `keepInDOM` property to keep the content in the DOM, even if it's not visible or accessible. This can be useful for fields that still need to run validation.
 
 ```tsx
 import { Form } from '@dnb/eufemia/extensions/forms'
@@ -140,7 +140,7 @@ Check out the [Nested visibility example](#nested-visibility-example) to see how
 
 ### Why is this useful?
 
-In some cases, you want to keep the content in the DOM, even if it's not visible. This can be useful for fields that still needs to run validation.
+In some cases, you want to keep the content in the DOM, even if it's not visible. This can be useful for fields that still need to run validation.
 
 ## Inherit visibility
 
