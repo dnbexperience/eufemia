@@ -8,7 +8,6 @@
  */
 
 import React from 'react'
-import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Context from '../../shared/Context'
 import {
@@ -23,10 +22,7 @@ import {
   isTouchDevice,
 } from '../../shared/component-helper'
 import { hasSelectedText, IS_IOS } from '../../shared/helpers'
-import {
-  spacingPropTypes,
-  createSpacingClasses,
-} from '../space/SpacingHelper'
+import { createSpacingClasses } from '../space/SpacingHelper'
 import {
   skeletonDOMAttributes,
   createSkeletonClass,
@@ -110,83 +106,6 @@ export const COPY_TOOLTIP_TIMEOUT = 3000
 
 export default class NumberFormat extends React.PureComponent<NumberFormatAllProps> {
   static contextType = Context
-
-  static propTypes = {
-    id: PropTypes.string,
-    value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    locale: PropTypes.string,
-    prefix: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
-    suffix: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
-
-    // currency
-    currency: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    currency_display: PropTypes.oneOfType([
-      PropTypes.bool,
-      PropTypes.oneOf(['code', 'name', 'symbol', 'narrowSymbol', '']),
-    ]),
-    currency_position: PropTypes.oneOf(['auto', 'before', 'after']),
-
-    // shortens any number or currency including an abbreviation
-    compact: PropTypes.oneOfType([
-      PropTypes.oneOf(['short', 'long']),
-      PropTypes.bool,
-    ]),
-
-    // bank account number
-    ban: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-
-    // national identification number
-    nin: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-
-    // phone number
-    phone: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-
-    // organization number
-    org: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-
-    // percentage
-    percent: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-
-    // can be tel or sms
-    link: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-
-    monospace: PropTypes.bool,
-    options: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
-    decimals: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    selectall: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    always_selectall: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-    ]),
-    copy_selection: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-    ]),
-    clean_copy_value: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-    ]),
-    omit_rounding: PropTypes.bool,
-    rounding: PropTypes.oneOf(['omit', 'half-even', 'half-up']),
-    clean: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    srLabel: PropTypes.node,
-    element: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    tooltip: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-      PropTypes.node,
-    ]),
-    skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-
-    // Additional props used in stories
-    style: PropTypes.object,
-    lang: PropTypes.string,
-
-    ...spacingPropTypes,
-
-    className: PropTypes.string,
-    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
-  }
   static defaultProps = {
     id: null,
     value: null,
