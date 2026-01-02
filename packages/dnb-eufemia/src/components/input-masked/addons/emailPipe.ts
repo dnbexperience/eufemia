@@ -46,7 +46,7 @@ export default function emailPipe(conformedValue, config) {
 
   if (
     (domainPart.match(allDotsRegExp) || emptyArray).length > 1 &&
-    value.substr(-1) === dot &&
+    value.substring(-1) === dot &&
     currentCaretPosition !== rawValue.length
   ) {
     value = value.slice(0, value.length - 1)

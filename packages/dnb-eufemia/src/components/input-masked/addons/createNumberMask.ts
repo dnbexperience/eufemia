@@ -79,7 +79,7 @@ export default function createNumberMask({
     const isNegative = rawValue[0] === minus && allowNegative
     // If negative remove "-" sign
     if (isNegative) {
-      rawValue = rawValue.toString().substr(1)
+      rawValue = rawValue.toString().substring(1)
     }
 
     const indexOfLastDecimal = rawValue.lastIndexOf(decimalSymbol)
