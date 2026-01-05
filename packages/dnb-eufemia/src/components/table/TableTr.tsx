@@ -92,7 +92,7 @@ export default function Tr(
 
   if (
     deprecatedAccordionProp ||
-    tableContext?.allProps?.mode == 'accordion'
+    tableContext?.allProps?.mode === 'accordion'
   ) {
     return (
       <TableAccordionHead
@@ -102,7 +102,7 @@ export default function Tr(
       />
     )
   }
-  if (tableContext?.allProps?.mode == 'navigation') {
+  if (tableContext?.allProps?.mode === 'navigation') {
     return <TableNavigationHead className={className} {...restProps} />
   }
 
