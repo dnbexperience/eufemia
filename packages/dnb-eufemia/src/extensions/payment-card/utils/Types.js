@@ -156,10 +156,6 @@ function createDaggy() {
     return this[TYPE]
   }
 
-  // function tagged$toString() {
-  // return this.constructor[TYPE] + arrToString(this[VALUES])
-  // }
-
   function sum$isVariant(variant) {
     return function $sum$isVariant(val) {
       return (
