@@ -1,7 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 import React from 'react'
-import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {
   validateDOMAttributes,
@@ -14,20 +13,6 @@ import EventEmitter from '../../shared/helpers/EventEmitter'
 import HeightAnimation from '../height-animation/HeightAnimation'
 
 export default class ContentWrapper extends React.PureComponent<ContentWrapperProps> {
-  static propTypes = {
-    id: PropTypes.string.isRequired,
-    selected_key: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number,
-    ]),
-    content_style: PropTypes.string,
-    animate: PropTypes.bool,
-    content_spacing: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-    ]),
-    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
-  }
   static defaultProps = {
     selected_key: null,
     content_style: null,

@@ -1,12 +1,8 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 import React from 'react'
-import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import {
-  spacingPropTypes,
-  createSpacingClasses,
-} from '../space/SpacingHelper'
+import { createSpacingClasses } from '../space/SpacingHelper'
 import type { SpacingProps } from '../space/types'
 import ContentWrapper from './TabsContentWrapper'
 
@@ -42,23 +38,6 @@ export interface CustomContentProps
   </Tabs>
  */
 export default class CustomContent extends React.PureComponent<CustomContentProps> {
-  static propTypes = {
-    displayName: PropTypes.string,
-    title: PropTypes.oneOfType([
-      PropTypes.object,
-      PropTypes.node,
-      PropTypes.func,
-    ]), // eslint-disable-line
-    hash: PropTypes.string, // eslint-disable-line
-    selected: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]), // eslint-disable-line
-    id: PropTypes.string, // eslint-disable-line
-    disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]), // eslint-disable-line
-
-    ...spacingPropTypes,
-
-    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
-    className: PropTypes.string,
-  }
   static defaultProps = {
     displayName: 'CustomContent',
     title: null,
