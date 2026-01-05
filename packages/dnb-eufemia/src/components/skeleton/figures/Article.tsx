@@ -7,12 +7,21 @@ import React from 'react'
 import Context from '../../../shared/Context'
 import classnames from 'classnames'
 
-type SkeletonArticleProps = {
-  rows?: string | number
-  children?: React.ReactNode
+export type SkeletonArticleRows = string | number
+export type SkeletonArticleChildren =
+  | string
+  | ((...args: any[]) => any)
+  | React.ReactNode
+export interface SkeletonArticleProps
+  extends Omit<React.HTMLProps<HTMLElement>, 'rows' | 'children'> {
+  rows?: SkeletonArticleRows
+  children?: SkeletonArticleChildren
 }
 
-export default class SkeletonArticle extends React.PureComponent<SkeletonArticleProps> {
+export default class SkeletonArticle extends React.Component<
+  SkeletonArticleProps,
+  any
+> {
   static contextType = Context
   static defaultProps = {
     rows: 3,
