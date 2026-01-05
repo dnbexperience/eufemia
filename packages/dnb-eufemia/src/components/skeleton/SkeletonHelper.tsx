@@ -47,11 +47,6 @@ export const createSkeletonClass = (
   context?: SkeletonContextProps,
   className = null
 ) => {
-  // We could extend this like so:
-  // if (method === 'auto' && typeof skeleton === 'string') {
-  //   method = skeleton
-  // }
-
   if (isTrue(skeleton) || (skeleton !== false && context?.skeleton)) {
     return classnames(
       className,
