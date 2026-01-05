@@ -244,11 +244,6 @@ export function insertElementBeforeSelection(elem) {
     const range = selection.getRangeAt(0)
     range.cloneRange().insertNode(elem)
     selection.addRange(range) // Restore the original selection - this is a Safari fix!
-
-    // For now I (Tobias) could not find any reason for supporting document.selection as well
-    // const range = document.selection.createRange()
-    // range.collapse(true)
-    // range.pasteHTML(elem.outerHTML)
   } catch (e) {
     //
   }
@@ -257,9 +252,6 @@ export function insertElementBeforeSelection(elem) {
 export function getSelectedText() {
   try {
     return window.getSelection().toString()
-
-    // For now I (Tobias) could not find any reason for supporting document.selection as well
-    // return document.selection.createRange().text
   } catch (e) {
     //
   }
@@ -289,9 +281,6 @@ export function getSelectedElement() {
       }
       return elem
     }
-
-    // For now I (Tobias) could not find any reason for supporting document.selection as well
-    // return document.selection.createRange().parentElement()
   } catch (e) {
     //
   }
@@ -332,18 +321,7 @@ export async function copyToClipboard(string) {
       elem.style.top = '-1000px'
       document.body.appendChild(elem)
 
-      // iOS helper
-      // But right now, we do not use that
-      // if (IS_IOS) {
-      //   const newRange = document.createRange()
-      //   newRange.selectNodeContents(elem)
-      //   const sel = window.getSelection()
-      //   sel.removeAllRanges()
-      //   sel.addRange(newRange)
-      //   elem.setSelectionRange(0, 999999)
-      // } else {
-      //   elem.select()
-      // }
+      elem.select()
 
       // NB: copy only works as a result of a user action (e.g. click events)
       const success = document.execCommand('copy')
