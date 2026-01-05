@@ -13,7 +13,7 @@ export type SkeletonArticleChildren =
   | ((...args: any[]) => any)
   | React.ReactNode
 export interface SkeletonArticleProps
-  extends Omit<React.HTMLProps<HTMLElement>, 'rows' | 'children'> {
+  extends Omit<React.HTMLProps<HTMLDivElement>, 'rows' | 'children'> {
   rows?: SkeletonArticleRows
   children?: SkeletonArticleChildren
 }
@@ -48,11 +48,7 @@ export default class SkeletonArticle extends React.Component<
   }
 
   render() {
-    const {
-      rows, // eslint-disable-line
-      children,
-      ...rest
-    } = this.props
+    const { rows, children, ...rest } = this.props
 
     return (
       <div
@@ -95,7 +91,7 @@ export default class SkeletonArticle extends React.Component<
           </div>
         ))}
 
-        {children}
+        {typeof children === 'function' ? children() : children}
       </div>
     )
   }
