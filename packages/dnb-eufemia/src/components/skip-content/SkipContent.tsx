@@ -128,11 +128,15 @@ const SkipContent = (localProps: SkipContentAllProps) => {
     >
       <>
         {!visible && (
-          <button className="dnb-sr-only" onKeyUp={handleKeyUp}>
+          <button 
+            className="dnb-sr-only" 
+            onKeyUp={handleKeyUp}
+            aria-label={typeof (text || children) === 'string' ? `${text || children}. Press Tab to activate.` : undefined}
+          >
             {text || children}
           </button>
         )}
-        <HeightAnimation open={visible}>
+        <HeightAnimation open={visible} aria-live="polite">
           <Button
             wrap
             variant="secondary"
