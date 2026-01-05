@@ -188,5 +188,8 @@ export default {
       openTriggerTitle: 'Click to open definition',
       closeTriggerTitle: 'Click to close definition',
     },
+    SkipContent: {
+      ariaLabel: 'Jump to main content',
+    },
   } satisfies (typeof nb)['nb-NO'],
 }

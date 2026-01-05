@@ -3,6 +3,7 @@ import classnames from 'classnames'
 import Button, { ButtonProps } from '../button/Button'
 import HeightAnimation from '../height-animation/HeightAnimation'
 import { applyPageFocus } from '../../shared/helpers'
+import { useTranslation } from '../../shared'
 
 export interface SkipContentProps {
   /**
@@ -51,6 +52,7 @@ const SkipContent = (localProps: SkipContentAllProps) => {
   const [keepReturnActive, setKeepReturnActive] = React.useState(false)
   const ref = React.useRef<HTMLElement>()
   const timeout = React.useRef<NodeJS.Timeout>()
+  const { SkipContent } = useTranslation()
 
   const classes = classnames(
     'dnb-skip-content',
@@ -133,7 +135,7 @@ const SkipContent = (localProps: SkipContentAllProps) => {
             onKeyUp={handleKeyUp}
             aria-label={
               typeof (text || children) === 'string'
-                ? `${text || children}. Press Tab to activate.`
+                ? `${text || children}. ${SkipContent.ariaLabel}`
                 : undefined
             }
           >

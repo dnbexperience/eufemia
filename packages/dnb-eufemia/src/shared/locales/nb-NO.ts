@@ -186,5 +186,8 @@ export default {
       openTriggerTitle: 'Klikk for å åpne ordforklaring',
       closeTriggerTitle: 'Klikk for å lukke ordforklaring',
     },
+    SkipContent: {
+      ariaLabel: 'Hopp til hovedinnhold',
+    },
   },
 }

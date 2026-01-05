@@ -187,5 +187,8 @@ export default {
       openTriggerTitle: 'Klicka för att öppna ordförklaring',
       closeTriggerTitle: 'Klicka för att stänga ordförklaring',
     },
+    SkipContent: {
+      ariaLabel: 'Hoppa till huvudinnehåll',
+    },
   } satisfies (typeof nb)['nb-NO'],
 }

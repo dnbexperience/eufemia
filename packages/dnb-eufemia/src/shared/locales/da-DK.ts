@@ -1,3 +1,4 @@
+import nb from './nb-NO'
 export default {
   'da-DK': {
     TextCounter: {
@@ -186,5 +187,8 @@ export default {
       openTriggerTitle: 'Klik for at åbne ordforklaring',
       closeTriggerTitle: 'Klik for at lukke ordforklaring',
     },
-  },
+    SkipContent: {
+      ariaLabel: 'Hop til hovedindhold',
+    },
+  } satisfies (typeof nb)['nb-NO'],
 }
