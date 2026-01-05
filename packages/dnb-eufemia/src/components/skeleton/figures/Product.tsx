@@ -4,27 +4,24 @@
  */
 
 import React from 'react'
-import PropTypes from 'prop-types'
 import Context from '../../../shared/Context'
 import classnames from 'classnames'
 
-export default class SkeletonProduct extends React.PureComponent {
-  static contextType = Context
-  static propTypes = {
-    rows: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    children: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-      PropTypes.node,
-    ]),
-  }
+type SkeletonProductProps = {
+  rows?: string | number
+  children?: React.ReactNode
+}
 
+export default class SkeletonProduct extends React.PureComponent<SkeletonProductProps> {
+  static contextType = Context
   static defaultProps = {
     rows: 3,
     children: null,
   }
 
-  constructor(props) {
+  rowsLength: number[]
+
+  constructor(props: SkeletonProductProps) {
     super(props)
 
     const { rows } = props
@@ -32,7 +29,7 @@ export default class SkeletonProduct extends React.PureComponent {
     // Do this so we get the same result each time
     // because of static generated markup
     const fill = [70, 80, 60, 40, 50, 20, 0]
-    this.rowsLength = new Array(rows).fill(true).map((_, i) => {
+    this.rowsLength = new Array(Number(rows)).fill(true).map((_, i) => {
       const c = i % fill.length
       if (c === fill.length - 1) {
         fill.concat(fill.reverse())
