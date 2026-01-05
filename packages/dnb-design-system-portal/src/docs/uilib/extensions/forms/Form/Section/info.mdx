@@ -30,6 +30,7 @@ render(<Form.Section />)
 - A single section can be used without `Form.Handler`, just like any other field and value.
 - [Form.Section.EditContainer](/uilib/extensions/forms/Form/Section/EditContainer/) and [Form.Section.ViewContainer](/uilib/extensions/forms/Form/Section/ViewContainer/) containers are available to use.
 - Here is a [list of blocks](/uilib/extensions/forms/blocks/) ready to use.
+- You can use `//` at the start of a field path to access data from the root of the form data context, bypassing the section path. For example, `path="//rootField"` inside a section at `/section` will access `/rootField` instead of `/section/rootField`.
 
 ## Usage
 
@@ -123,6 +124,55 @@ render(
   </Form.Handler>,
 )
 ```
+
+### Accessing root data with `//`
+
+When a field is inside a `Form.Section`, you can use a path starting with `//` to access data from the root of the form data context, bypassing the section path. This is useful when you need to reference data outside the current section.
+
+```tsx
+import { Form, Field } from '@dnb/eufemia/extensions/forms'
+
+const MySection = (props) => {
+  return (
+    <Form.Section {...props}>
+      {/* This field accesses data at /sectionField relative to the section */}
+      <Field.String path="/sectionField" />
+
+      {/* This field accesses data at /rootField from the root, ignoring the section path */}
+      <Field.String path="//rootField" />
+
+      {/* You can also access nested root paths */}
+      <Field.String path="//user/profile/name" />
+    </Form.Section>
+  )
+}
+
+render(
+  <Form.Handler
+    defaultData={{
+      rootField: 'Root value',
+      user: {
+        profile: {
+          name: 'John Doe',
+        },
+      },
+      section: {
+        sectionField: 'Section value',
+      },
+    }}
+  >
+    <MySection path="/section" />
+  </Form.Handler>,
+)
+```
+
+In the example above:
+
+- The field with `path="/sectionField"` will access `/section/sectionField`
+- The field with `path="//rootField"` will access `/rootField` (root level)
+- The field with `path="//user/profile/name"` will access `/user/profile/name` (root level)
+
+This feature works even with nested sections - `//` always refers to the root of the form data context.
 
 ## Required property
 

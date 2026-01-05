@@ -43,6 +43,53 @@ describe('usePath', () => {
     expect(result.current.path).toBe(`${sectionPath}${path}`)
   })
 
+  it('should access root data when path starts with //', () => {
+    const sectionPath = '/sectionPath'
+    const path = '//rootPath'
+    const { result } = renderHook(() => usePath({ path }), {
+      wrapper: ({ children }) => (
+        <Form.Section path={sectionPath}>{children}</Form.Section>
+      ),
+    })
+    expect(result.current.path).toBe('/rootPath')
+  })
+
+  it('should access root data with // in nested sections', () => {
+    const outerSectionPath = '/outer'
+    const innerSectionPath = '/inner'
+    const path = '//rootPath'
+    const { result } = renderHook(() => usePath({ path }), {
+      wrapper: ({ children }) => (
+        <Form.Section path={outerSectionPath}>
+          <Form.Section path={innerSectionPath}>{children}</Form.Section>
+        </Form.Section>
+      ),
+    })
+    expect(result.current.path).toBe('/rootPath')
+  })
+
+  it('should handle // with root path', () => {
+    const sectionPath = '/sectionPath'
+    const path = '//'
+    const { result } = renderHook(() => usePath({ path }), {
+      wrapper: ({ children }) => (
+        <Form.Section path={sectionPath}>{children}</Form.Section>
+      ),
+    })
+    expect(result.current.path).toBe('/')
+  })
+
+  it('should handle // with nested paths', () => {
+    const sectionPath = '/user/address'
+    const path = '//profile/name'
+    const { result } = renderHook(() => usePath({ path }), {
+      wrapper: ({ children }) => (
+        <Form.Section path={sectionPath}>{children}</Form.Section>
+      ),
+    })
+    expect(result.current.path).toBe('/profile/name')
+  })
+
   it('joinPath', () => {
     const { result } = renderHook(() => usePath(), {})
     expect(

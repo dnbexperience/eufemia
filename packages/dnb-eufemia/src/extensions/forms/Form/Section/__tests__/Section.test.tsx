@@ -2430,4 +2430,129 @@ describe('Form.Section', () => {
       expect(input).toHaveValue('foo')
     })
   })
+
+  describe('root data access with //', () => {
+    it('should access root data when field path starts with //', () => {
+      render(
+        <Form.Handler
+          data={{
+            rootField: 'root value',
+            section: {
+              sectionField: 'section value',
+            },
+          }}
+        >
+          <Form.Section path="/section">
+            <Field.String path="/sectionField" />
+            <Field.String path="//rootField" />
+          </Form.Section>
+        </Form.Handler>
+      )
+
+      const inputs = Array.from(document.querySelectorAll('input'))
+      expect(inputs[0]).toHaveValue('section value')
+      expect(inputs[1]).toHaveValue('root value')
+    })
+
+    it('should access root data in nested sections', () => {
+      render(
+        <Form.Handler
+          data={{
+            rootField: 'root value',
+            outer: {
+              inner: {
+                innerField: 'inner value',
+              },
+            },
+          }}
+        >
+          <Form.Section path="/outer">
+            <Form.Section path="/inner">
+              <Field.String path="/innerField" />
+              <Field.String path="//rootField" />
+            </Form.Section>
+          </Form.Section>
+        </Form.Handler>
+      )
+
+      const inputs = Array.from(document.querySelectorAll('input'))
+      expect(inputs[0]).toHaveValue('inner value')
+      expect(inputs[1]).toHaveValue('root value')
+    })
+
+    it('should write to root data when using // path', () => {
+      const onChange = jest.fn()
+      render(
+        <Form.Handler
+          data={{
+            rootField: 'initial',
+            section: {},
+          }}
+          onChange={onChange}
+        >
+          <Form.Section path="/section">
+            <Field.String path="//rootField" />
+          </Form.Section>
+        </Form.Handler>
+      )
+
+      const input = document.querySelector('input')
+      fireEvent.change(input, { target: { value: 'updated' } })
+      fireEvent.blur(input)
+
+      expect(onChange).toHaveBeenCalled()
+      const callArgs = onChange.mock.calls[0]
+      expect(callArgs[0]).toEqual(
+        expect.objectContaining({
+          rootField: 'updated',
+          section: {},
+        })
+      )
+    })
+
+    it('should access nested root paths with //', () => {
+      render(
+        <Form.Handler
+          data={{
+            user: {
+              profile: {
+                name: 'John Doe',
+              },
+            },
+            section: {
+              sectionField: 'section value',
+            },
+          }}
+        >
+          <Form.Section path="/section">
+            <Field.String path="/sectionField" />
+            <Field.String path="//user/profile/name" />
+          </Form.Section>
+        </Form.Handler>
+      )
+
+      const inputs = Array.from(document.querySelectorAll('input'))
+      expect(inputs[0]).toHaveValue('section value')
+      expect(inputs[1]).toHaveValue('John Doe')
+    })
+
+    it('should handle // path with root path /', () => {
+      const { container } = render(
+        <Form.Handler
+          data={{
+            rootData: 'root',
+            section: {},
+          }}
+        >
+          <Form.Section path="/section">
+            <Value.String path="//rootData" />
+          </Form.Section>
+        </Form.Handler>
+      )
+
+      // This should access the rootData from root
+      // Value.String should render the root data value
+      expect(container.textContent).toContain('root')
+    })
+  })
 })
