@@ -357,10 +357,11 @@ export function prepareIcon(props: IconAllProps, context: ContextProps) {
   const wrapperParams = validateDOMAttributes(props, {
     role: alt ? 'img' : 'presentation',
     alt, // in case the image don't shows up (because we define the role to be img)
-    'aria-label':
-      label && !label.includes('default')
-        ? label.replace(/_/g, ' ') + ' icon'
-        : null, // for screen readers only
+    'aria-label': alt 
+      ? alt 
+      : label && !label.includes('default')
+      ? label.replace(/_/g, ' ')
+      : null, // for screen readers only - removed redundant 'icon' suffix
     title, // to show on hover, if defined
     ...attributes,
   })
