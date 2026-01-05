@@ -4,7 +4,6 @@
  */
 
 import React from 'react'
-import PropTypes from 'prop-types'
 import { convertJsxToString, isTrue } from '../../shared/component-helper'
 import classnames from 'classnames'
 
@@ -44,13 +43,14 @@ export const createSkeletonClass = (
   return className
 }
 
-export class AutoSize extends React.PureComponent {
-  static propTypes = {
-    __element: PropTypes.node,
-    children: PropTypes.node,
-    className: PropTypes.string,
-    style: PropTypes.object,
-  }
+type AutoSizeProps = {
+  __element?: React.ElementType
+  children?: React.ReactNode
+  className?: string
+  style?: React.CSSProperties
+}
+
+export class AutoSize extends React.PureComponent<AutoSizeProps> {
   static defaultProps = {
     __element: null,
     children: null,
