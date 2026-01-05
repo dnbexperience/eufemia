@@ -163,9 +163,6 @@ exports.onCreatePage = ({ page, actions }) => {
         '/uilib/components',
         '/uilib/extensions',
         '/uilib/elements',
-        '/quickguide-designer/colors',
-        '/quickguide-designer/fonts',
-        '/contribute/getting-started',
       ]) &&
       !existsInPages(page.componentPath, [
         // Visual e2e tests
