@@ -7,12 +7,20 @@ import React from 'react'
 import Context from '../../../shared/Context'
 import classnames from 'classnames'
 
-type SkeletonCircleProps = {
-  rows?: string | number
-  children?: React.ReactNode
+export type SkeletonCircleRows = string | number
+export type SkeletonCircleChildren =
+  | string
+  | ((...args: any[]) => any)
+  | React.ReactNode
+export interface SkeletonCircleProps extends React.HTMLProps<HTMLElement> {
+  rows?: SkeletonCircleRows
+  children?: SkeletonCircleChildren
 }
 
-export default class SkeletonCircle extends React.PureComponent<SkeletonCircleProps> {
+export default class SkeletonCircle extends React.Component<
+  SkeletonCircleProps,
+  any
+> {
   static contextType = Context
   static defaultProps = {
     rows: 3,
