@@ -204,7 +204,7 @@ export default function SidebarLayout({
         behavior: 'smooth',
       })
     } catch (e) {
-      console.log('Could not set scrollToActiveItem', e)
+      console.error('Could not set scrollToActiveItem', e)
     }
   }
 
