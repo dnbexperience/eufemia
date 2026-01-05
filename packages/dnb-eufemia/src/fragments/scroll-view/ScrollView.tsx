@@ -81,7 +81,15 @@ function ScrollView(localProps: ScrollViewAllProps) {
   return <div {...mainParams}>{children}</div>
 }
 
-function useInteractive({ interactive, children, ref }) {
+function useInteractive({
+  interactive,
+  children,
+  ref,
+}: {
+  interactive: boolean | 'auto'
+  children: React.ReactNode
+  ref: React.RefObject<HTMLDivElement>
+}) {
   const [isInteractive, setAsInteractive] = React.useState(
     Boolean(interactive)
   )
@@ -108,7 +116,7 @@ function useInteractive({ interactive, children, ref }) {
 
   return undefined
 
-  function hasScrollbar() {
+  function hasScrollbar(): boolean {
     if (!ref.current) {
       return true // fallback and assume, there is a scrollbar
     }

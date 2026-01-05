@@ -363,7 +363,7 @@ export const getCurrentIndex = (value, data) => {
 
   return null
 
-  function selectedKeyExists() {
+  function selectedKeyExists(): boolean {
     for (let i = 0, l = data?.length; i < l; i++) {
       if (i > 10) {
         return false
@@ -429,8 +429,10 @@ export const getCurrentData = (item_index, data) => {
   return data
 }
 
-function getFirstItemFromData(data: DrawerListInternalData): number {
-  let firstItemIndex = data.length > 0 ? 0 : null
+function getFirstItemFromData(
+  data: DrawerListInternalData
+): number | null {
+  let firstItemIndex: number | null = data.length > 0 ? 0 : null
   let firstGroupIndex = -1
 
   data.forEach((item, index) => {
