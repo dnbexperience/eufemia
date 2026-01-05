@@ -2,14 +2,12 @@
  * Web CopyOnClick Component
  */
 
-import React, { useCallback, useEffect, useRef } from 'react'
+import React, { useCallback, useRef } from 'react'
 import classnames from 'classnames'
 import type { CopyOnClickAllProps } from './types'
-import { runIOSSelectionFix } from '../number-format/NumberUtils'
 import {
   copyToClipboard,
   hasSelectedText,
-  IS_IOS,
   warn,
 } from '../../shared/helpers'
 import { convertJsxToString } from '../../shared/component-helper'
@@ -29,12 +27,6 @@ const CopyOnClick = ({
   const ref = useRef<HTMLSpanElement>(null)
   const timeoutRef = useRef<NodeJS.Timeout>()
   const [active, setActive] = React.useState(false)
-
-  useEffect(() => {
-    if (IS_IOS) {
-      runIOSSelectionFix()
-    }
-  }, [])
 
   const {
     CopyOnClick: { clipboard_copy },

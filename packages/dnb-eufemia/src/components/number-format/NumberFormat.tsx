@@ -22,7 +22,7 @@ import {
   detectOutsideClick,
   isTouchDevice,
 } from '../../shared/component-helper'
-import { hasSelectedText, IS_IOS } from '../../shared/helpers'
+import { hasSelectedText } from '../../shared/helpers'
 import {
   spacingPropTypes,
   createSpacingClasses,
@@ -32,7 +32,7 @@ import {
   createSkeletonClass,
 } from '../skeleton/SkeletonHelper'
 import Tooltip, { injectTooltipSemantic } from '../tooltip/Tooltip'
-import { format, runIOSSelectionFix } from './NumberUtils'
+import { format } from './NumberUtils'
 import { SpacingProps } from '../space/types'
 
 // TypeScript types
@@ -235,15 +235,6 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
       hover: false,
       copyTooltipActive: false,
       copyTooltipText: null,
-    }
-  }
-
-  componentDidMount() {
-    // NB: This hack may be removed in future iOS versions
-    // in order that iOS v13 can select something on the first try, we run this add range trick
-    if (IS_IOS && !hasiOSFix) {
-      hasiOSFix = true
-      runIOSSelectionFix()
     }
   }
 
@@ -598,7 +589,5 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
     )
   }
 }
-
-let hasiOSFix = false
 
 NumberFormat._supportsSpacingProps = true
