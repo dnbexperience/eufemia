@@ -269,8 +269,8 @@ export default class ModalContent extends React.PureComponent<
     this._androidFocusTimeout = setTimeout(() => {
       try {
         if (
-          document.activeElement?.tagName == 'INPUT' ||
-          document.activeElement?.tagName == 'TEXTAREA'
+          document.activeElement?.tagName === 'INPUT' ||
+          document.activeElement?.tagName === 'TEXTAREA'
         ) {
           document.activeElement.scrollIntoView()
         }
