@@ -247,7 +247,7 @@ const PaginationWithState = ({ children, ...props }) => {
   setContent(currentPage, children(currentPage))
 
   // will reset the pagination
-  if (currentPage == 30) {
+  if (currentPage === 30) {
     setTimeout(() => {
       resetContent()
       setCurrentPage(1)

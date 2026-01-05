@@ -537,8 +537,8 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
                   ignoreEvents || (ignore_events && 'ignore-events'),
                   class_name
                 ),
-                active: __id == active_item,
-                selected: !ignore_events && __id == selected_item,
+                active: __id === active_item,
+                selected: !ignore_events && __id === selected_item,
                 onClick: this.selectItemHandler,
                 onKeyDown: this.preventTab,
                 disabled: disabled,
