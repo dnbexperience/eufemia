@@ -14,7 +14,7 @@ export type SkeletonProductChildren =
   | React.ReactNode
 
 export interface SkeletonProductProps
-  extends Omit<React.HTMLProps<HTMLElement>, 'rows' | 'children'> {
+  extends Omit<React.HTMLProps<HTMLDivElement>, 'rows' | 'children'> {
   rows?: SkeletonProductRows
   children?: SkeletonProductChildren
 }
@@ -96,7 +96,7 @@ export default class SkeletonProduct extends React.Component<
           </div>
         ))}
 
-        {children}
+        {typeof children === 'function' ? children() : children}
       </div>
     )
   }
