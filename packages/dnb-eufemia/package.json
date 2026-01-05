@@ -122,10 +122,10 @@
     "zod": "4.1.8"
   },
   "peerDependencies": {
-    "@types/react": "^17 || ^18",
-    "@types/react-dom": "^17 || ^18",
-    "react": "^17 || ^18",
-    "react-dom": "^17 || ^18"
+    "@types/react": "18.3.1",
+    "@types/react-dom": "18.3.1",
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
   },
   "peerDependenciesMeta": {
     "@types/react": {
@@ -247,8 +247,9 @@
     "postcss-preset-env": "9.6.0",
     "prettier": "3.0.3",
     "prettier-package-json": "2.8.0",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
+    "process": "0.11.10",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
     "react-to-typescript-definitions": "3.1.1",
     "repo-utils": "workspace:*",
     "sass": "1.62.0",
