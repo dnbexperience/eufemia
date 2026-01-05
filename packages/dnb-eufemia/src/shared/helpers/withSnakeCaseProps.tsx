@@ -30,7 +30,7 @@ export function withSnakeCaseProps<TBase, P>(
     })
   }
 
-  // @ts-ignore
+  // @ts-expect-error - TypeScript doesn't understand dynamic class extension
   return Derived
 }
 
@@ -49,7 +49,7 @@ export function classWithSnakeCaseProps<
   const Component: React.ComponentClass = Base
 
   // Bug? https://github.com/microsoft/TypeScript/issues/37142
-  // @ts-ignore
+  // @ts-expect-error - Known TypeScript limitation with dynamic class extension
   class Derived extends Base {
     _prevProps: Record<string, unknown>
     _elem: React.ReactElement
@@ -61,10 +61,7 @@ export function classWithSnakeCaseProps<
     render() {
       if (this.props !== this._prevProps) {
         this._prevProps = this.props
-        this._elem = (
-          // @ts-ignore
-          <Component {...convertSnakeCaseProps(this.props)} />
-        )
+        this._elem = <Component {...convertSnakeCaseProps(this.props)} />
       }
 
       return this._elem

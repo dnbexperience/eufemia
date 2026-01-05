@@ -44,10 +44,10 @@ describe('withSnakeCaseProps', () => {
     expect(Component.property).toBe(Original.property)
     expect(Component.property).toBe('thing')
 
-    // @ts-ignore
+    // @ts-expect-error - Testing that invalid property doesn't exist
     expect(Original.propertyInvalid).toBeFalsy()
 
-    // @ts-ignore
+    // @ts-expect-error - Testing that invalid property doesn't exist
     expect(Component.propertyInvalid).toBeFalsy()
   })
 
@@ -184,10 +184,10 @@ describe('classWithSnakeCaseProps', () => {
     expect(Component.property).toBe(Original.property)
     expect(Component.property).toBe('thing')
 
-    // @ts-ignore
+    // @ts-expect-error - Testing that invalid property doesn't exist
     expect(Original.propertyInvalid).toBeFalsy()
 
-    // @ts-ignore
+    // @ts-expect-error - Testing that invalid property doesn't exist
     expect(Component.propertyInvalid).toBeFalsy()
   })
 
@@ -296,7 +296,7 @@ describe('classWithSnakeCaseProps', () => {
 
     const { rerender } = render(<Component />)
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
+    // @ts-expect-error - Testing dynamic prop injection
     rerender(<Component new_prop="hello" />)
 
     expect(
