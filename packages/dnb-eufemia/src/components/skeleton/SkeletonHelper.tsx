@@ -4,13 +4,33 @@
  */
 
 import React from 'react'
-import { convertJsxToString, isTrue } from '../../shared/component-helper'
 import classnames from 'classnames'
+import { convertJsxToString, isTrue } from '../../shared/component-helper'
+import type { SkeletonShow } from './Skeleton'
+import type { ContextProps } from '../../shared/Context'
+
+export type SkeletonMethods = 'shape' | 'font' | 'code'
+
+export type SkeletonContextProps = ContextProps & {
+  translation?: {
+    Skeleton?: {
+      aria_busy: string
+    }
+  }
+}
+
+export type skeletonDOMAttributesContext = {
+  translation?: {
+    Skeleton: {
+      aria_busy: string
+    }
+  }
+}
 
 export const skeletonDOMAttributes = (
-  params,
-  skeleton,
-  context = null
+  params: React.HTMLProps<HTMLElement>,
+  skeleton: SkeletonShow,
+  context?: SkeletonContextProps
 ) => {
   if (isTrue(skeleton) || (skeleton !== false && context?.skeleton)) {
     params.disabled = true
@@ -22,9 +42,9 @@ export const skeletonDOMAttributes = (
 }
 
 export const createSkeletonClass = (
-  method,
-  skeleton,
-  context = null,
+  method: SkeletonMethods,
+  skeleton: SkeletonShow,
+  context?: SkeletonContextProps,
   className = null
 ) => {
   // We could extend this like so:
@@ -43,14 +63,14 @@ export const createSkeletonClass = (
   return className
 }
 
-type AutoSizeProps = {
+export type AutoSizeProps = {
   __element?: React.ElementType
   children?: React.ReactNode
   className?: string
   style?: React.CSSProperties
 }
 
-export class AutoSize extends React.PureComponent<AutoSizeProps> {
+export class AutoSize extends React.Component<AutoSizeProps, any> {
   static defaultProps = {
     __element: null,
     children: null,
