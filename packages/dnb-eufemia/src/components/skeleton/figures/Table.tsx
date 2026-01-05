@@ -13,7 +13,7 @@ export type SkeletonTableChildren =
   | ((...args: any[]) => any)
   | React.ReactNode
 export interface SkeletonTableProps
-  extends Omit<React.HTMLProps<HTMLElement>, 'rows' | 'children'> {
+  extends Omit<React.HTMLProps<HTMLDivElement>, 'rows' | 'children'> {
   rows?: SkeletonTableRows
   children?: SkeletonTableChildren
 }
@@ -95,7 +95,7 @@ export default class SkeletonTable extends React.Component<
           </div>
         ))}
 
-        {children}
+        {typeof children === 'function' ? children() : children}
       </div>
     )
   }
