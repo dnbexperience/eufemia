@@ -504,9 +504,9 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
         !/[^0-9]/.test(String(month)) &&
         !/[^0-9]/.test(String(year)) &&
         isValid(date) &&
-        date.getDate() == parseFloat(String(day)) &&
-        date.getMonth() + 1 == parseFloat(String(month)) &&
-        date.getFullYear() == parseFloat(String(year))
+        date.getDate() === parseFloat(String(day)) &&
+        date.getMonth() + 1 === parseFloat(String(month)) &&
+        date.getFullYear() === parseFloat(String(year))
 
       const dateString = `${year}-${month}-${day}`
 
