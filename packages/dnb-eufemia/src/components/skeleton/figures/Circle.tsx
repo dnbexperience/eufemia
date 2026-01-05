@@ -12,7 +12,8 @@ export type SkeletonCircleChildren =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode
-export interface SkeletonCircleProps extends React.HTMLProps<HTMLElement> {
+export interface SkeletonCircleProps
+  extends Omit<React.HTMLProps<HTMLElement>, 'rows' | 'children'> {
   rows?: SkeletonCircleRows
   children?: SkeletonCircleChildren
 }
