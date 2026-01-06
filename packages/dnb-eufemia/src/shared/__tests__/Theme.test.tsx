@@ -235,7 +235,7 @@ describe('Portals', () => {
     expect(document.querySelectorAll('.eufemia-theme')).toHaveLength(1)
   })
 
-  it('have correct theme classes in tooltip', async () => {
+  it('have correct theme classes in tooltip', () => {
     render(
       <Theme name="eiendom" variant="soft" element={false}>
         <button id="tooltip-target">Target</button>
@@ -248,11 +248,8 @@ describe('Portals', () => {
       </Theme>
     )
 
-    const element = await waitFor(() => {
-      const el = document.querySelector('.eufemia-theme')
-      expect(el).toBeInTheDocument()
-      return el
-    })
+    const element = document.querySelector('.eufemia-theme')
+    expect(element).toBeInTheDocument()
 
     expect(Array.from(element.classList)).toEqual(
       expect.arrayContaining([
