@@ -7,6 +7,7 @@ import SectionContainerProvider from './containers/SectionContainerProvider'
 import ViewContainer from './ViewContainer'
 import EditContainer from './EditContainer'
 import Toolbar from './Toolbar'
+import { cleanPath } from '../../hooks/usePath'
 
 import type { Props as DataContextProps } from '../../DataContext/Provider'
 import type { ContainerMode } from './containers/SectionContainer'
@@ -119,17 +120,39 @@ function SectionComponent<overwriteProps = OverwritePropsDefaults>(
   const { path: nestedPath, props: nestedProps } =
     useContext(SectionContext) || {}
 
+  const isRootRelativePath = path?.startsWith('//')
+  const resolvedPath = useMemo(() => {
+    if (!path) {
+      return path
+    }
+    if (isRootRelativePath) {
+      return (path.substring(1) || '/') as Path
+    }
+    return path
+  }, [isRootRelativePath, path])
+
+  const identifier = useMemo(() => {
+    if (!resolvedPath) {
+      return nestedPath || ''
+    }
+
+    const nestedPrefix =
+      !isRootRelativePath && nestedPath && nestedPath !== '/'
+        ? nestedPath
+        : ''
+
+    const combinedPath = cleanPath(
+      `${nestedPrefix}${resolvedPath}`
+    ) as Path
+    return combinedPath || '/'
+  }, [isRootRelativePath, nestedPath, resolvedPath])
+
   const handleChange = useCallback<OnChange>(
     (...args) => onChange?.(...args),
     [onChange]
   )
   addOnChangeHandler?.(handleChange)
 
-  const identifier = useMemo(() => {
-    return `${nestedPath && nestedPath !== '/' ? nestedPath : ''}${
-      path || ''
-    }`
-  }, [path, nestedPath])
   const resolvedSchema = useMemo(() => {
     if (!schema) {
       return // stop here
@@ -190,9 +213,13 @@ function SectionComponent<overwriteProps = OverwritePropsDefaults>(
         <FieldPropsProvider
           overwriteProps={{
             ...overwriteProps,
-            ...(nestedProps?.overwriteProps?.[
-              path.substring(1)
-            ] as OverwritePropsDefaults),
+            ...(resolvedPath
+              ? (nestedProps?.overwriteProps?.[
+                  resolvedPath.startsWith('/')
+                    ? resolvedPath.substring(1)
+                    : resolvedPath
+                ] as OverwritePropsDefaults)
+              : undefined),
           }}
           translations={translations}
           {...fieldProps}

@@ -2555,4 +2555,52 @@ describe('Form.Section', () => {
       expect(container.textContent).toContain('root')
     })
   })
+
+  describe('section path root access with //', () => {
+    it('should allow nested sections to reset path to root when using //', () => {
+      render(
+        <Form.Handler
+          data={{
+            global: {
+              field: 'root value',
+            },
+            outer: {
+              ignored: 'section scoped',
+            },
+          }}
+        >
+          <Form.Section path="/outer">
+            <Form.Section path="//global">
+              <Field.String path="/field" />
+            </Form.Section>
+          </Form.Section>
+        </Form.Handler>
+      )
+
+      const input = document.querySelector('input')
+      expect(input).toHaveValue('root value')
+    })
+
+    it('should treat // as root path for nested sections', () => {
+      render(
+        <Form.Handler
+          data={{
+            rootField: 'from root',
+            outer: {
+              rootField: 'from section',
+            },
+          }}
+        >
+          <Form.Section path="/outer">
+            <Form.Section path="//">
+              <Field.String path="/rootField" />
+            </Form.Section>
+          </Form.Section>
+        </Form.Handler>
+      )
+
+      const input = document.querySelector('input')
+      expect(input).toHaveValue('from root')
+    })
+  })
 })

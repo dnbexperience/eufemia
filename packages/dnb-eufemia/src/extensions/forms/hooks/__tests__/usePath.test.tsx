@@ -90,6 +90,17 @@ describe('usePath', () => {
     expect(result.current.path).toBe('/profile/name')
   })
 
+  it('should reset section context when nested section path starts with //', () => {
+    const { result } = renderHook(() => usePath({ path: '/field' }), {
+      wrapper: ({ children }) => (
+        <Form.Section path="/outer">
+          <Form.Section path="//global">{children}</Form.Section>
+        </Form.Section>
+      ),
+    })
+    expect(result.current.path).toBe('/global/field')
+  })
+
   it('joinPath', () => {
     const { result } = renderHook(() => usePath(), {})
     expect(
