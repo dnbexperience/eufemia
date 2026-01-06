@@ -156,6 +156,28 @@ describe('Anchor element', () => {
       ).not.toBeInTheDocument()
     })
 
+    it('should automatically add rel="noopener noreferrer" for security', () => {
+      render(
+        <Anchor href="/url" target="_blank">
+          text
+        </Anchor>
+      )
+
+      const anchorElement = document.querySelector('a')
+      expect(anchorElement).toHaveAttribute('rel', 'noopener noreferrer')
+    })
+
+    it('should not override custom rel attribute', () => {
+      render(
+        <Anchor href="/url" target="_blank" rel="custom-rel">
+          text
+        </Anchor>
+      )
+
+      const anchorElement = document.querySelector('a')
+      expect(anchorElement).toHaveAttribute('rel', 'custom-rel')
+    })
+
     it('has no "__launch-icon" class when adding class dnb-anchor--no-launch-icon', () => {
       render(
         <Anchor
