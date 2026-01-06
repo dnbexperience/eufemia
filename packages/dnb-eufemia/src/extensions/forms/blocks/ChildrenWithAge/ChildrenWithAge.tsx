@@ -102,7 +102,6 @@ function EditContainer({
               'Field.errorRequired':
                 tr.ChildrenWithAge.childrenAge.required,
             }}
-            placeholder="0"
             width="small"
             minimum={0}
             maximum={17}
