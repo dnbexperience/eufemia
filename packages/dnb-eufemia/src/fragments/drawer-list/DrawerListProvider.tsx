@@ -745,13 +745,11 @@ export default class DrawerListProvider extends React.PureComponent<
   }
 
   setMetaKey = (e) => {
-    const we =
-      typeof window !== 'undefined' && window.event ? window.event : e
     this.meta = {
-      cmd: we.metaKey,
-      ctrl: we.ctrlKey,
-      shift: we.shiftKey,
-      alt: we.altKey,
+      cmd: e.metaKey,
+      ctrl: e.ctrlKey,
+      shift: e.shiftKey,
+      alt: e.altKey,
     }
   }
 
