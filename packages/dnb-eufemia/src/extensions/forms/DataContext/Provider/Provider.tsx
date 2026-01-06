@@ -423,7 +423,12 @@ export default function Provider<Data extends JsonObject>(
       const sessionDataJSON =
         window.sessionStorage?.getItem(sessionStorageId)
       if (sessionDataJSON) {
-        return JSON.parse(sessionDataJSON)
+        try {
+          return JSON.parse(sessionDataJSON)
+        } catch (e) {
+          // If session storage data is corrupted, clear it and use default data
+          window.sessionStorage?.removeItem(sessionStorageId)
+        }
       }
     }
 
