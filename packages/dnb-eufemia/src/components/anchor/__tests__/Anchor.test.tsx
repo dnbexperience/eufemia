@@ -156,7 +156,7 @@ describe('Anchor element', () => {
       ).not.toBeInTheDocument()
     })
 
-    it('should automatically add rel="noopener noreferrer" for security', () => {
+    it('should automatically add rel="noopener noreferrer" when target="_blank" for security', () => {
       render(
         <Anchor href="/url" target="_blank">
           text
