@@ -3,6 +3,46 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.93.0](https://github.com/dnbexperience/eufemia/compare/v10.92.1...v10.93.0) (2026-01-06)
+
+
+### :bug: Bug Fixes
+
+* **Field.DateOfBirth:** support `labelSize` ([#6135](https://github.com/dnbexperience/eufemia/issues/6135)) ([47701fc](https://github.com/dnbexperience/eufemia/commit/47701fcf93baa1cb37e27fb03c270ebbd309e374))
+* **Field.DateOfBirth:** support `labelSrOnly` ([#6136](https://github.com/dnbexperience/eufemia/issues/6136)) ([3d158a0](https://github.com/dnbexperience/eufemia/commit/3d158a0915ac61069e27c22f05fd5a2afc6a796d))
+* **Field.Expiry:** adjust required message ([#6143](https://github.com/dnbexperience/eufemia/issues/6143)) ([c6fe7e0](https://github.com/dnbexperience/eufemia/commit/c6fe7e0af2af654e10712f68efa7a429741e8ab9))
+* **Field.Expiry:** should not display error borders when providing `info` or `warning` ([#6138](https://github.com/dnbexperience/eufemia/issues/6138)) ([4a8ade7](https://github.com/dnbexperience/eufemia/commit/4a8ade7e41e864986e805b64f3b11b6eec33d55f))
+* **Field.Password:** adjust required message ([#6144](https://github.com/dnbexperience/eufemia/issues/6144)) ([c49ac98](https://github.com/dnbexperience/eufemia/commit/c49ac9872472095e2c8493506c35e2555f8063df))
+* **Form.InfoOverlay:** should work correctly with `reduceToVisibleFields` ([#6146](https://github.com/dnbexperience/eufemia/issues/6146)) ([86e3eff](https://github.com/dnbexperience/eufemia/commit/86e3eff5f85ff27313e5e489f7af94071387cde5))
+* **Forms:** improve type safety for custom validators for `Field.BankAccountNumber` ([#6134](https://github.com/dnbexperience/eufemia/issues/6134)) ([81540dd](https://github.com/dnbexperience/eufemia/commit/81540dde9aa281153420434718778065b835d044)), closes [#6127](https://github.com/dnbexperience/eufemia/issues/6127)
+* **Forms:** improve type safety for custom validators for `Field.Date` ([#6133](https://github.com/dnbexperience/eufemia/issues/6133)) ([2380aaf](https://github.com/dnbexperience/eufemia/commit/2380aafddbda90bc1f19aff2ef060726e979ead6)), closes [#6127](https://github.com/dnbexperience/eufemia/issues/6127)
+* **Forms:** improve type safety for custom validators for `Field.DateOfBirth` ([#6132](https://github.com/dnbexperience/eufemia/issues/6132)) ([24a3bf6](https://github.com/dnbexperience/eufemia/commit/24a3bf62bd1fd4fc3b4f03f50b836ed07755590e)), closes [#6127](https://github.com/dnbexperience/eufemia/issues/6127)
+* **Forms:** improve type safety for custom validators for `Field.Expiry` ([#6131](https://github.com/dnbexperience/eufemia/issues/6131)) ([c11914f](https://github.com/dnbexperience/eufemia/commit/c11914fcd0482f62a2b3b8ed558721ec0e211db0)), closes [#6127](https://github.com/dnbexperience/eufemia/issues/6127)
+* **Forms:** improve type safety for custom validators for `Field.Name` ([#6130](https://github.com/dnbexperience/eufemia/issues/6130)) ([cba32bb](https://github.com/dnbexperience/eufemia/commit/cba32bb17967ff527fe2b96ca4b32af4169352ad)), closes [#6127](https://github.com/dnbexperience/eufemia/issues/6127)
+* **Forms:** improve type safety for custom validators for `Field.NationalIdentityNumber` ([#6129](https://github.com/dnbexperience/eufemia/issues/6129)) ([ad0cc50](https://github.com/dnbexperience/eufemia/commit/ad0cc504d005c54133ade315b9f1bd8149e807fa)), closes [#6127](https://github.com/dnbexperience/eufemia/issues/6127)
+* **Forms:** improve type safety for custom validators for `Field.OrganizationNumber` ([#6128](https://github.com/dnbexperience/eufemia/issues/6128)) ([d428979](https://github.com/dnbexperience/eufemia/commit/d428979cbb3bef445f770a0845e8db8bccb73d37)), closes [#6127](https://github.com/dnbexperience/eufemia/issues/6127)
+* **InputMasked:** fix events argument type ([#6122](https://github.com/dnbexperience/eufemia/issues/6122)) ([c6fa08e](https://github.com/dnbexperience/eufemia/commit/c6fa08ea0764921a73f969b322115dff6def5380)), closes [/github.com/dnbexperience/eufemia/pull/5581#discussion_r2619387062](https://github.com/dnbexperience//github.com/dnbexperience/eufemia/pull/5581/issues/discussion_r2619387062)
+
+
+### :memo: Documentation
+
+* **Portal:** optimize a11y for search results ([#6157](https://github.com/dnbexperience/eufemia/issues/6157)) ([a8560e4](https://github.com/dnbexperience/eufemia/commit/a8560e4db861fc08d658fc5e236952246fadadc6))
+
+
+### :sparkles: Features
+
+* **CardFigure:** rewrite to TypeScript ([#6200](https://github.com/dnbexperience/eufemia/issues/6200)) ([4a98bc3](https://github.com/dnbexperience/eufemia/commit/4a98bc397b31a5e6224b0ba3a9f6b584d1dbe472))
+* **ChildrenWithAge:** remove 0 as placeholder for age of children ([#6207](https://github.com/dnbexperience/eufemia/issues/6207)) ([dc61dcb](https://github.com/dnbexperience/eufemia/commit/dc61dcbdf3ca78c3081efd5d83f309258940e1f1))
+* **Form.Section.EditButton:** add support for custom properties ([#6155](https://github.com/dnbexperience/eufemia/issues/6155)) ([2884106](https://github.com/dnbexperience/eufemia/commit/288410602fdaf22a09024f535dd991eb9df2ca13))
+* **Forms:** access root data by using double slash `//myPath` path ([#6206](https://github.com/dnbexperience/eufemia/issues/6206)) ([d2949fc](https://github.com/dnbexperience/eufemia/commit/d2949fcd67201c0bac8cb7cec76493f231cd121a))
+* **Img:** rewrite to TypeScript ([#6198](https://github.com/dnbexperience/eufemia/issues/6198)) ([5023eb5](https://github.com/dnbexperience/eufemia/commit/5023eb52b369dba59b4b4e702ca1644461e2b345))
+* **Skeleton:** rewrite Article figure to TypeScript ([#6196](https://github.com/dnbexperience/eufemia/issues/6196)) ([dc3c540](https://github.com/dnbexperience/eufemia/commit/dc3c540ee66a70dbd09d85dce32732e2588ced1e))
+* **Skeleton:** rewrite Circle figure to TypeScript ([#6195](https://github.com/dnbexperience/eufemia/issues/6195)) ([37d0036](https://github.com/dnbexperience/eufemia/commit/37d003659b1e069be91b0391b594582f7f7dee11))
+* **Skeleton:** rewrite Product figure to TypeScript ([#6194](https://github.com/dnbexperience/eufemia/issues/6194)) ([eea4b93](https://github.com/dnbexperience/eufemia/commit/eea4b9320209567d6f85dde284d3e68f94cc3979))
+* **Skeleton:** rewrite SkeletonHelper to TypeScript ([#6197](https://github.com/dnbexperience/eufemia/issues/6197)) ([2f3b0fe](https://github.com/dnbexperience/eufemia/commit/2f3b0fe8c5af78db6561565f7626d090293c60d3))
+* **Skeleton:** rewrite Table figure to TypeScript ([#6193](https://github.com/dnbexperience/eufemia/issues/6193)) ([75447cd](https://github.com/dnbexperience/eufemia/commit/75447cdd19ddf176a5951c22d5b8db47ec5d0c8c))
+* **SkipContent:** add `aria-live"polite"` when visible ([#6212](https://github.com/dnbexperience/eufemia/issues/6212)) ([2630322](https://github.com/dnbexperience/eufemia/commit/26303228e1b182cf0ebb3ac7565f19f2747010af))
+
 ## [10.92.1](https://github.com/dnbexperience/eufemia/compare/v10.92.0...v10.92.1) (2025-12-16)
 
 
