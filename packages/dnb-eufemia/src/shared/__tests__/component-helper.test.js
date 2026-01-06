@@ -322,13 +322,22 @@ describe('"validateDOMAttributes" should', () => {
     // Should include safe attributes
     expect(res).toHaveProperty('safeKey', 'safeValue')
 
-    // Should not include dangerous prototype-polluting keys
-    expect(res).not.toHaveProperty('__proto__')
-    expect(res).not.toHaveProperty('constructor')
-    expect(res).not.toHaveProperty('prototype')
+    // Should not include dangerous prototype-polluting keys as own properties
+    expect(Object.prototype.hasOwnProperty.call(res, '__proto__')).toBe(
+      false
+    )
+    expect(Object.prototype.hasOwnProperty.call(res, 'constructor')).toBe(
+      false
+    )
+    expect(Object.prototype.hasOwnProperty.call(res, 'prototype')).toBe(
+      false
+    )
 
     // Verify that Object.prototype was not polluted
     expect({}.polluted).toBeUndefined()
+
+    // Verify that the result object itself was not polluted
+    expect(res.polluted).toBeUndefined()
   })
 })
 
