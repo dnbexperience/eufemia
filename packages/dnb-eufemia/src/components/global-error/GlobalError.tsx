@@ -152,16 +152,13 @@ export default function GlobalError(localProps: GlobalErrorAllProps) {
     textParams.children = text
   }
 
-  const spacingClasses = createSpacingClasses(attributes)
-
   const params = {
     className: classnames(
       'dnb-global-error',
       `dnb-global-error--${statusToUse}`,
       center && 'dnb-global-error--center',
       createSpacingClasses(attributes),
-      className,
-      spacingClasses
+      className
     ),
     ...attributes,
   } as Record<string, unknown>
