@@ -21,9 +21,12 @@ export default function usePath(props: Props = {}) {
   if (
     pathProp &&
     !pathProp.startsWith('/') &&
-    !pathProp.startsWith('//')
+    !pathProp.startsWith('//') &&
+    !isParentRelativePath(pathProp)
   ) {
-    throw new Error(`path="${pathProp}" must start with a slash`)
+    throw new Error(
+      `path="${pathProp}" must start with "/" or use "//" or "../"`
+    )
   }
   if (itemPathProp && !itemPathProp.startsWith('/')) {
     throw new Error(`itemPath="${itemPathProp}" must start with a slash`)
@@ -40,6 +43,9 @@ export default function usePath(props: Props = {}) {
       // If path starts with //, it's a root-relative path, so don't prepend section path
       if (path.startsWith('//')) {
         return path.substring(1) as Path // Remove one slash, keep the leading /
+      }
+      if (isParentRelativePath(path)) {
+        return resolveParentRelativePath(path, sectionPath)
       }
       if (omitSectionPath) {
         return path
@@ -95,7 +101,7 @@ export default function usePath(props: Props = {}) {
         return itemPath
       }
 
-      if (sectionPath) {
+      if (sectionPath || isParentRelativePath(path)) {
         return makeSectionPath(path)
       }
 
@@ -133,6 +139,36 @@ export default function usePath(props: Props = {}) {
 // /foo///bar/// => /foo/bar
 export function cleanPath(path: Path) {
   return path.replace(/\/+$|\/(\/)+/g, '$1')
+}
+
+function isParentRelativePath(path: Path) {
+  return path.startsWith('../')
+}
+
+function resolveParentRelativePath(path: Path, sectionPath?: Path): Path {
+  const base = sectionPath && sectionPath !== '/' ? sectionPath : ''
+  const baseSegments = base
+    ? base.split('/').filter((segment) => segment)
+    : []
+  let relativePath = path
+
+  while (relativePath.startsWith('../')) {
+    relativePath = relativePath.substring(3)
+    if (baseSegments.length > 0) {
+      baseSegments.pop()
+    }
+  }
+
+  const normalizedRelative = relativePath.replace(/^\/+/, '')
+  const relativeSegments = normalizedRelative
+    ? normalizedRelative.split('/').filter((segment) => segment)
+    : []
+
+  const resolvedPath = `/${[...baseSegments, ...relativeSegments].join(
+    '/'
+  )}`
+  const normalizedPath = cleanPath(resolvedPath as Path)
+  return normalizedPath === '' ? ('/' as Path) : normalizedPath
 }
 
 // Appends a path part to a base path, normalizing '/' to empty string

@@ -31,6 +31,7 @@ render(<Form.Section />)
 - [Form.Section.EditContainer](/uilib/extensions/forms/Form/Section/EditContainer/) and [Form.Section.ViewContainer](/uilib/extensions/forms/Form/Section/ViewContainer/) containers are available to use.
 - Here is a [list of blocks](/uilib/extensions/forms/blocks/) ready to use.
 - You can use `//` at the start of a field path to access data from the root of the form data context, bypassing the section path. For example, `path="//rootField"` inside a section at `/section` will access `/rootField` instead of `/section/rootField`.
+- You can use `../` to reference parent section paths. Each `../` moves one section up before appending the rest of the path, letting you read or write sibling fields such as `path="../targetField"`.
 
 ## Usage
 
@@ -175,6 +176,54 @@ In the example above:
 This feature works even with nested sections - `//` always refers to the root of the form data context.
 
 If you want every field inside a nested `Form.Section` to bypass the parent path, set the section `path` to start with `//` as well (for example `path="//global"` or `path="//"`). This works like protocol-relative URLs in HTML and resets the section context back to the root.
+
+### Accessing parent data with `../`
+
+When a section is nested inside another section, you can use a path starting with `../` to access data relative to the parent section. Each `../` moves one level up the section hierarchy before the remainder of the path is appended.
+
+```tsx
+import { Form, Field } from '@dnb/eufemia/extensions/forms'
+
+const AddressSection = (props) => {
+  return (
+    <Form.Section {...props}>
+      <Field.String path="/street" label="Street" />
+      <Field.String path="/postalCode" label="Postal code" />
+
+      <Form.Section path="/verification">
+        {/* Reads and writes the parent postal code */}
+        <Field.String path="../postalCode" label="Confirm postal code" />
+
+        {/* Goes two levels up (Form.Handler root) */}
+        <Field.String path="../../customerId" label="Customer ID" />
+      </Form.Section>
+    </Form.Section>
+  )
+}
+
+render(
+  <Form.Handler
+    defaultData={{
+      customerId: 'ABC-123',
+      address: {
+        street: 'Example street 1',
+        postalCode: '0123',
+        verification: {},
+      },
+    }}
+  >
+    <AddressSection path="/address" />
+  </Form.Handler>,
+)
+```
+
+In the example above:
+
+- `path="../postalCode"` resolves to `/address/postalCode`, enabling fields inside `/address/verification` to work with the parent value.
+- `path="../../customerId"` resolves to `/customerId`, since the section is nested two levels deep.
+- When you chain more `../` segments than there are parent sections, the path simply starts from the root.
+
+This makes it easy to build advanced sections where nested parts reuse sibling values without duplicating props.
 
 ## Required property
 

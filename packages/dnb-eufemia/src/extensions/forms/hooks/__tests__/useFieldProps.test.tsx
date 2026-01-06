@@ -8516,6 +8516,30 @@ describe('useFieldProps', () => {
 
       expect(log).toHaveBeenCalledTimes(0)
     })
+
+    it('should not warn when path uses ../ to reference a parent section', () => {
+      render(
+        <React.StrictMode>
+          <Form.Handler
+            data={{
+              section: {
+                target: 'value',
+                child: {},
+              },
+            }}
+          >
+            <Form.Section path="/section">
+              <Field.String path="/target" />
+              <Form.Section path="/child">
+                <Field.String path="../target" />
+              </Form.Section>
+            </Form.Section>
+          </Form.Handler>
+        </React.StrictMode>
+      )
+
+      expect(log).toHaveBeenCalledTimes(0)
+    })
   })
 })
 
