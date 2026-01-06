@@ -14,7 +14,7 @@ const Div = React.forwardRef((props: DivProps, ref) => (
 ))
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
+// @ts-expect-error - Adding custom property to component for spacing detection
 Div._supportsSpacingProps = true
 
 export default Div

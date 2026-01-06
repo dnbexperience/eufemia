@@ -1,31 +1,37 @@
 import React from 'react'
 import classnames from 'classnames'
-import PropTypes from 'prop-types'
 
-import { CardType, BankAxeptType } from '../utils/Types'
 import { ProductLogo, TypeLogo, BankLogo, BankAxeptLogo } from '../icons'
-import StatusOverlay, { isCardBlocked } from './StatusOverlay'
+import StatusOverlay, {
+  isCardBlocked,
+  Translations,
+} from './StatusOverlay'
 import CardNumberText from './CardNumber'
 import CardTypeText from './CardType'
+import { BankAxeptType, CardType } from '../PaymentCard'
 
-export const cardDataPropTypes = PropTypes.shape({
-  productCode: PropTypes.string.isRequired,
-  productName: PropTypes.string.isRequired,
-  displayName: PropTypes.string.isRequired,
-  cardDesign: PropTypes.object.isRequired,
-  cardType: PropTypes.object.isRequired,
-  productType: PropTypes.object.isRequired,
-  bankAxept: PropTypes.object.isRequired,
-})
+export type CardData = {
+  productCode: string
+  productName: string
+  displayName: string
+  cardDesign: {
+    cardStyle: string
+    bankLogo: string
+    backgroundImage?: string
+  }
+  cardType: CardType
+  productType: any
+  bankAxept: BankAxeptType
+}
 
-CardFigure.propTypes = {
-  id: PropTypes.string,
-  skeleton: PropTypes.bool,
-  compact: PropTypes.bool,
-  data: cardDataPropTypes.isRequired,
-  cardStatus: PropTypes.string.isRequired,
-  cardNumber: PropTypes.string.isRequired,
-  translations: PropTypes.object.isRequired,
+type CardFigureProps = {
+  id?: string | null
+  skeleton?: boolean
+  compact?: boolean
+  data: CardData
+  cardStatus: string
+  cardNumber: string
+  translations: Translations
 }
 
 function CardFigure({
@@ -36,7 +42,7 @@ function CardFigure({
   skeleton = false,
   compact = false,
   translations,
-}) {
+}: CardFigureProps) {
   const cardClasses = classnames(
     'dnb-payment-card__card',
     `dnb-payment-card__${data.cardDesign.cardStyle}`,

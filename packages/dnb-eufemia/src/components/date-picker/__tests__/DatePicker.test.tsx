@@ -883,7 +883,7 @@ describe('DatePicker component', () => {
     expect(todayButton.textContent).toBe(String(osloDate.getDate()))
   })
 
-  it('has to work with shortcuts', () => {
+  it('should work with shortcuts', () => {
     const onChange = jest.fn()
     render(
       <DatePicker
@@ -1444,7 +1444,7 @@ describe('DatePicker component', () => {
     await test(year)
   })
 
-  it('has to reset second input fields to blank during new date selection', () => {
+  it('should reset second input fields to blank during new date selection', () => {
     render(<DatePicker {...defaultProps} />)
     fireEvent.click(
       document.querySelector('button.dnb-input__submit-button__button')
@@ -2306,7 +2306,7 @@ describe('DatePicker component', () => {
     )
   })
 
-  it('has to return all additional attributes the event return', () => {
+  it('should return all additional attributes the event return', () => {
     const my_event = jest.fn()
     const params = { 'data-attr': 'value' }
     render(<DatePicker on_show={my_event} {...params} />)
@@ -2364,7 +2364,7 @@ describe('DatePicker component', () => {
     ).toBe('mars 2019')
   })
 
-  it('has to have a aria-describedby on first focus', () => {
+  it('should have a aria-describedby on first focus', () => {
     const label = 'Input Label'
     render(
       <DatePicker
@@ -2382,7 +2382,7 @@ describe('DatePicker component', () => {
     expect(legendElem.classList).toContain('dnb-sr-only')
   })
 
-  it('has to select first caret position on first focus', () => {
+  it('should select first caret position on first focus', () => {
     render(
       <DatePicker
         id="custom-id"
@@ -2420,7 +2420,7 @@ describe('DatePicker component', () => {
     expect(inputElement.selectionEnd).toBe(0)
   })
 
-  it('has to focus on date picker on opening', async () => {
+  it('should focus on date picker on opening', async () => {
     render(
       <DatePicker
         id="custom-id"
@@ -2472,7 +2472,7 @@ describe('DatePicker component', () => {
     expect(element.classList).toContain('dnb-date-picker--opened')
   })
 
-  it('has to react on keydown events', async () => {
+  it('should react on keydown events', async () => {
     render(
       <DatePicker
         showInput
@@ -4192,12 +4192,12 @@ describe('DatePicker calc', () => {
 })
 
 describe('DatePicker scss', () => {
-  it('has to match style dependencies css', () => {
+  it('should match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()
   })
 
-  it('have to match default theme snapshot', () => {
+  it('should match default theme snapshot', () => {
     const css = loadScss(
       require.resolve('../style/themes/dnb-date-picker-theme-ui.scss')
     )

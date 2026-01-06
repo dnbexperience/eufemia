@@ -2,17 +2,17 @@ import { PropertiesTableProps } from '../../shared/types'
 
 export const FormSetProperties: PropertiesTableProps = {
   element: {
-    doc: 'define what HTML element should be used. Defaults to `<form>`.',
+    doc: 'Define what HTML element should be used. Defaults to `<form>`.',
     type: 'string',
     status: 'optional',
   },
   no_form: {
-    doc: 'if set to `true`, then a `div` HTML element will be used instead of `form`. Defaults to `false`.',
+    doc: 'If set to `true`, then a `div` HTML element will be used instead of `form`. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
   prevent_submit: {
-    doc: "if set to `true`, components inside can't cause a page refresh. The event `on_submit` will still be triggered. Defaults to `false`.",
+    doc: "If set to `true`, components inside can't cause a page refresh. The event `on_submit` will still be triggered. Defaults to `false`.",
     type: 'boolean',
     status: 'optional',
   },
@@ -22,12 +22,12 @@ export const FormSetProperties: PropertiesTableProps = {
     status: 'optional',
   },
   disabled: {
-    doc: 'if set to `true`, every component inside will be disabled. Defaults to `false`.',
+    doc: 'If set to `true`, every component inside will be disabled. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
   skeleton: {
-    doc: 'if set to `true`, it enables skeleton for nested components. Defaults to `false`.',
+    doc: 'If set to `true`, it enables skeleton for nested components. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
@@ -45,7 +45,7 @@ export const FormSetProperties: PropertiesTableProps = {
 
 export const FormSetEvents: PropertiesTableProps = {
   on_submit: {
-    doc: 'will be called on submit. Returns an object with a native event: `{ event }`.',
+    doc: 'Will be called on submit. Returns an object with a native event: `{ event }`.',
     type: 'function',
     status: 'optional',
   },

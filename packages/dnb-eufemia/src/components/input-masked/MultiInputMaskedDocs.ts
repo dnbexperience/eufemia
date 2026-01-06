@@ -2,17 +2,17 @@ import { PropertiesTableProps } from '../../shared/types'
 
 export const multiInputMaskedEvents: PropertiesTableProps = {
   onChange: {
-    doc: "runs when an input value changes. Has an object parameter with keys matching the id's defined in `inputs`, and values of string. E.g: `{month: string, year: string}`.",
+    doc: "Runs when an input value changes. Has an object parameter with keys matching the id's defined in `inputs`, and values of string. E.g: `{month: string, year: string}`.",
     type: 'function',
     status: 'optional',
   },
   onFocus: {
-    doc: "runs when an input gains focus. Has an object parameter with keys matching the id's defined in `inputs`, and values of string. E.g: `{month: string, year: string}`.",
+    doc: "Runs when an input gains focus. Has an object parameter with keys matching the id's defined in `inputs`, and values of string. E.g: `{month: string, year: string}`.",
     type: 'function',
     status: 'optional',
   },
   onBlur: {
-    doc: "runs when an input lose focus. Has an object parameter with keys matching the id's defined in `inputs`, and values of string. E.g: `{month: string, year: string}`.",
+    doc: "Runs when an input lose focus. Has an object parameter with keys matching the id's defined in `inputs`, and values of string. E.g: `{month: string, year: string}`.",
     type: 'function',
     status: 'optional',
   },
@@ -30,32 +30,32 @@ export const multiInputMaskedProperties: PropertiesTableProps = {
     status: 'optional',
   },
   inputs: {
-    doc: "array of [MultiInputMaskInput](/uilib/components/input-masked/properties/#multiinputmask-inputs-properties) that defines the inputs in the component. The id's defined here is used to map input value to correct property in `values` parameters used in `onChange`.",
+    doc: "Array of [MultiInputMaskInput](/uilib/components/input-masked/properties/#multiinputmask-inputs-properties) that defines the inputs in the component. The id's defined here is used to map input value to correct property in `values` parameters used in `onChange`.",
     type: 'array',
     status: 'optional',
   },
   values: {
-    doc: "values used for the inputs in the component. Expects an object with keys matching the id's defined in `inputs`.",
+    doc: "Values used for the inputs in the component. Expects an object with keys matching the id's defined in `inputs`.",
     type: 'object',
     status: 'optional',
   },
   delimiter: {
-    doc: 'character that separates the input inputs.',
+    doc: 'Character that separates the input inputs.',
     type: 'string',
     status: 'optional',
   },
   stretch: {
-    doc: 'use `true` in order to stretch the input to the available space. Defaults to `false`.',
+    doc: 'Use `true` in order to stretch the input to the available space. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
   status: {
-    doc: 'text with a status message. The style defaults to an error message. You can use true to only get the status color, without a message.`.',
+    doc: 'Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.',
     type: 'React.ReactNode',
     status: 'optional',
   },
   statusState: {
-    doc: "defines the state of the status. It's two statuses [error, info]. Defaults to error.",
+    doc: "Defines the state of the status. It's two statuses [error, info]. Defaults to error.",
     type: ['error', 'info'],
     status: 'optional',
   },

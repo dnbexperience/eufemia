@@ -11,9 +11,9 @@ render(<Field.Expiry />)
 
 ## Description
 
-`Field.Expiry` is a wrapper component for the [input of strings](/uilib/extensions/forms/base-fields/String), with user experience tailored for expiry dates for payment cards.
+`Field.Expiry` is a wrapper component for [string input](/uilib/extensions/forms/base-fields/String), with user experience tailored for expiry dates on payment cards.
 
-It supports the HTML [autocomplete](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete) attribute, and by default set it to `cc-exp-month` for the month field, and to `cc-exp-year` for the year field.
+It supports the HTML [autocomplete](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete) attribute and by default sets it to `cc-exp-month` for the month field and to `cc-exp-year` for the year field.
 
 ## Relevant links
 
@@ -24,5 +24,28 @@ It supports the HTML [autocomplete](https://developer.mozilla.org/en-US/docs/Web
 
 ### Internal validators exposed
 
-`Field.Expiry` exposes the `expiryValidator` validator through its `onBlurValidator` property, take a look at [this demo](/uilib/extensions/forms/feature-fields/Expiry/demos/#extend-validation-with-custom-validation-function).
-The `expiryValidator` validator, validates invalid month and/or year.
+`Field.Expiry` exposes the `expiryValidator` validator through its `onBlurValidator` property. Take a look at [this demo](/uilib/extensions/forms/feature-fields/Expiry/demos/#extend-validation-with-custom-validation-function).
+The `expiryValidator` validator validates invalid months and/or years.
+
+### Extending validators
+
+Combine the exported validator with your own rules to keep the built-in checks and add custom guards. Import `ExpiryValidator` to type your validator and the shared `validators`.
+
+```tsx
+import { Field } from '@dnb/eufemia/extensions/forms'
+import type { ExpiryValidator } from '@dnb/eufemia/extensions/forms/Field/Expiry'
+
+const myValidator: ExpiryValidator = (value, { validators }) => {
+  const { expiryValidator } = validators ?? {}
+  const monthNotZero = (value: string) => {
+    if (value && value.slice(0, 2) === '00') {
+      return new Error('Month cannot be 00')
+    }
+  }
+
+  // Return both the built-in validator and the custom month check.
+  return [expiryValidator, monthNotZero]
+}
+
+render(<Field.Expiry onBlurValidator={myValidator} />)
+```

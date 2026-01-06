@@ -1,6 +1,19 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`ProgressIndicator scss has to match style dependencies css 1`] = `
+exports[`ProgressIndicator scss should match default theme snapshot 1`] = `
+"/*
+* ProgressIndicator theme
+*
+*/
+.dnb-progress-indicator {
+  --progress-indicator-circular-background-color: var(--color-mint-green);
+  --progress-indicator-circular-bar-color: var(--color-emerald-green);
+  --progress-indicator-linear-background-color: var(--color-black-8);
+  --progress-indicator-linear-bar-color: var(--color-sea-green);
+}"
+`;
+
+exports[`ProgressIndicator scss should match style dependencies css 1`] = `
 "/*
 * Used for snapshot testing
 *
@@ -273,18 +286,5 @@ html[data-visual-test] .dnb-progress-indicator__bar-transition {
     left: 107%;
     right: -8%;
   }
-}"
-`;
-
-exports[`ProgressIndicator scss have to match default theme snapshot 1`] = `
-"/*
-* ProgressIndicator theme
-*
-*/
-.dnb-progress-indicator {
-  --progress-indicator-circular-background-color: var(--color-mint-green);
-  --progress-indicator-circular-bar-color: var(--color-emerald-green);
-  --progress-indicator-linear-background-color: var(--color-black-8);
-  --progress-indicator-linear-bar-color: var(--color-sea-green);
 }"
 `;

@@ -20,18 +20,18 @@ import { TypographyVariants } from 'Docs/uilib/typography/Examples'
 
 The two main components used to set typography are:
 
-- [Span](uilib/elements/span)
-- [P](uilib/elements/paragraph)
+- [Span](/uilib/elements/span)
+- [P](/uilib/elements/paragraph)
 
-([Lead](uilib/elements/lead) and [Ingress](uilib/elements/ingress) also works in the same way)
+([Lead](/uilib/elements/lead) and [Ingress](uilib/elements/ingress) also work in the same way)
 
 ## Typography in general
 
 Fonts are handled automatically once the CSS packages **dnb-ui-core** or **dnb-ui-basis** are loaded.
 
-Every typography HTML element, like headings and paragraphs, have a defined `height`, respective `line-height` so everything falls exactly into the **8 pixel grid**.
+Every typography HTML element, like headings and paragraphs, has a defined `height` and `line-height` so everything falls exactly into the **8-pixel grid**.
 
-You don't need to define the `font-family` ever, but rather use CSS Custom Properties for `font-weight`, `font-size` and `line-height`.
+You don't need to define the `font-family`, but rather use CSS Custom Properties for `font-weight`, `font-size`, and `line-height`.
 
 ### Typography property tables
 
@@ -50,9 +50,9 @@ For readable paragraphs and inline help text, keep line length constrained to a 
 - Use `var(--prose-max-width)` as the canonical token for maximum text width. Default is `60ch`.
 - Base styles and some components expose `var(--prose-max-width)`, which maps to `var(--prose-max-width)`.
 
-### Using `proseMaxWidth` property (max width in characters)
+### Using the `proseMaxWidth` property (max width in characters)
 
-Prose refers to written text in its natural form, particularly paragraphs and other continuous writing. Typography components like `H2`, `H3`, `P` etc. support the `proseMaxWidth` property to limit text width based on character count:
+Prose refers to written text in its natural form, particularly paragraphs and other continuous writing. Typography components like `H2`, `H3`, and `P` support the `proseMaxWidth` property to limit text width based on character count:
 
 ```tsx
 <H2 proseMaxWidth={80}>
@@ -95,7 +95,7 @@ The default DNB font family is `DNB`, loaded via `@font-face` in `@dnb/eufemia/s
 
 ## Spacing and margin collapsing
 
-You can use the [Spacing properties](/uilib/layout/space/properties) inside every Eufemia React Element, but keep in mind, [margin collapsing](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Box_Model/Mastering_margin_collapsing) can some times a little tricky to get right.
+You can use the [Spacing properties](/uilib/layout/space/properties) inside every Eufemia React Element, but keep in mind that [margin collapsing](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Box_Model/Mastering_margin_collapsing) can sometimes be a little tricky to get right.
 
 ```jsx
 import { H1, H2, ... } from '@dnb/eufemia'
@@ -107,11 +107,11 @@ import { H1, H2, ... } from '@dnb/eufemia'
 ## Anchor
 
 - `.dnb-anchor` <a href="/" className="dnb-anchor">Anchor with default style</a>
-- `.dnb-anchor--hover` <a href="/" className="dnb-anchor dnb-anchor--hover">Hover Style</a>
-- `.dnb-anchor--active` <a href="/" className="dnb-anchor dnb-anchor--active">Active Style</a>
-- `.dnb-anchor--focus` <a href="/" className="dnb-anchor dnb-anchor--focus">Focus Style</a>
+- `.dnb-anchor--hover` <a href="/" className="dnb-anchor dnb-anchor--hover">Hover style</a>
+- `.dnb-anchor--active` <a href="/" className="dnb-anchor dnb-anchor--active">Active style</a>
+- `.dnb-anchor--focus` <a href="/" className="dnb-anchor dnb-anchor--focus">Focus style</a>
 
-Read more about the [Anchor / Text Link](/uilib/components/anchor)
+Read more about the [Anchor / Text Link](/uilib/components/anchor).
 
 ## DNB Mono (monospace)
 

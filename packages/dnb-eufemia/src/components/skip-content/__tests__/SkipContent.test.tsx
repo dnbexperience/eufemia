@@ -151,6 +151,29 @@ describe('SkipContent', () => {
     expect(document.activeElement.tagName).toBe('BODY')
   })
 
+  it('should have aria-live with polite when visible', async () => {
+    render(
+      <>
+        <SkipContent selector="#unique-id" />
+        <Section id="unique-id">content</Section>
+      </>
+    )
+
+    const element = document.querySelector('.dnb-skip-content')
+
+    expect(element).toBeInTheDocument()
+
+    // make it visible
+    fireEvent.keyUp(element.querySelector('button.dnb-sr-only'), {
+      key: 'Tab',
+      keyCode: 'Tab',
+    })
+
+    expect(
+      document.querySelector('.dnb-height-animation')
+    ).toHaveAttribute('aria-live', 'polite')
+  })
+
   it('should validate axe test', async () => {
     const Component = render(
       <>

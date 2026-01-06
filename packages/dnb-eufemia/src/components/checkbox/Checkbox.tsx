@@ -253,7 +253,7 @@ function Checkbox(localProps: CheckboxProps) {
       forceUpdate()
       callOnChange({ checked: updatedCheck, event })
 
-      // help firefox and safari to have an correct state after a click
+      // help firefox and safari to have a correct state after a click
       if (ref.current) {
         ref.current.focus({
           preventScroll: true,

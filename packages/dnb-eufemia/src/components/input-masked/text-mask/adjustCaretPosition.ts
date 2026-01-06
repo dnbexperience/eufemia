@@ -82,7 +82,7 @@ export default function adjustCaretPosition({
 
     // Then we take all characters that come before where the caret currently is.
     const leftHalfChars = normalizedRawValue
-      .substr(0, currentCaretPosition)
+      .substring(0, currentCaretPosition)
       .split(emptyString)
 
     // Now we find all the characters in the left half that exist in the conformed input
@@ -98,14 +98,14 @@ export default function adjustCaretPosition({
     // Calculate the number of mask characters in the previous placeholder
     // from the start of the string up to the place where the caret is
     const previousLeftMaskChars = previousPlaceholder
-      .substr(0, intersection.length)
+      .substring(0, intersection.length)
       .split(emptyString)
       .filter((char) => char !== placeholderChar).length
 
     // Calculate the number of mask characters in the current placeholder
     // from the start of the string up to the place where the caret is
     const leftMaskChars = placeholder
-      .substr(0, intersection.length)
+      .substring(0, intersection.length)
       .split(emptyString)
       .filter((char) => char !== placeholderChar).length
 
@@ -161,7 +161,7 @@ export default function adjustCaretPosition({
     // We need to know if the placeholder contains characters that look like
     // our `targetChar`, so we don't select one of those by mistake.
     const countTargetCharInPlaceholder = placeholder
-      .substr(0, placeholder.indexOf(placeholderChar))
+      .substring(0, placeholder.indexOf(placeholderChar))
       .split(emptyString)
       .filter(
         (char, index) =>

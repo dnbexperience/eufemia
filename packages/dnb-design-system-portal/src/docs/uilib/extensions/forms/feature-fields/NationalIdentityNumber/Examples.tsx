@@ -1,6 +1,7 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import { createMinimumAgeValidator } from '@dnb/eufemia/src/extensions/forms/Field/NationalIdentityNumber'
 import { Field, FormError } from '@dnb/eufemia/src/extensions/forms'
+import type { NationalIdentityNumberValidator } from '@dnb/eufemia/src/extensions/forms/Field/NationalIdentityNumber'
 
 export const Empty = () => {
   return (
@@ -169,8 +170,12 @@ export const ValidationExtendValidator = () => {
             return new Error('Not born in April')
           }
         }
-        const myValidator = (value, { validators }) => {
-          const { dnrAndFnrValidator } = validators
+        // Keep the default validator while ensuring birth month is April.
+        const myValidator: NationalIdentityNumberValidator = (
+          value,
+          { validators },
+        ) => {
+          const { dnrAndFnrValidator } = validators ?? {}
 
           return [dnrAndFnrValidator, bornInAprilValidator]
         }
@@ -193,8 +198,12 @@ export const ValidationExtendValidatorAdult = () => {
     <ComponentBox scope={{ createMinimumAgeValidator }}>
       {() => {
         const adultValidator = createMinimumAgeValidator(18)
-        const myAdultValidator = (value, { validators }) => {
-          const { dnrAndFnrValidator } = validators
+        // Keep the default validator while adding an age check.
+        const myAdultValidator: NationalIdentityNumberValidator = (
+          value,
+          { validators },
+        ) => {
+          const { dnrAndFnrValidator } = validators ?? {}
 
           return [dnrAndFnrValidator, adultValidator]
         }
@@ -217,8 +226,12 @@ export const ValidationFnrAdult = () => {
     <ComponentBox scope={{ createMinimumAgeValidator }}>
       {() => {
         const adultValidator = createMinimumAgeValidator(18)
-        const myFnrAdultValidator = (value, { validators }) => {
-          const { fnrValidator } = validators
+        // Keep the default validator while ensuring an FNR-based age check.
+        const myFnrAdultValidator: NationalIdentityNumberValidator = (
+          value,
+          { validators },
+        ) => {
+          const { fnrValidator } = validators ?? {}
 
           return [fnrValidator, adultValidator]
         }

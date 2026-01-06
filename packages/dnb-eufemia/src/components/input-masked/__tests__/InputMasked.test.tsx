@@ -10,6 +10,7 @@ import userEvent from '@testing-library/user-event'
 import InputMasked, { InputMaskedProps } from '../InputMasked'
 import Provider from '../../../shared/Provider'
 import * as helpers from '../../../shared/helpers'
+import type { NotAny } from '../../../shared/types'
 
 const props: InputMaskedProps = {
   id: 'input-masked',
@@ -1007,8 +1008,8 @@ describe('InputMasked component with currency_mask', () => {
         <InputMasked
           value={value}
           currency_mask
-          on_change={({ numberValue }) => {
-            setValue(numberValue)
+          on_change={({ value }) => {
+            setValue(value)
           }}
         />
       )
@@ -1032,12 +1033,12 @@ describe('InputMasked component with currency_mask', () => {
 
   it('can change value to be empty', () => {
     const BasicMask = () => {
-      const [floatval, setState] = React.useState(123)
+      const [floatVal, setState] = React.useState(123)
 
       return (
         <InputMasked
           {...props}
-          value={floatval}
+          value={floatVal}
           currency_mask="NOK"
           on_change={({ numberValue }) => {
             setState(numberValue)
@@ -2472,8 +2473,33 @@ describe('controlled', () => {
 })
 
 describe('InputMasked scss', () => {
-  it('has to match style dependencies css', () => {
+  it('should match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()
+  })
+})
+
+describe('types', () => {
+  it('should have correct types for onChange', () => {
+    render(
+      <InputMasked
+        on_change={(event) => {
+          const { value, cleanedValue, numberValue } = event
+
+          // Verify that the type is not any
+          value satisfies NotAny<typeof value>
+          cleanedValue satisfies NotAny<typeof cleanedValue>
+          numberValue satisfies NotAny<typeof numberValue>
+
+          expect(value satisfies string).toBeType('string')
+          expect(cleanedValue satisfies string | number).toBeType('string')
+          expect(numberValue satisfies number).toBeType('number')
+        }}
+      />
+    )
+
+    fireEvent.change(document.querySelector('input'), {
+      target: { value: '12345.67' },
+    })
   })
 })

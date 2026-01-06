@@ -112,7 +112,7 @@ To disable types you can:
 
 ## Decoupling the form element
 
-For more flexibility, you can decouple the form element from the form context by using the `decoupleForm` property. It is recommended to use the `Form.Element` to wrap your rest of your form:
+For more flexibility, you can decouple the form element from the form context by using the `decoupleForm` property. It is recommended to use `Form.Element` to wrap the rest of your form:
 
 ```jsx
 import { Form } from '@dnb/eufemia/extensions/forms'
@@ -136,7 +136,7 @@ function MyApp() {
 
 ## Data handling
 
-You can access, mutate and filter data inside of the form context by using the `Form.useData` hook:
+You can access, mutate, and filter data inside the form context by using the `Form.useData` hook:
 
 ```jsx
 import { Form } from '@dnb/eufemia/extensions/forms'
@@ -175,12 +175,12 @@ function MyApp() {
 
 ### Using a form ID
 
-The form data can be handled outside of the form. This is useful if you want to use the form data in other components:
+The form data can be handled outside the form. This is useful if you want to use the form data in other components:
 
 ```jsx
 import { Form } from '@dnb/eufemia/extensions/forms'
 
-const myFormId = 'unique-id' // or a function, object or React Context reference
+const myFormId = 'unique-id' // or a function, object, or React Context reference
 
 function MyComponent() {
   const { data } = Form.useData(myFormId)
@@ -214,7 +214,7 @@ You can return parameters from inside the async `onChange` or `onSubmit` event h
 
 <AsyncStateReturnExample />
 
-The `info`, `warning` and `error` messages will be displayed at the bottom of a form or field ([FormStatus](/uilib/components/form-status)), depending where it is used. While the `success` will be displayed on the label of the field that initiated the `onChange` event.
+The `info`, `warning`, and `error` messages will be displayed at the bottom of a form or field ([FormStatus](/uilib/components/form-status)), depending on where it is used. The `success` message will be displayed on the label of the field that initiated the `onChange` event.
 
 ## Browser autofill
 
@@ -227,13 +227,13 @@ You can set `autoComplete` on the `Form.Handler` – each [Field.String](/uilib/
 </Form.Handler>
 ```
 
-The `path` property will be used to set the `name` attribute, which lets browser know which autocomplete value should be proposed to the user.
+The `path` property will be used to set the `name` attribute, which lets the browser know which autocomplete value should be proposed to the user.
 
 ## Temporary storage
 
-The `sessionStorageId` feature uses the browsers session-storage (temporary storage mechanism) to store data entered by the user.
+The `sessionStorageId` feature uses the browser's session storage (temporary storage mechanism) to store data entered by the user.
 
-This lets the user navigate away and come back to the form, without loosing already entered data.
+This allows the user to navigate away and come back to the form without losing already-entered data.
 
 Ensure you only use this feature for non-sensitive data.
 
@@ -262,7 +262,7 @@ render(
 
 ## Filter data
 
-You can use the `filterData` function to filter your `onSubmit` data. It might be useful, for example, to **exclude disabled fields** or filter out empty fields. The callback function receives the following arguments:
+You can use the `filterData` function to filter your `onSubmit` data. It might be useful—for example, to **exclude disabled fields** or filter out empty fields. The callback function receives the following arguments:
 
 The callback function receives the following properties in an object:
 

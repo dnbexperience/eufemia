@@ -35,7 +35,7 @@ export class SidebarMenuProvider extends React.PureComponent<Props> {
         // use "window.pageYOffset" instead of "window.scrollY" because IE
         this.lastScrollPosition = window.pageYOffset
       } catch (e) {
-        console.log('Could not get scrollY', e)
+        console.error('Could not get scrollY', e)
       }
     }
     this.timeout = setTimeout(
@@ -55,7 +55,7 @@ export class SidebarMenuProvider extends React.PureComponent<Props> {
               })
             }
           } catch (e) {
-            console.log('Could not run scrollTo', e)
+            console.error('Could not run scrollTo', e)
           }
         }, 100) // after animation is done
       },

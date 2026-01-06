@@ -12,7 +12,7 @@ render(<Iterate.Array />)
 
 ## Description
 
-`Iterate.Array` works in many ways similar to field-components. It has a `value`-property that can receive an array or you can give it a `path` if you want it to retrieve an array from a surrounding `DataContext`. All children components of `Iterate.Array` are rendered once per item the array-value consists of.
+`Iterate.Array` works in many ways similar to field components. It has a `value` property that can receive an array, or you can give it a `path` if you want it to retrieve an array from a surrounding `DataContext`. All child components of `Iterate.Array` are rendered once per item the array value consists of.
 
 ```tsx
 import { Iterate, Field } from '@dnb/eufemia/extensions/forms'
@@ -29,8 +29,7 @@ render(
 
 ## About `itemPath` and `path`
 
-`itemPath` points to the root of each iterated item, while `path`
-points to the root of the data source:
+`itemPath` points to the root of each iterated item, while `path` points to the root of the data source:
 
 ```tsx
 import { Iterate, Field, Form } from '@dnb/eufemia/extensions/forms'
@@ -59,11 +58,11 @@ Since `Iterate.Array` renders its children once per item, the field components i
 
 ### 1. itemPath
 
-If field components inside `Iterate.Array` are given an `itemPath` property, this will look for values based on the array item being the root of the structure, even if the array often comes from a surrounding data set. This means that you do not need to think about which index the field should point to, because it is handled by `Iterate.Array` internally. You can look at the individual item as its own structure.
+If field components inside `Iterate.Array` are given an `itemPath` property, this will look for values based on the array item being the root of the structure, even if the array often comes from a surrounding data set. This means you do not need to think about which index the field should point to, because it is handled by `Iterate.Array` internally. You can treat the individual item as its own structure.
 
 ### 2. Function callback as children (render property)
 
-If you want to be able to provide values to the individual field component directly instead of pointing to them with paths, you can give `Iterate.Array` a render property. It works a bit like an array-map call. The render function provides the value of the item as the first argument, the index of which item you are on as the second, and the internal array as the third.
+If you want to provide values to individual field components directly instead of pointing to them with paths, you can give `Iterate.Array` a render property. It works a bit like an array map call. The render function provides the value of the item as the first argument, the index of which item you are on as the second, and the internal array as the third.
 
 ```tsx
 render(
@@ -105,7 +104,7 @@ render(
 )
 ```
 
-The [Iterate.ViewContainer](/uilib/extensions/forms/Iterate/ViewContainer) and the [Iterate.EditContainer](/uilib/extensions/forms/Iterate/EditContainer) also supports `{itemNo}` in the `title` property to display the current item number.
+The [Iterate.ViewContainer](/uilib/extensions/forms/Iterate/ViewContainer/) and the [Iterate.EditContainer](/uilib/extensions/forms/Iterate/EditContainer/) also support `{itemNo}` in the `title` property to display the current item number.
 
 ```tsx
 import { Iterate, Field } from '@dnb/eufemia/extensions/forms'

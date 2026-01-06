@@ -52,8 +52,6 @@ Dl.Item = ({
   )
 }
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
 Dl._supportsSpacingProps = true
 
 export default Dl

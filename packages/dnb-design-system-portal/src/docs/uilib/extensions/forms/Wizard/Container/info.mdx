@@ -11,7 +11,7 @@ render(<Wizard.Container />)
 
 ## Description
 
-The `Wizard.Container` is a container component for multi-page forms including a [StepIndicator](/uilib/components/step-indicator/).
+The `Wizard.Container` is a container component for multi-step forms, including a [StepIndicator](/uilib/components/step-indicator/).
 
 Use the [Wizard.Step](/uilib/extensions/forms/Wizard/Step/) component to define the wizard steps.
 
@@ -95,7 +95,7 @@ const MyForm = () => {
 
 ## Controlling the wizard steps
 
-To define a different initial index (than 0), you can use `initialActiveIndex` property.
+To define a different initial index (other than 0), you can use the `initialActiveIndex` property.
 
 **Note:** When using `initialActiveIndex`, there may be previous steps with unknown field validation statuses. To address this, you can use the `keepInDOM` property to ensure that some or all steps are not removed from the DOM, so validation runs on fields in previous steps.
 
@@ -126,7 +126,7 @@ const MyForm = () => {
 }
 ```
 
-When using the `useStep` hook outside of the `Wizard.Container` context, you need to provide an unique `id` (string, function, object or React Context as the reference):
+When using the `useStep` hook outside of the `Wizard.Container` context, you need to provide a unique `id` (string, function, object or React Context as the reference):
 
 ```tsx
 import { Form, Wizard } from '@dnb/eufemia/extensions/forms'
@@ -186,8 +186,8 @@ const MyForm = () => {
 
 ## Modes
 
-- The `strict` mode is the default. The user can only navigate forward using the [Wizard.NextButton](/uilib/extensions/forms/Wizard/NextButton/), not via the menu. However, the previous step remains active, allowing the user to go back at any time – even if there are errors in the current step.
-- Use `loose` mode if the user should be able to navigate freely between all steps, including those that have not been visited before. When there is an error in the current step, the user can navigate to other steps via the menu, but not via the [Wizard.NextButton](/uilib/extensions/forms/Wizard/NextButton/).
+- The `strict` mode is the default. The user can only navigate forward using the [Wizard.NextButton](/uilib/extensions/forms/Wizard/NextButton/), not via the menu. However, the previous step remains active, allowing the user to go back at any time—even if there are errors in the current step.
+- Use `loose` mode if the user should be able to navigate freely between all steps, including those that have not been visited before. When there is an error in the current step, the user can navigate to other steps via the menu but not via the [Wizard.NextButton](/uilib/extensions/forms/Wizard/NextButton/).
 
 ## Accessibility
 
@@ -195,4 +195,4 @@ The `Wizard.Step` component uses an `aria-label` attribute that matches the titl
 
 Whenever a new step becomes active, it automatically receives focus, ensuring that screen readers convey the relevant information to users.
 
-Additionally, during a step change the Wizard will scroll to the top of the form, to ensure the user is aware of the new content.
+Additionally, during a step change, the Wizard will scroll to the top of the form to ensure the user is aware of the new content.

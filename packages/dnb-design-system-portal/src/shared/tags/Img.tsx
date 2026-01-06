@@ -1,7 +1,17 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { Img as Image } from '@dnb/eufemia/src'
+
+type ImgProps = {
+  className?: string
+  alt?: string
+  src?: string | React.ReactNode
+  children?: React.ReactNode
+  size?: string
+  width?: string | number
+  height?: string | number
+  caption?: string
+}
 
 const Img = ({
   className = null,
@@ -13,16 +23,22 @@ const Img = ({
   height = null,
   caption = null,
   ...rest
-}) => {
+}: ImgProps) => {
   if (size === 'auto') {
     width = '100%'
     height = '100%'
   }
   const props = { width, height }
 
+  let finalSrc: string | React.ReactNode = src || children
+
   if (React.isValidElement(src)) {
-    const Svg = src
-    src = <Svg alt={alt || caption} {...props} />
+    const Svg = src.type as React.ComponentType<{
+      alt?: string
+      width?: string | number
+      height?: string | number
+    }>
+    finalSrc = <Svg alt={alt || caption} {...props} />
   }
 
   return (
@@ -30,22 +46,11 @@ const Img = ({
       className={classnames('image-box', className)}
       alt={alt || caption}
       caption={caption}
-      src={src || children}
+      src={finalSrc as string}
       {...props}
       {...rest}
     />
   )
-}
-
-Img.propTypes = {
-  className: PropTypes.string,
-  alt: PropTypes.string,
-  children: PropTypes.node,
-  src: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-  size: PropTypes.string,
-  height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  caption: PropTypes.string,
 }
 
 export default Img

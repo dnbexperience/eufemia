@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import classnames from 'classnames'
 import Button, { ButtonProps } from '../button/Button'
 import HeightAnimation from '../height-animation/HeightAnimation'
@@ -61,39 +61,11 @@ const SkipContent = (localProps: SkipContentAllProps) => {
   const returnSelector = selector.replace(/^(\.|#)/, '')
   const returnId = `${returnSelector}--alias`
 
-  return (
-    <span
-      className={classes}
-      ref={ref}
-      onFocus={handleFocus}
-      id={returnId}
-    >
-      <>
-        {!visible && (
-          <button className="dnb-sr-only" onKeyUp={handleKeyUp}>
-            {text || children}
-          </button>
-        )}
-        <HeightAnimation open={visible}>
-          <Button
-            wrap
-            variant="secondary"
-            onClick={handleClick}
-            onBlur={handleBlur}
-            {...(props as Record<string, unknown>)}
-          >
-            {text || children}
-          </Button>
-        </HeightAnimation>
-      </>
-    </span>
-  )
-
-  function handleBlur() {
+  const handleBlur = useCallback(() => {
     setVisible(false)
-  }
+  }, [])
 
-  function handleClick() {
+  const handleClick = useCallback(() => {
     setVisible(false)
 
     // Scroll to the element at first
@@ -110,21 +82,9 @@ const SkipContent = (localProps: SkipContentAllProps) => {
         .querySelector(`#${returnSelector}--alias--alias`)
         ?.classList.add('dnb-skip-content__return--active')
     }, focusDelay)
-  }
+  }, [selector, focusDelay])
 
-  function handleFocus(e: FocusEvent) {
-    if (e.target.tagName === 'SPAN') {
-      setFocus()
-    }
-  }
-
-  function handleKeyUp(e: React.KeyboardEvent) {
-    if (e.key === 'Tab') {
-      setFocus()
-    }
-  }
-
-  function setFocus() {
+  const setFocus = useCallback(() => {
     setVisible(true)
 
     // Wait one frame, so ref is set
@@ -139,7 +99,53 @@ const SkipContent = (localProps: SkipContentAllProps) => {
     if (ref.current?.getAttribute('class').includes('__return--active')) {
       setKeepReturnActive(true)
     }
-  }
+  }, [])
+
+  const handleFocus = useCallback(
+    (e: FocusEvent) => {
+      if (e.target.tagName === 'SPAN') {
+        setFocus()
+      }
+    },
+    [setFocus]
+  )
+
+  const handleKeyUp = useCallback(
+    (e: React.KeyboardEvent) => {
+      if (e.key === 'Tab') {
+        setFocus()
+      }
+    },
+    [setFocus]
+  )
+
+  return (
+    <span
+      className={classes}
+      ref={ref}
+      onFocus={handleFocus}
+      id={returnId}
+    >
+      <>
+        {!visible && (
+          <button className="dnb-sr-only" onKeyUp={handleKeyUp}>
+            {text || children}
+          </button>
+        )}
+        <HeightAnimation open={visible} aria-live="polite">
+          <Button
+            wrap
+            variant="secondary"
+            onClick={handleClick}
+            onBlur={handleBlur}
+            {...(props as Record<string, unknown>)}
+          >
+            {text || children}
+          </Button>
+        </HeightAnimation>
+      </>
+    </span>
+  )
 }
 
 export type SkipContentReturnProps = SkipContentAllProps

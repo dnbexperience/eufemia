@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useCallback, useRef } from 'react'
 
 // Components
 import Button from '../button/Button'
@@ -44,6 +44,33 @@ const UploadFileInput = ({
   const sharedId = id || makeUniqueId()
   const accept = getAcceptedFileTypes(acceptedFileTypes)
 
+  const onChangeHandler = useCallback(
+    (event: React.SyntheticEvent) => {
+      const target = event.target as HTMLInputElement
+      const { files } = target
+
+      onInputUpload(
+        Array.from(files).map((file) => {
+          return { file }
+        })
+      )
+    },
+    [onInputUpload]
+  )
+
+  const onClickHandler = useCallback((event: React.SyntheticEvent) => {
+    const target = event.target as HTMLInputElement
+
+    /**
+     * This resets the internal state.
+     * Some browsers (chromium) to check for already selected files.
+     * But we have our own logic for that.
+     * We also align the UX to be the same to all browsers,
+     * and to be same when the drag file API is used.
+     */
+    target.value = null
+  }, [])
+
   return (
     <div className="dnb-upload__file-input-area">
       {filesAmountLimit !== files?.length && (
@@ -80,30 +107,6 @@ const UploadFileInput = ({
       />
     </div>
   )
-
-  function onChangeHandler(event: React.SyntheticEvent) {
-    const target = event.target as HTMLInputElement
-    const { files } = target
-
-    onInputUpload(
-      Array.from(files).map((file) => {
-        return { file }
-      })
-    )
-  }
-
-  function onClickHandler(event: React.SyntheticEvent) {
-    const target = event.target as HTMLInputElement
-
-    /**
-     * This resets the internal state.
-     * Some browsers (chromium) to check for already selected files.
-     * But we have our own logic for that.
-     * We also align the UX to be the same to all browsers,
-     * and to be same when the drag file API is used.
-     */
-    target.value = null
-  }
 }
 
 export default UploadFileInput

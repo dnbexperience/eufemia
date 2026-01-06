@@ -22,7 +22,7 @@ completions.json
 recipe-client.log
 recipe-server.log
 
-# enviroment
+# environment
 .env
 .env.*
 

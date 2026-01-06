@@ -86,7 +86,7 @@ export const createMockDiv = ({ width, height }) => {
     width: `${width}px`,
     height: `${height}px`,
   })
-  // @ts-ignore
+  // @ts-expect-error - Mocking getBoundingClientRect for testing
   div.getBoundingClientRect = () => ({
     width,
     height,

@@ -1,6 +1,13 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`GlobalError scss has to match style dependencies css 1`] = `
+exports[`GlobalError scss should match default theme snapshot 1`] = `
+"/*
+ * GlobalError theme
+ *
+ */"
+`;
+
+exports[`GlobalError scss should match style dependencies css 1`] = `
 "/*
 * Used for snapshot testing
 *
@@ -539,11 +546,4 @@ button.dnb-button::-moz-focus-inner {
     font-size: var(--font-size-large);
   }
 }"
-`;
-
-exports[`GlobalError scss have to match default theme snapshot 1`] = `
-"/*
- * GlobalError theme
- *
- */"
 `;

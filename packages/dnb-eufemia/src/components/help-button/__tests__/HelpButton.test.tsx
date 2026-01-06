@@ -179,12 +179,12 @@ describe('HelpButton', () => {
 })
 
 describe('HelpButton scss', () => {
-  it('has to match style dependencies css', () => {
+  it('should match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()
   })
 
-  it('have to match default theme snapshot', () => {
+  it('should match default theme snapshot', () => {
     const css = loadScss(
       require.resolve('../style/themes/dnb-help-button-theme-ui.scss')
     )

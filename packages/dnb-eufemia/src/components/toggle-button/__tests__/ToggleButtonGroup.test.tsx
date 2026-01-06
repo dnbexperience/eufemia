@@ -53,7 +53,7 @@ describe('ToggleButton group component', () => {
     ])
   })
 
-  it('has to have variant="radio', () => {
+  it('should have variant="radio', () => {
     render(
       <ToggleButton.Group label="Label" id="group">
         <ToggleButton
@@ -74,7 +74,7 @@ describe('ToggleButton group component', () => {
     ).toBeInTheDocument()
   })
 
-  it('has to have correct aria-pressed', () => {
+  it('should have correct aria-pressed', () => {
     render(
       <ToggleButton.Group label="Label" id="group">
         <ToggleButton

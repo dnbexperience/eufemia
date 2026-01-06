@@ -34,8 +34,8 @@ export const BreadcrumbMultiple = ({
             <BreadcrumbItem
               key={i}
               variant={
-                (i == 0 && 'home') ||
-                (i == data.length - 1 && 'current') ||
+                (i === 0 && 'home') ||
+                (i === data.length - 1 && 'current') ||
                 null
               }
               itemNo={i}

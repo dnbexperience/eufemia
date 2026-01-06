@@ -11,7 +11,7 @@ import { AccordionGroupProps } from './AccordionGroup'
 export type AccordionContextProps = AccordionProps &
   SkeletonContextProps & {
     allow_close_all?: boolean
-    expandBehavior: AccordionGroupProps['expandBehavior']
+    expandBehavior?: AccordionGroupProps['expandBehavior']
     callOnChange?: (parameters: {
       id: string
       group: string

@@ -1,6 +1,57 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`Checkbox scss has to match style dependencies css 1`] = `
+exports[`Checkbox scss should match default theme snapshot 1`] = `
+"/*
+* Checkbox theme
+*
+*/
+.dnb-checkbox {
+  --checkbox-color-gfx-on: var(--color-white);
+  --checkbox-color-gfx-off: var(--color-white);
+  --checkbox-color-background-on: var(--color-sea-green);
+  --checkbox-color-background-off: var(--color-white);
+  --checkbox-color-border-on: transparent;
+  --checkbox-color-border-off: var(--color-sea-green);
+  --checkbox-color-gfx--disabled: var(--checkbox-color-gfx-on);
+  --checkbox-color-background-on--disabled: var(--color-sea-green-30);
+  --checkbox-color-background-off--disabled: var(--color-white);
+  --checkbox-color-border-on--disabled: transparent;
+  --checkbox-color-border-off--disabled: var(--color-mint-green-50);
+  --checkbox-color-gfx__indeterminate--disabled: var(
+    --color-mint-green-50
+  );
+  --checkbox-color-background--active: var(--color-mint-green-50);
+  --checkbox-color-border--active: transparent;
+  --checkbox-color-gfx--hover: var(--color-sea-green);
+  --checkbox-color-background--hover: var(--color-mint-green-50);
+  --checkbox-color-border-on--hover: transparent;
+  --checkbox-color-border-off--hover: var(--color-sea-green);
+  --checkbox-color-gfx--focus: var(--color-emerald-green);
+  --checkbox-color-background--focus: var(--color-mint-green-50);
+  --checkbox-color-gfx--error: var(--color-fire-red-8);
+  --checkbox-color-gfx--error-contrast: var(--color-fire-red);
+  --checkbox-color-background-on--error: var(--color-fire-red);
+  --checkbox-color-background--error-contrast: var(--color-fire-red-8);
+  --checkbox-color-border--error: var(--color-fire-red);
+  --checkbox-color-gfx--error--hover: var(--color-fire-red);
+  --checkbox-color-background--error--hover: var(--color-fire-red-8);
+  --checkbox-color-border--error--hover: var(--color-fire-red);
+  --checkbox-color-background-indeterminate: var(--color-white);
+  --checkbox-color-gfx-indeterminate: var(--color-sea-green);
+  --checkbox-color-background-indeterminate--active: var(--color-white);
+  --checkbox-color-border-indeterminate--active: var(
+    --color-mint-green-50
+  );
+  --checkbox-color-gfx-indeterminate--active: var(--color-mint-green-50);
+  --checkbox-color-gfx-indeterminate--error: var(--color-fire-red);
+  --checkbox-gfx-height__indeterminate: 0.625rem;
+  --checkbox-gfx-width__indeterminate: 0.625rem;
+  --checkbox-gfx-height__indeterminate--large: 0.875rem;
+  --checkbox-gfx-width__indeterminate--large: 0.875rem;
+}"
+`;
+
+exports[`Checkbox scss should match style dependencies css 1`] = `
 "/*
 * Used for snapshot testing
 *
@@ -485,56 +536,5 @@ html[data-whatinput=keyboard] .dnb-checkbox__status--error .dnb-checkbox__input:
 }
 .dnb-checkbox.dnb-skeleton .dnb-checkbox__input[disabled] ~ .dnb-checkbox__indeterminate {
   background-color: var(--skeleton-color);
-}"
-`;
-
-exports[`Checkbox scss have to match default theme snapshot 1`] = `
-"/*
-* Checkbox theme
-*
-*/
-.dnb-checkbox {
-  --checkbox-color-gfx-on: var(--color-white);
-  --checkbox-color-gfx-off: var(--color-white);
-  --checkbox-color-background-on: var(--color-sea-green);
-  --checkbox-color-background-off: var(--color-white);
-  --checkbox-color-border-on: transparent;
-  --checkbox-color-border-off: var(--color-sea-green);
-  --checkbox-color-gfx--disabled: var(--checkbox-color-gfx-on);
-  --checkbox-color-background-on--disabled: var(--color-sea-green-30);
-  --checkbox-color-background-off--disabled: var(--color-white);
-  --checkbox-color-border-on--disabled: transparent;
-  --checkbox-color-border-off--disabled: var(--color-mint-green-50);
-  --checkbox-color-gfx__indeterminate--disabled: var(
-    --color-mint-green-50
-  );
-  --checkbox-color-background--active: var(--color-mint-green-50);
-  --checkbox-color-border--active: transparent;
-  --checkbox-color-gfx--hover: var(--color-sea-green);
-  --checkbox-color-background--hover: var(--color-mint-green-50);
-  --checkbox-color-border-on--hover: transparent;
-  --checkbox-color-border-off--hover: var(--color-sea-green);
-  --checkbox-color-gfx--focus: var(--color-emerald-green);
-  --checkbox-color-background--focus: var(--color-mint-green-50);
-  --checkbox-color-gfx--error: var(--color-fire-red-8);
-  --checkbox-color-gfx--error-contrast: var(--color-fire-red);
-  --checkbox-color-background-on--error: var(--color-fire-red);
-  --checkbox-color-background--error-contrast: var(--color-fire-red-8);
-  --checkbox-color-border--error: var(--color-fire-red);
-  --checkbox-color-gfx--error--hover: var(--color-fire-red);
-  --checkbox-color-background--error--hover: var(--color-fire-red-8);
-  --checkbox-color-border--error--hover: var(--color-fire-red);
-  --checkbox-color-background-indeterminate: var(--color-white);
-  --checkbox-color-gfx-indeterminate: var(--color-sea-green);
-  --checkbox-color-background-indeterminate--active: var(--color-white);
-  --checkbox-color-border-indeterminate--active: var(
-    --color-mint-green-50
-  );
-  --checkbox-color-gfx-indeterminate--active: var(--color-mint-green-50);
-  --checkbox-color-gfx-indeterminate--error: var(--color-fire-red);
-  --checkbox-gfx-height__indeterminate: 0.625rem;
-  --checkbox-gfx-width__indeterminate: 0.625rem;
-  --checkbox-gfx-height__indeterminate--large: 0.875rem;
-  --checkbox-gfx-width__indeterminate--large: 0.875rem;
 }"
 `;

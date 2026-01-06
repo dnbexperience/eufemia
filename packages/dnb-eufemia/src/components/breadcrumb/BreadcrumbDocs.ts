@@ -80,7 +80,7 @@ export const BreadcrumbProperties: PropertiesTableProps = {
 
 export const BreadcrumbEvents: PropertiesTableProps = {
   onClick: {
-    doc: 'will be called by user click interaction, to handle click event on "Back" for variant `single` and "Back to..." for variant `collapse`.',
+    doc: 'Will be called by user click interaction, to handle click event on "Back" for variant `single` and "Back to..." for variant `collapse`.',
     type: 'function',
     status: 'optional',
   },
@@ -121,7 +121,7 @@ export const BreadcrumbItemProperties: PropertiesTableProps = {
 
 export const BreadcrumbItemEvents: PropertiesTableProps = {
   onClick: {
-    doc: 'will be called by user click interaction.',
+    doc: 'Will be called by user click interaction.',
     type: 'function',
     status: 'optional',
   },

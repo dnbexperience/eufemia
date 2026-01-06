@@ -247,13 +247,13 @@ describe('Logo component', () => {
 })
 
 describe('Logo scss', () => {
-  it('has to match style dependencies css', () => {
+  it('should match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()
   })
 
   it.each(['ui', 'sbanken'])(
-    'has to match theme css for %s',
+    'should match theme css for %s',
     (themeName) => {
       const css = loadScss(
         require.resolve(`../style/themes/dnb-logo-theme-${themeName}.scss`)

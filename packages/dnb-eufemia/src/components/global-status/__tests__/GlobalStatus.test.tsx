@@ -39,7 +39,7 @@ const props: GlobalStatusProps = {
 initializeTestSetup()
 
 describe('GlobalStatus component', () => {
-  it('has to have a text value as defined in the prop', () => {
+  it('should have a text value as defined in the prop', () => {
     render(<GlobalStatus {...props} />)
     expect(
       document
@@ -48,7 +48,7 @@ describe('GlobalStatus component', () => {
     ).toBe(props.text)
   })
 
-  it('has to have list items as defined in the prop', () => {
+  it('should have list items as defined in the prop', () => {
     render(<GlobalStatus {...props} />)
     expect(document.querySelector('.dnb-ul').textContent).toBe(
       props.items.map(({ text }) => text).join('')
@@ -106,7 +106,7 @@ describe('GlobalStatus component', () => {
     ).toHaveAttribute('aria-live', 'off')
   })
 
-  it('has to have correct content after a controller add', () => {
+  it('should have correct content after a controller add', () => {
     const startupText = 'text'
     const newText = 'new text'
 
@@ -154,7 +154,7 @@ describe('GlobalStatus component', () => {
     ).toBe(newText)
   })
 
-  it('has to have correct content after a controller update', () => {
+  it('should have correct content after a controller update', () => {
     const startupText = 'text'
     const startupItems = ['Item1', 'Item2']
     const newText = 'new text'
@@ -213,7 +213,7 @@ describe('GlobalStatus component', () => {
     ).not.toBeInTheDocument()
   })
 
-  it('has to have correct content after a controller remove', async () => {
+  it('should have correct content after a controller remove', async () => {
     const startupText = 'text'
     const startupItems = ['Item1', 'Item2']
     const newText = 'new text'
@@ -302,7 +302,7 @@ describe('GlobalStatus component', () => {
     ).not.toBeInTheDocument()
   })
 
-  it('have to handle delayed interactions', async () => {
+  it('should handle delayed interactions', async () => {
     const FormField1 = () => {
       const [status, setStatus] = React.useState(null)
       return (
@@ -428,7 +428,7 @@ describe('GlobalStatus component', () => {
     expect(document.querySelector('.dnb-global-status__shell')).toBeNull()
   })
 
-  it('have to scroll to GlobalStatus', async () => {
+  it('should scroll to GlobalStatus', async () => {
     const scrollTo = jest.fn()
     jest.spyOn(window, 'scrollTo').mockImplementation(scrollTo)
     const offsetTop = 1000
@@ -460,12 +460,10 @@ describe('GlobalStatus component', () => {
 
     await refresh()
 
-    await waitFor(() => {
-      expect(scrollTo).toHaveBeenCalledTimes(1)
-      expect(scrollTo).toHaveBeenCalledWith({
-        behavior: 'smooth',
-        top: 0,
-      })
+    expect(scrollTo).toHaveBeenCalledTimes(1)
+    expect(scrollTo).toHaveBeenCalledWith({
+      behavior: 'smooth',
+      top: 0,
     })
 
     jest
@@ -488,16 +486,14 @@ describe('GlobalStatus component', () => {
     fireEvent.click(document.querySelector('input#switch'))
     await refresh()
 
-    await waitFor(() => {
-      expect(scrollTo).toHaveBeenCalledTimes(2)
-      expect(scrollTo).toHaveBeenCalledWith({
-        behavior: 'smooth',
-        top: offsetTop,
-      })
+    expect(scrollTo).toHaveBeenCalledTimes(2)
+    expect(scrollTo).toHaveBeenCalledWith({
+      behavior: 'smooth',
+      top: offsetTop,
     })
   })
 
-  it('have to close when esc key is pressed', async () => {
+  it('should close when esc key is pressed', async () => {
     const on_close = jest.fn()
     const on_hide = jest.fn()
 
@@ -545,7 +541,7 @@ describe('GlobalStatus component', () => {
     expect(on_close).toHaveBeenCalledTimes(1)
   })
 
-  it('have to close when escape key name is pressed', async () => {
+  it('should close when escape key name is pressed', async () => {
     const on_close = jest.fn()
     const on_hide = jest.fn()
 
@@ -592,7 +588,7 @@ describe('GlobalStatus component', () => {
     expect(on_close).toHaveBeenCalledTimes(1)
   })
 
-  it('have to have height of auto value', async () => {
+  it('should have height of auto value', async () => {
     const ToggleStatus = () => {
       const [status, setStatus] = React.useState(null)
 
@@ -625,7 +621,7 @@ describe('GlobalStatus component', () => {
     ).toHaveAttribute('style', '--duration: 800ms; height: auto;')
   })
 
-  it('have to be hidden after all messages are removed', async () => {
+  it('should be hidden after all messages are removed', async () => {
     const ToggleStatus = () => {
       const [status, setStatus] = React.useState(null)
 
@@ -772,7 +768,7 @@ describe('GlobalStatus component', () => {
     ).toBe("custom anchor text 'my-label'")
   })
 
-  it('has to have a working auto close', () => {
+  it('should have a working auto close', () => {
     const on_open = jest.fn()
     const on_close = jest.fn()
     const on_hide = jest.fn()
@@ -868,7 +864,7 @@ describe('GlobalStatus component', () => {
     expect(on_hide.mock.calls.length).toBe(1)
   })
 
-  it('has to take account to the show prop', () => {
+  it('should take account to the show prop', () => {
     const { rerender } = render(
       <GlobalStatus
         show={false}
@@ -991,12 +987,12 @@ describe('GlobalStatus component', () => {
 })
 
 describe('GlobalStatus scss', () => {
-  it('has to match style dependencies css', () => {
+  it('should match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()
   })
 
-  it('have to match default theme snapshot', () => {
+  it('should match default theme snapshot', () => {
     const css = loadScss(
       require.resolve('../style/themes/dnb-global-status-theme-ui.scss')
     )

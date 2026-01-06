@@ -10,7 +10,7 @@ import { Table } from '@dnb/eufemia'
 
 ## Description
 
-The Table component is an all inclusive and accessible table based on correct HTML semantics.
+The Table component is an all-inclusive and accessible table based on correct HTML semantics.
 
 ## Relevant links
 
@@ -18,13 +18,13 @@ The Table component is an all inclusive and accessible table based on correct HT
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/table)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/table)
 
-Please use the properties instead of overwriting the styles. And if you miss a feature, get in [touch with us](/contribute/contact/).
+Please use the properties instead of overwriting the styles. If you miss a feature, get in [touch with us](/contribute/contact/).
 
-**NB:** If you have more than three (3) columns, please consider to use `border` property in order to enhance accessibility.
+**NB:** If you have more than three (3) columns, please consider using the `border` property to enhance accessibility.
 
 ### Accessibility
 
-Tables do both serve as a way of navigation for screen readers and other assertive technologies. But they also help to give data an ordered structure.
+Tables both serve as a way of navigation for screen readers and other assistive technologies, and help to give data an ordered structure.
 
 Use the documentation from [MDN – The Table element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/table) for more information on making semantic correct tables, including `scope`, `align`, `colSpan` and `rowSpan`.
 
@@ -68,9 +68,9 @@ render(
 
 You have two options (both have their downsides):
 
-1. use `sticky={true}`. It works even when using a `Table.ScrollView` or a `overflow: hidden;` is used on any parent elements. And it works inside a [Drawer](/uilib/components/drawer) as well. The downside is, that it uses JavaScript and the browser may drop some frames, which results in a potential flickering during scrolling.
+1. use `sticky={true}`. It works even when using a `Table.ScrollView` or when `overflow: hidden;` is used on any parent elements. It also works inside a [Drawer](/uilib/components/drawer). The downside is that it uses JavaScript and the browser may drop some frames, which results in potential flickering during scrolling.
 
-2. use `sticky="css-position"` for using the CSS `position: sticky;` method. It is super smooth. But then you cannot use a `overflow: hidden;` or `overflow: auto;` on any parent elements. This is a know issue happening on every modern browser.
+2. use `sticky="css-position"` for using the CSS `position: sticky;` method. It is super smooth. But then you cannot use a `overflow: hidden;` or `overflow: auto;` on any parent elements. This is a known issue happening on every modern browser.
 
 Method no. 2 should be used when a `max-height` is set to the wrapping `Table.ScrollView` e.g.:
 
@@ -88,7 +88,7 @@ Optionally, make use of the following React Hook to handle the `Th.SortButton` d
 
 It can be used as a "controller" for your own sorting logic of your data.
 
-By default, it will cycle trough three stages `['asc', 'desc', 'off']`.
+By default, it will cycle through three stages `['asc', 'desc', 'off']`.
 
 <Details>
   <Summary>How to use the useHandleSortState React Hook.</Summary>

@@ -3,7 +3,7 @@ import classnames from 'classnames'
 import { StatusIcon } from '../icons'
 import P from '../../../elements/P'
 
-interface Translations {
+export interface Translations {
   text_blocked: string
   text_expired: string
   text_not_active: string

@@ -20,10 +20,10 @@ The Upload component should be used in scenarios where the user has to upload an
 
 ## How to use the Upload component
 
-- Files selected by the user should be uploaded immediately (temporary location).
-- The user should be able to remove them (files) during the session.
-- The Upload component connects to the [GlobalStatus](/uilib/components/global-status) and displays file error messages there as well.
-- Validation messages coming from the "backend" should be displayed for each file via the `useUpload` hook. See [example](/uilib/components/upload/#upload-error-message) below.
+- Files selected by the user should be uploaded immediately to a temporary location.
+- The user should be able to remove files during the session.
+- The Upload component connects to the [GlobalStatus](/uilib/components/global-status) and displays file error messages there.
+- Validation messages from the backend should be displayed for each file via the `useUpload` hook. See the [example](/uilib/components/upload/#upload-error-message) below.
 - The `useUpload` hook can be placed in any location in your application, and does not need to be where the `Upload` component is used.
 
 ```jsx
@@ -50,20 +50,20 @@ function YourComponent() {
 
 Exposes the following functionality:
 
-- `files`: the given files of the Upload component.
-- `setFiles`: a function to set the files of the Upload component.
-- `clearFiles`: a function to clear the files of the Upload component. It can be useful when wanting to programatically clear the files of the Upload component at a given time.
+- `files`: The given files of the Upload component.
+- `setFiles`: A function to set the files of the Upload component.
+- `clearFiles`: A function to clear the files of the Upload component. It can be useful when you want to programmatically clear the files of the Upload component at a given time.
 
 ## Variant compact
 
-The `compact` variant displays less information than the `normal` variant, and aims to only display the most necessary for the user to be able to upload a file. Which is the:
+The `compact` variant displays less information than the `normal` variant and aims to display only what's necessary for the user to upload a file:
 
 - Upload button
 - List of uploaded files
 - `title` as label (can be removed by providing the value `false`)
 - `text` as sublabel (can be removed by providing the value `false`)
 
-It does not display info about:
+It does not display information about:
 
 - `filesAmountLimit`
 - `fileMaxSize`
@@ -71,17 +71,17 @@ It does not display info about:
 
 ## JPG vs JPEG
 
-When `jpg` is defined (most commonly used), then the component will also accept `jpeg` files.
+When `jpg` is defined (most commonly used), the component will also accept `jpeg` files.
 
 ## Backend integration
 
-The "backend" receiving the files is decoupled and can be any existing or new system.
+The backend receiving the files is decoupled and can be any existing or new system.
 
 ## Limit the amount of files
 
 By default, the Upload component accepts multiple files. You can use the property `filesAmountLimit={1}` to make the component accept only one file.
 
-## Page wide drop support
+## Page-wide drop support
 
 Once the Upload component mounts, it also adds support for dropping files to the entire browser body.
 
@@ -95,6 +95,4 @@ In some situations, it's more suitable to have each link download the file inste
 
 ## Prevents uploading duplicate files
 
-By default, the Upload component prevents uploading duplicate files.
-It determines if a file is duplicate if the file's `name`, `size` (if existing), and `lastModified` (if existing) values are equal.
-You can use the property `allowDuplicates={true}` to make the component allow duplicate files.
+By default, the Upload component prevents uploading duplicate files. It determines if a file is a duplicate if the file's `name`, `size` (if existing), and `lastModified` (if existing) values are equal. You can use the property `allowDuplicates={true}` to allow duplicate files.

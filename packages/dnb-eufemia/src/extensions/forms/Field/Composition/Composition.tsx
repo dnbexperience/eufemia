@@ -3,10 +3,12 @@ import FieldBlock, { Props as FieldBlockProps } from '../../FieldBlock'
 
 export type Props = Pick<
   FieldBlockProps,
+  | 'id'
   | 'label'
   | 'labelDescription'
   | 'labelDescriptionInline'
   | 'labelSrOnly'
+  | 'labelSize'
   | 'width'
   | 'align'
   | 'contentWidth'

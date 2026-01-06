@@ -14,7 +14,7 @@ import { NumberFormat } from '@dnb/eufemia'
 
 ## Description
 
-A ready-to-use DNB number formatter. Use it wherever you have to display a number, a currency value, phone number, etc.
+A ready-to-use DNB number formatter. Use it wherever you have to display a number, a currency value, a phone number, etc.
 
 ## Relevant links
 
@@ -22,10 +22,10 @@ A ready-to-use DNB number formatter. Use it wherever you have to display a numbe
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/number-format)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/number-format)
 
-Good reasons for why we have this is to:
+Good reasons for why we have this:
 
-- uniform the formation of numbers for all DNB applications.
-- and make numbers accessible to screen readers.
+- To standardize the formatting of numbers for all DNB applications.
+- To make numbers accessible to screen readers.
 
 ### Supported formats
 
@@ -55,7 +55,7 @@ When the currency format is set to `currency_display="name"`, the currency will 
 
 #### Not available
 
-When a number should be displayed, but for some reason is not available to the frontend application, the NumberFormat component will display a single **em dash** (–) and a screen reader will get a text (Ikke tilgjengelig / Not available).
+When a number should be displayed but is not available to the frontend application, the NumberFormat component will display a single **em dash** (–), and a screen reader will receive the text "Ikke tilgjengelig" / "Not available".
 
 Example: <NumberFormat value="invalid" currency />
 
@@ -65,9 +65,9 @@ If the value has more decimal places than specified by the `decimals={2}` proper
 
 Here are the available options for the `rounding` property:
 
-- `omit` truncate decimals without rounding.
-- `half-even` will round to the nearest even number.
-- `half-up` (default) will round up if the fractional part is 0.5 or greater, the number is rounded up. If the fractional part is less than 0.5, the number is rounded down.
+- `omit`: Truncate decimals without rounding.
+- `half-even`: Round to the nearest even number.
+- `half-up` (default): Round up if the fractional part is 0.5 or greater; otherwise, round down.
 
 ## Provider
 
@@ -87,7 +87,7 @@ render(
 
 ## NumberFormat Hook
 
-**Heads up:** If you do so, keep in mind, you will have to ensure all the accessibility enhancements the component offers. For that you can use the `aria` field:
+**Heads up:** If you do so, keep in mind that you will have to ensure all the accessibility enhancements the component offers. For that, you can use the `aria` field:
 
 ```jsx
 import Provider from '@dnb/eufemia/shared/Provider'
@@ -119,7 +119,7 @@ render(
 
 You can use the `format` method without using a React Component or React Hook.
 
-**Heads up:** If you do so, keep in mind, you will have to ensure all the accessibility enhancements the component offers. For that you can use the `aria` field:
+**Heads up:** If you do so, keep in mind that you will have to ensure all the accessibility enhancements the component offers. For that, you can use the `aria` field:
 
 ```ts
 import { format } from '@dnb/eufemia/components/number-format/NumberUtils'
@@ -150,15 +150,15 @@ const string = cleanNumber('prefix -12.345,678 suffix') // returns -12345.678
 
 ### Element and style
 
-The number component is style-independent, so it has no visual styles. By default, a `<span>` is used (with [speak-as: numbers](https://developer.mozilla.org/en-US/docs/Web/CSS/@counter-style/speak-as), even the support is very low). But you can easily change the element type by providing something else to `element="div"` property.
+The number component is style-independent, so it has no visual styles. By default, a `<span>` is used (with [speak-as: numbers](https://developer.mozilla.org/en-US/docs/Web/CSS/@counter-style/speak-as), even though the support is very low). However, you can easily change the element type by providing a different value to the `element="div"` property.
 
 ## Accessibility
 
-**NVDA** has also [issues](https://github.com/nvaccess/nvda/issues/8874) on reconciling the `lang` attribute, this makes it hard to have a solid and good solution for reading numbers. VoiceOver on desktop makes a perfect job there.
+**NVDA** also has [issues](https://github.com/nvaccess/nvda/issues/8874) reconciling the `lang` attribute, which makes it hard to have a solid and good solution for reading numbers. VoiceOver on desktop does a perfect job with this.
 
 **VoiceOver** on mobile devices (iOS) only supports numbers read out properly to a maximum of `99,999.00`. On amounts above this value, VO reads numbers digit by digit.
 
-To enhance the **Copy & Paste** experience of copying numbers into other applications (Excel), you may use the `clean_copy_value` property – it will then provide a second number, without thousand separators and to have a comma/dot (depending on the locale) as the decimal separator. This number is not visible, but will be used when selecting & copying the whole number on the first click to the system clipboard.
+To enhance the **Copy & Paste** experience of copying numbers into other applications (Excel), you may use the `clean_copy_value` property. It will then provide a second number without thousand separators and with a comma/dot (depending on the locale) as the decimal separator. This number is not visible but will be used when selecting and copying the whole number on the first click to the system clipboard.
 
 You can enable this feature on all your NumberFormat components by using the `Provider`:
 
@@ -174,13 +174,13 @@ render(
 
 ### More details
 
-> Screen readers require numbers to be formatted properly in order to be read as numbers. The **NumberFormat** component will help to achieve this requirement.
+> Screen readers require numbers to be formatted properly in order to be read as numbers. The **NumberFormat** component helps achieve this requirement.
 
-So, numbers are formatted differently for screen readers than the visual number. And numbers also get assigned a `lang` attribute, so the screen reader knows what language (locale) should be used on the particular number, even if the text around does not correspond to the same language.
+Numbers are formatted differently for screen readers than the visual number. Numbers also get assigned a `lang` attribute so the screen reader knows what language (locale) should be used for the particular number, even if the surrounding text does not correspond to the same language.
 
 ### Sources
 
-Eufemia is basing their number formats on both the [Norwegian authority](https://lovdata.no/forskrift/2004-02-16-426/§16) and [Språkradet](https://www.sprakradet.no/sprakhjelp/Skriveregler/Dato), and currency is based on [guidelines](https://www.sprakradet.no/svardatabase/sporsmal-og-svar/kronebelop-rekkjefolgje-komma-og-strek/) from Språkrådet. Wikipedia has more info on world wide [decimal separator](https://en.wikipedia.org/wiki/Decimal_separator) usage.
+Eufemia bases its number formats on both the [Norwegian authority](https://lovdata.no/forskrift/2004-02-16-426/§16) and [Språkradet](https://www.sprakradet.no/sprakhjelp/Skriveregler/Dato), and currency is based on [guidelines](https://www.sprakradet.no/svardatabase/sporsmal-og-svar/kronebelop-rekkjefolgje-komma-og-strek/) from Språkrådet. Wikipedia has more info on worldwide [decimal separator](https://en.wikipedia.org/wiki/Decimal_separator) usage.
 
 For international number formatting we use these sources:
 
@@ -198,11 +198,11 @@ For international number formatting we use these sources:
 
 **Accessibility:** WCAG [1.3.1 Info and Relationships](https://www.w3.org/WAI/WCAG21/Understanding/info-and-relationships.html) and [3.1.1 Language of Page](https://www.w3.org/WAI/WCAG21/Understanding/language-of-page.html) require that content can be correctly interpreted by assistive technologies.
 
-When using spaces as thousand separators, screen readers misinterpret numbers in English – for example: `45 804` → read as “45” and “804” instead of “forty-five thousand eight hundred and four.”
+When using spaces as thousand separators, screen readers misinterpret numbers in English. For example: `45 804` is read as "45" and "804" instead of "forty-five thousand eight hundred and four."
 
 ## Node.js and SSR usage
 
-If you run the component or `format` function in [Node.js](https://nodejs.org) you have to include [ICU](https://nodejs.org/api/intl.html) data in order to display other locales than en-GB. You can do this by:
+If you run the component or `format` function in [Node.js](https://nodejs.org), you have to include [ICU](https://nodejs.org/api/intl.html) data in order to display other locales than en-GB. You can do this by:
 
 - installing `npm i full-icu`
 - and call node (or jest) with an environment variable pointing to the package: `NODE_ICU_DATA=./node_modules/full-icu node ...`

@@ -334,6 +334,7 @@ export const DynamicPathValue = () => {
           >
             <Field.Number itemPath="/myObject" label="Item no. {itemNo}" />
           </Iterate.Array>
+          <Tools.Log />
         </Flex.Stack>
       </Form.Handler>
     </ComponentBox>

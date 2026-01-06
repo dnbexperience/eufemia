@@ -8,7 +8,6 @@ import nbNO from '../../../constants/locales/nb-NO'
 import enGB from '../../../constants/locales/en-GB'
 import FormHandler from '../../../Form/Handler/Handler'
 
-const noDate = nbNO['nb-NO'].Date
 const no = nbNO['nb-NO'].Expiry
 const en = enGB['en-GB'].Expiry
 
@@ -599,7 +598,7 @@ describe('Field.Expiry', () => {
 
       expect(inputWrapper.classList).toContain('dnb-input__status--error')
       expect(formStatusText).toBeInTheDocument()
-      expect(formStatusText).toHaveTextContent(noDate.errorRequired)
+      expect(formStatusText).toHaveTextContent(no.errorRequired)
 
       await userEvent.type(input, '12')
 
@@ -744,7 +743,7 @@ describe('Field.Expiry', () => {
           document.querySelector('.dnb-form-status--error')
         ).toBeInTheDocument()
         expect(document.querySelector('[role="alert"]')).toHaveTextContent(
-          noDate.errorRequired
+          no.errorRequired
         )
       })
     })
@@ -954,6 +953,26 @@ describe('Field.Expiry', () => {
       expect(month).toHaveAttribute('aria-invalid', 'true')
       expect(year).toHaveAttribute('aria-invalid', 'true')
     })
+  })
+
+  it('renders info', () => {
+    render(<Field.Expiry info="Info message" />)
+
+    const element = document.querySelector('.dnb-form-status')
+    expect(element).toHaveTextContent('Info message')
+
+    const input = document.querySelector('.dnb-input')
+    expect(input).not.toHaveClass('dnb-input__status--error')
+  })
+
+  it('renders warning', () => {
+    render(<Field.Expiry warning="Warning message" />)
+
+    const element = document.querySelector('.dnb-form-status')
+    expect(element).toHaveTextContent('Warning message')
+
+    const input = document.querySelector('.dnb-input')
+    expect(input).not.toHaveClass('dnb-input__status--error')
   })
 
   it('renders error', () => {

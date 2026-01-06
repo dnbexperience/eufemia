@@ -1,9 +1,15 @@
 import React, { createContext } from 'react'
-import { renderHook, act, render, fireEvent } from '@testing-library/react'
+import {
+  renderHook,
+  act,
+  render,
+  fireEvent,
+  waitFor,
+} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { makeUniqueId } from '../../../../../shared/component-helper'
 import { Button } from '../../../../../components'
-import { DataContext, Field, Form, Wizard } from '../../..'
+import { DataContext, Field, Form, Wizard, Iterate } from '../../..'
 import { FilterData } from '../../../DataContext/Context'
 import Provider from '../../../DataContext/Provider'
 import useData from '../useData'
@@ -912,6 +918,195 @@ describe('Form.useData', () => {
           otherOwners: [],
         },
       })
+    })
+
+    it('should reduce array size when updating with a smaller array', () => {
+      type MyData = {
+        beneficialOwners: {
+          addedOwners: Array<{
+            id: number
+            name: string
+          }>
+        }
+      }
+
+      const { result } = renderHook(() => useData<MyData>(identifier))
+
+      // Initialize with 3 items
+      act(() => {
+        result.current.update('/beneficialOwners/addedOwners', [
+          { id: 1, name: 'Owner 1' },
+          { id: 2, name: 'Owner 2' },
+          { id: 3, name: 'Owner 3' },
+        ])
+      })
+
+      expect(result.current.data).toEqual({
+        beneficialOwners: {
+          addedOwners: [
+            { id: 1, name: 'Owner 1' },
+            { id: 2, name: 'Owner 2' },
+            { id: 3, name: 'Owner 3' },
+          ],
+        },
+      })
+      expect(
+        result.current.data?.beneficialOwners?.addedOwners?.length
+      ).toBe(3)
+
+      // Reduce to 1 item
+      act(() => {
+        result.current.update('/beneficialOwners/addedOwners', [
+          { id: 1, name: 'Owner 1' },
+        ])
+      })
+
+      // The array should have 1 item, not 3
+      expect(
+        result.current.data?.beneficialOwners?.addedOwners?.length
+      ).toBe(1)
+      expect(result.current.data).toEqual({
+        beneficialOwners: {
+          addedOwners: [{ id: 1, name: 'Owner 1' }],
+        },
+      })
+    })
+
+    it('should increase array size correctly', () => {
+      type MyData = {
+        beneficialOwners: {
+          addedOwners: Array<{
+            id: number
+            name: string
+          }>
+        }
+      }
+
+      const { result } = renderHook(() => useData<MyData>(identifier))
+
+      // Initialize with 1 item
+      act(() => {
+        result.current.update('/beneficialOwners/addedOwners', [
+          { id: 1, name: 'Owner 1' },
+        ])
+      })
+
+      expect(
+        result.current.data?.beneficialOwners?.addedOwners?.length
+      ).toBe(1)
+
+      // Increase to 3 items
+      act(() => {
+        result.current.update('/beneficialOwners/addedOwners', [
+          { id: 1, name: 'Owner 1' },
+          { id: 2, name: 'Owner 2' },
+          { id: 3, name: 'Owner 3' },
+        ])
+      })
+
+      // The array should have 3 items
+      expect(
+        result.current.data?.beneficialOwners?.addedOwners?.length
+      ).toBe(3)
+      expect(result.current.data).toEqual({
+        beneficialOwners: {
+          addedOwners: [
+            { id: 1, name: 'Owner 1' },
+            { id: 2, name: 'Owner 2' },
+            { id: 3, name: 'Owner 3' },
+          ],
+        },
+      })
+    })
+
+    it('should reduce array size when Iterate.Array defaultValue is used', async () => {
+      type MyData = {
+        beneficialOwners: {
+          addedOwners: Array<{
+            name: string
+          }>
+        }
+      }
+
+      const { result } = renderHook(() => useData<MyData>(identifier), {
+        wrapper: ({ children }) => (
+          <>
+            <Form.Handler id={identifier}>
+              <Iterate.Array
+                path="/beneficialOwners/addedOwners"
+                defaultValue={[
+                  { name: 'Owner 1' },
+                  { name: 'Owner 2' },
+                  { name: 'Owner 3' },
+                ]}
+                animate={false}
+              >
+                <Field.String itemPath="/name" defaultValue="Owner" />
+              </Iterate.Array>
+            </Form.Handler>
+
+            {children}
+          </>
+        ),
+      })
+
+      const [first, second, third] = Array.from(
+        document.querySelectorAll('input')
+      )
+
+      await userEvent.type(first, 'Owner 1')
+      await userEvent.type(second, 'Owner 2')
+      await userEvent.type(third, 'Owner 3')
+
+      await waitFor(() => {
+        expect(
+          result.current.data?.beneficialOwners?.addedOwners?.length
+        ).toBe(3)
+      })
+
+      act(() => {
+        result.current.update('/beneficialOwners/addedOwners', [
+          { name: 'Owner 1' },
+        ])
+      })
+
+      await waitFor(() => {
+        expect(
+          result.current.data?.beneficialOwners?.addedOwners?.length
+        ).toBe(1)
+      })
+
+      expect(result.current.data).toEqual({
+        beneficialOwners: {
+          addedOwners: [{ name: 'Owner 1' }],
+        },
+      })
+      expect(document.querySelectorAll('input').length).toBe(1)
+
+      act(() => {
+        result.current.update('/beneficialOwners/addedOwners', [
+          { name: 'Eier 1' },
+          { name: 'Eier 2' },
+          { name: 'Eier 3' },
+        ])
+      })
+
+      await waitFor(() => {
+        expect(
+          result.current.data?.beneficialOwners?.addedOwners?.length
+        ).toBe(3)
+      })
+
+      expect(result.current.data).toEqual({
+        beneficialOwners: {
+          addedOwners: [
+            { name: 'Eier 1' },
+            { name: 'Eier 2' },
+            { name: 'Eier 3' },
+          ],
+        },
+      })
+      expect(document.querySelectorAll('input').length).toBe(3)
     })
   })
 

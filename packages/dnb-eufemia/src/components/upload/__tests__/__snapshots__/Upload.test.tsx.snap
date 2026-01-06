@@ -1,6 +1,25 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`Upload scss has to match style dependencies css 1`] = `
+exports[`Upload scss should match default theme snapshot 1`] = `
+"/*
+ * Upload theme
+ *
+ */
+.dnb-upload {
+  --upload-background: var(--color-white);
+  --upload-background--active: var(--color-pistachio);
+  --upload-border: var(--color-sea-green);
+  --upload-border--active: var(--color-emerald-green);
+  --upload-list-border: var(--color-black-8);
+  --upload-icon--default: var(--color-black-80);
+  --upload-icon--warning: var(--color-fire-red);
+  --upload-highlight: var(--color-sand-yellow);
+  --upload-text--primary: var(--color-black-55);
+  --upload-text--secondary: var(--color-black-55);
+}"
+`;
+
+exports[`Upload scss should match style dependencies css 1`] = `
 "/*
 * Used for snapshot testing
 *
@@ -794,24 +813,5 @@ button .dnb-form-status__text {
 }
 .dnb-upload--compact .dnb-help-button__content .dnb-section {
   margin-bottom: 1rem;
-}"
-`;
-
-exports[`Upload scss have to match default theme snapshot 1`] = `
-"/*
- * Upload theme
- *
- */
-.dnb-upload {
-  --upload-background: var(--color-white);
-  --upload-background--active: var(--color-pistachio);
-  --upload-border: var(--color-sea-green);
-  --upload-border--active: var(--color-emerald-green);
-  --upload-list-border: var(--color-black-8);
-  --upload-icon--default: var(--color-black-80);
-  --upload-icon--warning: var(--color-fire-red);
-  --upload-highlight: var(--color-sand-yellow);
-  --upload-text--primary: var(--color-black-55);
-  --upload-text--secondary: var(--color-black-55);
 }"
 `;

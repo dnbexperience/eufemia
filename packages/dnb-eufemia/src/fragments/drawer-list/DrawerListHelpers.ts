@@ -420,7 +420,7 @@ export const getCurrentData = (item_index, data) => {
     data = normalizeData(data)
   }
 
-  data = (data && data.find(({ __id }) => __id == item_index)) || null
+  data = (data && data.find(({ __id }) => __id === item_index)) || null
 
   if (data && data.__isTransformed) {
     return data.content

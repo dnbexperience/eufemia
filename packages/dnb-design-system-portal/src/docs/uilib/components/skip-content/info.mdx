@@ -16,7 +16,7 @@ import { SkipContent } from '@dnb/eufemia'
 
 ## Description
 
-`SkipContent` gives users – using their keyboard for navigation – the option to skip over content which contains a large amount of interactive elements.
+`SkipContent` gives users – using their keyboard for navigation – the option to skip over content that contains a large amount of interactive elements.
 
 ## Relevant links
 
@@ -30,12 +30,12 @@ Typical when an action button, such as a save button, is placed below the conten
 
 **What are interactive elements?**
 
-- Text links/Anchors
+- Text links/anchors
 - Buttons
 - Inputs and other form elements
-- Basically every focusable element
+- Basically, every focusable element
 
-**What is considered as large contents?**
+**What is considered large content?**
 
 - Tables with interactive elements
 - Lists with interactive elements
@@ -44,10 +44,10 @@ Typical when an action button, such as a save button, is placed below the conten
 
 **How does it work?**
 
-1. An initially hidden button will reveal when `tab` key is used.
-2. The user can then press this button, or continue tabbing when desired.
+1. An initially hidden button will reveal when the `tab` key is used.
+2. The user can then press this button or continue tabbing when desired.
 3. When the user decides to continue using the `tab` key, the button will disappear again.
-4. When the button gets pressed, the focus will be set to another defined HTML class selector and the browser will scroll to the element.
+4. When the button is pressed, the focus will be set to another defined HTML class selector and the browser will scroll to the element.
 
 **Good description**
 
@@ -67,7 +67,7 @@ Ensure you put a header or a section before the `SkipContent` component. It shou
 
 ### Return button
 
-Optionally, you should consider to include the `SkipContent.Return` utility as well. It lets the user jump back to where they came from (before the large content). This button is only focusable when the enter action by the skip button was done.
+Optionally, you should consider including the `SkipContent.Return` utility as well. It lets the user jump back to where they came from (before the large content). This button is only focusable when the enter action via the skip button was performed.
 
 ### Screen readers and landmarks
 

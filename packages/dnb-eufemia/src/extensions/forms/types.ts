@@ -69,6 +69,21 @@ export type Validator<Value, ErrorMessages = DefaultErrorMessages> = (
   value: Value,
   additionalArgs: ReceiveAdditionalEventArgs<Value, ErrorMessages>
 ) => ValidatorReturnAsync<Value>
+
+export type ValidatorWithCustomValidators<
+  Value,
+  FieldValidators extends Record<string, Validator<Value>>,
+  ErrorMessages extends DefaultErrorMessages = DefaultErrorMessages,
+> = (
+  value: Value,
+  additionalArgs: Omit<
+    ReceiveAdditionalEventArgs<Value, ErrorMessages>,
+    'validators'
+  > & {
+    validators: FieldValidators
+  }
+) => ValidatorReturnAsync<Value>
+
 export type ReceiveAdditionalEventArgs<
   Value,
   ErrorMessages = DefaultErrorMessages,
@@ -112,7 +127,7 @@ export type ReceiveAdditionalEventArgs<
   /**
    * Returns the validators from the { exportValidators } object.
    */
-  validators: Record<string, Validator<Value>> | undefined
+  validators: Record<string, Validator<Value>>
 
   /**
    * The props passed to the Field component.

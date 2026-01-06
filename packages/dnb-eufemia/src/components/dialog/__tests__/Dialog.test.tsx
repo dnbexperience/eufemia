@@ -196,7 +196,7 @@ describe('Dialog', () => {
     )
   })
 
-  it('has to have correct role', () => {
+  it('should have correct role', () => {
     const { rerender } = render(
       <Dialog {...props} openState={true}>
         <button>button</button>
@@ -716,7 +716,7 @@ describe('Dialog aria', () => {
 })
 
 describe('Dialog scss', () => {
-  it('has to match style dependencies css', () => {
+  it('should match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()
   })

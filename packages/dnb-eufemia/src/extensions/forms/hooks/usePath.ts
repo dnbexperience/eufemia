@@ -18,7 +18,11 @@ export default function usePath(props: Props = {}) {
   const { path: iteratePathProp, index: iterateElementIndex } =
     useContext(IterateItemContext) ?? {}
 
-  if (pathProp && !pathProp.startsWith('/')) {
+  if (
+    pathProp &&
+    !pathProp.startsWith('/') &&
+    !pathProp.startsWith('//')
+  ) {
     throw new Error(`path="${pathProp}" must start with a slash`)
   }
   if (itemPathProp && !itemPathProp.startsWith('/')) {
@@ -33,6 +37,10 @@ export default function usePath(props: Props = {}) {
 
   const makeSectionPath = useCallback(
     (path: Path) => {
+      // If path starts with //, it's a root-relative path, so don't prepend section path
+      if (path.startsWith('//')) {
+        return path.substring(1) as Path // Remove one slash, keep the leading /
+      }
       if (omitSectionPath) {
         return path
       }
@@ -78,6 +86,11 @@ export default function usePath(props: Props = {}) {
 
   const makePath = useCallback(
     (path: Path) => {
+      // If path starts with //, it's a root-relative path
+      if (path.startsWith('//')) {
+        return path.substring(1) as Path // Remove one slash, keep the leading /
+      }
+
       if (itemPathProp) {
         return itemPath
       }
@@ -93,10 +106,17 @@ export default function usePath(props: Props = {}) {
   )
 
   const path = useMemo(() => {
-    return makePath(pathProp)
-  }, [makePath, pathProp])
+    if (pathProp) {
+      return makePath(pathProp)
+    }
+    if (itemPath) {
+      return itemPath
+    }
+    return undefined
+  }, [itemPath, makePath, pathProp])
 
-  const identifier = path ?? id
+  // When itemPath exists, use it as identifier; otherwise use path or id
+  const identifier = itemPath ?? path ?? id
   return {
     identifier,
     path,

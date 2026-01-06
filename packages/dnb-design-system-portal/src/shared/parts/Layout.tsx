@@ -74,7 +74,7 @@ function Layout(props: LayoutProps) {
       elem.focus()
       elem.removeAttribute('tabindex') // don't keep tabindex around, Chrome fucks up the selection / focus feature
     } catch (e) {
-      console.warn(e)
+      console.error('Failed to set focus on skip link target:', e)
     }
   }
 

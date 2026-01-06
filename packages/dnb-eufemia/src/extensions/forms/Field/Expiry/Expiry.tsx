@@ -1,5 +1,9 @@
 import React, { useCallback, useMemo } from 'react'
-import { FieldProps } from '../../types'
+import type {
+  FieldProps,
+  Validator,
+  ValidatorWithCustomValidators,
+} from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import { useFieldProps } from '../../hooks'
 import classnames from 'classnames'
@@ -16,6 +20,13 @@ import { Translation } from '../../../../shared/Context'
 
 type ExpiryValue = MultiInputMaskValue<'month' | 'year'>
 
+export type ExpiryValidator = ValidatorWithCustomValidators<
+  string,
+  {
+    expiryValidator: Validator<string>
+  }
+>
+
 export type ExpiryProps = Omit<
   FieldProps<string, undefined | ''>,
   'width' | 'contentWidth'
@@ -27,10 +38,7 @@ export type ExpiryProps = Omit<
 }
 
 function Expiry(props: ExpiryProps = {}) {
-  const {
-    Date: { errorRequired },
-    Expiry: { label: expiryLabel },
-  } = useTranslation()
+  const { label: expiryLabel, errorRequired } = useTranslation().Expiry
 
   const {
     DatePicker: {
@@ -221,7 +229,7 @@ function Expiry(props: ExpiryProps = {}) {
         stretch
         id={`${id}-input`}
         values={expiry}
-        status={status}
+        status={status === 'error'}
         statusState={disabled ? 'disabled' : undefined}
         disabled={disabled}
         size={size}

@@ -11,10 +11,10 @@ render(<Field.OrganizationNumber />)
 
 ## Description
 
-`Field.OrganizationNumber` is a wrapper component for the [input of strings](/uilib/extensions/forms/base-fields/String), with user experience tailored for organization number values.
+`Field.OrganizationNumber` is a wrapper component for [string input](/uilib/extensions/forms/base-fields/String), with user experience tailored for organization number values.
 
-This input expects a 9-digit number as its value. This is because Norwegian organization numbers are 9-digits long, based on info from [Brønnøysundregisteret](https://www.brreg.no/en/about-us-2/our-registers/about-the-central-coordinating-register-for-legal-entities-ccr/about-the-organisation-number/?nocache=1701776533136)
-It validates input for Norwegian organization numbers as described by [Brønnøysundregistrene](https://www.brreg.no/om-oss/registrene-vare/om-enhetsregisteret/organisasjonsnummeret/), and in addition we validate `000 000 000` as invalid.
+This input expects a 9-digit number as its value. This is because Norwegian organization numbers are 9 digits long, based on information from [Brønnøysundregisteret](https://www.brreg.no/en/about-us-2/our-registers/about-the-central-coordinating-register-for-legal-entities-ccr/about-the-organisation-number/?nocache=1701776533136).
+It validates input for Norwegian organization numbers as described by [Brønnøysundregistrene](https://www.brreg.no/om-oss/registrene-vare/om-enhetsregisteret/organisasjonsnummeret/), and in addition, we validate `000 000 000` as invalid.
 The validation happens on blur, internally using the `onBlurValidator` [property](/uilib/extensions/forms/feature-fields/OrganizationNumber/properties/#field-specific-properties).
 
 There is a corresponding [Value.OrganizationNumber](/uilib/extensions/forms/Value/OrganizationNumber) component.
@@ -28,5 +28,31 @@ There is a corresponding [Value.OrganizationNumber](/uilib/extensions/forms/Valu
 
 ### Internal validators exposed
 
-`Field.OrganizationNumber` expose the `organizationNumberValidator` validator through its `onChangeValidator` and `onBlurValidator` property, take a look at [this demo](/uilib/extensions/forms/feature-fields/OrganizationNumber/demos/#extend-validation-with-custom-validation-function).
-The `organizationNumberValidator` validator, validates if the organization number provided is a [Norwegian organization number](https://www.brreg.no/om-oss/registrene-vare/om-enhetsregisteret/organisasjonsnummeret/) or not.
+`Field.OrganizationNumber` exposes the `organizationNumberValidator` validator through its `onChangeValidator` and `onBlurValidator` properties. Take a look at [this demo](/uilib/extensions/forms/feature-fields/OrganizationNumber/demos/#extend-validation-with-custom-validation-function).
+The `organizationNumberValidator` validator validates whether the organization number provided is a [Norwegian organization number](https://www.brreg.no/om-oss/registrene-vare/om-enhetsregisteret/organisasjonsnummeret/) or not.
+
+### Extending validators
+
+Return both the exported validator and a custom rule to extend validation safely. Import `OrganizationNumberValidator` to type your validator and the `validators` object.
+
+```tsx
+import { Field } from '@dnb/eufemia/extensions/forms'
+import type { OrganizationNumberValidator } from '@dnb/eufemia/extensions/forms/Field/OrganizationNumber'
+
+const myValidator: OrganizationNumberValidator = (
+  value,
+  { validators },
+) => {
+  const { organizationNumberValidator } = validators ?? {}
+  const oddChecker = (value: string) => {
+    if (value && parseInt(value.slice(-1), 10) % 2 === 0) {
+      return new Error('Organization number must end with an odd digit')
+    }
+  }
+
+  // Reuse the built-in validator and add an odd-digit rule.
+  return [organizationNumberValidator, oddChecker]
+}
+
+render(<Field.OrganizationNumber onBlurValidator={myValidator} />)
+```

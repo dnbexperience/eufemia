@@ -2,12 +2,12 @@ import { PropertiesTableProps } from '../../shared/types'
 
 export const TagEvents: PropertiesTableProps = {
   onClick: {
-    doc: 'will be called on a click event. Returns an object with the native event: `{ event }`.',
+    doc: 'Will be called on a click event. Returns an object with the native event: `{ event }`.',
     type: 'function',
     status: 'optional',
   },
   onDelete: {
-    doc: 'will be called on a click event. Returns an object with the native event: `{ event }`. This property does not support icon and will be ignored if `onClick`is defined.',
+    doc: 'Will be called on a click event. Returns an object with the native event: `{ event }`. This property does not support icon and will be ignored if `onClick`is defined.',
     type: 'function',
     status: 'optional',
   },

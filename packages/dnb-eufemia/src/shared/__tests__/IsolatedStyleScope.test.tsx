@@ -332,7 +332,7 @@ describe('useIsolatedStyleScope', () => {
     expect(scopeElement).not.toBe(null) // The last value is still the element
   })
 
-  it('returns the the outer element when "outer-scope" is given to the hook', () => {
+  it('returns the outer element when "outer-scope" is given to the hook', () => {
     let outerElement = null
     let innerElement = null
 

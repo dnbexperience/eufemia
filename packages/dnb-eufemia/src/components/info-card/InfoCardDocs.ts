@@ -62,7 +62,7 @@ export const InfoCardProperties: PropertiesTableProps = {
     status: 'optional',
   },
   closeButtonAttributes: {
-    doc: 'define any valid Eufemia [Button properties](/uilib/components/button/properties) or HTML attribute inside an object.',
+    doc: 'Define any valid Eufemia [Button properties](/uilib/components/button/properties) or HTML attribute inside an object.',
     type: 'ButtonProps',
     status: 'optional',
   },
@@ -72,7 +72,7 @@ export const InfoCardProperties: PropertiesTableProps = {
     status: 'optional',
   },
   acceptButtonAttributes: {
-    doc: 'define any valid Eufemia [Button properties](/uilib/components/button/properties) or HTML attribute inside an object.',
+    doc: 'Define any valid Eufemia [Button properties](/uilib/components/button/properties) or HTML attribute inside an object.',
     type: 'ButtonProps',
     status: 'optional',
   },
@@ -90,12 +90,12 @@ export const InfoCardProperties: PropertiesTableProps = {
 
 export const InfoCardEvents: PropertiesTableProps = {
   onAccept: {
-    doc: 'will be called when user clicks the accept button.',
+    doc: 'Will be called when user clicks the accept button.',
     type: 'function',
     status: 'optional',
   },
   onClose: {
-    doc: 'will be called when user clicks the close button.',
+    doc: 'Will be called when user clicks the close button.',
     type: 'function',
     status: 'optional',
   },

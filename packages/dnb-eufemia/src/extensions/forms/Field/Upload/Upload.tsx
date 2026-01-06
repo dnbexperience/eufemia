@@ -164,7 +164,7 @@ function UploadComponent(props: Props) {
 
   const filesRef = useRef<Array<UploadFile>>()
 
-  useEffect(() => {
+  useMemo(() => {
     filesRef.current = files
   }, [files])
 

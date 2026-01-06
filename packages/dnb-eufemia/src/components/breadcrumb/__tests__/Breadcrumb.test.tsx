@@ -539,7 +539,7 @@ describe('Breadcrumb aria', () => {
 })
 
 describe('Breadcrumb scss', () => {
-  it('has to match style dependencies css', () => {
+  it('should match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()
   })

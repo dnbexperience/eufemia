@@ -215,12 +215,12 @@ describe('Table aria', () => {
 })
 
 describe('Table scss', () => {
-  it('has to match style dependencies css', () => {
+  it('should match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()
   })
 
-  it('have to match default theme snapshot', () => {
+  it('should match default theme snapshot', () => {
     const css = loadScss(
       require.resolve('../style/themes/dnb-table-theme-ui.scss')
     )
