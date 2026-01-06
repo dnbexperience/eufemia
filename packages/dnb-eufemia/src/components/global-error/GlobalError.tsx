@@ -145,11 +145,10 @@ export default function GlobalError(localProps: GlobalErrorAllProps) {
   // When status is deprecated, we just use the statusCode
   const statusToUse = status !== defaultProps.status ? status : statusCode
 
-  const textParams: React.HTMLAttributes<HTMLElement> = {}
-  if (typeof text === 'string') {
-    textParams.dangerouslySetInnerHTML = { __html: text }
-  } else {
-    textParams.children = text
+  // Security: Always render text as children to prevent XSS attacks.
+  // If formatting is needed, pass ReactNode instead of HTML strings.
+  const textParams: React.HTMLAttributes<HTMLElement> = {
+    children: text,
   }
 
   const params = {
