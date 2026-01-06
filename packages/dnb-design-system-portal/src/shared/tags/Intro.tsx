@@ -5,17 +5,20 @@
 
 import React from 'react'
 import { Global, css } from '@emotion/react'
-import PropTypes from 'prop-types'
 import { navigate } from 'gatsby'
 import { Anchor, Button, Space } from '@dnb/eufemia/src'
 import { wrapperStyle, innerStyle, footerStyle } from './Intro.module.scss'
 import { startPageTransition } from './Transition'
 import { Link } from './Anchor'
 
+type IntroProps = {
+  children?: React.ReactNode
+}
+
 const ref = React.createRef<HTMLDivElement>()
-const Intro = ({ children = undefined }) => {
+const Intro = ({ children }: IntroProps) => {
   React.useEffect(() => {
-    const onKeyDownHandler = (e) => {
+    const onKeyDownHandler = (e: KeyboardEvent) => {
       if (/textarea|input/i.test(document.activeElement.tagName)) {
         return
       }
@@ -50,11 +53,13 @@ const Intro = ({ children = undefined }) => {
     </div>
   )
 }
-Intro.propTypes = {
-  children: PropTypes.node.isRequired,
+
+type IntroFooterProps = {
+  href: string
+  text: string
 }
 
-export const IntroFooter = ({ href = undefined, text = undefined }) => (
+export const IntroFooter = ({ href, text }: IntroFooterProps) => (
   <Space top no_collapse className={footerStyle}>
     <Global
       styles={css`
@@ -74,12 +79,8 @@ export const IntroFooter = ({ href = undefined, text = undefined }) => (
     />
   </Space>
 )
-IntroFooter.propTypes = {
-  href: PropTypes.string.isRequired,
-  text: PropTypes.string.isRequired,
-}
 
-export const Next = (props) => (
+export const Next = (props: React.ComponentProps<typeof Anchor>) => (
   <>
     <div className="dnb-section dnb-section--spacing">
       <Anchor {...props} />
