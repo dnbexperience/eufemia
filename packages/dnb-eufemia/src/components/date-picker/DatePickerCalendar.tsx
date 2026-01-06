@@ -540,7 +540,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
                   key={i}
                   role="columnheader"
                   scope="col"
-                  className="dnb-date-picker__labels__day"
+                  className="dnb-date-picker__labels-day"
                   aria-label={formatDate(day, {
                     locale,
                     options: { weekday: 'long' },

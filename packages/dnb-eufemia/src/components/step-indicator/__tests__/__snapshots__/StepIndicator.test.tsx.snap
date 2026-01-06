@@ -517,18 +517,18 @@ button.dnb-button::-moz-focus-inner {
   flex-wrap: wrap;
   align-items: flex-start;
 }
-.dnb-step-indicator__trigger__button {
+.dnb-step-indicator__trigger-button {
   --button-height: 1.5rem;
 }
-.dnb-step-indicator__trigger__button .dnb-button__text {
+.dnb-step-indicator__trigger-button .dnb-button__text {
   margin: 0;
   transform: none;
 }
-.dnb-step-indicator__trigger__button .dnb-button__icon {
+.dnb-step-indicator__trigger-button .dnb-button__icon {
   --button-icon-margin-top: 0.25rem;
   transition: transform 400ms var(--easing-default);
 }
-.dnb-step-indicator__trigger__button--expanded .dnb-button__icon {
+.dnb-step-indicator__trigger-button--expanded .dnb-button__icon {
   transform: rotate(180deg);
 }
 .dnb-step-indicator__item__wrapper {

@@ -57,12 +57,12 @@ exports[`DatePicker scss should match default theme snapshot 1`] = `
   font-weight: var(--font-weight-medium);
   color: var(--color-black-80);
 }
-.dnb-date-picker__labels__day {
+.dnb-date-picker__labels-day {
   text-transform: capitalize;
   font-weight: var(--font-weight-medium);
   color: var(--color-black-80);
 }
-.dnb-date-picker__day, .dnb-date-picker__labels__day {
+.dnb-date-picker__day, .dnb-date-picker__labels-day {
   text-align: center;
 }
 .dnb-date-picker__day--today .dnb-button {
@@ -3624,7 +3624,7 @@ button .dnb-form-status__text {
   display: inline-flex;
   flex-direction: column;
 }
-.dnb-date-picker__input__wrapper {
+.dnb-date-picker__input-wrapper {
   display: inline-flex;
   white-space: nowrap;
   height: inherit;
@@ -3774,7 +3774,7 @@ html[data-whatinput=keyboard] .dnb-date-picker__container table.dnb-no-focus:foc
 .dnb-date-picker:not(.dnb-date-picker--show-input) .dnb-input__status--error .dnb-input__shell {
   box-shadow: none;
 }
-.dnb-input__submit-button button:focus ~ .dnb-date-picker__input__wrapper {
+.dnb-input__submit-button button:focus ~ .dnb-date-picker__input-wrapper {
   display: block;
 }
 .dnb-date-picker:not(.dnb-date-picker--show-input) .dnb-input__submit-element, .dnb-input__submit-element > .dnb-date-picker .dnb-input__submit-element {
@@ -3835,7 +3835,7 @@ html[data-whatinput=keyboard] .dnb-date-picker__container table.dnb-no-focus:foc
   justify-content: space-between;
   padding: 1rem;
 }
-.dnb-date-picker__labels__day {
+.dnb-date-picker__labels-day {
   padding-top: 1.5rem;
   padding-bottom: 0.5rem;
 }
@@ -3848,7 +3848,7 @@ html[data-whatinput=keyboard] .dnb-date-picker__container table.dnb-no-focus:foc
   padding: 0;
   list-style: none;
 }
-.dnb-date-picker__day, .dnb-date-picker__labels__day {
+.dnb-date-picker__day, .dnb-date-picker__labels-day {
   display: flex;
   flex-basis: 14.2857142857%;
   justify-content: center;

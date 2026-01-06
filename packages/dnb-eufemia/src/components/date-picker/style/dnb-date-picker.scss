@@ -37,7 +37,7 @@
     flex-direction: column;
   }
 
-  &__input__wrapper {
+  &__input-wrapper {
     display: inline-flex;
     white-space: nowrap;
     height: inherit;
@@ -202,7 +202,7 @@
   &:not(#{&}--show-input) .dnb-input__status--error .dnb-input__shell {
     box-shadow: none;
   }
-  .dnb-input__submit-button button:focus ~ &__input__wrapper {
+  .dnb-input__submit-button button:focus ~ &__input-wrapper {
     display: block;
   }
   &:not(#{&}--show-input) .dnb-input__submit-element,
@@ -300,7 +300,7 @@
   }
 
   &__day,
-  &__labels__day {
+  &__labels-day {
     display: flex;
     flex-basis: calc(1 / 7 * 100%);
     justify-content: center;

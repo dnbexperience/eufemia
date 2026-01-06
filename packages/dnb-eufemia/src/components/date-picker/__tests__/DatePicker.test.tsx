@@ -2699,7 +2699,7 @@ describe('DatePicker component', () => {
     )
 
     const dayLabels = Array.from(
-      document.querySelectorAll('.dnb-date-picker__labels__day')
+      document.querySelectorAll('.dnb-date-picker__labels-day')
     )
 
     expect(dayLabels.at(0)).toHaveAttribute('aria-label', 'måndag')
@@ -2740,7 +2740,7 @@ describe('DatePicker component', () => {
     )
 
     const dayLabels = Array.from(
-      document.querySelectorAll('.dnb-date-picker__labels__day')
+      document.querySelectorAll('.dnb-date-picker__labels-day')
     )
 
     expect(dayLabels.at(0)).toHaveAttribute('aria-label', 'mandag')

@@ -704,42 +704,42 @@ export const DropdownListOpened = () => (
       <span className="dnb-drawer-list__list">
         <ul className="dnb-drawer-list__options">
           <li className="dnb-drawer-list__option first-of-type">
-            <span className="dnb-drawer-list__option__inner">
+            <span className="dnb-drawer-list__option-inner">
               Brukskonto - Kari Nordmann
             </span>
           </li>
           <li className="dnb-drawer-list__option dnb-drawer-list__option--selected">
-            <span className="dnb-drawer-list__option__inner">
-              <span className="dnb-drawer-list__option__item item-nr-1">
+            <span className="dnb-drawer-list__option-inner">
+              <span className="dnb-drawer-list__option-item item-nr-1">
                 <NumberFormat always_selectall key="n-1" ban>
                   12345678902
                 </NumberFormat>
               </span>
-              <span className="dnb-drawer-list__option__item">
+              <span className="dnb-drawer-list__option-item">
                 Sparekonto - Ole Nordmann
               </span>
             </span>
           </li>
           <li className="dnb-drawer-list__option">
-            <span className="dnb-drawer-list__option__inner">
-              <span className="dnb-drawer-list__option__item item-nr-1">
+            <span className="dnb-drawer-list__option-inner">
+              <span className="dnb-drawer-list__option-item item-nr-1">
                 <NumberFormat always_selectall key="n-2" ban>
                   11345678962
                 </NumberFormat>
               </span>
-              <span className="dnb-drawer-list__option__item">
+              <span className="dnb-drawer-list__option-item">
                 Feriekonto - Kari Nordmann med et kjempelangt etternavnsen
               </span>
             </span>
           </li>
           <li className="dnb-drawer-list__option last-of-type">
-            <span className="dnb-drawer-list__option__inner">
-              <span className="dnb-drawer-list__option__item item-nr-1">
+            <span className="dnb-drawer-list__option-inner">
+              <span className="dnb-drawer-list__option-item item-nr-1">
                 <NumberFormat always_selectall key="n-3" ban>
                   15349648901
                 </NumberFormat>
               </span>
-              <span className="dnb-drawer-list__option__item">
+              <span className="dnb-drawer-list__option-item">
                 Oppussing - Ole Nordmann
               </span>
             </span>

@@ -845,7 +845,7 @@ describe('Field.Date', () => {
     render(<Field.Date />)
 
     expect(
-      document.querySelector('.dnb-date-picker__input__wrapper')
+      document.querySelector('.dnb-date-picker__input-wrapper')
     ).toBeInTheDocument()
   })
 
@@ -1127,7 +1127,7 @@ describe('Field.Date', () => {
     )
 
     const [firstDay] = Array.from(
-      document.querySelectorAll('.dnb-date-picker__labels__day')
+      document.querySelectorAll('.dnb-date-picker__labels-day')
     )
 
     expect(firstDay).toHaveTextContent('ti')
