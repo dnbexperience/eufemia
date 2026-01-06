@@ -6,6 +6,7 @@
 **/__diff_output__/
 .jest-image-snapshot-touched-files
 /jest-visual-diff-report/*
+/.jest-cache
 
 # production
 *.min.mjs
