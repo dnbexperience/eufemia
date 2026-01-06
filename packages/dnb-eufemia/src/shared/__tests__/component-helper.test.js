@@ -306,6 +306,30 @@ describe('"validateDOMAttributes" should', () => {
     expect(res).toHaveProperty('onChange')
     expect(res).not.toHaveProperty('something')
   })
+
+  it('should prevent prototype pollution via attributes', () => {
+    const props = {
+      attributes: JSON.stringify({
+        __proto__: { polluted: 'value' },
+        constructor: { polluted: 'value' },
+        prototype: { polluted: 'value' },
+        safeKey: 'safeValue',
+      }),
+    }
+    const params = {}
+    const res = validateDOMAttributes(props, params)
+
+    // Should include safe attributes
+    expect(res).toHaveProperty('safeKey', 'safeValue')
+
+    // Should not include dangerous prototype-polluting keys
+    expect(res).not.toHaveProperty('__proto__')
+    expect(res).not.toHaveProperty('constructor')
+    expect(res).not.toHaveProperty('prototype')
+
+    // Verify that Object.prototype was not polluted
+    expect({}.polluted).toBeUndefined()
+  })
 })
 
 describe('"processChildren" should', () => {
