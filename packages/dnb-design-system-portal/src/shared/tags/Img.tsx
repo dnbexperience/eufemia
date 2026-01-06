@@ -23,7 +23,7 @@ const Img = ({
   height = null,
   caption = null,
   ...rest
-}: ImgProps & Record<string, unknown>) => {
+}: ImgProps) => {
   if (size === 'auto') {
     width = '100%'
     height = '100%'
