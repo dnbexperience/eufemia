@@ -83,18 +83,9 @@ const plugins = [
           resolve: 'gatsby-remark-images',
           options: {
             maxWidth: 1024,
-            // showCaptions: true
-            // sizeByPixelDensity: true
-            // linkImagesToOriginal: true
-            // wrapperStyle: {}
           },
         },
       ].filter(Boolean),
-      // Imports in here are globally available in *.md files
-      // globalScope: `
-      //   import InlineImg from 'dnb-design-system-portal/src/shared/tags/Img'
-      //   export default { Img }
-      // `
     },
   },
   {
