@@ -4,27 +4,33 @@
  */
 
 import React from 'react'
-import PropTypes from 'prop-types'
 import Context from '../../../shared/Context'
 import classnames from 'classnames'
 
-export default class SkeletonArticle extends React.PureComponent {
-  static contextType = Context
-  static propTypes = {
-    rows: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    children: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-      PropTypes.node,
-    ]),
-  }
+export type SkeletonArticleRows = string | number
+export type SkeletonArticleChildren =
+  | string
+  | ((...args: any[]) => any)
+  | React.ReactNode
+export interface SkeletonArticleProps
+  extends Omit<React.HTMLProps<HTMLDivElement>, 'rows' | 'children'> {
+  rows?: SkeletonArticleRows
+  children?: SkeletonArticleChildren
+}
 
+export default class SkeletonArticle extends React.Component<
+  SkeletonArticleProps,
+  any
+> {
+  static contextType = Context
   static defaultProps = {
     rows: 3,
     children: null,
   }
 
-  constructor(props) {
+  rowsLength: number[]
+
+  constructor(props: SkeletonArticleProps) {
     super(props)
 
     const { rows } = props
@@ -32,7 +38,7 @@ export default class SkeletonArticle extends React.PureComponent {
     // Do this so we get the same result each time
     // because of static generated markup
     const fill = [70, 80, 60, 40, 50, 20, 0]
-    this.rowsLength = new Array(rows).fill(true).map((_, i) => {
+    this.rowsLength = new Array(Number(rows)).fill(true).map((_, i) => {
       const c = i % fill.length
       if (c === fill.length - 1) {
         fill.concat(fill.reverse())
@@ -42,11 +48,7 @@ export default class SkeletonArticle extends React.PureComponent {
   }
 
   render() {
-    const {
-      rows, // eslint-disable-line
-      children,
-      ...rest
-    } = this.props
+    const { rows, children, ...rest } = this.props
 
     return (
       <div
@@ -89,7 +91,7 @@ export default class SkeletonArticle extends React.PureComponent {
           </div>
         ))}
 
-        {children}
+        {typeof children === 'function' ? children() : children}
       </div>
     )
   }
