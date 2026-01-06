@@ -112,19 +112,19 @@ export default class ModalHeaderBar extends React.PureComponent<
       <Section
         style_type="white"
         className={classnames(
-          'dnb-modal__header__bar',
+          'dnb-modal__header-bar',
           showShadow && shadow_class,
           className
         )}
         inner_ref={this._ref}
         {...props}
       >
-        <div className="dnb-modal__header__bar__inner">
+        <div className="dnb-modal__header-bar-inner">
           {children as React.ReactNode}
         </div>
 
         {!isTrue(hide_close_button) && (
-          <div className="dnb-modal__header__bar__close">
+          <div className="dnb-modal__header-bar-close">
             <CloseButton
               on_click={onCloseClickHandler}
               close_title={close_title}

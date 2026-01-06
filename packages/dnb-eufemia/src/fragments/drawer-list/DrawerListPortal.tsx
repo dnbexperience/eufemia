@@ -226,8 +226,8 @@ function DrawerListPortal({
         >
           <span
             className={classnames(
-              'dnb-drawer-list__portal__style',
-              fixed_position && 'dnb-drawer-list__portal__style--fixed',
+              'dnb-drawer-list__portal-style',
+              fixed_position && 'dnb-drawer-list__portal-style--fixed',
               className
             )}
             style={style}

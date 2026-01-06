@@ -116,11 +116,11 @@ html:not([data-whatintent=touch]) .dnb-date-picker__day--inactive .dnb-button[di
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
-.dnb-date-picker--opened .dnb-input .dnb-input__submit-button__button.dnb-button--secondary, .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-form-label:hover ~ .dnb-date-picker__inner .dnb-input:not([data-input-state=disabled]) .dnb-input__submit-button__button.dnb-button--secondary {
+.dnb-date-picker--opened .dnb-input .dnb-input__submit-button-button.dnb-button--secondary, .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-form-label:hover ~ .dnb-date-picker__inner .dnb-input:not([data-input-state=disabled]) .dnb-input__submit-button-button.dnb-button--secondary {
   color: var(--color-white);
   background-color: var(--color-sea-green);
 }
-.dnb-date-picker--opened .dnb-input .dnb-input__submit-button__button.dnb-button--secondary::after, .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-form-label:hover ~ .dnb-date-picker__inner .dnb-input:not([data-input-state=disabled]) .dnb-input__submit-button__button.dnb-button--secondary::after {
+.dnb-date-picker--opened .dnb-input .dnb-input__submit-button-button.dnb-button--secondary::after, .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-form-label:hover ~ .dnb-date-picker__inner .dnb-input:not([data-input-state=disabled]) .dnb-input__submit-button-button.dnb-button--secondary::after {
   background-color: inherit;
 }
 .dnb-date-picker__status--error:not(.dnb-date-picker--opened) .dnb-form-label:hover ~ .dnb-date-picker__inner .dnb-input:not([data-input-state=disabled]) .dnb-input__shell {
@@ -1072,7 +1072,7 @@ html[data-whatinput=keyboard] .dnb-input__status--error .dnb-input__border:focus
   position: relative;
   align-self: center; /* IE needs this to stay centered */
 }
-.dnb-input__submit-button__button {
+.dnb-input__submit-button-button {
   border-radius: 0 var(--input-border-radius) var(--input-border-radius) 0;
 }
 .dnb-input > .dnb-form-label {

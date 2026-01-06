@@ -1549,7 +1549,7 @@ describe('Dropdown component', () => {
     expect(
       document
         .querySelector('.dnb-drawer-list__option')
-        .querySelector('.dnb-drawer-list__option__inner').innerHTML
+        .querySelector('.dnb-drawer-list__option-inner').innerHTML
     ).toBe('')
   })
 

@@ -71,7 +71,7 @@ export const DrawerListItem = forwardRef(function DrawerListItem(
 
   return (
     <li {...params} {...rest} ref={ref} key={'li' + hash}>
-      <span className="dnb-drawer-list__option__inner">
+      <span className="dnb-drawer-list__option-inner">
         <ItemContent hash={hash}>{children}</ItemContent>
       </span>
     </li>
@@ -135,7 +135,7 @@ function DrawerListOptionItem({
 }) {
   return (
     <span
-      className={classnames(['dnb-drawer-list__option__item', className])}
+      className={classnames(['dnb-drawer-list__option-item', className])}
       {...props}
     >
       {children}
@@ -154,7 +154,7 @@ export function DrawerListHorizontalItem({
   return (
     <DrawerListOptionItem
       className={classnames([
-        'dnb-drawer-list__option__item--horizontal',
+        'dnb-drawer-list__option-item--horizontal',
         className,
       ])}
       {...props}

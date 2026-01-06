@@ -54,7 +54,7 @@
     color: var(--input-color);
   }
 
-  &__submit-button__button {
+  &__submit-button-button {
     --button-secondary-color: var(--sb-color-violet);
     --button-secondary-color--active: var(--sb-color-violet);
   }
@@ -103,14 +103,14 @@
       --input-color--active: var(--sb-color-text);
       --input-button-border-color: var(--sb-color-red);
 
-      .dnb-input__submit-button__button {
+      .dnb-input__submit-button-button {
         --button-secondary-background--hover: var(--sb-color-red);
         --button-secondary-color--hover: var(--sb-color-white);
         --button-secondary-color--active: var(--sb-color-red);
       }
     }
 
-    .dnb-input__submit-button__button:not(:focus-visible) {
+    .dnb-input__submit-button-button:not(:focus-visible) {
       background-color: transparent;
       box-shadow: none;
       border-radius: 0 var(--input-button-border-radius)

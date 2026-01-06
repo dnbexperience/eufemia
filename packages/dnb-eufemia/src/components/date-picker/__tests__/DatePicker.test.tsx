@@ -50,7 +50,7 @@ const getDatePickerRoot = () =>
 
 const getDatePickerTriggerButton = () =>
   getDatePickerRoot().querySelector(
-    'button.dnb-input__submit-button__button, button.dnb-button'
+    'button.dnb-input__submit-button-button, button.dnb-button'
   ) as HTMLButtonElement
 
 const getAnnouncementElement = () =>
@@ -71,7 +71,7 @@ describe('DatePicker component', () => {
       'disabled'
     )
     expect(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button-button')
     ).toHaveAttribute('disabled')
   })
 
@@ -79,12 +79,12 @@ describe('DatePicker component', () => {
     render(<DatePicker {...defaultProps} />)
 
     fireEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button-button')
     )
 
     expect(
       document
-        .querySelector('button.dnb-input__submit-button__button')
+        .querySelector('button.dnb-input__submit-button-button')
 
         .getAttribute('aria-expanded')
     ).toBe('true')
@@ -102,12 +102,12 @@ describe('DatePicker component', () => {
     render(<DatePicker {...defaultProps} />)
 
     await userEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button-button')
     )
 
     expect(
       document
-        .querySelector('button.dnb-input__submit-button__button')
+        .querySelector('button.dnb-input__submit-button-button')
         .getAttribute('aria-expanded')
     ).toBe('true')
 
@@ -119,7 +119,7 @@ describe('DatePicker component', () => {
 
     expect(
       document
-        .querySelector('button.dnb-input__submit-button__button')
+        .querySelector('button.dnb-input__submit-button-button')
         .getAttribute('aria-expanded')
     ).toBe('false')
 
@@ -252,7 +252,7 @@ describe('DatePicker component', () => {
 
     expect(
       document
-        .querySelector('button.dnb-input__submit-button__button')
+        .querySelector('button.dnb-input__submit-button-button')
 
         .getAttribute('aria-expanded')
     ).toBe('true')
@@ -267,7 +267,7 @@ describe('DatePicker component', () => {
 
     expect(
       document
-        .querySelector('button.dnb-input__submit-button__button')
+        .querySelector('button.dnb-input__submit-button-button')
         .getAttribute('aria-expanded')
     ).toBe('false')
 
@@ -283,7 +283,7 @@ describe('DatePicker component', () => {
     )
 
     fireEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button-button')
     )
 
     expect(getDatePickerRoot().getAttribute('class')).toContain(
@@ -363,7 +363,7 @@ describe('DatePicker component', () => {
     )
 
     fireEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button-button')
     )
 
     expect(getDatePickerRoot()).toHaveClass('dnb-date-picker--opened')
@@ -821,7 +821,7 @@ describe('DatePicker component', () => {
     )
 
     fireEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button-button')
     )
 
     expect(getDatePickerRoot().getAttribute('class')).toContain(
@@ -863,7 +863,7 @@ describe('DatePicker component', () => {
     )
 
     fireEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button-button')
     )
 
     expect(
@@ -1055,7 +1055,7 @@ describe('DatePicker component', () => {
     render(<DatePicker {...defaultProps} />)
 
     fireEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button-button')
     )
     expect(
       document.querySelector('.dnb-date-picker__views')
@@ -1447,7 +1447,7 @@ describe('DatePicker component', () => {
   it('should reset second input fields to blank during new date selection', () => {
     render(<DatePicker {...defaultProps} />)
     fireEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button-button')
     )
 
     fireEvent.click(
@@ -2434,7 +2434,7 @@ describe('DatePicker component', () => {
 
     const element = getDatePickerRoot()
     const buttonElement = document.querySelector(
-      'button.dnb-input__submit-button__button'
+      'button.dnb-input__submit-button-button'
     )
 
     fireEvent.click(buttonElement)
@@ -2461,7 +2461,7 @@ describe('DatePicker component', () => {
 
     const element = getDatePickerRoot()
     const buttonElement = document.querySelector(
-      'button.dnb-input__submit-button__button'
+      'button.dnb-input__submit-button-button'
     )
 
     expect(document.activeElement).toBe(document.body)
@@ -2614,7 +2614,7 @@ describe('DatePicker component', () => {
     }
 
     const inputButton = document.querySelector(
-      '.dnb-input__submit-button__button'
+      '.dnb-input__submit-button-button'
     )
 
     await userEvent.click(inputButton)
@@ -4720,7 +4720,7 @@ describe('DatePicker ARIA', () => {
 
       // Should not render input or button
       expect(
-        document.querySelector('button.dnb-input__submit-button__button')
+        document.querySelector('button.dnb-input__submit-button-button')
       ).not.toBeInTheDocument()
       expect(document.querySelector('input')).not.toBeInTheDocument()
 
@@ -4854,7 +4854,7 @@ describe('DatePicker ARIA', () => {
 
       // Open popover by clicking the input button first
       const inputButton = document.querySelector(
-        'button.dnb-input__submit-button__button, button.dnb-button'
+        'button.dnb-input__submit-button-button, button.dnb-button'
       ) as HTMLButtonElement
       expect(inputButton).toBeInTheDocument()
 

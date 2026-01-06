@@ -6,7 +6,7 @@
 @import '../../../../style/core/utilities.scss';
 
 .dnb-pagination {
-  &__bar__skip {
+  &__bar-skip {
     // button tertiary
     .dnb-button--tertiary:not([disabled]) .dnb-button__text {
       color: var(--sb-color-text);

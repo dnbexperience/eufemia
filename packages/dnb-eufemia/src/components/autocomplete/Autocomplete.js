@@ -1022,7 +1022,7 @@ class AutocompleteInstance extends React.PureComponent {
         (event?.currentTarget
           ? getClosestParent('dnb-drawer-list', event.currentTarget) ||
             getClosestParent(
-              'dnb-input__submit-button__button',
+              'dnb-input__submit-button-button',
               event.currentTarget
             )
           : false)
@@ -1434,7 +1434,7 @@ class AutocompleteInstance extends React.PureComponent {
 
     const strS = '\uFFFE'
     const strE = '\uFFFF'
-    const tagS = '<span class="dnb-drawer-list__option__item--highlight">'
+    const tagS = '<span class="dnb-drawer-list__option-item--highlight">'
     const tagE = '</span>'
 
     searchIndex = searchIndex.map((item, i) => {

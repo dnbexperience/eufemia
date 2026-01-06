@@ -1883,7 +1883,7 @@ describe('Field.PhoneNumber', () => {
       const currentOptions = () =>
         Array.from(
           document.querySelectorAll(
-            '.dnb-drawer-list__options .dnb-drawer-list__option__inner'
+            '.dnb-drawer-list__options .dnb-drawer-list__option-inner'
           )
         ).map((option: HTMLSpanElement) => option.textContent)
 

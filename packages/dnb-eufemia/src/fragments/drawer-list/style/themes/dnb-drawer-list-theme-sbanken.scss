@@ -31,7 +31,7 @@
     }
   }
 
-  &__option__inner {
+  &__option-inner {
     overflow: visible;
     padding: 1rem 0.75rem;
     margin: 0 var(--drawer-list-option-border-width);
@@ -76,7 +76,7 @@
       --drawer-list-option-border-color: var(--sb-color-violet);
       z-index: 1;
 
-      .dnb-drawer-list__option__inner::before {
+      .dnb-drawer-list__option-inner::before {
         display: var(--drawer-list-option-inner-border-display);
       }
     }
@@ -85,7 +85,7 @@
       --drawer-list-option-border-color: var(--sb-color-violet);
       z-index: 1;
 
-      .dnb-drawer-list__option__inner::before {
+      .dnb-drawer-list__option-inner::before {
         display: var(--drawer-list-option-inner-border-display);
       }
     }
@@ -101,12 +101,12 @@
         border-bottom-color: var(--sb-color-gray-dark-2);
       }
 
-      .dnb-drawer-list__option__inner::before {
+      .dnb-drawer-list__option-inner::before {
         display: var(--drawer-list-option-inner-border-display);
       }
 
       // check icon
-      .dnb-drawer-list__option__inner::after {
+      .dnb-drawer-list__option-inner::after {
         content: '';
 
         grid-column: 2;
@@ -149,15 +149,15 @@
       z-index: 1;
 
       /* stylelint-disable no-descending-specificity */
-      .dnb-drawer-list__option__inner {
+      .dnb-drawer-list__option-inner {
         --drawer-list-option-inner-background: transparent;
       }
 
-      .dnb-drawer-list__option__inner::before {
+      .dnb-drawer-list__option-inner::before {
         display: var(--drawer-list-option-inner-border-display);
       }
 
-      .dnb-drawer-list__option__inner::after {
+      .dnb-drawer-list__option-inner::after {
         // Selected check mark icon
         background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTUuOTk5OTYgMTEuMDU3M0wxNC42NjY2IDIuMzkwNjdMMTUuNjA5MyAzLjMzMzM0TDUuOTk5OTYgMTIuOTQyN0wwLjM5MDYyNSA3LjMzMzM0TDEuMzMzMjkgNi4zOTA2N0w1Ljk5OTk2IDExLjA1NzNaIiBmaWxsPSIjMDA1Q0ZGIi8+Cjwvc3ZnPgo=');
       }

@@ -190,8 +190,8 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
         spacingClasses
       )}
     >
-      <div className="dnb-pagination__bar__wrapper">
-        <div className="dnb-pagination__bar__skip">
+      <div className="dnb-pagination__bar-wrapper">
+        <div className="dnb-pagination__bar-skip">
           <Button
             key="left-arrow"
             disabled={disabled || prevIsDisabled}

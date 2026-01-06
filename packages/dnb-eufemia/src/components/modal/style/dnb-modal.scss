@@ -116,7 +116,7 @@ html[data-dnb-modal-active] {
     z-index: calc(var(--modal-z-index) + 1);
   }
 
-  &__header__bar {
+  &__header-bar {
     &.dnb-section {
       display: flex;
       flex-direction: row;

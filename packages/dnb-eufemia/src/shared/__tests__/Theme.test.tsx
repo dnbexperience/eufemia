@@ -207,7 +207,7 @@ describe('Portals', () => {
     const element = document.querySelector('.eufemia-theme')
     expect(Array.from(element.classList)).toEqual(
       expect.arrayContaining([
-        'dnb-drawer-list__portal__style',
+        'dnb-drawer-list__portal-style',
         'eufemia-theme',
         'eufemia-theme__eiendom',
         'eufemia-theme__eiendom--soft',
@@ -226,7 +226,7 @@ describe('Portals', () => {
     const element = document.querySelector('.eufemia-theme')
     expect(Array.from(element.classList)).toEqual(
       expect.arrayContaining([
-        'dnb-drawer-list__portal__style',
+        'dnb-drawer-list__portal-style',
         'eufemia-theme',
         'eufemia-theme__eiendom',
         'eufemia-theme__eiendom--soft',

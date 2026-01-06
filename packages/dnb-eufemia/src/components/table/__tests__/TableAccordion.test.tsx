@@ -481,10 +481,10 @@ describe('TableAccordion', () => {
     }
 
     expect(Array.from(getTh(0).classList)).toContain(
-      'dnb-table__th__button-icon'
+      'dnb-table__th-button-icon'
     )
     expect(Array.from(getTd(0).classList)).toContain(
-      'dnb-table__td__button-icon'
+      'dnb-table__td-button-icon'
     )
 
     rerender(
@@ -504,10 +504,10 @@ describe('TableAccordion', () => {
     )
 
     expect(Array.from(getTh(-1).classList)).toContain(
-      'dnb-table__th__button-icon'
+      'dnb-table__th-button-icon'
     )
     expect(Array.from(getTd(-1).classList)).toContain(
-      'dnb-table__td__button-icon'
+      'dnb-table__td-button-icon'
     )
   })
 
@@ -524,7 +524,7 @@ describe('TableAccordion', () => {
 
     const trElement = document.querySelector('thead tr th')
     expect(Array.from(trElement.classList)).toContain(
-      'dnb-table__th__button-icon'
+      'dnb-table__th-button-icon'
     )
 
     const divElement = trElement.querySelector('div')
@@ -544,7 +544,7 @@ describe('TableAccordion', () => {
 
     const thElement = document.querySelector('thead tr th')
     expect(Array.from(thElement.classList)).toContain(
-      'dnb-table__th__button-icon'
+      'dnb-table__th-button-icon'
     )
 
     expect(thElement.textContent).toBe(nb.accordionToggleButtonSR)
@@ -567,7 +567,7 @@ describe('TableAccordion', () => {
 
     const thElement = document.querySelector('thead tr th')
     expect(Array.from(thElement.classList)).toContain(
-      'dnb-table__th__button-icon'
+      'dnb-table__th-button-icon'
     )
 
     expect(thElement.textContent).toBe(nb.accordionToggleButtonSR)
@@ -1445,10 +1445,10 @@ describe('TableAccordion', () => {
       }
 
       expect(Array.from(getTh(0).classList)).toContain(
-        'dnb-table__th__button-icon'
+        'dnb-table__th-button-icon'
       )
       expect(Array.from(getTd(0).classList)).toContain(
-        'dnb-table__td__button-icon'
+        'dnb-table__td-button-icon'
       )
 
       rerender(
@@ -1468,10 +1468,10 @@ describe('TableAccordion', () => {
       )
 
       expect(Array.from(getTh(-1).classList)).toContain(
-        'dnb-table__th__button-icon'
+        'dnb-table__th-button-icon'
       )
       expect(Array.from(getTd(-1).classList)).toContain(
-        'dnb-table__td__button-icon'
+        'dnb-table__td-button-icon'
       )
     })
 
@@ -1488,7 +1488,7 @@ describe('TableAccordion', () => {
 
       const trElement = document.querySelector('thead tr th')
       expect(Array.from(trElement.classList)).toContain(
-        'dnb-table__th__button-icon'
+        'dnb-table__th-button-icon'
       )
 
       const divElement = trElement.querySelector('div')
@@ -1508,7 +1508,7 @@ describe('TableAccordion', () => {
 
       const thElement = document.querySelector('thead tr th')
       expect(Array.from(thElement.classList)).toContain(
-        'dnb-table__th__button-icon'
+        'dnb-table__th-button-icon'
       )
 
       expect(thElement.textContent).toBe(nb.accordionToggleButtonSR)
@@ -1531,7 +1531,7 @@ describe('TableAccordion', () => {
 
       const thElement = document.querySelector('thead tr th')
       expect(Array.from(thElement.classList)).toContain(
-        'dnb-table__th__button-icon'
+        'dnb-table__th-button-icon'
       )
 
       expect(thElement.textContent).toBe(nb.accordionToggleButtonSR)

@@ -119,7 +119,7 @@ describe.each(['ui', 'sbanken'])('Pagination for %s', (themeName) => {
         width: '50rem',
       },
       simulateSelector:
-        '[data-visual-test="pagination-default"] div.dnb-pagination__bar__inner button.dnb-pagination__button:first-of-type',
+        '[data-visual-test="pagination-default"] div.dnb-pagination__bar-inner button.dnb-pagination__button:first-of-type',
       simulate: 'click',
     })
     expect(screenshot).toMatchImageSnapshot()
@@ -132,7 +132,7 @@ describe.each(['ui', 'sbanken'])('Pagination for %s', (themeName) => {
         width: '50rem',
       },
       simulateSelector:
-        '[data-visual-test="pagination-default"] div.dnb-pagination__bar__inner button.dnb-pagination__button:last-of-type',
+        '[data-visual-test="pagination-default"] div.dnb-pagination__bar-inner button.dnb-pagination__button:last-of-type',
       simulate: 'click',
     })
     expect(screenshot).toMatchImageSnapshot()

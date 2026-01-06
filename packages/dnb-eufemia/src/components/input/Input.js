@@ -749,7 +749,7 @@ class InputSubmitButton extends React.PureComponent {
       >
         <Button
           className={classnames(
-            'dnb-input__submit-button__button',
+            'dnb-input__submit-button-button',
             'dnb-button--input-button',
             className
           )}

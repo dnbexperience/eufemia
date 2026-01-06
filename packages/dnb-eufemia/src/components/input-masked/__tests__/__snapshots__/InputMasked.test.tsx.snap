@@ -941,7 +941,7 @@ html[data-whatinput=keyboard] .dnb-input__status--error .dnb-input__border:focus
   position: relative;
   align-self: center; /* IE needs this to stay centered */
 }
-.dnb-input__submit-button__button {
+.dnb-input__submit-button-button {
   border-radius: 0 var(--input-border-radius) var(--input-border-radius) 0;
 }
 .dnb-input > .dnb-form-label {

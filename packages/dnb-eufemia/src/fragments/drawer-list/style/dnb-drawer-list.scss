@@ -74,7 +74,7 @@
     --drawer-list-width: 16rem;
   }
 
-  &__portal__style {
+  &__portal-style {
     position: absolute;
     transition: all 300ms var(--easing-default);
 
@@ -193,7 +193,7 @@
 
     background-color: var(--color-white);
 
-    &__inner {
+    &__option-inner {
       position: relative;
       z-index: 1; // only to go over &__triangle
 

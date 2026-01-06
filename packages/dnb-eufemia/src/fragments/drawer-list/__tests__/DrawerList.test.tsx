@@ -1141,7 +1141,7 @@ describe('DrawerList component', () => {
 
       expect(
         document
-          .querySelector('span.dnb-drawer-list__option__item')
+          .querySelector('span.dnb-drawer-list__option-item')
           .getAttribute('style')
       ).toBe('hyphens: auto;')
     })
@@ -1378,7 +1378,7 @@ describe('DrawerList portal', () => {
     const { rerender } = render(<DrawerList opened no_animation />)
 
     const styleElement = document.querySelector(
-      '.dnb-drawer-list__portal__style'
+      '.dnb-drawer-list__portal-style'
     )
 
     await waitFor(() => {
@@ -1413,7 +1413,7 @@ describe('DrawerList portal', () => {
     )
 
     const styleElement = document.querySelector(
-      '.dnb-drawer-list__portal__style'
+      '.dnb-drawer-list__portal-style'
     )
 
     await waitFor(() => {

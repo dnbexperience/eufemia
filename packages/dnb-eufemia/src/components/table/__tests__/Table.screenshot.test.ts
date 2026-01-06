@@ -481,7 +481,7 @@ describe.each(['ui', 'sbanken'])(
           {
             action: 'click',
             selector:
-              '[data-visual-test="table-inside-of-accordion-table"] .dnb-table__td__button-icon',
+              '[data-visual-test="table-inside-of-accordion-table"] .dnb-table__td-button-icon',
           },
         ],
         recalculateHeightAfterSimulate: true,

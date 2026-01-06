@@ -71,12 +71,12 @@
   }
 
   &__show-all {
-    .dnb-drawer-list__option__inner {
+    .dnb-drawer-list__option-inner {
       display: flex;
       justify-content: center;
       align-items: center;
 
-      .dnb-drawer-list__option__item {
+      .dnb-drawer-list__option-item {
         display: flex;
         flex-direction: column;
       }
@@ -102,14 +102,14 @@
     }
   }
 
-  &--opened .dnb-input__submit-button__button .dnb-icon {
+  &--opened .dnb-input__submit-button-button .dnb-icon {
     transform: rotate(180deg);
     transform-origin: 50% 50%;
   }
-  .dnb-input__submit-button__button[disabled]:not(.dnb-button--has-text) {
+  .dnb-input__submit-button-button[disabled]:not(.dnb-button--has-text) {
     @include fakeBorder(var(--color-black-55), 0.0625rem, inset);
   }
-  .dnb-input__submit-button__button .dnb-icon {
+  .dnb-input__submit-button-button .dnb-icon {
     transition: transform 400ms ease-out;
 
     html[data-visual-test] & {
@@ -283,7 +283,7 @@
   }
 
   // Search highlight wrapper
-  &__list .dnb-drawer-list__option__item > span {
+  &__list .dnb-drawer-list__option-item > span {
     padding-right: 0.125em; // add one space because of the word split
   }
 }

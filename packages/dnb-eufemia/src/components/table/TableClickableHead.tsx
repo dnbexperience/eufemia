@@ -150,7 +150,7 @@ export function TableClickableButtonTd(props: {
 
   return (
     <Td
-      className="dnb-table__td__button-icon"
+      className="dnb-table__td-button-icon"
       onClick={() => {
         // Empty the selected text, so that the user can always expand/close accordion.
         // The selected text is not automatically cleared because we have
@@ -179,7 +179,7 @@ export function TableIconSrTh(props: { text: string }) {
   const { text } = props
 
   return (
-    <Th aria-hidden className="dnb-table__th__button-icon">
+    <Th aria-hidden className="dnb-table__th-button-icon">
       <div>{text}</div>
     </Th>
   )
