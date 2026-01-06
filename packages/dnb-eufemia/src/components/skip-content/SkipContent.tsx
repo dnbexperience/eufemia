@@ -132,7 +132,7 @@ const SkipContent = (localProps: SkipContentAllProps) => {
             {text || children}
           </button>
         )}
-        <HeightAnimation open={visible}>
+        <HeightAnimation open={visible} aria-live="polite">
           <Button
             wrap
             variant="secondary"
