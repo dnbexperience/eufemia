@@ -167,7 +167,7 @@ describe('Anchor element', () => {
       expect(anchorElement).toHaveAttribute('rel', 'noopener noreferrer')
     })
 
-    it('should not override custom rel attribute', () => {
+    it('should not override custom rel attribute when target="_blank"', () => {
       render(
         <Anchor href="/url" target="_blank" rel="custom-rel">
           text
