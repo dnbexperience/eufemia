@@ -258,12 +258,7 @@ export function getFileIcon(
       fileExtensionImages[mimeParts[1]]
   }
 
-  if (
-    !Object.prototype.hasOwnProperty.call(
-      fileExtensionImages,
-      iconFileType
-    )
-  ) {
+  if (!Object.hasOwn(fileExtensionImages, iconFileType)) {
     iconFileType = 'file'
   }
 

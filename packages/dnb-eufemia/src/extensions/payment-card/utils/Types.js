@@ -311,7 +311,7 @@ function createDaggy() {
       const values = []
       for (let idx = 0; idx < fields.length; idx += 1) {
         const field = fields[idx]
-        if (!Object.prototype.hasOwnProperty.call(obj, field)) {
+        if (!Object.hasOwn(obj, field)) {
           throw new TypeError('Missing field: ' + field)
         }
         values.push(obj[field])
