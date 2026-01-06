@@ -194,21 +194,21 @@
   "events": [
     {
       "name": "onChange",
-      "doc": "will be called on state changes made by the user. The callback `value` and `rawValue` is a number `{ value, rawValue, event }`. But if the prop `numberFormat` is given, then it will return an additional `number` with the given format `{ value, number, rawValue, event }`.",
+      "doc": "Will be called on state changes made by the user. The callback `value` and `rawValue` is a number `{ value, rawValue, event }`. But if the prop `numberFormat` is given, then it will return an additional `number` with the given format `{ value, number, rawValue, event }`.",
       "type": "function",
       "status": "optional",
       "defaultValue": null
     },
     {
       "name": "onDragStart",
-      "doc": "will be called once the user stops dragging. Returns `{ event }`.",
+      "doc": "Will be called once the user stops dragging. Returns `{ event }`.",
       "type": "function",
       "status": "optional",
       "defaultValue": null
     },
     {
       "name": "onDragEnd",
-      "doc": "will be called once the user starts dragging. Returns `{ event }`.",
+      "doc": "Will be called once the user starts dragging. Returns `{ event }`.",
       "type": "function",
       "status": "optional",
       "defaultValue": null
@@ -217,11 +217,11 @@
   "related": [
     "Space"
   ],
-  "checksum": "57e141ff821099f50b54866c64a72d416d3cda55cae5654b059f193cbee9bf66",
+  "checksum": "5abbb79a425a2fa6adf5e624bec5628956e6df26229cf1f5cb099333fd5d5fbf",
   "source": {
     "repo": "https://github.com/dnbexperience/eufemia",
     "file": "packages/dnb-eufemia/src/components/slider/Slider.tsx",
-    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.92.1/packages/dnb-eufemia/src/components/slider/Slider.tsx"
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.93.0/packages/dnb-eufemia/src/components/slider/Slider.tsx"
   },
   "sources": {
     "entry": {
@@ -241,7 +241,7 @@
       "public": "https://eufemia.dnb.no/uilib/components/slider/demos/"
     }
   },
-  "version": "10.92.1",
-  "generatedAt": "2025-12-16T14:16:47.588Z",
+  "version": "10.93.0",
+  "generatedAt": "2026-01-06T11:55:10.507Z",
   "schemaVersion": 1
 }

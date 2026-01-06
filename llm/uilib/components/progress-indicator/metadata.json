@@ -7,21 +7,21 @@
   "props": [
     {
       "name": "no_animation",
-      "doc": "use `noAnimation`.",
+      "doc": "Use `noAnimation`.",
       "type": " boolean",
       "status": "deprecated",
       "defaultValue": null
     },
     {
       "name": "label_direction",
-      "doc": "use `labelDirection`.",
+      "doc": "Use `labelDirection`.",
       "type": "string",
       "status": "deprecated",
       "defaultValue": null
     },
     {
       "name": "show_label",
-      "doc": "use `showDefaultLabel`.",
+      "doc": "Use `showDefaultLabel`.",
       "type": "boolean",
       "status": "deprecated",
       "defaultValue": null
@@ -132,7 +132,7 @@
   "events": [
     {
       "name": "on_complete",
-      "doc": "use `onComplete`.",
+      "doc": "Use `onComplete`.",
       "type": "function",
       "status": "deprecated",
       "defaultValue": null
@@ -149,11 +149,11 @@
     "Space",
     "customColors"
   ],
-  "checksum": "2d2c76f388a1ef17b3d184dd1787e9f546d397e74a42637a1cdeb4df23b270c4",
+  "checksum": "3b3a845b42aa6be3d2a07149c79f888b28eb53e6df8853c66198a1cd6492193a",
   "source": {
     "repo": "https://github.com/dnbexperience/eufemia",
     "file": "packages/dnb-eufemia/src/components/progress-indicator/ProgressIndicator.tsx",
-    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.92.1/packages/dnb-eufemia/src/components/progress-indicator/ProgressIndicator.tsx"
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.93.0/packages/dnb-eufemia/src/components/progress-indicator/ProgressIndicator.tsx"
   },
   "sources": {
     "entry": {
@@ -173,7 +173,7 @@
       "public": "https://eufemia.dnb.no/uilib/components/progress-indicator/demos/"
     }
   },
-  "version": "10.92.1",
-  "generatedAt": "2025-12-16T14:16:47.557Z",
+  "version": "10.93.0",
+  "generatedAt": "2026-01-06T11:55:10.476Z",
   "schemaVersion": 1
 }

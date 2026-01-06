@@ -244,56 +244,56 @@
   "events": [
     {
       "name": "on_change",
-      "doc": "will be called on value changes made by the user. Returns an object with the value as a string and the native event: `{ value, event }`.",
+      "doc": "Will be called on value changes made by the user. Returns an object with the value as a string and the native event: `{ value, event }`.",
       "type": "function",
       "status": "optional",
       "defaultValue": null
     },
     {
       "name": "on_focus",
-      "doc": "will be called on focus set by the user. Returns `{ value, event }`.",
+      "doc": "Will be called on focus set by the user. Returns `{ value, event }`.",
       "type": "function",
       "status": "optional",
       "defaultValue": null
     },
     {
       "name": "on_key_down",
-      "doc": "will be called on key down by the user. Returns `{ value, event }`.",
+      "doc": "Will be called on key down by the user. Returns `{ value, event }`.",
       "type": "function",
       "status": "optional",
       "defaultValue": null
     },
     {
       "name": "on_blur",
-      "doc": "will be called on blur set by the user. Returns `{ value, event }`.",
+      "doc": "Will be called on blur set by the user. Returns `{ value, event }`.",
       "type": "function",
       "status": "optional",
       "defaultValue": null
     },
     {
       "name": "on_submit",
-      "doc": "will be called on enter key press or submit button click. Returns `{ value, event }`.",
+      "doc": "Will be called on enter key press or submit button click. Returns `{ value, event }`.",
       "type": "function",
       "status": "optional",
       "defaultValue": null
     },
     {
       "name": "on_submit_focus",
-      "doc": "will be called on submit button focus. Only relevant when `type=\"search\"`. Returns `{ value, event }`.",
+      "doc": "Will be called on submit button focus. Only relevant when `type=\"search\"`. Returns `{ value, event }`.",
       "type": "function",
       "status": "optional",
       "defaultValue": null
     },
     {
       "name": "on_submit_blur",
-      "doc": "will be called on submit button blur. Only relevant when `type=\"search\"`. Returns `{ value, event }`.",
+      "doc": "Will be called on submit button blur. Only relevant when `type=\"search\"`. Returns `{ value, event }`.",
       "type": "function",
       "status": "optional",
       "defaultValue": null
     },
     {
       "name": "on_clear",
-      "doc": "will be called on a clear button click. Returns `{ value, previousValue, event }`.",
+      "doc": "Will be called on a clear button click. Returns `{ value, previousValue, event }`.",
       "type": "function",
       "status": "optional",
       "defaultValue": null
@@ -302,11 +302,11 @@
   "related": [
     "Space"
   ],
-  "checksum": "5a04fb5260a077eee53596c314860ab399da802bedc9ca77bae1219f6062eb66",
+  "checksum": "40b688fbde312e89183d848262ac49a24d07d72224ff2a8c43f81c4f9fe2d6f6",
   "source": {
     "repo": "https://github.com/dnbexperience/eufemia",
     "file": "packages/dnb-eufemia/src/components/input/Input.js",
-    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.92.1/packages/dnb-eufemia/src/components/input/Input.js"
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.93.0/packages/dnb-eufemia/src/components/input/Input.js"
   },
   "sources": {
     "entry": {
@@ -326,7 +326,7 @@
       "public": "https://eufemia.dnb.no/uilib/components/input/demos/"
     }
   },
-  "version": "10.92.1",
-  "generatedAt": "2025-12-16T14:16:47.453Z",
+  "version": "10.93.0",
+  "generatedAt": "2026-01-06T11:55:10.377Z",
   "schemaVersion": 1
 }

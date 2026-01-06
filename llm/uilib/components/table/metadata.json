@@ -7,7 +7,7 @@
   "props": [
     {
       "name": "collapseAllHandleRef",
-      "doc": "ref handle to collapse all expanded accordion rows. Send in a ref and use `.current()` to collapse all rows.",
+      "doc": "Ref handle to collapse all expanded accordion rows. Send in a ref and use `.current()` to collapse all rows.",
       "type": "React.MutableRefObject<() => void>",
       "status": "optional",
       "defaultValue": "undefined"
@@ -142,7 +142,7 @@
     },
     {
       "name": "noWrap",
-      "doc": "if set to `true`, the inherited header text will not wrap to new lines.",
+      "doc": "If set to `true`, the inherited header text will not wrap to new lines.",
       "type": "boolean",
       "status": "optional",
       "defaultValue": "true"
@@ -180,21 +180,21 @@
     },
     {
       "name": "expanded",
-      "doc": "use `true` to render the `<Tr>` initially as expanded.",
+      "doc": "Use `true` to render the `<Tr>` initially as expanded.",
       "type": "boolean",
       "status": "optional",
       "defaultValue": "false"
     },
     {
       "name": "disabled",
-      "doc": "use `true` to disable the `<Tr>` to be accessible as an interactive element.",
+      "doc": "Use `true` to disable the `<Tr>` to be accessible as an interactive element.",
       "type": "boolean",
       "status": "optional",
       "defaultValue": "false"
     },
     {
       "name": "noAnimation",
-      "doc": "use `true` to disable the expand/collapse animation.",
+      "doc": "Use `true` to disable the expand/collapse animation.",
       "type": "boolean",
       "status": "optional",
       "defaultValue": "false"
@@ -204,11 +204,11 @@
   "related": [
     "Space"
   ],
-  "checksum": "9f1d8f0fa5087180bd3a61ff63cbbd0905bbcbc784151a111f205f000b41a218",
+  "checksum": "ba65e0eca0a32b44fb2737a06cfdfea1d041c1bc1e00a887a0b8a52da9c6957f",
   "source": {
     "repo": "https://github.com/dnbexperience/eufemia",
     "file": "packages/dnb-eufemia/src/components/table/Table.tsx",
-    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.92.1/packages/dnb-eufemia/src/components/table/Table.tsx"
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.93.0/packages/dnb-eufemia/src/components/table/Table.tsx"
   },
   "sources": {
     "entry": {
@@ -228,7 +228,7 @@
       "public": "https://eufemia.dnb.no/uilib/components/table/demos/"
     }
   },
-  "version": "10.92.1",
-  "generatedAt": "2025-12-16T14:16:47.613Z",
+  "version": "10.93.0",
+  "generatedAt": "2026-01-06T11:55:10.533Z",
   "schemaVersion": 1
 }

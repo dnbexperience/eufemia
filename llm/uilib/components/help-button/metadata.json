@@ -7,14 +7,14 @@
   "props": [
     {
       "name": "children",
-      "doc": "the content to show.",
+      "doc": "The content to show.",
       "type": "React.Node",
       "status": "optional",
       "defaultValue": null
     },
     {
       "name": "title",
-      "doc": "the content title. Defaults to `Hjelpetekst` (HelpButton.title).",
+      "doc": "The content title. Defaults to `Hjelpetekst` (HelpButton.title).",
       "type": "string",
       "status": "optional",
       "defaultValue": null
@@ -31,7 +31,7 @@
     },
     {
       "name": "render",
-      "doc": "accepts a function that returns a valid React Element. See example below.",
+      "doc": "Accepts a function that returns a valid React Element. See example below.",
       "type": "function",
       "status": "optional",
       "defaultValue": null
@@ -42,11 +42,11 @@
     "Button",
     "Space"
   ],
-  "checksum": "6f7031a419e4321642ae5ae6f31af0ec6921da1de677f20b1f3203892abf2127",
+  "checksum": "a48d49b06cf40b5d5bbc3ae5d08e6808e714d21863962dc29f9d961080172770",
   "source": {
     "repo": "https://github.com/dnbexperience/eufemia",
     "file": "packages/dnb-eufemia/src/components/help-button/HelpButton.tsx",
-    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.92.1/packages/dnb-eufemia/src/components/help-button/HelpButton.tsx"
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.93.0/packages/dnb-eufemia/src/components/help-button/HelpButton.tsx"
   },
   "sources": {
     "entry": {
@@ -66,7 +66,7 @@
       "public": "https://eufemia.dnb.no/uilib/components/help-button/demos/"
     }
   },
-  "version": "10.92.1",
-  "generatedAt": "2025-12-16T14:16:47.418Z",
+  "version": "10.93.0",
+  "generatedAt": "2026-01-06T11:55:10.340Z",
   "schemaVersion": 1
 }

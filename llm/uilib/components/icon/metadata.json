@@ -21,21 +21,21 @@
     },
     {
       "name": "border",
-      "doc": "use `true` to display a rounded border with an inherited color. Keep in mind that the icon will have a larger total width and height of `+0.5em`.",
+      "doc": "Use `true` to display a rounded border with an inherited color. Keep in mind that the icon will have a larger total width and height of `+0.5em`.",
       "type": "boolean",
       "status": "optional",
       "defaultValue": null
     },
     {
       "name": "alt",
-      "doc": "the alternative label (text version) of the icon. Defaults to the imported icon name.",
+      "doc": "The alternative label (text version) of the icon. Defaults to the imported icon name.",
       "type": "string",
       "status": "optional",
       "defaultValue": null
     },
     {
       "name": "size",
-      "doc": "the dimension of the icon. This will be the `viewBox` and represent `width` and `height`. Defaults to `16`. You can use `small`,`medium`, `large` or `auto`. Auto will enable that the icon size gets inherited by the parent HTML element if it provides a `font-size`.",
+      "doc": "The dimension of the icon. This will be the `viewBox` and represent `width` and `height`. Defaults to `16`. You can use `small`,`medium`, `large` or `auto`. Auto will enable that the icon size gets inherited by the parent HTML element if it provides a `font-size`.",
       "type": [
         "small",
         "medium",
@@ -52,7 +52,7 @@
     },
     {
       "name": "color",
-      "doc": "the color can be any valid color property, such as Hex, RGB or preferable – any CSS variable from the [colors table](/uilib/usage/customisation/colors), e.g. `var(--color-ocean-green)`. Default is no color, which means `--color-black-80`.",
+      "doc": "The color can be any valid color property, such as Hex, RGB or preferable – any CSS variable from the [colors table](/uilib/usage/customisation/colors), e.g. `var(--color-ocean-green)`. Default is no color, which means `--color-black-80`.",
       "type": "Various",
       "status": "optional",
       "defaultValue": null
@@ -66,7 +66,7 @@
     },
     {
       "name": "modifier",
-      "doc": "modifier class to define. Will result in: `dnb-icon--${modifier}`.",
+      "doc": "Modifier class to define. Will result in: `dnb-icon--${modifier}`.",
       "type": "string",
       "status": "optional",
       "defaultValue": null
@@ -84,11 +84,11 @@
     "Icon",
     "Space"
   ],
-  "checksum": "2b6ae6b80f9f81b8abebebf24175f8bd69639383d62cb6af766da6fa96d54f63",
+  "checksum": "a7a0501100d8ccd1811ec45d5e2bad4bb54cae924b0da179e6d89dbab02805fc",
   "source": {
     "repo": "https://github.com/dnbexperience/eufemia",
     "file": "packages/dnb-eufemia/src/components/icon/Icon.tsx",
-    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.92.1/packages/dnb-eufemia/src/components/icon/Icon.tsx"
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.93.0/packages/dnb-eufemia/src/components/icon/Icon.tsx"
   },
   "sources": {
     "entry": {
@@ -105,7 +105,7 @@
       "public": "https://eufemia.dnb.no/uilib/components/icon/demos/"
     }
   },
-  "version": "10.92.1",
-  "generatedAt": "2025-12-16T14:16:47.426Z",
+  "version": "10.93.0",
+  "generatedAt": "2026-01-06T11:55:10.349Z",
   "schemaVersion": 1
 }

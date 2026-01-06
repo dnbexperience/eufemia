@@ -131,7 +131,7 @@
   "events": [
     {
       "name": "onClick",
-      "doc": "will be called by user click interaction.",
+      "doc": "Will be called by user click interaction.",
       "type": "function",
       "status": "optional",
       "defaultValue": null
@@ -147,11 +147,11 @@
   "related": [
     "Space"
   ],
-  "checksum": "01eac12d0010a91532bf89e6d9d42cb38473513de392d01f05cbecf5c76428cf",
+  "checksum": "8ebd4b7c7d15b08f6abcf700d68d0cef87c6896b827b19492cbb7d4c7c26fda5",
   "source": {
     "repo": "https://github.com/dnbexperience/eufemia",
     "file": "packages/dnb-eufemia/src/components/breadcrumb/Breadcrumb.tsx",
-    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.92.1/packages/dnb-eufemia/src/components/breadcrumb/Breadcrumb.tsx"
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.93.0/packages/dnb-eufemia/src/components/breadcrumb/Breadcrumb.tsx"
   },
   "sources": {
     "entry": {
@@ -171,7 +171,7 @@
       "public": "https://eufemia.dnb.no/uilib/components/breadcrumb/demos/"
     }
   },
-  "version": "10.92.1",
-  "generatedAt": "2025-12-16T14:16:47.285Z",
+  "version": "10.93.0",
+  "generatedAt": "2026-01-06T11:55:10.210Z",
   "schemaVersion": 1
 }

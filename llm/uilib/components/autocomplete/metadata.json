@@ -1,7 +1,7 @@
 {
   "id": "uilib/components/autocomplete",
   "name": "Autocomplete",
-  "description": "The Autocomplete component, also know as a ComboBox, completes / suggests values during typing.",
+  "description": "The Autocomplete component is a combination of an Input and a Dropdown (ComboBox) that suggests matching data items during typing.",
   "group": "components",
   "slug": "/uilib/components/autocomplete/",
   "props": [
@@ -427,7 +427,7 @@
   "source": {
     "repo": "https://github.com/dnbexperience/eufemia",
     "file": "packages/dnb-eufemia/src/components/autocomplete/Autocomplete.js",
-    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.92.1/packages/dnb-eufemia/src/components/autocomplete/Autocomplete.js"
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.93.0/packages/dnb-eufemia/src/components/autocomplete/Autocomplete.js"
   },
   "sources": {
     "entry": {
@@ -447,7 +447,7 @@
       "public": "https://eufemia.dnb.no/uilib/components/autocomplete/demos/"
     }
   },
-  "version": "10.92.1",
-  "generatedAt": "2025-12-16T14:16:47.258Z",
+  "version": "10.93.0",
+  "generatedAt": "2026-01-06T11:55:10.181Z",
   "schemaVersion": 1
 }

@@ -91,7 +91,7 @@
     },
     {
       "name": "closeButtonAttributes",
-      "doc": "define any valid Eufemia [Button properties](/uilib/components/button/properties) or HTML attribute inside an object.",
+      "doc": "Define any valid Eufemia [Button properties](/uilib/components/button/properties) or HTML attribute inside an object.",
       "type": "ButtonProps",
       "status": "optional",
       "defaultValue": null
@@ -105,7 +105,7 @@
     },
     {
       "name": "acceptButtonAttributes",
-      "doc": "define any valid Eufemia [Button properties](/uilib/components/button/properties) or HTML attribute inside an object.",
+      "doc": "Define any valid Eufemia [Button properties](/uilib/components/button/properties) or HTML attribute inside an object.",
       "type": "ButtonProps",
       "status": "optional",
       "defaultValue": null
@@ -121,14 +121,14 @@
   "events": [
     {
       "name": "onAccept",
-      "doc": "will be called when user clicks the accept button.",
+      "doc": "Will be called when user clicks the accept button.",
       "type": "function",
       "status": "optional",
       "defaultValue": null
     },
     {
       "name": "onClose",
-      "doc": "will be called when user clicks the close button.",
+      "doc": "Will be called when user clicks the close button.",
       "type": "function",
       "status": "optional",
       "defaultValue": null
@@ -137,11 +137,11 @@
   "related": [
     "Space"
   ],
-  "checksum": "c11806e61d6ac4fab831e0820990e1c670efab0d57fdbd7a9dd67e65b8ac3f7b",
+  "checksum": "c44b6fc40064455b317759cdb4da53541b267497a0f4005324865142fdaf8160",
   "source": {
     "repo": "https://github.com/dnbexperience/eufemia",
     "file": "packages/dnb-eufemia/src/components/info-card/InfoCard.tsx",
-    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.92.1/packages/dnb-eufemia/src/components/info-card/InfoCard.tsx"
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.93.0/packages/dnb-eufemia/src/components/info-card/InfoCard.tsx"
   },
   "sources": {
     "entry": {
@@ -161,7 +161,7 @@
       "public": "https://eufemia.dnb.no/uilib/components/info-card/demos/"
     }
   },
-  "version": "10.92.1",
-  "generatedAt": "2025-12-16T14:16:47.432Z",
+  "version": "10.93.0",
+  "generatedAt": "2026-01-06T11:55:10.355Z",
   "schemaVersion": 1
 }

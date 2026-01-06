@@ -108,7 +108,7 @@
     },
     {
       "name": "element",
-      "doc": "define what HTML element should be used. If you use, e.g. a `span`, then `role=\"heading\"` and `aria-level` gets set. Defaults to semantic heading element.",
+      "doc": "Define what HTML element should be used. If you use, e.g. a `span`, then `role=\"heading\"` and `aria-level` gets set. Defaults to semantic heading element.",
       "type": [
         "string",
         "React.Element"
@@ -138,11 +138,11 @@
   "related": [
     "Space"
   ],
-  "checksum": "95dc45d70dc36925cb2d926b134242ce20d74d818fdaacc2e774471daf6d0adf",
+  "checksum": "f5d5001b54890658554fb30a2263a64df486937e4413e0c993e624a4bc806e90",
   "source": {
     "repo": "https://github.com/dnbexperience/eufemia",
     "file": "packages/dnb-eufemia/src/components/heading/Heading.tsx",
-    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.92.1/packages/dnb-eufemia/src/components/heading/Heading.tsx"
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.93.0/packages/dnb-eufemia/src/components/heading/Heading.tsx"
   },
   "sources": {
     "entry": {
@@ -159,7 +159,7 @@
       "public": "https://eufemia.dnb.no/uilib/components/heading/demos/"
     }
   },
-  "version": "10.92.1",
-  "generatedAt": "2025-12-16T14:16:47.408Z",
+  "version": "10.93.0",
+  "generatedAt": "2026-01-06T11:55:10.330Z",
   "schemaVersion": 1
 }

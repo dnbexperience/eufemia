@@ -183,7 +183,7 @@
   "source": {
     "repo": "https://github.com/dnbexperience/eufemia",
     "file": "packages/dnb-eufemia/src/components/dialog/Dialog.tsx",
-    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.92.1/packages/dnb-eufemia/src/components/dialog/Dialog.tsx"
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.93.0/packages/dnb-eufemia/src/components/dialog/Dialog.tsx"
   },
   "sources": {
     "entry": {
@@ -203,7 +203,7 @@
       "public": "https://eufemia.dnb.no/uilib/components/dialog/demos/"
     }
   },
-  "version": "10.92.1",
-  "generatedAt": "2025-12-16T14:16:47.356Z",
+  "version": "10.93.0",
+  "generatedAt": "2026-01-06T11:55:10.281Z",
   "schemaVersion": 1
 }

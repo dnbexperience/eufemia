@@ -7,14 +7,14 @@
   "props": [
     {
       "name": "showCursor",
-      "doc": "Define if the copy cursor should be visible.  Defaults to `true`.",
+      "doc": "Define if the copy cursor should be visible. Defaults to `true`.",
       "type": "boolean",
       "status": "optional",
       "defaultValue": null
     },
     {
       "name": "disabled",
-      "doc": "If `true`, the copy functionality and copy cursor will be omitted.  Defaults to `false`.",
+      "doc": "If `true`, the copy functionality and copy cursor will be omitted. Defaults to `false`.",
       "type": "boolean",
       "status": "optional",
       "defaultValue": null
@@ -43,11 +43,11 @@
   ],
   "events": [],
   "related": [],
-  "checksum": "5289f983dea714cd3fba2c10524ecc5d08191cec064452b73e30cbd863bd6df1",
+  "checksum": "fada38a41553f748be7f66da102dba3646210d2b1100e7e92aef68df1a86a27c",
   "source": {
     "repo": "https://github.com/dnbexperience/eufemia",
     "file": "packages/dnb-eufemia/src/components/copy-on-click/CopyOnClick.tsx",
-    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.92.1/packages/dnb-eufemia/src/components/copy-on-click/CopyOnClick.tsx"
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.93.0/packages/dnb-eufemia/src/components/copy-on-click/CopyOnClick.tsx"
   },
   "sources": {
     "entry": {
@@ -64,7 +64,7 @@
       "public": "https://eufemia.dnb.no/uilib/components/copy-on-click/demos/"
     }
   },
-  "version": "10.92.1",
-  "generatedAt": "2025-12-16T14:16:47.323Z",
+  "version": "10.93.0",
+  "generatedAt": "2026-01-06T11:55:10.249Z",
   "schemaVersion": 1
 }

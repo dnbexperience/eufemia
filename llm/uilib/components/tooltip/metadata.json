@@ -21,7 +21,7 @@
     },
     {
       "name": "position",
-      "doc": "defines the offset position to the target element the arrow appears. Can be `top`, `right`, `left` and `bottom`. Defaults to `top`.",
+      "doc": "Defines the offset position to the target element the arrow appears. Can be `top`, `right`, `left` and `bottom`. Defaults to `top`.",
       "type": [
         "top",
         "right",
@@ -33,7 +33,7 @@
     },
     {
       "name": "align",
-      "doc": "defines the offset alignment to the target element the arrow appears. Can be `center`, `right` and `left`. Defaults to `center`.",
+      "doc": "Defines the offset alignment to the target element the arrow appears. Can be `center`, `right` and `left`. Defaults to `center`.",
       "type": [
         "center",
         "right",
@@ -44,7 +44,7 @@
     },
     {
       "name": "arrow",
-      "doc": "defines the direction where the arrow appears. Can be `center`, `top`, `right`, `bottom` and `left`. Defaults to `center`.",
+      "doc": "Defines the direction where the arrow appears. Can be `center`, `top`, `right`, `bottom` and `left`. Defaults to `center`.",
       "type": [
         "center",
         "top",
@@ -78,28 +78,28 @@
     },
     {
       "name": "omitDescribedBy",
-      "doc": "set to `true` to omit the `aria-describedby` attribute on the target element. Defaults to `false`.",
+      "doc": "Set to `true` to omit the `aria-describedby` attribute on the target element. Defaults to `false`.",
       "type": "boolean",
       "status": "optional",
       "defaultValue": null
     },
     {
       "name": "showDelay",
-      "doc": "define the delay until the tooltip should show up after the initial hover / active state.",
+      "doc": "Define the delay until the tooltip should show up after the initial hover / active state.",
       "type": "boolean",
       "status": "optional",
       "defaultValue": null
     },
     {
       "name": "hideDelay",
-      "doc": "define the delay until the tooltip should disappear up after initial visibility.",
+      "doc": "Define the delay until the tooltip should disappear up after initial visibility.",
       "type": "boolean",
       "status": "optional",
       "defaultValue": null
     },
     {
       "name": "size",
-      "doc": "defines the spacing size of the tooltip. Can be `large` or `basis`. Defaults to `basis`.",
+      "doc": "Defines the spacing size of the tooltip. Can be `large` or `basis`. Defaults to `basis`.",
       "type": [
         "large",
         "basis"
@@ -109,7 +109,7 @@
     },
     {
       "name": "targetElement",
-      "doc": "provide an element directly as a React Node or a React Ref that will be wrapped and rendered.",
+      "doc": "Provide an element directly as a React Node or a React Ref that will be wrapped and rendered.",
       "type": [
         "React.Node",
         "React.RefObject"
@@ -119,7 +119,7 @@
     },
     {
       "name": "targetSelector",
-      "doc": "specify a vanilla HTML selector by a string as the target element.",
+      "doc": "Specify a vanilla HTML selector by a string as the target element.",
       "type": "string",
       "status": "optional",
       "defaultValue": null
@@ -133,7 +133,7 @@
     },
     {
       "name": "noAnimation",
-      "doc": "set to `true` if no fade-in animation should be used.",
+      "doc": "Set to `true` if no fade-in animation should be used.",
       "type": "boolean",
       "status": "optional",
       "defaultValue": null
@@ -150,11 +150,11 @@
   "related": [
     "Space"
   ],
-  "checksum": "fc8d93f7fb91f8b1912392df3c65e57c629133c6a59414b187d29300745e4e37",
+  "checksum": "43e1234bc671c187f76615ece4b210fdfabea99131b9b9c596bc870c7513e5bd",
   "source": {
     "repo": "https://github.com/dnbexperience/eufemia",
     "file": "packages/dnb-eufemia/src/components/tooltip/Tooltip.tsx",
-    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.92.1/packages/dnb-eufemia/src/components/tooltip/Tooltip.tsx"
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.93.0/packages/dnb-eufemia/src/components/tooltip/Tooltip.tsx"
   },
   "sources": {
     "entry": {
@@ -171,7 +171,7 @@
       "public": "https://eufemia.dnb.no/uilib/components/tooltip/demos/"
     }
   },
-  "version": "10.92.1",
-  "generatedAt": "2025-12-16T14:16:47.662Z",
+  "version": "10.93.0",
+  "generatedAt": "2026-01-06T11:55:10.580Z",
   "schemaVersion": 1
 }

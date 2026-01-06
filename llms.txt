@@ -3,8 +3,8 @@
 > DNB’s Eufemia design system. This file points LLMs to machine-readable docs and clean Markdown copies.
 
 Index (JSON): https://eufemia.dnb.no/llm/index.json
-Version: 10.92.1
-GeneratedAt: 2025-12-16T14:16:48.364Z
+Version: 10.93.0
+GeneratedAt: 2026-01-06T11:55:11.278Z
 
 ## Components
 
@@ -23,7 +23,7 @@ GeneratedAt: 2025-12-16T14:16:48.364Z
   - Docs: https://eufemia.dnb.no/uilib/components/aria-live/
   - Checksum: 9d4d723de6a79cec80af7338ca9d7a2b3438b9d1b6c285f1a464a206c4e84178
 
-- [Autocomplete](https://eufemia.dnb.no/uilib/components/autocomplete/): The Autocomplete component, also know as a ComboBox, completes / suggests values during typing.
+- [Autocomplete](https://eufemia.dnb.no/uilib/components/autocomplete/): The Autocomplete component is a combination of an Input and a Dropdown (ComboBox) that suggests matching data items during typing.
   - Metadata: https://eufemia.dnb.no/llm/uilib/components/autocomplete/metadata.json
   - Docs: https://eufemia.dnb.no/uilib/components/autocomplete/
   - Checksum: 234f1713e34f0eda0f2b8e6239ed711479d3971aff39e4f9f8dec6dc38e89873
@@ -36,17 +36,17 @@ GeneratedAt: 2025-12-16T14:16:48.364Z
 - [Badge](https://eufemia.dnb.no/uilib/components/badge/): The Badge component allows the user to focus on new or unread content or notifications.
   - Metadata: https://eufemia.dnb.no/llm/uilib/components/badge/metadata.json
   - Docs: https://eufemia.dnb.no/uilib/components/badge/
-  - Checksum: b659b2723e66730b256aebdbda09f302dcfe59d97e9bcbbb179c24aef21e9fe3
+  - Checksum: 3ffc1a980bcc6617a62e97e3409fc144efccac9b71851659288fe41b362acb84
 
 - [Breadcrumb](https://eufemia.dnb.no/uilib/components/breadcrumb/): The Breadcrumb component is a bar for navigation showing current web path.
   - Metadata: https://eufemia.dnb.no/llm/uilib/components/breadcrumb/metadata.json
   - Docs: https://eufemia.dnb.no/uilib/components/breadcrumb/
-  - Checksum: 01eac12d0010a91532bf89e6d9d42cb38473513de392d01f05cbecf5c76428cf
+  - Checksum: 8ebd4b7c7d15b08f6abcf700d68d0cef87c6896b827b19492cbb7d4c7c26fda5
 
 - [Button](https://eufemia.dnb.no/uilib/components/button/): The Button component should be used as the primary call-to-action in a form, or as a user interaction mechanism.
   - Metadata: https://eufemia.dnb.no/llm/uilib/components/button/metadata.json
   - Docs: https://eufemia.dnb.no/uilib/components/button/
-  - Checksum: 0ea24b982d6a1f77f5d1b82a5f1109ed813c7a275898dd90b0fe127692587bba
+  - Checksum: c6f33eeefc33a4bc8ef4f3d8507beaf58bd8d534b188270a3762e4635d664614
 
 - [Card](https://eufemia.dnb.no/uilib/components/card/): `Card` is a block section element showing the white box with rounded gray borders, adding spacing automatically.
   - Metadata: https://eufemia.dnb.no/llm/uilib/components/card/metadata.json
@@ -61,7 +61,7 @@ GeneratedAt: 2025-12-16T14:16:48.364Z
 - [CopyOnClick](https://eufemia.dnb.no/uilib/components/copy-on-click/): The CopyOnClick component allows users to copy text to their clipboard simply by clicking on it.
   - Metadata: https://eufemia.dnb.no/llm/uilib/components/copy-on-click/metadata.json
   - Docs: https://eufemia.dnb.no/uilib/components/copy-on-click/
-  - Checksum: 5289f983dea714cd3fba2c10524ecc5d08191cec064452b73e30cbd863bd6df1
+  - Checksum: fada38a41553f748be7f66da102dba3646210d2b1100e7e92aef68df1a86a27c
 
 - [CountryFlag](https://eufemia.dnb.no/uilib/components/country-flag/): The CountryFlag component lets you display a country flag based on a country ISO code.
   - Metadata: https://eufemia.dnb.no/llm/uilib/components/country-flag/metadata.json
@@ -91,17 +91,17 @@ GeneratedAt: 2025-12-16T14:16:48.364Z
 - [Dropdown](https://eufemia.dnb.no/uilib/components/dropdown/): The Dropdown component is a custom-made data selection component.
   - Metadata: https://eufemia.dnb.no/llm/uilib/components/dropdown/metadata.json
   - Docs: https://eufemia.dnb.no/uilib/components/dropdown/
-  - Checksum: f7bf34038a00a4513e1ebb428e3754114d78472e91576898d82bde6606d9fc74
+  - Checksum: 08a7b0994ac3b8532ce2f4fa822807cd93bd3302bfa0b21bbd58e66e323cc1b2
 
 - [FormLabel](https://eufemia.dnb.no/uilib/components/form-label/): The FormLabel component represents a caption for all sorts of HTML elements in a user interface.
   - Metadata: https://eufemia.dnb.no/llm/uilib/components/form-label/metadata.json
   - Docs: https://eufemia.dnb.no/uilib/components/form-label/
-  - Checksum: 524826016076634f0924caeaa66e12436ce4b2f0dcbdc963861a903bc9ca10df
+  - Checksum: 56d9f528a6a74ccf692e61dbd3121b2a45544ac463a2ddd1e61665bedbb501ae
 
-- [FormStatus (Messageboxes)](https://eufemia.dnb.no/uilib/components/form-status/): The FormStatus is a simple component meant for displaying the status of a form.
+- [FormStatus (Messageboxes)](https://eufemia.dnb.no/uilib/components/form-status/): The FormStatus is a simple component meant for displaying the status of a form (errors, messages, etc.).
   - Metadata: https://eufemia.dnb.no/llm/uilib/components/form-status/metadata.json
   - Docs: https://eufemia.dnb.no/uilib/components/form-status/
-  - Checksum: 4332ce0a4ee5f72c2df4304acc9de8f9748f38b088b7bbfff2255b63876949f1
+  - Checksum: daad9fefe6eebdc991b72aad25652f440644aaee2636810ce446a1741a37a852
 
 - [GlobalError (404)](https://eufemia.dnb.no/uilib/components/global-error/): The GlobalError is a simple component to integrate where a 404 or 500 message has to be shown.
   - Metadata: https://eufemia.dnb.no/llm/uilib/components/global-error/metadata.json
@@ -111,12 +111,12 @@ GeneratedAt: 2025-12-16T14:16:48.364Z
 - [GlobalStatus](https://eufemia.dnb.no/uilib/components/global-status/): The GlobalStatus is a complex component meant for displaying global Application notifications or a summary of a form.
   - Metadata: https://eufemia.dnb.no/llm/uilib/components/global-status/metadata.json
   - Docs: https://eufemia.dnb.no/uilib/components/global-status/
-  - Checksum: b11f9d2369b5d9c3f2fbc79a8d6e465815a0c374f7da7d3981d926f23e63c530
+  - Checksum: 0609a7afede69ea6e55572985ca27c6a6853aac1d1c1461f9d301076aba20e8d
 
 - [Heading](https://eufemia.dnb.no/uilib/components/heading/): The Heading component is a helper to create automated semantic headings within a boundary of some rules.
   - Metadata: https://eufemia.dnb.no/llm/uilib/components/heading/metadata.json
   - Docs: https://eufemia.dnb.no/uilib/components/heading/
-  - Checksum: 95dc45d70dc36925cb2d926b134242ce20d74d818fdaacc2e774471daf6d0adf
+  - Checksum: f5d5001b54890658554fb30a2263a64df486937e4413e0c993e624a4bc806e90
 
 - [HeightAnimation](https://eufemia.dnb.no/uilib/components/height-animation/): HeightAnimation is a helper component to animate from 0 to height:auto powered by CSS.
   - Metadata: https://eufemia.dnb.no/llm/uilib/components/height-animation/metadata.json
@@ -126,27 +126,27 @@ GeneratedAt: 2025-12-16T14:16:48.364Z
 - [HelpButton](https://eufemia.dnb.no/uilib/components/help-button/): A help button with custom semantics, helping screen readers determine the meaning of that button.
   - Metadata: https://eufemia.dnb.no/llm/uilib/components/help-button/metadata.json
   - Docs: https://eufemia.dnb.no/uilib/components/help-button/
-  - Checksum: 6f7031a419e4321642ae5ae6f31af0ec6921da1de677f20b1f3203892abf2127
+  - Checksum: a48d49b06cf40b5d5bbc3ae5d08e6808e714d21863962dc29f9d961080172770
 
 - [Icon](https://eufemia.dnb.no/uilib/components/icon/): The main Icon component is basically a wrapper for whatever icon you place within it.
   - Metadata: https://eufemia.dnb.no/llm/uilib/components/icon/metadata.json
   - Docs: https://eufemia.dnb.no/uilib/components/icon/
-  - Checksum: 2b6ae6b80f9f81b8abebebf24175f8bd69639383d62cb6af766da6fa96d54f63
+  - Checksum: a7a0501100d8ccd1811ec45d5e2bad4bb54cae924b0da179e6d89dbab02805fc
 
 - [InfoCard](https://eufemia.dnb.no/uilib/components/info-card/): The InfoCard is used to give the user more information than a message box. It can also be used to give useful tips.
   - Metadata: https://eufemia.dnb.no/llm/uilib/components/info-card/metadata.json
   - Docs: https://eufemia.dnb.no/uilib/components/info-card/
-  - Checksum: c11806e61d6ac4fab831e0820990e1c670efab0d57fdbd7a9dd67e65b8ac3f7b
+  - Checksum: c44b6fc40064455b317759cdb4da53541b267497a0f4005324865142fdaf8160
 
 - [InputMasked](https://eufemia.dnb.no/uilib/components/input-masked/): The InputMasked component uses the basic input component, but with some additional masking functionality.
   - Metadata: https://eufemia.dnb.no/llm/uilib/components/input-masked/metadata.json
   - Docs: https://eufemia.dnb.no/uilib/components/input-masked/
-  - Checksum: 3b97c30af63204ce73f9c7ce089edab36bf1565f25a4e3d3417bdcff5b2c8a46
+  - Checksum: 2507cd8ef672b74f922eea4640ece71a1dc6afd8057de60f93598c6b5f57ba8b
 
 - [Input](https://eufemia.dnb.no/uilib/components/input/): The Input component is an umbrella component for all inputs which share the same style as the classic text input field.
   - Metadata: https://eufemia.dnb.no/llm/uilib/components/input/metadata.json
   - Docs: https://eufemia.dnb.no/uilib/components/input/
-  - Checksum: 5a04fb5260a077eee53596c314860ab399da802bedc9ca77bae1219f6062eb66
+  - Checksum: 40b688fbde312e89183d848262ac49a24d07d72224ff2a8c43f81c4f9fe2d6f6
 
 - [ListFormat](https://eufemia.dnb.no/uilib/components/list-format/): A ready to use DNB list formatter.
   - Metadata: https://eufemia.dnb.no/llm/uilib/components/list-format/metadata.json
@@ -161,9 +161,9 @@ GeneratedAt: 2025-12-16T14:16:48.364Z
 - [Pagination](https://eufemia.dnb.no/uilib/components/pagination/): The Pagination component supports both classical pagination and infinity scrolling.
   - Metadata: https://eufemia.dnb.no/llm/uilib/components/pagination/metadata.json
   - Docs: https://eufemia.dnb.no/uilib/components/pagination/
-  - Checksum: fc856cd04be9e4af4c00456547a0aaea0c464728edb42d89f26d79d90acb30cf
+  - Checksum: c61e2498ed642244529df302fe639e92e23fe73d5868e5495e1cc6ac6e3e89c3
 
-- [Popover](https://eufemia.dnb.no/uilib/components/popover/): Popover renders its own floating surface anchored to a trigger element.
+- [Popover](https://eufemia.dnb.no/uilib/components/popover/): Popover renders its own floating surface anchored to a trigger element. (For internal use only)
   - Metadata: https://eufemia.dnb.no/llm/uilib/components/popover/metadata.json
   - Docs: https://eufemia.dnb.no/uilib/components/popover/
   - Checksum: 12f46858a8165bade934d1011914c50293b989ee6578acb17d739968a8f9ab7d
@@ -176,12 +176,12 @@ GeneratedAt: 2025-12-16T14:16:48.364Z
 - [ProgressIndicator](https://eufemia.dnb.no/uilib/components/progress-indicator/): The ProgressIndicator component is a waiting loader / spinner to show while other content is in progression.
   - Metadata: https://eufemia.dnb.no/llm/uilib/components/progress-indicator/metadata.json
   - Docs: https://eufemia.dnb.no/uilib/components/progress-indicator/
-  - Checksum: 2d2c76f388a1ef17b3d184dd1787e9f546d397e74a42637a1cdeb4df23b270c4
+  - Checksum: 3b3a845b42aa6be3d2a07149c79f888b28eb53e6df8853c66198a1cd6492193a
 
 - [Radio](https://eufemia.dnb.no/uilib/components/radio/): The Radio component is shown as a circle that is filled (checked) when activated.
   - Metadata: https://eufemia.dnb.no/llm/uilib/components/radio/metadata.json
   - Docs: https://eufemia.dnb.no/uilib/components/radio/
-  - Checksum: b61ecb01dcd20e6518d57d3b449dd90d7af8d70be48b23e09883eade8a536df2
+  - Checksum: dc656c6551fd38132cf09227e4cb443a8ca88f30d46e283ef6d45dbe9859c282
 
 - [Deprecated](https://eufemia.dnb.no/uilib/components/section/deprecated/): Look into the documentation for more details.
   - Metadata: https://eufemia.dnb.no/llm/uilib/components/section/deprecated/metadata.json
@@ -206,9 +206,9 @@ GeneratedAt: 2025-12-16T14:16:48.364Z
 - [Slider](https://eufemia.dnb.no/uilib/components/slider/): The Slider component provides a visual indication of adjustable value.
   - Metadata: https://eufemia.dnb.no/llm/uilib/components/slider/metadata.json
   - Docs: https://eufemia.dnb.no/uilib/components/slider/
-  - Checksum: 57e141ff821099f50b54866c64a72d416d3cda55cae5654b059f193cbee9bf66
+  - Checksum: 5abbb79a425a2fa6adf5e624bec5628956e6df26229cf1f5cb099333fd5d5fbf
 
-- [StepIndicator](https://eufemia.dnb.no/uilib/components/step-indicator/): The StepIndicator (progress indicator) is a visual representation of a users progress through a set of steps or series of actions.
+- [StepIndicator](https://eufemia.dnb.no/uilib/components/step-indicator/): The StepIndicator (progress indicator) is a visual representation of a user's progress through a set of steps or series of actions.
   - Metadata: https://eufemia.dnb.no/llm/uilib/components/step-indicator/metadata.json
   - Docs: https://eufemia.dnb.no/uilib/components/step-indicator/
   - Checksum: deafd1d9d0e0ce46e15638bd4d3a60378f7d93d9f61f8143fbb1ceac1321e021
@@ -221,17 +221,17 @@ GeneratedAt: 2025-12-16T14:16:48.364Z
 - [Table](https://eufemia.dnb.no/uilib/components/table/): Enhanced HTML Table element.
   - Metadata: https://eufemia.dnb.no/llm/uilib/components/table/metadata.json
   - Docs: https://eufemia.dnb.no/uilib/components/table/
-  - Checksum: 9f1d8f0fa5087180bd3a61ff63cbbd0905bbcbc784151a111f205f000b41a218
+  - Checksum: ba65e0eca0a32b44fb2737a06cfdfea1d041c1bc1e00a887a0b8a52da9c6957f
 
 - [Tabs](https://eufemia.dnb.no/uilib/components/tabs/): Tabs are a set of buttons which allow navigation between content that is related and on the same level of hierarchy.
   - Metadata: https://eufemia.dnb.no/llm/uilib/components/tabs/metadata.json
   - Docs: https://eufemia.dnb.no/uilib/components/tabs/
-  - Checksum: 55f69e51fe7a92dc1c1b2c1cddd986fe9fb1dfce1d4db17c00e396b735469edd
+  - Checksum: 4ef22c6a42eccf84f63c6240a752f37dba44f9e79578ccfefb83087f4c44d2bc
 
 - [Tag](https://eufemia.dnb.no/uilib/components/tag/): The Tag component is a compact element for displaying discrete information.
   - Metadata: https://eufemia.dnb.no/llm/uilib/components/tag/metadata.json
   - Docs: https://eufemia.dnb.no/uilib/components/tag/
-  - Checksum: f2edb7786c14441935c358a8a0eed20f37015e39067e29132d040ed3b368a28e
+  - Checksum: 5c4f8562ce665489d5b4f70841220921c7435bf03ee521a2194ecc5f043fe95c
 
 - [TermDefinition](https://eufemia.dnb.no/uilib/components/term-definition/): TermDefinition renders a compact, inline explanation for a word or phrase with an anchor-style trigger button.
   - Metadata: https://eufemia.dnb.no/llm/uilib/components/term-definition/metadata.json
@@ -241,7 +241,7 @@ GeneratedAt: 2025-12-16T14:16:48.364Z
 - [Textarea](https://eufemia.dnb.no/uilib/components/textarea/): The Textarea component has to be used as a multi-line text input control with an unlimited number of characters possible.
   - Metadata: https://eufemia.dnb.no/llm/uilib/components/textarea/metadata.json
   - Docs: https://eufemia.dnb.no/uilib/components/textarea/
-  - Checksum: a9f5095781ed117500e0172ad8429d7a169e09b02c63572d3228e97e02bb93da
+  - Checksum: 8e083e0ad56df1aafe0339182c7056f9fb4ea8f447ad5fb693ec860fb49bf68a
 
 - [Timeline](https://eufemia.dnb.no/uilib/components/timeline/): The Timeline component shows events in chronological order and gives a great overview of the overall process.
   - Metadata: https://eufemia.dnb.no/llm/uilib/components/timeline/metadata.json
@@ -251,17 +251,17 @@ GeneratedAt: 2025-12-16T14:16:48.364Z
 - [ToggleButton](https://eufemia.dnb.no/uilib/components/toggle-button/): The ToggleButton component should be used to toggle on or off a limited number of choices.
   - Metadata: https://eufemia.dnb.no/llm/uilib/components/toggle-button/metadata.json
   - Docs: https://eufemia.dnb.no/uilib/components/toggle-button/
-  - Checksum: 601291a9df0610714527ee55aedc2f008aedf44fa70190e47c0bfeb738e41dbf
+  - Checksum: f1ff26a9accf10584c465d2304fee21051ecff50891983cd769d9e8b795aa0c9
 
 - [Tooltip](https://eufemia.dnb.no/uilib/components/tooltip/): The Tooltip component is primarily meant to enhance the UX for various and additional information.
   - Metadata: https://eufemia.dnb.no/llm/uilib/components/tooltip/metadata.json
   - Docs: https://eufemia.dnb.no/uilib/components/tooltip/
-  - Checksum: fc8d93f7fb91f8b1912392df3c65e57c629133c6a59414b187d29300745e4e37
+  - Checksum: 43e1234bc671c187f76615ece4b210fdfabea99131b9b9c596bc870c7513e5bd
 
 - [Upload](https://eufemia.dnb.no/uilib/components/upload/): The Upload component should be used in scenarios where the user has to upload files. Files can be uploaded by clicking button. You also have the opportunity to add descriptive texts below the title where you could put max file size, allowed file formats etc.
   - Metadata: https://eufemia.dnb.no/llm/uilib/components/upload/metadata.json
   - Docs: https://eufemia.dnb.no/uilib/components/upload/
-  - Checksum: 2caff1388a40febff9efa9eb75e23847c26c3667ef92a8b85e61b05221d05fcd
+  - Checksum: 8a15e72f8d9c3c4c1c90d0e5490087db146704f3fb0f23ddee8e3a2f5c5016ad
 
 - [VisuallyHidden](https://eufemia.dnb.no/uilib/components/visually-hidden/): VisuallyHidden has all the styles necessary to hide it from visual clients, but keep it for screen readers.
   - Metadata: https://eufemia.dnb.no/llm/uilib/components/visually-hidden/metadata.json

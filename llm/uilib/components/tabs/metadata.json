@@ -79,7 +79,7 @@
     },
     {
       "name": "children",
-      "doc": "the content to render. Can be a function, returning the current tab content `(key) => ('Current tab')`, a React Component or an object with the keys and content `{key1: 'Current tab'}`.",
+      "doc": "The content to render. Can be a function, returning the current tab content `(key) => ('Current tab')`, a React Component or an object with the keys and content `{key1: 'Current tab'}`.",
       "type": [
         "React.ReactNode",
         "object"
@@ -89,7 +89,7 @@
     },
     {
       "name": "content",
-      "doc": "the content to render. Can be a function, returning the current tab content `(key) => ('Current tab')`, a React Component or an object with the keys and content `{key1: 'Current tab'}`.",
+      "doc": "The content to render. Can be a function, returning the current tab content `(key) => ('Current tab')`, a React Component or an object with the keys and content `{key1: 'Current tab'}`.",
       "type": [
         "React.ReactNode",
         "object"
@@ -181,11 +181,11 @@
     "Space",
     "data"
   ],
-  "checksum": "55f69e51fe7a92dc1c1b2c1cddd986fe9fb1dfce1d4db17c00e396b735469edd",
+  "checksum": "4ef22c6a42eccf84f63c6240a752f37dba44f9e79578ccfefb83087f4c44d2bc",
   "source": {
     "repo": "https://github.com/dnbexperience/eufemia",
     "file": "packages/dnb-eufemia/src/components/tabs/Tabs.tsx",
-    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.92.1/packages/dnb-eufemia/src/components/tabs/Tabs.tsx"
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.93.0/packages/dnb-eufemia/src/components/tabs/Tabs.tsx"
   },
   "sources": {
     "entry": {
@@ -205,7 +205,7 @@
       "public": "https://eufemia.dnb.no/uilib/components/tabs/demos/"
     }
   },
-  "version": "10.92.1",
-  "generatedAt": "2025-12-16T14:16:47.621Z",
+  "version": "10.93.0",
+  "generatedAt": "2026-01-06T11:55:10.540Z",
   "schemaVersion": 1
 }

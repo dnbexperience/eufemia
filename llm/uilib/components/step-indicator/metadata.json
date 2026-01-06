@@ -1,7 +1,7 @@
 {
   "id": "uilib/components/step-indicator",
   "name": "StepIndicator",
-  "description": "The StepIndicator (progress indicator) is a visual representation of a users progress through a set of steps or series of actions.",
+  "description": "The StepIndicator (progress indicator) is a visual representation of a user's progress through a set of steps or series of actions.",
   "group": "components",
   "slug": "/uilib/components/step-indicator/",
   "props": [
@@ -186,7 +186,7 @@
   "source": {
     "repo": "https://github.com/dnbexperience/eufemia",
     "file": "packages/dnb-eufemia/src/components/step-indicator/StepIndicator.tsx",
-    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.92.1/packages/dnb-eufemia/src/components/step-indicator/StepIndicator.tsx"
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.93.0/packages/dnb-eufemia/src/components/step-indicator/StepIndicator.tsx"
   },
   "sources": {
     "entry": {
@@ -206,7 +206,7 @@
       "public": "https://eufemia.dnb.no/uilib/components/step-indicator/demos/"
     }
   },
-  "version": "10.92.1",
-  "generatedAt": "2025-12-16T14:16:47.597Z",
+  "version": "10.93.0",
+  "generatedAt": "2026-01-06T11:55:10.517Z",
   "schemaVersion": 1
 }

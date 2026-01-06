@@ -59,7 +59,7 @@
     },
     {
       "name": "variant",
-      "doc": "defines the visual appearance of the badge. There are two main variants `notification` and `information`. The `content` variant is just for placement purposes, and will require you to style the `content` all by yourself. The default variant is `information`.",
+      "doc": "Defines the visual appearance of the badge. There are two main variants `notification` and `information`. The `content` variant is just for placement purposes, and will require you to style the `content` all by yourself. The default variant is `information`.",
       "type": [
         "information",
         "notification",
@@ -80,11 +80,11 @@
   "related": [
     "Space"
   ],
-  "checksum": "b659b2723e66730b256aebdbda09f302dcfe59d97e9bcbbb179c24aef21e9fe3",
+  "checksum": "3ffc1a980bcc6617a62e97e3409fc144efccac9b71851659288fe41b362acb84",
   "source": {
     "repo": "https://github.com/dnbexperience/eufemia",
     "file": "packages/dnb-eufemia/src/components/badge/Badge.tsx",
-    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.92.1/packages/dnb-eufemia/src/components/badge/Badge.tsx"
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.93.0/packages/dnb-eufemia/src/components/badge/Badge.tsx"
   },
   "sources": {
     "entry": {
@@ -101,7 +101,7 @@
       "public": "https://eufemia.dnb.no/uilib/components/badge/demos/"
     }
   },
-  "version": "10.92.1",
-  "generatedAt": "2025-12-16T14:16:47.276Z",
+  "version": "10.93.0",
+  "generatedAt": "2026-01-06T11:55:10.201Z",
   "schemaVersion": 1
 }

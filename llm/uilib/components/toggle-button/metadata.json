@@ -190,7 +190,7 @@
   "events": [
     {
       "name": "on_change",
-      "doc": "will be called once a ToggleButton button changes the state. Returns an object `{ value, values, event }`. <br /><br /> **NB**: `values` is only available if `multiselect` is used / true.",
+      "doc": "Will be called once a ToggleButton button changes the state. Returns an object `{ value, values, event }`. <br /><br /> **NB**: `values` is only available if `multiselect` is used / true.",
       "type": "function",
       "status": "optional",
       "defaultValue": null
@@ -199,11 +199,11 @@
   "related": [
     "Space"
   ],
-  "checksum": "601291a9df0610714527ee55aedc2f008aedf44fa70190e47c0bfeb738e41dbf",
+  "checksum": "f1ff26a9accf10584c465d2304fee21051ecff50891983cd769d9e8b795aa0c9",
   "source": {
     "repo": "https://github.com/dnbexperience/eufemia",
     "file": "packages/dnb-eufemia/src/components/toggle-button/ToggleButton.tsx",
-    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.92.1/packages/dnb-eufemia/src/components/toggle-button/ToggleButton.tsx"
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.93.0/packages/dnb-eufemia/src/components/toggle-button/ToggleButton.tsx"
   },
   "sources": {
     "entry": {
@@ -223,7 +223,7 @@
       "public": "https://eufemia.dnb.no/uilib/components/toggle-button/demos/"
     }
   },
-  "version": "10.92.1",
-  "generatedAt": "2025-12-16T14:16:47.657Z",
+  "version": "10.93.0",
+  "generatedAt": "2026-01-06T11:55:10.575Z",
   "schemaVersion": 1
 }

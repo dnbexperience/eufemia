@@ -86,14 +86,14 @@
   "events": [
     {
       "name": "onClick",
-      "doc": "will be called on a click event. Returns an object with the native event: `{ event }`.",
+      "doc": "Will be called on a click event. Returns an object with the native event: `{ event }`.",
       "type": "function",
       "status": "optional",
       "defaultValue": null
     },
     {
       "name": "onDelete",
-      "doc": "will be called on a click event. Returns an object with the native event: `{ event }`. This property does not support icon and will be ignored if `onClick`is defined.",
+      "doc": "Will be called on a click event. Returns an object with the native event: `{ event }`. This property does not support icon and will be ignored if `onClick`is defined.",
       "type": "function",
       "status": "optional",
       "defaultValue": null
@@ -102,11 +102,11 @@
   "related": [
     "Space"
   ],
-  "checksum": "f2edb7786c14441935c358a8a0eed20f37015e39067e29132d040ed3b368a28e",
+  "checksum": "5c4f8562ce665489d5b4f70841220921c7435bf03ee521a2194ecc5f043fe95c",
   "source": {
     "repo": "https://github.com/dnbexperience/eufemia",
     "file": "packages/dnb-eufemia/src/components/tag/Tag.tsx",
-    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.92.1/packages/dnb-eufemia/src/components/tag/Tag.tsx"
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.93.0/packages/dnb-eufemia/src/components/tag/Tag.tsx"
   },
   "sources": {
     "entry": {
@@ -126,7 +126,7 @@
       "public": "https://eufemia.dnb.no/uilib/components/tag/demos/"
     }
   },
-  "version": "10.92.1",
-  "generatedAt": "2025-12-16T14:16:47.626Z",
+  "version": "10.93.0",
+  "generatedAt": "2026-01-06T11:55:10.546Z",
   "schemaVersion": 1
 }

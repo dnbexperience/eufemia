@@ -212,42 +212,42 @@
     },
     {
       "name": "inputs",
-      "doc": "array of [MultiInputMaskInput](/uilib/components/input-masked/properties/#multiinputmask-inputs-properties) that defines the inputs in the component. The id's defined here is used to map input value to correct property in `values` parameters used in `onChange`.",
+      "doc": "Array of [MultiInputMaskInput](/uilib/components/input-masked/properties/#multiinputmask-inputs-properties) that defines the inputs in the component. The id's defined here is used to map input value to correct property in `values` parameters used in `onChange`.",
       "type": "array",
       "status": "optional",
       "defaultValue": null
     },
     {
       "name": "values",
-      "doc": "values used for the inputs in the component. Expects an object with keys matching the id's defined in `inputs`.",
+      "doc": "Values used for the inputs in the component. Expects an object with keys matching the id's defined in `inputs`.",
       "type": "object",
       "status": "optional",
       "defaultValue": null
     },
     {
       "name": "delimiter",
-      "doc": "character that separates the input inputs.",
+      "doc": "Character that separates the input inputs.",
       "type": "string",
       "status": "optional",
       "defaultValue": null
     },
     {
       "name": "stretch",
-      "doc": "use `true` in order to stretch the input to the available space. Defaults to `false`.",
+      "doc": "Use `true` in order to stretch the input to the available space. Defaults to `false`.",
       "type": "boolean",
       "status": "optional",
       "defaultValue": null
     },
     {
       "name": "status",
-      "doc": "text with a status message. The style defaults to an error message. You can use true to only get the status color, without a message.`.",
+      "doc": "Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.",
       "type": "React.ReactNode",
       "status": "optional",
       "defaultValue": null
     },
     {
       "name": "statusState",
-      "doc": "defines the state of the status. It's two statuses [error, info]. Defaults to error.",
+      "doc": "Defines the state of the status. It's two statuses [error, info]. Defaults to error.",
       "type": [
         "error",
         "info"
@@ -259,28 +259,28 @@
   "events": [
     {
       "name": "on_change",
-      "doc": "will be called on value changes made by the user. Returns an object with the value as a string and the native event: `{ value, numberValue, cleanedValue, event }`.",
+      "doc": "Will be called on value changes made by the user. Returns an object with the value as a string and the native event: `{ value, numberValue, cleanedValue, event }`.",
       "type": "function",
       "status": "optional",
       "defaultValue": null
     },
     {
       "name": "onChange",
-      "doc": "runs when an input value changes. Has an object parameter with keys matching the id's defined in `inputs`, and values of string. E.g: `{month: string, year: string}`.",
+      "doc": "Runs when an input value changes. Has an object parameter with keys matching the id's defined in `inputs`, and values of string. E.g: `{month: string, year: string}`.",
       "type": "function",
       "status": "optional",
       "defaultValue": null
     },
     {
       "name": "onFocus",
-      "doc": "runs when an input gains focus. Has an object parameter with keys matching the id's defined in `inputs`, and values of string. E.g: `{month: string, year: string}`.",
+      "doc": "Runs when an input gains focus. Has an object parameter with keys matching the id's defined in `inputs`, and values of string. E.g: `{month: string, year: string}`.",
       "type": "function",
       "status": "optional",
       "defaultValue": null
     },
     {
       "name": "onBlur",
-      "doc": "runs when an input lose focus. Has an object parameter with keys matching the id's defined in `inputs`, and values of string. E.g: `{month: string, year: string}`.",
+      "doc": "Runs when an input lose focus. Has an object parameter with keys matching the id's defined in `inputs`, and values of string. E.g: `{month: string, year: string}`.",
       "type": "function",
       "status": "optional",
       "defaultValue": null
@@ -290,11 +290,11 @@
     "Input",
     "Space"
   ],
-  "checksum": "3b97c30af63204ce73f9c7ce089edab36bf1565f25a4e3d3417bdcff5b2c8a46",
+  "checksum": "2507cd8ef672b74f922eea4640ece71a1dc6afd8057de60f93598c6b5f57ba8b",
   "source": {
     "repo": "https://github.com/dnbexperience/eufemia",
     "file": "packages/dnb-eufemia/src/components/input-masked/InputMasked.tsx",
-    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.92.1/packages/dnb-eufemia/src/components/input-masked/InputMasked.tsx"
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.93.0/packages/dnb-eufemia/src/components/input-masked/InputMasked.tsx"
   },
   "sources": {
     "entry": {
@@ -314,7 +314,7 @@
       "public": "https://eufemia.dnb.no/uilib/components/input-masked/demos/"
     }
   },
-  "version": "10.92.1",
-  "generatedAt": "2025-12-16T14:16:47.444Z",
+  "version": "10.93.0",
+  "generatedAt": "2026-01-06T11:55:10.367Z",
   "schemaVersion": 1
 }

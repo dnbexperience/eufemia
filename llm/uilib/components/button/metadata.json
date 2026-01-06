@@ -216,7 +216,7 @@
   "events": [
     {
       "name": "on_click",
-      "doc": "will be called on a click event. Returns an object with the native event: `{ event }`.",
+      "doc": "Will be called on a click event. Returns an object with the native event: `{ event }`.",
       "type": "function",
       "status": "optional",
       "defaultValue": null
@@ -225,11 +225,11 @@
   "related": [
     "Space"
   ],
-  "checksum": "0ea24b982d6a1f77f5d1b82a5f1109ed813c7a275898dd90b0fe127692587bba",
+  "checksum": "c6f33eeefc33a4bc8ef4f3d8507beaf58bd8d534b188270a3762e4635d664614",
   "source": {
     "repo": "https://github.com/dnbexperience/eufemia",
     "file": "packages/dnb-eufemia/src/components/button/Button.js",
-    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.92.1/packages/dnb-eufemia/src/components/button/Button.js"
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.93.0/packages/dnb-eufemia/src/components/button/Button.js"
   },
   "sources": {
     "entry": {
@@ -249,7 +249,7 @@
       "public": "https://eufemia.dnb.no/uilib/components/button/demos/"
     }
   },
-  "version": "10.92.1",
-  "generatedAt": "2025-12-16T14:16:47.294Z",
+  "version": "10.93.0",
+  "generatedAt": "2026-01-06T11:55:10.219Z",
   "schemaVersion": 1
 }

@@ -1,41 +1,41 @@
 {
   "id": "uilib/components/form-status",
   "name": "FormStatus (Messageboxes)",
-  "description": "The FormStatus is a simple component meant for displaying the status of a form.",
+  "description": "The FormStatus is a simple component meant for displaying the status of a form (errors, messages, etc.).",
   "group": "components",
   "slug": "/uilib/components/form-status/",
   "props": [
     {
       "name": "text",
-      "doc": "the `text` appears as the status message. Beside plain text, you can send in a React component as well.",
+      "doc": "The `text` appears as the status message. Beside plain text, you can send in a React component as well.",
       "type": "React.ReactNode",
       "status": "optional",
       "defaultValue": null
     },
     {
       "name": "children",
-      "doc": "the `text` appears as the status message. Beside plain text, you can send in a React component as well.",
+      "doc": "The `text` appears as the status message. Beside plain text, you can send in a React component as well.",
       "type": "React.ReactNode",
       "status": "optional",
       "defaultValue": null
     },
     {
       "name": "title",
-      "doc": "the `title` attribute in the status.",
+      "doc": "The `title` attribute in the status.",
       "type": "string",
       "status": "optional",
       "defaultValue": null
     },
     {
       "name": "role",
-      "doc": "the `role` attribute for accessibility, defaults to `alert`.",
+      "doc": "The `role` attribute for accessibility, defaults to `alert`.",
       "type": "string",
       "status": "optional",
       "defaultValue": null
     },
     {
       "name": "state",
-      "doc": "defines the visual appearance of the status. These are the statuses `error`, `warn`, `info` and `marketing`. The default status is `error`.",
+      "doc": "Defines the visual appearance of the status. These are the statuses `error`, `warn`, `info` and `marketing`. The default status is `error`.",
       "type": [
         "error",
         "warn",
@@ -48,7 +48,7 @@
     },
     {
       "name": "size",
-      "doc": "defines the appearance size. There are these sizes `default`, `large`. The default status is `default`.",
+      "doc": "Defines the appearance size. There are these sizes `default`, `large`. The default status is `default`.",
       "type": [
         "default",
         "large"
@@ -58,21 +58,21 @@
     },
     {
       "name": "icon",
-      "doc": "the `icon` show before the status text. Defaults to `exclamation`.",
+      "doc": "The `icon` show before the status text. Defaults to `exclamation`.",
       "type": "React.ReactNode",
       "status": "optional",
       "defaultValue": null
     },
     {
       "name": "icon_size",
-      "doc": "the icon size of the icon shows. Defaults to `medium`.",
+      "doc": "The icon size of the icon shows. Defaults to `medium`.",
       "type": "string",
       "status": "optional",
       "defaultValue": null
     },
     {
       "name": "variant",
-      "doc": "as of now, there is the `flat` and the `outlined` variant. Defaults to `flat`.",
+      "doc": "As of now, there is the `flat` and the `outlined` variant. Defaults to `flat`.",
       "type": [
         "flat",
         "outlined"
@@ -82,14 +82,14 @@
     },
     {
       "name": "stretch",
-      "doc": "if set to `true`, then the FormStatus will be 100% in available `width`. **NB:** Only use this on independent status messages.",
+      "doc": "If set to `true`, then the FormStatus will be 100% in available `width`. **NB:** Only use this on independent status messages.",
       "type": "boolean",
       "status": "optional",
       "defaultValue": null
     },
     {
       "name": "show",
-      "doc": "provide `false` if you want to animate the visibility. Defaults to `true`.",
+      "doc": "Provide `false` if you want to animate the visibility. Defaults to `true`.",
       "type": "boolean",
       "status": "optional",
       "defaultValue": null
@@ -103,7 +103,7 @@
     },
     {
       "name": "globalStatus",
-      "doc": "the [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status).",
+      "doc": "The [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status).",
       "type": "Various",
       "status": "optional",
       "defaultValue": null
@@ -130,11 +130,11 @@
   "related": [
     "Space"
   ],
-  "checksum": "4332ce0a4ee5f72c2df4304acc9de8f9748f38b088b7bbfff2255b63876949f1",
+  "checksum": "daad9fefe6eebdc991b72aad25652f440644aaee2636810ce446a1741a37a852",
   "source": {
     "repo": "https://github.com/dnbexperience/eufemia",
     "file": "packages/dnb-eufemia/src/components/form-status/index.ts",
-    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.92.1/packages/dnb-eufemia/src/components/form-status/index.ts"
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.93.0/packages/dnb-eufemia/src/components/form-status/index.ts"
   },
   "sources": {
     "entry": {
@@ -151,7 +151,7 @@
       "public": "https://eufemia.dnb.no/uilib/components/form-status/demos/"
     }
   },
-  "version": "10.92.1",
-  "generatedAt": "2025-12-16T14:16:47.382Z",
+  "version": "10.93.0",
+  "generatedAt": "2026-01-06T11:55:10.306Z",
   "schemaVersion": 1
 }

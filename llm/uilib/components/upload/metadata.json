@@ -78,7 +78,7 @@
     },
     {
       "name": "deleteButtonProps",
-      "doc": "define any valid Eufemia [Button properties](/uilib/components/button/properties) or HTML attribute inside an object.",
+      "doc": "Define any valid Eufemia [Button properties](/uilib/components/button/properties) or HTML attribute inside an object.",
       "type": "ButtonProps",
       "status": "optional",
       "defaultValue": null
@@ -92,7 +92,7 @@
     },
     {
       "name": "variant",
-      "doc": "defines the appearance. Use one of these: `normal` or `compact`. Defaults to `normal`.",
+      "doc": "Defines the appearance. Use one of these: `normal` or `compact`. Defaults to `normal`.",
       "type": [
         "normal",
         "compact"
@@ -193,11 +193,11 @@
   "related": [
     "Space"
   ],
-  "checksum": "2caff1388a40febff9efa9eb75e23847c26c3667ef92a8b85e61b05221d05fcd",
+  "checksum": "8a15e72f8d9c3c4c1c90d0e5490087db146704f3fb0f23ddee8e3a2f5c5016ad",
   "source": {
     "repo": "https://github.com/dnbexperience/eufemia",
     "file": "packages/dnb-eufemia/src/components/upload/Upload.tsx",
-    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.92.1/packages/dnb-eufemia/src/components/upload/Upload.tsx"
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.93.0/packages/dnb-eufemia/src/components/upload/Upload.tsx"
   },
   "sources": {
     "entry": {
@@ -217,7 +217,7 @@
       "public": "https://eufemia.dnb.no/uilib/components/upload/demos/"
     }
   },
-  "version": "10.92.1",
-  "generatedAt": "2025-12-16T14:16:47.670Z",
+  "version": "10.93.0",
+  "generatedAt": "2026-01-06T11:55:10.600Z",
   "schemaVersion": 1
 }
