@@ -1,6 +1,7 @@
 import React from 'react'
 import { act, fireEvent, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import { Dialog } from '../../'
 import Popover from '../Popover'
 import * as PopoverContainerModule from '../PopoverContainer'
@@ -3752,5 +3753,16 @@ describe('Popover', () => {
     })
 
     cleanup()
+  })
+
+  describe('Popover accessibility', () => {
+    it('should validate with ARIA rules', async () => {
+      const Comp = render(
+        <Popover id="popover-id" open targetElement={document.body}>
+          {contentText}
+        </Popover>
+      )
+      expect(await axeComponent(Comp)).toHaveNoViolations()
+    })
   })
 })

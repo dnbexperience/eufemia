@@ -1,5 +1,6 @@
 import React from 'react'
 import { render } from '@testing-library/react'
+import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import Card from '../../card/Card'
 import { P } from '../../../elements'
 
@@ -505,5 +506,16 @@ describe('Card', () => {
       'aria-labelledby',
       '123 ' + element.querySelector('.dnb-card__title').getAttribute('id')
     )
+  })
+
+  describe('Card accessibility', () => {
+    it('should validate with ARIA rules', async () => {
+      const Comp = render(
+        <Card title="Card Title">
+          <P>Card content paragraph</P>
+        </Card>
+      )
+      expect(await axeComponent(Comp)).toHaveNoViolations()
+    })
   })
 })

@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import { loadScss } from '../../../core/jest/jestSetup'
+import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import { render } from '@testing-library/react'
 import Space, { SpaceAllProps } from '../Space'
 import Section from '../../Section'
@@ -127,6 +127,17 @@ describe('Space component', () => {
     ).toBe(
       '--space-t-s: 0.5rem; --space-r-s: 2rem; --space-t-m: 1rem; --space-r-m: 1rem; --space-b-m: 1rem; --space-l-m: 1rem; --space-r-l: 0.5rem; --space-l-l: 1rem;'
     )
+  })
+
+  describe('Space accessibility', () => {
+    it('should validate with ARIA rules', async () => {
+      const Comp = render(
+        <Space top="large">
+          <Section>Content</Section>
+        </Space>
+      )
+      expect(await axeComponent(Comp)).toHaveNoViolations()
+    })
   })
 })
 

@@ -1,5 +1,6 @@
 import React from 'react'
 import { act, render } from '@testing-library/react'
+import { axeComponent } from '../../../core/jest/jestSetup'
 import 'mock-match-media/jest-setup'
 import { setMedia, matchMedia } from 'mock-match-media'
 import Flex from '../Flex'
@@ -1068,6 +1069,18 @@ describe('Flex.Container', () => {
       expect(element).toHaveClass('dnb-flex-container--has-size')
       expect(element).toHaveClass('dnb-flex-container--spacing-small')
       expect(element).not.toHaveClass('dnb-flex-container--row-gap-small')
+    })
+  })
+
+  describe('Flex.Container accessibility', () => {
+    it('should validate with ARIA rules', async () => {
+      const Comp = render(
+        <Flex.Container>
+          <Flex.Item>Item 1</Flex.Item>
+          <Flex.Item>Item 2</Flex.Item>
+        </Flex.Container>
+      )
+      expect(await axeComponent(Comp)).toHaveNoViolations()
     })
   })
 })
