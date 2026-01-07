@@ -1,7 +1,7 @@
 import React from 'react'
 import { act, fireEvent, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
+import { axeComponent } from '../../../core/jest/jestSetup'
 import { Dialog } from '../../'
 import Popover from '../Popover'
 import * as PopoverContainerModule from '../PopoverContainer'

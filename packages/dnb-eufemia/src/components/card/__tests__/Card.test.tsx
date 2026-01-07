@@ -1,6 +1,6 @@
 import React from 'react'
 import { render } from '@testing-library/react'
-import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
+import { axeComponent } from '../../../core/jest/jestSetup'
 import Card from '../../card/Card'
 import { P } from '../../../elements'
 
