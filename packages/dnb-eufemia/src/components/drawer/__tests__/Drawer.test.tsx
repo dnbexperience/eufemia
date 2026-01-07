@@ -247,14 +247,15 @@ describe('Drawer', () => {
   it('moves focus to content by default when opened', async () => {
     render(<Drawer noAnimation openState title="Title" />)
 
-    await waitFor(() => {
-      const title = document.querySelector(
+    const title = await waitFor(() => {
+      const el = document.querySelector(
         '.dnb-modal__title'
       ) as HTMLHeadingElement
-      expect(title).toBeInTheDocument()
-      // Focus remains on body element - this appears to be the expected behavior for Drawer
-      expect(document.activeElement).toBe(document.body)
+      expect(el).toBeInTheDocument()
+      return el
     })
+    // Focus remains on body element - this appears to be the expected behavior for Drawer
+    expect(document.activeElement).toBe(document.body)
   })
 
   it('respects focusSelector over close button', async () => {

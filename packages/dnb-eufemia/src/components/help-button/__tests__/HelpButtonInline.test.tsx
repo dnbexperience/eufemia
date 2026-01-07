@@ -46,21 +46,20 @@ describe('HelpButtonInline', () => {
 
     await userEvent.type(document.querySelector('button'), '{Space}')
     await waitFor(() => {
-      expect(document.querySelector('button')).toHaveFocus()
       expect(document.querySelector('button')).toHaveClass(
         'dnb-help-button__inline--open'
       )
     })
+    expect(document.querySelector('button')).toHaveFocus()
 
     await userEvent.keyboard('{Space}')
     await waitFor(() => {
-      expect(document.querySelector('button')).toHaveFocus()
-
       // Will not close when Space is pressed
       expect(document.querySelector('button')).toHaveClass(
         'dnb-help-button__inline--open'
       )
     })
+    expect(document.querySelector('button')).toHaveFocus()
   })
 
   it('should toggle open state when Enter key gets pressed', async () => {
@@ -84,11 +83,11 @@ describe('HelpButtonInline', () => {
 
     await userEvent.keyboard('{Enter}')
     await waitFor(() => {
-      expect(document.querySelector('button')).toHaveFocus()
       expect(document.querySelector('button')).not.toHaveClass(
         'dnb-help-button__inline--open'
       )
     })
+    expect(document.querySelector('button')).toHaveFocus()
   })
 
   it('should set focus on the button when closing with Escape key', async () => {
@@ -104,19 +103,19 @@ describe('HelpButtonInline', () => {
 
     await userEvent.keyboard('{Enter}')
     await waitFor(() => {
-      expect(document.querySelector('button')).toHaveFocus()
       expect(document.querySelector('button')).toHaveClass(
         'dnb-help-button__inline--open'
       )
     })
+    expect(document.querySelector('button')).toHaveFocus()
 
     await userEvent.keyboard('{Escape}')
     await waitFor(() => {
-      expect(document.querySelector('button')).toHaveFocus()
       expect(document.querySelector('button')).not.toHaveClass(
         'dnb-help-button__inline--open'
       )
     })
+    expect(document.querySelector('button')).toHaveFocus()
   })
 
   it('keeps dialog open when Escape is pressed inside the inline help', async () => {
@@ -148,9 +147,7 @@ describe('HelpButtonInline', () => {
     expect(section).toBeInTheDocument()
 
     section.focus()
-    await waitFor(() => {
-      expect(section).toHaveFocus()
-    })
+    await waitFor(() => expect(section).toHaveFocus())
 
     await userEvent.keyboard('{Escape}')
 

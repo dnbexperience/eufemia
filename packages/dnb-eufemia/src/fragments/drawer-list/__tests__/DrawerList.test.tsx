@@ -203,25 +203,23 @@ describe('DrawerList component', () => {
       render(<DrawerList {...disabledOptionProps} on_select={on_select} />)
 
       keydown(40) // down
-      await waitFor(() => {
-        expect(on_select).toHaveBeenCalledTimes(1)
-        expect(on_select.mock.calls[0][0].active_item).toBe(0)
-      })
+      await waitFor(() => expect(on_select).toHaveBeenCalledTimes(1))
+      expect(on_select.mock.calls[0][0].active_item).toBe(0)
 
       keydown(40) // down
       await waitFor(() => {
         // on_select is called when navigating to disabled item
         expect(on_select).toHaveBeenCalledTimes(2)
-        expect(on_select.mock.calls[1][0].active_item).toBe(1)
-        expect(on_select.mock.calls[1][0].data.disabled).toBe(true)
       })
+      expect(on_select.mock.calls[1][0].active_item).toBe(1)
+      expect(on_select.mock.calls[1][0].data.disabled).toBe(true)
 
       keydown(40) // down
       await waitFor(() => {
         // navigates to next item
         expect(on_select).toHaveBeenCalledTimes(3)
-        expect(on_select.mock.calls[2][0].active_item).toBe(2)
       })
+      expect(on_select.mock.calls[2][0].active_item).toBe(2)
     })
 
     it('cannot be clicked', async () => {
@@ -241,16 +239,16 @@ describe('DrawerList component', () => {
       await waitFor(() => {
         // verify item is disabled
         expect(on_select).toHaveBeenCalledTimes(2)
-        expect(on_select.mock.calls[1][0].active_item).toBe(1)
-        expect(on_select.mock.calls[1][0].data.disabled).toBe(true)
       })
+      expect(on_select.mock.calls[1][0].active_item).toBe(1)
+      expect(on_select.mock.calls[1][0].data.disabled).toBe(true)
 
       keydown(13) // enter
       await waitFor(() => {
         // on_change and on_select is not called when attempting to chose a disabled item
         expect(on_change).toHaveBeenCalledTimes(0)
-        expect(on_select).toHaveBeenCalledTimes(2)
       })
+      expect(on_select).toHaveBeenCalledTimes(2)
 
       await fireEvent.click(
         document.querySelectorAll('.dnb-drawer-list__option')[1]
@@ -258,8 +256,8 @@ describe('DrawerList component', () => {
       await waitFor(() => {
         // on_change and on_select is not called when attempting to click a disabled item
         expect(on_change).toHaveBeenCalledTimes(0)
-        expect(on_select).toHaveBeenCalledTimes(2)
       })
+      expect(on_select).toHaveBeenCalledTimes(2)
     })
   })
 

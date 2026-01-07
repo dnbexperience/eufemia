@@ -277,11 +277,10 @@ describe('Modal component', () => {
     fireEvent.click(document.querySelector('button'))
 
     // and check the class of that element
-    await waitFor(() => {
-      expect(document.activeElement.classList).toContain(
-        'dnb-modal__focus-helper'
-      )
-    })
+    await waitFor(() => expect(document.activeElement).toBeTruthy())
+    expect(document.activeElement.classList).toContain(
+      'dnb-modal__focus-helper'
+    )
 
     fireEvent.keyDown(document.querySelector('div.dnb-dialog'), {
       key: 'Esc',
@@ -356,11 +355,12 @@ describe('Modal component', () => {
     fireEvent.click(document.querySelector('button'))
 
     // Focus moves to title
-    await waitFor(() => {
-      const title = document.querySelector('h1') as HTMLHeadingElement
-      expect(title).toBeInTheDocument()
-      expect(document.activeElement).toBe(title)
+    const title = await waitFor(() => {
+      const el = document.querySelector('h1') as HTMLHeadingElement
+      expect(el).toBeInTheDocument()
+      return el
     })
+    expect(document.activeElement).toBe(title)
   })
 
   it('renders a focus helper in the header', () => {
@@ -398,9 +398,8 @@ describe('Modal component', () => {
     // Open modal
     fireEvent.click(document.querySelector('button'))
 
-    await waitFor(() => {
-      expect(focusSpy).toHaveBeenCalledWith({ preventScroll: true })
-    })
+    await waitFor(() => expect(focusSpy).toHaveBeenCalled())
+    expect(focusSpy).toHaveBeenCalledWith({ preventScroll: true })
 
     focusSpy.mockRestore()
   })
@@ -422,9 +421,8 @@ describe('Modal component', () => {
     // Open modal
     fireEvent.click(document.querySelector('button'))
 
-    await waitFor(() => {
-      expect(focusSpy).toHaveBeenCalledWith({ preventScroll: true })
-    })
+    await waitFor(() => expect(focusSpy).toHaveBeenCalled())
+    expect(focusSpy).toHaveBeenCalledWith({ preventScroll: true })
 
     focusSpy.mockRestore()
   })
@@ -716,11 +714,10 @@ describe('Modal component', () => {
       document.documentElement.getAttribute('data-dnb-modal-active')
     ).toBe('modal-third')
 
-    await waitFor(() => {
-      expect(on_open.first).toHaveBeenCalledTimes(1)
-      expect(on_open.second).toHaveBeenCalledTimes(1)
-      expect(on_open.third).toHaveBeenCalledTimes(1)
-    })
+    await waitFor(() => expect(on_open.first).toHaveBeenCalled())
+    expect(on_open.first).toHaveBeenCalledTimes(1)
+    expect(on_open.second).toHaveBeenCalledTimes(1)
+    expect(on_open.third).toHaveBeenCalledTimes(1)
 
     expect(
       document.querySelectorAll('button.dnb-modal__close-button').length
@@ -780,11 +777,10 @@ describe('Modal component', () => {
 
     // Close the second one
     document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
-    await waitFor(() => {
-      expect(on_close.first).toHaveBeenCalledTimes(0)
-      expect(on_close.second).toHaveBeenCalledTimes(1)
-      expect(on_close.third).toHaveBeenCalledTimes(1)
-    })
+    await waitFor(() => expect(on_close.second).toHaveBeenCalled())
+    expect(on_close.first).toHaveBeenCalledTimes(0)
+    expect(on_close.second).toHaveBeenCalledTimes(1)
+    expect(on_close.third).toHaveBeenCalledTimes(1)
 
     expect(
       document.documentElement.getAttribute('data-dnb-modal-active')
@@ -801,11 +797,10 @@ describe('Modal component', () => {
 
     // Close the first one
     document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
-    await waitFor(() => {
-      expect(on_close.first).toHaveBeenCalledTimes(1)
-      expect(on_close.second).toHaveBeenCalledTimes(1)
-      expect(on_close.third).toHaveBeenCalledTimes(1)
-    })
+    await waitFor(() => expect(on_close.first).toHaveBeenCalled())
+    expect(on_close.first).toHaveBeenCalledTimes(1)
+    expect(on_close.second).toHaveBeenCalledTimes(1)
+    expect(on_close.third).toHaveBeenCalledTimes(1)
 
     expect(
       document.querySelector('#content-first')
@@ -938,30 +933,25 @@ describe('Modal component', () => {
       })
     )
 
-    await waitFor(() => {
-      expect(on_close).not.toHaveBeenCalled()
-      expect(on_close_prevent).toHaveBeenCalledTimes(1)
-    })
+    await waitFor(() => expect(on_close_prevent).toHaveBeenCalled())
+    expect(on_close).not.toHaveBeenCalled()
+    expect(on_close_prevent).toHaveBeenCalledTimes(1)
 
     // trigger the close on the overlay
     fireEvent.mouseDown(document.querySelector('div.dnb-modal__content'))
     fireEvent.click(document.querySelector('div.dnb-modal__content'))
 
-    await waitFor(() => {
-      expect(on_close_prevent).toHaveBeenCalledTimes(2)
-      expect(on_close_prevent.mock.calls[1][0].close).toBeType('function')
-      expect(on_close_prevent.mock.calls[1][0].triggeredBy).toBe('overlay')
-      expect(testTriggeredBy).toBe(null)
-    })
+    await waitFor(() => expect(on_close_prevent).toHaveBeenCalledTimes(2))
+    expect(on_close_prevent.mock.calls[1][0].close).toBeType('function')
+    expect(on_close_prevent.mock.calls[1][0].triggeredBy).toBe('overlay')
+    expect(testTriggeredBy).toBe(null)
 
     // trigger the close button
     fireEvent.click(
       document.querySelector('button.dnb-modal__close-button')
     )
-    await waitFor(() => {
-      expect(on_close_prevent).toHaveBeenCalledTimes(3)
-      expect(on_close_prevent.mock.calls[2][0].triggeredBy).toBe('button')
-    })
+    await waitFor(() => expect(on_close_prevent).toHaveBeenCalledTimes(3))
+    expect(on_close_prevent.mock.calls[2][0].triggeredBy).toBe('button')
 
     // trigger the esc key
     document.dispatchEvent(
@@ -971,12 +961,8 @@ describe('Modal component', () => {
       })
     )
 
-    await waitFor(() => {
-      expect(on_close_prevent).toHaveBeenCalledTimes(4)
-      expect(on_close_prevent.mock.calls[3][0].triggeredBy).toBe(
-        'keyboard'
-      )
-    })
+    await waitFor(() => expect(on_close_prevent).toHaveBeenCalledTimes(4))
+    expect(on_close_prevent.mock.calls[3][0].triggeredBy).toBe('keyboard')
 
     preventClose = false
 
