@@ -1,7 +1,6 @@
 ---
 title: 'Change log'
 icon: 'change_log'
-draft: true
 order: 1
 ---
 
