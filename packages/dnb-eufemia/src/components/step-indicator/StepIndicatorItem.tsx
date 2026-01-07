@@ -252,9 +252,7 @@ function StepIndicatorItem({
       <div
         className={classnames(
           'dnb-step-indicator__item-wrapper',
-          !status &&
-            isVisited &&
-            'dnb-step-indicator__item-wrapper--check'
+          !status && isVisited && 'dnb-step-indicator__item-wrapper--check'
         )}
       >
         <span

@@ -1159,9 +1159,7 @@ describe('TableAccordion', () => {
       const element = accordionElem.querySelector('td')
 
       expect(
-        element.querySelector(
-          'div.dnb-table__tr-accordion-content-inner'
-        )
+        element.querySelector('div.dnb-table__tr-accordion-content-inner')
       ).toBeInTheDocument()
       expect(
         element.querySelector(

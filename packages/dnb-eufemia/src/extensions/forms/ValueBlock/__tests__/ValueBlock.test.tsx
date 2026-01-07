@@ -104,9 +104,8 @@ describe('ValueBlock', () => {
       document.querySelector('.dnb-forms-value-block__label-content')
         .textContent
     ).toContain('Item no. 1 – ready')
-    expect(
-      document.querySelector('.dnb-forms-value-block__label-content')
-    ).toMatchInlineSnapshot(`
+    expect(document.querySelector('.dnb-forms-value-block__label-content'))
+      .toMatchInlineSnapshot(`
       <span
         class="dnb-forms-value-block__label-content"
       >
