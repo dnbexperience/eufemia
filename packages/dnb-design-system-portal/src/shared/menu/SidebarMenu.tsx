@@ -237,7 +237,7 @@ const ThemeBadge = ({ theme, ...props }: { theme: ThemeNames }) => {
     >
       <span
         title={themeTitleTitle}
-        className={classnames('dnb-sidebar-menu__theme-badge__title')}
+        className={classnames('dnb-sidebar-menu__theme-badge-title')}
       >
         {themeTitle}
       </span>

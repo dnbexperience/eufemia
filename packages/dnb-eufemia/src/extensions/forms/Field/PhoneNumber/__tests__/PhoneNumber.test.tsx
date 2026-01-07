@@ -251,7 +251,7 @@ describe('Field.PhoneNumber', () => {
     expect(legend).toHaveTextContent('Phone Number Field')
 
     const labelDescription = fieldBlock.querySelector(
-      '.dnb-forms-field-block__label__description'
+      '.dnb-forms-field-block__label-description'
     )
     expect(labelDescription).toBeInTheDocument()
     expect(labelDescription).toHaveTextContent(
@@ -277,7 +277,7 @@ describe('Field.PhoneNumber', () => {
     expect(legend).toHaveTextContent('Phone Number Field')
 
     const labelDescription = fieldBlock.querySelector(
-      '.dnb-forms-field-block__label__description'
+      '.dnb-forms-field-block__label-description'
     )
     expect(labelDescription).toBeInTheDocument()
     expect(labelDescription).toHaveTextContent(

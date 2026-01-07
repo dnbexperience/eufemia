@@ -62,7 +62,7 @@ export const useStickyHeader = ({
               offsetTopPx =
                 (
                   modalElem.querySelector(
-                    '.dnb-modal__header__bar'
+                    '.dnb-modal__header-bar'
                   ) as HTMLElement
                 ).offsetHeight || 0
             }

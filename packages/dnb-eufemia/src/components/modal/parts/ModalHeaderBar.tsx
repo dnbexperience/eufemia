@@ -20,7 +20,7 @@ export interface ModalHeaderBarProps
   children?: ReactChildType
 
   /**
-   * Give the inner content wrapper a class name (maps to `dnb-modal__content__inner`).
+   * Give the inner content wrapper a class name (maps to `dnb-modal__content-inner`).
    */
   className?: string
 

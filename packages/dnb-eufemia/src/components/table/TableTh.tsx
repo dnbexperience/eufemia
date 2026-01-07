@@ -91,7 +91,7 @@ function Horizontal({
   return (
     <div
       {...rest}
-      className={classnames('dnb-table__th__horizontal', className)}
+      className={classnames('dnb-table__th-horizontal', className)}
     />
   )
 }

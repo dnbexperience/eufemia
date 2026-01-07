@@ -23,7 +23,7 @@ export interface ModalHeaderProps extends Omit<SectionProps, 'children'> {
   title?: React.ReactNode
 
   /**
-   * Give the inner content wrapper a class name (maps to `dnb-modal__content__inner`).
+   * Give the inner content wrapper a class name (maps to `dnb-modal__content-inner`).
    */
   className?: string
 

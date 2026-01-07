@@ -27,7 +27,7 @@ describe('Wizard.Container', () => {
       addWrapper: false, // because it destroys the media query handling
       simulate: 'click',
       simulateSelector:
-        '[data-visual-test="wizard-layout-card-border"] .dnb-step-indicator__trigger__button',
+        '[data-visual-test="wizard-layout-card-border"] .dnb-step-indicator__trigger-button',
       selector: '[data-visual-test="wizard-layout-card-border"]',
     })
     expect(screenshot).toMatchImageSnapshot()

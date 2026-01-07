@@ -27,13 +27,13 @@ const BankLogo = ({ logoType }) =>
     Colored: (color) => (
       <DNB
         fill={color}
-        className="dnb-payment-card__card__bank-logo"
+        className="dnb-payment-card__card-bank-logo"
       />
     ),
     Sbanken: (color) => (
       <Sbanken
         fill={color}
-        className="dnb-payment-card__card__bank-logo"
+        className="dnb-payment-card__card-bank-logo"
       />
     ),
   })

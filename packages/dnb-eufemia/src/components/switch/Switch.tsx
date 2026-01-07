@@ -398,7 +398,7 @@ export default function Switch(props: SwitchProps) {
                 aria-hidden
               >
                 <span className="dnb-switch__focus">
-                  <span className="dnb-switch__focus__inner" />
+                  <span className="dnb-switch__focus-inner" />
                 </span>
               </span>
             </span>

@@ -551,7 +551,7 @@ export default class Input extends React.PureComponent {
               {InputElement || <input ref={this._ref} {...inputParams} />}
 
               {inner_element && (
-                <span className="dnb-input__inner__element dnb-p">
+                <span className="dnb-input__inner-element dnb-p">
                   {inner_element}
                 </span>
               )}

@@ -147,11 +147,11 @@ p > .dnb-icon {
   min-height: 1.5rem;
   padding: 0 1rem;
 }
-.dnb-tooltip .dnb-popover__arrow__placement--right {
+.dnb-tooltip .dnb-popover__arrow-placement--right {
   left: -13px;
   top: auto !important;
 }
-.dnb-tooltip .dnb-popover__arrow__placement--left {
+.dnb-tooltip .dnb-popover__arrow-placement--left {
   right: -13px;
   top: auto !important;
 }
@@ -831,7 +831,7 @@ html[data-visual-test] .dnb-progress-indicator__bar-transition {
   justify-content: center;
   min-height: inherit;
 }
-.dnb-pagination__indicator__inner {
+.dnb-pagination__indicator-inner {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -849,7 +849,7 @@ html[data-visual-test] .dnb-progress-indicator__bar-transition {
   margin: -1px 0 0 -1px;
   overflow: hidden;
 }
-.dnb-pagination__marker td, .dnb-pagination__marker__inner {
+.dnb-pagination__marker td, .dnb-pagination__marker-inner {
   padding: 0 !important;
   width: 1px;
   height: 1px;

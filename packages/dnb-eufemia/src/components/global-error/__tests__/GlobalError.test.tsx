@@ -24,7 +24,7 @@ describe('GlobalError', () => {
     render(<GlobalError statusCode="404" />)
 
     expect(
-      document.querySelector('.dnb-global-error__inner__content')
+      document.querySelector('.dnb-global-error__inner-content')
         .textContent
     ).toMatchInlineSnapshot(
       `"Vi finner ikke siden du leter etter …Sikker på at du har skrevet riktig adresse? Eller har vi rotet med lenkene?Feilmeldings-kode: 404"`
@@ -35,7 +35,7 @@ describe('GlobalError', () => {
     render(<GlobalError statusCode="500" />)
 
     expect(
-      document.querySelector('.dnb-global-error__inner__content')
+      document.querySelector('.dnb-global-error__inner-content')
         .textContent
     ).toMatchInlineSnapshot(
       `"Beklager, her skjedde det noe feil!Tjenesten fungerer ikke slik den skal for øyeblikket, men prøv igjen senere.Feilmeldings-kode: 500"`
@@ -46,7 +46,7 @@ describe('GlobalError', () => {
     render(<GlobalError statusCode="404" locale="en-GB" />)
 
     expect(
-      document.querySelector('.dnb-global-error__inner__content')
+      document.querySelector('.dnb-global-error__inner-content')
         .textContent
     ).toMatchInlineSnapshot(
       `"We can't find the page you're looking for …Are you sure you have entered the correct address? Or have we messed with the links?Error code: 404"`
@@ -61,7 +61,7 @@ describe('GlobalError', () => {
     )
 
     expect(
-      document.querySelector('.dnb-global-error__inner__content')
+      document.querySelector('.dnb-global-error__inner-content')
         .textContent
     ).toMatchInlineSnapshot(
       `"Sorry, a technical error happened!The service is not working properly at the moment. Try again later.Error code: 500"`
@@ -82,7 +82,7 @@ describe('GlobalError', () => {
       render(<GlobalError status="404" />)
 
       expect(
-        document.querySelector('.dnb-global-error__inner__content')
+        document.querySelector('.dnb-global-error__inner-content')
           .textContent
       ).toMatchInlineSnapshot(
         `"Vi finner ikke siden du leter etter …Sikker på at du har skrevet riktig adresse? Eller har vi rotet med lenkene?Feilmeldings-kode: 404"`
@@ -93,7 +93,7 @@ describe('GlobalError', () => {
       render(<GlobalError status="500" />)
 
       expect(
-        document.querySelector('.dnb-global-error__inner__content')
+        document.querySelector('.dnb-global-error__inner-content')
           .textContent
       ).toMatchInlineSnapshot(
         `"Beklager, her skjedde det noe feil!Tjenesten fungerer ikke slik den skal for øyeblikket, men prøv igjen senere.Feilmeldings-kode: 500"`
@@ -104,7 +104,7 @@ describe('GlobalError', () => {
       render(<GlobalError status="404" locale="en-GB" />)
 
       expect(
-        document.querySelector('.dnb-global-error__inner__content')
+        document.querySelector('.dnb-global-error__inner-content')
           .textContent
       ).toMatchInlineSnapshot(
         `"We can't find the page you're looking for …Are you sure you have entered the correct address? Or have we messed with the links?Error code: 404"`
@@ -119,7 +119,7 @@ describe('GlobalError', () => {
       )
 
       expect(
-        document.querySelector('.dnb-global-error__inner__content')
+        document.querySelector('.dnb-global-error__inner-content')
           .textContent
       ).toMatchInlineSnapshot(
         `"Sorry, a technical error happened!The service is not working properly at the moment. Try again later.Error code: 500"`
@@ -172,11 +172,11 @@ describe('GlobalError', () => {
     render(<GlobalError {...props} />)
 
     expect(
-      document.querySelector('.dnb-global-error__inner__content h1')
+      document.querySelector('.dnb-global-error__inner-content h1')
         .textContent
     ).toBe('title')
     expect(
-      document.querySelector('.dnb-global-error__inner__content .dnb-p')
+      document.querySelector('.dnb-global-error__inner-content .dnb-p')
         .textContent
     ).toBe('text')
   })
@@ -186,7 +186,7 @@ describe('GlobalError', () => {
     render(<GlobalError {...props} text={htmlText} />)
 
     const textElement = document.querySelector(
-      '.dnb-global-error__inner__content .dnb-p'
+      '.dnb-global-error__inner-content .dnb-p'
     ) as HTMLElement
 
     expect(textElement).not.toBeNull()

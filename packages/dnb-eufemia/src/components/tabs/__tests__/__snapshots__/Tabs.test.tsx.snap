@@ -46,7 +46,7 @@ exports[`Tabs scss has to match style dependencies css 1`] = `
 .dnb-tabs__tabs, .dnb-tabs__tabs.dnb-section--spacing {
   padding-bottom: 0;
 }
-.dnb-tabs__tabs__tablist {
+.dnb-tabs__tabs-tablist {
   display: flex;
   flex: 0 1 auto;
   overflow-x: auto;
@@ -59,49 +59,49 @@ exports[`Tabs scss has to match style dependencies css 1`] = `
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
-.dnb-tabs__tabs__tablist:focus {
+.dnb-tabs__tabs-tablist:focus {
   outline: none;
   border-radius: 0.5rem;
 }
-html[data-whatinput=keyboard] .dnb-tabs__tabs__tablist:focus {
+html[data-whatinput=keyboard] .dnb-tabs__tabs-tablist:focus {
   --border-color: var(--focus-ring-color);
   --border-width: var(--focus-ring-width);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
-html:not([data-visual-test]) .dnb-tabs__tabs__tablist {
+html:not([data-visual-test]) .dnb-tabs__tabs-tablist {
   scroll-behavior: smooth;
 }
 @supports not (scrollbar-color: auto) {
-  .dnb-tabs__tabs__tablist::-webkit-scrollbar {
+  .dnb-tabs__tabs-tablist::-webkit-scrollbar {
     border-radius: var(--scrollbar-thumb-width, 0.5rem);
     background-color: var(--scrollbar-track-color, #eee);
   }
-  .dnb-tabs__tabs__tablist::-webkit-scrollbar:vertical {
+  .dnb-tabs__tabs-tablist::-webkit-scrollbar:vertical {
     width: var(--scrollbar-track-width, 0.5rem);
   }
-  .dnb-tabs__tabs__tablist::-webkit-scrollbar:horizontal {
+  .dnb-tabs__tabs-tablist::-webkit-scrollbar:horizontal {
     height: var(--scrollbar-track-width, 0.5rem);
   }
-  .dnb-tabs__tabs__tablist::-webkit-scrollbar-thumb {
+  .dnb-tabs__tabs-tablist::-webkit-scrollbar-thumb {
     background-color: var(--scrollbar-thumb-color, #888);
     border-radius: var(--scrollbar-thumb-width, 0.5rem);
   }
-  .dnb-tabs__tabs__tablist::-webkit-scrollbar-thumb:hover {
+  .dnb-tabs__tabs-tablist::-webkit-scrollbar-thumb:hover {
     background-color: var(--scrollbar-thumb-hover-color, #666);
   }
 }
-.dnb-tabs__tabs__tablist::-webkit-scrollbar {
+.dnb-tabs__tabs-tablist::-webkit-scrollbar {
   display: none;
 }
-.dnb-tabs__tabs--left .dnb-tabs__tabs__tablist {
+.dnb-tabs__tabs--left .dnb-tabs__tabs-tablist {
   justify-content: flex-start;
 }
-.dnb-tabs__tabs--right .dnb-tabs__tabs__tablist {
+.dnb-tabs__tabs--right .dnb-tabs__tabs-tablist {
   flex: 1;
   justify-content: flex-end;
 }
-.dnb-tabs__tabs--center .dnb-tabs__tabs__tablist {
+.dnb-tabs__tabs--center .dnb-tabs__tabs-tablist {
   flex: 1;
   justify-content: center;
 }
@@ -152,7 +152,7 @@ html:not([data-visual-test]) .dnb-tabs__tabs__tablist {
 .dnb-tabs--at-edge .dnb-tabs__scroll-nav-button:last-of-type {
   border-radius: 50% 0 0 50%;
 }
-.dnb-tabs--at-edge .dnb-tabs__tabs__tablist:focus {
+.dnb-tabs--at-edge .dnb-tabs__tabs-tablist:focus {
   border-radius: 0;
 }
 .dnb-tabs__button, .dnb-core-style .dnb-tabs .dnb-tabs__button {
@@ -274,31 +274,31 @@ html[data-whatinput=keyboard] .dnb-tabs__button:focus::before, html[data-whatinp
 .dnb-tabs__button:not([disabled]).selected .dnb-tabs__button__title, .dnb-tabs__button:not([disabled]).selected .dnb-core-style .dnb-tabs .dnb-tabs__button__title, .dnb-core-style .dnb-tabs .dnb-tabs__button:not([disabled]).selected .dnb-tabs__button__title, .dnb-core-style .dnb-tabs .dnb-tabs__button:not([disabled]).selected .dnb-core-style .dnb-tabs .dnb-tabs__button__title {
   font-weight: var(--tab-title-font-weight--selected);
 }
-.dnb-tabs__button__snap {
+.dnb-tabs__button-snap {
   display: flex;
   padding: 0 1rem 0 1.5rem;
   will-change: padding;
   transition: padding 1s var(--easing-default);
 }
 @media screen and (max-width: 40em) {
-  .dnb-tabs__button__snap {
+  .dnb-tabs__button-snap {
     padding: 0 1rem;
   }
 }
-.dnb-tabs__button__snap:first-of-type {
+.dnb-tabs__button-snap:first-of-type {
   padding-left: 0;
 }
-.dnb-tabs__button__snap:last-of-type {
+.dnb-tabs__button-snap:last-of-type {
   padding-right: 0.5rem;
 }
-html[data-whatinput=keyboard] .dnb-tabs__button__snap:first-of-type.focus .dnb-tabs__button:focus {
+html[data-whatinput=keyboard] .dnb-tabs__button-snap:first-of-type.focus .dnb-tabs__button:focus {
   margin-left: 0.5rem;
 }
-html[data-whatinput=keyboard] .dnb-tabs__button__snap:last-of-type.focus {
+html[data-whatinput=keyboard] .dnb-tabs__button-snap:last-of-type.focus {
   /* stylelint-disable */
   /* stylelint-enable */
 }
-html[data-whatinput=keyboard] .dnb-tabs__button__snap:last-of-type.focus .dnb-tabs__button:focus {
+html[data-whatinput=keyboard] .dnb-tabs__button-snap:last-of-type.focus .dnb-tabs__button:focus {
   margin-right: 0.5rem;
 }
 .dnb-tabs__cached {
@@ -314,7 +314,7 @@ html[data-whatinput=keyboard] .dnb-tabs__button__snap:last-of-type.focus .dnb-ta
 .dnb-tabs__cached--hidden * {
   height: 0 !important;
 }
-html[data-visual-test] .dnb-tabs .dnb-tabs__cached, html[data-visual-test] .dnb-tabs .dnb-tabs__button, html[data-visual-test] .dnb-tabs .dnb-tabs__button__snap, html[data-visual-test] .dnb-tabs .dnb-tabs__scroll-nav-button {
+html[data-visual-test] .dnb-tabs .dnb-tabs__cached, html[data-visual-test] .dnb-tabs .dnb-tabs__button, html[data-visual-test] .dnb-tabs .dnb-tabs__button-snap, html[data-visual-test] .dnb-tabs .dnb-tabs__scroll-nav-button {
   transition: none !important;
 }
 .dnb-tabs__content {

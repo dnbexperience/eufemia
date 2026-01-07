@@ -70,11 +70,11 @@ function ProgressIndicatorLine(props: ProgressIndicatorLinearAllProps) {
     >
       <span
         className={classnames(
-          'dnb-progress-indicator__linear__bar',
+          'dnb-progress-indicator__linear-bar',
           hasProgressValue &&
-            'dnb-progress-indicator__linear__bar-transition',
+            'dnb-progress-indicator__linear-bar-transition',
           !hasProgressValue &&
-            'dnb-progress-indicator__linear__bar1-animation'
+            'dnb-progress-indicator__linear-bar1-animation'
         )}
         style={{
           backgroundColor: customColors?.line,
@@ -84,8 +84,8 @@ function ProgressIndicatorLine(props: ProgressIndicatorLinearAllProps) {
       {!hasProgressValue && (
         <span
           className={classnames(
-            'dnb-progress-indicator__linear__bar',
-            'dnb-progress-indicator__linear__bar2-animation'
+            'dnb-progress-indicator__linear-bar',
+            'dnb-progress-indicator__linear-bar2-animation'
           )}
           style={{
             backgroundColor: customColors?.line,

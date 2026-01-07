@@ -172,7 +172,7 @@ describe('Tooltip', () => {
     ).toEqual(
       expect.arrayContaining([
         'dnb-tooltip__arrow__arrow--center',
-        'dnb-tooltip__arrow__placement--right',
+        'dnb-tooltip__arrow-placement--right',
       ])
     )
   })
@@ -189,7 +189,7 @@ describe('Tooltip', () => {
     ).toEqual(
       expect.arrayContaining([
         'dnb-tooltip__arrow__arrow--right',
-        'dnb-tooltip__arrow__placement--top',
+        'dnb-tooltip__arrow-placement--top',
       ])
     )
   })

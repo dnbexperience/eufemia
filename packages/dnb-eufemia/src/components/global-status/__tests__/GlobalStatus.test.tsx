@@ -137,13 +137,13 @@ describe('GlobalStatus component', () => {
 
     expect(
       document.querySelector(
-        'div.dnb-global-status__message__content > .dnb-p'
+        'div.dnb-global-status__message-content > .dnb-p'
       ).textContent
     ).toBe(newText)
 
     expect(
       document.querySelector(
-        'div.dnb-global-status__message__content > .dnb-ul'
+        'div.dnb-global-status__message-content > .dnb-ul'
       ).textContent
     ).toBe('item#1item#3')
 
@@ -763,7 +763,7 @@ describe('GlobalStatus component', () => {
     ).toBe("'error-message'")
     expect(
       document
-        .querySelectorAll('.dnb-global-status__message__content ul li')[0]
+        .querySelectorAll('.dnb-global-status__message-content ul li')[0]
         .querySelector('a.dnb-anchor').textContent
     ).toBe("custom anchor text 'my-label'")
   })
@@ -878,7 +878,7 @@ describe('GlobalStatus component', () => {
     ).not.toBeInTheDocument()
 
     expect(
-      document.querySelector('div.dnb-global-status__message__content')
+      document.querySelector('div.dnb-global-status__message-content')
     ).not.toBeInTheDocument()
 
     rerender(
@@ -893,7 +893,7 @@ describe('GlobalStatus component', () => {
       document.querySelector('div.dnb-global-status__content')
     ).toBeInTheDocument()
     expect(
-      document.querySelector('div.dnb-global-status__message__content')
+      document.querySelector('div.dnb-global-status__message-content')
     ).not.toBeInTheDocument()
 
     render(
@@ -906,7 +906,7 @@ describe('GlobalStatus component', () => {
     )
 
     expect(
-      document.querySelector('div.dnb-global-status__message__content')
+      document.querySelector('div.dnb-global-status__message-content')
     ).toBeInTheDocument()
 
     rerender(
@@ -930,7 +930,7 @@ describe('GlobalStatus component', () => {
       document.querySelector('div.dnb-global-status__content')
     ).not.toBeInTheDocument()
     expect(
-      document.querySelector('div.dnb-global-status__message__content')
+      document.querySelector('div.dnb-global-status__message-content')
     ).not.toBeInTheDocument()
   })
 

@@ -140,7 +140,7 @@
     }
   }
 
-  &--expanded > &__header &__header__icon {
+  &--expanded > &__header &__header-icon {
     transform: rotate(-180deg);
   }
 
@@ -193,7 +193,7 @@
     //   }
     // }
   }
-  &-group--single-container & > &__header &__header__icon {
+  &-group--single-container & > &__header &__header-icon {
     @include allAbove(small) {
       transform: rotate(-90deg);
     }
@@ -231,8 +231,8 @@
   }
 
   // stylelint-disable-next-line
-  & > &__header--no-animation &__header__icon,
-  html[data-visual-test] & &__header &__header__icon {
+  & > &__header--no-animation &__header-icon,
+  html[data-visual-test] & &__header &__header-icon {
     transition: none;
   }
 }

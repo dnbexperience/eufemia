@@ -120,7 +120,7 @@ export function ItemContent({ hash = '', children }: ItemContentProps) {
     <>
       {renderedContent}
       {isDataObject && children.suffix_value && (
-        <DrawerListOptionItem className="dnb-drawer-list__option__suffix">
+        <DrawerListOptionItem className="dnb-drawer-list__option-suffix">
           {children.suffix_value}
         </DrawerListOptionItem>
       )}

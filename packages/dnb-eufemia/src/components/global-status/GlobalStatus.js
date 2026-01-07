@@ -676,7 +676,7 @@ export default class GlobalStatus extends React.PureComponent {
               <div className="dnb-global-status__message">
                 <div
                   className={classnames(
-                    'dnb-global-status__message__content',
+                    'dnb-global-status__message-content',
                     !renderedItems && 'dnb-space__bottom--small'
                   )}
                 >

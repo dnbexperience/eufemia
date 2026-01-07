@@ -75,7 +75,7 @@ function CardFigure({
   }
 
   return (
-    <div className="dnb-payment-card__card__wrapper">
+    <div className="dnb-payment-card__card-wrapper">
       <div
         id={id}
         className={cardClasses}
@@ -87,16 +87,16 @@ function CardFigure({
             }
           : {})}
       >
-        <div className="dnb-payment-card__card__content">
-          <div className="dnb-payment-card__card__top">
-            <div className="dnb-payment-card__card__top__left">
+        <div className="dnb-payment-card__card-content">
+          <div className="dnb-payment-card__card-top">
+            <div className="dnb-payment-card__card-top-left">
               <BankLogo logoType={data.cardDesign.bankLogo} />
               <ProductLogo
                 productType={data.productType}
                 cardDesign={data.cardDesign}
               />
             </div>
-            <div className="dnb-payment-card__card__top__right">
+            <div className="dnb-payment-card__card-top-right">
               {compact ? (
                 <ProviderIcons />
               ) : (
@@ -108,14 +108,14 @@ function CardFigure({
             </div>
           </div>
           {!compact && (
-            <div className="dnb-payment-card__card__bottom">
-              <div className="dnb-payment-card__card__bottom__left">
+            <div className="dnb-payment-card__card-bottom">
+              <div className="dnb-payment-card__card-bottom-left">
                 <CardNumberText
                   cardNumber={cardNumber}
                   skeleton={skeleton}
                 />
               </div>
-              <div className="dnb-payment-card__card__bottom__right">
+              <div className="dnb-payment-card__card-bottom__right">
                 <ProviderIcons />
               </div>
             </div>

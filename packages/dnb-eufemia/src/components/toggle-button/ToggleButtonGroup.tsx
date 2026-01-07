@@ -277,8 +277,8 @@ class ToggleButtonGroup extends React.PureComponent<ToggleButtonGroupProps> {
 
                 <span
                   className={classnames(
-                    'dnb-toggle-button-group__shell__children',
-                    `dnb-toggle-button-group__shell__children--${layout_direction}`
+                    'dnb-toggle-button-group__shell-children',
+                    `dnb-toggle-button-group__shell-children--${layout_direction}`
                   )}
                 >
                   {children}

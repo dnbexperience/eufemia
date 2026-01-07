@@ -209,7 +209,7 @@
 
       transform: translateX(calc(-100% - 0.5rem));
 
-      .dnb-sidebar-menu__theme-badge__title {
+      .dnb-sidebar-menu__theme-badge-title {
         color: white;
       }
 
@@ -218,7 +218,7 @@
         font-family: var(--font-family-heading);
         font-weight: normal;
 
-        .dnb-sidebar-menu__theme-badge__title {
+        .dnb-sidebar-menu__theme-badge-title {
           width: 0.7em;
           height: 1.5rem;
           overflow: hidden;

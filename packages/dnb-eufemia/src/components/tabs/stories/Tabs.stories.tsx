@@ -38,7 +38,7 @@ export const TabsSandbox = () => {
             padding: 0 2rem;
           } */
 
-          /* .dnb-tabs__tabs__tablist {
+          /* .dnb-tabs__tabs-tablist {
             padding: 0 2rem;
           } */
         `}

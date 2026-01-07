@@ -296,7 +296,7 @@ describe('StepIndicator redesign', () => {
         .textContent
     ).toEqual('1.Step A')
     expect(
-      document.querySelector('.dnb-step-indicator__item-content__number')
+      document.querySelector('.dnb-step-indicator__item-content-number')
     ).toHaveAttribute('aria-hidden')
   })
 
@@ -852,7 +852,7 @@ describe('StepIndicator ARIA', () => {
 
     // Check that the step number has aria-hidden (when numbers are shown)
     const stepNumber = firstStepItem.querySelector(
-      '.dnb-step-indicator__item-content__number'
+      '.dnb-step-indicator__item-content-number'
     )
     expect(stepNumber).toBeInTheDocument()
     expect(stepNumber).toHaveAttribute('aria-hidden')

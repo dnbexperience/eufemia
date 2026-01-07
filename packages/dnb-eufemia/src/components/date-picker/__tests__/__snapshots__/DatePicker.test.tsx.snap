@@ -37,20 +37,20 @@ exports[`DatePicker scss should match default theme snapshot 1`] = `
   justify-content: center;
   margin-bottom: 1rem;
 }
-.dnb-date-picker__header__row {
+.dnb-date-picker__header-row {
   min-width: 60%;
   display: flex;
   flex: 1 1 auto;
   align-items: center;
   justify-content: space-between;
 }
-.dnb-date-picker__header__row--year {
+.dnb-date-picker__header-row--year {
   min-width: calc(40% - var(--gap));
 }
-.dnb-date-picker__header__nav .dnb-button {
+.dnb-date-picker__header-nav .dnb-button {
   box-shadow: none;
 }
-.dnb-date-picker__header__title {
+.dnb-date-picker__header-title {
   text-transform: capitalize;
   text-align: center;
   font-size: var(--font-size-basis);
@@ -285,11 +285,11 @@ p > .dnb-icon {
   min-height: 1.5rem;
   padding: 0 1rem;
 }
-.dnb-tooltip .dnb-popover__arrow__placement--right {
+.dnb-tooltip .dnb-popover__arrow-placement--right {
   left: -13px;
   top: auto !important;
 }
-.dnb-tooltip .dnb-popover__arrow__placement--left {
+.dnb-tooltip .dnb-popover__arrow-placement--left {
   right: -13px;
   top: auto !important;
 }
@@ -751,11 +751,11 @@ p > .dnb-icon {
   min-height: 1.5rem;
   padding: 0 1rem;
 }
-.dnb-tooltip .dnb-popover__arrow__placement--right {
+.dnb-tooltip .dnb-popover__arrow-placement--right {
   left: -13px;
   top: auto !important;
 }
-.dnb-tooltip .dnb-popover__arrow__placement--left {
+.dnb-tooltip .dnb-popover__arrow-placement--left {
   right: -13px;
   top: auto !important;
 }
@@ -1431,11 +1431,11 @@ p > .dnb-icon {
   min-height: 1.5rem;
   padding: 0 1rem;
 }
-.dnb-tooltip .dnb-popover__arrow__placement--right {
+.dnb-tooltip .dnb-popover__arrow-placement--right {
   left: -13px;
   top: auto !important;
 }
-.dnb-tooltip .dnb-popover__arrow__placement--left {
+.dnb-tooltip .dnb-popover__arrow-placement--left {
   right: -13px;
   top: auto !important;
 }
@@ -1951,11 +1951,11 @@ p > .dnb-icon {
   min-height: 1.5rem;
   padding: 0 1rem;
 }
-.dnb-tooltip .dnb-popover__arrow__placement--right {
+.dnb-tooltip .dnb-popover__arrow-placement--right {
   left: -13px;
   top: auto !important;
 }
-.dnb-tooltip .dnb-popover__arrow__placement--left {
+.dnb-tooltip .dnb-popover__arrow-placement--left {
   right: -13px;
   top: auto !important;
 }

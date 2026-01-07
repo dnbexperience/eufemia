@@ -302,14 +302,14 @@ describe('Autocomplete component', () => {
         document
           .querySelectorAll('.dnb-drawer-list__option')[1]
           .querySelector(
-            '.dnb-drawer-list__option-item.dnb-drawer-list__option__suffix'
+            '.dnb-drawer-list__option-item.dnb-drawer-list__option-suffix'
           ).textContent
       ).toBe('b suffix')
       expect(
         document
           .querySelectorAll('.dnb-drawer-list__option')[2]
           .querySelector(
-            '.dnb-drawer-list__option-item.dnb-drawer-list__option__suffix'
+            '.dnb-drawer-list__option-item.dnb-drawer-list__option-suffix'
           ).textContent
       ).toBe(mockData[2].suffix_value)
     })

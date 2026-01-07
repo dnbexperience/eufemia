@@ -31,8 +31,8 @@
 
 .drawerClassStyle {
   :global {
-    .dnb-drawer-list__option__inner {
-      .dnb-drawer-list__option__item {
+    .dnb-drawer-list__option-inner {
+      .dnb-drawer-list__option-item {
         white-space: normal;
         font-size: var(--font-size-small);
 
@@ -40,7 +40,7 @@
         overflow: visible; /* just to make sure we get anchors working properly */
       }
 
-      .dnb-drawer-list__option__item:first-of-type {
+      .dnb-drawer-list__option-item:first-of-type {
         color: var(--color-sea-green);
         font-weight: var(--font-weight-basis);
         font-size: var(--font-size-medium);

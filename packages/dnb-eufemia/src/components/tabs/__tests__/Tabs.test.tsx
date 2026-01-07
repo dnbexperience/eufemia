@@ -98,12 +98,12 @@ describe('Tabs component', () => {
       </Tabs>
     )
 
-    fireEvent.keyDown(document.querySelector('.dnb-tabs__tabs__tablist'), {
+    fireEvent.keyDown(document.querySelector('.dnb-tabs__tabs-tablist'), {
       keyCode: 39, // right
     })
     expect(on_focus).toHaveBeenCalledTimes(1)
 
-    fireEvent.keyDown(document.querySelector('.dnb-tabs__tabs__tablist'), {
+    fireEvent.keyDown(document.querySelector('.dnb-tabs__tabs-tablist'), {
       keyCode: 39, // right
     })
     expect(on_focus).toHaveBeenCalledTimes(2)
@@ -128,7 +128,7 @@ describe('Tabs component', () => {
 
     expect(
       document
-        .querySelector('.dnb-tabs__tabs__tablist')
+        .querySelector('.dnb-tabs__tabs-tablist')
         .querySelectorAll('a')[1].outerHTML
     ).toMatchInlineSnapshot(
       `"<a href="/second"><span class="dnb-tabs__button__title">Second</span><span aria-hidden="true" hidden="" class="dnb-dummy">Second</span></a>"`
@@ -306,7 +306,7 @@ describe('TabList component', () => {
     )
 
     expect(
-      document.querySelectorAll('.dnb-tabs__button__snap').length
+      document.querySelectorAll('.dnb-tabs__button-snap').length
     ).toBe(tablistData.length)
     expect(document.querySelectorAll('div[role="tabpanel"]').length).toBe(
       1
@@ -389,7 +389,7 @@ describe('A single Tab component', () => {
     render(<Tabs {...props} data={tablistDataWithContent} />)
     expect(
       document
-        .querySelectorAll('.dnb-tabs__button__snap')[0]
+        .querySelectorAll('.dnb-tabs__button-snap')[0]
         .querySelector('button').classList
     ).toContain('selected')
     expect(
@@ -516,7 +516,7 @@ describe('A single Tab component', () => {
     ).toBe('second-title')
     expect(
       document
-        .querySelectorAll('.dnb-tabs__button__snap button')[1]
+        .querySelectorAll('.dnb-tabs__button-snap button')[1]
         .getAttribute('data-tab-key')
     ).toBe('second-title')
     expect(

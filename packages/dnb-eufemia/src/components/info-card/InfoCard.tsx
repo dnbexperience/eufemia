@@ -168,7 +168,7 @@ const InfoCard = (localProps: InfoCardAllProps) => {
           <Button
             top={centered ? 'medium' : 'small'}
             type="button"
-            className="dnb-info-card__buttons__accept-button"
+            className="dnb-info-card__buttons-accept-button"
             variant="secondary"
             right={centered ? 'zero' : 'small'}
             on_click={onAccept}
@@ -179,7 +179,7 @@ const InfoCard = (localProps: InfoCardAllProps) => {
         {!closeButtonIsHidden && (
           <Button
             type="button"
-            className="dnb-info-card__buttons__close-button"
+            className="dnb-info-card__buttons-close-button"
             variant="tertiary"
             top="small"
             on_click={onClose}

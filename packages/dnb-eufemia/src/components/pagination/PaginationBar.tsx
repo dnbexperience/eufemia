@@ -217,7 +217,7 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
           />
         </div>
 
-        <div className="dnb-pagination__bar__inner">
+        <div className="dnb-pagination__bar-inner">
           {(pageNumberGroups?.[0] || []).map((pageNumber) => (
             <Button
               key={pageNumber}

@@ -415,7 +415,7 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
 * Button mixins
 *
 */
-.dnb-table__th__horizontal {
+.dnb-table__th-horizontal {
   display: flex;
   align-items: flex-end;
 }
@@ -622,22 +622,22 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
 .dnb-table__container, .dnb-table__container::after {
   border-radius: var(--table-outline-radius);
 }
-.dnb-table__container, .dnb-table__container__body, .dnb-table__container__head, .dnb-table__container__foot {
+.dnb-table__container, .dnb-table__container-body, .dnb-table__container-head, .dnb-table__container-foot {
   display: flex;
   flex-direction: column;
 }
-.dnb-table__container__body .dnb-table {
+.dnb-table__container-body .dnb-table {
   position: relative;
   /* stylelint-disable */
   /* stylelint-enable */
 }
-.dnb-table__container__body .dnb-table:not([class*=space__bottom]) {
+.dnb-table__container-body .dnb-table:not([class*=space__bottom]) {
   margin-bottom: 0;
 }
-.dnb-table__container__body .dnb-table__size--large .dnb-table__th {
+.dnb-table__container-body .dnb-table__size--large .dnb-table__th {
   padding-top: 1.5rem;
 }
-.dnb-table__container__body .dnb-table::after {
+.dnb-table__container-body .dnb-table::after {
   content: "";
   position: absolute;
   top: 0;
@@ -648,26 +648,26 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
   pointer-events: none;
   border-bottom: var(--table-border);
 }
-.dnb-table__container__body .dnb-table tbody:first-child .dnb-table__tr:first-of-type .dnb-table__th::after,
-.dnb-table__container__body .dnb-table tbody:first-child .dnb-table__tr:first-of-type .dnb-table__td::after, .dnb-table__container__body .dnb-table > :not(thead) + tbody .dnb-table__tr:first-of-type .dnb-table__th::after,
-.dnb-table__container__body .dnb-table > :not(thead) + tbody .dnb-table__tr:first-of-type .dnb-table__td::after {
+.dnb-table__container-body .dnb-table tbody:first-child .dnb-table__tr:first-of-type .dnb-table__th::after,
+.dnb-table__container-body .dnb-table tbody:first-child .dnb-table__tr:first-of-type .dnb-table__td::after, .dnb-table__container-body .dnb-table > :not(thead) + tbody .dnb-table__tr:first-of-type .dnb-table__th::after,
+.dnb-table__container-body .dnb-table > :not(thead) + tbody .dnb-table__tr:first-of-type .dnb-table__td::after {
   border-top: none;
 }
-.dnb-table__container__head {
+.dnb-table__container-head {
   padding: 2rem 1rem 0;
 }
-.dnb-table__container__head--empty {
+.dnb-table__container-head--empty {
   padding: 0;
   min-height: 1.5rem;
 }
-.dnb-spacing .dnb-table__container__head .dnb-h--large:not([class*=space__top]) {
+.dnb-spacing .dnb-table__container-head .dnb-h--large:not([class*=space__top]) {
   margin: 0;
 }
-.dnb-table__container__foot {
+.dnb-table__container-foot {
   padding: 1rem;
   padding-bottom: 1.25rem;
 }
-.dnb-table__container__foot--empty {
+.dnb-table__container-foot--empty {
   padding: 0;
   min-height: 1rem;
 }
@@ -737,10 +737,10 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
 .dnb-table__tr--clickable.dnb-table__tr--no-animation .dnb-table__button .dnb-icon, html[data-visual-test] .dnb-table__tr--clickable .dnb-table__button .dnb-icon {
   transition: none !important;
 }
-.dnb-table__tr--clickable, .dnb-table__tr__accordion-content {
+.dnb-table__tr--clickable, .dnb-table__tr-accordion-content {
   position: relative;
 }
-.dnb-table__tr--clickable.dnb-table__tr--expanded, .dnb-table__tr__accordion-content {
+.dnb-table__tr--clickable.dnb-table__tr--expanded, .dnb-table__tr-accordion-content {
   z-index: 3;
 }
 .dnb-table__tr--clickable:active, html[data-whatinput=keyboard] .dnb-table__tr--clickable:focus, .dnb-table__tr--clickable:hover:not(.dnb-table__tr--hover.dnb-table__tr--expanded) {
@@ -824,27 +824,27 @@ html:not([data-whatinput=keyboard]) .dnb-table__tr--clickable.dnb-table__tr.dnb-
 .dnb-table__tr--clickable.dnb-table__tr--disabled .dnb-table__td-button-icon .dnb-icon {
   color: var(--table-accordion-icon-color--disabled);
 }
-.dnb-table__tr__accordion-content__inner {
+.dnb-table__tr-accordion-content-inner {
   overflow: hidden;
   will-change: height;
   transition: height 400ms var(--easing-default);
   position: relative;
 }
-.dnb-table__tr__accordion-content__inner__spacing {
+.dnb-table__tr-accordion-content-inner-spacing {
   padding: 1rem;
   transform: translateY(-10px);
   transition: transform 500ms var(--easing-default);
 }
-.dnb-table__tr__accordion-content--parallax .dnb-table__tr__accordion-content__inner__spacing {
+.dnb-table__tr-accordion-content--parallax .dnb-table__tr-accordion-content-inner-spacing {
   transform: translateY(0);
 }
-html[data-visual-test] .dnb-table__tr__accordion-content--parallax .dnb-table__tr__accordion-content__inner__spacing {
+html[data-visual-test] .dnb-table__tr-accordion-content--parallax .dnb-table__tr-accordion-content-inner-spacing {
   transition: none;
 }
-.dnb-table__tr__accordion-content--expanded > td.dnb-table__td {
+.dnb-table__tr-accordion-content--expanded > td.dnb-table__td {
   background-color: var(--color-white);
 }
-.dnb-table__tr__accordion-content--expanded + .dnb-table__tr--clickable .dnb-table__td::after {
+.dnb-table__tr-accordion-content--expanded + .dnb-table__tr--clickable .dnb-table__td::after {
   content: "";
   position: absolute;
   top: 0;
@@ -855,20 +855,20 @@ html[data-visual-test] .dnb-table__tr__accordion-content--parallax .dnb-table__t
   pointer-events: none;
   border-top: var(--table-accordion-border);
 }
-.dnb-table__tr__accordion-content--expanded + .dnb-table__tr--clickable .dnb-table__td:last-child::after {
+.dnb-table__tr-accordion-content--expanded + .dnb-table__tr--clickable .dnb-table__td:last-child::after {
   right: 0;
 }
-.dnb-table__tr__accordion-content--single > td {
+.dnb-table__tr-accordion-content--single > td {
   padding: 0 !important;
   width: calc(100% - 3.5rem);
 }
-.dnb-table__size--medium .dnb-table__tr__accordion-content--single > td {
+.dnb-table__size--medium .dnb-table__tr-accordion-content--single > td {
   width: calc(100% - 3rem);
 }
-.dnb-table__size--small .dnb-table__tr__accordion-content--single > td {
+.dnb-table__size--small .dnb-table__tr-accordion-content--single > td {
   width: calc(100% - 2.5rem);
 }
-.dnb-table__tr__accordion-content--single > td::before {
+.dnb-table__tr-accordion-content--single > td::before {
   content: "";
   position: absolute;
   top: auto;
@@ -878,20 +878,20 @@ html[data-visual-test] .dnb-table__tr__accordion-content--parallax .dnb-table__t
   pointer-events: none;
   border-bottom: var(--table-accordion-border);
 }
-.dnb-table--outline .dnb-table__tr__accordion-content--single:last-of-type td::before {
+.dnb-table--outline .dnb-table__tr-accordion-content--single:last-of-type td::before {
   border-bottom: none;
 }
-.dnb-table--border .dnb-table__tr__accordion-content--single td::after {
+.dnb-table--border .dnb-table__tr-accordion-content--single td::after {
   border-top: none;
 }
-.dnb-table__tr__accordion-content--single > td.dnb-table__td {
+.dnb-table__tr-accordion-content--single > td.dnb-table__td {
   padding: 0;
 }
-.dnb-table__tr__accordion-content--single > td.dnb-table__td .dnb-dl,
-.dnb-table__tr__accordion-content--single > td.dnb-table__td .dnb-dl dt {
+.dnb-table__tr-accordion-content--single > td.dnb-table__td .dnb-dl,
+.dnb-table__tr-accordion-content--single > td.dnb-table__td .dnb-dl dt {
   margin: 0;
 }
-.dnb-table__tr__accordion-content.dnb-table__tr .dnb-table__td {
+.dnb-table__tr-accordion-content.dnb-table__tr .dnb-table__td {
   background-color: var(--table-accordion-background);
   /**
     * Safari on iOS and macOS has problems on animating when vertical-align is baseline.

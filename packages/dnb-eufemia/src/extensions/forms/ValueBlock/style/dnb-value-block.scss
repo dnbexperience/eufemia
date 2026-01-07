@@ -175,7 +175,7 @@
 
     // For a composition block with horizontal layout in a SummaryList and no label,
     // the help button should be on the end of the content.
-    &:not(&__label__content):has(
+    &:not(&__label-content):has(
         > .dnb-forms-value-block__label:not(&__content)
       ):has(.dnb-forms-value-block__content) {
       flex-direction: row-reverse;

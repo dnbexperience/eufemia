@@ -249,7 +249,7 @@ describe('useStickyHeader', () => {
   it('should use Modal/Drawer .dnb-scroll-view', () => {
     const { rerender } = render(
       <div className="dnb-modal__content">
-        <div className="dnb-modal__header__bar">bar</div>
+        <div className="dnb-modal__header-bar">bar</div>
         <div className="dnb-scroll-view">
           <Table sticky>
             <BasicTable />
@@ -261,7 +261,7 @@ describe('useStickyHeader', () => {
     const tableElement = document.querySelector('table')
     const trElem = document.querySelector('tr')
     const barElem: HTMLElement = document.querySelector(
-      '.dnb-modal__header__bar'
+      '.dnb-modal__header-bar'
     )
     const scrollElem: HTMLElement =
       document.querySelector('.dnb-scroll-view')
@@ -308,7 +308,7 @@ describe('useStickyHeader', () => {
 
     rerender(
       <div className="dnb-modal__content">
-        <div className="dnb-modal__header__bar">bar</div>
+        <div className="dnb-modal__header-bar">bar</div>
         <div className="dnb-scroll-view">
           <Table sticky stickyOffset="4rem">
             <BasicTable />
@@ -327,7 +327,7 @@ describe('useStickyHeader', () => {
 
     rerender(
       <div className="dnb-modal__content">
-        <div className="dnb-modal__header__bar">bar</div>
+        <div className="dnb-modal__header-bar">bar</div>
         <div className="dnb-scroll-view">
           <Table sticky>
             <BasicTable />

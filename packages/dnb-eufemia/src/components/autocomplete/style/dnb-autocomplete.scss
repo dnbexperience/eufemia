@@ -138,7 +138,7 @@
       }
     }
 
-    &__inner__element.dnb-p {
+    &__inner-element.dnb-p {
       white-space: nowrap;
       padding: 0 0.5rem;
 
@@ -147,19 +147,19 @@
       }
     }
 
-    &__inner__element.dnb-p,
-    .dnb-spacing &__inner__element.dnb-p {
+    &__inner-element.dnb-p,
+    .dnb-spacing &__inner-element.dnb-p {
       margin: 0;
     }
 
-    &--has-submit-element .dnb-input__inner__element {
+    &--has-submit-element .dnb-input__inner-element {
       // same width of submit button
       margin-right: 2.5rem !important; // use important so we avoid to have all sizes in addition
     }
   }
   &--icon-position-right .dnb-input {
     // stylelint-disable-next-line
-    &__inner__element.dnb-p {
+    &__inner-element.dnb-p {
       padding-right: 3rem;
     }
     &--icon-position-right &--icon-position-right#{&}--has-icon &__input {

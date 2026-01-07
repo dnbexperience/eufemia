@@ -147,11 +147,11 @@ p > .dnb-icon {
   min-height: 1.5rem;
   padding: 0 1rem;
 }
-.dnb-tooltip .dnb-popover__arrow__placement--right {
+.dnb-tooltip .dnb-popover__arrow-placement--right {
   left: -13px;
   top: auto !important;
 }
-.dnb-tooltip .dnb-popover__arrow__placement--left {
+.dnb-tooltip .dnb-popover__arrow-placement--left {
   right: -13px;
   top: auto !important;
 }
@@ -686,12 +686,12 @@ button.dnb-button::-moz-focus-inner {
   align-items: center;
   padding: 0.5rem 0;
 }
-.dnb-breadcrumb__item__span {
+.dnb-breadcrumb__item-span {
   display: flex;
   align-items: center;
   line-height: var(--line-height-basis);
 }
-.dnb-breadcrumb__item__span__icon {
+.dnb-breadcrumb__item-span-icon {
   margin-right: 0.5rem;
 }
 .dnb-breadcrumb__item .dnb-anchor {

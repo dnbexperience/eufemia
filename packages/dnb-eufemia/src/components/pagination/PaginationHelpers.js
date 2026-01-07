@@ -31,7 +31,7 @@ export class PaginationIndicator extends React.PureComponent {
     return (
       <Element>
         <ElementChild className="dnb-pagination__indicator">
-          <div className="dnb-pagination__indicator__inner">
+          <div className="dnb-pagination__indicator-inner">
             <ProgressIndicator />
             {
               this.context.getTranslation(this.props).Pagination

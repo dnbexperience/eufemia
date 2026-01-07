@@ -175,11 +175,11 @@ p > .dnb-icon {
   min-height: 1.5rem;
   padding: 0 1rem;
 }
-.dnb-tooltip .dnb-popover__arrow__placement--right {
+.dnb-tooltip .dnb-popover__arrow-placement--right {
   left: -13px;
   top: auto !important;
 }
-.dnb-tooltip .dnb-popover__arrow__placement--left {
+.dnb-tooltip .dnb-popover__arrow-placement--left {
   right: -13px;
   top: auto !important;
 }
@@ -719,12 +719,12 @@ button.dnb-button::-moz-focus-inner {
   cursor: text;
   z-index: 1;
 }
-.dnb-global-status__message__content {
+.dnb-global-status__message-content {
   display: flex;
   flex-direction: column;
   padding: 0 0 0.5rem 2.5rem;
 }
-.dnb-global-status__message__content .dnb-p, .dnb-spacing .dnb-global-status__message__content .dnb-p, .dnb-spacing .dnb-global-status__message__content .dnb-p:not([class*=dnb-space]) {
+.dnb-global-status__message-content .dnb-p, .dnb-spacing .dnb-global-status__message-content .dnb-p, .dnb-spacing .dnb-global-status__message-content .dnb-p:not([class*=dnb-space]) {
   display: inline-block;
   margin: 0;
   padding: 0;

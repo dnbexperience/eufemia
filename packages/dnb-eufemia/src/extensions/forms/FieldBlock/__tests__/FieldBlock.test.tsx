@@ -239,7 +239,7 @@ describe('FieldBlock', () => {
 
       expect(
         document.querySelector(
-          '.dnb-forms-field-block__label__description'
+          '.dnb-forms-field-block__label-description'
         )
       ).toBeNull()
 

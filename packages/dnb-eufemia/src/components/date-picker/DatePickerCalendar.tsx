@@ -506,7 +506,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
         <div className="dnb-date-picker__header dnb-date-picker__header--only-month-label">
           <label
             id={`${id}--title`}
-            className="dnb-date-picker__header__title dnb-no-focus"
+            className="dnb-date-picker__header-title dnb-no-focus"
             title={selectedMonth.replace(
               /%s/,
               formatDate(month, {

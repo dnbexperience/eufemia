@@ -263,7 +263,7 @@ function ValueBlock(localProps: Props) {
               srOnly={labelSrOnly}
             >
               {label && (
-                <span className="dnb-forms-value-block__label__content">
+                <span className="dnb-forms-value-block__label-content">
                   {label}
                 </span>
               )}
