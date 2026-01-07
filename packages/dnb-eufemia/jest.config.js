@@ -3,6 +3,7 @@ const config = {
   testEnvironmentOptions: {
     url: 'http://localhost',
   },
+  maxWorkers: '50%',
   testRegex: '(/__tests__/\\.js|(\\.|/)test)\\.(js|jsx|ts|tsx)?$',
   testPathIgnorePatterns: [
     'not_in_use',
