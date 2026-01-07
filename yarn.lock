@@ -15294,13 +15294,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"date-fns@npm:2.25.0":
-  version: 2.25.0
-  resolution: "date-fns@npm:2.25.0"
-  checksum: 10/186a3aa239974a424626a0adf2e93c0d29848d8f6b32cc01f4b5812697705626544ed657de485cebfcee44f611731cb7a7048b7e55681390e8d1e93eb7809cc2
-  languageName: node
-  linkType: hard
-
 "date-fns@npm:4.1.0":
   version: 4.1.0
   resolution: "date-fns@npm:4.1.0"
@@ -15949,7 +15942,7 @@ __metadata:
     classnames: "npm:2.3.1"
     cross-env: "npm:7.0.3"
     current-git-branch: "npm:1.1.0"
-    date-fns: "npm:2.25.0"
+    date-fns: "npm:4.1.0"
     dotenv: "npm:10.0.0"
     eslint: "npm:8.17.0"
     eslint-plugin-jsx-a11y: "npm:6.5.1"
