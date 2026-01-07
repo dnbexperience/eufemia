@@ -62,7 +62,7 @@
     "@babel/node": "7.26.0",
     "@dnb/browserslist-config": "1.2.0",
     "@emotion/cache": "11.11.0",
-    "@playwright/test": "1.49.1",
+    "@playwright/test": "1.57.0",
     "@types/json-schema": "7.0.12",
     "@types/react": "18.2.13",
     "@types/react-dom": "18.2.6",

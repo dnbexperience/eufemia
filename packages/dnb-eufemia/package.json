@@ -159,7 +159,7 @@
     "@dnb/browserslist-config": "1.2.0",
     "@emotion/react": "11.11.0",
     "@emotion/styled": "11.11.0",
-    "@playwright/test": "1.49.1",
+    "@playwright/test": "1.57.0",
     "@semantic-release/changelog": "6.0.2",
     "@semantic-release/commit-analyzer": "9.0.2",
     "@semantic-release/git": "10.0.1",
