@@ -203,7 +203,7 @@ describe('Table using mode="navigation" prop', () => {
 
     const trElement = document.querySelectorAll('thead tr th')[1]
     expect(Array.from(trElement.classList)).toContain(
-      'dnb-table__th__button-icon'
+      'dnb-table__th-button-icon'
     )
 
     const divElement = trElement.querySelector('div')
@@ -223,7 +223,7 @@ describe('Table using mode="navigation" prop', () => {
 
     const thElement = document.querySelectorAll('thead tr th')[1]
     expect(Array.from(thElement.classList)).toContain(
-      'dnb-table__th__button-icon'
+      'dnb-table__th-button-icon'
     )
 
     expect(thElement.textContent).toBe(nb.navigationButtonSR)
@@ -246,7 +246,7 @@ describe('Table using mode="navigation" prop', () => {
 
     const thElement = document.querySelectorAll('thead tr th')[1]
     expect(Array.from(thElement.classList)).toContain(
-      'dnb-table__th__button-icon'
+      'dnb-table__th-button-icon'
     )
 
     expect(thElement.textContent).toBe(nb.navigationButtonSR)

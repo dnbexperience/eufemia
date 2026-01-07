@@ -80,7 +80,7 @@ export function TableContainerBody(
 
   return (
     <div
-      className={classnames('dnb-table__container__body', className)}
+      className={classnames('dnb-table__container-body', className)}
       {...rest}
     >
       {children}
@@ -103,8 +103,8 @@ export function TableContainerHead(
   return (
     <div
       className={classnames(
-        'dnb-table__container__head',
-        !children && 'dnb-table__container__head--empty',
+        'dnb-table__container-head',
+        !children && 'dnb-table__container-head--empty',
         className
       )}
       {...rest}
@@ -129,8 +129,8 @@ export function TableContainerFoot(
   return (
     <div
       className={classnames(
-        'dnb-table__container__foot',
-        !children && 'dnb-table__container__foot--empty',
+        'dnb-table__container-foot',
+        !children && 'dnb-table__container-foot--empty',
         className
       )}
       {...rest}

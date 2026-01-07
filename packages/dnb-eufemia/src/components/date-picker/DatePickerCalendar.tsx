@@ -506,7 +506,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
         <div className="dnb-date-picker__header dnb-date-picker__header--only-month-label">
           <label
             id={`${id}--title`}
-            className="dnb-date-picker__header__title dnb-no-focus"
+            className="dnb-date-picker__header-title dnb-no-focus"
             title={selectedMonth.replace(
               /%s/,
               formatDate(month, {
@@ -540,7 +540,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
                   key={i}
                   role="columnheader"
                   scope="col"
-                  className="dnb-date-picker__labels__day"
+                  className="dnb-date-picker__labels-day"
                   aria-label={formatDate(day, {
                     locale,
                     options: { weekday: 'long' },

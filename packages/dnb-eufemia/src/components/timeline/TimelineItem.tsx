@@ -134,7 +134,7 @@ const TimelineItemLabel = ({
   ...iconProps
 }: TimelineItemLabelProps) => {
   return (
-    <span className="dnb-timeline__item__label">
+    <span className="dnb-timeline__item-label">
       <TimelineItemIcon {...iconProps} />
       <TimelineItemTitle title={title} />
     </span>
@@ -178,7 +178,7 @@ const TimelineItemIcon = ({
   const currentAltLabel = iconAlt || labels[state]
 
   return (
-    <span className="dnb-timeline__item__label__icon">
+    <span className="dnb-timeline__item-label-icon">
       <AlignmentHelper pseudoElementOnly />
       {!skeleton && currentIcon && (
         <IconPrimary
@@ -194,7 +194,7 @@ const TimelineItemIcon = ({
 type TimelineItemTitleProps = Pick<TimelineItemProps, 'title'>
 
 const TimelineItemTitle = ({ title }: TimelineItemTitleProps) => {
-  return <span className="dnb-timeline__item__label__title">{title}</span>
+  return <span className="dnb-timeline__item-label-title">{title}</span>
 }
 
 // Content
@@ -222,13 +222,13 @@ const TimelineItemContent = ({
   }
 
   return (
-    <div className="dnb-timeline__item__content">
+    <div className="dnb-timeline__item-content">
       {renderSubtitles()}
       {infoMessage && (
         <FormStatus
           text={infoMessage}
           state="info"
-          className="dnb-timeline__item__content__info"
+          className="dnb-timeline__item-content-info"
           stretch
         />
       )}
@@ -241,7 +241,7 @@ type TimelineItemSubtitleProps = {
 }
 
 const TimelineItemSubtitle = ({ subtitle }: TimelineItemSubtitleProps) => (
-  <div className="dnb-timeline__item__content__subtitle">{subtitle}</div>
+  <div className="dnb-timeline__item-content-subtitle">{subtitle}</div>
 )
 
 export default TimelineItem

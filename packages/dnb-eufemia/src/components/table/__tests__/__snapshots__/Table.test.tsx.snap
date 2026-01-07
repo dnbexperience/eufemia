@@ -415,7 +415,7 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
 * Button mixins
 *
 */
-.dnb-table__th__horizontal {
+.dnb-table__th-horizontal {
   display: flex;
   align-items: flex-end;
 }
@@ -704,26 +704,26 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
   --table-accordion-outline-width: var(--focus-ring-width);
   --table-accordion-outline-background--active: var(--color-pistachio);
 }
-.dnb-table__th.dnb-table__th__button-icon.dnb-table__th {
+.dnb-table__th.dnb-table__th-button-icon.dnb-table__th {
   padding: 0;
 }
-.dnb-table__th.dnb-table__th__button-icon,
-.dnb-table__th.dnb-table__th__button-icon div {
+.dnb-table__th.dnb-table__th-button-icon,
+.dnb-table__th.dnb-table__th-button-icon div {
   width: 3.5rem;
   text-indent: -300vw;
 }
-.dnb-table__size--medium .dnb-table__th.dnb-table__th__button-icon,
-.dnb-table__size--medium .dnb-table__th.dnb-table__th__button-icon div {
+.dnb-table__size--medium .dnb-table__th.dnb-table__th-button-icon,
+.dnb-table__size--medium .dnb-table__th.dnb-table__th-button-icon div {
   width: 3rem;
 }
-.dnb-table__size--small .dnb-table__th.dnb-table__th__button-icon,
-.dnb-table__size--small .dnb-table__th.dnb-table__th__button-icon div {
+.dnb-table__size--small .dnb-table__th.dnb-table__th-button-icon,
+.dnb-table__size--small .dnb-table__th.dnb-table__th-button-icon div {
   width: 2.5rem;
 }
-.dnb-table__td.dnb-table__td__button-icon {
+.dnb-table__td.dnb-table__td-button-icon {
   user-select: none;
 }
-.dnb-table__td.dnb-table__td__button-icon.dnb-table__td {
+.dnb-table__td.dnb-table__td-button-icon.dnb-table__td {
   padding: 0;
 }
 .dnb-table__tr--clickable .dnb-table__button {
@@ -737,10 +737,10 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
 .dnb-table__tr--clickable.dnb-table__tr--no-animation .dnb-table__button .dnb-icon, html[data-visual-test] .dnb-table__tr--clickable .dnb-table__button .dnb-icon {
   transition: none !important;
 }
-.dnb-table__tr--clickable, .dnb-table__tr__accordion-content {
+.dnb-table__tr--clickable, .dnb-table__tr-accordion-content {
   position: relative;
 }
-.dnb-table__tr--clickable.dnb-table__tr--expanded, .dnb-table__tr__accordion-content {
+.dnb-table__tr--clickable.dnb-table__tr--expanded, .dnb-table__tr-accordion-content {
   z-index: 3;
 }
 .dnb-table__tr--clickable:active, html[data-whatinput=keyboard] .dnb-table__tr--clickable:focus, .dnb-table__tr--clickable:hover:not(.dnb-table__tr--hover.dnb-table__tr--expanded) {
@@ -777,7 +777,7 @@ html:not([data-whatintent=touch]) .dnb-table__tr--clickable.dnb-table__tr:not(.d
 html:not([data-whatintent=touch]) .dnb-table__tr--clickable.dnb-table__tr:not(.dnb-table__tr--disabled):hover:not([disabled]) td::before {
   border-color: var(--table-accordion-outline-color);
 }
-html:not([data-whatintent=touch]) .dnb-table__tr--clickable.dnb-table__tr:not(.dnb-table__tr--disabled):hover:not([disabled]) .dnb-table__td__button-icon .dnb-icon {
+html:not([data-whatintent=touch]) .dnb-table__tr--clickable.dnb-table__tr:not(.dnb-table__tr--disabled):hover:not([disabled]) .dnb-table__td-button-icon .dnb-icon {
   color: var(--table-accordion-icon-color--active);
 }
 .dnb-table--border tbody .dnb-table__tr--clickable:not(.dnb-table__tr--expanded):not(.dnb-table__tr--last) .dnb-table__td::before {
@@ -804,7 +804,7 @@ html:not([data-whatintent=touch]) .dnb-table__tr--clickable.dnb-table__tr:not(.d
 .dnb-table__tr--clickable.dnb-table__tr:not(.dnb-table__tr--disabled):active .dnb-table__td {
   background-color: var(--table-accordion-outline-background--active);
 }
-.dnb-table__tr--clickable.dnb-table__tr:not(.dnb-table__tr--disabled):active .dnb-table__td .dnb-table__td__button-icon .dnb-icon {
+.dnb-table__tr--clickable.dnb-table__tr:not(.dnb-table__tr--disabled):active .dnb-table__td .dnb-table__td-button-icon .dnb-icon {
   color: var(--table-accordion-icon-color--active);
 }
 .dnb-table__tr--clickable.dnb-table__tr--expanded:not(.dnb-table__tr--disabled).dnb-table__tr--hover:not(:active):hover .dnb-table__td {
@@ -821,30 +821,30 @@ html:not([data-whatinput=keyboard]) .dnb-table__tr--clickable.dnb-table__tr.dnb-
   border: none;
   border-top: var(--table-accordion-border);
 }
-.dnb-table__tr--clickable.dnb-table__tr--disabled .dnb-table__td__button-icon .dnb-icon {
+.dnb-table__tr--clickable.dnb-table__tr--disabled .dnb-table__td-button-icon .dnb-icon {
   color: var(--table-accordion-icon-color--disabled);
 }
-.dnb-table__tr__accordion-content__inner {
+.dnb-table__tr-accordion-content__inner {
   overflow: hidden;
   will-change: height;
   transition: height 400ms var(--easing-default);
   position: relative;
 }
-.dnb-table__tr__accordion-content__inner__spacing {
+.dnb-table__tr-accordion-content__inner__spacing {
   padding: 1rem;
   transform: translateY(-10px);
   transition: transform 500ms var(--easing-default);
 }
-.dnb-table__tr__accordion-content--parallax .dnb-table__tr__accordion-content__inner__spacing {
+.dnb-table__tr-accordion-content--parallax .dnb-table__tr-accordion-content__inner__spacing {
   transform: translateY(0);
 }
-html[data-visual-test] .dnb-table__tr__accordion-content--parallax .dnb-table__tr__accordion-content__inner__spacing {
+html[data-visual-test] .dnb-table__tr-accordion-content--parallax .dnb-table__tr-accordion-content__inner__spacing {
   transition: none;
 }
-.dnb-table__tr__accordion-content--expanded > td.dnb-table__td {
+.dnb-table__tr-accordion-content--expanded > td.dnb-table__td {
   background-color: var(--color-white);
 }
-.dnb-table__tr__accordion-content--expanded + .dnb-table__tr--clickable .dnb-table__td::after {
+.dnb-table__tr-accordion-content--expanded + .dnb-table__tr--clickable .dnb-table__td::after {
   content: "";
   position: absolute;
   top: 0;
@@ -855,20 +855,20 @@ html[data-visual-test] .dnb-table__tr__accordion-content--parallax .dnb-table__t
   pointer-events: none;
   border-top: var(--table-accordion-border);
 }
-.dnb-table__tr__accordion-content--expanded + .dnb-table__tr--clickable .dnb-table__td:last-child::after {
+.dnb-table__tr-accordion-content--expanded + .dnb-table__tr--clickable .dnb-table__td:last-child::after {
   right: 0;
 }
-.dnb-table__tr__accordion-content--single > td {
+.dnb-table__tr-accordion-content--single > td {
   padding: 0 !important;
   width: calc(100% - 3.5rem);
 }
-.dnb-table__size--medium .dnb-table__tr__accordion-content--single > td {
+.dnb-table__size--medium .dnb-table__tr-accordion-content--single > td {
   width: calc(100% - 3rem);
 }
-.dnb-table__size--small .dnb-table__tr__accordion-content--single > td {
+.dnb-table__size--small .dnb-table__tr-accordion-content--single > td {
   width: calc(100% - 2.5rem);
 }
-.dnb-table__tr__accordion-content--single > td::before {
+.dnb-table__tr-accordion-content--single > td::before {
   content: "";
   position: absolute;
   top: auto;
@@ -878,20 +878,20 @@ html[data-visual-test] .dnb-table__tr__accordion-content--parallax .dnb-table__t
   pointer-events: none;
   border-bottom: var(--table-accordion-border);
 }
-.dnb-table--outline .dnb-table__tr__accordion-content--single:last-of-type td::before {
+.dnb-table--outline .dnb-table__tr-accordion-content--single:last-of-type td::before {
   border-bottom: none;
 }
-.dnb-table--border .dnb-table__tr__accordion-content--single td::after {
+.dnb-table--border .dnb-table__tr-accordion-content--single td::after {
   border-top: none;
 }
-.dnb-table__tr__accordion-content--single > td.dnb-table__td {
+.dnb-table__tr-accordion-content--single > td.dnb-table__td {
   padding: 0;
 }
-.dnb-table__tr__accordion-content--single > td.dnb-table__td .dnb-dl,
-.dnb-table__tr__accordion-content--single > td.dnb-table__td .dnb-dl dt {
+.dnb-table__tr-accordion-content--single > td.dnb-table__td .dnb-dl,
+.dnb-table__tr-accordion-content--single > td.dnb-table__td .dnb-dl dt {
   margin: 0;
 }
-.dnb-table__tr__accordion-content.dnb-table__tr .dnb-table__td {
+.dnb-table__tr-accordion-content.dnb-table__tr .dnb-table__td {
   background-color: var(--table-accordion-background);
   /**
     * Safari on iOS and macOS has problems on animating when vertical-align is baseline.

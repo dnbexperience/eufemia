@@ -729,14 +729,14 @@ describe('Input with clear button', () => {
     expect(
       document
         .querySelector('.dnb-input')
-        .querySelector('.dnb-input__input ~ .dnb-input__inner__element')
+        .querySelector('.dnb-input__input ~ .dnb-input__inner-element')
         .textContent
     ).toBe('custom element')
 
     expect(
       document
         .querySelector('.dnb-input')
-        .querySelector('.dnb-input__inner__element ~ .dnb-input__icon')
+        .querySelector('.dnb-input__inner-element ~ .dnb-input__icon')
         .querySelector('svg')
     ).toBeInTheDocument()
   })

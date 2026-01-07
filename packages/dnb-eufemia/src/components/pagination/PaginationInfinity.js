@@ -515,7 +515,7 @@ class InteractionMarker extends React.PureComponent {
     return (
       <Element className="dnb-pagination__marker dnb-table--ignore">
         <ElementChild
-          className="dnb-pagination__marker__inner"
+          className="dnb-pagination__marker-inner"
           ref={this._ref}
         >
           {/* {this.props.pageNumber} */}

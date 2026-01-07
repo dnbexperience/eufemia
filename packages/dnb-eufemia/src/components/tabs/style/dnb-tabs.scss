@@ -125,7 +125,7 @@
     }
   }
 
-  &--at-edge &__tabs__tablist:focus {
+  &--at-edge &__tabs-tablist:focus {
     border-radius: 0;
   }
 
@@ -261,7 +261,7 @@
     /* stylelint-enable no-descending-specificity */
   }
 
-  &__button__snap {
+  &__button-snap {
     display: flex;
 
     padding: 0 1rem 0 1.5rem;

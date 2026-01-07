@@ -626,7 +626,7 @@ class DropdownInstance extends React.PureComponent {
                     <>
                       {!isPopupMenu && (
                         <span className="dnb-dropdown__text dnb-button__text">
-                          <span className="dnb-dropdown__text__inner">
+                          <span className="dnb-dropdown__text-inner">
                             {title}
                           </span>
                         </span>

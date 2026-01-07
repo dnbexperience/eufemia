@@ -2164,7 +2164,7 @@ describe('Popover', () => {
 
       await waitFor(() =>
         expect(
-          document.querySelector('.dnb-popover__arrow__placement--top')
+          document.querySelector('.dnb-popover__arrow-placement--top')
         ).toBeInTheDocument()
       )
 
@@ -2220,7 +2220,7 @@ describe('Popover', () => {
 
       await waitFor(() =>
         expect(
-          document.querySelector('.dnb-popover__arrow__placement--bottom')
+          document.querySelector('.dnb-popover__arrow-placement--bottom')
         ).toBeInTheDocument()
       )
 
@@ -2276,7 +2276,7 @@ describe('Popover', () => {
 
       await waitFor(() =>
         expect(
-          document.querySelector('.dnb-popover__arrow__placement--bottom')
+          document.querySelector('.dnb-popover__arrow-placement--bottom')
         ).toBeInTheDocument()
       )
 
@@ -2332,7 +2332,7 @@ describe('Popover', () => {
 
       await waitFor(() =>
         expect(
-          document.querySelector('.dnb-popover__arrow__placement--bottom')
+          document.querySelector('.dnb-popover__arrow-placement--bottom')
         ).toBeInTheDocument()
       )
 
@@ -2389,7 +2389,7 @@ describe('Popover', () => {
 
       await waitFor(() =>
         expect(
-          document.querySelector('.dnb-popover__arrow__placement--bottom')
+          document.querySelector('.dnb-popover__arrow-placement--bottom')
         ).toBeInTheDocument()
       )
 
@@ -2446,7 +2446,7 @@ describe('Popover', () => {
 
       await waitFor(() =>
         expect(
-          document.querySelector('.dnb-popover__arrow__placement--top')
+          document.querySelector('.dnb-popover__arrow-placement--top')
         ).toBeInTheDocument()
       )
 
@@ -2458,7 +2458,7 @@ describe('Popover', () => {
 
       await waitFor(() =>
         expect(
-          document.querySelector('.dnb-popover__arrow__placement--top')
+          document.querySelector('.dnb-popover__arrow-placement--top')
         ).toBeInTheDocument()
       )
 
@@ -2515,7 +2515,7 @@ describe('Popover', () => {
 
       await waitFor(() =>
         expect(
-          document.querySelector('.dnb-popover__arrow__placement--top')
+          document.querySelector('.dnb-popover__arrow-placement--top')
         ).toBeInTheDocument()
       )
 
@@ -2527,7 +2527,7 @@ describe('Popover', () => {
 
       await waitFor(() =>
         expect(
-          document.querySelector('.dnb-popover__arrow__placement--bottom')
+          document.querySelector('.dnb-popover__arrow-placement--bottom')
         ).toBeInTheDocument()
       )
 
@@ -2586,7 +2586,7 @@ describe('Popover', () => {
           '.dnb-popover'
         ) as HTMLElement
         expect(
-          document.querySelector('.dnb-popover__arrow__placement--bottom')
+          document.querySelector('.dnb-popover__arrow-placement--bottom')
         ).toBeInTheDocument()
         expect(popover?.style.top).toBe('60px')
       })

@@ -581,37 +581,37 @@ const DropdownStory = () => {
         >
           <ul className="dnb-drawer-list__options">
             <li className="dnb-drawer-list__option">
-              <span className="dnb-drawer-list__option__inner">
+              <span className="dnb-drawer-list__option-inner">
                 Brukskonto - Kari Nordmann
               </span>
             </li>
             <li className="dnb-drawer-list__option dnb-drawer-list__option--selected">
-              <span className="dnb-drawer-list__option__inner">
-                <span className="dnb-drawer-list__option__item">
+              <span className="dnb-drawer-list__option-inner">
+                <span className="dnb-drawer-list__option-item">
                   <NumberFormat ban>12345678902</NumberFormat>
                 </span>
-                <span className="dnb-drawer-list__option__item">
+                <span className="dnb-drawer-list__option-item">
                   Sparekonto - Ole Nordmann
                 </span>
               </span>
             </li>
             <li className="dnb-drawer-list__option">
-              <span className="dnb-drawer-list__option__inner">
-                <span className="dnb-drawer-list__option__item">
+              <span className="dnb-drawer-list__option-inner">
+                <span className="dnb-drawer-list__option-item">
                   <NumberFormat ban>11345678962</NumberFormat>
                 </span>
-                <span className="dnb-drawer-list__option__item">
+                <span className="dnb-drawer-list__option-item">
                   Feriekonto - Kari Nordmann med et kjempelangt
                   etternavnsen
                 </span>
               </span>
             </li>
             <li className="dnb-drawer-list__option last-of-type">
-              <span className="dnb-drawer-list__option__inner">
-                <span className="dnb-drawer-list__option__item">
+              <span className="dnb-drawer-list__option-inner">
+                <span className="dnb-drawer-list__option-item">
                   <NumberFormat ban>15349648901</NumberFormat>
                 </span>
-                <span className="dnb-drawer-list__option__item">
+                <span className="dnb-drawer-list__option-item">
                   Oppussing - Ole Nordmann
                 </span>
               </span>

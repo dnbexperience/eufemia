@@ -72,14 +72,14 @@
     @include hover() {
       background-color: var(--color-mint-green-12);
 
-      .dnb-drawer-list__option__inner {
+      .dnb-drawer-list__option-inner {
         color: var(--color-sea-green);
         background-color: var(--color-mint-green-12);
       }
     }
 
     @include active() {
-      .dnb-drawer-list__option__inner {
+      .dnb-drawer-list__option-inner {
         color: var(--color-black);
       }
     }
@@ -114,7 +114,7 @@
       color: var(--color-white);
       background-color: var(--color-emerald-green);
 
-      .dnb-drawer-list__option__inner {
+      .dnb-drawer-list__option-inner {
         color: inherit;
         background-color: inherit;
       }
@@ -123,7 +123,7 @@
         color: var(--color-white);
         background-color: var(--color-emerald-green);
 
-        .dnb-drawer-list__option__inner {
+        .dnb-drawer-list__option-inner {
           color: inherit;
           background-color: inherit;
         }
@@ -196,19 +196,19 @@
   }
 
   // make sure we have a spacing on the right side if we have a scrollbar
-  &--scroll &__option:not(#{&}__option--focus) &__option__inner::before {
+  &--scroll &__option:not(#{&}__option--focus) &__option-inner::before {
     left: 0.5rem;
     right: 0.5rem;
   }
 
-  &--bottom &__option--focus.closest-to-top &__option__inner::before,
-  &--top &__option--focus.closest-to-top &__option__inner::before {
+  &--bottom &__option--focus.closest-to-top &__option-inner::before,
+  &--top &__option--focus.closest-to-top &__option-inner::before {
     border-top-left-radius: var(--drawer-list-options-border-radius);
     border-top-right-radius: var(--drawer-list-options-border-radius);
   }
 
-  &--bottom &__option--focus.closest-to-bottom &__option__inner::before,
-  &--top &__option--focus.closest-to-bottom &__option__inner::before {
+  &--bottom &__option--focus.closest-to-bottom &__option-inner::before,
+  &--top &__option--focus.closest-to-bottom &__option-inner::before {
     border-bottom-left-radius: var(--drawer-list-options-border-radius);
     border-bottom-right-radius: var(--drawer-list-options-border-radius);
   }

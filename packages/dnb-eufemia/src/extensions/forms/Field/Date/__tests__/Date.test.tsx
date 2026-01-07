@@ -793,7 +793,7 @@ describe('Field.Date', () => {
     expect(startYear).toHaveValue('2024')
 
     await userEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button-button')
     )
 
     expect(
@@ -821,7 +821,7 @@ describe('Field.Date', () => {
     expect(startYear).toHaveValue('2024')
 
     await userEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button-button')
     )
 
     expect(
@@ -845,7 +845,7 @@ describe('Field.Date', () => {
     render(<Field.Date />)
 
     expect(
-      document.querySelector('.dnb-date-picker__input__wrapper')
+      document.querySelector('.dnb-date-picker__input-wrapper')
     ).toBeInTheDocument()
   })
 
@@ -897,7 +897,7 @@ describe('Field.Date', () => {
     render(<Field.Date hideNavigation />)
 
     await userEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button-button')
     )
 
     expect(
@@ -912,7 +912,7 @@ describe('Field.Date', () => {
     render(<Field.Date hideDays />)
 
     await userEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button-button')
     )
 
     expect(
@@ -924,7 +924,7 @@ describe('Field.Date', () => {
     render(<Field.Date />)
 
     await userEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button-button')
     )
 
     const [resetButton, cancelButton] = Array.from(
@@ -972,7 +972,7 @@ describe('Field.Date', () => {
     })
 
     const openButton = document.querySelector(
-      'button.dnb-input__submit-button__button'
+      'button.dnb-input__submit-button-button'
     )
     await userEvent.click(openButton)
 
@@ -1024,7 +1024,7 @@ describe('Field.Date', () => {
     )
 
     await userEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button-button')
     )
 
     const [submitButton, resetButton, cancelButton] = Array.from(
@@ -1062,7 +1062,7 @@ describe('Field.Date', () => {
     )
 
     await userEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button-button')
     )
 
     const [submitButton, resetButton, cancelButton] = Array.from(
@@ -1078,7 +1078,7 @@ describe('Field.Date', () => {
     render(<Field.Date value="2024-11-01|2024-12-01" range link />)
 
     await userEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button-button')
     )
 
     const [rightCalendar, leftCalendar] = Array.from(
@@ -1123,11 +1123,11 @@ describe('Field.Date', () => {
     render(<Field.Date firstDay="tuesday" />)
 
     await userEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button-button')
     )
 
     const [firstDay] = Array.from(
-      document.querySelectorAll('.dnb-date-picker__labels__day')
+      document.querySelectorAll('.dnb-date-picker__labels-day')
     )
 
     expect(firstDay).toHaveTextContent('ti')
@@ -1151,7 +1151,7 @@ describe('Field.Date', () => {
     render(<Field.Date onlyMonth />)
 
     await userEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button-button')
     )
 
     const calendar = document.querySelector('.dnb-date-picker__calendar')
@@ -1197,7 +1197,7 @@ describe('Field.Date', () => {
     )
 
     await userEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button-button')
     )
 
     const [
@@ -1281,7 +1281,7 @@ describe('Field.Date', () => {
     expect(year).toHaveValue('2024')
 
     await userEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button-button')
     )
 
     const addonElement = document.querySelector(
@@ -1307,7 +1307,7 @@ describe('Field.Date', () => {
     )
 
     await userEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button-button')
     )
 
     const monthTable = document.querySelector(
@@ -1352,7 +1352,7 @@ describe('Field.Date', () => {
     )
 
     await userEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button-button')
     )
 
     const submitButton = document.querySelector(
@@ -1373,7 +1373,7 @@ describe('Field.Date', () => {
     render(<Field.Date value="2024-10-31" onCancel={onCancel} />)
 
     await userEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button-button')
     )
 
     const cancelButton = document.querySelector(
@@ -1394,7 +1394,7 @@ describe('Field.Date', () => {
     render(<Field.Date value="2024-10-31" onReset={onReset} />)
 
     await userEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button-button')
     )
 
     const resetButton = document.querySelector(
@@ -1413,7 +1413,7 @@ describe('Field.Date', () => {
     render(<Field.Date value="2024-10-31" onShow={onShow} />)
 
     await userEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button-button')
     )
 
     expect(onShow).toHaveBeenCalledTimes(1)
@@ -1428,10 +1428,10 @@ describe('Field.Date', () => {
     render(<Field.Date value="2024-10-31" onHide={onHide} />)
 
     await userEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button-button')
     )
     await userEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button-button')
     )
     await waitFor(() =>
       expect(
@@ -1451,7 +1451,7 @@ describe('Field.Date', () => {
     render(<Field.Date value="2024-10-01" onDaysRender={onDaysRender} />)
 
     await userEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button-button')
     )
 
     expect(onDaysRender).toHaveBeenCalledTimes(1)
@@ -1477,7 +1477,7 @@ describe('Field.Date', () => {
     render(<Field.Date skipPortal />)
 
     await userEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button-button')
     )
 
     // dnb-date-picker__container is within dnb-date-picker__shell when portal is skipped (wrapped by Popover span)
@@ -1501,7 +1501,7 @@ describe('Field.Date', () => {
     )
 
     await userEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button-button')
     )
 
     const [monthTitle, yearTitle] = Array.from(
@@ -1596,7 +1596,7 @@ describe('Field.Date', () => {
     )
 
     await userEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button-button')
     )
 
     const [
@@ -1970,7 +1970,7 @@ describe('Field.Date', () => {
       )
 
       await userEvent.click(
-        document.querySelector('button.dnb-input__submit-button__button')
+        document.querySelector('button.dnb-input__submit-button-button')
       )
 
       const [startMonth, endMonth] = Array.from(
@@ -1994,7 +1994,7 @@ describe('Field.Date', () => {
       )
 
       await userEvent.click(
-        document.querySelector('button.dnb-input__submit-button__button')
+        document.querySelector('button.dnb-input__submit-button-button')
       )
 
       const [rightCalendar, leftCalendar] = Array.from(
@@ -2090,7 +2090,7 @@ describe('Field.Date', () => {
       )
 
       await userEvent.click(
-        document.querySelector('button.dnb-input__submit-button__button')
+        document.querySelector('button.dnb-input__submit-button-button')
       )
 
       // Clicking the minDate should not trigger error
@@ -2103,7 +2103,7 @@ describe('Field.Date', () => {
       // Clicking the maxDate should not trigger error
       await userEvent.click(screen.getByText('Tilbake'))
       await userEvent.click(
-        document.querySelector('button.dnb-input__submit-button__button')
+        document.querySelector('button.dnb-input__submit-button-button')
       )
       await userEvent.click(screen.getByLabelText('mandag 31. mars 2025'))
       await userEvent.click(screen.getByText('Neste'))
@@ -2114,7 +2114,7 @@ describe('Field.Date', () => {
       // Double check that dates before min and max date are disabled in the calendar
       await userEvent.click(screen.getByText('Tilbake'))
       await userEvent.click(
-        document.querySelector('button.dnb-input__submit-button__button')
+        document.querySelector('button.dnb-input__submit-button-button')
       )
       expect(
         screen.getByLabelText('onsdag 12. mars 2025')
@@ -2146,7 +2146,7 @@ describe('Field.Date', () => {
       )
 
       await userEvent.click(
-        document.querySelector('button.dnb-input__submit-button__button')
+        document.querySelector('button.dnb-input__submit-button-button')
       )
 
       // Clicking the minDate should not trigger error
@@ -2159,7 +2159,7 @@ describe('Field.Date', () => {
       // Clicking the maxDate should not trigger error
       await userEvent.click(screen.getByText('Tilbake'))
       await userEvent.click(
-        document.querySelector('button.dnb-input__submit-button__button')
+        document.querySelector('button.dnb-input__submit-button-button')
       )
       await userEvent.click(screen.getByLabelText('mandag 31. mars 2025'))
       await userEvent.click(screen.getByText('Neste'))
@@ -2170,7 +2170,7 @@ describe('Field.Date', () => {
       // Double check that dates before min and max date are disabled in the calendar
       await userEvent.click(screen.getByText('Tilbake'))
       await userEvent.click(
-        document.querySelector('button.dnb-input__submit-button__button')
+        document.querySelector('button.dnb-input__submit-button-button')
       )
       expect(
         screen.getByLabelText('onsdag 12. mars 2025')

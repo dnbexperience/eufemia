@@ -50,7 +50,7 @@ const getDatePickerRoot = () =>
 
 const getDatePickerTriggerButton = () =>
   getDatePickerRoot().querySelector(
-    'button.dnb-input__submit-button__button, button.dnb-button'
+    'button.dnb-input__submit-button-button, button.dnb-button'
   ) as HTMLButtonElement
 
 const getAnnouncementElement = () =>
@@ -71,7 +71,7 @@ describe('DatePicker component', () => {
       'disabled'
     )
     expect(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button-button')
     ).toHaveAttribute('disabled')
   })
 
@@ -79,12 +79,12 @@ describe('DatePicker component', () => {
     render(<DatePicker {...defaultProps} />)
 
     fireEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button-button')
     )
 
     expect(
       document
-        .querySelector('button.dnb-input__submit-button__button')
+        .querySelector('button.dnb-input__submit-button-button')
 
         .getAttribute('aria-expanded')
     ).toBe('true')
@@ -102,12 +102,12 @@ describe('DatePicker component', () => {
     render(<DatePicker {...defaultProps} />)
 
     await userEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button-button')
     )
 
     expect(
       document
-        .querySelector('button.dnb-input__submit-button__button')
+        .querySelector('button.dnb-input__submit-button-button')
         .getAttribute('aria-expanded')
     ).toBe('true')
 
@@ -119,7 +119,7 @@ describe('DatePicker component', () => {
 
     expect(
       document
-        .querySelector('button.dnb-input__submit-button__button')
+        .querySelector('button.dnb-input__submit-button-button')
         .getAttribute('aria-expanded')
     ).toBe('false')
 
@@ -252,7 +252,7 @@ describe('DatePicker component', () => {
 
     expect(
       document
-        .querySelector('button.dnb-input__submit-button__button')
+        .querySelector('button.dnb-input__submit-button-button')
 
         .getAttribute('aria-expanded')
     ).toBe('true')
@@ -267,7 +267,7 @@ describe('DatePicker component', () => {
 
     expect(
       document
-        .querySelector('button.dnb-input__submit-button__button')
+        .querySelector('button.dnb-input__submit-button-button')
         .getAttribute('aria-expanded')
     ).toBe('false')
 
@@ -283,7 +283,7 @@ describe('DatePicker component', () => {
     )
 
     fireEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button-button')
     )
 
     expect(getDatePickerRoot().getAttribute('class')).toContain(
@@ -363,7 +363,7 @@ describe('DatePicker component', () => {
     )
 
     fireEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button-button')
     )
 
     expect(getDatePickerRoot()).toHaveClass('dnb-date-picker--opened')
@@ -821,7 +821,7 @@ describe('DatePicker component', () => {
     )
 
     fireEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button-button')
     )
 
     expect(getDatePickerRoot().getAttribute('class')).toContain(
@@ -863,7 +863,7 @@ describe('DatePicker component', () => {
     )
 
     fireEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button-button')
     )
 
     expect(
@@ -905,7 +905,7 @@ describe('DatePicker component', () => {
     )
 
     expect(
-      document.querySelector('label.dnb-date-picker__header__title')
+      document.querySelector('label.dnb-date-picker__header-title')
         .textContent
     ).toBe('mai 2020')
     expect(getDatePickerRoot().classList).toContain(
@@ -921,7 +921,7 @@ describe('DatePicker component', () => {
     )
 
     expect(
-      document.querySelector('label.dnb-date-picker__header__title')
+      document.querySelector('label.dnb-date-picker__header-title')
         .textContent
     ).toBe('april 2020')
     expect(getDatePickerRoot().classList).not.toContain(
@@ -977,7 +977,7 @@ describe('DatePicker component', () => {
     await userEvent.click(day)
 
     const [leftPickerTitle, rightPickerTitle] = Array.from(
-      document.querySelectorAll('label.dnb-date-picker__header__title')
+      document.querySelectorAll('label.dnb-date-picker__header-title')
     )
 
     expect(leftPickerTitle).toHaveTextContent('mai 2024')
@@ -1055,7 +1055,7 @@ describe('DatePicker component', () => {
     render(<DatePicker {...defaultProps} />)
 
     fireEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button-button')
     )
     expect(
       document.querySelector('.dnb-date-picker__views')
@@ -1080,12 +1080,12 @@ describe('DatePicker component', () => {
     const rightPrev = rightPicker.querySelector('.dnb-date-picker__prev')
 
     expect(
-      leftPicker.querySelector('.dnb-date-picker__header__title')
+      leftPicker.querySelector('.dnb-date-picker__header-title')
     ).toHaveTextContent('oktober 2024')
     // TODO: Fix this after conversion merge
     // The right picker should be november here, but this is a bug that exists in master/original version of DatePicker
     expect(
-      rightPicker.querySelector('.dnb-date-picker__header__title')
+      rightPicker.querySelector('.dnb-date-picker__header-title')
     ).toHaveTextContent('oktober 2024')
 
     await userEvent.click(leftPrev)
@@ -1093,47 +1093,47 @@ describe('DatePicker component', () => {
     await userEvent.click(leftPrev)
 
     expect(
-      leftPicker.querySelector('.dnb-date-picker__header__title')
+      leftPicker.querySelector('.dnb-date-picker__header-title')
     ).toHaveTextContent('juli 2024')
     expect(
-      rightPicker.querySelector('.dnb-date-picker__header__title')
+      rightPicker.querySelector('.dnb-date-picker__header-title')
     ).toHaveTextContent('oktober 2024')
 
     await userEvent.hover(screen.getByLabelText('torsdag 11. juli 2024'))
 
     expect(
-      leftPicker.querySelector('.dnb-date-picker__header__title')
+      leftPicker.querySelector('.dnb-date-picker__header-title')
     ).toHaveTextContent('juli 2024')
     expect(
-      rightPicker.querySelector('.dnb-date-picker__header__title')
+      rightPicker.querySelector('.dnb-date-picker__header-title')
     ).toHaveTextContent('oktober 2024')
 
     await userEvent.click(rightPrev)
     await userEvent.click(rightPrev)
 
     expect(
-      leftPicker.querySelector('.dnb-date-picker__header__title')
+      leftPicker.querySelector('.dnb-date-picker__header-title')
     ).toHaveTextContent('juli 2024')
     expect(
-      rightPicker.querySelector('.dnb-date-picker__header__title')
+      rightPicker.querySelector('.dnb-date-picker__header-title')
     ).toHaveTextContent('august 2024')
 
     await userEvent.hover(screen.getByLabelText('tirsdag 20. august 2024'))
 
     expect(
-      leftPicker.querySelector('.dnb-date-picker__header__title')
+      leftPicker.querySelector('.dnb-date-picker__header-title')
     ).toHaveTextContent('juli 2024')
     expect(
-      rightPicker.querySelector('.dnb-date-picker__header__title')
+      rightPicker.querySelector('.dnb-date-picker__header-title')
     ).toHaveTextContent('august 2024')
 
     await userEvent.click(screen.getByLabelText('tirsdag 20. august 2024'))
 
     expect(
-      leftPicker.querySelector('.dnb-date-picker__header__title')
+      leftPicker.querySelector('.dnb-date-picker__header-title')
     ).toHaveTextContent('juli 2024')
     expect(
-      rightPicker.querySelector('.dnb-date-picker__header__title')
+      rightPicker.querySelector('.dnb-date-picker__header-title')
     ).toHaveTextContent('august 2024')
   })
 
@@ -1152,19 +1152,19 @@ describe('DatePicker component', () => {
     const rightNext = rightPicker.querySelector('.dnb-date-picker__next')
 
     expect(
-      leftPicker.querySelector('.dnb-date-picker__header__title')
+      leftPicker.querySelector('.dnb-date-picker__header-title')
     ).toHaveTextContent('oktober 2024')
     expect(
-      rightPicker.querySelector('.dnb-date-picker__header__title')
+      rightPicker.querySelector('.dnb-date-picker__header-title')
     ).toHaveTextContent('november 2024')
 
     await userEvent.click(screen.getByLabelText('mandag 14. oktober 2024'))
     await userEvent.click(screen.getByLabelText('mandag 14. oktober 2024'))
     expect(
-      leftPicker.querySelector('.dnb-date-picker__header__title')
+      leftPicker.querySelector('.dnb-date-picker__header-title')
     ).toHaveTextContent('oktober 2024')
     expect(
-      rightPicker.querySelector('.dnb-date-picker__header__title')
+      rightPicker.querySelector('.dnb-date-picker__header-title')
     ).toHaveTextContent('november 2024')
 
     await userEvent.click(
@@ -1174,10 +1174,10 @@ describe('DatePicker component', () => {
       screen.getByLabelText('lørdag 16. november 2024')
     )
     expect(
-      leftPicker.querySelector('.dnb-date-picker__header__title')
+      leftPicker.querySelector('.dnb-date-picker__header-title')
     ).toHaveTextContent('oktober 2024')
     expect(
-      rightPicker.querySelector('.dnb-date-picker__header__title')
+      rightPicker.querySelector('.dnb-date-picker__header-title')
     ).toHaveTextContent('november 2024')
 
     await userEvent.click(rightNext)
@@ -1187,10 +1187,10 @@ describe('DatePicker component', () => {
     await userEvent.click(screen.getByLabelText('onsdag 1. januar 2025'))
 
     expect(
-      leftPicker.querySelector('.dnb-date-picker__header__title')
+      leftPicker.querySelector('.dnb-date-picker__header-title')
     ).toHaveTextContent('oktober 2024')
     expect(
-      rightPicker.querySelector('.dnb-date-picker__header__title')
+      rightPicker.querySelector('.dnb-date-picker__header-title')
     ).toHaveTextContent('januar 2025')
 
     await userEvent.click(leftPrev)
@@ -1216,19 +1216,19 @@ describe('DatePicker component', () => {
     const rightNext = rightPicker.querySelector('.dnb-date-picker__next')
 
     expect(
-      leftPicker.querySelector('.dnb-date-picker__header__title')
+      leftPicker.querySelector('.dnb-date-picker__header-title')
     ).toHaveTextContent('oktober 2024')
     expect(
-      rightPicker.querySelector('.dnb-date-picker__header__title')
+      rightPicker.querySelector('.dnb-date-picker__header-title')
     ).toHaveTextContent('november 2024')
 
     await userEvent.click(screen.getByLabelText('mandag 14. oktober 2024'))
     await userEvent.click(screen.getByLabelText('onsdag 16. oktober 2024'))
     expect(
-      leftPicker.querySelector('.dnb-date-picker__header__title')
+      leftPicker.querySelector('.dnb-date-picker__header-title')
     ).toHaveTextContent('oktober 2024')
     expect(
-      rightPicker.querySelector('.dnb-date-picker__header__title')
+      rightPicker.querySelector('.dnb-date-picker__header-title')
     ).toHaveTextContent('november 2024')
 
     await userEvent.click(
@@ -1239,10 +1239,10 @@ describe('DatePicker component', () => {
     )
 
     expect(
-      leftPicker.querySelector('.dnb-date-picker__header__title')
+      leftPicker.querySelector('.dnb-date-picker__header-title')
     ).toHaveTextContent('oktober 2024')
     expect(
-      rightPicker.querySelector('.dnb-date-picker__header__title')
+      rightPicker.querySelector('.dnb-date-picker__header-title')
     ).toHaveTextContent('november 2024')
 
     await userEvent.click(rightNext)
@@ -1252,10 +1252,10 @@ describe('DatePicker component', () => {
     await userEvent.click(screen.getByLabelText('søndag 13. oktober 2024'))
 
     expect(
-      leftPicker.querySelector('.dnb-date-picker__header__title')
+      leftPicker.querySelector('.dnb-date-picker__header-title')
     ).toHaveTextContent('oktober 2024')
     expect(
-      rightPicker.querySelector('.dnb-date-picker__header__title')
+      rightPicker.querySelector('.dnb-date-picker__header-title')
     ).toHaveTextContent('januar 2025')
 
     await userEvent.click(leftPrev)
@@ -1270,10 +1270,10 @@ describe('DatePicker component', () => {
     await userEvent.click(screen.getByLabelText('tirsdag 11. juni 2024'))
 
     expect(
-      leftPicker.querySelector('.dnb-date-picker__header__title')
+      leftPicker.querySelector('.dnb-date-picker__header-title')
     ).toHaveTextContent('juni 2024')
     expect(
-      rightPicker.querySelector('.dnb-date-picker__header__title')
+      rightPicker.querySelector('.dnb-date-picker__header-title')
     ).toHaveTextContent('januar 2025')
 
     await userEvent.click(leftPrev)
@@ -1281,10 +1281,10 @@ describe('DatePicker component', () => {
     await userEvent.click(screen.getByLabelText('fredag 17. mai 2024'))
 
     expect(
-      leftPicker.querySelector('.dnb-date-picker__header__title')
+      leftPicker.querySelector('.dnb-date-picker__header-title')
     ).toHaveTextContent('mai 2024')
     expect(
-      rightPicker.querySelector('.dnb-date-picker__header__title')
+      rightPicker.querySelector('.dnb-date-picker__header-title')
     ).toHaveTextContent('januar 2025')
   })
 
@@ -1294,7 +1294,7 @@ describe('DatePicker component', () => {
     await userEvent.click(getDatePickerTriggerButton())
 
     const pickerTitle = document.querySelector(
-      '.dnb-date-picker__calendar .dnb-date-picker__header__title'
+      '.dnb-date-picker__calendar .dnb-date-picker__header-title'
     )
 
     const firstDayButton = document.querySelector(
@@ -1322,7 +1322,7 @@ describe('DatePicker component', () => {
 
     const [leftPickerTitle, rightPickerTitle] = Array.from(
       document.querySelectorAll(
-        '.dnb-date-picker__calendar .dnb-date-picker__header__title'
+        '.dnb-date-picker__calendar .dnb-date-picker__header-title'
       )
     )
 
@@ -1447,7 +1447,7 @@ describe('DatePicker component', () => {
   it('should reset second input fields to blank during new date selection', () => {
     render(<DatePicker {...defaultProps} />)
     fireEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
+      document.querySelector('button.dnb-input__submit-button-button')
     )
 
     fireEvent.click(
@@ -2335,7 +2335,7 @@ describe('DatePicker component', () => {
     })
 
     expect(
-      document.querySelectorAll('.dnb-date-picker__header__title')[0]
+      document.querySelectorAll('.dnb-date-picker__header-title')[0]
         .textContent
     ).toBe('januar 2019')
 
@@ -2359,7 +2359,7 @@ describe('DatePicker component', () => {
     )
 
     expect(
-      document.querySelectorAll('.dnb-date-picker__header__title')[1]
+      document.querySelectorAll('.dnb-date-picker__header-title')[1]
         .textContent
     ).toBe('mars 2019')
   })
@@ -2434,7 +2434,7 @@ describe('DatePicker component', () => {
 
     const element = getDatePickerRoot()
     const buttonElement = document.querySelector(
-      'button.dnb-input__submit-button__button'
+      'button.dnb-input__submit-button-button'
     )
 
     fireEvent.click(buttonElement)
@@ -2461,7 +2461,7 @@ describe('DatePicker component', () => {
 
     const element = getDatePickerRoot()
     const buttonElement = document.querySelector(
-      'button.dnb-input__submit-button__button'
+      'button.dnb-input__submit-button-button'
     )
 
     expect(document.activeElement).toBe(document.body)
@@ -2519,7 +2519,7 @@ describe('DatePicker component', () => {
     await userEvent.click(screen.getByLabelText('Åpne datovelger'))
 
     const [startMonth, endMonth] = Array.from(
-      document.querySelectorAll('.dnb-date-picker__header__title')
+      document.querySelectorAll('.dnb-date-picker__header-title')
     )
 
     expect(startMonth).toHaveTextContent('januar 2024')
@@ -2536,7 +2536,7 @@ describe('DatePicker component', () => {
     await userEvent.click(screen.getByLabelText('Åpne datovelger'))
 
     const startMonth = document.querySelector(
-      '.dnb-date-picker__header__title'
+      '.dnb-date-picker__header-title'
     )
     const selectedMonth = document.querySelector('[aria-current="date"]')
 
@@ -2559,7 +2559,7 @@ describe('DatePicker component', () => {
     await userEvent.click(screen.getByLabelText('Åpne datovelger'))
 
     const [startMonth, endMonth] = Array.from(
-      document.querySelectorAll('.dnb-date-picker__header__title')
+      document.querySelectorAll('.dnb-date-picker__header-title')
     )
 
     const [selectedStartMonth, selectedEndMonth] = Array.from(
@@ -2604,7 +2604,7 @@ describe('DatePicker component', () => {
 
     function getDateElements() {
       const title: HTMLLabelElement = document.querySelector(
-        '.dnb-date-picker__header__title'
+        '.dnb-date-picker__header-title'
       )
       const button: HTMLButtonElement = document.querySelector(
         'button[aria-current="date"]'
@@ -2614,7 +2614,7 @@ describe('DatePicker component', () => {
     }
 
     const inputButton = document.querySelector(
-      '.dnb-input__submit-button__button'
+      '.dnb-input__submit-button-button'
     )
 
     await userEvent.click(inputButton)
@@ -2699,7 +2699,7 @@ describe('DatePicker component', () => {
     )
 
     const dayLabels = Array.from(
-      document.querySelectorAll('.dnb-date-picker__labels__day')
+      document.querySelectorAll('.dnb-date-picker__labels-day')
     )
 
     expect(dayLabels.at(0)).toHaveAttribute('aria-label', 'måndag')
@@ -2740,7 +2740,7 @@ describe('DatePicker component', () => {
     )
 
     const dayLabels = Array.from(
-      document.querySelectorAll('.dnb-date-picker__labels__day')
+      document.querySelectorAll('.dnb-date-picker__labels-day')
     )
 
     expect(dayLabels.at(0)).toHaveAttribute('aria-label', 'mandag')
@@ -3417,10 +3417,10 @@ describe('DatePicker component', () => {
     )
 
     expect(
-      leftPicker.querySelector('.dnb-date-picker__header__title')
+      leftPicker.querySelector('.dnb-date-picker__header-title')
     ).toHaveTextContent('oktober 2024')
     expect(
-      rightPicker.querySelector('.dnb-date-picker__header__title')
+      rightPicker.querySelector('.dnb-date-picker__header-title')
     ).toHaveTextContent('november 2024')
 
     await userEvent.click(
@@ -3435,10 +3435,10 @@ describe('DatePicker component', () => {
     expect(endYear.value).toBe('åååå')
 
     expect(
-      leftPicker.querySelector('.dnb-date-picker__header__title')
+      leftPicker.querySelector('.dnb-date-picker__header-title')
     ).toHaveTextContent('oktober 2024')
     expect(
-      rightPicker.querySelector('.dnb-date-picker__header__title')
+      rightPicker.querySelector('.dnb-date-picker__header-title')
     ).toHaveTextContent('november 2024')
 
     await userEvent.click(screen.getByLabelText('onsdag 2. oktober 2024'))
@@ -3451,10 +3451,10 @@ describe('DatePicker component', () => {
     expect(endYear.value).toBe('2024')
 
     expect(
-      leftPicker.querySelector('.dnb-date-picker__header__title')
+      leftPicker.querySelector('.dnb-date-picker__header-title')
     ).toHaveTextContent('oktober 2024')
     expect(
-      rightPicker.querySelector('.dnb-date-picker__header__title')
+      rightPicker.querySelector('.dnb-date-picker__header-title')
     ).toHaveTextContent('november 2024')
   })
 
@@ -3618,7 +3618,7 @@ describe('DatePicker component', () => {
     await userEvent.click(screen.getByLabelText('Åpne datovelger'))
 
     const [monthTitle, yearTitle] = Array.from(
-      document.querySelectorAll('.dnb-date-picker__header__title')
+      document.querySelectorAll('.dnb-date-picker__header-title')
     )
 
     const [prevMonthButton, prevYearButton] = Array.from(
@@ -3722,7 +3722,7 @@ describe('DatePicker component', () => {
       rightMonthTitle,
       rightYearTitle,
     ] = Array.from(
-      document.querySelectorAll('.dnb-date-picker__header__title')
+      document.querySelectorAll('.dnb-date-picker__header-title')
     )
 
     const [
@@ -3932,7 +3932,7 @@ describe('DatePicker component', () => {
     await userEvent.click(screen.getByLabelText('Åpne datovelger'))
 
     const [, yearTitle] = Array.from(
-      document.querySelectorAll('.dnb-date-picker__header__title')
+      document.querySelectorAll('.dnb-date-picker__header-title')
     )
 
     const [prevMonthButton, prevYearButton] = Array.from(
@@ -4720,7 +4720,7 @@ describe('DatePicker ARIA', () => {
 
       // Should not render input or button
       expect(
-        document.querySelector('button.dnb-input__submit-button__button')
+        document.querySelector('button.dnb-input__submit-button-button')
       ).not.toBeInTheDocument()
       expect(document.querySelector('input')).not.toBeInTheDocument()
 
@@ -4854,7 +4854,7 @@ describe('DatePicker ARIA', () => {
 
       // Open popover by clicking the input button first
       const inputButton = document.querySelector(
-        'button.dnb-input__submit-button__button, button.dnb-button'
+        'button.dnb-input__submit-button-button, button.dnb-button'
       ) as HTMLButtonElement
       expect(inputButton).toBeInTheDocument()
 

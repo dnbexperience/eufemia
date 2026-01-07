@@ -113,7 +113,7 @@ describe.each(['ui', 'sbanken'])('Tabs for %s', (themeName) => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="tabs-tablist"] .dnb-tabs__tabs',
       simulateSelector:
-        '[data-visual-test="tabs-tablist"] .dnb-tabs__tabs__tablist .dnb-tabs__button__snap:nth-of-type(2) button',
+        '[data-visual-test="tabs-tablist"] .dnb-tabs__tabs-tablist .dnb-tabs__button-snap:nth-of-type(2) button',
       simulate: 'focus',
       waitAfterSimulate: isCI ? 100 : 0, // ensure the buttons are "hidden", so give time for a slow CI
     })
@@ -125,7 +125,7 @@ describe.each(['ui', 'sbanken'])('Tabs for %s', (themeName) => {
       selector: '[data-visual-test="tabs-tablist"] .dnb-tabs__tabs',
       style: { margin: '0 2rem' },
       simulateSelector:
-        '[data-visual-test="tabs-tablist"] .dnb-tabs__tabs__tablist',
+        '[data-visual-test="tabs-tablist"] .dnb-tabs__tabs-tablist',
       simulate: 'focus',
     })
     expect(screenshot).toMatchImageSnapshot()
@@ -219,7 +219,7 @@ describe.each(['ui', 'sbanken'])('Tabs for %s', (themeName) => {
       },
       selector: '[data-visual-test="tabs-tablist-scrollable"]',
       simulateSelector:
-        '[data-visual-test="tabs-tablist-scrollable"] .dnb-tabs__tabs__tablist .dnb-tabs__button__snap:last-of-type button',
+        '[data-visual-test="tabs-tablist-scrollable"] .dnb-tabs__tabs-tablist .dnb-tabs__button-snap:last-of-type button',
       simulate: 'click',
     })
     expect(screenshot).toMatchImageSnapshot()

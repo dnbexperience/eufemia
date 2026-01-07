@@ -238,9 +238,7 @@ describe('FieldBlock', () => {
       render(<FieldBlock labelDescription={<></>}>content</FieldBlock>)
 
       expect(
-        document.querySelector(
-          '.dnb-forms-field-block__label__description'
-        )
+        document.querySelector('.dnb-forms-field-block__label-description')
       ).toBeNull()
 
       const labelElement = document.querySelector('label')

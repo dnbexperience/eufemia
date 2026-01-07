@@ -173,7 +173,7 @@ export default function GlobalError(localProps: GlobalErrorAllProps) {
   return (
     <Skeleton {...params} show={skeleton} element="section">
       <div className="dnb-global-error__inner">
-        <div className="dnb-global-error__inner__content">
+        <div className="dnb-global-error__inner-content">
           <H1 size="x-large" top bottom>
             {title}
           </H1>

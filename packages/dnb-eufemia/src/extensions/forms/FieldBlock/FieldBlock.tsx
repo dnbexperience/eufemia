@@ -562,7 +562,7 @@ function FieldBlock<Value = unknown>(props: Props<Value>) {
             <FormLabel {...labelProps}>
               <span>
                 {label && (
-                  <span className="dnb-forms-field-block__label__content">
+                  <span className="dnb-forms-field-block__label-content">
                     {label}
                   </span>
                 )}
@@ -583,7 +583,7 @@ function FieldBlock<Value = unknown>(props: Props<Value>) {
                   !labelDescriptionInline && <br />}
 
                 {hasLabelDescription && (
-                  <span className="dnb-forms-field-block__label__description">
+                  <span className="dnb-forms-field-block__label-description">
                     {labelDescription}
                   </span>
                 )}

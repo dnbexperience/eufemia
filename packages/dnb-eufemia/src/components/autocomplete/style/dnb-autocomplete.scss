@@ -71,12 +71,12 @@
   }
 
   &__show-all {
-    .dnb-drawer-list__option__inner {
+    .dnb-drawer-list__option-inner {
       display: flex;
       justify-content: center;
       align-items: center;
 
-      .dnb-drawer-list__option__item {
+      .dnb-drawer-list__option-item {
         display: flex;
         flex-direction: column;
       }
@@ -102,14 +102,14 @@
     }
   }
 
-  &--opened .dnb-input__submit-button__button .dnb-icon {
+  &--opened .dnb-input__submit-button-button .dnb-icon {
     transform: rotate(180deg);
     transform-origin: 50% 50%;
   }
-  .dnb-input__submit-button__button[disabled]:not(.dnb-button--has-text) {
+  .dnb-input__submit-button-button[disabled]:not(.dnb-button--has-text) {
     @include fakeBorder(var(--color-black-55), 0.0625rem, inset);
   }
-  .dnb-input__submit-button__button .dnb-icon {
+  .dnb-input__submit-button-button .dnb-icon {
     transition: transform 400ms ease-out;
 
     html[data-visual-test] & {
@@ -119,7 +119,7 @@
 
   // Support for "suffix_value"
   .dnb-input {
-    &__inner__element {
+    &__inner-element {
       position: relative;
       z-index: 3;
 
@@ -138,7 +138,7 @@
       }
     }
 
-    &__inner__element.dnb-p {
+    &__inner-element.dnb-p {
       white-space: nowrap;
       padding: 0 0.5rem;
 
@@ -147,19 +147,19 @@
       }
     }
 
-    &__inner__element.dnb-p,
-    .dnb-spacing &__inner__element.dnb-p {
+    &__inner-element.dnb-p,
+    .dnb-spacing &__inner-element.dnb-p {
       margin: 0;
     }
 
-    &--has-submit-element .dnb-input__inner__element {
+    &--has-submit-element .dnb-input__inner-element {
       // same width of submit button
       margin-right: 2.5rem !important; // use important so we avoid to have all sizes in addition
     }
   }
   &--icon-position-right .dnb-input {
     // stylelint-disable-next-line
-    &__inner__element.dnb-p {
+    &__inner-element.dnb-p {
       padding-right: 3rem;
     }
     &--icon-position-right &--icon-position-right#{&}--has-icon &__input {
@@ -168,7 +168,7 @@
   }
   &--disabled .dnb-input {
     // stylelint-disable-next-line
-    &__inner__element {
+    &__inner-element {
       cursor: not-allowed;
     }
   }
@@ -283,7 +283,7 @@
   }
 
   // Search highlight wrapper
-  &__list .dnb-drawer-list__option__item > span {
+  &__list .dnb-drawer-list__option-item > span {
     padding-right: 0.125em; // add one space because of the word split
   }
 }

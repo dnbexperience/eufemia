@@ -166,7 +166,7 @@ const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
             {variant !== 'home' && (
               <IconPrimary
                 icon={iconToUse}
-                className="dnb-breadcrumb__item__span__icon"
+                className="dnb-breadcrumb__item-span-icon"
               />
             )}
             <Anchor
@@ -182,13 +182,13 @@ const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
         )
       ) : (
         <span
-          className="dnb-breadcrumb__item__span"
+          className="dnb-breadcrumb__item-span"
           // TODO: Consider deprecating passing down props to span in v11
           {...filterProps(props, (key) => !key.includes('-'))}
         >
           <IconPrimary
             icon={iconToUse}
-            className="dnb-breadcrumb__item__span__icon"
+            className="dnb-breadcrumb__item-span-icon"
           />
           <P space="0">{currentText}</P>
         </span>

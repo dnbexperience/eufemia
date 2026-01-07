@@ -137,8 +137,8 @@ const UploadFileListCell = ({
       )}
       ref={cellRef}
     >
-      <div className="dnb-upload__file-cell__content">
-        <div className="dnb-upload__file-cell__content__left">
+      <div className="dnb-upload__file-cell-content">
+        <div className="dnb-upload__file-cell-content-left">
           {getFileIcon(file, { isLoading }, hasWarning)}
           {getTitle()}
         </div>
@@ -152,14 +152,14 @@ const UploadFileListCell = ({
     return isLoading ? (
       <div
         className={classnames(
-          'dnb-upload__file-cell__text-container',
-          'dnb-upload__file-cell__text-container--loading'
+          'dnb-upload__file-cell-text-container',
+          'dnb-upload__file-cell-text-container--loading'
         )}
       >
         {loadingText}
       </div>
     ) : (
-      <div className="dnb-upload__file-cell__text-container">
+      <div className="dnb-upload__file-cell-text-container">
         <UploadFileLink
           text={file.name}
           href={imageUrl}

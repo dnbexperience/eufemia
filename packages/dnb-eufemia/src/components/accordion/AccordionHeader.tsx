@@ -119,8 +119,8 @@ function AccordionHeaderIcon({
   return (
     <span
       className={classnames(
-        'dnb-accordion__header__icon',
-        icon_position && `dnb-accordion__header__icon--${icon_position}`
+        'dnb-accordion__header-icon',
+        icon_position && `dnb-accordion__header-icon--${icon_position}`
       )}
     >
       <IconPrimary size={size} icon={icon} aria-hidden />
@@ -322,7 +322,7 @@ export const AccordionHeader = ({
   const partsToRender = []
   const wrapperParts = []
   const wrapperComp = (
-    <span className="dnb-accordion__header__wrapper" key="wrapper">
+    <span className="dnb-accordion__header-wrapper" key="wrapper">
       {wrapperParts}
     </span>
   )

@@ -23,7 +23,7 @@ describe.each(['ui', 'sbanken'])('StepIndicator for %s', (themeName) => {
       selector: '[data-visual-test="step-indicator-statuses"]',
       simulate: 'click',
       simulateSelector:
-        '[data-visual-test="step-indicator-statuses"] .dnb-step-indicator__trigger__button',
+        '[data-visual-test="step-indicator-statuses"] .dnb-step-indicator__trigger-button',
       recalculateHeightAfterSimulate: true,
     })
     expect(screenshot).toMatchImageSnapshot()
@@ -41,7 +41,7 @@ describe.each(['ui', 'sbanken'])('StepIndicator for %s', (themeName) => {
       selector: '[data-visual-test="step-indicator-loose"]',
       simulate: 'click',
       simulateSelector:
-        '[data-visual-test="step-indicator-loose"] .dnb-step-indicator__trigger__button',
+        '[data-visual-test="step-indicator-loose"] .dnb-step-indicator__trigger-button',
       recalculateHeightAfterSimulate: true,
     })
     expect(screenshot).toMatchImageSnapshot()
@@ -67,7 +67,7 @@ describe.each(['ui', 'sbanken'])('StepIndicator for %s', (themeName) => {
       selector: '[data-visual-test="step-indicator-strict"]',
       simulate: 'click',
       simulateSelector:
-        '[data-visual-test="step-indicator-strict"] .dnb-step-indicator__trigger__button',
+        '[data-visual-test="step-indicator-strict"] .dnb-step-indicator__trigger-button',
       recalculateHeightAfterSimulate: true,
     })
     expect(screenshot).toMatchImageSnapshot()
@@ -92,7 +92,7 @@ describe.each(['ui', 'sbanken'])('StepIndicator for %s', (themeName) => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="step-indicator-static"]',
       simulateSelector:
-        '[data-visual-test="step-indicator-static"] .dnb-step-indicator__trigger__button',
+        '[data-visual-test="step-indicator-static"] .dnb-step-indicator__trigger-button',
       simulate: 'click',
       recalculateHeightAfterSimulate: true,
     })
@@ -136,7 +136,7 @@ describe.each(['ui', 'sbanken'])('StepIndicator for %s', (themeName) => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="step-indicator-strict"]',
       simulateSelector:
-        '[data-visual-test="step-indicator-strict"] .dnb-step-indicator__trigger__button',
+        '[data-visual-test="step-indicator-strict"] .dnb-step-indicator__trigger-button',
       simulate: 'click',
       recalculateHeightAfterSimulate: true,
     })
@@ -161,7 +161,7 @@ describe('deprecated', () => {
         selector: '[data-visual-test="step-indicator-statuses"]',
         simulate: 'click',
         simulateSelector:
-          '[data-visual-test="step-indicator-statuses"] .dnb-step-indicator__trigger__button',
+          '[data-visual-test="step-indicator-statuses"] .dnb-step-indicator__trigger-button',
         recalculateHeightAfterSimulate: true,
       })
       expect(screenshot).toMatchImageSnapshot()
@@ -172,7 +172,7 @@ describe('deprecated', () => {
         selector: '[data-visual-test="step-indicator-loose"]',
         simulate: 'click',
         simulateSelector:
-          '[data-visual-test="step-indicator-loose"] .dnb-step-indicator__trigger__button',
+          '[data-visual-test="step-indicator-loose"] .dnb-step-indicator__trigger-button',
         recalculateHeightAfterSimulate: true,
       })
       expect(screenshot).toMatchImageSnapshot()
@@ -198,7 +198,7 @@ describe('deprecated', () => {
         selector: '[data-visual-test="step-indicator-strict"]',
         simulate: 'click',
         simulateSelector:
-          '[data-visual-test="step-indicator-strict"] .dnb-step-indicator__trigger__button',
+          '[data-visual-test="step-indicator-strict"] .dnb-step-indicator__trigger-button',
         recalculateHeightAfterSimulate: true,
       })
       expect(screenshot).toMatchImageSnapshot()
@@ -223,7 +223,7 @@ describe('deprecated', () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="step-indicator-static"]',
         simulateSelector:
-          '[data-visual-test="step-indicator-static"] .dnb-step-indicator__trigger__button',
+          '[data-visual-test="step-indicator-static"] .dnb-step-indicator__trigger-button',
         simulate: 'click',
         recalculateHeightAfterSimulate: true,
       })
@@ -260,7 +260,7 @@ describe('deprecated', () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="step-indicator-strict"]',
         simulateSelector:
-          '[data-visual-test="step-indicator-strict"] .dnb-step-indicator__trigger__button',
+          '[data-visual-test="step-indicator-strict"] .dnb-step-indicator__trigger-button',
         simulate: 'click',
         recalculateHeightAfterSimulate: true,
       })

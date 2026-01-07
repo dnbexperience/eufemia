@@ -75,11 +75,11 @@ function TableAccordionContent(
       style={{ ...firstPaintStyle, ...style }}
       className={classnames(
         isInDOM && 'dnb-table__tr',
-        'dnb-table__tr__accordion-content',
-        `dnb-table__tr__accordion-content--${variant}`,
-        isInDOM && 'dnb-table__tr__accordion-content--expanded',
-        isAnimating && 'dnb-table__tr__accordion-content--animating',
-        isVisibleParallax && 'dnb-table__tr__accordion-content--parallax',
+        'dnb-table__tr-accordion-content',
+        `dnb-table__tr-accordion-content--${variant}`,
+        isInDOM && 'dnb-table__tr-accordion-content--expanded',
+        isAnimating && 'dnb-table__tr-accordion-content--animating',
+        isVisibleParallax && 'dnb-table__tr-accordion-content--parallax',
         className
       )}
       ref={trRef}
@@ -100,10 +100,10 @@ function TableAccordionContent(
         <ChevronTd {...chevronTdProps} colSpan={colSpan}>
           {isInDOM && (
             <div
-              className="dnb-table__tr__accordion-content__inner"
+              className="dnb-table__tr-accordion-content-inner"
               ref={innerRef}
             >
-              <div className="dnb-table__tr__accordion-content__inner__spacing">
+              <div className="dnb-table__tr-accordion-content-inner-spacing">
                 {children}
               </div>
             </div>

@@ -169,12 +169,12 @@ export const ModalProperties: PropertiesTableProps = {
     status: 'optional',
   },
   class: {
-    doc: 'Give the inner content wrapper a class name (maps to `dnb-modal__content__inner`).',
+    doc: 'Give the inner content wrapper a class name (maps to `dnb-modal__content-inner`).',
     type: 'string',
     status: 'optional',
   },
   className: {
-    doc: 'Give the inner content wrapper a class name (maps to `dnb-modal__content__inner`).',
+    doc: 'Give the inner content wrapper a class name (maps to `dnb-modal__content-inner`).',
     type: 'string',
     status: 'optional',
   },

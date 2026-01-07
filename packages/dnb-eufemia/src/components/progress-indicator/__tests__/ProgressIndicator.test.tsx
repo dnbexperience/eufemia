@@ -14,7 +14,7 @@ const props: ProgressIndicatorAllProps = {}
 
 describe('Circular ProgressIndicator component', () => {
   const mainLineSelector =
-    'svg.dnb-progress-indicator__circular__line.dark[style]'
+    'svg.dnb-progress-indicator__circular-line.dark[style]'
 
   it('should have a stroke-dashoffset of 44 on 50%', () => {
     render(<ProgressIndicator {...props} type="circular" progress={50} />)
@@ -210,23 +210,23 @@ describe('Circular ProgressIndicator component', () => {
 
     expect(
       container
-        .querySelector('.dnb-progress-indicator__circular__background')
+        .querySelector('.dnb-progress-indicator__circular-background')
         .getAttribute('style')
     ).toBe('background-color: blue;')
 
     expect(
       container
-        .querySelectorAll('.dnb-progress-indicator__circular__circle')[0]
+        .querySelectorAll('.dnb-progress-indicator__circular-circle')[0]
         .getAttribute('style')
     ).toBe('stroke: green;')
     expect(
       container
-        .querySelectorAll('.dnb-progress-indicator__circular__circle')[1]
+        .querySelectorAll('.dnb-progress-indicator__circular-circle')[1]
         .getAttribute('style')
     ).toBe('stroke: red;')
     expect(
       container
-        .querySelectorAll('.dnb-progress-indicator__circular__circle')[2]
+        .querySelectorAll('.dnb-progress-indicator__circular-circle')[2]
         .getAttribute('style')
     ).toBe('stroke: green;')
   })
@@ -290,7 +290,7 @@ describe('Circular ProgressIndicator component', () => {
 })
 
 describe('Linear ProgressIndicator component', () => {
-  const mainLineSelector = '.dnb-progress-indicator__linear__bar'
+  const mainLineSelector = '.dnb-progress-indicator__linear-bar'
 
   it('should have a transform of translateX(-50%) on 50%', () => {
     render(<ProgressIndicator {...props} type="linear" progress={50} />)
@@ -502,12 +502,12 @@ describe('Linear ProgressIndicator component', () => {
     ).toBe('background-color: green;')
     expect(
       container
-        .querySelectorAll('.dnb-progress-indicator__linear__bar')[0]
+        .querySelectorAll('.dnb-progress-indicator__linear-bar')[0]
         .getAttribute('style')
     ).toBe('background-color: red;')
     expect(
       container
-        .querySelectorAll('.dnb-progress-indicator__linear__bar')[1]
+        .querySelectorAll('.dnb-progress-indicator__linear-bar')[1]
         .getAttribute('style')
     ).toBe('background-color: red;')
   })

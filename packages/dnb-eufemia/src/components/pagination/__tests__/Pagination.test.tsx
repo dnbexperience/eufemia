@@ -26,7 +26,7 @@ describe('Pagination bar', () => {
 
   it('has correct state at startup', () => {
     render(<Pagination {...props} />)
-    const innerElem = document.querySelector('.dnb-pagination__bar__inner')
+    const innerElem = document.querySelector('.dnb-pagination__bar-inner')
 
     expect(
       innerElem.querySelectorAll('button.dnb-pagination__button').length
@@ -57,7 +57,7 @@ describe('Pagination bar', () => {
     expect(document.querySelector('div#page-content')).toBeInTheDocument()
 
     const buttonElements = document
-      .querySelector('.dnb-pagination__bar__inner')
+      .querySelector('.dnb-pagination__bar-inner')
       .querySelectorAll('button.dnb-pagination__button')
 
     const firstButton = buttonElements[0]
@@ -96,7 +96,7 @@ describe('Pagination bar', () => {
     expect(document.querySelector('div#page-no').textContent).toBe('15')
 
     const buttonElements = document
-      .querySelector('.dnb-pagination__bar__inner')
+      .querySelector('.dnb-pagination__bar-inner')
       .querySelectorAll('button.dnb-pagination__button')
 
     fireEvent.click(buttonElements[2])
@@ -159,7 +159,7 @@ describe('Pagination bar', () => {
 
     const nextButton = document
       .querySelector('div.dnb-pagination__bar')
-      .querySelector('.dnb-pagination__bar__skip')
+      .querySelector('.dnb-pagination__bar-skip')
       .querySelectorAll('.dnb-button')[1]
 
     expect(nextButton.getAttribute('title')).toBe('Neste side')
@@ -230,7 +230,7 @@ describe('Pagination bar', () => {
 
     const nextButton = document
       .querySelector('div.dnb-pagination__bar')
-      .querySelector('.dnb-pagination__bar__skip')
+      .querySelector('.dnb-pagination__bar-skip')
       .querySelectorAll('.dnb-button')[1]
 
     fireEvent.click(nextButton)
@@ -251,7 +251,7 @@ describe('Pagination bar', () => {
 
     const nextButton = document
       .querySelector('div.dnb-pagination__bar')
-      .querySelector('.dnb-pagination__bar__skip')
+      .querySelector('.dnb-pagination__bar-skip')
       .querySelectorAll('.dnb-button')[1]
 
     fireEvent.click(nextButton)
@@ -626,7 +626,7 @@ describe('Infinity scroller', () => {
     )
 
     const element = document.querySelector(
-      '.dnb-pagination__bar__skip button'
+      '.dnb-pagination__bar-skip button'
     )
 
     expect(element.textContent).toContain(nb.prev_title)

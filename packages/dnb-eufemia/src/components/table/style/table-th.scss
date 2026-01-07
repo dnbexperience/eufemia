@@ -6,7 +6,7 @@
 @import './table-header-buttons.scss';
 
 .dnb-table {
-  &__th__horizontal {
+  &__th-horizontal {
     display: flex;
     align-items: flex-end; // bottom align help-button or other additional elements
   }

@@ -251,28 +251,26 @@ function StepIndicatorItem({
     >
       <div
         className={classnames(
-          'dnb-step-indicator__item__wrapper',
-          !status &&
-            isVisited &&
-            'dnb-step-indicator__item__wrapper--check'
+          'dnb-step-indicator__item-wrapper',
+          !status && isVisited && 'dnb-step-indicator__item-wrapper--check'
         )}
       >
         <span
           className={classnames(
-            'dnb-step-indicator__item__bullet',
+            'dnb-step-indicator__item-bullet',
             isCurrent
-              ? 'dnb-step-indicator__item__bullet--current'
+              ? 'dnb-step-indicator__item-bullet--current'
               : !status &&
                   (isVisited
-                    ? 'dnb-step-indicator__item__bullet--check'
-                    : 'dnb-step-indicator__item__bullet--empty'),
+                    ? 'dnb-step-indicator__item-bullet--check'
+                    : 'dnb-step-indicator__item-bullet--empty'),
             createSkeletonClass('shape', skeleton)
           )}
         >
           {status && !isCurrent ? (
             <Icon
               icon={stateIcons[status_state] || stateIcons.warn}
-              className="dnb-step-indicator__item__icon"
+              className="dnb-step-indicator__item-icon"
               size="medium"
               inheritColor={false}
             />
@@ -280,8 +278,8 @@ function StepIndicatorItem({
             <IconPrimary
               icon="check"
               className={classnames(
-                'dnb-step-indicator__item__icon',
-                !isVisited && 'dnb-step-indicator__item__icon--hidden'
+                'dnb-step-indicator__item-icon',
+                !isVisited && 'dnb-step-indicator__item-icon--hidden'
               )}
               size="auto"
             />
@@ -295,20 +293,20 @@ function StepIndicatorItem({
         >
           {!hide_numbers && (
             <span
-              className="dnb-step-indicator__item-content__number"
+              className="dnb-step-indicator__item-content-number"
               aria-hidden
             >
               {`${currentItemNum + 1}.`}
             </span>
           )}
-          <div className="dnb-step-indicator__item-content__wrapper">
+          <div className="dnb-step-indicator__item-content-wrapper">
             <StepItemButton {...buttonParams}>{element}</StepItemButton>
             <FormStatus
               shellSpace={{ top: '1rem' }}
               no_animation={no_animation}
               state={status && status_state}
               variant="outlined"
-              className="dnb-step-indicator__item-content__status"
+              className="dnb-step-indicator__item-content-status"
               text={status}
             />
           </div>

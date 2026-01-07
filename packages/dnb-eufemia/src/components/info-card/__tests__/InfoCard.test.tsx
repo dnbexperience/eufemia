@@ -137,10 +137,10 @@ describe('InfoCard', () => {
     render(<InfoCard text="text" />)
 
     expect(
-      document.querySelector('.dnb-info-card__buttons__accept-button')
+      document.querySelector('.dnb-info-card__buttons-accept-button')
     ).not.toBeInTheDocument()
     expect(
-      document.querySelector('.dnb-info-card__buttons__close-button')
+      document.querySelector('.dnb-info-card__buttons-close-button')
     ).not.toBeInTheDocument()
   })
 
@@ -149,7 +149,7 @@ describe('InfoCard', () => {
     render(<InfoCard text="text" onAccept={onAccept} />)
 
     const buttonElement = document.querySelector(
-      '.dnb-info-card__buttons__accept-button'
+      '.dnb-info-card__buttons-accept-button'
     )
 
     expect(buttonElement).toBeInTheDocument()
@@ -164,7 +164,7 @@ describe('InfoCard', () => {
     render(<InfoCard text="text" acceptButtonText={acceptButtonText} />)
 
     const buttonElement = document.querySelector(
-      '.dnb-info-card__buttons__accept-button'
+      '.dnb-info-card__buttons-accept-button'
     )
 
     expect(buttonElement).toBeInTheDocument()
@@ -179,11 +179,11 @@ describe('InfoCard', () => {
     render(<InfoCard text="text" acceptButtonText={acceptButtonText} />)
 
     expect(
-      document.querySelector('.dnb-info-card__buttons__accept-button')
+      document.querySelector('.dnb-info-card__buttons-accept-button')
     ).toBeInTheDocument()
     expect(
       within(
-        document.querySelector('.dnb-info-card__buttons__accept-button')
+        document.querySelector('.dnb-info-card__buttons-accept-button')
       ).queryByTestId('react-node')
     ).toBeInTheDocument()
   })
@@ -193,7 +193,7 @@ describe('InfoCard', () => {
     render(<InfoCard text="text" onClose={onClose} />)
 
     const buttonElement = document.querySelector(
-      '.dnb-info-card__buttons__close-button'
+      '.dnb-info-card__buttons-close-button'
     )
 
     expect(buttonElement).toBeInTheDocument()
@@ -208,7 +208,7 @@ describe('InfoCard', () => {
     render(<InfoCard text="text" closeButtonText={closeButtonText} />)
 
     const buttonElement = document.querySelector(
-      '.dnb-info-card__buttons__close-button'
+      '.dnb-info-card__buttons-close-button'
     )
 
     expect(buttonElement).toBeInTheDocument()
@@ -221,11 +221,11 @@ describe('InfoCard', () => {
     render(<InfoCard text="text" closeButtonText={closeButtonText} />)
 
     expect(
-      document.querySelector('.dnb-info-card__buttons__close-button')
+      document.querySelector('.dnb-info-card__buttons-close-button')
     ).toBeInTheDocument()
     expect(
       within(
-        document.querySelector('.dnb-info-card__buttons__close-button')
+        document.querySelector('.dnb-info-card__buttons-close-button')
       ).queryByTestId('react-node')
     ).toBeInTheDocument()
   })
@@ -242,7 +242,7 @@ describe('InfoCard', () => {
     )
 
     const buttonElement = document.querySelector(
-      '.dnb-info-card__buttons__accept-button'
+      '.dnb-info-card__buttons-accept-button'
     )
 
     expect(buttonElement.getAttribute('href')).toMatch(href)
@@ -260,7 +260,7 @@ describe('InfoCard', () => {
     )
 
     const buttonElement = document.querySelector(
-      '.dnb-info-card__buttons__close-button'
+      '.dnb-info-card__buttons-close-button'
     )
 
     expect(buttonElement.getAttribute('href')).toMatch(href)

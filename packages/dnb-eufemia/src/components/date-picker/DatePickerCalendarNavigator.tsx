@@ -112,11 +112,11 @@ export function DatePickerCalendarNav({
   return (
     <div
       className={classnames(
-        'dnb-date-picker__header__row',
-        type === 'year' && 'dnb-date-picker__header__row--year'
+        'dnb-date-picker__header-row',
+        type === 'year' && 'dnb-date-picker__header-row--year'
       )}
     >
-      <div className="dnb-date-picker__header__nav">
+      <div className="dnb-date-picker__header-nav">
         <CalendarNavButton
           type="prev"
           nr={nr}
@@ -130,7 +130,7 @@ export function DatePickerCalendarNav({
       </div>
       <label
         id={`${id}--title`}
-        className="dnb-date-picker__header__title dnb-no-focus"
+        className="dnb-date-picker__header-title dnb-no-focus"
         title={title.replace(
           /%s/,
           formatDate(date, { locale, options: titleFormat })
@@ -139,7 +139,7 @@ export function DatePickerCalendarNav({
       >
         {formatDate(date, { locale, options: titleFormat })}
       </label>
-      <div className="dnb-date-picker__header__nav">
+      <div className="dnb-date-picker__header-nav">
         <CalendarNavButton
           type="next"
           dateType={buttonDateType}

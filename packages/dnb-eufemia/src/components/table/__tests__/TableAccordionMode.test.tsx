@@ -75,8 +75,8 @@ describe('Table using mode="accordion" prop', () => {
     expect(element.getAttribute('aria-hidden')).toBe('true')
     expect(element.getAttribute('hidden')).toBe('')
     expect(Array.from(element.classList)).toEqual([
-      'dnb-table__tr__accordion-content',
-      'dnb-table__tr__accordion-content--single',
+      'dnb-table__tr-accordion-content',
+      'dnb-table__tr-accordion-content--single',
     ])
   })
 
@@ -103,11 +103,11 @@ describe('Table using mode="accordion" prop', () => {
     expect(accordionElem.getAttribute('aria-hidden')).toBe('false')
     expect(accordionElem.getAttribute('role')).toBe('row')
     expect(Array.from(accordionElem.classList)).toEqual([
-      'dnb-table__tr__accordion-content',
-      'dnb-table__tr__accordion-content--single',
+      'dnb-table__tr-accordion-content',
+      'dnb-table__tr-accordion-content--single',
       'dnb-table__tr',
-      'dnb-table__tr__accordion-content--expanded',
-      'dnb-table__tr__accordion-content--parallax',
+      'dnb-table__tr-accordion-content--expanded',
+      'dnb-table__tr-accordion-content--parallax',
     ])
   })
 
@@ -204,11 +204,11 @@ describe('Table using mode="accordion" prop', () => {
     const element = accordionElem.querySelector('td')
 
     expect(
-      element.querySelector('div.dnb-table__tr__accordion-content__inner')
+      element.querySelector('div.dnb-table__tr-accordion-content-inner')
     ).toBeInTheDocument()
     expect(
       element.querySelector(
-        'div.dnb-table__tr__accordion-content__inner__spacing'
+        'div.dnb-table__tr-accordion-content-inner-spacing'
       )
     ).toBeInTheDocument()
   })
@@ -291,8 +291,8 @@ describe('Table using mode="accordion" prop', () => {
     const accordionElem = trElement.nextSibling as HTMLTableRowElement
 
     expect(Array.from(accordionElem.classList)).toEqual([
-      'dnb-table__tr__accordion-content',
-      'dnb-table__tr__accordion-content--single',
+      'dnb-table__tr-accordion-content',
+      'dnb-table__tr-accordion-content--single',
     ])
 
     fireEvent.click(trElement)
@@ -301,7 +301,7 @@ describe('Table using mode="accordion" prop', () => {
       'dnb-table__tr--expanded'
     )
     expect(Array.from(accordionElem.classList)).toContain(
-      'dnb-table__tr__accordion-content--expanded'
+      'dnb-table__tr-accordion-content--expanded'
     )
   })
 
@@ -586,10 +586,10 @@ describe('Table using mode="accordion" prop', () => {
     }
 
     expect(Array.from(getTh(0).classList)).toContain(
-      'dnb-table__th__button-icon'
+      'dnb-table__th-button-icon'
     )
     expect(Array.from(getTd(0).classList)).toContain(
-      'dnb-table__td__button-icon'
+      'dnb-table__td-button-icon'
     )
 
     rerender(
@@ -609,10 +609,10 @@ describe('Table using mode="accordion" prop', () => {
     )
 
     expect(Array.from(getTh(-1).classList)).toContain(
-      'dnb-table__th__button-icon'
+      'dnb-table__th-button-icon'
     )
     expect(Array.from(getTd(-1).classList)).toContain(
-      'dnb-table__td__button-icon'
+      'dnb-table__td-button-icon'
     )
   })
 
@@ -629,7 +629,7 @@ describe('Table using mode="accordion" prop', () => {
 
     const trElement = document.querySelector('thead tr th')
     expect(Array.from(trElement.classList)).toContain(
-      'dnb-table__th__button-icon'
+      'dnb-table__th-button-icon'
     )
 
     const divElement = trElement.querySelector('div')
@@ -649,7 +649,7 @@ describe('Table using mode="accordion" prop', () => {
 
     const thElement = document.querySelector('thead tr th')
     expect(Array.from(thElement.classList)).toContain(
-      'dnb-table__th__button-icon'
+      'dnb-table__th-button-icon'
     )
 
     expect(thElement.textContent).toBe(nb.accordionToggleButtonSR)
@@ -672,7 +672,7 @@ describe('Table using mode="accordion" prop', () => {
 
     const thElement = document.querySelector('thead tr th')
     expect(Array.from(thElement.classList)).toContain(
-      'dnb-table__th__button-icon'
+      'dnb-table__th-button-icon'
     )
 
     expect(thElement.textContent).toBe(nb.accordionToggleButtonSR)
@@ -744,7 +744,7 @@ describe('Table using mode="accordion" prop', () => {
       'dnb-table__tr--expanded'
     )
     expect(Array.from(accordionElem.classList)).toContain(
-      'dnb-table__tr__accordion-content--expanded'
+      'dnb-table__tr-accordion-content--expanded'
     )
 
     // close
@@ -759,7 +759,7 @@ describe('Table using mode="accordion" prop', () => {
       'dnb-table__tr--expanded'
     )
     expect(Array.from(accordionElem.classList)).not.toContain(
-      'dnb-table__tr__accordion-content--expanded'
+      'dnb-table__tr-accordion-content--expanded'
     )
   })
 
@@ -838,7 +838,7 @@ describe('Table using mode="accordion" prop', () => {
 
     const accordionElem1 = trElement1.nextSibling as HTMLTableRowElement
     expect(Array.from(accordionElem1.classList)).toContain(
-      'dnb-table__tr__accordion-content--expanded'
+      'dnb-table__tr-accordion-content--expanded'
     )
 
     const trElement2 = document.querySelectorAll('tr')[1]
@@ -848,7 +848,7 @@ describe('Table using mode="accordion" prop', () => {
 
     const accordionElem2 = trElement2.nextSibling as HTMLTableRowElement
     expect(Array.from(accordionElem2.classList)).not.toContain(
-      'dnb-table__tr__accordion-content--expanded'
+      'dnb-table__tr-accordion-content--expanded'
     )
   })
 
@@ -966,7 +966,7 @@ describe('Table using mode="accordion" prop', () => {
         'tr.dnb-table__tr--clickable'
       )
       const accordionElems = document.querySelectorAll(
-        'tr.dnb-table__tr__accordion-content'
+        'tr.dnb-table__tr-accordion-content'
       )
 
       // Assert all are expanded
@@ -977,10 +977,10 @@ describe('Table using mode="accordion" prop', () => {
         'dnb-table__tr--expanded'
       )
       expect(Array.from(accordionElems[0].classList)).toContain(
-        'dnb-table__tr__accordion-content--expanded'
+        'dnb-table__tr-accordion-content--expanded'
       )
       expect(Array.from(accordionElems[1].classList)).toContain(
-        'dnb-table__tr__accordion-content--expanded'
+        'dnb-table__tr-accordion-content--expanded'
       )
 
       act(() => {
@@ -995,10 +995,10 @@ describe('Table using mode="accordion" prop', () => {
         'dnb-table__tr--expanded'
       )
       expect(Array.from(accordionElems[0].classList)).not.toContain(
-        'dnb-table__tr__accordion-content--expanded'
+        'dnb-table__tr-accordion-content--expanded'
       )
       expect(Array.from(accordionElems[1].classList)).not.toContain(
-        'dnb-table__tr__accordion-content--expanded'
+        'dnb-table__tr-accordion-content--expanded'
       )
     })
   })

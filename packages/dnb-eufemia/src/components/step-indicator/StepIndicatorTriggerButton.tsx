@@ -63,8 +63,8 @@ function StepIndicatorTriggerButton({
   const buttonParams = {
     ...rest,
     className: classnames(
-      'dnb-step-indicator__trigger__button',
-      `dnb-step-indicator__trigger__button--${
+      'dnb-step-indicator__trigger-button',
+      `dnb-step-indicator__trigger-button--${
         openState ? 'expanded' : 'collapsed'
       }`,
       className

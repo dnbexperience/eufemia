@@ -43,11 +43,11 @@ describe('TableContainer', () => {
     expect(element.textContent).toBe('HeaderTexttable 1table 2text')
 
     expect(
-      document.querySelector('.dnb-table__container__head--empty')
+      document.querySelector('.dnb-table__container-head--empty')
     ).not.toBeInTheDocument()
 
     expect(
-      document.querySelector('.dnb-table__container__foot--empty')
+      document.querySelector('.dnb-table__container-foot--empty')
     ).not.toBeInTheDocument()
   })
 
@@ -81,7 +81,7 @@ describe('TableContainer', () => {
     render(<TableContainer.Head />)
 
     expect(
-      document.querySelector('.dnb-table__container__head--empty')
+      document.querySelector('.dnb-table__container-head--empty')
     ).toBeInTheDocument()
   })
 
@@ -89,7 +89,7 @@ describe('TableContainer', () => {
     render(<TableContainer.Foot />)
 
     expect(
-      document.querySelector('.dnb-table__container__foot--empty')
+      document.querySelector('.dnb-table__container-foot--empty')
     ).toBeInTheDocument()
   })
 
@@ -109,11 +109,11 @@ describe('TableContainer', () => {
     )
 
     expect(
-      document.querySelector('.dnb-table__container__head--empty')
+      document.querySelector('.dnb-table__container-head--empty')
     ).toBeInTheDocument()
 
     expect(
-      document.querySelector('.dnb-table__container__foot--empty')
+      document.querySelector('.dnb-table__container-foot--empty')
     ).toBeInTheDocument()
   })
 

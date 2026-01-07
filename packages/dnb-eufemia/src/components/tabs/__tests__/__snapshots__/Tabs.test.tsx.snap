@@ -152,7 +152,7 @@ html:not([data-visual-test]) .dnb-tabs__tabs__tablist {
 .dnb-tabs--at-edge .dnb-tabs__scroll-nav-button:last-of-type {
   border-radius: 50% 0 0 50%;
 }
-.dnb-tabs--at-edge .dnb-tabs__tabs__tablist:focus {
+.dnb-tabs--at-edge .dnb-tabs__tabs-tablist:focus {
   border-radius: 0;
 }
 .dnb-tabs__button, .dnb-core-style .dnb-tabs .dnb-tabs__button {
@@ -274,21 +274,21 @@ html[data-whatinput=keyboard] .dnb-tabs__button:focus::before, html[data-whatinp
 .dnb-tabs__button:not([disabled]).selected .dnb-tabs__button__title, .dnb-tabs__button:not([disabled]).selected .dnb-core-style .dnb-tabs .dnb-tabs__button__title, .dnb-core-style .dnb-tabs .dnb-tabs__button:not([disabled]).selected .dnb-tabs__button__title, .dnb-core-style .dnb-tabs .dnb-tabs__button:not([disabled]).selected .dnb-core-style .dnb-tabs .dnb-tabs__button__title {
   font-weight: var(--tab-title-font-weight--selected);
 }
-.dnb-tabs__button__snap {
+.dnb-tabs__button-snap {
   display: flex;
   padding: 0 1rem 0 1.5rem;
   will-change: padding;
   transition: padding 1s var(--easing-default);
 }
 @media screen and (max-width: 40em) {
-  .dnb-tabs__button__snap {
+  .dnb-tabs__button-snap {
     padding: 0 1rem;
   }
 }
-.dnb-tabs__button__snap:first-of-type {
+.dnb-tabs__button-snap:first-of-type {
   padding-left: 0;
 }
-.dnb-tabs__button__snap:last-of-type {
+.dnb-tabs__button-snap:last-of-type {
   padding-right: 0.5rem;
 }
 html[data-whatinput=keyboard] .dnb-tabs__button__snap:first-of-type.focus .dnb-tabs__button:focus {

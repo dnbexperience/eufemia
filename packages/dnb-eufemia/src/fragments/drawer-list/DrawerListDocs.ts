@@ -92,7 +92,7 @@ export const DrawerListProperties = {
     status: 'optional',
   },
   portal_class: {
-    doc: 'Define an HTML class that will be set on the DOM portal beside `dnb-drawer-list__portal__style`. Can be useful to handle e.g. a custom `z-index` in relation to a header.',
+    doc: 'Define an HTML class that will be set on the DOM portal beside `dnb-drawer-list__portal-style`. Can be useful to handle e.g. a custom `z-index` in relation to a header.',
     type: 'string',
     status: 'optional',
   },

@@ -175,11 +175,11 @@ p > .dnb-icon {
   min-height: 1.5rem;
   padding: 0 1rem;
 }
-.dnb-tooltip .dnb-popover__arrow__placement--right {
+.dnb-tooltip .dnb-popover__arrow-placement--right {
   left: -13px;
   top: auto !important;
 }
-.dnb-tooltip .dnb-popover__arrow__placement--left {
+.dnb-tooltip .dnb-popover__arrow-placement--left {
   right: -13px;
   top: auto !important;
 }
@@ -741,7 +741,7 @@ button.dnb-button::-moz-focus-inner {
   right: 1rem;
   left: auto;
 }
-.dnb-modal__content__inner .dnb-global-status__close-button {
+.dnb-modal__content-inner .dnb-global-status__close-button {
   right: 0;
 }
 .dnb-global-status__content {

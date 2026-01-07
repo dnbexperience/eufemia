@@ -11,7 +11,7 @@
 
   &__bar,
   &__loadbar,
-  &__bar__inner {
+  &__bar-inner {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -43,13 +43,13 @@
     justify-content: flex-end;
   }
 
-  &__bar__wrapper {
+  &__bar-wrapper {
     display: flex;
     flex-flow: column wrap;
     row-gap: 0.5rem;
   }
 
-  &--layout-horizontal &__bar__wrapper {
+  &--layout-horizontal &__bar-wrapper {
     @include allAbove(large) {
       flex-flow: row-reverse wrap;
       justify-content: space-between;
@@ -57,15 +57,15 @@
     }
   }
 
-  &--center &__bar__wrapper {
+  &--center &__bar-wrapper {
     align-items: center;
   }
 
-  &--right &__bar__wrapper {
+  &--right &__bar-wrapper {
     align-items: flex-end;
   }
 
-  &__bar__inner {
+  &__bar-inner {
     gap: 0.5rem;
   }
 
@@ -125,7 +125,7 @@
     }
   }
 
-  &__bar__skip {
+  &__bar-skip {
     display: flex;
     column-gap: 1.5rem;
   }

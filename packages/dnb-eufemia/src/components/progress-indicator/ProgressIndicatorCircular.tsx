@@ -149,9 +149,9 @@ function ProgressIndicatorCircular(
       )}
       {...remainingDOMAttributes}
     >
-      <span className="dnb-progress-indicator__circular__background-padding">
+      <span className="dnb-progress-indicator__circular-background-padding">
         <span
-          className="dnb-progress-indicator__circular__background"
+          className="dnb-progress-indicator__circular-background"
           style={{ backgroundColor: customColors?.background }}
         />
       </span>
@@ -210,7 +210,7 @@ const Circle = forwardRef(function Circle(
   return (
     <svg
       className={classnames(
-        'dnb-progress-indicator__circular__line',
+        'dnb-progress-indicator__circular-line',
         className
       )}
       shapeRendering="geometricPrecision"
@@ -218,7 +218,7 @@ const Circle = forwardRef(function Circle(
       {...rest}
     >
       <circle
-        className="dnb-progress-indicator__circular__circle"
+        className="dnb-progress-indicator__circular-circle"
         fill="none"
         cx="50%"
         cy="50%"

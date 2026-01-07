@@ -4,12 +4,12 @@
 */
 
 @mixin tableAccordionActiveColor {
-  .dnb-table__td__button-icon .dnb-icon {
+  .dnb-table__td-button-icon .dnb-icon {
     color: var(--table-accordion-icon-color--active);
   }
 }
 @mixin tableAccordionDisabledColor {
-  .dnb-table__td__button-icon .dnb-icon {
+  .dnb-table__td-button-icon .dnb-icon {
     color: var(--table-accordion-icon-color--disabled);
   }
 }
@@ -32,7 +32,7 @@
   --table-accordion-outline-width: var(--focus-ring-width);
   --table-accordion-outline-background--active: var(--color-pistachio);
 
-  &__th#{&}__th__button-icon {
+  &__th#{&}__th-button-icon {
     &.dnb-table__th {
       padding: 0;
     }
@@ -53,7 +53,7 @@
     }
   }
 
-  &__td#{&}__td__button-icon {
+  &__td#{&}__td-button-icon {
     &.dnb-table__td {
       padding: 0;
     }
@@ -75,11 +75,11 @@
   }
 
   &__tr--clickable,
-  &__tr__accordion-content {
+  &__tr-accordion-content {
     position: relative;
   }
   &__tr--clickable#{&}__tr--expanded,
-  &__tr__accordion-content {
+  &__tr-accordion-content {
     z-index: 3; // ensure borders are visible in certain states
   }
 
@@ -209,7 +209,7 @@
     @include tableAccordionDisabledColor();
   }
 
-  &__tr__accordion-content {
+  &__tr-accordion-content {
     &__inner {
       overflow: hidden;
       will-change: height;
@@ -246,7 +246,7 @@
     }
   }
 
-  &__tr__accordion-content--single {
+  &__tr-accordion-content--single {
     > td {
       padding: 0 !important; // medium and small size sets padding – but we never want a padding on this td
 
@@ -293,7 +293,7 @@
     }
   }
 
-  &__tr__accordion-content#{&}__tr &__td {
+  &__tr-accordion-content#{&}__tr &__td {
     background-color: var(--table-accordion-background);
 
     /**
@@ -311,7 +311,7 @@
 
   // prevent selection while animating – useful when user double-clicks
   // TODO: Our SASS version does not support :has – so we may use this in future
-  // &__tr--clickable:has(& + &__tr__accordion-content--animating) {
+  // &__tr--clickable:has(& + &__tr-accordion-content--animating) {
   //   user-select: none;
   // }
 

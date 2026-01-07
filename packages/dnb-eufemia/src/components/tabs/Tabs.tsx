@@ -632,11 +632,11 @@ export default class Tabs extends React.PureComponent<TabsProps> {
       try {
         if (this.state.hasScrollbar && this._tablistRef.current) {
           const first = this._tablistRef.current.querySelector(
-            '.dnb-tabs__button__snap:first-of-type'
+            '.dnb-tabs__button-snap:first-of-type'
           )
           const isFirst = first.classList.contains(type)
           const last = this._tablistRef.current.querySelector(
-            '.dnb-tabs__button__snap:last-of-type'
+            '.dnb-tabs__button-snap:last-of-type'
           )
           const isLast = last.classList.contains(type)
           const elem = this._tablistRef.current.querySelector(
@@ -1146,7 +1146,7 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
         return (
           <div
             className={classnames(
-              'dnb-tabs__button__snap',
+              'dnb-tabs__button-snap',
               isFocus && 'focus',
               isSelected && 'selected'
             )}
@@ -1197,7 +1197,7 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
     return (
       <div
         role="tablist"
-        className="dnb-tabs__tabs__tablist"
+        className="dnb-tabs__tabs-tablist"
         tabIndex="0"
         onKeyDown={this.onTablistKeyDownHandler}
         ref={this._tablistRef}

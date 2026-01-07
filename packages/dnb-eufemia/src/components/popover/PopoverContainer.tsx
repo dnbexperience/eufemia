@@ -862,7 +862,7 @@ function PopoverContainer(props: PopoverContainerProps) {
               (base) => `${base}__arrow__arrow--${arrowPosition}`
             ),
             baseClassNames.map(
-              (base) => `${base}__arrow__placement--${resolvedPlacement}`
+              (base) => `${base}__arrow-placement--${resolvedPlacement}`
             )
           )}
           style={{ ...arrowStyle }}

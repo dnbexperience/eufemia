@@ -40,15 +40,15 @@ exports[`DrawerList scss has to match style dependencies css 1`] = `
 .dnb-drawer-list__portal {
   --drawer-list-width: 16rem;
 }
-.dnb-drawer-list__portal__style {
+.dnb-drawer-list__portal-style {
   position: absolute;
   transition: all 300ms var(--easing-default);
   z-index: calc(var(--modal-z-index, 3200) + 300);
 }
-html[data-visual-test] .dnb-drawer-list__portal__style {
+html[data-visual-test] .dnb-drawer-list__portal-style {
   transition: none !important;
 }
-.dnb-drawer-list__portal__style--fixed {
+.dnb-drawer-list__portal-style--fixed {
   position: fixed;
 }
 .dnb-drawer-list__root {
@@ -157,7 +157,7 @@ html[data-visual-test] .dnb-drawer-list--scroll .dnb-drawer-list__options, .dnb-
   outline: none;
   background-color: var(--color-white);
 }
-.dnb-drawer-list__option__inner {
+.dnb-drawer-list__option__option-inner {
   position: relative;
   z-index: 1;
   display: grid;
@@ -169,7 +169,7 @@ html[data-visual-test] .dnb-drawer-list--scroll .dnb-drawer-list__options, .dnb-
   color: inherit;
   background-color: var(--drawer-list-option-inner-background);
 }
-.dnb-drawer-list__option__inner > * {
+.dnb-drawer-list__option__option-inner > * {
   align-self: self-start;
 }
 .dnb-drawer-list__option__item {
@@ -490,14 +490,14 @@ html:not([data-whatintent=touch]) .dnb-drawer-list__option:hover[disabled] {
 html:not([data-whatintent=touch]) .dnb-drawer-list__option:hover:not([disabled]) {
   background-color: var(--color-mint-green-12);
 }
-html:not([data-whatintent=touch]) .dnb-drawer-list__option:hover:not([disabled]) .dnb-drawer-list__option__inner {
+html:not([data-whatintent=touch]) .dnb-drawer-list__option:hover:not([disabled]) .dnb-drawer-list__option-inner {
   color: var(--color-sea-green);
   background-color: var(--color-mint-green-12);
 }
 .dnb-drawer-list__option:active[disabled], html:not([data-whatintent=touch]) .dnb-drawer-list__option:active[disabled] {
   cursor: not-allowed;
 }
-.dnb-drawer-list__option:active:not([disabled]) .dnb-drawer-list__option__inner, html:not([data-whatintent=touch]) .dnb-drawer-list__option:active:not([disabled]) .dnb-drawer-list__option__inner {
+.dnb-drawer-list__option:active:not([disabled]) .dnb-drawer-list__option-inner, html:not([data-whatintent=touch]) .dnb-drawer-list__option:active:not([disabled]) .dnb-drawer-list__option-inner {
   color: var(--color-black);
 }
 .dnb-drawer-list__option--focus .dnb-drawer-list__option__inner::before {
@@ -521,7 +521,7 @@ html:not([data-whatintent=touch]) .dnb-drawer-list__option:hover:not([disabled])
   color: var(--color-white);
   background-color: var(--color-emerald-green);
 }
-.dnb-drawer-list__option--selected .dnb-drawer-list__option__inner .dnb-drawer-list__option__inner {
+.dnb-drawer-list__option--selected .dnb-drawer-list__option__inner .dnb-drawer-list__option-inner {
   color: inherit;
   background-color: inherit;
 }
@@ -532,7 +532,7 @@ html:not([data-whatintent=touch]) .dnb-drawer-list__option--selected .dnb-drawer
   color: var(--color-white);
   background-color: var(--color-emerald-green);
 }
-html:not([data-whatintent=touch]) .dnb-drawer-list__option--selected .dnb-drawer-list__option__inner:hover:not([disabled]) .dnb-drawer-list__option__inner {
+html:not([data-whatintent=touch]) .dnb-drawer-list__option--selected .dnb-drawer-list__option__inner:hover:not([disabled]) .dnb-drawer-list__option-inner {
   color: inherit;
   background-color: inherit;
 }
@@ -582,15 +582,15 @@ html[data-whatinput=keyboard] .dnb-drawer-list__option--selected .dnb-drawer-lis
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
-.dnb-drawer-list--scroll .dnb-drawer-list__option:not(.dnb-drawer-list__option--focus) .dnb-drawer-list__option__inner::before {
+.dnb-drawer-list--scroll .dnb-drawer-list__option:not(.dnb-drawer-list__option--focus) .dnb-drawer-list__option-inner::before {
   left: 0.5rem;
   right: 0.5rem;
 }
-.dnb-drawer-list--bottom .dnb-drawer-list__option--focus.closest-to-top .dnb-drawer-list__option__inner::before, .dnb-drawer-list--top .dnb-drawer-list__option--focus.closest-to-top .dnb-drawer-list__option__inner::before {
+.dnb-drawer-list--bottom .dnb-drawer-list__option--focus.closest-to-top .dnb-drawer-list__option-inner::before, .dnb-drawer-list--top .dnb-drawer-list__option--focus.closest-to-top .dnb-drawer-list__option-inner::before {
   border-top-left-radius: var(--drawer-list-options-border-radius);
   border-top-right-radius: var(--drawer-list-options-border-radius);
 }
-.dnb-drawer-list--bottom .dnb-drawer-list__option--focus.closest-to-bottom .dnb-drawer-list__option__inner::before, .dnb-drawer-list--top .dnb-drawer-list__option--focus.closest-to-bottom .dnb-drawer-list__option__inner::before {
+.dnb-drawer-list--bottom .dnb-drawer-list__option--focus.closest-to-bottom .dnb-drawer-list__option-inner::before, .dnb-drawer-list--top .dnb-drawer-list__option--focus.closest-to-bottom .dnb-drawer-list__option-inner::before {
   border-bottom-left-radius: var(--drawer-list-options-border-radius);
   border-bottom-right-radius: var(--drawer-list-options-border-radius);
 }

@@ -116,7 +116,7 @@ export const ContainerTable = () => {
     .dnb-table__scroll-view {
       max-width: 70rem;
     }
-    .dnb-table__container__body {
+    .dnb-table__container-body {
       min-width: 800px;
     }
     table {

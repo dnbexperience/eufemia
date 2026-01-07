@@ -262,21 +262,21 @@ describe('StepIndicator redesign', () => {
     )
     expect(
       document
-        .querySelector('.dnb-step-indicator__trigger__button')
+        .querySelector('.dnb-step-indicator__trigger-button')
         .attributes.getNamedItem('aria-expanded').value
     ).toBe('true')
 
     act(() => {
       document
         .querySelector<HTMLButtonElement>(
-          'button.dnb-step-indicator__trigger__button--expanded'
+          'button.dnb-step-indicator__trigger-button--expanded'
         )
         ?.click()
     })
 
     expect(
       document
-        .querySelector('.dnb-step-indicator__trigger__button')
+        .querySelector('.dnb-step-indicator__trigger-button')
         .attributes.getNamedItem('aria-expanded').value
     ).toBe('false')
   })
@@ -296,7 +296,7 @@ describe('StepIndicator redesign', () => {
         .textContent
     ).toEqual('1.Step A')
     expect(
-      document.querySelector('.dnb-step-indicator__item-content__number')
+      document.querySelector('.dnb-step-indicator__item-content-number')
     ).toHaveAttribute('aria-hidden')
   })
 
@@ -325,8 +325,8 @@ describe('StepIndicator redesign', () => {
     )
 
     expect(
-      document.querySelector('button.dnb-step-indicator__trigger__button')
-    ).toHaveClass('dnb-step-indicator__trigger__button--collapsed')
+      document.querySelector('button.dnb-step-indicator__trigger-button')
+    ).toHaveClass('dnb-step-indicator__trigger-button--collapsed')
     expect(
       document.querySelectorAll('li.dnb-step-indicator__item')
     ).toHaveLength(0)
@@ -334,14 +334,14 @@ describe('StepIndicator redesign', () => {
     act(() => {
       document
         .querySelector<HTMLButtonElement>(
-          'button.dnb-step-indicator__trigger__button--collapsed'
+          'button.dnb-step-indicator__trigger-button--collapsed'
         )
         ?.click()
     })
 
     expect(
-      document.querySelector('button.dnb-step-indicator__trigger__button')
-    ).toHaveClass('dnb-step-indicator__trigger__button--expanded')
+      document.querySelector('button.dnb-step-indicator__trigger-button')
+    ).toHaveClass('dnb-step-indicator__trigger-button--expanded')
 
     expect(
       document.querySelectorAll('li.dnb-step-indicator__item')
@@ -603,7 +603,7 @@ describe('StepIndicator in loose mode', () => {
       document.querySelector('label.dnb-step-indicator__label').textContent
     ).toContain('Steg 2 av 4:')
     expect(
-      document.querySelector('button.dnb-step-indicator__trigger__button')
+      document.querySelector('button.dnb-step-indicator__trigger-button')
         .textContent
     ).toContain('Step B')
 
@@ -621,7 +621,7 @@ describe('StepIndicator in loose mode', () => {
       document.querySelector('label.dnb-step-indicator__label').textContent
     ).toContain('Steg 2 av 4:')
     expect(
-      document.querySelector('button.dnb-step-indicator__trigger__button')
+      document.querySelector('button.dnb-step-indicator__trigger-button')
         .textContent
     ).toContain('Step B')
   })
@@ -852,7 +852,7 @@ describe('StepIndicator ARIA', () => {
 
     // Check that the step number has aria-hidden (when numbers are shown)
     const stepNumber = firstStepItem.querySelector(
-      '.dnb-step-indicator__item-content__number'
+      '.dnb-step-indicator__item-content-number'
     )
     expect(stepNumber).toBeInTheDocument()
     expect(stepNumber).toHaveAttribute('aria-hidden')
@@ -868,7 +868,7 @@ describe('StepIndicator ARIA', () => {
 
     // Find the trigger button
     const triggerButton = document.querySelector(
-      '.dnb-step-indicator__trigger__button'
+      '.dnb-step-indicator__trigger-button'
     )
     expect(triggerButton).toBeInTheDocument()
 

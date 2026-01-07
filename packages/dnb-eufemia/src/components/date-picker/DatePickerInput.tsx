@@ -927,7 +927,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
       return (
         <span
           id={`${id}-input`}
-          className="dnb-date-picker__input__wrapper"
+          className="dnb-date-picker__input-wrapper"
         >
           {startDateList}
           {isRange && (

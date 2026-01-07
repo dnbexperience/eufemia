@@ -83,7 +83,7 @@
   }
 
   &__day,
-  &__labels__day {
+  &__labels-day {
     text-align: center;
   }
 
@@ -180,7 +180,7 @@
       @include fakeBorder(var(--color-sea-green), 0.125rem);
     }
 
-    .dnb-input__submit-button__button.dnb-button--secondary {
+    .dnb-input__submit-button-button.dnb-button--secondary {
       color: var(--color-white);
       background-color: var(--color-sea-green);
 

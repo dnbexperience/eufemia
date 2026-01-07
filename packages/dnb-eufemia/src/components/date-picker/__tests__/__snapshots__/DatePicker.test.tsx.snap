@@ -62,7 +62,7 @@ exports[`DatePicker scss should match default theme snapshot 1`] = `
   font-weight: var(--font-weight-medium);
   color: var(--color-black-80);
 }
-.dnb-date-picker__day, .dnb-date-picker__labels__day {
+.dnb-date-picker__day, .dnb-date-picker__labels-day {
   text-align: center;
 }
 .dnb-date-picker__day--today .dnb-button {
@@ -116,11 +116,11 @@ html:not([data-whatintent=touch]) .dnb-date-picker__day--inactive .dnb-button[di
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
-.dnb-date-picker--opened .dnb-input .dnb-input__submit-button__button.dnb-button--secondary, .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-form-label:hover ~ .dnb-date-picker__inner .dnb-input:not([data-input-state=disabled]) .dnb-input__submit-button__button.dnb-button--secondary {
+.dnb-date-picker--opened .dnb-input .dnb-input__submit-button-button.dnb-button--secondary, .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-form-label:hover ~ .dnb-date-picker__inner .dnb-input:not([data-input-state=disabled]) .dnb-input__submit-button-button.dnb-button--secondary {
   color: var(--color-white);
   background-color: var(--color-sea-green);
 }
-.dnb-date-picker--opened .dnb-input .dnb-input__submit-button__button.dnb-button--secondary::after, .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-form-label:hover ~ .dnb-date-picker__inner .dnb-input:not([data-input-state=disabled]) .dnb-input__submit-button__button.dnb-button--secondary::after {
+.dnb-date-picker--opened .dnb-input .dnb-input__submit-button-button.dnb-button--secondary::after, .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-form-label:hover ~ .dnb-date-picker__inner .dnb-input:not([data-input-state=disabled]) .dnb-input__submit-button-button.dnb-button--secondary::after {
   background-color: inherit;
 }
 .dnb-date-picker__status--error:not(.dnb-date-picker--opened) .dnb-form-label:hover ~ .dnb-date-picker__inner .dnb-input:not([data-input-state=disabled]) .dnb-input__shell {
@@ -285,11 +285,11 @@ p > .dnb-icon {
   min-height: 1.5rem;
   padding: 0 1rem;
 }
-.dnb-tooltip .dnb-popover__arrow__placement--right {
+.dnb-tooltip .dnb-popover__arrow-placement--right {
   left: -13px;
   top: auto !important;
 }
-.dnb-tooltip .dnb-popover__arrow__placement--left {
+.dnb-tooltip .dnb-popover__arrow-placement--left {
   right: -13px;
   top: auto !important;
 }
@@ -751,11 +751,11 @@ p > .dnb-icon {
   min-height: 1.5rem;
   padding: 0 1rem;
 }
-.dnb-tooltip .dnb-popover__arrow__placement--right {
+.dnb-tooltip .dnb-popover__arrow-placement--right {
   left: -13px;
   top: auto !important;
 }
-.dnb-tooltip .dnb-popover__arrow__placement--left {
+.dnb-tooltip .dnb-popover__arrow-placement--left {
   right: -13px;
   top: auto !important;
 }
@@ -1431,11 +1431,11 @@ p > .dnb-icon {
   min-height: 1.5rem;
   padding: 0 1rem;
 }
-.dnb-tooltip .dnb-popover__arrow__placement--right {
+.dnb-tooltip .dnb-popover__arrow-placement--right {
   left: -13px;
   top: auto !important;
 }
-.dnb-tooltip .dnb-popover__arrow__placement--left {
+.dnb-tooltip .dnb-popover__arrow-placement--left {
   right: -13px;
   top: auto !important;
 }
@@ -1951,11 +1951,11 @@ p > .dnb-icon {
   min-height: 1.5rem;
   padding: 0 1rem;
 }
-.dnb-tooltip .dnb-popover__arrow__placement--right {
+.dnb-tooltip .dnb-popover__arrow-placement--right {
   left: -13px;
   top: auto !important;
 }
-.dnb-tooltip .dnb-popover__arrow__placement--left {
+.dnb-tooltip .dnb-popover__arrow-placement--left {
   right: -13px;
   top: auto !important;
 }
@@ -3624,7 +3624,7 @@ button .dnb-form-status__text {
   display: inline-flex;
   flex-direction: column;
 }
-.dnb-date-picker__input__wrapper {
+.dnb-date-picker__input-wrapper {
   display: inline-flex;
   white-space: nowrap;
   height: inherit;
@@ -3774,7 +3774,7 @@ html[data-whatinput=keyboard] .dnb-date-picker__container table.dnb-no-focus:foc
 .dnb-date-picker:not(.dnb-date-picker--show-input) .dnb-input__status--error .dnb-input__shell {
   box-shadow: none;
 }
-.dnb-input__submit-button button:focus ~ .dnb-date-picker__input__wrapper {
+.dnb-input__submit-button button:focus ~ .dnb-date-picker__input-wrapper {
   display: block;
 }
 .dnb-date-picker:not(.dnb-date-picker--show-input) .dnb-input__submit-element, .dnb-input__submit-element > .dnb-date-picker .dnb-input__submit-element {
@@ -3848,7 +3848,7 @@ html[data-whatinput=keyboard] .dnb-date-picker__container table.dnb-no-focus:foc
   padding: 0;
   list-style: none;
 }
-.dnb-date-picker__day, .dnb-date-picker__labels__day {
+.dnb-date-picker__day, .dnb-date-picker__labels-day {
   display: flex;
   flex-basis: 14.2857142857%;
   justify-content: center;

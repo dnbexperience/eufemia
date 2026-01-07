@@ -81,7 +81,7 @@ describe('Dropdown component', () => {
     let elem: HTMLUListElement
 
     expect(
-      document.querySelector('.dnb-dropdown__text__inner').textContent
+      document.querySelector('.dnb-dropdown__text-inner').textContent
     ).toBe(
       (mockData[props.value] as DrawerListDataArrayObject).selected_value
     )
@@ -112,7 +112,7 @@ describe('Dropdown component', () => {
     expect(elem.classList).toContain('dnb-drawer-list__option--selected')
 
     expect(
-      document.querySelector('.dnb-dropdown__text__inner').textContent
+      document.querySelector('.dnb-dropdown__text-inner').textContent
     ).toBe(
       (mockData[(props.value as number) + 1] as DrawerListDataArrayObject)
         .selected_value
@@ -1238,7 +1238,7 @@ describe('Dropdown component', () => {
     keydown(13) // enter
 
     expect(
-      document.querySelector('.dnb-dropdown__text__inner').textContent
+      document.querySelector('.dnb-dropdown__text-inner').textContent
     ).toBe(
       (mockData[(props.value as number) + 1] as DrawerListDataArrayObject)
         .selected_value
@@ -1248,7 +1248,7 @@ describe('Dropdown component', () => {
   it('has correct selected value', () => {
     render(<Dropdown {...props} data={mockData} />)
     expect(
-      document.querySelector('.dnb-dropdown__text__inner').textContent
+      document.querySelector('.dnb-dropdown__text-inner').textContent
     ).toBe(
       (mockData[props.value] as DrawerListDataArrayObject).selected_value
     )
@@ -1262,7 +1262,7 @@ describe('Dropdown component', () => {
     keydown(40) // down
 
     expect(
-      document.querySelector('.dnb-dropdown__text__inner').textContent
+      document.querySelector('.dnb-dropdown__text-inner').textContent
     ).toBe(
       (mockData[props.value] as DrawerListDataArrayObject).selected_value
     )
@@ -1283,7 +1283,7 @@ describe('Dropdown component', () => {
     render(<UpdateValue />)
 
     expect(
-      document.querySelector('.dnb-dropdown__text__inner').textContent
+      document.querySelector('.dnb-dropdown__text-inner').textContent
     ).toBe(
       (mockData[newValue] as DrawerListDataArrayObject).selected_value
     )
@@ -1303,7 +1303,7 @@ describe('Dropdown component', () => {
     const title = 'Make a selection'
     render(<Dropdown data={mockData} title={title} {...mockProps} />)
     expect(
-      document.querySelector('.dnb-dropdown__text__inner').innerHTML
+      document.querySelector('.dnb-dropdown__text-inner').innerHTML
     ).toBe(title)
   })
 
@@ -1327,7 +1327,7 @@ describe('Dropdown component', () => {
       document.querySelector('#title-as-children')
     ).toBeInTheDocument()
     expect(
-      document.querySelector('.dnb-dropdown__text__inner')
+      document.querySelector('.dnb-dropdown__text-inner')
     ).toHaveTextContent('Title as children')
 
     rerender(
@@ -1339,7 +1339,7 @@ describe('Dropdown component', () => {
 
     expect(document.querySelector('#title-as-prop')).toBeInTheDocument()
     expect(
-      document.querySelector('.dnb-dropdown__text__inner')
+      document.querySelector('.dnb-dropdown__text-inner')
     ).toHaveTextContent('Title as prop')
   })
 
@@ -1549,7 +1549,7 @@ describe('Dropdown component', () => {
     expect(
       document
         .querySelector('.dnb-drawer-list__option')
-        .querySelector('.dnb-drawer-list__option__inner').innerHTML
+        .querySelector('.dnb-drawer-list__option-inner').innerHTML
     ).toBe('')
   })
 
@@ -1558,17 +1558,17 @@ describe('Dropdown component', () => {
 
     render(<Dropdown data={mockData} value={4} {...mockProps} />)
     expect(
-      document.querySelector('.dnb-dropdown__text__inner').innerHTML
+      document.querySelector('.dnb-dropdown__text-inner').innerHTML
     ).toBe(aStringOf)
 
     render(<Dropdown data={mockData} value={5} {...mockProps} />)
     expect(
-      document.querySelector('.dnb-dropdown__text__inner').innerHTML
+      document.querySelector('.dnb-dropdown__text-inner').innerHTML
     ).toBe(aStringOf)
 
     render(<Dropdown data={mockData} value={6} {...mockProps} />)
     expect(
-      document.querySelector('.dnb-dropdown__text__inner').innerHTML
+      document.querySelector('.dnb-dropdown__text-inner').innerHTML
     ).toBe(aStringOf)
   })
 
