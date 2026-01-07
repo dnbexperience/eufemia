@@ -38,8 +38,8 @@ const legacyPresets =
           presetsGeneral[0][0], // get preset id
           {
             ...presetsGeneral[0][1], // get preset options
-            useBuiltIns: 'usage',
-            corejs: 3,
+            modules: false,
+            bugfixes: true,
           },
         ],
       ]
@@ -112,7 +112,15 @@ const config = {
     '@babel/plugin-proposal-object-rest-spread',
     '@babel/plugin-proposal-class-properties',
     '@babel/plugin-proposal-optional-chaining',
+    '@babel/plugin-transform-export-namespace-from',
     '@babel/plugin-transform-nullish-coalescing-operator',
+    [
+      'polyfill-corejs3',
+      {
+        method: 'usage-pure',
+        version: require('core-js-pure/package.json').version,
+      },
+    ],
   ],
   sourceMaps: true,
   comments: false,

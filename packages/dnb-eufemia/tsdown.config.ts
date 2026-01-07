@@ -71,8 +71,7 @@ function makeBundleConfig(
   const alwaysExternal = [
     'react',
     'react-dom',
-    '@babel/runtime', // helpers, usually external
-    'core-js', // polyfills, usually external
+    'core-js-pure', // polyfills, usually external
   ]
 
   const noExternal: Array<string | RegExp> = Object.keys({
