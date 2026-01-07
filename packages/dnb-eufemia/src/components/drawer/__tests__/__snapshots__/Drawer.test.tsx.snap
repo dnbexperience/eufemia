@@ -795,7 +795,7 @@ html[data-visual-test] .dnb-modal__overlay, .dnb-modal__overlay--no-animation {
 .dnb-modal__close-button {
   z-index: calc(var(--modal-z-index) + 1);
 }
-.dnb-modal__header__bar.dnb-section {
+.dnb-modal__header-bar.dnb-section {
   display: flex;
   flex-direction: row;
   justify-content: space-between;

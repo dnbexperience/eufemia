@@ -934,7 +934,7 @@ html[data-whatinput=keyboard] .dnb-input__status--error .dnb-input__border:focus
   position: relative;
   align-self: center; /* IE needs this to stay centered */
 }
-.dnb-input__submit-button-button {
+.dnb-input__submit-button__button {
   border-radius: 0 var(--input-border-radius) var(--input-border-radius) 0;
 }
 .dnb-input > .dnb-form-label {
@@ -1211,15 +1211,15 @@ exports[`Input scss have to match default theme snapshot 1`] = `
 .dnb-input[data-input-state=disabled] .dnb-input__shell .dnb-icon {
   color: var(--color-black-55);
 }
-html:not([data-whatintent=touch]) .dnb-input__status--error .dnb-input__submit-button-button.dnb-button--secondary:not(.dnb-input__status--error .dnb-input__submit-button-button--has-text,
-[disabled]):hover, html:not([data-whatintent=touch]) .dnb-input__status--error .dnb-input__submit-button-button.dnb-button--secondary:not(.dnb-input__status--error .dnb-input__submit-button-button--has-text,
-[disabled]):hover::after, html:not([data-whatintent=touch]) .dnb-input__status--error .dnb-input__submit-button-button.dnb-button--secondary:not(.dnb-input__status--error .dnb-input__submit-button-button--has-text,
-[disabled]):focus-visible, html:not([data-whatintent=touch]) .dnb-input__status--error .dnb-input__submit-button-button.dnb-button--secondary:not(.dnb-input__status--error .dnb-input__submit-button-button--has-text,
+html:not([data-whatintent=touch]) .dnb-input__status--error .dnb-input__submit-button__button.dnb-button--secondary:not(.dnb-input__status--error .dnb-input__submit-button__button--has-text,
+[disabled]):hover, html:not([data-whatintent=touch]) .dnb-input__status--error .dnb-input__submit-button__button.dnb-button--secondary:not(.dnb-input__status--error .dnb-input__submit-button__button--has-text,
+[disabled]):hover::after, html:not([data-whatintent=touch]) .dnb-input__status--error .dnb-input__submit-button__button.dnb-button--secondary:not(.dnb-input__status--error .dnb-input__submit-button__button--has-text,
+[disabled]):focus-visible, html:not([data-whatintent=touch]) .dnb-input__status--error .dnb-input__submit-button__button.dnb-button--secondary:not(.dnb-input__status--error .dnb-input__submit-button__button--has-text,
 [disabled]):focus-visible::after {
   background-color: var(--color-fire-red);
 }
-html:not([data-whatintent=touch]) .dnb-input__status--error .dnb-input__submit-button-button.dnb-button--secondary:not(.dnb-input__status--error .dnb-input__submit-button-button--has-text,
-[disabled]):hover:active, html:not([data-whatintent=touch]) .dnb-input__status--error .dnb-input__submit-button-button.dnb-button--secondary:not(.dnb-input__status--error .dnb-input__submit-button-button--has-text,
+html:not([data-whatintent=touch]) .dnb-input__status--error .dnb-input__submit-button__button.dnb-button--secondary:not(.dnb-input__status--error .dnb-input__submit-button__button--has-text,
+[disabled]):hover:active, html:not([data-whatintent=touch]) .dnb-input__status--error .dnb-input__submit-button__button.dnb-button--secondary:not(.dnb-input__status--error .dnb-input__submit-button__button--has-text,
 [disabled]):focus-visible:active {
   color: var(--color-white);
 }

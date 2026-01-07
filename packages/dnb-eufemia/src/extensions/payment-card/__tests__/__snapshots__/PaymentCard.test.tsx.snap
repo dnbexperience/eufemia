@@ -167,14 +167,14 @@ exports[`PaymentCard scss has to match style dependencies css 1`] = `
    * Flex container to house provider logos (e.g., Visa, Mastercard, BankAxept).
    * Includes a visual separator if two providers are present. */
 }
-.dnb-payment-card__card-wrapper {
+.dnb-payment-card__card__wrapper {
   position: relative;
   width: 343px;
   height: 216px;
   border-radius: inherit;
   border: 1px solid var(--color-black-8);
 }
-.dnb-payment-card__card-wrapper::after {
+.dnb-payment-card__card__wrapper::after {
   content: "";
   position: absolute;
   top: 0;
@@ -232,7 +232,7 @@ exports[`PaymentCard scss has to match style dependencies css 1`] = `
   background-color: var(--color-white);
   color: var(--sb-color-text);
 }
-.dnb-payment-card__card-content {
+.dnb-payment-card__card__content {
   display: flex;
   height: 100%;
   width: 100%;
@@ -345,7 +345,7 @@ exports[`PaymentCard scss has to match style dependencies css 1`] = `
   height: 62px;
   border-radius: var(--dnb-payment-border-radius) var(--dnb-payment-border-radius) 0 0;
 }
-.dnb-payment-card--compact .dnb-payment-card__card-wrapper {
+.dnb-payment-card--compact .dnb-payment-card__card__wrapper {
   height: auto;
 }
 .dnb-payment-card--compact .dnb-payment-card__card__providers {

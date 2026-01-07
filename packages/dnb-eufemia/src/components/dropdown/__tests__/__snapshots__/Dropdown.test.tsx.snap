@@ -771,7 +771,7 @@ button .dnb-form-status__text {
   line-height: inherit;
   font-size: var(--font-size-basis);
 }
-.dnb-dropdown__text-inner {
+.dnb-dropdown__text__inner {
   display: inherit;
   overflow: hidden;
   white-space: nowrap;

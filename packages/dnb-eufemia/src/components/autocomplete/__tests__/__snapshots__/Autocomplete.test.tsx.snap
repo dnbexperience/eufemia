@@ -941,7 +941,7 @@ html[data-whatinput=keyboard] .dnb-input__status--error .dnb-input__border:focus
   position: relative;
   align-self: center; /* IE needs this to stay centered */
 }
-.dnb-input__submit-button-button {
+.dnb-input__submit-button__button {
   border-radius: 0 var(--input-border-radius) var(--input-border-radius) 0;
 }
 .dnb-input > .dnb-form-label {
@@ -2688,13 +2688,13 @@ exports[`Autocomplete scss have to match default theme snapshot 1`] = `
   border-color: transparent;
 }
 
-.dnb-autocomplete__root .dnb-drawer-list__option-item:nth-of-type(1) {
+.dnb-autocomplete__root .dnb-drawer-list__option__item:nth-of-type(1) {
   font-weight: var(--font-weight-basis);
 }
 .dnb-autocomplete__root .dnb-drawer-list__option:not([disabled]) .dnb-drawer-list__option-item:nth-of-type(n + 2) {
   color: var(--color-black-55);
 }
-.dnb-autocomplete__root .dnb-drawer-list__option-item--highlight {
+.dnb-autocomplete__root .dnb-drawer-list__option__item--highlight {
   font-weight: var(--font-weight-bold);
 }
 

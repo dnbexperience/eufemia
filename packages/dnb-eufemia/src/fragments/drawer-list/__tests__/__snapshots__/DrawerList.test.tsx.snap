@@ -157,7 +157,7 @@ html[data-visual-test] .dnb-drawer-list--scroll .dnb-drawer-list__options, .dnb-
   outline: none;
   background-color: var(--color-white);
 }
-.dnb-drawer-list__option-inner {
+.dnb-drawer-list__option__option-inner {
   position: relative;
   z-index: 1;
   display: grid;
@@ -169,21 +169,21 @@ html[data-visual-test] .dnb-drawer-list--scroll .dnb-drawer-list__options, .dnb-
   color: inherit;
   background-color: var(--drawer-list-option-inner-background);
 }
-.dnb-drawer-list__option-inner > * {
+.dnb-drawer-list__option__option-inner > * {
   align-self: self-start;
 }
-.dnb-drawer-list__option-item {
+.dnb-drawer-list__option__item {
   display: block;
   text-overflow: ellipsis;
   grid-column: 1;
 }
-.dnb-drawer-list__option-item--horizontal {
+.dnb-drawer-list__option__item--horizontal {
   display: flex;
 }
-.dnb-drawer-list__option-item > .dnb-icon {
+.dnb-drawer-list__option__item > .dnb-icon {
   vertical-align: initial;
 }
-.dnb-drawer-list__option-item .dnb-anchor {
+.dnb-drawer-list__option__item .dnb-anchor {
   display: inline-block;
   margin-right: 0.5rem;
   word-break: break-word;
@@ -339,7 +339,7 @@ html[data-visual-test] .dnb-drawer-list--opened .dnb-drawer-list__list, .dnb-dra
 html[data-visual-test] .dnb-drawer-list:not(.dnb-drawer-list--opened) .dnb-drawer-list__list, .dnb-drawer-list:not(.dnb-drawer-list--opened) .dnb-drawer-list__list--no-animation {
   animation-duration: 1ms !important;
 }
-.dnb-drawer-list--action-menu .dnb-drawer-list__option-inner {
+.dnb-drawer-list--action-menu .dnb-drawer-list__option__inner {
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
@@ -469,7 +469,7 @@ html[data-whatinput=mouse] .dnb-drawer-list__options--focusring {
 .dnb-drawer-list__option.ignore-events {
   pointer-events: none;
 }
-.dnb-drawer-list__option-inner::before {
+.dnb-drawer-list__option__inner::before {
   pointer-events: none;
   content: "";
   position: absolute;
@@ -481,7 +481,7 @@ html[data-whatinput=mouse] .dnb-drawer-list__options--focusring {
   height: var(--drawer-list-option-border-width);
   background-color: var(--color-mint-green-25);
 }
-.dnb-drawer-list__option-item.item-nr-1 {
+.dnb-drawer-list__option__item.item-nr-1 {
   font-weight: var(--font-weight-medium);
 }
 html:not([data-whatintent=touch]) .dnb-drawer-list__option:hover[disabled] {
@@ -500,7 +500,7 @@ html:not([data-whatintent=touch]) .dnb-drawer-list__option:hover:not([disabled])
 .dnb-drawer-list__option:active:not([disabled]) .dnb-drawer-list__option-inner, html:not([data-whatintent=touch]) .dnb-drawer-list__option:active:not([disabled]) .dnb-drawer-list__option-inner {
   color: var(--color-black);
 }
-.dnb-drawer-list__option--focus .dnb-drawer-list__option-inner::before {
+.dnb-drawer-list__option--focus .dnb-drawer-list__option__inner::before {
   z-index: 3;
   top: var(--drawer-list-focus-border-width);
   left: var(--drawer-list-focus-border-width);
@@ -513,30 +513,30 @@ html:not([data-whatintent=touch]) .dnb-drawer-list__option:hover:not([disabled])
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
-.dnb-drawer-list__option--ignore .dnb-drawer-list__option-inner {
+.dnb-drawer-list__option--ignore .dnb-drawer-list__option__inner {
   color: var(--color-black-80);
   background-color: var(--color-white);
 }
-.dnb-drawer-list__option--selected .dnb-drawer-list__option-inner {
+.dnb-drawer-list__option--selected .dnb-drawer-list__option__inner {
   color: var(--color-white);
   background-color: var(--color-emerald-green);
 }
-.dnb-drawer-list__option--selected .dnb-drawer-list__option-inner .dnb-drawer-list__option-inner {
+.dnb-drawer-list__option--selected .dnb-drawer-list__option__inner .dnb-drawer-list__option-inner {
   color: inherit;
   background-color: inherit;
 }
-html:not([data-whatintent=touch]) .dnb-drawer-list__option--selected .dnb-drawer-list__option-inner:hover[disabled] {
+html:not([data-whatintent=touch]) .dnb-drawer-list__option--selected .dnb-drawer-list__option__inner:hover[disabled] {
   cursor: not-allowed;
 }
-html:not([data-whatintent=touch]) .dnb-drawer-list__option--selected .dnb-drawer-list__option-inner:hover:not([disabled]) {
+html:not([data-whatintent=touch]) .dnb-drawer-list__option--selected .dnb-drawer-list__option__inner:hover:not([disabled]) {
   color: var(--color-white);
   background-color: var(--color-emerald-green);
 }
-html:not([data-whatintent=touch]) .dnb-drawer-list__option--selected .dnb-drawer-list__option-inner:hover:not([disabled]) .dnb-drawer-list__option-inner {
+html:not([data-whatintent=touch]) .dnb-drawer-list__option--selected .dnb-drawer-list__option__inner:hover:not([disabled]) .dnb-drawer-list__option-inner {
   color: inherit;
   background-color: inherit;
 }
-.dnb-drawer-list__option--selected .dnb-drawer-list__option-inner::after {
+.dnb-drawer-list__option--selected .dnb-drawer-list__option__inner::after {
   content: "";
   grid-column: 2;
   grid-row: 1/-1;
@@ -547,7 +547,7 @@ html:not([data-whatintent=touch]) .dnb-drawer-list__option--selected .dnb-drawer
   background-size: cover;
   background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgZmlsbD0ibm9uZSI+ICA8cGF0aCAgICBmaWxsPSIjRTlGOEY0IiAgICBkPSJNMyA4LjhhLjc1Ljc1IDAgMSAwLTEuMjIuODZMMyA4Ljc5em0xLjg0IDMuOWwuNjMtLjQxdi0uMDFoLS4wMWwtLjYyLjQyem0xLjcxLjA1bC0uNTktLjQ2di4wMWwuNTkuNDV6bTguNDMtOS40NWEuNzUuNzUgMCAwIDAtMS4xOC0uOTNsMS4xOC45M3pNMS43OCA5LjY2bDIuNDUgMy40OCAxLjIzLS44N0wzIDguOGwtMS4yMy44N3ptMi40NCAzLjQ2Yy4zMi40OC44Ni43OCAxLjQ0LjhsLjA1LTEuNWEuMy4zIDAgMCAxLS4yNC0uMTNsLTEuMjUuODN6bTEuNDQuOGExLjggMS44IDAgMCAwIDEuNDktLjcxbC0xLjItLjlhLjMuMyAwIDAgMS0uMjQuMWwtLjA1IDEuNXptMS40OC0uN2w3Ljg0LTkuOTItMS4xOC0uOTMtNy44NCA5LjkyIDEuMTguOTN6Ii8+PC9zdmc+");
 }
-.dnb-drawer-list__option--selected .dnb-drawer-list__option-inner::before {
+.dnb-drawer-list__option--selected .dnb-drawer-list__option__inner::before {
   visibility: hidden;
 }
 @media screen and (min-width: 40.00625em) {
@@ -555,28 +555,28 @@ html:not([data-whatintent=touch]) .dnb-drawer-list__option--selected .dnb-drawer
     z-index: 2;
     background-color: inherit;
   }
-  .dnb-drawer-list__option:not(.dnb-drawer-list__option--selected) .dnb-drawer-list__option__suffix.dnb-drawer-list__option-item:nth-of-type(n + 2) {
+  .dnb-drawer-list__option:not(.dnb-drawer-list__option--selected) .dnb-drawer-list__option__suffix.dnb-drawer-list__option__item:nth-of-type(n + 2) {
     color: var(--color-black-80);
   }
 }
-html[data-whatinput=keyboard] .dnb-drawer-list__option--selected.dnb-drawer-list__option--focus .dnb-drawer-list__option-inner::before {
+html[data-whatinput=keyboard] .dnb-drawer-list__option--selected.dnb-drawer-list__option--focus .dnb-drawer-list__option__inner::before {
   visibility: visible;
   --border-color: var(--color-mint-green);
   --border-width: var(--drawer-list-focus-border-width);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
-.dnb-drawer-list__option--focus:not(.dnb-drawer-list__option--selected) .dnb-drawer-list__option-inner {
+.dnb-drawer-list__option--focus:not(.dnb-drawer-list__option--selected) .dnb-drawer-list__option__inner {
   color: var(--color-sea-green);
   background-color: var(--color-mint-green-12);
 }
-.dnb-drawer-list__option.last-of-type:not(.dnb-drawer-list__option--focus) .dnb-drawer-list__option-inner::before {
+.dnb-drawer-list__option.last-of-type:not(.dnb-drawer-list__option--focus) .dnb-drawer-list__option__inner::before {
   content: none;
 }
-.dnb-drawer-list__option--selected .dnb-drawer-list__option-item .dnb-anchor:focus {
+.dnb-drawer-list__option--selected .dnb-drawer-list__option__item .dnb-anchor:focus {
   outline: none;
 }
-html[data-whatinput=keyboard] .dnb-drawer-list__option--selected .dnb-drawer-list__option-item .dnb-anchor:focus {
+html[data-whatinput=keyboard] .dnb-drawer-list__option--selected .dnb-drawer-list__option__item .dnb-anchor:focus {
   --border-color: var(--color-white);
   --border-width: var(--focus-ring-width);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);

@@ -110,50 +110,50 @@ exports[`ProgressIndicator scss should match style dependencies css 1`] = `
 .dnb-progress-indicator__circular svg:not(:root) {
   overflow: visible;
 }
-.dnb-progress-indicator__circular-background-padding {
+.dnb-progress-indicator__circular__background-padding {
   display: block;
   height: 100%;
   padding: calc(var(--progress-indicator-circular-stroke-width) / 2);
 }
-.dnb-progress-indicator__circular-background {
+.dnb-progress-indicator__circular__background {
   display: block;
   height: 100%;
   background-color: transparent;
   border-radius: 50%;
 }
-.dnb-progress-indicator__circular-line {
+.dnb-progress-indicator__circular__line {
   animation-duration: 2s;
   animation-delay: 200ms;
   animation-timing-function: var(--progress-indicator-timing);
   animation-iteration-count: infinite;
 }
-.dnb-progress-indicator__circular-line.background {
+.dnb-progress-indicator__circular__line.background {
   stroke-dashoffset: var(--progress-indicator-circular-circle-offset--max);
 }
-.dnb-progress-indicator__circular-line.light {
+.dnb-progress-indicator__circular__line.light {
   animation-name: progress-indicator-circular-line-light;
   stroke-dasharray: var(--progress-indicator-circular-circle), var(--progress-indicator-circular-circle);
   stroke-dashoffset: var(--progress-indicator-circular-circle-offset--max);
 }
-.dnb-progress-indicator__circular-line.dark {
+.dnb-progress-indicator__circular__line.dark {
   animation-name: progress-indicator-circular-line-dark;
   stroke-dasharray: var(--progress-indicator-circular-circle), var(--progress-indicator-circular-circle);
   stroke-dashoffset: var(--progress-indicator-circular-circle-offset--min);
 }
-.dnb-progress-indicator__circular-line.paused {
+.dnb-progress-indicator__circular__line.paused {
   animation-play-state: paused;
 }
-.dnb-progress-indicator__circular--has-progress-value .dnb-progress-indicator__circular-line.dark {
+.dnb-progress-indicator__circular--has-progress-value .dnb-progress-indicator__circular__line.dark {
   transition: stroke-dashoffset 600ms var(--progress-indicator-timing);
 }
-.dnb-progress-indicator__circular-circle {
+.dnb-progress-indicator__circular__circle {
   stroke-linecap: round;
   stroke-width: var(--progress-indicator-circular-stroke-width);
 }
-.dnb-progress-indicator__circular-line.light .dnb-progress-indicator__circular-circle {
+.dnb-progress-indicator__circular__line.light .dnb-progress-indicator__circular__circle {
   stroke: var(--progress-indicator-circular-background-color);
 }
-.dnb-progress-indicator__circular-line.dark .dnb-progress-indicator__circular-circle {
+.dnb-progress-indicator__circular__line.dark .dnb-progress-indicator__circular__circle {
   stroke: var(--progress-indicator-circular-bar-color);
   stroke-width: calc(var(--progress-indicator-circular-stroke-width) - 0.5px);
 }
@@ -166,7 +166,7 @@ exports[`ProgressIndicator scss should match style dependencies css 1`] = `
   height: var(--progress-indicator-linear-size);
   border-radius: calc(var(--progress-indicator-linear-size) / 2);
 }
-.dnb-progress-indicator__linear-bar {
+.dnb-progress-indicator__linear__bar {
   background-color: var(--progress-indicator-linear-bar-color);
   width: 100%;
   position: absolute;
@@ -176,24 +176,24 @@ exports[`ProgressIndicator scss should match style dependencies css 1`] = `
   transform-origin: left;
   border-radius: inherit;
 }
-.dnb-progress-indicator__linear-bar-transition {
+.dnb-progress-indicator__linear__bar-transition {
   transition: transform 0.2s linear;
 }
-.dnb-progress-indicator__linear-bar1-animation {
+.dnb-progress-indicator__linear__bar1-animation {
   width: auto;
   animation: progress-indicator-linear-bar-1 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;
 }
-.dnb-progress-indicator__linear-bar2-animation {
+.dnb-progress-indicator__linear__bar2-animation {
   width: auto;
   animation: progress-indicator-linear-bar-2 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) 1.15s infinite;
 }
-html[data-visual-test] .dnb-progress-indicator__linear-bar1-animation {
+html[data-visual-test] .dnb-progress-indicator__linear__bar1-animation {
   left: -35%;
   right: 100%;
   animation-duration: 0ms;
   animation-iteration-count: 0;
 }
-html[data-visual-test] .dnb-progress-indicator__linear-bar2-animation {
+html[data-visual-test] .dnb-progress-indicator__linear__bar2-animation {
   left: -200%;
   right: 100%;
   animation-duration: 0ms;

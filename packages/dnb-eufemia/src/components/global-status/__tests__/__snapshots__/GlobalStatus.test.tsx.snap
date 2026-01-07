@@ -719,12 +719,12 @@ button.dnb-button::-moz-focus-inner {
   cursor: text;
   z-index: 1;
 }
-.dnb-global-status__message-content {
+.dnb-global-status__message__content {
   display: flex;
   flex-direction: column;
   padding: 0 0 0.5rem 2.5rem;
 }
-.dnb-global-status__message-content .dnb-p, .dnb-spacing .dnb-global-status__message-content .dnb-p, .dnb-spacing .dnb-global-status__message-content .dnb-p:not([class*=dnb-space]) {
+.dnb-global-status__message__content .dnb-p, .dnb-spacing .dnb-global-status__message__content .dnb-p, .dnb-spacing .dnb-global-status__message__content .dnb-p:not([class*=dnb-space]) {
   display: inline-block;
   margin: 0;
   padding: 0;
@@ -741,7 +741,7 @@ button.dnb-button::-moz-focus-inner {
   right: 1rem;
   left: auto;
 }
-.dnb-modal__content__inner .dnb-global-status__close-button {
+.dnb-modal__content-inner .dnb-global-status__close-button {
   right: 0;
 }
 .dnb-global-status__content {

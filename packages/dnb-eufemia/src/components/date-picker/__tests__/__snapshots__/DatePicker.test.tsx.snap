@@ -37,27 +37,27 @@ exports[`DatePicker scss should match default theme snapshot 1`] = `
   justify-content: center;
   margin-bottom: 1rem;
 }
-.dnb-date-picker__header-row {
+.dnb-date-picker__header__row {
   min-width: 60%;
   display: flex;
   flex: 1 1 auto;
   align-items: center;
   justify-content: space-between;
 }
-.dnb-date-picker__header-row--year {
+.dnb-date-picker__header__row--year {
   min-width: calc(40% - var(--gap));
 }
-.dnb-date-picker__header-nav .dnb-button {
+.dnb-date-picker__header__nav .dnb-button {
   box-shadow: none;
 }
-.dnb-date-picker__header-title {
+.dnb-date-picker__header__title {
   text-transform: capitalize;
   text-align: center;
   font-size: var(--font-size-basis);
   font-weight: var(--font-weight-medium);
   color: var(--color-black-80);
 }
-.dnb-date-picker__labels-day {
+.dnb-date-picker__labels__day {
   text-transform: capitalize;
   font-weight: var(--font-weight-medium);
   color: var(--color-black-80);
@@ -1072,7 +1072,7 @@ html[data-whatinput=keyboard] .dnb-input__status--error .dnb-input__border:focus
   position: relative;
   align-self: center; /* IE needs this to stay centered */
 }
-.dnb-input__submit-button-button {
+.dnb-input__submit-button__button {
   border-radius: 0 var(--input-border-radius) var(--input-border-radius) 0;
 }
 .dnb-input > .dnb-form-label {
@@ -3835,7 +3835,7 @@ html[data-whatinput=keyboard] .dnb-date-picker__container table.dnb-no-focus:foc
   justify-content: space-between;
   padding: 1rem;
 }
-.dnb-date-picker__labels-day {
+.dnb-date-picker__labels__day {
   padding-top: 1.5rem;
   padding-bottom: 0.5rem;
 }

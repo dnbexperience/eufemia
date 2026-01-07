@@ -1832,7 +1832,7 @@ button .dnb-form-status__text {
   flex-direction: column;
   row-gap: var(--toggle-button-group-row-gap);
 }
-.dnb-toggle-button-group__shell-children {
+.dnb-toggle-button-group__shell__children {
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
@@ -1840,10 +1840,10 @@ button .dnb-form-status__text {
   row-gap: var(--toggle-button-group-row-gap);
   order: 1;
 }
-.dnb-toggle-button-group__shell-children--row {
+.dnb-toggle-button-group__shell__children--row {
   flex-direction: row;
 }
-.dnb-toggle-button-group__shell-children--column {
+.dnb-toggle-button-group__shell__children--column {
   flex-direction: column;
 }
 .dnb-toggle-button-group__shell > .dnb-form-status {

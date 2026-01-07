@@ -756,34 +756,34 @@ button .dnb-form-status__text {
 .dnb-upload__file-cell::after {
   top: auto;
 }
-.dnb-upload__file-cell-content {
+.dnb-upload__file-cell__content {
   display: flex;
   column-gap: var(--spacing-small);
   justify-content: space-between;
   align-items: center;
 }
-.dnb-upload__file-cell-content-left {
+.dnb-upload__file-cell__content__left {
   display: flex;
   column-gap: var(--spacing-small);
   align-items: center;
 }
-.dnb-upload__file-cell-content-left .dnb-icon {
+.dnb-upload__file-cell__content__left .dnb-icon {
   color: var(--upload-icon--default);
 }
-.dnb-upload__file-cell--warning .dnb-upload__file-cell-content-left .dnb-icon {
+.dnb-upload__file-cell--warning .dnb-upload__file-cell__content__left .dnb-icon {
   color: var(--upload-icon--warning);
 }
 .dnb-upload__file-cell--highlight {
   background-color: var(--upload-highlight);
 }
-.dnb-upload__file-cell-text-container {
+.dnb-upload__file-cell__text-container {
   display: flex;
   flex-direction: column;
 }
-.dnb-upload__file-cell-text-container--loading {
+.dnb-upload__file-cell__text-container--loading {
   font-size: var(--font-size-basis);
 }
-.dnb-upload__file-cell-text-container .dnb-button {
+.dnb-upload__file-cell__text-container .dnb-button {
   justify-content: flex-start;
 }
 .dnb-upload__text.dnb-p {

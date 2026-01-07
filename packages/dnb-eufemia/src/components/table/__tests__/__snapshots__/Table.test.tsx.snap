@@ -622,22 +622,22 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
 .dnb-table__container, .dnb-table__container::after {
   border-radius: var(--table-outline-radius);
 }
-.dnb-table__container, .dnb-table__container-body, .dnb-table__container-head, .dnb-table__container-foot {
+.dnb-table__container, .dnb-table__container__body, .dnb-table__container__head, .dnb-table__container__foot {
   display: flex;
   flex-direction: column;
 }
-.dnb-table__container-body .dnb-table {
+.dnb-table__container__body .dnb-table {
   position: relative;
   /* stylelint-disable */
   /* stylelint-enable */
 }
-.dnb-table__container-body .dnb-table:not([class*=space__bottom]) {
+.dnb-table__container__body .dnb-table:not([class*=space__bottom]) {
   margin-bottom: 0;
 }
-.dnb-table__container-body .dnb-table__size--large .dnb-table__th {
+.dnb-table__container__body .dnb-table__size--large .dnb-table__th {
   padding-top: 1.5rem;
 }
-.dnb-table__container-body .dnb-table::after {
+.dnb-table__container__body .dnb-table::after {
   content: "";
   position: absolute;
   top: 0;
@@ -648,26 +648,26 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
   pointer-events: none;
   border-bottom: var(--table-border);
 }
-.dnb-table__container-body .dnb-table tbody:first-child .dnb-table__tr:first-of-type .dnb-table__th::after,
-.dnb-table__container-body .dnb-table tbody:first-child .dnb-table__tr:first-of-type .dnb-table__td::after, .dnb-table__container-body .dnb-table > :not(thead) + tbody .dnb-table__tr:first-of-type .dnb-table__th::after,
-.dnb-table__container-body .dnb-table > :not(thead) + tbody .dnb-table__tr:first-of-type .dnb-table__td::after {
+.dnb-table__container__body .dnb-table tbody:first-child .dnb-table__tr:first-of-type .dnb-table__th::after,
+.dnb-table__container__body .dnb-table tbody:first-child .dnb-table__tr:first-of-type .dnb-table__td::after, .dnb-table__container__body .dnb-table > :not(thead) + tbody .dnb-table__tr:first-of-type .dnb-table__th::after,
+.dnb-table__container__body .dnb-table > :not(thead) + tbody .dnb-table__tr:first-of-type .dnb-table__td::after {
   border-top: none;
 }
-.dnb-table__container-head {
+.dnb-table__container__head {
   padding: 2rem 1rem 0;
 }
-.dnb-table__container-head--empty {
+.dnb-table__container__head--empty {
   padding: 0;
   min-height: 1.5rem;
 }
-.dnb-spacing .dnb-table__container-head .dnb-h--large:not([class*=space__top]) {
+.dnb-spacing .dnb-table__container__head .dnb-h--large:not([class*=space__top]) {
   margin: 0;
 }
-.dnb-table__container-foot {
+.dnb-table__container__foot {
   padding: 1rem;
   padding-bottom: 1.25rem;
 }
-.dnb-table__container-foot--empty {
+.dnb-table__container__foot--empty {
   padding: 0;
   min-height: 1rem;
 }
@@ -824,21 +824,21 @@ html:not([data-whatinput=keyboard]) .dnb-table__tr--clickable.dnb-table__tr.dnb-
 .dnb-table__tr--clickable.dnb-table__tr--disabled .dnb-table__td-button-icon .dnb-icon {
   color: var(--table-accordion-icon-color--disabled);
 }
-.dnb-table__tr-accordion-content-inner {
+.dnb-table__tr-accordion-content__inner {
   overflow: hidden;
   will-change: height;
   transition: height 400ms var(--easing-default);
   position: relative;
 }
-.dnb-table__tr-accordion-content-inner-spacing {
+.dnb-table__tr-accordion-content__inner__spacing {
   padding: 1rem;
   transform: translateY(-10px);
   transition: transform 500ms var(--easing-default);
 }
-.dnb-table__tr-accordion-content--parallax .dnb-table__tr-accordion-content-inner-spacing {
+.dnb-table__tr-accordion-content--parallax .dnb-table__tr-accordion-content__inner__spacing {
   transform: translateY(0);
 }
-html[data-visual-test] .dnb-table__tr-accordion-content--parallax .dnb-table__tr-accordion-content-inner-spacing {
+html[data-visual-test] .dnb-table__tr-accordion-content--parallax .dnb-table__tr-accordion-content__inner__spacing {
   transition: none;
 }
 .dnb-table__tr-accordion-content--expanded > td.dnb-table__td {

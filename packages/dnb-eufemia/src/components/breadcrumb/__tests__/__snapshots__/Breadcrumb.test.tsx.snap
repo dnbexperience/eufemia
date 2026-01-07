@@ -686,12 +686,12 @@ button.dnb-button::-moz-focus-inner {
   align-items: center;
   padding: 0.5rem 0;
 }
-.dnb-breadcrumb__item-span {
+.dnb-breadcrumb__item__span {
   display: flex;
   align-items: center;
   line-height: var(--line-height-basis);
 }
-.dnb-breadcrumb__item-span-icon {
+.dnb-breadcrumb__item__span__icon {
   margin-right: 0.5rem;
 }
 .dnb-breadcrumb__item .dnb-anchor {
