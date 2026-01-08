@@ -45,6 +45,14 @@ export const validateDOMAttributes = (props, params) => {
       }
       if (attr && typeof attr === 'object') {
         Object.entries(attr).forEach(([key, value]) => {
+          // Prevent prototype pollution
+          if (
+            key === '__proto__' ||
+            key === 'constructor' ||
+            key === 'prototype'
+          ) {
+            return
+          }
           Object.assign(params, { [key]: value })
         })
       }
