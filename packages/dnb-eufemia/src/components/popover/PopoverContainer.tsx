@@ -287,9 +287,9 @@ function PopoverContainer(props: PopoverContainerProps) {
       requestRecalculation()
     }
 
-    document.addEventListener('scroll', handleScroll, true)
+    document.addEventListener('scroll', handleScroll, { capture: true })
     return () => {
-      document.removeEventListener('scroll', handleScroll, true)
+      document.removeEventListener('scroll', handleScroll, { capture: true })
     }
   }, [isActive, requestRecalculation])
 

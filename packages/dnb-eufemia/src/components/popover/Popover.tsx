@@ -412,8 +412,10 @@ export default function Popover(props: PopoverProps) {
       'keyup',
       handleDocumentInteraction
     )
-    // Use capture phase (true) to ensure we handle Escape before Modal/Dialog handlers
-    document.addEventListener('keydown', handleDocumentKeyDown, true)
+    // Use capture phase to ensure we handle Escape before Modal/Dialog handlers
+    document.addEventListener('keydown', handleDocumentKeyDown, {
+      capture: true,
+    })
 
     return () => {
       document.documentElement.removeEventListener(
@@ -436,7 +438,9 @@ export default function Popover(props: PopoverProps) {
         'keyup',
         handleDocumentInteraction
       )
-      document.removeEventListener('keydown', handleDocumentKeyDown, true)
+      document.removeEventListener('keydown', handleDocumentKeyDown, {
+        capture: true,
+      })
     }
   }, [
     handleDocumentInteraction,

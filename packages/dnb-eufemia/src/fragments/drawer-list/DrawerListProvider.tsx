@@ -1129,8 +1129,12 @@ export default class DrawerListProvider extends React.PureComponent<
     )
 
     if (typeof document !== 'undefined') {
-      document.addEventListener('keydown', this.onKeyDownHandler, true)
-      document.addEventListener('keyup', this.onKeyUpHandler, true)
+      document.addEventListener('keydown', this.onKeyDownHandler, {
+        capture: true,
+      })
+      document.addEventListener('keyup', this.onKeyUpHandler, {
+        capture: true,
+      })
     }
   }
 
@@ -1139,8 +1143,12 @@ export default class DrawerListProvider extends React.PureComponent<
       this.outsideClick.remove()
     }
     if (typeof document !== 'undefined') {
-      document.removeEventListener('keydown', this.onKeyDownHandler, true)
-      document.removeEventListener('keyup', this.onKeyUpHandler, true)
+      document.removeEventListener('keydown', this.onKeyDownHandler, {
+        capture: true,
+      })
+      document.removeEventListener('keyup', this.onKeyUpHandler, {
+        capture: true,
+      })
     }
   }
 
