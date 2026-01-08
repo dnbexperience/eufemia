@@ -19,14 +19,13 @@ import useMountEffect from '../../../../shared/helpers/useMountEffect'
 import useUpdateEffect from '../../../../shared/helpers/useUpdateEffect'
 import type {
   BasicProps as FlexContainerProps,
-  Props as FlexContainerAllProps} from '../../../../components/flex/Container';
-import {
-  pickFlexContainerProps,
+  Props as FlexContainerAllProps,
 } from '../../../../components/flex/Container'
+import { pickFlexContainerProps } from '../../../../components/flex/Container'
 import type {
   IterateItemContextState,
   ModeOptions,
-} from '../IterateItemContext';
+} from '../IterateItemContext'
 import IterateItemContext from '../IterateItemContext'
 import SummaryListContext from '../../Value/SummaryList/SummaryListContext'
 import ValueBlockContext from '../../ValueBlock/ValueBlockContext'

@@ -1,6 +1,6 @@
 import Ajv from 'ajv/dist/2020.js'
 import ajvErrors from 'ajv-errors'
-import type { JsonObject } from './json-pointer';
+import type { JsonObject } from './json-pointer'
 import pointer from './json-pointer'
 import type { DefaultErrorMessages, Path } from '../types'
 import { FormError } from './FormError'

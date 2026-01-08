@@ -3,8 +3,7 @@
  *
  */
 
-import type {
-  HTMLProps} from 'react';
+import type { HTMLProps } from 'react'
 import React, {
   useContext,
   useState,

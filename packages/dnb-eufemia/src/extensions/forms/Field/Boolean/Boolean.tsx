@@ -1,5 +1,5 @@
 import React from 'react'
-import type { Props as ToggleFieldProps } from '../Toggle';
+import type { Props as ToggleFieldProps } from '../Toggle'
 import ToggleField from '../Toggle'
 import useTranslation from '../../hooks/useTranslation'
 import type { FieldProps } from '../../types'

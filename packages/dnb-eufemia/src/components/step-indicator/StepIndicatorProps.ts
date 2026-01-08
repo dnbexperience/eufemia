@@ -1,4 +1,7 @@
-import type { StepIndicatorData, StepIndicatorProps } from './StepIndicator'
+import type {
+  StepIndicatorData,
+  StepIndicatorProps,
+} from './StepIndicator'
 
 export const stepIndicatorDefaultProps: Omit<
   StepIndicatorProps,

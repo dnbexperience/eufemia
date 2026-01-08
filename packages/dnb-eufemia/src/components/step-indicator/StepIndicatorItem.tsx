@@ -3,15 +3,15 @@
  *
  */
 
-import type { HTMLProps} from 'react';
+import type { HTMLProps } from 'react'
 import React, { useCallback, useContext, useMemo } from 'react'
 
 import classnames from 'classnames'
 import { dispatchCustomElementEvent } from '../../shared/component-helper'
 import useId from '../../shared/helpers/useId'
-import type { AnchorAllProps } from '../anchor/Anchor';
+import type { AnchorAllProps } from '../anchor/Anchor'
 import Anchor from '../anchor/Anchor'
-import type { IconIcon } from '../icon/Icon';
+import type { IconIcon } from '../icon/Icon'
 import Icon from '../icon/Icon'
 import IconPrimary from '../icon/IconPrimary'
 import FormStatus, {

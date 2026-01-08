@@ -6,7 +6,7 @@ import { createSpacingClasses } from '../space/SpacingHelper'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 
 // Shared
-import type { ContextProps } from '../../shared/Context';
+import type { ContextProps } from '../../shared/Context'
 import Context from '../../shared/Context'
 import type { SpacingProps } from '../../shared/types'
 import type { SkeletonShow } from '../skeleton/Skeleton'

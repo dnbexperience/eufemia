@@ -8,16 +8,8 @@ import {
   waitFor,
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import type {
-  JSONSchema} from '../../..';
-import {
-  Field,
-  Form,
-  Iterate,
-  makeAjvInstance,
-  Wizard,
-  z,
-} from '../../..'
+import type { JSONSchema } from '../../..'
+import { Field, Form, Iterate, makeAjvInstance, Wizard, z } from '../../..'
 import DataContext from '../../../DataContext/Context'
 import setData from '../../data-context/setData'
 import useReportError from '../useReportError'

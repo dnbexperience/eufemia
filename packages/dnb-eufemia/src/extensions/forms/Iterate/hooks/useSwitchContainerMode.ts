@@ -1,12 +1,8 @@
 import { useCallback, useContext, useEffect, useRef } from 'react'
 import type { ContainerMode } from '../Array'
-import type {
-  FieldBoundaryContextState,
-} from '../../DataContext/FieldBoundary/FieldBoundaryContext';
+import type { FieldBoundaryContextState } from '../../DataContext/FieldBoundary/FieldBoundaryContext'
 import FieldBoundaryContext from '../../DataContext/FieldBoundary/FieldBoundaryContext'
-import type {
-  IterateItemContextState,
-} from '../IterateItemContext';
+import type { IterateItemContextState } from '../IterateItemContext'
 import IterateItemContext from '../IterateItemContext'
 import type { Path } from '../../types'
 

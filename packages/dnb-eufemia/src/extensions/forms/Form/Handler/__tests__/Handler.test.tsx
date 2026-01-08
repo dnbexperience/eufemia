@@ -4,15 +4,8 @@ import React from 'react'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { spyOnEufemiaWarn, wait } from '../../../../../core/jest/jestSetup'
-import type {
-  JSONSchema,
-  JSONSchemaType,
-  OnSubmit} from '../../..';
-import {
-  Form,
-  Field,
-  makeAjvInstance,
-} from '../../..'
+import type { JSONSchema, JSONSchemaType, OnSubmit } from '../../..'
+import { Form, Field, makeAjvInstance } from '../../..'
 import type { Props as StringFieldProps } from '../../../Field/String'
 import nbNO from '../../../constants/locales/nb-NO'
 import enGB from '../../../constants/locales/en-GB'

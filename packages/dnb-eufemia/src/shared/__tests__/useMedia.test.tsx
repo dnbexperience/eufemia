@@ -5,7 +5,7 @@
 
 import React from 'react'
 import { render, waitFor, act, renderHook } from '@testing-library/react'
-import type { UseMediaProps } from '../useMedia';
+import type { UseMediaProps } from '../useMedia'
 import useMedia from '../useMedia'
 import Provider from '../Provider'
 import 'mock-match-media/jest-setup'

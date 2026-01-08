@@ -1,6 +1,5 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
-import type {
-  JSONSchema} from '@dnb/eufemia/src/extensions/forms';
+import type { JSONSchema } from '@dnb/eufemia/src/extensions/forms'
 import {
   Form,
   DataContext,

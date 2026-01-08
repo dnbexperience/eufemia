@@ -11,16 +11,16 @@ import {
   Autocomplete,
   HelpButton,
 } from '../../../../components'
-import type { Props as OptionFieldProps } from '../Option';
+import type { Props as OptionFieldProps } from '../Option'
 import OptionField from '../Option'
 import { useFieldProps } from '../../hooks'
-import type { ReturnAdditional } from '../../hooks/useFieldProps';
+import type { ReturnAdditional } from '../../hooks/useFieldProps'
 import { checkForError } from '../../hooks/useFieldProps'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import type {
   Props as FieldBlockProps,
   FieldBlockWidth,
-} from '../../FieldBlock';
+} from '../../FieldBlock'
 import FieldBlock from '../../FieldBlock'
 import type { FieldProps, Path } from '../../types'
 import type { FormStatusText } from '../../../../components/FormStatus'
@@ -34,10 +34,9 @@ import type {
 import type {
   AssertNoMissing,
   KeysWithUnderscore,
-  ToCamelCase} from '../../../../shared/helpers/withCamelCaseProps';
-import {
-  convertCamelCasePropsToSnakeCase
+  ToCamelCase,
 } from '../../../../shared/helpers/withCamelCaseProps'
+import { convertCamelCasePropsToSnakeCase } from '../../../../shared/helpers/withCamelCaseProps'
 import useDataValue from '../../hooks/useDataValue'
 import type { FormError } from '../../utils'
 import type { RadioProps } from '../../../../components/Radio'

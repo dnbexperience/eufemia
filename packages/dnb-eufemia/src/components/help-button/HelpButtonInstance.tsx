@@ -11,7 +11,7 @@ import {
 } from '../../shared/component-helper'
 import Context from '../../shared/Context'
 import { createSpacingClasses } from '../space/SpacingHelper'
-import type { ButtonProps } from '../button/Button';
+import type { ButtonProps } from '../button/Button'
 import Button from '../button/Button'
 
 const defaultProps = {

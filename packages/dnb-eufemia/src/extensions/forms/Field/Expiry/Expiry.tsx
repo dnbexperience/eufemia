@@ -7,7 +7,7 @@ import type {
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import { useFieldProps } from '../../hooks'
 import classnames from 'classnames'
-import type { Props as FieldBlockProps } from '../../FieldBlock';
+import type { Props as FieldBlockProps } from '../../FieldBlock'
 import FieldBlock from '../../FieldBlock'
 import { MultiInputMask } from '../../../../components/input-masked'
 import type {

@@ -1,8 +1,6 @@
 import React from 'react'
 import classnames from 'classnames'
-import type {
-  ScrollViewAllProps,
-} from '../../fragments/scroll-view/ScrollView';
+import type { ScrollViewAllProps } from '../../fragments/scroll-view/ScrollView'
 import ScrollView from '../../fragments/scroll-view/ScrollView'
 
 import type { SpacingProps } from '../../shared/types'

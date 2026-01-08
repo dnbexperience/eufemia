@@ -1,11 +1,10 @@
 import { useCallback, useContext } from 'react'
-import type {
-  SharedStateId} from '../../../shared/helpers/useSharedState';
+import type { SharedStateId } from '../../../shared/helpers/useSharedState'
 import {
   createReferenceKey,
   useSharedState,
 } from '../../../shared/helpers/useSharedState'
-import type { ContextState } from '../DataContext/Context';
+import type { ContextState } from '../DataContext/Context'
 import DataContext from '../DataContext/Context'
 
 export default function useDataContext(id: SharedStateId = undefined): {

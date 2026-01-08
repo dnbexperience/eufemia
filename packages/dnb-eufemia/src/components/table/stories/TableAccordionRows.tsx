@@ -9,7 +9,7 @@ import styled from '@emotion/styled'
 import Table from '../Table'
 import Td from '../TableTd'
 import Th from '../TableTh'
-import type { TableTrProps } from '../TableTr';
+import type { TableTrProps } from '../TableTr'
 import Tr from '../TableTr'
 
 import { P, Lead } from '../../..'

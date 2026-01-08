@@ -1,5 +1,5 @@
 import React from 'react'
-import type { Props as FieldBlockProps } from '../../FieldBlock';
+import type { Props as FieldBlockProps } from '../../FieldBlock'
 import FieldBlock from '../../FieldBlock'
 
 export type Props = Pick<

@@ -7,7 +7,7 @@ import {
   Radio,
 } from '../../../../components'
 import ButtonRow from '../../Form/ButtonRow'
-import type { Props as FieldBlockProps } from '../../FieldBlock';
+import type { Props as FieldBlockProps } from '../../FieldBlock'
 import FieldBlock from '../../FieldBlock'
 import { useFieldProps } from '../../hooks'
 import type { FieldProps } from '../../types'

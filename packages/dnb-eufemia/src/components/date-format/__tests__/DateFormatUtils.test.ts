@@ -1,5 +1,4 @@
-import type {
-  FormatDateOptions} from '../DateFormatUtils';
+import type { FormatDateOptions } from '../DateFormatUtils'
 import {
   formatDate,
   formatDateRange,
@@ -8,7 +7,7 @@ import {
   getRelativeTimeNextUpdateMs,
   parseDuration,
   formatDuration,
-  isValidDuration
+  isValidDuration,
 } from '../DateFormatUtils'
 
 describe('DateFormatUtils', () => {

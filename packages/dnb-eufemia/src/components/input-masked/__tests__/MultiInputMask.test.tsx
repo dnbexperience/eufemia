@@ -9,7 +9,7 @@ import userEvent from '@testing-library/user-event'
 import type {
   MultiInputMaskInput,
   MultiInputMaskProps,
-} from '../MultiInputMask';
+} from '../MultiInputMask'
 import MultiInputMask from '../MultiInputMask'
 
 const defaultProps: MultiInputMaskProps<'day' | 'month' | 'year'> = {

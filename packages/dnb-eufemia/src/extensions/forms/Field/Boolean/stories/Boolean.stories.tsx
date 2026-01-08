@@ -1,5 +1,5 @@
 import React from 'react'
-import type { JSONSchema} from '../../../Forms';
+import type { JSONSchema } from '../../../Forms'
 import Field, { Form, Value } from '../../../Forms'
 import { Button, Flex } from '../../../../../components'
 

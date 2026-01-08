@@ -2,11 +2,9 @@ import { useMemo, useContext } from 'react'
 import type {
   TranslationFlatToObject,
   TranslationObjectToFlat,
-} from '../../../shared/Context';
+} from '../../../shared/Context'
 import SharedContext from '../../../shared/Context'
-import type {
-  AdditionalReturnUtils,
-} from '../../../shared/useTranslation';
+import type { AdditionalReturnUtils } from '../../../shared/useTranslation'
 import sharedUseTranslation from '../../../shared/useTranslation'
 import { extendDeep, isObject } from '../../../shared/component-helper'
 import type { DeepPartial } from '../../../shared/types'

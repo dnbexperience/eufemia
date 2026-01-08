@@ -1,5 +1,5 @@
 import React from 'react'
-import type { Props as StringValueProps } from '../String';
+import type { Props as StringValueProps } from '../String'
 import StringValue from '../String'
 import useTranslation from '../../hooks/useTranslation'
 

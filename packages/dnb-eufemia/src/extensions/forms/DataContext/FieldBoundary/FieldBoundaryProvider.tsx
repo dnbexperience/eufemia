@@ -1,7 +1,5 @@
 import React, { useCallback, useContext, useReducer, useRef } from 'react'
-import type {
-  FieldBoundaryContextState,
-} from './FieldBoundaryContext';
+import type { FieldBoundaryContextState } from './FieldBoundaryContext'
 import FieldBoundaryContext from './FieldBoundaryContext'
 import DataContext from '../Context'
 import type { Path } from '../../types'

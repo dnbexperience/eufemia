@@ -12,8 +12,7 @@ import CardContext from '../card/CardContext'
 import StepIndicatorTriggerButton from './StepIndicatorTriggerButton'
 import StepIndicatorSidebar from './StepIndicatorSidebar'
 import StepIndicatorList from './StepIndicatorList'
-import type {
-  StepIndicatorContextValues} from './StepIndicatorContext';
+import type { StepIndicatorContextValues } from './StepIndicatorContext'
 import StepIndicatorContext, {
   StepIndicatorProvider,
 } from './StepIndicatorContext'
@@ -28,7 +27,7 @@ import { stepIndicatorDefaultProps } from './StepIndicatorProps'
 import type {
   FormStatusState,
   FormStatusText,
-} from '../form-status/FormStatus';
+} from '../form-status/FormStatus'
 import FormStatus from '../form-status/FormStatus'
 
 export type StepIndicatorMode = 'static' | 'strict' | 'loose'

@@ -16,7 +16,7 @@ import type { FieldPropsWithExtraValue } from '../../types'
 import type {
   Props as FieldBlockProps,
   FieldBlockWidth,
-} from '../../FieldBlock';
+} from '../../FieldBlock'
 import FieldBlock from '../../FieldBlock'
 import useTranslation from '../../hooks/useTranslation'
 import type { AutocompleteAllProps } from '../../../../components/autocomplete/Autocomplete'

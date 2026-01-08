@@ -12,7 +12,7 @@ import type {
 import type { SharedFieldBlockProps } from './FieldBlock'
 import type { JSONSchema4, JSONSchema6, JSONSchema7 } from 'json-schema'
 import type { JSONSchemaType } from 'ajv/dist/2020.js'
-import type { ZodSchema , JsonObject, FormError } from './utils'
+import type { ZodSchema, JsonObject, FormError } from './utils'
 import type {
   FormsTranslationFlat,
   FormsTranslationLocale,

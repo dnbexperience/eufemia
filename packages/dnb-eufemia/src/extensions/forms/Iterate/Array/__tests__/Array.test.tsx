@@ -4,8 +4,7 @@ import userEvent from '@testing-library/user-event'
 import * as Iterate from '../..'
 import * as DataContext from '../../../DataContext'
 import { IterateItemContext } from '../..'
-import type {
-  JSONSchema} from '../../..';
+import type { JSONSchema } from '../../..'
 import {
   Field,
   FieldBlock,

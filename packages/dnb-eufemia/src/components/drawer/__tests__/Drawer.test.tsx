@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 import React from 'react'
-import type { DrawerAllProps } from '../Drawer';
+import type { DrawerAllProps } from '../Drawer'
 import Drawer from '../Drawer'
 import Button from '../../button/Button'
 import Provider from '../../../shared/Provider'

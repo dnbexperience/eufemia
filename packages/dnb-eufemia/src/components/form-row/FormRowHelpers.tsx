@@ -1,8 +1,7 @@
-import type {
-  FormElementProps as FormRowProps} from '../../shared/helpers/filterValidProps';
+import type { FormElementProps as FormRowProps } from '../../shared/helpers/filterValidProps'
 import {
   pickFormElementProps as includeValidProps,
-  prepareFormElementContext as prepareFormRowContext
+  prepareFormElementContext as prepareFormRowContext,
 } from '../../shared/helpers/filterValidProps'
 
 // Deprecated – can be removed in v11

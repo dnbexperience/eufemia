@@ -5,7 +5,7 @@
 
 import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
-import type { FormRowProps } from '../FormRow';
+import type { FormRowProps } from '../FormRow'
 import FormRow from '../FormRow'
 import Input from '../../input/Input'
 import NumberFormat from '../../number-format/NumberFormat'

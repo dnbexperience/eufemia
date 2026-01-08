@@ -5,7 +5,7 @@
 
 import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
-import type { AccordionProps } from '../Accordion';
+import type { AccordionProps } from '../Accordion'
 import Accordion from '../Accordion'
 import {
   add_medium as AddIcon,

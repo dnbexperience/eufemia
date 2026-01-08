@@ -1,7 +1,7 @@
 import React from 'react'
 import { Field, Form, Iterate, Value, Wizard } from '../..'
 import { Lead } from '../../../../elements'
-import type { Translation} from './ChildrenWithAgeTranslations';
+import type { Translation } from './ChildrenWithAgeTranslations'
 import { translations } from './ChildrenWithAgeTranslations'
 import type { SectionProps } from '../../Form/Section'
 import {

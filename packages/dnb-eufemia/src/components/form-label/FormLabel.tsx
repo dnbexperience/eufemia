@@ -15,11 +15,8 @@ import {
   createSkeletonClass,
   skeletonDOMAttributes,
 } from '../skeleton/SkeletonHelper'
-import type {
-  FormElementProps} from '../../shared/helpers/filterValidProps';
-import {
-  pickFormElementProps,
-} from '../../shared/helpers/filterValidProps'
+import type { FormElementProps } from '../../shared/helpers/filterValidProps'
+import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import { convertSnakeCaseProps } from '../../shared/helpers/withSnakeCaseProps'
 import { omitSpacingProps } from '../flex/utils'
 import Context from '../../shared/Context'

@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react'
-import type { Props as StringFieldProps } from '../String';
+import type { Props as StringFieldProps } from '../String'
 import StringField from '../String'
 import useTranslation from '../../hooks/useTranslation'
 import type { AutocompleteAllProps } from '../../../../components/autocomplete/Autocomplete'

@@ -11,7 +11,7 @@ import {
 } from '@testing-library/react'
 import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
-import type { ToggleButtonProps } from '../ToggleButton';
+import type { ToggleButtonProps } from '../ToggleButton'
 import ToggleButton from '../ToggleButton'
 import { Provider } from '../../../shared'
 import userEvent from '@testing-library/user-event'

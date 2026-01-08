@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import type { CodeSectionProps } from './CodeBlock';
+import type { CodeSectionProps } from './CodeBlock'
 import CodeBlock from './CodeBlock'
 import styled from '@emotion/styled'
 import { getComponents } from '@dnb/eufemia/src/components/lib'

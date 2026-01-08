@@ -1,5 +1,4 @@
-import type {
-  FormElementProps} from '../filterValidProps';
+import type { FormElementProps } from '../filterValidProps'
 import {
   filterValidProps,
   pickFormElementProps,

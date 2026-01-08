@@ -1,4 +1,9 @@
-import { Value , Field, Form, Tools } from '@dnb/eufemia/src/extensions/forms'
+import {
+  Value,
+  Field,
+  Form,
+  Tools,
+} from '@dnb/eufemia/src/extensions/forms'
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import type { DateOfBirthValidator } from '@dnb/eufemia/src/extensions/forms/Field/DateOfBirth'
 

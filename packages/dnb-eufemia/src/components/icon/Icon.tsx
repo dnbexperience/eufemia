@@ -6,7 +6,7 @@ import {
   processChildren,
   extendPropsWithContext,
 } from '../../shared/component-helper'
-import type { ContextProps } from '../../shared/Context';
+import type { ContextProps } from '../../shared/Context'
 import Context from '../../shared/Context'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'

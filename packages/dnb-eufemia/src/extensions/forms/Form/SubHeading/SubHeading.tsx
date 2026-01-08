@@ -2,10 +2,9 @@ import React from 'react'
 import classnames from 'classnames'
 import useId from '../../../../shared/helpers/useId'
 import Heading from '../../../../components/heading/Heading'
-import type {
-  HelpProps} from '../../../../components/help-button/HelpButtonInline';
+import type { HelpProps } from '../../../../components/help-button/HelpButtonInline'
 import HelpButtonInline, {
-  HelpButtonInlineContent
+  HelpButtonInlineContent,
 } from '../../../../components/help-button/HelpButtonInline'
 import type { HeadingLevel } from '../../../../components/heading/Heading'
 import type { ComponentProps } from '../../types'

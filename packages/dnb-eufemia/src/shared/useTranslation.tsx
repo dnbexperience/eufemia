@@ -11,7 +11,7 @@ import type {
   TranslationCustomLocales,
   InternalLocale,
   TranslationFlatToObject,
-} from './Context';
+} from './Context'
 import Context from './Context'
 import defaultLocales from './locales'
 import { isObject, warn } from './component-helper'

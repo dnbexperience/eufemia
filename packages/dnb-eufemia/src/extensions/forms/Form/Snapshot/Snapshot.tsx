@@ -1,8 +1,5 @@
 import React, { useCallback, useContext, useEffect, useRef } from 'react'
-import type {
-  SnapshotContextState,
-  SnapshotMap,
-} from './SnapshotContext';
+import type { SnapshotContextState, SnapshotMap } from './SnapshotContext'
 import SnapshotContext from './SnapshotContext'
 import DataContext from '../../DataContext/Context'
 import type { SharedStateId } from '../../../../shared/helpers/useSharedState'

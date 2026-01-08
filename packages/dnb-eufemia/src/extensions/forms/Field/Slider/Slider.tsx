@@ -2,15 +2,15 @@ import React, { useCallback, useContext, useMemo, useRef } from 'react'
 import type {
   Props as FieldBlockProps,
   FieldBlockWidth,
-} from '../../FieldBlock';
+} from '../../FieldBlock'
 import FieldBlock from '../../FieldBlock'
 import { useFieldProps } from '../../hooks'
 import type { FieldProps, Path } from '../../types'
 import { getFormattedNumber } from '../../../../components/slider/SliderHelpers'
-import type { SliderProps } from '../../../../components/Slider';
+import type { SliderProps } from '../../../../components/Slider'
 import Slider from '../../../../components/Slider'
 import { pickSpacingProps } from '../../../../components/flex/utils'
-import type { ContextState } from '../../DataContext/Context';
+import type { ContextState } from '../../DataContext/Context'
 import DataContext from '../../DataContext/Context'
 import useDataValue from '../../hooks/useDataValue'
 import { useTranslation as useSharedTranslation } from '../../../../shared'

@@ -1,4 +1,4 @@
-import type { JsonObject} from '../../..';
+import type { JsonObject } from '../../..'
 import { Field, Form, Tools, Wizard } from '../../..'
 import { Button } from '../../../../../components'
 

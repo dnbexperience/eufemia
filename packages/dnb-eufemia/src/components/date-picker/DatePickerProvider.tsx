@@ -13,12 +13,10 @@ import { isValid, format, differenceInCalendarDays } from 'date-fns'
 
 import SharedContext from '../../shared/Context'
 import { correctV1Format, isDisabled } from './DatePickerCalc'
-import type {
-  DatePickerContextValues,
-} from './DatePickerContext';
+import type { DatePickerContextValues } from './DatePickerContext'
 import DatePickerContext from './DatePickerContext'
 import useViews from './hooks/useViews'
-import type { DatePickerDates } from './hooks/useDates';
+import type { DatePickerDates } from './hooks/useDates'
 import useDates from './hooks/useDates'
 import useLastEventCallCache from './hooks/useLastEventCallCache'
 import type { InvalidDates } from './DatePickerInput'

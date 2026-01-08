@@ -4,12 +4,8 @@
  */
 
 import React, { useCallback, useContext, useMemo, useState } from 'react'
-import type {
-  ContextProps,
-  InternalLocale} from './Context';
-import Context, {
-  prepareContext
-} from './Context'
+import type { ContextProps, InternalLocale } from './Context'
+import Context, { prepareContext } from './Context'
 import { prepareFormElementContext } from './helpers/filterValidProps'
 
 export type ProviderProps = {

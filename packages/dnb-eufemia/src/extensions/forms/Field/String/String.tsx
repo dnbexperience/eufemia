@@ -9,9 +9,7 @@ import classnames from 'classnames'
 import { Input, Textarea } from '../../../../components'
 import * as z from 'zod'
 import type { InputProps } from '../../../../components/input/Input'
-import type {
-  InputMaskedProps,
-} from '../../../../components/InputMasked';
+import type { InputMaskedProps } from '../../../../components/InputMasked'
 import InputMasked from '../../../../components/InputMasked'
 import type { TextareaProps } from '../../../../components/Textarea'
 import DataContext from '../../DataContext/Context'
@@ -19,7 +17,7 @@ import FieldBlockContext from '../../FieldBlock/FieldBlockContext'
 import type {
   Props as FieldBlockProps,
   FieldBlockWidth,
-} from '../../FieldBlock';
+} from '../../FieldBlock'
 import FieldBlock from '../../FieldBlock'
 import { useFieldProps } from '../../hooks'
 import { pickSpacingProps } from '../../../../components/flex/utils'

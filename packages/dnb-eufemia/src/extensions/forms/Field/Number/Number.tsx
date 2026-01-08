@@ -7,11 +7,8 @@ import React, {
 } from 'react'
 import { InputMasked, Button } from '../../../../components'
 import type { InputMaskedProps } from '../../../../components/InputMasked'
-import type {
-  formatOptionParams} from '../../../../components/number-format/NumberUtils';
-import {
-  format
-} from '../../../../components/number-format/NumberUtils'
+import type { formatOptionParams } from '../../../../components/number-format/NumberUtils'
+import { format } from '../../../../components/number-format/NumberUtils'
 import type {
   InputAlign,
   InputProps,
@@ -23,12 +20,15 @@ import classnames from 'classnames'
 import type {
   Props as FieldBlockProps,
   FieldBlockWidth,
-} from '../../FieldBlock';
+} from '../../FieldBlock'
 import FieldBlock from '../../FieldBlock'
 import { useFieldProps } from '../../hooks'
 import type { FieldProps, Schema } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
-import type { ButtonProps, ButtonSize } from '../../../../components/Button'
+import type {
+  ButtonProps,
+  ButtonSize,
+} from '../../../../components/Button'
 import { clamp } from '../../../../components/slider/SliderHelpers'
 import DataContext from '../../DataContext/Context'
 import * as z from 'zod'

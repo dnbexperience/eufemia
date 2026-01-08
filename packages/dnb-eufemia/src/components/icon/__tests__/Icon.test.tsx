@@ -6,7 +6,7 @@
 import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import { render } from '@testing-library/react'
-import type { IconAllProps } from '../Icon';
+import type { IconAllProps } from '../Icon'
 import Icon from '../Icon'
 import { question } from './test-files'
 

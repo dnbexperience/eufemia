@@ -14,7 +14,7 @@ import {
   isWeekend,
   isSameDay,
 } from 'date-fns'
-import type { DatePickerAllProps } from '../DatePicker';
+import type { DatePickerAllProps } from '../DatePicker'
 import DatePicker from '../DatePicker'
 import {
   toRange,

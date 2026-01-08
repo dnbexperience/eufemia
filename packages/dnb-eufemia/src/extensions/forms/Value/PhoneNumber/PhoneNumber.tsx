@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import type { Props as StringValueProps } from '../String';
+import type { Props as StringValueProps } from '../String'
 import StringValue from '../String'
 import { format } from '../../../../components/number-format/NumberUtils'
 import useTranslation from '../../hooks/useTranslation'

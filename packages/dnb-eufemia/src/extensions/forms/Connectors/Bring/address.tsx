@@ -1,5 +1,5 @@
 import React from 'react'
-import type { Props as SelectionProps } from '../../Field/Selection';
+import type { Props as SelectionProps } from '../../Field/Selection'
 import Selection from '../../Field/Selection'
 import type {
   Path,
@@ -12,7 +12,8 @@ import type {
   GeneralConfig,
   HandlerConfig,
   PreResponseResolver,
-  ResponseResolver} from '../createContext';
+  ResponseResolver,
+} from '../createContext'
 import {
   fetchData,
   handleCountryPath,

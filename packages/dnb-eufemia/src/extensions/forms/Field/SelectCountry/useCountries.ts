@@ -2,7 +2,7 @@ import { useCallback, useContext, useMemo } from 'react'
 import listOfCountries from '../../constants/countries'
 import { warn } from '../../../../shared/helpers'
 import { LOCALE } from '../../../../shared/defaults'
-import type { InternalLocale } from '../../../../shared/Context';
+import type { InternalLocale } from '../../../../shared/Context'
 import SharedContext from '../../../../shared/Context'
 
 export default function useCountries({

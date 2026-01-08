@@ -5,7 +5,7 @@
 
 import React from 'react'
 import { axeComponent } from '../../../core/jest/jestSetup'
-import type { IconPrimaryAllProps } from '../IconPrimary';
+import type { IconPrimaryAllProps } from '../IconPrimary'
 import IconPrimary from '../IconPrimary'
 import { render } from '@testing-library/react'
 

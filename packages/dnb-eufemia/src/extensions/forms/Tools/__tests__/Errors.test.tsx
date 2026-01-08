@@ -1,7 +1,7 @@
 import React from 'react'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import type { JSONSchema} from '../../';
+import type { JSONSchema } from '../../'
 import { Field, Form, Tools, makeAjvInstance } from '../../'
 
 describe('Tools.Errors', () => {

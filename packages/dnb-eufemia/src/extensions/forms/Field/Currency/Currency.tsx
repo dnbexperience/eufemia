@@ -5,7 +5,7 @@ import { getCurrencySymbol } from '../../../../components/number-format/NumberUt
 import { CURRENCY } from '../../../../shared/defaults'
 import type { CurrencyISO } from '../../constants/currencies'
 import useDataValue from '../../hooks/useDataValue'
-import type { Props as NumberFieldProps } from '../Number';
+import type { Props as NumberFieldProps } from '../Number'
 import NumberField from '../Number'
 import type { PathStrict } from '../../types'
 

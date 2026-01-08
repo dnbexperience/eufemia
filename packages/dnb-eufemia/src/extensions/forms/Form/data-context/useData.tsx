@@ -5,10 +5,9 @@ import {
   useReducer,
   useRef,
 } from 'react'
-import type { JsonObject } from '../../utils/json-pointer';
+import type { JsonObject } from '../../utils/json-pointer'
 import pointer from '../../utils/json-pointer'
-import type {
-  SharedStateId} from '../../../../shared/helpers/useSharedState';
+import type { SharedStateId } from '../../../../shared/helpers/useSharedState'
 import {
   createReferenceKey,
   useSharedState,
@@ -18,7 +17,7 @@ import type { Path } from '../../types'
 import type {
   FilterData,
   VisibleDataHandler,
-} from '../../DataContext/Context';
+} from '../../DataContext/Context'
 import DataContext from '../../DataContext/Context'
 import type { SharedAttachments } from '../../DataContext/Provider'
 

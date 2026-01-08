@@ -1,4 +1,4 @@
-import type { MutableRefObject} from 'react';
+import type { MutableRefObject } from 'react'
 import { useEffect, useRef } from 'react'
 
 function useHandleCursorPosition(

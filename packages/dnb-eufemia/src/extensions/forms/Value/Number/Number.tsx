@@ -4,15 +4,10 @@ import ValueBlock from '../../ValueBlock'
 import useValueProps from '../../hooks/useValueProps'
 import type { ValueProps } from '../../types'
 import { omitSpacingProps } from '../../../../components/flex/utils'
-import type {
-  NumberFormatProps,
-} from '../../../../components/NumberFormat';
+import type { NumberFormatProps } from '../../../../components/NumberFormat'
 import NumberFormat from '../../../../components/NumberFormat'
-import type {
-  IncludeCamelCase} from '../../../../shared/helpers/withCamelCaseProps';
-import {
-  convertCamelCasePropsToSnakeCase,
-} from '../../../../shared/helpers/withCamelCaseProps'
+import type { IncludeCamelCase } from '../../../../shared/helpers/withCamelCaseProps'
+import { convertCamelCasePropsToSnakeCase } from '../../../../shared/helpers/withCamelCaseProps'
 import type { SpacingProps } from '../../../../shared/types'
 
 export type Props = Omit<ValueProps<number>, 'defaultValue'> &

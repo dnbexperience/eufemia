@@ -3,7 +3,7 @@
  *
  */
 import React from 'react'
-import type { PProps } from './P';
+import type { PProps } from './P'
 import P from './P'
 import classnames from 'classnames'
 

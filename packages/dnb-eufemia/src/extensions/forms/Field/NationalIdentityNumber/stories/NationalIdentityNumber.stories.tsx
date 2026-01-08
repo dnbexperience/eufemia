@@ -1,5 +1,5 @@
 import React from 'react'
-import type { Validator } from '../../..';
+import type { Validator } from '../../..'
 import { Field } from '../../..'
 import { Wrapper } from 'storybook-utils/helpers'
 import { createMinimumAgeValidator } from '../NationalIdentityNumber'

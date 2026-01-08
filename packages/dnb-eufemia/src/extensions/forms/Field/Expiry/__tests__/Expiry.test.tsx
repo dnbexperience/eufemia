@@ -2,7 +2,7 @@ import React from 'react'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
 import { act, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import type { Validator } from '../../..';
+import type { Validator } from '../../..'
 import { DataContext, Field, FieldBlock, Form } from '../../..'
 
 import nbNO from '../../../constants/locales/nb-NO'

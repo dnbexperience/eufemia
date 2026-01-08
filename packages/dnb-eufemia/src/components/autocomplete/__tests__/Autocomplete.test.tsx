@@ -6,7 +6,7 @@
 import React from 'react'
 import { axeComponent, loadScss, wait } from '../../../core/jest/jestSetup'
 import * as helpers from '../../../shared/helpers'
-import type { AutocompleteAllProps } from '../Autocomplete';
+import type { AutocompleteAllProps } from '../Autocomplete'
 import Autocomplete from '../Autocomplete'
 import { SubmitButton } from '../../input/Input'
 import { format } from '../../number-format/NumberUtils'

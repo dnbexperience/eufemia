@@ -1,9 +1,7 @@
 import React, { useContext } from 'react'
 import { render } from '@testing-library/react'
 import { Form } from '../../..'
-import type {
-  CardContextState,
-} from '../../../../../components/card/CardContext';
+import type { CardContextState } from '../../../../../components/card/CardContext'
 import CardContext from '../../../../../components/card/CardContext'
 
 describe('Form.Card', () => {

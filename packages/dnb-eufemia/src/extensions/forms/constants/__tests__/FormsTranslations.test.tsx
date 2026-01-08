@@ -1,13 +1,8 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 import { Field, Form } from '../..'
-import type {
-  TranslationProps} from '../../../../shared';
-import {
-  Provider,
-  Translation,
-  useTranslation
-} from '../../../../shared'
+import type { TranslationProps } from '../../../../shared'
+import { Provider, Translation, useTranslation } from '../../../../shared'
 import nbNO from '../locales/nb-NO'
 import enGB from '../locales/en-GB'
 

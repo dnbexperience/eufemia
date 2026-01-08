@@ -1,7 +1,6 @@
 import { renderHook, act } from '@testing-library/react'
 import { makeUniqueId } from '../../component-helper'
-import type {
-  SharedStateId} from '../useSharedState';
+import type { SharedStateId } from '../useSharedState'
 import {
   useSharedState,
   createSharedState,

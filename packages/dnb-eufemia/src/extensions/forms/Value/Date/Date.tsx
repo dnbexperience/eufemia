@@ -1,8 +1,8 @@
 import React, { useCallback, useContext } from 'react'
-import type { Props as StringValueProps } from '../String';
+import type { Props as StringValueProps } from '../String'
 import StringValue from '../String'
 import useTranslation from '../../hooks/useTranslation'
-import type { AnyLocale } from '../../../../shared/Context';
+import type { AnyLocale } from '../../../../shared/Context'
 import SharedContext from '../../../../shared/Context'
 
 import { parseRangeValue } from '../../Field/Date'

@@ -3,7 +3,7 @@ import { axeComponent } from '../../../../../core/jest/jestSetup'
 import { render, waitFor, screen, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import type { Props } from '..'
-import type { Validator } from '../../..';
+import type { Validator } from '../../..'
 import { Field, Form } from '../../..'
 import nbNO from '../../../constants/locales/nb-NO'
 

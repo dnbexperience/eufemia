@@ -1,7 +1,7 @@
 import React from 'react'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import type { FilterData} from '../../../DataContext';
+import type { FilterData } from '../../../DataContext'
 import { Provider } from '../../../DataContext'
 import SummaryListContext from '../../../Value/SummaryList/SummaryListContext'
 import Visibility from '../Visibility'

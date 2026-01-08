@@ -6,7 +6,7 @@
 import React from 'react'
 import classnames from 'classnames'
 import { SuffixContext } from '../../shared/helpers/Suffix'
-import type { ContextProps } from '../../shared/Context';
+import type { ContextProps } from '../../shared/Context'
 import Context from '../../shared/Context'
 import {
   warn,
@@ -29,11 +29,8 @@ import CloseButton from './parts/CloseButton'
 import ModalRoot from './ModalRoot'
 import { ParagraphContext } from '../../elements/typography/P'
 import type { SpacingProps } from '../../shared/types'
-import type {
-  ToCamelCasePartial} from '../../shared/helpers/withCamelCaseProps';
-import {
-  classWithCamelCaseProps
-} from '../../shared/helpers/withCamelCaseProps'
+import type { ToCamelCasePartial } from '../../shared/helpers/withCamelCaseProps'
+import { classWithCamelCaseProps } from '../../shared/helpers/withCamelCaseProps'
 import type { ButtonProps } from '../button/Button'
 
 export const ANIMATION_DURATION = 300

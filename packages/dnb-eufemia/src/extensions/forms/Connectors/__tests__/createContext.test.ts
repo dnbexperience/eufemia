@@ -1,8 +1,6 @@
-import type { PathStrict } from '../..';
+import type { PathStrict } from '../..'
 import { Connectors } from '../..'
-import type {
-  GeneralConfig,
-  HandlerConfig} from '../createContext';
+import type { GeneralConfig, HandlerConfig } from '../createContext'
 import {
   fetchData,
   getCountryCodeValue,
