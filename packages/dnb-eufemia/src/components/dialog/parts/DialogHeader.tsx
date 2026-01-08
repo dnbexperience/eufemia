@@ -1,8 +1,9 @@
 import React from 'react'
 import classnames from 'classnames'
-import ModalHeader, {
+import type {
   ModalHeaderProps,
-} from '../../modal/parts/ModalHeader'
+} from '../../modal/parts/ModalHeader';
+import ModalHeader from '../../modal/parts/ModalHeader'
 import type { SpacingProps } from '../../space/types'
 
 interface DialogHeaderProps extends ModalHeaderProps, SpacingProps {

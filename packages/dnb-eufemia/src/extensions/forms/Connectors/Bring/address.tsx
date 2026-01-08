@@ -1,17 +1,19 @@
 import React from 'react'
-import Selection, { Props as SelectionProps } from '../../Field/Selection'
-import {
+import type { Props as SelectionProps } from '../../Field/Selection';
+import Selection from '../../Field/Selection'
+import type {
   Path,
   PathStrict,
   ReceiveAdditionalEventArgs,
   UseFieldProps,
 } from '../../types'
 import useTranslation from '../../hooks/useTranslation'
-import {
+import type {
   GeneralConfig,
   HandlerConfig,
   PreResponseResolver,
-  ResponseResolver,
+  ResponseResolver} from '../createContext';
+import {
   fetchData,
   handleCountryPath,
   isSupportedCountryCode,

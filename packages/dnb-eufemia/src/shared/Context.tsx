@@ -51,13 +51,13 @@ import type { LogoProps } from '../components/Logo'
 import type { IconProps } from '../components/Icon'
 import type { ListFormatProps } from '../components/list-format/ListFormat'
 import type { IconPrimaryProps } from '../components/IconPrimary'
-import { SwitchProps } from '../components/Switch'
+import type { SwitchProps } from '../components/Switch'
 
 import type { FormElementProps } from './helpers/filterValidProps'
 import type { ThemeProps } from './Theme'
 import type { FormsTranslation } from '../extensions/forms/hooks/useTranslation'
 import type { DeepPartial } from './types'
-import { DatePickerAllProps } from '../components/DatePicker'
+import type { DatePickerAllProps } from '../components/DatePicker'
 
 export type ContextComponents = {
   Button?: Partial<ButtonProps>

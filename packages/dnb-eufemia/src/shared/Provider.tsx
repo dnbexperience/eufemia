@@ -4,10 +4,11 @@
  */
 
 import React, { useCallback, useContext, useMemo, useState } from 'react'
-import Context, {
-  prepareContext,
+import type {
   ContextProps,
-  InternalLocale,
+  InternalLocale} from './Context';
+import Context, {
+  prepareContext
 } from './Context'
 import { prepareFormElementContext } from './helpers/filterValidProps'
 

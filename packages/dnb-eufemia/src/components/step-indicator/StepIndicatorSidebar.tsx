@@ -1,6 +1,6 @@
 import React from 'react'
-import { SpacingProps } from '../../shared/types'
-import {
+import type { SpacingProps } from '../../shared/types'
+import type {
   StepIndicatorData,
   StepIndicatorMode,
   StepIndicatorProps,
@@ -35,7 +35,7 @@ export type StepIndicatorSidebarProps = SpacingProps &
  * @deprecated StepIndicatorSidebar variant is no longer supported
  */
 function StepIndicatorSidebar(props: StepIndicatorSidebarProps) {
-  return <div className="dnb-step-indicator__sidebar"></div>
+  return <div className="dnb-step-indicator__sidebar" />
 }
 
 export default StepIndicatorSidebar

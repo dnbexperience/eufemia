@@ -1,9 +1,9 @@
 import { Field, Form, Tools, Value, Wizard } from '../../..'
 import { Flex } from '../../../../../components'
-import { UploadFileNative } from '../../../../../components/Upload'
+import type { UploadFileNative } from '../../../../../components/Upload'
 import { P } from '../../../../../elements'
 import { createRequest } from '../../../Form/Handler/stories/FormHandler.stories'
-import { UploadValue } from '../Upload'
+import type { UploadValue } from '../Upload'
 
 export default {
   title: 'Eufemia/Extensions/Forms/Upload',

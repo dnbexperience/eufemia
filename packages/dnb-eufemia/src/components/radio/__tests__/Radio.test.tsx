@@ -6,7 +6,8 @@
 import { fireEvent, render } from '@testing-library/react'
 import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
-import Radio, { RadioProps } from '../Radio'
+import type { RadioProps } from '../Radio';
+import Radio from '../Radio'
 import { Provider } from '../../../shared'
 
 const props: RadioProps = {

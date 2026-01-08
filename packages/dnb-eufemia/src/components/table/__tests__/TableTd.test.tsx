@@ -1,6 +1,7 @@
 import React from 'react'
 import { render } from '@testing-library/react'
-import TableTd, { TableTdProps } from '../TableTd'
+import type { TableTdProps } from '../TableTd';
+import TableTd from '../TableTd'
 import { TableAccordionContentSingle } from '../table-accordion/TableAccordionContent'
 
 describe('TableTd', () => {

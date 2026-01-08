@@ -1,12 +1,14 @@
 import { useCallback, useContext, useEffect, useRef } from 'react'
-import { ContainerMode } from '../Array'
-import FieldBoundaryContext, {
+import type { ContainerMode } from '../Array'
+import type {
   FieldBoundaryContextState,
-} from '../../DataContext/FieldBoundary/FieldBoundaryContext'
-import IterateItemContext, {
+} from '../../DataContext/FieldBoundary/FieldBoundaryContext';
+import FieldBoundaryContext from '../../DataContext/FieldBoundary/FieldBoundaryContext'
+import type {
   IterateItemContextState,
-} from '../IterateItemContext'
-import { Path } from '../../types'
+} from '../IterateItemContext';
+import IterateItemContext from '../IterateItemContext'
+import type { Path } from '../../types'
 
 type GlobalCacheHash = string
 type GlobalCacheId = string

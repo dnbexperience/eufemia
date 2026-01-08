@@ -1,14 +1,15 @@
 import React, { useCallback, useContext, useMemo } from 'react'
 import classnames from 'classnames'
-import { Props as FieldBlockProps } from '../../FieldBlock'
+import type { Props as FieldBlockProps } from '../../FieldBlock'
 import DataContext from '../../DataContext/Context'
-import StringField, { Props as StringFieldProps } from '../String'
+import type { Props as StringFieldProps } from '../String';
+import StringField from '../String'
 import CompositionField from '../Composition'
-import { CountryCode, Path } from '../../types'
+import type { CountryCode, Path } from '../../types'
 import useTranslation from '../../hooks/useTranslation'
 import useDataValue from '../../hooks/useDataValue'
 import { COUNTRY as defaultCountry } from '../../../../shared/defaults'
-import { SpacingProps } from '../../../../shared/types'
+import type { SpacingProps } from '../../../../shared/types'
 
 export type Props = Pick<
   FieldBlockProps,

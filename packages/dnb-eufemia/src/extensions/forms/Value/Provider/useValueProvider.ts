@@ -2,7 +2,7 @@ import { useCallback, useContext, useMemo } from 'react'
 import { assignPropsWithContext } from '../../../../shared/component-helper'
 import ValueProviderContext from './ValueProviderContext'
 import type { ValueProps } from '../../types'
-import { ValueProviderProps } from './ValueProvider'
+import type { ValueProviderProps } from './ValueProvider'
 
 function useValueProvider(props?: Omit<ValueProviderProps, 'children'>) {
   const { overwriteProps, ...restProps } = props || {}

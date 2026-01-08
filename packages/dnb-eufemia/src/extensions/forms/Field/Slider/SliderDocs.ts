@@ -1,5 +1,5 @@
 import { SliderProperties } from '../../../../components/slider/SliderDocs'
-import { PropertiesTableProps } from '../../../../shared/types'
+import type { PropertiesTableProps } from '../../../../shared/types'
 
 export const SliderFieldProperties: PropertiesTableProps = {
   paths: {

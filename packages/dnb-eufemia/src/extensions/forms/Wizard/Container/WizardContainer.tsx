@@ -11,9 +11,10 @@ import { Space } from '../../../../components'
 import { warn } from '../../../../shared/component-helper'
 import { isAsync } from '../../../../shared/helpers/isAsync'
 import useId from '../../../../shared/helpers/useId'
-import WizardContext, {
+import type {
   WizardContextState,
-} from '../Context/WizardContext'
+} from '../Context/WizardContext';
+import WizardContext from '../Context/WizardContext'
 import type {
   OnStepChange,
   OnStepChangeOptions,
@@ -29,14 +30,15 @@ import type {
 import DataContext from '../../DataContext/Context'
 import useEventListener from '../../DataContext/Provider/useEventListener'
 import Handler from '../../Form/Handler/Handler'
+import type {
+  SharedStateReturn} from '../../../../shared/helpers/useSharedState';
 import {
-  SharedStateReturn,
   createReferenceKey,
   useSharedState,
 } from '../../../../shared/helpers/useSharedState'
 import useHandleLayoutEffect from './useHandleLayoutEffect'
 import useStepAnimation from './useStepAnimation'
-import { ComponentProps } from '../../types'
+import type { ComponentProps } from '../../types'
 import useVisibility from '../../Form/Visibility/useVisibility'
 import { DisplaySteps } from './DisplaySteps'
 import { IterateOverSteps } from './IterateOverSteps'

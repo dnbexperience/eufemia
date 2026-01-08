@@ -5,7 +5,8 @@
 
 import React from 'react'
 import { axeComponent, loadScss, wait } from '../../../core/jest/jestSetup'
-import GlobalStatus, { GlobalStatusProps } from '../GlobalStatus'
+import type { GlobalStatusProps } from '../GlobalStatus';
+import GlobalStatus from '../GlobalStatus'
 import { GlobalStatusInterceptor } from '../GlobalStatusController'
 import FormSet from '../../form-set/FormSet'
 import Switch from '../../switch/Switch'

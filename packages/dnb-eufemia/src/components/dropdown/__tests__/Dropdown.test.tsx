@@ -7,12 +7,13 @@ import React from 'react'
 import { axeComponent, loadScss, wait } from '../../../core/jest/jestSetup'
 import { fireEvent, render, act } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import Dropdown, { DropdownAllProps } from '../Dropdown'
+import type { DropdownAllProps } from '../Dropdown';
+import Dropdown from '../Dropdown'
 import {
   mockImplementationForDirectionObserver,
   testDirectionObserver,
 } from '../../../fragments/drawer-list/__tests__/DrawerListTestMocks'
-import {
+import type {
   DrawerListDataArrayObject,
   DrawerListDataArray,
   DrawerListGroupTitles,

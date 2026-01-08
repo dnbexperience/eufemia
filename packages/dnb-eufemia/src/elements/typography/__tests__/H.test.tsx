@@ -5,7 +5,8 @@
 
 import React from 'react'
 import { axeComponent } from '../../../core/jest/jestSetup'
-import H, { SharedHProps } from '../H'
+import type { SharedHProps } from '../H';
+import H from '../H'
 import { render } from '@testing-library/react'
 
 const props: SharedHProps = {

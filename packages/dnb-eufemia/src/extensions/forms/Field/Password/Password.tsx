@@ -1,17 +1,20 @@
+import type {
+  ElementRef,
+  MutableRefObject} from 'react';
 import React, {
   useContext,
   useRef,
   useState,
-  ElementRef,
-  MutableRefObject,
   useCallback,
   useMemo,
 } from 'react'
 import classnames from 'classnames'
 import SharedContext from '../../../../shared/Context'
-import StringField, { Props as StringFieldProps } from '../String'
+import type { Props as StringFieldProps } from '../String';
+import StringField from '../String'
 
-import { InputProps, SubmitButton } from '../../../../components/Input'
+import type { InputProps} from '../../../../components/Input';
+import { SubmitButton } from '../../../../components/Input'
 import IconView from '../../../../icons/view'
 import IconViewOff from '../../../../icons/hide'
 import IconViewMedium from '../../../../icons/view_medium'

@@ -5,7 +5,7 @@ import { Field, Form, Wizard } from '../../..'
 import { PrerenderFieldPropsOfOtherSteps } from '../../Container/PrerenderFieldPropsOfOtherSteps'
 import WizardContext from '../../Context'
 import WizardStepContext from '../StepContext'
-import { Steps } from '../../Context/types'
+import type { Steps } from '../../Context/types'
 
 const log = global.console.log
 beforeEach(() => {

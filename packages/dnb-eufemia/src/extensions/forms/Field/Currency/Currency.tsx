@@ -3,10 +3,11 @@ import classnames from 'classnames'
 import SharedContext from '../../../../shared/Context'
 import { getCurrencySymbol } from '../../../../components/number-format/NumberUtils'
 import { CURRENCY } from '../../../../shared/defaults'
-import { CurrencyISO } from '../../constants/currencies'
+import type { CurrencyISO } from '../../constants/currencies'
 import useDataValue from '../../hooks/useDataValue'
-import NumberField, { Props as NumberFieldProps } from '../Number'
-import { PathStrict } from '../../types'
+import type { Props as NumberFieldProps } from '../Number';
+import NumberField from '../Number'
+import type { PathStrict } from '../../types'
 
 export type Props = NumberFieldProps & {
   /**

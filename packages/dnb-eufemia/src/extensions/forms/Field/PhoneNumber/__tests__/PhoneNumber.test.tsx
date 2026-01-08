@@ -4,16 +4,17 @@ import { axeComponent } from '../../../../../core/jest/jestSetup'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import SharedProvider from '../../../../../shared/Provider'
+import type {
+  JSONSchema} from '../../..';
 import {
   Field,
   Form,
-  JSONSchema,
   makeAjvInstance,
   DataContext,
 } from '../../..'
 import locales from '../../../constants/locales'
 import DrawerListProvider from '../../../../../fragments/drawer-list/DrawerListProvider'
-import { AdditionalArgs } from '../PhoneNumber'
+import type { AdditionalArgs } from '../PhoneNumber'
 
 const nbNO = locales['nb-NO']
 const enGB = locales['en-GB']

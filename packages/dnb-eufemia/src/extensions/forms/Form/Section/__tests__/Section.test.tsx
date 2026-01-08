@@ -2,20 +2,21 @@
 import React from 'react'
 import { spyOnEufemiaWarn } from '../../../../../core/jest/jestSetup'
 import { fireEvent, render, waitFor } from '@testing-library/react'
+import type {
+  JSONSchema} from '../../..';
 import {
   Field,
   Form,
-  JSONSchema,
   makeAjvInstance,
   Tools,
   Value,
   z,
 } from '../../..'
-import { SectionProps } from '../Section'
-import { Props as FieldNameProps } from '../../../Field/Name'
+import type { SectionProps } from '../Section'
+import type { Props as FieldNameProps } from '../../../Field/Name'
 import FieldPropsProvider from '../../../Field/Provider'
-import { GenerateRef as GeneratePropsRef } from '../../../Tools/ListAllProps'
-import { GenerateRef as GenerateSchemaRef } from '../../../Tools/GenerateSchema'
+import type { GenerateRef as GeneratePropsRef } from '../../../Tools/ListAllProps'
+import type { GenerateRef as GenerateSchemaRef } from '../../../Tools/GenerateSchema'
 import DataContext from '../../../DataContext/Context'
 
 import nbNO from '../../../constants/locales/nb-NO'

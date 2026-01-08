@@ -25,7 +25,7 @@ import {
 } from '../..'
 import { Link } from '../../..'
 import { format } from '../../number-format/NumberUtils'
-import { DrawerListDataArray } from '../../../fragments/DrawerList'
+import type { DrawerListDataArray } from '../../../fragments/DrawerList'
 
 export default {
   title: 'Eufemia/Components/FormStatus',

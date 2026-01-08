@@ -13,7 +13,8 @@ import {
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
-import Checkbox, { CheckboxProps } from '../Checkbox'
+import type { CheckboxProps } from '../Checkbox';
+import Checkbox from '../Checkbox'
 import { Provider } from '../../../shared'
 
 const props: CheckboxProps = {

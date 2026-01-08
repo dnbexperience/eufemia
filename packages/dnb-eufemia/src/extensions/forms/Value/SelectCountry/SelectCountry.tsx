@@ -1,7 +1,7 @@
 import React from 'react'
 import classnames from 'classnames'
 import { useTranslation, useValueProps } from '../../hooks'
-import { ValueProps } from '../../types'
+import type { ValueProps } from '../../types'
 import ValueBlock from '../../ValueBlock'
 import useCountry from './useCountry'
 import type { CountryISO } from '../../constants/countries'

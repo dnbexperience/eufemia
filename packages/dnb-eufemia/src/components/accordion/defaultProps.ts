@@ -1,4 +1,4 @@
-import { AccordionProps, GroupProps } from './Accordion'
+import type { AccordionProps, GroupProps } from './Accordion'
 
 export const accordionDefaultProps: AccordionProps & GroupProps = {
   variant: 'outlined',

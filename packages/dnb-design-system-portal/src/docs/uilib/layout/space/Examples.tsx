@@ -14,7 +14,7 @@ import {
   createSpacingProperties,
   removeSpaceProps,
 } from '@dnb/eufemia/src/components/space/SpacingHelper'
-import { Theme } from '@emotion/react'
+import type { Theme } from '@emotion/react'
 
 export const Method1 = () => (
   <TestStyles>

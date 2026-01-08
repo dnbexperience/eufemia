@@ -11,7 +11,8 @@ import React, {
   useState,
 } from 'react'
 import classnames from 'classnames'
-import Context, { ContextProps } from '../../shared/Context'
+import type { ContextProps } from '../../shared/Context';
+import Context from '../../shared/Context'
 import {
   isTrue,
   validateDOMAttributes,
@@ -24,11 +25,12 @@ import ProgressIndicatorCircular from './ProgressIndicatorCircular'
 import ProgressIndicatorLinear from './ProgressIndicatorLinear'
 import { format } from '../number-format/NumberUtils'
 
-import {
+import type {
   ProgressIndicatorAllProps,
   ProgressIndicatorAnimationProps,
-  isValidSize,
-  CustomSize,
+  CustomSize} from './types';
+import {
+  isValidSize
 } from './types'
 
 // deprecated, can be removed in v11

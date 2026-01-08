@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import classnames from 'classnames'
-import { ComponentProps } from '../../types'
+import type { ComponentProps } from '../../types'
 import ButtonRow from '../../Form/ButtonRow'
 import NextButton from '../NextButton'
 import PreviousButton from '../PreviousButton'

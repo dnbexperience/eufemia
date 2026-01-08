@@ -1,11 +1,12 @@
 import React, { useContext } from 'react'
 import Context from '../../shared/Context'
 import { extendPropsWithContext } from '../../shared/component-helper'
+import type {
+  IconAllProps,
+  IconProps} from '../icon/Icon';
 import {
   prerenderIcon,
-  prepareIcon,
-  IconAllProps,
-  IconProps,
+  prepareIcon
 } from '../icon/Icon'
 
 // NB: The path reflects the tsdown.config.ts -> external: '../../icons/dnb/primary_icons'

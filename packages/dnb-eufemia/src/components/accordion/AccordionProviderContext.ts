@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import { AccordionGroupProps } from './AccordionGroup'
+import type { AccordionGroupProps } from './AccordionGroup'
 
 type AccordionGroupContextProps = {
   expanded?: boolean

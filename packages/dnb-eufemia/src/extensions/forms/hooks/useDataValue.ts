@@ -1,7 +1,8 @@
 import { useCallback, useContext, useRef } from 'react'
 import pointer from '../utils/json-pointer'
-import { Path } from '../types'
-import DataContext, { ContextState } from '../DataContext/Context'
+import type { Path } from '../types'
+import type { ContextState } from '../DataContext/Context';
+import DataContext from '../DataContext/Context'
 import IterateItemContext from '../Iterate/IterateItemContext'
 import usePath from './usePath'
 

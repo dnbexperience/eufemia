@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useState } from 'react'
 import { convertStringToDate, isDisabled } from '../DatePickerCalc'
 import { addMonths, isSameDay } from 'date-fns'
-import { DateType } from '../DatePickerContext'
+import type { DateType } from '../DatePickerContext'
 
 export type DatePickerDateProps = {
   date?: DateType

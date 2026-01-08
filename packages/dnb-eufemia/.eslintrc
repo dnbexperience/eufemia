@@ -166,7 +166,15 @@
           { "args": "none", "ignoreRestSiblings": true, "varsIgnorePattern": "^_" }
         ],
         "react/prop-types": "off",
-        "react/require-default-props": "off"
+        "react/require-default-props": "off",
+        "@typescript-eslint/consistent-type-imports": [
+          "error",
+          {
+            "prefer": "type-imports",
+            "disallowTypeAnnotations": false,
+            "fixStyle": "separate-type-imports"
+          }
+        ]
       }
     },
     {

@@ -1,6 +1,5 @@
-import { Value } from '@dnb/eufemia/src/extensions/forms'
+import { Value , Field, Form, Tools } from '@dnb/eufemia/src/extensions/forms'
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
-import { Field, Form, Tools } from '@dnb/eufemia/src/extensions/forms'
 import type { DateOfBirthValidator } from '@dnb/eufemia/src/extensions/forms/Field/DateOfBirth'
 
 export const Empty = () => {

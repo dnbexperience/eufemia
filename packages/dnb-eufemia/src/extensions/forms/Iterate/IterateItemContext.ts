@@ -1,6 +1,6 @@
 import React from 'react'
-import { Path } from '../types'
-import { ContainerMode } from './Array/types'
+import type { Path } from '../types'
+import type { ContainerMode } from './Array/types'
 
 export type ModeOptions = {
   omitFocusManagement?: boolean

@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../../shared/types'
+import type { PropertiesTableProps } from '../../../shared/types'
 import { FieldBlockSharedProperties } from '../FieldBlock/FieldBlockDocs'
 import {
   DataValueWritePropsEvents,

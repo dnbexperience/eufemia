@@ -1,5 +1,5 @@
 import React from 'react'
-import { UseFieldProps } from '../../types'
+import type { UseFieldProps } from '../../types'
 
 export type FieldProviderContextProps = {
   extend: <T = UseFieldProps>(props: T) => T

@@ -2,7 +2,7 @@ import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import styled from '@emotion/styled'
 import { Table, Td, Th, Tr } from '@dnb/eufemia/src'
-import { PropertiesTableProps } from '@dnb/eufemia/src/shared/types'
+import type { PropertiesTableProps } from '@dnb/eufemia/src/shared/types'
 import { toCamelCase } from '@dnb/eufemia/src/shared/component-helper'
 import { basicComponents } from '../tags'
 

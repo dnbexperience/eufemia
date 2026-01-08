@@ -2,7 +2,7 @@ import * as React from 'react';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
 import PaginationBar from './PaginationBar';
-import { ButtonIconPosition } from '../Button';
+import type { ButtonIconPosition } from '../Button';
 type PaginationStartupPage = string | number;
 type PaginationCurrentPage = string | number;
 type PaginationPageCount = string | number;

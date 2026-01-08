@@ -1,5 +1,5 @@
 import type { ErrorObject } from 'ajv/dist/2020.js'
-import { FormsTranslationFlat } from '../hooks/useTranslation'
+import type { FormsTranslationFlat } from '../hooks/useTranslation'
 
 type ValidationRule =
   | string

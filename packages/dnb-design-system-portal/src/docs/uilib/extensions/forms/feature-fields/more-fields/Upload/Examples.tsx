@@ -8,7 +8,7 @@ import {
   Value,
 } from '@dnb/eufemia/src/extensions/forms'
 import { createMockFile } from '../../../../../../../docs/uilib/components/upload/Examples'
-import { UploadValue } from '@dnb/eufemia/src/extensions/forms/Field/Upload'
+import type { UploadValue } from '@dnb/eufemia/src/extensions/forms/Field/Upload'
 import { createRequest } from '../../../Form/SubmitIndicator/Examples'
 
 export const BasicUsage = () => {

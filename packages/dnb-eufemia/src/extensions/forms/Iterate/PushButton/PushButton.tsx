@@ -1,14 +1,15 @@
 import React, { useCallback, useContext, useMemo } from 'react'
 import classnames from 'classnames'
 import { Button } from '../../../../components'
-import { ButtonProps } from '../../../../components/Button'
+import type { ButtonProps } from '../../../../components/Button'
 import IterateItemContext from '../IterateItemContext'
 import {
   useArrayLimit,
   useItemPath,
   useSwitchContainerMode,
 } from '../hooks'
-import { omitDataValueReadWriteProps, Path } from '../../types'
+import type { Path } from '../../types';
+import { omitDataValueReadWriteProps } from '../../types'
 import { add } from '../../../../icons'
 import DataContext from '../../DataContext/Context'
 import useDataValue from '../../hooks/useDataValue'

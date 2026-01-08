@@ -12,14 +12,13 @@ import type {
 import type { SharedFieldBlockProps } from './FieldBlock'
 import type { JSONSchema4, JSONSchema6, JSONSchema7 } from 'json-schema'
 import type { JSONSchemaType } from 'ajv/dist/2020.js'
-import type { ZodSchema } from './utils'
-import { JsonObject, FormError } from './utils'
-import {
+import type { ZodSchema , JsonObject, FormError } from './utils'
+import type {
   FormsTranslationFlat,
   FormsTranslationLocale,
 } from './hooks/useTranslation'
-import { GetValueByPath } from './hooks/useDataValue'
-import { HelpProps } from '../../components/help-button/HelpButtonInline'
+import type { GetValueByPath } from './hooks/useDataValue'
+import type { HelpProps } from '../../components/help-button/HelpButtonInline'
 
 export type * from 'json-schema'
 export type JSONSchema = JSONSchema7

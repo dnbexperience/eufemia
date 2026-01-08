@@ -3,12 +3,13 @@
  *
  */
 
+import type {
+  HTMLProps} from 'react';
 import React, {
   useContext,
   useState,
   useEffect,
   useRef,
-  HTMLProps,
   useMemo,
 } from 'react'
 

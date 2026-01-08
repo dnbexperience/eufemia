@@ -7,10 +7,11 @@ import React, {
 } from 'react'
 import classnames from 'classnames'
 import { Card, HeightAnimation } from '../../../../../components'
-import SectionContainerContext, {
+import type {
   SectionContainerContextState,
-} from './SectionContainerContext'
-import { Props as FlexContainerProps } from '../../../../../components/flex/Container'
+} from './SectionContainerContext';
+import SectionContainerContext from './SectionContainerContext'
+import type { Props as FlexContainerProps } from '../../../../../components/flex/Container'
 import FieldBoundaryContext from '../../../DataContext/FieldBoundary/FieldBoundaryContext'
 
 export type ContainerMode = 'view' | 'edit' | 'auto'

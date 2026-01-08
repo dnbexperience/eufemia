@@ -2,12 +2,13 @@ import React, { useContext, useMemo } from 'react'
 import classnames from 'classnames'
 import { convertJsxToString } from '../../../../../shared/component-helper'
 import { Flex } from '../../../../../components'
-import { Props as FlexContainerProps } from '../../../../../components/flex/Container'
+import type { Props as FlexContainerProps } from '../../../../../components/flex/Container'
 import { Lead } from '../../../../../elements'
 import Toolbar from '../Toolbar/Toolbar'
-import SectionContainer, {
+import type {
   SectionContainerProps,
-} from '../containers/SectionContainer'
+} from '../containers/SectionContainer';
+import SectionContainer from '../containers/SectionContainer'
 import EditButton from './EditButton'
 import SectionContainerContext from '../containers/SectionContainerContext'
 

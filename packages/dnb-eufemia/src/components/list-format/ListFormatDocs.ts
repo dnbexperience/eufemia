@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../shared/types'
+import type { PropertiesTableProps } from '../../shared/types'
 import { UlProperties } from './../../elements/lists/UlDocs'
 import { OlProperties } from './../../elements/lists/OlDocs'
 

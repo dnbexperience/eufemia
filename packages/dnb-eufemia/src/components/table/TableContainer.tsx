@@ -1,6 +1,7 @@
 import React from 'react'
 import classnames from 'classnames'
-import TableScrollView, { TableScrollViewProps } from './TableScrollView'
+import type { TableScrollViewProps } from './TableScrollView';
+import TableScrollView from './TableScrollView'
 import { createSpacingClasses } from '../space/SpacingUtils'
 
 import type { TableProps } from './Table'

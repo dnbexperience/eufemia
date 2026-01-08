@@ -7,7 +7,8 @@ import type {
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import { useFieldProps } from '../../hooks'
 import classnames from 'classnames'
-import FieldBlock, { Props as FieldBlockProps } from '../../FieldBlock'
+import type { Props as FieldBlockProps } from '../../FieldBlock';
+import FieldBlock from '../../FieldBlock'
 import { MultiInputMask } from '../../../../components/input-masked'
 import type {
   MultiInputMaskProps,
@@ -16,7 +17,7 @@ import type {
 import { useTranslation as useSharedTranslation } from '../../../../shared'
 import useTranslation from '../../hooks/useTranslation'
 import { FormError } from '../../utils'
-import { Translation } from '../../../../shared/Context'
+import type { Translation } from '../../../../shared/Context'
 
 type ExpiryValue = MultiInputMaskValue<'month' | 'year'>
 

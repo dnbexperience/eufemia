@@ -1,5 +1,5 @@
 import React from 'react'
-import { ContainerMode } from './SectionContainer'
+import type { ContainerMode } from './SectionContainer'
 
 export interface SectionContainerContextState {
   validateInitially?: boolean

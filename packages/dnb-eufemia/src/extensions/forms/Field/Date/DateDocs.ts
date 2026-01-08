@@ -3,7 +3,7 @@ import {
   DatePickerProperties,
   DatePickerEvents,
 } from '../../../../components/date-picker/DatePickerDocs'
-import { PropertiesTableProps } from '../../../../shared/types'
+import type { PropertiesTableProps } from '../../../../shared/types'
 
 // Filter out properties that are handled by `useFieldProps` or has a different default value
 const {

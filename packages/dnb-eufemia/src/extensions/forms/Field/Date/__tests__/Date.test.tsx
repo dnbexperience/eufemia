@@ -12,8 +12,9 @@ import {
 } from '../../..'
 import nbNO from '../../../constants/locales/nb-NO'
 import enGB from '../../../constants/locales/en-GB'
+import type {
+  FormatDateOptions} from '../../../../../components/date-format/DateFormatUtils';
 import {
-  FormatDateOptions,
   formatDate,
 } from '../../../../../components/date-format/DateFormatUtils'
 

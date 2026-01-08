@@ -1,6 +1,7 @@
 import React from 'react'
 import { render, waitFor, screen } from '@testing-library/react'
-import { Field, Validator } from '../../..'
+import type { Validator } from '../../..';
+import { Field } from '../../..'
 import { createMinimumAgeValidator } from '../NationalIdentityNumber'
 
 import nbNO from '../../../constants/locales/nb-NO'

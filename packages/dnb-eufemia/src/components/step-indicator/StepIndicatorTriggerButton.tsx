@@ -5,7 +5,8 @@
 
 import classnames from 'classnames'
 import React, { useContext } from 'react'
-import Button, { ButtonProps } from '../button/Button'
+import type { ButtonProps } from '../button/Button';
+import Button from '../button/Button'
 import Section from '../section/Section'
 import HeightAnimation from '../height-animation/HeightAnimation'
 import chevron_down from '../../icons/chevron_down'

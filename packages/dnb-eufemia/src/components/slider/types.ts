@@ -1,8 +1,8 @@
-import React from 'react'
+import type React from 'react'
 
 import type { SuffixChildren } from '../../shared/helpers/Suffix'
 import type { formatOptionParams } from '../number-format/NumberUtils'
-import { IncludeSnakeCase } from '../../shared/helpers/withSnakeCaseProps'
+import type { IncludeSnakeCase } from '../../shared/helpers/withSnakeCaseProps'
 import type { SpacingProps } from '../../shared/types'
 import type { SkeletonShow } from '../Skeleton'
 import type { GlobalStatusConfigObject } from '../GlobalStatus'

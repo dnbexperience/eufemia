@@ -1,7 +1,8 @@
 import React from 'react'
-import CardInstance, {
+import type {
   Props as CardProps,
-} from '../../../../components/card/Card'
+} from '../../../../components/card/Card';
+import CardInstance from '../../../../components/card/Card'
 
 function Card(props: CardProps) {
   return <CardInstance stack outset {...props} />

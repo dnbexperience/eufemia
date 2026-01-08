@@ -5,8 +5,8 @@
 
 import React from 'react'
 import type { DrawerListProviderProps } from './DrawerListProvider'
-import { ContextProps } from '../../shared/Context'
-import {
+import type { ContextProps } from '../../shared/Context'
+import type {
   DrawerListDataAll,
   DrawerListGroupTitles,
   DrawerListInternalData,

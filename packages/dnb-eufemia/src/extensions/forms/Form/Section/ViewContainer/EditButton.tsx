@@ -4,7 +4,7 @@ import ToolbarContext from '../Toolbar/ToolbarContext'
 import { useTranslation } from '../../../hooks'
 import { Button } from '../../../../../components'
 import { edit } from '../../../../../icons'
-import { ButtonProps } from '../../../../../components/button/Button'
+import type { ButtonProps } from '../../../../../components/button/Button'
 
 export type Props = ButtonProps
 

@@ -20,7 +20,7 @@ import {
   FormRow,
 } from '@dnb/eufemia/src'
 import { Provider } from '@dnb/eufemia/src/shared'
-import { SpaceAllProps } from '@dnb/eufemia/src/components/space/Space'
+import type { SpaceAllProps } from '@dnb/eufemia/src/components/space/Space'
 
 const TestStyles = styled.div`
   /* make sure our input gets an explicit width, because of mac/linux rendering differences */

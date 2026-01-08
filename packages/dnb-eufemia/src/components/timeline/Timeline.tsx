@@ -10,7 +10,8 @@ import type { SpacingProps } from '../../shared/types'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 
 // Internal
-import TimelineItem, { TimelineItemProps } from './TimelineItem'
+import type { TimelineItemProps } from './TimelineItem';
+import TimelineItem from './TimelineItem'
 import {
   validateDOMAttributes,
   extendPropsWithContext,

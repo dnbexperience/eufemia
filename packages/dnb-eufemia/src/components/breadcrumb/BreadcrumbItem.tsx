@@ -1,8 +1,10 @@
 import React from 'react'
 
 // Components
-import Button, { ButtonProps } from '../Button'
-import Anchor, { AnchorAllProps } from '../Anchor'
+import type { ButtonProps } from '../Button';
+import Button from '../Button'
+import type { AnchorAllProps } from '../Anchor';
+import Anchor from '../Anchor'
 import IconPrimary from '../icon-primary/IconPrimary'
 import type { DataAttributeTypes } from '../../shared/types'
 import type { IconIcon } from '../icon/Icon'

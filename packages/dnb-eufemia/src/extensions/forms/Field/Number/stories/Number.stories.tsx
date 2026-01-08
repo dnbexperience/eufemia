@@ -1,5 +1,6 @@
 import { useCallback } from 'react'
-import { Field, Form, FormError, UseFieldProps } from '../../..'
+import type { UseFieldProps } from '../../..';
+import { Field, Form, FormError } from '../../..'
 import { Anchor, Flex } from '../../../../../components'
 
 export default {

@@ -1,6 +1,7 @@
 import React from 'react'
 import { render } from '@testing-library/react'
-import VisuallyHidden, { VisuallyHiddenAllProps } from '../VisuallyHidden'
+import type { VisuallyHiddenAllProps } from '../VisuallyHidden';
+import VisuallyHidden from '../VisuallyHidden'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import { Provider } from '../../../shared'
 

@@ -1,9 +1,10 @@
 import React from 'react'
 import classnames from 'classnames'
 import Anchor from './Anchor'
-import Heading, {
+import type {
   HeadingAllProps,
-} from '@dnb/eufemia/src/components/Heading'
+} from '@dnb/eufemia/src/components/Heading';
+import Heading from '@dnb/eufemia/src/components/Heading'
 import { makeSlug } from '../../uilib/utils/slug'
 import { useLocation } from '@reach/router'
 import { anchorLinkStyle } from './AutoLinkHeader.module.scss'

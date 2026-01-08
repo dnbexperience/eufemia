@@ -10,7 +10,7 @@ import DrawerHeader from './parts/DrawerHeader'
 import DrawerNavigation from './parts/DrawerNavigation'
 import classnames from 'classnames'
 import Context from '../../shared/Context'
-import { DrawerProps, DrawerContentProps } from './types'
+import type { DrawerProps, DrawerContentProps } from './types'
 import { removeUndefinedProps } from '../../shared/component-helper'
 
 export type DrawerAllProps = DrawerProps & DrawerContentProps

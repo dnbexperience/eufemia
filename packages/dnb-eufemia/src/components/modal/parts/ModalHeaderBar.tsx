@@ -9,8 +9,8 @@ import { isTrue } from '../../../shared/component-helper'
 import Section from '../../section/Section'
 import ModalContext from '../ModalContext'
 import CloseButton from './CloseButton'
-import { SectionProps } from '../../Section'
-import { ReactChildType } from '../types'
+import type { SectionProps } from '../../Section'
+import type { ReactChildType } from '../types'
 
 export interface ModalHeaderBarProps
   extends Omit<SectionProps, 'children'> {

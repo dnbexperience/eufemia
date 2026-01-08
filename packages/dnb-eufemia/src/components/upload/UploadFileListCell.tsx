@@ -25,14 +25,14 @@ import {
   file_xml_medium as xml,
   file_medium as file,
 } from '../../icons'
-import { UploadFile, UploadFileNative } from './types'
+import type { UploadFile, UploadFileNative } from './types'
 
 // Shared
 import { getClosestParent } from '../../shared/component-helper'
 import useUpload, { isFileEqual } from './useUpload'
 import { getFileTypeFromExtension } from './UploadVerify'
 import UploadFileLink from './UploadFileListLink'
-import { ProgressIndicatorAllProps } from '../progress-indicator/types'
+import type { ProgressIndicatorAllProps } from '../progress-indicator/types'
 
 // Will be deprecated - and then default to only showing the file icon,
 // and not file icon per file extension type

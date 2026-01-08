@@ -1,11 +1,12 @@
 import type { Path, PathStrict, UseFieldProps } from '../../types'
 import { FormError } from '../../utils'
 import pointer from '../../utils/json-pointer'
-import {
+import type {
   GeneralConfig,
   HandlerConfig,
   PreResponseResolver,
-  ResponseResolver,
+  ResponseResolver} from '../createContext';
+import {
   fetchData,
   handleCountryPath,
   isSupportedCountryCode,

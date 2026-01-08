@@ -1,6 +1,7 @@
 import React from 'react'
 import classnames from 'classnames'
-import Space, { SpaceAllProps } from '../space/Space'
+import type { SpaceAllProps } from '../space/Space';
+import Space from '../space/Space'
 
 export type Columns = number
 

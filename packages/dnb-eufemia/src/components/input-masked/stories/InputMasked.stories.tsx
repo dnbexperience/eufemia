@@ -12,7 +12,7 @@ import styled from '@emotion/styled'
 import { Provider } from '../../../shared'
 import { MultiInputMask } from '../'
 import type { MultiInputMaskValue } from '../'
-import { InternalLocale } from '../../../shared/Context'
+import type { InternalLocale } from '../../../shared/Context'
 import { Field } from '../../../extensions/forms'
 
 const Pre = styled.pre`

@@ -9,29 +9,32 @@ import {
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import useFieldProps from '../useFieldProps'
-import { Context, ContextState, Provider } from '../../DataContext'
+import type { ContextState} from '../../DataContext';
+import { Context, Provider } from '../../DataContext'
 import FieldBoundaryContext from '../../DataContext/FieldBoundary/FieldBoundaryContext'
 import FieldBoundaryProvider from '../../DataContext/FieldBoundary/FieldBoundaryProvider'
 import FieldBlockContext from '../../FieldBlock/FieldBlockContext'
 import WizardStepContext from '../../Wizard/Step/StepContext'
 import WizardContext from '../../Wizard/Context'
-import Field, {
-  DataContext,
-  FieldBlock,
+import type {
   FieldPropsGeneric,
-  Form,
-  FormError,
-  Iterate,
   JSONSchema,
   OnChange,
   SubmitState,
-  UseFieldProps,
+  UseFieldProps} from '../../Forms';
+import Field, {
+  DataContext,
+  FieldBlock,
+  Form,
+  FormError,
+  Iterate,
   Wizard,
   makeAjvInstance,
 } from '../../Forms'
-import SectionContext, {
+import type {
   SectionContextState,
-} from '../../Form/Section/SectionContext'
+} from '../../Form/Section/SectionContext';
+import SectionContext from '../../Form/Section/SectionContext'
 import { spyOnEufemiaWarn, wait } from '../../../../core/jest/jestSetup'
 import { useSharedState } from '../../../../shared/helpers/useSharedState'
 

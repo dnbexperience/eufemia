@@ -1,8 +1,8 @@
 import type { ErrorObject } from 'ajv/dist/2020.js'
 import { FormError } from '../FormError'
-import { DefaultErrorMessages } from '../../types'
-import { FormsTranslation } from '../../hooks/useTranslation'
-import { AdditionalReturnUtils } from '../../../../shared/useTranslation'
+import type { DefaultErrorMessages } from '../../types'
+import type { FormsTranslation } from '../../hooks/useTranslation'
+import type { AdditionalReturnUtils } from '../../../../shared/useTranslation'
 import {
   Ajv,
   makeAjvInstance,

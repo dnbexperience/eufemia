@@ -7,12 +7,12 @@ import {
   subMonths,
   subYears,
 } from 'date-fns'
-import { CalendarNavigationEvent } from './DatePickerCalendar'
+import type { CalendarNavigationEvent } from './DatePickerCalendar'
 import classnames from 'classnames'
 import Button from '../Button'
 import { useTranslation } from '../../shared'
 import DatePickerContext from './DatePickerContext'
-import { InternalLocale } from '../../shared/Context'
+import type { InternalLocale } from '../../shared/Context'
 import { formatDate } from '../date-format/DateFormatUtils'
 
 type CalendarNavigationDateType = 'month' | 'year'

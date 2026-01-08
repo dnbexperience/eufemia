@@ -1,9 +1,9 @@
-import { ToCamelCasePartial } from '../../shared/helpers/withCamelCaseProps'
-import { ModalPropTypes } from '../modal/Modal'
-import { IconIcon } from '../Icon'
-import { DialogActionProps } from './parts/DialogAction'
-import { ReactChildType } from '../modal/types'
-import React from 'react'
+import type { ToCamelCasePartial } from '../../shared/helpers/withCamelCaseProps'
+import type { ModalPropTypes } from '../modal/Modal'
+import type { IconIcon } from '../Icon'
+import type { DialogActionProps } from './parts/DialogAction'
+import type { ReactChildType } from '../modal/types'
+import type React from 'react'
 
 export interface DialogProps extends ToCamelCasePartial<ModalPropTypes> {
   /**

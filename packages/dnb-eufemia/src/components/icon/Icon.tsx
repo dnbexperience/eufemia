@@ -6,13 +6,14 @@ import {
   processChildren,
   extendPropsWithContext,
 } from '../../shared/component-helper'
-import Context, { ContextProps } from '../../shared/Context'
+import type { ContextProps } from '../../shared/Context';
+import Context from '../../shared/Context'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import { iconCase } from './IconHelpers'
-import { SpacingProps } from '../../shared/types'
-import { SkeletonShow } from '../Skeleton'
-import { FormStatusIconTypes } from '../FormStatus'
+import type { SpacingProps } from '../../shared/types'
+import type { SkeletonShow } from '../Skeleton'
+import type { FormStatusIconTypes } from '../FormStatus'
 
 export const DefaultIconSize = 16
 export const DefaultIconSizes = {

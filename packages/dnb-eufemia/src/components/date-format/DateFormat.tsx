@@ -6,7 +6,8 @@ import React, {
   useState,
   useRef,
 } from 'react'
-import SharedContext, { InternalLocale } from '../../shared/Context'
+import type { InternalLocale } from '../../shared/Context';
+import SharedContext from '../../shared/Context'
 import { convertStringToDate } from '../date-picker/DatePickerCalc'
 import {
   formatDate,
@@ -17,10 +18,10 @@ import {
   isValidDuration,
 } from './DateFormatUtils'
 import { format } from 'date-fns'
-import { SpacingProps } from '../space/types'
+import type { SpacingProps } from '../space/types'
 import classnames from 'classnames'
 import { createSpacingClasses } from '../space/SpacingUtils'
-import { SkeletonShow } from '../Skeleton'
+import type { SkeletonShow } from '../Skeleton'
 import Tooltip from '../Tooltip'
 import {
   createSkeletonClass,

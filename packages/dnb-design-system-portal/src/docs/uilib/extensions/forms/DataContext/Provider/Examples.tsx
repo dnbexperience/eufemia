@@ -1,10 +1,11 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
+import type {
+  JSONSchema} from '@dnb/eufemia/src/extensions/forms';
 import {
   Form,
   DataContext,
   Field,
   Value,
-  JSONSchema,
   makeAjvInstance,
 } from '@dnb/eufemia/src/extensions/forms'
 import { Flex } from '@dnb/eufemia/src'

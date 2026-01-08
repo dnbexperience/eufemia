@@ -13,16 +13,18 @@ import {
   waitFor,
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import DrawerList, {
+import type {
   DrawerListAllProps,
   DrawerListDataArray,
   DrawerListData,
   DrawerListGroupTitles,
-} from '../DrawerList'
+} from '../DrawerList';
+import DrawerList from '../DrawerList'
 import DrawerListProvider from '../DrawerListProvider'
-import DrawerListContext, {
+import type {
   DrawerListContextProps,
-} from '../DrawerListContext'
+} from '../DrawerListContext';
+import DrawerListContext from '../DrawerListContext'
 import { IsolatedStyleScope } from '../../../shared'
 import Dialog from '../../../components/dialog/Dialog'
 import {

@@ -12,7 +12,7 @@ import type {
   FormStatusText
 } from '../FormStatus';
 import type { GlobalStatusConfigObject } from '../GlobalStatus';
-import { AnchorProps } from '../Anchor';
+import type { AnchorProps } from '../Anchor';
 export type ButtonText = string | React.ReactNode;
 export type ButtonVariant =
   | 'primary'

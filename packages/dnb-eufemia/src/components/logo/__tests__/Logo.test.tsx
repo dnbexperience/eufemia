@@ -5,7 +5,8 @@
 
 import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
-import Logo, { CarnegieDefault, LogoProps } from '../Logo'
+import type { LogoProps } from '../Logo';
+import Logo, { CarnegieDefault } from '../Logo'
 import { render } from '@testing-library/react'
 import Provider from '../../../shared/Provider'
 import Theme from '../../../shared/Theme'
