@@ -5,13 +5,15 @@
 
 import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
-import addDays from 'date-fns/addDays'
-import startOfMonth from 'date-fns/startOfMonth'
-import lastDayOfMonth from 'date-fns/lastDayOfMonth'
-import startOfWeek from 'date-fns/startOfWeek'
-import lastDayOfWeek from 'date-fns/lastDayOfWeek'
-import isWeekend from 'date-fns/isWeekend'
-import isSameDay from 'date-fns/isSameDay'
+import {
+  addDays,
+  isSameDay,
+  startOfMonth,
+  lastDayOfMonth,
+  startOfWeek,
+  lastDayOfWeek,
+  isWeekend,
+} from 'date-fns'
 import { DatePicker, HelpButton } from '@dnb/eufemia/src'
 import { getOsloDate } from '@dnb/eufemia/src/components/date-format/DateFormatUtils'
 
