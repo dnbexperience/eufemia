@@ -47,7 +47,7 @@ const AutoLinkHeader = ({
             try {
               window.history.replaceState(undefined, undefined, `#${id}`)
             } catch (e) {
-              console.log('Could not call replaceState:', e)
+              console.error('Could not call replaceState:', e)
             }
           }
         }
