@@ -61,9 +61,20 @@ export type BadgeProps = {
 
   /**
    * The variant of the component.
-   * Default: information.
+   * Default: "information".
    */
   variant?: 'information' | 'notification' | 'content'
+
+  /**
+   * Defines the status color of the `"information"` variant. Has no effect on other variants.
+   * Default: "default".
+   */
+  status?: 'default' | 'neutral' | 'positive' | 'warning' | 'negative'
+  /**
+   * Applies subtle style to `"information"` variant. Has no effect on other variants.
+   * Default: false.
+   */
+  subtle?: boolean
 }
 
 type BadgeAndSpacingProps = BadgeProps &
@@ -79,6 +90,8 @@ export const defaultProps = {
   vertical: null,
   horizontal: null,
   variant: 'information',
+  status: 'default',
+  subtle: false,
 }
 
 function Badge(localProps: BadgeAndSpacingProps) {
@@ -122,6 +135,8 @@ function BadgeElem(
     vertical,
     content: contentProp,
     variant,
+    status,
+    subtle,
     context,
     ...restProps
   } = props
@@ -158,6 +173,10 @@ function BadgeElem(
         horizontal && `dnb-badge--horizontal-${horizontal}`,
         vertical && `dnb-badge--vertical-${vertical}`,
         isInline && 'dnb-badge--inline',
+        variant === 'information' &&
+          `dnb-badge--status-${status}${
+            subtle ? ` dnb-badge--subtle` : ''
+          }`,
         skeletonClasses,
         spacingClasses,
         className

@@ -13,23 +13,39 @@ import {
   BadgeTopRight,
   BadgeBottomLeft,
   BadgeBottomRight,
+  BadgeStatus,
 } from 'Docs/uilib/components/badge/Examples'
 
 ## Demos
 
-### Setting property `variant`
+### Setting the `variant` property
 
-#### default `variant` is 'information'
+#### Information
+
+The default variant. Equivalent to `variant='information'`.
 
 <BadgeDefault />
-<BadgeInformationInline />
-<BadgeInformationAvatar />
 
-#### `variant` 'notification'
+#### Notification
+
+`variant='notification'`.
 
 <BadgeNotification />
+
+### Usage examples
+
+<BadgeInformationInline />
+<BadgeInformationAvatar />
 <BadgeNotificationInline />
 <BadgeNotificationAvatar />
+
+### Setting the `status` and `subtle` properties
+
+The information variant has 5 possible `status` values, and two possible `subtle` values.
+
+The default state is equivalent to `status='default'` and `subtle={false}`.
+
+<BadgeStatus />
 
 ### Setting property `horizontal` and `vertical`
 

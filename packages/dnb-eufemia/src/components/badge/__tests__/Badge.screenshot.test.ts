@@ -80,4 +80,12 @@ describe('Badge', () => {
       expect(screenshot).toMatchImageSnapshot()
     })
   })
+  describe('status', () => {
+    it('have to match all status variants', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="badge-status"]',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+  })
 })

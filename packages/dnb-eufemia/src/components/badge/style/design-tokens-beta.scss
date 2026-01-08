@@ -1,0 +1,52 @@
+/* 
+  BETA
+
+  These are the figma design variables used by the "information" variant of the badge component.
+  The naming, prefix, location, and anything else is subject to change.
+
+  This is just to keep track of design variables used, and figure out how to best manage them in the future.
+
+  As well as allowing us to use colors that are not yet added to the repository in a more controlled manner.
+  These colors should eventually end up being properly defined design variables.
+*/
+
+@mixin dnb-badge-design-tokens-beta {
+  // DNB/ColdGreen/300
+  --figma-color-decorative-first-subtle: var(--color-mint-green);
+  // DNB/ColdGreen/100
+  --figma-color-decorative-first-muted: #d8f3ec;
+  // DNB/Greyscale/200
+  --figma-color-background-neutral-bold: var(--color-black-20);
+  // DNB/Greyscale/50
+  --figma-color-background-neutral-subtle: var(--color-black-3);
+  // DNB/Greyscale/200
+  --figma-color-stroke-neutral-bold: var(--color-black-20);
+  // DNB/Greyscale/800
+  --figma-color-text-neutral: var(--color-black-80);
+  // DNB/Greyscale/0
+  --figma-color-text-neutral-inverse: var(--color-white);
+  // DNB/Green/700
+  --figma-color-background-positive: var(--color-success-green);
+  // DNB/Green/700
+  --figma-color-text-positive: var(--color-success-green);
+  // DNB/Green/50
+  --figma-color-background-positive-subtle: #ebf4f2;
+  // DNB/Green/700
+  --figma-color-stroke-positive: var(--color-success-green);
+  // DNB/Yellow/500
+  --figma-color-background-warning: var(--color-accent-yellow);
+  // DNB/Yellow/800
+  --figma-color-text-warning-bold: #805b0e;
+  // DNB/Yellow/50
+  --figma-color-background-warning-subtle: var(--color-sand-yellow);
+  // DNB/Yellow/500
+  --figma-color-stroke-warning: var(--color-accent-yellow);
+  // DNB/Red/600
+  --figma-color-background-error: #d52525;
+  // DNB/Red/600
+  --figma-color-text-destructive: #d52525;
+  // DNB/Red/50
+  --figma-color-background-error-subtle: #fceeee;
+  // DNB/Red/600
+  --figma-color-stroke-error: #d52525;
+}

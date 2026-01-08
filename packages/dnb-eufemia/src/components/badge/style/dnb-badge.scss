@@ -3,7 +3,7 @@
 *
 */
 
-@import '../../../style/core/utilities.scss';
+@use '../../../style/core/utilities.scss';
 
 .dnb-badge {
   display: inline-flex;
@@ -40,6 +40,21 @@
   &--variant-information {
     padding: 0.125rem 0.5rem;
     border-radius: 0.5rem;
+    background-color: var(--badge-information-bg);
+    color: var(--badge-information-color, inherit);
+  }
+
+  &--subtle {
+    background-color: var(--badge-information-subtle-bg);
+    color: var(
+      --badge-information-subtle-color,
+      var(--badge-information-color)
+    );
+    @include utilities.fakeBorder(
+      var(--badge-information-subtle-border),
+      null,
+      inset
+    );
   }
 
   &--horizontal-left {

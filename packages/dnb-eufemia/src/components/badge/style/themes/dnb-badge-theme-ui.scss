@@ -3,16 +3,76 @@
 *
 */
 
-@import '../../../../style/core/utilities.scss';
+@use '../design-tokens-beta.scss';
 
 .dnb-badge {
-  color: var(--color-white);
+  @include design-tokens-beta.dnb-badge-design-tokens-beta();
 
   &--variant-information {
-    background-color: var(--color-emerald-green);
+    --badge-information-color: var(--figma-color-text-neutral);
   }
 
   &--variant-notification {
+    color: var(--color-white);
     background-color: var(--color-fire-red);
+  }
+
+  &--status-default {
+    --badge-information-bg: var(--figma-color-decorative-first-subtle);
+
+    // subtle
+    --badge-information-subtle-bg: var(
+      --figma-color-decorative-first-muted
+    );
+    --badge-information-subtle-border: var(
+      --figma-color-decorative-first-subtle
+    );
+  }
+
+  &--status-neutral {
+    --badge-information-bg: var(--figma-color-background-neutral-bold);
+
+    // subtle
+    --badge-information-subtle-bg: var(
+      --figma-color-background-neutral-subtle
+    );
+    --badge-information-subtle-border: var(
+      --figma-color-stroke-neutral-bold
+    );
+  }
+
+  &--status-positive {
+    --badge-information-bg: var(--figma-color-background-positive);
+    --badge-information-color: var(--figma-color-text-neutral-inverse);
+
+    // subtle
+    --badge-information-subtle-bg: var(
+      --figma-color-background-positive-subtle
+    );
+    --badge-information-subtle-color: var(--figma-color-text-positive);
+    --badge-information-subtle-border: var(--figma-color-stroke-positive);
+  }
+
+  &--status-warning {
+    --badge-information-bg: var(--figma-color-background-warning);
+
+    // subtle
+    --badge-information-subtle-bg: var(
+      --figma-color-background-warning-subtle
+    );
+    --badge-information-subtle-color: var(--figma-color-text-warning-bold);
+    --badge-information-subtle-border: var(--figma-color-stroke-warning);
+  }
+
+  &--status-negative {
+    --badge-information-bg: var(--figma-color-background-error);
+    --badge-information-color: var(--figma-color-text-neutral-inverse);
+
+    // subtle
+    --badge-information-subtle-bg: var(
+      --figma-color-background-error-subtle
+    );
+    --badge-information-subtle-color: var(--figma-color-text-destructive);
+    --badge-information-subtle-border: var(--figma-color-stroke-error);
   }
 }
