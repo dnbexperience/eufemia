@@ -33,13 +33,13 @@ const Intro = ({ children }: IntroProps) => {
           window.history.back()
         }
       } catch (e) {
-        console.log(e)
+        console.error(e)
       }
     }
     try {
       document.addEventListener('keydown', onKeyDownHandler)
     } catch (e) {
-      console.log(e)
+      console.error(e)
     }
     return () => {
       document.removeEventListener('keydown', onKeyDownHandler)
