@@ -8,7 +8,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import DOMPurify from 'isomorphic-dompurify'
 import {
   warn,
   isTrue,
@@ -1524,17 +1523,11 @@ class AutocompleteInstance extends React.PureComponent {
               .replace(new RegExp(strS, 'g'), tagS)
               .replace(new RegExp(strE, 'g'), tagE)
 
-            // Sanitize HTML to prevent XSS attacks
-            const sanitizedHTML = DOMPurify.sanitize(__html, {
-              ALLOWED_TAGS: ['span'],
-              ALLOWED_ATTR: ['class'],
-            })
-
             result = (
               <span
                 key={cacheHash + idx}
                 dangerouslySetInnerHTML={{
-                  __html: sanitizedHTML,
+                  __html,
                 }}
               />
             )
