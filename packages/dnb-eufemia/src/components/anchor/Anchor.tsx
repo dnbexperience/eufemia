@@ -5,7 +5,7 @@
 
 import React from 'react'
 import classnames from 'classnames'
-import E, { ElementProps } from '../../elements/Element'
+import E, { ElementAllProps } from '../../elements/Element'
 import Context from '../../shared/Context'
 import {
   makeUniqueId,
@@ -131,7 +131,7 @@ export function AnchorInstance(localProps: AnchorAllProps) {
     ...rest
   } = allProps
 
-  const attributes = rest as ElementProps
+  const attributes = rest as ElementAllProps
   const internalId = id || 'id' + makeUniqueId()
   const as = element || 'a'
 
@@ -145,6 +145,11 @@ export function AnchorInstance(localProps: AnchorAllProps) {
     !className?.includes('dnb-anchor--no-launch-icon') &&
     !omitClass
   const showTooltip = (tooltip || _opensNewTab) && !allProps.title
+
+  // Security: Add rel="noopener noreferrer" to prevent reverse tabnabbing when opening in new tab
+  if (_opensNewTab && !attributes.rel) {
+    attributes.rel = 'noopener noreferrer'
+  }
 
   const iconNode = icon && getIcon(icon)
 
