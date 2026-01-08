@@ -15,8 +15,8 @@ type IntroProps = {
   children?: React.ReactNode
 }
 
-const ref = React.createRef<HTMLDivElement>()
 const Intro = ({ children }: IntroProps) => {
+  const ref = React.useRef<HTMLDivElement>(null)
   React.useEffect(() => {
     const onKeyDownHandler = (e: KeyboardEvent) => {
       if (/textarea|input/i.test(document.activeElement.tagName)) {
