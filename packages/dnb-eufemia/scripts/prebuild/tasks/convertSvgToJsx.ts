@@ -42,21 +42,12 @@ export default async function convertSvgToJsx({
   customIconsLockFilePath = null,
 } = {}) {
   if (!preventDelete) {
-    const filesToDelete = await glob(
-      `${destPath}/**/*.{js,ts,tsx}`,
-      {
-        ignore: [
-          '**/__tests__/*',
-          '**/secondary*',
-          '**/primary*',
-        ],
-      }
-    )
-    
+    const filesToDelete = await glob(`${destPath}/**/*.{js,ts,tsx}`, {
+      ignore: ['**/__tests__/*', '**/secondary*', '**/primary*'],
+    })
+
     await Promise.all(
-      filesToDelete.map((file) =>
-        fs.promises.rm(file, { force: true })
-      )
+      filesToDelete.map((file) => fs.promises.rm(file, { force: true }))
     )
 
     log.info(
