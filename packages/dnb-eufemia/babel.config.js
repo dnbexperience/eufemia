@@ -104,23 +104,29 @@ if (typeof process.env.BABEL_ENV !== 'undefined') {
   ])
 }
 
+const basePlugins = [
+  'babel-plugin-optimize-clsx',
+  '@babel/plugin-proposal-export-default-from',
+  '@babel/plugin-proposal-object-rest-spread',
+  '@babel/plugin-proposal-class-properties',
+  '@babel/plugin-proposal-optional-chaining',
+  '@babel/plugin-transform-export-namespace-from',
+  '@babel/plugin-transform-nullish-coalescing-operator',
+]
+
+const polyfillPlugin = [
+  'polyfill-corejs3',
+  {
+    method: 'usage-pure',
+    version: require('core-js-pure/package.json').version,
+  },
+]
+
 const config = {
   presets: presetsGeneral,
   plugins: [
-    'babel-plugin-optimize-clsx',
-    '@babel/plugin-proposal-export-default-from',
-    '@babel/plugin-proposal-object-rest-spread',
-    '@babel/plugin-proposal-class-properties',
-    '@babel/plugin-proposal-optional-chaining',
-    '@babel/plugin-transform-export-namespace-from',
-    '@babel/plugin-transform-nullish-coalescing-operator',
-    [
-      'polyfill-corejs3',
-      {
-        method: 'usage-pure',
-        version: require('core-js-pure/package.json').version,
-      },
-    ],
+    ...basePlugins,
+    ...(process.env.BABEL_ENV === 'es' ? [] : [polyfillPlugin]),
   ],
   sourceMaps: true,
   comments: false,

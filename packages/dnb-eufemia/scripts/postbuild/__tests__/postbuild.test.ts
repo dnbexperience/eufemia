@@ -289,7 +289,7 @@ describe('babel build', () => {
             expect(content).toMatch(/export default class Input extends/g)
             expect(content).not.toContain('core-js-pure/modules/es')
             expect(content).toContain(
-              'import _extends from "@babel/runtime-corejs3/helpers/esm/extends";'
+              'import _extends from "@babel/runtime/helpers/esm/extends";'
             )
           }
 
@@ -304,7 +304,7 @@ describe('babel build', () => {
             expect(content).toContain('export default Breadcrumb;')
             expect(content).not.toContain('core-js-pure/modules/es')
             expect(content).toContain(
-              'import _extends from "@babel/runtime-corejs3/helpers/esm/extends";'
+              'import _extends from "@babel/runtime/helpers/esm/extends";'
             )
           }
 
@@ -316,8 +316,8 @@ describe('babel build', () => {
               ),
               'utf-8'
             )
-            expect(content).toContain('_Object$hasOwn')
-            expect(content).not.toContain('Object.hasOwn')
+            expect(content).toContain('Object.hasOwn')
+            expect(content).not.toContain('_Object$hasOwn')
           }
         }
         break
