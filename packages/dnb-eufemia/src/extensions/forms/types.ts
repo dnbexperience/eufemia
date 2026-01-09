@@ -45,7 +45,7 @@ export type AllJSONSchemaVersions<DataType = unknown> =
   | (Omit<AllJSONSchemaVersionsBasis<DataType>, 'required'> & {
       required?: readonly string[]
     })
-export { JSONSchemaType }
+export type { JSONSchemaType }
 
 // Union type for both AJV and Zod schemas
 export type Schema<Value = unknown> =
