@@ -2,7 +2,7 @@ import { PropertiesTableProps } from '../../../../shared/types'
 
 export const SubmitButtonProperties: PropertiesTableProps = {
   variant: {
-    doc: 'Use `send` to show the send icon.',
+    doc: 'Use `send` to show the send icon, or `secondary` for secondary button styling.',
     type: 'string',
     status: 'optional',
   },

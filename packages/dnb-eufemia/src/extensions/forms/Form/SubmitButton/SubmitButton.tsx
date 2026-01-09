@@ -16,7 +16,7 @@ export type Props = {
 } & ComponentProps &
   Omit<ButtonProps, 'variant'> &
   Partial<React.HTMLAttributes<HTMLButtonElement | HTMLAnchorElement>> & {
-    variant?: 'send'
+    variant?: 'send' | 'secondary'
   }
 
 function SubmitButton(props: Props) {
@@ -66,6 +66,7 @@ function SubmitButton(props: Props) {
       className={classnames('dnb-forms-submit-button', className)}
       onClick={onClickHandler}
       type={isolate ? 'button' : 'submit'}
+      variant={variant === 'secondary' ? 'secondary' : undefined}
       icon={variant === 'send' ? send : null}
       data-form-submit-button-id={submitButtonId}
       {...rest}
