@@ -14,16 +14,14 @@ describe('cleanupPackage', () => {
     const packageString = await fs.readFile(filepath, 'utf-8')
     const cleanedPackage = await cleanupPackage({
       packageString,
-      filepath,
     })
-    const parsedJson = JSON.parse(cleanedPackage)
 
-    expect(parsedJson).not.toHaveProperty('release')
-    expect(parsedJson).not.toHaveProperty('scripts')
-    expect(parsedJson).not.toHaveProperty('devDependencies')
-    expect(parsedJson).toHaveProperty('dependencies')
-    expect(parsedJson).toHaveProperty('peerDependencies')
-    expect(parsedJson.license).toBe('SEE LICENSE IN LICENSE FILE')
+    expect(cleanedPackage).not.toHaveProperty('release')
+    expect(cleanedPackage).not.toHaveProperty('scripts')
+    expect(cleanedPackage).not.toHaveProperty('devDependencies')
+    expect(cleanedPackage).toHaveProperty('dependencies')
+    expect(cleanedPackage).toHaveProperty('peerDependencies')
+    expect(cleanedPackage.license).toBe('SEE LICENSE IN LICENSE FILE')
   })
 })
 
@@ -45,8 +43,8 @@ describe('package.json', () => {
     expect(fs.existsSync(path.resolve(packageJsonFile))).toBeTruthy()
   })
 
-  it('has no type="module"', () => {
-    expect(packageJson.type).toBeFalsy()
+  it('has type="module"', () => {
+    expect(packageJson.type).toBe('module')
   })
 
   it('has not these deleted fields', () => {
