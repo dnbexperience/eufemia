@@ -4463,7 +4463,6 @@ __metadata:
     stylelint: "npm:15.9.0"
     stylelint-config-recommended: "npm:12.0.0"
     stylelint-config-standard-scss: "npm:9.0.0"
-    svg2vectordrawable: "npm:2.9.1"
     svgo: "npm:3.0.0"
     tar: "npm:6.1.11"
     traverse: "npm:0.6.6"
@@ -9578,13 +9577,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/q@npm:^1.5.1":
-  version: 1.5.5
-  resolution: "@types/q@npm:1.5.5"
-  checksum: 10/37bb27dbd602650577052a3c1ee749b0d027caa6ff06ea307f3f2012ee64fa5740e9bf5fe548c8377f319797a5ecb28a602fb2be977339bc9e035f42d91601a3
-  languageName: node
-  linkType: hard
-
 "@types/reach__router@npm:^1.3.10":
   version: 1.3.11
   resolution: "@types/reach__router@npm:1.3.11"
@@ -10768,13 +10760,6 @@ __metadata:
   version: 1.7.5
   resolution: "abortcontroller-polyfill@npm:1.7.5"
   checksum: 10/aac398f7fc076235fe731adaffd2c319fe6c1527af8ca561890242d5396351350e0705726478778dc90326a69a4c044890c156fe867cba7f3ffeb670f8665a51
-  languageName: node
-  linkType: hard
-
-"abs-svg-path@npm:^0.1.1":
-  version: 0.1.1
-  resolution: "abs-svg-path@npm:0.1.1"
-  checksum: 10/af1a167c09e8bdb76c80adca7333f3d828e5b50e37b9702aa03675e271919e7b1eeaa35cce939970ecba14769953b7465ea34c2129ab683ddff9d973a07f164f
   languageName: node
   linkType: hard
 
@@ -13376,7 +13361,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chalk@npm:^2.0.0, chalk@npm:^2.0.1, chalk@npm:^2.2.0, chalk@npm:^2.3.2, chalk@npm:^2.4.1, chalk@npm:^2.4.2":
+"chalk@npm:^2.0.0, chalk@npm:^2.0.1, chalk@npm:^2.2.0, chalk@npm:^2.3.2, chalk@npm:^2.4.2":
   version: 2.4.2
   resolution: "chalk@npm:2.4.2"
   dependencies:
@@ -13956,17 +13941,6 @@ __metadata:
   version: 4.6.0
   resolution: "co@npm:4.6.0"
   checksum: 10/a5d9f37091c70398a269e625cedff5622f200ed0aa0cff22ee7b55ed74a123834b58711776eb0f1dc58eb6ebbc1185aa7567b57bd5979a948c6e4f85073e2c05
-  languageName: node
-  linkType: hard
-
-"coa@npm:^2.0.2":
-  version: 2.0.2
-  resolution: "coa@npm:2.0.2"
-  dependencies:
-    "@types/q": "npm:^1.5.1"
-    chalk: "npm:^2.4.1"
-    q: "npm:^1.1.2"
-  checksum: 10/3934203d8c2bc0b824c2347cc19060db7affcc522da1f21a3dd79ac1e9d9c8a60124fd5d771a4d99b4a49005e26022cd4e11268d868fb19cabd9a51ab652583f
   languageName: node
   linkType: hard
 
@@ -22799,13 +22773,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"is-svg-path@npm:^1.0.1":
-  version: 1.0.2
-  resolution: "is-svg-path@npm:1.0.2"
-  checksum: 10/c437d686273208b324f8b3f03a5e8b068262226bcfece1089bea64b50d6bc2a9e7faa3462e9e22897c8777cf7c27417dc1a0b12b16c34bec056bb7908513dc68
-  languageName: node
-  linkType: hard
-
 "is-svg@npm:^4.2.1":
   version: 4.4.0
   resolution: "is-svg@npm:4.4.0"
@@ -27874,15 +27841,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"normalize-svg-path@npm:^1.0.0":
-  version: 1.1.0
-  resolution: "normalize-svg-path@npm:1.1.0"
-  dependencies:
-    svg-arc-to-cubic-bezier: "npm:^3.0.0"
-  checksum: 10/740b1f63e6041981e80fd1508b10d850a1bd78ff13008f011bf82783c10458fcf6597efb784c6380082d500f049d859666b2e275d53460d1b9427fee25ff7e1f
-  languageName: node
-  linkType: hard
-
 "normalize-url@npm:^4.1.0":
   version: 4.5.1
   resolution: "normalize-url@npm:4.5.1"
@@ -29094,13 +29052,6 @@ __metadata:
   version: 1.0.0
   resolution: "parse-passwd@npm:1.0.0"
   checksum: 10/4e55e0231d58f828a41d0f1da2bf2ff7bcef8f4cb6146e69d16ce499190de58b06199e6bd9b17fbf0d4d8aef9052099cdf8c4f13a6294b1a522e8e958073066e
-  languageName: node
-  linkType: hard
-
-"parse-svg-path@npm:^0.1.2":
-  version: 0.1.2
-  resolution: "parse-svg-path@npm:0.1.2"
-  checksum: 10/bba7d4b4207fcc9eaf553b0d34db96ea8a1173635bc94528b5b66e1581902d4792d8d6229103764f01af4d839274234e97a4fa1c6f0fe7dcce195383848cec56
   languageName: node
   linkType: hard
 
@@ -31249,7 +31200,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"q@npm:^1.1.2, q@npm:^1.5.1":
+"q@npm:^1.5.1":
   version: 1.5.1
   resolution: "q@npm:1.5.1"
   checksum: 10/70c4a30b300277165cd855889cd3aa681929840a5940413297645c5691e00a3549a2a4153131efdf43fe8277ee8cf5a34c9636dcb649d83ad47f311a015fd380
@@ -35225,29 +35176,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"svg-arc-to-cubic-bezier@npm:^3.0.0":
-  version: 3.2.0
-  resolution: "svg-arc-to-cubic-bezier@npm:3.2.0"
-  checksum: 10/1b017282c30ab81327dbf6b9657457726f6593e008bed7d7bda3e47ad152b7e90fdd41cde0992dcbeb48fcc1bd3e0df4c6564aee3429c2c14ce25e2536e04008
-  languageName: node
-  linkType: hard
-
 "svg-parser@npm:^2.0.4":
   version: 2.0.4
   resolution: "svg-parser@npm:2.0.4"
   checksum: 10/ec196da6ea21481868ab26911970e35488361c39ead1c6cdd977ba16c885c21a91ddcbfd113bfb01f79a822e2a751ef85b2f7f95e2cb9245558ebce12c34af1f
-  languageName: node
-  linkType: hard
-
-"svg-path-bounds@npm:^1.0.1":
-  version: 1.0.2
-  resolution: "svg-path-bounds@npm:1.0.2"
-  dependencies:
-    abs-svg-path: "npm:^0.1.1"
-    is-svg-path: "npm:^1.0.1"
-    normalize-svg-path: "npm:^1.0.0"
-    parse-svg-path: "npm:^0.1.2"
-  checksum: 10/225021ac4bf0e86e3af5a20e55a47c997a61273ca368a4204235892fa0dd4c07131249af132de9c82d3d8294c314184e900692621965278e628cd815704cf12d
   languageName: node
   linkType: hard
 
@@ -35269,26 +35201,6 @@ __metadata:
   version: 1.0.0
   resolution: "svg-tags@npm:1.0.0"
   checksum: 10/407e5ef87cfa2fb81c61d738081c2decd022ce13b922d035b214b49810630bf5d1409255a4beb3a940b77b32f6957806deff16f1bf0ce1ab11c7a184115a0b7f
-  languageName: node
-  linkType: hard
-
-"svg2vectordrawable@npm:2.9.1":
-  version: 2.9.1
-  resolution: "svg2vectordrawable@npm:2.9.1"
-  dependencies:
-    coa: "npm:^2.0.2"
-    mkdirp: "npm:^1.0.4"
-    svg-path-bounds: "npm:^1.0.1"
-    svgo: "npm:^2.8.0"
-    svgpath: "npm:^2.5.0"
-  bin:
-    s2v: bin/svg2vectordrawable
-    svg2android: bin/svg2vectordrawable
-    svg2avd: bin/svg2vectordrawable
-    svg2drawable: bin/svg2vectordrawable
-    svg2vector: bin/svg2vectordrawable
-    svg2vectordrawable: bin/svg2vectordrawable
-  checksum: 10/db1254626c6aab3b281fc1cf15026dca73a8e214009527fa343cc85330eea4980c02d6ea9fd4ac80f717c45667b7e02de70ba8d03820e96f099eb8efcff606db
   languageName: node
   linkType: hard
 
@@ -35339,13 +35251,6 @@ __metadata:
   bin:
     svgo: ./bin/svgo
   checksum: 10/7af91ef9439aaed6c74a7dc4f2405b39bb5d74719085023265f3a8cd9f2f1d6bc3e70036866d0f52e0cee027285dc49a41b7b21893571e15c61c060155b769ff
-  languageName: node
-  linkType: hard
-
-"svgpath@npm:^2.5.0":
-  version: 2.6.0
-  resolution: "svgpath@npm:2.6.0"
-  checksum: 10/88533d11fe44eae7db3751def85f72687554bf60224e7e8fd7cd40564c3c58cb93cf6f32470cb28a2fc29b4ba43273c478f0461f9be07f7233454740ee117873
   languageName: node
   linkType: hard
 
