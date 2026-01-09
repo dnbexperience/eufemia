@@ -1434,8 +1434,6 @@ class AutocompleteInstance extends React.PureComponent {
 
     const strS = '\uFFFE'
     const strE = '\uFFFF'
-    const tagS = '<span class="dnb-drawer-list__option__item--highlight">'
-    const tagE = '</span>'
 
     searchIndex = searchIndex.map((item, i) => {
       const listOfFoundWords = findSearchWords(item.contentChunk, i)
@@ -1516,21 +1514,43 @@ class AutocompleteInstance extends React.PureComponent {
 
           if (segment.includes(strS)) {
             // to make sure we don't have several in a row
-            const __html = segment
+            const normalized = segment
               .replace(new RegExp(`(${strS})+`, 'g'), strS)
               .replace(new RegExp(`(${strE})+`, 'g'), strE)
               .replace(new RegExp(`(${strE}${strS})`, 'g'), '')
-              .replace(new RegExp(strS, 'g'), tagS)
-              .replace(new RegExp(strE, 'g'), tagE)
 
-            result = (
-              <span
-                key={cacheHash + idx}
-                dangerouslySetInnerHTML={{
-                  __html,
-                }}
-              />
-            )
+            const tokens = normalized
+              .split(new RegExp(`(${strS}|${strE})`, 'g'))
+              .filter(Boolean)
+
+            let isHighlighted = false
+            let highlightIndex = 0
+            const parts = tokens.map((token) => {
+              if (token === strS) {
+                isHighlighted = true
+                return null
+              }
+              if (token === strE) {
+                isHighlighted = false
+                return null
+              }
+
+              if (isHighlighted) {
+                const key = `highlight-${cacheHash}-${idx}-${highlightIndex++}`
+                return (
+                  <span
+                    key={key}
+                    className="dnb-drawer-list__option__item--highlight"
+                  >
+                    {token}
+                  </span>
+                )
+              }
+
+              return token
+            })
+
+            result = <span key={cacheHash + idx}>{parts}</span>
           } else {
             result = <span key={cacheHash + idx}>{segment}</span>
           }
