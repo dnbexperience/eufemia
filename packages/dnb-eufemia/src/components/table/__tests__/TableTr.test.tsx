@@ -1,7 +1,7 @@
 import React from 'react'
 import { fireEvent, render, screen } from '@testing-library/react'
 import Table from '../Table'
-import type { TableTrProps } from '../TableTr';
+import type { TableTrProps } from '../TableTr'
 import TableTr from '../TableTr'
 
 describe('TableTr', () => {

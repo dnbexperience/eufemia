@@ -14,13 +14,10 @@ import userEvent from '@testing-library/user-event'
 import { LOCALE } from '../../../shared/defaults'
 import { isMac } from '../../../shared/helpers'
 import Provider from '../../../shared/Provider'
-import type {
-  NumberFormatProps} from '../NumberFormat';
-import NumberFormat, {
-  COPY_TOOLTIP_TIMEOUT,
-} from '../NumberFormat'
+import type { NumberFormatProps } from '../NumberFormat'
+import NumberFormat, { COPY_TOOLTIP_TIMEOUT } from '../NumberFormat'
 import * as TooltipModule from '../../tooltip/Tooltip'
-import type { formatReturnValue } from '../NumberUtils';
+import type { formatReturnValue } from '../NumberUtils'
 import { format } from '../NumberUtils'
 import enGB from '../../../shared/locales/en-GB'
 

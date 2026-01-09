@@ -6,11 +6,11 @@
 import React from 'react'
 import { axeComponent } from '../../../core/jest/jestSetup'
 import { render } from '@testing-library/react'
-import type { DlAllProps } from '../Dl';
+import type { DlAllProps } from '../Dl'
 import Dl from '../Dl'
-import type { DtProps } from '../../Dt';
+import type { DtProps } from '../../Dt'
 import Dt from '../../Dt'
-import type { DdProps } from '../../Dd';
+import type { DdProps } from '../../Dd'
 import Dd from '../../Dd'
 
 describe('Dl', () => {

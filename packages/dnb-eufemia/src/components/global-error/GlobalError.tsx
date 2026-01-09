@@ -5,7 +5,7 @@
 
 import React from 'react'
 import classnames from 'classnames'
-import type { GetTranslationProps } from '../../shared/Context';
+import type { GetTranslationProps } from '../../shared/Context'
 import Context from '../../shared/Context'
 import {
   processChildren,
@@ -13,7 +13,7 @@ import {
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import Anchor from '../anchor/Anchor'
-import type { SkeletonShow } from '../skeleton/Skeleton';
+import type { SkeletonShow } from '../skeleton/Skeleton'
 import Skeleton from '../skeleton/Skeleton'
 import { H1, P } from '../../elements'
 import type { SpacingProps } from '../../shared/types'

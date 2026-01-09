@@ -2,7 +2,7 @@ import React from 'react'
 import { renderHook, act } from '@testing-library/react'
 import useSnapshot from '../useSnapshot'
 import type { SnapshotId } from '../../Form/Snapshot'
-import type { ContextState} from '../../DataContext';
+import type { ContextState } from '../../DataContext'
 import { Context, Provider } from '../../DataContext'
 
 describe('Form.useSnapshot', () => {

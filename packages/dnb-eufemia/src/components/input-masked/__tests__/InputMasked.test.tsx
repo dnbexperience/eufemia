@@ -7,7 +7,7 @@ import React from 'react'
 import { loadScss, wait } from '../../../core/jest/jestSetup'
 import { render, fireEvent, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import type { InputMaskedProps } from '../InputMasked';
+import type { InputMaskedProps } from '../InputMasked'
 import InputMasked from '../InputMasked'
 import Provider from '../../../shared/Provider'
 import * as helpers from '../../../shared/helpers'

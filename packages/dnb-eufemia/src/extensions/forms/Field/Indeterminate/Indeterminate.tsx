@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo } from 'react'
-import type { Props as ToggleAllProps } from '../Toggle/Toggle';
+import type { Props as ToggleAllProps } from '../Toggle/Toggle'
 import Toggle from '../Toggle/Toggle'
 import useDependencePaths from './useDependencePaths'
 import type { Path } from '../../types'

@@ -14,7 +14,7 @@ import type {
   SectionSpacing,
   SectionStyleTypes,
   SectionVariants,
-} from '../section/Section';
+} from '../section/Section'
 import Section from '../section/Section'
 import Button from '../button/Button'
 
@@ -24,7 +24,7 @@ import type { SpacingProps } from '../../shared/types'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 
 // Internal
-import type { BreadcrumbItemProps } from './BreadcrumbItem';
+import type { BreadcrumbItemProps } from './BreadcrumbItem'
 import BreadcrumbItem from './BreadcrumbItem'
 import {
   convertJsxToString,

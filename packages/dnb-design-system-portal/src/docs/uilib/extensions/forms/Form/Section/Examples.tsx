@@ -2,7 +2,8 @@ import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import { Flex, P } from '@dnb/eufemia/src'
 import type {
   JSONSchema,
-  SectionProps} from '@dnb/eufemia/src/extensions/forms';
+  SectionProps,
+} from '@dnb/eufemia/src/extensions/forms'
 import {
   Field,
   Form,

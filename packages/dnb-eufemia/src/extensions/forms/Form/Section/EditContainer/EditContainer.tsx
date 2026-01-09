@@ -9,9 +9,7 @@ import SectionContainerContext from '../containers/SectionContainerContext'
 import Toolbar from '../Toolbar/Toolbar'
 import DoneButton from './DoneButton'
 import CancelButton from './CancelButton'
-import type {
-  SectionContainerProps,
-} from '../containers/SectionContainer';
+import type { SectionContainerProps } from '../containers/SectionContainer'
 import SectionContainer from '../containers/SectionContainer'
 import type { Path } from '../../../types'
 

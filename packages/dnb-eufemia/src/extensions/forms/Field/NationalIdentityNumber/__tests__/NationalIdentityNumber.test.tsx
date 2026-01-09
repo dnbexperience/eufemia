@@ -1,7 +1,7 @@
 import React from 'react'
 import { fireEvent, render, waitFor, screen } from '@testing-library/react'
 import type { Props } from '..'
-import type { Validator } from '../../..';
+import type { Validator } from '../../..'
 import { Field, Form } from '../../..'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
 import nbNO from '../../../constants/locales/nb-NO'

@@ -1,6 +1,5 @@
 import pointer from '../../utils/json-pointer'
-import type {
-  SharedStateId} from '../../../../shared/helpers/useSharedState';
+import type { SharedStateId } from '../../../../shared/helpers/useSharedState'
 import {
   createReferenceKey,
   createSharedState,

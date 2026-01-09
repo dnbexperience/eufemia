@@ -1,6 +1,6 @@
 import React from 'react'
 import classnames from 'classnames'
-import type { SpaceProps } from '../space/Space';
+import type { SpaceProps } from '../space/Space'
 import Space from '../space/Space'
 
 export type Sizes =

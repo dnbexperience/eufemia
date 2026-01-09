@@ -3,7 +3,7 @@ import classnames from 'classnames'
 import { convertJsxToString } from '../../../../shared/component-helper'
 import type { Props as FlexContainerProps } from '../../../../components/flex/Container'
 import { Lead } from '../../../../elements'
-import type { ArrayItemAreaProps } from '../Array/ArrayItemArea';
+import type { ArrayItemAreaProps } from '../Array/ArrayItemArea'
 import ArrayItemArea from '../Array/ArrayItemArea'
 import IterateItemContext from '../IterateItemContext'
 import Toolbar from '../Toolbar'

@@ -6,12 +6,9 @@ import React, {
   useEffect,
   useContext,
 } from 'react'
-import type { JsonObject } from '../../utils/json-pointer';
+import type { JsonObject } from '../../utils/json-pointer'
 import pointer from '../../utils/json-pointer'
-import type {
-  z,
-  Ajv,
-  FormError} from '../../utils';
+import type { z, Ajv, FormError } from '../../utils'
 import {
   isZodSchema,
   createZodValidator,
@@ -41,13 +38,12 @@ import FieldPropsProvider from '../../Field/Provider'
 import useUpdateEffect from '../../../../shared/helpers/useUpdateEffect'
 import GlobalStatusProvider from '../../../../components/global-status/GlobalStatusProvider'
 import { isAsync } from '../../../../shared/helpers/isAsync'
-import type {
-  SharedStateId} from '../../../../shared/helpers/useSharedState';
+import type { SharedStateId } from '../../../../shared/helpers/useSharedState'
 import {
   createReferenceKey,
   useSharedState,
 } from '../../../../shared/helpers/useSharedState'
-import type { ContextProps } from '../../../../shared/Context';
+import type { ContextProps } from '../../../../shared/Context'
 import SharedContext from '../../../../shared/Context'
 import useTranslation from '../../hooks/useTranslation'
 import { appendPath } from '../../hooks/usePath'
@@ -63,7 +59,7 @@ import type {
   VisibleDataHandler,
   DataPathHandlerParameters,
   SectionSchemaRegistration,
-} from '../Context';
+} from '../Context'
 import DataContext from '../Context'
 
 /**

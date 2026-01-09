@@ -1,7 +1,7 @@
 import React, { useCallback, useContext } from 'react'
 import pointer from '../../utils/json-pointer'
 import type { ComponentProps } from '../../types'
-import type { ContextState } from '../Context';
+import type { ContextState } from '../Context'
 import Context from '../Context'
 
 export type Props = ComponentProps & {

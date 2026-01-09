@@ -1,5 +1,5 @@
 import React from 'react'
-import type { JSONSchema} from '../../..';
+import type { JSONSchema } from '../../..'
 import { Field, Form, Tools } from '../../..'
 import { Flex } from '../../../../../components'
 import Provider from '../Provider'

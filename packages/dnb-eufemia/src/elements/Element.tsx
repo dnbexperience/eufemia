@@ -11,11 +11,10 @@ import {
   extendPropsWithContext,
 } from '../shared/component-helper'
 import { createSpacingClasses } from '../components/space/SpacingHelper'
-import type {
-  SkeletonMethods} from '../components/skeleton/SkeletonHelper';
+import type { SkeletonMethods } from '../components/skeleton/SkeletonHelper'
 import {
   createSkeletonClass,
-  skeletonDOMAttributes
+  skeletonDOMAttributes,
 } from '../components/skeleton/SkeletonHelper'
 import type { SkeletonShow } from '../components/skeleton/Skeleton'
 

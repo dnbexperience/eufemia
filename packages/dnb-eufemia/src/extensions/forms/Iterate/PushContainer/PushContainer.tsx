@@ -7,7 +7,7 @@ import React, {
   useRef,
 } from 'react'
 import classnames from 'classnames'
-import type { IsolationProps } from '../../Form/Isolation';
+import type { IsolationProps } from '../../Form/Isolation'
 import Isolation from '../../Form/Isolation'
 import { extractZodSubSchema } from '../../Form/Isolation/extractZodSubSchema'
 import * as z from 'zod'
@@ -19,14 +19,13 @@ import IterateItemContext from '../IterateItemContext'
 import DataContext from '../../DataContext/Context'
 import VisibilityContext from '../../Form/Visibility/VisibilityContext'
 import useDataValue from '../../hooks/useDataValue'
-import type {
-  AllProps as EditContainerProps} from '../EditContainer';
+import type { AllProps as EditContainerProps } from '../EditContainer'
 import EditContainer, {
   DoneButton,
   CancelButton,
-  ResetButton
+  ResetButton,
 } from '../EditContainer'
-import type { ContainerMode } from '../Array';
+import type { ContainerMode } from '../Array'
 import IterateArray from '../Array'
 import OpenButton from './OpenButton'
 import { Flex, FormStatus, HeightAnimation } from '../../../../components'

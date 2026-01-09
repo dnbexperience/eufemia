@@ -1,4 +1,4 @@
-import type { MutableRefObject} from 'react';
+import type { MutableRefObject } from 'react'
 import React, { useRef } from 'react'
 import Input from '../Input'
 import type { InputProps } from '../Input'

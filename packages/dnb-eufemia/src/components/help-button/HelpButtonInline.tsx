@@ -1,11 +1,5 @@
-import type {
-  AriaAttributes} from 'react';
-import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  useRef,
-} from 'react'
+import type { AriaAttributes } from 'react'
+import React, { useCallback, useContext, useEffect, useRef } from 'react'
 import classnames from 'classnames'
 import type { HelpButtonProps } from './HelpButton'
 import HelpButtonInstance from './HelpButtonInstance'

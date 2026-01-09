@@ -1,12 +1,10 @@
-import type { AriaAttributes} from 'react';
+import type { AriaAttributes } from 'react'
 import React, { useCallback, useContext } from 'react'
 
 import { warn } from '../../../../shared/helpers'
 import useMountEffect from '../../../../shared/helpers/useMountEffect'
 import useMounted from '../../../../shared/helpers/useMounted'
-import type {
-  HeightAnimationAllProps,
-} from '../../../../components/HeightAnimation';
+import type { HeightAnimationAllProps } from '../../../../components/HeightAnimation'
 import HeightAnimation from '../../../../components/HeightAnimation'
 import FieldProvider from '../../Field/Provider'
 import useVisibility from './useVisibility'

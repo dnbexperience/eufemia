@@ -22,10 +22,9 @@ import { replaceItemNo } from '../Iterate/ItemNo'
 import { convertJsxToString } from '../../../shared/component-helper'
 import VisibilityContext from '../Form/Visibility/VisibilityContext'
 import Visibility from '../Form/Visibility/Visibility'
-import type {
-  HelpProps} from '../../../components/help-button/HelpButtonInline';
+import type { HelpProps } from '../../../components/help-button/HelpButtonInline'
 import HelpButtonInline, {
-  HelpButtonInlineContent
+  HelpButtonInlineContent,
 } from '../../../components/help-button/HelpButtonInline'
 import useId from '../../../shared/helpers/useId'
 

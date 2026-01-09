@@ -6,7 +6,7 @@
 import React, { useContext } from 'react'
 import classnames from 'classnames'
 import type { SpacingProps } from '../../components/space/types'
-import type { ElementProps } from '../Element';
+import type { ElementProps } from '../Element'
 import E from '../Element'
 import type { HeadingSize } from '../../components/heading/Heading'
 import {

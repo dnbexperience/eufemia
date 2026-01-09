@@ -18,12 +18,10 @@ import type {
   DrawerListDataArray,
   DrawerListData,
   DrawerListGroupTitles,
-} from '../DrawerList';
+} from '../DrawerList'
 import DrawerList from '../DrawerList'
 import DrawerListProvider from '../DrawerListProvider'
-import type {
-  DrawerListContextProps,
-} from '../DrawerListContext';
+import type { DrawerListContextProps } from '../DrawerListContext'
 import DrawerListContext from '../DrawerListContext'
 import { IsolatedStyleScope } from '../../../shared'
 import Dialog from '../../../components/dialog/Dialog'

@@ -18,7 +18,7 @@ import type {
   StatusContent,
   FieldBlockContextProps,
   StateBasis,
-} from './FieldBlockContext';
+} from './FieldBlockContext'
 import FieldBlockContext from './FieldBlockContext'
 import DataContext from '../DataContext/Context'
 import { Space, FormLabel, FormStatus } from '../../../components'
@@ -36,10 +36,9 @@ import type {
   UseFieldProps,
 } from '../types'
 import type { FormLabelAllProps } from '../../../components/FormLabel'
-import type {
-  HelpProps} from '../../../components/help-button/HelpButtonInline';
+import type { HelpProps } from '../../../components/help-button/HelpButtonInline'
 import HelpButtonInline, {
-  HelpButtonInlineContent
+  HelpButtonInlineContent,
 } from '../../../components/help-button/HelpButtonInline'
 import SubmitIndicator from '../Form/SubmitIndicator/SubmitIndicator'
 import { createSharedState } from '../../../shared/helpers/useSharedState'

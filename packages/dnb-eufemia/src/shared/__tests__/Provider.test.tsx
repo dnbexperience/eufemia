@@ -12,9 +12,9 @@ import type {
   ContextProps,
   TranslationFlat,
   Translations,
-} from '../Context';
+} from '../Context'
 import Context from '../Context'
-import type { ProviderProps } from '../Provider';
+import type { ProviderProps } from '../Provider'
 import Provider from '../Provider'
 import { fireEvent, render } from '@testing-library/react'
 import locales from '../../shared/locales'

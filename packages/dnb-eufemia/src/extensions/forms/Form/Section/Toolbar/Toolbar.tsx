@@ -5,7 +5,7 @@ import ToolbarContext from './ToolbarContext'
 import FieldBoundaryContext from '../../../DataContext/FieldBoundary/FieldBoundaryContext'
 import { Hr } from '../../../../../elements'
 import { Flex, FormStatus } from '../../../../../components'
-import type { SpaceAllProps } from '../../../../../components/Space';
+import type { SpaceAllProps } from '../../../../../components/Space'
 import Space from '../../../../../components/Space'
 
 export type Props = SpaceAllProps & {

@@ -7,8 +7,7 @@
 
 import React from 'react'
 import Context from '../../shared/Context'
-import type {
-  DetectOutsideClickClass} from '../../shared/component-helper';
+import type { DetectOutsideClickClass } from '../../shared/component-helper'
 import {
   warn,
   isTrue,
@@ -17,7 +16,7 @@ import {
   detectOutsideClick,
   dispatchCustomElementEvent,
   getClosestParent,
-  keycode
+  keycode,
 } from '../../shared/component-helper'
 import {
   getOffsetTop,
@@ -37,9 +36,7 @@ import {
   drawerListDefaultProps,
   drawerListProviderDefaultProps,
 } from './DrawerListHelpers'
-import type {
-  DrawerListContextState,
-} from './DrawerListContext';
+import type { DrawerListContextState } from './DrawerListContext'
 import DrawerListContext from './DrawerListContext'
 import {
   disableBodyScroll,

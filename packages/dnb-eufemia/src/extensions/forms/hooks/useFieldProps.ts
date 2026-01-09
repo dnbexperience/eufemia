@@ -1,12 +1,11 @@
-import type {
-  AriaAttributes} from 'react';
+import type { AriaAttributes } from 'react'
 import React, {
   useRef,
   useEffect,
   useContext,
   useCallback,
   useMemo,
-  useReducer
+  useReducer,
 } from 'react'
 import pointer from '../utils/json-pointer'
 import type { ValidateFunction } from 'ajv/dist/2020.js'
@@ -36,7 +35,7 @@ import type {
   FieldStatus,
   ErrorProp,
 } from '../types'
-import type { ContextState } from '../DataContext';
+import type { ContextState } from '../DataContext'
 import { Context as DataContext } from '../DataContext'
 import { clearedData } from '../DataContext/Provider/Provider'
 import FieldProviderContext from '../Field/Provider/FieldProviderContext'
@@ -47,9 +46,7 @@ import {
 } from '../../../shared/component-helper'
 import useId from '../../../shared/helpers/useId'
 import useUpdateEffect from '../../../shared/helpers/useUpdateEffect'
-import type {
-  FieldBlockContextProps,
-} from '../FieldBlock/FieldBlockContext';
+import type { FieldBlockContextProps } from '../FieldBlock/FieldBlockContext'
 import FieldBlockContext from '../FieldBlock/FieldBlockContext'
 import IterateItemContext from '../Iterate/IterateItemContext'
 import SectionContext from '../Form/Section/SectionContext'

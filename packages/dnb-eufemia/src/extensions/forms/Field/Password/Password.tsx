@@ -1,6 +1,4 @@
-import type {
-  ElementRef,
-  MutableRefObject} from 'react';
+import type { ElementRef, MutableRefObject } from 'react'
 import React, {
   useContext,
   useRef,
@@ -10,11 +8,11 @@ import React, {
 } from 'react'
 import classnames from 'classnames'
 import SharedContext from '../../../../shared/Context'
-import type { Props as StringFieldProps } from '../String';
+import type { Props as StringFieldProps } from '../String'
 import StringField from '../String'
 import useId from '../../../../shared/helpers/useId'
 
-import type { InputProps} from '../../../../components/Input';
+import type { InputProps } from '../../../../components/Input'
 import { SubmitButton } from '../../../../components/Input'
 import IconView from '../../../../icons/view'
 import IconViewOff from '../../../../icons/hide'

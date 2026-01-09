@@ -15,7 +15,7 @@ import {
 import type {
   StepIndicatorData,
   StepIndicatorProps,
-} from '../StepIndicator';
+} from '../StepIndicator'
 import StepIndicator from '../StepIndicator'
 import MatchMediaMock from 'jest-matchmedia-mock'
 

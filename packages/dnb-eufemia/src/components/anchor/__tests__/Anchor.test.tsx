@@ -6,7 +6,7 @@
 import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import { fireEvent, render, waitFor } from '@testing-library/react'
-import type { AnchorAllProps } from '../Anchor';
+import type { AnchorAllProps } from '../Anchor'
 import Anchor from '../Anchor'
 import { bell } from '../../../icons'
 import IconPrimary from '../../IconPrimary'

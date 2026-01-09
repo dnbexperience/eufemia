@@ -19,7 +19,8 @@ import type {
   OnChange,
   DataValueWriteProps,
   OnSubmit,
-  OnSubmitRequest} from '../../../';
+  OnSubmitRequest,
+} from '../../../'
 import {
   Form,
   DataContext,
@@ -31,7 +32,11 @@ import {
 } from '../../../'
 import { isCI } from 'repo-utils'
 import type { Props as StringFieldProps } from '../../../Field/String'
-import type { ContextState, FilterData, DataPathHandler } from '../../Context'
+import type {
+  ContextState,
+  FilterData,
+  DataPathHandler,
+} from '../../Context'
 
 import nbNO from '../../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO']

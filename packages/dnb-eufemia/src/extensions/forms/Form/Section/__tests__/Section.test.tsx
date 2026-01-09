@@ -2,16 +2,8 @@
 import React from 'react'
 import { spyOnEufemiaWarn } from '../../../../../core/jest/jestSetup'
 import { fireEvent, render, waitFor } from '@testing-library/react'
-import type {
-  JSONSchema} from '../../..';
-import {
-  Field,
-  Form,
-  makeAjvInstance,
-  Tools,
-  Value,
-  z,
-} from '../../..'
+import type { JSONSchema } from '../../..'
+import { Field, Form, makeAjvInstance, Tools, Value, z } from '../../..'
 import type { SectionProps } from '../Section'
 import type { Props as FieldNameProps } from '../../../Field/Name'
 import FieldPropsProvider from '../../../Field/Provider'

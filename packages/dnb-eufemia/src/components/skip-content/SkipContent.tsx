@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 import classnames from 'classnames'
-import type { ButtonProps } from '../button/Button';
+import type { ButtonProps } from '../button/Button'
 import Button from '../button/Button'
 import HeightAnimation from '../height-animation/HeightAnimation'
 import { applyPageFocus } from '../../shared/helpers'

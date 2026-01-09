@@ -5,8 +5,7 @@
 
 import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
-import type {
-  LogoProps} from '../Logo';
+import type { LogoProps } from '../Logo'
 import Logo, {
   CarnegieDefault,
   SbankenDefault,

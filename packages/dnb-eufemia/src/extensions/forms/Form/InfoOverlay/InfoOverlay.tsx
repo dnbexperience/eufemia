@@ -2,14 +2,13 @@ import React, { useCallback, useContext, useRef } from 'react'
 import classnames from 'classnames'
 import Visibility from '../Visibility'
 import DataContext from '../../DataContext/Context'
-import type {
-  SharedStateId} from '../../../../shared/helpers/useSharedState';
+import type { SharedStateId } from '../../../../shared/helpers/useSharedState'
 import {
   useSharedState,
   createReferenceKey,
 } from '../../../../shared/helpers/useSharedState'
 import useMounted from '../../../../shared/helpers/useMounted'
-import type { InfoOverlayContent } from './setContent';
+import type { InfoOverlayContent } from './setContent'
 import setContent from './setContent'
 import {
   Button,

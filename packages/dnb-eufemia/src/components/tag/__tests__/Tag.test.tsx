@@ -1,6 +1,6 @@
 import React from 'react'
 import { fireEvent, render, screen } from '@testing-library/react'
-import type { TagProps } from '../Tag';
+import type { TagProps } from '../Tag'
 import Tag from '../Tag'
 import nbNO from '../../../shared/locales/nb-NO'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'

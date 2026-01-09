@@ -3,8 +3,7 @@
  *
  */
 
-import type {
-  MutableRefObject} from 'react';
+import type { MutableRefObject } from 'react'
 import React, {
   useCallback,
   useContext,
@@ -17,7 +16,7 @@ import React, {
 import { isValid as isValidFn, parseISO } from 'date-fns'
 
 import classnames from 'classnames'
-import type { TextMaskProps } from '../input-masked/TextMask';
+import type { TextMaskProps } from '../input-masked/TextMask'
 import TextMask from '../input-masked/TextMask'
 import Button from '../button/Button'
 import Input, { SubmitButton } from '../input/Input'
@@ -38,10 +37,13 @@ import type {
 } from '../FormStatus'
 import type { SkeletonShow } from '../Skeleton'
 import type { ReturnObject } from './DatePickerProvider'
-import type { DatePickerEventAttributes, DatePickerProps } from './DatePicker'
+import type {
+  DatePickerEventAttributes,
+  DatePickerProps,
+} from './DatePicker'
 import { Context, useTranslation } from '../../shared'
 import usePartialDates from './hooks/usePartialDates'
-import type { DatePickerInputDates } from './hooks/useInputDates';
+import type { DatePickerInputDates } from './hooks/useInputDates'
 import useInputDates from './hooks/useInputDates'
 import { formatDate } from '../date-format/DateFormatUtils'
 

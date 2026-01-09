@@ -3,7 +3,7 @@ import classnames from 'classnames'
 import type {
   Props as FieldBlockProps,
   FieldBlockWidth,
-} from '../../FieldBlock';
+} from '../../FieldBlock'
 import FieldBlock from '../../FieldBlock'
 import {
   useFieldProps,
@@ -14,14 +14,13 @@ import type {
   UploadFile,
   UploadFileNative,
   UploadProps,
-} from '../../../../components/Upload';
+} from '../../../../components/Upload'
 import Upload from '../../../../components/Upload'
 import useUpload from '../../../../components/upload/useUpload'
 import { pickSpacingProps } from '../../../../components/flex/utils'
-import type {
-  HelpProps} from '../../../../components/help-button/HelpButtonInline';
+import type { HelpProps } from '../../../../components/help-button/HelpButtonInline'
 import HelpButtonInline, {
-  HelpButtonInlineContent
+  HelpButtonInlineContent,
 } from '../../../../components/help-button/HelpButtonInline'
 import { useTranslation as useSharedTranslation } from '../../../../shared'
 import type { SpacingProps } from '../../../../shared/types'

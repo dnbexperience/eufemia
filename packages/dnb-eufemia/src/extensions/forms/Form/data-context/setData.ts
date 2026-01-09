@@ -1,10 +1,7 @@
-import type { JsonObject } from '../../utils/json-pointer';
+import type { JsonObject } from '../../utils/json-pointer'
 import pointer from '../../utils/json-pointer'
-import type {
-  SharedStateId} from '../../../../shared/helpers/useSharedState';
-import {
-  createSharedState,
-} from '../../../../shared/helpers/useSharedState'
+import type { SharedStateId } from '../../../../shared/helpers/useSharedState'
+import { createSharedState } from '../../../../shared/helpers/useSharedState'
 import type { UseDataReturnUpdate } from './useData'
 
 /**

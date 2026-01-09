@@ -6,7 +6,7 @@
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
-import type { TextareaProps } from '../Textarea';
+import type { TextareaProps } from '../Textarea'
 import Textarea from '../Textarea'
 import userEvent from '@testing-library/user-event'
 import { Provider } from '../../../shared'

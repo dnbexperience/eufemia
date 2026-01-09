@@ -6,7 +6,7 @@
 import React from 'react'
 import classnames from 'classnames'
 import { findElementInChildren } from '../../../shared/component-helper'
-import type { SectionProps } from '../../section/Section';
+import type { SectionProps } from '../../section/Section'
 import Section from '../../section/Section'
 import ModalContext from '../ModalContext'
 import H1 from '../../../elements/H1'

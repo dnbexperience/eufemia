@@ -1,5 +1,5 @@
 import { renderHook, waitFor } from '@testing-library/react'
-import type { Props } from '../useHandleStatus';
+import type { Props } from '../useHandleStatus'
 import useHandleStatus from '../useHandleStatus'
 import useHasContentChanged from '../useHasContentChanged'
 import useReportError from '../useReportError'

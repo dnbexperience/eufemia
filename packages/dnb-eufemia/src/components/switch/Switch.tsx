@@ -1,5 +1,4 @@
-import type {
-  KeyboardEvent} from 'react';
+import type { KeyboardEvent } from 'react'
 import React, {
   useCallback,
   useContext,
@@ -29,7 +28,7 @@ import FormLabel from '../form-label/FormLabel'
 import type {
   FormStatusState,
   FormStatusText,
-} from '../form-status/FormStatus';
+} from '../form-status/FormStatus'
 import FormStatus from '../form-status/FormStatus'
 import useId from '../../shared/helpers/useId'
 import type { GlobalStatusConfigObject } from '../GlobalStatus'

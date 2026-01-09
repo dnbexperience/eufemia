@@ -2,7 +2,7 @@ import React, { useCallback, useContext, useMemo } from 'react'
 import classnames from 'classnames'
 import type { Props as FieldBlockProps } from '../../FieldBlock'
 import DataContext from '../../DataContext/Context'
-import type { Props as StringFieldProps } from '../String';
+import type { Props as StringFieldProps } from '../String'
 import StringField from '../String'
 import CompositionField from '../Composition'
 import type { CountryCode } from '../../types'

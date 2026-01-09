@@ -1,11 +1,8 @@
 import React, { useCallback, useContext, useRef } from 'react'
-import type {
-  WizardContextState,
-} from '../Context/WizardContext';
+import type { WizardContextState } from '../Context/WizardContext'
 import WizardContext from '../Context/WizardContext'
 import type { OnStepChange } from '../Context/types'
-import type {
-  SharedStateId} from '../../../../shared/helpers/useSharedState';
+import type { SharedStateId } from '../../../../shared/helpers/useSharedState'
 import {
   createReferenceKey,
   useSharedState,

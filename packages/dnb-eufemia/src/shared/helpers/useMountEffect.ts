@@ -1,4 +1,4 @@
-import type { EffectCallback } from 'react';
+import type { EffectCallback } from 'react'
 import { useEffect } from 'react'
 
 /**

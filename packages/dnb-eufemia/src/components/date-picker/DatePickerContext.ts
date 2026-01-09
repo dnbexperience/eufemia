@@ -11,7 +11,10 @@ import type {
   GetReturnObjectParams,
   ReturnObject,
 } from './DatePickerProvider'
-import type { DatePickerDateProps, DatePickerDates } from './hooks/useDates'
+import type {
+  DatePickerDateProps,
+  DatePickerDates,
+} from './hooks/useDates'
 import type { CalendarView } from './hooks/useViews'
 import type { SubmittedDates } from './hooks/useSubmittedDates'
 

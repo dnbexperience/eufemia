@@ -9,9 +9,7 @@ import ReactDOM from 'react-dom'
 import DataContext, {
   defaultContextState,
 } from '../../DataContext/Context'
-import type {
-  WizardContextState,
-} from '../Context/WizardContext';
+import type { WizardContextState } from '../Context/WizardContext'
 import WizardContext from '../Context/WizardContext'
 import useEventListener from '../../DataContext/Provider/useEventListener'
 

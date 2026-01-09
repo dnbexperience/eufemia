@@ -4,9 +4,7 @@ import { Card, HeightAnimation } from '../../../../components'
 import type { Props as CardProps } from '../../../../components/card/Card'
 import type { HeightAnimationOnEndStates } from '../../../../components/height-animation/HeightAnimationInstance'
 import type { HeightAnimationProps } from '../../../../components/HeightAnimation'
-import type {
-  IterateItemContextState,
-} from '../IterateItemContext';
+import type { IterateItemContextState } from '../IterateItemContext'
 import IterateItemContext from '../IterateItemContext'
 import ArrayItemAreaContext from './ArrayItemAreaContext'
 import FieldBoundaryContext from '../../DataContext/FieldBoundary/FieldBoundaryContext'

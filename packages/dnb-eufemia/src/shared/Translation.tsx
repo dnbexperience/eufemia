@@ -2,14 +2,13 @@ import React, { useContext } from 'react'
 import type {
   TranslationArguments,
   TranslationId,
-  TranslationIdAsFunction} from './useTranslation';
-import {
-  formatMessage,
+  TranslationIdAsFunction,
 } from './useTranslation'
+import { formatMessage } from './useTranslation'
 import type {
   TranslationCustomLocales,
   TranslationFlatToObject,
-} from './Context';
+} from './Context'
 import SharedContext from './Context'
 import renderWithFormatting from './renderWithFormatting'
 

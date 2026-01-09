@@ -1,6 +1,6 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
-import type { BadgeProps } from '../Badge';
+import type { BadgeProps } from '../Badge'
 import Badge from '../Badge'
 import { confetti as Confetti } from '../../../icons'
 import Icon from '../../Icon'

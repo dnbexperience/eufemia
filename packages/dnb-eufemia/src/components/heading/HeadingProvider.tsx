@@ -6,7 +6,7 @@
 import React from 'react'
 import { isTrue } from '../../shared/component-helper'
 
-import type { HeadingContextProps } from './HeadingContext';
+import type { HeadingContextProps } from './HeadingContext'
 import HeadingContext from './HeadingContext'
 import {
   globalSyncCounter,
@@ -16,7 +16,7 @@ import {
   teardownHeadings,
   debugCounter,
 } from './HeadingHelpers'
-import type { HeadingCounter} from './HeadingCounter';
+import type { HeadingCounter } from './HeadingCounter'
 import { initCounter } from './HeadingCounter'
 import type { InternalHeadingLevel, HeadingProps } from './Heading'
 

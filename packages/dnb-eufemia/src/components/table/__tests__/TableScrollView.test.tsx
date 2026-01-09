@@ -1,7 +1,7 @@
 import React from 'react'
 import { act, render } from '@testing-library/react'
 import Table from '../Table'
-import type { TableScrollViewAllProps } from '../TableScrollView';
+import type { TableScrollViewAllProps } from '../TableScrollView'
 import ScrollView from '../TableScrollView'
 import { BasicTable } from './TableMocks'
 import { setResizeObserver } from '../../../fragments/scroll-view/__tests__/shared-mocks/ResizeObserver'

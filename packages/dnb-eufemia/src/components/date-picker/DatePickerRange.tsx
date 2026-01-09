@@ -5,9 +5,7 @@
 
 import React, { useCallback, useContext } from 'react'
 
-import type {
-  DatePickerCalendarProps,
-} from './DatePickerCalendar';
+import type { DatePickerCalendarProps } from './DatePickerCalendar'
 import DatePickerCalendar from './DatePickerCalendar'
 import DatePickerContext from './DatePickerContext'
 import type { DatePickerDates } from './hooks/useDates'

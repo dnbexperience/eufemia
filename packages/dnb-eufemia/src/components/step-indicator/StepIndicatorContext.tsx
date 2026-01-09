@@ -12,7 +12,7 @@ import React, {
   useRef,
   useState,
 } from 'react'
-import type { ContextProps } from '../../shared/Context';
+import type { ContextProps } from '../../shared/Context'
 import Context from '../../shared/Context'
 import { stepIndicatorDefaultProps } from './StepIndicatorProps'
 import { extendPropsWithContext } from '../../shared/component-helper'

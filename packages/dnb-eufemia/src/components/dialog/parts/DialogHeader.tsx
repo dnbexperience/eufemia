@@ -1,8 +1,6 @@
 import React from 'react'
 import classnames from 'classnames'
-import type {
-  ModalHeaderProps,
-} from '../../modal/parts/ModalHeader';
+import type { ModalHeaderProps } from '../../modal/parts/ModalHeader'
 import ModalHeader from '../../modal/parts/ModalHeader'
 import type { SpacingProps } from '../../space/types'
 

@@ -3,8 +3,7 @@
  *
  */
 
-import type {
-  HTMLProps} from 'react';
+import type { HTMLProps } from 'react'
 import React, {
   useCallback,
   useContext,
@@ -33,16 +32,15 @@ import type {
   FormStatusProps,
   FormStatusState,
   FormStatusText,
-} from '../form-status/FormStatus';
+} from '../form-status/FormStatus'
 import FormStatus from '../form-status/FormStatus'
-import type {
-  DatePickerChangeEvent} from './DatePickerProvider';
+import type { DatePickerChangeEvent } from './DatePickerProvider'
 import DatePickerProvider, {
   type ReturnObject,
 } from './DatePickerProvider'
 import DatePickerRange from './DatePickerRange'
 import DatePickerInput from './DatePickerInput'
-import type { DatePickerAddonProps } from './DatePickerAddon';
+import type { DatePickerAddonProps } from './DatePickerAddon'
 import DatePickerAddon from './DatePickerAddon'
 import DatePickerFooter from './DatePickerFooter'
 import type { SpacingProps } from '../space/types'
@@ -50,13 +48,18 @@ import type { InputInputElement, InputSize } from '../Input'
 import type { SkeletonShow } from '../Skeleton'
 import type { GlobalStatusConfigObject } from '../GlobalStatus'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
-import type { CalendarDay, DatePickerCalendarProps } from './DatePickerCalendar'
-import type { DatePickerContextValues, DateType } from './DatePickerContext'
+import type {
+  CalendarDay,
+  DatePickerCalendarProps,
+} from './DatePickerCalendar'
+import type {
+  DatePickerContextValues,
+  DateType,
+} from './DatePickerContext'
 import type { DatePickerDates } from './hooks/useDates'
 import { useTranslation } from '../../shared'
 import Popover from '../popover/Popover'
-import type {
-  FormatDateOptions} from '../date-format/DateFormatUtils';
+import type { FormatDateOptions } from '../date-format/DateFormatUtils'
 import {
   formatDate,
   formatDateRange,

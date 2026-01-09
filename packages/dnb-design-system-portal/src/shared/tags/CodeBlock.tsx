@@ -5,12 +5,8 @@
 
 import React from 'react'
 import classnames from 'classnames'
-import type {
-  Language} from 'prism-react-renderer';
-import Highlight, {
-  Prism,
-  defaultProps,
-} from 'prism-react-renderer'
+import type { Language } from 'prism-react-renderer'
+import Highlight, { Prism, defaultProps } from 'prism-react-renderer'
 import Tag from './Tag'
 import { Button } from '@dnb/eufemia/src/components'
 import { makeUniqueId } from '@dnb/eufemia/src/shared/component-helper'

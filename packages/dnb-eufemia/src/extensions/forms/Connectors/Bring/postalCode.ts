@@ -5,7 +5,8 @@ import type {
   GeneralConfig,
   HandlerConfig,
   PreResponseResolver,
-  ResponseResolver} from '../createContext';
+  ResponseResolver,
+} from '../createContext'
 import {
   fetchData,
   handleCountryPath,

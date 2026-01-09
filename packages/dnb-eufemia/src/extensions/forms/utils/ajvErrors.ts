@@ -5,7 +5,7 @@
  * Else ajv will be included in the main bundle even if it is not used.
  */
 import type { ErrorObject } from 'ajv/dist/2020.js'
-import type { JsonObject } from './json-pointer';
+import type { JsonObject } from './json-pointer'
 import pointer from './json-pointer'
 import type { Path } from '../types'
 import { FormError } from './FormError'

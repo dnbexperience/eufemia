@@ -7,19 +7,15 @@ import React, {
   useState,
 } from 'react'
 import useMountEffect from '../../../../shared/helpers/useMountEffect'
-import type { JsonObject } from '../../utils/json-pointer';
+import type { JsonObject } from '../../utils/json-pointer'
 import pointer from '../../utils/json-pointer'
 import { isZodSchema } from '../../utils/zod'
 import { extractZodSubSchema } from './extractZodSubSchema'
 import { extendDeep } from '../../../../shared/component-helper'
 import { isAsync } from '../../../../shared/helpers/isAsync'
 import useDataValue from '../../hooks/useDataValue'
-import type {
-  ContextState} from '../../DataContext';
-import {
-  Context as DataContext,
-  Provider,
-} from '../../DataContext'
+import type { ContextState } from '../../DataContext'
+import { Context as DataContext, Provider } from '../../DataContext'
 import SectionContext from '../Section/SectionContext'
 import useReportError from './useReportError'
 import IsolationCommitButton from './IsolationCommitButton'
@@ -28,11 +24,8 @@ import {
   clearedData,
   type Props as ProviderProps,
 } from '../../DataContext/Provider'
-import type {
-  IsolationDataReference} from './IsolationDataReference';
-import {
-  createDataReference,
-} from './IsolationDataReference'
+import type { IsolationDataReference } from './IsolationDataReference'
+import { createDataReference } from './IsolationDataReference'
 import IsolatedContainer, { isolationError } from './IsolatedContainer'
 import IsolationContext from './IsolationContext'
 import type { OnCommit, Path } from '../../types'

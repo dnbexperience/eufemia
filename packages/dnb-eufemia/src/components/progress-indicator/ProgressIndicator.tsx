@@ -11,7 +11,7 @@ import React, {
   useState,
 } from 'react'
 import classnames from 'classnames'
-import type { ContextProps } from '../../shared/Context';
+import type { ContextProps } from '../../shared/Context'
 import Context from '../../shared/Context'
 import {
   isTrue,
@@ -27,10 +27,9 @@ import { format } from '../number-format/NumberUtils'
 import type {
   ProgressIndicatorAllProps,
   ProgressIndicatorAnimationProps,
-  CustomSize} from './types';
-import {
-  isValidSize
+  CustomSize,
 } from './types'
+import { isValidSize } from './types'
 
 function ProgressIndicator(props: ProgressIndicatorAllProps) {
   const allProps = updatePropsWithContext(props, useContext(Context))

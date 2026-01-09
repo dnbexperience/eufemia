@@ -1,9 +1,7 @@
 import React, { useContext } from 'react'
 import { render, act } from '@testing-library/react'
 import FieldBoundaryProvider from '../FieldBoundaryProvider'
-import type {
-  FieldBoundaryContextState,
-} from '../FieldBoundaryContext';
+import type { FieldBoundaryContextState } from '../FieldBoundaryContext'
 import FieldBoundaryContext from '../FieldBoundaryContext'
 import Provider from '../../Provider'
 import { Field, Form } from '../../..'

@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import type { JSONSchema} from '../../..';
+import type { JSONSchema } from '../../..'
 import { Field, Form, makeAjvInstance } from '../../..'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
 

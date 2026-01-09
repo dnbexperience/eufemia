@@ -11,9 +11,7 @@ import { Space } from '../../../../components'
 import { warn } from '../../../../shared/component-helper'
 import { isAsync } from '../../../../shared/helpers/isAsync'
 import useId from '../../../../shared/helpers/useId'
-import type {
-  WizardContextState,
-} from '../Context/WizardContext';
+import type { WizardContextState } from '../Context/WizardContext'
 import WizardContext from '../Context/WizardContext'
 import type {
   OnStepChange,
@@ -30,8 +28,7 @@ import type {
 import DataContext from '../../DataContext/Context'
 import useEventListener from '../../DataContext/Provider/useEventListener'
 import Handler from '../../Form/Handler/Handler'
-import type {
-  SharedStateReturn} from '../../../../shared/helpers/useSharedState';
+import type { SharedStateReturn } from '../../../../shared/helpers/useSharedState'
 import {
   createReferenceKey,
   useSharedState,

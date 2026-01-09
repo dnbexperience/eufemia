@@ -5,7 +5,7 @@
 
 import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
-import type { SkeletonProps } from '../Skeleton';
+import type { SkeletonProps } from '../Skeleton'
 import Skeleton from '../Skeleton'
 import Input from '../../input/Input'
 import P from '../../../elements/P'

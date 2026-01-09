@@ -1,5 +1,5 @@
 import { useCallback } from 'react'
-import type { UseFieldProps } from '../../..';
+import type { UseFieldProps } from '../../..'
 import { Field, Form, FormError } from '../../..'
 import { Anchor, Flex } from '../../../../../components'
 

@@ -7,7 +7,7 @@ import React from 'react'
 import classnames from 'classnames'
 import { extendPropsWithContextInClassComponent } from '../../../shared/component-helper'
 import Button from '../../button/Button'
-import type { ContextProps } from '../../../shared/Context';
+import type { ContextProps } from '../../../shared/Context'
 import Context from '../../../shared/Context'
 import type { ButtonProps } from '../../button/Button'
 

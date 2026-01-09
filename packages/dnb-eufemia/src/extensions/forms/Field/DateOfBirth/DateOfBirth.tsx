@@ -7,9 +7,7 @@ import React, {
   useRef,
 } from 'react'
 import StringField from '../String'
-import type {
-  Props as CompositionFieldProps,
-} from '../Composition';
+import type { Props as CompositionFieldProps } from '../Composition'
 import CompositionField from '../Composition'
 import SelectionField from '../Selection'
 import SharedContext from '../../../../shared/Context'

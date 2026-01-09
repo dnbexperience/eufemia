@@ -8,7 +8,7 @@ import {
   useItemPath,
   useSwitchContainerMode,
 } from '../hooks'
-import type { Path } from '../../types';
+import type { Path } from '../../types'
 import { omitDataValueReadWriteProps } from '../../types'
 import { add } from '../../../../icons'
 import DataContext from '../../DataContext/Context'

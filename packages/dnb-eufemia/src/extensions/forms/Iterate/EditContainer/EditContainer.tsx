@@ -4,7 +4,7 @@ import { convertJsxToString } from '../../../../shared/component-helper'
 import { Lead } from '../../../../elements'
 import type { Props as FlexContainerProps } from '../../../../components/flex/Container'
 import IterateItemContext from '../IterateItemContext'
-import type { ArrayItemAreaProps } from '../Array/ArrayItemArea';
+import type { ArrayItemAreaProps } from '../Array/ArrayItemArea'
 import ArrayItemArea from '../Array/ArrayItemArea'
 import Toolbar from '../Toolbar'
 import { useSwitchContainerMode } from '../hooks'

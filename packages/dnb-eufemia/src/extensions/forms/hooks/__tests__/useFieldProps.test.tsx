@@ -9,7 +9,7 @@ import {
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import useFieldProps from '../useFieldProps'
-import type { ContextState} from '../../DataContext';
+import type { ContextState } from '../../DataContext'
 import { Context, Provider } from '../../DataContext'
 import FieldBoundaryContext from '../../DataContext/FieldBoundary/FieldBoundaryContext'
 import FieldBoundaryProvider from '../../DataContext/FieldBoundary/FieldBoundaryProvider'
@@ -21,7 +21,8 @@ import type {
   JSONSchema,
   OnChange,
   SubmitState,
-  UseFieldProps} from '../../Forms';
+  UseFieldProps,
+} from '../../Forms'
 import Field, {
   DataContext,
   FieldBlock,
@@ -31,9 +32,7 @@ import Field, {
   Wizard,
   makeAjvInstance,
 } from '../../Forms'
-import type {
-  SectionContextState,
-} from '../../Form/Section/SectionContext';
+import type { SectionContextState } from '../../Form/Section/SectionContext'
 import SectionContext from '../../Form/Section/SectionContext'
 import { spyOnEufemiaWarn, wait } from '../../../../core/jest/jestSetup'
 import { useSharedState } from '../../../../shared/helpers/useSharedState'

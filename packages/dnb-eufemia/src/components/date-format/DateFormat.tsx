@@ -6,7 +6,7 @@ import React, {
   useState,
   useRef,
 } from 'react'
-import type { InternalLocale } from '../../shared/Context';
+import type { InternalLocale } from '../../shared/Context'
 import SharedContext from '../../shared/Context'
 import { convertStringToDate } from '../date-picker/DatePickerCalc'
 import {

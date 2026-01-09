@@ -5,9 +5,7 @@ import { Flex } from '../../../../../components'
 import type { Props as FlexContainerProps } from '../../../../../components/flex/Container'
 import { Lead } from '../../../../../elements'
 import Toolbar from '../Toolbar/Toolbar'
-import type {
-  SectionContainerProps,
-} from '../containers/SectionContainer';
+import type { SectionContainerProps } from '../containers/SectionContainer'
 import SectionContainer from '../containers/SectionContainer'
 import EditButton from './EditButton'
 import SectionContainerContext from '../containers/SectionContainerContext'

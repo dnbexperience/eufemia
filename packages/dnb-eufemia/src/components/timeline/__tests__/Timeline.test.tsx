@@ -1,8 +1,8 @@
 import React from 'react'
 import { fireEvent, render, screen } from '@testing-library/react'
-import type { TimelineAllProps } from '../Timeline';
+import type { TimelineAllProps } from '../Timeline'
 import Timeline from '../Timeline'
-import type { TimelineItemAllProps } from '../TimelineItem';
+import type { TimelineItemAllProps } from '../TimelineItem'
 import TimelineItem from '../TimelineItem'
 
 import IconPrimary from '../../icon-primary/IconPrimary'

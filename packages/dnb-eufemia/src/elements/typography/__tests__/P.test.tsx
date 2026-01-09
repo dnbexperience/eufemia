@@ -7,7 +7,7 @@ import React from 'react'
 import { axeComponent } from '../../../core/jest/jestSetup'
 import Dialog from '../../../components/dialog/Dialog'
 import Drawer from '../../../components/drawer/Drawer'
-import type { PProps } from '../P';
+import type { PProps } from '../P'
 import P from '../P'
 import { render } from '@testing-library/react'
 

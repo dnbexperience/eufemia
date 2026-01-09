@@ -5,9 +5,7 @@ import type { ValueProps } from '../../types'
 import ValueBlock from '../../ValueBlock'
 import { convertJsxToString } from '../../../../shared/component-helper'
 import Context from '../../DataContext/Context'
-import type {
-  ListFormatProps,
-} from '../../../../components/list-format';
+import type { ListFormatProps } from '../../../../components/list-format'
 import ListFormat from '../../../../components/list-format'
 
 export type Props = ValueProps<Array<number | string>> & ListFormatProps

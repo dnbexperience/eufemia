@@ -6,7 +6,7 @@
 import React from 'react'
 import classnames from 'classnames'
 import { SuffixContext } from '../../shared/helpers/Suffix'
-import type { ContextProps } from '../../shared/Context';
+import type { ContextProps } from '../../shared/Context'
 import Context from '../../shared/Context'
 import {
   warn,

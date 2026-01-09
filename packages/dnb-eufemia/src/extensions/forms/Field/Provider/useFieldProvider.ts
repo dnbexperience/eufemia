@@ -4,9 +4,9 @@ import {
   extendDeep,
 } from '../../../../shared/component-helper'
 import FieldProviderContext from './FieldProviderContext'
-import type { ContextState } from '../../DataContext/Context';
+import type { ContextState } from '../../DataContext/Context'
 import DataContext from '../../DataContext/Context'
-import type { ContextProps } from '../../../../shared/Context';
+import type { ContextProps } from '../../../../shared/Context'
 import SharedContext from '../../../../shared/Context'
 import type { FieldProps } from '../../types'
 import type { FieldProviderProps } from './FieldProvider'

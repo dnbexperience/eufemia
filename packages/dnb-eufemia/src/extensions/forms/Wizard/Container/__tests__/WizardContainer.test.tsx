@@ -4,16 +4,8 @@ import userEvent from '@testing-library/user-event'
 import MatchMediaMock from 'jest-matchmedia-mock'
 import { spyOnEufemiaWarn, wait } from '../../../../../core/jest/jestSetup'
 import { Translation } from '../../../../../shared'
-import type {
-  OnSubmit,
-  OnSubmitRequest} from '../../..';
-import {
-  Field,
-  Form,
-  Iterate,
-  Wizard,
-  makeAjvInstance,
-} from '../../..'
+import type { OnSubmit, OnSubmitRequest } from '../../..'
+import { Field, Form, Iterate, Wizard, makeAjvInstance } from '../../..'
 import DataContext from '../../../DataContext/Context'
 import WizardContext from '../../Context'
 

@@ -8,7 +8,7 @@ import FieldBoundaryContext from '../../DataContext/FieldBoundary/FieldBoundaryC
 import PushContainerContext from '../PushContainer/PushContainerContext'
 import { close } from '../../../../icons'
 import type { ButtonProps } from '../../../../components/Button'
-import type { Props as RemoveButtonProps } from '../RemoveButton';
+import type { Props as RemoveButtonProps } from '../RemoveButton'
 import RemoveButton from '../RemoveButton'
 import type { ContainerMode } from '../Array'
 
