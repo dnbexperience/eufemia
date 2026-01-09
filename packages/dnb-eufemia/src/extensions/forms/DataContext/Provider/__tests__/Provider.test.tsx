@@ -2356,7 +2356,7 @@ describe('DataContext.Provider', () => {
       expect(removeItemSpy).toHaveBeenCalledWith(sessionStorageId)
 
       // Should use defaultData instead
-      expect(screen.getByDisplayValue('default-value')).toBeInTheDocument()
+      expect(document.querySelector('input')).toHaveValue('default-value')
 
       removeItemSpy.mockRestore()
     })
