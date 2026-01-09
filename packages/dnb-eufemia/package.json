@@ -246,7 +246,6 @@
     "ora": "5.4.1",
     "packpath": "0.1.0",
     "postcss": "8.4.32",
-    "postcss-calc": "9.0.1",
     "postcss-preset-env": "9.6.0",
     "prettier": "3.0.3",
     "prettier-package-json": "2.8.0",
