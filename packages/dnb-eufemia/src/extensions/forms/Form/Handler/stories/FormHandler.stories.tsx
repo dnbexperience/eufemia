@@ -318,7 +318,7 @@ export function SubmitIndicatorMultipleButtons() {
       <Form.Card>
         <Field.String path="/myField" label="Label" />
         <Form.ButtonRow>
-          <Form.SubmitButton>First</Form.SubmitButton>
+          <Form.SubmitButton variant="secondary">First</Form.SubmitButton>
           <Form.SubmitButton>Second</Form.SubmitButton>
         </Form.ButtonRow>
       </Form.Card>

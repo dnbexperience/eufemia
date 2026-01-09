@@ -125,6 +125,14 @@ describe('Form.SubmitButton', () => {
     expect(button).toHaveClass('dnb-button--primary')
   })
 
+  it('should support secondary variant', () => {
+    render(<Form.SubmitButton variant="secondary" />)
+
+    const button = document.querySelector('.dnb-forms-submit-button')
+
+    expect(button).toHaveClass('dnb-button--secondary')
+  })
+
   it('should have "text" by default', () => {
     render(<Form.SubmitButton />)
 
