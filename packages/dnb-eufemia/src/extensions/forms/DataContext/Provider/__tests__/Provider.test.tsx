@@ -2329,6 +2329,37 @@ describe('DataContext.Provider', () => {
 
       log.mockRestore()
     })
+
+    it('should clear corrupted session storage data and use defaultData', () => {
+      const sessionStorageId = 'corrupted-data'
+      const defaultData = { foo: 'default-value' }
+
+      // Set corrupted JSON in session storage
+      window.sessionStorage.setItem(sessionStorageId, '{invalid json')
+
+      // Spy on removeItem to verify it's called
+      const removeItemSpy = jest.spyOn(
+        Object.getPrototypeOf(window.sessionStorage),
+        'removeItem'
+      )
+
+      render(
+        <DataContext.Provider
+          defaultData={defaultData}
+          sessionStorageId={sessionStorageId}
+        >
+          <Field.String path="/foo" />
+        </DataContext.Provider>
+      )
+
+      // Should clear the corrupted data
+      expect(removeItemSpy).toHaveBeenCalledWith(sessionStorageId)
+
+      // Should use defaultData instead
+      expect(document.querySelector('input')).toHaveValue('default-value')
+
+      removeItemSpy.mockRestore()
+    })
   })
 
   describe('error handling', () => {
