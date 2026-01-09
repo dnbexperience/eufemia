@@ -4440,7 +4440,6 @@ __metadata:
     ora: "npm:5.4.1"
     packpath: "npm:0.1.0"
     postcss: "npm:8.4.32"
-    postcss-calc: "npm:9.0.1"
     postcss-preset-env: "npm:9.6.0"
     postcss-selector-parser: "npm:7.1.0"
     prettier: "npm:3.0.3"
@@ -29652,18 +29651,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss-calc@npm:9.0.1, postcss-calc@npm:^9.0.0":
-  version: 9.0.1
-  resolution: "postcss-calc@npm:9.0.1"
-  dependencies:
-    postcss-selector-parser: "npm:^6.0.11"
-    postcss-value-parser: "npm:^4.2.0"
-  peerDependencies:
-    postcss: ^8.2.2
-  checksum: 10/a0a3e71a28e7f81f07fb9438362d95df3e3e671b34a38a4070d80a9762040c721b830e0b70f28bbe7fea2a5ba2da43637d7594be5835bbe828c0c493f0c5f052
-  languageName: node
-  linkType: hard
-
 "postcss-calc@npm:^8.2.3":
   version: 8.2.4
   resolution: "postcss-calc@npm:8.2.4"
@@ -29673,6 +29660,18 @@ __metadata:
   peerDependencies:
     postcss: ^8.2.2
   checksum: 10/f34d0cbc5d2b02071cf4de9bacbb93681c22b29048726b500b5f5327e37b590d2552ba4d8ed179e2378037fd09cc6bf5ee3e25cbd8a803c57205795fa79479a8
+  languageName: node
+  linkType: hard
+
+"postcss-calc@npm:^9.0.0":
+  version: 9.0.1
+  resolution: "postcss-calc@npm:9.0.1"
+  dependencies:
+    postcss-selector-parser: "npm:^6.0.11"
+    postcss-value-parser: "npm:^4.2.0"
+  peerDependencies:
+    postcss: ^8.2.2
+  checksum: 10/a0a3e71a28e7f81f07fb9438362d95df3e3e671b34a38a4070d80a9762040c721b830e0b70f28bbe7fea2a5ba2da43637d7594be5835bbe828c0c493f0c5f052
   languageName: node
   linkType: hard
 
