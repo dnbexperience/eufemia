@@ -3,7 +3,8 @@
  *
  */
 
-import React, { HTMLProps } from 'react'
+import type { HTMLProps } from 'react'
+import React from 'react'
 import classnames from 'classnames'
 import {
   warn,
@@ -12,12 +13,11 @@ import {
   getClosestParent,
 } from '../../shared/component-helper'
 import { useMediaQuery } from '../../shared'
-import AccordionContext, {
-  AccordionContextProps,
-} from './AccordionContext'
+import type { AccordionContextProps } from './AccordionContext'
+import AccordionContext from './AccordionContext'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import HeightAnimation from '../height-animation/HeightAnimation'
-import { SpacingProps } from '../space/types'
+import type { SpacingProps } from '../space/types'
 
 export type AccordionContentProps = Omit<
   React.HTMLProps<HTMLElement>,

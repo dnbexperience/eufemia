@@ -1,9 +1,8 @@
 import React, { useContext } from 'react'
 import { render } from '@testing-library/react'
 import { Form } from '../../..'
-import CardContext, {
-  CardContextState,
-} from '../../../../../components/card/CardContext'
+import type { CardContextState } from '../../../../../components/card/CardContext'
+import CardContext from '../../../../../components/card/CardContext'
 
 describe('Form.Card', () => {
   it('should have constant of _supportsSpacingProps', () => {

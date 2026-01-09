@@ -1,13 +1,14 @@
 import React from 'react'
 import { Field, Form, Iterate, Value, Wizard } from '../..'
 import { Lead } from '../../../../elements'
-import { Translation, translations } from './ChildrenWithAgeTranslations'
+import type { Translation } from './ChildrenWithAgeTranslations'
+import { translations } from './ChildrenWithAgeTranslations'
 import type { SectionProps } from '../../Form/Section'
 import {
   omitSpacingProps,
   pickSpacingProps,
 } from '../../../../components/flex/utils'
-import { SpacingProps } from '../../../../shared/types'
+import type { SpacingProps } from '../../../../shared/types'
 
 type Mode = 'edit' | 'summary'
 type Variant = Array<'joint-responsibility' | 'daycare'>

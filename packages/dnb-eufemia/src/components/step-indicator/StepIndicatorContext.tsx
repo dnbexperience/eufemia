@@ -12,16 +12,17 @@ import React, {
   useRef,
   useState,
 } from 'react'
-import Context, { ContextProps } from '../../shared/Context'
+import type { ContextProps } from '../../shared/Context'
+import Context from '../../shared/Context'
 import { stepIndicatorDefaultProps } from './StepIndicatorProps'
 import { extendPropsWithContext } from '../../shared/component-helper'
-import {
+import type {
   StepIndicatorData,
   StepIndicatorDataItem,
   StepIndicatorMode,
   StepIndicatorProps,
 } from './StepIndicator'
-import { StepIndicatorItemProps } from './StepIndicatorItem'
+import type { StepIndicatorItemProps } from './StepIndicatorItem'
 
 // We use this array to filter out unwanted properties
 const filterAttributes = Object.keys(stepIndicatorDefaultProps)

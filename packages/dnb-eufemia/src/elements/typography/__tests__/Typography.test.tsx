@@ -5,7 +5,8 @@
 
 import React from 'react'
 import { axeComponent } from '../../../core/jest/jestSetup'
-import Typography, { TypographyProps } from '../Typography'
+import type { TypographyProps } from '../Typography'
+import Typography from '../Typography'
 import P from '../P'
 import { render } from '@testing-library/react'
 

@@ -1,4 +1,4 @@
-import { IconIcon } from './Icon'
+import type { IconIcon } from './Icon'
 
 // to replace icon names
 export const iconCase = (name: IconIcon) =>

@@ -1,6 +1,5 @@
-import UploadFileListCell, {
-  UploadFileListCellProps,
-} from '../UploadFileListCell'
+import type { UploadFileListCellProps } from '../UploadFileListCell'
+import UploadFileListCell from '../UploadFileListCell'
 import { createMockFile } from './testHelpers'
 import { fireEvent, render, screen } from '@testing-library/react'
 import React from 'react'

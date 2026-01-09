@@ -1,5 +1,5 @@
 import { createContext } from 'react'
-import { UploadContextProps } from './types'
+import type { UploadContextProps } from './types'
 
 export const defaultProps = {
   fileMaxSize: 5,

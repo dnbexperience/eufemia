@@ -1,7 +1,7 @@
 import React from 'react'
 import SharedContext from '../../shared/Context'
 import ModalContent from './ModalContent'
-import { ModalContentProps, ReactChildType } from './types'
+import type { ModalContentProps, ReactChildType } from './types'
 import PortalRoot from '../PortalRoot'
 
 declare global {

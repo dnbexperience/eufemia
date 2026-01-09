@@ -6,10 +6,11 @@
 import React from 'react'
 import classnames from 'classnames'
 import { findElementInChildren } from '../../../shared/component-helper'
-import Section, { SectionProps } from '../../section/Section'
+import type { SectionProps } from '../../section/Section'
+import Section from '../../section/Section'
 import ModalContext from '../ModalContext'
 import H1 from '../../../elements/H1'
-import { ReactChildType } from '../types'
+import type { ReactChildType } from '../types'
 
 export interface ModalHeaderProps extends Omit<SectionProps, 'children'> {
   /**

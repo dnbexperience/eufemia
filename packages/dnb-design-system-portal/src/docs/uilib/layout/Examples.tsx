@@ -30,7 +30,7 @@ import {
 import { defaultBreakpoints } from '@dnb/eufemia/src/shared/MediaQueryUtils'
 import { defaultQueries } from '@dnb/eufemia/src/shared/useMedia'
 import { Provider, useMedia, useMediaQuery } from '@dnb/eufemia/src/shared'
-import { SpacingElementProps } from '@dnb/eufemia/src/shared/types'
+import type { SpacingElementProps } from '@dnb/eufemia/src/shared/types'
 import { ScrollView } from '@dnb/eufemia/src/fragments'
 
 export const LayoutComponents = () => {

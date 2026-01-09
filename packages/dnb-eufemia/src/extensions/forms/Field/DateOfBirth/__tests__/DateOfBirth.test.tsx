@@ -2,9 +2,10 @@ import React from 'react'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { Field, Form, Validator } from '../../..'
+import type { Validator } from '../../..'
+import { Field, Form } from '../../..'
 import nbNO from '../../../constants/locales/nb-NO'
-import { AdditionalArgs } from '../DateOfBirth'
+import type { AdditionalArgs } from '../DateOfBirth'
 
 const nb = nbNO['nb-NO']
 

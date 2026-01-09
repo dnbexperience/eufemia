@@ -2,20 +2,21 @@ import React, { useCallback, useContext, useRef } from 'react'
 import classnames from 'classnames'
 import Visibility from '../Visibility'
 import DataContext from '../../DataContext/Context'
+import type { SharedStateId } from '../../../../shared/helpers/useSharedState'
 import {
-  SharedStateId,
   useSharedState,
   createReferenceKey,
 } from '../../../../shared/helpers/useSharedState'
 import useMounted from '../../../../shared/helpers/useMounted'
-import setContent, { InfoOverlayContent } from './setContent'
+import type { InfoOverlayContent } from './setContent'
+import setContent from './setContent'
 import {
   Button,
   Flex,
   HeightAnimation,
   Section,
 } from '../../../../components'
-import { HeightAnimationAllProps } from '../../../../components/HeightAnimation'
+import type { HeightAnimationAllProps } from '../../../../components/HeightAnimation'
 import { P } from '../../../../elements'
 import { useTranslation } from '../../hooks'
 import MainHeading from '../MainHeading'

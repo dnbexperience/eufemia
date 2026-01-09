@@ -10,7 +10,8 @@ import {
   extendPropsWithContext,
   validateDOMAttributes,
 } from '../../shared/component-helper'
-import Context, { ContextProps } from '../../shared/Context'
+import type { ContextProps } from '../../shared/Context'
+import Context from '../../shared/Context'
 import { spacingPropTypes } from './SpacingHelper'
 import {
   createSpacingClasses,

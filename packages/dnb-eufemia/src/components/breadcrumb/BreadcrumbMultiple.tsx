@@ -1,7 +1,8 @@
 import React from 'react'
 import HeightAnimation from '../height-animation/HeightAnimation'
 import Section from '../section/Section'
-import BreadcrumbItem, { BreadcrumbItemProps } from './BreadcrumbItem'
+import type { BreadcrumbItemProps } from './BreadcrumbItem'
+import BreadcrumbItem from './BreadcrumbItem'
 
 type BreadcrumbMultipleProps = {
   isCollapsed: boolean

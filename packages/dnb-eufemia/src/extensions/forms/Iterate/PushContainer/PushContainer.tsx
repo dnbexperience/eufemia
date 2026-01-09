@@ -7,7 +7,8 @@ import React, {
   useRef,
 } from 'react'
 import classnames from 'classnames'
-import Isolation, { IsolationProps } from '../../Form/Isolation'
+import type { IsolationProps } from '../../Form/Isolation'
+import Isolation from '../../Form/Isolation'
 import { extractZodSubSchema } from '../../Form/Isolation/extractZodSubSchema'
 import * as z from 'zod'
 import { isZodSchema } from '../../utils/zod'
@@ -18,17 +19,18 @@ import IterateItemContext from '../IterateItemContext'
 import DataContext from '../../DataContext/Context'
 import VisibilityContext from '../../Form/Visibility/VisibilityContext'
 import useDataValue from '../../hooks/useDataValue'
+import type { AllProps as EditContainerProps } from '../EditContainer'
 import EditContainer, {
   DoneButton,
   CancelButton,
   ResetButton,
-  AllProps as EditContainerProps,
 } from '../EditContainer'
-import IterateArray, { ContainerMode } from '../Array'
+import type { ContainerMode } from '../Array'
+import IterateArray from '../Array'
 import OpenButton from './OpenButton'
 import { Flex, FormStatus, HeightAnimation } from '../../../../components'
-import { OnCommit, Path } from '../../types'
-import { SpacingProps } from '../../../../shared/types'
+import type { OnCommit, Path } from '../../types'
+import type { SpacingProps } from '../../../../shared/types'
 import {
   useArrayLimit,
   useItemPath,
@@ -36,7 +38,7 @@ import {
 } from '../hooks'
 import Toolbar from '../Toolbar'
 import { usePath, useTranslation } from '../../hooks'
-import { JsonObject } from '../../utils'
+import type { JsonObject } from '../../utils'
 import { clearedData } from '../../DataContext/Provider'
 
 /**

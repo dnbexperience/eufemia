@@ -1,8 +1,8 @@
-import React from 'react'
+import type React from 'react'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 import type { LocaleProps, SpacingProps } from '../../shared/types'
 import type { SharedStateId } from '../../shared/helpers/useSharedState'
-import { ButtonProps } from '../Button'
+import type { ButtonProps } from '../Button'
 
 export type UploadAcceptedFileTypes = string[]
 

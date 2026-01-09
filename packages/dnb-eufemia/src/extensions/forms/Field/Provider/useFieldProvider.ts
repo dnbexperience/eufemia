@@ -4,10 +4,12 @@ import {
   extendDeep,
 } from '../../../../shared/component-helper'
 import FieldProviderContext from './FieldProviderContext'
-import DataContext, { ContextState } from '../../DataContext/Context'
-import SharedContext, { ContextProps } from '../../../../shared/Context'
+import type { ContextState } from '../../DataContext/Context'
+import DataContext from '../../DataContext/Context'
+import type { ContextProps } from '../../../../shared/Context'
+import SharedContext from '../../../../shared/Context'
 import type { FieldProps } from '../../types'
-import { FieldProviderProps } from './FieldProvider'
+import type { FieldProviderProps } from './FieldProvider'
 
 function useFieldProvider(props?: Omit<FieldProviderProps, 'children'>) {
   const { formElement, FormStatus, overwriteProps, ...restProps } =

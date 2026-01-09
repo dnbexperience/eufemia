@@ -1,5 +1,5 @@
 import { useCallback, useContext, useMemo } from 'react'
-import { Path } from '../types'
+import type { Path } from '../types'
 import useId from '../../../shared/helpers/useId'
 import SectionContext from '../Form/Section/SectionContext'
 import IterateItemContext from '../Iterate/IterateItemContext'

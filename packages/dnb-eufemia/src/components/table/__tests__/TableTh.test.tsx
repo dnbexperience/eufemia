@@ -1,6 +1,7 @@
 import React from 'react'
 import { render } from '@testing-library/react'
-import TableTh, { TableThProps } from '../TableTh'
+import type { TableThProps } from '../TableTh'
+import TableTh from '../TableTh'
 import TableSortButton from '../TableSortButton'
 import TableHelpButton from '../TableHelpButton'
 

@@ -7,9 +7,10 @@ import ToolbarContext from '../Toolbar/ToolbarContext'
 import FieldBoundaryContext from '../../DataContext/FieldBoundary/FieldBoundaryContext'
 import PushContainerContext from '../PushContainer/PushContainerContext'
 import { close } from '../../../../icons'
-import { ButtonProps } from '../../../../components/Button'
-import RemoveButton, { Props as RemoveButtonProps } from '../RemoveButton'
-import { ContainerMode } from '../Array'
+import type { ButtonProps } from '../../../../components/Button'
+import type { Props as RemoveButtonProps } from '../RemoveButton'
+import RemoveButton from '../RemoveButton'
+import type { ContainerMode } from '../Array'
 
 type Props = ButtonProps & {
   showConfirmDialog?: boolean

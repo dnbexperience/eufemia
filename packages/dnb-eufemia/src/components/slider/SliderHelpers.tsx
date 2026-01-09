@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { format, formatReturnValue } from '../number-format/NumberUtils'
+import type { formatReturnValue } from '../number-format/NumberUtils'
+import { format } from '../number-format/NumberUtils'
 
 import type { NumberFormatTypes, ValueTypes } from './types'
 

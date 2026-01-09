@@ -1,6 +1,7 @@
 import React, { Fragment, useMemo } from 'react'
 import classnames from 'classnames'
-import Space, { SpaceProps } from '../space/Space'
+import type { SpaceProps } from '../space/Space'
+import Space from '../space/Space'
 import { Hr } from '../../elements'
 import useMedia from '../../shared/useMedia'
 import {

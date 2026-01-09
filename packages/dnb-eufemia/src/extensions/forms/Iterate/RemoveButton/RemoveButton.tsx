@@ -1,15 +1,13 @@
 import React, { useCallback, useContext } from 'react'
 import classnames from 'classnames'
 import { Button, Dialog } from '../../../../components'
-import { ButtonProps } from '../../../../components/Button'
+import type { ButtonProps } from '../../../../components/Button'
 import IterateItemContext from '../IterateItemContext'
 import { replaceItemNo } from '../ItemNo'
 import { useTranslation } from '../../hooks'
 import ArrayItemAreaContext from '../Array/ArrayItemAreaContext'
-import {
-  DataValueReadWriteComponentProps,
-  omitDataValueReadWriteProps,
-} from '../../types'
+import type { DataValueReadWriteComponentProps } from '../../types'
+import { omitDataValueReadWriteProps } from '../../types'
 import { trash } from '../../../../icons'
 
 export type Props = ButtonProps &

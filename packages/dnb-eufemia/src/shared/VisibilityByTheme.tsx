@@ -1,4 +1,4 @@
-import React from 'react'
+import type React from 'react'
 import useTheme from './useTheme'
 import type { ThemeNames, ThemeProps } from './Theme'
 

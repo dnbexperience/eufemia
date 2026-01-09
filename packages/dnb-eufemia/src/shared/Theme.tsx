@@ -7,7 +7,7 @@ import React from 'react'
 import classnames from 'classnames'
 import Context from './Context'
 import Provider from './Provider'
-import { DynamicElement } from './types'
+import type { DynamicElement } from './types'
 import { extendPropsWithContext } from './component-helper'
 
 export type ThemeNames = 'ui' | 'eiendom' | 'sbanken' | 'carnegie'

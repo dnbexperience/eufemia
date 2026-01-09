@@ -6,12 +6,8 @@
 import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import { render } from '@testing-library/react'
-import Heading, {
-  resetLevels,
-  setNextLevel,
-  HeadingProps,
-  HeadingLevel,
-} from '../Heading'
+import type { HeadingProps, HeadingLevel } from '../Heading'
+import Heading, { resetLevels, setNextLevel } from '../Heading'
 import H3 from '../../../elements/H3'
 
 const warn = jest.fn()

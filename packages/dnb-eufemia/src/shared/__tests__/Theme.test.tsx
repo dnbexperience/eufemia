@@ -1,6 +1,7 @@
 import React from 'react'
 import { render } from '@testing-library/react'
-import Theme, { ThemeAllProps } from '../Theme'
+import type { ThemeAllProps } from '../Theme'
+import Theme from '../Theme'
 import {
   Autocomplete,
   Dialog,

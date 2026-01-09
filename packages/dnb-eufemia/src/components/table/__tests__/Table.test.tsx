@@ -2,7 +2,8 @@ import React from 'react'
 import { render, screen } from '@testing-library/react'
 import { loadScss, axeComponent } from '../../../core/jest/jestSetup'
 import { BasicTable } from './TableMocks'
-import Table, { TableAllProps } from '../Table'
+import type { TableAllProps } from '../Table'
+import Table from '../Table'
 
 const NODE_ENV = process.env.NODE_ENV
 const log = globalThis.console.log

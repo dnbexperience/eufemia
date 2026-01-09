@@ -1,18 +1,15 @@
 import React, { useMemo, useState } from 'react'
 import classnames from 'classnames'
 import { useValueProps } from '../../hooks'
-import { ValueProps } from '../../types'
+import type { ValueProps } from '../../types'
 import ValueBlock from '../../ValueBlock'
-import ListFormat, {
-  ListFormatProps,
-} from '../../../../components/list-format'
+import type { ListFormatProps } from '../../../../components/list-format'
+import ListFormat from '../../../../components/list-format'
 import type { UploadFile } from '../../../../components/upload/types'
 import { getFileIcon } from '../../../../components/upload/UploadFileListCell'
 import { BYTES_IN_A_MEGA_BYTE } from '../../../../components/upload/UploadVerify'
-import {
-  Props as FieldUploadProps,
-  transformFiles,
-} from '../../Field/Upload/Upload'
+import type { Props as FieldUploadProps } from '../../Field/Upload/Upload'
+import { transformFiles } from '../../Field/Upload/Upload'
 import { format } from '../../../../components/number-format/NumberUtils'
 import { UploadFileLink } from '../../../../components/upload/UploadFileListLink'
 import { isAsync } from '../../../../shared/helpers/isAsync'

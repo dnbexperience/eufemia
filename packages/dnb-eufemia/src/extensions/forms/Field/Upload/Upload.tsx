@@ -1,27 +1,29 @@
 import React, { useCallback, useEffect, useMemo, useRef } from 'react'
 import classnames from 'classnames'
-import FieldBlock, {
+import type {
   Props as FieldBlockProps,
   FieldBlockWidth,
 } from '../../FieldBlock'
+import FieldBlock from '../../FieldBlock'
 import {
   useFieldProps,
   useTranslation as useFormsTranslation,
 } from '../../hooks'
-import { FieldProps } from '../../types'
-import Upload, {
+import type { FieldProps } from '../../types'
+import type {
   UploadFile,
   UploadFileNative,
   UploadProps,
 } from '../../../../components/Upload'
+import Upload from '../../../../components/Upload'
 import useUpload from '../../../../components/upload/useUpload'
 import { pickSpacingProps } from '../../../../components/flex/utils'
+import type { HelpProps } from '../../../../components/help-button/HelpButtonInline'
 import HelpButtonInline, {
   HelpButtonInlineContent,
-  HelpProps,
 } from '../../../../components/help-button/HelpButtonInline'
 import { useTranslation as useSharedTranslation } from '../../../../shared'
-import { SpacingProps } from '../../../../shared/types'
+import type { SpacingProps } from '../../../../shared/types'
 import { FormError } from '../../utils'
 import { useIterateItemNo } from '../../Iterate/ItemNo/useIterateItemNo'
 

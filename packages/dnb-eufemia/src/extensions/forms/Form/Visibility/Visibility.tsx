@@ -1,11 +1,11 @@
-import React, { AriaAttributes, useCallback, useContext } from 'react'
+import type { AriaAttributes } from 'react'
+import React, { useCallback, useContext } from 'react'
 
 import { warn } from '../../../../shared/helpers'
 import useMountEffect from '../../../../shared/helpers/useMountEffect'
 import useMounted from '../../../../shared/helpers/useMounted'
-import HeightAnimation, {
-  HeightAnimationAllProps,
-} from '../../../../components/HeightAnimation'
+import type { HeightAnimationAllProps } from '../../../../components/HeightAnimation'
+import HeightAnimation from '../../../../components/HeightAnimation'
 import FieldProvider from '../../Field/Provider'
 import useVisibility from './useVisibility'
 import VisibilityContext from './VisibilityContext'
@@ -13,7 +13,7 @@ import SummaryListContext from '../../Value/SummaryList/SummaryListContext'
 
 import type { Path, UseFieldProps } from '../../types'
 import type { DataAttributes } from '../../hooks/useFieldProps'
-import { FilterData } from '../../DataContext'
+import type { FilterData } from '../../DataContext'
 
 export type VisibleWhen =
   | {

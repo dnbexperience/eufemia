@@ -2,10 +2,12 @@ import React, { useCallback } from 'react'
 import classnames from 'classnames'
 
 // Components
-import Button, { ButtonProps } from '../button/Button'
+import type { ButtonProps } from '../button/Button'
+import Button from '../button/Button'
 import IconPrimary from '../icon-primary/IconPrimary'
 import type { IconIcon } from '../icon/Icon'
-import Img, { ImgProps } from '../../elements/img/Img'
+import type { ImgProps } from '../../elements/img/Img'
+import Img from '../../elements/img/Img'
 import Space from '../space/Space'
 import P from '../../elements/P'
 

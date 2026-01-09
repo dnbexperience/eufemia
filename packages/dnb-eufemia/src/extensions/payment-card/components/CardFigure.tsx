@@ -2,10 +2,8 @@ import React from 'react'
 import classnames from 'classnames'
 
 import { ProductLogo, TypeLogo, BankLogo, BankAxeptLogo } from '../icons'
-import StatusOverlay, {
-  isCardBlocked,
-  Translations,
-} from './StatusOverlay'
+import type { Translations } from './StatusOverlay'
+import StatusOverlay, { isCardBlocked } from './StatusOverlay'
 import CardNumberText from './CardNumber'
 import CardTypeText from './CardType'
 import { BankAxeptType, CardType } from '../PaymentCard'

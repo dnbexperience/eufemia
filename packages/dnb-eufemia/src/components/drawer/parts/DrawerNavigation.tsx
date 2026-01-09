@@ -1,8 +1,7 @@
 import React from 'react'
 import classnames from 'classnames'
-import ModalHeaderBar, {
-  ModalHeaderBarProps,
-} from '../../modal/parts/ModalHeaderBar'
+import type { ModalHeaderBarProps } from '../../modal/parts/ModalHeaderBar'
+import ModalHeaderBar from '../../modal/parts/ModalHeaderBar'
 import { DrawerContentContext } from './DrawerContentContext'
 
 export default function DrawerNavigation({

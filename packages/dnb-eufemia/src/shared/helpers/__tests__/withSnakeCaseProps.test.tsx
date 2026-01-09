@@ -2,11 +2,11 @@
 
 import { render, screen } from '@testing-library/react'
 import React from 'react'
+import type { IncludeSnakeCase } from '../withSnakeCaseProps'
 import {
   withSnakeCaseProps,
   convertSnakeCaseProps,
   classWithSnakeCaseProps,
-  IncludeSnakeCase,
 } from '../withSnakeCaseProps'
 
 type CustomType = {

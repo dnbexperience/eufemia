@@ -6,7 +6,8 @@
 import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import { render } from '@testing-library/react'
-import Space, { SpaceAllProps } from '../Space'
+import type { SpaceAllProps } from '../Space'
+import Space from '../Space'
 import Section from '../../Section'
 
 const props: SpaceAllProps = {}

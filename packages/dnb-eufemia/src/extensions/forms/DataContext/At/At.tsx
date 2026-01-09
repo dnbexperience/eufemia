@@ -1,7 +1,8 @@
 import React, { useCallback, useContext } from 'react'
 import pointer from '../../utils/json-pointer'
 import type { ComponentProps } from '../../types'
-import Context, { ContextState } from '../Context'
+import type { ContextState } from '../Context'
+import Context from '../Context'
 
 export type Props = ComponentProps & {
   /** JSON Pointer for where in the source dataset to point at in sub components */

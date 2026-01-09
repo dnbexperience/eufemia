@@ -1,6 +1,7 @@
 import React from 'react'
 import { isTrue } from './component-helper'
-import Context, { ContextProps } from './Context'
+import type { ContextProps } from './Context'
+import Context from './Context'
 import {
   makeMediaQueryList,
   createMediaQueryListener,

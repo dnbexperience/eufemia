@@ -1,3 +1,4 @@
+import type { FormatDateOptions } from '../DateFormatUtils'
 import {
   formatDate,
   formatDateRange,
@@ -7,7 +8,6 @@ import {
   parseDuration,
   formatDuration,
   isValidDuration,
-  FormatDateOptions,
 } from '../DateFormatUtils'
 
 describe('DateFormatUtils', () => {

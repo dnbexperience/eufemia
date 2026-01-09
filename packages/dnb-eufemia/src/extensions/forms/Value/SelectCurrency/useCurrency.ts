@@ -1,7 +1,10 @@
 import { useCallback, useContext } from 'react'
 import SharedContext from '../../../../shared/Context'
 import { getCurrencyData } from '../../Field/SelectCurrency'
-import { CurrencyLang, CurrencyType } from '../../constants/currencies'
+import type {
+  CurrencyLang,
+  CurrencyType,
+} from '../../constants/currencies'
 
 export default function useCurrency() {
   const { locale } = useContext(SharedContext)

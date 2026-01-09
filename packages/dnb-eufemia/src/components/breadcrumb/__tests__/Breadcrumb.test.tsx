@@ -7,12 +7,13 @@ import {
   waitFor,
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import Breadcrumb, { BreadcrumbItem, BreadcrumbProps } from '../Breadcrumb'
+import type { BreadcrumbProps } from '../Breadcrumb'
+import Breadcrumb, { BreadcrumbItem } from '../Breadcrumb'
 import { Provider } from '../../../shared'
 import IconPrimary from '../../icon-primary/IconPrimary'
 import { loadScss, axeComponent } from '../../../core/jest/jestSetup'
-import { BreadcrumbItemProps } from '../BreadcrumbItem'
-import { AnchorAllProps } from '../../Anchor'
+import type { BreadcrumbItemProps } from '../BreadcrumbItem'
+import type { AnchorAllProps } from '../../Anchor'
 import 'mock-match-media/jest-setup'
 import { setMedia } from 'mock-match-media'
 

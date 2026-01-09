@@ -1,14 +1,15 @@
 import React, { useContext } from 'react'
-import {
+import type {
   TranslationArguments,
   TranslationId,
   TranslationIdAsFunction,
-  formatMessage,
 } from './useTranslation'
-import SharedContext, {
+import { formatMessage } from './useTranslation'
+import type {
   TranslationCustomLocales,
   TranslationFlatToObject,
 } from './Context'
+import SharedContext from './Context'
 import renderWithFormatting from './renderWithFormatting'
 
 export type TranslationProps<T = TranslationCustomLocales> = {

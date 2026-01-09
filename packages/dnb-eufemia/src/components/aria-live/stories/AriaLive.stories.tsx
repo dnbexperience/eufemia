@@ -1,7 +1,7 @@
 import React from 'react'
 import AriaLive from '../AriaLive'
 import { Field, FieldBlock, Form } from '../../../extensions/forms'
-import { AriaLiveProps } from '../types'
+import type { AriaLiveProps } from '../types'
 import { Button, Flex } from '../..'
 import { P } from '../../../elements'
 

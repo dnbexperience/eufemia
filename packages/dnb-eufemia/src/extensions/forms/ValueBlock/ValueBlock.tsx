@@ -15,16 +15,16 @@ import SummaryListContext from '../Value/SummaryList/SummaryListContext'
 import ValueProviderContext from '../Value/Provider/ValueProviderContext'
 import ValueBlockContext from './ValueBlockContext'
 import DataContext from '../DataContext/Context'
-import { Path, ValueProps } from '../types'
+import type { Path, ValueProps } from '../types'
 import { pickSpacingProps } from '../../../components/flex/utils'
 import IterateItemContext from '../Iterate/IterateItemContext'
 import { replaceItemNo } from '../Iterate/ItemNo'
 import { convertJsxToString } from '../../../shared/component-helper'
 import VisibilityContext from '../Form/Visibility/VisibilityContext'
 import Visibility from '../Form/Visibility/Visibility'
+import type { HelpProps } from '../../../components/help-button/HelpButtonInline'
 import HelpButtonInline, {
   HelpButtonInlineContent,
-  HelpProps,
 } from '../../../components/help-button/HelpButtonInline'
 import useId from '../../../shared/helpers/useId'
 

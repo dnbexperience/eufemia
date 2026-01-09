@@ -1,14 +1,14 @@
-import { Connectors, PathStrict } from '../..'
+import type { PathStrict } from '../..'
+import { Connectors } from '../..'
+import type { GeneralConfig, HandlerConfig } from '../createContext'
 import {
-  GeneralConfig,
-  HandlerConfig,
   fetchData,
   getCountryCodeValue,
   handleCountryPath,
   isSupportedCountryCode,
 } from '../createContext'
 import { COUNTRY as defaultCountry } from '../../../../shared/defaults'
-import { SupportedCountries } from '../Bring/postalCode'
+import type { SupportedCountries } from '../Bring/postalCode'
 
 describe('createContext', () => {
   // Mock fetch to avoid making actual network requests

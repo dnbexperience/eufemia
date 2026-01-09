@@ -10,7 +10,8 @@ import {
   runAnimation,
   simulateAnimationEnd,
 } from '../../../../components/height-animation/__tests__/HeightAnimationUtils'
-import { Field, Form, Validator } from '../..'
+import type { Validator } from '../..'
+import { Field, Form } from '../..'
 import nbNO from '../../constants/locales/nb-NO'
 import enGB from '../../constants/locales/en-GB'
 

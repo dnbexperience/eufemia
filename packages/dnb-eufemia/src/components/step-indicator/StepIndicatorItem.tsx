@@ -3,13 +3,16 @@
  *
  */
 
-import React, { HTMLProps, useCallback, useContext, useMemo } from 'react'
+import type { HTMLProps } from 'react'
+import React, { useCallback, useContext, useMemo } from 'react'
 
 import classnames from 'classnames'
 import { dispatchCustomElementEvent } from '../../shared/component-helper'
 import useId from '../../shared/helpers/useId'
-import Anchor, { AnchorAllProps } from '../anchor/Anchor'
-import Icon, { IconIcon } from '../icon/Icon'
+import type { AnchorAllProps } from '../anchor/Anchor'
+import Anchor from '../anchor/Anchor'
+import type { IconIcon } from '../icon/Icon'
+import Icon from '../icon/Icon'
 import IconPrimary from '../icon/IconPrimary'
 import FormStatus, {
   WarnIcon,
@@ -18,7 +21,7 @@ import FormStatus, {
 } from '../form-status/FormStatus'
 import StepIndicatorContext from './StepIndicatorContext'
 import { stepIndicatorDefaultProps } from './StepIndicatorProps'
-import { StepIndicatorMouseEvent } from './StepIndicator'
+import type { StepIndicatorMouseEvent } from './StepIndicator'
 import Context from '../../shared/Context'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 

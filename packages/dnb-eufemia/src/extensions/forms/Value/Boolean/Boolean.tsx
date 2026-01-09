@@ -2,7 +2,7 @@ import React from 'react'
 import classnames from 'classnames'
 import ValueBlock from '../../ValueBlock'
 import { useValueProps } from '../../hooks'
-import { ValueProps } from '../../types'
+import type { ValueProps } from '../../types'
 import useTranslation from '../../hooks/useTranslation'
 
 export type Props = ValueProps<boolean> & {

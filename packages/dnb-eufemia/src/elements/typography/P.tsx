@@ -5,11 +5,8 @@
 
 import React, { createContext, useContext } from 'react'
 import classnames from 'classnames'
-import Typography, {
-  TypographySize,
-  TypographyProps,
-  TypographyContext,
-} from './Typography'
+import type { TypographySize, TypographyProps } from './Typography'
+import Typography, { TypographyContext } from './Typography'
 
 export type PSize = TypographySize
 

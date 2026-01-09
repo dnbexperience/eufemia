@@ -14,23 +14,29 @@ import { Button, GlobalStatus } from '../../../../../components'
 import SharedProvider from '../../../../../shared/Provider'
 import { makeUniqueId } from '../../../../../shared/component-helper'
 import { debounceAsync } from '../../../../../shared/helpers/debounce'
+import type {
+  JSONSchema,
+  OnChange,
+  DataValueWriteProps,
+  OnSubmit,
+  OnSubmitRequest,
+} from '../../../'
 import {
   Form,
   DataContext,
   Field,
-  JSONSchema,
   Ajv,
-  OnChange,
-  DataValueWriteProps,
-  OnSubmit,
   Iterate,
-  OnSubmitRequest,
   Wizard,
   makeAjvInstance,
 } from '../../../'
 import { isCI } from 'repo-utils'
-import { Props as StringFieldProps } from '../../../Field/String'
-import { ContextState, FilterData, DataPathHandler } from '../../Context'
+import type { Props as StringFieldProps } from '../../../Field/String'
+import type {
+  ContextState,
+  FilterData,
+  DataPathHandler,
+} from '../../Context'
 
 import nbNO from '../../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO']

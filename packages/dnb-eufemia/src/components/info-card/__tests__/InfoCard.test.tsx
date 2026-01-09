@@ -1,6 +1,7 @@
 import React from 'react'
 import { fireEvent, render, screen, within } from '@testing-library/react'
-import InfoCard, { InfoCardAllProps } from '../InfoCard'
+import type { InfoCardAllProps } from '../InfoCard'
+import InfoCard from '../InfoCard'
 import { confetti as Confetti } from '../../../icons'
 
 import { loadScss, axeComponent } from '../../../core/jest/jestSetup'

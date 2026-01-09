@@ -8,17 +8,17 @@ import React, {
 import classnames from 'classnames'
 import { Input, Textarea } from '../../../../components'
 import * as z from 'zod'
-import { InputProps } from '../../../../components/input/Input'
-import InputMasked, {
-  InputMaskedProps,
-} from '../../../../components/InputMasked'
-import { TextareaProps } from '../../../../components/Textarea'
+import type { InputProps } from '../../../../components/input/Input'
+import type { InputMaskedProps } from '../../../../components/InputMasked'
+import InputMasked from '../../../../components/InputMasked'
+import type { TextareaProps } from '../../../../components/Textarea'
 import DataContext from '../../DataContext/Context'
 import FieldBlockContext from '../../FieldBlock/FieldBlockContext'
-import FieldBlock, {
+import type {
   Props as FieldBlockProps,
   FieldBlockWidth,
 } from '../../FieldBlock'
+import FieldBlock from '../../FieldBlock'
 import { useFieldProps } from '../../hooks'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import { toCapitalized } from '../../../../shared/component-helper'

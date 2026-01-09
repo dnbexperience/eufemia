@@ -1,4 +1,5 @@
-import { Field, Form, JsonObject, Tools, Wizard } from '../../..'
+import type { JsonObject } from '../../..'
+import { Field, Form, Tools, Wizard } from '../../..'
 import { Button } from '../../../../../components'
 
 export default {

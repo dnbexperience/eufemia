@@ -18,7 +18,7 @@ import {
   GlobalStatus,
 } from '../..'
 import { Dialog, Flex, Icon, Link, P } from '../../..'
-import { DrawerListDataArray } from '../../../fragments/DrawerList'
+import type { DrawerListDataArray } from '../../../fragments/DrawerList'
 import { Provider } from '../../../shared'
 import { Field, Form } from '../../../extensions/forms'
 import { bank } from '../../../icons'

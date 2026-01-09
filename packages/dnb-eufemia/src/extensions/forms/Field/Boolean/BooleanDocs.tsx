@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../../../shared/types'
+import type { PropertiesTableProps } from '../../../../shared/types'
 import { ToggleProperties } from '../Toggle/ToggleDocs'
 
 export const BooleanProperties: PropertiesTableProps = {

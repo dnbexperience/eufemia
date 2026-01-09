@@ -1,7 +1,7 @@
-import { AnyLocale } from '../../shared/Context'
+import type { AnyLocale } from '../../shared/Context'
 import { LOCALE as defaultLocale } from '../../shared/defaults'
 import { convertStringToDate } from '../date-picker/DatePickerCalc'
-import { DateType } from '../date-picker/DatePickerContext'
+import type { DateType } from '../date-picker/DatePickerContext'
 
 // Type definitions for Intl.DurationFormat (newer API)
 interface DurationFormatInput {

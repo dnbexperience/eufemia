@@ -3,7 +3,8 @@
  *
  */
 import React from 'react'
-import P, { PProps } from './P'
+import type { PProps } from './P'
+import P from './P'
 
 const Ingress = (props: PProps) => <P weight="medium" {...props} />
 

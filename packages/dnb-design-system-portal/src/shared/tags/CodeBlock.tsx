@@ -5,11 +5,8 @@
 
 import React from 'react'
 import classnames from 'classnames'
-import Highlight, {
-  Language,
-  Prism,
-  defaultProps,
-} from 'prism-react-renderer'
+import type { Language } from 'prism-react-renderer'
+import Highlight, { Prism, defaultProps } from 'prism-react-renderer'
 import Tag from './Tag'
 import { Button } from '@dnb/eufemia/src/components'
 import { makeUniqueId } from '@dnb/eufemia/src/shared/component-helper'
@@ -30,7 +27,7 @@ import {
 
 // this theme is replaced my a css one
 import prismTheme from '@dnb/eufemia/src/style/themes/theme-ui/prism/dnb-prism-theme'
-import { ContextProps } from '@dnb/eufemia/src/shared/Context'
+import type { ContextProps } from '@dnb/eufemia/src/shared/Context'
 
 export type CodeSectionProps = {
   scope?: Record<string, unknown>

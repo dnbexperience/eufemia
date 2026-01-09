@@ -1,7 +1,7 @@
 import { useCallback, useContext, useMemo, useRef } from 'react'
 import pointer from '../../utils/json-pointer'
 import DataContext from '../../DataContext/Context'
-import { Props } from './Indeterminate'
+import type { Props } from './Indeterminate'
 
 export default function useDependencePaths(
   dependencePaths: Props['dependencePaths'],

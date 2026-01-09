@@ -1,5 +1,5 @@
-import { StepIndicatorStatusState } from '../../../../components/step-indicator/StepIndicatorItem'
-import { EventReturnWithStateObject, Path } from '../../types'
+import type { StepIndicatorStatusState } from '../../../../components/step-indicator/StepIndicatorItem'
+import type { EventReturnWithStateObject, Path } from '../../types'
 
 export type OnStepsChangeMode = 'previous' | 'next' | 'stepListModified'
 export type OnStepChangeOptions = {

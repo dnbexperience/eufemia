@@ -7,9 +7,10 @@ import {
   Radio,
 } from '../../../../components'
 import ButtonRow from '../../Form/ButtonRow'
-import FieldBlock, { Props as FieldBlockProps } from '../../FieldBlock'
+import type { Props as FieldBlockProps } from '../../FieldBlock'
+import FieldBlock from '../../FieldBlock'
 import { useFieldProps } from '../../hooks'
-import { FieldProps } from '../../types'
+import type { FieldProps } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import ToggleButtonGroupContext from '../../../../components/toggle-button/ToggleButtonGroupContext'
 import useTranslation from '../../hooks/useTranslation'
@@ -20,7 +21,7 @@ import type {
   OnClickParams,
 } from '../../../../components/Checkbox'
 import type { ToggleButtonProps } from '../../../../components/ToggleButton'
-import { SwitchOnChangeParams } from '../../../../components/Switch'
+import type { SwitchOnChangeParams } from '../../../../components/Switch'
 import HelpButtonInline from '../../../../components/help-button/HelpButtonInline'
 
 export type ToggleProps = {

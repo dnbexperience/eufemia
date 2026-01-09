@@ -37,6 +37,7 @@ More information can be found in the [faq](https://eufemia.dnb.no/contribute/faq
 Find more information about how to contribute in [Eufemia Portal - Contribute](https://eufemia.dnb.no/contribute).
 
 ### Our contributors
+
 <!-- markdownlint-disable MD033 -->
 <a href="https://github.com/dnbexperience/eufemia/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=dnbexperience/eufemia" alt="Contributors" />

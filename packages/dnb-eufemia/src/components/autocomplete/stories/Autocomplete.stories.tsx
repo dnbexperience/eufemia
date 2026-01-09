@@ -19,7 +19,7 @@ import { Anchor, Li, Ol, P, Section, Space } from '../../../'
 import { Context, Provider } from '../../../shared'
 import { SubmitButton } from '../../input/Input'
 import { format } from '../../number-format/NumberUtils'
-import {
+import type {
   DrawerListData,
   DrawerListDataArray,
 } from '../../../fragments/DrawerList'

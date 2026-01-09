@@ -1,12 +1,12 @@
 import React from 'react'
-import { Props as DataContextProps } from '../../DataContext/Provider'
-import { FormStatusProps } from '../../../../components/FormStatus'
+import type { Props as DataContextProps } from '../../DataContext/Provider'
+import type { FormStatusProps } from '../../../../components/FormStatus'
 import FieldProviderContext from './FieldProviderContext'
 import SharedProvider from '../../../../shared/Provider'
-import { ContextProps } from '../../../../shared/Context'
+import type { ContextProps } from '../../../../shared/Context'
 import useFieldProvider from './useFieldProvider'
-import { FieldProps, Path } from '../../types'
-import { JsonObject } from '../../utils'
+import type { FieldProps, Path } from '../../types'
+import type { JsonObject } from '../../utils'
 
 export type FieldProviderProps = FieldProps & {
   children: React.ReactNode

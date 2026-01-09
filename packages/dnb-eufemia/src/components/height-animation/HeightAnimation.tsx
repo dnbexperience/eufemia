@@ -1,9 +1,7 @@
 import React, { useRef } from 'react'
 import classnames from 'classnames'
-import {
-  useHeightAnimation,
-  useHeightAnimationOptions,
-} from './useHeightAnimation'
+import type { useHeightAnimationOptions } from './useHeightAnimation'
+import { useHeightAnimation } from './useHeightAnimation'
 import Space from '../space/Space'
 
 import type { DynamicElement, SpacingProps } from '../../shared/types'

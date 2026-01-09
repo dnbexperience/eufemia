@@ -3,7 +3,8 @@ import classnames from 'classnames'
 import SharedContext from '../../shared/Context'
 import { COUNTRY as defaultCountry } from '../../shared/defaults'
 import useCountries from '../../extensions/forms/Field/SelectCountry/useCountries'
-import Space, { SpaceAllProps } from '../space/Space'
+import type { SpaceAllProps } from '../space/Space'
+import Space from '../space/Space'
 
 type CountryFlagProps = {
   iso?: string

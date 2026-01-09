@@ -12,13 +12,14 @@ import currencies, {
   type CurrencyISO,
 } from '../../constants/currencies'
 import { useFieldProps } from '../../hooks'
-import { FieldPropsWithExtraValue } from '../../types'
-import FieldBlock, {
+import type { FieldPropsWithExtraValue } from '../../types'
+import type {
   Props as FieldBlockProps,
   FieldBlockWidth,
 } from '../../FieldBlock'
+import FieldBlock from '../../FieldBlock'
 import useTranslation from '../../hooks/useTranslation'
-import { AutocompleteAllProps } from '../../../../components/autocomplete/Autocomplete'
+import type { AutocompleteAllProps } from '../../../../components/autocomplete/Autocomplete'
 
 export type CurrencyFilterSet =
   | 'Scandinavia'

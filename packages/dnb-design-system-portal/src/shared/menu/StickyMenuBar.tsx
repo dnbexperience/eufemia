@@ -14,7 +14,7 @@ import { SidebarMenuContext } from './SidebarMenuContext'
 import PortalToolsMenu from './PortalToolsMenu'
 import { SearchBarInput } from './SearchBar'
 import { Context } from '@dnb/eufemia/src/shared'
-import { ButtonProps } from '@dnb/eufemia/src/components/Button'
+import type { ButtonProps } from '@dnb/eufemia/src/components/Button'
 import { createSkeletonClass } from '@dnb/eufemia/src/components/skeleton/SkeletonHelper'
 import {
   headerStyle,

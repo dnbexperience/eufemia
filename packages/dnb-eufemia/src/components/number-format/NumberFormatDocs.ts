@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../shared/types'
+import type { PropertiesTableProps } from '../../shared/types'
 import { toCamelCase } from '../../shared/component-helper'
 
 export const NumberFormatProperties: PropertiesTableProps = {

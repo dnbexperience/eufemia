@@ -6,9 +6,12 @@
 import React from 'react'
 import { axeComponent } from '../../../core/jest/jestSetup'
 import { render } from '@testing-library/react'
-import Dl, { DlAllProps } from '../Dl'
-import Dt, { DtProps } from '../../Dt'
-import Dd, { DdProps } from '../../Dd'
+import type { DlAllProps } from '../Dl'
+import Dl from '../Dl'
+import type { DtProps } from '../../Dt'
+import Dt from '../../Dt'
+import type { DdProps } from '../../Dd'
+import Dd from '../../Dd'
 
 describe('Dl', () => {
   it('renders with props as an object', () => {

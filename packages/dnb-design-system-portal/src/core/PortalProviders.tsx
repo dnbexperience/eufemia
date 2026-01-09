@@ -21,9 +21,10 @@ import daDK from '@dnb/eufemia/src/shared/locales/da-DK'
 import daDK_forms from '@dnb/eufemia/src/extensions/forms/constants/locales/da-DK'
 import daDK_forms_countries from '@dnb/eufemia/src/extensions/forms/constants/locales/countries/da-DK'
 import { isTrue } from '@dnb/eufemia/src/shared/component-helper'
-import PortalLayout, { PortalLayoutProps } from './PortalLayout'
+import type { PortalLayoutProps } from './PortalLayout'
+import PortalLayout from './PortalLayout'
 import { useThemeHandler } from 'gatsby-plugin-eufemia-theme-handler'
-import { InternalLocale } from '@dnb/eufemia/src/shared/Context'
+import type { InternalLocale } from '@dnb/eufemia/src/shared/Context'
 import IsolatedStyleScope from '@dnb/eufemia/src/shared/IsolatedStyleScope'
 
 // Enable other existing locales here
