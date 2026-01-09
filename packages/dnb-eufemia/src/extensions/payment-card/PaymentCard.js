@@ -24,7 +24,7 @@ import {
 } from '../../components/skeleton/SkeletonHelper'
 
 import { formatCardNumber } from './components/CardNumber'
-import CardFigure, { cardDataPropTypes } from './components/CardFigure'
+import CardFigure from './components/CardFigure'
 
 import { ProductType, CardType, BankAxeptType } from './utils/Types'
 import Designs, { defaultDesign } from './utils/CardDesigns'
@@ -66,7 +66,15 @@ export default class PaymentCard extends React.PureComponent {
     ]),
     variant: PropTypes.oneOf(['normal', 'compact']),
     digits: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    raw_data: cardDataPropTypes,
+    raw_data: PropTypes.shape({
+      productCode: PropTypes.string.isRequired,
+      productName: PropTypes.string.isRequired,
+      displayName: PropTypes.string.isRequired,
+      cardDesign: PropTypes.object.isRequired,
+      cardType: PropTypes.object.isRequired,
+      productType: PropTypes.object.isRequired,
+      bankAxept: PropTypes.object.isRequired,
+    }),
     id: PropTypes.string,
     locale: PropTypes.string,
 
