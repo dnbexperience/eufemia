@@ -161,6 +161,7 @@ describe('Field.Email', () => {
 
   describe('should validate the correctness of email addresses', () => {
     const validNames = [
+      '_underscore@email.com',
       'simple@example.com',
       'user.name+tag@example.co.uk',
       'user-name@example.org',
