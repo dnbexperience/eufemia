@@ -312,6 +312,20 @@ export function SubmitIndicator() {
   )
 }
 
+export function SubmitIndicatorMultipleButtons() {
+  return (
+    <Form.Handler onSubmit={delay}>
+      <Form.Card>
+        <Field.String path="/myField" label="Label" />
+        <Form.ButtonRow>
+          <Form.SubmitButton>First</Form.SubmitButton>
+          <Form.SubmitButton>Second</Form.SubmitButton>
+        </Form.ButtonRow>
+      </Form.Card>
+    </Form.Handler>
+  )
+}
+
 export function GlobalStatusStory() {
   return (
     <>

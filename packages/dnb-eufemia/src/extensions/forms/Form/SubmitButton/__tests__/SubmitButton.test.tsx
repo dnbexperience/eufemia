@@ -1,5 +1,6 @@
 import React from 'react'
-import { fireEvent, render } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
+import { wait } from '../../../../../core/jest/jestSetup'
 import { Form, Field } from '../../..'
 import { Provider } from '../../../../../shared'
 
@@ -173,7 +174,12 @@ describe('Form.SubmitButton', () => {
       (attr) => attr.name
     )
 
-    expect(attributes).toEqual(['class', 'type', 'aria-label'])
+    expect(attributes).toEqual([
+      'class',
+      'type',
+      'data-form-submit-button-id',
+      'aria-label',
+    ])
     expect(buttonElement.getAttribute('aria-label')).toBe('Aria Label')
   })
 
@@ -193,6 +199,37 @@ describe('Form.SubmitButton', () => {
     expect(
       document.querySelector('.dnb-forms-submit-indicator--state-pending')
     ).toBeNull()
+  })
+
+  it('should only show submit indicator on the clicked submit button', async () => {
+    const onSubmit = jest.fn(async () => {
+      await wait(10)
+    })
+
+    render(
+      <Form.Handler onSubmit={onSubmit}>
+        <Form.SubmitButton>First</Form.SubmitButton>
+        <Form.SubmitButton>Second</Form.SubmitButton>
+      </Form.Handler>
+    )
+
+    const [firstButton, secondButton] = screen.getAllByRole('button')
+
+    fireEvent.click(secondButton)
+
+    const firstIndicator = firstButton.querySelector(
+      '.dnb-forms-submit-indicator'
+    )
+    const secondIndicator = secondButton.querySelector(
+      '.dnb-forms-submit-indicator'
+    )
+
+    expect(firstIndicator).not.toHaveClass(
+      'dnb-forms-submit-indicator--state-pending'
+    )
+    expect(secondIndicator).toHaveClass(
+      'dnb-forms-submit-indicator--state-pending'
+    )
   })
 
   it('should contain submit indicator and its aria features', () => {
