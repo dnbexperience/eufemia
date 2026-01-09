@@ -262,6 +262,12 @@ describe('babel build', () => {
               ),
               'utf-8'
             )
+            expect(content).toContain(
+              'import Context from "./Context.js";'
+            )
+            expect(content).toContain(
+              'import defaultLocales from "./locales/index.js";'
+            )
             expect(content).toContain('_Object$hasOwn')
             expect(content).not.toContain('Object.hasOwn')
           }
@@ -318,6 +324,12 @@ describe('babel build', () => {
             )
             expect(content).toContain('Object.hasOwn')
             expect(content).not.toContain('_Object$hasOwn')
+            expect(content).toContain(
+              'import Context from "./Context.js";'
+            )
+            expect(content).toContain(
+              'import defaultLocales from "./locales/index.js";'
+            )
           }
         }
         break
