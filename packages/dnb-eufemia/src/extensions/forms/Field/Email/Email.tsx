@@ -4,8 +4,9 @@ import useTranslation from '../../hooks/useTranslation'
 
 export type Props = StringFieldProps
 
+const aText = `[A-Za-z0-9!#$%&'*+/=?^_\\x60{|}~-]+`
 export const pattern =
-  `^[A-Za-z0-9_]+(?:[._%+-][A-Za-z0-9_]+)*@` + // Local part: alnum/underscore + separators, no consecutive symbols
+  `^${aText}(?:\\.${aText})*@` + // Local part: RFC 5322 aText segments separated by dots
   `(?:` +
   // Multi-label domain ending with a TLD (e.g. example.com, sub.example.co.uk)
   `(?:` +
