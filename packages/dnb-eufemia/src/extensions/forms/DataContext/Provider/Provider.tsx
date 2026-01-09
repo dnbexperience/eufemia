@@ -401,6 +401,7 @@ export default function Provider<Data extends JsonObject>(
 
   // - Progress
   const formStateRef = useRef<SubmitState>()
+  const activeSubmitButtonIdRef = useRef<string>()
   const keepPending = useRef(false)
   const setFormState = useCallback<ContextState['setFormState']>(
     (formState: SubmitState, options = {}) => {
@@ -412,6 +413,12 @@ export default function Provider<Data extends JsonObject>(
     },
     []
   )
+  const setActiveSubmitButtonId = useCallback<
+    ContextState['setActiveSubmitButtonId']
+  >((id) => {
+    activeSubmitButtonIdRef.current = id
+    forceUpdate()
+  }, [])
 
   // - States (e.g. error) reported by fields, based on their direct validation rules
   const fieldErrorRef = useRef<Record<Path, Error>>({})
@@ -423,7 +430,12 @@ export default function Provider<Data extends JsonObject>(
       const sessionDataJSON =
         window.sessionStorage?.getItem(sessionStorageId)
       if (sessionDataJSON) {
-        return JSON.parse(sessionDataJSON)
+        try {
+          return JSON.parse(sessionDataJSON)
+        } catch (e) {
+          // If session storage data is corrupted, clear it and use default data
+          window.sessionStorage?.removeItem(sessionStorageId)
+        }
       }
     }
 
@@ -1686,7 +1698,9 @@ export default function Provider<Data extends JsonObject>(
     disabled,
     required,
     formState,
+    activeSubmitButtonId: activeSubmitButtonIdRef.current,
     submitState,
+    setActiveSubmitButtonId,
     contextErrorMessages,
     hasContext: true,
     errors: errorsRef.current,

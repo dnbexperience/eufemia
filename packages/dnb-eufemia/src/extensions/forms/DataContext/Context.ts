@@ -218,6 +218,7 @@ export interface ContextState {
   showAllErrors: boolean | number
   hasVisibleError: boolean
   formState: SubmitState
+  activeSubmitButtonId?: string
   getAjvInstance?: () => Ajv
   contextErrorMessages: GlobalErrorMessagesWithPaths
   schema: Schema
@@ -230,6 +231,7 @@ export interface ContextState {
   decoupleForm?: boolean
   hasElementRef?: React.MutableRefObject<boolean>
   restHandlerProps?: Record<string, unknown>
+  setActiveSubmitButtonId?: (id?: string) => void
   registerSectionSchema?: (
     registration: SectionSchemaRegistration
   ) => () => void
@@ -252,8 +254,10 @@ export const defaultContextState: ContextState = {
   showAllErrors: false,
   hasVisibleError: false,
   formState: undefined,
+  activeSubmitButtonId: undefined,
   setFormState: () => null,
   setSubmitState: () => null,
+  setActiveSubmitButtonId: () => null,
   handleSubmitCall: () => null,
   setShowAllErrors: () => null,
   setMountedFieldState: () => null,

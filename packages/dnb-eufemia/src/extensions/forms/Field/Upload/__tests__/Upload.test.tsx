@@ -1877,6 +1877,74 @@ describe('Field.Upload', () => {
       })
     })
 
+    it('should block form submission while async file handler in an Iterate.Array is pending', async () => {
+      const file = createMockFile('fileName.png', 100, 'image/png')
+      let resolveFileHandler: ((value: UploadValue) => void) | undefined
+
+      const fileHandler = jest.fn(
+        () =>
+          new Promise<UploadValue>((resolve) => {
+            resolveFileHandler = resolve
+          })
+      )
+
+      const onSubmit = jest.fn()
+
+      render(
+        <Form.Handler
+          onSubmit={onSubmit}
+          defaultData={{
+            cases: [{ title: 'Case 1', files: undefined }],
+          }}
+        >
+          <Iterate.Array path="/cases">
+            <Field.String itemPath="/title" />
+            <Field.Upload itemPath="/files" fileHandler={fileHandler} />
+          </Iterate.Array>
+          <Form.SubmitButton />
+        </Form.Handler>
+      )
+
+      const element = getRootElement()
+
+      fireEvent.drop(element, {
+        dataTransfer: {
+          files: [file],
+        },
+      })
+
+      await waitFor(() => {
+        expect(fileHandler).toHaveBeenCalledTimes(1)
+      })
+
+      fireEvent.submit(document.querySelector('form'))
+
+      // Wait for submit button to be disabled
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-forms-submit-button')
+        ).toBeDisabled()
+      })
+
+      expect(onSubmit).not.toHaveBeenCalled()
+
+      if (!resolveFileHandler) {
+        throw new Error('fileHandler was not invoked')
+      }
+
+      resolveFileHandler([
+        {
+          file,
+          id: 'server_id',
+          exists: true,
+        },
+      ])
+
+      await waitFor(() => {
+        expect(onSubmit).toHaveBeenCalledTimes(1)
+      })
+    })
+
     it('should not add existing file using fileHandler with async function', async () => {
       const file = createMockFile('fileName.png', 100, 'image/png')
 

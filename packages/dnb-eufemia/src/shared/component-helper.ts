@@ -36,10 +36,23 @@ export const validateDOMAttributes = (props, params) => {
     let attr = props.attributes
     if (attr) {
       if (attr[0] === '{') {
-        attr = JSON.parse(attr)
+        try {
+          attr = JSON.parse(attr)
+        } catch (e) {
+          warn('Failed to parse attributes JSON:', e)
+          attr = null
+        }
       }
       if (attr && typeof attr === 'object') {
         Object.entries(attr).forEach(([key, value]) => {
+          // Prevent prototype pollution
+          if (
+            key === '__proto__' ||
+            key === 'constructor' ||
+            key === 'prototype'
+          ) {
+            return
+          }
           Object.assign(params, { [key]: value })
         })
       }

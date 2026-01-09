@@ -181,6 +181,19 @@ describe('GlobalError', () => {
     ).toBe('text')
   })
 
+  it('should render text strings without interpreting HTML', () => {
+    const htmlText = '<strong>Injected</strong>'
+    render(<GlobalError {...props} text={htmlText} />)
+
+    const textElement = document.querySelector(
+      '.dnb-global-error__inner__content .dnb-p'
+    ) as HTMLElement
+
+    expect(textElement).not.toBeNull()
+    expect(textElement.textContent).toBe(htmlText)
+    expect(textElement.querySelector('strong')).not.toBeInTheDocument()
+  })
+
   it('should render status code', () => {
     render(<GlobalError {...props} />)
 

@@ -6,6 +6,7 @@ import FieldBlock, {
 } from '../../FieldBlock'
 import {
   useFieldProps,
+  usePath,
   useTranslation as useFormsTranslation,
 } from '../../hooks'
 import { FieldProps } from '../../types'
@@ -129,10 +130,15 @@ function UploadComponent(props: Props) {
     handleBlur,
     fileHandler,
     dataContext,
-    path,
     ...rest
   } = useFieldProps(preparedProps, {
     executeOnChangeRegardlessOfError: true,
+  })
+
+  const { identifier } = usePath({
+    id,
+    path: props.path,
+    itemPath: props.itemPath,
   })
 
   const { setFieldState, setFieldInternals } = dataContext || {}
@@ -187,7 +193,7 @@ function UploadComponent(props: Props) {
       const newValidFiles = newFiles.filter((file) => !file.errorMessage)
 
       if (newValidFiles.length > 0) {
-        const fieldIdentifier = path ?? id
+        const fieldIdentifier = identifier
         setFieldState?.(fieldIdentifier, 'pending')
         setFieldInternals?.(fieldIdentifier, {
           enableAsyncMode: true,
@@ -246,8 +252,7 @@ function UploadComponent(props: Props) {
       }
     },
     [
-      id,
-      path,
+      identifier,
       fileHandler,
       handleChange,
       setFieldInternals,

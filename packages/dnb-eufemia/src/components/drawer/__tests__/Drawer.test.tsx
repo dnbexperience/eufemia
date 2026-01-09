@@ -80,7 +80,7 @@ describe('Drawer', () => {
     ).not.toBeInTheDocument()
   })
 
-  it('will close by using callback method', async () => {
+  it('will close by using callback method', () => {
     const on_close = jest.fn()
     const on_open = jest.fn()
     render(
@@ -100,17 +100,13 @@ describe('Drawer', () => {
     )
 
     fireEvent.click(document.querySelector('button'))
-    await waitFor(() => {
-      expect(on_open).toHaveBeenCalledTimes(1)
-    })
+    expect(on_open).toHaveBeenCalledTimes(1)
 
     fireEvent.click(document.querySelector('button#close-me'))
-    await waitFor(() => {
-      expect(on_close).toHaveBeenCalledTimes(1)
-    })
+    expect(on_close).toHaveBeenCalledTimes(1)
   })
 
-  it('will render Navigation, Header and Body even when hideCloseButton is true', async () => {
+  it('will render Navigation, Header and Body even when hideCloseButton is true', () => {
     const on_close = jest.fn()
     const on_open = jest.fn()
 
@@ -135,9 +131,7 @@ describe('Drawer', () => {
     )
 
     fireEvent.click(document.querySelector('button'))
-    await waitFor(() => {
-      expect(on_open).toHaveBeenCalledTimes(1)
-    })
+    expect(on_open).toHaveBeenCalledTimes(1)
 
     expect(document.querySelectorAll('.dnb-drawer button')).toHaveLength(1)
 
@@ -161,9 +155,7 @@ describe('Drawer', () => {
     ).toBe('Drawer.Navigation')
 
     fireEvent.click(document.querySelector('button#close-me'))
-    await waitFor(() => {
-      expect(on_close).toHaveBeenCalledTimes(1)
-    })
+    expect(on_close).toHaveBeenCalledTimes(1)
   })
 
   it('sends along closeButtonAttributes to close button', () => {

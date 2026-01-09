@@ -43,8 +43,17 @@ export default function FormElement(props: Props) {
       event?.preventDefault()
 
       const formElement = event.target as HTMLFormElement
+      const submitter = (
+        event.nativeEvent as Event & { submitter?: HTMLElement }
+      )?.submitter
+      const submitterId = submitter?.getAttribute?.(
+        'data-form-submit-button-id'
+      )
 
       if (dataContext.hasContext) {
+        if (submitterId) {
+          dataContext.setActiveSubmitButtonId?.(submitterId)
+        }
         dataContext.formElementRef.current = formElement
         dataContext.handleSubmit()
       }

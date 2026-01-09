@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import { loadScss } from '../../../core/jest/jestSetup'
+import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import Logo, { CarnegieDefault, LogoProps } from '../Logo'
 import { render } from '@testing-library/react'
 import Provider from '../../../shared/Provider'
@@ -243,6 +243,13 @@ describe('Logo component', () => {
     expect(svg).toHaveAttribute('height', '24')
     expect(svg).toBeInTheDocument()
     expect(svg.querySelector('title')).toHaveTextContent('DNB Carnegie')
+  })
+
+  describe('Logo accessibility', () => {
+    it('should validate with ARIA rules', async () => {
+      const Comp = render(<Logo aria-label="DNB Logo" />)
+      expect(await axeComponent(Comp)).toHaveNoViolations()
+    })
   })
 })
 

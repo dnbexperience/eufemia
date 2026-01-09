@@ -72,6 +72,30 @@ describe('Autocomplete component', () => {
     )
   })
 
+  it('does not render HTML tags when highlighting', async () => {
+    render(
+      <Autocomplete
+        data={['hello <em>world</em>']}
+        opened
+        input_value="hello"
+        {...mockProps}
+      />
+    )
+
+    await waitFor(() => {
+      expect(
+        document.querySelector('li.dnb-drawer-list__option')
+      ).not.toBeNull()
+    })
+
+    const option = document.querySelector(
+      'li.dnb-drawer-list__option'
+    ) as HTMLElement
+    expect(option.querySelector('em')).toBeNull()
+    expect(option.innerHTML).toContain('&lt;em&gt;')
+    expect(option.innerHTML).toContain('&lt;/em&gt;')
+  })
+
   it('has correct attributes on input', () => {
     render(<Autocomplete data={mockData} opened {...mockProps} />)
 
