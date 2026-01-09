@@ -3,6 +3,23 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.93.1](https://github.com/dnbexperience/eufemia/compare/v10.93.0...v10.93.1) (2026-01-09)
+
+
+### :bug: Bug Fixes
+
+* **Anchor:** prevent reverse tabnabbing ([#6223](https://github.com/dnbexperience/eufemia/issues/6223)) ([867de87](https://github.com/dnbexperience/eufemia/commit/867de87c8e9b30ba9003b53d8781779f309767f7))
+* **Autocomplete:** XSS prevention ([#6238](https://github.com/dnbexperience/eufemia/issues/6238)) ([206dc70](https://github.com/dnbexperience/eufemia/commit/206dc708286aa9dd49854a2b65cc8514091d471c))
+* **Field.Email:** add support for leading underscore among several more characters (atext) ([#6252](https://github.com/dnbexperience/eufemia/issues/6252)) ([6fa0ecf](https://github.com/dnbexperience/eufemia/commit/6fa0ecf543019fb849c5cbc397227934c0d6cca5))
+* **Form.SubmitButton:** add `secondary` variant option ([#6251](https://github.com/dnbexperience/eufemia/issues/6251)) ([d949953](https://github.com/dnbexperience/eufemia/commit/d949953a809ff4d863f64e2b62501ea085a85f85)), closes [#6250](https://github.com/dnbexperience/eufemia/issues/6250)
+* **Form.SubmitButton:** show indicator only on current button ([#6250](https://github.com/dnbexperience/eufemia/issues/6250)) ([750d7f4](https://github.com/dnbexperience/eufemia/commit/750d7f4113f7308c9efdb796dd78ff8846233006))
+* **GlobalError:** remove redundant spacing classes ([#6221](https://github.com/dnbexperience/eufemia/issues/6221)) ([78fd9dc](https://github.com/dnbexperience/eufemia/commit/78fd9dc113143ac0036b3d0a769ed824653ba21b))
+* **GlobalError:** remove usage of `dangerouslySetInnerHTML` ([#6218](https://github.com/dnbexperience/eufemia/issues/6218)) ([0004654](https://github.com/dnbexperience/eufemia/commit/0004654c59e14643ea533027b7dd121a26511134))
+* **PaymentCard:** remove import of non-existent `cardDataPropTypes` ([#6253](https://github.com/dnbexperience/eufemia/issues/6253)) ([e38aed1](https://github.com/dnbexperience/eufemia/commit/e38aed188382871fe4c51797aa9f204a47bd6bea))
+* **Provider:** clear corrupted session storage data and use defaultData when parsing error ([#6225](https://github.com/dnbexperience/eufemia/issues/6225)) ([a674ac2](https://github.com/dnbexperience/eufemia/commit/a674ac26d67d4053dc87aef6c714e4e0b6f755fb))
+* **validateDOMAttributes:** prevent prototype pollution ([#6226](https://github.com/dnbexperience/eufemia/issues/6226)) ([2f72669](https://github.com/dnbexperience/eufemia/commit/2f72669c18221605aec4180a1e470f137234561e))
+* **Wizard:** prevent navigation when ongoing async `fileHandler` in Field.Upload in a Iterate.Array ([#6159](https://github.com/dnbexperience/eufemia/issues/6159)) ([b05145f](https://github.com/dnbexperience/eufemia/commit/b05145fcd5bf054961309e0483bdae0acc97c372))
+
 ## [10.93.0](https://github.com/dnbexperience/eufemia/compare/v10.92.1...v10.93.0) (2026-01-06)
 
 
