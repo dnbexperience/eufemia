@@ -4470,7 +4470,6 @@ __metadata:
     tsdown: "npm:0.14.2"
     typescript: "npm:5.9.3"
     vd-tool: "npm:4.0.2"
-    wait-on: "npm:6.0.0"
     what-input: "npm:5.2.12"
     zod: "npm:4.1.8"
   peerDependencies:
@@ -23952,7 +23951,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"joi@npm:^17.4.0, joi@npm:^17.7.0, joi@npm:^17.9.2":
+"joi@npm:^17.7.0, joi@npm:^17.9.2":
   version: 17.9.2
   resolution: "joi@npm:17.9.2"
   dependencies:
@@ -33034,7 +33033,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rxjs@npm:^7.1.0, rxjs@npm:^7.5.1, rxjs@npm:^7.8.0, rxjs@npm:^7.8.1":
+"rxjs@npm:^7.5.1, rxjs@npm:^7.8.0, rxjs@npm:^7.8.1":
   version: 7.8.1
   resolution: "rxjs@npm:7.8.1"
   dependencies:
@@ -37488,21 +37487,6 @@ __metadata:
   dependencies:
     xml-name-validator: "npm:^4.0.0"
   checksum: 10/9a00c412b5496f4f040842c9520bc0aaec6e0c015d06412a91a723cd7d84ea605ab903965f546b4ecdb3eae267f5145ba08565222b1d6cb443ee488cda9a0aee
-  languageName: node
-  linkType: hard
-
-"wait-on@npm:6.0.0":
-  version: 6.0.0
-  resolution: "wait-on@npm:6.0.0"
-  dependencies:
-    axios: "npm:^0.21.1"
-    joi: "npm:^17.4.0"
-    lodash: "npm:^4.17.21"
-    minimist: "npm:^1.2.5"
-    rxjs: "npm:^7.1.0"
-  bin:
-    wait-on: bin/wait-on
-  checksum: 10/a11c972ff400bd2b73137d85c72b1f7b5620aa12c3fbb102ae8ca76455c09a58afb2bff78e0ce6a3349c5e42351aceabd10a1caec40eaf9adce515b258a9f547
   languageName: node
   linkType: hard
 
