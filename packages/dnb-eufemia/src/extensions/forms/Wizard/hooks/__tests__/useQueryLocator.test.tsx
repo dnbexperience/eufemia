@@ -247,15 +247,8 @@ describe('useQueryLocator', () => {
   it('should handle and show try/catch errors', async () => {
     mockUrl()
 
-    Object.defineProperty(window, 'URL', {
-      value: () => {
-        return {
-          searchParams: {
-            set: undefined,
-          },
-        }
-      },
-      writable: true,
+    window.history.pushState = jest.fn(() => {
+      throw new TypeError('URL is not a constructor')
     })
 
     render(

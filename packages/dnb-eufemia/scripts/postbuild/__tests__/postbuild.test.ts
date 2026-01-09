@@ -234,9 +234,9 @@ describe('babel build', () => {
               'utf-8'
             )
             expect(content).toContain('export default class Input extends')
-            expect(content).not.toContain('core-js/modules/es')
+            expect(content).not.toContain('core-js-pure/modules/es')
             expect(content).toContain(
-              'import _extends from "@babel/runtime/helpers/esm/extends";'
+              'import _extends from "@babel/runtime-corejs3/helpers/esm/extends";'
             )
           }
 
@@ -250,8 +250,20 @@ describe('babel build', () => {
             )
             expect(content).toContain('export default Breadcrumb;')
             expect(content).toContain(
-              'import _extends from "@babel/runtime/helpers/esm/extends";'
+              'import _extends from "@babel/runtime-corejs3/helpers/esm/extends";'
             )
+          }
+
+          {
+            const content = fs.readFileSync(
+              path.resolve(
+                packpath.self(),
+                `build${stage}/shared/useTranslation.js`
+              ),
+              'utf-8'
+            )
+            expect(content).toContain('_Object$hasOwn')
+            expect(content).not.toContain('Object.hasOwn')
           }
         }
         break
@@ -275,7 +287,7 @@ describe('babel build', () => {
               'utf-8'
             )
             expect(content).toMatch(/export default class Input extends/g)
-            expect(content).not.toContain('core-js/modules/es')
+            expect(content).not.toContain('core-js-pure/modules/es')
             expect(content).toContain(
               'import _extends from "@babel/runtime/helpers/esm/extends";'
             )
@@ -290,10 +302,22 @@ describe('babel build', () => {
               'utf-8'
             )
             expect(content).toContain('export default Breadcrumb;')
-            expect(content).not.toContain('core-js/modules/es')
+            expect(content).not.toContain('core-js-pure/modules/es')
             expect(content).toContain(
               'import _extends from "@babel/runtime/helpers/esm/extends";'
             )
+          }
+
+          {
+            const content = fs.readFileSync(
+              path.resolve(
+                packpath.self(),
+                `build${stage}/shared/useTranslation.js`
+              ),
+              'utf-8'
+            )
+            expect(content).toContain('Object.hasOwn')
+            expect(content).not.toContain('_Object$hasOwn')
           }
         }
         break
