@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../shared/types'
+import type { PropertiesTableProps } from '../../shared/types'
 import { ButtonProperties } from '../button/ButtonDocs'
 
 export const ToggleButtonProperties: PropertiesTableProps = {

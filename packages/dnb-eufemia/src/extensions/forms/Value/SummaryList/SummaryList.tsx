@@ -2,9 +2,10 @@ import React from 'react'
 import classnames from 'classnames'
 import { removeUndefinedProps } from '../../../../shared/component-helper'
 import SummaryListContext from './SummaryListContext'
-import Dl, { DlAllProps } from '../../../../elements/Dl'
+import type { DlAllProps } from '../../../../elements/Dl';
+import Dl from '../../../../elements/Dl'
 import ValueProvider from '../Provider/ValueProvider'
-import { ValueProps } from '../../types'
+import type { ValueProps } from '../../types'
 import { useVerifyChildren } from './useVerifyChildren'
 
 export type Props = Omit<

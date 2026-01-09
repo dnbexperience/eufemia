@@ -1,9 +1,10 @@
+import type {
+  SharedStateId} from '../../../../shared/helpers/useSharedState';
 import {
-  SharedStateId,
   createReferenceKey,
   createSharedState,
 } from '../../../../shared/helpers/useSharedState'
-import { SharedAttachments } from '../../DataContext/Provider'
+import type { SharedAttachments } from '../../DataContext/Provider'
 
 export default function clearData(id: SharedStateId) {
   const sharedAttachments = createSharedState<SharedAttachments<unknown>>(

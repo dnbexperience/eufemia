@@ -8,11 +8,12 @@ import {
   waitFor,
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import type {
+  JSONSchema} from '../../..';
 import {
   Field,
   Form,
   Iterate,
-  JSONSchema,
   makeAjvInstance,
   Wizard,
   z,

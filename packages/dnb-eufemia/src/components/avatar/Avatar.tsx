@@ -4,11 +4,13 @@ import classnames from 'classnames'
 // Components
 import { createSpacingClasses } from '../space/SpacingHelper'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
-import Icon, { IconIcon, IconAllProps } from '../icon/Icon'
+import type { IconIcon, IconAllProps } from '../icon/Icon';
+import Icon from '../icon/Icon'
 import IconPrimary from '../IconPrimary'
 
 // Elements
-import Img, { ImgProps } from '../../elements/img/Img'
+import type { ImgProps } from '../../elements/img/Img';
+import Img from '../../elements/img/Img'
 
 // Shared
 import Context from '../../shared/Context'

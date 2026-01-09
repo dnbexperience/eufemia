@@ -11,7 +11,8 @@ import {
 } from '../../shared/component-helper'
 import '../../shared/helpers'
 import { createSpacingClasses } from '../space/SpacingHelper'
-import HeadingContext, { HeadingContextProps } from './HeadingContext'
+import type { HeadingContextProps } from './HeadingContext';
+import HeadingContext from './HeadingContext'
 import HeadingProvider from './HeadingProvider'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import {
@@ -27,13 +28,14 @@ import {
   getHeadingSize,
   getHeadingElement,
 } from './HeadingHelpers'
-import {
+import type {
   HeadingCounter,
-  HeadingDebugCounter,
+  HeadingDebugCounter} from './HeadingCounter';
+import {
   initCounter,
 } from './HeadingCounter'
-import { SpacingProps } from '../space/types'
-import { SkeletonShow } from '../Skeleton'
+import type { SpacingProps } from '../space/types'
+import type { SkeletonShow } from '../Skeleton'
 import { useTheme, Context } from '../../shared'
 import type { DynamicElement } from '../../shared/types'
 

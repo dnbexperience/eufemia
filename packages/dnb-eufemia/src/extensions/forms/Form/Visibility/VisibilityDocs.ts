@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../../../shared/types'
+import type { PropertiesTableProps } from '../../../../shared/types'
 import { HeightAnimationEvents } from '../../../../components/height-animation/HeightAnimationDocs'
 
 export const VisibilityProperties: PropertiesTableProps = {

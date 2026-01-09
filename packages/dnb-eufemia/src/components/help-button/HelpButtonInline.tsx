@@ -1,12 +1,13 @@
+import type {
+  AriaAttributes} from 'react';
 import React, {
-  AriaAttributes,
   useCallback,
   useContext,
   useEffect,
   useRef,
 } from 'react'
 import classnames from 'classnames'
-import { HelpButtonProps } from './HelpButton'
+import type { HelpButtonProps } from './HelpButton'
 import HelpButtonInstance from './HelpButtonInstance'
 import HeightAnimation from '../HeightAnimation'
 import { useSharedState } from '../../shared/helpers/useSharedState'
@@ -16,7 +17,7 @@ import Section from '../Section'
 import { P } from '../../elements'
 import Flex from '../Flex'
 import CardContext from '../card/CardContext'
-import { SpacingProps } from '../space/types'
+import type { SpacingProps } from '../space/types'
 import Dialog from '../Dialog'
 import { question as QuestionIcon, close as CloseIcon } from '../../icons'
 

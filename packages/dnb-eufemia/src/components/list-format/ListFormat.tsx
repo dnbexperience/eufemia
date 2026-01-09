@@ -1,10 +1,11 @@
 import React, { Fragment, useContext, useMemo } from 'react'
 import { LOCALE } from '../../shared/defaults'
 import { extendPropsWithContext } from '../../shared/component-helper'
-import SharedContext, { InternalLocale } from '../../shared/Context'
+import type { InternalLocale } from '../../shared/Context';
+import SharedContext from '../../shared/Context'
 import { Li, Ol, Ul } from '../../elements'
-import { UlAllProps } from '../../elements/Ul'
-import { OlAllProps } from '../../elements/Ol'
+import type { UlAllProps } from '../../elements/Ul'
+import type { OlAllProps } from '../../elements/Ol'
 import classNames from 'classnames'
 
 export type ListFormatProps = {

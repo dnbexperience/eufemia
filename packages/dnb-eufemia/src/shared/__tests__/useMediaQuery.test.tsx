@@ -13,9 +13,10 @@ import {
 import MatchMediaMock from 'jest-matchmedia-mock'
 import useMediaQuery from '../useMediaQuery'
 import Provider from '../Provider'
+import type {
+  MediaQueryProps} from '../MediaQueryUtils';
 import {
-  isMatchMediaSupported as _isMatchMediaSupported,
-  MediaQueryProps,
+  isMatchMediaSupported as _isMatchMediaSupported
 } from '../MediaQueryUtils'
 
 const isMatchMediaSupported = _isMatchMediaSupported as jest.Mock

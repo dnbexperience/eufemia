@@ -1,5 +1,6 @@
 import React from 'react'
-import Field, { Form, JSONSchema, Value } from '../../../Forms'
+import type { JSONSchema} from '../../../Forms';
+import Field, { Form, Value } from '../../../Forms'
 import { Button, Flex } from '../../../../../components'
 
 export default {

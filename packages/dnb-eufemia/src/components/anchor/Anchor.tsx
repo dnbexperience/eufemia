@@ -5,7 +5,8 @@
 
 import React from 'react'
 import classnames from 'classnames'
-import E, { ElementProps } from '../../elements/Element'
+import type { ElementProps } from '../../elements/Element';
+import E from '../../elements/Element'
 import Context from '../../shared/Context'
 import {
   makeUniqueId,

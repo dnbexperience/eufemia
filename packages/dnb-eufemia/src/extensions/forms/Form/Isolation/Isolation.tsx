@@ -7,15 +7,17 @@ import React, {
   useState,
 } from 'react'
 import useMountEffect from '../../../../shared/helpers/useMountEffect'
-import pointer, { JsonObject } from '../../utils/json-pointer'
+import type { JsonObject } from '../../utils/json-pointer';
+import pointer from '../../utils/json-pointer'
 import { isZodSchema } from '../../utils/zod'
 import { extractZodSubSchema } from './extractZodSubSchema'
 import { extendDeep } from '../../../../shared/component-helper'
 import { isAsync } from '../../../../shared/helpers/isAsync'
 import useDataValue from '../../hooks/useDataValue'
+import type {
+  ContextState} from '../../DataContext';
 import {
   Context as DataContext,
-  ContextState,
   Provider,
 } from '../../DataContext'
 import SectionContext from '../Section/SectionContext'
@@ -26,8 +28,9 @@ import {
   clearedData,
   type Props as ProviderProps,
 } from '../../DataContext/Provider'
+import type {
+  IsolationDataReference} from './IsolationDataReference';
 import {
-  IsolationDataReference,
   createDataReference,
 } from './IsolationDataReference'
 import IsolatedContainer, { isolationError } from './IsolatedContainer'

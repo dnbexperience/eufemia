@@ -7,9 +7,10 @@ import {
   waitFor,
 } from '@testing-library/react'
 import ToggleButton from '../../ToggleButton'
+import type {
+  useHeightAnimationOptions} from '../useHeightAnimation';
 import {
-  useHeightAnimation,
-  useHeightAnimationOptions,
+  useHeightAnimation
 } from '../useHeightAnimation'
 import {
   simulateAnimationEnd,

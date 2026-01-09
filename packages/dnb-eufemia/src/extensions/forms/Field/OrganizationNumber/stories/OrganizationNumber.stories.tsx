@@ -1,5 +1,6 @@
 import React from 'react'
-import { Field, Validator } from '../../..'
+import type { Validator } from '../../..';
+import { Field } from '../../..'
 import { Wrapper } from 'storybook-utils/helpers'
 
 export default {

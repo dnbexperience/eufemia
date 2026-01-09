@@ -3,8 +3,9 @@
  *
  */
 
+import type {
+  HTMLProps} from 'react';
 import React, {
-  HTMLProps,
   useCallback,
   useContext,
   useEffect,
@@ -28,31 +29,35 @@ import { skeletonDOMAttributes } from '../skeleton/SkeletonHelper'
 import Context from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
 import FormLabel from '../form-label/FormLabel'
-import FormStatus, {
+import type {
   FormStatusProps,
   FormStatusState,
   FormStatusText,
-} from '../form-status/FormStatus'
+} from '../form-status/FormStatus';
+import FormStatus from '../form-status/FormStatus'
+import type {
+  DatePickerChangeEvent} from './DatePickerProvider';
 import DatePickerProvider, {
-  DatePickerChangeEvent,
   type ReturnObject,
 } from './DatePickerProvider'
 import DatePickerRange from './DatePickerRange'
 import DatePickerInput from './DatePickerInput'
-import DatePickerAddon, { DatePickerAddonProps } from './DatePickerAddon'
+import type { DatePickerAddonProps } from './DatePickerAddon';
+import DatePickerAddon from './DatePickerAddon'
 import DatePickerFooter from './DatePickerFooter'
-import { SpacingProps } from '../space/types'
-import { InputInputElement, InputSize } from '../Input'
-import { SkeletonShow } from '../Skeleton'
-import { GlobalStatusConfigObject } from '../GlobalStatus'
+import type { SpacingProps } from '../space/types'
+import type { InputInputElement, InputSize } from '../Input'
+import type { SkeletonShow } from '../Skeleton'
+import type { GlobalStatusConfigObject } from '../GlobalStatus'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
-import { CalendarDay, DatePickerCalendarProps } from './DatePickerCalendar'
-import { DatePickerContextValues, DateType } from './DatePickerContext'
-import { DatePickerDates } from './hooks/useDates'
+import type { CalendarDay, DatePickerCalendarProps } from './DatePickerCalendar'
+import type { DatePickerContextValues, DateType } from './DatePickerContext'
+import type { DatePickerDates } from './hooks/useDates'
 import { useTranslation } from '../../shared'
 import Popover from '../popover/Popover'
+import type {
+  FormatDateOptions} from '../date-format/DateFormatUtils';
 import {
-  FormatDateOptions,
   formatDate,
   formatDateRange,
 } from '../date-format/DateFormatUtils'

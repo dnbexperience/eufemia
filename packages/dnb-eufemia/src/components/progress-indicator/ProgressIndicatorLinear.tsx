@@ -6,7 +6,7 @@
 import React, { useRef, useEffect } from 'react'
 import classnames from 'classnames'
 import { validateDOMAttributes } from '../../shared/component-helper'
-import { ProgressIndicatorLinearAllProps } from './types'
+import type { ProgressIndicatorLinearAllProps } from './types'
 
 function usePrevious<P>(value: P): [P, P] {
   const ref = useRef<P>()

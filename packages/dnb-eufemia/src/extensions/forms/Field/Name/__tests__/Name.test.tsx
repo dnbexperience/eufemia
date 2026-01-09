@@ -2,7 +2,8 @@ import React from 'react'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { companyPattern, namePattern, Props } from '../'
+import type { Props } from '../';
+import { companyPattern, namePattern } from '../'
 import { Field, Form, FormError } from '../../..'
 import nbNO from '../../../constants/locales/nb-NO'
 

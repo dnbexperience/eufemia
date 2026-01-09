@@ -29,7 +29,7 @@ import {
 } from '../skeleton/SkeletonHelper'
 import Tooltip, { injectTooltipSemantic } from '../tooltip/Tooltip'
 import { format, runIOSSelectionFix } from './NumberUtils'
-import { SpacingProps } from '../space/types'
+import type { SpacingProps } from '../space/types'
 
 // TypeScript types
 export type NumberFormatValue = number | string

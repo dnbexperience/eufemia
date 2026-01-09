@@ -2,7 +2,8 @@ import React, { useCallback, useContext } from 'react'
 import classnames from 'classnames'
 import { useTranslation } from '../../hooks'
 import DataContext from '../../DataContext/Context'
-import Button, { ButtonProps } from '../../../../components/button/Button'
+import type { ButtonProps } from '../../../../components/button/Button';
+import Button from '../../../../components/button/Button'
 import { check } from '../../../../icons'
 
 export type Props = ButtonProps

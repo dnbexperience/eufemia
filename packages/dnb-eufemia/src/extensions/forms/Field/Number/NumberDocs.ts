@@ -1,5 +1,5 @@
 import { inputProperties } from '../../../../components/input/InputDocs'
-import { PropertiesTableProps } from '../../../../shared/types'
+import type { PropertiesTableProps } from '../../../../shared/types'
 
 export const NumberProperties: PropertiesTableProps = {
   decimalLimit: {

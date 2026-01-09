@@ -6,10 +6,11 @@
 import React from 'react'
 import { axeComponent, loadScss, wait } from '../../../core/jest/jestSetup'
 import { fireEvent, render } from '@testing-library/react'
+import type {
+  PaginationProps} from '../Pagination';
 import Pagination, {
   createPagination,
-  Bar,
-  PaginationProps,
+  Bar
 } from '../Pagination'
 import nbNO from '../../../shared/locales/nb-NO'
 import enGB from '../../../shared/locales/en-GB'

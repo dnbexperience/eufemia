@@ -5,19 +5,22 @@ import {
   useReducer,
   useRef,
 } from 'react'
-import pointer, { JsonObject } from '../../utils/json-pointer'
+import type { JsonObject } from '../../utils/json-pointer';
+import pointer from '../../utils/json-pointer'
+import type {
+  SharedStateId} from '../../../../shared/helpers/useSharedState';
 import {
-  SharedStateId,
   createReferenceKey,
   useSharedState,
 } from '../../../../shared/helpers/useSharedState'
 import useMountEffect from '../../../../shared/helpers/useMountEffect'
 import type { Path } from '../../types'
-import DataContext, {
+import type {
   FilterData,
   VisibleDataHandler,
-} from '../../DataContext/Context'
-import { SharedAttachments } from '../../DataContext/Provider'
+} from '../../DataContext/Context';
+import DataContext from '../../DataContext/Context'
+import type { SharedAttachments } from '../../DataContext/Provider'
 
 /**
  * Deprecated, as it is supported by all major browsers and Node.js >=v18

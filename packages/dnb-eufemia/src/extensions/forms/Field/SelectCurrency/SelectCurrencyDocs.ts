@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../../../shared/types'
+import type { PropertiesTableProps } from '../../../../shared/types'
 import { getFieldEventsWithTypes } from '../FieldDocs'
 import { AutocompleteProperties } from '../../../../components/autocomplete/AutocompleteDocs'
 

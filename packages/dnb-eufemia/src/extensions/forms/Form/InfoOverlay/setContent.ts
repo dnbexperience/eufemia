@@ -1,5 +1,6 @@
+import type {
+  SharedStateId} from '../../../../shared/helpers/useSharedState';
 import {
-  SharedStateId,
   createSharedState,
   createReferenceKey,
 } from '../../../../shared/helpers/useSharedState'

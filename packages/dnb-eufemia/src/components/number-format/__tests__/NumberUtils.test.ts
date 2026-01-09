@@ -4,10 +4,11 @@
  */
 
 import { mockClipboard } from '../../../core/jest/jestSetup'
-import countries, {
+import type {
   CountryCdc,
-} from '../../../extensions/forms/constants/countries'
-import { InternalLocale } from '../../../shared/Context'
+} from '../../../extensions/forms/constants/countries';
+import countries from '../../../extensions/forms/constants/countries'
+import type { InternalLocale } from '../../../shared/Context'
 import { LOCALE } from '../../../shared/defaults'
 import * as helpers from '../../../shared/helpers'
 import {

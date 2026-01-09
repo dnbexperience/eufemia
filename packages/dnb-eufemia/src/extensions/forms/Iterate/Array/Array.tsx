@@ -17,15 +17,17 @@ import { Span } from '../../../../elements'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import useMountEffect from '../../../../shared/helpers/useMountEffect'
 import useUpdateEffect from '../../../../shared/helpers/useUpdateEffect'
-import {
+import type {
   BasicProps as FlexContainerProps,
-  Props as FlexContainerAllProps,
+  Props as FlexContainerAllProps} from '../../../../components/flex/Container';
+import {
   pickFlexContainerProps,
 } from '../../../../components/flex/Container'
-import IterateItemContext, {
+import type {
   IterateItemContextState,
   ModeOptions,
-} from '../IterateItemContext'
+} from '../IterateItemContext';
+import IterateItemContext from '../IterateItemContext'
 import SummaryListContext from '../../Value/SummaryList/SummaryListContext'
 import ValueBlockContext from '../../ValueBlock/ValueBlockContext'
 import FieldBoundaryProvider from '../../DataContext/FieldBoundary/FieldBoundaryProvider'

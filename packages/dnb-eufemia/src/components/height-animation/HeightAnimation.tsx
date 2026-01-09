@@ -1,8 +1,9 @@
 import React, { useRef } from 'react'
 import classnames from 'classnames'
+import type {
+  useHeightAnimationOptions} from './useHeightAnimation';
 import {
-  useHeightAnimation,
-  useHeightAnimationOptions,
+  useHeightAnimation
 } from './useHeightAnimation'
 import Space from '../space/Space'
 

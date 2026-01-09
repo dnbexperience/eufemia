@@ -8,13 +8,13 @@ import React, {
 import DataContext from '../../DataContext/Context'
 import useEventListener from '../../DataContext/Provider/useEventListener'
 import SharedProvider from '../../../../shared/Provider'
-import { ContextProps } from '../../../../shared/Context'
+import type { ContextProps } from '../../../../shared/Context'
 import { HeightAnimation } from '../../../../components'
-import {
+import type {
   DialogContentProps,
   DialogProps,
 } from '../../../../components/dialog/types'
-import { EventStateObject } from '../../types'
+import type { EventStateObject } from '../../types'
 import { removeUndefinedProps } from '../../../../shared/component-helper'
 
 export type ConfirmationState =

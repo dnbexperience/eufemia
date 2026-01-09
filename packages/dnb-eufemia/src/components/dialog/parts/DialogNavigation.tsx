@@ -1,8 +1,9 @@
 import React from 'react'
 import classnames from 'classnames'
-import ModalHeaderBar, {
+import type {
   ModalHeaderBarProps,
-} from '../../modal/parts/ModalHeaderBar'
+} from '../../modal/parts/ModalHeaderBar';
+import ModalHeaderBar from '../../modal/parts/ModalHeaderBar'
 
 export default function DialogNavigation({
   className,

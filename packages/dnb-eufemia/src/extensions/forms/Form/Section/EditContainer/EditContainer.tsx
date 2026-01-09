@@ -2,17 +2,18 @@ import React, { useCallback, useContext, useMemo, useRef } from 'react'
 import classnames from 'classnames'
 import { convertJsxToString } from '../../../../../shared/component-helper'
 import { Flex } from '../../../../../components'
-import { Props as FlexContainerProps } from '../../../../../components/flex/Container'
+import type { Props as FlexContainerProps } from '../../../../../components/flex/Container'
 import { Lead } from '../../../../../elements'
 import FieldBoundaryProvider from '../../../DataContext/FieldBoundary/FieldBoundaryProvider'
 import SectionContainerContext from '../containers/SectionContainerContext'
 import Toolbar from '../Toolbar/Toolbar'
 import DoneButton from './DoneButton'
 import CancelButton from './CancelButton'
-import SectionContainer, {
+import type {
   SectionContainerProps,
-} from '../containers/SectionContainer'
-import { Path } from '../../../types'
+} from '../containers/SectionContainer';
+import SectionContainer from '../containers/SectionContainer'
+import type { Path } from '../../../types'
 
 export type Props = {
   title?: React.ReactNode

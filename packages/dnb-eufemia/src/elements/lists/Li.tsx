@@ -5,7 +5,8 @@
 
 import React from 'react'
 import classnames from 'classnames'
-import E, { ElementProps } from '../Element'
+import type { ElementProps } from '../Element';
+import E from '../Element'
 import Ul from './Ul'
 import Ol from './Ol'
 

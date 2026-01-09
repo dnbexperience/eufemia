@@ -5,7 +5,7 @@
 
 import React from 'react'
 import classnames from 'classnames'
-import { SpacingProps } from '../../components/space/types'
+import type { SpacingProps } from '../../components/space/types'
 import E from '../Element'
 
 type BlockquoteProps = SpacingProps &

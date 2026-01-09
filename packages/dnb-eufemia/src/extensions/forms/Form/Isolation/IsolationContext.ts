@@ -1,6 +1,6 @@
 import { createContext } from 'react'
-import { ContextState } from '../../DataContext/Context'
-import { IsolationDataReference } from './IsolationDataReference'
+import type { ContextState } from '../../DataContext/Context'
+import type { IsolationDataReference } from './IsolationDataReference'
 
 export type IsolationContext = {
   dataReference: IsolationDataReference

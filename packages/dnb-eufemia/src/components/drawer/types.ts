@@ -1,6 +1,6 @@
-import { ScrollViewAllProps } from '../../fragments/ScrollView'
-import { ModalPropTypes } from '../modal/Modal'
-import { ReactChildType } from '../modal/types'
+import type { ScrollViewAllProps } from '../../fragments/ScrollView'
+import type { ModalPropTypes } from '../modal/Modal'
+import type { ReactChildType } from '../modal/types'
 
 export type DrawerProps = {
   /**

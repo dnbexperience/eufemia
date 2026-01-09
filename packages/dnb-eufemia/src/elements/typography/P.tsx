@@ -5,9 +5,10 @@
 
 import React, { createContext, useContext } from 'react'
 import classnames from 'classnames'
-import Typography, {
+import type {
   TypographySize,
-  TypographyProps,
+  TypographyProps} from './Typography';
+import Typography, {
   TypographyContext,
 } from './Typography'
 

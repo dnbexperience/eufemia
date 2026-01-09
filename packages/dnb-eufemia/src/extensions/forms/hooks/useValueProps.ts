@@ -5,7 +5,7 @@ import {
   useReducer,
   useRef,
 } from 'react'
-import { Path, ValueProps } from '../types'
+import type { Path, ValueProps } from '../types'
 import useExternalValue from './useExternalValue'
 import usePath from './usePath'
 import DataContext from '../DataContext/Context'

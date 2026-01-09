@@ -1,5 +1,5 @@
 import React from 'react'
-import { DlProps } from '../../../../elements/Dl'
+import type { DlProps } from '../../../../elements/Dl'
 
 export type SummaryListContextProps = {
   layout?: DlProps['layout']

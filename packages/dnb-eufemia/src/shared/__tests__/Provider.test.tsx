@@ -8,12 +8,14 @@ import HelpButton from '../../components/help-button/HelpButton'
 import ToggleButton from '../../components/toggle-button/ToggleButton'
 import GlobalError from '../../components/global-error/GlobalError'
 
-import Context, {
+import type {
   ContextProps,
   TranslationFlat,
   Translations,
-} from '../Context'
-import Provider, { ProviderProps } from '../Provider'
+} from '../Context';
+import Context from '../Context'
+import type { ProviderProps } from '../Provider';
+import Provider from '../Provider'
 import { fireEvent, render } from '@testing-library/react'
 import locales from '../../shared/locales'
 

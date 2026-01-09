@@ -19,10 +19,11 @@ import type { SpacingProps } from '../../shared/types'
 import type { SkeletonShow } from '../Skeleton'
 import type { StepIndicatorItemProps } from './StepIndicatorItem'
 import { stepIndicatorDefaultProps } from './StepIndicatorProps'
-import FormStatus, {
+import type {
   FormStatusState,
   FormStatusText,
-} from '../form-status/FormStatus'
+} from '../form-status/FormStatus';
+import FormStatus from '../form-status/FormStatus'
 
 export type StepIndicatorMode = 'static' | 'strict' | 'loose'
 export type StepIndicatorDataItem = Pick<

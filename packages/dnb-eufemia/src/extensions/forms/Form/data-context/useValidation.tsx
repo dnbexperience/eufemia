@@ -1,13 +1,15 @@
 import { useCallback, useContext, useMemo } from 'react'
+import type {
+  SharedStateId} from '../../../../shared/helpers/useSharedState';
 import {
-  SharedStateId,
   createReferenceKey,
   useSharedState,
 } from '../../../../shared/helpers/useSharedState'
-import DataContext, { ContextState } from '../../DataContext/Context'
-import { SharedAttachments } from '../../DataContext/Provider'
-import { EventStateObject, Path } from '../../types'
-import { FormError } from '../../utils'
+import type { ContextState } from '../../DataContext/Context';
+import DataContext from '../../DataContext/Context'
+import type { SharedAttachments } from '../../DataContext/Provider'
+import type { EventStateObject, Path } from '../../types'
+import type { FormError } from '../../utils'
 
 type UseDataReturn = {
   hasErrors: ContextState['hasErrors']

@@ -22,7 +22,7 @@ import {
 } from '../../shared/component-helper'
 import ModalContext from './ModalContext'
 import { IS_IOS, IS_SAFARI, IS_MAC, isAndroid } from '../../shared/helpers'
-import {
+import type {
   CloseHandlerParams,
   ModalContentProps,
   TriggeredBy,
@@ -35,7 +35,7 @@ import {
 } from './helpers'
 import { getThemeClasses } from '../../shared/Theme'
 import { Context } from '../../shared'
-import { ContextProps } from '../../shared/Context'
+import type { ContextProps } from '../../shared/Context'
 
 interface ModalContentState {
   color: string

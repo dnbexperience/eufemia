@@ -2,9 +2,10 @@
 
 import { render, screen } from '@testing-library/react'
 import React from 'react'
+import type {
+  IncludeCamelCase} from '../withCamelCaseProps';
 import {
   withCamelCaseProps,
-  IncludeCamelCase,
   convertCamelCasePropsToSnakeCase,
 } from '../withCamelCaseProps'
 

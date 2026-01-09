@@ -1,5 +1,6 @@
 import React from 'react'
-import DateComponent, { Props as DateValueProps } from '../Date/Date'
+import type { Props as DateValueProps } from '../Date/Date';
+import DateComponent from '../Date/Date'
 import useTranslation from '../../hooks/useTranslation'
 import { DEFAULT_DATE_FORMAT } from '../../Field/DateOfBirth/DateOfBirth'
 

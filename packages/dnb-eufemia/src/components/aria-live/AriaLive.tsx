@@ -1,5 +1,5 @@
 import React from 'react'
-import { AriaLiveAllProps } from './types'
+import type { AriaLiveAllProps } from './types'
 import useAriaLive from './useAriaLive'
 
 export default function AriaLive({ element, ...props }: AriaLiveAllProps) {

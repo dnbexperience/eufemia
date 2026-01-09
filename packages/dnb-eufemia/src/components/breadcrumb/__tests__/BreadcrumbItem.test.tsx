@@ -1,6 +1,7 @@
 import React from 'react'
 import { act, render } from '@testing-library/react'
-import BreadcrumbItem, { BreadcrumbItemProps } from '../BreadcrumbItem'
+import type { BreadcrumbItemProps } from '../BreadcrumbItem';
+import BreadcrumbItem from '../BreadcrumbItem'
 import { Theme } from '../../../shared'
 import 'mock-match-media/jest-setup'
 import { setMedia } from 'mock-match-media'

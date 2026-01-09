@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../../../shared/types'
+import type { PropertiesTableProps } from '../../../../shared/types'
 import { FieldProperties } from '../FieldDocs'
 
 export const OptionProperties: PropertiesTableProps = {

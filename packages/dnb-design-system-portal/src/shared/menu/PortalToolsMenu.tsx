@@ -8,8 +8,8 @@ import PortalSkeleton from '../../core/PortalSkeleton'
 import ChangeLocale from '../../core/ChangeLocale'
 import ChangeStyleTheme from '../../core/ChangeStyleTheme'
 import { buttonStyle } from './PortalToolsMenu.module.scss'
-import { TooltipPosition } from '@dnb/eufemia/src/components/tooltip/types'
-import { ButtonProps } from '@dnb/eufemia/src/components/Button'
+import type { TooltipPosition } from '@dnb/eufemia/src/components/tooltip/types'
+import type { ButtonProps } from '@dnb/eufemia/src/components/Button'
 
 type Props = {
   className?: string

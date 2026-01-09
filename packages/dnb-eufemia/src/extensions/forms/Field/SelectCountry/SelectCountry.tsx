@@ -5,7 +5,8 @@ import FieldBlockContext from '../../FieldBlock/FieldBlockContext'
 import { LOCALE } from '../../../../shared/defaults'
 import { Autocomplete } from '../../../../components'
 import { pickSpacingProps } from '../../../../components/flex/utils'
-import listOfCountries, {
+import type listOfCountries from '../../constants/countries';
+import {
   prioritizedCountries,
   type CountryType,
   type CountryLang,
@@ -13,13 +14,14 @@ import listOfCountries, {
 } from '../../constants/countries'
 import useCountries from './useCountries'
 import { useFieldProps } from '../../hooks'
-import { FieldPropsWithExtraValue } from '../../types'
-import FieldBlock, {
+import type { FieldPropsWithExtraValue } from '../../types'
+import type {
   Props as FieldBlockProps,
   FieldBlockWidth,
-} from '../../FieldBlock'
+} from '../../FieldBlock';
+import FieldBlock from '../../FieldBlock'
 import useTranslation from '../../hooks/useTranslation'
-import { AutocompleteAllProps } from '../../../../components/autocomplete/Autocomplete'
+import type { AutocompleteAllProps } from '../../../../components/autocomplete/Autocomplete'
 
 export type CountryFilterSet =
   | 'Scandinavia'

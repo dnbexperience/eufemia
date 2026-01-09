@@ -7,7 +7,8 @@ import React from 'react'
 import { axeComponent, loadScss, wait } from '../../../core/jest/jestSetup'
 import { fireEvent, render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import Input, { InputProps } from '../Input'
+import type { InputProps } from '../Input';
+import Input from '../Input'
 import { format } from '../../number-format/NumberUtils'
 import { Provider } from '../../../shared'
 

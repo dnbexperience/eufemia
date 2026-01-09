@@ -2,13 +2,14 @@ import React from 'react'
 import classnames from 'classnames'
 import ValueBlock from '../../ValueBlock'
 import useValueProps from '../../hooks/useValueProps'
-import { ValueProps } from '../../types'
+import type { ValueProps } from '../../types'
 import { omitSpacingProps } from '../../../../components/flex/utils'
-import NumberFormat, {
+import type {
   NumberFormatProps,
-} from '../../../../components/NumberFormat'
-import { IncludeCamelCase } from '../../../../shared/helpers/withCamelCaseProps'
-import { SpacingProps } from '../../../../shared/types'
+} from '../../../../components/NumberFormat';
+import NumberFormat from '../../../../components/NumberFormat'
+import type { IncludeCamelCase } from '../../../../shared/helpers/withCamelCaseProps'
+import type { SpacingProps } from '../../../../shared/types'
 
 export type Props = Omit<ValueProps<number>, 'defaultValue'> &
   IncludeCamelCase<

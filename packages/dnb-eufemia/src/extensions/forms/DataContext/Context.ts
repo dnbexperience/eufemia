@@ -1,7 +1,7 @@
 import React from 'react'
-import { FormError, JsonObject } from '../utils'
-import { Ajv } from '../utils/ajv'
-import {
+import type { FormError, JsonObject } from '../utils'
+import type { Ajv } from '../utils/ajv'
+import type {
   GlobalErrorMessagesWithPaths,
   SubmitState,
   Path,
@@ -15,9 +15,9 @@ import {
   Identifier,
   Schema,
 } from '../types'
-import { Props as ProviderProps } from './Provider'
-import { SnapshotName } from '../Form/Snapshot'
-import { SharedStateId } from '../../../shared/helpers/useSharedState'
+import type { Props as ProviderProps } from './Provider'
+import type { SnapshotName } from '../Form/Snapshot'
+import type { SharedStateId } from '../../../shared/helpers/useSharedState'
 
 export type SectionSchemaRegistration = {
   id: symbol

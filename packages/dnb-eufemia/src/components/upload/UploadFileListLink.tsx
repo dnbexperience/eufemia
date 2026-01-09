@@ -3,7 +3,7 @@ import classNames from 'classnames'
 import Anchor from '../../components/Anchor'
 import Button from '../button/Button'
 import Span from '../../elements/Span'
-import { SpacingProps } from '../space/types'
+import type { SpacingProps } from '../space/types'
 import { createSpacingClasses } from '../space/SpacingUtils'
 
 export type UploadFileLinkProps = UploadFileAnchorProps &

@@ -1,5 +1,6 @@
 import React, { useCallback, useMemo } from 'react'
-import StringField, { Props as StringFieldProps } from '../String'
+import type { Props as StringFieldProps } from '../String';
+import StringField from '../String'
 import { dnr, fnr } from '@navikt/fnrvalidator'
 import type { Validator, ValidatorWithCustomValidators } from '../../types'
 import { FormError } from '../../utils'

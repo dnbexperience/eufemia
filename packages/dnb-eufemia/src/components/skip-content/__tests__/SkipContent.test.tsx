@@ -1,6 +1,7 @@
 import React from 'react'
 import { fireEvent, render, waitFor } from '@testing-library/react'
-import SkipContent, { SkipContentAllProps } from '../SkipContent'
+import type { SkipContentAllProps } from '../SkipContent';
+import SkipContent from '../SkipContent'
 import Section from '../../Section'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 

@@ -6,17 +6,19 @@ import React, {
   useEffect,
   useContext,
 } from 'react'
-import pointer, { JsonObject } from '../../utils/json-pointer'
-import {
+import type { JsonObject } from '../../utils/json-pointer';
+import pointer from '../../utils/json-pointer'
+import type {
   z,
   Ajv,
-  FormError,
+  FormError} from '../../utils';
+import {
   isZodSchema,
   createZodValidator,
   zodErrorsToFormErrors,
 } from '../../utils'
 import { ajvErrorsToFormErrors } from '../../utils/ajvErrors'
-import {
+import type {
   GlobalErrorMessagesWithPaths,
   SubmitState,
   Path,
@@ -39,15 +41,17 @@ import FieldPropsProvider from '../../Field/Provider'
 import useUpdateEffect from '../../../../shared/helpers/useUpdateEffect'
 import GlobalStatusProvider from '../../../../components/global-status/GlobalStatusProvider'
 import { isAsync } from '../../../../shared/helpers/isAsync'
+import type {
+  SharedStateId} from '../../../../shared/helpers/useSharedState';
 import {
-  SharedStateId,
   createReferenceKey,
   useSharedState,
 } from '../../../../shared/helpers/useSharedState'
-import SharedContext, { ContextProps } from '../../../../shared/Context'
+import type { ContextProps } from '../../../../shared/Context';
+import SharedContext from '../../../../shared/Context'
 import useTranslation from '../../hooks/useTranslation'
 import { appendPath } from '../../hooks/usePath'
-import DataContext, {
+import type {
   ContextState,
   EventListenerCall,
   FieldInternalsRef,
@@ -59,7 +63,8 @@ import DataContext, {
   VisibleDataHandler,
   DataPathHandlerParameters,
   SectionSchemaRegistration,
-} from '../Context'
+} from '../Context';
+import DataContext from '../Context'
 
 /**
  * Deprecated, as it is supported by all major browsers and Node.js >=v18

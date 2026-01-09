@@ -32,9 +32,9 @@ import whatInput from 'what-input'
 import CustomContent from './TabsCustomContent'
 import ContentWrapper from './TabsContentWrapper'
 import EventEmitter from '../../shared/helpers/EventEmitter'
-import { DynamicElement } from '../../shared/types'
-import { ButtonProps } from '../Button'
-import { AnchorAllProps } from '../Anchor'
+import type { DynamicElement } from '../../shared/types'
+import type { ButtonProps } from '../Button'
+import type { AnchorAllProps } from '../Anchor'
 import type {
   SectionSpacing,
   SectionStyleTypes,

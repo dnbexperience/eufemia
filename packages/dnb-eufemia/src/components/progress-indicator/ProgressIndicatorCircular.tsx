@@ -4,11 +4,11 @@
  */
 
 import React, { useEffect, useRef, forwardRef } from 'react'
-import * as CSS from 'csstype'
+import type * as CSS from 'csstype'
 import classnames from 'classnames'
 import { validateDOMAttributes } from '../../shared/component-helper'
 import { IS_EDGE } from '../../shared/helpers'
-import { ProgressIndicatorCircularAllProps } from './types'
+import type { ProgressIndicatorCircularAllProps } from './types'
 
 function ProgressIndicatorCircular(
   props: ProgressIndicatorCircularAllProps

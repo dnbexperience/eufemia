@@ -1,5 +1,5 @@
-import { FormError } from './FormError'
-import { DefaultErrorMessages } from '../types'
+import type { FormError } from './FormError'
+import type { DefaultErrorMessages } from '../types'
 import type { FormsTranslation } from '../hooks/useTranslation'
 
 /**

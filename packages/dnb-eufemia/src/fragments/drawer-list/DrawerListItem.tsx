@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react'
 import classnames from 'classnames'
-import { DrawerListDataArrayObject } from './DrawerList'
+import type { DrawerListDataArrayObject } from './DrawerList'
 
 export type DrawerListItemProps = Omit<
   React.HTMLProps<HTMLLIElement>,

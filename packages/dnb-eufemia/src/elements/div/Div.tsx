@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import { SpacingProps } from '../../components/space/types'
+import type { SpacingProps } from '../../components/space/types'
 import E from '../Element'
 
 export type DivProps = SpacingProps & React.HTMLAttributes<HTMLElement>

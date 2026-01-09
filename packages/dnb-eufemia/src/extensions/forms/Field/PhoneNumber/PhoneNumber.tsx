@@ -7,29 +7,33 @@ import React, {
 } from 'react'
 import * as z from 'zod'
 import { Autocomplete } from '../../../../components'
-import { InputMaskedProps } from '../../../../components/InputMasked'
+import type { InputMaskedProps } from '../../../../components/InputMasked'
 import classnames from 'classnames'
+import type {
+  CountryISO} from '../../constants/countries';
 import {
-  CountryISO,
   type CountryLang,
   type CountryType,
 } from '../../constants/countries'
 import useCountries from '../SelectCountry/useCountries'
-import StringField, { Props as StringFieldProps } from '../String'
-import CompositionField, {
+import type { Props as StringFieldProps } from '../String';
+import StringField from '../String'
+import type {
   Props as CompositionFieldProps,
-} from '../Composition'
+} from '../Composition';
+import CompositionField from '../Composition'
 import { useFieldProps } from '../../hooks'
-import { FieldPropsWithExtraValue, Schema } from '../../types'
+import type { FieldPropsWithExtraValue, Schema } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import SharedContext from '../../../../shared/Context'
+import type {
+  CountryFilterSet} from '../SelectCountry';
 import {
   countryFilter,
-  CountryFilterSet,
   getCountryData,
 } from '../SelectCountry'
 import useTranslation from '../../hooks/useTranslation'
-import { DrawerListDataArrayItem } from '../../../../fragments/DrawerList'
+import type { DrawerListDataArrayItem } from '../../../../fragments/DrawerList'
 
 export type AdditionalArgs = {
   phoneNumber: string

@@ -1,5 +1,6 @@
+import type {
+  KeyboardEvent} from 'react';
 import React, {
-  KeyboardEvent,
   useCallback,
   useContext,
   useEffect,
@@ -25,14 +26,15 @@ import {
 import Context from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
 import FormLabel from '../form-label/FormLabel'
-import FormStatus, {
+import type {
   FormStatusState,
   FormStatusText,
-} from '../form-status/FormStatus'
+} from '../form-status/FormStatus';
+import FormStatus from '../form-status/FormStatus'
 import useId from '../../shared/helpers/useId'
-import { GlobalStatusConfigObject } from '../GlobalStatus'
-import { SkeletonShow } from '../Skeleton'
-import { SpacingProps } from '../space/types'
+import type { GlobalStatusConfigObject } from '../GlobalStatus'
+import type { SkeletonShow } from '../Skeleton'
+import type { SpacingProps } from '../space/types'
 
 export type SwitchLabelPosition = 'left' | 'right'
 export type SwitchSize = 'default' | 'medium' | 'large'

@@ -1,7 +1,8 @@
 import React, { useCallback } from 'react'
 import classnames from 'classnames'
 import type { ComponentProps } from '../../types'
-import Button, { ButtonProps } from '../../../../components/button/Button'
+import type { ButtonProps } from '../../../../components/button/Button';
+import Button from '../../../../components/button/Button'
 import ButtonRow from '../../Form/ButtonRow'
 import type { StepIndex } from '../Context/types'
 import useTranslation from '../../hooks/useTranslation'

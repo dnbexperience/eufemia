@@ -6,7 +6,8 @@
 import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import { fireEvent, render } from '@testing-library/react'
-import Tabs, { TabsProps } from '../Tabs'
+import type { TabsProps } from '../Tabs';
+import Tabs from '../Tabs'
 import Input from '../../input/Input'
 
 const props: TabsProps = { id: 'id' }

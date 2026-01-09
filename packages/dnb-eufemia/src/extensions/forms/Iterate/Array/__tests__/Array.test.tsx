@@ -4,18 +4,19 @@ import userEvent from '@testing-library/user-event'
 import * as Iterate from '../..'
 import * as DataContext from '../../../DataContext'
 import { IterateItemContext } from '../..'
+import type {
+  JSONSchema} from '../../..';
 import {
   Field,
   FieldBlock,
   Form,
-  JSONSchema,
   makeAjvInstance,
   Value,
   ValueBlock,
   Wizard,
 } from '../../..'
 import * as z from 'zod'
-import { ContextState, FilterData } from '../../../DataContext'
+import type { ContextState, FilterData } from '../../../DataContext'
 
 import nbNO from '../../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO']

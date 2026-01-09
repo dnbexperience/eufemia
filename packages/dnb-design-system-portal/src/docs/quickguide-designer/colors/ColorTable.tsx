@@ -3,7 +3,7 @@ import propertiesUi from '@dnb/eufemia/src/style/themes/theme-ui/properties'
 import propertiesEiendom from '@dnb/eufemia/src/style/themes/theme-eiendom/properties'
 import propertiesCarnegie from '@dnb/eufemia/src/style/themes/theme-carnegie/properties'
 
-import { ThemeNames } from '@dnb/eufemia/shared'
+import type { ThemeNames } from '@dnb/eufemia/shared'
 import { basicComponents } from '../../../shared/tags'
 
 type ColorData = {

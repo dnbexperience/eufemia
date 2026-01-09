@@ -19,7 +19,7 @@ import Context from '../../shared/Context'
 import Button from '../button/Button'
 import IconPrimary from '../icon-primary/IconPrimary'
 import styleProperties from '../../style/themes/theme-ui/properties'
-import { LocaleProps, SpaceTypeAll } from '../../shared/types'
+import type { LocaleProps, SpaceTypeAll } from '../../shared/types'
 import type { SkeletonShow } from '../Skeleton'
 import { createSpacingClasses } from '../space/SpacingUtils'
 

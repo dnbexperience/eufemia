@@ -1,7 +1,8 @@
 import React, { useContext } from 'react'
 import WizardContext from '../Context/WizardContext'
 import WizardStepContext from '../Step/StepContext'
-import Step, { Props as StepProps } from '../Step/Step'
+import type { Props as StepProps } from '../Step/Step';
+import Step from '../Step/Step'
 import { useCollectStepsData } from './useCollectStepsData'
 
 export function IterateOverSteps({

@@ -1,11 +1,11 @@
 import React, { useContext, useMemo } from 'react'
 import StringValue from '../String'
-import { Path, ValueProps } from '../../types'
+import type { Path, ValueProps } from '../../types'
 import { useValueProps } from '../../hooks'
 import useDataValue from '../../hooks/useDataValue'
 import Context from '../../DataContext/Context'
 import { convertJsxToString } from '../../../../shared/component-helper'
-import { Data } from '../../Field/Selection'
+import type { Data } from '../../Field/Selection'
 
 export type Props = ValueProps<string> & {
   dataPath?: Path

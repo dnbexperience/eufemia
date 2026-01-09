@@ -5,13 +5,14 @@ import React, {
   useMemo,
   useRef,
 } from 'react'
-import Context, {
+import type {
   Translation,
   TranslationLocale,
   TranslationCustomLocales,
   InternalLocale,
   TranslationFlatToObject,
-} from './Context'
+} from './Context';
+import Context from './Context'
 import defaultLocales from './locales'
 import { isObject, warn } from './component-helper'
 

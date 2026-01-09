@@ -3,7 +3,7 @@ import classnames from 'classnames'
 
 // Components
 import { createSpacingClasses } from '../space/SpacingHelper'
-import { AvatarSizes, AvatarVariants } from './Avatar'
+import type { AvatarSizes, AvatarVariants } from './Avatar'
 
 // Shared
 import {

@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import DataContext from '../DataContext/Context'
-import Section, { SectionAllProps } from '../../../components/Section'
+import type { SectionAllProps } from '../../../components/Section';
+import Section from '../../../components/Section'
 import { FormLabel } from '../../../components'
 
 function Log({

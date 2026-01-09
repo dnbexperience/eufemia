@@ -1,7 +1,8 @@
 import React from 'react'
-import ToggleField, { Props as ToggleFieldProps } from '../Toggle'
+import type { Props as ToggleFieldProps } from '../Toggle';
+import ToggleField from '../Toggle'
 import useTranslation from '../../hooks/useTranslation'
-import { FieldProps } from '../../types'
+import type { FieldProps } from '../../types'
 
 type BooleanProps = {
   trueText?: string

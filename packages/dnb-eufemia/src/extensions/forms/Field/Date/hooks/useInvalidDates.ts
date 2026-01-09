@@ -1,5 +1,5 @@
 import { useCallback, useRef } from 'react'
-import { InvalidDates } from '../../../../../components/date-picker/DatePickerInput'
+import type { InvalidDates } from '../../../../../components/date-picker/DatePickerInput'
 
 export default function useInvalidDates() {
   const invalidDatesRef = useRef<InvalidDates>({})
