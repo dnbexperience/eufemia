@@ -33,7 +33,7 @@
   "source": {
     "repo": "https://github.com/dnbexperience/eufemia",
     "file": "packages/dnb-eufemia/src/extensions/forms/Iterate/Count/Count.tsx",
-    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.93.0/packages/dnb-eufemia/src/extensions/forms/Iterate/Count/Count.tsx"
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.93.1/packages/dnb-eufemia/src/extensions/forms/Iterate/Count/Count.tsx"
   },
   "sources": {
     "entry": {
@@ -50,7 +50,7 @@
       "public": "https://eufemia.dnb.no/uilib/extensions/forms/Iterate/Count/demos/"
     }
   },
-  "version": "10.93.0",
-  "generatedAt": "2026-01-06T11:55:10.860Z",
+  "version": "10.93.1",
+  "generatedAt": "2026-01-09T11:29:55.318Z",
   "schemaVersion": 1
 }

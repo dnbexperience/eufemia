@@ -50,7 +50,7 @@
   "source": {
     "repo": "https://github.com/dnbexperience/eufemia",
     "file": "packages/dnb-eufemia/src/components/portal-root/PortalRoot.tsx",
-    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.93.0/packages/dnb-eufemia/src/components/portal-root/PortalRoot.tsx"
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.93.1/packages/dnb-eufemia/src/components/portal-root/PortalRoot.tsx"
   },
   "sources": {
     "entry": {
@@ -67,7 +67,7 @@
       "public": "https://eufemia.dnb.no/uilib/components/portal-root/demos/"
     }
   },
-  "version": "10.93.0",
-  "generatedAt": "2026-01-06T11:55:10.469Z",
+  "version": "10.93.1",
+  "generatedAt": "2026-01-09T11:29:54.881Z",
   "schemaVersion": 1
 }

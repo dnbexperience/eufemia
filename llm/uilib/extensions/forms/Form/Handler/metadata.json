@@ -1,7 +1,7 @@
 {
   "id": "uilib/extensions/forms/Form/Handler",
   "name": "Handler",
-  "description": "The `Form.Handler` is the root component of your form. It provides a HTML form element and handles the form data.",
+  "description": "The `Form.Handler` is the root component of your form. It provides an HTML form element and handles the form data.",
   "group": "extensions",
   "slug": "/uilib/extensions/forms/Form/Handler/",
   "props": [
@@ -200,7 +200,7 @@
   "source": {
     "repo": "https://github.com/dnbexperience/eufemia",
     "file": "packages/dnb-eufemia/src/extensions/forms/Form/Handler/Handler.tsx",
-    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.93.0/packages/dnb-eufemia/src/extensions/forms/Form/Handler/Handler.tsx"
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.93.1/packages/dnb-eufemia/src/extensions/forms/Form/Handler/Handler.tsx"
   },
   "sources": {
     "entry": {
@@ -220,7 +220,7 @@
       "public": "https://eufemia.dnb.no/uilib/extensions/forms/Form/Handler/demos/"
     }
   },
-  "version": "10.93.0",
-  "generatedAt": "2026-01-06T11:55:10.698Z",
+  "version": "10.93.1",
+  "generatedAt": "2026-01-09T11:29:55.138Z",
   "schemaVersion": 1
 }

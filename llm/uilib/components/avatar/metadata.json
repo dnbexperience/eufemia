@@ -1,7 +1,7 @@
 {
   "id": "uilib/components/avatar",
   "name": "Avatar",
-  "description": "The Avatar component are identifiers that makes people and companies more scannable.",
+  "description": "The Avatar component is an identifier that makes people and companies more scannable.",
   "group": "components",
   "slug": "/uilib/components/avatar/",
   "props": [
@@ -119,7 +119,7 @@
   "source": {
     "repo": "https://github.com/dnbexperience/eufemia",
     "file": "packages/dnb-eufemia/src/components/avatar/Avatar.tsx",
-    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.93.0/packages/dnb-eufemia/src/components/avatar/Avatar.tsx"
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.93.1/packages/dnb-eufemia/src/components/avatar/Avatar.tsx"
   },
   "sources": {
     "entry": {
@@ -136,7 +136,7 @@
       "public": "https://eufemia.dnb.no/uilib/components/avatar/demos/"
     }
   },
-  "version": "10.93.0",
-  "generatedAt": "2026-01-06T11:55:10.195Z",
+  "version": "10.93.1",
+  "generatedAt": "2026-01-09T11:29:54.567Z",
   "schemaVersion": 1
 }
