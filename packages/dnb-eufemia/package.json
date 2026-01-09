@@ -229,7 +229,6 @@
     "jest-axe": "10.0.0",
     "jest-environment-jsdom": "30.0.5",
     "jest-image-snapshot": "6.5.1",
-    "jest-matchmedia-mock": "1.1.0",
     "jest-playwright-preset": "4.0.0",
     "jest-raw-loader": "1.0.1",
     "jest-tobetype": "1.2.3",

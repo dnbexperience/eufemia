@@ -17,18 +17,17 @@ import StepIndicator, {
   StepIndicatorProps,
 } from '../StepIndicator'
 import Provider from '../../../shared/Provider'
-import MatchMediaMock from 'jest-matchmedia-mock'
+import 'mock-match-media/jest-setup'
+import { setMedia } from 'mock-match-media'
 import { StepIndicatorSidebarProps } from '../StepIndicatorSidebar'
 
-const matchMedia = new MatchMediaMock()
-
 beforeEach(() => {
-  matchMedia.useMediaQuery('(min-width: 60em)')
+  setMedia({ width: '70em' }) // Large screen (>60em)
   document.body.innerHTML = `<div id="root"></div>`
 })
 
 function simulateSmallScreen() {
-  matchMedia.useMediaQuery('(min-width: 0) and (max-width: 60em)')
+  setMedia({ width: '50em' }) // Small screen (<60em)
 }
 
 const stepIndicatorListData: StepIndicatorData = [

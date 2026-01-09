@@ -4423,7 +4423,6 @@ __metadata:
     jest-axe: "npm:10.0.0"
     jest-environment-jsdom: "npm:30.0.5"
     jest-image-snapshot: "npm:6.5.1"
-    jest-matchmedia-mock: "npm:1.1.0"
     jest-playwright-preset: "npm:4.0.0"
     jest-raw-loader: "npm:1.0.1"
     jest-tobetype: "npm:1.2.3"
@@ -23566,15 +23565,6 @@ __metadata:
     jest-get-type: "npm:^29.4.3"
     pretty-format: "npm:^29.5.0"
   checksum: 10/80686b629d40489f09ef987a187d24c63528614fcfe34e62ec83f0485729396e11354e9ab9a28d6d80e82c9454e06cc810e936a2155e033bd112ab1fead11f1a
-  languageName: node
-  linkType: hard
-
-"jest-matchmedia-mock@npm:1.1.0":
-  version: 1.1.0
-  resolution: "jest-matchmedia-mock@npm:1.1.0"
-  peerDependencies:
-    jest: ">=13"
-  checksum: 10/e812b9dce5a3b55057ec0db47fe07737d24f248d0ee5eb41754244ecb8ea9b906581af2c1ae434b4db8a037ce3e437af6c53075ac86538a56ce55e2645ea0138
   languageName: node
   linkType: hard
 
