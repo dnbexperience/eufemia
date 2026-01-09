@@ -4,7 +4,7 @@
  */
 
 import path from 'path'
-import del from 'del'
+import fs from 'fs-extra'
 import convertSvgToJsx from '../convertSvgToJsx'
 
 jest.mock('ora', () => {
@@ -31,7 +31,10 @@ beforeAll(async () => {
 })
 
 afterAll(async () => {
-  await del(path.resolve(__dirname, `./test-files/dist`))
+  await fs.promises.rm(path.resolve(__dirname, `./test-files/dist`), {
+    recursive: true,
+    force: true,
+  })
   jest.useRealTimers()
 })
 

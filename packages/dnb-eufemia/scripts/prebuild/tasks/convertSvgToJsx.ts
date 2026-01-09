@@ -5,7 +5,7 @@
 
 import fs from 'fs-extra'
 import path from 'path'
-import del from 'del'
+import { glob } from 'glob'
 import gulp from 'gulp'
 import rename from 'gulp-rename'
 import transform from 'gulp-transform'
@@ -42,17 +42,21 @@ export default async function convertSvgToJsx({
   customIconsLockFilePath = null,
 } = {}) {
   if (!preventDelete) {
-    await del(
-      [
-        `${destPath}/**/*.{js,ts,tsx}`,
-        `!${destPath}`,
-        '!**/__tests__/*',
-        '!**/secondary*',
-        '!**/primary*',
-      ],
+    const filesToDelete = await glob(
+      `${destPath}/**/*.{js,ts,tsx}`,
       {
-        force: true,
+        ignore: [
+          '**/__tests__/*',
+          '**/secondary*',
+          '**/primary*',
+        ],
       }
+    )
+    
+    await Promise.all(
+      filesToDelete.map((file) =>
+        fs.promises.rm(file, { force: true })
+      )
     )
 
     log.info(
