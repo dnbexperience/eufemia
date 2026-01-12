@@ -880,7 +880,7 @@ const optimizeSVG = async (file) => {
     data = data.replace(/24 25/g, '24 24')
 
     // WIP
-    // data = insertInlineStylesToSVG(data)
+    // data = _insertInlineStylesToSVG(data)
 
     await fs.writeFile(file, data)
     return data
@@ -891,8 +891,7 @@ const optimizeSVG = async (file) => {
   return null
 }
 
-// eslint-disable-next-line no-unused-vars
-const insertInlineStylesToSVG = (svg) => {
+const _insertInlineStylesToSVG = (svg) => {
   return Object.entries(properties)
     .filter(([key]) => key.includes('--color-'))
     .reduce((acc, [key, val]) => {

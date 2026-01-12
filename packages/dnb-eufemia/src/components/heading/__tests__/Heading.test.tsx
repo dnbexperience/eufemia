@@ -523,38 +523,6 @@ describe('Heading component', () => {
   })
 })
 
-let gComp
-// eslint-disable-next-line no-unused-vars
-function makeComp() {
-  gComp =
-    gComp ||
-    render(
-      <React.StrictMode>
-        <Heading.Level debug={warn} reset={1}>
-          <Heading>Heading #1</Heading>
-          <Heading>Heading #2</Heading>
-
-          <Heading.Increase>
-            <Heading>Heading #3</Heading>
-            <Heading up>Heading #4</Heading>
-            <Heading down>Heading #5</Heading>
-            <Heading decrease>Heading #6</Heading>
-          </Heading.Increase>
-
-          <Heading.Increase>
-            <Heading>Heading #7</Heading>
-            <Heading.Increase decrease>
-              <Heading>Heading #8</Heading>
-              <Heading decrease>Heading #9</Heading>
-            </Heading.Increase>
-          </Heading.Increase>
-        </Heading.Level>
-      </React.StrictMode>
-    )
-
-  return gComp
-}
-
 function StateChanges({
   showHeading3 = false,
   showHeading4 = false,
