@@ -30,14 +30,70 @@ describe('package.json', () => {
     packpath.self(),
     'build/package.json'
   )
+  const buildDir = path.resolve(packpath.self(), 'build')
 
-  let packageJson: {
-    [key: string]: string
-  } = {}
+  type ExportEntry = string | Record<string, string>
+  type PackageJson = {
+    [key: string]: unknown
+    exports?: Record<string, ExportEntry>
+    main?: string
+    module?: string
+    typings?: string
+    type?: string
+    sideEffects?: unknown
+    peerDependencies?: unknown
+    publishConfig?: unknown
+  }
+
+  let packageJson: PackageJson = {}
 
   beforeAll(async () => {
     packageJson = await fs.readJson(path.resolve(packageJsonFile))
   })
+
+  const resolveTarget = (target) =>
+    path.resolve(buildDir, target.replace(/^\.\//, ''))
+
+  const assertTargetExists = (target) => {
+    expect(fs.existsSync(resolveTarget(target))).toBe(true)
+  }
+
+  const assertExport = (
+    key,
+    expected?: Record<string, string> | string
+  ) => {
+    const exportsMap = packageJson.exports as Record<string, ExportEntry>
+    const entry = exportsMap[key]
+
+    expect(entry).toBeTruthy()
+
+    if (typeof entry === 'string') {
+      if (expected) {
+        expect(entry).toBe(expected)
+      }
+      assertTargetExists(entry)
+      return
+    }
+
+    if (expected) {
+      Object.entries(expected).forEach(([field, value]) => {
+        expect(entry[field]).toBe(value)
+      })
+    }
+
+    if (entry.import) {
+      assertTargetExists(entry.import)
+    }
+    if (entry.require) {
+      assertTargetExists(entry.require)
+    }
+    if (entry.types) {
+      assertTargetExists(entry.types)
+    }
+    if (entry.default) {
+      assertTargetExists(entry.default)
+    }
+  }
 
   it('exists inside build', () => {
     expect(fs.existsSync(path.resolve(packageJsonFile))).toBeTruthy()
@@ -80,6 +136,80 @@ describe('package.json', () => {
     expect(packageJson.main).toBe('./index.js')
     expect(packageJson.module).toBe('./index.js')
     expect(packageJson.typings).toBe('./index.d.ts')
+  })
+
+  it('has exports map', () => {
+    expect(packageJson.exports).toBeTruthy()
+    const exportsMap = packageJson.exports as Record<string, ExportEntry>
+    expect(exportsMap['.']).toEqual(
+      expect.objectContaining({
+        import: './index.js',
+        require: './cjs/index.js',
+        types: './index.d.ts',
+      })
+    )
+    expect(exportsMap['./style/*']).toBe('./style/*')
+    expect(exportsMap['./assets/*/*/*']).toBe('./assets/*/*/*')
+    expect(exportsMap['./components/button/ButtonDocs']).toBeFalsy()
+    expect(exportsMap['./components/button/index']).toBeFalsy()
+    expect(exportsMap['./es/components/button/index.js']).toBeTruthy()
+  })
+
+  it('matches important exports to existing files', () => {
+    assertExport('.', {
+      import: './index.js',
+      require: './cjs/index.js',
+      types: './index.d.ts',
+    })
+
+    assertExport('./style', {
+      import: './style/index.js',
+      require: './cjs/style/index.js',
+    })
+    const exportsMap = packageJson.exports as Record<string, ExportEntry>
+    expect(exportsMap['./style/*']).toBe('./style/*')
+    expect(exportsMap['./style/*/*/*']).toBe('./style/*/*/*')
+    expect(
+      fs.existsSync(path.resolve(buildDir, 'style/core/utilities.scss'))
+    ).toBe(true)
+
+    assertExport('./components/button', {
+      import: './components/button/index.js',
+      require: './cjs/components/button/index.js',
+    })
+    expect(exportsMap['./components/button/index']).toBeFalsy()
+    assertExport('./es/components/button/index.js', {
+      import: './es/components/button/index.js',
+      require: './cjs/components/button/index.js',
+      types: './es/components/button/index.d.ts',
+    })
+    assertExport('./components/button/Button', {
+      import: './components/button/Button.js',
+      require: './cjs/components/button/Button.js',
+    })
+
+    assertExport('./extensions/forms', {
+      import: './extensions/forms/index.js',
+      require: './cjs/extensions/forms/index.js',
+    })
+    assertExport('./extensions/forms/utils/json-pointer', {
+      import: './extensions/forms/utils/json-pointer/index.js',
+      require: './cjs/extensions/forms/utils/json-pointer/index.js',
+    })
+
+    assertExport('./icons', {
+      import: './icons/index.js',
+      require: './cjs/icons/index.js',
+    })
+    assertExport('./icons/goal_medium', {
+      import: './icons/goal_medium.js',
+      require: './cjs/icons/goal_medium.js',
+    })
+
+    expect(exportsMap['./assets/*/*/*']).toBe('./assets/*/*/*')
+    expect(
+      fs.existsSync(path.resolve(buildDir, 'assets/flags/1x1/no.svg'))
+    ).toBe(true)
   })
 
   it('has publishConfig', () => {
