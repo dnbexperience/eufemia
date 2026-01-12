@@ -274,8 +274,7 @@
     "traverse": "0.6.6",
     "tsdown": "0.14.2",
     "typescript": "5.9.3",
-    "vd-tool": "4.0.2",
-    "wait-on": "6.0.0"
+    "vd-tool": "4.0.2"
   },
   "keywords": [
     "Accessibility",
