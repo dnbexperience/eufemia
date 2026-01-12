@@ -2,16 +2,19 @@
 
 exports[`Badge scss should match default theme snapshot 1`] = `
 "/* 
-  BETA
-
-  These are the figma design variables used by the "information" variant of the badge component.
-  The naming, prefix, location, and anything else is subject to change.
-
-  This is just to keep track of design variables used, and figure out how to best manage them in the future.
-
-  As well as allowing us to use colors that are not yet added to the repository in a more controlled manner.
-  These colors should eventually end up being properly defined design variables.
-*/
+ * WIP: Figma design tokens for the badge component
+ *
+ * Exactly how design tokens from figma will be integrated is still not decided. So this file
+ * is just a temporary solution that separates design tokens from the rest of the styles.
+ *
+ * These colors should eventually end up being properly defined design variables.
+ */
+/*
+ * Badge design tokens
+ *
+ * These are the figma design variables used by the "information" variant of the badge component.
+ * The naming, prefix, location, and anything else is subject to change.
+ */
 /*
 * Badge theme
 *
@@ -36,13 +39,86 @@ exports[`Badge scss should match default theme snapshot 1`] = `
   --figma-color-text-destructive: #d52525;
   --figma-color-background-error-subtle: #fceeee;
   --figma-color-stroke-error: #d52525;
+}"
+`;
+
+exports[`Badge scss should match style dependencies css 1`] = `
+"/*
+* Used for snapshot testing
+*
+*/
+/*
+ * Utilities
+ */
+/*
+ * Utilities
+ */
+/*
+* Badge component
+*
+*/
+.dnb-badge {
+  display: inline-flex;
+  flex-flow: row wrap;
+  white-space: nowrap;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  font-weight: var(--font-weight-medium);
+  font-size: var(--font-size-x-small);
 }
-.dnb-badge--variant-information {
-  --badge-information-color: var(--figma-color-text-neutral);
+.dnb-badge__root {
+  position: relative;
+  display: inline-flex;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+.dnb-badge__root .dnb-badge {
+  display: flex;
+  overflow: hidden;
+  position: absolute;
+  z-index: 2;
 }
 .dnb-badge--variant-notification {
   color: var(--color-white);
   background-color: var(--color-fire-red);
+  padding: 0 0.25rem;
+  min-width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 0.75rem;
+}
+.dnb-badge--variant-information {
+  --badge-information-color: var(--figma-color-text-neutral);
+  padding: 0.125rem 0.5rem;
+  border-radius: 0.5rem;
+  background-color: var(--badge-information-bg);
+  color: var(--badge-information-color, inherit);
+}
+.dnb-badge--subtle {
+  background-color: var(--badge-information-subtle-bg);
+  color: var(--badge-information-subtle-color, var(--badge-information-color));
+  --border-color: var(--badge-information-subtle-border);
+  --border-width: 0.0625rem;
+  box-shadow: inset 0 0 0 var(--border-width) var(--border-color);
+  border-color: transparent;
+}
+.dnb-badge--horizontal-left {
+  left: 0;
+}
+.dnb-badge--horizontal-right {
+  right: 0;
+}
+.dnb-badge--vertical-bottom {
+  bottom: 0;
+}
+.dnb-badge--vertical-top {
+  top: 0;
+}
+.dnb-badge--inline.dnb-badge--vertical-top {
+  transform: translateY(-25%);
+}
+.dnb-badge--inline.dnb-badge--vertical-bottom {
+  transform: translateY(25%);
 }
 .dnb-badge--status-default {
   --badge-information-bg: var(--figma-color-decorative-first-subtle);
@@ -87,82 +163,5 @@ exports[`Badge scss should match default theme snapshot 1`] = `
   );
   --badge-information-subtle-color: var(--figma-color-text-destructive);
   --badge-information-subtle-border: var(--figma-color-stroke-error);
-}"
-`;
-
-exports[`Badge scss should match style dependencies css 1`] = `
-"/*
-* Used for snapshot testing
-*
-*/
-/*
- * Utilities
- */
-/*
- * Utilities
- */
-/*
-* Badge component
-*
-*/
-.dnb-badge {
-  display: inline-flex;
-  flex-flow: row wrap;
-  white-space: nowrap;
-  justify-content: center;
-  align-content: center;
-  align-items: center;
-  font-weight: var(--font-weight-medium);
-  font-size: var(--font-size-x-small);
-}
-.dnb-badge__root {
-  position: relative;
-  display: inline-flex;
-  vertical-align: middle;
-  flex-shrink: 0;
-}
-.dnb-badge__root .dnb-badge {
-  display: flex;
-  overflow: hidden;
-  position: absolute;
-  z-index: 2;
-}
-.dnb-badge--variant-notification {
-  padding: 0 0.25rem;
-  min-width: 1.5rem;
-  height: 1.5rem;
-  border-radius: 0.75rem;
-}
-.dnb-badge--variant-information {
-  padding: 0.125rem 0.5rem;
-  border-radius: 0.5rem;
-  background-color: var(--badge-information-bg);
-  color: var(--badge-information-color, inherit);
-}
-.dnb-badge--subtle {
-  background-color: var(--badge-information-subtle-bg);
-  color: var(--badge-information-subtle-color, var(--badge-information-color));
-  --border-color: var(--badge-information-subtle-border);
-  --border-width: 0.0625rem;
-  box-shadow: inset 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
-}
-.dnb-badge--horizontal-left {
-  left: 0;
-}
-.dnb-badge--horizontal-right {
-  right: 0;
-}
-.dnb-badge--vertical-bottom {
-  bottom: 0;
-}
-.dnb-badge--vertical-top {
-  top: 0;
-}
-.dnb-badge--inline.dnb-badge--vertical-top {
-  transform: translateY(-25%);
-}
-.dnb-badge--inline.dnb-badge--vertical-bottom {
-  transform: translateY(25%);
 }"
 `;

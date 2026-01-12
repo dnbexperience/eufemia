@@ -1,20 +1,31 @@
 /* 
-  BETA
+ * WIP: Figma design tokens for the badge component
+ *
+ * Exactly how design tokens from figma will be integrated is still not decided. So this file
+ * is just a temporary solution that separates design tokens from the rest of the styles.
+ *
+ * These colors should eventually end up being properly defined design variables.
+ */
 
-  These are the figma design variables used by the "information" variant of the badge component.
-  The naming, prefix, location, and anything else is subject to change.
+/*
+ * Badge design tokens
+ *
+ * These are the figma design variables used by the "information" variant of the badge component.
+ * The naming, prefix, location, and anything else is subject to change.
+ */
 
-  This is just to keep track of design variables used, and figure out how to best manage them in the future.
-
-  As well as allowing us to use colors that are not yet added to the repository in a more controlled manner.
-  These colors should eventually end up being properly defined design variables.
-*/
-
-@mixin dnb-badge-design-tokens-beta {
-  // DNB/ColdGreen/300
-  --figma-color-decorative-first-subtle: var(--color-mint-green);
-  // DNB/ColdGreen/100
-  --figma-color-decorative-first-muted: #d8f3ec;
+@mixin dnb-badge-design-tokens-beta($theme: 'ui') {
+  @if $theme == 'sbanken' {
+    // Sbanken/Purple/300
+    --figma-color-decorative-first-subtle: #d2baff;
+    // Sbanken/Purple/100
+    --figma-color-decorative-first-muted: var(--sb-color-violet-light-4);
+  } @else {
+    // DNB/ColdGreen/300
+    --figma-color-decorative-first-subtle: var(--color-mint-green);
+    // DNB/ColdGreen/100
+    --figma-color-decorative-first-muted: #d8f3ec;
+  }
   // DNB/Greyscale/200
   --figma-color-background-neutral-bold: var(--color-black-20);
   // DNB/Greyscale/50

@@ -8,8 +8,12 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('Badge', () => {
-  setupPageScreenshot({ url: '/uilib/components/badge/demos' })
+describe.each(['ui', 'sbanken'])('Badge for %s', (themeName) => {
+  setupPageScreenshot({
+    themeName,
+    url: '/uilib/components/badge/demos',
+  })
+
   describe('variant', () => {
     it('have to match variant notification', async () => {
       const screenshot = await makeScreenshot({
