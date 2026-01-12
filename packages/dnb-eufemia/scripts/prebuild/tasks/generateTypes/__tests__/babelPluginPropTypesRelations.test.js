@@ -17,11 +17,8 @@ describe('babelPluginPropTypesRelations', () => {
     const sourceDir = nodePath.dirname(file)
 
     const { code } = await transformFileAsync(file, {
-      plugins: [
-        ['@babel/plugin-proposal-class-properties', { loose: true }],
-        [babelPluginPropTypesRelations, { sourceDir }],
-      ],
       ...babelPluginConfigDefaults,
+      plugins: [[babelPluginPropTypesRelations, { sourceDir }]],
     })
 
     expect(code).toMatchSnapshot()

@@ -4,7 +4,10 @@ export const babelPluginConfigDefaults = {
   comments: true,
   compact: false,
   ignore: ['node_modules/**'],
-  presets: ['@babel/preset-react'],
+  presets: [
+    '@babel/preset-react',
+    ['@babel/preset-typescript', { isTSX: true, allExtensions: true }],
+  ],
 }
 
 export const babylonConfigDefaults = {
@@ -22,7 +25,6 @@ export const babylonConfigDefaults = {
 }
 
 export const babelPluginDefaultPlugins = [
-  ['@babel/plugin-proposal-class-properties', { loose: true }], // Needs to be loose!
-  '@babel/plugin-proposal-optional-chaining',
-  '@babel/plugin-proposal-nullish-coalescing-operator',
+  // Note: Class properties, optional chaining, and nullish coalescing
+  // are now handled by @babel/preset-env and don't need separate plugins
 ]

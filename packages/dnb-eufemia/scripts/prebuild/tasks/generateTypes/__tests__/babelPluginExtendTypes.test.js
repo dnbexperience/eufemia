@@ -21,7 +21,6 @@ describe('babelPluginExtendTypes', () => {
 
     const { code } = await transformFileAsync(targetFile, {
       plugins: [
-        ['@babel/plugin-syntax-typescript', { isTSX: true }],
         [
           babelPluginExtendTypes,
           {

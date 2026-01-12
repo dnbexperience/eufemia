@@ -18,8 +18,8 @@ describe('babelPluginCorrectTypes', () => {
     const sourceDir = nodePath.dirname(file)
 
     const { code } = await transformFileAsync(file, {
+      ...babelPluginConfigDefaults,
       plugins: [
-        ['@babel/plugin-proposal-class-properties', { loose: true }],
         [babelPluginPropTypesRelations, { sourceDir }],
         [
           babelPluginCorrectTypes,
@@ -32,7 +32,6 @@ describe('babelPluginCorrectTypes', () => {
           },
         ],
       ],
-      ...babelPluginConfigDefaults,
     })
 
     expect(code).toMatchSnapshot()

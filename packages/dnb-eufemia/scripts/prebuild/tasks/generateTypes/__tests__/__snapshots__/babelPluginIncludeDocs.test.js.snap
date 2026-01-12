@@ -24,43 +24,43 @@ export const primaryDefaultProps = {
   left: null
 };
 export default class PrimaryComponent extends React.PureComponent {
+  static propTypes = {
+    boolean: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    number: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    spacing: PropTypes.shape({
+      top: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+      right: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+      bottom: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+      left: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool])
+    }),
+    top: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+    right: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+    bottom: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+    left: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+    secondary: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+    classProperty: PropTypes.string,
+    secondary_foo: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+    secondary_spacing: PropTypes.shape({
+      secondary: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool])
+    }),
+    children: PropTypes.node
+  };
+  static defaultProps = {
+    boolean: null,
+    number: null,
+    spacing: null,
+    top: null,
+    ...primaryDefaultProps,
+    ...secondaryDefaultProps,
+    classProperty: null,
+    children: null
+  };
+  static Secondary = SecondaryComponent;
+  static SecondaryDuplication = SecondaryComponent;
   render() {
     return [this.props.boolean, this.props.number, this.props.spacing, this.props.top, this.props.secondary_foo, this.props.secondary_spacing, this.props.children];
   }
 }
-PrimaryComponent.propTypes = {
-  boolean: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  number: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  spacing: PropTypes.shape({
-    top: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
-    right: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
-    bottom: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
-    left: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool])
-  }),
-  top: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
-  right: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
-  bottom: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
-  left: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
-  secondary: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
-  classProperty: PropTypes.string,
-  secondary_foo: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
-  secondary_spacing: PropTypes.shape({
-    secondary: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool])
-  }),
-  children: PropTypes.node
-};
-PrimaryComponent.defaultProps = {
-  boolean: null,
-  number: null,
-  spacing: null,
-  top: null,
-  ...primaryDefaultProps,
-  ...secondaryDefaultProps,
-  classProperty: null,
-  children: null
-};
-PrimaryComponent.Secondary = SecondaryComponent;
-PrimaryComponent.SecondaryDuplication = SecondaryComponent;
 const Element = () => {
   return null;
 };
@@ -118,43 +118,43 @@ export const primaryDefaultProps = {
   left: null
 };
 export default class PrimaryComponent extends React.PureComponent {
+  static propTypes = {
+    boolean: PropTypes.bool,
+    number: PropTypes.number,
+    spacing: PropTypes.shape({
+      top: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+      right: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+      bottom: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+      left: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool])
+    }),
+    top: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+    right: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+    bottom: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+    left: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+    secondary: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+    classProperty: PropTypes.string,
+    secondary_foo: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+    secondary_spacing: PropTypes.shape({
+      secondary: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool])
+    }),
+    children: PropTypes.node
+  };
+  static defaultProps = {
+    boolean: null,
+    number: null,
+    spacing: null,
+    top: null,
+    ...primaryDefaultProps,
+    ...secondaryDefaultProps,
+    classProperty: null,
+    children: null
+  };
+  static Secondary = SecondaryComponent;
+  static SecondaryDuplication = SecondaryComponent;
   render() {
     return [this.props.boolean, this.props.number, this.props.spacing, this.props.top, this.props.secondary_foo, this.props.secondary_spacing, this.props.children];
   }
 }
-PrimaryComponent.propTypes = {
-  boolean: PropTypes.bool,
-  number: PropTypes.number,
-  spacing: PropTypes.shape({
-    top: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
-    right: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
-    bottom: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
-    left: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool])
-  }),
-  top: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
-  right: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
-  bottom: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
-  left: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
-  secondary: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
-  classProperty: PropTypes.string,
-  secondary_foo: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
-  secondary_spacing: PropTypes.shape({
-    secondary: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool])
-  }),
-  children: PropTypes.node
-};
-PrimaryComponent.defaultProps = {
-  boolean: null,
-  number: null,
-  spacing: null,
-  top: null,
-  ...primaryDefaultProps,
-  ...secondaryDefaultProps,
-  classProperty: null,
-  children: null
-};
-PrimaryComponent.Secondary = SecondaryComponent;
-PrimaryComponent.SecondaryDuplication = SecondaryComponent;
 const Element = () => {
   return null;
 };
@@ -212,43 +212,43 @@ export const primaryDefaultProps = {
   left: null
 };
 export default class PrimaryComponent extends React.PureComponent {
+  static propTypes = {
+    boolean: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    number: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    spacing: PropTypes.shape({
+      top: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+      right: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+      bottom: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+      left: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool])
+    }),
+    top: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+    right: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+    bottom: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+    left: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+    secondary: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+    classProperty: PropTypes.string,
+    secondary_foo: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+    secondary_spacing: PropTypes.shape({
+      secondary: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool])
+    }),
+    children: PropTypes.node
+  };
+  static defaultProps = {
+    boolean: null,
+    number: null,
+    spacing: null,
+    top: null,
+    ...primaryDefaultProps,
+    ...secondaryDefaultProps,
+    classProperty: null,
+    children: null
+  };
+  static Secondary = SecondaryComponent;
+  static SecondaryDuplication = SecondaryComponent;
   render() {
     return [this.props.boolean, this.props.number, this.props.spacing, this.props.top, this.props.secondary_foo, this.props.secondary_spacing, this.props.children];
   }
 }
-PrimaryComponent.propTypes = {
-  boolean: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  number: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  spacing: PropTypes.shape({
-    top: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
-    right: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
-    bottom: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
-    left: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool])
-  }),
-  top: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
-  right: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
-  bottom: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
-  left: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
-  secondary: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
-  classProperty: PropTypes.string,
-  secondary_foo: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
-  secondary_spacing: PropTypes.shape({
-    secondary: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool])
-  }),
-  children: PropTypes.node
-};
-PrimaryComponent.defaultProps = {
-  boolean: null,
-  number: null,
-  spacing: null,
-  top: null,
-  ...primaryDefaultProps,
-  ...secondaryDefaultProps,
-  classProperty: null,
-  children: null
-};
-PrimaryComponent.Secondary = SecondaryComponent;
-PrimaryComponent.SecondaryDuplication = SecondaryComponent;
 const Element = () => {
   return null;
 };
@@ -292,18 +292,6 @@ exports[`babelPluginIncludeDocs has to match collectProps snapshot given by onCo
   "bottom",
   "left",
   "secondary",
-  "secondary_foo",
-  "secondary_spacing",
-  "children",
-  "boolean",
-  "number",
-  "spacing",
-  "top",
-  "right",
-  "bottom",
-  "left",
-  "secondary",
-  "classProperty",
   "secondary_foo",
   "secondary_spacing",
   "children",

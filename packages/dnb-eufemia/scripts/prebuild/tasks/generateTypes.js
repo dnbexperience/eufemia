@@ -148,7 +148,6 @@ export const createTypes = async (
           const { code } = await transformFileAsync(destFile, {
             filename: destFile,
             plugins: [
-              ['@babel/plugin-syntax-typescript', { isTSX: true }],
               [
                 babelPluginIncludeDocs,
                 {
@@ -197,7 +196,6 @@ export const createTypes = async (
             {
               filename: destFile,
               plugins: [
-                ['@babel/plugin-syntax-typescript', { isTSX: true }],
                 [
                   babelPluginExtendTypes,
                   {
