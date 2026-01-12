@@ -146,29 +146,42 @@ function isParentRelativePath(path: Path) {
 }
 
 function resolveParentRelativePath(path: Path, sectionPath?: Path): Path {
-  const base = sectionPath && sectionPath !== '/' ? sectionPath : ''
-  const baseSegments = base
-    ? base.split('/').filter((segment) => segment)
-    : []
-  let relativePath = path
-
-  while (relativePath.startsWith('../')) {
-    relativePath = relativePath.substring(3)
-    if (baseSegments.length > 0) {
-      baseSegments.pop()
+  let base = ''
+  if (sectionPath && sectionPath !== '/') {
+    base = sectionPath
+    // trim leading/trailing slashes without regex
+    while (base.startsWith('/')) {
+      base = base.slice(1)
+    }
+    while (base.endsWith('/')) {
+      base = base.slice(0, -1)
     }
   }
 
-  const normalizedRelative = relativePath.replace(/^\/+/, '')
-  const relativeSegments = normalizedRelative
-    ? normalizedRelative.split('/').filter((segment) => segment)
-    : []
+  // count "../"
+  let idx = 0
+  while (path.startsWith('../', idx)) {
+    idx += 3
+  }
+  const up = idx / 3
 
-  const resolvedPath = `/${[...baseSegments, ...relativeSegments].join(
-    '/'
-  )}`
-  const normalizedPath = cleanPath(resolvedPath as Path)
-  return normalizedPath === '' ? ('/' as Path) : normalizedPath
+  const baseSegments = base ? base.split('/') : []
+  if (up) {
+    baseSegments.length = Math.max(0, baseSegments.length - up)
+  }
+
+  let rest = path.slice(idx)
+  while (rest.startsWith('/')) {
+    rest = rest.slice(1)
+  }
+  const restSegments = rest ? rest.split('/') : []
+
+  const resolved = `/${baseSegments
+    .concat(restSegments)
+    .filter(Boolean)
+    .join('/')}`
+  const normalized = cleanPath(resolved as Path)
+  return (normalized === '' ? '/' : normalized) as Path
 }
 
 // Appends a path part to a base path, normalizing '/' to empty string
