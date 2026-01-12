@@ -9,6 +9,7 @@ export const PrimitiveItems = () => {
       <Iterate.Array
         value={['One', 'Two', 'Three', 'Four', 'Five']}
         onChange={(value) => console.log('onChange', value)}
+        animate
       >
         <Flex.Horizontal align="center">
           <Field.String itemPath="/" />
@@ -33,7 +34,7 @@ export const ObjectItems = () => {
         ]}
         onChange={(value) => console.log('onChange', value)}
       >
-        <Iterate.Array path="/">
+        <Iterate.Array path="/" animate>
           <Flex.Horizontal align="center">
             <Field.Name.Last itemPath="/name" />
             <Iterate.RemoveButton text="Remove avenger" />

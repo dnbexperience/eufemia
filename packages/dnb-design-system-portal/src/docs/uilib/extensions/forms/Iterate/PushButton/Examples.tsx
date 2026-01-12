@@ -12,7 +12,7 @@ export const PrimitiveItems = () => {
     <ComponentBox>
       <Form.Handler>
         <Flex.Stack>
-          <Iterate.Array path="/">
+          <Iterate.Array path="/" animate>
             <Value.String itemPath="/" />
           </Iterate.Array>
           <Iterate.PushButton
@@ -37,7 +37,7 @@ export const ObjectItems = () => {
         ]}
         onChange={(value) => console.log('onChange', value)}
       >
-        <Iterate.Array path="/">
+        <Iterate.Array path="/" animate>
           <Field.Name.Last itemPath="/name" />
         </Iterate.Array>
 

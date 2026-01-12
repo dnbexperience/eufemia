@@ -181,6 +181,7 @@ export const ArrayFromFormHandler = () => {
             <Iterate.Array
               path="/avengers"
               onChange={(value) => console.log('Iterate/onChange', value)}
+              animate
             >
               <Iterate.AnimatedContainer
                 title={
@@ -297,7 +298,7 @@ export const ViewAndEditContainer = () => {
                 <Form.MainHeading>Accounts</Form.MainHeading>
 
                 <Form.Card gap={false}>
-                  <Iterate.Array path="/accounts">
+                  <Iterate.Array path="/accounts" animate>
                     <MyViewItem />
                     <MyEditItem />
                   </Iterate.Array>
@@ -331,6 +332,7 @@ export const DynamicPathValue = () => {
                 ? value
                 : { myObject: index }
             }}
+            animate
           >
             <Field.Number itemPath="/myObject" label="Item no. {itemNo}" />
           </Iterate.Array>
