@@ -4563,7 +4563,6 @@ __metadata:
     gulp-clone: "npm:2.0.1"
     gulp-rename: "npm:2.0.0"
     gulp-transform: "npm:3.0.5"
-    history: "npm:5.1.0"
     jest: "npm:30.0.5"
     jest-axe: "npm:10.0.0"
     jest-environment-jsdom: "npm:30.0.5"
