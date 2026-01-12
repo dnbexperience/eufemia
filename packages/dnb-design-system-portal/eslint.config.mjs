@@ -5,6 +5,17 @@ const workspacesRecommended =
   workspacesPlugin.configs?.['flat/recommended'] || {}
 
 export default [
+  {
+    ignores: [
+      '!/*.js',
+      '**/tests/**/*.js',
+      '**/public/**',
+      '**/static/**',
+      '**/reports/**',
+      '**/node_modules/**',
+      '*not_in_use*',
+    ],
+  },
   ...eufemiaConfig,
   {
     ...workspacesRecommended,

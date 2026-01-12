@@ -29,6 +29,7 @@ const ignorePatterns = [
   '**/dist/**',
   '**/build/**',
   '**/assets/**',
+  '**/public/**',
   '**/.cache/**',
   '**/icons/**',
   '**/node_modules/**',
@@ -57,6 +58,11 @@ export default [
   ...basePlugins.extends('plugin:compat/recommended').map((config) => ({
     ...config,
     files: ['**/src/**/*.{js,jsx,ts,tsx}'],
+    settings: {
+      ...(config.settings || {}),
+      polyfills: [...(config.settings?.polyfills || []), 'Object.hasOwn'],
+      lintAllEsApis: true,
+    },
   })),
   {
     languageOptions: {

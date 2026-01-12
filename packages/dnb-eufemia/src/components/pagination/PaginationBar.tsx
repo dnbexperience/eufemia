@@ -322,6 +322,8 @@ export const useResizeObserver = (element) => {
           setSize('xx-large')
         }
       }
+
+      // eslint-disable-next-line compat/compat
       resizeObserver.current = new ResizeObserver((entries) => {
         handleSizeChange(entries[0].contentRect.width)
       })

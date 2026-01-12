@@ -216,7 +216,7 @@ export const TransformInAndOut = () => {
   return (
     <ComponentBox>
       {() => {
-        const transformOut = (internal, additionalArgs) => {
+        const transformOut = (internalArgs, additionalArgs) => {
           return {
             countryCode: additionalArgs?.iso,
             phoneNumber: additionalArgs?.phoneNumber,
@@ -224,10 +224,10 @@ export const TransformInAndOut = () => {
           }
         }
 
-        const transformIn = (external) => {
+        const transformIn = (externalArgs) => {
           return {
-            countryCode: external?.countryCodePrefix,
-            phoneNumber: external?.phoneNumber,
+            countryCode: externalArgs?.countryCodePrefix,
+            phoneNumber: externalArgs?.phoneNumber,
           }
         }
 

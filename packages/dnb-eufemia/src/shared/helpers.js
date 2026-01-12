@@ -343,8 +343,10 @@ export async function copyToClipboard(string) {
 
   let success
 
+  // eslint-disable-next-line compat/compat
   if (typeof navigator !== 'undefined' && navigator?.clipboard) {
     try {
+      // eslint-disable-next-line compat/compat
       await navigator.clipboard.writeText(String(string))
       success = true
       resetSelection()
