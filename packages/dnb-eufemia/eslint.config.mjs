@@ -54,10 +54,6 @@ export default [
     'plugin:react-hooks/recommended',
     'plugin:jsx-a11y/recommended'
   ),
-  // ...basePlugins.extends('plugin:compat/recommended').map((config) => ({
-  //   ...config,
-  //   files: ['**/src/**/*.{js,jsx,ts,tsx}'],
-  // })),
   {
     languageOptions: {
       parser: babelParser,
@@ -96,10 +92,23 @@ export default [
     rules: {
       ...securityRecommendedRules,
       'react-hooks/immutability': 'off',
+      'react-hooks/preserve-manual-memoization': 'off',
+      'react-hooks/purity': 'off',
       'react-hooks/refs': 'off',
       'react-hooks/set-state-in-effect': 'off',
+      'react-hooks/static-components': 'off',
       'react-hooks/use-memo': 'off',
       'react-hooks/globals': 'off',
+      'no-unused-vars': [
+        'error',
+        {
+          args: 'none',
+          ignoreRestSiblings: true,
+          varsIgnorePattern: '^_',
+          caughtErrors: 'none',
+          caughtErrorsIgnorePattern: '^_',
+        },
+      ],
       'react/react-in-jsx-scope': 'off',
       'import/namespace': 'off',
       'no-restricted-imports': [
@@ -181,7 +190,7 @@ export default [
   {
     files: ['**/scripts/**/*'],
     languageOptions: {
-      sourceType: 'script',
+      sourceType: 'module',
       globals: {
         ...esGlobals,
         ...nodeGlobals,
@@ -192,6 +201,16 @@ export default [
       'import/default': 'off',
       'import/no-named-as-default-member': 'off',
       'import/no-named-as-default': 'off',
+      'no-unused-vars': [
+        'error',
+        {
+          args: 'none',
+          ignoreRestSiblings: true,
+          varsIgnorePattern: '^_',
+          caughtErrors: 'none',
+          caughtErrorsIgnorePattern: '^_',
+        },
+      ],
     },
   },
   {
@@ -236,6 +255,10 @@ export default [
       ecmaVersion: 2020,
       sourceType: 'module',
       globals: {
+        ...esGlobals,
+        ...browserGlobals,
+        ...nodeGlobals,
+        ...jestGlobals,
         JSX: 'readonly',
       },
     },
@@ -244,12 +267,17 @@ export default [
     },
     rules: {
       'import/named': 'off',
-      'no-unused-vars': [
+      'no-unused-vars': 'off',
+      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-unused-expressions': 'off',
+      '@typescript-eslint/no-unused-vars': [
         'error',
         {
           args: 'none',
           ignoreRestSiblings: true,
           varsIgnorePattern: '^_',
+          caughtErrors: 'none',
+          caughtErrorsIgnorePattern: '^_',
         },
       ],
       'react/prop-types': 'off',
@@ -265,12 +293,16 @@ export default [
     plugins: {
       jest: jestPlugin,
     },
-    // rules: {
-    //   'compat/compat': 'off',
-    //   '@typescript-eslint/no-require-imports': 'off',
-    // },
     rules: {
       'compat/compat': 'off',
+      '@typescript-eslint/no-require-imports': 'off',
+    },
+  },
+  {
+    files: ['**/*.d.ts'],
+    rules: {
+      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-unused-vars': 'off',
     },
   },
 ]
