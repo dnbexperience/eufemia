@@ -34,12 +34,12 @@ export default {
   title: 'Eufemia/Components/GlobalStatus',
 }
 
+const LabelComponent = (): JSX.Element => {
+  return <>my label</>
+}
+
 export const ComponentAsLabel = () => {
   const [status, setStatus] = React.useState(null)
-
-  const Component = (): JSX.Element => {
-    return <>my label</>
-  }
 
   return (
     <>
@@ -60,20 +60,20 @@ export const ComponentAsLabel = () => {
 
         <Flex.Horizontal align="baseline">
           <Input
-            label={<Component />}
+            label={<LabelComponent />}
             status={status ? status + '1' : undefined}
           />
         </Flex.Horizontal>
         <Input
-          label={<Component />}
+          label={<LabelComponent />}
           status={status ? status + '2' : undefined}
         />
         <Autocomplete
-          label={<Component />}
+          label={<LabelComponent />}
           status={status ? status + '3' : undefined}
         />
         <DatePicker
-          label={<Component />}
+          label={<LabelComponent />}
           show_input
           status={status ? status + '4' : undefined}
         />
@@ -84,10 +84,6 @@ export const ComponentAsLabel = () => {
 
 export const CustomGlobalStatusMessage = () => {
   const [showStatus, setShowStatus] = React.useState<boolean>(false)
-
-  const Component = (): JSX.Element => {
-    return <>my label</>
-  }
 
   return (
     <>
@@ -105,7 +101,7 @@ export const CustomGlobalStatusMessage = () => {
 
         <Flex.Horizontal align="baseline">
           <Input
-            label={<Component />}
+            label={<LabelComponent />}
             status={showStatus ? 'Input status' : ''}
             globalStatus={{
               message: showStatus ? 'Input global status' : '',
@@ -113,18 +109,18 @@ export const CustomGlobalStatusMessage = () => {
           />
         </Flex.Horizontal>
         <Input
-          label={<Component />}
+          label={<LabelComponent />}
           status={showStatus ? 'Input status withough global' : ''}
         />
         <Autocomplete
-          label={<Component />}
+          label={<LabelComponent />}
           status={showStatus ? 'Autocomplete status' : ''}
           globalStatus={{
             message: showStatus ? 'Autocomplete global status' : '',
           }}
         />
         <DatePicker
-          label={<Component />}
+          label={<LabelComponent />}
           show_input
           status={showStatus ? 'DatePicker status' : ''}
           globalStatus={{
