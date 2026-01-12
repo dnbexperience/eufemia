@@ -81,7 +81,9 @@ type BadgeAndSpacingProps = BadgeProps &
   SpacingProps &
   Omit<React.HTMLProps<HTMLElement>, 'content' | 'label'>
 
-export const defaultProps = {
+type BadgeElemProps = BadgeAndSpacingProps & { context: ContextProps }
+
+export const defaultProps: BadgeAndSpacingProps = {
   label: null,
   className: null,
   skeleton: false,
@@ -123,9 +125,21 @@ function BadgeRoot({ children }: { children: React.ReactNode }) {
   return <span className="dnb-badge__root">{children}</span>
 }
 
-function BadgeElem(
-  props: BadgeAndSpacingProps & { context: ContextProps }
-) {
+/** Ensures props that only affect certain variants are reset to default */
+function propGuard(
+  fn: React.FC<BadgeElemProps>
+): React.FC<BadgeElemProps> {
+  return (props) => {
+    if (props.variant !== 'information') {
+      const { status, subtle } = defaultProps
+
+      return fn({ ...props, subtle, status })
+    }
+    return fn(props)
+  }
+}
+
+const BadgeElem = propGuard(function (props: BadgeElemProps) {
   const {
     label,
     className,
@@ -187,7 +201,7 @@ function BadgeElem(
       {content}
     </span>
   )
-}
+})
 
 Badge._supportsSpacingProps = true
 
