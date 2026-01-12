@@ -75,6 +75,10 @@ LINT_STAGED=1
 
 ## Dependency issues
 
+### ESLint compat patch
+
+- We patch `eslint-plugin-compat` to always report APIs, even inside `if` statements. The patch lives in `.yarn/patches/` and is referenced from `packages/dnb-eufemia/package.json` as `patch:eslint-plugin-compat@npm:*`. If you reinstall dependencies, keep the patch or reapply it with `yarn patch-commit`.
+
 ### Jest
 
 - jsdom [v21](https://github.com/jsdom/jsdom/releases/tag/21.0.0) changed `window`, `document`, `location`, and top properties of Window to be non-configurable, which made it impossible to mock `window.location` in Jest. While there are workarounds, we decided to use v20 instead of the latest (`"jest-environment-jsdom/jsdom": "20.0.3"`).

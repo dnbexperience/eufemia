@@ -54,6 +54,10 @@ export default [
     'plugin:react-hooks/recommended',
     'plugin:jsx-a11y/recommended'
   ),
+  ...basePlugins.extends('plugin:compat/recommended').map((config) => ({
+    ...config,
+    files: ['**/src/**/*.{js,jsx,ts,tsx}'],
+  })),
   {
     languageOptions: {
       parser: babelParser,
