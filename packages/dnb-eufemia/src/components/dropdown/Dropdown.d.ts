@@ -34,23 +34,23 @@ export interface DropdownProps {
   /**
    * change the size of the icon pragmatically.
    */
-  icon_size?: IconSize;
+  iconSize?: IconSize;
   /**
    * position of the icon inside the dropdown. Set to `left` or `right`. Defaults to `right`.
    */
-  icon_position?: ButtonIconPosition;
+  iconPosition?: ButtonIconPosition;
   /**
    * prepends the Form Label component. If no ID is provided, a random ID is created.
    */
   label?: React.ReactNode;
   /**
-   * use `label_direction="vertical"` to change the label layout direction. Defaults to `horizontal`.
+   * use `labelDirection="vertical"` to change the label layout direction. Defaults to `horizontal`.
    */
-  label_direction?: FormLabelLabelDirection;
+  labelDirection?: FormLabelLabelDirection;
   /**
    * use `true` to make the label only readable by screen readers.
    */
-  label_sr_only?: boolean;
+  labelSrOnly?: boolean;
   /**
    * text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.
    */
@@ -58,12 +58,12 @@ export interface DropdownProps {
   /**
    * defines the state of the status. It's two statuses `[error, info]`. Defaults to `error`.
    */
-  status_state?: FormStatusState;
+  statusState?: FormStatusState;
   /**
    * use an object to define additional FormStatus properties.
    */
-  status_props?: FormStatusProps;
-  status_no_animation?: boolean;
+  statusProps?: FormStatusProps;
+  statusNoAnimation?: boolean;
   /**
    * the [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status).
    */
@@ -77,21 +77,21 @@ export interface DropdownProps {
    */
   buttonRef?: React.Ref;
   /**
-   * same as `prevent_selection`, but the "selection area" (given title) will not be visible and the icon `more` (three dots) is used. Defaults to `false`.
+   * same as `preventSelection`, but the "selection area" (given title) will not be visible and the icon `more` (three dots) is used. Defaults to `false`.
    */
-  more_menu?: boolean;
+  moreMenu?: boolean;
   /**
-   * use `right` to change the options alignment direction. Makes only sense to use in combination with `prevent_selection` or `more_menu`. Defaults to `left`.
+   * use `right` to change the options alignment direction. Makes only sense to use in combination with `preventSelection` or `moreMenu`. Defaults to `left`.
    */
-  align_dropdown?: DropdownAlignDropdown;
+  alignDropdown?: DropdownAlignDropdown;
   /**
    * lets you provide a custom React element as the trigger HTML element.
    */
-  trigger_element?: DropdownTriggerElement;
+  triggerElement?: DropdownTriggerElement;
   /**
    * if set to `true`, the Dropdown will be opened when the users enter the trigger button with a focus action.
    */
-  open_on_focus?: boolean;
+  openOnFocus?: boolean;
   disabled?: boolean;
   /**
    * if set to `true`, then the dropdown will be 100% in available `width`.
@@ -105,8 +105,8 @@ export interface DropdownProps {
    * text describing the content of the Dropdown more than the label. You can also send in a React component, so it gets wrapped inside the Dropdown component.
    */
   suffix?: DrawerListSuffix;
-  on_show_focus?: (...args: any[]) => any;
-  on_hide_focus?: (...args: any[]) => any;
+  onShowFocus?: (...args: any[]) => any;
+  onHideFocus?: (...args: any[]) => any;
 }
 export type DropdownAllProps = DropdownProps &
   DrawerListProps &
@@ -120,6 +120,10 @@ export type DropdownAllProps = DropdownProps &
     | 'placeholder'
     | 'data'
     | 'children'
+    | 'onChange'
+    | 'onFocus'
+    | 'onSelect'
+    | 'onResize'
   >;
 export default class Dropdown extends React.Component<
   DropdownAllProps,

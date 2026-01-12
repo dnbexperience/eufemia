@@ -11,17 +11,17 @@ export const SkeletonProperties: PropertiesTableProps = {
     type: ['string', 'React.Element', 'function'],
     status: 'optional',
   },
-  no_animation: {
+  noAnimation: {
     doc: 'Use `true` to disable the animation.',
     type: 'boolean',
     status: 'optional',
   },
-  aria_busy: {
+  ariaBusy: {
     doc: 'Is used for screen reader text translation, defined in the translation files. You can set a custom text if needed.',
     type: 'string',
     status: 'optional',
   },
-  aria_ready: {
+  ariaReady: {
     doc: 'Is used for screen reader text translation, defined in the translation files. You can set a custom text if needed.',
     type: 'string',
     status: 'optional',

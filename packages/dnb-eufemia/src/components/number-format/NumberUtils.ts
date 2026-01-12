@@ -54,8 +54,6 @@ export interface formatOptionParams {
   compact?: boolean | 'short' | 'long'
   /** How many decimals */
   decimals?: number
-  /** @deprecated Use `rounding: "omit"` instead. */
-  omit_rounding?: boolean
   /**
    * Rounding method
    * - If set to `omit`, the decimal will NOT be rounded.
@@ -76,7 +74,7 @@ export interface formatOptionParams {
   /** Currency code (ISO 4217) or `true` to use the default, `NOK`. */
   currency?: string | boolean
   /** Intl.NumberFormat currency option – you can use false or empty string to hide the sign/name. Defaults to narrowSymbol when the locale is no else we default to code. */
-  currency_display?:
+  currencyDisplay?:
     | boolean
     | ''
     | 'code'
@@ -84,11 +82,11 @@ export interface formatOptionParams {
     | 'symbol'
     | 'narrowSymbol'
   /** currency option */
-  currency_position?: formatCurrencyPosition
+  currencyPosition?: formatCurrencyPosition
   /** hides the currency sign */
-  omit_currency_sign?: boolean
+  omitCurrencySign?: boolean
   /** will remove all extra signs, like a currency sign or percent sign for the cleanedValue return when returnAria is true */
-  clean_copy_value?: boolean
+  cleanCopyValue?: boolean
   /** Intl.NumberFormat options (NumberFormatOptions) */
   options?: object
   /** If an object should be returned, including the "aria" property */
@@ -122,11 +120,10 @@ const ABSENT_VALUE_FORMAT = '–'
  * @property {boolean} nin - if true, it formats to a National Identification Number
  * @property {boolean} percent - if true, it formats with a percent
  * @property {string|boolean} currency - currency code (ISO 4217) or `true` to use the default, `NOK`
- * @property {string} currency_display - use false or empty string to hide the sign or "code", "name", "symbol" or "narrowSymbol" – supports the API from number.toLocaleString
- * @property {string} currency_position - can be "before" or "after"
- * @property {string} omit_currency_sign - hides currency sign if true is given
+ * @property {string} currencyDisplay - use false or empty string to hide the sign or "code", "name", "symbol" or "narrowSymbol" – supports the API from number.toLocaleString
+ * @property {string} currencyPosition - can be "before" or "after"
+ * @property {string} omitCurrencySign - hides currency sign if true is given
  * @property {number} decimals - defines how many decimals should be added
- * @property {boolean} omit_rounding - deprecated Use `rounding: "omit"` instead.
  * @property {string} rounding - if `omit`, the decimal will NOT be rounded. If `half-even`, the value will be rounded to the nearest even number. If set to `half-up`, the fractional part is 0.5 or greater, the number is rounded up. If the fractional part is less than 0.5, the number is rounded down. Defaults to `half-up`.
  * @property {object} options - accepts all number.toLocaleString API options
  * @property {boolean} returnAria - if true, this function returns an object that includes an aria property with a special aria formatting
@@ -145,12 +142,11 @@ export const format = (
     nin = null,
     percent = null,
     currency = null,
-    currency_display = null,
-    currency_position = null,
-    omit_currency_sign = null,
-    clean_copy_value = null,
+    currencyDisplay = null,
+    currencyPosition = null,
+    omitCurrencySign = null,
+    cleanCopyValue = null,
     decimals = null,
-    omit_rounding = null, // @deprecated – can be removed in v11
     rounding = null,
     options = null,
     returnAria = false,
@@ -184,12 +180,7 @@ export const format = (
       : options) || {}
 
   if (parseFloat(decimals) >= 0) {
-    value = formatDecimals(
-      value,
-      decimals,
-      rounding ?? omit_rounding,
-      opts
-    )
+    value = formatDecimals(value, decimals, rounding, opts)
   } else if (
     typeof opts.maximumFractionDigits === 'undefined' &&
     !isTrue(percent) &&
@@ -233,12 +224,7 @@ export const format = (
       if (typeof opts.maximumFractionDigits === 'undefined') {
         decimals = countDecimals(value)
       }
-      value = formatDecimals(
-        value,
-        decimals,
-        rounding ?? omit_rounding,
-        opts
-      )
+      value = formatDecimals(value, decimals, rounding, opts)
     }
 
     if (!opts.style) {
@@ -256,26 +242,21 @@ export const format = (
 
     if (decimals === null) {
       decimals = 2
-      value = formatDecimals(
-        value,
-        decimals,
-        rounding ?? omit_rounding,
-        opts
-      )
+      value = formatDecimals(value, decimals, rounding, opts)
     }
 
     // cleanup, but only if it did not got cleaned up already
     const cleanedNumber =
       decimals >= 0 ? value : clean ? cleanNumber(value) : value
 
-    if (currency_display === false || currency_display === '') {
-      omit_currency_sign = true
+    if (currencyDisplay === false || currencyDisplay === '') {
+      omitCurrencySign = true
     }
 
     opts.style = 'currency'
     opts.currencyDisplay = getFallbackCurrencyDisplay(
       locale,
-      opts.currencyDisplay || currency_display
+      opts.currencyDisplay || currencyDisplay
     )
 
     // if currency has no decimal, then go ahead and remove it
@@ -289,7 +270,7 @@ export const format = (
 
     let formatter = undefined
 
-    if (isTrue(omit_currency_sign)) {
+    if (isTrue(omitCurrencySign)) {
       formatter = (item) => {
         switch (item.type) {
           case 'literal':
@@ -309,31 +290,31 @@ export const format = (
     /**
      * Make exception – if locale is Norwegian, and position is not defined, then use position "after"
      */
-    if (!currency_position && locale && /(no|nb|nn)$/i.test(locale)) {
-      currency_position = 'after'
+    if (!currencyPosition && locale && /(no|nb|nn)$/i.test(locale)) {
+      currencyPosition = 'after'
     }
 
     let currencySuffix = null
-    if (currency_position) {
+    if (currencyPosition) {
       formatter = currencyPositionFormatter(
         formatter,
         ({ value }) => {
           return (currencySuffix = alignCurrencySymbol(
             value.trim(),
-            currency_display
+            currencyDisplay
           ))
         },
-        currency_position
+        currencyPosition
       )
     }
 
     display = formatNumber(cleanedNumber, locale, opts, formatter)
     display = prepareMinus(display, locale)
 
-    if (currency_position && currencySuffix) {
-      if (currency_position === 'after') {
+    if (currencyPosition && currencySuffix) {
+      if (currencyPosition === 'after') {
         display = `${display.trim()} ${currencySuffix}`
-      } else if (currency_position === 'before') {
+      } else if (currencyPosition === 'before') {
         display = `${currencySuffix} ${display.trim()}`
       }
     }
@@ -369,7 +350,7 @@ export const format = (
   if (returnAria) {
     let cleanedValue
 
-    if (clean_copy_value) {
+    if (cleanCopyValue) {
       cleanedValue = formatNumber(
         opts.style === 'percent' ? value / 100 : value,
         locale,
@@ -398,7 +379,7 @@ export const format = (
     if (value === 'invalid') {
       aria =
         invalidAriaText ||
-        locales[locale]?.NumberFormat.not_available ||
+        locales[locale]?.NumberFormat.notAvailable ||
         'N/A'
     }
 

@@ -42,8 +42,7 @@ for (let i = 1; i <= 300; i++) {
 
 export const InfinitySandbox = () => {
   const props = {
-    current_page: 3,
-    // page_count: 30,
+    currentPage: 3,
   }
 
   const action = ({ pageNumber, setContent }) => {
@@ -60,8 +59,8 @@ export const InfinitySandbox = () => {
     <Pagination
       mode="infinity"
       {...props}
-      on_startup={action}
-      on_change={action}
+      onStartup={action}
+      onChange={action}
     />
   )
 }
@@ -69,17 +68,17 @@ export const InfinitySandbox = () => {
 export const PaginationNoChildren = () => (
   <Wrapper>
     <Pagination
-      page_count={10}
-      current_page={2}
-      on_change={(params) => {
+      pageCount={10}
+      currentPage={2}
+      onChange={(params) => {
         console.log(params)
       }}
     />
     <Box>
       <Pagination
-        page_count={10}
-        current_page={2}
-        on_change={(params) => {
+        pageCount={10}
+        currentPage={2}
+        onChange={(params) => {
           console.log(params)
         }}
         align="right"
@@ -87,9 +86,9 @@ export const PaginationNoChildren = () => (
     </Box>
     <Box>
       <Pagination
-        page_count={10}
-        current_page={2}
-        on_change={(params) => {
+        pageCount={10}
+        currentPage={2}
+        onChange={(params) => {
           console.log(params)
         }}
         align="left"
@@ -97,18 +96,18 @@ export const PaginationNoChildren = () => (
     </Box>
     <Box>
       <Pagination
-        page_count={10}
-        current_page={2}
-        on_change={(params) => {
+        pageCount={10}
+        currentPage={2}
+        onChange={(params) => {
           console.log(params)
         }}
         align="center"
       />
     </Box>
     <Pagination
-      page_count={3}
-      current_page={2}
-      on_change={(params) => {
+      pageCount={3}
+      currentPage={2}
+      onChange={(params) => {
         console.log(params)
       }}
     />
@@ -122,17 +121,16 @@ export const PaginationSandbox = () => (
     </Box>
     <Box>
       <Pagination
-        page_count={10}
-        current_page={2}
-        on_change={(params) => {
+        pageCount={10}
+        currentPage={2}
+        onChange={(params) => {
           console.log(params)
         }}
       />
     </Box>
     <Box>
-      <Pagination page_count={2}>
+      <Pagination pageCount={2}>
         {({ pageNumber, setContent }) => {
-          // simulate server communication delay
           const timeout = setTimeout(
             () => {
               setContent(pageNumber, <LargePage>{pageNumber}</LargePage>)
@@ -147,10 +145,10 @@ export const PaginationSandbox = () => (
 
     <Box>
       <Pagination
-        page_count={30}
-        startup_page={15}
-        on_change={(pageNumber) => {
-          console.log('on_change:', pageNumber)
+        pageCount={30}
+        startupPage={15}
+        onChange={(pageNumber) => {
+          console.log('onChange:', pageNumber)
         }}
       >
         {({ pageNumber }) => <P>Page {pageNumber}</P>}
@@ -160,8 +158,8 @@ export const PaginationSandbox = () => (
     <Box>
       <PaginationWithState
         align="center"
-        on_change={(pageNumber) => {
-          console.log('on_change:', pageNumber)
+        onChange={(pageNumber) => {
+          console.log('onChange:', pageNumber)
         }}
       >
         {(pageNumber) => (
@@ -172,7 +170,7 @@ export const PaginationSandbox = () => (
 
     <Box>
       <HeightLimit>
-        <InfinityPagination use_load_button startup_page={5}>
+        <InfinityPagination useLoadButton startupPage={5}>
           {(pageNumber, ref) => (
             <LargePage ref={ref} color="LightCoral">
               {pageNumber}
@@ -185,12 +183,12 @@ export const PaginationSandbox = () => (
     <Box>
       <HeightLimit>
         <InfinityPagination
-          indicator_element={() => (
+          indicatorElement={() => (
             <CustomIndicator>Loading ...</CustomIndicator>
           )}
-          startup_page={3}
-          page_count={10}
-          min_wait_time={0}
+          startupPage={3}
+          pageCount={10}
+          minWaitTime={0}
         >
           {(pageNumber, ref) => (
             <LargePage ref={ref} color="Indigo">
@@ -205,20 +203,18 @@ export const PaginationSandbox = () => (
       <HeightLimit>
         <Pagination
           mode="infinity"
-          startup_count={2}
-          // parallel_load_count={1}
-          // page_count={10} // the last one we fill with "End"
-          min_wait_time={0}
-          on_load={({ pageNumber, setContent, endInfinity }) => {
-            console.log('on_load: ', pageNumber)
+          startupCount={2}
+          minWaitTime={0}
+          onLoad={({ pageNumber, setContent, endInfinity }) => {
+            console.log('onLoad: ', pageNumber)
             if (pageNumber > 10) {
               endInfinity()
             } else {
               setContent(pageNumber, <LargePage>{pageNumber}</LargePage>)
             }
           }}
-          on_end={({ pageNumber, setContent }) => {
-            console.log('on_end: ', pageNumber)
+          onEnd={({ pageNumber, setContent }) => {
+            console.log('onEnd: ', pageNumber)
             setContent(
               pageNumber,
               <LargePage color="lightgreen">End</LargePage>
@@ -236,17 +232,11 @@ const HeightLimit = styled.div`
   background-color: var(--color-white);
   border: 4px solid blue;
 `
-
-// eslint-disable-next-line
 const PaginationWithState = ({ children, ...props }) => {
   const [currentPage, setCurrentPage] = React.useState(1)
-
-  // create our Pagination instance
   const [{ Pagination: PaginationInstance, setContent, resetContent }] =
     React.useState(createPagination)
   setContent(currentPage, children(currentPage))
-
-  // will reset the pagination
   if (currentPage === 30) {
     setTimeout(() => {
       resetContent()
@@ -257,15 +247,11 @@ const PaginationWithState = ({ children, ...props }) => {
   return (
     <PaginationInstance
       {...props}
-      page_count={30}
-      current_page={currentPage}
-      on_change={({ pageNumber }) => {
-        console.log('PaginationWithState on_change:', pageNumber)
+      pageCount={30}
+      currentPage={currentPage}
+      onChange={({ pageNumber }) => {
+        console.log('PaginationWithState onChange:', pageNumber)
         setCurrentPage(pageNumber)
-
-        // setTimeout(() => {
-        //   setContent(pageNumber, children(pageNumber))
-        // }, Math.ceil(Math.random() * 1e3))
       }}
     >
       {/* {({ pageNumber, setContent }) => {
@@ -276,15 +262,13 @@ const PaginationWithState = ({ children, ...props }) => {
     </PaginationInstance>
   )
 }
-
-// eslint-disable-next-line
 const InfinityPagination = ({ children, ...props }) => {
   return (
     <Pagination
       mode="infinity"
       {...props}
-      on_load={({ pageNumber, setContent }) => {
-        console.log('InfinityPagination on_load:', pageNumber)
+      onLoad={({ pageNumber, setContent }) => {
+        console.log('InfinityPagination onLoad:', pageNumber)
 
         setTimeout(
           () => {
@@ -293,8 +277,8 @@ const InfinityPagination = ({ children, ...props }) => {
           Math.ceil(Math.random() * 1e3)
         )
       }}
-      on_end={({ pageNumber, setContent }) => {
-        console.log('InfinityPagination on_end:', pageNumber)
+      onEnd={({ pageNumber, setContent }) => {
+        console.log('InfinityPagination onEnd:', pageNumber)
         setContent(pageNumber, <LargePage>End</LargePage>)
       }}
     >
@@ -316,31 +300,31 @@ function PaginationRender() {
   return (
     <Section>
       <Button
-        on_click={() => setCurrentPage(1)}
+        onClick={() => setCurrentPage(1)}
         text="Reset"
         bottom
         size="small"
         right
       />
       <Button
-        on_click={() => setCurrentPage((prevCount) => prevCount - 1)}
+        onClick={() => setCurrentPage((prevCount) => prevCount - 1)}
         text="Decrease"
         size="small"
         variant="secondary"
         right
       />
       <Button
-        on_click={() => setCurrentPage((prevCount) => prevCount + 1)}
+        onClick={() => setCurrentPage((prevCount) => prevCount + 1)}
         text="Increase"
         size="small"
         variant="secondary"
         right
       />
       <Pagination
-        page_count={pageCount}
-        startup_page={startupPage}
-        current_page={delayedCount}
-        on_change={({ pageNumber }) => {
+        pageCount={pageCount}
+        startupPage={startupPage}
+        currentPage={delayedCount}
+        onChange={({ pageNumber }) => {
           setCurrentPage(pageNumber)
         }}
       >
@@ -362,30 +346,30 @@ export function PaginationBarSpacing() {
           bottom: 'small small',
           left: 'x-small x-small small',
         }}
-        page_count={888}
-        current_page={4}
-        on_change={({ pageNumber }) => {
-          console.log('on_change:', pageNumber)
+        pageCount={888}
+        currentPage={4}
+        onChange={({ pageNumber }) => {
+          console.log('onChange:', pageNumber)
         }}
       />
       <Pagination
         barSpace={{
           left: 'xx-large',
         }}
-        page_count={888}
-        current_page={4}
-        on_change={({ pageNumber }) => {
-          console.log('on_change:', pageNumber)
+        pageCount={888}
+        currentPage={4}
+        onChange={({ pageNumber }) => {
+          console.log('onChange:', pageNumber)
         }}
       />
       <Pagination
         barSpace={{
           left: true,
         }}
-        page_count={888}
-        current_page={4}
-        on_change={({ pageNumber }) => {
-          console.log('on_change:', pageNumber)
+        pageCount={888}
+        currentPage={4}
+        onChange={({ pageNumber }) => {
+          console.log('onChange:', pageNumber)
         }}
       />
     </Section>

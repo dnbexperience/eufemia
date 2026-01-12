@@ -252,23 +252,23 @@ function SelectCurrency(props: Props) {
       <Autocomplete
         id={id}
         placeholder={placeholder}
-        input_icon={false}
+        inputIcon={false}
         data={dataRef.current}
         value={typeof value === 'string' ? value : null}
         disabled={disabled}
         size={size}
-        on_show={fillData}
-        on_focus={onFocusHandler}
-        on_blur={handleBlur}
-        on_change={handleCurrencyChange}
-        on_type={onTypeHandler}
+        onShow={fillData}
+        onFocus={onFocusHandler}
+        onBlur={handleBlur}
+        onChange={handleCurrencyChange}
+        onType={onTypeHandler}
         stretch
         selectall
         status={hasError ? 'error' : undefined}
-        show_submit_button
-        keep_selection
+        showSubmitButton
+        keepSelection
         autoComplete={autoComplete}
-        no_animation={noAnimation}
+        noAnimation={noAnimation}
         {...htmlAttributes}
       />
     </FieldBlock>
@@ -285,7 +285,7 @@ type GetCurrencyData = {
     lang: string
   ) => {
     selectedKey: string
-    selected_value: string
+    selectedValue: string
     content: string[]
   }
 }
@@ -298,13 +298,13 @@ export function getCurrencyData({
   makeObject = (currency: CurrencyType, lang: string) => {
     const translation = currency.i18n[lang] ?? currency.i18n.en
     const content = [translation, currency.iso]
-    const search_content = enableSearch
+    const searchContent = enableSearch
       ? [translation, currency.iso, ...(currency.search?.[lang] || [])]
       : undefined
     return {
       selectedKey: currency.iso,
-      selected_value: `${translation} (${currency.iso})`,
-      search_content, // will be used for searching
+      selectedValue: `${translation} (${currency.iso})`,
+      searchContent, // will be used for searching
       content,
     }
   },

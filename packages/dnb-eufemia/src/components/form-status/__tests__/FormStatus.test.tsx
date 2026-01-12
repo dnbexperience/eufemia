@@ -42,7 +42,7 @@ describe('FormStatus component', () => {
   })
 
   it('should have correct icon label', () => {
-    render(<Input status="Error message" status_state="error" />)
+    render(<Input status="Error message" statusState="error" />)
     expect(
       document.querySelector('[role="presentation"]')
     ).toHaveAttribute('data-testid', 'ErrorIcon icon')
@@ -63,7 +63,7 @@ describe('FormStatus component', () => {
     rerender(
       <Input
         status="status message"
-        status_props={{ text: 'change width to 35rem' }}
+        statusProps={{ text: 'change width to 35rem' }}
         style={{ width: '35rem' }}
       />
     )
@@ -75,7 +75,7 @@ describe('FormStatus component', () => {
     rerender(
       <Input
         status="status message"
-        status_props={{ text: 'change width to 40rem' }}
+        statusProps={{ text: 'change width to 40rem' }}
         style={{ width: '40rem' }}
       />
     )
@@ -87,7 +87,7 @@ describe('FormStatus component', () => {
     rerender(
       <Input
         status="status message"
-        status_props={{ text: 'change width to 10rem' }}
+        statusProps={{ text: 'change width to 10rem' }}
         style={{ width: '10rem' }}
       />
     )
@@ -114,7 +114,7 @@ describe('FormStatus component', () => {
     render(
       <Input
         status="status message"
-        status_props={{
+        statusProps={{
           variant: 'outlined',
         }}
       />
@@ -334,20 +334,18 @@ describe('FormStatus component', () => {
 
   it('cache content and update it', () => {
     const { rerender } = render(
-      <FormStatus {...props} no_animation={false} />
+      <FormStatus {...props} noAnimation={false} />
     )
 
     const element = document.querySelector('.dnb-form-status__text')
 
     expect(element).toHaveTextContent(String(props.text))
 
-    rerender(
-      <FormStatus {...props} no_animation={false} text="new text" />
-    )
+    rerender(<FormStatus {...props} noAnimation={false} text="new text" />)
 
     expect(element).toHaveTextContent('new text')
 
-    rerender(<FormStatus {...props} no_animation={false} text="" />)
+    rerender(<FormStatus {...props} noAnimation={false} text="" />)
 
     expect(element).toHaveTextContent('new text')
 
@@ -358,19 +356,19 @@ describe('FormStatus component', () => {
 
   it('cache state and update it', () => {
     const { rerender } = render(
-      <FormStatus {...props} no_animation={false} state="info" />
+      <FormStatus {...props} noAnimation={false} state="info" />
     )
 
     const element = document.querySelector('.dnb-form-status')
 
     expect(element).toHaveClass('dnb-form-status--info')
 
-    rerender(<FormStatus {...props} no_animation={false} state="error" />)
+    rerender(<FormStatus {...props} noAnimation={false} state="error" />)
 
     expect(element).toHaveClass('dnb-form-status--error')
 
     rerender(
-      <FormStatus {...props} no_animation={false} text="" state="" />
+      <FormStatus {...props} noAnimation={false} text="" state="" />
     )
 
     expect(element).toHaveClass('dnb-form-status--error')

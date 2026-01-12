@@ -38,36 +38,6 @@ describe('Slider component', () => {
   const getRangeElement = (index: number) =>
     document.querySelectorAll('[type="range"]')[index] as HTMLInputElement
 
-  it('supports snake_case props', () => {
-    const props: SliderAllProps = {
-      id: 'slider',
-      label: 'Label',
-      label_direction: 'vertical',
-      value: 70,
-      number_format: { currency: true, decimals: 0 },
-      on_change: jest.fn(),
-    }
-
-    render(<Slider {...props} />)
-
-    simulateMouseMove({ pageX: 80, width: 100, height: 10 })
-
-    const value = props.value as number
-    expect(parseFloat(getButtonHelper().value)).toBe(value + 10)
-
-    expect(props.on_change).toHaveBeenCalledTimes(1)
-
-    expect(
-      Array.from(document.querySelector('.dnb-form-label').classList)
-    ).toEqual(expect.arrayContaining(['dnb-form-label--vertical']))
-
-    expect(
-      document
-        .querySelector('.dnb-slider__button-helper')
-        .getAttribute('aria-valuetext')
-    ).toBe('80 kroner')
-  })
-
   it('should support spacing props', () => {
     render(<Slider {...props} top="2rem" />)
 
@@ -965,7 +935,7 @@ describe('Slider component', () => {
 
     it('should inherit formElement vertical label', () => {
       render(
-        <Provider formElement={{ label_direction: 'vertical' }}>
+        <Provider formElement={{ labelDirection: 'vertical' }}>
           <SliderWithStateUpdate label="Label" />
         </Provider>
       )

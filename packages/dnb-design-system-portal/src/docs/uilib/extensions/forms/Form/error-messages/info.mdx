@@ -64,9 +64,6 @@ const myValidator = (value) => {
 // Other options to reuse error messages, without using "FormError".
 const myValidatorAlt = (value, { errorMessages }) => {
   return new Error(errorMessages['Field.errorRequired'])
-
-  // Deprecated
-  return new Error(errorMessages.required)
 }
 
 render(<Field.String onBlurValidator={myValidator} />)
