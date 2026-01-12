@@ -192,7 +192,7 @@
     "@typescript-eslint/parser": "8.52.0",
     "audit-ci": "6.6.1",
     "babel-jest": "30.2.0",
-    "babel-plugin-fully-specified": "1.3.0",
+    "babel-plugin-fully-specified": "1.3.1",
     "babel-plugin-optimize-clsx": "2.6.2",
     "babel-plugin-polyfill-corejs3": "0.13.0",
     "babel-plugin-search-and-replace": "1.1.1",
