@@ -4586,7 +4586,6 @@ __metadata:
     postcss-selector-parser: "npm:7.1.0"
     prettier: "npm:3.0.3"
     prettier-package-json: "npm:2.8.0"
-    process: "npm:0.11.10"
     prop-types: "npm:15.8.1"
     react: "npm:18.2.0"
     react-dom: "npm:18.2.0"
