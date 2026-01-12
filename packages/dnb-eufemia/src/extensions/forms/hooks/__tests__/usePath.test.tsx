@@ -13,7 +13,9 @@ describe('usePath', () => {
           path: 'withoutSlash',
         })
       )
-    }).toThrow('path="withoutSlash" must start with a slash')
+    }).toThrow(
+      'path="withoutSlash" must start with "/" or use "//" or "../"'
+    )
 
     log.mockRestore()
   })
@@ -43,62 +45,113 @@ describe('usePath', () => {
     expect(result.current.path).toBe(`${sectionPath}${path}`)
   })
 
-  it('should access root data when path starts with //', () => {
-    const sectionPath = '/sectionPath'
-    const path = '//rootPath'
-    const { result } = renderHook(() => usePath({ path }), {
-      wrapper: ({ children }) => (
-        <Form.Section path={sectionPath}>{children}</Form.Section>
-      ),
+  describe('root paths with //', () => {
+    it('should access root data when path starts with //', () => {
+      const sectionPath = '/sectionPath'
+      const path = '//rootPath'
+      const { result } = renderHook(() => usePath({ path }), {
+        wrapper: ({ children }) => (
+          <Form.Section path={sectionPath}>{children}</Form.Section>
+        ),
+      })
+      expect(result.current.path).toBe('/rootPath')
     })
-    expect(result.current.path).toBe('/rootPath')
+
+    it('should access root data with // in nested sections', () => {
+      const outerSectionPath = '/outer'
+      const innerSectionPath = '/inner'
+      const path = '//rootPath'
+      const { result } = renderHook(() => usePath({ path }), {
+        wrapper: ({ children }) => (
+          <Form.Section path={outerSectionPath}>
+            <Form.Section path={innerSectionPath}>{children}</Form.Section>
+          </Form.Section>
+        ),
+      })
+      expect(result.current.path).toBe('/rootPath')
+    })
+
+    it('should handle // with root path', () => {
+      const sectionPath = '/sectionPath'
+      const path = '//'
+      const { result } = renderHook(() => usePath({ path }), {
+        wrapper: ({ children }) => (
+          <Form.Section path={sectionPath}>{children}</Form.Section>
+        ),
+      })
+      expect(result.current.path).toBe('/')
+    })
+
+    it('should handle // with nested paths', () => {
+      const sectionPath = '/user/address'
+      const path = '//profile/name'
+      const { result } = renderHook(() => usePath({ path }), {
+        wrapper: ({ children }) => (
+          <Form.Section path={sectionPath}>{children}</Form.Section>
+        ),
+      })
+      expect(result.current.path).toBe('/profile/name')
+    })
+
+    it('should reset section context when nested section path starts with //', () => {
+      const { result } = renderHook(() => usePath({ path: '/field' }), {
+        wrapper: ({ children }) => (
+          <Form.Section path="/outer">
+            <Form.Section path="//global">{children}</Form.Section>
+          </Form.Section>
+        ),
+      })
+      expect(result.current.path).toBe('/global/field')
+    })
   })
 
-  it('should access root data with // in nested sections', () => {
-    const outerSectionPath = '/outer'
-    const innerSectionPath = '/inner'
-    const path = '//rootPath'
-    const { result } = renderHook(() => usePath({ path }), {
-      wrapper: ({ children }) => (
-        <Form.Section path={outerSectionPath}>
-          <Form.Section path={innerSectionPath}>{children}</Form.Section>
-        </Form.Section>
-      ),
+  describe('parent relative paths with ../', () => {
+    it('should resolve ../ to the parent section path', () => {
+      const { result } = renderHook(
+        () => usePath({ path: '../sibling' }),
+        {
+          wrapper: ({ children }) => (
+            <Form.Section path="/parent">
+              <Form.Section path="/child">{children}</Form.Section>
+            </Form.Section>
+          ),
+        }
+      )
+      expect(result.current.path).toBe('/parent/sibling')
     })
-    expect(result.current.path).toBe('/rootPath')
-  })
 
-  it('should handle // with root path', () => {
-    const sectionPath = '/sectionPath'
-    const path = '//'
-    const { result } = renderHook(() => usePath({ path }), {
-      wrapper: ({ children }) => (
-        <Form.Section path={sectionPath}>{children}</Form.Section>
-      ),
+    it('should support multiple ../ segments in nested sections', () => {
+      const { result } = renderHook(
+        () => usePath({ path: '../../rootField' }),
+        {
+          wrapper: ({ children }) => (
+            <Form.Section path="/level-one">
+              <Form.Section path="/level-two">
+                <Form.Section path="/level-three">{children}</Form.Section>
+              </Form.Section>
+            </Form.Section>
+          ),
+        }
+      )
+      expect(result.current.path).toBe('/level-one/rootField')
     })
-    expect(result.current.path).toBe('/')
-  })
 
-  it('should handle // with nested paths', () => {
-    const sectionPath = '/user/address'
-    const path = '//profile/name'
-    const { result } = renderHook(() => usePath({ path }), {
-      wrapper: ({ children }) => (
-        <Form.Section path={sectionPath}>{children}</Form.Section>
-      ),
+    it('should clamp when traversing beyond root with ../', () => {
+      const { result } = renderHook(
+        () => usePath({ path: '../../field' }),
+        {
+          wrapper: ({ children }) => (
+            <Form.Section path="/only-level">{children}</Form.Section>
+          ),
+        }
+      )
+      expect(result.current.path).toBe('/field')
     })
-    expect(result.current.path).toBe('/profile/name')
-  })
 
-  it('should reset section context when nested section path starts with //', () => {
-    const { result } = renderHook(() => usePath({ path: '/field' }), {
-      wrapper: ({ children }) => (
-        <Form.Section path="/outer">
-          <Form.Section path="//global">{children}</Form.Section>
-        </Form.Section>
-      ),
+    it('should resolve ../ even without section context', () => {
+      const { result } = renderHook(() => usePath({ path: '../topLevel' }))
+      expect(result.current.path).toBe('/topLevel')
     })
-    expect(result.current.path).toBe('/global/field')
   })
 
   it('joinPath', () => {
