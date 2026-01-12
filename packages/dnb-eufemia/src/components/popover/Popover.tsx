@@ -109,10 +109,7 @@ export default function Popover(props: PopoverProps) {
   const showDelay = showDelayProp ?? 0
   const hideDelay = hideDelayProp ?? 0
 
-  const hasExplicitTargetElement = Object.prototype.hasOwnProperty.call(
-    props,
-    'targetElement'
-  )
+  const hasExplicitTargetElement = Object.hasOwn(props, 'targetElement')
 
   const shouldRenderTrigger =
     !hasExplicitTargetElement && typeof targetSelector !== 'string'
@@ -786,10 +783,7 @@ export function getRefElement(
     element = getRefElement(unknownTarget.current._ref)
   }
 
-  if (
-    element &&
-    Object.prototype.hasOwnProperty.call(element, 'current')
-  ) {
+  if (element && Object.hasOwn(element, 'current')) {
     element = (element as React.RefObject<HTMLElement>).current
   }
 

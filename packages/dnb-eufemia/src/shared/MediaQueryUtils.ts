@@ -389,7 +389,7 @@ function getValueByFeature(
   types: MediaQueryBreakpoints = null
 ) {
   types = types || defaultBreakpoints
-  if (Object.prototype.hasOwnProperty.call(types, value)) {
+  if (Object.hasOwn(types, value)) {
     value = types[value]
   }
   return value

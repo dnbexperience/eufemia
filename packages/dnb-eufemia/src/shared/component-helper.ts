@@ -178,7 +178,7 @@ export function extendDeep(target = {}, ...sources) {
       for (const key in source) {
         // Prototype-polluting checks etc.
         if (key === '__proto__' || key === 'constructor') continue
-        if (!Object.prototype.hasOwnProperty.call(source, key)) continue
+        if (!Object.hasOwn(source, key)) continue
         if (!isObject(target)) continue
 
         if (isObject(source[key])) {

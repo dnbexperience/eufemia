@@ -114,7 +114,7 @@ export const findAll = (
       }
       objToReturn.push(tree)
     }
-    if (Object.prototype.hasOwnProperty.call(tree, childrenKey)) {
+    if (Object.hasOwn(tree, childrenKey)) {
       for (let n of tree[childrenKey]) {
         innerFunc(n, childrenKey, objToFindBy, objToIgnoreBy)
       }

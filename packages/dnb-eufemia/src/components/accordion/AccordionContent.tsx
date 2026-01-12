@@ -127,10 +127,7 @@ export default function AccordionContent(props: AccordionContentProps) {
   }, [children, expanded, single_container])
 
   React.useState(() => {
-    if (
-      instance &&
-      Object.prototype.hasOwnProperty.call(instance, 'current')
-    ) {
+    if (instance && Object.hasOwn(instance, 'current')) {
       instance.current = { setContainerHeight }
     }
   })

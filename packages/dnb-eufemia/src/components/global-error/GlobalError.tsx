@@ -165,10 +165,7 @@ export default function GlobalError(localProps: GlobalErrorAllProps) {
   const additionalContent = processChildren(allProps)
 
   // deprecated – Replaced with errorMessageCode, code and the line below can be removed in v11.
-  const userProvidedCodeValue = Object.prototype.hasOwnProperty.call(
-    localProps,
-    'code'
-  )
+  const userProvidedCodeValue = Object.hasOwn(localProps, 'code')
 
   return (
     <Skeleton {...params} show={skeleton} element="section">

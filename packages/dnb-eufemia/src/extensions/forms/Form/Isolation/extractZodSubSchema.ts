@@ -21,7 +21,7 @@ export function extractZodSubSchema(
 
     if (cur instanceof z.ZodObject) {
       const shape = cur.shape
-      if (!Object.prototype.hasOwnProperty.call(shape, part)) {
+      if (!Object.hasOwn(shape, part)) {
         throw new Error(`Key '${part}' not found in object shape`)
       }
       cur = shape[part as keyof typeof shape] as z.ZodTypeAny
