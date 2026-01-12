@@ -4542,7 +4542,6 @@ __metadata:
     current-git-branch: "npm:1.1.0"
     date-fns: "npm:4.1.0"
     del: "npm:6.0.0"
-    detect-port: "npm:1.3.0"
     dnb-design-system-portal: "workspace:*"
     dotenv: "npm:10.0.0"
     dotenv-cli: "npm:4.1.0"
@@ -15943,19 +15942,6 @@ __metadata:
     detect: ./bin/detect-port
     detect-port: ./bin/detect-port
   checksum: 10/35c9f9c69d12d2ca43d093f4f02d7763b47673910749bd12e6fedeb0ab5c546d27ab8e6425a9cbc65edd408490241390a8e680e8ec7e13940e84754ad81d632e
-  languageName: node
-  linkType: hard
-
-"detect-port@npm:1.3.0":
-  version: 1.3.0
-  resolution: "detect-port@npm:1.3.0"
-  dependencies:
-    address: "npm:^1.0.1"
-    debug: "npm:^2.6.0"
-  bin:
-    detect: ./bin/detect-port
-    detect-port: ./bin/detect-port
-  checksum: 10/5fe1de092f932560e722aff3130f856cd467476c88836a90938a0785305b7d54fc74bba21dfc5b7201bf6bb705884ba3d56c821ae95078ccc5bfdc2c0c2daa40
   languageName: node
   linkType: hard
 
