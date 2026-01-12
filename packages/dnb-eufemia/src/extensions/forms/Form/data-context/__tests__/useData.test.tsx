@@ -1677,4 +1677,144 @@ describe('Form.useData', () => {
       })
     })
   })
+
+  describe('data and defaultData', () => {
+    it('should set data to be defaultData when no data is provided', () => {
+      let collectData = null
+
+      const MockComponent = () => {
+        const { data } = Form.useData()
+        collectData = data
+        return null
+      }
+
+      render(
+        <Form.Handler defaultData={{ foo: 'bar' }}>
+          <Field.String path="/foo" />
+          <MockComponent />
+        </Form.Handler>
+      )
+
+      expect(collectData).toEqual({ foo: 'bar' })
+    })
+
+    it('should not override data when providing defaultData', () => {
+      let collectData = null
+
+      const MockComponent = () => {
+        const { data } = Form.useData()
+        collectData = data
+        return null
+      }
+
+      render(
+        <Form.Handler data={{ foo: 'bar' }} defaultData={{ foo: 'foo' }}>
+          <Field.String path="/foo" />
+          <MockComponent />
+        </Form.Handler>
+      )
+
+      expect(collectData).toEqual({ foo: 'bar' })
+    })
+
+    describe('Without StrictMode', () => {
+      it('should return data when id is used', () => {
+        let rerendered = 0
+        let collectData = null
+
+        const MockComponent = () => {
+          const { data } = Form.useData(identifier)
+          collectData = data
+          rerendered += 1
+
+          return (
+            <Form.Handler data={{ foo: 'bar' }} id={identifier}>
+              <Field.String path="/foo" />
+            </Form.Handler>
+          )
+        }
+
+        render(<MockComponent />)
+
+        expect(collectData).toEqual({ foo: 'bar' })
+        expect(rerendered).toBe(2)
+      })
+
+      it('should set data to be defaultData when no data is provided and id is used', () => {
+        let rerendered = 0
+        let collectData = null
+
+        const MockComponent = () => {
+          const { data } = Form.useData(identifier)
+          collectData = data
+          rerendered += 1
+
+          return (
+            <Form.Handler defaultData={{ foo: 'bar' }} id={identifier}>
+              <Field.String path="/foo" />
+            </Form.Handler>
+          )
+        }
+
+        render(<MockComponent />)
+
+        expect(collectData).toEqual({ foo: 'bar' })
+        expect(rerendered).toBe(2)
+      })
+    })
+
+    describe('StrictMode', () => {
+      it('should return data when id is used', () => {
+        let rerendered = 0
+        let collectData = null
+
+        const MockComponent = () => {
+          const { data } = Form.useData(identifier)
+          collectData = data
+          rerendered += 1
+
+          return (
+            <Form.Handler data={{ foo: 'bar' }} id={identifier}>
+              <Field.String path="/foo" />
+            </Form.Handler>
+          )
+        }
+
+        render(
+          <React.StrictMode>
+            <MockComponent />
+          </React.StrictMode>
+        )
+
+        expect(collectData).toEqual({ foo: 'bar' })
+        expect(rerendered).toBe(4)
+      })
+
+      it('should set data to be defaultData when no data is provided and id is used', () => {
+        let rerendered = 0
+        let collectData = null
+
+        const MockComponent = () => {
+          const { data } = Form.useData(identifier)
+          collectData = data
+          rerendered += 1
+
+          return (
+            <Form.Handler defaultData={{ foo: 'bar' }} id={identifier}>
+              <Field.String path="/foo" />
+            </Form.Handler>
+          )
+        }
+
+        render(
+          <React.StrictMode>
+            <MockComponent />
+          </React.StrictMode>
+        )
+
+        expect(collectData).toEqual({ foo: 'bar' })
+        expect(rerendered).toBe(4)
+      })
+    })
+  })
 })

@@ -177,7 +177,7 @@ describe('Field.Expiry', () => {
       year: '24',
       month: '12',
     })
-    expect(transformIn).toHaveBeenCalledTimes(6)
+    expect(transformIn).toHaveBeenCalledTimes(7)
     expect(transformIn).toHaveBeenLastCalledWith({
       year: '24',
       month: '12',

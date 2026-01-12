@@ -572,7 +572,7 @@ describe('Field.SelectCountry', () => {
     }
 
     expect(transformOut).toHaveBeenCalledTimes(0)
-    expect(transformIn).toHaveBeenCalledTimes(1)
+    expect(transformIn).toHaveBeenCalledTimes(2)
     expect(valueTransformIn).toHaveBeenCalledTimes(1)
 
     const firstItemElement = () =>
@@ -590,7 +590,7 @@ describe('Field.SelectCountry', () => {
     )
 
     expect(transformOut).toHaveBeenCalledTimes(0)
-    expect(transformIn).toHaveBeenCalledTimes(2)
+    expect(transformIn).toHaveBeenCalledTimes(3)
     expect(valueTransformIn).toHaveBeenCalledTimes(2)
 
     expect(input).toHaveValue('Norge')
@@ -606,7 +606,7 @@ describe('Field.SelectCountry', () => {
     expect(value).toHaveTextContent('Sveits')
 
     expect(transformOut).toHaveBeenCalledTimes(3)
-    expect(transformIn).toHaveBeenCalledTimes(4)
+    expect(transformIn).toHaveBeenCalledTimes(5)
     expect(valueTransformIn).toHaveBeenCalledTimes(3)
 
     fireEvent.submit(form)
@@ -617,7 +617,7 @@ describe('Field.SelectCountry', () => {
     )
 
     expect(transformOut).toHaveBeenCalledTimes(3)
-    expect(transformIn).toHaveBeenCalledTimes(5)
+    expect(transformIn).toHaveBeenCalledTimes(6)
     expect(valueTransformIn).toHaveBeenCalledTimes(4)
 
     expect(transformOut).toHaveBeenNthCalledWith(1, 'NO', NO)
@@ -627,8 +627,9 @@ describe('Field.SelectCountry', () => {
     expect(transformIn).toHaveBeenNthCalledWith(1, 'Norge (NO)')
     expect(transformIn).toHaveBeenNthCalledWith(2, 'Norge (NO)')
     expect(transformIn).toHaveBeenNthCalledWith(3, 'Norge (NO)')
-    expect(transformIn).toHaveBeenNthCalledWith(4, 'Sveits (CH)')
+    expect(transformIn).toHaveBeenNthCalledWith(4, 'Norge (NO)')
     expect(transformIn).toHaveBeenNthCalledWith(5, 'Sveits (CH)')
+    expect(transformIn).toHaveBeenNthCalledWith(6, 'Sveits (CH)')
 
     expect(valueTransformIn).toHaveBeenNthCalledWith(1, 'Norge (NO)')
     expect(valueTransformIn).toHaveBeenNthCalledWith(2, 'Norge (NO)')
