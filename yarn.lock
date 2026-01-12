@@ -4530,7 +4530,6 @@ __metadata:
     babel-plugin-search-and-replace: "npm:1.1.1"
     babel-plugin-transform-next-use-client: "npm:1.1.1"
     babel-plugin-transform-react-remove-prop-types: "npm:0.4.24"
-    browserslist: "npm:4.21.4"
     camelcase: "npm:6.2.0"
     chalk: "npm:4.1.2"
     classnames: "npm:2.5.1"
