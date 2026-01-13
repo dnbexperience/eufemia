@@ -1495,7 +1495,23 @@ describe('Field.Upload', () => {
         ).not.toBeInTheDocument()
       })
 
-      expect(onChange).toHaveBeenCalledTimes(1)
+      // onChange is called twice: once with loading state, once when complete
+      expect(onChange).toHaveBeenCalledTimes(2)
+
+      // First call has isLoading: true
+      expect(onChange).toHaveBeenNthCalledWith(
+        1,
+        [
+          expect.objectContaining({
+            file: file,
+            isLoading: true,
+            name: 'fileName-1.png',
+          }),
+        ],
+        expect.anything()
+      )
+
+      // Final call has resolved file
       expect(onChange).toHaveBeenLastCalledWith(
         [
           {
@@ -2326,6 +2342,108 @@ describe('Field.Upload', () => {
     expect(file2Input).toHaveTextContent('fileName-2.png')
   })
 
+  it('should support async fileHandler in Iterate.Array', async () => {
+    let resolveFileHandler1: ((value: UploadValue) => void) | undefined
+    let resolveFileHandler2: ((value: UploadValue) => void) | undefined
+
+    const file1 = createMockFile('new-file-1.png', 100, 'image/png')
+    const file2 = createMockFile('new-file-2.png', 100, 'image/png')
+    const errorFile1 = createMockFile(
+      'error-file-1.png',
+      5 * BYTES_IN_A_MEGA_BYTE + 1, // exceeds the default fileMaxSize
+      'image/png'
+    )
+    const errorFile2 = createMockFile(
+      'error-file-2.png',
+      5 * BYTES_IN_A_MEGA_BYTE + 1, // exceeds the default fileMaxSize
+      'image/png'
+    )
+
+    const asyncFileHandler1 = jest.fn(
+      () =>
+        new Promise<UploadValue>((resolve) => {
+          resolveFileHandler1 = resolve
+        })
+    )
+
+    const asyncFileHandler2 = jest.fn(
+      () =>
+        new Promise<UploadValue>((resolve) => {
+          resolveFileHandler2 = resolve
+        })
+    )
+
+    const FileHandlerWrapper = ({ id }: { id: number }) => {
+      const handler = id === 0 ? asyncFileHandler1 : asyncFileHandler2
+      return <Field.Upload itemPath="/myFiles" fileHandler={handler} />
+    }
+
+    render(
+      <Form.Handler>
+        <Iterate.Array
+          value={[
+            {
+              myFiles: undefined,
+            },
+            {
+              myFiles: undefined,
+            },
+          ]}
+        >
+          {(elementValue, index) => <FileHandlerWrapper id={index} />}
+        </Iterate.Array>
+      </Form.Handler>
+    )
+
+    fireEvent.drop(document.querySelectorAll('input')[0], {
+      dataTransfer: {
+        files: [file1],
+      },
+    })
+
+    fireEvent.drop(document.querySelectorAll('input')[0], {
+      dataTransfer: {
+        files: [errorFile1],
+      },
+    })
+
+    fireEvent.drop(document.querySelectorAll('input')[1], {
+      dataTransfer: {
+        files: [file2],
+      },
+    })
+
+    fireEvent.drop(document.querySelectorAll('input')[1], {
+      dataTransfer: {
+        files: [errorFile2],
+      },
+    })
+
+    resolveFileHandler1([
+      {
+        file: file1,
+        id: 'server-id-1',
+        exists: false,
+      },
+    ])
+    await new Promise((resolve) => setTimeout(resolve, 50))
+
+    resolveFileHandler2([
+      {
+        file: file2,
+        id: 'server-id-2',
+        exists: false,
+      },
+    ])
+
+    await waitFor(() => {
+      expect(screen.queryByText('new-file-1.png')).toBeInTheDocument()
+      expect(screen.queryByText('error-file-1.png')).toBeInTheDocument()
+      expect(screen.queryByText('new-file-2.png')).toBeInTheDocument()
+      expect(screen.queryByText('error-file-2.png')).toBeInTheDocument()
+    })
+  })
+
   describe('transformIn and transformOut', () => {
     type DocumentMetadata = {
       id: string
@@ -2526,6 +2644,426 @@ describe('Field.Upload', () => {
           },
         ],
       })
+    })
+  })
+
+  describe('syncExternalValue', () => {
+    it('should skip echo updates (our own updates coming back)', async () => {
+      const onChange = jest.fn()
+      const { rerender } = render(
+        <Field.Upload
+          value={[
+            {
+              file: createMockFile('file-1.png', 100, 'image/png'),
+              id: 'file-1',
+            },
+          ]}
+          onChange={onChange}
+        />
+      )
+
+      // User adds a file
+      const element = getRootElement()
+      const file2 = createMockFile('file-2.png', 100, 'image/png')
+      fireEvent.drop(element, {
+        dataTransfer: {
+          files: [file2],
+        },
+      })
+
+      // Wait for onChange to be called
+      await waitFor(() => {
+        expect(onChange).toHaveBeenCalledTimes(1)
+      })
+
+      const newValue = onChange.mock.calls[0][0]
+
+      // Parent component echoes back the same value
+      rerender(<Field.Upload value={newValue} onChange={onChange} />)
+
+      // Should not trigger another change
+      expect(onChange).toHaveBeenCalledTimes(1)
+
+      // Should still show 2 files
+      expect(
+        document.querySelectorAll('.dnb-upload__file-cell').length
+      ).toBe(2)
+    })
+
+    it('should skip stale updates with loading files when we already have resolved files', async () => {
+      let resolveFileHandler: ((value: UploadValue) => void) | undefined
+      const fileHandler = jest.fn(
+        () =>
+          new Promise<UploadValue>((resolve) => {
+            resolveFileHandler = resolve
+          })
+      )
+
+      const { rerender } = render(
+        <Field.Upload value={[]} fileHandler={fileHandler} />
+      )
+
+      // User drops a file
+      const element = getRootElement()
+      const file = createMockFile('file-1.png', 100, 'image/png')
+      fireEvent.drop(element, {
+        dataTransfer: {
+          files: [file],
+        },
+      })
+
+      // Wait for loading state
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-progress-indicator')
+        ).toBeInTheDocument()
+      })
+
+      // Simulate stale external value with loading files
+      const staleValue: UploadValue = [
+        {
+          file,
+          id: 'temp-id',
+          isLoading: true,
+        },
+      ]
+
+      // Resolve the file handler
+      resolveFileHandler([
+        {
+          file,
+          id: 'server-id',
+          exists: true,
+        },
+      ])
+
+      // Wait for resolved state
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-progress-indicator')
+        ).not.toBeInTheDocument()
+      })
+
+      // Now try to update with stale loading value
+      rerender(
+        <Field.Upload value={staleValue} fileHandler={fileHandler} />
+      )
+
+      // Should still show resolved file, not revert to loading state
+      expect(
+        document.querySelector('.dnb-progress-indicator')
+      ).not.toBeInTheDocument()
+      expect(
+        document.querySelectorAll('.dnb-upload__file-cell').length
+      ).toBe(1)
+    })
+
+    it('should update files when no pending files to preserve', async () => {
+      const { rerender } = render(
+        <Field.Upload
+          value={[
+            {
+              file: createMockFile('file-1.png', 100, 'image/png'),
+              id: 'file-1',
+            },
+          ]}
+        />
+      )
+
+      expect(
+        document.querySelectorAll('.dnb-upload__file-cell').length
+      ).toBe(1)
+      expect(screen.queryByText('file-1.png')).toBeInTheDocument()
+
+      // Update with new external value
+      rerender(
+        <Field.Upload
+          value={[
+            {
+              file: createMockFile('file-2.png', 100, 'image/png'),
+              id: 'file-2',
+            },
+            {
+              file: createMockFile('file-3.png', 100, 'image/png'),
+              id: 'file-3',
+            },
+          ]}
+        />
+      )
+
+      // Should show new files
+      expect(
+        document.querySelectorAll('.dnb-upload__file-cell').length
+      ).toBe(2)
+      expect(screen.queryByText('file-1.png')).not.toBeInTheDocument()
+      expect(screen.queryByText('file-2.png')).toBeInTheDocument()
+      expect(screen.queryByText('file-3.png')).toBeInTheDocument()
+    })
+
+    it('should preserve loading files when external value updates', async () => {
+      let resolveFileHandler: ((value: UploadValue) => void) | undefined
+      const fileHandler = jest.fn(
+        () =>
+          new Promise<UploadValue>((resolve) => {
+            resolveFileHandler = resolve
+          })
+      )
+
+      const { rerender } = render(
+        <Field.Upload
+          value={[
+            {
+              file: createMockFile('existing.png', 100, 'image/png'),
+              id: 'existing-id',
+            },
+          ]}
+          fileHandler={fileHandler}
+        />
+      )
+
+      // User drops a new file
+      const element = getRootElement()
+      const newFile = createMockFile('new-file.png', 100, 'image/png')
+      fireEvent.drop(element, {
+        dataTransfer: {
+          files: [newFile],
+        },
+      })
+
+      // Wait for loading state
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-progress-indicator')
+        ).toBeInTheDocument()
+      })
+
+      // External value updates (e.g., from another component)
+      // but doesn't include the loading file
+      rerender(
+        <Field.Upload
+          value={[
+            {
+              file: createMockFile('existing.png', 100, 'image/png'),
+              id: 'existing-id',
+            },
+            {
+              file: createMockFile('another.png', 100, 'image/png'),
+              id: 'another-id',
+            },
+          ]}
+          fileHandler={fileHandler}
+        />
+      )
+
+      // Should preserve the loading file and merge with external files
+      await waitFor(() => {
+        expect(
+          document.querySelectorAll('.dnb-upload__file-cell').length
+        ).toBe(3)
+      })
+      expect(screen.queryByText('existing.png')).toBeInTheDocument()
+      expect(screen.queryByText('another.png')).toBeInTheDocument()
+
+      // Resolve the loading file
+      resolveFileHandler([
+        {
+          file: newFile,
+          id: 'new-server-id',
+          exists: true,
+        },
+      ])
+
+      // Wait for loading to complete
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-progress-indicator')
+        ).not.toBeInTheDocument()
+      })
+
+      // Should still have all files
+      expect(
+        document.querySelectorAll('.dnb-upload__file-cell').length
+      ).toBe(3)
+    })
+
+    it('should preserve files with error messages when external value updates', async () => {
+      const { rerender } = render(
+        <Field.Upload
+          value={[
+            {
+              file: createMockFile('valid.png', 100, 'image/png'),
+              id: 'valid-id',
+            },
+          ]}
+          fileMaxSize={0.001}
+        />
+      )
+
+      // User drops a file that's too large
+      const element = getRootElement()
+      const largeFile = createMockFile('large.png', 100000, 'image/png')
+      fireEvent.drop(element, {
+        dataTransfer: {
+          files: [largeFile],
+        },
+      })
+
+      // Wait for error to appear
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toBeInTheDocument()
+      })
+
+      // Should have both files (valid + error file)
+      expect(
+        document.querySelectorAll('.dnb-upload__file-cell').length
+      ).toBe(2)
+
+      // External value updates but doesn't include error file
+      rerender(
+        <Field.Upload
+          value={[
+            {
+              file: createMockFile('valid.png', 100, 'image/png'),
+              id: 'valid-id',
+            },
+            {
+              file: createMockFile('another.png', 100, 'image/png'),
+              id: 'another-id',
+            },
+          ]}
+          fileMaxSize={0.001}
+        />
+      )
+
+      // Should preserve the error file and merge with external files
+      await waitFor(() => {
+        expect(
+          document.querySelectorAll('.dnb-upload__file-cell').length
+        ).toBe(3)
+      })
+      expect(screen.queryByText('valid.png')).toBeInTheDocument()
+      expect(screen.queryByText('another.png')).toBeInTheDocument()
+      expect(screen.queryByText('large.png')).toBeInTheDocument()
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).toBeInTheDocument()
+    })
+
+    it('should not duplicate files when external value already includes pending files', async () => {
+      let resolveFileHandler: ((value: UploadValue) => void) | undefined
+      const fileHandler = jest.fn(
+        () =>
+          new Promise<UploadValue>((resolve) => {
+            resolveFileHandler = resolve
+          })
+      )
+
+      const { rerender } = render(
+        <Field.Upload value={[]} fileHandler={fileHandler} />
+      )
+
+      // User drops a file
+      const element = getRootElement()
+      const file = createMockFile('file.png', 100, 'image/png')
+      fireEvent.drop(element, {
+        dataTransfer: {
+          files: [file],
+        },
+      })
+
+      // Wait for loading state
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-progress-indicator')
+        ).toBeInTheDocument()
+      })
+
+      // Resolve the file handler
+      resolveFileHandler([
+        {
+          file,
+          id: 'server-id',
+          exists: true,
+        },
+      ])
+
+      // Wait for resolved state
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-progress-indicator')
+        ).not.toBeInTheDocument()
+      })
+
+      // External value updates with the same file
+      rerender(
+        <Field.Upload
+          value={[
+            {
+              file,
+              id: 'server-id',
+              exists: true,
+            },
+          ]}
+          fileHandler={fileHandler}
+        />
+      )
+
+      // Should not duplicate - still just 1 file
+      expect(
+        document.querySelectorAll('.dnb-upload__file-cell').length
+      ).toBe(1)
+    })
+
+    it('should handle empty external value update', async () => {
+      const { rerender } = render(
+        <Field.Upload
+          value={[
+            {
+              file: createMockFile('file-1.png', 100, 'image/png'),
+              id: 'file-1',
+            },
+          ]}
+        />
+      )
+
+      expect(
+        document.querySelectorAll('.dnb-upload__file-cell').length
+      ).toBe(1)
+
+      // Update with empty value
+      rerender(<Field.Upload value={[]} />)
+
+      // Should clear all files
+      expect(
+        document.querySelectorAll('.dnb-upload__file-cell').length
+      ).toBe(0)
+    })
+
+    it('should handle undefined external value update', async () => {
+      const { rerender } = render(
+        <Field.Upload
+          value={[
+            {
+              file: createMockFile('file-1.png', 100, 'image/png'),
+              id: 'file-1',
+            },
+          ]}
+        />
+      )
+
+      expect(
+        document.querySelectorAll('.dnb-upload__file-cell').length
+      ).toBe(1)
+
+      // Update with undefined value
+      rerender(<Field.Upload value={undefined} />)
+
+      // Should clear all files
+      expect(
+        document.querySelectorAll('.dnb-upload__file-cell').length
+      ).toBe(0)
     })
   })
 
