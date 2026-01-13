@@ -629,10 +629,7 @@ export default class GlobalStatus extends React.PureComponent {
     const contentToRender = props.text || props.children
 
     const params = {
-      className: clsx(
-        'dnb-global-status',
-        `dnb-global-status--${state}`
-      ),
+      className: clsx('dnb-global-status', `dnb-global-status--${state}`),
       ...attributes,
     }
 

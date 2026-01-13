@@ -120,10 +120,7 @@ function Logo(localProps: LogoProps) {
     return 'logo'
   }, [svg])
 
-  const sharedClasses = clsx(
-    classNameProp,
-    createSpacingClasses(props)
-  )
+  const sharedClasses = clsx(classNameProp, createSpacingClasses(props))
 
   const detectedBrand = useMemo(() => {
     if (Object.hasOwn(svg, 'brand')) {

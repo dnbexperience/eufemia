@@ -446,10 +446,7 @@ function NewContainer({
         toolbar={toolbar}
         {...rest}
         // Add the class by default, because we don't get a "hasSubmitError" trigger
-        className={clsx(
-          'dnb-forms-section-block--error',
-          rest.className
-        )}
+        className={clsx('dnb-forms-section-block--error', rest.className)}
       >
         {children}
       </EditContainer>

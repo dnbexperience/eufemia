@@ -181,10 +181,7 @@ function ProgressIndicatorCircular(
       />
       {!progressIsControlled && (
         <Circle
-          className={clsx(
-            'light',
-            useAnimationFrame ? 'paused' : null
-          )}
+          className={clsx('light', useAnimationFrame ? 'paused' : null)}
           customColor={customColors?.shaft}
           customWidth={customCircleWidth}
           ref={_refLight}
@@ -209,10 +206,7 @@ const Circle = forwardRef(function Circle(
   const correctedCustomWidth = correctPercentageStrokeWidth(customWidth)
   return (
     <svg
-      className={clsx(
-        'dnb-progress-indicator__circular__line',
-        className
-      )}
+      className={clsx('dnb-progress-indicator__circular__line', className)}
       shapeRendering="geometricPrecision"
       ref={ref}
       {...rest}

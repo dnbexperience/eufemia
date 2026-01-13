@@ -49,10 +49,7 @@ function RemoveButton(props: Props) {
   )
 
   const triggerAttributes: ButtonProps = {
-    className: clsx(
-      'dnb-forms-iterate-remove-element-button',
-      className
-    ),
+    className: clsx('dnb-forms-iterate-remove-element-button', className),
     text: replaceItemNo(textContent, index),
     variant: textContent ? 'tertiary' : 'secondary',
     icon: trash,
