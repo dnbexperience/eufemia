@@ -109,27 +109,34 @@ export function getRelativeTime(
         ? 'short'
         : 'long',
   }
+  try {
+    // eslint-disable-next-line compat/compat
+    const relativeTimeFormatter = new Intl.RelativeTimeFormat(
+      locale,
+      relativeTimeOptions
+    )
 
-  const relativeTimeFormatter = new Intl.RelativeTimeFormat(
-    locale,
-    relativeTimeOptions
-  )
+    const nowDate =
+      relativeTimeReference instanceof Date
+        ? relativeTimeReference
+        : typeof relativeTimeReference === 'function'
+        ? relativeTimeReference()
+        : new Date()
 
-  const nowDate =
-    relativeTimeReference instanceof Date
-      ? relativeTimeReference
-      : typeof relativeTimeReference === 'function'
-      ? relativeTimeReference()
-      : new Date()
+    const msDateDifference = date.getTime() - nowDate.getTime()
+    const timeUnit = getTimeUnit(msDateDifference)
 
-  const msDateDifference = date.getTime() - nowDate.getTime()
-  const timeUnit = getTimeUnit(msDateDifference)
+    const timeUnitDifference = Math.round(
+      msDateDifference / timeUnitsInMs[timeUnit]
+    )
 
-  const timeUnitDifference = Math.round(
-    msDateDifference / timeUnitsInMs[timeUnit]
-  )
-
-  return relativeTimeFormatter.format(timeUnitDifference, timeUnit)
+    return relativeTimeFormatter.format(timeUnitDifference, timeUnit)
+  } catch (error) {
+    return formatDate(date, {
+      locale,
+      options: dateStyle ? { dateStyle } : undefined,
+    })
+  }
 }
 
 /**
