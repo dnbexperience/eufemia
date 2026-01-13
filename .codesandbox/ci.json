@@ -5,5 +5,5 @@
   },
   "sandboxes": ["eufemia-starter-0gcwo"],
   "buildCommand": "build:mini",
-  "node": "18"
+  "node": "20"
 }
