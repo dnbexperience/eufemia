@@ -38,7 +38,7 @@ export default function TableContainer(props: TableContainerAllProps) {
   validateDOMAttributes(props, rest)
 
   const ScrollView =
-    TableScrollView as React.FunctionComponent<InternalTableContainerTableScrollView>
+    TableScrollView as (props: InternalTableContainerTableScrollView) => JSX.Element
 
   const isArray = Array.isArray(children)
   const content = isArray ? children : [children]

@@ -110,28 +110,28 @@ export interface ErrorIconProps {
    */
   title?: string;
 }
-export declare const ErrorIcon: React.FC<ErrorIconProps>;
+export declare const ErrorIcon: (props: ErrorIconProps) => JSX.Element;
 export interface WarnIconProps {
   /**
    * the `title` attribute in the status.
    */
   title?: string;
 }
-export declare const WarnIcon: React.FC<WarnIconProps>;
+export declare const WarnIcon: (props: WarnIconProps) => JSX.Element;
 export interface InfoIconProps {
   /**
    * the `title` attribute in the status.
    */
   title?: string;
 }
-export declare const InfoIcon: React.FC<InfoIconProps>;
+export declare const InfoIcon: (props: InfoIconProps) => JSX.Element;
 export interface MarketingIconProps {
   /**
    * the `title` attribute in the status.
    */
   title?: string;
 }
-export declare const MarketingIcon: React.FC<MarketingIconProps>;
+export declare const MarketingIcon: (props: MarketingIconProps) => JSX.Element;
 export type FormStatusIconTypes =
   | typeof ErrorIcon
   | typeof WarnIcon

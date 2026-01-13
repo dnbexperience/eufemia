@@ -8,10 +8,10 @@ interface CardTypeTextProps {
   skeleton: boolean
 }
 
-const CardTypeText: React.FC<CardTypeTextProps> = ({
+const CardTypeText = ({
   isCredit,
   skeleton,
-}) => {
+}: CardTypeTextProps) => {
   const cardType = isCredit ? 'Credit' : 'Debit'
   return (
     <span

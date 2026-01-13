@@ -585,7 +585,7 @@ interface PaginationContentProps {
    */
   children: PaginationContentChildren;
 }
-declare const PaginationContent: React.FC<PaginationContentProps>;
+declare const PaginationContent: (props: PaginationContentProps) => JSX.Element;
 export type CreatePaginationReturn = {
   Pagination: (props?: Record<string, unknown>) => JSX.Element;
   InfinityMarker: (props?: Record<string, unknown>) => void;
