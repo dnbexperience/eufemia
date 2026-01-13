@@ -36,6 +36,7 @@ type DateFormatProps = SpacingProps & {
   dateStyle?: Intl.DateTimeFormatOptions['dateStyle']
   timeStyle?: Intl.DateTimeFormatOptions['timeStyle']
   dateTimeSeparator?: string
+  relativeTimeStyle?: Intl.DateTimeFormatOptions['dateStyle']
   relativeTime?: boolean
   relativeTimeReference?: () => Date
   skeleton?: SkeletonShow
@@ -58,6 +59,7 @@ function DateFormat(props: DateFormatProps) {
     dateStyle = 'long',
     timeStyle,
     dateTimeSeparator,
+    relativeTimeStyle,
     skeleton,
     relativeTime = false,
     relativeTimeReference,
@@ -169,7 +171,7 @@ function DateFormat(props: DateFormatProps) {
           date,
           locale,
           undefined,
-          dateStyle,
+          relativeTimeStyle || dateStyle,
           relativeTimeReference
         )
       : undefined
@@ -192,7 +194,7 @@ function DateFormat(props: DateFormatProps) {
           date,
           locale,
           undefined,
-          dateStyle,
+          relativeTimeStyle || dateStyle,
           relativeTimeReference
         )
         setLabel((prev) => (prev !== next ? next : prev))
@@ -205,7 +207,7 @@ function DateFormat(props: DateFormatProps) {
         date,
         locale,
         undefined,
-        dateStyle,
+        relativeTimeStyle || dateStyle,
         relativeTimeReference
       )
     )
@@ -214,7 +216,14 @@ function DateFormat(props: DateFormatProps) {
     return () => {
       clearTimeout(timeoutId)
     }
-  }, [date, locale, relativeTime, dateStyle, relativeTimeReference])
+  }, [
+    date,
+    locale,
+    relativeTime,
+    dateStyle,
+    relativeTimeStyle,
+    relativeTimeReference,
+  ])
 
   // Check if we have a valid date (not invalid Date object)
   const hasValidDate = date && !isNaN(date.getTime())

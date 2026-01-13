@@ -365,6 +365,40 @@ describe('DateFormat', () => {
       expect(dateFormat).toHaveTextContent('siden')
     })
 
+    it('should prefer `relativeTimeStyle` over `dateStyle`', () => {
+      const referenceDate = new Date('2025-01-15T14:30:00Z')
+      const pastDate = new Date('2025-01-15T12:30:00Z')
+
+      const { rerender } = render(
+        <DateFormat
+          value={pastDate}
+          relativeTime
+          relativeTimeStyle="short"
+          dateStyle="long"
+          locale="en-US"
+          relativeTimeReference={() => referenceDate}
+        />
+      )
+
+      const dateFormat = document.querySelector('.dnb-date-format')
+      const shortText = dateFormat.textContent
+
+      rerender(
+        <DateFormat
+          value={pastDate}
+          relativeTime
+          relativeTimeStyle="long"
+          dateStyle="long"
+          locale="en-US"
+          relativeTimeReference={() => referenceDate}
+        />
+      )
+
+      const longText = dateFormat.textContent
+
+      expect(shortText).not.toEqual(longText)
+    })
+
     it('should render relativeTime with time element and correct tagName', () => {
       const pastDate = new Date('2025-01-15T12:30:00Z')
       render(<DateFormat value={pastDate} relativeTime />)
