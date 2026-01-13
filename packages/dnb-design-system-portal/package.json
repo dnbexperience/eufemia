@@ -70,7 +70,6 @@
     "camelcase": "6.2.0",
     "cross-env": "7.0.3",
     "current-git-branch": "1.1.0",
-    "date-fns": "4.1.0",
     "dotenv": "10.0.0",
     "eslint": "9.39.2",
     "eslint-plugin-jsx-a11y": "6.10.2",

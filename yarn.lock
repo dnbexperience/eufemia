@@ -15925,7 +15925,6 @@ __metadata:
     classnames: "npm:2.3.1"
     cross-env: "npm:7.0.3"
     current-git-branch: "npm:1.1.0"
-    date-fns: "npm:4.1.0"
     dotenv: "npm:10.0.0"
     eslint: "npm:9.39.2"
     eslint-plugin-jsx-a11y: "npm:6.10.2"
