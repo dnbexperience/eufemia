@@ -5,9 +5,6 @@ if [[ -f ".env.local" ]]; then
   . ".env.local"
 fi
 
-# Run Husky
-. "$(dirname "$0")/_/husky.sh"
-
 # Run precommit
 if [ "$LINT_STAGED" = "1" ]; then
   if command -v yarn >/dev/null 2>&1; then
