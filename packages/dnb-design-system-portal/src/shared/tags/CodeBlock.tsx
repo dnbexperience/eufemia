@@ -74,6 +74,7 @@ const CodeBlock = ({
         code={exampleCode as string}
         language={language}
         theme={prismTheme}
+        Prism={Prism}
       >
         {({ className, style, tokens, getLineProps, getTokenProps }) => (
           <div
