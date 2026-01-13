@@ -48,7 +48,10 @@ type IconType =
   | false
 
 /** For external usage */
-export type IconIcon = IconType | FormStatusIconTypes | ((props?: unknown) => JSX.Element)
+export type IconIcon =
+  | IconType
+  | FormStatusIconTypes
+  | ((props?: unknown) => JSX.Element)
 
 export type IconSize =
   | ValidIconNumericSize

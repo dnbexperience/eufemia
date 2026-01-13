@@ -8,10 +8,7 @@ interface CardTypeTextProps {
   skeleton: boolean
 }
 
-const CardTypeText = ({
-  isCredit,
-  skeleton,
-}: CardTypeTextProps) => {
+const CardTypeText = ({ isCredit, skeleton }: CardTypeTextProps) => {
   const cardType = isCredit ? 'Credit' : 'Debit'
   return (
     <span

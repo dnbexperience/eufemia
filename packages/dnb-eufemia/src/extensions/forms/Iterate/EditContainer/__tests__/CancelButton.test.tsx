@@ -90,9 +90,7 @@ describe('CancelButton', () => {
       return null
     }
 
-    const MockBoundary = ({
-      children,
-    }: { children: React.ReactNode }) => (
+    const MockBoundary = ({ children }: { children: React.ReactNode }) => (
       <FieldBoundaryProvider>
         <SetErrorOnce />
         <FieldBoundaryContext.Consumer>

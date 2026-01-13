@@ -131,7 +131,9 @@ export interface MarketingIconProps {
    */
   title?: string;
 }
-export declare const MarketingIcon: (props: MarketingIconProps) => JSX.Element;
+export declare const MarketingIcon: (
+  props: MarketingIconProps
+) => JSX.Element;
 export type FormStatusIconTypes =
   | typeof ErrorIcon
   | typeof WarnIcon
