@@ -10,7 +10,8 @@ import {
   fireEvent,
   renderHook,
 } from '@testing-library/react'
-import MatchMediaMock from 'jest-matchmedia-mock'
+import 'mock-match-media/jest-setup'
+import { setMedia } from 'mock-match-media'
 import useMediaQuery from '../useMediaQuery'
 import Provider from '../Provider'
 import {
@@ -35,28 +36,12 @@ const RenderMediaQueryHook = (props: MediaQueryProps) => {
 }
 
 describe('useMediaQuery', () => {
-  let matchMedia: MatchMediaMock
-
-  beforeAll(() => {
-    matchMedia = new MatchMediaMock()
-  })
-
   beforeEach(() => {
     isMatchMediaSupported.mockReturnValue(true)
   })
 
-  afterEach(() => {
-    matchMedia?.clear()
-  })
-
-  afterAll(() => {
-    matchMedia?.destroy()
-  })
-
   it('should have valid strings inside render and rerender', () => {
-    matchMedia.useMediaQuery(
-      '(min-width: 60.00625em) and (max-width: 72em)'
-    )
+    setMedia({ width: '65em' }) // Between 60em and 72em
 
     const { rerender } = render(
       <RenderMediaQueryHook when={{ min: 'medium', max: 'large' }}>
@@ -76,7 +61,7 @@ describe('useMediaQuery', () => {
   })
 
   it('should match for query when different breakpoints are given', () => {
-    matchMedia.useMediaQuery('(min-width: 20rem) and (max-width: 80rem)')
+    setMedia({ width: '50rem' }) // Between 20rem and 80rem
 
     render(
       <Provider
@@ -97,7 +82,7 @@ describe('useMediaQuery', () => {
   })
 
   it('should have valid strings inside render', () => {
-    matchMedia.useMediaQuery('(min-width: 0) and (max-width: 80em)')
+    setMedia({ width: '40em' }) // Less than 80em (x-large)
 
     render(
       <RenderMediaQueryHook when={{ min: '0', max: 'x-large' }}>
@@ -109,9 +94,7 @@ describe('useMediaQuery', () => {
   })
 
   it('should handle media query changes', () => {
-    matchMedia.useMediaQuery(
-      'not screen and (min-width: 40.00625em) and (max-width: 72em)'
-    )
+    setMedia({ width: '30em' }) // Less than 40em to not match the query
 
     const match1Handler = jest.fn()
     const match2Handler = jest.fn()
@@ -172,7 +155,7 @@ describe('useMediaQuery', () => {
       .spyOn(window, 'matchMedia')
       .mockImplementationOnce(jest.fn(window.matchMedia))
 
-    matchMedia.useMediaQuery('(min-width: 0) and (max-width: 80em)')
+    setMedia({ width: '40em' }) // Less than 80em (x-large)
 
     const when = { min: '0', max: 'x-large' }
 

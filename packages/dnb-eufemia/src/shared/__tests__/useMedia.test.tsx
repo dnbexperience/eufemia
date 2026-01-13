@@ -814,7 +814,7 @@ describe('useMedia', () => {
     })
   })
 
-  describe('using jest-matchmedia-mock mocker', () => {
+  describe('using mockMediaQuery helper', () => {
     const matchMedia = mockMediaQuery()
     const matchMediaMock = window.matchMedia // set in mockMediaQuery
 

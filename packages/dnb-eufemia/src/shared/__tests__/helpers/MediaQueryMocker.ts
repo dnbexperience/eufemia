@@ -1,5 +1,5 @@
 import { isMatchMediaSupported as _isMatchMediaSupported } from '../../MediaQueryUtils'
-import MatchMediaMock from 'jest-matchmedia-mock'
+import { matchMedia } from 'mock-match-media'
 
 const isMatchMediaSupported = _isMatchMediaSupported as jest.Mock
 
@@ -9,19 +9,9 @@ jest.mock('../../MediaQueryUtils', () => ({
 }))
 
 export function mockMediaQuery() {
-  const matchMedia = new MatchMediaMock()
-
   beforeEach(() => {
     isMatchMediaSupported.mockReturnValue(true)
   })
 
-  afterEach(() => {
-    matchMedia?.clear()
-  })
-
-  afterAll(() => {
-    matchMedia?.destroy()
-  })
-
-  return matchMedia
+  return { useMediaQuery: (query: string) => matchMedia(query).matches }
 }

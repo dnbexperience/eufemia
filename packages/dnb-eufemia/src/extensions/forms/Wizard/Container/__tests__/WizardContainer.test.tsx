@@ -1,7 +1,8 @@
 import React from 'react'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import MatchMediaMock from 'jest-matchmedia-mock'
+import 'mock-match-media/jest-setup'
+import { setMedia } from 'mock-match-media'
 import { spyOnEufemiaWarn, wait } from '../../../../../core/jest/jestSetup'
 import { Translation } from '../../../../../shared'
 import {
@@ -19,15 +20,13 @@ import WizardContext from '../../Context'
 import nbNO from '../../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO']
 
-const matchMedia = new MatchMediaMock()
-
 beforeEach(() => {
-  matchMedia.useMediaQuery('(min-width: 60em)')
+  setMedia({ width: '70em' }) // Large screen (>60em)
   globalThis.IS_TEST = true
 })
 
 function simulateSmallScreen() {
-  matchMedia.useMediaQuery('(min-width: 0) and (max-width: 60em)')
+  setMedia({ width: '50em' }) // Small screen (<60em)
 }
 
 const expandStepIndicator = async () => {

@@ -11,10 +11,8 @@ import {
   subtract_medium as SubtractIcon,
 } from '../../../icons'
 import { render, fireEvent, act } from '@testing-library/react'
-import MatchMediaMock from 'jest-matchmedia-mock'
+import 'mock-match-media/jest-setup'
 import userEvent from '@testing-library/user-event'
-
-new MatchMediaMock()
 
 const props: AccordionProps = {
   no_animation: true,
