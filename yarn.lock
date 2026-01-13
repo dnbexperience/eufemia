@@ -4566,7 +4566,6 @@ __metadata:
     jest-tobetype: "npm:1.2.3"
     lebab: "npm:3.2.7"
     lint-staged: "npm:11.2.6"
-    lockfile-lint: "npm:4.6.2"
     lodash.isequal: "npm:4.5.0"
     lodash.isequalwith: "npm:4.4.0"
     markdown-tables-to-json: "npm:0.1.7"
@@ -10765,16 +10764,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@yarnpkg/parsers@npm:^3.0.0-rc.32":
-  version: 3.0.0-rc.46
-  resolution: "@yarnpkg/parsers@npm:3.0.0-rc.46"
-  dependencies:
-    js-yaml: "npm:^3.10.0"
-    tslib: "npm:^2.4.0"
-  checksum: 10/3b7d55ebd1b90fe2adf05bfaab53031fb9ddb6315f8dfca1b5ba0393c08fc4a7f22c94603eec06dfe0a67e4121e5227b0ae57a70c73d353614650e2b54b6049d
-  languageName: node
-  linkType: hard
-
 "JSONStream@npm:^1.0.4, JSONStream@npm:^1.3.5":
   version: 1.3.5
   resolution: "JSONStream@npm:1.3.5"
@@ -13954,17 +13943,6 @@ __metadata:
     strip-ansi: "npm:^6.0.0"
     wrap-ansi: "npm:^6.2.0"
   checksum: 10/44afbcc29df0899e87595590792a871cd8c4bc7d6ce92832d9ae268d141a77022adafca1aeaeccff618b62a613b8354e57fe22a275c199ec04baf00d381ef6ab
-  languageName: node
-  linkType: hard
-
-"cliui@npm:^7.0.2":
-  version: 7.0.4
-  resolution: "cliui@npm:7.0.4"
-  dependencies:
-    string-width: "npm:^4.2.0"
-    strip-ansi: "npm:^6.0.0"
-    wrap-ansi: "npm:^7.0.0"
-  checksum: 10/db858c49af9d59a32d603987e6fddaca2ce716cd4602ba5a2bb3a5af1351eebe82aba8dff3ef3e1b331f7fa9d40ca66e67bdf8e7c327ce0ea959747ead65c0ef
   languageName: node
   linkType: hard
 
@@ -24132,7 +24110,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"js-yaml@npm:^3.10.0, js-yaml@npm:^3.13.1":
+"js-yaml@npm:^3.13.1":
   version: 3.14.1
   resolution: "js-yaml@npm:3.14.1"
   dependencies:
@@ -25006,30 +24984,6 @@ __metadata:
   version: 1.1.0
   resolution: "lock@npm:1.1.0"
   checksum: 10/0350daf30548c89751533715ee3f85ca65b2a2e1386b4f84740c850fe58e0c2a80bb444302277ef0b772aca53fc2b2ab324610c613039bf1338edaa786ffcb87
-  languageName: node
-  linkType: hard
-
-"lockfile-lint-api@npm:^5.1.7":
-  version: 5.5.5
-  resolution: "lockfile-lint-api@npm:5.5.5"
-  dependencies:
-    "@yarnpkg/parsers": "npm:^3.0.0-rc.32"
-    object-hash: "npm:^3.0.0"
-  checksum: 10/d8d7f15788369ab5ee8513d93bae2565de984099aa3509c742122c95823af511b76e086971aa516bc50c163fe5a96e92ca02945f897167f6f209e839060d6b1d
-  languageName: node
-  linkType: hard
-
-"lockfile-lint@npm:4.6.2":
-  version: 4.6.2
-  resolution: "lockfile-lint@npm:4.6.2"
-  dependencies:
-    cosmiconfig: "npm:^6.0.0"
-    debug: "npm:^4.1.1"
-    lockfile-lint-api: "npm:^5.1.7"
-    yargs: "npm:^16.0.0"
-  bin:
-    lockfile-lint: ./bin/lockfile-lint.js
-  checksum: 10/84dd6fd6dcca3dbdddce5cfba12a8c3e2bbd5abbca162740463f67e11f9311b96170e1e807ebe9f95fe13bcbee060471ee6add0f8b29012c21700dafc85be175
   languageName: node
   linkType: hard
 
@@ -28423,13 +28377,6 @@ __metadata:
   version: 2.2.0
   resolution: "object-hash@npm:2.2.0"
   checksum: 10/dee06b6271bf5769ae5f1a7386fdd52c1f18aae9fcb0b8d4bb1232f2d743d06cb5b662be42378b60a1c11829f96f3f86834a16bbaa57a085763295fff8b93e27
-  languageName: node
-  linkType: hard
-
-"object-hash@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "object-hash@npm:3.0.0"
-  checksum: 10/f498d456a20512ba7be500cef4cf7b3c183cc72c65372a549c9a0e6dd78ce26f375e9b1315c07592d3fde8f10d5019986eba35970570d477ed9a2a702514432a
   languageName: node
   linkType: hard
 
@@ -38585,7 +38532,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"yargs-parser@npm:^20.2.2, yargs-parser@npm:^20.2.3, yargs-parser@npm:^20.2.9":
+"yargs-parser@npm:^20.2.3, yargs-parser@npm:^20.2.9":
   version: 20.2.9
   resolution: "yargs-parser@npm:20.2.9"
   checksum: 10/0188f430a0f496551d09df6719a9132a3469e47fe2747208b1dd0ab2bb0c512a95d0b081628bbca5400fb20dbf2fabe63d22badb346cecadffdd948b049f3fcc
@@ -38625,21 +38572,6 @@ __metadata:
     y18n: "npm:^4.0.0"
     yargs-parser: "npm:^18.1.2"
   checksum: 10/bbcc82222996c0982905b668644ca363eebe6ffd6a572fbb52f0c0e8146661d8ce5af2a7df546968779bb03d1e4186f3ad3d55dfaadd1c4f0d5187c0e3a5ba16
-  languageName: node
-  linkType: hard
-
-"yargs@npm:^16.0.0":
-  version: 16.2.0
-  resolution: "yargs@npm:16.2.0"
-  dependencies:
-    cliui: "npm:^7.0.2"
-    escalade: "npm:^3.1.1"
-    get-caller-file: "npm:^2.0.5"
-    require-directory: "npm:^2.1.1"
-    string-width: "npm:^4.2.0"
-    y18n: "npm:^5.0.5"
-    yargs-parser: "npm:^20.2.2"
-  checksum: 10/807fa21211d2117135d557f95fcd3c3d390530cda2eca0c840f1d95f0f40209dcfeb5ec18c785a1f3425896e623e3b2681e8bb7b6600060eda1c3f4804e7957e
   languageName: node
   linkType: hard
 
