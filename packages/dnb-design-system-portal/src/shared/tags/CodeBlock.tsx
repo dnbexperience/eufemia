@@ -5,11 +5,7 @@
 
 import React from 'react'
 import classnames from 'classnames'
-import Highlight, {
-  Language,
-  Prism,
-  defaultProps,
-} from 'prism-react-renderer'
+import Highlight, { Language, Prism } from 'prism-react-renderer'
 import Tag from './Tag'
 import { Button } from '@dnb/eufemia/src/components'
 import { makeUniqueId } from '@dnb/eufemia/src/shared/component-helper'
@@ -75,7 +71,6 @@ const CodeBlock = ({
   } else {
     return (
       <Highlight
-        {...defaultProps}
         code={exampleCode as string}
         language={language}
         theme={prismTheme}
