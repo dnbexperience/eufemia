@@ -13,6 +13,7 @@ const config = {
     '<rootDir>/assets/',
     '<rootDir>/stories/',
   ],
+  modulePathIgnorePatterns: ['<rootDir>/build/'],
   transformIgnorePatterns: ['/node_modules/(?!(ora|globby)/)'],
   setupFiles: ['core-js'], // is needed by "globby" inside of convertSvgToJsx
   transform: {
