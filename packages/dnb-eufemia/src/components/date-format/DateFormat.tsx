@@ -35,7 +35,7 @@ type DateFormatProps = SpacingProps & {
   locale?: InternalLocale
   dateStyle?: Intl.DateTimeFormatOptions['dateStyle']
   timeStyle?: Intl.DateTimeFormatOptions['timeStyle']
-  timeSeparator?: string
+  dateTimeSeparator?: string
   relativeTime?: boolean
   relativeTimeReference?: () => Date
   skeleton?: SkeletonShow
@@ -57,7 +57,7 @@ function DateFormat(props: DateFormatProps) {
     locale: localeProp,
     dateStyle = 'long',
     timeStyle,
-    timeSeparator,
+    dateTimeSeparator,
     skeleton,
     relativeTime = false,
     relativeTimeReference,
@@ -141,7 +141,7 @@ function DateFormat(props: DateFormatProps) {
         return // stop here
       }
 
-      if (timeSeparator && options?.timeStyle) {
+      if (dateTimeSeparator && options?.timeStyle) {
         const formattedDate = formatDate(date, {
           locale,
           options: { dateStyle: options.dateStyle },
@@ -151,7 +151,7 @@ function DateFormat(props: DateFormatProps) {
           options: { timeStyle: options.timeStyle },
         })
 
-        return `${formattedDate}${timeSeparator}${formattedTime}`
+        return `${formattedDate}${dateTimeSeparator}${formattedTime}`
       }
 
       return formatDate(date, {
@@ -159,7 +159,7 @@ function DateFormat(props: DateFormatProps) {
         options,
       })
     },
-    [date, locale, dateStyle, timeStyle, timeSeparator]
+    [date, locale, dateStyle, timeStyle, dateTimeSeparator]
   )
 
   // Auto-updating relative time with minimal CPU: schedule updates only when the label changes next

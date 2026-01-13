@@ -16,7 +16,7 @@ export const DateFormatProperties: PropertiesTableProps = {
     type: ['long', 'medium', 'short', 'full'],
     status: 'optional',
   },
-  timeSeparator: {
+  dateTimeSeparator: {
     doc: 'Custom separator used between date and time when both are rendered (e.g. " - "). Defaults to a comma.',
     type: 'string',
     status: 'optional',

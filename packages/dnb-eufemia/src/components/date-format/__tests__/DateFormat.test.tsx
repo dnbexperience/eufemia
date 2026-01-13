@@ -51,14 +51,14 @@ describe('DateFormat', () => {
       expect(dateFormat).toHaveTextContent('1. august 2025 kl. 14:30')
     })
 
-    it('should use a custom `timeSeparator` when provided', () => {
+    it('should use a custom `dateTimeSeparator` when provided', () => {
       render(
         <DateFormat
           value="2025-08-01T14:30:00"
           locale="en-GB"
           dateStyle="short"
           timeStyle="short"
-          timeSeparator=" - "
+          dateTimeSeparator=" - "
         />
       )
 

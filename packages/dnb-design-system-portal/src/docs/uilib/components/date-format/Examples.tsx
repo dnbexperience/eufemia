@@ -230,7 +230,7 @@ export const DateAndTime = () => {
           value={new Date('2026-01-13T11:55:00')}
           dateStyle="medium"
           timeStyle="short"
-          timeSeparator=" – "
+          dateTimeSeparator=" – "
         />
       </P>
     </ComponentBox>
