@@ -131,15 +131,17 @@ function propGuard(
 ): React.FC<BadgeElemProps> {
   return (props) => {
     if (props.variant !== 'information') {
-      const { status, subtle } = defaultProps
-
-      return fn({ ...props, subtle, status })
+      return fn({
+        ...props,
+        subtle: defaultProps.subtle,
+        status: defaultProps.status,
+      })
     }
     return fn(props)
   }
 }
 
-const BadgeElem = propGuard(function (props: BadgeElemProps) {
+const BadgeElem = propGuard((props: BadgeElemProps) => {
   const {
     label,
     className,
