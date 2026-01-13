@@ -29,10 +29,7 @@ function Buttons(props: Props) {
   }
 
   return (
-    <ButtonRow
-      className={clsx('dnb-forms-buttons', className)}
-      {...props}
-    >
+    <ButtonRow className={clsx('dnb-forms-buttons', className)} {...props}>
       {showPreviousButton && <PreviousButton />}
       {showNextButton && <NextButton />}
     </ButtonRow>

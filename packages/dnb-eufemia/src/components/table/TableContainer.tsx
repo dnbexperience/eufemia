@@ -52,11 +52,7 @@ export default function TableContainer(props: TableContainerAllProps) {
 
   return (
     <section
-      className={clsx(
-        'dnb-table__container',
-        className,
-        spacingClasses
-      )}
+      className={clsx('dnb-table__container', className, spacingClasses)}
       {...rest}
     >
       <ScrollView>{content}</ScrollView>

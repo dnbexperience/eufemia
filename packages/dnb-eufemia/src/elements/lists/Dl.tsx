@@ -21,10 +21,7 @@ export type DlAllProps = DlProps &
 
 const Dl = ({ layout, ...props }: DlAllProps) => {
   if (layout) {
-    props.className = clsx(
-      props.className,
-      `dnb-dl__layout--${layout}`
-    )
+    props.className = clsx(props.className, `dnb-dl__layout--${layout}`)
   }
   return <E as="dl" {...props} skeleton={false} />
 }

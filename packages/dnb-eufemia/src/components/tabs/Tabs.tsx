@@ -1275,10 +1275,7 @@ const ScrollNavButton = (props) => {
       bounding
       aria-hidden
       {...props}
-      className={clsx(
-        'dnb-tabs__scroll-nav-button',
-        props.className
-      )}
+      className={clsx('dnb-tabs__scroll-nav-button', props.className)}
     />
   )
 }

@@ -2084,10 +2084,7 @@ class AutocompleteInstance extends React.PureComponent {
 
               <DrawerList
                 id={id}
-                className={clsx(
-                  'dnb-autocomplete__root',
-                  drawerClass
-                )}
+                className={clsx('dnb-autocomplete__root', drawerClass)}
                 portalClass={portalClass}
                 listClass="dnb-autocomplete__list"
                 value={selectedItem}

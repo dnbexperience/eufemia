@@ -76,10 +76,7 @@ const H = ({
   return (
     <E
       as={as || is}
-      internalClass={clsx(
-        targetSize && `dnb-h--${targetSize}`,
-        className
-      )}
+      internalClass={clsx(targetSize && `dnb-h--${targetSize}`, className)}
       {...props}
       style={{ ...style, ...props.style }}
     />

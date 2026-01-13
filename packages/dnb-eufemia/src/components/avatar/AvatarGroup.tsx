@@ -149,11 +149,7 @@ const AvatarGroup = (localProps: AvatarGroupProps & SpacingProps) => {
       value={{ ...props, variant, size, color, backgroundColor }}
     >
       <span
-        className={clsx(
-          'dnb-avatar__group',
-          spacingClasses,
-          className
-        )}
+        className={clsx('dnb-avatar__group', spacingClasses, className)}
         {...attributes}
       >
         <span className="dnb-sr-only">{label}</span>
