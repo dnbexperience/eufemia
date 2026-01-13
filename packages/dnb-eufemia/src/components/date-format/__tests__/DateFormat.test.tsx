@@ -43,6 +43,30 @@ describe('DateFormat', () => {
       expect(dateFormat).toHaveTextContent('01.08.2025')
     })
 
+    it('should include time when `timeStyle` is provided', () => {
+      render(<DateFormat value="2025-08-01T14:30:00" timeStyle="short" />)
+
+      const dateFormat = document.querySelector('.dnb-date-format')
+
+      expect(dateFormat).toHaveTextContent('1. august 2025 kl. 14:30')
+    })
+
+    it('should use a custom `timeSeparator` when provided', () => {
+      render(
+        <DateFormat
+          value="2025-08-01T14:30:00"
+          locale="en-GB"
+          dateStyle="short"
+          timeStyle="short"
+          timeSeparator=" - "
+        />
+      )
+
+      const dateFormat = document.querySelector('.dnb-date-format')
+
+      expect(dateFormat).toHaveTextContent('01/08/2025 - 14:30')
+    })
+
     it('should return an invalid date message if the date is invalid', () => {
       global.console.log = jest.fn()
 
