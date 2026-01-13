@@ -6,7 +6,7 @@
  */
 
 import React, { useContext } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import {
   isTrue,
   extendPropsWithContextInClassComponent,
@@ -458,7 +458,7 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
 
     const mainParams = {
       id: `${id}-drawer-list`,
-      className: classnames(
+      className: clsx(
         'dnb-drawer-list',
         opened && 'dnb-drawer-list--opened',
         hidden && 'dnb-drawer-list--hidden',
@@ -487,7 +487,7 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
        * Or we may add an prop to put the HTML in the DOM, if needed
        */
       // hidden: hidden !== false,
-      className: classnames(
+      className: clsx(
         'dnb-drawer-list__list',
         isTrue(noAnimation) && 'dnb-drawer-list__list--no-animation',
         listClass
@@ -543,7 +543,7 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
                 'data-item': __id,
                 id: tagId,
                 hash,
-                className: classnames(
+                className: clsx(
                   // helper classes
                   j === 0 && i === 0 && 'first-item',
                   j === renderData.length - 1 &&
@@ -569,7 +569,7 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
                 liParams.selected = null
                 liParams.onClick = null
                 liParams.onKeyDown = null
-                liParams.className = classnames(
+                liParams.className = clsx(
                   liParams.className,
                   'dnb-drawer-list__option--ignore'
                 )
@@ -594,7 +594,7 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
                 key={j}
                 role="group"
                 aria-labelledby={groupdId}
-                className={classnames(
+                className={clsx(
                   'dnb-drawer-list__group',
                   j === 0 && 'first-of-type',
                   j === renderData.length - 1 && 'last-of-type'
@@ -603,7 +603,7 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
                 <li
                   id={groupdId}
                   role="presentation"
-                  className={classnames(
+                  className={clsx(
                     'dnb-drawer-list__group-title',
                     hideTitle && 'dnb-sr-only',
                     groupdId === closestToBottom && 'closest-to-bottom',
@@ -664,7 +664,7 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
 
     return (
       <span
-        className={classnames(
+        className={clsx(
           'dnb-drawer-list__root',
           !skipPortal && 'dnb-drawer-list__root--portal'
         )}
@@ -767,7 +767,7 @@ DrawerList.Options = React.memo(
         <E
           internalClass={false}
           as={hasGroups ? 'span' : 'ul'}
-          className={classnames(
+          className={clsx(
             'dnb-drawer-list__options',
             showFocusRing && 'dnb-drawer-list__options--focusring',
             className

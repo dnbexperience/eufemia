@@ -7,7 +7,7 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import {
   isTrue,
   makeUniqueId,
@@ -519,7 +519,7 @@ class DropdownInstance extends React.PureComponent {
     )
 
     const mainParams = {
-      className: classnames(
+      className: clsx(
         'dnb-dropdown',
         `dnb-dropdown--${direction}`,
         opened && 'dnb-dropdown--opened',
@@ -541,7 +541,7 @@ class DropdownInstance extends React.PureComponent {
     }
 
     const triggerParams = {
-      className: classnames(
+      className: clsx(
         'dnb-dropdown__trigger',
         opened && 'dnb-button--active'
       ),
@@ -635,7 +635,7 @@ class DropdownInstance extends React.PureComponent {
                       )}
                       <span
                         aria-hidden
-                        className={classnames(
+                        className={clsx(
                           'dnb-dropdown__icon',
                           parseFloat(selectedItem) === 0 &&
                             'dnb-dropdown__icon--first'
@@ -663,7 +663,7 @@ class DropdownInstance extends React.PureComponent {
                 id={id}
                 role={handleAsMenu ? 'menu' : 'listbox'}
                 portalClass={portalClass}
-                listClass={classnames(
+                listClass={clsx(
                   'dnb-dropdown__list',
                   variant === 'tertiary' && 'dnb-dropdown__list--tertiary'
                 )}

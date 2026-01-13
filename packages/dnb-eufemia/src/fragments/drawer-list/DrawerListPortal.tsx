@@ -6,7 +6,7 @@
  */
 
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import {
   warn,
   getClosestScrollViewElement,
@@ -225,7 +225,7 @@ function DrawerListPortal({
           ref={portalRef}
         >
           <span
-            className={classnames(
+            className={clsx(
               'dnb-drawer-list__portal__style',
               fixedPosition && 'dnb-drawer-list__portal__style--fixed',
               className

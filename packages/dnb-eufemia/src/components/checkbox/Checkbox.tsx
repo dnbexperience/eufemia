@@ -9,7 +9,7 @@ import React, {
   useReducer,
   useRef,
 } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import {
   validateDOMAttributes,
   getStatusState,
@@ -323,7 +323,7 @@ function Checkbox(localProps: CheckboxProps) {
   ])
 
   const mainParams = {
-    className: classnames(
+    className: clsx(
       'dnb-checkbox',
       status && `dnb-checkbox__status--${statusState}`,
       size && `dnb-checkbox--${size}`,
@@ -390,7 +390,7 @@ function Checkbox(localProps: CheckboxProps) {
             />
 
             <span
-              className={classnames(
+              className={clsx(
                 'dnb-checkbox__button',
                 createSkeletonClass('shape', skeleton, context)
               )}

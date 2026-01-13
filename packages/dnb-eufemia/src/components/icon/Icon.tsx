@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { ErrorHandler } from '../../shared/error-helper'
 import {
   validateDOMAttributes,
@@ -374,7 +374,7 @@ export function prepareIcon(props: IconAllProps, context: ContextProps) {
     delete wrapperParams['aria-label']
   }
 
-  wrapperParams.className = classnames(
+  wrapperParams.className = clsx(
     'dnb-icon',
     modifier && `dnb-icon--${modifier}`,
     border && 'dnb-icon--border',

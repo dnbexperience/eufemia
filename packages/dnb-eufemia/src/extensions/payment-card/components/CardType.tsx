@@ -1,5 +1,5 @@
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { createSkeletonClass } from '../../../components/skeleton/SkeletonHelper'
 import P from '../../../elements/P'
 
@@ -15,7 +15,7 @@ const CardTypeText: React.FC<CardTypeTextProps> = ({
   const cardType = isCredit ? 'Credit' : 'Debit'
   return (
     <span
-      className={classnames(
+      className={clsx(
         'dnb-payment-card__card__element--wrapper',
         createSkeletonClass('font', skeleton)
       )}

@@ -1,5 +1,5 @@
 import React, { useContext, useMemo } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { convertJsxToString } from '../../../../shared/component-helper'
 import { Lead } from '../../../../elements'
 import { Props as FlexContainerProps } from '../../../../components/flex/Container'
@@ -110,7 +110,7 @@ export function EditContainerWithoutToolbar(
   return (
     <ArrayItemArea
       mode="edit"
-      className={classnames('dnb-forms-section-edit-block', className)}
+      className={clsx('dnb-forms-section-edit-block', className)}
       ariaLabel={convertJsxToString(itemTitle)}
       toolbarVariant={toolbarVariant}
       {...restProps}
