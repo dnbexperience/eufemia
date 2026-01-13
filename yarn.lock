@@ -15965,7 +15965,6 @@ __metadata:
     jest: "npm:30.0.5"
     lint-staged: "npm:11.2.6"
     mdast-util-to-string: "npm:^2"
-    ora: "npm:5.4.1"
     postcss: "npm:8.4.32"
     prettier: "npm:3.0.3"
     prettier-package-json: "npm:2.8.0"
