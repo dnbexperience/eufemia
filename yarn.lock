@@ -4567,8 +4567,6 @@ __metadata:
     lebab: "npm:3.2.7"
     lint-staged: "npm:11.2.6"
     lockfile-lint: "npm:4.6.2"
-    lodash.isequal: "npm:4.5.0"
-    lodash.isequalwith: "npm:4.4.0"
     markdown-tables-to-json: "npm:0.1.7"
     mock-match-media: "npm:0.3.0"
     nodemon: "npm:2.0.15"
@@ -25209,20 +25207,6 @@ __metadata:
   version: 3.0.4
   resolution: "lodash.isarray@npm:3.0.4"
   checksum: 10/de22f2f3c1f910f6d922e18f50b4f0b9089398a6a8a9d084a20ec272659ef00372f11cf5ea3b72ff6097160bad705d30f1712da37825e64ab13bcb6bff62b0e0
-  languageName: node
-  linkType: hard
-
-"lodash.isequal@npm:4.5.0":
-  version: 4.5.0
-  resolution: "lodash.isequal@npm:4.5.0"
-  checksum: 10/82fc58a83a1555f8df34ca9a2cd300995ff94018ac12cc47c349655f0ae1d4d92ba346db4c19bbfc90510764e0c00ddcc985a358bdcd4b3b965abf8f2a48a214
-  languageName: node
-  linkType: hard
-
-"lodash.isequalwith@npm:4.4.0":
-  version: 4.4.0
-  resolution: "lodash.isequalwith@npm:4.4.0"
-  checksum: 10/5c79d2f64b7eec9e9d337c347a58c8dda2f83f6da9ec8ff83fb1beab3ae87be3a02ac295e9283b6395673bee363039fca7324a6244bbdb7e6a47e0cd872cc36b
   languageName: node
   linkType: hard
 
