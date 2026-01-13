@@ -214,6 +214,7 @@ export default class Autocomplete extends React.PureComponent {
       PropTypes.string,
       PropTypes.number,
     ]),
+    searchMatch: PropTypes.oneOf(['word', 'starts-with']),
     search_numbers: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool,
@@ -1357,6 +1358,9 @@ class AutocompleteInstance extends React.PureComponent {
 
     const searchWords = value?.split(/\s+/g).filter(Boolean) || []
     const wordCond = '^|\\s'
+    const startsWithMatch = this.props.searchMatch === 'starts-with'
+    const getWordBoundary = (wordIndex) =>
+      startsWithMatch && wordIndex === 0 ? '^' : wordCond
 
     const findSearchWords = (contentChunk) => {
       if (typeof contentChunk !== 'string') {
@@ -1379,9 +1383,13 @@ class AutocompleteInstance extends React.PureComponent {
             word = word.replace(/(\d)/g, '$1+')
           }
 
+          const wordBoundary = getWordBoundary(wordIndex)
+
           // if the uses reached word 3, then we go inside words as well
           const regexWord = new RegExp(
-            wordIndex >= inWordIndex ? `${word}` : `(${wordCond})${word}`,
+            wordIndex >= inWordIndex
+              ? `${word}`
+              : `(${wordBoundary})${word}`,
             'i'
           )
 
@@ -1406,7 +1414,10 @@ class AutocompleteInstance extends React.PureComponent {
           // and give a score for each one
           wordScore += (
             contentChunk.match(
-              new RegExp(`(${wordCond})${escapeRegexChars(word)}`, 'ig')
+              new RegExp(
+                `(${getWordBoundary(wordIndex)})${escapeRegexChars(word)}`,
+                'ig'
+              )
             ) || []
           ).length
 
@@ -1502,7 +1513,10 @@ class AutocompleteInstance extends React.PureComponent {
                   )
                 } else {
                   segment = segment.replace(
-                    new RegExp(`(${wordCond})(${word})`, 'gi'),
+                    new RegExp(
+                      `(${getWordBoundary(wordIndex)})(${word})`,
+                      'gi'
+                    ),
                     `$1${strS}$2${strE}`
                   )
                 }
@@ -1814,6 +1828,7 @@ class AutocompleteInstance extends React.PureComponent {
       default_value,
       search_numbers, // eslint-disable-line
       search_in_word_index, // eslint-disable-line
+      searchMatch, // eslint-disable-line
       show_options_sr, // eslint-disable-line
       selected_sr,
       submit_button_title,

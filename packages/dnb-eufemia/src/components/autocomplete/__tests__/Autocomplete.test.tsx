@@ -585,6 +585,65 @@ describe('Autocomplete component', () => {
     ).toBe('Ingen alternativer')
   })
 
+  describe('searchMatch', () => {
+    it('filters by starts-with when searchMatch is set', () => {
+      const data = ['Back to the Future', 'The Godfather', 'The Matrix']
+
+      render(
+        <Autocomplete
+          data={data}
+          searchMatch="starts-with"
+          show_submit_button
+          {...mockProps}
+        />
+      )
+
+      toggle()
+
+      fireEvent.change(document.querySelector('.dnb-input__input'), {
+        target: { value: 'The' },
+      })
+
+      const optionTexts = Array.from(
+        document.querySelectorAll('li.dnb-drawer-list__option')
+      ).map((node) => node.textContent)
+
+      expect(optionTexts).toEqual(
+        expect.arrayContaining(['The Godfather', 'The Matrix'])
+      )
+      expect(optionTexts).not.toEqual(
+        expect.arrayContaining(['Back to the Future'])
+      )
+    })
+
+    it('filters numbers by starts-with when searchMatch is set', () => {
+      const data = ['123 124', '124 123']
+
+      render(
+        <Autocomplete
+          data={data}
+          search_numbers
+          searchMatch="starts-with"
+          show_submit_button
+          {...mockProps}
+        />
+      )
+
+      toggle()
+
+      fireEvent.change(document.querySelector('.dnb-input__input'), {
+        target: { value: '123' },
+      })
+
+      const optionTexts = Array.from(
+        document.querySelectorAll('li.dnb-drawer-list__option')
+      ).map((node) => node.textContent)
+
+      expect(optionTexts).toEqual(expect.arrayContaining(['123 124']))
+      expect(optionTexts).not.toEqual(expect.arrayContaining(['124 123']))
+    })
+  })
+
   it('should update aria-live with results', async () => {
     render(
       <Autocomplete data={mockData} show_submit_button {...mockProps} />
