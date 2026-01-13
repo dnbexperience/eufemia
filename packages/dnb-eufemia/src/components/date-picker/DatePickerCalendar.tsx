@@ -13,19 +13,17 @@ import React, {
 import classnames from 'classnames'
 
 // date-fns
-import {
-  format,
-  addMonths,
-  addWeeks,
-  addDays,
-  isSameDay,
-  isSameMonth,
-  startOfDay,
-  differenceInCalendarDays,
-  differenceInMonths,
-  lastDayOfMonth,
-  setDate,
-} from 'date-fns'
+import format from 'date-fns/format'
+import addMonths from 'date-fns/addMonths'
+import addWeeks from 'date-fns/addWeeks'
+import addDays from 'date-fns/addDays'
+import isSameDay from 'date-fns/isSameDay'
+import isSameMonth from 'date-fns/isSameMonth'
+import startOfDay from 'date-fns/startOfDay'
+import differenceInCalendarDays from 'date-fns/differenceInCalendarDays'
+import differenceInMonths from 'date-fns/differenceInMonths'
+import lastDayOfMonth from 'date-fns/lastDayOfMonth'
+import setDate from 'date-fns/setDate'
 
 import {
   isDisabled,

@@ -1,12 +1,10 @@
 import React, { useCallback, useContext } from 'react'
-import {
-  addMonths,
-  addYears,
-  isSameMonth,
-  isSameYear,
-  subMonths,
-  subYears,
-} from 'date-fns'
+import addMonths from 'date-fns/addMonths'
+import addYears from 'date-fns/addYears'
+import isSameMonth from 'date-fns/isSameMonth'
+import isSameYear from 'date-fns/isSameYear'
+import subMonths from 'date-fns/subMonths'
+import subYears from 'date-fns/subYears'
 import { CalendarNavigationEvent } from './DatePickerCalendar'
 import classnames from 'classnames'
 import Button from '../Button'

@@ -1,4 +1,4 @@
-import { addMonths } from 'date-fns'
+import addMonths from 'date-fns/addMonths'
 import { useCallback, useMemo, useRef, useState } from 'react'
 import { DatePickerDates } from './useDates'
 

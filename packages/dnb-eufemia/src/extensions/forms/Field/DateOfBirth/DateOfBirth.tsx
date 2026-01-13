@@ -12,7 +12,9 @@ import CompositionField, {
 } from '../Composition'
 import SelectionField from '../Selection'
 import SharedContext from '../../../../shared/Context'
-import { parseISO, isValid, isAfter } from 'date-fns'
+import parseISO from 'date-fns/parseISO'
+import isValid from 'date-fns/isValid'
+import isAfter from 'date-fns/isAfter'
 
 import useTranslation from '../../hooks/useTranslation'
 import type {

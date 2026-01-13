@@ -16,7 +16,7 @@ import {
   formatDuration,
   isValidDuration,
 } from './DateFormatUtils'
-import { format } from 'date-fns'
+import format from 'date-fns/format'
 import { SpacingProps } from '../space/types'
 import classnames from 'classnames'
 import { createSpacingClasses } from '../space/SpacingUtils'

@@ -13,7 +13,8 @@ import React, {
 } from 'react'
 
 // date-fns
-import { isValid, parseISO } from 'date-fns'
+import isValid from 'date-fns/isValid'
+import parseISO from 'date-fns/parseISO'
 
 import classnames from 'classnames'
 import TextMask, { TextMaskProps } from '../input-masked/TextMask'

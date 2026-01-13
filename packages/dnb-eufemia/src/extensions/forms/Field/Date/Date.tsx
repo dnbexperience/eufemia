@@ -12,7 +12,11 @@ import { pickSpacingProps } from '../../../../components/flex/utils'
 import classnames from 'classnames'
 import FieldBlock, { Props as FieldBlockProps } from '../../FieldBlock'
 import SharedContext from '../../../../shared/Context'
-import { parseISO, isValid, isBefore, isAfter, startOfDay } from 'date-fns'
+import parseISO from 'date-fns/parseISO'
+import isValid from 'date-fns/isValid'
+import isBefore from 'date-fns/isBefore'
+import isAfter from 'date-fns/isAfter'
+import startOfDay from 'date-fns/startOfDay'
 import useTranslation from '../../hooks/useTranslation'
 import {
   DatePickerEvent,
