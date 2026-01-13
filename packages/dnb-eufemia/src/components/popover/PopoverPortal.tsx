@@ -3,7 +3,7 @@
  */
 
 import React, { useCallback, useContext, useEffect, useState } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { makeUniqueId } from '../../shared/component-helper'
 import useMountEffect from '../../shared/helpers/useMountEffect'
 import useMounted from '../../shared/helpers/useMounted'
@@ -115,7 +115,7 @@ function PopoverPortal(props: PopoverPortalProps) {
   return (
     <PortalRoot>
       <div
-        className={classnames(
+        className={clsx(
           baseClassNames.map((base) => `${base}__portal`),
           portalRootClass,
           theme && getThemeClasses(theme),

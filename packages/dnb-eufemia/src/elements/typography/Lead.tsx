@@ -4,10 +4,10 @@
  */
 import React from 'react'
 import P, { PProps } from './P'
-import classnames from 'classnames'
+import clsx from 'clsx'
 
 const Lead = ({ className, ...rest }: PProps) => (
-  <P className={classnames('dnb-p--lead', className)} {...rest} />
+  <P className={clsx('dnb-p--lead', className)} {...rest} />
 )
 
 Lead._supportsSpacingProps = true

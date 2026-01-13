@@ -1,6 +1,6 @@
 import React, { useContext, useMemo, useReducer, useRef } from 'react'
 import { createPortal } from 'react-dom'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import IsolatedStyleScope, {
   IsolatedStyleScopeContext,
 } from '../../shared/IsolatedStyleScope'
@@ -136,7 +136,7 @@ function PortalRoot(props: PortalRootProps = {}): JSX.Element {
       uniqueKey={false} // ensure that the scope is used on every portal root
     >
       <div
-        className={classnames(
+        className={clsx(
           'dnb-core-style',
           'eufemia-portal-root',
           className

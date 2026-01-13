@@ -1,5 +1,5 @@
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import useTableAnimationHandler from './useTableAnimationHandler'
 import { TableContext } from '../TableContext'
 import { TableAccordionContext } from './TableAccordionContext'
@@ -73,7 +73,7 @@ function TableAccordionContent(
       hidden={isInDOM ? undefined : true} // NVDA and VoiceOver needs "hidden" to be true in order to not count invisible table rows (based on "tr" element)
       role={isInDOM ? 'row' : undefined} // NVDA and VoiceOver needs "hidden" to be true in order to not count invisible table rows (based on "role" element)
       style={{ ...firstPaintStyle, ...style }}
-      className={classnames(
+      className={clsx(
         isInDOM && 'dnb-table__tr',
         'dnb-table__tr__accordion-content',
         `dnb-table__tr__accordion-content--${variant}`,

@@ -4,12 +4,12 @@
  */
 
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import type { TooltipAllProps } from './types'
 
 export function injectTooltipSemantic(params) {
   params.tabIndex = '0'
-  params.className = classnames(
+  params.className = clsx(
     'dnb-tooltip__wrapper',
     'dnb-tab-focus',
     params.className

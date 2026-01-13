@@ -1,5 +1,5 @@
 import React, { useCallback, useContext } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { Button, Dialog } from '../../../../components'
 import { ButtonProps } from '../../../../components/Button'
 import IterateItemContext from '../IterateItemContext'
@@ -49,7 +49,7 @@ function RemoveButton(props: Props) {
   )
 
   const triggerAttributes: ButtonProps = {
-    className: classnames(
+    className: clsx(
       'dnb-forms-iterate-remove-element-button',
       className
     ),

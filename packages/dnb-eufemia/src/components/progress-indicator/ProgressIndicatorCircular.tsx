@@ -5,7 +5,7 @@
 
 import React, { useEffect, useRef, forwardRef } from 'react'
 import * as CSS from 'csstype'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { validateDOMAttributes } from '../../shared/component-helper'
 import { IS_EDGE } from '../../shared/helpers'
 import { ProgressIndicatorCircularAllProps } from './types'
@@ -141,7 +141,7 @@ function ProgressIndicatorCircular(
 
   return (
     <span
-      className={classnames(
+      className={clsx(
         'dnb-progress-indicator__circular',
         size && `dnb-progress-indicator__circular--${size}`,
         progressIsControlled &&
@@ -158,12 +158,12 @@ function ProgressIndicatorCircular(
 
       {/* The first one is the background line */}
       <Circle
-        className={classnames('light', 'paused')}
+        className={clsx('light', 'paused')}
         customColor={customColors?.shaft}
         customWidth={customCircleWidth}
       />
       <Circle
-        className={classnames(
+        className={clsx(
           'dark',
           'dark',
           progressIsControlled || useAnimationFrame ? 'paused' : null
@@ -181,7 +181,7 @@ function ProgressIndicatorCircular(
       />
       {!progressIsControlled && (
         <Circle
-          className={classnames(
+          className={clsx(
             'light',
             useAnimationFrame ? 'paused' : null
           )}
@@ -209,7 +209,7 @@ const Circle = forwardRef(function Circle(
   const correctedCustomWidth = correctPercentageStrokeWidth(customWidth)
   return (
     <svg
-      className={classnames(
+      className={clsx(
         'dnb-progress-indicator__circular__line',
         className
       )}

@@ -1,5 +1,5 @@
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 
 // Components
 import { createSpacingClasses } from '../space/SpacingHelper'
@@ -149,7 +149,7 @@ const AvatarGroup = (localProps: AvatarGroupProps & SpacingProps) => {
       value={{ ...props, variant, size, color, backgroundColor }}
     >
       <span
-        className={classnames(
+        className={clsx(
           'dnb-avatar__group',
           spacingClasses,
           className
@@ -188,7 +188,7 @@ function ElementsHidden(props: ElementsHiddenProps) {
   const { size, children } = props
   return (
     <span
-      className={classnames(
+      className={clsx(
         'dnb-avatar__group--elements-left',
         `dnb-avatar__group--elements-left--size-${size || 'medium'}`
       )}

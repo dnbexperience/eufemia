@@ -9,7 +9,7 @@ import DialogBody from './parts/DialogBody'
 import DialogHeader from './parts/DialogHeader'
 import DialogNavigation from './parts/DialogNavigation'
 import { DialogProps, DialogContentProps } from './types'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import Context from '../../shared/Context'
 import DialogAction from './parts/DialogAction'
 import { extendPropsWithContext } from '../../shared/component-helper'
@@ -147,7 +147,7 @@ function Dialog(localProps: DialogProps & DialogContentProps) {
     <Modal
       {...modalProps}
       dialogRole={variant === 'information' ? 'dialog' : 'alertdialog'}
-      contentClass={classnames('dnb-dialog__root', contentClass)}
+      contentClass={clsx('dnb-dialog__root', contentClass)}
     >
       <DialogContent {...dialogProps} />
     </Modal>

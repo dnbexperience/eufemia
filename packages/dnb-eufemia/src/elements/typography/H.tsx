@@ -4,7 +4,7 @@
  */
 
 import React, { useContext } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { SpacingProps } from '../../components/space/types'
 import E, { ElementProps } from '../Element'
 import { HeadingSize } from '../../components/heading/Heading'
@@ -76,7 +76,7 @@ const H = ({
   return (
     <E
       as={as || is}
-      internalClass={classnames(
+      internalClass={clsx(
         targetSize && `dnb-h--${targetSize}`,
         className
       )}

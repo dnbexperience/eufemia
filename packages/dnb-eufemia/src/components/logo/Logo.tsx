@@ -3,7 +3,7 @@
  */
 
 import React, { useContext, useMemo } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import Context from '../../shared/Context'
 import {
   validateDOMAttributes,
@@ -120,7 +120,7 @@ function Logo(localProps: LogoProps) {
     return 'logo'
   }, [svg])
 
-  const sharedClasses = classnames(
+  const sharedClasses = clsx(
     classNameProp,
     createSpacingClasses(props)
   )
@@ -135,7 +135,7 @@ function Logo(localProps: LogoProps) {
   }, [svg, theme])
 
   const className = useMemo(() => {
-    return classnames(
+    return clsx(
       'dnb-logo',
       `dnb-logo--${detectedBrand}`,
       sharedClasses,

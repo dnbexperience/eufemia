@@ -1,5 +1,5 @@
 import React, { useRef } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import {
   useHeightAnimation,
   useHeightAnimationOptions,
@@ -103,7 +103,7 @@ function HeightAnimation({
     <Space
       innerRef={targetRef}
       element={element || 'div'}
-      className={classnames(
+      className={clsx(
         'dnb-height-animation',
         isInDOM && 'dnb-height-animation--is-in-dom',
         isVisible && 'dnb-height-animation--is-visible',

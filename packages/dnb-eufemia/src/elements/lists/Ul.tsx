@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import E, { ElementProps } from '../Element'
 
 export type UlProps = {
@@ -33,7 +33,7 @@ const Ul = ({ nested, inside, outside, ...props }: UlAllProps = {}) => {
     <E
       as="ul"
       {...props}
-      className={classnames(
+      className={clsx(
         props.className,
         nested && 'dnb-ul--nested',
         inside && 'dnb-ul--inside',

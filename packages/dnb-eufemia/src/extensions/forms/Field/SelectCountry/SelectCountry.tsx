@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useMemo, useRef } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import SharedContext from '../../../../shared/Context'
 import FieldBlockContext from '../../FieldBlock/FieldBlockContext'
 import { LOCALE } from '../../../../shared/defaults'
@@ -239,7 +239,7 @@ function SelectCountry(props: Props) {
 
   const fieldBlockProps: FieldBlockProps = {
     forId: id,
-    className: classnames('dnb-forms-field-select-country', className),
+    className: clsx('dnb-forms-field-select-country', className),
     label,
     width:
       width === 'stretch' || fieldBlockContext?.composition

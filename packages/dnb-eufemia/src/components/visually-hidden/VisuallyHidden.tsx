@@ -1,5 +1,5 @@
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 
 // Shared
 import Context from '../../shared/Context'
@@ -40,7 +40,7 @@ const VisuallyHidden = (localProps: VisuallyHiddenAllProps) => {
       context?.VisuallyHidden
     )
 
-  const visuallyHiddenClassNames = classnames(
+  const visuallyHiddenClassNames = clsx(
     'dnb-visually-hidden',
     focusable ? 'dnb-visually-hidden--focusable' : 'dnb-sr-only',
     className

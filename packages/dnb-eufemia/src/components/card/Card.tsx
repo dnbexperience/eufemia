@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import Flex from '../flex/Flex'
 import { SectionParams, SectionProps } from '../section/Section'
 import { combineLabelledBy } from '../../shared/component-helper'
@@ -76,7 +76,7 @@ function Card(props: Props) {
     : basisSpace
 
   const params = SectionParams({
-    className: classnames(
+    className: clsx(
       'dnb-card',
       className,
       responsive && 'dnb-card--responsive',

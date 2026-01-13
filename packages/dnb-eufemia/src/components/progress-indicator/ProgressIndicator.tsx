@@ -10,7 +10,7 @@ import React, {
   useRef,
   useState,
 } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import Context, { ContextProps } from '../../shared/Context'
 import {
   isTrue,
@@ -100,7 +100,7 @@ function ProgressIndicator(props: ProgressIndicatorAllProps) {
 
   return (
     <span
-      className={classnames(
+      className={clsx(
         'dnb-progress-indicator',
         visible && 'dnb-progress-indicator--visible',
         complete && 'dnb-progress-indicator--complete',

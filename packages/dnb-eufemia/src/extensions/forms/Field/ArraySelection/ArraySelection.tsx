@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useMemo } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { convertJsxToString } from '../../../../shared/component-helper'
 import { Checkbox, HelpButton, ToggleButton } from '../../../../components'
 import FieldBlock, { Props as FieldBlockProps } from '../../FieldBlock'
@@ -87,7 +87,7 @@ function ArraySelection(props: Props) {
 
   const fieldBlockProps: FieldBlockProps = {
     forId: id,
-    className: classnames(
+    className: clsx(
       'dnb-forms-field-array-selection',
       `dnb-forms-field-array-selection--variant-${
         variant === 'checkbox' ? 'checkbox' : 'button'
@@ -228,7 +228,7 @@ export function useCheckboxOrToggleOptions({
           id={optionsCount === 1 ? id : undefined}
           key={`option-${i}-${value}`}
           variant={variant === 'checkbox-button' ? 'checkbox' : undefined}
-          className={classnames(
+          className={clsx(
             `dnb-forms-field-array-selection__${
               variant === 'checkbox' ? 'checkbox' : 'button'
             }`,

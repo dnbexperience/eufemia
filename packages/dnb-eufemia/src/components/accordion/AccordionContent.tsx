@@ -4,7 +4,7 @@
  */
 
 import React, { HTMLProps } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import {
   warn,
   validateDOMAttributes,
@@ -139,7 +139,7 @@ export default function AccordionContent(props: AccordionContentProps) {
   const content = renderContent()
 
   const wrapperParams = {
-    className: classnames('dnb-accordion__content', className),
+    className: clsx('dnb-accordion__content', className),
     ...rest,
   }
 
@@ -148,7 +148,7 @@ export default function AccordionContent(props: AccordionContentProps) {
   const innerParams = {
     id: `${id}-content`,
     'aria-labelledby': `${id}-header`,
-    className: classnames(
+    className: clsx(
       'dnb-accordion__content__inner',
       createSpacingClasses(rest)
     ),

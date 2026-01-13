@@ -1,5 +1,5 @@
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import Space, { SpaceAllProps } from '../space/Space'
 
 export type Columns = number
@@ -48,7 +48,7 @@ function GridContainer(props: AllProps) {
     }
   }
 
-  const cn = classnames(
+  const cn = clsx(
     n,
     className,
     columnGap &&

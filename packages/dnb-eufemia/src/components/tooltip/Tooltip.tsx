@@ -4,7 +4,7 @@
  */
 
 import React, { useContext, useEffect, useState } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import Context from '../../shared/Context'
 import type { ContextProps } from '../../shared/Context'
 import { validateDOMAttributes } from '../../shared/component-helper'
@@ -132,7 +132,7 @@ function buildClassNames(
   className: TooltipAllProps['className'],
   props: TooltipAllProps
 ) {
-  return classnames(
+  return clsx(
     'dnb-tooltip',
     size === 'large' && 'dnb-tooltip--large',
     createSpacingClasses(props),

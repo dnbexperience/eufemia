@@ -6,7 +6,7 @@
 import React from 'react'
 import Section from '../../section/Section'
 import ModalContext from '../ModalContext'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { SectionProps } from '../../Section'
 
 export type ModalInnerProps = SectionProps
@@ -36,7 +36,7 @@ export default class ModalInner extends React.PureComponent<
     return (
       <Section
         backgroundColor={backgroundColor}
-        className={classnames(className)}
+        className={clsx(className)}
         {...props}
       />
     )

@@ -1,5 +1,5 @@
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { TableAccordionHead } from './table-accordion/TableAccordionHead'
 import { TableNavigationHead } from './table-navigation/TableNavigationHead'
 import { TableAccordionContentRow } from './table-accordion/TableAccordionContent'
@@ -77,7 +77,7 @@ export default function Tr(
     variant,
   })
 
-  const className = classnames(
+  const className = clsx(
     'dnb-table__tr',
     currentVariant && `dnb-table__tr--${currentVariant}`,
     isLast && 'dnb-table__tr--last',

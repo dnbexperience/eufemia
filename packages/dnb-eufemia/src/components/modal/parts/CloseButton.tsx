@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { extendPropsWithContextInClassComponent } from '../../../shared/component-helper'
 import Button from '../../button/Button'
 import Context, { ContextProps } from '../../../shared/Context'
@@ -51,7 +51,7 @@ export default class CloseButton extends React.PureComponent<CloseButtonProps> {
         text={closeTitle}
         size={size}
         iconPosition={iconPosition}
-        className={classnames('dnb-modal__close-button', className)}
+        className={clsx('dnb-modal__close-button', className)}
         {...button_props}
       />
     )
