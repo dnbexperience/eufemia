@@ -220,3 +220,19 @@ export const DurationWithStyles = () => {
     </Style>
   )
 }
+
+export const DateAndTime = () => {
+  return (
+    <ComponentBox>
+      <P>
+        Updated at{' '}
+        <DateFormat
+          value={new Date('2026-01-13T11:55:00')}
+          dateStyle="medium"
+          timeStyle="short"
+          dateTimeSeparator=" – "
+        />
+      </P>
+    </ComponentBox>
+  )
+}
