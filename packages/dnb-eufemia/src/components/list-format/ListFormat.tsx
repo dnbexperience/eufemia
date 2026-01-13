@@ -144,6 +144,7 @@ export function listFormat(
   })
 
   try {
+    // eslint-disable-next-line compat/compat
     const formatter = new Intl.ListFormat(locale, format)
     const formattedList = formatter.format(shadow)
 

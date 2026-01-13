@@ -247,6 +247,7 @@ export default class Textarea extends React.PureComponent {
     if (isTrue(props.autoresize) && typeof window !== 'undefined') {
       this.setAutosize()
       try {
+        // eslint-disable-next-line compat/compat
         this.resizeObserver = new ResizeObserver((entries) => {
           window.requestAnimationFrame(() => {
             if (!Array.isArray(entries) || !entries.length) {

@@ -1,0 +1,30 @@
+diff --git a/lib/cjs/src/helpers.js b/lib/cjs/src/helpers.js
+index e2715d02d61690afc2cdf51ec643dc04ddf87f7e..d661d6db49548a34665eda9027a222fafb574fad 100644
+--- a/lib/cjs/src/helpers.js
++++ b/lib/cjs/src/helpers.js
+@@ -31,9 +31,7 @@ function isInsideIfStatement(node, sourceCode, context) {
+     });
+ }
+ function checkNotInsideIfStatementAndReport(context, handleFailingRule, failingRule, sourceCode, node) {
+-    if (!isInsideIfStatement(node, sourceCode, context)) {
+-        handleFailingRule(failingRule, node);
+-    }
++    handleFailingRule(failingRule, node);
+ }
+ function lintCallExpression(context, handleFailingRule, rules, sourceCode, node) {
+     if (!node.callee)
+diff --git a/lib/esm/src/helpers.js b/lib/esm/src/helpers.js
+index e2715d02d61690afc2cdf51ec643dc04ddf87f7e..d661d6db49548a34665eda9027a222fafb574fad 100644
+--- a/lib/esm/src/helpers.js
++++ b/lib/esm/src/helpers.js
+@@ -31,9 +31,7 @@ function isInsideIfStatement(node, sourceCode, context) {
+     });
+ }
+ function checkNotInsideIfStatementAndReport(context, handleFailingRule, failingRule, sourceCode, node) {
+-    if (!isInsideIfStatement(node, sourceCode, context)) {
+-        handleFailingRule(failingRule, node);
+-    }
++    handleFailingRule(failingRule, node);
+ }
+ function lintCallExpression(context, handleFailingRule, rules, sourceCode, node) {
+     if (!node.callee)

@@ -199,6 +199,7 @@ function DrawerListPortal({
     customElem.current.addEventListener('scroll', setPosition.current)
 
     try {
+      // eslint-disable-next-line compat/compat
       resizeObserver.current = new ResizeObserver(setPosition.current)
       resizeObserver.current.observe(document.body)
     } catch (e) {
