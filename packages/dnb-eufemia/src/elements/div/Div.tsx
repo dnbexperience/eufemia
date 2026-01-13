@@ -13,7 +13,6 @@ const Div = React.forwardRef((props: DivProps, ref) => (
   <E as="div" skeletonMethod="shape" innerRef={ref} {...props} />
 ))
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-expect-error - Adding custom property to component for spacing detection
 Div._supportsSpacingProps = true
 

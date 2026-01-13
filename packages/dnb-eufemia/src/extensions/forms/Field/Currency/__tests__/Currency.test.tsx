@@ -158,7 +158,6 @@ describe('Field.Currency', () => {
     render(
       <Field.Currency
         value={123}
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-expect-error
         currency="invalid"
       />

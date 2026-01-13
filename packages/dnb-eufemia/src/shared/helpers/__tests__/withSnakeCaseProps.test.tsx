@@ -295,7 +295,6 @@ describe('classWithSnakeCaseProps', () => {
     const Component = classWithSnakeCaseProps(Original)
 
     const { rerender } = render(<Component />)
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error - Testing dynamic prop injection
     rerender(<Component new_prop="hello" />)
 

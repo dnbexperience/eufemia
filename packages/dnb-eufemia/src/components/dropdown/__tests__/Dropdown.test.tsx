@@ -1698,7 +1698,6 @@ describe('Dropdown component', () => {
     }
 
     // make sure we get the correct document.documentElement.clientHeight on startup
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error - Test helper for window resize
     window.resizeTo({ height: window.innerHeight })
   })

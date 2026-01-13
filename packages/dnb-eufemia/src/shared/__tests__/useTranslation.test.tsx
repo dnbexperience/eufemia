@@ -388,7 +388,6 @@ describe('useTranslation without an ID', () => {
 
     expect(result.current.my.string).toBe('Min streng')
 
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error
     expect(result.current.my.foo).toBeUndefined()
   })
@@ -784,7 +783,6 @@ describe('useTranslation with an ID', () => {
         },
       }
 
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-expect-error
       type Translation = (typeof customTranslations)['en-GB']
 
