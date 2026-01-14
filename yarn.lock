@@ -1550,7 +1550,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/plugin-proposal-nullish-coalescing-operator@npm:^7.18.6":
+"@babel/plugin-proposal-nullish-coalescing-operator@npm:7.18.6, @babel/plugin-proposal-nullish-coalescing-operator@npm:^7.18.6":
   version: 7.18.6
   resolution: "@babel/plugin-proposal-nullish-coalescing-operator@npm:7.18.6"
   dependencies:
@@ -1589,7 +1589,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/plugin-proposal-optional-chaining@npm:^7.20.7":
+"@babel/plugin-proposal-optional-chaining@npm:7.21.0, @babel/plugin-proposal-optional-chaining@npm:^7.20.7":
   version: 7.21.0
   resolution: "@babel/plugin-proposal-optional-chaining@npm:7.21.0"
   dependencies:
@@ -4451,6 +4451,8 @@ __metadata:
     "@babel/node": "npm:7.28.0"
     "@babel/parser": "npm:7.28.5"
     "@babel/plugin-proposal-class-properties": "npm:7.18.6"
+    "@babel/plugin-proposal-nullish-coalescing-operator": "npm:7.18.6"
+    "@babel/plugin-proposal-optional-chaining": "npm:7.21.0"
     "@babel/plugin-syntax-dynamic-import": "npm:7.8.3"
     "@babel/plugin-syntax-typescript": "npm:7.27.1"
     "@babel/plugin-transform-export-namespace-from": "npm:7.27.1"
