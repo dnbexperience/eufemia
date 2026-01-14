@@ -4,11 +4,17 @@
  */
 
 import path from 'path'
-import * as globby from 'globby'
+import { glob } from 'node:fs/promises'
 import * as fs from 'fs-extra'
 import { runFactory } from '../themeFactory'
 
-jest.mock('globby', () => jest.fn(jest.requireActual('globby')))
+jest.mock('node:fs/promises', () => {
+  const actualGlob = jest.requireActual('node:fs/promises').glob
+  return {
+    ...jest.requireActual('node:fs/promises'),
+    glob: jest.fn(actualGlob),
+  }
+})
 jest.mock('fs-extra', () => {
   const orig = jest.requireActual('fs-extra')
   return {
@@ -32,12 +38,15 @@ jest.mock('fs-extra', () => {
 
 describe('runFactory', () => {
   it('has to find all related "ui" theme files', async () => {
-    jest
-      .spyOn(globby, 'default')
-      .mockResolvedValue([
-        './src/components/button/style/themes/dnb-button-theme-ui.scss',
-        './src/components/badge/style/themes/dnb-badge-theme-ui.scss',
-      ])
+    const mockFiles = [
+      './src/components/button/style/themes/dnb-button-theme-ui.scss',
+      './src/components/badge/style/themes/dnb-badge-theme-ui.scss',
+    ]
+    jest.spyOn({ glob }, 'glob').mockReturnValue((async function* () {
+      for (const file of mockFiles) {
+        yield file
+      }
+    })())
 
     const result = await getThemeContent({ name: 'ui' })
     expect(result).toMatchInlineSnapshot(`
@@ -66,12 +75,15 @@ describe('runFactory', () => {
   })
 
   it('has to find all related "ui" and "sbanken" theme files', async () => {
-    jest
-      .spyOn(globby, 'default')
-      .mockResolvedValue([
-        './src/components/button/style/themes/dnb-button-theme-ui.scss',
-        './src/components/badge/style/themes/dnb-badge-theme-sbanken.scss',
-      ])
+    const mockFiles = [
+      './src/components/button/style/themes/dnb-button-theme-ui.scss',
+      './src/components/badge/style/themes/dnb-badge-theme-sbanken.scss',
+    ]
+    jest.spyOn({ glob }, 'glob').mockReturnValue((async function* () {
+      for (const file of mockFiles) {
+        yield file
+      }
+    })())
 
     const result = await getThemeContent({ name: 'sbanken' })
     expect(result).toMatchInlineSnapshot(`
@@ -100,13 +112,16 @@ describe('runFactory', () => {
   })
 
   it('has to fallback replacement', async () => {
-    jest
-      .spyOn(globby, 'default')
-      .mockResolvedValue([
-        './src/components/button/style/themes/dnb-button-theme-ui.scss',
-        './src/components/button/style/themes/dnb-button-theme-sbanken.scss',
-        './src/components/badge/style/themes/dnb-badge-theme-ui.scss',
-      ])
+    const mockFiles = [
+      './src/components/button/style/themes/dnb-button-theme-ui.scss',
+      './src/components/button/style/themes/dnb-button-theme-sbanken.scss',
+      './src/components/badge/style/themes/dnb-badge-theme-ui.scss',
+    ]
+    jest.spyOn({ glob }, 'glob').mockReturnValue((async function* () {
+      for (const file of mockFiles) {
+        yield file
+      }
+    })())
 
     const result = await getThemeContent({ name: 'sbanken' })
     expect(fs.mkdir).toHaveBeenCalledTimes(0)

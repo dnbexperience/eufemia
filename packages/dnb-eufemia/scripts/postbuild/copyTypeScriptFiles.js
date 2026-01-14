@@ -5,16 +5,17 @@
 
 import fs from 'fs-extra'
 import path from 'path'
-import globby from 'globby'
+import { glob } from 'node:fs/promises'
 
 if (require.main === module) {
   copyTypeScriptFiles(process.env.OUT_DIR)
 }
 
 async function copyTypeScriptFiles(dist) {
-  const globbyFiles = ['./src/**/*.d.ts']
-
-  const files = await globby(globbyFiles)
+  const files = []
+  for await (const file of glob('./src/**/*.d.ts')) {
+    files.push(file)
+  }
 
   for await (const file of files) {
     const src = path.resolve(file)

@@ -9,7 +9,7 @@ import clone from 'gulp-clone'
 import rename from 'gulp-rename'
 import transform from 'gulp-transform'
 import { log } from '../../lib'
-import globby from 'globby'
+import { glob } from 'node:fs/promises'
 import { asyncForEach } from '../../tools/index'
 import packpath from 'packpath'
 import {
@@ -32,18 +32,20 @@ export default async function makeMainStyle() {
   // info: use this approach to process files because:
   // this way we avoid cross "includePaths" and the result is:
   // Now a custom theme can overwrite existing CSS Custom Properties
-  const listWithThemesToProcess = await globby(
-    './src/style/themes/theme-*/*-theme-*.scss'
-  )
+  const listWithThemesToProcess = []
+  for await (const file of glob('./src/style/themes/theme-*/*-theme-*.scss')) {
+    listWithThemesToProcess.push(file)
+  }
   await asyncForEach(listWithThemesToProcess, async (themeFile) => {
     // in order to keep the folder structure, we have to add these asterisks
     themeFile = themeFile.replace('/style/themes/', '/style/**/themes/')
     await runFactory(themeFile)
   })
 
-  const listWithPackagesToProcess = await globby(
-    './src/style/**/*-ui-*.scss'
-  )
+  const listWithPackagesToProcess = []
+  for await (const file of glob('./src/style/**/*-ui-*.scss')) {
+    listWithPackagesToProcess.push(file)
+  }
   await asyncForEach(listWithPackagesToProcess, async (packageFile) => {
     // in order to keep the folder structure, we have to add these asterisks
     packageFile = packageFile.replace('/style/', '/style/**/')

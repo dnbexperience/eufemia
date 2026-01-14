@@ -4551,7 +4551,6 @@ __metadata:
     fontmin: "npm:0.9.9"
     fs-extra: "npm:10.0.0"
     full-icu: "npm:1.4.0"
-    globby: "npm:11.0.4"
     gulp: "npm:4.0.2"
     gulp-clone: "npm:2.0.1"
     gulp-rename: "npm:2.0.0"

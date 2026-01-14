@@ -5,20 +5,20 @@
 
 import fs from 'fs-extra'
 import path from 'path'
-import globby from 'globby'
+import { glob } from 'node:fs/promises'
 
 if (require.main === module) {
   copyCSSFiles(process.env.OUT_DIR)
 }
 
 async function copyCSSFiles(dist) {
-  const files = await globby([
-    './build/**/*.css',
-    '!./build/es/',
-    '!./build/esm/',
-    '!./build/cjs/',
-    '!./build/umd/',
-  ])
+  const files = []
+  for await (const file of glob('./build/**/*.css')) {
+    if (!file.includes('/es/') && !file.includes('/esm/') && 
+        !file.includes('/cjs/') && !file.includes('/umd/')) {
+      files.push(file)
+    }
+  }
 
   for await (const file of files) {
     const src = path.resolve(file)

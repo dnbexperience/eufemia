@@ -5,13 +5,12 @@
 
 import fs from 'fs-extra'
 import path from 'path'
-import del from 'del'
 import gulp from 'gulp'
 import rename from 'gulp-rename'
 import transform from 'gulp-transform'
 import { transform as svgr } from '@svgr/core'
 import prettier from 'prettier'
-import globby from 'globby'
+import { glob } from 'node:fs/promises'
 import { iconCase } from '../../../src/components/icon/IconHelpers'
 import { asyncForEach } from '../../tools'
 import { log } from '../../lib'
@@ -42,18 +41,14 @@ export default async function convertSvgToJsx({
   customIconsLockFilePath = null,
 } = {}) {
   if (!preventDelete) {
-    await del(
-      [
-        `${destPath}/**/*.{js,ts,tsx}`,
-        `!${destPath}`,
-        '!**/__tests__/*',
-        '!**/secondary*',
-        '!**/primary*',
-      ],
-      {
-        force: true,
+    const filesToDelete = []
+    for await (const file of glob(`${destPath}/**/*.{js,ts,tsx}`)) {
+      if (file !== destPath && !file.includes('/__tests__/') && 
+          !file.includes('/secondary') && !file.includes('/primary')) {
+        filesToDelete.push(file)
       }
-    )
+    }
+    await Promise.all(filesToDelete.map((file) => fs.remove(file)))
 
     log.info(
       '> PrePublish: deleted all svg files before converting "svg to jsx"!'
@@ -229,17 +224,16 @@ const makeIconsEntryFiles = async ({
   customIconsLockFilePath = null,
 }) => {
   // get all the svg icons we find
-  const icons: Array<IconItem> = (
-    await globby([
-      path.resolve(destPath, assetsDir, '*.tsx'),
-      '!**/index*',
-      '!**/__tests__/*',
-      '!**/icons-meta*',
-      '!**/icons-svg*',
-      '!**/secondary*',
-      '!**/primary*',
-    ])
-  )
+  const iconFiles = []
+  for await (const file of glob(path.resolve(destPath, assetsDir, '*.tsx'))) {
+    if (!file.includes('/index') && !file.includes('/__tests__/') && 
+        !file.includes('/icons-meta') && !file.includes('/icons-svg') && 
+        !file.includes('/secondary') && !file.includes('/primary')) {
+      iconFiles.push(file)
+    }
+  }
+  
+  const icons: Array<IconItem> = iconFiles
     .map((file) => {
       const basename = path.basename(file)
       const filename = basename.replace(path.extname(file), '')

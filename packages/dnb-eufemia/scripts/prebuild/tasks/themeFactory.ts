@@ -4,7 +4,7 @@
  */
 
 import fs from 'fs-extra'
-import globby from 'globby'
+import { glob } from 'node:fs/promises'
 import packpath from 'packpath'
 import path, { basename } from 'path'
 import prettier from 'prettier'
@@ -271,7 +271,10 @@ function getFallbackFiles({
 async function getExistingThemePackageFiles() {
   const themes: ThemePackageFiles = []
 
-  const list = await globby(baseGlob)
+  const list = []
+  for await (const file of glob(baseGlob)) {
+    list.push(file)
+  }
 
   list.forEach((file) => {
     const themeName = file.match(baseMatch)?.[1] || null
@@ -297,7 +300,19 @@ function getFallbackThemeName({ fileContent }: { fileContent: string }) {
 }
 
 async function getThemeSources(filesToFindGlob: Array<string>) {
-  filesToFindGlob = await globby(filesToFindGlob)
+  const result = []
+  const patterns = filesToFindGlob.filter(p => !p.startsWith('!'))
+  
+  for (const pattern of patterns) {
+    for await (const file of glob(pattern)) {
+      if (!file.includes('__tests__/') && !file.includes('stories/') && 
+          !file.includes('style/') && !file.includes('helper-classes/') && 
+          !file.includes('_not_in_use')) {
+        result.push(file)
+      }
+    }
+  }
+  filesToFindGlob = result
   filesToFindGlob.sort()
 
   const groups: ThemeSources = {}

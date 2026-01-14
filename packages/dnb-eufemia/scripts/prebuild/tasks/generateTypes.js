@@ -5,7 +5,7 @@
 
 import fs from 'fs-extra'
 import nodePath from 'path'
-import globby from 'globby'
+import { glob } from 'node:fs/promises'
 import { exec } from 'child_process'
 import prettier from 'prettier'
 import { asyncForEach } from '../../tools'
@@ -42,7 +42,18 @@ export default async function generateTypes({
   }
 
   try {
-    const files = await globby(paths)
+    const files = []
+    const patterns = Array.isArray(paths) ? paths.filter(p => !p.startsWith('!')) : [paths]
+    
+    for (const pattern of patterns) {
+      for await (const file of glob(pattern)) {
+        if (!file.includes('__tests__') && !file.includes('stories') && 
+            !file.includes('/esm/') && !file.includes('/cjs/') && 
+            !file.includes('/umd/') && !file.includes('/style/')) {
+          files.push(file)
+        }
+      }
+    }
     await createTypes(files)
 
     log.succeed(`> PrePublish: Converting "types" is done`)
