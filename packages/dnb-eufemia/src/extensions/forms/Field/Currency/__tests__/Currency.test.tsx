@@ -158,7 +158,7 @@ describe('Field.Currency', () => {
     render(
       <Field.Currency
         value={123}
-        // @ts-expect-error
+        // @ts-expect-error - Testing invalid currency prop for validation
         currency="invalid"
       />
     )

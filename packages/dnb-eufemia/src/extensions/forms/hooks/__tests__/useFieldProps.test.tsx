@@ -8070,7 +8070,7 @@ describe('useFieldProps', () => {
         },
       })
 
-      // @ts-expect-error
+      // @ts-expect-error - Testing that revealError is not exposed in the return type
       const { revealError } = result.current
 
       expect(revealErrorDataContext).toHaveBeenCalledTimes(0)

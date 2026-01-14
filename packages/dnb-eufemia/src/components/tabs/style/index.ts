@@ -3,5 +3,4 @@
  *
  */
 
-// @ts-nocheck
 import './dnb-tabs.scss'

@@ -388,7 +388,7 @@ describe('useTranslation without an ID', () => {
 
     expect(result.current.my.string).toBe('Min streng')
 
-    // @ts-expect-error
+    // @ts-expect-error - Testing that non-existent key returns undefined
     expect(result.current.my.foo).toBeUndefined()
   })
 })
@@ -783,7 +783,7 @@ describe('useTranslation with an ID', () => {
         },
       }
 
-      // @ts-expect-error
+      // @ts-expect-error - Testing type inference with custom translation object
       type Translation = (typeof customTranslations)['en-GB']
 
       const { result } = renderHook(
