@@ -277,14 +277,12 @@ describe('Form.useTranslation', () => {
 
     expect(result.current.my.string).toBe('Min streng')
 
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
+    // @ts-expect-error - Testing that non-existent key returns undefined
     expect(result.current.my.foo).toBeUndefined()
   })
 
   it('should not support an identifier', () => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
+    // @ts-expect-error - Testing that identifier string is not supported as parameter
     const { result } = renderHook(() => useTranslation('Email.label'))
 
     const nb = {}

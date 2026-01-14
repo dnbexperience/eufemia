@@ -865,7 +865,6 @@ const optimizeSVG = async (file) => {
       path: file,
       ...config,
 
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-expect-error - SVGO types don't recognize removeViewBox config option
       removeViewBox: false, // Seems to be a bug as it is not picked up from svgo.config.js
     })

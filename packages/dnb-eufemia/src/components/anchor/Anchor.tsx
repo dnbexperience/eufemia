@@ -215,7 +215,6 @@ const Anchor = React.forwardRef(
   }
 )
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-expect-error - Adding custom property to component for spacing detection
 Anchor._supportsSpacingProps = true
 

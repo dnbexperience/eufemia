@@ -2269,8 +2269,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       externalValueDidChangeRef.current = false
 
       // Hide error when the external value has changed, but is the same as the empty value.
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-expect-error
+      // @ts-expect-error - emptyValue may not be directly comparable to valueRef.current
       if (!validateContinuously && valueRef.current === emptyValue) {
         hideError()
       }

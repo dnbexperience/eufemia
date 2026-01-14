@@ -1388,8 +1388,7 @@ describe('isolated-style-scope-plugin', () => {
     it('should ignore non-array return from sharedScopeHash', async () => {
       await run('.foo { color: red; }', '.main .foo { color: red; }', {
         scopeHash: 'main',
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-expect-error
+        // @ts-expect-error - Testing that non-array return value is handled gracefully
         sharedScopeHash: () => 'not-an-array',
       })
     })
