@@ -268,6 +268,8 @@ function UploadComponent(props: Props) {
             ...newFilesLoading,
           ]
           setFiles(filesWithLoading)
+          // Update data context with loading state without triggering validation or user's onChange.
+          // This keeps the form in sync while files are being processed by fileHandler.
           dataContext?.handlePathChangeUnvalidated?.(
             identifier,
             filesWithLoading
