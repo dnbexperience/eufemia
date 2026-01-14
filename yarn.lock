@@ -17992,7 +17992,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "eufemia@workspace:."
   dependencies:
-    husky: "npm:^9.1.7"
+    husky: "npm:9.1.7"
   languageName: unknown
   linkType: soft
 
@@ -21728,7 +21728,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"husky@npm:^9.1.7":
+"husky@npm:9.1.7":
   version: 9.1.7
   resolution: "husky@npm:9.1.7"
   bin:
