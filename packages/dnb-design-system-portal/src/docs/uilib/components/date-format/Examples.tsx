@@ -108,7 +108,11 @@ export const RelativeTimeWithStyles = () => {
         <H4>Short:</H4>
         {pastDates.map((date, index) => (
           <P key={index}>
-            <DateFormat value={date} relativeTime dateStyle="short" />
+            <DateFormat
+              value={date}
+              relativeTime
+              relativeTimeStyle="short"
+            />
             {index < pastDates.length - 1 && <br />}
           </P>
         ))}
@@ -116,7 +120,11 @@ export const RelativeTimeWithStyles = () => {
         <H4>Medium:</H4>
         {pastDates.map((date, index) => (
           <P key={index}>
-            <DateFormat value={date} relativeTime dateStyle="medium" />
+            <DateFormat
+              value={date}
+              relativeTime
+              relativeTimeStyle="medium"
+            />
             {index < pastDates.length - 1 && <br />}
           </P>
         ))}
@@ -124,7 +132,11 @@ export const RelativeTimeWithStyles = () => {
         <H4>Long (default):</H4>
         {pastDates.map((date, index) => (
           <P key={index}>
-            <DateFormat value={date} relativeTime dateStyle="long" />
+            <DateFormat
+              value={date}
+              relativeTime
+              relativeTimeStyle="long"
+            />
             {index < pastDates.length - 1 && <br />}
           </P>
         ))}
@@ -132,7 +144,11 @@ export const RelativeTimeWithStyles = () => {
         <H4>Future dates with long style:</H4>
         {futureDates.map((date, index) => (
           <P key={index}>
-            <DateFormat value={date} relativeTime dateStyle="long" />
+            <DateFormat
+              value={date}
+              relativeTime
+              relativeTimeStyle="long"
+            />
             {index < futureDates.length - 1 && <br />}
           </P>
         ))}
@@ -142,13 +158,13 @@ export const RelativeTimeWithStyles = () => {
           <DateFormat
             value={pastDates[2]}
             relativeTime
-            dateStyle="short"
+            relativeTimeStyle="short"
             locale="de-DE"
           />
           <DateFormat
             value={futureDates[2]}
             relativeTime
-            dateStyle="short"
+            relativeTimeStyle="short"
             locale="sv-SE"
           />
         </P>

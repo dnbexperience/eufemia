@@ -26,6 +26,11 @@ export const DateFormatProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  relativeTimeStyle: {
+    doc: 'Defines the style used to format relative time. Defaults to `dateStyle` when not provided.',
+    type: ['long', 'medium', 'short', 'full'],
+    status: 'optional',
+  },
   relativeTimeReference: {
     doc: 'A function that returns a Date object to use as the reference point for relative time calculations. If not provided, the current time is used.',
     type: 'function',
