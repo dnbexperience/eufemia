@@ -46,11 +46,11 @@
   },
   "engines": {
     "node": ">=18.x",
-    "yarn": ">=1.22.10"
+    "yarn": ">=4.0.0"
   },
   "volta": {
     "node": "24.6.0",
-    "yarn": "1.22.10"
+    "yarn": "4.6.0"
   },
   "packageManager": "yarn@4.6.0"
 }
