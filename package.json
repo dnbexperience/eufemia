@@ -30,7 +30,6 @@
     "test:types:watch": "yarn workspace @dnb/eufemia test:types:watch",
     "test:screenshots": "yarn workspace @dnb/eufemia test:screenshots",
     "test:screenshots:update": "yarn workspace @dnb/eufemia test:screenshots:update",
-    "prepare": "husky install",
     "lint": "yarn workspace @dnb/eufemia lint && yarn workspace dnb-design-system-portal lint",
     "lint:styles": "yarn workspace @dnb/eufemia lint:styles && yarn workspace dnb-design-system-portal lint:styles"
   },
