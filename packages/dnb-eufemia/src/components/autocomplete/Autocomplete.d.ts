@@ -40,6 +40,7 @@ type AutocompleteInputElement =
   | ((...args: any[]) => any)
   | React.ReactNode;
 type AutocompleteSearchInWordIndex = string | number;
+type AutocompleteSearchMatch = 'word' | 'starts-with';
 export type AutocompleteClearEvent = {
   /**
    * The new value after clearing (empty string).
@@ -200,6 +201,10 @@ export interface AutocompleteProps {
    * This gives you the possibility to change the threshold number, which defines from what word on we search "inside words". Defaults to `3`.
    */
   search_in_word_index?: AutocompleteSearchInWordIndex;
+  /**
+   * Defines how search matching is performed. Use `starts-with` to only match items that begin with the first typed word. Defaults to `word`.
+   */
+  searchMatch?: AutocompleteSearchMatch;
   /**
    * If set to `true` and `search_in_word_index` is not set, the user will be able to more easily search and filter e.g. bank account numbers. Defaults to `false`.
    */

@@ -43,6 +43,8 @@ Words found during typing are highlighted. The rules are:
 1. The third word will match inside a word (can be changed with `search_in_word_index`)
 1. Case-insensitive
 
+To only match items that begin with the first typed word, set `searchMatch="starts-with"`.
+
 #### Using Components inside content
 
 It is **not** possible to wrap them inside React Components. The reason is that the Autocomplete component needs to know what data it wants to search for before your React Component has rendered. Additionally, the component cannot update the HTML to make the bold highlighting after your component has rendered.
