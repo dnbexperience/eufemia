@@ -4,7 +4,7 @@ import DataContext from '../Context'
 export default function useEventListener(id, listener, path = undefined) {
   const { setFieldEventListener } = useContext(DataContext)
 
-  useMemo(() => {
+  useEffect(() => {
     setFieldEventListener?.(path, id, listener)
   }, [id, listener, path, setFieldEventListener])
 

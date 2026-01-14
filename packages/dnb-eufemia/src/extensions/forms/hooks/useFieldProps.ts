@@ -175,7 +175,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
   const [salt, forceUpdate] = useReducer(() => ({}), {})
   const isInternalRerenderRef = useRef(undefined)
-  useMemo(() => {
+  useEffect(() => {
     /**
      * This is currently not used, but we keep it here for future use.
      * It lets you check for isInternalRerenderRef.current !== undefined
@@ -2662,10 +2662,10 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
   const infoRef = useRef<FieldStatus['info']>(info)
   const warningRef = useRef<FieldStatus['warning']>(warning)
-  useMemo(() => {
+  useEffect(() => {
     infoRef.current = info
   }, [info])
-  useMemo(() => {
+  useEffect(() => {
     warningRef.current = warning
   }, [warning])
 
