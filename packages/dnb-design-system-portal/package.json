@@ -99,7 +99,7 @@
     "gatsby-source-filesystem": "5.14.0",
     "github-slugger": "1.4.0",
     "jest": "30.0.5",
-    "lint-staged": "11.2.6",
+    "lint-staged": "15.2.11",
     "mdast-util-to-string": "^2",
     "postcss": "8.4.32",
     "prettier": "3.0.3",

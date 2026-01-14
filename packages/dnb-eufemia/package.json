@@ -237,7 +237,7 @@
     "jest-raw-loader": "1.0.1",
     "jest-tobetype": "1.2.3",
     "lebab": "3.2.7",
-    "lint-staged": "11.2.6",
+    "lint-staged": "15.2.11",
     "lockfile-lint": "4.6.2",
     "lodash.isequal": "4.5.0",
     "lodash.isequalwith": "4.4.0",
