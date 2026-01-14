@@ -1495,24 +1495,11 @@ describe('Field.Upload', () => {
         ).not.toBeInTheDocument()
       })
 
-      // onChange is called twice: once with loading state, once when complete
-      expect(onChange).toHaveBeenCalledTimes(2)
+      // onChange is called once with the final resolved file
+      expect(onChange).toHaveBeenCalledTimes(1)
 
-      // First call has isLoading: true
-      expect(onChange).toHaveBeenNthCalledWith(
-        1,
-        [
-          expect.objectContaining({
-            file: file,
-            isLoading: true,
-            name: 'fileName-1.png',
-          }),
-        ],
-        expect.anything()
-      )
-
-      // Final call has resolved file
-      expect(onChange).toHaveBeenLastCalledWith(
+      // Only call has resolved file
+      expect(onChange).toHaveBeenCalledWith(
         [
           {
             exists: false,

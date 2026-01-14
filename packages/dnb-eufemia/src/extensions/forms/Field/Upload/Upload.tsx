@@ -258,7 +258,7 @@ function UploadComponent(props: Props) {
         })
 
         try {
-          // Set loading
+          // Set loading - update data context and local state without triggering user's onChange
           const newFilesLoading = newFiles.map((file) => ({
             ...file,
             isLoading: !file.errorMessage,
@@ -267,7 +267,8 @@ function UploadComponent(props: Props) {
             ...filesRef.current,
             ...newFilesLoading,
           ]
-          updateFiles(filesWithLoading)
+          setFiles(filesWithLoading)
+          dataContext?.handlePathChangeUnvalidated?.(identifier, filesWithLoading)
 
           const incomingFiles = await fileHandler(newValidFiles)
 
@@ -317,6 +318,8 @@ function UploadComponent(props: Props) {
       fileHandler,
       setFieldInternals,
       setFieldState,
+      setFiles,
+      dataContext,
       updateFiles,
     ]
   )
