@@ -4566,7 +4566,7 @@ __metadata:
     jest-tobetype: "npm:1.2.3"
     lebab: "npm:3.2.7"
     lint-staged: "npm:11.2.6"
-    lockfile-lint: "npm:4.6.2"
+    lockfile-lint: "npm:4.14.1"
     lodash.isequal: "npm:4.5.0"
     lodash.isequalwith: "npm:4.4.0"
     markdown-tables-to-json: "npm:0.1.7"
@@ -10765,13 +10765,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@yarnpkg/parsers@npm:^3.0.0-rc.32":
-  version: 3.0.0-rc.46
-  resolution: "@yarnpkg/parsers@npm:3.0.0-rc.46"
+"@yarnpkg/parsers@npm:^3.0.0-rc.48.1":
+  version: 3.0.3
+  resolution: "@yarnpkg/parsers@npm:3.0.3"
   dependencies:
     js-yaml: "npm:^3.10.0"
     tslib: "npm:^2.4.0"
-  checksum: 10/3b7d55ebd1b90fe2adf05bfaab53031fb9ddb6315f8dfca1b5ba0393c08fc4a7f22c94603eec06dfe0a67e4121e5227b0ae57a70c73d353614650e2b54b6049d
+  checksum: 10/379f7ff8fc1b37d3818dfeba4e18a72f8e9817bb41aab9332b50bbc843e45c9bf135563a7a06882ffb50e4cdd29c8da33c8e4f3739201de2fbcd38ecb59e3a8e
   languageName: node
   linkType: hard
 
@@ -13957,17 +13957,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cliui@npm:^7.0.2":
-  version: 7.0.4
-  resolution: "cliui@npm:7.0.4"
-  dependencies:
-    string-width: "npm:^4.2.0"
-    strip-ansi: "npm:^6.0.0"
-    wrap-ansi: "npm:^7.0.0"
-  checksum: 10/db858c49af9d59a32d603987e6fddaca2ce716cd4602ba5a2bb3a5af1351eebe82aba8dff3ef3e1b331f7fa9d40ca66e67bdf8e7c327ce0ea959747ead65c0ef
-  languageName: node
-  linkType: hard
-
 "cliui@npm:^8.0.1":
   version: 8.0.1
   resolution: "cliui@npm:8.0.1"
@@ -14741,6 +14730,23 @@ __metadata:
     parse-json: "npm:^5.0.0"
     path-type: "npm:^4.0.0"
   checksum: 10/e0b188f9a672ee7135851bf9d9fc8f0ba00f9769c95fda5af0ebc274804f6aeb713b753e04e706f595e1fbd0fa67c5073840666019068c0296a06057560ab39d
+  languageName: node
+  linkType: hard
+
+"cosmiconfig@npm:^9.0.0":
+  version: 9.0.0
+  resolution: "cosmiconfig@npm:9.0.0"
+  dependencies:
+    env-paths: "npm:^2.2.1"
+    import-fresh: "npm:^3.3.0"
+    js-yaml: "npm:^4.1.0"
+    parse-json: "npm:^5.2.0"
+  peerDependencies:
+    typescript: ">=4.9.5"
+  peerDependenciesMeta:
+    typescript:
+      optional: true
+  checksum: 10/8bdf1dfbb6fdb3755195b6886dc0649a3c742ec75afa4cb8da7b070936aed22a4f4e5b7359faafe03180358f311dbc300d248fd6586c458203d376a40cc77826
   languageName: node
   linkType: hard
 
@@ -16465,7 +16471,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"env-paths@npm:^2.2.0":
+"env-paths@npm:^2.2.0, env-paths@npm:^2.2.1":
   version: 2.2.1
   resolution: "env-paths@npm:2.2.1"
   checksum: 10/65b5df55a8bab92229ab2b40dad3b387fad24613263d103a97f91c9fe43ceb21965cd3392b1ccb5d77088021e525c4e0481adb309625d0cb94ade1d1fb8dc17e
@@ -21853,6 +21859,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"import-fresh@npm:^3.3.0":
+  version: 3.3.1
+  resolution: "import-fresh@npm:3.3.1"
+  dependencies:
+    parent-module: "npm:^1.0.0"
+    resolve-from: "npm:^4.0.0"
+  checksum: 10/a06b19461b4879cc654d46f8a6244eb55eb053437afd4cbb6613cad6be203811849ed3e4ea038783092879487299fda24af932b86bdfff67c9055ba3612b8c87
+  languageName: node
+  linkType: hard
+
 "import-from@npm:4.0.0, import-from@npm:^4.0.0":
   version: 4.0.0
   resolution: "import-from@npm:4.0.0"
@@ -25009,27 +25025,29 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lockfile-lint-api@npm:^5.1.7":
-  version: 5.5.5
-  resolution: "lockfile-lint-api@npm:5.5.5"
+"lockfile-lint-api@npm:^5.9.2":
+  version: 5.9.2
+  resolution: "lockfile-lint-api@npm:5.9.2"
   dependencies:
-    "@yarnpkg/parsers": "npm:^3.0.0-rc.32"
+    "@yarnpkg/parsers": "npm:^3.0.0-rc.48.1"
+    debug: "npm:^4.3.4"
     object-hash: "npm:^3.0.0"
-  checksum: 10/d8d7f15788369ab5ee8513d93bae2565de984099aa3509c742122c95823af511b76e086971aa516bc50c163fe5a96e92ca02945f897167f6f209e839060d6b1d
+  checksum: 10/f317e0cf31921404c4182e3c2a4b8f3a24c62c3f6d03ebb616d9ebd7ffcb168f903cbb6d175a630244923a0f86aadd3b247f85e635a8b937122b19ebf4fc0508
   languageName: node
   linkType: hard
 
-"lockfile-lint@npm:4.6.2":
-  version: 4.6.2
-  resolution: "lockfile-lint@npm:4.6.2"
+"lockfile-lint@npm:4.14.1":
+  version: 4.14.1
+  resolution: "lockfile-lint@npm:4.14.1"
   dependencies:
-    cosmiconfig: "npm:^6.0.0"
-    debug: "npm:^4.1.1"
-    lockfile-lint-api: "npm:^5.1.7"
-    yargs: "npm:^16.0.0"
+    cosmiconfig: "npm:^9.0.0"
+    debug: "npm:^4.3.4"
+    fast-glob: "npm:^3.3.2"
+    lockfile-lint-api: "npm:^5.9.2"
+    yargs: "npm:^17.7.2"
   bin:
-    lockfile-lint: ./bin/lockfile-lint.js
-  checksum: 10/84dd6fd6dcca3dbdddce5cfba12a8c3e2bbd5abbca162740463f67e11f9311b96170e1e807ebe9f95fe13bcbee060471ee6add0f8b29012c21700dafc85be175
+    lockfile-lint: bin/lockfile-lint.js
+  checksum: 10/90207c95b51ca4ed5b0cda25f98291719a896c8dbca67a7106ec62af2b60693b28fc45afa82e00db668b2cd63c7fa16f1ab20175cdfafb1457daf7a5977898cf
   languageName: node
   linkType: hard
 
@@ -38585,7 +38603,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"yargs-parser@npm:^20.2.2, yargs-parser@npm:^20.2.3, yargs-parser@npm:^20.2.9":
+"yargs-parser@npm:^20.2.3, yargs-parser@npm:^20.2.9":
   version: 20.2.9
   resolution: "yargs-parser@npm:20.2.9"
   checksum: 10/0188f430a0f496551d09df6719a9132a3469e47fe2747208b1dd0ab2bb0c512a95d0b081628bbca5400fb20dbf2fabe63d22badb346cecadffdd948b049f3fcc
@@ -38625,21 +38643,6 @@ __metadata:
     y18n: "npm:^4.0.0"
     yargs-parser: "npm:^18.1.2"
   checksum: 10/bbcc82222996c0982905b668644ca363eebe6ffd6a572fbb52f0c0e8146661d8ce5af2a7df546968779bb03d1e4186f3ad3d55dfaadd1c4f0d5187c0e3a5ba16
-  languageName: node
-  linkType: hard
-
-"yargs@npm:^16.0.0":
-  version: 16.2.0
-  resolution: "yargs@npm:16.2.0"
-  dependencies:
-    cliui: "npm:^7.0.2"
-    escalade: "npm:^3.1.1"
-    get-caller-file: "npm:^2.0.5"
-    require-directory: "npm:^2.1.1"
-    string-width: "npm:^4.2.0"
-    y18n: "npm:^5.0.5"
-    yargs-parser: "npm:^20.2.2"
-  checksum: 10/807fa21211d2117135d557f95fcd3c3d390530cda2eca0c840f1d95f0f40209dcfeb5ec18c785a1f3425896e623e3b2681e8bb7b6600060eda1c3f4804e7957e
   languageName: node
   linkType: hard
 
