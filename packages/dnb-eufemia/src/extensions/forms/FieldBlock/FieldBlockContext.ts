@@ -48,8 +48,8 @@ export type FieldBlockContextProps = {
   hasErrorProp?: boolean
   composition?: true
   disableStatusSummary?: boolean
-  fieldStateIdsRef?: React.MutableRefObject<FieldErrorIdsRef>
-  mountedFieldsRef?: React.MutableRefObject<MountedFieldsRef>
+  fieldStateIdsRef?: React.RefObject<FieldErrorIdsRef>
+  mountedFieldsRef?: React.RefObject<MountedFieldsRef>
 }
 
 const FieldBlockContext = React.createContext<

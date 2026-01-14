@@ -94,7 +94,7 @@ export type AccordionProps = Omit<React.HTMLProps<HTMLElement>, 'ref'> &
     /**
      * Send along a custom React Ref for `.dnb-accordion__content`.
      */
-    contentRef?: React.MutableRefObject<unknown>
+    contentRef?: React.RefObject<unknown>
     /**
      * If set to `true`, the saved (remembered) will be removed and the initial component state will be used and set.
      */
@@ -432,6 +432,22 @@ function Accordion({
       )}
     </Context.Consumer>
   )
+}
+
+export type GroupProps = AccordionProps & {
+  allowCloseAll?: boolean
+  /**
+   * Determines how many accordions can be expanded at once.
+   * Default: `single`
+   */
+  expandBehavior?: 'single' | 'multiple'
+  /**
+   * ref handle to collapse all expanded accordions. Send in a ref and use `.current()` to collapse all accordions.
+   *
+   * Default: `undefined`
+   */
+  expandedId?: string
+  collapseAllHandleRef?: React.RefObject<() => void>
 }
 
 const Group = ({ expandBehavior = 'single', ...props }: GroupProps) => {

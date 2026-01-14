@@ -307,8 +307,8 @@ export interface ModalContentProps {
   dialogRole?: 'dialog' | 'alertdialog' | 'region'
   contentRef?: React.RefObject<HTMLElement>
   scrollRef?: React.RefObject<HTMLElement>
-  open?: boolean
-  modalContentCloseRef?: React.MutableRefObject<any>
+  openState?: ModalOpenState
+  modalContentCloseRef?: React.RefObject<any>
 }
 
 export type TriggerAttributes = ButtonProps

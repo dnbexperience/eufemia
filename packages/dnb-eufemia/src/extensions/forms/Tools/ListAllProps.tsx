@@ -8,7 +8,7 @@ export type ListAllPropsReturn<Data> = {
 }
 export type ListAllPropsProps<Data> = {
   log?: boolean
-  generateRef?: React.MutableRefObject<() => ListAllPropsReturn<Data>>
+  generateRef?: React.RefObject<() => ListAllPropsReturn<Data>>
   filterData?: FilterData
   children: React.ReactNode
 }

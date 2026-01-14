@@ -5,7 +5,7 @@ export const PortalRootProperties: PropertiesTableProps = {
     doc: 'The ref of the element that will be used.',
     type: [
       'React.Ref<HTMLElement>',
-      'React.MutableRefObject<HTMLElement>',
+      'React.RefObject<HTMLElement>',
     ],
     status: 'optional',
   },
