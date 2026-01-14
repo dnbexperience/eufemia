@@ -107,10 +107,6 @@ if (typeof process.env.BABEL_ENV !== 'undefined') {
 
 const basePlugins = [
   'babel-plugin-optimize-clsx',
-  '@babel/plugin-proposal-export-default-from',
-  '@babel/plugin-proposal-object-rest-spread',
-  '@babel/plugin-proposal-class-properties',
-  '@babel/plugin-proposal-optional-chaining',
   '@babel/plugin-transform-export-namespace-from',
   '@babel/plugin-transform-nullish-coalescing-operator',
 ]
