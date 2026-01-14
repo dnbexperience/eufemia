@@ -1,5 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
 /**
  * Web NumberFormat Helpers
  *
@@ -183,7 +181,7 @@ export const format = (
       ? JSON.parse(options)
       : options) || {}
 
-  if (parseFloat(decimals) >= 0) {
+  if (decimals >= 0) {
     value = formatDecimals(
       value,
       decimals,
@@ -419,7 +417,7 @@ export const format = (
  * @param {object} opts immutable object
  * @returns A decimal prepared number
  */
-export const formatDecimals = (value, decimals, rounding, opts = {}) => {
+export const formatDecimals = (value, decimals, rounding, opts: Record<string, any> = {}) => {
   decimals = parseFloat(decimals)
 
   // Mutate the given options
@@ -610,7 +608,7 @@ const enhanceSR = (value, aria, locale) => {
 export const formatNumber = (
   number,
   locale,
-  options = {},
+  options: Record<string, any> = {},
   formatter = null
 ) => {
   try {
@@ -1086,7 +1084,11 @@ export function getCurrencySymbol(
  * @property {object} options - NumberFormat options
  * @returns {array} that contains all the parts of the given number [{ value: x, type: 'type' }]
  */
-function formatToParts({ number, locale = null, options = null }) {
+function formatToParts({ number, locale = null, options = null }: {
+  number: number
+  locale?: string
+  options?: Record<string, any>
+}): Intl.NumberFormatPart[] {
   if (
     typeof Intl !== 'undefined' &&
     typeof Intl.NumberFormat === 'function'
@@ -1096,14 +1098,14 @@ function formatToParts({ number, locale = null, options = null }) {
       if (typeof inst.formatToParts === 'function') {
         return inst.formatToParts(number)
       } else {
-        return [{ value: inst.format(number) }]
+        return [{ value: inst.format(number), type: 'integer' }]
       }
     } catch (e) {
       warn(e)
     }
   }
 
-  return [{ value: number }]
+  return [{ value: String(number), type: 'integer' }]
 }
 
 /**
@@ -1123,12 +1125,18 @@ function handleCompactBeforeDisplay({
   compact,
   decimals = 0,
   opts,
+}: {
+  value?: any
+  locale?: string
+  compact?: boolean | 'short' | 'long'
+  decimals?: number
+  opts?: Record<string, any>
 } = {}) {
   if (!canHandleCompact({ value, compact })) {
     return // stop here
   }
 
-  value = parseInt(Math.abs(value))
+  value = Math.trunc(Math.abs(value))
   opts.notation = 'compact'
 
   // For numbers under 1M we do
@@ -1139,10 +1147,10 @@ function handleCompactBeforeDisplay({
   }
 
   if (typeof opts.maximumSignificantDigits === 'undefined') {
-    if (isNaN(parseFloat(decimals))) {
+    if (isNaN(decimals)) {
       decimals = 0
     } else {
-      decimals = parseFloat(decimals)
+      decimals = decimals
     }
 
     // This formula ensures we always get the same amount decimals
@@ -1192,7 +1200,11 @@ function handleCompactBeforeDisplay({
  * @property {string|boolean} compact "short" or "long" if true is given, "short" is used
  * @property {object} opts the options object – it gets mutated
  */
-function handleCompactBeforeAria({ value, compact, opts }) {
+function handleCompactBeforeAria({ value, compact, opts }: {
+  value?: any
+  compact?: boolean | 'short' | 'long'
+  opts?: Record<string, any>
+}) {
   if (!canHandleCompact({ value, compact })) {
     return // stop here
   }
@@ -1207,7 +1219,10 @@ function handleCompactBeforeAria({ value, compact, opts }) {
  * @property {string|number} value any number
  * @property {string|boolean} compact "short" or "long" if true is given, "short" is used
  */
-function canHandleCompact({ value, compact }) {
+function canHandleCompact({ value, compact }: {
+  value?: any
+  compact?: boolean | 'short' | 'long'
+}) {
   if (compact && Math.abs(value) >= 1000) {
     return true
   }
