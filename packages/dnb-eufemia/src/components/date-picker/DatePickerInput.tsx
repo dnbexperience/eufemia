@@ -4,7 +4,7 @@
  */
 
 import React, {
-  MutableRefObject,
+  RefObject,
   useCallback,
   useContext,
   useMemo,
@@ -190,7 +190,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
   )
 
   const inputRefs = useRef<
-    Record<string, MutableRefObject<HTMLInputElement>>
+    Record<string, RefObject<HTMLInputElement>>
   >({
     startDayRef: { current: undefined },
     startMonthRef: { current: undefined },
@@ -217,7 +217,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
     endDate: undefined,
   })
 
-  const refList = useRef<Array<MutableRefObject<HTMLInputElement>>>()
+  const refList = useRef<Array<RefObject<HTMLInputElement>>>()
 
   const focusMode = useRef<string>()
 
@@ -1055,7 +1055,7 @@ function InputElement({ className, value, ...props }: TextMaskProps) {
 }
 
 function syncDateRefs(
-  dateRefs: React.MutableRefObject<DatePickerInputDates>,
+  dateRefs: React.RefObject<DatePickerInputDates>,
   inputDates: DatePickerInputDates
 ) {
   for (const date in dateRefs.current) {

@@ -32,7 +32,7 @@ type PopoverContainerProps = {
   fixedPosition?: boolean
   noAnimation?: boolean
   skipPortal?: boolean
-  contentRef?: React.MutableRefObject<HTMLSpanElement>
+  contentRef?: React.RefObject<HTMLSpanElement>
   children?: React.ReactNode
   targetElement?: PopoverResolvedTargetElement
   triggerOffset?: number

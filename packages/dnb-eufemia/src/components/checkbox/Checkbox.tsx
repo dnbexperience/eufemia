@@ -122,7 +122,7 @@ export type CheckboxProps = {
    * By providing a React.ref we can get the internally used input element (DOM). E.g. `innerRef={myRef}` by using `React.createRef()` or `React.useRef()`.
    */
   innerRef?:
-    | React.MutableRefObject<HTMLInputElement>
+    | React.RefObject<HTMLInputElement>
     | ((elem: HTMLInputElement) => void)
 } & SpacingProps &
   Omit<

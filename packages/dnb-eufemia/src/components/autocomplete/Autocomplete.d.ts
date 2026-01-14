@@ -30,7 +30,7 @@ type AutocompleteSubmitButtonIcon =
   | ((...args: any[]) => any);
 type AutocompleteInputRef =
   | ((...args: any[]) => any)
-  | React.MutableRefObject<HTMLInputElement | undefined>;
+  | React.RefObject<HTMLInputElement | undefined>;
 type AutocompleteInputIcon =
   | string
   | React.ReactNode

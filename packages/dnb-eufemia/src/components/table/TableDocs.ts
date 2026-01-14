@@ -76,7 +76,7 @@ export const TableProperties: PropertiesTableProps = {
 export const TableEventProperties: PropertiesTableProps = {
   collapseAllHandleRef: {
     doc: 'Ref handle to collapse all expanded accordion rows. Send in a ref and use `.current()` to collapse all rows.',
-    type: 'React.MutableRefObject<() => void>',
+    type: 'React.RefObject<() => void>',
     defaultValue: 'undefined',
     status: 'optional',
   },

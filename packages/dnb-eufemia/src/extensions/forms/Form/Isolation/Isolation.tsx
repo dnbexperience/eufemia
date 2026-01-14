@@ -95,7 +95,7 @@ export type IsolationProps<Data extends JsonObject> = Omit<
   /**
    * A ref (function) that you can call in order to commit the data programmatically to the outer context.
    */
-  commitHandleRef?: React.MutableRefObject<() => void>
+  commitHandleRef?: React.RefObject<() => void>
 }
 
 function IsolationProvider<Data extends JsonObject>(
