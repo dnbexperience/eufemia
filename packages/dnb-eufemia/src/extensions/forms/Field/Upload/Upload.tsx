@@ -268,7 +268,10 @@ function UploadComponent(props: Props) {
             ...newFilesLoading,
           ]
           setFiles(filesWithLoading)
-          dataContext?.handlePathChangeUnvalidated?.(identifier, filesWithLoading)
+          dataContext?.handlePathChangeUnvalidated?.(
+            identifier,
+            filesWithLoading
+          )
 
           const incomingFiles = await fileHandler(newValidFiles)
 
