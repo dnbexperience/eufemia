@@ -1,4 +1,4 @@
-import { useCallback, useContext, useEffect, useMemo } from 'react'
+import { useCallback, useContext, useEffect } from 'react'
 import DataContext from '../Context'
 
 export default function useEventListener(id, listener, path = undefined) {
