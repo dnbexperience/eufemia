@@ -417,7 +417,12 @@ export const format = (
  * @param {object} opts immutable object
  * @returns A decimal prepared number
  */
-export const formatDecimals = (value, decimals, rounding, opts: Record<string, any> = {}) => {
+export const formatDecimals = (
+  value,
+  decimals,
+  rounding,
+  opts: Record<string, any> = {}
+) => {
   decimals = parseFloat(decimals)
 
   // Mutate the given options
@@ -1084,7 +1089,11 @@ export function getCurrencySymbol(
  * @property {object} options - NumberFormat options
  * @returns {array} that contains all the parts of the given number [{ value: x, type: 'type' }]
  */
-function formatToParts({ number, locale = null, options = null }: {
+function formatToParts({
+  number,
+  locale = null,
+  options = null,
+}: {
   number: number
   locale?: string
   options?: Record<string, any>
@@ -1149,8 +1158,6 @@ function handleCompactBeforeDisplay({
   if (typeof opts.maximumSignificantDigits === 'undefined') {
     if (isNaN(decimals)) {
       decimals = 0
-    } else {
-      decimals = decimals
     }
 
     // This formula ensures we always get the same amount decimals
@@ -1200,7 +1207,11 @@ function handleCompactBeforeDisplay({
  * @property {string|boolean} compact "short" or "long" if true is given, "short" is used
  * @property {object} opts the options object – it gets mutated
  */
-function handleCompactBeforeAria({ value, compact, opts }: {
+function handleCompactBeforeAria({
+  value,
+  compact,
+  opts,
+}: {
   value?: any
   compact?: boolean | 'short' | 'long'
   opts?: Record<string, any>
@@ -1219,7 +1230,10 @@ function handleCompactBeforeAria({ value, compact, opts }: {
  * @property {string|number} value any number
  * @property {string|boolean} compact "short" or "long" if true is given, "short" is used
  */
-function canHandleCompact({ value, compact }: {
+function canHandleCompact({
+  value,
+  compact,
+}: {
   value?: any
   compact?: boolean | 'short' | 'long'
 }) {
