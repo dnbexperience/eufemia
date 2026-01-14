@@ -31597,6 +31597,7 @@ __metadata:
   resolution: "react-live-ssr@workspace:tools/react-live-ssr"
   dependencies:
     prism-react-renderer: "npm:2.0.5"
+    react: "npm:18.2.0"
     sucrase: "npm:3.31.0"
     use-editable: "npm:2.3.3"
   languageName: unknown
@@ -34448,9 +34449,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "storybook-utils@workspace:tools/storybook-utils"
   peerDependencies:
-    "@emotion/react": 11.9.3
-    "@emotion/styled": 11.9.3
-    classnames: 2.3.1
+    "@emotion/react": ^11.9.3
+    "@emotion/styled": ^11.9.3
+    classnames: ^2.3.1
     react: 18.2.0
     react-dom: 18.2.0
   languageName: unknown
