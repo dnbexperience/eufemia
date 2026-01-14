@@ -1,5 +1,5 @@
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import ModalInner, { ModalInnerProps } from '../../modal/parts/ModalInner'
 import type { SectionStyleTypes } from '../../Section'
 
@@ -25,7 +25,7 @@ export default function DrawerBody({
     <ModalInner
       {...props}
       backgroundColor={styleType}
-      className={classnames('dnb-drawer__body', className)}
+      className={clsx('dnb-drawer__body', className)}
     />
   )
 }

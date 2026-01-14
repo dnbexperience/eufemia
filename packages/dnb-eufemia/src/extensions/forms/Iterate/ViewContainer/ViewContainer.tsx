@@ -1,5 +1,5 @@
 import React, { useContext, useMemo } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { convertJsxToString } from '../../../../shared/component-helper'
 import { Props as FlexContainerProps } from '../../../../components/flex/Container'
 import { Lead } from '../../../../elements'
@@ -64,7 +64,7 @@ function ViewContainer(props: AllProps) {
     <ArrayItemArea
       mode="view"
       ariaLabel={convertJsxToString(itemTitle)}
-      className={classnames('dnb-forms-section-view-block', className)}
+      className={clsx('dnb-forms-section-view-block', className)}
       toolbarVariant={toolbarVariant}
       {...restProps}
     >

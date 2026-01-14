@@ -1,5 +1,5 @@
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 
 // Components
 import { createSpacingClasses } from '../space/SpacingHelper'
@@ -152,7 +152,7 @@ function BadgeElem(
   return (
     <span
       role="status"
-      className={classnames(
+      className={clsx(
         'dnb-badge',
         variant !== 'content' && `dnb-badge--variant-${variant}`,
         horizontal && `dnb-badge--horizontal-${horizontal}`,

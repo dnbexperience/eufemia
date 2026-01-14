@@ -1,5 +1,5 @@
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { StatusIcon } from '../icons'
 import P from '../../../elements/P'
 
@@ -58,7 +58,7 @@ const StatusOverlay: React.FC<StatusOverlayProps> = ({
   return cardStatusMap[cardStatus] ? (
     <div className="dnb-payment-card__overlay">
       <div
-        className={classnames(
+        className={clsx(
           'dnb-payment-card__overlay__content',
           `dnb-payment-card__overlay__content--${cardStatusOverlayThemeMap[cardDesign]}`
         )}

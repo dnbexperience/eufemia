@@ -8,7 +8,7 @@
  */
 
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import Context from '../../shared/Context'
 import {
   warn,
@@ -263,7 +263,7 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
     }
     if (React.isValidElement(comp)) {
       return React.cloneElement(comp, {
-        className: classnames(comp.props.className, className),
+        className: clsx(comp.props.className, className),
       })
     }
     return <span className={className}>{comp}</span>
@@ -416,7 +416,7 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
     const attributes = {
       lang,
       ref: this._ref,
-      className: classnames(
+      className: clsx(
         'dnb-number-format',
         className,
         (isTrue(currency) || typeof currency === 'string') &&
@@ -460,7 +460,7 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
     return (
       <Element {...attributes}>
         <span
-          className={classnames(
+          className={clsx(
             'dnb-number-format__visible',
             createSkeletonClass('font', skeleton, this.context)
           )}

@@ -8,7 +8,7 @@ import React, {
   useCallback,
 } from 'react'
 import * as z from 'zod'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import pointer from '../../utils/json-pointer'
 import { useFieldProps } from '../../hooks'
 import { makeUniqueId } from '../../../../shared/component-helper'
@@ -372,7 +372,7 @@ function ArrayComponent(props: Props) {
   const flexProps: FlexContainerProps & {
     innerRef: FlexContainerAllProps['innerRef']
   } = {
-    className: classnames(
+    className: clsx(
       'dnb-forms-iterate',
       'dnb-forms-section', // To support containers
       props?.className

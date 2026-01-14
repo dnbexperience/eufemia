@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { SpacingProps } from '../../components/space/types'
 import E from '../Element'
 
@@ -35,7 +35,7 @@ const Blockquote = React.forwardRef(
       as="blockquote"
       skeletonMethod="font"
       innerRef={ref}
-      className={classnames(
+      className={clsx(
         className,
         noBackground && 'dnb-blockquote--no-background',
         direction === 'vertical' && 'dnb-blockquote--top'

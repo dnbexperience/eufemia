@@ -5,7 +5,7 @@ import React, {
   useReducer,
   useRef,
 } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { Card, HeightAnimation } from '../../../../../components'
 import SectionContainerContext, {
   SectionContainerContextState,
@@ -114,7 +114,7 @@ function SectionContainer(props: Props & FlexContainerProps) {
 
   return (
     <HeightAnimation
-      className={classnames(
+      className={clsx(
         'dnb-forms-section-block',
         variant && `dnb-forms-section-block--variant-${variant}`,
         omitFocusManagementRef.current &&

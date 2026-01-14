@@ -8,7 +8,7 @@ import {
   subYears,
 } from 'date-fns'
 import { CalendarNavigationEvent } from './DatePickerCalendar'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import Button from '../Button'
 import { useTranslation } from '../../shared'
 import DatePickerContext from './DatePickerContext'
@@ -111,7 +111,7 @@ export function DatePickerCalendarNav({
 
   return (
     <div
-      className={classnames(
+      className={clsx(
         'dnb-date-picker__header__row',
         type === 'year' && 'dnb-date-picker__header__row--year'
       )}
@@ -216,7 +216,7 @@ function CalendarNavButton({
 
   return (
     <Button
-      className={classnames(`dnb-date-picker__${type}`, { disabled })}
+      className={clsx(`dnb-date-picker__${type}`, { disabled })}
       icon={icon}
       size="small"
       aria-label={title}

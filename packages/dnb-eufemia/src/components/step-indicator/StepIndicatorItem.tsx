@@ -5,7 +5,7 @@
 
 import React, { HTMLProps, useCallback, useContext, useMemo } from 'react'
 
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { dispatchCustomElementEvent } from '../../shared/component-helper'
 import useId from '../../shared/helpers/useId'
 import Anchor, { AnchorAllProps } from '../anchor/Anchor'
@@ -204,7 +204,7 @@ function StepIndicatorItem({
   return (
     <li
       {...itemParams}
-      className={classnames(
+      className={clsx(
         'dnb-step-indicator__item',
         usedIsCurrent && 'dnb-step-indicator__item--current',
         isInactive && 'dnb-step-indicator__item--inactive',
@@ -213,7 +213,7 @@ function StepIndicatorItem({
       )}
     >
       <div
-        className={classnames(
+        className={clsx(
           'dnb-step-indicator__item__wrapper',
           !status &&
             isVisited &&
@@ -221,7 +221,7 @@ function StepIndicatorItem({
         )}
       >
         <span
-          className={classnames(
+          className={clsx(
             'dnb-step-indicator__item__bullet',
             usedIsCurrent
               ? 'dnb-step-indicator__item__bullet--current'
@@ -242,7 +242,7 @@ function StepIndicatorItem({
           ) : (
             <IconPrimary
               icon="check"
-              className={classnames(
+              className={clsx(
                 'dnb-step-indicator__item__icon',
                 !isVisited && 'dnb-step-indicator__item__icon--hidden'
               )}
@@ -251,7 +251,7 @@ function StepIndicatorItem({
           )}
         </span>
         <div
-          className={classnames(
+          className={clsx(
             'dnb-step-indicator__item-content',
             createSkeletonClass('font', skeleton)
           )}
@@ -301,7 +301,7 @@ export function StepItemButton({
     <Anchor
       element={notClickable ? 'span' : 'button'}
       type={notClickable ? undefined : 'button'}
-      className={classnames(
+      className={clsx(
         className,
         'dnb-step-indicator__button',
         status &&

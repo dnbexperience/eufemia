@@ -6,7 +6,7 @@ import React, {
   useMemo,
   useEffect,
 } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { Space } from '../../../../components'
 import { warn } from '../../../../shared/component-helper'
 import { isAsync } from '../../../../shared/helpers/isAsync'
@@ -589,7 +589,7 @@ function WizardContainer(props: Props) {
   return (
     <WizardContext.Provider value={providerValue}>
       <Space
-        className={classnames('dnb-forms-wizard-layout', className)}
+        className={clsx('dnb-forms-wizard-layout', className)}
         innerRef={elementRef}
         {...rest}
       >

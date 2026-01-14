@@ -7,7 +7,7 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
 import TextCounter from '../../fragments/text-counter/TextCounter'
@@ -439,7 +439,7 @@ export default class Textarea extends React.PureComponent {
       : {}
 
     const textareaParams = {
-      className: classnames(
+      className: clsx(
         'dnb-textarea__textarea',
         'dnb-input__border',
         textareaClass
@@ -474,7 +474,7 @@ export default class Textarea extends React.PureComponent {
     }
 
     const mainParams = {
-      className: classnames(
+      className: clsx(
         'dnb-textarea',
         `dnb-textarea--${textareaState}`,
         disabled && 'dnb-textarea--disabled',
@@ -497,14 +497,14 @@ export default class Textarea extends React.PureComponent {
     }
 
     const innerParams = {
-      className: classnames(
+      className: clsx(
         'dnb-textarea__inner',
         createSkeletonClass('shape', skeleton, this.context)
       ),
     }
 
     const shellParams = {
-      className: classnames('dnb-textarea__shell'),
+      className: clsx('dnb-textarea__shell'),
     }
 
     if (isTrue(disabled) || isTrue(skeleton)) {
@@ -572,7 +572,7 @@ export default class Textarea extends React.PureComponent {
                 placeholder &&
                 (textareaState !== 'focus' || keepPlaceholder) && (
                   <span
-                    className={classnames(
+                    className={clsx(
                       'dnb-textarea__placeholder',
                       align ? `dnb-textarea__align--${align}` : null
                     )}
