@@ -4,7 +4,7 @@ import { toCamelCase } from '../component-helper'
 
 /**
  * withSnakeCaseProps is a HOC for function components
- * it will return a React Component where all snake_case props gets converted to camelCase
+ * it will return a React Component where all camelCase props gets converted to snake_case
  *
  * Use the same for TypeScript types by using: ToSnakeCase
  *
@@ -36,7 +36,7 @@ export function withSnakeCaseProps<TBase, P>(
 
 /**
  * withSnakeCaseProps is a HOC for classes
- * it will return a React Component where all snake_case props gets converted to camelCase
+ * it will return a React Component where all camelCase props gets converted to snake_case
  *
  * Use the same for TypeScript types by using: ToSnakeCase
  *
