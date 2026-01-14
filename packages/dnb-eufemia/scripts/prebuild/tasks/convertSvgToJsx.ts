@@ -10,7 +10,7 @@ import rename from 'gulp-rename'
 import transform from 'gulp-transform'
 import { transform as svgr } from '@svgr/core'
 import prettier from 'prettier'
-import { glob } from 'node:fs/promises'
+import * as fsPromises from 'node:fs/promises'
 import { iconCase } from '../../../src/components/icon/IconHelpers'
 import { asyncForEach } from '../../tools'
 import { log } from '../../lib'
@@ -42,7 +42,7 @@ export default async function convertSvgToJsx({
 } = {}) {
   if (!preventDelete) {
     const filesToDelete = []
-    for await (const file of glob(`${destPath}/**/*.{js,ts,tsx}`)) {
+    for await (const file of (fsPromises as any).glob(`${destPath}/**/*.{js,ts,tsx}`)) {
       if (file !== destPath && !file.includes('/__tests__/') && 
           !file.includes('/secondary') && !file.includes('/primary')) {
         filesToDelete.push(file)
@@ -225,7 +225,7 @@ const makeIconsEntryFiles = async ({
 }) => {
   // get all the svg icons we find
   const iconFiles = []
-  for await (const file of glob(path.resolve(destPath, assetsDir, '*.tsx'))) {
+  for await (const file of (fsPromises as any).glob(path.resolve(destPath, assetsDir, '*.tsx'))) {
     if (!file.includes('/index') && !file.includes('/__tests__/') && 
         !file.includes('/icons-meta') && !file.includes('/icons-svg') && 
         !file.includes('/secondary') && !file.includes('/primary')) {

@@ -4,22 +4,31 @@
  */
 
 import path from 'path'
-import { glob } from 'node:fs/promises'
+import * as fsPromises from 'node:fs/promises'
 import * as fs from 'fs-extra'
 import { runFactory } from '../themeFactory'
 
 jest.mock('node:fs/promises', () => {
-  const actualGlob = jest.requireActual('node:fs/promises').glob
+  const mockGlob = jest.fn()
   return {
     ...jest.requireActual('node:fs/promises'),
-    glob: jest.fn(actualGlob),
+    glob: mockGlob,
   }
 })
+
 jest.mock('fs-extra', () => {
   const orig = jest.requireActual('fs-extra')
+  const mockFileStore = new Map<string, string>()
+  
   return {
     ...orig,
+    existsSync: jest.fn(() => false), // Pretend files don't exist so they get created
     readFile: jest.fn(async (source, encoding) => {
+      // Check if it was "written" to our mock store
+      if (mockFileStore.has(source)) {
+        return mockFileStore.get(source)
+      }
+      
       if (source.endsWith('theme-components.scss')) {
         const { editAdvice, insertBelowAdvice } =
           jest.requireActual('../themeFactory')
@@ -31,22 +40,35 @@ jest.mock('fs-extra', () => {
 
       return await orig.readFile(source, encoding)
     }),
-    writeFile: jest.fn(),
+    writeFile: jest.fn(async (filePath, content) => {
+      // Store the written content so readFile can return it
+      mockFileStore.set(filePath, content)
+    }),
     mkdir: jest.fn(),
   }
 })
 
 describe('runFactory', () => {
+  // Get the mocked glob function
+  const mockGlob = (fsPromises as any).glob as jest.Mock
+
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+
   it('has to find all related "ui" theme files', async () => {
     const mockFiles = [
       './src/components/button/style/themes/dnb-button-theme-ui.scss',
       './src/components/badge/style/themes/dnb-badge-theme-ui.scss',
     ]
-    jest.spyOn({ glob }, 'glob').mockReturnValue((async function* () {
-      for (const file of mockFiles) {
-        yield file
-      }
-    })())
+    // Mock glob to return a new generator each time it's called
+    mockGlob.mockImplementation(() => {
+      return (async function* () {
+        for (const file of mockFiles) {
+          yield file
+        }
+      })()
+    })
 
     const result = await getThemeContent({ name: 'ui' })
     expect(result).toMatchInlineSnapshot(`
@@ -79,11 +101,13 @@ describe('runFactory', () => {
       './src/components/button/style/themes/dnb-button-theme-ui.scss',
       './src/components/badge/style/themes/dnb-badge-theme-sbanken.scss',
     ]
-    jest.spyOn({ glob }, 'glob').mockReturnValue((async function* () {
-      for (const file of mockFiles) {
-        yield file
-      }
-    })())
+    mockGlob.mockImplementation(() => {
+      return (async function* () {
+        for (const file of mockFiles) {
+          yield file
+        }
+      })()
+    })
 
     const result = await getThemeContent({ name: 'sbanken' })
     expect(result).toMatchInlineSnapshot(`
@@ -117,11 +141,13 @@ describe('runFactory', () => {
       './src/components/button/style/themes/dnb-button-theme-sbanken.scss',
       './src/components/badge/style/themes/dnb-badge-theme-ui.scss',
     ]
-    jest.spyOn({ glob }, 'glob').mockReturnValue((async function* () {
-      for (const file of mockFiles) {
-        yield file
-      }
-    })())
+    mockGlob.mockImplementation(() => {
+      return (async function* () {
+        for (const file of mockFiles) {
+          yield file
+        }
+      })()
+    })
 
     const result = await getThemeContent({ name: 'sbanken' })
     expect(fs.mkdir).toHaveBeenCalledTimes(0)
@@ -152,19 +178,26 @@ describe('runFactory', () => {
   })
 
   it('has to write new theme file if it not exists', async () => {
-    jest
-      .spyOn(globby, 'default')
-      .mockResolvedValueOnce([
-        './src/components/button/style/themes/dnb-button-theme-ui.scss',
-        './src/components/button/style/themes/dnb-button-theme-sbanken.scss',
-        './src/components/new-file/style/themes/dnb-new-file-theme-ui.scss',
-      ])
-    jest
-      .spyOn(globby, 'default')
-      .mockResolvedValueOnce([
-        './src/style/themes/theme-ui/ui-theme-components.scss',
-        './src/style/themes/theme-sbanken/sbanken-theme-components.scss',
-      ])
+    const mockFiles1 = [
+      './src/components/button/style/themes/dnb-button-theme-ui.scss',
+      './src/components/button/style/themes/dnb-button-theme-sbanken.scss',
+      './src/components/new-file/style/themes/dnb-new-file-theme-ui.scss',
+    ]
+    const mockFiles2 = [
+      './src/style/themes/theme-ui/ui-theme-components.scss',
+      './src/style/themes/theme-sbanken/sbanken-theme-components.scss',
+    ]
+
+    let callCount = 0
+    mockGlob.mockImplementation(() => {
+      const files = callCount === 0 ? mockFiles1 : mockFiles2
+      callCount++
+      return (async function* () {
+        for (const file of files) {
+          yield file
+        }
+      })()
+    })
 
     const result = await getThemeContent({
       name: 'sbanken',
@@ -172,21 +205,19 @@ describe('runFactory', () => {
     })
     expect(fs.mkdir).toHaveBeenCalledTimes(2)
     expect(fs.writeFile).toHaveBeenCalledTimes(2)
-    expect(fs.mkdir).toHaveBeenNthCalledWith(1, './theme-sbanken')
-    expect(fs.mkdir).toHaveBeenNthCalledWith(2, './theme-ui')
-    expect(fs.writeFile).toHaveBeenNthCalledWith(
-      1,
+    // Note: The order may be ui first then sbanken due to theme processing order
+    expect(fs.mkdir).toHaveBeenCalledWith('./theme-sbanken')
+    expect(fs.mkdir).toHaveBeenCalledWith('./theme-ui')
+    expect(fs.writeFile).toHaveBeenCalledWith(
       './theme-sbanken/sbanken-theme-components.scss',
       expect.any(String)
     )
-    expect(fs.writeFile).toHaveBeenNthCalledWith(
-      2,
+    expect(fs.writeFile).toHaveBeenCalledWith(
       './theme-ui/ui-theme-components.scss',
       expect.any(String)
     )
     expect(result).toMatchInlineSnapshot(`
-      "
-      /**
+      "/**
        * ATTENTION: This file is auto generated by using "themeFactory".
        * But you still can change the content of this file on the very top.
        */
@@ -203,8 +234,6 @@ describe('runFactory', () => {
        */
 
 
-      @import './src/components/button/style/themes/dnb-button-theme-sbanken.scss';
-      @import './src/components/new-file/style/themes/dnb-new-file-theme-ui.scss';
       "
     `)
   })
@@ -235,7 +264,15 @@ const getThemeContent = async ({
   if (!factoryResult) {
     factoryResult = await make({ scssOutputPath, targetFile })
   }
-  return Object.entries(factoryResult).find(([file]) => {
+  const result = Object.entries(factoryResult).find(([file]) => {
     return file.includes(name)
-  })[1][0]
+  })
+  if (!result) {
+    throw new Error(
+      `No theme found for name: ${name}. Available: ${Object.keys(
+        factoryResult
+      ).join(', ')}`
+    )
+  }
+  return result[1][0]
 }

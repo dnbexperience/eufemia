@@ -1,14 +1,14 @@
-import { sync } from 'globby'
+import * as nodeFs from 'node:fs'
 import fs from 'fs-extra'
 import { transform } from 'lebab'
 import { transformFilesToESM } from '../transformToESM'
 
 // Mock the dependencies
-jest.mock('globby')
+jest.mock('node:fs')
 jest.mock('fs-extra')
 jest.mock('lebab')
 
-const mockSync = sync as jest.MockedFunction<typeof sync>
+const mockGlobSync = (nodeFs as any).globSync as jest.MockedFunction<any>
 const mockReadFileSync = fs.readFileSync as jest.MockedFunction<
   typeof fs.readFileSync
 >
@@ -35,10 +35,10 @@ describe('transformToESM script', () => {
 
   it('should use correct glob patterns with exceptions', () => {
     // Mock the sync function to return some test files
-    mockSync.mockReturnValue([
+    mockGlobSync.mockReturnValue([
       './build/es/plugins/test.js',
       './build/esm/plugins/helper.js',
-    ])
+    ] as any)
 
     // Mock readFileSync to return test content
     mockReadFileSync.mockReturnValue("import('./test.cjs')")
@@ -46,29 +46,29 @@ describe('transformToESM script', () => {
     // Call the function
     transformFilesToESM()
 
-    // Verify globby was called with correct patterns
-    expect(mockSync).toHaveBeenCalledWith(
+    // Verify globSync was called with correct patterns
+    expect(mockGlobSync).toHaveBeenCalledWith(
       ['./build/**/plugins/**/*.js', '!./build/cjs/plugins/**/*.js'],
       {
-        onlyFiles: true,
+        withFileTypes: false,
       }
     )
   })
 
   it('should exclude files in build/cjs/plugins directory', () => {
     // Mock sync to return files including one that should be excluded
-    mockSync.mockReturnValue([
+    mockGlobSync.mockReturnValue([
       './build/es/plugins/test.js',
       './build/cjs/plugins/should-be-excluded.js', // This should be excluded
       './build/esm/plugins/helper.js',
-    ])
+    ] as any)
 
     mockReadFileSync.mockReturnValue("import('./test.cjs')")
 
     transformFilesToESM()
 
     // Verify that the excluded file is not processed
-    expect(mockSync).toHaveBeenCalledWith(
+    expect(mockGlobSync).toHaveBeenCalledWith(
       expect.arrayContaining(['!./build/cjs/plugins/**/*.js']),
       expect.any(Object)
     )
@@ -76,18 +76,18 @@ describe('transformToESM script', () => {
 
   it('should include files in other build subdirectories', () => {
     // Mock sync to return files in different build subdirectories
-    mockSync.mockReturnValue([
+    mockGlobSync.mockReturnValue([
       './build/es/plugins/test.js',
       './build/esm/plugins/helper.js',
       './build/umd/plugins/another.js',
-    ])
+    ] as any)
 
     mockReadFileSync.mockReturnValue("import('./test.cjs')")
 
     transformFilesToESM()
 
     // Verify that files in other build subdirectories are included
-    expect(mockSync).toHaveBeenCalledWith(
+    expect(mockGlobSync).toHaveBeenCalledWith(
       expect.arrayContaining(['./build/**/plugins/**/*.js']),
       expect.any(Object)
     )
@@ -95,7 +95,7 @@ describe('transformToESM script', () => {
 
   it('should transform .cjs references to .js', () => {
     const testFiles = ['./build/es/plugins/test.js']
-    mockSync.mockReturnValue(testFiles)
+    mockGlobSync.mockReturnValue(testFiles as any)
 
     const originalCode = "import('./test.cjs'); require('./helper.cjs')"
     mockReadFileSync.mockReturnValue(originalCode)
@@ -115,7 +115,7 @@ describe('transformToESM script', () => {
       './build/es/plugins/test.js',
       './build/esm/plugins/helper.js',
     ]
-    mockSync.mockReturnValue(testFiles)
+    mockGlobSync.mockReturnValue(testFiles as any)
 
     mockReadFileSync
       .mockReturnValueOnce("import('./test.cjs')")
@@ -153,7 +153,7 @@ describe('transformToESM script', () => {
   })
 
   it('should handle empty file list', () => {
-    mockSync.mockReturnValue([])
+    mockGlobSync.mockReturnValue([] as any)
 
     transformFilesToESM()
 
@@ -163,7 +163,7 @@ describe('transformToESM script', () => {
 
   it('should handle files without .cjs references', () => {
     const testFiles = ['./build/es/plugins/test.js']
-    mockSync.mockReturnValue(testFiles)
+    mockGlobSync.mockReturnValue(testFiles as any)
 
     const originalCode = "import('./test.js'); require('./helper.js')"
     mockReadFileSync.mockReturnValue(originalCode)

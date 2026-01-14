@@ -4,7 +4,7 @@
  */
 
 import fs from 'fs-extra'
-import { glob } from 'node:fs/promises'
+import * as fsPromises from 'node:fs/promises'
 import path from 'path'
 import prettier from 'prettier'
 import { ErrorHandler, log } from '../../lib'
@@ -158,12 +158,17 @@ const runFactory = async ({
   try {
     const result = []
     const patterns = Array.isArray(searchGlob) ? searchGlob : [searchGlob]
-    
+
     for (const pattern of patterns) {
-      for await (const file of glob(pattern)) {
-        if (!file.includes('__tests__/') && !file.includes('stories/') && 
-            !file.includes('/style/') && !file.includes('helper-classes/') && 
-            !file.includes('_not_in_use/') && !file.includes('/themes/')) {
+      for await (const file of (fsPromises as any).glob(pattern)) {
+        if (
+          !file.includes('__tests__/') &&
+          !file.includes('stories/') &&
+          !file.includes('/style/') &&
+          !file.includes('helper-classes/') &&
+          !file.includes('_not_in_use/') &&
+          !file.includes('/themes/')
+        ) {
           result.push(file)
         }
       }

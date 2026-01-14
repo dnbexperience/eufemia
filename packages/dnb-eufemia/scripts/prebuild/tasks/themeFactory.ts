@@ -4,7 +4,7 @@
  */
 
 import fs from 'fs-extra'
-import { glob } from 'node:fs/promises'
+import * as fsPromises from 'node:fs/promises'
 import packpath from 'packpath'
 import path, { basename } from 'path'
 import prettier from 'prettier'
@@ -272,7 +272,7 @@ async function getExistingThemePackageFiles() {
   const themes: ThemePackageFiles = []
 
   const list = []
-  for await (const file of glob(baseGlob)) {
+  for await (const file of (fsPromises as any).glob(baseGlob)) {
     list.push(file)
   }
 
@@ -304,7 +304,7 @@ async function getThemeSources(filesToFindGlob: Array<string>) {
   const patterns = filesToFindGlob.filter(p => !p.startsWith('!'))
   
   for (const pattern of patterns) {
-    for await (const file of glob(pattern)) {
+    for await (const file of (fsPromises as any).glob(pattern)) {
       if (!file.includes('__tests__/') && !file.includes('stories/') && 
           !file.includes('style/') && !file.includes('helper-classes/') && 
           !file.includes('_not_in_use')) {

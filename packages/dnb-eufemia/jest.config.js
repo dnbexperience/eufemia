@@ -14,8 +14,8 @@ const config = {
     '<rootDir>/stories/',
   ],
   modulePathIgnorePatterns: ['<rootDir>/build/'],
-  transformIgnorePatterns: ['/node_modules/(?!(ora|globby)/)'],
-  setupFiles: ['core-js'], // is needed by "globby" inside of convertSvgToJsx
+  transformIgnorePatterns: ['/node_modules/(?!(ora)/)'],
+  setupFiles: ['core-js'],
   transform: {
     '^.+\\.(js|jsx|ts|tsx)$': 'babel-jest',
     '^.+\\.(md|txt|css|scss)$': 'jest-raw-loader',

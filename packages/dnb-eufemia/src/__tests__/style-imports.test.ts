@@ -1,6 +1,6 @@
 import fs from 'fs'
 import path from 'path'
-import globby from 'globby'
+import fsPromises from 'node:fs/promises'
 import { toKebabCase } from '../shared/component-helper'
 
 describe('Style Import References', () => {
@@ -91,11 +91,13 @@ function getFiles(): Promise<string[]> {
 
   return Promise.all(
     bases.flatMap((base) =>
-      patterns.map((p) =>
-        globby(p, { cwd: base }).then((ms) =>
-          ms.map((m) => path.join(base, m))
-        )
-      )
+      patterns.map(async (p) => {
+        const files = []
+        for await (const file of fsPromises.glob(p, { cwd: base })) {
+          files.push(path.join(base, file))
+        }
+        return files
+      })
     )
   ).then((arrs) => arrs.flat())
 }
