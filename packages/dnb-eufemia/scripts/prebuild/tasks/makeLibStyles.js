@@ -9,6 +9,7 @@ import clone from 'gulp-clone'
 import rename from 'gulp-rename'
 import transform from 'gulp-transform'
 import packpath from 'packpath'
+import { PassThrough, finished } from 'stream'
 import { log } from '../../lib'
 import {
   transformSass,
@@ -25,6 +26,33 @@ import { getFontBasePath } from '../../../src/plugins/postcss-font-url-rewrite/c
 import postcssConfig from '../config/postcssConfig'
 
 const ROOT_DIR = packpath.self()
+
+const mergeStreams = (...streams) => {
+  const output = new PassThrough({ objectMode: true })
+  let remaining = streams.length
+
+  if (remaining === 0) {
+    output.end()
+    return output
+  }
+
+  streams.forEach((stream) => {
+    stream.on('error', (error) => output.emit('error', error))
+    stream.pipe(output, { end: false })
+    finished(stream, (error) => {
+      if (error) {
+        output.emit('error', error)
+        return
+      }
+      remaining -= 1
+      if (remaining === 0) {
+        output.end()
+      }
+    })
+  })
+
+  return output
+}
 
 export default async function makeLibStyles() {
   log.info('> PrePublish: converting sass to css')
@@ -50,9 +78,6 @@ export const runFactory = (
     try {
       // do not use 'node-sass-json-importer' here! Every file needs the same core imports over and over again.
 
-      const cloneMin = clone.sink()
-      const cloneScope = clone.sink()
-
       const dest = src.replace('./src/', '').split('/**/')[0]
       const files = [
         src,
@@ -61,7 +86,7 @@ export const runFactory = (
         '!**/*_not_in_use*/**/*',
       ]
 
-      const stream = gulp
+      const source = gulp
         .src(files, {
           cwd: ROOT_DIR,
         })
@@ -77,17 +102,22 @@ export const runFactory = (
             transformPaths('../../../../assets/', '../../../assets/')
           )
         )
-        .pipe(cloneScope)
+
+      const base = source
+        .pipe(clone())
         .pipe(transform('utf8', transformPostcss(postcssConfig({ sass }))))
-        .pipe(cloneMin)
+
+      const baseMin = base
+        .pipe(clone())
         .pipe(transform('utf8', transformCssnano({ reduceIdents: false })))
         .pipe(rename({ suffix: '.min' }))
-        .pipe(cloneMin.tap())
+
+      const streams = [base, baseMin]
 
       // Create a second bundle with scoped styles
       if (enableBuildStyleScope()) {
-        cloneScope
-          .tap()
+        const scoped = source
+          .pipe(clone())
           .pipe(
             transform(
               'utf8',
@@ -110,33 +140,24 @@ export const runFactory = (
             )
           )
           .pipe(rename({ suffix: '--isolated' }))
-          .pipe(cloneMin)
+
+        const scopedMin = scoped
+          .pipe(clone())
           .pipe(
             transform('utf8', transformCssnano({ reduceIdents: false }))
           )
           .pipe(rename({ suffix: '.min' }))
-          .pipe(cloneMin.tap())
+
+        streams.push(scoped, scopedMin)
       }
 
-      if (!returnResult && !returnFiles) {
-        stream.pipe(
-          gulp.dest(`./build/${dest}/`, {
-            cwd: ROOT_DIR,
-          })
-        )
-      }
-
-      // so tests can test the minified code
-      if (returnResult) {
-        stream.pipe(
-          transform('utf8', transformCssnano({ reduceIdents: false }))
-        )
-      }
+      const stream = mergeStreams(...streams)
 
       const collectedFiles = []
       const collectedResults = []
+      const collectedEntries = []
 
-      stream
+      const collector = stream
         .pipe(
           transform(
             'utf8',
@@ -146,21 +167,34 @@ export const runFactory = (
         .pipe(
           returnResult || returnFiles
             ? transform('utf8', (result, file) => {
-                if (returnFiles) {
-                  collectedFiles.push(file.path)
-                  resolve(collectedFiles)
-                } else if (returnResult) {
-                  collectedResults.push(result)
-                  resolve(collectedResults)
-                }
+                collectedEntries.push({ path: file.path, result })
                 return result
               })
             : gulp.dest(`./build/${dest}/`, {
                 cwd: ROOT_DIR,
               })
         )
-        .on('end', resolve)
+        .on('end', () => {
+          if (returnResult || returnFiles) {
+            const sorted = collectedEntries
+              .slice()
+              .sort((a, b) => a.path.localeCompare(b.path))
+            if (returnFiles) {
+              collectedFiles.push(...sorted.map((entry) => entry.path))
+              resolve(collectedFiles)
+            } else if (returnResult) {
+              collectedResults.push(...sorted.map((entry) => entry.result))
+              resolve(collectedResults)
+            }
+            return
+          }
+          resolve()
+        })
         .on('error', reject)
+
+      if (returnResult || returnFiles) {
+        collector.on('data', () => {})
+      }
     } catch (e) {
       console.debug('reject', e)
       reject(e)
