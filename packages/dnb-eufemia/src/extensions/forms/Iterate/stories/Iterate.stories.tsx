@@ -27,7 +27,11 @@ export const AnimatedContainer = () => {
       >
         <Iterate.Count path="/myList" />
         <Form.Card top>
-          <Iterate.Array path="/myList" placeholder={<>Empty list</>}>
+          <Iterate.Array
+            animate
+            path="/myList"
+            placeholder={<>Empty list</>}
+          >
             <Iterate.AnimatedContainer title="Title {itemNo}">
               <Field.String label="Label" itemPath="/" />
 
@@ -130,7 +134,7 @@ export const ViewAndEditContainer = () => {
           <Form.MainHeading>Accounts</Form.MainHeading>
 
           <Form.Card>
-            <Iterate.Array path="/accounts" limit={2}>
+            <Iterate.Array path="/accounts" limit={2} animate>
               <MyViewItem />
               <MyEditItem />
             </Iterate.Array>
@@ -193,6 +197,7 @@ export const InitialOpen = () => {
               path="/countries"
               // defaultValue={['NO']}
               defaultValue={[null]}
+              animate
               onChangeValidator={(arrayValue) => {
                 const findFirstDuplication = (arr) =>
                   arr.findIndex((e, i) => arr.indexOf(e) !== i)
@@ -282,7 +287,7 @@ export function InWizard() {
         <Wizard.Container>
           <Wizard.Step>
             <Form.Card>
-              <Iterate.Array path="/myList" defaultValue={[{}]}>
+              <Iterate.Array path="/myList" defaultValue={[{}]} animate>
                 <Iterate.ViewContainer>
                   <Value.String label="Item {itemNo}" itemPath="/foo" />
                 </Iterate.ViewContainer>
@@ -307,7 +312,7 @@ export function InWizard() {
           </Wizard.Step>
 
           <Wizard.Step>
-            <Iterate.Array path="/myList" defaultValue={[{}]}>
+            <Iterate.Array path="/myList" defaultValue={[{}]} animate>
               <Iterate.EditContainer>
                 <Field.String
                   label="Item {itemNo}"
@@ -496,7 +501,7 @@ export const DeleteFromArraySelection = () => {
         },
       }}
     >
-      <Iterate.Array path="/subdata/items">
+      <Iterate.Array path="/subdata/items" animate>
         <Iterate.AnimatedContainer>
           <Value.String itemPath="/name" />
           <Iterate.Toolbar>

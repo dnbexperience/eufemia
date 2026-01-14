@@ -18,6 +18,7 @@ export const Default = () => {
                 <Iterate.Array
                   path="/myList"
                   placeholder={<>Empty list</>}
+                  animate
                 >
                   <Iterate.AnimatedContainer title="Title {itemNo}">
                     <Field.String label="Label" itemPath="/" />
