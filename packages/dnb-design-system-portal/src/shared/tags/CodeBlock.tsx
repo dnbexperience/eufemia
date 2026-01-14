@@ -83,12 +83,11 @@ const CodeBlock = ({
               createSkeletonClass('code', context.skeleton),
             )}
           >
-            <Tag as="pre" className={className} css={style as any}>
+            <Tag as="pre" className={className} css={style}>
               {cleanTokens(tokens).map((line, i) => (
-                /* eslint-disable react/jsx-key */
-                <div {...getLineProps({ line, key: i })}>
+                <div key={i} {...getLineProps({ line, key: i })}>
                   {line.map((token, key) => (
-                    <span {...getTokenProps({ token, key })} />
+                    <span key={key} {...getTokenProps({ token, key })} />
                   ))}
                 </div>
               ))}
