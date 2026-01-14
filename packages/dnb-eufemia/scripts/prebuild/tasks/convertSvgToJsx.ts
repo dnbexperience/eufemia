@@ -5,7 +5,6 @@
 
 import fs from 'fs-extra'
 import path from 'path'
-import del from 'del'
 import gulp from 'gulp'
 import rename from 'gulp-rename'
 import transform from 'gulp-transform'
@@ -42,7 +41,7 @@ export default async function convertSvgToJsx({
   customIconsLockFilePath = null,
 } = {}) {
   if (!preventDelete) {
-    await del(
+    const filesToDelete = await globby(
       [
         `${destPath}/**/*.{js,ts,tsx}`,
         `!${destPath}`,
@@ -51,9 +50,10 @@ export default async function convertSvgToJsx({
         '!**/primary*',
       ],
       {
-        force: true,
+        absolute: true,
       }
     )
+    await Promise.all(filesToDelete.map((file) => fs.remove(file)))
 
     log.info(
       '> PrePublish: deleted all svg files before converting "svg to jsx"!'
