@@ -36,6 +36,13 @@ describe.each(['ui', 'sbanken'])('Tabs for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('have to match tabs with badge notification', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="tabs-badge-notification"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match when using the align property', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="tabs-align-property"]',
