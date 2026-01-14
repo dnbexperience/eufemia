@@ -209,7 +209,7 @@ export default class Tabs extends React.PureComponent<TabsProps> {
     } else {
       // 2. check if the key is valid
       // just to make sure we never get an empty content
-      const keyExists = data.findIndex(({ key }) => key == selected_key)
+      const keyExists = data.findIndex(({ key }) => key === selected_key)
       if (keyExists === -1) {
         // key did not exists, so we get the first one
         useKey = data[0] && data[0].key
@@ -756,7 +756,7 @@ export default class Tabs extends React.PureComponent<TabsProps> {
 
   getCurrentTitle = (selected_key = this.state.selected_key) => {
     const current = this.state.data.filter(
-      ({ key }) => key == selected_key
+      ({ key }) => key === selected_key
     )[0]
     return (current && current.title) || null
   }
@@ -764,7 +764,7 @@ export default class Tabs extends React.PureComponent<TabsProps> {
   getStepKey(useKey, stateKey) {
     const currentData = this.state.data.filter(({ disabled }) => !disabled)
     const currentIndex = currentData.reduce(
-      (acc, { key }, i) => (key == stateKey ? i : acc),
+      (acc, { key }, i) => (key === stateKey ? i : acc),
       -1
     )
     let nextIndex = currentIndex + useKey
@@ -897,10 +897,10 @@ export default class Tabs extends React.PureComponent<TabsProps> {
   }
 
   isFocus(tabKey) {
-    return this.state.focus_key == tabKey
+    return this.state.focus_key === tabKey
   }
   isSelected(tabKey) {
-    return this.state.selected_key == tabKey
+    return this.state.selected_key === tabKey
   }
 
   renderCachedContent() {
@@ -993,7 +993,7 @@ export default class Tabs extends React.PureComponent<TabsProps> {
       // - or the content was provided as a content prop i data
       if (items) {
         content = items
-          .filter(({ key }) => key && selected_key && key == selected_key) // like isSelected
+          .filter(({ key }) => key && selected_key && key === selected_key) // like isSelected
           .reduce((acc, { content }) => content || acc, null)
       }
     }
