@@ -21,11 +21,11 @@ interface StatusOverlayProps {
   cardDesign: string
 }
 
-const StatusOverlay: React.FC<StatusOverlayProps> = ({
+const StatusOverlay = ({
   cardStatus,
   translations,
   cardDesign,
-}) => {
+}: StatusOverlayProps) => {
   const cardStatusMap: Record<string, string> = {
     not_active: translations.text_not_active,
     new_order: translations.text_new_order,

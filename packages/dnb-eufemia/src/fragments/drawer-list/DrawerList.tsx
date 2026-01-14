@@ -104,8 +104,8 @@ export type DrawerListOptionsRender = ({
   Item,
 }: {
   data: DrawerListDataArrayObject[]
-  Items: React.FunctionComponent
-  Item: React.FC<DrawerListItemProps>
+  Items: () => React.ReactNode
+  Item: React.ComponentType<DrawerListItemProps>
 }) => React.ReactNode
 export type DrawerListValue = string | number
 export type DrawerListData =

@@ -510,14 +510,14 @@ function Selection(props: Props) {
 }
 
 type OptionProps = React.ComponentProps<
-  React.FC<{
+  (props: {
     value: Props['value']
     error: Error | FormError | undefined
     help: HelpProps
     title: React.ReactNode
     children: React.ReactNode
     size?: ToggleButtonProps['size'] | RadioProps['size']
-  }>
+  }) => JSX.Element
 >
 
 function renderRadioItems({
