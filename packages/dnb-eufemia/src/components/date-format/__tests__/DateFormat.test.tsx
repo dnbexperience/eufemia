@@ -381,7 +381,9 @@ describe('DateFormat', () => {
       )
 
       const dateFormat = document.querySelector('.dnb-date-format')
+
       const shortText = dateFormat.textContent
+      expect(shortText).toEqual(shortText)
 
       rerender(
         <DateFormat
@@ -395,7 +397,6 @@ describe('DateFormat', () => {
       )
 
       const longText = dateFormat.textContent
-
       expect(shortText).not.toEqual(longText)
     })
 
