@@ -87,6 +87,13 @@ describe.each(['ui', 'sbanken'])('Anchor for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('have to match disabled anchor', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="anchor-disabled"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match the "default" state', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="anchor-basic"]',

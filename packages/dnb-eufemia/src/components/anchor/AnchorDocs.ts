@@ -71,6 +71,11 @@ export const AnchorProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  disabled: {
+    doc: 'Disables the Anchor (no navigation, no tooltip, no hover). Keep a short reason nearby.',
+    type: 'boolean',
+    status: 'optional',
+  },
   skeleton: {
     doc: 'If set to `true`, an overlaying skeleton with animation will be shown.',
     type: 'boolean',

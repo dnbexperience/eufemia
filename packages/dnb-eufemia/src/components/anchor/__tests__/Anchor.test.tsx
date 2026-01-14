@@ -603,6 +603,105 @@ describe('Anchor element', () => {
       document.querySelector('.dnb-anchor__launch-icon')
     ).not.toBeInTheDocument()
   })
+
+  describe('disabled', () => {
+    it('should show tooltip when disabled with target blank', async () => {
+      render(
+        <Anchor href="/url" target="_blank" disabled lang="nb-NO">
+          text
+        </Anchor>
+      )
+
+      const anchorElement = document.querySelector('a')
+      expect(anchorElement.getAttribute('aria-describedby')).toBeNull()
+
+      fireEvent.mouseEnter(anchorElement)
+
+      await waitFor(() => {
+        const describedById =
+          anchorElement.getAttribute('aria-describedby')
+        expect(describedById).toBeTruthy()
+        const tooltipElement = document.getElementById(describedById)
+        expect(tooltipElement).toBeInTheDocument()
+        expect(tooltipElement?.parentElement).toHaveClass('dnb-tooltip')
+        expect(tooltipElement).toHaveTextContent(nb.targetBlankTitle)
+      })
+    })
+
+    it('should show tooltip when disabled with tooltip prop', async () => {
+      render(
+        <Anchor href="/url" tooltip="Tooltip" disabled>
+          text
+        </Anchor>
+      )
+
+      const anchorElement = document.querySelector('a')
+      expect(anchorElement.getAttribute('aria-describedby')).toBeNull()
+
+      fireEvent.mouseEnter(anchorElement)
+
+      await waitFor(() => {
+        const describedById =
+          anchorElement.getAttribute('aria-describedby')
+        expect(describedById).toBeTruthy()
+        const tooltipElement = document.getElementById(describedById)
+        expect(tooltipElement).toBeInTheDocument()
+        expect(tooltipElement?.parentElement).toHaveClass('dnb-tooltip')
+        expect(tooltipElement).toHaveTextContent('Tooltip')
+      })
+    })
+
+    it('should disable anchor interactions', () => {
+      const onClick = jest.fn()
+
+      render(
+        <Anchor href="/url" disabled onClick={onClick}>
+          text
+        </Anchor>
+      )
+
+      const anchor = document.querySelector('a')
+
+      expect(anchor).toHaveAttribute('aria-disabled', 'true')
+      expect(anchor).toHaveAttribute('tabindex', '-1')
+      expect(anchor).not.toHaveAttribute('href')
+
+      fireEvent.click(anchor)
+      expect(onClick).not.toHaveBeenCalled()
+    })
+
+    it('should pass disabled to button elements', () => {
+      render(
+        <Anchor element="button" disabled>
+          text
+        </Anchor>
+      )
+
+      const button = document.querySelector('button')
+      expect(button).toHaveAttribute('disabled')
+    })
+
+    it('should not show launch icon when disabled', () => {
+      render(
+        <Anchor href="/url" target="_blank" disabled>
+          text
+        </Anchor>
+      )
+
+      expect(
+        document.querySelector('.dnb-anchor__launch-icon')
+      ).not.toBeInTheDocument()
+    })
+
+    it('should validate with ARIA rules when disabled', async () => {
+      const Component = render(
+        <Anchor href="/url" disabled>
+          text
+        </Anchor>
+      )
+      expect(await axeComponent(Component)).toHaveNoViolations()
+    })
+  })
 })
 
 describe('Anchor scss', () => {
