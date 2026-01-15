@@ -144,7 +144,7 @@ async function buildExportsMap({ buildDir }) {
     importBase: './components',
     requireBase: './cjs/components',
     typesBase: './components',
-    maxDepth: 4,
+    includePlainTarget: true,
   })
   addConditionalPatternExports({
     exportsMap,
@@ -152,7 +152,7 @@ async function buildExportsMap({ buildDir }) {
     importBase: './extensions',
     requireBase: './cjs/extensions',
     typesBase: './extensions',
-    maxDepth: 6,
+    includePlainTarget: true,
   })
   addConditionalPatternExports({
     exportsMap,
@@ -160,7 +160,7 @@ async function buildExportsMap({ buildDir }) {
     importBase: './shared',
     requireBase: './cjs/shared',
     typesBase: './shared',
-    maxDepth: 2,
+    includePlainTarget: true,
   })
   addConditionalPatternExports({
     exportsMap,
@@ -168,7 +168,7 @@ async function buildExportsMap({ buildDir }) {
     importBase: './icons',
     requireBase: './cjs/icons',
     typesBase: './icons',
-    maxDepth: 2,
+    includePlainTarget: true,
   })
   addConditionalPatternExports({
     exportsMap,
@@ -176,7 +176,7 @@ async function buildExportsMap({ buildDir }) {
     importBase: './elements',
     requireBase: './cjs/elements',
     typesBase: './elements',
-    maxDepth: 2,
+    includePlainTarget: true,
   })
   addConditionalPatternExports({
     exportsMap,
@@ -184,7 +184,7 @@ async function buildExportsMap({ buildDir }) {
     importBase: './fragments',
     requireBase: './cjs/fragments',
     typesBase: './fragments',
-    maxDepth: 4,
+    includePlainTarget: true,
   })
   addConditionalPatternExports({
     exportsMap,
@@ -192,7 +192,7 @@ async function buildExportsMap({ buildDir }) {
     importBase: './plugins',
     requireBase: './cjs/plugins',
     typesBase: './plugins',
-    maxDepth: 3,
+    includePlainTarget: true,
   })
 
   addConditionalPatternExports({
@@ -201,7 +201,6 @@ async function buildExportsMap({ buildDir }) {
     importBase: './es',
     requireBase: './cjs',
     typesBase: './es',
-    maxDepth: 7,
   })
   addConditionalPatternExports({
     exportsMap,
@@ -209,7 +208,6 @@ async function buildExportsMap({ buildDir }) {
     importBase: './cjs',
     requireBase: './cjs',
     typesBase: './cjs',
-    maxDepth: 7,
   })
 
   addPatternExports(exportsMap, './style', 4)
@@ -226,45 +224,39 @@ function addConditionalPatternExports({
   importBase,
   requireBase,
   typesBase,
-  maxDepth,
+  includePlainTarget = false,
 }) {
-  for (let depth = 1; depth <= maxDepth; depth += 1) {
-    const segment = Array(depth).fill('*').join('/')
-    const key = `${baseKey}/${segment}`
-    const entry = {
-      import: [
-        `${importBase}/${segment}.js`,
-        `${importBase}/${segment}/index.js`,
-      ],
-      require: [
-        `${requireBase}/${segment}.js`,
-        `${requireBase}/${segment}/index.js`,
-      ],
-      types: [
-        `${typesBase}/${segment}.d.ts`,
-        `${typesBase}/${segment}/index.d.ts`,
-      ],
-      default: [
-        `${importBase}/${segment}.js`,
-        `${importBase}/${segment}/index.js`,
-      ],
-    }
-
-    addExportEntry(exportsMap, key, entry)
-
-    addExportEntry(exportsMap, `${baseKey}/${segment}.js`, {
-      import: `${importBase}/${segment}.js`,
-      require: `${requireBase}/${segment}.js`,
-      types: `${typesBase}/${segment}.d.ts`,
-      default: `${importBase}/${segment}.js`,
-    })
-
-    addExportEntry(exportsMap, `${baseKey}/${segment}.cjs`, {
-      import: `${importBase}/${segment}.cjs`,
-      require: `${importBase}/${segment}.cjs`,
-      default: `${importBase}/${segment}.cjs`,
-    })
+  const importTargets = [`${importBase}/*.js`, `${importBase}/*/index.js`]
+  const requireTargets = [
+    `${requireBase}/*.js`,
+    `${requireBase}/*/index.js`,
+  ]
+  const defaultTargets = [...importTargets]
+  if (includePlainTarget) {
+    importTargets.push(`${importBase}/*`)
+    requireTargets.push(`${requireBase}/*`)
+    defaultTargets.push(`${importBase}/*`)
   }
+
+  addExportEntry(exportsMap, `${baseKey}/*`, {
+    import: importTargets,
+    require: requireTargets,
+    types: [`${typesBase}/*.d.ts`, `${typesBase}/*/index.d.ts`],
+    default: defaultTargets,
+  })
+
+  addExportEntry(exportsMap, `${baseKey}/*.js`, {
+    import: `${importBase}/*.js`,
+    require: `${requireBase}/*.js`,
+    types: `${typesBase}/*.d.ts`,
+    default: `${importBase}/*.js`,
+  })
+
+  addExportEntry(exportsMap, `${baseKey}/*.cjs`, {
+    import: `${importBase}/*.cjs`,
+    require: `${importBase}/*.cjs`,
+    default: `${importBase}/*.cjs`,
+  })
 }
 
 function addExportEntry(exportsMap, key, entry) {
