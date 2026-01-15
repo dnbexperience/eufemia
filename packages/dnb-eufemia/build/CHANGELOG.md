@@ -3,6 +3,13 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.94.1](https://github.com/dnbexperience/eufemia/compare/v10.94.0...v10.94.1) (2026-01-15)
+
+
+### :bug: Bug Fixes
+
+* **Bundle:** refactor exports field of package.json to improve Vitest performance ([#6332](https://github.com/dnbexperience/eufemia/issues/6332)) ([122d172](https://github.com/dnbexperience/eufemia/commit/122d1722ee2121b7ba1bdaabfcf4faa00c6bf0a7))
+
 ## [10.94.0](https://github.com/dnbexperience/eufemia/compare/v10.93.1...v10.94.0) (2026-01-15)
 
 
