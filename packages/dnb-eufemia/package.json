@@ -244,7 +244,7 @@
     "react-dom": "18.2.0",
     "react-to-typescript-definitions": "3.1.1",
     "repo-utils": "workspace:*",
-    "sass": "1.62.0",
+    "sass": "1.92.1",
     "sass-loader": "13.3.2",
     "semantic-release": "20.1.0",
     "simple-git": "3.27.0",
