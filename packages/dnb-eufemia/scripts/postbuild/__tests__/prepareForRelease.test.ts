@@ -32,7 +32,7 @@ describe('package.json', () => {
   )
   const buildDir = path.resolve(packpath.self(), 'build')
 
-  type ExportEntry = string | Record<string, string>
+  type ExportEntry = string | Record<string, string | string[]>
   type PackageJson = {
     [key: string]: unknown
     exports?: Record<string, ExportEntry>
@@ -55,6 +55,13 @@ describe('package.json', () => {
     path.resolve(buildDir, target.replace(/^\.\//, ''))
 
   const assertTargetExists = (target) => {
+    if (Array.isArray(target)) {
+      target.forEach(assertTargetExists)
+      return
+    }
+    if (typeof target !== 'string' || target.includes('*')) {
+      return
+    }
     expect(fs.existsSync(resolveTarget(target))).toBe(true)
   }
 
@@ -93,6 +100,22 @@ describe('package.json', () => {
     if (entry.default) {
       assertTargetExists(entry.default)
     }
+  }
+
+  const assertPatternExport = (
+    key,
+    expected: Record<string, string | string[]>
+  ) => {
+    const exportsMap = packageJson.exports as Record<string, ExportEntry>
+    const entry = exportsMap[key]
+
+    expect(entry).toBeTruthy()
+    expect(typeof entry).toBe('object')
+    expect(Array.isArray(entry)).toBe(false)
+
+    Object.entries(expected).forEach(([field, value]) => {
+      expect((entry as Record<string, unknown>)[field]).toEqual(value)
+    })
   }
 
   it('exists inside build', () => {
@@ -148,11 +171,13 @@ describe('package.json', () => {
         types: './index.d.ts',
       })
     )
+    expect(exportsMap['./components/*']).toBeTruthy()
+    expect(exportsMap['./components/*.js']).toBeTruthy()
     expect(exportsMap['./style/*']).toBe('./style/*')
     expect(exportsMap['./assets/*/*/*']).toBe('./assets/*/*/*')
     expect(exportsMap['./components/button/ButtonDocs']).toBeFalsy()
     expect(exportsMap['./components/button/index']).toBeFalsy()
-    expect(exportsMap['./es/components/button/index.js']).toBeTruthy()
+    expect(exportsMap['./es/*/*/*.js']).toBeTruthy()
   })
 
   it('matches important exports to existing files', () => {
@@ -173,37 +198,39 @@ describe('package.json', () => {
       fs.existsSync(path.resolve(buildDir, 'style/core/utilities.scss'))
     ).toBe(true)
 
-    assertExport('./components/button', {
-      import: './components/button/index.js',
-      require: './cjs/components/button/index.js',
+    assertExport('./components', {
+      import: './components/index.js',
+      require: './cjs/components/index.js',
     })
-    expect(exportsMap['./components/button/index']).toBeFalsy()
-    assertExport('./es/components/button/index.js', {
-      import: './es/components/button/index.js',
-      require: './cjs/components/button/index.js',
-      types: './es/components/button/index.d.ts',
+    assertExport('./extensions', {
+      import: './extensions/index.js',
+      require: './cjs/extensions/index.js',
     })
-    assertExport('./components/button/Button', {
-      import: './components/button/Button.js',
-      require: './cjs/components/button/Button.js',
-    })
-
-    assertExport('./extensions/forms', {
-      import: './extensions/forms/index.js',
-      require: './cjs/extensions/forms/index.js',
-    })
-    assertExport('./extensions/forms/utils/json-pointer', {
-      import: './extensions/forms/utils/json-pointer/index.js',
-      require: './cjs/extensions/forms/utils/json-pointer/index.js',
-    })
-
     assertExport('./icons', {
       import: './icons/index.js',
       require: './cjs/icons/index.js',
     })
-    assertExport('./icons/goal_medium', {
-      import: './icons/goal_medium.js',
-      require: './cjs/icons/goal_medium.js',
+
+    assertPatternExport('./components/*', {
+      import: ['./components/*.js', './components/*/index.js'],
+      require: ['./cjs/components/*.js', './cjs/components/*/index.js'],
+      types: ['./components/*.d.ts', './components/*/index.d.ts'],
+      default: ['./components/*.js', './components/*/index.js'],
+    })
+    assertPatternExport('./extensions/*/*', {
+      import: ['./extensions/*/*.js', './extensions/*/*/index.js'],
+      require: [
+        './cjs/extensions/*/*.js',
+        './cjs/extensions/*/*/index.js',
+      ],
+      types: ['./extensions/*/*.d.ts', './extensions/*/*/index.d.ts'],
+      default: ['./extensions/*/*.js', './extensions/*/*/index.js'],
+    })
+    assertPatternExport('./es/*/*/*.js', {
+      import: './es/*/*/*.js',
+      require: './cjs/*/*/*.js',
+      types: './es/*/*/*.d.ts',
+      default: './es/*/*/*.js',
     })
 
     expect(exportsMap['./assets/*/*/*']).toBe('./assets/*/*/*')
