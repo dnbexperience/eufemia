@@ -28,7 +28,7 @@
   "source": {
     "repo": "https://github.com/dnbexperience/eufemia",
     "file": "packages/dnb-eufemia/src/elements/blockquote/Blockquote.tsx",
-    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.93.1/packages/dnb-eufemia/src/elements/blockquote/Blockquote.tsx"
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.94.0/packages/dnb-eufemia/src/elements/blockquote/Blockquote.tsx"
   },
   "sources": {
     "entry": {
@@ -45,7 +45,7 @@
       "public": "https://eufemia.dnb.no/uilib/elements/blockquote/demos/"
     }
   },
-  "version": "10.93.1",
-  "generatedAt": "2026-01-09T11:29:55.038Z",
+  "version": "10.94.0",
+  "generatedAt": "2026-01-15T10:33:26.240Z",
   "schemaVersion": 1
 }

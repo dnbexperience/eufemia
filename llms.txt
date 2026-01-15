@@ -3,8 +3,8 @@
 > DNB’s Eufemia design system. This file points LLMs to machine-readable docs and clean Markdown copies.
 
 Index (JSON): https://eufemia.dnb.no/llm/index.json
-Version: 10.93.1
-GeneratedAt: 2026-01-09T11:29:55.770Z
+Version: 10.94.0
+GeneratedAt: 2026-01-15T10:33:26.998Z
 
 ## Components
 
@@ -16,7 +16,7 @@ GeneratedAt: 2026-01-09T11:29:55.770Z
 - [Anchor (Text Link)](https://eufemia.dnb.no/uilib/components/anchor/): The Anchor, also known as "Link" is used to navigate from one page to the next HTML page.
   - Metadata: https://eufemia.dnb.no/llm/uilib/components/anchor/metadata.json
   - Docs: https://eufemia.dnb.no/uilib/components/anchor/
-  - Checksum: d482fff2a0cce1a30b57933726ff0b5649be2611e9b42d70cadcf3d4afa1fd69
+  - Checksum: 301f174ae5cda27e84946da52ea574b39ae1d2e03742f1c0f17b994fffc82b8e
 
 - [AriaLive](https://eufemia.dnb.no/uilib/components/aria-live/): AriaLive is a React component and hook that helps make your web app more accessible by announcing dynamic changes to screen readers.
   - Metadata: https://eufemia.dnb.no/llm/uilib/components/aria-live/metadata.json
@@ -26,7 +26,7 @@ GeneratedAt: 2026-01-09T11:29:55.770Z
 - [Autocomplete](https://eufemia.dnb.no/uilib/components/autocomplete/): The Autocomplete component is a combination of an Input and a Dropdown (ComboBox) that suggests matching data items during typing.
   - Metadata: https://eufemia.dnb.no/llm/uilib/components/autocomplete/metadata.json
   - Docs: https://eufemia.dnb.no/uilib/components/autocomplete/
-  - Checksum: 234f1713e34f0eda0f2b8e6239ed711479d3971aff39e4f9f8dec6dc38e89873
+  - Checksum: 80c5ce458898713b0541a4c5176f003cc8d7f27522acd9f7011fd99208934563
 
 - [Avatar](https://eufemia.dnb.no/uilib/components/avatar/): The Avatar component is an identifier that makes people and companies more scannable.
   - Metadata: https://eufemia.dnb.no/llm/uilib/components/avatar/metadata.json
@@ -36,7 +36,7 @@ GeneratedAt: 2026-01-09T11:29:55.770Z
 - [Badge](https://eufemia.dnb.no/uilib/components/badge/): The Badge component allows the user to focus on new or unread content or notifications.
   - Metadata: https://eufemia.dnb.no/llm/uilib/components/badge/metadata.json
   - Docs: https://eufemia.dnb.no/uilib/components/badge/
-  - Checksum: 3ffc1a980bcc6617a62e97e3409fc144efccac9b71851659288fe41b362acb84
+  - Checksum: 58b496d727591061f04f8beb375f9bd5d0f434302646dd7a98b207d24148144e
 
 - [Breadcrumb](https://eufemia.dnb.no/uilib/components/breadcrumb/): The Breadcrumb component is a bar for navigation showing current web path.
   - Metadata: https://eufemia.dnb.no/llm/uilib/components/breadcrumb/metadata.json
@@ -71,7 +71,7 @@ GeneratedAt: 2026-01-09T11:29:55.770Z
 - [DateFormat](https://eufemia.dnb.no/uilib/components/date-format/): A ready to use DNB date formatter.
   - Metadata: https://eufemia.dnb.no/llm/uilib/components/date-format/metadata.json
   - Docs: https://eufemia.dnb.no/uilib/components/date-format/
-  - Checksum: 3a17b0c3f601463268e5fbcdcbc35464940d526e523992d872a604a7835462af
+  - Checksum: 4011f8c9a16337d886185b7cdfce74d87715a05b36c892eab966ea030721d386
 
 - [DatePicker](https://eufemia.dnb.no/uilib/components/date-picker/): The DatePicker component should be used whenever the user is to enter a single date or a date period.
   - Metadata: https://eufemia.dnb.no/llm/uilib/components/date-picker/metadata.json
@@ -1257,7 +1257,7 @@ GeneratedAt: 2026-01-09T11:29:55.770Z
   - Docs: https://eufemia.dnb.no/uilib/getting-started/maintainability/
   - Checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 
-- [Requirements](https://eufemia.dnb.no/uilib/getting-started/requirements/): Eufemia can be used within an UMD, ES5, ES6 or TypeScript environment. The purpose is to use it on top (or inside) of modern JavaScript frontend framework and setups.
+- [Requirements](https://eufemia.dnb.no/uilib/getting-started/requirements/): Eufemia can be used within an UMD, ESM, CJS or TypeScript environment. The purpose is to use it on top (or inside) of modern JavaScript frontend framework and setups.
   - Metadata: https://eufemia.dnb.no/llm/uilib/getting-started/requirements/metadata.json
   - Docs: https://eufemia.dnb.no/uilib/getting-started/requirements/
   - Checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40

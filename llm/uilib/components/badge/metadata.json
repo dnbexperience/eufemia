@@ -27,8 +27,8 @@
       "name": "vertical",
       "doc": "Vertical positioning of the component. Options: `bottom` | `top`.",
       "type": [
-        "top",
-        "bottom"
+        "\"top\"",
+        "\"bottom\""
       ],
       "status": "optional",
       "defaultValue": null
@@ -37,8 +37,8 @@
       "name": "horizontal",
       "doc": "Horizontal positioning of the component. Options: `left` | `right`.",
       "type": [
-        "left",
-        "right"
+        "\"left\"",
+        "\"right\""
       ],
       "status": "optional",
       "defaultValue": null
@@ -59,12 +59,32 @@
     },
     {
       "name": "variant",
-      "doc": "Defines the visual appearance of the badge. There are two main variants `notification` and `information`. The `content` variant is just for placement purposes, and will require you to style the `content` all by yourself. The default variant is `information`.",
+      "doc": "Defines the visual appearance of the badge. There are two main variants `notification` and `information`. The `content` variant is just for placement purposes, and will require you to style the `content` all by yourself. Default variant is `information`.",
       "type": [
-        "information",
-        "notification",
-        "content"
+        "\"information\"",
+        "\"notification\"",
+        "\"content\""
       ],
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "status",
+      "doc": "Defines the status color of the `\"information\"` variant. Has no effect on other variants. Default is `\"default\"`.",
+      "type": [
+        "\"default\"",
+        "\"success\"",
+        "\"warning\"",
+        "\"error\"",
+        "\"neutral\""
+      ],
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "subtle",
+      "doc": "Applies subtle style to `\"information\"` variant. Has no effect on other variants. Default is `false`.",
+      "type": "boolean",
       "status": "optional",
       "defaultValue": null
     },
@@ -80,11 +100,11 @@
   "related": [
     "Space"
   ],
-  "checksum": "3ffc1a980bcc6617a62e97e3409fc144efccac9b71851659288fe41b362acb84",
+  "checksum": "58b496d727591061f04f8beb375f9bd5d0f434302646dd7a98b207d24148144e",
   "source": {
     "repo": "https://github.com/dnbexperience/eufemia",
     "file": "packages/dnb-eufemia/src/components/badge/Badge.tsx",
-    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.93.1/packages/dnb-eufemia/src/components/badge/Badge.tsx"
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.94.0/packages/dnb-eufemia/src/components/badge/Badge.tsx"
   },
   "sources": {
     "entry": {
@@ -101,7 +121,7 @@
       "public": "https://eufemia.dnb.no/uilib/components/badge/demos/"
     }
   },
-  "version": "10.93.1",
-  "generatedAt": "2026-01-09T11:29:54.575Z",
+  "version": "10.94.0",
+  "generatedAt": "2026-01-15T10:33:25.763Z",
   "schemaVersion": 1
 }

@@ -104,6 +104,13 @@
       "defaultValue": null
     },
     {
+      "name": "disabled",
+      "doc": "Disables the Anchor (no navigation, no hover). Keep a short reason nearby (e.g. using the `tooltip` property).",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
       "name": "skeleton",
       "doc": "If set to `true`, an overlaying skeleton with animation will be shown.",
       "type": "boolean",
@@ -115,11 +122,11 @@
   "related": [
     "Space"
   ],
-  "checksum": "d482fff2a0cce1a30b57933726ff0b5649be2611e9b42d70cadcf3d4afa1fd69",
+  "checksum": "301f174ae5cda27e84946da52ea574b39ae1d2e03742f1c0f17b994fffc82b8e",
   "source": {
     "repo": "https://github.com/dnbexperience/eufemia",
     "file": "packages/dnb-eufemia/src/components/anchor/index.ts",
-    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.93.1/packages/dnb-eufemia/src/components/anchor/index.ts"
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.94.0/packages/dnb-eufemia/src/components/anchor/index.ts"
   },
   "sources": {
     "entry": {
@@ -139,7 +146,7 @@
       "public": "https://eufemia.dnb.no/uilib/components/anchor/demos/"
     }
   },
-  "version": "10.93.1",
-  "generatedAt": "2026-01-09T11:29:54.519Z",
+  "version": "10.94.0",
+  "generatedAt": "2026-01-15T10:33:25.707Z",
   "schemaVersion": 1
 }

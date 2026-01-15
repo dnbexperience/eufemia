@@ -11,7 +11,7 @@
   "source": {
     "repo": "https://github.com/dnbexperience/eufemia",
     "file": "packages/dnb-eufemia/src/extensions/forms/Form/index.ts",
-    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.93.1/packages/dnb-eufemia/src/extensions/forms/Form/index.ts"
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.94.0/packages/dnb-eufemia/src/extensions/forms/Form/index.ts"
   },
   "sources": {
     "entry": {
@@ -25,7 +25,7 @@
       "public": "https://eufemia.dnb.no/uilib/extensions/forms/Form/demos/"
     }
   },
-  "version": "10.93.1",
-  "generatedAt": "2026-01-09T11:29:55.291Z",
+  "version": "10.94.0",
+  "generatedAt": "2026-01-15T10:33:26.518Z",
   "schemaVersion": 1
 }

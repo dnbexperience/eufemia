@@ -28,9 +28,40 @@
       "defaultValue": null
     },
     {
+      "name": "timeStyle",
+      "doc": "Defines the style used to format the time. If provided, time is included in the output.",
+      "type": [
+        "long",
+        "medium",
+        "short",
+        "full"
+      ],
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "dateTimeSeparator",
+      "doc": "Custom separator used between date and time when both are rendered (e.g. \" - \"). Defaults to a comma.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
       "name": "relativeTime",
       "doc": "If set to `true`, actual dates will be formatted as relative time (e.g., \"2 hours ago\"). ISO 8601 duration strings (e.g., \"PT1H\") are automatically detected and formatted without this prop. Defaults to `false`.",
       "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "relativeTimeStyle",
+      "doc": "Defines the style used to format relative time. Defaults to `dateStyle` when not provided.",
+      "type": [
+        "long",
+        "medium",
+        "short",
+        "full"
+      ],
       "status": "optional",
       "defaultValue": null
     },
@@ -60,11 +91,11 @@
   "related": [
     "Space"
   ],
-  "checksum": "3a17b0c3f601463268e5fbcdcbc35464940d526e523992d872a604a7835462af",
+  "checksum": "4011f8c9a16337d886185b7cdfce74d87715a05b36c892eab966ea030721d386",
   "source": {
     "repo": "https://github.com/dnbexperience/eufemia",
     "file": "packages/dnb-eufemia/src/components/date-format/DateFormat.tsx",
-    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.93.1/packages/dnb-eufemia/src/components/date-format/DateFormat.tsx"
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.94.0/packages/dnb-eufemia/src/components/date-format/DateFormat.tsx"
   },
   "sources": {
     "entry": {
@@ -81,7 +112,7 @@
       "public": "https://eufemia.dnb.no/uilib/components/date-format/demos/"
     }
   },
-  "version": "10.93.1",
-  "generatedAt": "2026-01-09T11:29:54.643Z",
+  "version": "10.94.0",
+  "generatedAt": "2026-01-15T10:33:25.822Z",
   "schemaVersion": 1
 }

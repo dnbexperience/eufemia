@@ -1,7 +1,7 @@
 {
   "id": "uilib/getting-started/requirements",
   "name": "Requirements",
-  "description": "Eufemia can be used within an UMD, ES5, ES6 or TypeScript environment. The purpose is to use it on top (or inside) of modern JavaScript frontend framework and setups.",
+  "description": "Eufemia can be used within an UMD, ESM, CJS or TypeScript environment. The purpose is to use it on top (or inside) of modern JavaScript frontend framework and setups.",
   "group": "getting-started",
   "slug": "/uilib/getting-started/requirements/",
   "props": [],
@@ -18,7 +18,7 @@
     "events": null,
     "demos": null
   },
-  "version": "10.93.1",
-  "generatedAt": "2026-01-09T11:29:55.658Z",
+  "version": "10.94.0",
+  "generatedAt": "2026-01-15T10:33:26.894Z",
   "schemaVersion": 1
 }

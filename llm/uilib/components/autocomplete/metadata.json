@@ -69,6 +69,13 @@
       "defaultValue": null
     },
     {
+      "name": "searchMatch",
+      "doc": "Defines how search matching is performed. Use `starts-with` to only match items that begin with the first typed word. Defaults to `word`.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
       "name": "keep_value",
       "doc": "Use `true` to not remove the typed value on input blur, if it is invalid. By default, the typed value will disappear / replaced by a selected value from the data list during the input field blur. Defaults to `false`.",
       "type": "boolean",
@@ -423,11 +430,11 @@
     "DrawerList",
     "Space"
   ],
-  "checksum": "234f1713e34f0eda0f2b8e6239ed711479d3971aff39e4f9f8dec6dc38e89873",
+  "checksum": "80c5ce458898713b0541a4c5176f003cc8d7f27522acd9f7011fd99208934563",
   "source": {
     "repo": "https://github.com/dnbexperience/eufemia",
     "file": "packages/dnb-eufemia/src/components/autocomplete/Autocomplete.js",
-    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.93.1/packages/dnb-eufemia/src/components/autocomplete/Autocomplete.js"
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.94.0/packages/dnb-eufemia/src/components/autocomplete/Autocomplete.js"
   },
   "sources": {
     "entry": {
@@ -447,7 +454,7 @@
       "public": "https://eufemia.dnb.no/uilib/components/autocomplete/demos/"
     }
   },
-  "version": "10.93.1",
-  "generatedAt": "2026-01-09T11:29:54.553Z",
+  "version": "10.94.0",
+  "generatedAt": "2026-01-15T10:33:25.744Z",
   "schemaVersion": 1
 }
