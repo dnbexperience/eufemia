@@ -72,7 +72,7 @@ export const AnchorProperties: PropertiesTableProps = {
     status: 'optional',
   },
   disabled: {
-    doc: 'Disables the Anchor (no navigation, no tooltip, no hover). Keep a short reason nearby.',
+    doc: 'Disables the Anchor (no navigation, no hover). Keep a short reason nearby (e.g. using the `tooltip` property).',
     type: 'boolean',
     status: 'optional',
   },
