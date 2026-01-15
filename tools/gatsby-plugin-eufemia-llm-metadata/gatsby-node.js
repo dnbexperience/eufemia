@@ -780,8 +780,7 @@ async function buildDocsInjectionPrelude(file, source) {
   let prelude = ''
   for (const { names, mod } of mappings) {
     for (const n of names) {
-      const val =
-        mod && Object.prototype.hasOwnProperty.call(mod, n) ? mod[n] : {}
+      const val = mod && Object.hasOwn(mod, n) ? mod[n] : {}
       prelude += `const ${n} = ${JSON.stringify(val)};\n`
     }
   }

@@ -260,6 +260,13 @@ describe('Button component', () => {
         expect(await axeComponent(Comp)).toHaveNoViolations()
       })
 
+      it('should validate with ARIA rules when disabled', async () => {
+        const Comp = render(
+          <Button {...props} href="https://url" disabled />
+        )
+        expect(await axeComponent(Comp)).toHaveNoViolations()
+      })
+
       it('does not navigate when href is set and button is disabled', async () => {
         render(
           <Button href="https://url" disabled>
@@ -277,7 +284,7 @@ describe('Button component', () => {
         expect(anchor).toHaveAttribute('tabindex', '-1')
       })
 
-      it('should not render disabled attribute when', async () => {
+      it('renders disabled attribute when href is set', async () => {
         render(
           <Button href="https://url" disabled>
             Go to example
@@ -285,7 +292,7 @@ describe('Button component', () => {
         )
 
         const anchor = document.querySelector('a')
-        expect(anchor).not.toHaveAttribute('disabled')
+        expect(anchor).toHaveAttribute('disabled')
       })
 
       it('removes href from anchor when disabled', () => {

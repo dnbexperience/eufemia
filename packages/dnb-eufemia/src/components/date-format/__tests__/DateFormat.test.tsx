@@ -43,6 +43,30 @@ describe('DateFormat', () => {
       expect(dateFormat).toHaveTextContent('01.08.2025')
     })
 
+    it('should include time when `timeStyle` is provided', () => {
+      render(<DateFormat value="2025-08-01T14:30:00" timeStyle="short" />)
+
+      const dateFormat = document.querySelector('.dnb-date-format')
+
+      expect(dateFormat).toHaveTextContent('1. august 2025 kl. 14:30')
+    })
+
+    it('should use a custom `dateTimeSeparator` when provided', () => {
+      render(
+        <DateFormat
+          value="2025-08-01T14:30:00"
+          locale="en-GB"
+          dateStyle="short"
+          timeStyle="short"
+          dateTimeSeparator=" - "
+        />
+      )
+
+      const dateFormat = document.querySelector('.dnb-date-format')
+
+      expect(dateFormat).toHaveTextContent('01/08/2025 - 14:30')
+    })
+
     it('should return an invalid date message if the date is invalid', () => {
       global.console.log = jest.fn()
 
@@ -339,6 +363,41 @@ describe('DateFormat', () => {
 
       const dateFormat = document.querySelector('.dnb-date-format')
       expect(dateFormat).toHaveTextContent('siden')
+    })
+
+    it('should prefer `relativeTimeStyle` over `dateStyle`', () => {
+      const referenceDate = new Date('2025-01-15T14:30:00Z')
+      const pastDate = new Date('2025-01-15T12:30:00Z')
+
+      const { rerender } = render(
+        <DateFormat
+          value={pastDate}
+          relativeTime
+          relativeTimeStyle="short"
+          dateStyle="long"
+          locale="en-US"
+          relativeTimeReference={() => referenceDate}
+        />
+      )
+
+      const dateFormat = document.querySelector('.dnb-date-format')
+
+      const shortText = dateFormat.textContent
+      expect(shortText).toEqual(shortText)
+
+      rerender(
+        <DateFormat
+          value={pastDate}
+          relativeTime
+          relativeTimeStyle="long"
+          dateStyle="long"
+          locale="en-US"
+          relativeTimeReference={() => referenceDate}
+        />
+      )
+
+      const longText = dateFormat.textContent
+      expect(shortText).not.toEqual(longText)
     })
 
     it('should render relativeTime with time element and correct tagName', () => {

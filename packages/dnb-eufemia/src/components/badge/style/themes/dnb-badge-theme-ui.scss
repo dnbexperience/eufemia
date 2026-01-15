@@ -3,16 +3,8 @@
 *
 */
 
-@import '../../../../style/core/utilities.scss';
+@use '../design-tokens-beta.scss';
 
 .dnb-badge {
-  color: var(--color-white);
-
-  &--variant-information {
-    background-color: var(--color-emerald-green);
-  }
-
-  &--variant-notification {
-    background-color: var(--color-fire-red);
-  }
+  @include design-tokens-beta.dnb-badge-design-tokens-beta();
 }

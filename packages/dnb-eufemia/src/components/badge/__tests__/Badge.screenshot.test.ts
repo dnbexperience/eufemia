@@ -8,8 +8,12 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('Badge', () => {
-  setupPageScreenshot({ url: '/uilib/components/badge/demos' })
+describe.each(['ui', 'sbanken'])('Badge for %s', (themeName) => {
+  setupPageScreenshot({
+    themeName,
+    url: '/uilib/components/badge/demos',
+  })
+
   describe('variant', () => {
     it('have to match variant notification', async () => {
       const screenshot = await makeScreenshot({
@@ -76,6 +80,14 @@ describe('Badge', () => {
       const screenshot = await makeScreenshot({
         selector:
           '[data-visual-test="badge-bottom-right"] .dnb-badge__root',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+  })
+  describe('status', () => {
+    it('have to match all status variants', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="badge-status"]',
       })
       expect(screenshot).toMatchImageSnapshot()
     })

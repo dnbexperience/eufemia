@@ -1470,7 +1470,14 @@ describe('Field.Upload', () => {
         asyncValidatorResolvingWithSuccess
       )
 
-      render(<Field.Upload fileHandler={asyncFileHandlerFnSuccess} />)
+      const onChange = jest.fn((args) => args)
+
+      render(
+        <Field.Upload
+          fileHandler={asyncFileHandlerFnSuccess}
+          onChange={onChange}
+        />
+      )
 
       const element = getRootElement()
 
@@ -1487,6 +1494,20 @@ describe('Field.Upload', () => {
           document.querySelector('.dnb-form-status')
         ).not.toBeInTheDocument()
       })
+
+      expect(onChange).toHaveBeenCalledTimes(1)
+      expect(onChange).toHaveBeenLastCalledWith(
+        [
+          {
+            exists: false,
+            file: file,
+            id: 'server_generated_id',
+            isLoading: false,
+            name: 'fileName-1.png',
+          },
+        ],
+        expect.anything()
+      )
     })
 
     it('should display spinner when loading fileHandler with async function', async () => {

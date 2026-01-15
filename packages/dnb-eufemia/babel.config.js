@@ -38,8 +38,8 @@ const legacyPresets =
           presetsGeneral[0][0], // get preset id
           {
             ...presetsGeneral[0][1], // get preset options
-            useBuiltIns: 'usage',
-            corejs: 3,
+            modules: false,
+            bugfixes: true,
           },
         ],
       ]
@@ -75,6 +75,7 @@ const productionPlugins = [
       mode: 'unsafe-wrap',
     },
   ],
+  'babel-plugin-fully-specified',
 ]
 
 productionPlugins.push([
@@ -104,15 +105,25 @@ if (typeof process.env.BABEL_ENV !== 'undefined') {
   ])
 }
 
+const basePlugins = [
+  'babel-plugin-optimize-clsx',
+  '@babel/plugin-transform-export-namespace-from',
+  '@babel/plugin-transform-nullish-coalescing-operator',
+]
+
+const polyfillPlugin = [
+  'polyfill-corejs3',
+  {
+    method: 'usage-pure',
+    version: require('core-js-pure/package.json').version,
+  },
+]
+
 const config = {
   presets: presetsGeneral,
   plugins: [
-    'babel-plugin-optimize-clsx',
-    '@babel/plugin-proposal-export-default-from',
-    '@babel/plugin-proposal-object-rest-spread',
-    '@babel/plugin-proposal-class-properties',
-    '@babel/plugin-proposal-optional-chaining',
-    '@babel/plugin-transform-nullish-coalescing-operator',
+    ...basePlugins,
+    ...(process.env.BABEL_ENV === 'es' ? [] : [polyfillPlugin]),
   ],
   sourceMaps: true,
   comments: false,

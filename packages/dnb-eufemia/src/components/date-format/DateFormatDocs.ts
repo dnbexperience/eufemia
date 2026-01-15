@@ -11,9 +11,24 @@ export const DateFormatProperties: PropertiesTableProps = {
     type: ['long', 'medium', 'short', 'full'],
     status: 'optional',
   },
+  timeStyle: {
+    doc: 'Defines the style used to format the time. If provided, time is included in the output.',
+    type: ['long', 'medium', 'short', 'full'],
+    status: 'optional',
+  },
+  dateTimeSeparator: {
+    doc: 'Custom separator used between date and time when both are rendered (e.g. " - "). Defaults to a comma.',
+    type: 'string',
+    status: 'optional',
+  },
   relativeTime: {
     doc: 'If set to `true`, actual dates will be formatted as relative time (e.g., "2 hours ago"). ISO 8601 duration strings (e.g., "PT1H") are automatically detected and formatted without this prop. Defaults to `false`.',
     type: 'boolean',
+    status: 'optional',
+  },
+  relativeTimeStyle: {
+    doc: 'Defines the style used to format relative time. Defaults to `dateStyle` when not provided.',
+    type: ['long', 'medium', 'short', 'full'],
     status: 'optional',
   },
   relativeTimeReference: {

@@ -333,7 +333,6 @@ describe('classWithCamelCaseProps', () => {
     const Component = classWithCamelCaseProps(Original)
 
     const { rerender } = render(<Component />)
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error - Testing dynamic prop injection
     rerender(<Component newProp="hello" />)
 

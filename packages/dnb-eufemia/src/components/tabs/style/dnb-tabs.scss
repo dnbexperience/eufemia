@@ -354,4 +354,10 @@
       @include focusRing();
     }
   }
+
+  .dnb-badge {
+    position: absolute;
+    top: auto;
+    margin-left: 0.25rem;
+  }
 }

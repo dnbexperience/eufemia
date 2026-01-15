@@ -257,6 +257,7 @@ exports.onCreateWebpackConfig = ({
   stage,
   actions,
   plugins,
+  getConfig,
 }) => {
   const config = {
     resolve: {
@@ -310,6 +311,17 @@ exports.onCreateWebpackConfig = ({
         )
       }),
     )
+  }
+
+  // Suppress mini-css-extract-plugin "Conflicting order" warnings
+  if (stage === 'build-javascript' || stage === 'develop') {
+    const webpackConfig = getConfig()
+    const miniCssExtractPlugin = webpackConfig.plugins.find(
+      (plugin) => plugin.constructor.name === 'MiniCssExtractPlugin',
+    )
+    if (miniCssExtractPlugin) {
+      miniCssExtractPlugin.options.ignoreOrder = true
+    }
   }
 
   actions.setWebpackConfig(config)

@@ -10,6 +10,7 @@ import Context from '../../shared/Context'
 import {
   makeUniqueId,
   extendPropsWithContext,
+  isTrue,
 } from '../../shared/component-helper'
 import { getOffsetTop, warn } from '../../shared/helpers'
 import IconPrimary from '../icon-primary/IconPrimary'
@@ -76,6 +77,11 @@ export type AnchorProps = {
    * Default: `false`
    */
   noLaunchIcon?: boolean
+  /**
+   * Disables the Anchor element.
+   * Default: `false`
+   */
+  disabled?: boolean
 }
 
 export type AnchorAllProps = AnchorProps &
@@ -89,6 +95,7 @@ const defaultProps: AnchorProps = {
   noUnderline: false,
   noIcon: false,
   noLaunchIcon: false,
+  disabled: false,
 }
 
 export function AnchorInstance(localProps: AnchorAllProps) {
@@ -128,17 +135,23 @@ export function AnchorInstance(localProps: AnchorAllProps) {
     noUnderline,
     noIcon,
     noLaunchIcon,
+    disabled,
     ...rest
   } = allProps
 
-  const attributes = rest as ElementAllProps
+  const attributes = rest as ElementAllProps & { to: string | undefined }
   const internalId = id || 'id' + makeUniqueId()
   const as = element || 'a'
+  const isDisabled = isTrue(disabled)
+  const hasNoHover = noHover || isDisabled
+  const hasNoAnimation = noAnimation || isDisabled
+  const hasNoUnderline = noUnderline || isDisabled
 
   const href = allProps.href || allProps.to
   const _opensNewTab = opensNewTab(allProps.target, href)
   const showLaunchIcon =
     _opensNewTab &&
+    !isDisabled &&
     !noIcon &&
     !noLaunchIcon &&
     !className?.includes('dnb-anchor--no-icon') &&
@@ -161,6 +174,27 @@ export function AnchorInstance(localProps: AnchorAllProps) {
 
   const prefix = iconPosition === 'left' && iconNode
 
+  if (isDisabled) {
+    attributes.disabled = true
+
+    if (as === 'a') {
+      attributes.tabIndex = -1
+      attributes['aria-disabled'] = true
+
+      if (attributes.href) {
+        delete attributes.href
+      }
+      if (attributes.to) {
+        delete attributes.to
+      }
+
+      attributes.onClick = (event) => {
+        event.preventDefault()
+        event.stopPropagation()
+      }
+    }
+  }
+
   return (
     <>
       <E
@@ -174,10 +208,11 @@ export function AnchorInstance(localProps: AnchorAllProps) {
               prefix && 'dnb-anchor--icon-left',
               suffix && 'dnb-anchor--icon-right',
               typeof children !== 'string' && 'dnb-anchor--was-node',
-              noAnimation && 'dnb-anchor--no-animation',
-              noHover && 'dnb-anchor--no-hover',
+              hasNoAnimation && 'dnb-anchor--no-animation',
+              hasNoHover && 'dnb-anchor--no-hover',
               noStyle && 'dnb-anchor--no-style',
-              noUnderline && 'dnb-anchor--no-underline',
+              hasNoUnderline && 'dnb-anchor--no-underline',
+              isDisabled && 'dnb-anchor--disabled',
               noIcon &&
                 !className?.includes('dnb-anchor--no-icon') &&
                 'dnb-anchor--no-icon',
@@ -215,7 +250,6 @@ const Anchor = React.forwardRef(
   }
 )
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-expect-error - Adding custom property to component for spacing detection
 Anchor._supportsSpacingProps = true
 

@@ -1683,10 +1683,7 @@ describe('Field.PhoneNumber', () => {
       })
     )
     expect(
-      Object.prototype.hasOwnProperty.call(
-        onChange.mock.calls[17][1],
-        'countryCode'
-      )
+      Object.hasOwn(onChange.mock.calls[17][1], 'countryCode')
     ).toBeFalsy()
   })
 

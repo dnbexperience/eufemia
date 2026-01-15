@@ -33,11 +33,6 @@
       }
 
       // TODO: We may consider to wrap horizontal direction to vertical
-      // overwrite display to be block on small screens
-      // @media screen and (max-width: 40em) {
-      //   flex-direction: column;
-      // }
-      // justify-self: start;
     }
 
     @media screen and (max-width: 40em) {
@@ -63,15 +58,6 @@
     }
   }
 
-  // This is currently not needed
-  // &--nested#{&}:not(#{&}--vertical)#{&}:not(#{&}--vertical-label)
-  //   > .dnb-form-label {
-  //   @media screen and (max-width: 40em) {
-  //     margin-bottom: 1rem;
-  //     margin-right: 0;
-  //   }
-  // }
-
   // for vertical direction
   &--vertical > .dnb-form-row__label {
     margin-bottom: 0.5rem;
@@ -82,10 +68,6 @@
   }
 
   // TODO: we may consider this to be included with a prop later on
-  // default spacing
-  // &:not(#{&}--nested) {
-  //   margin-bottom: 1.5rem;
-  // }
 
   &--vertical-label {
     flex-direction: column;

@@ -290,6 +290,9 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
+:where(:not(.dnb-anchor--no-style)).dnb-anchor.dnb-anchor--disabled, :where(:not(.dnb-anchor--no-style)).dnb-anchor[aria-disabled=true], :where(:not(.dnb-anchor--no-style)).dnb-anchor[disabled] {
+  color: var(--anchor-color--disabled);
+}
 
 :not(.dnb-anchor--no-style) {
   /* stylelint-disable-next-line scss/operator-no-unspaced */
@@ -416,6 +419,9 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
     box-shadow: 0 0 0 var(--border-width) var(--border-color);
     border-color: transparent;
   }
+  :not(.dnb-anchor--no-style).dnb-anchor.dnb-anchor--disabled, :not(.dnb-anchor--no-style).dnb-anchor[aria-disabled=true], :not(.dnb-anchor--no-style).dnb-anchor[disabled] {
+    color: var(--anchor-color--disabled);
+  }
 }
 
 .dnb-anchor--hover {
@@ -489,6 +495,7 @@ exports[`Anchor scss should match theme css for sbanken 1`] = `
   --anchor-underline-thickness: 0.125rem;
   --anchor-background: transparent;
   --anchor-color--contrast: var(--sb-color-text);
+  --anchor-color--disabled: var(--sb-color-gray-dark);
   --anchor-background-gutter-left: 0.25rem;
   --anchor-background-gutter-right: 0.25rem;
   --anchor-icon-position: translateY(-0.125em);
@@ -581,6 +588,7 @@ exports[`Anchor scss should match theme css for sbanken 1`] = `
     --anchor-underline-thickness: 0.125rem;
     --anchor-background: transparent;
     --anchor-color--contrast: var(--sb-color-text);
+    --anchor-color--disabled: var(--sb-color-gray-dark);
     --anchor-background-gutter-left: 0.25rem;
     --anchor-background-gutter-right: 0.25rem;
     --anchor-icon-position: translateY(-0.125em);
@@ -722,6 +730,7 @@ exports[`Anchor scss should match theme css for ui 1`] = `
   --anchor-color: var(--anchor-color--default, var(--color-sea-green));
   --anchor-color--active: var(--color-mint-green);
   --anchor-color--contrast: var(--color-emerald-green);
+  --anchor-color--disabled: var(--color-sea-green-30);
   --anchor-background--hover: var(--color-mint-green-50);
   --anchor-background--active: var(--color-emerald-green);
   color: var(--anchor-color);
@@ -761,6 +770,7 @@ exports[`Anchor scss should match theme css for ui 1`] = `
     --anchor-color: var(--anchor-color--default, var(--color-sea-green));
     --anchor-color--active: var(--color-mint-green);
     --anchor-color--contrast: var(--color-emerald-green);
+    --anchor-color--disabled: var(--color-sea-green-30);
     --anchor-background--hover: var(--color-mint-green-50);
     --anchor-background--active: var(--color-emerald-green);
     color: var(--anchor-color);

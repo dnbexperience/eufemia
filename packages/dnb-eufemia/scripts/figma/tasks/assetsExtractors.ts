@@ -865,7 +865,6 @@ const optimizeSVG = async (file) => {
       path: file,
       ...config,
 
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-expect-error - SVGO types don't recognize removeViewBox config option
       removeViewBox: false, // Seems to be a bug as it is not picked up from svgo.config.js
     })
@@ -880,7 +879,7 @@ const optimizeSVG = async (file) => {
     data = data.replace(/24 25/g, '24 24')
 
     // WIP
-    // data = insertInlineStylesToSVG(data)
+    // data = _insertInlineStylesToSVG(data)
 
     await fs.writeFile(file, data)
     return data
@@ -891,8 +890,7 @@ const optimizeSVG = async (file) => {
   return null
 }
 
-// eslint-disable-next-line no-unused-vars
-const insertInlineStylesToSVG = (svg) => {
+const _insertInlineStylesToSVG = (svg) => {
   return Object.entries(properties)
     .filter(([key]) => key.includes('--color-'))
     .reduce((acc, [key, val]) => {

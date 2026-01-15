@@ -5,11 +5,7 @@
 
 import React from 'react'
 import classnames from 'classnames'
-import Highlight, {
-  Language,
-  Prism,
-  defaultProps,
-} from 'prism-react-renderer'
+import { Highlight, Prism } from 'prism-react-renderer'
 import Tag from './Tag'
 import { Button } from '@dnb/eufemia/src/components'
 import { makeUniqueId } from '@dnb/eufemia/src/shared/component-helper'
@@ -39,7 +35,7 @@ export type CodeSectionProps = {
   hideCode?: boolean
   hidePreview?: boolean
   reactLive?: boolean
-  language?: Language
+  language?: string
   className?: string
   background?: 'grid' | 'white'
   children: string | React.ReactNode | (() => React.ReactNode)
@@ -58,7 +54,7 @@ const CodeBlock = ({
   if (!language) {
     language = ((String(props && props.className).match(
       /language-(.*)$|\s/,
-    ) || [])[1] || 'jsx') as Language
+    ) || [])[1] || 'jsx') as string
   }
 
   if (((props && props.scope) || isReactLive) && language === 'jsx') {
@@ -75,10 +71,10 @@ const CodeBlock = ({
   } else {
     return (
       <Highlight
-        {...defaultProps}
         code={exampleCode as string}
         language={language}
         theme={prismTheme}
+        prism={Prism}
       >
         {({ className, style, tokens, getLineProps, getTokenProps }) => (
           <div
@@ -89,10 +85,9 @@ const CodeBlock = ({
           >
             <Tag as="pre" className={className} css={style}>
               {cleanTokens(tokens).map((line, i) => (
-                /* eslint-disable react/jsx-key */
-                <div {...getLineProps({ line, key: i })}>
+                <div key={i} {...getLineProps({ line, key: i })}>
                   {line.map((token, key) => (
-                    <span {...getTokenProps({ token, key })} />
+                    <span key={key} {...getTokenProps({ token, key })} />
                   ))}
                 </div>
               ))}
@@ -297,8 +292,6 @@ const cleanTokens = (tokens) => {
   return tokens
 }
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-expect-error - Prism types don't include insertBefore method
 Prism.languages.insertBefore('jsx', 'template-string', {
   'styled-template-string': {
     pattern:

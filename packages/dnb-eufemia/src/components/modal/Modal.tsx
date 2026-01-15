@@ -509,7 +509,7 @@ class Modal extends React.PureComponent<
       const headerTitle = rest.title || fallbackTitle
 
       const TriggerButton = trigger
-        ? (trigger as React.FC)
+        ? (trigger as () => JSX.Element)
         : HelpButtonInstance
 
       const title = (

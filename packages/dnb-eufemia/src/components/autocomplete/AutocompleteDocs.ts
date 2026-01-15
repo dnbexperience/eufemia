@@ -46,6 +46,11 @@ export const AutocompleteProperties = {
     type: 'boolean',
     status: 'optional',
   },
+  searchMatch: {
+    doc: 'Defines how search matching is performed. Use `starts-with` to only match items that begin with the first typed word. Defaults to `word`.',
+    type: 'string',
+    status: 'optional',
+  },
   keep_value: {
     doc: 'Use `true` to not remove the typed value on input blur, if it is invalid. By default, the typed value will disappear / replaced by a selected value from the data list during the input field blur. Defaults to `false`.',
     type: 'boolean',

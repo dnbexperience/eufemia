@@ -123,14 +123,10 @@ export default function AccordionContent(props: AccordionContentProps) {
     if (expanded && single_container) {
       setContainerHeight()
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [children, expanded, single_container])
+  }, [children, expanded, single_container, setContainerHeight])
 
   React.useState(() => {
-    if (
-      instance &&
-      Object.prototype.hasOwnProperty.call(instance, 'current')
-    ) {
+    if (instance && Object.hasOwn(instance, 'current')) {
       instance.current = { setContainerHeight }
     }
   })

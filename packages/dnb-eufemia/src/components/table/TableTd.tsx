@@ -31,6 +31,7 @@ export default function Td(
 
   return (
     <td
+      // eslint-disable-next-line jsx-a11y/no-interactive-element-to-noninteractive-role
       role="cell"
       className={classnames(
         'dnb-table__td',

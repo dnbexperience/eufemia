@@ -64,16 +64,11 @@ Run `yarn workspace dnb-design-system-portal build:visual-test`.
 
 You can also run `filter=button,input yarn start` (case sensitive) to only run specific pages.
 
-## How to enable lint-staged?
-
-Create a file called `.env.local` in the root of the repo (side-by-side to the .git folder), and put `LINT_STAGED=1` inside:
-
-```bash
-# File: .env.local
-LINT_STAGED=1
-```
-
 ## Dependency issues
+
+### ESLint compat patch
+
+- We patch `eslint-plugin-compat` to always report APIs, even inside `if` statements. The patch lives in `.yarn/patches/` and is referenced from `packages/dnb-eufemia/package.json` as `patch:eslint-plugin-compat@npm:*`. If you reinstall dependencies, keep the patch or reapply it with `yarn patch-commit`.
 
 ### Jest
 

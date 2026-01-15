@@ -8070,8 +8070,7 @@ describe('useFieldProps', () => {
         },
       })
 
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-expect-error
+      // @ts-expect-error - Testing that revealError is not exposed in the return type
       const { revealError } = result.current
 
       expect(revealErrorDataContext).toHaveBeenCalledTimes(0)
@@ -8510,6 +8509,30 @@ describe('useFieldProps', () => {
             <Iterate.Array value={['foo']}>
               <Field.String path="/myPath" />
             </Iterate.Array>
+          </Form.Handler>
+        </React.StrictMode>
+      )
+
+      expect(log).toHaveBeenCalledTimes(0)
+    })
+
+    it('should not warn when path uses ../ to reference a parent section', () => {
+      render(
+        <React.StrictMode>
+          <Form.Handler
+            data={{
+              section: {
+                target: 'value',
+                child: {},
+              },
+            }}
+          >
+            <Form.Section path="/section">
+              <Field.String path="/target" />
+              <Form.Section path="/child">
+                <Field.String path="../target" />
+              </Form.Section>
+            </Form.Section>
           </Form.Handler>
         </React.StrictMode>
       )

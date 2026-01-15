@@ -16,6 +16,7 @@ import Context, {
 import Provider, { ProviderProps } from '../Provider'
 import { fireEvent, render } from '@testing-library/react'
 import locales from '../../shared/locales'
+import Translation from '../Translation'
 
 const en = locales['en-GB']
 
@@ -575,6 +576,90 @@ describe('Provider', () => {
         document.querySelector('.dnb-global-error__inner__content h1')
           .textContent
       ).toBe(en.GlobalError[errorCode].title)
+    })
+
+    it('should cascade translations from parent to nested provider', () => {
+      const rootTranslation = 'Root level'
+      const innerTranslation = 'Inner level'
+
+      render(
+        <Provider
+          locale="en-GB"
+          translations={{
+            'en-GB': {
+              Root: rootTranslation,
+            },
+          }}
+        >
+          <span id="root-in-root">
+            <Translation id="Root" />
+          </span>
+          <Provider
+            locale="en-GB"
+            translations={{
+              'en-GB': {
+                Inner: innerTranslation,
+              },
+            }}
+          >
+            <span id="root-in-inner">
+              <Translation id="Root" />
+            </span>
+            <span id="inner-in-inner">
+              <Translation id="Inner" />
+            </span>
+          </Provider>
+        </Provider>
+      )
+
+      expect(document.querySelector('#root-in-root').textContent).toBe(
+        rootTranslation
+      )
+      expect(document.querySelector('#root-in-inner').textContent).toBe(
+        rootTranslation
+      )
+      expect(document.querySelector('#inner-in-inner').textContent).toBe(
+        innerTranslation
+      )
+    })
+
+    it('should override translations from parent provider in nested provider', () => {
+      const rootTranslation = 'Root level'
+      const innerTranslation = 'Inner level'
+
+      render(
+        <Provider
+          locale="en-GB"
+          translations={{
+            'en-GB': {
+              Root: rootTranslation,
+            },
+          }}
+        >
+          <span id="root-in-root">
+            <Translation id="Root" />
+          </span>
+          <Provider
+            locale="en-GB"
+            translations={{
+              'en-GB': {
+                Root: innerTranslation,
+              },
+            }}
+          >
+            <span id="root-in-inner">
+              <Translation id="Root" />
+            </span>
+          </Provider>
+        </Provider>
+      )
+
+      expect(document.querySelector('#root-in-root').textContent).toBe(
+        rootTranslation
+      )
+      expect(document.querySelector('#root-in-inner').textContent).toBe(
+        innerTranslation
+      )
     })
   })
 })

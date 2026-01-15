@@ -94,12 +94,7 @@ export class Store {
 
     if (storeId) {
       try {
-        if (
-          Object.prototype.hasOwnProperty.call(
-            window.localStorage,
-            storeId
-          )
-        ) {
+        if (Object.hasOwn(window.localStorage, storeId)) {
           return JSON.parse(window.localStorage.getItem(storeId))
         }
       } catch (e) {

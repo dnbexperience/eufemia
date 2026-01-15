@@ -299,6 +299,8 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   } = fieldBoundaryContext || {}
 
   const hasPath = Boolean(pathProp)
+  const isParentRelativePath =
+    typeof pathProp === 'string' && pathProp.startsWith('../')
   const hasItemPath = Boolean(itemPath)
   const { path, identifier, makeIteratePath, joinPath, cleanPath } =
     usePath({
@@ -2174,6 +2176,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   useEffect(() => {
     if (
       !omitMultiplePathWarning &&
+      !isParentRelativePath &&
       process.env.NODE_ENV !== 'production' &&
       (hasPath || hasItemPath) &&
       (hasPath ? !iterateItemContext : true) &&
@@ -2195,6 +2198,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     hasPath,
     identifier,
     iterateItemContext,
+    isParentRelativePath,
     omitMultiplePathWarning,
   ])
 
@@ -2265,8 +2269,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       externalValueDidChangeRef.current = false
 
       // Hide error when the external value has changed, but is the same as the empty value.
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-expect-error
+      // @ts-expect-error - emptyValue may not be directly comparable to valueRef.current
       if (!validateContinuously && valueRef.current === emptyValue) {
         hideError()
       }

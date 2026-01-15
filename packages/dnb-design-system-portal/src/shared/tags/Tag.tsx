@@ -7,13 +7,9 @@ import React from 'react'
 import classnames from 'classnames'
 import type { DynamicElement } from '@dnb/eufemia/src/shared/types'
 
-type StyleObj = {
-  [key: string]: string | number | null
-}
-
 type Props = {
   as: DynamicElement
-  css?: StyleObj
+  css?: React.CSSProperties
   className?: string
   children: React.ReactNode
 }

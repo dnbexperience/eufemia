@@ -13,12 +13,12 @@ export const BadgeProperties: PropertiesTableProps = {
   },
   vertical: {
     doc: 'Vertical positioning of the component. Options: `bottom` | `top`.',
-    type: ['top', 'bottom'],
+    type: ['"top"', '"bottom"'],
     status: 'optional',
   },
   horizontal: {
     doc: 'Horizontal positioning of the component. Options: `left` | `right`.',
-    type: ['left', 'right'],
+    type: ['"left"', '"right"'],
     status: 'optional',
   },
   className: {
@@ -32,8 +32,18 @@ export const BadgeProperties: PropertiesTableProps = {
     status: 'optional',
   },
   variant: {
-    doc: 'Defines the visual appearance of the badge. There are two main variants `notification` and `information`. The `content` variant is just for placement purposes, and will require you to style the `content` all by yourself. The default variant is `information`.',
-    type: ['information', 'notification', 'content'],
+    doc: 'Defines the visual appearance of the badge. There are two main variants `notification` and `information`. The `content` variant is just for placement purposes, and will require you to style the `content` all by yourself. Default variant is `information`.',
+    type: ['"information"', '"notification"', '"content"'],
+    status: 'optional',
+  },
+  status: {
+    doc: 'Defines the status color of the `"information"` variant. Has no effect on other variants. Default is `"default"`.',
+    type: ['"default"', '"success"', '"warning"', '"error"', '"neutral"'],
+    status: 'optional',
+  },
+  subtle: {
+    doc: 'Applies subtle style to `"information"` variant. Has no effect on other variants. Default is `false`.',
+    type: 'boolean',
     status: 'optional',
   },
   label: {

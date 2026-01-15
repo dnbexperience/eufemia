@@ -24,6 +24,12 @@ button.dnb-anchor {
     &.dnb-anchor--contrast {
       @include useAnchorContrastStyle();
     }
+
+    &.dnb-anchor--disabled,
+    &[aria-disabled='true'],
+    &[disabled] {
+      color: var(--anchor-color--disabled);
+    }
   }
 }
 

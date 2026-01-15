@@ -37,7 +37,6 @@ export type DatePickerCalendarNavigationProps = Omit<
 }
 
 type TitleFormatMap = {
-  // eslint-disable-next-line no-unused-vars
   [T in CalendarNavigationType]: Intl.DateTimeFormatOptions
 }
 
@@ -51,9 +50,7 @@ const titleFormats: TitleFormatMap = {
 }
 
 type CalendarDateHandlers = {
-  // eslint-disable-next-line no-unused-vars
   [D in CalendarNavigationDateType]: {
-    // eslint-disable-next-line no-unused-vars
     [B in CalendarNavButtonType]: typeof subMonths
   }
 }

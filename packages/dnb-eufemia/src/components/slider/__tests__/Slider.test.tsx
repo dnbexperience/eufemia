@@ -423,11 +423,7 @@ describe('Slider component', () => {
           .reverse()
           .find(
             (callProps) =>
-              callProps &&
-              Object.prototype.hasOwnProperty.call(
-                callProps,
-                'targetRefreshKey'
-              )
+              callProps && Object.hasOwn(callProps, 'targetRefreshKey')
           )
 
       const initialCall = findTooltipPopoverCall()

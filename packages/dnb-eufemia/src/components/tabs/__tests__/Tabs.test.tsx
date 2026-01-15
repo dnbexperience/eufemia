@@ -598,10 +598,11 @@ describe('A single Tab component', () => {
   it('has to work when conditional rendering "Tabs.Content" as children components', () => {
     const whenUndefined = undefined
     const whenNull = null
+    const showFirst = false
 
     render(
       <Tabs {...props}>
-        {false && (
+        {showFirst && (
           <Tabs.Content key="first" title="First">
             First tab content
           </Tabs.Content>

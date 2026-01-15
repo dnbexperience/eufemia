@@ -4,7 +4,7 @@
  */
 
 import ComponentBox from '../../../../shared/tags/ComponentBox'
-import { Badge, Avatar } from '@dnb/eufemia/src'
+import { Badge, Avatar, Grid } from '@dnb/eufemia/src'
 
 export const BadgeNotification = () => (
   <ComponentBox hideCode data-visual-test="badge-variant-notification">
@@ -131,5 +131,30 @@ export const BadgeBottomRight = () => (
         <Avatar size="large">A</Avatar>
       </Avatar.Group>
     </Badge>
+  </ComponentBox>
+)
+
+export const BadgeStatus = () => (
+  <ComponentBox hideCode data-visual-test="badge-status">
+    <Grid.Container
+      rowGap
+      columnGap
+      style={{
+        display: 'inline-grid',
+        placeItems: 'start',
+        gridTemplateColumns: 'repeat(2, auto)',
+      }}
+    >
+      <Badge content="default" status="default" />
+      <Badge content="default (subtle)" status="default" subtle />
+      <Badge content="neutral" status="neutral" />
+      <Badge content="neutral (subtle)" status="neutral" subtle />
+      <Badge content="positive" status="positive" />
+      <Badge content="positive (subtle)" status="positive" subtle />
+      <Badge content="warning" status="warning" />
+      <Badge content="warning (subtle)" status="warning" subtle />
+      <Badge content="negative" status="negative" />
+      <Badge content="negative (subtle)" status="negative" subtle />
+    </Grid.Container>
   </ComponentBox>
 )

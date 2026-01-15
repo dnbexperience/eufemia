@@ -282,7 +282,7 @@ export default function Heading(props: HeadingAllProps) {
 
   const Element = element as
     | string
-    | React.FunctionComponent<React.HTMLProps<HTMLElement>> // typecasting to avoid typescript parser error ts(2590)
+    | ((props: React.HTMLProps<HTMLElement>) => JSX.Element) // typecasting to avoid typescript parser error ts(2590)
 
   return (
     <Element

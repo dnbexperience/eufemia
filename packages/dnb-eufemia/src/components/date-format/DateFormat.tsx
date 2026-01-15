@@ -34,6 +34,9 @@ type DateFormatProps = SpacingProps & {
   children?: React.ReactNode
   locale?: InternalLocale
   dateStyle?: Intl.DateTimeFormatOptions['dateStyle']
+  timeStyle?: Intl.DateTimeFormatOptions['timeStyle']
+  dateTimeSeparator?: string
+  relativeTimeStyle?: Intl.DateTimeFormatOptions['dateStyle']
   relativeTime?: boolean
   relativeTimeReference?: () => Date
   skeleton?: SkeletonShow
@@ -54,6 +57,9 @@ function DateFormat(props: DateFormatProps) {
     children,
     locale: localeProp,
     dateStyle = 'long',
+    timeStyle,
+    dateTimeSeparator,
+    relativeTimeStyle,
     skeleton,
     relativeTime = false,
     relativeTimeReference,
@@ -128,6 +134,7 @@ function DateFormat(props: DateFormatProps) {
     ({
       options = {
         dateStyle,
+        ...(timeStyle ? { timeStyle } : {}),
       },
     }: {
       options?: Intl.DateTimeFormatOptions
@@ -136,12 +143,25 @@ function DateFormat(props: DateFormatProps) {
         return // stop here
       }
 
+      if (dateTimeSeparator && options?.timeStyle) {
+        const formattedDate = formatDate(date, {
+          locale,
+          options: { dateStyle: options.dateStyle },
+        })
+        const formattedTime = formatDate(date, {
+          locale,
+          options: { timeStyle: options.timeStyle },
+        })
+
+        return `${formattedDate}${dateTimeSeparator}${formattedTime}`
+      }
+
       return formatDate(date, {
         locale,
         options,
       })
     },
-    [date, locale, dateStyle]
+    [date, locale, dateStyle, timeStyle, dateTimeSeparator]
   )
 
   // Auto-updating relative time with minimal CPU: schedule updates only when the label changes next
@@ -151,7 +171,7 @@ function DateFormat(props: DateFormatProps) {
           date,
           locale,
           undefined,
-          dateStyle,
+          relativeTimeStyle || dateStyle,
           relativeTimeReference
         )
       : undefined
@@ -174,7 +194,7 @@ function DateFormat(props: DateFormatProps) {
           date,
           locale,
           undefined,
-          dateStyle,
+          relativeTimeStyle || dateStyle,
           relativeTimeReference
         )
         setLabel((prev) => (prev !== next ? next : prev))
@@ -187,7 +207,7 @@ function DateFormat(props: DateFormatProps) {
         date,
         locale,
         undefined,
-        dateStyle,
+        relativeTimeStyle || dateStyle,
         relativeTimeReference
       )
     )
@@ -196,7 +216,14 @@ function DateFormat(props: DateFormatProps) {
     return () => {
       clearTimeout(timeoutId)
     }
-  }, [date, locale, relativeTime, dateStyle, relativeTimeReference])
+  }, [
+    date,
+    locale,
+    relativeTime,
+    dateStyle,
+    relativeTimeStyle,
+    relativeTimeReference,
+  ])
 
   // Check if we have a valid date (not invalid Date object)
   const hasValidDate = date && !isNaN(date.getTime())
@@ -235,7 +262,7 @@ function DateFormat(props: DateFormatProps) {
             tooltip={getAbsoluteDateFormatted({
               options: {
                 dateStyle,
-                timeStyle: 'short',
+                timeStyle: timeStyle || 'short',
               },
             })}
           />

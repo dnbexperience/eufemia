@@ -278,15 +278,14 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
         const separators = ['.', '/']
         const possibleFormats = ['yyyy-MM-dd']
 
-        // TODO: Merge these loops
-        possibleFormats.forEach((date) => {
+        // Generate all format variations with different separators and reversed versions
+        const baseFormats = [...possibleFormats]
+        baseFormats.forEach((date) => {
           separators.forEach((sep) => {
-            possibleFormats.push(date.replace(/-/g, sep))
+            const format = date.replace(/-/g, sep)
+            possibleFormats.push(format)
+            possibleFormats.push(format.split('').reverse().join(''))
           })
-        })
-
-        possibleFormats.forEach((date) => {
-          possibleFormats.push(date.split('').reverse().join(''))
         })
 
         let date: Date

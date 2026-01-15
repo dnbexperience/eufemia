@@ -3,7 +3,7 @@
 *
 */
 
-@import '../../../style/core/utilities.scss';
+@use '../../../style/core/utilities.scss';
 
 .dnb-badge {
   display: inline-flex;
@@ -31,6 +31,8 @@
   }
 
   &--variant-notification {
+    color: var(--color-white);
+    background-color: var(--color-fire-red);
     padding: 0 0.25rem;
     min-width: 1.5rem;
     height: 1.5rem;
@@ -38,8 +40,24 @@
   }
 
   &--variant-information {
+    --badge-information-color: var(--figma-color-text-neutral);
     padding: 0.125rem 0.5rem;
     border-radius: 0.5rem;
+    background-color: var(--badge-information-bg);
+    color: var(--badge-information-color, inherit);
+  }
+
+  &--subtle {
+    background-color: var(--badge-information-subtle-bg);
+    color: var(
+      --badge-information-subtle-color,
+      var(--badge-information-color)
+    );
+    @include utilities.fakeBorder(
+      var(--badge-information-subtle-border),
+      null,
+      inset
+    );
   }
 
   &--horizontal-left {
@@ -68,5 +86,64 @@
       // 1/4 of the badge height
       transform: translateY(25%);
     }
+  }
+
+  &--status-default {
+    --badge-information-bg: var(--figma-color-decorative-first-subtle);
+
+    // subtle
+    --badge-information-subtle-bg: var(
+      --figma-color-decorative-first-muted
+    );
+    --badge-information-subtle-border: var(
+      --figma-color-decorative-first-subtle
+    );
+  }
+
+  &--status-neutral {
+    --badge-information-bg: var(--figma-color-background-neutral-bold);
+
+    // subtle
+    --badge-information-subtle-bg: var(
+      --figma-color-background-neutral-subtle
+    );
+    --badge-information-subtle-border: var(
+      --figma-color-stroke-neutral-bold
+    );
+  }
+
+  &--status-positive {
+    --badge-information-bg: var(--figma-color-background-positive);
+    --badge-information-color: var(--figma-color-text-neutral-inverse);
+
+    // subtle
+    --badge-information-subtle-bg: var(
+      --figma-color-background-positive-subtle
+    );
+    --badge-information-subtle-color: var(--figma-color-text-positive);
+    --badge-information-subtle-border: var(--figma-color-stroke-positive);
+  }
+
+  &--status-warning {
+    --badge-information-bg: var(--figma-color-background-warning);
+
+    // subtle
+    --badge-information-subtle-bg: var(
+      --figma-color-background-warning-subtle
+    );
+    --badge-information-subtle-color: var(--figma-color-text-warning-bold);
+    --badge-information-subtle-border: var(--figma-color-stroke-warning);
+  }
+
+  &--status-negative {
+    --badge-information-bg: var(--figma-color-background-error);
+    --badge-information-color: var(--figma-color-text-neutral-inverse);
+
+    // subtle
+    --badge-information-subtle-bg: var(
+      --figma-color-background-error-subtle
+    );
+    --badge-information-subtle-color: var(--figma-color-text-destructive);
+    --badge-information-subtle-border: var(--figma-color-stroke-error);
   }
 }

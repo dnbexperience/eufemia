@@ -30,12 +30,8 @@
     "test:types:watch": "yarn workspace @dnb/eufemia test:types:watch",
     "test:screenshots": "yarn workspace @dnb/eufemia test:screenshots",
     "test:screenshots:update": "yarn workspace @dnb/eufemia test:screenshots:update",
-    "prepare": "husky install",
     "lint": "yarn workspace @dnb/eufemia lint && yarn workspace dnb-design-system-portal lint",
     "lint:styles": "yarn workspace @dnb/eufemia lint:styles && yarn workspace dnb-design-system-portal lint:styles"
-  },
-  "devDependencies": {
-    "husky": "7.0.4"
   },
   "resolutions": {
     "lmdb": "3.4.2",
@@ -46,11 +42,10 @@
   },
   "engines": {
     "node": ">=18.x",
-    "yarn": ">=1.22.10"
+    "yarn": ">=4.0.0"
   },
   "volta": {
-    "node": "24.6.0",
-    "yarn": "1.22.10"
+    "node": "24.6.0"
   },
   "packageManager": "yarn@4.6.0"
 }

@@ -174,6 +174,20 @@ export const AnchorExampleHelperClasses = () => (
   </Wrapper>
 )
 
+export const AnchorExampleDisabled = () => (
+  <Wrapper>
+    <ComponentBox data-visual-test="anchor-disabled">
+      <Anchor
+        href="/uilib/components/anchor"
+        disabled
+        tooltip="This is disabled because ..."
+      >
+        Disabled link
+      </Anchor>
+    </ComponentBox>
+  </Wrapper>
+)
+
 export const AnchorExampleHelperContrastVariations = () => (
   <Wrapper>
     <ComponentBox hideCode scope={{ Example, ContrastExample }}>

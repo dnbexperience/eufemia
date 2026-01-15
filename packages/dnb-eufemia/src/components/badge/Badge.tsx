@@ -61,16 +61,29 @@ export type BadgeProps = {
 
   /**
    * The variant of the component.
-   * Default: information.
+   * Default: "information".
    */
   variant?: 'information' | 'notification' | 'content'
+
+  /**
+   * Defines the status color of the `"information"` variant. Has no effect on other variants.
+   * Default: "default".
+   */
+  status?: 'default' | 'neutral' | 'positive' | 'warning' | 'negative'
+  /**
+   * Applies subtle style to `"information"` variant. Has no effect on other variants.
+   * Default: false.
+   */
+  subtle?: boolean
 }
 
 type BadgeAndSpacingProps = BadgeProps &
   SpacingProps &
   Omit<React.HTMLProps<HTMLElement>, 'content' | 'label'>
 
-export const defaultProps = {
+type BadgeElemProps = BadgeAndSpacingProps & { context: ContextProps }
+
+export const defaultProps: BadgeAndSpacingProps = {
   label: null,
   className: null,
   skeleton: false,
@@ -79,6 +92,8 @@ export const defaultProps = {
   vertical: null,
   horizontal: null,
   variant: 'information',
+  status: 'default',
+  subtle: false,
 }
 
 function Badge(localProps: BadgeAndSpacingProps) {
@@ -110,9 +125,23 @@ function BadgeRoot({ children }: { children: React.ReactNode }) {
   return <span className="dnb-badge__root">{children}</span>
 }
 
-function BadgeElem(
-  props: BadgeAndSpacingProps & { context: ContextProps }
-) {
+/** Ensures props that only affect certain variants are reset to default */
+function propGuard(
+  fn: React.FC<BadgeElemProps>
+): React.FC<BadgeElemProps> {
+  return (props) => {
+    if (props.variant !== 'information') {
+      return fn({
+        ...props,
+        subtle: defaultProps.subtle,
+        status: defaultProps.status,
+      })
+    }
+    return fn(props)
+  }
+}
+
+const BadgeElem = propGuard((props: BadgeElemProps) => {
   const {
     label,
     className,
@@ -122,6 +151,8 @@ function BadgeElem(
     vertical,
     content: contentProp,
     variant,
+    status,
+    subtle,
     context,
     ...restProps
   } = props
@@ -158,6 +189,10 @@ function BadgeElem(
         horizontal && `dnb-badge--horizontal-${horizontal}`,
         vertical && `dnb-badge--vertical-${vertical}`,
         isInline && 'dnb-badge--inline',
+        variant === 'information' &&
+          `dnb-badge--status-${status}${
+            subtle ? ` dnb-badge--subtle` : ''
+          }`,
         skeletonClasses,
         spacingClasses,
         className
@@ -168,7 +203,7 @@ function BadgeElem(
       {content}
     </span>
   )
-}
+})
 
 Badge._supportsSpacingProps = true
 
