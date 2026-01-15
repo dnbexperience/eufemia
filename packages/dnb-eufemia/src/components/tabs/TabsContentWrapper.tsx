@@ -11,6 +11,10 @@ import EventEmitter from '../../shared/helpers/EventEmitter'
 import HeightAnimation from '../height-animation/HeightAnimation'
 
 export default class ContentWrapper extends React.PureComponent<ContentWrapperProps> {
+  private _eventEmitter: ReturnType<
+    typeof EventEmitter.createInstance
+  > | null = null
+
   static defaultProps = {
     selected_key: null,
     content_style: null,
@@ -19,14 +23,17 @@ export default class ContentWrapper extends React.PureComponent<ContentWrapperPr
     children: null,
   }
 
-  state = { key: null }
+  state: { key: string | number | null } = { key: null }
 
-  constructor(props) {
+  constructor(props: ContentWrapperProps) {
     super(props)
 
     if (props.id) {
       this._eventEmitter = EventEmitter.createInstance(props.id)
-      this.state = this._eventEmitter.get()
+      const emitterState = this._eventEmitter.get()
+      this.state = {
+        key: (emitterState as { key?: string | number })?.key ?? null,
+      }
     }
   }
 
@@ -73,24 +80,26 @@ export default class ContentWrapper extends React.PureComponent<ContentWrapperPr
 
     validateDOMAttributes(this.props, params)
 
-    let content = children
+    let content: React.ReactNode = children
     if (typeof children === 'function') {
-      content = children(this.state)
+      content = (
+        children as (state: typeof this.state) => React.ReactNode
+      )(this.state)
     }
 
     return (
       <HeightAnimation
         role="tabpanel"
-        tabIndex="-1"
+        tabIndex={-1}
         id={`${id}-content`}
         element={
           content_style
-            ? React.forwardRef((props, ref) => {
+            ? React.forwardRef<HTMLElement>((props, ref) => {
                 return (
                   <Section
                     spacing={content_style ? false : undefined}
                     style_type={content_style ? content_style : undefined}
-                    innerRef={ref}
+                    innerRef={ref as React.RefObject<HTMLElement>}
                     {...props}
                   />
                 )
@@ -109,7 +118,7 @@ export default class ContentWrapper extends React.PureComponent<ContentWrapperPr
         )}
         duration={600}
         animate={animate === true}
-        {...params}
+        {...(params as Record<string, unknown>)}
       >
         {content}
       </HeightAnimation>
@@ -125,9 +134,7 @@ import type {
 } from '../Section'
 
 export type ContentWrapperSelectedKey = string | number
-export type ContentWrapperChildren =
-  | React.ReactNode
-  | ((...args: any[]) => any)
+export type ContentWrapperChildren = React.ReactNode
 
 export interface ContentWrapperProps extends React.HTMLProps<HTMLElement> {
   id: string
