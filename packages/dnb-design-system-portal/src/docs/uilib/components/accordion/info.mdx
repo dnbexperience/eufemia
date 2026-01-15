@@ -18,9 +18,9 @@ The Accordion component is a combination of an accessible button (header area) a
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/accordion)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/accordion)
 
-The component is made so you can compose different parts according to your technical needs.
+The component is designed to let you compose different parts according to your technical needs.
 
-By default the Accordion component will animate the users events, resulting in an ending height of `auto`. This way the content is still responsive after the animation has ended.
+By default, the Accordion component animates user events, resulting in a final height of `auto`. This keeps the content responsive after the animation ends.
 
 ### Accordion provider
 
@@ -28,8 +28,8 @@ Use the `Accordion.Provider` to pass accordion properties to all nested accordio
 
 ### Accordion groups
 
-There is the `Accordion.Provider` and `Accordion.Group`. They are technically the same, except that `Accordion.Group` will automatically provide a unique `group` id, and with that, make all the nested accordions work together and close each other.
+Both `Accordion.Provider` and `Accordion.Group` are available. They're technically the same, except that `Accordion.Group` automatically provides a unique `group` id, making all nested accordions work together and close each other when one opens.
 
 #### Unexpected behavior
 
-**NB:** Please try to avoid using a group, because it initiates an unexpected behavior accessibility-wise. This is because the user's interaction will trigger an action in another place, out of the current context, something some users may not expect to happen. It is an automated out-of-context UI execution.
+**Note:** Please avoid using a group when possible, as it creates unexpected behavior from an accessibility perspective. When a user interacts with one accordion, it triggers an action elsewhere, outside the current context—something users may not expect. It's an automated, out-of-context UI execution.

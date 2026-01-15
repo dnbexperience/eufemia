@@ -18,27 +18,27 @@ The Dropdown component is a fully custom-made component. This allows us to chang
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/dropdown)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/dropdown)
 
-### When to use it
+### When to use
 
-When you need to provide a considerable amount of options to the user and do not have the space to do so. Other reasons may be that the hidden options may clutter the interface and should only be displayed after the user specifically requests them.
+Use a dropdown when you need to provide many options to the user but don't have space to display them all. The hidden options should only appear when the user requests them, reducing visual clutter.
 
-1. When space is an issue (not enough).
-1. When you wish to reduce visual clutter.
-1. When it is intuitive for the user to request the hidden content.
+1. When space is limited
+1. When you want to reduce visual clutter
+1. When it's intuitive for users to request hidden content
 
-### When not to use it
+### When not to use
 
-1. Do not use this if you have only a few options that could otherwise be shown, such as [Radio buttons](/uilib/components/radio) or [ToggleButtons](/uilib/components/toggle-button).
+1. Do not use a dropdown if you have only a few options that could be shown using [Radio buttons](/uilib/components/radio) or [ToggleButtons](/uilib/components/toggle-button).
 
-**NB:** This pattern can be constructed in a number of ways to achieve a similar effect - from using the HTML 'select' element to custom building with divs, spans, and JavaScript.
+**Note:** This pattern can be constructed in various ways to achieve a similar effect—from using the HTML `select` element to custom building with divs, spans, and JavaScript.
 
-## Action Menu
+## Action menu
 
-The Dropdown component can easily be used as a so-called **action button** by setting the property `action_menu={true}`. In mobile view, the title/text will be hidden, showing only the icon, and the DrawerList will open from the browser bottom.
+The Dropdown component can be used as an **action button** by setting `action_menu={true}`. In mobile view, the title/text will be hidden, showing only the icon, and the DrawerList will open from the bottom of the browser.
 
-## Menu Button
+## Menu button
 
-The Dropdown component can easily be used as a so-called **menu button** by setting the property `more_menu={true}`, which shows the [more](/icons/primary#icon-more) icon (appears as dots). You can also use `prevent_selection={true}` together with an empty title `title=""` and `aria-label="Choose an item"`.
+The Dropdown component can be used as a **menu button** by setting `more_menu={true}`, which displays the [more](/icons/primary#icon-more) icon (appears as dots). You can also use `prevent_selection={true}` together with an empty title `title=""` and `aria-label="Choose an item"`.
 
 ## Accessibility
 
@@ -46,7 +46,7 @@ For both the Action Menu and the Menu Button (and when `prevent_selection` is tr
 
 ## Custom size
 
-Changing the **width** of the Dropdown component with CSS is easily done by using:
+You can change the **width** of the Dropdown component with CSS by using:
 
 ```css
 .dnb-dropdown {
