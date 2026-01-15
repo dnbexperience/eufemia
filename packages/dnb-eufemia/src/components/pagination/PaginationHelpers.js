@@ -120,34 +120,3 @@ export function preparePageElement(
 
   return Element
 }
-
-// NB: We do currently not use scroll direction handling
-// export function detectScrollDirection(cb, direction = null) {
-//   if (typeof window === 'undefined' || typeof document === 'undefined') {
-//     return cb('down')
-//   }
-//
-//   let last = 0,
-//     current,
-//     position
-//
-//   const listener = () => {
-//     position = window.pageYOffset || document.documentElement.scrollTop
-//     current = position > last ? 'down' : 'up'
-//     if (current && current !== direction) {
-//       direction = current
-//       cb(current)
-//     }
-//     last = position <= 0 ? 0 : position // secure negative scrolling on mobile
-//   }
-//
-//   window.addEventListener('scroll', listener, false)
-//
-//   return {
-//     remove: () => {
-//       if (typeof window !== 'undefined') {
-//         window.removeEventListener('scroll', listener)
-//       }
-//     }
-//   }
-// }
