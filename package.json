@@ -33,9 +33,6 @@
     "lint": "yarn workspace @dnb/eufemia lint && yarn workspace dnb-design-system-portal lint",
     "lint:styles": "yarn workspace @dnb/eufemia lint:styles && yarn workspace dnb-design-system-portal lint:styles"
   },
-  "devDependencies": {
-    "husky": "7.0.4"
-  },
   "resolutions": {
     "lmdb": "3.4.2",
     "msgpackr": "1.11.5",
