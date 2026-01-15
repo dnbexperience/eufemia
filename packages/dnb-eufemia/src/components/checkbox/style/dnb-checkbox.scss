@@ -135,8 +135,6 @@
     top: auto;
     left: auto;
 
-    // width: var(--checkbox-width--medium); // old svg size
-    // height: var(--checkbox-height--medium); // old svg size
     width: calc(var(--checkbox-width--medium) - 0.5rem);
     height: calc(var(--checkbox-height--medium) - 0.5rem);
 

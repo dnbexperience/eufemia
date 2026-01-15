@@ -37,7 +37,6 @@
     color: transparent; // make text invisible
     background: transparent; // make backgrounds invisible
     box-shadow: none !important; // accordion border needed that
-    // cursor: progress;// does not show if pointer-events is set to none
   }
 
   &--shape#{&}::before,

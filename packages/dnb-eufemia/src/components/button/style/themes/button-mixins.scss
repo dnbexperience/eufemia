@@ -6,9 +6,7 @@
 */
 @mixin buttonHoverStyle($color, $background-color, $border-color) {
   // NB: to get "over" sibling, because of the extendFocusRing
-  // But if we would use it,
-  // then then we have to take care of places we use position="absolute", like the Modal Close button
-  // position: relative;
+  // But if we would use it, then we have to take care of places we use position="absolute", like the Modal Close button
 
   color: $color;
   background-color: $background-color;
