@@ -241,6 +241,39 @@ describe('Badge', () => {
       expect(element).toHaveClass('dnb-badge--variant-notification')
     })
   })
+
+  describe('hideBadge prop', () => {
+    it('hides the badge when hideBadge is true', () => {
+      render(
+        <Badge content="test" hideBadge>
+          Hello
+        </Badge>
+      )
+      expect(document.querySelector('.dnb-badge')).not.toBeInTheDocument()
+    })
+
+    it('shows the badge when hideBadge is false', () => {
+      render(
+        <Badge content="test" hideBadge={false}>
+          Hello
+        </Badge>
+      )
+      expect(document.querySelector('.dnb-badge')).toBeInTheDocument()
+    })
+
+    it('keeps children visible when hideBadge is true', () => {
+      render(
+        <Badge content="badge content" hideBadge>
+          <span data-testid="child">Child content</span>
+        </Badge>
+      )
+      expect(screen.queryByTestId('child')).toBeInTheDocument()
+      expect(
+        document.querySelector('.dnb-badge__root')
+      ).toBeInTheDocument()
+      expect(document.querySelector('.dnb-badge')).not.toBeInTheDocument()
+    })
+  })
 })
 
 describe('Badge aria', () => {
