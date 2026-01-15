@@ -68,84 +68,147 @@ async function buildExportsMap({ buildDir }) {
     './package.json': './package.json',
   }
 
-  const rootFiles = await walkFiles(buildDir, {
-    ignoreDirs: new Set(['cjs', 'es', 'esm', 'umd', 'dist', '_virtual']),
+  addExportEntry(exportsMap, './lib', {
+    types: './lib.d.ts',
+    import: './lib.js',
+    require: './cjs/lib.js',
+    default: './lib.js',
   })
-  const esFiles = await walkFiles(path.join(buildDir, 'es'))
-  const cjsFiles = await walkFiles(path.join(buildDir, 'cjs'))
-  const cjsFileSet = new Set(cjsFiles.map((file) => `cjs/${file}`))
-  const typesFileSet = new Set(
-    rootFiles.filter((file) => file.endsWith('.d.ts'))
-  )
-  const esTypesFileSet = new Set(
-    esFiles.filter((file) => file.endsWith('.d.ts'))
-  )
+  addExportEntry(exportsMap, './lib.js', {
+    types: './lib.d.ts',
+    import: './lib.js',
+    require: './cjs/lib.js',
+    default: './lib.js',
+  })
 
-  for (const file of rootFiles) {
-    if (shouldSkipFile(file)) {
-      continue
-    }
+  addExportEntry(exportsMap, './es', {
+    types: './es/index.d.ts',
+    import: './es/index.js',
+    require: './cjs/index.js',
+    default: './es/index.js',
+  })
+  addExportEntry(exportsMap, './cjs', {
+    types: './cjs/index.d.ts',
+    import: './cjs/index.js',
+    require: './cjs/index.js',
+    default: './cjs/index.js',
+  })
 
-    if (file.endsWith('.js')) {
-      addJsExport({
-        exportsMap,
-        file,
-        typesFileSet,
-        cjsFileSet,
-      })
-      continue
-    }
+  addExportEntry(exportsMap, './components', {
+    types: './components/index.d.ts',
+    import: './components/index.js',
+    require: './cjs/components/index.js',
+    default: './components/index.js',
+  })
+  addExportEntry(exportsMap, './extensions', {
+    types: './extensions/index.d.ts',
+    import: './extensions/index.js',
+    require: './cjs/extensions/index.js',
+    default: './extensions/index.js',
+  })
+  addExportEntry(exportsMap, './shared', {
+    types: './shared/index.d.ts',
+    import: './shared/index.js',
+    require: './cjs/shared/index.js',
+    default: './shared/index.js',
+  })
+  addExportEntry(exportsMap, './icons', {
+    types: './icons/index.d.ts',
+    import: './icons/index.js',
+    require: './cjs/icons/index.js',
+    default: './icons/index.js',
+  })
+  addExportEntry(exportsMap, './elements', {
+    types: './elements/index.d.ts',
+    import: './elements/index.js',
+    require: './cjs/elements/index.js',
+    default: './elements/index.js',
+  })
+  addExportEntry(exportsMap, './fragments', {
+    types: './fragments/index.d.ts',
+    import: './fragments/index.js',
+    require: './cjs/fragments/index.js',
+    default: './fragments/index.js',
+  })
 
-    if (file.endsWith('.cjs')) {
-      addCjsExport({ exportsMap, file })
-      continue
-    }
-  }
+  addExportEntry(exportsMap, './style', {
+    types: './style/index.d.ts',
+    import: './style/index.js',
+    require: './cjs/style/index.js',
+    default: './style/index.js',
+  })
 
-  for (const file of esFiles) {
-    if (shouldSkipFile(file)) {
-      continue
-    }
+  addConditionalPatternExports({
+    exportsMap,
+    baseKey: './components',
+    importBase: './components',
+    requireBase: './cjs/components',
+    typesBase: './components',
+    includePlainTarget: true,
+  })
+  addConditionalPatternExports({
+    exportsMap,
+    baseKey: './extensions',
+    importBase: './extensions',
+    requireBase: './cjs/extensions',
+    typesBase: './extensions',
+    includePlainTarget: true,
+  })
+  addConditionalPatternExports({
+    exportsMap,
+    baseKey: './shared',
+    importBase: './shared',
+    requireBase: './cjs/shared',
+    typesBase: './shared',
+    includePlainTarget: true,
+  })
+  addConditionalPatternExports({
+    exportsMap,
+    baseKey: './icons',
+    importBase: './icons',
+    requireBase: './cjs/icons',
+    typesBase: './icons',
+    includePlainTarget: true,
+  })
+  addConditionalPatternExports({
+    exportsMap,
+    baseKey: './elements',
+    importBase: './elements',
+    requireBase: './cjs/elements',
+    typesBase: './elements',
+    includePlainTarget: true,
+  })
+  addConditionalPatternExports({
+    exportsMap,
+    baseKey: './fragments',
+    importBase: './fragments',
+    requireBase: './cjs/fragments',
+    typesBase: './fragments',
+    includePlainTarget: true,
+  })
+  addConditionalPatternExports({
+    exportsMap,
+    baseKey: './plugins',
+    importBase: './plugins',
+    requireBase: './cjs/plugins',
+    typesBase: './plugins',
+    includePlainTarget: true,
+  })
 
-    if (file.endsWith('.js')) {
-      addJsExport({
-        exportsMap,
-        file,
-        typesFileSet: esTypesFileSet,
-        cjsFileSet,
-        importBase: './es',
-        keyPrefix: './es',
-      })
-      continue
-    }
-
-    if (file.endsWith('.cjs')) {
-      addCjsExport({ exportsMap, file })
-      continue
-    }
-  }
-
-  for (const file of cjsFiles) {
-    if (shouldSkipFile(file)) {
-      continue
-    }
-
-    if (file.endsWith('.js')) {
-      addJsExport({
-        exportsMap,
-        file: `cjs/${file}`,
-        typesFileSet: new Set(),
-        cjsFileSet: new Set(),
-        allowRequireFallback: true,
-      })
-      continue
-    }
-
-    if (file.endsWith('.cjs')) {
-      addCjsExport({ exportsMap, file: `cjs/${file}` })
-      continue
-    }
-  }
+  addConditionalPatternExports({
+    exportsMap,
+    baseKey: './es',
+    importBase: './es',
+    requireBase: './cjs',
+    typesBase: './es',
+  })
+  addConditionalPatternExports({
+    exportsMap,
+    baseKey: './cjs',
+    importBase: './cjs',
+    requireBase: './cjs',
+    typesBase: './cjs',
+  })
 
   addPatternExports(exportsMap, './style', 4)
   addPatternExports(exportsMap, './es/style', 4)
@@ -155,101 +218,45 @@ async function buildExportsMap({ buildDir }) {
   return exportsMap
 }
 
-function shouldSkipFile(file) {
-  return (
-    file.endsWith('.map') ||
-    file.endsWith('.d.ts') ||
-    /Docs\.(?:d\.ts|js|cjs)$/.test(file) ||
-    file.split('/').some((part) => part.startsWith('.'))
-  )
-}
-
-function addJsExport({
+function addConditionalPatternExports({
   exportsMap,
-  file,
-  typesFileSet,
-  cjsFileSet,
-  allowRequireFallback = false,
-  importBase = '',
-  keyPrefix = '',
+  baseKey,
+  importBase,
+  requireBase,
+  typesBase,
+  includePlainTarget = false,
 }) {
-  const withoutExt = file.slice(0, -3)
-  const isIndexFile = file === 'index.js' || file.endsWith('/index.js')
-  const importTarget = importBase ? `${importBase}/${file}` : `./${file}`
-  const cjsTarget = cjsFileSet.has(`cjs/${file}`)
-    ? `./cjs/${file}`
-    : allowRequireFallback
-    ? importTarget
-    : null
-  const typesTarget = typesFileSet.has(`${withoutExt}.d.ts`)
-    ? importBase
-      ? `${importBase}/${withoutExt}.d.ts`
-      : `./${withoutExt}.d.ts`
-    : null
-  const entry = {
-    import: importTarget,
-    ...(cjsTarget ? { require: cjsTarget } : {}),
-    ...(typesTarget ? { types: typesTarget } : {}),
-    default: importTarget,
+  const importTargets = [`${importBase}/*.js`, `${importBase}/*/index.js`]
+  const requireTargets = [
+    `${requireBase}/*.js`,
+    `${requireBase}/*/index.js`,
+  ]
+  const defaultTargets = [...importTargets]
+  if (includePlainTarget) {
+    importTargets.push(`${importBase}/*`)
+    requireTargets.push(`${requireBase}/*`)
+    defaultTargets.push(`${importBase}/*`)
   }
 
-  if (!isIndexFile) {
-    addExportEntry(
-      exportsMap,
-      joinExportKey(keyPrefix, `./${withoutExt}`),
-      entry
-    )
-  }
-  addExportEntry(exportsMap, joinExportKey(keyPrefix, `./${file}`), entry)
+  addExportEntry(exportsMap, `${baseKey}/*`, {
+    import: importTargets,
+    require: requireTargets,
+    types: [`${typesBase}/*.d.ts`, `${typesBase}/*/index.d.ts`],
+    default: defaultTargets,
+  })
 
-  if (isIndexFile) {
-    const indexKey = getIndexKey(withoutExt)
-    addExportEntry(exportsMap, joinExportKey(keyPrefix, indexKey), entry)
-  }
-}
+  addExportEntry(exportsMap, `${baseKey}/*.js`, {
+    import: `${importBase}/*.js`,
+    require: `${requireBase}/*.js`,
+    types: `${typesBase}/*.d.ts`,
+    default: `${importBase}/*.js`,
+  })
 
-function addCjsExport({ exportsMap, file }) {
-  const withoutExt = file.replace(/\.cjs$/, '')
-  const isIndexFile = file === 'index.cjs' || file.endsWith('/index.cjs')
-  const target = `./${file}`
-  const entry = {
-    import: target,
-    require: target,
-    default: target,
-  }
-
-  if (!isIndexFile) {
-    addExportEntry(exportsMap, `./${withoutExt}`, entry)
-  }
-  addExportEntry(exportsMap, `./${file}`, entry)
-
-  if (isIndexFile) {
-    const indexKey = getIndexKey(withoutExt)
-    addExportEntry(exportsMap, indexKey, entry)
-  }
-}
-
-function getIndexKey(withoutExt) {
-  if (!withoutExt.endsWith('/index')) {
-    return null
-  }
-
-  const dir = withoutExt.slice(0, -'/index'.length)
-  if (!dir) {
-    return null
-  }
-
-  return `./${dir}`
-}
-
-function joinExportKey(prefix, key) {
-  if (!prefix || !key) {
-    return key
-  }
-  if (key.startsWith('./')) {
-    return `${prefix}${key.slice(1)}`
-  }
-  return `${prefix}/${key}`
+  addExportEntry(exportsMap, `${baseKey}/*.cjs`, {
+    import: `${importBase}/*.cjs`,
+    require: `${importBase}/*.cjs`,
+    default: `${importBase}/*.cjs`,
+  })
 }
 
 function addExportEntry(exportsMap, key, entry) {
@@ -279,27 +286,4 @@ function addPatternExports(exportsMap, baseKey, maxDepth) {
     const pattern = `${baseKey}/${Array(depth).fill('*').join('/')}`
     addExportEntry(exportsMap, pattern, pattern)
   }
-}
-
-async function walkFiles(baseDir, { ignoreDirs = new Set() } = {}) {
-  const files = []
-
-  async function walk(dir) {
-    const entries = await fs.readdir(dir, { withFileTypes: true })
-    for (const entry of entries) {
-      const fullPath = path.join(dir, entry.name)
-      if (entry.isDirectory()) {
-        if (!ignoreDirs.has(entry.name)) {
-          await walk(fullPath)
-        }
-        continue
-      }
-
-      const relativePath = path.relative(baseDir, fullPath)
-      files.push(relativePath.split(path.sep).join('/'))
-    }
-  }
-
-  await walk(baseDir)
-  return files
 }
