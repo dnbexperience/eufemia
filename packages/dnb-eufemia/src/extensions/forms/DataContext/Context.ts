@@ -124,7 +124,7 @@ export interface ContextState {
   hasContext: boolean
   /** The dataset for the form / form wizard */
   data: any
-  internalDataRef?: React.MutableRefObject<any>
+  internalDataRef?: React.RefObject<any>
   /** Should the form validate data before submitting? */
   errors?: Record<Path, Error>
   /** Will set autoComplete="on" on each nested Field.String and Field.Number */
@@ -225,13 +225,13 @@ export interface ContextState {
   submitState: Partial<EventStateObject>
   prerenderFieldProps?: boolean
   decoupleForm?: boolean
-  hasElementRef?: React.MutableRefObject<boolean>
+  hasElementRef?: React.RefObject<boolean>
   restHandlerProps?: Record<string, unknown>
   setActiveSubmitButtonId?: (id?: string) => void
   registerSectionSchema?: (
     registration: SectionSchemaRegistration
   ) => () => void
-  sectionSchemaPathsRef?: React.MutableRefObject<Set<Path>>
+  sectionSchemaPathsRef?: React.RefObject<Set<Path>>
   props: ProviderProps<JsonObject>
 }
 

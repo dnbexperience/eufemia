@@ -466,6 +466,8 @@ class DropdownInstance extends React.PureComponent {
       id: _id, // eslint-disable-line
       opened: _opened, // eslint-disable-line
       value: _value, // eslint-disable-line
+      pageOffset: _pageOffset, // eslint-disable-line
+      observerElement: _observerElement, // eslint-disable-line
       enableBodyLock: _enableBodyLock, // eslint-disable-line
       listClass: _listClass, // eslint-disable-line
       buttonRef, // eslint-disable-line

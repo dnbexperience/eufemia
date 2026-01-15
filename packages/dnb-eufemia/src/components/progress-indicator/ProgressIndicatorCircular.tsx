@@ -30,7 +30,7 @@ function ProgressIndicatorCircular(
   const useAnimationFrame = typeof onComplete === 'function' || IS_EDGE
   const _refDark = useRef<SVGSVGElement>(null)
   const _refLight = useRef<SVGSVGElement>(null)
-  const _startupTimeout = useRef<NodeJS.Timeout>()
+  const _startupTimeout = useRef<NodeJS.Timeout>(undefined)
 
   useEffect(() => {
     if (useAnimationFrame) {

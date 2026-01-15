@@ -109,7 +109,7 @@ function PhoneNumber(props: Props = {}) {
   const dataRef = useRef<Array<DrawerListDataArrayItem>>(null)
   const langRef = useRef<string>(lang)
   const wasFilled = useRef<boolean>(false)
-  const currentCountryRef = useRef<CountryType>()
+  const currentCountryRef = useRef<CountryType>(undefined)
 
   const errorMessages = useMemo(
     () => ({
@@ -227,7 +227,7 @@ function PhoneNumber(props: Props = {}) {
     ...(schema ? { schema } : {}),
     errorMessages,
   }
-  const ref = useRef<HTMLInputElement>()
+  const ref = useRef<HTMLInputElement>(undefined)
   const preparedProps: Props = {
     ...props,
     ...defaultProps,

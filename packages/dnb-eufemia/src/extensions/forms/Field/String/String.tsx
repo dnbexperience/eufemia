@@ -165,7 +165,7 @@ function StringComponent(props: Props) {
     [props.capitalize, transform]
   )
 
-  const ref = useRef<HTMLInputElement>()
+  const ref = useRef<HTMLInputElement>(undefined)
   const preparedProps: Props = {
     ...props,
     schema,

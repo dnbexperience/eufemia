@@ -95,7 +95,7 @@ export type IsolationProps<Data extends JsonObject> = Omit<
   /**
    * A ref (function) that you can call in order to commit the data programmatically to the outer context.
    */
-  commitHandleRef?: React.MutableRefObject<() => void>
+  commitHandleRef?: React.RefObject<() => void>
 }
 
 function IsolationProvider<Data extends JsonObject>(
@@ -123,7 +123,7 @@ function IsolationProvider<Data extends JsonObject>(
   } = props
 
   const [, forceUpdate] = useReducer(() => ({}), {})
-  const internalDataRef = useRef<Data>()
+  const internalDataRef = useRef<Data>(undefined)
   const localDataRef = useRef<Partial<Data>>({})
   const dataContextRef = useRef<ContextState>(null)
   const outerContext = useContext(DataContext)

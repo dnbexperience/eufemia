@@ -40,7 +40,7 @@ export type PasswordProps = Omit<StringFieldProps, 'innerRef'> & {
   /**
    * ElementRef passed on to the password input element.
    */
-  innerRef?: MutableRefObject<HTMLInputElement>
+  innerRef?: RefObject<HTMLInputElement>
 }
 
 function Password({

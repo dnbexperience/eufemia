@@ -213,9 +213,9 @@ export function SliderProvider(localProps: SliderAllProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [_value, isMulti])
 
-  const trackRef = React.useRef<HTMLElement>()
+  const trackRef = React.useRef<HTMLElement>(undefined)
 
-  const animationTimeout = React.useRef<NodeJS.Timeout>()
+  const animationTimeout = React.useRef<NodeJS.Timeout>(undefined)
   const setShouldAnimate = (state: boolean) => {
     updateAnimateState(state)
     clearTimeout(animationTimeout.current)

@@ -371,8 +371,8 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   // and to handle errors in Eufemia on components that does not take updated callback functions into account.
   // Internal mutable value reference – explicitly typed to Value
   const valueRef = useRef<Value>(externalValue)
-  const changedRef = useRef<boolean>()
-  const hasFocusRef = useRef<boolean>()
+  const changedRef = useRef<boolean>(undefined)
+  const hasFocusRef = useRef<boolean>(undefined)
 
   // - Should errors received through validation be shown initially. Assume that providing a direct prop to
   // the component means it is supposed to be shown initially.
@@ -578,11 +578,11 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const errorMethodRef = useRef<
     Partial<Record<PersistErrorStateMethod, Error | FormError>>
   >({})
-  const localErrorRef = useRef<Error | FormError | undefined>()
-  const localErrorInitiatorRef = useRef<ErrorInitiator>()
+  const localErrorRef = useRef<Error | FormError | undefined>(undefined)
+  const localErrorInitiatorRef = useRef<ErrorInitiator>(undefined)
 
   // - Context errors are from outer contexts, like validation for this field as part of the whole data set
-  const contextErrorRef = useRef<Error | FormError | undefined>()
+  const contextErrorRef = useRef<Error | FormError | undefined>(undefined)
 
   // When validateContinuously is enabled, also validate on change using onBlurValidator
   const onChangeValidator = useMemo(() => {
@@ -612,7 +612,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
   const schemaValidatorRef = useRef<
     ValidateFunction | ((value: unknown) => true | z.ZodError<unknown>)
-  >()
+  >(undefined)
   // Compile synchronously on first pass so initial validation uses the correct schema
   if (!schemaValidatorRef.current && finalSchema) {
     if (hasZodSchema) {
@@ -626,7 +626,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const asyncBehaviorIsEnabled = useMemo(() => {
     return isAsync(onChange) || isAsync(onChangeContext)
   }, [onChangeContext, onChange])
-  const validatedValueRef = useRef<Value>()
+  const validatedValueRef = useRef<Value>(undefined)
   const changeEventResultRef = useRef<EventStateObjectWithSuccess>(null)
   const asyncProcessRef = useRef<AsyncProcesses>(null)
   const defineAsyncProcess = useCallback((name: AsyncProcesses) => {
@@ -689,7 +689,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     cb?.()
   }, [])
 
-  const fieldStateRef = useRef<SubmitStateWithValidating>()
+  const fieldStateRef = useRef<SubmitStateWithValidating>(undefined)
   const setFieldState = useCallback(
     (state: SubmitStateWithValidating) => {
       fieldStateRef.current = state

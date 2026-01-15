@@ -410,11 +410,11 @@ function DatePicker(externalProps: DatePickerAllProps) {
   const blurDelay = 201 // some ms more than "dropdownSlideDown 200ms"
   const id = useId(props.id)
 
-  const innerRef = useRef<HTMLSpanElement>()
-  const submitButtonRef = useRef<HTMLButtonElement>()
+  const innerRef = useRef<HTMLSpanElement>(undefined)
+  const submitButtonRef = useRef<HTMLButtonElement>(undefined)
   const getReturnObject =
-    useRef<DatePickerContextValues['getReturnObject']>()
-  const hideTimeout = useRef<NodeJS.Timeout>()
+    useRef<DatePickerContextValues['getReturnObject']>(undefined)
+  const hideTimeout = useRef<NodeJS.Timeout>(undefined)
   const calendarContainerRef = useRef<HTMLSpanElement>(null)
 
   const translation = useTranslation().DatePicker

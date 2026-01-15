@@ -21,7 +21,7 @@ export type TooltipProps = {
   arrow?: TooltipArrow
   align?: TooltipAlign
   fixedPosition?: boolean
-  contentRef?: React.MutableRefObject<HTMLSpanElement>
+  contentRef?: React.RefObject<HTMLSpanElement>
   /**
    * Skip rendering the tooltip in a React Portal.
    * When `true`, the tooltip renders inline in the DOM tree instead of being portaled to document.body.
@@ -40,7 +40,7 @@ export type TooltipProps = {
   targetSelector?: string
   targetElement?:
     | React.ReactNode
-    | React.MutableRefObject<unknown>
+    | React.RefObject<unknown>
     | HTMLElement
   /**
    * Forces the tooltip to stay open even when the hover state changes.

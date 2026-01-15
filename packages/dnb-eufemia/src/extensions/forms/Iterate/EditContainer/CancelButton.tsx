@@ -33,7 +33,7 @@ export default function CancelButton(props: Props) {
   const translation = useTranslation()
   const { cancelButton, removeButton } = translation.IterateEditContainer
   const { confirmCancelText } = translation.SectionEditContainer
-  const valueBackupRef = useRef<unknown>()
+  const valueBackupRef = useRef<unknown>(undefined)
 
   useEffect(() => {
     if (containerMode === 'edit' && !valueBackupRef.current) {

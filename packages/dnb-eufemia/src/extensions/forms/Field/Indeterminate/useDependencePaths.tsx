@@ -48,7 +48,7 @@ export default function useDependencePaths(
     }
   }, [data, dependencePaths, fieldInternalsRef])
 
-  const keepStateRef = useRef<boolean>()
+  const keepStateRef = useRef<boolean>(undefined)
   useMemo(() => {
     if (allOn && !keepStateRef.current) {
       keepStateRef.current = true

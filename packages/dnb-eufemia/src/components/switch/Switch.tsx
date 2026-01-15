@@ -121,7 +121,7 @@ export type SwitchProps = {
    * By providing a React.ref we can get the internally used input element (DOM). E.g. `innerRef={myRef}` by using `React.createRef()` or `React.useRef()`.
    */
   innerRef?:
-    | React.MutableRefObject<HTMLInputElement>
+    | React.RefObject<HTMLInputElement>
     | ((elem: HTMLInputElement) => void)
 } & Omit<
   React.HTMLProps<HTMLElement>,
@@ -167,7 +167,7 @@ export default function Switch(props: SwitchProps) {
   const [, forceUpdate] = useReducer(() => ({}), {})
   const id = useId(idProp)
   const isFn = typeof innerRefProp === 'function'
-  const refHook = useRef<HTMLInputElement>()
+  const refHook = useRef<HTMLInputElement>(undefined)
   const innerRef = (!isFn && innerRefProp) || refHook
 
   const preventChangeRef = useRef(false)

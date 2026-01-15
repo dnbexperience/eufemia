@@ -1814,6 +1814,8 @@ class AutocompleteInstance extends React.PureComponent {
       data: _data, // eslint-disable-line
       children: _children, // eslint-disable-line
       direction: _direction, // eslint-disable-line
+      pageOffset: _pageOffset, // eslint-disable-line
+      observerElement: _observerElement, // eslint-disable-line
       id: _id, // eslint-disable-line
       opened: _opened, // eslint-disable-line
       value: _value, // eslint-disable-line

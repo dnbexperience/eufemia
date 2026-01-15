@@ -93,7 +93,7 @@ export type AccordionProps = Omit<React.HTMLProps<HTMLElement>, 'ref'> &
     /**
      * Send along a custom React Ref for `.dnb-accordion__content`.
      */
-    contentRef?: React.MutableRefObject<unknown>
+    contentRef?: React.RefObject<unknown>
     /**
      * If set to `true`, the saved (remembered) will be removed and the initial component state will be used and set.
      */
@@ -449,7 +449,7 @@ export type GroupProps = AccordionProps & {
    * Default: `undefined`
    */
   expandedId?: string
-  collapseAllHandleRef?: React.MutableRefObject<() => void>
+  collapseAllHandleRef?: React.RefObject<() => void>
 }
 
 const Group = ({ expandBehavior = 'single', ...props }: GroupProps) => {

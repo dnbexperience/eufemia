@@ -602,7 +602,6 @@ export default class GlobalStatus extends React.PureComponent {
 
     const wrapperParams = {
       id,
-      key: 'global-status',
       className: classnames(
         'dnb-global-status__wrapper',
         'dnb-no-focus',
@@ -701,7 +700,7 @@ export default class GlobalStatus extends React.PureComponent {
     )
 
     return (
-      <div {...wrapperParams} ref={this._wrapperRef}>
+      <div {...wrapperParams} ref={this._wrapperRef} key="global-status">
         <section {...params}>
           <HeightAnimation
             className="dnb-global-status__shell"

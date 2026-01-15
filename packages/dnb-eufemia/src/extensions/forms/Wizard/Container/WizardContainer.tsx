@@ -145,13 +145,13 @@ function WizardContainer(props: Props) {
   const storeStepStateRef = useRef<InternalStepStatuses>(new Map())
   const onStepChangeEventsRef = useRef<Set<OnStepChange>>(new Set())
   const hasErrorInOtherStepRef = useRef<boolean>(false)
-  const elementRef = useRef<HTMLElement>()
-  const stepElementRef = useRef<HTMLElement>()
+  const elementRef = useRef<HTMLElement>(undefined)
+  const stepElementRef = useRef<HTMLElement>(undefined)
   const preventNextStepRef = useRef(false)
   const stepsRef = useRef<Steps>(new Map())
-  const tmpStepsRef = useRef<number>()
+  const tmpStepsRef = useRef<number>(undefined)
   const stepIndexRef = useRef<number>(-1)
-  const updateTitlesRef = useRef<() => void>()
+  const updateTitlesRef = useRef<() => void>(undefined)
   const prerenderFieldPropsRef = useRef<
     Pick<WizardContextState, 'prerenderFieldPropsRef'>
   >({})
@@ -159,7 +159,7 @@ function WizardContainer(props: Props) {
   const bypassOnNavigation = validationMode === 'bypassOnNavigation'
 
   // - Handle shared state
-  const sharedStateRef = useRef<SharedStateReturn<WizardContextState>>()
+  const sharedStateRef = useRef<SharedStateReturn<WizardContextState>>(undefined)
   sharedStateRef.current = useSharedState<WizardContextState>(
     hasContext && id ? createReferenceKey(id, 'wizard') : undefined
   )
@@ -314,7 +314,7 @@ function WizardContainer(props: Props) {
   const { setFocus, scrollToTop, isInteractionRef } =
     useHandleLayoutEffect({ elementRef, stepElementRef })
 
-  const executeLayoutAnimationRef = useRef<() => void>()
+  const executeLayoutAnimationRef = useRef<() => void>(undefined)
   useStepAnimation({
     activeIndexRef,
     stepElementRef,

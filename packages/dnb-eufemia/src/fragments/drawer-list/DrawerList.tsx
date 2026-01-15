@@ -395,6 +395,8 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
       skipPortal: _skipPortal, // eslint-disable-line
       enableBodyLock: _enableBodyLock, // eslint-disable-line
       preventFocus: _preventFocus, // eslint-disable-line
+      pageOffset: _pageOffset, // eslint-disable-line
+      observerElement: _observerElement, // eslint-disable-line
       children,
 
       onShow: _onShow,

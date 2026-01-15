@@ -183,7 +183,7 @@ export function SectionParams(
     ...attributes
   } = props
 
-  const internalRef = React.useRef<HTMLElement>()
+  const internalRef = React.useRef<HTMLElement>(undefined)
   const elementRef = innerRef || internalRef
 
   return Object.freeze({

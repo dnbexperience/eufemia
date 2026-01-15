@@ -314,7 +314,7 @@ export interface ModalContentProps {
   contentRef?: React.RefObject<HTMLElement>
   scrollRef?: React.RefObject<HTMLElement>
   openState?: ModalOpenState
-  modalContentCloseRef?: React.MutableRefObject<any>
+  modalContentCloseRef?: React.RefObject<any>
 }
 
 export type TriggerAttributes = ButtonProps

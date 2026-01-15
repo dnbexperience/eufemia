@@ -65,7 +65,7 @@ function ScrollView(localProps: ScrollViewAllProps) {
     ...(attributes as React.HTMLAttributes<unknown>),
   }
 
-  const ref = React.useRef<HTMLDivElement>()
+  const ref = React.useRef<HTMLDivElement>(undefined)
   mainParams.ref = innerRef
     ? (innerRef as React.RefObject<HTMLDivElement>)
     : ref

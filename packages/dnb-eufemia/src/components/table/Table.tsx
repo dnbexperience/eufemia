@@ -84,7 +84,7 @@ export type TableProps = {
    *
    * Default: `undefined`
    */
-  collapseAllHandleRef?: React.MutableRefObject<() => void>
+  collapseAllHandleRef?: React.RefObject<() => void>
 } & StickyTableHeaderProps
 
 export type TableAllProps = TableProps &

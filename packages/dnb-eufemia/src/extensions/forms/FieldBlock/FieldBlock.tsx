@@ -193,9 +193,9 @@ function FieldBlock<Value = unknown>(props: Props<Value>) {
   const hasCustomWidth = /\d(rem)$/.test(String(width))
   const hasCustomContentWidth = /\d(rem)$/.test(String(contentWidth))
 
-  const infoRef = useRef<UseFieldProps['info']>()
-  const warningRef = useRef<UseFieldProps['warning']>()
-  const errorRef = useRef<UseFieldProps['error']>()
+  const infoRef = useRef<UseFieldProps['info']>(undefined)
+  const warningRef = useRef<UseFieldProps['warning']>(undefined)
+  const errorRef = useRef<UseFieldProps['error']>(undefined)
 
   const blockId = useId(props.id)
   const [salt, forceUpdate] = useReducer(() => ({}), {})

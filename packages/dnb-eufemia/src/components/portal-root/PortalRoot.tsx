@@ -28,7 +28,7 @@ type SelectorOptions = {
 export type PortalRootProps = {
   innerRef?:
     | React.Ref<HTMLElement>
-    | React.MutableRefObject<HTMLElement>
+    | React.RefObject<HTMLElement>
     | ((instance: HTMLElement) => void)
 } & SelectorOptions &
   Omit<React.HTMLProps<HTMLElement>, 'ref' | 'id'>
@@ -118,7 +118,7 @@ function PortalRoot(props: PortalRootProps = {}): JSX.Element {
       if (typeof innerRef === 'function') {
         innerRef(localRef.current)
       } else {
-        const ref = innerRef as React.MutableRefObject<HTMLElement>
+        const ref = innerRef as React.RefObject<HTMLElement>
         ref.current = localRef.current
       }
     }

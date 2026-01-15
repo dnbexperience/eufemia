@@ -8,11 +8,11 @@ export type useTableAnimationHandlerProps = {
   /**
    * Ref to <div> inside the <tr> element being expanded/collapsed
    */
-  innerRef: React.MutableRefObject<HTMLDivElement>
+  innerRef: React.RefObject<HTMLDivElement>
   /**
    * Ref to the <tr> element being clicked
    */
-  trRef: React.MutableRefObject<HTMLTableRowElement>
+  trRef: React.RefObject<HTMLTableRowElement>
 }
 
 export function useTableAnimationHandler({
