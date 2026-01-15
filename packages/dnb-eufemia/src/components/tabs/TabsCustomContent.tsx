@@ -1,5 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
 import React from 'react'
 import classnames from 'classnames'
 import { createSpacingClasses } from '../space/SpacingHelper'
@@ -11,9 +9,7 @@ export type CustomContentTitle =
   | React.ReactNode
   | ((...args: any[]) => any)
 
-export type CustomContentChildren =
-  | React.ReactNode
-  | ((...args: any[]) => any)
+export type CustomContentChildren = React.ReactNode
 
 export interface CustomContentProps
   extends Omit<React.HTMLProps<HTMLElement>, 'title' | 'children'>,
@@ -59,7 +55,7 @@ export default class CustomContent extends React.PureComponent<CustomContentProp
     } = this.props
 
     if (this.props.id) {
-      return <ContentWrapper {...rest} />
+      return <ContentWrapper {...(rest as React.ComponentProps<typeof ContentWrapper>)} />
     }
 
     return (
