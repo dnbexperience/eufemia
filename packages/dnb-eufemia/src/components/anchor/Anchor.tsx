@@ -175,9 +175,9 @@ export function AnchorInstance(localProps: AnchorAllProps) {
   const prefix = iconPosition === 'left' && iconNode
 
   if (isDisabled) {
-    if (as === 'button') {
-      attributes.disabled = true
-    } else {
+    attributes.disabled = true
+
+    if (as === 'a') {
       attributes.tabIndex = -1
       attributes['aria-disabled'] = true
 
