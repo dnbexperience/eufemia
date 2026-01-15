@@ -46,6 +46,11 @@ export const BadgeProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  hideBadge: {
+    doc: 'Removes the badge without removing children. Useful when Badge wraps content. Default is `false`.',
+    type: 'boolean',
+    status: 'optional',
+  },
   label: {
     doc: 'The label description of the badge. Only required when passing a number as the badge content.',
     type: 'React.ReactNode',
