@@ -265,7 +265,7 @@ export default function Provider<Data extends JsonObject>(
   const translation = useTranslation().Field
 
   // - Ajv (lazy initialization)
-  const ajvRef = useRef<Ajv>()
+  const ajvRef = useRef<Ajv>(undefined)
   const getAjvInstance = useCallback(() => {
     if (!ajvRef.current) {
       ajvRef.current = ajvInstance
@@ -295,7 +295,7 @@ export default function Provider<Data extends JsonObject>(
 
   // - Errors from provider validation (the whole data set)
   const hasVisibleErrorRef = useRef<Map<Path, boolean>>(new Map())
-  const errorsRef = useRef<Record<Path, FormError> | undefined>()
+  const errorsRef = useRef<Record<Path, FormError> | undefined>(undefined)
   const addSetShowAllErrorsRef = useRef<
     Array<(showAllErrors: boolean) => void>
   >([])
@@ -387,8 +387,8 @@ export default function Provider<Data extends JsonObject>(
   }, [])
 
   // - Progress
-  const formStateRef = useRef<SubmitState>()
-  const activeSubmitButtonIdRef = useRef<string>()
+  const formStateRef = useRef<SubmitState>(undefined)
+  const activeSubmitButtonIdRef = useRef<string>(undefined)
   const keepPending = useRef(false)
   const setFormState = useCallback<ContextState['setFormState']>(
     (formState: SubmitState, options = {}) => {
@@ -449,7 +449,7 @@ export default function Provider<Data extends JsonObject>(
     validator: UnifiedValidator
   }
 
-  const ajvValidatorRef = useRef<UnifiedValidator>()
+  const ajvValidatorRef = useRef<UnifiedValidator>(undefined)
   const sectionSchemasRef = useRef<Map<symbol, SectionSchemaEntry>>(
     new Map()
   )
@@ -1787,7 +1787,7 @@ function useFormStatusBuffer(props: FormStatusBufferProps) {
   } = props || {}
 
   const [, forceUpdate] = useReducer(() => ({}), {})
-  const stateRef = useRef<SubmitState>()
+  const stateRef = useRef<SubmitState>(undefined)
   const nowRef = useRef<number | null>(null)
   const timeoutRef = useRef<{
     complete?: NodeJS.Timeout | null

@@ -44,13 +44,13 @@ function SectionContainer(props: Props & FlexContainerProps) {
 
   const [, forceUpdate] = useReducer(() => ({}), {})
 
-  const containerRef = useRef<HTMLDivElement>()
+  const containerRef = useRef<HTMLDivElement>(undefined)
   const contextRef = useRef<
     SectionContainerContextState & {
       hasError?: boolean
       hasSubmitError?: boolean
     }
-  >()
+  >(undefined)
   contextRef.current = useContext(SectionContainerContext) || {}
 
   const { hasError, hasSubmitError } =

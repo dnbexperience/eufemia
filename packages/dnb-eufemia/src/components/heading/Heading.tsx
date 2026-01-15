@@ -141,7 +141,7 @@ export type HeadingAllProps = HeadingProps &
 export default function Heading(props: HeadingAllProps) {
   const context = React.useContext(Context)
   const headingContext = React.useContext(HeadingContext)
-  const _ref = React.useRef()
+  const _ref = React.useRef(undefined)
 
   const {
     text,

@@ -189,9 +189,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
     [startDate, endDate]
   )
 
-  const inputRefs = useRef<
-    Record<string, RefObject<HTMLInputElement>>
-  >({
+  const inputRefs = useRef<Record<string, RefObject<HTMLInputElement>>>({
     startDayRef: { current: undefined },
     startMonthRef: { current: undefined },
     startYearRef: { current: undefined },
@@ -217,9 +215,9 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
     endDate: undefined,
   })
 
-  const refList = useRef<Array<RefObject<HTMLInputElement>>>()
+  const refList = useRef<Array<RefObject<HTMLInputElement>>>(undefined)
 
-  const focusMode = useRef<string>()
+  const focusMode = useRef<string>(undefined)
 
   const maskList = useMemo(() => {
     const separators = maskOrder.match(separatorRegExp)
