@@ -75,6 +75,11 @@ export type BadgeProps = {
    * Default: false.
    */
   subtle?: boolean
+  /**
+   * Removes the badge without removing children. Useful when Badge wraps content.
+   * Default: false
+   */
+  hideBadge?: boolean
 }
 
 type BadgeAndSpacingProps = BadgeProps &
@@ -94,6 +99,7 @@ export const defaultProps: BadgeAndSpacingProps = {
   variant: 'information',
   status: 'default',
   subtle: false,
+  hideBadge: false,
 }
 
 function Badge(localProps: BadgeAndSpacingProps) {
@@ -153,9 +159,14 @@ const BadgeElem = propGuard((props: BadgeElemProps) => {
     variant,
     status,
     subtle,
+    hideBadge,
     context,
     ...restProps
   } = props
+
+  if (hideBadge) {
+    return null
+  }
 
   // to remove spacing props, etc.
   validateDOMAttributes(props, restProps)

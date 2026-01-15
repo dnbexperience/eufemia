@@ -9,11 +9,9 @@ import {
   BadgeDefault,
   BadgeInformationInline,
   BadgeInformationAvatar,
-  BadgeTopLeft,
-  BadgeTopRight,
-  BadgeBottomLeft,
-  BadgeBottomRight,
+  BadgeCornerPosition,
   BadgeStatus,
+  BadgeHide,
 } from 'Docs/uilib/components/badge/Examples'
 
 ## Demos
@@ -26,18 +24,28 @@ The default variant. Equivalent to `variant='information'`.
 
 <BadgeDefault />
 
+<BadgeInformationInline />
+
 #### Notification
 
 `variant='notification'`.
 
 <BadgeNotification />
 
-### Usage examples
-
-<BadgeInformationInline />
-<BadgeInformationAvatar />
 <BadgeNotificationInline />
+
+### Corner badge
+
+You can "float" the badge to the corner of an element by wrapping the `<Badge>` component around it.
+
+<BadgeInformationAvatar />
 <BadgeNotificationAvatar />
+
+#### Setting property `horizontal` and `vertical`
+
+When placing the badge in the corner you can control its position.
+
+<BadgeCornerPosition />
 
 ### Setting the `status` and `subtle` properties
 
@@ -47,20 +55,10 @@ The default state is equivalent to `status='default'` and `subtle={false}`.
 
 <BadgeStatus />
 
-### Setting property `horizontal` and `vertical`
+### Hiding Badge with `hideBadge`
 
-#### `vertical` 'top' `horizontal` 'left'
+Sometimes you need to hide the badge without hiding the wrapped content. To make this less complicated you can use the `hideBadge` prop.
 
-<BadgeTopLeft />
+The example below hides the badge when there are no notifications. You can add or remove notifications with the "+" and "-" buttons.
 
-#### `vertical` 'top' `horizontal` 'right'
-
-<BadgeTopRight />
-
-#### `vertical` 'bottom' `horizontal` 'left'
-
-<BadgeBottomLeft />
-
-#### `vertical` 'bottom' `horizontal` 'right'
-
-<BadgeBottomRight />
+<BadgeHide />
