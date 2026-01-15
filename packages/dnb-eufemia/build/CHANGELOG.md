@@ -3,6 +3,30 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.94.0](https://github.com/dnbexperience/eufemia/compare/v10.93.1...v10.94.0) (2026-01-15)
+
+
+### :sparkles: Features
+
+* **Autocomplete:** add `searchMatch="starts-with"` to allow a strict matching search ([#6277](https://github.com/dnbexperience/eufemia/issues/6277)) ([909c72c](https://github.com/dnbexperience/eufemia/commit/909c72cc55e626e76c0e0c1d471563d1f3d638f3))
+* **Badge:** implement new default design and features with `status` (neutral, positive, warning, negative) and `subtle` ([#6240](https://github.com/dnbexperience/eufemia/issues/6240)) ([38af5b6](https://github.com/dnbexperience/eufemia/commit/38af5b6c0da62a3fe302db86e111d8dd8bd221b9))
+* **Bundle:** add exports field in package.json ([#6271](https://github.com/dnbexperience/eufemia/issues/6271)) ([42582ea](https://github.com/dnbexperience/eufemia/commit/42582eacac23db9f2ae9059fb9316b16d087ac0e)), closes [#6270](https://github.com/dnbexperience/eufemia/issues/6270)
+* **Bundle:** ensure fully specified ESM bundle with type=module  ([#6270](https://github.com/dnbexperience/eufemia/issues/6270)) ([d5c97c6](https://github.com/dnbexperience/eufemia/commit/d5c97c6e0114d986190302651e674c6e85724de5)), closes [#6248](https://github.com/dnbexperience/eufemia/issues/6248)
+* **Bundle:** ensure fully specified file extensions ([#6248](https://github.com/dnbexperience/eufemia/issues/6248)) ([468a234](https://github.com/dnbexperience/eufemia/commit/468a2344899a79d9d76fbae343a6ce0d88f64d84))
+* **DateFormat:** add `relativeTimeStyle` to control relative time formatting ([#6283](https://github.com/dnbexperience/eufemia/issues/6283)) ([9525054](https://github.com/dnbexperience/eufemia/commit/952505445680396aa48d2687a40687a0383bf9ac)), closes [#6279](https://github.com/dnbexperience/eufemia/issues/6279)
+* **DateFormat:** add `timeStyle` including `dateTimeSeparator` ([#6279](https://github.com/dnbexperience/eufemia/issues/6279)) ([0545a32](https://github.com/dnbexperience/eufemia/commit/0545a32125607cf8aad814496161addc3afa895c))
+* ensure Browserslist targets are fully supported in the bundle with needed polyfills ([#6242](https://github.com/dnbexperience/eufemia/issues/6242)) ([6c62def](https://github.com/dnbexperience/eufemia/commit/6c62defc0b3a9f158c8c8b96d48999043326a23d))
+* **Forms:** support parent data access using dot paths `../myPath` ([#6219](https://github.com/dnbexperience/eufemia/issues/6219)) ([1b03121](https://github.com/dnbexperience/eufemia/commit/1b031216fd4317b1c9802c5f9b6f545ee50856b1)), closes [#6206](https://github.com/dnbexperience/eufemia/issues/6206)
+* **Tabs:** add support for Badge notification inside a tab ([#6123](https://github.com/dnbexperience/eufemia/issues/6123)) ([908b193](https://github.com/dnbexperience/eufemia/commit/908b193505a73777df1327747bd8d4537f9e3046))
+
+
+### :bug: Bug Fixes
+
+* **Anchor:** ensure the `disabled` property does disable the anchor ([#6303](https://github.com/dnbexperience/eufemia/issues/6303)) ([61d7eaf](https://github.com/dnbexperience/eufemia/commit/61d7eaf4a52ef1e981dc8a01b9523f8a1a5c2939))
+* **Button:** ensure correct `disabled` style when `href` is given ([#6325](https://github.com/dnbexperience/eufemia/issues/6325)) ([d2bd6ba](https://github.com/dnbexperience/eufemia/commit/d2bd6ba19c478545667a3c47cd4d8aac060c468a))
+* **Provider:** should cascade translations from parent to nested provider ([#6309](https://github.com/dnbexperience/eufemia/issues/6309)) ([04ed8f9](https://github.com/dnbexperience/eufemia/commit/04ed8f99b85dc14bb1bec6c16e09e19f2059dc70))
+* replace `Object.prototype.hasOwnProperty.call` -> `Object.hasOwn` ([#6220](https://github.com/dnbexperience/eufemia/issues/6220)) ([c35e571](https://github.com/dnbexperience/eufemia/commit/c35e57125599606956b34b0109927c45120e6c6a))
+
 ## [10.93.1](https://github.com/dnbexperience/eufemia/compare/v10.93.0...v10.93.1) (2026-01-09)
 
 
