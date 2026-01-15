@@ -41,8 +41,8 @@
   },
   "dependencies": {
     "@dnb/eufemia": "workspace:*",
-    "@emotion/react": "11.9.3",
-    "@emotion/styled": "11.9.3",
+    "@emotion/react": "11.11.0",
+    "@emotion/styled": "11.11.0",
     "@mdx-js/mdx": "3.1.0",
     "@mdx-js/react": "3.1.0",
     "algoliasearch": "4.12.0",
