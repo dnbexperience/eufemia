@@ -55,7 +55,11 @@ export default class CustomContent extends React.PureComponent<CustomContentProp
     } = this.props
 
     if (this.props.id) {
-      return <ContentWrapper {...(rest as React.ComponentProps<typeof ContentWrapper>)} />
+      return (
+        <ContentWrapper
+          {...(rest as React.ComponentProps<typeof ContentWrapper>)}
+        />
+      )
     }
 
     return (
