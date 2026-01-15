@@ -276,7 +276,7 @@
   "source": {
     "repo": "https://github.com/dnbexperience/eufemia",
     "file": "packages/dnb-eufemia/src/components/dropdown/Dropdown.js",
-    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.94.0/packages/dnb-eufemia/src/components/dropdown/Dropdown.js"
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.94.1/packages/dnb-eufemia/src/components/dropdown/Dropdown.js"
   },
   "sources": {
     "entry": {
@@ -296,7 +296,7 @@
       "public": "https://eufemia.dnb.no/uilib/components/dropdown/demos/"
     }
   },
-  "version": "10.94.0",
-  "generatedAt": "2026-01-15T10:33:25.875Z",
+  "version": "10.94.1",
+  "generatedAt": "2026-01-15T18:56:38.950Z",
   "schemaVersion": 1
 }

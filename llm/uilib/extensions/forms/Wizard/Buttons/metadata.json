@@ -13,7 +13,7 @@
   "source": {
     "repo": "https://github.com/dnbexperience/eufemia",
     "file": "packages/dnb-eufemia/src/extensions/forms/Wizard/Buttons/Buttons.tsx",
-    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.94.0/packages/dnb-eufemia/src/extensions/forms/Wizard/Buttons/Buttons.tsx"
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.94.1/packages/dnb-eufemia/src/extensions/forms/Wizard/Buttons/Buttons.tsx"
   },
   "sources": {
     "entry": {
@@ -30,7 +30,7 @@
       "public": "https://eufemia.dnb.no/uilib/extensions/forms/Wizard/Buttons/demos/"
     }
   },
-  "version": "10.94.0",
-  "generatedAt": "2026-01-15T10:33:26.784Z",
+  "version": "10.94.1",
+  "generatedAt": "2026-01-15T18:56:39.934Z",
   "schemaVersion": 1
 }
