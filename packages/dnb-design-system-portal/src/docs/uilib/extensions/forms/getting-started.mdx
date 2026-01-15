@@ -74,9 +74,9 @@ import { languageDisplayNames } from 'dnb-design-system-portal/src/core/ChangeLo
 
 ## Creating forms
 
-To build an entire form, there are surrounding components such as form [Form.Handler](/uilib/extensions/forms/Form/Handler) and [Wizard.Container](/uilib/extensions/forms/Wizard/Container) that make data flow and layout easier and save you a lot of extra code, without compromising flexibility.
+To build an entire form, use surrounding components such as [Form.Handler](/uilib/extensions/forms/Form/Handler) and [Wizard.Container](/uilib/extensions/forms/Wizard/Container) to simplify data flow and layout while reducing code complexity without compromising flexibility.
 
-The needed styles are included in the Eufemia core package via `dnb-ui-components`.
+The required styles are included in the Eufemia core package via `dnb-ui-components`.
 
 ## TypeScript support
 
@@ -113,11 +113,11 @@ Read more about TypeScript support and the other methods in the [Form.Handler](/
 
 ## State management
 
-While you can use a controlled method of handling the state of fields or your form, it is recommended to use a declarative approach, where you keep the state of your form inside the data context, instead of pulling it out via your own `useState` hooks (imperative).
+While you can use a controlled approach to handle field or form state, we recommend a declarative approach where you keep the form state inside the data context instead of managing it with your own `useState` hooks (imperative).
 
 - You do not need React **useState** to handle your form data.
 
-So how does that work?
+How does this work?
 
 Let's say you have a form with a `name` field. In order to tell, e.g., the `onSubmit` event what the data structure is, you define a declaration (`path`) about it right on the field itself:
 
@@ -145,9 +145,9 @@ Which results in the following data structure:
 
 Paths of fields (`path="/dataPath"`) must be unique to ensure proper error handling and data input. If Eufemia detects duplicate paths, it will print the following warning in the console: `Eufemia Path declared multiple times: /duplicatePath`.
 
-This is called a [JSON Pointer](#what-is-a-json-pointer), which is a standardized way of pointing to a specific part of a JavaScript/JSON object.
+This is called a [JSON Pointer](#what-is-a-json-pointer)—a standardized way of pointing to a specific part of a JavaScript/JSON object.
 
-These JSON pointers are used to both read and write data, and is also used to validate the form data.
+These JSON pointers are used to both read and write data and to validate form data.
 
 ### What is a JSON Pointer?
 

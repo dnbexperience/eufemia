@@ -14,13 +14,13 @@ import {
 
 **Get started using the DNB user interface library**
 
-The UI Library HTML Elements and UI Components are isolated, ready-to-use elements. They are self-supporting and will use the styles they need to display.
+The UI library's HTML elements and UI components are isolated, ready-to-use building blocks. They are self-contained and include the styles needed for proper display.
 
-- **HTML Elements** are styled HTML tags
-- **UI Components** are styled and custom-built HTML elements
-- **UI Extensions** are styled and functional, but related additions to Eufemia
+- **HTML elements** are styled HTML tags
+- **UI components** are styled and custom-built HTML elements
+- **UI extensions** are styled, functional additions to Eufemia
 
-You can use any of the HTML Elements and UI Components as demonstrated in the documentation with a variety of customization properties.
+You can use any of the HTML elements and UI components as demonstrated in the documentation, with various customization properties available.
 
 <WatchingReleases />
 
@@ -28,11 +28,11 @@ You can use any of the HTML Elements and UI Components as demonstrated in the do
 
 To install and save `@dnb/eufemia` in your **package.json** dependencies, run:
 
-**Note:** [React](https://www.npmjs.com/package/react) and [React DOM](https://www.npmjs.com/package/react-dom) are needed as well.
+**Note:** [React](https://www.npmjs.com/package/react) and [React DOM](https://www.npmjs.com/package/react-dom) are also required.
 
 ```bash
-# at time of writing, React version 16 was used
-# so consider to run react@16 and react-dom@16
+# React version 16 is currently used
+# You may want to specify react@16 and react-dom@16
 $ npm i @dnb/eufemia react react-dom
 ```
 
@@ -44,12 +44,12 @@ Read more in the [First Steps](/uilib/usage/first-steps/) section.
 
 ### Configuration and Browserslist
 
-Eufemia uses the [@dnb/browserslist-config](https://github.com/dnbexperience/browserslist-config) configuration for the bundle output, defined in `.browserslistrc`:
+Eufemia uses the [@dnb/browserslist-config](https://github.com/dnbexperience/browserslist-config) configuration for bundle output, defined in `.browserslistrc`:
 
 - `extends @dnb/browserslist-config`
 
-It only affects the JavaScript bundle output, not the CSS bundle output.
+This configuration only affects the JavaScript bundle output, not the CSS bundle output.
 
-To see exactly which browsers this config supports, paste the following config into the [Check compatible browsers](https://browsersl.ist/#q=defaults+and+supports+es6-module) tool:
+To see which browsers this config supports, paste the following config into the [Check compatible browsers](https://browsersl.ist/#q=defaults+and+supports+es6-module) tool:
 
 <SupportedBrowsersConfig />

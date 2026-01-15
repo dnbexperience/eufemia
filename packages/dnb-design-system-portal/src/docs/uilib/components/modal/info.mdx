@@ -12,9 +12,9 @@ import { Modal } from '@dnb/eufemia'
 
 ## Description
 
-Modal is the root component for [Drawer](/uilib/components/drawer) and [Dialog](/uilib/components/dialog). If one of these satisfies your needs, you want to use those rather than directly using Modal. Using the Modal, it's possible to implement other modal variants than we currently provide (Drawer and Dialog).
+Modal is the root component for [Drawer](/uilib/components/drawer) and [Dialog](/uilib/components/dialog). If one of these satisfies your needs, use them instead of directly using Modal. The Modal component allows you to implement other modal variants beyond what we currently provide (Drawer and Dialog).
 
-**NB:** Modal dialogs interrupt users and demand an action. They are appropriate when the user's attention needs to be directed toward important information.
+**Note:** Modal dialogs interrupt users and demand action. They're appropriate when the user's attention needs to be directed toward important information.
 
 ## Relevant links
 
@@ -27,7 +27,7 @@ The modal can be triggered from either a button or by using the `open_state` pro
 
 ### Help button
 
-As the Modal is very often used in combination with other components and often as an enhancement of contextual content, it comes with a trigger button ([HelpButton](/uilib/components/help-button)) with a question mark icon by default. You can disable that behavior by using `omitTriggerButton={true}`.
+Since Modal is often used with other components and frequently enhances contextual content, it includes a trigger button ([HelpButton](/uilib/components/help-button)) with a question mark icon by default. You can disable this behavior with `omitTriggerButton={true}`.
 
 You can also use the broadly available `suffix` property, like so:
 
@@ -35,16 +35,16 @@ You can also use the broadly available `suffix` property, like so:
 
 ### Accessibility
 
-In order to make modals accessible, a lot of things are considered.
+Modals implement many accessibility considerations.
 
 Entering a Modal (all variants) will:
 
-1. Set focus on the heading or close button.
-2. Enable escape key listener.
-3. Invalidate every DOM element outside of the Modal / Drawer, so they are not accessible to keyboard and screen reader users. For doing that, there is a [helper function](/uilib/helpers/functions#interactioninvalidation-example) to be used in your application as well.
-4. Disable the body scroll possibility.
-5. Make the Modal / Drawer scrollable if needed.
-6. Dim the body / background with an overlay.
+1. Set focus on the heading or close button
+2. Enable escape key listener
+3. Make every DOM element outside the Modal/Drawer inaccessible to keyboard and screen reader users. A [helper function](/uilib/helpers/functions#interactioninvalidation-example) is available for use in your application
+4. Disable body scrolling
+5. Make the Modal/Drawer scrollable if needed
+6. Dim the body/background with an overlay
 
 ### Structure and content
 
@@ -56,17 +56,17 @@ Modal dialogs appear on top of the main content changing the _mode_ of the syste
 
 ### Disadvantages of Modal
 
-1. They require immediate attention.
-1. They interrupt users.
-1. They cause users to forget what they were doing.
-1. They add extra goals: reading, interacting, and closing the Modal.
-1. They block the content in the background.
+1. They require immediate attention
+1. They interrupt users
+1. They cause users to forget what they were doing
+1. They add extra goals: reading, interacting, and closing the Modal
+1. They block the content in the background
 
 ### Guidelines
 
-1. Use for important warnings as a way to prevent or correct critical errors.
-1. Do not use for nonessential information that is not related to the user's current workflow.
-1. Use for requesting the user to enter information critical to the current process.
+1. Use for important warnings to prevent or correct critical errors
+1. Do not use for nonessential information unrelated to the user's current workflow
+1. Use for requesting user input critical to the current process
 
 #### Nested modals
 

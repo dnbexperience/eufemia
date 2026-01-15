@@ -20,21 +20,21 @@ The Tooltip component is primarily meant to enhance the UX for various and addit
 
 ### Tooltip accessibility problems
 
-Because a Tooltip is often bound to a hover action, there are cases where you as a developer, together with a UX designer, need to find alternative ways of supporting access to that information.
+Because tooltips are often triggered by hover actions, developers and UX designers need to find alternative ways to support access to that information.
 
-The Tooltip component is integrated e.g. in the [Button](/uilib/components/button) component. This way, we can handle the tooltip information to be accessible for screen readers.
+The Tooltip component is integrated into components like [Button](/uilib/components/button), which allows us to make tooltip information accessible to screen readers.
 
-- All content inside the Tooltip can be selected when it is open.
-- When the mouse moves over the Tooltip content, the Tooltip remains open.
-- Custom triggers receive the necessary ARIA attributes (`aria-describedby`) so assistive technologies can announce the tooltip content without hovering.
+- All content inside the Tooltip can be selected when it is open
+- When the mouse moves over the Tooltip content, the Tooltip remains open
+- Custom triggers receive the necessary ARIA attributes (`aria-describedby`) so assistive technologies can announce the tooltip content without hovering
 
 #### Touch devices and keyboard support
 
-In order to enhance accessibility for touch devices, we add a `tabindex="0"` as well as a `touchstart` event handler.
+To enhance accessibility for touch devices, we add `tabindex="0"` and a `touchstart` event handler.
 
 ## Links (anchor) with target blank
 
-The Eufemia [Anchor](/uilib/components/anchor) and [Button](/uilib/components/button) components do show the Tooltip component when the url target is set to `_blank` in order to enhance accessibility about the action of opening a new window (out of context).
+The Eufemia [Anchor](/uilib/components/anchor) and [Button](/uilib/components/button) components display a Tooltip when the URL target is set to `_blank` to improve accessibility by informing users that a new window will open (out of context).
 
 ## Controlled active
 
