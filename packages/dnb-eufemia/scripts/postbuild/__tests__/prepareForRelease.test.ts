@@ -218,3 +218,40 @@ describe('package.json', () => {
     )
   })
 })
+
+describe('release config', () => {
+  type ReleasePlugin =
+    | string
+    | [string, Record<string, unknown> | undefined]
+  type ReleaseConfig = {
+    plugins?: ReleasePlugin[]
+  }
+  type PackageJsonWithRelease = {
+    release?: ReleaseConfig
+  }
+
+  let packageJson: PackageJsonWithRelease = {}
+
+  beforeAll(async () => {
+    packageJson = await fs.readJson(
+      path.resolve(packpath.self(), 'package.json')
+    )
+  })
+
+  it('has npm plugin provenance config', () => {
+    const plugins = packageJson.release?.plugins ?? []
+    const npmPlugin = plugins.find(
+      (plugin) =>
+        Array.isArray(plugin) && plugin[0] === '@semantic-release/npm'
+    )
+
+    expect(npmPlugin).toBeTruthy()
+
+    const npmConfig = Array.isArray(npmPlugin) ? npmPlugin[1] : undefined
+    expect(npmConfig).toMatchObject({
+      npmPublish: true,
+      pkgRoot: '.',
+      provenance: true,
+    })
+  })
+})
