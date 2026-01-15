@@ -74,58 +74,57 @@ export const BadgeInformationAvatar = () => (
 export const BadgeCornerPosition = () => (
   <ComponentBox hideCode data-visual-test="badge-corner-position">
     <Flex.Container>
-      <div data-visual-test="badge-top-left">
-        <Badge
-          content={66}
-          label="Notifications"
-          vertical="top"
-          horizontal="left"
-          variant="notification"
-        >
-          <Avatar.Group label="Persons">
-            <Avatar size="large">A</Avatar>
-          </Avatar.Group>
-        </Badge>
-      </div>
-      <div data-visual-test="badge-top-right">
-        <Badge
-          content={1234}
-          label="Notifications"
-          vertical="top"
-          horizontal="right"
-          variant="notification"
-        >
-          <Avatar.Group label="Persons">
-            <Avatar size="large">B</Avatar>
-          </Avatar.Group>
-        </Badge>
-      </div>
-      <div data-visual-test="badge-bottom-left">
-        <Badge
-          content={13}
-          label="Notifications"
-          vertical="bottom"
-          horizontal="left"
-          variant="notification"
-        >
-          <Avatar.Group label="Persons">
-            <Avatar size="large">C</Avatar>
-          </Avatar.Group>
-        </Badge>
-      </div>
-      <div data-visual-test="badge-bottom-right">
-        <Badge
-          content={58}
-          label="Notifications"
-          vertical="bottom"
-          horizontal="right"
-          variant="notification"
-        >
-          <Avatar.Group label="Persons">
-            <Avatar size="large">D</Avatar>
-          </Avatar.Group>
-        </Badge>
-      </div>
+      <Badge
+        content={66}
+        label="Notifications"
+        vertical="top"
+        horizontal="left"
+        variant="notification"
+        data-visual-test="badge-top-left"
+      >
+        <Avatar.Group label="Persons">
+          <Avatar size="large">A</Avatar>
+        </Avatar.Group>
+      </Badge>
+
+      <Badge
+        content={1234}
+        label="Notifications"
+        vertical="top"
+        horizontal="right"
+        variant="notification"
+        data-visual-test="badge-top-right"
+      >
+        <Avatar.Group label="Persons">
+          <Avatar size="large">B</Avatar>
+        </Avatar.Group>
+      </Badge>
+
+      <Badge
+        content={13}
+        label="Notifications"
+        vertical="bottom"
+        horizontal="left"
+        variant="notification"
+        data-visual-test="badge-bottom-left"
+      >
+        <Avatar.Group label="Persons">
+          <Avatar size="large">C</Avatar>
+        </Avatar.Group>
+      </Badge>
+
+      <Badge
+        content={58}
+        label="Notifications"
+        vertical="bottom"
+        horizontal="right"
+        variant="notification"
+        data-visual-test="badge-bottom-right"
+      >
+        <Avatar.Group label="Persons">
+          <Avatar size="large">D</Avatar>
+        </Avatar.Group>
+      </Badge>
     </Flex.Container>
   </ComponentBox>
 )
