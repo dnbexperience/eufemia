@@ -1,0 +1,74 @@
+/* 
+ * WIP: Figma design tokens for the badge component
+ *
+ * Exactly how design tokens from figma will be integrated is still not decided. So this file
+ * is just a temporary solution that separates design tokens from the rest of the styles.
+ * These colors should eventually end up being properly defined design variables.
+ *
+ * Pending design pattern:
+ * - Point the figma variable to existing css variables from `properties.scss` where possible.
+ * - Name the variable with a `--figma-` prefix followed by kebab case figma token name.
+ *   - E.g. "Color/Stroke/Neutral-Bold` -> "--figma-color-stroke-neutral-bold"
+ *   - Using dashes in figma "folders" might be an issue i.e. "Neutral-Bold" above.
+ *     - Perhaps we should also use underscores, or camel case? 
+ *       - "--figma-color-stroke-neutral_bold"
+ *       - "--figma_color_stroke_neutral-bold"
+ *       - "--figma-color-stroke-neutralBold"
+ * - Name the figma primitive used by the token in a comment.
+ */
+
+/*
+ * Badge design tokens
+ *
+ * These are the figma design variables used by the "information" variant of the badge component.
+ * The naming, prefix, location, and anything else is subject to change.
+ */
+
+@mixin dnb-badge-design-tokens-beta($theme: 'ui') {
+  @if $theme == 'sbanken' {
+    // Sbanken/Purple/300
+    --figma-color-decorative-first-subtle: #d2baff;
+    // Sbanken/Purple/100
+    --figma-color-decorative-first-muted: var(--sb-color-violet-light-4);
+  } @else {
+    // DNB/ColdGreen/300
+    --figma-color-decorative-first-subtle: var(--color-mint-green);
+    // DNB/ColdGreen/100
+    --figma-color-decorative-first-muted: #d8f3ec;
+  }
+
+  // DNB/Greyscale/200
+  --figma-color-background-neutral-bold: var(--color-black-20);
+  // DNB/Greyscale/50
+  --figma-color-background-neutral-subtle: var(--color-black-3);
+  // DNB/Greyscale/200
+  --figma-color-stroke-neutral-bold: var(--color-black-20);
+  // DNB/Greyscale/800
+  --figma-color-text-neutral: var(--color-black-80);
+  // DNB/Greyscale/0
+  --figma-color-text-neutral-inverse: var(--color-white);
+  // DNB/Green/700
+  --figma-color-background-positive: var(--color-success-green);
+  // DNB/Green/700
+  --figma-color-text-positive: var(--color-success-green);
+  // DNB/Green/50
+  --figma-color-background-positive-subtle: #ebf4f2;
+  // DNB/Green/700
+  --figma-color-stroke-positive: var(--color-success-green);
+  // DNB/Yellow/500
+  --figma-color-background-warning: var(--color-accent-yellow);
+  // DNB/Yellow/800
+  --figma-color-text-warning-bold: #805b0e;
+  // DNB/Yellow/50
+  --figma-color-background-warning-subtle: var(--color-sand-yellow);
+  // DNB/Yellow/500
+  --figma-color-stroke-warning: var(--color-accent-yellow);
+  // DNB/Red/600
+  --figma-color-background-error: #d52525;
+  // DNB/Red/600
+  --figma-color-text-destructive: #d52525;
+  // DNB/Red/50
+  --figma-color-background-error-subtle: #fceeee;
+  // DNB/Red/600
+  --figma-color-stroke-error: #d52525;
+}

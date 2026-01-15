@@ -142,6 +142,7 @@ describe('Badge', () => {
       'dnb-space__top--large',
       'dnb-badge--variant-information',
       'dnb-badge--inline',
+      'dnb-badge--status-default',
     ])
   })
 
@@ -168,6 +169,7 @@ describe('Badge', () => {
       'dnb-skeleton--shape',
       'dnb-badge--variant-information',
       'dnb-badge--inline',
+      'dnb-badge--status-default',
     ])
   })
 
@@ -190,6 +192,53 @@ describe('Badge', () => {
       expect(
         document.getElementsByClassName('dnb-badge--variant-information')
       ).toHaveLength(1)
+    })
+
+    it('has status neutral as default', () => {
+      render(<Badge content="test" />)
+
+      const element = document.querySelector('.dnb-badge')
+      expect(element).toHaveClass('dnb-badge--status-default')
+    })
+  })
+
+  describe('status and subtle props', () => {
+    it('applies status class correctly', () => {
+      const { rerender } = render(
+        <Badge content="test" status="positive" />
+      )
+      let element = document.querySelector('.dnb-badge')
+      expect(element).toHaveClass('dnb-badge--status-positive')
+
+      rerender(<Badge content="test" status="warning" />)
+      element = document.querySelector('.dnb-badge')
+      expect(element).toHaveClass('dnb-badge--status-warning')
+
+      rerender(<Badge content="test" status="negative" />)
+      element = document.querySelector('.dnb-badge')
+      expect(element).toHaveClass('dnb-badge--status-negative')
+    })
+
+    it('applies subtle class when subtle prop is true', () => {
+      render(<Badge content="test" status="positive" subtle />)
+      const element = document.querySelector('.dnb-badge')
+      expect(element).toHaveClass('dnb-badge--status-positive')
+      expect(element).toHaveClass('dnb-badge--subtle')
+    })
+
+    it('does not apply status or subtle classes for non-information variants', () => {
+      render(
+        <Badge
+          content="test"
+          variant="notification"
+          status="positive"
+          subtle
+        />
+      )
+      const element = document.querySelector('.dnb-badge')
+      expect(element).not.toHaveClass('dnb-badge--status-positive')
+      expect(element).not.toHaveClass('dnb-badge--subtle')
+      expect(element).toHaveClass('dnb-badge--variant-notification')
     })
   })
 })
