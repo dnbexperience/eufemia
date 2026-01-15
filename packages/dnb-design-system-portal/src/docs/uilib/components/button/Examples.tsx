@@ -51,6 +51,12 @@ export const ButtonDisabled = () => (
       right
     />
     <Button title="Disabled Icon Button" icon="calendar" disabled right />
+    <Button
+      text="Disabled button with href"
+      href="/uilib/components/button/demos"
+      target="_blank"
+      disabled
+    />
   </ComponentBox>
 )
 
