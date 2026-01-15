@@ -59,27 +59,29 @@ describe.each(['ui', 'sbanken'])('Badge for %s', (themeName) => {
   describe('positioning', () => {
     it('have to match top left positioning', async () => {
       const screenshot = await makeScreenshot({
-        selector: '[data-visual-test="badge-top-left"] .dnb-badge__root',
+        selector:
+          '.dnb-badge__root:has([data-visual-test="badge-top-left"])',
       })
       expect(screenshot).toMatchImageSnapshot()
     })
     it('have to match top right positioning', async () => {
       const screenshot = await makeScreenshot({
-        selector: '[data-visual-test="badge-top-right"] .dnb-badge__root',
+        selector:
+          '.dnb-badge__root:has([data-visual-test="badge-top-right"])',
       })
       expect(screenshot).toMatchImageSnapshot()
     })
     it('have to match bottom left positioning', async () => {
       const screenshot = await makeScreenshot({
         selector:
-          '[data-visual-test="badge-bottom-left"] .dnb-badge__root',
+          '.dnb-badge__root:has([data-visual-test="badge-bottom-left"])',
       })
       expect(screenshot).toMatchImageSnapshot()
     })
     it('have to match bottom right positioning', async () => {
       const screenshot = await makeScreenshot({
         selector:
-          '[data-visual-test="badge-bottom-right"] .dnb-badge__root',
+          '.dnb-badge__root:has([data-visual-test="badge-bottom-right"])',
       })
       expect(screenshot).toMatchImageSnapshot()
     })

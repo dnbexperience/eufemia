@@ -34,16 +34,16 @@ The default variant. Equivalent to `variant='information'`.
 
 <BadgeNotificationInline />
 
-### Corner badge
+### Overlayed badge
 
-You can "float" the badge to the corner of an element by wrapping the `<Badge>` component around it.
+You can overlay the badge on top of an element by wrapping the `<Badge>` component around it.
 
 <BadgeInformationAvatar />
 <BadgeNotificationAvatar />
 
 #### Setting property `horizontal` and `vertical`
 
-When placing the badge in the corner you can control its position.
+When overlaying the badge you can control its position.
 
 <BadgeCornerPosition />
 
@@ -57,7 +57,7 @@ The default state is equivalent to `status='default'` and `subtle={false}`.
 
 ### Hiding Badge with `hideBadge`
 
-Sometimes you need to hide the badge without hiding the wrapped content. To make this less complicated you can use the `hideBadge` prop.
+Sometimes you need to hide the badge without hiding the overlayed element. To make this less complicated you can use the `hideBadge` prop.
 
 The example below hides the badge when there are no notifications. You can add or remove notifications with the "+" and "-" buttons.
 

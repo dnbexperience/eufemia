@@ -146,6 +146,25 @@ describe('Badge', () => {
     ])
   })
 
+  it('should place spacing classes on root element', () => {
+    render(
+      <Badge top="2rem" content="content">
+        <span>Child content</span>
+      </Badge>
+    )
+
+    const element = document.querySelector('.dnb-badge__root')
+
+    expect(Array.from(element.classList)).toEqual([
+      'dnb-badge__root',
+      'dnb-space__top--large',
+    ])
+
+    expect(
+      Array.from(document.querySelector('.dnb-badge').classList)
+    ).not.toContain('dnb-space__top--large')
+  })
+
   it('should have role="status"', () => {
     render(<Badge content="content" />)
 

@@ -113,22 +113,39 @@ function Badge(localProps: BadgeAndSpacingProps) {
     context?.Badge,
     { skeleton: context?.skeleton }
   )
-  const { children } = allProps
+  const { children, className } = allProps
+  const spacingClasses = createSpacingClasses(allProps)
 
   if (children) {
     return (
-      <BadgeRoot>
+      <BadgeRoot className={classnames(spacingClasses)}>
         {children}
-        <BadgeElem context={context} {...allProps} />
+        <BadgeElem context={context} {...allProps} className={className} />
       </BadgeRoot>
     )
   }
 
-  return <BadgeElem context={context} {...allProps} />
+  return (
+    <BadgeElem
+      context={context}
+      {...allProps}
+      className={classnames(spacingClasses, className)}
+    />
+  )
 }
 
-function BadgeRoot({ children }: { children: React.ReactNode }) {
-  return <span className="dnb-badge__root">{children}</span>
+function BadgeRoot({
+  children,
+  className,
+}: {
+  children: React.ReactNode
+  className?: string
+}) {
+  return (
+    <span className={classnames('dnb-badge__root', className)}>
+      {children}
+    </span>
+  )
 }
 
 /** Ensures props that only affect certain variants are reset to default */
@@ -172,7 +189,6 @@ const BadgeElem = propGuard((props: BadgeElemProps) => {
   validateDOMAttributes(props, restProps)
 
   const skeletonClasses = createSkeletonClass('shape', skeleton, context)
-  const spacingClasses = createSpacingClasses(props)
   const contentIsNum = typeof contentProp === 'number'
   const variantIsNotification = variant === 'notification'
 
@@ -205,7 +221,6 @@ const BadgeElem = propGuard((props: BadgeElemProps) => {
             subtle ? ` dnb-badge--subtle` : ''
           }`,
         skeletonClasses,
-        spacingClasses,
         className
       )}
       {...restProps}
