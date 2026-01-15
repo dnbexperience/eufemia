@@ -64,7 +64,7 @@ function SubmitConfirmation(props: ConfirmProps) {
   } = useContext(DataContext)
 
   const confirmationStateRef = useRef<ConfirmationState>('idle')
-  const submitStateRef = useRef<EventStateObject>()
+  const submitStateRef = useRef<EventStateObject>(undefined)
   const preventSubmitRef = useRef<boolean>(undefined)
 
   const validatePreventSubmit = useCallback(() => {

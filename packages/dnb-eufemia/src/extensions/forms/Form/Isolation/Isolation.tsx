@@ -123,7 +123,7 @@ function IsolationProvider<Data extends JsonObject>(
   } = props
 
   const [, forceUpdate] = useReducer(() => ({}), {})
-  const internalDataRef = useRef<Data>()
+  const internalDataRef = useRef<Data>(undefined)
   const localDataRef = useRef<Partial<Data>>({})
   const dataContextRef = useRef<ContextState>(null)
   const outerContext = useContext(DataContext)

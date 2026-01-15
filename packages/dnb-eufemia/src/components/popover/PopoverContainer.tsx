@@ -85,13 +85,13 @@ function PopoverContainer(props: PopoverContainerProps) {
     useState<PopoverPlacement>(placement)
   const [wasActive, setWasActive] = useState(active)
   const [delayedActive, setDelayedActive] = useState(false)
-  const showDelayTimeout = useRef<NodeJS.Timeout>()
+  const showDelayTimeout = useRef<NodeJS.Timeout>(undefined)
   const isActive = delayedActive
 
   const [isInDOM, setIsInDOM] = useState(() => keepInDOMProp || active)
 
   const offset = useRef(triggerOffsetProp)
-  const domTimeout = useRef<NodeJS.Timeout>()
+  const domTimeout = useRef<NodeJS.Timeout>(undefined)
 
   const clearDomTimeout = () => {
     clearTimeout(domTimeout.current)
@@ -101,7 +101,7 @@ function PopoverContainer(props: PopoverContainerProps) {
     offset.current = triggerOffsetProp
   }, [triggerOffsetProp])
 
-  const debounceTimeout = useRef<NodeJS.Timeout>()
+  const debounceTimeout = useRef<NodeJS.Timeout>(undefined)
   const resizeObserver = useRef<ResizeObserver>(null)
   const tmpRef = useRef<HTMLSpanElement>(null)
   const elementRef =

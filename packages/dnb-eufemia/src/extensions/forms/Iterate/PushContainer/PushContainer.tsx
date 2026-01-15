@@ -169,9 +169,10 @@ function PushContainer(props: AllProps) {
 
   const { absolutePath } = useItemPath(itemPath)
   const { path: relativePath } = usePath({ path, itemPath })
-  const commitHandleRef = useRef<() => void>()
-  const switchContainerModeRef = useRef<(mode: ContainerMode) => void>()
-  const containerModeRef = useRef<ContainerMode>()
+  const commitHandleRef = useRef<() => void>(undefined)
+  const switchContainerModeRef =
+    useRef<(mode: ContainerMode) => void>(undefined)
+  const containerModeRef = useRef<ContainerMode>(undefined)
   const {
     value: entries = [],
     moveValueToPath,

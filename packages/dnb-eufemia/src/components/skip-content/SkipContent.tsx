@@ -49,8 +49,8 @@ const SkipContent = (localProps: SkipContentAllProps) => {
 
   const [visible, setVisible] = React.useState(false)
   const [keepReturnActive, setKeepReturnActive] = React.useState(false)
-  const ref = React.useRef<HTMLElement>()
-  const timeout = React.useRef<NodeJS.Timeout>()
+  const ref = React.useRef<HTMLElement>(undefined)
+  const timeout = React.useRef<NodeJS.Timeout>(undefined)
 
   const classes = classnames(
     'dnb-skip-content',

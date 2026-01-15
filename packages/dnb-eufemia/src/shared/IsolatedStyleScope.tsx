@@ -43,7 +43,7 @@ export default function IsolatedStyleScope(
     style,
   } = props
 
-  const localRef = useRef<HTMLDivElement>()
+  const localRef = useRef<HTMLDivElement>(undefined)
   const scopeElementRef = innerRef || localRef
 
   // Determine the generated scope hash for this instance

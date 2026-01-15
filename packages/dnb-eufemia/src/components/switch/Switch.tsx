@@ -167,7 +167,7 @@ export default function Switch(props: SwitchProps) {
   const [, forceUpdate] = useReducer(() => ({}), {})
   const id = useId(idProp)
   const isFn = typeof innerRefProp === 'function'
-  const refHook = useRef<HTMLInputElement>()
+  const refHook = useRef<HTMLInputElement>(undefined)
   const innerRef = (!isFn && innerRefProp) || refHook
 
   const preventChangeRef = useRef(false)

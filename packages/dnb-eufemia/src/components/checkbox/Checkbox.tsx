@@ -182,7 +182,7 @@ function Checkbox(localProps: CheckboxProps) {
   const id = useId(idProp)
 
   const isFn = typeof innerRef === 'function'
-  const refHook = useRef<HTMLInputElement>()
+  const refHook = useRef<HTMLInputElement>(undefined)
   const ref = (!isFn && innerRef) || refHook
 
   useEffect(() => {

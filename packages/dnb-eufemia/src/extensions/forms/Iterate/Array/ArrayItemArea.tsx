@@ -51,11 +51,11 @@ function ArrayItemArea(
     ...restProps
   } = props
 
-  const localContextRef = useRef<IterateItemContextState>()
+  const localContextRef = useRef<IterateItemContextState>(undefined)
   const { hasError, hasSubmitError } =
     useContext(FieldBoundaryContext) || {}
   localContextRef.current = useContext(IterateItemContext) || {}
-  const nextFocusElementRef = useRef<HTMLElement>()
+  const nextFocusElementRef = useRef<HTMLElement>(undefined)
   const { isNew } = localContextRef.current
 
   const determineMode = useCallback(() => {

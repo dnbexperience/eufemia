@@ -16,7 +16,7 @@ function useFieldProvider(props?: Omit<FieldProviderProps, 'children'>) {
   const inheritedProps = nestedContext?.inheritedContext
 
   const sharedContext = useContext(SharedContext)
-  const dataContextRef = useRef<ContextState>()
+  const dataContextRef = useRef<ContextState>(undefined)
   dataContextRef.current = useContext(DataContext)
 
   /**

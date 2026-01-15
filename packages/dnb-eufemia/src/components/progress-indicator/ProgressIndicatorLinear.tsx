@@ -9,7 +9,7 @@ import { validateDOMAttributes } from '../../shared/component-helper'
 import { ProgressIndicatorLinearAllProps } from './types'
 
 function usePrevious<P>(value: P): [P, P] {
-  const ref = useRef<P>()
+  const ref = useRef<P>(undefined)
   useEffect(() => {
     ref.current = value
   }, [value])
