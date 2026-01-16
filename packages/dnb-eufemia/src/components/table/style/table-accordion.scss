@@ -309,11 +309,11 @@
     cursor: pointer;
   }
 
-  // prevent selection while animating – useful when user double-clicks
-  // TODO: Our SASS version does not support :has – so we may use this in future
-  // &__tr--clickable:has(& + &__tr__accordion-content--animating) {
-  //   user-select: none;
-  // }
+  // Prevent selection while animating – useful when user double-clicks
+  // stylelint-disable-next-line
+  &__tr--clickable:has(& + &__tr__accordion-content--animating) {
+    user-select: none;
+  }
 
   &__td-wrapper {
     display: flex;
