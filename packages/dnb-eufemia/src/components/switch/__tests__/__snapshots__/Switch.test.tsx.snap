@@ -489,13 +489,5 @@ html[data-whatinput=keyboard] .dnb-switch__input:not([disabled]):focus ~ .dnb-sw
   --border-width: var(--focus-ring-width, 0.125rem);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
-}
-@supports (-ms-ime-align: auto) {
-  .dnb-switch__input:not(:checked) ~ .dnb-switch__button {
-    transform: translateX(0);
-  }
-  .dnb-switch__input:checked ~ .dnb-switch__button {
-    transform: translateX(calc(var(--switch-width--medium) - 1.5rem));
-  }
 }"
 `;
