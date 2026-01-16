@@ -1,0 +1,203 @@
+---
+title: 'OrganizationNumber'
+description: '`Field.OrganizationNumber` is a wrapper component for the input of strings, with user experience tailored for organization number values.'
+metadata: https://eufemia.dnb.no/uilib/extensions/forms/feature-fields/OrganizationNumber/metadata.json
+---
+
+## Import
+
+```tsx
+import { Field } from '@dnb/eufemia/extensions/forms'
+render(<Field.OrganizationNumber />)
+```
+
+## Description
+
+`Field.OrganizationNumber` is a wrapper component for [string input](/uilib/extensions/forms/base-fields/String), with user experience tailored for organization number values.
+
+This input expects a 9-digit number as its value. This is because Norwegian organization numbers are 9 digits long, based on information from [Brønnøysundregisteret](https://www.brreg.no/en/about-us-2/our-registers/about-the-central-coordinating-register-for-legal-entities-ccr/about-the-organisation-number/?nocache=1701776533136).
+It validates input for Norwegian organization numbers as described by [Brønnøysundregistrene](https://www.brreg.no/om-oss/registrene-vare/om-enhetsregisteret/organisasjonsnummeret/), and in addition, we validate `000 000 000` as invalid.
+The validation happens on blur, internally using the `onBlurValidator` [property](/uilib/extensions/forms/feature-fields/OrganizationNumber/properties/#field-specific-properties).
+
+There is a corresponding [Value.OrganizationNumber](/uilib/extensions/forms/Value/OrganizationNumber) component.
+
+## Relevant links
+
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Field/OrganizationNumber)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/extensions/forms/feature-fields/OrganizationNumber)
+
+## Validators
+
+### Internal validators exposed
+
+`Field.OrganizationNumber` exposes the `organizationNumberValidator` validator through its `onChangeValidator` and `onBlurValidator` properties. Take a look at [this demo](/uilib/extensions/forms/feature-fields/OrganizationNumber/demos/#extend-validation-with-custom-validation-function).
+The `organizationNumberValidator` validator validates whether the organization number provided is a [Norwegian organization number](https://www.brreg.no/om-oss/registrene-vare/om-enhetsregisteret/organisasjonsnummeret/) or not.
+
+### Extending validators
+
+Return both the exported validator and a custom rule to extend validation safely. Import `OrganizationNumberValidator` to type your validator and the `validators` object.
+
+```tsx
+import { Field } from '@dnb/eufemia/extensions/forms'
+import type { OrganizationNumberValidator } from '@dnb/eufemia/extensions/forms/Field/OrganizationNumber'
+
+const myValidator: OrganizationNumberValidator = (
+  value,
+  { validators },
+) => {
+  const { organizationNumberValidator } = validators ?? {}
+  const oddChecker = (value: string) => {
+    if (value && parseInt(value.slice(-1), 10) % 2 === 0) {
+      return new Error('Organization number must end with an odd digit')
+    }
+  }
+
+  // Reuse the built-in validator and add an odd-digit rule.
+  return [organizationNumberValidator, oddChecker]
+}
+
+render(<Field.OrganizationNumber onBlurValidator={myValidator} />)
+```
+
+## Demos
+
+### Empty
+
+```tsx
+render(
+  <Field.OrganizationNumber
+    onChange={(value) => console.log('onChange', value)}
+  />,
+)
+```
+
+### Omit mask
+
+```tsx
+render(
+  <Field.OrganizationNumber
+    onChange={(value) => console.log('onChange', value)}
+    omitMask
+  />,
+)
+```
+
+### Placeholder
+
+```tsx
+render(
+  <Field.OrganizationNumber
+    placeholder="Enter 9 digits..."
+    onChange={(value) => console.log('onChange', value)}
+  />,
+)
+```
+
+### Label
+
+```tsx
+render(
+  <Field.OrganizationNumber
+    label="Label text"
+    onChange={(value) => console.log('onChange', value)}
+  />,
+)
+```
+
+### Label and value
+
+```tsx
+render(
+  <Field.OrganizationNumber
+    label="Label text"
+    value="987654321"
+    onChange={(value) => console.log('onChange', value)}
+  />,
+)
+```
+
+### With help
+
+```tsx
+render(
+  <Field.OrganizationNumber
+    label="Label text"
+    value="987654321"
+    help={{
+      title: 'Help is available',
+      content:
+        'Success has nothing to do with what you gain in life or accomplish for yourself. It’s what you do for others.',
+    }}
+    onChange={(value) => console.log('onChange', value)}
+  />,
+)
+```
+
+### Disabled
+
+```tsx
+render(
+  <Field.OrganizationNumber
+    value="989898989"
+    label="Label text"
+    onChange={(value) => console.log('onChange', value)}
+    disabled
+  />,
+)
+```
+
+### Error
+
+```tsx
+render(
+  <Field.OrganizationNumber
+    value="007"
+    label="Label text"
+    onChange={(value) => console.log('onChange', value)}
+    error={new Error('This is what is wrong...')}
+  />,
+)
+```
+
+### Validation - Required
+
+```tsx
+render(
+  <Field.OrganizationNumber
+    value="123456789"
+    label="Label text"
+    onChange={(value) => console.log('onChange', value)}
+    required
+  />,
+)
+```
+
+### Extend validation with custom validation function
+
+You can [extend the existing validation](/uilib/extensions/forms/create-component/useFieldProps/info/#validators)(`organizationNumberValidator`) with your own validation function.
+
+```tsx
+const firstDigitIs1Validator = (value: string) => {
+  if (value.substring(0, 1) !== '1') {
+    return new Error('First digit is not 1')
+  }
+}
+
+// Keep the built-in validator while requiring the first digit.
+// Keep the built-in validator while requiring the first digit.
+const myValidator: OrganizationNumberValidator = (
+  value,
+  { validators },
+) => {
+  const { organizationNumberValidator } = validators
+  return [organizationNumberValidator, firstDigitIs1Validator]
+}
+render(
+  <Field.OrganizationNumber
+    required
+    value="991541209"
+    onBlurValidator={myValidator}
+    validateInitially
+  />,
+)
+```

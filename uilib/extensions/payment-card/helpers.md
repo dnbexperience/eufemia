@@ -1,0 +1,25 @@
+---
+metadata: https://eufemia.dnb.no/uilib/extensions/payment-card/helpers/metadata.json
+---
+
+## Helpers
+
+### formatCardNumber
+
+Formats card number.
+Will by default limit the number of characters in the card number to be of 8 characters.
+Can be specified by using the `digits` param.
+
+```js
+import { formatCardNumber } from '@dnb/eufemia/extensions/payment-card'
+// or import { formatCardNumber } from '@dnb/eufemia/extensions/payment-card/PaymentCard'
+
+formatCardNumber(cardNumber: string, digits*: number) // returns string
+
+formatCardNumber('************1337') // returns **** 1337
+formatCardNumber('************1337', 5) // returns * 1337
+```
+
+#### \* Optional values (defaults)
+
+- length = _8_

@@ -1,0 +1,667 @@
+---
+title: 'Locale / Translation'
+metadata: https://eufemia.dnb.no/uilib/usage/customisation/localization/metadata.json
+---
+
+# Localization
+
+The default constants are defined in the `/shared/defaults.js` file.
+
+- The default locale of all components texts is: `nb-NO`.
+- The default currency is: `NOK`
+
+## Supported component translations
+
+Eufemia components comes with a set of default translated strings for the following locales:
+
+<Ul>
+  {Object.keys(languageDisplayNames).map((l) => (
+    <Li key={l}>
+      <Anchor
+        href={`https://github.com/dnbexperience/eufemia/blob/main/packages/dnb-eufemia/src/shared/locales/${l}.ts`}
+      >
+        {l}
+      </Anchor>
+    </Li>
+  ))}
+</Ul>
+
+You can easily change one, some or all of them by using a React provider – the Eufemia Provider.
+
+Here are the default strings located:
+
+```js
+// Included by default
+import enGB from '@dnb/eufemia/shared/locales/en-GB'
+import nbNO from '@dnb/eufemia/shared/locales/nb-NO'
+import enGB_forms from '@dnb/eufemia/extensions/forms/constants/locales/en-GB'
+import nbNO_forms from '@dnb/eufemia/extensions/forms/constants/locales/nb-NO'
+
+// Additional locales you can add
+import svSE from '@dnb/eufemia/shared/locales/sv-SE'
+import svSE_forms from '@dnb/eufemia/extensions/forms/constants/locales/sv-SE'
+import svSE_forms_countries from '@dnb/eufemia/extensions/forms/constants/locales/countries/sv-SE'
+
+// Additional locales you can add
+import daDK from '@dnb/eufemia/shared/locales/da-DK'
+import daDK_forms from '@dnb/eufemia/extensions/forms/constants/locales/da-DK'
+import daDK_forms_countries from '@dnb/eufemia/extensions/forms/constants/locales/countries/da-DK'
+```
+
+## How to set the locale
+
+In React based apps, use the shared Eufemia provider:
+
+```jsx
+import Provider from '@dnb/eufemia/shared/Provider'
+
+const myLocale = 'en-GB'
+
+render(
+  <Provider locale={myLocale}>
+    <MyApp>Eufemia components</MyApp>
+  </Provider>,
+)
+```
+
+For component based locale, you can also make use of the `lang` attribute – if really needed:
+
+```jsx
+import Provider from '@dnb/eufemia/shared/Provider'
+
+render(
+  <Provider locale="en-GB">
+    <MyApp>
+      <HelpButton lang="nb-NO" />
+    </MyApp>
+  </Provider>,
+)
+```
+
+## How to set locale progressively
+
+You can easily enhance or change translated strings progressively:
+
+```jsx
+import Provider from '@dnb/eufemia/shared/Provider'
+
+render(
+  <Provider
+    locale="nb-NO"
+    translations={{
+      'nb-NO': {
+        Modal: { close_title: 'Something' },
+      },
+    }}
+  >
+    <MyApp>Eufemia components</MyApp>
+  </Provider>,
+)
+```
+
+## How to change the locale during runtime
+
+You can even change the locale during runtime. Find more info in the [Provider docs](/uilib/usage/customisation/provider).
+
+```tsx
+import { Field } from '@dnb/eufemia/extensions/forms'
+import Provider from '@dnb/eufemia/shared/Provider'
+import Context from '@dnb/eufemia/shared/Context'
+
+const ChangeLocale = () => {
+  const { setLocale, locale } = React.useContext(Context)
+
+  return (
+    <Field.Selection value={locale} onChange={(value) => setLocale(value)}>
+      <Field.Option value="nb-NO" title="Norsk" />
+      <Field.Option value="sv-SE" title="Svenska" />
+      <Field.Option value="da-DK" title="Dansk" />
+      <Field.Option value="en-GB" title="English (GB)" />
+    </Field.Selection>
+  )
+}
+
+render(
+  <Provider>
+    <MyApp>
+      <ChangeLocale />
+    </MyApp>
+  </Provider>,
+)
+```
+
+## Provide your own translations
+
+You can provide your own translations by using the shared [Provider](/uilib/usage/customisation/provider). Translation strings with several levels of depth can be given as a flat object with dot-notation, or as a nested object (cascaded).
+
+```tsx
+import Provider from '@dnb/eufemia/shared/Provider'
+
+const nbNO = { myString: 'Min egendefinerte streng' }
+const enGB = {
+  // Cascaded translations
+  Nested: {
+    stringWithArgs: 'My custom string with an argument: {myKey}',
+  },
+
+  // Flat translations
+  'Nested.stringWithArgs': 'My custom string with an argument: {myKey}',
+}
+
+const myTranslations = {
+  'nb-NO': nbNO,
+  'en-GB': enGB,
+}
+
+render(
+  <Provider translations={myTranslations} locale="en-GB">
+    <MyApp>
+      <MyComponent />
+    </MyApp>
+  </Provider>,
+)
+```
+
+## Consume translations in your components
+
+You can use the `useTranslation` hook to get the strings from the shared context. The hook returns an object with the strings and a `formatMessage` function you can use to get the translated strings with arguments.
+
+```tsx
+import { useTranslation } from '@dnb/eufemia/shared'
+
+const myTranslations = {
+  'nb-NO': { myString: 'Min egendefinerte streng' },
+  'en-GB': {
+    // Cascaded translations
+    Nested: {
+      stringWithArgs: 'My custom string with an argument: {myKey}',
+    },
+
+    // Flat translations
+    'Nested.stringWithLinebreaks':
+      'My custom string with a {br}line-break',
+  },
+}
+
+type Translation = (typeof myTranslations)[keyof typeof myTranslations]
+
+const MyComponent = () => {
+  const t = useTranslation<Translation>()
+
+  // Internal translations
+  const existingString = t.Dropdown.title
+
+  // Your translations
+  const myString = t.myString
+
+  // Use the "formatMessage" function to handle strings with arguments
+  const myStringWithArgsA = t.formatMessage(t.Nested.stringWithArgs, {
+    myKey: 'myValue',
+  })
+  // You can also get the string with a key (dot-notation)
+  const myStringWithArgsB = t.formatMessage('Nested.stringWithArgs', {
+    myKey: 'myValue',
+  })
+
+  // Render line-breaks
+  const jsxOutput = t.renderMessage(t.Nested.stringWithLinebreaks)
+
+  return <>MyComponent</>
+}
+
+render(
+  <Provider translations={myTranslations} locale="en-GB">
+    <MyApp>
+      <MyComponent />
+    </MyApp>
+  </Provider>,
+)
+```
+
+**Good to know:** You can consume the strings with a dot-notated key, directly from
+the `formatMessage` function:
+
+```tsx
+formatMessage('myGroup.subString')
+```
+
+### Formatted messages
+
+For richer inline formatting in your translated strings, you can use the `renderWithFormatting` helper from `@dnb/eufemia/shared`. It supports simple markup tokens inside your messages:
+
+- `{br}` inserts a line break (`<br />`).
+- `**bold**` wraps content in `<strong>` by default.
+- `_italic_` wraps content in `<em>` by default.
+- `[label](url)` renders an anchor link.
+  - Bare URLs (e.g. `http://…` or `https://…`) are automatically linked and use the URL as the label.
+- Backticks render monospace literals. Useful for short, copy‑critical strings like reference IDs, promo codes etc. Example: `` `AB12-XYZ9` ``. You can customize the renderer via `renderWithFormatting(text, { code: (c) => <span className="dnb-code">{c}</span> })` if you prefer monospace styling without the semantic `<code>` tag.
+
+You can also customize the wrappers and the break token.
+
+```tsx
+import {
+  useTranslation,
+  renderWithFormatting,
+  Provider,
+} from '@dnb/eufemia/shared'
+
+const translations = {
+  'en-GB': {
+    'myGroup.subString':
+      'Use **bold** and _italic_ with a {br}line-break.',
+  },
+}
+
+type T = (typeof translations)['en-GB']
+
+function MyComponent() {
+  const t = useTranslation<T>()
+  return <>{renderWithFormatting(t.myGroup.subString)}</>
+}
+
+function MyApp() {
+  return (
+    <Provider translations={translations} locale="en-GB">
+      <MyComponent />
+    </Provider>
+  )
+}
+```
+
+#### Use without translations
+
+You can also use `renderWithFormatting` directly, without the translation context. This is handy for static copy or small strings you build at runtime.
+
+```tsx
+import { renderWithFormatting } from '@dnb/eufemia/shared'
+
+const text =
+  'Use **bold**, _italic_, `AB12-XYZ9` and a link https://www.dnb.no{br}Next line'
+
+export function InlineFormattingExample() {
+  return <>{renderWithFormatting(text)}</>
+}
+```
+
+Array input and dynamic strings are also supported:
+
+```tsx
+import { renderWithFormatting } from '@dnb/eufemia/shared'
+
+function ArrayInputExample() {
+  const parts = ['Hello', '{br}', 'world! See https://example.com']
+  return <>{renderWithFormatting(parts)}</>
+}
+
+function DynamicExample({ refId }: { refId: string }) {
+  const text = `Keep your reference \`${'${refId}'}\` for support.`
+  return <>{renderWithFormatting(text)}</>
+}
+```
+
+### Fallback for missing or partial translations
+
+The shared `useTranslation` hook will output missing keys when:
+
+- Empty explicit locale: returns pointer strings (e.g. `MyNamespace.label`) derived from `fallbackLocale="nb-NO"`.
+- Partial explicit locale: merges missing keys as pointer strings, preserving existing ones.
+- Non-existent current locale (no explicit entry in your translations): the hook preserves defaults (no pointers).
+
+```tsx
+import { useTranslation, Provider } from '@dnb/eufemia/shared'
+
+const translations = {
+  'sv-SE': {}, // empty explicit current-locale
+  'en-GB': { MyNamespace: { label: 'English label' } },
+}
+
+type T = (typeof translations)['en-GB']
+
+function Example() {
+  const t = useTranslation<T>({
+    fallbackLocale: 'en-GB', // default: 'nb-NO'
+  })
+  return <>{t.MyNamespace.label /* 'MyNamespace.label' */}</>
+}
+
+render(
+  <Provider locale="sv-SE" translations={translations}>
+    <Example />
+  </Provider>,
+)
+```
+
+## TypeScript support
+
+```tsx
+import Provider, { Locales } from '@dnb/eufemia/shared/Provider'
+
+const nbNO = {
+  myString: 'Min egendefinerte streng',
+}
+const enGB = {
+  myString: 'My custom string',
+} satisfies typeof nbNO // Ensure the types are compatible
+
+const myTranslations = {
+  'nb-NO': nbNO,
+  'en-GB': enGB,
+}
+
+// Infer the type of the translations
+type Translation = (typeof myTranslations)[keyof typeof myTranslations]
+```
+
+## How to combine with other tools
+
+You can easily combine the locales support it with other translation tools, like `react-intl`.
+
+Like, having the Eufemia components strings inside a JSON object/file `en.json`:
+
+```json
+{
+  "Modal.close_title": "Overwrite",
+  "other.string": "{foo} ({bar} of {max})"
+}
+```
+
+and use it like this:
+
+```jsx
+import EufemiaProvider from '@dnb/eufemia/shared/Provider'
+import nb from './nb.json' // Has to be an JavaScript object
+
+render(
+  <EufemiaProvider
+    locale="nb-NO"
+    translations={{
+      'nb-NO': nb,
+    }}
+  >
+    <MyApp>Eufemia components</MyApp>
+  </EufemiaProvider>,
+)
+```
+
+### Cascaded object (flat object, dot-notated keys) support
+
+1. Lets say you have your translation files as JSON object/files `en.json`:
+
+```json
+{
+  "Modal.close_title": "Overwrite",
+  "my.string": "string {foo}"
+}
+```
+
+2. and use it with a React hook like this:
+
+```tsx
+import {
+  useTranslation,
+  Provider as EufemiaProvider,
+} from '@dnb/eufemia/shared'
+
+import nb from './nb.json'
+import en from './en.json'
+
+const MyComponent = () => {
+  // Note: no TypeScript support when using an identifier.
+  const str = useTranslation('my.string', {
+    foo: 'bar',
+  })
+
+  return str
+}
+
+render(
+  <EufemiaProvider
+    locale="nb-NO"
+    translations={{
+      'nb-NO': nb,
+      'en-GB': en,
+    }}
+  >
+    <MyComponent />
+  </EufemiaProvider>,
+)
+```
+
+3. or as a React component:
+
+```tsx
+import {
+  Translation,
+  Provider as EufemiaProvider,
+} from '@dnb/eufemia/shared'
+
+import nb from './nb.json'
+import en from './en.json'
+
+render(
+  <EufemiaProvider
+    locale="nb-NO"
+    translations={{
+      'nb-NO': nb,
+      'en-GB': en,
+    }}
+  >
+    <Translation id="my.string" foo="bar" />
+  </EufemiaProvider>,
+)
+```
+
+For TypeScript support, you can use the `Translation` component with a function. You may also want to make a wrapper, so you can use your own translation types:
+
+```tsx
+import {
+  Translation,
+  TranslationProps,
+  Provider as EufemiaProvider,
+} from '@dnb/eufemia/shared'
+
+const translations = {
+  'nb-NO': { my: { string: 'streng {foo}' } },
+  'en-GB': { my: { string: 'string {foo}' } },
+}
+type TranslationType = (typeof translations)[keyof typeof translations]
+
+render(
+  <EufemiaProvider locale="nb-NO" translations={translations}>
+    <Translation<TranslationType> id={(t) => t.my.string} foo="bar" />
+  </EufemiaProvider>,
+)
+```
+
+### Formatting markers inside `<Translation />`
+
+When using `<Translation />`, simple inline formatting is applied automatically:
+
+- `{br}` → line break
+- `**bold**`, `_italic_`, `` `code` ``
+- `[label](https://…)` links, and bare URLs become anchors
+
+```tsx
+import {
+  Translation,
+  Provider as EufemiaProvider,
+} from '@dnb/eufemia/shared'
+
+const translations = {
+  'en-GB': {
+    info: 'Use **bold** and _italic_ with a {br}line-break.',
+  },
+}
+type TranslationType = (typeof translations)[keyof typeof translations]
+
+render(
+  <EufemiaProvider translations={translations} locale="en-GB">
+    <p>
+      <Translation<TranslationType> id={(t) => t.info} />
+    </p>
+  </EufemiaProvider>,
+)
+```
+
+## How to add Eufemia provided locales
+
+### Eufemia components
+
+Eufemia provides component translations for the following locales:
+
+<Ul>
+  {Object.keys(languageDisplayNames).map((l) => (
+    <Li key={l}>
+      <Anchor
+        href={`https://github.com/dnbexperience/eufemia/blob/main/packages/dnb-eufemia/src/shared/locales/${l}.ts`}
+      >
+        {l}
+      </Anchor>
+    </Li>
+  ))}
+</Ul>
+
+To include e.g. `sv-SE` you can use the following code:
+
+```js
+import { Provider } from '@dnb/eufemia/shared'
+import svSE from '@dnb/eufemia/shared/locales/sv-SE'
+
+render(
+  <Provider translations={svSE} locale="sv-SE">
+    Your app
+  </Provider>,
+)
+```
+
+To include e.g. `da-DK` you can use the following code:
+
+```js
+import { Provider } from '@dnb/eufemia/shared'
+import daDK from '@dnb/eufemia/shared/locales/da-DK'
+
+render(
+  <Provider translations={daDK} locale="da-DK">
+    Your app
+  </Provider>,
+)
+```
+
+### Eufemia Forms
+
+Eufemia provides forms translations for the following locales:
+
+<Ul>
+  {Object.keys(languageDisplayNames).map((l) => (
+    <Li key={l}>
+      <Anchor
+        href={`https://github.com/dnbexperience/eufemia/blob/main/packages/dnb-eufemia/src/extensions/forms/constants/locales/${l}.ts`}
+      >
+        {l}
+      </Anchor>
+    </Li>
+  ))}
+</Ul>
+
+**Note:** Only `nb-NO` and `en-GB` are included by default.
+
+To support other locales such as `sv-SE` or `da-DK`, you can provide translations for fields and values in a few different ways.
+
+#### Form.Handler
+
+You can provide forms translations to the `translations` property within the [Form.Handler](/uilib/extensions/forms/Form/Handler/) component like this:
+
+```js
+import { Form } from '@dnb/eufemia/src/extensions/forms'
+import { mergeTranslations } from '@dnb/eufemia/shared'
+import svSE_forms from '@dnb/eufemia/extensions/forms/constants/locales/sv-SE'
+import svSE_forms_countries from '@dnb/eufemia/extensions/forms/constants/locales/countries/sv-SE'
+
+const translations = mergeTranslations(svSE_forms, svSE_forms_countries)
+
+render(
+  <Form.Handler translations={translations} locale="sv-SE">
+    Your form
+  </Form.Handler>,
+)
+```
+
+#### Global translations
+
+How ever, instead of providing the forms translations per form, you can also provide them globally using the `Provider` component:
+
+```js
+import { Provider, mergeTranslations } from '@dnb/eufemia/shared'
+import svSE from '@dnb/eufemia/shared/locales/sv-SE'
+import svSE_forms from '@dnb/eufemia/extensions/forms/constants/locales/sv-SE'
+import svSE_forms_countries from '@dnb/eufemia/extensions/forms/constants/locales/countries/sv-SE'
+
+const translations = mergeTranslations(
+  svSE,
+  svSE_forms,
+  svSE_forms_countries,
+)
+
+render(
+  <Provider translations={translations} locale="sv-SE">
+    Your app, including Eufemia Forms
+  </Provider>,
+)
+```
+
+## How to add new locales
+
+Create a new file (`nn-NO.js`) containing all the strings:
+
+```js
+export default {
+  'nn-NO': {
+    GlobalError: {
+      404: {
+        title: 'Me finn ikkje sida du leitar etter …',
+      },
+    },
+  },
+}
+```
+
+And add the file, like so:
+
+```jsx
+import Provider from '@dnb/eufemia/shared/Provider'
+import myTranslations from './locales/nn-NO'
+
+render(
+  <Provider translations={myTranslations}>
+    <MyApp>Eufemia components</MyApp>
+  </Provider>,
+)
+```
+
+### Add or update the locales during runtime
+
+```tsx
+import Provider from '@dnb/eufemia/shared/Provider'
+import Context from '@dnb/eufemia/shared/Context'
+
+import myTranslations from './locales/nn-NO'
+
+const ChangeLocale = () => {
+  const { update, locale } = React.useContext(Context)
+
+  // Add new locales
+  update({ locales: myTranslations, locale: 'nn-NO' })
+
+  return locale
+}
+
+render(
+  <Provider>
+    <MyApp>
+      ...
+      <ChangeLocale />
+      ...
+    </MyApp>
+  </Provider>,
+)
+```

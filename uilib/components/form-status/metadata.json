@@ -1,0 +1,158 @@
+{
+  "id": "uilib/components/form-status",
+  "name": "FormStatus (Messageboxes)",
+  "description": "The FormStatus is a simple component meant for displaying the status of a form (errors, messages, etc.).",
+  "group": "components",
+  "slug": "/uilib/components/form-status/",
+  "props": [
+    {
+      "name": "text",
+      "doc": "The `text` appears as the status message. Beside plain text, you can send in a React component as well.",
+      "type": "React.ReactNode",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "children",
+      "doc": "The `text` appears as the status message. Beside plain text, you can send in a React component as well.",
+      "type": "React.ReactNode",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "title",
+      "doc": "The `title` attribute in the status.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "role",
+      "doc": "The `role` attribute for accessibility, defaults to `alert`.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "state",
+      "doc": "Defines the visual appearance of the status. These are the statuses `error`, `warn`, `info` and `marketing`. The default status is `error`.",
+      "type": [
+        "error",
+        "warn",
+        "info",
+        "success",
+        "marketing"
+      ],
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "size",
+      "doc": "Defines the appearance size. There are these sizes `default`, `large`. The default status is `default`.",
+      "type": [
+        "default",
+        "large"
+      ],
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "icon",
+      "doc": "The `icon` show before the status text. Defaults to `exclamation`.",
+      "type": "React.ReactNode",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "icon_size",
+      "doc": "The icon size of the icon shows. Defaults to `medium`.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "variant",
+      "doc": "As of now, there is the `flat` and the `outlined` variant. Defaults to `flat`.",
+      "type": [
+        "flat",
+        "outlined"
+      ],
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "stretch",
+      "doc": "If set to `true`, then the FormStatus will be 100% in available `width`. **NB:** Only use this on independent status messages.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "show",
+      "doc": "Provide `false` if you want to animate the visibility. Defaults to `true`.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "no_animation",
+      "doc": "NB: Animation is disabled as of now. ~~use `true` to omit the animation on content visibility. Defaults to `false`.~~",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "globalStatus",
+      "doc": "The [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status).",
+      "type": "Various",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "shellSpace",
+      "doc": "Use it to set an inner margin. It supports the same properties as [Space](/uilib/layout/space/properties). Useful for animation.",
+      "type": [
+        "string",
+        "object"
+      ],
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "skeleton",
+      "doc": "If set to `true`, an overlaying skeleton with animation will be shown.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    }
+  ],
+  "events": [],
+  "related": [
+    "Space"
+  ],
+  "checksum": "daad9fefe6eebdc991b72aad25652f440644aaee2636810ce446a1741a37a852",
+  "source": {
+    "repo": "https://github.com/dnbexperience/eufemia",
+    "file": "packages/dnb-eufemia/src/components/form-status/FormStatus.js",
+    "fileUrl": "https://github.com/dnbexperience/eufemia/blob/v10.94.3/packages/dnb-eufemia/src/components/form-status/FormStatus.js",
+    "dirUrl": "https://github.com/dnbexperience/eufemia/tree/v10.94.3/packages/dnb-eufemia/src/components/form-status"
+  },
+  "sources": {
+    "entry": {
+      "local": "src/docs/uilib/components/form-status.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/form-status/"
+    },
+    "props": {
+      "local": "src/docs/uilib/components/form-status/properties.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/form-status/properties/"
+    },
+    "events": null,
+    "demos": {
+      "local": "src/docs/uilib/components/form-status/demos.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/form-status/demos/"
+    }
+  },
+  "version": "10.94.3",
+  "generatedAt": "2026-01-16T16:38:16.621Z",
+  "schemaVersion": 1
+}

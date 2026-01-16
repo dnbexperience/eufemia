@@ -1,0 +1,30 @@
+{
+  "id": "uilib/usage/customisation/theming/theme",
+  "name": "Theme",
+  "description": "The Theme component is a helper component that lets you create nested theming solutions.",
+  "group": "usage",
+  "slug": "/uilib/usage/customisation/theming/theme/",
+  "props": [],
+  "events": [],
+  "related": [],
+  "checksum": "090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40",
+  "source": null,
+  "sources": {
+    "entry": {
+      "local": "src/docs/uilib/usage/customisation/theming/theme.mdx",
+      "public": "https://eufemia.dnb.no/uilib/usage/customisation/theming/theme/"
+    },
+    "props": {
+      "local": "src/docs/uilib/usage/customisation/theming/theme/properties.mdx",
+      "public": "https://eufemia.dnb.no/uilib/usage/customisation/theming/theme/properties/"
+    },
+    "events": null,
+    "demos": {
+      "local": "src/docs/uilib/usage/customisation/theming/theme/demos.mdx",
+      "public": "https://eufemia.dnb.no/uilib/usage/customisation/theming/theme/demos/"
+    }
+  },
+  "version": "10.94.3",
+  "generatedAt": "2026-01-16T16:38:17.770Z",
+  "schemaVersion": 1
+}

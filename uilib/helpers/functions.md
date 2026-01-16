@@ -1,0 +1,318 @@
+---
+title: 'Functions'
+metadata: https://eufemia.dnb.no/uilib/helpers/functions/metadata.json
+---
+
+# Functions
+
+## Component helpers
+
+All components provide various function helpers that you can also use in your projects.
+
+### isTrue
+
+Checks if a value is Truthy or Falsy.
+
+```js
+import { isTrue } from '@dnb/eufemia/shared/component-helper'
+
+isTrue(String | Boolean | Number) // returns Boolean
+```
+
+### isTouchDevice
+
+Checks if the target device has touch support.
+
+```js
+import { isTouchDevice } from '@dnb/eufemia/shared/component-helper'
+
+isTouchDevice() // returns Boolean
+```
+
+### toPascalCase
+
+Transforms a string from **snake_case** to [PascalCase](/contribute/style-guides/naming).
+
+```js
+import { toPascalCase } from '@dnb/eufemia/shared/component-helper'
+
+toPascalCase(String) // returns String
+```
+
+### toCamelCase
+
+Transforms a string from **snake_case** to [camelCase](/contribute/style-guides/naming).
+
+```js
+import { toCamelCase } from '@dnb/eufemia/shared/component-helper'
+
+toCamelCase(String) // returns String
+```
+
+### toSnakeCase
+
+Transforms a string from **PascalCase** to [snake_case](/contribute/style-guides/naming).
+
+```js
+import { toSnakeCase } from '@dnb/eufemia/shared/component-helper'
+
+toSnakeCase(String) // returns String
+```
+
+### toKebabCase
+
+Transforms a string from **PascalCase** to [kebab-case](/contribute/style-guides/naming).
+
+```js
+import { toKebabCase } from '@dnb/eufemia/shared/component-helper'
+
+toKebabCase(String) // returns String
+```
+
+### filterProps
+
+Filters out unwanted entries from either an object or array.
+
+```js
+import { filterProps } from '@dnb/eufemia/shared/component-helper'
+
+filterProps(props: Object|Array, remove*: Object|Array|Function, allowed*: Object|Array|Function) // returns Object|Array
+```
+
+#### \* Optional values (defaults)
+
+- remove = _null_
+- allowed = _null_
+
+### makeUniqueId
+
+Creates a truly unique hash.
+
+```js
+import { makeUniqueId } from '@dnb/eufemia/shared/component-helper'
+
+makeUniqueId(prefix*: String, length*: Number) // returns String
+```
+
+#### \* Optional values (defaults)
+
+- prefix = _''_
+- length = _8_
+
+### slugify
+
+Breaks down phrases of words to be URI compatible. Removes special characters.
+
+```js
+import { slugify } from '@dnb/eufemia/shared/component-helper'
+
+slugify(String) // returns String
+```
+
+### checkIfHasScrollbar
+
+Checks if an element has a scrollbar.
+
+```js
+import { checkIfHasScrollbar } from '@dnb/eufemia/shared/component-helper'
+
+checkIfHasScrollbar(HTMLElement) // returns Boolean
+```
+
+### convertJsxToString
+
+Converts one or more HTMLElements to a string.
+
+```js
+import { convertJsxToString } from '@dnb/eufemia/shared/component-helper'
+
+convertJsxToString(element: HTMLElement, separator*: String) // returns String
+```
+
+#### \* Optional values (defaults)
+
+- separator = _undefined_
+
+### InteractionInvalidation
+
+`InteractionInvalidation`
+
+Invalidates DOM elements so they are not accessible to a keyboard or a screen reader. This is used by the [Modal](/uilib/components/modal).
+
+#### Options
+
+Use an object with these optional parameters:
+
+- `tabIndex`: boolean (defaults to true) to disable `tabindex` invalidation.
+- `ariaHidden`: boolean (defaults to true) to disable `aria-hidden` invalidation.
+
+#### Example
+
+```js
+import { InteractionInvalidation } from '@dnb/eufemia/shared/component-helper'
+
+const instance = new InteractionInvalidation()
+
+// Avoid invalidating inside here
+instance.setBypassSelector('.dnb-modal__content *')
+
+// Enable the invalidation
+instance.activate()
+
+// Optionally, set an element selector instead of affecting everything inside the body
+instance.activate('.selector')
+
+// Remove the invalidation
+instance.revert()
+```
+
+## General helpers
+
+### scrollToLocationHashId
+
+Enhance the native anchor scroll handling by providing additional features like a custom offset.
+
+```js
+import { scrollToLocationHashId } from '@dnb/eufemia/shared/helpers'
+
+// in case there is a #hash in the url
+const elem = scrollToLocationHashId({
+  offset: 100,
+  delay: 100,
+  onCompletion: (elem) => {
+    try {
+      elem.classList.add('focus')
+    } catch (e) {
+      //
+    }
+  },
+}) // returns HTMLElement
+```
+
+#### \* Optional values (defaults)
+
+- offset = _0_
+- delay = _null_
+- onCompletion = _null_
+
+### getOffsetTop
+
+Get the HTML Element offset to the top of the browser window, minus `offset`.
+
+```js
+import { getOffsetTop } from '@dnb/eufemia/shared/helpers'
+
+getOffsetTop(element: HTMLElement) // returns Number
+```
+
+### applyPageFocus
+
+More info about that function in the [focus section about better accessibility](/uilib/usage/accessibility/focus#focus-helper). Used together with [setPageFocusElement](/uilib/helpers/functions#setpagefocuselement).
+
+```js
+import { applyPageFocus } from '@dnb/eufemia/shared/helpers'
+
+applyPageFocus(selector*: String, callback*: Function)
+```
+
+#### \* Optional values (defaults)
+
+- selector = _'default'_ (can be an HTML element selector, starting with a `.` or `#`)
+- callback = _null_
+
+### setPageFocusElement
+
+More info about that function in the [focus section about better accessibility](/uilib/usage/accessibility/focus#focus-helper).
+
+```js
+import { setPageFocusElement } from '@dnb/eufemia/shared/helpers'
+
+setPageFocusElement(selectorOrElement: String|HTMLElement, key*: String) // returns Void
+```
+
+#### \* Optional values (defaults)
+
+- key = _''_
+
+### debounce
+
+Creates a debounced function that delays invoking func until after wait milliseconds have elapsed since the last time the debounced function was invoked. The debounced function comes with a `cancel` method to cancel delayed func invocations.
+
+```js
+import { debounce } from '@dnb/eufemia/shared/helpers'
+
+const debounceFunc = ({ foo }) => { ... }
+
+const debounced = debounce(
+  debounceFunc,
+  wait = 500, // milliseconds
+  {
+    immediate = false, // execute the debounceFunc on the leading edge
+  } = {},
+)
+
+debounced({ foo: 'bar' }) // Delay the execution again
+
+debounced.cancel() // optional, cancel the execution
+```
+
+Async example:
+
+```js
+import { debounceAsync } from '@dnb/eufemia/shared/helpers'
+
+async function debounceFunc({ foo }) {
+  // Optionally, add a cancel event (wasCanceled is a function to check later if it was canceled)
+  const wasCanceled = this.addCancelEvent(myCancelMethod)
+
+  await wait(1000) // Do something async
+}
+
+const myCancelMethod = () => {
+  console.log('canceled')
+}
+
+const debounced = debounceAsync(
+  debounceFunc,
+  (wait = 500), // milliseconds
+)
+
+debounceAsync({ foo: 'bar' }) // Delay the execution again
+
+debounced.cancel() // Optional: cancel the execution
+debounced.addCancelEvent(myCancelMethod) // Alternatively, you can add the cancel event like this
+```
+
+In order to use `this.addCancelEvent`, you need to use a `function()` and not an arrow function.
+
+### copyToClipboard
+
+Copies the given string to the device's clipboard.
+
+```js
+import { copyToClipboard } from '@dnb/eufemia/shared/helpers'
+
+copyToClipboard(string) // returns success: String|Boolean|Error
+```
+
+### Device functions
+
+| Function   | Description                                        | Parameters | Return    |
+| ---------- | -------------------------------------------------- | ---------- | --------- |
+| `isEdge`   | Returns true or false, depending on the detection. | none       | `Boolean` |
+| `isSafari` | Returns true or false, depending on the detection. | none       | `Boolean` |
+| `isiOS`    | Returns true or false, depending on the detection. | none       | `Boolean` |
+| `isMac`    | Returns true or false, depending on the detection. | none       | `Boolean` |
+| `isWin`    | Returns true or false, depending on the detection. | none       | `Boolean` |
+| `isLinux`  | Returns true or false, depending on the detection. | none       | `Boolean` |
+
+### Device constants
+
+| Constant    | Description                                                         | Value     |
+| ----------- | ------------------------------------------------------------------- | --------- |
+| `IS_EDGE`   | Gives you true or false, depending on the detection during startup. | `Boolean` |
+| `IS_SAFARI` | Gives you true or false, depending on the detection during startup. | `Boolean` |
+| `IS_IOS`    | Gives you true or false, depending on the detection during startup. | `Boolean` |
+| `IS_MAC`    | Gives you true or false, depending on the detection during startup. | `Boolean` |
+| `IS_WIN`    | Gives you true or false, depending on the detection during startup. | `Boolean` |
+| `IS_LINUX`  | Gives you true or false, depending on the detection during startup. | `Boolean` |

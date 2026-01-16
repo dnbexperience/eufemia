@@ -1,0 +1,116 @@
+---
+title: 'Focus'
+description: 'Accessibility helpers to handle focus management and Skip Link usage.'
+metadata: https://eufemia.dnb.no/uilib/usage/accessibility/focus/metadata.json
+---
+
+# Focus Management
+
+Focus is an important part of keyboard-only and screen reader navigation.
+
+Make sure you set the focus properly on page or context changes. Consider using Reach Router [because of its built-in accessibility features](https://reach.tech/router/accessibility).
+
+From a technical perspective, we need to assign an _invisible_ focus so the user can continue navigating inside this new content.
+
+**Example setup:**
+
+```html
+<body>
+  <nav><!-- focusable navigation --></nav>
+  <main>
+    <!-- more markup with focusable HTMLElements -->
+    <h1 class="dnb-h--xx-large dnb-no-focus" tabindex="-1">Main Title</h1>
+    <a href="/path">I'm now focusable on next tab</a>
+  </main>
+</body>
+```
+
+## Managing focus state
+
+Make sure you:
+
+- Set the focus on the content (e.g., `<h1 class="dnb-h--xx-large">`) after a navigation action initiated by the user.
+- Set the focus into a _menu or navigation_ area if it has an opening mechanism.
+- Set the focus back to the content once the menu or navigation area is closed.
+
+More complex focus management is already built into the [Modal Component](/uilib/components/modal). The Modal disables focus on the content behind it, so the user can only navigate inside the modal.
+
+## Helper tool
+
+`@dnb/eufemia` has a built-in helper to manage basic focus handling.
+This helper also handles both the `tabindex="-1"` and the `class="dnb-no-focus"` situations. What does it do?
+
+1. You define beforehand what should get focus with a CSS selector (_class or id_). This (**setPageFocusElement**) can be set at the very first application start.
+2. Later, once the focus should be set, you call a second function **_applyPageFocus_**. This function will use the previously defined selector and execute `domNode.focus()`.
+
+### Focus helper
+
+Set focus on an HTML element that exists inside the DOM. It can be any HTML element, regardless of whether it's an interactive element or not. Non-interactive elements will be handled by changing the `tabindex` to 0 alongside a CSS class `dnb-no-focus`, so no blue focus border is visible.
+
+Simple example:
+
+```js
+import { applyPageFocus } from '@dnb/eufemia/shared/helpers'
+
+applyPageFocus('.my-selector')
+applyPageFocus('#my-id')
+```
+
+Asynchronous example:
+
+```js
+import {
+  setPageFocusElement,
+  applyPageFocus,
+} from '@dnb/eufemia/shared/helpers'
+
+// 1. Somewhere in your app, set either an element, or a CSS Selector
+setPageFocusElement('.css-selector', 'MyCustomName')
+
+// 2. Later you can call this action, once it's time to activate the new focus state
+applyPageFocus('MyCustomName', (element) => {
+  /* optional callback */
+})
+```
+
+### Skip Link
+
+`@dnb/eufemia` also has a small setup for a [skip link](https://www.w3.org/TR/WCAG20-TECHS/G1.html).
+
+Our solution is CSS-only and should work for all kinds of application setups. Demo example below:
+
+<SkipLinkExample />
+
+1. Place an anchor with an HTML class `.dnb-skip-link` as the very **first HTML element** tag:
+
+```html
+<a class="dnb-skip-link" href="#content-id">Skip to content</a>
+```
+
+2. Define a unique element **id**, such as `id="content-id"`, on your content wrapper:
+
+```html
+<body>
+  <a class="dnb-skip-link" href="#content-id">Skip to content</a>
+  <header>
+    <nav>
+      <!-- Nav links or content to skip -->
+    </nav>
+  </header>
+  <main id="content-id">
+    <!-- Content goes here -->
+  </main>
+</body>
+```
+
+That's it. The styles are included in both the **dnb-ui-basis** and **dnb-ui-core** styling packages.
+
+**NB:** If you link the anchor to only a `<div id="content-id">`, then you have to make sure you also add a tabindex.
+
+```html
+...
+<div id="content-id" tabindex="-1" class="dnb-no-focus">
+  <!-- Content goes here -->
+</div>
+...
+```

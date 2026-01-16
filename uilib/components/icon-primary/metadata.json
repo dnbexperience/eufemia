@@ -1,0 +1,30 @@
+{
+  "id": "uilib/components/icon-primary",
+  "name": "IconPrimary",
+  "description": "The IconPrimary component loads by default all the primary icons used internally in the components.",
+  "group": "components",
+  "slug": "/uilib/components/icon-primary/",
+  "props": [],
+  "events": [],
+  "related": [],
+  "checksum": "090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40",
+  "source": null,
+  "sources": {
+    "entry": {
+      "local": "src/docs/uilib/components/icon-primary.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/icon-primary/"
+    },
+    "props": {
+      "local": "src/docs/uilib/components/icon-primary/properties.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/icon-primary/properties/"
+    },
+    "events": null,
+    "demos": {
+      "local": "src/docs/uilib/components/icon-primary/demos.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/icon-primary/demos/"
+    }
+  },
+  "version": "10.94.3",
+  "generatedAt": "2026-01-16T16:38:16.666Z",
+  "schemaVersion": 1
+}

@@ -1,0 +1,43 @@
+{
+  "id": "uilib/extensions/forms/Value/DateOfBirth",
+  "name": "DateOfBirth",
+  "description": "`Value.DateOfBirth` is a wrapper component for displaying string values, with user experience tailored for date of birth values.",
+  "group": "extensions",
+  "slug": "/uilib/extensions/forms/Value/DateOfBirth/",
+  "props": [
+    {
+      "name": "dateFormat",
+      "doc": "Defines the date format for handling the internal date value. The default value is `yyyy-MM-dd`.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    }
+  ],
+  "events": [],
+  "related": [],
+  "checksum": "8d67438213c8f554a1a5155fe90dd80c7dcb2819666d0b07e14103623fe9e3e8",
+  "source": {
+    "repo": "https://github.com/dnbexperience/eufemia",
+    "file": "packages/dnb-eufemia/src/extensions/forms/Value/DateOfBirth/DateOfBirth.tsx",
+    "fileUrl": "https://github.com/dnbexperience/eufemia/blob/v10.94.3/packages/dnb-eufemia/src/extensions/forms/Value/DateOfBirth/DateOfBirth.tsx",
+    "dirUrl": "https://github.com/dnbexperience/eufemia/tree/v10.94.3/packages/dnb-eufemia/src/extensions/forms/Value/DateOfBirth"
+  },
+  "sources": {
+    "entry": {
+      "local": "src/docs/uilib/extensions/forms/Value/DateOfBirth.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/Value/DateOfBirth/"
+    },
+    "props": {
+      "local": "src/docs/uilib/extensions/forms/Value/DateOfBirth/properties.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/Value/DateOfBirth/properties/"
+    },
+    "events": null,
+    "demos": {
+      "local": "src/docs/uilib/extensions/forms/Value/DateOfBirth/demos.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/Value/DateOfBirth/demos/"
+    }
+  },
+  "version": "10.94.3",
+  "generatedAt": "2026-01-16T16:38:17.486Z",
+  "schemaVersion": 1
+}

@@ -1,0 +1,119 @@
+{
+  "id": "uilib/components/date-format",
+  "name": "DateFormat",
+  "description": "A ready to use DNB date formatter.",
+  "group": "components",
+  "slug": "/uilib/components/date-format/",
+  "props": [
+    {
+      "name": "value",
+      "doc": "The date that will be formatted.",
+      "type": [
+        "Date",
+        "string"
+      ],
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "dateStyle",
+      "doc": "Defines the style used to format the date. Also affects duration formatting when using ISO 8601 duration strings. Defaults to `long`.",
+      "type": [
+        "long",
+        "medium",
+        "short",
+        "full"
+      ],
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "timeStyle",
+      "doc": "Defines the style used to format the time. If provided, time is included in the output.",
+      "type": [
+        "long",
+        "medium",
+        "short",
+        "full"
+      ],
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "dateTimeSeparator",
+      "doc": "Custom separator used between date and time when both are rendered (e.g. \" - \"). Defaults to a comma.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "relativeTime",
+      "doc": "If set to `true`, actual dates will be formatted as relative time (e.g., \"2 hours ago\"). ISO 8601 duration strings (e.g., \"PT1H\") are automatically detected and formatted without this prop. Defaults to `false`.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "relativeTimeStyle",
+      "doc": "Defines the style used to format relative time. Defaults to `dateStyle` when not provided.",
+      "type": [
+        "long",
+        "medium",
+        "short",
+        "full"
+      ],
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "relativeTimeReference",
+      "doc": "A function that returns a Date object to use as the reference point for relative time calculations. If not provided, the current time is used.",
+      "type": "function",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "locale",
+      "doc": "A string in [Intl.DateTimeFormat locale](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl#locales_argument) format. Duration formatting supports all locales using the browser's built-in internationalization. Defaults to `nb-NO`.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "skeleton",
+      "doc": "If set to `true`, an overlaying skeleton with animation will be shown.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    }
+  ],
+  "events": [],
+  "related": [
+    "Space"
+  ],
+  "checksum": "4011f8c9a16337d886185b7cdfce74d87715a05b36c892eab966ea030721d386",
+  "source": {
+    "repo": "https://github.com/dnbexperience/eufemia",
+    "file": "packages/dnb-eufemia/src/components/date-format/DateFormat.tsx",
+    "fileUrl": "https://github.com/dnbexperience/eufemia/blob/v10.94.3/packages/dnb-eufemia/src/components/date-format/DateFormat.tsx",
+    "dirUrl": "https://github.com/dnbexperience/eufemia/tree/v10.94.3/packages/dnb-eufemia/src/components/date-format"
+  },
+  "sources": {
+    "entry": {
+      "local": "src/docs/uilib/components/date-format.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/date-format/"
+    },
+    "props": {
+      "local": "src/docs/uilib/components/date-format/properties.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/date-format/properties/"
+    },
+    "events": null,
+    "demos": {
+      "local": "src/docs/uilib/components/date-format/demos.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/date-format/demos/"
+    }
+  },
+  "version": "10.94.3",
+  "generatedAt": "2026-01-16T16:38:16.548Z",
+  "schemaVersion": 1
+}

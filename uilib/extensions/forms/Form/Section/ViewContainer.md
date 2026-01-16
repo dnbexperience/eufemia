@@ -1,0 +1,62 @@
+---
+title: 'ViewContainer'
+description: '`Form.Section.ViewContainer` enables users to toggle (with animation) the content of each item between the view and edit container.'
+metadata: https://eufemia.dnb.no/uilib/extensions/forms/Form/Section/ViewContainer/metadata.json
+---
+
+## Import
+
+```tsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+render(<Form.Section.ViewContainer />)
+```
+
+## Description
+
+`Form.Section.ViewContainer` enables users to toggle (with animation) the content of each item between this view and the [Form.Section.EditContainer](/uilib/extensions/forms/Form/Section/EditContainer/) container.
+
+By default, it features the toolbar containing a "Edit" button.
+
+```tsx
+import { Form, Field, Value } from '@dnb/eufemia/extensions/forms'
+
+render(
+  <Form.Section>
+    <Form.Section.EditContainer title="Edit account holder">
+      <Field.Name.Last path="/name" />
+    </Form.Section.EditContainer>
+
+    <Form.Section.ViewContainer title="Account holder">
+      <Value.Name.Last path="/name" />
+    </Form.Section.ViewContainer>
+  </Form.Section>,
+)
+```
+
+## Customize the Toolbar
+
+```tsx
+import { Form, Value } from '@dnb/eufemia/extensions/forms'
+
+render(
+  <Form.Section>
+    <Form.Section.ViewContainer>
+      <Value.Name.Last itemPath="/name" />
+
+      <Form.Section.Toolbar>
+        <Form.Section.ViewContainer.EditButton />
+      </Form.Section.Toolbar>
+    </Form.Section.ViewContainer>
+  </Form.Section>,
+)
+```
+
+## Accessibility
+
+The `ViewContainer` component has an `aria-label` attribute, which is set to the `title` property value. It uses a section element to wrap the content, which helps users with screen readers to get the needed announcement.
+
+When the item (view and edit) container gets removed, the active element focus will be set on the previous item.
+
+## Demos
+
+<Examples.ViewAndEditContainer />

@@ -1,0 +1,79 @@
+---
+title: 'Importing CSS'
+metadata: https://eufemia.dnb.no/uilib/usage/customisation/styling/consume-styles/metadata.json
+---
+
+# Importing the CSS
+
+To include the packages `dnb-ui-core`, `ui-theme-basis` and `ui-theme-components` in a [Node.js](https://nodejs.org) based environment (given you have a CSS loader in place), do this:
+
+```js
+// This includes the `dnb-ui-core`, `ui-theme-components` and`ui-theme-basis`
+import '@dnb/eufemia/style'
+```
+
+## Select a theme
+
+The above import is a shorthand for the DNB main theme. It is equivalent to the following import:
+
+```js
+// This is identical to `import '@dnb/eufemia/style'`
+import '@dnb/eufemia/style/core'
+import '@dnb/eufemia/style/themes/ui'
+```
+
+To import another theme, replace the second import:
+
+```js
+// This imports the sbanken theme instead
+import '@dnb/eufemia/style/core'
+import '@dnb/eufemia/style/themes/sbanken'
+```
+
+## Gatsby Plugin
+
+The [gatsby-plugin-eufemia-theme-handler](https://github.com/dnbexperience/gatsby-plugin-eufemia-theme-handler) plugin makes it easy to add the needed styles and provides also a runtime style switch mechanism.
+
+## Importing styles from within JavaScript
+
+```tsx
+import '@dnb/eufemia/style/dnb-ui-core.min.css'
+import '@dnb/eufemia/style/themes/theme-ui/ui-theme-components.min.css'
+import '@dnb/eufemia/style/themes/theme-ui/ui-theme-basis.min.css'
+```
+
+## Importing styles from within CSS
+
+```css
+@import url('@dnb/eufemia/style/dnb-ui-core.min.css');
+@import url('@dnb/eufemia/style/themes/theme-ui/ui-theme-components.min.css');
+@import url('@dnb/eufemia/style/themes/theme-ui/ui-theme-basis.min.css');
+```
+
+## Legacy import
+
+The legacy import `import '@dnb/eufemia/style/basis'` scopes global css so it does not affect the whole page. But requires that
+you place a wrapper element with class `.dnb-core-style` around all Eufemia elements. And may causes some css specificity issues.
+
+If possible, it should be replaced with `import '@dnb/eufemia/style/core'` that attaches the same css to the `body` tag instead.
+
+Read more about [how to deal with existing styles](/uilib/usage/customisation/styling#how-to-deal-with-existing-styles).
+
+```js
+import '@dnb/eufemia/style/basis' // replaced by '@dnb/eufemia/style/core'
+import '@dnb/eufemia/style/themes/ui'
+```
+
+## Single Component only
+
+It is possible to import a single CSS Style of a single component at once:
+
+```js
+// Imports the core css for the theme
+import '@dnb/eufemia/style/dnb-ui-core.min.css'
+import '@dnb/eufemia/style/themes/theme-ui/ui-theme-basis.min.css'
+
+// Imports only the Button CSS and Main DNB Theme
+import '@dnb/eufemia/components/button/style/dnb-button.min.css'
+import '@dnb/eufemia/components/button/style/themes/dnb-button-theme-ui.min.css'
+```

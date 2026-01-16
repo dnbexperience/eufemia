@@ -1,0 +1,488 @@
+---
+title: 'v10'
+description: 'May, 31. 2023'
+metadata: https://eufemia.dnb.no/uilib/about-the-lib/releases/eufemia/v10-info/metadata.json
+---
+
+# v10
+
+<Accordion title="Table of Content">
+
+- [v10](#v10)
+  - [How to migrate](#how-to-migrate)
+  - [Install](#install)
+  - [Deprecations](#deprecations)
+    - [TypeScript](#typescript)
+  - [Discontinued Internet Explorer (IE) support](#discontinued-internet-explorer-ie-support)
+  - [Web Components support](#web-components-support)
+  - [Breakpoints](#breakpoints)
+  - [Breaking changes to CSS packages and imports](#breaking-changes-to-css-packages-and-imports)
+  - [Properties](#properties)
+  - [Removal of `data-testid` in components](#removal-of-data-testid-in-components)
+  - [SCSS mixins](#scss-mixins)
+  - [Fonts assets](#fonts-assets)
+  - [SVG assets](#svg-assets)
+  - [Browser assets](#browser-assets)
+  - [Component changes](#component-changes)
+    - [StepIndicator](#stepindicator)
+    - [Table](#table)
+    - [Slider](#slider)
+    - [Timeline](#timeline)
+    - [Anchor](#anchor)
+    - [Button](#button)
+    - [Pagination and InfinityScroller](#pagination-and-infinityscroller)
+    - [Tooltip](#tooltip)
+    - [Icon](#icon)
+    - [Modal, Dialog and Drawer](#modal-dialog-and-drawer)
+    - [Lists](#lists)
+    - [InputMasked](#inputmasked)
+    - [FormRow](#formrow)
+    - [FormStatus](#formstatus)
+    - [Switch](#switch)
+    - [HelpButton](#helpbutton)
+    - [Autocomplete](#autocomplete)
+    - [Checkbox](#checkbox)
+    - [DatePicker](#datepicker)
+    - [Dropdown](#dropdown)
+    - [Input](#input)
+    - [Radio](#radio)
+    - [Textarea](#textarea)
+    - [ToggleButton](#togglebutton)
+    - [GlobalError](#globalerror)
+  - [Element changes](#element-changes)
+    - [Paragraph](#paragraph)
+    - [Img](#img)
+  - [Extension changes](#extension-changes)
+    - [PaymentCard](#paymentcard)
+
+</Accordion>
+
+## How to migrate
+
+v10 of [@dnb/eufemia](https://www.npmjs.com/package/@dnb/eufemia) contains _breaking changes_. As a migration process from v9, you should follow all of the guides below.
+
+## Install
+
+To upgrade to @dnb/eufemia v10 with Yarn, run:
+
+```bash
+yarn workspace <your-workspace> add @dnb/eufemia@10
+# or
+yarn add @dnb/eufemia@10
+```
+
+## Deprecations
+
+1. Helper class `.dnb-sr-only--inline` and SCSS mixin `srOnlyInline` was removed.
+1. Helper class `.dnb-not-sr-only` and SCSS mixin `notSrOnly` was removed.
+1. `import { SpacingHelper } from '@dnb/eufemia/shared'` was removed due to low usage. Use one of the [other exported helpers](/uilib/usage/layout/spacing).
+1. Stylis plugin, `import stylisPlugin from '@dnb/eufemia/style/stylis'`, has been removed.
+
+### TypeScript
+
+1. Updated multiple types from `string | boolean` to `boolean`, as there was a lot of properties who should only support boolean values and not strings.
+   Examples of changes to do would be to find Eufemia components using `"false"` or `"true"`, and replace it with boolean values. i.e., `vertical="false"` to `vertical={false}` or `selectall="true"` to `selectall={true}`.
+   Following is a non-exhaustive list of affected properties:
+   - `vertical`
+   - `prevent_selection`
+   - `show_label`
+   - `stretch`
+   - `no_scroll_animation`
+   - `disable_filter`
+   - `more_menu`
+   - `inherit`
+2. `import { LocaleProps, DataAttributeTypes, DynamicElement } from '@dnb/eufemia/shared/interfaces'` was removed, and moved to `@dnb/eufemia/shared/types`.
+
+## Discontinued Internet Explorer (IE) support
+
+The support for Internet Explorer (IE) was removed, as Microsoft formally ended support for IE in June, 2022. Have a look at the supported [browsers and platforms](/uilib/usage/#supported-browsers-and-platforms).
+
+With that change, Eufemia will support modern browsers that supports ES6.
+
+1. The helpers `isIE11` and `IS_IE11` was removed.
+
+## Web Components support
+
+The support for Web Components, Vue and Angular was discontinued and removed.
+
+## Breakpoints
+
+Some [breakpoints](/uilib/usage/layout/media-queries) sizes have changed:
+
+- **xx-large:** `1280` is now `1440` – and `80em` is now `90em`
+- **x-large:** `1152` is now `1280` – and `72em` is now `80em`
+- **large:** `960` is now `1152` – and `60em` is now `72em`
+- **medium:** `800` is now `960` – and `50em` is now `60em`
+
+1. Find `$layout-x-large` and replace with `$layout-large`
+1. Find `$layout-xx-large` and replace with `$layout-x-large`
+1. Find `--layout-x-large` and replace with `--layout-large`
+1. Find `--layout-xx-large` and replace with `--layout-x-large`
+
+**NB:** Import and use the Eufemia breakpoints directly in your code:
+
+```scss
+// breakpoints.scss
+@import '@dnb/eufemia/style/core/utilities';
+$layout-small: map-get($breakpoints, 'small');
+$layout-medium: map-get($breakpoints, 'medium');
+$layout-large: map-get($breakpoints, 'large');
+```
+
+## Breaking changes to CSS packages and imports
+
+Find the place where you import the Eufemia styles.
+
+1. If you did import them as so:
+
+```js
+import '@dnb/eufemia/style'
+```
+
+then you don't need to make any changes.
+
+2. If you did import `/core` etc. – then you have to change it to the import above(see 1.):
+
+```js
+import '@dnb/eufemia/style/core'
+import '@dnb/eufemia/style/themes/ui'
+```
+
+3. If you did import the styles as CSS files, then you have to change it to the import above(see 1.):
+
+```js
+import '@dnb/eufemia/style/dnb-ui-core.min.css'
+import '@dnb/eufemia/style/themes/theme-ui/ui-theme-components.min.css'
+import '@dnb/eufemia/style/themes/theme-ui/ui-theme-basis.min.css'
+```
+
+4. If you did import `/basis`, `/components`, and `themes/ui` like so (commonly done in `EufemiaStyleImporter` files):
+
+```js
+import '@dnb/eufemia/style/basis'
+import '@dnb/eufemia/style/components'
+import '@dnb/eufemia/style/themes/ui'
+```
+
+Change to:
+
+```js
+import '@dnb/eufemia/style/basis'
+import '@dnb/eufemia/style/themes/ui'
+```
+
+More details about the change:
+
+- The package `dnb-theme-ui` was renamed to `ui-theme-basis`.
+- The package `dnb-ui-components` was renamed and moved inside a theme `/style/themes/theme-ui/ui-theme-components.*`.
+- `dnb-ui-tags` was renamed and moved from `/style/dnb-ui-tags.*` to `/style/themes/theme-ui/ui-theme-tags.*`.
+- **NB:** When using the `eiendom` theme, the same applies as with `ui`, just use `eiendom` instead.
+
+## Properties
+
+The DNB `properties.scss` and `properties.js` files were moved inside a theme folder `/style/themes/theme-ui/properties.*`.
+
+Packages such as:
+
+- `dnb-ui-basis`
+- `dnb-ui-core`
+
+do not contain the properties anymore. Properties are only a part of a theme file, such as: `/style/themes/theme-ui/ui-theme-basis.*`.
+
+As long as you don't import them in your application, you don't need to make any changes in your codebase.
+
+Following is a non-exhaustive list of examples of changes that could be relevant for your application:
+
+1. Find references to `@dnb/eufemia/style/properties` and replace it with `@dnb/eufemia/style/themes/theme-ui/properties`.
+
+   From:
+
+   ```js
+
+   ```
+
+   To:
+
+   ```js
+
+   ```
+
+1. Find references to `@dnb/eufemia/cjs/style/properties` and replace it with `@dnb/eufemia/cjs/style/themes/theme-ui/properties`.
+
+   From:
+
+   ```js
+
+   ```
+
+   To:
+
+   ```js
+
+   ```
+
+1. Find references to `@dnb/eufemia/style/dnb-ui-properties.min.css` and replace it with `@dnb/eufemia/style/themes/theme-ui/ui-theme-properties.min.css`.
+
+## Removal of `data-testid` in components
+
+You may [use other methods](/uilib/usage/best-practices/for-testing/) to select and test the inner parts of Eufemia components. You could use e.g. `screen.queryByRole`, `screen.queryByRole` or `document.querySelector`. All of the following components are affected by the change:
+
+1. [Avatar](/uilib/components/avatar).
+1. [Badge](/uilib/components/badge).
+1. [Breadcrumb](/uilib/components/breadcrumb).
+1. [InfoCard](/uilib/components/info-card).
+1. [Tag](/uilib/components/tag).
+1. [Timeline](/uilib/components/timeline).
+1. [Upload](/uilib/components/upload).
+
+## SCSS mixins
+
+Find the SCSS @mixin `fakeFocus` and replace it with `focusRing`.
+Find the SCSS @mixin `removeFakeFocus` and replace it with `removeFocusRing`.
+
+## Fonts assets
+
+The DNB font is moved inside a subfolder in `/assets/fonts/dnb/...`.
+
+The CSS package `dnb-ui-fonts` is moved inside a theme folder `/themes/theme-ui`.
+
+CSS Packages such as:
+
+- `dnb-ui-basis`
+- `dnb-ui-core`
+
+do not contain the fonts anymore. Fonts are now only a part of a theme file, such as: `/style/themes/theme-ui/ui-theme-basis.*`.
+
+As long as you don't import them manually, you don't need to make any changes in your codebase.
+
+Find references to `@dnb/eufemia/assets/fonts/` and replace it with `@dnb/eufemia/assets/fonts/dnb/`.
+For instance, changing from:
+
+```js
+import exampleFont from '@dnb/eufemia/assets/fonts/exampleFont.woff2'
+```
+
+To:
+
+```js
+import exampleFont from '@dnb/eufemia/assets/fonts/dnb/exampleFont.woff2'
+```
+
+## SVG assets
+
+All `svg` icon files were moved inside a subfolder in `/assets/icons/dnb/...`.
+
+## Browser assets
+
+DNB browser assets (`assets/browser`) have been moved inside a subfolder: `assets/browser/dnb`.
+
+Find references to `assets/browser` and replace it with `assets/browser/dnb`.
+
+## Component changes
+
+### [StepIndicator](/uilib/components/step-indicator)
+
+1. Find the `active_item` property and replace it with `current_step`.
+1. Find `use_navigation` and remove it or replace it with `mode="strict"` or `mode="loose"`.
+1. URL support has been removed – so properties like `active_url`, `url`, `url_future`, and `url_passed` are not supported anymore. You have to handle it by yourself from inside your application. Here is [an example](/uilib/components/step-indicator/#stepindicator-with-a-router).
+
+### [Table](/uilib/components/table)
+
+1. Find the `sticky_offset` property and replace it with `stickyOffset`.
+1. Find the `/elements/Table` property and replace it with `/components/Table`.
+1. Alignment classes are removed (`.dnb-table--left`, `.dnb-table--right` and `.dnb-table--center`). Use the `align` attribute instead.
+1. Font-sizing classes are removed (`.dnb-table--small` and `.dnb-table--x-small`). Use the `size` property instead.
+1. Find and remove `Table.StickyHelper`.
+1. Consider to add a CSS Class to each sub element or import it from the package:
+   1. `tr` => `.dnb-table__tr` or `import { Tr } from '@dnb/eufemia'`.
+   1. `th` => `.dnb-table__th` or `import { Th } from '@dnb/eufemia'`.
+   1. `td` => `.dnb-table__td` or `import { Td } from '@dnb/eufemia'`.
+
+### [Slider](/uilib/components/slider)
+
+1. Find the `thump_title` property and replace it with `thumbTitle`.
+1. Find the snake_case `add_title` property and replace it with `addTitle`.
+1. Find the snake_case `subtract_title` property and replace it with `subtractTitle`.
+1. Remove `@dnb/eufemia/components/slider/style/dnb-range.min.css` and use the Eufemia Slider component instead.
+1. `use_scrollwheel` and `on_init` properties, as well as the `raw_value` event value from Slider was removed in order to support multiple buttons.
+
+### [Timeline](/uilib/components/timeline)
+
+1. Find the `name` property in your Timeline JSX syntax and replace it with `title`.
+1. Find the `date` property in your Timeline JSX syntax and replace it with `subtitle`.
+
+### [Anchor](/uilib/components/anchor)
+
+The Anchor was moved from `/elements` to `/components`.
+
+1. Find imports like `from '@dnb/eufemia/elements'` or `from '@dnb/eufemia/elements/anchor'`, and change the import to `import { Anchor } from '@dnb/eufemia'`.
+1. Find the `target_blank_title` property and replace it with `targetBlankTitle`.
+
+**NB:** ESM and UMD packages: The Anchor is now also a part if `dnb-ui-components` instead of `dnb-ui-elements`.
+
+### [Button](/uilib/components/button)
+
+1. The padding of the `tertiary` button is removed. Please, check your application and add back the padding of `0.5rem` if needed.
+1. The property `global_status_id` is deprecated, and replaced with the new `globalStatus` property. Read more about `globalStatus` [here](/uilib/components/global-status/properties/#configuration-object).
+   Find occurrences of `global_status_id`, like `global_status_id="my-id"`, and replace it with `globalStatus={{id: "my-id"}}`.
+
+### [Pagination](/uilib/components/pagination) and [InfinityScroller](/uilib/components/pagination/infinity-scroller)
+
+1. Replace the deprecated event return parameter `page` with `pageNumber`.
+
+### [Tooltip](/uilib/components/tooltip)
+
+1. Find the `target_element` property and replace it with `targetElement`.
+1. Find the `target_selector` property and replace it with `targetSelector`.
+1. Find the `fixed_position` property and replace it with `fixedPosition`.
+1. Find the `skip_portal` property and replace it with `skipPortal`.
+1. Find the `no_animation` property and replace it with `noAnimation`.
+1. Find the `show_delay` property and replace it with `showDelay`.
+1. Find the `hide_delay` property and replace it with `hideDelay`.
+1. Find the `animate_position` property and remove it.
+1. Find the `group` property and remove it.
+
+### [Icon](/uilib/components/icon)
+
+1. Find the `data-test-id` property and replace it with `data-testid`.
+   The usage of `data-test-id` will most likely be found in your tests.
+
+### [Modal](/uilib/components/modal), [Dialog](/uilib/components/dialog) and [Drawer](/uilib/components/drawer)
+
+1. `closeButtonAttributes` of Modal, Dialog, and Drawer is deprecated and no longer supported.
+
+2. Modal's `mode` property is now deprecated and removed.
+   In earlier versions, the `mode` property defaulted to `dialog`. So if you've used `<Modal />` without the `mode` property, which would default to `mode="dialog"`, please convert from `<Modal />` to `<Dialog />` as of v10.
+   `<Modal />` now(as of v10) behaves as `<Modal mode="custom" />` did in previous versions of eufemia.
+
+   When you convert from `<Modal mode="custom" />` simply change to `<Modal />`.
+
+   When you convert from `<Modal mode="drawer" />` to `<Drawer />` – follow these steps:
+
+   1. All `trigger_*` properties are not supported for Drawer, use `triggerAttributes` instead to pass in properties for the trigger button.
+
+      - Change property `trigger_hidden` to `omitTriggerButton` to omit the default trigger button from Modal.
+
+   2. Only camelCase properties are supported for Drawer, so you will need to update the property names.
+   3. `Modal.Inner` or `Modal.Content` converts to `Drawer.Body`.
+   4. `Modal.Bar` converts to `Drawer.Navigation`.
+   5. `Modal` was a class component and `Drawer` is a functional component.
+
+   When you convert from `<Modal />` or `<Modal mode="dialog" />` to `<Dialog />` – follow these steps:
+
+   1. All `trigger_*` properties are not supported for Dialog, use `triggerAttributes` instead to pass in properties for the trigger button.
+
+      - Change property `trigger_hidden` to `omitTriggerButton` to omit the default trigger button from Modal.
+
+   2. Only camelCase properties are supported for Dialog, so you will need to update the property names.
+   3. `Modal.Inner` or `Modal.Content` converts to `Dialog.Body`.
+   4. `Modal.Bar` converts to `Dialog.Navigation`.
+   5. `Modal` was a class component and `Dialog` is a functional component.
+
+### [Lists](/uilib/elements/lists)
+
+1. New **Definition List** layout direction: `direction="horizontal"` including `Dl.Item` [demo](/uilib/elements/lists/#definition-list-in-horizontal-direction).
+
+### [InputMasked](/uilib/components/input-masked)
+
+1. In v10, InputMasked **allows leading zeros**. To prevent that behavior, the property `allowLeadingZeroes` has changed to `disallowLeadingZeroes`.
+
+### [FormRow](/uilib/layout/form-row)
+
+1. The FormRow properties `indent` and `indent_offset` were removed.
+
+### [FormStatus](/uilib/components/form-status)
+
+1. The FormStatus property `status` was renamed to `state`. Find the `status` property and replace it with `state`.
+1. The property `global_status_id` is deprecated, and replaced with the new `globalStatus` property. Read more about `globalStatus` [here](/uilib/components/global-status/properties/#configuration-object).
+   Find occurrences of `global_status_id`, like `global_status_id="my-id"`, and replace it with `globalStatus={{id: "my-id"}}`.
+
+### [Switch](/uilib/components/switch)
+
+1. type `SwitchChecked` was removed. Use `boolean` instead.
+1. The property `global_status_id` is deprecated, and replaced with the new `globalStatus` property. Read more about `globalStatus` [here](/uilib/components/global-status/properties/#configuration-object).
+   Find occurrences of `global_status_id`, like `global_status_id="my-id"`, and replace it with `globalStatus={{id: "my-id"}}`.
+
+### [HelpButton](/uilib/components/help-button)
+
+1. The properties `modal_props` and `modal_content` was removed. You may replace these properties with the new `render` property. See [this example](/uilib/components/help-button/properties/).
+
+### [Autocomplete](/uilib/components/autocomplete)
+
+1. The property `global_status_id` is deprecated, and replaced with the new `globalStatus` property. Read more about `globalStatus` [here](/uilib/components/global-status/properties/#configuration-object).
+   Find occurrences of `global_status_id`, like `global_status_id="my-id"`, and replace it with `globalStatus={{id: "my-id"}}`.
+
+### [Checkbox](/uilib/components/checkbox)
+
+1. The property `global_status_id` is deprecated, and replaced with the new `globalStatus` property. Read more about `globalStatus` [here](/uilib/components/global-status/properties/#configuration-object).
+   Find occurrences of `global_status_id`, like `global_status_id="my-id"`, and replace it with `globalStatus={{id: "my-id"}}`.
+
+### [DatePicker](/uilib/components/date-picker)
+
+1. The property `global_status_id` is deprecated, and replaced with the new `globalStatus` property. Read more about `globalStatus` [here](/uilib/components/global-status/properties/#configuration-object).
+   Find occurrences of `global_status_id`, like `global_status_id="my-id"`, and replace it with `globalStatus={{id: "my-id"}}`.
+
+### [Dropdown](/uilib/components/dropdown)
+
+1. The property `global_status_id` is deprecated, and replaced with the new `globalStatus` property. Read more about `globalStatus` [here](/uilib/components/global-status/properties/#configuration-object).
+   Find occurrences of `global_status_id`, like `global_status_id="my-id"`, and replace it with `globalStatus={{id: "my-id"}}`.
+
+### [Input](/uilib/components/input)
+
+1. The property `global_status_id` is deprecated, and replaced with the new `globalStatus` property. Read more about `globalStatus` [here](/uilib/components/global-status/properties/#configuration-object).
+   Find occurrences of `global_status_id`, like `global_status_id="my-id"`, and replace it with `globalStatus={{id: "my-id"}}`.
+
+### [Radio](/uilib/components/radio)
+
+1. The property `global_status_id` is deprecated, and replaced with the new `globalStatus` property. Read more about `globalStatus` [here](/uilib/components/global-status/properties/#configuration-object).
+   Find occurrences of `global_status_id`, like `global_status_id="my-id"`, and replace it with `globalStatus={{id: "my-id"}}`.
+
+### [Textarea](/uilib/components/textarea)
+
+1. The property `global_status_id` is deprecated, and replaced with the new `globalStatus` property. Read more about `globalStatus` [here](/uilib/components/global-status/properties/#configuration-object).
+   Find occurrences of `global_status_id`, like `global_status_id="my-id"`, and replace it with `globalStatus={{id: "my-id"}}`.
+
+### [ToggleButton](/uilib/components/toggle-button)
+
+1. The property `global_status_id` is deprecated, and replaced with the new `globalStatus` property. Read more about `globalStatus` [here](/uilib/components/global-status/properties/#configuration-object).
+   Find occurrences of `global_status_id`, like `global_status_id="my-id"`, and replace it with `globalStatus={{id: "my-id"}}`.
+
+### [GlobalError](/uilib/components/global-error)
+
+- Removed the `href`, `back`, `status_content` properties as well as the SVG illustrations.
+
+## Element changes
+
+### [Paragraph](/uilib/elements/paragraph/)
+
+1. Removed `small` as property. Use `size="small"` instead.
+
+2. Removed deprecated `style_type` property. Use `medium`, `bold` or `modifier` instead.
+
+### [Img](/uilib/elements/image/)
+
+Changed `img_class` property to be `imgClass`.
+
+1. Find all instances of `img_class` and change it to `imgClass`
+
+## Extension changes
+
+### [PaymentCard](/uilib/extensions/payment-card/)
+
+1. `PaymentCard`'s size(height & width), proportions, and unit(from `mm` to `px`) was changed.
+1. `Type`'s `DNB` value/option `Metalic` was removed.
+1. `Type`'s `Saga` value/option `VisaPlatinum` was removed.
+1. `Type`'s `PB` value/option `Platinum` was removed.
+1. `Type`'s `Mastercard` value/option `DefaultWhite` was removed.
+1. `Type`'s `Mastercard` value/option `Metalic` was removed.
+1. `Type`'s `Mastercard` value/option `BlackMetalic` was removed.
+1. `Type`'s `Visa` value/option `Metalic` was removed.
+1. `CardDesign`'s value/option `white` was removed. If used as a default design, consider replacing it with `defaultDesign`.
+1. `CardDesign`'s value/option `silver` was removed.
+1. `ProductType`'s value/option `BankAxept` was removed.
+1. For better TypeScript support, import `CardType` from `/payment-card` instead of from `/payment-card/utils/Types`.
+   1. Find `import { CardType } from '@dnb/eufemia/extensions/payment-card/utils/Types'`, and replace with `import { CardType } from '@dnb/eufemia/extensions/payment-card'`
+1. For better TypeScript support, import `ProductType` from `/payment-card` instead of from `/payment-card/utils/Types`.
+   1. Find `import { ProductType } from '@dnb/eufemia/extensions/payment-card/utils/Types'`, and replace with `import { ProductType } from '@dnb/eufemia/extensions/payment-card'`
+
+_May, 31. 2023_

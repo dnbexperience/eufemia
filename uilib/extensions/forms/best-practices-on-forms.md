@@ -1,0 +1,103 @@
+---
+metadata: https://eufemia.dnb.no/uilib/extensions/forms/best-practices-on-forms/metadata.json
+---
+
+# Best Practices on Forms
+
+This document provides a set of best practices to follow when creating forms for DNB.
+
+## General
+
+- Ensure you have a `form` element. It will add support for additional keyboard (enter key) and auto-complete features. Use the [Form.Handler](/uilib/extensions/forms/Form/Handler/) that uses an HTML form element under the hood.
+- Ensure your form HTML elements have a semantic and unique `name`. By using the `path` property (e.g. `path="/firstName"`), it will set a unique `name` attribute to the rendered HTML element without the need of more work.
+- Ensure you have a submit button. Use the [Form.SubmitButton](/uilib/extensions/forms/Form/SubmitButton/) for that.
+
+```jsx
+<Form.Handler>
+  <Field.String path="/myField" />
+  <Form.SubmitButton>Submit</Form.SubmitButton>
+</Form.Handler>
+```
+
+## Workflow and browser features
+
+- Ensure to let browser autofill personal data if applicable, based on HTML [autocomplete attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete). By using the `path` property with semantic names (e.g. `path="/firstName"`), browser can provide a correct autofill integration.
+- In some cases, it is appreciated to temporary store user entered input data. Use the `sessionStorageId` feature provided by [Form.Handler](/uilib/extensions/forms/Form/Handler/) for that.
+
+```jsx
+<Form.Handler sessionStorageId="my-form">
+  <Field.String
+    path="/organizationTitle"
+    autoComplete="organization-title"
+  />
+</Form.Handler>
+```
+
+## Validation
+
+- The `tab` (Tab) key should be used to navigate between form fields. It should NOT trigger validation.
+- Required fields should have `aria-required="true"` attribute. Use the `required` property for that.
+- Validation should be triggered on `submit` events and on `blur` – if the user has made changes. In some cases, it is appreciated to trigger validation on `change` events. This behavior can be changed if needed by using `validateInitially`, `validateUnchanged` and `validateContinuously`. More info about these properties can be found in the [useFieldProps](/uilib/extensions/forms/create-component/useFieldProps/) documentation.
+
+```jsx
+<Field.String
+  path="/myField"
+  required
+  onBlurValidator={validationFunction}
+/>
+```
+
+## Error messages
+
+- Fields with errors should have `aria-invalid="true"` attribute.
+- When a [FormStatus](/uilib/components/form-status/) (Messageboxes) is used, it should be placed in the DOM before the form element itself and it should be linked together with the related form element by using `aria-describedby`. This is done automatically by the [FieldBlock](/uilib/extensions/forms/create-component/FieldBlock), which is used in each [field](/uilib/extensions/forms/all-fields/). This will allow screen readers to find and announce the error message without too much frustration.
+
+```jsx
+<Field.String
+  label="Show me an error message"
+  required
+  validateInitially
+/>
+```
+
+- To improve user experience communication regarding errors and their locations, WCAG/UU suggests summarizing error messages when errors have occurred. Eufemia Forms will only display the summary when the form is being submitted and not when one field shows its error during the blur event.
+
+```tsx
+<GlobalStatus />
+<Form.Handler>
+  My Form
+</Form.Handler>
+```
+
+## Semantics
+
+- When several form elements do share the same label, a `fieldset` and `legend` element should be used to group them together. Use the [FieldBlock](/uilib/extensions/forms/create-component/FieldBlock) for that.
+
+```jsx
+<FieldBlock label="My legend">
+  <Field.String path="/myFirstField" />
+  <Field.String path="/mySecondField" />
+</FieldBlock>
+```
+
+## Focus management
+
+- When replacing content on the screen dynamically, a screen reader user should receive a notice. The [Wizard](/uilib/extensions/forms/Wizard/) component includes focus and scroll management by default.
+
+```jsx
+<Wizard.Container>
+  <Wizard.Step title="Step 1">...</Wizard.Step>
+  <Wizard.Step title="Step 2">...</Wizard.Step>
+</Wizard.Container>
+```
+
+- The [Iterate](/uilib/extensions/forms/Iterate/) component includes focus management for its Edit and View containers when opening, closing and deleting items.
+- The [Form.Section](/uilib/extensions/forms/Form/Section/) component also has focus management by default like `Iterate` does.
+
+```jsx
+<Wizard.Container>
+  <Iterate.Array>
+    <Iterate.AnimatedContainer>...</Iterate.AnimatedContainer>
+  </Iterate.Array>
+</Wizard.Container>
+```

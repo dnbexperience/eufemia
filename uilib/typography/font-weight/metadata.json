@@ -1,0 +1,24 @@
+{
+  "id": "uilib/typography/font-weight",
+  "name": "Font Weights",
+  "description": null,
+  "group": "typography",
+  "slug": "/uilib/typography/font-weight/",
+  "props": [],
+  "events": [],
+  "related": [],
+  "checksum": "090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40",
+  "source": null,
+  "sources": {
+    "entry": {
+      "local": "src/docs/uilib/typography/font-weight.mdx",
+      "public": "https://eufemia.dnb.no/uilib/typography/font-weight/"
+    },
+    "props": null,
+    "events": null,
+    "demos": null
+  },
+  "version": "10.94.3",
+  "generatedAt": "2026-01-16T16:38:17.742Z",
+  "schemaVersion": 1
+}

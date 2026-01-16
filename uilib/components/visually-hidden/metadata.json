@@ -1,0 +1,53 @@
+{
+  "id": "uilib/components/visually-hidden",
+  "name": "VisuallyHidden",
+  "description": "VisuallyHidden has all the styles necessary to hide it from visual clients, but keep it for screen readers.",
+  "group": "components",
+  "slug": "/uilib/components/visually-hidden/",
+  "props": [
+    {
+      "name": "focusable",
+      "doc": "Set to `true` to hide an element by default, but to display it when it’s focused (e.g. by a keyboard-only user) root. Defaults to `false`.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "element",
+      "doc": "Custom root HTML element for the component. Defaults to `<span>`.",
+      "type": [
+        "string",
+        "React.Element"
+      ],
+      "status": "optional",
+      "defaultValue": null
+    }
+  ],
+  "events": [],
+  "related": [],
+  "checksum": "2864956a7e5094a1fac80f270a71c8a7d8f098dbda97ca17c86c64aa49b3b1fd",
+  "source": {
+    "repo": "https://github.com/dnbexperience/eufemia",
+    "file": "packages/dnb-eufemia/src/components/visually-hidden/VisuallyHidden.tsx",
+    "fileUrl": "https://github.com/dnbexperience/eufemia/blob/v10.94.3/packages/dnb-eufemia/src/components/visually-hidden/VisuallyHidden.tsx",
+    "dirUrl": "https://github.com/dnbexperience/eufemia/tree/v10.94.3/packages/dnb-eufemia/src/components/visually-hidden"
+  },
+  "sources": {
+    "entry": {
+      "local": "src/docs/uilib/components/visually-hidden.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/visually-hidden/"
+    },
+    "props": {
+      "local": "src/docs/uilib/components/visually-hidden/properties.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/visually-hidden/properties/"
+    },
+    "events": null,
+    "demos": {
+      "local": "src/docs/uilib/components/visually-hidden/demos.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/visually-hidden/demos/"
+    }
+  },
+  "version": "10.94.3",
+  "generatedAt": "2026-01-16T16:38:16.956Z",
+  "schemaVersion": 1
+}

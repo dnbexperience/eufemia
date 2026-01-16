@@ -1,0 +1,50 @@
+{
+  "id": "uilib/extensions/forms/Value/PostalCodeAndCity",
+  "name": "PostalCodeAndCity",
+  "description": "`Value.PostalCodeAndCity` is a wrapper component for displaying string values, with user experience tailored for Norwegian postal code and city values.",
+  "group": "extensions",
+  "slug": "/uilib/extensions/forms/Value/PostalCodeAndCity/",
+  "props": [
+    {
+      "name": "postalCode",
+      "doc": "Properties such as `value` and `path` for the [Value.String](/uilib/extensions/forms/Value/String) component for postal code.",
+      "type": "object",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "city",
+      "doc": "Properties such as `value` and `path` for the [Value.String](/uilib/extensions/forms/Value/String) component for city.",
+      "type": "object",
+      "status": "optional",
+      "defaultValue": null
+    }
+  ],
+  "events": [],
+  "related": [],
+  "checksum": "eea658b404f224cac94d97756547495c37abb850546c45799b1fd1cce0750b13",
+  "source": {
+    "repo": "https://github.com/dnbexperience/eufemia",
+    "file": "packages/dnb-eufemia/src/extensions/forms/Value/PostalCodeAndCity/PostalCodeAndCity.tsx",
+    "fileUrl": "https://github.com/dnbexperience/eufemia/blob/v10.94.3/packages/dnb-eufemia/src/extensions/forms/Value/PostalCodeAndCity/PostalCodeAndCity.tsx",
+    "dirUrl": "https://github.com/dnbexperience/eufemia/tree/v10.94.3/packages/dnb-eufemia/src/extensions/forms/Value/PostalCodeAndCity"
+  },
+  "sources": {
+    "entry": {
+      "local": "src/docs/uilib/extensions/forms/Value/PostalCodeAndCity.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/Value/PostalCodeAndCity/"
+    },
+    "props": {
+      "local": "src/docs/uilib/extensions/forms/Value/PostalCodeAndCity/properties.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/Value/PostalCodeAndCity/properties/"
+    },
+    "events": null,
+    "demos": {
+      "local": "src/docs/uilib/extensions/forms/Value/PostalCodeAndCity/demos.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/Value/PostalCodeAndCity/demos/"
+    }
+  },
+  "version": "10.94.3",
+  "generatedAt": "2026-01-16T16:38:17.503Z",
+  "schemaVersion": 1
+}

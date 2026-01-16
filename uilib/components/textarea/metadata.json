@@ -1,0 +1,220 @@
+{
+  "id": "uilib/components/textarea",
+  "name": "Textarea",
+  "description": "The Textarea component has to be used as a multi-line text input control with an unlimited number of characters possible.",
+  "group": "components",
+  "slug": "/uilib/components/textarea/",
+  "props": [
+    {
+      "name": "value",
+      "doc": "The content value of the Textarea.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "align",
+      "doc": "Defines the `text-align` of the Textarea. Defaults to `left`.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "stretch",
+      "doc": "If set to `true`, then the Textarea field will be 100% in `width`.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "placeholder",
+      "doc": "The placeholder which shows up once the Textarea value is empty.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "keepPlaceholder",
+      "doc": "Use `true` to keep the placeholder visible even when the Textarea has focus. Defaults to `false`.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "label",
+      "doc": "Prepends the Form Label component. If no ID is provided, a random ID is created.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "label_direction",
+      "doc": "Use `label_direction=\"vertical\"` to change the label layout direction. Defaults to `horizontal`.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "suffix",
+      "doc": "Text describing the content of the Textarea more than the label. You can also send in a React component, so it gets wrapped inside the Textarea component.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "label_sr_only",
+      "doc": "Use `true` to make the label only readable by screen readers.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "autoresize",
+      "doc": "Use `true` to make the Textarea grow and shrink depending on how many lines the user has filled.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "autoresize_max_rows",
+      "doc": "Set a number to define how many rows the Textarea can auto grow.",
+      "type": "number",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "characterCounter",
+      "doc": "Use a number to define the displayed max length. You can also use an object defining the [TextCounter](uilib/components/fragments/text-counter/) `variant` or properties. Please avoid using `maxLength` for accessibility reasons.",
+      "type": [
+        "number",
+        "object"
+      ],
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "size",
+      "doc": "The sizes you can choose for 1 row is `small` (2rem), `medium` (2.5rem) and `large` (3rem). Defaults to `small`.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "status",
+      "doc": "Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.",
+      "type": [
+        "error",
+        "info",
+        "boolean"
+      ],
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "status_state",
+      "doc": "Defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`.",
+      "type": [
+        "error",
+        "info"
+      ],
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "status_props",
+      "doc": "Use an object to define additional FormStatus properties.",
+      "type": "object",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "globalStatus",
+      "doc": "The [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status).",
+      "type": "object",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "textarea_state",
+      "doc": "To control the visual focus state as a prop, like `focus` or `blur`.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "inner_ref",
+      "doc": "By providing a React.Ref we can get the internally used Textarea element (DOM). E.g. `inner_ref={myRef}` by using `React.createRef()` or `React.useRef()`.",
+      "type": "React.RefObject",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "skeleton",
+      "doc": "If set to `true`, an overlaying skeleton with animation will be shown.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    }
+  ],
+  "events": [
+    {
+      "name": "on_change",
+      "doc": "Will be called on value changes made by the user. Returns an object with a string value and the native event: `{ value, rows, event }`.",
+      "type": "function",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "on_focus",
+      "doc": "Will be called on the focus set by the user. Returns `{ value, event }`.",
+      "type": "function",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "on_blur",
+      "doc": "Will be called on blur set by the user. Returns `{ value, event }`.",
+      "type": "function",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "on_key_down",
+      "doc": "Will be called during every keystroke. Returns `{ value, rows, event }`.",
+      "type": "function",
+      "status": "optional",
+      "defaultValue": null
+    }
+  ],
+  "related": [
+    "Space"
+  ],
+  "checksum": "8e083e0ad56df1aafe0339182c7056f9fb4ea8f447ad5fb693ec860fb49bf68a",
+  "source": {
+    "repo": "https://github.com/dnbexperience/eufemia",
+    "file": "packages/dnb-eufemia/src/components/textarea/Textarea.js",
+    "fileUrl": "https://github.com/dnbexperience/eufemia/blob/v10.94.3/packages/dnb-eufemia/src/components/textarea/Textarea.js",
+    "dirUrl": "https://github.com/dnbexperience/eufemia/tree/v10.94.3/packages/dnb-eufemia/src/components/textarea"
+  },
+  "sources": {
+    "entry": {
+      "local": "src/docs/uilib/components/textarea.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/textarea/"
+    },
+    "props": {
+      "local": "src/docs/uilib/components/textarea/properties.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/textarea/properties/"
+    },
+    "events": {
+      "local": "src/docs/uilib/components/textarea/events.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/textarea/events/"
+    },
+    "demos": {
+      "local": "src/docs/uilib/components/textarea/demos.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/textarea/demos/"
+    }
+  },
+  "version": "10.94.3",
+  "generatedAt": "2026-01-16T16:38:16.918Z",
+  "schemaVersion": 1
+}

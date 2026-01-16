@@ -1,0 +1,60 @@
+{
+  "id": "uilib/elements",
+  "name": "HTML Elements",
+  "description": null,
+  "group": "elements.mdx",
+  "slug": "/uilib/elements/",
+  "props": [
+    {
+      "name": "innerRef",
+      "doc": "Send along a custom React Ref.",
+      "type": "React.RefObject",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "children",
+      "doc": "Contents.",
+      "type": "React.Node",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "skeleton",
+      "doc": "If set to `true`, an overlaying skeleton with animation will be shown.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "skeletonMethod",
+      "doc": "Can be `shape`, `font` or `form`. Defaults to `font`.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    }
+  ],
+  "events": [],
+  "related": [
+    "Space"
+  ],
+  "checksum": "beb5799174336c604cf25b2a98017a5ac6e95dd4c1817c06f1b787490600c66b",
+  "source": {
+    "repo": "https://github.com/dnbexperience/eufemia",
+    "file": "packages/dnb-eufemia/src/elements/index.ts",
+    "fileUrl": "https://github.com/dnbexperience/eufemia/blob/v10.94.3/packages/dnb-eufemia/src/elements/index.ts",
+    "dirUrl": "https://github.com/dnbexperience/eufemia/tree/v10.94.3/packages/dnb-eufemia/src/elements"
+  },
+  "sources": {
+    "entry": {
+      "local": "src/docs/uilib/elements.mdx",
+      "public": "https://eufemia.dnb.no/uilib/elements/"
+    },
+    "props": null,
+    "events": null,
+    "demos": null
+  },
+  "version": "10.94.3",
+  "generatedAt": "2026-01-16T16:38:17.131Z",
+  "schemaVersion": 1
+}

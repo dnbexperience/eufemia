@@ -1,0 +1,47 @@
+---
+metadata: https://eufemia.dnb.no/uilib/components/autocomplete/methods/metadata.json
+---
+
+## Dynamically change data
+
+You can manipulate the used data dynamically, either by changing the `data` property or during user events like `on_type` or `on_focus`. The following properties and methods are there to use:
+
+### Methods
+
+- `updateData` replace all data entries.
+- `emptyData` remove all data entries.
+- `resetSelectedItem` will invalidate the selected key.
+- `revalidateSelectedItem` will re-validate the internal selected key on the given `value`.
+- `revalidateInputValue` will re-validate the current input value and update it – based on the given `value`.
+- `setInputValue` update the input value.
+- `clearInputValue` will set the current input value to an empty string.
+- `focusInput` will set focus on the input element.
+- `showIndicator` shows a progress indicator instead of the icon (inside the input).
+- `hideIndicator` hides the progress indicator inside the input.
+- `showIndicatorItem` shows an item with a [ProgressIndicator](/uilib/components/progress-indicator) status as an data option item.
+- `showNoOptionsItem` shows the "no entries found" status as an data option item.
+- `setVisible` shows the [DrawerList](/uilib/components/fragments/drawer-list).
+- `setHidden` hides the [DrawerList](/uilib/components/fragments/drawer-list).
+- `showAllItems` shows all [DrawerList](/uilib/components/fragments/drawer-list) items.
+- `setMode` switch the mode during runtime.
+- `debounce` a debounce method with a cancel invocation method on repeating calls. There is [more documentation](/uilib/helpers/functions/#debounce) about this method.
+
+### Properties
+
+- `dataList` contains all the data entries.
+
+### Example
+
+```jsx
+<Autocomplete
+  on_focus={({ updateData, showIndicator }) => {
+    showIndicator()
+    setTimeout(() => {
+      updateData(topMovies)
+    }, 1e3)
+  }}
+  on_type={({ value /* updateData, ... */ }) => {
+    console.log('on_type', value)
+  }}
+/>
+```

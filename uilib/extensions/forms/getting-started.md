@@ -1,0 +1,1196 @@
+---
+title: 'Getting started'
+description: 'Forms is reusable components for data input, data display and surrounding layout for simplified user interface creation in React, built on top of base Eufemia components.'
+metadata: https://eufemia.dnb.no/uilib/extensions/forms/getting-started/metadata.json
+---
+
+# Getting started
+
+**Table of Contents**
+
+- [Getting started](#getting-started)
+  - [Creating forms](#creating-forms)
+  - [TypeScript support](#typescript-support)
+  - [State management](#state-management)
+    - [What is a JSON Pointer?](#what-is-a-json-pointer)
+    - [Data handling](#data-handling)
+    - [Filter data](#filter-data)
+      - [Concepts of filtering data](#concepts-of-filtering-data)
+      - [How do I use it?](#how-do-i-use-it)
+      - [Filter data during submit](#filter-data-during-submit)
+        - [The `reduceToVisibleFields` method](#the-reducetovisiblefields-method)
+        - [The `filterData` method](#the-filterdata-method)
+    - [Transforming data](#transforming-data)
+      - [Complex objects in the data context](#complex-objects-in-the-data-context)
+  - [Async form handling](#async-form-handling)
+  - [Field components](#field-components)
+  - [Value components](#value-components)
+    - [Inherit visibility from fields](#inherit-visibility-from-fields)
+  - [Conditionally display content](#conditionally-display-content)
+  - [Async form behavior](#async-form-behavior)
+    - [onChange and autosave](#onchange-and-autosave)
+    - [Async field validation](#async-field-validation)
+  - [Validation and error handling](#validation-and-error-handling)
+    - [Validation and the user experience (UX)](#validation-and-the-user-experience-ux)
+    - [Validation order](#validation-order)
+    - [Error messages](#error-messages)
+    - [Summary for errors](#summary-for-errors)
+    - [required](#required)
+    - [pattern](#pattern)
+    - [schema](#schema)
+    - [onBlurValidator and onChangeValidator](#onblurvalidator-and-onchangevalidator)
+      - [Connect with another field](#connect-with-another-field)
+      - [Async validation](#async-validation)
+      - [Async validator with debounce](#async-validator-with-debounce)
+    - [error](#error)
+  - [Conditionally display messages](#conditionally-display-messages)
+  - [Country specific validation](#country-specific-validation)
+  - [Localization and translation](#localization-and-translation)
+    - [Translations provided by Eufemia](#translations-provided-by-eufemia)
+    - [Add additional translations](#add-additional-translations)
+    - [Customize translations](#customize-translations)
+    - [How to customize translations in a form](#how-to-customize-translations-in-a-form)
+      - [Consume the translations](#consume-the-translations)
+  - [Layout](#layout)
+  - [Best practices](#best-practices)
+  - [Debugging](#debugging)
+    - [Logging](#logging)
+    - [Finding errors](#finding-errors)
+  - [Create your own component](#create-your-own-component)
+
+## Quick start
+
+Here's how you import the components from within scopes, such as `Form` and `Field`:
+
+```jsx
+import { Form, Field } from '@dnb/eufemia/extensions/forms'
+```
+
+Field components can be used directly as they are, for example `Field.Email`:
+
+```jsx
+import { Field } from '@dnb/eufemia/extensions/forms'
+render(<Field.Email />)
+```
+
+**NB:** In the above example, only the email field will be a part of your application bundle. Unused code will be tree-shaken away.
+
+And here is how you can use the `Form` component:
+
+```tsx
+const existingData = {
+  companyName: 'DNB',
+}
+function MyForm() {
+  return (
+    <Form.Handler
+      defaultData={existingData}
+      onSubmit={async (data) => console.log('onSubmit', data)}
+      required
+    >
+      <Form.MainHeading>Quick start</Form.MainHeading>
+
+      <Form.Card>
+        <Field.Name.Company path="/companyName" />
+
+        <Field.OrganizationNumber path="/companyOrganizationNumber" />
+
+        <Field.Selection
+          path="/postalAddressSelect"
+          label="Ønsket sted for tilsendt post"
+          variant="radio"
+          required={false}
+        >
+          <Field.Option
+            value="companyAddress"
+            title="Samme som forretningsadresse"
+          />
+          <Field.Option value="other" title="Annet" />
+        </Field.Selection>
+
+        <Form.Visibility
+          visibleWhen={{
+            path: '/postalAddressSelect',
+            hasValue: 'other',
+          }}
+          animate
+        >
+          <Field.String
+            path="/postalAddress"
+            label="Sted for tilsendt post"
+          />
+        </Form.Visibility>
+      </Form.Card>
+      <Form.SubmitButton variant="send" />
+    </Form.Handler>
+  )
+}
+render(<MyForm />)
+```
+
+## Creating forms
+
+To build an entire form, use surrounding components such as [Form.Handler](/uilib/extensions/forms/Form/Handler) and [Wizard.Container](/uilib/extensions/forms/Wizard/Container) to simplify data flow and layout while reducing code complexity without compromising flexibility.
+
+The required styles are included in the Eufemia core package via `dnb-ui-components`.
+
+## TypeScript support
+
+You can define the TypeScript type structure for your form data. This will help you to get better code completion and type checking.
+
+**NB:** Use `type` instead of `interface` for the type definition.
+
+```tsx
+import { Form, OnSubmit } from '@dnb/eufemia/extensions/forms'
+
+type MyData = {
+  firstName?: string
+}
+
+const submitHandler: OnSubmit<MyData> = (data) => {
+  console.log(data.firstName satisfies string)
+}
+
+function MyForm() {
+  return (
+    <Form.Handler<MyData> onSubmit={submitHandler}>
+      <MyComponent />
+    </Form.Handler>
+  )
+}
+
+const MyComponent = () => {
+  const { data } = Form.useData<MyData>()
+  return data.firstName
+}
+```
+
+Read more about TypeScript support and the other methods in the [Form.Handler](/uilib/extensions/forms/Form/Handler/#typescript-support) section or in the [Form.useData](/uilib/extensions/forms/Form/useData/#typescript-support) hook docs.
+
+## State management
+
+While you can use a controlled approach to handle field or form state, we recommend a declarative approach where you keep the form state inside the data context instead of managing it with your own `useState` hooks (imperative).
+
+- You do not need React **useState** to handle your form data.
+
+How does this work?
+
+Let's say you have a form with a `name` field. In order to tell, e.g., the `onSubmit` event what the data structure is, you define a declaration (`path`) about it right on the field itself:
+
+```jsx
+<Field.String path="/name" />
+```
+
+Why call it `path`?
+
+Because it can describe the structure of the data in several layers deep:
+
+```jsx
+<Field.String path="/user/name" />
+```
+
+Which results in the following data structure:
+
+```jsx
+{
+  user: {
+    name: 'Hanna'
+  }
+}
+```
+
+Paths of fields (`path="/dataPath"`) must be unique to ensure proper error handling and data input. If Eufemia detects duplicate paths, it will print the following warning in the console: `Eufemia Path declared multiple times: /duplicatePath`.
+
+This is called a [JSON Pointer](#what-is-a-json-pointer)—a standardized way of pointing to a specific part of a JavaScript/JSON object.
+
+These JSON pointers are used to both read and write data and to validate form data.
+
+### What is a JSON Pointer?
+
+A [JSON Pointer](https://datatracker.ietf.org/doc/html/draft-ietf-appsawg-json-pointer-03) is a string of tokens separated by `/` characters, these tokens either specify keys in objects or indexes in arrays.
+
+```ts
+const data = {
+  foo: {
+    bar: [
+      {
+        baz: 'value',
+      },
+    ],
+  },
+}
+const pointer = '/foo/bar/0/baz' // points to 'value'
+```
+
+### Data handling
+
+How do I handle complex data logic?
+
+You can show or hide parts of your form based on your own logic. This is done by using the [Form.Visibility](/uilib/extensions/forms/Form/Visibility/) component (yes, it can even animate the visibility).
+
+You can access and modify your form data with [Form.useData](/uilib/extensions/forms/Form/useData/), [Form.getData](/uilib/extensions/forms/Form/getData/), or [Form.setData](/uilib/extensions/forms/Form/setData/).
+
+Here is an example of how to use these methods:
+
+```jsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+
+const myFormId = 'unique-id' // or a function, object or React Context reference
+
+function MyForm() {
+  return (
+    <Form.Handler id={myFormId}>
+      <MyComponent />
+    </Form.Handler>
+  )
+}
+
+function MyComponent() {
+  const {
+    getValue,
+    update,
+    remove,
+    set,
+    data,
+    filterData,
+    reduceToVisibleFields,
+  } = Form.useData() // optionally provide an id or reference
+}
+
+// You can also use the setData:
+Form.setData(myFormId, { companyName: 'DNB' })
+
+// ... and the getData method whenever you need to:
+const { getValue, data, filterData, reduceToVisibleFields } =
+  Form.getData(myFormId)
+```
+
+- `getValue` will return the value of the given path.
+- `update` will update the value of the given path.
+- `remove` will remove the given path from the data context (fields will reapply their values afterwards).
+- `set` will set the whole dataset.
+- `data` will return the whole dataset (unvalidated).
+- `filterData` will filter the data based on your own logic.
+- `reduceToVisibleFields` will reduce the given data set to only contain the visible fields (mounted fields).
+
+As you can see in the code above, you can even handle the state outside the `Form.Handler` context. You find more details on this topic in the [Form.useData](/uilib/extensions/forms/Form/useData/) documentation.
+
+```tsx
+const existingData = {
+  companyName: 'DNB',
+  companyOrganizationNumber: '123456789',
+  postalAddressSelect: 'companyAddress',
+}
+function Component() {
+  const { data } = Form.useData('company-form')
+  console.log('State:', data)
+  return (
+    <Form.Handler
+      id="company-form"
+      defaultData={existingData}
+      onChange={console.log}
+      onSubmit={console.log}
+    >
+      <Flex.Stack>
+        <Form.MainHeading>Bedrift</Form.MainHeading>
+        <Form.Card>
+          <Field.Name.Company path="/companyName" required />
+          <Field.OrganizationNumber
+            path="/companyOrganizationNumber"
+            required
+          />
+          <Field.Selection
+            path="/postalAddressSelect"
+            label="Ønsket sted for tilsendt post"
+            variant="radio"
+          >
+            <Field.Option
+              value="companyAddress"
+              title="Samme som forretningsadresse"
+            />
+            <Field.Option value="other" title="Annet" />
+          </Field.Selection>
+        </Form.Card>
+        <Form.ButtonRow>
+          <Form.SubmitButton />
+        </Form.ButtonRow>
+      </Flex.Stack>
+    </Form.Handler>
+  )
+}
+render(<Component />)
+```
+
+### Filter data
+
+In this section we will show how to filter out some data based on your own logic. You can filter data by any given criteria.
+
+#### Concepts of filtering data
+
+There are many ways to utilize `filterData`, here are some concepts to exclude a data entry:
+
+- When a field is disabled.
+- When a field is hidden.
+- When a field has an error.
+- When a field has a value that matches a given criteria.
+- When a field has a path that starts with e.g. `_`.
+
+Here is an example of how to filter data when a path starts with `_`:
+
+```tsx
+const filterDataHandler = ({ path }) => {
+  if (/\/_/.test(path)) {
+    // When returning false, the data entry will be left out
+    return false
+  }
+}
+
+render(
+  <Form.Handler
+    defaultData={{
+      foo: 'foo',
+      _bar: 'bar', // Will be excluded
+    }}
+    onSubmit={(data, { filterData }) => {
+      const filteredData = filterData(filterDataHandler)
+      console.log(filteredData) // Will be { foo: 'foo' }
+    }}
+  >
+    <MyComponent />
+  </Form.Handler>,
+)
+```
+
+#### How do I use it?
+
+You can utilizing the `filterData` method in:
+
+- [Form.Handler](/uilib/extensions/forms/Form/Handler/#filter-data) component.
+- [Form.useData](/uilib/extensions/forms/Form/useData/#filter-data) hook.
+- [Form.getData](/uilib/extensions/forms/Form/getData/#filter-data) method.
+- [Form.Visibility](/uilib/extensions/forms/Form/Visibility/#filter-data) component.
+
+You can provide either an object with the paths (1) or a handler (2).
+
+Here is an example of how to filter data outlining the different ways to filter data:
+
+```tsx
+// 1. Method – by using paths (JSON Pointer)
+const filterDataPaths = {
+  '/foo': ({ value, data, props, error }) => value !== 'bar',
+  '/foo': false, // Will exclude the field with the path "/foo"
+  '/array/0': false, // Will exclude the first item of the array
+  '/array/*/objectKey': false, // Will exclude all objects inside the array with a key of "objectKey"
+}
+
+// 2. Method – by using a handler.
+// It will iterate over all fields and data entries regardless what path they have.
+const filterDataHandler = ({ path, value, data, props, error }) => {
+  if (/\/_/.test(path)) {
+    // When returning false, the data entry will be left out
+    return false
+  }
+}
+
+const MyComponent = () => {
+  const { filterData } = Form.useData()
+  const filteredDataA = filterData(filterDataPaths)
+  const filteredDataB = filterData(filterDataHandler)
+  console.log(filteredDataA)
+  console.log(filteredDataB)
+
+  return <Field.String path="/foo" />
+}
+
+render(
+  <Form.Handler>
+    <MyComponent />
+  </Form.Handler>,
+)
+```
+
+You may check out an [interactive example](/uilib/extensions/forms/Form/useData/#filter-your-data) of how to filter data.
+
+#### Filter data during submit
+
+When submitting data to the server, you might want to exclude data that has been hidden (unmounted) by the user. You have two built-in options to achieve this:
+
+User entered data will always be stored internally in the data context, even if a [Field](/uilib/extensions/forms/all-fields/) is temporarily shown (mounted/unmounted).
+
+##### The `reduceToVisibleFields` method
+
+You can use the `reduceToVisibleFields` function to get only the data of visible (mounted) fields. Check out the [example](/uilib/extensions/forms/Form/Handler/demos/#visible-data) in the demo section.
+
+##### The `filterData` method
+
+For filtering data during form submit you can use the `filterData` method given as a parameter to the `onSubmit` ([Form.Handler](/uilib/extensions/forms/Form/Handler/)) event callback:
+
+```tsx
+render(
+  <Form.Handler
+    onSubmit={(data, { filterData }) => {
+      // Same method as in the previous example
+      const filteredDataA = filterData(filterDataPaths)
+      const filteredDataB = filterData(filterDataHandler)
+      console.log(filteredDataA)
+      console.log(filteredDataB)
+    }}
+  >
+    <Field.String path="/foo" />
+  </Form.Handler>,
+)
+```
+
+You may check out an [interactive example](/uilib/extensions/forms/Form/Handler/demos/#filter-your-data) of how to filter data during the submit event.
+
+### Transforming data
+
+Each [Field.\*](/uilib/extensions/forms/all-fields/) and [Value.\*](/uilib/extensions/forms/Value/) component supports transformer functions.
+
+These functions allow you to transform the field value to a different format than it uses internally, and vice versa.
+
+```tsx
+<Field.String
+  path="/myField"
+  transformOut={transformOut}
+  transformIn={transformIn}
+/>
+```
+
+- `transformOut` (out of the `Field.*` component) transforms the internal value before it gets forwarded to the data context or returned as e.g. the `onChange` value parameter.
+- `transformIn` (in to the `Field.*` or `Value.*` component) transforms the external value before it is displayed and used internally.
+
+```tsx
+const MyForm = () => {
+  const transformToUpper = (value) => {
+    return value?.toUpperCase()
+  }
+  const transformToLower = (value) => {
+    return value?.toLowerCase()
+  }
+  return (
+    <Form.Handler onChange={console.log}>
+      <Form.Card>
+        <Field.String
+          width="medium"
+          label="Input value"
+          placeholder="Type letters"
+          path="/myField"
+          transformIn={transformToUpper}
+          transformOut={transformToLower}
+        />
+
+        <Value.String label="Output value" path="/myField" />
+      </Form.Card>
+    </Form.Handler>
+  )
+}
+render(<MyForm />)
+```
+
+#### Complex objects in the data context
+
+If you need to store complex objects in the data context instead of simple values like strings, numbers, or booleans, you can use transformer functions.
+
+Suppose you want to store a country object instead of just a country code like `NO` or `SV` when using [Field.SelectCountry](/uilib/extensions/forms/feature-fields/SelectCountry/).
+
+You can achieve this by using the `transformIn` and `transformOut` functions:
+
+```tsx
+import { Field } from '@dnb/eufemia/extensions/forms'
+import type { CountryType } from '@dnb/eufemia/extensions/forms/Field/SelectCountry'
+
+// From the Field (internal value) to the data context or event parameter
+const transformOut = (internal, country) => {
+  if (internal) {
+    return country
+  }
+}
+
+// To the Field (from e.g. defaultValue)
+const transformIn = (external: CountryType) => {
+  return external?.iso || 'NO'
+}
+
+const MyForm = () => {
+  return (
+    <Form.Handler>
+      <Field.SelectCountry
+        path="/country"
+        transformIn={transformIn}
+        transformOut={transformOut}
+        defaultValue="NO"
+      />
+
+      <Value.SelectCountry path="/country" transformIn={transformIn} />
+    </Form.Handler>
+  )
+}
+```
+
+## Async form handling
+
+It depends on your use case if this feature is needed. But when it is, it's often a time consuming task to implement. Eufemia Forms has therefore a built-in feature that enables async form behavior.
+
+More details about the async form behavior can be found in the [async form behavior](/uilib/extensions/forms/getting-started/#async-form-behavior) section.
+
+## Field components
+
+In short, field components are interactive components that the user can interact with. Read more about fields in the [What are fields?](/uilib/extensions/forms/about-fields/) section.
+
+## Value components
+
+Beside the interactive [Field](/uilib/extensions/forms/all-fields/) components, there are also the static [Value](/uilib/extensions/forms/Value/) components. Use these to show summaries or read-only parts of your application with benefits such as linking to source data and standardized formatting based on the type of data to be displayed.
+
+### Inherit visibility from fields
+
+User entered data will always be stored internally in the data context, even if a [Field](/uilib/extensions/forms/all-fields/) is temporarily shown (mounted/unmounted).
+
+`Value.*` components will render the value regardless of the visibility of the field.
+
+You can use the `inheritVisibility` property on the [Value.\*](/uilib/extensions/forms/Value/) components to inherit the visibility from the field with the same path.
+
+## Conditionally display content
+
+You can conditionally display content using the [Form.Visibility](/uilib/extensions/forms/Form/Visibility/) component. This allows you to show or hide its children based on the validation (A.) or the value (B.) of another path (data entry).
+
+```tsx
+<Form.Visibility
+  animate
+  visibleWhen={{
+    path: '/myField',
+    hasValue: (value) => value === 'foo', // A. Value based
+    isValid: true, // B. Validation based
+  }}
+>
+  <Field.String path="/myField" />
+</Form.Visibility>
+```
+
+## Async form behavior
+
+This feature allows you to perform asynchronous operations such as fetching data from an API, without additional state management.
+
+You can enable async form submit behavior on the form [Form.Handler](/uilib/extensions/forms/Form/Handler) by using:
+
+```tsx
+<Form.Handler onSubmit={async () => {}}>...</Form.Handler>
+```
+
+It will disable all fields and show an indicator on the [Form.SubmitButton](/uilib/extensions/forms/Form/SubmitButton/) while the **form** is pending ([examples](/uilib/extensions/forms/Form/Handler/demos/)).
+
+When using [Wizard.Container](/uilib/extensions/forms/Wizard/Container/) you can use in addition:
+
+```tsx
+<Wizard.Container onStepChange={async () => {}}>...</Wizard.Container>
+```
+
+It will disable all fields and show an indicator on the [Wizard.NextButton](/uilib/extensions/forms/Wizard/NextButton/) while the **step** is pending ([examples](/uilib/extensions/forms/Wizard/Container/demos/)).
+
+### onChange and autosave
+
+You can use an async function for the `onChange` event handler, either on the form [Form.Handler](/uilib/extensions/forms/Form/Handler):
+
+```tsx
+<Form.Handler onChange={async () => {}}>...</Form.Handler>
+```
+
+or on every [field](/uilib/extensions/forms/all-fields/):
+
+```tsx
+<Field.PhoneNumber path="/myField" onChange={async () => {}} />
+```
+
+They can be used in combination as well – including [async validator](/uilib/extensions/forms/getting-started/#async-validation) functions.
+
+When the user makes a value change, it will show an indicator on the corresponding field label.
+
+This feature cannot only be used for autosave, but for any other real-time async operations.
+
+Here is an example of an async change behavior:
+
+```ts
+// Async event handler
+const onChange = debounceAsync(async function (data) {
+  try {
+    await makeRequest(data)
+  } catch (error) {
+    return error
+  }
+
+  // Optionally, you can return an object with these keys, depending your needs
+  return {
+    info: 'Info message',
+    warning: 'Warning message',
+
+    // and either an error
+    error: new Error('Error message'),
+
+    // or success (when used for autosave)
+    success: 'saved',
+  } as const
+})
+```
+
+More info about the async change behavior in the form [Form.Handler](/uilib/extensions/forms/Form/Handler/info/#async-onchange-and-onsubmit-event-handlers) section.
+
+### Async field validation
+
+A similar indicator behavior will occur when using async functions for field validation, such as `onChangeValidator` or `onBlurValidation`. Your form will exhibit async behavior, which means that the validation needs to be successfully completed before the form can be submitted.
+
+## Validation and error handling
+
+Every field component has a built-in validation that is based on the type of data it handles. This validation is automatically applied to the field when the user interacts with it. The validation is also applied when the user submits the form.
+
+In addition, you can add your own validation to a field component. This is done by adding a `required`, `pattern`, `schema`, `onChangeValidator` or `onBlurValidation` property.
+
+Fields which have the `disabled` property or the `readOnly` property, will skip validation.
+
+For monitoring and setting your form errors, you can use the [useValidation](/uilib/extensions/forms/Form/useValidation) hook.
+
+### Validation and the user experience (UX)
+
+Eufemia Forms provides a built-in validation system that is based on the type of data it handles. This validation is automatically applied to the field when the user interacts with it. The validation is also applied when the user submits the form.
+
+In general, the validation is based on the following principles:
+
+- Trust the user and assume they are doing their best.
+- Avoid interrupting the user while they are entering data.
+- Provide clear and concise error messages ending with a period.
+
+The validation system is flexible and can be customized to fit your specific needs. You can add your own validation to a field component by using the `required`, `pattern`, `schema`, `onChangeValidator` or `onBlurValidation` property.
+
+### Validation order
+
+If there are multiple errors, they will be shown in a specific order, and only the first error in that order will appear.
+
+The validation order is as follows:
+
+1. `required`
+2. `error` (with `conditionally`)
+3. `schema` (including `pattern`)
+4. `onChangeValidator`
+5. `onBlurValidator`
+
+### Error messages
+
+Eufemia Forms comes with built-in error messages. But you can also customize and override these messages by using the `errorMessages` property both on [fields](/uilib/extensions/forms/all-fields/) (field level) and on the [Form.Handler](/uilib/extensions/forms/Form/Handler/) (global level).
+
+You may use the `errorMessages` property for two purposes:
+
+- Provide your own error messages.
+- Overwrite the default error messages.
+
+Both can be done on a global level or on a field level.
+
+However, for overwriting the default error messages on a global level, you can also use [internationalization (i18n)](#localization-and-translation).
+
+Read more about [error messages](/uilib/extensions/forms/Form/error-messages/).
+
+### Summary for errors
+
+To improve user experience communication regarding errors and their locations, WCAG/UU suggests summarizing error messages when errors have occurred.
+
+Eufemia Forms will easily link up with the [GlobalStatus](/uilib/components/global-status) component and will only display it if there are errors or when the form is being submitted.
+
+```tsx
+<GlobalStatus />
+
+<Form.Handler>
+  My Form
+</Form.Handler>
+```
+
+If you need a custom unique ID, you can just assign `globalStatusId` to the `Form.Handler`:
+
+```tsx
+<GlobalStatus id="my-form-status" />
+
+<Form.Handler globalStatusId="my-form-status">
+  My Form
+</Form.Handler>
+```
+
+### required
+
+The `required` property is a boolean that indicates whether the field is required or not:
+
+```tsx
+<Field.PhoneNumber required />
+```
+
+**Note:** You can use the `required` property on the [Form.Handler](/uilib/extensions/forms/Form/Handler/) or [Wizard.Step](/uilib/extensions/forms/Wizard/Step/) components ([example](/uilib/extensions/forms/Form/Handler/demos/#required-and-optional-fields)). Additionally, the [Form.Section](/uilib/extensions/forms/Form/Section/) component as well as the [Field.Provider](/uilib/extensions/forms/feature-fields/Provider/) provider has a `required` property, which will make all nested fields within that section required.
+
+```tsx
+<Form.Handler required>
+  <Field.PhoneNumber />
+  <Field.String />
+</Form.Handler>
+```
+
+When you need to opt-out of the required field validation, you can use the `required={false}` property. This will also add a "(optional)" suffix to the field label(`labelSuffix`).
+
+```tsx
+<Form.Handler required>
+  <Field.String label="I'm required" />
+  <Field.String label="I'm not" required={false} />
+  <Field.Email required={false} labelSuffix="(recommended)" />
+</Form.Handler>
+```
+
+### pattern
+
+The `pattern` property is a regular expression (RegExp) that the value of the field must match:
+
+```tsx
+<Field.PhoneNumber pattern="Your RegExp" />
+```
+
+### schema
+
+The `schema` property is a schema that the value of the field must match in order to be valid. You can use either a Zod schema or a JSON Schema (Ajv) schema.
+
+Read more about JSON [Schema validation](/uilib/extensions/forms/Form/schema-validation/).
+
+You can set a schema on the
+
+- [Form.Handler](/uilib/extensions/forms/Form/Handler/) component to apply it globally to all fields without a specific schema.
+- [Form.Section](/uilib/extensions/forms/Form/Section/) component to apply it to all fields within that section.
+- [Field](/uilib/extensions/forms/all-fields/) components to apply it to a specific field.
+
+**Using Zod schemas**
+
+```tsx
+import { Form, Field, z } from '@dnb/eufemia/extensions/forms'
+
+const schema = z.string().min(5)
+
+<Form.Handler>
+  <Field.String schema={schema} />
+</Form.Handler>
+```
+
+**Using JSON Schema (Ajv)**
+
+**NB:** An `Ajv` instance is required on the `Form.Handler`.
+
+```tsx
+import {
+  Form,
+  Field,
+  makeAjvInstance,
+} from '@dnb/eufemia/extensions/forms'
+
+const ajv = makeAjvInstance()
+const schema = {
+  /* Ajv Schema */
+}
+
+render(
+  <Form.Handler ajvInstance={ajv}>
+    <Field.PhoneNumber schema={schema} />
+  </Form.Handler>,
+)
+```
+
+### onBlurValidator and onChangeValidator
+
+The `onBlurValidator` and `onChangeValidator` properties accepts a function that takes the current value of the field as an argument and returns an error message if the value is invalid:
+
+```tsx
+const onChangeValidator = (value) => {
+  const isInvalid = new RegExp('Your RegExp').test(value)
+  if (isInvalid) {
+    return new Error('Invalid value message')
+  }
+}
+render(<Field.PhoneNumber onChangeValidator={onChangeValidator} />)
+```
+
+You can find more info about error messages in the [error messages](/uilib/extensions/forms/Form/error-messages/) docs.
+
+#### Connect with another field
+
+You can also use the `connectWithPath` (or `connectWithItemPath` for within [Iterate.Array](/uilib/extensions/forms/Iterate/Array/)) function to connect the validator (`onChangeValidator` and `onBlurValidator`) to another field. This allows you to rerun the validator function once the value of the connected field changes:
+
+```tsx
+import { Form, Field } from '@dnb/eufemia/extensions/forms'
+
+const onChangeValidator = (value, { connectWithPath }) => {
+  const { getValue } = connectWithPath('/myReference')
+  const amount = getValue()
+  if (amount >= value) {
+    return new Error(`The amount should be greater than ${amount}`)
+  }
+}
+
+render(
+  <Form.Handler>
+    <Field.Number path="/myReference" defaultValue={2} />
+
+    <Field.Number
+      path="/withOnChangeValidator"
+      defaultValue={2}
+      onChangeValidator={onChangeValidator} // NB: You may use "onBlurValidator" depending on use case.
+    />
+  </Form.Handler>,
+)
+```
+
+By default, the `onChangeValidator` function will only run when the "/withOnChangeValidator" field is changed. When the error message is shown, it will update the message with the new value of the "/myReference" field.
+
+You can also change this behavior for testing purposes by using the following properties:
+
+- `validateInitially` will run the validation initially.
+- `validateContinuously` will run the validation on every change, including when the connected field changes.
+- `validateUnchanged` will validate without any changes made by the user, including when the connected field changes.
+
+#### Async validation
+
+Async validation is also supported. The validator function can return a promise (async/await) that resolves to an error message.
+
+In this example we use `onBlurValidator` to only validate the field when the user leaves the field:
+
+```tsx
+const onChangeValidator = async (value) => {
+  try {
+    const isInvalid = await makeRequest(value)
+    if (isInvalid) {
+      return new Error('Invalid value') // Show this message below the field
+    }
+  } catch (error) {
+    return error
+  }
+}
+render(<Field.PhoneNumber onBlurValidator={onChangeValidator} />)
+```
+
+#### Async validator with debounce
+
+When using async validation on every keystroke, it's a good idea to debounce the validation function to avoid unnecessary requests. This can be done by using the [debounceAsync](/uilib/helpers/functions/#debounce) helper function:
+
+```tsx
+import { debounceAsync } from '@dnb/eufemia/shared/helpers'
+
+const onChangeValidator = debounceAsync(async function myValidator(value) {
+  try {
+    const isInvalid = await makeRequest(value)
+    if (isInvalid) {
+      return new Error('Invalid value') // Show this message below the field
+    }
+  } catch (error) {
+    return error
+  }
+})
+render(<Field.PhoneNumber onChangeValidator={onChangeValidator} />)
+```
+
+### error
+
+The `error` property is a controlled error message that is always displayed by default.
+
+```tsx
+render(<Field.String error={new Error('Invalid value')} />)
+```
+
+You can also provide the error message as a string:
+
+```tsx
+render(<Field.String error="Invalid value" />)
+```
+
+Or as a React.Element:
+
+```tsx
+render(
+  <Field.String
+    error={
+      <>
+        A <strong>formatted</strong> error message.
+      </>
+    }
+  />,
+)
+```
+
+As well as an array with multiple error messages:
+
+```tsx
+render(
+  <Field.String
+    error={[
+      'First error message',
+      <>
+        Second <strong>formatted</strong> error message.
+      </>,
+      new Error('Third error message'),
+      new FormError('fourth.message'),
+      new FormError('fifth.message'),
+    ]}
+    errorMessages={{
+      'fourth.message': 'Fourth error message',
+      'fifth.message': (
+        <>
+          Fifth <strong>formatted</strong> error message.
+        </>
+      ),
+    }}
+  />,
+)
+```
+
+## Conditionally display messages
+
+You can provide a function to the `info`, `warning`, and `error` properties to conditionally change this behavior based on specific requirements.
+
+Using this `conditional` function, the error message (or info or warning message) will only be shown after the user interacts with the field—for instance, after they change its value and move focus away (blur). This allows you to display error messages dynamically, ensuring they appear only when the field's value is invalid and the user has engaged with it.
+
+```tsx
+render(
+  <Field.Number
+    error={(value, { conditionally }) => {
+      if (value === 123) {
+        return conditionally(() => new Error('Invalid value'))
+      }
+    }}
+  />,
+)
+```
+
+More info about it in the [Field.Number](/uilib/extensions/forms/base-fields/Number/) component.
+
+## Country specific validation
+
+You can change the country used for your form by setting the `countryCode` property on the [Form.Handler](/uilib/extensions/forms/Form/Handler/) component.
+
+Fields that support the `countryCode` property will use the country code from the data context and adjust their behavior accordingly. Read more about the specific behavior changes in their respective documentation.
+
+## Localization and translation
+
+You can set the locale for your form by using the `locale` property on the [Form.Handler](/uilib/extensions/forms/Form/Handler/) component. This will ensure that the correct language is used for all the fields in your form.
+
+```tsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+
+function MyForm() {
+  return (
+    <Form.Handler locale="en-GB">
+      <Field.PhoneNumber />
+    </Form.Handler>
+  )
+}
+```
+
+### Translations provided by Eufemia
+
+Eufemia provides forms translations for the following locales:
+
+<Ul>
+  {Object.keys(languageDisplayNames).map((l) => (
+    <Li key={l}>
+      <Anchor
+        href={`https://github.com/dnbexperience/eufemia/blob/main/packages/dnb-eufemia/src/extensions/forms/constants/locales/${l}.ts`}
+      >
+        {l}
+      </Anchor>
+    </Li>
+  ))}
+</Ul>
+
+### Add additional translations
+
+```js
+import { mergeTranslations } from '@dnb/eufemia/shared'
+import { Form } from '@dnb/eufemia/src/extensions/forms'
+import svSE_forms from '@dnb/eufemia/extensions/forms/constants/locales/sv-SE'
+import svSE_forms_countries from '@dnb/eufemia/extensions/forms/constants/locales/countries/sv-SE'
+// or import danish translations, like so:
+import daDK_forms from '@dnb/eufemia/extensions/forms/constants/locales/da-DK'
+import daDK_forms_countries from '@dnb/eufemia/extensions/forms/constants/locales/countries/da-DK'
+
+const translations = mergeTranslations(svSE_forms, svSE_forms_countries)
+
+render(
+  <Form.Handler translations={translations} locale="sv-SE">
+    Your form
+  </Form.Handler>,
+)
+```
+
+Instead of providing the forms translations per form, you can also provide them globally using the `Provider` component.
+
+If so, you can use the `mergeTranslations` function from `@dnb/eufemia/shared` to merge the forms translations with the shared translations like this:
+
+```js
+import { Provider, mergeTranslations } from '@dnb/eufemia/shared'
+import svSE from '@dnb/eufemia/shared/locales/sv-SE'
+import svSE_forms from '@dnb/eufemia/extensions/forms/constants/locales/sv-SE'
+
+const translations = mergeTranslations(svSE, svSE_forms)
+
+render(
+  <Provider translations={translations} locale="sv-SE">
+    Your app, including Eufemia Forms
+  </Provider>,
+)
+```
+
+### Customize translations
+
+You can customize the internal translations in a flat structure (dot-notation):
+
+```tsx
+{
+  'nb-NO': { 'PhoneNumber.label': 'Egendefinert' },
+  'en-GB': { 'PhoneNumber.label': 'Custom' },
+}
+```
+
+or an object based structure:
+
+```tsx
+{
+  'nb-NO': { PhoneNumber: { label: 'Egendefinert' } },
+  'en-GB': { PhoneNumber: { label: 'Custom' } },
+}
+```
+
+### How to customize translations in a form
+
+You can customize the translations in a form by using the `translations` property on the [Form.Handler](/uilib/extensions/forms/Form/Handler/).
+
+Alternatively, you can use the global Eufemia [Provider](/uilib/usage/customisation/provider/).
+
+You can find all available strings and keys in the properties tab of each field or value component. For example, check out the [PhoneNumber field properties](#!/uilib/extensions/forms/feature-fields/PhoneNumber/properties/#translations).
+
+```tsx
+import { Form, Field } from '@dnb/eufemia/extensions/forms'
+
+const myTranslations = {
+  'nb-NO': { 'PhoneNumber.label': 'Egendefinert' },
+  'en-GB': { 'PhoneNumber.label': 'Custom' },
+}
+
+render(
+  <Form.Handler translations={myTranslations}>
+    <Field.PhoneNumber />
+  </Form.Handler>,
+)
+```
+
+#### Consume the translations
+
+You can consume both the internal or your own translations with the [Form.useTranslation](/uilib/extensions/forms/Form/useTranslation/) hook:
+
+```tsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+
+const myTranslations = {
+  'nb-NO': { myString: 'Min egendefinerte streng' },
+  'en-GB': {
+    // Cascaded translations
+    Nested: {
+      stringWithArgs: 'My custom string with an argument: {myKey}',
+    },
+
+    // Flat translations
+    'Nested.stringWithLinebreaks':
+      'My custom string with a {br}line-break',
+  },
+}
+
+const MyComponent = () => {
+  const t = Form.useTranslation<typeof myTranslations>()
+
+  // Internal translations
+  const existingString = t.Field.errorRequired
+
+  // Your translations
+  const myString = t.myString
+
+  // Use the "formatMessage" function to handle strings with arguments
+  const myStringWithArgsA = t.formatMessage(t.Nested.stringWithArgs, {
+    myKey: 'myValue',
+  })
+  // You can also get the string with a key (dot-notation)
+  const myStringWithArgsB = t.formatMessage('Nested.stringWithArgs', {
+    myKey: 'myValue',
+  })
+
+  // Render line-breaks
+  const jsxOutput = t.renderMessage(t.Nested.stringWithLinebreaks)
+
+  return <>MyComponent</>
+}
+
+render(
+  <Form.Handler translations={myTranslations}>
+    <MyComponent />
+  </Form.Handler>,
+)
+```
+
+Here is a [demo](/uilib/extensions/forms/Form/Handler/demos/#locale-and-translations) of how to use the translations in a form.
+
+When creating [your own field](/uilib/extensions/forms/create-component/#localization-and-translations), you can use the `Form.useTranslation` hook to localize your field.
+
+## Layout
+
+When building your application forms, preferably use the following layout components. They seamlessly places all the fields and components of Eufemia Forms correctly into place.
+
+- [Flex.Stack](/uilib/layout/flex/stack/) layout component for easy and consistent application forms.
+- [Form.Card](/uilib/extensions/forms/Form/Card/) with the stack property `<Form.Card>...</Form.Card>` for the default card outline of forms.
+- [Form.Appearance](/uilib/extensions/forms/Form/Appearance/) for changing sizes (height) of e.g. input fields.
+
+## Best practices
+
+- [Best practices on Forms](/uilib/extensions/forms/best-practices-on-forms/).
+
+## Debugging
+
+### Logging
+
+You can use the `Tools.Log` component to log data to the console. The whole data context will be logged.
+
+```tsx
+import { Tools } from '@dnb/eufemia/src/extensions/forms'
+
+function MyForm() {
+  return (
+    <Form.Handler>
+      <Tools.Log />
+
+      <Form.Isolation>
+        <Tools.Log />
+      </Form.Isolation>
+    </Form.Handler>
+  )
+}
+```
+
+You can also provide your own data to the `Tools.Log` component by using the `data` property.
+
+### Finding errors
+
+In order to debug your forms, you can use the `Tools.Errors` component. It will render a list of all errors in your form, including the field path and the error message.
+
+- `fieldErrors` will render all field errors.
+- `formErrors` will render all form errors initiated by e.g. `schema`.
+
+```tsx
+import { Tools } from '@dnb/eufemia/src/extensions/forms'
+
+function MyForm() {
+  return (
+    <Form.Handler>
+      <Tools.Errors />
+    </Form.Handler>
+  )
+}
+```
+
+## Create your own component
+
+Eufemia Forms consists of helper components and tools so you can declaratively create interactive form components that flawlessly integrates between existing data and your custom form components. This ensures a common look and feel, even when ready-made components are combined with your local custom components.
+
+Read more about [creating your own component](/uilib/extensions/forms/create-component)

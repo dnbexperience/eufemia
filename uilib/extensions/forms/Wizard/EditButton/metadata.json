@@ -1,0 +1,43 @@
+{
+  "id": "uilib/extensions/forms/Wizard/EditButton",
+  "name": "EditButton",
+  "description": "`Wizard.EditButton` is a button to be placed in a summary step.",
+  "group": "extensions",
+  "slug": "/uilib/extensions/forms/Wizard/EditButton/",
+  "props": [
+    {
+      "name": "toStep",
+      "doc": "Lets you navigate to a specific step.",
+      "type": "number",
+      "status": "optional",
+      "defaultValue": null
+    }
+  ],
+  "events": [],
+  "related": [],
+  "checksum": "4ae1222c0ac4fdc583a6cfcb76c788bee4a87a263ef39dcb62ba8f09d300d2e5",
+  "source": {
+    "repo": "https://github.com/dnbexperience/eufemia",
+    "file": "packages/dnb-eufemia/src/extensions/forms/Wizard/EditButton/EditButton.tsx",
+    "fileUrl": "https://github.com/dnbexperience/eufemia/blob/v10.94.3/packages/dnb-eufemia/src/extensions/forms/Wizard/EditButton/EditButton.tsx",
+    "dirUrl": "https://github.com/dnbexperience/eufemia/tree/v10.94.3/packages/dnb-eufemia/src/extensions/forms/Wizard/EditButton"
+  },
+  "sources": {
+    "entry": {
+      "local": "src/docs/uilib/extensions/forms/Wizard/EditButton.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/Wizard/EditButton/"
+    },
+    "props": {
+      "local": "src/docs/uilib/extensions/forms/Wizard/EditButton/properties.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/Wizard/EditButton/properties/"
+    },
+    "events": null,
+    "demos": {
+      "local": "src/docs/uilib/extensions/forms/Wizard/EditButton/demos.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/Wizard/EditButton/demos/"
+    }
+  },
+  "version": "10.94.3",
+  "generatedAt": "2026-01-16T16:38:17.582Z",
+  "schemaVersion": 1
+}

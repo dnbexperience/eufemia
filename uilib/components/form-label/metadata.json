@@ -1,0 +1,104 @@
+{
+  "id": "uilib/components/form-label",
+  "name": "FormLabel",
+  "description": "The FormLabel component represents a caption for all sorts of HTML elements in a user interface.",
+  "group": "components",
+  "slug": "/uilib/components/form-label/",
+  "props": [
+    {
+      "name": "forId",
+      "doc": "The same unique `id` like the linked HTML element has.",
+      "type": "string",
+      "status": "required",
+      "defaultValue": null
+    },
+    {
+      "name": "text",
+      "doc": "The `text` of the label. You can use `children` as well.",
+      "type": "React.ReactNode",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "srOnly",
+      "doc": "When `true`, the label will be invisible and only accessible for screen readers.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "vertical",
+      "doc": "If set to `true`, will do the same as `label_direction` when set to **vertical**.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "size",
+      "doc": "Define one of the following [heading sizes](/uilib/elements/heading/): `medium` or `large`.",
+      "type": [
+        "medium",
+        "large"
+      ],
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "skeleton",
+      "doc": "If set to `true`, an overlaying skeleton with animation will be shown.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "disabled",
+      "doc": "If set to `true`, the label will behave as not interactive.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "element",
+      "doc": "Defines the HTML element used. Defaults to `label`.",
+      "type": "React.Element",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "innerRef",
+      "doc": "Attach a React Ref to the inner label `element`.",
+      "type": "React.Ref",
+      "status": "optional",
+      "defaultValue": null
+    }
+  ],
+  "events": [],
+  "related": [
+    "Space"
+  ],
+  "checksum": "56d9f528a6a74ccf692e61dbd3121b2a45544ac463a2ddd1e61665bedbb501ae",
+  "source": {
+    "repo": "https://github.com/dnbexperience/eufemia",
+    "file": "packages/dnb-eufemia/src/components/form-label/FormLabel.tsx",
+    "fileUrl": "https://github.com/dnbexperience/eufemia/blob/v10.94.3/packages/dnb-eufemia/src/components/form-label/FormLabel.tsx",
+    "dirUrl": "https://github.com/dnbexperience/eufemia/tree/v10.94.3/packages/dnb-eufemia/src/components/form-label"
+  },
+  "sources": {
+    "entry": {
+      "local": "src/docs/uilib/components/form-label.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/form-label/"
+    },
+    "props": {
+      "local": "src/docs/uilib/components/form-label/properties.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/form-label/properties/"
+    },
+    "events": null,
+    "demos": {
+      "local": "src/docs/uilib/components/form-label/demos.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/form-label/demos/"
+    }
+  },
+  "version": "10.94.3",
+  "generatedAt": "2026-01-16T16:38:16.605Z",
+  "schemaVersion": 1
+}

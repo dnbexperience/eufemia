@@ -1,0 +1,384 @@
+---
+title: 'Style Isolation'
+metadata: https://eufemia.dnb.no/uilib/usage/customisation/styling/style-isolation/metadata.json
+---
+
+# Style Isolation
+
+Eufemia provides you with a way to isolate its styles, so you can use different Eufemia versions along side each other on the same page.
+
+## How it works
+
+Eufemia's style isolation works by scoping all CSS selectors in the isolated style files (with the `--isolated.min.css` suffix) using a unique **scope hash**. This scope hash is generated based on the Eufemia version (or a git SHA if the version is not released yet) and is used as a class name prefix for all selectors, ensuring that styles from different Eufemia versions do not conflict.
+
+For example, if you have two apps on the same page using different Eufemia versions, each will have its own scope hash:
+
+```html
+<div class="eufemia-scope--1_2_3">
+  <!-- App 1 using Eufemia v1.2.3 -->
+  <button class="dnb-button">Eufemia 1.2.3</button>
+</div>
+
+<div class="eufemia-scope--2_1_0">
+  <!-- App 2 using Eufemia v2.1.0 -->
+  <button class="dnb-button">Eufemia 2.1.0</button>
+</div>
+```
+
+To apply the isolated styles, wrap your app content with the `IsolatedStyleScope` component:
+
+```tsx
+import { IsolatedStyleScope } from '@dnb/eufemia/shared'
+
+function MyApp() {
+  return <IsolatedStyleScope>Your app content</IsolatedStyleScope>
+}
+```
+
+Optionally, you can add the PostCSS plugin to your build tool to ensure your custom styles have the necessary CSS specificity when overriding or extending Eufemia styles.
+
+## How to use it
+
+### 1. Import the isolated CSS files
+
+In the root of your project, import the isolated CSS files:
+
+```tsx
+import '@dnb/eufemia/style/isolated'
+```
+
+You can also import the isolated CSS files directly:
+
+```tsx
+import '@dnb/eufemia/style/dnb-ui-basis--isolated.min.css'
+import '@dnb/eufemia/style/themes/theme-ui/ui-theme-components--isolated.min.css'
+import '@dnb/eufemia/style/themes/theme-ui/ui-theme-basis--isolated.min.css'
+```
+
+### 2. Define the scope
+
+```tsx
+import { IsolatedStyleScope } from '@dnb/eufemia/shared'
+
+function MyApp() {
+  return <IsolatedStyleScope>Your app content</IsolatedStyleScope>
+}
+```
+
+**Good to know:**
+
+- Remove existing `.dnb-core-style` classes.
+- Font files are loaded from the CDN (Read more [about hosted fonts](/uilib/typography/#hosted-fonts-cdn)), so they are shared between Eufemia versions.
+
+### 3. Add the PostCSS plugin
+
+1. Find and add a [PostCSS extension or loader](https://github.com/postcss/postcss#usage) for your build tool.
+2. Then create a `postcss.config.js` file in your project root:
+
+```js
+module.exports = {
+  plugins: [
+    require('@dnb/eufemia/cjs/plugins/postcss-isolated-style-scope')(/* options */),
+  ],
+}
+```
+
+In some cases your bundler may not support CJS, so you can use the ESM version of the plugin:
+
+```js
+import styleScopePlugin from '@dnb/eufemia/plugins/postcss-isolated-style-scope.js'
+
+export default {
+  plugins: [styleScopePlugin(/* options */)],
+}
+```
+
+The plugin accepts an options object. The default options are:
+
+```js
+{
+  skipClassNames: [],
+  replaceClassNames: undefined,// { 'old-class': 'new-class' }
+  scopeHash: 'auto',// Can be a function: (file) => string
+  sharedScopeHash: undefined, // Provide a function that returns an array of shared scope hashes
+  verbose: false,
+}
+```
+
+CSS Modules are supported including SASS (SCSS) files.
+
+## CSS Specificity
+
+When extending or overriding styles from Eufemia, it's essential to match the CSS specificity of the original selectors to ensure your styles are applied correctly.
+
+To help with this, you can use the PostCSS plugin (style-scope) that automatically adds the required scope class to your CSS or SCSS (SASS). This ensures your styles have the necessary specificity to take effect.
+
+```scss
+.myButtonStyle:global(.dnb-button) {
+  padding: 2rem;
+}
+```
+
+Without the PostCSS plugin, the example above will not work as expected.
+
+## The scope element
+
+If you want to use the scope element in your app, you can use a React Hook to get the root element:
+
+```tsx
+import IsolatedStyleScope, {
+  useIsolatedStyleScope,
+} from '@dnb/eufemia/shared/IsolatedStyleScope'
+
+function Component() {
+  const { getScopeElement } = useIsolatedStyleScope()
+
+  React.useEffect(() => {
+    const element = getScopeElement()
+  }, [getScopeElement])
+
+  return null
+}
+
+render(
+  <IsolatedStyleScope>
+    <Component />
+  </IsolatedStyleScope>,
+)
+```
+
+Optionally, you can provide a different scope hash (`scopeHash`) to the hook if you need to retrieve an element from a nested scope:
+
+```tsx
+const { getScopeElement } = useIsolatedStyleScope('my-scope')
+```
+
+## Additional information
+
+### Isolated CSS files
+
+Every component has its own isolated CSS file. You can import them directly:
+
+```tsx
+// Shared basis
+import '@dnb/eufemia/style/dnb-ui-basis--isolated.min.css'
+import '@dnb/eufemia/style/themes/theme-ui/ui-theme-basis--isolated.min.css'
+
+// Components
+import '@dnb/eufemia/components/button/style/dnb-button--isolated.min.css'
+import '@dnb/eufemia/components/button/style/themes/dnb-button-theme-ui--isolated.min.css'
+```
+
+### Omit selectors from the scope
+
+You can prepend your selectors with `[skip-isolation]` which will omit the scope class from the selector. Also, the selector `[skip-isolation]` will be removed:
+
+```css
+[skip-isolation] .global-selector {
+  --color-sea-green: tomato;
+}
+```
+
+Will become:
+
+```css
+.global-selector {
+  --color-sea-green: tomato;
+}
+```
+
+Here's how you can make a selector global when using CSS Modules:
+
+```scss
+:global {
+  [skip-isolation] .global-selector {
+    --color-sea-green: tomato;
+  }
+}
+```
+
+Will become:
+
+```css
+.global-selector {
+  --color-sea-green: tomato;
+}
+```
+
+### Placeholder
+
+You can use the selector `[scope-placeholder]` as a shortcut for targeting the root of the isolated scope. The PostCSS plugin will automatically replace it with the actual scope class (e.g. `.eufemia-scope--1_2_3`).
+
+```scss
+[scope-placeholder] {
+  --color-sea-green: tomato;
+}
+```
+
+Will become:
+
+```css
+.eufemia-scope--1_2_3 {
+  --color-sea-green: tomato;
+}
+```
+
+This gives you the ability to compose selectors with flexibility.
+
+```scss
+html [scope-placeholder] .mySelector {
+  --color-sea-green: tomato;
+}
+```
+
+Will become:
+
+```css
+html .eufemia-scope--1_2_3 .mySelector {
+  --color-sea-green: tomato;
+}
+```
+
+### Overwrite the given scope hash
+
+By using the PostCSS plugin, you can overwrite the given scope hash by providing a string or function that returns a string:
+
+```js
+{
+  scopeHash: (file) => 'my-hash',
+}
+```
+
+If you return `undefined`, the default scope hash will be applied.
+
+Additionally, you then also need to provide the same scope hash to the Eufemia component:
+
+```tsx
+import { IsolatedStyleScope } from '@dnb/eufemia/shared/IsolatedStyleScope'
+
+function MyApp() {
+  return (
+    <IsolatedStyleScope scopeHash="my-hash">
+      Your app content
+    </IsolatedStyleScope>
+  )
+}
+```
+
+### Shared scopes
+
+The PostCSS plugin supports shared scopes. This means that you can use the same selector in one file and have it be duplicated for multiple scopes.
+
+In order to do that, you can provide a function that returns an array of shared scope hashes.
+
+```js
+{
+  sharedScopeHash: () => ['shared-1', 'shared-2'],
+}
+```
+
+This will create duplicate selectors for each shared scope.
+
+```css
+.main-scope .my-class,
+.shared-1 .my-class,
+.shared-2 .my-class {
+  /* Styles for Eufemia v1.2.3 */
+}
+```
+
+### Get the current scope hash
+
+You can use `getStyleScopeHash` to get the scope hash for the current Eufemia version via the `IsolatedStyleScope` component:
+
+```tsx
+import { getStyleScopeHash } from '@dnb/eufemia/shared/IsolatedStyleScope'
+
+getStyleScopeHash() // 'eufemia-scope--1_2_3'
+```
+
+### Selector transformation and scoping behavior
+
+#### General Rules
+
+- CSS `:root` selectors are rewritten to target the scoped container.
+  e.g. `:root {}` → `.eufemia-scope--1_2_3 {}`
+- Selectors starting with `[skip-isolation]` are excluded from scoping.
+  e.g. `[skip-isolation] .x` → `.x`
+- A placeholder `[scope-placeholder]` can be used to compose selectors.
+  e.g. `[scope-placeholder] .x` → `.eufemia-scope--1_2_3 .x`
+
+#### Additional Cases
+
+- A `html` selector is left untouched and continues to target the global `<html>` element.
+  e.g. `html {}` → `html {}`
+
+- A `body` selector remains unchanged.
+  e.g. `body {}` → `body {}`
+
+- Combined `html body` selectors remain untouched.
+  e.g. `html body {}` → `html body {}`
+
+- A selector like `body .my-class` is scoped so that the class is prefixed, but `body` remains global.
+  e.g. `body .my-class` → `body .eufemia-scope--1_2_3 .my-class`
+
+- A selector like `body *` will scope the selector.
+  e.g. `body *` → `body .eufemia-scope--1_2_3 *`
+
+- A combined selector like `html body .my-class` results in only `.my-class` being scoped.
+  e.g. `html body .my-class` → `html body .eufemia-scope--1_2_3 .my-class`
+
+- Class selectors are prefixed with the scope class.
+  e.g. `.my-class` → `.eufemia-scope--1_2_3 .my-class`
+
+- ID selectors are scoped similarly.
+  e.g. `#header` → `.eufemia-scope--1_2_3 #header`
+
+- Tag selectors like `strong`, `em`, or `input` are scoped.
+  e.g. `strong` → `.eufemia-scope--1_2_3 strong`
+
+- Attribute selectors are scoped.
+  e.g. `[data-test]` → `.eufemia-scope--1_2_3 [data-test]`
+
+- Pseudo-classes are preserved after scoping.
+  e.g. `.button:hover` → `.eufemia-scope--1_2_3 .button:hover`
+
+- Pseudo-elements are scoped.
+  e.g. `.icon::before` → `.eufemia-scope--1_2_3 .icon::before`
+
+- The universal selector `*`, and pseudo-elements like `::before` and `::after`, are scoped when grouped.
+  e.g. `*, ::before, ::after` → `.eufemia-scope--1_2_3 *, .eufemia-scope--1_2_3 ::before, .eufemia-scope--1_2_3 ::after`
+
+- Selectors already containing the correct scope (e.g. `.eufemia-scope--something`) are not scoped again.
+
+- `@keyframes` are omitted from scoping for now.
+
+#### CSS Modules Specific
+
+- When `runAsCssModule` is `true`, scope classes are injected using `:global(...)`.
+  e.g. `.my-class` → `:global(.eufemia-scope--1_2_3) .my-class`
+
+- A top-level `:global` block is replaced with a scoped global.
+  e.g. `:global {}` → `:global(.eufemia-scope--1_2_3) {}`
+
+- A leading `:global` selector chain is wrapped accordingly.
+  e.g. `:global .x` → `:global(.eufemia-scope--1_2_3) :global .x`
+
+#### Special Configurations
+
+- `replaceClassNames`: Specific class names are renamed before scoping.
+  e.g. `.old-name` → `.eufemia-scope--1_2_3 .new-name`
+  with `{ 'old-name': 'new-name' }`
+
+- `skipClassNames`: These classes are never scoped.
+  e.g. `.skip-me` → `.skip-me`
+  with `['skip-me']`
+
+- `sharedScopeHash`: Selectors are duplicated for each shared scope.
+  e.g. `.my-class` → `.main-scope .my-class, .shared-1 .my-class, .shared-2 .my-class`
+  with `sharedScopeHash: () => ['shared-1', 'shared-2']`
+
+- `scopeHash: 'auto'`: Reads from `scope-hash.txt` if available, or falls back to default.
+  e.g. (`scopeHash: 'my-hash'`) `my-hash` → `.my-hash .my-class`
+  with a string: `scopeHash: 'my-hash'`
+  with a function: `scopeHash: (file) => 'my-hash'`

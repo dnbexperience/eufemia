@@ -1,0 +1,33 @@
+{
+  "id": "uilib/extensions/forms/feature-fields/Date",
+  "name": "Date",
+  "description": "`Field.Date` is a wrapper component for the input of strings, with user experience tailored for date values.",
+  "group": "extensions",
+  "slug": "/uilib/extensions/forms/feature-fields/Date/",
+  "props": [],
+  "events": [],
+  "related": [],
+  "checksum": "090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40",
+  "source": null,
+  "sources": {
+    "entry": {
+      "local": "src/docs/uilib/extensions/forms/feature-fields/Date.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/feature-fields/Date/"
+    },
+    "props": {
+      "local": "src/docs/uilib/extensions/forms/feature-fields/Date/properties.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/feature-fields/Date/properties/"
+    },
+    "events": {
+      "local": "src/docs/uilib/extensions/forms/feature-fields/Date/events.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/feature-fields/Date/events/"
+    },
+    "demos": {
+      "local": "src/docs/uilib/extensions/forms/feature-fields/Date/demos.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/feature-fields/Date/demos/"
+    }
+  },
+  "version": "10.94.3",
+  "generatedAt": "2026-01-16T16:38:17.658Z",
+  "schemaVersion": 1
+}

@@ -1,0 +1,45 @@
+---
+title: 'Line Height'
+metadata: https://eufemia.dnb.no/uilib/typography/line-height/metadata.json
+---
+
+# Line Height for
+
+<ChangeStyleTheme label="Change the brand:" bottom="large" />
+
+For details about what values Typographic elements do use, have a look at the [Fonts & Typography](/quickguide-designer/fonts#typographic-elements) documentation.
+
+## Default `line-height` **rem** table
+
+| Pixel                                   | Type       | Rem                                          | CSS variable / property  | CSS Classname                   | Info                             |
+| --------------------------------------- | ---------- | -------------------------------------------- | ------------------------ | ------------------------------- | -------------------------------- |
+| {GetPropAsPx('--line-height-x-small')}  | `x-small`  | **{GetPropValue('--line-height-x-small')}**  | `--line-height-x-small`  | `.dnb-t__line-height--x-small`  |                                  |
+| {GetPropAsPx('--line-height-small')}    | `small`    | **{GetPropValue('--line-height-small')}**    | `--line-height-small`    | `.dnb-t__line-height--small`    |                                  |
+| {GetPropAsPx('--line-height-basis')}    | `basis`    | **{GetPropValue('--line-height-basis')}**    | `--line-height-basis`    | `.dnb-t__line-height--basis`    |                                  |
+| {GetPropAsPx('--line-height-lead')}     | `lead`     | **{GetPropValue('--line-height-lead')}**     | `--line-height-lead`     | `.dnb-t__line-height--lead`     | Unique line-height for `<Lead>`. |
+| {GetPropAsPx('--line-height-medium')}   | `medium`   | **{GetPropValue('--line-height-medium')}**   | `--line-height-medium`   | `.dnb-t__line-height--medium`   |                                  |
+| {GetPropAsPx('--line-height-large')}    | `large`    | **{GetPropValue('--line-height-large')}**    | `--line-height-large`    | `.dnb-t__line-height--large`    |                                  |
+| {GetPropAsPx('--line-height-x-large')}  | `x-large`  | **{GetPropValue('--line-height-x-large')}**  | `--line-height-x-large`  | `.dnb-t__line-height--x-large`  |                                  |
+| {GetPropAsPx('--line-height-xx-large')} | `xx-large` | **{GetPropValue('--line-height-xx-large')}** | `--line-height-xx-large` | `.dnb-t__line-height--xx-large` | Same as `x-large`                |
+
+### Code Editor Extensions
+
+You may be interested to install an [Eufemia code editor extension](/uilib/helpers/tools/#code-editor-extensions) that allows you to quickly auto complete the correct `line-height`.
+
+## Additional `line-height` **em** table
+
+| Pixel | Type           | Em                                               | Custom Property              | Info   |
+| ----- | -------------- | ------------------------------------------------ | ---------------------------- | ------ |
+| 16px  | `xx-small--em` | **{GetPropValue('--line-height-xx-small--em')}** | `--line-height-xx-small--em` |        |
+| 24px  | `basis--em`    | **{GetPropValue('--line-height-basis--em')}**    | `--line-height-basis--em`    | **\*** |
+
+**\*** For example: if we sum 1.33333333333\*18 we get 24. Browsers do round CSS values, so we do not need all the decimal numbers for now.
+
+### How to use the line heights (CSS)
+
+```css
+/* I have a default height */
+.dnb-p {
+  line-height: var(--line-height-basis); /* 1.5rem = 24px (in Ui theme) */
+}
+```

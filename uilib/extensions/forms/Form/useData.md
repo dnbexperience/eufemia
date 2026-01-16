@@ -1,0 +1,488 @@
+---
+title: 'useData'
+description: '`Form.useData` lets you access or modify your form data outside of the form context within your application.'
+metadata: https://eufemia.dnb.no/uilib/extensions/forms/Form/useData/metadata.json
+---
+
+## Import
+
+```tsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+// Use Form.useData
+```
+
+## Description
+
+With the `Form.useData` hook, you can manage your form data from nested components and outside the form context (`Form.Handler`).
+
+The hook returns an object with the following properties:
+
+```tsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+
+function MyComponent() {
+  const {
+    getValue,
+    update,
+    remove,
+    set,
+    data,
+    filterData,
+    reduceToVisibleFields,
+  } = Form.useData()
+
+  return <>MyComponent</>
+}
+
+render(
+  <Form.Handler>
+    <MyComponent />
+  </Form.Handler>,
+)
+```
+
+- `getValue` will return the value of the given path.
+- `update` will update the value of the given path.
+- `remove` will remove the given path from the data context (fields will reapply their values afterwards).
+- `set` will set the whole dataset.
+- `data` will return the whole dataset (unvalidated).
+- `filterData` will filter the data based on your own logic.
+- `reduceToVisibleFields` will reduce the given data set to only contain the visible fields (mounted fields).
+
+## Usage
+
+You can use the `Form.useData` hook with or without an `id` (string, function, object or React Context as the reference) property, which is optional and can be used to link the data to a specific [Form.Handler](/uilib/extensions/forms/Form/Handler/) component.
+
+### TypeScript support
+
+You can define the TypeScript type structure for your form data. This will help you to get better code completion and type checking.
+
+**NB:** Use `type` instead of `interface` for the type definition.
+
+```tsx
+type MyData = { firstName: string }
+
+const MyComponent = () => {
+  const { data } = Form.useData<MyData>()
+  return data.firstName
+}
+```
+
+### Without an `id` property
+
+Here "Component" is rendered inside the `Form.Handler` component and does not need an `id` property to access the form data:
+
+```jsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+
+function MyForm() {
+  return (
+    <Form.Handler>
+      <Component />
+    </Form.Handler>
+  )
+}
+
+function Component() {
+  const { data } = Form.useData()
+}
+```
+
+### With an `id` property
+
+While in this example, "Component" is outside the `Form.Handler` context, but linked together via the `id` (string, function, object or React Context as the reference) property:
+
+```jsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+
+const myFormId = 'unique-id' // or a function, object or React Context reference
+
+function MyForm() {
+  return (
+    <>
+      <Form.Handler id={myFormId}>...</Form.Handler>
+      <Component />
+    </>
+  )
+}
+
+function Component() {
+  const { data } = Form.useData(myFormId)
+}
+```
+
+This is beneficial when you need to utilize the form data in other places within your application.
+
+### Select a single value
+
+```jsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+
+function MyComponent() {
+  const { getValue } = Form.useData()
+
+  const value = getValue('/foo')
+}
+```
+
+## Update data
+
+If you need to update the data, you can use the `update` method.
+
+It takes a path ([JSON Pointer](/uilib/extensions/forms/getting-started/#what-is-a-json-pointer)) and a callback function. The callback function receives the existing value as the first argument, and the second argument is the path itself. The callback function must return the new value.
+
+```jsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+
+function Component() {
+  const { update } = Form.useData()
+
+  useEffect(() => {
+    update('/foo', 'new value')
+
+    // - or with a callback function to get the existing value
+    update('/foo', (existingValue) => existingValue + 'new value')
+  }, [])
+}
+```
+
+## Extend the whole data set
+
+With the `set` method, you can extend the data set. Existing data paths will be overwritten.
+
+```jsx
+import { Form, Field } from '@dnb/eufemia/extensions/forms'
+
+const myFormId = 'unique-id' // or a function, object or React Context reference
+
+function MyForm() {
+  const { data, set } = Form.useData(myFormId)
+
+  useEffect(() => {
+    set({ foo: 'bar' })
+  }, [])
+
+  return (
+    <Form.Handler id={myFormId}>
+      <Field.String path="/foo" />
+    </Form.Handler>
+  )
+}
+```
+
+## Visible data
+
+You can use the `reduceToVisibleFields` function to get only the data of visible (mounted) fields. Check out the [example](/uilib/extensions/forms/Form/Handler/demos/#visible-data) in the demo section.
+
+```tsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+
+function MyComponent() {
+  const { data, reduceToVisibleFields } = Form.useData()
+
+  // Use useEffect to ensure we get the latest data
+  React.useEffect(() => {
+    console.log(reduceToVisibleFields(data))
+  }, [data])
+
+  return <>MyComponent</>
+}
+
+render(
+  <Form.Handler>
+    <MyComponent />
+  </Form.Handler>,
+)
+```
+
+In addition, you can include or exclude paths by using the `keepPaths` and `removePaths` options.
+
+```ts
+reduceToVisibleFields(data, {
+  keepPaths: ['/foo'],
+  removePaths: ['/bar'],
+})
+```
+
+## Filter data
+
+You can use the `filterData` function to filter your data. Check out [the example below](#filter-your-data).
+
+You simply give it the [same kind of filter](/uilib/extensions/forms/Form/Handler/demos/#filter-your-data) as you would within the `onSubmit` event callback.
+
+The callback function receives the following properties in an object:
+
+- `path` The path of the field.
+- `value` The value of the field.
+- `displayValue` The displayed value of the field.
+- `label` The label of the field.
+- `props` The given field properties.
+- `error` The error of the field. Is `undefined` if there is no error.
+
+The callback function should return a `boolean` or `undefined`. Return `false` to exclude an entry.
+
+It returns the filtered form data.
+
+**Tip:** Depending on your use case – and instead of `disabled` – you may rather use a `data-*` attribute on your field (e.g. `data-exclude-field`) to filter the field out of the data set.
+
+```tsx
+const filterDataHandler = ({ path, value, data, props, error }) => {
+  if (props['data-exclude-field']) {
+    return false
+  }
+}
+
+const myFormId = 'unique-id' // or a function, object or React Context reference
+
+const MyForm = () => {
+  const { filterData } = Form.useData(myFormId)
+  const filteredData = filterData(filterDataHandler)
+
+  return (
+    <Form.Handler id={myFormId}>
+      <Field.String path="/foo" data-exclude-field />
+    </Form.Handler>
+  )
+}
+```
+
+```tsx
+const filterDataHandler = ({ path, value, data, props, error }) => {
+  return !(error instanceof Error)
+}
+```
+
+## Initial data
+
+You decide where and when you want to provide the initial `data` to the form. It can be done via the `Form.Handler` component, or via the `Form.useData` Hook or [Form.setData](/uilib/extensions/forms/Form/setData/) method – or even in each Field, with the value property.
+
+```jsx
+import { Form, Field } from '@dnb/eufemia/extensions/forms'
+
+const myFormId = 'unique-id' // or a function, object or React Context reference
+const initialData = { foo: 'bar' }
+
+function MyForm() {
+  return (
+    <Form.Handler id={myFormId} data={initialData}>
+      <Field.String path="/foo" />
+    </Form.Handler>
+  )
+}
+
+function ComponentA() {
+  Form.useData(myFormId, { foo: 'bar' })
+}
+
+function ComponentB() {
+  const { set } = Form.useData(myFormId)
+
+  useEffect(() => {
+    set({ foo: 'bar' })
+  }, [])
+}
+```
+
+## Validation
+
+**tl;dr:** the `useData` hook returns unvalidated data.
+
+When you use an async `onChange`, `onChangeValidator` or `onBlurValidator` event handler on a field, it will delay the "submitted" value, because of its async nature.
+
+That means, if you want to access the value of a field immediately, you can use the `useData` hook for that, as it always returns unvalidated data, in sync.
+
+## Demos
+
+### Set data outside of the form
+
+```tsx
+const existingData = {
+  foo: 'bar',
+}
+const Component = () => {
+  const { data } = Form.useData('default-id', existingData)
+  return (
+    <Form.Handler id="default-id">
+      <Field.String path="/foo" label={data.foo} />
+    </Form.Handler>
+  )
+}
+render(<Component />)
+```
+
+### Update the data outside of the form
+
+The update function `update('/count', (count) => count + 1)` has TypeScript support and returns the correct type for `count` (number).
+
+```tsx
+const existingData = {
+  count: 1,
+}
+const Component = () => {
+  const { data, update } = Form.useData('update-id', existingData)
+  const increment = React.useCallback(() => {
+    update('/count', (count) => {
+      return count + 1
+    })
+  }, [update])
+  return (
+    <Form.Handler id="update-id">
+      <Flex.Horizontal>
+        <Field.Number path="/count" showStepControls />
+        <Form.SubmitButton
+          onClick={increment}
+          text={`Increment ${data.count}`}
+        />
+      </Flex.Horizontal>
+    </Form.Handler>
+  )
+}
+render(<Component />)
+```
+
+### Shared state without a Form.Handler
+
+```tsx
+const existingData = {
+  count: 1,
+}
+const Component = () => {
+  const { data, update } = Form.useData('independent-id', existingData)
+  const increment = React.useCallback(() => {
+    update('/count', (count) => {
+      return count + 1
+    })
+  }, [update])
+  return (
+    <Button
+      on_click={increment}
+      text={`Increment ${data.count}`}
+      variant="secondary"
+    />
+  )
+}
+render(
+  <Flex.Vertical>
+    <Component />
+    <Component />
+  </Flex.Vertical>,
+)
+```
+
+### Get only data of visible fields
+
+You can use the `reduceToVisibleFields` function to get only the data of visible (mounted) fields.
+
+```tsx
+const MyForm = () => {
+  const { data, reduceToVisibleFields } = Form.useData()
+
+  // Use useEffect to ensure we get the latest data
+  React.useEffect(() => {
+    console.log(
+      'Result of reduceToVisibleFields:\n',
+      reduceToVisibleFields(data, {
+        removePaths: ['/isVisible'],
+      }),
+    )
+  }, [data, reduceToVisibleFields])
+  return (
+    <Form.Handler>
+      <Flex.Stack>
+        <Field.Boolean
+          label="Show radio buttons"
+          variant="button"
+          path="/isVisible"
+          defaultValue={true}
+        />
+
+        <Form.Visibility pathTrue="/isVisible" animate>
+          <Field.Selection
+            label="Radio buttons"
+            variant="radio"
+            path="/myValue"
+            defaultValue="foo"
+          >
+            <Field.Option value="foo" title="Foo" />
+            <Field.Option value="bar" title="Bar" />
+          </Field.Selection>
+        </Form.Visibility>
+
+        <Value.Selection path="/myValue" inheritLabel inheritVisibility />
+      </Flex.Stack>
+    </Form.Handler>
+  )
+}
+render(<MyForm />)
+```
+
+### Filter your data
+
+This example uses the `keepInDOM` property to keep the field in the DOM.
+
+But with the `filterData` method we can filter out all fields that have the `data-exclude-field` attribute.
+
+In this demo, the `data-exclude-field` attribute is added when the field is hidden.
+
+```tsx
+const filterDataPaths = {
+  '/isVisible': false,
+  '/mySelection': ({ data }) => data.isVisible,
+  '/myString': ({ data }) => {
+    return data.isVisible && data.mySelection === 'more'
+  },
+}
+const MyForm = () => {
+  return (
+    <Form.Handler
+      defaultData={{
+        isVisible: false,
+        mySelection: 'less',
+        myString: 'foo',
+      }}
+    >
+      <Flex.Stack>
+        <Field.Boolean
+          label="Toggle visible"
+          variant="button"
+          path="/isVisible"
+          data-exclude-field
+        />
+        <Form.Visibility pathTrue="/isVisible" animate>
+          <Field.Selection
+            label="Choose"
+            variant="radio"
+            path="/mySelection"
+            value="less"
+          >
+            <Field.Option value="less" title="Less" />
+            <Field.Option value="more" title="More" />
+          </Field.Selection>
+
+          <Form.Visibility
+            visibleWhen={{
+              path: '/mySelection',
+              hasValue: 'more',
+            }}
+            animate
+          >
+            <Field.String label="My String" path="/myString" value="foo" />
+          </Form.Visibility>
+        </Form.Visibility>
+
+        <Output />
+      </Flex.Stack>
+    </Form.Handler>
+  )
+}
+const Output = () => {
+  const { data, filterData } = Form.useData()
+  return (
+    <>
+      <Tools.Log data={filterData(filterDataPaths)} label="Filtered:" />
+      <Tools.Log data={data} label="All data:" />
+    </>
+  )
+}
+render(<MyForm />)
+```

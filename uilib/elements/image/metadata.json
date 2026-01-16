@@ -1,0 +1,76 @@
+{
+  "id": "uilib/elements/image",
+  "name": "Image",
+  "description": "Image element exists to have a future possibility to optimize and add features.",
+  "group": "elements",
+  "slug": "/uilib/elements/image/",
+  "props": [
+    {
+      "name": "skeleton",
+      "doc": "If set to `true`, an overlaying skeleton with animation will be shown.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "imgClass",
+      "doc": "Custom className on the `<img>`-element",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "element",
+      "doc": "Defines the Element Type, like `figure`.",
+      "type": [
+        "HTMLElement",
+        "string"
+      ],
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "caption",
+      "doc": "Use to define a caption for the image. Uses `<figcaption>`.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "loading",
+      "doc": "Can either be `eager` or `lazy`. Defaults to `eager`.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    }
+  ],
+  "events": [],
+  "related": [
+    "Space"
+  ],
+  "checksum": "99fb868b0f415c3facd8a76813441cc3a1be10485c4e5e9bbf0c86c8ea52e71f",
+  "source": {
+    "repo": "https://github.com/dnbexperience/eufemia",
+    "file": "packages/dnb-eufemia/src/elements/img/Img.tsx",
+    "fileUrl": "https://github.com/dnbexperience/eufemia/blob/v10.94.3/packages/dnb-eufemia/src/elements/img/Img.tsx",
+    "dirUrl": "https://github.com/dnbexperience/eufemia/tree/v10.94.3/packages/dnb-eufemia/src/elements/img"
+  },
+  "sources": {
+    "entry": {
+      "local": "src/docs/uilib/elements/image.mdx",
+      "public": "https://eufemia.dnb.no/uilib/elements/image/"
+    },
+    "props": {
+      "local": "src/docs/uilib/elements/image/properties.mdx",
+      "public": "https://eufemia.dnb.no/uilib/elements/image/properties/"
+    },
+    "events": null,
+    "demos": {
+      "local": "src/docs/uilib/elements/image/demos.mdx",
+      "public": "https://eufemia.dnb.no/uilib/elements/image/demos/"
+    }
+  },
+  "version": "10.94.3",
+  "generatedAt": "2026-01-16T16:38:16.977Z",
+  "schemaVersion": 1
+}

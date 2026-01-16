@@ -1,0 +1,74 @@
+---
+title: 'Blocks'
+metadata: https://eufemia.dnb.no/uilib/extensions/forms/blocks/metadata.json
+---
+
+## Description
+
+Blocks are a collection of reusable fields and values. They can also be 100% customized and nested in each other. This makes it easy to reuse the same blocks in different contexts.
+
+- A single block can be used without any further Eufemia Forms components, just like any other field and value.
+- Each block should have integration tests.
+- Each block has its own localization and translations.
+- When you import a block, only the code and translations used in the block will be included in your production bundle.
+
+## Relevant links
+
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/blocks)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/extensions/forms/blocks)
+
+Read about how to create a section (block) by using a [Form.Section](/uilib/extensions/forms/Form/Section/).
+
+## Usage
+
+You import a block like this:
+
+```jsx
+import { ChildrenWithAge } from '@dnb/eufemia/extensions/forms/blocks'
+render(<ChildrenWithAge />)
+```
+
+### Integration
+
+It is recommended to use blocks within a [Wizard](/uilib/extensions/forms/Wizard/) and [Form.Handler](/uilib/extensions/forms/Form/Handler/). However, they can also be used independently. In such cases, you can utilize the `onChange` event to listen for changes in the block.
+
+You can also define a `path` to the block component. This makes it possible to reuse the same block component in different contexts.
+
+```jsx
+<ChildrenWithAge path="/account/holder/children" />
+```
+
+### Customization
+
+The `overwriteProps` property lets you overwrite all of the field properties if needed:
+
+```tsx
+<ChildrenWithAge
+  overwriteProps={{
+    firstName: { label: 'Custom label' },
+    lastName: { required: false, minLength: 0 },
+  }}
+/>
+```
+
+### Localization
+
+You can change the texts and translations used inside of a block via the [Form.Handler](/uilib/extensions/forms/Form/Handler/):
+
+```tsx
+import { Form } from '@dnb/eufemia/src/extensions/forms'
+import { ChildrenWithAge } from '@dnb/eufemia/extensions/forms/blocks'
+
+const myTranslations = {
+  'nb-NO': { ChildrenWithAge: { hasChildren: { title: 'Egendefinert' } } },
+  'en-GB': { ChildrenWithAge: { hasChildren: { title: 'Custom label' } } },
+}
+
+export function MyForm() {
+  return (
+    <Form.Handler translations={myTranslations}>
+      <ChildrenWithAge />
+    </Form.Handler>
+  )
+}
+```

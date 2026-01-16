@@ -1,0 +1,235 @@
+{
+  "id": "uilib/components/table",
+  "name": "Table",
+  "description": "Enhanced HTML Table element.",
+  "group": "components",
+  "slug": "/uilib/components/table/",
+  "props": [
+    {
+      "name": "collapseAllHandleRef",
+      "doc": "Ref handle to collapse all expanded accordion rows. Send in a ref and use `.current()` to collapse all rows.",
+      "type": "React.MutableRefObject<() => void>",
+      "status": "optional",
+      "defaultValue": "undefined"
+    },
+    {
+      "name": "mode",
+      "doc": "Defines how the Table should look. Use `accordion` for an accordion-like table. Use `navigation` for a navigation table.",
+      "type": [
+        "'accordion'",
+        "'navigation'"
+      ],
+      "status": "optional",
+      "defaultValue": "null"
+    },
+    {
+      "name": "accordionChevronPlacement",
+      "doc": "Defines where the chevron will be placed, should only be used together with mode=\"accordion\".",
+      "type": [
+        "'start'",
+        "'end'"
+      ],
+      "status": "optional",
+      "defaultValue": "'start'"
+    },
+    {
+      "name": "border",
+      "doc": "Use `true` to show borders between table data cells.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": "false"
+    },
+    {
+      "name": "outline",
+      "doc": "Use `true` to show an outline border around the table",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": "false"
+    },
+    {
+      "name": "sticky",
+      "doc": "Use `true` to enable a sticky Table header. Or use `'css-position'` to enable the CSS based scroll behavior.",
+      "type": [
+        "boolean",
+        "'css-position'"
+      ],
+      "status": "optional",
+      "defaultValue": "false"
+    },
+    {
+      "name": "stickyOffset",
+      "doc": "Defines the offset (top) in `rem` from where the header should start to stick. You may define your app header height here, if you have a sticky header on your page.",
+      "type": [
+        "string",
+        "number"
+      ],
+      "status": "optional",
+      "defaultValue": "false"
+    },
+    {
+      "name": "size",
+      "doc": "Spacing size inside the table header and data.",
+      "type": [
+        "'large'",
+        "'medium'",
+        "'small'"
+      ],
+      "status": "optional",
+      "defaultValue": "'large'"
+    },
+    {
+      "name": "fixed",
+      "doc": "If set to `true`, the table will behave with a fixed table layout, using: `table-layout: fixed;`. Use e.g. CSS `width: 40%` on a table column to define the width.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": "null"
+    },
+    {
+      "name": "children",
+      "doc": "The content of the component.",
+      "type": "React.ReactNode",
+      "status": "required",
+      "defaultValue": null
+    },
+    {
+      "name": "className",
+      "doc": "Custom className on the component root",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": "undefined"
+    },
+    {
+      "name": "skeleton",
+      "doc": "If set to `true`, an overlaying skeleton with animation will be shown.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": "undefined"
+    },
+    {
+      "name": "noSpacing",
+      "doc": "If set to `true`, no padding will be added.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": "false"
+    },
+    {
+      "name": "spacing",
+      "doc": "Set to `horizontal` for padding on left and right side.",
+      "type": "'horizontal'",
+      "status": "optional",
+      "defaultValue": "undefined"
+    },
+    {
+      "name": "sortable",
+      "doc": "Defines the table header as sortable if set to `true` (ascending).",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": "false"
+    },
+    {
+      "name": "active",
+      "doc": "Defines the sortable column as the current active (ascending).",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": "false"
+    },
+    {
+      "name": "reversed",
+      "doc": "Defines the sortable column as in reversed order (descending).",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": "false"
+    },
+    {
+      "name": "noWrap",
+      "doc": "If set to `true`, the inherited header text will not wrap to new lines.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": "true"
+    },
+    {
+      "name": "onClick",
+      "doc": "Will emit when user clicks/expands or on keydown space/enter(in mode=\"accordion\" and mode=\"navigation\") in the table row. Returns a native click.",
+      "type": "(event) => void",
+      "status": "optional",
+      "defaultValue": "undefined"
+    },
+    {
+      "name": "onOpened",
+      "doc": "Will emit when table row is expanded. Returns an object with the table row as the target: `{ target }`.",
+      "type": "({ target }) => void",
+      "status": "optional",
+      "defaultValue": "undefined"
+    },
+    {
+      "name": "onClosed",
+      "doc": "Will emit when table row is closed (after it was open). Returns an object with the table row as the target: `{ target }`.",
+      "type": "({ target }) => void",
+      "status": "optional",
+      "defaultValue": "undefined"
+    },
+    {
+      "name": "variant",
+      "doc": "Override the automatic variant of the current row. The next row one will continue with the opposite.",
+      "type": [
+        "'even'",
+        "'odd'"
+      ],
+      "status": "optional",
+      "defaultValue": "undefined"
+    },
+    {
+      "name": "expanded",
+      "doc": "Use `true` to render the `<Tr>` initially as expanded.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": "false"
+    },
+    {
+      "name": "disabled",
+      "doc": "Use `true` to disable the `<Tr>` to be accessible as an interactive element.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": "false"
+    },
+    {
+      "name": "noAnimation",
+      "doc": "Use `true` to disable the expand/collapse animation.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": "false"
+    }
+  ],
+  "events": [],
+  "related": [
+    "Space"
+  ],
+  "checksum": "ba65e0eca0a32b44fb2737a06cfdfea1d041c1bc1e00a887a0b8a52da9c6957f",
+  "source": {
+    "repo": "https://github.com/dnbexperience/eufemia",
+    "file": "packages/dnb-eufemia/src/components/table/Table.tsx",
+    "fileUrl": "https://github.com/dnbexperience/eufemia/blob/v10.94.3/packages/dnb-eufemia/src/components/table/Table.tsx",
+    "dirUrl": "https://github.com/dnbexperience/eufemia/tree/v10.94.3/packages/dnb-eufemia/src/components/table"
+  },
+  "sources": {
+    "entry": {
+      "local": "src/docs/uilib/components/table.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/table/"
+    },
+    "props": {
+      "local": "src/docs/uilib/components/table/properties.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/table/properties/"
+    },
+    "events": {
+      "local": "src/docs/uilib/components/table/events.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/table/events/"
+    },
+    "demos": {
+      "local": "src/docs/uilib/components/table/demos.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/table/demos/"
+    }
+  },
+  "version": "10.94.3",
+  "generatedAt": "2026-01-16T16:38:16.894Z",
+  "schemaVersion": 1
+}

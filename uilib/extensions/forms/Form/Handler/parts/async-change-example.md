@@ -1,0 +1,26 @@
+---
+metadata: https://eufemia.dnb.no/uilib/extensions/forms/Form/Handler/parts/async-change-example/metadata.json
+---
+
+```ts
+// Async event handler
+const onChange = debounceAsync(async function (data) {
+  try {
+    await makeRequest(data)
+  } catch (error) {
+    return error
+  }
+
+  // Optionally, you can return an object with these keys, depending your needs
+  return {
+    info: 'Info message',
+    warning: 'Warning message',
+
+    // and either an error
+    error: new Error('Error message'),
+
+    // or success (when used for autosave)
+    success: 'saved',
+  } as const
+})
+```

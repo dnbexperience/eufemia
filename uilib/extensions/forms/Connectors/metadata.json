@@ -1,0 +1,27 @@
+{
+  "id": "uilib/extensions/forms/Connectors",
+  "name": "Connectors",
+  "description": "Connectors are an opt-in way to extend the functionality of a form. They can be used to add features like API calls for autofill, validation, and more.",
+  "group": "extensions",
+  "slug": "/uilib/extensions/forms/Connectors/",
+  "props": [],
+  "events": [],
+  "related": [],
+  "checksum": "090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40",
+  "source": null,
+  "sources": {
+    "entry": {
+      "local": "src/docs/uilib/extensions/forms/Connectors.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/Connectors/"
+    },
+    "props": null,
+    "events": null,
+    "demos": {
+      "local": "src/docs/uilib/extensions/forms/demos.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/Connectors/demos/"
+    }
+  },
+  "version": "10.94.3",
+  "generatedAt": "2026-01-16T16:38:17.134Z",
+  "schemaVersion": 1
+}

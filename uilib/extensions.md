@@ -1,0 +1,35 @@
+---
+title: 'Extensions'
+metadata: https://eufemia.dnb.no/uilib/extensions/metadata.json
+---
+
+# Extensions
+
+## Description
+
+Eufemia extensions are reusable parts that do not fit naturally into a component or element but rather have the nature of being an extended solution of Eufemia.
+There are several great reasons behind opting for having extensions separated:
+
+1. **Modularity and Reusability**: Separating extensions promotes a modular design and minimizes code duplication. It enables the creation of subsystems that are tightly integrated with their respective domains, such as a Forms extension that seamlessly connects to its associated data and functionality.
+1. **Decoupled Complexity**: Extensions often add specific or advanced functionality that may not be relevant for all use cases. Keeping them separate prevents the core components or elements from becoming overly complex.
+1. **Customizability**: Extensions allow for easier customization and flexibility. Developers can pick and choose only the extensions they need, tailoring the solution to their specific requirements.
+1. **Improved Maintainability**: Isolating extensions simplifies maintenance and updates. Changes to an extension do not risk introducing bugs in the core components, making the ecosystem more stable.
+1. **Clear Separation of Concerns**: By defining extensions as independent solutions, it’s easier to distinguish between core functionality and optional features (handled by extensions).
+
+### Import extensions
+
+```js
+import { ... } from '@dnb/eufemia/extensions'
+```
+
+### Import extensions styles
+
+The styles for extensions are not a part of the default styles, so you have to import them explicitly.
+
+```js
+import '@dnb/eufemia/style/themes/theme-ui/extensions'
+```
+
+## Available Extensions
+
+<ListExtensions />

@@ -1,0 +1,174 @@
+{
+  "id": "uilib/extensions/forms/Iterate/PushContainer",
+  "name": "PushContainer",
+  "description": "`Iterate.PushContainer` enables users to create a new item in the array.",
+  "group": "extensions",
+  "slug": "/uilib/extensions/forms/Iterate/PushContainer/",
+  "props": [
+    {
+      "name": "path",
+      "doc": "The path to the array to add the new item to.",
+      "type": "string",
+      "status": "required",
+      "defaultValue": null
+    },
+    {
+      "name": "itemPath",
+      "doc": "The path to the item in a nested array, to add the new item to.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "insertAt",
+      "doc": "The index to insert the new item at.",
+      "type": "number",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "title",
+      "doc": "The title of the container.",
+      "type": "React.Node",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "data",
+      "doc": "Prefilled data to be used by fields. The data will be put into this path: `/pushContainerItems/0`. Use `defaultData` when possible.",
+      "type": [
+        "object",
+        "array"
+      ],
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "defaultData",
+      "doc": "Prefilled data to be used by fields. The data will be put into this path: `/pushContainerItems/0`.",
+      "type": [
+        "object",
+        "array"
+      ],
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "isolatedData",
+      "doc": "Provide additional data that will be put into the root of the isolated data context (parallel to `/pushContainerItems/0`).",
+      "type": "object",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "required",
+      "doc": "If the fields inside the container are required.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "bubbleValidation",
+      "doc": "Prevent the form from being submitted when there are fields with errors inside the PushContainer.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "preventUncommittedChanges",
+      "doc": "Prevents uncommitted changes before the form is submitted. Will display an error message if user tries to submit without committing their changes.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "showResetButton",
+      "doc": "Show a button to clear the PushContainer data.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "openButton",
+      "doc": "The button to open container.",
+      "type": "React.Node",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "showOpenButtonWhen",
+      "doc": "Define when the \"open button\" should be shown. Should be a function that returns a boolean.",
+      "type": "function",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "variant",
+      "doc": "Defines the variant of the container. Can be `outline`, `filled` or `basic`. Defaults to `outline`.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "toolbar",
+      "doc": "A custom toolbar to be shown below the container.",
+      "type": "React.Node",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "dataReference",
+      "doc": "Provide a reference by using `Form.Isolation.createDataReference`.",
+      "type": "IsolationDataReference",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "children",
+      "doc": "The container contents.",
+      "type": "React.Node",
+      "status": "required",
+      "defaultValue": null
+    }
+  ],
+  "events": [
+    {
+      "name": "onCommit",
+      "doc": "Will be called on a nested form context commit – if validation has passed. The first parameter is the committed data object. The second parameter is an object containing a method to clear the internal data `{ clearData }`.",
+      "type": "function",
+      "status": "optional",
+      "defaultValue": null
+    }
+  ],
+  "related": [
+    "Space"
+  ],
+  "checksum": "1f997edd2cd18eeb832265f2777dd039b2d835594ab5bab73e44803b9b800c6f",
+  "source": {
+    "repo": "https://github.com/dnbexperience/eufemia",
+    "file": "packages/dnb-eufemia/src/extensions/forms/Iterate/PushContainer/PushContainer.tsx",
+    "fileUrl": "https://github.com/dnbexperience/eufemia/blob/v10.94.3/packages/dnb-eufemia/src/extensions/forms/Iterate/PushContainer/PushContainer.tsx",
+    "dirUrl": "https://github.com/dnbexperience/eufemia/tree/v10.94.3/packages/dnb-eufemia/src/extensions/forms/Iterate/PushContainer"
+  },
+  "sources": {
+    "entry": {
+      "local": "src/docs/uilib/extensions/forms/Iterate/PushContainer.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/Iterate/PushContainer/"
+    },
+    "props": {
+      "local": "src/docs/uilib/extensions/forms/Iterate/PushContainer/properties.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/Iterate/PushContainer/properties/"
+    },
+    "events": {
+      "local": "src/docs/uilib/extensions/forms/Iterate/PushContainer/events.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/Iterate/PushContainer/events/"
+    },
+    "demos": {
+      "local": "src/docs/uilib/extensions/forms/Iterate/PushContainer/demos.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/Iterate/PushContainer/demos/"
+    }
+  },
+  "version": "10.94.3",
+  "generatedAt": "2026-01-16T16:38:17.379Z",
+  "schemaVersion": 1
+}

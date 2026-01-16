@@ -1,0 +1,59 @@
+{
+  "id": "uilib/extensions/forms/blocks/ChildrenWithAge",
+  "name": "ChildrenWithAge",
+  "description": "`ChildrenWithAge` is a block for displaying children with age.",
+  "group": "extensions",
+  "slug": "/uilib/extensions/forms/blocks/ChildrenWithAge/",
+  "props": [
+    {
+      "name": "mode",
+      "doc": "`summary` for a `Value.*` version, `edit` for an editable field version. Defaults to `edit`.",
+      "type": "number",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "enableAdditionalQuestions",
+      "doc": "[`joint-responsibility`, `daycare`]",
+      "type": "array",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "toWizardStep",
+      "doc": "If defined, a `Wizard.EditButton` will be shown.",
+      "type": "number",
+      "status": "optional",
+      "defaultValue": null
+    }
+  ],
+  "events": [],
+  "related": [
+    "Space"
+  ],
+  "checksum": "16209c1265c99a360276f8300346ab2c7fe8523e304c9c5eddfc1270bcf85645",
+  "source": {
+    "repo": "https://github.com/dnbexperience/eufemia",
+    "file": "packages/dnb-eufemia/src/extensions/forms/blocks/ChildrenWithAge/ChildrenWithAge.tsx",
+    "fileUrl": "https://github.com/dnbexperience/eufemia/blob/v10.94.3/packages/dnb-eufemia/src/extensions/forms/blocks/ChildrenWithAge/ChildrenWithAge.tsx",
+    "dirUrl": "https://github.com/dnbexperience/eufemia/tree/v10.94.3/packages/dnb-eufemia/src/extensions/forms/blocks/ChildrenWithAge"
+  },
+  "sources": {
+    "entry": {
+      "local": "src/docs/uilib/extensions/forms/blocks/ChildrenWithAge.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/blocks/ChildrenWithAge/"
+    },
+    "props": {
+      "local": "src/docs/uilib/extensions/forms/blocks/ChildrenWithAge/properties.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/blocks/ChildrenWithAge/properties/"
+    },
+    "events": null,
+    "demos": {
+      "local": "src/docs/uilib/extensions/forms/blocks/ChildrenWithAge/demos.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/blocks/ChildrenWithAge/demos/"
+    }
+  },
+  "version": "10.94.3",
+  "generatedAt": "2026-01-16T16:38:17.639Z",
+  "schemaVersion": 1
+}

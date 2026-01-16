@@ -1,0 +1,143 @@
+{
+  "id": "uilib/components/avatar",
+  "name": "Avatar",
+  "description": "The Avatar component is an identifier that makes people and companies more scannable.",
+  "group": "components",
+  "slug": "/uilib/components/avatar/",
+  "props": [
+    {
+      "name": "label",
+      "doc": "The label description of the group of avatars.",
+      "type": "string",
+      "status": "required",
+      "defaultValue": null
+    },
+    {
+      "name": "size",
+      "doc": "Size of the Avatar. Options: `small` | `medium` | `large` | `x-large`. Defaults to `medium`.",
+      "type": [
+        "small",
+        "medium",
+        "large",
+        "x-large"
+      ],
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "variant",
+      "doc": "Override the variant of the component. Options: `primary` | `secondary` | `tertiary`. Defaults to `primary`.",
+      "type": [
+        "primary",
+        "secondary",
+        "tertiary"
+      ],
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "maxElements",
+      "doc": "Number of max displayed elements, including the \"elements hidden text (+x)\". Defaults to `4`.",
+      "type": "number",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "children",
+      "doc": "Content of the component.",
+      "type": "React.ReactNode",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "skeleton",
+      "doc": "If set to `true`, an overlaying skeleton with animation will be shown.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "alt",
+      "doc": "Used in combination with `src` to provide an alt attribute for the `img` element.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "src",
+      "doc": "Specifies the path to the image.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "imgProps",
+      "doc": "[Image properties](/uilib/elements/image) applied to the `img` element if the component is used to display an image.",
+      "type": [
+        "ImgProps"
+      ],
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "icon",
+      "doc": "An icon name or component. (Will override the `src` property.)",
+      "type": [
+        "string",
+        "[Icon](/uilib/components/icon)"
+      ],
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "hasLabel",
+      "doc": "If aria-hidden is set to `true` or if a label is given, typical inside a table or dl (definition list), then you can disable Avatar.Group as a dependent of Avatar. Use `true` to omit the `Avatar group required:` warning.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "backgroundColor",
+      "doc": "Define a custom background color, instead of a variant. Use a Eufemia color.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "color",
+      "doc": "Define a custom color to compliment the backgroundColor. Use a Eufemia color.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    }
+  ],
+  "events": [],
+  "related": [
+    "Space"
+  ],
+  "checksum": "76e036fd2845d2b71ce1d766b5ffdea1bbef7cfa56a4171f9171eeed74e4dd98",
+  "source": {
+    "repo": "https://github.com/dnbexperience/eufemia",
+    "file": "packages/dnb-eufemia/src/components/avatar/Avatar.tsx",
+    "fileUrl": "https://github.com/dnbexperience/eufemia/blob/v10.94.3/packages/dnb-eufemia/src/components/avatar/Avatar.tsx",
+    "dirUrl": "https://github.com/dnbexperience/eufemia/tree/v10.94.3/packages/dnb-eufemia/src/components/avatar"
+  },
+  "sources": {
+    "entry": {
+      "local": "src/docs/uilib/components/avatar.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/avatar/"
+    },
+    "props": {
+      "local": "src/docs/uilib/components/avatar/properties.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/avatar/properties/"
+    },
+    "events": null,
+    "demos": {
+      "local": "src/docs/uilib/components/avatar/demos.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/avatar/demos/"
+    }
+  },
+  "version": "10.94.3",
+  "generatedAt": "2026-01-16T16:38:16.475Z",
+  "schemaVersion": 1
+}

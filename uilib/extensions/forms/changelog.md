@@ -1,0 +1,480 @@
+---
+title: 'Change log'
+description: 'Change log for the Eufemia Forms extension'
+metadata: https://eufemia.dnb.no/uilib/extensions/forms/changelog/metadata.json
+---
+
+# Change log
+
+Change log for the Eufemia Forms extension.
+
+Get more [details about releases](/uilib/releases) or have a look on all [release notes on GitHub](https://github.com/dnbexperience/eufemia/releases).
+
+## v10.83.0
+
+- Fixed so data handling via `path` in [Field.DateOfBirth](/uilib/extensions/forms/feature-fields/DateOfBirth/) works as expected.
+
+## v10.82.1
+
+- Fixed spacing above the legend/label of [Field.DateOfBirth](/uilib/extensions/forms/feature-fields/DateOfBirth/).
+- Fixed widths of fields in [Field.DateOfBirth](/uilib/extensions/forms/feature-fields/DateOfBirth/).
+
+## v10.82.0
+
+- Added support for [Zod](https://zod.dev/) schemas (along with Ajv).
+- When using JSON Schema (Ajv) it is recommended to explicitly providing an `ajvInstance` to `Form.Handler`:
+
+## v10.81.0
+
+- Added [Field.DateOfBirth](/uilib/extensions/forms/feature-fields/DateOfBirth/) and [Value.DateOfBirth](/uilib/extensions/forms/Value/DateOfBirth/) component to select a date of birth.
+
+## v10.80.0
+
+- Added `da-DK` translations to Eufemia and Eufemia Forms.
+
+## v10.76.0
+
+- Added variant `radio` to [Field.Boolean](/uilib/extensions/forms/base-fields/Boolean/) and [Field.Toggle](/uilib/extensions/forms/base-fields/Toggle/).
+- Added variant `switch` to [Field.Boolean](/uilib/extensions/forms/base-fields/Boolean/) and [Field.Toggle](/uilib/extensions/forms/base-fields/Toggle/).
+- Added variant `compact` to [Field.Upload](/uilib/extensions/forms/feature-fields/more-fields/Upload/).
+- Added address suggestions and autofill to the [Bring API Connector](/uilib/extensions/forms/Connectors/Bring/).
+- Fixed so the value of the phone number is truncated to 8 digits when changing country code to `NO` in [Field.PhoneNumber](/uilib/extensions/forms/feature-fields/PhoneNumber/).
+- Fixed so [Field.Indeterminate](/uilib/extensions/forms/base-fields/Indeterminate) supports the `required` property.
+
+## v10.75.3
+
+- Fixed so `required` is working correctly together with date ranges like `value=2023-12-07|2023-12-14` in [Field.Date](/uilib/extensions/forms/feature-fields/Date/).
+
+## v10.75.2
+
+- Fixed so maximum children can be 9 in [Block.ChildrenWithAge](/uilib/extensions/forms/blocks/ChildrenWithAge/).
+- Fixed so `disabled` is correctly supported in [Field.Upload](/uilib/extensions/forms/feature-fields/more-fields/Upload/).
+- Fixed so `onStepChange` assigned to [Wizard.useStep](/uilib/extensions/forms/Wizard/useStep/) is called every time.
+- Fixed so `preventUncommittedChanges` works properly within a [Wizard](/uilib/extensions/forms/Wizard/).
+
+## v10.75.0
+
+- Added `{itemNo}` support in [Iterate.RemoveButton](/uilib/extensions/forms/Iterate/RemoveButton/).
+- Fixed so [Iterate.Array](/uilib/extensions/forms/Iterate/Array/) does work within a [Form.Section](/uilib/extensions/forms/Form/Section/).
+- Ensured [Iterate.Array](/uilib/extensions/forms/Iterate/Array/) with `required` property removes error in [Wizard.Step](/uilib/extensions/forms/Wizard/Step/).
+- Ensured `reduceToVisibleFields` works properly within [Wizard](/uilib/extensions/forms/Wizard/).
+
+## v10.74.0
+
+- Added support for `preventDefault` in `onClick` for checkbox variants in [Field.Toggle](/uilib/extensions/forms/base-fields/Toggle/) and [Field.Boolean](/uilib/extensions/forms/base-fields/Boolean/).
+- Added `resetDataAfterCommit` to [Form.Isolation](/uilib/extensions/forms/Form/Isolation/).
+- Added `preventUncommittedChanges` property to [Form.Isolation](/uilib/extensions/forms/Form/Isolation/) to show error during submit after user input.
+- Renamed `requireCommit` to `preventUncommittedChanges` in [Iterate.PushContainer](/uilib/extensions/forms/Iterate/PushContainer/).
+- Fixed so [Form.Isolation](/uilib/extensions/forms/Form/Isolation/) does work within a [Form.Section](/uilib/extensions/forms/Form/Section/).
+
+## v10.73.2
+
+- Added support for `labelSrOnly` to [Field.PhoneNumber](/uilib/extensions/forms/feature-fields/PhoneNumber/).
+- Added support for `labelSrOnly` to [Field.Toggle](/uilib/extensions/forms/base-fields/Toggle/).
+
+## v10.73.1
+
+- Fixed required validation when only country code was given in [Field.PhoneNumber](/uilib/extensions/forms/feature-fields/PhoneNumber/).
+
+## v10.73.0
+
+- Show error in [Iterate.PushContainer](/uilib/extensions/forms/Iterate/PushContainer/) on submit or in next step after user input.
+- Animate chevron on expand/collapse in the newly redesigned [Wizard](/uilib/extensions/forms/Wizard/).
+- Added support for `labelSize` to all `Field.*` components.
+- Added support for `labelSrOnly` to all `Field.*` components.
+- Added `requireCommit` property to [Iterate.PushContainer](/uilib/extensions/forms/Iterate/PushContainer/) to show error during submit or next step after user input.
+- Added variant `radio-list` to [Field.Selection](/uilib/extensions/forms/base-fields/Selection/).
+- Always validate fields in all [Wizard.Step](/uilib/extensions/forms/Wizard/Step/)(without keepInDOM).
+- Fixed handling of invalid ISO code value in [Value.SelectCountry](/uilib/extensions/forms/Value/SelectCountry/).
+- Fixed handling of invalid ISO code value in [Value.SelectCurrency](/uilib/extensions/forms/Value/SelectCurrency/).
+- Fixed so [Value.BankAccountNumber](/uilib/extensions/forms/Value/BankAccountNumber/) does not render when value is empty.
+- Fixed so [Value.OrganizationNumber](/uilib/extensions/forms/Value/OrganizationNumber/) does not render when value is empty.
+- Fixed so [Value.PhoneNumber](/uilib/extensions/forms/Value/PhoneNumber/) does not render when value is empty.
+- Fixed so [Value.NationalIdentityNumber](/uilib/extensions/forms/Value/NationalIdentityNumber/) does not render when value is empty.
+- Fixed so [Wizard.Step](/uilib/extensions/forms/Wizard/Step/) does not pre-render step when `keepInDOM`.
+- Fixed so `labelDescription` when rendered without `label` will not have additional spacing above, in all `Field.*` components.
+- Fixed so `width="large"` in [Field.PhoneNumber](/uilib/extensions/forms/feature-fields/PhoneNumber/) will be correct.
+- Fixed so fields do not overflow in width on certain screen sizes.
+- Fixed so [Field.Upload](/uilib/extensions/forms/feature-fields/more-fields/Upload/) gracefully handles `undefined` file inputs/values.
+- Fixed so [Form.Card](/uilib/extensions/forms/Form/Card/) used in [Wizard](/uilib/extensions/forms/Wizard/) has a default outline color.
+- Fixed so [Iterate.EditContainer](/uilib/extensions/forms/Iterate/EditContainer/) shows red border on submit errors.
+- Fixed so [Field.Composition](/uilib/extensions/forms/base-fields/Composition/) sets correct `width` if given.
+- Fixed a11y issue when using `required` property in a `button` variant of [Field.Selection](/uilib/extensions/forms/base-fields/Selection/).
+
+## v10.72.3
+
+- Ensure [Field.Composition](/uilib/extensions/forms/base-fields/Composition/) with horizontal layout will still wrap.
+- Ensure [Field.Selection](/uilib/extensions/forms/base-fields/Selection/) with the autocomplete variant receives `showIndicator` in the first onType parameter object.
+
+## v10.72.2
+
+- Ensure [Iterate.Array](/uilib/extensions/forms/Iterate/Array/) schema validation.
+
+## v10.72.1
+
+- Fixed anchor alignment in the redesigned [Wizard](/uilib/extensions/forms/Wizard/).
+- Fixed font size of items in the redesigned [Wizard](/uilib/extensions/forms/Wizard/).
+
+## v10.72.0
+
+- New design for [Wizard](/uilib/extensions/forms/Wizard/).
+- Deprecated `variant` in [Wizard.Container](/uilib/extensions/forms/Wizard/Container/), as it no longer has any variants.
+- Deprecated `sidebarId` in [Wizard.Container](/uilib/extensions/forms/Wizard/Container/), as it no longer has any sidebar. If an id is needed, use the `id` property.
+
+## v10.71.0
+
+- Added `disableDragAndDrop` in [Field.Upload](/uilib/extensions/forms/feature-fields/more-fields/Upload/) to disable file drag and drop.
+- Added `description` in Upload's [fileItem](/uilib/components/upload/properties/#fileitem) to add description for a given file.
+- Added `removeDeleteButton` in Upload's [fileItem](/uilib/components/upload/properties/#fileitem) to hide the remove button for a given file.
+- Added `iso` (country) to additional args in [Field.PhoneNumber](/uilib/extensions/forms/feature-fields/PhoneNumber/) events.
+
+## v10.70.1
+
+- Fixed so form cannot be submitted when `error` property is set in `Field.*` components.
+
+## v10.70.0
+
+- Added default `autoComplete` of `current-password` in [Field.Password](/uilib/extensions/forms/feature-fields/more-fields/Password/).
+- Added `allowDuplicates` in [Field.Upload](/uilib/extensions/forms/feature-fields/more-fields/Upload/) to allow uploading duplicate files.
+- Fixed so only comparing existing properties of file's `name`, `size` and `lastModified` when determining if file is a duplicate in [Field.Upload](/uilib/extensions/forms/feature-fields/more-fields/Upload/).
+- Fixed so `hasValue` runs in [Form.Visibility](/uilib/extensions/forms/Form/Visibility/) when path is missing.
+- Fixed error reporting during [Wizard.Step](/uilib/extensions/forms/Wizard/Step/) navigation with async event handlers and/or field validators.
+
+## v10.69.1
+
+- Fixed so error message in the step menu of [Wizard.Container](/uilib/extensions/forms/Wizard/Container/) is removed when unmounted.
+- Fixed the rendering routine of [Wizard.Step](/uilib/extensions/forms/Wizard/Step/).
+- Fixed so async removal of file in [Field.Upload](/uilib/extensions/forms/feature-fields/more-fields/Upload/) with same file name as an other file will not display spinner/loading for both files, but only the file where remove was clicked.
+
+## v10.69.0
+
+- Added `CountryISO` as the `value` type to [Field.SelectCountry](/uilib/extensions/forms/feature-fields/SelectCountry/).
+- Added [Field.SelectCurrency](/uilib/extensions/forms/feature-fields/SelectCurrency/) component to select a currency value.
+- Added [Value.SelectCurrency](/uilib/extensions/forms/Value/SelectCurrency/) component to render a currency value.
+- Added possibility to set `autoComplete` in [Field.SelectCountry](/uilib/extensions/forms/feature-fields/SelectCountry/).
+- Fixed so there's no error message in the step menu of [Wizard.Container](/uilib/extensions/forms/Wizard/Container/) for the active/current step, on small screens.
+- Fixed so [Wizard.Container](/uilib/extensions/forms/Wizard/Container/) does not show invalid error.
+- Fixed typing for [FieldBlock](/uilib/extensions/forms/create-component/FieldBlock/) and [useFieldProps](/uilib/extensions/forms/create-component/useFieldProps/).
+
+## v10.68.0
+
+- Added `sv-SE` translations to Eufemia and Eufemia Forms.
+- Added rendering of `labelDescription` beneath `label` and placed help button after `label` in all `Field.*` components.
+- Added `countryCode` to [Form.Handler](/uilib/extensions/forms/Form/Handler/).
+- Added support for showing error messages on invalid date in [Field.Date](/uilib/extensions/forms/feature-fields/Date/).
+- Adjusted the label width of `Field.*` components.
+- Adjusted the width of `Value.*` components.
+- Fixed so `minDate` and `maxDate` in [Field.Date](/uilib/extensions/forms/feature-fields/Date/) does not interrupt first form submit.
+- Fixed so value `000 000 000` should be invalid in [Field.OrganizationNumber](/uilib/extensions/forms/feature-fields/OrganizationNumber/).
+- Fixed so value `0000 00 00000` should be invalid in [Field.BankAccountNumber](/uilib/extensions/forms/feature-fields/BankAccountNumber/).
+- Fixed so [Field.Name.Company](/uilib/extensions/forms/feature-fields/Name/) must consist of at least 3 letters.
+- Fixed so there's no error message in the step menu of [Wizard.Container](/uilib/extensions/forms/Wizard/Container/) after user has entered required data.
+- Fixed so there's no error message in the step menu of [Wizard.Container](/uilib/extensions/forms/Wizard/Container/) for the active/current step.
+- Fixed so [Value.Composition](/uilib/extensions/forms/Value/Composition/) inherits properties defined in [Value.Provider](/uilib/extensions/forms/Value/Provider/).
+
+## v10.67.1
+
+- Fixed so `minDate` and `maxDate` is validated by the start of the day (00:00) in [Field.Date](/uilib/extensions/forms/feature-fields/Date/).
+
+## v10.67.0
+
+- Added support for async Autocomplete to [Field.Selection](/uilib/extensions/forms/base-fields/Selection/).
+
+## v10.66.1
+
+- Fixed styling of help button in [Field.Upload](/uilib/extensions/forms/feature-fields/more-fields/Upload/).
+- Fixed spacing of help button in [Value.SummaryList](/uilib/extensions/forms/Value/SummaryList/) when used in a [Form.InfoOverlay](/uilib/extensions/forms/Form/InfoOverlay/).
+- Fixed so [Field.Composition](/uilib/extensions/forms/base-fields/Composition/) always renders a `fieldset`.
+- Fixed so `skipPortal` can be used in [Field.Date](/uilib/extensions/forms/feature-fields/Date/).
+- Fixed so `aria-required` and `required` properties are set in the `input` element for [Field.Upload](/uilib/extensions/forms/feature-fields/more-fields/Upload/).
+
+## v10.66.0
+
+- Added inline help button (`help`) to all `Value.*` components as default (with option to open in Dialog).
+- Added `validationMode` property with `bypassOnNavigation` to [Wizard.Container](/uilib/extensions/forms/Wizard/Container/).
+- Added `keepInDOM` property to [Wizard.Container](/uilib/extensions/forms/Wizard/Container/).
+- Added existing errors in `onSubmitRequest` before [Form.Handler](/uilib/extensions/forms/Form/Handler/) submit or [Wizard.Step](/uilib/extensions/forms/Wizard/Step/) change.
+- Fixed showing error in [Wizard(StepIndicator)](/uilib/extensions/forms/Wizard/) menu and prevent submission if previous steps contain errors or have an unknown state.
+- Fixed so validation always run on [Wizard.Step](/uilib/extensions/forms/Wizard/Step/) changes.
+
+## v10.64.0
+
+- Added [Field.Address.Street](/uilib/extensions/forms/feature-fields/Address/) and [Field.Address.Postal](/uilib/extensions/forms/feature-fields/Address/).
+- Added [Bring API Connector](/uilib/extensions/forms/Connectors/Bring/) to verify a postal code or autofill a street name, using Bring's [Postal Code API](https://developer.bring.com/api/postal-code/).
+- Added month and year validation in [Field.Expiry](/uilib/extensions/forms/feature-fields/Expiry/).
+- Added [createMinimumAgeVerifier](/uilib/extensions/forms/feature-fields/NationalIdentityNumber/info/#createminimumageverifier) in [Field.NationalIdentityNumber](/uilib/extensions/forms/feature-fields/NationalIdentityNumber/) to make a customizable minimum age verifier function.
+- Fixed displaying `title` as aria-label in [Wizard.Step](/uilib/extensions/forms/Wizard/Step/) when wrapped in a [Wizard.Container](/uilib/extensions/forms/Wizard/Container/).
+
+## v10.63.0
+
+- Added support for nesting [Iterate.Array](/uilib/extensions/forms/Iterate/Array/) inside of [Iterate.Array](/uilib/extensions/forms/Iterate/Array/).
+- Added showing field errors during submit inside [Iterate.PushContainer](/uilib/extensions/forms/Iterate/PushContainer/) when `bubbleValidation` is `true`.
+- Added support for conditional function based `info`, `warning` and `error` properties to all `Field.*`.
+- Added [Iterate.Visibility](/uilib/extensions/forms/Iterate/Visibility/) to be used within [Iterate.Array](/uilib/extensions/forms/Iterate/Array/) (relative paths).
+- Added support for `transformSelection` property to [Field.Selection](/uilib/extensions/forms/base-fields/Selection/).
+- Added support for `required` property to [Iterate.PushContainer](/uilib/extensions/forms/Iterate/PushContainer/).
+- Added support for `required` property to [Iterate.Array](/uilib/extensions/forms/Iterate/Array/).
+- Added support for `itemPath` property to [Iterate.Array](/uilib/extensions/forms/Iterate/Array/).
+- Added support for inline `style` property to options in [Field.Selection](/uilib/extensions/forms/base-fields/Selection/).
+- Added support for arrays with errors for `onChangeValidator` and `onBlurValidator`.
+- Added support for property `connectWithItemPath` to `onBlurValidator` and `onChangeValidator` to be used within [Iterate](/uilib/extensions/forms/Iterate).
+- Added the internal array as a third parameter to the callback function’s children in [Iterate.Array](/uilib/extensions/forms/Iterate/Array/).
+- Added `displayValue` and `label` to `transformData` from fields inside [Iterate](/uilib/extensions/forms/Iterate).
+- Fixed so wizard step changes scroll so the [Wizard(StepIndicator)](/uilib/extensions/forms/Wizard/) is included at the top.
+- Fixed so [Field.SelectCountry](/uilib/extensions/forms/feature-fields/SelectCountry/) does not open when `defaultValue` is given.
+- Fixed typing of `connectWithPath` in validators.
+- Fixed so `fileHandler` will not execute when validation errors in [Field.Upload](/uilib/extensions/forms/feature-fields/more-fields/Upload/).
+- Fixed so `{itemNo}` in `label` will work in [Field.Toggle](/uilib/extensions/forms/base-fields/Toggle/).
+- Fixed inactive [Iterate.PushContainer](/uilib/extensions/forms/Iterate/PushContainer/) blocking [Wizard](/uilib/extensions/forms/Wizard/) navigation when `bubbleValidation` is `true`.
+- Fixed animation for [Form.Visibility](/uilib/extensions/forms/Form/Visibility/) when used inside [Value.SummaryList](/uilib/extensions/forms/Value/SummaryList/).
+- Deprecated `continuousValidation` in favor of `validateContinuously` in all `Field.*` components and [Form.Visibility](/uilib/extensions/forms/Form/Visibility/).
+
+## v10.62.4
+
+- Fixed so divider line is displayed when setting `divider="line"` in `Iterate.*` components.
+- Ensured `setFormError` in [Form.useValidation](/uilib/extensions/forms/Form/useValidation/) accepts `undefined` or `null` as value.
+- Prioritized `gap` over `stack` spacing in [Form.Card](/uilib/extensions/forms/Form/Card/).
+
+## v10.62.1
+
+- Fixed font-size of non-clickable Field.Upload item in [Field.Upload](/uilib/extensions/forms/feature-fields/more-fields/Upload/).
+- Fixed support for `sessionStorageId` in [Field.Upload](/uilib/extensions/forms/feature-fields/more-fields/Upload/).
+
+## v10.62
+
+- Added `label` and `showLabel` properties to [Form.SubmitIndicator](/uilib/extensions/forms/Form/SubmitIndicator/).
+- Added `update` method to [Form.setData](/uilib/extensions/forms/Form/setData/).
+
+## v10.61
+
+- Added support for async `onFileClick` in [Value.Upload](/uilib/extensions/forms/Value/Upload/).
+- Fixed so `transformIn` and `transformOut` supports changed array and object instances.
+- Fixed issue where label did not stretch when providing `width="stretch"` in [FieldBlock](/uilib/extensions/forms/create-component/FieldBlock/) which is used in most `Field.*` components.
+
+## v10.60.1
+
+- Fixed so there's a gap between file and remove button in [Field.Upload](/uilib/extensions/forms/feature-fields/more-fields/Upload/).
+- Fixed so there's no scrolling when removing file in [Field.Upload](/uilib/extensions/forms/feature-fields/more-fields/Upload/).
+- Fixed handling of multiple chained async actions using `fileHandler`, `onFileClick`, and `onFileDelete` in [Field.Upload](/uilib/extensions/forms/feature-fields/more-fields/Upload/).
+
+## v10.60
+
+- Added [Form.InfoOverlay](/uilib/extensions/forms/Form/InfoOverlay/) to display error, success (receipt), or custom messages to users.
+- Added async `onFileDelete` support to [Field.Upload](/uilib/extensions/forms/feature-fields/more-fields/Upload/).
+- Added async `onFileClick` support to [Field.Upload](/uilib/extensions/forms/feature-fields/more-fields/Upload/).
+- Added `onFileClick` support to [Value.Upload](/uilib/extensions/forms/Value/Upload/).
+- Added `onVisible` property in [Form.Visibility](/uilib/extensions/forms/Form/Visibility/).
+- Added `onAnimationEnd` property in [Form.Visibility](/uilib/extensions/forms/Form/Visibility/).
+- Fixed unnecessary rerenders in [Form.Handler](/uilib/extensions/forms/Form/Handler/).
+- Fixed handling of multiple file upload actions when using async `fileHandler` in [Field.Upload](/uilib/extensions/forms/feature-fields/more-fields/Upload/).
+
+## v10.58
+
+- Added `variant="filled"` to [Iterate.ViewContainer](/uilib/extensions/forms/Iterate/ViewContainer/) and [Iterate.EditContainer](/uilib/extensions/forms/Iterate/EditContainer/), to render with a background color.
+- Added `toolbarVariant="custom"` to [Iterate.ViewContainer](/uilib/extensions/forms/Iterate/ViewContainer/) and [Iterate.EditContainer](/uilib/extensions/forms/Iterate/EditContainer/), to render the given toolbar without any spacing so it can be customized to your needs.
+- Added `showConfirmDialog` to [Iterate.RemoveButton](/uilib/extensions/forms/Iterate/RemoveButton/), to open a confirmation dialog before removing the item.
+- Added `decoupleForm` to [Form.Handler](/uilib/extensions/forms/Form/Handler/), to be able to use the data context in a more flexible way.
+- Added support for using function reference instead of a string based `id` in [Form.Handler](/uilib/extensions/forms/Form/Handler/).
+- Added `sessionStorageId` support to [Field.Upload](/uilib/extensions/forms/feature-fields/more-fields/Upload/) with empty file list rendering.
+- Added [docs on how to deal with TypeScript types](/uilib/extensions/forms/getting-started/#typescript-support), and enhanced typings.
+- Fixed so there is no outline when using `variant="basic"` in [Form.Section](/uilib/extensions/forms/Form/Section/) containers when used in [Wizard](/uilib/extensions/forms/Wizard/).
+- Fixed formatting of country prefixes in [Value.PhoneNumber](/uilib/extensions/forms/Value/PhoneNumber/).
+
+## v10.57
+
+- Added possibility for disabling individual options in [Field.Selection](/uilib/extensions/forms/base-fields/Selection/) and [Field.ArraySelection](/uilib/extensions/forms/base-fields/ArraySelection/).
+- Added `labelSrOnly` to Value.\* components, to be able to provide a label that is not visible.
+- Added [Form.Card](/uilib/extensions/forms/Form/Card/) component to make it easier to use [Card](/uilib/components/card/) inside a form.
+- Added `outset` property to [Form.Card](/uilib/extensions/forms/Form/Card/) and [Card](/uilib/components/card/).
+- Deprecated `validator` property in favor of `onChangeValidator` in Field.\* components.
+- Renamed `asyncFileHandler` to `fileHandler` in [Field.Upload](/uilib/extensions/forms/feature-fields/more-fields/Upload/), to support both async and sync file handling.
+- Fixed displaying indicator with async `onBlurValidator` call when `validateInitially` is used.
+- Fixed sharing submit indicator for fields inside [Field.Composition](/uilib/extensions/forms/base-fields/Composition/).
+- Fixed so `errorMessages` will not result in infinite loops when not wrapped in `useMemo`.
+- Fixed alignment issue in [Value.SummaryList](/uilib/extensions/forms/Value/SummaryList/), when providing a field without label.
+
+## v10.56
+
+- Added inline help button (`help`) to all `Field.*` components as default (with option to open in Dialog).
+- Added `asyncFileHandler` to [Field.Upload](/uilib/extensions/forms/feature-fields/more-fields/Upload/), to support async file handling during upload.
+- Added support for [DatePicker properties](/uilib/components/date-picker/properties/) in [Field.Date](/uilib/extensions/forms/feature-fields/Date/).
+- Added support for multiple `info`, `warning` and `error` messages by making it possible to provide an array of messages.
+- Fixed so `info` and `warning` properties renders given elements.
+
+## v10.55.1
+
+- Added `console.log` warning when using invalid child in [Value.SummaryList](/uilib/extensions/forms/Value/SummaryList/) component.
+- Fixed [Field.Upload](/uilib/extensions/forms/feature-fields/more-fields/Upload/) error when using `required`, when navigating between Wizard step changes.
+
+## v10.55
+
+- Added `transformLabel` to [Value.Composition](/uilib/extensions/forms/Value/Composition/).
+- Added [Value.Upload](/uilib/extensions/forms/Value/Upload/) component to render file values.
+- Added Iterate support for [Field.PostalCodeAndCity](/uilib/extensions/forms/feature-fields/PostalCodeAndCity/) when using `country` with a path.
+- Added `layoutOptions` for enhanced horizontal label layout in [Field.Provider](/uilib/extensions/forms/feature-fields/Provider/).
+- Added `EditButton`, `CancelButton` and `DoneButton` to [Form.Section](/uilib/extensions/forms/Form/Section/) containers.
+- Added maximum possible value to joint-responsibility & daycare fields in [Block.ChildrenWithAge](/uilib/extensions/forms/blocks/ChildrenWithAge/).
+- Fixed vertical gap between [Field.ArraySelection](/uilib/extensions/forms/base-fields/ArraySelection/) toggle buttons with checkbox variant.
+- Fixed so [Field.Number](/uilib/extensions/forms/base-fields/Number/) with `percent` and without a value renders correctly.
+- Fixed so components having `fieldset` inside still can use spacing.
+- Fixed so there's no extra space from Value.\* components when using `inline` property.
+- Fixed so errors display underneath fields when nested inside [Field.Selection](/uilib/extensions/forms/base-fields/Selection/) or [Field.ArraySelection](/uilib/extensions/forms/base-fields/ArraySelection/).
+
+## v10.54
+
+- Deprecated Ajv `validationRule` in [FormError](/uilib/extensions/forms/Form/error-messages/info/#error-messages) and deprecated `errorMessages` keys like `pattern` in favor of Eufemia translation keys like `Field.errorPattern`. For a migration guide, take a look at [release notes for the future major release, v11](/uilib/about-the-lib/releases/eufemia/v11-info/#forms-error-handling).
+- Added [docs](/uilib/extensions/forms/about-fields/#empty-value) about `emptyValue`.
+- Added `transformData` to the `onSubmit` event listener of [Form.Handler](/uilib/extensions/forms/Form/Handler/).
+- Added `onDone`, `onCancel` and `onEdit` events to [Form.Section](/uilib/extensions/forms/Form/Section/) containers.
+- Updated country names in list of countries used in [Field.SelectCountry](/uilib/extensions/forms/feature-fields/SelectCountry/).
+- Fixed so `decimalLimit={0}` together with `currency` in [Field.Number](/uilib/extensions/forms/base-fields/Number/), and `decimalLimit={0}` in [Field.Currency](/uilib/extensions/forms/feature-fields/Currency/), will not allow input of decimals.
+- Fixed so it's possible to render multiple (combined) Ajv errors with translated messages, in [FieldBlock](/uilib/extensions/forms/create-component/FieldBlock/).
+- Fixed so `onBlurValidator` only runs when no other errors(like required, etc.) are present, in [useFieldProps](/uilib/extensions/forms/create-component/useFieldProps/).
+- Fixed so `autocomplete="off"` is correctly set when setting `autoComplete={false}` in [Form.Handler](/uilib/extensions/forms/Form/Handler/).
+- Fixed alignment of status message (error, warning, info) in [Wizard](/uilib/extensions/forms/Wizard/).
+- Fixed schema validation for required paths with matching name.
+- Fixed correct sorting of countries in [Field.SelectCountry](/uilib/extensions/forms/feature-fields/SelectCountry/).
+
+## v10.53
+
+- Added validation of Norwegian bank account numbers to [Field.BankAccountNumber](/uilib/extensions/forms/feature-fields/BankAccountNumber/).
+- Added [Form.useTranslation](/uilib/extensions/forms/Form/useTranslation/) that returns the translations for the current locale.
+- Added `renderMessage` function in [Form.useTranslation](/uilib/extensions/forms/Form/useTranslation/) to render a string with line-breaks.
+- Added console warning when a field path is declared more than one time.
+- Added `country` property in [Field.PostalCodeAndCity](/uilib/extensions/forms/feature-fields/PostalCodeAndCity/), to support different countries than only Norway.
+- Fixed UI alignments in [Block.ChildrenWithAge](/uilib/extensions/forms/blocks/ChildrenWithAge/).
+- Fixed so [Iterate.Array](/uilib/extensions/forms/Iterate/Array/) is in sync with the data context, and call `onChange` when `countPath` changes.
+
+## v10.52
+
+- Added `transformLabel` to all `Value.*` components.
+- Added `bubbleValidation` to [Form.Isolation](/uilib/extensions/forms/Form/Isolation/) and [Iterate.PushContainer](/uilib/extensions/forms/Iterate/PushContainer/), to prevent the form from being submitted when there are fields with errors.
+- Added [createMinimumAgeValidator](/uilib/extensions/forms/feature-fields/NationalIdentityNumber/info/#createminimumagevalidator) in [Field.NationalIdentityNumber](/uilib/extensions/forms/feature-fields/NationalIdentityNumber/) to make a customizable minimum age validator.
+- Added [Form.useSnapshot](/uilib/extensions/forms/Form/useSnapshot/) hook to handle snapshots of data.
+- Added `id` to [Wizard.Step](/uilib/extensions/forms/Wizard/Step/) for when using dynamic steps with `activeWhen`.
+- Added [Iterate.ItemNo](/uilib/extensions/forms/Iterate/ItemNo/).
+- Added support for `Form.SubmitConfirmation` in [Wizard](/uilib/extensions/forms/Wizard/).
+- Added `isolatedData` to [Iterate.PushContainer](/uilib/extensions/forms/Iterate/PushContainer/).
+- Added displaying phone numbers in [Value.PhoneNumber](/uilib/extensions/forms/Value/PhoneNumber/) using prefix `+` instead of `00`.
+- Added support for `defaultValue` (and `value`) for fields used in [Iterate.Array](/uilib/extensions/forms/Iterate/Array/).
+- Added support for `isValid` in [Form.Visibility](/uilib/extensions/forms/Form/Visibility/) for showing content based on the validation of a field.
+- Removed the internal `pattern` in [Field.OrganizationNumber](/uilib/extensions/forms/feature-fields/OrganizationNumber/), rather using the internal validator.
+- Removed the internal `pattern` in [Field.NationalIdentityNumber](/uilib/extensions/forms/feature-fields/NationalIdentityNumber/), rather using the internal validator.
+- Fixed so [Form.clearData](/uilib/extensions/forms/Form/clearData/) works in `React.StrictMode`.
+- Fixed use of unpolyfilled structuredClone in [Form.useData](/uilib/extensions/forms/Form/useData/) hook.
+- Fixed so `onBlurValidator` works with `validateInitially`.
+- Fixed so [Iterate.EditContainer](/uilib/extensions/forms/Iterate/EditContainer/) keeps open when falsy value or empty object was given as the iterate value.
+- Fixed so all errors on every value change is displayed when using exported validators from `exportValidators`.
+- Fixed so `exportValidators` is not called when not exported as an array.
+- Fixed so `emptyValue` is set in the data context when defined.
+- Fixed so [Field.SelectCountry](/uilib/extensions/forms/feature-fields/SelectCountry/) has a fallback locale (nb-NO).
+
+## v10.51
+
+- Added `rounding` property with support for `half-even` rounding to [Value.Number](/uilib/extensions/forms/Value/Number/) and [Value.Currency](/uilib/extensions/forms/Value/Currency/).
+- Added `inheritLabel` and `inheritVisibility` to [Value.SummaryList](/uilib/extensions/forms/Value/SummaryList/).
+- Added `setFieldStatus` in [Form.useValidation](/uilib/extensions/forms/Form/useValidation/) to handle/set the status (error) of a single field.
+- Added displaying of `hasChildren` value in summary of [Block.ChildrenWithAge](/uilib/extensions/forms/blocks/ChildrenWithAge/).
+- Added `range` for date range functionality in [Field.Date](/uilib/extensions/forms/feature-fields/Date/), and [Value.Date](/uilib/extensions/forms/Value/Date/).
+- Added [Form.SubmitConfirmation](/uilib/extensions/forms/Form/SubmitConfirmation/) to confirm a submit during or before sending.
+- Added [Value.Provider](/uilib/extensions/forms/Value/Provider/) to propagate value properties down to [Value components](/uilib/extensions/forms/Value/components/) (e.g. `inheritVisibility`).
+- Deprecated [Form.useError](/uilib/extensions/forms/Form/useError/) and replaced with [Form.useValidation](/uilib/extensions/forms/Form/useValidation/).
+- Deprecated `omit_rounding` in [Value.Number](/uilib/extensions/forms/Value/Number/) and [Value.Currency](/uilib/extensions/forms/Value/Currency/), replaced with `rounding="omit"`.
+- Deprecated [Form.FieldProps](/uilib/extensions/forms/Form/FieldProps/) and replaced with [Field.Provider](/uilib/extensions/forms/feature-fields/Provider/).
+- Fixed error throwing when using [Iterate.useCount hook](/uilib/extensions/forms/Iterate/Count/) or [useData hook](/uilib/extensions/forms/Form/useData/) in [Wizard](/uilib/extensions/forms/Wizard/) without form id.
+- Fixed so the deprecated `itemNr` still works in the [Iterate.ViewContainer](/uilib/extensions/forms/Iterate/ViewContainer/).
+- Fixed so [Field.Toggle](/uilib/extensions/forms/base-fields/Toggle/) does not render invisible label when not providing any label.
+- Fixed CSS `max-width` of card in [Wizard(StepIndicator)](/uilib/extensions/forms/Wizard/) by removing the `max-width` attribute.
+- Fixed so that we keep field state during a [Wizard](/uilib/extensions/forms/Wizard/) step change when used inside [Iterate.Array](/uilib/extensions/forms/Iterate/Array/) (which used `defaultValue` as the data source).
+
+## v10.50
+
+- Added `reduceToVisibleFields` to the [Form.useData](/uilib/extensions/forms/Form/useData/) hook and [Form.Handler](/uilib/extensions/forms/Form/Handler/) `onSubmit`.
+- Added `inheritVisibility` to each `Value.*` component.
+- Added `variant` to [Value.ArraySelection](/uilib/extensions/forms/Value/ArraySelection/), to allow for list layout.
+- Added validation of Norwegian organization number to [Field.OrganizationNumber](/uilib/extensions/forms/feature-fields/OrganizationNumber/).
+- Added `filterCountries` to [Field.PhoneNumber](/uilib/extensions/forms/feature-fields/PhoneNumber/), to be able to filter out countries.
+- Added `filterCountries` to [Field.SelectCountry](/uilib/extensions/forms/feature-fields/SelectCountry/), to be able to filter out countries.
+- Added `limit` in [Iterate](/uilib/extensions/forms/Iterate/Array/).
+- Added `remove` method to the [Form.useData](/uilib/extensions/forms/Form/useData/) hook.
+- Deprecated `itemNr` in [Iterate](/uilib/extensions/forms/Iterate/) and replaced with `itemNo`.
+
+## v10.48
+
+- Make [Iterate.Toolbar](/uilib/extensions/forms/Iterate/Toolbar/) customizable.
+- Added new property `toolbarVariant` to [Iterate.ViewContainer](/uilib/extensions/forms/Iterate/ViewContainer/) and [Iterate.EditContainer](/uilib/extensions/forms/Iterate/EditContainer/) for hiding toolbar buttons when there is only one item in the array.
+
+## v10.46
+
+- Added [Value.SelectCountry](/uilib/extensions/forms/Value/SelectCountry/) component to render a country value.
+
+## v10.45
+
+- Added [Iterate.PushContainer](/uilib/extensions/forms/Iterate/PushContainer/) to create new items in an array.
+- Added [Value.ArraySelection](/uilib/extensions/forms/Value/ArraySelection/) component to render an array of values.
+- Added [Value.Selection](/uilib/extensions/forms/Value/Selection/) component to render a selection value.
+
+## v10.43
+
+- Added [Form.Isolation](/uilib/extensions/forms/Form/Isolation/) data provide.
+- Deprecated `withValue` in [Form.Visibility](/uilib/extensions/forms/Form/Visibility/) and replaced it with `hasValue`.
+
+## v10.41
+
+- Added [Field.Upload](/uilib/extensions/forms/feature-fields/more-fields/Upload/) component.
+
+## v10.38
+
+- Added support for nesting fields inside of [Form.Section](/uilib/extensions/forms/Form/Section/) and [Form.ArraySelection](/uilib/extensions/forms/Form/ArraySelection/).
+
+## v10.36
+
+- Added support for dynamic Wizard steps with the `active` and `activeWhen` property ([Wizard.Step](/uilib/extensions/forms/Wizard/Step/)).
+
+## v10.35
+
+- Added view and edit containers to [Form.Section](/uilib/extensions/forms/Form/Section/).
+
+## v10.34
+
+- Added [Wizard.EditButton](/uilib/extensions/forms/Wizard/EditButton/) component.
+- Added a first block (ChildrenWithAge) to the [list of blocks](/uilib/extensions/forms/blocks/).
+
+## v10.33
+
+- Added [Form.Section](/uilib/extensions/forms/Form/Section/) that contains components and functionality for composing blocks of fields and values to be reused in different contexts.
+
+## v10.32
+
+- Added [Field.Slider](/uilib/extensions/forms/Field/Slider/) component.
+
+## v10.31
+
+- Added [Field.Indeterminate](/uilib/extensions/forms/base-fields/Indeterminate) component to handle checkbox indeterminate (partial) states.
+
+## v10.30
+
+- Added `Form.FieldProps` (which got renamed to [Field.Provider](/uilib/extensions/forms/feature-fields/Provider/)) component to forward field properties, such as `required` or `disabled` to all nested field components.
+- Added `locale` and `translations` to [Form.Handler](/uilib/extensions/forms/Form/Handler/) component to support custom translations.
+- Added `disabled` and `required` to [Form.Handler](/uilib/extensions/forms/Form/Handler/) component and pass these properties to the children fields.
+- Added `fieldPropsWhenHidden` to [Form.Visibility](/uilib/extensions/forms/Form/Visibility/) component to pass properties to the children when visibility is hidden.
+
+## v10.29
+
+- Added [Field.Name](/uilib/extensions/forms/feature-fields/Name/) component.
+- Added [Value.Name](/uilib/extensions/forms/Value/Name/) component.
+- Added [Value.OrganizationNumber](/uilib/extensions/forms/Value/OrganizationNumber/) component.
+- Added [Value.PostalCodeAndCity](/uilib/extensions/forms/Value/PostalCodeAndCity/) component.
+- Added `autocomplete` variant to [Field.Selection](/uilib/extensions/forms/base-fields/Selection/) with `autocompleteProps` support.
+- Added `transformIn` and `transformOut` to [Form.Handler](/uilib/extensions/forms/Form/Handler/).
+- Added step transition (animation) to [Wizard](/uilib/extensions/forms/Wizard/).
+- Enhanced session data storage performance by debouncing.
+
+## v10.28
+
+- Added `getValue` method to [Form.useData](/uilib/extensions/forms/Form/useData/#filter-data) and [Form.getData](/uilib/extensions/forms/Form/getData/#filter-data).
+- Added `keepInDOM` property to [Form.Visibility](/uilib/extensions/forms/Form/Visibility/).
+
+## v10.27
+
+- Stable release of the Eufemia Forms extension 🎉

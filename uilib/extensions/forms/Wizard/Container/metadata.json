@@ -1,0 +1,135 @@
+{
+  "id": "uilib/extensions/forms/Wizard/Container",
+  "name": "Container",
+  "description": "The `Wizard.Container` is a container component for multi-page forms including a step indicator.",
+  "group": "extensions",
+  "slug": "/uilib/extensions/forms/Wizard/Container/",
+  "props": [
+    {
+      "name": "initialActiveIndex",
+      "doc": "What step should show initially (defaults to 0 for the first one).",
+      "type": "number",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "mode",
+      "doc": "How to show the wizard. Inherited from StepIndicator. Defaults to `strict`.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "omitScrollManagement",
+      "doc": "True to omit scroll management.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "omitFocusManagement",
+      "doc": "True to omit focus management.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "noAnimation",
+      "doc": "If set to `true`, the height animation on step change and list expansion will be omitted. Inherited from StepIndicator. Defaults to `false`.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "keepInDOM",
+      "doc": "Determines if all steps should be kept in the DOM. Defaults to `false`.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "validationMode",
+      "doc": "Determines if and how the validation will be bypassed.",
+      "type": [
+        "bypassOnNavigation"
+      ],
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "expandedInitially",
+      "doc": "Set to `true` to have the list be expanded initially. Defaults to `false`.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "outset",
+      "doc": "Whether or not to break out (using negative margins) on larger screens. Same as `outset` in [Card](/uilib/components/card/properties). But defaults to `true`",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "children",
+      "doc": "Contents (Step components).",
+      "type": "React.Node",
+      "status": "required",
+      "defaultValue": null
+    },
+    {
+      "name": "variant",
+      "doc": "There is no variant in the current version. This prop does nothing. Old docs: Sets the StepIndicator to be either `sidebar` or `drawer`. Defaults to `sidebar`.",
+      "type": "string",
+      "status": "deprecated",
+      "defaultValue": null
+    },
+    {
+      "name": "sidebarId",
+      "doc": "There is no longer any sidebar. This prop does nothing. Old docs: Sets the id for `<StepIndicator.Sidebar />` Inherited from StepIndicator.",
+      "type": "string",
+      "status": "deprecated",
+      "defaultValue": null
+    }
+  ],
+  "events": [
+    {
+      "name": "onStepChange",
+      "doc": "Will be called when the user navigate to a different step, with step `index` as the first argument and `previous` or `next` (or `stepListModified` when a step gets replaced) as the second argument, and as the third parameter an options object containing a `preventNavigation` function, an `id` if given on the `Wizard.Step` and a `previousStep` object containing the previous `index` (and `id` if given on the `Wizard.Step`). When an async function is provided, it will show an indicator on the submit button during the form submission. All form elements will be disabled during the submit. The indicator will be shown for minimum 1 second. Related Form.Handler props: `minimumAsyncBehaviorTime` and `asyncSubmitTimeout`.",
+      "type": "function",
+      "status": "optional",
+      "defaultValue": null
+    }
+  ],
+  "related": [
+    "Space"
+  ],
+  "checksum": "ff6cbdd0876a616912fcb7c9325975ff38ae6b9fd64c483066a21ce0fef90730",
+  "source": {
+    "repo": "https://github.com/dnbexperience/eufemia",
+    "file": "packages/dnb-eufemia/src/extensions/forms/Wizard/Container/index.ts",
+    "fileUrl": "https://github.com/dnbexperience/eufemia/blob/v10.94.3/packages/dnb-eufemia/src/extensions/forms/Wizard/Container/index.ts",
+    "dirUrl": "https://github.com/dnbexperience/eufemia/tree/v10.94.3/packages/dnb-eufemia/src/extensions/forms/Wizard/Container"
+  },
+  "sources": {
+    "entry": {
+      "local": "src/docs/uilib/extensions/forms/Wizard/Container.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/Wizard/Container/"
+    },
+    "props": {
+      "local": "src/docs/uilib/extensions/forms/Wizard/Container/properties.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/Wizard/Container/properties/"
+    },
+    "events": {
+      "local": "src/docs/uilib/extensions/forms/Wizard/Container/events.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/Wizard/Container/events/"
+    },
+    "demos": {
+      "local": "src/docs/uilib/extensions/forms/Wizard/Container/demos.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/Wizard/Container/demos/"
+    }
+  },
+  "version": "10.94.3",
+  "generatedAt": "2026-01-16T16:38:17.579Z",
+  "schemaVersion": 1
+}

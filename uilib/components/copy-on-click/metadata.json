@@ -1,0 +1,71 @@
+{
+  "id": "uilib/components/copy-on-click",
+  "name": "CopyOnClick",
+  "description": "The CopyOnClick component allows users to copy text to their clipboard simply by clicking on it.",
+  "group": "components",
+  "slug": "/uilib/components/copy-on-click/",
+  "props": [
+    {
+      "name": "showCursor",
+      "doc": "Define if the copy cursor should be visible. Defaults to `true`.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "disabled",
+      "doc": "If `true`, the copy functionality and copy cursor will be omitted. Defaults to `false`.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "copyContent",
+      "doc": "Contents to copy. Used when the copied value should differ from the visually shown value(`children`).",
+      "type": "React.Node",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "tooltipContent",
+      "doc": "The message shown in the tooltip when the content is copied. Defaults to the translation `CopyOnClick.clipboard_copy`.",
+      "type": "React.Node",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "children",
+      "doc": "Contents.",
+      "type": "React.Node",
+      "status": "required",
+      "defaultValue": null
+    }
+  ],
+  "events": [],
+  "related": [],
+  "checksum": "fada38a41553f748be7f66da102dba3646210d2b1100e7e92aef68df1a86a27c",
+  "source": {
+    "repo": "https://github.com/dnbexperience/eufemia",
+    "file": "packages/dnb-eufemia/src/components/copy-on-click/CopyOnClick.tsx",
+    "fileUrl": "https://github.com/dnbexperience/eufemia/blob/v10.94.3/packages/dnb-eufemia/src/components/copy-on-click/CopyOnClick.tsx",
+    "dirUrl": "https://github.com/dnbexperience/eufemia/tree/v10.94.3/packages/dnb-eufemia/src/components/copy-on-click"
+  },
+  "sources": {
+    "entry": {
+      "local": "src/docs/uilib/components/copy-on-click.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/copy-on-click/"
+    },
+    "props": {
+      "local": "src/docs/uilib/components/copy-on-click/properties.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/copy-on-click/properties/"
+    },
+    "events": null,
+    "demos": {
+      "local": "src/docs/uilib/components/copy-on-click/demos.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/copy-on-click/demos/"
+    }
+  },
+  "version": "10.94.3",
+  "generatedAt": "2026-01-16T16:38:16.536Z",
+  "schemaVersion": 1
+}

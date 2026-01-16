@@ -1,0 +1,33 @@
+{
+  "id": "uilib/extensions/forms/feature-fields/Name",
+  "name": "Name",
+  "description": "`Field.Name` is a wrapper component for the input of strings, with user experience tailored for first name, last name and company names.",
+  "group": "extensions",
+  "slug": "/uilib/extensions/forms/feature-fields/Name/",
+  "props": [],
+  "events": [],
+  "related": [],
+  "checksum": "090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40",
+  "source": null,
+  "sources": {
+    "entry": {
+      "local": "src/docs/uilib/extensions/forms/feature-fields/Name.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/feature-fields/Name/"
+    },
+    "props": {
+      "local": "src/docs/uilib/extensions/forms/feature-fields/Name/properties.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/feature-fields/Name/properties/"
+    },
+    "events": {
+      "local": "src/docs/uilib/extensions/forms/feature-fields/Name/events.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/feature-fields/Name/events/"
+    },
+    "demos": {
+      "local": "src/docs/uilib/extensions/forms/feature-fields/Name/demos.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/feature-fields/Name/demos/"
+    }
+  },
+  "version": "10.94.3",
+  "generatedAt": "2026-01-16T16:38:17.664Z",
+  "schemaVersion": 1
+}

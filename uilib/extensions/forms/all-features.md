@@ -1,0 +1,134 @@
+---
+title: 'All features and APIs'
+metadata: https://eufemia.dnb.no/uilib/extensions/forms/all-features/metadata.json
+---
+
+# All features and APIs
+
+**Table of Contents**
+
+- [Form](#form)
+- [Connectors](#connectors)
+- [Wizard](#wizard)
+- [Iterate](#iterate)
+- [Data Context](#data-context)
+- [FieldBlock](#fieldblock)
+- [ValueBlock](#valueblock)
+- [useFieldProps](#usefieldprops)
+- [useValueProps](#usevalueprops)
+
+## Intro
+
+Eufemia Forms is a flexible set of building blocks for form functionality. Besides field components and data display, it consists of more complex functionality for surrounding processes such as data flow, validation and building UI.
+
+## [Form](/uilib/extensions/forms/Form)
+
+Form provides the main forms-helpers including data provider and event handling. This makes it possible to do a combined processing of the data for a form, so you do not have to create individual distribution of data and callbacks to persist changes for each field individually.
+
+Example using the [Form.Handler](/uilib/extensions/forms/Form/Handler) collecting data with `onSubmit`:
+
+```jsx
+import { Form, Field, Value } from '@dnb/eufemia/extensions/forms'
+
+const existingData = {
+  email: 'name@email.no'
+  date: '2024-01-01'
+}
+
+// The submit handler can be async
+const submitHandler = async (data) => {
+  try {
+    await makeRequest(data)
+  } catch (error) {
+    return error
+  }
+}
+
+function Component() {
+  return (
+    <Form.Handler defaultData={existingData} onSubmit={submitHandler}>
+      <Field.Email path="/email" />
+      <Value.Date path="/date" />
+      <Form.SubmitButton />
+    </Form.Handler>
+  )
+}
+```
+
+Here is a list of all available `Form.*` components:
+
+<ListFormComponents size="small" />
+
+### Validation and error handling
+
+You can provide [custom logic](/uilib/extensions/forms/getting-started/#validation-and-error-handling) and texts to handle and display error messages. More details about error messages can be found [on a separate page](/uilib/extensions/forms/Form/error-messages).
+
+### Schema validation
+
+Eufemia Forms does support [Ajv schema validator](https://ajv.js.org/) on both single fields and the whole data set – if needed.
+
+[JSON Schema](https://json-schema.org/) is a flexible standard that makes it possible to describe the data's structure and validation needs, both for the individual value, and more complex rules across the data set.
+
+Descriptions and examples of such validation can be found [on a separate page](/uilib/extensions/forms/Form/schema-validation).
+
+You can also [create your own Ajv instance](/uilib/extensions/forms/Form/schema-validation/#custom-ajv-instance-and-keywords) and pass it to your form.
+
+This is useful if you want to use a custom schema keyword and `validate` function or if you want to use a different version of Ajv.
+
+#### Generate schema from fields
+
+You can also easily generate a Ajv schema from a set of fields (JSX), by using the `log` property on the `Tools.GenerateSchema` component. I will e.gc. console log the generated schema. More info about this feature can be found [on a separate page](/uilib/extensions/forms/Form/schema-validation/#generate-schema-from-fields)
+
+## [Connectors](/uilib/extensions/forms/Connectors/)
+
+Connectors are an opt-in way to extend the functionality of a form. They can be used to add features like API calls for autofill, validation, and more.
+
+## [Wizard](/uilib/extensions/forms/Wizard/)
+
+Wizard is a wrapper component for showing forms with a StepIndicator for navigation between several pages (multi-steps). It also includes components for navigating between steps.
+
+Example using the [Wizard.Container](/uilib/extensions/forms/Wizard/Container) for handling stepped layouts:
+
+```jsx
+import { Wizard, Form } from '@dnb/eufemia/extensions/forms'
+
+render(
+  <Wizard.Container>
+    <Wizard.Step title="Name">
+      <Form.MainHeading>Profile</Form.MainHeading>
+    </Wizard.Step>
+  </Wizard.Container>,
+)
+```
+
+Here is a list of all available `Wizard.*` components:
+
+<ListWizardComponents size="small" />
+
+## [Iterate](/uilib/extensions/forms/Iterate/)
+
+`Iterate` contains components and functionality for traversing values and parts of data sets such as arrays, which contain a varying number of elements where the number of components on the screen depends on how many elements the data consists of.
+
+<ListIterateComponents size="small" />
+
+## [Data Context](/uilib/extensions/forms/DataContext/)
+
+`DataContext` builds a surrounding [React context](https://react.dev/learn/passing-data-deeply-with-context) that binds an entire source dataset together with the fields placed within. It enables fields and other components to retrieve data from the source data using `path` parameters that identify where in the source data the target value is located, and the same components will report changes to the data back so the context can update the dataset.
+
+<ListDataContextComponents size="small" />
+
+## [FieldBlock](/uilib/extensions/forms/create-component/FieldBlock)
+
+`FieldBlock` is a reusable wrapper [for building](/uilib/extensions/forms/create-component/) interactive [Field](/uilib/extensions/forms/feature-fields) components.
+
+## [ValueBlock](/uilib/extensions/forms/create-component/ValueBlock)
+
+`ValueBlock` is a reusable wrapper for building [Value](/uilib/extensions/forms/Value) components.
+
+## [useFieldProps](/uilib/extensions/forms/create-component/useFieldProps/)
+
+The `useFieldProps` hook standardize handling of the value flow for a single consumer component for one data point.
+
+## [useValueProps](/uilib/extensions/forms/create-component/useValueProps/)
+
+The `useValueProps` hook standardize handling of the value flow for a single presentation component for one data point.

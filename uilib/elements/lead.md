@@ -1,0 +1,37 @@
+---
+title: 'Lead'
+description: 'A lead paragraph is the opening paragraph of an article, etc.'
+metadata: https://eufemia.dnb.no/uilib/elements/lead/metadata.json
+---
+
+## Import
+
+```tsx
+import { Lead } from '@dnb/eufemia/elements'
+```
+
+## Description
+
+A lead paragraph is the opening paragraph of an article, such as a blog post or news story.
+
+## Relevant links
+
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/elements/Lead.ts)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/elements/lead)
+
+## Paragraph class modifiers
+
+Eufemia comes with [several styles](/uilib/elements/paragraph/#paragraph-class-modifiers) you can use on paragraphs and other HTML text elements, where `.dnb-p--lead` is one of them.
+
+## Demos
+
+```tsx
+render(
+  <div>
+    <Lead>Default lead</Lead>
+    <Lead>
+      Lead with <Anchor href="/">Anchor / Text Link</Anchor> looks great!
+    </Lead>
+  </div>,
+)
+```

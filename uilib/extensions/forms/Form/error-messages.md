@@ -1,0 +1,419 @@
+---
+title: 'Error messages'
+description: 'Error messages in Eufemia Forms are used to provide feedback to users when there are issues with their input.'
+metadata: https://eufemia.dnb.no/uilib/extensions/forms/Form/error-messages/metadata.json
+---
+
+## Table of Contents
+
+- [Description](#description)
+- [Error object](#error-object)
+- [Reuse existing error messages in a validator function](#reuse-existing-error-messages-in-a-validator-function)
+  - [FormError object](#formerror-object)
+    - [Overwrite existing keys](#overwrite-existing-keys)
+    - [Custom keys in a field](#custom-keys-in-a-field)
+    - [Custom keys in Form.Handler](#custom-keys-in-formhandler)
+    - [Localization of error messages](#localization-of-error-messages)
+    - [Use translations to localize error messages](#use-translations-to-localize-error-messages)
+    - [Error message in a field `schema`](#error-message-in-a-field-schema)
+    - [Error message in a global `schema`](#error-message-in-a-global-schema)
+- [Levels of `errorMessages`](#levels-of-errormessages)
+
+## Description
+
+Eufemia Forms comes with built-in error messages. But you can also customize and override these messages by using the `errorMessages` property both on [fields](/uilib/extensions/forms/all-fields/) (field level) and on the [Form.Handler](/uilib/extensions/forms/Form/Handler/) (global level).
+
+You may use the `errorMessages` property for two purposes:
+
+- Provide your own error messages.
+- Overwrite the default error messages.
+
+Both can be done on a global level or on a field level.
+
+However, for when overwriting the default error messages on a global level, you can also use [internationalization (i18n)](#localization-of-error-messages).
+
+## Error object
+
+Use `new Error` with a message to display a custom error message.
+
+```tsx
+render(<Field.PhoneNumber error={new Error('Show this message')} />)
+```
+
+Or in case of a validator:
+
+```tsx
+const myValidator = (value) => {
+  // Your validation logic
+  return new Error('Show this message')
+}
+
+render(<Field.PhoneNumber onBlurValidator={myValidator} />)
+```
+
+## Reuse existing error messages in a validator function
+
+You can reuse existing error messages in a validator function. The types of error messages available depend on the field type.
+
+For example, you can reuse the `Field.errorRequired` error message in a validator function:
+
+```tsx
+const myValidator = (value) => {
+  // Your validation logic
+  return new FormError('Field.errorRequired')
+}
+
+// Other options to reuse error messages, without using "FormError".
+const myValidatorAlt = (value, { errorMessages }) => {
+  return new Error(errorMessages['Field.errorRequired'])
+
+  // Deprecated
+  return new Error(errorMessages.required)
+}
+
+render(<Field.String onBlurValidator={myValidator} />)
+```
+
+### FormError object
+
+You can use the JavaScript `Error` object to display a custom error message:
+
+```tsx
+import { Field } from '@dnb/eufemia/extensions/forms'
+
+render(<Field.PhoneNumber error={new Error('Custom message')} />)
+```
+
+When it comes to re-using existing translations, you can also use the `FormError` object to display error messages.
+
+You can provide either an existing translation key, such as:
+
+- `Field.errorRequired` - Displayed when the field is required and the user has not provided a value.
+- `Field.errorPattern` - Displayed when the user has provided a value that does not match the pattern.
+
+```tsx
+import { FormError, Field } from '@dnb/eufemia/extensions/forms'
+
+// - Error property
+render(<Field.PhoneNumber error={new FormError('Field.errorRequired')} />)
+
+// - Validator function
+render(
+  <Field.PhoneNumber
+    onBlurValidator={() => {
+      return new FormError('Field.errorRequired')
+    }}
+  />,
+)
+```
+
+#### Overwrite existing keys
+
+Per field, you can overwrite existing keys:
+
+```tsx
+render(
+  <Field.PhoneNumber
+    errorMessages={{
+      'Field.errorRequired': 'Display me, instead of the default message',
+    }}
+  />,
+)
+```
+
+#### Custom keys in a field
+
+You can also provide your own keys:
+
+```tsx
+<Field.PhoneNumber
+  error={new FormError('MyCustom.message')}
+  errorMessages={{
+    'MyCustom.message': 'Your custom error message',
+  }}
+/>
+```
+
+#### Custom keys in Form.Handler
+
+Here is how you can provide your own keys or overwrite existing ones in a global `errorMessages` object inside the [Form.Handler](/uilib/extensions/forms/Form/Handler/):
+
+```tsx
+render(
+  <Form.Handler
+    errorMessages={{
+      'MyCustom.message': 'Your custom error message',
+      'Field.errorRequired': 'Display me, instead of the default message',
+    }}
+  >
+    ...
+  </Form.Handler>,
+)
+```
+
+#### Localization of error messages
+
+You can also provide localized error messages:
+
+```tsx
+render(
+  <Form.Handler
+    errorMessages={{
+      'en-GB': {
+        'Field.errorRequired':
+          'Display me, instead of the default message',
+      },
+      'nb-NO': {
+        'Field.errorRequired': 'Vis meg istedenfor standardmeldingen',
+      },
+    }}
+  >
+    ...
+  </Form.Handler>,
+)
+```
+
+#### Use translations to localize error messages
+
+You can customize error messages via translations for the entire form:
+
+```tsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+
+render(
+  <Form.Handler
+    translations={{
+      'nb-NO': {
+        // - Overwrite existing keys
+        Field: { errorRequired: 'Display this error message instead' },
+        'Field.errorRequired': 'Display this error message instead',
+
+        // - Custom keys
+        MyCustom: { key: 'Your custom error message' },
+        'MyCustom.message': 'Your custom error message',
+      },
+    }}
+  >
+    <Field.String pattern="^([a-z]+)$" value="123" validateInitially />
+  </Form.Handler>,
+)
+```
+
+#### Error message in a field `schema`
+
+You can define an error message in a `schema` for one field:
+
+**Using Zod schemas**
+
+```tsx
+import { Form, Field, z } from '@dnb/eufemia/extensions/forms'
+
+const schema = z
+  .string()
+  .regex(
+    /^([a-z]+)$/,
+    'You can provide a custom message in the schema itself',
+  )
+
+render(
+  <Form.Handler>
+    <Field.String schema={schema} value="123" validateInitially />
+  </Form.Handler>,
+)
+```
+
+**Using JSON Schema (Ajv)**
+
+```tsx
+import {
+  Form,
+  Field,
+  makeAjvInstance,
+} from '@dnb/eufemia/extensions/forms'
+
+const ajv = makeAjvInstance()
+const schema = {
+  type: 'string',
+  pattern: '^([a-z]+)$',
+  errorMessage: 'You can provide a custom message in the schema itself',
+} as const
+
+render(
+  <Form.Handler ajvInstance={ajv}>
+    <Field.String schema={schema} value="123" validateInitially />
+  </Form.Handler>,
+)
+```
+
+#### Error message in a global `schema`
+
+You can also define an error message in a `schema` for the entire form:
+
+**Using Zod schemas**
+
+```tsx
+import { Form, Field, z } from '@dnb/eufemia/extensions/forms'
+
+const schema = z.object({
+  myKey: z
+    .string()
+    .regex(
+      /^([a-z]+)$/,
+      'You can provide a custom message in the schema itself',
+    ),
+})
+
+render(
+  <Form.Handler schema={schema}>
+    <Field.String path="/myKey" value="123" validateInitially />
+  </Form.Handler>,
+)
+```
+
+**Using JSON Schema (Ajv)**
+
+```tsx
+const ajv = makeAjvInstance()
+const schema = {
+  type: 'object',
+  properties: {
+    myKey: {
+      type: 'string',
+      pattern: '^([a-z]+)$',
+      errorMessage:
+        'You can provide a custom message in the schema itself',
+    },
+  },
+} as const
+
+render(
+  <Form.Handler schema={schema} ajvInstance={ajv}>
+    <Field.String path="/myKey" value="123" validateInitially />
+  </Form.Handler>,
+)
+```
+
+Or in a Form.Handler `schema` with several validation rules:
+
+**Using Zod schemas**
+
+```tsx
+import { Form, Field, z } from '@dnb/eufemia/extensions/forms'
+
+const schema = z.object({
+  myKey: z
+    .string()
+    .min(2, 'minLength message in provider schema')
+    .max(3, 'maxLength message in provider schema'),
+})
+
+render(
+  <Form.Handler schema={schema}>
+    <Field.String path="/myKey" value="123" validateInitially />
+  </Form.Handler>,
+)
+```
+
+**Using JSON Schema (Ajv)**
+
+```tsx
+import {
+  Form,
+  Field,
+  makeAjvInstance,
+} from '@dnb/eufemia/extensions/forms'
+
+const ajv = makeAjvInstance()
+const schema = {
+  type: 'object',
+  properties: {
+    myKey: {
+      type: 'string',
+      minLength: 2,
+      maxLength: 3,
+      errorMessage: {
+        minLength: 'minLength message in provider schema',
+        maxLength: 'maxLength message in provider schema',
+      },
+    },
+  },
+} as const
+
+render(
+  <Form.Handler schema={schema} ajvInstance={ajv}>
+    <Field.String path="/myKey" value="123" validateInitially />
+  </Form.Handler>,
+)
+```
+
+## Levels of `errorMessages`
+
+You can provide custom error message different levels with the `errorMessages` property:
+
+1. On the Form.Handler (Provider) level.
+2. On the Form.Handler (Provider) level with a JSON Pointer path.
+3. On the field level.
+
+The levels are prioritized in the order above, so the field level error message will overwrite all other levels.
+
+Here is an example of how to do expose a custom error message for the `Field.errorRequired` validation rule on all levels:
+
+```tsx
+import {
+  Form,
+  Field,
+  makeAjvInstance,
+} from '@dnb/eufemia/extensions/forms'
+
+const ajv = makeAjvInstance()
+
+render(
+  <Form.Handler
+    ajvInstance={ajv}
+    errorMessages={{
+      // Level 1
+      'Field.errorRequired': 'Or on the provider',
+      '/myKey': {
+        // Level 2
+        'Field.errorRequired': 'Or on the provider for just one field',
+      },
+    }}
+  >
+    <Field.String
+      path="/myKey"
+      errorMessages={{
+        // Level 3
+        'Field.errorRequired': 'Or on a single Field itself',
+      }}
+    />
+  </Form.Handler>,
+)
+```
+
+## Demos
+
+```tsx
+render(
+  <Form.Handler
+    errorMessages={{
+      // Level 1
+      'Field.errorPattern': 'Or on the provider',
+      '/myKey': {
+        // Level 2
+        'Field.errorPattern': 'Or on the provider for just one field',
+      },
+    }}
+  >
+    <Field.String
+      errorMessages={{
+        // Level 3
+        'Field.errorPattern': 'Or on a single Field itself',
+      }}
+      path="/myKey"
+      value="abc"
+      pattern="^[0-9]+$"
+      validateInitially
+    />
+  </Form.Handler>,
+)
+```

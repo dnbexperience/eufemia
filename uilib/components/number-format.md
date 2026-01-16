@@ -1,0 +1,483 @@
+---
+title: 'NumberFormat'
+description: 'A ready to use DNB number formatter.'
+metadata: https://eufemia.dnb.no/uilib/components/number-format/metadata.json
+---
+
+## Import
+
+```tsx
+import { NumberFormat } from '@dnb/eufemia'
+```
+
+## Description
+
+A ready-to-use DNB number formatter. Use it wherever you have to display a number, a currency value, a phone number, etc.
+
+## Relevant links
+
+- [Figma](https://www.figma.com/design/cdtwQD8IJ7pTeE45U148r1/%F0%9F%92%BB-Eufemia---Web?node-id=52173-680)
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/number-format)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/number-format)
+
+Good reasons for why we have this:
+
+- To standardize the formatting of numbers for all DNB applications.
+- To make numbers accessible to screen readers.
+
+### Supported formats
+
+- Numbers in general e.g. <code className="dnb-code"><NumberFormat value="12345678.90" /></code>
+- Currency e.g. <code className="dnb-code"><NumberFormat currency value="12345678.90" /></code>
+- Percentage e.g. <code className="dnb-code"><NumberFormat percent value="12.34" /></code>
+- Phone numbers e.g. <code className="dnb-code"><NumberFormat phone value="004799999999" /></code>
+- Bank account number e.g. <code className="dnb-code"><NumberFormat ban value="20001234567" /></code>
+- National identification number e.g. <code className="dnb-code"><NumberFormat nin value="18089212345" /></code>
+- Organization number e.g. <code className="dnb-code"><NumberFormat org value="123456789" /></code>
+- Compact (short) numbers e.g. <code className="dnb-code"><NumberFormat compact value="12345678" decimals={1} /></code>
+- Compact (long) currency e.g. <code className="dnb-code"><NumberFormat compact="long" currency currency_display="name" value="12345678" decimals={1} /></code>
+
+### Defaults
+
+It uses the browser APIs `number.toLocaleString` or `Intl.NumberFormat.format` under the hood. As well as some custom formatter. The locale defaults to:
+
+- Locale: `nb-NO`
+- Currency: `NOK`
+
+#### Norwegian kroner
+
+When the currency format is set to `currency_display="name"`, the currency will be displayed as "kroner" instead of "Norwegian kroner".
+
+- Norwegian currency: <code className="dnb-code"><NumberFormat currency currency_display="name" value="1234.90" /></code>
+- Swedish currency: <code className="dnb-code"><NumberFormat currency="SEK" currency_display="name" value="1234.90" /></code>
+
+#### Not available
+
+When a number should be displayed but is not available to the frontend application, the NumberFormat component will display a single **em dash** (–), and a screen reader will receive the text "Ikke tilgjengelig" / "Not available".
+
+Example: <NumberFormat value="invalid" currency />
+
+## Decimals
+
+If the value has more decimal places than specified by the `decimals={2}` property, it will be rounded accordingly.
+
+Here are the available options for the `rounding` property:
+
+- `omit`: Truncate decimals without rounding.
+- `half-even`: Round to the nearest even number.
+- `half-up` (default): Round up if the fractional part is 0.5 or greater; otherwise, round down.
+
+## Provider
+
+You can send down the `locale` as an application-wide property (Context). More info about the [provider and locale usage](/uilib/components/number-format/provider).
+
+```jsx
+import Provider from '@dnb/eufemia/shared/Provider'
+
+render(
+  <Provider locale="en-GB" NumberFormat={{ currency_display: 'code' }}>
+    <MyApp>
+      text <NumberFormat>123</NumberFormat> table etc.
+    </MyApp>
+  </Provider>,
+)
+```
+
+## NumberFormat Hook
+
+**Heads up:** If you do so, keep in mind that you will have to ensure all the accessibility enhancements the component offers. For that, you can use the `aria` field:
+
+```jsx
+import Provider from '@dnb/eufemia/shared/Provider'
+import useNumberFormat from '@dnb/eufemia/components/number-format/useNumberFormat'
+
+function Component() {
+  // By using returnAria you get an object
+  const { number, aria } = useNumberFormat(12345678.9, {
+    // Props are inherited from the Eufemia Provider and the NumberFormat object
+    returnAria: true,
+  })
+
+  return (
+    <span>
+      <span aria-hidden>{number}</span>
+      <span className="dnb-sr-only">{aria}</span>
+    </span>
+  )
+}
+
+render(
+  <Provider locale="en-GB" NumberFormat={{ currency: 'EUR' }}>
+    <Component />
+  </Provider>,
+)
+```
+
+## Formatting only (interceptor)
+
+You can use the `format` method without using a React Component or React Hook.
+
+**Heads up:** If you do so, keep in mind that you will have to ensure all the accessibility enhancements the component offers. For that, you can use the `aria` field:
+
+```ts
+import { format } from '@dnb/eufemia/components/number-format/NumberUtils'
+
+// By using returnAria you get an object
+const { number, aria } = format(12345678.9, {
+  locale: 'nb-NO', // not inherited
+  currency: true,
+  returnAria: true,
+})
+
+// Basic formatting
+const number = format(1234)
+```
+
+The `format` method will accept the same [properties](/uilib/components/number-format/properties) as the component.
+
+### Interceptor helpers
+
+Also, you may check out the related tests **NumberFormat > cleanNumber** in the source code to find more examples.
+
+```ts
+import { cleanNumber } from '@dnb/eufemia/components/number-format/NumberUtils'
+
+const string = cleanNumber('prefix -12 345,678 suffix') // returns -12345.678
+const string = cleanNumber('prefix -12.345,678 suffix') // returns -12345.678
+```
+
+### Element and style
+
+The number component is style-independent, so it has no visual styles. By default, a `<span>` is used (with [speak-as: numbers](https://developer.mozilla.org/en-US/docs/Web/CSS/@counter-style/speak-as), even though the support is very low). However, you can easily change the element type by providing a different value to the `element="div"` property.
+
+## Accessibility
+
+**NVDA** also has [issues](https://github.com/nvaccess/nvda/issues/8874) reconciling the `lang` attribute, which makes it hard to have a solid and good solution for reading numbers. VoiceOver on desktop does a perfect job with this.
+
+**VoiceOver** on mobile devices (iOS) only supports numbers read out properly to a maximum of `99,999.00`. On amounts above this value, VO reads numbers digit by digit.
+
+To enhance the **Copy & Paste** experience of copying numbers into other applications (Excel), you may use the `clean_copy_value` property. It will then provide a second number without thousand separators and with a comma/dot (depending on the locale) as the decimal separator. This number is not visible but will be used when selecting and copying the whole number on the first click to the system clipboard.
+
+You can enable this feature on all your NumberFormat components by using the `Provider`:
+
+```jsx
+import { Provider } from '@dnb/eufemia/shared'
+
+render(
+  <Provider value={{ NumberFormat: { clean_copy_value: true } }}>
+    <YourApp />
+  </Provider>,
+)
+```
+
+### More details
+
+> Screen readers require numbers to be formatted properly in order to be read as numbers. The **NumberFormat** component helps achieve this requirement.
+
+Numbers are formatted differently for screen readers than the visual number. Numbers also get assigned a `lang` attribute so the screen reader knows what language (locale) should be used for the particular number, even if the surrounding text does not correspond to the same language.
+
+### Sources
+
+Eufemia bases its number formats on both the [Norwegian authority](https://lovdata.no/forskrift/2004-02-16-426/§16) and [Språkradet](https://www.sprakradet.no/sprakhjelp/Skriveregler/Dato), and currency is based on [guidelines](https://www.sprakradet.no/svardatabase/sporsmal-og-svar/kronebelop-rekkjefolgje-komma-og-strek/) from Språkrådet. Wikipedia has more info on worldwide [decimal separator](https://en.wikipedia.org/wiki/Decimal_separator) usage.
+
+For international number formatting we use these sources:
+
+- [ONS – Writing numbers](https://service-manual.ons.gov.uk/content/numbers/writing-numbers)
+- [GOV.UK Style Guide](https://www.gov.uk/guidance/style-guide/a-to-z-of-gov-uk-style#numbers)
+- [NHS Service Manual](https://service-manual.nhs.uk/content/numbers-measurements-dates-time) all recommend using **commas** as the thousands separator for `en-GB`.
+- [EU Data Visualisation Guide](https://data.europa.eu/apps/data-visualisation-guide/number-formatting) states the same for digital content.
+- [EU’s Handbook for authors and translators](https://commission.europa.eu/system/files/2023-11/styleguide_english_dgt_en.pdf) specifies non-breaking spaces as the main rule, **but explicitly allows commas when writing for the web** – which is exactly our context.
+- [ISO 80000-1](https://www.iso.org/standard/76921.html) (formerly ISO 31-0) is a scientific/technical standard and **not a linguistic style guide**, so we do not use it for how we present numbers to end users on the web.
+
+**Difference between formats:**
+
+- `1 234.00` – 🇬🇧 Current DNB practice for English
+- `1,234.00` – 🇬🇧 Recommended by official UK sources (ONS, GOV.UK, NHS)
+
+**Accessibility:** WCAG [1.3.1 Info and Relationships](https://www.w3.org/WAI/WCAG21/Understanding/info-and-relationships.html) and [3.1.1 Language of Page](https://www.w3.org/WAI/WCAG21/Understanding/language-of-page.html) require that content can be correctly interpreted by assistive technologies.
+
+When using spaces as thousand separators, screen readers misinterpret numbers in English. For example: `45 804` is read as "45" and "804" instead of "forty-five thousand eight hundred and four."
+
+## Node.js and SSR usage
+
+If you run the component or `format` function in [Node.js](https://nodejs.org), you have to include [ICU](https://nodejs.org/api/intl.html) data in order to display other locales than en-GB. You can do this by:
+
+- installing `npm i full-icu`
+- and call node (or jest) with an environment variable pointing to the package: `NODE_ICU_DATA=./node_modules/full-icu node ...`
+- after a Node.js version upgrade you may have to run `npm rebuild`
+
+## Known issues
+
+Edge Browser on Windows 10 is converting numbers automatically to followable links. This makes the experience on NVDA bad, as it reads also the new, unformatted link number.
+
+You can [disable this behavior](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/x-ms-format-detection):
+
+```html
+<html x-ms-format-detection="none">
+  ...
+</html>
+```
+
+## Demos
+
+<ChangeLocale
+  label="Locale used in the demos:"
+  label_direction="vertical"
+/>
+
+### Default numbers
+
+```tsx
+render(
+  <Style>
+    <ComponentBox data-visual-test="number-format-default">
+      <P>
+        <NumberFormat value="12345" srLabel="Total:" />
+        <NumberFormat>-12345678.9</NumberFormat>
+        <NumberFormat prefix={<b>prefix</b>} suffix="suffix">
+          -12345678.9
+        </NumberFormat>
+        <NumberFormat decimals={1}>-1234.54321</NumberFormat>
+        <NumberFormat decimals={2} copy_selection={false}>
+          -1234
+        </NumberFormat>
+        <NumberFormat decimals={2}>invalid</NumberFormat>
+      </P>
+    </ComponentBox>
+  </Style>,
+)
+```
+
+### Currency
+
+```tsx
+render(
+  <Style>
+    <ComponentBox data-visual-test="number-format-currency">
+      <P>
+        <NumberFormat currency>12345</NumberFormat>
+        <NumberFormat
+          currency
+          currency_position="before"
+          value={-12345678.9}
+        />
+        <NumberFormat currency value={-12345678.95} decimals={0} />
+        <NumberFormat
+          currency
+          value={-12345678.9}
+          currency_display="code"
+        />
+        <NumberFormat
+          currency
+          value={-12345678.9}
+          currency_display={false}
+        />
+        <NumberFormat currency decimals={2}>
+          invalid
+        </NumberFormat>
+      </P>
+    </ComponentBox>
+  </Style>,
+)
+```
+
+### Compact (shorten) numbers
+
+Shorten numbers should only be used for numbers above 100 000. A small `k` for thousand is not a Norwegian standard, and should not be used in formal contexts.
+
+```tsx
+render(
+  <Style>
+    <ComponentBox data-visual-test="number-format-compact">
+      <P>
+        <NumberFormat compact decimals={1}>
+          1234
+        </NumberFormat>
+        <NumberFormat compact decimals={1} value={123456} />
+        <NumberFormat compact="short" decimals={2} value={-1723967.38} />
+        <NumberFormat compact="long" decimals={3} value={-1234567.9876} />
+        <NumberFormat
+          compact="long"
+          currency
+          value={12345}
+          decimals={1}
+          currency_display="name"
+        />
+        <NumberFormat compact value={123455678912} decimals={3} />
+      </P>
+    </ComponentBox>
+  </Style>,
+)
+```
+
+### Percentage
+
+```tsx
+render(
+  <Style>
+    <ComponentBox data-visual-test="number-format-percent">
+      <P>
+        <NumberFormat percent value="12.34" />
+        <NumberFormat percent>-12.34</NumberFormat>
+        <NumberFormat percent decimals={1}>
+          -12.34
+        </NumberFormat>
+      </P>
+    </ComponentBox>
+  </Style>,
+)
+```
+
+### Phone
+
+By using `selectall={false}` you disable the auto-select all feature.
+
+```tsx
+render(
+  <Style>
+    <ComponentBox data-visual-test="number-format-phone">
+      <P>
+        <NumberFormat value="99999999" phone />
+        <NumberFormat value="4799999999" phone />
+        <NumberFormat value="004799999999" phone />
+        <NumberFormat value="+4780022222" phone link="sms" />
+        <NumberFormat value="+47116000" phone selectall={false} />
+        <NumberFormat value="+4702000" phone />
+      </P>
+    </ComponentBox>
+  </Style>,
+)
+```
+
+### Bank Account number (Kontonummer)
+
+```tsx
+render(
+  <Style>
+    <ComponentBox data-visual-test="number-format-ban">
+      <P>
+        <NumberFormat value="20001234567" ban />
+      </P>
+    </ComponentBox>
+  </Style>,
+)
+```
+
+### National Identification number (Fødselsnummer)
+
+```tsx
+render(
+  <Style>
+    <ComponentBox data-visual-test="number-format-nin">
+      <P>
+        <NumberFormat value="18089212345" nin />
+      </P>
+    </ComponentBox>
+  </Style>,
+)
+```
+
+### Organization number (Organisasjonsnummer)
+
+```tsx
+render(
+  <Style>
+    <ComponentBox data-visual-test="number-format-org">
+      <P>
+        <NumberFormat value="123456789" org suffix="MVA" />
+      </P>
+    </ComponentBox>
+  </Style>,
+)
+```
+
+### Numbers and currencies in different locales
+
+```tsx
+render(
+  <Style>
+    <ComponentBox data-visual-test="number-format-locales">
+      <H3>Numbers</H3>
+      <P>
+        <NumberFormat locale="nb-NO" value="-12345678.9" />
+        <NumberFormat locale="en-GB" value="-12345678.9" />
+        <NumberFormat locale="de-DE" value="-12345678.9" />
+        <NumberFormat locale="de-CH" value="-12345678.9" />
+        <NumberFormat locale="fr-CH" value="-12345678.9" />
+      </P>
+
+      <H3>Currencies</H3>
+      <P>
+        <NumberFormat locale="nb-NO" value="-12345.6" currency />
+        <NumberFormat locale="en-GB" value="-12345.6" currency />
+        <NumberFormat locale="de-DE" value="-12345.6" currency />
+        <NumberFormat locale="de-CH" value="-12345.6" currency />
+        <NumberFormat locale="fr-CH" value="-12345.6" currency />
+      </P>
+    </ComponentBox>
+  </Style>,
+)
+```
+
+### NumberFormat and spacing
+
+The NumberFormat uses `display: inline-block;` in order to make the [spacing system](/uilib/layout/space) to work.
+
+```tsx
+render(
+  <Style>
+    <ComponentBox data-visual-test="number-format-spacing">
+      <span>text</span> <NumberFormat value="1234" currency left right />
+      <span>text</span> <NumberFormat value="5678" currency left right />
+      <span>text</span>
+    </ComponentBox>
+  </Style>,
+)
+```
+
+### Using the Provider with NumberFormat
+
+In this example every NumberFormat will receive the Provider defined properties, including `clean_copy_value`.
+
+```tsx
+render(
+  <Style>
+    <ComponentBox>
+      <Provider
+        value={{
+          NumberFormat: {
+            currency: true,
+            rounding: 'omit',
+            clean_copy_value: true,
+          },
+        }}
+      >
+        <P>
+          <NumberFormat>12345</NumberFormat>
+          <NumberFormat value={-12345.123} decimals={0} />
+          <NumberFormat value={-12345678.955} currency_position="before" />
+        </P>
+      </Provider>
+    </ComponentBox>
+  </Style>,
+)
+```
+
+### Monospace
+
+By using the `monospace` property you can set the font to [DNB Mono Regular](/quickguide-designer/fonts/#dnbmono-regular)
+
+```tsx
+render(
+  <Style>
+    <ComponentBox data-visual-test="number-format-monospace">
+      <NumberFormat
+        value="123456"
+        locale="en-GB"
+        currency="NOK"
+        monospace
+      />
+    </ComponentBox>
+  </Style>,
+)
+```

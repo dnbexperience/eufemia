@@ -1,0 +1,33 @@
+{
+  "id": "uilib/extensions/forms/base-fields/Toggle",
+  "name": "Toggle",
+  "description": "`Field.Toggle` is a base component for allowing the user to toggle between two different values in the target data point.",
+  "group": "extensions",
+  "slug": "/uilib/extensions/forms/base-fields/Toggle/",
+  "props": [],
+  "events": [],
+  "related": [],
+  "checksum": "090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40",
+  "source": null,
+  "sources": {
+    "entry": {
+      "local": "src/docs/uilib/extensions/forms/base-fields/Toggle.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/base-fields/Toggle/"
+    },
+    "props": {
+      "local": "src/docs/uilib/extensions/forms/base-fields/Toggle/properties.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/base-fields/Toggle/properties/"
+    },
+    "events": {
+      "local": "src/docs/uilib/extensions/forms/base-fields/Toggle/events.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/base-fields/Toggle/events/"
+    },
+    "demos": {
+      "local": "src/docs/uilib/extensions/forms/base-fields/Toggle/demos.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/base-fields/Toggle/demos/"
+    }
+  },
+  "version": "10.94.3",
+  "generatedAt": "2026-01-16T16:38:17.631Z",
+  "schemaVersion": 1
+}

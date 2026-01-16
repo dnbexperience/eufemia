@@ -1,0 +1,57 @@
+{
+  "id": "uilib/extensions/forms/Iterate/Count",
+  "name": "Count",
+  "description": "`Iterate.Count` is a helper component / function that returns the count of a data array or object.",
+  "group": "extensions",
+  "slug": "/uilib/extensions/forms/Iterate/Count/",
+  "props": [
+    {
+      "name": "path",
+      "doc": "The path (JSON Pointer) to the array or object to count.",
+      "type": "string",
+      "status": "required",
+      "defaultValue": null
+    },
+    {
+      "name": "id",
+      "doc": "A Form.Handler or DataContext `id` for when called outside of the context.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "filter",
+      "doc": "A filter function to filter the data before counting.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    }
+  ],
+  "events": [],
+  "related": [],
+  "checksum": "a0c1203578aa87060d91de03b10fab04c440f949ac2eecefa738d7547bbd4520",
+  "source": {
+    "repo": "https://github.com/dnbexperience/eufemia",
+    "file": "packages/dnb-eufemia/src/extensions/forms/Iterate/Count/Count.tsx",
+    "fileUrl": "https://github.com/dnbexperience/eufemia/blob/v10.94.3/packages/dnb-eufemia/src/extensions/forms/Iterate/Count/Count.tsx",
+    "dirUrl": "https://github.com/dnbexperience/eufemia/tree/v10.94.3/packages/dnb-eufemia/src/extensions/forms/Iterate/Count"
+  },
+  "sources": {
+    "entry": {
+      "local": "src/docs/uilib/extensions/forms/Iterate/Count.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/Iterate/Count/"
+    },
+    "props": {
+      "local": "src/docs/uilib/extensions/forms/Iterate/Count/properties.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/Iterate/Count/properties/"
+    },
+    "events": null,
+    "demos": {
+      "local": "src/docs/uilib/extensions/forms/Iterate/Count/demos.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/Iterate/Count/demos/"
+    }
+  },
+  "version": "10.94.3",
+  "generatedAt": "2026-01-16T16:38:17.350Z",
+  "schemaVersion": 1
+}

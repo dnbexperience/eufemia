@@ -1,0 +1,248 @@
+---
+title: 'Name'
+description: '`Field.Name` is a wrapper component for the input of strings, with user experience tailored for first name, last name and company names.'
+metadata: https://eufemia.dnb.no/uilib/extensions/forms/feature-fields/Name/metadata.json
+---
+
+## Import
+
+```tsx
+import { Field } from '@dnb/eufemia/extensions/forms'
+render(<Field.Name />)
+render(<Field.Name.First />)
+render(<Field.Name.Last />)
+render(<Field.Name.Company />)
+```
+
+## Description
+
+`Field.Name` is a wrapper component for the [input of strings](/uilib/extensions/forms/base-fields/String), with user experience tailored for first name, last name and company names.
+
+There is a corresponding [Value.Name](/uilib/extensions/forms/Value/Name) component.
+
+```jsx
+import { Field, Form } from '@dnb/eufemia/extensions/forms'
+
+function MyForm() {
+  return (
+    <Form.Handler>
+      <Field.Name />
+      <Field.Name.First value="Nora" />
+      <Field.Name.Last value="Mørk" />
+      <Field.Name.Company value="DNB" />
+    </Form.Handler>
+  )
+}
+```
+
+## Relevant links
+
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Field/Name)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/extensions/forms/feature-fields/Name)
+
+### Sources
+
+- [Lov om personnavn (navneloven)](https://lovdata.no/dokument/NL/lov/2002-06-07-19)
+- [Krav til foretaksnavn](https://lovdata.no/lov/1985-06-21-79/§2-1)
+
+## Characteristics
+
+### Allowed characters
+
+- **`Field.Name.First` and `Field.Name.Last`**: Only letters, hyphens, and spaces are allowed.
+- **`Field.Name.Company`**: Letters, numbers, punctuation marks, spaces, and dots are allowed.
+
+### Behavior
+
+- Trailing spaces are automatically removed.
+- The HTML `autocomplete` attribute is automatically set:
+  - `name` for `Field.Name`
+  - `given-name` for `Field.Name.First`
+  - `family-name` for `Field.Name.Last`
+  - `organization` for `Field.Name.Company`
+
+## Validation rules
+
+All name fields have the following validation rules:
+
+- **Minimum length**:
+  - For `Field.Name.First` and `Field.Name.Last`: Names must be at least 1 character long.
+  - For `Field.Name.Company`: Company names must be at least 3 characters long.
+- **Pattern validation**:
+  - For `Field.Name.First` and `Field.Name.Last`: Names must start and end with a letter, and cannot contain consecutive hyphens or spaces. Only letters, spaces, and hyphens are allowed.
+  - For `Field.Name.Company`: Must start and end with a letter or number, and cannot contain consecutive hyphens, spaces, or dots. Letters, numbers, punctuation marks, spaces, and dots are allowed in between.
+
+The validation happens on blur, internally using the `onBlurValidator` [property](/uilib/extensions/forms/feature-fields/Name/properties/#field-specific-properties).
+
+**Note**: The validation patterns are tailored to Norwegian name and company name requirements. If you need support for additional characters or different validation rules, you can extend the validation using the `onBlurValidator` property. See the [Validators](#validators) section below for more information.
+
+## Validators
+
+### Internal validators exposed
+
+`Field.Name` and `Field.Name.Company` expose validators through their `onBlurValidator` property:
+
+- **`nameValidator`**: Validates names for `Field.Name`, `Field.Name.First`, and `Field.Name.Last`. It checks that the name:
+
+  - Is at least 1 character long.
+  - Matches the name pattern (starts and ends with a letter, no consecutive hyphens or spaces).
+
+- **`companyValidator`**: Validates company names for `Field.Name.Company`. It checks that the company name:
+  - Is at least 3 characters long (default, can be customized via `minLength` prop).
+  - Matches the company pattern (starts and ends with a letter or number, no consecutive hyphens, spaces, or dots).
+
+You can extend the validation by providing your own `onBlurValidator` function. Access the internal validator through the `validators` parameter and combine it with your custom validation. This allows you to add additional validation rules while keeping the default validation intact.
+
+```tsx
+import { Field, Validator } from '@dnb/eufemia/extensions/forms'
+import type { CompanyNameValidator } from '@dnb/eufemia/extensions/forms/Field/Name'
+
+// Extend validation to require company names to contain "Corp"
+const myValidator: CompanyNameValidator = (value, { validators }) => {
+  const { companyValidator } = validators
+
+  const customValidator: Validator<string> = (value) => {
+    if (value && !value.includes('Corp')) {
+      return new Error('Company name must contain "Corp"')
+    }
+  }
+
+  // Keep the built-in company validation along with the custom rule.
+  return [companyValidator, customValidator]
+}
+
+render(<Field.Name.Company onBlurValidator={myValidator} />)
+```
+
+## Demos
+
+### First name
+
+```tsx
+render(
+  <Field.Name.First
+    value="Nora"
+    onChange={(value) => console.log('onChange', value)}
+  />,
+)
+```
+
+### Last name
+
+```tsx
+render(
+  <Field.Name.Last
+    value="Mørk"
+    onChange={(value) => console.log('onChange', value)}
+  />,
+)
+```
+
+### Company name
+
+```tsx
+render(
+  <Field.Name.Company
+    value="DNB"
+    onChange={(value) => console.log('onChange', value)}
+  />,
+)
+```
+
+### Placeholder
+
+```tsx
+render(
+  <Field.Name.Last
+    placeholder="Custom placeholder"
+    onChange={(value) => console.log('onChange', value)}
+  />,
+)
+```
+
+### Field composition
+
+```tsx
+render(
+  <Field.Composition width="large">
+    <Field.Name.First
+      value="Nora"
+      onChange={(value) => console.log('onChange', value)}
+    />
+    <Field.Name.Last
+      value="Mørk"
+      onChange={(value) => console.log('onChange', value)}
+    />
+  </Field.Composition>,
+)
+```
+
+### Data Context
+
+```tsx
+render(
+  <Form.Handler
+    defaultData={{
+      firstName: 'Nora',
+      lastName: 'Mørk',
+    }}
+    onChange={(value) => console.log('onChange', value)}
+  >
+    <Flex.Stack>
+      <Field.Name.First path="/firstName" />
+      <Field.Name.Last path="/lastName" />
+    </Flex.Stack>
+  </Form.Handler>,
+)
+```
+
+### With help
+
+```tsx
+render(
+  <Field.Name.First
+    value="Nora"
+    help={{
+      title: 'Help is available',
+      content:
+        'Use your gifts to teach and help others. Acknowledge them as gifts (even if only in your mind). Take some time to list your strengths as well as the ways in which you could share them with the world around you and how that truly is a gift to others.',
+    }}
+    onChange={(value) => console.log('onChange', value)}
+  />,
+)
+```
+
+### Invalid syntax
+
+```tsx
+render(
+  <Field.Name.First
+    value="Invalid @ syntax"
+    onChange={(value) => console.log('onChange', value)}
+    validateInitially
+  />,
+)
+```
+
+### Error message
+
+```tsx
+render(
+  <Field.Name.First
+    value="Nora"
+    onChange={(value) => console.log('onChange', value)}
+    error={new Error('This is what is wrong...')}
+  />,
+)
+```
+
+### Validation - Required
+
+```tsx
+render(
+  <Field.Name.First
+    onChange={(value) => console.log('onChange', value)}
+    required
+  />,
+)
+```

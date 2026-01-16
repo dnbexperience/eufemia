@@ -1,0 +1,43 @@
+{
+  "id": "uilib/extensions/forms/Form/Appearance",
+  "name": "Appearance",
+  "description": "`Form.Appearance` is a provider for theming form fields.",
+  "group": "extensions",
+  "slug": "/uilib/extensions/forms/Form/Appearance/",
+  "props": [
+    {
+      "name": "size",
+      "doc": "The sizes you can choose is `default`, `medium` and `large`.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    }
+  ],
+  "events": [],
+  "related": [],
+  "checksum": "a899a92710a20413c59bea596f135608d4eb72710440e01e5eb9931467048417",
+  "source": {
+    "repo": "https://github.com/dnbexperience/eufemia",
+    "file": "packages/dnb-eufemia/src/extensions/forms/Form/Appearance/Appearance.tsx",
+    "fileUrl": "https://github.com/dnbexperience/eufemia/blob/v10.94.3/packages/dnb-eufemia/src/extensions/forms/Form/Appearance/Appearance.tsx",
+    "dirUrl": "https://github.com/dnbexperience/eufemia/tree/v10.94.3/packages/dnb-eufemia/src/extensions/forms/Form/Appearance"
+  },
+  "sources": {
+    "entry": {
+      "local": "src/docs/uilib/extensions/forms/Form/Appearance.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/Form/Appearance/"
+    },
+    "props": {
+      "local": "src/docs/uilib/extensions/forms/Form/Appearance/properties.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/Form/Appearance/properties/"
+    },
+    "events": null,
+    "demos": {
+      "local": "src/docs/uilib/extensions/forms/Form/Appearance/demos.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/Form/Appearance/demos/"
+    }
+  },
+  "version": "10.94.3",
+  "generatedAt": "2026-01-16T16:38:17.151Z",
+  "schemaVersion": 1
+}

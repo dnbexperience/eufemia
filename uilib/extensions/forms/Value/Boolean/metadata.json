@@ -1,0 +1,50 @@
+{
+  "id": "uilib/extensions/forms/Value/Boolean",
+  "name": "Boolean",
+  "description": "`Value.Boolean` is a base component for displaying values of the type `boolean`.",
+  "group": "extensions",
+  "slug": "/uilib/extensions/forms/Value/Boolean/",
+  "props": [
+    {
+      "name": "trueText",
+      "doc": "The text to use when the value is true.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "falseText",
+      "doc": "The text to use when the value is false.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    }
+  ],
+  "events": [],
+  "related": [],
+  "checksum": "8eac405d4a3065d89a748bed1b9f2cfbc58f9f5bb1f81e9b9d3ac6ab9b0598f0",
+  "source": {
+    "repo": "https://github.com/dnbexperience/eufemia",
+    "file": "packages/dnb-eufemia/src/extensions/forms/Value/Boolean/Boolean.tsx",
+    "fileUrl": "https://github.com/dnbexperience/eufemia/blob/v10.94.3/packages/dnb-eufemia/src/extensions/forms/Value/Boolean/Boolean.tsx",
+    "dirUrl": "https://github.com/dnbexperience/eufemia/tree/v10.94.3/packages/dnb-eufemia/src/extensions/forms/Value/Boolean"
+  },
+  "sources": {
+    "entry": {
+      "local": "src/docs/uilib/extensions/forms/Value/Boolean.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/Value/Boolean/"
+    },
+    "props": {
+      "local": "src/docs/uilib/extensions/forms/Value/Boolean/properties.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/Value/Boolean/properties/"
+    },
+    "events": null,
+    "demos": {
+      "local": "src/docs/uilib/extensions/forms/Value/Boolean/demos.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/Value/Boolean/demos/"
+    }
+  },
+  "version": "10.94.3",
+  "generatedAt": "2026-01-16T16:38:17.440Z",
+  "schemaVersion": 1
+}

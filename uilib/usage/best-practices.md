@@ -1,0 +1,15 @@
+---
+title: 'Best Practices'
+metadata: https://eufemia.dnb.no/uilib/usage/best-practices/metadata.json
+---
+
+# Best Practices
+
+Following the best practices for web frontend development increases the chances of getting styling right, while also improving the quality, consistency, and user experience of the product.
+
+For details, have a look at the submenu for all the "best practices" topics:
+
+- [Best Practices for styling](/uilib/usage/best-practices/for-styling)
+- [Best Practices for JavaScript](/uilib/usage/best-practices/for-javascript)
+- [Best Practices for typography](/uilib/usage/best-practices/for-typography)
+- [Best Practices for testing](/uilib/usage/best-practices/for-testing)

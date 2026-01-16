@@ -1,0 +1,176 @@
+{
+  "id": "uilib/extensions/forms/Form/Visibility",
+  "name": "Visibility",
+  "description": "`Form.Visibility` makes it possible to hide components and elements on the screen based on the dynamic state of data.",
+  "group": "extensions",
+  "slug": "/uilib/extensions/forms/Form/Visibility/",
+  "props": [
+    {
+      "name": "visibleWhen",
+      "doc": "Provide a `path` or `itemPath`, and a `hasValue` function that returns either a boolean or the expected value to determine whether the children should be shown. The first parameter passed to `hasValue` is the value at the given `path`. If the `path` does not exist, the value will be `undefined`. \nAlternatively, you can use `isValid` instead of `hasValue` to show the children only when the field has no validation errors and has been blurred (lost focus). You can change this behavior by setting the `validateContinuously` property.",
+      "type": "object",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "visibleWhenNot",
+      "doc": "Same as `visibleWhen`, but with inverted logic.",
+      "type": "object",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "pathDefined",
+      "doc": "Given data context path must be defined to show children.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "pathUndefined",
+      "doc": "Given data context path must be undefined to show children.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "pathTruthy",
+      "doc": "Given data context path must be truthy to show children.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "pathFalsy",
+      "doc": "Given data context path must be falsy to show children.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "pathTrue",
+      "doc": "Given data context path must be true to show children.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "pathFalse",
+      "doc": "Given data context path must be false to show children.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "inferData",
+      "doc": "Will be called to decide by external logic, and show/hide contents based on the return value.",
+      "type": "function",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "visible",
+      "doc": "Control visibility directly using the `visible` prop. When used alongside other conditions, the `visible` prop takes precedence.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "animate",
+      "doc": "Define if the content should animate during show/hide.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "keepInDOM",
+      "doc": "Keep the content in the DOM, even if it's not visible. Can be used to let fields run validation.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "compensateForGap",
+      "doc": "To compensate for CSS gap between the rows, so animation does not jump during the animation. Provide a CSS unit or `auto`. Defaults to `null`.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "filterData",
+      "doc": "Filter data based on provided criteria. More info about `filterData` can be found in the [Getting Started](/uilib/extensions/forms/getting-started/#filter-data) documentation.",
+      "type": [
+        "object",
+        "function"
+      ],
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "fieldPropsWhenHidden",
+      "doc": "When visibility is hidden, and `keepInDOM` is true, pass these props to the children.",
+      "type": "various",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "element",
+      "doc": "Define the type of element. Defaults to `div`. Only for when `animate` is true.",
+      "type": "string or React.Element",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "children",
+      "doc": "Contents.",
+      "type": "React.Node",
+      "status": "required",
+      "defaultValue": null
+    }
+  ],
+  "events": [
+    {
+      "name": "onVisible",
+      "doc": "Callback for when the content gets visible. Returns a boolean as the first parameter.",
+      "type": "function",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "onAnimationEnd",
+      "doc": "Is called when animation is done and the full height is reached. The first parameter is a string. Depending on the state, the value can be `opened`, `closed` or `adjusted`.",
+      "type": "function",
+      "status": "optional",
+      "defaultValue": null
+    }
+  ],
+  "related": [],
+  "checksum": "deb9b46a28903453e00098c9be5dcb8504b7f2516e0e6d22e289c3f8867ea4a5",
+  "source": {
+    "repo": "https://github.com/dnbexperience/eufemia",
+    "file": "packages/dnb-eufemia/src/extensions/forms/Form/Visibility/Visibility.tsx",
+    "fileUrl": "https://github.com/dnbexperience/eufemia/blob/v10.94.3/packages/dnb-eufemia/src/extensions/forms/Form/Visibility/Visibility.tsx",
+    "dirUrl": "https://github.com/dnbexperience/eufemia/tree/v10.94.3/packages/dnb-eufemia/src/extensions/forms/Form/Visibility"
+  },
+  "sources": {
+    "entry": {
+      "local": "src/docs/uilib/extensions/forms/Form/Visibility.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/Form/Visibility/"
+    },
+    "props": {
+      "local": "src/docs/uilib/extensions/forms/Form/Visibility/properties.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/Form/Visibility/properties/"
+    },
+    "events": {
+      "local": "src/docs/uilib/extensions/forms/Form/Visibility/events.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/Form/Visibility/events/"
+    },
+    "demos": {
+      "local": "src/docs/uilib/extensions/forms/Form/Visibility/demos.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/Form/Visibility/demos/"
+    }
+  },
+  "version": "10.94.3",
+  "generatedAt": "2026-01-16T16:38:17.313Z",
+  "schemaVersion": 1
+}

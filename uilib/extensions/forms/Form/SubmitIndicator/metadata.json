@@ -1,0 +1,66 @@
+{
+  "id": "uilib/extensions/forms/Form/SubmitIndicator",
+  "name": "SubmitIndicator",
+  "description": "`Form.SubmitIndicator` lets you show an indicator while async form operations are performed.",
+  "group": "extensions",
+  "slug": "/uilib/extensions/forms/Form/SubmitIndicator/",
+  "props": [
+    {
+      "name": "state",
+      "doc": "Provide `pending` to make the dots visible and `success` to show the checkmark icon.",
+      "type": "string",
+      "status": "required",
+      "defaultValue": null
+    },
+    {
+      "name": "showLabel",
+      "doc": "If `true`, the label will be shown. Defaults to `false`.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "label",
+      "doc": "Provide a label that will be shown next to the indicator.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "children",
+      "doc": "If content is provided, the component will try to find out if the indicator needs to be put on a new row or not. This way it will animate the height nicely.",
+      "type": "React.Node",
+      "status": "optional",
+      "defaultValue": null
+    }
+  ],
+  "events": [],
+  "related": [
+    "Space"
+  ],
+  "checksum": "f4e64a4447a387dd0d1d1c861f493f314d24ab6cc6c9496b982caa1e6764bea1",
+  "source": {
+    "repo": "https://github.com/dnbexperience/eufemia",
+    "file": "packages/dnb-eufemia/src/extensions/forms/Form/SubmitIndicator/SubmitIndicator.tsx",
+    "fileUrl": "https://github.com/dnbexperience/eufemia/blob/v10.94.3/packages/dnb-eufemia/src/extensions/forms/Form/SubmitIndicator/SubmitIndicator.tsx",
+    "dirUrl": "https://github.com/dnbexperience/eufemia/tree/v10.94.3/packages/dnb-eufemia/src/extensions/forms/Form/SubmitIndicator"
+  },
+  "sources": {
+    "entry": {
+      "local": "src/docs/uilib/extensions/forms/Form/SubmitIndicator.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/Form/SubmitIndicator/"
+    },
+    "props": {
+      "local": "src/docs/uilib/extensions/forms/Form/SubmitIndicator/properties.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/Form/SubmitIndicator/properties/"
+    },
+    "events": null,
+    "demos": {
+      "local": "src/docs/uilib/extensions/forms/Form/SubmitIndicator/demos.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/Form/SubmitIndicator/demos/"
+    }
+  },
+  "version": "10.94.3",
+  "generatedAt": "2026-01-16T16:38:17.304Z",
+  "schemaVersion": 1
+}

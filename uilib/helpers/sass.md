@@ -1,0 +1,177 @@
+---
+title: 'SASS mixins'
+metadata: https://eufemia.dnb.no/uilib/helpers/sass/metadata.json
+---
+
+# SASS and mixins
+
+All CSS helper classes are to be found in `src/style/core/helper-classes/helper-classes.scss`
+Most helper classes are SCSS _mixins_ which are then applied to the class when invoked.
+
+You can import Eufemia _mixins_ directly into your SCSS styles:
+
+```scss
+@import '@dnb/eufemia/style/core/utilities.scss';
+
+/** State handling */
+@include hover {
+}
+@include focus {
+}
+@include active {
+}
+
+/** 
+ * Media Queries and Breakpoints 
+ * More info can be found in the sections below
+ */
+@include allBelow(large) {
+}
+@include allAbove(small) {
+}
+@include allBetween(small) {
+}
+
+/** Screen Reader Only */
+@include srOnly() {
+} // .dnb-sr-only
+
+/** Browser Checks */
+@include IS_EDGE {
+}
+@include IS_FF {
+}
+@include IS_CHROME {
+}
+@include IS_SAFARI_MOBILE {
+}
+@include IS_SAFARI_DESKTOP {
+}
+
+/** Eufemia DropShadow */
+@include defaultDropShadow();
+
+/** Eufemia Border helpers */
+@include focusRing(
+  /* $whatinput: 'keyboard', $color: var(--color-emerald-green), $inset: inset */
+);
+@include extendFocusRing(
+  /* $first-color: null, $second-color: null, width: 0.0625rem */
+);
+@include fakeBorder(
+  /* $color: var(--color-emerald-green), $width: 0.0625rem, $inset: inset */
+);
+
+/** Scroll behavior */
+@include scrollY(/* $mode: scroll */);
+@include scrollX(/* $mode: scroll */);
+@include hideScrollbar();
+@include scrollbarAppearance();
+
+/** Reset fieldset styles */
+@include fieldsetReset();
+```
+
+## Media queries and Breakpoints
+
+Use the `allAbove`, `allBelow` and `allBetween` mixins to add media queries to your css.
+
+To prevent overlapping media queries, `0.00625em` gets added to the minimum width. This results in an increment of approximately `0.1px` when using `em` units. If you're using a unit other than `em`, you may need to adjust this value accordingly, as `0.00625px` is typically too small to effectively prevent overlaps.
+
+| mixin                   | actual interval (em)   | actual interval (px) |
+| ----------------------- | ---------------------- | -------------------- |
+| `allBelow(40em)`        | 0 to 40em              | 0 to 640px           |
+| `allBetween(40em,60em)` | 40.00625em to 60em     | 640.1px to 960px     |
+| `allAbove(60em)`        | 60.00625em to infinity | 960.1px to infinity  |
+
+```scss
+@import '@dnb/eufemia/style/core/utilities.scss';
+
+@include allBelow(small) {
+  // from 0px to 'small' (640px)
+}
+
+@include allBetween(small, medium) {
+  // from 640.1px ('small' + 0.1px) to 960px ('medium')
+}
+
+@include allAbove(medium) {
+  // from 960.1px ('medium' + 0.1px) and wider
+}
+```
+
+`$breakpoints` is a key-value map containing all the available sizes for media queries
+
+```scss
+@import '@dnb/eufemia/style/core/utilities.scss';
+
+// getting a size from $breakpoints
+div {
+  max-width: map-get($breakpoints, medium);
+}
+```
+
+### Custom offset
+
+You can either change the default value `$breakpoint-offset` (default: 0) from `utilities.scss`, or send in a custom offset to the mixin.
+
+```scss
+@import '@dnb/eufemia/style/core/utilities.scss';
+
+// Change the default offset (default: 0)
+$breakpoint-offset: 10em;
+
+// Will use the new default offset, adding 10em to the size
+@include allBelow(large) {
+}
+
+// You can also simply send in a custom offset
+@include allBelow(large, -5em) {
+}
+```
+
+### Custom size
+
+You can either change the default values in the `$breakpoints` array from `utilities.scss`, or send in a custom size to the mixin.
+
+```scss
+@import '@dnb/eufemia/style/core/utilities.scss';
+
+// Change default sizes
+$breakpoints: map-merge(
+  $breakpoints,
+  (
+    // redefine a size
+    'medium': 40em,
+
+    // add an offset to the original value
+    'large': map-get($breakpoints, large) + 5em
+  )
+);
+
+// Will use the new default 'large' size of 90em
+@include allBelow(large) {
+}
+
+// You can also simply send in a custom size
+@include allBelow(90em) {
+}
+```
+
+## `<fieldset>` CSS reset
+
+Removes default styling on a `fieldset` element.
+
+`@include fieldsetReset($checkSpaceProps: boolean)`
+
+If true is given, it will handle margin gracefully by checking for e.g. `dnb-space__top--` and not reset if this class exists.
+
+```tsx
+render(
+  <Wrapper className={fieldsetReset}>
+    <ComponentBox hideCode data-visual-test="helper-fieldset-reset">
+      <fieldset>I'm a fieldset without styling.</fieldset>
+    </ComponentBox>
+  </Wrapper>,
+)
+```

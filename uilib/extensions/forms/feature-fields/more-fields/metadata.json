@@ -1,0 +1,24 @@
+{
+  "id": "uilib/extensions/forms/feature-fields/more-fields",
+  "name": "more fields...",
+  "description": null,
+  "group": "extensions",
+  "slug": "/uilib/extensions/forms/feature-fields/more-fields/",
+  "props": [],
+  "events": [],
+  "related": [],
+  "checksum": "090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40",
+  "source": null,
+  "sources": {
+    "entry": {
+      "local": "src/docs/uilib/extensions/forms/feature-fields/more-fields.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/feature-fields/more-fields/"
+    },
+    "props": null,
+    "events": null,
+    "demos": null
+  },
+  "version": "10.94.3",
+  "generatedAt": "2026-01-16T16:38:17.680Z",
+  "schemaVersion": 1
+}

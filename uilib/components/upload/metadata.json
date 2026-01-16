@@ -1,0 +1,224 @@
+{
+  "id": "uilib/components/upload",
+  "name": "Upload",
+  "description": "The Upload component should be used in scenarios where the user has to upload files. Files can be uploaded by clicking button. You also have the opportunity to add descriptive texts below the title where you could put max file size, allowed file formats etc.",
+  "group": "components",
+  "slug": "/uilib/components/upload/",
+  "props": [
+    {
+      "name": "fileType",
+      "doc": "The name of the accepted file type.",
+      "type": "string",
+      "status": "required",
+      "defaultValue": null
+    },
+    {
+      "name": "fileMaxSize",
+      "doc": "Defines the max file size of each file in MB. Use either `0` or `false` to disable. Defaults to 5 MB.",
+      "type": [
+        "number",
+        "false"
+      ],
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "file",
+      "doc": "The file object. This is the same object as the one returned by the `File` API.",
+      "type": "File",
+      "status": "required",
+      "defaultValue": null
+    },
+    {
+      "name": "id",
+      "doc": "Unique id used together with the `useUpload` hook to manage the files. Needed when wanting to connect with the `useUpload` hook.",
+      "type": [
+        "string",
+        "Function",
+        "Object",
+        "React.Context"
+      ],
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "exists",
+      "doc": "Indicates if the file item already exists in the list of files. This is useful for distinguishing between new and existing files.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "isLoading",
+      "doc": "Indicates if the file item is currently being loaded. This is useful for showing a loading state while the file is being processed.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "errorMessage",
+      "doc": "Provide an error message to be displayed. This is useful for indicating issues with the file upload process.",
+      "type": "React.ReactNode",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "description",
+      "doc": "Provide a description to be displayed. This is useful for providing additional information about the file.",
+      "type": "React.ReactNode",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "removeDeleteButton",
+      "doc": "Set to `true` to remove the delete button from the file item. This is useful for preventing users from deleting files.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "deleteButtonProps",
+      "doc": "Define any valid Eufemia [Button properties](/uilib/components/button/properties) or HTML attribute inside an object.",
+      "type": "ButtonProps",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "children",
+      "doc": "Content to display below the `title` and `text`. Can be used to add custom content.",
+      "type": "React.ReactNode",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "variant",
+      "doc": "Defines the appearance. Use one of these: `normal` or `compact`. Defaults to `normal`.",
+      "type": [
+        "normal",
+        "compact"
+      ],
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "acceptedFileTypes",
+      "doc": "List of accepted file types. Either as string or [AcceptedFileType](/uilib/components/upload/properties/#acceptedfiletype). When providing a list of [AcceptedFileType](/uilib/components/upload/properties/#acceptedfiletype), the accepted file types will be presented in a table(see [example](/uilib/components/upload/demos/#upload-with-file-max-size-based-on-file-type)).",
+      "type": [
+        "Array<string>",
+        "Array<AcceptedFileType>"
+      ],
+      "status": "required",
+      "defaultValue": null
+    },
+    {
+      "name": "filesAmountLimit",
+      "doc": "Defines the amount of files the user can select and upload. Defaults to `100`.",
+      "type": "number",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "title",
+      "doc": "Custom text property. Replaces the default title. Can be disabled using `false`.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "text",
+      "doc": "Custom text property. Replaces the default text. Can be disabled using `false`.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "download",
+      "doc": "Causes the browser to treat all listed files as downloadable instead of opening them in a new browser tab or window. Defaults to `false`.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "allowDuplicates",
+      "doc": "Allows uploading of duplicate files. Defaults to `false`.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "disableDragAndDrop",
+      "doc": "Disables file drag and drop, by removing the drop zone. Defaults to `false`.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "buttonProps",
+      "doc": "Define any valid Eufemia [Button properties](/uilib/components/button/properties) or HTML attribute inside an object, to customize the upload button behavior and appearance.",
+      "type": "ButtonProps",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "skeleton",
+      "doc": "Skeleton should be applied when loading content.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    }
+  ],
+  "events": [
+    {
+      "name": "onChange",
+      "doc": "Will be called on `files` changes made by the user. Access the files with `{ files }` (containing each a `fileItem`).",
+      "type": "function",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "onFileDelete",
+      "doc": "Will be called once a file gets deleted by the user. Access the deleted file with `{ fileItem }`.",
+      "type": "function",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "onFileClick",
+      "doc": "Will be called once a file gets clicked on by the user. Access the clicked file with `{ fileItem }`. When providing this prop, the file will be rendered as a button instead of an anchor or plain text.",
+      "type": "function",
+      "status": "optional",
+      "defaultValue": null
+    }
+  ],
+  "related": [
+    "Space"
+  ],
+  "checksum": "8a15e72f8d9c3c4c1c90d0e5490087db146704f3fb0f23ddee8e3a2f5c5016ad",
+  "source": {
+    "repo": "https://github.com/dnbexperience/eufemia",
+    "file": "packages/dnb-eufemia/src/components/upload/Upload.tsx",
+    "fileUrl": "https://github.com/dnbexperience/eufemia/blob/v10.94.3/packages/dnb-eufemia/src/components/upload/Upload.tsx",
+    "dirUrl": "https://github.com/dnbexperience/eufemia/tree/v10.94.3/packages/dnb-eufemia/src/components/upload"
+  },
+  "sources": {
+    "entry": {
+      "local": "src/docs/uilib/components/upload.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/upload/"
+    },
+    "props": {
+      "local": "src/docs/uilib/components/upload/properties.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/upload/properties/"
+    },
+    "events": {
+      "local": "src/docs/uilib/components/upload/events.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/upload/events/"
+    },
+    "demos": {
+      "local": "src/docs/uilib/components/upload/demos.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/upload/demos/"
+    }
+  },
+  "version": "10.94.3",
+  "generatedAt": "2026-01-16T16:38:16.951Z",
+  "schemaVersion": 1
+}

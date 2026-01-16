@@ -1,0 +1,232 @@
+---
+title: 'Infinity Scroller'
+description: 'The InfinityScroller component is a mode of the Pagination component which loads content continuously as the user scrolls down the page.'
+metadata: https://eufemia.dnb.no/uilib/components/pagination/infinity-scroller/metadata.json
+---
+
+## Import
+
+```tsx
+import { InfinityScroller } from '@dnb/eufemia/components/pagination/InfinityScroller'
+```
+
+## Description
+
+The InfinityScroller component is a `mode` of the Pagination component which loads content continuously as the user scrolls down the page. Go to [Pagination](/uilib/components/pagination) for information on properties and events.
+
+You can choose to use either `<Pagination mode="infinity" />` or `<InfinityScroller />`.
+
+## Relevant links
+
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/pagination/InfinityScroller)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/pagination/infinity-scroller)
+
+### Async data handling
+
+Infinity scrolling requires additional handling of already loaded content. To do so, it stores already shown content and interacts from there.
+
+### Gotchas
+
+**Infinity scroller:** Once content inside a page changes, we have to tell the component explicitly what "page" number happened, including the new content.
+
+```jsx
+setContent(pageNumber, ReactComponent)
+```
+
+---
+
+### Infinity scroller and content handling
+
+In order to update content into the internal pages stack, we have to get access to the component instance. There are several ways to do so.
+
+Also, there are two type of handling content on:
+
+1. Either you fill the content as "pages" in a page per page basis (methods 1-3),
+2. or you have your own stack, and you only want use the infinity part (method 4).
+
+#### Infinity scroller method #1
+
+Create the instance before using it.
+
+**NB:** Keep in mind, you may create the instance first during runtime, either in a class `constructor` or by using `useState`:
+
+```jsx
+import { createPagination } from '@dnb/eufemia/components/Pagination'
+
+// create our Component instance
+const { Pagination, setContent, endInfinity, resetContent } =
+  React.useState(createPagination)
+
+// Later we can do call this (make sure the page is set by listening to the events)
+setContent(page, ReactComponent)
+
+render(<Pagination mode="infinity" />)
+```
+
+#### Infinity scroller method #2
+
+Using the `on_change` event together with `setContent`.
+
+```jsx
+import { Pagination } from '@dnb/eufemia/components'
+
+render(
+  <Pagination
+    mode="infinity"
+    on_change={({ pageNumber, setContent }) => {
+      setContent(pageNumber, ReactComponent)
+    }}
+  />,
+)
+```
+
+#### Infinity scroller method #3
+
+Using a `set_content_handler` handler.
+
+```jsx
+import InfinityScroller from '@dnb/eufemia/components/pagination/InfinityScroller'
+
+const [localPage, setLocalPage] = React.useState(1)
+const setContent = React.createRef()
+
+React.useEffect(() => {
+  setContent.current(localPage, ReactComponent)
+}, [localPage])
+
+render(
+  <InfinityScroller
+    set_content_handler={(fn) => (setContent = fn)}
+    on_change={({ pageNumber }) => {
+      setLocalPage(pageNumber)
+    }}
+  />,
+)
+```
+
+#### Infinity scroller method #4
+
+Using a `InfinityMarker` only. See [code example on GitHub](https://github.com/dnbexperience/eufemia/blob/main/packages/dnb-eufemia/src/components/pagination/stories/PaginationTableMarker.stories.tsx).
+
+This method will basically add a load button on top, if `startup_page` or `current_page` is higher than `1` at the first render.
+
+Also, it adds an indicator at the bottom until next render, and as long as `page_count` has not reached the internal page count. But instead of setting `page_count` (total pages), you can pragmatically call `endInfinity()` instead.
+
+```jsx
+import { createPagination } from '@dnb/eufemia/components/Pagination'
+
+// create our Component instance
+const { InfinityMarker, endInfinity, resetInfinity } =
+  React.useState(createPagination)
+
+render(<InfinityMarker>ReactComponent</InfinityMarker>)
+```
+
+## Demos
+
+### Infinity scroller with load button
+
+A load button is shown at the bottom by having `use_load_button={true}` - but here we define our `startup_page={5}`, so we also get a load button on top.
+
+```tsx
+render(
+  <HeightLimit>
+    <Pagination
+      mode="infinity"
+      use_load_button
+      startup_page={5}
+      min_wait_time={0}
+      on_load={({ pageNumber, setContent }) => {
+        // simulate server communication delay
+        const timeout = setTimeout(
+          () => {
+            setContent(pageNumber, <LargePage>{pageNumber}</LargePage>)
+          },
+          Math.ceil(Math.random() * 500),
+        )
+        return () => clearTimeout(timeout)
+      }}
+    />
+  </HeightLimit>,
+)
+```
+
+### Infinity scroller with custom load indicator
+
+```tsx
+render(
+  <HeightLimit>
+    <Pagination
+      mode="infinity"
+      indicator_element={() => (
+        <LargePage color="lightgreen">Loading ...</LargePage>
+      )}
+      startup_page={3}
+      page_count={10}
+      min_wait_time={0}
+      on_load={({ pageNumber, setContent }) => {
+        // simulate server communication delay
+        const timeout = setTimeout(
+          () => {
+            setContent(pageNumber, <LargePage>{pageNumber}</LargePage>)
+          },
+          Math.ceil(Math.random() * 500),
+        )
+        return () => clearTimeout(timeout)
+      }}
+      on_end={({ pageNumber, setContent }) => {
+        setContent(
+          pageNumber,
+          <LargePage color="lightgreen">End</LargePage>,
+        )
+      }}
+    />
+  </HeightLimit>,
+)
+```
+
+### Infinity scroller with unknown `page_count`
+
+```tsx
+render(
+  <HeightLimit>
+    <Pagination
+      mode="infinity"
+      parallel_load_count={2}
+      min_wait_time={0}
+      on_load={({ pageNumber, setContent, endInfinity }) => {
+        // simulate server communication delay
+        const timeout = setTimeout(
+          () => {
+            if (pageNumber > 10) {
+              endInfinity()
+            } else {
+              setContent(pageNumber, <LargePage>{pageNumber}</LargePage>)
+            }
+          },
+          Math.ceil(Math.random() * 1e3),
+        )
+        return () => clearTimeout(timeout)
+      }}
+      on_end={({ pageNumber, setContent }) => {
+        setContent(
+          pageNumber,
+          <LargePage color="lightgreen">End</LargePage>,
+        )
+      }}
+    />
+  </HeightLimit>,
+)
+```
+
+### Advanced Table infinity scroller
+
+You can find the code either on [GitHub](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/pagination/Examples.tsx) or on [CodeSandbox](https://codesandbox.io/s/eufemia-table-pagination-infinity-546f7)
+
+```tsx
+render(
+  <HeightLimit height="60rem">
+    <PaginationTableExample />
+  </HeightLimit>,
+)
+```

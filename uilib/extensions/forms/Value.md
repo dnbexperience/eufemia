@@ -1,0 +1,131 @@
+---
+title: 'Value'
+description: '`Value` components can be used to summarize any kind of data.'
+metadata: https://eufemia.dnb.no/uilib/extensions/forms/Value/metadata.json
+---
+
+## Import
+
+```tsx
+import { Value } from '@dnb/eufemia/extensions/forms'
+```
+
+## Description
+
+On many screens, data from the dataset is summarized statically, such as on a final review screen where users can confirm their entered data before submitting it to the bank. To streamline the display of such data, Eufemia Forms has Value components. These components operate similarly to [field components](/uilib/extensions/forms/all-fields/), meaning they're data-driven, can accept value properties, and can be connected to a surrounding [Form.Handler](/uilib/extensions/forms/Form/Handler) by specifying the relevant value with a `path` property.
+
+```jsx
+import { Value } from '@dnb/eufemia/extensions/forms'
+render(<Value.String path="/myPath" />)
+```
+
+## Relevant links
+
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Value)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/extensions/forms/Value)
+
+## Summary and definition lists
+
+When you utilize multiple `Value.*` components together, consider enclosing them within the [SummaryList](/uilib/extensions/forms/Value/SummaryList/) component. This component offers a standardized approach for presenting labels and values within an accessible definition list structure.
+
+```tsx
+render(
+  <Value.SummaryList>
+    <Value.String label="Foo" value="value" />
+    <Value.Number label="Bar" value={123} />
+  </Value.SummaryList>,
+)
+```
+
+## Combine values together
+
+You can also combine `Value.*` components together by using the value [Composition](/uilib/extensions/forms/Value/Composition/) component. And it can still be used within the above mentioned [SummaryList](/uilib/extensions/forms/Value/SummaryList/) component.
+
+```tsx
+render(
+  <Value.SummaryList>
+    <Value.String label="Foo" value="value" />
+    <Value.Composition label="Label">
+      <Value.String value="value" />
+      <Value.Number value={123} />
+    </Value.Composition>
+  </Value.SummaryList>,
+)
+```
+
+## Inherit visibility from fields based on path
+
+User-entered data is always stored internally in the data context, even when a [Field](/uilib/extensions/forms/all-fields/) is temporarily shown or hidden (mounted/unmounted).
+
+By default, `Value.*` components will render the value regardless of the field's visibility.
+
+To make the visibility of a `Value.*` component match the field with the same path, use `inheritVisibility={true}`:
+
+```tsx
+import { Form, Field, Value } from '@dnb/eufemia/extensions/forms'
+
+const MyForm = () => {
+  return (
+    <Form.Handler>
+      <Form.Visibility pathTrue="/makeVisible">
+        <Field.Email path="/myPath" />
+      </Form.Visibility>
+
+      <Value.Email path="/myPath" inheritVisibility />
+    </Form.Handler>
+  )
+}
+```
+
+It's recommended to use [Form.Visibility](/uilib/extensions/forms/Form/Visibility/) because it can animate and describes the UI in a clear, declarative way. However, `inheritVisibility` will also work with other methods, such as React's `useState` hook.
+
+You can also propagate the `inheritVisibility` property down to all nested values with the [Value.Provider](/uilib/extensions/forms/Value/Provider/).
+
+## Inherit labels from fields to values
+
+You can use `inheritLabel={true}` to inherit the label from the field with the same path.
+
+```tsx
+import { Form, Field, Value } from '@dnb/eufemia/extensions/forms'
+
+const MyForm = () => {
+  return (
+    <Form.Handler>
+      <Field.String path="/myPath" label="My label" />
+      <Value.String path="/myPath" inheritLabel />
+    </Form.Handler>
+  )
+}
+```
+
+## Transform labels
+
+You can use `transformLabel` to transform the label before it gets displayed.
+
+```tsx
+<Value.String
+  label="The label"
+  transformLabel={(label) => label.toUpperCase()}
+/>
+```
+
+You can combine it with `inheritLabel` to transform the label from the field with the same path.
+
+And by using the [Value.Provider](/uilib/extensions/forms/Value/Provider/), you can transform the labels of all nested value components.
+
+```tsx
+<Value.Provider transformLabel={(label) => label.replace(/\?$/, '')}>
+  <Field.String path="/myPath" label="My label with a question mark?" />
+  <Value.String path="/myPath" inheritLabel />
+</Value.Provider>
+```
+
+## Components
+
+### Base components
+
+<ListBaseValueComponents size="small" />
+
+### Feature components
+
+<ListFeatureValueComponents size="small" />

@@ -1,0 +1,30 @@
+{
+  "id": "uilib/components/fragments/scroll-view",
+  "name": "Scroll View",
+  "description": "ScrollView is a tiny helper component helping the user controlling overflowing content horizontally or vertically",
+  "group": "components",
+  "slug": "/uilib/components/fragments/scroll-view/",
+  "props": [],
+  "events": [],
+  "related": [],
+  "checksum": "090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40",
+  "source": null,
+  "sources": {
+    "entry": {
+      "local": "src/docs/uilib/components/fragments/scroll-view.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/fragments/scroll-view/"
+    },
+    "props": {
+      "local": "src/docs/uilib/components/fragments/scroll-view/properties.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/fragments/scroll-view/properties/"
+    },
+    "events": null,
+    "demos": {
+      "local": "src/docs/uilib/components/fragments/scroll-view/demos.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/fragments/scroll-view/demos/"
+    }
+  },
+  "version": "10.94.3",
+  "generatedAt": "2026-01-16T16:38:16.624Z",
+  "schemaVersion": 1
+}

@@ -1,0 +1,210 @@
+{
+  "id": "uilib/components/dialog",
+  "name": "Dialog",
+  "description": "The Dialog component is a Modal variation that appears at the center of the screen.",
+  "group": "components",
+  "slug": "/uilib/components/dialog/",
+  "props": [
+    {
+      "name": "variant",
+      "doc": "The dialog variant. Can either be `information` or `confirmation`. Defaults to `information`.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "title",
+      "doc": "The dialog title. Displays on the very top of the content.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "minWidth",
+      "doc": "The minimum Dialog content width, defined by a CSS width value like `50vw` (50% of the viewport). Be careful on using fixed `minWidth` so you don't break responsiveness. Defaults to `30rem` (average width is set to `60vw`).",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "maxWidth",
+      "doc": "The maximum Dialog content width, defined by a CSS width value like `20rem`. Defaults to `60rem` (average width is set to `60vw`).",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "className",
+      "doc": "Give the Dialog content a class name (maps to `dnb-dialog`).",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "spacing",
+      "doc": "If set to `false` then the dialog content will be shown without any spacing. Defaults to `true`.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "preventCoreStyle",
+      "doc": "By default the dialog content gets added the core style class `dnb-core-style`. Use `false` to disable this behavior.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "navContent",
+      "doc": "The content which will appear in the navigation, above the header, and side-by-side the close button.",
+      "type": "React.Node",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "headerContent",
+      "doc": "The content which will appear in the header of the dialog.",
+      "type": "React.Node",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "modalContent",
+      "doc": "The content which will appear when triggering the dialog.",
+      "type": "React.Node",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "description",
+      "doc": "A description will be positioned below the title, but before the content. Used for Dialog variant `confirmation` to further describe what the actions will do.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "verticalAlignment",
+      "doc": "Define the vertical alignment of the container. Can be set to `top` or `center`. Defaults to `center`.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "alignContent",
+      "doc": "Define the inner horizontal alignment of the content. Can be set to `left`, `center`, `right` and `centered`. If `centered`, then the content will also be centered vertically. Defaults to `left`.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "fullscreen",
+      "doc": "If set to `true` then the dialog content will be shown as fullscreen, without showing the original content behind. Can be set to `false` to omit the auto fullscreen. Defaults to `auto`.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "icon",
+      "doc": "An icon to display at the top of the component. Should be of size medium, so make sure you import the `_medium` version of the Eufemia icon.",
+      "type": "React.Node",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "confirmType",
+      "doc": "For variant confirmation, the dialog is either an informational (`info`) or a warning (`warning`) message. Defaults to `info`.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "declineText",
+      "doc": "For dialog actions, give a custom text for the decline button.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "confirmText",
+      "doc": "For dialog actions, give a custom text for the confirmation button.",
+      "type": "string",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "hideDecline",
+      "doc": "For variant confirmation, hide the default decline button and only show the confirmation button.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "hideConfirm",
+      "doc": "For variant confirmation, hide the default confirm button and only show the decline button.",
+      "type": "boolean",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "scrollRef",
+      "doc": "To get the scroll Element, pass in your own React ref.",
+      "type": "React.RefObject",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "contentRef",
+      "doc": "To get the inner content Element, pass in your own React ref.",
+      "type": "React.RefObject",
+      "status": "optional",
+      "defaultValue": null
+    }
+  ],
+  "events": [
+    {
+      "name": "onConfirm",
+      "doc": "For variant confirmation, handle the confirm action click. Provided with the mouse event and the Modal function `close` as arguments.",
+      "type": "function",
+      "status": "optional",
+      "defaultValue": null
+    },
+    {
+      "name": "onDecline",
+      "doc": "For variant confirmation, handle the decline action click. Provided with the mouse event and the Modal function `close` as arguments.",
+      "type": "function",
+      "status": "optional",
+      "defaultValue": null
+    }
+  ],
+  "related": [
+    "Space"
+  ],
+  "checksum": "b98f450a0b085730da7e9a3f00168c7df25f3d8b351f11b2d772f5098affc064",
+  "source": {
+    "repo": "https://github.com/dnbexperience/eufemia",
+    "file": "packages/dnb-eufemia/src/components/dialog/Dialog.tsx",
+    "fileUrl": "https://github.com/dnbexperience/eufemia/blob/v10.94.3/packages/dnb-eufemia/src/components/dialog/Dialog.tsx",
+    "dirUrl": "https://github.com/dnbexperience/eufemia/tree/v10.94.3/packages/dnb-eufemia/src/components/dialog"
+  },
+  "sources": {
+    "entry": {
+      "local": "src/docs/uilib/components/dialog.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/dialog/"
+    },
+    "props": {
+      "local": "src/docs/uilib/components/dialog/properties.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/dialog/properties/"
+    },
+    "events": {
+      "local": "src/docs/uilib/components/dialog/events.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/dialog/events/"
+    },
+    "demos": {
+      "local": "src/docs/uilib/components/dialog/demos.mdx",
+      "public": "https://eufemia.dnb.no/uilib/components/dialog/demos/"
+    }
+  },
+  "version": "10.94.3",
+  "generatedAt": "2026-01-16T16:38:16.575Z",
+  "schemaVersion": 1
+}

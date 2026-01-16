@@ -1,0 +1,33 @@
+{
+  "id": "uilib/extensions/forms/Iterate/Visibility",
+  "name": "Visibility",
+  "description": "The `Iterate.Visibility` component allows you to conditionally display content based on relative paths (`itemPath`) within an `Iterate.Array` component.",
+  "group": "extensions",
+  "slug": "/uilib/extensions/forms/Iterate/Visibility/",
+  "props": [],
+  "events": [],
+  "related": [],
+  "checksum": "090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40",
+  "source": null,
+  "sources": {
+    "entry": {
+      "local": "src/docs/uilib/extensions/forms/Iterate/Visibility.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/Iterate/Visibility/"
+    },
+    "props": {
+      "local": "src/docs/uilib/extensions/forms/Iterate/Visibility/properties.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/Iterate/Visibility/properties/"
+    },
+    "events": {
+      "local": "src/docs/uilib/extensions/forms/Iterate/Visibility/events.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/Iterate/Visibility/events/"
+    },
+    "demos": {
+      "local": "src/docs/uilib/extensions/forms/Iterate/Visibility/demos.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/Iterate/Visibility/demos/"
+    }
+  },
+  "version": "10.94.3",
+  "generatedAt": "2026-01-16T16:38:17.409Z",
+  "schemaVersion": 1
+}

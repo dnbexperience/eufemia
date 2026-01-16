@@ -1,0 +1,27 @@
+{
+  "id": "uilib/extensions/forms/Iterate",
+  "name": "Iterate",
+  "description": "`Iterate` contains components and functionality for traversing values and parts of data sets such as arrays, which contain a varying number of elements where the number of components on the screen depends on how many elements the data consists of.",
+  "group": "extensions",
+  "slug": "/uilib/extensions/forms/Iterate/",
+  "props": [],
+  "events": [],
+  "related": [],
+  "checksum": "090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40",
+  "source": null,
+  "sources": {
+    "entry": {
+      "local": "src/docs/uilib/extensions/forms/Iterate.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/Iterate/"
+    },
+    "props": null,
+    "events": null,
+    "demos": {
+      "local": "src/docs/uilib/extensions/forms/Iterate/demos.mdx",
+      "public": "https://eufemia.dnb.no/uilib/extensions/forms/Iterate/demos/"
+    }
+  },
+  "version": "10.94.3",
+  "generatedAt": "2026-01-16T16:38:17.411Z",
+  "schemaVersion": 1
+}

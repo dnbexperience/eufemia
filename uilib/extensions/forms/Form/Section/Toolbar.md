@@ -1,0 +1,70 @@
+---
+title: 'Toolbar'
+description: '`Form.Section.Toolbar` is a helper component to be used within an `Form.Section.ViewContainer` and `Form.Section.EditContainer`.'
+metadata: https://eufemia.dnb.no/uilib/extensions/forms/Form/Section/Toolbar/metadata.json
+---
+
+## Import
+
+```tsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+render(<Form.Section.Toolbar />)
+```
+
+## Description
+
+`Form.Section.Toolbar` is a helper component to be used within the [Form.Section.ViewContainer](/uilib/extensions/forms/Form/Section/ViewContainer/) and the [Form.Section.EditContainer](/uilib/extensions/forms/Form/Section/EditContainer/).
+
+## Customize the Toolbar
+
+You can customize the toolbar by either passing a function as a child or as a JSX element:
+
+```tsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+
+render(
+  <Form.Section>
+    <Form.Section.ViewContainer>
+      View content
+      <Form.Section.Toolbar>
+        <Form.Section.ViewContainer.EditButton />
+      </Form.Section.Toolbar>
+    </Form.Section.ViewContainer>
+
+    <Form.Section.EditContainer>
+      Edit content
+      <Form.Section.Toolbar>
+        <Form.Section.EditContainer.DoneButton />
+        <Form.Section.EditContainer.CancelButton />
+      </Form.Section.Toolbar>
+    </Form.Section.EditContainer>
+  </Form.Section>,
+)
+```
+
+## Demos
+
+### Using ViewContainer and EditContainer
+
+```tsx
+render(
+  <Form.Section>
+    <Form.Section.ViewContainer>
+      View content
+      <Form.Section.Toolbar>
+        <Button variant="tertiary">Your Tool</Button>
+        <Form.Section.ViewContainer.EditButton />
+      </Form.Section.Toolbar>
+    </Form.Section.ViewContainer>
+
+    <Form.Section.EditContainer>
+      Edit content
+      <Form.Section.Toolbar>
+        <Button variant="tertiary">Your Tool</Button>
+        <Form.Section.EditContainer.DoneButton />
+        <Form.Section.EditContainer.CancelButton />
+      </Form.Section.Toolbar>
+    </Form.Section.EditContainer>
+  </Form.Section>,
+)
+```
