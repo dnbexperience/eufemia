@@ -175,9 +175,6 @@
   // older iOS safari
   -webkit-overflow-scrolling: touch;
 
-  // show scrollbar in IE & Edge
-  -ms-overflow-style: auto;
-
   // NB: We have used "scrollbar-track-width: auto;" before,
   // first, it only effects Firefox.
   // But "thin" changes the behavior in Windows,
@@ -241,15 +238,7 @@
   &::-webkit-scrollbar {
     display: none;
   }
-  -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
-}
-
-// Edge fix
-@mixin IS_EDGE() {
-  @supports (-ms-ime-align: auto) {
-    @content;
-  }
 }
 
 // Firefox fix
@@ -262,7 +251,7 @@
 // Chrome fix
 @mixin IS_CHROME() {
   @supports (-webkit-appearance: none) and
-    (not (overflow: -webkit-marquee)) and (not (-ms-ime-align: auto)) and
+    (not (overflow: -webkit-marquee)) and
     (not (-moz-appearance: none)) {
     @content;
   }
