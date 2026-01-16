@@ -28,12 +28,11 @@ import {
   createSkeletonClass,
 } from '../skeleton/SkeletonHelper'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
-import IconPrimary from '../icon-primary/IconPrimary'
 import FormStatus from '../form-status/FormStatus'
 import Anchor, { pickIcon, opensNewTab } from '../anchor/Anchor'
 import { launch } from '../../icons'
 import Tooltip from '../tooltip/Tooltip'
-import AlignmentHelper from '../../shared/AlignmentHelper'
+import ButtonContent from './internal/ButtonContent'
 
 export const buttonVariantPropType = {
   variant: PropTypes.oneOf([
@@ -261,7 +260,7 @@ export default class Button extends React.PureComponent {
     return (
       <>
         <Element ref={this._ref} {...params}>
-          <Content
+          <ButtonContent
             {...this.props}
             icon={icon}
             icon_size={iconSize}
@@ -269,6 +268,7 @@ export default class Button extends React.PureComponent {
             custom_content={custom_content}
             isIconOnly={isIconOnly}
             skeleton={isTrue(skeleton)}
+            iconElement={pickIcon(icon, 'dnb-button__icon')}
           />
         </Element>
 
@@ -410,91 +410,6 @@ Button.defaultProps = {
 
   on_click: null,
   onClick: null,
-}
-
-function Content({
-  title = null,
-  content = null,
-  custom_content = null,
-  icon = null,
-  icon_size = 'default',
-  bounding = null,
-  skeleton = null,
-  isIconOnly = null,
-}) {
-  return (
-    <>
-      {isTrue(bounding) && (
-        <span key="button-bounding" className="dnb-button__bounding" />
-      )}
-
-      {custom_content && (
-        <React.Fragment key="button-custom-content">
-          {custom_content}
-        </React.Fragment>
-      )}
-
-      {content && (
-        <>
-          <AlignmentHelper
-            key="button-alignment"
-            className="dnb-button__alignment"
-            pseudoElementOnly
-          />
-          <span
-            key="button-text"
-            className="dnb-button__text dnb-skeleton--show-font"
-          >
-            {content}
-          </span>
-        </>
-      )}
-
-      {
-        // on empty text, use a zero-width non-joiner
-        // so the icon button gets vertical aligned
-        // we need the dnb-button__text for alignment
-        !content && icon && (
-          <AlignmentHelper
-            key="button-alignment"
-            className="dnb-button__alignment"
-            pseudoElementOnly
-          />
-        )
-      }
-
-      {icon &&
-        (pickIcon(icon, 'dnb-button__icon') || (
-          <IconPrimary
-            key="button-icon"
-            className="dnb-button__icon"
-            icon={icon}
-            size={icon_size}
-            aria-hidden={isIconOnly && !title ? null : true}
-            skeleton={skeleton}
-          />
-        ))}
-    </>
-  )
-}
-
-Content.propTypes = {
-  title: PropTypes.string,
-  custom_content: PropTypes.node,
-  content: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.array,
-    PropTypes.node,
-  ]),
-  icon: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node,
-    PropTypes.func,
-  ]),
-  icon_size: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  bounding: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  skeleton: PropTypes.bool,
-  isIconOnly: PropTypes.bool,
 }
 
 Button._formElement = true

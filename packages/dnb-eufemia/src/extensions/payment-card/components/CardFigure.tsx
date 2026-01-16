@@ -8,7 +8,7 @@ import StatusOverlay, {
 } from './StatusOverlay'
 import CardNumberText from './CardNumber'
 import CardTypeText from './CardType'
-import { BankAxeptType, CardType } from '../PaymentCard'
+import { BankAxeptType, CardType } from '../utils/Types'
 
 export type CardData = {
   productCode: string

@@ -37,7 +37,7 @@ export const defaultProps = {
   triggerOffset: 16,
 } as const
 
-export function getTargetElement(target: HTMLElement) {
+export function getTargetElement(target: HTMLElement | string | null) {
   if (typeof document !== 'undefined') {
     return typeof target === 'string'
       ? typeof document !== 'undefined' && document.querySelector(target)

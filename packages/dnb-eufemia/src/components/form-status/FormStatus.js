@@ -8,7 +8,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import { useTheme, Context } from '../../shared'
+import Context from '../../shared/Context'
+import useTheme from '../../shared/useTheme'
 import {
   isTrue,
   makeUniqueId,
