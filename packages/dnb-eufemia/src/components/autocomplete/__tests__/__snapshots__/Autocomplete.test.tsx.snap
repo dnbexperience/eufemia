@@ -888,9 +888,6 @@ html[data-whatinput=keyboard] .dnb-input__status--error .dnb-input__border:focus
 .dnb-input__input::-webkit-search-cancel-button {
   display: none;
 }
-.dnb-input__input::-ms-clear {
-  display: none;
-}
 .dnb-input ::-webkit-file-upload-button {
   cursor: pointer;
   outline: none;
@@ -905,12 +902,6 @@ html[data-whatinput=keyboard] .dnb-input__status--error .dnb-input__border:focus
 .dnb-input--password .dnb-input__placeholder, .dnb-input--password .dnb-input__input {
   margin-right: 2.5rem;
   padding-right: 0;
-}
-.dnb-input--password .dnb-input__placeholder::-ms-clear, .dnb-input--password .dnb-input__input::-ms-clear {
-  display: none;
-}
-.dnb-input--password .dnb-input__placeholder::-ms-reveal, .dnb-input--password .dnb-input__input::-ms-reveal {
-  display: none;
 }
 .dnb-input--password .dnb-input__placeholder {
   padding-right: 4rem;
@@ -933,7 +924,6 @@ html[data-whatinput=keyboard] .dnb-input__status--error .dnb-input__border:focus
 }
 .dnb-input__submit-button {
   position: relative;
-  align-self: center; /* IE needs this to stay centered */
 }
 .dnb-input__submit-button__button {
   border-radius: 0 var(--input-border-radius) var(--input-border-radius) 0;

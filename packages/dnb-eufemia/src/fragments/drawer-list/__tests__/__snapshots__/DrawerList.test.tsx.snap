@@ -102,7 +102,6 @@ html[data-visual-test] .dnb-drawer-list__portal__style {
   overflow-y: auto;
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
-  -ms-overflow-style: auto;
   scrollbar-color: var(--scrollbar-thumb-color, #888) transparent;
 }
 html:not([data-visual-test]) .dnb-drawer-list--scroll .dnb-drawer-list__options {
