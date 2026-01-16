@@ -975,6 +975,7 @@ html[data-visual-test] .dnb-modal__overlay, .dnb-modal__overlay--no-animation {
   text-align: right;
 }
 .dnb-drawer--top, .dnb-drawer--bottom {
+  max-width: 100%;
   width: 100vw;
   height: 40vh;
 }
