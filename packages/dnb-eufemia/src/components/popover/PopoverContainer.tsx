@@ -387,10 +387,8 @@ function PopoverContainer(props: PopoverContainerProps) {
       ? horizontalRect.left - containerRect.left
       : 0
 
-    const scrollY =
-      window.scrollY !== undefined ? window.scrollY : window.pageYOffset
-    const scrollX =
-      window.scrollX !== undefined ? window.scrollX : window.pageXOffset
+    const scrollY = fixedPosition ? 0 : window.scrollY
+    const scrollX = fixedPosition ? 0 : window.scrollX
     const scrollYOffset = fixedPosition ? 0 : scrollY
     const top = skipPortal
       ? relativeVerticalTop

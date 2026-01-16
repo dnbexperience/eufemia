@@ -100,7 +100,6 @@
   // Container placement
   &--top,
   &--bottom {
-    max-width: 100%; // Edge/IE overflow fix
     width: 100vw;
     height: 40vh;
 

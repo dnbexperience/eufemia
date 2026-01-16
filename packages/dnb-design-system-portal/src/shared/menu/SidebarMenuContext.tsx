@@ -32,8 +32,7 @@ export class SidebarMenuProvider extends React.PureComponent<Props> {
     // scroll to top on opening the menu, and back again
     if (!this.state.isOpen && typeof window !== 'undefined') {
       try {
-        // use "window.pageYOffset" instead of "window.scrollY" because IE
-        this.lastScrollPosition = window.pageYOffset
+        this.lastScrollPosition = window.scrollY
       } catch (e) {
         console.error('Could not get scrollY', e)
       }

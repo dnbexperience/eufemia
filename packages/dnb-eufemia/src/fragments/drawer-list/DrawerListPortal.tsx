@@ -131,16 +131,8 @@ function DrawerListPortal({
 
       // Handle positions
       const rect = rootElem.getBoundingClientRect()
-      const scrollY = fixedPosition
-        ? 0
-        : window.scrollY !== undefined
-        ? window.scrollY
-        : window.pageYOffset
-      const scrollX = fixedPosition
-        ? 0
-        : window.scrollX !== undefined
-        ? window.scrollX
-        : window.pageXOffset
+      const scrollY = fixedPosition ? 0 : window.scrollY
+      const scrollX = fixedPosition ? 0 : window.scrollX
 
       let top = scrollY + rect.top
       let left =

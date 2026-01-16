@@ -18,10 +18,6 @@
       top: var(--icon-border-positioning);
       bottom: var(--icon-border-positioning);
 
-      // Not needed, but maybe IE needs it?
-      // width: 150%;
-      // height: 150%;
-
       margin: auto;
       border-radius: 50%;
       border: 0.0875rem solid; // use 1.4px instead of 1.5 so webkit is rounding down

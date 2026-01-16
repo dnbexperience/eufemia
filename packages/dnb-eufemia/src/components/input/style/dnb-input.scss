@@ -244,9 +244,6 @@
   &__submit-button {
     position: relative;
 
-    // place the button vertically
-    align-self: center; /* IE needs this to stay centered */
-
     &__button {
       // For now we don't support a button on the left side
       border-radius: 0 var(--input-border-radius)

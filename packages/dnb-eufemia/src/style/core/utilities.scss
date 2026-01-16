@@ -251,8 +251,7 @@
 // Chrome fix
 @mixin IS_CHROME() {
   @supports (-webkit-appearance: none) and
-    (not (overflow: -webkit-marquee)) and
-    (not (-moz-appearance: none)) {
+    (not (overflow: -webkit-marquee)) and (not (-moz-appearance: none)) {
     @content;
   }
 }
