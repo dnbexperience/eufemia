@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import Anchor from '../components/Anchor'
+import InlineLink from './internal/InlineLink'
 import CodeEl from '../elements/Code'
 
 export type FormatOptions = {
@@ -16,9 +16,9 @@ const Strong = (c) => <strong>{c}</strong>
 const Em = (c) => <em>{c}</em>
 const Code = (c) => <CodeEl>{c}</CodeEl>
 const Link = (c, href) => (
-  <Anchor href={href} rel="noopener noreferrer">
+  <InlineLink href={href} rel="noopener noreferrer">
     {c}
-  </Anchor>
+  </InlineLink>
 )
 
 export default function renderWithFormatting(

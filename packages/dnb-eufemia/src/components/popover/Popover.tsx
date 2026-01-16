@@ -12,10 +12,11 @@ import React, {
   useState,
 } from 'react'
 import classnames from 'classnames'
-import Button from '../button/Button'
+import PopoverCloseButton from './internal/PopoverCloseButton'
 import useId from '../../shared/helpers/useId'
 import useTranslation from '../../shared/useTranslation'
 import { combineDescribedBy, warn } from '../../shared/component-helper'
+import getRefElement from '../../shared/internal/getRefElement'
 import PopoverPortal from './PopoverPortal'
 import PopoverContainer from './PopoverContainer'
 import type {
@@ -572,7 +573,7 @@ export default function Popover(props: PopoverProps) {
   }, [children, content, contentContext])
 
   const closeButton = !hideCloseButton && (
-    <Button
+    <PopoverCloseButton
       variant={closeButtonProps?.variant ?? 'tertiary'}
       icon={closeButtonProps?.icon ?? 'close'}
       {...closeButtonProps}
@@ -766,28 +767,6 @@ function resolveTargetNode(
   return null
 }
 
-export function getRefElement(
-  target: PopoverProps['targetElement']
-): HTMLElement | null {
-  if (!target) {
-    return null
-  }
-  const unknownTarget = target as unknown as React.RefObject<{
-    _ref: React.RefObject<HTMLElement>
-  }>
-  let element: HTMLElement | React.RefObject<HTMLElement> | null =
-    target as HTMLElement | React.RefObject<HTMLElement>
-
-  // "_ref" is set inside e.g. the Button component (among many others)
-  if (unknownTarget?.current?._ref) {
-    element = getRefElement(unknownTarget.current._ref)
-  }
-
-  if (element && Object.hasOwn(element, 'current')) {
-    element = (element as React.RefObject<HTMLElement>).current
-  }
-
-  return element as HTMLElement | null
-}
+export { default as getRefElement } from '../../shared/internal/getRefElement'
 
 Popover._supportsSpacingProps = true

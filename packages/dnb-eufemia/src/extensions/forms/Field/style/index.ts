@@ -3,4 +3,4 @@
  *
  */
 
-import './style/index'
+import './field-sizes.scss'
