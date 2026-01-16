@@ -1,47 +1,31 @@
 import React from 'react'
 import classnames from 'classnames'
-import IconPrimary from '../../icon-primary/IconPrimary'
-import AlignmentHelper from '../../../shared/AlignmentHelper'
+import Context from '../../../shared/Context'
+import { isTrue } from '../../../shared/component-helper'
+import { createSpacingClasses } from '../../space/SpacingHelper'
+import { createSkeletonClass } from '../../skeleton/SkeletonHelper'
 import type { IconIcon, IconSize } from '../../icon/Icon'
+import type { SkeletonShow } from '../../skeleton/Skeleton'
+import type { SpacingProps } from '../../../shared/types'
+import ButtonContent from '../../button/internal/ButtonContent'
 
 type CloseButtonProps = Omit<
   React.ButtonHTMLAttributes<HTMLButtonElement>,
   'type'
-> & {
-  type?: string
-  icon?: IconIcon | React.ReactNode
-  icon_size?: IconSize
-  icon_position?: 'left' | 'right' | 'top'
-  variant?: 'primary' | 'secondary' | 'tertiary' | 'signal' | 'unstyled'
-  size?: 'default' | 'small' | 'medium' | 'large'
-  text?: React.ReactNode
-  children?: React.ReactNode
-}
-
-function renderIcon(
-  icon: CloseButtonProps['icon'],
-  iconSize: CloseButtonProps['icon_size'],
-  title: CloseButtonProps['title']
-) {
-  if (!icon) {
-    return null
+> &
+  SpacingProps & {
+    type?: string
+    icon?: IconIcon | React.ReactNode
+    icon_size?: IconSize
+    icon_position?: 'left' | 'right' | 'top'
+    variant?: 'primary' | 'secondary' | 'tertiary' | 'signal' | 'unstyled'
+    size?: 'default' | 'small' | 'medium' | 'large'
+    text?: React.ReactNode
+    children?: React.ReactNode
+    stretch?: boolean
+    wrap?: boolean
+    skeleton?: SkeletonShow
   }
-
-  if (React.isValidElement(icon)) {
-    return React.cloneElement(icon, {
-      className: classnames(icon.props.className, 'dnb-button__icon'),
-    })
-  }
-
-  return (
-    <IconPrimary
-      className="dnb-button__icon"
-      icon={icon as IconIcon}
-      size={iconSize}
-      aria-hidden={title ? true : null}
-    />
-  )
-}
 
 export default function PopoverCloseButton({
   icon = 'close',
@@ -54,11 +38,21 @@ export default function PopoverCloseButton({
   text,
   children,
   type: buttonType,
+  stretch,
+  wrap,
+  skeleton,
   ...rest
 }: CloseButtonProps) {
+  const context = React.useContext(Context)
   const hasIcon = Boolean(icon)
   const content = text ?? children
   const hasContent = Boolean(content)
+  const isIconOnly = Boolean(hasIcon && !hasContent)
+  const iconElement = React.isValidElement(icon)
+    ? React.cloneElement(icon, {
+        className: classnames(icon.props.className, 'dnb-button__icon'),
+      })
+    : null
   const resolvedAriaLabel =
     rest['aria-label'] ?? (typeof title === 'string' ? title : undefined)
   const resolvedType =
@@ -68,14 +62,63 @@ export default function PopoverCloseButton({
       ? buttonType
       : 'button'
 
+  let resolvedVariant = variant
+  let resolvedSize = size
+  let resolvedIconSize = icon_size
+
+  if (isIconOnly) {
+    if (!resolvedVariant) {
+      resolvedVariant = 'secondary'
+    }
+    if (!resolvedSize) {
+      resolvedSize = 'medium'
+    }
+    if (
+      !resolvedIconSize &&
+      (resolvedSize === 'default' || resolvedSize === 'large')
+    ) {
+      resolvedIconSize = 'medium'
+    }
+  } else if (hasContent) {
+    if (!resolvedVariant) {
+      resolvedVariant = 'primary'
+    }
+    if (!resolvedSize) {
+      resolvedSize = 'default'
+    }
+  }
+  if (
+    !resolvedIconSize &&
+    resolvedVariant === 'tertiary' &&
+    icon_position === 'top'
+  ) {
+    resolvedIconSize = 'medium'
+  }
+
   const classes = classnames(
     'dnb-button',
-    `dnb-button--${variant}`,
-    size && size !== 'default' && `dnb-button--size-${size}`,
+    `dnb-button--${resolvedVariant}`,
+    resolvedSize &&
+      resolvedSize !== 'default' &&
+      `dnb-button--size-${resolvedSize}`,
+    context?.theme?.darkBackground && 'dnb-button--on-dark-background',
     hasIcon && `dnb-button--icon-position-${icon_position}`,
-    hasIcon && icon_size && `dnb-button--icon-size-${icon_size}`,
+    hasIcon &&
+      resolvedIconSize &&
+      `dnb-button--icon-size-${resolvedIconSize}`,
     hasContent && 'dnb-button--has-text',
     hasIcon && 'dnb-button--has-icon',
+    isTrue(stretch) && 'dnb-button--stretch',
+    isTrue(wrap) && 'dnb-button--wrap',
+    createSkeletonClass(
+      resolvedVariant === 'tertiary' ? 'font' : 'shape',
+      skeleton,
+      context
+    ),
+    createSpacingClasses({
+      ...rest,
+      ...{ stretch, wrap, skeleton },
+    }),
     className
   )
 
@@ -87,20 +130,15 @@ export default function PopoverCloseButton({
       type={resolvedType}
       {...rest}
     >
-      {(hasIcon || hasContent) && (
-        <AlignmentHelper
-          className="dnb-button__alignment"
-          pseudoElementOnly
-        />
-      )}
-      {(icon_position === 'left' || icon_position === 'top') &&
-        renderIcon(icon, icon_size, title)}
-      {hasContent && (
-        <span className="dnb-button__text dnb-skeleton--show-font">
-          {content}
-        </span>
-      )}
-      {icon_position === 'right' && renderIcon(icon, icon_size, title)}
+      <ButtonContent
+        title={title}
+        content={content}
+        icon={icon}
+        icon_size={resolvedIconSize}
+        skeleton={isTrue(skeleton)}
+        isIconOnly={isIconOnly}
+        iconElement={iconElement}
+      />
     </button>
   )
 }
