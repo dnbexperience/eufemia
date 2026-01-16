@@ -1,3 +1,5 @@
+@use '../../../../style/core/utilities.scss';
+
 .dnb-code {
   background-color: var(--sb-color-blue-light-3);
   border-radius: 0.25rem;
@@ -10,6 +12,6 @@
   background-color: #222;
 
   &.dnb-pre--focus {
-    @include fakeBorder(var(--sb-color-green), 0.25rem);
+    @include utilities.fakeBorder(var(--sb-color-green), 0.25rem);
   }
 }

@@ -2,12 +2,12 @@
 
 exports[`ToggleButton scss should match default theme snapshot 1`] = `
 "/*
+ * Utilities
+ */
+/*
 * ToggleButton theme
 *
 */
-/*
- * Utilities
- */
 .dnb-toggle-button {
   /* stylelint-disable */
   /* stylelint-enable */
@@ -158,17 +158,6 @@ html[data-whatinput=keyboard] html[data-whatinput=keyboard] .dnb-toggle-button--
 
 exports[`ToggleButton scss should match style dependencies css 1`] = `
 "/*
-* Used for snapshot testing
-*
-*/
-/*
- * Utilities
- */
-/*
-* Used for snapshot testing
-*
-*/
-/*
  * Utilities
  */
 /*
@@ -209,22 +198,9 @@ legend.dnb-form-label {
 *
 */
 /*
- * Utilities
- */
-/*
-* Used for snapshot testing
-*
-*/
-/*
- * Utilities
- */
-/*
 * Icon component
 *
 */
-/*
- * Utilities
- */
 .dnb-icon {
   display: inline-block;
   vertical-align: middle;
@@ -306,15 +282,9 @@ p > .dnb-icon {
 *
 */
 /*
- * Utilities
- */
-/*
 * Tooltip component
 *
 */
-/*
- * Utilities
- */
 :root {
   --tooltip-z-index: 1100;
 }
@@ -357,14 +327,8 @@ p > .dnb-icon {
 *
 */
 /*
- * Utilities
- */
-/*
  * FormStatus component
  *
- */
-/*
- * Utilities
  */
 .dnb-form-status {
   --form-status-radius: 0.25rem;
@@ -432,12 +396,13 @@ button .dnb-form-status__text {
 }
 
 /*
-* Button component
+* Used for snapshot testing
 *
 */
 /*
- * Utilities
- */
+* Button component
+*
+*/
 :root {
   --button-icon-size: 1rem;
   --button-height: 2.5rem;
@@ -676,134 +641,9 @@ button.dnb-button::-moz-focus-inner {
 *
 */
 /*
- * Utilities
- */
-/*
-* Used for snapshot testing
-*
-*/
-/*
- * Utilities
- */
-/*
- * FormLabel component
- *
- */
-.dnb-form-label {
-  display: inline-block;
-  padding: 0;
-  text-align: left;
-  vertical-align: baseline;
-  white-space: pre-wrap;
-  word-break: normal;
-  font-size: var(--font-size-basis);
-  color: inherit;
-}
-.dnb-form-label[for] {
-  width: fit-content;
-}
-.dnb-form-label--vertical {
-  display: block;
-  margin-right: 0;
-  margin-bottom: 0.5rem;
-}
-.dnb-form-label--interactive {
-  cursor: pointer;
-}
-.dnb-form-label[disabled] {
-  cursor: not-allowed;
-}
-
-legend.dnb-form-label {
-  display: inline-block;
-}
-
-/*
-* Used for snapshot testing
-*
-*/
-/*
- * Utilities
- */
-/*
- * FormStatus component
- *
- */
-/*
- * Utilities
- */
-.dnb-form-status {
-  --form-status-radius: 0.25rem;
-  display: flex;
-  opacity: 1;
-}
-.dnb-form-status__shell {
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
-  min-width: inherit;
-  border-radius: var(--form-status-radius);
-}
-.dnb-form-status__text {
-  max-width: var(--prose-max-width);
-  padding: 0.625rem 1rem;
-  cursor: text;
-  color: inherit;
-  line-height: var(--line-height-small);
-  font-size: var(--font-size-small);
-  white-space: normal;
-}
-button .dnb-form-status__text {
-  cursor: inherit;
-}
-.dnb-form-status__text .dnb-ul,
-.dnb-form-status__text .dnb-anchor {
-  font-size: inherit;
-}
-.dnb-form-status__text .dnb-ul:not([class*=dnb-space__left]) {
-  padding-left: 1rem;
-}
-.dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) {
-  margin-bottom: 0.5rem;
-}
-.dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) .dnb-li {
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
-}
-.dnb-icon + .dnb-form-status__text {
-  padding-left: 0.5rem;
-}
-.dnb-form-status__shell > .dnb-icon {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0.3333333em 0.3333333em 0.3333333em 0.6666666em;
-}
-.dnb-form-status__size--large .dnb-form-status__text {
-  padding-top: 1.125rem;
-  padding-bottom: 1.125rem;
-}
-.dnb-form-status__size--large .dnb-form-status__shell > .dnb-icon {
-  margin-top: 0.6666666em;
-  margin-bottom: 0.6666666em;
-}
-.dnb-form-status--stretch {
-  flex-grow: 1;
-}
-.dnb-form-status--stretch .dnb-form-status__shell {
-  width: 100%;
-}
-.dnb-form-status[hidden] {
-  display: none;
-}
-
-/*
 * Checkbox component
 *
 */
-/*
- * Utilities
- */
 :root {
   --checkbox-width--medium: 1.5rem;
   --checkbox-height--medium: 1.5rem;
@@ -1162,134 +1002,9 @@ html[data-whatinput=keyboard] .dnb-checkbox__status--error .dnb-checkbox__input:
 *
 */
 /*
- * Utilities
- */
-/*
-* Used for snapshot testing
-*
-*/
-/*
- * Utilities
- */
-/*
- * FormLabel component
- *
- */
-.dnb-form-label {
-  display: inline-block;
-  padding: 0;
-  text-align: left;
-  vertical-align: baseline;
-  white-space: pre-wrap;
-  word-break: normal;
-  font-size: var(--font-size-basis);
-  color: inherit;
-}
-.dnb-form-label[for] {
-  width: fit-content;
-}
-.dnb-form-label--vertical {
-  display: block;
-  margin-right: 0;
-  margin-bottom: 0.5rem;
-}
-.dnb-form-label--interactive {
-  cursor: pointer;
-}
-.dnb-form-label[disabled] {
-  cursor: not-allowed;
-}
-
-legend.dnb-form-label {
-  display: inline-block;
-}
-
-/*
-* Used for snapshot testing
-*
-*/
-/*
- * Utilities
- */
-/*
- * FormStatus component
- *
- */
-/*
- * Utilities
- */
-.dnb-form-status {
-  --form-status-radius: 0.25rem;
-  display: flex;
-  opacity: 1;
-}
-.dnb-form-status__shell {
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
-  min-width: inherit;
-  border-radius: var(--form-status-radius);
-}
-.dnb-form-status__text {
-  max-width: var(--prose-max-width);
-  padding: 0.625rem 1rem;
-  cursor: text;
-  color: inherit;
-  line-height: var(--line-height-small);
-  font-size: var(--font-size-small);
-  white-space: normal;
-}
-button .dnb-form-status__text {
-  cursor: inherit;
-}
-.dnb-form-status__text .dnb-ul,
-.dnb-form-status__text .dnb-anchor {
-  font-size: inherit;
-}
-.dnb-form-status__text .dnb-ul:not([class*=dnb-space__left]) {
-  padding-left: 1rem;
-}
-.dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) {
-  margin-bottom: 0.5rem;
-}
-.dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) .dnb-li {
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
-}
-.dnb-icon + .dnb-form-status__text {
-  padding-left: 0.5rem;
-}
-.dnb-form-status__shell > .dnb-icon {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0.3333333em 0.3333333em 0.3333333em 0.6666666em;
-}
-.dnb-form-status__size--large .dnb-form-status__text {
-  padding-top: 1.125rem;
-  padding-bottom: 1.125rem;
-}
-.dnb-form-status__size--large .dnb-form-status__shell > .dnb-icon {
-  margin-top: 0.6666666em;
-  margin-bottom: 0.6666666em;
-}
-.dnb-form-status--stretch {
-  flex-grow: 1;
-}
-.dnb-form-status--stretch .dnb-form-status__shell {
-  width: 100%;
-}
-.dnb-form-status[hidden] {
-  display: none;
-}
-
-/*
 * Radio component
 *
 */
-/*
- * Utilities
- */
 :root {
   --radio-width--medium: 1.5rem;
   --radio-height--medium: 1.5rem;
@@ -1634,87 +1349,9 @@ html[data-whatinput=keyboard] .dnb-radio__input:not([disabled]):not(:checked):no
 *
 */
 /*
- * Utilities
- */
-/*
- * FormStatus component
- *
- */
-/*
- * Utilities
- */
-.dnb-form-status {
-  --form-status-radius: 0.25rem;
-  display: flex;
-  opacity: 1;
-}
-.dnb-form-status__shell {
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
-  min-width: inherit;
-  border-radius: var(--form-status-radius);
-}
-.dnb-form-status__text {
-  max-width: var(--prose-max-width);
-  padding: 0.625rem 1rem;
-  cursor: text;
-  color: inherit;
-  line-height: var(--line-height-small);
-  font-size: var(--font-size-small);
-  white-space: normal;
-}
-button .dnb-form-status__text {
-  cursor: inherit;
-}
-.dnb-form-status__text .dnb-ul,
-.dnb-form-status__text .dnb-anchor {
-  font-size: inherit;
-}
-.dnb-form-status__text .dnb-ul:not([class*=dnb-space__left]) {
-  padding-left: 1rem;
-}
-.dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) {
-  margin-bottom: 0.5rem;
-}
-.dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) .dnb-li {
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
-}
-.dnb-icon + .dnb-form-status__text {
-  padding-left: 0.5rem;
-}
-.dnb-form-status__shell > .dnb-icon {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0.3333333em 0.3333333em 0.3333333em 0.6666666em;
-}
-.dnb-form-status__size--large .dnb-form-status__text {
-  padding-top: 1.125rem;
-  padding-bottom: 1.125rem;
-}
-.dnb-form-status__size--large .dnb-form-status__shell > .dnb-icon {
-  margin-top: 0.6666666em;
-  margin-bottom: 0.6666666em;
-}
-.dnb-form-status--stretch {
-  flex-grow: 1;
-}
-.dnb-form-status--stretch .dnb-form-status__shell {
-  width: 100%;
-}
-.dnb-form-status[hidden] {
-  display: none;
-}
-
-/*
 * ToggleButton component
 *
 */
-/*
- * Utilities
- */
 .dnb-toggle-button {
   display: inline-flex;
   align-items: center;
@@ -1858,5 +1495,10 @@ button .dnb-form-status__text {
   .dnb-form-label + .dnb-toggle-button {
     transform: translateY(-0.5rem);
   }
-}"
+}
+
+/*
+* Used for snapshot testing
+*
+*/"
 `;

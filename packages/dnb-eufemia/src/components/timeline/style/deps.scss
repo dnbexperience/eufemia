@@ -3,5 +3,5 @@
 *
 */
 
-@import '../../../style/core/utilities.scss';
-@import './dnb-timeline.scss';
+@use '../../../style/core/utilities.scss' as *;
+@use './dnb-timeline.scss';

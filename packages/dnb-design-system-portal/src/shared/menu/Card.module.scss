@@ -1,5 +1,5 @@
-@import '@dnb/eufemia/src/style/core/utilities.scss';
-@import './../parts/PortalStyle.mixins.scss';
+@use '@dnb/eufemia/src/style/core/utilities.scss';
+@use './../parts/PortalStyle.mixins.scss';
 
 .liItemStyle {
   list-style-type: none;

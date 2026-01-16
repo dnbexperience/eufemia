@@ -2,18 +2,11 @@
 
 exports[`FormStatus scss has to match style dependencies css 1`] = `
 "/*
-* Used for snapshot testing
-*
-*/
-/*
  * Utilities
  */
 /*
  * FormStatus component
  *
- */
-/*
- * Utilities
  */
 .dnb-form-status {
   --form-status-radius: 0.25rem;
@@ -78,16 +71,21 @@ button .dnb-form-status__text {
 }
 .dnb-form-status[hidden] {
   display: none;
-}"
+}
+
+/*
+* Used for snapshot testing
+*
+*/"
 `;
 
 exports[`FormStatus scss have to match default theme snapshot 1`] = `
 "/*
- * FormStatus theme
- *
+ * Utilities
  */
 /*
- * Utilities
+ * FormStatus theme
+ *
  */
 .dnb-form-status__shell {
   color: var(--color-black-80);

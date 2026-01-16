@@ -3,7 +3,7 @@
 *
 */
 
-@import '../../../../style/core/utilities.scss';
+@use '../../../../style/core/utilities.scss';
 
 .dnb-dialog {
   --dialog-background: var(--sb-color-white);
@@ -24,7 +24,7 @@
   }
 
   &__title {
-    @include allBetween(small, medium) {
+    @include utilities.allBetween(small, medium) {
       font-size: var(--sb-font-size-medium--plus) !important;
       line-height: var(--line-height-medium) !important;
     }

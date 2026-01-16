@@ -2,12 +2,12 @@
 
 exports[`Badge scss should match default theme snapshot 1`] = `
 "/*
+ * Utilities
+ */
+/*
 * Badge theme
 *
 */
-/*
- * Utilities
- */
 .dnb-badge {
   color: var(--color-white);
 }
@@ -21,19 +21,12 @@ exports[`Badge scss should match default theme snapshot 1`] = `
 
 exports[`Badge scss should match style dependencies css 1`] = `
 "/*
-* Used for snapshot testing
-*
-*/
-/*
  * Utilities
  */
 /*
 * Badge component
 *
 */
-/*
- * Utilities
- */
 .dnb-badge {
   display: inline-flex;
   flex-flow: row wrap;
@@ -83,5 +76,10 @@ exports[`Badge scss should match style dependencies css 1`] = `
 }
 .dnb-badge--inline.dnb-badge--vertical-bottom {
   transform: translateY(25%);
-}"
+}
+
+/*
+* Used for snapshot testing
+*
+*/"
 `;

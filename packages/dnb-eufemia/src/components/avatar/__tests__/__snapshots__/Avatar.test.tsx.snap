@@ -2,12 +2,12 @@
 
 exports[`Avatar scss should match default theme snapshot 1`] = `
 "/*
+ * Utilities
+ */
+/*
 * Avatar theme
 *
 */
-/*
- * Utilities
- */
 .dnb-avatar {
   --color: var(--color-pistachio);
 }
@@ -25,19 +25,12 @@ exports[`Avatar scss should match default theme snapshot 1`] = `
 
 exports[`Avatar scss should match style dependencies css 1`] = `
 "/*
-* Used for snapshot testing
-*
-*/
-/*
  * Utilities
  */
 /*
 * Avatar component
 *
 */
-/*
- * Utilities
- */
 .dnb-avatar {
   --avatar-font-size--small: var(--font-size-x-small);
   --avatar-font-size--medium: var(--font-size-basis);
@@ -174,5 +167,10 @@ exports[`Avatar scss should match style dependencies css 1`] = `
 .dnb-avatar__group--elements-left--size-x-large {
   font-size: var(--avatar-font-size-left--x-large);
   margin-left: var(--spacing-xx-small);
-}"
+}
+
+/*
+* Used for snapshot testing
+*
+*/"
 `;

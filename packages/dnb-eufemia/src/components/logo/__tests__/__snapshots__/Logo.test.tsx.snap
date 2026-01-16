@@ -50,18 +50,11 @@ exports[`Logo component should set correct Sbanken brand SVG in compact variant 
 
 exports[`Logo scss should match style dependencies css 1`] = `
 "/*
-* Used for snapshot testing
-*
-*/
-/*
  * Utilities
  */
 /*
  * Logo Component
  *
- */
-/*
- * Utilities
  */
 .dnb-logo {
   display: inline-block;
@@ -95,5 +88,10 @@ exports[`Logo scss should match style dependencies css 1`] = `
 }
 .dnb-logo svg:not(:root) {
   overflow: visible;
-}"
+}
+
+/*
+* Used for snapshot testing
+*
+*/"
 `;

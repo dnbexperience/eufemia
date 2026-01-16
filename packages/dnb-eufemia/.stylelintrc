@@ -5,7 +5,9 @@
   ],
   "plugins": ["stylelint-scss"],
   "rules": {
-    "scss/at-import-partial-extension": "always",
+    "scss/at-import-partial-extension": null,
+    "scss/at-use-no-unnamespaced": null,
+    "at-rule-disallowed-list": ["import"],
     "scss/at-mixin-argumentless-call-parentheses": "always",
     "scss/double-slash-comment-empty-line-before": null,
     "scss/at-mixin-pattern": null,

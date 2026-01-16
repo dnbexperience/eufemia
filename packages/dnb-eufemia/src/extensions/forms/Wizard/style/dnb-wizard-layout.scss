@@ -1,4 +1,4 @@
-@import '../../../../style/core/utilities.scss';
+@use '../../../../style/core/utilities.scss';
 
 .dnb-forms-wizard-layout {
   display: flex;
@@ -46,7 +46,7 @@
     }
   }
 
-  @include allBelow('medium') {
+  @include utilities.allBelow('medium') {
     flex-direction: column;
     justify-content: stretch;
     align-items: stretch;

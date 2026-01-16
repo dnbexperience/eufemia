@@ -4,7 +4,8 @@
  */
 
 @use '../../../style/elements/ui-spacing.scss';
-@import './typography-mixins.scss';
+@use './typography-mixins.scss' as *;
+@use './dnb-t.scss';
 
 @include typographySelectors() {
   --typography-h-default-font-weight: var(--font-weight-medium);
@@ -92,8 +93,6 @@ sub {
 .dnb-p {
   @include paragraphStyle();
 }
-
-@import './dnb-t.scss';
 
 // Tables
 .dnb-table {

@@ -3,6 +3,9 @@
 *
 */
 
+@use '../../../style/core/utilities.scss' as *;
+@use './table-mixins.scss' as *;
+
 @mixin tableAccordionActiveColor {
   .dnb-table__td__button-icon .dnb-icon {
     color: var(--table-accordion-icon-color--active);

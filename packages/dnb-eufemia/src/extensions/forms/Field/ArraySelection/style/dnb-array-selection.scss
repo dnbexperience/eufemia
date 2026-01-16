@@ -1,4 +1,4 @@
-@import '../../../../../style/core/utilities.scss';
+@use '../../../../../style/core/utilities.scss';
 
 .dnb-forms-field-array-selection {
   --row-gap: var(--spacing-x-small);
@@ -29,7 +29,7 @@
     row-gap: var(--row-gap); // for when wrapped
   }
 
-  @include allAbove(small) {
+  @include utilities.allAbove(small) {
     .dnb-forms-field-block--layout-horizontal .dnb-form-label {
       margin-bottom: 0;
     }

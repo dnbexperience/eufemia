@@ -3,5 +3,5 @@
 *
 */
 
-@import '../../../style/core/utilities.scss';
-@import './dnb-table.scss';
+@use '../../../style/core/utilities.scss' as *;
+@use './dnb-table.scss';

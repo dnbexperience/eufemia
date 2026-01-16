@@ -3,9 +3,9 @@
 *
 */
 
-@import '../../../../style/core/utilities.scss';
-@import '../../../button/style/themes/button-mixins.scss';
-@import '../table-mixins.scss';
+@use '../../../../style/core/utilities.scss';
+@use '../../../button/style/themes/button-mixins.scss' as *;
+@use '../table-mixins.scss' as *;
 
 @mixin tableFocusRing() {
   &::before {
@@ -63,10 +63,10 @@
       &:not(:focus) .dnb-button__text::after {
         color: var(--sb-color-violet);
       }
-      @include hover() {
+      @include utilities.hover() {
         color: var(--sb-color-violet);
       }
-      @include active() {
+      @include utilities.active() {
         color: var(--sb-color-violet);
         @include buttonFocusRing(
           'mouse',
@@ -78,7 +78,7 @@
         ); // also, make a touch ring
         @include tableFocusRing();
       }
-      @include focus() {
+      @include utilities.focus() {
         @include tableFocusRing();
         &:focus-visible {
           color: var(--sb-color-blue-dark);
@@ -94,7 +94,7 @@
   & > thead > tr > th#{&}--active,
   & &__th#{&}--active {
     .dnb-table__sort-button.dnb-button {
-      @include hover() {
+      @include utilities.hover() {
         & .dnb-button__text::after {
           color: var(--sb-color-violet);
         }
