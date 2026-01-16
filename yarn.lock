@@ -19289,6 +19289,7 @@ __metadata:
     front-matter: "npm:4.0.2"
     fs-extra: "npm:10.0.0"
     markdown-tables-to-json: "npm:0.1.7"
+    typescript: "npm:5.9.3"
   peerDependencies:
     gatsby: ">=5.0.0"
   languageName: unknown
