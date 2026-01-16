@@ -3,6 +3,13 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.94.2](https://github.com/dnbexperience/eufemia/compare/v10.94.1...v10.94.2) (2026-01-16)
+
+
+### :bug: Bug Fixes
+
+* **Bundle:** remove `exports` field to ensure running Vite builds ([#6334](https://github.com/dnbexperience/eufemia/issues/6334)) ([9ff30bc](https://github.com/dnbexperience/eufemia/commit/9ff30bcd5bfa66e5eeb10c74a986eda67cb56cc0))
+
 ## [10.94.1](https://github.com/dnbexperience/eufemia/compare/v10.94.0...v10.94.1) (2026-01-15)
 
 
