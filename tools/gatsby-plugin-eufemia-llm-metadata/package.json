@@ -6,6 +6,11 @@
   "author": "DNB Team & Tobias Høegh",
   "main": "gatsby-node.js",
   "license": "SEE LICENSE IN LICENSE FILE",
+  "scripts": {
+    "generate": "node --experimental-strip-types scripts/run-llm-metadata.ts",
+    "test": "node ../../node_modules/jest/bin/jest.js --config jest.config.js",
+    "test:types": "yarn exec tsc -p tsconfig.json --noEmit"
+  },
   "devDependencies": {
     "@babel/core": "7.26.0",
     "@babel/parser": "7.26.5",
@@ -13,7 +18,8 @@
     "@babel/plugin-transform-typescript": "7.26.8",
     "front-matter": "4.0.2",
     "fs-extra": "10.0.0",
-    "markdown-tables-to-json": "0.1.7"
+    "markdown-tables-to-json": "0.1.7",
+    "typescript": "5.9.3"
   },
   "peerDependencies": {
     "gatsby": ">=5.0.0"

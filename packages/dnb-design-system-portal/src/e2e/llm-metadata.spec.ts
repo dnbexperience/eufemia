@@ -1,4 +1,6 @@
 import { test, expect } from '@playwright/test'
+import fs from 'fs'
+import path from 'path'
 
 test.describe('LLM integration', () => {
   test('index exposes llms.txt via alternate link and is reachable', async ({
@@ -23,6 +25,9 @@ test.describe('LLM integration', () => {
     expect(body).toMatch(/GeneratedAt:\s*\d{4}-\d{2}-\d{2}T/) // ISO timestamp
     // Ensure visual-tests entries are excluded from llms.txt
     expect(body).not.toContain('/visual-tests/')
+    expect(body).not.toContain('Metadata:')
+    expect(body).not.toContain('Docs:')
+    expect(body).not.toContain('Checksum:')
   })
 
   test('component page exposes per-page metadata link and serves JSON', async ({
@@ -39,7 +44,7 @@ test.describe('LLM integration', () => {
     await expect(altJson).toHaveCount(1)
 
     const href = await altJson.getAttribute('href')
-    expect(href).toBe(`/llm${slug}metadata.json`)
+    expect(href).toBe(`${slug}metadata.json`)
 
     const res = await request.get(href)
     expect(res.ok()).toBeTruthy()
@@ -51,10 +56,48 @@ test.describe('LLM integration', () => {
     // checksum should be non-empty string
     expect(typeof json.checksum).toBe('string')
     expect((json.checksum as string).length).toBeGreaterThan(0)
+    expect(typeof json?.source?.fileUrl).toBe('string')
+    expect(typeof json?.source?.dirUrl).toBe('string')
 
     // metadata should include demos source link when present
     expect(json?.sources?.demos?.public).toContain(
       '/uilib/components/card/demos/',
     )
+
+    const mdPath = slug.replace(/\/$/, '.md')
+    const mdRes = await request.get(mdPath)
+    expect(mdRes.ok()).toBeTruthy()
+    const mdBody = await mdRes.text()
+    expect(mdBody).toContain(
+      'metadata: https://eufemia.dnb.no/uilib/components/card/metadata.json',
+    )
+    expect(mdBody).not.toContain('showTabs:')
+    expect(mdBody).not.toContain('hideTabs:')
+  })
+
+  test('known .md pages have matching html pages', async () => {
+    const mdPaths = [
+      '/uilib/components/button.md',
+      '/uilib/elements/image.md',
+      '/uilib/components/icon.md',
+    ]
+    const publicDir = path.resolve(__dirname, '..', '..', 'public')
+
+    for (const mdPath of mdPaths) {
+      const mdFile = path.join(publicDir, mdPath.replace(/^\//, ''))
+      expect(fs.existsSync(mdFile)).toBeTruthy()
+      const mdBody = fs.readFileSync(mdFile, 'utf-8')
+      expect(mdBody).toContain('metadata:')
+      expect(mdBody).toMatch(/```[a-z]*\n[\s\S]*```/)
+
+      const htmlFile = path.join(
+        publicDir,
+        mdPath.replace(/^\//, '').replace(/\.md$/, ''),
+        'index.html',
+      )
+      expect(fs.existsSync(htmlFile)).toBeTruthy()
+      const htmlBody = fs.readFileSync(htmlFile, 'utf-8')
+      expect(htmlBody.toLowerCase()).toContain('<!doctype html')
+    }
   })
 })

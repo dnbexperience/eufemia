@@ -61,7 +61,7 @@ export function HeadComponents({
             rel="alternate"
             type="application/json"
             title="Machine-readable metadata"
-            href={`/llm${
+            href={`${
               pathname.endsWith('/') ? pathname : pathname + '/'
             }metadata.json`}
           />
