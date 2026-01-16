@@ -3,6 +3,18 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.94.3](https://github.com/dnbexperience/eufemia/compare/v10.94.2...v10.94.3) (2026-01-16)
+
+
+### :memo: Documentation
+
+* **llms.txt:** add markdown files as source ([#6341](https://github.com/dnbexperience/eufemia/issues/6341)) ([3bfe222](https://github.com/dnbexperience/eufemia/commit/3bfe222980dde23349ccd59ddff2ce1e941a502d))
+
+
+### :bug: Bug Fixes
+
+* **Bundle:** prevent circular dependency ([#6342](https://github.com/dnbexperience/eufemia/issues/6342)) ([702fe82](https://github.com/dnbexperience/eufemia/commit/702fe8242b1a433ae1c2e78a5e7f735fb6f7fcdf))
+
 ## [10.94.2](https://github.com/dnbexperience/eufemia/compare/v10.94.1...v10.94.2) (2026-01-16)
 
 
