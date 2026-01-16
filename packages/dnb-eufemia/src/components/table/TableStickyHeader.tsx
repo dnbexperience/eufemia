@@ -100,7 +100,7 @@ export const useStickyHeader = ({
           if (scrollViewElem) {
             offset = scrollViewElem.scrollTop
           } else {
-            offset = window.scrollY
+            offset = window.pageYOffset
           }
 
           offset -= hasScrollbar ? offsetTopPx : totalOffset
