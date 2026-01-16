@@ -29,7 +29,7 @@ export function babelPluginIncludeDocs(
                   path.parentPath.parentPath.addComment(
                     'leading',
                     insertLeadingComment === true
-                      ? `*\n * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".\n `
+                      ? `*\n * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.ts" and "fetchPropertiesFromDocs.ts".\n `
                       : insertLeadingComment
                   )
                 )

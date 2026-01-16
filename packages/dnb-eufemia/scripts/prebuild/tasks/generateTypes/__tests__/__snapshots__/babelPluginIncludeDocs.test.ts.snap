@@ -31,6 +31,9 @@ export default class PrimaryComponent extends React.PureComponent {
 PrimaryComponent.propTypes = {
   boolean: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   number: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  /**
+   * Text \`spacing\` or \`children\`.
+  */
   spacing: PropTypes.shape({
     top: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
     right: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
@@ -41,12 +44,18 @@ PrimaryComponent.propTypes = {
   right: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
   bottom: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
   left: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+  /**
+   * Text \`secondary\`.
+  */
   secondary: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
   classProperty: PropTypes.string,
   secondary_foo: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
   secondary_spacing: PropTypes.shape({
     secondary: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool])
   }),
+  /**
+   * Text \`spacing\` or \`children\`.
+  */
   children: PropTypes.node
 };
 PrimaryComponent.defaultProps = {
@@ -67,6 +76,9 @@ const Element = () => {
 Element.propTypes = {
   boolean: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   number: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  /**
+   * Text \`spacing\` or \`children\`.
+  */
   spacing: PropTypes.shape({
     top: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
     right: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
@@ -77,11 +89,17 @@ Element.propTypes = {
   right: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
   bottom: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
   left: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+  /**
+   * Text \`secondary\`.
+  */
   secondary: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
   secondary_foo: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
   secondary_spacing: PropTypes.shape({
     secondary: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool])
   }),
+  /**
+   * Text \`spacing\` or \`children\`.
+  */
   children: PropTypes.node
 };
 Element.defaultProps = {
@@ -125,6 +143,9 @@ export default class PrimaryComponent extends React.PureComponent {
 PrimaryComponent.propTypes = {
   boolean: PropTypes.bool,
   number: PropTypes.number,
+  /**
+   * Text \`spacing\` or \`children\`.
+  */
   spacing: PropTypes.shape({
     top: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
     right: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
@@ -135,12 +156,18 @@ PrimaryComponent.propTypes = {
   right: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
   bottom: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
   left: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+  /**
+   * Text \`secondary\`.
+  */
   secondary: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
   classProperty: PropTypes.string,
   secondary_foo: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
   secondary_spacing: PropTypes.shape({
     secondary: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool])
   }),
+  /**
+   * Text \`spacing\` or \`children\`.
+  */
   children: PropTypes.node
 };
 PrimaryComponent.defaultProps = {
@@ -161,6 +188,9 @@ const Element = () => {
 Element.propTypes = {
   boolean: PropTypes.bool,
   number: PropTypes.number,
+  /**
+   * Text \`spacing\` or \`children\`.
+  */
   spacing: PropTypes.shape({
     top: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
     right: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
@@ -171,11 +201,17 @@ Element.propTypes = {
   right: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
   bottom: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
   left: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+  /**
+   * Text \`secondary\`.
+  */
   secondary: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
   secondary_foo: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
   secondary_spacing: PropTypes.shape({
     secondary: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool])
   }),
+  /**
+   * Text \`spacing\` or \`children\`.
+  */
   children: PropTypes.node
 };
 Element.defaultProps = {
@@ -219,6 +255,9 @@ export default class PrimaryComponent extends React.PureComponent {
 PrimaryComponent.propTypes = {
   boolean: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   number: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  /**
+   * Text \`spacing\` or \`children\`.
+  */
   spacing: PropTypes.shape({
     top: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
     right: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
@@ -229,12 +268,18 @@ PrimaryComponent.propTypes = {
   right: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
   bottom: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
   left: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+  /**
+   * Text \`secondary\`.
+  */
   secondary: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
   classProperty: PropTypes.string,
   secondary_foo: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
   secondary_spacing: PropTypes.shape({
     secondary: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool])
   }),
+  /**
+   * Text \`spacing\` or \`children\`.
+  */
   children: PropTypes.node
 };
 PrimaryComponent.defaultProps = {
@@ -255,6 +300,9 @@ const Element = () => {
 Element.propTypes = {
   boolean: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   number: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  /**
+   * Text \`spacing\` or \`children\`.
+  */
   spacing: PropTypes.shape({
     top: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
     right: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
@@ -265,11 +313,17 @@ Element.propTypes = {
   right: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
   bottom: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
   left: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+  /**
+   * Text \`secondary\`.
+  */
   secondary: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
   secondary_foo: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
   secondary_spacing: PropTypes.shape({
     secondary: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool])
   }),
+  /**
+   * Text \`spacing\` or \`children\`.
+  */
   children: PropTypes.node
 };
 Element.defaultProps = {
@@ -312,7 +366,10 @@ exports[`babelPluginIncludeDocs has to match collectProps snapshot given by onCo
 
 exports[`babelPluginIncludeDocs has to match docs snapshot 1`] = `
 [
-  null,
-  null,
+  {
+    "children": "Text \`spacing\` or \`children\`.",
+    "secondary": "Text \`secondary\`.",
+    "spacing": "Text \`spacing\` or \`children\`.",
+  },
 ]
 `;

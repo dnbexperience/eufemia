@@ -23,6 +23,26 @@ const MDX_ROOT_DIR = path.resolve(
   'src/docs/uilib'
 )
 
+export type FetchPropertiesOptions = {
+  file?: string
+  tsDocsDir?: string
+  mdxDocsDir?: string
+  findMdxFiles?: string[]
+  findTsFiles?: string[]
+}
+
+type ExtractPathPartsOptions = {
+  file: string
+}
+
+type ExtractorFactoryOptions = {
+  tsDocsFiles?: Array<{ file: string }>
+  mdxDocsFiles: Array<{ file: string }>
+  mdxDocsDir?: string
+  componentName: string
+  unsureSituation?: boolean
+}
+
 /**
  * Splits a component file path in different groups,
  * we use these groups later on
@@ -31,7 +51,7 @@ const MDX_ROOT_DIR = path.resolve(
  * componentDir: button or anchor or step-indicator
  * componentName: Button or Anchor or StepIndicator
  */
-function extractPathParts({ file }) {
+function extractPathParts({ file }: ExtractPathPartsOptions) {
   const basename = path.basename(file)
   const componentName = toPascalCase(
     toSnakeCase(basename.replace(path.extname(file), ''))
@@ -76,15 +96,16 @@ export async function fetchPropertiesFromDocs({
   mdxDocsDir = MDX_ROOT_DIR, // The dir, where the MDX docs are placed
   findMdxFiles = ['properties.mdx', 'events.mdx'], // type of .mdx files to look for
   findTsFiles = ['{componentName}Docs.ts'], // type of .ts files to look for
-} = {}) {
+}: FetchPropertiesOptions = {}) {
   if (process.env.NODE_ENV !== 'test') {
     log.start('> PrePublish: generating docs for types')
   }
 
   try {
+    const componentFilePath = file as string
     const { groupDir, componentDir, componentName, unsureSituation } =
       extractPathParts({
-        file,
+        file: componentFilePath,
       })
 
     const tsDocsFiles = findTsFiles
@@ -102,11 +123,11 @@ export async function fetchPropertiesFromDocs({
         }
 
         // try without componentDir
-        if (!fs.existsSync(file)) {
+        if (!fs.existsSync(componentFilePath)) {
           return path.resolve(tsDocsDir, groupDir, filename)
         }
         // and try without groupDir as well
-        if (!fs.existsSync(file)) {
+        if (!fs.existsSync(componentFilePath)) {
           return path.resolve(tsDocsDir, filename)
         }
       })
@@ -151,7 +172,7 @@ async function extractorFactory({
   mdxDocsDir = MDX_ROOT_DIR,
   componentName,
   unsureSituation = false,
-}) {
+}: ExtractorFactoryOptions) {
   const collections = await asyncForEach(
     mdxDocsFiles,
     async ({ file }) => {
@@ -288,7 +309,7 @@ async function extractorFactory({
 
   if (tsDocsFiles?.length > 0) {
     const tsDocs = await asyncForEach(tsDocsFiles, async ({ file }) => {
-      const content = await require(file)
+      const content = (await import(file)) as any
       const collection = Object.entries(content).reduce(
         (acc, [key, value]) => {
           if (key.includes('Properties') || key.includes('Events')) {
