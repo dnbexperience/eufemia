@@ -47,7 +47,7 @@
   "source": {
     "repo": "https://github.com/dnbexperience/eufemia",
     "file": "packages/dnb-eufemia/src/components/copy-on-click/CopyOnClick.tsx",
-    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.94.1/packages/dnb-eufemia/src/components/copy-on-click/CopyOnClick.tsx"
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.94.2/packages/dnb-eufemia/src/components/copy-on-click/CopyOnClick.tsx"
   },
   "sources": {
     "entry": {
@@ -64,7 +64,7 @@
       "public": "https://eufemia.dnb.no/uilib/components/copy-on-click/demos/"
     }
   },
-  "version": "10.94.1",
-  "generatedAt": "2026-01-15T18:56:38.899Z",
+  "version": "10.94.2",
+  "generatedAt": "2026-01-16T11:24:56.260Z",
   "schemaVersion": 1
 }

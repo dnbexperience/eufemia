@@ -40,7 +40,7 @@
   "source": {
     "repo": "https://github.com/dnbexperience/eufemia",
     "file": "packages/dnb-eufemia/src/components/term-definition/TermDefinition.tsx",
-    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.94.1/packages/dnb-eufemia/src/components/term-definition/TermDefinition.tsx"
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.94.2/packages/dnb-eufemia/src/components/term-definition/TermDefinition.tsx"
   },
   "sources": {
     "entry": {
@@ -57,7 +57,7 @@
       "public": "https://eufemia.dnb.no/uilib/components/term-definition/demos/"
     }
   },
-  "version": "10.94.1",
-  "generatedAt": "2026-01-15T18:56:39.241Z",
+  "version": "10.94.2",
+  "generatedAt": "2026-01-16T11:24:56.576Z",
   "schemaVersion": 1
 }

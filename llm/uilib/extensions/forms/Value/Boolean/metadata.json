@@ -26,7 +26,7 @@
   "source": {
     "repo": "https://github.com/dnbexperience/eufemia",
     "file": "packages/dnb-eufemia/src/extensions/forms/Value/Boolean/Boolean.tsx",
-    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.94.1/packages/dnb-eufemia/src/extensions/forms/Value/Boolean/Boolean.tsx"
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.94.2/packages/dnb-eufemia/src/extensions/forms/Value/Boolean/Boolean.tsx"
   },
   "sources": {
     "entry": {
@@ -43,7 +43,7 @@
       "public": "https://eufemia.dnb.no/uilib/extensions/forms/Value/Boolean/demos/"
     }
   },
-  "version": "10.94.1",
-  "generatedAt": "2026-01-15T18:56:39.790Z",
+  "version": "10.94.2",
+  "generatedAt": "2026-01-16T11:24:56.954Z",
   "schemaVersion": 1
 }

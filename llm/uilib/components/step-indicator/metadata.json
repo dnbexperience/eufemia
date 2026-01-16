@@ -186,7 +186,7 @@
   "source": {
     "repo": "https://github.com/dnbexperience/eufemia",
     "file": "packages/dnb-eufemia/src/components/step-indicator/StepIndicator.tsx",
-    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.94.1/packages/dnb-eufemia/src/components/step-indicator/StepIndicator.tsx"
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.94.2/packages/dnb-eufemia/src/components/step-indicator/StepIndicator.tsx"
   },
   "sources": {
     "entry": {
@@ -206,7 +206,7 @@
       "public": "https://eufemia.dnb.no/uilib/components/step-indicator/demos/"
     }
   },
-  "version": "10.94.1",
-  "generatedAt": "2026-01-15T18:56:39.197Z",
+  "version": "10.94.2",
+  "generatedAt": "2026-01-16T11:24:56.543Z",
   "schemaVersion": 1
 }

@@ -26,7 +26,7 @@
   "source": {
     "repo": "https://github.com/dnbexperience/eufemia",
     "file": "packages/dnb-eufemia/src/extensions/forms/Value/PostalCodeAndCity/PostalCodeAndCity.tsx",
-    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.94.1/packages/dnb-eufemia/src/extensions/forms/Value/PostalCodeAndCity/PostalCodeAndCity.tsx"
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.94.2/packages/dnb-eufemia/src/extensions/forms/Value/PostalCodeAndCity/PostalCodeAndCity.tsx"
   },
   "sources": {
     "entry": {
@@ -43,7 +43,7 @@
       "public": "https://eufemia.dnb.no/uilib/extensions/forms/Value/PostalCodeAndCity/demos/"
     }
   },
-  "version": "10.94.1",
-  "generatedAt": "2026-01-15T18:56:39.855Z",
+  "version": "10.94.2",
+  "generatedAt": "2026-01-16T11:24:57.013Z",
   "schemaVersion": 1
 }

@@ -29,7 +29,7 @@
   "source": {
     "repo": "https://github.com/dnbexperience/eufemia",
     "file": "packages/dnb-eufemia/src/extensions/forms/Form/SubmitButton/SubmitButton.tsx",
-    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.94.1/packages/dnb-eufemia/src/extensions/forms/Form/SubmitButton/SubmitButton.tsx"
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.94.2/packages/dnb-eufemia/src/extensions/forms/Form/SubmitButton/SubmitButton.tsx"
   },
   "sources": {
     "entry": {
@@ -46,7 +46,7 @@
       "public": "https://eufemia.dnb.no/uilib/extensions/forms/Form/SubmitButton/demos/"
     }
   },
-  "version": "10.94.1",
-  "generatedAt": "2026-01-15T18:56:39.558Z",
+  "version": "10.94.2",
+  "generatedAt": "2026-01-16T11:24:56.824Z",
   "schemaVersion": 1
 }

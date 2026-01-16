@@ -11,7 +11,7 @@
   "source": {
     "repo": "https://github.com/dnbexperience/eufemia",
     "file": "packages/dnb-eufemia/src/extensions/index.ts",
-    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.94.1/packages/dnb-eufemia/src/extensions/index.ts"
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.94.2/packages/dnb-eufemia/src/extensions/index.ts"
   },
   "sources": {
     "entry": {
@@ -22,7 +22,7 @@
     "events": null,
     "demos": null
   },
-  "version": "10.94.1",
-  "generatedAt": "2026-01-15T18:56:40.041Z",
+  "version": "10.94.2",
+  "generatedAt": "2026-01-16T11:24:57.201Z",
   "schemaVersion": 1
 }

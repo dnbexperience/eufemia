@@ -142,7 +142,7 @@
   "source": {
     "repo": "https://github.com/dnbexperience/eufemia",
     "file": "packages/dnb-eufemia/src/components/heading/Heading.tsx",
-    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.94.1/packages/dnb-eufemia/src/components/heading/Heading.tsx"
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.94.2/packages/dnb-eufemia/src/components/heading/Heading.tsx"
   },
   "sources": {
     "entry": {
@@ -159,7 +159,7 @@
       "public": "https://eufemia.dnb.no/uilib/components/heading/demos/"
     }
   },
-  "version": "10.94.1",
-  "generatedAt": "2026-01-15T18:56:38.998Z",
+  "version": "10.94.2",
+  "generatedAt": "2026-01-16T11:24:56.354Z",
   "schemaVersion": 1
 }

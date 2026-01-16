@@ -335,7 +335,7 @@
   "source": {
     "repo": "https://github.com/dnbexperience/eufemia",
     "file": "packages/dnb-eufemia/src/components/popover/Popover.tsx",
-    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.94.1/packages/dnb-eufemia/src/components/popover/Popover.tsx"
+    "permalink": "https://github.com/dnbexperience/eufemia/blob/v10.94.2/packages/dnb-eufemia/src/components/popover/Popover.tsx"
   },
   "sources": {
     "entry": {
@@ -355,7 +355,7 @@
       "public": "https://eufemia.dnb.no/uilib/components/popover/demos/"
     }
   },
-  "version": "10.94.1",
-  "generatedAt": "2026-01-15T18:56:39.142Z",
+  "version": "10.94.2",
+  "generatedAt": "2026-01-16T11:24:56.480Z",
   "schemaVersion": 1
 }
