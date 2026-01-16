@@ -13,7 +13,10 @@ import { log } from '../../lib'
 import { generateFromSource } from 'react-to-typescript-definitions'
 import { transformFileAsync, transformAsync } from '@babel/core'
 
-import { fetchPropertiesFromDocs } from './generateTypes/fetchPropertiesFromDocs'
+import {
+  fetchPropertiesFromDocs,
+  type FetchPropertiesOptions,
+} from './generateTypes/fetchPropertiesFromDocs'
 import {
   babelPluginConfigDefaults,
   babelPluginDefaultPlugins,
@@ -24,6 +27,14 @@ import { babelPluginIncludeDocs } from './generateTypes/babelPluginIncludeDocs'
 import { babelPluginPropTypesRelations } from './generateTypes/babelPluginPropTypesRelations'
 
 const sharedProps = ['space', 'top', 'left', 'bottom', 'right']
+
+type GenerateTypesOptions = {
+  paths?: string[]
+}
+
+type CreateTypesOptions = {
+  isTest?: boolean
+} & Omit<FetchPropertiesOptions, 'file'>
 
 export default async function generateTypes({
   paths = [
@@ -36,13 +47,13 @@ export default async function generateTypes({
     '!./src/umd/',
     '!./src/style/',
   ],
-} = {}) {
+}: GenerateTypesOptions = {}) {
   if (process.env.NODE_ENV !== 'test') {
     log.start('> PrePublish: generating types')
   }
 
   try {
-    const files = await globby(paths)
+    const files = (await globby(paths)) as string[]
     await createTypes(files)
 
     log.succeed(`> PrePublish: Converting "types" is done`)
@@ -53,8 +64,8 @@ export default async function generateTypes({
 }
 
 export const createTypes = async (
-  listOfAllFiles,
-  { isTest = false, ...opts } = {}
+  listOfAllFiles: string[],
+  { isTest = false, ...opts }: CreateTypesOptions = {}
 ) => {
   try {
     const prettierrc = await fs.readJSON(
@@ -71,7 +82,7 @@ export const createTypes = async (
       }
     })
 
-    return await asyncForEach(listOfAllFiles, async (file) => {
+    return await asyncForEach(listOfAllFiles, async (file: string) => {
       if (!isTest && file.includes('__tests__')) {
         return // stop here
       }
@@ -101,7 +112,10 @@ export const createTypes = async (
         return // stop here
       }
 
-      const warnAboutMissingPropTypes = (collectProps, docs) => {
+      const warnAboutMissingPropTypes = (
+        collectProps: string[],
+        docs?: Array<Record<string, string>>
+      ) => {
         if (docs) {
           docs.forEach((doc) => {
             if (doc) {
@@ -125,7 +139,7 @@ export const createTypes = async (
       ) {
         const { docs, unsureSituation } = await fetchPropertiesFromDocs({
           file,
-          ...opts,
+          ...(opts as Omit<FetchPropertiesOptions, 'file'>),
         })
 
         let definitionContent
@@ -239,10 +253,10 @@ export const createTypes = async (
   }
 }
 
-const fileContains = async (file, find) =>
+const fileContains = async (file: string, find: string) =>
   (await fs.readFile(file, 'utf-8')).includes(find)
 
-function existsInGit(destFile) {
+function existsInGit(destFile: string) {
   return new Promise((resolve, reject) => {
     try {
       exec(`git show HEAD~1:${destFile}`, (error, stdout, stderr) =>

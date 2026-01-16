@@ -4,9 +4,13 @@ import { parse } from '@babel/parser'
 import traverse from '@babel/traverse'
 import { babylonConfigDefaults } from './babelPluginConfigDefaults'
 
-export function babelPluginExtendTypes(babel, { file } = {}) {
-  const basename = nodePath.basename(file)
-  const componentName = basename.replace(nodePath.extname(file), '')
+export function babelPluginExtendTypes(
+  babel: any,
+  { file }: { file?: string } = {}
+) {
+  const filePath = file as string
+  const basename = nodePath.basename(filePath)
+  const componentName = basename.replace(nodePath.extname(filePath), '')
 
   const { types: t } = babel
 
@@ -14,7 +18,7 @@ export function babelPluginExtendTypes(babel, { file } = {}) {
     if (
       path.node?.body?.type === 'ClassBody' &&
       hasClassProperty({
-        file,
+        file: filePath,
         componentName,
         property: 'defaultProps',
       })
@@ -76,12 +80,13 @@ export function babelPluginExtendTypes(babel, { file } = {}) {
         handleDefaultPropsProperty(path)
       },
       ExportDefaultDeclaration(path) {
-        if (path.node.declaration.type === 'ClassDeclaration') {
+        const declaration = path.node.declaration
+        if (declaration.type === 'ClassDeclaration') {
           // Class components
           handleMainInterfaceProps(path)
-        } else if (path.node.declaration.type === 'Identifier') {
+        } else if (declaration.type === 'Identifier') {
           // Function components
-          const name = path.node.declaration.name
+          const name = declaration.name
 
           root.traverse({
             VariableDeclarator(path) {
@@ -111,7 +116,9 @@ export function babelPluginExtendTypes(babel, { file } = {}) {
           return exists
         }
 
-        const classProperties = getListOfClassProperties({ file })
+        const classProperties = getListOfClassProperties({
+          file: filePath,
+        })
 
         if (classProperties) {
           classProperties.forEach(
@@ -153,7 +160,19 @@ export function babelPluginExtendTypes(babel, { file } = {}) {
   }
 }
 
-function inertClassProperty({ t, path, property, value, type }) {
+function inertClassProperty({
+  t,
+  path,
+  property,
+  value = null,
+  type,
+}: {
+  t: any
+  path: any
+  property: string
+  value?: string | null
+  type?: string
+}) {
   path.node.body?.body?.unshift(
     t.classProperty(
       t.identifier(property),
@@ -168,17 +187,25 @@ function inertClassProperty({ t, path, property, value, type }) {
   )
 }
 
-function hasClassProperty({ file, componentName, property }) {
+function hasClassProperty({
+  file,
+  componentName,
+  property,
+}: {
+  file: string
+  componentName: string
+  property: string
+}) {
   let exists = false
 
   const code = fs.readFileSync(nodePath.resolve(file), 'utf-8')
-  const ast = parse(code, babylonConfigDefaults)
+  const ast = parse(code, babylonConfigDefaults as any)
 
-  traverse(ast, {
-    ClassDeclaration(path) {
+  traverse(ast as any, {
+    ClassDeclaration(path: any) {
       if (componentName.includes(path.node.id.name)) {
         path.traverse({
-          ClassProperty(path) {
+          ClassProperty(path: any) {
             if (
               path.isClassProperty({ static: true }) &&
               path.node.key.name === property
@@ -194,34 +221,34 @@ function hasClassProperty({ file, componentName, property }) {
   return exists
 }
 
-function getListOfClassProperties({ file }) {
+function getListOfClassProperties({ file }: { file: string }) {
   const results = []
   const listOfImportDeclaration = []
 
   const code = fs.readFileSync(nodePath.resolve(file), 'utf-8')
-  const ast = parse(code, babylonConfigDefaults)
+  const ast = parse(code, babylonConfigDefaults as any)
 
-  traverse(ast, {
-    ImportDeclaration(path) {
+  traverse(ast as any, {
+    ImportDeclaration(path: any) {
       listOfImportDeclaration.push(path)
     },
-    ClassDeclaration(path) {
-      const className = path.node.id.name
+    ClassDeclaration(path: any) {
+      const className = (path.node.id as any).name
 
       if (path.parentPath.isExportDefaultDeclaration()) {
         path.traverse({
-          ClassProperty(path) {
-            const keyName = path.node.key.name
-            const valueName = path.node.value.name
+          ClassProperty(path: any) {
+            const keyName = (path.node.key as any).name
+            const valueName = (path.node.value as any).name
 
             if (
               path.isClassProperty({ static: true }) &&
               /^[A-Z]/.test(keyName) &&
               /^[A-Z]/.test(valueName)
             ) {
-              listOfImportDeclaration.forEach((path) => {
+              listOfImportDeclaration.forEach((path: any) => {
                 path.traverse({
-                  Identifier(path) {
+                  Identifier(path: any) {
                     if (path.isIdentifier({ name: valueName })) {
                       const sourceFile =
                         path.parentPath.parentPath.node.source.value

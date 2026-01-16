@@ -4,11 +4,22 @@ import { parse } from '@babel/parser'
 import traverse from '@babel/traverse'
 import { babylonConfigDefaults } from './babelPluginConfigDefaults'
 
-export function babelPluginPropTypesRelations(babel, { sourceDir }) {
+export function babelPluginPropTypesRelations(
+  babel: any,
+  { sourceDir }: { sourceDir: string }
+) {
   const { types: t } = babel
   const cloneNode = t.cloneNode || t.cloneDeep
 
-  const handleDeclarationRelation = ({ ast, path, targetPath }) => {
+  const handleDeclarationRelation = ({
+    ast,
+    path,
+    targetPath,
+  }: {
+    ast?: any
+    path: any
+    targetPath: any
+  }) => {
     if (targetPath?.parentPath?.isSpreadElement()) {
       const multireplaceList = []
       const existingPropKeys =
@@ -19,7 +30,7 @@ export function babelPluginPropTypesRelations(babel, { sourceDir }) {
           return acc
         }, {}) || {}
 
-      const addToMultireplaceList = (path) => {
+      const addToMultireplaceList = (path: any) => {
         const hash = path.node.key.name
         if (!existingPropKeys[hash]) {
           existingPropKeys[hash] = true
@@ -41,10 +52,10 @@ export function babelPluginPropTypesRelations(babel, { sourceDir }) {
            * 2. Icon.js has: iconPropTypes, which has again: {...spacingPropTypes, ...}
            * 3. Follow SpacingHelper.js to grab spacingPropTypes
            */
-          SpreadElement(path) {
+          SpreadElement(path: any) {
             let targetRoot = null
-            traverse(ast, {
-              Program(path) {
+            traverse(ast as any, {
+              Program(path: any) {
                 targetRoot = path
               },
             })
@@ -56,7 +67,7 @@ export function babelPluginPropTypesRelations(babel, { sourceDir }) {
 
             if (foundPath) {
               foundPath.traverse({
-                ObjectProperty(path) {
+                ObjectProperty(path: any) {
                   addToMultireplaceList(path)
                 },
               })
@@ -68,7 +79,7 @@ export function babelPluginPropTypesRelations(babel, { sourceDir }) {
            * 1. When parsing IconPrimary.js follow iconPropTypes from inside Icon.js
            * 2. Get all Icon.js "iconPropTypes" properties
            */
-          ObjectProperty(path) {
+          ObjectProperty(path: any) {
             addToMultireplaceList(path)
           },
         })
@@ -91,20 +102,20 @@ export function babelPluginPropTypesRelations(babel, { sourceDir }) {
           path.parent?.init?.properties
         ) {
           path.parentPath.traverse({
-            SpreadElement(path) {
+            SpreadElement(path: any) {
               const { foundPath } = findDeclarationRelation({
                 targetPath: { node: path.node.argument },
               })
 
               if (foundPath) {
                 foundPath.parentPath.traverse({
-                  ObjectProperty(path) {
+                  ObjectProperty(path: any) {
                     addToMultireplaceList(path)
                   },
                 })
               }
             },
-            ObjectProperty(path) {
+            ObjectProperty(path: any) {
               if (path.node?.value?.type === 'Identifier') {
                 const { foundPath } = findDeclarationRelation({
                   targetPath: { node: path.node.value },
@@ -146,12 +157,16 @@ export function babelPluginPropTypesRelations(babel, { sourceDir }) {
     targetRoot = root,
     targetPath,
     propertyName = null,
+  }: {
+    targetRoot?: any
+    targetPath: any
+    propertyName?: string | null
   }) => {
     let foundPath = null
     let ast = null
 
     targetRoot.traverse({
-      Identifier(path) {
+      Identifier(path: any) {
         const name = targetPath.node.name
 
         if (path.isIdentifier({ name })) {
@@ -170,12 +185,12 @@ export function babelPluginPropTypesRelations(babel, { sourceDir }) {
               nodePath.resolve(sourceDir, sourceFile + '.js'),
               'utf-8'
             )
-            ast = parse(code, babylonConfigDefaults)
+            ast = parse(code, babylonConfigDefaults as any)
 
             if (path.parentPath.isImportSpecifier()) {
               const importName = path.parentPath.node.imported.name
-              traverse(ast, {
-                VariableDeclarator(path) {
+              traverse(ast as any, {
+                VariableDeclarator(path: any) {
                   if (path.node.id.name === importName) {
                     selectedObjectExpression = path
                     path.stop()
@@ -185,14 +200,14 @@ export function babelPluginPropTypesRelations(babel, { sourceDir }) {
             }
 
             if (path.parentPath.isImportDefaultSpecifier()) {
-              traverse(ast, {
-                ExportDefaultDeclaration(exportPath) {
+              traverse(ast as any, {
+                ExportDefaultDeclaration(exportPath: any) {
+                  const declaration = exportPath.node.declaration as any
                   const exportDeclarationName =
-                    exportPath.node.declaration?.id?.name ||
-                    exportPath.node.declaration.name
+                    declaration?.id?.name || declaration?.name
 
-                  traverse(ast, {
-                    MemberExpression(path) {
+                  traverse(ast as any, {
+                    MemberExpression(path: any) {
                       // Find Button.propTypes = "AssignmentExpression"
                       if (
                         path.node.property.name === propertyName &&
@@ -203,7 +218,7 @@ export function babelPluginPropTypesRelations(babel, { sourceDir }) {
                           path.parent.right.type === 'ObjectExpression'
                         ) {
                           path.parentPath.traverse({
-                            ObjectExpression(path) {
+                            ObjectExpression(path: any) {
                               selectedObjectExpression = path
                             },
                           })
@@ -215,7 +230,7 @@ export function babelPluginPropTypesRelations(babel, { sourceDir }) {
                     },
 
                     // Find const someNameToProps = {}
-                    Identifier(path) {
+                    Identifier(path: any) {
                       if (
                         path.node.name === exportDeclarationName &&
                         path.parent.type === 'VariableDeclarator'
@@ -226,11 +241,10 @@ export function babelPluginPropTypesRelations(babel, { sourceDir }) {
                     },
 
                     // Find class { strict propTypes = {} }
-                    ClassProperty(path) {
+                    ClassProperty(path: any) {
                       if (
-                        exportPath.node.declaration.type ===
-                          'ClassDeclaration' &&
-                        path.parentPath.parentPath.node?.id.name ===
+                        declaration.type === 'ClassDeclaration' &&
+                        path.parentPath.parentPath.node?.id?.name ===
                           exportDeclarationName &&
                         path.node.key.name === propertyName
                       ) {
@@ -261,15 +275,15 @@ export function babelPluginPropTypesRelations(babel, { sourceDir }) {
     return { foundPath, ast }
   }
 
-  let root
+  let root: any
 
   return {
     visitor: {
-      Program(path) {
+      Program(path: any) {
         root = path
       },
 
-      Identifier(path) {
+      Identifier(path: any) {
         /**
          * Iterate over every propTypes object properties,
          * and extend them, we they need to.
@@ -280,9 +294,9 @@ export function babelPluginPropTypesRelations(babel, { sourceDir }) {
             path.node.name === 'defaultProps')
         ) {
           path.parentPath.parentPath.traverse({
-            ObjectExpression(path) {
+            ObjectExpression(path: any) {
               path.traverse({
-                Identifier(path) {
+                Identifier(path: any) {
                   let targetPath = null
 
                   /**

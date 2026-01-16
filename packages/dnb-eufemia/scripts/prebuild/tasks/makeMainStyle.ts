@@ -8,9 +8,11 @@ import sass from 'sass'
 import clone from 'gulp-clone'
 import rename from 'gulp-rename'
 import transform from 'gulp-transform'
+import { log } from '../../lib'
+import globby from 'globby'
+import { asyncForEach } from '../../tools/index'
 import packpath from 'packpath'
 import { PassThrough, finished } from 'stream'
-import { log } from '../../lib'
 import {
   transformSass,
   transformPaths,
@@ -27,7 +29,7 @@ import postcssConfig from '../config/postcssConfig'
 
 const ROOT_DIR = packpath.self()
 
-const mergeStreams = (...streams) => {
+const mergeStreams = (...streams: Array<NodeJS.ReadWriteStream>) => {
   const output = new PassThrough({ objectMode: true })
   let remaining = streams.length
 
@@ -54,40 +56,48 @@ const mergeStreams = (...streams) => {
   return output
 }
 
-export default async function makeLibStyles() {
-  log.info('> PrePublish: converting sass to css')
+export default async function makeMainStyle() {
+  // info: use this approach to process files because:
+  // this way we avoid cross "includePaths" and the result is:
+  // Now a custom theme can overwrite existing CSS Custom Properties
+  const listWithThemesToProcess = await globby(
+    './src/style/themes/theme-*/*-theme-*.scss'
+  )
+  await asyncForEach(listWithThemesToProcess, async (themeFile) => {
+    // in order to keep the folder structure, we have to add these asterisks
+    themeFile = themeFile.replace('/style/themes/', '/style/**/themes/')
+    await runFactory(themeFile)
+  })
 
-  try {
-    await runFactory('./src/components/**/style/**/dnb-*.scss')
-    await runFactory('./src/extensions/**/style/**/dnb-*.scss')
-    log.succeed(
-      `> PrePublish: "makeLibStyles" converting sass to css done`
-    )
-  } catch (e) {
-    throw new Error(e)
-  }
+  const listWithPackagesToProcess = await globby(
+    './src/style/**/*-ui-*.scss'
+  )
+  await asyncForEach(listWithPackagesToProcess, async (packageFile) => {
+    // in order to keep the folder structure, we have to add these asterisks
+    packageFile = packageFile.replace('/style/', '/style/**/')
+    await runFactory(packageFile)
+  })
+
+  log.succeed(
+    '> PrePublish: "makeMainStyle" transforming style modules done'
+  )
+}
+
+type RunFactoryOptions = {
+  returnResult?: boolean
+  returnFiles?: boolean
 }
 
 export const runFactory = (
-  src,
-  { returnResult = false, returnFiles = false } = {}
+  src: string,
+  { returnResult = false, returnFiles = false }: RunFactoryOptions = {}
 ) =>
-  new Promise((resolve, reject) => {
-    log.start(`> PrePublish: converting sass to css | ${src}`)
+  new Promise<string[] | undefined>((resolve, reject) => {
+    log.start('> PrePublish: transforming main style')
 
     try {
-      // do not use 'node-sass-json-importer' here! Every file needs the same core imports over and over again.
-
-      const dest = src.replace('./src/', '').split('/**/')[0]
-      const files = [
-        src,
-        '!**/__tests__/**',
-        '!**/stories/**',
-        '!**/*_not_in_use*/**/*',
-      ]
-
       const source = gulp
-        .src(files, {
+        .src(src, {
           cwd: ROOT_DIR,
         })
         .pipe(transform('utf8', transformSass()))
@@ -95,12 +105,6 @@ export const runFactory = (
           rename({
             extname: '.css',
           })
-        )
-        .pipe(
-          transform(
-            'utf8',
-            transformPaths('../../../../assets/', '../../../assets/')
-          )
         )
 
       const base = source
@@ -127,11 +131,11 @@ export const runFactory = (
                   {
                     plugins: [
                       postcssIsolatePlugin({
-                        verbose: false,
+                        verbose: true,
                       }),
                       postcssFontUrlRewritePlugin({
                         basePath: getFontBasePath(),
-                        verbose: false,
+                        verbose: true,
                       }),
                     ],
                   }
@@ -159,10 +163,7 @@ export const runFactory = (
 
       const collector = stream
         .pipe(
-          transform(
-            'utf8',
-            transformPaths('../../../../assets/', '../../../assets/')
-          )
+          transform('utf8', transformPaths('../../assets/', '../assets/'))
         )
         .pipe(
           returnResult || returnFiles
@@ -170,7 +171,7 @@ export const runFactory = (
                 collectedEntries.push({ path: file.path, result })
                 return result
               })
-            : gulp.dest(`./build/${dest}/`, {
+            : gulp.dest('./build/style', {
                 cwd: ROOT_DIR,
               })
         )
@@ -188,7 +189,7 @@ export const runFactory = (
             }
             return
           }
-          resolve()
+          resolve(undefined)
         })
         .on('error', reject)
 
@@ -196,7 +197,6 @@ export const runFactory = (
         collector.on('data', () => {})
       }
     } catch (e) {
-      console.debug('reject', e)
       reject(e)
     }
   })
