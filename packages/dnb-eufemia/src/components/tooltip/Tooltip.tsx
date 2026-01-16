@@ -20,7 +20,7 @@ import {
 } from './TooltipHelpers'
 import { TooltipAllProps } from './types'
 import { TooltipContext } from './TooltipContext'
-import { getRefElement } from '../Popover'
+import getRefElement from '../../shared/internal/getRefElement'
 
 function Tooltip(localProps: TooltipAllProps) {
   const context = useContext(Context)
@@ -118,8 +118,11 @@ function useTooltipTarget(
     }
 
     const resolved =
-      getTargetElement(getRefElement(source)) ||
-      (typeof source === 'string' ? null : source)
+      getTargetElement(
+        typeof source === 'string'
+          ? source
+          : getRefElement(source as React.RefObject<unknown>)
+      ) || (typeof source === 'string' ? null : source)
 
     setTarget(resolved as HTMLElement | React.ReactElement | null)
   }, [source])

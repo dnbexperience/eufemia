@@ -73,6 +73,9 @@ jobs:
       - name: Run tests
         run: yarn workspace @dnb/eufemia test:ci && yarn workspace dnb-design-system-portal test:ci
 
+      - name: Run dependency checks
+        run: yarn workspace @dnb/eufemia test:deps
+
       - name: Slack
         uses: 8398a7/action-slack@v3
         with:
