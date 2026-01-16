@@ -24,9 +24,14 @@ export default async function prepareForRelease() {
 
   // Ensure module type
   packageJson.type = 'module'
-  packageJson.exports = await buildExportsMap({
-    buildDir: path.resolve(packpath.self(), 'build'),
-  })
+
+  // Build exports map
+  // TODO: In future we may enable it, or find a better solution.
+  // Bundlers do not support an array of export targets yet, so we skip this for now.
+  // But at the time of writing we could not confirm a speed improvement by bundlers. So what are the benefits at the end? (only silent CJS fallback?)
+  // packageJson.exports = await buildExportsMap({
+  //   buildDir: path.resolve(packpath.self(), 'build'),
+  // })
 
   const prettierrc = JSON.parse(
     await fs.readFile(
@@ -57,7 +62,7 @@ export async function cleanupPackage({ packageString }) {
   return packageJson
 }
 
-async function buildExportsMap({ buildDir }) {
+export async function buildExportsMap({ buildDir }) {
   const exportsMap = {
     '.': {
       types: './index.d.ts',
