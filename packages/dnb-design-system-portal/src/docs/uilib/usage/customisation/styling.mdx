@@ -177,17 +177,17 @@ You can import the pre-generated `properties-tailwind.css` files that contain al
 @layer eufemia, theme, utilities;
 
 /* Import Eufemia styles */
-@import '@dnb/eufemia/style/dnb-ui-core.min.css' layer(eufemia);
-@import '@dnb/eufemia/style/themes/theme-ui/ui-theme-components.min.css'
+@use '@dnb/eufemia/style/dnb-ui-core.min.css' layer(eufemia);
+@use '@dnb/eufemia/style/themes/theme-ui/ui-theme-components.min.css'
   layer(eufemia);
-@import '@dnb/eufemia/style/themes/theme-ui/ui-theme-basis.min.css' layer(eufemia);
+@use '@dnb/eufemia/style/themes/theme-ui/ui-theme-basis.min.css' layer(eufemia);
 
 /* Import Tailwind base, theme and utilities layers */
-@import 'tailwindcss/theme.css' layer(theme);
-@import 'tailwindcss/utilities.css' layer(utilities);
+@use 'tailwindcss/theme.css' layer(theme);
+@use 'tailwindcss/utilities.css' layer(utilities);
 
 /* Import Eufemia properties in Tailwind format */
-@import '@dnb/eufemia/style/themes/theme-ui/properties-tailwind.css' layer(utilities);
+@use '@dnb/eufemia/style/themes/theme-ui/properties-tailwind.css' layer(utilities);
 ```
 
 ### Tailwind-Compatible CSS Variables

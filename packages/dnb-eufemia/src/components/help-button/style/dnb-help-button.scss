@@ -4,7 +4,7 @@
  */
 
 @use '../../button/style/themes/button-mixins.scss' as *;
-@use './dnb-help-button-inline.scss';
+@use './dnb-help-button-inline.scss' as *;
 
 .dnb-help-button {
   & .dnb-button__bounding {

@@ -5,7 +5,7 @@
 
 @use '../../../style/elements/ui-spacing.scss';
 @use './typography-mixins.scss' as *;
-@use './dnb-t.scss';
+@use './dnb-t.scss' as *;
 
 @include typographySelectors() {
   --typography-h-default-font-weight: var(--font-weight-medium);
