@@ -98,10 +98,7 @@ html[data-visual-test] .dnb-table__container {
 exports[`Table scss should match style dependencies css 1`] = `
 "/*
  * Utilities
- */ /*
-* Button mixins
-*
-*/
+ */
 /*
 * Table component
 *
@@ -586,6 +583,10 @@ html[data-visual-test] .dnb-table__tr__accordion-content--parallax .dnb-table__t
   display: flex;
 }
 
+/*
+* Button mixins
+*
+*/
 /*
 * Table component
 *
