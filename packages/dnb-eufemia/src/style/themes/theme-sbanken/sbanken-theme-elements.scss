@@ -3,6 +3,8 @@
  * But you still can change the content of this file on the very top.
  */
 
+@use '../../dnb-ui-elements.scss';
+
 // Add "ui" themes, if file don't exists
 
 $THEME_FALLBACK: 'ui';
