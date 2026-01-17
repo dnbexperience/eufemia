@@ -22,7 +22,7 @@
       background-color: transparent;
     }
 
-    @include allBelow(small) {
+    @include utilities.allBelow(small) {
       .fullscreen-page & {
         top: 0;
 

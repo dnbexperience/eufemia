@@ -25,7 +25,7 @@
     }
 
     --level-offset: 3vw;
-    @include allBelow(medium) {
+    @include utilities.allBelow(medium) {
       --level-offset: 2rem;
     }
 
@@ -35,7 +35,7 @@
     --level-icon-adjust: -40px;
     --level: 2vw;
 
-    @include allBelow(medium) {
+    @include utilities.allBelow(medium) {
       --level: 1.3rem;
     }
 
@@ -266,7 +266,7 @@
     make sure that Content main "styled.main" gets the same max-width
     */
     &:not(.show-mobile-menu) {
-      @include allBelow(medium) {
+      @include utilities.allBelow(medium) {
         display: none;
       }
     }
@@ -282,16 +282,16 @@
 	*/
   z-index: 1;
 
-  @include scrollY(auto);
+  @include utilities.scrollY(auto);
 
-  @include allBelow(medium) {
+  @include utilities.allBelow(medium) {
     position: relative;
 
     width: 100%;
     height: auto;
   }
 
-  @include allAbove(medium) {
+  @include utilities.allAbove(medium) {
     width: var(--aside-width); // has to be the same value as margin-left
     height: calc(100vh - 4rem); // height of StickyMenuBar
   }

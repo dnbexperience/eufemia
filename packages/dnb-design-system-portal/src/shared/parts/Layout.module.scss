@@ -11,8 +11,8 @@
   /* for wider screens */
   .dnb-app-content:not(.fullscreen-page) {
     .dnb-app-content > div:first-of-type {
-      @include allAbove(x-large) {
-        max-width: map-get($breakpoints, x-large);
+      @include utilities.allAbove(x-large) {
+        max-width: map-get(utilities.$breakpoints, x-large);
       }
     }
   }
@@ -40,7 +40,7 @@
     }
 
     .image-box {
-      @include gridStyle(rgb(40 180 130), 0.4);
+      @include PortalStyle.gridStyle(rgb(40 180 130), 0.4);
 
       position: relative;
 
@@ -82,7 +82,7 @@
     }
 
     .typography-box {
-      @include gridStyle(rgb(164, 255, 255), 0.8);
+      @include PortalStyle.gridStyle(rgb(164, 255, 255), 0.8);
 
       position: relative;
 
@@ -112,7 +112,7 @@
     }
 
     .example-box {
-      @include gridStyle(rgb(236, 236, 236), 1);
+      @include PortalStyle.gridStyle(rgb(236, 236, 236), 1);
 
       position: relative;
 
@@ -201,7 +201,7 @@
   min-height: 90vh;
   padding: 0 32px;
 
-  @include allBelow(small) {
+  @include utilities.allBelow(small) {
     padding: 0 16px;
   }
 }
@@ -255,7 +255,7 @@
   border-left: 1px solid var(--color-black-border);
 
   /* make sure that Sidebar aside "styled.aside" gets the same max-width */
-  @include allBelow(medium) {
+  @include utilities.allBelow(medium) {
     margin-left: 0;
     padding-left: 0;
   }
@@ -268,7 +268,7 @@
   display: flex;
   justify-content: space-between; /* pos Footer at the bottom */
 
-  @include allBelow(medium) {
+  @include utilities.allBelow(medium) {
     display: block;
   }
 }

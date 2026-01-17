@@ -7,7 +7,7 @@
   height: 100%;
 }
 
-@include allAbove(small) {
+@include utilities.allAbove(small) {
   html {
     height: 100%;
   }
@@ -60,7 +60,7 @@ html[show-dev-grid] .dev-grid > .dnb-h--xx-large {
 }
 
 html[show-dev-grid] .dev-grid {
-  @include gridStyle(rgb(220, 220, 220), 0.8);
+  @include PortalStyle.gridStyle(rgb(220, 220, 220), 0.8);
 
   /* stylelint-disable no-descending-specificity */
   h1,

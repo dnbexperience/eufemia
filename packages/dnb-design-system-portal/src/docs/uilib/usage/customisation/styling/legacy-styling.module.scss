@@ -4,7 +4,7 @@
   .dnb-dev-grid {
     z-index: 1;
 
-    @include gridStyle(rgb(220, 220, 220), 0.8);
+    @include PortalStyle.gridStyle(rgb(220, 220, 220), 0.8);
   }
 }
 
