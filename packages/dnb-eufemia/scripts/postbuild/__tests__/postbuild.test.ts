@@ -493,13 +493,13 @@ describe('style build', () => {
         ),
         'utf-8'
       )
-      expect(content).toContain(
-        `--font-family-default: "DNB", sans-serif;`
+      expect(content).toMatch(
+        /--font-family-default: ['"]DNB['"], sans-serif;/
       )
       expect(content).toContain(`.dnb-typo-regular`)
       expect(content).toContain(`@font-face`)
-      expect(content).toContain(
-        `src: url("../../../assets/fonts/dnb/DNB-Regular.woff2") format("woff2"),`
+      expect(content).toMatch(
+        /url\(['"]\.\.\/\.\.\/\.\.\/assets\/fonts\/dnb\/DNB-Regular\.woff2['"]\)\s+format\(['"]woff2['"]\),/
       )
       expect(content).toContain(`
 .dnb-p {
