@@ -4,14 +4,14 @@
 */
 
 @use './table-mixins.scss' as *;
+@use './table-th.scss' as *;
+@use './table-td.scss' as *;
+@use './table-tr.scss' as *;
+@use './table-cell.scss' as *;
+@use './table-sticky.scss' as *;
+@use './table-container.scss' as *;
+@use './table-accordion.scss' as *;
 @use './table-header-buttons.scss' as *;
-@use './table-th.scss';
-@use './table-td.scss';
-@use './table-tr.scss';
-@use './table-cell.scss';
-@use './table-sticky.scss';
-@use './table-container.scss';
-@use './table-accordion.scss';
 
 .dnb-table,
 .dnb-table__container {
