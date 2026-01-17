@@ -3,7 +3,7 @@
 *
 */
 
-@import '../../../style/core/utilities.scss';
+@use '../../../style/core/utilities.scss';
 
 .dnb-switch {
   --switch-width--medium: 2.5rem;
@@ -85,7 +85,7 @@
     width: 100%;
     height: 100%;
 
-    @include focusRing();
+    @include utilities.focusRing();
   }
 
   /*
@@ -189,7 +189,7 @@
 
   &__input:not([disabled]):focus ~ &__background,
   &__input:not([disabled]):active ~ &__background {
-    @include focusRing();
+    @include utilities.focusRing();
   }
 
   &__input:not([disabled]):focus ~ &__button &__focus,
@@ -270,18 +270,18 @@
     ~ &__button
     &__focus {
     display: block;
-    @include fakeBorder(red, var(--focus-ring-width, 0.125rem));
+    @include utilities.fakeBorder(red, var(--focus-ring-width, 0.125rem));
   }
 
   &__status--error
     &__input:not([disabled]):not(:focus):not(:active)
     ~ &__background {
     background-color: tomato;
-    @include fakeBorder(red, var(--focus-ring-width, 0.125rem));
+    @include utilities.fakeBorder(red, var(--focus-ring-width, 0.125rem));
   }
 
   // Edge fix
-  @include IS_EDGE() {
+  @include utilities.IS_EDGE() {
     // fix are a problem with transition and complex transforms
     &__input:not(:checked) ~ &__button {
       transform: translateX(0);

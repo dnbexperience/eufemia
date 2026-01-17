@@ -2,40 +2,12 @@
 
 exports[`Modal scss should match style dependencies css 1`] = `
 "/*
-* Used for snapshot testing
-*
-*/
-/*
- * Utilities
- */
-/*
-* Used for snapshot testing
-*
-*/
-/*
- * Utilities
- */
-/*
-* Used for snapshot testing
-*
-*/
-/*
- * Utilities
- */
-/*
-* Used for snapshot testing
-*
-*/
-/*
  * Utilities
  */
 /*
 * Icon component
 *
 */
-/*
- * Utilities
- */
 .dnb-icon {
   display: inline-block;
   vertical-align: middle;
@@ -117,15 +89,9 @@ p > .dnb-icon {
 *
 */
 /*
- * Utilities
- */
-/*
 * Tooltip component
 *
 */
-/*
- * Utilities
- */
 :root {
   --tooltip-z-index: 1100;
 }
@@ -168,14 +134,8 @@ p > .dnb-icon {
 *
 */
 /*
- * Utilities
- */
-/*
  * FormStatus component
  *
- */
-/*
- * Utilities
  */
 .dnb-form-status {
   --form-status-radius: 0.25rem;
@@ -243,12 +203,13 @@ button .dnb-form-status__text {
 }
 
 /*
-* Button component
+* Used for snapshot testing
 *
 */
 /*
- * Utilities
- */
+* Button component
+*
+*/
 :root {
   --button-icon-size: 1rem;
   --button-height: 2.5rem;
@@ -483,12 +444,10 @@ button.dnb-button::-moz-focus-inner {
 }
 
 /*
- * HelpButton component
- *
- */
+* Used for snapshot testing
+*
+*/
 /*
- * Utilities
- */ /*
 * Button mixins
 *
 */
@@ -496,12 +455,6 @@ button.dnb-button::-moz-focus-inner {
  * HelpButton component
  *
  */
-/*
- * Utilities
- */ /*
-* Button mixins
-*
-*/
 .dnb-help-button.dnb-help-button__inline--open {
   --border-color: var(--color-emerald-green);
   --border-width: 0.125rem;
@@ -592,17 +545,18 @@ button.dnb-button::-moz-focus-inner {
   transform: translate3d(0, 0, 0);
 }
 
+/*
+ * HelpButton component
+ *
+ */
 .dnb-help-button .dnb-button__bounding {
   transform: scale(1.5);
 }
 
 /*
- * Modal component
- *
- */
-/*
- * Utilities
- */
+* Used for snapshot testing
+*
+*/
 /*
  * Modal component
  *
@@ -689,6 +643,10 @@ button.dnb-button::-moz-focus-inner {
     opacity: 0;
   }
 }
+/*
+ * Modal component
+ *
+ */
 :root {
   --modal-z-index: 3000;
   --modal-animation-duration: 300ms;
@@ -785,5 +743,10 @@ html[data-visual-test] .dnb-modal__overlay, .dnb-modal__overlay--no-animation {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-}"
+}
+
+/*
+* Used for snapshot testing
+*
+*/"
 `;

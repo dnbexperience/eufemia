@@ -7,7 +7,7 @@
  */
 
 // Ensure default DNB fonts are available
-@import '../theme-ui/fonts.scss';
+@use '../theme-ui/fonts.scss';
 
 // Font usage
 .dnb-typo-regular {

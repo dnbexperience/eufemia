@@ -2,19 +2,12 @@
 
 exports[`Tooltip scss has to match style dependencies css 1`] = `
 "/*
-* Used for snapshot testing
-*
-*/
-/*
  * Utilities
  */
 /*
 * Tooltip component
 *
 */
-/*
- * Utilities
- */
 :root {
   --tooltip-z-index: 1100;
 }
@@ -50,7 +43,12 @@ exports[`Tooltip scss has to match style dependencies css 1`] = `
 .dnb-tooltip .dnb-popover__arrow__placement--left {
   right: -13px;
   top: auto !important;
-}"
+}
+
+/*
+* Used for snapshot testing
+*
+*/"
 `;
 
 exports[`Tooltip scss have to match default theme snapshot 1`] = `

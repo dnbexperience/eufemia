@@ -2,7 +2,7 @@
  * Utilities
  */
 
-@import '../../components/space/style/space-mixins.scss';
+@use '../../components/space/style/space-mixins.scss' as *;
 
 @mixin defaultDropShadow() {
   box-shadow: var(--shadow-default);

@@ -3,7 +3,7 @@
  *
  */
 
-@use '../anchor-mixins.scss';
+@use '../anchor-mixins.scss' as *;
 
 @mixin anchorHover() {
   --anchor-background: var(--sb-color-green-dark);
@@ -27,7 +27,7 @@
   border-radius: 0.25em;
 }
 
-@include anchor-mixins.notNoStyle() {
+@include notNoStyle() {
   &.dnb-anchor {
     --anchor-underline-thickness: 0.125rem;
     --anchor-background: transparent;
@@ -41,14 +41,14 @@
     padding: 0.15625em 0;
     border-radius: 0.5em;
 
-    @include anchor-mixins.anchorBackground(var(--anchor-background));
+    @include anchorBackground(var(--anchor-background));
 
     .dnb-icon--default {
       font-size: 1em;
     }
 
     &:hover {
-      @include anchor-mixins.notNoHover() {
+      @include notNoHover() {
         @include anchorHover();
       }
     }
@@ -62,7 +62,7 @@
     }
   }
 
-  @include anchor-mixins.notInline() {
+  @include notInline() {
     &.dnb-anchor {
       --anchor-icon-gutter: 0.125em;
       // non-breaking space character
@@ -103,12 +103,12 @@
 }
 
 .dnb-anchor--focus {
-  @include anchor-mixins.anchorFocusStyle();
+  @include anchorFocusStyle();
   @include anchorFocus();
 }
 
 .dnb-anchor--no-radius {
-  @include anchor-mixins.resetBorderRadius();
+  @include resetBorderRadius();
 }
 
 .dnb-anchor--inline {

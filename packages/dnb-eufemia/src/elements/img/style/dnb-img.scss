@@ -3,8 +3,8 @@
  *
  */
 
-@use './img-mixins.scss';
+@use './img-mixins.scss' as *;
 
 .dnb-img {
-  @include img-mixins.figureStyle();
+  @include figureStyle();
 }

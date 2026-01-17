@@ -2,19 +2,12 @@
 
 exports[`Icon scss should match style dependencies css 1`] = `
 "/*
-* Used for snapshot testing
-*
-*/
-/*
  * Utilities
  */
 /*
 * Icon component
 *
 */
-/*
- * Utilities
- */
 .dnb-icon {
   display: inline-block;
   vertical-align: middle;
@@ -89,5 +82,10 @@ p > .dnb-icon {
 }
 .dnb-icon.dnb-skeleton::before, .dnb-icon.dnb-skeleton::after {
   content: none !important;
-}"
+}
+
+/*
+* Used for snapshot testing
+*
+*/"
 `;

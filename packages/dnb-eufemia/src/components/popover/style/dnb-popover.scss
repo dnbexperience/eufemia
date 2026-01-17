@@ -1,4 +1,4 @@
-@import '../../../style/core/utilities.scss';
+@use '../../../style/core/utilities.scss';
 
 :root {
   --popover-z-index: 1000;
@@ -27,7 +27,7 @@
   background-color: var(--popover-background-color);
   border-radius: var(--popover-border-radius);
 
-  @include defaultDropShadow();
+  @include utilities.defaultDropShadow();
 
   &--show-outline#{&}::before {
     content: '';

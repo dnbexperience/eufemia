@@ -3,7 +3,9 @@
 *
 */
 
-@import './dnb-button-theme-ui.scss';
+@use '../../../../style/core/utilities.scss';
+@use './dnb-button-theme-ui.scss';
+@use './button-mixins.scss' as *;
 
 .dnb-button--primary {
   background-color: var(--color-emerald-green);
@@ -20,18 +22,18 @@
     background-color: var(--color-black-8);
 
     // only because of href/anchor button
-    @include fakeBorder(var(--color-black-55));
+    @include utilities.fakeBorder(var(--color-black-55));
   }
 }
 
 .dnb-button--secondary {
   color: var(--color-emerald-green);
 
-  @include fakeBorder(var(--color-emerald-green));
+  @include utilities.fakeBorder(var(--color-emerald-green));
 
   // // This is just not good – it gives the feeling that it's not clickable, as the change is almost not noticeable
-  // @include hover() {
-  //   @include fakeBorder(var(--color-sea-green), 0.0625rem);
+  // @include utilities.hover() {
+  //   @include utilities.fakeBorder(var(--color-sea-green), 0.0625rem);
   // }
   // So we could still use sea-green, but including the 2px thickness
   // @include buttonHover(
@@ -50,7 +52,7 @@
     background-color: var(--color-white);
 
     // only because of href/anchor button
-    @include fakeBorder(var(--color-black-55));
+    @include utilities.fakeBorder(var(--color-black-55));
   }
 }
 
@@ -65,15 +67,15 @@
 .dnb-button--tertiary {
   color: var(--color-emerald-green);
 
-  @include hover() {
+  @include utilities.hover() {
     color: var(--color-emerald-green);
   }
 
-  @include active() {
+  @include utilities.active() {
     color: var(--color-emerald-green);
   }
 
-  @include focus-visible() {
+  @include utilities.focus-visible() {
     color: var(--color-emerald-green);
   }
 

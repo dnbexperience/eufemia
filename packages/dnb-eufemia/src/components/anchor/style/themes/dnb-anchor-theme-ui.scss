@@ -3,18 +3,16 @@
  *
  */
 
-@use '../anchor-mixins.scss';
+@use '../anchor-mixins.scss' as *;
 
 @mixin anchorHover {
   --anchor-color: var(--color-sea-green);
-  @include anchor-mixins.anchorBackground(var(--anchor-background--hover));
+  @include anchorBackground(var(--anchor-background--hover));
 }
 
 @mixin anchorActive {
   --anchor-color: var(--anchor-color--active);
-  @include anchor-mixins.anchorBackground(
-    var(--anchor-background--active)
-  );
+  @include anchorBackground(var(--anchor-background--active));
 }
 
 @mixin anchorFocus {
@@ -31,7 +29,7 @@
   color: var(--anchor-color);
 
   &:hover {
-    @include anchor-mixins.notNoHover() {
+    @include notNoHover() {
       @include anchorHover();
     }
   }
@@ -55,7 +53,7 @@
 
 $useClasses: true !default;
 @if $useClasses {
-  @include anchor-mixins.notNoStyle() {
+  @include notNoStyle() {
     &.dnb-anchor {
       @include anchorStyle();
     }

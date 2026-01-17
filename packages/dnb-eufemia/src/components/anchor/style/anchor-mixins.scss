@@ -3,7 +3,7 @@
  *
  */
 @use 'sass:math';
-@import '../../../style/core/utilities.scss';
+@use '../../../style/core/utilities.scss' as *;
 
 @mixin anchorDefaultStyle() {
   // make sure we have always `display: inline;` as inline-block is breaking the border-bottom

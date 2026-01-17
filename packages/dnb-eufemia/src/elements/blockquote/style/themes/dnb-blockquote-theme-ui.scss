@@ -1,4 +1,4 @@
-@use '../../../../components/anchor/style/anchor-mixins.scss';
+@use '../../../../components/anchor/style/anchor-mixins.scss' as *;
 
 .dnb-blockquote {
   color: var(--color-mint-green);
@@ -16,7 +16,7 @@
   &:not(.dnb-blockquote--no-background) {
     .dnb-anchor,
     a {
-      @include anchor-mixins.useAnchorContrastStyle();
+      @include useAnchorContrastStyle();
     }
 
     h1,

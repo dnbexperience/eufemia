@@ -3,7 +3,7 @@
 *
 */
 
-@import '../../../style/core/utilities.scss';
-@import '../../icon/style/deps.scss';
-@import '../../tooltip/style/deps.scss';
-@import './dnb-anchor.scss';
+@use '../../../style/core/utilities.scss' as *;
+@use '../../icon/style/deps.scss' as *;
+@use '../../tooltip/style/deps.scss' as *;
+@use './dnb-anchor.scss';

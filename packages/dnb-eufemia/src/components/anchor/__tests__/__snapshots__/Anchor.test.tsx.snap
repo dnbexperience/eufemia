@@ -3,26 +3,12 @@
 exports[`Anchor scss should match style dependencies css 1`] = `
 "@charset "UTF-8";
 /*
-* Used for snapshot testing
-*
-*/
-/*
- * Utilities
- */
-/*
-* Used for snapshot testing
-*
-*/
-/*
  * Utilities
  */
 /*
 * Icon component
 *
 */
-/*
- * Utilities
- */
 .dnb-icon {
   display: inline-block;
   vertical-align: middle;
@@ -104,15 +90,9 @@ p > .dnb-icon {
 *
 */
 /*
- * Utilities
- */
-/*
 * Tooltip component
 *
 */
-/*
- * Utilities
- */
 :root {
   --tooltip-z-index: 1100;
 }
@@ -151,15 +131,16 @@ p > .dnb-icon {
 }
 
 /*
- * Anchor
- *
- */
+* Used for snapshot testing
+*
+*/
 /*
  * Anchor mixins
  *
  */
 /*
- * Utilities
+ * Anchor
+ *
  */
 button.dnb-anchor {
   cursor: pointer;
@@ -469,17 +450,22 @@ a.dnb-button {
 .dnb-skeleton > .dnb-anchor .dnb-icon,
 .dnb-anchor.dnb-skeleton .dnb-icon {
   filter: grayscale(100%) opacity(0.3);
-}"
+}
+
+/*
+* Used for snapshot testing
+*
+*/"
 `;
 
 exports[`Anchor scss should match theme css for sbanken 1`] = `
 "@charset "UTF-8";
 /*
- * Anchor mixins
- *
+ * Utilities
  */
 /*
- * Utilities
+ * Anchor mixins
+ *
  */
 /*
  * Anchor theme
@@ -708,11 +694,11 @@ exports[`Anchor scss should match theme css for sbanken 1`] = `
 
 exports[`Anchor scss should match theme css for ui 1`] = `
 "/*
- * Anchor mixins
- *
+ * Utilities
  */
 /*
- * Utilities
+ * Anchor mixins
+ *
  */
 /*
  * Anchor theme

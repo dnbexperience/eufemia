@@ -3,7 +3,7 @@
 *
 */
 
-@import '../../../style/core/utilities.scss';
-@import '../../button/style/deps.scss';
-@import '../../section/style/deps.scss';
-@import './dnb-skip-content.scss';
+@use '../../../style/core/utilities.scss' as *;
+@use '../../button/style/deps.scss' as *;
+@use '../../section/style/deps.scss' as *;
+@use './dnb-skip-content.scss';

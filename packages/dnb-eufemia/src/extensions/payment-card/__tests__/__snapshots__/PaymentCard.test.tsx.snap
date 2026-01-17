@@ -2,18 +2,6 @@
 
 exports[`PaymentCard scss has to match style dependencies css 1`] = `
 "/*
-* Used for snapshot testing
-*
-*/
-/*
- * Utilities
- */
-/*
- * PaymentCard component styles
- * This file provides styling for the PaymentCard component, including general design tokens
- * and variations for different card types (e.g., default, pluss, gold, etc.).
- */
-/*
  * Utilities
  */
 /*
@@ -114,6 +102,11 @@ exports[`PaymentCard scss has to match style dependencies css 1`] = `
   --prose-max-width: 60ch;
 }
 
+/*
+ * PaymentCard component styles
+ * This file provides styling for the PaymentCard component, including general design tokens
+ * and variations for different card types (e.g., default, pluss, gold, etc.).
+ */
 .dnb-payment-card {
   /*
    * Define custom CSS variables used throughout the PaymentCard component.
@@ -371,7 +364,12 @@ exports[`PaymentCard scss has to match style dependencies css 1`] = `
 }
 .dnb-payment-card--compact .dnb-payment-card__overlay__content {
   display: none;
-}"
+}
+
+/*
+* Used for snapshot testing
+*
+*/"
 `;
 
 exports[`PaymentCard scss have to match default theme snapshot 1`] = `

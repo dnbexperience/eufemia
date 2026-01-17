@@ -3,7 +3,7 @@
 *
 */
 
-@import '../../../../style/core/utilities.scss';
+@use '../../../../style/core/utilities.scss';
 
 .dnb-date-picker {
   &:not(#{&}__status--error) &__input {
@@ -177,7 +177,7 @@
     ~ &__inner
     .dnb-input:not([data-input-state='disabled']) {
     .dnb-input__shell {
-      @include fakeBorder(var(--color-sea-green), 0.125rem);
+      @include utilities.fakeBorder(var(--color-sea-green), 0.125rem);
     }
 
     .dnb-input__submit-button__button.dnb-button--secondary {
@@ -195,7 +195,7 @@
     ~ &__inner
     .dnb-input:not([data-input-state='disabled']) {
     .dnb-input__shell {
-      @include fakeBorder(var(--color-fire-red), 0.125rem);
+      @include utilities.fakeBorder(var(--color-fire-red), 0.125rem);
     }
   }
 }

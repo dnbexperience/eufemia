@@ -1,6 +1,6 @@
 // Adds all theme properties with Ui being most prioritized, indirectly used by makePropertiesFile.js to generate properties.js
 
-@import './theme-sbanken/properties.scss';
-@import './theme-eiendom/properties.scss';
-@import './theme-carnegie/properties.scss';
-@import './theme-ui/properties.scss';
+@use './theme-sbanken/properties.scss' as sbanken-properties;
+@use './theme-eiendom/properties.scss' as eiendom-properties;
+@use './theme-carnegie/properties.scss' as carnegie-properties;
+@use './theme-ui/properties.scss' as ui-properties;

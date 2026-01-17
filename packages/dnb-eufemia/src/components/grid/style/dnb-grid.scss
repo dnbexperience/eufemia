@@ -1,2 +1,2 @@
-@import './grid-container.scss';
-@import './grid-item.scss';
+@use './grid-container.scss' as *;
+@use './grid-item.scss' as *;

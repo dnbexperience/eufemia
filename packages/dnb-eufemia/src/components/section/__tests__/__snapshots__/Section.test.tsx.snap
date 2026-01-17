@@ -2,18 +2,11 @@
 
 exports[`Section scss has to match style dependencies css 1`] = `
 "/*
-* Used for snapshot testing
-*
-*/
-/*
  * Utilities
  */
 /*
  * Section component
  *
- */
-/*
- * Utilities
  */
 :root {
   --section-z-index: 1;
@@ -171,20 +164,25 @@ exports[`Section scss has to match style dependencies css 1`] = `
 .dnb-section--spacing-xx-large {
   padding-top: var(--spacing-xx-large);
   padding-bottom: var(--spacing-xx-large);
-}"
+}
+
+/*
+* Used for snapshot testing
+*
+*/"
 `;
 
 exports[`Section scss have to match default theme snapshot 1`] = `
 "/*
- * Section theme
- *
+ * Utilities
  */
 /*
  * Anchor mixins
  *
  */
 /*
- * Utilities
+ * Section theme
+ *
  */
 .dnb-section {
   --background-color: var(--color-white);

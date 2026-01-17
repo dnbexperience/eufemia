@@ -3,6 +3,6 @@
 *
 */
 
-@import '../../../style/core/utilities.scss';
-@import '../../button/style/deps.scss';
-@import './dnb-tag.scss';
+@use '../../../style/core/utilities.scss' as *;
+@use '../../button/style/deps.scss' as *;
+@use './dnb-tag.scss';

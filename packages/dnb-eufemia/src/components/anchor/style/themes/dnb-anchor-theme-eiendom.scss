@@ -4,9 +4,9 @@
  */
 
 @use './dnb-anchor-theme-ui.scss';
-@use '../anchor-mixins.scss';
+@use '../anchor-mixins.scss' as *;
 
-@include anchor-mixins.notNoStyle() {
+@include notNoStyle() {
   &.dnb-anchor {
     --anchor-color--default: var(--color-emerald-green);
     --anchor-color--contrast: var(--color-sea-green);

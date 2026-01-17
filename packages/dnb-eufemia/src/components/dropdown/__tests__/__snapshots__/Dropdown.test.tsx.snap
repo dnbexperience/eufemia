@@ -2,26 +2,12 @@
 
 exports[`Dropdown scss has to match style dependencies css 1`] = `
 "/*
-* Used for snapshot testing
-*
-*/
-/*
- * Utilities
- */
-/*
-* Used for snapshot testing
-*
-*/
-/*
  * Utilities
  */
 /*
 * Icon component
 *
 */
-/*
- * Utilities
- */
 .dnb-icon {
   display: inline-block;
   vertical-align: middle;
@@ -102,113 +88,10 @@ p > .dnb-icon {
 * Used for snapshot testing
 *
 */
-/*
- * Utilities
- */
-/*
-* Used for snapshot testing
-*
-*/
-/*
- * Utilities
- */
-/*
-* Icon component
-*
-*/
-/*
- * Utilities
- */
-.dnb-icon {
-  display: inline-block;
-  vertical-align: middle;
-  font-size: 1rem;
-  line-height: 1rem;
-  color: inherit;
-  width: 1em;
-  height: 1em;
-}
-.dnb-icon img, :where(.dnb-core-style) .dnb-icon img,
-.dnb-icon svg,
-:where(.dnb-core-style) .dnb-icon svg {
-  width: inherit;
-  height: inherit;
-  shape-rendering: geometricprecision;
-  vertical-align: top;
-}
-.dnb-icon svg[width="100%"] {
-  width: inherit;
-}
-.dnb-icon svg[height="100%"] {
-  height: inherit;
-}
-.dnb-icon--inherit-color svg:not([fill]), .dnb-icon--inherit-color svg [fill] {
-  fill: currentcolor;
-}
-.dnb-icon--inherit-color svg [stroke] {
-  stroke: currentcolor;
-}
-.dnb-icon--small {
-  font-size: 0.75rem;
-}
-.dnb-icon--default {
-  font-size: 1rem;
-}
-.dnb-icon--medium {
-  font-size: 1.5rem;
-}
-.dnb-icon--large {
-  font-size: 2rem;
-}
-.dnb-icon--x-large {
-  font-size: 2.5rem;
-}
-.dnb-icon--xx-large {
-  font-size: 3rem;
-}
-.dnb-icon--custom-size {
-  width: auto;
-  height: auto;
-  line-height: 0;
-}
-.dnb-icon--auto {
-  font-size: 1em;
-}
-.dnb-icon--custom-size svg[width="24"] path, .dnb-icon--auto svg[width="24"] path, .dnb-icon--large svg[width="24"] path, .dnb-icon--x-large svg[width="24"] path, .dnb-icon--xx-large svg[width="24"] path {
-  vector-effect: non-scaling-stroke;
-}
-.dnb-icon--auto > .dnb-icon--wrapper {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-h1 > .dnb-icon, h2 > .dnb-icon, h3 > .dnb-icon, h4 > .dnb-icon, h5 > .dnb-icon, h6 > .dnb-icon {
-  vertical-align: middle;
-}
-p > .dnb-icon {
-  vertical-align: inherit;
-}
-.dnb-icon.dnb-skeleton {
-  color: var(--skeleton-color) !important;
-}
-.dnb-icon.dnb-skeleton::before, .dnb-icon.dnb-skeleton::after {
-  content: none !important;
-}
-
-/*
-* Used for snapshot testing
-*
-*/
-/*
- * Utilities
- */
 /*
 * Tooltip component
 *
 */
-/*
- * Utilities
- */
 :root {
   --tooltip-z-index: 1100;
 }
@@ -251,14 +134,8 @@ p > .dnb-icon {
 *
 */
 /*
- * Utilities
- */
-/*
  * FormStatus component
  *
- */
-/*
- * Utilities
  */
 .dnb-form-status {
   --form-status-radius: 0.25rem;
@@ -326,12 +203,13 @@ button .dnb-form-status__text {
 }
 
 /*
-* Button component
+* Used for snapshot testing
 *
 */
 /*
- * Utilities
- */
+* Button component
+*
+*/
 :root {
   --button-icon-size: 1rem;
   --button-height: 2.5rem;
@@ -570,9 +448,6 @@ button.dnb-button::-moz-focus-inner {
 *
 */
 /*
- * Utilities
- */
-/*
  * FormLabel component
  *
  */
@@ -610,87 +485,9 @@ legend.dnb-form-label {
 *
 */
 /*
- * Utilities
- */
-/*
- * FormStatus component
- *
- */
-/*
- * Utilities
- */
-.dnb-form-status {
-  --form-status-radius: 0.25rem;
-  display: flex;
-  opacity: 1;
-}
-.dnb-form-status__shell {
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
-  min-width: inherit;
-  border-radius: var(--form-status-radius);
-}
-.dnb-form-status__text {
-  max-width: var(--prose-max-width);
-  padding: 0.625rem 1rem;
-  cursor: text;
-  color: inherit;
-  line-height: var(--line-height-small);
-  font-size: var(--font-size-small);
-  white-space: normal;
-}
-button .dnb-form-status__text {
-  cursor: inherit;
-}
-.dnb-form-status__text .dnb-ul,
-.dnb-form-status__text .dnb-anchor {
-  font-size: inherit;
-}
-.dnb-form-status__text .dnb-ul:not([class*=dnb-space__left]) {
-  padding-left: 1rem;
-}
-.dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) {
-  margin-bottom: 0.5rem;
-}
-.dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) .dnb-li {
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
-}
-.dnb-icon + .dnb-form-status__text {
-  padding-left: 0.5rem;
-}
-.dnb-form-status__shell > .dnb-icon {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0.3333333em 0.3333333em 0.3333333em 0.6666666em;
-}
-.dnb-form-status__size--large .dnb-form-status__text {
-  padding-top: 1.125rem;
-  padding-bottom: 1.125rem;
-}
-.dnb-form-status__size--large .dnb-form-status__shell > .dnb-icon {
-  margin-top: 0.6666666em;
-  margin-bottom: 0.6666666em;
-}
-.dnb-form-status--stretch {
-  flex-grow: 1;
-}
-.dnb-form-status--stretch .dnb-form-status__shell {
-  width: 100%;
-}
-.dnb-form-status[hidden] {
-  display: none;
-}
-
-/*
 * Dropdown component
 *
 */
-/*
- * Utilities
- */
 .dnb-dropdown {
   --dropdown-width: 16rem;
   --dropdown-height: 2rem;
@@ -974,17 +771,22 @@ label + .dnb-dropdown[class*=__form-status] .dnb-dropdown__shell {
 }
 .dnb-drawer-list--triangle-position-right .dnb-dropdown__list--tertiary .dnb-drawer-list__triangle {
   margin-right: 0.5rem;
-}"
+}
+
+/*
+* Used for snapshot testing
+*
+*/"
 `;
 
 exports[`Dropdown scss have to match default theme snapshot 1`] = `
 "/*
+ * Utilities
+ */
+/*
 * Dropdown theme
 *
 */
-/*
- * Utilities
- */
 .dnb-dropdown {
   --dropdown-error-border-width: 0.125rem;
   --dropdown-button-padding: 0 1rem;

@@ -1,11 +1,7 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`Skeleton scss has to match style dependencies css 1`] = `
 "/*
-* Used for snapshot testing
-*
-*/
-/*
  * Utilities
  */
 /*
@@ -13,9 +9,6 @@ exports[`Skeleton scss has to match style dependencies css 1`] = `
  *
  * Skeleton
  *
- */
-/*
- * Utilities
  */
 .dnb-skeleton {
   --skeleton-delay: 5s;
@@ -172,5 +165,9 @@ html[data-visual-test] .dnb-skeleton--font, html[data-visual-test] .dnb-skeleton
   font-weight: normal;
   font-style: normal;
   font-display: fallback;
-}"
+}
+/*
+* Used for snapshot testing
+*
+*/"
 `;

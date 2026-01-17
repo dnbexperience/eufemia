@@ -2,26 +2,12 @@
 
 exports[`Button scss has to match style dependencies css 1`] = `
 "/*
-* Used for snapshot testing
-*
-*/
-/*
- * Utilities
- */
-/*
-* Used for snapshot testing
-*
-*/
-/*
  * Utilities
  */
 /*
 * Icon component
 *
 */
-/*
- * Utilities
- */
 .dnb-icon {
   display: inline-block;
   vertical-align: middle;
@@ -103,15 +89,9 @@ p > .dnb-icon {
 *
 */
 /*
- * Utilities
- */
-/*
 * Tooltip component
 *
 */
-/*
- * Utilities
- */
 :root {
   --tooltip-z-index: 1100;
 }
@@ -154,14 +134,8 @@ p > .dnb-icon {
 *
 */
 /*
- * Utilities
- */
-/*
  * FormStatus component
  *
- */
-/*
- * Utilities
  */
 .dnb-form-status {
   --form-status-radius: 0.25rem;
@@ -229,12 +203,13 @@ button .dnb-form-status__text {
 }
 
 /*
-* Button component
+* Used for snapshot testing
 *
 */
 /*
- * Utilities
- */
+* Button component
+*
+*/
 :root {
   --button-icon-size: 1rem;
   --button-height: 2.5rem;
@@ -466,27 +441,16 @@ html[data-whatinput=mouse] .dnb-button--reset:not([disabled]):focus, html[data-w
 /* Firefox includes a hidden border which messes up button dimensions */
 button.dnb-button::-moz-focus-inner {
   border: none;
-}"
+}
+
+/*
+* Used for snapshot testing
+*
+*/"
 `;
 
 exports[`Button scss has to match theme css for sbanken 1`] = `
 "/*
-* Button theme
-*
-*/
-/*
- * Utilities
- */
-/*
- * Utilities
- */ /*
-* Button mixins
-*
-*/
-/*
- * Utilities
- */
-/*
  * Utilities
  */ /*
 * Button mixins
@@ -646,6 +610,10 @@ html[data-whatinput=keyboard] .dnb-button--tertiary:hover:focus .dnb-button__tex
   visibility: hidden;
 }
 
+/*
+* Button theme
+*
+*/
 .dnb-button {
   --button-background--focus: var(--sb-color-blue-light-3);
   --button-border-radius--control-button: 3rem;
@@ -855,13 +823,13 @@ html:not([data-whatintent=touch]) .dnb-button--tertiary:hover:not([disabled]):no
 html:not([data-whatintent=touch]) .dnb-button--tertiary:hover:not([disabled]):not(.dnb-button--has-text) > * {
   z-index: 2;
 }
-html:not([data-whatintent=touch]) .dnb-button--tertiary:focus-visible[disabled] {
+.dnb-button--tertiary:focus[disabled], html:not([data-whatintent=touch]) .dnb-button--tertiary:focus[disabled] {
   cursor: not-allowed;
 }
-html:not([data-whatintent=touch]) .dnb-button--tertiary:focus-visible:not([disabled]) {
+.dnb-button--tertiary:focus:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--tertiary:focus:not([disabled]) {
   color: var(--sb-color-blue-dark);
 }
-html:not([data-whatintent=touch]) .dnb-button--tertiary:focus-visible:not([disabled])::before {
+.dnb-button--tertiary:focus:not([disabled])::before, html:not([data-whatintent=touch]) .dnb-button--tertiary:focus:not([disabled])::before {
   content: "";
   position: absolute;
   z-index: 1;
@@ -877,10 +845,10 @@ html:not([data-whatintent=touch]) .dnb-button--tertiary:focus-visible:not([disab
   box-shadow: inset 0 0 0 var(--border-width) var(--border-color), var(--sb-shadow-medium);
   border-color: transparent;
 }
-html:not([data-whatintent=touch]) .dnb-button--tertiary:focus-visible:not([disabled])::before {
+.dnb-button--tertiary:focus:not([disabled])::before, html:not([data-whatintent=touch]) .dnb-button--tertiary:focus:not([disabled])::before {
   background-color: var(--button-background--focus);
 }
-html:not([data-whatintent=touch]) .dnb-button--tertiary:focus-visible:not([disabled]) > * {
+.dnb-button--tertiary:focus:not([disabled]) > *, html:not([data-whatintent=touch]) .dnb-button--tertiary:focus:not([disabled]) > * {
   z-index: 2;
 }
 .dnb-button--tertiary[disabled] {
@@ -909,22 +877,6 @@ html:not([data-whatintent=touch]) .dnb-button--tertiary:focus-visible:not([disab
 
 exports[`Button scss has to match theme css for ui 1`] = `
 "/*
-* Button theme
-*
-*/
-/*
- * Utilities
- */
-/*
- * Utilities
- */ /*
-* Button mixins
-*
-*/
-/*
- * Utilities
- */
-/*
  * Utilities
  */ /*
 * Button mixins
@@ -1084,6 +1036,10 @@ html[data-whatinput=keyboard] .dnb-button--tertiary:hover:focus .dnb-button__tex
   visibility: hidden;
 }
 
+/*
+* Button theme
+*
+*/
 .dnb-button--primary {
   color: var(--color-white);
   background-color: var(--color-sea-green);

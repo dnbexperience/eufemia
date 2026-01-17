@@ -3,5 +3,5 @@
 *
 */
 
-@import '../../../style/core/utilities.scss';
-@import './dnb-scroll-view.scss';
+@use '../../../style/core/utilities.scss' as *;
+@use './dnb-scroll-view.scss';

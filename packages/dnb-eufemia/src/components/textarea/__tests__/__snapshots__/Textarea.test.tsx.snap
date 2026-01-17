@@ -2,17 +2,6 @@
 
 exports[`Textarea scss has to match style dependencies css 1`] = `
 "/*
-* Used for snapshot testing
-*
-*/
-/*
- * Utilities
- */
-/*
-* Used for snapshot testing
-*
-*/
-/*
  * Utilities
  */
 /*
@@ -53,14 +42,8 @@ legend.dnb-form-label {
 *
 */
 /*
- * Utilities
- */
-/*
  * FormStatus component
  *
- */
-/*
- * Utilities
  */
 .dnb-form-status {
   --form-status-radius: 0.25rem;
@@ -128,12 +111,13 @@ button .dnb-form-status__text {
 }
 
 /*
-* Textarea component
+* Used for snapshot testing
 *
 */
 /*
- * Utilities
- */
+* Textarea component
+*
+*/
 .dnb-textarea {
   --textarea-border-radius: 0.25rem;
   --textarea-rows: 2;
@@ -370,17 +354,22 @@ html[data-visual-test] .dnb-textarea__textarea {
 }
 .dnb-textarea.dnb-skeleton .dnb-textarea__state, .dnb-textarea.dnb-skeleton .dnb-textarea__textarea {
   visibility: hidden;
-}"
+}
+
+/*
+* Used for snapshot testing
+*
+*/"
 `;
 
 exports[`Textarea scss have to match default theme snapshot 1`] = `
 "/*
+ * Utilities
+ */
+/*
 * Textarea theme
 *
 */
-/*
- * Utilities
- */
 .dnb-textarea {
   --textarea-border-color: var(--color-sea-green);
   --textarea-border-color--hover: var(--color-emerald-green);

@@ -4,8 +4,7 @@
  */
 
 @use '../../../style/elements/ui-spacing.scss';
-@import './code-mixins.scss';
-@import '../../../style/core/utilities.scss';
+@use './code-mixins.scss' as *;
 
 .dnb-code {
   @include codeStyle();

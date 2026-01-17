@@ -3,6 +3,8 @@
 *
 */
 
+@use './table-mixins.scss' as *;
+
 .dnb-table {
   & thead th,
   & tbody td,

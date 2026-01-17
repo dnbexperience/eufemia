@@ -2,33 +2,12 @@
 
 exports[`Tag scss should match style dependencies css 1`] = `
 "/*
-* Used for snapshot testing
-*
-*/
-/*
- * Utilities
- */
-/*
-* Used for snapshot testing
-*
-*/
-/*
- * Utilities
- */
-/*
-* Used for snapshot testing
-*
-*/
-/*
  * Utilities
  */
 /*
 * Icon component
 *
 */
-/*
- * Utilities
- */
 .dnb-icon {
   display: inline-block;
   vertical-align: middle;
@@ -110,15 +89,9 @@ p > .dnb-icon {
 *
 */
 /*
- * Utilities
- */
-/*
 * Tooltip component
 *
 */
-/*
- * Utilities
- */
 :root {
   --tooltip-z-index: 1100;
 }
@@ -161,14 +134,8 @@ p > .dnb-icon {
 *
 */
 /*
- * Utilities
- */
-/*
  * FormStatus component
  *
- */
-/*
- * Utilities
  */
 .dnb-form-status {
   --form-status-radius: 0.25rem;
@@ -236,12 +203,13 @@ button .dnb-form-status__text {
 }
 
 /*
-* Button component
+* Used for snapshot testing
 *
 */
 /*
- * Utilities
- */
+* Button component
+*
+*/
 :root {
   --button-icon-size: 1rem;
   --button-height: 2.5rem;
@@ -476,20 +444,19 @@ button.dnb-button::-moz-focus-inner {
 }
 
 /*
-* Tag component
+* Used for snapshot testing
 *
 */
 /*
- * Utilities
- */
-/*
- * Utilities
- */ /*
 * Button mixins
 *
 */
 /*
 * Tag mixins
+*
+*/
+/*
+* Tag component
 *
 */
 .dnb-tag {
@@ -613,5 +580,10 @@ html:not([data-whatintent=touch]) .dnb-tag--removable.dnb-button:hover:not([disa
   display: inline-flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-}"
+}
+
+/*
+* Used for snapshot testing
+*
+*/"
 `;

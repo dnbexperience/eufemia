@@ -2,33 +2,12 @@
 
 exports[`Pagination scss has to match style dependencies css 1`] = `
 "/*
-* Used for snapshot testing
-*
-*/
-/*
- * Utilities
- */
-/*
-* Used for snapshot testing
-*
-*/
-/*
- * Utilities
- */
-/*
-* Used for snapshot testing
-*
-*/
-/*
  * Utilities
  */
 /*
 * Icon component
 *
 */
-/*
- * Utilities
- */
 .dnb-icon {
   display: inline-block;
   vertical-align: middle;
@@ -110,15 +89,9 @@ p > .dnb-icon {
 *
 */
 /*
- * Utilities
- */
-/*
 * Tooltip component
 *
 */
-/*
- * Utilities
- */
 :root {
   --tooltip-z-index: 1100;
 }
@@ -161,14 +134,8 @@ p > .dnb-icon {
 *
 */
 /*
- * Utilities
- */
-/*
  * FormStatus component
  *
- */
-/*
- * Utilities
  */
 .dnb-form-status {
   --form-status-radius: 0.25rem;
@@ -236,12 +203,13 @@ button .dnb-form-status__text {
 }
 
 /*
-* Button component
+* Used for snapshot testing
 *
 */
 /*
- * Utilities
- */
+* Button component
+*
+*/
 :root {
   --button-icon-size: 1rem;
   --button-height: 2.5rem;
@@ -480,14 +448,8 @@ button.dnb-button::-moz-focus-inner {
 *
 */
 /*
- * Utilities
- */
-/*
  * ProgressIndicator component
  *
- */
-/*
- * Utilities
  */
 .dnb-progress-indicator {
   --progress-indicator-timing: cubic-bezier(0.5, 0, 0.5, 0.99);
@@ -749,11 +711,12 @@ html[data-visual-test] .dnb-progress-indicator__bar-transition {
   }
 }
 /*
+* Used for snapshot testing
+*
+*/
+/*
  * Pagination component
  *
- */
-/*
- * Utilities
  */
 .dnb-pagination {
   display: flex;
@@ -863,17 +826,21 @@ html[data-visual-test] .dnb-progress-indicator__bar-transition {
     transform: translate3d(0, 0, 0);
     opacity: 1;
   }
-}"
+}
+/*
+* Used for snapshot testing
+*
+*/"
 `;
 
 exports[`Pagination scss have to match default theme snapshot 1`] = `
 "/*
+ * Utilities
+ */
+/*
 * Pagination theme
 *
 */
-/*
- * Utilities
- */
 .dnb-core-style .dnb-pagination__button.dnb-button--primary, .dnb-core-style .dnb-pagination__button.dnb-button--primary:not(:active):hover:not([disabled]), .dnb-pagination__button.dnb-button--primary, .dnb-pagination__button.dnb-button--primary:not(:active):hover:not([disabled]) {
   background-color: var(--color-emerald-green);
   color: var(--color-mint-green);

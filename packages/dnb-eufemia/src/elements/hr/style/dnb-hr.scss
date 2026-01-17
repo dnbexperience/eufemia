@@ -4,7 +4,7 @@
  */
 
 @use '../../../style/elements/ui-spacing.scss';
-@import './hr-mixins.scss';
+@use './hr-mixins.scss' as *;
 
 .dnb-hr {
   @include hrStyle();

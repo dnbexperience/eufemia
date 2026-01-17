@@ -3,5 +3,5 @@
 *
 */
 
-@import '../../../style/core/utilities.scss';
-@import './dnb-badge.scss';
+@use '../../../style/core/utilities.scss' as *;
+@use './dnb-badge.scss';

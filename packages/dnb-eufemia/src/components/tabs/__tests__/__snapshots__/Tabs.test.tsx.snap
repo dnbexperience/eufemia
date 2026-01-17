@@ -2,25 +2,15 @@
 
 exports[`Tabs scss has to match style dependencies css 1`] = `
 "/*
-* Used for snapshot testing
-*
-*/
-/*
- * Utilities
- */
-/*
- * Tabs component
- *
- */
-/*
- * Utilities
- */
-/*
  * Utilities
  */ /*
 * Button mixins
 *
 */
+/*
+ * Tabs component
+ *
+ */
 .dnb-tabs {
   --tablist-border-color--default: grey;
   --tab-title-font-weight: var(--font-weight-regular);
@@ -341,21 +331,23 @@ html[data-whatinput=keyboard] .dnb-tabs__content:focus::before {
   --border-width: var(--focus-ring-width);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
-}"
+}
+
+/*
+* Used for snapshot testing
+*
+*/"
 `;
 
 exports[`Tabs scss have to match default theme snapshot 1`] = `
 "/*
-* Tabs theme
-*
-*/
-/*
- * Utilities
- */
-/*
  * Utilities
  */ /*
 * Button mixins
+*
+*/
+/*
+* Tabs theme
 *
 */
 .dnb-tabs {

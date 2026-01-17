@@ -4,8 +4,8 @@
  */
 
 @use '../../../style/elements/ui-spacing.scss';
-@import '../../../style/core/utilities.scss';
-@import '../../../components/space/style/space-mixins.scss';
+@use '../../../style/core/utilities.scss' as *;
+@use '../../../components/space/style/space-mixins.scss' as *;
 
 @mixin listDefaults() {
   & ul,

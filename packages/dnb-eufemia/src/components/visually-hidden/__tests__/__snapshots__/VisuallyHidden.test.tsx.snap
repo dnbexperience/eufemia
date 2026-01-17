@@ -2,19 +2,12 @@
 
 exports[`VisuallyHidden VisuallyHidden scss should match style dependencies css 1`] = `
 "/*
-* Used for snapshot testing
-*
-*/
-/*
  * Utilities
  */
 /*
 * VisuallyHidden component
 *
 */
-/*
- * Utilities
- */
 .dnb-visually-hidden--focusable:not(:focus, :focus-within) {
   user-select: none !important;
   -webkit-touch-callout: none !important;
@@ -28,5 +21,10 @@ exports[`VisuallyHidden VisuallyHidden scss should match style dependencies css 
   padding: 0 !important;
   margin: 0 !important;
   border: 0 !important;
-}"
+}
+
+/*
+* Used for snapshot testing
+*
+*/"
 `;
