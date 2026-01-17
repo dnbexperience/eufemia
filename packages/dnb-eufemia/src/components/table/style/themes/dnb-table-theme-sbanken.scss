@@ -5,7 +5,7 @@
 
 @use '../../../../style/core/utilities.scss';
 @use '../../../button/style/themes/button-mixins.scss' as *;
-@use '../table-mixins.scss' as *;
+@use '../table-mixins.scss' as table;
 
 @mixin tableFocusRing() {
   &::before {
@@ -41,7 +41,7 @@
   thead + tbody .dnb-table__tr:first-child {
     .dnb-table__td,
     .dnb-table__th {
-      @include tableBorder() {
+      @include table.tableBorder() {
         border-top: var(--table-border);
       }
     }

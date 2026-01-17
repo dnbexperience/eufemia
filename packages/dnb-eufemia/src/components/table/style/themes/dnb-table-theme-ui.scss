@@ -4,7 +4,7 @@
 */
 
 @use '../../../../style/core/utilities.scss';
-@use '../table-mixins.scss' as *;
+@use '../table-mixins.scss' as table;
 
 .dnb-table {
   --table-th-background-color: var(--color-white);
@@ -100,7 +100,7 @@
   &:not(&--outline) > tbody {
     position: relative;
 
-    @include tableBorder() {
+    @include table.tableBorder() {
       border-bottom: var(--table-border);
     }
   }
