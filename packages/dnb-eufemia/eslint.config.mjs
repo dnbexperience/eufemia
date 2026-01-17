@@ -132,7 +132,7 @@ export default [
           ],
         },
       ],
-      'no-console': 'off',
+      'no-console': 'warn',
       'spaced-comment': ['error', 'always', { markers: ['/'] }],
       'multiline-comment-style': ['error', 'separate-lines'],
       'no-restricted-syntax': [
@@ -208,6 +208,7 @@ export default [
       },
     },
     rules: {
+      'no-console': 'off',
       'import/default': 'off',
       'import/no-named-as-default-member': 'off',
       'import/no-named-as-default': 'off',
@@ -304,6 +305,7 @@ export default [
       jest: jestPlugin,
     },
     rules: {
+      'no-console': 'off',
       'compat/compat': 'off',
       '@typescript-eslint/no-require-imports': 'off',
     },
@@ -313,6 +315,12 @@ export default [
     rules: {
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-unused-vars': 'off',
+    },
+  },
+  {
+    files: ['**/*.stories.{ts,tsx,js,jsx}'],
+    rules: {
+      'no-console': 'off',
     },
   },
 ]
