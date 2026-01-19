@@ -835,7 +835,9 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
                     size={2}
                     mask={[/[0-9]/, /[0-9]/]}
                     inputRef={inputRefs.current[`${mode}MonthRef`]}
-                    onChange={dateSetters[`set${toCapitalized(mode)}Month`]}
+                    onChange={
+                      dateSetters[`set${toCapitalized(mode)}Month`]
+                    }
                     value={inputDates[`${mode}Month`] || ''}
                     aria-labelledby={`${id}-${mode}-month-label`}
                   />
