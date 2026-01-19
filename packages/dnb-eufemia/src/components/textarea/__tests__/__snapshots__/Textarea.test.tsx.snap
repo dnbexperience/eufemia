@@ -220,7 +220,6 @@ button .dnb-form-status__text {
   overflow-y: auto;
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
-  -ms-overflow-style: auto;
   scrollbar-color: var(--scrollbar-thumb-color, #888) transparent;
 }
 html:not([data-visual-test]) .dnb-textarea__textarea {

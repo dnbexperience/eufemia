@@ -123,11 +123,6 @@
       margin: 0 -4px;
     }
 
-    // Edge fix
-    @include IS_EDGE() {
-      margin: 0 -5px;
-    }
-
     // Safari Mobile fix
     @include IS_SAFARI_MOBILE() {
       &:not(*:root) {
