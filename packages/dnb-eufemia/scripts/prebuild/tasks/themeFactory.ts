@@ -29,10 +29,13 @@ export const editAdvice = `
  */
 
 // Add "ui" themes, if file don't exists
+
 $THEME_FALLBACK: 'ui';
+// Skeleton font needs a new path when loaded into /themes
+$fonts-path: '../../../../assets/fonts/dnb' !default;
 
 // Import shared styles
-@use '../../dnb-ui-<file>.scss';
+@use './properties.scss';
 `
 
 const insertBelowTitle =
