@@ -38,7 +38,6 @@ export default class HTML extends React.PureComponent<HTMLProps> {
       <html lang="en" {...htmlAttributes}>
         <head>
           <meta charSet="utf-8" />
-          <meta httpEquiv="x-ua-compatible" content="ie=edge" />
           <meta
             name="viewport"
             content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=yes"

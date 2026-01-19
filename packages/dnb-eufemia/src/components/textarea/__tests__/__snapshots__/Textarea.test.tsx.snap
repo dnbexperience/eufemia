@@ -236,7 +236,6 @@ html:not([data-visual-test]) .dnb-textarea__textarea {
 }
 .dnb-textarea__textarea {
   -webkit-overflow-scrolling: touch;
-  -ms-overflow-style: auto;
   scrollbar-color: var(--scrollbar-thumb-color, #888) transparent;
 }
 @supports not (scrollbar-color: auto) {
