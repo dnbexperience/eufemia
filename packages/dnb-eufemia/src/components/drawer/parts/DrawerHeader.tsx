@@ -26,7 +26,7 @@ export default function DrawerHeader({
       {...props}
       size={size}
       className={classnames('dnb-drawer__header', className)}
-      title_class={classnames('dnb-drawer__title', titleClass)}
+      titleClass={classnames('dnb-drawer__title', titleClass)}
     />
   )
 }
