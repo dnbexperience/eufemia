@@ -60,7 +60,7 @@ export const DateProperties: PropertiesTableProps = {
   },
   ...datePickerProperties,
   onType: {
-    doc: 'Event handler that is called when the user types in the input field. The first parameter is a string, the second parameter is an object containing { date, start_date, end_date, is_valid, event }.',
+    doc: 'Event handler that is called when the user types in the input field. The first parameter is a string, the second parameter is an object containing { date, startDate, endDate, isValid, event }.',
     type: 'function',
     status: 'optional',
   },
