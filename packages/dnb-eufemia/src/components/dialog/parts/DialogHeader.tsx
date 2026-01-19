@@ -22,7 +22,7 @@ export default function DialogHeader({
       {...props}
       size={size}
       className={classnames('dnb-dialog__header', className)}
-      title_class={classnames('dnb-dialog__title', titleClass)}
+      titleClass={classnames('dnb-dialog__title', titleClass)}
     />
   )
 }
