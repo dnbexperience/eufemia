@@ -30,7 +30,7 @@ export interface ModalHeaderProps extends Omit<SectionProps, 'children'> {
   /**
    * Give the h1 component a classname (maps to `dnb-modal__title`)
    */
-  title_class?: string
+  titleClass?: string
 
   /**
    * Font size of the title (maps to `dnb-h--<size>`)
@@ -52,7 +52,7 @@ export default class ModalHeader extends React.PureComponent<
       title = null,
       className = null,
       children = null,
-      title_class = null,
+      titleClass = null,
       size = null,
       ref, // eslint-disable-line
       ...sectionProps
@@ -82,7 +82,7 @@ export default class ModalHeader extends React.PureComponent<
               'dnb-space__top--zero',
               'dnb-space__bottom--small',
               `dnb-h--${fontSize}`,
-              title_class
+              titleClass
             )}
           >
             {usedTitle}
