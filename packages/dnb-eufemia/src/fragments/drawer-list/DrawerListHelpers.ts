@@ -128,8 +128,8 @@ export const drawerListPropTypes = {
     PropTypes.array,
   ]),
 
-  onShow: PropTypes.func,
-  onHide: PropTypes.func,
+  onOpen: PropTypes.func,
+  onClose: PropTypes.func,
   handleDismissFocus: PropTypes.func,
   onChange: PropTypes.func,
   onPreChange: PropTypes.func,
@@ -174,8 +174,8 @@ export const drawerListDefaultProps = {
   className: null,
   children: null,
 
-  onShow: null,
-  onHide: null,
+  onOpen: null,
+  onClose: null,
   handleDismissFocus: null,
   onChange: null,
   onPreChange: null,
@@ -458,8 +458,8 @@ export function prepareStartupState(
     maxHeight: props.maxHeight,
     selectedItem,
     activeItem: selectedItem,
-    onHide: props.onHide,
-    onShow: props.onShow,
+    onClose: props.onClose,
+    onOpen: props.onOpen,
     onChange: props.onChange,
     onSelect: props.onSelect,
   }
