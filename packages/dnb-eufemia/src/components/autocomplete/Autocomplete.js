@@ -667,7 +667,7 @@ class AutocompleteInstance extends React.PureComponent {
         data.push({
           __id: lastItem.__id + 1,
           lastActiveItem: lastActiveItem.__id,
-          class_name: 'dnb-autocomplete__show-all',
+          className: 'dnb-autocomplete__show-all',
           showAll: true,
           activeItem: false,
           selectedItem: false,
@@ -753,7 +753,7 @@ class AutocompleteInstance extends React.PureComponent {
         ? []
         : [
             {
-              class_name: 'dnb-autocomplete__no-options',
+              className: 'dnb-autocomplete__no-options',
               content: this._props.noOptions,
               ignoreEvents: true,
               __id: 'noOptions',
