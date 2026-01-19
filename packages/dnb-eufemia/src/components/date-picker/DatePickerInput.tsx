@@ -560,27 +560,27 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
 
   const dateSetters = useMemo(
     () => ({
-      set_startDay: (event: React.ChangeEvent<HTMLInputElement>) => {
+      setStartDay: (event: React.ChangeEvent<HTMLInputElement>) => {
         setDate(event, 'start', 'Day')
       },
 
-      set_startMonth: (event: React.ChangeEvent<HTMLInputElement>) => {
+      setStartMonth: (event: React.ChangeEvent<HTMLInputElement>) => {
         setDate(event, 'start', 'Month')
       },
 
-      set_startYear: (event: React.ChangeEvent<HTMLInputElement>) => {
+      setStartYear: (event: React.ChangeEvent<HTMLInputElement>) => {
         setDate(event, 'start', 'Year')
       },
 
-      set_endDay: (event: React.ChangeEvent<HTMLInputElement>) => {
+      setEndDay: (event: React.ChangeEvent<HTMLInputElement>) => {
         setDate(event, 'end', 'Day')
       },
 
-      set_endMonth: (event: React.ChangeEvent<HTMLInputElement>) => {
+      setEndMonth: (event: React.ChangeEvent<HTMLInputElement>) => {
         setDate(event, 'end', 'Month')
       },
 
-      set_endYear: (event: React.ChangeEvent<HTMLInputElement>) => {
+      setEndYear: (event: React.ChangeEvent<HTMLInputElement>) => {
         setDate(event, 'end', 'Year')
       },
     }),
@@ -685,7 +685,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
             .getAttribute('id')
             .match(/-(start|end)-(day|month|year)/)[1]
 
-          dateSetters[`set_${mode}${name}`]({
+          dateSetters[`set${toCapitalized(mode)}${name}`]({
             persist: () => null,
             ...event,
             target: {
@@ -803,7 +803,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
                     size={2}
                     mask={[/[0-9]/, /[0-9]/]}
                     inputRef={inputRefs.current[`${mode}DayRef`]}
-                    onChange={dateSetters[`set_${mode}Day`]}
+                    onChange={dateSetters[`set${toCapitalized(mode)}Day`]}
                     value={inputDates[`${mode}Day`] || ''}
                     aria-labelledby={`${id}-${mode}-day-label`}
                   />
@@ -835,7 +835,9 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
                     size={2}
                     mask={[/[0-9]/, /[0-9]/]}
                     inputRef={inputRefs.current[`${mode}MonthRef`]}
-                    onChange={dateSetters[`set_${mode}Month`]}
+                    onChange={
+                      dateSetters[`set${toCapitalized(mode)}Month`]
+                    }
                     value={inputDates[`${mode}Month`] || ''}
                     aria-labelledby={`${id}-${mode}-month-label`}
                   />
@@ -867,7 +869,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
                     size={4}
                     mask={[/[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/]}
                     inputRef={inputRefs.current[`${mode}YearRef`]}
-                    onChange={dateSetters[`set_${mode}Year`]}
+                    onChange={dateSetters[`set${toCapitalized(mode)}Year`]}
                     value={inputDates[`${mode}Year`] || ''}
                     aria-labelledby={`${id}-${mode}-year-label`}
                   />
