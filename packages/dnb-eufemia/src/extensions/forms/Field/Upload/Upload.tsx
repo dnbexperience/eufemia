@@ -64,6 +64,9 @@ export type Props = Omit<
     width?: 'large' | 'stretch'
   }
 
+const getFileIdsKey = (files: UploadValue) =>
+  files?.map((f) => f.id).join(',') || ''
+
 function UploadComponent(props: Props) {
   const sharedTr = useSharedTranslation().Upload
   const formsTr = useFormsTranslation().Upload
@@ -160,7 +163,9 @@ function UploadComponent(props: Props) {
     buttonProps,
   } = rest
 
-  const { files, setFiles } = useUpload(id)
+  // Use identifier instead of id when in an Iterate context to ensure each instance has its own file state
+  const uploadId = props.itemPath ? identifier : id
+  const { files, setFiles } = useUpload(uploadId)
 
   const labelWithItemNo = useIterateItemNo({
     label: label ?? title,
@@ -169,14 +174,67 @@ function UploadComponent(props: Props) {
   })
 
   const filesRef = useRef<Array<UploadFile>>()
+  const lastHandleChangeValueRef = useRef<string>()
 
-  useMemo(() => {
+  useEffect(() => {
     filesRef.current = files
   }, [files])
 
+  // Helper to update files and notify parent
+  const updateFiles = useCallback(
+    (newFiles: UploadValue) => {
+      setFiles(newFiles)
+      lastHandleChangeValueRef.current = getFileIdsKey(newFiles)
+      handleChange(newFiles)
+    },
+    [setFiles, handleChange]
+  )
+
+  const syncExternalValue = useCallback(
+    (externalValue: UploadValue) => {
+      const valueKey = getFileIdsKey(externalValue)
+
+      // Skip echo updates (our own updates coming back)
+      if (lastHandleChangeValueRef.current === valueKey) return
+
+      const hasLoadingInValue = externalValue?.some((f) => f.isLoading)
+      const hasResolvedInCurrent = filesRef.current?.some(
+        (f) => !f.isLoading && f.id
+      )
+
+      // Skip stale updates with loading files when we already have resolved files
+      if (hasLoadingInValue && hasResolvedInCurrent) return
+
+      // Check for files that need to be preserved (loading or error files)
+      const currentFiles = filesRef.current || []
+      const pendingFiles = currentFiles.filter(
+        (f) => f.isLoading || f.errorMessage
+      )
+
+      // Early return if no files to preserve
+      if (!pendingFiles.length) {
+        setFiles(externalValue)
+        return
+      }
+
+      // Merge: keep external files and append any pending files not in external value
+      const externalIds = new Set(externalValue?.map((f) => f.id) || [])
+      const missingInExternal = pendingFiles.filter(
+        (f) => !externalIds.has(f.id)
+      )
+
+      setFiles(
+        missingInExternal.length
+          ? [...(externalValue || []), ...missingInExternal]
+          : externalValue
+      )
+    },
+    [setFiles]
+  )
+
   useEffect(() => {
-    setFiles(value)
-  }, [setFiles, value])
+    syncExternalValue(value)
+  }, [syncExternalValue, value])
 
   const handleChangeAsync = useCallback(
     async (files: UploadValue) => {
@@ -200,18 +258,27 @@ function UploadComponent(props: Props) {
         })
 
         try {
-          // Set loading
+          // Set loading - update data context and local state without triggering user's onChange
           const newFilesLoading = newFiles.map((file) => ({
             ...file,
             isLoading: !file.errorMessage,
           }))
-          setFiles([...filesRef.current, ...newFilesLoading])
+          const filesWithLoading = [
+            ...filesRef.current,
+            ...newFilesLoading,
+          ]
+          setFiles(filesWithLoading)
+          // Update data context with loading state without triggering validation or user's onChange.
+          // This keeps the form in sync while files are being processed by fileHandler.
+          dataContext?.handlePathChangeUnvalidated?.(
+            identifier,
+            filesWithLoading
+          )
 
           const incomingFiles = await fileHandler(newValidFiles)
 
           if (!incomingFiles) {
-            setFiles(existingFiles)
-            handleChange(existingFiles)
+            updateFiles(existingFiles)
           } else {
             // merge incoming files into existing order of newFiles.
             incomingFiles.forEach((file) => {
@@ -230,34 +297,35 @@ function UploadComponent(props: Props) {
               }
             })
 
-            const indexOfFirstNewFile = filesRef.current.findIndex(
+            const currentFiles = filesRef.current
+            const indexOfFirstNewFile = currentFiles.findIndex(
               ({ id }) => id === newFiles[0].id
             )
 
             const updatedFiles = [
-              ...filesRef.current.slice(0, indexOfFirstNewFile),
+              ...currentFiles.slice(0, indexOfFirstNewFile),
               ...(newFilesLoading?.filter((file) => file != null) ?? []),
-              ...filesRef.current.slice(
+              ...currentFiles.slice(
                 indexOfFirstNewFile + newFilesLoading.length
               ),
             ]
-            setFiles(updatedFiles)
-            handleChange(updatedFiles)
+            updateFiles(updatedFiles)
           }
         } finally {
           setFieldState?.(fieldIdentifier, undefined)
         }
       } else {
-        handleChange(files)
+        updateFiles(files)
       }
     },
     [
       identifier,
       fileHandler,
-      handleChange,
       setFieldInternals,
       setFieldState,
       setFiles,
+      dataContext,
+      updateFiles,
     ]
   )
 
@@ -271,10 +339,10 @@ function UploadComponent(props: Props) {
       if (fileHandler) {
         handleChangeAsync(changeValue)
       } else {
-        handleChange(changeValue)
+        updateFiles(changeValue)
       }
     },
-    [handleBlur, handleFocus, fileHandler, handleChangeAsync, handleChange]
+    [handleBlur, handleFocus, fileHandler, handleChangeAsync, updateFiles]
   )
 
   const width = widthProp as FieldBlockWidth
@@ -293,7 +361,7 @@ function UploadComponent(props: Props) {
   return (
     <FieldBlock {...fieldBlockProps}>
       <Upload
-        id={id}
+        id={uploadId}
         variant={variant}
         acceptedFileTypes={acceptedFileTypes}
         filesAmountLimit={filesAmountLimit}
