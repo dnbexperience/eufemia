@@ -213,7 +213,6 @@ export interface DrawerListProps {
   opened?: boolean
   data?: DrawerListData
   groups?: DrawerListGroupTitles
-  prepared_data?: any[]
   /**
    * If set to `true`, all keyboard and mouse events will be ignored.
    */
