@@ -534,7 +534,7 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
         .map(({ groupTitle, groupData: data, hideTitle }, j) => {
           const Items = () =>
             data.map((dataItem, i) => {
-              const { __id, ignore_events, class_name, disabled, style } =
+              const { __id, ignoreEvents, className, disabled, style } =
                 dataItem
               const hash = `option-${id}-${__id}-${i}`
               const tagId = `option-${id}-${__id}`
@@ -553,12 +553,11 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
                   tagId === closestToBottom && 'closest-to-bottom',
                   i === 0 && 'first-of-type', // because of the triangle element
                   i === data.length - 1 && 'last-of-type', // because of the triangle element
-                  (ignoreEventsBoolean || ignore_events) &&
-                    'ignore-events',
-                  class_name
+                  (ignoreEventsBoolean || ignoreEvents) && 'ignore-events',
+                  className
                 ),
                 active: __id === activeItem,
-                selected: !ignore_events && __id === selectedItem,
+                selected: !ignoreEvents && __id === selectedItem,
                 onClick: this.selectItemHandler,
                 onKeyDown: this.preventTab,
                 disabled: disabled,
