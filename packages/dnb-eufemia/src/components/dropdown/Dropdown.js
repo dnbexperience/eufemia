@@ -343,7 +343,7 @@ class DropdownInstance extends React.PureComponent {
     }
   }
 
-  onHideHandler = (args = {}) => {
+  onCloseHandler = (args = {}) => {
     const attributes = this.attributes || {}
     const res = dispatchCustomElementEvent(this, 'onClose', {
       ...args,
@@ -695,7 +695,7 @@ class DropdownInstance extends React.PureComponent {
                 size={size}
                 onChange={this.onChangeHandler}
                 onSelect={this.onSelectHandler}
-                onClose={this.onHideHandler}
+                onClose={this.onCloseHandler}
               />
             </span>
 

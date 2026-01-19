@@ -1599,7 +1599,7 @@ class AutocompleteInstance extends React.PureComponent {
     return searchIndex
   }
 
-  onHideHandler = (args = {}) => {
+  onCloseHandler = (args = {}) => {
     const res = dispatchCustomElementEvent(this, 'onClose', {
       ...args,
       ...this.getEventObjects('onClose'),
@@ -2110,7 +2110,7 @@ class AutocompleteInstance extends React.PureComponent {
                 optionsRender={optionsRender}
                 onChange={this.onChangeHandler}
                 onSelect={this.onSelectHandler}
-                onHide={this.onHideHandler}
+                onClose={this.onCloseHandler}
                 onPreChange={this.onPreChangeHandler}
                 onKeyDown={this.reserveActivityHandler}
                 onMouseDown={this.reserveActivityHandler}
