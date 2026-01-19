@@ -24,7 +24,7 @@ export interface ModalHeaderBarProps
    */
   className?: string
 
-  shadow_class?: string
+  shadowClass?: string
 }
 
 interface ModalHeaderBarState {
@@ -97,7 +97,7 @@ export default class ModalHeaderBar extends React.PureComponent<
       className = null,
       children = null,
       ref, //eslint-disable-line
-      shadow_class = null,
+      shadowClass = null,
       ...props
     } = this.props
     const { showShadow } = this.state
@@ -113,7 +113,7 @@ export default class ModalHeaderBar extends React.PureComponent<
         style_type="white"
         className={classnames(
           'dnb-modal__header__bar',
-          showShadow && shadow_class,
+          showShadow && shadowClass,
           className
         )}
         innerRef={this._ref}
