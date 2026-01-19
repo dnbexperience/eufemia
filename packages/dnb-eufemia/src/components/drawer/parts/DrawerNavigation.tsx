@@ -18,7 +18,7 @@ export default function DrawerNavigation({
     <ModalHeaderBar
       {...props}
       className={classnames('dnb-drawer__navigation', className)}
-      shadow_class="dnb-drawer__navigation--sticky"
+      shadowClass="dnb-drawer__navigation--sticky"
     />
   )
 }
