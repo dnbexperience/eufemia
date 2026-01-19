@@ -52,11 +52,9 @@ exports[`Tabs scss has to match style dependencies css 1`] = `
   overflow-x: auto;
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
-  -ms-overflow-style: auto;
   scrollbar-color: var(--scrollbar-thumb-color, #888) transparent;
   /* Hide scrollbar for Chrome, Safari */
   /* stylelint-disable-next-line */
-  -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
 .dnb-tabs__tabs__tablist:focus {
