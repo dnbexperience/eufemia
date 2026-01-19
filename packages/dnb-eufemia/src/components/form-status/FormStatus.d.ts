@@ -31,40 +31,40 @@ export interface FormStatusProps
     SpacingProps {
   id?: string;
   /**
-   * the `title` attribute in the status.
+   * The `title` attribute in the status.
    */
   title?: string;
   label?: React.ReactNode;
   /**
-   * provide `false` if you want to animate the visibility. Defaults to `true`.
+   * Provide `false` if you want to animate the visibility. Defaults to `true`.
    */
   show?: boolean;
   /**
-   * the `text` appears as the status message. Beside plain text, you can send in a React component as well.
+   * The `text` appears as the status message. Beside plain text, you can send in a React component as well.
    */
   text?: FormStatusText;
   /**
-   * the [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status).
+   * The [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status).
    */
   globalStatus?: GlobalStatusConfigObject;
   /**
-   * the `icon` show before the status text. Defaults to `exclamation`.
+   * The `icon` show before the status text. Defaults to `exclamation`.
    */
   icon?: IconIcon;
   /**
-   * the icon size of the icon shows. Defaults to `medium`.
+   * The icon size of the icon shows. Defaults to `medium`.
    */
   icon_size?: IconSize;
   /**
-   * defines the visual appearance of the status. These are the statuses `error`, `warn`, `info` and `marketing`. The default status is `error`.
+   * Defines the visual appearance of the status. These are the statuses `error`, `warn`, `info` and `marketing`. The default status is `error`.
    */
   state?: FormStatusState;
   /**
-   * as of now, there is the `flat` and the `outlined` variant. Defaults to `flat`.
+   * As of now, there is the `flat` and the `outlined` variant. Defaults to `flat`.
    */
   variant?: FormStatusVariant;
   /**
-   * defines the appearance size. There are these sizes `default`, `large`. The default status is `default`.
+   * Defines the appearance size. There are these sizes `default`, `large`. The default status is `default`.
    */
   size?: FormStatusSize;
   attributes?: FormStatusAttributes;
@@ -80,11 +80,11 @@ export interface FormStatusProps
    */
   skeleton?: SkeletonShow;
   /**
-   * if set to `true`, then the FormStatus will be 100% in available `width`. **NB:** Only use this on independent status messages.
+   * If set to `true`, then the FormStatus will be 100% in available `width`. **NB:** Only use this on independent status messages.
    */
   stretch?: boolean;
   /**
-   * the `role` attribute for accessibility, defaults to `alert`.
+   * The `role` attribute for accessibility, defaults to `alert`.
    */
   role?: string;
   /**
@@ -93,7 +93,7 @@ export interface FormStatusProps
   shellSpace?: SpaceTypeAll;
   className?: string;
   /**
-   * the `text` appears as the status message. Beside plain text, you can send in a React component as well.
+   * The `text` appears as the status message. Beside plain text, you can send in a React component as well.
    */
   children?: FormStatusChildren;
 }
@@ -106,28 +106,28 @@ export default class FormStatus extends React.Component<
 }
 export interface ErrorIconProps {
   /**
-   * the `title` attribute in the status.
+   * The `title` attribute in the status.
    */
   title?: string;
 }
 export declare const ErrorIcon: (props: ErrorIconProps) => JSX.Element;
 export interface WarnIconProps {
   /**
-   * the `title` attribute in the status.
+   * The `title` attribute in the status.
    */
   title?: string;
 }
 export declare const WarnIcon: (props: WarnIconProps) => JSX.Element;
 export interface InfoIconProps {
   /**
-   * the `title` attribute in the status.
+   * The `title` attribute in the status.
    */
   title?: string;
 }
 export declare const InfoIcon: (props: InfoIconProps) => JSX.Element;
 export interface MarketingIconProps {
   /**
-   * the `title` attribute in the status.
+   * The `title` attribute in the status.
    */
   title?: string;
 }
