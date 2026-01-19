@@ -1232,9 +1232,9 @@ describe('Field.Date', () => {
     expect(onReset).toHaveBeenCalledWith(
       expect.objectContaining({
         date: undefined,
-        is_valid: false,
-        start_date: undefined,
-        end_date: undefined,
+        isValid: false,
+        startDate: undefined,
+        endDate: undefined,
       })
     )
 
