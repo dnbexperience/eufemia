@@ -14,7 +14,7 @@ export type SkeletonMethods = 'shape' | 'font' | 'code'
 export type SkeletonContextProps = ContextProps & {
   translation?: {
     Skeleton?: {
-      aria_busy?: string
+      ariaBusy?: string
     }
   }
 }
@@ -22,7 +22,7 @@ export type SkeletonContextProps = ContextProps & {
 export type skeletonDOMAttributesContext = {
   translation?: {
     Skeleton: {
-      aria_busy?: string
+      ariaBusy?: string
     }
   }
 }
