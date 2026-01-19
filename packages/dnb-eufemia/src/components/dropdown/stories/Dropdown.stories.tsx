@@ -378,7 +378,7 @@ const DropdownStory = () => {
       <Box>
         <Provider
           formElement={{
-            label_direction: 'vertical',
+            labelDirection: 'vertical',
           }}
         >
           <Dropdown
@@ -406,7 +406,7 @@ const DropdownStory = () => {
       <Box>
         <Provider
           formElement={{
-            label_direction: 'vertical',
+            labelDirection: 'vertical',
           }}
         >
           <Dropdown label="Vertical A:" data={dropdownData} />
