@@ -87,32 +87,32 @@ export interface PaymentCardProps
   extends Omit<React.HTMLProps<HTMLElement>, 'ref'>,
     SpacingProps {
   /**
-   * if product code matches one of the codes in the list the card will get that design, if no match is found Default design will be used.
+   * If product code matches one of the codes in the list the card will get that design, if no match is found Default design will be used.
    */
   product_code: string;
   /**
-   * masked card number.
+   * Masked card number.
    */
   card_number: string;
   /**
-   * use one of these: `active`, `not_active`, `new_order`, `new`, `blocked`, `expired`, `renewed`, `replaced`, `order_in_process`, `unknown`. Defaults to `active`.
+   * Use one of these: `active`, `not_active`, `new_order`, `new`, `blocked`, `expired`, `renewed`, `replaced`, `order_in_process`, `unknown`. Defaults to `active`.
    */
   card_status?: PaymentCardCardStatus;
   /**
-   * defines the appearance. Use one of these: `normal` or `compact`. Defaults to `normal`.
+   * Defines the appearance. Use one of these: `normal` or `compact`. Defaults to `normal`.
    */
   variant?: PaymentCardVariant;
   /**
-   * will use 8 digits if none are specified.
+   * Will use 8 digits if none are specified.
    */
   digits?: PaymentCardDigits;
   /**
-   * useful if you want to create custom cards. See Card data properties.
+   * Useful if you want to create custom cards. See Card data properties.
    */
   raw_data?: PaymentCardRawData;
   id?: string;
   /**
-   * use `nb-NO` or `en-GB`. Defaults to the Eufemia provider.
+   * Use `nb-NO` or `en-GB`. Defaults to the Eufemia provider.
    */
   locale?: InternalLocale;
   /**

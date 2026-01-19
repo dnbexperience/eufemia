@@ -15,25 +15,25 @@ export interface FormRowProps
     SpacingProps {
   id?: string;
   /**
-   * use either the `label` property or provide a custom one.
+   * Use either the `label` property or provide a custom one.
    */
   label?: React.ReactNode;
   /**
-   * use `label_direction="vertical"` to change the label/legend layout direction. Defaults to `horizontal`.
+   * Use `label_direction="vertical"` to change the label/legend layout direction. Defaults to `horizontal`.
    */
   label_direction?: FormLabelLabelDirection;
   /**
-   * use `true` to make the label only readable by screen readers.
+   * Use `true` to make the label only readable by screen readers.
    */
   label_sr_only?: boolean;
   label_id?: string;
   /**
-   * if you need to style the "legend", then you can either send in a custom Component, like `label={ <H2> }`, or define your styling class with the `label_class` property.
+   * If you need to style the "legend", then you can either send in a custom Component, like `label={ <H2> }`, or define your styling class with the `label_class` property.
    */
   label_class?: string;
   no_label?: boolean;
   /**
-   * if set to `true`, then the internal `legend` element will be a `label` instead, and no `<fieldset>` is used. Keep in mind, that `<legend>` and `<fieldset>` **is only used if a `label` is provided**. Defaults to `false`.
+   * If set to `true`, then the internal `legend` element will be a `label` instead, and no `<fieldset>` is used. Keep in mind, that `<legend>` and `<fieldset>` **is only used if a `label` is provided**. Defaults to `false`.
    */
   no_fieldset?: boolean;
   /**
@@ -41,36 +41,36 @@ export interface FormRowProps
    */
   locale?: InternalLocale;
   /**
-   * forces the content of a FormRow to wrap. Make sure you always define spacing as `right="..."` and not `left`, this way components will align left once they wrap. Defaults to `false`.
+   * Forces the content of a FormRow to wrap. Make sure you always define spacing as `right="..."` and not `left`, this way components will align left once they wrap. Defaults to `false`.
    */
   wrap?: boolean;
   /**
-   * to define the layout direction on how the next component should be placed on. Can be either `vertical` or `horizontal`. Defaults to `horizontal`.
+   * To define the layout direction on how the next component should be placed on. Can be either `vertical` or `horizontal`. Defaults to `horizontal`.
    */
   direction?: FormRowDirection;
   /**
-   * will force both `direction` and `label_direction` to be **vertical** if set to `true`.
+   * Will force both `direction` and `label_direction` to be **vertical** if set to `true`.
    */
   vertical?: boolean;
   /**
-   * will center all children vertically as long as the screen does not hit a mobile width.
+   * Will center all children vertically as long as the screen does not hit a mobile width.
    */
   centered?: boolean;
   /**
-   * to enable the visual helper `.dnb-section` class. Use a supported modifier from the [Section component](/uilib/components/section/properties). Defaults to `null`.
+   * To enable the visual helper `.dnb-section` class. Use a supported modifier from the [Section component](/uilib/components/section/properties). Defaults to `null`.
    */
   section_style?: SectionStyleTypes;
   /**
-   * to modify the `spacing`. Use a supported modifier from the [Section component](/uilib/components/section/properties). Defaults to `null`.
+   * To modify the `spacing`. Use a supported modifier from the [Section component](/uilib/components/section/properties). Defaults to `null`.
    */
   section_spacing?: SectionSpacing;
   globalStatus?: GlobalStatusConfigObject;
   /**
-   * to force responsiveness on form components (like [Input](/uilib/components/input) and their labels ([FormLabel](/uilib/components/form-label)), set the property to `true`. Defaults to `false`.
+   * To force responsiveness on form components (like [Input](/uilib/components/input) and their labels ([FormLabel](/uilib/components/form-label)), set the property to `true`. Defaults to `false`.
    */
   responsive?: boolean;
   /**
-   * if set to `true`, every component inside will be disabled. Defaults to `false`.
+   * If set to `true`, every component inside will be disabled. Defaults to `false`.
    */
   disabled?: boolean;
   /**
