@@ -14,8 +14,6 @@ exports[`Table scss should match default theme snapshot 1`] = `
 .dnb-table {
   --table-th-background-color: var(--color-white);
   text-align: left;
-  /* stylelint-disable */
-  /* stylelint-enable */
 }
 .dnb-table__th, .dnb-table thead th {
   padding: 2rem 1rem 1rem;
@@ -37,6 +35,9 @@ exports[`Table scss should match default theme snapshot 1`] = `
   padding: 1.25rem 1rem 0.5rem;
   font-size: var(--font-size-small);
   line-height: var(--line-height-small);
+}
+.dnb-table {
+  /* stylelint-disable */
 }
 .dnb-table__td, .dnb-table tbody .dnb-table__th, .dnb-table tbody td, .dnb-table tbody th {
   padding: 1rem;
@@ -62,6 +63,9 @@ exports[`Table scss should match default theme snapshot 1`] = `
   padding: 0.625rem 1rem;
   font-size: var(--font-size-small);
   line-height: var(--line-height-small);
+}
+.dnb-table {
+  /* stylelint-enable */
 }
 .dnb-table:not(.dnb-table--outline) > tbody {
   position: relative;
@@ -115,7 +119,8 @@ exports[`Table scss should match style dependencies css 1`] = `
  */
 /*
  * Utilities
- */ /*
+ */
+/*
 * Button mixins
 *
 */
@@ -218,6 +223,13 @@ exports[`Table scss should match style dependencies css 1`] = `
 .dnb-table > thead > tr > th.dnb-table--sortable, .dnb-table .dnb-table__th.dnb-table--sortable {
   color: var(--color-sea-green);
 }
+.dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button > .dnb-icon, .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button > .dnb-icon {
+  opacity: 0;
+  transition: opacity 200ms ease-out, transform 500ms ease-out;
+}
+html[data-visual-test] .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button > .dnb-icon, html[data-visual-test] .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button > .dnb-icon {
+  transition: none;
+}
 .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button, .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button {
   position: relative;
   z-index: 1;
@@ -231,13 +243,6 @@ exports[`Table scss should match style dependencies css 1`] = `
   font-weight: var(--font-weight-medium);
   text-align: inherit;
   font-size: inherit;
-}
-.dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button > .dnb-icon, .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button > .dnb-icon {
-  opacity: 0;
-  transition: opacity 200ms ease-out, transform 500ms ease-out;
-}
-html[data-visual-test] .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button > .dnb-icon, html[data-visual-test] .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button > .dnb-icon {
-  transition: none;
 }
 .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button .dnb-button__text, .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button .dnb-button__text {
   margin: 0;
@@ -298,9 +303,6 @@ html:not([data-visual-test]) .dnb-table > thead > tr > th.dnb-table--sortable .d
 .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active[disabled], html:not([data-whatintent=touch]) .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active[disabled], .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active[disabled], html:not([data-whatintent=touch]) .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active[disabled] {
   cursor: not-allowed;
 }
-.dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled]), html:not([data-whatintent=touch]) .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled]), .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled]), html:not([data-whatintent=touch]) .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled]) {
-  color: var(--color-sea-green);
-}
 .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before, html:not([data-whatintent=touch]) .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before, .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before, html:not([data-whatintent=touch]) .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before {
   content: "";
   position: absolute;
@@ -347,6 +349,9 @@ html[data-whatinput=touch] .dnb-table > thead > tr > th.dnb-table--sortable .dnb
 }
 .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before, html:not([data-whatintent=touch]) .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before, .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before, html:not([data-whatintent=touch]) .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before {
   right: -0.5rem;
+}
+.dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled]), html:not([data-whatintent=touch]) .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled]), .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled]), html:not([data-whatintent=touch]) .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled]) {
+  color: var(--color-sea-green);
 }
 .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:hover:focus:not(:active) .dnb-button__text::after, .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:hover:focus:not(:active) .dnb-button__text::after {
   visibility: hidden;
@@ -411,7 +416,8 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
 */
 /*
  * Utilities
- */ /*
+ */
+/*
 * Button mixins
 *
 */
@@ -435,14 +441,11 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
 */
 /*
  * Utilities
- */ /*
+ */
+/*
 * Button mixins
 *
 */
-.dnb-table {
-  /* stylelint-disable */
-  /* stylelint-enable */
-}
 .dnb-table--border tbody .dnb-table__td::after,
 .dnb-table--border tbody .dnb-table__th::after {
   content: "";
@@ -475,6 +478,9 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
 .dnb-table--border thead + tbody .dnb-table__tr:first-child .dnb-table__td::after,
 .dnb-table--border thead + tbody .dnb-table__tr:first-child .dnb-table__th::after {
   border-top: var(--table-border);
+}
+.dnb-table {
+  /* stylelint-disable */
 }
 .dnb-table--outline thead:first-of-type .dnb-table__tr:first-of-type .dnb-table__th:first-child, .dnb-table--outline thead:first-of-type .dnb-table__tr:first-of-type .dnb-table__th:first-child::before, .dnb-table--outline thead:first-of-type .dnb-table__tr:first-of-type .dnb-table__th:first-child::after,
 .dnb-table--outline thead:first-of-type .dnb-table__tr:first-of-type .dnb-table__td:first-child,
@@ -540,6 +546,9 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
 .dnb-table--outline tbody:last-child .dnb-table__tr--clickable:not(.dnb-table__tr--expanded).dnb-table__tr--last .dnb-table__td:last-child::after {
   border-bottom-right-radius: var(--table-outline-radius);
 }
+.dnb-table {
+  /* stylelint-enable */
+}
 .dnb-table__td--no-spacing,
 .dnb-table td.dnb-table__td--no-spacing {
   padding: 0;
@@ -556,7 +565,8 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
 */
 /*
  * Utilities
- */ /*
+ */
+/*
 * Button mixins
 *
 */
@@ -626,16 +636,14 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
   display: flex;
   flex-direction: column;
 }
-.dnb-table__container__body .dnb-table {
-  position: relative;
-  /* stylelint-disable */
-  /* stylelint-enable */
-}
 .dnb-table__container__body .dnb-table:not([class*=space__bottom]) {
   margin-bottom: 0;
 }
 .dnb-table__container__body .dnb-table__size--large .dnb-table__th {
   padding-top: 1.5rem;
+}
+.dnb-table__container__body .dnb-table {
+  position: relative;
 }
 .dnb-table__container__body .dnb-table::after {
   content: "";
@@ -648,10 +656,16 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
   pointer-events: none;
   border-bottom: var(--table-border);
 }
+.dnb-table__container__body .dnb-table {
+  /* stylelint-disable */
+}
 .dnb-table__container__body .dnb-table tbody:first-child .dnb-table__tr:first-of-type .dnb-table__th::after,
 .dnb-table__container__body .dnb-table tbody:first-child .dnb-table__tr:first-of-type .dnb-table__td::after, .dnb-table__container__body .dnb-table > :not(thead) + tbody .dnb-table__tr:first-of-type .dnb-table__th::after,
 .dnb-table__container__body .dnb-table > :not(thead) + tbody .dnb-table__tr:first-of-type .dnb-table__td::after {
   border-top: none;
+}
+.dnb-table__container__body .dnb-table {
+  /* stylelint-enable */
 }
 .dnb-table__container__head {
   padding: 2rem 1rem 0;
@@ -710,7 +724,6 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
 .dnb-table__th.dnb-table__th__button-icon,
 .dnb-table__th.dnb-table__th__button-icon div {
   width: 3.5rem;
-  text-indent: -300vw;
 }
 .dnb-table__size--medium .dnb-table__th.dnb-table__th__button-icon,
 .dnb-table__size--medium .dnb-table__th.dnb-table__th__button-icon div {
@@ -720,11 +733,15 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
 .dnb-table__size--small .dnb-table__th.dnb-table__th__button-icon div {
   width: 2.5rem;
 }
-.dnb-table__td.dnb-table__td__button-icon {
-  user-select: none;
+.dnb-table__th.dnb-table__th__button-icon,
+.dnb-table__th.dnb-table__th__button-icon div {
+  text-indent: -300vw;
 }
 .dnb-table__td.dnb-table__td__button-icon.dnb-table__td {
   padding: 0;
+}
+.dnb-table__td.dnb-table__td__button-icon {
+  user-select: none;
 }
 .dnb-table__tr--clickable .dnb-table__button {
   display: flex;
@@ -828,12 +845,14 @@ html:not([data-whatinput=keyboard]) .dnb-table__tr--clickable.dnb-table__tr.dnb-
   overflow: hidden;
   will-change: height;
   transition: height 400ms var(--easing-default);
-  position: relative;
 }
 .dnb-table__tr__accordion-content__inner__spacing {
   padding: 1rem;
   transform: translateY(-10px);
   transition: transform 500ms var(--easing-default);
+}
+.dnb-table__tr__accordion-content__inner {
+  position: relative;
 }
 .dnb-table__tr__accordion-content--parallax .dnb-table__tr__accordion-content__inner__spacing {
   transform: translateY(0);

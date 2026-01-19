@@ -84,10 +84,10 @@ h1 > .dnb-icon, h2 > .dnb-icon, h3 > .dnb-icon, h4 > .dnb-icon, h5 > .dnb-icon, 
 p > .dnb-icon {
   vertical-align: inherit;
 }
-.dnb-icon.dnb-skeleton {
-  color: var(--skeleton-color) !important;
-}
 .dnb-icon.dnb-skeleton::before, .dnb-icon.dnb-skeleton::after {
   content: none !important;
+}
+.dnb-icon.dnb-skeleton {
+  color: var(--skeleton-color) !important;
 }"
 `;

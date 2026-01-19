@@ -23,6 +23,11 @@ exports[`Tooltip scss has to match style dependencies css 1`] = `
   --inner-space: 0;
   --tooltip-border-radius: 1rem;
   z-index: var(--tooltip-z-index);
+}
+.dnb-popover--inside-modal .dnb-tooltip {
+  z-index: calc(var(--modal-z-index) + var(--tooltip-z-index));
+}
+.dnb-tooltip {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -31,9 +36,6 @@ exports[`Tooltip scss has to match style dependencies css 1`] = `
   text-align: center;
   border-radius: var(--tooltip-border-radius);
   box-shadow: var(--shadow-default);
-}
-.dnb-popover--inside-modal .dnb-tooltip {
-  z-index: calc(var(--modal-z-index) + var(--tooltip-z-index));
 }
 .dnb-tooltip--large {
   padding: 0.25rem 0;
