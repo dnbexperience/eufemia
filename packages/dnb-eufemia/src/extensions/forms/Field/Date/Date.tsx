@@ -271,9 +271,9 @@ function DateComponent(props: DateProps) {
     ) => {
       const reset = {
         date: undefined,
-        start_date: undefined,
-        end_date: undefined,
-        is_valid: false,
+        startDate: undefined,
+        endDate: undefined,
+        isValid: false,
       }
       handleChange(reset)
       setDisplayValue(undefined)
