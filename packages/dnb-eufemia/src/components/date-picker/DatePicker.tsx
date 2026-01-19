@@ -68,16 +68,16 @@ export type DatePickerEventAttributes = {
 // Takes the return object from DatePickerProvider and extends it with the event
 export type DatePickerEvent<T> = ReturnObject<T>
 
-type FocusOnHide = { focusOnHide?: boolean | string }
+type FocusOnClose = { focusOnClose?: boolean | string }
 
 export type DisplayPickerEvent = (
   | React.MouseEvent<HTMLButtonElement | HTMLAnchorElement | HTMLElement>
   | MouseEvent
   | KeyboardEvent
-  | FocusOnHide
+  | FocusOnClose
 ) &
   DatePickerDates &
-  FocusOnHide & {
+  FocusOnClose & {
     event?: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>
   }
 
@@ -448,7 +448,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
           onClose?.({
             ...getReturnObject.current(args),
           })
-          if (args?.['focusOnHide']) {
+          if (args?.['focusOnClose']) {
             try {
               submitButtonRef.current.focus({
                 preventScroll: true,
@@ -494,7 +494,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
       | React.KeyboardEvent<HTMLTableElement>
     >) => {
       if (shouldHidePicker && !showSubmitButton && !showCancelButton) {
-        hidePicker({ focusOnHide: true })
+        hidePicker({ focusOnClose: true })
       }
 
       setDates({ startDate: args.startDate, endDate: args.endDate })

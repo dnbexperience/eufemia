@@ -94,8 +94,8 @@ export type DateProps = Omit<
     | 'alignPicker'
     | 'onDaysRender'
     | 'onType'
-    | 'onShow'
-    | 'onHide'
+    | 'onOpen'
+    | 'onClose'
     | 'onSubmit'
     | 'onCancel'
     | 'onReset'
@@ -582,8 +582,8 @@ const datePickerPropKeys = [
   'showInput',
   'onDaysRender',
   'onType',
-  'onShow',
-  'onHide',
+  'onOpen',
+  'onClose',
   'onSubmit',
   'onCancel',
   'onReset',
