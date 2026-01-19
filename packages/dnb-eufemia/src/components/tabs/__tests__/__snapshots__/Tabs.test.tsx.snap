@@ -77,7 +77,6 @@ html:not([data-visual-test]) .dnb-tabs__tabs__tablist {
 }
 .dnb-tabs__tabs__tablist {
   -webkit-overflow-scrolling: touch;
-  -ms-overflow-style: auto;
   scrollbar-color: var(--scrollbar-thumb-color, #888) transparent;
 }
 @supports not (scrollbar-color: auto) {
@@ -109,7 +108,6 @@ html:not([data-visual-test]) .dnb-tabs__tabs__tablist {
   display: none;
 }
 .dnb-tabs__tabs__tablist {
-  -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
 .dnb-tabs__tabs--left .dnb-tabs__tabs__tablist {
