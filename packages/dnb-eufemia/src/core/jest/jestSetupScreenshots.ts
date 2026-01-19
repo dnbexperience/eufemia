@@ -539,6 +539,17 @@ async function makePageReady({
   await applyTestConfiguration(page)
   await addTestStylesheet(page)
 
+  // Ensure web fonts have settled to avoid layout shifts in screenshots.
+  await page.evaluate(async () => {
+    if (document.fonts && document.fonts.ready) {
+      try {
+        await document.fonts.ready
+      } catch (e) {
+        // Ignore font readiness errors, keep tests running.
+      }
+    }
+  })
+
   // Wait for a moment to ensure the page is fully ready
   // This helps to avoid retry attempts.
   await page.waitForTimeout(50)
