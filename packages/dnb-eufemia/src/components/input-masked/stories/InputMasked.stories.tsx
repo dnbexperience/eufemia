@@ -39,7 +39,7 @@ export function Sandbox() {
       <Provider
         locale={locale}
         formElement={{
-          label_direction: 'vertical',
+          labelDirection: 'vertical',
         }}
       >
         <Form.Handler>
