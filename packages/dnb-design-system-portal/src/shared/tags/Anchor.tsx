@@ -20,7 +20,7 @@ export type AnchorProps = Props &
 
 const PortalLink = React.forwardRef(function Link<TState>(
   { href, onClick = null, ...props }: AnchorProps,
-  ref,
+  ref
 ) {
   const clickHandler = useCallback(
     (event: React.MouseEvent<HTMLAnchorElement>) => {
@@ -29,7 +29,7 @@ const PortalLink = React.forwardRef(function Link<TState>(
         onClick(event)
       }
     },
-    [onClick],
+    [onClick]
   )
 
   return (

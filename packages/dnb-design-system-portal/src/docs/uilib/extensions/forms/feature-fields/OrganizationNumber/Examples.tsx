@@ -126,7 +126,7 @@ export const ValidationExtendValidator = () => {
         // Keep the built-in validator while requiring the first digit.
         const myValidator: OrganizationNumberValidator = (
           value,
-          { validators },
+          { validators }
         ) => {
           const { organizationNumberValidator } = validators
 

@@ -513,8 +513,8 @@ export const InitialOpenWithToolbarVariant = () => {
                       if (index > -1) {
                         return new Error(
                           `You cannot have duplicate items: ${getCountryNameByIso(
-                            String(arrayValue.at(index)),
-                          )}`,
+                            String(arrayValue.at(index))
+                          )}`
                         )
                       }
                     }}

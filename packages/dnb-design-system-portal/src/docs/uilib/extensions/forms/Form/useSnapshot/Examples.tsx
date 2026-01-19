@@ -25,7 +25,7 @@ export const InWizard = () => {
                   } else {
                     createSnapshot(
                       args.previousStep.id,
-                      'my-snapshot-slice',
+                      'my-snapshot-slice'
                     )
                   }
                 }}

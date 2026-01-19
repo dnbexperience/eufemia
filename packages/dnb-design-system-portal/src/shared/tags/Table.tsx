@@ -38,7 +38,7 @@ export default function Table({ children }) {
   // make sure we get the table children
   children =
     recursiveFind(children, (child: React.ReactElement) =>
-      child.type === 'table' ? child.props.children : false,
+      child.type === 'table' ? child.props.children : false
     ) || children
 
   children = recursiveMap(
@@ -70,7 +70,7 @@ export default function Table({ children }) {
       }
 
       return child
-    },
+    }
   )
 
   return (
@@ -112,7 +112,7 @@ function recursiveFind(children: ChildrenWithChildren, func) {
 
 function recursiveMap(
   children: ChildrenWithChildren,
-  func = null,
+  func = null
 ): Array<React.ReactElement & { type: { name: string } }> {
   return React.Children.map(children, (child: React.ReactNode) => {
     if (!React.isValidElement(child)) {
@@ -123,7 +123,7 @@ function recursiveMap(
       child = React.cloneElement(
         child,
         null,
-        recursiveMap(child.props.children, func),
+        recursiveMap(child.props.children, func)
       )
     }
 

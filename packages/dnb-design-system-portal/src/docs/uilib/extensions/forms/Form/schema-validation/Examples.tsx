@@ -492,7 +492,7 @@ export const DependentSchemaValidationWithZod = () => {
                       message: 'Field.errorRequired',
                     })
                   }
-                },
+                }
               )
             }
 
@@ -500,7 +500,7 @@ export const DependentSchemaValidationWithZod = () => {
             if (
               value.beneficialOwners?.addedExistingBeneficialOwners &&
               Array.isArray(
-                value.beneficialOwners.addedExistingBeneficialOwners,
+                value.beneficialOwners.addedExistingBeneficialOwners
               )
             ) {
               const ownersLength =

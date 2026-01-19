@@ -57,7 +57,7 @@ export default function ListSummaryFromEdges({
           fields: { slug },
         },
       },
-      i,
+      i
     ) => {
       return (
         <ItemWrapper key={i}>
@@ -113,7 +113,7 @@ export default function ListSummaryFromEdges({
           )
         }
       }
-    },
+    }
   )
 
   return <ListWrapper>{jsx}</ListWrapper>

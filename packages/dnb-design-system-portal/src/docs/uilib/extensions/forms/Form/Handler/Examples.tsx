@@ -90,7 +90,7 @@ export const AsyncChangeAndValidation = () => {
     <ComponentBox scope={{ debounceAsync, createRequest, stopIcon }}>
       {() => {
         const validator = debounceAsync(async function secondValidator(
-          value: string,
+          value: string
         ) {
           try {
             const request = createRequest()
@@ -411,7 +411,7 @@ export const TransformData = () => {
               data,
               ({ value, displayValue, label }) => {
                 return { value, displayValue, label }
-              },
+              }
             )
 
             setSubmitData(transformedData)

@@ -39,7 +39,7 @@ export default function TabBar({
   children,
 }: TabbarProps) {
   const [wasFullscreen, setFullscreen] = React.useState(
-    /fullscreen/.test(location.search),
+    /fullscreen/.test(location.search)
   )
 
   const cleanFullscreen = (s) =>
@@ -71,7 +71,7 @@ export default function TabBar({
       (tabs || defaultTabs)
         // remove the tab if it is hidden in frontmatter
         .filter(
-          ({ title }) => !hideTabs?.find(({ title: t }) => t === title),
+          ({ title }) => !hideTabs?.find(({ title: t }) => t === title)
         )
         .map(({ key, ...rest }) => {
           const search = cleanFullscreen(location.search)

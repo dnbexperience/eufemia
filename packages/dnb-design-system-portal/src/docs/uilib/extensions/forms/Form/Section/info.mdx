@@ -92,7 +92,7 @@ render(
         lastName: { required: false, minLength: 0 },
       }}
     />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -122,7 +122,7 @@ render(
     }}
   >
     <MySection path="/nestedPath" />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -163,7 +163,7 @@ render(
     }}
   >
     <MySection path="/section" />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -213,7 +213,7 @@ render(
     }}
   >
     <AddressSection path="/address" />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -234,7 +234,7 @@ render(
   <Form.Section required={true}>
     <Field.Name.First path="/firstName" />
     <Field.Name.Last path="/lastName" />
-  </Form.Section>,
+  </Form.Section>
 )
 ```
 
@@ -247,7 +247,7 @@ import { Form, Field, SectionProps } from '@dnb/eufemia/extensions/forms'
 import type { Props as PhoneNumberProps } from '@dnb/eufemia/extensions/forms/Field/PhoneNumber'
 
 const MySection = (
-  props: SectionProps<{ phoneNumber?: PhoneNumberProps }>,
+  props: SectionProps<{ phoneNumber?: PhoneNumberProps }>
 ) => {
   return (
     <Form.Section {...props}>
@@ -259,7 +259,7 @@ const MySection = (
 render(
   <Form.Handler>
     <MySection />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -491,7 +491,7 @@ render(
   <Form.Handler>
     <MySection />
     <Form.SubmitButton />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -513,7 +513,7 @@ it('MySection should match snapshot', () => {
       <Tools.ListAllProps generateRef={generateRef}>
         <MySection />
       </Tools.ListAllProps>
-    </Form.Handler>,
+    </Form.Handler>
   )
 
   const { propsOfFields, propsOfValues } = generateRef.current()

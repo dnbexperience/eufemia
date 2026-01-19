@@ -144,7 +144,7 @@ export const AutocompleteDynamicallyUpdatedData = () => (
               return () => clearTimeout(timeout)
             },
             { value },
-            250,
+            250
           )
         }
         return (

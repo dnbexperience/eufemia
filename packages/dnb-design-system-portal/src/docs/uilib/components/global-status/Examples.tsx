@@ -113,7 +113,7 @@ export const GlobalStatusCoupling = () => (
             status={errorMessage}
             on_blur={({ value }) => {
               setErrorMessage(
-                value.length <= 4 ? 'With a message shown' : null,
+                value.length <= 4 ? 'With a message shown' : null
               )
             }}
             globalStatus={{ id: 'main-status' }}

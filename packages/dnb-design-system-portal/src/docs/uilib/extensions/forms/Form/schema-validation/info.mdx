@@ -212,7 +212,7 @@ const ajv = makeAjvInstance(
   new Ajv({
     strict: true,
     allErrors: true,
-  }),
+  })
 )
 ```
 
@@ -254,7 +254,7 @@ import {
 render(
   <Form.Handler schema={schema} ajvInstance={makeAjvInstance()}>
     <Field.String path="/myKey" value="1" validateInitially />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -294,7 +294,7 @@ render(
       value=""
       validateInitially
     />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -343,7 +343,7 @@ render(
         notEmpty: 'Or on a single Field itself',
       }}
     />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -361,7 +361,7 @@ render(
     <Tools.GenerateSchema log>
       <Field.String path="/myString" pattern="^[a-z]{2}[0-9]+$" required />
     </Tools.GenerateSchema>
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -390,7 +390,7 @@ it('should match generated schema snapshot', () => {
         <Field.Name.First path="/firstName" />
         <Field.Name.Last path="/lastName" minLength={2} required />
       </Tools.GenerateSchema>
-    </Form.Handler>,
+    </Form.Handler>
   )
 
   const { schema } = generateRef.current()

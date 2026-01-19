@@ -256,7 +256,7 @@ render(
     }}
   >
     <Form.SubmitButton />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -315,7 +315,7 @@ const MyForm = () => {
           transformData,
           resetForm,
           clearData,
-        },
+        }
       ) => {
         resetForm()
         clearData()
@@ -326,7 +326,7 @@ const MyForm = () => {
           myData,
           ({ path, value, displayValue, label, props, error }) => {
             return 'new value'
-          },
+          }
         )
       }}
       sessionStorageId="session-key"
@@ -371,7 +371,7 @@ const MyForm = () => {
           data,
           ({ value, displayValue, label }) => {
             return { value, displayValue, label }
-          },
+          }
         )
       }}
     >

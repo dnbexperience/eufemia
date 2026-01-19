@@ -170,7 +170,7 @@ export const HorizontalFlexItemResponsiveSizeCustomColumns = () => {
 
 const useWindowWidth = () => {
   const [innerWidth, setWidth] = React.useState(
-    typeof window !== 'undefined' ? window.innerWidth : 0,
+    typeof window !== 'undefined' ? window.innerWidth : 0
   )
 
   React.useEffect(() => {
@@ -197,7 +197,7 @@ export const MediaQueryUseMedia = () => (
               {JSON.stringify(
                 { isSmall, isMedium, isLarge, isSSR, innerWidth },
                 null,
-                2,
+                2
               )}
             </pre>
           </Code>
@@ -466,7 +466,7 @@ const AllComponents = ({
 }
 
 export const AllComponentsVerticalTestCase = (
-  props?: React.HTMLProps<HTMLDivElement>,
+  props?: React.HTMLProps<HTMLDivElement>
 ) => (
   <div data-visual-test="form-components-alignment-vertical" {...props}>
     <AllComponents direction="vertical" />
@@ -474,7 +474,7 @@ export const AllComponentsVerticalTestCase = (
 )
 
 export const AllComponentsVerticalLabelsTestCase = (
-  props?: React.HTMLProps<HTMLDivElement>,
+  props?: React.HTMLProps<HTMLDivElement>
 ) => (
   <div
     data-visual-test="form-components-alignment-vertical-labels"
@@ -487,7 +487,7 @@ export const AllComponentsVerticalLabelsTestCase = (
 )
 
 export const AllComponentsHorizontalTestCase = (
-  props?: React.HTMLProps<HTMLDivElement>,
+  props?: React.HTMLProps<HTMLDivElement>
 ) => (
   <div data-visual-test="form-components-alignment-horizontal" {...props}>
     <ScrollView>

@@ -111,7 +111,7 @@ export default function PortalLayout(props: PortalLayoutProps) {
       }
       return acc
     },
-    { ...currentFm },
+    { ...currentFm }
   )
 
   // For tab pages without their own title, construct a title like "ComponentName → TabName"
@@ -140,7 +140,7 @@ export default function PortalLayout(props: PortalLayoutProps) {
   }
 
   const makeUseOfCategory = Boolean(
-    !mdx?.frontmatter?.title && mdx?.frontmatter?.showTabs,
+    !mdx?.frontmatter?.title && mdx?.frontmatter?.showTabs
   )
   const rootPath =
     '/' + (makeUseOfCategory ? category?.fields?.slug : mdx?.fields?.slug)

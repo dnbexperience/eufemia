@@ -347,10 +347,10 @@ export const AsynchronousExternalChangeValidator = () => {
                 resolve(
                   value.length < 5
                     ? Error('At least 5 characters')
-                    : undefined,
+                    : undefined
                 ),
-              1500,
-            ),
+              1500
+            )
           )
         }
         onChange={(value) => console.log('onChange', value)}
@@ -387,10 +387,10 @@ export const AsynchronousExternalBlurValidator = () => {
                 resolve(
                   value.length < 5
                     ? Error('At least 5 characters')
-                    : undefined,
+                    : undefined
                 ),
-              1500,
-            ),
+              1500
+            )
           )
         }
         onChange={(value) => console.log('onChange', value)}
@@ -533,12 +533,12 @@ export const OnInput = () => {
           if (selectionStart !== selectionEnd) {
             inserted = inputEl.value.substring(
               selectionStart,
-              selectionEnd,
+              selectionEnd
             )
           } else {
             inserted = inputEl.value.substring(
               caretStart - addedLength,
-              caretStart,
+              caretStart
             )
           }
 
@@ -549,12 +549,12 @@ export const OnInput = () => {
             if (selectionStart !== selectionEnd) {
               inputEl.setSelectionRange(
                 parseFloat(selectionStart),
-                parseFloat(selectionEnd),
+                parseFloat(selectionEnd)
               )
             } else {
               inputEl.setSelectionRange(
                 caretStart - addedLength,
-                caretStart - addedLength,
+                caretStart - addedLength
               )
             }
           }

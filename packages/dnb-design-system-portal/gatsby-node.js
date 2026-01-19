@@ -130,7 +130,7 @@ exports.onPostBuild = async (params) => {
     params.reporter.warn(
       `❗️ These pages were deleted:\n${deletedPages
         .map((page) => `├ ${page}`)
-        .join('\n')}\n\n`,
+        .join('\n')}\n\n`
     )
   }
 
@@ -277,20 +277,20 @@ exports.onCreateWebpackConfig = ({
       // Algolia info
       plugins.define({
         'process.env.ALGOLIA_INDEX_NAME': JSON.stringify(
-          process.env.ALGOLIA_INDEX_NAME || 'dev_eufemia_docs',
+          process.env.ALGOLIA_INDEX_NAME || 'dev_eufemia_docs'
         ),
         'process.env.ALGOLIA_APP_ID': JSON.stringify(
-          process.env.ALGOLIA_APP_ID || 'SLD6KEYMQ9',
+          process.env.ALGOLIA_APP_ID || 'SLD6KEYMQ9'
         ),
         'process.env.ALGOLIA_SEARCH_KEY': JSON.stringify(
           process.env.ALGOLIA_SEARCH_KEY ||
-            '6cf238b7456ffd9f7a400d8de37318a3',
+            '6cf238b7456ffd9f7a400d8de37318a3'
         ),
         'process.env.ENABLE_BUILD_STYLE_SCOPE': JSON.stringify(
-          enableBuildStyleScope(),
+          enableBuildStyleScope()
         ),
         'process.env.ENABLE_PORTAL_STYLE_SCOPE': JSON.stringify(
-          enablePortalStyleScope(),
+          enablePortalStyleScope()
         ),
       }),
     ],
@@ -299,7 +299,7 @@ exports.onCreateWebpackConfig = ({
   if (PREBUILD_EXISTS && stage === 'build-javascript') {
     if (PREBUILD_EXISTS && !isCI) {
       reporter.warn(
-        '😱 There is a "dnb-eufemia/build" in your local repo. It is used during your local Portal build! \nKeep in mind, the code from "dnb-eufemia/build" may be outdated. \n\n👉 You can remove the build with: "yarn build:clean"\n\n',
+        '😱 There is a "dnb-eufemia/build" in your local repo. It is used during your local Portal build! \nKeep in mind, the code from "dnb-eufemia/build" may be outdated. \n\n👉 You can remove the build with: "yarn build:clean"\n\n'
       )
     }
 
@@ -307,9 +307,9 @@ exports.onCreateWebpackConfig = ({
       plugins.normalModuleReplacement(/@dnb\/eufemia\/src/, (resource) => {
         resource.request = resource.request.replace(
           /@dnb\/eufemia\/src(.*)/,
-          '@dnb/eufemia/build$1',
+          '@dnb/eufemia/build$1'
         )
-      }),
+      })
     )
   }
 
@@ -317,7 +317,7 @@ exports.onCreateWebpackConfig = ({
   if (stage === 'build-javascript' || stage === 'develop') {
     const webpackConfig = getConfig()
     const miniCssExtractPlugin = webpackConfig.plugins.find(
-      (plugin) => plugin.constructor.name === 'MiniCssExtractPlugin',
+      (plugin) => plugin.constructor.name === 'MiniCssExtractPlugin'
     )
     if (miniCssExtractPlugin) {
       miniCssExtractPlugin.options.ignoreOrder = true
@@ -340,7 +340,7 @@ exports.onCreateDevServer = (params) => {
     params.reporter.info(
       `🚀 You can only visit these pages:\n\n${createdPages
         .map((page) => `├ http://localhost:8000${page}`)
-        .join('\n')}\n`,
+        .join('\n')}\n`
     )
   }
 }
