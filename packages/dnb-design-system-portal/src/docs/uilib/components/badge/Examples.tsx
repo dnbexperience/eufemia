@@ -5,7 +5,8 @@
 
 import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
-import { Badge, Avatar, Grid, Button, Flex } from '@dnb/eufemia/src'
+import { Badge, Avatar, Grid, Flex } from '@dnb/eufemia/src'
+import { Field, Form } from '@dnb/eufemia/src/extensions/forms'
 
 export const BadgeNotification = () => (
   <ComponentBox hideCode data-visual-test="badge-variant-notification">
@@ -155,37 +156,38 @@ export const BadgeStatus = () => (
 )
 
 export const BadgeHide = () => (
-  <ComponentBox hideCode data-visual-test="badge-hide">
+  <ComponentBox hideCode>
     {() => {
       const Example = () => {
-        const [notifications, setNotifications] = React.useState(1)
+        type Data = { notifications: number }
+        const { data } = Form.useData<Data>('badge-hide-example')
+        const notifications = data?.notifications
 
         return (
-          <>
-            <Badge
-              content={notifications}
-              label="Notifications"
-              variant="notification"
-              hideBadge={notifications === 0}
-            >
-              <Avatar.Group label="Persons">
-                <Avatar size="large">A</Avatar>
-              </Avatar.Group>
-            </Badge>
+          <Form.Handler id="badge-hide-example">
+            <Form.Card>
+              <Badge
+                label="Notifications"
+                variant="notification"
+                content={notifications}
+                hideBadge={notifications === 0}
+              >
+                <Avatar.Group label="Persons">
+                  <Avatar size="large">A</Avatar>
+                </Avatar.Group>
+              </Badge>
 
-            <div>
-              <Button
-                icon="subtract"
-                onClick={() => setNotifications(notifications - 1)}
-                data-remove
+              <Field.Number
+                label="Define number of notifications"
+                width="small"
+                path="/notifications"
+                defaultValue={1}
+                minimum={0}
+                step={1}
+                showStepControls
               />
-              <Button
-                icon="add"
-                onClick={() => setNotifications(notifications + 1)}
-                data-add
-              />
-            </div>
-          </>
+            </Form.Card>
+          </Form.Handler>
         )
       }
 
