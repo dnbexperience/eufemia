@@ -3,7 +3,7 @@
 *
 */
 
-@import '../../../style/core/utilities.scss';
+@use '../../../style/core/utilities.scss';
 
 .dnb-dropdown {
   --dropdown-width: 16rem;
@@ -110,12 +110,12 @@
   }
 
   &__status--error:not(#{&}--opened) &__trigger {
-    @include fakeBorder(var(--dropdown-foreground-color-error));
+    @include utilities.fakeBorder(var(--dropdown-foreground-color-error));
 
-    @include hover() {
+    @include utilities.hover() {
       color: var(--dropdown-foreground-color-error);
 
-      @include fakeBorder(
+      @include utilities.fakeBorder(
         var(--dropdown-foreground-color-error),
         var(--dropdown-error-border-width)
       );
@@ -125,7 +125,7 @@
       }
     }
 
-    @include active() {
+    @include utilities.active() {
       color: var(--dropdown-foreground-color-error);
       background-color: var(--dropdown-background-color-error-active);
     }
@@ -167,7 +167,7 @@
     }
   }
 
-  @include allAbove(small) {
+  @include utilities.allAbove(small) {
     &--action-menu &__shell &__text {
       padding: 0 0.5rem;
     }
@@ -297,7 +297,7 @@
     line-height: var(--line-height-basis);
   }
 
-  @include formLabelWrap();
+  @include utilities.formLabelWrap();
 
   // make full width
   &--stretch {

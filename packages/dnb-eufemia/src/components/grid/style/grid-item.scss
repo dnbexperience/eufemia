@@ -1,3 +1,5 @@
+@use '../../../style/core/utilities.scss' as *;
+
 .dnb-grid-item {
   grid-column: var(--start-c) / var(--end-c);
 

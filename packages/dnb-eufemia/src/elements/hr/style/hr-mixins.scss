@@ -1,5 +1,5 @@
 @use '../../../style/elements/ui-spacing.scss';
-@import '../../../components/space/style/space-mixins.scss';
+@use '../../../components/space/style/space-mixins.scss' as *;
 
 @mixin hrStyle() {
   position: relative;

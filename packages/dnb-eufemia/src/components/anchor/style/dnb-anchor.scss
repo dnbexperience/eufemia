@@ -3,7 +3,7 @@
  *
  */
 
-@import './anchor-mixins.scss';
+@use './anchor-mixins.scss' as *;
 
 button.dnb-anchor {
   cursor: pointer;

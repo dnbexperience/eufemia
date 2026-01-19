@@ -1,8 +1,8 @@
-@import '@dnb/eufemia/src/style/core/utilities.scss';
+@use '@dnb/eufemia/src/style/core/utilities.scss';
 
 .fieldsetReset {
   :global(fieldset) {
-    @include fieldsetReset();
+    @include utilities.fieldsetReset();
   }
 }
 
@@ -20,19 +20,19 @@
 // 1. Show green when NO offset is given
 .showWhenLarge {
   // is green on 961 and more
-  @include allAbove(medium) {
+  @include utilities.allAbove(medium) {
     color: var(--color-success-green);
   }
 }
 .showWhenMedium {
   // is green on 641 to 960
-  @include allBetween(small, medium) {
+  @include utilities.allBetween(small, medium) {
     color: var(--color-success-green);
   }
 }
 .showWhenSmall {
   // is green on 640 and less
-  @include allBelow(small) {
+  @include utilities.allBelow(small) {
     color: var(--color-success-green);
   }
 }
@@ -41,21 +41,21 @@
 .showWhenLargeOffset {
   // is grey on 1056
   // is green on 1057
-  @include allAbove(medium, 6em) {
+  @include utilities.allAbove(medium, 6em) {
     color: var(--color-success-green);
   }
 }
 .showWhenMediumOffset {
   // is grey on 736 or 865
   // is green on 737 to 864
-  @include allBetween(small, medium, 6em, -6em) {
+  @include utilities.allBetween(small, medium, 6em, -6em) {
     color: var(--color-success-green);
   }
 }
 .showWhenSmallOffset {
   // is grey on 545
   // is green on 544
-  @include allBelow(small, -6em) {
+  @include utilities.allBelow(small, -6em) {
     color: var(--color-success-green);
   }
 }

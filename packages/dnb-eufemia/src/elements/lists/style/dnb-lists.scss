@@ -4,8 +4,7 @@
  */
 
 @use '../../../style/elements/ui-spacing.scss';
-@import './lists-mixins.scss';
-@import '../../../style/core/utilities.scss';
+@use './lists-mixins.scss' as *;
 
 .dnb-ul {
   @include ulStyle();

@@ -2,19 +2,12 @@
 
 exports[`DrawerList scss has to match style dependencies css 1`] = `
 "/*
-* Used for snapshot testing
-*
-*/
-/*
  * Utilities
  */
 /*
 * DrawerList component
 *
 */
-/*
- * Utilities
- */
 .dnb-drawer-list {
   --drawer-list-height: 2rem;
   --drawer-list-padding-horizontal: 1rem;
@@ -416,17 +409,21 @@ html[data-visual-test] .dnb-drawer-list:not(.dnb-drawer-list--opened) .dnb-drawe
     transform: translateY(0);
     pointer-events: auto;
   }
-}"
+}
+/*
+* Used for snapshot testing
+*
+*/"
 `;
 
 exports[`DrawerList scss have to match default theme snapshot 1`] = `
 "/*
+ * Utilities
+ */
+/*
 * ScrollView theme
 *
 */
-/*
- * Utilities
- */
 .dnb-drawer-list {
   --drawer-list-options-border-radius: 0.25rem;
   --drawer-list-option-border-width: 0.0625rem;

@@ -53,17 +53,6 @@ exports[`Checkbox scss should match default theme snapshot 1`] = `
 
 exports[`Checkbox scss should match style dependencies css 1`] = `
 "/*
-* Used for snapshot testing
-*
-*/
-/*
- * Utilities
- */
-/*
-* Used for snapshot testing
-*
-*/
-/*
  * Utilities
  */
 /*
@@ -104,14 +93,8 @@ legend.dnb-form-label {
 *
 */
 /*
- * Utilities
- */
-/*
  * FormStatus component
  *
- */
-/*
- * Utilities
  */
 .dnb-form-status {
   --form-status-radius: 0.25rem;
@@ -179,12 +162,13 @@ button .dnb-form-status__text {
 }
 
 /*
-* Checkbox component
+* Used for snapshot testing
 *
 */
 /*
- * Utilities
- */
+* Checkbox component
+*
+*/
 :root {
   --checkbox-width--medium: 1.5rem;
   --checkbox-height--medium: 1.5rem;
@@ -536,5 +520,10 @@ html[data-whatinput=keyboard] .dnb-checkbox__status--error .dnb-checkbox__input:
 }
 .dnb-checkbox.dnb-skeleton .dnb-checkbox__input[disabled] ~ .dnb-checkbox__indeterminate {
   background-color: var(--skeleton-color);
-}"
+}
+
+/*
+* Used for snapshot testing
+*
+*/"
 `;

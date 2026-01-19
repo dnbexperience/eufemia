@@ -9,10 +9,6 @@ exports[`Space scss should match default theme snapshot 1`] = `
 
 exports[`Space scss should match style dependencies css 1`] = `
 "/*
-* Used for snapshot testing
-*
-*/
-/*
  * Utilities
  */
 /*
@@ -20,9 +16,6 @@ exports[`Space scss should match style dependencies css 1`] = `
  *
  * TODO: Set spacing in the theme file, as theme comes later in the stack
  *
- */
-/*
- * Utilities
  */
 /** NB: Because CSS specificity ".dnb-core-style .dnb-space"
     has to come before the next ".dnb-space"
@@ -619,5 +612,9 @@ span.dnb-space--no-collapse > span {
   display: block;
 }
 
-/* stylelint-enable */"
+/* stylelint-enable */
+/*
+* Used for snapshot testing
+*
+*/"
 `;

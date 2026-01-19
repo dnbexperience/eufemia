@@ -1,5 +1,5 @@
 @use 'sass:math';
-@import '@dnb/eufemia/src/style/core/utilities.scss';
+@use '@dnb/eufemia/src/style/core/utilities.scss';
 
 :global {
   html {
@@ -57,7 +57,7 @@
     God for a mobile menu instead
     make sure that Content main "styled.main" gets the same max-width
    */
-    @include allBelow(medium) {
+    @include utilities.allBelow(medium) {
       #toggle-sidebar-menu {
         display: flex;
       }
@@ -66,12 +66,12 @@
         display: none;
       }
     }
-    @include allBelow(small) {
+    @include utilities.allBelow(small) {
       #toggle-main-menu {
         display: none;
       }
     }
-    @include allAbove(small) {
+    @include utilities.allAbove(small) {
       #toggle-main-menu-small-screen {
         display: none;
       }
@@ -88,7 +88,7 @@
   /* make sure we are on 64px instead of 65px */
   padding: 0.5rem 2rem;
 
-  @include allBelow(small) {
+  @include utilities.allBelow(small) {
     padding: 0.5rem 5vw;
   }
 
@@ -111,7 +111,7 @@
     }
   }
 
-  @include allBelow(small) {
+  @include utilities.allBelow(small) {
     display: none;
   }
 }
@@ -123,7 +123,7 @@
 }
 
 .sloganStyle {
-  @include allBelow(small) {
+  @include utilities.allBelow(small) {
     display: none;
   }
 }

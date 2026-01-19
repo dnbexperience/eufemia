@@ -4,7 +4,7 @@
  */
 
 @use '../../../style/elements/ui-spacing.scss';
-@import './blockquote-mixins.scss';
+@use './blockquote-mixins.scss' as *;
 
 .dnb-blockquote {
   @include blockquoteStyle();

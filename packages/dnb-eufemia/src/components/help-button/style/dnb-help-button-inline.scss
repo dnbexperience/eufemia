@@ -3,7 +3,7 @@
  *
  */
 
-@import '../../button/style/themes/button-mixins.scss';
+@use '../../button/style/themes/button-mixins.scss' as *;
 
 .dnb-help-button {
   &.dnb-help-button__inline {

@@ -2,33 +2,12 @@
 
 exports[`SkipContent scss has to match snapshot 1`] = `
 "/*
-* Used for snapshot testing
-*
-*/
-/*
- * Utilities
- */
-/*
-* Used for snapshot testing
-*
-*/
-/*
- * Utilities
- */
-/*
-* Used for snapshot testing
-*
-*/
-/*
  * Utilities
  */
 /*
 * Icon component
 *
 */
-/*
- * Utilities
- */
 .dnb-icon {
   display: inline-block;
   vertical-align: middle;
@@ -110,15 +89,9 @@ p > .dnb-icon {
 *
 */
 /*
- * Utilities
- */
-/*
 * Tooltip component
 *
 */
-/*
- * Utilities
- */
 :root {
   --tooltip-z-index: 1100;
 }
@@ -161,14 +134,8 @@ p > .dnb-icon {
 *
 */
 /*
- * Utilities
- */
-/*
  * FormStatus component
  *
- */
-/*
- * Utilities
  */
 .dnb-form-status {
   --form-status-radius: 0.25rem;
@@ -236,12 +203,13 @@ button .dnb-form-status__text {
 }
 
 /*
-* Button component
+* Used for snapshot testing
 *
 */
 /*
- * Utilities
- */
+* Button component
+*
+*/
 :root {
   --button-icon-size: 1rem;
   --button-height: 2.5rem;
@@ -480,14 +448,8 @@ button.dnb-button::-moz-focus-inner {
 *
 */
 /*
- * Utilities
- */
-/*
  * Section component
  *
- */
-/*
- * Utilities
  */
 :root {
   --section-z-index: 1;
@@ -648,12 +610,13 @@ button.dnb-button::-moz-focus-inner {
 }
 
 /*
-* SkipContent component
+* Used for snapshot testing
 *
 */
 /*
- * Utilities
- */
+* SkipContent component
+*
+*/
 .dnb-skip-content--visible {
   display: flex;
 }
@@ -677,5 +640,10 @@ html[data-whatinput=keyboard] .dnb-skip-content__focus:focus::before {
 }
 .dnb-skip-content__return:not(.dnb-skip-content__return--active) button.dnb-sr-only {
   display: none;
-}"
+}
+
+/*
+* Used for snapshot testing
+*
+*/"
 `;

@@ -3,12 +3,12 @@
 *
 */
 
-@import '../../../style/core/utilities.scss';
+@use '../../../style/core/utilities.scss';
 
 .dnb-scroll-view {
   overflow-x: auto;
 
-  @include scrollY(auto);
+  @include utilities.scrollY(auto);
 
   // Ensure the user still can scroll a ancestor scrollarea (body)
   overscroll-behavior: auto;
@@ -18,7 +18,7 @@
     &:focus {
       outline: none;
 
-      @include focusRing();
+      @include utilities.focusRing();
     }
   }
 }

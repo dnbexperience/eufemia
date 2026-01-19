@@ -3,7 +3,8 @@
  *
  */
 
-@import '../../../../components/anchor/style/anchor-mixins.scss';
+@use '../../../../style/core/utilities.scss';
+@use '../../../../components/anchor/style/anchor-mixins.scss' as *;
 
 .dnb-section {
   --background-color: var(--color-white);
@@ -131,7 +132,7 @@
       --text-color: var(--color-white);
 
       &::before {
-        @include focusRing(null, var(--color-white));
+        @include utilities.focusRing(null, var(--color-white));
       }
     }
   }

@@ -4,14 +4,14 @@
  * It should cover all cases.
  */
 
-@use '../../../components/anchor/style/anchor-mixins.scss';
-@use '../../../elements/blockquote/style/blockquote-mixins.scss';
-@use '../../../elements/typography/style/typography-mixins.scss';
-@use '../../../elements/label/style/label-mixins.scss';
-@use '../../../elements/lists/style/lists-mixins.scss';
-@use '../../../elements/code/style/code-mixins.scss';
-@use '../../../elements/img/style/img-mixins.scss';
-@use '../../../elements/hr/style/hr-mixins.scss';
+@use '../../../components/anchor/style/anchor-mixins.scss' as *;
+@use '../../../elements/blockquote/style/blockquote-mixins.scss' as *;
+@use '../../../elements/typography/style/typography-mixins.scss' as *;
+@use '../../../elements/label/style/label-mixins.scss' as *;
+@use '../../../elements/lists/style/lists-mixins.scss' as *;
+@use '../../../elements/code/style/code-mixins.scss' as *;
+@use '../../../elements/img/style/img-mixins.scss' as *;
+@use '../../../elements/hr/style/hr-mixins.scss' as *;
 
 // Import themes
 @use '../../../components/anchor/style/themes/dnb-anchor-theme-ui.scss'
@@ -28,25 +28,25 @@
 
 .dnb-core-style {
   // div
-  @include anchor-mixins.anchorTag();
-  @include img-mixins.imageTag();
-  @include blockquote-mixins.blockquoteTag();
-  @include hr-mixins.hrTag();
+  @include anchorTag();
+  @include imageTag();
+  @include blockquoteTag();
+  @include hrTag();
 
   // typography
-  @include typography-mixins.typographyTags();
+  @include typographyTags();
 
   // lists
-  @include lists-mixins.ulTag();
-  @include lists-mixins.olTag();
-  @include lists-mixins.dlTag();
+  @include ulTag();
+  @include olTag();
+  @include dlTag();
 
   // form
-  @include label-mixins.labelTag();
+  @include labelTag();
 
   // additional
-  @include code-mixins.codeTag();
-  @include code-mixins.preTag();
+  @include codeTag();
+  @include preTag();
 
   // handle themes
   @include dnb-anchor-theme-ui.anchorThemeTag();

@@ -1,4 +1,4 @@
-@import '../../../../style/core/utilities.scss';
+@use '../../../../style/core/utilities.scss';
 
 /*
 * Button mixins
@@ -13,7 +13,7 @@
   color: $color;
   background-color: $background-color;
 
-  @include fakeBorder($border-color, 0.125rem /*2px*/);
+  @include utilities.fakeBorder($border-color, 0.125rem /*2px*/);
 }
 
 @mixin buttonHover(
@@ -22,7 +22,7 @@
   $border-color: var(--color-emerald-green),
   $enable-touch: null
 ) {
-  @include hover() {
+  @include utilities.hover() {
     @include buttonHoverStyle($color, $background-color, $border-color);
 
     @content;
@@ -30,7 +30,7 @@
 
   @if $enable-touch == 'touch' {
     html[data-whatintent='touch'] & {
-      @include active() {
+      @include utilities.active() {
         @include buttonHoverStyle(
           $color,
           $background-color,
@@ -42,12 +42,12 @@
 }
 
 @mixin buttonActive($color: null, $background-color: null) {
-  @include active() {
+  @include utilities.active() {
     color: $color;
     background-color: $background-color;
 
     // no animation yet
-    @include fakeBorder(transparent);
+    @include utilities.fakeBorder(transparent);
 
     @content;
   }
@@ -59,13 +59,13 @@
   $focus-color: null,
   $extendShadow: null
 ) {
-  @include focus() {
+  @include utilities.focus() {
     html[data-whatinput='keyboard'] & {
       color: $color;
       background-color: $background-color;
     }
 
-    @include focusRing(
+    @include utilities.focusRing(
       null,
       $focus-color,
       inset,
@@ -82,11 +82,11 @@
   $focus-color: null,
   $extendShadow: null
 ) {
-  @include focus-visible() {
+  @include utilities.focus-visible() {
     color: $color;
     background-color: $background-color;
 
-    @include focusRing(
+    @include utilities.focusRing(
       always,
       $focus-color,
       inset,
@@ -119,7 +119,7 @@
     height: inherit;
     border-radius: inherit;
 
-    @include focusRing(
+    @include utilities.focusRing(
       $whatinput,
       null,
       $inset,

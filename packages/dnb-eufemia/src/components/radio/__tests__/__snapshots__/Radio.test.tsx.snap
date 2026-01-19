@@ -2,17 +2,6 @@
 
 exports[`Radio scss has to match style dependencies css 1`] = `
 "/*
-* Used for snapshot testing
-*
-*/
-/*
- * Utilities
- */
-/*
-* Used for snapshot testing
-*
-*/
-/*
  * Utilities
  */
 /*
@@ -53,14 +42,8 @@ legend.dnb-form-label {
 *
 */
 /*
- * Utilities
- */
-/*
  * FormStatus component
  *
- */
-/*
- * Utilities
  */
 .dnb-form-status {
   --form-status-radius: 0.25rem;
@@ -128,12 +111,13 @@ button .dnb-form-status__text {
 }
 
 /*
-* Radio component
+* Used for snapshot testing
 *
 */
 /*
- * Utilities
- */
+* Radio component
+*
+*/
 :root {
   --radio-width--medium: 1.5rem;
   --radio-height--medium: 1.5rem;
@@ -471,7 +455,12 @@ html[data-whatinput=keyboard] .dnb-radio__input:not([disabled]):not(:checked):no
 }
 .dnb-radio__status--error .dnb-radio__input:not([disabled]):not(:focus):not(:checked):not([data-checked=true]):hover ~ .dnb-radio__button {
   background-color: var(--radio-color-background-off--error-hover);
-}"
+}
+
+/*
+* Used for snapshot testing
+*
+*/"
 `;
 
 exports[`Radio scss have to match default theme snapshot 1`] = `

@@ -3,7 +3,7 @@
 *
 */
 
-@import '../../../style/core/utilities.scss';
+@use '../../../style/core/utilities.scss';
 
 :root {
   --tooltip-z-index: 1100;
@@ -27,7 +27,7 @@
   text-align: center;
 
   border-radius: var(--tooltip-border-radius);
-  @include defaultDropShadow();
+  @include utilities.defaultDropShadow();
 
   &--large {
     padding: 0.25rem 0;

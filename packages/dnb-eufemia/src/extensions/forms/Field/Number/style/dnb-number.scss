@@ -1,4 +1,4 @@
-@import '../../../../../style/core/utilities.scss';
+@use '../../../../../style/core/utilities.scss';
 
 .dnb-forms-field-number {
   --number-control-button-border-color: black;
@@ -54,13 +54,13 @@
 
       .dnb-button--control-before,
       .dnb-button--control-after {
-        @include hover() {
+        @include utilities.hover() {
           background-color: var(
             --number-control-button-background-color--hover
           );
           color: var(--number-control-button-color--hover);
         }
-        @include active() {
+        @include utilities.active() {
           background-color: var(
             --number-control-button-background-color--active
           );
@@ -73,11 +73,11 @@
       .dnb-button--control-before,
       .dnb-button--control-after {
         color: var(--number-control-button--error);
-        @include hover() {
+        @include utilities.hover() {
           background-color: var(--number-control-button--error-contrast);
           color: var(--number-control-button--error);
         }
-        @include active() {
+        @include utilities.active() {
           background-color: var(--number-control-button--error);
           color: var(--number-control-button--error-contrast);
         }
@@ -139,7 +139,7 @@
   }
 
   // Ensure inputs to not overflow on xx-small (defined above), but exclude e.g. Autocomplete
-  @include allBelow(xx-small) {
+  @include utilities.allBelow(xx-small) {
     .dnb-input__shell {
       width: 90%;
     }

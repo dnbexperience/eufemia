@@ -1,4 +1,4 @@
-@import '../../../../../style/core/utilities.scss';
+@use '../../../../../style/core/utilities.scss';
 
 .dnb-forms-field-selection {
   &__variant--dropdown {
@@ -39,7 +39,10 @@
     }
     .dnb-radio-group__fieldset {
       border-radius: 0.5rem;
-      @include fakeBorder(var(--outline-color), var(--outline-width));
+      @include utilities.fakeBorder(
+        var(--outline-color),
+        var(--outline-width)
+      );
       background-color: var(--color-white);
     }
 

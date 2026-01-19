@@ -3,8 +3,6 @@
 *
 */
 
-@import './table-header-buttons.scss';
-
 .dnb-table {
   // Needs a double & & for specificity
   & > tbody > tr,

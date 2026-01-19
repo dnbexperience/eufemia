@@ -3,7 +3,7 @@
 *
 */
 
-@import './table-header-buttons.scss';
+@use './table-mixins.scss' as *;
 
 .dnb-table {
   // table border

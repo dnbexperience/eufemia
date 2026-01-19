@@ -3,7 +3,7 @@
 * TODO: this theme is just a preliminary fix to avoid dnb colors
 */
 
-@import '../../../../style/core/utilities.scss';
+@use '../../../../style/core/utilities.scss';
 
 .dnb-autocomplete {
   &__show-all {
@@ -18,7 +18,7 @@
     ~ &__inner
     .dnb-input:not([data-input-state='disabled']) {
     .dnb-input__shell {
-      @include fakeBorder(var(--sb-color-violet), 0.125rem);
+      @include utilities.fakeBorder(var(--sb-color-violet), 0.125rem);
     }
   }
 
@@ -36,7 +36,7 @@
     ~ &__inner
     .dnb-input:not([data-input-state='disabled']) {
     .dnb-input__shell {
-      @include fakeBorder(var(--sb-color-red), 0.125rem);
+      @include utilities.fakeBorder(var(--sb-color-red), 0.125rem);
     }
   }
 }

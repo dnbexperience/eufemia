@@ -3,9 +3,9 @@
 *
 */
 
-@import '../../../style/core/utilities.scss';
-@import '../../button/style/deps.scss';
-@import '../../tooltip/style/deps.scss';
-@import '../../form-label/style/deps.scss';
-@import '../../form-status/style/deps.scss';
-@import './dnb-slider.scss';
+@use '../../../style/core/utilities.scss' as *;
+@use '../../button/style/deps.scss' as *;
+@use '../../tooltip/style/deps.scss' as *;
+@use '../../form-label/style/deps.scss' as *;
+@use '../../form-status/style/deps.scss' as *;
+@use './dnb-slider.scss';

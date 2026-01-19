@@ -29,10 +29,13 @@ export const editAdvice = `
  */
 
 // Add "ui" themes, if file don't exists
+
 $THEME_FALLBACK: 'ui';
+// Skeleton font needs a new path when loaded into /themes
+$fonts-path: '../../../../assets/fonts/dnb' !default;
 
 // Import shared styles
-@import '../../dnb-ui-<file>.scss';
+@use './properties.scss';
 `
 
 const insertBelowTitle =
@@ -79,7 +82,7 @@ async function runThemeFactory() {
       ),
       ...processToNamesIgnoreList,
     ],
-    customContent: ({ name }) => `@import './${name}-theme-forms.scss';`,
+    customContent: ({ name }) => `@use './${name}-theme-forms.scss';`,
     // output
     targetFile: 'components', // ui-theme-components.scss
     scssOutputPath: path.resolve(__dirname, '../../../src/style/themes'),
@@ -324,7 +327,7 @@ async function collectRelatedThemeFiles(themeSources: ThemeSources) {
     const files = list.reduce((acc, { source }) => {
       const path = packpath.self()
       acc.push(
-        `\n@import '${source.replace(
+        `\n@use '${source.replace(
           new RegExp(`${path}/src/`, 'g'),
           '../../../'
         )}';`

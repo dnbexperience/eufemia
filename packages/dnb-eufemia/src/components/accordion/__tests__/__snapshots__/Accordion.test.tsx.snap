@@ -2,26 +2,12 @@
 
 exports[`Accordion scss has to match style dependencies css 1`] = `
 "/*
-* Used for snapshot testing
-*
-*/
-/*
- * Utilities
- */
-/*
-* Used for snapshot testing
-*
-*/
-/*
  * Utilities
  */
 /*
 * Icon component
 *
 */
-/*
- * Utilities
- */
 .dnb-icon {
   display: inline-block;
   vertical-align: middle;
@@ -99,12 +85,13 @@ p > .dnb-icon {
 }
 
 /*
-* Accordion component
+* Used for snapshot testing
 *
 */
 /*
- * Utilities
- */
+* Accordion component
+*
+*/
 .dnb-accordion {
   --accordion-border-width: 0.0625rem;
   --accordion-border-radius: 0.5rem;
@@ -263,16 +250,21 @@ p > .dnb-icon {
 }
 .dnb-accordion > .dnb-accordion__header--no-animation .dnb-accordion__header__icon, html[data-visual-test] .dnb-accordion .dnb-accordion__header .dnb-accordion__header__icon {
   transition: none;
-}"
+}
+
+/*
+* Used for snapshot testing
+*
+*/"
 `;
 
 exports[`Accordion scss have to match default theme snapshot 1`] = `
 "/*
- * Accordion theme
- *
+ * Utilities
  */
 /*
- * Utilities
+ * Accordion theme
+ *
  */
 .dnb-accordion__header {
   color: var(--ui-accordion-color--override, var(--ui-accordion-color));

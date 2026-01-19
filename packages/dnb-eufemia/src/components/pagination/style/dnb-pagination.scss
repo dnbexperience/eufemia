@@ -3,7 +3,7 @@
  *
  */
 
-@import '../../../style/core/utilities.scss';
+@use '../../../style/core/utilities.scss';
 
 .dnb-pagination {
   display: flex;
@@ -34,7 +34,7 @@
   &--center &__bar {
     justify-content: center;
 
-    @include allBelow(small) {
+    @include utilities.allBelow(small) {
       justify-content: flex-start;
     }
   }
@@ -50,7 +50,7 @@
   }
 
   &--layout-horizontal &__bar__wrapper {
-    @include allAbove(large) {
+    @include utilities.allAbove(large) {
       flex-flow: row-reverse wrap;
       justify-content: space-between;
       flex: 1;

@@ -3,7 +3,7 @@
 *
 */
 
-@import '../../../style/core/utilities.scss';
+@use '../../../style/core/utilities.scss';
 
 @mixin openDrawerList($type: 'slide') {
   z-index: 100; // make sure we are over e.g. switch
@@ -154,7 +154,7 @@
     max-height: 70vh;
     transition: max-height 300ms var(--easing-default);
 
-    @include scrollY(auto);
+    @include utilities.scrollY(auto);
   }
   html[data-visual-test] &--scroll &__options,
   &--scroll#{&}--no-animation &__options {
@@ -245,7 +245,7 @@
 
     &__suffix {
       // TODO: Use CSS Container Queries when available
-      @include allAbove(small) {
+      @include utilities.allAbove(small) {
         grid-column: 2;
         grid-row: 1 / -1;
 
@@ -431,7 +431,7 @@
       align-items: center;
     }
   }
-  @include allAbove(small) {
+  @include utilities.allAbove(small) {
     &--action-menu#{&}--is-popup#{&}--left &__list {
       left: 0;
     }

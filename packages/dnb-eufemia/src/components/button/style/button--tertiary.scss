@@ -1,5 +1,5 @@
-@import '../../../style/core/utilities.scss';
-@import './themes/button-mixins.scss';
+@use '../../../style/core/utilities.scss' as *;
+@use './themes/button-mixins.scss' as *;
 
 .dnb-button {
   &--tertiary {
