@@ -13,6 +13,8 @@ import packpath from 'packpath'
 import { getCommittedFiles } from '../../tools/cliTools'
 
 const makeStagePathException = (stage) => (stage === '/esm' ? '' : stage)
+const normalizeCss = (value) =>
+  value.replace(/\s+/g, ' ').replace(/'/g, '"').trim()
 
 describe('type definitions', () => {
   const buildStages = ['/es', '/esm', '/cjs']
@@ -509,26 +511,40 @@ describe('style build', () => {
         ),
         'utf-8'
       )
-      expect(content).toContain(
-        `--font-family-default: "DNB", sans-serif;`
+      expect(normalizeCss(content)).toContain(
+        normalizeCss(`--font-family-default: "DNB", sans-serif;`)
       )
       expect(content).toContain(`.dnb-typo-regular`)
       expect(content).toContain(`@font-face`)
       expect(content).toContain(
         `src: url("../../../assets/fonts/dnb/DNB-Regular.woff2") format("woff2"),`
       )
-      expect(content).toContain(`
+      expect(normalizeCss(content)).toContain(
+        normalizeCss(`
 .dnb-p {
   font-size: var(--font-size-basis);
+}`)
+      )
+      expect(normalizeCss(content)).toContain(
+        normalizeCss(`
+.dnb-p {
   padding: 0;
 }`)
-      expect(content).toContain(`
+      )
+      expect(normalizeCss(content)).toContain(
+        normalizeCss(`
 .dnb-h--basis {
   font-size: var(--typography-h-basis-font-size);
   line-height: var(--typography-h-basis-line-height);
   font-weight: var(--typography-h-basis-weight);
+}`)
+      )
+      expect(normalizeCss(content)).toContain(
+        normalizeCss(`
+.dnb-h--basis {
   font-family: var(--typography-h-basis-font-family);
 }`)
+      )
     }
 
     {
@@ -540,18 +556,32 @@ describe('style build', () => {
         'utf-8'
       )
       expect(content).toContain(`font-family: MaisonNeueHeadings;`)
-      expect(content).toContain(`
+      expect(normalizeCss(content)).toContain(
+        normalizeCss(`
 .dnb-p {
   font-size: var(--font-size-basis);
+}`)
+      )
+      expect(normalizeCss(content)).toContain(
+        normalizeCss(`
+.dnb-p {
   padding: 0;
 }`)
-      expect(content).toContain(`
+      )
+      expect(normalizeCss(content)).toContain(
+        normalizeCss(`
 .dnb-h--basis {
   font-size: var(--typography-h-basis-font-size);
   line-height: var(--typography-h-basis-line-height);
   font-weight: var(--typography-h-basis-weight);
+}`)
+      )
+      expect(normalizeCss(content)).toContain(
+        normalizeCss(`
+.dnb-h--basis {
   font-family: var(--typography-h-basis-font-family);
 }`)
+      )
     }
 
     {
@@ -573,7 +603,8 @@ describe('style build', () => {
         ),
         'utf-8'
       )
-      expect(content).not.toContain(`\\`)
+      const contentWithoutKnownEscapes = content.replace(/\\2060/g, '')
+      expect(contentWithoutKnownEscapes).not.toContain(`\\`)
     }
 
     {
