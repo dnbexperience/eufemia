@@ -21,20 +21,7 @@ let callbackUnlock = null
 let documentListenerAdded = false
 
 const lockedElements = []
-const eventListenerOptions = getEventListenerOptions({ passive: false })
-function getEventListenerOptions(options) {
-  if (isServer()) {
-    return // stop here
-  }
-
-  let isSupportOptions = true
-  const { capture } = options
-  return isSupportOptions
-    ? options
-    : typeof capture !== 'undefined'
-    ? capture
-    : false
-}
+const eventListenerOptions = { passive: false }
 
 const setOverflowHidden = () => {
   try {
