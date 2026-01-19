@@ -641,6 +641,48 @@ describe('Autocomplete component', () => {
 
       expect(optionTexts).toEqual(expect.arrayContaining(['123 124']))
       expect(optionTexts).not.toEqual(expect.arrayContaining(['124 123']))
+
+      fireEvent.change(document.querySelector('.dnb-input__input'), {
+        target: { value: '123 1' },
+      })
+
+      const optionTextsWithSpace = Array.from(
+        document.querySelectorAll('li.dnb-drawer-list__option')
+      ).map((node) => node.textContent)
+
+      expect(optionTextsWithSpace).toEqual(
+        expect.arrayContaining(['123 124'])
+      )
+      expect(optionTextsWithSpace).not.toEqual(
+        expect.arrayContaining(['124 123'])
+      )
+
+      fireEvent.change(document.querySelector('.dnb-input__input'), {
+        target: { value: '123-1' },
+      })
+
+      const optionTextsWithPunctuation = Array.from(
+        document.querySelectorAll('li.dnb-drawer-list__option')
+      ).map((node) => node.textContent)
+
+      expect(optionTextsWithPunctuation).toEqual(
+        expect.arrayContaining(['123 124'])
+      )
+      expect(optionTextsWithPunctuation).not.toEqual(
+        expect.arrayContaining(['124 123'])
+      )
+
+      fireEvent.change(document.querySelector('.dnb-input__input'), {
+        target: { value: '123 125' },
+      })
+
+      const optionTextsWithLetters = Array.from(
+        document.querySelectorAll('li.dnb-drawer-list__option')
+      ).map((node) => node.textContent)
+
+      expect(optionTextsWithLetters).toEqual(
+        expect.arrayContaining(['Ingen alternativer'])
+      )
     })
   })
 
