@@ -843,13 +843,13 @@ describe('TableAccordion', () => {
       expect(target.dataset.trid).toBe(trid)
     })
 
-    it('should emit onOpened event', () => {
-      const onOpened = jest.fn()
+    it('should emit onOpen event', () => {
+      const onOpen = jest.fn()
 
       render(
         <Table mode="accordion">
           <tbody>
-            <Tr onOpened={onOpened}>
+            <Tr onOpen={onOpen}>
               <Td>content</Td>
               <Td.AccordionContent>accordion content</Td.AccordionContent>
             </Tr>
@@ -861,20 +861,20 @@ describe('TableAccordion', () => {
 
       fireEvent.click(trElement)
 
-      expect(onOpened).toHaveBeenCalledTimes(1)
-      expect(onOpened).toHaveBeenCalledWith({
+      expect(onOpen).toHaveBeenCalledTimes(1)
+      expect(onOpen).toHaveBeenCalledWith({
         target: expect.any(Element),
       })
     })
 
     it('should emit onClose event', () => {
       const onClose = jest.fn()
-      const onOpened = jest.fn()
+      const onOpen = jest.fn()
 
       render(
         <Table mode="accordion">
           <tbody>
-            <Tr onOpened={onOpened} onClose={onClose}>
+            <Tr onOpen={onOpen} onClose={onClose}>
               <Td>content</Td>
               <Td.AccordionContent>accordion content</Td.AccordionContent>
             </Tr>
@@ -887,8 +887,8 @@ describe('TableAccordion', () => {
       fireEvent.click(trElement)
       fireEvent.click(trElement)
 
-      expect(onOpened).toHaveBeenCalledTimes(1)
-      expect(onOpened).toHaveBeenCalledWith({
+      expect(onOpen).toHaveBeenCalledTimes(1)
+      expect(onOpen).toHaveBeenCalledWith({
         target: expect.any(Element),
       })
 
@@ -897,7 +897,7 @@ describe('TableAccordion', () => {
       fireEvent.click(trElement)
       fireEvent.click(trElement)
 
-      expect(onOpened).toHaveBeenCalledTimes(2)
+      expect(onOpen).toHaveBeenCalledTimes(2)
       expect(onClose).toHaveBeenCalledTimes(2)
     })
   })
