@@ -276,12 +276,12 @@ export const DatePickerEvents: PropertiesTableProps = {
     type: 'function',
     status: 'optional',
   },
-  onShow: {
+  onOpen: {
     doc: 'Will be called once date-picker is visible.',
     type: 'function',
     status: 'optional',
   },
-  onHide: {
+  onClose: {
     doc: 'Will be called once date-picker is hidden.',
     type: 'function',
     status: 'optional',
