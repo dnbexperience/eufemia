@@ -15,8 +15,8 @@ import enGB from '../locales/en-GB'
 import Provider from '../Provider'
 
 describe('Context', () => {
-  const title_nb = nbNO['nb-NO'].HelpButton.title
-  const title_gb = enGB['en-GB'].HelpButton.title
+  const titleNb = nbNO['nb-NO'].HelpButton.title
+  const titleGb = enGB['en-GB'].HelpButton.title
 
   const ChangeLocale = () => {
     const { setLocale, update, setCurrentLocale, updateCurrent, locale } =
@@ -74,15 +74,15 @@ describe('Context', () => {
 
   it('locales should translate component strings', () => {
     render(<HelpButton>content</HelpButton>)
-    const helpButtonNb = screen.getByLabelText(title_nb)
-    expect(helpButtonNb.getAttribute('aria-label')).toBe(title_nb)
+    const helpButtonNb = screen.getByLabelText(titleNb)
+    expect(helpButtonNb.getAttribute('aria-label')).toBe(titleNb)
     expect(helpButtonNb.getAttribute('aria-roledescription')).toBe(
       'Hjelp-knapp'
     )
 
     render(<HelpButton lang="en-GB">content</HelpButton>)
-    const helpButtonGb = screen.getByLabelText(title_gb)
-    expect(helpButtonGb.getAttribute('aria-label')).toBe(title_gb)
+    const helpButtonGb = screen.getByLabelText(titleGb)
+    expect(helpButtonGb.getAttribute('aria-label')).toBe(titleGb)
     expect(helpButtonGb.getAttribute('aria-roledescription')).toBe(
       'Help button'
     )
@@ -90,38 +90,38 @@ describe('Context', () => {
 
   it('translation (getTranslation) should react on new lang prop', () => {
     const { rerender } = render(<MagicContext />)
-    expect(screen.queryByText(title_nb)).toBeInTheDocument()
+    expect(screen.queryByText(titleNb)).toBeInTheDocument()
 
     rerender(<MagicContext lang="en-GB" />)
-    expect(screen.queryByText(title_gb)).toBeInTheDocument()
+    expect(screen.queryByText(titleGb)).toBeInTheDocument()
   })
 
   it('translation (getTranslation) should react on new locale', () => {
     render(<MagicContext />)
-    expect(screen.getByText(title_nb)).toBeInTheDocument()
+    expect(screen.getByText(titleNb)).toBeInTheDocument()
 
     act(() => {
       screen.getByRole('button', { name: 'en-GB' }).click()
     })
-    expect(screen.getByText(title_gb)).toBeInTheDocument()
+    expect(screen.getByText(titleGb)).toBeInTheDocument()
 
     act(() => {
       screen.getByRole('button', { name: 'en-US' }).click()
     })
-    expect(screen.getByText(title_gb)).toBeInTheDocument()
+    expect(screen.getByText(titleGb)).toBeInTheDocument()
 
     act(() => {
       screen.getByRole('button', { name: 'nb-NO' }).click()
     })
-    expect(screen.getByText(title_nb)).toBeInTheDocument()
+    expect(screen.getByText(titleNb)).toBeInTheDocument()
   })
 
   it('translation should react on locale change', () => {
     const { rerender } = render(<HelpButton>content</HelpButton>)
-    expect(screen.queryByLabelText(title_nb)).toBeInTheDocument()
+    expect(screen.queryByLabelText(titleNb)).toBeInTheDocument()
 
     rerender(<HelpButton lang="en-GB">content</HelpButton>)
-    expect(screen.queryByLabelText(title_gb)).toBeInTheDocument()
+    expect(screen.queryByLabelText(titleGb)).toBeInTheDocument()
   })
 
   it('should support fallback "translation" for non-existent locale', () => {
