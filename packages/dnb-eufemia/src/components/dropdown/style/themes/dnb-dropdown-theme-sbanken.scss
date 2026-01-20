@@ -67,7 +67,7 @@
   }
 
   // error status
-  &__status--error:not(#{&}--opened) &__trigger {
+  &__status--error:not(#{&}--open) &__trigger {
     @include hover() {
       @include fakeBorder(
         var(--dropdown-foreground-color-error),

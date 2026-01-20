@@ -60,7 +60,7 @@ describe('Autocomplete component', () => {
     render(
       <Autocomplete
         data={['aaa', 'The Godfather the godfather The Godfather', 'ccc']}
-        opened
+        open
         inputValue="the g th"
         {...mockProps}
       />
@@ -76,7 +76,7 @@ describe('Autocomplete component', () => {
     render(
       <Autocomplete
         data={['hello <em>world</em>']}
-        opened
+        open
         inputValue="hello"
         {...mockProps}
       />
@@ -97,7 +97,7 @@ describe('Autocomplete component', () => {
   })
 
   it('has correct attributes on input', () => {
-    render(<Autocomplete data={mockData} opened {...mockProps} />)
+    render(<Autocomplete data={mockData} open {...mockProps} />)
 
     const input = document.querySelector('input')
 
@@ -122,7 +122,7 @@ describe('Autocomplete component', () => {
     render(
       <Autocomplete
         data={mockData}
-        opened
+        open
         autoComplete="language"
         {...mockProps}
       />
@@ -135,8 +135,8 @@ describe('Autocomplete component', () => {
 
   it('keeps dialog open when Escape is pressed inside the autocomplete input', async () => {
     render(
-      <Dialog noAnimation openState title="Dialog">
-        <Autocomplete {...mockProps} opened data={mockData} noAnimation />
+      <Dialog noAnimation open={true} title="Dialog">
+        <Autocomplete {...mockProps} open data={mockData} noAnimation />
       </Dialog>
     )
 
@@ -250,7 +250,7 @@ describe('Autocomplete component', () => {
     jest.spyOn(window, 'getComputedStyle').mockImplementation(() => style)
 
     const { rerender } = render(
-      <Autocomplete value={1} data={mockData} opened />
+      <Autocomplete value={1} data={mockData} open />
     )
 
     const styleElement = document.querySelector(
@@ -264,7 +264,7 @@ describe('Autocomplete component', () => {
     })
 
     rerender(
-      <Autocomplete value={1} data={mockData} independentWidth opened />
+      <Autocomplete value={1} data={mockData} independentWidth open />
     )
 
     expect(styleElement.getAttribute('style')).toBe(
@@ -349,7 +349,7 @@ describe('Autocomplete component', () => {
 
       expect(
         document.querySelector('.dnb-autocomplete').classList
-      ).not.toContain('dnb-autocomplete--opened')
+      ).not.toContain('dnb-autocomplete--open')
 
       expect(document.activeElement.tagName).toBe('BODY')
     })
@@ -359,14 +359,14 @@ describe('Autocomplete component', () => {
 
       expect(
         document.querySelector('.dnb-autocomplete').classList
-      ).not.toContain('dnb-autocomplete--opened')
+      ).not.toContain('dnb-autocomplete--open')
 
       fireEvent.click(
         document.querySelector('.dnb-autocomplete__suffixValue')
       )
       expect(
         document.querySelector('.dnb-autocomplete').classList
-      ).toContain('dnb-autocomplete--opened')
+      ).toContain('dnb-autocomplete--open')
 
       expect(document.activeElement.tagName).toBe('INPUT')
     })
@@ -729,7 +729,7 @@ describe('Autocomplete component', () => {
     // Wait for autocomplete to open and AriaLive elements to be rendered
     await waitFor(() => {
       expect(
-        document.querySelector('.dnb-autocomplete--opened')
+        document.querySelector('.dnb-autocomplete--open')
       ).toBeInTheDocument()
     })
 
@@ -875,7 +875,7 @@ describe('Autocomplete component', () => {
     // Initially closed - canRenderAria should be false
     const autocompleteElement = document.querySelector('.dnb-autocomplete')
     expect(autocompleteElement.classList).not.toContain(
-      'dnb-autocomplete--opened'
+      'dnb-autocomplete--open'
     )
 
     // Open the autocomplete
@@ -883,7 +883,7 @@ describe('Autocomplete component', () => {
 
     await waitFor(() => {
       expect(autocompleteElement.classList).toContain(
-        'dnb-autocomplete--opened'
+        'dnb-autocomplete--open'
       )
     })
 
@@ -894,7 +894,7 @@ describe('Autocomplete component', () => {
 
     await waitFor(() => {
       expect(autocompleteElement.classList).not.toContain(
-        'dnb-autocomplete--opened'
+        'dnb-autocomplete--open'
       )
     })
 
@@ -1305,7 +1305,7 @@ describe('Autocomplete component', () => {
     fireEvent.mouseDown(document.querySelector('.dnb-input__input'))
 
     const elem = document.querySelector('.dnb-autocomplete')
-    expect(elem.classList).toContain('dnb-autocomplete--opened')
+    expect(elem.classList).toContain('dnb-autocomplete--open')
 
     expect(
       elem.querySelectorAll(
@@ -1324,18 +1324,18 @@ describe('Autocomplete component', () => {
 
     fireEvent.click(submitButton)
 
-    expect(elem.classList).toContain('dnb-autocomplete--opened')
+    expect(elem.classList).toContain('dnb-autocomplete--open')
 
     fireEvent.click(submitButton)
 
-    expect(elem.classList).not.toContain('dnb-autocomplete--opened')
+    expect(elem.classList).not.toContain('dnb-autocomplete--open')
 
     fireEvent.keyDown(submitButton, {
       key: 'Enter',
       keyCode: 13,
     })
 
-    expect(elem.classList).toContain('dnb-autocomplete--opened')
+    expect(elem.classList).toContain('dnb-autocomplete--open')
   })
 
   it('has type="button" on submit button', () => {
@@ -1420,7 +1420,7 @@ describe('Autocomplete component', () => {
 
     expect(
       document.querySelector('.dnb-autocomplete').classList
-    ).not.toContain('dnb-autocomplete--opened')
+    ).not.toContain('dnb-autocomplete--open')
 
     // ensure we blur only once
     fireEvent.blur(inputElement)
@@ -1432,13 +1432,13 @@ describe('Autocomplete component', () => {
 
     expect(
       document.querySelector('.dnb-autocomplete').classList
-    ).toContain('dnb-autocomplete--opened')
+    ).toContain('dnb-autocomplete--open')
 
     keyDownOnInput(27) // esc
 
     expect(
       document.querySelector('.dnb-autocomplete').classList
-    ).not.toContain('dnb-autocomplete--opened')
+    ).not.toContain('dnb-autocomplete--open')
 
     toggle()
     expect(onOpen).toHaveBeenCalledTimes(3)
@@ -2418,7 +2418,7 @@ describe('Autocomplete component', () => {
 
     expect(
       document.querySelector('.dnb-autocomplete').classList
-    ).toContain('dnb-autocomplete--opened')
+    ).toContain('dnb-autocomplete--open')
     expect(Array.from(document.activeElement.classList)).toContain(
       'dnb-drawer-list__options'
     )
@@ -2427,7 +2427,7 @@ describe('Autocomplete component', () => {
 
     expect(
       document.querySelector('.dnb-autocomplete').classList
-    ).not.toContain('dnb-autocomplete--opened')
+    ).not.toContain('dnb-autocomplete--open')
     expect(Array.from(document.activeElement.classList)).toContain(
       'dnb-input__input'
     )
@@ -2491,27 +2491,27 @@ describe('Autocomplete component', () => {
     )
   })
 
-  it('has correct "opened" state on input mousedown', () => {
+  it('has correct "open" state on input mousedown', () => {
     render(<Autocomplete {...props} data={mockData} />)
 
     fireEvent.mouseDown(document.querySelector('.dnb-input__input'))
 
     expect(
       document.querySelector('.dnb-autocomplete').classList
-    ).toContain('dnb-autocomplete--opened')
+    ).toContain('dnb-autocomplete--open')
 
     // close
     keyDownOnInput(27) // esc
 
     expect(
       document.querySelector('.dnb-autocomplete').classList
-    ).not.toContain('dnb-autocomplete--opened')
+    ).not.toContain('dnb-autocomplete--open')
 
     fireEvent.mouseDown(document.querySelector('.dnb-input__input'))
 
     expect(
       document.querySelector('.dnb-autocomplete').classList
-    ).toContain('dnb-autocomplete--opened')
+    ).toContain('dnb-autocomplete--open')
   })
 
   it('will open drawer-list when openOnFocus is set to true', () => {
@@ -2533,7 +2533,7 @@ describe('Autocomplete component', () => {
 
     expect(
       document.querySelector('.dnb-autocomplete').classList
-    ).toContain('dnb-autocomplete--opened')
+    ).toContain('dnb-autocomplete--open')
 
     // Make a selection
     fireEvent.click(
@@ -2562,7 +2562,7 @@ describe('Autocomplete component', () => {
 
     expect(
       document.querySelector('.dnb-autocomplete').classList
-    ).not.toContain('dnb-autocomplete--opened')
+    ).not.toContain('dnb-autocomplete--open')
   })
 
   it('will prevent close if false gets returned from onClose event', () => {
@@ -2582,7 +2582,7 @@ describe('Autocomplete component', () => {
 
     expect(
       document.querySelector('.dnb-autocomplete').classList
-    ).toContain('dnb-autocomplete--opened')
+    ).toContain('dnb-autocomplete--open')
 
     act(() => {
       // close
@@ -2592,14 +2592,14 @@ describe('Autocomplete component', () => {
 
     expect(
       document.querySelector('.dnb-autocomplete').classList
-    ).not.toContain('dnb-autocomplete--opened')
+    ).not.toContain('dnb-autocomplete--open')
 
     // reopen
     toggle()
 
     expect(
       document.querySelector('.dnb-autocomplete').classList
-    ).toContain('dnb-autocomplete--opened')
+    ).toContain('dnb-autocomplete--open')
 
     preventClose = true
 
@@ -2612,7 +2612,7 @@ describe('Autocomplete component', () => {
     // we are still open
     expect(
       document.querySelector('.dnb-autocomplete').classList
-    ).toContain('dnb-autocomplete--opened')
+    ).toContain('dnb-autocomplete--open')
   })
 
   it('has no highlighted value by using "disableHighlighting"', () => {
@@ -3304,7 +3304,7 @@ describe('Autocomplete component', () => {
     expect(firstItemElement().textContent).toBe('+41 Sveits')
     expect(items()).toHaveLength(2)
 
-    expect(mainElement().classList).toContain('dnb-autocomplete--opened')
+    expect(mainElement().classList).toContain('dnb-autocomplete--open')
 
     fireEvent.keyDown(inputElement, {
       key: 'Enter',
@@ -3312,9 +3312,7 @@ describe('Autocomplete component', () => {
     })
 
     expect(inputElement.value).toEqual('CH (+41)')
-    expect(mainElement().classList).not.toContain(
-      'dnb-autocomplete--opened'
-    )
+    expect(mainElement().classList).not.toContain('dnb-autocomplete--open')
   })
 
   it('should reset value and open drawer on clear button click', async () => {
@@ -3450,7 +3448,7 @@ describe('Autocomplete component', () => {
 
       await userEvent.type(inputElement(), '{Space}')
 
-      expect(mainElement().classList).toContain('dnb-autocomplete--opened')
+      expect(mainElement().classList).toContain('dnb-autocomplete--open')
       expect(optionElement()).toBeInTheDocument()
       expect(focusElement()).not.toBeInTheDocument()
       expect(inputComponent()).toHaveAttribute('data-input-state', 'focus')
@@ -3461,7 +3459,7 @@ describe('Autocomplete component', () => {
       keyDownOnInput(13) // enter
 
       expect(mainElement().classList).not.toContain(
-        'dnb-autocomplete--opened'
+        'dnb-autocomplete--open'
       )
       expect(inputElement()).toHaveValue('')
       expect(inputComponent()).toHaveAttribute(
@@ -3518,18 +3516,18 @@ describe('Autocomplete component', () => {
       fireEvent.focus(inputElement())
       keyDownOnInput(13) // enter
 
-      expect(mainElement().classList).toContain('dnb-autocomplete--opened')
+      expect(mainElement().classList).toContain('dnb-autocomplete--open')
 
       fireEvent.click(submitElement())
 
       expect(mainElement().classList).not.toContain(
-        'dnb-autocomplete--opened'
+        'dnb-autocomplete--open'
       )
       expect(inputComponent()).toHaveAttribute('data-input-state', 'focus')
 
       fireEvent.click(submitElement())
 
-      expect(mainElement().classList).toContain('dnb-autocomplete--opened')
+      expect(mainElement().classList).toContain('dnb-autocomplete--open')
       expect(inputComponent()).toHaveAttribute('data-input-state', 'focus')
       expect(onBlur).toHaveBeenCalledTimes(0)
       expect(onBlur).toHaveBeenCalledTimes(0)
@@ -3557,7 +3555,7 @@ describe('Autocomplete component', () => {
       fireEvent.focus(inputElement())
       keyDownOnInput(13) // enter
 
-      expect(mainElement().classList).toContain('dnb-autocomplete--opened')
+      expect(mainElement().classList).toContain('dnb-autocomplete--open')
 
       fireEvent.change(inputElement(), {
         target: { value: 'invalid' },
@@ -3570,7 +3568,7 @@ describe('Autocomplete component', () => {
       keyDownOnInput(13) // enter
 
       expect(mainElement().classList).not.toContain(
-        'dnb-autocomplete--opened'
+        'dnb-autocomplete--open'
       )
       expect(optionElement()).not.toBeInTheDocument()
       expect(focusElement()).not.toBeInTheDocument()
@@ -3611,7 +3609,7 @@ describe('Autocomplete component', () => {
       keyDownOnInput(13) // enter
       keyDownOnInput(40) // down
 
-      expect(mainElement().classList).toContain('dnb-autocomplete--opened')
+      expect(mainElement().classList).toContain('dnb-autocomplete--open')
       expect(optionElement()).toBeInTheDocument()
       expect(focusElement()).toBeInTheDocument()
       expect(selectedElement()).not.toBeInTheDocument()
@@ -3621,13 +3619,13 @@ describe('Autocomplete component', () => {
       })
 
       expect(mainElement().classList).not.toContain(
-        'dnb-autocomplete--opened'
+        'dnb-autocomplete--open'
       )
       expect(inputElement()).toHaveValue('AA c')
 
       keyDownOnInput(13) // enter
 
-      expect(mainElement().classList).toContain('dnb-autocomplete--opened')
+      expect(mainElement().classList).toContain('dnb-autocomplete--open')
       expect(optionElement()).toBeInTheDocument()
       expect(focusElement()).toBeInTheDocument()
       expect(selectedElement()).toBeInTheDocument()
@@ -3635,7 +3633,7 @@ describe('Autocomplete component', () => {
       keyDownOnInput(13) // enter
 
       expect(mainElement().classList).not.toContain(
-        'dnb-autocomplete--opened'
+        'dnb-autocomplete--open'
       )
       expect(inputComponent()).toHaveAttribute('data-input-state', 'focus')
 
@@ -3675,7 +3673,7 @@ describe('Autocomplete component', () => {
       keyDownOnInput(13) // enter
       keyDownOnInput(40) // down
 
-      expect(mainElement().classList).toContain('dnb-autocomplete--opened')
+      expect(mainElement().classList).toContain('dnb-autocomplete--open')
       expect(optionElement()).toBeInTheDocument()
       expect(focusElement()).toBeInTheDocument()
       expect(selectedElement()).not.toBeInTheDocument()
@@ -3686,14 +3684,14 @@ describe('Autocomplete component', () => {
       expect(onBlur).toHaveBeenCalledTimes(0)
 
       expect(mainElement().classList).not.toContain(
-        'dnb-autocomplete--opened'
+        'dnb-autocomplete--open'
       )
       expect(inputComponent()).toHaveAttribute('data-input-state', 'focus')
       expect(inputElement()).toHaveValue('AA c')
 
       keyDownOnInput(13) // enter
 
-      expect(mainElement().classList).toContain('dnb-autocomplete--opened')
+      expect(mainElement().classList).toContain('dnb-autocomplete--open')
       expect(optionElement()).toBeInTheDocument()
       expect(focusElement()).toBeInTheDocument()
       expect(selectedElement()).toBeInTheDocument()
@@ -3703,7 +3701,7 @@ describe('Autocomplete component', () => {
       await wait(1)
 
       expect(mainElement().classList).not.toContain(
-        'dnb-autocomplete--opened'
+        'dnb-autocomplete--open'
       )
       expect(inputComponent()).toHaveAttribute('data-input-state', 'focus')
       expect(onBlur).toHaveBeenCalledTimes(0)
@@ -4208,7 +4206,7 @@ describe('Autocomplete markup', () => {
       statusState: 'error',
       statusProps: null,
       value: 2,
-      opened: true,
+      open: true,
       showSubmitButton: true,
       noAnimation: true,
       skipPortal: true,

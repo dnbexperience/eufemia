@@ -39,7 +39,7 @@ function StepIndicatorTriggerButton({
     stepsLabel,
     activeStep,
     overviewTitle,
-    openState,
+    open,
     closeHandler,
     openHandler,
     skeleton,
@@ -67,7 +67,7 @@ function StepIndicatorTriggerButton({
     className: classnames(
       'dnb-step-indicator__trigger__button',
       `dnb-step-indicator__trigger__button--${
-        openState ? 'expanded' : 'collapsed'
+        open ? 'expanded' : 'collapsed'
       }`,
       className
     ),
@@ -99,8 +99,8 @@ function StepIndicatorTriggerButton({
       }}
       roundedCorner={{
         small: false,
-        medium: [true, true, !openState, !openState],
-        large: [true, true, !openState, !openState],
+        medium: [true, true, !open, !open],
+        large: [true, true, !open, !open],
       }}
       outset={isNested ? true : undefined}
       aria-label={overviewTitle}
@@ -118,13 +118,13 @@ function StepIndicatorTriggerButton({
           <Button
             {...buttonParams}
             onClick={() => {
-              if (openState) {
+              if (open) {
                 closeHandler()
               } else {
                 openHandler()
               }
             }}
-            aria-expanded={openState}
+            aria-expanded={open}
             aria-label={label} // To support NVDA properly
             wrap
             variant="tertiary"

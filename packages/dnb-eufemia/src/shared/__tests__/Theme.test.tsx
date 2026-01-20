@@ -155,7 +155,7 @@ describe('Portals', () => {
   it('have correct theme classes in dialog content', () => {
     render(
       <Theme name="eiendom" variant="soft" element={false}>
-        <Dialog noAnimation openState="opened">
+        <Dialog noAnimation open>
           content
         </Dialog>
       </Theme>
@@ -177,7 +177,7 @@ describe('Portals', () => {
   it('have correct theme classes in drawer content', () => {
     render(
       <Theme name="eiendom" variant="soft" element={false}>
-        <Drawer noAnimation openState="opened">
+        <Drawer noAnimation open>
           content
         </Drawer>
       </Theme>

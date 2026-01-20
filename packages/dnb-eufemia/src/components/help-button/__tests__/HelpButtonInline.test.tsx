@@ -111,7 +111,7 @@ describe('HelpButtonInline', () => {
 
   it('keeps dialog open when Escape is pressed inside the inline help', async () => {
     render(
-      <Dialog noAnimation openState title="Dialog">
+      <Dialog noAnimation open title="Dialog">
         <HelpButtonInline
           focusOnOpen
           help={{

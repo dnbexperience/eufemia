@@ -86,7 +86,7 @@ export type DatePickerInputProps = Omit<
   /**
    * To open the date-picker by default. Defaults to `false`.
    */
-  opened?: boolean
+  open?: boolean
   showInput?: boolean
   onSubmit?: (event: React.MouseEvent<HTMLButtonElement>) => void
   onChange?: (
@@ -115,7 +115,7 @@ export type InvalidDates = {
 const defaultProps: DatePickerInputProps = {
   separatorRegExp: /[-/ ]/g,
   statusState: 'error',
-  opened: false,
+  open: false,
 }
 
 function DatePickerInput(externalProps: DatePickerInputProps) {
@@ -144,7 +144,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
     lang,
     disabled,
     skeleton,
-    opened,
+    open,
     size,
     status,
     statusState,
@@ -981,7 +981,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
         disabled={disabled || skeleton}
         skeleton={skeleton}
         size={size}
-        status={!opened ? status : null}
+        status={!open ? status : null}
         statusState={statusState}
         {...statusProps}
         submitElement={
@@ -991,7 +991,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
             skeleton={skeleton}
             className={classnames(
               showInput && 'dnb-button--input-button',
-              opened ? 'dnb-button--active' : null
+              open ? 'dnb-button--active' : null
             )}
             aria-label={ariaLabel}
             title={title}

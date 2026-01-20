@@ -210,7 +210,10 @@ export interface DrawerListProps {
    * If set to `true`, search items by the first key will be ignored.
    */
   skipKeysearch?: boolean
-  opened?: boolean
+  /**
+   * If set to `true`, the DrawerList will be open. Use together with onHide/onShow to control visibility.
+   */
+  open?: boolean
   data?: DrawerListData
   groups?: DrawerListGroupTitles
   /**
@@ -386,7 +389,7 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
       maxHeight: _maxHeight, // eslint-disable-line
       id: _id, // eslint-disable-line
       data: _data, // eslint-disable-line
-      opened: _opened, // eslint-disable-line
+      open: _open, // eslint-disable-line
       value: _value, // eslint-disable-line
       keepOpen: _keepOpen, // eslint-disable-line
       preventClose: _preventClose, // eslint-disable-line
@@ -427,7 +430,7 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
       id,
       data,
       groups,
-      opened,
+      open,
       hidden,
       trianglePosition,
       direction,
@@ -459,7 +462,7 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
       id: `${id}-drawer-list`,
       className: classnames(
         'dnb-drawer-list',
-        opened && 'dnb-drawer-list--opened',
+        open && 'dnb-drawer-list--open',
         hidden && 'dnb-drawer-list--hidden',
         `dnb-drawer-list--${direction}`,
         trianglePosition &&
@@ -496,7 +499,7 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
     const ulParams = {
       role,
       id: `${id}-ul`,
-      'aria-expanded': opened,
+      'aria-expanded': open,
       'aria-labelledby': `${id}-label`,
       tabIndex: -1,
       style: {
@@ -671,7 +674,7 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
         <DrawerListPortal
           id={id}
           rootRef={_refRoot}
-          opened={hidden === false}
+          open={hidden === false}
           includeOwnerWidth={alignDrawer === 'right'}
           independentWidth={isTrue(independentWidth)}
           fixedPosition={isTrue(fixedPosition)}

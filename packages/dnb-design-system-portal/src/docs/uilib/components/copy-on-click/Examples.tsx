@@ -75,7 +75,7 @@ export const CustomTooltipMessage = () => {
 export const InsideDrawer = () => {
   return (
     <ComponentBox data-visual-test="copy-on-click-inside-drawer">
-      <Drawer openState="opened">
+      <Drawer open>
         <CopyOnClick>I'm inside the drawer</CopyOnClick>
       </Drawer>
     </ComponentBox>

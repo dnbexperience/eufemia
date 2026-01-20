@@ -874,7 +874,7 @@ describe('Field.Date', () => {
   })
 
   it('should support having the picker be open by default', () => {
-    render(<Field.Date opened />)
+    render(<Field.Date open />)
 
     expect(
       document.querySelector('.dnb-date-picker__calendar')
@@ -977,7 +977,7 @@ describe('Field.Date', () => {
     await userEvent.click(openButton)
 
     expect(document.querySelector('.dnb-date-picker')).toHaveClass(
-      'dnb-date-picker--opened'
+      'dnb-date-picker--open'
     )
 
     const resetButton = document.querySelector(
@@ -996,7 +996,7 @@ describe('Field.Date', () => {
     )
 
     expect(document.querySelector('.dnb-date-picker')).not.toHaveClass(
-      'dnb-date-picker--opened'
+      'dnb-date-picker--open'
     )
 
     const [day, month, year]: Array<HTMLInputElement> = Array.from(
@@ -1135,13 +1135,13 @@ describe('Field.Date', () => {
   })
 
   it('should be able to set picker alignment', async () => {
-    const { rerender } = render(<Field.Date alignPicker="right" opened />)
+    const { rerender } = render(<Field.Date alignPicker="right" open />)
 
     expect(
       document.querySelector('.dnb-popover__arrow__arrow--right')
     ).toBeInTheDocument()
 
-    rerender(<Field.Date alignPicker="left" opened />)
+    rerender(<Field.Date alignPicker="left" open />)
     expect(
       document.querySelector('.dnb-popover__arrow__arrow--left')
     ).toBeInTheDocument()

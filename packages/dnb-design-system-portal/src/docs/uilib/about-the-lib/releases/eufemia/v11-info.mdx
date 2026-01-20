@@ -116,6 +116,7 @@ $ pnpm add @dnb/eufemia@11
 - Replace `prevent_focus` with `preventFocus`.
 - Replace `action_menu` with `actionMenu`.
 - Replace `is_popup` with `isPopup`.
+- Replace `opened` with `open`.
 
 #### Events
 
@@ -136,6 +137,10 @@ $ pnpm add @dnb/eufemia@11
 - Replace `Autocomplete.show_options_sr` with `Autocomplete.showOptionsSr`.
 - Replace `Autocomplete.selected_sr` with `Autocomplete.selectedSr`.
 - Replace `Autocomplete.submit_button_title` with `Autocomplete.submitButtonTitle`.
+
+#### Styling
+
+- Replace CSS class `dnb-autocomplete--opened` with `dnb-autocomplete--open`.
 
 #### DrawerListDataArrayObject
 
@@ -186,6 +191,7 @@ $ pnpm add @dnb/eufemia@11
 - Replace `action_menu` with `actionMenu`.
 - Replace `is_popup` with `isPopup`.
 - Replace `prevent_focus` with `preventFocus`.
+- Replace `opened` with `open`.
 
 #### Events
 
@@ -195,6 +201,10 @@ $ pnpm add @dnb/eufemia@11
 - Replace `on_hide` with `onClose`.
 - Replace `on_show_focus` with `onOpenFocus`.
 - Replace `on_hide_focus` with `onCloseFocus`.
+
+#### Styling
+
+- Replace CSS class `dnb-dropdown--opened` with `dnb-dropdown--open`.
 
 #### DrawerListDataArrayObject
 
@@ -238,6 +248,7 @@ $ pnpm add @dnb/eufemia@11
 - Replace `action_menu` with `actionMenu`.
 - Replace `is_popup` with `isPopup`.
 - Replace `prevent_focus` with `preventFocus`.
+- Replace `opened` with `open`.
 - Remove `prepared_data`.
 
 #### Events
@@ -250,6 +261,10 @@ $ pnpm add @dnb/eufemia@11
 - Replace `on_resize` with `onResize`.
 - Replace `on_select` with `onSelect`.
 - Replace `on_state_update` with `onStateUpdate`.
+
+#### Styling
+
+- Replace CSS class `dnb-drawer-list--opened` with `dnb-drawer-list--open`.
 
 #### DrawerListDataArrayObject
 
@@ -682,6 +697,7 @@ render(<Logo svg={SbankenCompact} />)
 - Replace `content_ref` with `contentRef`.
 - Replace `scroll_ref` with `scrollRef`.
 - Replace `prevent_overlay_close` with `preventOverlayClose`.
+- Replace `openState` with `open`. `openState="opened"` to `open={true}`, `openState="closed"` to `open={false}`
 
 #### Translations
 
@@ -874,6 +890,11 @@ render(<Logo svg={SbankenCompact} />)
 - Replace `is_valid_start_date` with `isValidStartDate`.
 - Replace `is_valid_end_date` with `isValidEndDate`.
 - Replace the `shortcuts` property `close_on_select` with `closeOnSelect`.
+- Replace `opened` with `open`.
+
+#### Styling
+
+- Replace CSS class `dnb-date-picker--opened` with `dnb-date-picker--open`.
 
 ### [NumberFormat](/uilib/components/number-format/)
 
@@ -1277,11 +1298,19 @@ Docs: [All Fields](/uilib/extensions/forms/all-fields/)
 
 ### [Field.Date](/uilib/extensions/forms/feature-fields/Date/)
 
+#### Properties
+
+- Replace `opened` with `open`.
+
 #### `onType` event
 
 - Replace `start_date` with `startDate`.
 - Replace `end_date` with `endDate`.
 - Replace `is_valid` with `isValid`.
+
+#### Styling
+
+- Replace CSS class `dnb-date-picker--opened` with `dnb-date-picker--open`.
 
 ### [Field.PhoneNumber](/uilib/extensions/forms/feature-fields/PhoneNumber/)
 

@@ -2533,7 +2533,7 @@ describe('variants', () => {
             required
             validateInitially
             autocompleteProps={{
-              opened: true,
+              open: true,
               noAnimation: true,
               skipPortal: true,
             }}

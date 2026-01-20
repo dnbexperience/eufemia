@@ -102,7 +102,7 @@
     }
   }
 
-  &--opened .dnb-input__submit-button__button .dnb-icon {
+  &--open .dnb-input__submit-button__button .dnb-icon {
     transform: rotate(180deg);
     transform-origin: 50% 50%;
   }

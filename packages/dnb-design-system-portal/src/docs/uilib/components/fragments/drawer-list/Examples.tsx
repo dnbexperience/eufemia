@@ -19,24 +19,24 @@ export const DrawerListExampleInteractive = () => (
     <ComponentBox scope={{ data }}>
       {() => {
         const DrawerListWithState = (props) => {
-          const [opened, setOpened] = React.useState(false)
+          const [open, setOpen] = React.useState(false)
 
           return (
             <>
               <ToggleButton
                 id="state-toggle-button"
                 text="Toggle"
-                checked={opened}
-                icon={`chevron_${opened ? 'up' : 'down'}`}
+                checked={open}
+                icon={`chevron_${open ? 'up' : 'down'}`}
                 iconPosition="left"
-                onChange={({ checked }) => setOpened(checked)}
+                onChange={({ checked }) => setOpen(checked)}
               />
               <DrawerList
                 wrapper_element="#state-toggle-button"
                 skipPortal
                 data={data}
-                opened={opened}
-                onClose={() => setOpened(false)}
+                open={open}
+                onClose={() => setOpen(false)}
                 {...props}
               />
             </>
@@ -109,7 +109,7 @@ export const DrawerListExampleDefault = () => (
     <ComponentBox scope={{ data }}>
       <DrawerList
         skipPortal
-        opened
+        open
         preventClose
         trianglePosition="left"
         data={data}
@@ -131,7 +131,7 @@ export const DrawerListExampleDisabled = () => (
     <ComponentBox data-visual-test="drawer-list-disabled">
       <DrawerList
         skipPortal
-        opened
+        open
         preventClose
         data={[
           {
@@ -156,7 +156,7 @@ export const DrawerListExampleInlineStyling = () => (
     <ComponentBox>
       <DrawerList
         skipPortal
-        opened
+        open
         preventClose
         observerElement=".dnb-live-preview" // prevents direction to change when scrolling in this example
       >
@@ -191,7 +191,7 @@ export const DrawerListExampleInlineStylingData = () => (
     <ComponentBox data-visual-test="drawer-list-inline-style">
       <DrawerList
         skipPortal
-        opened
+        open
         preventClose
         data={[
           {
@@ -250,7 +250,7 @@ export const DrawerListExampleSingleItem = () => (
         return (
           <CustomWidth
             skipPortal
-            opened
+            open
             preventClose
             // moreMenu
             right
@@ -290,7 +290,7 @@ export const DrawerListExampleMarkup = () => (
           const [selected, setSelected] = React.useState('C')
 
           return (
-            <CustomWidth skipPortal opened preventClose>
+            <CustomWidth skipPortal open preventClose>
               <DrawerList.Options>
                 {list.map(({ value, ...props }, i) => (
                   <DrawerList.Item
@@ -373,7 +373,7 @@ export const DrawerListGroups = () => (
     <ComponentBox data-visual-test="drawer-list-groups">
       <DrawerList
         skipPortal
-        opened
+        open
         preventClose
         observerElement=".dnb-live-preview" // prevents direction to change when scrolling in this example
         groups={[undefined, 'Pets', undefined, 'Cars']}
