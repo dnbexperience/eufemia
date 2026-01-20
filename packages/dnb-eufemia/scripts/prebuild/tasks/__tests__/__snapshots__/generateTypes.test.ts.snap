@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`generateTypes has to match PrimaryComponent snapshot 1`] = `
 "import * as React from 'react';
@@ -16,20 +16,32 @@ export type PrimaryComponentLeft = string | number | boolean;
 export type PrimaryComponentSecondary = string | number | boolean;
 export type PrimaryComponentSecondaryFoo = string | number | boolean;
 export interface PrimaryComponentSecondarySpacing {
+  /**
+   * Text \`secondary\`.
+   */
   secondary?: string | number | boolean;
 }
 export interface PrimaryComponentProps {
   boolean?: boolean;
   number?: number;
+  /**
+   * Text \`spacing\` or \`children\`.
+   */
   spacing?: PrimaryComponentSpacing;
   foo?: PrimaryComponentFoo;
   top?: PrimaryComponentTop;
   right?: PrimaryComponentRight;
   bottom?: PrimaryComponentBottom;
   left?: PrimaryComponentLeft;
+  /**
+   * Text \`secondary\`.
+   */
   secondary?: PrimaryComponentSecondary;
   secondary_foo?: PrimaryComponentSecondaryFoo;
   secondary_spacing?: PrimaryComponentSecondarySpacing;
+  /**
+   * Text \`spacing\` or \`children\`.
+   */
   children?: React.ReactNode;
 }
 export default class PrimaryComponent extends React.Component<
@@ -45,8 +57,17 @@ exports[`generateTypes has to match SecondaryComponent snapshot 1`] = `
 "import * as React from 'react';
 export type ElementSecondary = string | number | boolean;
 export interface ElementProps extends React.HTMLProps<HTMLElement> {
+  /**
+   * Text \`secondary\`.
+   */
   secondary?: ElementSecondary;
+  /**
+   * Text \`children\`.
+   */
   children?: React.ReactNode;
+  /**
+   * SecondProperty.
+   */
   secondProperty?: string;
 }
 declare const Element: React.FC<ElementProps>;

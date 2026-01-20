@@ -22,11 +22,15 @@ describe('babelPluginIncludeDocs', () => {
     sourceDir,
     strictMode = false,
     onComplete = null,
-  }) {
+  }: {
+    sourceDir: string
+    strictMode?: boolean
+    onComplete?: ((params: unknown) => void) | null
+  }): Promise<string | null | undefined> {
     const { docs } = await fetchPropertiesFromDocs({
       file,
       mdxDocsDir,
-      findFiles: ['PrimaryComponent.mdx'],
+      findMdxFiles: ['PrimaryComponent.md'],
     })
 
     const { code } = await transformFileAsync(file, {
@@ -57,7 +61,7 @@ describe('babelPluginIncludeDocs', () => {
     const { docs } = await fetchPropertiesFromDocs({
       file,
       mdxDocsDir,
-      findFiles: ['PrimaryComponent.mdx'],
+      findMdxFiles: ['PrimaryComponent.md'],
     })
     expect(docs).toMatchSnapshot()
   })
@@ -85,8 +89,8 @@ describe('babelPluginIncludeDocs', () => {
   })
 
   it('has to match collectProps snapshot given by onComplete', async () => {
-    let collectProps = null
-    const onComplete = jest.fn((params) => {
+    let collectProps: unknown = null
+    const onComplete = jest.fn((params: unknown) => {
       collectProps = params
     })
 

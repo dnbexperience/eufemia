@@ -1,20 +1,43 @@
 import fs from 'fs-extra'
 import nodePath from 'path'
-import { parse } from '@babel/parser'
-import traverse from '@babel/traverse'
+import { parse, type ParserOptions } from '@babel/parser'
+import traverse, { type NodePath } from '@babel/traverse'
+import type * as BabelTypes from '@babel/types'
+import type { File, Statement } from '@babel/types'
 import { babylonConfigDefaults } from './babelPluginConfigDefaults'
 
-export function babelPluginExtendTypes(babel, { file } = {}) {
-  const basename = nodePath.basename(file)
-  const componentName = basename.replace(nodePath.extname(file), '')
+type BabelPluginApi = {
+  types: typeof import('@babel/types')
+  template: {
+    ast: (code: string) => Statement
+  }
+}
+
+type ClassPropertyInfo = {
+  className: string
+  keyName: string
+  valueName: string
+  sourceFile: string
+  importStatement: string
+}
+
+export function babelPluginExtendTypes(
+  babel: BabelPluginApi,
+  { file }: { file?: string } = {}
+) {
+  const filePath = file as string
+  const basename = nodePath.basename(filePath)
+  const componentName = basename.replace(nodePath.extname(filePath), '')
 
   const { types: t } = babel
 
-  const handleDefaultPropsProperty = (path) => {
+  const handleDefaultPropsProperty = (
+    path: NodePath<BabelTypes.ClassDeclaration>
+  ) => {
     if (
       path.node?.body?.type === 'ClassBody' &&
       hasClassProperty({
-        file,
+        file: filePath,
         componentName,
         property: 'defaultProps',
       })
@@ -31,21 +54,23 @@ export function babelPluginExtendTypes(babel, { file } = {}) {
   /**
    * Insert "extends React.HTMLProps<HTMLElement>" if the prop type of the component exists
    */
-  const handleMainInterfaceProps = (path) => {
+  const handleMainInterfaceProps = (path: NodePath<BabelTypes.Node>) => {
     path.traverse({
-      TSTypeReference(path) {
+      TSTypeReference(path: NodePath<BabelTypes.TSTypeReference>) {
         if (
           path.parentPath.isTSTypeParameterInstantiation() &&
           path.node.typeName
         ) {
           path.stop()
 
-          const name = path.node.typeName.name
+          const name = (path.node.typeName as BabelTypes.Identifier).name
 
           root.traverse({
-            TSInterfaceDeclaration(path) {
+            TSInterfaceDeclaration(
+              path: NodePath<BabelTypes.TSInterfaceDeclaration>
+            ) {
               path.traverse({
-                Identifier(path) {
+                Identifier(path: NodePath<BabelTypes.Identifier>) {
                   if (
                     path.parentPath.isTSInterfaceDeclaration() &&
                     path.isIdentifier({
@@ -64,28 +89,36 @@ export function babelPluginExtendTypes(babel, { file } = {}) {
     })
   }
 
-  let root
+  let root: NodePath<BabelTypes.Program>
 
   return {
     visitor: {
-      ClassDeclaration(path) {
+      ClassDeclaration(path: NodePath<BabelTypes.ClassDeclaration>) {
         /**
          * Insert "defaultProps" if it actually exists
          * Not that important, but nice to have
          */
         handleDefaultPropsProperty(path)
       },
-      ExportDefaultDeclaration(path) {
-        if (path.node.declaration.type === 'ClassDeclaration') {
+      ExportDefaultDeclaration(
+        path: NodePath<BabelTypes.ExportDefaultDeclaration>
+      ) {
+        const declaration = path.node.declaration
+        if (declaration.type === 'ClassDeclaration') {
           // Class components
           handleMainInterfaceProps(path)
-        } else if (path.node.declaration.type === 'Identifier') {
+        } else if (declaration.type === 'Identifier') {
           // Function components
-          const name = path.node.declaration.name
+          const name = declaration.name
 
           root.traverse({
-            VariableDeclarator(path) {
-              if (path.node.id.name === name) {
+            VariableDeclarator(
+              path: NodePath<BabelTypes.VariableDeclarator>
+            ) {
+              if (
+                path.node.id.type === 'Identifier' &&
+                path.node.id.name === name
+              ) {
                 path.stop()
                 handleMainInterfaceProps(path)
               }
@@ -93,14 +126,16 @@ export function babelPluginExtendTypes(babel, { file } = {}) {
           })
         }
       },
-      Program(path) {
+      Program(path: NodePath<BabelTypes.Program>) {
         root = path
 
-        const hasImportStatement = (importStatement) => {
+        const hasImportStatement = (importStatement: string) => {
           let exists = false
 
           root.traverse({
-            ImportDeclaration(path) {
+            ImportDeclaration(
+              path: NodePath<BabelTypes.ImportDeclaration>
+            ) {
               if (importStatement === path.toString()) {
                 exists = true
                 path.stop()
@@ -111,7 +146,9 @@ export function babelPluginExtendTypes(babel, { file } = {}) {
           return exists
         }
 
-        const classProperties = getListOfClassProperties({ file })
+        const classProperties = getListOfClassProperties({
+          file: filePath,
+        })
 
         if (classProperties) {
           classProperties.forEach(
@@ -123,7 +160,9 @@ export function babelPluginExtendTypes(babel, { file } = {}) {
               importStatement,
             }) => {
               root.traverse({
-                ImportDeclaration(path) {
+                ImportDeclaration(
+                  path: NodePath<BabelTypes.ImportDeclaration>
+                ) {
                   if (!hasImportStatement(importStatement)) {
                     path.insertAfter(babel.template.ast(importStatement))
                   }
@@ -132,7 +171,9 @@ export function babelPluginExtendTypes(babel, { file } = {}) {
               })
 
               root.traverse({
-                ClassDeclaration(path) {
+                ClassDeclaration(
+                  path: NodePath<BabelTypes.ClassDeclaration>
+                ) {
                   if (path.parentPath.isExportDefaultDeclaration()) {
                     inertClassProperty({
                       t,
@@ -153,7 +194,19 @@ export function babelPluginExtendTypes(babel, { file } = {}) {
   }
 }
 
-function inertClassProperty({ t, path, property, value, type }) {
+function inertClassProperty({
+  t,
+  path,
+  property,
+  value = null,
+  type,
+}: {
+  t: typeof import('@babel/types')
+  path: NodePath<BabelTypes.ClassDeclaration>
+  property: string
+  value?: string | null
+  type?: string
+}) {
   path.node.body?.body?.unshift(
     t.classProperty(
       t.identifier(property),
@@ -168,20 +221,35 @@ function inertClassProperty({ t, path, property, value, type }) {
   )
 }
 
-function hasClassProperty({ file, componentName, property }) {
+function hasClassProperty({
+  file,
+  componentName,
+  property,
+}: {
+  file: string
+  componentName: string
+  property: string
+}) {
   let exists = false
 
   const code = fs.readFileSync(nodePath.resolve(file), 'utf-8')
-  const ast = parse(code, babylonConfigDefaults)
+  const ast = parse(
+    code,
+    babylonConfigDefaults as ParserOptions
+  ) as unknown as File
 
   traverse(ast, {
-    ClassDeclaration(path) {
-      if (componentName.includes(path.node.id.name)) {
+    ClassDeclaration(path: NodePath<BabelTypes.ClassDeclaration>) {
+      if (
+        componentName.includes(
+          (path.node.id as BabelTypes.Identifier).name
+        )
+      ) {
         path.traverse({
-          ClassProperty(path) {
+          ClassProperty(path: NodePath<BabelTypes.ClassProperty>) {
             if (
               path.isClassProperty({ static: true }) &&
-              path.node.key.name === property
+              (path.node.key as BabelTypes.Identifier).name === property
             ) {
               exists = true
             }
@@ -194,25 +262,31 @@ function hasClassProperty({ file, componentName, property }) {
   return exists
 }
 
-function getListOfClassProperties({ file }) {
-  const results = []
-  const listOfImportDeclaration = []
+function getListOfClassProperties({ file }: { file: string }) {
+  const results: ClassPropertyInfo[] = []
+  const listOfImportDeclaration: Array<
+    NodePath<BabelTypes.ImportDeclaration>
+  > = []
 
   const code = fs.readFileSync(nodePath.resolve(file), 'utf-8')
-  const ast = parse(code, babylonConfigDefaults)
+  const ast = parse(
+    code,
+    babylonConfigDefaults as ParserOptions
+  ) as unknown as File
 
   traverse(ast, {
-    ImportDeclaration(path) {
+    ImportDeclaration(path: NodePath<BabelTypes.ImportDeclaration>) {
       listOfImportDeclaration.push(path)
     },
-    ClassDeclaration(path) {
-      const className = path.node.id.name
+    ClassDeclaration(path: NodePath<BabelTypes.ClassDeclaration>) {
+      const className = (path.node.id as BabelTypes.Identifier).name
 
       if (path.parentPath.isExportDefaultDeclaration()) {
         path.traverse({
-          ClassProperty(path) {
-            const keyName = path.node.key.name
-            const valueName = path.node.value.name
+          ClassProperty(path: NodePath<BabelTypes.ClassProperty>) {
+            const keyName = (path.node.key as BabelTypes.Identifier).name
+            const valueName = (path.node.value as BabelTypes.Identifier)
+              .name
 
             if (
               path.isClassProperty({ static: true }) &&
@@ -221,10 +295,12 @@ function getListOfClassProperties({ file }) {
             ) {
               listOfImportDeclaration.forEach((path) => {
                 path.traverse({
-                  Identifier(path) {
+                  Identifier(path: NodePath<BabelTypes.Identifier>) {
                     if (path.isIdentifier({ name: valueName })) {
-                      const sourceFile =
-                        path.parentPath.parentPath.node.source.value
+                      const sourceFile = (
+                        path.parentPath.parentPath
+                          .node as BabelTypes.ImportDeclaration
+                      ).source.value
 
                       results.push({
                         className,
