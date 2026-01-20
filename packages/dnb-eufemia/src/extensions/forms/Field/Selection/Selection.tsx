@@ -305,8 +305,8 @@ function Selection(props: Props) {
         groups,
         size,
         onChange: handleDrawerListChange,
-        onShow: handleShow,
-        onHide: handleHide,
+        onOpen: handleShow,
+        onClose: handleHide,
         stretch: true,
       }
 
