@@ -173,7 +173,7 @@ export const GlobalStatuseSandbox = () => (
     </Box>
     <Box>
       <Button
-        innerRef={scrollto_element}
+        innerRef={scrolltoElement}
         text="Scroll To"
         onClick={() => {
           GlobalStatus.Update({
@@ -202,7 +202,7 @@ export const GlobalStatuseSandbox = () => (
   </Wrapper>
 )
 
-const scrollto_element = React.createRef()
+const scrolltoElement = React.createRef()
 
 const InputWithError = () => {
   const [haveAnErrorMessage1, setErrorMessage1] = React.useState(false)

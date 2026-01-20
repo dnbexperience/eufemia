@@ -164,11 +164,11 @@ describe('Button component', () => {
   })
 
   it('has "onClick" event which will trigger on a click', () => {
-    const my_event = jest.fn()
-    render(<Button onClick={my_event} />)
+    const myEvent = jest.fn()
+    render(<Button onClick={myEvent} />)
     const button = document.querySelector('button')
     fireEvent.click(button)
-    expect(my_event.mock.calls.length).toBe(1)
+    expect(myEvent.mock.calls.length).toBe(1)
   })
 
   it('has set innerRef if ref was given', () => {

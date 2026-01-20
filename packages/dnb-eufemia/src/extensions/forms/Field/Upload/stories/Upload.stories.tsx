@@ -74,7 +74,7 @@ export function Upload() {
   )
 }
 
-async function mockAsyncFileUpload__withoutPromises(
+async function mockAsyncFileUploadWithoutPromises(
   newFiles: UploadValue
 ): Promise<UploadValue> {
   const updatedFiles: UploadValue = []
@@ -122,7 +122,7 @@ export const WithAsyncFileHandler = () => {
           id="async_upload_context_id"
           path="/attachments"
           labelDescription="Upload multiple files at once to see the upload error message. This demo has been set up so that every other file in a batch will fail."
-          fileHandler={mockAsyncFileUpload__withoutPromises}
+          fileHandler={mockAsyncFileUploadWithoutPromises}
           required
         />
         <Form.SubmitButton />
@@ -485,7 +485,7 @@ export const WizardWithAsyncFileHandler = () => {
               id="async_upload_context_id"
               path="/attachments"
               labelDescription="Upload multiple files at once to see the upload error message. This demo has been set up so that every other file in a batch will fail."
-              fileHandler={mockAsyncFileUpload__withoutPromises}
+              fileHandler={mockAsyncFileUploadWithoutPromises}
             />
           </Form.Card>
 
