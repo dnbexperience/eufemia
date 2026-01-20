@@ -1,5 +1,5 @@
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 
 import { ProductLogo, TypeLogo, BankLogo, BankAxeptLogo } from '../icons'
 import StatusOverlay, {
@@ -43,7 +43,7 @@ function CardFigure({
   compact = false,
   translations,
 }: CardFigureProps) {
-  const cardClasses = classnames(
+  const cardClasses = clsx(
     'dnb-payment-card__card',
     `dnb-payment-card__${data.cardDesign.cardStyle}`,
     `${isCardBlocked(cardStatus) ? 'dnb-payment-card__card--blocked' : ''}`
@@ -55,7 +55,7 @@ function CardFigure({
       data.cardType !== CardType.None
     return (
       <div
-        className={classnames(
+        className={clsx(
           'dnb-payment-card__card__providers',
           `${
             multipleProviders

@@ -6,7 +6,7 @@ import React, {
   useReducer,
   useEffect,
 } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import FieldBlockContext, {
   StateWithMessage,
   StatesWithMessages,
@@ -459,7 +459,7 @@ function FieldBlock<Value = unknown>(props: Props<Value>) {
     []
   )
 
-  const mainClasses = classnames(
+  const mainClasses = clsx(
     'dnb-forms-field-block',
     width &&
       `dnb-forms-field-block--width-${hasCustomWidth ? 'custom' : width}`,
@@ -477,7 +477,7 @@ function FieldBlock<Value = unknown>(props: Props<Value>) {
       }`,
     className
   )
-  const gridClasses = classnames(
+  const gridClasses = clsx(
     'dnb-forms-field-block__grid',
     `dnb-forms-field-block--layout-${layout}`
   )
@@ -621,7 +621,7 @@ function FieldBlock<Value = unknown>(props: Props<Value>) {
           )}
 
           <div
-            className={classnames(
+            className={clsx(
               'dnb-forms-field-block__status',
 
               // Handle the width of the status messages
@@ -640,7 +640,7 @@ function FieldBlock<Value = unknown>(props: Props<Value>) {
           </div>
 
           <div
-            className={classnames(
+            className={clsx(
               'dnb-forms-field-block__contents',
               contentWidth &&
                 `dnb-forms-field-block__contents--width-${

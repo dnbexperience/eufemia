@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import Context, { GetTranslationProps } from '../../shared/Context'
 import {
   processChildren,
@@ -129,7 +129,7 @@ export default function GlobalError(localProps: GlobalErrorAllProps) {
   }
 
   const params = {
-    className: classnames(
+    className: clsx(
       'dnb-global-error',
       `dnb-global-error--${statusCode}`,
       center && 'dnb-global-error--center',
