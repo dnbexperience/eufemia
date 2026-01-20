@@ -239,7 +239,7 @@ export function SelectionAutocompleteAriaRequired() {
       variant="autocomplete"
       required
       validateInitially
-      autocompleteProps={{ opened: true }}
+      autocompleteProps={{ open: true }}
     >
       <Field.Option value="foo">Foo</Field.Option>
       <Field.Option value="bar">Bar</Field.Option>

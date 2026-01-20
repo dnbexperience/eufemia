@@ -31,9 +31,9 @@ export const ModalProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  openState: {
-    doc: 'Use this property to control the open/close state by setting either: `opened` / `closed` or `true` / `false`.',
-    type: ['boolean', 'opened', 'closed'],
+  open: {
+    doc: 'Use this property to control the open/close state by setting `true` / `false`.',
+    type: 'boolean',
     status: 'optional',
   },
   openDelay: {
