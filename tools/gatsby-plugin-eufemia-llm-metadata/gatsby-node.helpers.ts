@@ -742,15 +742,27 @@ export function buildLlmsText(
 
   const printed = new Set<string>()
   const pushEntry = (meta: any) => {
+    const slug = String(meta?.slug || '')
+    const prefix = slug.includes('/extensions/forms/Value/')
+      ? 'Value'
+      : slug.includes('/extensions/forms/feature-fields/')
+      ? 'Field'
+      : null
+    const hasPrefix =
+      prefix && typeof meta?.name === 'string'
+        ? meta.name.startsWith(`${prefix}.`)
+        : false
+    const displayName =
+      prefix && !hasPrefix ? `${prefix}.${meta.name}` : meta.name
     const publicUrl =
-      meta?.sources?.entry?.public || PUBLIC_URL + meta.slug
+      meta?.sources?.entry?.public || PUBLIC_URL + slug
     const mdCopy = publicUrl.endsWith('/')
       ? publicUrl.replace(/\/$/, '.md')
       : `${publicUrl}.md`
     const desc = meta.description
       ? String(meta.description).replace(/\s+/g, ' ').trim()
       : 'Look into the documentation for more details.'
-    lines.push(`- [${meta.name}](${mdCopy}): ${desc}`)
+    lines.push(`- [${displayName}](${mdCopy}): ${desc}`)
     lines.push('')
   }
   const rest = filtered.filter(
