@@ -227,8 +227,8 @@ describe('DatePicker component', () => {
     )
   })
 
-  it('will close the picker on click outside when `onShow` callback sets a state', async () => {
-    const onShow = jest.fn()
+  it('will close the picker on click outside when `onOpen` callback sets a state', async () => {
+    const onOpen = jest.fn()
 
     const Component = () => {
       const [opened, setOpened] = useState(true)
@@ -237,8 +237,8 @@ describe('DatePicker component', () => {
           date="2025-02-21"
           showInput
           showSubmitButton
-          onShow={() => {
-            onShow()
+          onOpen={() => {
+            onOpen()
             setOpened(!opened)
           }}
         />
@@ -248,7 +248,7 @@ describe('DatePicker component', () => {
     render(<Component />)
 
     await userEvent.click(screen.getByLabelText('Åpne datovelger'))
-    expect(onShow).toHaveBeenCalledTimes(1)
+    expect(onOpen).toHaveBeenCalledTimes(1)
 
     expect(
       document
@@ -263,7 +263,7 @@ describe('DatePicker component', () => {
 
     await userEvent.click(screen.getByLabelText('lørdag 22. februar 2025'))
     await userEvent.click(document.body)
-    expect(onShow).toHaveBeenCalledTimes(1)
+    expect(onOpen).toHaveBeenCalledTimes(1)
 
     expect(
       document
@@ -2316,7 +2316,7 @@ describe('DatePicker component', () => {
   it('should return all additional attributes the event return', () => {
     const myEvent = jest.fn()
     const params = { 'data-attr': 'value' }
-    render(<DatePicker onShow={myEvent} {...params} />)
+    render(<DatePicker onOpen={myEvent} {...params} />)
     fireEvent.click(getDatePickerTriggerButton())
     expect(myEvent.mock.calls.length).toBe(1)
     expect(myEvent.mock.calls[0][0].attributes).toMatchObject(params)
@@ -4409,9 +4409,9 @@ describe('DatePickerPortal', () => {
     ).not.toBeInTheDocument()
   })
 
-  it('should unmount portal when `onShow` and `onHide` callbacks are setting a state', async () => {
-    const onHide = jest.fn()
-    const onShow = jest.fn()
+  it('should unmount portal when `onOpen` and `onClose` callbacks are setting a state', async () => {
+    const onClose = jest.fn()
+    const onOpen = jest.fn()
 
     const DatePickerComponent = () => {
       const [, setShow] = React.useState(false)
@@ -4419,12 +4419,12 @@ describe('DatePickerPortal', () => {
       return (
         <DatePicker
           date="2025-02-19"
-          onShow={() => {
-            onShow()
+          onOpen={() => {
+            onOpen()
             setShow(true)
           }}
-          onHide={() => {
-            onHide()
+          onClose={() => {
+            onClose()
             setShow(false)
           }}
         />
@@ -4434,8 +4434,8 @@ describe('DatePickerPortal', () => {
     render(<DatePickerComponent />)
 
     await userEvent.click(screen.getByLabelText('Åpne datovelger'))
-    expect(onShow).toHaveBeenCalledTimes(1)
-    expect(onHide).toHaveBeenCalledTimes(0)
+    expect(onOpen).toHaveBeenCalledTimes(1)
+    expect(onClose).toHaveBeenCalledTimes(0)
     expect(
       document.querySelector('.dnb-date-picker__portal')
     ).toBeInTheDocument()
@@ -4446,8 +4446,8 @@ describe('DatePickerPortal', () => {
         document.querySelector('.dnb-date-picker__portal')
       ).not.toBeInTheDocument()
     )
-    expect(onShow).toHaveBeenCalledTimes(1)
-    expect(onHide).toHaveBeenCalledTimes(1)
+    expect(onOpen).toHaveBeenCalledTimes(1)
+    expect(onClose).toHaveBeenCalledTimes(1)
   })
 })
 
