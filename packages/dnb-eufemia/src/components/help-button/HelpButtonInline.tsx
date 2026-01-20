@@ -43,14 +43,14 @@ export type HelpButtonInlineProps = HelpButtonProps & {
   /**
    * If set to `true`, the content will get focus when the help content is opened.
    */
-  focusWhenOpen?: boolean
+  focusOnOpen?: boolean
 }
 
 export type HelpButtonInlineSharedStateDataProps = {
   isOpen: boolean
   isUserIntent?: boolean
   buttonRef?: React.RefObject<HTMLButtonElement>
-  focusWhenOpen?: boolean
+  focusOnOpen?: boolean
 }
 
 export default function HelpButtonInline(props: HelpButtonInlineProps) {
@@ -58,7 +58,7 @@ export default function HelpButtonInline(props: HelpButtonInlineProps) {
     contentId,
     size,
     help,
-    focusWhenOpen,
+    focusOnOpen,
     className,
     children,
     ...rest
@@ -78,10 +78,10 @@ export default function HelpButtonInline(props: HelpButtonInlineProps) {
       isOpen: !isOpen,
       isUserIntent: !isOpen,
       buttonRef,
-      focusWhenOpen,
+      focusOnOpen,
     })
     wasOpenRef.current = !isOpen
-  }, [focusWhenOpen, isOpen, update])
+  }, [focusOnOpen, isOpen, update])
 
   const onClickHandler = useCallback(
     ({ event }: { event: React.MouseEvent<HTMLButtonElement> }) => {
@@ -141,7 +141,7 @@ export default function HelpButtonInline(props: HelpButtonInlineProps) {
         <HelpButtonInlineContent
           contentId={controlId}
           help={help}
-          focusWhenOpen={focusWhenOpen}
+          focusOnOpen={focusOnOpen}
         >
           {children}
         </HelpButtonInlineContent>
@@ -159,7 +159,7 @@ export type HelpButtonInlineContentProps = SpacingProps & {
   breakout?: boolean
   outset?: boolean
   roundedCorner?: boolean
-  focusWhenOpen?: boolean
+  focusOnOpen?: boolean
 }
 
 export function HelpButtonInlineContent(
@@ -174,14 +174,14 @@ export function HelpButtonInlineContent(
     breakout = true,
     outset = true,
     roundedCorner,
-    focusWhenOpen: focusWhenOpenProp,
+    focusOnOpen: focusOnOpenProp,
     ...rest
   } = props
   const { data, update } =
     useSharedState<HelpButtonInlineSharedStateDataProps>(contentId)
   const {
     isOpen,
-    focusWhenOpen = focusWhenOpenProp,
+    focusOnOpen = focusOnOpenProp,
     isUserIntent,
     buttonRef,
   } = data || {}
@@ -202,12 +202,12 @@ export function HelpButtonInlineContent(
   const outsetFromLayout = outset && outsetProp
 
   useEffect(() => {
-    if (isOpen && isUserIntent && focusWhenOpen) {
+    if (isOpen && isUserIntent && focusOnOpen) {
       window.requestAnimationFrame(() => {
         innerRef.current?.focus({ preventScroll: true })
       })
     }
-  }, [focusWhenOpen, isOpen, isUserIntent])
+  }, [focusOnOpen, isOpen, isUserIntent])
 
   const onClose = useCallback(() => {
     update({ isOpen: false, isUserIntent: false })
@@ -254,7 +254,7 @@ export function HelpButtonInlineContent(
     )
   }
 
-  const focusParams = focusWhenOpen
+  const focusParams = focusOnOpen
     ? {
         'aria-label': convertJsxToString(title),
         className: 'dnb-no-focus',
