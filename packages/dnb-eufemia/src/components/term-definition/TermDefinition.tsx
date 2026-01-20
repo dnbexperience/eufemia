@@ -3,7 +3,7 @@
  */
 
 import React, { useCallback, useRef, useState } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import Popover from '../popover/Popover'
 import useId from '../../shared/helpers/useId'
 import useTranslation from '../../shared/useTranslation'
@@ -90,7 +90,7 @@ export default function TermDefinition({
         role="button"
         tabIndex={0}
         ref={triggerRef}
-        className={classnames(
+        className={clsx(
           'dnb-term-definition__trigger',
           'dnb-anchor',
           active && 'dnb-anchor--hover',

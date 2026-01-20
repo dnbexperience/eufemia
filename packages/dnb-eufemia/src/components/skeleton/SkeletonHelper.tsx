@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { convertJsxToString, isTrue } from '../../shared/component-helper'
 import type { SkeletonShow } from './Skeleton'
 import type { ContextProps } from '../../shared/Context'
@@ -48,7 +48,7 @@ export const createSkeletonClass = (
   className = null
 ) => {
   if (isTrue(skeleton) || (skeleton !== false && context?.skeleton)) {
-    return classnames(
+    return clsx(
       className,
       'dnb-skeleton',
       method && `dnb-skeleton--${method}`
@@ -91,7 +91,7 @@ export class AutoSize extends React.Component<AutoSizeProps, any> {
         return React.createElement(
           Comp,
           {
-            className: classnames(
+            className: clsx(
               className,
               'dnb-skeleton',
               'dnb-skeleton--font'

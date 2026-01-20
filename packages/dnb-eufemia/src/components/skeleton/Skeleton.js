@@ -7,7 +7,7 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import {
   extendPropsWithContextInClassComponent,
   validateDOMAttributes,
@@ -138,7 +138,7 @@ export default class Skeleton extends React.PureComponent {
         : skeleton
 
     const params = {
-      className: classnames(
+      className: clsx(
         figure ? 'dnb-skeleton__figure' : 'dnb-skeleton__root',
         isTrue(showSkeleton) && 'dnb-skeleton',
         isTrue(noAnimation) && 'dnb-skeleton--no-animation',

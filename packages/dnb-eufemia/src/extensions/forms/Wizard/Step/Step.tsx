@@ -1,5 +1,5 @@
 import React, { useContext, useMemo } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { ComponentProps } from '../../types'
 import { Props as FlexContainerProps } from '../../../../components/flex/Container'
 import WizardContext from '../Context/WizardContext'
@@ -192,7 +192,7 @@ function Step(props: Props): JSX.Element {
   const childrenWithFlex = (
     <WizardStepContext.Provider value={{ index }}>
       <Flex.Stack
-        className={classnames('dnb-forms-step', className)}
+        className={clsx('dnb-forms-step', className)}
         element="section"
         aria-label={ariaLabel}
         innerRef={innerRef}

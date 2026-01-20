@@ -1,5 +1,5 @@
 import React, { useCallback, useContext } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { Button, Dialog } from '../../../../components'
 import useTranslation from '../../hooks/useTranslation'
 import IterateItemContext from '../IterateItemContext'
@@ -52,7 +52,7 @@ export default function ResetButton(props: Props) {
   }
 
   const triggerAttributes: ButtonProps = {
-    className: classnames('dnb-forms-iterate__reset-button', className),
+    className: clsx('dnb-forms-iterate__reset-button', className),
     text: textContent,
     variant: textContent ? 'tertiary' : 'secondary',
     icon: reset,
