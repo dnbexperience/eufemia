@@ -18,7 +18,7 @@ function StepIndicatorList() {
   const {
     mode,
     skeleton,
-    openState,
+    open,
     openHandler,
     closeHandler,
     countSteps,
@@ -32,7 +32,7 @@ function StepIndicatorList() {
   return (
     <HeightAnimation
       animate={!noAnimation}
-      open={openState}
+      open={open}
       onOpen={(state) => {
         if (state) {
           openHandler()

@@ -142,8 +142,8 @@ export default class ModalContent extends React.PureComponent<
       return true
     }
 
-    const { openState } = this.props
-    if (typeof openState === 'boolean' || typeof openState === 'string') {
+    const { open } = this.props
+    if (typeof open === 'boolean') {
       if (process.env.NODE_ENV !== 'test') {
         const delay = Date.now() - this._mounted
         return delay > 30 // E.g. ReactStrict mode will cause a short delay.

@@ -7,7 +7,7 @@ describe('Dialog.Action', () => {
   it('has correct class', () => {
     const MockComponent = () => {
       return (
-        <Dialog openState>
+        <Dialog open>
           <Dialog.Action>
             <Button>Button</Button>
           </Dialog.Action>
@@ -25,7 +25,7 @@ describe('Dialog.Action', () => {
   it('supports spacing', () => {
     const MockComponent = () => {
       return (
-        <Dialog openState>
+        <Dialog open>
           <Dialog.Action top="large">
             <Button>Button</Button>
           </Dialog.Action>
@@ -46,7 +46,7 @@ describe('Dialog.Action', () => {
 
   it('should contain children content', () => {
     render(
-      <Dialog openState>
+      <Dialog open>
         <Dialog.Action>
           <Button>Button</Button>
         </Dialog.Action>
@@ -61,7 +61,7 @@ describe('Dialog.Action', () => {
   it('should be section element', () => {
     const MockComponent = () => {
       return (
-        <Dialog openState>
+        <Dialog open>
           <Dialog.Action aria-label="Custom section label">
             <Button>Button</Button>
           </Dialog.Action>
@@ -79,7 +79,7 @@ describe('Dialog.Action', () => {
   it('should include custom attributes', () => {
     const MockComponent = () => {
       return (
-        <Dialog openState>
+        <Dialog open>
           <Dialog.Action aria-label="Custom section label">
             <Button>Button</Button>
           </Dialog.Action>

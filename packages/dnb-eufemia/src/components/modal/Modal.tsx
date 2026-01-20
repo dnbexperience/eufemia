@@ -105,7 +105,7 @@ class Modal extends React.PureComponent<ModalPropTypes, ModalState> {
     alignContent: 'left',
     containerPlacement: null,
     verticalAlignment: null,
-    openState: null,
+    open: null,
     directDomReturn: false,
     rootId: 'root',
     omitTriggerButton: false,
@@ -139,25 +139,20 @@ class Modal extends React.PureComponent<ModalPropTypes, ModalState> {
       state.noAnimation = props.noAnimation
     }
 
-    if (props.openState !== state._openState) {
-      switch (props.openState) {
-        case 'opened':
-        case true:
-          state.hide = false
-          if (isTrue(state.noAnimation)) {
-            state.modalActive = true
-          }
-          break
-        case 'closed':
-        case false:
-          state.hide = true
-          if (isTrue(state.noAnimation)) {
-            state.modalActive = false
-          }
-          break
+    if (props.open !== state._open) {
+      if (props.open === true) {
+        state.hide = false
+        if (isTrue(state.noAnimation)) {
+          state.modalActive = true
+        }
+      } else if (props.open === false) {
+        state.hide = true
+        if (isTrue(state.noAnimation)) {
+          state.modalActive = false
+        }
       }
     }
-    state._openState = props.openState
+    state._open = props.open
 
     return state
   }
@@ -202,15 +197,15 @@ class Modal extends React.PureComponent<ModalPropTypes, ModalState> {
 
   openBasedOnStateUpdate() {
     const { hide } = this.state
-    const { openState } = this.props
+    const { open } = this.props
 
     if (!this.activeElement && typeof document !== 'undefined') {
       this.activeElement = document.activeElement
     }
 
-    if (!hide && (openState === 'opened' || openState === true)) {
+    if (!hide && open === true) {
       this.toggleOpenClose(null, true)
-    } else if (hide && (openState === 'closed' || openState === false)) {
+    } else if (hide && open === false) {
       this.toggleOpenClose(null, false)
     }
   }
@@ -289,7 +284,7 @@ class Modal extends React.PureComponent<ModalPropTypes, ModalState> {
 
   handleSideEffects = () => {
     const { modalActive, preventAutoFocus, animationDuration } = this.state
-    const { closeModal, openState } = this.props
+    const { closeModal, open } = this.props
 
     if (modalActive) {
       if (typeof closeModal === 'function') {
@@ -322,11 +317,8 @@ class Modal extends React.PureComponent<ModalPropTypes, ModalState> {
         focus(this._triggerRef.current)
       }
 
-      // because the openState was set to opened, we force
-      if (
-        (openState === 'opened' || openState === true) &&
-        this.activeElement instanceof HTMLElement
-      ) {
+      // because the open was set to true, we force
+      if (open === true && this.activeElement instanceof HTMLElement) {
         try {
           focus(this.activeElement).then(() => {
             this.activeElement = null
