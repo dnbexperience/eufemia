@@ -1,5 +1,5 @@
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import ModalHeader, {
   ModalHeaderProps,
 } from '../../modal/parts/ModalHeader'
@@ -25,8 +25,8 @@ export default function DrawerHeader({
     <ModalHeader
       {...props}
       size={size}
-      className={classnames('dnb-drawer__header', className)}
-      titleClass={classnames('dnb-drawer__title', titleClass)}
+      className={clsx('dnb-drawer__header', className)}
+      titleClass={clsx('dnb-drawer__title', titleClass)}
     />
   )
 }

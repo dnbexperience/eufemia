@@ -7,7 +7,7 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import PaginationContext from './PaginationContext'
 import PaginationProvider from './PaginationProvider'
 import {
@@ -231,7 +231,7 @@ class PaginationInstance extends React.PureComponent {
     // Pagination mode
     if (this.context.pagination.mode === 'pagination') {
       const mainParams = {
-        className: classnames(
+        className: clsx(
           'dnb-pagination',
           align && `dnb-pagination--${align}`,
           paginationBarLayout &&

@@ -4,7 +4,7 @@
  */
 
 import React, { useContext } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import {
   isTrue,
   findElementInChildren,
@@ -65,7 +65,7 @@ export default function DialogContent({
   }
 
   const contentParams = {
-    className: classnames(
+    className: clsx(
       !isTrue(preventCoreStyle) && 'dnb-core-style',
 
       'dnb-dialog',
@@ -130,7 +130,7 @@ export default function DialogContent({
                 key="dialog-icon"
                 icon={icon}
                 aria-hidden
-                className={classnames(
+                className={clsx(
                   'dnb-dialog__icon__primary',
                   'dnb-dialog__icon--' + confirmType
                 )}
