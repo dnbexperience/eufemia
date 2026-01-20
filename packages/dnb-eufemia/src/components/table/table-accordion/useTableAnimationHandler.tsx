@@ -50,7 +50,7 @@ export function useTableAnimationHandler({
       const event = { target: trRef.current }
       switch (state) {
         case 'opened':
-          tableAccordionContext.onOpened?.(event)
+          tableAccordionContext.onOpen?.(event)
           break
 
         case 'closed':

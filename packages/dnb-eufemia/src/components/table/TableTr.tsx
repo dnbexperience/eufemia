@@ -55,7 +55,7 @@ export type TableTrProps = {
    * Will emit when table row is expanded.
    * Is part of the accordion feature and needs to be enabled with `mode="accordion"` prop in main Table.
    */
-  onOpened?: ({ target }: { target: HTMLTableRowElement }) => void
+  onOpen?: ({ target }: { target: HTMLTableRowElement }) => void
 
   /**
    * Will emit when table row is closed (after it was open)
@@ -113,7 +113,7 @@ export default function Tr(
     noAnimation, // eslint-disable-line @typescript-eslint/no-unused-vars
     keepInDOM, // eslint-disable-line @typescript-eslint/no-unused-vars
     onClick, // eslint-disable-line @typescript-eslint/no-unused-vars
-    onOpened, // eslint-disable-line @typescript-eslint/no-unused-vars
+    onOpen, // eslint-disable-line @typescript-eslint/no-unused-vars
     onClose, // eslint-disable-line @typescript-eslint/no-unused-vars
     ...trProps
   } = restProps
