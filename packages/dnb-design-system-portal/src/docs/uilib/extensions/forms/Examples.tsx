@@ -168,7 +168,7 @@ export const CreateComposedFieldComponent = () => {
             (sliderData) => {
               handleChange(sliderData.value)
             },
-            [handleChange],
+            [handleChange]
           )
 
           return (

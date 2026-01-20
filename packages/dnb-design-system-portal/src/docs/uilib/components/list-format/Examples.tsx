@@ -39,7 +39,7 @@ export const UsingListFormatFunction = () => {
         {
           format: { type: 'disjunction' },
           locale: 'en-US',
-        },
+        }
       )}
     </ComponentBox>
   )

@@ -14,7 +14,7 @@ test.describe('Fullscreen', () => {
     await page.waitForURL('**/uilib/components/button/demos/?fullscreen')
 
     expect(page.url()).toContain(
-      '/uilib/components/button/demos/?fullscreen',
+      '/uilib/components/button/demos/?fullscreen'
     )
 
     await page.click('a.fullscreen')

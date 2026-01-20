@@ -121,12 +121,12 @@ export const ProgressIndicatorCircularRandomTransitionExample = () => (
         const random = (min, max) =>
           Math.floor(Math.random() * (max - min + 1)) + min
         const [progress, setProgressIndicator] = React.useState(
-          random(1, 100),
+          random(1, 100)
         )
         React.useEffect(() => {
           const timer = setInterval(
             () => setProgressIndicator(random(1, 100)),
-            1e3,
+            1e3
           )
           return () => clearInterval(timer)
         })
@@ -153,7 +153,7 @@ export const ProgressIndicatorCircularRandomOnCompleteExample = () => (
         React.useEffect(() => {
           const timer = setInterval(
             () => setVisible(!visible),
-            random(2400, 4200),
+            random(2400, 4200)
           )
           return () => clearTimeout(timer)
         })
@@ -277,12 +277,12 @@ export const ProgressIndicatorLinearRandomTransitionExample = () => (
         const random = (min, max) =>
           Math.floor(Math.random() * (max - min + 1)) + min
         const [progress, setProgressIndicator] = React.useState(
-          random(1, 100),
+          random(1, 100)
         )
         React.useEffect(() => {
           const timer = setInterval(
             () => setProgressIndicator(random(1, 100)),
-            1e3,
+            1e3
           )
           return () => clearInterval(timer)
         })
@@ -303,7 +303,7 @@ export const ProgressIndicatorLinearRandomOnCompleteExample = () => (
         React.useEffect(() => {
           const timer = setInterval(
             () => setVisible(!visible),
-            random(2400, 4200),
+            random(2400, 4200)
           )
           return () => clearTimeout(timer)
         })

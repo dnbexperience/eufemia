@@ -23,7 +23,7 @@ render(
     value={['Iron Man', 'Captain America', 'The Hulk']}
   >
     <Field.String itemPath="/" />
-  </Iterate.Array>,
+  </Iterate.Array>
 )
 ```
 
@@ -48,7 +48,7 @@ render(
     <Iterate.Array path="/listOfHeroes">
       <Field.Name.Last itemPath="/name" />
     </Iterate.Array>
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -70,7 +70,7 @@ render(
     {(itemValue, itemIndex, internalArray) => {
       return <Field.Name.Last itemPath="/name" />
     }}
-  </Iterate.Array>,
+  </Iterate.Array>
 )
 ```
 
@@ -86,7 +86,7 @@ const MyItem = () => {
 render(
   <Iterate.Array path="/listOfHeroes">
     <MyItem />
-  </Iterate.Array>,
+  </Iterate.Array>
 )
 ```
 
@@ -100,7 +100,7 @@ import { Iterate, Field } from '@dnb/eufemia/extensions/forms'
 render(
   <Iterate.Array value={['foo', 'bar']}>
     <Field.String itemPath="/" label="Item no. {itemNo}" />
-  </Iterate.Array>,
+  </Iterate.Array>
 )
 ```
 
@@ -114,7 +114,7 @@ render(
     <Iterate.ViewContainer title="Item no. {itemNo}">
       ...
     </Iterate.ViewContainer>
-  </Iterate.Array>,
+  </Iterate.Array>
 )
 ```
 
@@ -160,7 +160,7 @@ render(
       <Field.String itemPath="/foo" label="Foo no. {itemNo}" />
       <Field.String itemPath="/bar" label="Bar no. {itemNo}" />
     </Iterate.Array>
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 

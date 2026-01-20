@@ -66,7 +66,7 @@ export const InferData = () => {
           })
           const inferDataFunc = React.useCallback(
             () => data.toggleValue,
-            [data.toggleValue],
+            [data.toggleValue]
           )
 
           return (

@@ -53,7 +53,7 @@ const CodeBlock = ({
 
   if (!language) {
     language = ((String(props && props.className).match(
-      /language-(.*)$|\s/,
+      /language-(.*)$|\s/
     ) || [])[1] || 'jsx') as string
   }
 
@@ -62,7 +62,7 @@ const CodeBlock = ({
       <div
         className={classnames(
           codeBlockStyle,
-          createSkeletonClass('code', context.skeleton),
+          createSkeletonClass('code', context.skeleton)
         )}
       >
         <LiveCode code={exampleCode as string} {...props} />
@@ -80,7 +80,7 @@ const CodeBlock = ({
           <div
             className={classnames(
               codeBlockStyle,
-              createSkeletonClass('code', context.skeleton),
+              createSkeletonClass('code', context.skeleton)
             )}
           >
             <Tag as="pre" className={className} css={style}>
@@ -188,7 +188,7 @@ class LiveCode extends React.PureComponent<LiveCodeProps, LiveCodeProps> {
       <div
         className={classnames(
           liveCodeEditorStyle,
-          background && whiteBackgroundStyle,
+          background && whiteBackgroundStyle
         )}
       >
         <LiveProvider
@@ -214,7 +214,7 @@ class LiveCode extends React.PureComponent<LiveCodeProps, LiveCodeProps> {
             <div
               className={classnames(
                 'dnb-live-editor',
-                createSkeletonClass('code', this.context.skeleton),
+                createSkeletonClass('code', this.context.skeleton)
               )}
               ref={this._editorElementRef}
             >
@@ -230,14 +230,14 @@ class LiveCode extends React.PureComponent<LiveCodeProps, LiveCodeProps> {
                 onFocus={() => {
                   if (this._editorElementRef.current) {
                     this._editorElementRef.current.classList.add(
-                      'dnb-pre--focus',
+                      'dnb-pre--focus'
                     )
                   }
                 }}
                 onBlur={() => {
                   if (this._editorElementRef.current) {
                     this._editorElementRef.current.classList.remove(
-                      'dnb-pre--focus',
+                      'dnb-pre--focus'
                     )
                   }
                 }}

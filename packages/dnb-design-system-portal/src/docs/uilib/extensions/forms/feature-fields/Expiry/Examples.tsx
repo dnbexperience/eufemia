@@ -147,7 +147,7 @@ export const ValidationExtendValidator = () => {
         // Keep the built-in validator while banning December.
         const myOnBlurValidator: ExpiryValidator = (
           value: string,
-          { validators },
+          { validators }
         ) => {
           const { expiryValidator } = validators
 

@@ -19,7 +19,7 @@ function removeNestedParagraphs(children: Array<JSX.Element>) {
         return React.cloneElement(
           child,
           null,
-          removeNestedParagraphs(jsx.props.children),
+          removeNestedParagraphs(jsx.props.children)
         )
       }
     }

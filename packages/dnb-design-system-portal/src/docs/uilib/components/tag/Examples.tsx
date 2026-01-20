@@ -93,20 +93,20 @@ export const TagMultipleRemovable = () => (
         const handleRemove = React.useCallback(
           (tagToRemove) => () => {
             setTagsAdded(
-              tagsAdded.filter((tag) => tag.key !== tagToRemove.key),
+              tagsAdded.filter((tag) => tag.key !== tagToRemove.key)
             )
             setTagsRemoved([...tagsRemoved, tagToRemove])
           },
-          [tagsAdded, tagsRemoved],
+          [tagsAdded, tagsRemoved]
         )
         const handleAdd = React.useCallback(
           (tagToAdd) => () => {
             setTagsAdded([...tagsAdded, tagToAdd])
             setTagsRemoved(
-              tagsRemoved.filter((tag) => tag.key !== tagToAdd.key),
+              tagsRemoved.filter((tag) => tag.key !== tagToAdd.key)
             )
           },
-          [tagsAdded, tagsRemoved],
+          [tagsAdded, tagsRemoved]
         )
 
         return (

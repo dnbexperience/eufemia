@@ -511,12 +511,12 @@ export const OnFileClick = () => {
         onFileClick={async ({ fileItem }) => {
           const request = createRequest()
           console.log(
-            `making API request to fetch the url of the file: ${fileItem.file.name}`,
+            `making API request to fetch the url of the file: ${fileItem.file.name}`
           )
           await request(2000) // Simulate a request
           window.open(
             `https://eufemia.dnb.no/images/avatars/${fileItem.file.name}`,
-            '_blank',
+            '_blank'
           )
         }}
       />

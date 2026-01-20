@@ -31,7 +31,7 @@ import { Iterate, Field } from '@dnb/eufemia/extensions/forms'
 render(
   <Iterate.Array value={['foo', 'bar']} onChange={console.log}>
     <Field.String itemPath="/" />
-  </Iterate.Array>,
+  </Iterate.Array>
 )
 ```
 
@@ -54,6 +54,6 @@ render(
     <Iterate.Array path="/listOfHeroes">
       <Field.Name.Last itemPath="/name" />
     </Iterate.Array>
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```

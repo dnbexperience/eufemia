@@ -20,7 +20,7 @@ function setGridVisibility(visibility = true) {
 function isGridVisible() {
   return Boolean(
     typeof window !== 'undefined' &&
-      parseFloat(window.localStorage.getItem('showGrid')),
+      parseFloat(window.localStorage.getItem('showGrid'))
   )
 }
 
@@ -35,7 +35,7 @@ export function GridActivator() {
 }
 
 export default function ToggleGrid(
-  props: React.HTMLAttributes<HTMLSpanElement>,
+  props: React.HTMLAttributes<HTMLSpanElement>
 ) {
   const handleChange = () => {
     setGridVisibility(!isGridVisible())

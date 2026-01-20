@@ -52,7 +52,7 @@ import type { NationalIdentityNumberValidator } from '@dnb/eufemia/extensions/fo
 
 const myValidator: NationalIdentityNumberValidator = (
   value,
-  { validators },
+  { validators }
 ) => {
   const { dnrAndFnrValidator } = validators ?? {}
   const mustIncludeSeven = (value: string) => {
@@ -83,7 +83,7 @@ import { createMinimumAgeValidator } from '@dnb/eufemia/extensions/forms/Field/N
 const above18YearsValidator = createMinimumAgeValidator(18)
 
 render(
-  <Field.NationalIdentityNumber onBlurValidator={above18YearsValidator} />,
+  <Field.NationalIdentityNumber onBlurValidator={above18YearsValidator} />
 )
 ```
 

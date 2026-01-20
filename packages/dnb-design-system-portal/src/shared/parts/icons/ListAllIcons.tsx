@@ -130,7 +130,7 @@ export default class ListAllIcons extends React.PureComponent<Props> {
             </AutoLinkHeader>
             <ul className={listStyle}>{this.renderListItem(icons)}</ul>
           </React.Fragment>
-        ),
+        )
       )
     } else {
       return (

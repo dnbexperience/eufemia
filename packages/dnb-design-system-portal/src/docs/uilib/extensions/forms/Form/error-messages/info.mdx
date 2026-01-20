@@ -101,7 +101,7 @@ render(
     onBlurValidator={() => {
       return new FormError('Field.errorRequired')
     }}
-  />,
+  />
 )
 ```
 
@@ -115,7 +115,7 @@ render(
     errorMessages={{
       'Field.errorRequired': 'Display me, instead of the default message',
     }}
-  />,
+  />
 )
 ```
 
@@ -145,7 +145,7 @@ render(
     }}
   >
     ...
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -167,7 +167,7 @@ render(
     }}
   >
     ...
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -193,7 +193,7 @@ render(
     }}
   >
     <Field.String pattern="^([a-z]+)$" value="123" validateInitially />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -210,13 +210,13 @@ const schema = z
   .string()
   .regex(
     /^([a-z]+)$/,
-    'You can provide a custom message in the schema itself',
+    'You can provide a custom message in the schema itself'
   )
 
 render(
   <Form.Handler>
     <Field.String schema={schema} value="123" validateInitially />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -239,7 +239,7 @@ const schema = {
 render(
   <Form.Handler ajvInstance={ajv}>
     <Field.String schema={schema} value="123" validateInitially />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -257,14 +257,14 @@ const schema = z.object({
     .string()
     .regex(
       /^([a-z]+)$/,
-      'You can provide a custom message in the schema itself',
+      'You can provide a custom message in the schema itself'
     ),
 })
 
 render(
   <Form.Handler schema={schema}>
     <Field.String path="/myKey" value="123" validateInitially />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -287,7 +287,7 @@ const schema = {
 render(
   <Form.Handler schema={schema} ajvInstance={ajv}>
     <Field.String path="/myKey" value="123" validateInitially />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -308,7 +308,7 @@ const schema = z.object({
 render(
   <Form.Handler schema={schema}>
     <Field.String path="/myKey" value="123" validateInitially />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -340,7 +340,7 @@ const schema = {
 render(
   <Form.Handler schema={schema} ajvInstance={ajv}>
     <Field.String path="/myKey" value="123" validateInitially />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -384,6 +384,6 @@ render(
         'Field.errorRequired': 'Or on a single Field itself',
       }}
     />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```

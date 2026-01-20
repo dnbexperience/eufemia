@@ -460,7 +460,7 @@ export const ConditionalInfo = () => {
                 required
                 info={(
                   maximum,
-                  { conditionally, getValueByPath, getFieldByPath },
+                  { conditionally, getValueByPath, getFieldByPath }
                 ) => {
                   return conditionally(() => {
                     if (maximum < getValueByPath('/amount')) {
@@ -471,7 +471,7 @@ export const ConditionalInfo = () => {
                           onClick={(event) => {
                             event.preventDefault()
                             const el = document.getElementById(
-                              id + '-label',
+                              id + '-label'
                             )
                             el?.scrollIntoView()
                           }}

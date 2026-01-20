@@ -26,7 +26,7 @@ test.describe('Theme', () => {
     }
 
     expect(
-      await page.locator('link[href^="/ui."][rel="preload"]').count(),
+      await page.locator('link[href^="/ui."][rel="preload"]').count()
     ).toEqual(0)
   })
 
@@ -36,7 +36,7 @@ test.describe('Theme', () => {
     }
 
     expect(await page.locator('style[data-href^="/ui."]').count()).toEqual(
-      1,
+      1
     )
   })
 
@@ -49,13 +49,13 @@ test.describe('Theme', () => {
       state: 'attached',
     })
     expect(await page.locator('link[href^="/sbanken."]').count()).toEqual(
-      1,
+      1
     )
 
     await page.waitForTimeout(100)
 
     expect(await page.locator('style[data-href^="/ui."]').count()).toEqual(
-      0,
+      0
     )
   })
 
@@ -66,7 +66,7 @@ test.describe('Theme', () => {
 
     const localStorageData = await page.evaluate(() => {
       return JSON.parse(
-        window.localStorage.getItem('eufemia-theme') || '{}',
+        window.localStorage.getItem('eufemia-theme') || '{}'
       )
     })
 
@@ -86,7 +86,7 @@ test.describe('Theme', () => {
     })
     const uiCssFileCount = await page.$$eval(
       'link[href^="/ui."][rel="stylesheet"]',
-      (elements) => elements.length,
+      (elements) => elements.length
     )
     expect(uiCssFileCount).toBe(1)
 
@@ -100,7 +100,7 @@ test.describe('Theme', () => {
     await page.click('#change-theme-portal ul li:nth-child(3)')
 
     const sbankenCssAfterTemplateExists = await page.$(
-      '#eufemia-style-theme + link[href^="/sbanken."][rel="stylesheet"]',
+      '#eufemia-style-theme + link[href^="/sbanken."][rel="stylesheet"]'
     )
     expect(sbankenCssAfterTemplateExists).toBeTruthy()
 
@@ -108,7 +108,7 @@ test.describe('Theme', () => {
     await page.click('#change-theme-portal ul li:first-child')
 
     const uiCssAfterTemplateExists = await page.$(
-      '#eufemia-style-theme + link[href^="/ui."][rel="stylesheet"]',
+      '#eufemia-style-theme + link[href^="/ui."][rel="stylesheet"]'
     )
     expect(uiCssAfterTemplateExists).toBeTruthy()
   })

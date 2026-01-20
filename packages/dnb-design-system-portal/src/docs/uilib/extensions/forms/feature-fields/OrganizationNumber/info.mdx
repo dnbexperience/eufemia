@@ -41,7 +41,7 @@ import type { OrganizationNumberValidator } from '@dnb/eufemia/extensions/forms/
 
 const myValidator: OrganizationNumberValidator = (
   value,
-  { validators },
+  { validators }
 ) => {
   const { organizationNumberValidator } = validators ?? {}
   const oddChecker = (value: string) => {

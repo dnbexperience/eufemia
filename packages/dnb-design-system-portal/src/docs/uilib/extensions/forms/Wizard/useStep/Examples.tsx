@@ -78,7 +78,7 @@ export const OnStepChange = () => {
             'onStepChange from Step1:',
             index,
             mode,
-            typeof preventNavigation,
+            typeof preventNavigation
           )
         }
 
@@ -87,7 +87,7 @@ export const OnStepChange = () => {
             'onStepChange from Step2:',
             index,
             mode,
-            typeof preventNavigation,
+            typeof preventNavigation
           )
         }
 
@@ -96,7 +96,7 @@ export const OnStepChange = () => {
             'onStepChange from Step3:',
             index,
             mode,
-            typeof preventNavigation,
+            typeof preventNavigation
           )
         }
 

@@ -40,7 +40,7 @@ import type { BankAccountNumberValidator } from '@dnb/eufemia/extensions/forms/F
 
 const myValidator: BankAccountNumberValidator = (
   value,
-  { validators },
+  { validators }
 ) => {
   const { bankAccountNumberValidator } = validators ?? {}
   const prefixChecker = (value: string) => {

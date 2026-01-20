@@ -19,7 +19,7 @@ export const renderBody =
         key="portal-head-components"
         pathname={pathname}
         {...pageContext?.headData}
-      />,
+      />
     )
   }
 
