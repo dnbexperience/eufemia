@@ -149,7 +149,7 @@ export default class Dropdown extends React.PureComponent {
     openOnFocus: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     preventClose: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     keepOpen: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    opened: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    open: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     stretch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -210,7 +210,7 @@ export default class Dropdown extends React.PureComponent {
     openOnFocus: false,
     preventClose: false,
     keepOpen: false,
-    opened: false,
+    open: false,
     disabled: null,
     stretch: null,
     skeleton: null,
@@ -237,7 +237,7 @@ export default class Dropdown extends React.PureComponent {
         {...this.props}
         id={id}
         data={data || children}
-        opened={false}
+        open={false}
         tagName="dnb-dropdown"
         ignoreEvents={false}
         preventSelection={
@@ -269,7 +269,7 @@ class DropdownInstance extends React.PureComponent {
   }
 
   componentDidMount() {
-    if (isTrue(this.props.opened)) {
+    if (isTrue(this.props.open)) {
       this.setVisible()
     }
   }
@@ -464,7 +464,7 @@ class DropdownInstance extends React.PureComponent {
       children: _children, // eslint-disable-line
       direction: _direction, // eslint-disable-line
       id: _id, // eslint-disable-line
-      opened: _opened, // eslint-disable-line
+      open: _open, // eslint-disable-line
       value: _value, // eslint-disable-line
       enableBodyLock: _enableBodyLock, // eslint-disable-line
       listClass: _listClass, // eslint-disable-line
@@ -511,7 +511,7 @@ class DropdownInstance extends React.PureComponent {
       alignDropdown = 'right'
     }
 
-    const { id, selectedItem, direction, opened } = this.context.drawerList
+    const { id, selectedItem, direction, open } = this.context.drawerList
     const showStatus = getStatusState(status)
 
     Object.assign(
@@ -523,7 +523,7 @@ class DropdownInstance extends React.PureComponent {
       className: clsx(
         'dnb-dropdown',
         `dnb-dropdown--${direction}`,
-        opened && 'dnb-dropdown--opened',
+        open && 'dnb-dropdown--open',
         labelDirection && `dnb-dropdown--${labelDirection}`,
         `dnb-dropdown--icon-position-${iconPosition || 'right'}`,
         isPopupMenu && 'dnb-dropdown--is-popup',
@@ -544,12 +544,12 @@ class DropdownInstance extends React.PureComponent {
     const triggerParams = {
       className: clsx(
         'dnb-dropdown__trigger',
-        opened && 'dnb-button--active'
+        open && 'dnb-button--active'
       ),
       id,
       disabled,
       'aria-haspopup': handleAsMenu ? true : 'listbox',
-      'aria-expanded': opened,
+      'aria-expanded': open,
       ...attributes,
       onFocus: this.onFocusHandler,
       onBlur: this.onBlurHandler,
@@ -557,7 +557,7 @@ class DropdownInstance extends React.PureComponent {
       onKeyDown: this.onTriggerKeyDownHandler,
     }
 
-    if (opened) {
+    if (open) {
       triggerParams['aria-controls'] = `${id}-ul`
     }
 

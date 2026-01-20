@@ -33,6 +33,8 @@ describe('Field.SelectCurrency', () => {
       simulateSelector:
         '[data-visual-test="select-currency-opened"] .dnb-autocomplete .dnb-input',
       simulate: 'click',
+      waitAfterSimulateSelector:
+        '[data-visual-test="select-currency-opened"] .dnb-autocomplete--open',
       style: {
         height: '30rem',
       },
