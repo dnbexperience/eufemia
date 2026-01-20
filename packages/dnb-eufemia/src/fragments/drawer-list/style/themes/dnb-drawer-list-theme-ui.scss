@@ -214,7 +214,7 @@
   }
 
   // error status
-  &__status--error:not(#{&}--opened) &__icon {
+  &__status--error:not(#{&}--open) &__icon {
     color: var(--color-fire-red);
   }
 

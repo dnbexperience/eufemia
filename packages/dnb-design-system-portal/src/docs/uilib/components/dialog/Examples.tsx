@@ -241,7 +241,7 @@ export const DialogConfirmLoggedOut = () => {
                 description="For å fortsette må du logge inn igjen."
                 confirmText="Logg inn"
                 hideDecline
-                openState={open}
+                open={open}
                 onClose={({ triggeredBy }) => {
                   console.log('triggeredBy', triggeredBy)
 
