@@ -100,7 +100,7 @@ describe('Iterate.Array', () => {
       expect(fieldTwo).toHaveDisplayValue('two')
       expect(fieldThree).toHaveDisplayValue('three')
 
-      expect(callback).toHaveBeenCalledTimes(3)
+      expect(callback).toHaveBeenCalledTimes(6)
       expect(callback).toHaveBeenNthCalledWith(
         1,
         'one',
@@ -1125,7 +1125,7 @@ describe('Iterate.Array', () => {
           </Iterate.Array>
         )
 
-        expect(renderProp).toHaveBeenCalledTimes(3)
+        expect(renderProp).toHaveBeenCalledTimes(6)
         expect(renderProp).toHaveBeenNthCalledWith(
           1,
           'first',
@@ -1166,7 +1166,7 @@ describe('Iterate.Array', () => {
           </Iterate.Array>
         )
 
-        expect(renderProp1).toHaveBeenCalledTimes(4)
+        expect(renderProp1).toHaveBeenCalledTimes(8)
         expect(renderProp1).toHaveBeenNthCalledWith(
           1,
           { mem: 'A' },
@@ -1192,7 +1192,7 @@ describe('Iterate.Array', () => {
           expect.any(Array)
         )
 
-        expect(renderProp2).toHaveBeenCalledTimes(4)
+        expect(renderProp2).toHaveBeenCalledTimes(8)
         expect(renderProp2).toHaveBeenNthCalledWith(
           1,
           { mem: 'A' },

@@ -4264,8 +4264,13 @@ describe('DataContext.Provider', () => {
         </DataContext.Provider>
       )
 
-      expect(nestedMockData).toHaveLength(2)
-      expect(nestedMockData).toEqual([initialData, initialData])
+      expect(nestedMockData).toHaveLength(4)
+      expect(nestedMockData).toEqual([
+        initialData,
+        initialData,
+        initialData,
+        initialData,
+      ])
 
       const inputElement = document.querySelector('input')
       expect(inputElement).toHaveValue('bar')
@@ -4302,8 +4307,12 @@ describe('DataContext.Provider', () => {
       expect(sidecarMockData).toHaveLength(2)
       expect(sidecarMockData).toEqual([undefined, initialData])
 
-      expect(nestedMockData).toHaveLength(2)
-      expect(nestedMockData).toEqual([initialData, initialData])
+      expect(nestedMockData).toHaveLength(3)
+      expect(nestedMockData).toEqual([
+        initialData,
+        initialData,
+        initialData,
+      ])
 
       const [sidecar, nested] = Array.from(
         document.querySelectorAll('input')
@@ -4397,10 +4406,12 @@ describe('DataContext.Provider', () => {
         { wrapper: StrictMode }
       )
 
-      expect(sidecarMockData).toHaveLength(4)
+      expect(sidecarMockData).toHaveLength(6)
       expect(sidecarMockData).toEqual([
         undefined,
         undefined,
+        initialData,
+        initialData,
         initialData,
         initialData,
       ])

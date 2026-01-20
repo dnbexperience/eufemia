@@ -761,7 +761,7 @@ describe('Field.SelectCurrency', () => {
     }
 
     expect(transformOut).toHaveBeenCalledTimes(0)
-    expect(transformIn).toHaveBeenCalledTimes(1)
+    expect(transformIn).toHaveBeenCalledTimes(2)
     expect(valueTransformIn).toHaveBeenCalledTimes(1)
 
     const firstItemElement = () =>
@@ -779,7 +779,7 @@ describe('Field.SelectCurrency', () => {
     )
 
     expect(transformOut).toHaveBeenCalledTimes(0)
-    expect(transformIn).toHaveBeenCalledTimes(2)
+    expect(transformIn).toHaveBeenCalledTimes(3)
     expect(valueTransformIn).toHaveBeenCalledTimes(2)
 
     expect(input).toHaveValue('Norsk krone (NOK)')
@@ -795,7 +795,7 @@ describe('Field.SelectCurrency', () => {
     expect(value).toHaveTextContent('Sveitsisk franc (CHF)')
 
     expect(transformOut).toHaveBeenCalledTimes(3)
-    expect(transformIn).toHaveBeenCalledTimes(4)
+    expect(transformIn).toHaveBeenCalledTimes(5)
     expect(valueTransformIn).toHaveBeenCalledTimes(3)
 
     fireEvent.submit(form)
@@ -806,7 +806,7 @@ describe('Field.SelectCurrency', () => {
     )
 
     expect(transformOut).toHaveBeenCalledTimes(3)
-    expect(transformIn).toHaveBeenCalledTimes(5)
+    expect(transformIn).toHaveBeenCalledTimes(6)
     expect(valueTransformIn).toHaveBeenCalledTimes(4)
 
     expect(transformOut).toHaveBeenNthCalledWith(1, 'NOK', NOK)
@@ -816,8 +816,9 @@ describe('Field.SelectCurrency', () => {
     expect(transformIn).toHaveBeenNthCalledWith(1, 'Norsk krone (NOK)')
     expect(transformIn).toHaveBeenNthCalledWith(2, 'Norsk krone (NOK)')
     expect(transformIn).toHaveBeenNthCalledWith(3, 'Norsk krone (NOK)')
-    expect(transformIn).toHaveBeenNthCalledWith(4, 'Sveitsisk franc (CHF)')
+    expect(transformIn).toHaveBeenNthCalledWith(4, 'Norsk krone (NOK)')
     expect(transformIn).toHaveBeenNthCalledWith(5, 'Sveitsisk franc (CHF)')
+    expect(transformIn).toHaveBeenNthCalledWith(6, 'Sveitsisk franc (CHF)')
 
     expect(valueTransformIn).toHaveBeenNthCalledWith(
       1,
