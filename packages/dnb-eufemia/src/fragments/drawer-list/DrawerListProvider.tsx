@@ -627,7 +627,7 @@ export default class DrawerListProvider extends React.PureComponent<
 
             if (!isTrue(this.props.preventFocus) && liElement) {
               liElement.focus()
-              dispatchCustomElementEvent(this, 'onShowFocus', {
+              dispatchCustomElementEvent(this, 'onOpenFocus', {
                 element: liElement,
               })
             }
@@ -665,7 +665,7 @@ export default class DrawerListProvider extends React.PureComponent<
           this._refUl.current?.focus({ preventScroll: true })
         }
 
-        dispatchCustomElementEvent(this, 'onShowFocus', {
+        dispatchCustomElementEvent(this, 'onOpenFocus', {
           element: this._refUl.current,
         })
       } else if (parseFloat(activeItem) > -1) {
@@ -1210,7 +1210,7 @@ export default class DrawerListProvider extends React.PureComponent<
       const { selectedItem, activeItem } = this.state
       const newActiveItem =
         parseFloat(selectedItem as string) > -1 ? selectedItem : activeItem
-      dispatchCustomElementEvent(this.state, 'on_show', {
+      dispatchCustomElementEvent(this.state, 'onOpen', {
         ...args,
         data: getEventData(newActiveItem, this.state.data),
         attributes: this.attributes,
@@ -1248,7 +1248,7 @@ export default class DrawerListProvider extends React.PureComponent<
     clearTimeout(this._hideTimeout)
 
     const { selectedItem, activeItem } = this.state
-    const res = dispatchCustomElementEvent(this.state, 'onHide', {
+    const res = dispatchCustomElementEvent(this.state, 'onClose', {
       ...args,
       data: getEventData(
         parseFloat(selectedItem as string) > -1

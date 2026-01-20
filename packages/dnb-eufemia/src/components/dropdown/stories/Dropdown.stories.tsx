@@ -140,8 +140,8 @@ const DropdownStory = () => {
                 Download
               </>,
             ]}
-            onHide={(e) => {
-              console.log('onHide', e)
+            onClose={(e) => {
+              console.log('onClose', e)
             }}
             onSelect={(e) => {
               console.log('onSelect', e)
@@ -926,7 +926,7 @@ export function UpdateData() {
     setPreventClose(false)
   }
 
-  const onShow = () => {
+  const onOpen = () => {
     setFiltersToShow(filter1ToShow)
     setPreventClose(true)
     setValue(null) // important, we have to change be
@@ -939,7 +939,7 @@ export function UpdateData() {
         data={filtersToShow}
         title={'Velg filter:'}
         onChange={onFilterChange}
-        onShow={onShow}
+        onOpen={onOpen}
         value={value}
         size="large"
         direction="top"
@@ -950,7 +950,7 @@ export function UpdateData() {
         data={filtersToShow}
         title={'Velg filter:'}
         onChange={onFilterChange}
-        onShow={onShow}
+        onOpen={onOpen}
         value={value}
         size="large"
         preventClose={preventClose}
