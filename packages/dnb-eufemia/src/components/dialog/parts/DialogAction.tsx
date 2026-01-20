@@ -1,5 +1,5 @@
 import React, { useCallback, useContext } from 'react'
-import classNames from 'classnames'
+import classNames from 'clsx'
 import Button from '../../button/Button'
 import Space from '../../space/Space'
 import { Context } from '../../../shared'

@@ -3,7 +3,7 @@
  */
 
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { getOffsetLeft, getOffsetTop } from '../../shared/helpers'
 import type {
   PopoverAlign,
@@ -858,7 +858,7 @@ function PopoverContainer(props: PopoverContainerProps) {
         onMouseDown: handlePropagation,
         onTouchStart: handlePropagation,
       }}
-      className={classnames(
+      className={clsx(
         attributes?.className,
         noAnimationClasses,
         fixedClasses,
@@ -869,7 +869,7 @@ function PopoverContainer(props: PopoverContainerProps) {
     >
       {!hideArrow && (
         <span
-          className={classnames(
+          className={clsx(
             baseClassNames.map((base) => `${base}__arrow`),
             baseClassNames.map(
               (base) => `${base}__arrow__arrow--${arrowPosition}`

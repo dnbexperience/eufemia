@@ -9,7 +9,7 @@ import type {
   Schema,
 } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import FieldBlock, { Props as FieldBlockProps } from '../../FieldBlock'
 import SharedContext from '../../../../shared/Context'
 import { parseISO, isValid, isBefore, isAfter, startOfDay } from 'date-fns'
@@ -342,7 +342,7 @@ function DateComponent(props: DateProps) {
   const fieldBlockProps: FieldBlockProps = {
     forId: id,
     label: label ?? defaultLabel,
-    className: classnames('dnb-forms-field-string', className),
+    className: clsx('dnb-forms-field-string', className),
     width,
     ...pickSpacingProps(props),
   }

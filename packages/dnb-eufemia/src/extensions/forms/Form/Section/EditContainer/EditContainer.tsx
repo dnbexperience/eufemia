@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useMemo, useRef } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { convertJsxToString } from '../../../../../shared/component-helper'
 import { Flex } from '../../../../../components'
 import { Props as FlexContainerProps } from '../../../../../components/flex/Container'
@@ -70,7 +70,7 @@ function EditContainer(props: AllProps) {
         mode="edit"
         ariaLabel={ariaLabel}
         omitFocusManagementRef={omitFocusManagementRef}
-        className={classnames('dnb-forms-section-edit-block', className)}
+        className={clsx('dnb-forms-section-edit-block', className)}
         {...restProps}
       >
         <Flex.Stack>

@@ -3,7 +3,7 @@
  */
 
 import React, { useCallback, useEffect, useRef } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import type { CopyOnClickAllProps } from './types'
 import { runIOSSelectionFix } from '../number-format/NumberUtils'
 import {
@@ -87,7 +87,7 @@ const CopyOnClick = ({
 
   return (
     <Span
-      className={classnames(
+      className={clsx(
         'dnb-copy-on-click',
         showCursor && !disabled && 'dnb-copy-on-click--cursor',
         className

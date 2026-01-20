@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useReducer, useRef } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { Card, HeightAnimation } from '../../../../components'
 import { Props as CardProps } from '../../../../components/card/Card'
 import { HeightAnimationOnEndStates } from '../../../../components/height-animation/HeightAnimationInstance'
@@ -185,7 +185,7 @@ function ArrayItemArea(
       }}
     >
       <HeightAnimation
-        className={classnames(
+        className={clsx(
           'dnb-forms-section-block',
           variant && `dnb-forms-section-block--variant-${variant}`,
           isNew && 'dnb-forms-section-block--new',

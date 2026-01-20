@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import type { ComponentProps } from '../../types'
 import Button, { ButtonProps } from '../../../../components/button/Button'
 import ButtonRow from '../../Form/ButtonRow'
@@ -39,7 +39,7 @@ function EditButton(props: Props) {
     <ButtonRow {...pickSpacingProps(props)}>
       <Hr space={0} />
       <Button
-        className={classnames('dnb-forms-edit-button', className)}
+        className={clsx('dnb-forms-edit-button', className)}
         variant={variant}
         iconPosition={iconPosition}
         icon={edit || icon}
