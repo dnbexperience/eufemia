@@ -291,7 +291,7 @@ export const DropdownActionMenu = () => (
     >
       <Dropdown
         title="ActionMenu"
-        actionMenu={true}
+        mode="action-menu"
         alignDropdown="left"
         data={() => ({
           trash: (
@@ -365,7 +365,7 @@ export const DropdownMoreMenu = () => {
         data-visual-test="dropdown-more_menu"
       >
         <Dropdown
-          moreMenu={true}
+          mode="more-menu"
           size="small"
           title="Choose an item"
           data={() => [
@@ -379,7 +379,7 @@ export const DropdownMoreMenu = () => {
           {...visualTestProps(globalThis.IS_TEST)}
         />
         <Dropdown
-          preventSelection={true}
+          mode="prevent"
           alignDropdown="right"
           size="small"
           title={null}
@@ -397,7 +397,7 @@ export const DropdownMoreMenu = () => {
           {...visualTestProps(globalThis.IS_TEST)}
         />
         <Dropdown
-          moreMenu={true}
+          mode="more-menu"
           title="Choose an item"
           data={[
             <Link href="/" key="item-1">
@@ -409,7 +409,7 @@ export const DropdownMoreMenu = () => {
           right="small"
         />
         <Dropdown
-          preventSelection={true}
+          mode="prevent"
           alignDropdown="right"
           title={null}
           aria-label="Choose an item"
@@ -566,7 +566,7 @@ export const DropdownCustomEvent = () => {
 
           return (
             <Dropdown
-              actionMenu
+              mode="action-menu"
               right
               label="Label"
               title="Choose an item"
@@ -653,7 +653,7 @@ export const DropdownCustomWidth = () => (
             <CustomWidthTwo
               label="Label"
               size="small"
-              moreMenu
+              mode="more-menu"
               data={data}
             />
             <CustomWidthThree
@@ -818,7 +818,7 @@ export const DropdownCustomizedLook = () => {
           return (
             <Dropdown
               data={data}
-              actionMenu
+              mode="action-menu"
               triggerElement={(props) => (
                 <button {...props} style={styles.customTrigger}>
                   <Icon icon={newspaper} /> Custom trigger{' '}

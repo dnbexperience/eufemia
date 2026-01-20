@@ -100,12 +100,12 @@ export default class Dropdown extends React.PureComponent {
       PropTypes.string,
       PropTypes.bool,
     ]),
-    preventSelection: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
+    mode: PropTypes.oneOf([
+      'default',
+      'prevent',
+      'action-menu',
+      'more-menu',
     ]),
-    moreMenu: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    actionMenu: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     independentWidth: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool,
@@ -197,9 +197,7 @@ export default class Dropdown extends React.PureComponent {
     portalClass: null,
     noAnimation: false,
     noScrollAnimation: false,
-    preventSelection: false,
-    moreMenu: false,
-    actionMenu: false,
+    mode: null,
     independentWidth: false,
     size: 'default',
     alignDropdown: null,
@@ -229,8 +227,10 @@ export default class Dropdown extends React.PureComponent {
   render() {
     // generate ID here, so we can send it along the provider
     const id = this.props.id || makeUniqueId()
-    const { moreMenu, actionMenu, preventSelection, children, data } =
-      this.props
+    const { children, data, mode } = this.props
+
+    // Map mode to preventSelection for DrawerListProvider
+    const preventSelection = mode && mode !== 'default'
 
     return (
       <DrawerListProvider
@@ -240,11 +240,7 @@ export default class Dropdown extends React.PureComponent {
         open={false}
         tagName="dnb-dropdown"
         ignoreEvents={false}
-        preventSelection={
-          isTrue(moreMenu) ||
-          isTrue(actionMenu) ||
-          isTrue(preventSelection)
-        }
+        preventSelection={preventSelection}
       >
         <DropdownInstance {...this.props} id={id} />
       </DrawerListProvider>
@@ -443,10 +439,8 @@ class DropdownInstance extends React.PureComponent {
       skipPortal,
       portalClass,
       triggerElement: CustomTrigger,
-      moreMenu,
-      actionMenu,
+      mode,
       independentWidth,
-      preventSelection,
       maxHeight,
       defaultValue,
       className,
@@ -485,16 +479,20 @@ class DropdownInstance extends React.PureComponent {
 
     let { icon, iconPosition, alignDropdown } = props
 
-    const handleAsMenu =
-      isTrue(actionMenu) || isTrue(moreMenu) || isTrue(preventSelection)
+    // Map mode to behavior flags
+    const moreMenu = mode === 'more-menu'
+    const actionMenu = mode === 'action-menu'
+    const preventSelection = mode && mode !== 'default'
+
+    const handleAsMenu = preventSelection
 
     const title = this.getTitle(_title)
-    const isPopupMenu = isTrue(moreMenu) || !title
+    const isPopupMenu = moreMenu || !title
 
     if (isPopupMenu) {
-      icon = icon || (isTrue(moreMenu) ? 'more' : 'chevron_down')
+      icon = icon || (moreMenu ? 'more' : 'chevron_down')
     }
-    if (isPopupMenu || isTrue(actionMenu)) {
+    if (isPopupMenu || actionMenu) {
       if (iconPosition !== 'right' && alignDropdown !== 'right') {
         iconPosition = 'left'
         alignDropdown = 'left'
@@ -527,8 +525,8 @@ class DropdownInstance extends React.PureComponent {
         labelDirection && `dnb-dropdown--${labelDirection}`,
         `dnb-dropdown--icon-position-${iconPosition || 'right'}`,
         isPopupMenu && 'dnb-dropdown--is-popup',
-        isTrue(actionMenu) && `dnb-dropdown--action-menu`,
-        (isTrue(independentWidth) || isTrue(actionMenu)) &&
+        actionMenu && `dnb-dropdown--action-menu`,
+        (isTrue(independentWidth) || actionMenu) &&
           'dnb-dropdown--independent-width',
         size && `dnb-dropdown--${size}`,
         isTrue(stretch) && `dnb-dropdown--stretch`,
