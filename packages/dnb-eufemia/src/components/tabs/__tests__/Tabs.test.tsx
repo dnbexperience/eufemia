@@ -31,11 +31,7 @@ const contentWrapperData = {
 describe('Tabs component', () => {
   it('have a "selectedKey" state have to be same as prop from startup', () => {
     render(
-      <Tabs
-        {...props}
-        data={tablistData}
-        selectedKey={startupSelectedKey}
-      >
+      <Tabs {...props} data={tablistData} selectedKey={startupSelectedKey}>
         {contentWrapperData}
       </Tabs>
     )
@@ -43,9 +39,7 @@ describe('Tabs component', () => {
       document
         .querySelector('.dnb-tabs__button.selected')
         .querySelectorAll('span')[0].textContent
-    ).toBe(
-      tablistData.find(({ key }) => key === startupSelectedKey).title
-    )
+    ).toBe(tablistData.find(({ key }) => key === startupSelectedKey).title)
   })
 
   it('has working "onChange" and "onClick" event handler', () => {
@@ -296,11 +290,7 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
 describe('TabList component', () => {
   it('has to have the right amount of rendered components', () => {
     render(
-      <Tabs
-        {...props}
-        data={tablistData}
-        selectedKey={startupSelectedKey}
-      >
+      <Tabs {...props} data={tablistData} selectedKey={startupSelectedKey}>
         {contentWrapperData}
       </Tabs>
     )
@@ -315,11 +305,7 @@ describe('TabList component', () => {
 
   it('has to have the right content on a "click event"', () => {
     render(
-      <Tabs
-        {...props}
-        data={tablistData}
-        selectedKey={startupSelectedKey}
-      >
+      <Tabs {...props} data={tablistData} selectedKey={startupSelectedKey}>
         {contentWrapperData}
       </Tabs>
     )
@@ -339,11 +325,7 @@ describe('TabList component', () => {
 describe('A single Tab component', () => {
   it('has to have a role="tab" attribute and a selected class', () => {
     render(
-      <Tabs
-        {...props}
-        data={tablistData}
-        selectedKey={startupSelectedKey}
-      >
+      <Tabs {...props} data={tablistData} selectedKey={startupSelectedKey}>
         {contentWrapperData}
       </Tabs>
     )
@@ -360,11 +342,7 @@ describe('A single Tab component', () => {
 
   it('has to have the right content on a keydown "ArrowRight"', () => {
     render(
-      <Tabs
-        {...props}
-        data={tablistData}
-        selectedKey={startupSelectedKey}
-      >
+      <Tabs {...props} data={tablistData} selectedKey={startupSelectedKey}>
         {contentWrapperData}
       </Tabs>
     )
@@ -735,11 +713,7 @@ describe('Tabs scss', () => {
 describe('Tabs ARIA', () => {
   it('should validate with ARIA rules', async () => {
     const Comp = render(
-      <Tabs
-        {...props}
-        data={tablistData}
-        selectedKey={startupSelectedKey}
-      >
+      <Tabs {...props} data={tablistData} selectedKey={startupSelectedKey}>
         {contentWrapperData}
       </Tabs>
     )
