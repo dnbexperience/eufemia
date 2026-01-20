@@ -15,7 +15,7 @@ type TableAccordionContextProps = {
   keepInDOM: TableTrProps['keepInDOM']
   countTds: number
   noAnimation: TableTrProps['noAnimation']
-  onOpened: TableTrProps['onOpened']
+  onOpen: TableTrProps['onOpen']
   onClose: TableTrProps['onClose']
 }
 

@@ -34,7 +34,7 @@ const ContentTrAccordion = ({
       disabled={disabled}
       // noAnimation
       onClick={trClickHandler}
-      onOpened={trOpenHandler}
+      onOpen={trOpenHandler}
       onClose={trCloseHandler}
       {...rest}
     >
