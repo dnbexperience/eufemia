@@ -452,7 +452,7 @@ const ContentTr = ({
       expanded={expanded}
       disabled={disabled}
       onClick={trClickHandler}
-      onOpened={trOpenHandler}
+      onOpen={trOpenHandler}
       onClose={trCloseHandler}
       {...rest}
     >
