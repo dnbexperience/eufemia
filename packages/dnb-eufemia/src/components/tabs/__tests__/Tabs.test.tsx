@@ -11,7 +11,7 @@ import Input from '../../input/Input'
 
 const props: TabsProps = { id: 'id' }
 
-const startup_selectedKey = 'second'
+const startupSelectedKey = 'second'
 const tablistData = [
   { title: 'First', key: 'first' },
   { title: 'Second', key: 'second' },
@@ -34,7 +34,7 @@ describe('Tabs component', () => {
       <Tabs
         {...props}
         data={tablistData}
-        selectedKey={startup_selectedKey}
+        selectedKey={startupSelectedKey}
       >
         {contentWrapperData}
       </Tabs>
@@ -44,7 +44,7 @@ describe('Tabs component', () => {
         .querySelector('.dnb-tabs__button.selected')
         .querySelectorAll('span')[0].textContent
     ).toBe(
-      tablistData.find(({ key }) => key === startup_selectedKey).title
+      tablistData.find(({ key }) => key === startupSelectedKey).title
     )
   })
 
@@ -268,7 +268,7 @@ describe('Tabs component', () => {
         {...props}
         data={tablistData}
         breakout={false}
-        selectedKey={startup_selectedKey}
+        selectedKey={startupSelectedKey}
       >
         {contentWrapperData}
       </Tabs>
@@ -299,7 +299,7 @@ describe('TabList component', () => {
       <Tabs
         {...props}
         data={tablistData}
-        selectedKey={startup_selectedKey}
+        selectedKey={startupSelectedKey}
       >
         {contentWrapperData}
       </Tabs>
@@ -318,7 +318,7 @@ describe('TabList component', () => {
       <Tabs
         {...props}
         data={tablistData}
-        selectedKey={startup_selectedKey}
+        selectedKey={startupSelectedKey}
       >
         {contentWrapperData}
       </Tabs>
@@ -342,7 +342,7 @@ describe('A single Tab component', () => {
       <Tabs
         {...props}
         data={tablistData}
-        selectedKey={startup_selectedKey}
+        selectedKey={startupSelectedKey}
       >
         {contentWrapperData}
       </Tabs>
@@ -363,7 +363,7 @@ describe('A single Tab component', () => {
       <Tabs
         {...props}
         data={tablistData}
-        selectedKey={startup_selectedKey}
+        selectedKey={startupSelectedKey}
       >
         {contentWrapperData}
       </Tabs>
@@ -738,7 +738,7 @@ describe('Tabs ARIA', () => {
       <Tabs
         {...props}
         data={tablistData}
-        selectedKey={startup_selectedKey}
+        selectedKey={startupSelectedKey}
       >
         {contentWrapperData}
       </Tabs>

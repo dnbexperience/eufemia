@@ -298,7 +298,7 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
       children,
       currency,
       currencyDisplay,
-      currencyPosition: currency_position,
+      currencyPosition: currencyPosition,
       compact,
       ban,
       nin,

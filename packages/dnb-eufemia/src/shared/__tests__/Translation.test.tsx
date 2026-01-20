@@ -8,18 +8,18 @@ import Provider from '../Provider'
 import nbNO from '../locales/nb-NO'
 import enGB from '../locales/en-GB'
 
-const given_nbNO = '{foo} ({bar} av {max})'
-const given_enGB = '{foo} ({bar} of {max})'
-const expected_nbNO = 'foo (bar av max)'
+const givenNbNO = '{foo} ({bar} av {max})'
+const givenEnGB = '{foo} ({bar} of {max})'
+const expectedNbNO = 'foo (bar av max)'
 
 describe('flatten translations', () => {
   const nbNO = {
     'Modal.closeTitle': 'Steng',
-    'other.string': given_nbNO,
+    'other.string': givenNbNO,
   }
   const enGB = {
     'Modal.closeTitle': 'Close',
-    'other.string': given_enGB,
+    'other.string': givenEnGB,
   }
   const translations = {
     'nb-NO': nbNO,
@@ -42,11 +42,11 @@ describe('flatten translations', () => {
     )
 
     expect(document.querySelector('.Translation').textContent).toBe(
-      expected_nbNO
+      expectedNbNO
     )
     expect(
       document.querySelector('.TranslationIdAsChildren').textContent
-    ).toBe(expected_nbNO)
+    ).toBe(expectedNbNO)
   })
 
   it('should return given id if nothing found', () => {
@@ -107,11 +107,11 @@ describe('context.getTranslation', () => {
   it('should react on new lang prop and return other.string', () => {
     const nbNO = {
       'Modal.closeTitle': 'Steng',
-      'HelpButton.other.string': given_nbNO,
+      'HelpButton.other.string': givenNbNO,
     }
     const enGB = {
       'Modal.closeTitle': 'Close',
-      'HelpButton.other.string': given_enGB,
+      'HelpButton.other.string': givenEnGB,
     }
     const translations = {
       'nb-NO': nbNO,
@@ -309,13 +309,13 @@ describe('mergeTranslations', () => {
     const nbNO = {
       'nb-NO': {
         'Modal.closeTitle': 'Steng',
-        'HelpButton.other.string': given_nbNO,
+        'HelpButton.other.string': givenNbNO,
       },
     }
     const enGB = {
       'en-GB': {
         'Modal.closeTitle': 'Close',
-        'HelpButton.other.string': given_enGB,
+        'HelpButton.other.string': givenEnGB,
       },
     }
     const enGB_expected = {

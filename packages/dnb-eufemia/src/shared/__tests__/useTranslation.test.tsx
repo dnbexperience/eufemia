@@ -395,29 +395,29 @@ describe('useTranslation without an ID', () => {
 })
 
 describe('useTranslation with an ID', () => {
-  const given_nbNO = '{foo} ({bar} av {max})'
-  const given_enGB = '{foo} ({bar} of {max})'
-  const given_nbNO_nested = '{foo} ({bar} av nestet {max})'
-  const given_enGB_nested = '{foo} ({bar} of nested {max})'
-  const expected_nbNO = 'foo (bar av max)'
-  const expected_enGB = 'foo (bar of max)'
-  const expected_nbNO_nested = 'foo (bar av nestet max)'
-  const expected_enGB_nested = 'foo (bar of nested max)'
+  const givenNbNO = '{foo} ({bar} av {max})'
+  const givenEnGB = '{foo} ({bar} of {max})'
+  const givenNbNONested = '{foo} ({bar} av nestet {max})'
+  const givenEnGBNested = '{foo} ({bar} of nested {max})'
+  const expectedNbNO = 'foo (bar av max)'
+  const expectedEnGB = 'foo (bar of max)'
+  const expectedNbNONested = 'foo (bar av nestet max)'
+  const expectedEnGBNested = 'foo (bar of nested max)'
 
   describe('useTranslation', () => {
     const nbNO = {
       'Modal.closeTitle': 'Steng',
-      'other.string': given_nbNO,
+      'other.string': givenNbNO,
     }
     const enGB = {
       'Modal.closeTitle': 'Close',
-      'other.string': given_enGB,
+      'other.string': givenEnGB,
     }
-    const nbNO_nested = {
-      'other.string': given_nbNO_nested,
+    const nbNONested = {
+      'other.string': givenNbNONested,
     }
-    const enGB_nested = {
-      'other.string': given_enGB_nested,
+    const enGBNested = {
+      'other.string': givenEnGBNested,
     }
 
     const defaultLocales = {
@@ -425,8 +425,8 @@ describe('useTranslation with an ID', () => {
       'en-GB': enGB,
     }
     const nestedLocales = {
-      'nb-NO': nbNO_nested,
-      'en-GB': enGB_nested,
+      'nb-NO': nbNONested,
+      'en-GB': enGBNested,
     }
 
     const RenderUseTranslation = () => {
@@ -473,7 +473,7 @@ describe('useTranslation with an ID', () => {
       )
 
       expect(document.querySelector('output').textContent).toBe(
-        expected_nbNO
+        expectedNbNO
       )
     })
 
@@ -488,13 +488,13 @@ describe('useTranslation with an ID', () => {
       )
 
       expect(document.querySelector('output').textContent).toBe(
-        expected_nbNO
+        expectedNbNO
       )
 
       fireEvent.click(document.querySelector('button.en-GB'))
 
       expect(document.querySelector('output').textContent).toBe(
-        expected_enGB
+        expectedEnGB
       )
     })
 
@@ -518,28 +518,28 @@ describe('useTranslation with an ID', () => {
       )
 
       expect(document.querySelector('span.root').textContent).toBe(
-        expected_nbNO
+        expectedNbNO
       )
       expect(document.querySelector('span.nested').textContent).toBe(
-        expected_nbNO_nested
+        expectedNbNONested
       )
 
       fireEvent.click(document.querySelector('div.root button.en-GB'))
 
       expect(document.querySelector('span.root').textContent).toBe(
-        expected_enGB
+        expectedEnGB
       )
       expect(document.querySelector('span.nested').textContent).toBe(
-        expected_enGB_nested
+        expectedEnGBNested
       )
 
       fireEvent.click(document.querySelector('div.nested button.en-GB'))
 
       expect(document.querySelector('span.root').textContent).toBe(
-        expected_enGB
+        expectedEnGB
       )
       expect(document.querySelector('span.nested').textContent).toBe(
-        expected_enGB_nested
+        expectedEnGBNested
       )
 
       // if we change the nested locale ...
@@ -547,10 +547,10 @@ describe('useTranslation with an ID', () => {
 
       // ... we also change the root
       expect(document.querySelector('span.root').textContent).toBe(
-        expected_nbNO
+        expectedNbNO
       )
       expect(document.querySelector('span.nested').textContent).toBe(
-        expected_nbNO_nested
+        expectedNbNONested
       )
     })
   })

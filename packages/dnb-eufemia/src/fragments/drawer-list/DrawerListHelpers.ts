@@ -389,8 +389,8 @@ export const parseCurrentValue = (current) => {
   return current
 }
 
-export const getEventData = (item_index, data) => {
-  data = getCurrentData(item_index, data)
+export const getEventData = (itemIndex, data) => {
+  data = getCurrentData(itemIndex, data)
 
   // cleanup
   if (data && data.__id) {
@@ -402,12 +402,12 @@ export const getEventData = (item_index, data) => {
   return data
 }
 
-export const getCurrentData = (item_index, data) => {
+export const getCurrentData = (itemIndex, data) => {
   if (typeof data === 'function') {
     data = normalizeData(data)
   }
 
-  data = (data && data.find(({ __id }) => __id === item_index)) || null
+  data = (data && data.find(({ __id }) => __id === itemIndex)) || null
 
   if (data && data.__isTransformed) {
     return data.content

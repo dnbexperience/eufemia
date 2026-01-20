@@ -21,14 +21,14 @@ const en = locales['en-GB']
 
 describe('Provider', () => {
   describe('translations', () => {
-    const title_nb = 'Tekst'
-    const title_gb = 'Text'
+    const titleNb = 'Tekst'
+    const titleGb = 'Text'
 
     const nbNO: TranslationFlat = {
-      'HelpButton.title': title_nb,
+      'HelpButton.title': titleNb,
     }
     const enGB: TranslationFlat = {
-      'HelpButton.title': title_gb,
+      'HelpButton.title': titleGb,
     }
 
     const defaultTranslations: Translations = {

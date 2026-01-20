@@ -134,38 +134,38 @@ describe('Avatar', () => {
   })
 
   it('renders img from src', () => {
-    const img_src = '/dnb/android-chrome-192x192.png'
+    const imgSrc = '/dnb/android-chrome-192x192.png'
     render(
       <Avatar.Group label="label">
-        <Avatar src={img_src} alt="custom_alt_label" />
+        <Avatar src={imgSrc} alt="custom_alt_label" />
       </Avatar.Group>
     )
 
-    expect(screen.queryByRole('img').getAttribute('src')).toBe(img_src)
+    expect(screen.queryByRole('img').getAttribute('src')).toBe(imgSrc)
   })
 
   it('renders alt for img from src', () => {
-    const img_alt = 'custom_alt_label'
+    const imgAlt = 'custom_alt_label'
     render(
       <Avatar.Group label="label">
-        <Avatar alt={img_alt} src="/dnb/android-chrome-192x192.png" />
+        <Avatar alt={imgAlt} src="/dnb/android-chrome-192x192.png" />
       </Avatar.Group>
     )
 
-    expect(screen.getByAltText(img_alt)).toBeInTheDocument()
+    expect(screen.getByAltText(imgAlt)).toBeInTheDocument()
     expect(screen.queryByRole('img').getAttribute('alt')).toBe(img_alt)
   })
 
   it('renders imgProps', () => {
-    const img_src = '/dnb/android-chrome-192x192.png'
-    const img_width = '48'
-    const img_height = '48'
-    const img_alt = 'custom_alt_label'
+    const imgSrc = '/dnb/android-chrome-192x192.png'
+    const imgWidth = '48'
+    const imgHeight = '48'
+    const imgAlt = 'custom_alt_label'
     const imgProps: AvatarImgProps = {
-      width: img_width,
-      height: img_height,
-      src: img_src,
-      alt: img_alt,
+      width: imgWidth,
+      height: imgHeight,
+      src: imgSrc,
+      alt: imgAlt,
     }
 
     render(
@@ -226,13 +226,13 @@ describe('Avatar', () => {
   })
 
   it('should support spacing props', () => {
-    const img_alt = 'custom_alt_label'
+    const imgAlt = 'custom_alt_label'
 
     render(
       <Avatar.Group label="label" top>
         <Avatar
           top="2rem"
-          alt={img_alt}
+          alt={imgAlt}
           src="/dnb/android-chrome-192x192.png"
         />
       </Avatar.Group>

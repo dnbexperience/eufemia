@@ -15,13 +15,13 @@ describe('Radio group component', () => {
   })
 
   it('has to set correct value using keys', () => {
-    const my_event = jest.fn()
+    const myEvent = jest.fn()
     render(
       <Radio.Group
         label="Label"
         name="group"
         id="group"
-        onChange={my_event}
+        onChange={myEvent}
       >
         <Radio id="radio-1" label="Radio 1" value="first" />
         <Radio id="radio-2" label="Radio 2" value="second" checked />
