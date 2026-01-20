@@ -61,7 +61,7 @@ const direction = 'auto'
 const label = 'Label'
 const alignDropdown = 'right'
 const iconPosition = 'right'
-const opened = false
+const open = false
 
 const DropdownStory = () => {
   const [data, setData] = React.useState(dropdownData)
@@ -203,7 +203,7 @@ const DropdownStory = () => {
           <Dropdown
             size="small"
             skipPortal
-            opened={opened}
+            open={open}
             noAnimation
             direction={direction}
             alignDropdown={alignDropdown}
@@ -214,7 +214,7 @@ const DropdownStory = () => {
           />
           <Dropdown
             size="small"
-            opened={opened}
+            open={open}
             direction={direction}
             alignDropdown={alignDropdown}
             iconPosition={iconPosition}
@@ -223,10 +223,10 @@ const DropdownStory = () => {
             right
           />
         </Box>
-        <Box top={opened ? 'x-large x-large' : 0}>
+        <Box top={open ? 'x-large x-large' : 0}>
           <Dropdown
             skipPortal
-            opened={opened}
+            open={open}
             noAnimation
             direction={direction}
             alignDropdown={alignDropdown}
@@ -236,7 +236,7 @@ const DropdownStory = () => {
             right
           />
           <Dropdown
-            opened={opened}
+            open={open}
             noAnimation
             direction={direction}
             alignDropdown={alignDropdown}
@@ -246,11 +246,11 @@ const DropdownStory = () => {
             right
           />
         </Box>
-        <Box top={opened ? 'x-large x-large' : 0}>
+        <Box top={open ? 'x-large x-large' : 0}>
           <Dropdown
             size="medium"
             skipPortal
-            opened={opened}
+            open={open}
             noAnimation
             direction={direction}
             alignDropdown={alignDropdown}
@@ -261,7 +261,7 @@ const DropdownStory = () => {
           />
           <Dropdown
             size="medium"
-            opened={opened}
+            open={open}
             noAnimation
             direction={direction}
             alignDropdown={alignDropdown}
@@ -271,11 +271,11 @@ const DropdownStory = () => {
             right
           />
         </Box>
-        <Box top={opened ? 'x-large x-large' : 0}>
+        <Box top={open ? 'x-large x-large' : 0}>
           <Dropdown
             size="large"
             skipPortal
-            opened={opened}
+            open={open}
             noAnimation
             direction={direction}
             alignDropdown={alignDropdown}
@@ -286,7 +286,7 @@ const DropdownStory = () => {
           />
           <Dropdown
             size="large"
-            opened={opened}
+            open={open}
             noAnimation
             alignDropdown={alignDropdown}
             iconPosition={iconPosition}
@@ -296,11 +296,11 @@ const DropdownStory = () => {
             right
           />
         </Box>
-        <Box top={opened ? 'x-large x-large' : 0}>
+        <Box top={open ? 'x-large x-large' : 0}>
           <Box>
             <Dropdown
               size="small"
-              opened={opened}
+              open={open}
               label={label}
               noAnimation
               direction={direction}
@@ -318,7 +318,7 @@ const DropdownStory = () => {
             />
             <Dropdown
               moreMenu={true}
-              opened={opened}
+              open={open}
               label={label}
               noAnimation
               direction={direction}
@@ -335,7 +335,7 @@ const DropdownStory = () => {
             <Dropdown
               size="medium"
               moreMenu={true}
-              opened={opened}
+              open={open}
               label={label}
               noAnimation
               direction={direction}
@@ -352,7 +352,7 @@ const DropdownStory = () => {
             <Dropdown
               size="large"
               moreMenu
-              opened={opened}
+              open={open}
               label={label}
               noAnimation
               direction={direction}
@@ -991,7 +991,7 @@ export function InDialog() {
       alignContent="left"
       maxWidth="35rem"
       title="Ny melding"
-      openState
+      open
       noAnimation
     >
       <Form.Handler>

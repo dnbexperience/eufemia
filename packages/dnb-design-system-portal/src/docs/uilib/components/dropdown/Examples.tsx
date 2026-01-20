@@ -27,11 +27,7 @@ import type { DropdownAllProps } from '@dnb/eufemia/src/components/dropdown/Drop
 
 type VisibleWhenVisualTestReturn = Pick<
   DropdownAllProps,
-  | 'opened'
-  | 'preventClose'
-  | 'independentWidth'
-  | 'skipPortal'
-  | 'direction'
+  'open' | 'preventClose' | 'independentWidth' | 'skipPortal' | 'direction'
 >
 
 const Wrapper = styled.div`

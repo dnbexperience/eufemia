@@ -150,7 +150,7 @@ describe('Modal component', () => {
 
   it('should have the correct title', () => {
     render(
-      <Modal {...props} openState={true}>
+      <Modal {...props} open={true}>
         <Modal.Header />
       </Modal>
     )
@@ -164,7 +164,7 @@ describe('Modal component', () => {
     const MockComponent = () => {
       return (
         <Modal
-          openState
+          open
           noAnimation
           contentRef={contentRef}
           scrollRef={scrollRef}
@@ -233,13 +233,9 @@ describe('Modal component', () => {
   })
 
   it('has a disabled trigger button once we set trigger disabled to true', () => {
-    const { rerender } = render(<Modal {...props} openState={true} />)
+    const { rerender } = render(<Modal {...props} open />)
     rerender(
-      <Modal
-        {...props}
-        openState={true}
-        triggerAttributes={{ disabled: true }}
-      />
+      <Modal {...props} open triggerAttributes={{ disabled: true }} />
     )
     expect(
       document.querySelector('button.dnb-modal__trigger')
@@ -521,9 +517,9 @@ describe('Modal component', () => {
     })
   })
 
-  it('should not set "data-autofocus" on mount when openState is "false"', async () => {
+  it('should not set "data-autofocus" on mount when open is false', async () => {
     render(
-      <Modal openState={false} animationDuration={2}>
+      <Modal open={false} animationDuration={2}>
         <DialogContent />
       </Modal>
     )
@@ -815,7 +811,7 @@ describe('Modal component', () => {
     )
   })
 
-  it('will remove HTML attributes on unmount when openState is used', () => {
+  it('will remove HTML attributes on unmount when open is used', () => {
     const HandleState = () => {
       const [open, toggle] = React.useState(false)
       return (
@@ -826,7 +822,7 @@ describe('Modal component', () => {
           <Modal
             noAnimation
             id="modal-id"
-            openState={open}
+            open={open}
             triggerAttributes={{ hidden: true }}
           >
             content
@@ -854,7 +850,7 @@ describe('Modal component', () => {
     )
   })
 
-  it('will animate when openState is used', async () => {
+  it('will animate when open is used', async () => {
     const onOpen = jest.fn()
     const onClose = jest.fn()
 
@@ -869,7 +865,7 @@ describe('Modal component', () => {
             id="modal-id"
             openDelay={2}
             animationDuration={2}
-            openState={open}
+            open={open}
             onOpen={onOpen}
             onClose={onClose}
             triggerAttributes={{ hidden: true }}
@@ -1068,7 +1064,7 @@ describe('Modal component', () => {
     ).not.toBeInTheDocument()
   })
 
-  it('has working open event and close event on changing the "openState"', async () => {
+  it('has working open event and close event on changing the "open" prop', async () => {
     let testTriggeredBy = null
     const onClose = jest.fn(
       ({ triggeredBy }) => (testTriggeredBy = triggeredBy)
@@ -1080,23 +1076,13 @@ describe('Modal component', () => {
     )
 
     rerender(
-      <Modal
-        {...props}
-        onClose={onClose}
-        onOpen={onOpen}
-        openState="opened"
-      />
+      <Modal {...props} onClose={onClose} onOpen={onOpen} open={true} />
     )
     expect(onOpen).toHaveBeenCalledTimes(1)
     expect(testTriggeredBy).toBe(null)
 
     rerender(
-      <Modal
-        {...props}
-        onClose={onClose}
-        onOpen={onOpen}
-        openState="closed"
-      />
+      <Modal {...props} onClose={onClose} onOpen={onOpen} open={false} />
     )
     expect(onClose).toHaveBeenCalledTimes(1)
     expect(testTriggeredBy).toBe('unmount')
@@ -1323,29 +1309,29 @@ describe('Modal component', () => {
     )
   })
 
-  it('has correct opened state when "openState" is used', () => {
+  it('has correct opened state when "open" is used', () => {
     const { rerender } = render(<Modal {...props} />)
 
-    rerender(<Modal {...props} openState="opened" />)
+    rerender(<Modal {...props} open={true} />)
     expect(
       document.querySelector('div.dnb-modal__content')
     ).toBeInTheDocument()
 
-    rerender(<Modal {...props} openState="closed" />)
+    rerender(<Modal {...props} open={false} />)
     expect(
       document.querySelector('div.dnb-modal__content')
     ).not.toBeInTheDocument()
   })
 
-  it('has correct opened state when "openState" is used with boolean', () => {
+  it('has correct opened state when "open" is used with boolean', () => {
     const { rerender } = render(<Modal {...props} />)
-    rerender(<Modal {...props} openState={true} />)
+    rerender(<Modal {...props} open={true} />)
 
     expect(
       document.querySelector('div.dnb-modal__content')
     ).toBeInTheDocument()
 
-    rerender(<Modal {...props} openState={false} />)
+    rerender(<Modal {...props} open={false} />)
 
     expect(
       document.querySelector('div.dnb-modal__content')
@@ -1371,7 +1357,7 @@ describe('Modal component', () => {
                 <Modal
                   {...props}
                   triggerAttributes={{ hidden: true }}
-                  openState="opened"
+                  open
                 >
                   <DialogContent />
                 </Modal>
@@ -1419,7 +1405,7 @@ describe('Modal component', () => {
     // expect(document.querySelector('div.dnb-modal__content')).toBeInTheDocument()
   })
 
-  it('will keep its internal openState from within provider', () => {
+  it('will keep its internal open state from within provider', () => {
     const onOpen = jest.fn()
     const onClose = jest.fn()
 
@@ -1441,7 +1427,7 @@ describe('Modal component', () => {
                 <OriginalComponent
                   title="Modal Title"
                   triggerAttributes={{ hidden: true }}
-                  openState="opened"
+                  open
                   labelledBy="modal-trigger"
                   onOpen={(e) => {
                     onOpen(e)
@@ -1513,7 +1499,7 @@ describe('Modal component', () => {
       return (
         <Modal
           noAnimation={true}
-          openState={modalOpen}
+          open={modalOpen}
           onOpen={() => {
             setModalOpen(true)
             onOpen()
@@ -1557,7 +1543,7 @@ describe('Modal component', () => {
 
       return (
         <Modal
-          openState={modalOpen}
+          open={modalOpen}
           onOpen={() => {
             setModalOpen(true)
           }}
@@ -1587,7 +1573,7 @@ describe('Modal component', () => {
   })
 
   it('should have the correct aria-describedby', () => {
-    render(<Modal {...props} openState={true} />)
+    render(<Modal {...props} open />)
     expect(
       document.querySelector(
         `[aria-describedby="dnb-modal-${props.id}-content"]`
@@ -1598,7 +1584,7 @@ describe('Modal component', () => {
   it('should have correct role and aria-modal', () => {
     let elem
 
-    const { rerender } = render(<Modal {...props} openState={true} />)
+    const { rerender } = render(<Modal {...props} open />)
     elem = document.querySelector('.dnb-modal__content')
     expect(elem).toHaveAttribute('role', 'dialog')
     expect(elem).toHaveAttribute('aria-modal')
@@ -1608,7 +1594,7 @@ describe('Modal component', () => {
       writable: true,
     })
 
-    rerender(<Modal {...props} openState={true} title="re-render" />)
+    rerender(<Modal {...props} open title="re-render" />)
 
     elem = document.querySelector('.dnb-modal__content')
     expect(elem).toHaveAttribute('role', 'region')
@@ -1709,7 +1695,7 @@ describe('Modal component', () => {
   it('should render camelcase props', () => {
     const customText = 'Custom text in camelcase'
     render(
-      <Modal triggerAttributes={{ text: customText }} openState={true}>
+      <Modal triggerAttributes={{ text: customText }} open>
         The informational content
       </Modal>
     )
@@ -1726,7 +1712,7 @@ describe('Modal component', () => {
       const onClose = jest.fn()
 
       const { rerender } = render(
-        <Modal noAnimation onClose={onClose} openState={true}>
+        <Modal noAnimation onClose={onClose} open>
           Content
         </Modal>
       )
@@ -1734,7 +1720,7 @@ describe('Modal component', () => {
       expect(onClose).toHaveBeenCalledTimes(0)
 
       rerender(
-        <Modal noAnimation onClose={onClose} openState={false}>
+        <Modal noAnimation onClose={onClose} open={false}>
           Content
         </Modal>
       )
@@ -1889,7 +1875,7 @@ describe('Modal component', () => {
               <Modal
                 noAnimation
                 omitTriggerButton
-                openState={open}
+                open={open}
                 onOpen={onOpenHandler}
                 onClose={onCloseHandler}
               >
