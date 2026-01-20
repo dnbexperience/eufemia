@@ -163,8 +163,8 @@ export default class Dropdown extends React.PureComponent {
       PropTypes.array,
     ]),
 
-    onShow: PropTypes.func,
-    onHide: PropTypes.func,
+    onOpen: PropTypes.func,
+    onClose: PropTypes.func,
     onChange: PropTypes.func,
     onSelect: PropTypes.func,
     onStateUpdate: PropTypes.func,
@@ -218,8 +218,8 @@ export default class Dropdown extends React.PureComponent {
     className: null,
     children: null,
 
-    onShow: null,
-    onHide: null,
+    onOpen: null,
+    onClose: null,
 
     onChange: null,
     onSelect: null,
@@ -343,9 +343,9 @@ class DropdownInstance extends React.PureComponent {
     }
   }
 
-  onHideHandler = (args = {}) => {
+  onCloseHandler = (args = {}) => {
     const attributes = this.attributes || {}
-    const res = dispatchCustomElementEvent(this, 'onHide', {
+    const res = dispatchCustomElementEvent(this, 'onClose', {
       ...args,
       attributes,
     })
@@ -366,7 +366,7 @@ class DropdownInstance extends React.PureComponent {
           if (args.preventHideFocus !== true) {
             element.focus({ preventScroll: true })
           }
-          dispatchCustomElementEvent(this, 'onHideFocus', { element })
+          dispatchCustomElementEvent(this, 'onCloseFocus', { element })
         }
       } catch (e) {
         // do noting
@@ -471,13 +471,14 @@ class DropdownInstance extends React.PureComponent {
       buttonRef, // eslint-disable-line
       innerRef, // eslint-disable-line
 
-      onShow: _onShow, // eslint-disable-line
-      onHide: _onHide, // eslint-disable-line
+      onOpen: _onOpen, // eslint-disable-line
+      onClose: _onClose, // eslint-disable-line
+      onFocus: _onFocus, // eslint-disable-line
       onChange: _onChange, // eslint-disable-line
       onSelect: _onSelect, // eslint-disable-line
       onStateUpdate: _onStateUpdate, // eslint-disable-line
-      onShowFocus: _onShowFocus, // eslint-disable-line
-      onHideFocus: _onHideFocus, // eslint-disable-line
+      onOpenFocus: _onOpenFocus, // eslint-disable-line
+      onCloseFocus: _onCloseFocus, // eslint-disable-line
 
       ...attributes
     } = props
@@ -694,7 +695,7 @@ class DropdownInstance extends React.PureComponent {
                 size={size}
                 onChange={this.onChangeHandler}
                 onSelect={this.onSelectHandler}
-                onHide={this.onHideHandler}
+                onClose={this.onCloseHandler}
               />
             </span>
 

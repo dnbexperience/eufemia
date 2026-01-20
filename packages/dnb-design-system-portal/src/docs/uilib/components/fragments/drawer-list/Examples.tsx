@@ -36,7 +36,7 @@ export const DrawerListExampleInteractive = () => (
                 skipPortal
                 data={data}
                 opened={opened}
-                onHide={() => setOpened(false)}
+                onClose={() => setOpened(false)}
                 {...props}
               />
             </>
@@ -117,8 +117,8 @@ export const DrawerListExampleDefault = () => (
         onChange={({ data: selectedDataItem }) => {
           console.log('onChange', selectedDataItem)
         }}
-        onShow={() => {
-          console.log('onShow')
+        onOpen={() => {
+          console.log('onOpen')
         }}
         observerElement=".dnb-live-preview" // prevents direction to change when scrolling in this example
       />
