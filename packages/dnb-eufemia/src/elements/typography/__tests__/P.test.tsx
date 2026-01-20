@@ -51,7 +51,7 @@ describe('P element', () => {
     it('renders as a paragraph inside Dialog even when the Dialog is wrapped by another paragraph', () => {
       render(
         <P>
-          <Dialog noAnimation openState title="Dialog title">
+          <Dialog noAnimation open title="Dialog title">
             <P>Dialog paragraph</P>
           </Dialog>
         </P>
@@ -66,7 +66,7 @@ describe('P element', () => {
     it('still renders nested paragraphs inside Dialog as spans', () => {
       render(
         <P>
-          <Dialog noAnimation openState title="Dialog title">
+          <Dialog noAnimation open title="Dialog title">
             <P>
               <P>Inner Paragraph</P>
             </P>
@@ -85,7 +85,7 @@ describe('P element', () => {
     it('renders as a paragraph inside Drawer even when the Drawer is wrapped by another paragraph', () => {
       render(
         <P>
-          <Drawer noAnimation openState title="Drawer title">
+          <Drawer noAnimation open title="Drawer title">
             <P>Drawer paragraph</P>
           </Drawer>
         </P>
@@ -100,7 +100,7 @@ describe('P element', () => {
     it('still renders nested paragraphs inside Drawer as spans', () => {
       render(
         <P>
-          <Drawer noAnimation openState title="Drawer title">
+          <Drawer noAnimation open title="Drawer title">
             <P>
               <P>Inner Paragraph</P>
             </P>

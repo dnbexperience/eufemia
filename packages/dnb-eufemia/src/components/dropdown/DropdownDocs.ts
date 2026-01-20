@@ -64,7 +64,7 @@ export const DropdownProperties = {
     type: ['small', 'default', 'medium', 'large'],
     status: 'optional',
   },
-  opened: {
+  open: {
     doc: 'If set to `true`, the Dropdown will be rendered initially with a visible and accessible data list / options.',
     type: 'boolean',
     status: 'optional',

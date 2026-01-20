@@ -89,7 +89,7 @@ export type DateProps = Omit<
     | 'sync'
     | 'addonElement'
     | 'shortcuts'
-    | 'opened'
+    | 'open'
     | 'direction'
     | 'alignPicker'
     | 'onDaysRender'
@@ -575,7 +575,7 @@ const datePickerPropKeys = [
   'sync',
   'addonElement',
   'shortcuts',
-  'opened',
+  'open',
   'direction',
   'alignPicker',
   'onDaysRender',
