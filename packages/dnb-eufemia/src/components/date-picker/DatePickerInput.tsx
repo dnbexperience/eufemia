@@ -15,7 +15,7 @@ import React, {
 // date-fns
 import { isValid as isValidFn, parseISO } from 'date-fns'
 
-import classnames from 'classnames'
+import clsx from 'clsx'
 import TextMask, { TextMaskProps } from '../input-masked/TextMask'
 import Button from '../button/Button'
 import Input, { SubmitButton } from '../input/Input'
@@ -793,7 +793,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
                     {...element}
                     id={`${id}-${mode}-day`}
                     key={'di' + i}
-                    className={classnames(
+                    className={clsx(
                       element.className,
                       'dnb-date-picker__input',
                       'dnb-date-picker__input--day',
@@ -825,7 +825,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
                     {...element}
                     id={`${id}-${mode}-month`}
                     key={'mi' + i}
-                    className={classnames(
+                    className={clsx(
                       element.className,
                       'dnb-date-picker__input',
                       'dnb-date-picker__input--month',
@@ -859,7 +859,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
                     {...element}
                     id={`${id}-${mode}-year`}
                     key={'yi' + i}
-                    className={classnames(
+                    className={clsx(
                       element.className,
                       'dnb-date-picker__input',
                       'dnb-date-picker__input--year',
@@ -988,7 +988,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
             id={id}
             disabled={disabled}
             skeleton={skeleton}
-            className={classnames(
+            className={clsx(
               showInput && 'dnb-button--input-button',
               opened ? 'dnb-button--active' : null
             )}
@@ -1045,7 +1045,7 @@ function InputElement({ className, value, ...props }: TextMaskProps) {
       autoCapitalize="none"
       spellCheck={false}
       autoCorrect="off"
-      className={classnames(
+      className={clsx(
         className,
         /\d+/.test(String(value)) && 'dnb-date-picker__input--highlight'
       )}

@@ -5,7 +5,7 @@ import React, {
   useReducer,
   useRef,
 } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 
 // Components
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
@@ -241,7 +241,7 @@ const Breadcrumb = (localProps: BreadcrumbProps & SpacingProps) => {
   return (
     <nav
       aria-label={convertJsxToString(navText)}
-      className={classnames(
+      className={clsx(
         'dnb-breadcrumb',
         `dnb-breadcrumb--variant-${currentVariant}`,
         skeletonClasses,

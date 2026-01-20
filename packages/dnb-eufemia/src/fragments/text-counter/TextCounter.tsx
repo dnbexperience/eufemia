@@ -1,5 +1,5 @@
 import React, { useContext, useMemo, useRef } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { toPascalCase } from '../../shared/component-helper'
 import Context from '../../shared/Context'
 import AriaLive from '../../components/AriaLive'
@@ -59,7 +59,7 @@ export default function TextCounter(localProps: TextCounterProps) {
   return (
     <P
       size="small"
-      className={classnames(
+      className={clsx(
         'dnb-text-counter',
         length > max && 'dnb-text-counter--exceeded',
         className

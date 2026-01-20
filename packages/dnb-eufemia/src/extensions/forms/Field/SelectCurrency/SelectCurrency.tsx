@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useMemo, useRef } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import SharedContext from '../../../../shared/Context'
 import FieldBlockContext from '../../FieldBlock/FieldBlockContext'
 import { LOCALE } from '../../../../shared/defaults'
@@ -237,7 +237,7 @@ function SelectCurrency(props: Props) {
 
   const fieldBlockProps: FieldBlockProps = {
     forId: id,
-    className: classnames('dnb-forms-field-select-currency', className),
+    className: clsx('dnb-forms-field-select-currency', className),
     label,
     width:
       width === 'stretch' || fieldBlockContext?.composition
