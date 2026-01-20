@@ -52,7 +52,7 @@ export const useCallEvent = ({
 
     // Android issue: https://bugs.chromium.org/p/chromium/issues/detail?id=118639
     if (
-      name === 'on_key_down' &&
+      name === 'onKeyDown' &&
       (event.which === 229 || keyCode === undefined)
     ) {
       isUnidentified = true
@@ -65,7 +65,7 @@ export const useCallEvent = ({
       name === 'onBeforeInput' &&
       typeof event?.data !== 'undefined'
     ) {
-      name = 'on_key_down'
+      name = 'onKeyDown'
       keyCode = event.data
       isUnidentified = false
     }
@@ -139,7 +139,7 @@ export const useCallEvent = ({
     }
 
     if (
-      name === 'on_key_down' &&
+      name === 'onKeyDown' &&
       isNumberMask &&
       !isUnidentified &&
       maskParams?.decimalSymbol
@@ -212,9 +212,9 @@ export const useCallEvent = ({
 
     switch (name) {
       case 'onFocus':
-      case 'on_key_down':
-      case 'on_mouse_down':
-      case 'on_mouse_up':
+      case 'onKeyDown':
+      case 'onMouseDown':
+      case 'onMouseUp':
         event.target.runCorrectCaretPosition = () =>
           correctCaretPosition(event.target, maskParamsRef, props)
         if (!event.target.__getCorrectCaretPosition) {
