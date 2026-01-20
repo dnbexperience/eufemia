@@ -18,7 +18,7 @@ import type {
 } from '../../../../components/Input'
 import SharedContext from '../../../../shared/Context'
 import FieldBlockContext from '../../FieldBlock/FieldBlockContext'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import FieldBlock, {
   Props as FieldBlockProps,
   FieldBlockWidth,
@@ -393,12 +393,12 @@ function NumberComponent(props: Props) {
 
   const fieldBlockProps: FieldBlockProps = {
     forId: id,
-    className: classnames(
+    className: clsx(
       'dnb-forms-field-number',
       'dnb-input__border--tokens', // Used by "dnb-input__border"
       className
     ),
-    contentClassName: classnames(
+    contentClassName: clsx(
       'dnb-forms-field-number__contents',
       showStepControls && 'dnb-forms-field-number__contents--has-controls',
       hasError && 'dnb-input__status--error', // Also used by "dnb-input__border"
@@ -516,7 +516,7 @@ function NumberComponent(props: Props) {
     name,
     innerRef: innerRef,
     autoComplete,
-    className: classnames(
+    className: clsx(
       'dnb-forms-field-number__input',
       `dnb-input--${size}`,
       inputClassName

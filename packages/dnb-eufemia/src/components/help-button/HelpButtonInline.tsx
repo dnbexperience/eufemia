@@ -5,7 +5,7 @@ import React, {
   useEffect,
   useRef,
 } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { HelpButtonProps } from './HelpButton'
 import HelpButtonInstance from './HelpButtonInstance'
 import HeightAnimation from '../HeightAnimation'
@@ -121,7 +121,7 @@ export default function HelpButtonInline(props: HelpButtonInlineProps) {
         title={!isOpen && !wasOpenRef.current ? title : undefined}
         {...rest}
         id={controlId}
-        className={classnames(
+        className={clsx(
           'dnb-help-button__inline',
           isOpen && 'dnb-help-button__inline--open',
           isUserIntent && 'dnb-help-button__inline--user-intent',
@@ -269,7 +269,7 @@ export function HelpButtonInlineContent(
   return (
     <HeightAnimation
       element={element}
-      className={classnames('dnb-help-button__content', className)}
+      className={clsx('dnb-help-button__content', className)}
       open={isOpen ?? open ?? false}
     >
       <Section

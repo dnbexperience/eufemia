@@ -1,5 +1,5 @@
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import TableSortButton from './TableSortButton'
 import TableHelpButton from './TableHelpButton'
 
@@ -69,7 +69,7 @@ export default function Th(
       role={role}
       scope={scope}
       aria-sort={ariaSort}
-      className={classnames(
+      className={clsx(
         'dnb-table__th',
         sortable && 'dnb-table--sortable',
         active && 'dnb-table--active',
@@ -91,7 +91,7 @@ function Horizontal({
   return (
     <div
       {...rest}
-      className={classnames('dnb-table__th__horizontal', className)}
+      className={clsx('dnb-table__th__horizontal', className)}
     />
   )
 }

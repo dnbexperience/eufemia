@@ -7,7 +7,7 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import {
   warn,
   isTrue,
@@ -425,7 +425,7 @@ export default class Input extends React.PureComponent {
         : iconSize
 
     const mainParams = {
-      className: classnames(
+      className: clsx(
         'dnb-input',
         'dnb-input__border--tokens',
         type && `dnb-input--${type}`,
@@ -464,7 +464,7 @@ export default class Input extends React.PureComponent {
       : {}
 
     const inputParams = {
-      className: classnames('dnb-input__input', inputClass),
+      className: clsx('dnb-input__input', inputClass),
       autoComplete: autocomplete,
       type,
       id,
@@ -499,7 +499,7 @@ export default class Input extends React.PureComponent {
     }
 
     const shellParams = {
-      className: classnames(
+      className: clsx(
         'dnb-input__shell',
         'dnb-input__border',
         createSkeletonClass('shape', skeleton, this.context)
@@ -569,7 +569,7 @@ export default class Input extends React.PureComponent {
               {!hasValue && placeholder && focusState !== 'focus' && (
                 <span
                   id={id + '-placeholder'}
-                  className={classnames(
+                  className={clsx(
                     'dnb-input__placeholder',
                     align ? `dnb-input__align--${align}` : null
                   )}
@@ -754,7 +754,7 @@ class InputSubmitButton extends React.PureComponent {
         data-input-state={this.state.focusState}
       >
         <Button
-          className={classnames(
+          className={clsx(
             'dnb-input__submit-button__button',
             'dnb-button--input-button',
             className

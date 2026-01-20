@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import Context from '../../shared/Context'
 import {
   isTrue,
@@ -188,7 +188,7 @@ export function SectionParams(
 
   return Object.freeze({
     ...attributes,
-    className: classnames(
+    className: clsx(
       'dnb-section',
       `dnb-section--${variant ? variant : style_type || 'default'}`,
       spacing &&
