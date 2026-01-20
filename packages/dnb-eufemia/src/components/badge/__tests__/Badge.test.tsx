@@ -146,6 +146,25 @@ describe('Badge', () => {
     ])
   })
 
+  it('should place spacing classes on root element', () => {
+    render(
+      <Badge top="2rem" content="content">
+        <span>Child content</span>
+      </Badge>
+    )
+
+    const element = document.querySelector('.dnb-badge__root')
+
+    expect(Array.from(element.classList)).toEqual([
+      'dnb-badge__root',
+      'dnb-space__top--large',
+    ])
+
+    expect(
+      Array.from(document.querySelector('.dnb-badge').classList)
+    ).not.toContain('dnb-space__top--large')
+  })
+
   it('should have role="status"', () => {
     render(<Badge content="content" />)
 
@@ -239,6 +258,39 @@ describe('Badge', () => {
       expect(element).not.toHaveClass('dnb-badge--status-positive')
       expect(element).not.toHaveClass('dnb-badge--subtle')
       expect(element).toHaveClass('dnb-badge--variant-notification')
+    })
+  })
+
+  describe('hideBadge prop', () => {
+    it('hides the badge when hideBadge is true', () => {
+      render(
+        <Badge content="test" hideBadge>
+          Hello
+        </Badge>
+      )
+      expect(document.querySelector('.dnb-badge')).not.toBeInTheDocument()
+    })
+
+    it('shows the badge when hideBadge is false', () => {
+      render(
+        <Badge content="test" hideBadge={false}>
+          Hello
+        </Badge>
+      )
+      expect(document.querySelector('.dnb-badge')).toBeInTheDocument()
+    })
+
+    it('keeps children visible when hideBadge is true', () => {
+      render(
+        <Badge content="badge content" hideBadge>
+          <span data-testid="child">Child content</span>
+        </Badge>
+      )
+      expect(screen.queryByTestId('child')).toBeInTheDocument()
+      expect(
+        document.querySelector('.dnb-badge__root')
+      ).toBeInTheDocument()
+      expect(document.querySelector('.dnb-badge')).not.toBeInTheDocument()
     })
   })
 })
