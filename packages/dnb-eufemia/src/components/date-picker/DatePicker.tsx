@@ -68,16 +68,16 @@ export type DatePickerEventAttributes = {
 // Takes the return object from DatePickerProvider and extends it with the event
 export type DatePickerEvent<T> = ReturnObject<T>
 
-type FocusOnHide = { focusOnHide?: boolean | string }
+type FocusOnClose = { focusOnClose?: boolean | string }
 
 export type DisplayPickerEvent = (
   | React.MouseEvent<HTMLButtonElement | HTMLAnchorElement | HTMLElement>
   | MouseEvent
   | KeyboardEvent
-  | FocusOnHide
+  | FocusOnClose
 ) &
   DatePickerDates &
-  FocusOnHide & {
+  FocusOnClose & {
     event?: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>
   }
 
@@ -307,11 +307,11 @@ export type DatePickerProps = {
   /**
    * Will be called once date-picker is visible.
    */
-  onShow?: (event: DatePickerEvent<DisplayPickerEvent>) => void
+  onOpen?: (event: DatePickerEvent<DisplayPickerEvent>) => void
   /**
    * Will be called once date-picker is hidden.
    */
-  onHide?: (event: DatePickerEvent<DisplayPickerEvent>) => void
+  onClose?: (event: DatePickerEvent<DisplayPickerEvent>) => void
   /**
    * Will be called once a user presses the submit button.
    */
@@ -382,8 +382,8 @@ function DatePicker(externalProps: DatePickerAllProps) {
 
   const {
     preventClose,
-    onHide,
-    onShow,
+    onClose,
+    onOpen,
     onSubmit,
     onCancel,
     onReset,
@@ -445,10 +445,10 @@ function DatePicker(externalProps: DatePickerAllProps) {
       hideTimeout.current = setTimeout(
         () => {
           setHidden(true)
-          onHide?.({
+          onClose?.({
             ...getReturnObject.current(args),
           })
-          if (args?.['focusOnHide']) {
+          if (args?.['focusOnClose']) {
             try {
               submitButtonRef.current.focus({
                 preventScroll: true,
@@ -461,7 +461,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
         noAnimation ? 1 : blurDelay
       ) // wait until animation is over
     },
-    [noAnimation, preventClose, onHide]
+    [noAnimation, preventClose, onClose]
   )
 
   const showPicker = useCallback(
@@ -473,9 +473,9 @@ function DatePicker(externalProps: DatePickerAllProps) {
       setOpened(true)
       setHidden(false)
 
-      onShow?.({ ...getReturnObject.current(event) })
+      onOpen?.({ ...getReturnObject.current(event) })
     },
-    [onShow]
+    [onOpen]
   )
 
   // React to opened prop changes (only when not inline)
@@ -494,7 +494,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
       | React.KeyboardEvent<HTMLTableElement>
     >) => {
       if (shouldHidePicker && !showSubmitButton && !showCancelButton) {
-        hidePicker({ focusOnHide: true })
+        hidePicker({ focusOnClose: true })
       }
 
       setDates({ startDate: args.startDate, endDate: args.endDate })
@@ -895,9 +895,9 @@ const NonAttributes = [
   'inline',
   'noAnimation',
   'onDaysRender',
-  'onShow',
+  'onOpen',
   'onType',
-  'onHide',
+  'onClose',
   'showSubmitButton',
   'showCancelButton',
   'selectedDate',
