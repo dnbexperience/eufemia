@@ -11,7 +11,7 @@ import {
 } from '../../components/space/SpacingHelper'
 import { SpacingProps } from '../../components/space/types'
 import { SkeletonShow } from '../../components/skeleton/Skeleton'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import type { DynamicElement } from '../../shared/types'
 
 export type ImgProps = SpacingProps &
@@ -41,7 +41,7 @@ const Img = ({
     <E
       as={element}
       internalClass="dnb-img"
-      className={classnames(className, createSpacingClasses(p, p.is))}
+      className={clsx(className, createSpacingClasses(p, p.is))}
       skeleton={skeleton}
       skeletonMethod="shape"
     >
@@ -49,7 +49,7 @@ const Img = ({
         as="img"
         loading={loading}
         alt={alt}
-        internalClass={classnames('dnb-img', hasError && 'dnb-img--error')}
+        internalClass={clsx('dnb-img', hasError && 'dnb-img--error')}
         className={imgClass}
         skeleton={skeleton}
         onError={() => setError(true)}

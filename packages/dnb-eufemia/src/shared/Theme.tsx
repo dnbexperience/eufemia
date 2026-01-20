@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import Context from './Context'
 import Provider from './Provider'
 import { DynamicElement } from './types'
@@ -115,7 +115,7 @@ export function getThemeClasses(theme: ThemeProps, className = null) {
   const { name, variant, size, propMapping, contrastMode, darkMode } =
     theme
 
-  return classnames(
+  return clsx(
     className,
     'eufemia-theme',
     name && `eufemia-theme__${name}`,
