@@ -59,25 +59,25 @@ export type StepIndicatorItemProps = Omit<
 }
 
 function StepIndicatorItem({
-  statusState: statusState_default = 'warn',
-  inactive: inactive_default = false,
-  disabled: disabled_default = false,
+  statusState: statusStateDefault = 'warn',
+  inactive: inactiveDefault = false,
+  disabled: disabledDefault = false,
   ...restOfProps
 }: StepIndicatorItemProps) {
   const globalContext = React.useContext(Context)
 
   const props: StepIndicatorItemProps = useMemo(() => {
     return {
-      statusState: statusState_default,
-      inactive: inactive_default,
-      disabled: globalContext?.formElement?.disabled ?? disabled_default,
+      statusState: statusStateDefault,
+      inactive: inactiveDefault,
+      disabled: globalContext?.formElement?.disabled ?? disabledDefault,
       ...restOfProps,
     }
   }, [
-    disabled_default,
-    inactive_default,
+    disabledDefault,
+    inactiveDefault,
     restOfProps,
-    statusState_default,
+    statusStateDefault,
     globalContext?.formElement?.disabled,
   ])
 
