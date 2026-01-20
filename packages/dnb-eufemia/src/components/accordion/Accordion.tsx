@@ -12,7 +12,7 @@ import React, {
   useMemo,
 } from 'react'
 
-import classnames from 'classnames'
+import clsx from 'clsx'
 import {
   makeUniqueId,
   findElementInChildren,
@@ -370,7 +370,7 @@ function Accordion({
 
             const mainParams = {
               id,
-              className: classnames(
+              className: clsx(
                 'dnb-accordion',
                 expandedState && 'dnb-accordion--expanded',
                 variant && `dnb-accordion__variant--${variant}`,

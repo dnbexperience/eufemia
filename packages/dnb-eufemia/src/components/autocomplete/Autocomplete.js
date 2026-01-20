@@ -7,7 +7,7 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import {
   warn,
   isTrue,
@@ -1861,7 +1861,7 @@ class AutocompleteInstance extends React.PureComponent {
     Object.assign(this.context.drawerList.attributes, this.attributes)
 
     const mainParams = {
-      className: classnames(
+      className: clsx(
         'dnb-autocomplete',
         direction && `dnb-autocomplete--${direction}`,
         disabled && 'dnb-autocomplete--disabled',
@@ -2084,10 +2084,7 @@ class AutocompleteInstance extends React.PureComponent {
 
               <DrawerList
                 id={id}
-                className={classnames(
-                  'dnb-autocomplete__root',
-                  drawerClass
-                )}
+                className={clsx('dnb-autocomplete__root', drawerClass)}
                 portalClass={portalClass}
                 listClass="dnb-autocomplete__list"
                 value={selectedItem}

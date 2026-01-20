@@ -1,5 +1,5 @@
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 
 // Components
 import { createSpacingClasses } from '../space/SpacingHelper'
@@ -87,7 +87,7 @@ const Timeline = (localProps: TimelineAllProps) => {
 
   return (
     <ol
-      className={classnames(
+      className={clsx(
         'dnb-timeline',
         'dnb-space__reset',
         spacingClasses,

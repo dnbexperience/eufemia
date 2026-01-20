@@ -7,7 +7,7 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import {
   isTrue,
   makeUniqueId,
@@ -334,7 +334,7 @@ export default class Radio extends React.PureComponent {
           const showStatus = getStatusState(status)
 
           const mainParams = {
-            className: classnames(
+            className: clsx(
               'dnb-radio',
               status && `dnb-radio__status--${statusState}`,
               size && `dnb-radio--${size}`,
@@ -429,7 +429,7 @@ export default class Radio extends React.PureComponent {
                       />
 
                       <span
-                        className={classnames(
+                        className={clsx(
                           'dnb-radio__button',
                           createSkeletonClass(
                             'shape',
@@ -441,7 +441,7 @@ export default class Radio extends React.PureComponent {
                       />
                       <span className="dnb-radio__focus" aria-hidden />
                       <span
-                        className={classnames(
+                        className={clsx(
                           'dnb-radio__dot',
                           createSkeletonClass(
                             'font',

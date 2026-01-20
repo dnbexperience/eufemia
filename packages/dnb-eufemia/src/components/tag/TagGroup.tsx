@@ -1,5 +1,5 @@
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 
 // Components
 import { createSpacingClasses } from '../space/SpacingHelper'
@@ -81,7 +81,7 @@ const TagGroup = (
   return (
     <TagGroupContext.Provider value={props}>
       <span
-        className={classnames('dnb-tag__group', spacingClasses, className)}
+        className={clsx('dnb-tag__group', spacingClasses, className)}
         {...attributes}
       >
         <span className="dnb-sr-only">{label}</span>

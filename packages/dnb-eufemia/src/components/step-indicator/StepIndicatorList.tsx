@@ -4,7 +4,7 @@
  */
 
 import React, { useContext } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import Space from '../space/Space'
 import {
   skeletonDOMAttributes,
@@ -44,7 +44,7 @@ function StepIndicatorList() {
       <Space innerSpace={{ top: 'small' }}>
         <Element
           {...params}
-          className={classnames(
+          className={clsx(
             'dnb-step-indicator',
             createSkeletonClass('font', skeleton)
           )}

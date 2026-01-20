@@ -1,5 +1,5 @@
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { useTranslation, useValueProps } from '../../hooks'
 import { ValueProps } from '../../types'
 import ValueBlock from '../../ValueBlock'
@@ -22,7 +22,7 @@ function SelectCountry(props: Props) {
   return (
     <ValueBlock
       label={label}
-      className={classnames('dnb-forms-value-select-country', className)}
+      className={clsx('dnb-forms-value-select-country', className)}
       {...rest}
     >
       {getCountryNameByIso(value) ?? value}

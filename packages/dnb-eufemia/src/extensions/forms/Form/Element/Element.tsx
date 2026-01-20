@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useRef } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import DataContext from '../../DataContext/Context'
 import Space from '../../../../components/space/Space'
 import useId from '../../../../shared/helpers/useId'
@@ -68,7 +68,7 @@ export default function FormElement(props: Props) {
   return (
     <Space
       element="form"
-      className={classnames('dnb-forms-form', className)}
+      className={clsx('dnb-forms-form', className)}
       onSubmit={onSubmitHandler}
       aria-labelledby={
         combineLabelledBy(

@@ -7,7 +7,7 @@ import React, {
   useCallback,
   useMemo,
 } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import SharedContext from '../../../../shared/Context'
 import StringField, { Props as StringFieldProps } from '../String'
 import useId from '../../../../shared/helpers/useId'
@@ -127,7 +127,7 @@ function Password({
   return (
     <StringField
       id={idToUse}
-      className={classnames('dnb-forms-field-password', className)}
+      className={clsx('dnb-forms-field-password', className)}
       label={label ?? translations.label}
       type={hidden ? 'password' : 'text'}
       value={value}

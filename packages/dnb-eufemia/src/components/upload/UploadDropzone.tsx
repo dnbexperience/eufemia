@@ -5,7 +5,7 @@ import React, {
   useRef,
   useState,
 } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 
 import HeightAnimation from '../height-animation/HeightAnimation'
 import { UploadContext } from './UploadContext'
@@ -116,7 +116,7 @@ export default function UploadDropzone({
 
   return (
     <HeightAnimation
-      className={classnames(className, hover && 'dnb-upload--active')}
+      className={clsx(className, hover && 'dnb-upload--active')}
       onDrop={dropHandler}
       onDragOver={dragEnterHandler}
       onDragLeave={dragLeaveHandler}

@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import E, { ElementProps } from '../Element'
 
 export type OlProps = {
@@ -33,7 +33,7 @@ const Ol = ({ nested, inside, outside, ...props }: OlAllProps = {}) => {
     <E
       as="ol"
       {...props}
-      className={classnames(
+      className={clsx(
         props.className,
         nested && 'dnb-ol--nested',
         inside && 'dnb-ol--inside',

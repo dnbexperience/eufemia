@@ -1,5 +1,5 @@
 import React, { useContext, useMemo } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { useValueProps } from '../../hooks'
 import { ValueProps } from '../../types'
 import ValueBlock from '../../ValueBlock'
@@ -54,7 +54,7 @@ function ArraySelection(props: Props) {
 
   return (
     <ValueBlock
-      className={classnames('dnb-forms-value-array-selection', className)}
+      className={clsx('dnb-forms-value-array-selection', className)}
       {...rest}
     >
       {list}

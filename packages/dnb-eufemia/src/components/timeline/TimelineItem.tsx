@@ -1,5 +1,5 @@
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 
 // Components
 import FormStatus from '../form-status/FormStatus'
@@ -98,7 +98,7 @@ const TimelineItem = (localProps: TimelineItemAllProps) => {
   } = allProps
 
   const skeletonClasses = createSkeletonClass('font', skeleton, context)
-  const classes = classnames(
+  const classes = clsx(
     'dnb-timeline__item',
     skeletonClasses,
     `dnb-timeline__item--${state}`

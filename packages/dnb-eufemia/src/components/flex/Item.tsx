@@ -1,5 +1,5 @@
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import Space, { SpaceProps } from '../space/Space'
 
 export type Sizes =
@@ -49,7 +49,7 @@ function FlexItem(props: Props) {
     ...rest
   } = props
 
-  const cn = classnames(
+  const cn = clsx(
     'dnb-flex-item',
     grow && 'dnb-flex-item--grow',
     shrink && 'dnb-flex-item--shrink',
@@ -80,7 +80,7 @@ function FlexItem(props: Props) {
     return (
       <Space element={element} className={cn} style={spaceStyles}>
         <Space
-          className={classnames('dnb-flex-item__spacer', className)}
+          className={clsx('dnb-flex-item__spacer', className)}
           style={style}
           {...rest}
         >
@@ -93,7 +93,7 @@ function FlexItem(props: Props) {
   return (
     <Space
       element={element}
-      className={classnames(cn, className)}
+      className={clsx(cn, className)}
       style={style}
       {...rest}
     >

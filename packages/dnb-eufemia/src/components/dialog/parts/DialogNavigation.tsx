@@ -1,5 +1,5 @@
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import ModalHeaderBar, {
   ModalHeaderBarProps,
 } from '../../modal/parts/ModalHeaderBar'
@@ -12,7 +12,7 @@ export default function DialogNavigation({
   return (
     <ModalHeaderBar
       {...props}
-      className={classnames('dnb-dialog__navigation', className)}
+      className={clsx('dnb-dialog__navigation', className)}
     />
   )
 }

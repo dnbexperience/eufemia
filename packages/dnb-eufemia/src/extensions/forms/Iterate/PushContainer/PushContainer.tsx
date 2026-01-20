@@ -6,7 +6,7 @@ import React, {
   useReducer,
   useRef,
 } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import Isolation, { IsolationProps } from '../../Form/Isolation'
 import { extractZodSubSchema } from '../../Form/Isolation/extractZodSubSchema'
 import * as z from 'zod'
@@ -446,10 +446,7 @@ function NewContainer({
         toolbar={toolbar}
         {...rest}
         // Add the class by default, because we don't get a "hasSubmitError" trigger
-        className={classnames(
-          'dnb-forms-section-block--error',
-          rest.className
-        )}
+        className={clsx('dnb-forms-section-block--error', rest.className)}
       >
         {children}
       </EditContainer>

@@ -10,7 +10,7 @@ import React, {
   useMemo,
   useRef,
 } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 
 // date-fns
 import {
@@ -479,7 +479,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
 
   return (
     <div
-      className={classnames('dnb-date-picker__calendar', rtl && 'rtl')}
+      className={clsx('dnb-date-picker__calendar', rtl && 'rtl')}
       lang={locale}
     >
       {!hideNavigation && !onlyMonth && (
@@ -604,7 +604,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
                     <td
                       key={'day' + i}
                       role="gridcell"
-                      className={classnames(
+                      className={clsx(
                         'dnb-date-picker__day',
                         'dnb-no-focus',
                         buildDayClassNames(day)
@@ -766,7 +766,7 @@ function onHoverDay({
 }
 
 function buildDayClassNames(day: DayObject) {
-  return classnames(
+  return clsx(
     {
       'dnb-date-picker__day--start-date': day.isStartDate,
       'dnb-date-picker__day--end-date': day.isEndDate,

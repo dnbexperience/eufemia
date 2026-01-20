@@ -4,7 +4,7 @@
  */
 
 import React, { useContext } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import {
   isTrue,
   findElementInChildren,
@@ -51,7 +51,7 @@ export default function DrawerContent({
     )
 
   const innerParams = {
-    className: classnames(
+    className: clsx(
       !isTrue(preventCoreStyle) && 'dnb-core-style',
 
       'dnb-drawer',

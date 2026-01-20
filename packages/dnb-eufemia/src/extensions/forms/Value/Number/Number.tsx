@@ -1,5 +1,5 @@
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import ValueBlock from '../../ValueBlock'
 import useValueProps from '../../hooks/useValueProps'
 import { ValueProps } from '../../types'
@@ -49,7 +49,7 @@ function NumberValue(props: Props) {
 
   return (
     <ValueBlock
-      className={classnames('dnb-forms-value-number', className)}
+      className={clsx('dnb-forms-value-number', className)}
       inline={inline}
       showEmpty={showEmpty}
       {...rest}

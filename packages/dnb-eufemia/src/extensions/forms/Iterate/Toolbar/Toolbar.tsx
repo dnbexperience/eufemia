@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { Hr } from '../../../../elements'
 import { Flex, FormStatus, Space } from '../../../../components'
 import { SpaceAllProps } from '../../../../components/Space'
@@ -52,7 +52,7 @@ export default function Toolbar({
   return (
     <Space
       top={toolbarVariant === 'custom' ? false : 'medium'}
-      className={classnames('dnb-forms-iterate-toolbar', className)}
+      className={clsx('dnb-forms-iterate-toolbar', className)}
       {...rest}
     >
       {toolbarVariant !== 'custom' && divider !== 'line' && (

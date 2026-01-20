@@ -113,7 +113,7 @@
     "@ungap/structured-clone": "1.2.0",
     "ajv": "8.17.1",
     "ajv-errors": "3.0.0",
-    "classnames": "2.5.1",
+    "clsx": "2.1.1",
     "core-js-pure": "3.47.0",
     "date-fns": "4.1.0",
     "postcss-selector-parser": "7.1.0",

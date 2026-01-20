@@ -8,7 +8,7 @@
  */
 
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import {
   isTrue,
   makeUniqueId,
@@ -172,7 +172,7 @@ class ToggleButtonGroup extends React.PureComponent<ToggleButtonGroupProps> {
     const id = this._id
     const showStatus = getStatusState(status)
 
-    const classes = classnames(
+    const classes = clsx(
       'dnb-toggle-button-group',
       status && `dnb-toggle-button-group__status--${statusState}`,
       !label && 'dnb-toggle-button-group--no-label',
@@ -274,7 +274,7 @@ class ToggleButtonGroup extends React.PureComponent<ToggleButtonGroupProps> {
                 />
 
                 <span
-                  className={classnames(
+                  className={clsx(
                     'dnb-toggle-button-group__shell__children',
                     `dnb-toggle-button-group__shell__children--${layoutDirection}`
                   )}

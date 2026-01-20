@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useRef, useState } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { Space } from '../../../../components'
 import type { SpaceProps } from '../../../../components/Space'
 import type { SubmitState } from '../../types'
@@ -53,7 +53,7 @@ function SubmitIndicator(props: Props) {
   }, [key, recalculate])
 
   const params = {
-    className: classnames(
+    className: clsx(
       'dnb-forms-submit-indicator',
       state && `dnb-forms-submit-indicator--state-${state}`,
       willWrap && 'dnb-forms-submit-indicator--inline-wrap',

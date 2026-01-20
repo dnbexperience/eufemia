@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { isTrue } from '../../../shared/component-helper'
 import Section from '../../section/Section'
 import ModalContext from '../ModalContext'
@@ -111,7 +111,7 @@ export default class ModalHeaderBar extends React.PureComponent<
     return (
       <Section
         style_type="white"
-        className={classnames(
+        className={clsx(
           'dnb-modal__header__bar',
           showShadow && shadowClass,
           className

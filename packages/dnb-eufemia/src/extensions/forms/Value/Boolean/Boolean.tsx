@@ -1,5 +1,5 @@
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import ValueBlock from '../../ValueBlock'
 import { useValueProps } from '../../hooks'
 import { ValueProps } from '../../types'
@@ -17,7 +17,7 @@ function BooleanComponent(props: Props) {
 
   return (
     <ValueBlock
-      className={classnames('dnb-forms-value-boolean', className)}
+      className={clsx('dnb-forms-value-boolean', className)}
       {...rest}
     >
       {value === true || value === false

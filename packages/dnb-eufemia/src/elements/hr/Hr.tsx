@@ -6,7 +6,7 @@
 import React from 'react'
 import { SpacingProps } from '../../components/space/types'
 import E from '../Element'
-import classnames from 'classnames'
+import clsx from 'clsx'
 
 type HrProps = SpacingProps &
   React.HTMLAttributes<HTMLHRElement> & {
@@ -25,7 +25,7 @@ const Hr = ({ breakout, dashed, className, ...props }: HrProps = {}) => {
   return (
     <E
       as="hr"
-      className={classnames(
+      className={clsx(
         className,
         dashed && 'dnb-hr--dashed',
         breakout && 'dnb-hr--breakout'
