@@ -205,7 +205,7 @@ export const ModalSandbox = () => (
 
 export const ModalV2Sandbox = () => (
   <Modal
-    openState={true}
+    open={true}
     title="hellooo"
     triggerAttributes={{
       text: 'Custom',
@@ -327,15 +327,13 @@ const dropdownData = [
 ]
 
 const ModalCloseExample = () => {
-  const [openState, setOpenState] = React.useState<
-    false | 'opened' | 'closed'
-  >(false)
+  const [openState, setOpenState] = React.useState<boolean>(false)
   const [count, setCount] = React.useState(0)
 
   React.useEffect(() => {
     let timeout
 
-    if (openState === 'opened') {
+    if (openState) {
       timeout = setTimeout(() => {
         console.log('count:', count)
         setCount(count + 1)
@@ -347,14 +345,11 @@ const ModalCloseExample = () => {
 
   return (
     <>
-      <Button
-        text="Set opened state"
-        onClick={() => setOpenState('opened')}
-      />
+      <Button text="Set opened state" onClick={() => setOpenState(true)} />
       <Modal
         triggerAttributes={{ text: 'Open Modal and auto close' }}
         title="Modal Title"
-        openState={openState}
+        open={openState}
         openModal={(open) => {
           const timeout = setTimeout(open, 3e3)
           return () => clearTimeout(timeout)
@@ -362,7 +357,7 @@ const ModalCloseExample = () => {
         closeModal={(close) => {
           let timeout
 
-          if (openState !== 'opened') {
+          if (!openState) {
             console.log('Modal was opened')
             timeout = setTimeout(close, 3e3)
           }
@@ -374,7 +369,7 @@ const ModalCloseExample = () => {
         }}
         onClose={(e) => {
           console.log('onClose', e)
-          setOpenState('closed')
+          setOpenState(false)
         }}
       >
         <Hr />
@@ -412,7 +407,7 @@ const ModalTriggerExample = () => {
               <Modal
                 title="Modal Title"
                 triggerAttributes={{ hidden: true }}
-                openState="opened"
+                open={true}
                 labelledBy="custom-triggerer"
               >
                 <Section spacing style_type="divider">
@@ -595,7 +590,7 @@ function CloseWithAnimation() {
     <Modal
       triggerAttributes={{ text: 'CloseWithAnimation' }}
       hideCloseButton
-      openState={modalOpen}
+      open={modalOpen}
       onOpen={() => setModalOpen(true)}
       onClose={() => setModalOpen(false)}
     >

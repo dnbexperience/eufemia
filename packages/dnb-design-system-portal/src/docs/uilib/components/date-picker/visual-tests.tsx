@@ -92,7 +92,7 @@ const DatePickerYearNavigationOpen = () => (
     data-visual-test="date-picker-year-navigation"
     style={{ width: '350px', height: '430px' }}
   >
-    <DatePicker date="2025-05-12" yearNavigation opened left top />
+    <DatePicker date="2025-05-12" yearNavigation open left top />
   </div>
 )
 
@@ -102,7 +102,7 @@ const DatePickerOnlyMonthOpen = () => (
     style={{ width: '350px', height: '350px' }}
   >
     <Flex.Horizontal innerSpace>
-      <DatePicker date="2025-05-20" onlyMonth opened />
+      <DatePicker date="2025-05-20" onlyMonth open />
     </Flex.Horizontal>
   </div>
 )
@@ -115,7 +115,7 @@ const DatePickerAlignPickerRight = () => (
     <Flex.Horizontal justify="flex-end" innerSpace>
       <DatePicker
         alignPicker="right"
-        opened
+        open
         date="2025-05-20"
         onDaysRender={(days) => {
           return days.map((dayObject) => {
@@ -140,7 +140,7 @@ const DatePickerAlignPickerRightWithInput = () => (
       <DatePicker
         showInput
         alignPicker="right"
-        opened
+        open
         date="2025-05-20"
         onDaysRender={(days) => {
           return days.map((dayObject) => {
