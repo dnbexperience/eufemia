@@ -1,5 +1,5 @@
 import React, { useCallback, useRef } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 
 // Components
 import Button from '../button/Button'
@@ -131,7 +131,7 @@ const UploadFileListCell = ({
 
   return (
     <li
-      className={classnames(
+      className={clsx(
         'dnb-upload__file-cell',
         hasWarning && 'dnb-upload__file-cell--warning',
         isDuplicate && 'dnb-upload__file-cell--highlight'
@@ -152,7 +152,7 @@ const UploadFileListCell = ({
   function getTitle() {
     return isLoading ? (
       <div
-        className={classnames(
+        className={clsx(
           'dnb-upload__file-cell__text-container',
           'dnb-upload__file-cell__text-container--loading'
         )}

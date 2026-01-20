@@ -1,5 +1,5 @@
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import TableScrollView, { TableScrollViewProps } from './TableScrollView'
 import { createSpacingClasses } from '../space/SpacingUtils'
 
@@ -53,11 +53,7 @@ export default function TableContainer(props: TableContainerAllProps) {
 
   return (
     <section
-      className={classnames(
-        'dnb-table__container',
-        className,
-        spacingClasses
-      )}
+      className={clsx('dnb-table__container', className, spacingClasses)}
       {...rest}
     >
       <ScrollView>{content}</ScrollView>
@@ -81,7 +77,7 @@ export function TableContainerBody(
 
   return (
     <div
-      className={classnames('dnb-table__container__body', className)}
+      className={clsx('dnb-table__container__body', className)}
       {...rest}
     >
       {children}
@@ -103,7 +99,7 @@ export function TableContainerHead(
 
   return (
     <div
-      className={classnames(
+      className={clsx(
         'dnb-table__container__head',
         !children && 'dnb-table__container__head--empty',
         className
@@ -129,7 +125,7 @@ export function TableContainerFoot(
 
   return (
     <div
-      className={classnames(
+      className={clsx(
         'dnb-table__container__foot',
         !children && 'dnb-table__container__foot--empty',
         className

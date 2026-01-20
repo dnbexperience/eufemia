@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import {
   disableBodyScroll,
   enableBodyScroll,
@@ -504,7 +504,7 @@ export default class ModalContent extends React.PureComponent<
        */
       'aria-label': !title && !labelledBy ? dialogTitle : undefined,
 
-      className: classnames(
+      className: clsx(
         'dnb-modal__content',
         isTrue(fullscreen)
           ? 'dnb-modal__content--fullscreen'
@@ -558,7 +558,7 @@ export default class ModalContent extends React.PureComponent<
         </div>
 
         <span
-          className={classnames(
+          className={clsx(
             'dnb-modal__overlay',
             hide && 'dnb-modal__overlay--hide',
             isTrue(noAnimation) && 'dnb-modal__overlay--no-animation',

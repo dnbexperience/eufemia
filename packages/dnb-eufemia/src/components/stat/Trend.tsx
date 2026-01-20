@@ -1,5 +1,5 @@
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import type { SpacingProps } from '../../shared/types'
 import { convertJsxToString, warn } from '../../shared/component-helper'
 import type { SkeletonShow } from '../skeleton/Skeleton'
@@ -13,7 +13,7 @@ const trendContextValue = {
 
 type TrendOwnProps = {
   value?: number | string
-  element?: keyof JSX.IntrinsicElements
+  element?: keyof React.JSX.IntrinsicElements
   srLabel?: React.ReactNode
   tone?: 'positive' | 'negative' | 'neutral'
   skeleton?: SkeletonShow
@@ -72,7 +72,7 @@ function Trend(props: TrendProps) {
       {...rest}
       id={id}
       element={Element}
-      className={classnames(
+      className={clsx(
         'dnb-stat',
         'dnb-stat__trend',
         `dnb-stat__trend--${usedTone}`,

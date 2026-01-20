@@ -1,5 +1,5 @@
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import ScrollView, {
   ScrollViewAllProps,
 } from '../../fragments/scroll-view/ScrollView'
@@ -23,7 +23,7 @@ export default function TableScrollView(props: TableScrollViewAllProps) {
 
   return (
     <ScrollView
-      className={classnames('dnb-table__scroll-view', className)}
+      className={clsx('dnb-table__scroll-view', className)}
       interactive="auto"
       {...rest}
     >

@@ -4,7 +4,7 @@
  */
 
 import React, { useContext } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 
 import { createSpacingClasses } from '../space/SpacingHelper'
 import Card from '../Card'
@@ -145,7 +145,7 @@ function StepIndicator({
       <div className="dnb-step-indicator-wrapper">
         <Card
           align="stretch"
-          className={classnames(
+          className={clsx(
             'dnb-step-indicator',
             createSpacingClasses(restOfProps)
           )}

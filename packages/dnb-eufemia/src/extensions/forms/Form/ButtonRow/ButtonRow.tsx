@@ -1,5 +1,5 @@
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { Space } from '../../../../components'
 import type { ComponentProps } from '../../types'
 
@@ -10,10 +10,7 @@ export type Props = ComponentProps & {
 function ButtonRow(props: Props) {
   const { className, children, ...rest } = props
   return (
-    <Space
-      className={classnames('dnb-forms-button-row', className)}
-      {...rest}
-    >
+    <Space className={clsx('dnb-forms-button-row', className)} {...rest}>
       {children}
     </Space>
   )

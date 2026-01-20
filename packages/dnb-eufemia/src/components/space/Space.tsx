@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import {
   isTrue,
   extendPropsWithContext,
@@ -110,7 +110,7 @@ export default function Space(localProps: SpaceAllProps) {
   } = props
 
   const params = {
-    className: classnames(
+    className: clsx(
       'dnb-space',
       isTrue(stretch) && 'dnb-space--stretch',
       isTrue(inline) && 'dnb-space--inline',
@@ -173,7 +173,7 @@ function Element({
         : 'div'
     return (
       <R
-        className={classnames(
+        className={clsx(
           'dnb-space--no-collapse',
           isInline(element as string) && 'dnb-space--inline'
         )}

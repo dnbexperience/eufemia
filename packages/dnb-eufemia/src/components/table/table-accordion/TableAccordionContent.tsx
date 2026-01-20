@@ -1,5 +1,5 @@
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import useId from '../../../shared/helpers/useId'
 import useTableAnimationHandler from './useTableAnimationHandler'
 import { TableContext } from '../TableContext'
@@ -86,7 +86,7 @@ function TableAccordionContent(
           ? `accordion-content-${id}`
           : undefined,
       }}
-      className={classnames(
+      className={clsx(
         isInDOM && 'dnb-table__tr',
         'dnb-table__tr__accordion-content',
         `dnb-table__tr__accordion-content--${variant}`,

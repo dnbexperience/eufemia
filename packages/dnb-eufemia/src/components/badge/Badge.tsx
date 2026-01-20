@@ -1,5 +1,5 @@
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 
 // Components
 import { createSpacingClasses } from '../space/SpacingHelper'
@@ -118,7 +118,7 @@ function Badge(localProps: BadgeAndSpacingProps) {
 
   if (children) {
     return (
-      <BadgeRoot className={classnames(spacingClasses)}>
+      <BadgeRoot className={clsx(spacingClasses)}>
         {children}
         <BadgeElem context={context} {...allProps} className={className} />
       </BadgeRoot>
@@ -129,7 +129,7 @@ function Badge(localProps: BadgeAndSpacingProps) {
     <BadgeElem
       context={context}
       {...allProps}
-      className={classnames(spacingClasses, className)}
+      className={clsx(spacingClasses, className)}
     />
   )
 }
@@ -142,9 +142,7 @@ function BadgeRoot({
   className?: string
 }) {
   return (
-    <span className={classnames('dnb-badge__root', className)}>
-      {children}
-    </span>
+    <span className={clsx('dnb-badge__root', className)}>{children}</span>
   )
 }
 
@@ -205,7 +203,7 @@ const BadgeElem = propGuard((props: BadgeElemProps) => {
   return (
     <span
       role="status"
-      className={classnames(
+      className={clsx(
         'dnb-badge',
         variant !== 'content' && `dnb-badge--variant-${variant}`,
         horizontal && `dnb-badge--horizontal-${horizontal}`,

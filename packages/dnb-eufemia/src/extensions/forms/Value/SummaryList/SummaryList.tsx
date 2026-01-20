@@ -1,5 +1,5 @@
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { removeUndefinedProps } from '../../../../shared/component-helper'
 import SummaryListContext from './SummaryListContext'
 import Dl, { DlAllProps } from '../../../../elements/Dl'
@@ -44,7 +44,7 @@ function SummaryList(props: Props) {
   return (
     <SummaryListContext.Provider value={{ layout, verifyChild }}>
       <Dl
-        className={classnames('dnb-forms-summary-list', className)}
+        className={clsx('dnb-forms-summary-list', className)}
         layout={layout}
         {...rest}
       >

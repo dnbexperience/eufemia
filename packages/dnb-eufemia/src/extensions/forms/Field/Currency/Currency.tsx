@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import SharedContext from '../../../../shared/Context'
 import { getCurrencySymbol } from '../../../../components/number-format/NumberUtils'
 import { CURRENCY } from '../../../../shared/defaults'
@@ -37,7 +37,7 @@ function Currency(props: Props) {
   return (
     <NumberField
       {...preparedProps}
-      className={classnames('dnb-forms-field-currency', props.className)}
+      className={clsx('dnb-forms-field-currency', props.className)}
     />
   )
 }

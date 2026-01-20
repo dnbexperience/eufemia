@@ -1,5 +1,5 @@
 import React, { useCallback, useContext } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import type { ComponentProps } from '../../types'
 import DataContext from '../../DataContext/Context'
 import Button, { ButtonProps } from '../../../../components/button/Button'
@@ -63,7 +63,7 @@ function SubmitButton(props: Props) {
 
   return (
     <Button
-      className={classnames('dnb-forms-submit-button', className)}
+      className={clsx('dnb-forms-submit-button', className)}
       onClick={onClickHandler}
       type={isolate ? 'button' : 'submit'}
       variant={variant === 'secondary' ? 'secondary' : undefined}

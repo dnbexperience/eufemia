@@ -3,7 +3,7 @@
  *
  */
 
-import classnames from 'classnames'
+import clsx from 'clsx'
 import React, { useContext } from 'react'
 import Button, { ButtonProps } from '../button/Button'
 import Section from '../section/Section'
@@ -55,7 +55,7 @@ function StepIndicatorTriggerButton({
 
   const triggerParams = {
     ...contextWithoutDataRest,
-    className: classnames(
+    className: clsx(
       'dnb-step-indicator__trigger',
       createSkeletonClass('font', skeleton)
     ),
@@ -64,7 +64,7 @@ function StepIndicatorTriggerButton({
 
   const buttonParams = {
     ...rest,
-    className: classnames(
+    className: clsx(
       'dnb-step-indicator__trigger__button',
       `dnb-step-indicator__trigger__button--${
         openState ? 'expanded' : 'collapsed'

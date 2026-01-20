@@ -1,6 +1,6 @@
 import React from 'react'
-import classnames from 'classnames'
-import { NumberFormatProps } from '../number-format/NumberFormat'
+import clsx from 'clsx'
+import type { NumberFormatProps } from '../number-format/NumberFormat'
 import useNumberFormatWithParts from '../number-format/useNumberFormatWithParts'
 import type { NumberFormatParts } from '../number-format/useNumberFormatWithParts'
 import type {
@@ -9,7 +9,7 @@ import type {
 } from '../../elements/typography/Typography'
 import { getHeadingLineHeightSize } from '../../elements/typography/Typography'
 import type { SpacingProps } from '../../shared/types'
-import { formatReturnValue } from '../number-format/NumberUtils'
+import type { NumberFormatReturnValue } from '../number-format/NumberUtils'
 import { convertJsxToString, warn } from '../../shared/component-helper'
 import StatValueContext from './StatValueContext'
 import useStatSkeleton from './useStatSkeleton'
@@ -20,12 +20,12 @@ import { TextInternal as Text } from './Text'
  */
 type AmountOwnProps = Omit<
   NumberFormatProps,
-  'children' | 'currency_display' | 'currency_position' | 'element'
+  'children' | 'currencyDisplay' | 'currencyPosition' | 'element'
 > & {
   children?: string | number
-  element?: keyof JSX.IntrinsicElements
-  currencyDisplay?: NumberFormatProps['currency_display']
-  currencyPosition?: NumberFormatProps['currency_position']
+  element?: keyof React.JSX.IntrinsicElements
+  currencyDisplay?: NumberFormatProps['currencyDisplay']
+  currencyPosition?: NumberFormatProps['currencyPosition']
   /**
    * Typography size fallback.
    *
@@ -137,7 +137,7 @@ function AmountBase(props: AmountProps) {
     signDisplay,
     forceCurrencyAfterAmount,
     options,
-  }) as formatReturnValue & {
+  }) as NumberFormatReturnValue & {
     parts?: NumberFormatParts
   }
 
@@ -174,19 +174,19 @@ function AmountBase(props: AmountProps) {
       : null)
   const numericValue = Number(rawValue)
 
-  const currencyClass = classnames(
+  const currencyClass = clsx(
     'dnb-stat__currency',
     `dnb-t__size--${resolvedAuxiliarySize}`,
     `dnb-t__line-height--${resolvedAuxiliaryLineHeight}`,
     resolvedAuxWeight && `dnb-t__weight--${resolvedAuxWeight}`
   )
-  const amountClass = classnames(
+  const amountClass = clsx(
     'dnb-stat__amount',
     `dnb-t__size--${resolvedMainSize}`,
     `dnb-t__line-height--${resolvedMainLineHeight}`,
     `dnb-t__weight--${resolvedMainWeight}`
   )
-  const percentClass = classnames(
+  const percentClass = clsx(
     'dnb-stat__percent',
     `dnb-t__size--${resolvedAuxiliarySize}`,
     `dnb-t__line-height--${resolvedAuxiliaryLineHeight}`,
@@ -198,7 +198,7 @@ function AmountBase(props: AmountProps) {
       {renderSign && (
         <>
           <span
-            className={classnames(
+            className={clsx(
               'dnb-stat__sign',
               `dnb-t__size--${resolvedMainSize}`,
               `dnb-t__line-height--${resolvedMainLineHeight}`,
@@ -245,7 +245,7 @@ function AmountBase(props: AmountProps) {
   if (prefix) {
     const prefixElement = renderAffix(
       prefix,
-      classnames(
+      clsx(
         'dnb-stat__prefix',
         `dnb-t__size--${resolvedAuxiliarySize}`,
         `dnb-t__line-height--${resolvedAuxiliaryLineHeight}`,
@@ -263,7 +263,7 @@ function AmountBase(props: AmountProps) {
   if (suffix) {
     const suffixElement = renderAffix(
       suffix,
-      classnames(
+      clsx(
         'dnb-stat__suffix',
         `dnb-t__size--${resolvedAuxiliarySize}`,
         `dnb-t__line-height--${resolvedAuxiliaryLineHeight}`,
@@ -291,7 +291,7 @@ function AmountBase(props: AmountProps) {
       {...rest}
       id={id}
       element={Element}
-      className={classnames('dnb-stat', className)}
+      className={clsx('dnb-stat', className)}
       colorizeBySign={colorizeBySign ? numericValue : false}
       style={style}
       lang={lang || resolvedLocale || formatted.locale}

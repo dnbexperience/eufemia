@@ -13,7 +13,7 @@ import React, {
   useRef,
   useState,
 } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { combineDescribedBy, warn } from '../../shared/component-helper'
 import { isTouch } from './TooltipHelpers'
 import Popover from '../popover/Popover'
@@ -309,7 +309,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
     <>
       <Popover
         baseClassName="dnb-tooltip"
-        className={classnames(
+        className={clsx(
           attributeClassName,
           'dnb-tooltip',
           size && `dnb-tooltip--${size}`

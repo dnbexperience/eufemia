@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import PropTypes from 'prop-types'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import Context from '../../shared/Context'
 import Provider from '../../shared/Provider'
 import {
@@ -134,7 +134,7 @@ export default class PaymentCard extends React.PureComponent {
     const cardData = rawData || getCardData(productCode)
 
     const params = {
-      className: classnames(
+      className: clsx(
         'dnb-payment-card',
         `dnb-payment-card--${variant}`,
         createSkeletonClass(null, skeleton, this.context),

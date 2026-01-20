@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { ListVariant, ListContext } from './ListContext'
 import FlexContainer, { Props as FlexProps } from '../flex/Stack'
 import type { SkeletonShow } from '../Skeleton'
@@ -47,7 +47,7 @@ function ListContainer(props: ListContainerProps) {
         rowGap={separated ? 'small' : false}
         wrap={false}
         wrapChildrenInSpace={wrapChildrenInSpace}
-        className={classnames(
+        className={clsx(
           'dnb-list',
           'dnb-list__container',
           variant && `dnb-list--variant-${variant}`,

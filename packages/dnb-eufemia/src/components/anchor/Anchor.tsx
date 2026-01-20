@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import E, { ElementAllProps } from '../../elements/Element'
 import Context from '../../shared/Context'
 import {
@@ -193,9 +193,9 @@ export function AnchorInstance(localProps: AnchorAllProps) {
         as={as}
         id={id}
         internalClass={as !== 'button'}
-        className={classnames(
+        className={clsx(
           omitClass !== true &&
-            classnames(
+            clsx(
               'dnb-anchor',
               prefix && 'dnb-anchor--icon-left',
               suffix && 'dnb-anchor--icon-right',
@@ -281,7 +281,7 @@ export function pickIcon(icon, className?: string) {
   return icon?.props?.icon || icon?.props?.className?.includes('dnb-icon')
     ? React.cloneElement(icon, {
         key: 'button-icon-clone',
-        className: classnames(icon.props?.className, className),
+        className: clsx(icon.props?.className, className),
       })
     : null
 }
