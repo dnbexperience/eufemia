@@ -97,7 +97,7 @@ function DatePickerAddon(props: DatePickerAddonProps) {
       })
 
       if (shortcut.closeOnSelect) {
-        hidePicker({ ...event, focusOnHide: true })
+        hidePicker({ ...event, focusOnClose: true })
       }
     },
     [callOnChange, currentDates, hidePicker]
