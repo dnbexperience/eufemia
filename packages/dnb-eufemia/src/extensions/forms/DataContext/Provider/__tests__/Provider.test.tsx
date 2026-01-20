@@ -4139,17 +4139,15 @@ describe('DataContext.Provider', () => {
         </>
       )
 
-      expect(sidecarMockData).toHaveLength(3)
+      expect(sidecarMockData).toHaveLength(2)
       expect(sidecarMockData).toEqual([
         undefined,
         { fieldA: 'updated A', fieldB: 'updated B' },
-        { fieldA: 'updated A', fieldB: 'updated B' },
       ])
 
-      expect(nestedMockData).toHaveLength(3)
+      expect(nestedMockData).toHaveLength(2)
       expect(nestedMockData).toEqual([
         undefined,
-        { fieldA: 'updated A', fieldB: 'updated B' },
         { fieldA: 'updated A', fieldB: 'updated B' },
       ])
 
@@ -4190,13 +4188,8 @@ describe('DataContext.Provider', () => {
         { wrapper: StrictMode }
       )
 
-      expect(sidecarMockData).toHaveLength(4)
-      expect(sidecarMockData).toEqual([
-        undefined,
-        undefined,
-        initialData,
-        initialData,
-      ])
+      expect(sidecarMockData).toHaveLength(2)
+      expect(sidecarMockData).toEqual([undefined, undefined])
 
       expect(nestedMockData).toHaveLength(4)
       expect(nestedMockData).toEqual([
@@ -4600,7 +4593,7 @@ describe('DataContext.Provider', () => {
 
       expect(inputElement).toHaveValue('123')
       expect(labelElement).toHaveTextContent('123')
-      expect(countRender).toBe(3)
+      expect(countRender).toBe(2)
     })
 
     it('should return unvalidated data in sync', async () => {
