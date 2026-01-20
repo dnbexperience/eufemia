@@ -8,7 +8,6 @@ export type ReactChildType = React.ReactNode | ((...args: any[]) => any)
 export type ModalFullscreen = 'auto' | boolean
 export type ModalAlignContent = 'left' | 'center' | 'centered' | 'right'
 export type ModalContainerPlacement = 'left' | 'right' | 'top' | 'bottom'
-export type ModalOpenState = 'opened' | 'closed' | boolean
 export type ModalTriggerVariant =
   | 'primary'
   | 'secondary'
@@ -62,9 +61,9 @@ export interface ModalProps extends ModalRootProps {
   noAnimation?: boolean
 
   /**
-   * Use this prop to control the open/close state by setting either: `opened` / `closed` or `true` / `false`.
+   * Use this prop to control the open/close state by setting `true` / `false`.
    */
-  openState?: ModalOpenState
+  open?: boolean
 
   /**
    * The content which will appear when triggering the modal/drawer.
@@ -313,7 +312,7 @@ export interface ModalContentProps {
   dialogRole?: 'dialog' | 'alertdialog' | 'region'
   contentRef?: React.RefObject<HTMLElement>
   scrollRef?: React.RefObject<HTMLElement>
-  openState?: ModalOpenState
+  open?: boolean
   modalContentCloseRef?: React.MutableRefObject<any>
 }
 
