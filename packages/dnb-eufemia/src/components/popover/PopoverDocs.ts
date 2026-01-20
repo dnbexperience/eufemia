@@ -54,8 +54,8 @@ export const PopoverProperties: PropertiesTableProps = {
     doc: 'Existing DOM element (or ref) used instead of a rendered trigger. Provide `{ horizontalRef, verticalRef }` when horizontal and vertical anchors differ.',
     type: [
       'HTMLElement',
-      'React.MutableRefObject<HTMLElement>',
-      '{ horizontalRef?: HTMLElement | React.MutableRefObject<HTMLElement>; verticalRef?: HTMLElement | React.MutableRefObject<HTMLElement> }',
+      'React.RefObject<HTMLElement>',
+      '{ horizontalRef?: HTMLElement | React.RefObject<HTMLElement>; verticalRef?: HTMLElement | React.RefObject<HTMLElement> }',
     ],
     status: 'optional',
   },
@@ -218,7 +218,7 @@ export const PopoverProperties: PropertiesTableProps = {
   },
   contentRef: {
     doc: 'Ref forwarded to the popover content element.',
-    type: 'React.MutableRefObject<HTMLSpanElement>',
+    type: 'React.RefObject<HTMLSpanElement>',
     status: 'optional',
   },
   omitDescribedBy: {

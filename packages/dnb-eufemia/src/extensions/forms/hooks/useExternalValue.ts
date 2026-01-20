@@ -8,7 +8,7 @@ export type Props<Value> = {
   path?: Path | undefined
   itemPath?: Path
   value?: Value
-  transformers?: React.MutableRefObject<{
+  transformers?: React.RefObject<{
     fromExternal: FieldProps<Value>['fromExternal']
   }>
   emptyValue?: FieldProps<Value>['emptyValue']

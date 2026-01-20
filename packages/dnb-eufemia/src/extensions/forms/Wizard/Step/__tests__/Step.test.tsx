@@ -305,7 +305,7 @@ describe('Step', () => {
       const CheckPrerender = () => {
         const wizardStepContext = useContext(WizardStepContext)
         const { index } = wizardStepContext || {}
-        const ref = useRef<HTMLDivElement>()
+        const ref = useRef<HTMLDivElement>(undefined)
 
         useEffect(() => {
           if (

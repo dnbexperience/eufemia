@@ -6,7 +6,7 @@ import SectionContainerContext from '../containers/SectionContainerContext'
 import useDataValue from '../../../hooks/useDataValue'
 
 export default function useContainerDataStore() {
-  const valueBackupRef = useRef<unknown>()
+  const valueBackupRef = useRef<unknown>(undefined)
 
   const { getData, moveValueToPath } = useDataValue()
   const { data: dataFromContext, setData } = useContext(DataContext)

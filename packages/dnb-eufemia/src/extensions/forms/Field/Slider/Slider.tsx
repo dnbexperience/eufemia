@@ -42,7 +42,7 @@ export type Props = FieldProps<SliderValue> & {
 }
 
 function SliderComponent(props: Props) {
-  const dataContextRef = useRef<ContextState>()
+  const dataContextRef = useRef<ContextState>(undefined)
   dataContextRef.current = useContext<ContextState>(DataContext)
   const {
     Slider: { addTitle: addTitleLabel, subtractTitle: subtractTitleLabel },

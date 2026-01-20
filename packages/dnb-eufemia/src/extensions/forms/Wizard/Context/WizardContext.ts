@@ -21,13 +21,13 @@ export interface WizardContextState {
   totalSteps?: number
   activeIndex?: StepIndex
   initialActiveIndex?: StepIndex
-  stepElementRef?: React.MutableRefObject<HTMLElement>
-  stepsRef?: React.MutableRefObject<Steps>
-  updateTitlesRef?: React.MutableRefObject<() => void>
-  activeIndexRef?: React.MutableRefObject<StepIndex>
-  stepIndexRef?: React.MutableRefObject<StepIndex>
-  totalStepsRef?: React.MutableRefObject<number>
-  prerenderFieldPropsRef?: React.MutableRefObject<
+  stepElementRef?: React.RefObject<HTMLElement>
+  stepsRef?: React.RefObject<Steps>
+  updateTitlesRef?: React.RefObject<() => void>
+  activeIndexRef?: React.RefObject<StepIndex>
+  stepIndexRef?: React.RefObject<StepIndex>
+  totalStepsRef?: React.RefObject<number>
+  prerenderFieldPropsRef?: React.RefObject<
     Record<
       `step-${number}`,
       {
@@ -36,8 +36,8 @@ export interface WizardContextState {
       }
     >
   >
-  hasErrorInOtherStepRef?: React.MutableRefObject<boolean>
-  onStepChangeEventsRef?: React.MutableRefObject<Set<OnStepChange>>
+  hasErrorInOtherStepRef?: React.RefObject<boolean>
+  onStepChangeEventsRef?: React.RefObject<Set<OnStepChange>>
   prerenderFieldProps?: boolean
   keepInDOM?: boolean
   handlePrevious?: () => void
@@ -59,7 +59,7 @@ export interface WizardContextState {
   check?: ({ visibleWhen }: { visibleWhen: VisibleWhen }) => boolean
   collectStepsData?: (args: HandleStatusArgs) => { title: string }
   enableMapOverChildren?: () => void
-  mapOverChildrenRef?: React.MutableRefObject<boolean>
+  mapOverChildrenRef?: React.RefObject<boolean>
 }
 
 const WizardContext = React.createContext<WizardContextState | undefined>(

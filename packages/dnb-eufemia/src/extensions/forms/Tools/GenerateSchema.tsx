@@ -11,7 +11,7 @@ export type GenerateSchemaReturn = {
 }
 export type GenerateSchemaProps = {
   log?: boolean
-  generateRef?: React.MutableRefObject<() => GenerateSchemaReturn>
+  generateRef?: React.RefObject<() => GenerateSchemaReturn>
   filterData?: FilterData
   children: React.ReactNode
 }

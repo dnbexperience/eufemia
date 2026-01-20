@@ -92,7 +92,7 @@ export type DatePickerCalendarProps = Omit<
   ) => void
   onKeyDown?: (
     event: React.KeyboardEvent<HTMLTableElement | HTMLButtonElement>,
-    tableRef: React.MutableRefObject<HTMLTableElement>,
+    tableRef: React.RefObject<HTMLTableElement>,
     nr: number
   ) => void
   /**

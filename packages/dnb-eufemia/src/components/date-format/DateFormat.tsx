@@ -60,7 +60,7 @@ function DateFormat(props: DateFormatProps) {
   } = props
 
   const locale = localeProp || context.locale
-  const ref = useRef<HTMLTimeElement>()
+  const ref = useRef<HTMLTimeElement>(undefined)
 
   const date = useMemo(() => {
     // Always call getDate to maintain expected console.log behavior

@@ -245,9 +245,10 @@ function wrapChildren(props: Props, children: React.ReactNode) {
       React.isValidElement(child) &&
       child.type['_supportsSpacingProps'] === 'children'
     ) {
+      const { key, ...childProps } = child.props
       return React.cloneElement(
         child,
-        child.props,
+        { key, ...childProps },
         <FlexContainer {...props}>{child.props.children}</FlexContainer>
       )
     }

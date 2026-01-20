@@ -88,14 +88,21 @@ const CodeBlock = ({
             )}
           >
             <Tag as="pre" className={className} css={style}>
-              {cleanTokens(tokens).map((line, i) => (
-                /* eslint-disable react/jsx-key */
-                <div {...getLineProps({ line, key: i })}>
-                  {line.map((token, key) => (
-                    <span {...getTokenProps({ token, key })} />
-                  ))}
-                </div>
-              ))}
+              {cleanTokens(tokens).map((line, i) => {
+                const { key, ...lineProps } = getLineProps({
+                  line,
+                  key: i,
+                })
+                return (
+                  <div key={key} {...lineProps}>
+                    {line.map((token, tokenKey) => {
+                      const { key: tokenKeyProp, ...tokenProps } =
+                        getTokenProps({ token, key: tokenKey })
+                      return <span key={tokenKeyProp} {...tokenProps} />
+                    })}
+                  </div>
+                )
+              })}
             </Tag>
           </div>
         )}

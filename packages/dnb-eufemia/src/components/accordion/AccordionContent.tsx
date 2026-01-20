@@ -24,7 +24,7 @@ export type AccordionContentProps = Omit<
   'onAnimationStart' | 'onAnimationEnd' | 'children'
 > &
   SpacingProps & {
-    instance?: React.MutableRefObject<unknown>
+    instance?: React.RefObject<unknown>
     className?: string
     children?: React.ReactNode | ((...args: any[]) => any)
   }

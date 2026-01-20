@@ -183,7 +183,7 @@ function ArrayComponent(props: Props) {
   })
 
   // - Call onChange on the data context, if the count value changes
-  const countValueRef = useRef<number>()
+  const countValueRef = useRef<number>(undefined)
   useUpdateEffect(() => {
     if (countPath) {
       if (
@@ -217,8 +217,8 @@ function ArrayComponent(props: Props) {
     >
   >({})
   const valueCountRef = useRef(arrayValue)
-  const containerRef = useRef<HTMLDivElement>()
-  const hadPushRef = useRef<boolean>()
+  const containerRef = useRef<HTMLDivElement>(undefined)
+  const hadPushRef = useRef<boolean>(undefined)
   const innerRefs = useRef<
     Record<string, React.RefObject<HTMLDivElement>>
   >({})

@@ -18,7 +18,7 @@ function SnapshotProvider(props: SnapshotProps) {
   const { name, children } = props
 
   const { snapshotsRef } = useContext(DataContext) || {}
-  const mountedFieldsRef: SnapshotMap = useRef()
+  const mountedFieldsRef: SnapshotMap = useRef(undefined)
   if (!mountedFieldsRef.current) {
     mountedFieldsRef.current = new Map()
   }

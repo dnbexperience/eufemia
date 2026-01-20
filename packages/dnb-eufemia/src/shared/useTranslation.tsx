@@ -248,7 +248,7 @@ export type CombineWithExternalTranslationsReturn = Translation &
   AdditionalReturnUtils
 
 export function useAdditionalUtils() {
-  const translationsRef = useRef<CombineWithExternalTranslationsReturn>()
+  const translationsRef = useRef<CombineWithExternalTranslationsReturn>(undefined)
 
   const fM = useCallback(
     (id: TranslationId, args: TranslationArguments) => {

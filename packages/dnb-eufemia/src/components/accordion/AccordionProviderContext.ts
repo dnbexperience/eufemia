@@ -15,8 +15,8 @@ type AccordionGroupContextProps = {
   expandedId?: string
   onChange?: (...params: unknown[]) => void
   onInit?: (...args: any[]) => any
-  collapseAccordionCallbacks?: React.MutableRefObject<(() => void)[]>
-  collapseAllHandleRef?: React.MutableRefObject<() => void>
+  collapseAccordionCallbacks?: React.RefObject<(() => void)[]>
+  collapseAllHandleRef?: React.RefObject<() => void>
   expandBehavior?: AccordionGroupProps['expandBehavior']
 }
 
