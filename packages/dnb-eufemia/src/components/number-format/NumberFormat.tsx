@@ -305,7 +305,7 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
       children,
       currency,
       currencyDisplay,
-      currencyPosition: currency_position,
+      currencyPosition,
       compact,
       ban,
       nin,
@@ -341,15 +341,15 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
       value = children
     }
 
-    let currencyPosition = currency_position
-    if (currencyDisplay === 'code' && !currencyPosition) {
-      currencyPosition = 'before'
+    let usedCurrencyPosition = currencyPosition
+    if (currencyDisplay === 'code' && !usedCurrencyPosition) {
+      usedCurrencyPosition = 'before'
     }
     const formatOptions = {
       locale,
       currency,
       currencyDisplay,
-      currencyPosition: currencyPosition,
+      currencyPosition: usedCurrencyPosition,
       omitCurrencySign: this.state.omitCurrencySign,
       compact,
       ban,
