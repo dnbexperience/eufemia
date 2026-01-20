@@ -35,7 +35,7 @@ const ContentTrAccordion = ({
       // noAnimation
       onClick={trClickHandler}
       onOpened={trOpenHandler}
-      onClosed={trCloseHandler}
+      onClose={trCloseHandler}
       {...rest}
     >
       <Td>
