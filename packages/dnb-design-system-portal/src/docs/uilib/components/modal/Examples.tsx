@@ -42,7 +42,7 @@ export const ModalExampleStateOnly = () => (
             <Modal
               title="Modal Title"
               omitTriggerButton
-              openState={modalIsActive}
+              open={modalIsActive}
               labelledBy="custom-triggerer"
               onClose={() => setModalState(false)}
             >

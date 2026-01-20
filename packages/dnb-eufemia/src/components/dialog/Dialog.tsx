@@ -57,7 +57,7 @@ function Dialog(localProps: DialogProps & DialogContentProps) {
     closeModal,
     preventClose,
     preventOverlayClose,
-    openState,
+    open,
     openDelay,
 
     trigger,
@@ -113,7 +113,7 @@ function Dialog(localProps: DialogProps & DialogContentProps) {
     noAnimation,
     noAnimationOnMobile,
     fullscreen: currentFullscreen,
-    openState,
+    open,
     directDomReturn,
     rootId,
     onOpen,
