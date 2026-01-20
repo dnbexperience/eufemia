@@ -2314,12 +2314,12 @@ describe('DatePicker component', () => {
   })
 
   it('should return all additional attributes the event return', () => {
-    const my_event = jest.fn()
+    const myEvent = jest.fn()
     const params = { 'data-attr': 'value' }
-    render(<DatePicker onShow={my_event} {...params} />)
+    render(<DatePicker onShow={myEvent} {...params} />)
     fireEvent.click(getDatePickerTriggerButton())
-    expect(my_event.mock.calls.length).toBe(1)
-    expect(my_event.mock.calls[0][0].attributes).toMatchObject(params)
+    expect(myEvent.mock.calls.length).toBe(1)
+    expect(myEvent.mock.calls[0][0].attributes).toMatchObject(params)
   })
 
   it('is displaying correct month', () => {
