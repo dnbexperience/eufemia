@@ -252,14 +252,14 @@ describe('Dropdown component', () => {
 
   it('will stay open when preventClose is given, regardless', async () => {
     const onChange = jest.fn()
-    const onHide = jest.fn()
+    const onClose = jest.fn()
     render(
       <Dropdown
         preventClose={true}
         skipPortal
         noAnimation
         onChange={onChange}
-        onHide={onHide}
+        onClose={onClose}
         data={mockData}
       />
     )
@@ -288,7 +288,7 @@ describe('Dropdown component', () => {
       'dnb-dropdown--opened'
     )
 
-    expect(onHide).toHaveBeenCalledTimes(0)
+    expect(onClose).toHaveBeenCalledTimes(0)
   })
 
   it('has valid onSelect callback', () => {
@@ -961,14 +961,14 @@ describe('Dropdown component', () => {
   })
 
   it('has to return all additional attributes the event return', () => {
-    const onShow = jest.fn()
-    const onHide = jest.fn()
+    const onOpen = jest.fn()
+    const onClose = jest.fn()
     const params = { 'data-attr': 'value' }
     render(
       <Dropdown
         noAnimation
-        onShow={onShow}
-        onHide={onHide}
+        onOpen={onOpen}
+        onClose={onClose}
         {...params}
         data={mockData}
       />
@@ -976,9 +976,9 @@ describe('Dropdown component', () => {
 
     open()
 
-    expect(onShow.mock.calls.length).toBe(1)
-    expect(onShow.mock.calls[0][0].attributes).toMatchObject(params)
-    expect(onShow).toHaveBeenCalledWith({
+    expect(onOpen.mock.calls.length).toBe(1)
+    expect(onOpen.mock.calls[0][0].attributes).toMatchObject(params)
+    expect(onOpen).toHaveBeenCalledWith({
       attributes: params,
       data: null,
       ulElement: null,
@@ -987,32 +987,32 @@ describe('Dropdown component', () => {
     // close
     dispatchKeyDown(27) // esc
 
-    expect(onHide.mock.calls.length).toBe(1)
-    expect(onHide.mock.calls[0][0].attributes).toMatchObject(params)
-    expect(onHide).toHaveBeenCalledWith({
+    expect(onClose.mock.calls.length).toBe(1)
+    expect(onClose.mock.calls[0][0].attributes).toMatchObject(params)
+    expect(onClose).toHaveBeenCalledWith({
       isTrusted: false,
       attributes: params,
       data: null,
       event: new KeyboardEvent('keydown', {}),
     })
 
-    expect(onShow).toHaveBeenCalledTimes(1)
-    expect(onHide).toHaveBeenCalledTimes(1)
+    expect(onOpen).toHaveBeenCalledTimes(1)
+    expect(onClose).toHaveBeenCalledTimes(1)
   })
 
   it('has to set correct focus during open and close', async () => {
-    const onShow = jest.fn()
-    const onHide = jest.fn()
-    const onShowFocus = jest.fn()
-    const onHideFocus = jest.fn()
+    const onOpen = jest.fn()
+    const onClose = jest.fn()
+    const onOpenFocus = jest.fn()
+    const onCloseFocus = jest.fn()
 
     render(
       <Dropdown
         noAnimation
-        onShow={onShow}
-        onHide={onHide}
-        onShowFocus={onShowFocus}
-        onHideFocus={onHideFocus}
+        onOpen={onOpen}
+        onClose={onClose}
+        onOpenFocus={onOpenFocus}
+        onCloseFocus={onCloseFocus}
         data={mockData}
       />
     )
@@ -1020,15 +1020,15 @@ describe('Dropdown component', () => {
     // 1. open the dropdown
     open()
 
-    expect(onShow).toHaveBeenCalledTimes(1)
-    expect(onShow).toHaveBeenCalledWith({
+    expect(onOpen).toHaveBeenCalledTimes(1)
+    expect(onOpen).toHaveBeenCalledWith({
       attributes: {},
       data: null,
       ulElement: null,
     })
 
-    expect(onShowFocus).toHaveBeenCalledTimes(1)
-    expect(onShowFocus.mock.calls[0][0].element).toBe(
+    expect(onOpenFocus).toHaveBeenCalledTimes(1)
+    expect(onOpenFocus.mock.calls[0][0].element).toBe(
       document.activeElement
     )
 
@@ -1038,23 +1038,23 @@ describe('Dropdown component', () => {
     // delay because we want to wait to have the DOM focus to be called
     await wait(1)
 
-    expect(onHide).toHaveBeenCalledTimes(1)
-    expect(onHide).toHaveBeenCalledWith({
+    expect(onClose).toHaveBeenCalledTimes(1)
+    expect(onClose).toHaveBeenCalledWith({
       attributes: {},
       isTrusted: false,
       event: new KeyboardEvent('keydown', {}),
       data: null,
     })
-    expect(onHideFocus).toHaveBeenCalledTimes(1)
-    expect(onHideFocus.mock.calls[0][0].element).toBe(
+    expect(onCloseFocus).toHaveBeenCalledTimes(1)
+    expect(onCloseFocus.mock.calls[0][0].element).toBe(
       document.querySelector('.dnb-button')
     )
   })
 
-  it('will prevent close if false gets returned from onHide event', () => {
+  it('will prevent close if false gets returned from onClose event', () => {
     let preventClose = false
-    const onHide = jest.fn(() => !preventClose)
-    render(<Dropdown noAnimation onHide={onHide} data={mockData} />)
+    const onClose = jest.fn(() => !preventClose)
+    render(<Dropdown noAnimation onClose={onClose} data={mockData} />)
 
     // first open
     open()
@@ -1068,7 +1068,7 @@ describe('Dropdown component', () => {
       dispatchKeyDown(27) // esc
     })
 
-    expect(onHide.mock.calls.length).toBe(1)
+    expect(onClose.mock.calls.length).toBe(1)
 
     expect(
       document.querySelector('.dnb-dropdown').classList
@@ -1088,7 +1088,7 @@ describe('Dropdown component', () => {
       dispatchKeyDown(27) // esc
     })
 
-    expect(onHide.mock.calls.length).toBe(2)
+    expect(onClose.mock.calls.length).toBe(2)
 
     // we are still open
     expect(document.querySelector('.dnb-dropdown').classList).toContain(

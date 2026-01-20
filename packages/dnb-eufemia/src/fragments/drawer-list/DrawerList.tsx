@@ -31,8 +31,8 @@ import { DrawerListHorizontalItem, DrawerListItem } from './DrawerListItem'
 import type { DrawerListItemProps } from './DrawerListItem'
 
 const propsToFilterOut = {
-  onShow: null,
-  onHide: null,
+  onOpen: null,
+  onClose: null,
   handleDismissFocus: null,
   onChange: null,
   onPreChange: null,
@@ -233,8 +233,8 @@ export interface DrawerListProps {
    * Set a HTML element, either as a selector or a DOM element. Can be used to send in an element which will be used to make the direction calculation on.
    */
   observerElement?: string | React.ReactNode
-  onShow?: (...args: any[]) => any
-  onHide?: (...args: any[]) => any
+  onOpen?: (...args: any[]) => any
+  onClose?: (...args: any[]) => any
   handleDismissFocus?: (...args: any[]) => any
   onChange?: (...args: any[]) => any
   onPreChange?: (...args: any[]) => any
@@ -396,8 +396,8 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
       preventFocus: _preventFocus, // eslint-disable-line
       children,
 
-      onShow: _onShow,
-      onHide: _onHide,
+      onOpen: _onOpen,
+      onClose: _onClose,
       handleDismissFocus: _handleDismissFocus,
       onChange: _onChange,
       onPreChange: _onPreChange,
