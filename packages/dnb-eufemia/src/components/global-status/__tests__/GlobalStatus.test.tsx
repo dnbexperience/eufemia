@@ -552,8 +552,8 @@ describe('GlobalStatus component', () => {
   })
 
   it('should close when escape key name is pressed', async () => {
-    const on_close = jest.fn()
-    const on_hide = jest.fn()
+    const onClose = jest.fn()
+    const onHide = jest.fn()
 
     const ToggleStatus = () => {
       const [status, setStatus] = React.useState(null)
@@ -576,8 +576,8 @@ describe('GlobalStatus component', () => {
         <GlobalStatus
           id="escape-name-test"
           autoscroll={false}
-          onHide={on_hide}
-          onClose={on_close}
+          onHide={onHide}
+          onClose={onClose}
         />
         <ToggleStatus />
       </>
@@ -587,15 +587,15 @@ describe('GlobalStatus component', () => {
 
     await refresh()
 
-    expect(on_close).toHaveBeenCalledTimes(0)
+    expect(onClose).toHaveBeenCalledTimes(0)
 
     keydownWithKeyName('Escape')
 
-    expect(on_hide).toHaveBeenCalledTimes(1)
+    expect(onHide).toHaveBeenCalledTimes(1)
 
     simulateAnimationEnd()
 
-    expect(on_close).toHaveBeenCalledTimes(1)
+    expect(onClose).toHaveBeenCalledTimes(1)
   })
 
   it('should have height of auto value', async () => {
