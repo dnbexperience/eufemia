@@ -64,8 +64,8 @@ export const DatePickerSandbox = () => (
           endDate="2020-11-02"
           range={true}
           showInput={true}
-          onShow={(props) => {
-            console.log('onShow', props)
+          onOpen={(props) => {
+            console.log('onOpen', props)
           }}
           onDaysRender={(days) => {
             return days.map((dateObject) => {
@@ -76,8 +76,8 @@ export const DatePickerSandbox = () => (
               return dateObject
             })
           }}
-          onHide={(props) => {
-            console.log('onHide', props)
+          onClose={(props) => {
+            console.log('onClose', props)
           }}
           onChange={(props) => {
             console.log('onChange', props)
@@ -185,11 +185,11 @@ export const DatePickerSandbox = () => (
               returnFormat="dd/MM/yyyy"
               date="1981-01-15"
               data-foo="bar"
-              onShow={(props) => {
-                console.log('onShow', props.event)
+              onOpen={(props) => {
+                console.log('onOpen', props.event)
               }}
-              onHide={(props) => {
-                console.log('onHide', props.event)
+              onClose={(props) => {
+                console.log('onClose', props.event)
               }}
               onChange={(props) => {
                 console.log('onChange', props.event)
