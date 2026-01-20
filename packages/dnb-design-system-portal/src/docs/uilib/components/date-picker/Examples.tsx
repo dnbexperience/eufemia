@@ -112,8 +112,8 @@ export const DatePickerTrigger = () => (
       onChange={({ date }) => {
         console.log('onChange', date)
       }}
-      onShow={({ date }) => {
-        console.log('onShow', date)
+      onOpen={({ date }) => {
+        console.log('onOpen', date)
       }}
       onBlur={({ startDate, endDate }) => {
         console.log('onBlur', startDate, endDate)
@@ -136,8 +136,8 @@ export const DatePickerHiddenNav = () => (
       onChange={({ date }) => {
         console.log('onChange', date)
       }}
-      onHide={({ date }) => {
-        console.log('onHide', date)
+      onClose={({ date }) => {
+        console.log('onClose', date)
       }}
       onBlur={({ date }) => {
         console.log('onBlur', date)
