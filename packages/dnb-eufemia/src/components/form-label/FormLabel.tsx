@@ -4,7 +4,7 @@
  */
 
 import React, { useEffect, useRef } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import {
   extendPropsWithContext,
   isTrue,
@@ -95,7 +95,7 @@ export default function FormLabel(localProps: FormLabelAllProps) {
   )
 
   const params = {
-    className: classnames(
+    className: clsx(
       'dnb-form-label',
       (isTrue(vertical) || labelDirection === 'vertical') &&
         `dnb-form-label--vertical`,

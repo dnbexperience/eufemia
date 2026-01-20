@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 
 // Shared
 import { createSpacingClasses } from '../space/SpacingHelper'
@@ -159,7 +159,7 @@ const Upload = (localProps: UploadAllProps) => {
     >
       <Provider skeleton={skeleton}>
         <UploadWrapper
-          className={classnames(
+          className={clsx(
             'dnb-upload',
             variant && `dnb-upload--${variant}`,
             spacingClasses,

@@ -7,7 +7,7 @@ import React, {
   useReducer,
   useRef,
 } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import {
   validateDOMAttributes,
   getStatusState,
@@ -266,7 +266,7 @@ export default function Switch(props: SwitchProps) {
   const showStatus = useMemo(() => getStatusState(status), [status])
 
   const mainParams = {
-    className: classnames(
+    className: clsx(
       'dnb-switch',
       size && `dnb-switch--${size}`,
       status && `dnb-switch__status--${statusState}`,
@@ -369,7 +369,7 @@ export default function Switch(props: SwitchProps) {
                 {...helperParams}
               />
               <span
-                className={classnames(
+                className={clsx(
                   'dnb-switch__button',
                   createSkeletonClass('shape', skeleton, context)
                 )}

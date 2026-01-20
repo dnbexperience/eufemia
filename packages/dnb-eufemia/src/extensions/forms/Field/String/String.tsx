@@ -5,7 +5,7 @@ import React, {
   useEffect,
   useRef,
 } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { Input, Textarea } from '../../../../components'
 import * as z from 'zod'
 import { InputProps } from '../../../../components/input/Input'
@@ -252,7 +252,7 @@ function StringComponent(props: Props) {
     [handleSubmit, dataContext?.props?.isolate, multiline, onKeyDown]
   )
 
-  const cn = classnames('dnb-forms-field-string__input', inputClassName)
+  const cn = clsx('dnb-forms-field-string__input', inputClassName)
 
   const sharedProps: InputProps & TextareaProps = {
     id,
@@ -299,7 +299,7 @@ function StringComponent(props: Props) {
 
   const fieldBlockProps: FieldBlockProps = {
     forId: id,
-    className: classnames('dnb-forms-field-string', className),
+    className: clsx('dnb-forms-field-string', className),
     width:
       width === 'stretch' || fieldBlockContext?.composition
         ? width
