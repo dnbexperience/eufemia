@@ -153,7 +153,7 @@ describe('Avatar', () => {
     )
 
     expect(screen.getByAltText(imgAlt)).toBeInTheDocument()
-    expect(screen.queryByRole('img').getAttribute('alt')).toBe(img_alt)
+    expect(screen.queryByRole('img').getAttribute('alt')).toBe(imgAlt)
   })
 
   it('renders imgProps', () => {
@@ -176,10 +176,10 @@ describe('Avatar', () => {
 
     const image = screen.queryByRole('img')
 
-    expect(image.getAttribute('src')).toBe(img_src)
-    expect(image.getAttribute('alt')).toBe(img_alt)
-    expect(image.getAttribute('width')).toBe(img_width)
-    expect(image.getAttribute('height')).toBe(img_height)
+    expect(image.getAttribute('src')).toBe(imgSrc)
+    expect(image.getAttribute('alt')).toBe(imgAlt)
+    expect(image.getAttribute('width')).toBe(imgWidth)
+    expect(image.getAttribute('height')).toBe(imgHeight)
   })
 
   it('warns when Avatar is used without a Avatar.Group as parent component', () => {

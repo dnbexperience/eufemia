@@ -125,7 +125,7 @@ describe('context.getTranslation', () => {
     )
 
     expect(document.querySelector('p.other-string').textContent).toBe(
-      given_nbNO
+      givenNbNO
     )
 
     rerender(
@@ -135,7 +135,7 @@ describe('context.getTranslation', () => {
     )
 
     expect(document.querySelector('p.other-string').textContent).toBe(
-      given_enGB
+      givenEnGB
     )
   })
 })

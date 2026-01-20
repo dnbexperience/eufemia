@@ -127,10 +127,10 @@ describe('InfoCard', () => {
     ) as HTMLElement
     const image = within(infoCard).queryByRole('img')
 
-    expect(image.getAttribute('src')).toBe(img_src)
-    expect(image.getAttribute('alt')).toBe(img_alt)
-    expect(image.getAttribute('width')).toBe(img_width)
-    expect(image.getAttribute('height')).toBe(img_height)
+    expect(image.getAttribute('src')).toBe(imgSrc)
+    expect(image.getAttribute('alt')).toBe(imgAlt)
+    expect(image.getAttribute('width')).toBe(imgWidth)
+    expect(image.getAttribute('height')).toBe(imgHeight)
   })
 
   it('does not render the buttons', () => {
