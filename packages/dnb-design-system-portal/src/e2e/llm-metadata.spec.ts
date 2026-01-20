@@ -12,7 +12,7 @@ test.describe('LLM integration', () => {
 
     const llmsLink = await page
       .locator(
-        'head link[rel="alternate"][type="text/plain"][href="/llms.txt"]',
+        'head link[rel="alternate"][type="text/plain"][href="/llms.txt"]'
       )
       .first()
     await expect(llmsLink).toHaveCount(1)
@@ -60,7 +60,7 @@ test.describe('LLM integration', () => {
     await page.goto(slug)
 
     const altJson = page.locator(
-      'head link[rel="alternate"][type="application/json"]',
+      'head link[rel="alternate"][type="application/json"]'
     )
     await expect(altJson).toHaveCount(1)
 
@@ -82,7 +82,7 @@ test.describe('LLM integration', () => {
 
     // metadata should include demos source link when present
     expect(json?.sources?.demos?.public).toContain(
-      '/uilib/components/card/demos/',
+      '/uilib/components/card/demos/'
     )
 
     const mdPath = slug.replace(/\/$/, '.md')
@@ -90,7 +90,7 @@ test.describe('LLM integration', () => {
     expect(mdRes.ok()).toBeTruthy()
     const mdBody = await mdRes.text()
     expect(mdBody).toContain(
-      'metadata: https://eufemia.dnb.no/uilib/components/card/metadata.json',
+      'metadata: https://eufemia.dnb.no/uilib/components/card/metadata.json'
     )
     expect(mdBody).not.toContain('showTabs:')
     expect(mdBody).not.toContain('hideTabs:')
@@ -114,7 +114,7 @@ test.describe('LLM integration', () => {
       const htmlFile = path.join(
         publicDir,
         mdPath.replace(/^\//, '').replace(/\.md$/, ''),
-        'index.html',
+        'index.html'
       )
       expect(fs.existsSync(htmlFile)).toBeTruthy()
       const htmlBody = fs.readFileSync(htmlFile, 'utf-8')
