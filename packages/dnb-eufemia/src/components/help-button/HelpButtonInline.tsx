@@ -244,7 +244,7 @@ export function HelpButtonInlineContent(
       <Dialog
         title={title}
         omitTriggerButton
-        openState={isOpen ?? open}
+        open={isOpen ?? open}
         onClose={onClose}
         noAnimation={noAnimation}
       >

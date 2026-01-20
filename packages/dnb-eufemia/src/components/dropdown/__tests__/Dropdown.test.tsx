@@ -155,9 +155,7 @@ describe('Dropdown component', () => {
   })
 
   it('has correct state when opened prop is given', () => {
-    render(
-      <Dropdown skipPortal noAnimation opened={true} data={mockData} />
-    )
+    render(<Dropdown skipPortal noAnimation open={true} data={mockData} />)
 
     expect(
       document.querySelector('button').getAttribute('aria-expanded')
@@ -218,7 +216,7 @@ describe('Dropdown component', () => {
       <Dropdown
         skipPortal
         noAnimation
-        opened={true}
+        open={true}
         keepOpen={true}
         onChange={onChange}
         data={mockData}
@@ -239,7 +237,7 @@ describe('Dropdown component', () => {
       document.querySelector('.dnb-drawer-list__option--selected')
     ).toBeInTheDocument()
     expect(document.querySelector('.dnb-dropdown').classList).toContain(
-      'dnb-dropdown--opened'
+      'dnb-dropdown--open'
     )
 
     // close
@@ -247,7 +245,7 @@ describe('Dropdown component', () => {
 
     expect(
       document.querySelector('.dnb-dropdown').classList
-    ).not.toContain('dnb-dropdown--opened')
+    ).not.toContain('dnb-dropdown--open')
   })
 
   it('will stay open when preventClose is given, regardless', async () => {
@@ -278,14 +276,14 @@ describe('Dropdown component', () => {
       document.querySelector('.dnb-drawer-list__option--selected')
     ).toBeInTheDocument()
     expect(document.querySelector('.dnb-dropdown').classList).toContain(
-      'dnb-dropdown--opened'
+      'dnb-dropdown--open'
     )
 
     // try to close it
     keydown(27) // esc
 
     expect(document.querySelector('.dnb-dropdown').classList).toContain(
-      'dnb-dropdown--opened'
+      'dnb-dropdown--open'
     )
 
     expect(onClose).toHaveBeenCalledTimes(0)
@@ -807,7 +805,7 @@ describe('Dropdown component', () => {
         .getAttribute('aria-expanded')
     ).toBe('true')
 
-    expect(elem.getAttribute('class')).toContain('dnb-dropdown--opened')
+    expect(elem.getAttribute('class')).toContain('dnb-dropdown--open')
   })
 
   it('has correct "role"', () => {
@@ -866,13 +864,9 @@ describe('Dropdown component', () => {
   })
 
   it('has correct "role" in options', () => {
-    render(
-      <Dropdown skipPortal noAnimation opened={true} data={mockData} />
-    )
+    render(<Dropdown skipPortal noAnimation open={true} data={mockData} />)
 
-    render(
-      <Dropdown skipPortal noAnimation opened={true} data={mockData} />
-    )
+    render(<Dropdown skipPortal noAnimation open={true} data={mockData} />)
 
     expect(
       document
@@ -886,7 +880,7 @@ describe('Dropdown component', () => {
       <Dropdown
         skipPortal
         noAnimation
-        opened={true}
+        open={true}
         data={mockData}
         actionMenu
       />
@@ -904,7 +898,7 @@ describe('Dropdown component', () => {
       <Dropdown
         skipPortal
         noAnimation
-        opened={true}
+        open={true}
         data={mockData}
         moreMenu
       />
@@ -922,7 +916,7 @@ describe('Dropdown component', () => {
       <Dropdown
         skipPortal
         noAnimation
-        opened={true}
+        open={true}
         data={mockData}
         preventSelection
       />
@@ -1060,7 +1054,7 @@ describe('Dropdown component', () => {
     open()
 
     expect(document.querySelector('.dnb-dropdown').classList).toContain(
-      'dnb-dropdown--opened'
+      'dnb-dropdown--open'
     )
 
     act(() => {
@@ -1072,13 +1066,13 @@ describe('Dropdown component', () => {
 
     expect(
       document.querySelector('.dnb-dropdown').classList
-    ).not.toContain('dnb-dropdown--opened')
+    ).not.toContain('dnb-dropdown--open')
 
     // reopen
     open()
 
     expect(document.querySelector('.dnb-dropdown').classList).toContain(
-      'dnb-dropdown--opened'
+      'dnb-dropdown--open'
     )
 
     preventClose = true
@@ -1092,14 +1086,14 @@ describe('Dropdown component', () => {
 
     // we are still open
     expect(document.querySelector('.dnb-dropdown').classList).toContain(
-      'dnb-dropdown--opened'
+      'dnb-dropdown--open'
     )
   })
 
   it('keeps dialog open when Escape is pressed inside the dropdown', async () => {
     render(
-      <Dialog noAnimation openState title="Dialog">
-        <Dropdown data={mockData} skipPortal noAnimation opened />
+      <Dialog noAnimation open title="Dialog">
+        <Dropdown data={mockData} skipPortal noAnimation open />
       </Dialog>
     )
 
@@ -1131,7 +1125,7 @@ describe('Dropdown component', () => {
     keydown(40) // down
 
     expect(document.querySelector('.dnb-dropdown').classList).toContain(
-      'dnb-dropdown--opened'
+      'dnb-dropdown--open'
     )
 
     expect(document.activeElement.classList).toContain(
@@ -1579,7 +1573,7 @@ describe('Dropdown component', () => {
 
   it('has correct trigger button aria attributes', () => {
     render(
-      <Dropdown data={mockData} {...mockProps} opened id="dropdown-id" />
+      <Dropdown data={mockData} {...mockProps} open id="dropdown-id" />
     )
 
     const elem = document.querySelector('.dnb-dropdown__trigger')
@@ -1712,17 +1706,17 @@ describe('Dropdown component', () => {
     const trigger = document.querySelector('.dnb-dropdown__trigger')
     const suffix = document.querySelector('.dnb-dropdown__suffix')
 
-    expect(dropdown).not.toHaveClass('dnb-dropdown--opened')
+    expect(dropdown).not.toHaveClass('dnb-dropdown--open')
     expect(trigger).toHaveAttribute('aria-expanded', 'false')
 
     await userEvent.click(trigger)
 
-    expect(dropdown).toHaveClass('dnb-dropdown--opened')
+    expect(dropdown).toHaveClass('dnb-dropdown--open')
     expect(trigger).toHaveAttribute('aria-expanded', 'true')
 
     await userEvent.click(suffix)
 
-    expect(dropdown).not.toHaveClass('dnb-dropdown--opened')
+    expect(dropdown).not.toHaveClass('dnb-dropdown--open')
     expect(trigger).not.toHaveAttribute('aria-expanded', 'true')
   })
 
@@ -1951,7 +1945,7 @@ describe('Dropdown component', () => {
       await wait(1)
 
       expect(document.querySelector('.dnb-dropdown').classList).toContain(
-        'dnb-dropdown--opened'
+        'dnb-dropdown--open'
       )
       expect(
         document.querySelector('.dnb-drawer-list').classList
@@ -2107,7 +2101,7 @@ describe('Dropdown markup', () => {
       status: 'status',
       statusState: 'error',
       value: 2,
-      opened: true,
+      open: true,
       skipPortal: true,
       noAnimation: true,
       variant: 'secondary',

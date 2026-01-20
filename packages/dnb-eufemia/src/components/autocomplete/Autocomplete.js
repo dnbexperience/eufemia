@@ -213,7 +213,7 @@ export default class Autocomplete extends React.PureComponent {
     openOnFocus: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     preventClose: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     keepOpen: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    opened: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    open: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     stretch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -304,7 +304,7 @@ export default class Autocomplete extends React.PureComponent {
     openOnFocus: false,
     preventClose: false,
     keepOpen: false,
-    opened: null,
+    open: null,
     disabled: null,
     stretch: null,
     skeleton: null,
@@ -340,7 +340,7 @@ export default class Autocomplete extends React.PureComponent {
         {...this.props}
         id={this._id}
         data={this.props.data || this.props.children}
-        opened={null}
+        open={null}
         tagName="dnb-autocomplete"
         ignoreEvents={false}
         preventFocus
@@ -458,7 +458,7 @@ class AutocompleteInstance extends React.PureComponent {
   }
 
   componentDidMount() {
-    if (isTrue(this.props.opened)) {
+    if (isTrue(this.props.open)) {
       this.runFilterToHighlight({ fillDataIfEmpty: true })
       this.setVisible()
     }
@@ -468,7 +468,7 @@ class AutocompleteInstance extends React.PureComponent {
     // Only recompute the search index when we actually need it:
     // while the drawer is open or the input has focus (about to open)
     if (
-      (this.context.drawerList.opened || this.state.hasFocus) &&
+      (this.context.drawerList.open || this.state.hasFocus) &&
       prevProps.data !== this.props.data
     ) {
       this.setSearchIndex({ overwriteSearchIndex: true }, () => {
@@ -888,7 +888,7 @@ class AutocompleteInstance extends React.PureComponent {
             } else {
               this.resetActiveItem()
 
-              if (this.context.drawerList.opened) {
+              if (this.context.drawerList.open) {
                 this.showAllItems()
               }
             }
@@ -920,7 +920,7 @@ class AutocompleteInstance extends React.PureComponent {
     switch (key) {
       case 'up':
       case 'down':
-        if (!this.context.drawerList.opened) {
+        if (!this.context.drawerList.open) {
           this.setVisible()
         }
 
@@ -938,7 +938,7 @@ class AutocompleteInstance extends React.PureComponent {
       case 'enter':
         e.preventDefault()
 
-        if (!this.context.drawerList.opened && this.hasFilterActive()) {
+        if (!this.context.drawerList.open && this.hasFilterActive()) {
           this.ignoreEvents()
           this.showAll()
         }
@@ -958,7 +958,7 @@ class AutocompleteInstance extends React.PureComponent {
 
   onInputClickHandler = (e) => {
     // Show the entire list when an item is selected
-    if (!this.context.drawerList.opened && this.hasFilterActive()) {
+    if (!this.context.drawerList.open && this.hasFilterActive()) {
       this.ignoreEvents()
       this.showAll()
     }
@@ -1705,10 +1705,10 @@ class AutocompleteInstance extends React.PureComponent {
   }
 
   getAriaLiveUpdate() {
-    const { opened } = this.context.drawerList
+    const { open } = this.context.drawerList
 
     // this is only to make a better screen reader ux
-    if (opened) {
+    if (open) {
       const { ariaLiveOptions, noOptions } = this._props
       const count = this.countData()
 
@@ -1815,7 +1815,7 @@ class AutocompleteInstance extends React.PureComponent {
       children: _children, // eslint-disable-line
       direction: _direction, // eslint-disable-line
       id: _id, // eslint-disable-line
-      opened: _opened, // eslint-disable-line
+      open: _open, // eslint-disable-line
       value: _value, // eslint-disable-line
       inputValue: _input_value, // eslint-disable-line
       enableBodyLock: _enableBodyLock, // eslint-disable-line
@@ -1852,10 +1852,10 @@ class AutocompleteInstance extends React.PureComponent {
 
     const { inputValue, visibleIndicator } = this.state
 
-    const { id, hidden, selectedItem, direction, opened } =
+    const { id, hidden, selectedItem, direction, open } =
       this.context.drawerList
 
-    const isExpanded = Boolean(opened) && this.hasValidData()
+    const isExpanded = Boolean(open) && this.hasValidData()
 
     this.attributes = validateDOMAttributes(null, attributes)
     Object.assign(this.context.drawerList.attributes, this.attributes)
@@ -1865,7 +1865,7 @@ class AutocompleteInstance extends React.PureComponent {
         'dnb-autocomplete',
         direction && `dnb-autocomplete--${direction}`,
         disabled && 'dnb-autocomplete--disabled',
-        opened && 'dnb-autocomplete--opened',
+        open && 'dnb-autocomplete--open',
         labelDirection && `dnb-autocomplete--${labelDirection}`,
         iconPosition && `dnb-autocomplete--icon-position-${iconPosition}`,
         alignAutocomplete && `dnb-autocomplete--${alignAutocomplete}`,
@@ -1953,7 +1953,7 @@ class AutocompleteInstance extends React.PureComponent {
       'aria-expanded': isExpanded,
       'aria-label': !hidden ? submitButtonTitle : undefined,
       tooltip: showSubmitButton ? submitButtonTitle : null,
-      className: opened ? 'dnb-button--active' : null,
+      className: open ? 'dnb-button--active' : null,
     }
 
     if (submitElement && React.isValidElement(submitElement)) {

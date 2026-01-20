@@ -16,7 +16,7 @@ import PortalRoot from '../../components/PortalRoot'
 export type DrawerListPortalProps = {
   id: string
   children: React.ReactNode
-  opened: boolean
+  open: boolean
   innerRef?: React.ForwardedRef<HTMLSpanElement>
   rootRef: React.RefObject<HTMLSpanElement>
   includeOwnerWidth?: boolean
@@ -29,7 +29,7 @@ export type DrawerListPortalProps = {
 function DrawerListPortal({
   innerRef,
   id,
-  opened,
+  open,
   rootRef = { current: undefined },
   includeOwnerWidth,
   independentWidth,
@@ -188,7 +188,7 @@ function DrawerListPortal({
     setPosition.current = () => {
       clearTimeout(positionTimeout.current)
       positionTimeout.current = setTimeout(() => {
-        if (opened) {
+        if (open) {
           setForceRerender(Date.now())
         }
       }, 200)
@@ -204,18 +204,18 @@ function DrawerListPortal({
     } catch (e) {
       window.addEventListener('resize', setPosition.current)
     }
-  }, [opened, rootRef])
+  }, [open, rootRef])
 
   if (skipPortal) {
     return children
   }
 
   if (typeof window !== 'undefined' && isMounted) {
-    if (opened) {
+    if (open) {
       addPositionObserver()
     }
 
-    const style = (opened ? makeStyle() : {}) as React.CSSProperties
+    const style = (open ? makeStyle() : {}) as React.CSSProperties
 
     return (
       <PortalRoot>

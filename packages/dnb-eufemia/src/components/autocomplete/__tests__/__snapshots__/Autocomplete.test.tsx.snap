@@ -1912,33 +1912,33 @@ button .dnb-form-status__text {
   white-space: nowrap;
   text-overflow: inherit;
 }
-.dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger {
+.dnb-dropdown__status--error:not(.dnb-dropdown--open) .dnb-dropdown__trigger {
   --border-color: var(--dropdown-foreground-color-error);
   --border-width: 0.0625rem;
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
-html:not([data-whatintent=touch]) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:hover[disabled] {
+html:not([data-whatintent=touch]) .dnb-dropdown__status--error:not(.dnb-dropdown--open) .dnb-dropdown__trigger:hover[disabled] {
   cursor: not-allowed;
 }
-html:not([data-whatintent=touch]) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:hover:not([disabled]) {
+html:not([data-whatintent=touch]) .dnb-dropdown__status--error:not(.dnb-dropdown--open) .dnb-dropdown__trigger:hover:not([disabled]) {
   color: var(--dropdown-foreground-color-error);
   --border-color: var(--dropdown-foreground-color-error);
   --border-width: var(--dropdown-error-border-width);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
-html:not([data-whatintent=touch]) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:hover:not([disabled]) .dnb-dropdown__icon .dnb-icon {
+html:not([data-whatintent=touch]) .dnb-dropdown__status--error:not(.dnb-dropdown--open) .dnb-dropdown__trigger:hover:not([disabled]) .dnb-dropdown__icon .dnb-icon {
   color: var(--dropdown-foreground-color-error);
 }
-.dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:active[disabled], html:not([data-whatintent=touch]) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:active[disabled] {
+.dnb-dropdown__status--error:not(.dnb-dropdown--open) .dnb-dropdown__trigger:active[disabled], html:not([data-whatintent=touch]) .dnb-dropdown__status--error:not(.dnb-dropdown--open) .dnb-dropdown__trigger:active[disabled] {
   cursor: not-allowed;
 }
-.dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:active:not([disabled]), html:not([data-whatintent=touch]) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:active:not([disabled]) {
+.dnb-dropdown__status--error:not(.dnb-dropdown--open) .dnb-dropdown__trigger:active:not([disabled]), html:not([data-whatintent=touch]) .dnb-dropdown__status--error:not(.dnb-dropdown--open) .dnb-dropdown__trigger:active:not([disabled]) {
   color: var(--dropdown-foreground-color-error);
   background-color: var(--dropdown-background-color-error-active);
 }
-.dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger, .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__icon {
+.dnb-dropdown__status--error:not(.dnb-dropdown--open) .dnb-dropdown__trigger, .dnb-dropdown__status--error:not(.dnb-dropdown--open) .dnb-dropdown__icon {
   color: var(--dropdown-foreground-color-error);
 }
 .dnb-dropdown > .dnb-form-status {
@@ -2471,7 +2471,7 @@ html[data-visual-test] .dnb-progress-indicator__bar-transition {
 .dnb-autocomplete__input .dnb-input__input {
   width: 100%;
 }
-.dnb-autocomplete--opened .dnb-input__submit-button__button .dnb-icon {
+.dnb-autocomplete--open .dnb-input__submit-button__button .dnb-icon {
   transform: rotate(180deg);
   transform-origin: 50% 50%;
 }
@@ -2632,13 +2632,13 @@ exports[`Autocomplete scss have to match default theme snapshot 1`] = `
 .dnb-autocomplete__show-all .dnb-drawer-list__option__inner {
   color: var(--color-sea-green);
 }
-.dnb-autocomplete--opened .dnb-input .dnb-input__shell .dnb-input__shell, .dnb-autocomplete:not(.dnb-autocomplete__status--error) .dnb-form-label:hover ~ .dnb-autocomplete__inner .dnb-input:not([data-input-state=disabled]) .dnb-input__shell {
+.dnb-autocomplete--open .dnb-input .dnb-input__shell .dnb-input__shell, .dnb-autocomplete:not(.dnb-autocomplete__status--error) .dnb-form-label:hover ~ .dnb-autocomplete__inner .dnb-input:not([data-input-state=disabled]) .dnb-input__shell {
   --border-color: var(--color-sea-green);
   --border-width: 0.125rem;
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
-.dnb-autocomplete--opened .dnb-input .dnb-input__shell .dnb-input__submit-button__button, .dnb-autocomplete:not(.dnb-autocomplete__status--error) .dnb-form-label:hover ~ .dnb-autocomplete__inner .dnb-input:not([data-input-state=disabled]) .dnb-input__submit-button__button {
+.dnb-autocomplete--open .dnb-input .dnb-input__shell .dnb-input__submit-button__button, .dnb-autocomplete:not(.dnb-autocomplete__status--error) .dnb-form-label:hover ~ .dnb-autocomplete__inner .dnb-input:not([data-input-state=disabled]) .dnb-input__submit-button__button {
   border-radius: 0;
   color: var(--color-white);
   background-color: var(--color-sea-green);
@@ -2650,7 +2650,7 @@ exports[`Autocomplete scss have to match default theme snapshot 1`] = `
 .dnb-autocomplete__shell, .dnb-autocomplete__input {
   border-radius: var(--autocomplete-border-radius);
 }
-.dnb-autocomplete__status--error:not(.dnb-autocomplete--opened) .dnb-form-label:hover ~ .dnb-autocomplete__inner .dnb-input:not([data-input-state=disabled]) .dnb-input__shell {
+.dnb-autocomplete__status--error:not(.dnb-autocomplete--open) .dnb-form-label:hover ~ .dnb-autocomplete__inner .dnb-input:not([data-input-state=disabled]) .dnb-input__shell {
   --border-color: var(--color-fire-red);
   --border-width: 0.125rem;
   box-shadow: 0 0 0 var(--border-width) var(--border-color);

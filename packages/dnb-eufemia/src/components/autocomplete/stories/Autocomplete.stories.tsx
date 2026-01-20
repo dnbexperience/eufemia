@@ -42,7 +42,7 @@ export const SearchNumbers = () => {
   return (
     <Autocomplete
       inputValue="201"
-      opened
+      open
       noAnimation
       label="Label:"
       data={numbers}
@@ -154,7 +154,7 @@ export const SearchWithWrappers = () => {
     <>
       <Autocomplete
         inputValue="cc bb more"
-        opened
+        open
         noAnimation
         label="Label:"
         data={topMovies}
@@ -910,7 +910,7 @@ export const OpenOnFocusEmptyDataExample = () => {
 export const OpenedEmptyDataExample = () => {
   return (
     <>
-      <Autocomplete opened />
+      <Autocomplete open />
       <Input />
     </>
   )

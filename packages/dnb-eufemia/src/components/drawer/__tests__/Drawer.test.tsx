@@ -161,7 +161,7 @@ describe('Drawer', () => {
   it('sends along closeButtonAttributes to close button', () => {
     render(
       <Drawer
-        openState
+        open
         noAnimation
         closeButtonAttributes={{ text: 'Custom text' }}
       >
@@ -237,7 +237,7 @@ describe('Drawer', () => {
   })
 
   it('moves focus to content by default when opened', async () => {
-    render(<Drawer noAnimation openState title="Title" />)
+    render(<Drawer noAnimation open title="Title" />)
 
     await waitFor(() => {
       const title = document.querySelector(
@@ -251,12 +251,7 @@ describe('Drawer', () => {
 
   it('respects focusSelector over close button', async () => {
     render(
-      <Drawer
-        noAnimation
-        openState
-        title="Title"
-        focusSelector="#focus-me"
-      >
+      <Drawer noAnimation open title="Title" focusSelector="#focus-me">
         <Drawer.Body>
           <input id="focus-me" />
         </Drawer.Body>
@@ -470,7 +465,7 @@ describe('Drawer', () => {
     const MockComponent = () => {
       return (
         <Drawer
-          openState
+          open
           noAnimation
           contentRef={contentRef}
           scrollRef={scrollRef}
@@ -607,9 +602,7 @@ describe('Drawer', () => {
 
 describe('Drawer aria', () => {
   it('should validate with ARIA rules as a drawer', async () => {
-    const Comp = render(
-      <Drawer {...props} openState={true} title="title" />
-    )
+    const Comp = render(<Drawer {...props} open={true} title="title" />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 })

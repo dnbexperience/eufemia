@@ -40,7 +40,7 @@ const mockProps: DrawerListAllProps = {}
 const props: DrawerListAllProps = {
   id: 'drawer-list-id',
   value: 2,
-  opened: true,
+  open: true,
   noAnimation: true,
 }
 
@@ -92,18 +92,18 @@ describe('DrawerList component', () => {
   it('has correct state at startup', () => {
     render(<DrawerList {...props} data={mockData} />)
     expect(
-      document.querySelector('.dnb-drawer-list--opened')
+      document.querySelector('.dnb-drawer-list--open')
     ).toBeInTheDocument()
   })
 
   it('should skip portal when skipPortal is set', () => {
     render(<DrawerList {...props} data={mockData} skipPortal />)
     expect(
-      document.querySelector('.dnb-drawer-list--opened')
+      document.querySelector('.dnb-drawer-list--open')
     ).toBeInTheDocument()
     expect(
       document
-        .querySelector('.dnb-drawer-list--opened')
+        .querySelector('.dnb-drawer-list--open')
         .closest('#eufemia-portal-root')
     ).toBeNull()
   })
@@ -112,7 +112,7 @@ describe('DrawerList component', () => {
     render(<DrawerList {...props} data={mockData} />)
     expect(
       document
-        .querySelector('.dnb-drawer-list--opened')
+        .querySelector('.dnb-drawer-list--open')
         .closest('#eufemia-portal-root')
     ).toBeInTheDocument()
   })
@@ -121,26 +121,26 @@ describe('DrawerList component', () => {
     const { rerender } = render(<DrawerList {...props} data={mockData} />)
 
     expect(
-      document.querySelector('.dnb-drawer-list--opened')
+      document.querySelector('.dnb-drawer-list--open')
     ).toBeInTheDocument()
 
-    rerender(<DrawerList {...props} data={mockData} opened={false} />)
+    rerender(<DrawerList {...props} data={mockData} open={false} />)
     expect(
-      document.querySelector('.dnb-drawer-list--opened')
+      document.querySelector('.dnb-drawer-list--open')
     ).not.toBeInTheDocument()
 
-    rerender(<DrawerList {...props} data={mockData} opened={true} />)
+    rerender(<DrawerList {...props} data={mockData} open={true} />)
     expect(
-      document.querySelector('.dnb-drawer-list--opened')
+      document.querySelector('.dnb-drawer-list--open')
     ).toBeInTheDocument()
   })
 
   it('keeps dialog open when Escape is pressed inside the drawer list', async () => {
     render(
-      <Dialog noAnimation openState title="Dialog">
+      <Dialog noAnimation open title="Dialog">
         <DrawerList
           {...props}
-          opened
+          open
           skipPortal
           noAnimation
           data={mockData}
@@ -149,7 +149,7 @@ describe('DrawerList component', () => {
     )
 
     expect(
-      document.querySelector('.dnb-drawer-list--opened')
+      document.querySelector('.dnb-drawer-list--open')
     ).toBeInTheDocument()
 
     const options = document.querySelector(
@@ -180,7 +180,7 @@ describe('DrawerList component', () => {
 
   describe('with disabled option', () => {
     const disabledOptionProps = {
-      opened: true,
+      open: true,
       noAnimation: true,
       data: [
         { content: 'item 1' },
@@ -266,7 +266,7 @@ describe('DrawerList component', () => {
   it('handles defaultValue correctly on forcing re-render', () => {
     const { rerender } = render(
       <DrawerList
-        opened
+        open
         noAnimation
         data={mockData}
         defaultValue={props.value}
@@ -281,7 +281,7 @@ describe('DrawerList component', () => {
     const title = 'show this attribute now'
     rerender(
       <DrawerList
-        opened
+        open
         noAnimation
         data={mockData}
         defaultValue={props.value}
@@ -294,7 +294,7 @@ describe('DrawerList component', () => {
     // force re-render with null as value by prop change
     rerender(
       <DrawerList
-        opened
+        open
         noAnimation
         data={mockData}
         defaultValue={props.value}
@@ -439,7 +439,7 @@ describe('DrawerList component', () => {
     }
 
     render(
-      <DrawerListProvider opened noAnimation data={mockData}>
+      <DrawerListProvider open noAnimation data={mockData}>
         <ContextConsumer />
         <DrawerList noAnimation />
       </DrawerListProvider>
@@ -489,7 +489,7 @@ describe('DrawerList component', () => {
     }
 
     render(
-      <DrawerListProvider opened noAnimation value={1} data={mockData}>
+      <DrawerListProvider open noAnimation value={1} data={mockData}>
         <ContextConsumer />
         <DrawerList noAnimation />
       </DrawerListProvider>
@@ -558,7 +558,7 @@ describe('DrawerList component', () => {
         {...props}
         data={Object.freeze(mockData) as DrawerListDataArray}
         onSelect={onSelect}
-        opened={null}
+        open={null}
       />
     )
 
@@ -568,7 +568,7 @@ describe('DrawerList component', () => {
         {...props}
         data={Object.freeze(mockData) as DrawerListDataArray}
         onSelect={onSelect}
-        opened={true}
+        open={true}
       />
     )
     keydown(40) // down
@@ -583,16 +583,16 @@ describe('DrawerList component', () => {
 
   it('will set data-dnb-drawer-list-active with id', () => {
     const { rerender } = render(
-      <DrawerList {...props} opened={false} data={mockData} />
+      <DrawerList {...props} open={false} data={mockData} />
     )
 
-    rerender(<DrawerList {...props} opened={true} data={mockData} />)
+    rerender(<DrawerList {...props} open={true} data={mockData} />)
 
     expect(
       document.documentElement.getAttribute('data-dnb-drawer-list-active')
     ).toBe(props.id)
 
-    rerender(<DrawerList {...props} opened={false} data={mockData} />)
+    rerender(<DrawerList {...props} open={false} data={mockData} />)
 
     expect(document.documentElement).not.toHaveAttribute(
       'data-dnb-drawer-list-active'
@@ -701,10 +701,10 @@ describe('DrawerList component', () => {
 
   it('will unset data-dnb-drawer-list-active on unmount', () => {
     const { rerender, unmount } = render(
-      <DrawerList {...props} data={mockData} opened={false} />
+      <DrawerList {...props} data={mockData} open={false} />
     )
 
-    rerender(<DrawerList {...props} data={mockData} opened={true} />)
+    rerender(<DrawerList {...props} data={mockData} open={true} />)
 
     expect(
       document.documentElement.getAttribute('data-dnb-drawer-list-active')
@@ -722,17 +722,17 @@ describe('DrawerList component', () => {
       <DrawerList {...props} data={mockData} enableBodyLock {...p} />
     )
 
-    const { rerender } = render(<MockComponent opened={false} />)
+    const { rerender } = render(<MockComponent open={false} />)
 
     expect(document.body.getAttribute('style')).toBe(null)
 
-    rerender(<MockComponent opened />)
+    rerender(<MockComponent open />)
 
     expect(document.body.getAttribute('style')).toBe(
       'overflow: hidden; height: auto; box-sizing: border-box; margin-right: 0px;'
     )
 
-    rerender(<MockComponent opened={false} />)
+    rerender(<MockComponent open={false} />)
 
     expect(document.body.getAttribute('style')).toBe('')
   })
@@ -766,7 +766,7 @@ describe('DrawerList component', () => {
         data={mockData}
         onChange={onChange}
         onSelect={onSelect}
-        opened={null}
+        open={null}
       />
     )
 
@@ -777,7 +777,7 @@ describe('DrawerList component', () => {
         data={mockData}
         onChange={onChange}
         onSelect={onSelect}
-        opened={true}
+        open={true}
       />
     )
 
@@ -844,7 +844,7 @@ describe('DrawerList component', () => {
     ).toEqual([
       'dnb-drawer-list',
       'dnb-drawer-list--bottom',
-      'dnb-drawer-list--opened',
+      'dnb-drawer-list--open',
       'dnb-drawer-list--triangle-position-left',
       'dnb-drawer-list--left',
       'dnb-drawer-list--default',
@@ -871,11 +871,11 @@ describe('DrawerList component', () => {
     })
   })
 
-  it('has correct class modifier "--opened"', () => {
+  it('has correct class modifier "--open"', () => {
     render(<DrawerList {...props} data={mockData} />)
     const elem = document.querySelector('span.dnb-drawer-list')
 
-    expect(elem.className).toContain('dnb-drawer-list--opened')
+    expect(elem.className).toContain('dnb-drawer-list--open')
 
     expect(elem.className).not.toContain('dnb-drawer-list--hidden')
   })
@@ -894,7 +894,7 @@ describe('DrawerList component', () => {
 
     render(
       <DrawerList
-        opened
+        open
         noAnimation
         onChange={onChange}
         onSelect={onSelect}
@@ -945,7 +945,7 @@ describe('DrawerList component', () => {
 
     const { rerender } = render(
       <DrawerList
-        opened
+        open
         noAnimation
         data={data.first}
         value={data.first[0].selectedKey}
@@ -957,7 +957,7 @@ describe('DrawerList component', () => {
 
     rerender(
       <DrawerList
-        opened
+        open
         noAnimation
         data={data.second}
         value={data.second[1].selectedKey}
@@ -969,7 +969,7 @@ describe('DrawerList component', () => {
 
     rerender(
       <DrawerList
-        opened
+        open
         noAnimation
         data={data.third}
         value={data.third[2].selectedKey}
@@ -1170,7 +1170,7 @@ describe('DrawerList component', () => {
     it('renders groups', () => {
       render(
         <DrawerList
-          opened={true}
+          open={true}
           noAnimation={true}
           data={dataProp}
           groups={groupsProp}
@@ -1224,7 +1224,7 @@ describe('DrawerList component', () => {
     it('uses default title for groups missing title', () => {
       render(
         <DrawerList
-          opened={true}
+          open={true}
           noAnimation={true}
           data={dataProp}
           groups={[undefined, undefined, 'Third']}
@@ -1258,7 +1258,7 @@ describe('DrawerList component', () => {
     it('adds group for items without group index', () => {
       render(
         <DrawerList
-          opened={true}
+          open={true}
           noAnimation={true}
           data={[...dataProp, { content: 'Item without groupIndex' }]}
           groups={groupsProp}
@@ -1291,7 +1291,7 @@ describe('DrawerList markup', () => {
       id: 'drawer-list-id',
       direction: 'bottom',
       value: 2,
-      opened: true,
+      open: true,
       noAnimation: true,
       size: 'default',
     }
@@ -1375,7 +1375,7 @@ describe('DrawerList portal', () => {
 
     jest.spyOn(window, 'getComputedStyle').mockImplementation(() => style)
 
-    const { rerender } = render(<DrawerList opened noAnimation />)
+    const { rerender } = render(<DrawerList open noAnimation />)
 
     const styleElement = document.querySelector(
       '.dnb-drawer-list__portal__style'
@@ -1387,7 +1387,7 @@ describe('DrawerList portal', () => {
       )
     })
 
-    rerender(<DrawerList opened noAnimation independentWidth />)
+    rerender(<DrawerList open noAnimation independentWidth />)
 
     expect(styleElement.getAttribute('style')).toBe(
       'width: 320px; --drawer-list-width: 20rem; top: 0px; left: 0px;'
@@ -1408,7 +1408,7 @@ describe('DrawerList portal', () => {
 
     const { rerender } = render(
       <IsolatedStyleScope>
-        <DrawerList opened noAnimation />
+        <DrawerList open noAnimation />
       </IsolatedStyleScope>
     )
 
@@ -1424,7 +1424,7 @@ describe('DrawerList portal', () => {
 
     rerender(
       <IsolatedStyleScope>
-        <DrawerList opened noAnimation independentWidth />
+        <DrawerList open noAnimation independentWidth />
       </IsolatedStyleScope>
     )
 

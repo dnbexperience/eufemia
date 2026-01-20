@@ -245,7 +245,7 @@ export const DatePickerSandbox = () => (
       <DatePicker
         label="Range DatePicker:"
         range={true}
-        opened={false}
+        open={false}
         showInput={true}
         onChange={(props) => {
           console.log('onChange', props)

@@ -109,7 +109,7 @@
     }
   }
 
-  &__status--error:not(#{&}--opened) &__trigger {
+  &__status--error:not(#{&}--open) &__trigger {
     @include fakeBorder(var(--dropdown-foreground-color-error));
 
     @include hover() {
@@ -130,8 +130,8 @@
       background-color: var(--dropdown-background-color-error-active);
     }
   }
-  &__status--error:not(#{&}--opened) &__trigger,
-  &__status--error:not(#{&}--opened) &__icon {
+  &__status--error:not(#{&}--open) &__trigger,
+  &__status--error:not(#{&}--open) &__icon {
     color: var(--dropdown-foreground-color-error);
   }
 

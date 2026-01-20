@@ -259,7 +259,7 @@ export type DatePickerProps = {
   /**
    * To open the date-picker by default. Defaults to `false`.
    */
-  opened?: boolean
+  open?: boolean
   /**
    * Provide a short Tooltip content that shows up on the picker button.
    */
@@ -370,7 +370,7 @@ const defaultProps: DatePickerProps = {
   link: false,
   sync: true,
   statusState: 'error',
-  opened: false,
+  open: false,
   noAnimation: false,
   direction: 'auto',
   skipPortal: false,
@@ -396,12 +396,12 @@ function DatePicker(externalProps: DatePickerAllProps) {
     range,
     hideDays,
     hideNavigation,
-    opened: openedProp,
+    open: openProp,
     endDate: endDateProp,
   } = props
 
-  const [opened, setOpened] = useState<boolean>(inline ? true : openedProp)
-  const [hidden, setHidden] = useState(inline ? false : !opened)
+  const [open, setOpen] = useState<boolean>(inline ? true : openProp)
+  const [hidden, setHidden] = useState(inline ? false : !open)
   const [dates, setDates] = useState<
     Pick<DatePickerDates, 'startDate' | 'endDate'>
   >({})
@@ -440,7 +440,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
         args.event.persist()
       }
 
-      setOpened(false)
+      setOpen(false)
 
       hideTimeout.current = setTimeout(
         () => {
@@ -470,7 +470,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
         clearTimeout(hideTimeout.current)
       }
 
-      setOpened(true)
+      setOpen(true)
       setHidden(false)
 
       onOpen?.({ ...getReturnObject.current(event) })
@@ -478,12 +478,12 @@ function DatePicker(externalProps: DatePickerAllProps) {
     [onOpen]
   )
 
-  // React to opened prop changes (only when not inline)
+  // React to open prop changes (only when not inline)
   useEffect(() => {
-    if (openedProp && !inline) {
+    if (openProp && !inline) {
       showPicker()
     }
-  }, [openedProp, showPicker, inline])
+  }, [openProp, showPicker, inline])
 
   const onPickerChange = useCallback(
     ({
@@ -504,7 +504,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
 
   const onSubmitHandler = useCallback(
     (event: React.MouseEvent<HTMLButtonElement>) => {
-      if (opened) {
+      if (open) {
         // If picker is open, close it and call onSubmit
         hidePicker(event)
         onSubmit?.({
@@ -515,7 +515,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
         showPicker(event)
       }
     },
-    [opened, hidePicker, showPicker, onSubmit]
+    [open, hidePicker, showPicker, onSubmit]
   )
 
   const onCancelHandler = useCallback(
@@ -540,9 +540,9 @@ function DatePicker(externalProps: DatePickerAllProps) {
 
   const togglePicker = useCallback(
     (args: React.MouseEvent<HTMLButtonElement>) => {
-      !opened ? showPicker(args) : hidePicker(args)
+      !open ? showPicker(args) : hidePicker(args)
     },
-    [opened, showPicker, hidePicker]
+    [open, showPicker, hidePicker]
   )
 
   // use only the props from context, who are available here anyway
@@ -611,7 +611,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
   }
 
   const submitParams = {
-    ['aria-expanded']: opened,
+    ['aria-expanded']: open,
     ref: submitButtonRef,
     tabIndex: extendedProps.tabIndex,
     tooltip,
@@ -645,7 +645,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
       'dnb-date-picker',
       status && `dnb-date-picker__status--${statusState}`,
       labelDirection && `dnb-date-picker--${labelDirection}`,
-      opened && 'dnb-date-picker--opened',
+      open && 'dnb-date-picker--open',
       hidden && 'dnb-date-picker--hidden',
       showInput && 'dnb-date-picker--show-input',
       inline && 'dnb-date-picker--inline',
@@ -663,8 +663,8 @@ function DatePicker(externalProps: DatePickerAllProps) {
 
   const containerClassNames = clsx(
     'dnb-date-picker__container',
-    opened && 'dnb-date-picker__container--opened',
-    !opened && 'dnb-date-picker__container--closed',
+    open && 'dnb-date-picker__container--open',
+    !open && 'dnb-date-picker__container--closed',
     hidden && 'dnb-date-picker__container--hidden',
     showInput && 'dnb-date-picker__container--show-input',
     size && `dnb-date-picker--${size}`,
@@ -773,7 +773,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
                   showInput={showInput}
                   selectedDateTitle={selectedDateTitle}
                   inputElement={inputElement}
-                  opened={opened}
+                  open={open}
                   hidden={hidden}
                   size={size}
                   status={status ? 'error' : null}
@@ -786,7 +786,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
                 />
 
                 <Popover
-                  open={opened}
+                  open={open}
                   targetElement={{
                     verticalRef: submitButtonRef,
                     horizontalRef: innerRef,
@@ -888,7 +888,7 @@ const NonAttributes = [
   'returnFormat',
   'dateFormat',
   'hideDays',
-  'opened',
+  'open',
   'direction',
   'range',
   'showInput',

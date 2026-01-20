@@ -166,7 +166,7 @@ export const AutocompleteProperties = {
     type: 'React.ReactNode',
     status: 'optional',
   },
-  opened: {
+  open: {
     doc: 'If set to `true`, the Autocomplete will be rendered initially with a visible and accessible data list / options.',
     type: 'boolean',
     status: 'optional',

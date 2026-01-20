@@ -52,7 +52,7 @@ export const WithoutCloseButton = {
 
 export const InDialog = {
   render: () => (
-    <Dialog openState>
+    <Dialog open>
       <div
         style={
           {
