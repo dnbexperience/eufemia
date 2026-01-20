@@ -834,10 +834,10 @@ describe('DrawerList component', () => {
     ).toBeInTheDocument()
   })
 
-  it('will call onHide after "esc" key', async () => {
-    const onHide = jest.fn()
+  it('will call onClose after "esc" key', async () => {
+    const onClose = jest.fn()
 
-    render(<DrawerList {...props} data={mockData} onHide={onHide} />)
+    render(<DrawerList {...props} data={mockData} onClose={onClose} />)
 
     expect(
       Array.from(document.querySelector('span.dnb-drawer-list').classList)
@@ -852,7 +852,7 @@ describe('DrawerList component', () => {
     ])
 
     keydown(27) // esc
-    expect(onHide.mock.calls.length).toBe(1)
+    expect(onClose.mock.calls.length).toBe(1)
 
     await waitFor(() => {
       expect(
@@ -981,26 +981,26 @@ describe('DrawerList component', () => {
   })
 
   it('has to return all additional attributes the event return', () => {
-    const onShow = jest.fn()
-    const onHide = jest.fn()
+    const onOpen = jest.fn()
+    const onClose = jest.fn()
     const params = { 'data-attr': 'value' }
 
     render(
       <DrawerList
         {...props}
-        onShow={onShow}
-        onHide={onHide}
+        onOpen={onOpen}
+        onClose={onClose}
         {...params}
         data={mockData}
       />
     )
 
-    expect(onShow.mock.calls.length).toBe(1)
-    expect(onShow.mock.calls[0][0].attributes).toMatchObject(params)
+    expect(onOpen.mock.calls.length).toBe(1)
+    expect(onOpen.mock.calls[0][0].attributes).toMatchObject(params)
 
     keydown(27) // esc
-    expect(onHide.mock.calls.length).toBe(1)
-    expect(onHide.mock.calls[0][0].attributes).toMatchObject(params)
+    expect(onClose.mock.calls.length).toBe(1)
+    expect(onClose.mock.calls[0][0].attributes).toMatchObject(params)
   })
 
   describe('height calculation', () => {
