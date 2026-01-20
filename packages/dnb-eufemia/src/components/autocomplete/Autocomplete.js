@@ -1356,11 +1356,21 @@ class AutocompleteInstance extends React.PureComponent {
       return []
     }
 
-    const searchWords = value?.split(/\s+/g).filter(Boolean) || []
-    const wordCond = '^|\\s'
     const startsWithMatch = this.props.searchMatch === 'starts-with'
+    const rawValue = value ?? ''
+    let searchWords = rawValue.split(/\s+/g).filter(Boolean)
+
+    if (startsWithMatch) {
+      const hasLetters = /[\p{L}]/u.test(rawValue)
+      const hasNumbers = /[\p{N}]/u.test(rawValue)
+      if (startsWithMatch && searchNumbers && hasNumbers && !hasLetters) {
+        const normalizedNumeric = rawValue.replace(/[^\p{N}]+/gu, '')
+        searchWords = normalizedNumeric ? [normalizedNumeric] : []
+      }
+    }
+
     const getWordBoundary = (wordIndex) =>
-      startsWithMatch && wordIndex === 0 ? '^' : wordCond
+      startsWithMatch && wordIndex === 0 ? '^' : '^|\\s' // wordCond
 
     const findSearchWords = (contentChunk) => {
       if (typeof contentChunk !== 'string') {
