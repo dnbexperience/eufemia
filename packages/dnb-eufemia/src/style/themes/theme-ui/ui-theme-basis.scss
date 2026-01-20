@@ -7,3 +7,15 @@
 @import './fonts.scss';
 @import './ui-theme-elements.scss';
 @import './globals.scss';
+
+html {
+  // In order to let Safari know the font-size set on the system level
+  // Because the default font-size is 18px, we lower the basis font-size to 15px instead of 17px
+  @supports (font: -apple-system-subheadline) {
+    // Safari on iOS
+    @supports (-webkit-touch-callout: none) {
+      // Sets the base font-size to 15px
+      font: -apple-system-subheadline; /* stylelint-disable-line */
+    }
+  }
+}
