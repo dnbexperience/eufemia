@@ -235,11 +235,11 @@ export default class Autocomplete extends React.PureComponent {
       PropTypes.array,
     ]),
 
-    onShow: PropTypes.func,
+    onOpen: PropTypes.func,
     onType: PropTypes.func,
     onFocus: PropTypes.func,
     onBlur: PropTypes.func,
-    onHide: PropTypes.func,
+    onClose: PropTypes.func,
     onChange: PropTypes.func,
     onSelect: PropTypes.func,
     onStateUpdate: PropTypes.func,
@@ -317,8 +317,8 @@ export default class Autocomplete extends React.PureComponent {
     className: null,
     children: null,
 
-    onShow: null,
-    onHide: null,
+    onOpen: null,
+    onClose: null,
     onType: null,
     onFocus: null,
     onBlur: null,
@@ -1599,10 +1599,10 @@ class AutocompleteInstance extends React.PureComponent {
     return searchIndex
   }
 
-  onHideHandler = (args = {}) => {
-    const res = dispatchCustomElementEvent(this, 'onHide', {
+  onCloseHandler = (args = {}) => {
+    const res = dispatchCustomElementEvent(this, 'onClose', {
       ...args,
-      ...this.getEventObjects('onHide'),
+      ...this.getEventObjects('onClose'),
     })
 
     if (res !== false) {
@@ -1836,11 +1836,11 @@ class AutocompleteInstance extends React.PureComponent {
       disableHighlighting: _disableHighlighting, // eslint-disable-line
       onClear, // eslint-disable-line
 
-      onShow: _onShow, // eslint-disable-line
+      onOpen: _onOpen, // eslint-disable-line
       onType: _onType, // eslint-disable-line
       onFocus: _onFocus, // eslint-disable-line
       onBlur: _onBlur, // eslint-disable-line
-      onHide: _onHide, // eslint-disable-line
+      onClose: _onClose, // eslint-disable-line
       onChange: _onChange, // eslint-disable-line
       onSelect: _onSelect, // eslint-disable-line
       onStateUpdate: _onStateUpdate, // eslint-disable-line
@@ -2110,7 +2110,7 @@ class AutocompleteInstance extends React.PureComponent {
                 optionsRender={optionsRender}
                 onChange={this.onChangeHandler}
                 onSelect={this.onSelectHandler}
-                onHide={this.onHideHandler}
+                onClose={this.onCloseHandler}
                 onPreChange={this.onPreChangeHandler}
                 onKeyDown={this.reserveActivityHandler}
                 onMouseDown={this.reserveActivityHandler}

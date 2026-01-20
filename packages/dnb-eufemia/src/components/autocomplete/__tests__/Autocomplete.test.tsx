@@ -1361,16 +1361,16 @@ describe('Autocomplete component', () => {
   })
 
   it('has valid events returning all additional attributes in the event return', () => {
-    const onShow = jest.fn()
-    const onHide = jest.fn()
+    const onOpen = jest.fn()
+    const onClose = jest.fn()
     const onFocus = jest.fn()
     const onBlur = jest.fn()
     const params = { 'data-attr': 'value' }
 
     render(
       <Autocomplete
-        onShow={onShow}
-        onHide={onHide}
+        onOpen={onOpen}
+        onClose={onClose}
         onFocus={onFocus}
         onBlur={onBlur}
         {...params}
@@ -1400,9 +1400,9 @@ describe('Autocomplete component', () => {
     expect(onBlur).toHaveBeenCalledTimes(1)
 
     toggle()
-    expect(onShow).toHaveBeenCalledTimes(1)
-    expect(onShow.mock.calls[0][0].attributes).toMatchObject(params)
-    expect(onShow).toHaveBeenCalledWith({
+    expect(onOpen).toHaveBeenCalledTimes(1)
+    expect(onOpen.mock.calls[0][0].attributes).toMatchObject(params)
+    expect(onOpen).toHaveBeenCalledWith({
       attributes: {
         ...params,
         onMouseDown: expect.any(Function),
@@ -1412,9 +1412,9 @@ describe('Autocomplete component', () => {
     })
 
     keyDownOnInput(27) // esc
-    expect(onHide).toHaveBeenCalledTimes(1)
-    expect(onHide.mock.calls[0][0].attributes).toMatchObject(params)
-    expect(onHide.mock.calls[0][0].event).toEqual(
+    expect(onClose).toHaveBeenCalledTimes(1)
+    expect(onClose.mock.calls[0][0].attributes).toMatchObject(params)
+    expect(onClose.mock.calls[0][0].event).toEqual(
       new KeyboardEvent('keydown', {})
     )
 
@@ -1427,8 +1427,8 @@ describe('Autocomplete component', () => {
     expect(onBlur).toHaveBeenCalledTimes(1)
 
     toggle()
-    expect(onShow).toHaveBeenCalledTimes(2)
-    expect(onShow.mock.calls[1][0].attributes).toMatchObject(params)
+    expect(onOpen).toHaveBeenCalledTimes(2)
+    expect(onOpen.mock.calls[1][0].attributes).toMatchObject(params)
 
     expect(
       document.querySelector('.dnb-autocomplete').classList
@@ -1441,7 +1441,7 @@ describe('Autocomplete component', () => {
     ).not.toContain('dnb-autocomplete--opened')
 
     toggle()
-    expect(onShow).toHaveBeenCalledTimes(3)
+    expect(onOpen).toHaveBeenCalledTimes(3)
   })
 
   it('updates its input value if value and data prop changes', async () => {
@@ -2565,12 +2565,12 @@ describe('Autocomplete component', () => {
     ).not.toContain('dnb-autocomplete--opened')
   })
 
-  it('will prevent close if false gets returned from onHide event', () => {
+  it('will prevent close if false gets returned from onClose event', () => {
     let preventClose = false
-    const onHide = jest.fn(() => !preventClose)
+    const onClose = jest.fn(() => !preventClose)
     render(
       <Autocomplete
-        onHide={onHide}
+        onClose={onClose}
         data={mockData}
         showSubmitButton
         {...mockProps}
@@ -2588,7 +2588,7 @@ describe('Autocomplete component', () => {
       // close
       dispatchKeyDown(27)
     })
-    expect(onHide).toHaveBeenCalledTimes(1)
+    expect(onClose).toHaveBeenCalledTimes(1)
 
     expect(
       document.querySelector('.dnb-autocomplete').classList
@@ -2607,7 +2607,7 @@ describe('Autocomplete component', () => {
     act(() => {
       dispatchKeyDown(27)
     })
-    expect(onHide).toHaveBeenCalledTimes(2)
+    expect(onClose).toHaveBeenCalledTimes(2)
 
     // we are still open
     expect(

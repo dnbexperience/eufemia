@@ -229,6 +229,14 @@ export interface AutocompleteProps {
    * Define a custom class for the internal drawer-list. This makes it possible more easily customize the drawer-list style with styled-components and the `css` style method. Defaults to `null`.
    */
   drawerClass?: string;
+  /**
+   * Will be called once the Autocomplete shows up.
+   */
+  onOpen?: (...args: any[]) => any;
+  /**
+   * Will be called once the Autocomplete gets closed.
+   */
+  onClose?: (...args: any[]) => any;
   onType?: (...args: any[]) => any;
   onFocus?: (...args: any[]) => any;
   onBlur?: (...args: any[]) => any;
@@ -253,6 +261,8 @@ export type AutocompleteAllProps = AutocompleteProps &
     | 'children'
     | 'onChange'
     | 'onFocus'
+    | 'onOpen'
+    | 'onClose'
     | 'onSelect'
     | 'onResize'
     | 'onBlur'

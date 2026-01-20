@@ -11,12 +11,12 @@ export const DropdownEvents = {
     type: 'function',
     status: 'optional',
   },
-  onShow: {
+  onOpen: {
     doc: 'Will be called once the user presses the dropdown. Returns the data item `{ data, attributes }`.',
     type: 'function',
     status: 'optional',
   },
-  onHide: {
+  onClose: {
     doc: 'Will be called once the user presses the dropdown again, or clicks somewhere else. Returns the data item `{ data, attributes }`.',
     type: 'function',
     status: 'optional',
