@@ -257,7 +257,7 @@ function SelectCurrency(props: Props) {
         value={typeof value === 'string' ? value : null}
         disabled={disabled}
         size={size}
-        onShow={fillData}
+        onOpen={fillData}
         onFocus={onFocusHandler}
         onBlur={handleBlur}
         onChange={handleCurrencyChange}
