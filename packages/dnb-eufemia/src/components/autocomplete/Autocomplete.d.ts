@@ -261,6 +261,8 @@ export type AutocompleteAllProps = AutocompleteProps &
     | 'children'
     | 'onChange'
     | 'onFocus'
+    | 'onOpen'
+    | 'onClose'
     | 'onSelect'
     | 'onResize'
     | 'onBlur'

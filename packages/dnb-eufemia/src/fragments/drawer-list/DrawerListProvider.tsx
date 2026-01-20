@@ -1210,7 +1210,7 @@ export default class DrawerListProvider extends React.PureComponent<
       const { selectedItem, activeItem } = this.state
       const newActiveItem =
         parseFloat(selectedItem as string) > -1 ? selectedItem : activeItem
-      dispatchCustomElementEvent(this.state, 'on_show', {
+      dispatchCustomElementEvent(this.state, 'onOpen', {
         ...args,
         data: getEventData(newActiveItem, this.state.data),
         attributes: this.attributes,

@@ -477,8 +477,8 @@ class DropdownInstance extends React.PureComponent {
       onChange: _onChange, // eslint-disable-line
       onSelect: _onSelect, // eslint-disable-line
       onStateUpdate: _onStateUpdate, // eslint-disable-line
-      onOpenFocus: _onShowFocus, // eslint-disable-line
-      onCloseFocus: _onHideFocus, // eslint-disable-line
+      onOpenFocus: _onOpenFocus, // eslint-disable-line
+      onCloseFocus: _onCloseFocus, // eslint-disable-line
 
       ...attributes
     } = props

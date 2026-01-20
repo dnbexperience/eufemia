@@ -130,6 +130,8 @@ export type DropdownAllProps = DropdownProps &
     | 'children'
     | 'onChange'
     | 'onFocus'
+    | 'onOpen'
+    | 'onClose'
     | 'onSelect'
     | 'onResize'
   >;
