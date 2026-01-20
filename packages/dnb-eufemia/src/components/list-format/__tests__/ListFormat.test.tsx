@@ -637,43 +637,17 @@ describe('listFormat', () => {
   })
 
   it('accepts array with jsx values with keys', () => {
-    expect(
-      listFormat([
-        <React.Fragment key="a">A</React.Fragment>,
-        <React.Fragment key="b">
-          <b>B</b>
-        </React.Fragment>,
-        <React.Fragment key="c">C</React.Fragment>,
-        'D',
-        123,
-      ])
-    ).toMatchInlineSnapshot(`
-      [
-        "",
-        <React.Fragment>
-          A
-        </React.Fragment>,
-        ", ",
-        <React.Fragment>
-          <b>
-            B
-          </b>
-        </React.Fragment>,
-        ", ",
-        <React.Fragment>
-          C
-        </React.Fragment>,
-        ", ",
-        <React.Fragment>
-          D
-        </React.Fragment>,
-        " og ",
-        <React.Fragment>
-          123
-        </React.Fragment>,
-        "",
-      ]
-    `)
+    const result = listFormat([
+      <React.Fragment key="a">A</React.Fragment>,
+      <React.Fragment key="b">
+        <b>B</b>
+      </React.Fragment>,
+      <React.Fragment key="c">C</React.Fragment>,
+      'D',
+      123,
+    ])
+    const { container } = render(result)
+    expect(container).toHaveTextContent('A, B, C, D og 123')
   })
 
   it('formats array of elements the same as nested in a single fragment', () => {
