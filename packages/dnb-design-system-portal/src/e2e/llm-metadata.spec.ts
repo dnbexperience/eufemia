@@ -12,7 +12,7 @@ test.describe('LLM integration', () => {
 
     const llmsLink = await page
       .locator(
-        'head link[rel="alternate"][type="text/plain"][href="/llms.txt"]'
+        'head link[rel="alternate"][type="text/plain"][href="/llms.txt"]',
       )
       .first()
     await expect(llmsLink).toHaveCount(1)
@@ -23,11 +23,34 @@ test.describe('LLM integration', () => {
     expect(body).toContain('# Eufemia')
     expect(body).toContain('/llm/index.json')
     expect(body).toMatch(/GeneratedAt:\s*\d{4}-\d{2}-\d{2}T/) // ISO timestamp
+    expect(body).toContain(
+      '/uilib/usage/first-steps/quick-reference.md',
+    )
     // Ensure visual-tests entries are excluded from llms.txt
     expect(body).not.toContain('/visual-tests/')
     expect(body).not.toContain('Metadata:')
     expect(body).not.toContain('Docs:')
     expect(body).not.toContain('Checksum:')
+    expect(body).toMatch(/^##\s+\w+/m)
+    expect(body).toMatch(/^- \[[^\]]+\]\([^)]+\):/m)
+    const othersIndex = body.indexOf('## General')
+    const componentsIndex = body.indexOf('## Components')
+    if (othersIndex !== -1 && componentsIndex !== -1) {
+      expect(othersIndex).toBeLessThan(componentsIndex)
+    }
+
+    const indexRes = await request.get('/llm/index.json')
+    expect(indexRes.ok()).toBeTruthy()
+    const indexBody = await indexRes.json()
+    expect(Array.isArray(indexBody)).toBeTruthy()
+    if (indexBody.length > 0) {
+      const entry = indexBody[0]
+      expect(entry).toHaveProperty('slug')
+      expect(entry).toHaveProperty('metadataUrl')
+      expect(entry.metadataUrl).toContain('/uilib/')
+      expect(entry.metadataUrl).toContain('metadata.json')
+      expect(entry).not.toHaveProperty('path')
+    }
   })
 
   test('component page exposes per-page metadata link and serves JSON', async ({
@@ -39,7 +62,7 @@ test.describe('LLM integration', () => {
     await page.goto(slug)
 
     const altJson = page.locator(
-      'head link[rel="alternate"][type="application/json"]'
+      'head link[rel="alternate"][type="application/json"]',
     )
     await expect(altJson).toHaveCount(1)
 
@@ -61,7 +84,7 @@ test.describe('LLM integration', () => {
 
     // metadata should include demos source link when present
     expect(json?.sources?.demos?.public).toContain(
-      '/uilib/components/card/demos/'
+      '/uilib/components/card/demos/',
     )
 
     const mdPath = slug.replace(/\/$/, '.md')
@@ -69,7 +92,7 @@ test.describe('LLM integration', () => {
     expect(mdRes.ok()).toBeTruthy()
     const mdBody = await mdRes.text()
     expect(mdBody).toContain(
-      'metadata: https://eufemia.dnb.no/uilib/components/card/metadata.json'
+      'metadata: https://eufemia.dnb.no/uilib/components/card/metadata.json',
     )
     expect(mdBody).not.toContain('showTabs:')
     expect(mdBody).not.toContain('hideTabs:')
@@ -93,7 +116,7 @@ test.describe('LLM integration', () => {
       const htmlFile = path.join(
         publicDir,
         mdPath.replace(/^\//, '').replace(/\.md$/, ''),
-        'index.html'
+        'index.html',
       )
       expect(fs.existsSync(htmlFile)).toBeTruthy()
       const htmlBody = fs.readFileSync(htmlFile, 'utf-8')
