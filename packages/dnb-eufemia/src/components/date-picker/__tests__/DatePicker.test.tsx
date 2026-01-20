@@ -90,7 +90,7 @@ describe('DatePicker component', () => {
     ).toBe('true')
 
     expect(getDatePickerRoot().getAttribute('class')).toContain(
-      'dnb-date-picker--opened'
+      'dnb-date-picker--open'
     )
 
     expect(getDatePickerRoot().classList).not.toContain(
@@ -112,7 +112,7 @@ describe('DatePicker component', () => {
     ).toBe('true')
 
     expect(getDatePickerRoot().getAttribute('class')).toContain(
-      'dnb-date-picker--opened'
+      'dnb-date-picker--open'
     )
 
     await userEvent.click(document.body)
@@ -124,7 +124,7 @@ describe('DatePicker component', () => {
     ).toBe('false')
 
     expect(getDatePickerRoot().getAttribute('class')).not.toContain(
-      'dnb-date-picker--opened'
+      'dnb-date-picker--open'
     )
   })
 
@@ -144,7 +144,7 @@ describe('DatePicker component', () => {
     ).toBe('true')
 
     expect(getDatePickerRoot().getAttribute('class')).toContain(
-      'dnb-date-picker--opened'
+      'dnb-date-picker--open'
     )
   })
 
@@ -164,7 +164,7 @@ describe('DatePicker component', () => {
     ).toBe('true')
 
     expect(getDatePickerRoot().getAttribute('class')).toContain(
-      'dnb-date-picker--opened'
+      'dnb-date-picker--open'
     )
   })
 
@@ -184,13 +184,13 @@ describe('DatePicker component', () => {
     ).toBe('false')
 
     expect(getDatePickerRoot().getAttribute('class')).not.toContain(
-      'dnb-date-picker--opened'
+      'dnb-date-picker--open'
     )
   })
 
   it('lets the dialog close on the second Escape press', async () => {
     render(
-      <Dialog noAnimation openState title="Dialog">
+      <Dialog noAnimation open title="Dialog">
         <DatePicker {...defaultProps} />
       </Dialog>
     )
@@ -231,7 +231,7 @@ describe('DatePicker component', () => {
     const onOpen = jest.fn()
 
     const Component = () => {
-      const [opened, setOpened] = useState(true)
+      const [open, setOpen] = useState(true)
       return (
         <DatePicker
           date="2025-02-21"
@@ -239,7 +239,7 @@ describe('DatePicker component', () => {
           showSubmitButton
           onOpen={() => {
             onOpen()
-            setOpened(!opened)
+            setOpen(!open)
           }}
         />
       )
@@ -258,7 +258,7 @@ describe('DatePicker component', () => {
     ).toBe('true')
 
     expect(getDatePickerRoot().getAttribute('class')).toContain(
-      'dnb-date-picker--opened'
+      'dnb-date-picker--open'
     )
 
     await userEvent.click(screen.getByLabelText('lørdag 22. februar 2025'))
@@ -272,7 +272,7 @@ describe('DatePicker component', () => {
     ).toBe('false')
 
     expect(getDatePickerRoot().getAttribute('class')).not.toContain(
-      'dnb-date-picker--opened'
+      'dnb-date-picker--open'
     )
   })
 
@@ -287,7 +287,7 @@ describe('DatePicker component', () => {
     )
 
     expect(getDatePickerRoot().getAttribute('class')).toContain(
-      'dnb-date-picker--opened'
+      'dnb-date-picker--open'
     )
 
     const startTd = document.querySelectorAll(
@@ -346,7 +346,7 @@ describe('DatePicker component', () => {
     expect(onChange.mock.calls[2][0].endDate).toBe(undefined)
 
     expect(getDatePickerRoot().getAttribute('class')).not.toContain(
-      'dnb-date-picker--opened'
+      'dnb-date-picker--open'
     )
   })
 
@@ -366,7 +366,7 @@ describe('DatePicker component', () => {
       document.querySelector('button.dnb-input__submit-button__button')
     )
 
-    expect(getDatePickerRoot()).toHaveClass('dnb-date-picker--opened')
+    expect(getDatePickerRoot()).toHaveClass('dnb-date-picker--open')
 
     const resetButton = document.querySelector(
       'button[data-testid="reset"]'
@@ -379,7 +379,7 @@ describe('DatePicker component', () => {
       expect.objectContaining({ date: '1981-01-15' })
     )
 
-    expect(getDatePickerRoot()).not.toHaveClass('dnb-date-picker--opened')
+    expect(getDatePickerRoot()).not.toHaveClass('dnb-date-picker--open')
   })
 
   it('should delete input content one number at a time when `date` is "prop controlled"', async () => {
@@ -820,7 +820,7 @@ describe('DatePicker component', () => {
     )
 
     expect(getDatePickerRoot().getAttribute('class')).toContain(
-      'dnb-date-picker--opened'
+      'dnb-date-picker--open'
     )
 
     expect(onDaysRender).toHaveBeenCalledTimes(1)
@@ -863,7 +863,7 @@ describe('DatePicker component', () => {
 
     expect(
       document.querySelector('.dnb-date-picker').getAttribute('class')
-    ).toContain('dnb-date-picker--opened')
+    ).toContain('dnb-date-picker--open')
 
     expect(onDaysRender).toHaveBeenCalledTimes(1)
 
@@ -904,7 +904,7 @@ describe('DatePicker component', () => {
         .textContent
     ).toBe('mai 2020')
     expect(getDatePickerRoot().classList).toContain(
-      'dnb-date-picker--opened'
+      'dnb-date-picker--open'
     )
     expect(onChange).toHaveBeenCalledTimes(1)
 
@@ -920,7 +920,7 @@ describe('DatePicker component', () => {
         .textContent
     ).toBe('april 2020')
     expect(getDatePickerRoot().classList).not.toContain(
-      'dnb-date-picker--opened'
+      'dnb-date-picker--open'
     )
     expect(onChange).toHaveBeenCalledTimes(2)
   })
@@ -1470,7 +1470,7 @@ describe('DatePicker component', () => {
     render(
       <DatePicker
         date={date}
-        opened
+        open
         noAnimation
         preventClose
         showResetButton
@@ -1633,7 +1633,7 @@ describe('DatePicker component', () => {
     expect(endYear.value).toBe('2024')
 
     expect(getDatePickerRoot().classList).not.toContain(
-      'dnb-date-picker--opened'
+      'dnb-date-picker--open'
     )
   })
 
@@ -1739,7 +1739,7 @@ describe('DatePicker component', () => {
 
     render(
       <DatePicker
-        opened
+        open
         noAnimation
         showResetButton
         resetButtonText={resetButtonText}
@@ -1752,7 +1752,7 @@ describe('DatePicker component', () => {
   })
 
   it('footer is rendered when showResetButton is provided', () => {
-    render(<DatePicker opened noAnimation showResetButton />)
+    render(<DatePicker open noAnimation showResetButton />)
 
     const datePickerFooter = document.querySelector(
       '.dnb-date-picker__footer'
@@ -1761,7 +1761,7 @@ describe('DatePicker component', () => {
   })
 
   it('footer is rendered when showCancelButton is provided', () => {
-    render(<DatePicker opened noAnimation showCancelButton />)
+    render(<DatePicker open noAnimation showCancelButton />)
 
     const datePickerFooter = document.querySelector(
       '.dnb-date-picker__footer'
@@ -1770,7 +1770,7 @@ describe('DatePicker component', () => {
   })
 
   it('footer is rendered when showSubmitButton is provided', () => {
-    render(<DatePicker opened noAnimation showSubmitButton />)
+    render(<DatePicker open noAnimation showSubmitButton />)
 
     const datePickerFooter = document.querySelector(
       '.dnb-date-picker__footer'
@@ -1779,7 +1779,7 @@ describe('DatePicker component', () => {
   })
 
   it('footer is rendered when range is provided', () => {
-    render(<DatePicker opened noAnimation range />)
+    render(<DatePicker open noAnimation range />)
 
     const datePickerFooter = document.querySelector(
       '.dnb-date-picker__footer'
@@ -1790,7 +1790,7 @@ describe('DatePicker component', () => {
   it('footer is not rendered', () => {
     render(
       <DatePicker
-        opened
+        open
         noAnimation
         showResetButton={false}
         showCancelButton={false}
@@ -2110,7 +2110,7 @@ describe('DatePicker component', () => {
 
   it('has correct css classes on range selection', () => {
     render(
-      <DatePicker id="date-picker-id" noAnimation range opened showInput />
+      <DatePicker id="date-picker-id" noAnimation range open showInput />
     )
 
     const FirstCalendar = document.querySelectorAll(
@@ -2592,7 +2592,7 @@ describe('DatePicker component', () => {
 
     fireEvent.click(buttonElement)
 
-    expect(element.classList).toContain('dnb-date-picker--opened')
+    expect(element.classList).toContain('dnb-date-picker--open')
 
     const tableElement = document.querySelector('table')
 
@@ -2622,7 +2622,7 @@ describe('DatePicker component', () => {
     fireEvent.click(buttonElement)
 
     expect(document.activeElement).toBe(document.body)
-    expect(element.classList).toContain('dnb-date-picker--opened')
+    expect(element.classList).toContain('dnb-date-picker--open')
   })
 
   it('should react on keydown events', async () => {
@@ -2846,7 +2846,7 @@ describe('DatePicker component', () => {
           showResetButton
           showSubmitButton
           showInput
-          opened
+          open
         />
       </Provider>
     )
@@ -2887,7 +2887,7 @@ describe('DatePicker component', () => {
           showResetButton
           showSubmitButton
           showInput
-          opened
+          open
         />
       </Provider>
     )
@@ -4360,7 +4360,7 @@ describe('DatePicker scss', () => {
 
 describe('Custom text for buttons', () => {
   it('should show custom text for submit button', () => {
-    render(<DatePicker submitButtonText="Yes" showSubmitButton opened />)
+    render(<DatePicker submitButtonText="Yes" showSubmitButton open />)
 
     expect(
       document.querySelector('[data-testid="submit"]  .dnb-button__text')
@@ -4369,7 +4369,7 @@ describe('Custom text for buttons', () => {
   })
 
   it('should show custom text for cancel button', () => {
-    render(<DatePicker cancelButtonText="No" showCancelButton opened />)
+    render(<DatePicker cancelButtonText="No" showCancelButton open />)
 
     expect(
       document.querySelector('[data-testid="cancel"]  .dnb-button__text')
@@ -4378,7 +4378,7 @@ describe('Custom text for buttons', () => {
   })
 
   it('should show custom text for reset button', () => {
-    render(<DatePicker resetButtonText="Maybe" showResetButton opened />)
+    render(<DatePicker resetButtonText="Maybe" showResetButton open />)
 
     expect(
       document.querySelector('[data-testid="reset"]  .dnb-button__text')
@@ -4602,7 +4602,7 @@ describe('DatePicker ARIA', () => {
     const Comp = render(
       <DatePicker
         range={true}
-        opened={true}
+        open={true}
         disableAutofocus={true}
         startDate="2019-05-05"
         endDate="2019-06-05"
@@ -4616,7 +4616,7 @@ describe('DatePicker ARIA', () => {
     const Comp = render(
       <DatePicker
         range={true}
-        opened={true}
+        open={true}
         showInput={true}
         disableAutofocus={true}
         startDate="2019-05-05"
@@ -4882,7 +4882,7 @@ describe('DatePicker ARIA', () => {
         '.dnb-date-picker__container'
       )
       expect(calendar).toBeInTheDocument()
-      expect(calendar).toHaveClass('dnb-date-picker__container--opened')
+      expect(calendar).toHaveClass('dnb-date-picker__container--open')
 
       // Should have inline class
       expect(getDatePickerRoot()).toHaveClass('dnb-date-picker--inline')
@@ -4898,7 +4898,7 @@ describe('DatePicker ARIA', () => {
       expect(calendar).not.toHaveClass(
         'dnb-date-picker__container--hidden'
       )
-      expect(calendar).toHaveClass('dnb-date-picker__container--opened')
+      expect(calendar).toHaveClass('dnb-date-picker__container--open')
     })
 
     it('does not render Popover when inline is true', () => {
@@ -4972,11 +4972,11 @@ describe('DatePicker ARIA', () => {
 
     it('toggles popover open/close when submit button is clicked', async () => {
       const onSubmit = jest.fn()
-      render(<DatePicker showSubmitButton onSubmit={onSubmit} opened />)
+      render(<DatePicker showSubmitButton onSubmit={onSubmit} open />)
 
       // Popover should be open initially
       expect(
-        document.querySelector('.dnb-date-picker__container--opened')
+        document.querySelector('.dnb-date-picker__container--open')
       ).toBeInTheDocument()
 
       const submitButton = document.querySelector(
@@ -4988,7 +4988,7 @@ describe('DatePicker ARIA', () => {
       fireEvent.click(submitButton)
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-date-picker__container--opened')
+          document.querySelector('.dnb-date-picker__container--open')
         ).not.toBeInTheDocument()
       })
       expect(onSubmit).toHaveBeenCalledTimes(1)
@@ -5002,7 +5002,7 @@ describe('DatePicker ARIA', () => {
 
       // Initially popover should be closed
       expect(
-        document.querySelector('.dnb-date-picker__container--opened')
+        document.querySelector('.dnb-date-picker__container--open')
       ).not.toBeInTheDocument()
 
       // Open popover by clicking the input button first
@@ -5014,7 +5014,7 @@ describe('DatePicker ARIA', () => {
       fireEvent.click(inputButton)
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-date-picker__container--opened')
+          document.querySelector('.dnb-date-picker__container--open')
         ).toBeInTheDocument()
       })
 
@@ -5027,7 +5027,7 @@ describe('DatePicker ARIA', () => {
       fireEvent.click(submitButton)
       await waitFor(() => {
         expect(
-          document.querySelector('.dnb-date-picker__container--opened')
+          document.querySelector('.dnb-date-picker__container--open')
         ).not.toBeInTheDocument()
       })
       expect(onSubmit).toHaveBeenCalledTimes(1)

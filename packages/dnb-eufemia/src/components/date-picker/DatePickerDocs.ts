@@ -75,7 +75,7 @@ export const DatePickerProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
-  opened: {
+  open: {
     doc: 'To open the date-picker by default. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
