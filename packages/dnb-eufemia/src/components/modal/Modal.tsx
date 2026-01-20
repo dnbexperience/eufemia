@@ -520,7 +520,6 @@ class Modal extends React.PureComponent<ModalPropTypes, ModalState> {
             <ParagraphContext.Provider value={{ isNested: false }}>
               <ModalRoot
                 {...rest}
-                id={this._id}
                 rootId={rootId}
                 contentId={contentId || `dnb-modal-${this._id}`}
                 labelledBy={labelledBy}
