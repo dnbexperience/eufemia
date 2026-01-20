@@ -96,11 +96,11 @@ describe('ToggleButton group component', () => {
   })
 
   it('has "onChange" event which will trigger on a button click', () => {
-    const my_event = jest.fn()
+    const myEvent = jest.fn()
     render(
       <ToggleButton.Group
         id="group"
-        onChange={my_event}
+        onChange={myEvent}
         value="second"
         data-prop="group-value"
       >
@@ -123,12 +123,12 @@ describe('ToggleButton group component', () => {
 
     // first click
     fireEvent.click(document.querySelector('button#toggle-button-1'))
-    expect(my_event).toHaveBeenCalled()
-    expect(my_event.mock.calls[0][0].value).toBe('first')
+    expect(myEvent).toHaveBeenCalled()
+    expect(myEvent.mock.calls[0][0].value).toBe('first')
 
     fireEvent.click(document.querySelector('button#toggle-button-2'))
-    expect(my_event.mock.calls[1][0].value).toBe('second')
-    expect(my_event.mock.calls[1][0].event.target.dataset).toMatchObject({
+    expect(myEvent.mock.calls[1][0].value).toBe('second')
+    expect(myEvent.mock.calls[1][0].event.target.dataset).toMatchObject({
       attr: 'value',
       prop: 'value-2',
     })
@@ -237,11 +237,11 @@ describe('ToggleButton group component', () => {
   })
 
   it('has multiselect "onChange" event which will trigger on a button click', () => {
-    const my_event = jest.fn()
+    const myEvent = jest.fn()
     render(
       <ToggleButton.Group
         id="group"
-        onChange={my_event}
+        onChange={myEvent}
         values={['second']}
         multiselect={true}
       >
@@ -261,10 +261,10 @@ describe('ToggleButton group component', () => {
     // first click
     fireEvent.click(document.querySelector('button#toggle-button-1'))
 
-    expect(my_event).toHaveBeenCalled()
-    expect(my_event.mock.calls.length).toBe(1)
-    expect(my_event.mock.calls[0][0]).toHaveProperty('values')
-    expect(my_event.mock.calls[0][0].values).toEqual(['second', 'first'])
+    expect(myEvent).toHaveBeenCalled()
+    expect(myEvent.mock.calls.length).toBe(1)
+    expect(myEvent.mock.calls[0][0]).toHaveProperty('values')
+    expect(myEvent.mock.calls[0][0].values).toEqual(['second', 'first'])
     expect(
       document
         .querySelector('#toggle-button-1')
@@ -278,7 +278,7 @@ describe('ToggleButton group component', () => {
 
     // second click
     fireEvent.click(document.querySelector('button#toggle-button-1'))
-    expect(my_event.mock.calls[1][0].values).toEqual(['second'])
+    expect(myEvent.mock.calls[1][0].values).toEqual(['second'])
     expect(
       document
         .querySelector('#toggle-button-1')
@@ -292,7 +292,7 @@ describe('ToggleButton group component', () => {
 
     // third click
     fireEvent.click(document.querySelector('button#toggle-button-2'))
-    expect(my_event.mock.calls[2][0].values).toEqual([])
+    expect(myEvent.mock.calls[2][0].values).toEqual([])
     expect(
       document
         .querySelector('#toggle-button-1')

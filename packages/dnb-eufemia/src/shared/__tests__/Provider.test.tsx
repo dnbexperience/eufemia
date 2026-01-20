@@ -24,14 +24,14 @@ const en = locales['en-GB']
 
 describe('Provider', () => {
   describe('translations', () => {
-    const title_nb = 'Tekst'
-    const title_gb = 'Text'
+    const titleNb = 'Tekst'
+    const titleGb = 'Text'
 
     const nbNO: TranslationFlat = {
-      'HelpButton.title': title_nb,
+      'HelpButton.title': titleNb,
     }
     const enGB: TranslationFlat = {
-      'HelpButton.title': title_gb,
+      'HelpButton.title': titleGb,
     }
 
     const defaultTranslations: Translations = {
@@ -107,7 +107,7 @@ describe('Provider', () => {
         document
           .querySelector('button.dnb-help-button')
           .getAttribute('aria-label')
-      ).toBe(title_nb)
+      ).toBe(titleNb)
       expect(
         document
           .querySelector('button.dnb-help-button')
@@ -124,7 +124,7 @@ describe('Provider', () => {
         document
           .querySelector('button.dnb-help-button')
           .getAttribute('aria-label')
-      ).toBe(title_gb)
+      ).toBe(titleGb)
       expect(
         document
           .querySelector('button.dnb-help-button')
@@ -135,29 +135,29 @@ describe('Provider', () => {
     it('should react on prop change', () => {
       const { rerender } = render(<MagicProvider />)
 
-      expect(document.querySelector('p').textContent).toBe(title_nb)
+      expect(document.querySelector('p').textContent).toBe(titleNb)
 
       rerender(<MagicProvider locale="en-GB" />)
 
-      expect(document.querySelector('p').textContent).toBe(title_gb)
+      expect(document.querySelector('p').textContent).toBe(titleGb)
     })
 
     it('should react on locale change', () => {
       render(<MagicProvider />)
 
-      expect(document.querySelector('p').textContent).toBe(title_nb)
+      expect(document.querySelector('p').textContent).toBe(titleNb)
 
       fireEvent.click(document.querySelector('.en-GB button'))
 
-      expect(document.querySelector('p').textContent).toBe(title_gb)
+      expect(document.querySelector('p').textContent).toBe(titleGb)
 
       fireEvent.click(document.querySelector('.en-US button'))
 
-      expect(document.querySelector('p').textContent).toBe(title_gb)
+      expect(document.querySelector('p').textContent).toBe(titleGb)
 
       fireEvent.click(document.querySelector('.nb-NO button'))
 
-      expect(document.querySelector('p').textContent).toBe(title_nb)
+      expect(document.querySelector('p').textContent).toBe(titleNb)
     })
 
     it('should support nested providers handling locales', () => {
@@ -176,12 +176,12 @@ describe('Provider', () => {
         fireEvent.click(document.querySelectorAll(`.${locale} button`)[1])
       }
 
-      expect(getRootElement().textContent).toBe(title_nb)
-      expect(getNestedElement().textContent).toBe(title_gb)
+      expect(getRootElement().textContent).toBe(titleNb)
+      expect(getNestedElement().textContent).toBe(titleGb)
 
       switchNestedTo('nb-NO')
 
-      expect(getNestedElement().textContent).toBe(title_nb)
+      expect(getNestedElement().textContent).toBe(titleNb)
       expect(
         document
           .querySelectorAll('.nb-NO button')[1]
@@ -189,7 +189,7 @@ describe('Provider', () => {
       ).toBe('true')
 
       // should not have changed
-      expect(getRootElement().textContent).toBe(title_nb)
+      expect(getRootElement().textContent).toBe(titleNb)
 
       switchRootTo('en-GB')
 
@@ -198,7 +198,7 @@ describe('Provider', () => {
           .querySelectorAll('.en-GB button')[0]
           .getAttribute('aria-pressed')
       ).toBe('true')
-      expect(getRootElement().textContent).toBe(title_gb)
+      expect(getRootElement().textContent).toBe(titleGb)
 
       switchRootTo('en-US')
 
@@ -207,10 +207,10 @@ describe('Provider', () => {
           .querySelectorAll('.en-US button')[0]
           .getAttribute('aria-pressed')
       ).toBe('true')
-      expect(getRootElement().textContent).toBe(title_gb)
+      expect(getRootElement().textContent).toBe(titleGb)
 
       // should not have changed
-      expect(getNestedElement().textContent).toBe(title_nb)
+      expect(getNestedElement().textContent).toBe(titleNb)
     })
 
     it('should inherit locale in nested providers', () => {
@@ -231,7 +231,7 @@ describe('Provider', () => {
       )
 
       expect(receivedLocale).toBe(locale)
-      expect(document.querySelectorAll('p')[0].textContent).toBe(title_nb)
+      expect(document.querySelectorAll('p')[0].textContent).toBe(titleNb)
     })
 
     it('should change locale in root context', () => {
@@ -418,13 +418,13 @@ describe('Provider', () => {
         fireEvent.click(document.querySelectorAll(`.${locale} button`)[1])
       }
 
-      expect(getRootElement().textContent).toBe(title_gb)
+      expect(getRootElement().textContent).toBe(titleGb)
       expect(
         document
           .querySelectorAll('.en-GB button')[0]
           .getAttribute('aria-pressed')
       ).toBe('true')
-      expect(getNestedElement().textContent).toBe(title_nb)
+      expect(getNestedElement().textContent).toBe(titleNb)
       expect(
         document
           .querySelectorAll('.nb-NO button')[1]
@@ -434,13 +434,13 @@ describe('Provider', () => {
       // First, let's change the inner
       switchNestedTo('nb-NO')
 
-      expect(getRootElement().textContent).toBe(title_gb)
+      expect(getRootElement().textContent).toBe(titleGb)
       expect(
         document
           .querySelectorAll('.en-GB button')[0]
           .getAttribute('aria-pressed')
       ).toBe('true')
-      expect(getNestedElement().textContent).toBe(title_nb)
+      expect(getNestedElement().textContent).toBe(titleNb)
       expect(
         document
           .querySelectorAll('.nb-NO button')[1]
@@ -449,13 +449,13 @@ describe('Provider', () => {
 
       switchNestedTo('en-GB')
 
-      expect(getRootElement().textContent).toBe(title_gb)
+      expect(getRootElement().textContent).toBe(titleGb)
       expect(
         document
           .querySelectorAll('.en-GB button')[0]
           .getAttribute('aria-pressed')
       ).toBe('true')
-      expect(getNestedElement().textContent).toBe(title_gb)
+      expect(getNestedElement().textContent).toBe(titleGb)
       expect(
         document
           .querySelectorAll('.en-GB button')[1]
@@ -464,13 +464,13 @@ describe('Provider', () => {
 
       switchNestedTo('nb-NO')
 
-      expect(getRootElement().textContent).toBe(title_nb)
+      expect(getRootElement().textContent).toBe(titleNb)
       expect(
         document
           .querySelectorAll('.nb-NO button')[0]
           .getAttribute('aria-pressed')
       ).toBe('true')
-      expect(getNestedElement().textContent).toBe(title_nb)
+      expect(getNestedElement().textContent).toBe(titleNb)
       expect(
         document
           .querySelectorAll('.nb-NO button')[1]
@@ -480,13 +480,13 @@ describe('Provider', () => {
       // Now, let's change the outer
       switchRootTo('en-GB')
 
-      expect(getRootElement().textContent).toBe(title_gb)
+      expect(getRootElement().textContent).toBe(titleGb)
       expect(
         document
           .querySelectorAll('.en-GB button')[0]
           .getAttribute('aria-pressed')
       ).toBe('true')
-      expect(getNestedElement().textContent).toBe(title_nb)
+      expect(getNestedElement().textContent).toBe(titleNb)
       expect(
         document
           .querySelectorAll('.nb-NO button')[1]

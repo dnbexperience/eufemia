@@ -2013,7 +2013,7 @@ describe('Modal trigger', () => {
     ).toBe('label')
   })
 
-  it('will not act as a HelpButton if only trigger_text was given', () => {
+  it('will not act as a HelpButton if only triggerText was given', () => {
     render(<Modal {...props} triggerAttributes={{ text: 'text' }} />)
     expect(
       document.querySelector('button.dnb-modal__trigger')

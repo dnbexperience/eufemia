@@ -182,10 +182,10 @@ const accordionHeaderDefaultProps = {
 }
 
 export const AccordionHeader = ({
-  iconSize: icon_size_default = 'medium',
+  iconSize: iconSizeDefault = 'medium',
   ...restOfProps
 }: AccordionHeaderProps) => {
-  const props = { iconSize: icon_size_default, ...restOfProps }
+  const props = { iconSize: iconSizeDefault, ...restOfProps }
 
   const [isHovering, setIsHovering] = useState<boolean>(false)
   const [hasClicked, setHasClicked] = useState<boolean>(false)

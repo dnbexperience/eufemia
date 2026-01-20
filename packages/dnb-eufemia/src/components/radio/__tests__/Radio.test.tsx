@@ -35,11 +35,11 @@ describe('Radio component', () => {
   })
 
   it('has "onChange" event which will trigger on a input change', () => {
-    const my_event = jest.fn()
-    render(<Radio onChange={my_event} checked={false} group={null} />)
+    const myEvent = jest.fn()
+    render(<Radio onChange={myEvent} checked={false} group={null} />)
     fireEvent.click(document.querySelector('input'))
-    expect(my_event.mock.calls.length).toBe(1)
-    expect(my_event.mock.calls[0][0].checked).toBe(true)
+    expect(myEvent.mock.calls.length).toBe(1)
+    expect(myEvent.mock.calls[0][0].checked).toBe(true)
   })
 
   it('does handle controlled vs uncontrolled state properly', () => {
