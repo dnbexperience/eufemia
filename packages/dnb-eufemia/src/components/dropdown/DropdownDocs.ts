@@ -84,19 +84,9 @@ export const DropdownProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  preventSelection: {
-    doc: 'If set to `true`, no permanent selection will be made. Defaults to `false`.',
-    type: 'boolean',
-    status: 'optional',
-  },
-  actionMenu: {
-    doc: 'Same as `preventSelection`, but the DrawerList will be opened from the bottom of the page for mobile devices. Defaults to `false`.',
-    type: 'boolean',
-    status: 'optional',
-  },
-  moreMenu: {
-    doc: 'Same as `preventSelection`, but the "selection area" (given title) will not be visible and the icon `more` (three dots) is used. Defaults to `false`.',
-    type: 'boolean',
+  mode: {
+    doc: 'Defines the dropdown behavior mode. `default` (normal selection), `prevent` (no permanent selection), `action-menu` (prevent selection + bottom drawer on mobile), `more-menu` (prevent selection + icon-only trigger with three dots). Defaults to `default`.',
+    type: ['default', 'prevent', 'action-menu', 'more-menu'],
     status: 'optional',
   },
   align: {
