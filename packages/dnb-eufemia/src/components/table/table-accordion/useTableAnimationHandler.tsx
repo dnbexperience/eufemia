@@ -54,7 +54,7 @@ export function useTableAnimationHandler({
           break
 
         case 'closed':
-          tableAccordionContext.onClosed?.(event)
+          tableAccordionContext.onClose?.(event)
           break
       }
 
