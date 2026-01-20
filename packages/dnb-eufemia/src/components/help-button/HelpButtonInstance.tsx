@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import {
   convertJsxToString,
   extendPropsWithContext,
@@ -31,7 +31,7 @@ export default function HelpButtonInstance(localProps: ButtonProps) {
   const { size, icon, onClick, className, ...rest } = props
 
   const params = {
-    className: classnames(
+    className: clsx(
       'dnb-help-button',
       createSpacingClasses(props),
       className

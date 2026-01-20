@@ -1,5 +1,5 @@
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import Space, { SpaceAllProps } from '../space/Space'
 
 export type Columns = number
@@ -35,7 +35,7 @@ function GridItem(props: AllProps) {
     ...style,
   }
 
-  const cn = classnames('dnb-grid-item', className)
+  const cn = clsx('dnb-grid-item', className)
 
   return (
     <Space element={element} className={cn} style={styleObj} {...rest}>

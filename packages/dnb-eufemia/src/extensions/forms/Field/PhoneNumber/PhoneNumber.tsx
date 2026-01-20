@@ -8,7 +8,7 @@ import React, {
 import * as z from 'zod'
 import { Autocomplete } from '../../../../components'
 import { InputMaskedProps } from '../../../../components/InputMasked'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import {
   CountryISO,
   type CountryLang,
@@ -488,7 +488,7 @@ function PhoneNumber(props: Props = {}) {
 
   const compositionFieldProps: CompositionFieldProps = {
     id,
-    className: classnames('dnb-forms-field-phone-number', className),
+    className: clsx('dnb-forms-field-phone-number', className),
     width: 'stretch',
     label,
     labelDescription,
@@ -501,7 +501,7 @@ function PhoneNumber(props: Props = {}) {
     <CompositionField {...compositionFieldProps}>
       {!omitCountryCodeField && (
         <Autocomplete
-          className={classnames(
+          className={clsx(
             'dnb-forms-field-phone-number__country-code',
             countryCodeFieldClassName
           )}
@@ -532,7 +532,7 @@ function PhoneNumber(props: Props = {}) {
         />
       )}
       <StringField
-        className={classnames(
+        className={clsx(
           'dnb-forms-field-phone-number__number',
           numberFieldClassName
         )}

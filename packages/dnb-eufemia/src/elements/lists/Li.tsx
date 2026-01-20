@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import E, { ElementProps } from '../Element'
 import Ul from './Ul'
 import Ol from './Ol'
@@ -22,7 +22,7 @@ const Li = ({ className, ...props }: LiAllProps = {}) => {
   if (Array.isArray(props.children)) {
     props.children.forEach((Comp) => {
       if (Comp && (Comp.type === Ul || Comp.type === Ol)) {
-        className = classnames(className, 'is-nested')
+        className = clsx(className, 'is-nested')
       }
     })
   }
