@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import Button, { ButtonProps } from '../button/Button'
 import HeightAnimation from '../height-animation/HeightAnimation'
 import { applyPageFocus } from '../../shared/helpers'
@@ -52,7 +52,7 @@ const SkipContent = (localProps: SkipContentAllProps) => {
   const ref = React.useRef<HTMLElement>()
   const timeout = React.useRef<NodeJS.Timeout>()
 
-  const classes = classnames(
+  const classes = clsx(
     'dnb-skip-content',
     visible && 'dnb-skip-content--visible',
     keepReturnActive && 'dnb-skip-content__return--active',
@@ -153,7 +153,7 @@ export type SkipContentReturnProps = SkipContentAllProps
 const SkipContentReturn = (localProps: SkipContentReturnProps) => {
   const { selector, className, ...props } = localProps
 
-  const classes = classnames('dnb-skip-content__return', className)
+  const classes = clsx('dnb-skip-content__return', className)
 
   return (
     <SkipContent

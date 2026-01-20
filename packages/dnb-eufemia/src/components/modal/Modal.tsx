@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { SuffixContext } from '../../shared/helpers/Suffix'
 import Context, { ContextProps } from '../../shared/Context'
 import {
@@ -516,7 +516,7 @@ class Modal extends React.PureComponent<ModalPropTypes, ModalState> {
               title={title}
               onClick={this.toggleOpenClose}
               innerRef={this._triggerRef}
-              className={classnames(
+              className={clsx(
                 'dnb-modal__trigger',
                 createSpacingClasses(rest as SpacingProps),
                 usedTriggerAttributes.className

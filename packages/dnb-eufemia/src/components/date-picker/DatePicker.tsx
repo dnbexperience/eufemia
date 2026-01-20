@@ -13,7 +13,7 @@ import React, {
   useState,
 } from 'react'
 
-import classnames from 'classnames'
+import clsx from 'clsx'
 import {
   warn,
   extendPropsWithContext,
@@ -641,7 +641,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
   }, [range, translation, dates, context.locale])
 
   const mainParams = {
-    className: classnames(
+    className: clsx(
       'dnb-date-picker',
       status && `dnb-date-picker__status--${statusState}`,
       labelDirection && `dnb-date-picker--${labelDirection}`,
@@ -661,7 +661,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
     lang: context.locale,
   } as HTMLProps<HTMLSpanElement>
 
-  const containerClassNames = classnames(
+  const containerClassNames = clsx(
     'dnb-date-picker__container',
     opened && 'dnb-date-picker__container--opened',
     !opened && 'dnb-date-picker__container--closed',
