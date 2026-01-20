@@ -64,7 +64,7 @@ export const AutocompleteStatusErrorExample = () => (
         status="Error"
         statusState="error"
         showSubmitButton
-        opened
+        open
         noAnimation
         preventClose
         direction="bottom"
@@ -406,7 +406,7 @@ export const AutocompleteOpened = () => {
         <Autocomplete
           label="Label"
           inputValue="lord"
-          opened
+          open
           noAnimation
           direction="bottom"
           preventClose
@@ -417,7 +417,7 @@ export const AutocompleteOpened = () => {
           label="Label"
           inputValue="angry"
           skipPortal
-          opened
+          open
           noAnimation
           direction="bottom"
           preventClose

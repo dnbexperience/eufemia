@@ -171,7 +171,7 @@
     }
   }
 
-  &--opened .dnb-input,
+  &--open .dnb-input,
   &:not(#{&}__status--error)
     .dnb-form-label:hover
     ~ &__inner
@@ -190,7 +190,7 @@
     }
   }
 
-  &__status--error:not(#{&}--opened)
+  &__status--error:not(#{&}--open)
     .dnb-form-label:hover
     ~ &__inner
     .dnb-input:not([data-input-state='disabled']) {

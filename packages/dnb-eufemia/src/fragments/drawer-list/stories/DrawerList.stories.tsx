@@ -29,7 +29,7 @@ const CustomStyle = styled.div`
 
 const ref = React.createRef<HTMLInputElement>()
 const MagicOpen = (props) => {
-  const [opened, setOpened] = React.useState(false)
+  const [open, setOpen] = React.useState(false)
   const [selected, setSelected] = React.useState('C')
 
   const list = [
@@ -50,21 +50,21 @@ const MagicOpen = (props) => {
   return (
     <>
       <Input
-        onFocus={() => setOpened(true)}
+        onFocus={() => setOpen(true)}
         placeholder="Search for items ..."
         icon="chevron_down"
         innerRef={ref}
       />
       <Drawer
         wrapperElement={ref.current}
-        opened={opened}
+        open={open}
         onSelect={(e) => {
           console.log('onSelect', e)
         }}
         onChange={(e) => {
           console.log('onChange', e)
         }}
-        onClose={() => setOpened(false)}
+        onClose={() => setOpen(false)}
         {...props}
       >
         <DrawerList>
@@ -92,23 +92,23 @@ const MagicOpen = (props) => {
 }
 
 const DrawerListWithState = (props) => {
-  const [opened, setOpened] = React.useState(false)
+  const [open, setOpen] = React.useState(false)
 
   return (
     <>
       <ToggleButton
         id="ToggleButton"
         text="Toggle"
-        checked={opened}
-        icon={'chevron_' + (opened ? 'up' : 'down')}
+        checked={open}
+        icon={'chevron_' + (open ? 'up' : 'down')}
         iconPosition="left"
-        onChange={({ checked }) => setOpened(checked)}
+        onChange={({ checked }) => setOpen(checked)}
       />
       <DrawerList
         keepOpen
         data={['A', 'B', 'C']}
-        opened={opened}
-        onClose={() => setOpened(false)}
+        open={open}
+        onClose={() => setOpen(false)}
         wrapperElement="#ToggleButton"
         {...props}
       />
@@ -120,7 +120,7 @@ const DrawerStory = () => {
   return (
     <Wrapper>
       <Box>
-        <Drawer opened noAnimation preventClose>
+        <Drawer open noAnimation preventClose>
           Empty
         </Drawer>
       </Box>
