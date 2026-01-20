@@ -239,10 +239,12 @@ export function buildMetadata({
 
 export async function writeMetadataFile({
   meta,
+  siteDir,
   metadataRoot,
   dirForExtras,
 }: {
   meta: Record<string, any>
+  siteDir: string
   metadataRoot: string
   dirForExtras: string
 }) {
@@ -267,7 +269,7 @@ export async function writeIndexFile({
     path.join(llmRoot, 'index.json'),
     results.map((r) => ({
       slug: r.slug,
-      path: toWorkspacePath(r.outFile, siteDir),
+      metadataUrl: toPublicUrl(joinSlug(r.slug, 'metadata.json')),
     })),
     { spaces: 2 }
   )
@@ -312,13 +314,29 @@ async function loadResultsFromIndex(llmRoot: string, siteDir: string) {
     }
     return entries.map((entry) => ({
       slug: entry.slug,
-      outFile: path.isAbsolute(entry.path)
-        ? entry.path
-        : path.join(siteDir, entry.path),
+      outFile: resolveMetadataPathFromIndexEntry(entry, siteDir),
     }))
   } catch {
     return []
   }
+}
+
+function resolveMetadataPathFromIndexEntry(
+  entry: { slug?: string; path?: string },
+  siteDir: string
+) {
+  if (entry?.path) {
+    return path.isAbsolute(entry.path)
+      ? entry.path
+      : path.join(siteDir, entry.path)
+  }
+  const slug = String(entry?.slug || '')
+    .replace(/^\//, '')
+    .replace(/\/$/, '')
+  if (!slug) {
+    return ''
+  }
+  return path.join(siteDir, 'public', slug, 'metadata.json')
 }
 
 export function toWorkspacePath(abs: string, siteDir: string) {
@@ -345,7 +363,7 @@ export function toPublicUrl(slugPath: string) {
 
 export async function findEntryMdxFiles(docsRoot: string) {
   const files = await listFilesRecursive(docsRoot)
-  return files.filter((f) => {
+  const candidates = files.filter((f) => {
     if (!f.endsWith('.mdx')) {
       return false
     }
@@ -368,6 +386,15 @@ export async function findEntryMdxFiles(docsRoot: string) {
     }
     return true
   })
+  const withDraftFlags = await Promise.all(
+    candidates.map(async (file) => ({
+      file,
+      isDraft: await isDraftMdx(file),
+    }))
+  )
+  return withDraftFlags
+    .filter((entry) => !entry.isDraft)
+    .map((entry) => entry.file)
 }
 
 async function listFilesRecursive(dir: string) {
@@ -382,6 +409,23 @@ async function listFilesRecursive(dir: string) {
     }
   }
   return out
+}
+
+async function isDraftMdx(file: string) {
+  try {
+    const src = await fs.readFile(file, 'utf-8')
+    const { attributes } = fm(src)
+    const raw = attributes && (attributes as any).draft
+    if (raw === true) {
+      return true
+    }
+    if (typeof raw === 'string' && raw.toLowerCase() === 'true') {
+      return true
+    }
+  } catch {
+    return false
+  }
+  return false
 }
 
 export async function findExisting(candidates: string[]) {
@@ -661,6 +705,12 @@ export function buildLlmsText(
   lines.push(`Version: ${version}`)
   lines.push(`GeneratedAt: ${generatedAt}`)
   lines.push('')
+  lines.push('## Quick Reference')
+  lines.push('')
+  lines.push(
+    `- [Eufemia quick reference](${PUBLIC_URL}/uilib/usage/first-steps/quick-reference.md): A compact, practical guide with setup, components, forms, and key conventions.`
+  )
+  lines.push('')
 
   const filtered = results.filter((e) => {
     try {
@@ -680,7 +730,7 @@ export function buildLlmsText(
     }
     byGroup.get(g)?.push(entry)
   }
-  const order = ['components', 'extensions', 'elements', 'unlisted']
+  const order = ['components', 'extensions', 'elements']
   const title = (g: string) =>
     g === 'components'
       ? 'Components'
@@ -703,6 +753,19 @@ export function buildLlmsText(
     lines.push(`- [${meta.name}](${mdCopy}): ${desc}`)
     lines.push('')
   }
+  const rest = filtered.filter(
+    (entry) => !order.includes(entry.meta?.group || 'unlisted')
+  )
+  if (rest.length > 0) {
+    lines.push('## General')
+    lines.push('')
+    for (const { meta } of rest) {
+      pushEntry(meta)
+      if (meta?.slug) {
+        printed.add(meta.slug)
+      }
+    }
+  }
   for (const g of order) {
     const list = byGroup.get(g)
     if (!list || list.length === 0) {
@@ -718,15 +781,6 @@ export function buildLlmsText(
       if (meta?.slug) {
         printed.add(meta.slug)
       }
-    }
-  }
-
-  const rest = filtered.filter((e) => !printed.has(e?.meta?.slug))
-  if (rest.length > 0) {
-    lines.push('## Other')
-    lines.push('')
-    for (const { meta } of rest) {
-      pushEntry(meta)
     }
   }
 
@@ -988,11 +1042,13 @@ function addDocsFromExport(
     if (!entry || typeof entry !== 'object') {
       continue
     }
-    const normalized = {
+    const normalized: Record<string, any> = {
       doc: String((entry as any).doc ?? (entry as any).description ?? ''),
       type: (entry as any).type ?? null,
       status: (entry as any).status ?? null,
-      defaultValue: (entry as any).defaultValue ?? null,
+    }
+    if (Object.hasOwn(entry, 'defaultValue')) {
+      normalized.defaultValue = (entry as any).defaultValue ?? null
     }
     if (exportName.includes('Events')) {
       out.events[key] = normalized
@@ -1591,8 +1647,7 @@ function replaceComponentUsages(
   content: string,
   componentCode: Map<string, ComponentEntry | string>
 ) {
-  const componentRegex =
-    /<([A-Z][A-Za-z0-9_]*(?:\.[A-Za-z0-9_]+)*)\s*\/>/g
+  const componentRegex = /<([A-Z][A-Za-z0-9_]*(?:\.[A-Za-z0-9_]+)*)\s*\/>/g
 
   return content.replace(componentRegex, (match, name) => {
     const entry = componentCode.get(name)

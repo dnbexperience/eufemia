@@ -100,6 +100,7 @@ export const onPostBuild = async ({
 
     const { outFile } = await writeMetadataFile({
       meta,
+      siteDir,
       metadataRoot,
       dirForExtras,
     })
