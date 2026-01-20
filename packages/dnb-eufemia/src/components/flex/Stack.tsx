@@ -1,5 +1,5 @@
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import Container from './Container'
 import type { Props as FlexContainerProps } from './Container'
 
@@ -21,7 +21,7 @@ function Stack(props: Props) {
   return (
     <Container
       element="section"
-      className={classnames('dnb-flex-stack', className)}
+      className={clsx('dnb-flex-stack', className)}
       direction={direction}
       alignSelf={alignSelf}
       align={align}

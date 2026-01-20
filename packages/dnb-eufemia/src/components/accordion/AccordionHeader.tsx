@@ -11,7 +11,7 @@ import {
   extendPropsWithContext,
 } from '../../shared/component-helper'
 import IconPrimary from '../icon-primary/IconPrimary'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import AccordionContext from './AccordionContext'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import {
@@ -38,7 +38,7 @@ function AccordionHeaderTitle({
 }: AccordionHeaderTitleProps) {
   return (
     <span
-      className={classnames(
+      className={clsx(
         'dnb-accordion__header__title',
         createSpacingClasses(rest)
       )}
@@ -58,7 +58,7 @@ function AccordionHeaderDescription({
 }: AccordionHeaderDescriptionProps) {
   return children ? (
     <span
-      className={classnames(
+      className={clsx(
         'dnb-accordion__header__description',
         createSpacingClasses(rest)
       )}
@@ -78,7 +78,7 @@ function AccordionHeaderContainer({
 }: AccordionHeaderContainerProps) {
   return children ? (
     <span
-      className={classnames(
+      className={clsx(
         'dnb-accordion__header__container',
         createSpacingClasses(rest)
       )}
@@ -118,7 +118,7 @@ function AccordionHeaderIcon({
   ) as IconIcon
   return (
     <span
-      className={classnames(
+      className={clsx(
         'dnb-accordion__header__icon',
         iconPosition && `dnb-accordion__header__icon--${iconPosition}`
       )}
@@ -363,7 +363,7 @@ export const AccordionHeader = ({
     'aria-expanded': context.expanded,
     role: 'button',
     tabIndex: 0,
-    className: classnames(
+    className: clsx(
       'dnb-accordion__header',
       variant && `dnb-accordion__header--${variant}`,
       context.expanded && 'dnb-accordion__header--expanded',

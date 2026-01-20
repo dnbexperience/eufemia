@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import type { SpacingProps } from '../../shared/types'
 import { validateDOMAttributes, warn } from '../../shared/component-helper'
@@ -9,7 +9,7 @@ import useStatSkeleton from './useStatSkeleton'
 import Provider from '../../shared/Provider'
 
 type ContentOwnProps = {
-  element?: keyof JSX.IntrinsicElements
+  element?: React.ElementType
   direction?: 'horizontal' | 'vertical'
   skeleton?: SkeletonShow
 }
@@ -46,7 +46,7 @@ function Content(props: ContentProps) {
   const attributes = validateDOMAttributes(props, {
     ...rest,
     style,
-    className: classnames(
+    className: clsx(
       'dnb-stat',
       'dnb-stat__content-item',
       `dnb-stat__content-item--${direction}`,

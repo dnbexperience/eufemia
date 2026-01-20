@@ -1,5 +1,5 @@
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import type { SpacingProps } from '../../shared/types'
 import { warn } from '../../shared/component-helper'
 import type { SkeletonShow } from '../skeleton/Skeleton'
@@ -13,7 +13,7 @@ const infoContextValue = {
 } as const
 
 type InfoOwnProps = {
-  element?: keyof JSX.IntrinsicElements
+  element?: keyof React.JSX.IntrinsicElements
   variant?:
     | 'plain'
     | 'subtle'
@@ -60,7 +60,7 @@ function Info(props: InfoProps) {
       {...rest}
       id={id}
       element={Element}
-      className={classnames(
+      className={clsx(
         'dnb-stat',
         'dnb-stat__info',
         `dnb-stat__info--${variant}`,

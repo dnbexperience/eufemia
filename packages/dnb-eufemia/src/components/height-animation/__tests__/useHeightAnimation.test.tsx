@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import {
   render,
   fireEvent,
@@ -35,7 +35,7 @@ describe('useHeightAnimation', () => {
 
     return (
       <div
-        className={classnames(
+        className={clsx(
           'wrapper-element',
           isInDOM && 'is-in-dom',
           isVisible && 'is-visible',

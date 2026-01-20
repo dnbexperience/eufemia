@@ -7,7 +7,7 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import Context from '../../shared/Context'
 import {
   warn,
@@ -603,7 +603,7 @@ export default class GlobalStatus extends React.PureComponent {
     const wrapperParams = {
       id,
       key: 'global-status',
-      className: classnames(
+      className: clsx(
         'dnb-global-status__wrapper',
         'dnb-no-focus',
         createSkeletonClass('font', skeleton, this.context),
@@ -629,10 +629,7 @@ export default class GlobalStatus extends React.PureComponent {
     const contentToRender = props.text || props.children
 
     const params = {
-      className: classnames(
-        'dnb-global-status',
-        `dnb-global-status--${state}`
-      ),
+      className: clsx('dnb-global-status', `dnb-global-status--${state}`),
       ...attributes,
     }
 
@@ -680,7 +677,7 @@ export default class GlobalStatus extends React.PureComponent {
             {hasContent && (
               <div className="dnb-global-status__message">
                 <div
-                  className={classnames(
+                  className={clsx(
                     'dnb-global-status__message__content',
                     !renderedItems && 'dnb-space__bottom--small'
                   )}

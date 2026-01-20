@@ -4,7 +4,7 @@
  */
 
 import React, { createContext, useContext } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import Typography, {
   TypographySize,
   TypographyProps,
@@ -36,7 +36,7 @@ function P(props: PProps) {
         element={
           element === 'p' && paragraphContext?.isNested ? 'span' : element
         }
-        className={classnames('dnb-p', className)}
+        className={clsx('dnb-p', className)}
         proseMaxWidth={proseMaxWidth}
         {...rest}
       />

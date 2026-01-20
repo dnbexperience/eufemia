@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from '@emotion/styled'
 import { gridStyle } from './GridStyle'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { Space } from '@dnb/eufemia/src/components'
 import { SpaceAllProps } from '@dnb/eufemia/src/components/Space'
 
@@ -28,7 +28,7 @@ export const Wrapper = ({
 }: IWrapper) => (
   <React.StrictMode>
     <MainWrapper
-      className={classnames(
+      className={clsx(
         !skipCoreStyle && 'dnb-core-style',
         showOverflow && 'show-overflow',
         className

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { useTranslation } from '../../../hooks'
 import ToolbarContext from './ToolbarContext'
 import FieldBoundaryContext from '../../../DataContext/FieldBoundary/FieldBoundaryContext'
@@ -29,7 +29,7 @@ export default function Toolbar(props: Props) {
 
   return (
     <Space
-      className={classnames('dnb-forms-section-toolbar', className)}
+      className={clsx('dnb-forms-section-toolbar', className)}
       {...rest}
     >
       <Hr space={0} />

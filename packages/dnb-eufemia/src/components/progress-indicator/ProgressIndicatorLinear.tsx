@@ -4,7 +4,7 @@
  */
 
 import React, { useRef, useEffect } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { validateDOMAttributes } from '../../shared/component-helper'
 import { ProgressIndicatorLinearAllProps } from './types'
 
@@ -56,7 +56,7 @@ function ProgressIndicatorLine(props: ProgressIndicatorLinearAllProps) {
 
   return (
     <span
-      className={classnames(
+      className={clsx(
         'dnb-progress-indicator__linear',
         size && `dnb-progress-indicator__linear--${size}`
       )}
@@ -69,7 +69,7 @@ function ProgressIndicatorLine(props: ProgressIndicatorLinearAllProps) {
       {...remainingDOMAttributes}
     >
       <span
-        className={classnames(
+        className={clsx(
           'dnb-progress-indicator__linear__bar',
           hasProgressValue &&
             'dnb-progress-indicator__linear__bar-transition',
@@ -83,7 +83,7 @@ function ProgressIndicatorLine(props: ProgressIndicatorLinearAllProps) {
       />
       {!hasProgressValue && (
         <span
-          className={classnames(
+          className={clsx(
             'dnb-progress-indicator__linear__bar',
             'dnb-progress-indicator__linear__bar2-animation'
           )}

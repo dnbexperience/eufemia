@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { AriaLiveAllProps } from './types'
 import { extendPropsWithContext } from '../../shared/component-helper'
 
@@ -90,7 +90,7 @@ export default function useAriaLive(props: AriaLiveAllProps) {
     'aria-live': disabled && !showTextAnnouncement ? 'off' : politeness,
     'aria-atomic': atomic,
     'aria-relevant': relevant,
-    className: classnames(
+    className: clsx(
       'dnb-aria-live',
       !showAnnouncement && 'dnb-sr-only',
       className

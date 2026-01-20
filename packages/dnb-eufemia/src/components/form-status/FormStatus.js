@@ -7,9 +7,8 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import classnames from 'classnames'
-import Context from '../../shared/Context'
-import useTheme from '../../shared/useTheme'
+import clsx from 'clsx'
+import { useTheme, Context } from '../../shared'
 import {
   isTrue,
   makeUniqueId,
@@ -383,7 +382,7 @@ export default class FormStatus extends React.PureComponent {
       typeof contentToRender === 'string' && contentToRender.length > 0
 
     const params = {
-      className: classnames(
+      className: clsx(
         'dnb-form-status',
         state && `dnb-form-status--${state}`,
         `dnb-form-status__size--${size}`,
@@ -410,7 +409,7 @@ export default class FormStatus extends React.PureComponent {
     }
 
     const textParams = {
-      className: classnames(
+      className: clsx(
         'dnb-form-status__text',
         createSkeletonClass('font', skeleton, this.context)
       ),
@@ -418,7 +417,7 @@ export default class FormStatus extends React.PureComponent {
     }
 
     const shellParams = {
-      className: classnames(
+      className: clsx(
         'dnb-form-status__shell',
         createSpacingClasses({ space: shellSpace })
       ),

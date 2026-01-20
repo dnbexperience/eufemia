@@ -11,7 +11,7 @@ import React, {
   useRef,
   useState,
 } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import PopoverCloseButton from './internal/PopoverCloseButton'
 import useId from '../../shared/helpers/useId'
 import useTranslation from '../../shared/useTranslation'
@@ -498,7 +498,7 @@ export default function Popover(props: PopoverProps) {
   } = {
     ...restTriggerAttrs,
     ref: assignTriggerRef,
-    className: classnames(
+    className: clsx(
       'dnb-popover__trigger',
       triggerAttrClassName,
       triggerClassName
@@ -577,10 +577,7 @@ export default function Popover(props: PopoverProps) {
       variant={closeButtonProps?.variant ?? 'tertiary'}
       icon={closeButtonProps?.icon ?? 'close'}
       {...closeButtonProps}
-      className={classnames(
-        'dnb-popover__close',
-        closeButtonProps?.className
-      )}
+      className={clsx('dnb-popover__close', closeButtonProps?.className)}
       title={closeButtonProps?.title || tr.closeButtonTitle}
       onClick={(event) => {
         closeButtonProps?.onClick?.(event)
@@ -592,7 +589,7 @@ export default function Popover(props: PopoverProps) {
     />
   )
 
-  const popoverClassName = classnames(
+  const popoverClassName = clsx(
     baseClassNames,
     theme && baseClassNames.map((name) => `${name}--theme-${theme}`),
     !hideOutline && baseClassNames.map((name) => `${name}--show-outline`),
@@ -618,7 +615,7 @@ export default function Popover(props: PopoverProps) {
       )}
 
       <span
-        className={classnames(
+        className={clsx(
           'dnb-popover__content',
           'dnb-no-focus',
           contentClassName

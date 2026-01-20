@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import Context from '../../shared/Context'
 import Provider from '../../shared/Provider'
 import { createSpacingClasses } from '../space/SpacingHelper'
@@ -157,7 +157,7 @@ const Table = (componentProps: TableAllProps) => {
         }}
       >
         <table
-          className={classnames(
+          className={clsx(
             'dnb-table',
             variant && `dnb-table__variant--${variant}`,
             size && `dnb-table__size--${size}`,

@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import {
   validateDOMAttributes,
   isTrue,
@@ -99,7 +99,7 @@ export default class ContentWrapper extends React.PureComponent<ContentWrapperPr
               })
             : 'div'
         }
-        className={classnames(
+        className={clsx(
           'dnb-tabs__content',
           'dnb-no-focus',
           contentSpacing

@@ -5,7 +5,7 @@ import SharedContext, { InternalLocale } from '../../shared/Context'
 import { Li, Ol, Ul } from '../../elements'
 import { UlAllProps } from '../../elements/Ul'
 import { OlAllProps } from '../../elements/Ol'
-import classNames from 'classnames'
+import classNames from 'clsx'
 
 export type ListFormatProps = {
   /**

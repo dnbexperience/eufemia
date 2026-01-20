@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import PropTypes from 'prop-types'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import Context from '../../shared/Context'
 import ProgressIndicator from '../progress-indicator/ProgressIndicator'
 
@@ -105,7 +105,7 @@ export function preparePageElement(
     return React.forwardRef(({ className, children, ...props }, ref) => {
       const params = {
         ...props,
-        className: classnames(includeClassName, className),
+        className: clsx(includeClassName, className),
         ref,
       }
       return isTr ? (

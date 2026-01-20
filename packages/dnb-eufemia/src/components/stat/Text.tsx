@@ -1,5 +1,5 @@
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import type {
   TypographySize,
@@ -17,7 +17,7 @@ import type { SkeletonMethods } from '../skeleton/SkeletonHelper'
 
 type TextOwnProps = {
   /** @internal Not documented – used by internal sub-components only. */
-  element?: keyof JSX.IntrinsicElements
+  element?: React.ElementType
   srLabel?: React.ReactNode
   fontSize?: TypographySize
   fontWeight?: TypographyWeight
@@ -70,7 +70,7 @@ function TextInternal(props: TextInternalProps) {
     ...rest,
     'aria-label': ariaLabel,
     style,
-    className: classnames(
+    className: clsx(
       textClassName,
       textClassName && fontSize && `dnb-t__size--${fontSize}`,
       textClassName &&

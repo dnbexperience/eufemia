@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useMemo } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import Button, { ButtonProps } from '../../../../components/Button'
 import { add } from '../../../../icons'
 import IterateItemContext from '../IterateItemContext'
@@ -32,7 +32,7 @@ function OpenButton(props: Props) {
 
   return (
     <Button
-      className={classnames('dnb-forms-iterate__open-button', className)}
+      className={clsx('dnb-forms-iterate__open-button', className)}
       variant="secondary"
       icon={add}
       iconPosition="left"

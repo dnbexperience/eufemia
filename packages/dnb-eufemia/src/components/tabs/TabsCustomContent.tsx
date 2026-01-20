@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import type { SpacingProps } from '../space/types'
 import ContentWrapper from './TabsContentWrapper'
@@ -64,7 +64,7 @@ export default class CustomContent extends React.PureComponent<CustomContentProp
 
     return (
       <div
-        className={classnames(
+        className={clsx(
           'dnb-tabs__content__inner',
           createSpacingClasses(rest),
           className

@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import type { SpacingProps } from '../../shared/types'
 import type {
@@ -14,7 +14,7 @@ import useStatSkeleton from './useStatSkeleton'
 import Provider from '../../shared/Provider'
 
 type LabelOwnProps = {
-  element?: keyof JSX.IntrinsicElements
+  element?: React.ElementType
   srOnly?: boolean
   fontSize?: TypographySize
   fontWeight?: TypographyWeight
@@ -76,7 +76,7 @@ function Label(props: LabelProps) {
   const attributes = validateDOMAttributes(props, {
     ...rest,
     style,
-    className: classnames(
+    className: clsx(
       'dnb-stat',
       'dnb-stat__label',
       `dnb-stat__label--${variant}`,

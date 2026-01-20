@@ -4,7 +4,7 @@
  */
 
 import React, { createContext, useContext } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { SpacingProps } from '../../components/space/types'
 import type { DynamicElement } from '../../shared/types'
 import E from '../Element'
@@ -114,7 +114,7 @@ const Typography = ({
       as={element}
       {...props}
       style={{ ...props.style, ...style }}
-      className={classnames(
+      className={clsx(
         className,
         size && `dnb-t__size--${size}`,
         align && `dnb-t__align--${align}`,

@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { findElementInChildren } from '../../../shared/component-helper'
 import Section, { SectionProps } from '../../section/Section'
 import ModalContext from '../ModalContext'
@@ -69,7 +69,7 @@ export default class ModalHeader extends React.PureComponent<
     return (
       <Section
         style_type="white"
-        className={classnames(className)}
+        className={clsx(className)}
         id={
           showTitle ? 'dnb-modal-' + this.context.id + '-title' : undefined
         }
@@ -77,7 +77,7 @@ export default class ModalHeader extends React.PureComponent<
       >
         {showTitle ? (
           <h1
-            className={classnames(
+            className={clsx(
               'dnb-modal__title', // for tests
               'dnb-space__top--zero',
               'dnb-space__bottom--small',
