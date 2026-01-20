@@ -136,7 +136,7 @@ export const TrEventProperties: PropertiesTableProps = {
     defaultValue: 'undefined',
     status: 'optional',
   },
-  onClosed: {
+  onClose: {
     doc: 'Will emit when table row is closed (after it was open). Returns an object with the table row as the target: `{ target }`.',
     type: '({ target }) => void',
     defaultValue: 'undefined',
