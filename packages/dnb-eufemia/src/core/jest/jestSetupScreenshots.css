@@ -2,8 +2,6 @@
 *,
 html {
   scroll-behavior: auto !important;
-  animation: none !important;
-  transition: none !important;
 }
 
 .sticky-menu,
