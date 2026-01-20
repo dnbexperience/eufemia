@@ -1407,25 +1407,25 @@ describe('Field.Date', () => {
     expect(onReset).toHaveBeenLastCalledWith(expect.anything())
   })
 
-  it('should support onShow event', async () => {
-    const onShow = jest.fn()
+  it('should support onOpen event', async () => {
+    const onOpen = jest.fn()
 
-    render(<Field.Date value="2024-10-31" onShow={onShow} />)
+    render(<Field.Date value="2024-10-31" onOpen={onOpen} />)
 
     await userEvent.click(
       document.querySelector('button.dnb-input__submit-button__button')
     )
 
-    expect(onShow).toHaveBeenCalledTimes(1)
-    expect(onShow).toHaveBeenLastCalledWith(
+    expect(onOpen).toHaveBeenCalledTimes(1)
+    expect(onOpen).toHaveBeenLastCalledWith(
       expect.objectContaining({ date: '2024-10-31' })
     )
   })
 
-  it('should support onHide event', async () => {
-    const onHide = jest.fn()
+  it('should support onClose event', async () => {
+    const onClose = jest.fn()
 
-    render(<Field.Date value="2024-10-31" onHide={onHide} />)
+    render(<Field.Date value="2024-10-31" onClose={onClose} />)
 
     await userEvent.click(
       document.querySelector('button.dnb-input__submit-button__button')
@@ -1439,8 +1439,8 @@ describe('Field.Date', () => {
       ).not.toBeInTheDocument()
     )
 
-    expect(onHide).toHaveBeenCalledTimes(1)
-    expect(onHide).toHaveBeenLastCalledWith(
+    expect(onClose).toHaveBeenCalledTimes(1)
+    expect(onClose).toHaveBeenLastCalledWith(
       expect.objectContaining({ date: '2024-10-31' })
     )
   })
