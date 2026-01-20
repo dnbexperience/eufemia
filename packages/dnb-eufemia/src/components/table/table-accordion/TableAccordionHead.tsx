@@ -40,7 +40,7 @@ export function TableAccordionHead(allProps: TableAccordionHeadProps) {
     noAnimation,
     keepInDOM,
     onClick,
-    onOpened,
+    onOpen,
     onClose,
     count,
     ...props
@@ -192,7 +192,7 @@ export function TableAccordionHead(allProps: TableAccordionHeadProps) {
         noAnimation,
         keepInDOM,
         countTds,
-        onOpened,
+        onOpen,
         onClose,
       }}
     >
