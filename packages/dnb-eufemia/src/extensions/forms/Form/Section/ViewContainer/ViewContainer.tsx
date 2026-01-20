@@ -1,5 +1,5 @@
 import React, { useContext, useMemo } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { convertJsxToString } from '../../../../../shared/component-helper'
 import { Flex } from '../../../../../components'
 import { Props as FlexContainerProps } from '../../../../../components/flex/Container'
@@ -33,7 +33,7 @@ function ViewContainer(props: AllProps) {
     <SectionContainer
       mode="view"
       ariaLabel={ariaLabel}
-      className={classnames('dnb-forms-section-view-block', className)}
+      className={clsx('dnb-forms-section-view-block', className)}
       {...restProps}
     >
       <Flex.Stack>

@@ -1,5 +1,5 @@
 import React, { forwardRef } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { DrawerListDataArrayObject } from './DrawerList'
 
 export type DrawerListItemProps = Omit<
@@ -44,7 +44,7 @@ export const DrawerListItem = forwardRef(function DrawerListItem(
   } = props
 
   const params = {
-    className: classnames(
+    className: clsx(
       className,
       'dnb-drawer-list__option',
       selected && 'dnb-drawer-list__option--selected',
@@ -146,7 +146,7 @@ function DrawerListOptionItem({
 }) {
   return (
     <span
-      className={classnames(['dnb-drawer-list__option__item', className])}
+      className={clsx(['dnb-drawer-list__option__item', className])}
       {...props}
     >
       {children}
@@ -164,7 +164,7 @@ export function DrawerListHorizontalItem({
 }: DrawerListHorizontalItemProps) {
   return (
     <DrawerListOptionItem
-      className={classnames([
+      className={clsx([
         'dnb-drawer-list__option__item--horizontal',
         className,
       ])}

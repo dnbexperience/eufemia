@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useRef } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import Visibility from '../Visibility'
 import DataContext from '../../DataContext/Context'
 import {
@@ -168,7 +168,7 @@ function InfoOverlay(props: Props) {
 
   return (
     <div
-      className={classnames(
+      className={clsx(
         'dnb-forms-info-overlay',
         status && `dnb-forms-info-overlay--${status}`,
         'dnb-no-focus',

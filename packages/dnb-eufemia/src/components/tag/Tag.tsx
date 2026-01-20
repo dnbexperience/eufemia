@@ -1,5 +1,5 @@
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 
 // Components
 import IconPrimary from '../icon-primary/IconPrimary'
@@ -134,7 +134,7 @@ const Tag = (
   const addIcon = usedVariant === 'removable' || variant === 'addable'
   const isInteractive = usedVariant !== 'default'
   const spacingClasses = createSpacingClasses(props)
-  const tagClassNames = classnames(
+  const tagClassNames = clsx(
     'dnb-tag',
     className,
     spacingClasses,

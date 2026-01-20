@@ -6,7 +6,7 @@
  */
 
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import Context from '../../shared/Context'
 import {
   warn,
@@ -926,7 +926,7 @@ export default class Tabs extends React.PureComponent<TabsProps> {
           <div
             key={key}
             aria-hidden={hide ? true : undefined}
-            className={classnames(
+            className={clsx(
               'dnb-tabs__cached',
               hide && 'dnb-tabs__cached--hidden'
             )}
@@ -1005,7 +1005,7 @@ export default class Tabs extends React.PureComponent<TabsProps> {
 
     const params = {
       ...attributes,
-      className: classnames(
+      className: clsx(
         'dnb-tabs',
         createSpacingClasses(this.props),
         className,
@@ -1036,7 +1036,7 @@ export default class Tabs extends React.PureComponent<TabsProps> {
 
     return (
       <div
-        className={classnames(
+        className={clsx(
           'dnb-tabs__tabs',
           align ? `dnb-tabs__tabs--${align}` : null,
           tabsStyle ? `dnb-section dnb-section--${tabsStyle}` : null,
@@ -1057,7 +1057,7 @@ export default class Tabs extends React.PureComponent<TabsProps> {
         <ScrollNavButton
           onMouseDown={this.openPrevTab}
           icon="chevron_left"
-          className={classnames(
+          className={clsx(
             hasScrollbar &&
               (typeof this.state.isFirst !== 'undefined' ||
                 this.hasLastPosition()) &&
@@ -1071,7 +1071,7 @@ export default class Tabs extends React.PureComponent<TabsProps> {
         <ScrollNavButton
           onMouseDown={this.openNextTab}
           icon="chevron_right"
-          className={classnames(
+          className={clsx(
             hasScrollbar &&
               (typeof this.state.isLast !== 'undefined' ||
                 this.hasLastPosition()) &&
@@ -1138,7 +1138,7 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
 
         return (
           <div
-            className={classnames(
+            className={clsx(
               'dnb-tabs__button__snap',
               isFocus && 'focus',
               isSelected && 'selected'
@@ -1150,7 +1150,7 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
               tabIndex="-1"
               id={`${this._id}-tab-${key}`}
               aria-selected={isSelected}
-              className={classnames(
+              className={clsx(
                 'dnb-tabs__button',
                 isFocus && 'focus',
                 isSelected && 'selected'
@@ -1163,7 +1163,7 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
               {...itemParams}
             >
               <span
-                className={classnames(
+                className={clsx(
                   'dnb-tabs__button__title',
                   createSkeletonClass('font', skeleton, this.context)
                 )}
@@ -1271,10 +1271,7 @@ const ScrollNavButton = (props) => {
       bounding
       aria-hidden
       {...props}
-      className={classnames(
-        'dnb-tabs__scroll-nav-button',
-        props.className
-      )}
+      className={clsx('dnb-tabs__scroll-nav-button', props.className)}
     />
   )
 }
