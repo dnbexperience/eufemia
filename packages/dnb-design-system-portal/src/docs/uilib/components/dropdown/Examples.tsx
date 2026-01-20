@@ -279,8 +279,8 @@ export const DropdownIconLeft = () => (
         onChange={({ data: selectedDataItem }) => {
           console.log('onChange', selectedDataItem)
         }}
-        onShow={() => {
-          console.log('onShow')
+        onOpen={() => {
+          console.log('onOpen')
         }}
       />
     </ComponentBox>
