@@ -39,7 +39,7 @@ export function TableAccordionHead(allProps: TableAccordionHeadProps) {
     expanded,
     noAnimation,
     onClick,
-    onOpened,
+    onOpen,
     onClose,
     count,
     ...props
@@ -190,7 +190,7 @@ export function TableAccordionHead(allProps: TableAccordionHeadProps) {
         trIsOpen,
         noAnimation,
         countTds,
-        onOpened,
+        onOpen,
         onClose,
       }}
     >
