@@ -42,7 +42,7 @@ export const DialogConfirmLoggedout = () => {
   return (
     <Dialog
       variant="confirmation"
-      openState={active}
+      open={active}
       icon={LogOutIcon}
       title="Du har blitt logget ut"
       description="For å fortsette må du logge inn igjen."
@@ -466,13 +466,13 @@ const dropdownData = [
 ]
 
 const ModalCloseExample = () => {
-  const [openState, setOpenState] = React.useState(null)
+  const [openState, setOpenState] = React.useState<boolean | null>(null)
   const [count, setCount] = React.useState(0)
 
   React.useEffect(() => {
     let timeout
 
-    if (openState === 'opened') {
+    if (openState === true) {
       timeout = setTimeout(() => {
         console.log('count:', count)
         setCount(count + 1)
@@ -484,16 +484,13 @@ const ModalCloseExample = () => {
 
   return (
     <>
-      <Button
-        text="Set opened state"
-        onClick={() => setOpenState('opened')}
-      />
+      <Button text="Set opened state" onClick={() => setOpenState(true)} />
       <Dialog
         triggerAttributes={{
           text: 'Open Modal and auto close',
         }}
         title="Modal Title"
-        openState={openState}
+        open={openState}
         openModal={(open) => {
           const timeout = setTimeout(open, 3e3)
           return () => clearTimeout(timeout)
@@ -501,7 +498,7 @@ const ModalCloseExample = () => {
         closeModal={(close) => {
           let timeout
 
-          if (openState !== 'opened') {
+          if (openState !== true) {
             console.log('Modal was opened')
             timeout = setTimeout(close, 3e3)
           }
@@ -513,7 +510,7 @@ const ModalCloseExample = () => {
         }}
         onClose={(e) => {
           console.log('onClose', e)
-          setOpenState('closed')
+          setOpenState(false)
         }}
       >
         <Hr />
@@ -553,7 +550,7 @@ const ModalTriggerExample = () => {
                 triggerAttributes={{
                   hidden: true,
                 }}
-                openState="opened"
+                open={true}
                 labelledBy="custom-triggerer"
               >
                 <Section spacing style_type="divider">
@@ -738,7 +735,7 @@ function CloseWithAnimation() {
         text: 'CloseWithAnimation',
       }}
       hideCloseButton
-      openState={modalOpen}
+      open={modalOpen}
       onOpen={() => setModalOpen(true)}
       onClose={() => setModalOpen(false)}
     >
@@ -754,7 +751,7 @@ export const DialogConfirmHideConfirm = () => {
   return (
     <Box>
       <Dialog
-        openState="opened"
+        open={true}
         variant="confirmation"
         icon={WarningIcon}
         title="Beholdning kan ikke flyttes"
@@ -785,7 +782,7 @@ export function WithStrictMode() {
           console.log('triggeredBy', triggeredBy)
           setOpen(false)
         }}
-        openState={open}
+        open={open}
         omitTriggerButton
       >
         <P>
@@ -814,10 +811,10 @@ export function OpenStateInReactV19() {
 
   return (
     <React.StrictMode>
-      openState: {isOpen.toString()}
+      open: {isOpen.toString()}
       <Dialog
         triggerAttributes={{ text: 'Open dialog' }}
-        openState={isOpen}
+        open={isOpen}
         onOpen={() => {
           setIsOpen(true)
         }}

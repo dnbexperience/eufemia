@@ -183,24 +183,21 @@ export default class DrawerListProvider extends React.PureComponent<
   }
 
   componentDidMount() {
-    if (isTrue(this.props.opened)) {
+    if (isTrue(this.props.open)) {
       this.setVisible()
     }
   }
 
   componentDidUpdate(prevProps) {
-    if (
-      this.props.opened !== null &&
-      this.props.opened !== prevProps.opened
-    ) {
-      if (isTrue(this.props.opened)) {
+    if (this.props.open !== null && this.props.open !== prevProps.open) {
+      if (isTrue(this.props.open)) {
         this.setVisible()
-      } else if (isTrue(this.props.opened) === false) {
+      } else if (isTrue(this.props.open) === false) {
         this.setHidden()
       }
     }
 
-    if (this.state.opened) {
+    if (this.state.open) {
       if (
         this.props.data !== prevProps.data &&
         typeof document !== 'undefined' &&
@@ -1153,13 +1150,13 @@ export default class DrawerListProvider extends React.PureComponent<
   }
 
   toggleVisible = (...args) => {
-    return this.state.opened
+    return this.state.open
       ? this.setHidden(...args)
       : this.setVisible(...args)
   }
 
   setVisible = (args = {}, onStateComplete = null) => {
-    if (this.state.opened && this.state.hidden === false) {
+    if (this.state.open && this.state.hidden === false) {
       if (typeof onStateComplete === 'function') {
         onStateComplete(true)
       }
@@ -1174,7 +1171,7 @@ export default class DrawerListProvider extends React.PureComponent<
     const handleSingleComponentCheck = () => {
       this.setState({
         hidden: false,
-        opened: true,
+        open: true,
       })
 
       const animationDelayHandler = () => {
@@ -1237,7 +1234,7 @@ export default class DrawerListProvider extends React.PureComponent<
   }
 
   setHidden = (args = {}, onStateComplete = null) => {
-    if (!this.state.opened || isTrue(this.props.preventClose)) {
+    if (!this.state.open || isTrue(this.props.preventClose)) {
       if (typeof onStateComplete === 'function') {
         onStateComplete(false)
       }
@@ -1261,7 +1258,7 @@ export default class DrawerListProvider extends React.PureComponent<
 
     if (res !== false) {
       this.setState({
-        opened: false,
+        open: false,
       })
 
       const delayHandler = () => {

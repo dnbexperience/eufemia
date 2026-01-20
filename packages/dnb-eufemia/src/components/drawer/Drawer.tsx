@@ -42,7 +42,7 @@ function Drawer({
   closeModal,
   preventClose,
   preventOverlayClose,
-  openState,
+  open,
   openDelay,
 
   omitTriggerButton,
@@ -83,7 +83,7 @@ function Drawer({
     noAnimationOnMobile,
     fullscreen,
     containerPlacement,
-    openState,
+    open,
     directDomReturn,
     rootId,
     onOpen,
