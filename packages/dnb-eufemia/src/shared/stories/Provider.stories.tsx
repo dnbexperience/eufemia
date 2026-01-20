@@ -31,7 +31,7 @@ export const ProviderSandbox = () => {
             <NumberFormat>12345678</NumberFormat>
             <DatePicker
               left
-              opened
+              open
               showSubmitButton
               showCancelButton
               showResetButton

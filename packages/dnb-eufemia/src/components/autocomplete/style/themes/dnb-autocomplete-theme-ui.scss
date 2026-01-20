@@ -12,7 +12,7 @@
     }
   }
 
-  &--opened .dnb-input .dnb-input__shell,
+  &--open .dnb-input .dnb-input__shell,
   &:not(#{&}__status--error)
     .dnb-form-label:hover
     ~ &__inner
@@ -38,7 +38,7 @@
     border-radius: var(--autocomplete-border-radius);
   }
 
-  &__status--error:not(#{&}--opened)
+  &__status--error:not(#{&}--open)
     .dnb-form-label:hover
     ~ &__inner
     .dnb-input:not([data-input-state='disabled']) {

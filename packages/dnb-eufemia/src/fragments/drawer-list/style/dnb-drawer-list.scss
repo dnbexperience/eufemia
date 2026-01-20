@@ -164,7 +164,7 @@
   &--scroll#{&}--no-animation &__options {
     transition: none !important;
   }
-  &--opened &__options {
+  &--open &__options {
     scroll-behavior: smooth;
 
     @media (prefers-reduced-motion: reduce) {
@@ -340,7 +340,7 @@
     right: -0.5rem;
   }
 
-  &--opened &__list {
+  &--open &__list {
     @include openDrawerList();
   }
 
@@ -427,7 +427,7 @@
     bottom: 0;
   }
 
-  &:not(.dnb-drawer-list--opened) &__list {
+  &:not(.dnb-drawer-list--open) &__list {
     @include closDrawerList();
   }
 

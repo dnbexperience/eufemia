@@ -111,7 +111,7 @@ describe('Dialog', () => {
     const MockComponent = () => {
       return (
         <Dialog
-          openState
+          open
           noAnimation
           contentRef={contentRef}
           scrollRef={scrollRef}
@@ -151,7 +151,7 @@ describe('Dialog', () => {
       <Provider value={{ locale: 'en-GB' }}>
         <Dialog
           noAnimation
-          openState
+          open
           title={<Translation id="Modal.dialogTitle" />}
         />
       </Provider>
@@ -167,7 +167,7 @@ describe('Dialog', () => {
       <Provider value={{ locale: 'en-GB' }}>
         <Dialog
           noAnimation
-          openState
+          open
           title={<Translation id="Modal.dialogTitle" />}
         />
       </Provider>
@@ -198,7 +198,7 @@ describe('Dialog', () => {
 
   it('should have correct role', () => {
     const { rerender } = render(
-      <Dialog {...props} openState={true}>
+      <Dialog {...props} open={true}>
         <button>button</button>
       </Dialog>
     )
@@ -212,7 +212,7 @@ describe('Dialog', () => {
     })
 
     rerender(
-      <Dialog {...props} openState={true} title="re-render">
+      <Dialog {...props} open={true} title="re-render">
         <button>button</button>
       </Dialog>
     )
@@ -228,7 +228,7 @@ describe('Dialog', () => {
     rerender(
       <Dialog
         {...props}
-        openState={true}
+        open={true}
         title="re-render"
         variant="confirmation"
       >
@@ -243,7 +243,7 @@ describe('Dialog', () => {
   it('omits action buttons when hideDecline or hideConfirm is given', () => {
     const props: DialogProps & DialogContentProps = {
       noAnimation: true,
-      openState: true,
+      open: true,
       variant: 'confirmation',
     }
     const { rerender } = render(<Dialog {...props} />)
@@ -300,7 +300,7 @@ describe('Dialog', () => {
   })
 
   it('moves focus to content by default when opened', async () => {
-    render(<Dialog noAnimation openState title="Title" />)
+    render(<Dialog noAnimation open title="Title" />)
 
     await waitFor(() => {
       const title = document.querySelector(
@@ -313,12 +313,7 @@ describe('Dialog', () => {
 
   it('respects focusSelector over close button', async () => {
     render(
-      <Dialog
-        noAnimation
-        openState
-        title="Title"
-        focusSelector="#focus-me"
-      >
+      <Dialog noAnimation open title="Title" focusSelector="#focus-me">
         <Dialog.Body>
           <input id="focus-me" />
         </Dialog.Body>
@@ -573,7 +568,7 @@ describe('Dialog', () => {
   })
 
   it('does not close with click on overlay for variant confirmation', async () => {
-    render(<Dialog {...props} variant="confirmation" openState="opened" />)
+    render(<Dialog {...props} variant="confirmation" open={true} />)
 
     fireEvent.click(document.querySelector('.dnb-modal__content'))
     expect(
@@ -601,7 +596,7 @@ describe('Dialog', () => {
         >
           <Dialog
             noAnimation
-            openState={isOpen}
+            open={isOpen}
             onClose={() => setIsOpen(false)}
             title="Test Dialog"
           >
@@ -710,7 +705,7 @@ describe('Dialog rootId', () => {
 describe('Dialog aria', () => {
   it('should validate with ARIA rules as a dialog', async () => {
     global.console.log = jest.fn()
-    const Comp = render(<Dialog {...props} openState={true} />)
+    const Comp = render(<Dialog {...props} open={true} />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 })

@@ -29,7 +29,7 @@ export type ConfirmParams = {
   submitState: EventStateObject | undefined
   connectWithDialog: Pick<
     DialogProps & DialogContentProps,
-    'openState' | 'onConfirm' | 'onDecline' | 'onClose'
+    'open' | 'onConfirm' | 'onDecline' | 'onClose'
   >
   setConfirmationState: (state: ConfirmationState) => void
   submitHandler: () => void | Promise<void>
@@ -118,7 +118,7 @@ function SubmitConfirmation(props: ConfirmProps) {
     const confirmationState = confirmationStateRef.current
 
     const connectWithDialog = {
-      openState: confirmationState === 'readyToBeSubmitted',
+      open: confirmationState === 'readyToBeSubmitted',
       onConfirm: submitHandler,
       onDecline: cancelHandler,
       onClose: ({ triggeredBy }) => {

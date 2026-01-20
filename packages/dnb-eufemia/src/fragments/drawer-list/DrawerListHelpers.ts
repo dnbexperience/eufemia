@@ -76,7 +76,7 @@ export const drawerListPropTypes = {
   keepOpen: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   preventFocus: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   skipKeysearch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  opened: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  open: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   data: PropTypes.oneOfType([
     PropTypes.oneOfType([
       PropTypes.string,
@@ -166,7 +166,7 @@ export const drawerListDefaultProps = {
   fixedPosition: false,
   independentWidth: false,
   skipKeysearch: false,
-  opened: null,
+  open: null,
   data: null,
   rawData: null,
   ignoreEvents: null,
@@ -446,11 +446,11 @@ export function prepareStartupState(
         : undefined)
   )
   const data = getData(props)
-  const opened = props.opened !== null ? isTrue(props.opened) : null
+  const open = props.open !== null ? isTrue(props.open) : null
 
   const state: DrawerListContextState = {
     id: props.id || makeUniqueId(),
-    opened,
+    open,
     data,
     originalData: data, // used to reset in case we reorder data etc.
     rawData,
@@ -488,7 +488,7 @@ export const prepareDerivedState = (
   props: DrawerListProviderProps,
   state: DrawerListContextState
 ) => {
-  if (state.opened && !state.data && typeof props.data === 'function') {
+  if (state.open && !state.data && typeof props.data === 'function') {
     state.data = getData(props)
   }
 
