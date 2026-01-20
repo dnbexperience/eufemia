@@ -1,5 +1,5 @@
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 
 // Components
 import { createSpacingClasses } from '../space/SpacingHelper'
@@ -190,7 +190,7 @@ const Avatar = (localProps: AvatarProps & SpacingProps) => {
 
   return (
     <span
-      className={classnames(
+      className={clsx(
         'dnb-avatar',
         `dnb-avatar--${variant || 'primary'}`,
         `dnb-avatar--size-${size || 'medium'}`,

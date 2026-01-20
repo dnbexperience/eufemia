@@ -1,5 +1,5 @@
 import React from 'react'
-import classNames from 'classnames'
+import classNames from 'clsx'
 import Anchor from '../../components/Anchor'
 import Button from '../button/Button'
 import Span from '../../elements/Span'

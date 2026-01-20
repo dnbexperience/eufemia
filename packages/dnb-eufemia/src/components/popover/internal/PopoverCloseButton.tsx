@@ -1,5 +1,5 @@
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import Context from '../../../shared/Context'
 import { isTrue } from '../../../shared/component-helper'
 import { createSpacingClasses } from '../../space/SpacingHelper'
@@ -50,7 +50,7 @@ export default function PopoverCloseButton({
   const isIconOnly = Boolean(hasIcon && !hasContent)
   const iconElement = React.isValidElement(icon)
     ? React.cloneElement(icon, {
-        className: classnames(icon.props.className, 'dnb-button__icon'),
+        className: clsx(icon.props.className, 'dnb-button__icon'),
       })
     : null
   const resolvedAriaLabel =
@@ -95,7 +95,7 @@ export default function PopoverCloseButton({
     resolvedIconSize = 'medium'
   }
 
-  const classes = classnames(
+  const classes = clsx(
     'dnb-button',
     `dnb-button--${resolvedVariant}`,
     resolvedSize &&

@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useMemo } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { Props as FieldBlockProps } from '../../FieldBlock'
 import DataContext from '../../DataContext/Context'
 import StringField, { Props as StringFieldProps } from '../String'
@@ -106,7 +106,7 @@ function PostalCodeAndCity(props: Props) {
 
   return (
     <CompositionField
-      className={classnames(
+      className={clsx(
         'dnb-forms-field-postal-code-and-city',
         props.className
       )}
@@ -115,7 +115,7 @@ function PostalCodeAndCity(props: Props) {
     >
       <StringField
         size={size}
-        className={classnames(
+        className={clsx(
           'dnb-forms-field-postal-code-and-city__postal-code',
           postalCodeClassName
         )}
@@ -146,7 +146,7 @@ function PostalCodeAndCity(props: Props) {
       <StringField
         help={help}
         size={size}
-        className={classnames(
+        className={clsx(
           'dnb-forms-field-postal-code-and-city__city',
           cityClassName
         )}

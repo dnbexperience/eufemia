@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import FieldBlock, {
   Props as FieldBlockProps,
   FieldBlockWidth,
@@ -282,7 +282,7 @@ function UploadComponent(props: Props) {
     id,
     forId: `${id}-input`,
     labelSrOnly: true,
-    className: classnames('dnb-forms-field-upload', className),
+    className: clsx('dnb-forms-field-upload', className),
     width,
     help: undefined,
     ...pickSpacingProps(props),

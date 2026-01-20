@@ -1,5 +1,5 @@
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import ModalInner, { ModalInnerProps } from '../../modal/parts/ModalInner'
 import type { SectionStyleTypes } from '../../Section'
 
@@ -25,7 +25,7 @@ export default function DialogBody({
     <ModalInner
       {...props}
       backgroundColor={styleType}
-      className={classnames('dnb-dialog__body', className)}
+      className={clsx('dnb-dialog__body', className)}
     />
   )
 }

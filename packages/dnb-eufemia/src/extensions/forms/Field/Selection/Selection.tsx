@@ -1,5 +1,5 @@
 import React, { useMemo, useCallback } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import {
   convertJsxToString,
   makeUniqueId,
@@ -193,7 +193,7 @@ function Selection(props: Props) {
     [setHasFocus]
   )
 
-  const cn = classnames(
+  const cn = clsx(
     'dnb-forms-field-selection',
     `dnb-forms-field-selection__variant--${variant}`,
     `dnb-forms-field-selection--layout-${layout}`,

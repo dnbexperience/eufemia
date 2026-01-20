@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import Context from '../shared/Context'
 import {
   validateDOMAttributes,
@@ -81,7 +81,7 @@ function ElementInstance(localProps: ElementAllProps) {
       : (internalClass === true ? undefined : internalClass) ||
         (typeof Tag === 'string' ? `dnb-${Tag}` : '')
 
-  const internalClassName = classnames(
+  const internalClassName = clsx(
     !new RegExp(`${tagClass}(\\s|$)`).test(String(className)) && tagClass,
     className,
     createSkeletonClass(skeletonMethod, skeleton, context),

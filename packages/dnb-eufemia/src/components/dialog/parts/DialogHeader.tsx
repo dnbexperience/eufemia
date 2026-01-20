@@ -1,5 +1,5 @@
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import ModalHeader, {
   ModalHeaderProps,
 } from '../../modal/parts/ModalHeader'
@@ -21,8 +21,8 @@ export default function DialogHeader({
     <ModalHeader
       {...props}
       size={size}
-      className={classnames('dnb-dialog__header', className)}
-      titleClass={classnames('dnb-dialog__title', titleClass)}
+      className={clsx('dnb-dialog__header', className)}
+      titleClass={clsx('dnb-dialog__title', titleClass)}
     />
   )
 }

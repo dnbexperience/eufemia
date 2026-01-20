@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import {
   isTrue,
   validateDOMAttributes,
@@ -288,7 +288,7 @@ export default function Heading(props: HeadingAllProps) {
     <Element
       {...attributes}
       ref={_ref}
-      className={classnames(
+      className={clsx(
         'dnb-heading',
         `dnb-h--${size}`,
         createSkeletonClass('font', skeleton, headingContext),

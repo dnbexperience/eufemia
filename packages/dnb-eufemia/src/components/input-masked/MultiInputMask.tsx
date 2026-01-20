@@ -3,7 +3,7 @@ import Input from '../Input'
 import type { InputProps } from '../Input'
 import TextMask from './TextMask'
 import useHandleCursorPosition from './hooks/useHandleCursorPosition'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import FormLabel from '../FormLabel'
 import { SpacingProps } from '../space/types'
 import { createSpacingClasses } from '../space/SpacingHelper'
@@ -137,7 +137,7 @@ function MultiInputMask<T extends string>({
 
   return (
     <WrapperElement
-      className={classnames(
+      className={clsx(
         'dnb-multi-input-mask__fieldset',
         labelDirection === 'horizontal' &&
           'dnb-multi-input-mask__fieldset--horizontal',
@@ -160,7 +160,7 @@ function MultiInputMask<T extends string>({
             </FormLabel>
           )
         }
-        className={classnames('dnb-multi-input-mask', className)}
+        className={clsx('dnb-multi-input-mask', className)}
         labelDirection={labelDirection}
         disabled={disabled}
         status={status}
@@ -301,7 +301,7 @@ function MultiInputMaskInput<T extends string>({
       <TextMask
         id={`${id}-${inputId}`}
         data-mask-id={inputId}
-        className={classnames(
+        className={clsx(
           'dnb-input__input',
           'dnb-multi-input-mask__input',
           shouldHighlight && 'dnb-multi-input-mask__input--highlight'
@@ -337,7 +337,7 @@ function MultiInputMaskInput<T extends string>({
       {delimiter && (
         <span
           aria-hidden
-          className={classnames(
+          className={clsx(
             'dnb-multi-input-mask__delimiter',
             shouldHighlight && 'dnb-multi-input-mask__delimiter--highlight'
           )}

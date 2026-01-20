@@ -5,7 +5,7 @@
  */
 
 import React, { useCallback } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import InputMaskedContext from '../InputMaskedContext'
 import TextMask from '../TextMask'
 import createNumberMask from '../addons/createNumberMask'
@@ -63,7 +63,7 @@ export const useInputElement = () => {
           placeholderChar={placeholderChar}
           {...(getSoftKeyboardAttributes(mask) || {})}
           {...params}
-          className={classnames(
+          className={clsx(
             params.className,
             showMask &&
               showGuide &&

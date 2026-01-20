@@ -1,5 +1,5 @@
 import React, { Fragment, useMemo } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import Space, { SpaceProps } from '../space/Space'
 import { Hr } from '../../elements'
 import useMedia from '../../shared/useMedia'
@@ -208,7 +208,7 @@ function FlexContainer(props: Props) {
     return undefined
   }, [direction, rowGap])
 
-  const cn = classnames(
+  const cn = clsx(
     'dnb-flex-container',
     direction && `${n}--direction-${direction}`,
     justify && `${n}--justify-${justify}`,

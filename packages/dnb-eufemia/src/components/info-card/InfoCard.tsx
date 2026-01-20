@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 
 // Components
 import Button, { ButtonProps } from '../button/Button'
@@ -219,7 +219,7 @@ const InfoCard = (localProps: InfoCardAllProps) => {
 
   return (
     <div
-      className={classnames(
+      className={clsx(
         'dnb-info-card',
         centered && 'dnb-info-card--centered',
         stretch && 'dnb-info-card--stretch',

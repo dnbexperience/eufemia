@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import E, { ElementProps } from '../Element'
 import type { SpacingProps } from '../../shared/types'
 
@@ -21,10 +21,7 @@ export type DlAllProps = DlProps &
 
 const Dl = ({ layout, ...props }: DlAllProps) => {
   if (layout) {
-    props.className = classnames(
-      props.className,
-      `dnb-dl__layout--${layout}`
-    )
+    props.className = clsx(props.className, `dnb-dl__layout--${layout}`)
   }
   return <E as="dl" {...props} skeleton={false} />
 }
@@ -40,7 +37,7 @@ Dl.Item = ({
       <E
         as="dd"
         aria-hidden
-        className={classnames(className, 'dnb-dl__item')}
+        className={clsx(className, 'dnb-dl__item')}
         {...props}
       />
     </>

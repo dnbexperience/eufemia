@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import {
   extendPropsWithContext,
   validateDOMAttributes,
@@ -57,7 +57,7 @@ function ScrollView(localProps: ScrollViewAllProps) {
     React.HTMLAttributes<HTMLDivElement>,
     HTMLDivElement
   > = {
-    className: classnames(
+    className: clsx(
       'dnb-scroll-view',
       createSpacingClasses(props),
       className
