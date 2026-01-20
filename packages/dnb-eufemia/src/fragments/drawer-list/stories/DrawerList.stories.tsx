@@ -64,7 +64,7 @@ const MagicOpen = (props) => {
         onChange={(e) => {
           console.log('onChange', e)
         }}
-        onHide={() => setOpened(false)}
+        onClose={() => setOpened(false)}
         {...props}
       >
         <DrawerList>
@@ -108,7 +108,7 @@ const DrawerListWithState = (props) => {
         keepOpen
         data={['A', 'B', 'C']}
         opened={opened}
-        onHide={() => setOpened(false)}
+        onClose={() => setOpened(false)}
         wrapperElement="#ToggleButton"
         {...props}
       />
