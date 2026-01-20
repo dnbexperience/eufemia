@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { isTrue } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import { createSpacingClasses } from '../space/SpacingHelper'
@@ -58,7 +58,7 @@ export function SliderInstance() {
   } = allProps
 
   const mainParams = {
-    className: classnames(
+    className: clsx(
       'dnb-slider',
       isVertical && 'dnb-slider--vertical',
       disabled && 'dnb-slider__state--disabled',

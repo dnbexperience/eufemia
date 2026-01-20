@@ -5,7 +5,7 @@
 
 import React, { useContext, useEffect, useRef } from 'react'
 
-import classnames from 'classnames'
+import clsx from 'clsx'
 import {
   isTrue,
   makeUniqueId,
@@ -91,7 +91,7 @@ const AccordionGroup = (props: AccordionGroupProps) => {
     }
   }, [collapseAllHandleRef])
 
-  const classes = classnames(
+  const classes = clsx(
     'dnb-accordion-group',
     isTrue(singleContainer) && 'dnb-accordion-group--single-container',
     createSpacingClasses(extendedProps),

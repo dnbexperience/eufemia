@@ -6,7 +6,7 @@ import React, {
   useMemo,
   useRef,
 } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { warn } from '../../../shared/helpers'
 import { Dd, Dl, Dt, Span } from '../../../elements'
 import type { DlProps } from '../../../elements/Dl'
@@ -159,7 +159,7 @@ function ValueBlock(localProps: Props) {
 
   let content = null
 
-  const defaultClass = classnames(
+  const defaultClass = clsx(
     'dnb-forms-value-block__content',
     `dnb-forms-value-block__content--gap-${gap === false ? 'none' : gap}`,
     maxWidth && `dnb-forms-value-block__content--max-width-${maxWidth}`
@@ -197,7 +197,7 @@ function ValueBlock(localProps: Props) {
         >
           <Item>
             <Dt
-              className={classnames(
+              className={clsx(
                 'dnb-forms-value-block__label',
                 ((!label && !hasHelp) || labelSrOnly) && 'dnb-sr-only',
                 className
@@ -216,7 +216,7 @@ function ValueBlock(localProps: Props) {
               </VisibilityWrapper>
             </Dt>
             <Dd
-              className={classnames(
+              className={clsx(
                 compositionClass,
                 maxWidth &&
                   `dnb-forms-value-block__content--max-width-${maxWidth}`
@@ -247,7 +247,7 @@ function ValueBlock(localProps: Props) {
       <>
         <Span
           ref={ref}
-          className={classnames(
+          className={clsx(
             'dnb-forms-value-block',
             inline && 'dnb-forms-value-block--inline',
             compositionClass,
@@ -258,7 +258,7 @@ function ValueBlock(localProps: Props) {
           {(label || hasHelp) && (
             <FormLabel
               element="strong" // enhance a11y: https://www.w3.org/WAI/WCAG21/Techniques/html/H49
-              className={classnames('dnb-forms-value-block__label')}
+              className={clsx('dnb-forms-value-block__label')}
               labelDirection={inline ? 'horizontal' : 'vertical'}
               srOnly={labelSrOnly}
             >

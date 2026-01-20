@@ -6,7 +6,7 @@ import type {
 } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import { useFieldProps } from '../../hooks'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import FieldBlock, { Props as FieldBlockProps } from '../../FieldBlock'
 import { MultiInputMask } from '../../../../components/input-masked'
 import type {
@@ -218,7 +218,7 @@ function Expiry(props: ExpiryProps = {}) {
   const fieldBlockProps: FieldBlockProps = {
     id,
     forId: `${id}-input-month`,
-    className: classnames('dnb-forms-field-expiry', className),
+    className: clsx('dnb-forms-field-expiry', className),
     label,
     ...pickSpacingProps(props),
   }

@@ -4,7 +4,7 @@
  */
 
 import React, { useContext, useRef, useEffect, useState } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import {
   dispatchCustomElementEvent,
   extendPropsWithContext,
@@ -194,7 +194,7 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
   return (
     <div
       ref={paginationBarRef}
-      className={classnames(
+      className={clsx(
         'dnb-pagination__bar',
         pageCountInternal >= 8 && 'dnb-pagination--many-pages',
         spacingClasses
@@ -268,7 +268,7 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
                 return (
                   <Button
                     key={(pageNumber || 0) + idx}
-                    className={classnames(
+                    className={clsx(
                       'dnb-pagination__button',
                       String(pageNumber).length > 3
                         ? 'dnb-pagination__button--large-number'

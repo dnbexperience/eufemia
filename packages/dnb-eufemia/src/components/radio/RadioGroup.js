@@ -7,7 +7,7 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import {
   extendPropsWithContextInClassComponent,
   makeUniqueId,
@@ -193,7 +193,7 @@ export default class RadioGroup extends React.PureComponent {
     const id = this._id
     const showStatus = getStatusState(status)
 
-    const classes = classnames(
+    const classes = clsx(
       'dnb-radio-group',
       status && `dnb-radio-group__status--${statusState}`,
       `dnb-radio-group--${layoutDirection}`,

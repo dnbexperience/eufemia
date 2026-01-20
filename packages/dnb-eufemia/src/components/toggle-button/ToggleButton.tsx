@@ -8,7 +8,7 @@
  */
 
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import {
   warn,
   isTrue,
@@ -290,7 +290,7 @@ class ToggleButton extends React.PureComponent<ToggleButtonProps> {
           const showStatus = getStatusState(status)
 
           const mainParams = {
-            className: classnames(
+            className: clsx(
               'dnb-toggle-button',
               status && `dnb-toggle-button__status--${statusState}`,
               checked && `dnb-toggle-button--checked`,

@@ -5,7 +5,7 @@
 
 import React from 'react'
 import Input from '../input/Input'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import {
   useInputElement,
   useEventMapping,
@@ -29,7 +29,7 @@ export default function InputMaskedElement(): JSX.Element {
       {...events}
       inputElement={inputElement}
       value={localValue}
-      className={classnames('dnb-input-masked', className)}
+      className={clsx('dnb-input-masked', className)}
     />
   )
 }

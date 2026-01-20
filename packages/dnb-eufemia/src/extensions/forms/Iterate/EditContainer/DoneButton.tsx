@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useEffect, useRef } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { Button } from '../../../../components'
 import useTranslation from '../../hooks/useTranslation'
 import IterateItemContext from '../IterateItemContext'
@@ -59,7 +59,7 @@ export default function DoneButton(props: Props) {
   return (
     <Button
       variant="tertiary"
-      className={classnames('dnb-forms-iterate__done-button', className)}
+      className={clsx('dnb-forms-iterate__done-button', className)}
       icon={check}
       iconPosition="left"
       onClick={doneHandler}

@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { ComponentProps } from '../../types'
 import ButtonRow from '../../Form/ButtonRow'
 import NextButton from '../NextButton'
@@ -29,10 +29,7 @@ function Buttons(props: Props) {
   }
 
   return (
-    <ButtonRow
-      className={classnames('dnb-forms-buttons', className)}
-      {...props}
-    >
+    <ButtonRow className={clsx('dnb-forms-buttons', className)} {...props}>
       {showPreviousButton && <PreviousButton />}
       {showNextButton && <NextButton />}
     </ButtonRow>

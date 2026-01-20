@@ -6,7 +6,7 @@
  */
 
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 
 type Props = {
   className?: string
@@ -22,7 +22,7 @@ export default function AlignmentHelper({
 }: Props) {
   return (
     <span
-      className={classnames(
+      className={clsx(
         pseudoElementOnly
           ? 'dnb-alignment-helper--pseudo-element-only'
           : 'dnb-alignment-helper',

@@ -1,5 +1,5 @@
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { TableAccordionContentSingle } from './table-accordion/TableAccordionContent'
 
 export type TableTdProps = {
@@ -33,7 +33,7 @@ export default function Td(
     <td
       // eslint-disable-next-line jsx-a11y/no-interactive-element-to-noninteractive-role
       role="cell"
-      className={classnames(
+      className={clsx(
         'dnb-table__td',
         noSpacing && 'dnb-table__td--no-spacing',
         spacing && `dnb-table__td--spacing-${spacing}`,

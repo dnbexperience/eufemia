@@ -5,7 +5,7 @@
 
 import React from 'react'
 import Context from '../../../shared/Context'
-import classnames from 'classnames'
+import clsx from 'clsx'
 
 export type SkeletonTableRows = string | number
 export type SkeletonTableChildren =
@@ -56,7 +56,7 @@ export default class SkeletonTable extends React.Component<
 
     return (
       <div
-        className={classnames(
+        className={clsx(
           'dnb-skeleton__figure',
           'dnb-skeleton__figure--show'
         )}
@@ -64,7 +64,7 @@ export default class SkeletonTable extends React.Component<
         {...rest}
       >
         <div
-          className={classnames(
+          className={clsx(
             'dnb-h--xx-large',
             'dnb-skeleton',
             'dnb-skeleton--shape',
@@ -81,7 +81,7 @@ export default class SkeletonTable extends React.Component<
         {this.rowsLength.map((p, i) => (
           <div
             key={i}
-            className={classnames(
+            className={clsx(
               'dnb-p',
               'dnb-skeleton',
               'dnb-skeleton--shape',
