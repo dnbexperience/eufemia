@@ -36,7 +36,7 @@ const filterAttributes = Object.keys(stepIndicatorDefaultProps)
     'setActiveStep',
     'activeStep',
     'countSteps',
-    'openState',
+    'open',
     'openHandler',
     'closeHandler',
     'innerRef',
@@ -71,7 +71,7 @@ export type StepIndicatorProviderProps = Omit<
 export type StepIndicatorProviderStates = {
   data: (string | StepIndicatorItemProps)[]
   activeStep: number
-  openState: boolean
+  open: boolean
   listOfReachedSteps: number[]
   countSteps: number
   stepsLabel: string
@@ -90,16 +90,14 @@ export function StepIndicatorProvider(props: StepIndicatorProviderProps) {
     return props.data || []
   }, [props])
 
-  const [openState, setOpenState] = useState<boolean>(
-    props.expandedInitially
-  )
+  const [open, setOpen] = useState<boolean>(props.expandedInitially)
 
   const openHandler = useCallback(() => {
-    setOpenState(true)
+    setOpen(true)
   }, [])
 
   const closeHandler = useCallback(() => {
-    setOpenState(false)
+    setOpen(false)
   }, [])
 
   const getActiveStepFromProps = useCallback(() => {
@@ -159,7 +157,7 @@ export function StepIndicatorProvider(props: StepIndicatorProviderProps) {
       // State
       {
         activeStep: activeStepRef.current,
-        openState,
+        open,
         listOfReachedSteps,
         data,
         countSteps,
@@ -181,7 +179,7 @@ export function StepIndicatorProvider(props: StepIndicatorProviderProps) {
     data,
     listOfReachedSteps,
     openHandler,
-    openState,
+    open,
     props,
     setActiveStep,
     updateStepTitle,

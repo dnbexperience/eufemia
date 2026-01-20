@@ -164,8 +164,8 @@ function StepIndicator({
 }
 
 function StepIndicatorStatus({ status, statusState }) {
-  const { openState, noAnimation } = useContext(StepIndicatorContext)
-  const show = !openState && !!status
+  const { open, noAnimation } = useContext(StepIndicatorContext)
+  const show = !open && !!status
   return (
     <FormStatus
       show={show}
