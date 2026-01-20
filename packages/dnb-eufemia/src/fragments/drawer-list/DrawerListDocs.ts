@@ -174,12 +174,12 @@ export const DrawerListEvents = {
     type: 'function',
     status: 'optional',
   },
-  onShow: {
+  onOpen: {
     doc: 'Will be called once the user presses the drawer-list.',
     type: 'function',
     status: 'optional',
   },
-  onHide: {
+  onClose: {
     doc: 'Will be called once the user presses the drawer-list again, or clicks somewhere else.',
     type: 'function',
     status: 'optional',
