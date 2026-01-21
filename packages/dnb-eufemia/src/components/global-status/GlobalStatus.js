@@ -331,7 +331,13 @@ export default class GlobalStatus extends React.PureComponent {
 
     dispatchCustomElementEvent(
       this._globalStatus,
-    'onClose',
+      'onClose',
+      this._globalStatus
+    )
+  }
+
+  async scrollToStatus(isDone = null) {
+    if (
       typeof window === 'undefined' ||
       isTrue(this.state.globalStatus.autoscroll) === false
     ) {
@@ -528,7 +534,11 @@ export default class GlobalStatus extends React.PureComponent {
     if (isOpened) {
       dispatchCustomElementEvent(
         this._globalStatus,
-      'onOpen',
+        'onOpen',
+        this._globalStatus
+      )
+    }
+  }
 
   render() {
     const { isActive } = this.state
@@ -579,7 +589,7 @@ export default class GlobalStatus extends React.PureComponent {
 
       onAdjust, // eslint-disable-line
       onOpen, // eslint-disable-line
-    onClose, // eslint-disable-line
+      onClose, // eslint-disable-line
 
       ...attributes
     } = props
