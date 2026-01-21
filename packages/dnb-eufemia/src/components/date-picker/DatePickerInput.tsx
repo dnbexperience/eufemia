@@ -276,17 +276,19 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
 
       try {
         const separators = ['.', '/']
-        const possibleFormats = ['yyyy-MM-dd']
+        const baseFormats = ['yyyy-MM-dd']
 
-        // TODO: Merge these loops
-        possibleFormats.forEach((date) => {
-          separators.forEach((sep) => {
-            possibleFormats.push(date.replace(/-/g, sep))
-          })
-        })
-
-        possibleFormats.forEach((date) => {
-          possibleFormats.push(date.split('').reverse().join(''))
+        const possibleFormats = baseFormats.flatMap((format) => {
+          // Get all separator variations (original + replaced)
+          const variations = [
+            format,
+            ...separators.map((sep) => format.replace(/-/g, sep)),
+          ]
+          // Return both normal and reversed versions of each variation
+          return variations.flatMap((variation) => [
+            variation,
+            variation.split('').reverse().join(''),
+          ])
         })
 
         let date: Date
