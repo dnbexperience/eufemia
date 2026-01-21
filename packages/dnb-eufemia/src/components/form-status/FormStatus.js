@@ -6,7 +6,6 @@
  */
 
 import React from 'react'
-import PropTypes from 'prop-types'
 import clsx from 'clsx'
 import { useTheme, Context } from '../../shared'
 import {
@@ -17,10 +16,7 @@ import {
   extendPropsWithContextInClassComponent,
 } from '../../shared/component-helper'
 import HeightAnimation from '../height-animation/HeightAnimation'
-import {
-  spacingPropTypes,
-  createSpacingClasses,
-} from '../space/SpacingHelper'
+import { createSpacingClasses } from '../space/SpacingHelper'
 import Icon from '../icon/Icon'
 import GlobalStatusProvider from '../global-status/GlobalStatusProvider'
 import {
@@ -35,53 +31,6 @@ const properties = { ui, sbanken }
 
 export default class FormStatus extends React.PureComponent {
   static contextType = Context
-
-  static propTypes = {
-    id: PropTypes.string,
-    title: PropTypes.string,
-    show: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    text: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-      PropTypes.func,
-      PropTypes.node,
-    ]),
-    label: PropTypes.node,
-    icon: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-      PropTypes.node,
-    ]),
-    iconSize: PropTypes.string,
-    state: PropTypes.oneOfType([
-      PropTypes.bool,
-      PropTypes.string,
-      PropTypes.oneOf(['error', 'warn', 'info', 'marketing']),
-    ]),
-    variant: PropTypes.oneOf(['flat', 'outlined']),
-    size: PropTypes.oneOf(['default', 'large']),
-    globalStatus: PropTypes.shape({
-      id: PropTypes.string,
-      message: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-    }),
-    attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-    textId: PropTypes.string,
-    widthSelector: PropTypes.string,
-    widthElement: PropTypes.object,
-    noAnimation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    stretch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    role: PropTypes.string,
-
-    ...spacingPropTypes,
-
-    className: PropTypes.string,
-    children: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-      PropTypes.node,
-    ]),
-  }
 
   static defaultProps = {
     id: null,
@@ -480,9 +429,6 @@ export const ErrorIcon = (props) => {
     </svg>
   )
 }
-ErrorIcon.propTypes = {
-  title: PropTypes.string,
-}
 
 export const WarnIcon = (props) => {
   const { title = 'error' } = props || {}
@@ -514,9 +460,6 @@ export const WarnIcon = (props) => {
       />
     </svg>
   )
-}
-WarnIcon.propTypes = {
-  title: PropTypes.string,
 }
 
 export const InfoIcon = (props) => {
@@ -555,9 +498,6 @@ export const InfoIcon = (props) => {
     </svg>
   )
 }
-InfoIcon.propTypes = {
-  title: PropTypes.string,
-}
 
 export const MarketingIcon = (props) => {
   const { title = 'marketing' } = props || {}
@@ -581,9 +521,6 @@ export const MarketingIcon = (props) => {
       />
     </svg>
   )
-}
-MarketingIcon.propTypes = {
-  title: PropTypes.string,
 }
 
 export function setMaxWidthToElement({

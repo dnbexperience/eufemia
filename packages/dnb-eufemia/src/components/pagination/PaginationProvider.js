@@ -6,7 +6,6 @@
  */
 
 import React from 'react'
-import PropTypes from 'prop-types'
 import Context from '../../shared/Context'
 import {
   isTrue,
@@ -22,36 +21,6 @@ import PaginationContext from './PaginationContext'
 export default class PaginationProvider extends React.PureComponent {
   static contextType = Context
 
-  static propTypes = {
-    // eslint-disable-next-line
-    startupPage: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    // eslint-disable-next-line
-    currentPage: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    pageCount: PropTypes.oneOfType([PropTypes.string, PropTypes.number]), // eslint-disable-line
-    setContentHandler: PropTypes.func,
-    resetContentHandler: PropTypes.func,
-    resetPaginationHandler: PropTypes.func,
-    endInfinityHandler: PropTypes.func,
-    rerender: PropTypes.shape({ current: PropTypes.func }),
-    store: PropTypes.shape({
-      current: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
-    }),
-    useMarkerOnly: PropTypes.bool,
-    internalContent: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-      PropTypes.node,
-      PropTypes.object,
-      PropTypes.array,
-    ]),
-    children: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-      PropTypes.node,
-      PropTypes.object,
-      PropTypes.array,
-    ]),
-  }
   static defaultProps = {
     startupPage: null,
     currentPage: null,

@@ -6,14 +6,12 @@
  */
 
 import React from 'react'
-import PropTypes from 'prop-types'
 import {
   isTrue,
   makeUniqueId,
   dispatchCustomElementEvent,
   convertJsxToString,
 } from '../../shared/component-helper'
-import { spacingPropTypes } from '../../components/space/SpacingHelper'
 import {
   DrawerListDataArrayItem,
   DrawerListDataArrayObject,
@@ -27,116 +25,6 @@ import { DrawerListProviderProps } from './DrawerListProvider'
 import { DrawerListContextState } from './DrawerListContext'
 import Icon from '../../components/icon/Icon'
 import CountryFlag from '../../components/country-flag/CountryFlag'
-
-// legacy used by Autocomplete and Dropdown
-export const drawerListPropTypes = {
-  id: PropTypes.string,
-  role: PropTypes.string,
-  cacheHash: PropTypes.string,
-  trianglePosition: PropTypes.string,
-  scrollable: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  focusable: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  direction: PropTypes.oneOf(['auto', 'top', 'bottom']),
-  size: PropTypes.oneOf(['default', 'small', 'medium', 'large']),
-  maxHeight: PropTypes.number,
-  noAnimation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  noScrollAnimation: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool,
-  ]),
-
-  preventSelection: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool,
-  ]),
-  actionMenu: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  isPopup: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  alignDrawer: PropTypes.oneOf(['left', 'right']),
-  optionsRender: PropTypes.oneOfType([
-    PropTypes.object,
-    PropTypes.func,
-    PropTypes.node,
-  ]),
-  wrapperElement: PropTypes.oneOfType([
-    PropTypes.object,
-    PropTypes.func,
-    PropTypes.node,
-  ]),
-  defaultValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  skipPortal: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  portalClass: PropTypes.string,
-  listClass: PropTypes.string,
-  preventClose: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  independentWidth: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool,
-  ]),
-  fixedPosition: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  keepOpen: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  preventFocus: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  skipKeysearch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  open: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  data: PropTypes.oneOfType([
-    PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-      PropTypes.node,
-      PropTypes.object,
-    ]),
-    PropTypes.arrayOf(
-      PropTypes.oneOfType([
-        PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-        PropTypes.shape({
-          selectedKey: PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.number,
-          ]),
-          selectedValue: PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.node,
-          ]),
-          suffixValue: PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.node,
-          ]),
-          disabled: PropTypes.bool,
-          content: PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.node,
-            PropTypes.arrayOf(PropTypes.string),
-          ]),
-        }),
-      ])
-    ),
-  ]),
-  rawData: PropTypes.oneOfType([
-    PropTypes.array,
-    PropTypes.object,
-    PropTypes.func,
-  ]),
-  ignoreEvents: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-
-  ...spacingPropTypes,
-
-  className: PropTypes.string,
-  children: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node,
-    PropTypes.object,
-    PropTypes.array,
-  ]),
-
-  onOpen: PropTypes.func,
-  onClose: PropTypes.func,
-  handleDismissFocus: PropTypes.func,
-  onChange: PropTypes.func,
-  onPreChange: PropTypes.func,
-  onResize: PropTypes.func,
-  onSelect: PropTypes.func,
-  onStateUpdate: PropTypes.func,
-}
 
 export const drawerListDefaultProps = {
   id: null,
@@ -183,14 +71,6 @@ export const drawerListDefaultProps = {
   onSelect: null,
   onStateUpdate: null,
   optionsRender: null,
-}
-
-// legacy used by Dropdown
-export const drawerListProviderPropTypes = {
-  enableBodyLock: PropTypes.bool,
-  pageOffset: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  observerElement: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-  minHeight: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 }
 
 export const drawerListProviderDefaultProps = {

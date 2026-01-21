@@ -4,7 +4,6 @@
  */
 
 import React from 'react'
-import PropTypes from 'prop-types'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 import styled from '@emotion/styled'
 
@@ -735,11 +734,6 @@ function CurrencySelector({
       }))}
     />
   )
-}
-CurrencySelector.propTypes = {
-  value: PropTypes.string,
-  currencies: PropTypes.array.isRequired,
-  onChange: PropTypes.func.isRequired,
 }
 
 function DropdownStatesSync() {

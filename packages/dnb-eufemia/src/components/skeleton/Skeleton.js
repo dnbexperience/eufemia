@@ -6,7 +6,6 @@
  */
 
 import React from 'react'
-import PropTypes from 'prop-types'
 import clsx from 'clsx'
 import {
   extendPropsWithContextInClassComponent,
@@ -15,41 +14,16 @@ import {
 } from '../../shared/component-helper'
 import { LOCALE } from '../../shared/defaults'
 import Space from '../space/Space'
-import {
-  spacingPropTypes,
-  createSpacingClasses,
-} from '../space/SpacingHelper'
+import { createSpacingClasses } from '../space/SpacingHelper'
 import Context from '../../shared/Context'
 import Provider from '../../shared/Provider'
 
 export default class Skeleton extends React.PureComponent {
   static contextType = Context
 
-  static propTypes = {
-    show: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    noAnimation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    figure: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-      PropTypes.node,
-    ]),
-    ariaBusy: PropTypes.string,
-    ariaReady: PropTypes.string,
-    element: PropTypes.node,
-
-    ...spacingPropTypes,
-
-    className: PropTypes.string,
-    children: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-      PropTypes.node,
-    ]),
-  }
-
   static defaultProps = {
     show: null,
-    skeleton: null, // only to make sure we process extendPropsWithContextInClassComponent
+    skeleton: null,
     noAnimation: null,
     figure: null,
     ariaBusy: null,

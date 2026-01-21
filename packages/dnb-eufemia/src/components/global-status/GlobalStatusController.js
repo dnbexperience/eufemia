@@ -6,7 +6,6 @@
  */
 
 import React from 'react'
-import PropTypes from 'prop-types'
 import GlobalStatusProvider from './GlobalStatusProvider'
 import { isTrue } from '../../shared/component-helper'
 
@@ -44,20 +43,6 @@ export class GlobalStatusInterceptor {
 
 // This is the Update controller
 class GlobalStatusController extends React.PureComponent {
-  static propTypes = {
-    id: PropTypes.string, // Provider id
-    statusId: PropTypes.string, // Status Item id
-    removeOnUnmount: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-    ]),
-  }
-  static defaultProps = {
-    id: 'main',
-    statusId: null,
-    removeOnUnmount: false,
-  }
-
   static getDerivedStateFromProps(props, state) {
     if (state._props !== props) {
       state.provider.update(state.statusId, props)
@@ -112,14 +97,6 @@ class GlobalStatusController extends React.PureComponent {
 }
 
 class GlobalStatusRemove extends React.PureComponent {
-  static propTypes = {
-    id: PropTypes.string, // Provider id
-    statusId: PropTypes.string.isRequired, // Status Item id
-  }
-  static defaultProps = {
-    id: 'main',
-  }
-
   static getDerivedStateFromProps(props, state) {
     if (state._props !== props) {
       state.provider.update(props.statusId, props)

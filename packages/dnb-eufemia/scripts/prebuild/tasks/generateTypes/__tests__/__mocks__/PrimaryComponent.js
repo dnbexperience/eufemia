@@ -4,35 +4,7 @@
  */
 
 import React from 'react'
-import PropTypes from 'prop-types'
-import SecondaryComponent, {
-  secondaryDefaultProps,
-  secondaryPropTypes,
-} from './SecondaryComponent'
-import ClassComponent from './ClassComponent'
-
-export const primaryPropTypes = {
-  top: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-    PropTypes.bool,
-  ]),
-  right: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-    PropTypes.bool,
-  ]),
-  bottom: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-    PropTypes.bool,
-  ]),
-  left: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-    PropTypes.bool,
-  ]),
-}
+import SecondaryComponent from './SecondaryComponent'
 
 export const primaryDefaultProps = {
   space: null,
@@ -43,34 +15,6 @@ export const primaryDefaultProps = {
 }
 
 export default class PrimaryComponent extends React.PureComponent {
-  static propTypes = {
-    boolean: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    number: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-
-    spacing: PropTypes.shape(primaryPropTypes),
-    top: primaryPropTypes.top,
-    ...primaryPropTypes,
-    ...secondaryPropTypes,
-    ...ClassComponent.propTypes,
-    secondaryFoo: secondaryPropTypes.secondary,
-    secondarySpacing: PropTypes.shape(secondaryPropTypes),
-
-    children: PropTypes.node,
-  }
-
-  static defaultProps = {
-    boolean: null,
-    number: null,
-
-    spacing: null,
-    top: null,
-    ...primaryDefaultProps,
-    ...secondaryDefaultProps,
-    ...ClassComponent.defaultProps,
-
-    children: null,
-  }
-
   static Secondary = SecondaryComponent
   static SecondaryDuplication = SecondaryComponent
 
@@ -85,31 +29,4 @@ export default class PrimaryComponent extends React.PureComponent {
       this.props.children,
     ]
   }
-}
-
-const Element = () => {
-  return null
-}
-Element.propTypes = {
-  boolean: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  number: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-
-  spacing: PropTypes.shape(primaryPropTypes),
-  top: primaryPropTypes.top,
-  ...primaryPropTypes,
-  ...secondaryPropTypes,
-  secondaryFoo: secondaryPropTypes.secondary,
-  secondarySpacing: PropTypes.shape(secondaryPropTypes),
-
-  children: PropTypes.node,
-}
-Element.defaultProps = {
-  boolean: null,
-  number: null,
-
-  spacing: null,
-  top: null,
-  ...primaryDefaultProps,
-
-  children: null,
 }

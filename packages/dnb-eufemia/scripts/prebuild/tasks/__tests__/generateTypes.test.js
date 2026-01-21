@@ -8,7 +8,8 @@ import { createTypes } from '../generateTypes'
 
 jest.setTimeout(30e3)
 
-describe('generateTypes', () => {
+//TODO: Remove generateTypes, as we now don't have any propTypes left
+describe.skip('generateTypes', () => {
   it('has to match PrimaryComponent snapshot', async () => {
     const mdxDocsDir = nodePath.resolve(
       __dirname,

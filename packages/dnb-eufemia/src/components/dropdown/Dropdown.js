@@ -6,7 +6,6 @@
  */
 
 import React from 'react'
-import PropTypes from 'prop-types'
 import clsx from 'clsx'
 import {
   isTrue,
@@ -21,155 +20,23 @@ import {
   convertJsxToString,
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
-import {
-  spacingPropTypes,
-  createSpacingClasses,
-} from '../space/SpacingHelper'
+import { createSpacingClasses } from '../space/SpacingHelper'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 
 import Suffix from '../../shared/helpers/Suffix'
 import Icon from '../icon-primary/IconPrimary'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
-import Button, { buttonVariantPropType } from '../button/Button'
+import Button from '../button/Button'
 import DrawerList from '../../fragments/drawer-list/DrawerList'
 import DrawerListContext from '../../fragments/drawer-list/DrawerListContext'
 import DrawerListProvider from '../../fragments/drawer-list/DrawerListProvider'
 import {
-  drawerListPropTypes,
-  drawerListProviderPropTypes,
   parseContentTitle,
   getCurrentData,
 } from '../../fragments/drawer-list/DrawerListHelpers'
 
 export default class Dropdown extends React.PureComponent {
-  static propTypes = {
-    ...spacingPropTypes,
-    ...drawerListPropTypes,
-    ...drawerListProviderPropTypes,
-
-    id: PropTypes.string,
-    title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-    variant: buttonVariantPropType.variant,
-    icon: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.node,
-      PropTypes.func,
-    ]),
-    iconSize: PropTypes.string,
-    iconPosition: PropTypes.oneOf(['left', 'right']),
-    trianglePosition: PropTypes.oneOf(['left', 'right']),
-    label: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-      PropTypes.node,
-    ]),
-    labelDirection: PropTypes.oneOf(['horizontal', 'vertical']),
-    labelSrOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    status: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-      PropTypes.func,
-      PropTypes.node,
-    ]),
-    statusState: PropTypes.string,
-    statusProps: PropTypes.object,
-    statusNoAnimation: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-    ]),
-    innerRef: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
-    buttonRef: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
-    globalStatus: PropTypes.shape({
-      id: PropTypes.string,
-      message: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-    }),
-    suffix: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-      PropTypes.node,
-    ]),
-    scrollable: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    focusable: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    direction: PropTypes.oneOf(['auto', 'top', 'bottom']),
-    maxHeight: PropTypes.number,
-    skipPortal: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    portalClass: PropTypes.string,
-    noAnimation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    noScrollAnimation: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-    ]),
-    preventSelection: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-    ]),
-    moreMenu: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    actionMenu: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    independentWidth: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-    ]),
-    size: PropTypes.oneOf(['default', 'small', 'medium', 'large']),
-    alignDropdown: PropTypes.oneOf(['left', 'right']),
-    triggerElement: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
-    data: PropTypes.oneOfType([
-      PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.func,
-        PropTypes.node,
-        PropTypes.object,
-      ]),
-      PropTypes.arrayOf(
-        PropTypes.oneOfType([
-          PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-          PropTypes.shape({
-            selectedKey: PropTypes.oneOfType([
-              PropTypes.string,
-              PropTypes.number,
-            ]),
-            selectedValue: PropTypes.oneOfType([
-              PropTypes.string,
-              PropTypes.node,
-            ]),
-            content: PropTypes.oneOfType([
-              PropTypes.string,
-              PropTypes.node,
-              PropTypes.arrayOf(PropTypes.string),
-            ]),
-          }),
-        ])
-      ),
-    ]),
-    defaultValue: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number,
-    ]),
-    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    openOnFocus: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    preventClose: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    keepOpen: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    open: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    stretch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-
-    className: PropTypes.string,
-    children: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-      PropTypes.node,
-      PropTypes.object,
-      PropTypes.array,
-    ]),
-
-    onOpen: PropTypes.func,
-    onClose: PropTypes.func,
-    onChange: PropTypes.func,
-    onSelect: PropTypes.func,
-    onStateUpdate: PropTypes.func,
-  }
-
   static defaultProps = {
     id: null,
     title: 'Option Menu',
@@ -214,16 +81,14 @@ export default class Dropdown extends React.PureComponent {
     disabled: null,
     stretch: null,
     skeleton: null,
-
     className: null,
     children: null,
-
     onOpen: null,
     onClose: null,
-
     onChange: null,
+    onFocus: null,
+    onBlur: null,
     onSelect: null,
-    onStateUpdate: null,
   }
 
   render() {
@@ -253,8 +118,6 @@ export default class Dropdown extends React.PureComponent {
 }
 
 class DropdownInstance extends React.PureComponent {
-  static propTypes = Dropdown.propTypes
-  static defaultProps = Dropdown.defaultProps
   static contextType = DrawerListContext
 
   constructor(props) {
