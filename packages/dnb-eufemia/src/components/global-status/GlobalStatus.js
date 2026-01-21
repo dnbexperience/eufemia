@@ -243,17 +243,6 @@ export default class GlobalStatus extends React.PureComponent {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps !== this.props) {
-      const globalStatus = extendPropsWithContextInClassComponent(
-        this.props,
-        GlobalStatus.defaultProps,
-        this.context.globalStatus
-      )
-      this.setState({
-        globalStatus,
-      })
-    }
-
     if (prevProps.show !== this.props.show) {
       if (isTrue(this.props.show)) {
         this.setVisible()
