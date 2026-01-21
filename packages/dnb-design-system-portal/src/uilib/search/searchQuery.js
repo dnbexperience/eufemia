@@ -22,7 +22,7 @@ const docsQuery = /* GraphQL */ `
             title
             description
             search
-            skipSearch
+            draft
           }
           headings {
             value
@@ -49,9 +49,9 @@ const flatten = (arr) =>
       ({
         node: {
           fields: { slug },
-          frontmatter: { skipSearch },
+          frontmatter: { draft },
         },
-      }) => !slug.includes('not_in_use') && skipSearch !== true
+      }) => !slug.includes('not_in_use') && draft !== true
     )
     .map(
       ({
