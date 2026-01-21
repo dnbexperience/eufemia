@@ -91,8 +91,8 @@ export const DatePickerSandbox = () => (
           onCancel={(props) => {
             console.log('onCancel', props)
           }}
-          onReset={(props) => {
-            console.log('onReset', props)
+          onClear={(props) => {
+            console.log('onClear', props)
           }}
           showCancelButton
           showResetButton

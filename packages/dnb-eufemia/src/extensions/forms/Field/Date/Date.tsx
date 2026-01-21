@@ -98,7 +98,7 @@ export type DateProps = Omit<
     | 'onClose'
     | 'onSubmit'
     | 'onCancel'
-    | 'onReset'
+    | 'onClear'
     | 'skipPortal'
     | 'yearNavigation'
   >
@@ -255,7 +255,7 @@ function DateComponent(props: DateProps) {
     showCancelButton = true,
     showResetButton = true,
     showInput = true,
-    onReset,
+    onClear,
     minDate,
     maxDate,
     width,
@@ -277,12 +277,12 @@ function DateComponent(props: DateProps) {
       }
       handleChange(reset)
       setDisplayValue(undefined)
-      onReset?.({
+      onClear?.({
         ...event,
         ...reset,
       })
     },
-    [handleChange, onReset, setDisplayValue]
+    [handleChange, onClear, setDisplayValue]
   )
   const onFocus = useCallback(() => {
     handleFocus()
@@ -368,7 +368,7 @@ function DateComponent(props: DateProps) {
         maxDate={maxDate}
         status={hasError ? 'error' : undefined}
         range={range}
-        onReset={handleReset}
+        onClear={handleReset}
         onType={onType} // To support validation while typing (e.g. required)
         onChange={handleChange}
         onFocus={onFocus}
@@ -586,7 +586,7 @@ const datePickerPropKeys = [
   'onClose',
   'onSubmit',
   'onCancel',
-  'onReset',
+  'onClear',
   'skipPortal',
   'yearNavigation',
 ]

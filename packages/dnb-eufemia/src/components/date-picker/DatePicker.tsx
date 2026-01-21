@@ -325,9 +325,9 @@ export type DatePickerProps = {
     event: DatePickerEvent<React.MouseEvent<HTMLButtonElement>>
   ) => void
   /**
-   * Will be called once a user presses the reset button.
+   * Will be called once a user presses the clear/reset button.
    */
-  onReset?: (
+  onClear?: (
     event: DatePickerEvent<React.MouseEvent<HTMLButtonElement>>
   ) => void
   /**
@@ -352,7 +352,7 @@ export type DatePickerAllProps = DatePickerProps &
     | 'onBlur'
     | 'onFocus'
     | 'onSubmit'
-    | 'onReset'
+    | 'onClear'
     | 'start'
   >
 
@@ -386,7 +386,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
     onOpen,
     onSubmit,
     onCancel,
-    onReset,
+    onClear,
     noAnimation,
     showInput,
     inline,
@@ -528,14 +528,14 @@ function DatePicker(externalProps: DatePickerAllProps) {
     [hidePicker, onCancel]
   )
 
-  const onResetHandler = useCallback(
+  const onClearHandler = useCallback(
     (
       event: DatePickerChangeEvent<React.MouseEvent<HTMLButtonElement>>
     ) => {
       hidePicker()
-      onReset?.({ ...getReturnObject.current(event) })
+      onClear?.({ ...getReturnObject.current(event) })
     },
-    [hidePicker, onReset]
+    [hidePicker, onClear]
   )
 
   const togglePicker = useCallback(
@@ -753,7 +753,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
                   isRange={inline ? false : range}
                   onSubmit={onSubmitHandler}
                   onCancel={onCancelHandler}
-                  onReset={onResetHandler}
+                  onClear={onClearHandler}
                   submitButtonText={submitButtonText}
                   cancelButtonText={cancelButtonText}
                   resetButtonText={resetButtonText}
@@ -845,7 +845,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
                       isRange={inline ? false : range}
                       onSubmit={onSubmitHandler}
                       onCancel={onCancelHandler}
-                      onReset={onResetHandler}
+                      onClear={onClearHandler}
                       submitButtonText={submitButtonText}
                       cancelButtonText={cancelButtonText}
                       resetButtonText={resetButtonText}

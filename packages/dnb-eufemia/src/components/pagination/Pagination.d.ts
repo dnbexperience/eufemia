@@ -13,8 +13,8 @@ type PaginationMode = 'pagination' | 'infinity';
 type PaginationLayout = 'vertical' | 'horizontal';
 type PaginationItems = string | any[];
 type PaginationSetContentHandler = string | ((...args: any[]) => any);
-type PaginationResetContentHandler = string | ((...args: any[]) => any);
-type PaginationResetPaginationHandler = string | ((...args: any[]) => any);
+type PaginationClearContentHandler = string | ((...args: any[]) => any);
+type PaginationClearPaginationHandler = string | ((...args: any[]) => any);
 type PaginationEndInfinityHandler = string | ((...args: any[]) => any);
 type PaginationPageElement =
   | Record<string, unknown>
@@ -111,11 +111,11 @@ export interface PaginationProps
   /**
    * callback function to get the `resetContent` handler from the current pagination instance. e.g. `resetContentHandler={fn => (...)}`. Use this handler to reset all the content. You can set it to `true`, to programmatically reset the content.
    */
-  resetContentHandler?: PaginationResetContentHandler;
+  resetContentHandler?: PaginationClearContentHandler;
   /**
    * callback function to get the `resetInfinity` handler from the current pagination instance. e.g. `resetPaginationHandler={fn => (...)}`. Use this handler to reset all the internal states. You can set it to `true`, to programmatically reset the states.
    */
-  resetPaginationHandler?: PaginationResetPaginationHandler;
+  resetPaginationHandler?: PaginationClearPaginationHandler;
   /**
    * callback function to get the `endInfinity` handler from the current pagination instance. e.g. `endInfinityHandler={fn => (...)}`. Use this handler to end the infinity scrolling procedure, in case the `pageCount` is unknown.
    */

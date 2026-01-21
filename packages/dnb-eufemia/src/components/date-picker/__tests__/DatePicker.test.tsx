@@ -351,14 +351,14 @@ describe('DatePicker component', () => {
   })
 
   it('will close the picker on reset', async () => {
-    const onReset = jest.fn()
+    const onClear = jest.fn()
 
     render(
       <DatePicker
         date="1981-01-15"
         showResetButton
         showInput
-        onReset={onReset}
+        onClear={onClear}
       />
     )
 
@@ -374,8 +374,8 @@ describe('DatePicker component', () => {
 
     await userEvent.click(resetButton)
 
-    expect(onReset).toHaveBeenCalledTimes(1)
-    expect(onReset).toHaveBeenCalledWith(
+    expect(onClear).toHaveBeenCalledTimes(1)
+    expect(onClear).toHaveBeenCalledWith(
       expect.objectContaining({ date: '1981-01-15' })
     )
 
@@ -1468,7 +1468,7 @@ describe('DatePicker component', () => {
   it('footer buttons work properly', async () => {
     const onSubmit = jest.fn()
     const onCancel = jest.fn()
-    const onReset = jest.fn()
+    const onClear = jest.fn()
 
     const date = '2020-10-20'
 
@@ -1483,7 +1483,7 @@ describe('DatePicker component', () => {
         showSubmitButton
         onSubmit={onSubmit}
         onCancel={onCancel}
-        onReset={onReset}
+        onClear={onClear}
       />
     )
 
@@ -1520,8 +1520,8 @@ describe('DatePicker component', () => {
     await userEvent.click(screen.getByLabelText('fredag 9. oktober 2020'))
     await userEvent.click(resetButton)
 
-    expect(onReset).toHaveBeenCalled()
-    expect(onReset).toHaveBeenCalledWith(expect.objectContaining({ date }))
+    expect(onClear).toHaveBeenCalled()
+    expect(onClear).toHaveBeenCalledWith(expect.objectContaining({ date }))
 
     expect(day).toHaveValue('20')
     expect(month).toHaveValue('10')
@@ -1558,12 +1558,12 @@ describe('DatePicker component', () => {
   })
 
   it('should empty the input fields when clicking the reset button when `date` is `undefined`', async () => {
-    const onReset = jest.fn()
+    const onClear = jest.fn()
 
     render(
       <DatePicker
         date={undefined}
-        onReset={onReset}
+        onClear={onClear}
         showResetButton
         showInput
       />

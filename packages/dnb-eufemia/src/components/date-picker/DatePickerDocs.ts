@@ -271,8 +271,8 @@ export const DatePickerEvents: PropertiesTableProps = {
     type: 'function',
     status: 'optional',
   },
-  onReset: {
-    doc: 'Will be called once a user presses the reset button.',
+  onClear: {
+    doc: 'Will be called once a user presses the clear/reset button.',
     type: 'function',
     status: 'optional',
   },

@@ -128,8 +128,8 @@ export function Reset() {
       <FormHandler>
         <Field.Date
           path="/reset"
-          onReset={(props) => {
-            console.log('onReset', props)
+          onClear={(props) => {
+            console.log('onClear', props)
           }}
         />
         <Tools.Log />
@@ -137,8 +137,8 @@ export function Reset() {
       <DatePicker
         showInput
         showResetButton
-        onReset={(props) => {
-          console.log('onReset', props)
+        onClear={(props) => {
+          console.log('onClear', props)
         }}
       />
     </>

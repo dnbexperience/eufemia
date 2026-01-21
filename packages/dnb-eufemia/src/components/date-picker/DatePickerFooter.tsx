@@ -17,12 +17,12 @@ type DatePickerFooterEvent = React.MouseEvent<HTMLButtonElement> &
 
 export type DatePickerFooterProps = Omit<
   React.HTMLProps<HTMLElement>,
-  'onSubmit' | 'onCancel' | 'onReset'
+  'onSubmit' | 'onCancel' | 'onClear'
 > & {
   isRange: boolean
   onSubmit?: (event: DatePickerFooterEvent) => void
   onCancel?: (event: DatePickerFooterEvent) => void
-  onReset?: (event: DatePickerFooterEvent) => void
+  onClear?: (event: DatePickerFooterEvent) => void
   submitButtonText?: string
   cancelButtonText?: string
   resetButtonText?: string
@@ -35,7 +35,7 @@ function DatePickerFooter({
   resetButtonText,
   onSubmit,
   onCancel,
-  onReset,
+  onClear,
 }: DatePickerFooterProps) {
   const {
     updateDates,
@@ -78,7 +78,7 @@ function DatePickerFooter({
     [updateDates, onCancel, submittedDates]
   )
 
-  const onResetHandler = useCallback(
+  const onClearHandler = useCallback(
     (args: DatePickerFooterEvent) => {
       if (args && args.event) {
         args.event.persist()
@@ -105,11 +105,11 @@ function DatePickerFooter({
           endDate,
         },
         (dates) => {
-          onReset?.({ ...args, ...dates })
+          onClear?.({ ...args, ...dates })
         }
       )
     },
-    [dateFormat, updateDates, previousDateProps, onReset]
+    [dateFormat, updateDates, previousDateProps, onClear]
   )
 
   if (
@@ -138,7 +138,7 @@ function DatePickerFooter({
             icon="reset"
             iconPosition="left"
             variant="tertiary"
-            onClick={onResetHandler}
+            onClick={onClearHandler}
             data-testid="reset"
             right="1rem"
           />

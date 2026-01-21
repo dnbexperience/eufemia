@@ -939,12 +939,12 @@ describe('Field.Date', () => {
   })
 
   it('will reset the value and the picker on reset click', async () => {
-    const onReset = jest.fn()
+    const onClear = jest.fn()
     let dataContext = null
 
     render(
       <Form.Handler>
-        <Field.Date path="/date" showInput onReset={onReset} />
+        <Field.Date path="/date" showInput onClear={onClear} />
         <DataContext.Consumer>
           {(context) => {
             dataContext = context
@@ -985,8 +985,8 @@ describe('Field.Date', () => {
     )
     await userEvent.click(resetButton)
 
-    expect(onReset).toHaveBeenCalledTimes(1)
-    expect(onReset).toHaveBeenCalledWith(
+    expect(onClear).toHaveBeenCalledTimes(1)
+    expect(onClear).toHaveBeenCalledWith(
       expect.objectContaining({
         date: undefined,
         isValid: false,
@@ -1388,10 +1388,10 @@ describe('Field.Date', () => {
     )
   })
 
-  it('should support onReset event', async () => {
-    const onReset = jest.fn()
+  it('should support onClear event', async () => {
+    const onClear = jest.fn()
 
-    render(<Field.Date value="2024-10-31" onReset={onReset} />)
+    render(<Field.Date value="2024-10-31" onClear={onClear} />)
 
     await userEvent.click(
       document.querySelector('button.dnb-input__submit-button__button')
@@ -1403,8 +1403,8 @@ describe('Field.Date', () => {
 
     await userEvent.click(resetButton)
 
-    expect(onReset).toHaveBeenCalledTimes(1)
-    expect(onReset).toHaveBeenLastCalledWith(expect.anything())
+    expect(onClear).toHaveBeenCalledTimes(1)
+    expect(onClear).toHaveBeenLastCalledWith(expect.anything())
   })
 
   it('should support onOpen event', async () => {
