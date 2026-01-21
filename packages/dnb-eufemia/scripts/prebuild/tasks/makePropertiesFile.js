@@ -7,6 +7,7 @@ import gulp from 'gulp'
 import rename from 'gulp-rename'
 import transform from 'gulp-transform'
 import prettier from 'prettier'
+import stylelint from 'stylelint'
 import packpath from 'packpath'
 import { log } from '../../lib'
 import { transformSass } from './transformUtils'
@@ -164,7 +165,7 @@ const recur = (prefix, value) => {
   if (Object.hasOwn(value, '$type')) {
     const alpha = value['$value']['alpha']
     const hex = value['$value']['hex']
-    const val = alpha !== 1 ? hex : `rgba(${hex}, ${alpha.toPrecision(2)})`
+    const val = alpha === 1 ? hex : `rgba(${hex}, ${alpha.toPrecision(2)})`
 
     return `${prefix}: ${val};\n`
   } else {
@@ -183,7 +184,7 @@ const makeFigmaSCSS = async () => {
 
   scssContent += '}\n'
 
-  return String(
+  const prettierResult = String(
     await prettier.format(scssContent, {
       filepath: 'file.scss',
       parser: 'scss',
@@ -192,6 +193,12 @@ const makeFigmaSCSS = async () => {
       useTabs: false,
     })
   )
+
+  const stylelintResult = await stylelint.lint({
+    code: prettierResult,
+    fix: true,
+  })
+  return stylelintResult.output
 }
 
 export const runFigmaFactory = async () => {
