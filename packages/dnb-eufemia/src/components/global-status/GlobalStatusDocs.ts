@@ -179,7 +179,7 @@ export const GlobalStatusEvents: PropertiesTableProps = {
     type: 'function',
     status: 'optional',
   },
-  onHide: {
+  onClose: {
     doc: 'Gets triggered once the GlobalStatus is getting closed/hidden by the user. Returns `{ id, statusId, ...properties }`.',
     type: 'function',
     status: 'optional',

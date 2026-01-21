@@ -93,7 +93,7 @@ export default class GlobalStatus extends React.PureComponent {
     onOpen: PropTypes.func,
     onShow: PropTypes.func,
     onClose: PropTypes.func,
-    onHide: PropTypes.func,
+    onClose: PropTypes.func,
   }
 
   static defaultProps = {
@@ -125,7 +125,7 @@ export default class GlobalStatus extends React.PureComponent {
     onOpen: null,
     onShow: null,
     onClose: null,
-    onHide: null,
+    onClose: null,
   }
 
   static getIcon({ state, icon, iconSize }) {
@@ -335,7 +335,7 @@ export default class GlobalStatus extends React.PureComponent {
 
     dispatchCustomElementEvent(
       this._globalStatus,
-      'onHide',
+      'onClose',
       this._globalStatus
     )
   }
@@ -595,7 +595,7 @@ export default class GlobalStatus extends React.PureComponent {
       onOpen, // eslint-disable-line
       onShow, // eslint-disable-line
       onClose, // eslint-disable-line
-      onHide, // eslint-disable-line
+      onClose, // eslint-disable-line
 
       ...attributes
     } = props

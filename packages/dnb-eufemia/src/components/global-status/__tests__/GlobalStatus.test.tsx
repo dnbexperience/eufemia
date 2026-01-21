@@ -505,7 +505,7 @@ describe('GlobalStatus component', () => {
 
   it('should close when esc key is pressed', async () => {
     const onClose = jest.fn()
-    const onHide = jest.fn()
+    const onClose = jest.fn()
 
     const ToggleStatus = () => {
       const [status, setStatus] = React.useState(null)
@@ -527,7 +527,7 @@ describe('GlobalStatus component', () => {
         <GlobalStatus
           id="esc-test"
           autoscroll={false}
-          onHide={onHide}
+          onClose={onClose}
           onClose={onClose}
         />
         <ToggleStatus />
@@ -544,7 +544,7 @@ describe('GlobalStatus component', () => {
     // Close with key
     keydown(27) // esc
 
-    expect(onHide).toHaveBeenCalledTimes(1)
+    expect(onClose).toHaveBeenCalledTimes(1)
 
     simulateAnimationEnd()
 
@@ -553,7 +553,7 @@ describe('GlobalStatus component', () => {
 
   it('should close when escape key name is pressed', async () => {
     const onClose = jest.fn()
-    const onHide = jest.fn()
+    const onClose = jest.fn()
 
     const ToggleStatus = () => {
       const [status, setStatus] = React.useState(null)
@@ -576,7 +576,7 @@ describe('GlobalStatus component', () => {
         <GlobalStatus
           id="escape-name-test"
           autoscroll={false}
-          onHide={onHide}
+          onClose={onClose}
           onClose={onClose}
         />
         <ToggleStatus />
@@ -591,7 +591,7 @@ describe('GlobalStatus component', () => {
 
     keydownWithKeyName('Escape')
 
-    expect(onHide).toHaveBeenCalledTimes(1)
+    expect(onClose).toHaveBeenCalledTimes(1)
 
     simulateAnimationEnd()
 
@@ -777,7 +777,7 @@ describe('GlobalStatus component', () => {
   it('should have a working auto close', () => {
     const onOpen = jest.fn()
     const onClose = jest.fn()
-    const onHide = jest.fn()
+    const onClose = jest.fn()
 
     render(
       <GlobalStatus
@@ -786,7 +786,7 @@ describe('GlobalStatus component', () => {
         id="custom-status-autoclose"
         onOpen={onOpen}
         onClose={onClose}
-        onHide={onHide}
+        onClose={onClose}
       />
     )
 
@@ -847,7 +847,7 @@ describe('GlobalStatus component', () => {
     simulateAnimationEnd()
 
     expect(onClose.mock.calls.length).toBe(1)
-    expect(onHide.mock.calls.length).toBe(0)
+    expect(onClose.mock.calls.length).toBe(0)
 
     expect(
       document.querySelector('div.dnb-global-status__message')
@@ -867,7 +867,7 @@ describe('GlobalStatus component', () => {
       document.querySelector('button.dnb-global-status__close-button')
     )
 
-    expect(onHide.mock.calls.length).toBe(1)
+    expect(onClose.mock.calls.length).toBe(1)
   })
 
   it('should take account to the show prop', () => {

@@ -300,8 +300,8 @@ export const SimulateSteps = () => {
           console.log('onClose')
           toggleUpdateStatus(0)
         }}
-        onHide={() => {
-          console.log('onHide')
+        onClose={() => {
+          console.log('onClose')
           toggleUpdateStatus(0)
         }}
       />
@@ -510,8 +510,8 @@ const UpdateDemoTools = () => {
             setVisibility(true)
           }
         },
-        onHide: () => {
-          console.log('onHide')
+        onClose: () => {
+          console.log('onClose')
           setVisibility('auto')
         },
         onClose: () => {

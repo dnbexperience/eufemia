@@ -109,7 +109,7 @@ export interface GlobalStatusProps
   onOpen?: (...args: any[]) => any;
   onShow?: (...args: any[]) => any;
   onClose?: (...args: any[]) => any;
-  onHide?: (...args: any[]) => any;
+  onClose?: (...args: any[]) => any;
 }
 export type GlobalStatusStatusId = string;
 export type GlobalStatusAddProps = {
@@ -173,7 +173,7 @@ export type GlobalStatusInterceptorProps = {
 };
 export type GlobalStatusInterceptorUpdateEvents = {
   onShow?: () => void;
-  onHide?: () => void;
+  onClose?: () => void;
   onClose?: () => void;
   /**
    * set to `true` or `false` to manually make the global status visible. Defaults to `true`.

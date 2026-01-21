@@ -136,7 +136,7 @@ export const GlobalStatusAddRemoveItems = () => (
               id="custom-status"
               autoscroll={false}
               onClose={() => toggleUpdateStatus(0)}
-              onHide={() => toggleUpdateStatus(0)}
+              onClose={() => toggleUpdateStatus(0)}
             />
             <Button
               text={`Show step #${count}`}
@@ -298,8 +298,8 @@ export const GlobalStatusUpdate = () => (
                   setVisibility(true)
                 }
               },
-              onHide: () => {
-                console.log('onHide')
+              onClose: () => {
+                console.log('onClose')
                 setVisibility(false)
               },
               onClose: () => {

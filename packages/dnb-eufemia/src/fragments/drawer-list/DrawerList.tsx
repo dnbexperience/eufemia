@@ -211,7 +211,7 @@ export interface DrawerListProps {
    */
   skipKeysearch?: boolean
   /**
-   * If set to `true`, the DrawerList will be open. Use together with onHide/onShow to control visibility.
+   * If set to `true`, the DrawerList will be open. Use together with onClose/onShow to control visibility.
    */
   open?: boolean
   data?: DrawerListData
