@@ -12,7 +12,7 @@ import type {
 import { isValid, format, differenceInCalendarDays } from 'date-fns'
 
 import SharedContext from '../../shared/Context'
-import { correctV1Format, isDisabled } from './DatePickerCalc'
+import { isDisabled } from './DatePickerCalc'
 import DatePickerContext, {
   DatePickerContextValues,
 } from './DatePickerContext'
@@ -87,7 +87,7 @@ function DatePickerProvider(props: DatePickerProviderProps) {
   } = props
 
   const returnFormat = useMemo(
-    () => correctV1Format(returnFormatProp || defaultReturnFormat),
+    () => returnFormatProp || defaultReturnFormat,
     [returnFormatProp, defaultReturnFormat]
   )
 
