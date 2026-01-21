@@ -111,9 +111,9 @@ export const AutocompleteProperties = {
     type: 'boolean',
     status: 'optional',
   },
-  alignAutocomplete: {
-    doc: 'Use `right` to change the options alignment direction. Defaults to `left`.',
-    type: 'string',
+  align: {
+    doc: 'Defines the horizontal alignment of the autocomplete dropdown options list. Use `left` (default) to align with the left edge of the input field, or `right` to align with the right edge. This is particularly useful for aligning the dropdown with the visual flow of your layout.',
+    type: ['left', 'right'],
     status: 'optional',
   },
   noOptions: {

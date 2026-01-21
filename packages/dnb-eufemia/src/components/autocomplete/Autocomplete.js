@@ -160,7 +160,7 @@ export default class Autocomplete extends React.PureComponent {
       PropTypes.bool,
     ]),
     size: PropTypes.oneOf(['default', 'small', 'medium', 'large']),
-    alignAutocomplete: PropTypes.oneOf(['left', 'right']),
+    align: PropTypes.oneOf(['left', 'right']),
     optionsRender: PropTypes.oneOfType([
       PropTypes.object,
       PropTypes.func,
@@ -292,7 +292,7 @@ export default class Autocomplete extends React.PureComponent {
     submitElement: null,
     preventSelection: false,
     size: 'default',
-    alignAutocomplete: null,
+    align: null,
     optionsRender: null,
     data: null,
     searchInWordIndex: null,
@@ -1766,7 +1766,7 @@ class AutocompleteInstance extends React.PureComponent {
       iconSize,
       inputIcon,
       size,
-      alignAutocomplete,
+      align,
       fixedPosition,
       status,
       statusState,
@@ -1868,7 +1868,7 @@ class AutocompleteInstance extends React.PureComponent {
         open && 'dnb-autocomplete--open',
         labelDirection && `dnb-autocomplete--${labelDirection}`,
         iconPosition && `dnb-autocomplete--icon-position-${iconPosition}`,
-        alignAutocomplete && `dnb-autocomplete--${alignAutocomplete}`,
+        align && `dnb-autocomplete--${align}`,
         visibleIndicator && 'dnb-autocomplete--show-indicator',
         size && `dnb-autocomplete--${size}`,
         isTrue(stretch) && `dnb-autocomplete--stretch`,
@@ -2098,7 +2098,7 @@ class AutocompleteInstance extends React.PureComponent {
                 trianglePosition={trianglePosition || iconPosition}
                 keepOpen={keepOpen}
                 preventClose={preventClose}
-                alignDrawer={alignAutocomplete}
+                alignDrawer={align}
                 fixedPosition={fixedPosition}
                 disabled={disabled}
                 maxHeight={maxHeight}
