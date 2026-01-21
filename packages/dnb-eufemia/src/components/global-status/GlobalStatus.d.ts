@@ -107,9 +107,7 @@ export interface GlobalStatusProps
   children?: GlobalStatusChildren;
   onAdjust?: (...args: any[]) => any;
   onOpen?: (...args: any[]) => any;
-  onShow?: (...args: any[]) => any;
   onClose?: (...args: any[]) => any;
-  onHide?: (...args: any[]) => any;
 }
 export type GlobalStatusStatusId = string;
 export type GlobalStatusAddProps = {
