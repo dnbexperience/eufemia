@@ -10,7 +10,7 @@ describe('useId', () => {
   })
 
   it('should return id from React.useId', () => {
-    jest.spyOn(React, 'useId').mockImplementation(() => ':test:')
+    jest.spyOn(React, 'useId').mockImplementation(() => '_test_')
     const { result } = renderHook(() => useId())
     expect(result.current).toBe('id-test')
   })
