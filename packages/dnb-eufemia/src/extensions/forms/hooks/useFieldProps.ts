@@ -130,6 +130,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     emptyValue,
     required: requiredProp,
     disabled: disabledProp,
+    readOnly,
     info: infoProp,
     warning: warningProp,
     error: initialErrorProp = 'initial',
@@ -234,7 +235,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   } = dataContext || {}
   const onChangeContext = dataContext?.props?.onChange
 
-  const disabled = disabledProp ?? props.readOnly
+  const disabled = disabledProp ?? readOnly
   const inFieldBlock = Boolean(
     fieldBlockContext && fieldBlockContext.disableStatusSummary !== true
   )
@@ -858,6 +859,11 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   )
 
   contextErrorRef.current = useMemo(() => {
+    // Skip context errors for disabled and readOnly fields
+    if (disabled) {
+      return undefined
+    }
+
     const dataContextError = dataContextErrors?.[identifier]
     if (!dataContextError) {
       return undefined
@@ -867,7 +873,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       return error
     }
     return contextErrorRef.current
-  }, [dataContextErrors, identifier, prepareError])
+  }, [dataContextErrors, identifier, prepareError, disabled])
 
   // If the error is a type error, we want to show it even if the field has not been used
   if (
