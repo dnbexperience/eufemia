@@ -26,12 +26,12 @@ describe('searchQuery', () => {
     ).toHaveLength(0)
   })
 
-  it('should remove node when skipSearch is given', () => {
+  it('should remove node when draft is given', () => {
     expect(
       transformer(
         makeNode({
           fields: { slug: '/page' },
-          frontmatter: { skipSearch: true },
+          frontmatter: { draft: true },
         })
       )
     ).toHaveLength(0)
