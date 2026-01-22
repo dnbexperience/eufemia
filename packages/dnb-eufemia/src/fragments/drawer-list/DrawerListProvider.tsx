@@ -188,7 +188,7 @@ export default class DrawerListProvider extends React.PureComponent<
     }
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps, prevState) {
     if (this.props.open !== null && this.props.open !== prevProps.open) {
       if (isTrue(this.props.open)) {
         this.setVisible()
@@ -204,6 +204,19 @@ export default class DrawerListProvider extends React.PureComponent<
         document.activeElement?.tagName === 'BODY'
       ) {
         this._refUl.current?.focus()
+      }
+
+      // Recalculate scroll observer when direction changes or data changes
+      if (
+        this.state.direction !== prevState.direction ||
+        this.props.data !== prevProps.data
+      ) {
+        // Use requestAnimationFrame to ensure DOM has updated
+        window?.requestAnimationFrame?.(() => {
+          this.refreshScrollObserver()
+          // Trigger scroll event to update arrow indicators
+          this.setOnScroll?.()
+        })
       }
     }
   }
@@ -250,7 +263,6 @@ export default class DrawerListProvider extends React.PureComponent<
         tmpToBottom
 
       this.setOnScroll = () => {
-        // TODO: BUG: doesn't run when direction changes or when search results change
         if (!this._refUl.current) {
           return // stop here
         }
