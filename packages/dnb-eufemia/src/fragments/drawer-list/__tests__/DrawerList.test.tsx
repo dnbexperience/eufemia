@@ -1105,32 +1105,24 @@ describe('DrawerList component', () => {
         ).toHaveLength(30)
       })
 
-      const initialDirection = document.querySelector(
+      const isBottomDirection = document.querySelector(
         '.dnb-drawer-list--bottom'
       )
-        ? 'bottom'
-        : 'top'
 
       // Trigger direction change by scrolling to opposite position
-      if (initialDirection === 'bottom') {
-        window.scrollTo({ top: -640 })
+      const scrollPosition = isBottomDirection ? -640 : 0
+      window.scrollTo({ top: scrollPosition })
 
-        // Direction should change to top
-        await waitFor(() => {
-          expect(
-            document.querySelector('.dnb-drawer-list--top')
-          ).toBeInTheDocument()
-        })
-      } else {
-        window.scrollTo({ top: 0 })
-
-        // Direction should change to bottom
-        await waitFor(() => {
-          expect(
-            document.querySelector('.dnb-drawer-list--bottom')
-          ).toBeInTheDocument()
-        })
-      }
+      // Direction should change
+      const expectedSelector = isBottomDirection
+        ? '.dnb-drawer-list--top'
+        : '.dnb-drawer-list--bottom'
+      
+      await waitFor(() => {
+        expect(
+          document.querySelector(expectedSelector)
+        ).toBeInTheDocument()
+      })
 
       // Verify the list can still handle scroll events properly after direction change
       // by checking that scroll positions are tracked correctly
