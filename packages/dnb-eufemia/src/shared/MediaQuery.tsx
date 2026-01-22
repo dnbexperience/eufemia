@@ -20,7 +20,7 @@ export { onMediaQueryChange }
 const MediaQuery: React.FC<MediaQueryProps> = (props) => {
   const context = React.useContext(Context)
   const listenerRef = React.useRef<MediaQueryListener>(null)
-  
+
   const getInitialState = (): MediaQueryState => {
     const state: MediaQueryState = {
       match: null,
@@ -48,29 +48,41 @@ const MediaQuery: React.FC<MediaQueryProps> = (props) => {
     return state
   }
 
-  const [state, setState] = React.useState<MediaQueryState>(getInitialState)
+  const [state, setState] =
+    React.useState<MediaQueryState>(getInitialState)
 
-  const bindListener = React.useCallback(() => {
+  // Handle mount, updates, and cleanup
+  React.useEffect(() => {
     // Cleanup existing listener
     if (listenerRef.current) {
       listenerRef.current()
       listenerRef.current = null
     }
-    
-    if (state.mediaQueryList) {
+
+    if (!isMatchMediaSupported()) {
+      return
+    }
+
+    const { query, when, not, disabled, correctRange = true, log } = props
+    const mediaQueryList = makeMediaQueryList(
+      { query, when, not },
+      context?.breakpoints,
+      { disabled, correctRange, log }
+    )
+
+    setState({
+      match: mediaQueryList?.matches,
+      mediaQueryList,
+    })
+
+    // Bind listener
+    if (mediaQueryList) {
       listenerRef.current = createMediaQueryListener(
-        state.mediaQueryList,
+        mediaQueryList,
         (match) => {
           setState((prev) => ({ ...prev, match }))
         }
       )
-    }
-  }, [state.mediaQueryList])
-
-  // Initial mount
-  React.useEffect(() => {
-    if (isMatchMediaSupported()) {
-      bindListener()
     }
 
     return () => {
@@ -79,27 +91,7 @@ const MediaQuery: React.FC<MediaQueryProps> = (props) => {
         listenerRef.current = null
       }
     }
-  }, [bindListener])
-
-  // Handle prop changes
-  React.useEffect(() => {
-    const { query, when, not } = props
-    const mediaQueryList = makeMediaQueryList(
-      { query, when, not },
-      context?.breakpoints
-    )
-    setState(
-      {
-        match: mediaQueryList?.matches,
-        mediaQueryList,
-      }
-    )
-  }, [props.query, props.when, props.not, context?.breakpoints])
-
-  // Re-bind listener when mediaQueryList changes
-  React.useEffect(() => {
-    bindListener()
-  }, [bindListener])
+  }, [props.query, props.when, props.not, props.disabled, props.correctRange, props.log, context?.breakpoints])
 
   return <>{state.match ? props.children : null}</>
 }
