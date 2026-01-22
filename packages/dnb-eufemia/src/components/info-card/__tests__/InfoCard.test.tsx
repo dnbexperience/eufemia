@@ -21,9 +21,7 @@ describe('InfoCard', () => {
     const props: InfoCardAllProps = { text: 'text' }
     render(<InfoCard {...props} />)
 
-    expect(
-      screen.getByText('text')
-    ).toBeInTheDocument()
+    expect(screen.getByText('text')).toBeInTheDocument()
   })
 
   it('renders the title as string', () => {
@@ -251,7 +249,9 @@ describe('InfoCard', () => {
 
     render(<InfoCard skeleton text="skeleton" />)
 
-    const paragraphElement = document.querySelector('.dnb-info-card__content .dnb-p')
+    const paragraphElement = document.querySelector(
+      '.dnb-info-card__content .dnb-p'
+    )
     expect(paragraphElement.className).toMatch(skeletonClassName)
   })
 
@@ -264,7 +264,9 @@ describe('InfoCard', () => {
       </Provider>
     )
 
-    const paragraphElement = document.querySelector('.dnb-info-card__content .dnb-p')
+    const paragraphElement = document.querySelector(
+      '.dnb-info-card__content .dnb-p'
+    )
     expect(paragraphElement.className).toMatch(skeletonClassName)
   })
 
