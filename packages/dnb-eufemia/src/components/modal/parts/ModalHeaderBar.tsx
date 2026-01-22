@@ -27,10 +27,6 @@ export interface ModalHeaderBarProps
   shadowClass?: string
 }
 
-interface ModalHeaderBarState {
-  showShadow: boolean
-}
-
 const ModalHeaderBar: React.FC<
   ModalHeaderBarProps & Omit<React.HTMLProps<HTMLElement>, 'children'>
 > = (props) => {
