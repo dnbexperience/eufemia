@@ -425,16 +425,12 @@ function prepareIconCore(
 function usePrepareIcon(props: IconAllProps, context: ContextProps) {
   const { icon, size, width, height } = props
 
-  const cachedCalcSize = useMemo(
-    () =>
-      calcSize({
-        icon,
-        size,
-        width,
-        height,
-      }),
-    [icon, size, width, height]
-  )
+  const cachedCalcSize = calcSize({
+    icon,
+    size,
+    width,
+    height,
+  })
 
   const label = useMemo(
     () => (icon ? getIconNameFromComponent(icon) : null),
