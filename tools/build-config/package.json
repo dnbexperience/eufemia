@@ -1,0 +1,26 @@
+{
+  "name": "@dnb/build-config",
+  "version": "1.0.0",
+  "description": "Shared build configuration for DNB Eufemia monorepo",
+  "main": "index.js",
+  "files": [
+    "babel.config.js",
+    "postcss.config.js",
+    "jest.config.base.js"
+  ],
+  "keywords": [
+    "babel",
+    "postcss",
+    "jest",
+    "config",
+    "dnb",
+    "eufemia"
+  ],
+  "peerDependencies": {
+    "@babel/core": "^7.28.5",
+    "postcss": "^8.0.0",
+    "jest": "^30.0.0"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}
