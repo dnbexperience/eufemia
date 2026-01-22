@@ -30,7 +30,6 @@ import {
 
 // this theme is replaced my a css one
 import prismTheme from '@dnb/eufemia/src/style/themes/theme-ui/prism/dnb-prism-theme'
-import { ContextProps } from '@dnb/eufemia/src/shared/Context'
 
 export type CodeSectionProps = {
   scope?: Record<string, unknown>
