@@ -51,7 +51,7 @@ const CustomContent: React.FC<CustomContentProps> = (props) => {
   } = props
 
   if (id) {
-    return <ContentWrapper {...rest} id={id} />
+    return <ContentWrapper {...rest} id={id} children={children} />
   }
 
   return (
