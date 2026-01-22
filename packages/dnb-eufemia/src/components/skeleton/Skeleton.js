@@ -43,7 +43,7 @@ function Skeleton(props) {
     [props, context]
   )
 
-  const setAriaLiveUpdate = React.useCallback(() => {
+  const updateAriaLive = React.useCallback(() => {
     // this is only to make a better screen reader ux
     clearTimeout(ariaLiveUpdateTimeoutRef.current)
     ariaLiveUpdateTimeoutRef.current = setTimeout(() => {
@@ -68,10 +68,10 @@ function Skeleton(props) {
 
   React.useEffect(() => {
     if (prevShowRef.current !== props.show) {
-      setAriaLiveUpdate()
+      updateAriaLive()
     }
     prevShowRef.current = props.show
-  }, [props.show, setAriaLiveUpdate])
+  }, [props.show, updateAriaLive])
 
   React.useEffect(() => {
     return () => {
