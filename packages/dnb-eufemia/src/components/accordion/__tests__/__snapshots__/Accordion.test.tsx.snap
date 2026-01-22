@@ -91,11 +91,11 @@ h1 > .dnb-icon, h2 > .dnb-icon, h3 > .dnb-icon, h4 > .dnb-icon, h5 > .dnb-icon, 
 p > .dnb-icon {
   vertical-align: inherit;
 }
-.dnb-icon.dnb-skeleton {
-  color: var(--skeleton-color) !important;
-}
 .dnb-icon.dnb-skeleton::before, .dnb-icon.dnb-skeleton::after {
   content: none !important;
+}
+.dnb-icon.dnb-skeleton {
+  color: var(--skeleton-color) !important;
 }
 
 /*
@@ -279,17 +279,15 @@ exports[`Accordion scss have to match default theme snapshot 1`] = `
   background-color: var(--ui-accordion-background--override, var(--ui-accordion-background));
   box-shadow: var(--ui-accordion-box-shadow);
   border: none;
+}
+.dnb-accordion__header__description {
+  color: var(--ui-accordion-description-color--override, var(--ui-accordion-description-color));
+}
+.dnb-accordion__header {
   /* 
    * VARIANTS
    * Each variant is mutually exclusive
    */
-  /* 
-   * STATES
-   * States that can exist across all variants.
-   */
-}
-.dnb-accordion__header__description {
-  color: var(--ui-accordion-description-color--override, var(--ui-accordion-description-color));
 }
 .dnb-accordion__header--outlined, .dnb-accordion__header--filled {
   --ui-accordion-border-inset: inset;
@@ -392,6 +390,12 @@ html:not([data-whatintent=touch]) .dnb-accordion__header--filled:focus-visible[d
 }
 html:not([data-whatintent=touch]) .dnb-accordion__header--filled:focus-visible:not([disabled]) {
   --ui-accordion-border-color: var(--color-sea-green);
+}
+.dnb-accordion__header {
+  /* 
+   * STATES
+   * States that can exist across all variants.
+   */
 }
 .dnb-accordion__header--expanded {
   --ui-accordion-color--override: var(

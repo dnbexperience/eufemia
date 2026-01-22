@@ -236,11 +236,11 @@ h1 > .dnb-icon, h2 > .dnb-icon, h3 > .dnb-icon, h4 > .dnb-icon, h5 > .dnb-icon, 
 p > .dnb-icon {
   vertical-align: inherit;
 }
-.dnb-icon.dnb-skeleton {
-  color: var(--skeleton-color) !important;
-}
 .dnb-icon.dnb-skeleton::before, .dnb-icon.dnb-skeleton::after {
   content: none !important;
+}
+.dnb-icon.dnb-skeleton {
+  color: var(--skeleton-color) !important;
 }
 
 /*
@@ -265,6 +265,11 @@ p > .dnb-icon {
   --inner-space: 0;
   --tooltip-border-radius: 1rem;
   z-index: var(--tooltip-z-index);
+}
+.dnb-popover--inside-modal .dnb-tooltip {
+  z-index: calc(var(--modal-z-index) + var(--tooltip-z-index));
+}
+.dnb-tooltip {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -273,9 +278,6 @@ p > .dnb-icon {
   text-align: center;
   border-radius: var(--tooltip-border-radius);
   box-shadow: var(--shadow-default);
-}
-.dnb-popover--inside-modal .dnb-tooltip {
-  z-index: calc(var(--modal-z-index) + var(--tooltip-z-index));
 }
 .dnb-tooltip--large {
   padding: 0.25rem 0;
@@ -324,13 +326,14 @@ p > .dnb-icon {
   max-width: var(--prose-max-width);
   padding: 0.625rem 1rem;
   cursor: text;
-  color: inherit;
-  line-height: var(--line-height-small);
-  font-size: var(--font-size-small);
-  white-space: normal;
 }
 button .dnb-form-status__text {
   cursor: inherit;
+}
+.dnb-form-status__text {
+  color: inherit;
+  line-height: var(--line-height-small);
+  font-size: var(--font-size-small);
 }
 .dnb-form-status__text .dnb-ul,
 .dnb-form-status__text .dnb-anchor {
@@ -339,12 +342,15 @@ button .dnb-form-status__text {
 .dnb-form-status__text .dnb-ul:not([class*=dnb-space__left]) {
   padding-left: 1rem;
 }
-.dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) {
-  margin-bottom: 0.5rem;
-}
 .dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) .dnb-li {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
+}
+.dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) {
+  margin-bottom: 0.5rem;
+}
+.dnb-form-status__text {
+  white-space: normal;
 }
 .dnb-icon + .dnb-form-status__text {
   padding-left: 0.5rem;
@@ -416,6 +422,12 @@ button .dnb-form-status__text {
   position: relative;
   cursor: pointer;
   white-space: nowrap;
+}
+.dnb-button--wrap {
+  overflow-wrap: break-word;
+  white-space: normal;
+}
+.dnb-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -429,11 +441,6 @@ button .dnb-form-status__text {
   font-weight: var(--font-weight-regular);
   text-decoration: none;
   box-shadow: none;
-  /* stylelint-disable-next-line */
-}
-.dnb-button--wrap {
-  overflow-wrap: break-word;
-  white-space: normal;
 }
 .dnb-button, .dnb-core-style .dnb-button {
   line-height: var(--button-height);
@@ -499,6 +506,9 @@ button .dnb-form-status__text {
 .dnb-button--has-text.dnb-button--size-large {
   --button-padding-left: var(--button-padding--large);
   --button-padding-right: var(--button-padding--large);
+}
+.dnb-button {
+  /* stylelint-disable-next-line */
 }
 .dnb-button--has-text {
   --button-padding-left: var(--button-padding--default);
@@ -702,11 +712,11 @@ h1 > .dnb-icon, h2 > .dnb-icon, h3 > .dnb-icon, h4 > .dnb-icon, h5 > .dnb-icon, 
 p > .dnb-icon {
   vertical-align: inherit;
 }
-.dnb-icon.dnb-skeleton {
-  color: var(--skeleton-color) !important;
-}
 .dnb-icon.dnb-skeleton::before, .dnb-icon.dnb-skeleton::after {
   content: none !important;
+}
+.dnb-icon.dnb-skeleton {
+  color: var(--skeleton-color) !important;
 }
 
 /*
@@ -731,6 +741,11 @@ p > .dnb-icon {
   --inner-space: 0;
   --tooltip-border-radius: 1rem;
   z-index: var(--tooltip-z-index);
+}
+.dnb-popover--inside-modal .dnb-tooltip {
+  z-index: calc(var(--modal-z-index) + var(--tooltip-z-index));
+}
+.dnb-tooltip {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -739,9 +754,6 @@ p > .dnb-icon {
   text-align: center;
   border-radius: var(--tooltip-border-radius);
   box-shadow: var(--shadow-default);
-}
-.dnb-popover--inside-modal .dnb-tooltip {
-  z-index: calc(var(--modal-z-index) + var(--tooltip-z-index));
 }
 .dnb-tooltip--large {
   padding: 0.25rem 0;
@@ -774,15 +786,17 @@ p > .dnb-icon {
 .dnb-form-label {
   display: inline-block;
   padding: 0;
+}
+.dnb-form-label[for] {
+  width: fit-content;
+}
+.dnb-form-label {
   text-align: left;
   vertical-align: baseline;
   white-space: pre-wrap;
   word-break: normal;
   font-size: var(--font-size-basis);
   color: inherit;
-}
-.dnb-form-label[for] {
-  width: fit-content;
 }
 .dnb-form-label--vertical {
   display: block;
@@ -830,13 +844,14 @@ legend.dnb-form-label {
   max-width: var(--prose-max-width);
   padding: 0.625rem 1rem;
   cursor: text;
-  color: inherit;
-  line-height: var(--line-height-small);
-  font-size: var(--font-size-small);
-  white-space: normal;
 }
 button .dnb-form-status__text {
   cursor: inherit;
+}
+.dnb-form-status__text {
+  color: inherit;
+  line-height: var(--line-height-small);
+  font-size: var(--font-size-small);
 }
 .dnb-form-status__text .dnb-ul,
 .dnb-form-status__text .dnb-anchor {
@@ -845,12 +860,15 @@ button .dnb-form-status__text {
 .dnb-form-status__text .dnb-ul:not([class*=dnb-space__left]) {
   padding-left: 1rem;
 }
-.dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) {
-  margin-bottom: 0.5rem;
-}
 .dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) .dnb-li {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
+}
+.dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) {
+  margin-bottom: 0.5rem;
+}
+.dnb-form-status__text {
+  white-space: normal;
 }
 .dnb-icon + .dnb-form-status__text {
   padding-left: 0.5rem;
@@ -1382,11 +1400,11 @@ h1 > .dnb-icon, h2 > .dnb-icon, h3 > .dnb-icon, h4 > .dnb-icon, h5 > .dnb-icon, 
 p > .dnb-icon {
   vertical-align: inherit;
 }
-.dnb-icon.dnb-skeleton {
-  color: var(--skeleton-color) !important;
-}
 .dnb-icon.dnb-skeleton::before, .dnb-icon.dnb-skeleton::after {
   content: none !important;
+}
+.dnb-icon.dnb-skeleton {
+  color: var(--skeleton-color) !important;
 }
 
 /*
@@ -1411,6 +1429,11 @@ p > .dnb-icon {
   --inner-space: 0;
   --tooltip-border-radius: 1rem;
   z-index: var(--tooltip-z-index);
+}
+.dnb-popover--inside-modal .dnb-tooltip {
+  z-index: calc(var(--modal-z-index) + var(--tooltip-z-index));
+}
+.dnb-tooltip {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -1419,9 +1442,6 @@ p > .dnb-icon {
   text-align: center;
   border-radius: var(--tooltip-border-radius);
   box-shadow: var(--shadow-default);
-}
-.dnb-popover--inside-modal .dnb-tooltip {
-  z-index: calc(var(--modal-z-index) + var(--tooltip-z-index));
 }
 .dnb-tooltip--large {
   padding: 0.25rem 0;
@@ -1470,13 +1490,14 @@ p > .dnb-icon {
   max-width: var(--prose-max-width);
   padding: 0.625rem 1rem;
   cursor: text;
-  color: inherit;
-  line-height: var(--line-height-small);
-  font-size: var(--font-size-small);
-  white-space: normal;
 }
 button .dnb-form-status__text {
   cursor: inherit;
+}
+.dnb-form-status__text {
+  color: inherit;
+  line-height: var(--line-height-small);
+  font-size: var(--font-size-small);
 }
 .dnb-form-status__text .dnb-ul,
 .dnb-form-status__text .dnb-anchor {
@@ -1485,12 +1506,15 @@ button .dnb-form-status__text {
 .dnb-form-status__text .dnb-ul:not([class*=dnb-space__left]) {
   padding-left: 1rem;
 }
-.dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) {
-  margin-bottom: 0.5rem;
-}
 .dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) .dnb-li {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
+}
+.dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) {
+  margin-bottom: 0.5rem;
+}
+.dnb-form-status__text {
+  white-space: normal;
 }
 .dnb-icon + .dnb-form-status__text {
   padding-left: 0.5rem;
@@ -1562,6 +1586,12 @@ button .dnb-form-status__text {
   position: relative;
   cursor: pointer;
   white-space: nowrap;
+}
+.dnb-button--wrap {
+  overflow-wrap: break-word;
+  white-space: normal;
+}
+.dnb-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -1575,11 +1605,6 @@ button .dnb-form-status__text {
   font-weight: var(--font-weight-regular);
   text-decoration: none;
   box-shadow: none;
-  /* stylelint-disable-next-line */
-}
-.dnb-button--wrap {
-  overflow-wrap: break-word;
-  white-space: normal;
 }
 .dnb-button, .dnb-core-style .dnb-button {
   line-height: var(--button-height);
@@ -1645,6 +1670,9 @@ button .dnb-form-status__text {
 .dnb-button--has-text.dnb-button--size-large {
   --button-padding-left: var(--button-padding--large);
   --button-padding-right: var(--button-padding--large);
+}
+.dnb-button {
+  /* stylelint-disable-next-line */
 }
 .dnb-button--has-text {
   --button-padding-left: var(--button-padding--default);
@@ -1786,15 +1814,17 @@ button.dnb-button::-moz-focus-inner {
 .dnb-form-label {
   display: inline-block;
   padding: 0;
+}
+.dnb-form-label[for] {
+  width: fit-content;
+}
+.dnb-form-label {
   text-align: left;
   vertical-align: baseline;
   white-space: pre-wrap;
   word-break: normal;
   font-size: var(--font-size-basis);
   color: inherit;
-}
-.dnb-form-label[for] {
-  width: fit-content;
 }
 .dnb-form-label--vertical {
   display: block;
@@ -1902,11 +1932,11 @@ h1 > .dnb-icon, h2 > .dnb-icon, h3 > .dnb-icon, h4 > .dnb-icon, h5 > .dnb-icon, 
 p > .dnb-icon {
   vertical-align: inherit;
 }
-.dnb-icon.dnb-skeleton {
-  color: var(--skeleton-color) !important;
-}
 .dnb-icon.dnb-skeleton::before, .dnb-icon.dnb-skeleton::after {
   content: none !important;
+}
+.dnb-icon.dnb-skeleton {
+  color: var(--skeleton-color) !important;
 }
 
 /*
@@ -1931,6 +1961,11 @@ p > .dnb-icon {
   --inner-space: 0;
   --tooltip-border-radius: 1rem;
   z-index: var(--tooltip-z-index);
+}
+.dnb-popover--inside-modal .dnb-tooltip {
+  z-index: calc(var(--modal-z-index) + var(--tooltip-z-index));
+}
+.dnb-tooltip {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -1939,9 +1974,6 @@ p > .dnb-icon {
   text-align: center;
   border-radius: var(--tooltip-border-radius);
   box-shadow: var(--shadow-default);
-}
-.dnb-popover--inside-modal .dnb-tooltip {
-  z-index: calc(var(--modal-z-index) + var(--tooltip-z-index));
 }
 .dnb-tooltip--large {
   padding: 0.25rem 0;
@@ -1990,13 +2022,14 @@ p > .dnb-icon {
   max-width: var(--prose-max-width);
   padding: 0.625rem 1rem;
   cursor: text;
-  color: inherit;
-  line-height: var(--line-height-small);
-  font-size: var(--font-size-small);
-  white-space: normal;
 }
 button .dnb-form-status__text {
   cursor: inherit;
+}
+.dnb-form-status__text {
+  color: inherit;
+  line-height: var(--line-height-small);
+  font-size: var(--font-size-small);
 }
 .dnb-form-status__text .dnb-ul,
 .dnb-form-status__text .dnb-anchor {
@@ -2005,12 +2038,15 @@ button .dnb-form-status__text {
 .dnb-form-status__text .dnb-ul:not([class*=dnb-space__left]) {
   padding-left: 1rem;
 }
-.dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) {
-  margin-bottom: 0.5rem;
-}
 .dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) .dnb-li {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
+}
+.dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) {
+  margin-bottom: 0.5rem;
+}
+.dnb-form-status__text {
+  white-space: normal;
 }
 .dnb-icon + .dnb-form-status__text {
   padding-left: 0.5rem;
@@ -2082,6 +2118,12 @@ button .dnb-form-status__text {
   position: relative;
   cursor: pointer;
   white-space: nowrap;
+}
+.dnb-button--wrap {
+  overflow-wrap: break-word;
+  white-space: normal;
+}
+.dnb-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -2095,11 +2137,6 @@ button .dnb-form-status__text {
   font-weight: var(--font-weight-regular);
   text-decoration: none;
   box-shadow: none;
-  /* stylelint-disable-next-line */
-}
-.dnb-button--wrap {
-  overflow-wrap: break-word;
-  white-space: normal;
 }
 .dnb-button, .dnb-core-style .dnb-button {
   line-height: var(--button-height);
@@ -2165,6 +2202,9 @@ button .dnb-form-status__text {
 .dnb-button--has-text.dnb-button--size-large {
   --button-padding-left: var(--button-padding--large);
   --button-padding-right: var(--button-padding--large);
+}
+.dnb-button {
+  /* stylelint-disable-next-line */
 }
 .dnb-button--has-text {
   --button-padding-left: var(--button-padding--default);
@@ -2306,15 +2346,17 @@ button.dnb-button::-moz-focus-inner {
 .dnb-form-label {
   display: inline-block;
   padding: 0;
+}
+.dnb-form-label[for] {
+  width: fit-content;
+}
+.dnb-form-label {
   text-align: left;
   vertical-align: baseline;
   white-space: pre-wrap;
   word-break: normal;
   font-size: var(--font-size-basis);
   color: inherit;
-}
-.dnb-form-label[for] {
-  width: fit-content;
 }
 .dnb-form-label--vertical {
   display: block;
@@ -2362,13 +2404,14 @@ legend.dnb-form-label {
   max-width: var(--prose-max-width);
   padding: 0.625rem 1rem;
   cursor: text;
-  color: inherit;
-  line-height: var(--line-height-small);
-  font-size: var(--font-size-small);
-  white-space: normal;
 }
 button .dnb-form-status__text {
   cursor: inherit;
+}
+.dnb-form-status__text {
+  color: inherit;
+  line-height: var(--line-height-small);
+  font-size: var(--font-size-small);
 }
 .dnb-form-status__text .dnb-ul,
 .dnb-form-status__text .dnb-anchor {
@@ -2377,12 +2420,15 @@ button .dnb-form-status__text {
 .dnb-form-status__text .dnb-ul:not([class*=dnb-space__left]) {
   padding-left: 1rem;
 }
-.dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) {
-  margin-bottom: 0.5rem;
-}
 .dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) .dnb-li {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
+}
+.dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) {
+  margin-bottom: 0.5rem;
+}
+.dnb-form-status__text {
+  white-space: normal;
 }
 .dnb-icon + .dnb-form-status__text {
   padding-left: 0.5rem;
@@ -2475,15 +2521,6 @@ button .dnb-form-status__text {
   flex-direction: column;
   font-size: var(--font-size-small);
   line-height: var(--line-height-basis);
-  /*
-   * Color scheme
-   */
-  /** Normal state **/
-  /** Disabled state **/
-  /** Active state **/
-  /** Hover state **/
-  /** Focus state **/
-  /** Error state **/
 }
 .dnb-checkbox__inner {
   display: inline-flex;
@@ -2602,6 +2639,12 @@ html[data-whatinput=keyboard] .dnb-checkbox__focus {
   vertical-align: top;
   margin-top: 0.5rem;
 }
+.dnb-checkbox {
+  /*
+   * Color scheme
+   */
+  /** Normal state **/
+}
 .dnb-checkbox__input:checked ~ .dnb-checkbox__gfx, .dnb-checkbox__input[data-checked=true] ~ .dnb-checkbox__gfx {
   opacity: 1;
   transform: scale(1);
@@ -2647,6 +2690,9 @@ html[data-whatinput=keyboard] .dnb-checkbox__focus {
   width: var(--checkbox-gfx-width__indeterminate--large);
   height: var(--checkbox-gfx-height__indeterminate--large);
 }
+.dnb-checkbox {
+  /** Disabled state **/
+}
 .dnb-checkbox__input[disabled]:checked ~ .dnb-checkbox__button {
   border-width: var(--checkbox-border-width--disabled);
 }
@@ -2667,6 +2713,9 @@ html[data-whatinput=keyboard] .dnb-checkbox__focus {
 .dnb-checkbox__input[disabled]:indeterminate ~ .dnb-checkbox__gfx {
   color: transparent;
 }
+.dnb-checkbox {
+  /** Active state **/
+}
 .dnb-checkbox__input:not([disabled]):active ~ .dnb-checkbox__button {
   background-color: var(--checkbox-color-background--active);
   border-color: var(--checkbox-color-border--active);
@@ -2681,6 +2730,9 @@ html[data-whatinput=keyboard] .dnb-checkbox__focus {
 .dnb-checkbox__input:not([disabled]):indeterminate:active ~ .dnb-checkbox__indeterminate {
   background-color: var(--checkbox-color-gfx-indeterminate--active);
 }
+.dnb-checkbox {
+  /** Hover state **/
+}
 .dnb-checkbox__input:not([disabled]):not(:active):hover ~ .dnb-checkbox__button {
   border-color: var(--checkbox-color-border-off--hover);
   background-color: var(--checkbox-color-background--hover);
@@ -2691,6 +2743,9 @@ html[data-whatinput=keyboard] .dnb-checkbox__focus {
 }
 .dnb-checkbox__input:not([disabled]):checked:hover ~ .dnb-checkbox__button, .dnb-checkbox__input:not([disabled])[data-checked=true]:hover ~ .dnb-checkbox__button {
   border: var(--checkbox-border-width--hover) solid var(--checkbox-color-border-on--hover);
+}
+.dnb-checkbox {
+  /** Focus state **/
 }
 html[data-whatinput=keyboard] .dnb-checkbox__input:not([disabled]):focus-visible ~ .dnb-checkbox__button {
   border: none;
@@ -2705,6 +2760,9 @@ html[data-whatinput=keyboard] .dnb-checkbox__input:not([disabled]):focus-visible
 .dnb-checkbox__input:not([disabled]):focus-visible ~ .dnb-checkbox__indeterminate {
   background-color: var(--checkbox-color-gfx--focus);
 }
+.dnb-checkbox {
+  /** Error state **/
+}
 .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:active) ~ .dnb-checkbox__button {
   border: none;
 }
@@ -2715,11 +2773,11 @@ html[data-whatinput=keyboard] .dnb-checkbox__input:not([disabled]):focus-visible
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
-.dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):hover ~ .dnb-checkbox__button {
-  background-color: var(--checkbox-color-background--error--hover);
-}
 .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):hover ~ .dnb-checkbox__button[data-checked=true] {
   border-color: var(--checkbox-color-border--error--hover);
+}
+.dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):hover ~ .dnb-checkbox__button {
+  background-color: var(--checkbox-color-background--error--hover);
 }
 .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):hover ~ .dnb-checkbox__gfx {
   color: var(--checkbox-color-gfx--error--hover);
@@ -2758,11 +2816,11 @@ html[data-whatinput=keyboard] .dnb-checkbox__status--error .dnb-checkbox__input:
 .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:active):hover ~ .dnb-checkbox__gfx {
   color: var(--checkbox-color-gfx--error--hover);
 }
-.dnb-checkbox.dnb-skeleton .dnb-checkbox__input[disabled] ~ .dnb-checkbox__button {
-  border-color: var(--skeleton-color);
-}
 .dnb-checkbox.dnb-skeleton .dnb-checkbox__input[disabled] ~ .dnb-checkbox__button::before {
   border-radius: 0;
+}
+.dnb-checkbox.dnb-skeleton .dnb-checkbox__input[disabled] ~ .dnb-checkbox__button {
+  border-color: var(--skeleton-color);
 }
 .dnb-checkbox.dnb-skeleton .dnb-checkbox__input[disabled] ~ .dnb-checkbox__gfx {
   color: var(--skeleton-color);
@@ -2792,15 +2850,17 @@ html[data-whatinput=keyboard] .dnb-checkbox__status--error .dnb-checkbox__input:
 .dnb-form-label {
   display: inline-block;
   padding: 0;
+}
+.dnb-form-label[for] {
+  width: fit-content;
+}
+.dnb-form-label {
   text-align: left;
   vertical-align: baseline;
   white-space: pre-wrap;
   word-break: normal;
   font-size: var(--font-size-basis);
   color: inherit;
-}
-.dnb-form-label[for] {
-  width: fit-content;
 }
 .dnb-form-label--vertical {
   display: block;
@@ -2848,13 +2908,14 @@ legend.dnb-form-label {
   max-width: var(--prose-max-width);
   padding: 0.625rem 1rem;
   cursor: text;
-  color: inherit;
-  line-height: var(--line-height-small);
-  font-size: var(--font-size-small);
-  white-space: normal;
 }
 button .dnb-form-status__text {
   cursor: inherit;
+}
+.dnb-form-status__text {
+  color: inherit;
+  line-height: var(--line-height-small);
+  font-size: var(--font-size-small);
 }
 .dnb-form-status__text .dnb-ul,
 .dnb-form-status__text .dnb-anchor {
@@ -2863,12 +2924,15 @@ button .dnb-form-status__text {
 .dnb-form-status__text .dnb-ul:not([class*=dnb-space__left]) {
   padding-left: 1rem;
 }
-.dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) {
-  margin-bottom: 0.5rem;
-}
 .dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) .dnb-li {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
+}
+.dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) {
+  margin-bottom: 0.5rem;
+}
+.dnb-form-status__text {
+  white-space: normal;
 }
 .dnb-icon + .dnb-form-status__text {
   padding-left: 0.5rem;
@@ -2950,15 +3014,6 @@ button .dnb-form-status__text {
   flex-direction: column;
   font-size: var(--font-size-small);
   line-height: var(--line-height-basis);
-  /*
-   * Color scheme
-   */
-  /** Normal state **/
-  /** Disabled state **/
-  /** Active state **/
-  /** Hover state **/
-  /** Focus state **/
-  /** Error state **/
 }
 .dnb-radio__inner {
   display: inline-flex;
@@ -3105,10 +3160,6 @@ html[data-whatinput=keyboard] .dnb-radio__focus {
 .dnb-radio-group, .dnb-radio-group__fieldset, .dnb-radio-group__shell {
   flex-grow: 1;
 }
-.dnb-radio-group fieldset {
-  padding: 0;
-  border: none;
-}
 .dnb-radio-group fieldset:not([class*=space__top]) {
   margin-top: 0;
 }
@@ -3120,6 +3171,10 @@ html[data-whatinput=keyboard] .dnb-radio__focus {
 }
 .dnb-radio-group fieldset:not([class*=space__right]) {
   margin-right: 0;
+}
+.dnb-radio-group fieldset {
+  padding: 0;
+  border: none;
 }
 .dnb-radio-group--column .dnb-radio {
   display: flex;
@@ -3141,6 +3196,12 @@ html[data-whatinput=keyboard] .dnb-radio__focus {
 .dnb-radio-group--column .dnb-radio-group__shell {
   flex-direction: column;
 }
+.dnb-radio {
+  /*
+   * Color scheme
+   */
+  /** Normal state **/
+}
 .dnb-radio__input:checked ~ .dnb-radio__button, .dnb-radio__input[data-checked=true] ~ .dnb-radio__button {
   background-color: var(--radio-color-background-on);
   border-color: var(--radio-color-border-on);
@@ -3157,6 +3218,9 @@ html[data-whatinput=keyboard] .dnb-radio__focus {
   background-color: var(--radio-color-background-off);
   border-color: var(--radio-color-border-off);
 }
+.dnb-radio {
+  /** Disabled state **/
+}
 .dnb-radio__input[disabled] ~ .dnb-radio__button {
   border-width: var(--radio-border-width--disabled);
 }
@@ -3171,11 +3235,14 @@ html[data-whatinput=keyboard] .dnb-radio__focus {
   border-color: var(--radio-color-border-off--disabled);
   background-color: var(--radio-color-background--disabled);
 }
+.dnb-radio__input[disabled] ~ .dnb-radio__button.dnb-skeleton::before {
+  border-radius: 0;
+}
 .dnb-radio__input[disabled] ~ .dnb-radio__button.dnb-skeleton {
   border-color: var(--skeleton-color);
 }
-.dnb-radio__input[disabled] ~ .dnb-radio__button.dnb-skeleton::before {
-  border-radius: 0;
+.dnb-radio {
+  /** Active state **/
 }
 .dnb-radio__input:not([disabled]):checked:active ~ .dnb-radio__button, .dnb-radio__input:not([disabled])[data-checked=true]:active ~ .dnb-radio__button {
   border-color: var(--radio-color-border-on--active);
@@ -3187,6 +3254,9 @@ html[data-whatinput=keyboard] .dnb-radio__focus {
   background-color: var(--radio-color-background-off--active);
   border-color: var(--radio-color-border-off--active);
 }
+.dnb-radio {
+  /** Hover state **/
+}
 .dnb-radio__input:not([disabled]):not(:focus):checked:hover ~ .dnb-radio__dot, .dnb-radio__input:not([disabled]):not(:focus)[data-checked=true]:hover ~ .dnb-radio__dot {
   background-color: var(--radio-color-dot-on--hover);
 }
@@ -3197,6 +3267,9 @@ html[data-whatinput=keyboard] .dnb-radio__focus {
 .dnb-radio__input:not([disabled]):not(:focus):not(:checked):not([data-checked=true]):hover ~ .dnb-radio__button {
   background-color: var(--radio-color-background-off--hover);
   border-width: var(--radio-border-width--hover);
+}
+.dnb-radio {
+  /** Focus state **/
 }
 html[data-whatinput=keyboard] .dnb-radio__input:not([disabled]):focus ~ .dnb-radio__button {
   border-width: var(--radio-border-width--focus);
@@ -3213,6 +3286,9 @@ html[data-whatinput=keyboard] .dnb-radio__input:not([disabled]):not(:active):not
 }
 html[data-whatinput=keyboard] .dnb-radio__input:not([disabled]):not(:checked):not([data-checked=true]):focus ~ .dnb-radio__button {
   background-color: var(--radio-color-background-off--focus);
+}
+.dnb-radio {
+  /** Error state **/
 }
 .dnb-radio__status--error .dnb-radio__input:not([disabled]):not(:focus):not(:active) ~ .dnb-radio__button {
   border: none;
@@ -3273,13 +3349,14 @@ html[data-whatinput=keyboard] .dnb-radio__input:not([disabled]):not(:checked):no
   max-width: var(--prose-max-width);
   padding: 0.625rem 1rem;
   cursor: text;
-  color: inherit;
-  line-height: var(--line-height-small);
-  font-size: var(--font-size-small);
-  white-space: normal;
 }
 button .dnb-form-status__text {
   cursor: inherit;
+}
+.dnb-form-status__text {
+  color: inherit;
+  line-height: var(--line-height-small);
+  font-size: var(--font-size-small);
 }
 .dnb-form-status__text .dnb-ul,
 .dnb-form-status__text .dnb-anchor {
@@ -3288,12 +3365,15 @@ button .dnb-form-status__text {
 .dnb-form-status__text .dnb-ul:not([class*=dnb-space__left]) {
   padding-left: 1rem;
 }
-.dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) {
-  margin-bottom: 0.5rem;
-}
 .dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) .dnb-li {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
+}
+.dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) {
+  margin-bottom: 0.5rem;
+}
+.dnb-form-status__text {
+  white-space: normal;
 }
 .dnb-icon + .dnb-form-status__text {
   padding-left: 0.5rem;
@@ -3412,10 +3492,6 @@ button .dnb-form-status__text {
 .dnb-toggle-button-group, .dnb-toggle-button-group__fieldset, .dnb-toggle-button-group__shell {
   flex-grow: 1;
 }
-.dnb-toggle-button-group fieldset {
-  padding: 0;
-  border: none;
-}
 .dnb-toggle-button-group fieldset:not([class*=space__top]) {
   margin-top: 0;
 }
@@ -3427,6 +3503,10 @@ button .dnb-form-status__text {
 }
 .dnb-toggle-button-group fieldset:not([class*=space__right]) {
   margin-right: 0;
+}
+.dnb-toggle-button-group fieldset {
+  padding: 0;
+  border: none;
 }
 .dnb-toggle-button-group--column .dnb-toggle-button {
   display: flex;
@@ -3488,15 +3568,17 @@ button .dnb-form-status__text {
 .dnb-form-label {
   display: inline-block;
   padding: 0;
+}
+.dnb-form-label[for] {
+  width: fit-content;
+}
+.dnb-form-label {
   text-align: left;
   vertical-align: baseline;
   white-space: pre-wrap;
   word-break: normal;
   font-size: var(--font-size-basis);
   color: inherit;
-}
-.dnb-form-label[for] {
-  width: fit-content;
 }
 .dnb-form-label--vertical {
   display: block;
@@ -3544,13 +3626,14 @@ legend.dnb-form-label {
   max-width: var(--prose-max-width);
   padding: 0.625rem 1rem;
   cursor: text;
-  color: inherit;
-  line-height: var(--line-height-small);
-  font-size: var(--font-size-small);
-  white-space: normal;
 }
 button .dnb-form-status__text {
   cursor: inherit;
+}
+.dnb-form-status__text {
+  color: inherit;
+  line-height: var(--line-height-small);
+  font-size: var(--font-size-small);
 }
 .dnb-form-status__text .dnb-ul,
 .dnb-form-status__text .dnb-anchor {
@@ -3559,12 +3642,15 @@ button .dnb-form-status__text {
 .dnb-form-status__text .dnb-ul:not([class*=dnb-space__left]) {
   padding-left: 1rem;
 }
-.dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) {
-  margin-bottom: 0.5rem;
-}
 .dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) .dnb-li {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
+}
+.dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) {
+  margin-bottom: 0.5rem;
+}
+.dnb-form-status__text {
+  white-space: normal;
 }
 .dnb-icon + .dnb-form-status__text {
   padding-left: 0.5rem;
@@ -3701,13 +3787,13 @@ html[data-whatinput=keyboard] .dnb-date-picker__container table.dnb-no-focus:foc
   }
 }
 @supports (-webkit-touch-callout: none) {
-  .dnb-date-picker__input,
-  .dnb-date-picker .dnb-input__input.dnb-date-picker__input, .dnb-core-style .dnb-date-picker__input {
-    text-indent: -2px;
-  }
   .dnb-date-picker__input:not(*:root),
   .dnb-date-picker .dnb-input__input.dnb-date-picker__input:not(*:root), .dnb-core-style .dnb-date-picker__input:not(*:root) {
     margin: 0;
+  }
+  .dnb-date-picker__input,
+  .dnb-date-picker .dnb-input__input.dnb-date-picker__input, .dnb-core-style .dnb-date-picker__input {
+    text-indent: -2px;
   }
 }
 @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
@@ -3968,10 +4054,6 @@ html[data-whatinput=keyboard] .dnb-date-picker__container table.dnb-no-focus:foc
 .dnb-date-picker .dnb-input__submit-button .dnb-button.dnb-skeleton {
   visibility: hidden;
 }
-.dnb-date-picker__fieldset, .dnb-core-style .dnb-date-picker__fieldset {
-  padding: 0;
-  border: none;
-}
 .dnb-date-picker__fieldset:not([class*=space__top]), .dnb-core-style .dnb-date-picker__fieldset:not([class*=space__top]) {
   margin-top: 0;
 }
@@ -3983,6 +4065,10 @@ html[data-whatinput=keyboard] .dnb-date-picker__container table.dnb-no-focus:foc
 }
 .dnb-date-picker__fieldset:not([class*=space__right]), .dnb-core-style .dnb-date-picker__fieldset:not([class*=space__right]) {
   margin-right: 0;
+}
+.dnb-date-picker__fieldset, .dnb-core-style .dnb-date-picker__fieldset {
+  padding: 0;
+  border: none;
 }
 .dnb-date-picker__portal {
   --date-picker-input-height: 2rem;

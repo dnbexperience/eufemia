@@ -8,42 +8,6 @@ exports[`Switch scss should match default theme snapshot 1`] = `
 /*
  * Utilities
  */
-.dnb-switch {
-  /* stylelint-disable no-descending-specificity */
-  /*
-    * When switched OFF
-    * aka when the checkbox is not :checked
-    */
-  /*
-    * When switched ON
-    * aka when the checkbox is :checked
-    */
-  /*
-    * Draw the circle / line
-    *
-    */
-  /*
-    * On disabled state
-    *
-    */
-  /*
-    * On focus state
-    *
-    */
-  /*
-    * On hover state
-    *
-    */
-  /*
-    * On active state
-    *
-    */
-  /*
-    * On error state
-    *
-    */
-  /* stylelint-enable no-descending-specificity */
-}
 .dnb-switch__background {
   background-color: var(--color-sea-green-30);
 }
@@ -52,12 +16,31 @@ exports[`Switch scss should match default theme snapshot 1`] = `
   transform: rotate(0deg);
   clip-path: polygon(50% 15%, 110% 15%, 110% -10%, -10% -10%, -10% 110%, 110% 110%, 110% 85%, 50% 85%);
 }
+.dnb-switch {
+  /* stylelint-disable no-descending-specificity */
+  /*
+    * When switched OFF
+    * aka when the checkbox is not :checked
+    */
+}
 .dnb-switch__input:not(:checked) ~ .dnb-switch__button {
   background-color: var(--color-white);
   border-color: var(--color-sea-green);
 }
+.dnb-switch {
+  /*
+    * When switched ON
+    * aka when the checkbox is :checked
+    */
+}
 .dnb-switch__input:checked ~ .dnb-switch__button {
   background-color: var(--color-sea-green);
+}
+.dnb-switch {
+  /*
+    * Draw the circle / line
+    *
+    */
 }
 .dnb-switch__input:not(:checked) ~ .dnb-switch__background::after {
   right: 0;
@@ -84,6 +67,12 @@ exports[`Switch scss should match default theme snapshot 1`] = `
   height: 0.625rem;
   transform: translateX(calc(var(--switch-width--large) - 2.5rem));
 }
+.dnb-switch {
+  /*
+    * On disabled state
+    *
+    */
+}
 .dnb-switch__input[disabled] ~ .dnb-switch__background {
   background-color: var(--color-mint-green-25);
 }
@@ -99,6 +88,12 @@ exports[`Switch scss should match default theme snapshot 1`] = `
 .dnb-switch__input[disabled]:checked ~ .dnb-switch__button {
   background-color: var(--color-sea-green-30);
 }
+.dnb-switch {
+  /*
+    * On focus state
+    *
+    */
+}
 html[data-whatinput=keyboard] .dnb-switch__input:not([disabled]):focus ~ .dnb-switch__button {
   border: none;
 }
@@ -108,13 +103,31 @@ html[data-whatinput=keyboard] .dnb-switch__input:not([disabled]):not(:checked):f
 .dnb-switch__input:not([disabled]):checked ~ .dnb-switch__button .dnb-switch__focus {
   transform: rotate(180deg);
 }
+.dnb-switch {
+  /*
+    * On hover state
+    *
+    */
+}
 .dnb-switch__input:not([disabled]):not(:focus):not(:active):hover ~ .dnb-switch__button {
   border-color: var(--color-sea-green);
   background-color: var(--color-mint-green-50);
 }
+.dnb-switch {
+  /*
+    * On active state
+    *
+    */
+}
 .dnb-switch__input:not([disabled]):active ~ .dnb-switch__button {
   background-color: var(--color-mint-green-50);
   border-color: transparent;
+}
+.dnb-switch {
+  /*
+    * On error state
+    *
+    */
 }
 .dnb-switch__status--error .dnb-switch__input:not([disabled]):not(:focus):hover ~ .dnb-switch__button {
   border-color: var(--color-fire-red);
@@ -148,6 +161,9 @@ html[data-whatinput=keyboard] .dnb-switch__input:not([disabled]):not(:checked):f
 .dnb-switch__status--error .dnb-switch__input:not([disabled]):not(:focus):not(:active):checked ~ .dnb-switch__button .dnb-switch__focus {
   transform: rotate(180deg);
 }
+.dnb-switch {
+  /* stylelint-enable no-descending-specificity */
+}
 .dnb-switch > .dnb-form-status {
   transform: translateY(0.1875rem);
 }"
@@ -175,15 +191,17 @@ exports[`Switch scss should match style dependencies css 1`] = `
 .dnb-form-label {
   display: inline-block;
   padding: 0;
+}
+.dnb-form-label[for] {
+  width: fit-content;
+}
+.dnb-form-label {
   text-align: left;
   vertical-align: baseline;
   white-space: pre-wrap;
   word-break: normal;
   font-size: var(--font-size-basis);
   color: inherit;
-}
-.dnb-form-label[for] {
-  width: fit-content;
 }
 .dnb-form-label--vertical {
   display: block;
@@ -231,13 +249,14 @@ legend.dnb-form-label {
   max-width: var(--prose-max-width);
   padding: 0.625rem 1rem;
   cursor: text;
-  color: inherit;
-  line-height: var(--line-height-small);
-  font-size: var(--font-size-small);
-  white-space: normal;
 }
 button .dnb-form-status__text {
   cursor: inherit;
+}
+.dnb-form-status__text {
+  color: inherit;
+  line-height: var(--line-height-small);
+  font-size: var(--font-size-small);
 }
 .dnb-form-status__text .dnb-ul,
 .dnb-form-status__text .dnb-anchor {
@@ -246,12 +265,15 @@ button .dnb-form-status__text {
 .dnb-form-status__text .dnb-ul:not([class*=dnb-space__left]) {
   padding-left: 1rem;
 }
-.dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) {
-  margin-bottom: 0.5rem;
-}
 .dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) .dnb-li {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
+}
+.dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) {
+  margin-bottom: 0.5rem;
+}
+.dnb-form-status__text {
+  white-space: normal;
 }
 .dnb-icon + .dnb-form-status__text {
   padding-left: 0.5rem;
@@ -298,14 +320,6 @@ button .dnb-form-status__text {
   flex-direction: column;
   font-size: var(--font-size-small);
   line-height: var(--line-height-basis);
-  /*
-    * When switched OFF
-    * aka when the switch is not :checked
-    */
-  /*
-  * When switched ON
-  * aka when the switch is :checked
-  */
 }
 .dnb-switch__inner {
   display: inline-flex;
@@ -362,9 +376,21 @@ html[data-whatinput=keyboard] .dnb-switch__focus {
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
+.dnb-switch {
+  /*
+    * When switched OFF
+    * aka when the switch is not :checked
+    */
+}
 .dnb-switch__input:not(:checked) ~ .dnb-switch__button {
   transform: translateX(0);
   transform: translateX(calc(0px - var(--switch-border-width--medium)));
+}
+.dnb-switch {
+  /*
+  * When switched ON
+  * aka when the switch is :checked
+  */
 }
 .dnb-switch__input:checked ~ .dnb-switch__button {
   transform: translateX(1rem);
@@ -406,13 +432,15 @@ html[data-whatinput=keyboard] .dnb-switch__focus {
   display: block;
   width: var(--switch-width--medium);
   height: var(--switch-height--medium);
-  margin: 0;
-  padding: 0;
-  border: 0;
 }
 .dnb-switch--large .dnb-switch__input {
   width: var(--switch-width--large);
   height: var(--switch-height--large);
+}
+.dnb-switch__input {
+  margin: 0;
+  padding: 0;
+  border: 0;
 }
 .dnb-switch__input:not([disabled]) {
   cursor: pointer;

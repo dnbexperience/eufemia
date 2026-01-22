@@ -236,7 +236,7 @@ describe('font-url-rewrite-plugin', () => {
     // Fail the test if font is not accessible on CDN
     expect(accessible).toBe(true)
     expect(status).toBe(200)
-  })
+  }, 15000)
 
   it('should verify CDN font accessibility with actual request', async () => {
     const input = `
@@ -276,7 +276,7 @@ describe('font-url-rewrite-plugin', () => {
       expect(accessible).toBe(true)
       expect(status).toBe(200)
     }
-  })
+  }, 15000)
 
   it('should skip malformed/invalid URLs', async () => {
     const input = `

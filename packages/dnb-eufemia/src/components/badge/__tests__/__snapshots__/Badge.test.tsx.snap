@@ -1,7 +1,11 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`Badge scss should match default theme snapshot 1`] = `
-"/* 
+"/*
+* Badge theme
+*
+*/
+/* 
  * WIP: Figma design tokens for the badge component
  *
  * Exactly how design tokens from figma will be integrated is still not decided. So this file
@@ -25,10 +29,6 @@ exports[`Badge scss should match default theme snapshot 1`] = `
  * These are the figma design variables used by the "information" variant of the badge component.
  * The naming, prefix, location, and anything else is subject to change.
  */
-/*
-* Badge theme
-*
-*/
 .dnb-badge {
   --figma-color-decorative-first-subtle: var(--color-mint-green);
   --figma-color-decorative-first-muted: #d8f3ec;
@@ -63,10 +63,6 @@ exports[`Badge scss should match style dependencies css 1`] = `
 /*
  * Utilities
  */
-/*
-* Badge component
-*
-*/
 .dnb-badge {
   display: inline-flex;
   flex-flow: row wrap;

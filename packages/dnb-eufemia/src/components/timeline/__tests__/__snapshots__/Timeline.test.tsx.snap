@@ -10,7 +10,8 @@ exports[`Timeline scss should match default theme snapshot 1`] = `
  */
 /*
  * Utilities
- */ /*
+ */
+/*
 * Button mixins
 *
 */

@@ -22,15 +22,17 @@ exports[`Textarea scss has to match style dependencies css 1`] = `
 .dnb-form-label {
   display: inline-block;
   padding: 0;
+}
+.dnb-form-label[for] {
+  width: fit-content;
+}
+.dnb-form-label {
   text-align: left;
   vertical-align: baseline;
   white-space: pre-wrap;
   word-break: normal;
   font-size: var(--font-size-basis);
   color: inherit;
-}
-.dnb-form-label[for] {
-  width: fit-content;
 }
 .dnb-form-label--vertical {
   display: block;
@@ -78,13 +80,14 @@ legend.dnb-form-label {
   max-width: var(--prose-max-width);
   padding: 0.625rem 1rem;
   cursor: text;
-  color: inherit;
-  line-height: var(--line-height-small);
-  font-size: var(--font-size-small);
-  white-space: normal;
 }
 button .dnb-form-status__text {
   cursor: inherit;
+}
+.dnb-form-status__text {
+  color: inherit;
+  line-height: var(--line-height-small);
+  font-size: var(--font-size-small);
 }
 .dnb-form-status__text .dnb-ul,
 .dnb-form-status__text .dnb-anchor {
@@ -93,12 +96,15 @@ button .dnb-form-status__text {
 .dnb-form-status__text .dnb-ul:not([class*=dnb-space__left]) {
   padding-left: 1rem;
 }
-.dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) {
-  margin-bottom: 0.5rem;
-}
 .dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) .dnb-li {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
+}
+.dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) {
+  margin-bottom: 0.5rem;
+}
+.dnb-form-status__text {
+  white-space: normal;
 }
 .dnb-icon + .dnb-form-status__text {
   padding-left: 0.5rem;
@@ -219,30 +225,34 @@ button .dnb-form-status__text {
   background-color: var(--textarea-background-color, var(--color-white));
   overflow-y: auto;
   overscroll-behavior: contain;
-  -webkit-overflow-scrolling: touch;
-  -ms-overflow-style: auto;
-  scrollbar-color: var(--scrollbar-thumb-color, #888) transparent;
 }
 html:not([data-visual-test]) .dnb-textarea__textarea {
   scroll-behavior: smooth;
 }
+.dnb-textarea__textarea {
+  -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: auto;
+  scrollbar-color: var(--scrollbar-thumb-color, #888) transparent;
+}
 @supports not (scrollbar-color: auto) {
-  .dnb-textarea__textarea::-webkit-scrollbar {
-    border-radius: var(--scrollbar-thumb-width, 0.5rem);
-    background-color: var(--scrollbar-track-color, #eee);
-  }
   .dnb-textarea__textarea::-webkit-scrollbar:vertical {
     width: var(--scrollbar-track-width, 0.5rem);
   }
   .dnb-textarea__textarea::-webkit-scrollbar:horizontal {
     height: var(--scrollbar-track-width, 0.5rem);
   }
+  .dnb-textarea__textarea::-webkit-scrollbar {
+    border-radius: var(--scrollbar-thumb-width, 0.5rem);
+    background-color: var(--scrollbar-track-color, #eee);
+  }
   .dnb-textarea__textarea::-webkit-scrollbar-thumb {
     background-color: var(--scrollbar-thumb-color, #888);
-    border-radius: var(--scrollbar-thumb-width, 0.5rem);
   }
   .dnb-textarea__textarea::-webkit-scrollbar-thumb:hover {
     background-color: var(--scrollbar-thumb-hover-color, #666);
+  }
+  .dnb-textarea__textarea::-webkit-scrollbar-thumb {
+    border-radius: var(--scrollbar-thumb-width, 0.5rem);
   }
 }
 @-moz-document url-prefix() {

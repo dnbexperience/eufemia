@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`FormLabel scss has to match style dependencies css 1`] = `
 "/*
@@ -15,15 +15,17 @@ exports[`FormLabel scss has to match style dependencies css 1`] = `
 .dnb-form-label {
   display: inline-block;
   padding: 0;
+}
+.dnb-form-label[for] {
+  width: fit-content;
+}
+.dnb-form-label {
   text-align: left;
   vertical-align: baseline;
   white-space: pre-wrap;
   word-break: normal;
   font-size: var(--font-size-basis);
   color: inherit;
-}
-.dnb-form-label[for] {
-  width: fit-content;
 }
 .dnb-form-label--vertical {
   display: block;

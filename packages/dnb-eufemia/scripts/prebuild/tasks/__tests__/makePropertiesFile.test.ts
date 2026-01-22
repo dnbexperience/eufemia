@@ -34,7 +34,7 @@ describe('makePropertiesFile', () => {
       expect(global.ui).toMatchSnapshot()
       expect(global.ui).toContain(`'--font-size-large': '1.625rem'`)
       expect(global.ui).toContain(
-        `'--font-family-default': '"DNB", sans-serif'`
+        `'--font-family-default': "'DNB', sans-serif"`
       )
     })
   })
@@ -43,7 +43,7 @@ describe('makePropertiesFile', () => {
     it('has to validate', () => {
       expect(global.sbanken).toMatchSnapshot()
       expect(global.sbanken).toContain(
-        `'--sb-font-family-default': '"Roboto", "Helvetica", "Arial", sans-serif'`
+        `'--sb-font-family-default': "'Roboto', 'Helvetica', 'Arial', sans-serif"`
       )
       expect(global.sbanken).toContain(
         `'--font-family-default': 'var(--sb-font-family-default)'`
