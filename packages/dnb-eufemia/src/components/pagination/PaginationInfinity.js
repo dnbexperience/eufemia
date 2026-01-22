@@ -11,7 +11,6 @@ import {
   warn,
   isTrue,
   dispatchCustomElementEvent,
-  getClosestParent,
 } from '../../shared/component-helper'
 import Context from '../../shared/Context'
 import Button from '../button/Button'
@@ -416,11 +415,7 @@ export default class InfinityScroller extends React.PureComponent {
   }
 }
 
-const InteractionMarker: React.FC<{
-  pageNumber: number
-  onVisible: (pageNumber: number) => void
-  markerElement?: React.ElementType | React.ReactNode | string
-}> = ({ pageNumber, onVisible, markerElement = null }) => {
+const InteractionMarker = ({ pageNumber, onVisible, markerElement = null }) => {
   const [isConnected, setIsConnected] = React.useState(false)
   const _ref = React.useRef(null)
   const intersectionObserverRef = React.useRef(null)
@@ -507,14 +502,7 @@ InteractionMarker.propTypes = {
   ]),
 }
 
-export const InfinityLoadButton: React.FC<{
-  element?: React.ElementType | React.ReactNode | string
-  pressedElement?: React.ReactNode
-  icon?: string
-  onClick: (e: React.MouseEvent) => void
-  text?: string
-  iconPosition?: string
-}> = ({
+export const InfinityLoadButton = ({
   element = 'div',
   pressedElement = null,
   icon = 'arrow_down',
@@ -573,9 +561,7 @@ InfinityLoadButton.propTypes = {
   iconPosition: PropTypes.string,
 }
 
-const ScrollToElement: React.FC<{
-  pageElement?: React.ElementType | React.ReactNode | string
-}> = ({ pageElement = null, ...props }) => {
+const ScrollToElement = ({ pageElement = null, ...props }) => {
   const elementRef = React.useRef(null)
 
   React.useEffect(() => {
