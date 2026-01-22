@@ -145,149 +145,143 @@ const paginationDefaultProps = {
   onEnd: null,
 }
 
-export default class Pagination extends React.PureComponent {
-  static propTypes = { ...paginationPropTypes }
-  static defaultProps = paginationDefaultProps
-
-  render() {
-    return (
-      <PaginationProvider
-        tagName="dnb-pagination"
-        internalContent={this.props.children}
-        {...this.props}
-      >
-        <PaginationInstance {...this.props} />
-      </PaginationProvider>
-    )
-  }
+const Pagination: React.FC = (props) => {
+  const { children, ...restProps } = props
+  return (
+    <PaginationProvider
+      tagName="dnb-pagination"
+      internalContent={children}
+      {...restProps}
+    >
+      <PaginationInstance {...restProps} />
+    </PaginationProvider>
+  )
 }
 
-class PaginationInstance extends React.PureComponent {
-  static propTypes = { ...paginationPropTypes }
-  static defaultProps = paginationDefaultProps
-  static contextType = PaginationContext
+Pagination.propTypes = { ...paginationPropTypes }
+Pagination.defaultProps = paginationDefaultProps
 
-  constructor(props) {
-    super(props)
-    this._contentRef = React.createRef()
-  }
+export default Pagination
 
-  render() {
-    // use only the props from context, who are available here anyway
-    const props = extendPropsWithContextInClassComponent(
-      this.props,
-      paginationDefaultProps,
-      this.context.getTranslation(this.props).Pagination,
-      this.context.Pagination
-    )
+function PaginationInstance(props) {
+  const context = React.useContext(PaginationContext)
+  const contentRef = React.useRef()
 
-    const {
-      align,
-      children,
-      className,
-      barSpace,
-      paginationBarLayout, // eslint-disable-line
+  // use only the props from context, who are available here anyway
+  const extendedProps = extendPropsWithContextInClassComponent(
+    props,
+    paginationDefaultProps,
+    context.getTranslation(props).Pagination,
+    context.Pagination
+  )
 
-      disabled: _disabled, // eslint-disable-line
-      skeleton: _skeleton, // eslint-disable-line
-      tagName: _tagName, // eslint-disable-line
-      pageCount: _page_count, // eslint-disable-line
-      currentPage: _current_page, // eslint-disable-line
-      startupPage: _startupPage, // eslint-disable-line
-      mode: _mode, // eslint-disable-line
-      hideProgressIndicator: _hideProgressIndicator, // eslint-disable-line
-      useLoadButton: _useLoadButton, // eslint-disable-line
-      currentPageInternal: _currentPage, // eslint-disable-line
-      markerElement: _markerElement, // eslint-disable-line
-      fallbackElement: _fallbackElement, // eslint-disable-line
-      setContentHandler: _setContentHandler, // eslint-disable-line
-      resetContentHandler: _resetContentHandler, // eslint-disable-line
-      resetPaginationHandler: _resetPaginationHandler, // eslint-disable-line
-      endInfinityHandler: _endInfinityHandler, // eslint-disable-line
-      minWaitTime: _minWaitTime, // eslint-disable-line
-      pageElement: _pageElement, // eslint-disable-line
-      startupCount: _startupCount, // eslint-disable-line
-      parallelLoadCount: _parallelLoadCount, // eslint-disable-line
-      buttonTitle: _buttonTitle, // eslint-disable-line
-      prevTitle: _prevTitle, // eslint-disable-line
-      nextTitle: _nextTitle, // eslint-disable-line
-      morePages: _morePages, // eslint-disable-line
-      isLoadingText: _isLoadingText, // eslint-disable-line
-      loadButton: _loadButton, // eslint-disable-line
-      indicatorElement: _indicatorElement, // eslint-disable-line
-      placeMarkerBeforeContent: _placeMarkerBeforeContent, // eslint-disable-line
+  const {
+    align,
+    children,
+    className,
+    barSpace,
+    paginationBarLayout, // eslint-disable-line
 
-      ...attributes
-    } = props
+    disabled: _disabled, // eslint-disable-line
+    skeleton: _skeleton, // eslint-disable-line
+    tagName: _tagName, // eslint-disable-line
+    pageCount: _page_count, // eslint-disable-line
+    currentPage: _current_page, // eslint-disable-line
+    startupPage: _startupPage, // eslint-disable-line
+    mode: _mode, // eslint-disable-line
+    hideProgressIndicator: _hideProgressIndicator, // eslint-disable-line
+    useLoadButton: _useLoadButton, // eslint-disable-line
+    currentPageInternal: _currentPage, // eslint-disable-line
+    markerElement: _markerElement, // eslint-disable-line
+    fallbackElement: _fallbackElement, // eslint-disable-line
+    setContentHandler: _setContentHandler, // eslint-disable-line
+    resetContentHandler: _resetContentHandler, // eslint-disable-line
+    resetPaginationHandler: _resetPaginationHandler, // eslint-disable-line
+    endInfinityHandler: _endInfinityHandler, // eslint-disable-line
+    minWaitTime: _minWaitTime, // eslint-disable-line
+    pageElement: _pageElement, // eslint-disable-line
+    startupCount: _startupCount, // eslint-disable-line
+    parallelLoadCount: _parallelLoadCount, // eslint-disable-line
+    buttonTitle: _buttonTitle, // eslint-disable-line
+    prevTitle: _prevTitle, // eslint-disable-line
+    nextTitle: _nextTitle, // eslint-disable-line
+    morePages: _morePages, // eslint-disable-line
+    isLoadingText: _isLoadingText, // eslint-disable-line
+    loadButton: _loadButton, // eslint-disable-line
+    indicatorElement: _indicatorElement, // eslint-disable-line
+    placeMarkerBeforeContent: _placeMarkerBeforeContent, // eslint-disable-line
 
-    // our props
-    const {
-      currentPageInternal,
-      items,
-      fallbackElement,
-      indicatorElement,
-    } = this.context.pagination
+    ...attributes
+  } = extendedProps
 
-    // Pagination mode
-    if (this.context.pagination.mode === 'pagination') {
-      const mainParams = {
-        className: clsx(
-          'dnb-pagination',
-          align && `dnb-pagination--${align}`,
-          paginationBarLayout &&
-            `dnb-pagination--layout-${paginationBarLayout}`,
-          createSpacingClasses(props),
-          className
-        ),
-        ...attributes,
-      }
+  // our props
+  const {
+    currentPageInternal,
+    items,
+    fallbackElement,
+    indicatorElement,
+  } = context.pagination
 
-      validateDOMAttributes(props, mainParams)
-
-      const content = items.find(
-        ({ pageNumber }) => pageNumber === currentPageInternal
-      )?.content
-
-      return (
-        <div {...mainParams}>
-          <PaginationBar contentRef={this._contentRef} space={barSpace}>
-            {children}
-          </PaginationBar>
-          {items.length > 0 && (
-            <PaginationContent ref={this._contentRef}>
-              {content || (
-                <PaginationIndicator
-                  indicatorElement={indicatorElement || fallbackElement}
-                />
-              )}
-            </PaginationContent>
-          )}
-        </div>
-      )
+  // Pagination mode
+  if (context.pagination.mode === 'pagination') {
+    const mainParams = {
+      className: clsx(
+        'dnb-pagination',
+        align && `dnb-pagination--${align}`,
+        paginationBarLayout &&
+          `dnb-pagination--layout-${paginationBarLayout}`,
+        createSpacingClasses(extendedProps),
+        className
+      ),
+      ...attributes,
     }
 
-    // InfinityScroller mode
-    return <InfinityScroller />
-  }
-}
+    validateDOMAttributes(props, mainParams)
 
-export class InfinityMarker extends React.PureComponent {
-  static propTypes = { ...paginationPropTypes }
-  static defaultProps = paginationDefaultProps
+    const content = items.find(
+      ({ pageNumber }) => pageNumber === currentPageInternal
+    )?.content
 
-  render() {
-    const { children, ...props } = this.props
     return (
-      <PaginationProvider
-        useMarkerOnly
-        tagName="dnb-infinity-marker"
-        {...props}
-      >
-        <InfinityScroller {...props}>{children}</InfinityScroller>
-      </PaginationProvider>
+      <div {...mainParams}>
+        <PaginationBar contentRef={contentRef} space={barSpace}>
+          {children}
+        </PaginationBar>
+        {items.length > 0 && (
+          <PaginationContent ref={contentRef}>
+            {content || (
+              <PaginationIndicator
+                indicatorElement={indicatorElement || fallbackElement}
+              />
+            )}
+          </PaginationContent>
+        )}
+      </div>
     )
   }
+
+  // InfinityScroller mode
+  return <InfinityScroller />
 }
+
+PaginationInstance.propTypes = { ...paginationPropTypes }
+PaginationInstance.defaultProps = paginationDefaultProps
+
+export const InfinityMarker: React.FC = (props) => {
+  const { children, ...restProps } = props
+  return (
+    <PaginationProvider
+      useMarkerOnly
+      tagName="dnb-infinity-marker"
+      {...restProps}
+    >
+      <InfinityScroller {...restProps}>{children}</InfinityScroller>
+    </PaginationProvider>
+  )
+}
+
+InfinityMarker.propTypes = { ...paginationPropTypes }
+InfinityMarker.defaultProps = paginationDefaultProps
 
 const PaginationContent = React.forwardRef(
   ({ children, ...props }, ref) => {
