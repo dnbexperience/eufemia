@@ -256,8 +256,10 @@ function DropdownInstance(props) {
   const context = React.useContext(DrawerListContext)
   const attributesRef = React.useRef({})
   const refWrapper = React.useRef()
-  const ref = props.innerRef || React.useRef()
-  const refButton = props.buttonRef || React.useRef()
+  const defaultRef = React.useRef()
+  const defaultButtonRef = React.useRef()
+  const ref = props.innerRef || defaultRef
+  const refButton = props.buttonRef || defaultButtonRef
   const focusTimeoutRef = React.useRef()
 
   React.useEffect(() => {
