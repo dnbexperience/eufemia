@@ -81,11 +81,7 @@ export const AutoSize: React.FC<AutoSizeProps> = ({
       return React.createElement(
         Comp,
         {
-          className: clsx(
-            className,
-            'dnb-skeleton',
-            'dnb-skeleton--font'
-          ),
+          className: clsx(className, 'dnb-skeleton', 'dnb-skeleton--font'),
           'data-skeleton-chars': String(countChars),
           style: {
             ...(style || {}),
