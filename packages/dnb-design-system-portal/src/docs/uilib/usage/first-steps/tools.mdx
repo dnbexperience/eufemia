@@ -8,7 +8,7 @@ order: 3
 
 ## AI Assistance (MCP Server)
 
-If your AI coding tool supports the Model Context Protocol (MCP), you can run a small local MCP server that exposes the packaged documentation from `/docs`.
+If your AI coding agent supports the Model Context Protocol (MCP), you can run a small local MCP server that exposes the packaged documentation from `/docs`.
 
 Run the server from your project (where `@dnb/eufemia` is installed):
 
@@ -35,9 +35,9 @@ claude mcp add --transport stdio eufemia -- node node_modules/@dnb/eufemia/mcp/m
 
 ### How to use
 
-- Ask your AI tool to search or summarize Eufemia docs, e.g. "Find the spacing system rules in Eufemia."
-- The docs help the AI apply Eufemia patterns more accurately in code, but results can still be imperfect. So always review the output carefully!
+- The MCP server helps AI apply Eufemia patterns more accurately in code, but results can still be imperfect. So always review the output carefully!
 - The MCP server provides documentation context only; it does not execute code or access the network.
+- Ask your AI tool to search or summarize Eufemia docs, e.g. "Find the spacing system rules in Eufemia."
 - If the server fails to start, confirm `@dnb/eufemia` is installed and the path points to `node_modules/@dnb/eufemia/mcp/mcp-docs-server.js`.
 
 ## Code Editor Extensions

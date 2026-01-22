@@ -33,12 +33,27 @@ npm i @dnb/eufemia react react-dom
 // App entry - import styles once
 import '@dnb/eufemia/style'
 
-// Components
+// Components and other imports
 import { Button, Input, Card, Dialog, Icon } from '@dnb/eufemia'
 import { H1, H2, P } from '@dnb/eufemia'
 import { Flex, Space } from '@dnb/eufemia'
-import { Form, Field, Value } from '@dnb/eufemia/extensions/forms'
-import { Theme } from '@dnb/eufemia/shared'
+import {
+  Form,
+  Field,
+  Value,
+  Wizard,
+  Iterate,
+  Connectors,
+} from '@dnb/eufemia/extensions/forms'
+import { ChildrenWithAge } from '@dnb/eufemia/extensions/forms/blocks'
+import {
+  Provider,
+  Theme,
+  useTheme,
+  useSharedContext,
+  useTranslation,
+  useMedia,
+} from '@dnb/eufemia/shared'
 ```
 
 ## Quick component reference
@@ -89,7 +104,7 @@ See [Icons](/icons/) for the full list and usage guidance.
 ## Key conventions
 
 1. Prefer [Flex](/uilib/layout/flex) and [Forms](/uilib/extensions/forms) over other layout and form solutions.
-2. Use `Field.*` components for user input and forms whenever available.
+2. Use `Field.*` components for user input and forms whenever available (all [fields](/uilib/extensions/forms/feature-fields/)).
 3. Follow [accessibility basics](/uilib/usage/accessibility) and avoid font sizes below 14px.
 4. Use the [spacing system](/uilib/layout/spacing) and [Space](/uilib/layout/space) instead of ad-hoc margins.
 5. Import styles once at the app root (`import '@dnb/eufemia/style'`).
@@ -136,7 +151,7 @@ See [Forms](/uilib/extensions/forms) for validation, schema, and more fields.
 
 ## Forms essentials
 
-- Start with [Forms getting started](/uilib/extensions/forms/getting-started) for patterns, validation, and data handling.
+- Start with [Getting started](/uilib/extensions/forms/getting-started) for forms patterns, validation, and data handling.
 - Use [Form.Handler](/uilib/extensions/forms/Form/Handler) for submit/validation and [GlobalStatus](/uilib/components/global-status) for error summaries.
 - For multi-step flows, use [Wizard](/uilib/extensions/forms/Wizard).
 - For edit/view modes, use [Form.Section](/uilib/extensions/forms/Form/Section).
@@ -149,7 +164,7 @@ See [Forms](/uilib/extensions/forms) for validation, schema, and more fields.
 ### Standard form pattern
 
 ```tsx
-import { Form, Field, Flex } from '@dnb/eufemia/extensions/forms'
+import { Form, Field } from '@dnb/eufemia/extensions/forms'
 import { GlobalStatus, Button } from '@dnb/eufemia'
 
 function MyForm() {
@@ -158,16 +173,14 @@ function MyForm() {
       <GlobalStatus />
       <Form.Card>
         <Form.MainHeading>Transfer</Form.MainHeading>
-        <Flex.Stack>
-          <Field.BankAccountNumber path="/from" label="From" />
-          <Field.BankAccountNumber path="/to" label="To" />
-          <Field.Currency path="/amount" currency="NOK" />
-          <Field.Currency path="/amount" currency="NOK" required={false} />
-          <Flex.Horizontal justify="flex-end">
-            <Form.SubmitButton text="Transfer" />
-            <Button variant="secondary" text="Cancel" />
-          </Flex.Horizontal>
-        </Flex.Stack>
+        <Field.BankAccountNumber path="/from" label="From" />
+        <Field.BankAccountNumber path="/to" label="To" />
+        <Field.Currency path="/amount" currency="NOK" />
+        <Field.Currency path="/amount" currency="NOK" required={false} />
+        <Form.ButtonRow>
+          <Form.SubmitButton text="Transfer" />
+          <Button variant="secondary" text="Cancel" />
+        </Form.ButtonRow>
       </Form.Card>
     </Form.Handler>
   )
@@ -181,6 +194,7 @@ function MyForm() {
   <Form.Section.EditContainer>
     <Field.Name.Last path="/name" />
   </Form.Section.EditContainer>
+
   <Form.Section.ViewContainer>
     <Value.Name.Last path="/name" />
   </Form.Section.ViewContainer>
@@ -190,6 +204,10 @@ function MyForm() {
 ## AI instructions and skills
 
 Eufemia's documentation is optimized for AI assistance. When generating or reviewing code, use the following sources in order of priority.
+
+- Use the documentation exactly as provided.
+- Gather all required information from the documentation before using it as a reference.
+- Do not make assumptions or infer missing details unless explicitly instructed to do so.
 
 ### Versioned documentation (preferred)
 
