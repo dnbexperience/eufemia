@@ -647,7 +647,7 @@ export default class Input extends React.PureComponent {
   }
 }
 
-const InputSubmitButton: React.FC = (props) => {
+const InputSubmitButton = (props) => {
   const {
     id = null,
     value = null,
@@ -661,9 +661,9 @@ const InputSubmitButton: React.FC = (props) => {
     statusState = 'error',
     statusProps = null,
     className = null,
-    onSubmit = null,
-    onSubmitFocus = null,
-    onSubmitBlur = null,
+    onSubmit: _onSubmit = null,
+    onSubmitFocus: _onSubmitFocus = null,
+    onSubmitBlur: _onSubmitBlur = null,
     ...rest
   } = props
 
