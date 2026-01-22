@@ -2,14 +2,7 @@
 
 import path from 'path'
 import fs from 'fs'
-import { fileURLToPath } from 'url'
-import { createRequire } from 'module'
-
-type Reporter = {
-  info: (msg: string) => void
-  warn: (msg: string) => void
-  error: (msg: string) => void
-}
+import { generateDocs } from './generateDocs.ts'
 
 type Store = {
   getState: () => {
@@ -56,26 +49,24 @@ function findPortalRoot(startDir: string) {
 
 async function main() {
   const siteDir = findPortalRoot(process.cwd())
-  const reporter: Reporter = {
-    info: (msg) => console.log(msg),
-    warn: (msg) => console.warn(msg),
-    error: (msg) => console.error(msg),
-  }
   const store: Store = {
     getState: () => ({
       program: { directory: siteDir },
     }),
   }
 
-  const requireFn = createRequire(import.meta.url)
-  const scriptPath = fileURLToPath(import.meta.url)
-  const scriptDir = path.dirname(scriptPath)
-  const plugin = requireFn(path.join(scriptDir, '..', 'gatsby-node.js'))
-  if (!plugin?.onPostBuild) {
-    throw new Error('gatsby-node.js does not export onPostBuild')
-  }
+  await generateDocsWithGatsby({ store })
+}
 
-  await plugin.onPostBuild({ store, reporter })
+async function generateDocsWithGatsby({ store }: { store: Store }) {
+  const previousCwd = process.cwd()
+  try {
+    const { program } = store.getState()
+    process.chdir(program.directory)
+    await generateDocs()
+  } finally {
+    process.chdir(previousCwd)
+  }
 }
 
 main().catch((error) => {

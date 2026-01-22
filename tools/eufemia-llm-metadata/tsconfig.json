@@ -1,0 +1,22 @@
+{
+  "extends": "../../packages/dnb-design-system-portal/tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "../../../..",
+    "outDir": "./out",
+    "noEmit": true,
+    "allowImportingTsExtensions": true,
+    "downlevelIteration": true,
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "target": "es2020"
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/**/*.js",
+    "__tests__/**/*.ts",
+    "scripts/**/*.ts",
+    "gatsby-node.ts"
+  ],
+  "exclude": ["node_modules", "out"]
+}

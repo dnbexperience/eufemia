@@ -12,6 +12,7 @@ yarn build:esm
 yarn build:lebab
 # yarn build:resources # Can be enabled in future if needed
 yarn build:copy
+yarn build:docs
 rm -rf build/esm
 yarn build:packages
 

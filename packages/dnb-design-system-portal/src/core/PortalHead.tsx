@@ -48,24 +48,15 @@ export function HeadComponents({
             title="Eufemia LLM discovery manifest"
             href="/llms.txt"
           />
-          <link
-            rel="alternate"
-            type="application/json"
-            title="Eufemia LLM index"
-            href="/llm/index.json"
-          />
         </>
-      ) : (
-        pathname && (
-          <link
-            rel="alternate"
-            type="application/json"
-            title="Machine-readable metadata"
-            href={`${
-              pathname.endsWith('/') ? pathname : pathname + '/'
-            }metadata.json`}
-          />
-        )
+      ) : null}
+      {pathname && (
+        <link
+          rel="alternate"
+          type="text/markdown"
+          title="Markdown documentation"
+          href={`${pathname.endsWith('/') ? pathname : pathname + '/'}.md`}
+        />
       )}
     </>
   )

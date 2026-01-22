@@ -1,16 +1,18 @@
 import fs from 'fs'
 import os from 'os'
 import path from 'path'
-jest.mock('prettier', () => ({
+import { jest } from '@jest/globals'
+
+jest.unstable_mockModule('prettier', () => ({
   format: async (code: string) => code,
+  default: { format: async (code: string) => code },
 }))
-import { convertMdxToMd } from '../mdx-to-md'
+
+const { convertMdxToMd } = await import('../mdx-to-md.ts')
 
 describe('mdx-to-md converter', () => {
-  test('inlines imports and normalizes examples', async () => {
-    const tmpRoot = fs.mkdtempSync(
-      path.join(os.tmpdir(), 'mdx-to-md-')
-    )
+  it('inlines imports and normalizes examples', async () => {
+    const tmpRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'mdx-to-md-'))
     const docsRoot = path.join(tmpRoot, 'docs')
     fs.mkdirSync(docsRoot, { recursive: true })
 

@@ -1,0 +1,20 @@
+{
+  "name": "gatsby-plugin-eufemia-llm-metadata",
+  "description": "Gatsby plugin to add LLM metadata to Eufemia documentation pages",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "author": "DNB Team & Tobias Høegh",
+  "main": "gatsby-node.ts",
+  "gatsby": {
+    "gatsby-node": "gatsby-node.ts"
+  },
+  "license": "SEE LICENSE IN LICENSE FILE",
+  "dependencies": {
+    "@dnb/eufemia": "workspace:*",
+    "eufemia-llm-metadata": "workspace:*"
+  },
+  "peerDependencies": {
+    "gatsby": ">=5.0.0"
+  }
+}

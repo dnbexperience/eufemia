@@ -1,6 +1,5 @@
 import path from 'path'
-import { isAllowed, loadRobots } from './robots.js'
-import { getNextReleaseVersion } from '@dnb/eufemia/scripts/postbuild/getNextReleaseVersion'
+import { getNextReleaseVersion } from 'eufemia-llm-metadata/src/getNextReleaseVersion.ts'
 import {
   buildMetadata,
   createMarkdownCopies,
@@ -9,20 +8,20 @@ import {
   findEntryMdxFiles,
   findSourceInfo,
   getPortalPaths,
+  isAllowed,
+  loadRobots,
   loadTsDocs,
   mergeDocs,
   resolveMetaText,
   toSlugAndDir,
-  writeIndexFile,
   writeLlmsText,
-  writeMetadataFile,
-} from './gatsby-node.helpers.ts'
+} from 'eufemia-llm-metadata'
 
 /**
  * Local Gatsby plugin: eufemia-llm-metadata
  *
- * Scans portal MDX docs and generates per-page JSON metadata
- * with props/events extracted from "properties.mdx" / "events.mdx" tables.
+ * Scans portal MDX docs and generates markdown copies with JSON blocks
+ * extracted from "properties.mdx" / "events.mdx" tables.
  *
  */
 export const onPostBuild = async ({
@@ -32,18 +31,26 @@ export const onPostBuild = async ({
   store: any
   reporter: any
 }) => {
-  const { siteDir, docsRoot, metadataRoot, llmRoot } =
-    getPortalPaths(store)
+  const { siteDir, docsRoot } = getPortalPaths(store)
   reporter.info('[llm-metadata] Scanning MDX docs for entries')
 
-  const version = (await getNextReleaseVersion()) || '0.0.0-development'
+  const version = await getNextReleaseVersion()
   const robots = await loadRobots(path.join(siteDir, 'static'))
   const entryFiles = await findEntryMdxFiles(docsRoot)
 
   const results: Array<any> = []
+  const metadataBySlug = new Map<
+    string,
+    {
+      version?: string | null
+      generatedAt?: string | null
+      checksum?: string | null
+    }
+  >()
+
   for (const file of entryFiles) {
     const rel = path.relative(docsRoot, file) // e.g. components/button.mdx
-    const { slug, dirForExtras } = toSlugAndDir(rel)
+    const { slug } = toSlugAndDir(rel)
 
     // Respect robots: skip disallowed slugs
     if (!isAllowed(slug, robots)) {
@@ -69,7 +76,7 @@ export const onPostBuild = async ({
       events = mergeDocs(events, await extractTableDocs(eventsFile))
     }
 
-    const { name, description } = await resolveMetaText(file)
+    const { name, description, infoFile } = await resolveMetaText(file)
     const group = rel.split(path.sep)[0] || ''
 
     // Try to resolve component source file and type info for file URLs
@@ -92,34 +99,31 @@ export const onPostBuild = async ({
       events,
       related: tsDocs.related,
       sourceInfo,
+      infoFile,
       propsFile,
       eventsFile,
       demosFile,
       version,
     })
 
-    const { outFile } = await writeMetadataFile({
-      meta,
-      siteDir,
-      metadataRoot,
-      dirForExtras,
+    metadataBySlug.set(slug, {
+      version: meta.version,
+      generatedAt: meta.generatedAt,
+      checksum: meta.checksum,
     })
-
-    results.push({ slug, outFile, meta })
+    results.push({ slug, meta })
   }
 
-  await writeIndexFile({ llmRoot, siteDir, results })
-
   reporter.info(
-    `[llm-metadata] Wrote ${results.length} metadata files to /public`
+    `[llm-metadata] Collected ${results.length} documentation entries`
   )
 
   reporter.info('[llm-metadata] Generating Markdown copies of MDX docs')
-  await createMarkdownCopies({ siteDir, docsRoot })
+  await createMarkdownCopies({ siteDir, docsRoot, metadataBySlug })
   await writeLlmsText({
     siteDir,
-    llmRoot,
     version,
+    results,
   })
   reporter.info('[llm-metadata] Markdown copies are ready')
 }

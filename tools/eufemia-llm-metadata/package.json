@@ -1,0 +1,38 @@
+{
+  "name": "eufemia-llm-metadata",
+  "description": "Generate LLM metadata with Eufemia documentation",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "author": "DNB Team & Tobias Høegh",
+  "main": "src/index.ts",
+  "license": "SEE LICENSE IN LICENSE FILE",
+  "scripts": {
+    "test": "BABEL_ENV=es node --experimental-vm-modules ../../node_modules/.bin/jest --config ./jest.config.js",
+    "test:types": "../../node_modules/.bin/tsc --noEmit",
+    "lint": "node ../../node_modules/.bin/eslint **/*.ts",
+    "generate": "node --experimental-strip-types scripts/run-llm-metadata.ts"
+  },
+  "dependencies": {
+    "@dnb/eufemia": "workspace:*",
+    "markdown-tables-utils": "workspace:*"
+  },
+  "devDependencies": {
+    "@babel/core": "7.28.5",
+    "@babel/generator": "7.28.5",
+    "@babel/parser": "7.28.5",
+    "@babel/plugin-transform-modules-commonjs": "7.27.1",
+    "@babel/plugin-transform-typescript": "7.28.5",
+    "@babel/traverse": "7.28.5",
+    "@babel/types": "7.28.5",
+    "front-matter": "4.0.2",
+    "fs-extra": "10.0.0",
+    "prettier": "3.0.3"
+  },
+  "peerDependencies": {
+    "gatsby": ">=5.0.0"
+  },
+  "volta": {
+    "extends": "../../package.json"
+  }
+}

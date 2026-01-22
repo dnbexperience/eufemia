@@ -1,14 +1,19 @@
 import fs from 'fs-extra'
 import path from 'path'
+import { fileURLToPath } from 'url'
 import crypto from 'crypto'
-import fm from 'front-matter'
-import prettier from 'prettier'
-import { Extractor } from 'markdown-tables-to-json'
+import frontMatter from 'front-matter'
+import * as prettier from 'prettier'
+import { extractMarkdownTables } from 'markdown-tables-utils'
 import type { File } from '@babel/types'
 
-const PUBLIC_URL = process.env.CF_PAGES_URL || 'https://eufemia.dnb.no'
+const fm = frontMatter as unknown as typeof import('front-matter').default
+
+const DEFAULT_PUBLIC_URL =
+  process.env.CF_PAGES_URL || 'https://eufemia.dnb.no'
 const REPO_URL = 'https://github.com/dnbexperience/eufemia'
 const IGNORE_SEGMENTS = new Set(['visual-tests'])
+
 type PrettierConfig = Record<string, unknown>
 type ConvertState = {
   mdxCache: Map<string, string>
@@ -18,14 +23,14 @@ type ComponentEntry = {
   code: string
   format: 'md' | 'tsx'
 }
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 export function getPortalPaths(store: any) {
   const { program } = store.getState()
   const siteDir = program.directory
   const docsRoot = path.join(siteDir, 'src', 'docs', 'uilib')
   const metadataRoot = path.join(siteDir, 'public')
-  const llmRoot = path.join(siteDir, 'public', 'llm')
-  return { siteDir, docsRoot, metadataRoot, llmRoot }
+  return { siteDir, docsRoot, metadataRoot }
 }
 
 export async function findDocExtras(file: string) {
@@ -57,6 +62,7 @@ export async function loadTsDocs(rel: string) {
   let events: Record<string, any> = {}
 
   const tsRoot = findPackageRoot('@dnb/eufemia')
+
   if (!tsRoot) {
     return { tsDocsDir, props, events, related }
   }
@@ -69,6 +75,7 @@ export async function loadTsDocs(rel: string) {
     props = tsDocs.props || {}
     events = tsDocs.events || {}
     related = tsDocs.related || []
+
     if (tsDocs.__exportNames.length > 0 && (await fs.pathExists(relDir))) {
       tsDocsDir = relDir
     }
@@ -110,12 +117,14 @@ export async function loadTsDocs(rel: string) {
       path.join(typographyDocsDir, `${typographyDocsName}.tsx`),
     ]
     const elementDocsFile = await findExisting(docsCandidates)
+
     if (elementDocsFile) {
       const docsDir = path.dirname(elementDocsFile)
       const elementDocs = await extractTsDocs(docsDir)
       props = mergeDocs(props, elementDocs.props || {})
       events = mergeDocs(events, elementDocs.events || {})
       related = [...related, ...(elementDocs.related || [])]
+
       if (!tsDocsDir) {
         tsDocsDir = docsDir
       }
@@ -165,10 +174,12 @@ export function buildMetadata({
   events,
   related,
   sourceInfo,
+  infoFile,
   propsFile,
   eventsFile,
   demosFile,
   version,
+  publicUrlBase = DEFAULT_PUBLIC_URL,
 }: {
   file: string
   siteDir: string
@@ -180,10 +191,12 @@ export function buildMetadata({
   events: Record<string, any>
   related: string[]
   sourceInfo: any
+  infoFile: string | null
   propsFile: string | null
   eventsFile: string | null
   demosFile: string | null
   version: string
+  publicUrlBase?: string
 }) {
   const propsList = mapToArray(props)
   const eventsList = mapToArray(events)
@@ -202,6 +215,7 @@ export function buildMetadata({
     description,
     group,
     slug,
+    docs: `${slug.replace(/\/$/, '')}.md`,
     props: propsList,
     events: eventsList,
     related: relatedList,
@@ -210,24 +224,33 @@ export function buildMetadata({
     sources: {
       entry: {
         local: toWorkspacePath(file, siteDir),
-        public: toPublicUrl(slug),
+        public: toPublicUrl(slug, publicUrlBase),
       },
-      props: propsFile
+      info: infoFile
         ? {
-            local: toWorkspacePath(propsFile, siteDir),
-            public: toPublicUrl(joinSlug(slug, 'properties/')),
-          }
-        : null,
-      events: eventsFile
-        ? {
-            local: toWorkspacePath(eventsFile, siteDir),
-            public: toPublicUrl(joinSlug(slug, 'events/')),
+            local: toWorkspacePath(infoFile, siteDir),
+            public: toPublicUrl(joinSlug(slug, 'info/'), publicUrlBase),
           }
         : null,
       demos: demosFile
         ? {
             local: toWorkspacePath(demosFile, siteDir),
-            public: toPublicUrl(joinSlug(slug, 'demos/')),
+            public: toPublicUrl(joinSlug(slug, 'demos/'), publicUrlBase),
+          }
+        : null,
+      props: propsFile
+        ? {
+            local: toWorkspacePath(propsFile, siteDir),
+            public: toPublicUrl(
+              joinSlug(slug, 'properties/'),
+              publicUrlBase
+            ),
+          }
+        : null,
+      events: eventsFile
+        ? {
+            local: toWorkspacePath(eventsFile, siteDir),
+            public: toPublicUrl(joinSlug(slug, 'events/'), publicUrlBase),
           }
         : null,
     },
@@ -237,106 +260,35 @@ export function buildMetadata({
   }
 }
 
-export async function writeMetadataFile({
-  meta,
-  siteDir,
-  metadataRoot,
-  dirForExtras,
-}: {
-  meta: Record<string, any>
-  siteDir: string
-  metadataRoot: string
-  dirForExtras: string
-}) {
-  const outDir = path.join(metadataRoot, dirForExtras)
-  const outFile = path.join(outDir, 'metadata.json')
-  await fs.ensureDir(outDir)
-  await fs.writeJSON(outFile, meta, { spaces: 2 })
-  return { outDir, outFile }
-}
-
-export async function writeIndexFile({
-  llmRoot,
-  siteDir,
-  results,
-}: {
-  llmRoot: string
-  siteDir: string
-  results: Array<any>
-}) {
-  await fs.ensureDir(llmRoot)
-  await fs.writeJSON(
-    path.join(llmRoot, 'index.json'),
-    results.map((r) => ({
-      slug: r.slug,
-      metadataUrl: toPublicUrl(joinSlug(r.slug, 'metadata.json')),
-    })),
-    { spaces: 2 }
-  )
-}
-
 export async function writeLlmsText({
   siteDir,
   results,
   version,
-  llmRoot,
+  outputRoot,
+  llmsFilename = 'llms.txt',
+  publicUrlBase = DEFAULT_PUBLIC_URL,
 }: {
   siteDir: string
-  results?: Array<any>
+  results: Array<any>
   version: string
-  llmRoot: string
+  outputRoot?: string
+  llmsFilename?: string
+  publicUrlBase?: string
 }) {
-  const baseResults =
-    results && results.length > 0
-      ? results
-      : await loadResultsFromIndex(llmRoot, siteDir)
-  const hydrated = await Promise.all(
-    baseResults.map(async (entry) => {
-      try {
-        const meta = await fs.readJSON(entry.outFile)
-        return { ...entry, meta }
-      } catch {
-        return entry
-      }
-    })
+  const hydrated: Array<any> = results || []
+  const llmsPath = path.join(
+    outputRoot || path.join(siteDir, 'public'),
+    llmsFilename
   )
-  const llmsPath = path.join(siteDir, 'public', 'llms.txt')
-  const llmsContent = buildLlmsText(hydrated, { version })
+  const llmsContent = await formatLlmsText(
+    buildLlmsText(hydrated, {
+      version,
+      publicUrlBase,
+    }),
+    siteDir
+  )
+
   await fs.writeFile(llmsPath, llmsContent, 'utf-8')
-}
-
-async function loadResultsFromIndex(llmRoot: string, siteDir: string) {
-  try {
-    const indexPath = path.join(llmRoot, 'index.json')
-    const entries = await fs.readJSON(indexPath)
-    if (!Array.isArray(entries)) {
-      return []
-    }
-    return entries.map((entry) => ({
-      slug: entry.slug,
-      outFile: resolveMetadataPathFromIndexEntry(entry, siteDir),
-    }))
-  } catch {
-    return []
-  }
-}
-
-function resolveMetadataPathFromIndexEntry(
-  entry: { slug?: string; path?: string },
-  siteDir: string
-) {
-  if (entry?.path) {
-    return path.isAbsolute(entry.path)
-      ? entry.path
-      : path.join(siteDir, entry.path)
-  }
-  const slug = String(entry?.slug || '')
-    .replace(/^\//, '')
-    .replace(/\/$/, '')
-  if (!slug) {
-    return ''
-  }
-  return path.join(siteDir, 'public', slug, 'metadata.json')
 }
 
 export function toWorkspacePath(abs: string, siteDir: string) {
@@ -357,8 +309,21 @@ export function joinSlug(slug: string, sub: string) {
   return slug + (sub.startsWith('/') ? sub.slice(1) : sub)
 }
 
-export function toPublicUrl(slugPath: string) {
-  return `${PUBLIC_URL}${slugPath}`
+function normalizePublicUrlBase(publicUrlBase: string) {
+  // Remove trailing slashes - use non-greedy quantifier to prevent ReDoS
+  return publicUrlBase.replace(/\/+?$/, '')
+}
+
+export function toPublicUrl(
+  slugPath: string,
+  publicUrlBase: string = DEFAULT_PUBLIC_URL
+) {
+  const base = normalizePublicUrlBase(publicUrlBase || '')
+
+  if (!base) {
+    return slugPath
+  }
+  return `${base}${slugPath}`
 }
 
 export async function findEntryMdxFiles(docsRoot: string) {
@@ -368,14 +333,17 @@ export async function findEntryMdxFiles(docsRoot: string) {
       return false
     }
     const base = path.basename(f)
+
     if (/^(info|demos|properties|events)\.mdx$/i.test(base)) {
       return false
     }
     const rel = path.relative(docsRoot, f)
     const segments = rel.split(path.sep)
+
     if (segments.some((s) => s.startsWith('_'))) {
       return false
     }
+
     if (
       segments.some((seg) => {
         const noExt = seg.replace(/\.[^/.]+$/, '')
@@ -386,12 +354,12 @@ export async function findEntryMdxFiles(docsRoot: string) {
     }
     return true
   })
-  const withDraftFlags = await Promise.all(
-    candidates.map(async (file) => ({
-      file,
-      isDraft: await isDraftMdx(file),
-    }))
-  )
+  const withDraftFlags: Array<{ file: string; isDraft: boolean }> = []
+
+  for (const file of candidates) {
+    const isDraft = await isDraftMdx(file)
+    withDraftFlags.push({ file, isDraft })
+  }
   return withDraftFlags
     .filter((entry) => !entry.isDraft)
     .map((entry) => entry.file)
@@ -400,8 +368,10 @@ export async function findEntryMdxFiles(docsRoot: string) {
 async function listFilesRecursive(dir: string) {
   const out: string[] = []
   const entries = await fs.readdir(dir, { withFileTypes: true })
+
   for (const e of entries) {
     const p = path.join(dir, e.name)
+
     if (e.isDirectory()) {
       out.push(...(await listFilesRecursive(p)))
     } else {
@@ -416,9 +386,11 @@ async function isDraftMdx(file: string) {
     const src = await fs.readFile(file, 'utf-8')
     const { attributes } = fm(src)
     const raw = attributes && (attributes as any).draft
+
     if (raw === true) {
       return true
     }
+
     if (typeof raw === 'string' && raw.toLowerCase() === 'true') {
       return true
     }
@@ -432,6 +404,7 @@ export async function findExisting(candidates: string[]) {
   for (const f of candidates) {
     try {
       const stat = await fs.stat(f)
+
       if (stat.isFile()) {
         return f
       }
@@ -444,11 +417,12 @@ export async function findExisting(candidates: string[]) {
 
 export async function extractTableDocs(mdxFile: string) {
   const md = await fs.readFile(mdxFile, 'utf-8')
-  const tables = Extractor.extractAllTables(md, 'rows')
+  const tables = extractMarkdownTables(md)
   const collection: Record<string, any> = {}
 
   tables.forEach((rows: Array<any>) => {
     const headerRow = rows.shift()
+
     if (!Array.isArray(headerRow)) {
       return
     }
@@ -475,6 +449,7 @@ export function normalizeKeyCell(cell: string) {
     .replace(/<code>([^<]*)<\/code>/g, '$1')
     .replace(/<[^<]*>([^<]*)<\/[^<]*>/g, '$1')
     .trim()
+
   if (!cleaned) {
     return []
   }
@@ -532,6 +507,7 @@ export function makeChecksum({
       const obj = { ...(entry || {}) }
       const keys = Object.keys(obj).sort()
       const out: Record<string, any> = {}
+
       for (const k of keys) {
         const v = obj[k]
         out[k] = Array.isArray(v) ? [...v] : v ?? null
@@ -560,13 +536,16 @@ export async function extractTitleFromMdx(mdxFile: string | null) {
   if (!mdxFile) {
     return null
   }
+
   try {
     const src = await fs.readFile(mdxFile, 'utf-8')
     const { attributes, body } = fm(src)
+
     if (attributes && typeof (attributes as any).title === 'string') {
       return String((attributes as any).title).trim()
     }
     const m = /\n\s*#\s+([^\n]+)\n/.exec(body || src)
+
     if (m && m[1]) {
       return m[1].trim()
     }
@@ -605,9 +584,11 @@ export async function findSourceInfo({
     ].map((n) => path.join(tsDocsDir, n))
 
     let fileAbs: string | null = null
+
     for (const c of candidates) {
       try {
         const st = await fs.stat(c)
+
         if (st.isFile()) {
           fileAbs = c
           break
@@ -644,15 +625,17 @@ export async function findSourceInfo({
   }
 }
 
-function findRepoRoot() {
+export function findRepoRoot() {
   let current = process.cwd()
   const root = path.parse(current).root
 
   while (true) {
     const candidate = path.join(current, 'package.json')
+
     if (fs.existsSync(candidate)) {
       try {
         const pkg = JSON.parse(fs.readFileSync(candidate, 'utf-8'))
+
         if (pkg?.name === 'eufemia') {
           return current
         }
@@ -660,6 +643,7 @@ function findRepoRoot() {
         // ignore
       }
     }
+
     if (current === root) {
       break
     }
@@ -673,9 +657,11 @@ export async function extractDescriptionFromMdx(mdxFile: string | null) {
   if (!mdxFile) {
     return null
   }
+
   try {
     const src = await fs.readFile(mdxFile, 'utf-8')
     const { attributes } = fm(src)
+
     if (
       attributes &&
       typeof (attributes as any).description === 'string'
@@ -690,29 +676,19 @@ export async function extractDescriptionFromMdx(mdxFile: string | null) {
 
 export function buildLlmsText(
   results: Array<any>,
-  { version }: { version: string }
+  {
+    version,
+    publicUrlBase = DEFAULT_PUBLIC_URL,
+  }: { version: string; publicUrlBase?: string }
 ) {
+  const normalizedResults = results.filter((entry) => entry && entry.meta)
   const lines: string[] = []
   const generatedAt = new Date().toISOString()
+  const base = normalizePublicUrlBase(publicUrlBase || '')
 
-  lines.push('# Eufemia')
-  lines.push('')
-  lines.push(
-    '> DNB’s Eufemia design system. This file points LLMs to machine-readable docs and clean Markdown copies.'
-  )
-  lines.push('')
-  lines.push(`Index (JSON): ${PUBLIC_URL}/llm/index.json`)
-  lines.push(`Version: ${version}`)
-  lines.push(`GeneratedAt: ${generatedAt}`)
-  lines.push('')
-  lines.push('## Quick Reference')
-  lines.push('')
-  lines.push(
-    `- [Eufemia quick reference](${PUBLIC_URL}/uilib/usage/first-steps/quick-reference.md): A compact, practical guide with setup, components, forms, and key conventions.`
-  )
-  lines.push('')
+  appendLlmsHeaderTemplate(lines, base)
 
-  const filtered = results.filter((e) => {
+  const filtered = normalizedResults.filter((e) => {
     try {
       const slug = String(e?.meta?.slug || '')
       const segments = slug.split('/').filter(Boolean)
@@ -723,8 +699,10 @@ export function buildLlmsText(
   })
 
   const byGroup = new Map<string, Array<any>>()
+
   for (const entry of filtered) {
     const g = entry.meta.group || 'unlisted'
+
     if (!byGroup.has(g)) {
       byGroup.set(g, [])
     }
@@ -755,7 +733,7 @@ export function buildLlmsText(
     const displayName =
       prefix && !hasPrefix ? `${prefix}.${meta.name}` : meta.name
     const publicUrl =
-      meta?.sources?.entry?.public || PUBLIC_URL + slug
+      meta?.sources?.entry?.public || toPublicUrl(slug, publicUrlBase)
     const mdCopy = publicUrl.endsWith('/')
       ? publicUrl.replace(/\/$/, '.md')
       : `${publicUrl}.md`
@@ -768,77 +746,81 @@ export function buildLlmsText(
   const rest = filtered.filter(
     (entry) => !order.includes(entry.meta?.group || 'unlisted')
   )
+
   if (rest.length > 0) {
     lines.push('## General')
     lines.push('')
+
     for (const { meta } of rest) {
       pushEntry(meta)
+
       if (meta?.slug) {
         printed.add(meta.slug)
       }
     }
   }
+
   for (const g of order) {
     const list = byGroup.get(g)
+
     if (!list || list.length === 0) {
       continue
     }
     lines.push(`## ${title(g)}`)
     lines.push('')
+
     if (list.length === 0) {
       continue
     }
+
     for (const { meta } of list) {
       pushEntry(meta)
+
       if (meta?.slug) {
         printed.add(meta.slug)
       }
     }
   }
 
+  lines.push('')
+  lines.push(`Version: ${version}`)
+  lines.push(`GeneratedAt: ${generatedAt}`)
+
   return lines.join('\n')
 }
 
-function readChecksumFromFile(file: string) {
+function appendLlmsHeaderTemplate(lines: string[], base: string) {
+  const templatePath = path.join(__dirname, 'templates', 'llm-header.md')
+
   try {
-    const json = JSON.parse(fs.readFileSync(file, 'utf-8'))
-    return json && json.checksum ? String(json.checksum) : null
+    const raw = fs.readFileSync(templatePath, 'utf-8')
+    const content = raw.replace(/{{BASE}}/g, base)
+    const trimmed = content.trimEnd()
+
+    if (trimmed) {
+      lines.push(...trimmed.split('\n'))
+      lines.push('')
+    }
   } catch {
-    return null
+    // Keep output usable even if the template is missing.
   }
 }
 
-function hasDemosPage(outFile: string, slug: string) {
-  try {
-    const publicRoot = findPublicRootFromOutFile(outFile)
-    if (!publicRoot || !slug) {
-      return false
-    }
-    const dir = String(slug).replace(/^\//, '').replace(/\/$/, '')
-    const demosPath = path.join(publicRoot, dir, 'demos', 'index.html')
-    return fs.existsSync(demosPath)
-  } catch {
-    return false
-  }
-}
+async function formatLlmsText(content: string, siteDir: string) {
+  const prettierConfigPath = path.join(siteDir, '.prettierrc')
+  let prettierConfig: PrettierConfig = {}
 
-function findPublicRootFromOutFile(outFile: string) {
-  if (!outFile) {
-    return null
+  try {
+    const rawConfig = await fs.readFile(prettierConfigPath, 'utf-8')
+    prettierConfig = JSON.parse(rawConfig) as PrettierConfig
+  } catch {
+    prettierConfig = {}
   }
-  let cur = path.dirname(outFile)
-  for (let i = 0; i < 10; i++) {
-    const base = path.basename(cur)
-    const parent = path.dirname(cur)
-    if (!parent || parent === cur) {
-      break
-    }
-    if (base === 'llm') {
-      return parent
-    }
-    cur = parent
-  }
-  return null
+  const formatted = await prettier.format(content, {
+    ...prettierConfig,
+    parser: 'markdown',
+  })
+  return `${formatted.trim()}\n`
 }
 
 export async function extractTsDocs(dir: string) {
@@ -849,6 +831,7 @@ export async function extractTsDocs(dir: string) {
     related: string[]
   } = { props: {}, events: {}, __exportNames: [], related: [] }
   let entries
+
   try {
     entries = await fs.readdir(dir, { withFileTypes: true })
   } catch {
@@ -864,10 +847,12 @@ export async function extractTsDocs(dir: string) {
   for (const file of docFiles) {
     try {
       const mod = await evaluateTsModule(file)
+
       for (const [exportName, value] of Object.entries(mod || {})) {
         if (!value || typeof value !== 'object') {
           continue
         }
+
         if (
           exportName.includes('Properties') ||
           exportName.includes('Events')
@@ -885,26 +870,22 @@ export async function extractTsDocs(dir: string) {
 }
 
 async function evaluateTsModule(file: string) {
-  const [
-    { default: babel },
-    { default: transformTS },
-    { default: transformCJS },
-    vm,
-    moduleApi,
-  ] = await Promise.all([
-    import('@babel/core'),
-    import('@babel/plugin-transform-typescript'),
-    import('@babel/plugin-transform-modules-commonjs'),
-    import('node:vm'),
-    import('node:module'),
-  ])
+  const { default: babel } = await import('@babel/core')
+  const { default: transformTS } = await import(
+    '@babel/plugin-transform-typescript'
+  )
+  const { default: transformCJS } = await import(
+    '@babel/plugin-transform-modules-commonjs'
+  )
+  const vm = await import('node:vm')
+  const moduleApi = await import('node:module')
   const localRequire = (moduleApi as any).createRequire(file)
 
   let code = await fs.readFile(file, 'utf-8')
   const injection = await buildDocsInjectionPrelude(file, code)
 
   code = code.replace(
-    /(^\s*import[\s\S]*?from\s+['\"][^'\"]+['\"][^\n]*$)/gm,
+    /(^\s*import[\s\S]*?from\s+['"][^'"]+['"][^\n]*$)/gm,
     ''
   )
 
@@ -936,6 +917,7 @@ async function buildDocsInjectionPrelude(file: string, source: string) {
   const parser = await import('@babel/parser')
   const dir = path.dirname(file)
   let ast
+
   try {
     ast = parser.parse(source, {
       sourceType: 'module',
@@ -946,11 +928,13 @@ async function buildDocsInjectionPrelude(file: string, source: string) {
   }
 
   const mappings: Array<{ names: string[]; mod: Record<string, any> }> = []
+
   for (const node of ast.program.body) {
     if (node.type !== 'ImportDeclaration') {
       continue
     }
     const src = node.source && node.source.value
+
     if (!src || !/Docs(\.[tj]sx?)?$/i.test(src)) {
       continue
     }
@@ -958,10 +942,12 @@ async function buildDocsInjectionPrelude(file: string, source: string) {
       .filter((s: any) => s.type === 'ImportSpecifier')
       .map((s: any) => (s.imported && s.imported.name) || s.local.name)
       .filter(Boolean)
+
     if (names.length === 0) {
       continue
     }
     const abs = await resolveDocsModulePath(dir, src)
+
     if (!abs) {
       continue
     }
@@ -970,6 +956,7 @@ async function buildDocsInjectionPrelude(file: string, source: string) {
   }
 
   let prelude = ''
+
   for (const { names, mod } of mappings) {
     for (const n of names) {
       const val =
@@ -986,9 +973,11 @@ async function resolveDocsModulePath(baseDir: string, modPath: string) {
     path.resolve(baseDir, modPath + '.tsx'),
     path.resolve(baseDir, modPath),
   ]
+
   for (const c of candidates) {
     try {
       const st = await fs.stat(c)
+
       if (st.isFile()) {
         return c
       }
@@ -1014,6 +1003,7 @@ function findPackageRoot(pkgName: string) {
       workspaceName,
       'package.json'
     )
+
     if (fs.existsSync(workspaceCandidate)) {
       return path.dirname(workspaceCandidate)
     }
@@ -1024,9 +1014,11 @@ function findPackageRoot(pkgName: string) {
       ...pkgName.split('/'),
       'package.json'
     )
+
     if (fs.existsSync(candidate)) {
       return path.dirname(candidate)
     }
+
     if (current === root) {
       break
     }
@@ -1047,10 +1039,12 @@ function addDocsFromExport(
 ) {
   for (const [key, entry] of Object.entries(value || {})) {
     const relMatch = /^\[([^\]]+)\]/.exec(key)
+
     if (relMatch && relMatch[1]) {
       out.related.push(relMatch[1])
       continue
     }
+
     if (!entry || typeof entry !== 'object') {
       continue
     }
@@ -1059,9 +1053,11 @@ function addDocsFromExport(
       type: (entry as any).type ?? null,
       status: (entry as any).status ?? null,
     }
+
     if (Object.hasOwn(entry, 'defaultValue')) {
       normalized.defaultValue = (entry as any).defaultValue ?? null
     }
+
     if (exportName.includes('Events')) {
       out.events[key] = normalized
     } else {
@@ -1073,43 +1069,101 @@ function addDocsFromExport(
 export async function createMarkdownCopies({
   siteDir,
   docsRoot,
+  outputRoot,
+  publicUrlBase = DEFAULT_PUBLIC_URL,
+  metadataBySlug,
 }: {
   siteDir: string
   docsRoot: string
+  outputRoot?: string
+  publicUrlBase?: string
+  metadataBySlug?: Map<
+    string,
+    {
+      version?: string | null
+      generatedAt?: string | null
+      checksum?: string | null
+    }
+  >
 }) {
   const prettierConfigPath = path.join(siteDir, '.prettierrc')
   let prettierConfig: PrettierConfig = {}
+
   try {
     const rawConfig = await fs.readFile(prettierConfigPath, 'utf-8')
     prettierConfig = JSON.parse(rawConfig) as PrettierConfig
   } catch {
     prettierConfig = {}
   }
+
   const docsBaseRoot = path.resolve(docsRoot, '..')
   const entryFiles = await findEntryMdxFiles(docsRoot)
   const state: ConvertState = {
     mdxCache: new Map(),
     inProgress: new Set(),
   }
+
   for (const file of entryFiles) {
     const rel = path.relative(docsRoot, file)
     const { slug } = toSlugAndDir(rel)
+    const resolvedOutputRoot = outputRoot || path.join(siteDir, 'public')
     const mdOutputPath = path.join(
-      siteDir,
-      'public',
+      resolvedOutputRoot,
       slug.replace(/\/$/, '') + '.md'
     )
     const outputDir = path.dirname(mdOutputPath)
+    const entryLinks = {
+      ...(metadataBySlug?.get(slug) || {}),
+    }
+
     const md = await convertMdxToMd({
       inputPath: file,
       docsRoot,
       docsBaseRoot,
       prettierConfig,
       includeFrontmatter: true,
+      publicUrlBase,
       state,
+      frontmatterLinks: entryLinks,
     })
+    const { propsFile, eventsFile } = await findDocExtras(file)
+    const extras: string[] = []
+
+    if (propsFile) {
+      const propsMd = await convertMdxToMd({
+        inputPath: propsFile,
+        docsRoot,
+        docsBaseRoot,
+        prettierConfig,
+        includeFrontmatter: false,
+        publicUrlBase,
+        state,
+        frontmatterLinks: entryLinks,
+      })
+      extras.push(propsMd)
+    }
+
+    if (eventsFile) {
+      const eventsMd = await convertMdxToMd({
+        inputPath: eventsFile,
+        docsRoot,
+        docsBaseRoot,
+        prettierConfig,
+        includeFrontmatter: false,
+        publicUrlBase,
+        state,
+        frontmatterLinks: entryLinks,
+      })
+      extras.push(eventsMd)
+    }
+    const combinedMd = [
+      md.trimEnd(),
+      ...extras.map((extra) => extra.trim()),
+    ]
+      .filter(Boolean)
+      .join('\n\n')
     await fs.ensureDir(outputDir)
-    await fs.writeFile(mdOutputPath, md, 'utf-8')
+    await fs.writeFile(mdOutputPath, `${combinedMd.trim()}\n`, 'utf-8')
   }
 }
 
@@ -1119,14 +1173,25 @@ export async function convertMdxToMd({
   docsBaseRoot,
   prettierConfig,
   includeFrontmatter,
+  publicUrlBase = DEFAULT_PUBLIC_URL,
   state,
+  frontmatterLinks,
 }: {
   inputPath: string
   docsRoot: string
   docsBaseRoot: string
   prettierConfig: PrettierConfig
   includeFrontmatter: boolean
+  publicUrlBase?: string
   state: ConvertState
+  frontmatterLinks?: {
+    docUrl?: string | null
+    propertiesUrl?: string | null
+    eventsUrl?: string | null
+    version?: string | null
+    generatedAt?: string | null
+    checksum?: string | null
+  }
 }) {
   const raw = await fs.readFile(inputPath, 'utf-8')
   const { frontmatter, body } = splitFrontmatter(raw)
@@ -1147,11 +1212,48 @@ export async function convertMdxToMd({
   ])
   outputBody = replaceComponentUsages(outputBody, componentCode)
 
-  const metadataUrl = buildMetadataUrlFromPath(inputPath, docsRoot)
+  const links = frontmatterLinks || {}
+  const fallbackLink = resolveFallbackLink(inputPath, links)
+  outputBody = await replacePropertiesTableWithJsonBlock(outputBody, {
+    fallbackLink,
+    importsByFile,
+    inputDir: path.dirname(inputPath),
+    docsRoot,
+    docsBaseRoot,
+  })
+  outputBody = await replaceTranslationsTableWithJsonBlock(outputBody, {
+    importsByFile,
+    inputDir: path.dirname(inputPath),
+    docsRoot,
+    docsBaseRoot,
+  })
+
+  // Extract title from frontmatter and add as heading if not already present
+  let titleHeading = ''
+
+  if (frontmatter) {
+    try {
+      const { attributes } = fm(frontmatter)
+
+      if (attributes && typeof (attributes as any).title === 'string') {
+        const title = String((attributes as any).title).trim()
+        // Check if body already starts with an H1 heading
+        const trimmedBody = outputBody.trim()
+        const startsWithHeading = /^#\s+/.test(trimmedBody)
+
+        if (title && !startsWithHeading) {
+          titleHeading = `# ${title}`
+        }
+      }
+    } catch {
+      // Ignore parsing errors
+    }
+  }
+
   const outputFrontmatter = includeFrontmatter
-    ? addMetadataToFrontmatter(frontmatter, metadataUrl)
+    ? addDocLinksToFrontmatter(frontmatter, links)
     : ''
-  const output = [outputFrontmatter, outputBody.trim()]
+  const output = [outputFrontmatter, titleHeading, outputBody.trim()]
     .filter(Boolean)
     .join('\n\n')
   const formattedOutput = await prettier.format(output, {
@@ -1161,45 +1263,545 @@ export async function convertMdxToMd({
   return `${formattedOutput.trim()}\n`
 }
 
-function buildMetadataUrlFromPath(filePath: string, docsRoot: string) {
-  const rel = path.relative(docsRoot, filePath)
-  const { slug } = toSlugAndDir(rel)
-  return `${PUBLIC_URL}${slug}metadata.json`
+async function replacePropertiesTableWithJsonBlock(
+  body: string,
+  {
+    fallbackLink,
+    importsByFile,
+    inputDir,
+    docsRoot,
+    docsBaseRoot,
+  }: {
+    fallbackLink: { label: string; url: string } | null
+    importsByFile: Map<string, string[]>
+    inputDir: string
+    docsRoot: string
+    docsBaseRoot: string
+  }
+) {
+  const regex = /<PropertiesTable\b[^>]*\/>/g
+
+  if (!regex.test(body)) {
+    return body
+  }
+
+  regex.lastIndex = 0
+
+  const moduleCache = new Map<string, Record<string, any>>()
+  let output = ''
+  let lastIndex = 0
+  let match: RegExpExecArray | null
+
+  while ((match = regex.exec(body))) {
+    output += body.slice(lastIndex, match.index)
+    const tag = match[0]
+    const propsName = extractPropsName(tag)
+    const propsValue = propsName
+      ? await resolveImportedValue({
+          propsName,
+          importsByFile,
+          inputDir,
+          docsRoot,
+          docsBaseRoot,
+          moduleCache,
+        })
+      : null
+
+    if (propsValue) {
+      output += renderJsonBlock(propsValue)
+    } else {
+      if (fallbackLink) {
+        output += `See ${fallbackLink.label}: ${fallbackLink.url}`
+      } else {
+        output += tag
+      }
+    }
+    lastIndex = match.index + tag.length
+  }
+
+  output += body.slice(lastIndex)
+  return output
 }
 
-function addMetadataToFrontmatter(
-  frontmatter: string,
-  metadataUrl: string
-) {
-  if (!frontmatter) {
-    return `---\nmetadata: ${metadataUrl}\n---`
+function extractPropsName(tag: string) {
+  const match = tag.match(/\bprops\s*=\s*\{([^}]+)\}/)
+
+  if (!match) {
+    return null
   }
-  const lines = frontmatter
+  return match[1].trim() || null
+}
+
+async function replaceTranslationsTableWithJsonBlock(
+  body: string,
+  {
+    importsByFile,
+    inputDir,
+    docsRoot,
+    docsBaseRoot,
+  }: {
+    importsByFile: Map<string, string[]>
+    inputDir: string
+    docsRoot: string
+    docsBaseRoot: string
+  }
+) {
+  const regex = /<TranslationsTable\b[^>]*\/>/g
+
+  if (!regex.test(body)) {
+    return body
+  }
+  regex.lastIndex = 0
+
+  const moduleCache = new Map<string, Record<string, any>>()
+  let output = ''
+  let lastIndex = 0
+  let match: RegExpExecArray | null
+
+  while ((match = regex.exec(body))) {
+    output += body.slice(lastIndex, match.index)
+    const tag = match[0]
+    const localeKeys = extractLocaleKeys(tag)
+
+    if (!localeKeys || localeKeys.length === 0) {
+      output += tag
+      lastIndex = match.index + tag.length
+      continue
+    }
+
+    const sourceName = extractSourceName(tag)
+    const sourceValue = sourceName
+      ? await resolveImportedValue({
+          propsName: sourceName,
+          importsByFile,
+          inputDir,
+          docsRoot,
+          docsBaseRoot,
+          moduleCache,
+        })
+      : null
+    const translationsSource =
+      sourceValue || (await loadDefaultTranslations())
+    const json = buildTranslationsJson(translationsSource, localeKeys)
+
+    if (!json) {
+      output += tag
+    } else {
+      output += renderJsonBlock(json)
+    }
+    lastIndex = match.index + tag.length
+  }
+
+  output += body.slice(lastIndex)
+  return output
+}
+
+function extractLocaleKeys(tag: string) {
+  const directMatch = tag.match(/\blocaleKey\s*=\s*(['"])(.*?)\1/)
+
+  if (directMatch && directMatch[2]) {
+    return [directMatch[2]]
+  }
+  const braceMatch = tag.match(/\blocaleKey\s*=\s*\{([\s\S]*?)\}/)
+
+  if (!braceMatch) {
+    return null
+  }
+  const expr = braceMatch[1].trim()
+
+  if (!expr) {
+    return null
+  }
+  const stringMatch = expr.match(/^['"](.+?)['"]$/)
+
+  if (stringMatch) {
+    return [stringMatch[1]]
+  }
+  const keys: string[] = []
+  const re = /['"]([^'"]+)['"]/g
+  let m: RegExpExecArray | null
+  while ((m = re.exec(expr))) {
+    if (m[1]) {
+      keys.push(m[1])
+    }
+  }
+  return keys.length > 0 ? keys : null
+}
+
+function extractSourceName(tag: string) {
+  const match = tag.match(/\bsource\s*=\s*\{([^}]+)\}/)
+
+  if (!match) {
+    return null
+  }
+  const expr = match[1].trim()
+
+  if (/^[A-Za-z_$][\w$]*$/.test(expr)) {
+    return expr
+  }
+  return null
+}
+
+function buildTranslationsJson(
+  source: Record<string, any> | null,
+  localeKeys: string[]
+) {
+  if (!source) {
+    return null
+  }
+
+  const entries: Record<string, any> = {}
+  const allowList: Record<string, string[]> = {}
+  const normalizedKeys = (Array.isArray(localeKeys) ? localeKeys : [])
+    .filter(Boolean)
+    .map((key) => {
+      if (key.includes('.')) {
+        const first = key.split('.')[0]
+        allowList[first] = allowList[first] || []
+        allowList[first].push(key)
+        return first
+      }
+      return key
+    })
+
+  const addToEntries = (
+    key: string,
+    translation: any,
+    locale: string,
+    localeKey: string
+  ) => {
+    const fullKey = `${localeKey}.${key}`
+
+    if (allowList[localeKey] && !allowList[localeKey].includes(fullKey)) {
+      return
+    }
+
+    entries[fullKey] = Object.assign(entries[fullKey] || {}, {
+      [locale]: translation,
+    })
+  }
+
+  Object.entries(source).forEach(([locale, translations]) => {
+    normalizedKeys.forEach((localeKey) => {
+      const translationsObj =
+        translations && typeof translations === 'object'
+          ? translations[localeKey]
+          : null
+
+      if (!translationsObj || typeof translationsObj !== 'object') {
+        return
+      }
+
+      Object.entries(translationsObj).forEach(([key, translation]) => {
+        if (
+          translation &&
+          typeof translation === 'object' &&
+          !Array.isArray(translation)
+        ) {
+          const nestedKey = `${localeKey}.${key}`
+          Object.entries(translation).forEach(([subKey, value]) => {
+            addToEntries(subKey, value, locale, nestedKey)
+          })
+        } else {
+          addToEntries(key, translation, locale, localeKey)
+        }
+      })
+    })
+  })
+
+  const sortedEntries = Object.fromEntries(
+    Object.entries(entries).sort(([a], [b]) => a.localeCompare(b))
+  )
+  const locales = Object.keys(source).sort()
+
+  return {
+    locales,
+    entries: sortedEntries,
+  }
+}
+
+function extendDeepLocal(target: Record<string, any>, ...sources: any[]) {
+  for (const source of sources) {
+    if (!source || typeof source !== 'object') {
+      continue
+    }
+
+    for (const key of Object.keys(source)) {
+      if (key === '__proto__' || key === 'constructor') {
+        continue
+      }
+      const value = source[key]
+
+      if (value && typeof value === 'object' && !Array.isArray(value)) {
+        if (!target[key] || typeof target[key] !== 'object') {
+          target[key] = {}
+        }
+        extendDeepLocal(target[key], value)
+      } else {
+        target[key] = value
+      }
+    }
+  }
+  return target
+}
+
+function mergeTranslationsLocal(
+  ...translations: Array<Record<string, any>>
+) {
+  return translations.reduce((acc, cur) => {
+    if (!cur || typeof cur !== 'object') {
+      return acc
+    }
+    Object.keys(cur).forEach((key) => {
+      if (
+        acc[key] !== null &&
+        cur[key] !== null &&
+        typeof acc[key] === 'object' &&
+        typeof cur[key] === 'object' &&
+        !Array.isArray(acc[key]) &&
+        !Array.isArray(cur[key])
+      ) {
+        acc[key] = mergeTranslationsLocal(acc[key], cur[key])
+      } else {
+        acc[key] = cur[key]
+      }
+    })
+    return acc
+  }, {})
+}
+
+let defaultTranslationsCache: Record<string, any> | null = null
+
+async function loadDefaultTranslations() {
+  if (defaultTranslationsCache) {
+    return defaultTranslationsCache
+  }
+
+  const nbNO = await loadModuleDefault(
+    '@dnb/eufemia/src/shared/locales/nb-NO'
+  )
+  const enGB = await loadModuleDefault(
+    '@dnb/eufemia/src/shared/locales/en-GB'
+  )
+  const nbNOForms = await loadModuleDefault(
+    '@dnb/eufemia/src/extensions/forms/constants/locales/nb-NO'
+  )
+  const enGBForms = await loadModuleDefault(
+    '@dnb/eufemia/src/extensions/forms/constants/locales/en-GB'
+  )
+  const nbNOCountries = await loadModuleDefault(
+    '@dnb/eufemia/src/extensions/forms/constants/locales/countries/nb-NO'
+  )
+  const enGBCountries = await loadModuleDefault(
+    '@dnb/eufemia/src/extensions/forms/constants/locales/countries/en-GB'
+  )
+  const svSE = await loadModuleDefault(
+    '@dnb/eufemia/src/shared/locales/sv-SE'
+  )
+  const daDK = await loadModuleDefault(
+    '@dnb/eufemia/src/shared/locales/da-DK'
+  )
+  const svSEForms = await loadModuleDefault(
+    '@dnb/eufemia/src/extensions/forms/constants/locales/sv-SE'
+  )
+  const daDKForms = await loadModuleDefault(
+    '@dnb/eufemia/src/extensions/forms/constants/locales/da-DK'
+  )
+  const svSECountries = await loadModuleDefault(
+    '@dnb/eufemia/src/extensions/forms/constants/locales/countries/sv-SE'
+  )
+  const daDKCountries = await loadModuleDefault(
+    '@dnb/eufemia/src/extensions/forms/constants/locales/countries/da-DK'
+  )
+
+  const translations = mergeTranslationsLocal(
+    nbNO || {},
+    enGB || {},
+    nbNOForms || {},
+    enGBForms || {},
+    nbNOCountries || {},
+    enGBCountries || {},
+    svSE || {},
+    svSEForms || {},
+    svSECountries || {},
+    daDK || {},
+    daDKForms || {},
+    daDKCountries || {}
+  )
+
+  defaultTranslationsCache = extendDeepLocal({}, translations || {})
+  return defaultTranslationsCache
+}
+
+async function loadModuleDefault(modulePath: string) {
+  try {
+    const resolvedPath = resolveDocsImportPath({
+      source: modulePath,
+      inputDir: process.cwd(),
+      docsRoot: process.cwd(),
+      docsBaseRoot: process.cwd(),
+    })
+
+    if (!resolvedPath) {
+      return null
+    }
+    const mod = await evaluateTsModule(resolvedPath)
+
+    if (mod && Object.prototype.hasOwnProperty.call(mod, 'default')) {
+      return mod.default
+    }
+    return mod || null
+  } catch {
+    return null
+  }
+}
+
+function renderJsonBlock(value: any) {
+  const json = JSON.stringify(value, null, 2)
+  return `\n\`\`\`json\n${json}\n\`\`\`\n`
+}
+
+async function resolveImportedValue({
+  propsName,
+  importsByFile,
+  inputDir,
+  docsRoot,
+  docsBaseRoot,
+  moduleCache,
+}: {
+  propsName: string
+  importsByFile: Map<string, string[]>
+  inputDir: string
+  docsRoot: string
+  docsBaseRoot: string
+  moduleCache: Map<string, Record<string, any>>
+}) {
+  for (const [source, names] of Array.from(importsByFile.entries())) {
+    if (!names.includes(propsName)) {
+      continue
+    }
+    const resolvedPath = resolveDocsImportPath({
+      source,
+      inputDir,
+      docsRoot,
+      docsBaseRoot,
+    })
+
+    if (!resolvedPath) {
+      continue
+    }
+    let mod = moduleCache.get(resolvedPath)
+
+    if (!mod) {
+      try {
+        mod = await evaluateTsModule(resolvedPath)
+      } catch {
+        mod = {}
+      }
+      moduleCache.set(resolvedPath, mod || {})
+    }
+
+    if (mod && Object.prototype.hasOwnProperty.call(mod, propsName)) {
+      return mod[propsName]
+    }
+  }
+  return null
+}
+
+function resolveFallbackLink(
+  inputPath: string,
+  links: {
+    propertiesUrl?: string | null
+    eventsUrl?: string | null
+  }
+) {
+  const base = path.basename(inputPath).toLowerCase()
+
+  if (base.includes('events')) {
+    return links.eventsUrl
+      ? { label: 'events', url: links.eventsUrl }
+      : null
+  }
+
+  if (base.includes('properties')) {
+    return links.propertiesUrl
+      ? { label: 'properties', url: links.propertiesUrl }
+      : null
+  }
+  return links.propertiesUrl
+    ? { label: 'properties', url: links.propertiesUrl }
+    : null
+}
+
+function addDocLinksToFrontmatter(
+  frontmatter: string,
+  links?: {
+    docUrl?: string | null
+    propertiesUrl?: string | null
+    eventsUrl?: string | null
+    version?: string | null
+    generatedAt?: string | null
+    checksum?: string | null
+  }
+) {
+  const lines: string[] = []
+
+  if (links?.propertiesUrl) {
+    lines.push(`properties: ${links.propertiesUrl}`)
+  }
+
+  if (links?.eventsUrl) {
+    lines.push(`events: ${links.eventsUrl}`)
+  }
+
+  if (links?.version) {
+    lines.push(`version: ${links.version}`)
+  }
+
+  if (links?.generatedAt) {
+    lines.push(`generatedAt: ${links.generatedAt}`)
+  }
+
+  if (links?.checksum) {
+    lines.push(`checksum: ${links.checksum}`)
+  }
+
+  if (!frontmatter) {
+    return lines.length > 0 ? `---\n${lines.join('\n')}\n---` : ''
+  }
+  const srcLines = frontmatter
     .replace(/^---\n/, '')
     .replace(/\n---$/, '')
     .split('\n')
   const cleaned: string[] = []
-  for (let i = 0; i < lines.length; i++) {
-    const line = lines[i]
+
+  for (let i = 0; i < srcLines.length; i++) {
+    const line = srcLines[i]
     const trimmed = line.trim()
+
     if (!trimmed) {
       continue
     }
     const keyMatch = /^([A-Za-z0-9_-]+):/.exec(trimmed)
+
     if (!keyMatch) {
       continue
     }
     const key = keyMatch[1]
+
     if (key === 'title' || key === 'description') {
       cleaned.push(line)
     }
   }
-  cleaned.push(`metadata: ${metadataUrl}`)
+
+  cleaned.push(...lines)
+
   return `---\n${cleaned.join('\n')}\n---`
 }
 
 function splitFrontmatter(content: string) {
   const match = content.match(/^---\n[\s\S]*?\n---\n/)
+
   if (!match) {
     return { frontmatter: '', body: content }
   }
@@ -1218,6 +1820,7 @@ function extractImports(content: string) {
 
   for (const line of lines) {
     const fenceMatch = line.match(/^(```+|~~~+)/)
+
     if (fenceMatch) {
       inFence = !inFence
       output.push(line)
@@ -1226,9 +1829,11 @@ function extractImports(content: string) {
 
     if (!inFence) {
       const trimmed = line.trim()
+
       if (inImportBlock) {
         importLines.push(line)
         const joined = importLines.join(' ').trim()
+
         if (/\bfrom\s+['"][^'"]+['"]/.test(joined)) {
           collectImportSpecifiers(joined, importsByFile)
           inImportBlock = false
@@ -1236,10 +1841,12 @@ function extractImports(content: string) {
         }
         continue
       }
+
       if (/^import\s+/.test(trimmed)) {
         if (/^import\s+type\s+/.test(trimmed)) {
           continue
         }
+
         if (!/\bfrom\s+['"][^'"]+['"]/.test(trimmed)) {
           inImportBlock = true
           importLines = [line]
@@ -1267,6 +1874,7 @@ function collectImportSpecifiers(
     return
   }
   const sourceMatch = statement.match(/from\s+['"]([^'"]+)['"]/)
+
   if (!sourceMatch) {
     return
   }
@@ -1279,10 +1887,12 @@ function collectImportSpecifiers(
 
   const specifiers: string[] = []
   const namespaceMatch = specifierPart.match(/\*\s+as\s+([A-Za-z0-9_]+)/)
+
   if (namespaceMatch && namespaceMatch[1]) {
     specifiers.push(`* as ${namespaceMatch[1]}`)
   }
   const defaultPart = specifierPart.split(',')[0].trim()
+
   if (
     defaultPart &&
     !defaultPart.startsWith('{') &&
@@ -1292,6 +1902,7 @@ function collectImportSpecifiers(
   }
 
   const namedMatch = specifierPart.match(/\{([\s\S]+)\}/)
+
   if (namedMatch) {
     const namedSpecifiers = namedMatch[1]
       .split(',')
@@ -1333,29 +1944,36 @@ async function collectComponentCode({
   const traverseModule = await import('@babel/traverse')
   const generateModule = await import('@babel/generator')
   const typesModule = await import('@babel/types')
-  const traverse =
-    (traverseModule as any).default?.default ||
-    (traverseModule as any).default ||
-    traverseModule
-  const generate =
-    (generateModule as any).default?.default ||
-    (generateModule as any).default ||
-    generateModule
-  const t = (typesModule as any).default || typesModule
+  const resolveModuleDefault = <T>(mod: T): T => {
+    const maybeDefault = (mod as { default?: unknown }).default
+    if (
+      maybeDefault &&
+      typeof maybeDefault === 'object' &&
+      'default' in (maybeDefault as Record<string, unknown>)
+    ) {
+      return (maybeDefault as { default: T }).default
+    }
+    return (maybeDefault ?? mod) as T
+  }
+  const traverse = resolveModuleDefault(traverseModule)
+  const generate = resolveModuleDefault(generateModule)
+  const t = typesModule.default || typesModule
 
-  for (const [source, names] of importsByFile.entries()) {
+  for (const [source, names] of Array.from(importsByFile.entries())) {
     const resolvedPath = resolveImportPath({
       source,
       inputDir,
       docsRoot,
       docsBaseRoot,
     })
+
     if (!resolvedPath) {
       continue
     }
 
     if (resolvedPath.endsWith('.mdx')) {
       let md = mdxCache.get(resolvedPath)
+
       if (!md && !inProgress.has(resolvedPath)) {
         inProgress.add(resolvedPath)
         md = await convertMdxToMd({
@@ -1369,9 +1987,11 @@ async function collectComponentCode({
         inProgress.delete(resolvedPath)
         mdxCache.set(resolvedPath, md)
       }
+
       if (md) {
         for (const name of names) {
           const trimmed = md.trim()
+
           if (trimmed) {
             componentCode.set(name, { code: trimmed, format: 'md' })
           }
@@ -1385,6 +2005,7 @@ async function collectComponentCode({
     }
 
     let fileCode = parsedFiles.get(resolvedPath)
+
     if (!fileCode) {
       const sourceCode = await fs.readFile(resolvedPath, 'utf-8')
       const ast = parser.parse(sourceCode, {
@@ -1404,8 +2025,11 @@ async function collectComponentCode({
     for (const name of names) {
       if (name.startsWith('* as ')) {
         const ns = name.replace('* as ', '').trim()
+
         if (ns) {
-          for (const [exportName, exportCode] of fileCode.entries()) {
+          for (const [exportName, exportCode] of Array.from(
+            fileCode.entries()
+          )) {
             componentCode.set(`${ns}.${exportName}`, {
               code: exportCode,
               format: 'tsx',
@@ -1415,6 +2039,7 @@ async function collectComponentCode({
         continue
       }
       const code = fileCode.get(name)
+
       if (code) {
         componentCode.set(name, { code, format: 'tsx' })
       }
@@ -1436,6 +2061,7 @@ function resolveImportPath({
   docsBaseRoot: string
 }) {
   let candidate: string | null = null
+
   if (source.startsWith('Docs/')) {
     candidate = path.join(docsBaseRoot, source.replace(/^Docs\//, ''))
   } else if (source.startsWith('.')) {
@@ -1447,14 +2073,39 @@ function resolveImportPath({
   return resolveWithExtension(candidate)
 }
 
+function resolveDocsImportPath({
+  source,
+  inputDir,
+  docsRoot,
+  docsBaseRoot,
+}: {
+  source: string
+  inputDir: string
+  docsRoot: string
+  docsBaseRoot: string
+}) {
+  if (source.startsWith('@dnb/eufemia/')) {
+    const pkgRoot = findPackageRoot('@dnb/eufemia')
+
+    if (!pkgRoot) {
+      return null
+    }
+    const rel = source.replace(/^@dnb\/eufemia\//, '')
+    return resolveWithExtension(path.join(pkgRoot, rel))
+  }
+  return resolveImportPath({ source, inputDir, docsRoot, docsBaseRoot })
+}
+
 function resolveWithExtension(basePath: string) {
   const extensions = ['.tsx', '.ts', '.jsx', '.js', '.mdx']
+
   if (fs.existsSync(basePath) && fs.statSync(basePath).isFile()) {
     return basePath
   }
 
   for (const ext of extensions) {
     const withExt = `${basePath}${ext}`
+
     if (fs.existsSync(withExt)) {
       return withExt
     }
@@ -1476,6 +2127,7 @@ async function extractExports(
   traverse(ast, {
     ExportNamedDeclaration(path: any) {
       const declaration = path.node.declaration
+
       if (t.isVariableDeclaration(declaration)) {
         for (const declarator of declaration.declarations) {
           if (!t.isIdentifier(declarator.id)) {
@@ -1484,6 +2136,7 @@ async function extractExports(
           const name = declarator.id.name
           const init = declarator.init
           const jsxNode = getReturnedJSX(init, t)
+
           if (jsxNode) {
             exportEntries.push({ name, jsxNode })
           }
@@ -1491,6 +2144,7 @@ async function extractExports(
       } else if (t.isFunctionDeclaration(declaration)) {
         const name = declaration.id?.name
         const jsxNode = getReturnedJSX(declaration, t)
+
         if (name && jsxNode) {
           exportEntries.push({ name, jsxNode })
         }
@@ -1505,6 +2159,7 @@ async function extractExports(
       generate,
       prettierConfig
     )
+
     if (code) {
       exportsMap.set(entry.name, code)
     }
@@ -1522,11 +2177,13 @@ function getReturnedJSX(fnNode: any, t: any) {
     if (t.isJSXElement(fnNode.body) || t.isJSXFragment(fnNode.body)) {
       return fnNode.body
     }
+
     if (t.isBlockStatement(fnNode.body)) {
       const returnStmt = fnNode.body.body.find((node: any) =>
         t.isReturnStatement(node)
       )
       const arg = returnStmt?.argument
+
       if (t.isJSXElement(arg) || t.isJSXFragment(arg)) {
         return arg
       }
@@ -1538,6 +2195,7 @@ function getReturnedJSX(fnNode: any, t: any) {
       t.isReturnStatement(node)
     )
     const arg = returnStmt?.argument
+
     if (t.isJSXElement(arg) || t.isJSXFragment(arg)) {
       return arg
     }
@@ -1556,6 +2214,7 @@ async function formatJSXChildren(
 
   if (t.isJSXElement(jsxNode)) {
     const name = jsxNode.openingElement.name
+
     if (t.isJSXIdentifier(name) && name.name === 'ComponentBox') {
       children = jsxNode.children
     } else {
@@ -1575,22 +2234,28 @@ async function formatJSXChildren(
 
   let childCode: string[]
   let fromStatements = false
+
   if (filteredChildren.length === 1) {
     const single = filteredChildren[0]
+
     if (t.isJSXExpressionContainer(single)) {
       const expr = single.expression
+
       if (t.isParenthesizedExpression(expr)) {
         single.expression = expr.expression
       }
+
       if (
         t.isArrowFunctionExpression(single.expression) ||
         t.isFunctionExpression(single.expression)
       ) {
         const body = single.expression.body
+
         if (t.isBlockStatement(body)) {
           fromStatements = true
           const statements = body.body
           const last = statements[statements.length - 1]
+
           if (t.isReturnStatement(last) && last.argument) {
             const renderCall = t.expressionStatement(
               t.callExpression(t.identifier('render'), [last.argument])
@@ -1617,12 +2282,15 @@ async function formatJSXChildren(
     childCode = filteredChildren.map((child) => generate(child).code)
   }
   let code = childCode.join('\n')
+
   if (filteredChildren.length === 1 && !fromStatements) {
     const onlyChild = filteredChildren[0]
+
     if (t.isJSXElement(onlyChild) || t.isJSXFragment(onlyChild)) {
       code = `render(${generate(onlyChild).code})`
     }
   }
+
   if (childCode.length > 1 && !fromStatements) {
     code = `<>${childCode.join('\n')}</>`
   }
@@ -1647,6 +2315,7 @@ async function formatJSXChildren(
 
 function stripWrapperTags(content: string, tagNames: string[]) {
   let output = content
+
   for (const tag of tagNames) {
     const openTag = new RegExp(`<${tag}[^>]*>`, 'g')
     const closeTag = new RegExp(`</${tag}>`, 'g')
@@ -1663,15 +2332,19 @@ function replaceComponentUsages(
 
   return content.replace(componentRegex, (match, name) => {
     const entry = componentCode.get(name)
+
     if (!entry) {
       return match
     }
+
     if (typeof entry === 'string') {
       return `\n\`\`\`tsx\n${entry}\n\`\`\`\n`
     }
+
     if (entry.format === 'md') {
       return `\n${entry.code}\n`
     }
+
     if (looksLikeMarkdown(entry.code)) {
       return `\n${entry.code}\n`
     }
