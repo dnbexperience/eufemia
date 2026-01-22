@@ -324,11 +324,11 @@ describe('Accordion container component', () => {
   }
   const DidRender: React.FC<DidRenderProps> = ({ id }) => {
     const [mounted, setMounted] = React.useState(false)
-    
+
     React.useEffect(() => {
       setMounted(true)
     }, [])
-    
+
     return <div id={id}>{String(mounted)}</div>
   }
 
