@@ -60,19 +60,22 @@ const TextMask: React.FC<TextMaskProps> = (props) => {
     textMaskInputElementRef.current.update(value)
 
     if (!inputMode && inputMode !== 'none') {
-      inputModeRef.current = new InputModeNumber()
+      if (!inputModeRef.current) {
+        inputModeRef.current = new InputModeNumber()
+      }
+      inputModeRef.current.setElement(inputElement)
     }
-
-    inputModeRef.current?.setElement(inputElement)
   }, [props, value, inputRef])
 
   React.useEffect(() => {
     initTextMask()
+  }, [initTextMask])
 
+  React.useEffect(() => {
     return () => {
       inputModeRef.current?.remove()
     }
-  }, [initTextMask])
+  }, [])
 
   React.useEffect(() => {
     if (!prevPropsRef.current) {
