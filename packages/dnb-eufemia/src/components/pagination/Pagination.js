@@ -145,7 +145,7 @@ const paginationDefaultProps = {
   onEnd: null,
 }
 
-const Pagination: React.FC = (props) => {
+const Pagination = (props) => {
   const { children, ...restProps } = props
   return (
     <PaginationProvider
@@ -215,12 +215,8 @@ function PaginationInstance(props) {
   } = extendedProps
 
   // our props
-  const {
-    currentPageInternal,
-    items,
-    fallbackElement,
-    indicatorElement,
-  } = context.pagination
+  const { currentPageInternal, items, fallbackElement, indicatorElement } =
+    context.pagination
 
   // Pagination mode
   if (context.pagination.mode === 'pagination') {
@@ -267,7 +263,7 @@ function PaginationInstance(props) {
 PaginationInstance.propTypes = { ...paginationPropTypes }
 PaginationInstance.defaultProps = paginationDefaultProps
 
-export const InfinityMarker: React.FC = (props) => {
+export const InfinityMarker = (props) => {
   const { children, ...restProps } = props
   return (
     <PaginationProvider
