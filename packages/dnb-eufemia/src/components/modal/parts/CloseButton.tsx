@@ -7,7 +7,7 @@ import React from 'react'
 import clsx from 'clsx'
 import { extendPropsWithContextInClassComponent } from '../../../shared/component-helper'
 import Button from '../../button/Button'
-import Context, { ContextProps } from '../../../shared/Context'
+import Context from '../../../shared/Context'
 import type { ButtonProps } from '../../button/Button'
 
 export type CloseButtonProps = {
@@ -17,43 +17,39 @@ export type CloseButtonProps = {
   closeTitle?: string
 } & Partial<ButtonProps>
 
-export default class CloseButton extends React.PureComponent<CloseButtonProps> {
-  static contextType = Context
+const CloseButton: React.FC<CloseButtonProps> = (props) => {
+  const context = React.useContext(Context)
 
-  context!: ContextProps
+  // use only the props from context, who are available here anyway
+  const {
+    closeTitle = null,
+    size = 'default',
+    iconPosition = 'left',
+    className = null,
+    ...button_props
+  } = extendPropsWithContextInClassComponent(
+    props,
+    {
+      closeTitle: null,
+      size: 'default',
+      iconPosition: 'left',
+      className: null,
+    },
+    context.getTranslation(props).Modal
+  )
 
-  static defaultProps = {
-    closeTitle: null,
-    size: 'default',
-    iconPosition: 'left',
-    className: null,
-  }
-
-  render() {
-    // use only the props from context, who are available here anyway
-    const {
-      closeTitle = null,
-      size = 'default',
-      iconPosition = 'left',
-      className = null,
-      ...button_props
-    } = extendPropsWithContextInClassComponent(
-      this.props,
-      CloseButton.defaultProps,
-      this.context.getTranslation(this.props).Modal
-    )
-
-    return (
-      <Button
-        type="button"
-        variant="tertiary"
-        icon="close"
-        text={closeTitle}
-        size={size}
-        iconPosition={iconPosition}
-        className={clsx('dnb-modal__close-button', className)}
-        {...button_props}
-      />
-    )
-  }
+  return (
+    <Button
+      type="button"
+      variant="tertiary"
+      icon="close"
+      text={closeTitle}
+      size={size}
+      iconPosition={iconPosition}
+      className={clsx('dnb-modal__close-button', className)}
+      {...button_props}
+    />
+  )
 }
+
+export default CloseButton
