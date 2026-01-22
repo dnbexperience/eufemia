@@ -322,14 +322,14 @@ describe('Accordion container component', () => {
   type DidRenderProps = {
     id: string
   }
-  class DidRender extends React.PureComponent<DidRenderProps> {
-    state = { mounted: false }
-    componentDidMount() {
-      this.setState({ mounted: true })
-    }
-    render() {
-      return <div id={this.props.id}>{String(this.state.mounted)}</div>
-    }
+  const DidRender: React.FC<DidRenderProps> = ({ id }) => {
+    const [mounted, setMounted] = React.useState(false)
+
+    React.useEffect(() => {
+      setMounted(true)
+    }, [])
+
+    return <div id={id}>{String(mounted)}</div>
   }
 
   const Increment = () => {
