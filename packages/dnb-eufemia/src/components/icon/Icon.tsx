@@ -342,18 +342,21 @@ function prepareIconCore(
     ...attributes
   } = props
 
-  const { sizeAsString, iconParams } = cachedValues || calcSize({
-    icon,
-    size,
-    width,
-    height,
-  })
+  const { sizeAsString, iconParams } =
+    cachedValues ||
+    calcSize({
+      icon,
+      size,
+      width,
+      height,
+    })
 
   if (color) {
     iconParams.color = color
   }
 
-  const label = cachedValues?.label ?? (icon ? getIconNameFromComponent(icon) : null)
+  const label =
+    cachedValues?.label ?? (icon ? getIconNameFromComponent(icon) : null)
 
   // some wrapper params
   // also used for code markup simulation
@@ -420,12 +423,7 @@ function prepareIconCore(
 }
 
 function usePrepareIcon(props: IconAllProps, context: ContextProps) {
-  const {
-    icon,
-    size,
-    width,
-    height,
-  } = props
+  const { icon, size, width, height } = props
 
   const cachedCalcSize = useMemo(
     () =>
@@ -444,10 +442,11 @@ function usePrepareIcon(props: IconAllProps, context: ContextProps) {
   )
 
   return useMemo(
-    () => prepareIconCore(props, context, { 
-      ...cachedCalcSize, 
-      label 
-    }),
+    () =>
+      prepareIconCore(props, context, {
+        ...cachedCalcSize,
+        label,
+      }),
     [props, context, cachedCalcSize, label]
   )
 }
