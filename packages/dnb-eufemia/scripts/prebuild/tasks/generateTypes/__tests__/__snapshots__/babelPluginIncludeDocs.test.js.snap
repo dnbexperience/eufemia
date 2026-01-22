@@ -6,7 +6,6 @@ exports[`babelPluginIncludeDocs has to match code snapshot 1`] = `
  *
  */
 
-import React from 'react';
 import { PropTypes } from "react";
 import SecondaryComponent, { secondaryDefaultProps, secondaryPropTypes } from './SecondaryComponent';
 import ClassComponent from './ClassComponent';
@@ -23,11 +22,18 @@ export const primaryDefaultProps = {
   bottom: null,
   left: null
 };
-export default class PrimaryComponent extends React.PureComponent {
-  render() {
-    return [this.props.boolean, this.props.number, this.props.spacing, this.props.top, this.props.secondaryFoo, this.props.secondarySpacing, this.props.children];
-  }
-}
+const PrimaryComponent = props => {
+  const {
+    boolean = null,
+    number = null,
+    spacing = null,
+    top = null,
+    secondaryFoo,
+    secondarySpacing,
+    children = null
+  } = props;
+  return [boolean, number, spacing, top, secondaryFoo, secondarySpacing, children];
+};
 PrimaryComponent.propTypes = {
   boolean: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   number: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
@@ -61,6 +67,7 @@ PrimaryComponent.defaultProps = {
 };
 PrimaryComponent.Secondary = SecondaryComponent;
 PrimaryComponent.SecondaryDuplication = SecondaryComponent;
+export default PrimaryComponent;
 const Element = () => {
   return null;
 };
@@ -100,7 +107,6 @@ exports[`babelPluginIncludeDocs has to match code snapshot in strict mode 1`] = 
  *
  */
 
-import React from 'react';
 import { PropTypes } from "react";
 import SecondaryComponent, { secondaryDefaultProps, secondaryPropTypes } from './SecondaryComponent';
 import ClassComponent from './ClassComponent';
@@ -117,11 +123,18 @@ export const primaryDefaultProps = {
   bottom: null,
   left: null
 };
-export default class PrimaryComponent extends React.PureComponent {
-  render() {
-    return [this.props.boolean, this.props.number, this.props.spacing, this.props.top, this.props.secondaryFoo, this.props.secondarySpacing, this.props.children];
-  }
-}
+const PrimaryComponent = props => {
+  const {
+    boolean = null,
+    number = null,
+    spacing = null,
+    top = null,
+    secondaryFoo,
+    secondarySpacing,
+    children = null
+  } = props;
+  return [boolean, number, spacing, top, secondaryFoo, secondarySpacing, children];
+};
 PrimaryComponent.propTypes = {
   boolean: PropTypes.bool,
   number: PropTypes.number,
@@ -155,6 +168,7 @@ PrimaryComponent.defaultProps = {
 };
 PrimaryComponent.Secondary = SecondaryComponent;
 PrimaryComponent.SecondaryDuplication = SecondaryComponent;
+export default PrimaryComponent;
 const Element = () => {
   return null;
 };
@@ -194,7 +208,6 @@ exports[`babelPluginIncludeDocs has to match collectProps snapshot given by onCo
  *
  */
 
-import React from 'react';
 import { PropTypes } from "react";
 import SecondaryComponent, { secondaryDefaultProps, secondaryPropTypes } from './SecondaryComponent';
 import ClassComponent from './ClassComponent';
@@ -211,11 +224,18 @@ export const primaryDefaultProps = {
   bottom: null,
   left: null
 };
-export default class PrimaryComponent extends React.PureComponent {
-  render() {
-    return [this.props.boolean, this.props.number, this.props.spacing, this.props.top, this.props.secondaryFoo, this.props.secondarySpacing, this.props.children];
-  }
-}
+const PrimaryComponent = props => {
+  const {
+    boolean = null,
+    number = null,
+    spacing = null,
+    top = null,
+    secondaryFoo,
+    secondarySpacing,
+    children = null
+  } = props;
+  return [boolean, number, spacing, top, secondaryFoo, secondarySpacing, children];
+};
 PrimaryComponent.propTypes = {
   boolean: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   number: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
@@ -249,6 +269,7 @@ PrimaryComponent.defaultProps = {
 };
 PrimaryComponent.Secondary = SecondaryComponent;
 PrimaryComponent.SecondaryDuplication = SecondaryComponent;
+export default PrimaryComponent;
 const Element = () => {
   return null;
 };
@@ -292,6 +313,7 @@ exports[`babelPluginIncludeDocs has to match collectProps snapshot given by onCo
   "bottom",
   "left",
   "secondary",
+  "classProperty",
   "secondaryFoo",
   "secondarySpacing",
   "children",
@@ -303,7 +325,6 @@ exports[`babelPluginIncludeDocs has to match collectProps snapshot given by onCo
   "bottom",
   "left",
   "secondary",
-  "classProperty",
   "secondaryFoo",
   "secondarySpacing",
   "children",

@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`babelPluginPropTypesRelations has to match snapshot 1`] = `
 "/**
@@ -6,7 +6,6 @@ exports[`babelPluginPropTypesRelations has to match snapshot 1`] = `
  *
  */
 
-import React from 'react';
 import PropTypes from 'prop-types';
 import SecondaryComponent, { secondaryDefaultProps, secondaryPropTypes } from './SecondaryComponent';
 import ClassComponent from './ClassComponent';
@@ -23,11 +22,18 @@ export const primaryDefaultProps = {
   bottom: null,
   left: null
 };
-export default class PrimaryComponent extends React.PureComponent {
-  render() {
-    return [this.props.boolean, this.props.number, this.props.spacing, this.props.top, this.props.secondaryFoo, this.props.secondarySpacing, this.props.children];
-  }
-}
+const PrimaryComponent = props => {
+  const {
+    boolean = null,
+    number = null,
+    spacing = null,
+    top = null,
+    secondaryFoo,
+    secondarySpacing,
+    children = null
+  } = props;
+  return [boolean, number, spacing, top, secondaryFoo, secondarySpacing, children];
+};
 PrimaryComponent.propTypes = {
   boolean: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   number: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
@@ -61,6 +67,7 @@ PrimaryComponent.defaultProps = {
 };
 PrimaryComponent.Secondary = SecondaryComponent;
 PrimaryComponent.SecondaryDuplication = SecondaryComponent;
+export default PrimaryComponent;
 const Element = () => {
   return null;
 };
