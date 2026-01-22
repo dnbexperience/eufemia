@@ -46,7 +46,6 @@ export type GetReturnObjectParams<E> = DatePickerDates &
     event?: E
   }
 
-// TODO: convert properties on event handler return objects to camelCase, constitutes a breaking change
 export type ReturnObject<E> = InvalidDates &
   PartialDates & {
     event?: E
