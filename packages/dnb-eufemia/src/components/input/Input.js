@@ -647,132 +647,108 @@ export default class Input extends React.PureComponent {
   }
 }
 
-class InputSubmitButton extends React.PureComponent {
-  static propTypes = {
-    id: PropTypes.string,
-    value: PropTypes.string,
-    title: PropTypes.string,
-    variant: buttonVariantPropType.variant,
-    disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    icon: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.node,
-      PropTypes.func,
-    ]),
-    iconSize: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    status: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-      PropTypes.func,
-      PropTypes.node,
-    ]),
-    statusState: PropTypes.string,
-    statusProps: PropTypes.object,
-    className: PropTypes.string,
+const InputSubmitButton: React.FC = (props) => {
+  const {
+    id = null,
+    value = null,
+    title = null,
+    disabled = false,
+    skeleton = false,
+    variant = 'secondary',
+    icon = 'loupe',
+    iconSize = null,
+    status = null,
+    statusState = 'error',
+    statusProps = null,
+    className = null,
+    onSubmit = null,
+    onSubmitFocus = null,
+    onSubmitBlur = null,
+    ...rest
+  } = props
 
-    onSubmit: PropTypes.func,
-    onSubmitFocus: PropTypes.func,
-    onSubmitBlur: PropTypes.func,
+  const [focusState, setFocusState] = React.useState('virgin')
+  const context = React.useContext(Context)
+
+  const onSubmitFocusHandler = (event) => {
+    setFocusState('focus')
+    dispatchCustomElementEvent({ props }, 'onSubmitFocus', { value, event })
   }
 
-  static defaultProps = {
-    id: null,
-    value: null,
-    title: null,
-    disabled: false,
-    skeleton: false,
-    variant: 'secondary',
-    icon: 'loupe',
-    iconSize: null,
-    status: null,
-    statusState: 'error',
-    statusProps: null,
-    className: null,
-
-    onSubmit: null,
-    onSubmitFocus: null,
-    onSubmitBlur: null,
+  const onSubmitBlurHandler = (event) => {
+    setFocusState('dirty')
+    dispatchCustomElementEvent({ props }, 'onSubmitBlur', { value, event })
   }
 
-  state = { focusState: 'virgin' }
-
-  onSubmitFocusHandler = (event) => {
-    const value = this.props.value
-    this.setState({
-      focusState: 'focus',
-    })
-    dispatchCustomElementEvent(this, 'onSubmitFocus', { value, event })
+  const onSubmitHandler = (event) => {
+    dispatchCustomElementEvent({ props }, 'onSubmit', { value, event })
   }
-  onSubmitBlurHandler = (event) => {
-    const value = this.props.value
-    this.setState({
-      focusState: 'dirty',
-    })
-    dispatchCustomElementEvent(this, 'onSubmitBlur', { value, event })
+
+  const params = {
+    id,
+    type: 'submit',
+    'aria-label': title,
+    disabled,
+    ...rest,
   }
-  onSubmitHandler = (event) => {
-    const value = this.props.value
-    dispatchCustomElementEvent(this, 'onSubmit', { value, event })
-  }
-  render() {
-    const {
-      id,
-      title,
-      disabled,
-      skeleton,
-      variant,
-      icon,
-      iconSize,
-      status,
-      statusState,
-      statusProps,
-      className,
 
-      onSubmitBlur, //eslint-disable-line
-      onSubmitFocus, //eslint-disable-line
+  skeletonDOMAttributes(params, skeleton, context)
 
-      ...rest
-    } = this.props
+  // also used for code markup simulation
+  validateDOMAttributes(props, params)
 
-    const params = {
-      id,
-      type: 'submit',
-      'aria-label': title,
-      disabled,
-      ...rest,
-    }
+  return (
+    <span
+      className="dnb-input__submit-button"
+      data-input-state={focusState}
+    >
+      <Button
+        className={clsx(
+          'dnb-input__submit-button__button',
+          'dnb-button--input-button',
+          className
+        )}
+        variant={variant}
+        icon={icon}
+        iconSize={iconSize}
+        status={status}
+        statusState={statusState}
+        onClick={onSubmitHandler}
+        onFocus={onSubmitFocusHandler}
+        onBlur={onSubmitBlurHandler}
+        {...params}
+        {...statusProps}
+      />
+    </span>
+  )
+}
 
-    skeletonDOMAttributes(params, skeleton, this.context)
+InputSubmitButton.propTypes = {
+  id: PropTypes.string,
+  value: PropTypes.string,
+  title: PropTypes.string,
+  variant: buttonVariantPropType.variant,
+  disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  icon: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.node,
+    PropTypes.func,
+  ]),
+  iconSize: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  status: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool,
+    PropTypes.func,
+    PropTypes.node,
+  ]),
+  statusState: PropTypes.string,
+  statusProps: PropTypes.object,
+  className: PropTypes.string,
 
-    // also used for code markup simulation
-    validateDOMAttributes(this.props, params)
-
-    return (
-      <span
-        className="dnb-input__submit-button"
-        data-input-state={this.state.focusState}
-      >
-        <Button
-          className={clsx(
-            'dnb-input__submit-button__button',
-            'dnb-button--input-button',
-            className
-          )}
-          variant={variant}
-          icon={icon}
-          iconSize={iconSize}
-          status={status}
-          statusState={statusState}
-          onClick={this.onSubmitHandler}
-          onFocus={this.onSubmitFocusHandler}
-          onBlur={this.onSubmitBlurHandler}
-          {...params}
-          {...statusProps}
-        />
-      </span>
-    )
-  }
+  onSubmit: PropTypes.func,
+  onSubmitFocus: PropTypes.func,
+  onSubmitBlur: PropTypes.func,
 }
 
 const SubmitButton = React.forwardRef((props, ref) => (
