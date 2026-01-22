@@ -31,56 +31,25 @@ interface ModalHeaderBarState {
   showShadow: boolean
 }
 
-export default class ModalHeaderBar extends React.PureComponent<
-  ModalHeaderBarProps & Omit<React.HTMLProps<HTMLElement>, 'children'>,
-  ModalHeaderBarState
-> {
-  static contextType = ModalContext
+const ModalHeaderBar: React.FC<
+  ModalHeaderBarProps & Omit<React.HTMLProps<HTMLElement>, 'children'>
+> = (props) => {
+  const context = React.useContext(ModalContext)
+  const _ref = React.useRef<any>(null)
+  const intersectionObserverRef = React.useRef<IntersectionObserver>(null)
+  const [showShadow, setShowShadow] = React.useState(false)
 
-  context!: React.ContextType<typeof ModalContext>
-
-  _ref: React.RefObject<any>
-  intersectionObserver: IntersectionObserver
-
-  constructor(props) {
-    super(props)
-    this._ref = React.createRef()
-  }
-
-  state = { showShadow: false }
-
-  componentDidMount() {
-    this.observeHeader()
-  }
-
-  componentDidUpdate(prevProps) {
-    // Re-observe if children change
-    // This is necessary to handle dynamic content changes
-    // that might affect the header's height
-    // e.g., when the modal content changes
-    if (prevProps.children !== this.props.children) {
-      this.intersectionObserver?.disconnect()
-      this.observeHeader()
-    }
-  }
-
-  componentWillUnmount() {
-    this.intersectionObserver?.disconnect()
-  }
-
-  observeHeader() {
+  const observeHeader = React.useCallback(() => {
     if (
       typeof window !== 'undefined' &&
       typeof IntersectionObserver !== 'undefined' &&
-      this._ref.current
+      _ref.current
     ) {
-      const marginTop = -this._ref.current.clientHeight
-      this.intersectionObserver = new IntersectionObserver(
+      const marginTop = -_ref.current.clientHeight
+      intersectionObserverRef.current = new IntersectionObserver(
         (entries) => {
           const [entry] = entries
-          this.setState({
-            showShadow: !entry.isIntersecting,
-          })
+          setShowShadow(!entry.isIntersecting)
         },
         {
           rootMargin: `${marginTop}px 0px 0px 0px`,
@@ -88,51 +57,67 @@ export default class ModalHeaderBar extends React.PureComponent<
         }
       )
 
-      this.intersectionObserver.observe(this._ref.current)
+      intersectionObserverRef.current.observe(_ref.current)
     }
-  }
+  }, [])
 
-  render() {
-    const {
-      className = null,
-      children = null,
-      ref, //eslint-disable-line
-      shadowClass = null,
-      ...props
-    } = this.props
-    const { showShadow } = this.state
-    const {
-      hideCloseButton = false,
-      closeButtonAttributes,
-      onCloseClickHandler,
-      closeTitle,
-    } = this.context
+  React.useEffect(() => {
+    observeHeader()
 
-    return (
-      <Section
-        style_type="white"
-        className={clsx(
-          'dnb-modal__header__bar',
-          showShadow && shadowClass,
-          className
-        )}
-        innerRef={this._ref}
-        {...props}
-      >
-        <div className="dnb-modal__header__bar__inner">
-          {children as React.ReactNode}
+    return () => {
+      intersectionObserverRef.current?.disconnect()
+    }
+  }, [observeHeader])
+
+  React.useEffect(() => {
+    // Re-observe if children change
+    // This is necessary to handle dynamic content changes
+    // that might affect the header's height
+    // e.g., when the modal content changes
+    intersectionObserverRef.current?.disconnect()
+    observeHeader()
+  }, [props.children, observeHeader])
+
+  const {
+    className = null,
+    children = null,
+    ref, //eslint-disable-line
+    shadowClass = null,
+    ...restProps
+  } = props
+  const {
+    hideCloseButton = false,
+    closeButtonAttributes,
+    onCloseClickHandler,
+    closeTitle,
+  } = context
+
+  return (
+    <Section
+      style_type="white"
+      className={clsx(
+        'dnb-modal__header__bar',
+        showShadow && shadowClass,
+        className
+      )}
+      innerRef={_ref}
+      {...restProps}
+    >
+      <div className="dnb-modal__header__bar__inner">
+        {children as React.ReactNode}
+      </div>
+
+      {!isTrue(hideCloseButton) && (
+        <div className="dnb-modal__header__bar__close">
+          <CloseButton
+            onClick={onCloseClickHandler}
+            closeTitle={closeTitle}
+            {...closeButtonAttributes}
+          />
         </div>
-
-        {!isTrue(hideCloseButton) && (
-          <div className="dnb-modal__header__bar__close">
-            <CloseButton
-              onClick={onCloseClickHandler}
-              closeTitle={closeTitle}
-              {...closeButtonAttributes}
-            />
-          </div>
-        )}
-      </Section>
-    )
-  }
+      )}
+    </Section>
+  )
 }
+
+export default ModalHeaderBar
