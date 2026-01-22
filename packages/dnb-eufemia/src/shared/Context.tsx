@@ -43,7 +43,10 @@ import type { StepIndicatorProps } from '../components/StepIndicator'
 import type { FormLabelProps } from '../components/FormLabel'
 import type { InputProps } from '../components/Input'
 import type { InputMaskedProps } from '../components/InputMasked'
-import type { NumberFormatCurrency } from '../components/NumberFormat'
+import type {
+  NumberFormatCurrency,
+  NumberFormatAllProps,
+} from '../components/NumberFormat'
 import type { ProgressIndicatorProps } from '../components/progress-indicator/types'
 import type { FormStatusProps } from '../components/FormStatus'
 import type { LogoProps } from '../components/Logo'
@@ -99,8 +102,7 @@ export type ContextComponents = {
   ListFormat?: Partial<ListFormatProps>
 
   Switch?: Partial<SwitchProps>
-  // -- TODO: Not converted yet --
-  NumberFormat?: Record<string, unknown>
+  NumberFormat?: Partial<NumberFormatAllProps>
   Pagination?: Record<string, unknown>
 
   // Common props
