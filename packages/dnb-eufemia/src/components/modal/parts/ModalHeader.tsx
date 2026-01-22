@@ -39,66 +39,62 @@ export interface ModalHeaderProps extends Omit<SectionProps, 'children'> {
   size?: 'medium' | 'large' | 'x-large' | 'xx-large'
 }
 
-export default class ModalHeader extends React.PureComponent<
+const ModalHeader: React.FC<
   ModalHeaderProps &
     Omit<React.HTMLProps<HTMLElement>, 'size' | 'title' | 'children'>
-> {
-  static contextType = ModalContext
+> = (props) => {
+  const context = React.useContext(ModalContext)
 
-  context!: React.ContextType<typeof ModalContext>
+  const {
+    title = null,
+    className = null,
+    children = null,
+    titleClass = null,
+    size = null,
+    ref, // eslint-disable-line
+    ...sectionProps
+  } = props
 
-  render() {
-    const {
-      title = null,
-      className = null,
-      children = null,
-      titleClass = null,
-      size = null,
-      ref, // eslint-disable-line
-      ...sectionProps
-    } = this.props
+  const customHeader = findElementInChildren(children, (cur) => {
+    return cur.type === 'h1' || cur.type === H1
+  })
 
-    const customHeader = findElementInChildren(children, (cur) => {
-      return cur.type === 'h1' || cur.type === H1
-    })
+  const usedTitle = title || context.title
+  const showTitle = !customHeader && usedTitle
+  const fontSize = size || 'large'
 
-    const usedTitle = title || this.context.title
-    const showTitle = !customHeader && usedTitle
-    const fontSize = size || 'large'
-
-    return (
-      <Section
-        style_type="white"
-        className={clsx(className)}
-        id={
-          showTitle ? 'dnb-modal-' + this.context.id + '-title' : undefined
-        }
-        {...sectionProps}
-      >
-        {showTitle ? (
-          <h1
-            className={clsx(
-              'dnb-modal__title', // for tests
-              'dnb-space__top--zero',
-              'dnb-space__bottom--small',
-              `dnb-h--${fontSize}`,
-              titleClass
-            )}
-          >
-            {usedTitle}
-          </h1>
-        ) : (
-          <div
-            aria-hidden
-            tabIndex={-1}
-            className="dnb-modal__focus-helper dnb-sr-only"
-          >
-            {/* Used to set focus when no close button is present */}
-            {usedTitle}
-          </div>
-        )}
-        <div>{children as React.ReactNode}</div>
-      </Section>
-    )
-  }
+  return (
+    <Section
+      style_type="white"
+      className={clsx(className)}
+      id={showTitle ? 'dnb-modal-' + context.id + '-title' : undefined}
+      {...sectionProps}
+    >
+      {showTitle ? (
+        <h1
+          className={clsx(
+            'dnb-modal__title', // for tests
+            'dnb-space__top--zero',
+            'dnb-space__bottom--small',
+            `dnb-h--${fontSize}`,
+            titleClass
+          )}
+        >
+          {usedTitle}
+        </h1>
+      ) : (
+        <div
+          aria-hidden
+          tabIndex={-1}
+          className="dnb-modal__focus-helper dnb-sr-only"
+        >
+          {/* Used to set focus when no close button is present */}
+          {usedTitle}
+        </div>
+      )}
+      <div>{children as React.ReactNode}</div>
+    </Section>
+  )
 }
+
+export default ModalHeader
