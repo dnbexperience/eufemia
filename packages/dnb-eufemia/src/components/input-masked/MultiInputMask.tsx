@@ -275,7 +275,9 @@ type MultiInputMaskInputProps<T extends string> =
       id: string,
       placeholderCharacter: MultiInputMaskInput<T>['placeholderCharacter']
     ) => void
-    getInputRef: () => MutableRefObject<HTMLInputElement>
+    getInputRef: (ref?: {
+      inputRef?: MutableRefObject<HTMLInputElement>
+    }) => MutableRefObject<HTMLInputElement>
   }
 
 function MultiInputMaskInput<T extends string>({
@@ -295,6 +297,13 @@ function MultiInputMaskInput<T extends string>({
   ...attributes
 }: MultiInputMaskInputProps<T>) {
   const shouldHighlight = !disabled && /\w+/.test(value)
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  React.useEffect(() => {
+    if (inputRef.current) {
+      getInputRef({ inputRef })
+    }
+  }, [getInputRef])
 
   return (
     <>
@@ -315,7 +324,7 @@ function MultiInputMaskInput<T extends string>({
         showMask={true}
         keepCharPositions={false} // so we can overwrite next value, if it already exists
         aria-label={label}
-        ref={getInputRef}
+        inputRef={inputRef}
         onKeyDown={onKeyDown}
         onBlur={onBlur}
         onFocus={({ target, ...event }) => {
