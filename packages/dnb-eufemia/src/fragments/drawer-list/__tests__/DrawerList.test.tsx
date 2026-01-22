@@ -1117,7 +1117,7 @@ describe('DrawerList component', () => {
       const expectedSelector = isBottomDirection
         ? '.dnb-drawer-list--top'
         : '.dnb-drawer-list--bottom'
-      
+
       await waitFor(() => {
         expect(
           document.querySelector(expectedSelector)
