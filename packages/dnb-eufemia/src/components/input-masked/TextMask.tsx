@@ -28,75 +28,67 @@ export interface TextMaskProps
   showMask?: boolean
 }
 
-export default class TextMask extends React.PureComponent<TextMaskProps> {
-  inputRef: React.RefObject<HTMLInputElement>
-  textMaskInputElement?: TextMaskInputController
-  inputMode?: InputModeNumber
+const TextMask: React.FC<TextMaskProps> = (props) => {
+  const {
+    inputElement = null,
+    inputRef: externalInputRef = null,
+    onChange: externalOnChange = null,
+    guide = null,
+    value = null,
+    pipe = null,
+    placeholderChar = null,
+    keepCharPositions = null,
+    showMask = null,
+    mask,
+    ...restProps
+  } = props
 
-  static defaultProps = {
-    inputElement: null,
-    inputRef: null,
-    onChange: null,
-    guide: null,
-    value: null,
-    pipe: null,
-    placeholderChar: null,
-    keepCharPositions: null,
-    showMask: null,
-  }
+  const internalInputRef = React.useRef<HTMLInputElement>(null)
+  const inputRef = externalInputRef || internalInputRef
+  const textMaskInputElementRef = React.useRef<TextMaskInputController>()
+  const inputModeRef = React.useRef<InputModeNumber>()
+  const prevPropsRef = React.useRef<TextMaskProps>()
 
-  constructor(props: TextMaskProps) {
-    super(props)
+  const initTextMask = React.useCallback(() => {
+    const { inputMode } = props
+    const inputElement = inputRef.current
 
-    this.inputRef = props.inputRef || React.createRef()
-  }
-
-  componentDidMount() {
-    this.initTextMask()
-  }
-
-  componentWillUnmount() {
-    this.inputMode?.remove()
-  }
-
-  initTextMask() {
-    const {
-      props,
-      props: { value, inputMode },
-    } = this
-
-    const inputElement = this.inputRef.current
-    this.textMaskInputElement = createTextMaskInputElement({
+    textMaskInputElementRef.current = createTextMaskInputElement({
       ...props,
       inputElement,
     } as unknown as CreateTextMaskConfig)
-    this.textMaskInputElement.update(value)
+    textMaskInputElementRef.current.update(value)
 
     if (!inputMode && inputMode !== 'none') {
-      this.inputMode = new InputModeNumber()
+      inputModeRef.current = new InputModeNumber()
     }
 
-    this.inputMode?.setElement(inputElement)
-  }
+    inputModeRef.current?.setElement(inputElement)
+  }, [props, value, inputRef])
 
-  onChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
-    this.textMaskInputElement.update()
+  React.useEffect(() => {
+    initTextMask()
 
-    if (typeof this.props.onChange === 'function') {
-      return this.props.onChange(event)
+    return () => {
+      inputModeRef.current?.remove()
     }
-  }
+  }, [initTextMask])
 
-  componentDidUpdate(prevProps: TextMaskProps) {
+  React.useEffect(() => {
+    if (!prevPropsRef.current) {
+      prevPropsRef.current = props
+      return
+    }
+
+    const prevProps = prevPropsRef.current
+
     // Getting props affecting value
-    const { value, pipe, mask, guide, placeholderChar, showMask } =
-      this.props
+    const settings = { guide, placeholderChar, showMask }
 
     // Сalculate that settings was changed:
     // - `pipe` converting to string, to compare function content
     // - `mask` converting to string, to compare values or function content
     // - `keepCharPositions` excludes, because it affect only cursor position
-    const settings = { guide, placeholderChar, showMask }
     const isPipeChanged =
       typeof pipe === 'function' && typeof prevProps.pipe === 'function'
         ? pipe.toString() !== prevProps.pipe.toString()
@@ -112,39 +104,44 @@ export default class TextMask extends React.PureComponent<TextMaskProps> {
 
     // Сalculate that value was changed
     const isValueChanged =
-      value !== this.inputRef.current!.value || prevProps.value !== value
+      value !== inputRef.current!.value || prevProps.value !== value
 
     // Check value and settings to prevent duplicating update() call
     if (isValueChanged || isSettingChanged) {
-      this.initTextMask()
+      initTextMask()
+    }
+
+    prevPropsRef.current = props
+  }, [
+    props,
+    value,
+    pipe,
+    mask,
+    guide,
+    placeholderChar,
+    showMask,
+    inputRef,
+    initTextMask,
+  ])
+
+  const onChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
+    textMaskInputElementRef.current?.update()
+
+    if (typeof externalOnChange === 'function') {
+      return externalOnChange(event)
     }
   }
 
-  render(): JSX.Element {
-    const {
-      inputElement,
-      inputRef, // eslint-disable-line
-      mask, // eslint-disable-line
-      guide, // eslint-disable-line
-      pipe, // eslint-disable-line
-      placeholderChar, // eslint-disable-line
-      keepCharPositions, // eslint-disable-line
-      value, // eslint-disable-line
-      onChange, // eslint-disable-line
-      showMask, // eslint-disable-line
-
-      ...props
-    } = this.props
-
-    const params = {
-      onChange: this.onChange,
-      ...props,
-    }
-
-    return inputElement ? (
-      React.cloneElement(inputElement, params)
-    ) : (
-      <input ref={this.inputRef} {...params} />
-    )
+  const params = {
+    onChange,
+    ...restProps,
   }
+
+  return inputElement ? (
+    React.cloneElement(inputElement, params)
+  ) : (
+    <input ref={inputRef} {...params} />
+  )
 }
+
+export default TextMask
