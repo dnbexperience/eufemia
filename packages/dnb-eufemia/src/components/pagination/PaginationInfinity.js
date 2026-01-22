@@ -415,7 +415,11 @@ export default class InfinityScroller extends React.PureComponent {
   }
 }
 
-const InteractionMarker = ({ pageNumber, onVisible, markerElement = null }) => {
+const InteractionMarker = ({
+  pageNumber,
+  onVisible,
+  markerElement = null,
+}) => {
   const [isConnected, setIsConnected] = React.useState(false)
   const _ref = React.useRef(null)
   const intersectionObserverRef = React.useRef(null)
@@ -430,12 +434,14 @@ const InteractionMarker = ({ pageNumber, onVisible, markerElement = null }) => {
     }
 
     if (typeof IntersectionObserver !== 'undefined') {
-      intersectionObserverRef.current = new IntersectionObserver((entries) => {
-        const [{ isIntersecting }] = entries
-        if (isIntersecting) {
-          callReady()
+      intersectionObserverRef.current = new IntersectionObserver(
+        (entries) => {
+          const [{ isIntersecting }] = entries
+          if (isIntersecting) {
+            callReady()
+          }
         }
-      })
+      )
     } else {
       warn('Pagination is missing IntersectionObserver supported!')
     }
@@ -481,10 +487,7 @@ const InteractionMarker = ({ pageNumber, onVisible, markerElement = null }) => {
 
   return (
     <Element className="dnb-pagination__marker dnb-table--ignore">
-      <ElementChild
-        className="dnb-pagination__marker__inner"
-        ref={_ref}
-      >
+      <ElementChild className="dnb-pagination__marker__inner" ref={_ref}>
         {/* {pageNumber} */}
       </ElementChild>
     </Element>
@@ -532,9 +535,7 @@ export const InfinityLoadButton = ({
           size="medium"
           icon={icon}
           iconPosition={iconPosition}
-          text={
-            text || context.translation.Pagination.loadButtonText
-          }
+          text={text || context.translation.Pagination.loadButtonText}
           variant="secondary"
           onClick={onClickHandler}
         />
