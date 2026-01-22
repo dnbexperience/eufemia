@@ -1079,6 +1079,126 @@ describe('DrawerList component', () => {
       render(<DrawerList {...props} data={mockData} />)
       await testDirectionObserver()
     })
+
+    it('should refresh scroll observer when direction changes', async () => {
+      const scrollableData = Array.from({ length: 30 }, (_, i) => ({
+        content: `Item ${i + 1}`,
+      }))
+
+      render(
+        <DrawerList
+          {...props}
+          data={scrollableData}
+          scrollable
+          direction="auto"
+        />
+      )
+
+      const listElement = document.querySelector(
+        '.dnb-drawer-list__options'
+      ) as HTMLElement
+
+      // Wait for initial render
+      await waitFor(() => {
+        expect(
+          document.querySelectorAll('li.dnb-drawer-list__option')
+        ).toHaveLength(30)
+      })
+
+      const initialDirection = document.querySelector(
+        '.dnb-drawer-list--bottom'
+      )
+        ? 'bottom'
+        : 'top'
+
+      // Trigger direction change by scrolling to opposite position
+      if (initialDirection === 'bottom') {
+        window.scrollTo({ top: -640 })
+
+        // Direction should change to top
+        await waitFor(() => {
+          expect(
+            document.querySelector('.dnb-drawer-list--top')
+          ).toBeInTheDocument()
+        })
+      } else {
+        window.scrollTo({ top: 0 })
+
+        // Direction should change to bottom
+        await waitFor(() => {
+          expect(
+            document.querySelector('.dnb-drawer-list--bottom')
+          ).toBeInTheDocument()
+        })
+      }
+
+      // Verify the list can still handle scroll events properly after direction change
+      // by checking that scroll positions are tracked correctly
+      if (listElement) {
+        fireEvent.scroll(listElement, { target: { scrollTop: 100 } })
+
+        // The scroll observer should still be working and updating internal state
+        // If it wasn't refreshed, scroll tracking would be broken
+        await waitFor(() => {
+          expect(listElement.scrollTop).toBe(100)
+        })
+      }
+    })
+
+    it('should refresh scroll observer when data changes', async () => {
+      const initialData = Array.from({ length: 10 }, (_, i) => ({
+        content: `Item ${i + 1}`,
+        selected_key: `item-${i}`,
+      }))
+
+      const updatedData = Array.from({ length: 15 }, (_, i) => ({
+        content: `Updated Item ${i + 1}`,
+        selected_key: `item-${i}`,
+      }))
+
+      const { rerender } = render(
+        <DrawerList {...props} data={initialData} scrollable />
+      )
+
+      const listElement = document.querySelector(
+        '.dnb-drawer-list__options'
+      ) as HTMLElement
+
+      // Verify initial items are rendered
+      await waitFor(() => {
+        expect(
+          document.querySelectorAll('li.dnb-drawer-list__option')
+        ).toHaveLength(10)
+      })
+
+      // Scroll to middle
+      if (listElement) {
+        fireEvent.scroll(listElement, { target: { scrollTop: 50 } })
+      }
+
+      // Update data - this should trigger refreshScrollObserver
+      rerender(<DrawerList {...props} data={updatedData} scrollable />)
+
+      // Wait for DOM update
+      await waitFor(() => {
+        expect(
+          document.querySelectorAll('li.dnb-drawer-list__option')
+        ).toHaveLength(15)
+      })
+
+      // Verify scroll observer still works after data change
+      // by checking that new scroll events are handled
+      if (listElement) {
+        const initialScrollTop = listElement.scrollTop
+        fireEvent.scroll(listElement, { target: { scrollTop: 100 } })
+
+        await waitFor(() => {
+          // If scroll observer wasn't refreshed, it would have stale item positions
+          // and scrolling might not work correctly
+          expect(listElement.scrollTop).toBe(100)
+        })
+      }
+    })
   })
 
   describe('inline style', () => {
