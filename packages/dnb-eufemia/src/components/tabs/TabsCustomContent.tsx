@@ -37,41 +37,34 @@ export interface CustomContentProps
     <Tabs.Content title="second">second</Tabs.Content>
   </Tabs>
  */
-export default class CustomContent extends React.PureComponent<CustomContentProps> {
-  static defaultProps = {
-    displayName: 'CustomContent',
-    title: null,
-    hash: null,
-    selected: null,
-    disabled: null,
-    children: null,
-    className: null,
-  }
-  render() {
-    const {
-      displayName, // eslint-disable-line
-      title, // eslint-disable-line
-      hash, // eslint-disable-line
-      selected, // eslint-disable-line
-      disabled, // eslint-disable-line
-      className,
-      ...rest
-    } = this.props
+const CustomContent: React.FC<CustomContentProps> = (props) => {
+  const {
+    displayName = 'CustomContent', // eslint-disable-line
+    title = null, // eslint-disable-line
+    hash = null, // eslint-disable-line
+    selected = null, // eslint-disable-line
+    disabled = null, // eslint-disable-line
+    className = null,
+    children = null,
+    id,
+    ...rest
+  } = props
 
-    if (this.props.id) {
-      return <ContentWrapper {...rest} />
-    }
-
-    return (
-      <div
-        className={clsx(
-          'dnb-tabs__content__inner',
-          createSpacingClasses(rest),
-          className
-        )}
-      >
-        {this.props.children}
-      </div>
-    )
+  if (id) {
+    return <ContentWrapper {...rest} id={id} />
   }
+
+  return (
+    <div
+      className={clsx(
+        'dnb-tabs__content__inner',
+        createSpacingClasses(rest),
+        className
+      )}
+    >
+      {children}
+    </div>
+  )
 }
+
+export default CustomContent
