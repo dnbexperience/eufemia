@@ -12,112 +12,102 @@ import Section from '../section/Section'
 import EventEmitter from '../../shared/helpers/EventEmitter'
 import HeightAnimation from '../height-animation/HeightAnimation'
 
-export default class ContentWrapper extends React.PureComponent<ContentWrapperProps> {
-  static defaultProps = {
-    selectedKey: null,
-    contentStyle: null,
-    animate: null,
-    contentSpacing: true,
-    children: null,
-  }
+const ContentWrapper: React.FC<ContentWrapperProps> = (props) => {
+  const {
+    id,
+    children = null,
+    selectedKey: key = null,
+    contentStyle = null,
+    animate = null,
+    contentSpacing = true,
+    ...rest
+  } = props
 
-  state = { key: null }
+  const eventEmitterRef = React.useRef(null)
+  const [state, setState] = React.useState({ key: null })
 
-  constructor(props) {
-    super(props)
+  React.useEffect(() => {
+    if (id) {
+      eventEmitterRef.current = EventEmitter.createInstance(id)
+      setState(eventEmitterRef.current.get())
 
-    if (props.id) {
-      this._eventEmitter = EventEmitter.createInstance(props.id)
-      this.state = this._eventEmitter.get()
-    }
-  }
-
-  componentDidMount() {
-    if (this.props.id && this._eventEmitter) {
-      this._eventEmitter.listen((params) => {
-        if (this._eventEmitter && params.key !== this.state.key) {
-          this.setState(params)
-        }
+      eventEmitterRef.current.listen((params) => {
+        setState((prevState) => {
+          if (params.key !== prevState.key) {
+            return params
+          }
+          return prevState
+        })
       })
     }
+
+    return () => {
+      if (eventEmitterRef.current) {
+        eventEmitterRef.current.remove()
+        eventEmitterRef.current = null
+      }
+    }
+  }, [id])
+
+  if (!children) {
+    return <></>
   }
 
-  componentWillUnmount() {
-    if (this._eventEmitter) {
-      this._eventEmitter.remove()
-      this._eventEmitter = null
-    }
-  }
+  const params = rest
 
-  render() {
-    const {
-      id,
-      children,
-      selectedKey: key,
-      contentStyle,
-      animate,
-      contentSpacing,
-      ...rest
-    } = this.props
-
-    if (!children) {
-      return <></>
-    }
-
-    const params = rest
-
-    if (key) {
-      params['aria-labelledby'] = combineLabelledBy(
-        params,
-        `${id}-tab-${key}`
-      )
-    }
-
-    validateDOMAttributes(this.props, params)
-
-    let content = children
-    if (typeof children === 'function') {
-      content = children(this.state)
-    }
-
-    return (
-      <HeightAnimation
-        role="tabpanel"
-        tabIndex="-1"
-        id={`${id}-content`}
-        element={
-          contentStyle
-            ? React.forwardRef((props, ref) => {
-                return (
-                  <Section
-                    spacing={contentStyle ? false : undefined}
-                    style_type={contentStyle ? contentStyle : undefined}
-                    innerRef={ref}
-                    {...props}
-                  />
-                )
-              })
-            : 'div'
-        }
-        className={clsx(
-          'dnb-tabs__content',
-          'dnb-no-focus',
-          contentSpacing
-            ? `dnb-section--spacing-${
-                isTrue(contentSpacing) ? 'large' : contentSpacing
-              }`
-            : null,
-          createSpacingClasses(rest)
-        )}
-        duration={600}
-        animate={animate === true}
-        {...params}
-      >
-        {content}
-      </HeightAnimation>
+  if (key) {
+    params['aria-labelledby'] = combineLabelledBy(
+      params,
+      `${id}-tab-${key}`
     )
   }
+
+  validateDOMAttributes(props, params)
+
+  let content = children
+  if (typeof children === 'function') {
+    content = children(state)
+  }
+
+  return (
+    <HeightAnimation
+      role="tabpanel"
+      tabIndex="-1"
+      id={`${id}-content`}
+      element={
+        contentStyle
+          ? React.forwardRef((props, ref) => {
+              return (
+                <Section
+                  spacing={contentStyle ? false : undefined}
+                  style_type={contentStyle ? contentStyle : undefined}
+                  innerRef={ref}
+                  {...props}
+                />
+              )
+            })
+          : 'div'
+      }
+      className={clsx(
+        'dnb-tabs__content',
+        'dnb-no-focus',
+        contentSpacing
+          ? `dnb-section--spacing-${
+              isTrue(contentSpacing) ? 'large' : contentSpacing
+            }`
+          : null,
+        createSpacingClasses(rest)
+      )}
+      duration={600}
+      animate={animate === true}
+      {...params}
+    >
+      {content}
+    </HeightAnimation>
+  )
 }
+
+export default ContentWrapper
 
 // Type definitions
 import type {
